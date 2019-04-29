@@ -2,94 +2,168 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA56DC52
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 08:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05175DF72
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 11:30:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727527AbfD2G4M (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Apr 2019 02:56:12 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:46507 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726846AbfD2G4M (ORCPT
+        id S1727718AbfD2JaY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Apr 2019 05:30:24 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:14407 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727259AbfD2JaY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Apr 2019 02:56:12 -0400
-Received: by mail-lf1-f66.google.com with SMTP id k18so6929163lfj.13
-        for <linux-tegra@vger.kernel.org>; Sun, 28 Apr 2019 23:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lixom-net.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=/RDzQlkBTEqOpH90yxgTGof1Un7bQfe8w9/CRuMdT+I=;
-        b=exBRdwcbSzKYCFcHweKcVA/huFqeLe9UQWVdGvrgfxmislKrzVDXm1d+E0/Ikxegui
-         VJSgXBu3v/pdjfaCpmuXH8hvxrjnAVegGO+aGmU9IWrvkAlTq40zQJAB9ch1DsTe8Ars
-         5M34M9OeclpXuWdskb7t9PhGibeLr/+etjd7sn2W6Ig81ZrzV+vcmVrrCzZjfbFvtZUt
-         GUvcI/Me3cAO/sO/coXiqKg+N67XNXdL3sDVkAWDB/BnBGpyodkRmEO6VCoAYAUPzAUJ
-         Tnr0NwDYdGZOamopxLHNowycRPBgBm5jouBX0ZNQ1v+XX0WdLyaHcLs/AELQ86pJyWXn
-         AWdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/RDzQlkBTEqOpH90yxgTGof1Un7bQfe8w9/CRuMdT+I=;
-        b=HtvLVIxhCDK0AY/q3siXaIJ/giWQ+b7qdZm8cF5T1/pVammIbHABYuchsNKmNCS3RB
-         jqFTF+ff+c5D6XBzAuACTkeE+r4akXOM6jwYoPD0kD6KQgpOLSmsyPy8l8sTADpNYuNH
-         xyGhWAZMziLaw6kZIm7al8whqmQk4i7+wNHwH1BAy4aWBNsQxu6JeWtXKY7VfCw3Vf/P
-         +jQQhmczYHaYU7G5Z16/Xdh3q77ghxhwMxEBrZTwa94GFsVi3XNRqx28qr2hY3e8MALI
-         cKcPX+0mj/m5HdTzagPD5CPgT8KtvHwhHKheXRJoq90NfTeuSlRZWt3axCPdyryjx1o5
-         NY1g==
-X-Gm-Message-State: APjAAAW1ELlsC3oZQH6qclY5IefCQII9JzLbamRvPuf/GotdTD2CWbWS
-        B9Tk4sN+4fune+Ubm5BtzMbiLw==
-X-Google-Smtp-Source: APXvYqwlpThgXrnAVkvf1o+jKXzUAuh3CfFPGnuljcqlvZ7oWL6vWIlJ95cNEi6F7SvXamvlqkJKjA==
-X-Received: by 2002:ac2:5c09:: with SMTP id r9mr9199030lfp.104.1556520970730;
-        Sun, 28 Apr 2019 23:56:10 -0700 (PDT)
-Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
-        by smtp.gmail.com with ESMTPSA id v26sm6700529lja.60.2019.04.28.23.56.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 28 Apr 2019 23:56:09 -0700 (PDT)
-Date:   Sun, 28 Apr 2019 23:37:12 -0700
-From:   Olof Johansson <olof@lixom.net>
+        Mon, 29 Apr 2019 05:30:24 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cc6c4110000>; Mon, 29 Apr 2019 02:29:53 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 29 Apr 2019 02:30:22 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 29 Apr 2019 02:30:22 -0700
+Received: from [10.24.192.53] (172.20.13.39) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 29 Apr
+ 2019 09:30:19 +0000
+Subject: Re: [PATCH V2 18/28] PCI: tegra: Program AFI_CACHE* registers only
+ for Tegra20
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     arm@kernel.org, Jon Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [GIT PULL 9/9] arm64: tegra: Default configuration updates for
- v5.2-rc1
-Message-ID: <20190429063712.dqk443wbv5jkzmqy@localhost>
-References: <20190418150721.8828-1-thierry.reding@gmail.com>
- <20190418150721.8828-9-thierry.reding@gmail.com>
+CC:     <bhelgaas@google.com>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <jonathanh@nvidia.com>,
+        <lorenzo.pieralisi@arm.com>, <vidyas@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+References: <20190423092825.759-1-mmaddireddy@nvidia.com>
+ <20190423092825.759-19-mmaddireddy@nvidia.com> <20190426153219.GE19559@ulmo>
+X-Nvconfidentiality: public
+From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Message-ID: <600692ae-2a0c-766a-1b8f-827a9c73db36@nvidia.com>
+Date:   Mon, 29 Apr 2019 15:00:01 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190418150721.8828-9-thierry.reding@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20190426153219.GE19559@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
+ HQMAIL101.nvidia.com (172.20.187.10)
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1556530193; bh=ZGEZE1KHFh43yFFb0G/XLs81RHxc9WF+/CenNWY4DJc=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:
+         Content-Transfer-Encoding:Content-Language;
+        b=jXBnd8yoQw9QUCl3JOPuiT1FJBpRO3JC+7i9C5J+oT+SxmOyIRgvqNGbOoEtaOWV2
+         5rWRvT/eVpYYgHtAGNKhVyl5dyGuPDrv6TPnX3stVBfxpyYAcnSKVstmJgWkDUCIQh
+         9LTjdOi/8H6I6S84Y3itSVOwz6mDEdF6BgMJpqa/Ndt5Jmn1mCxuDn8xOQ3q+ry4jz
+         uUKpW6vvHavYVFGROv0/4vCUASUwFSosPV27gpbNdekW4mUSBnWtYExCiCJZ2SWKT3
+         dQF8PvAVkmameH8SifNRkNWds9HNz30wpRBQbtnnPrWiy4HWDBfdeCwt3dzMn8fXSl
+         +xxu7B3gFkPuA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Apr 18, 2019 at 05:07:20PM +0200, Thierry Reding wrote:
-> Hi ARM SoC maintainers,
-> 
-> The following changes since commit 9e98c678c2d6ae3a17cb2de55d17f69dddaa231b:
-> 
->   Linux 5.1-rc1 (2019-03-17 14:22:26 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.2-arm64-defconfig
-> 
-> for you to fetch changes up to bd9ae25314f275cea87a20db11756f32ed88dc15:
-> 
->   arm64: defconfig: Add PWM Fan support (2019-04-03 18:41:07 +0200)
-> 
-> Thanks,
+
+
+On 26-Apr-19 9:02 PM, Thierry Reding wrote:
+> On Tue, Apr 23, 2019 at 02:58:15PM +0530, Manikanta Maddireddy wrote:
+>> Cacheable upstream transactions are supported in Tegra20 and Tegra186 only.
+>> AFI_CACHE* registers are available in Tegra20 to support cacheable upstream
+>> transactions. In Tegra186, AFI_AXCACHE register is defined instead of
+>> AFI_CACHE* to be in line with its MSS design. Therefore, program AFI_CACHE*
+>> registers only for Tegra20.
+>>
+>> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+>> ---
+>> V2: Used soc variable for comparision instead of compatible string.
+>>
+>>  drivers/pci/controller/pci-tegra.c | 13 ++++++++-----
+>>  1 file changed, 8 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+>> index f74930654443..9b841b0392ac 100644
+>> --- a/drivers/pci/controller/pci-tegra.c
+>> +++ b/drivers/pci/controller/pci-tegra.c
+>> @@ -323,6 +323,7 @@ struct tegra_pcie_soc {
+>>  	bool program_deskew_time;
+>>  	bool raw_violation_fixup;
+>>  	bool update_fc_timer;
+>> +	bool has_cache_bars;
+>>  	struct {
+>>  		struct {
+>>  			u32 rp_ectl_2_r1;
+>> @@ -932,11 +933,13 @@ static void tegra_pcie_setup_translations(struct tegra_pcie *pcie)
+>>  	afi_writel(pcie, 0, AFI_AXI_BAR5_SZ);
+>>  	afi_writel(pcie, 0, AFI_FPCI_BAR5);
+>>  
+>> -	/* map all upstream transactions as uncached */
+>> -	afi_writel(pcie, 0, AFI_CACHE_BAR0_ST);
+>> -	afi_writel(pcie, 0, AFI_CACHE_BAR0_SZ);
+>> -	afi_writel(pcie, 0, AFI_CACHE_BAR1_ST);
+>> -	afi_writel(pcie, 0, AFI_CACHE_BAR1_SZ);
+>> +	if (pcie->soc->has_cache_bars) {
+>> +		/* map all upstream transactions as uncached */
+>> +		afi_writel(pcie, 0, AFI_CACHE_BAR0_ST);
+>> +		afi_writel(pcie, 0, AFI_CACHE_BAR0_SZ);
+>> +		afi_writel(pcie, 0, AFI_CACHE_BAR1_ST);
+>> +		afi_writel(pcie, 0, AFI_CACHE_BAR1_SZ);
+>> +	}
+>>  
+>>  	/* MSI translations are setup only when needed */
+>>  	afi_writel(pcie, 0, AFI_MSI_FPCI_BAR_ST);
+> You need to squash the below into this patch. If I do that, then
+> TrimSlice works again.
+>
 > Thierry
-> 
-> ----------------------------------------------------------------
-> arm64: tegra: Default configuration updates for v5.2-rc1
-> 
-> These patches enable PWM fan and Tegra HDA support in the 64-bit ARM
-> default configuration, so that these features are enabled by default.
+Thank you Thierry for verifying the series on T20 and T30.
+I will take care of this comment in V3.
+Please review other patches and provide Ack.
 
-Merged, thanks.
+Manikanta
+>
+> --- >8 ---
+> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+> index 7071fd026a80..fc61074f6886 100644
+> --- a/drivers/pci/controller/pci-tegra.c
+> +++ b/drivers/pci/controller/pci-tegra.c
+> @@ -2530,6 +2530,7 @@ static const struct tegra_pcie_soc tegra20_pcie = {
+>   .program_deskew_time = false,
+>   .raw_violation_fixup = false,
+>   .update_fc_timer = false,
+> + .has_cache_bars = true,
+>   .ectl.enable = false,
+>  };
+>
+> @@ -2558,6 +2559,7 @@ static const struct tegra_pcie_soc tegra30_pcie = {
+>   .program_deskew_time = false,
+>   .raw_violation_fixup = false,
+>   .update_fc_timer = false,
+> + .has_cache_bars = false,
+>   .ectl.enable = false,
+>  };
+>
+> @@ -2581,6 +2583,7 @@ static const struct tegra_pcie_soc tegra124_pcie = {
+>   .program_deskew_time = false,
+>   .raw_violation_fixup = true,
+>   .update_fc_timer = false,
+> + .has_cache_bars = false,
+>   .ectl.enable = false,
+>  };
+>
+> @@ -2604,6 +2607,7 @@ static const struct tegra_pcie_soc tegra210_pcie = {
+>   .program_deskew_time = true,
+>   .raw_violation_fixup = false,
+>   .update_fc_timer = true,
+> + .has_cache_bars = false,
+>   .ectl = {
+>    .regs = {
+>     .rp_ectl_2_r1 = 0x0000000f,
+> @@ -2645,6 +2649,7 @@ static const struct tegra_pcie_soc tegra186_pcie = {
+>   .program_deskew_time = false,
+>   .raw_violation_fixup = false,
+>   .update_fc_timer = false,
+> + .has_cache_bars = false,
+>   .ectl.enable = false,
+>  };
+>
 
-
--Olof
