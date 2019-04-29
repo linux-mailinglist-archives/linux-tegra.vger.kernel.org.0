@@ -2,69 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A034DC4E
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 08:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B28DC4F
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 08:56:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727525AbfD2G4E (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Apr 2019 02:56:04 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:42831 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726846AbfD2G4E (ORCPT
+        id S1727397AbfD2G4G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Apr 2019 02:56:06 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:37258 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726846AbfD2G4G (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Apr 2019 02:56:04 -0400
-Received: by mail-lj1-f193.google.com with SMTP id r72so3939398ljb.9
-        for <linux-tegra@vger.kernel.org>; Sun, 28 Apr 2019 23:56:02 -0700 (PDT)
+        Mon, 29 Apr 2019 02:56:06 -0400
+Received: by mail-lf1-f67.google.com with SMTP id h126so7091051lfh.4
+        for <linux-tegra@vger.kernel.org>; Sun, 28 Apr 2019 23:56:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=lixom-net.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=zHkG+SMOmuYh0x55+NYcKvwxOBL0m20KOTamUzT9OqQ=;
-        b=ynD7xMn5g0D6hUEO2JO0mXGyxHe2akZfDjVXW1UAx+KmfJDVhJPd4MvNpLZXgO/432
-         /39BoHrX9BSTrVZ/Ud9F+mLiKQKP9az+xZS42+4xNZBZjc9YNbF4VwcSTd+yKwb9fj71
-         OeWcJuD8WsSkD0UVRod2ZK0wBJXZBbCPu3OhkuUjNuUF6CtViSqgkReg5XVzEOfjQMCx
-         ou2XYkk9wZ1aL59jNYMSwOJNPZBiZTR+nZM8H3VqyD8ZjV/cQBkjPks00opB5q9PbVu8
-         klRYd2Sbz0w6L/UBB2KdMwgAMaXqeAUzvqu+GwgTC4qeKlw6HWtk51+tXUnAZFomCxDW
-         +smw==
+        bh=PlFBUhtDp3twaleN7AWp9dOy5vz82QcC368RhcPcaTw=;
+        b=ELa7wCsH0JiOJ8MNnzzRVR0XvEYizCyh14cP6/0xPDz4VHKAGiJOhbQpMJdm5eVp1c
+         MD2+6a7mZHFtY7Aib719TrMURvySUrAICTZ7QoYErOZQ2tzzLES3/AHkafdSxgkScJTv
+         miUpUPq74edJltb+FPI2bPr2hNqY+PeW/x2RDeykMTgJOpCsFX1rmjXZkSPXBiYM/LaA
+         5cJFy2mh0e0R5J4m7H7mk06soVNc8rySKXd2r8Sju7JAXIkyMwpk4RaRZBQRUVl3qaGx
+         ycMkS9JQDEd68qLbk5QQKPzvNq65LnPko9jnNH38xlBmu8PRVyzwRjPLb9ZorYe6KbJl
+         JLrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zHkG+SMOmuYh0x55+NYcKvwxOBL0m20KOTamUzT9OqQ=;
-        b=k4HLoavbUSecjQbpK63IVN014Op3ePj5O0LNWt9LBTbjpgOzllmHJEVwVb0gE5S7dw
-         xGGbyO8Sh0egLq3HD1/RLOReWzh7sfWnoKW9GxEQ7oU+anIPTSmlzJmXhnsvk0MUDejD
-         BBmjtCmygL71j9ZW2P/S92knf8XnHr5K/sKGiLybqq5otUDBzlQgW4hw1L7M95FxTCXe
-         uKQffzeQ4qSFBlYKjExLh7JCLX3GbWBY4zZqrrfpy7/hURWP2FwhO9b3RjW7dPwGaf0f
-         HC3NuRr1pTERmasyMoV5yL96XEJQvQWXB3BAWBEaGEFRAUaAde/hPZpeVno+RqcU/8Rc
-         rRdg==
-X-Gm-Message-State: APjAAAWn/PlBqVSF6HS/P2xp5ER3GomaOQvGng2wmk4Hozy8MKQIviE4
-        2fNum8p+3VGpDKr8KFdksak4sg==
-X-Google-Smtp-Source: APXvYqyOKPsWvGgxf79WkhSaHaQ3yvTiRInik4xrurTiZ4qZ1BgMv3rS0p9HnghDdt8izbS3Y+xhSA==
-X-Received: by 2002:a2e:9546:: with SMTP id t6mr5441747ljh.51.1556520962083;
-        Sun, 28 Apr 2019 23:56:02 -0700 (PDT)
+        bh=PlFBUhtDp3twaleN7AWp9dOy5vz82QcC368RhcPcaTw=;
+        b=ImDakq/Lo6aEgSRH9oV3YVIVwMahVMTBQC2Kcs6EQVWLbrcr5kUcMES341he8mEdQf
+         F41GGj0Ypz2AsTvAM1ulipTypbefO2lQ2J0I4j5FqvRp6J+bB2c6VcdH8ZiN8ptZvDsa
+         r1PJK0L+AA68s0TK9C54DrtAdqnPC0Chbi5V/WdAh6b4ZGgXlQotf3wt1F/2EyIr8eAD
+         6a4rLlmDsdaciJTK0AEUgHhqzNXoDns8ElW0gl73vaoTjLtcK3ccGlhXSzdimb84N7WD
+         l3h3disnQhbPjvDYW5cozGQ+cXfDHLPielBBIcyzQQuHK57aPvxVNsl62kOx/mhmOiGj
+         KxOw==
+X-Gm-Message-State: APjAAAXhIccR20yFhfgwIL+I/rotKBxjs+FMlTWqbO2Uo1Nnw30LUC3+
+        ZqaROR8HkmV1jp3pL4x41aeO1w==
+X-Google-Smtp-Source: APXvYqy/UqLsEM8v9JREyKlmu+5MRUOCdqwm/iq2NOkFHI/BWUxtIeR/THPLu890su3J5nANjyBPgw==
+X-Received: by 2002:a19:4f19:: with SMTP id d25mr22056399lfb.124.1556520964244;
+        Sun, 28 Apr 2019 23:56:04 -0700 (PDT)
 Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
-        by smtp.gmail.com with ESMTPSA id j27sm7216436lfk.97.2019.04.28.23.56.00
+        by smtp.gmail.com with ESMTPSA id c17sm5060681lff.84.2019.04.28.23.56.02
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 28 Apr 2019 23:56:00 -0700 (PDT)
-Date:   Sun, 28 Apr 2019 23:34:59 -0700
+        Sun, 28 Apr 2019 23:56:03 -0700 (PDT)
+Date:   Sun, 28 Apr 2019 23:35:24 -0700
 From:   Olof Johansson <olof@lixom.net>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     arm@kernel.org, Jon Hunter <jonathanh@nvidia.com>,
         linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [GIT PULL 3/9] firmware: tegra: Changes for v5.2-rc1
-Message-ID: <20190429063459.jeeugziuwejjp5kt@localhost>
+Subject: Re: [GIT PULL 4/9] memory: tegra: Changes for v5.2-rc1
+Message-ID: <20190429063524.leg3na2mcbxxz5qy@localhost>
 References: <20190418150721.8828-1-thierry.reding@gmail.com>
- <20190418150721.8828-3-thierry.reding@gmail.com>
+ <20190418150721.8828-4-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190418150721.8828-3-thierry.reding@gmail.com>
+In-Reply-To: <20190418150721.8828-4-thierry.reding@gmail.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Apr 18, 2019 at 05:07:14PM +0200, Thierry Reding wrote:
+On Thu, Apr 18, 2019 at 05:07:15PM +0200, Thierry Reding wrote:
 > Hi ARM SoC maintainers,
 > 
 > The following changes since commit 9e98c678c2d6ae3a17cb2de55d17f69dddaa231b:
@@ -73,35 +73,20 @@ On Thu, Apr 18, 2019 at 05:07:14PM +0200, Thierry Reding wrote:
 > 
 > are available in the Git repository at:
 > 
->   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.2-firmware
+>   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.2-memory
 > 
-> for you to fetch changes up to 4cb5d9eca143f7fbf8cc457be19a91914f978a00:
+> for you to fetch changes up to 67a8d5b0fadfd931f7e6a78e9ee7b2792a7114aa:
 > 
->   firmware: Move Trusted Foundations support (2019-04-17 16:43:03 +0200)
+>   memory: tegra: Fix a typos for "fdcdwr2" mc client (2019-04-18 11:51:17 +0200)
 > 
 > Thanks,
 > Thierry
 > 
 > ----------------------------------------------------------------
-> firmware: tegra: Changes for v5.2-rc1
+> memory: tegra: Changes for v5.2-rc1
 > 
-> This set of changes includes improvements for Trusted Foundations and
-> also moves the source files for this support into the standard location
-> under drivers/firmware.
-> 
-> ----------------------------------------------------------------
-> Dmitry Osipenko (7):
->       ARM: trusted_foundations: Support L2 cache maintenance
->       ARM: trusted_foundations: Make prepare_idle call to take mode argument
->       ARM: trusted_foundations: Provide information about whether firmware is registered
->       ARM: tegra: Set up L2 cache using Trusted Foundations firmware
->       ARM: tegra: Don't apply CPU erratas in insecure mode
->       ARM: tegra: Always boot CPU in ARM-mode
->       ARM: tegra: Add firmware calls required for suspend-resume on Tegra30
-> 
-> Thierry Reding (2):
->       ARM: tegra: Sort dependencies alphabetically
->       firmware: Move Trusted Foundations support
+> These are a set of fixes for various issues related to the Tegra memory
+> controller.
 
 Merged, thanks.
 
