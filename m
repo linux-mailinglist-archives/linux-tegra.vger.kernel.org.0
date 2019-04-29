@@ -2,168 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05175DF72
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 11:30:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19ED7E44C
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 16:09:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727718AbfD2JaY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Apr 2019 05:30:24 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:14407 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727259AbfD2JaY (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Apr 2019 05:30:24 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cc6c4110000>; Mon, 29 Apr 2019 02:29:53 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 29 Apr 2019 02:30:22 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 29 Apr 2019 02:30:22 -0700
-Received: from [10.24.192.53] (172.20.13.39) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 29 Apr
- 2019 09:30:19 +0000
-Subject: Re: [PATCH V2 18/28] PCI: tegra: Program AFI_CACHE* registers only
- for Tegra20
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <bhelgaas@google.com>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <jonathanh@nvidia.com>,
-        <lorenzo.pieralisi@arm.com>, <vidyas@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20190423092825.759-1-mmaddireddy@nvidia.com>
- <20190423092825.759-19-mmaddireddy@nvidia.com> <20190426153219.GE19559@ulmo>
-X-Nvconfidentiality: public
-From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Message-ID: <600692ae-2a0c-766a-1b8f-827a9c73db36@nvidia.com>
-Date:   Mon, 29 Apr 2019 15:00:01 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+        id S1728260AbfD2OJT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Apr 2019 10:09:19 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:58026 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728119AbfD2OJS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 29 Apr 2019 10:09:18 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 33806A78;
+        Mon, 29 Apr 2019 07:09:18 -0700 (PDT)
+Received: from [10.1.196.92] (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 965DA3F5C1;
+        Mon, 29 Apr 2019 07:09:16 -0700 (PDT)
+Subject: Re: [PATCH v5 0/3] build support and fixes for gic-pm
+To:     Sameer Pujar <spujar@nvidia.com>, jason@lakedaemon.net,
+        tglx@linutronix.de, will.deacon@arm.com, catalin.marinas@arm.com
+Cc:     treding@nvidia.com, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org
+References: <1553256785-20333-1-git-send-email-spujar@nvidia.com>
+From:   Marc Zyngier <marc.zyngier@arm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=marc.zyngier@arm.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: ARM Ltd
+Message-ID: <55bca169-2ef3-b03c-0472-08c9f98f7569@arm.com>
+Date:   Mon, 29 Apr 2019 15:09:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190426153219.GE19559@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
- HQMAIL101.nvidia.com (172.20.187.10)
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1553256785-20333-1-git-send-email-spujar@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1556530193; bh=ZGEZE1KHFh43yFFb0G/XLs81RHxc9WF+/CenNWY4DJc=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Transfer-Encoding:Content-Language;
-        b=jXBnd8yoQw9QUCl3JOPuiT1FJBpRO3JC+7i9C5J+oT+SxmOyIRgvqNGbOoEtaOWV2
-         5rWRvT/eVpYYgHtAGNKhVyl5dyGuPDrv6TPnX3stVBfxpyYAcnSKVstmJgWkDUCIQh
-         9LTjdOi/8H6I6S84Y3itSVOwz6mDEdF6BgMJpqa/Ndt5Jmn1mCxuDn8xOQ3q+ry4jz
-         uUKpW6vvHavYVFGROv0/4vCUASUwFSosPV27gpbNdekW4mUSBnWtYExCiCJZ2SWKT3
-         dQF8PvAVkmameH8SifNRkNWds9HNz30wpRBQbtnnPrWiy4HWDBfdeCwt3dzMn8fXSl
-         +xxu7B3gFkPuA==
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 22/03/2019 12:13, Sameer Pujar wrote:
+> Currently gic-pm driver is not getting used by any of the Tegra devices.
+> In fact, the driver is not getting compiled. This series is to ensure,
+>  * build support for driver
+>  * update driver with usage of clk_bulk APIs.
+>  * fix suspend path
+> This is used by AGIC(Audio Generic Interrupt Controller) block in audio
+> pipeline.
 
+I've applied patch 2 and 3 to irqchip-next. What about the first patch?
+Do you want me to take it directly, or are you routing it through
+armsoc? I'd prefer the latter, but can do the former if there's an ack
+from one of the armsoc folks.
 
-On 26-Apr-19 9:02 PM, Thierry Reding wrote:
-> On Tue, Apr 23, 2019 at 02:58:15PM +0530, Manikanta Maddireddy wrote:
->> Cacheable upstream transactions are supported in Tegra20 and Tegra186 only.
->> AFI_CACHE* registers are available in Tegra20 to support cacheable upstream
->> transactions. In Tegra186, AFI_AXCACHE register is defined instead of
->> AFI_CACHE* to be in line with its MSS design. Therefore, program AFI_CACHE*
->> registers only for Tegra20.
->>
->> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
->> ---
->> V2: Used soc variable for comparision instead of compatible string.
->>
->>  drivers/pci/controller/pci-tegra.c | 13 ++++++++-----
->>  1 file changed, 8 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
->> index f74930654443..9b841b0392ac 100644
->> --- a/drivers/pci/controller/pci-tegra.c
->> +++ b/drivers/pci/controller/pci-tegra.c
->> @@ -323,6 +323,7 @@ struct tegra_pcie_soc {
->>  	bool program_deskew_time;
->>  	bool raw_violation_fixup;
->>  	bool update_fc_timer;
->> +	bool has_cache_bars;
->>  	struct {
->>  		struct {
->>  			u32 rp_ectl_2_r1;
->> @@ -932,11 +933,13 @@ static void tegra_pcie_setup_translations(struct tegra_pcie *pcie)
->>  	afi_writel(pcie, 0, AFI_AXI_BAR5_SZ);
->>  	afi_writel(pcie, 0, AFI_FPCI_BAR5);
->>  
->> -	/* map all upstream transactions as uncached */
->> -	afi_writel(pcie, 0, AFI_CACHE_BAR0_ST);
->> -	afi_writel(pcie, 0, AFI_CACHE_BAR0_SZ);
->> -	afi_writel(pcie, 0, AFI_CACHE_BAR1_ST);
->> -	afi_writel(pcie, 0, AFI_CACHE_BAR1_SZ);
->> +	if (pcie->soc->has_cache_bars) {
->> +		/* map all upstream transactions as uncached */
->> +		afi_writel(pcie, 0, AFI_CACHE_BAR0_ST);
->> +		afi_writel(pcie, 0, AFI_CACHE_BAR0_SZ);
->> +		afi_writel(pcie, 0, AFI_CACHE_BAR1_ST);
->> +		afi_writel(pcie, 0, AFI_CACHE_BAR1_SZ);
->> +	}
->>  
->>  	/* MSI translations are setup only when needed */
->>  	afi_writel(pcie, 0, AFI_MSI_FPCI_BAR_ST);
-> You need to squash the below into this patch. If I do that, then
-> TrimSlice works again.
->
-> Thierry
-Thank you Thierry for verifying the series on T20 and T30.
-I will take care of this comment in V3.
-Please review other patches and provide Ack.
+Thanks,
 
-Manikanta
->
-> --- >8 ---
-> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-> index 7071fd026a80..fc61074f6886 100644
-> --- a/drivers/pci/controller/pci-tegra.c
-> +++ b/drivers/pci/controller/pci-tegra.c
-> @@ -2530,6 +2530,7 @@ static const struct tegra_pcie_soc tegra20_pcie = {
->   .program_deskew_time = false,
->   .raw_violation_fixup = false,
->   .update_fc_timer = false,
-> + .has_cache_bars = true,
->   .ectl.enable = false,
->  };
->
-> @@ -2558,6 +2559,7 @@ static const struct tegra_pcie_soc tegra30_pcie = {
->   .program_deskew_time = false,
->   .raw_violation_fixup = false,
->   .update_fc_timer = false,
-> + .has_cache_bars = false,
->   .ectl.enable = false,
->  };
->
-> @@ -2581,6 +2583,7 @@ static const struct tegra_pcie_soc tegra124_pcie = {
->   .program_deskew_time = false,
->   .raw_violation_fixup = true,
->   .update_fc_timer = false,
-> + .has_cache_bars = false,
->   .ectl.enable = false,
->  };
->
-> @@ -2604,6 +2607,7 @@ static const struct tegra_pcie_soc tegra210_pcie = {
->   .program_deskew_time = true,
->   .raw_violation_fixup = false,
->   .update_fc_timer = true,
-> + .has_cache_bars = false,
->   .ectl = {
->    .regs = {
->     .rp_ectl_2_r1 = 0x0000000f,
-> @@ -2645,6 +2649,7 @@ static const struct tegra_pcie_soc tegra186_pcie = {
->   .program_deskew_time = false,
->   .raw_violation_fixup = false,
->   .update_fc_timer = false,
-> + .has_cache_bars = false,
->   .ectl.enable = false,
->  };
->
-
+	M.
+-- 
+Jazz is not dead. It just smells funny...
