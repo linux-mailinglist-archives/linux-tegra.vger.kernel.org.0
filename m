@@ -2,70 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D396DC51
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 08:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FA56DC52
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 08:56:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727483AbfD2G4K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Apr 2019 02:56:10 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:36143 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726846AbfD2G4K (ORCPT
+        id S1727527AbfD2G4M (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Apr 2019 02:56:12 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:46507 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726846AbfD2G4M (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Apr 2019 02:56:10 -0400
-Received: by mail-lj1-f194.google.com with SMTP id y8so1902147ljd.3
-        for <linux-tegra@vger.kernel.org>; Sun, 28 Apr 2019 23:56:09 -0700 (PDT)
+        Mon, 29 Apr 2019 02:56:12 -0400
+Received: by mail-lf1-f66.google.com with SMTP id k18so6929163lfj.13
+        for <linux-tegra@vger.kernel.org>; Sun, 28 Apr 2019 23:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=lixom-net.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=+ZB1sFFo27zRZDgBBI31WcFFAlY9JKLINEYBzNw1uGk=;
-        b=G3LmHlRhF3x6CMXyz+dXd4Po9lusBT4MIJ6vebJY++patQLWCP2Xg5F4wpDtoT9gqU
-         QPxNWFF3IyhX1flXad5oKTkDdApIS1H53083TVSa4NwHa8w0iM+lQpnoiV9yXYmKO5sS
-         /uVkX4ihs/BY5ozXUhAiKv7nQCNGjhoceQiNr61QYy7OYv3LfzpM9yd7sJSglfVCr/rN
-         rnFvPP1/tt78KD0awCjxc7x4/2c6Ta8j2EFN7OQkddI5W8QW90IiBc4DQFe2F1OA8PIu
-         IDigKJjU9zbPlTZi/8JHDxc0BDuuGEQn3hmjQun19ZJeNeBz2qjlpy/8jNjxbadbNnt9
-         JEog==
+        bh=/RDzQlkBTEqOpH90yxgTGof1Un7bQfe8w9/CRuMdT+I=;
+        b=exBRdwcbSzKYCFcHweKcVA/huFqeLe9UQWVdGvrgfxmislKrzVDXm1d+E0/Ikxegui
+         VJSgXBu3v/pdjfaCpmuXH8hvxrjnAVegGO+aGmU9IWrvkAlTq40zQJAB9ch1DsTe8Ars
+         5M34M9OeclpXuWdskb7t9PhGibeLr/+etjd7sn2W6Ig81ZrzV+vcmVrrCzZjfbFvtZUt
+         GUvcI/Me3cAO/sO/coXiqKg+N67XNXdL3sDVkAWDB/BnBGpyodkRmEO6VCoAYAUPzAUJ
+         Tnr0NwDYdGZOamopxLHNowycRPBgBm5jouBX0ZNQ1v+XX0WdLyaHcLs/AELQ86pJyWXn
+         AWdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+ZB1sFFo27zRZDgBBI31WcFFAlY9JKLINEYBzNw1uGk=;
-        b=TH9t45jz63TRy7OH0ReyQDoWY/CLdMrTizEdNjSMlI40ejBzKFclG20rCJhWa/KKnl
-         6wYTFFrnloZGnwgvDbj24SArVnDbfkPVlmXpvAPe3EgIVU3m9Gp6Axd3ISxWFGb18sgx
-         /Psk0noi9oeojoaKxmydzxyDxU4lnHYks07uqcpKjb8dsC/X1gQmGDaeGN8rs1XpBzTN
-         FrhSAMymtlDrnp0uyLipac6ocx9ydoFEH1GJ6m8FAhR4o6qR50+/VvadSbkg7t+Sy8rP
-         JUnRySCDHe1TQbWR6OpDOQx5sSy/azLOWJpQ5siLkAnwtZ0Fi1JMvRk2iIXIXXvIL5dE
-         EpAg==
-X-Gm-Message-State: APjAAAXewlxtk4esFPDWGtKE6puU+QF0C6lQfM4FqwudvP440yKg1dbK
-        03QRyL84MPg8QED4bU47ZroR1g==
-X-Google-Smtp-Source: APXvYqzDCbmGxyphq6w/Zhz5tZSINI/L/+UQ/XkwPirfMMhNpOPCUDg9JBXun2jegTX1PBU22N3j0g==
-X-Received: by 2002:a2e:9753:: with SMTP id f19mr33820909ljj.54.1556520968555;
-        Sun, 28 Apr 2019 23:56:08 -0700 (PDT)
+        bh=/RDzQlkBTEqOpH90yxgTGof1Un7bQfe8w9/CRuMdT+I=;
+        b=HtvLVIxhCDK0AY/q3siXaIJ/giWQ+b7qdZm8cF5T1/pVammIbHABYuchsNKmNCS3RB
+         jqFTF+ff+c5D6XBzAuACTkeE+r4akXOM6jwYoPD0kD6KQgpOLSmsyPy8l8sTADpNYuNH
+         xyGhWAZMziLaw6kZIm7al8whqmQk4i7+wNHwH1BAy4aWBNsQxu6JeWtXKY7VfCw3Vf/P
+         +jQQhmczYHaYU7G5Z16/Xdh3q77ghxhwMxEBrZTwa94GFsVi3XNRqx28qr2hY3e8MALI
+         cKcPX+0mj/m5HdTzagPD5CPgT8KtvHwhHKheXRJoq90NfTeuSlRZWt3axCPdyryjx1o5
+         NY1g==
+X-Gm-Message-State: APjAAAW1ELlsC3oZQH6qclY5IefCQII9JzLbamRvPuf/GotdTD2CWbWS
+        B9Tk4sN+4fune+Ubm5BtzMbiLw==
+X-Google-Smtp-Source: APXvYqwlpThgXrnAVkvf1o+jKXzUAuh3CfFPGnuljcqlvZ7oWL6vWIlJ95cNEi6F7SvXamvlqkJKjA==
+X-Received: by 2002:ac2:5c09:: with SMTP id r9mr9199030lfp.104.1556520970730;
+        Sun, 28 Apr 2019 23:56:10 -0700 (PDT)
 Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
-        by smtp.gmail.com with ESMTPSA id z17sm6669536lja.26.2019.04.28.23.56.06
+        by smtp.gmail.com with ESMTPSA id v26sm6700529lja.60.2019.04.28.23.56.09
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 28 Apr 2019 23:56:07 -0700 (PDT)
-Date:   Sun, 28 Apr 2019 23:36:38 -0700
+        Sun, 28 Apr 2019 23:56:09 -0700 (PDT)
+Date:   Sun, 28 Apr 2019 23:37:12 -0700
 From:   Olof Johansson <olof@lixom.net>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     arm@kernel.org, Jon Hunter <jonathanh@nvidia.com>,
         linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [GIT PULL 7/9] ARM: tegra: Default configuration updates for
+Subject: Re: [GIT PULL 9/9] arm64: tegra: Default configuration updates for
  v5.2-rc1
-Message-ID: <20190429063638.ar46f6wvqr5opyff@localhost>
+Message-ID: <20190429063712.dqk443wbv5jkzmqy@localhost>
 References: <20190418150721.8828-1-thierry.reding@gmail.com>
- <20190418150721.8828-7-thierry.reding@gmail.com>
+ <20190418150721.8828-9-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190418150721.8828-7-thierry.reding@gmail.com>
+In-Reply-To: <20190418150721.8828-9-thierry.reding@gmail.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Apr 18, 2019 at 05:07:18PM +0200, Thierry Reding wrote:
+On Thu, Apr 18, 2019 at 05:07:20PM +0200, Thierry Reding wrote:
 > Hi ARM SoC maintainers,
 > 
 > The following changes since commit 9e98c678c2d6ae3a17cb2de55d17f69dddaa231b:
@@ -74,24 +74,20 @@ On Thu, Apr 18, 2019 at 05:07:18PM +0200, Thierry Reding wrote:
 > 
 > are available in the Git repository at:
 > 
->   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.2-arm-defconfig
+>   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.2-arm64-defconfig
 > 
-> for you to fetch changes up to a6f3d883a6ef19feee1d80bfd90701627b01b98a:
+> for you to fetch changes up to bd9ae25314f275cea87a20db11756f32ed88dc15:
 > 
->   ARM: Enable Trusted Foundations for multiplatform ARM v7 (2019-04-17 16:36:34 +0200)
-> 
-> Note that this pulls in a stable tag from Tony that brings the multi_v7
-> default configuratio up to date.
+>   arm64: defconfig: Add PWM Fan support (2019-04-03 18:41:07 +0200)
 > 
 > Thanks,
 > Thierry
 > 
 > ----------------------------------------------------------------
-> ARM: tegra: Default configuration updates for v5.2-rc1
+> arm64: tegra: Default configuration updates for v5.2-rc1
 > 
-> Enable Trusted Foundations support in the default configurations for
-> Tegra and multi-v7. This is necessary because the symbol is no longer
-> selected by default.
+> These patches enable PWM fan and Tegra HDA support in the 64-bit ARM
+> default configuration, so that these features are enabled by default.
 
 Merged, thanks.
 
