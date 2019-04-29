@@ -2,189 +2,214 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 830D7EC31
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 23:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5309AEC55
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Apr 2019 23:58:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729398AbfD2Vmo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Apr 2019 17:42:44 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:5631 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729252AbfD2Vmo (ORCPT
+        id S1729418AbfD2V4I (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Apr 2019 17:56:08 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:42180 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729354AbfD2V4I (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Apr 2019 17:42:44 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cc76fd80000>; Mon, 29 Apr 2019 14:42:48 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 29 Apr 2019 14:42:42 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 29 Apr 2019 14:42:42 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 29 Apr
- 2019 21:42:41 +0000
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com (104.47.34.55) by
- HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Mon, 29 Apr 2019 21:42:41 +0000
-Received: from BYAPR12MB3398.namprd12.prod.outlook.com (20.178.196.24) by
- BYAPR12MB3365.namprd12.prod.outlook.com (20.178.55.206) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1835.13; Mon, 29 Apr 2019 21:42:39 +0000
-Received: from BYAPR12MB3398.namprd12.prod.outlook.com
- ([fe80::a426:a072:b48b:530c]) by BYAPR12MB3398.namprd12.prod.outlook.com
- ([fe80::a426:a072:b48b:530c%5]) with mapi id 15.20.1835.016; Mon, 29 Apr 2019
- 21:42:39 +0000
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Mark Brown <broonie@kernel.org>
-CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Mon, 29 Apr 2019 17:56:08 -0400
+Received: by mail-ot1-f66.google.com with SMTP id f23so10077594otl.9;
+        Mon, 29 Apr 2019 14:56:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XKKc9ollR30BM+UMQFGxVUGGakv+jF5G/U4ZeXs5rlc=;
+        b=MYjY11ic+iVhYUp1evZzOeugbfNnqqCW7wnsJU/lXYK53Zxqsv/tdtPX/JfTLp6JUL
+         C33D7f4PrekMXvwm/tMQUOTfdPEdIrdsCQIYAeD8xDM1JdmoF3PZytfT+SBqtifaxTkN
+         T8JM3IHNrpwXIDgWGNQfHwlPE3DbJ+IpwllKMYmhdg8zezBB0p6BZYoIe7TJOlQrp91Q
+         94t28As2G5ok2so9+Dvb1yvEa26m1KoxBvqaRI6xb4n80POMqEWFHerM84cl1lXFIDMi
+         AXiPRWwcZoltEfSRVawxty7nFKMBEqk2pS2wy6eSRNoo8/6NZAuzN5auEAEwzfrYlt7X
+         BehQ==
+X-Gm-Message-State: APjAAAWQ3OOl59Mn16jTu2Cv18UTu7c3LxlrFaXvlp1/sbxybfdq3vkn
+        OaJJM1Ts+CyctHPEnAXDMg==
+X-Google-Smtp-Source: APXvYqzK/n0xnr2NtW6J8yi6iVGCkxrIoI8i5h+bCP8q1y8hHozDoEl3n9V76GdRqsoIvZvOgkhxdA==
+X-Received: by 2002:a9d:4048:: with SMTP id o8mr5634815oti.119.1556574966959;
+        Mon, 29 Apr 2019 14:56:06 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id b51sm15959317otc.8.2019.04.29.14.56.06
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 29 Apr 2019 14:56:06 -0700 (PDT)
+Date:   Mon, 29 Apr 2019 16:56:05 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Joseph Lo <josephl@nvidia.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        "Laxman Dewangan" <ldewangan@nvidia.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        Timo Alho <talho@nvidia.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>
-Subject: RE: Applied "spi: tegra114: fix PIO transfer" to the spi tree
-Thread-Topic: Applied "spi: tegra114: fix PIO transfer" to the spi tree
-Thread-Index: AQHU9HIZWfAyUvEJtE2bm8Px22uuI6ZTvtwA
-Date:   Mon, 29 Apr 2019 21:42:39 +0000
-Message-ID: <BYAPR12MB33989027C79790E4B3CC827CC2390@BYAPR12MB3398.namprd12.prod.outlook.com>
-References: <1555363834-32155-2-git-send-email-skomatineni@nvidia.com>
- <20190416163257.956F211281C6@debutante.sirena.org.uk>
-In-Reply-To: <20190416163257.956F211281C6@debutante.sirena.org.uk>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=skomatineni@nvidia.com; 
-x-originating-ip: [216.228.112.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 59b443c5-c1ad-41b7-418d-08d6cceb9a6d
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:BYAPR12MB3365;
-x-ms-traffictypediagnostic: BYAPR12MB3365:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <BYAPR12MB3365A5344235A59FDE3192C5C2390@BYAPR12MB3365.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0022134A87
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(396003)(136003)(39860400002)(366004)(376002)(189003)(199004)(66476007)(9686003)(68736007)(54906003)(8676002)(53546011)(55016002)(66556008)(11346002)(64756008)(97736004)(446003)(66446008)(66946007)(14454004)(6506007)(478600001)(476003)(6306002)(86362001)(73956011)(81166006)(53936002)(316002)(8936002)(229853002)(71190400001)(81156014)(186003)(6246003)(6916009)(26005)(52536014)(4326008)(99286004)(2906002)(74316002)(486006)(76116006)(966005)(5660300002)(71200400001)(102836004)(33656002)(6116002)(14444005)(6436002)(66066001)(7696005)(76176011)(7736002)(25786009)(3846002)(305945005)(256004);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR12MB3365;H:BYAPR12MB3398.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nvidia.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: yJvhBM7WhTvuSyyrHp4l/iEP2QROrDdTYRk/XL0gp/XGRc+1PFvmiI01essYWH8IC4vYm8HHTeeBnuaR/WMdjPXNuGcbiAR1USgqQQI+VcdlB0XpsD5HGs+4BuY+lFGE74atsUVHCJxqZ6b88mKakPk4fiBIKt7AxSJPhkGURlyLwhKTrZx18AmJvXbYfUHC6afdttA6gqwKBDuPiOQwUrI/bSHGr0n9s8k33dzTAixHu7tUkl1pzBIYbYz4IP51TShK3VtBmlkIC4XzuaxL3jGDjs8H+gIB/cKaJYOVZwkUD8CH4EH2S0NW95xbx5Rw3v0B1CmvbnRpJ1uBLo8AHm1gbI40bWQjk136A9u70zU5IY1l9XjhKn0wHDWtekU0FYdABBZaVR/xlBflFGde/4vT+4dxtkqpM2S2o12EiOg=
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: memory: tegra: Add external memory
+ controller binding for Tegra210
+Message-ID: <20190429215605.GA3078@bogus>
+References: <20190412080855.387-1-josephl@nvidia.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59b443c5-c1ad-41b7-418d-08d6cceb9a6d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2019 21:42:39.7394
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3365
-X-OriginatorOrg: Nvidia.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1556574168; bh=ihpE31p04nocg4sCII8t968IekNKyNDgZKURokzCDHs=;
-        h=X-PGP-Universal:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
-         Message-ID:References:In-Reply-To:Accept-Language:X-MS-Has-Attach:
-         X-MS-TNEF-Correlator:authentication-results:x-originating-ip:
-         x-ms-publictraffictype:x-ms-office365-filtering-correlation-id:
-         x-microsoft-antispam:x-ms-traffictypediagnostic:
-         x-ms-exchange-purlcount:x-microsoft-antispam-prvs:
-         x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
-         x-forefront-antispam-report:received-spf:
-         x-ms-exchange-senderadcheck:x-microsoft-antispam-message-info:
-         MIME-Version:X-MS-Exchange-CrossTenant-Network-Message-Id:
-         X-MS-Exchange-CrossTenant-originalarrivaltime:
-         X-MS-Exchange-CrossTenant-fromentityheader:
-         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
-         Content-Language:Content-Type:Content-Transfer-Encoding;
-        b=WcY6rzKf7dcRID1uS1w0h5upKfWTkAP5hod2mUqnW40dLJUtyeVVj/GOvpqASLpgn
-         Lk3nSDvyTxj/1EgnUfrwQrR1SGmPffFOP+aC4v3HleYYfPSKlDnGuQ+0Fk9pHfns5u
-         yd1MUyLT9CBOBpHhWcJzRBKH8pVlomYvkGAnaGbZ92ddulGxg2b2cDoEJ7EKR38sUO
-         3Gwcn6LVE1YjlBSKXuT2ssIWhL1ZOZ6KzYmjD42r++CR9mchEOPNretFc6fGgPW7UD
-         HAmqqJ6dQALNZ2osy4i9wGrB+c9Bd5era/F2XQayEQcDOg4aSAKqzQkZ/C69iFmmVL
-         eJE5Uobgm+ZBg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190412080855.387-1-josephl@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Mark,
-
-I don't see below patches that I see as applied in latest linux-next.
-Can you please confirm if they are applied?
-
-Applied "spi: tegra114: fix PIO transfer" to the spi tree
-Applied "spi: expand mode support" to the spi tree
-
-Thanks
-Sowjanya
-
-> The patch
-
->   spi: tegra114: fix PIO transfer
-
-> has been applied to the spi tree at
-
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.=
-1
-
-> All being well this means that it will be integrated into the linux-next =
-tree (usually sometime in the next 24 hours) and sent to Linus during the n=
-ext merge window (or sooner if it is a bug fix), however if problems are di=
-scovered then the patch may be dropped or reverted. =20
-
-> You may get further e-mails resulting from automated or manual testing an=
-d review of the tree, please engage with people reporting problems and send=
- followup patches addressing any issues that are reported if needed.
-
-> If any updates are required or you are submitting further changes they sh=
-ould be sent as incremental updates against current git, existing patches w=
-ill not be replaced.
-
-> Please add any relevant lists and maintainers to the CCs when replying to=
- this mail.
-
->
-> Thanks,
-> Mark
-
->
-> From 3f6e3f7843a6a1667ed890ca51a1388fc7bf3429 Mon Sep 17 00:00:00 2001
-> From: Sowjanya Komatineni <skomatineni@nvidia.com>
-> Date: Mon, 15 Apr 2019 14:30:26 -0700
-> Subject: [PATCH] spi: tegra114: fix PIO transfer
->
-> This patch fixes PIO mode transfer to use PIO bit in SPI_COMMAND1 registe=
-r.
-> Current driver uses DMA_EN instead of PIO bit.
->
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+On Fri, Apr 12, 2019 at 04:08:55PM +0800, Joseph Lo wrote:
+> Add the binding document for the external memory controller (EMC) which
+> communicates with external LPDDR4 devices. It includes the bindings of
+> the EMC node and the EMC table of different rates.
+> 
+> To support high rates for LPDDR4, the EMC table must be trained before
+> it can be used for runtime clock switching. It has been done by firmware
+> and merged the training data to the table that the kernel can share the
+> result. So the bindings are used for both kernel and firmware.
+> 
+> Based on the work of Peter De Schrijver <pdeschrijver@nvidia.com>.
+> 
+> Signed-off-by: Joseph Lo <josephl@nvidia.com>
 > ---
->  drivers/spi/spi-tegra114.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/spi/spi-tegra114.c b/drivers/spi/spi-tegra114.c inde=
-x b57f10182fae..21e4fdad013f 100644
-> --- a/drivers/spi/spi-tegra114.c
-> +++ b/drivers/spi/spi-tegra114.c
-> @@ -641,8 +641,9 @@ static int tegra_spi_start_cpu_based_transfer(
->
->  	tspi->is_curr_dma_xfer =3D false;
-> =20
-> -	val |=3D SPI_DMA_EN;
-> -	tegra_spi_writel(tspi, val, SPI_DMA_CTL);
-> +	val =3D tspi->command1_reg;
-> +	val |=3D SPI_PIO;
-> +	tegra_spi_writel(tspi, val, SPI_COMMAND1);
->  	return 0;
->  }
->=20
-> --
-> 2.20.1
+> This patch splits from the original patch set that supports EMC scaling
+> with binding document and drivers. Because the binding would be shared
+> by both firmware and kernel. We want to settle this first. Then we can
+> fix the kernel and firmware to support the same.
+> 
+> Changes in v2:
+> * only use "tegra210" string in compatible string and remove the legacy
+>   "tegra21" string.
+> * clock-frequency -> fix the unit from kilohertz to hertz
+> * add "interrupts" property
+> * s/nvidia,emc-min-mv/nvidia,emc-min-millivolt/
+> * s/nvidia,gk20a-min-mv/nvidia,gk20a-min-millivolt/
+> * s/nvidia,source/clock-names/
+> * fix lots of properties that use underline to hyphen
+> * s/nvidia,emc-clock-latency-change/nvidia,emc-clock-latency-microsecond/
+> * add more information in the property descriptions
+> ---
+>  .../nvidia,tegra210-emc.txt                   | 614 ++++++++++++++++++
+>  1 file changed, 614 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.txt b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.txt
+> new file mode 100644
+> index 000000000000..318239c3c295
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.txt
+> @@ -0,0 +1,614 @@
+> +NVIDIA Tegra210 SoC EMC (external memory controller)
+> +====================================================
+> +
+> +Required properties :
+> +- compatible : should be "nvidia,tegra210-emc".
+> +- reg : physical base address and length of the controller's registers.
+> +- clocks : phandles of the possible source clocks
+> +- clock-names : names of the possible source clocks
+> +- interrupts : Should contain the EMC general interrupt
+> +- #address-cells : should be 1
+> +- #size-cells : should be 0
+> +- nvidia,memory-controller : phandle of the memory controller.
+> +- nvidia,use-ram-code : boolean, indicates whether we should use RAM_CODE in
+> +		        the register to find matching emc-table nodes
+> +
+> +The node should contain a "emc-table" subnode for each supported RAM type
+> +(see field RAM_CODE in register APB_MISC_PP_STRAPPING_OPT_A), with its unit
+> +address being its RAM_CODE.
+> +
+> +Required properties for "emc-tables" nodes :
+> +- nvidia,ram-code : Should contain the value of RAM_CODE this timing set is
+> +		    used for.
+> +
+> +Each "emc-tables" node should contain a "emc-table" subnode for every supported
+> +EMC clock rate. The "emc-table" subnodes should have the clock rate in hertz as
+> +their unit address.
+> +
+> +Required properties for "emc-table" nodes :
+> +- compatible :  "nvidia,tegra210-emc-table"
+> +- nvidia,revision : revision of the parameter set used for this node. All
+> +                    nodes in the same "emc-table" should have the same revision
+> +- nvidia,dvfs-version : string for the DVFS version of this table
+> +- clock-frequency : frequency in hertz
+> +- clock-names : name of clock source to be used for this rate
+> +- nvidia,emc-min-millivolt : minimum voltage in millivolt for this rate
+> +- nvidia,gk20a-min-millivolt : minimum GPU voltage in millivolt for this rate
+> +- nvidia,src-sel-reg : value of EMC CAR register to be used for this rate
+> +- nvidia,needs-training : 1 if needs training at boot, 0 otherwise
+> +- nvidia,trained : 1 if initial training has been done by firmware, 0 otherwise
+> +- nvidia,periodic-training : 1 if needs periodic training, 0 otherwise
+> +- nvidia,trained-dram-clktree-c0d0u0 : training data word
+> +- nvidia,trained-dram-clktree-c0d0u1 : training data word
+> +- nvidia,trained-dram-clktree-c0d1u0 : training data word
+> +- nvidia,trained-dram-clktree-c0d1u1 : training data word
+> +- nvidia,trained-dram-clktree-c1d0u0 : training data word
+> +- nvidia,trained-dram-clktree-c1d0u1 : training data word
+> +- nvidia,trained-dram-clktree-c1d1u0 : training data word
+> +- nvidia,trained-dram-clktree-c1d1u1 : training data word
+> +- nvidia,current-dram-clktree-c0d0u0 : training data word
+> +- nvidia,current-dram-clktree-c0d0u1 : training data word
+> +- nvidia,current-dram-clktree-c0d1u0 : training data word
+> +- nvidia,current-dram-clktree-c0d1u1 : training data word
+> +- nvidia,current-dram-clktree-c1d0u0 : training data word
+> +- nvidia,current-dram-clktree-c1d0u1 : training data word
+> +- nvidia,current-dram-clktree-c1d1u0 : training data word
+> +- nvidia,current-dram-clktree-c1d1u1 : training data word
+> +- nvidia,run-clocks : training data for clock timing of oscillator clock
+> +- nvidia,tree-margin : training data for clock timing
+> +- nvidia,burst-regs-num : number of values in nvidia,emc-registers
+> +- nvidia,burst-regs-per-ch-num : number of values in
+> +				 nvidia,emc-burst-regs-per-ch
+> +- nvidia,trim-regs-num : number of values in nvidia,emc-trim-regs
+> +- nvidia,trim-regs-per-ch-num : number of values in nvidia,emc-trim-regs-per-ch
+> +- nvidia,burst-mc-regs-num : number of values in nvidia,emc-burst-mc-regs
+> +- nvidia,la-scale-regs-num : number of values in nvidia,emc-la-scale-regs
+> +- nvidia,vref-regs-num : number of values in nvidia,emc-vref-regs
+> +- nvidia,training-mod-regs-num : number of values in nvidia,training-mod-regs
+> +- nvidia,dram-timing-regs-num : number of values in nvidia,emc-dram-timing-regs
+> +- nvidia,min-mrs-wait : number of EMC clock count to wait for MRS command
+> +- nvidia,emc-mrw : value of the EMC_MRW register
+> +- nvidia,emc-mrw2 : value of the EMC_MRW2 register
+> +- nvidia,emc-mrw3 : value of the EMC_MRW3 register
+> +- nvidia,emc-mrw4 : value of the EMC_MRW4 register
+> +- nvidia,emc-mrw9 : value of the EMC_MRW4 register
+> +- nvidia,emc-mrs : value of the EMC_MRS register
+> +- nvidia,emc-emrs : value of the EMC_EMRS register
+> +- nvidia,emc-emrs2 : value of the EMC_EMRS2 register
+> +- nvidia,emc-auto-cal-config : value of the EMC_AUTO_CAL_CONFIG register
+> +- nvidia,emc-auto-cal-config2 : value of the EMC_AUTO_CAL_CONFIG2 register
+> +- nvidia,emc-auto-cal-config3 : value of the EMC_AUTO_CAL_CONFIG3 register
+> +- nvidia,emc-auto-cal-config4 : value of the EMC_AUTO_CAL_CONFIG4 register
+> +- nvidia,emc-auto-cal-config5 : value of the EMC_AUTO_CAL_CONFIG5 register
+> +- nvidia,emc-auto-cal-config6 : value of the EMC_AUTO_CAL_CONFIG6 register
+> +- nvidia,emc-auto-cal-config7 : value of the EMC_AUTO_CAL_CONFIG7 register
+> +- nvidia,emc-auto-cal-config8 : value of the EMC_AUTO_CAL_CONFIG8 register
+> +- nvidia,emc-cfg-2 : value of the EMC_CFG_2 register
+> +- nvidia,emc-sel-dpd-ctrl : value of the EMC_SEL_DPD_CTRL register
+> +- nvidia,emc-fdpd-ctrl-cmd-no-ramp : value of the EMC_FDPD_CTRL_CMD_NO_RAMP
+> +				     register
+> +- nvidia,dll-clk-src : value of the CLK_RST_CONTROLLER_CLK_SOURCE_EMC_DLL
+> +		       register
+> +- nvidia,clk-out-enb-x-0-clk-enb-emc-dll : 1 for enable EMC_DLL in the
+> +					   CLK_RST_CONTROLLER_CLK_OUT_ENB_X_SET,
+> +					   or 0 for clear in the
+> +					   CLK_RST_CONTROLLER_CLK_OUT_ENB_X_CLR
+> +- nvidia,emc-clock-latency-microsecond : clock latency value in micro seconds
+> +- nvidia,ptfv : a 12 word array of control data for periodic training
+> +- nvidia,emc-registers :
+> +- nvidia,emc-shadow-regs-ca-train :
+> +- nvidia,emc-shadow-regs-quse-train :
+> +- nvidia,emc-shadow-regs-rdwr-train :
+> +  a 221 word array of the following registers (See TRM 18.10.2 for register
+> +  descriptions)
 
+I think this dumping of register values should not be in DT. I think the 
+result here will be a lot of duplication of data. How many of the 
+registers' values vary between 2 frequencies, for example? 
+
+We have bindings already for DDR that use timing values (see 
+bindings/lpddr2/lpddr2.txt). There's one for LPDDR3 being added. This 
+data is similar to the SPD data which is used in DIMMs. If SPD data is 
+enough information for any DIMM to work on any PC, then that should be 
+sufficient for embedded uses too.
+
+Rob
