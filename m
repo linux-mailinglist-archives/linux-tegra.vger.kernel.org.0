@@ -2,86 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CF0910D9C
-	for <lists+linux-tegra@lfdr.de>; Wed,  1 May 2019 21:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CCAF1105D
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 May 2019 01:43:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726125AbfEAT6H (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 May 2019 15:58:07 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:40258 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbfEAT6G (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 May 2019 15:58:06 -0400
-Received: by mail-ot1-f67.google.com with SMTP id w6so48804otl.7;
-        Wed, 01 May 2019 12:58:06 -0700 (PDT)
+        id S1726145AbfEAXlm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 May 2019 19:41:42 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:50785 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726126AbfEAXlm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 May 2019 19:41:42 -0400
+Received: by mail-it1-f195.google.com with SMTP id q14so362090itk.0;
+        Wed, 01 May 2019 16:41:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jnT0HZUrSkPAf62Nq5Lp+ecgHqDHRXVjUFxnFCahDOY=;
+        b=Lqv1YbTqvom86+7/lE6U9SACKtF0F/Qq7zpHyaavTiVV9Wp28vzbpuUS0L1rSB6AGG
+         2UmY3Kf7Vu9ylvEYyjVcifFOp6hIj3ev8keSdTLh9FTqvrqO7tIuPGXAW6BOTG15x69X
+         B94wg7SzkS5IpUhWkqcWXq0zty2zQN0A0TBRxAMuKBlxsV2+s/GsmKpVo1WPejfWq5FM
+         PLgZkq5IxzlhFLW4usrsM2eTnCmFtW2aOawfk8VjZfnYbAaSJxTEWhu7TnqgxBQk0TOH
+         H33Gsc10TqfHZtXEof12XS0kLNwd06roWkyDzMPnBW88au5xFRfCUuQObqaEmzCn9MAF
+         bd+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=KVYxrZh/5jWsZtB/YPLSce7+yNxAb7jrvHpWZlGvrBA=;
-        b=p1VdhKn9XfX5Qz3vmfSGK2kmmnywg+RfRh8f+DHh62K2rXnzFCoPFkR515BQMnpCIT
-         9tk9B39OlxJ0ULoYUWo9wm3e9vv/qe77Q6SSHoXd/KimDUVgddx4ZpHPz7EgNxCXrwFu
-         iZb9sVOhJg0o4EwsNedsnDw6z4TcjJRM889qIh8aQmsFs2i1YI1uh6tUkrRXLRkUztbx
-         5grKFIPORFY2aiZAXwrTK9m4mVCtb8+VLNmXTvmmWmAQ82lh1VD1bTql09niHfRmvB08
-         JSUNrNFxtbmW4Uh6Ph5iL5Bx2wb4Ek7g6NKWI9OTIqaK2qFNq6pn1e6pkih1/sswl9QK
-         B8jw==
-X-Gm-Message-State: APjAAAV4deMlN0PDMYZvbHxIRak/f/e0KNQs1w+Y1tlUMoPy/3W9e6Bu
-        bF5ohcNQSJhTMxq1F/C2qw==
-X-Google-Smtp-Source: APXvYqyIhkEs42x21W9EtsXuim9fVAX29ijHpLJgaUrpTWnngVUjHvnzV7+kw2+N6rASSbJkdawZMA==
-X-Received: by 2002:a05:6830:2092:: with SMTP id y18mr992445otq.319.1556740685958;
-        Wed, 01 May 2019 12:58:05 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i11sm16004943otl.27.2019.05.01.12.58.05
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 01 May 2019 12:58:05 -0700 (PDT)
-Date:   Wed, 1 May 2019 14:58:04 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc:     thierry.reding@gmail.com, bhelgaas@google.com,
-        mark.rutland@arm.com, jonathanh@nvidia.com,
-        lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH V2 26/28] dt-bindings: pci: tegra: Document reset-gpio
- optional prop
-Message-ID: <20190501195804.GA16435@bogus>
-References: <20190423092825.759-1-mmaddireddy@nvidia.com>
- <20190423092825.759-27-mmaddireddy@nvidia.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jnT0HZUrSkPAf62Nq5Lp+ecgHqDHRXVjUFxnFCahDOY=;
+        b=jMiIvgejnpVI9au7S6uc1dc7NOlV0OUCozNndh35pv1zpAxUNqsmwG64SG4ZfE/hGv
+         Gy1Jjpg57SBekh9FEII9Qb/8Heoz7STeVVMEFtMXCxAMWlhoWaNdH1MDYa3oHj1oFQS2
+         sTcnRIusCyPtErly17L1/2z1YDcA3s41ilsVU7SCE3G7i8cbyC25xQLwSzv4NeXSddha
+         i3zCe4ktysNLLSCs4GH3rLsJi6lNOn2GN5pDJn2xK9NoE8/iaQX1Gff0LYf7Zd8xKtUQ
+         0WWaHpJ06vL8c0+UFlXP8iCitmFVmAsm5z9NpraAfkaaUVjLSb40naOuidsigQwoy33a
+         FvuA==
+X-Gm-Message-State: APjAAAXhnopsU4as135epmhq3KaMrxjpEbX5yX6K/dHRlBSLc0jlmixJ
+        b20AJ5e+9Jhw4thSjCoP+kosAshh
+X-Google-Smtp-Source: APXvYqzhe09Pgdh3StOglufr1LW3DFH5RNgtkgWKazS/LM4NepZXI3XSVojE4IpPjSiczaWFPlZvpg==
+X-Received: by 2002:a24:3755:: with SMTP id r82mr244747itr.60.1556754101322;
+        Wed, 01 May 2019 16:41:41 -0700 (PDT)
+Received: from localhost.localdomain (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.gmail.com with ESMTPSA id m3sm2392507ion.69.2019.05.01.16.41.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 01 May 2019 16:41:39 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/16] NVIDIA Tegra devfreq improvements and Tegra20/30 support
+Date:   Thu,  2 May 2019 02:37:59 +0300
+Message-Id: <20190501233815.32643-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190423092825.759-27-mmaddireddy@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Apr 23, 2019 at 02:58:23PM +0530, Manikanta Maddireddy wrote:
-> Document "reset-gpio" optional property which supports GPIO based PERST#
-> signal.
-> 
-> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-> ---
-> V2: Using standard "reset-gpio" property
-> 
->  .../devicetree/bindings/pci/nvidia,tegra20-pcie.txt          | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra20-pcie.txt b/Documentation/devicetree/bindings/pci/nvidia,tegra20-pcie.txt
-> index 7939bca47861..4e75e017f660 100644
-> --- a/Documentation/devicetree/bindings/pci/nvidia,tegra20-pcie.txt
-> +++ b/Documentation/devicetree/bindings/pci/nvidia,tegra20-pcie.txt
-> @@ -162,6 +162,10 @@ Required properties:
->    - Root port 0 uses 4 lanes, root port 1 is unused.
->    - Both root ports use 2 lanes.
->  
-> +Optional properties:
-> +- reset-gpio: If GPIO is used as PERST# signal instead of available
-> +  SFIO, add this property with phandle to GPIO controller and GPIO number.
+Changelog:
 
-'reset-gpios' is the preferred form.
+v4: Addressed all review comments that were made by Chanwoo Choi to v3:
 
-This is already defined in several other drivers. Perhaps document in a 
-common location and also parse the property in common code.
+    - changed the driver removal order to match the probe exactly
+    - added clarifying comment for 1/8 ratio to the Tegra20 driver
 
-Rob
+    Chanwoo, please also note that the clk patch that should fix
+    compilation problem that was reported the kbuild-test-robot is already
+    applied and available in the recent linux-next.
+
+v3: Addressed all review comments that were made by Chanwoo Choi to v2.
+
+    Patch "Synchronize IRQ after masking it in hardware" morphed into
+    "Properly disable interrupts", which disables interrupts more solidly.
+
+    Added new minor patch: "Rename tegra-devfreq.c to tegra30-devfreq.c".
+
+    Added missed error handlings for dev_pm_opp_add().
+
+v2: The patchset was quite heavily reworked since v1, few patches we
+    dropped or squashed into the new ones and more patches we added.
+    In a result more bugs and potential problems are fixed now, driver's
+    code got more clean up.
+
+    The Tegra20 driver-addition patch is now a part of this series, it has
+    no changes since v1.
+
+Dmitry Osipenko (16):
+  PM / devfreq: tegra: Fix kHz to Hz conversion
+  PM / devfreq: tegra: Replace readl-writel with relaxed versions
+  PM / devfreq: tegra: Replace write memory barrier with the read
+    barrier
+  PM / devfreq: tegra: Don't ignore clk errors
+  PM / devfreq: tegra: Don't set EMC clock rate to maximum on probe
+  PM / devfreq: tegra: Drop primary interrupt handler
+  PM / devfreq: tegra: Properly disable interrupts
+  PM / devfreq: tegra: Clean up driver's probe / remove
+  PM / devfreq: tegra: Avoid inconsistency of current frequency value
+  PM / devfreq: tegra: Mark ACTMON's governor as immutable
+  PM / devfreq: tegra: Move governor registration to driver's probe
+  PM / devfreq: tegra: Reconfigure hardware on governor's restart
+  PM / devfreq: tegra: Support Tegra30
+  PM / devfreq: tegra: Enable COMPILE_TEST for the driver
+  PM / devfreq: tegra: Rename tegra-devfreq.c to tegra30-devfreq.c
+  PM / devfreq: Introduce driver for NVIDIA Tegra20
+
+ MAINTAINERS                                   |   8 +
+ drivers/devfreq/Kconfig                       |  15 +-
+ drivers/devfreq/Makefile                      |   3 +-
+ drivers/devfreq/tegra20-devfreq.c             | 212 ++++++++++++
+ .../{tegra-devfreq.c => tegra30-devfreq.c}    | 315 ++++++++----------
+ 5 files changed, 379 insertions(+), 174 deletions(-)
+ create mode 100644 drivers/devfreq/tegra20-devfreq.c
+ rename drivers/devfreq/{tegra-devfreq.c => tegra30-devfreq.c} (81%)
+
+-- 
+2.21.0
+
