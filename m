@@ -2,73 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED9E51082B
-	for <lists+linux-tegra@lfdr.de>; Wed,  1 May 2019 15:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B237310918
+	for <lists+linux-tegra@lfdr.de>; Wed,  1 May 2019 16:29:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbfEANNi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 May 2019 09:13:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38418 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725993AbfEANNi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 1 May 2019 09:13:38 -0400
-Received: from localhost (unknown [171.76.113.243])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7728E2085A;
-        Wed,  1 May 2019 13:13:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556716417;
-        bh=3NwS6fJJakUxorL1dAmtWzw6EJNrxfzP+xwhOT4N6E4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y9Lr0JumZTcevwco8fzNMYOD0MACe1C4uTi7H92oxHpEgkK3F++H+YyCC9K/SH/K8
-         SCZExk9yVBYSGWIXv+Ng5sez2i704z5JqkItOvQWLNax25/SOYEKQ4UcqBYtoW2Zgt
-         Rzs2L4hFSOKfipLorLsclH16LH50GfdpMEV4QgCY=
-Date:   Wed, 1 May 2019 18:43:27 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        linux-kernel@lists.codethink.co.uk,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dma: tegra: add accurate reporting of dma state
-Message-ID: <20190501131327.GX3845@vkoul-mobl.Dlink>
-References: <20190424162348.23692-1-ben.dooks@codethink.co.uk>
- <71198258-40b8-3f7f-1401-58513bfaaab5@nvidia.com>
+        id S1726668AbfEAO3w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 May 2019 10:29:52 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:9719 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726555AbfEAO3w (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 May 2019 10:29:52 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cc9ad400000>; Wed, 01 May 2019 07:29:20 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 01 May 2019 07:29:51 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 01 May 2019 07:29:51 -0700
+Received: from HQMAIL108.nvidia.com (172.18.146.13) by HQMAIL103.nvidia.com
+ (172.20.187.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 1 May
+ 2019 14:29:50 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL108.nvidia.com
+ (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 1 May 2019 14:29:50 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.21.132.148]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5cc9ad5d0003>; Wed, 01 May 2019 07:29:50 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+CC:     <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH] ASoC: max98090: Fix restore of DAPM Muxes
+Date:   Wed, 1 May 2019 15:29:38 +0100
+Message-ID: <1556720978-13233-1-git-send-email-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <71198258-40b8-3f7f-1401-58513bfaaab5@nvidia.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1556720960; bh=xzT+9ba+DceKVlRkNgzKqIKE7WlhmlwTc7GlIb8E9ro=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=IaT2UBQzynNCN/2eXAVNDVLxSkZSDCAzS0LclJG1c3uS6XbayGWgg7i1NAGp7RZMF
+         PEEvqulVMyj29lGIme6Oxtgfoq0dEDr90f94ooyYI486Py/IdmcAS1wliKT5wuUAZj
+         1jva8sARGHkQqAYL61yFpXxKs0Z2uDxW3QLm8sslA0kNo61Q3wABU/1eKw7+OFK2+c
+         I+GfliL5FUFPU5DwhBb/1WlFaYWFy7njqV9XNFUYGJHkhaal3prKpFKyrNsDN+I8x8
+         k3gT7XPbrwG/46mL4qobH9/wdExfoo1Hn0vxIcJplCsyX+3EyeZxAft7IGkNPh0pcY
+         wiRkdWGYy1PQA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 01-05-19, 09:33, Jon Hunter wrote:
+The max98090 driver defines 3 DAPM muxes; one for the right line output
+(LINMOD Mux), one for the left headphone mixer source (MIXHPLSEL Mux)
+and one for the right headphone mixer source (MIXHPRSEL Mux). The same
+bit is used for the mux as well as the DAPM enable, and although the mux
+can be correctly configured, after playback has completed, the mux will
+be reset during the disable phase. This is preventing the state of these
+muxes from being saved and restored correctly on system reboot. Fix this
+by marking these muxes as SND_SOC_NOPM.
 
-> > @@ -1444,12 +1529,7 @@ static int tegra_dma_probe(struct platform_device *pdev)
-> >  		BIT(DMA_SLAVE_BUSWIDTH_4_BYTES) |
-> >  		BIT(DMA_SLAVE_BUSWIDTH_8_BYTES);
-> >  	tdma->dma_dev.directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
-> > -	/*
-> > -	 * XXX The hardware appears to support
-> > -	 * DMA_RESIDUE_GRANULARITY_BURST-level reporting, but it's
-> > -	 * only used by this driver during tegra_dma_terminate_all()
-> > -	 */
-> > -	tdma->dma_dev.residue_granularity = DMA_RESIDUE_GRANULARITY_SEGMENT;
-> > +	tdma->dma_dev.residue_granularity = DMA_RESIDUE_GRANULARITY_BURST;
-> >  	tdma->dma_dev.device_config = tegra_dma_slave_config;
-> >  	tdma->dma_dev.device_terminate_all = tegra_dma_terminate_all;
-> >  	tdma->dma_dev.device_tx_status = tegra_dma_tx_status;
-> 
-> In addition to Dmitry's comments, can you please make sure you run this
-> through checkpatch.pl?
+Note this has been verified this on the Tegra124 Nyan Big which features
+the MAX98090 codec.
 
-And use correct subsystem name !
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+If this is the correct fix for this issue, can we tag this for stable?
+Or I can re-send with the stable tag. However, wanted to send out for
+review first.
 
+ sound/soc/codecs/max98090.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
+index 30c242c38d99..7619ea31ab50 100644
+--- a/sound/soc/codecs/max98090.c
++++ b/sound/soc/codecs/max98090.c
+@@ -1194,14 +1194,14 @@ static const struct snd_soc_dapm_widget max98090_dapm_widgets[] = {
+ 		&max98090_right_rcv_mixer_controls[0],
+ 		ARRAY_SIZE(max98090_right_rcv_mixer_controls)),
+ 
+-	SND_SOC_DAPM_MUX("LINMOD Mux", M98090_REG_LOUTR_MIXER,
+-		M98090_LINMOD_SHIFT, 0, &max98090_linmod_mux),
++	SND_SOC_DAPM_MUX("LINMOD Mux", SND_SOC_NOPM, 0, 0,
++		&max98090_linmod_mux),
+ 
+-	SND_SOC_DAPM_MUX("MIXHPLSEL Mux", M98090_REG_HP_CONTROL,
+-		M98090_MIXHPLSEL_SHIFT, 0, &max98090_mixhplsel_mux),
++	SND_SOC_DAPM_MUX("MIXHPLSEL Mux", SND_SOC_NOPM, 0, 0,
++		&max98090_mixhplsel_mux),
+ 
+-	SND_SOC_DAPM_MUX("MIXHPRSEL Mux", M98090_REG_HP_CONTROL,
+-		M98090_MIXHPRSEL_SHIFT, 0, &max98090_mixhprsel_mux),
++	SND_SOC_DAPM_MUX("MIXHPRSEL Mux", SND_SOC_NOPM, 0, 0,
++		&max98090_mixhprsel_mux),
+ 
+ 	SND_SOC_DAPM_PGA("HP Left Out", M98090_REG_OUTPUT_ENABLE,
+ 		M98090_HPLEN_SHIFT, 0, NULL, 0),
 -- 
-~Vinod
+2.7.4
+
