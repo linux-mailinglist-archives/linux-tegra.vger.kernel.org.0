@@ -2,103 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B237310918
-	for <lists+linux-tegra@lfdr.de>; Wed,  1 May 2019 16:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B861210D7D
+	for <lists+linux-tegra@lfdr.de>; Wed,  1 May 2019 21:52:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbfEAO3w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 May 2019 10:29:52 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:9719 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726555AbfEAO3w (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 May 2019 10:29:52 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cc9ad400000>; Wed, 01 May 2019 07:29:20 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 01 May 2019 07:29:51 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 01 May 2019 07:29:51 -0700
-Received: from HQMAIL108.nvidia.com (172.18.146.13) by HQMAIL103.nvidia.com
- (172.20.187.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 1 May
- 2019 14:29:50 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL108.nvidia.com
- (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 1 May 2019 14:29:50 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.21.132.148]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5cc9ad5d0003>; Wed, 01 May 2019 07:29:50 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-CC:     <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] ASoC: max98090: Fix restore of DAPM Muxes
-Date:   Wed, 1 May 2019 15:29:38 +0100
-Message-ID: <1556720978-13233-1-git-send-email-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-X-NVConfidentiality: public
+        id S1726106AbfEATwH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 May 2019 15:52:07 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:41780 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726004AbfEATwH (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 May 2019 15:52:07 -0400
+Received: by mail-ot1-f65.google.com with SMTP id g8so29561otl.8;
+        Wed, 01 May 2019 12:52:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=9NsoR2Ks/W073QysE5yiIgEpVwfiWFp5562O18X26QE=;
+        b=RpCYv/IKgMrHt3bK+CcPrSTugRf2q1z/VL8Bnxd5yWXp4ISONJzH/4/B3GQpAMcQ1i
+         Heu/OKRGb941Zdm1BwywzB11Stn0KOfTHZvWelDwf44KgGE3/ZILO0LhEl0ElFFoaR8o
+         Bp6/18g9WZoa6ac8Z1NJyjFqJBdQtmnLsd5G5hlRt0Rr3Grfrxu5q2k/ya7ofLukDFTV
+         xbAxXkQ8T5GKwodaop0pHJx9/KmRlcyRsgmkz9e/7/1qCIO3Sj6DZq3K+KQcZE7troBz
+         Jf1hj+qyxyh8XF6Fx/guyYWE/i7UxJR65E/sZ3ex7jtEbL9M9UU/knWCIHDJTc1wnTzF
+         bS8Q==
+X-Gm-Message-State: APjAAAUrunYLa8zAkCO7Aj2iAaun4gi1PyOQwLgrh37lKNTmOE+Y8sXi
+        5CGTwzkm00gO/8exnw5gqg==
+X-Google-Smtp-Source: APXvYqwy8SA0ZY6TS2WSuhSqkpoE//XrYc9gQ9DbySPebHLRUVxHj7ufxND2egI0VpUD0DrkS21ywA==
+X-Received: by 2002:a9d:7408:: with SMTP id n8mr3916248otk.256.1556740326696;
+        Wed, 01 May 2019 12:52:06 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id i203sm8590198oif.32.2019.05.01.12.52.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 01 May 2019 12:52:06 -0700 (PDT)
+Date:   Wed, 1 May 2019 14:52:05 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc:     thierry.reding@gmail.com, bhelgaas@google.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, jonathanh@nvidia.com,
+        lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Subject: Re: [PATCH V2 23/28] dt-bindings: pci: tegra: Document PCIe DPD
+ pinctrl optional prop
+Message-ID: <20190501195205.GA16256@bogus>
+References: <20190423092825.759-1-mmaddireddy@nvidia.com>
+ <20190423092825.759-24-mmaddireddy@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1556720960; bh=xzT+9ba+DceKVlRkNgzKqIKE7WlhmlwTc7GlIb8E9ro=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=IaT2UBQzynNCN/2eXAVNDVLxSkZSDCAzS0LclJG1c3uS6XbayGWgg7i1NAGp7RZMF
-         PEEvqulVMyj29lGIme6Oxtgfoq0dEDr90f94ooyYI486Py/IdmcAS1wliKT5wuUAZj
-         1jva8sARGHkQqAYL61yFpXxKs0Z2uDxW3QLm8sslA0kNo61Q3wABU/1eKw7+OFK2+c
-         I+GfliL5FUFPU5DwhBb/1WlFaYWFy7njqV9XNFUYGJHkhaal3prKpFKyrNsDN+I8x8
-         k3gT7XPbrwG/46mL4qobH9/wdExfoo1Hn0vxIcJplCsyX+3EyeZxAft7IGkNPh0pcY
-         wiRkdWGYy1PQA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190423092825.759-24-mmaddireddy@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The max98090 driver defines 3 DAPM muxes; one for the right line output
-(LINMOD Mux), one for the left headphone mixer source (MIXHPLSEL Mux)
-and one for the right headphone mixer source (MIXHPRSEL Mux). The same
-bit is used for the mux as well as the DAPM enable, and although the mux
-can be correctly configured, after playback has completed, the mux will
-be reset during the disable phase. This is preventing the state of these
-muxes from being saved and restored correctly on system reboot. Fix this
-by marking these muxes as SND_SOC_NOPM.
+On Tue, 23 Apr 2019 14:58:20 +0530, Manikanta Maddireddy wrote:
+> Document PCIe DPD pinctrl optional property to put PEX clk & BIAS pads
+> in low power mode.
+> 
+> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+> ---
+> V2: Using standard pinctrl names, default and idle
+> 
+>  .../devicetree/bindings/pci/nvidia,tegra20-pcie.txt       | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
-Note this has been verified this on the Tegra124 Nyan Big which features
-the MAX98090 codec.
-
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
-If this is the correct fix for this issue, can we tag this for stable?
-Or I can re-send with the stable tag. However, wanted to send out for
-review first.
-
- sound/soc/codecs/max98090.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
-index 30c242c38d99..7619ea31ab50 100644
---- a/sound/soc/codecs/max98090.c
-+++ b/sound/soc/codecs/max98090.c
-@@ -1194,14 +1194,14 @@ static const struct snd_soc_dapm_widget max98090_dapm_widgets[] = {
- 		&max98090_right_rcv_mixer_controls[0],
- 		ARRAY_SIZE(max98090_right_rcv_mixer_controls)),
- 
--	SND_SOC_DAPM_MUX("LINMOD Mux", M98090_REG_LOUTR_MIXER,
--		M98090_LINMOD_SHIFT, 0, &max98090_linmod_mux),
-+	SND_SOC_DAPM_MUX("LINMOD Mux", SND_SOC_NOPM, 0, 0,
-+		&max98090_linmod_mux),
- 
--	SND_SOC_DAPM_MUX("MIXHPLSEL Mux", M98090_REG_HP_CONTROL,
--		M98090_MIXHPLSEL_SHIFT, 0, &max98090_mixhplsel_mux),
-+	SND_SOC_DAPM_MUX("MIXHPLSEL Mux", SND_SOC_NOPM, 0, 0,
-+		&max98090_mixhplsel_mux),
- 
--	SND_SOC_DAPM_MUX("MIXHPRSEL Mux", M98090_REG_HP_CONTROL,
--		M98090_MIXHPRSEL_SHIFT, 0, &max98090_mixhprsel_mux),
-+	SND_SOC_DAPM_MUX("MIXHPRSEL Mux", SND_SOC_NOPM, 0, 0,
-+		&max98090_mixhprsel_mux),
- 
- 	SND_SOC_DAPM_PGA("HP Left Out", M98090_REG_OUTPUT_ENABLE,
- 		M98090_HPLEN_SHIFT, 0, NULL, 0),
--- 
-2.7.4
-
+Reviewed-by: Rob Herring <robh@kernel.org>
