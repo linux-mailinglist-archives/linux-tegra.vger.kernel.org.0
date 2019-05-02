@@ -2,137 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 366F511A56
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 May 2019 15:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C0B211AD8
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 May 2019 16:08:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbfEBNgS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 May 2019 09:36:18 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:19016 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726267AbfEBNgS (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 May 2019 09:36:18 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ccaf24b0000>; Thu, 02 May 2019 06:36:12 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 02 May 2019 06:36:15 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 02 May 2019 06:36:15 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 2 May
- 2019 13:36:12 +0000
-Subject: Re: [PATCH 0/6] Add support for Tegra186/Tegra194 and generic fixes
-To:     Sameer Pujar <spujar@nvidia.com>, <vkoul@kernel.org>,
-        <dan.j.williams@intel.com>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>
-CC:     <thierry.reding@gmail.com>, <ldewangan@nvidia.com>,
-        <dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1556801717-31507-1-git-send-email-spujar@nvidia.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <f8486dab-f95b-a4b1-36f2-89b98086d0cb@nvidia.com>
-Date:   Thu, 2 May 2019 14:36:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726278AbfEBOI6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 May 2019 10:08:58 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:46460 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726197AbfEBOI6 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 2 May 2019 10:08:58 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D2F3374;
+        Thu,  2 May 2019 07:08:57 -0700 (PDT)
+Received: from fuggles.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 07E833F220;
+        Thu,  2 May 2019 07:08:55 -0700 (PDT)
+Date:   Thu, 2 May 2019 15:08:50 +0100
+From:   Will Deacon <will.deacon@arm.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Joerg Roedel <joro@8bytes.org>,
+        Marc Gonzalez <marc.w.gonzalez@free.fr>,
+        Douglas Anderson <dianders@chromium.org>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2] iommu/arm-smmu: Break insecure users by disabling
+ bypass by default
+Message-ID: <20190502140850.GA9500@fuggles.cambridge.arm.com>
+References: <20190301192017.39770-1-dianders@chromium.org>
+ <20190404145957.GA25912@fuggles.cambridge.arm.com>
+ <4754bcf1-6423-f1fe-64d4-da4a35b164ad@free.fr>
+ <20190424115231.GA14829@fuggles.cambridge.arm.com>
+ <20190502105912.GA943@ulmo>
+ <20190502110821.GD30966@fuggles.cambridge.arm.com>
+ <20190502124525.GA3579@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <1556801717-31507-1-git-send-email-spujar@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL101.nvidia.com (172.20.187.10)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1556804172; bh=zQW3UmrtuFX0g5vUoqAHKLUOOl8w+C8rfhpSmD8+zhk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=pyqAnV2poqrhI/+V/m5PoRRYO9zOVdkIGqBjd7mJZpBUz5Hwq3qv3oAwA0bO+Resk
-         YXQEzi/3XX626Ghcf9jMnbCqEC4FNnphYu2UvtuOZLEbYUarQU/1JVhEKgUDVG47Nw
-         ABnf6z1ke3aaRJ6Tpt1/SMHiv7gxcS1af/K2a2QxZjZmgO8lOc3sFE8ToBH5Rnsc+h
-         ytBMnAimMS08Ulji4WreVCeyYIvn/jheqYfYiZmNyxRK+l6NKOGuDJgHanv0Q7D/ii
-         ZmZtd4ySIRI1PvCBJez2hROmoo+0qMbcnQnJ2sWgvepEYMqZ+u3WhAi8K2dreBYJTA
-         Y5hnrQ/EDE3ww==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190502124525.GA3579@ulmo>
+User-Agent: Mutt/1.11.1+86 (6f28e57d73f2) ()
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Thu, May 02, 2019 at 02:45:25PM +0200, Thierry Reding wrote:
+> On Thu, May 02, 2019 at 12:08:21PM +0100, Will Deacon wrote:
+> > On Thu, May 02, 2019 at 12:59:12PM +0200, Thierry Reding wrote:
+> > > This made it to linux-next yesterday (less than a week before the merge
+> > > window opens) and deliberately breaks existing configurations. That's a
+> > > little rude.
+> > > 
+> > > At least give people a fair heads-up and a chance to fix things before
+> > > you start break things.
+> > 
+> > Sorry about the inconvenience here.
+> > 
+> > This patch has been floating around for a while (albeit not in -next, since
+> > I send my stuff via Joerg)
+> 
+> You can't expect people to test random patches from the list if they're
+> not on Cc. I don't think it's safe to claim that patches have been well
+> tested until they've been in linux-next for at least a couple of days.
 
-On 02/05/2019 13:55, Sameer Pujar wrote:
-> Audio DMA(ADMA) interface is a gateway in the AHUB for facilitating DMA
-> transfers between memory and all of its clients. Currently the driver
-> supports Tegra210 based platforms. This series adds support for Tegra186
-> and Tegra194 based platforms and fixes few functional issues.
-> 
-> Patches in the series are classified into three categories,
->   1. Add support for Tegra186 and Tegra194
->   2. Add DMA pause/resume feature
->   3. Fixes common to differernt Tegra generations
-> 
-> Below change log describes the patches in detail.
-> 
-> Change log:
-> =====================================
-> v1
-> ----
-> The series can be classified into 3 categories,
->   1. Add support for Tegra186 and Tegra194
->      [Patch 1/6] dmaengine: tegra210-adma: prepare for supporting newer
->      Tegra chips
->        * The support was there only for Tegra210
->        * This is a preparation for adding support for newer Tegra chips
->        * chip_data is enhanced to support differences between Tegra210 and
->          Tegra186/Tegra194
->      [Patch 2/6] Documentation: DT: Add compatibility binding for Tegra186
->        * New compatibility string is required for driver to work for
->          Tegra186 and Tegra194. Hence new compatibility is introduced.
->        * Tegra194 can use the same compatibility as Tegra186
->      [Patch 3/6] dmaengine: tegra210-adma: add support for Tegra186/
->      Tegra194
->        * Populates chip specific information for Tegra186
->        * There is a difference in the way ADMA CH_CONFIG registers are
->          encoded for Tegra210 and Tegra186. Added helper fucntions to
->          support different versions of burst size configuration
-> 
->   2. Add DMA pause/resume feature
->      [Patch 4/6] dmaengine: tegra210-adma: add pause/resume support
->        * Adds support for ADMA pause/resume, otherwise audio loss was seen
->          during continuous pause/resume of audio playback.
-> 
->   3. Fixes common to differernt Tegra generations
->      [Patch 5/6] dmaengine: tegra210-dma: free dma controller in remove()
->        * Fixes kernel panic observed during driver reload. DMA controller
->          needs to be freed when driver is unloaded
->      [Patch 6/6] dmaengine: tegra210-adma: restore channel status
->        * Fixes resume across system suspend. If the channel state is not
->          restored, the transfers won't resume from the state from where it
->          was left during suspend entry. In this case, audio playback did
->          not resume properly once system exited from low power state.
-> 
-> ===============================
-> Sameer Pujar (6):
->   dmaengine: tegra210-adma: prepare for supporting newer Tegra chips
->   Documentation: DT: Add compatibility binding for Tegra186
->   dmaengine: tegra210-adma: add support for Tegra186/Tegra194
->   dmaengine: tegra210-adma: add pause/resume support
->   dmaengine: tegra210-dma: free dma controller in remove()
->   dmaengine: tegra210-adma: restore channel status
-> 
->  .../bindings/dma/nvidia,tegra210-adma.txt     |   4 +-
->  drivers/dma/tegra210-adma.c                   | 232 +++++++++++++++++----
->  2 files changed, 193 insertions(+), 43 deletions(-)
-> 
+I didn't claim it had been well tested. I also don't think being in
+linux-next implies a patch has been well tested, to be honest with you.
+What I can say is that this has been discussed on the public mailing list
+for some time, and the outcome of that discussion is this patch.
 
-Thanks!
+> >                            and is heading for 5.3, so you have ages to fix
+> > up your config!
+> 
+> Last I checked, Joerg applied this for 5.2 because you sent it as part
+> of your "Updates for 5.2" pull request.
 
-For the series ...
+Sorry, I meant 5.2: the kernel that will be released in ~2 months time,
+during which you'll be able to fix issues like this one. If we're having
+unresolvable issues late in the cycle, then we can clearly revert this
+patch.
 
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+> >                 It would, of course, be better to configure the IOMMU to
+> > provide mappings for your DMA peripherals, but the trivial config change
+> > will be enough to keep things working. We won't remove that as long as
+> > people are relying on it.
+> 
+> I don't think the Kconfig option is really useful. People nowadays want
+> to run standard distribution kernels on their devices, and distribution
+> maintainers will often rely on kernel developers' guidance on what good
+> defaults are. This patch suggests that the default should be to disable
+> bypass, so if this hits 5.2 final and distributions create their kernel
+> packages, they're likely going to go with this default and potentially
+> break things for many of their users.
 
-Cheers
-Jon
+I'd say that people nowadays also want security by default, so it's a tough
+crowd to please. You can still fix your .dts (I see there's a patch from Jon
+doing that), or pass "arm-smmu.disable_bypass=0" on the cmdline to fix
+things if you're not in a position to change the .config for your kernel
+image.
 
--- 
-nvpublic
+> Luckily this seems like it's fairly easy to fix, but given that we're
+> past v5.1-rc6, fixes for this now need to get special treatment. That
+> would've been okay if this was a pressing issues, but this is changing
+> something that's worked this way for ages, so it's hardly urgent.
+
+Why the special treatment? You can continue to merge fixes after the merge
+window, no? I feel like I'm missing something in your workflow here.
+
+> > I don't expect most people to run into problems with this change (the new
+> > behaviour matches what SMMUv3 does already).
+> 
+> I see the ARM SMMU v2 used in quite a few DTS files. Not all of these
+> may be problematic, but I'd be somewhat surprised if Tegra was the only
+> one impacted.
+
+I didn't say this was specific to Tegra, only that I don't expect most
+people to see any issue. I'm sure there will be others, and we can fix
+them up as they appear. I can't think of a better way of toggling the
+default behaviour.
+
+Will
