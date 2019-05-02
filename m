@@ -2,122 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AAC5411152
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 May 2019 04:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32E62111B1
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 May 2019 04:42:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726310AbfEBCUG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 May 2019 22:20:06 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:56908 "EHLO
+        id S1726231AbfEBCmM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 May 2019 22:42:12 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:39154 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726640AbfEBCTP (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 May 2019 22:19:15 -0400
+        with ESMTP id S1726191AbfEBCmM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 May 2019 22:42:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
-        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=qn5Pu9SeCeSm13Dg3lR1i9rI9Ck3sTa0tClj1YYd9FA=; b=rVFtzOs+yibi
-        yC7njH5GNfpJZL6ue9Jd3Ia7FawklWHoZF8FaQ0ppYH6k1f9XJgQLSdTWL+nidFrDHqbbHtV2iHo8
-        lHGxBafow7NluMN1IzYz+8qROIdA5ygo2BfLKh/S68YLVB+elYviDydiQrK6JM+9Kf0cfvpzkn1/F
-        twogM=;
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=RQycgOI7TQiHnn6G3te99vU3cYPvSzTcJudMZ61IXZQ=; b=AjViRcaLcDZVQ6cSw1edgQTn/
+        FF+nDFbWw710FRhA/9bNhVT9R3YcO5X0YwlcB7XLn6/1JggawODHic4p/Auje1pRcRjaqhkCAW78a
+        /3ednAJWpIiCIiyhi2/vgshjWGdPNv4kUsoE1CnamIjv+H+PqUQOBNk8uwfXq71IrJzIA=;
 Received: from [211.55.52.15] (helo=finisterre.ee.mobilebroadband)
         by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.89)
         (envelope-from <broonie@sirena.org.uk>)
-        id 1hM1JV-0005wN-NU; Thu, 02 May 2019 02:19:10 +0000
+        id 1hM1fi-00060m-1x; Thu, 02 May 2019 02:42:06 +0000
 Received: by finisterre.ee.mobilebroadband (Postfix, from userid 1000)
-        id C1260441D3C; Thu,  2 May 2019 03:19:05 +0100 (BST)
+        id F3EE4441D3C; Thu,  2 May 2019 03:42:01 +0100 (BST)
+Date:   Thu, 2 May 2019 11:42:01 +0900
 From:   Mark Brown <broonie@kernel.org>
 To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     broonie@kernel.org, devicetree@vger.kernel.org,
-        jonathanh@nvidia.com, kyarlagadda@nvidia.com, ldewangan@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        mark.rutland@arm.com, robh+dt@kernel.org, skomatineni@nvidia.com,
-        talho@nvidia.com, thierry.reding@gmail.com
-Subject: Applied "spi: expand mode support" to the spi tree
-In-Reply-To:  <1555363834-32155-3-git-send-email-skomatineni@nvidia.com>
-X-Patchwork-Hint: ignore
-Message-Id: <20190502021905.C1260441D3C@finisterre.ee.mobilebroadband>
-Date:   Thu,  2 May 2019 03:19:05 +0100 (BST)
+Cc:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Krishna Yarlagadda <kyarlagadda@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        Timo Alho <talho@nvidia.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>
+Subject: Re: Applied "spi: tegra114: fix PIO transfer" to the spi tree
+Message-ID: <20190502024201.GU14916@sirena.org.uk>
+References: <1555363834-32155-2-git-send-email-skomatineni@nvidia.com>
+ <20190416163257.956F211281C6@debutante.sirena.org.uk>
+ <BYAPR12MB33989027C79790E4B3CC827CC2390@BYAPR12MB3398.namprd12.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jllsgs4PL/sXFNaa"
+Content-Disposition: inline
+In-Reply-To: <BYAPR12MB33989027C79790E4B3CC827CC2390@BYAPR12MB3398.namprd12.prod.outlook.com>
+X-Cookie: -- I have seen the FUN --
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The patch
 
-   spi: expand mode support
+--jllsgs4PL/sXFNaa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-has been applied to the spi tree at
+On Mon, Apr 29, 2019 at 09:42:39PM +0000, Sowjanya Komatineni wrote:
+> Hi Mark,
+>=20
+> I don't see below patches that I see as applied in latest linux-next.
+> Can you please confirm if they are applied?
+>=20
+> Applied "spi: tegra114: fix PIO transfer" to the spi tree
+> Applied "spi: expand mode support" to the spi tree
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git 
+Check again, they should be restored now.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+--jllsgs4PL/sXFNaa
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzKWPkACgkQJNaLcl1U
+h9DYAwf+MNXdI7RM9oCnExD93pc31GFmhhpwuxn0wXF2H8qg9jWwV87Qk4S6bQad
+84+WJDZYteWg3gwEh5Gx37njs6wpVd8SAss0WLwEbWqdNf69U28K2jSMEcPWmAIG
+QeQeukw5cm3dyHUOpqaQnl+idg0RxIUjSU7FXFJLz4B9pOqbH71Vozf+ZKH/v1kg
+Pzc5Kwla5P2aO4V55R4JLM/M0wrbk7rUMw1rww8kfIm8FwmdxN5G9812yburnI3b
+q3k0PDCYT1QnxFKC/ZrzdLy+etMUHinOaHLBKy/b8UWWewZ7zNBs3m+yctbmXZMz
+3MCsM8VordXwiEmuKeN1AyQGoHbrtw==
+=evNI
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From 937e6d756422637eeb212c645ded69569a67fabc Mon Sep 17 00:00:00 2001
-From: Sowjanya Komatineni <skomatineni@nvidia.com>
-Date: Mon, 15 Apr 2019 14:30:27 -0700
-Subject: [PATCH] spi: expand mode support
-
-This patch changes mode and mode_bits from u16 to u32 to allow more
-mode configurations.
-
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- include/linux/spi/spi.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
-index 589f9dc9ac2b..053abd22ad31 100644
---- a/include/linux/spi/spi.h
-+++ b/include/linux/spi/spi.h
-@@ -143,7 +143,7 @@ struct spi_device {
- 	u32			max_speed_hz;
- 	u8			chip_select;
- 	u8			bits_per_word;
--	u16			mode;
-+	u32			mode;
- #define	SPI_CPHA	0x01			/* clock phase */
- #define	SPI_CPOL	0x02			/* clock polarity */
- #define	SPI_MODE_0	(0|0)			/* (original MicroWire) */
-@@ -443,7 +443,7 @@ struct spi_controller {
- 	u16			dma_alignment;
- 
- 	/* spi_device.mode flags understood by this controller driver */
--	u16			mode_bits;
-+	u32			mode_bits;
- 
- 	/* bitmask of supported bits_per_word for transfers */
- 	u32			bits_per_word_mask;
-@@ -1291,7 +1291,7 @@ struct spi_board_info {
- 	/* mode becomes spi_device.mode, and is essential for chips
- 	 * where the default of SPI_CS_HIGH = 0 is wrong.
- 	 */
--	u16		mode;
-+	u32		mode;
- 
- 	/* ... may need additional spi_device chip config data here.
- 	 * avoid stuff protocol drivers can set; but include stuff
--- 
-2.20.1
-
+--jllsgs4PL/sXFNaa--
