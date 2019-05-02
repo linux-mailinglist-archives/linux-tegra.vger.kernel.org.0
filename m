@@ -2,67 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51497110BB
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 May 2019 02:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CBCE110CB
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 May 2019 02:53:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726152AbfEBArB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 1 May 2019 20:47:01 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:42406 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbfEBArB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 May 2019 20:47:01 -0400
-Received: by mail-oi1-f195.google.com with SMTP id k9so334494oig.9;
-        Wed, 01 May 2019 17:47:00 -0700 (PDT)
+        id S1726186AbfEBAxE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 1 May 2019 20:53:04 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:55734 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726126AbfEBAxE (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 1 May 2019 20:53:04 -0400
+Received: by mail-it1-f195.google.com with SMTP id i131so528954itf.5;
+        Wed, 01 May 2019 17:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=SMeSIjBMoztFLs1N6yeylbhEwFQ8aE16zamS1zR69mw=;
+        b=iy/Sn6XaDIKRiDSuy0xTaguACJf6ApHbDUyojNS1rXStyorLACsb0v6xqDZ/RxD+D7
+         dn7+rhRXc69rcLC/sDFHT/DqJJBU9EbuhBQmC+AoUsq1I1DIPuSLxVNYuSzAxnVZy+LU
+         yfriT2A10Lm2/4Zy1PSYiDXbmIKa0hgDeC0dT6oAIpVXH6xh3kYPPV6EM+hF1KTpLbJZ
+         Nla30v/MTpGqk3M+hYHJEDR9Q1z45PSmeGhXGUv7X13IbgDVk+6RK7Rh7wcvFinFu+vH
+         Yj3avo4TqzqlICz+BG7kCu/IChct8jmUxDs9pnXMWLUa/z4vEcAFYml4gvBh+40F5Usj
+         3uYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZfecKHRTvytAcXcFmOEVdj1Q7ZztnHj3r4gQ49oisAc=;
-        b=K3h2fsOPt92gYOisKOF6WDsXhkEMQ5ycQ4xD/lo42da2ZiGLO/J3I/LPgj9KGJwxUZ
-         pT4t8TP39YwyEPe0ptbPGCMv3CzPnTMabJHXko/egTjJmBK5aRWeaYUFqt+4eAt+fKNf
-         JV5BUhl+YsXHkzlnuxOszPUOq9fxODMDfDTfLSzP9sUSTg20eWdMVAhYWdtpyLbdwbSL
-         Q8OG83H5Wev3m3w3TZSz06z+g5EBsRJrBZyMFOOfVBktQXH7pFPsmRP0M0CG90wyWRRI
-         78e72cqS/xjTaSisZq3jenayulQHDtPZC1bGXmajSuP8vc7J/7EZNtV628rEkXXTqNDk
-         p5Ag==
-X-Gm-Message-State: APjAAAUhRbqbwu+jPvalr50DZqrE5YzJ/OFR+xZkDrI9AFy2a+UBPdTY
-        GdNmBO8F7X00Uje31a9sOw==
-X-Google-Smtp-Source: APXvYqwZOXC3bhODKwX9GdJwJv46yY0GEgdpowddpiAfUtST/M1BCCeX1pmPyLY8GVmBTQHTGjV4YQ==
-X-Received: by 2002:a54:4f15:: with SMTP id e21mr722322oiy.122.1556758020405;
-        Wed, 01 May 2019 17:47:00 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id w5sm2172745otg.34.2019.05.01.17.46.59
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 01 May 2019 17:46:59 -0700 (PDT)
-Date:   Wed, 1 May 2019 19:46:59 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Krishna Yarlagadda <kyarlagadda@nvidia.com>
-Cc:     linus.walleij@linaro.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, pdeschrijver@nvidia.com,
-        josephl@nvidia.com, smangipudi@nvidia.com, ldewangan@nvidia.com,
-        vidyas@nvidia.com, Krishna Yarlagadda <kyarlagadda@nvidia.com>
-Subject: Re: [PATCH 1/2] dt-binding: Tegra194 pinctrl support
-Message-ID: <20190502004659.GA8049@bogus>
-References: <1556247378-3335-1-git-send-email-kyarlagadda@nvidia.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=SMeSIjBMoztFLs1N6yeylbhEwFQ8aE16zamS1zR69mw=;
+        b=jVHdkM1eLVj8fd0F5Qp3NZ59MeXG33pIhaj5r2rnFelYqVeptpN1s+q832jhBWkg8M
+         UVaTLwKihCz4K4mLTrIMGQFlRt8H2jdhtZV3l+Rupt7TxTvh5dYhjuc0AFxTmAx7Jnma
+         HeGND1W3NqI0AONWXY5TWdJk70rUYOHdTLljiTHmI1EeT2RnK9I9C6DD6S2odrWp1EZr
+         kLfa6+4dos/qDQbPY9b3jO1b8N4B9kFCTOYN+y6ZOUM6U0hZkLUMlIX0T/0oMEhQBlE5
+         OHe8iZVfpzol6dE3KBNkNZQNnnTVLtyWC2z30kMSxy4uS1aLIjhjUDUCCkbu+Qeb0aT8
+         OZJQ==
+X-Gm-Message-State: APjAAAVywGWpYJYN68igFdGKkrUAt2QJJcItKUPRL++nMWPgVIbAixPa
+        xcmwmYUGS7OVzjVEVDZKrdjFUTgJ
+X-Google-Smtp-Source: APXvYqy3d6dJXuMHx07TIlwjPLHrrzD18rTenNrcq63rPhYmeSCO98a7pjuckVpAlPuBAvYyFxZv3Q==
+X-Received: by 2002:a02:6307:: with SMTP id j7mr525665jac.65.1556758383076;
+        Wed, 01 May 2019 17:53:03 -0700 (PDT)
+Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.googlemail.com with ESMTPSA id d10sm4370934ios.72.2019.05.01.17.52.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 01 May 2019 17:53:02 -0700 (PDT)
+Subject: Re: [PATCH v2 2/4] dt-bindings: memory: Add binding for NVIDIA
+ Tegra30 External Memory Controller
+To:     Rob Herring <robh@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Joseph Lo <josephl@nvidia.com>, devicetree@vger.kernel.org,
+        linux-clk <linux-clk@vger.kernel.org>,
+        linux-tegra@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20190414202009.31268-1-digetx@gmail.com>
+ <20190414202009.31268-3-digetx@gmail.com> <20190429220542.GA17924@bogus>
+ <137c766e-66f6-828a-5c3b-f526d66d37bd@gmail.com>
+ <CAL_JsqKCWytgQEDPLX27xdaDrARtHssbhFcL47RO0zfECm0Gig@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <27d24f4e-cf4c-b2d1-140a-5dcef021fa40@gmail.com>
+Date:   Thu, 2 May 2019 03:52:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1556247378-3335-1-git-send-email-kyarlagadda@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAL_JsqKCWytgQEDPLX27xdaDrARtHssbhFcL47RO0zfECm0Gig@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 26 Apr 2019 08:26:17 +0530, Krishna Yarlagadda wrote:
-> Add new compatible string and other fields used in pinctrl
-> driver for Tegra194 in nvidia,tegra210-pinmux.txt
+02.05.2019 3:17, Rob Herring пишет:
+> On Wed, May 1, 2019 at 7:06 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> 30.04.2019 1:05, Rob Herring пишет:
+>>> On Sun, Apr 14, 2019 at 11:20:07PM +0300, Dmitry Osipenko wrote:
+>>>> Add device-tree binding for NVIDIA Tegra30 External Memory Controller.
+>>>> The binding is based on the Tegra124 EMC binding since hardware is
+>>>> similar, although there are couple significant differences.
+>>>
+>>> My comments on Tegra124 binding apply here.
+>>
+>> The common timing definition doesn't fully match the definition that is
+>> used by Tegra's Memory Controller, thus the DQS (data strobe) timing
+>> parameter is comprised of multiple sub-parameters that describe how to
+>> generate the strobe in hardware. There are also more additional
+>> parameters that are specific to Tegra and they are individually
+>> characterized for each memory model and clock rate. Hence the common
+>> timing definition isn't usable.
 > 
-> Signed-off-by: Krishna Yarlagadda <kyarlagadda@nvidia.com>
-> ---
->  .../bindings/pinctrl/nvidia,tegra210-pinmux.txt    | 43 +++++++++++++++++++---
->  1 file changed, 38 insertions(+), 5 deletions(-)
-> 
+> I don't understand. Every PC in the world can work with any DIMM
+> (within a given generation) just with SPD data. Why is that not
+> sufficient here?
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Because this is not a standard PC, but a custom embedded hardware that
+is simpler and also doesn't fully follow the standards in some cases.
+
+> In any case, it seems for Tegra124 a different approach is going to be
+> taken. Seems like an "avoid DT" solution to me, but if it's contained
+> within the firmware it's not my problem.
+
+My above comment really applies to all Terga's.
+
+The Tegra210 is also a bit more complicated case because of the
+proprietary signed firmware that can't be easily replaced with
+opensource alternative without special hacks, but AFAIK the unofficial
+opensource firmware will be available in some form for at least one
+consumer device (Nintendo Switch).
+
+Please write a detailed comment to the Tegra210's patch, saying what you
+would want to see changed. I'm sure Joseph will try to do his best.
+
+Note that it is always possible to define a proper device tree binding
+and then also "unofficially" support the downstream binding, IIRC that's
+what some drivers are already doing in upstream kernel. So I think you
+could just demand for the proper binding regardless of the firmware
+situation.
