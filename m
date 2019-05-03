@@ -2,169 +2,176 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7472211B61
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 May 2019 16:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C433B12580
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 May 2019 02:30:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbfEBO16 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 May 2019 10:27:58 -0400
-Received: from foss.arm.com ([217.140.101.70]:46808 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726197AbfEBO16 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 2 May 2019 10:27:58 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F3C87374;
-        Thu,  2 May 2019 07:27:57 -0700 (PDT)
-Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E8E93F5AF;
-        Thu,  2 May 2019 07:27:56 -0700 (PDT)
-Subject: Re: [PATCH v2] iommu/arm-smmu: Break insecure users by disabling
- bypass by default
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Will Deacon <will.deacon@arm.com>
-Cc:     Marc Gonzalez <marc.w.gonzalez@free.fr>,
-        Joerg Roedel <joro@8bytes.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-References: <20190301192017.39770-1-dianders@chromium.org>
- <20190404145957.GA25912@fuggles.cambridge.arm.com>
- <4754bcf1-6423-f1fe-64d4-da4a35b164ad@free.fr>
- <20190424115231.GA14829@fuggles.cambridge.arm.com>
- <20190502105912.GA943@ulmo>
- <20190502110821.GD30966@fuggles.cambridge.arm.com>
- <20190502124525.GA3579@ulmo>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <94cf6d56-5dcb-051a-06da-5edfacde1655@arm.com>
-Date:   Thu, 2 May 2019 15:27:55 +0100
+        id S1726022AbfECAaq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 May 2019 20:30:46 -0400
+Received: from mailout2.samsung.com ([203.254.224.25]:64505 "EHLO
+        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726126AbfECAap (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 May 2019 20:30:45 -0400
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20190503003042epoutp02eba73700112210d88ae45bb4cb7b7d99~bBNzRCUhs0822708227epoutp02i
+        for <linux-tegra@vger.kernel.org>; Fri,  3 May 2019 00:30:42 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20190503003042epoutp02eba73700112210d88ae45bb4cb7b7d99~bBNzRCUhs0822708227epoutp02i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1556843442;
+        bh=/mW0a7EgdXP+GfFi7jYspPoh/2Xo3nNNKJQZy1psROk=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=EevzGfXb8KTzL6LdBVYKdAHdsF8ClX/SMOfJQ283GORN7+v5FG4Wr1/yg/ROGoPiI
+         dYY8U/uCPbJWme42IOaH2oqrMM5lr9SZqmzQJiq6Uge1ZweUs5wgN+RQ95NtGhj/KT
+         Wmukf9DhF5ohgNxL79386oF54kcwcMa0PuGuIML0=
+Received: from epsmges1p4.samsung.com (unknown [182.195.40.154]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+        20190503003039epcas1p43ba529e11d0482a746ba80d2f4c223c7~bBNwxuz4g0549105491epcas1p48;
+        Fri,  3 May 2019 00:30:39 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        07.06.04257.FAB8BCC5; Fri,  3 May 2019 09:30:39 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+        20190503003039epcas1p3aafe98914e562da9afcb98efafc34a51~bBNwG0R532972529725epcas1p3D;
+        Fri,  3 May 2019 00:30:39 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20190503003039epsmtrp24b72614b729428bcafc33a4c336fa573~bBNwGB4vn2268622686epsmtrp2L;
+        Fri,  3 May 2019 00:30:39 +0000 (GMT)
+X-AuditID: b6c32a38-5e3ff700000010a1-be-5ccb8bafdc1f
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        09.F8.03692.FAB8BCC5; Fri,  3 May 2019 09:30:39 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20190503003038epsmtip16700f36f9cdb8a16aa7ab99078369749~bBNvzI7zd1157511575epsmtip1W;
+        Fri,  3 May 2019 00:30:38 +0000 (GMT)
+Subject: Re: [PATCH v4 00/16] NVIDIA Tegra devfreq improvements and
+ Tegra20/30 support
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <60ef6e47-e61b-3a92-e90d-90debedfcfc4@samsung.com>
+Date:   Fri, 3 May 2019 09:31:57 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190502124525.GA3579@ulmo>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20190501233815.32643-1-digetx@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SWUwTURSGc9vOtBCKY0E4VKM4+mJDgRFaRyPEBGJqJIZEEzcCjnRsCe20
+        6RSi+KIWN9QqaowWogQxKhVLFJVFhADRqHGJKAEMuEBUdhE34jrtYOTtm3P+c/7737kKqaoa
+        VytyOCfr4BgLiQfLbrYu0mp9hx5mxBd362jveB+iCz3lMvrRnmE53V5fitMTR9oQffCzB6df
+        7r6E05P1Z2W0u+oZviLIUNtTgQx1nh654YhrFDe4ayqRYeLa3HRsU+5yM8sYWUc0y2XbjDmc
+        KYlcvTYrJUunj6e01FJ6CRnNMVY2iUxNS9euzLEIByKj8xlLnlBKZ3iejEte7rDlOdlos413
+        JpGs3WixL7XH8oyVz+NMsdk26zIqPn6xThBuyTV3DU3i9q6I7ecGnsh3oaKZRShIAUQivO0s
+        x4pQsEJF1CKofPdVJn58QuDrm8T9KhXxFUFndcS/Cd9YlUQUNSLYe/zB1PgYgpqTZZhfFUZs
+        gMHyq1J/I5z4jeBT/elAQ0pshNY6r8TPOKGBpg+dAYsZxHx48b0P+VlJJMPg8z9SP8uIhVD3
+        42mAZwlLX92txkTNTLh/pl/m5yBCD66PzRJxfyR095+b4nngulESOAQQ33DoKjsmFTOkwvhw
+        MS5yGAzeq5GLrIaJ0cap+k64fL8NF4cPCNGanmJiIwGaLpwQHBSCwyLw1ceJZqEw+uUw5i8D
+        oYQD+1SiegG0v+6RiBwF5/cfnFpvgHvHG7BjaL5nWhzPtAieaRE8/83KkKwSRbB23mpiecqe
+        OP13X0OB16qha9Htx2ktiFAgMkQJvQ8yVBiTz++wtiBQSMlwZea4UFIamR0FrMOW5cizsHwL
+        0gm3XSxVz8q2CW+fc2ZRusUJCQl0IqXXURQZqfStSMlQESbGyeayrJ11/JuTKILUu1CUV8O5
+        kn59HygYmzO3NPNn+eeLhUMpm8syQ3XJpjBNofx6fnNMyJU76670WB+e0htnd/SPVJu8Je6O
+        gcT2W66bFYWZ+tCcVWcHovq/bXX3drgaUi6PaIPPl3pHKwrqtmktVe9j00pisGL1OrubCz9q
+        nly1PrRVnmo5Ojby5kLaGlLGmxlKI3XwzF9/oYjYwwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFIsWRmVeSWpSXmKPExsWy7bCSnO767tMxBpcPsFms/viY0aJl1iIW
+        i7NNb9gtLu+aw2bxufcIo0Xnl1lsFrcbV7BZ/Nw1j8Wib+0lNgdOjx13lzB67Jx1l92jt/kd
+        m0ffllWMHp83yQWwRnHZpKTmZJalFunbJXBl3Hz9k63gpljF/Jfn2RsYuwS7GDk5JARMJNa/
+        X8vUxcjFISSwm1Hi0A+gFFhCUmLaxaPMXYwcQLawxOHDxRA1bxkl/h9bwQRSIywQITH/wiWw
+        ZhGBJiaJzw9bwBLMApESPXO3sIHYQgKdjBJnpoDZbAJaEvtf3ACz+QUUJa7+eAy2jFfATuLV
+        lf/MIDaLgIrEzt8XwGxRoAVn3q9ggagRlDg58wmYzSlgJtH84QDULnWJP/MuMUPY4hK3nsyH
+        istLNG+dzTyBUXgWkvZZSFpmIWmZhaRlASPLKkbJ1ILi3PTcYsMCw7zUcr3ixNzi0rx0veT8
+        3E2M4BjT0tzBeHlJ/CFGAQ5GJR7eggenYoRYE8uKK3MPMUpwMCuJ8MZ9BArxpiRWVqUW5ccX
+        leakFh9ilOZgURLnfZp3LFJIID2xJDU7NbUgtQgmy8TBKdXAmN+1+XHzp28dir3lZTvWa9UJ
+        CunvdvWVEdr8wVmirH9OU8TNlZ/7Db5evHBur9jD7X+e6ByQUvhfrl6bM4vJNeq4bdWCYynl
+        hw6dUNj3L2YtN1fREo7GcMXAf7/Ydv5WN8j/lccckatvoFffdv1ghk+0pQqT+nbpPSvu7dpU
+        FWuz0UHs4Yf5SizFGYmGWsxFxYkAJvgQ7K0CAAA=
+X-CMS-MailID: 20190503003039epcas1p3aafe98914e562da9afcb98efafc34a51
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20190501234148epcas5p1cc9a8dafa9ee6d8d046d1292b8270727
+References: <CGME20190501234148epcas5p1cc9a8dafa9ee6d8d046d1292b8270727@epcas5p1.samsung.com>
+        <20190501233815.32643-1-digetx@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 02/05/2019 13:45, Thierry Reding wrote:
-> On Thu, May 02, 2019 at 12:08:21PM +0100, Will Deacon wrote:
->> On Thu, May 02, 2019 at 12:59:12PM +0200, Thierry Reding wrote:
->>> On Wed, Apr 24, 2019 at 12:52:31PM +0100, Will Deacon wrote:
->>>> On Wed, Apr 24, 2019 at 01:36:58PM +0200, Marc Gonzalez wrote:
->>>>> On 04/04/2019 17:00, Will Deacon wrote:
->>>>>
->>>>>> On Fri, Mar 01, 2019 at 11:20:17AM -0800, Douglas Anderson wrote:
->>>>>>
->>>>>>> If you're bisecting why your peripherals stopped working, it's
->>>>>>> probably this CL.  Specifically if you see this in your dmesg:
->>>>>>>    Unexpected global fault, this could be serious
->>>>>>> ...then it's almost certainly this CL.
->>>>>>>
->>>>>>> Running your IOMMU-enabled peripherals with the IOMMU in bypass mode
->>>>>>> is insecure and effectively disables the protection they provide.
->>>>>>> There are few reasons to allow unmatched stream bypass, and even fewer
->>>>>>> good ones.
->>>>>>>
->>>>>>> This patch starts the transition over to make it much harder to run
->>>>>>> your system insecurely.  Expected steps:
->>>>>>>
->>>>>>> 1. By default disable bypass (so anyone insecure will notice) but make
->>>>>>>     it easy for someone to re-enable bypass with just a KConfig change.
->>>>>>>     That's this patch.
->>>>>>>
->>>>>>> 2. After people have had a little time to come to grips with the fact
->>>>>>>     that they need to set their IOMMUs properly and have had time to
->>>>>>>     dig into how to do this, the KConfig will be eliminated and bypass
->>>>>>>     will simply be disabled.  Folks who are truly upset and still
->>>>>>>     haven't fixed their system can either figure out how to add
->>>>>>>     'arm-smmu.disable_bypass=n' to their command line or revert the
->>>>>>>     patch in their own private kernel.  Of course these folks will be
->>>>>>>     less secure.
->>>>>>>
->>>>>>> Suggested-by: Robin Murphy <robin.murphy@arm.com>
->>>>>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->>>>>>> ---
->>>>>>>
->>>>>>> Changes in v2:
->>>>>>> - Flipped default to 'yes' and changed comments a lot.
->>>>>>>
->>>>>>>   drivers/iommu/Kconfig    | 25 +++++++++++++++++++++++++
->>>>>>>   drivers/iommu/arm-smmu.c |  3 ++-
->>>>>>>   2 files changed, 27 insertions(+), 1 deletion(-)
->>>>>>
->>>>>> Cheers, I'll pick this one up for 5.2.
->>>>>
->>>>> Hello Will,
->>>>>
->>>>> You haven't pushed this patch out to linux-next AFAICT.
->>>>>
->>>>> Is that expected?
->>>>
->>>> It's on my branch for Joerg:
->>>>
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=for-joerg/arm-smmu/updates
->>>>
->>>> which I'll send to him today. My SMMU stuff doesn't go directly into -next.
->>>
->>> This made it to linux-next yesterday (less than a week before the merge
->>> window opens) and deliberately breaks existing configurations. That's a
->>> little rude.
->>>
->>> At least give people a fair heads-up and a chance to fix things before
->>> you start break things.
->>
->> Sorry about the inconvenience here.
->>
->> This patch has been floating around for a while (albeit not in -next, since
->> I send my stuff via Joerg)
-> 
-> You can't expect people to test random patches from the list if they're
-> not on Cc. I don't think it's safe to claim that patches have been well
-> tested until they've been in linux-next for at least a couple of days.
-> 
->>                             and is heading for 5.3, so you have ages to fix
->> up your config!
-> 
-> Last I checked, Joerg applied this for 5.2 because you sent it as part
-> of your "Updates for 5.2" pull request.
-> 
->>                  It would, of course, be better to configure the IOMMU to
->> provide mappings for your DMA peripherals, but the trivial config change
->> will be enough to keep things working. We won't remove that as long as
->> people are relying on it.
-> 
-> I don't think the Kconfig option is really useful. People nowadays want
-> to run standard distribution kernels on their devices, and distribution
-> maintainers will often rely on kernel developers' guidance on what good
-> defaults are. This patch suggests that the default should be to disable
-> bypass, so if this hits 5.2 final and distributions create their kernel
-> packages, they're likely going to go with this default and potentially
-> break things for many of their users.
-> 
-> Luckily this seems like it's fairly easy to fix, but given that we're
-> past v5.1-rc6, fixes for this now need to get special treatment. That
-> would've been okay if this was a pressing issues, but this is changing
-> something that's worked this way for ages, so it's hardly urgent.
-> 
->> I don't expect most people to run into problems with this change (the new
->> behaviour matches what SMMUv3 does already).
-> 
-> I see the ARM SMMU v2 used in quite a few DTS files. Not all of these
-> may be problematic, but I'd be somewhat surprised if Tegra was the only
-> one impacted.
+Hi Dmitry,
 
-If people have real technical reasons for needing unmatched stream 
-bypass, then we'll probably need to consider some sort of per-SMMU 
-override anyway, since well-meaning users rendering the system unusable 
-by enabling a security option isn't ideal. I'm in the middle of a big 
-rework to accommodate platform-specific extensions more easily, so 
-that's certainly an angle I can try to plan for.
+On 19. 5. 2. 오전 8:37, Dmitry Osipenko wrote:
+> Changelog:
+> 
+> v4: Addressed all review comments that were made by Chanwoo Choi to v3:
+> 
+>     - changed the driver removal order to match the probe exactly
+>     - added clarifying comment for 1/8 ratio to the Tegra20 driver
+> 
+>     Chanwoo, please also note that the clk patch that should fix
+>     compilation problem that was reported the kbuild-test-robot is already
+>     applied and available in the recent linux-next.
 
-On the other hand, if it's merely that nobody's yet got round to filling 
-out the DT properly, then AIUI that's pretty much exactly what Doug 
-wanted to motivate, so that the option *can* be used more widely by 
-users who might want it. Hence the provocative title :)
+I knew that Stephen picked up your path about clock.
 
-Robin.
+> 
+> v3: Addressed all review comments that were made by Chanwoo Choi to v2.
+> 
+>     Patch "Synchronize IRQ after masking it in hardware" morphed into
+>     "Properly disable interrupts", which disables interrupts more solidly.
+> 
+>     Added new minor patch: "Rename tegra-devfreq.c to tegra30-devfreq.c".
+> 
+>     Added missed error handlings for dev_pm_opp_add().
+> 
+> v2: The patchset was quite heavily reworked since v1, few patches we
+>     dropped or squashed into the new ones and more patches we added.
+>     In a result more bugs and potential problems are fixed now, driver's
+>     code got more clean up.
+> 
+>     The Tegra20 driver-addition patch is now a part of this series, it has
+>     no changes since v1.
+> 
+> Dmitry Osipenko (16):
+>   PM / devfreq: tegra: Fix kHz to Hz conversion
+>   PM / devfreq: tegra: Replace readl-writel with relaxed versions
+>   PM / devfreq: tegra: Replace write memory barrier with the read
+>     barrier
+>   PM / devfreq: tegra: Don't ignore clk errors
+>   PM / devfreq: tegra: Don't set EMC clock rate to maximum on probe
+>   PM / devfreq: tegra: Drop primary interrupt handler
+>   PM / devfreq: tegra: Properly disable interrupts
+>   PM / devfreq: tegra: Clean up driver's probe / remove
+>   PM / devfreq: tegra: Avoid inconsistency of current frequency value
+>   PM / devfreq: tegra: Mark ACTMON's governor as immutable
+>   PM / devfreq: tegra: Move governor registration to driver's probe
+>   PM / devfreq: tegra: Reconfigure hardware on governor's restart
+>   PM / devfreq: tegra: Support Tegra30
+>   PM / devfreq: tegra: Enable COMPILE_TEST for the driver
+>   PM / devfreq: tegra: Rename tegra-devfreq.c to tegra30-devfreq.c
+>   PM / devfreq: Introduce driver for NVIDIA Tegra20
+> 
+>  MAINTAINERS                                   |   8 +
+>  drivers/devfreq/Kconfig                       |  15 +-
+>  drivers/devfreq/Makefile                      |   3 +-
+>  drivers/devfreq/tegra20-devfreq.c             | 212 ++++++++++++
+>  .../{tegra-devfreq.c => tegra30-devfreq.c}    | 315 ++++++++----------
+>  5 files changed, 379 insertions(+), 174 deletions(-)
+>  create mode 100644 drivers/devfreq/tegra20-devfreq.c
+>  rename drivers/devfreq/{tegra-devfreq.c => tegra30-devfreq.c} (81%)
+> 
+
+
+-- 
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
