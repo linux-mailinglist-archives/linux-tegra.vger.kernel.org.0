@@ -2,95 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 03CD7125CE
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 May 2019 02:52:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42D1912A6F
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 May 2019 11:27:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbfECAwz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 May 2019 20:52:55 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39426 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726150AbfECAwz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 May 2019 20:52:55 -0400
-Received: by mail-lj1-f196.google.com with SMTP id q10so3869441ljc.6;
-        Thu, 02 May 2019 17:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XFxxk88jKn9mWRNss+JVJf8tkKfLz3t0cGCY2rC5qdc=;
-        b=OJs4rm3x3N51G50s/x0aoiLB+8fHtRv9NlRyq8fVExBdiEEYD+8LQaCT+UvG0vmTIX
-         b6v8aA5qHAyKqsIOtohmEnW/3mMX1JxCP4K+KvnN6jlroPSIN3lVQfUZOBe8pefUxcOZ
-         co8KG9bXdgRIbqEvDqot2Rwd/4SdQBEnsmifo7CgMpyRXq90AMU8u0qMouWDKWbLndqb
-         IrHfyS7Inj/8569gubTfX0bLAIwqIlsZnJxUplGDM1oupO0+LBpMagxiFMrsAaYRX7Ix
-         +2k6TE9AU/tPRJKZ+MlAHevQmSFA5YruMve4cSQ8B+uqFiFchJlf+w1HoBqPibESYwUf
-         ns2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XFxxk88jKn9mWRNss+JVJf8tkKfLz3t0cGCY2rC5qdc=;
-        b=MwxCtp+WXpr7HF25AvTt7XG0ZsfV1fjquUaCF3WSB9TN9KJUvE66xMR+fHlTf/XZjH
-         jPwAH9R19daWep78FbUIkfYR4X0t0MyF4134ZQRM3Di06LAq4FVRpU6dd/coV59arNzC
-         8wXYLUGa1MkUbSNiS53s7DcO3ZyCNKQ30G9Fixfib7FJP/TEqSde8DYXGlWVor7P8NDx
-         T/G3155u5Czw5z3iSaR57pC/YLQR7j19Q0/UBtbdBwcALHv18fyIq8T0HTolo6G7RKMM
-         gSWeu4OnGKXfGbP+hCxEQc9mYhVE17E50IekPuFYXR8e4xjq6LG4b7v21s+I+ByAy7mo
-         +q+A==
-X-Gm-Message-State: APjAAAUIV9gDANubOjCpzbHV5oWllkyyeetoYtDh2uYunk2uuOmYFG9u
-        qAw6ddjEM61IOEWzk80XNyYodNWd
-X-Google-Smtp-Source: APXvYqwUSY91QLyNmUPo+ija5NlVYVtyqUZqwosyNnND3zu8T7MSNFSM67fFJNrN8TIEzDGU2R119w==
-X-Received: by 2002:a2e:9993:: with SMTP id w19mr3554713lji.111.1556844772675;
-        Thu, 02 May 2019 17:52:52 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
-        by smtp.googlemail.com with ESMTPSA id u1sm98805lje.29.2019.05.02.17.52.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 02 May 2019 17:52:51 -0700 (PDT)
-Subject: Re: [PATCH v4 00/16] NVIDIA Tegra devfreq improvements and Tegra20/30
- support
-To:     Chanwoo Choi <cw00.choi@samsung.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <CGME20190501234148epcas5p1cc9a8dafa9ee6d8d046d1292b8270727@epcas5p1.samsung.com>
- <20190501233815.32643-1-digetx@gmail.com>
- <60ef6e47-e61b-3a92-e90d-90debedfcfc4@samsung.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <fa061a65-f108-6c5e-1f87-950a9a8caafc@gmail.com>
-Date:   Fri, 3 May 2019 03:52:50 +0300
+        id S1726264AbfECJ1d (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 May 2019 05:27:33 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:3728 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725804AbfECJ1d (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 May 2019 05:27:33 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ccc098a0000>; Fri, 03 May 2019 02:27:39 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 03 May 2019 02:27:32 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 03 May 2019 02:27:32 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 3 May
+ 2019 09:27:28 +0000
+Subject: Re: [PATCH 4.9 00/32] 4.9.173-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20190502143314.649935114@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <a61b7072-560f-7581-26b1-eaaecfd17985@nvidia.com>
+Date:   Fri, 3 May 2019 10:27:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <60ef6e47-e61b-3a92-e90d-90debedfcfc4@samsung.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190502143314.649935114@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL101.nvidia.com (172.20.187.10)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1556875659; bh=TsN/3to71HNyMCRGIkE+1XmtpLYxmN5boqfPsLHtPHE=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=FupPJUjskC30CUYXuJFDBY5teUhTHyW7m8nj24ilqCwTmUiROpxCKxKiH79awQcd8
+         3MWUaTAHKfWwm2Cb3SWdkpnuJ4rITDFjoFRN5xC/c7CoqzPP8C3C5UbKF4dFpbI48g
+         dcJr43nWVxfUKpr18eVU8cUmwgQ1jB2JKRtqwoOsbkOMZaizUrG+mHNoEwdc16EZhh
+         Tv2LfvjjangztoGNDBEja01dzUFFwI8QuribPkayM8KkE/a0nOYKISKl3dZtBtJHMh
+         Ff1vq/Ceb/2i32DK3Kg8N2qESblzqaXeYNgQbBtLmH0JVQk8cKgeba/F2coBkYukwS
+         epWb7kkgpKi5w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.05.2019 3:31, Chanwoo Choi пишет:
-> Hi Dmitry,
-> 
-> On 19. 5. 2. 오전 8:37, Dmitry Osipenko wrote:
->> Changelog:
->>
->> v4: Addressed all review comments that were made by Chanwoo Choi to v3:
->>
->>     - changed the driver removal order to match the probe exactly
->>     - added clarifying comment for 1/8 ratio to the Tegra20 driver
->>
->>     Chanwoo, please also note that the clk patch that should fix
->>     compilation problem that was reported the kbuild-test-robot is already
->>     applied and available in the recent linux-next.
-> 
-> I knew that Stephen picked up your path about clock.
 
-Hi Chanwoo,
+On 02/05/2019 16:20, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.9.173 release.
+> There are 32 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Sat 04 May 2019 02:32:02 PM UTC.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.173-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.9.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Okay, good. Thank you very much for reviewing this series! I assume it's
-too late now for v5.2, but it should be good to go for v5.3.
+
+All tests are passing for Tegra ...
+
+Test results for stable-v4.9:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    24 tests:	24 pass, 0 fail
+
+Linux version:	4.9.173-rc1-gd35bcd0
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+
+Cheers
+Jon
+
+-- 
+nvpublic
