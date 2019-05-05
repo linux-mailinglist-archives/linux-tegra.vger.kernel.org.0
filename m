@@ -2,174 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B4C214144
-	for <lists+linux-tegra@lfdr.de>; Sun,  5 May 2019 19:03:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40B571418E
+	for <lists+linux-tegra@lfdr.de>; Sun,  5 May 2019 19:39:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727820AbfEERDQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 5 May 2019 13:03:16 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36314 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727806AbfEERDQ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 May 2019 13:03:16 -0400
-Received: by mail-wr1-f67.google.com with SMTP id o4so14240905wra.3
-        for <linux-tegra@vger.kernel.org>; Sun, 05 May 2019 10:03:14 -0700 (PDT)
+        id S1727789AbfEERjt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 5 May 2019 13:39:49 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:46161 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726636AbfEERjt (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 May 2019 13:39:49 -0400
+Received: by mail-lj1-f194.google.com with SMTP id h21so9120215ljk.13;
+        Sun, 05 May 2019 10:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=S14+Saw50db8S99Z7u2shrBLJtQSP1RkJXIAVw5pLBQ=;
-        b=jugLcBXRtPNuiKygehBn3dRh5gv2O3n+6CZdR9c0ZkktI0CvjyoksEeeH2FfA1Q8xH
-         SqTElONPKWQBKsU0uJQu8/4wptVHk0j3GxZWG+CA0HjhrepIVFXHP29zNbjhuDeaonnN
-         97d3CBboz5W+phNi8nRbOR+m5GoULw/MmeCEZ5EltfZbRHRsDTLjuCw4WWTkYy3yUqZI
-         EIDwHmihhNOllL5cqFRBllZpxOUcacxfDAaI+HPZMWZaZhGbjI2/tay2jJLP/i4RqR4o
-         vlUd0iNLLI5u8lL4HvT+QCdV2M59SHV6zxPaQcTE1z1/Kw5EFI5DZr9zemt+AgWD44KI
-         OF3g==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y3qZZ7ZZQl8fJvpX3EEcO4LoQ4Uz3pz1vAeLF9xgXcY=;
+        b=CKLNfZWtblLlw04L2dHz2j5I+ollT0Nhr7IwI1sWGxkHq9+tREv26DVAbAQvrxqfkF
+         T07jtaf78nNT6eNLQVBmgV1vESgyD4+e3Szd9Dao6ODMilZCUfx03tmTuMMMOIgpV2mn
+         E9g1l7CPH7XXhbkx66NghzHQRQ/uQWoCJcwuHhKUmYMERrrRALWNBgKAoFcJYIAKvW4P
+         Sj/FkMpST7QKCgKnRDExtG6Fkk/z2CDZGJAwjjQ5pWEAveWKlofTgnoIEnh8n/shvXzL
+         FbScpImF0R75BC9fVm+xHXRDJW5KSaw10G59FwmjhAhy3U4Mnj/mdk4iPjG7+932nAWx
+         7IUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S14+Saw50db8S99Z7u2shrBLJtQSP1RkJXIAVw5pLBQ=;
-        b=AxvtNBpKCB0WsDrgJ7tq/FSocEzFCRBbn/688+xyfMuavJEv7fLF86VWxlqGgPGrOh
-         ZwFJjTCFDUz+aaIfasbfB+J61F2UvfC8bQpBKac7FMGOucX65atK1olEj8dk8Pcgh2xv
-         DfFr0ynidnKSsQKqO9XC8GzCK93AtnAdbZU0Dn7kOqSd+PHu10a1nEB/vxgPV+0cTrDm
-         WMov9u2anLlDBQ77WyQ9oTnILNpqJzEIzUN0VwoSt2tqJC+gwMlQVuydh3Bv7lzFyhmc
-         S8NNp5uIxNaA3ZiaAqL2igdUhu1BxuNGpQ6lLBxlmqdbnOHiabTvDsg0PzMqQo2ZxAhV
-         c+uw==
-X-Gm-Message-State: APjAAAVkLDy6LDQKezlut5rRQbAXFbBEHqSjT1B/6MqoTnWl085RGN+P
-        cy4Bg0uPfUYDeKzfYuMnvu2m7DH9HVn7pAg7AMAGDw==
-X-Google-Smtp-Source: APXvYqwrz/neemWb9vnz/FkpTRyXsq1RpflAc1+fcvk/jy/wtfTvsXtCkcfhMT+x+U7qMUUGE6g6BzjVgXI0vnlcixI=
-X-Received: by 2002:a5d:4942:: with SMTP id r2mr14362363wrs.159.1557075793556;
- Sun, 05 May 2019 10:03:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y3qZZ7ZZQl8fJvpX3EEcO4LoQ4Uz3pz1vAeLF9xgXcY=;
+        b=cjs8tyOBp7+6Ue7eJytdq982ir5xgf6k2veVovGjNxtlm+BTFICPYWXk4OwSCMpGab
+         vAyLfKo+/xwYFmdskw6NBdIfPO1xwLA9b2EEh25qJ0pR+M/QxZdu03r/MgcUoTfNXYEM
+         dSE8DWqiQXgVu52+xEw/U3jMVHYngmeoqwAIJmupF8kXI0pzstR+67AY2Ab0C1kJqYxs
+         uaY1QmLDr7N9fU0H0WxpKXlG8NtUvF+n/evYT7/lxmgeGp3MXdwEXzuBu643w7y4Bsbf
+         ikN+aG/kO+1uff39AAfMBoPDBTjR9AgCPuJouUf3nCkyaAPCFebtOBAsDi6hLLzUJJua
+         LTEA==
+X-Gm-Message-State: APjAAAVJ7G5r+a2yimNdOvLxxz9ytQwZQunXAanD3UPGZthdCci0sLMd
+        jmT5g0EBa6ectqMOYlo8wuM=
+X-Google-Smtp-Source: APXvYqyoVJ2csql4znGGg+oO1CL0Ntj6WRZze+OQ3Q7xJ0CCD2QHMcBpG2epnScOVORjx2hDBLkG8w==
+X-Received: by 2002:a2e:2b89:: with SMTP id r9mr6160125ljr.7.1557077987169;
+        Sun, 05 May 2019 10:39:47 -0700 (PDT)
+Received: from localhost.localdomain (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.gmail.com with ESMTPSA id z17sm1626938lja.26.2019.05.05.10.39.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 05 May 2019 10:39:46 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/3] Tegra DRM: Support memory bandwidth management for display
+Date:   Sun,  5 May 2019 20:37:04 +0300
+Message-Id: <20190505173707.29282-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190504132327.27041-1-tmurphy@arista.com> <20190504132327.27041-7-tmurphy@arista.com>
- <602b77a2-9c68-ad14-b64f-904a7ff27a15@linux.intel.com>
-In-Reply-To: <602b77a2-9c68-ad14-b64f-904a7ff27a15@linux.intel.com>
-From:   Tom Murphy <tmurphy@arista.com>
-Date:   Sun, 5 May 2019 18:03:02 +0100
-Message-ID: <CAPL0++57nyLYP1fq=-6zvNS0z_iCqjWLbQ1MsG5F60ODkmRCQQ@mail.gmail.com>
-Subject: Re: [RFC 6/7] iommu/vt-d: convert the intel iommu driver to the
- dma-iommu ops api
-To:     Lu Baolu <baolu.lu@linux.intel.com>
-Cc:     iommu@lists.linux-foundation.org, Tom Murphy <murphyt7@tcd.ie>,
-        Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org, kvm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, May 5, 2019 at 3:44 AM Lu Baolu <baolu.lu@linux.intel.com> wrote:
->
-> Hi,
->
-> On 5/4/19 9:23 PM, Tom Murphy wrote:
-> > static int intel_iommu_add_device(struct device *dev)
-> >   {
-> > +     struct dmar_domain *dmar_domain;
-> > +     struct iommu_domain *domain;
-> >       struct intel_iommu *iommu;
-> >       struct iommu_group *group;
-> > -     struct iommu_domain *domain;
-> > +     dma_addr_t base;
-> >       u8 bus, devfn;
-> >
-> >       iommu = device_to_iommu(dev, &bus, &devfn);
-> > @@ -4871,9 +4514,12 @@ static int intel_iommu_add_device(struct device *dev)
-> >       if (IS_ERR(group))
-> >               return PTR_ERR(group);
-> >
-> > +     base = IOVA_START_PFN << VTD_PAGE_SHIFT;
-> >       domain = iommu_get_domain_for_dev(dev);
-> > +     dmar_domain = to_dmar_domain(domain);
-> >       if (domain->type == IOMMU_DOMAIN_DMA)
-> > -             dev->dma_ops = &intel_dma_ops;
-> > +             iommu_setup_dma_ops(dev, base,
-> > +                             __DOMAIN_MAX_ADDR(dmar_domain->gaw) - base);
->
-> I didn't find the implementation of iommu_setup_dma_ops() in this
-> series. Will the iova resource be initialized in this function?
+Hello,
 
-Ah sorry, I should've mentioned this is based on the
-http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-iommu-ops.3
-branch with the "iommu/vt-d: Delegate DMA domain to generic iommu" and
-"iommu/amd: Convert the AMD iommu driver to the dma-iommu api" patch
-sets applied.
+Display controllers have a need for minimum memory bandwidth in order to
+maintain data-stream to output at a required rate. There is a visual
+corruption once the requirement is violated and CRTC reset may be required
+in order to recover. This series adds preliminary support for the memory
+bandwidth management, it will become active once Memory Controller drivers
+will get support for the PM memory bandwidth QoS.
 
->
-> If so, will this block iommu_group_create_direct_mappings() which
-> reserves and maps the reserved iova ranges.
+Dmitry Osipenko (3):
+  drm/tegra: dc: Tune up high priority request controls on Tegra20
+  drm/tegra: dc: Extend debug stats with total number of events
+  drm/tegra: Support PM QoS memory bandwidth management
 
-The reserved regions will be reserved by the
-iova_reserve_iommu_regions function instead:
-( https://github.com/torvalds/linux/blob/6203838dec05352bc357625b1e9ba0a10d3bca35/drivers/iommu/dma-iommu.c#L238
-)
-iommu_setup_dma_ops calls iommu_dma_init_domain which calls
-iova_reserve_iommu_regions.
-iommu_group_create_direct_mappings will still execute normally but it
-won't be able to call the intel_iommu_apply_resv_region function
-because it's been removed in this patchset.
-This shouldn't change any behavior and the same regions should be reserved.
+ drivers/gpu/drm/tegra/dc.c    | 234 +++++++++++++++++++++++++++++++++-
+ drivers/gpu/drm/tegra/dc.h    |  13 ++
+ drivers/gpu/drm/tegra/drm.c   |  18 +++
+ drivers/gpu/drm/tegra/plane.c |   1 +
+ drivers/gpu/drm/tegra/plane.h |   4 +-
+ 5 files changed, 264 insertions(+), 6 deletions(-)
 
->
-> >
-> >       iommu_group_put(group);
-> >       return 0;
-> > @@ -5002,19 +4648,6 @@ int intel_iommu_enable_pasid(struct intel_iommu *iommu, struct intel_svm_dev *sd
-> >       return ret;
-> >   }
-> >
-> > -static void intel_iommu_apply_resv_region(struct device *dev,
-> > -                                       struct iommu_domain *domain,
-> > -                                       struct iommu_resv_region *region)
-> > -{
-> > -     struct dmar_domain *dmar_domain = to_dmar_domain(domain);
-> > -     unsigned long start, end;
-> > -
-> > -     start = IOVA_PFN(region->start);
-> > -     end   = IOVA_PFN(region->start + region->length - 1);
-> > -
-> > -     WARN_ON_ONCE(!reserve_iova(&dmar_domain->iovad, start, end));
-> > -}
-> > -
-> >   struct intel_iommu *intel_svm_device_to_iommu(struct device *dev)
-> >   {
-> >       struct intel_iommu *iommu;
-> > @@ -5050,13 +4683,13 @@ const struct iommu_ops intel_iommu_ops = {
-> >       .detach_dev             = intel_iommu_detach_device,
-> >       .map                    = intel_iommu_map,
-> >       .unmap                  = intel_iommu_unmap,
-> > +     .flush_iotlb_all        = iommu_flush_iova,
-> >       .flush_iotlb_range      = intel_iommu_flush_iotlb_range,
-> >       .iova_to_phys           = intel_iommu_iova_to_phys,
-> >       .add_device             = intel_iommu_add_device,
-> >       .remove_device          = intel_iommu_remove_device,
-> >       .get_resv_regions       = intel_iommu_get_resv_regions,
-> >       .put_resv_regions       = intel_iommu_put_resv_regions,
-> > -     .apply_resv_region      = intel_iommu_apply_resv_region,
->
-> With this removed, how will iommu_group_create_direct_mappings() work?
->
-> Best regards,
-> Lu Baolu
+-- 
+2.21.0
+
