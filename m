@@ -2,104 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C8401406B
-	for <lists+linux-tegra@lfdr.de>; Sun,  5 May 2019 16:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE5FF140D7
+	for <lists+linux-tegra@lfdr.de>; Sun,  5 May 2019 17:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbfEEO5r (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 5 May 2019 10:57:47 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:35635 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726309AbfEEO5r (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 May 2019 10:57:47 -0400
-Received: by mail-lf1-f67.google.com with SMTP id j20so7429555lfh.2;
-        Sun, 05 May 2019 07:57:46 -0700 (PDT)
+        id S1727295AbfEEPse (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 5 May 2019 11:48:34 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45586 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726524AbfEEPsd (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 May 2019 11:48:33 -0400
+Received: by mail-lj1-f193.google.com with SMTP id w12so8990985ljh.12;
+        Sun, 05 May 2019 08:48:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kbP3QlGhgZkK5sQY+JUtbK1m8upDYNc5EHzX1iAQU+g=;
-        b=KPU/YG0NDQgNmpQxcAAZeXrjtwijkoCzlR4xnQxxzI6EspjWFswLPB0KUaLxOtBQPK
-         CU0g5a1GTjnjGyC1PSoqn3/2uDFr4dHbFybmT2Sv0nVk3JZCBakSjdwJs9cxivAKh6fc
-         AjfPzQqEJRg5dykK0rrNgFPJyrWYfPc5Ecy5N5Gp7T8P5+HbDeKi2gLmsknYVYnBNymA
-         uWA+lKhI+bdtwPeIPaSMRSV8DN6Gy9VzeZMs/k7Sq4yYBx54lz8/ybwgtU6nfsA/7dUS
-         VvmLqhOVNsTDz0ibbU7JWzQ7ur4puFNk4Vtpk44s8uvaCpRFNeWNWln+3IBy0AYnjHLN
-         09jA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BlEG9NIkB+2QxScurVzvzhb4UAYd8wqCw9tKjxEGmJQ=;
+        b=Z5ljalxiS8q/cLjSGutusocESg6ENqIF3poRf0yJOfDEkDl0ZBxIYovnL4Wb9CwcUp
+         o7LMaEE14rnCOzLnDCIjefX6rQWpgp76lRN9yFZ9072J/5AdRhvRx2O4Z9+M2sXccDjC
+         7SNgfPR0iXoQVd392+b17D02toIX3hnYof0/m6HZD037jav3zl6/VtyJA1zC2GkDSnUX
+         bnpxSnBlg5LMveEg+GBdwhtfmfAApRxc8JhGFPUvr47YlP9/UQCE9H8n93yb2C8m6Y1V
+         mmMbNRF134Zjoms6dU/4NzZ/kqZhMwnveZRKrqrdJhjD4PotyPRGHJ0kYkJwxD6KFRPW
+         +4Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kbP3QlGhgZkK5sQY+JUtbK1m8upDYNc5EHzX1iAQU+g=;
-        b=pRnJl+7O22TA2IWIwp9ZXvX/2XUyWrIAaCIOkLP35i7JlctKMJW3dNcGTRIXMjRVjP
-         5QyjfJSuIm5emPJcti/Xd3pd+/A34ggrJ3HYBQdErJgP7ntc0CTaZ/YWYmmbShvBgNGU
-         CQ/MFYlMyCP7JzLHtIgCla1VxmqP7TdTN7NHAF7zzllb17DDmdy8ttXK1LZbztMU51ji
-         K8/6mGF4XDTOIrtR5LIP0MIBG1P0G2tF4T32RqEKSs/esHlHGHmHG+ttSGFfPnDdfZIW
-         kqNM0I7TzkQVEap00aJTuuXL/Qihiuum/H1fh1Pm8pxlrPkeWknl3cMyVcB+1hf+7xNX
-         1x7g==
-X-Gm-Message-State: APjAAAWWNJQ3k6GZAZvMtAVgjSzC+nmnoGmQAKzB1mKG5yv9V413CQ9l
-        /VU7DbF0Lc1hCnkN8JGuXFGao6vu
-X-Google-Smtp-Source: APXvYqwLY0sMcTqhNWrKYU1OADNxLLfwI/+Bm2aPJ16S8IgUnpWa7F8yDwcv07xXp60K3i2PsFa4lw==
-X-Received: by 2002:ac2:457a:: with SMTP id k26mr7482317lfm.161.1557068265478;
-        Sun, 05 May 2019 07:57:45 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
-        by smtp.googlemail.com with ESMTPSA id b28sm1567855lfc.7.2019.05.05.07.57.43
+        bh=BlEG9NIkB+2QxScurVzvzhb4UAYd8wqCw9tKjxEGmJQ=;
+        b=nYpnJyjDAuYTif36J7PNQn8TM9LEjdRDtShfizeatSTPLKCIMZbNTzaCqnwDexzv+C
+         OjhXxaiD1TBYY1QZttoJmt4mdu7bWdy5bRLXnjqdYnLntP3BnQU+fZolXYtIyJKLwsPn
+         J8IeEoig3j8e3OobVRSHyX4sVYxImV1g+F2sqILHu75JGeq8EYom2oEJZ2EVP5CNXERD
+         AQK7tlXr1VQIV5AAoAHcwpmGaFEDyMUaoBvx3rJY4VsoJFz0NM2jpcKLLDgqQ4CvG/H4
+         sDt9iZpwfDQGnz4y24LNx7iE6rzLpl9Ab0JyrBbQMmc950cfpaaSHM6NF2vfcJ+HsJOh
+         TjZA==
+X-Gm-Message-State: APjAAAVRuKiPirSHiaNh7NU4wzKKUWOysGQ21htrNA8WR4lkiGTyVhVF
+        QqBxz21fLYqccWZNEW+aWSk=
+X-Google-Smtp-Source: APXvYqxgEFFvRre94LLBuNrR+odXfimmP7OXvMOrD2Vr34gtNHuQQ0eq3glKVrQd9gHS4vmGxltDgg==
+X-Received: by 2002:a2e:9002:: with SMTP id h2mr3205865ljg.164.1557071311388;
+        Sun, 05 May 2019 08:48:31 -0700 (PDT)
+Received: from localhost.localdomain (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.gmail.com with ESMTPSA id d16sm1595278lfi.75.2019.05.05.08.48.29
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 05 May 2019 07:57:44 -0700 (PDT)
-Subject: Re: [RFC PATCH v1 0/6] Introduce machine-specific regulators coupling
- API
+        Sun, 05 May 2019 08:48:30 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
+To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Mallikarjun Kasoju <mkasoju@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190414175939.12368-1-digetx@gmail.com>
-Message-ID: <46665d2d-aeda-4b63-1d0e-1599214e7bae@gmail.com>
-Date:   Sun, 5 May 2019 17:57:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/6] Add support for Maxim 77663 MFD
+Date:   Sun,  5 May 2019 18:43:19 +0300
+Message-Id: <20190505154325.30026-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190414175939.12368-1-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-14.04.2019 20:59, Dmitry Osipenko пишет:
-> Hello,
-> 
-> I was looking into how to properly implement regulators coupling for
-> NVIDIA Tegra SoC's and ended up with this patchset that introduces
-> machine-specific regulators coupling. Upstream kernel now has support
-> for a simple variants of regulators coupling in a form of limiting
-> maximum voltage spreading between two regulators, but that's not enough
-> for the case of Tegra SoC's. It's a bit difficult to support universally
-> all possible coupling restrictions in a form of device-tree description,
-> so here comes the machine-specific coupling API which allow platforms
-> to customize coupling algorithms.
+Hello,
 
-Hello people,
+This series adds support for the Maxim 77663 chip that provides PMIC, RTC,
+GPIO and watchdog timer functionality. The hardware is very similar to the
+Maxim 77620/20024 hardware units that are already supported by the kernel,
+hence we will reuse the existing drivers for 77663. The GPIO, regulator,
+RTC and watchdog timer functionality was tested on a Nexus 7 tablet that
+has the Max77663 chip, everything is working perfectly fine. I'm looking
+at upstreaming support for that tablet device and Max77663 is one of the
+core components that are currently missing in the upstream kernel.
 
-I want to point out that the CPUFreq patches are currently blocked
-because of the missing support for a regulators coupling on Tegra and we
-want to switch to a proper-generic OPP voltage/freq API.
+Changelog:
 
-The other thing that I also forgot to mention that we will need a way to
-keep on hold CORE voltage changes until all relevant peripheral drivers
-are loaded and claimed the required voltage level. That is needed
-because some of the critical peripherals are left in a running state
-after bootloader. Currently, in this patchset, we are not allowing CORE
-voltage to go lower than the level left after bootloader and once all
-the relevant drivers will get support for the voltage management, we
-should be able to unhold the lower CORE voltages around late_init().
+v4: Addressed review comments from Rob Herring to v3 by making use of
+    generic "system-power-controller" property and making couple other
+    minor cosmetic changes. Added Mark's Brown a-b to the regulator-patch.
 
-Will be great if you could take a look at this series and tell your
-opinion on the approach, I'll be happy to put more effort into it all if
-will be needed. There is now a bit more advanced version of the series
-that adds more error-checking and makes use of max-spread and max-step
-values from the regular constraints (i.e. values defined in device-tree)
-instead of hardcoding them in the code.
+v3: Dropped "Support device-tree properly" patch since turned out that
+    I2C core takes care of the device-tree matching and I wasn't aware of
+    it.
+
+v2: Added PINCTRL sub-device to Max77663 MFD as it looks compatible with
+    77620.
+
+    Added new "maxim,system-power-controller" OF property.
+
+    Patch "Support device-tree properly" now doesn't remove driver's
+    "id_table" since potentially it could have some use in the downstream
+    kernel forks and it doesn't hurt to keep it around.
+
+Dmitry Osipenko (6):
+  dt-bindings: mfd: max77620: Add compatible for Maxim 77663
+  dt-bindings: mfd: max77620: Add system-power-controller property
+  mfd: max77620: Fix swapped FPS_PERIOD_MAX_US values
+  mfd: max77620: Support Maxim 77663
+  mfd: max77620: Provide system power-off functionality
+  regulator: max77620: Support Maxim 77663
+
+ .../devicetree/bindings/mfd/max77620.txt      |  9 +-
+ drivers/mfd/max77620.c                        | 87 ++++++++++++++++++-
+ drivers/regulator/max77620-regulator.c        | 26 +++++-
+ include/linux/mfd/max77620.h                  |  5 +-
+ 4 files changed, 122 insertions(+), 5 deletions(-)
+
+-- 
+2.21.0
+
