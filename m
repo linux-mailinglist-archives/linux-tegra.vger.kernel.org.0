@@ -2,185 +2,122 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE06F141CA
-	for <lists+linux-tegra@lfdr.de>; Sun,  5 May 2019 20:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B8B51435C
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 03:41:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727628AbfEESPR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 5 May 2019 14:15:17 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42228 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727539AbfEESPR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 May 2019 14:15:17 -0400
-Received: by mail-lj1-f195.google.com with SMTP id y10so2684249lji.9;
-        Sun, 05 May 2019 11:15:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VJTdj68AX8XR91X53wIUO5fTIgKG5aH64DtycYbKgjs=;
-        b=XB7irQfpOf47d2cF8NMxp/UBxlEUBEKZcOlVY3J3m5iUCGB7Prb/N5Gi34ksXJtJ8j
-         EefJQpRheGwfk/u4zSQtBqhcYq7qYAh/fx4z77NOMeaTb21WZ/OWgJJgpuYYBD+KsDAy
-         8vZveQedfv5xbQz6D0t8Z255PrzArrL7EPXyV5HeAl1qgtKBsZv18YJJEs8scB8nMmBQ
-         QdDqRmDFqht+QMC/xOB13KQxD3EdSglar7Guo9/SkeUvqauCHDpAU0NxyM0Wvwcxwrlr
-         Fgw7mQoxe/laHw15VEUGbY//hFHOWi2yLpSu4EhCSkB8FIrRRSlqkw3TCZPIyAF9aSBZ
-         3g3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VJTdj68AX8XR91X53wIUO5fTIgKG5aH64DtycYbKgjs=;
-        b=IiXG8+k/H7zXgAPqHgchbOw68QzVp9B+uUiuXLqgZG+59pbjpQQxBNLIuaYlO4Bel/
-         3+5j90SNCpY2wathBlJGMEj9Bu2tYIpqLSsDVGyswlL+SBaVyC1JRBmmkyWHcYvLCsu2
-         DVz/P+02YpaJ5bBmaxT1HRSXzG/Icvu5yBNO3gc82YIlsvmFGwAP6arDHkRPzveQMpvU
-         IU7psUbQV6pnDEFn0eGpOQaDvaZ6q5JQHBugNpkZY+Wx8GqYwaidXhjn5OgIxYOSpk4u
-         pIwSdCWX9Yrrzz1gFI4Vlf1dPZWaQ/6nlnOWWjR4l1MBkVjYdKb99cNxuXfiQmhvcjFe
-         lGJg==
-X-Gm-Message-State: APjAAAUc8YIuHgwJ9dAPgCazsOYE9+upN9jXKEIqu28g22oDAfNdL+hZ
-        Mowg7NkvbIRI0iDQG+wqU3U=
-X-Google-Smtp-Source: APXvYqxivTnYsW+r+l52S92wmJ/MK51g6QTS5X8M376mSNk0V66QKMVEsuxVib/9nXB7KSib4lpMnQ==
-X-Received: by 2002:a05:651c:155:: with SMTP id c21mr11517731ljd.10.1557080114204;
-        Sun, 05 May 2019 11:15:14 -0700 (PDT)
-Received: from localhost.localdomain (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
-        by smtp.gmail.com with ESMTPSA id a3sm788218ljk.28.2019.05.05.11.15.12
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 05 May 2019 11:15:13 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
+        id S1726197AbfEFBla (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 5 May 2019 21:41:30 -0400
+Received: from mga04.intel.com ([192.55.52.120]:62134 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725786AbfEFBl3 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 5 May 2019 21:41:29 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 May 2019 18:41:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,435,1549958400"; 
+   d="scan'208";a="146639249"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.136]) ([10.239.159.136])
+  by fmsmga008.fm.intel.com with ESMTP; 05 May 2019 18:41:24 -0700
+Cc:     baolu.lu@linux.intel.com, iommu@lists.linux-foundation.org,
+        Tom Murphy <murphyt7@tcd.ie>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Ben Dooks <ben.dooks@codethink.co.uk>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1] dmaengine: tegra-apb: Handle DMA_PREP_INTERRUPT flag properly
-Date:   Sun,  5 May 2019 21:12:35 +0300
-Message-Id: <20190505181235.14798-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        Alex Williamson <alex.williamson@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC 6/7] iommu/vt-d: convert the intel iommu driver to the
+ dma-iommu ops api
+To:     Tom Murphy <tmurphy@arista.com>
+References: <20190504132327.27041-1-tmurphy@arista.com>
+ <20190504132327.27041-7-tmurphy@arista.com>
+ <602b77a2-9c68-ad14-b64f-904a7ff27a15@linux.intel.com>
+ <CAPL0++57nyLYP1fq=-6zvNS0z_iCqjWLbQ1MsG5F60ODkmRCQQ@mail.gmail.com>
+From:   Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <2419e94d-bfdb-e70d-bbfd-425671886e99@linux.intel.com>
+Date:   Mon, 6 May 2019 09:34:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPL0++57nyLYP1fq=-6zvNS0z_iCqjWLbQ1MsG5F60ODkmRCQQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The DMA_PREP_INTERRUPT flag means that descriptor's callback should be
-invoked upon transfer completion and that's it. For some reason driver
-completely disables the hardware interrupt handling, leaving channel in
-unusable state if transfer is issued with the flag being unset. Note
-that there are no occurrences in the relevant drivers that do not set
-the flag, hence this patch doesn't fix any actual bug and merely fixes
-potential problem.
+Hi,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/dma/tegra20-apb-dma.c | 41 ++++++++++++++++++++++++-----------
- 1 file changed, 28 insertions(+), 13 deletions(-)
+On 5/6/19 1:03 AM, Tom Murphy wrote:
+> On Sun, May 5, 2019 at 3:44 AM Lu Baolu<baolu.lu@linux.intel.com>  wrote:
+>> Hi,
+>>
+>> On 5/4/19 9:23 PM, Tom Murphy wrote:
+>>> static int intel_iommu_add_device(struct device *dev)
+>>>    {
+>>> +     struct dmar_domain *dmar_domain;
+>>> +     struct iommu_domain *domain;
+>>>        struct intel_iommu *iommu;
+>>>        struct iommu_group *group;
+>>> -     struct iommu_domain *domain;
+>>> +     dma_addr_t base;
+>>>        u8 bus, devfn;
+>>>
+>>>        iommu = device_to_iommu(dev, &bus, &devfn);
+>>> @@ -4871,9 +4514,12 @@ static int intel_iommu_add_device(struct device *dev)
+>>>        if (IS_ERR(group))
+>>>                return PTR_ERR(group);
+>>>
+>>> +     base = IOVA_START_PFN << VTD_PAGE_SHIFT;
+>>>        domain = iommu_get_domain_for_dev(dev);
+>>> +     dmar_domain = to_dmar_domain(domain);
+>>>        if (domain->type == IOMMU_DOMAIN_DMA)
+>>> -             dev->dma_ops = &intel_dma_ops;
+>>> +             iommu_setup_dma_ops(dev, base,
+>>> +                             __DOMAIN_MAX_ADDR(dmar_domain->gaw) - base);
+>> I didn't find the implementation of iommu_setup_dma_ops() in this
+>> series. Will the iova resource be initialized in this function?
+> Ah sorry, I should've mentioned this is based on the
+> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-iommu-ops.3
+> branch with the "iommu/vt-d: Delegate DMA domain to generic iommu" and
+> "iommu/amd: Convert the AMD iommu driver to the dma-iommu api" patch
+> sets applied.
+> 
+>> If so, will this block iommu_group_create_direct_mappings() which
+>> reserves and maps the reserved iova ranges.
+> The reserved regions will be reserved by the
+> iova_reserve_iommu_regions function instead:
+> (https://github.com/torvalds/linux/blob/6203838dec05352bc357625b1e9ba0a10d3bca35/drivers/iommu/dma-iommu.c#L238
+> )
+> iommu_setup_dma_ops calls iommu_dma_init_domain which calls
+> iova_reserve_iommu_regions.
+> iommu_group_create_direct_mappings will still execute normally but it
+> won't be able to call the intel_iommu_apply_resv_region function
+> because it's been removed in this patchset.
+> This shouldn't change any behavior and the same regions should be reserved.
+> 
 
-diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-index cf462b1abc0b..29d972b7546f 100644
---- a/drivers/dma/tegra20-apb-dma.c
-+++ b/drivers/dma/tegra20-apb-dma.c
-@@ -561,6 +561,9 @@ static void tegra_dma_abort_all(struct tegra_dma_channel *tdc)
- 			dma_desc->dma_status = DMA_ERROR;
- 			list_add_tail(&dma_desc->node, &tdc->free_dma_desc);
- 
-+			if (dma_desc->cb_count < 0)
-+				continue;
-+
- 			/* Add in cb list if it is not there. */
- 			if (!dma_desc->cb_count)
- 				list_add_tail(&dma_desc->cb_node,
-@@ -616,9 +619,13 @@ static void handle_once_dma_done(struct tegra_dma_channel *tdc,
- 	if (sgreq->last_sg) {
- 		dma_desc->dma_status = DMA_COMPLETE;
- 		dma_cookie_complete(&dma_desc->txd);
--		if (!dma_desc->cb_count)
--			list_add_tail(&dma_desc->cb_node, &tdc->cb_desc);
--		dma_desc->cb_count++;
-+		if (dma_desc->cb_count >= 0) {
-+			if (!dma_desc->cb_count)
-+				list_add_tail(&dma_desc->cb_node,
-+					      &tdc->cb_desc);
-+
-+			dma_desc->cb_count++;
-+		}
- 		list_add_tail(&dma_desc->node, &tdc->free_dma_desc);
- 	}
- 	list_add_tail(&sgreq->node, &tdc->free_sg_req);
-@@ -645,9 +652,11 @@ static void handle_cont_sngl_cycle_dma_done(struct tegra_dma_channel *tdc,
- 		dma_desc->bytes_requested;
- 
- 	/* Callback need to be call */
--	if (!dma_desc->cb_count)
--		list_add_tail(&dma_desc->cb_node, &tdc->cb_desc);
--	dma_desc->cb_count++;
-+	if (dma_desc->cb_count >= 0) {
-+		if (!dma_desc->cb_count)
-+			list_add_tail(&dma_desc->cb_node, &tdc->cb_desc);
-+		dma_desc->cb_count++;
-+	}
- 
- 	/* If not last req then put at end of pending list */
- 	if (!list_is_last(&sgreq->node, &tdc->pending_sg_req)) {
-@@ -802,7 +811,7 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
- 		dma_desc  = list_first_entry(&tdc->cb_desc,
- 					typeof(*dma_desc), cb_node);
- 		list_del(&dma_desc->cb_node);
--		dma_desc->cb_count = 0;
-+		dma_desc->cb_count = -1;
- 	}
- 	spin_unlock_irqrestore(&tdc->lock, flags);
- 	return 0;
-@@ -988,8 +997,7 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
- 		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
- 	}
- 
--	if (flags & DMA_PREP_INTERRUPT)
--		csr |= TEGRA_APBDMA_CSR_IE_EOC;
-+	csr |= TEGRA_APBDMA_CSR_IE_EOC;
- 
- 	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
- 
-@@ -1000,11 +1008,15 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
- 	}
- 	INIT_LIST_HEAD(&dma_desc->tx_list);
- 	INIT_LIST_HEAD(&dma_desc->cb_node);
--	dma_desc->cb_count = 0;
- 	dma_desc->bytes_requested = 0;
- 	dma_desc->bytes_transferred = 0;
- 	dma_desc->dma_status = DMA_IN_PROGRESS;
- 
-+	if (flags & DMA_PREP_INTERRUPT)
-+		dma_desc->cb_count = 0;
-+	else
-+		dma_desc->cb_count = -1;
-+
- 	/* Make transfer requests */
- 	for_each_sg(sgl, sg, sg_len, i) {
- 		u32 len, mem;
-@@ -1131,8 +1143,7 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_dma_cyclic(
- 		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
- 	}
- 
--	if (flags & DMA_PREP_INTERRUPT)
--		csr |= TEGRA_APBDMA_CSR_IE_EOC;
-+	csr |= TEGRA_APBDMA_CSR_IE_EOC;
- 
- 	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
- 
-@@ -1144,7 +1155,11 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_dma_cyclic(
- 
- 	INIT_LIST_HEAD(&dma_desc->tx_list);
- 	INIT_LIST_HEAD(&dma_desc->cb_node);
--	dma_desc->cb_count = 0;
-+
-+	if (flags & DMA_PREP_INTERRUPT)
-+		dma_desc->cb_count = 0;
-+	else
-+		dma_desc->cb_count = -1;
- 
- 	dma_desc->bytes_transferred = 0;
- 	dma_desc->bytes_requested = buf_len;
--- 
-2.21.0
+Okay, I understand it now. Thanks for the explanation.
 
+Best regards,
+Lu Baolu
