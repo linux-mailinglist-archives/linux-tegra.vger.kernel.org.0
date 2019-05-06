@@ -2,140 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 485C614369
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 03:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B66D514564
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 09:38:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726203AbfEFBsp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 5 May 2019 21:48:45 -0400
-Received: from mga17.intel.com ([192.55.52.151]:49033 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725786AbfEFBsp (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 5 May 2019 21:48:45 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 May 2019 18:48:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,435,1549958400"; 
-   d="scan'208";a="146640656"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.136]) ([10.239.159.136])
-  by fmsmga008.fm.intel.com with ESMTP; 05 May 2019 18:48:39 -0700
-Cc:     baolu.lu@linux.intel.com, murphyt7@tcd.ie,
-        Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        id S1726448AbfEFHiC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 May 2019 03:38:02 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:38980 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726346AbfEFHhr (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 03:37:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=tHEGQ9oW3tTgBWCAOeQCOTnFuPn94mh9AkAln7vInY4=; b=l7fNRNLCq2MIuMeUy6SV4mr7n
+        1qpPp/FUVJ51Os8GeDRVf7F5aguVa/b0irPfvM9G/cW6+FEzAtdo798HVEHAhauYXY8UsPSnZQSRL
+        tJ1EDC287NTk/V18FW2MzFdOSlzo/2DhR2TkqiYxz8p9y7lM+asUSwmonZ5IO7jxu/sL8=;
+Received: from kd111239184067.au-net.ne.jp ([111.239.184.67] helo=finisterre.ee.mobilebroadband)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hNYBx-0000rz-7U; Mon, 06 May 2019 07:37:42 +0000
+Received: by finisterre.ee.mobilebroadband (Postfix, from userid 1000)
+        id 5653E44003B; Mon,  6 May 2019 05:44:25 +0100 (BST)
+Date:   Mon, 6 May 2019 13:44:25 +0900
+From:   Mark Brown <broonie@kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org, kvm@vger.kernel.org
-Subject: Re: [RFC 1/7] iommu/vt-d: Set the dma_ops per device so we can remove
- the iommu_no_mapping code
-To:     Tom Murphy <tmurphy@arista.com>, iommu@lists.linux-foundation.org
-References: <20190504132327.27041-1-tmurphy@arista.com>
- <20190504132327.27041-2-tmurphy@arista.com>
-From:   Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <8fef18f5-773c-e1c9-2537-c9dff5bfd35e@linux.intel.com>
-Date:   Mon, 6 May 2019 09:42:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Timo Alho <talho@nvidia.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        Krishna Yarlagadda <kyarlagadda@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH V3 5/9] spi: export spi core function spi_set_cs
+Message-ID: <20190506044425.GN14916@sirena.org.uk>
+References: <1555363834-32155-1-git-send-email-skomatineni@nvidia.com>
+ <1555363834-32155-6-git-send-email-skomatineni@nvidia.com>
+ <20190419151823.GS2803@sirena.org.uk>
+ <BYAPR12MB3398D133D1C71355BC530754C2390@BYAPR12MB3398.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20190504132327.27041-2-tmurphy@arista.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="UIkw8Cc2/Xz5YwHB"
+Content-Disposition: inline
+In-Reply-To: <BYAPR12MB3398D133D1C71355BC530754C2390@BYAPR12MB3398.namprd12.prod.outlook.com>
+X-Cookie: -- I have seen the FUN --
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
 
-On 5/4/19 9:23 PM, Tom Murphy wrote:
-> Set the dma_ops per device so we can remove the iommu_no_mapping code.
-> 
-> Signed-off-by: Tom Murphy<tmurphy@arista.com>
-> ---
->   drivers/iommu/intel-iommu.c | 85 +++----------------------------------
->   1 file changed, 6 insertions(+), 79 deletions(-)
-> 
-> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-> index eace915602f0..2db1dc47e7e4 100644
-> --- a/drivers/iommu/intel-iommu.c
-> +++ b/drivers/iommu/intel-iommu.c
-> @@ -2622,17 +2622,6 @@ static int __init si_domain_init(int hw)
->   	return 0;
->   }
->   
-> -static int identity_mapping(struct device *dev)
-> -{
-> -	struct device_domain_info *info;
-> -
-> -	info = dev->archdata.iommu;
-> -	if (info && info != DUMMY_DEVICE_DOMAIN_INFO)
-> -		return (info->domain == si_domain);
-> -
-> -	return 0;
-> -}
-> -
->   static int domain_add_dev_info(struct dmar_domain *domain, struct device *dev)
->   {
->   	struct dmar_domain *ndomain;
-> @@ -3270,43 +3259,6 @@ static unsigned long intel_alloc_iova(struct device *dev,
->   	return iova_pfn;
->   }
->   
-> -/* Check if the dev needs to go through non-identity map and unmap process.*/
-> -static int iommu_no_mapping(struct device *dev)
-> -{
-> -	int found;
-> -
-> -	if (iommu_dummy(dev))
-> -		return 1;
-> -
-> -	found = identity_mapping(dev);
-> -	if (found) {
-> -		/*
-> -		 * If the device's dma_mask is less than the system's memory
-> -		 * size then this is not a candidate for identity mapping.
-> -		 */
-> -		u64 dma_mask = *dev->dma_mask;
-> -
-> -		if (dev->coherent_dma_mask &&
-> -		    dev->coherent_dma_mask < dma_mask)
-> -			dma_mask = dev->coherent_dma_mask;
-> -
-> -		if (dma_mask < dma_get_required_mask(dev)) {
-> -			/*
-> -			 * 32 bit DMA is removed from si_domain and fall back
-> -			 * to non-identity mapping.
-> -			 */
-> -			dmar_remove_one_dev_info(dev);
-> -			dev_warn(dev, "32bit DMA uses non-identity mapping\n");
-> -
-> -			return 0;
-> -		}
+--UIkw8Cc2/Xz5YwHB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The iommu_no_mapping() also checks whether any 32bit DMA device uses
-identity mapping. The device might not work if the system memory space
-is bigger than 4G.
+On Mon, Apr 29, 2019 at 10:02:46PM +0000, Sowjanya Komatineni wrote:
 
-Will you add this to other place, or it's unnecessary?
+Please fix your mail client to word wrap within paragraphs at something
+substantially less than 80 columns.  Doing this makes your messages much
+easier to read and reply to.
 
-Best regards,
-Lu Baolu
+> > On Mon, Apr 15, 2019 at 02:30:30PM -0700, Sowjanya Komatineni wrote:
+> > > This patch exports spi_set_cs of the spi core to allow SPI masters to=
+=20
+> > > use when gpio based chip select is needed.
+
+> > This isn't really what I meant when I said it'd be good to use the
+> > core GPIO code - this function doesn't do a huge amount really and
+> > the usage of it in your subsequent patch for the > driver isn't
+> > exactly joined up with the little it does (which is mainly swapping
+> > in the GPIO chip select instead of the hardware chip select) isn't
+> > used in your driver usage of this as far as I can see.  The bulk of
+> > the chip select handling code in the core is actually in
+> > transfer_one_message() which your driver doesn't use as it's got
+> > it's own implementation of that; I've not looked in enough detail to
+> > figure out if it could use it.
+
+> In SPI Tegra driver, we wanted to have GPIO based CS control when
+> cs-gpios is specified in parallel to HW/SW CS. Having parallel GPIO
+> based CS is to mimic some of the timing stuff that's needed for some
+> spi devices by not actually using HW CS on platform but only for SPI
+> HW design logic inside the chip.
+
+> Tegra spi driver don't use set_cs callback so looking into spi_set_cs
+> from spi core implementation when cs-gpios property is used it exactly
+> the same that is needed for GPIO control CS. So used this in V3.=20
+
+> Can you please provide more details on what you are suggesting?
+> Do you prefer not to use SPI core spi_set_cs and gpio_set_values APIs
+> and instead implement in tegra SPI driver using GPIO descriptors ?
+
+You're probably best open coding in the driver if there's value in using
+the hardware chip select.
+
+--UIkw8Cc2/Xz5YwHB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzPu6YACgkQJNaLcl1U
+h9DM0Qf7Bykvbj1t4ndVRPemN1ZjRrYC94F5FOwPPHuLYIIFawPR0xupsoIwdZPi
+b9rbj7/L3dNBHHO+gjkDEQLYC++gMNJnL5bSo2AA8cz/qJhVqzMS0nu+F6Fgofup
+jwo4IWbjxYPAJWqrjWFj6Y79h+cXTmu+lcOiEnHoEjuqjxNH5fWJXqLrDYe7irOJ
+ST8QQXWtz2T1A9BfvWzZ56NFlieoOR+vKQFZZjwYzS7irq+F9LqT5Q/VKNQOvExL
+SLu4ZnMlPuZQBkOxFqtr8yve31kkxhyFfUrvhKCBwAHKzg+dt3Aop+gkbwJCeEEJ
+tuLSjnUOUENVdEKWAwHEj4DdEcXH7Q==
+=C76I
+-----END PGP SIGNATURE-----
+
+--UIkw8Cc2/Xz5YwHB--
