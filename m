@@ -2,105 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D786615329
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 19:56:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4071B153E3
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 20:53:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726536AbfEFR41 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 May 2019 13:56:27 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35785 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726616AbfEFR40 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 13:56:26 -0400
-Received: by mail-wm1-f65.google.com with SMTP id y197so16260194wmd.0
-        for <linux-tegra@vger.kernel.org>; Mon, 06 May 2019 10:56:25 -0700 (PDT)
+        id S1726743AbfEFSxB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 May 2019 14:53:01 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:32782 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726435AbfEFSw5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 14:52:57 -0400
+Received: by mail-ed1-f66.google.com with SMTP id n17so16354254edb.0
+        for <linux-tegra@vger.kernel.org>; Mon, 06 May 2019 11:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=googlenew;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XgcBPgF1G8mWsEvrlCrTStioPWUfDuKosdmWCCS6E5E=;
-        b=VTcOSw6DyJHMGc0Los3OPWsCksrdPWPyD8vO7tfd4hoUYxYcfmFRvdg6+xhXohcDI4
-         iaPbQJh8VcU547wAZs36ZseUPhEx2n6IGa7dslufaoh80Vv9iPal8eujdbqhX47dUUCf
-         rd0f8NtzfQWEGvOpMeRmdX8JSJP8cWcKcVhIbhptYXMtK+CkC+jkyMF1+0K9zUfHIWKS
-         SJl54+i/RAyvIlSJFHmzstzMCaSBfFTRYRQj0rviMBg1ovVLt3DHD9KLbmEDFh5DQkUB
-         K/4VUUv6V6l3X4JgKl9DsDvUKdy2qvZJaDBJBTVgKEAth7AkIIbN3tSX8f+DjWvOa5Un
-         ZWlQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xOMG2HdbEZ3SrXQ8q7Gqb0A8n9cqtIr7U5g8ZrmeSwY=;
+        b=jhxVShgPi56fhBmH6sXGURNSQPG8rifG26Da8orjFSRRc8gRE6k4Cv6HwdBHg4knfI
+         l5tc2Q+doMEgflLHad6284EeKM+Hshw3o9FH3NdEkGrVsvtFV4R2axudVscNb2s97B7y
+         TU8ZHMgrm2I96elHH5u5wUkhBml+5CSM0Bdrjpo6Z3hiwSnAQoLfuou4AItwdkOpsxed
+         80lBtJ3c6s9ug68FFc8DHgEZ18q+zoY1HdpsnDLUDCZ8hzDP1k/iNQBJQXz0tnLVDZDA
+         PjjVf3eEJQcaUVjosMg85BMeUtS+scBv/cwOJtifNVGUGwrOUDP6xQ2JB5R79hYAa3k2
+         M/6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XgcBPgF1G8mWsEvrlCrTStioPWUfDuKosdmWCCS6E5E=;
-        b=GM31I7UFOr+rde1l0YkbbJAmDRQY9bM8WdH9tlUPH75xrL8bVXL0wP/5KjWfvB80mq
-         aJU/jukmV02V7kJQ/mp83COpdtYlJFeg9HMHT+mmqK67Ohaw4QkdFS6npBddrx3LpGFj
-         llZlPR2vykES3DmWFlIetFZGgIo64MC57nBKcVwWTIxJzZZ3CZOXx4OjPoXVBHAHwiPP
-         mGZlzRzuLqnHEepKvlP8e48d4P70mGSFp0NmTSv/W/YUVqzhEHaV1HOm9uloS3IGGkL3
-         KILJzQC/SqC+C2G/fblXEJNzqHjDuSwlXQsCR45K7AH/0jLFEq5Zv5Xco02SJZnsZY6K
-         Y4zg==
-X-Gm-Message-State: APjAAAUCH6urLl6Rp7KcJQjwgfCUfrr6SOYWG140mL3S+ia87EcqKfGN
-        EgSNoqcjiH4cX4TcsGTReL/Bl3cil8RvQ12ipnkSCQ==
-X-Google-Smtp-Source: APXvYqy6O9Hx4Xu6PpK27h5ZvwKOZrtRiCBaX5D6FeKqa43xpsoBRLSUcAf7GCThq5ov8PH4U8Kpn29YDNsu9mBVmhc=
-X-Received: by 2002:a1c:2e88:: with SMTP id u130mr10259976wmu.54.1557165384862;
- Mon, 06 May 2019 10:56:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190430002952.18909-1-tmurphy@arista.com> <20190430002952.18909-4-tmurphy@arista.com>
- <20190430111222.GA3191@infradead.org> <da835ce2-f73e-3035-e1d7-d3028cc1a838@arm.com>
- <20190430113253.GA23210@infradead.org> <96ebb6fc-a889-fa94-09ba-65d505b85724@arm.com>
-In-Reply-To: <96ebb6fc-a889-fa94-09ba-65d505b85724@arm.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xOMG2HdbEZ3SrXQ8q7Gqb0A8n9cqtIr7U5g8ZrmeSwY=;
+        b=ta5q1a8s2HFXRUxkOAeAqvJQjdmzbramwhSXKHs7gPOVAwmMcaaOxzSBarkzS+Qeww
+         fGh0TFKMh1EuzE4nNSMhszPUx5hQzY7g2e6k8T4BKApI66B4ZsvPzcHU5zYoAp2sR6P2
+         tPgK8w0EN11tEdbz3luhQYEinUG7o9u/OVOkrPxcPcEG60+GLr/LwluJieXsZmWUGkA1
+         9mgSYvo4D4jV1b5NbAesnVYt6/fLLyhOKrxnUvfoDTi5JW8oqYNvs2RcH96krTijnVXL
+         LQPmDZQbXG+KJfLNnMihDwm0hUwVgpCOJbOTf0ym7Kg66xOXHqhvq7iPL7olbqXxmtfB
+         k9sg==
+X-Gm-Message-State: APjAAAUSLOow1xoo2omHgibHHXeRGF4PHbfxQB2/vJJZM6WSbJRuPEZs
+        WrRCLRNPeYGARejIDRy+PIt7+g==
+X-Google-Smtp-Source: APXvYqx/0bwigCkWFM3Wz/6ksylC3p72YzFRn5H6iW89lDNU+bH1gdGYQluV+iLWz8wcDznRZGXmPg==
+X-Received: by 2002:a17:906:469a:: with SMTP id a26mr20917778ejr.164.1557168775535;
+        Mon, 06 May 2019 11:52:55 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8084:a0:bc00:d9d9:922a:828d:a50e])
+        by smtp.gmail.com with ESMTPSA id e35sm3361412eda.2.2019.05.06.11.52.54
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 May 2019 11:52:54 -0700 (PDT)
 From:   Tom Murphy <tmurphy@arista.com>
-Date:   Mon, 6 May 2019 18:56:13 +0100
-Message-ID: <CAPL0++61WytVhs63tvt+hdpZKXGinrkYx=4nDtNx1UoNTRWWjw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] iommu/dma-iommu: Use the dev->coherent_dma_mask
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        iommu@lists.linux-foundation.org, Heiko Stuebner <heiko@sntech.de>,
+To:     iommu@lists.linux-foundation.org
+Cc:     murphyt7@tcd.ie, Tom Murphy <tmurphy@arista.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Will Deacon <will.deacon@arm.com>,
-        David Brown <david.brown@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Kukjin Kim <kgene@kernel.org>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        David Woodhouse <dwmw2@infradead.org>,
         Andy Gross <andy.gross@linaro.org>,
-        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
+        David Brown <david.brown@linaro.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Tom Murphy <murphyt7@tcd.ie>,
-        David Woodhouse <dwmw2@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH v3 0/4] iommu/amd: Convert the AMD iommu driver to the dma-iommu api
+Date:   Mon,  6 May 2019 19:52:02 +0100
+Message-Id: <20190506185207.31069-1-tmurphy@arista.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Just to make this clear, I won't apply Christoph's patch (the one in
-this email thread) and instead the only change I will make is to
-rename dma_limit to dma_mask.
+Convert the AMD iommu driver to the dma-iommu api. Remove the iova
+handling and reserve region code from the AMD iommu driver.
 
-On Tue, Apr 30, 2019 at 1:05 PM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 30/04/2019 12:32, Christoph Hellwig wrote:
-> > On Tue, Apr 30, 2019 at 12:27:02PM +0100, Robin Murphy wrote:
-> >>> Hmm, I don't think we need the DMA mask for the MSI mapping, this
-> >>> should probably always use a 64-bit mask.
-> >>
-> >> If that were true then we wouldn't need DMA masks for regular mappings
-> >> either. If we have to map the MSI doorbell at all, then we certainly have to
-> >> place it at an IOVA that the relevant device is actually capable of
-> >> addressing.
-> >
-> > Well, as shown by the patch below we don't even look at the DMA mask
-> > for the MSI page - we just allocate from bottom to top.
->
-> In the trivial cookie for unmanaged domains, yes, but in that case the
-> responsibility is on VFIO to provide a suitable (i.e. sub-32-bit)
-> address range for that cookie in the first place. In the managed case,
-> allocation uses the streaming mask via iommu_dma_get_msi_page() calling
-> __iommu_dma_map(). Admittedly the mask can then get overlooked when
-> reusing an existing mapping, which strictly could pose a problem if you
-> have multiple devices with incompatible masks in the same group (and
-> such that the PCI stuff doesn't already mitigate it), but that's such an
-> obscure corner case that I'm reticent to introduce the complication to
-> handle it until it's actually proven necessary.
->
-> Robin.
+Change-log:
+v3:
+-rename dma_limit to dma_mask
+-exit handle_deferred_device early if (!is_kdump_kernel())
+-remove pointless calls to handle_deferred_device
+v2:
+-Rebase on top of this series:
+ http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-iommu-ops.3
+-Add a gfp_t parameter to the iommu_ops::map function.
+-Made use of the reserve region code inside the dma-iommu api
+
+Tom Murphy (4):
+  iommu: Add gfp parameter to iommu_ops::map
+  iommu/dma-iommu: Handle deferred devices
+  iommu/dma-iommu: Use the dev->coherent_dma_mask
+  iommu/amd: Convert the AMD iommu driver to the dma-iommu api
+
+ drivers/iommu/Kconfig          |   1 +
+ drivers/iommu/amd_iommu.c      | 694 ++++-----------------------------
+ drivers/iommu/arm-smmu-v3.c    |   2 +-
+ drivers/iommu/arm-smmu.c       |   2 +-
+ drivers/iommu/dma-iommu.c      |  50 ++-
+ drivers/iommu/exynos-iommu.c   |   2 +-
+ drivers/iommu/intel-iommu.c    |   2 +-
+ drivers/iommu/iommu.c          |  43 +-
+ drivers/iommu/ipmmu-vmsa.c     |   2 +-
+ drivers/iommu/msm_iommu.c      |   2 +-
+ drivers/iommu/mtk_iommu.c      |   2 +-
+ drivers/iommu/mtk_iommu_v1.c   |   2 +-
+ drivers/iommu/omap-iommu.c     |   2 +-
+ drivers/iommu/qcom_iommu.c     |   2 +-
+ drivers/iommu/rockchip-iommu.c |   2 +-
+ drivers/iommu/s390-iommu.c     |   2 +-
+ drivers/iommu/tegra-gart.c     |   2 +-
+ drivers/iommu/tegra-smmu.c     |   2 +-
+ include/linux/iommu.h          |  21 +-
+ 19 files changed, 184 insertions(+), 653 deletions(-)
+
+-- 
+2.17.1
+
