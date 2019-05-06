@@ -2,112 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C11B81493A
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 13:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5580C14EB4
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 17:05:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbfEFL6j (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 May 2019 07:58:39 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:5900 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725827AbfEFL6j (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 07:58:39 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cd0216a0000>; Mon, 06 May 2019 04:58:34 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 06 May 2019 04:58:38 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 06 May 2019 04:58:38 -0700
-Received: from HQMAIL103.nvidia.com (172.20.187.11) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 May
- 2019 11:58:37 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL103.nvidia.com
- (172.20.187.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 6 May 2019 11:58:37 +0000
-Received: from linux.nvidia.com (Not Verified[10.24.34.185]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5cd0216b0001>; Mon, 06 May 2019 04:58:37 -0700
-From:   Sameer Pujar <spujar@nvidia.com>
-To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>
-Subject: [PATCH 2/2] arm64: tegra: enable ACONNECT, ADMA and AGIC
-Date:   Mon, 6 May 2019 17:28:28 +0530
-Message-ID: <1557143908-5850-2-git-send-email-spujar@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1557143908-5850-1-git-send-email-spujar@nvidia.com>
-References: <1557143908-5850-1-git-send-email-spujar@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1557143914; bh=jf2X/hRHp6T5MD0pLXw6fQpLx6GEaxNDif0DtmfZOY4=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:MIME-Version:Content-Type;
-        b=TacbBNplcom3tXelWeKM9QKDqTp0bso1sT8k6EbNXV3npkm5W0dYN5IMrJ2dX/r49
-         G4bd6D4Fz8I5ARE4amgWc1BWFLvifVL9g5EGm+xrxnc7C0LmRWeZjkk79lXCbgAwih
-         gTMEuhuoTFnYxRtSGoNZYHmHFDVcCaYtuSk2gjn44d0xvCg6p8nJICTxEewpmV30j8
-         gFXE/blopwRcg8TRN/SBZvfa1wyI+V6Tu7CIZlD7pP8lJ4WJ/8CoXDiK1DFc9PoPFs
-         kpwbYMn/lahUVrzZlv0Gfmy7ZB0VnZZV3szriMnuEK+lDpJ15WCc0M44Gy9Mz/czTR
-         DAHJ7tpGnSdJQ==
+        id S1727145AbfEFPD4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 May 2019 11:03:56 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:53776 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726921AbfEFPDz (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 11:03:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
+        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+        List-Archive; bh=eQqQpulK7oQXoujzji5SLgl6P22pxVQXz4sPEzVqvSw=; b=NoYAzT453inX
+        7iDiCGQOfIC5yI/lfeRPv/ZtcVczJkdnth7CVCzomqXyqT+IGaeieIqlocdZQZ8evKAXI/u8jvr2o
+        PSgFl+jEkLbq72adnoYQV21VDTE4dy1sqxBiLhNSGH/FxPwHgFhgS3qGmqQJSpahIzRJuOH55aymN
+        x5ouY=;
+Received: from kd111239184067.au-net.ne.jp ([111.239.184.67] helo=finisterre.ee.mobilebroadband)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hNf9i-0001ua-B7; Mon, 06 May 2019 15:03:50 +0000
+Received: by finisterre.ee.mobilebroadband (Postfix, from userid 1000)
+        id 663AD440036; Mon,  6 May 2019 16:03:45 +0100 (BST)
+From:   Mark Brown <broonie@kernel.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>, stable@vger.kernel.org
+Subject: Applied "ASoC: max98090: Fix restore of DAPM Muxes" to the asoc tree
+In-Reply-To: <1556720978-13233-1-git-send-email-jonathanh@nvidia.com>
+X-Patchwork-Hint: ignore
+Message-Id: <20190506150345.663AD440036@finisterre.ee.mobilebroadband>
+Date:   Mon,  6 May 2019 16:03:45 +0100 (BST)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable ACONNECT, ADMA and AGIC devices for following platforms
-  * Jetson TX2
-  * Jetson Xavier
+The patch
 
-Verified driver probe path and devices get registered fine.
+   ASoC: max98090: Fix restore of DAPM Muxes
 
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+has been applied to the asoc tree at
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.2
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+From ecb2795c08bc825ebd604997e5be440b060c5b18 Mon Sep 17 00:00:00 2001
+From: Jon Hunter <jonathanh@nvidia.com>
+Date: Wed, 1 May 2019 15:29:38 +0100
+Subject: [PATCH] ASoC: max98090: Fix restore of DAPM Muxes
+
+The max98090 driver defines 3 DAPM muxes; one for the right line output
+(LINMOD Mux), one for the left headphone mixer source (MIXHPLSEL Mux)
+and one for the right headphone mixer source (MIXHPRSEL Mux). The same
+bit is used for the mux as well as the DAPM enable, and although the mux
+can be correctly configured, after playback has completed, the mux will
+be reset during the disable phase. This is preventing the state of these
+muxes from being saved and restored correctly on system reboot. Fix this
+by marking these muxes as SND_SOC_NOPM.
+
+Note this has been verified this on the Tegra124 Nyan Big which features
+the MAX98090 codec.
+
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Cc: stable@vger.kernel.org
 ---
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 12 ++++++++++++
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 12 ++++++++++++
- 2 files changed, 24 insertions(+)
+ sound/soc/codecs/max98090.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-index 31457f3..21e73db 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-@@ -183,4 +183,16 @@
- 			vin-supply = <&vdd_5v0_sys>;
- 		};
- 	};
-+
-+	aconnect@2a41000 {
-+		status = "okay";
-+
-+		dma@2930000 {
-+			status = "okay";
-+		};
-+
-+		agic@2a41000 {
-+			status = "okay";
-+		};
-+	};
- };
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index b62e969..bca28fc 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -169,4 +169,16 @@
- 			};
- 		};
- 	};
-+
-+	aconnect@2a41000 {
-+		status = "okay";
-+
-+		dma@2930000 {
-+			status = "okay";
-+		};
-+
-+		agic@2a41000 {
-+			status = "okay";
-+		};
-+	};
- };
+diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
+index 30c242c38d99..7619ea31ab50 100644
+--- a/sound/soc/codecs/max98090.c
++++ b/sound/soc/codecs/max98090.c
+@@ -1194,14 +1194,14 @@ static const struct snd_soc_dapm_widget max98090_dapm_widgets[] = {
+ 		&max98090_right_rcv_mixer_controls[0],
+ 		ARRAY_SIZE(max98090_right_rcv_mixer_controls)),
+ 
+-	SND_SOC_DAPM_MUX("LINMOD Mux", M98090_REG_LOUTR_MIXER,
+-		M98090_LINMOD_SHIFT, 0, &max98090_linmod_mux),
++	SND_SOC_DAPM_MUX("LINMOD Mux", SND_SOC_NOPM, 0, 0,
++		&max98090_linmod_mux),
+ 
+-	SND_SOC_DAPM_MUX("MIXHPLSEL Mux", M98090_REG_HP_CONTROL,
+-		M98090_MIXHPLSEL_SHIFT, 0, &max98090_mixhplsel_mux),
++	SND_SOC_DAPM_MUX("MIXHPLSEL Mux", SND_SOC_NOPM, 0, 0,
++		&max98090_mixhplsel_mux),
+ 
+-	SND_SOC_DAPM_MUX("MIXHPRSEL Mux", M98090_REG_HP_CONTROL,
+-		M98090_MIXHPRSEL_SHIFT, 0, &max98090_mixhprsel_mux),
++	SND_SOC_DAPM_MUX("MIXHPRSEL Mux", SND_SOC_NOPM, 0, 0,
++		&max98090_mixhprsel_mux),
+ 
+ 	SND_SOC_DAPM_PGA("HP Left Out", M98090_REG_OUTPUT_ENABLE,
+ 		M98090_HPLEN_SHIFT, 0, NULL, 0),
 -- 
-2.7.4
+2.20.1
 
