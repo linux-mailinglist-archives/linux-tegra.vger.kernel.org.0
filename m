@@ -2,105 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECEAB1456B
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 09:38:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49AD9148BE
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 13:16:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725917AbfEFHhn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 May 2019 03:37:43 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:38842 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725846AbfEFHhn (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 03:37:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Ml4uJzXcGzydWf79ydXHif8mbv/MfKjBeSGO2rM7E+g=; b=DwMEcOpnMtddv14wrkldHEyB+
-        hF4fks1qiB5DJ7lI1MC/QJ8Esa52mK+osjDFyyJpEL0lK+dKFPvL+RRZVN8jY4kz6yijQKF5GQOjX
-        CUQ+0Hkw9MpBZ6xzGOHuRcj8hAF+GQrrTtmpF+qypulZ1LX3tpLkwvIN2DnCEtwjdx7oU=;
-Received: from kd111239184067.au-net.ne.jp ([111.239.184.67] helo=finisterre.ee.mobilebroadband)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hNYBt-0000s5-BM; Mon, 06 May 2019 07:37:37 +0000
-Received: by finisterre.ee.mobilebroadband (Postfix, from userid 1000)
-        id DFBC3440040; Mon,  6 May 2019 05:49:16 +0100 (BST)
-Date:   Mon, 6 May 2019 13:49:16 +0900
-From:   Mark Brown <broonie@kernel.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH V3 3/9] spi: add SPI_LSBYTE_FIRST mode
-Message-ID: <20190506044916.GO14916@sirena.org.uk>
-References: <1555363834-32155-1-git-send-email-skomatineni@nvidia.com>
- <1555363834-32155-4-git-send-email-skomatineni@nvidia.com>
- <20190419152208.GT2803@sirena.org.uk>
- <BYAPR12MB33989D8DCEFCDE5DB76429E7C23F0@BYAPR12MB3398.namprd12.prod.outlook.com>
+        id S1725856AbfEFLQF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 May 2019 07:16:05 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:35404 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725886AbfEFLQF (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 07:16:05 -0400
+Received: by mail-io1-f67.google.com with SMTP id r18so10777591ioh.2;
+        Mon, 06 May 2019 04:16:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:newsgroups:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Ll4tLtKAz5QfqQNpJ8SOOQ8DBmPbzjjbapAWPj5NxaA=;
+        b=O4ELULrFzjuXLVhmIJ0iWCRsqi2vpscptwlzxT8ncscRH0fiSg4ocaplwaW1Vq4DS8
+         8kknL+jkrRMKRGTlD20UwPPQ5wztsRxHlwnHaSfWjIR8Cz1tEneerB6MPBIm1mSY0f/W
+         bDswQ3/9zD164+sFqKRjjLNnLN2ThRE9FZCBJ3aIWN7hldnjnZPR4wFdsthmnJDzbU+q
+         VMDf3ulbbylpVBo4K92BKLw6cUEzFrDLDXop3FhLQw/gaxwMT+oSlR2zeHlixCM2ocDf
+         HjgkAVh+moZ67ZDzd43pQn0uFNSkzJnm2oMW1Hm76w1L5MrkS2AATYLINtXX/ggJfak+
+         6fsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:newsgroups:references
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Ll4tLtKAz5QfqQNpJ8SOOQ8DBmPbzjjbapAWPj5NxaA=;
+        b=hRI6RLupc1T0jH5tC+8Zt1Q8xI2PQHt1Ii6mxU/GfXyBkSa6wU4mW2PnwC/DEcioTp
+         rcA8xHABC/QVhzqpCFDBP8fhFBeeuka1yAwvyIKBbRQ+1YlcuMxOuK2EU4XaVRfMJUxA
+         P+Ih/xG5ym3FvSYgurRHDo9/iQFvjjcuibkFmfdMBMjKBdZ5e6ApuURDVqAc4zna7ciM
+         kI9sExpSC4PqPClx0JwtSYwX2l3NbQrLDYI06zqCpw1qTdnQ6XsvsXqnc/XW+XvUWy1O
+         /THIDxwnDJzpSSpnKFG3M/2QKRc0ji8pv7SQopfx1IzwqIGULODmp1Is5R6t/Hn8B0NX
+         iK5g==
+X-Gm-Message-State: APjAAAWgKRDFYCUD1FDwmFUknUpP97Xsm5OPtvM2rRxmwUaQnDLaODcG
+        LRSnpvGPtdst3jCtkhQz058MhUkN
+X-Google-Smtp-Source: APXvYqzaAZaaReBRZqOTq7QjKFbI3hBW0J8EDh/qu8rPIMmtrAExjTwBy18jZSWfdty949f+TWigcA==
+X-Received: by 2002:a5e:d503:: with SMTP id e3mr17129537iom.46.1557141363901;
+        Mon, 06 May 2019 04:16:03 -0700 (PDT)
+Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.googlemail.com with ESMTPSA id 12sm8361952itm.2.2019.05.06.04.16.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 May 2019 04:16:03 -0700 (PDT)
+Subject: Re: [PATCH v1 3/3] drm/tegra: Support PM QoS memory bandwidth
+ management
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Newsgroups: gmane.linux.kernel,gmane.comp.video.dri.devel,gmane.linux.ports.tegra
+References: <20190505173707.29282-1-digetx@gmail.com>
+ <20190505173707.29282-4-digetx@gmail.com>
+Message-ID: <e1dc16d2-db9e-6869-81dc-8ffe5d5fd6fe@gmail.com>
+Date:   Mon, 6 May 2019 14:15:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="AoBLyXwWXtFbU0pZ"
-Content-Disposition: inline
-In-Reply-To: <BYAPR12MB33989D8DCEFCDE5DB76429E7C23F0@BYAPR12MB3398.namprd12.prod.outlook.com>
-X-Cookie: -- I have seen the FUN --
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190505173707.29282-4-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+05.05.2019 20:37, Dmitry Osipenko пишет:
+> Display controller (DC) performs isochronous memory transfers and thus
+> has a requirement for a minimum memory bandwidth that shall be fulfilled,
+> otherwise framebuffer data can't be fetched fast enough and this results
+> in a DC's data-FIFO underflow that follows by a visual corruption.
+> 
+> The External Memory Controller drivers will provide memory bandwidth
+> management facility via the generic Power Management QoS API soonish.
+> This patch wires up the PM QoS API support for the display driver
+> beforehand.
+> 
+> Display won't have visual corruption on coming up from suspend state when
+> devfreq driver is active once all prerequisite bits will get upstreamed.
+> The devfreq reaction has a quite significant latency and it also doesn't
+> take into account the ISO transfers which may result in assumption about
+> lower memory bandwidth requirement than actually needed.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/gpu/drm/tegra/dc.c    | 216 +++++++++++++++++++++++++++++++++-
+>  drivers/gpu/drm/tegra/dc.h    |   8 ++
+>  drivers/gpu/drm/tegra/drm.c   |  18 +++
+>  drivers/gpu/drm/tegra/plane.c |   1 +
+>  drivers/gpu/drm/tegra/plane.h |   4 +-
+>  5 files changed, 245 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index 41cb67db6dbc..8c5b9e71ca6f 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -514,6 +514,107 @@ static void tegra_dc_setup_window(struct tegra_plane *plane,
+>  		tegra_plane_setup_blending(plane, window);
+>  }
+>  
+> +static unsigned long
+> +tegra_plane_memory_bandwidth(struct drm_plane_state *state,
+> +			     struct tegra_dc_window *window)
+> +{
+> +	struct tegra_plane_state *tegra_state;
+> +	struct drm_crtc_state *crtc_state;
+> +	struct tegra_dc_window win;
+> +	unsigned int mul;
+> +	unsigned int bpp;
+> +	bool planar;
+> +	bool yuv;
+> +
+> +	if (!state->fb || !state->visible)
+> +		return 0;
+> +
+> +	crtc_state = drm_atomic_get_new_crtc_state(state->state, state->crtc);
+> +	tegra_state = to_tegra_plane_state(state);
+> +
+> +	if (!window)
+> +		window = &win;
+> +
+> +	window->src.w = drm_rect_width(&state->src) >> 16;
+> +	window->src.h = drm_rect_height(&state->src) >> 16;
+> +	window->dst.w = drm_rect_width(&state->dst);
+> +	window->dst.h = drm_rect_height(&state->dst);
+> +	window->format = tegra_state->format;
+> +	window->tiling = tegra_state->tiling;
+> +
+> +	yuv = tegra_plane_format_is_yuv(window->format, &planar);
+> +	if (!yuv || !planar)
+> +		bpp = state->fb->format->cpp[0] * 8;
+> +	else
+> +		bpp = 16;
 
---AoBLyXwWXtFbU0pZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+It occurred to me that it will be much better to use the drm_format_*
+helpers here to calculate the bits-per-pixel because the above variant
+isn't really good for all of possible formats. I'll switch to the
+generic helpers in v2.
 
-On Sat, Apr 27, 2019 at 12:32:58AM +0000, Sowjanya Komatineni wrote:
-> > On Mon, Apr 15, 2019 at 02:30:28PM -0700, Sowjanya Komatineni wrote:
+Thierry, for now I'll wait for awhile for yours comments. Please let me
+know if you'll want to see anything else changed in v2. I think there is
+a good chance that we could get everything ready in regards to memory
+bandwidth management basics for v5.3, please help with reviewing and
+getting the patches upstreamed.
 
-> > This is byte ordering as opposed to bit ordering which the core
-> > already supports.  Do you have any examples of devices that need
-> > this or is it just being added for completeness?  If devices are
-> > going to rely on this we probably need emulation > support in the
-> > core I guess given that this is a pretty unusual controller feature.
-
-> Current upstream platforms have no specific device requirement but
-> added this feature as Tegra support it for specific requirements of
-> some slaves.
-
-Do we have any examples of such devices?  In any case I think the main
-thing here would be a software implementation of the feature so that
-drivers can use it sensibly - at the minute they'd have to provide code
-to work without the feature anyway and it seems like a relatively small
-optimization for most things.
-
-> [Changed mail client message format word wrap limit to 74 columns]
-
-It's not working, and it's also mangling quoted sections of the mail
-too.
-
---AoBLyXwWXtFbU0pZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzPvMwACgkQJNaLcl1U
-h9BhdAf+KaNn14IkNGm8rJREfmZNBQNH91xi4m0l7rxa6aW9c9YwozOM6cKxPdyR
-LRhdsAMvfNxCdosH7hrOPptQgEsAudA3+JVIwnhOuhFkkBmqfeNlc2/HUQIoXkKr
-+RIH1nJJA9bxD0Z5u2x7wAt1F4bQ6EQ1kb0oSSuHThMI7WI5u7y3kafC/gUctwzB
-JeU9TplFlzXmGLHkve6berLhGmZOvZ+bnOPHC7H0FlGScV6M6qk9sw7zxt6zxPF9
-Aw9KSh05HPZ5aCYz/4kYBGYf7K+w97bjpUxX73idvJeXauzklnVgAnaq2S1JZf8q
-hUny8YE9djcs/IQXidQFluYReixJDA==
-=8Pu3
------END PGP SIGNATURE-----
-
---AoBLyXwWXtFbU0pZ--
+-- 
+Dmitry
