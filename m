@@ -2,123 +2,165 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5580C14EB4
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 17:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ACBA15029
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 17:27:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727145AbfEFPD4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 May 2019 11:03:56 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:53776 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726921AbfEFPDz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 11:03:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
-        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=eQqQpulK7oQXoujzji5SLgl6P22pxVQXz4sPEzVqvSw=; b=NoYAzT453inX
-        7iDiCGQOfIC5yI/lfeRPv/ZtcVczJkdnth7CVCzomqXyqT+IGaeieIqlocdZQZ8evKAXI/u8jvr2o
-        PSgFl+jEkLbq72adnoYQV21VDTE4dy1sqxBiLhNSGH/FxPwHgFhgS3qGmqQJSpahIzRJuOH55aymN
-        x5ouY=;
-Received: from kd111239184067.au-net.ne.jp ([111.239.184.67] helo=finisterre.ee.mobilebroadband)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hNf9i-0001ua-B7; Mon, 06 May 2019 15:03:50 +0000
-Received: by finisterre.ee.mobilebroadband (Postfix, from userid 1000)
-        id 663AD440036; Mon,  6 May 2019 16:03:45 +0100 (BST)
-From:   Mark Brown <broonie@kernel.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>, stable@vger.kernel.org
-Subject: Applied "ASoC: max98090: Fix restore of DAPM Muxes" to the asoc tree
-In-Reply-To: <1556720978-13233-1-git-send-email-jonathanh@nvidia.com>
-X-Patchwork-Hint: ignore
-Message-Id: <20190506150345.663AD440036@finisterre.ee.mobilebroadband>
-Date:   Mon,  6 May 2019 16:03:45 +0100 (BST)
+        id S1726572AbfEFP1W (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 May 2019 11:27:22 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:43220 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726229AbfEFP1W (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 11:27:22 -0400
+Received: by mail-wr1-f68.google.com with SMTP id r4so2504160wro.10
+        for <linux-tegra@vger.kernel.org>; Mon, 06 May 2019 08:27:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=googlenew;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GuMSdmXl0z53dDi0xhlaU7BU2n/bLw/DBUWaPvlO+dc=;
+        b=C/d9PWiZ7kbJC0oH7zo5Ibhtjb0LJxg5WGRhk2z22dgXTR0ahak265kLVZyGYOhfje
+         aEtSmh42RRvz8bCCBZRBFOn7uv5XCF0ECqKL0Hb338d0yPodqMwGb1L0gvRyJgITkaxQ
+         Ki1y61sbdbPypKRjDCxUR8MH0zfn/bbro9LPpFVyLBByJZzEOqelQf5tS81MK2FkUIP3
+         sLhve+NsmP0dlDX03w14Qjs93JrqJwcC/r4yHUZhJhCv/72E7VCM80drfYcNtln/9ipb
+         cKIyK6t7ROv023pVx/00hbtubgQCmfBlIjzs3E6R48gtIILod1LUINjWV6UVWZ8tSjxH
+         BBpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GuMSdmXl0z53dDi0xhlaU7BU2n/bLw/DBUWaPvlO+dc=;
+        b=o2FyRc7uVvVDejFlZrjU9LzLQnErkHcxeqinH/s1nMkKr6cUP/aU/HZSCf+706/5pc
+         4wYpeB1a4lw/p5hKkINmiRA+tgA5QaPZDDrW9NCj4jhZL2CwkYRAnz6FCFxQsYuyLBMb
+         fwbujA9svgwQ0GO8/eroFL5JMIOyDX1xw670k3GyOiI0133j/IZWpF13nq9vYJ0fXZww
+         o+0b9nMpcQXT72k0+0DdAm3EpcuHZnrm44J7g1DzpSX1J1hoOTpPzxmy6DKaTLvro4QX
+         094ba/Dwyy10fJKIx01t405TVtziAyjBXKQOKAA6b3dG/KQOjm0Bkbf3MtFrK9w8dzdt
+         20bQ==
+X-Gm-Message-State: APjAAAWQvmNUWVcUIDoJe6/mFN1yiz42pOm4eMEuDFgk94q4Tq/s5pvd
+        +AFXtNtr/ICB6DN9HHqNdzGK/7INOcTG4f5oMEidnA==
+X-Google-Smtp-Source: APXvYqzdYjq2KzNwXSYRUYk147h4YL+JNa0zWfymURRoAL7aXQogilrHn37rwl9PoIS46ayzMGu+Ikwm2tOs7SUKN4Y=
+X-Received: by 2002:a5d:5551:: with SMTP id g17mr20082024wrw.50.1557156440752;
+ Mon, 06 May 2019 08:27:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190504132327.27041-1-tmurphy@arista.com> <20190504132327.27041-2-tmurphy@arista.com>
+ <8fef18f5-773c-e1c9-2537-c9dff5bfd35e@linux.intel.com>
+In-Reply-To: <8fef18f5-773c-e1c9-2537-c9dff5bfd35e@linux.intel.com>
+From:   Tom Murphy <tmurphy@arista.com>
+Date:   Mon, 6 May 2019 16:27:09 +0100
+Message-ID: <CAPL0++4_Qa+dxzQ2k6BJi_o+VSSrHEtomYgVmRqjtjsOfHbGew@mail.gmail.com>
+Subject: Re: [RFC 1/7] iommu/vt-d: Set the dma_ops per device so we can remove
+ the iommu_no_mapping code
+To:     Lu Baolu <baolu.lu@linux.intel.com>
+Cc:     iommu@lists.linux-foundation.org, Tom Murphy <murphyt7@tcd.ie>,
+        Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org, kvm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The patch
+On Mon, May 6, 2019 at 2:48 AM Lu Baolu <baolu.lu@linux.intel.com> wrote:
+>
+> Hi,
+>
+> On 5/4/19 9:23 PM, Tom Murphy wrote:
+> > Set the dma_ops per device so we can remove the iommu_no_mapping code.
+> >
+> > Signed-off-by: Tom Murphy<tmurphy@arista.com>
+> > ---
+> >   drivers/iommu/intel-iommu.c | 85 +++----------------------------------
+> >   1 file changed, 6 insertions(+), 79 deletions(-)
+> >
+> > diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> > index eace915602f0..2db1dc47e7e4 100644
+> > --- a/drivers/iommu/intel-iommu.c
+> > +++ b/drivers/iommu/intel-iommu.c
+> > @@ -2622,17 +2622,6 @@ static int __init si_domain_init(int hw)
+> >       return 0;
+> >   }
+> >
+> > -static int identity_mapping(struct device *dev)
+> > -{
+> > -     struct device_domain_info *info;
+> > -
+> > -     info = dev->archdata.iommu;
+> > -     if (info && info != DUMMY_DEVICE_DOMAIN_INFO)
+> > -             return (info->domain == si_domain);
+> > -
+> > -     return 0;
+> > -}
+> > -
+> >   static int domain_add_dev_info(struct dmar_domain *domain, struct device *dev)
+> >   {
+> >       struct dmar_domain *ndomain;
+> > @@ -3270,43 +3259,6 @@ static unsigned long intel_alloc_iova(struct device *dev,
+> >       return iova_pfn;
+> >   }
+> >
+> > -/* Check if the dev needs to go through non-identity map and unmap process.*/
+> > -static int iommu_no_mapping(struct device *dev)
+> > -{
+> > -     int found;
+> > -
+> > -     if (iommu_dummy(dev))
+> > -             return 1;
+> > -
+> > -     found = identity_mapping(dev);
+> > -     if (found) {
+> > -             /*
+> > -              * If the device's dma_mask is less than the system's memory
+> > -              * size then this is not a candidate for identity mapping.
+> > -              */
+> > -             u64 dma_mask = *dev->dma_mask;
+> > -
+> > -             if (dev->coherent_dma_mask &&
+> > -                 dev->coherent_dma_mask < dma_mask)
+> > -                     dma_mask = dev->coherent_dma_mask;
+> > -
+> > -             if (dma_mask < dma_get_required_mask(dev)) {
+> > -                     /*
+> > -                      * 32 bit DMA is removed from si_domain and fall back
+> > -                      * to non-identity mapping.
+> > -                      */
+> > -                     dmar_remove_one_dev_info(dev);
+> > -                     dev_warn(dev, "32bit DMA uses non-identity mapping\n");
+> > -
+> > -                     return 0;
+> > -             }
+>
+> The iommu_no_mapping() also checks whether any 32bit DMA device uses
+> identity mapping. The device might not work if the system memory space
+> is bigger than 4G.
 
-   ASoC: max98090: Fix restore of DAPM Muxes
+It looks like their is actually a bug in the v3 of the "iommu/vt-d:
+Delegate DMA domain to generic iommu" patch set. I will leave a
+message in that email thread. Fixing that bug should also fix this
+issue.
 
-has been applied to the asoc tree at
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From ecb2795c08bc825ebd604997e5be440b060c5b18 Mon Sep 17 00:00:00 2001
-From: Jon Hunter <jonathanh@nvidia.com>
-Date: Wed, 1 May 2019 15:29:38 +0100
-Subject: [PATCH] ASoC: max98090: Fix restore of DAPM Muxes
-
-The max98090 driver defines 3 DAPM muxes; one for the right line output
-(LINMOD Mux), one for the left headphone mixer source (MIXHPLSEL Mux)
-and one for the right headphone mixer source (MIXHPRSEL Mux). The same
-bit is used for the mux as well as the DAPM enable, and although the mux
-can be correctly configured, after playback has completed, the mux will
-be reset during the disable phase. This is preventing the state of these
-muxes from being saved and restored correctly on system reboot. Fix this
-by marking these muxes as SND_SOC_NOPM.
-
-Note this has been verified this on the Tegra124 Nyan Big which features
-the MAX98090 codec.
-
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Cc: stable@vger.kernel.org
----
- sound/soc/codecs/max98090.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
-index 30c242c38d99..7619ea31ab50 100644
---- a/sound/soc/codecs/max98090.c
-+++ b/sound/soc/codecs/max98090.c
-@@ -1194,14 +1194,14 @@ static const struct snd_soc_dapm_widget max98090_dapm_widgets[] = {
- 		&max98090_right_rcv_mixer_controls[0],
- 		ARRAY_SIZE(max98090_right_rcv_mixer_controls)),
- 
--	SND_SOC_DAPM_MUX("LINMOD Mux", M98090_REG_LOUTR_MIXER,
--		M98090_LINMOD_SHIFT, 0, &max98090_linmod_mux),
-+	SND_SOC_DAPM_MUX("LINMOD Mux", SND_SOC_NOPM, 0, 0,
-+		&max98090_linmod_mux),
- 
--	SND_SOC_DAPM_MUX("MIXHPLSEL Mux", M98090_REG_HP_CONTROL,
--		M98090_MIXHPLSEL_SHIFT, 0, &max98090_mixhplsel_mux),
-+	SND_SOC_DAPM_MUX("MIXHPLSEL Mux", SND_SOC_NOPM, 0, 0,
-+		&max98090_mixhplsel_mux),
- 
--	SND_SOC_DAPM_MUX("MIXHPRSEL Mux", M98090_REG_HP_CONTROL,
--		M98090_MIXHPRSEL_SHIFT, 0, &max98090_mixhprsel_mux),
-+	SND_SOC_DAPM_MUX("MIXHPRSEL Mux", SND_SOC_NOPM, 0, 0,
-+		&max98090_mixhprsel_mux),
- 
- 	SND_SOC_DAPM_PGA("HP Left Out", M98090_REG_OUTPUT_ENABLE,
- 		M98090_HPLEN_SHIFT, 0, NULL, 0),
--- 
-2.20.1
-
+>
+> Will you add this to other place, or it's unnecessary?
+>
+> Best regards,
+> Lu Baolu
