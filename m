@@ -2,165 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ACBA15029
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 17:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0049151B8
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 18:34:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726572AbfEFP1W (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 May 2019 11:27:22 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43220 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726229AbfEFP1W (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 11:27:22 -0400
-Received: by mail-wr1-f68.google.com with SMTP id r4so2504160wro.10
-        for <linux-tegra@vger.kernel.org>; Mon, 06 May 2019 08:27:21 -0700 (PDT)
+        id S1726505AbfEFQe4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 May 2019 12:34:56 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50492 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726063AbfEFQe4 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 12:34:56 -0400
+Received: by mail-wm1-f66.google.com with SMTP id p21so16587743wmc.0
+        for <linux-tegra@vger.kernel.org>; Mon, 06 May 2019 09:34:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GuMSdmXl0z53dDi0xhlaU7BU2n/bLw/DBUWaPvlO+dc=;
-        b=C/d9PWiZ7kbJC0oH7zo5Ibhtjb0LJxg5WGRhk2z22dgXTR0ahak265kLVZyGYOhfje
-         aEtSmh42RRvz8bCCBZRBFOn7uv5XCF0ECqKL0Hb338d0yPodqMwGb1L0gvRyJgITkaxQ
-         Ki1y61sbdbPypKRjDCxUR8MH0zfn/bbro9LPpFVyLBByJZzEOqelQf5tS81MK2FkUIP3
-         sLhve+NsmP0dlDX03w14Qjs93JrqJwcC/r4yHUZhJhCv/72E7VCM80drfYcNtln/9ipb
-         cKIyK6t7ROv023pVx/00hbtubgQCmfBlIjzs3E6R48gtIILod1LUINjWV6UVWZ8tSjxH
-         BBpA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yRZ8RtyrKcj3qe446aHM7OBWQlNxnyULMIUjwVjZPaM=;
+        b=l+MYvV3gBlHfyt2z8vZRf+BQn7AEwevzadY92PN9vb5JHgS0fBRmoLybgLdB5zli6U
+         F2kM0hGHmHd1cp73KCkXvlIpUwE4s/W6HzwX4bSgHBfytWNp5plB0zGts9BsN2oztMlP
+         D8/CvlBFJ+Ji1Nfs2S/CvhoksCTFSfBfiCRnY1BOyzd4Gi9f9M3AGWEbGAGqajajAnYF
+         PeFy8WtghhBJ/bAFiPIYpjb/JneECQoSakJZhRoiJSGg1JA7VW7m8k5Hx7aOgP5hzIdh
+         lI5CRa9mqJM0OzeWtCNQuhmKKwvQUqq3RBlALX0yWzvwL9xwDDr1cEoA9e74zakuA2hG
+         5sew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GuMSdmXl0z53dDi0xhlaU7BU2n/bLw/DBUWaPvlO+dc=;
-        b=o2FyRc7uVvVDejFlZrjU9LzLQnErkHcxeqinH/s1nMkKr6cUP/aU/HZSCf+706/5pc
-         4wYpeB1a4lw/p5hKkINmiRA+tgA5QaPZDDrW9NCj4jhZL2CwkYRAnz6FCFxQsYuyLBMb
-         fwbujA9svgwQ0GO8/eroFL5JMIOyDX1xw670k3GyOiI0133j/IZWpF13nq9vYJ0fXZww
-         o+0b9nMpcQXT72k0+0DdAm3EpcuHZnrm44J7g1DzpSX1J1hoOTpPzxmy6DKaTLvro4QX
-         094ba/Dwyy10fJKIx01t405TVtziAyjBXKQOKAA6b3dG/KQOjm0Bkbf3MtFrK9w8dzdt
-         20bQ==
-X-Gm-Message-State: APjAAAWQvmNUWVcUIDoJe6/mFN1yiz42pOm4eMEuDFgk94q4Tq/s5pvd
-        +AFXtNtr/ICB6DN9HHqNdzGK/7INOcTG4f5oMEidnA==
-X-Google-Smtp-Source: APXvYqzdYjq2KzNwXSYRUYk147h4YL+JNa0zWfymURRoAL7aXQogilrHn37rwl9PoIS46ayzMGu+Ikwm2tOs7SUKN4Y=
-X-Received: by 2002:a5d:5551:: with SMTP id g17mr20082024wrw.50.1557156440752;
- Mon, 06 May 2019 08:27:20 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yRZ8RtyrKcj3qe446aHM7OBWQlNxnyULMIUjwVjZPaM=;
+        b=XM+vWRCsmuTlONCC3pXtaLot2JRlaJMKS50QAHz6akIyj4deDDGih79oZ53MDYHi21
+         X7D7jqgkXXquDceskVxXgKQE0FgZeuC+lOfJhUs5luq5E4XxUxWfGSUPxMj55jqFiBHy
+         xnd1scTQhfTRDsncJAowX2rI2RKmwgR6IbyR/B+HrdHdJthIbuZ2Zso5elYq/RXNgZ5M
+         a5puFeWSrmOXAVHPvPtdKehkMnnG9xhaaf5Dl86Yhzc+wZ/C7mWAT5frLAb7jMSf3kSa
+         rg65V1ZXfdQbildDKXZXkrATFw14kc4fPHvx4nIX6DQw3sZt5qUYaFIjJutWg521MkIt
+         CA8Q==
+X-Gm-Message-State: APjAAAX3vA8/wAYsC2vYrgpzuMQQzJOSnoBZOWqTkdD4o29eWZxlQ0Qj
+        /e7kYK3ypRDqnjJhgwLWUec=
+X-Google-Smtp-Source: APXvYqwz1UHDAQ9MLyi7u8ufDnk20pfGLcu+zwVagA8BRRoCDQKb3AyLg9G/1W5qWTgFEMxzHAfsPQ==
+X-Received: by 2002:a1c:2ecd:: with SMTP id u196mr6858651wmu.111.1557160495254;
+        Mon, 06 May 2019 09:34:55 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id q24sm9624675wmc.18.2019.05.06.09.34.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 09:34:54 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] arm64: tegra: Enable SMMU translation for PCI on Tegra186
+Date:   Mon,  6 May 2019 18:34:53 +0200
+Message-Id: <20190506163453.3852-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190504132327.27041-1-tmurphy@arista.com> <20190504132327.27041-2-tmurphy@arista.com>
- <8fef18f5-773c-e1c9-2537-c9dff5bfd35e@linux.intel.com>
-In-Reply-To: <8fef18f5-773c-e1c9-2537-c9dff5bfd35e@linux.intel.com>
-From:   Tom Murphy <tmurphy@arista.com>
-Date:   Mon, 6 May 2019 16:27:09 +0100
-Message-ID: <CAPL0++4_Qa+dxzQ2k6BJi_o+VSSrHEtomYgVmRqjtjsOfHbGew@mail.gmail.com>
-Subject: Re: [RFC 1/7] iommu/vt-d: Set the dma_ops per device so we can remove
- the iommu_no_mapping code
-To:     Lu Baolu <baolu.lu@linux.intel.com>
-Cc:     iommu@lists.linux-foundation.org, Tom Murphy <murphyt7@tcd.ie>,
-        Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org, kvm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, May 6, 2019 at 2:48 AM Lu Baolu <baolu.lu@linux.intel.com> wrote:
->
-> Hi,
->
-> On 5/4/19 9:23 PM, Tom Murphy wrote:
-> > Set the dma_ops per device so we can remove the iommu_no_mapping code.
-> >
-> > Signed-off-by: Tom Murphy<tmurphy@arista.com>
-> > ---
-> >   drivers/iommu/intel-iommu.c | 85 +++----------------------------------
-> >   1 file changed, 6 insertions(+), 79 deletions(-)
-> >
-> > diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-> > index eace915602f0..2db1dc47e7e4 100644
-> > --- a/drivers/iommu/intel-iommu.c
-> > +++ b/drivers/iommu/intel-iommu.c
-> > @@ -2622,17 +2622,6 @@ static int __init si_domain_init(int hw)
-> >       return 0;
-> >   }
-> >
-> > -static int identity_mapping(struct device *dev)
-> > -{
-> > -     struct device_domain_info *info;
-> > -
-> > -     info = dev->archdata.iommu;
-> > -     if (info && info != DUMMY_DEVICE_DOMAIN_INFO)
-> > -             return (info->domain == si_domain);
-> > -
-> > -     return 0;
-> > -}
-> > -
-> >   static int domain_add_dev_info(struct dmar_domain *domain, struct device *dev)
-> >   {
-> >       struct dmar_domain *ndomain;
-> > @@ -3270,43 +3259,6 @@ static unsigned long intel_alloc_iova(struct device *dev,
-> >       return iova_pfn;
-> >   }
-> >
-> > -/* Check if the dev needs to go through non-identity map and unmap process.*/
-> > -static int iommu_no_mapping(struct device *dev)
-> > -{
-> > -     int found;
-> > -
-> > -     if (iommu_dummy(dev))
-> > -             return 1;
-> > -
-> > -     found = identity_mapping(dev);
-> > -     if (found) {
-> > -             /*
-> > -              * If the device's dma_mask is less than the system's memory
-> > -              * size then this is not a candidate for identity mapping.
-> > -              */
-> > -             u64 dma_mask = *dev->dma_mask;
-> > -
-> > -             if (dev->coherent_dma_mask &&
-> > -                 dev->coherent_dma_mask < dma_mask)
-> > -                     dma_mask = dev->coherent_dma_mask;
-> > -
-> > -             if (dma_mask < dma_get_required_mask(dev)) {
-> > -                     /*
-> > -                      * 32 bit DMA is removed from si_domain and fall back
-> > -                      * to non-identity mapping.
-> > -                      */
-> > -                     dmar_remove_one_dev_info(dev);
-> > -                     dev_warn(dev, "32bit DMA uses non-identity mapping\n");
-> > -
-> > -                     return 0;
-> > -             }
->
-> The iommu_no_mapping() also checks whether any 32bit DMA device uses
-> identity mapping. The device might not work if the system memory space
-> is bigger than 4G.
+From: Thierry Reding <treding@nvidia.com>
 
-It looks like their is actually a bug in the v3 of the "iommu/vt-d:
-Delegate DMA domain to generic iommu" patch set. I will leave a
-message in that email thread. Fixing that bug should also fix this
-issue.
+Commit 954a03be033c ("iommu/arm-smmu: Break insecure users by disabling
+bypass by default") intentionally breaks all devices using the SMMU in
+bypass mode. This breaks, among other things, PCI support on Tegra186.
+Fix this by populating the iommus property and friends for the PCIe
+controller.
 
+Fixes: 954a03be033c ("iommu/arm-smmu: Break insecure users by disabling bypass by default")
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->
-> Will you add this to other place, or it's unnecessary?
->
-> Best regards,
-> Lu Baolu
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+index 3fb60f6f3a93..426ac0bdf6a6 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+@@ -673,6 +673,10 @@
+ 			 <&bpmp TEGRA186_RESET_PCIEXCLK>;
+ 		reset-names = "afi", "pex", "pcie_x";
+ 
++		iommus = <&smmu TEGRA186_SID_AFI>;
++		iommu-map = <0x0 &smmu TEGRA186_SID_AFI 0x1000>;
++		iommu-map-mask = <0x0>;
++
+ 		status = "disabled";
+ 
+ 		pci@1,0 {
+-- 
+2.21.0
+
