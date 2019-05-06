@@ -2,55 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0049151B8
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 18:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC9C0151CD
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 May 2019 18:41:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726505AbfEFQe4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 May 2019 12:34:56 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50492 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726063AbfEFQe4 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 12:34:56 -0400
-Received: by mail-wm1-f66.google.com with SMTP id p21so16587743wmc.0
-        for <linux-tegra@vger.kernel.org>; Mon, 06 May 2019 09:34:56 -0700 (PDT)
+        id S1726297AbfEFQlZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 May 2019 12:41:25 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:35857 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726094AbfEFQlZ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 May 2019 12:41:25 -0400
+Received: by mail-wm1-f65.google.com with SMTP id n25so2353820wmi.1
+        for <linux-tegra@vger.kernel.org>; Mon, 06 May 2019 09:41:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yRZ8RtyrKcj3qe446aHM7OBWQlNxnyULMIUjwVjZPaM=;
-        b=l+MYvV3gBlHfyt2z8vZRf+BQn7AEwevzadY92PN9vb5JHgS0fBRmoLybgLdB5zli6U
-         F2kM0hGHmHd1cp73KCkXvlIpUwE4s/W6HzwX4bSgHBfytWNp5plB0zGts9BsN2oztMlP
-         D8/CvlBFJ+Ji1Nfs2S/CvhoksCTFSfBfiCRnY1BOyzd4Gi9f9M3AGWEbGAGqajajAnYF
-         PeFy8WtghhBJ/bAFiPIYpjb/JneECQoSakJZhRoiJSGg1JA7VW7m8k5Hx7aOgP5hzIdh
-         lI5CRa9mqJM0OzeWtCNQuhmKKwvQUqq3RBlALX0yWzvwL9xwDDr1cEoA9e74zakuA2hG
-         5sew==
+        bh=iQgeIsTEx/kg4VMAEWL5/A2xoaxXugvuxPH5cSYewSA=;
+        b=iRDpA+vmODUAsqGvsSDQj7xMTEOdhls+TLlvbLY46dCsNO0mjlUDfqG4tLq5LOz+mk
+         aQ1dMpo3N9PktpsZNedav1xyCrLoXNjBvyrHgpTirC9sBELsOEQqWO8njMDlMdTpm6D+
+         ZIpGoxHmJoZ5IesNQ5JZIkCGtMN7FiOBE4BT2aIYMqeaxyLUDP/oss/uDe5cSTuVcRFw
+         pC2CRkCCdtpBLIc7LZyd5VzGY4r0ii+7hypjJbi9oUXyhRwBUKUC4I0pIewJWFUY7uDy
+         Wj8KEV0X3cydKifJ4p72w+cmnedj3ia4jpSqppOzgCaIyLRD37/oCeDgnSlsT1v1bXPd
+         Y5dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yRZ8RtyrKcj3qe446aHM7OBWQlNxnyULMIUjwVjZPaM=;
-        b=XM+vWRCsmuTlONCC3pXtaLot2JRlaJMKS50QAHz6akIyj4deDDGih79oZ53MDYHi21
-         X7D7jqgkXXquDceskVxXgKQE0FgZeuC+lOfJhUs5luq5E4XxUxWfGSUPxMj55jqFiBHy
-         xnd1scTQhfTRDsncJAowX2rI2RKmwgR6IbyR/B+HrdHdJthIbuZ2Zso5elYq/RXNgZ5M
-         a5puFeWSrmOXAVHPvPtdKehkMnnG9xhaaf5Dl86Yhzc+wZ/C7mWAT5frLAb7jMSf3kSa
-         rg65V1ZXfdQbildDKXZXkrATFw14kc4fPHvx4nIX6DQw3sZt5qUYaFIjJutWg521MkIt
-         CA8Q==
-X-Gm-Message-State: APjAAAX3vA8/wAYsC2vYrgpzuMQQzJOSnoBZOWqTkdD4o29eWZxlQ0Qj
-        /e7kYK3ypRDqnjJhgwLWUec=
-X-Google-Smtp-Source: APXvYqwz1UHDAQ9MLyi7u8ufDnk20pfGLcu+zwVagA8BRRoCDQKb3AyLg9G/1W5qWTgFEMxzHAfsPQ==
-X-Received: by 2002:a1c:2ecd:: with SMTP id u196mr6858651wmu.111.1557160495254;
-        Mon, 06 May 2019 09:34:55 -0700 (PDT)
+        bh=iQgeIsTEx/kg4VMAEWL5/A2xoaxXugvuxPH5cSYewSA=;
+        b=AvJkZNnWXTZm0xOtiGph4sAbHeCto9xhZrcJ+sZ7e4brnydQavaCvJWYtxXySdBwdd
+         J2eeKI3pTR7x2IJofU15KrbmxukOAZayKpdxuEUgFOmdSuTpo+C6gVUXcYpFhwugJc0S
+         /osgg/IKs0PnAp0IavgK9GOAjHd7SJQRcaIUozA+L4FTirV+JKd4BvpijARKPMfDnmNx
+         RGk88LUPAvSA9d4yUAkuFkhJDWTnQSXdo5TiWM6nMbipxi9c2fSCRwZrW5+VISso5sSb
+         Qz7LBL0FnJtcQQheksGb793Q7NJBb3QUA9hzwlI/5YtMLTJzBfuaoeUWtK/+0rit2S4V
+         20sQ==
+X-Gm-Message-State: APjAAAXBaOj0P0q6V79qBLYvJo3RglMEB94V+rjxzcmNrWZe9fseNvJi
+        zNm1ZF3OnguB7Y9R3uZml4MTZgM/q4M=
+X-Google-Smtp-Source: APXvYqzANdLemc6456XT1mU0YZtZMdf99+IAJEjPSEf7DxfemWkxLaVEN8Bsdm852kuTYccQkyqjBg==
+X-Received: by 2002:a7b:c411:: with SMTP id k17mr17156595wmi.68.1557160883201;
+        Mon, 06 May 2019 09:41:23 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id q24sm9624675wmc.18.2019.05.06.09.34.54
+        by smtp.gmail.com with ESMTPSA id f138sm15280wmf.23.2019.05.06.09.41.22
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 09:34:54 -0700 (PDT)
+        Mon, 06 May 2019 09:41:22 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] arm64: tegra: Enable SMMU translation for PCI on Tegra186
-Date:   Mon,  6 May 2019 18:34:53 +0200
-Message-Id: <20190506163453.3852-1-thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Subject: [PATCH] arm64: tegra: Disable XUSB support on Jetson TX2
+Date:   Mon,  6 May 2019 18:41:21 +0200
+Message-Id: <20190506164121.4507-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,33 +62,42 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Commit 954a03be033c ("iommu/arm-smmu: Break insecure users by disabling
-bypass by default") intentionally breaks all devices using the SMMU in
-bypass mode. This breaks, among other things, PCI support on Tegra186.
-Fix this by populating the iommus property and friends for the PCIe
-controller.
+The recently introduced XUSB support for Jetson TX2 is causing boot, CPU
+hotplug and suspend/resume failures according to several reports.
 
-Fixes: 954a03be033c ("iommu/arm-smmu: Break insecure users by disabling bypass by default")
+Temporarily work around this by disabling the XUSB controller and XUSB
+pad controller nodes in device tree, while we figure out what's causing
+this.
+
+Reported-by: Bitan Biswas <bbiswas@nvidia.com>
+Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index 3fb60f6f3a93..426ac0bdf6a6 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -673,6 +673,10 @@
- 			 <&bpmp TEGRA186_RESET_PCIEXCLK>;
- 		reset-names = "afi", "pex", "pcie_x";
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+index 75ee6cf1e1b4..14d7fea82daf 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+@@ -59,7 +59,7 @@
+ 	};
  
-+		iommus = <&smmu TEGRA186_SID_AFI>;
-+		iommu-map = <0x0 &smmu TEGRA186_SID_AFI 0x1000>;
-+		iommu-map-mask = <0x0>;
-+
- 		status = "disabled";
+ 	padctl@3520000 {
+-		status = "okay";
++		status = "disabled";
  
- 		pci@1,0 {
+ 		avdd-pll-erefeut-supply = <&vdd_1v8_pll>;
+ 		avdd-usb-supply = <&vdd_3v3_sys>;
+@@ -137,7 +137,7 @@
+ 	};
+ 
+ 	usb@3530000 {
+-		status = "okay";
++		status = "disabled";
+ 
+ 		phys = <&{/padctl@3520000/pads/usb2/lanes/usb2-0}>,
+ 		       <&{/padctl@3520000/pads/usb2/lanes/usb2-1}>,
 -- 
 2.21.0
 
