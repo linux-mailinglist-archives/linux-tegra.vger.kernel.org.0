@@ -2,88 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED66415D9B
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 May 2019 08:40:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2F7515DEC
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 May 2019 09:10:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726478AbfEGGkO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 May 2019 02:40:14 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44332 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726253AbfEGGkO (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 May 2019 02:40:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=XYiVJaYipElgO5DnYZ9IrtCvXPhrJsC2Tw1fwQg5GSA=; b=M2nM+YCCYmiZNNCEpsr9d0tYK
-        BlAg0kfZ2aS0QA5DIszm27dGTcv88VTH3ZzJDRYu9kQ75lDbMSp3+LisfFLwmzrNs6grL8QaJsO47
-        pFii8fgK5x+Pt2gxCY9TeHgRHbiic1pONVMSR+7oDKxlNJarKhYCKWQEtbKh1fTS+XOx+JM7FG7B3
-        ggIgXtbupg5yvc0ORzsOrBV23ECv/AdUqbIpBkiV849J+2N9GDEKIuJ+LLLjBmI9T95YzXhbEPMUA
-        bVjERUFjbkl0Z91J1BcS9bFD+QGStzRPb+mF9beVASs+FiesV2/vSyTBHhmy35tu0L4hThVRAwXH7
-        Q3cz+FZdw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hNtlg-0002k3-HT; Tue, 07 May 2019 06:40:00 +0000
-Date:   Mon, 6 May 2019 23:40:00 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Tom Murphy <tmurphy@arista.com>
-Cc:     iommu@lists.linux-foundation.org, murphyt7@tcd.ie,
-        Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] iommu/dma-iommu: Handle deferred devices
-Message-ID: <20190507064000.GB5173@infradead.org>
-References: <20190506185207.31069-1-tmurphy@arista.com>
- <20190506185207.31069-3-tmurphy@arista.com>
+        id S1726581AbfEGHKt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 May 2019 03:10:49 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8609 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726297AbfEGHKt (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 May 2019 03:10:49 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cd12f740000>; Tue, 07 May 2019 00:10:44 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 07 May 2019 00:10:48 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 07 May 2019 00:10:48 -0700
+Received: from [10.25.73.250] (172.20.13.39) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 May
+ 2019 07:10:40 +0000
+Subject: Re: [PATCH V5 02/16] PCI/PME: Export pcie_pme_disable_msi() &
+ pcie_pme_no_msi() APIs
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <jonathanh@nvidia.com>, <kishon@ti.com>, <catalin.marinas@arm.com>,
+        <will.deacon@arm.com>, <jingoohan1@gmail.com>,
+        <gustavo.pimentel@synopsys.com>, <mperttunen@nvidia.com>,
+        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20190424052004.6270-1-vidyas@nvidia.com>
+ <20190424052004.6270-3-vidyas@nvidia.com> <20190503110159.GB32400@ulmo>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <b8f482f4-8136-07b5-3d68-f45a6fd580ba@nvidia.com>
+Date:   Tue, 7 May 2019 12:40:36 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190506185207.31069-3-tmurphy@arista.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20190503110159.GB32400@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+ HQMAIL101.nvidia.com (172.20.187.10)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1557213044; bh=KIRiMdJ3vHsuNoXRBzUBVE4jj3DtsdclgdYyB8TtsKg=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=N0cu64tGkekeUlr8GKtZ16+dmuv0OOULTcHPKb31Wg/Etaa5vKT7q/lCU9FWUezN/
+         X+GgJbW6gv3Wlgg0qz4wcVp/+BHHqKijSr7kxXMORKyhWwiG/1PY1x/PskChTDTaiM
+         Ix0gYrXm/p0ytf1PRzZ6mjbbv5b7q7+flVxgw3YiG76X7uayqz/Z/aUO4r/CkBb/2t
+         D6MMYSGaJci4N2uY/oLvsOcCw1MxHSwVGcbrWEJFGvFuL73XUq5CGYt/yx+PQy9377
+         t3IfNouplwTxNXL9xDOEvQ4LHkNjw+z/z/MUkElZPJv+nFXO4z/VecuQreGLOwJQe3
+         f15d3SAi3cWww==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, May 06, 2019 at 07:52:04PM +0100, Tom Murphy wrote:
-> +static int handle_deferred_device(struct device *dev)
-> +{
-> +	struct iommu_domain *domain;
-> +	const struct iommu_ops *ops;
-> +
-> +	if (!is_kdump_kernel())
-> +		return 0;
-> +
-> +	domain = iommu_get_domain_for_dev(dev);
+On 5/3/2019 4:31 PM, Thierry Reding wrote:
+> On Wed, Apr 24, 2019 at 10:49:50AM +0530, Vidya Sagar wrote:
+>> Export pcie_pme_disable_msi() & pcie_pme_no_msi() APIs to enable drivers
+>> using this API be able to build as loadable modules.
+>>
+>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+>> ---
+>> Changes from [v4]:
+>> * None
+>>
+>> Changes from [v3]:
+>> * None
+>>
+>> Changes from [v2]:
+>> * Exported pcie_pme_no_msi() API after making pcie_pme_msi_disabled a static
+>>
+>> Changes from [v1]:
+>> * This is a new patch in v2 series
+>>
+>>   drivers/pci/pcie/pme.c     | 14 +++++++++++++-
+>>   drivers/pci/pcie/portdrv.h | 16 +++-------------
+>>   2 files changed, 16 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/pci/pcie/pme.c b/drivers/pci/pcie/pme.c
+>> index 54d593d10396..d5e0ea4a62fc 100644
+>> --- a/drivers/pci/pcie/pme.c
+>> +++ b/drivers/pci/pcie/pme.c
+>> @@ -25,7 +25,19 @@
+>>    * that using MSI for PCIe PME signaling doesn't play well with PCIe PME-based
+>>    * wake-up from system sleep states.
+>>    */
+>> -bool pcie_pme_msi_disabled;
+>> +static bool pcie_pme_msi_disabled;
+>> +
+>> +void pcie_pme_disable_msi(void)
+>> +{
+>> +	pcie_pme_msi_disabled = true;
+>> +}
+>> +EXPORT_SYMBOL_GPL(pcie_pme_disable_msi);
+>> +
+>> +bool pcie_pme_no_msi(void)
+>> +{
+>> +	return pcie_pme_msi_disabled;
+>> +}
+>> +EXPORT_SYMBOL_GPL(pcie_pme_no_msi);
+>>   
+>>   static int __init pcie_pme_setup(char *str)
+>>   {
+>> diff --git a/drivers/pci/pcie/portdrv.h b/drivers/pci/pcie/portdrv.h
+>> index 1d50dc58ac40..7c8c3da4bd58 100644
+>> --- a/drivers/pci/pcie/portdrv.h
+>> +++ b/drivers/pci/pcie/portdrv.h
+>> @@ -125,22 +125,12 @@ void pcie_port_bus_unregister(void);
+>>   struct pci_dev;
+>>   
+>>   #ifdef CONFIG_PCIE_PME
+>> -extern bool pcie_pme_msi_disabled;
+>> -
+>> -static inline void pcie_pme_disable_msi(void)
+>> -{
+>> -	pcie_pme_msi_disabled = true;
+>> -}
+>> -
+>> -static inline bool pcie_pme_no_msi(void)
+>> -{
+>> -	return pcie_pme_msi_disabled;
+>> -}
+>> -
+>> +void pcie_pme_disable_msi(void);
+>> +bool pcie_pme_no_msi(void);
+>>   void pcie_pme_interrupt_enable(struct pci_dev *dev, bool enable);
+>>   #else /* !CONFIG_PCIE_PME */
+>>   static inline void pcie_pme_disable_msi(void) {}
+>> -static inline bool pcie_pme_no_msi(void) { return false; }
+>> +static inline bool pcie_pme_no_msi(void) {}
+> 
+> This looks wrong.
+Can you please give more info on what is wrong in this?
 
-> -	dma_handle =__iommu_dma_map(dev, phys, size,
-> +	if (unlikely(handle_deferred_device(dev)))
-> +		return DMA_MAPPING_ERROR;
-> +
-> +	dma_handle = __iommu_dma_map(dev, phys, size,
+> 
+> Thierry
+> 
 
-__iommu_dma_map already looks up the domain, and as far as I can
-tell all callers need the handle_deferred_device call.  Should we
-just move it to there and pass the domain from the caller?
-
-Also shouldn't the iommu_attach_device call inside
-handle_deferred_device also get an unlikely marker?
