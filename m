@@ -2,115 +2,126 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD93E161AF
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 May 2019 12:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B0FC161B7
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 May 2019 12:10:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726448AbfEGKIj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 May 2019 06:08:39 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:14657 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726268AbfEGKIj (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 May 2019 06:08:39 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cd1592a0000>; Tue, 07 May 2019 03:08:45 -0700
+        id S1726403AbfEGKK2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 May 2019 06:10:28 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:14359 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726340AbfEGKK2 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 May 2019 06:10:28 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cd159700000>; Tue, 07 May 2019 03:09:53 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 07 May 2019 03:08:38 -0700
+  Tue, 07 May 2019 03:10:27 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 07 May 2019 03:08:38 -0700
-Received: from [10.24.193.7] (10.124.1.5) by HQMAIL101.nvidia.com
+        by hqpgpgate101.nvidia.com on Tue, 07 May 2019 03:10:27 -0700
+Received: from [10.25.73.250] (172.20.13.39) by HQMAIL101.nvidia.com
  (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 May
- 2019 10:08:31 +0000
-Subject: Re: [PATCH V2 7/8] usb: gadget: Add UDC driver for tegra XUSB device
- mode controller
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>
-CC:     <gregkh@linuxfoundation.org>, <jonathanh@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <1552302716-18554-1-git-send-email-nkristam@nvidia.com>
- <1552302716-18554-8-git-send-email-nkristam@nvidia.com>
- <87bm0us0iy.fsf@linux.intel.com> <20190425135501.GA24213@ulmo>
+ 2019 10:10:22 +0000
+Subject: Re: [PATCH V5 12/16] arm64: tegra: Add P2U and PCIe controller nodes
+ to Tegra194 DT
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <jonathanh@nvidia.com>, <kishon@ti.com>, <catalin.marinas@arm.com>,
+        <will.deacon@arm.com>, <jingoohan1@gmail.com>,
+        <gustavo.pimentel@synopsys.com>, <mperttunen@nvidia.com>,
+        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20190424052004.6270-1-vidyas@nvidia.com>
+ <20190424052004.6270-13-vidyas@nvidia.com> <20190503112637.GF32400@ulmo>
 X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <007f702c-9da1-65db-3ef8-4472ee208eab@nvidia.com>
-Date:   Tue, 7 May 2019 15:39:39 +0530
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <d2c6dedd-05ed-d8f8-4e3a-e782e5d3806e@nvidia.com>
+Date:   Tue, 7 May 2019 15:40:19 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190425135501.GA24213@ulmo>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+In-Reply-To: <20190503112637.GF32400@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
  HQMAIL101.nvidia.com (172.20.187.10)
-Content-Type: text/plain; charset="windows-1252"
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1557223725; bh=BVhSQBXBl0g5/D70gKliu7jAmuZktZ0a2UDB3hrem4s=;
+        t=1557223793; bh=I7FKGwlXUUIi3Ic8/bqewqRmtRJND8Hs1jm4hHNZSVM=;
         h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
          Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
          X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=bsl0762pw6LmQhwXkcd1vPnY3pB61a1Fo0wxvBeRWJui1V6zjjunbeqwUdKeFCVJK
-         6Zy26Cffngtx6QrDRiycQqGdj/6D5cDnRvV+5Vea18INOwkNgCA+4rUM8Ts+1Cgnrf
-         vKhzGXMvGy2R+UlBalWFK5C6EC+0/MlVwZio+gF1Rw710LrhVV8oPDu1TlNdr3dY4L
-         1DPMDSOCLXEyecavs7Hl+wOY94L+JQm7sb+R8vD5I9x6uTA5mhlj4LVjB55sN/lmd9
-         k+NzIPgpELKQUtnnRiXwySGCodKuBaB/nGCjZ2pOHatf2LKqxDkjF+geXFBO0H15G7
-         +N8pjQ8ePEGSw==
+        b=ZPB44Zla0Hj6jvONalz/wZSPhhaBAYtPa8kjQQSqVqWBU2SmihsmZB9V6xdg+Yx8N
+         lVEuLvk02RTLft8E7zc6OVbyun28y0wxzIyYLmAaDTcb0L9ZDEVDrGyoU5/RF59PeG
+         Twz5ho4omO9hHiyOSIbgh7eYKlb+esqBrkfFIOUEnwCNF0DPYJETBbi2O/dGWy+cTv
+         nP0kIWKfkt+ZDtGFIwR3gOb5MZkaKUIOSNfTHkyBQzK1j5BfZrsqJr5WV1HAnlUJST
+         7l6HFXPHBbCAcc3HuZtDkucg8jOLtPZegeZ5W9BN1xMo0q4ZZORFe3LV1l19u0Uf7+
+         9CDFsL/MbZ0tw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-
-On 25-04-2019 19:25, Thierry Reding wrote:
-> On Thu, Apr 25, 2019 at 04:00:05PM +0300, Felipe Balbi wrote:
->> Nagarjuna Kristam <nkristam@nvidia.com> writes:
+On 5/3/2019 4:56 PM, Thierry Reding wrote:
+> On Wed, Apr 24, 2019 at 10:50:00AM +0530, Vidya Sagar wrote:
+>> Add P2U (PIPE to UPHY) and PCIe controller nodes to device tree.
+>> The Tegra194 SoC contains six PCIe controllers and twenty P2U instances
+>> grouped into two different PHY bricks namely High-Speed IO (HSIO-12 P2Us)
+>> and NVIDIA High Speed (NVHS-8 P2Us) respectively.
 >>
->>> This patch adds UDC driver for tegra XUSB 3.0 device mode controller.
->>> XUSB device mode controller support SS, HS and FS modes
->>>
->>> Based on work by:
->>>   Mark Kuo <mkuo@nvidia.com>
->>>   Andrew Bresticker <abrestic@chromium.org>
->>>
->>> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
->>> ---
->>>  drivers/usb/gadget/udc/Kconfig      |   10 +
->>>  drivers/usb/gadget/udc/Makefile     |    1 +
->>>  drivers/usb/gadget/udc/tegra_xudc.c | 3702 +++++++++++++++++++++++++++++++++++
->>>  3 files changed, 3713 insertions(+)
->>>  create mode 100644 drivers/usb/gadget/udc/tegra_xudc.c
->>>
->>> diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
->>> index 0a16cbd..f6f469c 100644
->>> --- a/drivers/usb/gadget/udc/Kconfig
->>> +++ b/drivers/usb/gadget/udc/Kconfig
->>> @@ -439,6 +439,16 @@ config USB_GADGET_XILINX
->>>  	  dynamically linked module called "udc-xilinx" and force all
->>>  	  gadget drivers to also be dynamically linked.
->>>  
->>> +config USB_TEGRA_XUDC
->>> +	tristate "NVIDIA Superspeed USB 3.0 Device Controller"
->>> +	depends on ARCH_TEGRA
+>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+>> ---
+>> Changes since [v4]:
+>> * None
 >>
->> no compile_test?
+>> Changes since [v3]:
+>> * None
+>>
+>> Changes since [v2]:
+>> * Included 'hsio' or 'nvhs' in P2U node's label names to reflect which brick
+>>    they belong to
+>> * Removed leading zeros in unit address
+>>
+>> Changes since [v1]:
+>> * Flattened all P2U nodes by removing 'hsio-p2u' and 'nvhs-p2u' super nodes
+>> * Changed P2U nodes compatible string from 'nvidia,tegra194-phy-p2u' to 'nvidia,tegra194-p2u'
+>> * Changed reg-name from 'base' to 'ctl'
+>> * Updated all PCIe nodes according to the changes made to DT documentation file
+>>
+>>   arch/arm64/boot/dts/nvidia/tegra194.dtsi | 449 +++++++++++++++++++++++
+>>   1 file changed, 449 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+>> index c77ca211fa8f..dc433b446ff5 100644
+>> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+>> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> [...]
+>> +	pcie@14180000 {
+> [...]
+>> +		ranges = <0x81000000 0x0 0x38100000 0x0 0x38100000 0x0 0x00100000    /* downstream I/O (1MB) */
+>> +			  0xc2000000 0x18 0x00000000 0x18 0x00000000 0x3 0x40000000  /* prefetchable memory (13GB) */
+>> +			  0x82000000 0x0 0x40000000 0x1B 0x40000000 0x0 0xC0000000>; /* non-prefetchable memory (3GB) */
 > 
-> That's not possible right now. The driver depends on functions that
-> don't have dummy implementations to support COMPILE_TEST. I suppose
-> that's something that we could change, but does it need to be part
-> of this initial submission?
-> 
-> On that note:
-> 
-> Nagarjuna, I think we have PHY_TEGRA_XUSB as at least one other
-> dependency. Without that the driver could be enabled but fail to link
-> because of the missing implementations that that driver would've
-> provided.
-> 
+> Please be consistent in the capitalization of hexadecimal numbers. You
+> use lowercase hexdigits in one place and upprecase in others. Just stick
+> to one (preferably lowercase since that's already used elsewhere in this
+> file).
+Ok.
 
-Yes. Will add PHY_TEGRA_XUSB as dependecy for funtional dependency too.
+> 
+>> +	};
+>> +
+>> +	pcie@14100000 {
+> 
+> Also, entries should be sorted by unit-address, so controller 0 above
+> needs to go further down.
+Ok.
 
-- Nagarjuna
+> 
 > Thierry
 > 
+
