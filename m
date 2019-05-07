@@ -2,102 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 059DA15D32
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 May 2019 08:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01DB315D8A
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 May 2019 08:35:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727125AbfEGGKu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 May 2019 02:10:50 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:44201 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727002AbfEGGKt (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 May 2019 02:10:49 -0400
-Received: by mail-pf1-f196.google.com with SMTP id y13so8068701pfm.11
-        for <linux-tegra@vger.kernel.org>; Mon, 06 May 2019 23:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to:references;
-        bh=kSx/2bQ8k2nUJmyS2liy45fCcO2iYHSDnrOKKw/RGV4=;
-        b=S9Cy/p1GeoEOtS8YQZgB0lYyFi1dHKS/HGpgplRm+Jl+6OwdRLa3AqzF/D5EUzwLum
-         6hKH5eF/hHqGo6nqyFFDunpeoF4PfUOZ4/3aiB1lh7Zg+TO0UrCiOOaD7NClpHGZAiY0
-         TW96Fv/P4Z05tGlR7xVhb505XEaI4omMP478SFFOL/CUS/3EEQurGtDg+8HfcBpLYr8W
-         Sk+/f/aBON9i+QLuBzR1USCQJWELEUjdKzeNLt2a/DSVGTvrqPvpmw3vwNaYio7Muj4g
-         1s+6KN1usY/566XMORgT84favpF5luB63k/rnOCSRzVpCQhtbAJPLNl4Coh1vz8pOguZ
-         +IIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to:references;
-        bh=kSx/2bQ8k2nUJmyS2liy45fCcO2iYHSDnrOKKw/RGV4=;
-        b=oxlvC628r7gMgyAAufDHfgzVx/wBlNwZxarIjxM/v/Rdg73VlpPpX0Hfk/fhYU8Gm/
-         m8KqLFExNsMOJFKr7h0YLTHigLA2dQlnNh/WbWn9wXD1ehimTK7e56Rs/Z/vtPwomV7U
-         eYLEd1Jefs+XhAOwVJA2ut9OabNug2FMSTXJ2954rL6sRV0wpcjRGw83z/aidLWDL7kp
-         sUPAu5wzGu6iO0UyU5UcA6KezYssHETEZSS7J+5f6PtdClFZVGzm9btjGNqrSNmSOEQT
-         J+yTu2EJ51NSKDwQEqiW9aPQVD7xJjBbKXNnOG0V3W0utTAx9fFZzhCN/qQM3un0wBmK
-         XgPg==
-X-Gm-Message-State: APjAAAXsf+L3iQQKJ9FiBt2A+L+T2ewmaZ76ddvmlEmYY3Wng8GMtmR5
-        bxiYJYoaRVM2Mty1ZyQOGoXuNQ==
-X-Google-Smtp-Source: APXvYqzZDYlq7eyLwOtGEhDSsOmFAWA99COPckp4Min5Ajit5tRyKl66VcQ9loYKdX1dxZ/egVqG6g==
-X-Received: by 2002:a63:1706:: with SMTP id x6mr4603838pgl.280.1557209449086;
-        Mon, 06 May 2019 23:10:49 -0700 (PDT)
-Received: from baolinwangubtpc.spreadtrum.com ([117.18.48.102])
-        by smtp.gmail.com with ESMTPSA id e184sm30786325pfc.102.2019.05.06.23.10.43
-        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 06 May 2019 23:10:48 -0700 (PDT)
-From:   Baolin Wang <baolin.wang@linaro.org>
-To:     dan.j.williams@intel.com, vkoul@kernel.org
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, Zubair.Kakakhel@imgtec.com,
-        wsa+renesas@sang-engineering.com, jroedel@suse.de,
-        vincent.guittot@linaro.org, baolin.wang@linaro.org,
-        dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 8/8] dmaengine: sh: usb-dmac: Let the core do the device node validation
-Date:   Tue,  7 May 2019 14:09:45 +0800
-Message-Id: <6dc4f90df68276e6c21f7e0087b91e95b153f85f.1557206859.git.baolin.wang@linaro.org>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1557206859.git.baolin.wang@linaro.org>
-References: <cover.1557206859.git.baolin.wang@linaro.org>
-In-Reply-To: <cover.1557206859.git.baolin.wang@linaro.org>
-References: <cover.1557206859.git.baolin.wang@linaro.org>
+        id S1726253AbfEGGfX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 May 2019 02:35:23 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37748 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725839AbfEGGfX (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 May 2019 02:35:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=TvZeaeAy9vEIfKAGEKlI3TfoHOJ88dzRbyl1QHu6By8=; b=HpsUMi8JcABK4F7j/9suEVKoC
+        YfA5GEgzPRqcD773WA24aESnahNs4znn6YYBLoU2Lz/vCywoOAJRvRLcYCj+DKvvKswYMc2wy9iue
+        2mkAbF4QIgapRI5B0taVSEsgIATttbKsqd0S4tonG9hYL2wHVQ4eHzU+siokbr6x9eZeNsZtzsPoj
+        gImA6EOSte1xBX5RH+xyv2ojahSuE479j8LisTBYabH12VVM+XJuK+g7AfyhGT9KvbUXRcb/x87Jf
+        6kthw/hML0UWcZs93wCHkduD10ly9LN2Ofrz/9RZ98MH3AyLeNL91EwGE0hZmj1ZO4c8lCU+rYiPi
+        rYry1GA8Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hNth5-0001AM-FV; Tue, 07 May 2019 06:35:15 +0000
+Date:   Mon, 6 May 2019 23:35:15 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Tom Murphy <tmurphy@arista.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        iommu@lists.linux-foundation.org, Heiko Stuebner <heiko@sntech.de>,
+        Will Deacon <will.deacon@arm.com>,
+        David Brown <david.brown@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rockchip@lists.infradead.org, Kukjin Kim <kgene@kernel.org>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Andy Gross <andy.gross@linaro.org>,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Tom Murphy <murphyt7@tcd.ie>,
+        David Woodhouse <dwmw2@infradead.org>
+Subject: Re: [PATCH v2 3/4] iommu/dma-iommu: Use the dev->coherent_dma_mask
+Message-ID: <20190507063515.GA5173@infradead.org>
+References: <20190430002952.18909-1-tmurphy@arista.com>
+ <20190430002952.18909-4-tmurphy@arista.com>
+ <20190430111222.GA3191@infradead.org>
+ <da835ce2-f73e-3035-e1d7-d3028cc1a838@arm.com>
+ <20190430113253.GA23210@infradead.org>
+ <96ebb6fc-a889-fa94-09ba-65d505b85724@arm.com>
+ <CAPL0++61WytVhs63tvt+hdpZKXGinrkYx=4nDtNx1UoNTRWWjw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPL0++61WytVhs63tvt+hdpZKXGinrkYx=4nDtNx1UoNTRWWjw@mail.gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Let the DMA engine core do the device node validation instead of drivers.
+On Mon, May 06, 2019 at 06:56:13PM +0100, Tom Murphy wrote:
+> Just to make this clear, I won't apply Christoph's patch (the one in
+> this email thread) and instead the only change I will make is to
+> rename dma_limit to dma_mask.
 
-Signed-off-by: Baolin Wang <baolin.wang@linaro.org>
----
- drivers/dma/sh/usb-dmac.c |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/dma/sh/usb-dmac.c b/drivers/dma/sh/usb-dmac.c
-index 59403f6..0afabf3 100644
---- a/drivers/dma/sh/usb-dmac.c
-+++ b/drivers/dma/sh/usb-dmac.c
-@@ -636,9 +636,6 @@ static bool usb_dmac_chan_filter(struct dma_chan *chan, void *arg)
- 	struct usb_dmac_chan *uchan = to_usb_dmac_chan(chan);
- 	struct of_phandle_args *dma_spec = arg;
- 
--	if (dma_spec->np != chan->device->dev->of_node)
--		return false;
--
- 	/* USB-DMAC should be used with fixed usb controller's FIFO */
- 	if (uchan->index != dma_spec->args[0])
- 		return false;
-@@ -659,7 +656,8 @@ static struct dma_chan *usb_dmac_of_xlate(struct of_phandle_args *dma_spec,
- 	dma_cap_zero(mask);
- 	dma_cap_set(DMA_SLAVE, mask);
- 
--	chan = dma_request_channel(mask, usb_dmac_chan_filter, dma_spec);
-+	chan = __dma_request_channel(&mask, usb_dmac_chan_filter, dma_spec,
-+				     ofdma->of_node);
- 	if (!chan)
- 		return NULL;
- 
--- 
-1.7.9.5
-
+Sounds good for now.
