@@ -2,102 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12C021794F
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 14:22:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4797B17984
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 14:37:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728466AbfEHMWH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 May 2019 08:22:07 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:46886 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726751AbfEHMWG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 May 2019 08:22:06 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x48CJBEV086953;
-        Wed, 8 May 2019 12:20:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=Vy0vJPC+R/qK4BTy9W8k2EK+1DkuBwwYmX4Im7RV/1I=;
- b=rwrtMH5vFY76MnriFuwWJRty7cv6d48ndLvoH9qa0iSpe18cQhaRn84K+EEAZ1el4f/y
- JYXzNPHiRG6Um3c2LeXmrh0vIUgokB68rrApoaQDWIhQiq3xdWk5gSEBW5t2CsNm+NQD
- vMj6o0elaMb6F0MU58KC4FWtRSn89CRe22TBfRL7zCGITD8/HSnJoDvmL6xh8b//HGVN
- 0/+i+9yb5Er16ot7xGaUWYdgVLnSKYTBDh5U+VgaaiAGanyy3YqtlO3+pRPaxxQxAHqK
- Taf9LSC6aD/fmeyve7zi016PT3fCR2HgfwqDVjH/4iBaBbfLBHPj+ptzQwZZXQN8uHEa Qg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 2s94b63etg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 08 May 2019 12:20:31 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x48CJL8V107697;
-        Wed, 8 May 2019 12:20:30 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 2s94ag20en-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 08 May 2019 12:20:30 +0000
-Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x48CKNew007185;
-        Wed, 8 May 2019 12:20:24 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 08 May 2019 05:20:22 -0700
-Date:   Wed, 8 May 2019 15:20:10 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Alexandru Ardelean <alexandru.ardelean@analog.com>
-Cc:     linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-omap@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, kvm@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-mtd@lists.infradead.org,
-        cgroups@vger.kernel.org, linux-mm@kvack.org,
-        linux-security-module@vger.kernel.org,
-        linux-integrity@vger.kernel.org, alsa-devel@alsa-project.org,
-        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH 09/16] mmc: sdhci-xenon: use new match_string()
- helper/macro
-Message-ID: <20190508122010.GC21059@kadam>
-References: <20190508112842.11654-1-alexandru.ardelean@analog.com>
- <20190508112842.11654-11-alexandru.ardelean@analog.com>
+        id S1728493AbfEHMhT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 May 2019 08:37:19 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44097 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726600AbfEHMhT (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 May 2019 08:37:19 -0400
+Received: by mail-lf1-f67.google.com with SMTP id n134so12590422lfn.11;
+        Wed, 08 May 2019 05:37:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=v7au5CCe/tAVeWfzeYAbhgqBsx7YkJZIcyvifTQduLU=;
+        b=Ug84rc6uRecC9IhQA2zooKkTs0rIUlxauvTqkH+dlX9dxpCxyx5rBCNGf2CLSmnwk5
+         Fyt6rYUqydF1K1DNTu8ltn/T68y/fvkHOx0davtUcDSz9trOYZdNGm9RXPZpJTz/VR/G
+         uzZbRUnQzTenqOxXqfHEr5e2Oiz9VONPUYv0hGb+8aZl5nvysk06ARZy0iPbTZe30GjS
+         r0RgihlqPzsCdlMUKOxcAhHDwCCU8CabSh7YHlTpxXruWDcqHJq02PVSM0fR59d/d35u
+         K4YiNi7/eKrogkhmIQ01nGZ6b8i9/1UmEzeXbbgDVomk9eOgOzrjg5nDn4zr5gGdFUv0
+         5Eug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=v7au5CCe/tAVeWfzeYAbhgqBsx7YkJZIcyvifTQduLU=;
+        b=t3ZDtQKPbtQaJ2y6NFf1bT4ceJ2U99jn0r/PsOngQBU6AEHO03PfOCIuIVl8UZOt1S
+         Ha2Y3U6utHy+oi2WJTlBvGgn1L8Ibtii0L+XZwTrT2XQTFH+1o4CHC1GRIipPEn5aUDo
+         NSSlXlTexMi7ekMOMedP/CiEpjjvWe1oZ1x1xnrDDks23V7JuSVvkoBrC0Jp7QE8Oq3g
+         1d8TUDuwf8q4xd91tTiWIW0zyUxw8nGIy2Edf/TVJRe4XKeWXwLD2+45AzQInW7qRL07
+         EwIOIisDIbCw6E5qB8jaIlhY8gkx2YgPGMtRa5k0g47f1P6mH+lmk0lxSvsJNoc2QLd6
+         iWVA==
+X-Gm-Message-State: APjAAAXIuCd9LYKvArdpQT5c/M7Xq0w+IdDBlstjxvt2zJ/09TutLmql
+        FeqtzWVKYeP3N0ylU5xd6LiIMXOv
+X-Google-Smtp-Source: APXvYqzaQoM2ZOXGyH8zy4/azzZrir3MBRJu2rAdTrgWh8SPV96vqARK/cGoOxkCRZPDEuF9X6N9KQ==
+X-Received: by 2002:ac2:4148:: with SMTP id c8mr17889881lfi.2.1557319036956;
+        Wed, 08 May 2019 05:37:16 -0700 (PDT)
+Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.googlemail.com with ESMTPSA id d23sm3675396ljj.38.2019.05.08.05.37.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 May 2019 05:37:15 -0700 (PDT)
+Subject: Re: [PATCH v1] dmaengine: tegra-apb: Handle DMA_PREP_INTERRUPT flag
+ properly
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190505181235.14798-1-digetx@gmail.com>
+ <287d7e67-1572-b4f2-d4bb-b1f02f534d47@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <cbe8352c-c1c7-12a7-c658-82e7ffee0be8@gmail.com>
+Date:   Wed, 8 May 2019 15:37:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190508112842.11654-11-alexandru.ardelean@analog.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9250 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=644
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905080079
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9250 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=665 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1905080079
+In-Reply-To: <287d7e67-1572-b4f2-d4bb-b1f02f534d47@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, May 08, 2019 at 02:28:35PM +0300, Alexandru Ardelean wrote:
-> -static const char * const phy_types[] = {
-> -	"emmc 5.0 phy",
-> -	"emmc 5.1 phy"
-> -};
-> -
->  enum xenon_phy_type_enum {
->  	EMMC_5_0_PHY,
->  	EMMC_5_1_PHY,
->  	NR_PHY_TYPES
+08.05.2019 12:24, Jon Hunter пишет:
+> 
+> On 05/05/2019 19:12, Dmitry Osipenko wrote:
+>> The DMA_PREP_INTERRUPT flag means that descriptor's callback should be
+>> invoked upon transfer completion and that's it. For some reason driver
+>> completely disables the hardware interrupt handling, leaving channel in
+>> unusable state if transfer is issued with the flag being unset. Note
+>> that there are no occurrences in the relevant drivers that do not set
+>> the flag, hence this patch doesn't fix any actual bug and merely fixes
+>> potential problem.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> 
+> From having a look at this, I am guessing that we have never really
+> tested the case where DMA_PREP_INTERRUPT flag is not set because as you
+> mentioned it does not look like this will work at all!
+> 
+> Is there are use-case you are looking at where you don't set the
+> DMA_PREP_INTERRUPT flag?
 
-There is no need for NR_PHY_TYPES now so you could remove that as well.
+No. I just noticed it while was checking whether we really need to
+handle the BUSY bit state for the Ben's "accurate reporting" patch.
 
-regards,
-dan carpenter
+> If not I am wondering if we should even bother supporting this and warn
+> if it is not set. AFAICT it does not appear to be mandatory, but maybe
+> Vinod can comment more on this.
 
+The warning message will be also okay if it's not mandatory.
