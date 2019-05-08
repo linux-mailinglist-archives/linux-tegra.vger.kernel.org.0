@@ -2,185 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B73B8170A2
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 07:59:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 485FE17369
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 10:14:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726979AbfEHF71 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 May 2019 01:59:27 -0400
-Received: from miraculix.kubu.at ([185.93.212.77]:42482 "EHLO
-        miraculix.kubu.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726832AbfEHF70 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 May 2019 01:59:26 -0400
-Received: from [185.93.212.77] (miraculix.kubu.at [185.93.212.77])
-        (authenticated bits=0)
-        by miraculix.kubu.at (8.15.2/8.15.2/Debian-8) with ESMTPSA id x485xLXx002127
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-        for <linux-tegra@vger.kernel.org>; Wed, 8 May 2019 07:59:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kubu.at; s=dkim;
-        t=1557295162; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references:openpgp:autocrypt;
-        bh=8j3OYzC6qMz3HHG946wbAdvPLqLuUOjGu2S2WG0fHgc=;
-        b=YBbHW+3lYwWcXO1CyZb6qpNzrHXG/QknoqVF4jaNZOhq7dpY6HUMMfwM6J2KSn9Jz/eZ3T
-        UL0vs65tWb46m5cmNnjvLKrXOhoy9uO8Tw7ZmDKAr7hff3bml5sXkXMIPdYaBTCzUCYwVJ
-        YlnnJKuPh/VqaaqsGmcNJP9VFcixqFkFM0iV6E9mDeLxPx+XK7y1JBqAsjwg7Eiv0qOhir
-        5ij2GWJGmx0hygyuszfG5u2uIInktMGyGeatLqThkrhEaeS6HRd7k9gxWXhTl85R/u5vWp
-        rcMUkq7Vul2bJ/McMdPNcat9I6AunBNmoD2Gk9rYCtpF5h7as6lFfZzj/+vpag==
-Subject: Re: Patch: PCI: tegra: Use generic accessors where possible
-References: <c4c235a9-89a8-736b-718a-b38861deb470@kubu.at>
-To:     linux-tegra@vger.kernel.org
-From:   Bernd Kubu <bernd@kubu.at>
-X-Forwarded-Message-Id: <c4c235a9-89a8-736b-718a-b38861deb470@kubu.at>
-Message-ID: <848c42af-30fa-5421-8a8a-e1a619ffee4c@kubu.at>
-Date:   Wed, 8 May 2019 07:59:19 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727026AbfEHIOM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 May 2019 04:14:12 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:49522 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726896AbfEHIOG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 May 2019 04:14:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=l5Y5i3eRCqYRgt3e1Ma9Hecy5GcV6/iBwz5+8XPfAXM=; b=RBJSH9tCVR6Huv/cwWA7spPeB
+        EDt69CjtM1i/9zs8MbFr5smH25c6mQofGkh5xnp6wcU7NduqNkRdkHWRqs+B5QXh+f3xTcq9A9G6d
+        C0ttZlj7Q20bYzHVfeqXhLxfm2Y3HtP+gGiUNYsfJRgCXy9WSPF1peP3HLRb8Fi9AyOaE=;
+Received: from [61.199.190.11] (helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hOHiE-0007RY-TF; Wed, 08 May 2019 08:14:03 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id E7DE144000C; Wed,  8 May 2019 08:55:42 +0100 (BST)
+Date:   Wed, 8 May 2019 16:55:42 +0900
+From:   Mark Brown <broonie@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v1 1/6] regulator: core: Introduce API for
+ machine-specific regulators coupling
+Message-ID: <20190508075542.GV14916@sirena.org.uk>
+References: <20190414175939.12368-1-digetx@gmail.com>
+ <20190414175939.12368-2-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <c4c235a9-89a8-736b-718a-b38861deb470@kubu.at>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: de-AT
-X-Virus-Scanned: clamav-milter 0.100.3 at miraculix
-X-Virus-Status: Clean
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Pv0wy+ojp4n+t/Vq"
+Content-Disposition: inline
+In-Reply-To: <20190414175939.12368-2-digetx@gmail.com>
+X-Cookie: -- I have seen the FUN --
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
--------- Weitergeleitete Nachricht --------
-Betreff: 	Re: Patch: PCI: tegra: Use generic accessors where possible
-Datum: 	Wed, 8 May 2019 07:40:51 +0200
-Von: 	Bernd Kubu <bernd@kubu.at>
-An: 	Thierry Reding <treding@nvidia.com>
-Kopie (CC): 	Marcel Ziswiler <marcel.ziswiler@toradex.com>, 
-linux-tegra@vger.kernel.org
+--Pv0wy+ojp4n+t/Vq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Sun, Apr 14, 2019 at 08:59:34PM +0300, Dmitry Osipenko wrote:
+> Right now regulator core supports only one type of regulators coupling,
+> the "voltage max-spread" which keeps voltages of coupled regulators in a
+> given range. A more sophisticated coupling may be required in practice,
+> one example is the NVIDIA Tegra SoC's which besides the max-spreading
+> have other restrictions that must be adhered. Introduce API that allow
+> platforms to provide their own custom coupling algorithms.
 
+This is really concerning since it's jumping straight to open coding the
+algorithm in platform specific code which isn't great, especially since
+that platform specific code is now going to have to handle all possible
+board specific restrictions that might be found on that platform.  Why
+is it not possible to express the rules that exist in a more general
+fashion which can be encoded in drivers?  I'm not thrilled about later
+patches that export core functionality for platform specific use either.
 
-Hi Thierry,
+--Pv0wy+ojp4n+t/Vq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I try to be a bit more specific with this mail:
+-----BEGIN PGP SIGNATURE-----
 
-My hardware is a "Toradex Apalis TK1 2GB V1.1A".
-I work on the current Ubuntu Bionic-Kernel (18.04) [1], which is a 4.15 
-kernel.
-As you already mentioned, the patch [2] was added in 4.15. The 
-Toradex-patchset [3] was originally for 4.14. I applied this patchset 
-[3] to the bionic-kernel. A minor modification was necessary to get it 
-to work [4]. (I am currently testing with the other toradex-peripherals)
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzSi34ACgkQJNaLcl1U
+h9D1UAf/UAwJK/b/t/+xtrLdSj2q7XnjDc+jt0JG8fzPdnxULJenEbdnDLSPd+S0
+VNe0KuOFhyWYAaY9E12iBe8Z3akZ3z5DviE5KODSYlmU9mf4wRgzuC828Ho3Z8Nz
+ffbbBWmVu8/3F1OJktrfiuX1e52z25LmXT0c9XNa/EFi1XeMISR9Ghi/Q3sfG45u
+1w4eeq2pVflE13N5vtu20vqOpjo3Z8glftnxFN1htIEDAhuhaKSTnmotr9dqQyML
+lujag20oYDVKTtb18ZiFnJSEdfYeHqDdiz6BwvOyGwmupyIqS62xe0/h+nyjgMyM
+jK5+9dcG0cRbL3BRsuekodVatgxo1A==
+=R/Xh
+-----END PGP SIGNATURE-----
 
-With this setup, the igb-driver for the onboard Intel ethernet network 
-controller [8086:157b] does not initialize correctly. I get the 
-following messages in dmesg:
-
-[    4.913881] pci 0000:01:00.0: [8086:157b] type 10 class 0x020000
-[    4.913913] pci 0000:01:00.0: unknown header type 10, ignoring device
-
-It seems, the reading of the pci-header-type is not correct. It reads 
-"0x10" instead of "0x00" reproduceable. After comparing the kernel 
-changes between 4.14 and 4.15, I found the changes of patch [2] and 
-removed it for a test. Without this patch, the igb-driver initialized 
-correctly and the network controller worked. So, I assume, there is 
-still an issue with other than "pci_generic_config_read32" access.
-
-So, I want to say, that if I use pci_generic_config_{read,write}32() for 
-all accesses, the network controller works for me. And it doesn't work, 
-if I use the tegra_pcie_config_{read,write}() functions for accesses.
-
-I didn´t try it with a recent kernel. I assume, more modifications of 
-the Toradex-patchset are necessary to get it to work. If you intend to 
-track this issue for the recent kernel, I could give it a try..
-
-     Bernd
-
-[1] git://kernel.ubuntu.com/ubuntu/ubuntu-bionic.git
-[2] https://patchwork.kernel.org/patch/9967399/
-[3] 
-http://git.toradex.com/cgit/meta-toradex-tegra.git/tree/recipes-kernel/linux/linux-toradex-mainline-4.14?h=rocko)
-[4] patch1 below
-
---- patch1 ---
-diff --git a/drivers/iio/adc/apalis-tk1-k20_adc.c 
-b/drivers/iio/adc/apalis-tk1-k20_adc.c
-index b45e51df5c81..8a9d90b2f77d 100644
---- a/drivers/iio/adc/apalis-tk1-k20_adc.c
-+++ b/drivers/iio/adc/apalis-tk1-k20_adc.c
-@@ -87,7 +87,7 @@ static int apalis_tk1_k20_adc_read_raw(struct iio_dev 
-*indio_dev,
-
-  static const struct iio_info apalis_tk1_k20_adc_info = {
-         .read_raw = &apalis_tk1_k20_adc_read_raw,
--       .driver_module = THIS_MODULE,
-  };
---- patch1 ---
-
-Am 07.05.2019 um 21:39 schrieb Thierry Reding:
-> On Tue, May 07, 2019 at 04:03:37PM +0200, Bernd Kubu wrote:
->> Hello Thierry,
->>
->> I have troubles with this patch:https://patchwork.kernel.org/patch/9967399/
->>
->> My Intel Ethernet Network Controller (igb [8086:157b]) on the "Toradex Apalis
->> TK1 2GB V1.1A" does not work with the current Ubuntu Bionic Kernel (with
->> patches fromhttp://git.toradex.com/cgit/meta-toradex-tegra.git/tree/
->> recipes-kernel/linux/linux-toradex-mainline-4.14?h=rocko).
-> Looks like the baseline for that is 4.14. The patch that you referenced
-> above was applied to 4.15 and is not part of that Toradex patchset
-> either, so...
->
->> I get the following messages in dmesg:
->> [    4.913881] pci 0000:01:00.0: [8086:157b] type 10 class 0x020000
->> [    4.913913] pci 0000:01:00.0: unknown header type 10, ignoring device
->>
->> After removing the changes from the patchhttps://patchwork.kernel.org/patch/
->> 9967399/
->> ---------
->>
->>> +}
->>> +
->>>   static struct pci_ops tegra_pcie_ops = {
->>>          .add_bus = tegra_pcie_add_bus,
->>>          .remove_bus = tegra_pcie_remove_bus,
->>>          .map_bus = tegra_pcie_map_bus,
->>> -       .read = pci_generic_config_read32,
->>> -       .write = pci_generic_config_write32,
->>> +       .read = tegra_pcie_config_read,
->>> +       .write = tegra_pcie_config_write,
->>>   };
->>>
->> ------
->>
->> the Network Controller work.
->> So it seems this model has issues with other than 32-bit access.
-> ... I'm not sure how that would be related here. Unless I'm misunder-
-> standing what you're saying. You are saying that if you use
-> pci_generic_config_{read,write}32() for all accesses, that the network
-> controller works for you? And it doesn't work if you use the
-> tegra_pcie_config_{read,write}() functions for accesses?
->
-> I'd be somewhat surprised if this wasn't working. I'm not aware of any
-> similar reports against the upstream kernel. Have you tried building a
-> recent linux-next, or -rc or something like the latest release (5.1)?
->
-> Adding Marcel here, perhaps he's encountered a similar issue. Also
-> adding the linux-tegra mailing list for broader visibility.
->
-> Thierry
->
->> Best regards,
->>
->>      Bernd
->>
->> --
->> Bernd Kubu - IT Services
->>
->> Heufeldstrasse 24
->> A-2640 Gloggnitz
->>
->> Tel.: +43-699-13002768
->> E-Mail:mailto:bernd@kubu.at
->>
-
+--Pv0wy+ojp4n+t/Vq--
