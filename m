@@ -2,233 +2,199 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69CA517667
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 13:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D49EB17806
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 13:34:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726825AbfEHLDr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 May 2019 07:03:47 -0400
-Received: from mout.perfora.net ([74.208.4.197]:48123 "EHLO mout.perfora.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726608AbfEHLDq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 8 May 2019 07:03:46 -0400
-X-Greylist: delayed 309 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 May 2019 07:03:45 EDT
-Received: from marcel-pc.toradex.int ([46.140.72.82]) by mrelay.perfora.net
- (mreueus003 [74.208.5.2]) with ESMTPSA (Nemesis) id 0MF2JZ-1hUbgG3AoF-00GI7z;
- Wed, 08 May 2019 12:58:20 +0200
-Message-ID: <bb000812478170469e5b0b902147594ff153d1ce.camel@toradex.com>
-Subject: Re: Patch: PCI: tegra: Use generic accessors where possible
-From:   Marcel Ziswiler <marcel.ziswiler@toradex.com>
-To:     Bernd Kubu <bernd@kubu.at>, Thierry Reding <treding@nvidia.com>
-Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-In-Reply-To: <c4c235a9-89a8-736b-718a-b38861deb470@kubu.at>
-References: <e6ea626b-21c2-9b7a-9776-e333609c350b@kubu.at>
-         <20190507193942.GA1090@ulmo> <c4c235a9-89a8-736b-718a-b38861deb470@kubu.at>
-Organization: Toradex AG
-Content-Type: text/plain; charset="UTF-8"
+        id S1727542AbfEHL3X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 May 2019 07:29:23 -0400
+Received: from mail-eopbgr730080.outbound.protection.outlook.com ([40.107.73.80]:59424
+        "EHLO NAM05-DM3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725778AbfEHL3W (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 8 May 2019 07:29:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=analog.onmicrosoft.com; s=selector1-analog-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9mREEcazEV2TFx5JIFnH3pAzE1JX52Mxgf7Nke2hFVA=;
+ b=qQfQKlBUhqrL+3Zq0CNfpq26DFQMQ47XeDeoOQghyt8YnFxihdOyu/uqLTp4Va2PKJok0DnLUK74RKCRbvROk2XuKOdS1aEBpBZ7S2HyRHxL7vRH6SPzukskQpsFHAO8LtN/Vyu7cA1xYW8YkqaoD+LlmFfxVsALjqdbrsDXj/c=
+Received: from MWHPR03CA0030.namprd03.prod.outlook.com (2603:10b6:301:3b::19)
+ by DM5PR03MB3132.namprd03.prod.outlook.com (2603:10b6:4:3c::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1878.20; Wed, 8 May
+ 2019 11:29:15 +0000
+Received: from SN1NAM02FT031.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e44::207) by MWHPR03CA0030.outlook.office365.com
+ (2603:10b6:301:3b::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1878.20 via Frontend
+ Transport; Wed, 8 May 2019 11:29:14 +0000
+Authentication-Results: spf=pass (sender IP is 137.71.25.57)
+ smtp.mailfrom=analog.com; lists.freedesktop.org; dkim=none (message not
+ signed) header.d=none;lists.freedesktop.org; dmarc=bestguesspass action=none
+ header.from=analog.com;
+Received-SPF: Pass (protection.outlook.com: domain of analog.com designates
+ 137.71.25.57 as permitted sender) receiver=protection.outlook.com;
+ client-ip=137.71.25.57; helo=nwd2mta2.analog.com;
+Received: from nwd2mta2.analog.com (137.71.25.57) by
+ SN1NAM02FT031.mail.protection.outlook.com (10.152.72.116) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1856.11
+ via Frontend Transport; Wed, 8 May 2019 11:29:13 +0000
+Received: from NWD2HUBCAS7.ad.analog.com (nwd2hubcas7.ad.analog.com [10.64.69.107])
+        by nwd2mta2.analog.com (8.13.8/8.13.8) with ESMTP id x48BTCgt016944
+        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
+        Wed, 8 May 2019 04:29:12 -0700
+Received: from saturn.analog.com (10.50.1.244) by NWD2HUBCAS7.ad.analog.com
+ (10.64.69.107) with Microsoft SMTP Server id 14.3.408.0; Wed, 8 May 2019
+ 07:29:11 -0400
+From:   Alexandru Ardelean <alexandru.ardelean@analog.com>
+To:     <linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-rockchip@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <intel-gfx@lists.freedesktop.org>, <linux-omap@vger.kernel.org>,
+        <linux-mmc@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <devel@driverdev.osuosl.org>,
+        <linux-usb@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <linux-fbdev@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+        <cgroups@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>, <alsa-devel@alsa-project.org>
+CC:     <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>
+Subject: [PATCH 00/16] treewide: fix match_string() helper when array size
+Date:   Wed, 8 May 2019 14:28:25 +0300
+Message-ID: <20190508112842.11654-1-alexandru.ardelean@analog.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Date:   Wed, 08 May 2019 12:58:14 +0200
-User-Agent: Evolution 3.32.1 (3.32.1-1.fc30) 
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:WvBNpJ2sNTZt3ZRGpdq6REhvX71hyYZYljglx64MloLBgTZ1ogh
- fZkILgann4yvwryzZk+m1jQYYlA2Kx41qDRiPdtp0vwZ67epfsFQPmJFK4uqTODNXFvxgy/
- nQT6L35Bc2aOPBzoOXKo6qaLHtR+sAC3LSo5BFXNv35YSiOnXwu8cXppSO91kkyU9dW7RRX
- kn6zlsOi1D/yekd2BAEyg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Q0vNYk06vq4=:GGv9qbWVCvkxpm2jWQ6nPp
- 8P3faw4APRYu0VTtFHdAb/LwyvjCHWobJ7Ou0tOremG/Nqx+oXxbYgrZ0b82yuhOVpiLd7Pso
- nt4u9XYJR4z9MXcpqYJhoGc0coqL4N4Yd8PHhQvtpPqgOfaFmJr7K13ppViS6r/Z+OT9WsRj9
- yf8hcdfBEMZQxJWIsVjKwlZcmZo5LRCLWTQxJ7g4vFZh/dM4J13gCB/FleZpCx3M98f78g5sC
- GW7E2bvI8m+kJrIJzihbvVBV7JHZsZhQMKqQ5+LS9yMBeITicHqkAG1pDZVykKzKKWIgzxkJL
- H36exYVcMQw7cbqnxH7RDY+SphsI279WXFfZiPhg7hfDXJjYtlvefyqnHC0DRCxhoNNgbNVx6
- 832ObrTa6t3bqofi9ZGcd2BsS9/oWJWkMvWinNKVk3pDemM13EeKIIIZwhD/ZMxpDET4DzG1i
- MGN/CKfjXuXwKkYTUWcFzXh+uqC4JthKIViqJ9J22gsgFLJiEn6zbL20pEtcK2L5c4WWOM17e
- Ulr2pguoYcti4YoA4PX0JmYKwr6kedaOIvJ1QcdhXvkSEXN0Oe3H3t9IaI0tFxmmmMGNQBlIx
- RtbrdfJ+1fMCTiVXuuY4gj4nka3a8BKRlDSrF2K3dvKYzsZpYQ5WXCsqrx5m0GiAs/1wD/LBf
- 1sGp3mFuZLxnrrBp/OjCFzYaDzy2abuI12msATATK1Udce+hFxq9mMqGT1UTZQKHctTsObGYd
- VqhVnnK7U1Q0/JpZIbZIeNzR/PsWxhV3sRg2V0dsH23wX1CjJpEUPCvuwIdXnRvduM54BKGSv
- 08NX0YR
+Content-Type: text/plain
+X-ADIRoutedOnPrem: True
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:137.71.25.57;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(1496009)(376002)(136003)(346002)(396003)(39860400002)(2980300002)(189003)(199004)(336012)(48376002)(6666004)(16586007)(316002)(426003)(356004)(107886003)(2441003)(50226002)(7696005)(51416003)(54906003)(2906002)(478600001)(110136005)(486006)(47776003)(7636002)(44832011)(106002)(50466002)(2616005)(476003)(8676002)(70206006)(246002)(70586007)(4326008)(2201001)(7416002)(26005)(1076003)(186003)(8936002)(77096007)(5660300002)(36756003)(126002)(53416004)(305945005)(86362001)(14444005)(921003)(83996005)(2101003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR03MB3132;H:nwd2mta2.analog.com;FPR:;SPF:Pass;LANG:en;PTR:nwd2mail11.analog.com;MX:1;A:1;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c32e2cbb-fe64-4c66-7a5d-08d6d3a86664
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);SRVR:DM5PR03MB3132;
+X-MS-TrafficTypeDiagnostic: DM5PR03MB3132:
+X-Microsoft-Antispam-PRVS: <DM5PR03MB3132F0B0976A4F2194522684F9320@DM5PR03MB3132.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 0031A0FFAF
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: j/srRMWDBUltVscxVeW1javD8vK/cachSroUu+/Gbw1dTf/SvbBrFyW07ykT1LHxgf7JFm8qQ93W9eBvUwKDflyO8jAEvFHYdehNb6EHWUlpktuzMPEP4dqtYdoUQPJZJheiLPDUHbBGHPrVF+8TL5mDHJaN5ynPAEYsTTkWak369JERGg4vdXLCAeUTNR0/5p+fpFpKdjOGClAHWrD4fgHBh7O9/Ww1YzfpFB5/ShVxDtLKjt6j5yDaAZJVnp6EeWEY3bKP4Xa20OdzBmuebRIP54BdhQLWgxOFaNRtwz2dquRxZGpNeP4PgyojuMA1RloHq4JkY9VStd6NE4AnfhNTuZyPUNrsaLk3IJ1WIYcn7pLDJzCGmOSiZuodj5CqDCxvmc9nwLsca/AMvRwPw64pvgq4xuPYVpmZdqdwNAA=
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2019 11:29:13.4642
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c32e2cbb-fe64-4c66-7a5d-08d6d3a86664
+X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=eaa689b4-8f87-40e0-9c6f-7228de4d754a;Ip=[137.71.25.57];Helo=[nwd2mta2.analog.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR03MB3132
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Bernd
+The intent of this patch series is to make a case for fixing the
+match_string() string helper.
 
-On Wed, 2019-05-08 at 07:40 +0200, Bernd Kubu wrote:
-> Hi Thierry,
-> 
-> I try to be a bit more specific with this mail:
-> 
-> My hardware is a "Toradex Apalis TK1 2GB V1.1A".
+The doc-string of the `__sysfs_match_string()` helper mentions that `n`
+(the size of the given array) should be:
+ * @n: number of strings in the array or -1 for NULL terminated arrays
 
-Please note that anything before V1.2A is considered obsolete sample
-hardware [1] which may or may not perform as per your requirements.
+However, this is not the case.
+The helper stops on the first NULL in the array, regardless of whether -1
+is provided or not.
 
-> I work on the current Ubuntu Bionic-Kernel (18.04) [1], which is a
-> 4.15 kernel.
+There are some advantages to allowing this behavior (NULL elements within
+in the array). One example, is to allow reserved registers as NULL in an
+array.
+One example in the series is patch:
+   x86/mtrr: use new match_string() helper + add gaps == minor fix
+which uses a "?" string for values that are reserved/don't care.
 
-Please note that 4.15 is long since obsolete [2] and not any of the
-still supported long term variants.
+Since the change is a bit big, the change was coupled with renaming
+match_string() -> __match_string().
+The new match_string() helper (resulted here) does an ARRAY_SIZE() over the
+array, which is useful when the array is static. 
 
-> As you already mentioned, the patch [2] was added in 4.15. The
-> Toradex-patchset [3] was originally for 4.14.
+Also, this way of doing things is a way to go through all the users of this
+helpers and check that nothing goes wrong, and notify them about the change
+to match_string().
+It's a way of grouping changes in a manage-able way.
 
-Please note that any such downstream patch set is quite exclusively for
-that particular kernel version and most possibly may not apply to
-anything else. In your particular case, it also most likely also does
-not even make any sense at all as 4.14 is a still maintained long term
-kernel while 4.15 is simply obsolete.
+The first patch is important, the others can be dropped.
 
-> I applied this patchset [3] to the bionic-kernel. A minor
-> modification was necessary to get it to work [4]. (I am currently
-> testing with the other toradex-peripherals)
+Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
 
-As mentioned above I don't think this makes any sense at all.
+Alexandru Ardelean (16):
+  lib: fix match_string() helper when array size is positive
+  treewide: rename match_string() -> __match_string()
+  lib,treewide: add new match_string() helper/macro
+  powerpc/xmon: use new match_string() helper/macro
+  ALSA: oxygen: use new match_string() helper/macro
+  x86/mtrr: use new match_string() helper + add gaps == minor fix
+  device connection: use new match_string() helper/macro
+  cpufreq/intel_pstate: remove NULL entry + use match_string()
+  mmc: sdhci-xenon: use new match_string() helper/macro
+  pinctrl: armada-37xx: use new match_string() helper/macro
+  mm/vmpressure.c: use new match_string() helper/macro
+  rdmacg: use new match_string() helper/macro
+  drm/edid: use new match_string() helper/macro
+  staging: gdm724x: use new match_string() helper/macro
+  video: fbdev: pxafb: use new match_string() helper/macro
+  sched: debug: use new match_string() helper/macro
 
-> With this setup, the igb-driver for the onboard Intel ethernet
-> network controller [8086:157b] does not initialize correctly. I get
-> the following messages in dmesg:
-> [    4.913881] pci 0000:01:00.0: [8086:157b] type 10 class 0x020000
-> [    4.913913] pci 0000:01:00.0: unknown header type 10, ignoring
-> device
-> It seems, the reading of the pci-header-type is not correct. It reads
-> "0x10" instead of "0x00" reproduceable. After comparing the kernel
-> changes between 4.14 and 4.15, I found the changes of patch [2] and
-> removed it for a test. Without this patch, the igb-driver initialized
-> correctly and the network controller worked. So, I assume, there is
-> still an issue with other than "pci_generic_config_read32" access.
+ arch/powerpc/xmon/xmon.c                         |  2 +-
+ arch/x86/kernel/cpu/mtrr/if.c                    | 10 ++++++----
+ drivers/ata/pata_hpt366.c                        |  2 +-
+ drivers/ata/pata_hpt37x.c                        |  2 +-
+ drivers/base/devcon.c                            |  2 +-
+ drivers/base/property.c                          |  2 +-
+ drivers/clk/bcm/clk-bcm2835.c                    |  4 +---
+ drivers/clk/clk.c                                |  4 ++--
+ drivers/clk/rockchip/clk.c                       |  4 ++--
+ drivers/cpufreq/intel_pstate.c                   |  9 ++++-----
+ drivers/gpio/gpiolib-of.c                        |  2 +-
+ drivers/gpu/drm/drm_edid_load.c                  |  2 +-
+ drivers/gpu/drm/drm_panel_orientation_quirks.c   |  2 +-
+ drivers/gpu/drm/i915/intel_pipe_crc.c            |  2 +-
+ drivers/ide/hpt366.c                             |  2 +-
+ drivers/mfd/omap-usb-host.c                      |  2 +-
+ drivers/mmc/host/sdhci-xenon-phy.c               | 12 ++++++------
+ drivers/net/wireless/intel/iwlwifi/mvm/debugfs.c |  2 +-
+ drivers/pci/pcie/aer.c                           |  2 +-
+ drivers/phy/tegra/xusb.c                         |  2 +-
+ drivers/pinctrl/mvebu/pinctrl-armada-37xx.c      |  4 ++--
+ drivers/pinctrl/pinmux.c                         |  2 +-
+ drivers/power/supply/ab8500_btemp.c              |  2 +-
+ drivers/power/supply/ab8500_charger.c            |  2 +-
+ drivers/power/supply/ab8500_fg.c                 |  2 +-
+ drivers/power/supply/abx500_chargalg.c           |  2 +-
+ drivers/power/supply/charger-manager.c           |  4 ++--
+ drivers/staging/gdm724x/gdm_tty.c                |  3 +--
+ drivers/usb/common/common.c                      |  4 ++--
+ drivers/usb/typec/class.c                        |  8 +++-----
+ drivers/usb/typec/tps6598x.c                     |  2 +-
+ drivers/vfio/vfio.c                              |  4 +---
+ drivers/video/fbdev/pxafb.c                      |  4 ++--
+ fs/ubifs/auth.c                                  |  4 ++--
+ include/linux/string.h                           | 11 ++++++++++-
+ kernel/cgroup/rdma.c                             |  2 +-
+ kernel/sched/debug.c                             |  2 +-
+ kernel/trace/trace.c                             |  2 +-
+ lib/string.c                                     | 13 ++++++++-----
+ mm/mempolicy.c                                   |  2 +-
+ mm/vmpressure.c                                  |  4 ++--
+ security/apparmor/lsm.c                          |  4 ++--
+ security/integrity/ima/ima_main.c                |  2 +-
+ sound/firewire/oxfw/oxfw.c                       |  2 +-
+ sound/pci/oxygen/oxygen_mixer.c                  |  2 +-
+ sound/soc/codecs/max98088.c                      |  2 +-
+ sound/soc/codecs/max98095.c                      |  2 +-
+ sound/soc/soc-dapm.c                             |  2 +-
+ 48 files changed, 88 insertions(+), 82 deletions(-)
 
-This is the very first time I ever heard of any such issue. Any and all
-mainline version always worked just fine and still do as of the latest
-next-20190508.
-
-> So, I want to say, that if I use pci_generic_config_{read,write}32()
-> for all accesses, the network controller works for me. And it doesn't
-> work, if I use the tegra_pcie_config_{read,write}() functions for
-> accesses.
-> 
-> I didn´t try it with a recent kernel. I assume, more modifications of
-> the Toradex-patchset are necessary to get it to work. If you intend
-> to track this issue for the recent kernel, I could give it a try..
-
-This is quite clearly a non-issue as it works just fine in mainline.
-
-BTW: For further downstream discussions you may want to revert to our
-community forum [3] rather than bothering busy mainline maintainers.
-
-[1] https://developer.toradex.com/products/apalis-tk1#revision-history
-[2] https://www.kernel.org
-[3] https://www.toradex.com/community
-
->     Bernd
-
-Cheers
-
-Marcel
-Platform Manager Embedded Linux
-Toradex
-
-> [1] git://kernel.ubuntu.com/ubuntu/ubuntu-bionic.git
-> [2] https://patchwork.kernel.org/patch/9967399/
-> [3] 
-> http://git.toradex.com/cgit/meta-toradex-tegra.git/tree/recipes-kernel/linux/linux-toradex-mainline-4.14?h=rocko
-> )
-> [4] patch1 below
-> 
-> --- patch1 ---
-> diff --git a/drivers/iio/adc/apalis-tk1-k20_adc.c
-> b/drivers/iio/adc/apalis-tk1-k20_adc.c
-> index b45e51df5c81..8a9d90b2f77d 100644
-> --- a/drivers/iio/adc/apalis-tk1-k20_adc.c
-> +++ b/drivers/iio/adc/apalis-tk1-k20_adc.c
-> @@ -87,7 +87,7 @@ static int apalis_tk1_k20_adc_read_raw(struct
-> iio_dev *indio_dev,
-> 
->  static const struct iio_info apalis_tk1_k20_adc_info = {
->         .read_raw = &apalis_tk1_k20_adc_read_raw,
-> -       .driver_module = THIS_MODULE,
->  };
-> --- patch1 ---
-> 
-> Am 07.05.2019 um 21:39 schrieb Thierry Reding:
-> > On Tue, May 07, 2019 at 04:03:37PM +0200, Bernd Kubu wrote:
-> > > Hello Thierry,
-> > > 
-> > > I have troubles with this patch: 
-> > > https://patchwork.kernel.org/patch/9967399/
-> > > 
-> > > My Intel Ethernet Network Controller (igb [8086:157b]) on the
-> > > "Toradex Apalis
-> > > TK1 2GB V1.1A" does not work with the current Ubuntu Bionic
-> > > Kernel (with
-> > > patches from 
-> > > http://git.toradex.com/cgit/meta-toradex-tegra.git/tree/
-> > > recipes-kernel/linux/linux-toradex-mainline-4.14?h=rocko).
-> > 
-> > Looks like the baseline for that is 4.14. The patch that you
-> > referenced
-> > above was applied to 4.15 and is not part of that Toradex patchset
-> > either, so...
-> > 
-> > > I get the following messages in dmesg:
-> > > [    4.913881] pci 0000:01:00.0: [8086:157b] type 10 class
-> > > 0x020000
-> > > [    4.913913] pci 0000:01:00.0: unknown header type 10, ignoring
-> > > device
-> > > 
-> > > After removing the changes from the patch 
-> > > https://patchwork.kernel.org/patch/
-> > > 9967399/
-> > > ---------
-> > > 
-> > > > +}
-> > > > +
-> > > >  static struct pci_ops tegra_pcie_ops = {
-> > > >         .add_bus = tegra_pcie_add_bus,
-> > > >         .remove_bus = tegra_pcie_remove_bus,
-> > > >         .map_bus = tegra_pcie_map_bus,
-> > > > -       .read = pci_generic_config_read32,
-> > > > -       .write = pci_generic_config_write32,
-> > > > +       .read = tegra_pcie_config_read,
-> > > > +       .write = tegra_pcie_config_write,
-> > > >  };
-> > > > 
-> > > 
-> > > ------
-> > > 
-> > > the Network Controller work.
-> > > So it seems this model has issues with other than 32-bit access.
-> > 
-> > ... I'm not sure how that would be related here. Unless I'm
-> > misunder-
-> > standing what you're saying. You are saying that if you use
-> > pci_generic_config_{read,write}32() for all accesses, that the
-> > network
-> > controller works for you? And it doesn't work if you use the
-> > tegra_pcie_config_{read,write}() functions for accesses?
-> > 
-> > I'd be somewhat surprised if this wasn't working. I'm not aware of
-> > any
-> > similar reports against the upstream kernel. Have you tried
-> > building a
-> > recent linux-next, or -rc or something like the latest release
-> > (5.1)?
-> > 
-> > Adding Marcel here, perhaps he's encountered a similar issue. Also
-> > adding the linux-tegra mailing list for broader visibility.
-> > 
-> > Thierry
-> > 
-> > > Best regards,
-> > > 
-> > >     Bernd
-> > > 
-> > > --
-> > > Bernd Kubu - IT Services
-> > > 
-> > > Heufeldstrasse 24
-> > > A-2640 Gloggnitz
-> > > 
-> > > Tel.: +43-699-13002768
-> > > E-Mail: mailto:bernd@kubu.at
+-- 
+2.17.1
 
