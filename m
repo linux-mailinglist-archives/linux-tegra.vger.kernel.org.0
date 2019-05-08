@@ -2,51 +2,51 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80F22179DC
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 15:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9358B179FC
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 15:11:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727071AbfEHNFh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 May 2019 09:05:37 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:46244 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726281AbfEHNFh (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 May 2019 09:05:37 -0400
-Received: by mail-lj1-f196.google.com with SMTP id h21so856184ljk.13;
-        Wed, 08 May 2019 06:05:35 -0700 (PDT)
+        id S1727265AbfEHNLD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 May 2019 09:11:03 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:44766 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727210AbfEHNLD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 May 2019 09:11:03 -0400
+Received: by mail-lj1-f194.google.com with SMTP id e13so2842249ljl.11;
+        Wed, 08 May 2019 06:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yK6lZQ5RuzRcv+wOgC6XMr6FEm+7QRFs6HWH5BwlilM=;
-        b=kyNekJflza5TUlzyOAXxMSkwrd6WWuXL2ns2+3SPo5XBwBbvnTpV054tobjLV8KnnH
-         bEsRoCgfBrVQuozXHXkFUaWQt1cbSny1tWguOUffWMXWJDZA8qSRk/ZOLxqix/ywopHG
-         zemGn0sWYukabpxnES0Sd9f/2nt+eKpAJ6KasU0MOhlJ6Uqd4VkCCqMhfc0vx2xcf4/x
-         7t+3MTmqENbckdI27TSXyqSQJyzG0RP8CKKMGfVNPD5lHaD6V92AL7Os/juXG1rsNjJ8
-         RNFCLnaX4LALeMcFetmhgtPI52ZbwL2ebl37BuUC14TqFLAPE23PY1J2Q62oV7Sztw2W
-         DOwg==
+        bh=uPUEltEM8YnnSOYwSvRNb2803gogpOnMDSmCbmKkT28=;
+        b=Oc1+a6P+tQ0R9ivDMoNUscebnkTlJegOOoekMYI9H7VfW4bVhpTv+yexL4UKe3K9JR
+         zJ+5AxEkP3rB2/qgcXjvVZ0Jia/rtT6tPDM5YYy9GsxsnRBDq6Mngc1+jQW8hcgK0n9j
+         W9nMjbaalkGNOTNjeLrfcz753AeTr/O7bVLshgj2If4YyTf8sLRRg2RtmwnNAQY1u8H9
+         30rkG2wBiYPY7m3oPcsgEPavLEToOu/B014kju+Q0b1DdJJRLGFvxRFfHvMbBym/HWxQ
+         9A+bhnH3ABZvIQsQT+Dc7/Ify8Ve1a2tDpJTRn4KoicIMCH2rcjwBJKYGLUPofEws5IX
+         F59g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=yK6lZQ5RuzRcv+wOgC6XMr6FEm+7QRFs6HWH5BwlilM=;
-        b=qisQhNY/foRZ8TLpVQWrUqYphl3DD4tQc68juKe9wPkpqQKbrJokXHgDoJK/+YHGxT
-         qG9Zi3EtcSOAp21YppUBmMtuzZO2H4Z3PizqUvzM9TiG4Fa7EjjczBd8guBVRiL32XUv
-         /H91QPe6LOMGVGF+JRexOX05GaFkA4MSbgpdBy1JVktZHmNWd49PJyFlj/KZ39CIIXP9
-         bZXnS6rbGU/oPsqf2ZK78hznRHuqb/RP05OnyGu3zemaTPaHmaq2e6vaCYNVxh1B/Zqr
-         ZVEMkWD0OkxP9NBOGL9/cx3kojkcpDHRVWB34claoJkifrduMSDKrmyMUqAZIPkl7hW6
-         ea+A==
-X-Gm-Message-State: APjAAAXhW1JZP72nd90JId9Wc20f9ZdXY+v3KhT1dYUZ1J4EA5/wadIj
-        h8hqgGCbH2AhFqII3nimRQJmKqkq
-X-Google-Smtp-Source: APXvYqyCJTzduk6QZN8Is804Qd3hz5KKlfVCqF0AhMwjp8Brr415n5lDxSKVjz5EWJSuuZYw3rqCfQ==
-X-Received: by 2002:a2e:97d8:: with SMTP id m24mr20897427ljj.192.1557320734442;
-        Wed, 08 May 2019 06:05:34 -0700 (PDT)
+        bh=uPUEltEM8YnnSOYwSvRNb2803gogpOnMDSmCbmKkT28=;
+        b=c1u2qdiTTsdTyHRsgNEY/5y7ALHA49ZktYfJh/Ep5LqkGgGchAndcFLH1y6dHnkmsF
+         LDP3bW+F1JwMTAB/i6lIfgSVmh6qWvXfxpMkFq6878Dw2yYHvoOGYXK384CA0xDf85kD
+         s834zT+mfn9YhiwQz2IhYoOKdv+11IYeVGb6FdCqYWZaVqh+/AZfmto7QIU5q/hSUw+w
+         xhKIqPCE/UPVWQV+UKfDtwxdDIO89DAIOWo8uzDv0HWQf0hu92e4AMd/aFA0a+Z8fwVn
+         6Il6GNwFpSH4H8Gm7o2Bpi3ib67YxzO0YgJdMospT1teMTynORLOO/bUh2ql2cNdCEOB
+         NY3A==
+X-Gm-Message-State: APjAAAW50bZKOJRz7GiX5oaZaivtIIpZtrrF+ep0Q88F19jcZAmruiFQ
+        NHQ3UTKF/ott9QlhJMHCCq1avGfr
+X-Google-Smtp-Source: APXvYqzRwlyfw6KVbMu9yCCQaQLVeAxxCmeB1ATfkMgtPjRN1Vtza3wSmdh4I9mnhn99ztU+7hZi0A==
+X-Received: by 2002:a2e:8846:: with SMTP id z6mr18664891ljj.98.1557321060933;
+        Wed, 08 May 2019 06:11:00 -0700 (PDT)
 Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
-        by smtp.googlemail.com with ESMTPSA id n4sm4025793lfe.15.2019.05.08.06.05.32
+        by smtp.googlemail.com with ESMTPSA id j6sm4536133ljc.0.2019.05.08.06.10.59
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 May 2019 06:05:33 -0700 (PDT)
-Subject: Re: [RFC PATCH v1 1/6] regulator: core: Introduce API for
- machine-specific regulators coupling
+        Wed, 08 May 2019 06:10:59 -0700 (PDT)
+Subject: Re: [RFC PATCH v1 5/6] soc/tegra: regulators: Add regulators coupler
+ for Tegra20
 To:     Mark Brown <broonie@kernel.org>
 Cc:     Liam Girdwood <lgirdwood@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -54,15 +54,15 @@ Cc:     Liam Girdwood <lgirdwood@gmail.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190414175939.12368-1-digetx@gmail.com>
- <20190414175939.12368-2-digetx@gmail.com>
- <20190508075542.GV14916@sirena.org.uk>
+ <20190414175939.12368-6-digetx@gmail.com>
+ <20190508075706.GW14916@sirena.org.uk>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <674a93f6-0d35-c558-72ed-45a66f8c8c3e@gmail.com>
-Date:   Wed, 8 May 2019 16:05:32 +0300
+Message-ID: <9756d8ca-0778-5185-5b6b-3168d63819ec@gmail.com>
+Date:   Wed, 8 May 2019 16:10:58 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190508075542.GV14916@sirena.org.uk>
+In-Reply-To: <20190508075706.GW14916@sirena.org.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -71,25 +71,18 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-08.05.2019 10:55, Mark Brown пишет:
-> On Sun, Apr 14, 2019 at 08:59:34PM +0300, Dmitry Osipenko wrote:
->> Right now regulator core supports only one type of regulators coupling,
->> the "voltage max-spread" which keeps voltages of coupled regulators in a
->> given range. A more sophisticated coupling may be required in practice,
->> one example is the NVIDIA Tegra SoC's which besides the max-spreading
->> have other restrictions that must be adhered. Introduce API that allow
->> platforms to provide their own custom coupling algorithms.
+08.05.2019 10:57, Mark Brown пишет:
+> On Sun, Apr 14, 2019 at 08:59:38PM +0300, Dmitry Osipenko wrote:
+>> Add regulators coupler for Tegra20 SoC's that performs voltage balancing
+>> of a coupled regulators and thus provides voltage scaling functionality.
 > 
-> This is really concerning since it's jumping straight to open coding the
-> algorithm in platform specific code which isn't great, especially since
-> that platform specific code is now going to have to handle all possible
-> board specific restrictions that might be found on that platform.  Why
-> is it not possible to express the rules that exist in a more general
-> fashion which can be encoded in drivers?  I'm not thrilled about later
-> patches that export core functionality for platform specific use either.
+> Can you say what the rules that this is trying to follow are?
 > 
 
-Indeed, it's absolutely not the part of the idea that platform specific
-code will be handling board specifics as well. I just wanted to KISS for
-the first draft and will change that for a more generic solution in the
-next revision.
+There are three regulators: CPU, CORE and RTC.
+
+Constraints:
+
+1) CORE and RTC have max-spread voltage of 170mV.
+2) CORE and RTC voltages must be higher than the CPU voltage by at least
+120mV.
