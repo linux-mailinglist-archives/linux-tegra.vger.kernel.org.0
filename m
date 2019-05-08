@@ -2,156 +2,185 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F66C16B87
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 May 2019 21:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B73B8170A2
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 07:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726426AbfEGTjr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 May 2019 15:39:47 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:10482 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbfEGTjr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 May 2019 15:39:47 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cd1dedf0000>; Tue, 07 May 2019 12:39:11 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 07 May 2019 12:39:46 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 07 May 2019 12:39:46 -0700
-Received: from localhost (10.124.1.5) by HQMAIL101.nvidia.com (172.20.187.10)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 May 2019 19:39:46
- +0000
-Date:   Tue, 7 May 2019 21:39:43 +0200
-From:   Thierry Reding <treding@nvidia.com>
-To:     Bernd Kubu <bernd@kubu.at>
-CC:     Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        <linux-tegra@vger.kernel.org>
+        id S1726979AbfEHF71 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 May 2019 01:59:27 -0400
+Received: from miraculix.kubu.at ([185.93.212.77]:42482 "EHLO
+        miraculix.kubu.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726832AbfEHF70 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 May 2019 01:59:26 -0400
+Received: from [185.93.212.77] (miraculix.kubu.at [185.93.212.77])
+        (authenticated bits=0)
+        by miraculix.kubu.at (8.15.2/8.15.2/Debian-8) with ESMTPSA id x485xLXx002127
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+        for <linux-tegra@vger.kernel.org>; Wed, 8 May 2019 07:59:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kubu.at; s=dkim;
+        t=1557295162; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references:openpgp:autocrypt;
+        bh=8j3OYzC6qMz3HHG946wbAdvPLqLuUOjGu2S2WG0fHgc=;
+        b=YBbHW+3lYwWcXO1CyZb6qpNzrHXG/QknoqVF4jaNZOhq7dpY6HUMMfwM6J2KSn9Jz/eZ3T
+        UL0vs65tWb46m5cmNnjvLKrXOhoy9uO8Tw7ZmDKAr7hff3bml5sXkXMIPdYaBTCzUCYwVJ
+        YlnnJKuPh/VqaaqsGmcNJP9VFcixqFkFM0iV6E9mDeLxPx+XK7y1JBqAsjwg7Eiv0qOhir
+        5ij2GWJGmx0hygyuszfG5u2uIInktMGyGeatLqThkrhEaeS6HRd7k9gxWXhTl85R/u5vWp
+        rcMUkq7Vul2bJ/McMdPNcat9I6AunBNmoD2Gk9rYCtpF5h7as6lFfZzj/+vpag==
 Subject: Re: Patch: PCI: tegra: Use generic accessors where possible
-Message-ID: <20190507193942.GA1090@ulmo>
-References: <e6ea626b-21c2-9b7a-9776-e333609c350b@kubu.at>
+References: <c4c235a9-89a8-736b-718a-b38861deb470@kubu.at>
+To:     linux-tegra@vger.kernel.org
+From:   Bernd Kubu <bernd@kubu.at>
+X-Forwarded-Message-Id: <c4c235a9-89a8-736b-718a-b38861deb470@kubu.at>
+Message-ID: <848c42af-30fa-5421-8a8a-e1a619ffee4c@kubu.at>
+Date:   Wed, 8 May 2019 07:59:19 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <e6ea626b-21c2-9b7a-9776-e333609c350b@kubu.at>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL101.nvidia.com (172.20.187.10)
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
-Content-Disposition: inline
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1557257951; bh=ADS3Ws7ARwAyjiQbWStSvcFRftmjnTtAh4dLhqnXqh0=;
-        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
-         MIME-Version:In-Reply-To:X-NVConfidentiality:User-Agent:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Disposition;
-        b=qlG8ZbFQcai0BinVR1u4leXeMudt3wMGiH7bR/FLZ4/QswodvJcPZ0co5gzaHttgy
-         yYBeFelgwKRihEf5kx7TxQfHRTkYPQ/Fg6mXnEmQx/CB1VVSsIDpFL/M2AGpgJVPJM
-         0iHx/Hbnu04tab9Z8CHHlVmbeztgpKN+N4CUZmEsLBBic9HkgaR5PGK1xGhFLxSN3g
-         jC5G4Ck63ICWqc4tav87zvqXMwvw7JiDsdRefga4Bv1vQU2aS9FdUH4OVaWQYvxpB4
-         k4g/SwMK+dHHxEt/vx+ZJLtaQkc/o5jXFCf8kAr51zYLICXluFXyp8NbBh1Ju6d0vG
-         FwNmg6j+ng4+g==
+In-Reply-To: <c4c235a9-89a8-736b-718a-b38861deb470@kubu.at>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: de-AT
+X-Virus-Scanned: clamav-milter 0.100.3 at miraculix
+X-Virus-Status: Clean
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---vkogqOf2sHV7VnPd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 07, 2019 at 04:03:37PM +0200, Bernd Kubu wrote:
-> Hello Thierry,
->=20
-> I have troubles with this patch: https://patchwork.kernel.org/patch/99673=
-99/
->=20
-> My Intel Ethernet Network Controller (igb [8086:157b]) on the "Toradex Ap=
-alis
-> TK1 2GB V1.1A" does not work with the current Ubuntu Bionic Kernel (with
-> patches from http://git.toradex.com/cgit/meta-toradex-tegra.git/tree/
-> recipes-kernel/linux/linux-toradex-mainline-4.14?h=3Drocko).
+-------- Weitergeleitete Nachricht --------
+Betreff: 	Re: Patch: PCI: tegra: Use generic accessors where possible
+Datum: 	Wed, 8 May 2019 07:40:51 +0200
+Von: 	Bernd Kubu <bernd@kubu.at>
+An: 	Thierry Reding <treding@nvidia.com>
+Kopie (CC): 	Marcel Ziswiler <marcel.ziswiler@toradex.com>, 
+linux-tegra@vger.kernel.org
 
-Looks like the baseline for that is 4.14. The patch that you referenced
-above was applied to 4.15 and is not part of that Toradex patchset
-either, so...
 
-> I get the following messages in dmesg:
-> [    4.913881] pci 0000:01:00.0: [8086:157b] type 10 class 0x020000
-> [    4.913913] pci 0000:01:00.0: unknown header type 10, ignoring device
->=20
-> After removing the changes from the patch https://patchwork.kernel.org/pa=
-tch/
-> 9967399/
-> ---------
->=20
-> > +}
-> > +
-> >  static struct pci_ops tegra_pcie_ops =3D {
-> >         .add_bus =3D tegra_pcie_add_bus,
-> >         .remove_bus =3D tegra_pcie_remove_bus,
-> >         .map_bus =3D tegra_pcie_map_bus,
-> > -       .read =3D pci_generic_config_read32,
-> > -       .write =3D pci_generic_config_write32,
-> > +       .read =3D tegra_pcie_config_read,
-> > +       .write =3D tegra_pcie_config_write,
-> >  };
-> >
->=20
-> ------
->=20
-> the Network Controller work.
-> So it seems this model has issues with other than 32-bit access.
 
-=2E.. I'm not sure how that would be related here. Unless I'm misunder-
-standing what you're saying. You are saying that if you use
-pci_generic_config_{read,write}32() for all accesses, that the network
-controller works for you? And it doesn't work if you use the
-tegra_pcie_config_{read,write}() functions for accesses?
+Hi Thierry,
 
-I'd be somewhat surprised if this wasn't working. I'm not aware of any
-similar reports against the upstream kernel. Have you tried building a
-recent linux-next, or -rc or something like the latest release (5.1)?
+I try to be a bit more specific with this mail:
 
-Adding Marcel here, perhaps he's encountered a similar issue. Also
-adding the linux-tegra mailing list for broader visibility.
+My hardware is a "Toradex Apalis TK1 2GB V1.1A".
+I work on the current Ubuntu Bionic-Kernel (18.04) [1], which is a 4.15 
+kernel.
+As you already mentioned, the patch [2] was added in 4.15. The 
+Toradex-patchset [3] was originally for 4.14. I applied this patchset 
+[3] to the bionic-kernel. A minor modification was necessary to get it 
+to work [4]. (I am currently testing with the other toradex-peripherals)
 
-Thierry
+With this setup, the igb-driver for the onboard Intel ethernet network 
+controller [8086:157b] does not initialize correctly. I get the 
+following messages in dmesg:
 
->=20
-> Best regards,
->=20
->     Bernd
->=20
-> --
-> Bernd Kubu - IT Services
->=20
-> Heufeldstrasse 24
-> A-2640 Gloggnitz
->=20
-> Tel.: +43-699-13002768
-> E-Mail: mailto:bernd@kubu.at
->=20
+[    4.913881] pci 0000:01:00.0: [8086:157b] type 10 class 0x020000
+[    4.913913] pci 0000:01:00.0: unknown header type 10, ignoring device
 
---vkogqOf2sHV7VnPd
-Content-Type: application/pgp-signature; name="signature.asc"
+It seems, the reading of the pci-header-type is not correct. It reads 
+"0x10" instead of "0x00" reproduceable. After comparing the kernel 
+changes between 4.14 and 4.15, I found the changes of patch [2] and 
+removed it for a test. Without this patch, the igb-driver initialized 
+correctly and the network controller worked. So, I assume, there is 
+still an issue with other than "pci_generic_config_read32" access.
 
------BEGIN PGP SIGNATURE-----
+So, I want to say, that if I use pci_generic_config_{read,write}32() for 
+all accesses, the network controller works for me. And it doesn't work, 
+if I use the tegra_pcie_config_{read,write}() functions for accesses.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzR3voACgkQ3SOs138+
-s6HBug/9EOxyD79rSqS9Khrhli/YT3Re4eDFgzbJAkJKfRcOSMVyeu9y1JvqvELv
-3KCzbYAqJoaC1ZnIbztK2gcv8HlC667L7yN//n6gHlc8px4muJQOrorlyohu33m2
-RxMT0em9d0T1tsC4T92JmLBcE3UPp9FtZqe8fZPSwEbsdCUsXYzeLIILdjqARhVq
-1DRlTesrSQ1n7S+BxtXcInvA/9sCPzW5txpOPi9afSx8hSsE49OoXuOwkgeWHZxS
-2QuLe6f9RaExW09D+LyScPCMjBf9rL84vCYXgxOrGSHou6rPN16Fo4knV5HqqC4t
-O/sm3v9ScO80rguDWCgpL/pqUz5+S3TL3kgUTiDKjiEmIU6/nXJDX4pOTkZilguM
-B5BRmEgr1vad0cOeLQHUHIRH/xjYNiLfkLPEQTB8aKlpXFYLWcXINR6JXWMj6sis
-LQra8ngotijSYGHME1j0Bj7qDUBq1CtoT1tbgHkAnt65sjyhCiM6EVnpUCY48HFZ
-S9bkrToTx6UcJyDyM/FgWGZt98iUDWiuBQzLBhSFO6qoQjo6B7lTLu0a6YxSbA2z
-mxR3Noc7PU7iSM8Mp4cD04cLTJ81xmlg44IZqJiuLS0R/nwyDw9s7fCVCgW7d44m
-GLXQpvk1tX3gyOOc3GnGlZz3yoDLiP9So3YB1YL5nzKWUbzPZx8=
-=Vhj0
------END PGP SIGNATURE-----
+I didn´t try it with a recent kernel. I assume, more modifications of 
+the Toradex-patchset are necessary to get it to work. If you intend to 
+track this issue for the recent kernel, I could give it a try..
 
---vkogqOf2sHV7VnPd--
+     Bernd
+
+[1] git://kernel.ubuntu.com/ubuntu/ubuntu-bionic.git
+[2] https://patchwork.kernel.org/patch/9967399/
+[3] 
+http://git.toradex.com/cgit/meta-toradex-tegra.git/tree/recipes-kernel/linux/linux-toradex-mainline-4.14?h=rocko)
+[4] patch1 below
+
+--- patch1 ---
+diff --git a/drivers/iio/adc/apalis-tk1-k20_adc.c 
+b/drivers/iio/adc/apalis-tk1-k20_adc.c
+index b45e51df5c81..8a9d90b2f77d 100644
+--- a/drivers/iio/adc/apalis-tk1-k20_adc.c
++++ b/drivers/iio/adc/apalis-tk1-k20_adc.c
+@@ -87,7 +87,7 @@ static int apalis_tk1_k20_adc_read_raw(struct iio_dev 
+*indio_dev,
+
+  static const struct iio_info apalis_tk1_k20_adc_info = {
+         .read_raw = &apalis_tk1_k20_adc_read_raw,
+-       .driver_module = THIS_MODULE,
+  };
+--- patch1 ---
+
+Am 07.05.2019 um 21:39 schrieb Thierry Reding:
+> On Tue, May 07, 2019 at 04:03:37PM +0200, Bernd Kubu wrote:
+>> Hello Thierry,
+>>
+>> I have troubles with this patch:https://patchwork.kernel.org/patch/9967399/
+>>
+>> My Intel Ethernet Network Controller (igb [8086:157b]) on the "Toradex Apalis
+>> TK1 2GB V1.1A" does not work with the current Ubuntu Bionic Kernel (with
+>> patches fromhttp://git.toradex.com/cgit/meta-toradex-tegra.git/tree/
+>> recipes-kernel/linux/linux-toradex-mainline-4.14?h=rocko).
+> Looks like the baseline for that is 4.14. The patch that you referenced
+> above was applied to 4.15 and is not part of that Toradex patchset
+> either, so...
+>
+>> I get the following messages in dmesg:
+>> [    4.913881] pci 0000:01:00.0: [8086:157b] type 10 class 0x020000
+>> [    4.913913] pci 0000:01:00.0: unknown header type 10, ignoring device
+>>
+>> After removing the changes from the patchhttps://patchwork.kernel.org/patch/
+>> 9967399/
+>> ---------
+>>
+>>> +}
+>>> +
+>>>   static struct pci_ops tegra_pcie_ops = {
+>>>          .add_bus = tegra_pcie_add_bus,
+>>>          .remove_bus = tegra_pcie_remove_bus,
+>>>          .map_bus = tegra_pcie_map_bus,
+>>> -       .read = pci_generic_config_read32,
+>>> -       .write = pci_generic_config_write32,
+>>> +       .read = tegra_pcie_config_read,
+>>> +       .write = tegra_pcie_config_write,
+>>>   };
+>>>
+>> ------
+>>
+>> the Network Controller work.
+>> So it seems this model has issues with other than 32-bit access.
+> ... I'm not sure how that would be related here. Unless I'm misunder-
+> standing what you're saying. You are saying that if you use
+> pci_generic_config_{read,write}32() for all accesses, that the network
+> controller works for you? And it doesn't work if you use the
+> tegra_pcie_config_{read,write}() functions for accesses?
+>
+> I'd be somewhat surprised if this wasn't working. I'm not aware of any
+> similar reports against the upstream kernel. Have you tried building a
+> recent linux-next, or -rc or something like the latest release (5.1)?
+>
+> Adding Marcel here, perhaps he's encountered a similar issue. Also
+> adding the linux-tegra mailing list for broader visibility.
+>
+> Thierry
+>
+>> Best regards,
+>>
+>>      Bernd
+>>
+>> --
+>> Bernd Kubu - IT Services
+>>
+>> Heufeldstrasse 24
+>> A-2640 Gloggnitz
+>>
+>> Tel.: +43-699-13002768
+>> E-Mail:mailto:bernd@kubu.at
+>>
+
