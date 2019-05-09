@@ -2,64 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6C4018B67
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 May 2019 16:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EDEE18B86
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 May 2019 16:17:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726967AbfEIOOo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 May 2019 10:14:44 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37231 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726449AbfEIOOo (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 May 2019 10:14:44 -0400
-Received: by mail-wm1-f67.google.com with SMTP id y5so3433472wma.2;
-        Thu, 09 May 2019 07:14:41 -0700 (PDT)
+        id S1726449AbfEIOR0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 May 2019 10:17:26 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:35355 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726087AbfEIOR0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 May 2019 10:17:26 -0400
+Received: by mail-wm1-f66.google.com with SMTP id y197so3440819wmd.0;
+        Thu, 09 May 2019 07:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=0EeZ9Zgv1njSgiZTS/taQaV9MALqwUHr13/+iMfXnLY=;
-        b=hqmy+GzXrfB+1GuVkpmfpzXe39ym2ojXaiJL+tv27B2PXNClIbXFIF9NZtlXs0ItZP
-         z6CuVplSvucdJFNn40tChTaN7b0M6RO+f2xbdZL80REgrMsUGyIwS+5W6x0ueebejX+0
-         zd/0bJkQRzN6Fn0AF8VxA+7dQWbfSztYnaHPPy4CedDtYcmyeMQStFRfbFbqTNR3XiLA
-         +w6Ix1aA+ehhNDXHQGzZ6LEpdHzg7OgAE/5jbx0o5VsKLE9imBbQzImiTUmVHjBQI6/Z
-         DeDdVKafaNximsNsiuTMrWhbHmDEBzKDY59OWB9FIhvcxZo1su5pZZ3cqj7MG0UcY7Q0
-         +Brg==
+        bh=IB8c2IxHAzOoI/TggpVaeKg+6XQl0SXGEOFq4gJZkJM=;
+        b=EMkvNpueC0vjL1DOxfTBaYKAgM4kjl237nrQiWXCFS/LdfDCl2rF05TmgYGKGPqxU5
+         UeD/ah43NnXCkFNxovEyoWRwh5V0DkIQkntGm7kjvIxz1l71fyZlBZw/qUzRFnZHxXIz
+         Cj1Kd4KrpC0rGY9VrF9uOSOpCK1SlRGvLNqzrkLpZJPZqanTKho24Gb4QHCUuRco8BZz
+         +dOS/gnfmr35PqwCvjS6ctcLTN0fWCK6SheAmQnLl58ewpCh38a7WuQj4fQ4MW6CHcU6
+         wsEC42OR9tNLPGfOisnC1qScGQGwXevmfh9MYWKM8Q3DXSLNs25w8B9ECtCgpePG4BmH
+         R5xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0EeZ9Zgv1njSgiZTS/taQaV9MALqwUHr13/+iMfXnLY=;
-        b=KoqImr1Ik+sBDZeBxQ+Pngc4MthqVpFCGpCKrwRd/VU+ph/udOL3K0caOsk+RR7isV
-         o1GBq1GFuKe70Bs6FyTnkfL9YDFCxa2BFx28KLtZxcxUQ6bN0MHYC7vkNlLc5z/9y8UA
-         aALf9VZKhbVHDYvmvOCb2231xCW77DgSsBeLt6DzU83mXy9eCVGgkS99qjWJ2Iwl3qyQ
-         doRbV+zPvSxuHo4BGpLrNLaUzgupoVwbkFolf5WQ1pVP2wSv4iZl5KrPmoNjc05hnotu
-         PDOmm8r60CwGloigCbHpEGNyc3iJs5ZEa6rvYPwa4+9uZAx6Jm2dV5bOm0ALxKPfYhH4
-         pvCA==
-X-Gm-Message-State: APjAAAUmmP713dFmxVW13Ck7c6RNNxLv8Chah65PVxvKD7TCauh9mXqy
-        6fdT1Dd0k/AdbuBUe5fnOkHPTtpz+tI=
-X-Google-Smtp-Source: APXvYqxqwgme8u8XTaCTx46fjKDo6RdW/wlB5EZSan+DH2wbY3Dzy4foNJlN5GwNRjb7MvcX0/qc8g==
-X-Received: by 2002:a7b:c010:: with SMTP id c16mr3160340wmb.82.1557411280723;
-        Thu, 09 May 2019 07:14:40 -0700 (PDT)
+        bh=IB8c2IxHAzOoI/TggpVaeKg+6XQl0SXGEOFq4gJZkJM=;
+        b=J1UJczH/8+G2lJTTO3K4rcGrsnuP+dtqE7h9SGgU9xbKY2YAT9FK1gm7D6rcU/V0w4
+         r9/rA3AqolS63FIymt1Bsz+yBQsSnUKPmwYhAH2jJJTZB9ezteY623P1csngc8amETBM
+         9MqSpxSMhAurzFc2rYD31NSkRd3l3ezsRLjoD7hk20vjkeVHRlabC/OUAt8uEzJHqzRC
+         GxwumWzy0rj2C9BFoukS2Z8CBapOSB687Bk+h2gZjK79eCAGSj1pr9KZAsakxO3RpSrI
+         BDkt52xyF+J3KEOepQtpOnZ1nwsuIq2qIv6jDsTU+tDYyRBXWo30EORPK/RdVnZ5y8Wx
+         hong==
+X-Gm-Message-State: APjAAAWb2jeLdXgNF68EIh0mxw1GKhyoDmDZ8qSnN7xfxNKrRgS8gJ8t
+        Vdu8q6FYpx3eDVsthZXTz8w=
+X-Google-Smtp-Source: APXvYqwWTXb841riFLEL1FoB0N6emHqvseBwTqw45u6r0y4OAoG4p+CS2OyOm2YzcsBY7kdgR183Ig==
+X-Received: by 2002:a1c:a406:: with SMTP id n6mr3078420wme.126.1557411443942;
+        Thu, 09 May 2019 07:17:23 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id c131sm2695991wma.31.2019.05.09.07.14.38
+        by smtp.gmail.com with ESMTPSA id y7sm7416403wrg.45.2019.05.09.07.17.21
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 09 May 2019 07:14:39 -0700 (PDT)
-Date:   Thu, 9 May 2019 16:14:38 +0200
+        Thu, 09 May 2019 07:17:22 -0700 (PDT)
+Date:   Thu, 9 May 2019 16:17:20 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
 Cc:     bhelgaas@google.com, robh+dt@kernel.org, mark.rutland@arm.com,
         jonathanh@nvidia.com, lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
         linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [PATCH V2 05/28] PCI: tegra: Fix PCIe host power up sequence
-Message-ID: <20190509141438.GE8907@ulmo>
+Subject: Re: [PATCH V2 06/28] PCI: tegra: Add PCIe Gen2 link speed support
+Message-ID: <20190509141720.GF8907@ulmo>
 References: <20190423092825.759-1-mmaddireddy@nvidia.com>
- <20190423092825.759-6-mmaddireddy@nvidia.com>
+ <20190423092825.759-7-mmaddireddy@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="orO6xySwJI16pVnm"
+        protocol="application/pgp-signature"; boundary="Mjqg7Yu+0hL22rav"
 Content-Disposition: inline
-In-Reply-To: <20190423092825.759-6-mmaddireddy@nvidia.com>
+In-Reply-To: <20190423092825.759-7-mmaddireddy@nvidia.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -67,198 +67,62 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---orO6xySwJI16pVnm
+--Mjqg7Yu+0hL22rav
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 23, 2019 at 02:58:02PM +0530, Manikanta Maddireddy wrote:
-> PCIe host power up sequence involves programming AFI(AXI to FPCI bridge)
-> registers first and then PCIe registers. Otherwise AFI register settings
-> may not latch to PCIe IP.
->=20
-> PCIe root port starts LTSSM as soon as PCIe xrst is deasserted.
-> So deassert PCIe xrst after programming PCIe registers.
->=20
-> Modify PCIe power up sequence as follows,
->  - Power ungate PCIe partition
->  - Enable AFI clock
->  - Deassert AFI reset
->  - Program AFI registers
->  - Enable PCIe clock
->  - Deassert PCIe reset
->  - Program PCIe PHY
->  - Program PCIe pad control registers
->  - Program PCIe root port registers
->  - Deassert PCIe xrst to start LTSSM
->=20
-> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-> ---
-> V2: Error cleanup changes are moved to new patch and only sequence
-> correction is done in this patch.
->=20
->  drivers/pci/controller/pci-tegra.c | 51 +++++++++++++++++-------------
->  1 file changed, 29 insertions(+), 22 deletions(-)
->=20
-> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/=
-pci-tegra.c
-> index 8c0ad038699d..ed0cfd355b28 100644
-> --- a/drivers/pci/controller/pci-tegra.c
-> +++ b/drivers/pci/controller/pci-tegra.c
-> @@ -949,9 +949,6 @@ static void tegra_pcie_enable_controller(struct tegra=
-_pcie *pcie)
->  		afi_writel(pcie, value, AFI_FUSE);
->  	}
-> =20
-> -	/* take the PCIe interface module out of reset */
-> -	reset_control_deassert(pcie->pcie_xrst);
-> -
->  	/* finally enable PCIe */
->  	value =3D afi_readl(pcie, AFI_CONFIGURATION);
->  	value |=3D AFI_CONFIGURATION_EN_FPCI;
-> @@ -981,13 +978,11 @@ static void tegra_pcie_power_off(struct tegra_pcie =
-*pcie)
->  	int err;
-> =20
->  	reset_control_assert(pcie->afi_rst);
-> -	reset_control_assert(pcie->pex_rst);
-> =20
->  	clk_disable_unprepare(pcie->pll_e);
->  	if (soc->has_cml_clk)
->  		clk_disable_unprepare(pcie->cml_clk);
->  	clk_disable_unprepare(pcie->afi_clk);
-> -	clk_disable_unprepare(pcie->pex_clk);
-> =20
->  	if (!dev->pm_domain)
->  		tegra_powergate_power_off(TEGRA_POWERGATE_PCIE);
-> @@ -1015,25 +1010,19 @@ static int tegra_pcie_power_on(struct tegra_pcie =
-*pcie)
->  	if (err < 0)
->  		dev_err(dev, "failed to enable regulators: %d\n", err);
-> =20
-> -	if (dev->pm_domain) {
-> -		err =3D clk_prepare_enable(pcie->pex_clk);
-> +	if (!dev->pm_domain) {
-> +		err =3D tegra_powergate_power_on(TEGRA_POWERGATE_PCIE);
->  		if (err) {
-> -			dev_err(dev, "failed to enable PEX clock: %d\n", err);
-> +			dev_err(dev, "failed to power ungate: %d\n", err);
->  			goto regulator_disable;
->  		}
-> -		reset_control_deassert(pcie->pex_rst);
-> -	} else {
-> -		err =3D tegra_powergate_sequence_power_up(TEGRA_POWERGATE_PCIE,
-> -							pcie->pex_clk,
-> -							pcie->pex_rst);
-> +		err =3D tegra_powergate_remove_clamping(TEGRA_POWERGATE_PCIE);
->  		if (err) {
-> -			dev_err(dev, "powerup sequence failed: %d\n", err);
-> -			goto regulator_disable;
-> +			dev_err(dev, "failed to remove clamp: %d\n", err);
-> +			goto powergate;
->  		}
->  	}
-> =20
-> -	reset_control_deassert(pcie->afi_rst);
-> -
->  	err =3D clk_prepare_enable(pcie->afi_clk);
->  	if (err < 0) {
->  		dev_err(dev, "failed to enable AFI clock: %d\n", err);
-> @@ -1054,6 +1043,8 @@ static int tegra_pcie_power_on(struct tegra_pcie *p=
-cie)
->  		goto disable_cml_clk;
->  	}
-> =20
-> +	reset_control_deassert(pcie->afi_rst);
+On Tue, Apr 23, 2019 at 02:58:03PM +0530, Manikanta Maddireddy wrote:
+[...]
+> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+[...]
+> +		while (ktime_before(ktime_get(), deadline)) {
+> +			value = readl(port->base + RP_LINK_CONTROL_STATUS);
+> +			if ((value & PCI_EXP_LNKSTA_LT) == 0)
+> +				break;
 > +
->  	return 0;
-> =20
->  disable_cml_clk:
-> @@ -1062,9 +1053,6 @@ static int tegra_pcie_power_on(struct tegra_pcie *p=
-cie)
->  disable_afi_clk:
->  	clk_disable_unprepare(pcie->afi_clk);
->  powergate:
-> -	reset_control_assert(pcie->afi_rst);
-> -	reset_control_assert(pcie->pex_rst);
-> -	clk_disable_unprepare(pcie->pex_clk);
->  	if (!dev->pm_domain)
->  		tegra_powergate_power_off(TEGRA_POWERGATE_PCIE);
->  regulator_disable:
-> @@ -2114,7 +2102,12 @@ static void tegra_pcie_enable_ports(struct tegra_p=
-cie *pcie)
->  			 port->index, port->lanes);
-> =20
->  		tegra_pcie_port_enable(port);
-> +	}
-> =20
-> +	/* Start LTSSM from Tegra side */
-> +	reset_control_deassert(pcie->pcie_xrst);
-> +
-> +	list_for_each_entry_safe(port, tmp, &pcie->ports, list) {
->  		if (tegra_pcie_port_check_link(port))
->  			continue;
-> =20
-> @@ -2129,6 +2122,8 @@ static void tegra_pcie_disable_ports(struct tegra_p=
-cie *pcie)
->  {
->  	struct tegra_pcie_port *port, *tmp;
-> =20
-> +	reset_control_assert(pcie->pcie_xrst);
-> +
->  	list_for_each_entry_safe(port, tmp, &pcie->ports, list)
->  		tegra_pcie_port_disable(port);
->  }
-> @@ -2490,10 +2485,12 @@ static int __maybe_unused tegra_pcie_pm_suspend(s=
-truct device *dev)
->  			dev_err(dev, "failed to power off PHY(s): %d\n", err);
->  	}
-> =20
-> +	reset_control_assert(pcie->pex_rst);
-> +	clk_disable_unprepare(pcie->pex_clk);
-> +
->  	if (IS_ENABLED(CONFIG_PCI_MSI))
->  		tegra_pcie_disable_msi(pcie);
-> =20
-> -	reset_control_assert(pcie->pcie_xrst);
->  	tegra_pcie_power_off(pcie);
-> =20
->  	return 0;
-> @@ -2515,11 +2512,18 @@ static int __maybe_unused tegra_pcie_pm_resume(st=
-ruct device *dev)
->  	if (IS_ENABLED(CONFIG_PCI_MSI))
->  		tegra_pcie_enable_msi(pcie);
-> =20
-> +	err =3D clk_prepare_enable(pcie->pex_clk);
-> +	if (err) {
-> +		dev_err(dev, "failed to enable PEX clock: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +	reset_control_deassert(pcie->pex_rst);
+> +			usleep_range(2000, 3000);
+> +		}
+> +		if (value & PCI_EXP_LNKSTA_LT)
+> +			dev_warn(dev, "PCIe port %u link is in recovery\n",
+> +				 port->index);
 
-Can you use a blank line after block statements for better readability?
+Blank line between "}" and "if (...)" for readability.
+
+> +		while (ktime_before(ktime_get(), deadline)) {
+> +			value = readl(port->base + RP_LINK_CONTROL_STATUS);
+> +			if ((value & PCI_EXP_LNKSTA_LT) == 0)
+> +				break;
+> +
+> +			usleep_range(2000, 3000);
+> +		}
+> +		if (value & PCI_EXP_LNKSTA_LT)
+> +			dev_err(dev, "failed to retrain link of port %u\n",
+> +				port->index);
+
+Same here.
+
 With that:
 
 Acked-by: Thierry Reding <treding@nvidia.com>
 
---orO6xySwJI16pVnm
+--Mjqg7Yu+0hL22rav
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzUNc4ACgkQ3SOs138+
-s6GwcxAAhjKVj8xAhGAYir+ZEOw4G7yNvcJJUxDEisD7WARQvdPYIhLM/z5wL3N9
-8eVS4u6syoyIr7Jb6xx5J7lgXRaeIjMwdus73yV0hkMcCE0oTgWed/8/t4k2AUpI
-p0EaI3Asfazt+3xgynY2qNzgJk0phJF1r/umVZaqDsDSrMIlb7Lz10wTCfff0+HB
-Ttil5aEEbH/qezKQwgArYyM+R0Rd3dQpfpwXacgPclwqmArQKuSZMdBktTt7/veW
-hPSJczYezSqxYJQND8VEk2Q41g/HVPA5WxPHt/ClrP1QpjXVYju3HafEHbESM94z
-AGxMcdxgO8IJNtC7blj7EabV3z2e0Ag2cavJjBFG5mcTBk2m2bbdtGUxywNQy11s
-a4YANcodrqfAXY/CC4L69DWaA7yTXUFYq9JiHyvuAAn4BOgYABg9W+28bwv1ccg4
-iAeZ9KEnD8zFs++4S6WEA3AwGIzZ7juzwn4ArTd9RBMS517+YePL9nnx+lXuEgBY
-X7J4R/0QwZba/Yh3KOePWG5z44BKNeV/RzinBStzsi6ikf1oVDWuSH74Q1RJuWcd
-ns051v/hGFijBI5DE88xG3Ml/kkbmGt8vEdYUT5HILPSramM2N92A//4uzhhoVBu
-XOSM+iFeMBTGiLPuuj48zWtpuAnDNBil+RbB1LVnRstBtGLEDPQ=
-=6dUx
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzUNnAACgkQ3SOs138+
+s6HNAA//TZ0zt5Q7wT9uwqxfIJUZaByyIy/zrcbeh/psahyWwxWLZyvAKQSfpYyi
+0Q6jvS7g0EfuH1H1HGYQs6DN4UK8rQs+OWiICQBAKpkYjaAEWQ3HIKpbF/8cwjSX
+cZ85Q08bihPmmhL9+fd6HnEkoQxRs2zBljM00jmXIs/SmYnT7uuTVxL49LJGdT2L
+NlGN+2psY0Zcc8LOtZR7a3zq2S++DIWjtSa1GXTUcDwq1uSd0vD2LTJqWr0gTU4Z
+gixIT3jFr0L4kuFVG5DJNyBYY8hW9scSVTfehhoSWf3eDj6NhdLCo6vO00v9ddZ5
+9u2/k48CX6eMec6JKJ92YANXlUypir6fwnKTyv1Mch0zTpMJ8LT7ITKeCb5bofUd
+Z4EBCgUWFZSLp3cfQOMUpulWBLSgn0l031P1yD3TRJGFy9Ej0vvS4WiBH35s6UkT
+xgUH0KLcTJozkMx4nb8TiZXdTaiNfHLX1K8Hii4EV19WxIjBReQoPQI+VjGeX+8l
+xc+B7VMt73J6655833TiKQzqZknQhvqldXpyxsQrIkiiauZU7VXbrxkNwzQohDNu
+LygF3wmSpxNuY265beBcpwAoWlpUrqgGjUbh8Ic+M/75NAvhw0rlirtO4n+cTpxO
+xCA2VC3VpLNYQoZaTz+2xii32VJcP1P0ElVZJDeRaLE/UabBPmI=
+=rwdL
 -----END PGP SIGNATURE-----
 
---orO6xySwJI16pVnm--
+--Mjqg7Yu+0hL22rav--
