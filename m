@@ -2,107 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5198617CEB
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 May 2019 17:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76D09182F4
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 May 2019 02:55:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726545AbfEHPPX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 May 2019 11:15:23 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:39151 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbfEHPPX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 May 2019 11:15:23 -0400
-Received: by mail-io1-f65.google.com with SMTP id m7so15120560ioa.6;
-        Wed, 08 May 2019 08:15:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+JvC1TwFB/yeFp3szSBzEe5PaSFdNgPtLmVR0CVhzV0=;
-        b=P520ai87ain/12F06dWOpKLegIs9pHmj77TJiLVqWBksGuwmnPQ9oHIcIZkCTzgAYb
-         yNm1ZULEFwZbwyb2HZJily30k7XvqR6MFsA+kxux4sros9GHsvowioklLxW7axy7P7dq
-         pJZp8Utphzr3M/MpDWIWA4FrqVjB54/fOd0UzqEP60pU3PtVXv0fLongNxylqw7T6Eok
-         TBVSz10u6hfEKibtFv/WqbWC29L3TFuznnev4IKeKgkRD1X/O9lvn6cFdBy7Y0CEuMHX
-         3pTjaPeJ4fv5KxL5fQujz3kBfpZkT300C/OAe1s3XdFNxn/EbkdKkw3xpU6IbdYVf9dG
-         iEfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+JvC1TwFB/yeFp3szSBzEe5PaSFdNgPtLmVR0CVhzV0=;
-        b=CQaXsfJA1STP7XvBMTfYl5v3hP80RMnWWlQySDvb/Cs11iHpDOPvSDVRqmFe3UovC3
-         X1onemJRC58Pms+zz2wYscxLV50zeS+uenJp8yKDJMHv40jUh83FKpas7XFxX+f9IOxT
-         ANmy90e547FJ8fb02dhkMbhiCo3hY92ohMzxRFnsIBw0LOKsVbQf/5phiPPGSI3OnRsc
-         A2USfUZS4N82nHflMzoZsvcSfeVXDgDlG8XHrj92dd1EoX0BKbioanHKq0X68qIQ+fQK
-         wW8cH5HUus2P0+YRA6yuYYvQlbvSqSUJsDaO2VVsdijjxB7LvMsQUBkxUto9QbDpL6gU
-         CFbw==
-X-Gm-Message-State: APjAAAVjvDEdDABU48Yl60pqkMZU3uSpQ3CTzaRZKuGFrRe8AAPQEUIE
-        viwKAXUQo1NW/inw7sSXvYg=
-X-Google-Smtp-Source: APXvYqyRBRQRNRoAgWDbktnpSDjj6gYnZ8joNI/amECzhKI8MWPpKHG0KCjghyCQaRwWnHb5TZWcQQ==
-X-Received: by 2002:a05:6602:2247:: with SMTP id o7mr665200ioo.156.1557328522424;
-        Wed, 08 May 2019 08:15:22 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
-        by smtp.googlemail.com with ESMTPSA id 81sm1298939itv.23.2019.05.08.08.15.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 May 2019 08:15:21 -0700 (PDT)
-Subject: Re: [PATCH 2/8] soc: tegra: fuse: Change to the correct
- __dma_request_channel() prototype
-To:     Baolin Wang <baolin.wang@linaro.org>, dan.j.williams@intel.com,
-        vkoul@kernel.org
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, Zubair.Kakakhel@imgtec.com,
-        wsa+renesas@sang-engineering.com, jroedel@suse.de,
-        vincent.guittot@linaro.org, dmaengine@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <cover.1557206859.git.baolin.wang@linaro.org>
- <1ddb1abe8722154dd546d265d5c4536480a24a87.1557206859.git.baolin.wang@linaro.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <8746a913-0014-7036-7fab-4e0dfab04e1b@gmail.com>
-Date:   Wed, 8 May 2019 18:15:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <1ddb1abe8722154dd546d265d5c4536480a24a87.1557206859.git.baolin.wang@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1725842AbfEIAzJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 May 2019 20:55:09 -0400
+Received: from www.osadl.org ([62.245.132.105]:59629 "EHLO www.osadl.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725778AbfEIAzJ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 8 May 2019 20:55:09 -0400
+Received: from debian01.hofrr.at (178.115.242.59.static.drei.at [178.115.242.59])
+        by www.osadl.org (8.13.8/8.13.8/OSADL-2007092901) with ESMTP id x490sgfS028444;
+        Thu, 9 May 2019 02:54:43 +0200
+From:   Nicholas Mc Guire <hofrat@osadl.org>
+To:     Laxman Dewangan <ldewangan@nvidia.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Nicholas Mc Guire <hofrat@osadl.org>
+Subject: [PATCH] i2c: tegra: use busendiannes variable
+Date:   Thu,  9 May 2019 02:48:57 +0200
+Message-Id: <1557362937-6591-1-git-send-email-hofrat@osadl.org>
+X-Mailer: git-send-email 2.1.4
+X-Spam-Status: No, score=-4.2 required=6.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+        autolearn=ham version=3.3.1
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on www.osadl.org
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-07.05.2019 9:09, Baolin Wang пишет:
-> Since we've introduced one device node parameter for __dma_request_channel(),
-> thus change to the correct function prototype.
-> 
-> Signed-off-by: Baolin Wang <baolin.wang@linaro.org>
-> ---
->  drivers/soc/tegra/fuse/fuse-tegra20.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/soc/tegra/fuse/fuse-tegra20.c b/drivers/soc/tegra/fuse/fuse-tegra20.c
-> index 49ff017..e2571b6 100644
-> --- a/drivers/soc/tegra/fuse/fuse-tegra20.c
-> +++ b/drivers/soc/tegra/fuse/fuse-tegra20.c
-> @@ -110,7 +110,7 @@ static int tegra20_fuse_probe(struct tegra_fuse *fuse)
->  	dma_cap_zero(mask);
->  	dma_cap_set(DMA_SLAVE, mask);
->  
-> -	fuse->apbdma.chan = __dma_request_channel(&mask, dma_filter, NULL);
-> +	fuse->apbdma.chan = __dma_request_channel(&mask, dma_filter, NULL, NULL);
->  	if (!fuse->apbdma.chan)
->  		return -EPROBE_DEFER;
->  
-> 
+Converting from bus to host endiannes was done using the same variable
+which makes sparse unhappy as it can not verify the endiannes handling
+properly. To allow sparse to verify endiannes handling a __le32 is
+introduced. This patch does not actually change the code logic while
+the binary does change due to limit on instruction re-ordering induced
+by the additional constraint.
 
-1) Kernel should be kept bisect'able by not having intermediate patches
-that break compilation. Hence you should squash the changes into a
-single patch.
+Signed-off-by: Nicholas Mc Guire <hofrat@osadl.org>
+---
 
-2) Better to replace __dma_request_channel() with dma_request_channel()
-since they are equal.
+Problem located by an experimental coccinelle script to locate
+patters that make sparse unhappy (false positives):
 
+sparse was complaining about:
+drivers/i2c/busses/i2c-tegra.c:596:23: warning: cast to restricted __le32
+
+Note that the binary does change in this case - from inspection of the
+.lst files it seems that the introduction of the __le32 limits
+the re-ordering options for the compiler so one instruction
+position changed (ldr     r1, [sp, #4]) but from my understanding
+that does not change the program logic here.
+
+Patch was compile-tested with: tegra_defconfig (implies I2C_TEGRA=y)
+
+Patch is against 5.1 (localversion-next is next-20190508)
+
+ drivers/i2c/busses/i2c-tegra.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+index ebaa78d..cbaddcc 100644
+--- a/drivers/i2c/busses/i2c-tegra.c
++++ b/drivers/i2c/busses/i2c-tegra.c
+@@ -543,18 +543,19 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
+ static int tegra_i2c_fill_tx_fifo(struct tegra_i2c_dev *i2c_dev)
+ {
+ 	u32 val;
++	__le32 busval;
+ 	int tx_fifo_avail;
+ 	u8 *buf = i2c_dev->msg_buf;
+ 	size_t buf_remaining = i2c_dev->msg_buf_remaining;
+ 	int words_to_transfer;
+ 
+ 	if (i2c_dev->hw->has_mst_fifo) {
+-		val = i2c_readl(i2c_dev, I2C_MST_FIFO_STATUS);
+-		tx_fifo_avail = (val & I2C_MST_FIFO_STATUS_TX_MASK) >>
++		busval = i2c_readl(i2c_dev, I2C_MST_FIFO_STATUS);
++		tx_fifo_avail = (busval & I2C_MST_FIFO_STATUS_TX_MASK) >>
+ 			I2C_MST_FIFO_STATUS_TX_SHIFT;
+ 	} else {
+-		val = i2c_readl(i2c_dev, I2C_FIFO_STATUS);
+-		tx_fifo_avail = (val & I2C_FIFO_STATUS_TX_MASK) >>
++		busval = i2c_readl(i2c_dev, I2C_FIFO_STATUS);
++		tx_fifo_avail = (busval & I2C_FIFO_STATUS_TX_MASK) >>
+ 			I2C_FIFO_STATUS_TX_SHIFT;
+ 	}
+ 
+@@ -592,8 +593,8 @@ static int tegra_i2c_fill_tx_fifo(struct tegra_i2c_dev *i2c_dev)
+ 	 */
+ 	if (tx_fifo_avail > 0 && buf_remaining > 0) {
+ 		BUG_ON(buf_remaining > 3);
+-		memcpy(&val, buf, buf_remaining);
+-		val = le32_to_cpu(val);
++		memcpy(&busval, buf, buf_remaining);
++		val = le32_to_cpu(busval);
+ 
+ 		/* Again update before writing to FIFO to make sure isr sees. */
+ 		i2c_dev->msg_buf_remaining = 0;
 -- 
-Dmitry
+2.1.4
+
