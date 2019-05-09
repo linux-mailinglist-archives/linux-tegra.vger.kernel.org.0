@@ -2,181 +2,141 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60A0D188C1
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 May 2019 13:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F10F118B25
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 May 2019 16:02:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfEILLc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 May 2019 07:11:32 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40333 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbfEILLc (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 May 2019 07:11:32 -0400
-Received: by mail-wm1-f68.google.com with SMTP id h11so2625696wmb.5
-        for <linux-tegra@vger.kernel.org>; Thu, 09 May 2019 04:11:31 -0700 (PDT)
+        id S1726682AbfEIOCx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 May 2019 10:02:53 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43917 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726583AbfEIOCw (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 May 2019 10:02:52 -0400
+Received: by mail-wr1-f66.google.com with SMTP id r4so3207589wro.10;
+        Thu, 09 May 2019 07:02:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=7LulJJ0S3g9c4ZB5zK2P4vbeSt5R6AzVP5XZMwFs7gY=;
-        b=Uu08UAicY4C7RZWDJG4+i1ZKr/KJka5pFaopy+U1CxXs+Eh+KBy4qT6U4w7Kc7OOk5
-         ulsUhtabXTtR7s/lYGW8y3/4rSR21pquhpMtK+QZhXql286TgroEn7+li7k+haz/0EEs
-         VqKFLLHDFHm2FDVTD71ND4frC3twwgmHuYdc3+1m1rPL5MnWMHmX+T5+IiBSeuroQnuq
-         UZbVvBK+Gk/8luLs8JwUHpd8xAQ3RYTRCWOkhyZlXVipzEUfoGvcwMMEciM99q3K0yCz
-         RuDsrWbJ3TkhUwVIKsDNp5FKT0iRydBTauCLixOhSHXRx6wiYDbkGOdcEJSjiPioeqHM
-         PtoQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HNoXaNV1qBkGpwMuiuD1EF2zj1FqN5YTgxnrdjR1Y+E=;
+        b=bNk0zLrzPxvNcqvQqsw3NvvN9mgFKnowH0hYYdX6XYHkVI+3YFifVzAhJ0drkgyhnq
+         3kjkoClOiBLQs/+1fuPOF+TmF3+CF8Ob8gkMKs3gNuHBHRza+0BSioY1aG6KIFxBdx2n
+         F/wN5t40/VEpseSXgkhUt8pjds9r/B95uhbyuaWRdu6iEivreOgiQlcMtGuBU0chREe2
+         xD4c4D6zZvUyijF4ye+mbfQWpbGDxn9TpXTZaEgz5x4pdh5dw6r0ms7d/pcsq5HCsq+q
+         suEzRvahGD/yowYPK85yL+rllrjlpXjsM5KKGeSlCJxxcLIoC1lWkAfz6ayYZQcu/aBQ
+         +1Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=7LulJJ0S3g9c4ZB5zK2P4vbeSt5R6AzVP5XZMwFs7gY=;
-        b=Rvw0ZtdFrADtujndmll288ZbHGWPkcXF5mzRf7C4k37ND5A8e2iBBxIgvuRuFrmhg8
-         w4k5mpRxiz1jByeps4GAg8TOl2wzbAsZahF2JJZ3mBAUQaElws2d87ak30fTfPHofSDn
-         +LNItAj3o3hQGEXb70rpYIxmCIogG84r/95YhJ/vgiedFvzi/ts/lv9yBrsgarvfji59
-         HdBOS9bbquMZ07ClPl13CT8KxDbM/CZ1BrWDSxrokyNy7kt7hwVBJZxEZNCH/++OE04D
-         hruS14jfefwAjswthyRg+JdSj1T/71WEdXxQiBKf4Rp7x+aFQRGqUOtQRiWDx0LYJPGg
-         BhjQ==
-X-Gm-Message-State: APjAAAUVYtAl3HnQy0eMUGFp9jHiM+03eoMjJ4sH8JJQS7l2pYaxhoFX
-        JlGRRCV2cPIidc4HDQygZaj+qQ==
-X-Google-Smtp-Source: APXvYqyCjZBLDKVms2JtpVsjruRm4gEOrgYhQPlRAok7YLCHVUQ+KuW5FLFfZbfVpQ4r1VUlW0md4g==
-X-Received: by 2002:a1c:ed12:: with SMTP id l18mr2616089wmh.13.1557400290437;
-        Thu, 09 May 2019 04:11:30 -0700 (PDT)
-Received: from mai.irit.fr ([141.115.39.235])
-        by smtp.gmail.com with ESMTPSA id z7sm2299778wme.26.2019.05.09.04.11.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 May 2019 04:11:29 -0700 (PDT)
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     tglx@linutronix.de
-Cc:     linux-kernel@vger.kernel.org, Joseph Lo <josephl@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT)
-Subject: [PATCH 03/15] clocksource/drivers/tegra: Rework for compensation of suspend time
-Date:   Thu,  9 May 2019 13:10:36 +0200
-Message-Id: <20190509111048.11151-3-daniel.lezcano@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190509111048.11151-1-daniel.lezcano@linaro.org>
-References: <7e786ba3-a664-8fd9-dd17-6a5be996a712@linaro.org>
- <20190509111048.11151-1-daniel.lezcano@linaro.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HNoXaNV1qBkGpwMuiuD1EF2zj1FqN5YTgxnrdjR1Y+E=;
+        b=WMaK2KzD/Y3N7qUc78rZ5fRAeumcZOihqU/T+R6S4J8js96o+/nYdrERpc279skCQi
+         0DYUwsIwerZS1RLXZMK8lG2PhvBaAmDu9W7g10LNm6EsxaiYwhKCQMjlhTlczz8qlGnW
+         ilMI6LMxg7ifx3k+1qkFSC8leLDsn3O9TMbtu6b9kobW6ce9aKc8RI8aA1XWchp/FSZs
+         I0vWuY06jyWLow3BSjT0XZSseZxuCYCkBhERY4WRIROD1YMtGFBwAEFXm/2JbUvmGgRN
+         uIa9VqUCCQ9WUhxwqzHS0HHSaNt/5DuTmtDpV1AgDvvvOTJymRHr003KnSLeQpL1+fLt
+         mV4g==
+X-Gm-Message-State: APjAAAUwooxgxqy9WUJwJY54QIkjrHG4CjlEt8vGqdUqWORmSoki88zw
+        7w3TXY+QruJPiSkT/sZPZyNI8fBSk0U=
+X-Google-Smtp-Source: APXvYqzKnLJvIGU4e9eAFYPHSnEi/qYg6RE6Ka6v+mvu7EKyv0TYR/v3G9p6bU+FfqJ7VAUMezmUjg==
+X-Received: by 2002:adf:f488:: with SMTP id l8mr1636437wro.287.1557410570267;
+        Thu, 09 May 2019 07:02:50 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id y7sm7338385wrg.45.2019.05.09.07.02.48
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 09 May 2019 07:02:48 -0700 (PDT)
+Date:   Thu, 9 May 2019 16:02:47 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     robh+dt@kernel.org, mark.rutland@arm.com, jonathanh@nvidia.com,
+        lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH V2 01/28] soc/tegra: pmc: Export
+ tegra_powergate_power_on()
+Message-ID: <20190509140247.GA8907@ulmo>
+References: <20190423092825.759-1-mmaddireddy@nvidia.com>
+ <20190423092825.759-2-mmaddireddy@nvidia.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="M9NhX3UHpAaciwkO"
+Content-Disposition: inline
+In-Reply-To: <20190423092825.759-2-mmaddireddy@nvidia.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Joseph Lo <josephl@nvidia.com>
 
-Since the clocksource framework has the support for suspend time
-compensation. Re-work the driver to use that, so we can reduce the
-duplicate code.
+--M9NhX3UHpAaciwkO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Suggested-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-Signed-off-by: Joseph Lo <josephl@nvidia.com>
+On Tue, Apr 23, 2019 at 02:57:58PM +0530, Manikanta Maddireddy wrote:
+> tegra_powergate_sequence_power_up() powers up partition and also enables
+> clock & reset. However, if a controller like PCIe have multiple clocks
+> & resets and they need to be enabled in a sequence, driver must use
+> standalone function tegra_powergate_power_on() to power up partition.
+>=20
+> Export tegra_powergate_power_on() to allow Tegra controller drivers to
+> unpower gate partition independent to clock & reset.
+>=20
+> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+> ---
+> V2: No change
+>=20
+>  drivers/soc/tegra/pmc.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+> index 0c5f79528e5f..cb3de81348bd 100644
+> --- a/drivers/soc/tegra/pmc.c
+> +++ b/drivers/soc/tegra/pmc.c
+> @@ -701,6 +701,7 @@ int tegra_powergate_power_on(unsigned int id)
+> =20
+>  	return tegra_powergate_set(pmc, id, true);
+>  }
+> +EXPORT_SYMBOL(tegra_powergate_power_on);
+> =20
+>  /**
+>   * tegra_powergate_power_off() - power off partition
+
+If the sequence for the PCI power partition is becoming non-standard,
+this is going to hamper our efforts to move to generic PM domains. But
+it is what it is, so let's do this for now. We might need to revise this
+later on if/when we come up with a better solution.
+
+Bjorn, do you want to pick this up as part of this series, given the
+build dependency? If so:
+
 Acked-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
----
- drivers/clocksource/timer-tegra20.c | 63 +++++++++--------------------
- 1 file changed, 20 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/clocksource/timer-tegra20.c b/drivers/clocksource/timer-tegra20.c
-index fdb3d795a409..919b3568c495 100644
---- a/drivers/clocksource/timer-tegra20.c
-+++ b/drivers/clocksource/timer-tegra20.c
-@@ -60,9 +60,6 @@
- static u32 usec_config;
- static void __iomem *timer_reg_base;
- #ifdef CONFIG_ARM
--static void __iomem *rtc_base;
--static struct timespec64 persistent_ts;
--static u64 persistent_ms, last_persistent_ms;
- static struct delay_timer tegra_delay_timer;
- #endif
- 
-@@ -199,40 +196,30 @@ static unsigned long tegra_delay_timer_read_counter_long(void)
- 	return readl(timer_reg_base + TIMERUS_CNTR_1US);
- }
- 
-+static struct timer_of suspend_rtc_to = {
-+	.flags = TIMER_OF_BASE | TIMER_OF_CLOCK,
-+};
-+
- /*
-  * tegra_rtc_read - Reads the Tegra RTC registers
-  * Care must be taken that this funciton is not called while the
-  * tegra_rtc driver could be executing to avoid race conditions
-  * on the RTC shadow register
-  */
--static u64 tegra_rtc_read_ms(void)
-+static u64 tegra_rtc_read_ms(struct clocksource *cs)
- {
--	u32 ms = readl(rtc_base + RTC_MILLISECONDS);
--	u32 s = readl(rtc_base + RTC_SHADOW_SECONDS);
-+	u32 ms = readl(timer_of_base(&suspend_rtc_to) + RTC_MILLISECONDS);
-+	u32 s = readl(timer_of_base(&suspend_rtc_to) + RTC_SHADOW_SECONDS);
- 	return (u64)s * MSEC_PER_SEC + ms;
- }
- 
--/*
-- * tegra_read_persistent_clock64 -  Return time from a persistent clock.
-- *
-- * Reads the time from a source which isn't disabled during PM, the
-- * 32k sync timer.  Convert the cycles elapsed since last read into
-- * nsecs and adds to a monotonically increasing timespec64.
-- * Care must be taken that this funciton is not called while the
-- * tegra_rtc driver could be executing to avoid race conditions
-- * on the RTC shadow register
-- */
--static void tegra_read_persistent_clock64(struct timespec64 *ts)
--{
--	u64 delta;
--
--	last_persistent_ms = persistent_ms;
--	persistent_ms = tegra_rtc_read_ms();
--	delta = persistent_ms - last_persistent_ms;
--
--	timespec64_add_ns(&persistent_ts, delta * NSEC_PER_MSEC);
--	*ts = persistent_ts;
--}
-+static struct clocksource suspend_rtc_clocksource = {
-+	.name	= "tegra_suspend_timer",
-+	.rating	= 200,
-+	.read	= tegra_rtc_read_ms,
-+	.mask	= CLOCKSOURCE_MASK(32),
-+	.flags	= CLOCK_SOURCE_IS_CONTINUOUS | CLOCK_SOURCE_SUSPEND_NONSTOP,
-+};
- #endif
- 
- static int tegra_timer_common_init(struct device_node *np, struct timer_of *to)
-@@ -385,25 +372,15 @@ static int __init tegra_init_timer(struct device_node *np)
- 
- static int __init tegra20_init_rtc(struct device_node *np)
- {
--	struct clk *clk;
-+	int ret;
- 
--	rtc_base = of_iomap(np, 0);
--	if (!rtc_base) {
--		pr_err("Can't map RTC registers\n");
--		return -ENXIO;
--	}
-+	ret = timer_of_init(np, &suspend_rtc_to);
-+	if (ret)
-+		return ret;
- 
--	/*
--	 * rtc registers are used by read_persistent_clock, keep the rtc clock
--	 * enabled
--	 */
--	clk = of_clk_get(np, 0);
--	if (IS_ERR(clk))
--		pr_warn("Unable to get rtc-tegra clock\n");
--	else
--		clk_prepare_enable(clk);
-+	clocksource_register_hz(&suspend_rtc_clocksource, 1000);
- 
--	return register_persistent_clock(tegra_read_persistent_clock64);
-+	return 0;
- }
- TIMER_OF_DECLARE(tegra20_rtc, "nvidia,tegra20-rtc", tegra20_init_rtc);
- #endif
--- 
-2.17.1
+Alternatively I could provide a stable branch for you to pull in. But I
+don't think it'd be necessary, the PMC driver is a fairly slow-moving
+target these days.
 
+Thierry
+
+--M9NhX3UHpAaciwkO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzUMwMACgkQ3SOs138+
+s6HprA/9F4gXqL3jv8cXkVNJm079C4WLCBNlKQk0065YfmbsRGwyqJgSkMQcQybk
+N9At6Dmh4fAUPh5xwJ8yQ5eOphdPtbpci1cPMJk6Ze/tuQTtObDjHeggFz3Zx6M7
++R/AmRcbiyBomUrcey7bO398IFSF6bhpaKXxmJxzwlNY2JAzRS77jo1JcCnYolh2
+2WZypuJmC6Vp9Z9yC8u+nGdZRu2ca9VYDezV9yVrTN0mG+YYN/eFyjUcuRypLScF
+lm2hoAXu5M3RywjACzJltQgJd1+y2looqmrTlBxXm5xlNq7DdHK8d7KVLrtb2Qn5
+ml3BtQ540YQmzaWyeukbP3XGxJ2/gIkKhjQ249u0AV8Op+LcDuaduHzhTUjeIFTL
+1o/Vhc5FO+uqlyF7ete2R3jejJF99dPIbB2qq3E1H7Wt2EBiNpMVeCYD4cwRH9R+
+xsgEb9SjshqMoAbr3sx+9AumfGchj33Mf0WIDCmZYXzk2L4pERBMi4PtMABd2NY5
+XHbKEBy7iYnQCmDnKqcf+3+8Y+EZx6voh9ntDQiZBcCEhpaPKVOFiUuP9naEar8K
+ue23LYfeIOFjZyeI6Cbj9FmS3JDtSNcciymoVOGdby3n6rDh+2FrHkhpbkbA9C+3
+fA0BNLhVJl7lQJ8SwdQqEbIbiVzw5lNlvPFW8CthRf12SmR7keI=
+=Bhb3
+-----END PGP SIGNATURE-----
+
+--M9NhX3UHpAaciwkO--
