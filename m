@@ -2,66 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F10F118B25
-	for <lists+linux-tegra@lfdr.de>; Thu,  9 May 2019 16:02:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B552D18B2B
+	for <lists+linux-tegra@lfdr.de>; Thu,  9 May 2019 16:05:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbfEIOCx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 9 May 2019 10:02:53 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43917 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726583AbfEIOCw (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 May 2019 10:02:52 -0400
-Received: by mail-wr1-f66.google.com with SMTP id r4so3207589wro.10;
-        Thu, 09 May 2019 07:02:51 -0700 (PDT)
+        id S1726560AbfEIOFE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 9 May 2019 10:05:04 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:34886 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726195AbfEIOFD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 9 May 2019 10:05:03 -0400
+Received: by mail-wm1-f66.google.com with SMTP id y197so3387001wmd.0;
+        Thu, 09 May 2019 07:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=HNoXaNV1qBkGpwMuiuD1EF2zj1FqN5YTgxnrdjR1Y+E=;
-        b=bNk0zLrzPxvNcqvQqsw3NvvN9mgFKnowH0hYYdX6XYHkVI+3YFifVzAhJ0drkgyhnq
-         3kjkoClOiBLQs/+1fuPOF+TmF3+CF8Ob8gkMKs3gNuHBHRza+0BSioY1aG6KIFxBdx2n
-         F/wN5t40/VEpseSXgkhUt8pjds9r/B95uhbyuaWRdu6iEivreOgiQlcMtGuBU0chREe2
-         xD4c4D6zZvUyijF4ye+mbfQWpbGDxn9TpXTZaEgz5x4pdh5dw6r0ms7d/pcsq5HCsq+q
-         suEzRvahGD/yowYPK85yL+rllrjlpXjsM5KKGeSlCJxxcLIoC1lWkAfz6ayYZQcu/aBQ
-         +1Zw==
+        bh=6hgeJ62/5JFbBGb2/BWU28kBEHsth09slafCht0x0wo=;
+        b=WJt7uuUzFuKTlQRMdvIpwSaf32naqFr4VvilZWL6a27LRMNcYV8pJv5aj3l0ux0p1Y
+         xNPsItpStkyMclbh2Y8E+PcxhpkWEJHJJDTM6PhFgZ5QydcS4z6K7zuJvZnW7XGGGDwd
+         UQDJhMjLY626tRubOFJWD058vYTUi9Zah4clVTeCk37oLHC+RFJMpyH1py4sQqnpGa2l
+         8sktwtcnJHt6WGYQkA3M8QscgFXmrXDH9q7p2lLQtNwTOiiw/XRcr5rMYlSpMfjR1s48
+         xDdE5polTl5pvZAd6JMIZr8DZCr2G3vv3b8e4GxbY+1yiUyw4Rbx3a7WVQu7qFhYPghm
+         E8sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HNoXaNV1qBkGpwMuiuD1EF2zj1FqN5YTgxnrdjR1Y+E=;
-        b=WMaK2KzD/Y3N7qUc78rZ5fRAeumcZOihqU/T+R6S4J8js96o+/nYdrERpc279skCQi
-         0DYUwsIwerZS1RLXZMK8lG2PhvBaAmDu9W7g10LNm6EsxaiYwhKCQMjlhTlczz8qlGnW
-         ilMI6LMxg7ifx3k+1qkFSC8leLDsn3O9TMbtu6b9kobW6ce9aKc8RI8aA1XWchp/FSZs
-         I0vWuY06jyWLow3BSjT0XZSseZxuCYCkBhERY4WRIROD1YMtGFBwAEFXm/2JbUvmGgRN
-         uIa9VqUCCQ9WUhxwqzHS0HHSaNt/5DuTmtDpV1AgDvvvOTJymRHr003KnSLeQpL1+fLt
-         mV4g==
-X-Gm-Message-State: APjAAAUwooxgxqy9WUJwJY54QIkjrHG4CjlEt8vGqdUqWORmSoki88zw
-        7w3TXY+QruJPiSkT/sZPZyNI8fBSk0U=
-X-Google-Smtp-Source: APXvYqzKnLJvIGU4e9eAFYPHSnEi/qYg6RE6Ka6v+mvu7EKyv0TYR/v3G9p6bU+FfqJ7VAUMezmUjg==
-X-Received: by 2002:adf:f488:: with SMTP id l8mr1636437wro.287.1557410570267;
-        Thu, 09 May 2019 07:02:50 -0700 (PDT)
+        bh=6hgeJ62/5JFbBGb2/BWU28kBEHsth09slafCht0x0wo=;
+        b=eT9Bn9qPER4UGIgOPkc+miyQbQXyz8SBMqW8BA29aftbYyKLncawXaSQcxXnEl531c
+         cD1RZQTrIZGE6RGsgyb0zZ2VblMmMW5IXoGpS+K+HepxB98LxEXA1ZfDgGi4k//iwcrH
+         +Z/ie4wdIPhbuDKwduDbvtZ5pNCikoeBDGjgRDwCGREJihe/Cc0eP7Lp0M3VVE3Tw2Zu
+         7x6PlXx5RY9F/Dk0MhbS/wy5xUFWCG2rPcY2KeW4pWhkfkrmH/QK//IbKHStU6vMdm9+
+         m9uz8OjCiFJMknmwDfusd5aH5agovdL/R4Um2Ko+ZxNTTxcZEowuVS2Rm/SD2vsV4ZIQ
+         /NYg==
+X-Gm-Message-State: APjAAAWeBHGK8Q+auMn5/9GM/WZvZokxLA57T6+vGu0S/jzLrwgj8rOh
+        DXvQ4Sf64HrNXyCFiqOqyA4=
+X-Google-Smtp-Source: APXvYqz4w6jdewKvKIODfziharE3s9njqqXb8/bD39yig/yHhir3cTSq3qnBHXJMTyLO5EdeuR0Ltg==
+X-Received: by 2002:a1c:67c1:: with SMTP id b184mr3077490wmc.12.1557410701498;
+        Thu, 09 May 2019 07:05:01 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id y7sm7338385wrg.45.2019.05.09.07.02.48
+        by smtp.gmail.com with ESMTPSA id n4sm4929184wmb.22.2019.05.09.07.05.00
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 09 May 2019 07:02:48 -0700 (PDT)
-Date:   Thu, 9 May 2019 16:02:47 +0200
+        Thu, 09 May 2019 07:05:00 -0700 (PDT)
+Date:   Thu, 9 May 2019 16:04:59 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, jonathanh@nvidia.com,
-        lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
+To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc:     bhelgaas@google.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        jonathanh@nvidia.com, lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
         linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [PATCH V2 01/28] soc/tegra: pmc: Export
- tegra_powergate_power_on()
-Message-ID: <20190509140247.GA8907@ulmo>
+Subject: Re: [PATCH V2 02/28] PCI: tegra: Handle failure cases in
+ tegra_pcie_power_on()
+Message-ID: <20190509140459.GB8907@ulmo>
 References: <20190423092825.759-1-mmaddireddy@nvidia.com>
- <20190423092825.759-2-mmaddireddy@nvidia.com>
+ <20190423092825.759-3-mmaddireddy@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="M9NhX3UHpAaciwkO"
+        protocol="application/pgp-signature"; boundary="CdrF4e02JqNVZeln"
 Content-Disposition: inline
-In-Reply-To: <20190423092825.759-2-mmaddireddy@nvidia.com>
+In-Reply-To: <20190423092825.759-3-mmaddireddy@nvidia.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -69,74 +68,42 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---M9NhX3UHpAaciwkO
+--CdrF4e02JqNVZeln
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 23, 2019 at 02:57:58PM +0530, Manikanta Maddireddy wrote:
-> tegra_powergate_sequence_power_up() powers up partition and also enables
-> clock & reset. However, if a controller like PCIe have multiple clocks
-> & resets and they need to be enabled in a sequence, driver must use
-> standalone function tegra_powergate_power_on() to power up partition.
->=20
-> Export tegra_powergate_power_on() to allow Tegra controller drivers to
-> unpower gate partition independent to clock & reset.
+On Tue, Apr 23, 2019 at 02:57:59PM +0530, Manikanta Maddireddy wrote:
+> Unroll the PCIe power on sequence if any one of the steps fail in
+> tegra_pcie_power_on().
 >=20
 > Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
 > ---
-> V2: No change
+> V2: New patch to handle error cleanup in tegra_pcie_power_on().
 >=20
->  drivers/soc/tegra/pmc.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-> index 0c5f79528e5f..cb3de81348bd 100644
-> --- a/drivers/soc/tegra/pmc.c
-> +++ b/drivers/soc/tegra/pmc.c
-> @@ -701,6 +701,7 @@ int tegra_powergate_power_on(unsigned int id)
-> =20
->  	return tegra_powergate_set(pmc, id, true);
->  }
-> +EXPORT_SYMBOL(tegra_powergate_power_on);
-> =20
->  /**
->   * tegra_powergate_power_off() - power off partition
-
-If the sequence for the PCI power partition is becoming non-standard,
-this is going to hamper our efforts to move to generic PM domains. But
-it is what it is, so let's do this for now. We might need to revise this
-later on if/when we come up with a better solution.
-
-Bjorn, do you want to pick this up as part of this series, given the
-build dependency? If so:
+>  drivers/pci/controller/pci-tegra.c | 26 +++++++++++++++++++++-----
+>  1 file changed, 21 insertions(+), 5 deletions(-)
 
 Acked-by: Thierry Reding <treding@nvidia.com>
 
-Alternatively I could provide a stable branch for you to pull in. But I
-don't think it'd be necessary, the PMC driver is a fairly slow-moving
-target these days.
-
-Thierry
-
---M9NhX3UHpAaciwkO
+--CdrF4e02JqNVZeln
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzUMwMACgkQ3SOs138+
-s6HprA/9F4gXqL3jv8cXkVNJm079C4WLCBNlKQk0065YfmbsRGwyqJgSkMQcQybk
-N9At6Dmh4fAUPh5xwJ8yQ5eOphdPtbpci1cPMJk6Ze/tuQTtObDjHeggFz3Zx6M7
-+R/AmRcbiyBomUrcey7bO398IFSF6bhpaKXxmJxzwlNY2JAzRS77jo1JcCnYolh2
-2WZypuJmC6Vp9Z9yC8u+nGdZRu2ca9VYDezV9yVrTN0mG+YYN/eFyjUcuRypLScF
-lm2hoAXu5M3RywjACzJltQgJd1+y2looqmrTlBxXm5xlNq7DdHK8d7KVLrtb2Qn5
-ml3BtQ540YQmzaWyeukbP3XGxJ2/gIkKhjQ249u0AV8Op+LcDuaduHzhTUjeIFTL
-1o/Vhc5FO+uqlyF7ete2R3jejJF99dPIbB2qq3E1H7Wt2EBiNpMVeCYD4cwRH9R+
-xsgEb9SjshqMoAbr3sx+9AumfGchj33Mf0WIDCmZYXzk2L4pERBMi4PtMABd2NY5
-XHbKEBy7iYnQCmDnKqcf+3+8Y+EZx6voh9ntDQiZBcCEhpaPKVOFiUuP9naEar8K
-ue23LYfeIOFjZyeI6Cbj9FmS3JDtSNcciymoVOGdby3n6rDh+2FrHkhpbkbA9C+3
-fA0BNLhVJl7lQJ8SwdQqEbIbiVzw5lNlvPFW8CthRf12SmR7keI=
-=Bhb3
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzUM4sACgkQ3SOs138+
+s6G6vw//ZlsjzvQq+kNiozjqfF+5tWoDBYISiX4LL5kIRZ7AuoP5rk/FWwBP1QAl
+ONLeFgXNzcbxXlIwvbWyEF1ls+zM3Tjo9cd//0nUOvdRr44nvSvT4XAXv3QwhyPj
+XO4yZonLvXL5fh2YxXkrX/vvG6dEfTk+aY+nrBil8Aojq9kwczLgK6pnTDuDQRNf
+gECbdjKmlRHLMamLb2hqnzSjWDV0cNdF3y0c8lsjeo+unSDRx2zJ5MJp6VOHyRj4
+8/MpuUfsV+ozusZeUYtWJPp2Vxdc3v/4SM9zOx9rDEB3kdZuO4WnEE4FKD39viAm
+4lekg9IvtK1VBG3MyS9wCxlHAu+WvFoxe2asFmy51zsps0Zc1UzXnPRp5hU1q+C5
+1JGArhghofw6a229Ki2IaV/u68DglkUR6QivB4yxdHODxO5/w21S1CC9IU9Rn4OO
+n0qq51KSGqZbN8dQaRUo2EOEFxxIZ1i3mJqltKOIJ4gutkQ7GJR2gX02KwFT6/x0
+j7GLq/qqGAV686hQAFVkoYiurwbMmz2MlsnHJ4ZdqWcqjj8Is+jtHpCBiIPPI29u
+94WIPIiy0I0IhJz0WuV7f18zFY3DShrrTffuy5Bdchll444OD/a9OV7gSl/J7zrk
+9yPlgGbxzgHBjqEsvmX9OrcEe0YTcQ0rlaXNtFME9NwuzrLmzaI=
+=ENnA
 -----END PGP SIGNATURE-----
 
---M9NhX3UHpAaciwkO--
+--CdrF4e02JqNVZeln--
