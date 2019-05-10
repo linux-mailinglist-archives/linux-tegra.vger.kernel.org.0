@@ -2,104 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA43019CCA
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 May 2019 13:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BDFF19F37
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 May 2019 16:34:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727179AbfEJLfx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 May 2019 07:35:53 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:43708 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727144AbfEJLfx (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 May 2019 07:35:53 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r4so7449940wro.10
-        for <linux-tegra@vger.kernel.org>; Fri, 10 May 2019 04:35:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=frMaHLtTVcuAjNsj7WkDlL1XY2jsGu/I2uG5ctoh5gA=;
-        b=Px0U9D9pEbVq/5gvJ9oo3XEOJrt8sFkwHxHVlbqUNhxJbeQBY/3yP40mhojVl+gpgi
-         vBfjHjCLADRiMWyfDl4oUlX1OFU/4faYbxbCmgH2cyFVnsaRAjmz/1SOqj7LsueE7GXp
-         NllniShPrftrRES5rrxIbtrvPns76H5YEu6Iu5ce0LnUqZvOYcEgaCIBNbhk8nXCoF2j
-         fQJqubBpBpFa10BRHBqyDWELIQam4x9TCUhEgsBHmVcafyn+hbT2mR9ZM2oGl8VKqG6w
-         IWjcs28CFrOYq7nUqsOFwj74UKHqLOOTy37V43VKR1wrHaeb7fXyb15y4LlgQb2ZlKgU
-         Nysw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=frMaHLtTVcuAjNsj7WkDlL1XY2jsGu/I2uG5ctoh5gA=;
-        b=dX8SNz16VMJdGfHf6yOFFQ8mFjMyVRghWhXGAU7GrtytSaLYI6pB08jCdZ3QX3A7Q8
-         By3oIqw92jmjLoPv2rvYMO2C97DwS72xIeMuDSh5i5yqukrsDMkn/WC2qj+a1fLKYFHf
-         VmmPqPjiG/9h+SR5XDi0+59vegmjOtHuZwI6ON7022J4l87YdVOvaca7yQlhlpMCXqYB
-         DDtHbIN6VOqpusD5kaDVTSo7iVSrho7LQBC+744i7OfsRBtJ/kjVGbZY/u1oDPpJRaLe
-         clA/F9hr9fxY/LT7xsS0zreHhWbwXMlW+i1aNQz68cGUGDpAB9PnMODTJqZMsp9Wirt9
-         5yrQ==
-X-Gm-Message-State: APjAAAUN8ip/ARDsgti4gtKlOSUuH8Khkn7NHND6tTyt4Ymp+G0UJsKc
-        wsmbyOAxd/r778kAd68ADfI=
-X-Google-Smtp-Source: APXvYqymwHDZ4aqfYbTTNgpiU1guU4StpI08Kfg1JNbrZAJrlOIjlG9XYDjkLh1+Dx6Sb+OoP1OGfA==
-X-Received: by 2002:adf:fc8f:: with SMTP id g15mr7766060wrr.122.1557488151914;
-        Fri, 10 May 2019 04:35:51 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id v189sm8080721wma.3.2019.05.10.04.35.51
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 10 May 2019 04:35:51 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     arm@kernel.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 3/3] arm64: tegra: Device tree fixes for v5.2-rc1
-Date:   Fri, 10 May 2019 13:35:46 +0200
-Message-Id: <20190510113546.15698-3-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190510113546.15698-1-thierry.reding@gmail.com>
-References: <20190510113546.15698-1-thierry.reding@gmail.com>
+        id S1727986AbfEJOeU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 May 2019 10:34:20 -0400
+Received: from mga14.intel.com ([192.55.52.115]:32461 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727248AbfEJOeT (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 10 May 2019 10:34:19 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 May 2019 07:34:16 -0700
+X-ExtLoop1: 1
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.86])
+  by orsmga002.jf.intel.com with ESMTP; 10 May 2019 07:34:08 -0700
+Received: from andy by smile with local (Exim 4.92)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1hP6b9-0004Sg-Pc; Fri, 10 May 2019 17:34:07 +0300
+Date:   Fri, 10 May 2019 17:34:07 +0300
+From:   "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>
+To:     "Ardelean, Alexandru" <alexandru.Ardelean@analog.com>
+Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-ide@vger.kernel.org" <linux-ide@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-rpi-kernel@lists.infradead.org" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 03/16] lib,treewide: add new match_string() helper/macro
+Message-ID: <20190510143407.GA9224@smile.fi.intel.com>
+References: <20190508112842.11654-1-alexandru.ardelean@analog.com>
+ <20190508112842.11654-5-alexandru.ardelean@analog.com>
+ <20190508131128.GL9224@smile.fi.intel.com>
+ <20190508131856.GB10138@kroah.com>
+ <b2440bc9485456a7a90a488c528997587b22088b.camel@analog.com>
+ <4df165bc4247e60aa4952fd55cb0c77e60712767.camel@analog.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4df165bc4247e60aa4952fd55cb0c77e60712767.camel@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi ARM SoC maintainers,
+On Fri, May 10, 2019 at 09:15:27AM +0000, Ardelean, Alexandru wrote:
+> On Wed, 2019-05-08 at 16:22 +0300, Alexandru Ardelean wrote:
+> > On Wed, 2019-05-08 at 15:18 +0200, Greg KH wrote:
+> > > On Wed, May 08, 2019 at 04:11:28PM +0300, Andy Shevchenko wrote:
+> > > > On Wed, May 08, 2019 at 02:28:29PM +0300, Alexandru Ardelean wrote:
 
-The following changes since commit 2f03e39b5bfe41f3a0d9a8b01231e7e5045cb9c4:
+> > > > Can you split include/linux/ change from the rest?
+> > > 
+> > > That would break the build, why do you want it split out?  This makes
+> > > sense all as a single patch to me.
+> > > 
+> > 
+> > Not really.
+> > It would be just be the new match_string() helper/macro in a new commit.
+> > And the conversions of the simple users of match_string() (the ones using
+> > ARRAY_SIZE()) in another commit.
+> > 
+> 
+> I should have asked in my previous reply.
+> Leave this as-is or re-formulate in 2 patches ?
 
-  arm64: tegra: Remove regulator hacks on Jetson TX2 (2019-04-17 16:48:44 +0200)
+Depends on on what you would like to spend your time: collecting Acks for all
+pieces in treewide patch or send new API first followed up by per driver /
+module update in next cycle.
 
-are available in the Git repository at:
+I also have no strong preference.
+And I think it's good to add Heikki Krogerus to Cc list for both patch series,
+since he is the author of sysfs variant and may have something to comment on
+the rest.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.2-arm64-dt-fixes
+-- 
+With Best Regards,
+Andy Shevchenko
 
-for you to fetch changes up to 7278358407be770130b6b72567c1b5831c6eef28:
 
-  arm64: tegra: Disable XUSB support on Jetson TX2 (2019-05-08 14:42:57 +0200)
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-arm64: tegra: Device tree fixes for v5.2-rc1
-
-This contains one patch to disable the recently added XUSB support on
-Jetson TX2 which is reported to cause boot and CPU hotplug failures in
-some cases and doesn't allow the core power rail to be switched off.
-
-Furthermore there are some changes to enable IOMMU support on more
-devices. This is needed in order to prevent these devices from breaking
-with the policy change in the ARM SMMU driver to break insecure devices
-that is currently headed for v5.2.
-
-----------------------------------------------------------------
-Jonathan Hunter (1):
-      arm64: tegra: Fix insecure SMMU users for Tegra186
-
-Thierry Reding (2):
-      arm64: tegra: Enable SMMU translation for PCI on Tegra186
-      arm64: tegra: Disable XUSB support on Jetson TX2
-
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 4 ++--
- arch/arm64/boot/dts/nvidia/tegra186.dtsi           | 7 +++++++
- 2 files changed, 9 insertions(+), 2 deletions(-)
