@@ -2,98 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C70319B6E
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 May 2019 12:18:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F68919CC8
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 May 2019 13:35:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727351AbfEJKSO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 May 2019 06:18:14 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:1247 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727053AbfEJKSO (ORCPT
+        id S1727170AbfEJLfv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 May 2019 07:35:51 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39561 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727144AbfEJLfv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 May 2019 06:18:14 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cd54fed0000>; Fri, 10 May 2019 03:18:21 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 10 May 2019 03:18:13 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 10 May 2019 03:18:13 -0700
-Received: from [10.26.11.182] (172.20.13.39) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 10 May
- 2019 10:18:09 +0000
-Subject: Re: [PATCH 5.1 00/30] 5.1.1-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190509181250.417203112@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <61c05635-32ea-cb62-cf3a-44d9c57836d7@nvidia.com>
-Date:   Fri, 10 May 2019 11:18:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Fri, 10 May 2019 07:35:51 -0400
+Received: by mail-wm1-f66.google.com with SMTP id n25so7108044wmk.4
+        for <linux-tegra@vger.kernel.org>; Fri, 10 May 2019 04:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WVtavxktsvcfzds2bAOB46VNLZJyLrZtioJAPLe0Ozs=;
+        b=daSjT3yJtyeyqMaSesyKdsRBRJPSNauqi+f5P15u/9b5JsoCHVK4KaishNwNkK7DK9
+         tLmB2QQeBqi+R3nY/8SyiqeQGcpRxcJNTfm5cnDUwiHPmAOisdH4gbjvkn9WX2YUYre+
+         JBf9dPEGKXvX5WRVh+vOiZ3UIRyfPMwzQ0kyJcaqdbDtApN6Yel4j6MNsbdDU69c6boa
+         +5TlXzwS9/ZvzjVtgOFIVyqwCmpHsS2Dns/bXzIb/T0JNAXjCeEGRXe69Sk7d5Lr3xKK
+         c8CQ+Zvb4hMkAdViQsZDD2aIctxPJWBV8eSTDun+ggGAzFhXRk2riIhmfEn2Ds0Fo4cb
+         Ndzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WVtavxktsvcfzds2bAOB46VNLZJyLrZtioJAPLe0Ozs=;
+        b=HfbYN/wIiCn2SyXPoTNPGotZQJOw9e2AArYR2Zz4JSWjmz7PI5epyDL3vIXSWMVXfH
+         9Ox+O5544uNJQZEroLTsdlbdnt/Cuktbrc3d6mWaocsYUcBNZFCehaDRIhclLiwlwtdG
+         oX7MoLEDNYVwE5plB1W+nLTQqaRL3tqPRwO+1/B8USV5Ky0irgwLOTa9tNtIpkc3OdQ9
+         /E7ZVFRu16MRt3x3eGH/w5JdVW6duAgyQ+E72F0rYRKBcDoo4LSzrBtZSf7P4O68VnDE
+         9PQ1yg83Fj9+Anzx5C9vLCR/3N0xet8p0mRSpwbEwvWHaKTjVJZTfDrpWGdo7heDcK0r
+         tuRg==
+X-Gm-Message-State: APjAAAW6nEJVOgb66ch8ux6lhW4gfk7yTdHaWyjzqwWfdll36uwAYtLe
+        lORqVCSAJGr9XLgeVUOFMa5kU6ZERsU=
+X-Google-Smtp-Source: APXvYqxIl5YxwEiNv+9XsVPD1du4j0KAH4NCQGOy9NrM5U6GL42V8pHWj/PgZcmBaXjEIXmD4P20vg==
+X-Received: by 2002:a1c:e90f:: with SMTP id q15mr6988180wmc.1.1557488149088;
+        Fri, 10 May 2019 04:35:49 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id v17sm3239623wmc.30.2019.05.10.04.35.47
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 10 May 2019 04:35:48 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     arm@kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL 1/3] bus/tegra: Fixes for v5.2-rc1
+Date:   Fri, 10 May 2019 13:35:44 +0200
+Message-Id: <20190510113546.15698-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190509181250.417203112@linuxfoundation.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
- HQMAIL101.nvidia.com (172.20.187.10)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1557483501; bh=EHIaXWy07l2y+vYZHMO/8PoiOfNesW7mmbCh1xMUVmI=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=LrXy4WKzyqVTZ68M2R11FdDX1JUMGUBA1Jian945X7wwIgL+Lus8cilcf4QTiwHhB
-         rJSyXj8ueDPx96gm1+RLECjFk+ZxByXILvYXuU6F3gCuAbRSFD5wS8KnyJfmZps69k
-         m3BqT/TcCuLQAozRSlTTvekfw6/Ch+NadEgg0SJSRdmRhHZ252PY0r6PgI5xWO5Mvk
-         /LpOtkeuPIR747qEWjR9gNGWICEYw9ieznBWMgAmuZ+ViqPOcV023K7c7YkvQ5YyKg
-         tNy1vq9Vx+TiCsBxX9na60SEKp92e8mH2dY7gHb98mz2m3vZ88nZThdnV8sH7RNG/9
-         zmElSATMhG5ew==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi ARM SoC maintainers,
 
-On 09/05/2019 19:42, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.1.1 release.
-> There are 30 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Sat 11 May 2019 06:11:35 PM UTC.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.1-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+The following changes since commit 1427736e64c3a8b513cd984332f596055a7ca196:
 
-All tests are passing for Tegra ...
+  bus: tegra-aconnect: add system sleep callbacks (2019-03-28 17:26:14 +0100)
 
-Test results for stable-v5.1:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    32 tests:	32 pass, 0 fail
+are available in the Git repository at:
 
-Linux version:	5.1.1-rc1-ge4f05f7
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.2-bus-fixes
 
-Cheers
-Jon
+for you to fetch changes up to 6d6165603e162e3d391f35853a4ab232ab0db064:
 
--- 
-nvpublic
+  amba: tegra-ahb: Mark PM functions as __maybe_unused (2019-05-08 14:40:39 +0200)
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+bus/tegra: Fixes for v5.2-rc1
+
+This contains a single fix for a potential PM-related build issue.
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      amba: tegra-ahb: Mark PM functions as __maybe_unused
+
+ drivers/amba/tegra-ahb.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
