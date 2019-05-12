@@ -2,99 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34EAA1AD69
-	for <lists+linux-tegra@lfdr.de>; Sun, 12 May 2019 19:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4662A1AD8C
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 May 2019 19:43:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726903AbfELRH3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 12 May 2019 13:07:29 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:52418 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726669AbfELRH3 (ORCPT
+        id S1726864AbfELRnY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 May 2019 13:43:24 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39365 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726529AbfELRnY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 12 May 2019 13:07:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=G5xlJDa6zk0mg1D7OFpmjSf2+dxHmYsbAjbOgtF2WVI=; b=cl3dzex1TWMNPiBpesr65Eo7F
-        H9HVQq0TuFUpVsHX6kptGrMiUcMeHxfVc8fG3sNL3EIFW+VKSMfcpTBTeS+d5PLybyPfUyzr1fcXu
-        F1TQyTLbAcBSu8IXgsuB8MXptkbna1IYhHGmDBpkTI7Wcy5opdxLgWRyyN7+bHahNrssM=;
-Received: from [81.145.206.43] (helo=finisterre.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hPrwV-00046h-5C; Sun, 12 May 2019 17:07:19 +0000
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-        id 2298B44000C; Sun, 12 May 2019 18:07:17 +0100 (BST)
-Date:   Sun, 12 May 2019 18:07:17 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Mallikarjun Kasoju <mkasoju@nvidia.com>,
+        Sun, 12 May 2019 13:43:24 -0400
+Received: by mail-pf1-f194.google.com with SMTP id z26so5884673pfg.6;
+        Sun, 12 May 2019 10:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RpfQWsV4Cbteqis6flWSQny0WpQ+Omw4oCErU7z7boU=;
+        b=fjM1S5rHQqQcQd4WKjcxpSpf/RFROidSPqgD621jf1QPwRyL0r+h5EwLAMqv1Obsbq
+         CGGMdJweC0t63KEYmq6MWkdav2WloDvQoZN/SJxecAMgoOkQ/K7fAxBZ1pC9l/dPGndk
+         C4L/Jc9sIsCmgfqorFyGMPsz3wN+i/jthDI6dq0zfn61d4iJhN15CAPJD2vDiJht2+/1
+         JEcSDTmE/mtYq0qyn3NONfVE4e1IyE1/Azv6YEtO68QeCVlgg4DNNKKEILhpGrobLQD7
+         T2BgJHi0qQmeBhVNWv0iF5qX7FUdEBYgHpH56YzJ1+Xn4a3IBzxGpkzmh2Y4vA1pBH9v
+         29iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RpfQWsV4Cbteqis6flWSQny0WpQ+Omw4oCErU7z7boU=;
+        b=XknaEIH+x8U1+WW+XSVW4p52KoWDePrxymTLGOLg6XBU1fm9hIna3mNjkL54wpPRec
+         U3Ei6IjdHpgEk/WJtXhQ+9BL13kFJqNdlU6XewgNHLfaLbD9VrvgQ3piaAiQip4xV6sP
+         OiI+ZS1sjAno+sng7zBug5bVT0AYzcF8LBgIcJOJOATc7bazxOCrUcfTgQm+E6rUdXpw
+         4mMMABy7/1fnEQqVbiGtUXjEJlH+jyoQPU8JEFgrnPfAMd9NEfkPl1210k6kpHQwkmQI
+         xNcImoRy1hIUM+v68sBXqu5+NUw0eETvrg/1Cacgchzit8sxPpTt3jTCtJMh3oY2FzPG
+         zFzw==
+X-Gm-Message-State: APjAAAVwclL4qchHd62LMxWal3mJKqq5W14IucumH7BsEHI9ND53lBha
+        zTbk3JkoSjA5DatHa+artSRCoga5
+X-Google-Smtp-Source: APXvYqwA2JLRsVBcHD5XrPTOoDV9t5KwrAn9xuuMjj9Ou0loLok0YzAVyBhvlltiUo/rZLTLoCgOBA==
+X-Received: by 2002:a63:170a:: with SMTP id x10mr25927719pgl.355.1557683003371;
+        Sun, 12 May 2019 10:43:23 -0700 (PDT)
+Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.googlemail.com with ESMTPSA id m6sm1125842pgr.18.2019.05.12.10.43.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 12 May 2019 10:43:22 -0700 (PDT)
+Subject: Re: [RFC PATCH v1 5/6] soc/tegra: regulators: Add regulators coupler
+ for Tegra20
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 6/6] regulator: max77620: Support Maxim 77663
-Message-ID: <20190512170717.GS21483@sirena.org.uk>
-References: <20190505154325.30026-1-digetx@gmail.com>
- <20190505154325.30026-7-digetx@gmail.com>
- <f8f67e00-0544-c999-92e0-3998c2f70ee7@gmail.com>
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190414175939.12368-1-digetx@gmail.com>
+ <20190414175939.12368-6-digetx@gmail.com>
+ <20190508075706.GW14916@sirena.org.uk>
+ <9756d8ca-0778-5185-5b6b-3168d63819ec@gmail.com>
+ <20190512090627.GO21483@sirena.org.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <586b4f29-1937-2d7b-3944-c29311502878@gmail.com>
+Date:   Sun, 12 May 2019 20:42:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="jo46wx5DSA4a/gWG"
-Content-Disposition: inline
-In-Reply-To: <f8f67e00-0544-c999-92e0-3998c2f70ee7@gmail.com>
-X-Cookie: HOST SYSTEM RESPONDING, PROBABLY UP...
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190512090627.GO21483@sirena.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+12.05.2019 12:06, Mark Brown пишет:
+> On Wed, May 08, 2019 at 04:10:58PM +0300, Dmitry Osipenko wrote:
+> 
+>> 1) CORE and RTC have max-spread voltage of 170mV.
+>> 2) CORE and RTC voltages must be higher than the CPU voltage by at least
+>> 120mV.
+> 
+> This seems like it should be easy enough to describe - we just need
+> minimum and maximum spreads between pairs of rails.
+> 
 
---jo46wx5DSA4a/gWG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, May 12, 2019 at 05:08:15PM +0300, Dmitry Osipenko wrote:
-
-> Just want to get yours attention to that Lee picked up the patches into
-> the MFD tree, excluding this patch. I assume this one will have to go
-> via the regulator's tree.
-
-Please don't send content free pings and please allow a reasonable time
-for review.  People get busy, go on holiday, attend conferences and so=20
-on so unless there is some reason for urgency (like critical bug fixes)
-please allow at least a couple of weeks for review.  If there have been
-review comments then people may be waiting for those to be addressed.
-
-Sending content free pings adds to the mail volume (if they are seen at
-all) which is often the problem and since they can't be reviewed
-directly if something has gone wrong you'll have to resend the patches
-anyway, so sending again is generally a better approach though there are
-some other maintainers who like them - if in doubt look at how patches
-for the subsystem are normally handled.
-
---jo46wx5DSA4a/gWG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzYUrwACgkQJNaLcl1U
-h9Av/Af6A7eNJJBMhZupsKDyFp3/A06DY0GmX/yFWFZsvWD8tC+lwGKriot3sRsO
-hgzEGPzGKHsPap5Co+eJMK5qju+hoCTxr0EXsJGz7jUV4yvNF9kVP9vjDFDdiB3q
-h7i54gvLBADsp9iaxm/1zlXsVtXoAeONz+g401sWi2tBo49EMSixuSZVuX6mEo3N
-+UoZRX+jK87XBL10ewBMdtrYMqrr2h6X3Wd8WH9010x/ug49Iem7Oq7XgL18vnrt
-lyfJnNOKB7x2ebWfjrfh2vyk9F0zoRhH7Jn/6qzlAvEbSkTQNF8EaCYQEVJ3kujM
-a3UExN7W25SrNbX2yjcj0Z7+te8Z/Q==
-=est8
------END PGP SIGNATURE-----
-
---jo46wx5DSA4a/gWG--
+Yes, but the proper CORE/RTC minimum voltages shall be maintained until
+all drivers will get support for the voltage management, which likely to
+take a lot of time to get upstreamed. So I'd want to get at least some
+basics working for the start, later on it should be possible to consider
+generalization of the regulators coupling. Mark, are you okay with
+having the custom regulators coupler as an interim solution?
