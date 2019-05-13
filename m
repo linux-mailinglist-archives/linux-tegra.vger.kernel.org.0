@@ -2,61 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 332AE1B119
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 May 2019 09:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 558AB1B785
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 May 2019 15:56:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727928AbfEMHZr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 May 2019 03:25:47 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54426 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727608AbfEMHZq (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 May 2019 03:25:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=FepseJqUtrkKupverYm+/3v6WT5gLzsS2oUTxOu7nu4=; b=QpVQM9nHiNVRQNFKtFyPsQ7Xf
-        C6KLxnEjuKDh+KHifrD4YZABIjsToiOM4LMHMdD0BAY1he1JJJnM/aBUaUfi/wUpMYlXJ1sD0VfhJ
-        pzCt/ZiMcluQqV8BU4O8JzpwMvzy0oiDE16GgPxrKcN8RS5t0Wx10mFXdDS8fHO9zBFhg29swgyQO
-        4BgI3iAakOQz9jz/JPwQbJX2/MfYNYAHIOEpFqeDLFfCwuXwYlbIgtAfAjHY42B6pZVa/ruT7yZw/
-        GizKSLihsDXgyP0feeE7HTGY9pMpZBjnEXTcjvLe5a3oq9cseV/wNhbFy/dmebEHnLOhB5hRQdvQA
-        3JUJVNXtA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hQ5L9-00006V-Nu; Mon, 13 May 2019 07:25:39 +0000
-Date:   Mon, 13 May 2019 00:25:39 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     lorenzo.pieralisi@arm.com, bhelgaas@google.com, robh+dt@kernel.org,
-        mark.rutland@arm.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, kishon@ti.com, catalin.marinas@arm.com,
-        will.deacon@arm.com, jingoohan1@gmail.com,
-        gustavo.pimentel@synopsys.com, mperttunen@nvidia.com,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V6 02/15] PCI/PME: Export pcie_pme_disable_msi() &
- pcie_pme_no_msi() APIs
-Message-ID: <20190513072539.GA27708@infradead.org>
-References: <20190513050626.14991-1-vidyas@nvidia.com>
- <20190513050626.14991-3-vidyas@nvidia.com>
+        id S1729710AbfEMN4P (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 May 2019 09:56:15 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:49318 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727272AbfEMN4P (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 13 May 2019 09:56:15 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 7B970CC575E000F61F42;
+        Mon, 13 May 2019 21:56:09 +0800 (CST)
+Received: from localhost (10.177.31.96) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Mon, 13 May 2019
+ 21:56:01 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <rui.zhang@intel.com>, <edubezval@gmail.com>,
+        <daniel.lezcano@linaro.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH] thermal: tegra: Make tegra210_tsensor_thermtrips static
+Date:   Mon, 13 May 2019 21:55:59 +0800
+Message-ID: <20190513135559.43836-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190513050626.14991-3-vidyas@nvidia.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain
+X-Originating-IP: [10.177.31.96]
+X-CFilter-Loop: Reflected
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, May 13, 2019 at 10:36:13AM +0530, Vidya Sagar wrote:
-> Export pcie_pme_disable_msi() & pcie_pme_no_msi() APIs to enable drivers
-> using these APIs be able to build as loadable modules.
+Fix sparse warning:
 
-But this is a global setting.  If you root port is broken you need
-a per-rootport quirk instead.
+drivers/thermal/tegra/tegra210-soctherm.c:211:33: warning:
+ symbol 'tegra210_tsensor_thermtrips' was not declared. Should it be static?
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/thermal/tegra/tegra210-soctherm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/thermal/tegra/tegra210-soctherm.c b/drivers/thermal/tegra/tegra210-soctherm.c
+index d31b500..d0ff793 100644
+--- a/drivers/thermal/tegra/tegra210-soctherm.c
++++ b/drivers/thermal/tegra/tegra210-soctherm.c
+@@ -208,7 +208,7 @@ static const struct tegra_soctherm_fuse tegra210_soctherm_fuse = {
+ 	.fuse_spare_realignment = 0,
+ };
+ 
+-struct tsensor_group_thermtrips tegra210_tsensor_thermtrips[] = {
++static struct tsensor_group_thermtrips tegra210_tsensor_thermtrips[] = {
+ 	{.id = TEGRA124_SOCTHERM_SENSOR_NUM},
+ 	{.id = TEGRA124_SOCTHERM_SENSOR_NUM},
+ 	{.id = TEGRA124_SOCTHERM_SENSOR_NUM},
+-- 
+2.7.4
+
+
