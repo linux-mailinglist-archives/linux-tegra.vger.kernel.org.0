@@ -2,107 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 717BE1BC0F
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 May 2019 19:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F751BC9D
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 May 2019 20:08:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726685AbfEMRkF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 May 2019 13:40:05 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:39722 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726251AbfEMRkF (ORCPT
+        id S1731211AbfEMSIC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 May 2019 14:08:02 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:3078 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731142AbfEMSIB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 May 2019 13:40:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Q8Ws9F8LuqNXJmuF056IOvQqVLZe5vGNwBdJxJpKZrE=; b=Lj3EC4zP2azv7daXeW00ojMnV
-        TQ5VDXE6mjJ4BxlgMmM5TsECB75OFZvSvRpyGSVbfc87Sughcm6sCle2EgMlBB/iyxSEAh6XfZuk9
-        UHmjqd/JfVORHto5SVaDs+jiaU/0rLMOB/leAuFqgXlWs6BrVCEmiGP7LazzcWtwe4fwY=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=debutante.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpa (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hQEvi-0007FN-95; Mon, 13 May 2019 17:40:02 +0000
-Received: by debutante.sirena.org.uk (Postfix, from userid 1000)
-        id 8FAF61129232; Mon, 13 May 2019 18:40:00 +0100 (BST)
-Date:   Mon, 13 May 2019 18:40:00 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 6/6] soc/tegra: regulators: Add regulators coupler
- for Tegra30
-Message-ID: <20190513174000.GH5168@sirena.org.uk>
-References: <20190414175939.12368-1-digetx@gmail.com>
- <20190414175939.12368-7-digetx@gmail.com>
- <20190508075848.GX14916@sirena.org.uk>
- <af6de446-ab45-1745-30e5-426c6b34421f@gmail.com>
- <20190512090446.GN21483@sirena.org.uk>
- <3988cfb6-55fe-48c4-5365-ac79871f7fd2@gmail.com>
+        Mon, 13 May 2019 14:08:01 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cd9b2590000>; Mon, 13 May 2019 11:07:21 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 13 May 2019 11:08:00 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 13 May 2019 11:08:00 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 May
+ 2019 18:08:00 +0000
+Received: from manikanta-bm2.nvidia.com (172.20.13.39) by HQMAIL.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Mon, 13 May 2019 18:07:57 +0000
+From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
+To:     <thierry.reding@gmail.com>, <bhelgaas@google.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <jonathanh@nvidia.com>, <lorenzo.pieralisi@arm.com>,
+        <vidyas@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Subject: [PATCH V3 00/29] Enable Tegra PCIe root port features
+Date:   Mon, 13 May 2019 23:37:15 +0530
+Message-ID: <20190513180744.16493-1-mmaddireddy@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4C6bbPZ6c/S1npyF"
-Content-Disposition: inline
-In-Reply-To: <3988cfb6-55fe-48c4-5365-ac79871f7fd2@gmail.com>
-X-Cookie: Must be over 18.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1557770841; bh=kzU1LL7iCVd+b5FKU78RYsffNCyngCHVcWSrqGp30Po=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=VAOQTGUYT3EYHhVlnmNWM/60y44g2be2a42aLHbeNDmn45hBHL4hX4NYrIq//m82H
+         1CGKyL7Y0zGJy/dgwwbEg9McHP0hLKeJIPoWXayiHDBV0Qu5MALCl411VGLfUSQYKv
+         Qt9dZ6qGvbsS1Eve9MCjnCIOIo68LceWn9loaut8dFmw+a51kglEkthGctgEcSsaR9
+         sovus+T+RH32ztDQ4ZEoMJ1NcI7JsCf1y2n6Qte4+SeK2ZjW/KHDS0ysxkfCBgJp3S
+         xUF087e3uJfbKv1DZ5hxz2Zut19ZZ+vnEbNXaS0/L8jyktJkuWaJURdzBDDWJ/6k/M
+         VyLTCDitytJ5Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+This series of patches adds,
+- Tegra root port features like Gen2, AER, etc
+- Power and perf optimizations
+- Fixes like "power up sequence", "dev_err prints", etc
 
---4C6bbPZ6c/S1npyF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series of patches are tested on Tegra186 based Jetson-TX2, Tegra210
+based Jetson-TX1, T124 based Jetson-TK1 platforms, Tegra20 and Tegra30
+platforms.
 
-On Sun, May 12, 2019 at 09:29:54PM +0300, Dmitry Osipenko wrote:
-> 12.05.2019 12:04, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Wed, May 08, 2019 at 04:27:42PM +0300, Dmitry Osipenko wrote:
+Manikanta Maddireddy (29):
+  soc/tegra: pmc: Export tegra_powergate_power_on()
+  PCI: tegra: Handle failure cases in tegra_pcie_power_on()
+  PCI: tegra: Rearrange Tegra PCIe driver functions
+  PCI: tegra: Mask AFI_INTR in runtime suspend
+  PCI: tegra: Fix PCIe host power up sequence
+  PCI: tegra: Add PCIe Gen2 link speed support
+  PCI: tegra: Advertise PCIe Advanced Error Reporting (AER) capability
+  PCI: tegra: Program UPHY electrical settings for Tegra210
+  PCI: tegra: Enable opportunistic UpdateFC and ACK
+  PCI: tegra: Disable AFI dynamic clock gating
+  PCI: tegra: Process pending DLL transactions before entering L1 or L2
+  PCI: tegra: Enable PCIe xclk clock clamping
+  PCI: tegra: Increase the deskew retry time
+  PCI: tegra: Add SW fixup for RAW violations
+  PCI: tegra: Update flow control timer frequency in Tegra210
+  PCI: tegra: Set target speed as Gen1 before starting LTSSM
+  PCI: tegra: Fix PLLE power down issue due to CLKREQ# signal
+  PCI: tegra: Program AFI_CACHE* registers only for Tegra20
+  PCI: tegra: Change PRSNT_SENSE IRQ log to debug
+  PCI: tegra: Use legacy IRQ for port service drivers
+  PCI: tegra: Add AFI_PEX2_CTRL reg offset as part of soc struct
+  PCI: tegra: Access endpoint config only if PCIe link is up
+  dt-bindings: pci: tegra: Document PCIe DPD pinctrl optional prop
+  arm64: tegra: Add PEX DPD states as pinctrl properties
+  PCI: tegra: Put PEX CLK & BIAS pads in DPD mode
+  PCI: Add DT binding for "reset-gpios" property
+  PCI: OF: Add of_pci_get_reset_gpio() to parse reset-gpios from DT
+  PCI: tegra: Add support for GPIO based PERST#
+  PCI: tegra: Change link retry log level to debug
 
-> > Those seem like they should be doable in generic code, though the fact
-> > that the constraint is variable makes it annoying to specify - otherwise
-> > it'd just be a minimum and maximum spread.  I'm not really coming up
-> > with any great ideas right now, it's getting into OPP type territory but
-> > it sounds like there's more flexibility for ramping the core voltage so
-> > you'd end up with silly numbers of OPPs.
+ .../bindings/pci/nvidia,tegra20-pcie.txt      |   8 +
+ Documentation/devicetree/bindings/pci/pci.txt |   3 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi      |  19 +
+ drivers/pci/controller/pci-tegra.c            | 616 +++++++++++++++---
+ drivers/pci/of.c                              |  18 +
+ drivers/soc/tegra/pmc.c                       |   1 +
+ include/linux/of_pci.h                        |  10 +
+ 7 files changed, 595 insertions(+), 80 deletions(-)
 
-> The OPP shouldn't have to do anything in regards to the regulators
-> coupling. The whole idea of the regulators coupling is to make device
-> drivers to not churn with the coupling. The coupling in this case is
-> specific to SoC and not to a particular board.
+-- 
+2.17.1
 
-The thing with OPPs is that they specify a whole table of values that
-work together including regulator settings, the result being that you
-have many fewer options but don't need to think about constraints.
-
-> I think the current approach with the customized regulators coupler is
-> the best solution for the time being. We may consider something more
-> generic if there will be other users with a similar coupling
-> requirements, otherwise it's quite difficult to judge what is "generic".
-> Do you agree?
-
-Some of the constraints (like having drivers loaded) are kind of fun...
-
---4C6bbPZ6c/S1npyF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzZq+8ACgkQJNaLcl1U
-h9Dtswf/f4sgl8pKS8cZdLJ7aTJAOm1gCl9vpwFvrhRXFUi7Zmj5BQyd/G1GAWXu
-OxtEoUI8JWPsrf9vk9UxD2Qk1xlVTBXIWt1UfGn7HXXAOcgAMmHya1QRYJSy7rNh
-2bUCy/+Sh+tjmz2fqWe+YnoecfV1GyxCoTXF0WgA6+k86sXKZT8SNss1F6MJCJ14
-5pgJmTikPDbjOR8g/Wdd+5x315iaAjY/zv6q6d2uxgwvybHYVIx+YMwowzEI8FyH
-y2keI9ZHfPbZtmAw2SuxCJ2+74W+4ffAu7xiVANCFtdr5F665+/wa3V4AM9t7k4L
-dBlGd+z0XFj1J7KCxxmllK1RSYwJIA==
-=1OqR
------END PGP SIGNATURE-----
-
---4C6bbPZ6c/S1npyF--
