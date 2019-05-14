@@ -2,150 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 884571C5EB
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 May 2019 11:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA9351C619
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 May 2019 11:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726122AbfENJWc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 May 2019 05:22:32 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:12409 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725916AbfENJWc (ORCPT
+        id S1726292AbfENJdp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 May 2019 05:33:45 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:18670 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725916AbfENJdp (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 May 2019 05:22:32 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cda88ae0001>; Tue, 14 May 2019 02:21:50 -0700
+        Tue, 14 May 2019 05:33:45 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cda8b740001>; Tue, 14 May 2019 02:33:40 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 14 May 2019 02:22:29 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 14 May 2019 02:33:44 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 14 May 2019 02:22:29 -0700
-Received: from [10.19.108.132] (172.20.13.39) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Tue, 14 May 2019 02:33:44 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 May
- 2019 09:22:27 +0000
-Subject: Re: [PATCH V3 4/8] memory: tegra: Add Tegra210 EMC clock driver
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>
-CC:     <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-References: <20190510084719.18902-1-josephl@nvidia.com>
- <20190510084719.18902-5-josephl@nvidia.com>
- <50d5719c-63fb-279b-cf8a-388010e7bdb3@gmail.com>
-From:   Joseph Lo <josephl@nvidia.com>
-Message-ID: <27db5517-e2fc-ff24-7a96-932202160478@nvidia.com>
-Date:   Tue, 14 May 2019 17:22:26 +0800
+ 2019 09:33:42 +0000
+Subject: Re: [PATCH V5 1/4] spi: tegra114: add support for gpio based CS
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        <thierry.reding@gmail.com>, <ldewangan@nvidia.com>,
+        <broonie@kernel.org>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>
+References: <1557810235-16401-1-git-send-email-skomatineni@nvidia.com>
+ <1557810235-16401-2-git-send-email-skomatineni@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <cf4bd167-49b8-5649-a2e2-7bf5ddcc6e2d@nvidia.com>
+Date:   Tue, 14 May 2019 10:33:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <50d5719c-63fb-279b-cf8a-388010e7bdb3@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+In-Reply-To: <1557810235-16401-2-git-send-email-skomatineni@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1557825710; bh=pBILzDqoND4hRcXAHGdRCas6NqBGMrFhgSUAE3rs7mg=;
+        t=1557826420; bh=SppUGGkQiIfOreEGJ0gp41fqANbwlVGWqwB/RkgMYEs=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=cM6AYk95y4Ben/jUtGt4Dy9jxtTIFavon8+RT9ADCALtiQC3EusOzmAdJuHgZJ9O0
-         ScqpqgDaWqfgNrBpPiWZjxFwpXch/96kVIYqtH7u7+0NhPnUP6gpLV50/276CqqNxD
-         skLGAuD/c9GbbwhvKAveHbSth9mPwekLXrTBbnswMZAGud2/U0oA+UH5e0jSDm+Obp
-         GFvMejXm3CVgcghsXeHY7VtL4NWiUqeO1k7Pf3vEX5uKPxCHMDwEuVG9eI7G/PzYxn
-         n8Lmpd/3Cr3T2uHjRkdS3ftDLAYoKk6MvLvKKUB6U0GjBOPOIAi93N+gV5aZXTkTaT
-         wHrqTDegZxVbQ==
+        b=crHKh9AoTrRZR2t1DyQhwrbWeZ4lfkpx15upl8kl/cm/hIwXkVJXG9BeBeEMgYczS
+         g3ObQFGnRU9MKkFIVbF43wRJYMUEmd1AvWSmHTDtiHnHLAzUJrDHV1iWA91nFSldjR
+         7uLJV5EgPSWoUB74FTIHFE6MTqXW4hm0+bnxOAKujElHJuwtXdrxsKQ5rm1Le1dhUH
+         qIjva0zeXJ6FAzE0rt8/G5hve+KA3uwe3CgIADJDn2ibk9mAdAsMPW+2ZhgWfqWQ9k
+         Ftg3eZIjzV70+0+1FID2PAoudpAEAyyqTZHmY9RUnZOskfco6yxDsoIo2vYEOLyNLR
+         wLIm4CTzkQYSA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 5/14/19 12:54 AM, Dmitry Osipenko wrote:
-> 10.05.2019 11:47, Joseph Lo =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> This is the initial patch for Tegra210 EMC clock driver, which doesn't
->> include the support code and detail sequence for clock scaling yet.
->>
->> The driver is designed to support LPDDR4 SDRAM. Because of the LPDDR4
->> devices need to do initial time training before it can be used, the
->> firmware will help to do that at early boot stage. Then, the trained
->> table for the rates we support will pass to the kernel via DT. So the
->> driver can get the trained table for clock scaling support.
->>
->> For the higher rate support (above 800MHz), the periodic training is
->> needed for the timing compensation. So basically, two methodologies for
->> clock scaling are supported, one is following the clock changing
->> sequence to update the EMC table to EMC registers and another is if the
->> rate needs periodic training, then we will start a timer to do that
->> periodically until it scales to the lower rate.
->>
->> Based on the work of Peter De Schrijver <pdeschrijver@nvidia.com>.
->>
->> Signed-off-by: Joseph Lo <josephl@nvidia.com>
->> ---
->> v3:
->> - address almost all the comments from the previous version
->> - remove the DT parser of EMC table
->> - The EMC table is passing as a binary blob now.
->> ---
-snip.
->> +#ifdef CONFIG_DEBUG_FS
->> +static int emc_stats_show(struct seq_file *s, void *data)
->> +{
->> +	int i;
->> +	struct tegra_emc *emc =3D (struct tegra_emc *)s->private;
->=20
-> There is no need for casting of the void*.
->=20
->> +
->> +	if (!emc->emc_table_size || !seq)
->> +		return 0;
->> +
->> +	emc_last_stats_update(TEGRA_EMC_MAX_FREQS);
->> +
->> +	seq_printf(s, "%-10s %-10s\n", "rate kHz", "time");
->> +	for (i =3D 0; i < emc->emc_table_size; i++) {
->> +		if (emc_clk_sel[i].input =3D=3D NULL)
->> +			continue;
->> +
->> +		seq_printf(s, "%-10u %-10llu\n",
->> +			   emc->emc_table[i].rate,
->> +			   jiffies_64_to_clock_t(
->> +			   emc_stats.time_at_clock[i]));
->> +	}
->> +	seq_printf(s, "%-15s %llu\n", "transitions:",
->> +		   emc_stats.clkchange_count);
->> +	seq_printf(s, "%-15s %llu\n", "time-stamp:",
->> +		   jiffies_64_to_clock_t(emc_stats.last_update));
->=20
-> Devfreq subsystem has the transition stats too and it is a bit more advan=
-ced than what you have here.
->=20
->   cat /sys/class/devfreq/devfreq0/trans_stat
->        From  :   To
->              :  50000000 100000000 150000000 300000000 600000000   time(m=
-s)
->   *  50000000:         0         4         4         0        46 11809621=
-0
->     100000000:        21         0         0         0         5     1546=
-0
->     150000000:        10         9         0         0     10560  2021394=
-0
->     300000000:        13         6      5058         0     22375   684869=
-0
->     600000000:        11         7      5517     27452         0  1195899=
-0
->   Total transition : 71098
->=20
-> Hence I'm questioning the necessity of the debug-info duplication.
->=20
 
-Okay, will remove the statistic data in the next version. BTW, I think=20
-we will use Interconnect framework for the EMC BW manager for the Tegra=20
-chips >=3D T210.
+On 14/05/2019 06:03, Sowjanya Komatineni wrote:
+> This patch adds support for GPIO based CS control through SPI core
+> function spi_set_cs.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+Can you elaborate on the use-case where this is needed? I am curious
+what platforms are using this and why they would not use the dedicated
+CS signals.
 
-Thanks,
-Joseph
+Cheers
+Jon
+
+-- 
+nvpublic
