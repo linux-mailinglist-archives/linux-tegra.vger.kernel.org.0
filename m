@@ -2,111 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F9E91CF1B
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 May 2019 20:31:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21DF61CFB3
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 May 2019 21:13:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbfENSbI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 May 2019 14:31:08 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35064 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726221AbfENSbI (ORCPT
+        id S1726422AbfENTN1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 May 2019 15:13:27 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33238 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbfENTN0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 May 2019 14:31:08 -0400
-Received: by mail-ot1-f67.google.com with SMTP id n14so9270135otk.2;
-        Tue, 14 May 2019 11:31:07 -0700 (PDT)
+        Tue, 14 May 2019 15:13:26 -0400
+Received: by mail-lf1-f68.google.com with SMTP id x132so83305lfd.0;
+        Tue, 14 May 2019 12:13:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BbR9Yrok2+r2iuSrKXyCdVxdVyCF4DRzoDzjudqSfhs=;
+        b=Yy4gZZjwjJJL96M9LqthkzzzWTHN4Io+F8xLcItoTr4/Um5vZiAIr6E+glB340PTT8
+         L9b9U1YC4gEvcYbJcs/i62APNBZP5dKdvn7H4Q6Ot7lxn3hMrKFT34ycFROM8Bjm4ZKN
+         evgIPQY8PEeaLZM7e/mRLTzIgCekVbWlGDvvuUE8s9DU5xxPgkmw8wyoy4t2hPJ0lTYp
+         wr+ao2gipTZ4NbA8lAb697F8YzfWzUkQCoGMVETA9+y4VqSg93KjdEvlDhHthF3O5yE2
+         AtDfflLbwtdR15cQf7By5X/YImbk42qKmkI8bnlCiyhmhkn7PhGdnotDqxd/UmhRe67U
+         VCLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8ot0Rh9qUIJF0O8H2q+zaBnNjlSpg3oyUgqIQhJfipk=;
-        b=sfIxYbXElu/bcfO4zqts9PiJXK/RkIKUN4QxuJIzBfTAk131aOnDtLD4NGEqCzlLZI
-         78kWNkSb1HL7UW8WKQeA9dgTi0ZZMeLgJNFDWx7ESsXT6wPLRpMuLHQgWCUxM7GKg66G
-         uEdn0LPqNwNcJ5gIlEx8v7XdxEe0Q68ucPwSdDryLi/CeShNF+81IDwFxoQSFw+3yBsM
-         DYaVUJd2DCLsMOvQ0Alx7lqaph7UXFCPrd8lvKQynafUWiDy1e7zkAggJGrPH9e1RXlA
-         IaMa6D51+Bw/fFc6iSN7cixji81PjMVjNkTO8PRTXryAaFxbPmIdRguI4VXxnT3pvbZy
-         SUrQ==
-X-Gm-Message-State: APjAAAVtFwSTLsmidNG2d46FLaVimMSz4I208Xgbo0eTcHkIDwJ4kFdc
-        2dcJ9Sb3+yNM9/myZCslsQ==
-X-Google-Smtp-Source: APXvYqzja2UaVB3pN4oCGsDDfiE9EKeFY/k/M0kNLuhwCimZN2YRS6ChwktHFMmjHTce7/UnKJRfnA==
-X-Received: by 2002:a9d:6411:: with SMTP id h17mr22321238otl.290.1557858667155;
-        Tue, 14 May 2019 11:31:07 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id e133sm6500067oif.44.2019.05.14.11.31.05
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 May 2019 11:31:05 -0700 (PDT)
-Date:   Tue, 14 May 2019 13:31:05 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc:     thierry.reding@gmail.com, bhelgaas@google.com,
-        mark.rutland@arm.com, jonathanh@nvidia.com,
-        lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH V3 27/29] PCI: OF: Add of_pci_get_reset_gpio() to parse
- reset-gpios from DT
-Message-ID: <20190514183105.GA32636@bogus>
-References: <20190513180744.16493-1-mmaddireddy@nvidia.com>
- <20190513180744.16493-28-mmaddireddy@nvidia.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BbR9Yrok2+r2iuSrKXyCdVxdVyCF4DRzoDzjudqSfhs=;
+        b=X8AVmdCRqwS0S6pY34braDtgK0rL+mQ63OSGjFSmRn9gg6pghxAPMwmGdcB12O5v0c
+         /AgTpNtO8z63uv8+khJzUjwNhqpVOVHjQQC4Lkr0Z6HlwadkfMF5BaAQQx/UHjCiOScz
+         ufLEMzt44vvVJD41v22Rjcctl9JtVV1El0QXCoOR+U6IXwrYjm0djFdgy8JwonogJFE8
+         S+Z14AgLbKzjmb/boSU/VkLbJEgwwGvJuGRPl65TwQmsHf1BCTBL45uUlJRzRu3f6p1J
+         4ilFRzrtf9X16FViF3lqJ2z1Ph0KO4PhFaLzZHh0P4JNvY8qTCOINIacGazpEEV3NFQN
+         00WA==
+X-Gm-Message-State: APjAAAX1jARxCYxkecP4rXbytPLl9tzXTGINvpyHvyxwJIAaDOrHj/TZ
+        dRx7p6oFmqLT2+q2825oMMyblGIm
+X-Google-Smtp-Source: APXvYqwjGA+6FKnifsb5grJr693AVLfaeSckMZG5ZsXPoEQ/sbIwaQj3WiG1KpI+c0W8Zge5/da5tw==
+X-Received: by 2002:ac2:5986:: with SMTP id w6mr18939816lfn.147.1557861204485;
+        Tue, 14 May 2019 12:13:24 -0700 (PDT)
+Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.googlemail.com with ESMTPSA id b15sm3843192ljj.1.2019.05.14.12.13.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 14 May 2019 12:13:23 -0700 (PDT)
+Subject: Re: [RFC PATCH v1 5/6] soc/tegra: regulators: Add regulators coupler
+ for Tegra20
+To:     Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190414175939.12368-1-digetx@gmail.com>
+ <20190414175939.12368-6-digetx@gmail.com>
+ <20190508075706.GW14916@sirena.org.uk>
+ <9756d8ca-0778-5185-5b6b-3168d63819ec@gmail.com>
+ <20190512090627.GO21483@sirena.org.uk>
+ <586b4f29-1937-2d7b-3944-c29311502878@gmail.com>
+ <20190513173816.GG5168@sirena.org.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b7bd37d4-471a-4c31-f561-8d4eb89519a4@gmail.com>
+Date:   Tue, 14 May 2019 22:12:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190513180744.16493-28-mmaddireddy@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190513173816.GG5168@sirena.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, May 13, 2019 at 11:37:42PM +0530, Manikanta Maddireddy wrote:
-> This new helper function could be used by host drivers to get the reset
-> GPIO descriptor. If the property isn't assigned, it will return NULL to
-> the caller.
+13.05.2019 20:38, Mark Brown пишет:
+> On Sun, May 12, 2019 at 08:42:39PM +0300, Dmitry Osipenko wrote:
+>> 12.05.2019 12:06, Mark Brown пишет:
 > 
-> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-> ---
-> V3: New patch to add helper function to parse "reset-gpios"
+>>> This seems like it should be easy enough to describe - we just need
+>>> minimum and maximum spreads between pairs of rails.
 > 
->  drivers/pci/of.c       | 18 ++++++++++++++++++
->  include/linux/of_pci.h | 10 ++++++++++
->  2 files changed, 28 insertions(+)
+>> Yes, but the proper CORE/RTC minimum voltages shall be maintained until
+>> all drivers will get support for the voltage management, which likely to
+>> take a lot of time to get upstreamed. So I'd want to get at least some
+>> basics working for the start, later on it should be possible to consider
+>> generalization of the regulators coupling. Mark, are you okay with
+>> having the custom regulators coupler as an interim solution?
 > 
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index 9454c90980c9..2a0282115ff0 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -6,6 +6,7 @@
->   */
->  #define pr_fmt(fmt)	"PCI: OF: " fmt
->  
-> +#include <linux/gpio/consumer.h>
->  #include <linux/irqdomain.h>
->  #include <linux/kernel.h>
->  #include <linux/pci.h>
-> @@ -224,6 +225,23 @@ int of_pci_get_max_link_speed(struct device_node *node)
->  }
->  EXPORT_SYMBOL_GPL(of_pci_get_max_link_speed);
->  
-> +/**
-> + * of_pci_get_reset_gpio() - Get PCI reset gpio descriptor.
-> + *
-> + * @node: device node
-> + *
-> + * Returns PCI reset gpio descriptor from DT, or an ERR_PTR() if the
-> + * required property is invalid.
-> + */
-> +struct gpio_desc *of_pci_get_reset_gpio(struct device *dev,
-> +					struct device_node *node,
-> +					int dflags, char *label)
-> +{
-> +	return devm_gpiod_get_from_of_node(dev, node, "reset-gpios", 0, dflags,
-> +					   label);
-> +}
+> Let me think about it.  Interim solutions have this habit of hanging
+> around and the bit with needing to get all the drivers loaded is very
+> much an open and substantial question...  :/  Definitely not something
+> I'd close the door on at this point though.
+> 
 
-There's nothing PCI specific about this and 'reset-gpios' is pretty 
-widely used. Either we should have this somewhere common or perhaps not 
-worth a wrapper to save 1 parameter.
+This one has a good chance to stick around for a substantial time.
 
-Also, I believe you can pass just 'reset' so the deprecated form 
-'reset-gpio' can also be supported. 
+Realistically I see two variants right now:
 
-Rob
+  1) get at least some basics to work (regulators coupling, CPUFreq
+voltage managing) and then continue step-by-step
+
+  2) give up on it all in upstream because likely that an immediate
+complete solution will take just too much time and effort for a one
+person to cope (I have other things to do as well)
+
+Mark, I'm glad that you're not strongly opposed. Will prepare  v2.
+
+If anyone else has something to say, please don't shy.
