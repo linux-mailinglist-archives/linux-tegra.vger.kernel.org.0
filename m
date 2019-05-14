@@ -2,100 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32B421CE08
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 May 2019 19:31:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB09B1CEFE
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 May 2019 20:23:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726827AbfENRbX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 May 2019 13:31:23 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:16862 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726013AbfENRbX (ORCPT
+        id S1727176AbfENSXo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 May 2019 14:23:44 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38425 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726281AbfENSXo (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 May 2019 13:31:23 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cdafb420000>; Tue, 14 May 2019 10:30:42 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 14 May 2019 10:31:22 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 14 May 2019 10:31:22 -0700
-Received: from [10.21.132.143] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 May
- 2019 17:31:19 +0000
-Subject: Re: [PATCH V5 1/4] spi: tegra114: add support for gpio based CS
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        Krishna Yarlagadda <kyarlagadda@nvidia.com>
-CC:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>
-References: <1557810235-16401-1-git-send-email-skomatineni@nvidia.com>
- <1557810235-16401-2-git-send-email-skomatineni@nvidia.com>
- <cf4bd167-49b8-5649-a2e2-7bf5ddcc6e2d@nvidia.com>
- <BYAPR12MB33986B88CF3A30036E3F1F04C2080@BYAPR12MB3398.namprd12.prod.outlook.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <ec2e9dab-e299-0f73-090c-e060b4683361@nvidia.com>
-Date:   Tue, 14 May 2019 18:31:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 14 May 2019 14:23:44 -0400
+Received: by mail-ot1-f65.google.com with SMTP id s19so16169025otq.5;
+        Tue, 14 May 2019 11:23:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=uEVFNvyxMrrdXPezPoRGmk6MiU2WgaWinvyiQo20ebo=;
+        b=Hp9h2X2GhVUMhROlDCmRFRS9+znKuKxE/8n3cUs3WSp6HuGdROW/5O/yMFdo6uvCB1
+         e0zvhudBD+Hoh08EmK6pjOdKQyNt3W3j6fmiw5/XjIvGH0sTB9Mma2o6yJc7hWT3oQaW
+         Ow5UuIgY2pZ0yb6sBW3TK6ltjzJxsgsKKhFD8l/JEr0MgegY2ONZoebkna3Eel7ty2S5
+         LvvCnKGLm1fNARohKbGDOSYbmOl6gXv/ttnAIFTn58Oq98Ol2EjKmKAgWmv/pFV6C2+F
+         BL9A1fKRq/fLa6Jz4/By9NrKL6cfd/k4dGup4gFMp9PMzHVAML1n16pfu05ufXGkJ1+/
+         DMXg==
+X-Gm-Message-State: APjAAAWvQtymvRtdiNPRYo7pCvEhjOML51HkuJUBgK2zMrNV4pFP2L0S
+        LecwpUaSWl49EnJqarDZSw==
+X-Google-Smtp-Source: APXvYqwlNjc4Z9d0hDZMDOuLAMmFr8q/NhiLMqLvsFReOPfm8vH2RGGwBse4cw5khsnE14ShDFNY0g==
+X-Received: by 2002:a9d:6259:: with SMTP id i25mr13303501otk.250.1557858222917;
+        Tue, 14 May 2019 11:23:42 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id e31sm7415983ote.61.2019.05.14.11.23.41
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 14 May 2019 11:23:42 -0700 (PDT)
+Date:   Tue, 14 May 2019 13:23:40 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc:     thierry.reding@gmail.com, bhelgaas@google.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, jonathanh@nvidia.com,
+        lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Subject: Re: [PATCH V3 26/29] PCI: Add DT binding for "reset-gpios" property
+Message-ID: <20190514182340.GA32467@bogus>
+References: <20190513180744.16493-1-mmaddireddy@nvidia.com>
+ <20190513180744.16493-27-mmaddireddy@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR12MB33986B88CF3A30036E3F1F04C2080@BYAPR12MB3398.namprd12.prod.outlook.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1557855042; bh=YMzIdisAdXm/iBe7klK+iK4HBjCqpEJXQXlJFqH8UK4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=gQ4mmKhZyNlgdguwb9bbNJsU0Szqa8kxB0u4uuv+dG/N8ZNCl2sNpGr5lFDGjEb9u
-         VjIeol9dtPEbd2ThkKPE360AMOq7VF4yIGU7PvqEplkl56uxlmI1vynbDyqF76kjlV
-         KqN8ihk2h8L/RgSmn6aduGrzKzd9YGpgqlPtU3Oz9Pmhizij1RVUg/STUnPWXUvO+b
-         WS7nCDJ1/D4G1k5dyccxHTuWaJwShr5GsZWka3/brIimwaVEMKsCJHRl52ZWHCHGwq
-         zyVzlo3nv8MFzggasbtFaFxUZa8xkZqihYHa4bbErXgPgXdwl1TYhiuS1RAzss6+W8
-         rsvGGyykdvV6Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190513180744.16493-27-mmaddireddy@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, 13 May 2019 23:37:41 +0530, Manikanta Maddireddy wrote:
+> Add DT binding for "reset-gpios" property which supports GPIO based PERST#
+> signal.
+> 
+> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> ---
+> V3: Moved to common pci binding doc
+> 
+> V2: Using standard "reset-gpio" property
+> 
+>  Documentation/devicetree/bindings/pci/pci.txt | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-On 14/05/2019 18:18, Sowjanya Komatineni wrote:
->> Subject: Re: [PATCH V5 1/4] spi: tegra114: add support for gpio based CS
->=20
->> On 14/05/2019 06:03, Sowjanya Komatineni wrote:
->>> This patch adds support for GPIO based CS control through SPI core=20
->>> function spi_set_cs.
->>>
->>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> Can you elaborate on the use-case where this is needed? I am curious wha=
-t platforms are using this and why they would not use the dedicated CS sign=
-als.
->>
->> Cheers
->> Jon
->=20
-> Tegra SPI doesn=E2=80=99t support inter byte delay directly to meet some =
-SPI slave requirements.
-> So we use GPIO control CS in parallel with a dummy HW CS and use inactive=
- cycles delay of SPI controller to mimic inter byte delay.
->=20
-> Currently we don=E2=80=99t have specific SPI slave on upstream supported =
-platforms but considering raspberry PI header where SPI I/F is exposed to p=
-ins it allows user to connect any SPI slave and this helps for some slaves =
-that need specific inter byte delay.
-
-Maybe add these details to the commit message so that it is clear what
-the motivation for this is.
-
-Thanks
-Jon
-
---=20
-nvpublic
+Reviewed-by: Rob Herring <robh@kernel.org>
