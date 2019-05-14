@@ -2,133 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C293F1C33B
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 May 2019 08:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD50F1C547
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 May 2019 10:48:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726124AbfENGZ7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 May 2019 02:25:59 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:13974 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbfENGZ6 (ORCPT
+        id S1726039AbfENIsE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 May 2019 04:48:04 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:5676 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726078AbfENIsD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 May 2019 02:25:58 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cda5f700000>; Mon, 13 May 2019 23:25:52 -0700
+        Tue, 14 May 2019 04:48:03 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cda80c80001>; Tue, 14 May 2019 01:48:08 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 13 May 2019 23:25:56 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 14 May 2019 01:48:02 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 13 May 2019 23:25:56 -0700
-Received: from [10.24.47.172] (10.124.1.5) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 May
- 2019 06:25:51 +0000
-Subject: Re: [PATCH V5 10/16] dt-bindings: PCI: tegra: Add device tree support
- for T194
-To:     Rob Herring <robh@kernel.org>
-CC:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
+        by hqpgpgate102.nvidia.com on Tue, 14 May 2019 01:48:02 -0700
+Received: from [10.19.108.132] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 May
+ 2019 08:47:59 +0000
+Subject: Re: [PATCH V3 5/8] memory: tegra: Add EMC scaling support code for
+ Tegra210
+To:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        <sagar.tv@gmail.com>
-References: <20190424052004.6270-1-vidyas@nvidia.com>
- <20190424052004.6270-11-vidyas@nvidia.com> <20190426154306.GA16455@bogus>
- <504abd8f-9eb3-1089-953c-a6372c34b346@nvidia.com>
- <CAL_JsqLEw+HAeqd2TD33cSVBjwDUNMb5amk2wGsW9m_4Z6CucQ@mail.gmail.com>
-X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <4b1fe488-c99f-3deb-e6f0-a67eb65b2278@nvidia.com>
-Date:   Tue, 14 May 2019 11:55:48 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>
+CC:     <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20190510084719.18902-1-josephl@nvidia.com>
+ <20190510084719.18902-6-josephl@nvidia.com>
+ <dc580a9b-4d37-ae20-888d-3956b284c43b@gmail.com>
+From:   Joseph Lo <josephl@nvidia.com>
+Message-ID: <54203d4d-aced-543e-6ebb-6ffacb7c8a85@nvidia.com>
+Date:   Tue, 14 May 2019 16:47:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqLEw+HAeqd2TD33cSVBjwDUNMb5amk2wGsW9m_4Z6CucQ@mail.gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL101.nvidia.com (172.20.187.10)
+In-Reply-To: <dc580a9b-4d37-ae20-888d-3956b284c43b@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1557815152; bh=aymdfMw16yHSs7vet1wRgqNK0BlRIZ7Ycz6RCAS99N0=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+        t=1557823689; bh=2pDfR96ft+DkHmObeX7LimIgSYODRuPau+zOD02fwpc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=aey9i1BRHiCSfhSf1vClKCQmwTvcMOR82sYIz9bKYoXRvI3vXJ/Oha8Hds/elNyEJ
-         6E7I3LEGq2Q+hHWAr6WlxEE3ubFXOb9I8WilE6OBU8E/dJumpE34n2UHeklhKy3iMw
-         HDQQpyi0ojbwzbB5Nt10qCtZa8aCAPpQDT/8Cl0SmP1id2XoCxwVKlRdJLVCBHmqQV
-         LKjZhwNPds3PjPDGsyn1rwNfOe9pkq+97sC2EiQU2L4qLYcKUCjp1Uq6FzKyfUBU3+
-         OJQXPGukJJkaBw0Qg2QoRell9a16uzVDniOyvrWBukg9GbZBVbA9o9TGzSF8yVZ8n7
-         O/cob961AVKhA==
+        b=e+dJOnSHOc5lSyMjLif3L9flzVZF7VkRCma6Vq9NP8sL9qeXsttDnqKBDpVH9zep+
+         sg4j2QjNmORbgyyXYK1mOyjAIskuDCuTtKDxj0mONmo3j7r/Vi9Dso1/zgo56pl3Eb
+         xO5p3msARxfr30PhrJZYbhDrnhYo36eJKi3xrk4B0WJrrWcT2jH1pwZa2QXzkOcDer
+         y1dk9K/jgQMHcQpx8WNo9Bsyx3iT/0D/BA/zlEI3MUhZQQIjj+EoTb8Iq5KSoDwVg7
+         /Ewv5T687dhkWU48rVnJtNbZmP0pOSsp/eoY9wudqW/xdLreBOdNGXdFfRZnoFE3ai
+         aIW0xf+EP8T2Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 5/13/2019 8:50 PM, Rob Herring wrote:
-> On Tue, May 7, 2019 at 4:20 AM Vidya Sagar <vidyas@nvidia.com> wrote:
+On 5/14/19 1:02 AM, Dmitry Osipenko wrote:
+> 10.05.2019 11:47, Joseph Lo =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> This patch adds the required APIs and variables for the EMC scaling
+>> sequence code on Tegra210.
 >>
->> On 4/26/2019 9:13 PM, Rob Herring wrote:
->>> On Wed, Apr 24, 2019 at 10:49:58AM +0530, Vidya Sagar wrote:
->>>> Add support for Tegra194 PCIe controllers. These controllers are based
->>>> on Synopsys DesignWare core IP.
->>>>
->>>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
->>>> ---
-> 
->>>> +- nvidia,bpmp: Must contain a phandle to BPMP controller node.
->>>> +- nvidia,controller-id : Controller specific ID
->>>> +    0: C0
->>>> +    1: C1
->>>> +    2: C2
->>>> +    3: C3
->>>> +    4: C4
->>>> +    5: C5
->>>
->>> We don't normal put device indexes into DT. Why do you need this.
->>> Perhaps for accessing the BPMP? If so, make nvidia,bpmp a phandle+cell.
->> BPMP needs to know the controller number to enable it hence it needs to be
->> passed to BPMP. Just for accessing BPMP, I already added 'nvidia,bpmp' property.
-> 
-> Then make nvidia,bpmp take the phandle and this number.
-Ok. I'll take care of it in next patch series.
+>> Based on the work of Peter De Schrijver <pdeschrijver@nvidia.com>.
+>>
+>> Signed-off-by: Joseph Lo <josephl@nvidia.com>
+>> ---
+snip.
+>> +void do_clock_change(struct tegra_emc *emc, u32 clksrc)
+>> +{
+>> +	int err;
+>> +
+>> +	mc_readl(emc->mc, MC_EMEM_ADR_CFG);
+>> +	emc_readl(emc, EMC_INTSTATUS);
+>> +
+>> +	tegra210_clk_emc_update_setting(clksrc);
+>> +
+>> +	err =3D wait_for_update(emc, EMC_INTSTATUS,
+>> +			      EMC_INTSTATUS_CLKCHANGE_COMPLETE, true, REG_EMC);
+>> +	if (err) {
+>> +		pr_err("%s: clock change completion error: %d", __func__, err);
+>> +		WARN_ON(1);
+>> +	}
+>> +}
+>> +
+>> +struct emc_table *get_timing_from_freq(struct tegra_emc *emc,
+>> +				       unsigned long rate)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i =3D 0; i < emc->emc_table_size; i++)
+>> +		if (emc->emc_table[i].rate =3D=3D rate)
+>> +			return &emc->emc_table[i];
+>> +
+>> +	return NULL;
+>> +}
+>> +
+>> +int wait_for_update(struct tegra_emc *emc, u32 status_reg, u32 bit_mask=
+,
+>> +		    bool updated_state, int chan)
+>> +{
+>=20
+> This and all other global functions have very generic names. Either
+> squash it all into a single source file and make all functions static,
+> or change the names to something more unique.
+>=20
 
-> 
-> 
->>>> +- nvidia,disable-aspm-states: Controls advertisement of ASPM states
->>>> +    bit-0 to '1': Disables advertisement of ASPM-L0s
->>>> +    bit-1 to '1': Disables advertisement of ASPM-L1. This also disables
->>>> +                   advertisement of ASPM-L1.1 and ASPM-L1.2
->>>> +    bit-2 to '1': Disables advertisement of ASPM-L1.1
->>>> +    bit-3 to '1': Disables advertisement of ASPM-L1.2
->>>
->>> Can't this cover what 'supports-clkreq' does?
->> Well, they are related partially. i.e. if a platform doesn't have 'supports-clkreq' set,
->> then, by definition, it can't advertise support for ASPM L1.1 and L1.2 states. But, ASPM-L0s
->> and ASPM-L1 states don't depend on 'supports-clkreq' property.
->> Having this property gives more granularity as to support for which particular ASPM state
->> shouldn't be advertised by the root port.
-> 
-> Okay, then it should be a common property then.
-I'm planning to remove this given we have sysfs way (Heiner's patch series @
-http://patchwork.ozlabs.org/project/linux-pci/list/?series=107392 to control which ASPM states
-can be enabled run time. In case if that is not going to work for a given use case, I'll push
-patches separately for controlling ASPM states advertisement/working.
+Okay, will fix it.
 
-> 
-> Rob
-> 
-
+Thanks,
+Joseph
