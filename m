@@ -2,111 +2,160 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21DF61CFB3
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 May 2019 21:13:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B945D1E8CE
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 09:17:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726422AbfENTN1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 May 2019 15:13:27 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:33238 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726036AbfENTN0 (ORCPT
+        id S1725933AbfEOHR0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 May 2019 03:17:26 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:2339 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725871AbfEOHR0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 May 2019 15:13:26 -0400
-Received: by mail-lf1-f68.google.com with SMTP id x132so83305lfd.0;
-        Tue, 14 May 2019 12:13:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=BbR9Yrok2+r2iuSrKXyCdVxdVyCF4DRzoDzjudqSfhs=;
-        b=Yy4gZZjwjJJL96M9LqthkzzzWTHN4Io+F8xLcItoTr4/Um5vZiAIr6E+glB340PTT8
-         L9b9U1YC4gEvcYbJcs/i62APNBZP5dKdvn7H4Q6Ot7lxn3hMrKFT34ycFROM8Bjm4ZKN
-         evgIPQY8PEeaLZM7e/mRLTzIgCekVbWlGDvvuUE8s9DU5xxPgkmw8wyoy4t2hPJ0lTYp
-         wr+ao2gipTZ4NbA8lAb697F8YzfWzUkQCoGMVETA9+y4VqSg93KjdEvlDhHthF3O5yE2
-         AtDfflLbwtdR15cQf7By5X/YImbk42qKmkI8bnlCiyhmhkn7PhGdnotDqxd/UmhRe67U
-         VCLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=BbR9Yrok2+r2iuSrKXyCdVxdVyCF4DRzoDzjudqSfhs=;
-        b=X8AVmdCRqwS0S6pY34braDtgK0rL+mQ63OSGjFSmRn9gg6pghxAPMwmGdcB12O5v0c
-         /AgTpNtO8z63uv8+khJzUjwNhqpVOVHjQQC4Lkr0Z6HlwadkfMF5BaAQQx/UHjCiOScz
-         ufLEMzt44vvVJD41v22Rjcctl9JtVV1El0QXCoOR+U6IXwrYjm0djFdgy8JwonogJFE8
-         S+Z14AgLbKzjmb/boSU/VkLbJEgwwGvJuGRPl65TwQmsHf1BCTBL45uUlJRzRu3f6p1J
-         4ilFRzrtf9X16FViF3lqJ2z1Ph0KO4PhFaLzZHh0P4JNvY8qTCOINIacGazpEEV3NFQN
-         00WA==
-X-Gm-Message-State: APjAAAX1jARxCYxkecP4rXbytPLl9tzXTGINvpyHvyxwJIAaDOrHj/TZ
-        dRx7p6oFmqLT2+q2825oMMyblGIm
-X-Google-Smtp-Source: APXvYqwjGA+6FKnifsb5grJr693AVLfaeSckMZG5ZsXPoEQ/sbIwaQj3WiG1KpI+c0W8Zge5/da5tw==
-X-Received: by 2002:ac2:5986:: with SMTP id w6mr18939816lfn.147.1557861204485;
-        Tue, 14 May 2019 12:13:24 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
-        by smtp.googlemail.com with ESMTPSA id b15sm3843192ljj.1.2019.05.14.12.13.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 May 2019 12:13:23 -0700 (PDT)
-Subject: Re: [RFC PATCH v1 5/6] soc/tegra: regulators: Add regulators coupler
- for Tegra20
-To:     Mark Brown <broonie@kernel.org>,
+        Wed, 15 May 2019 03:17:26 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cdbbcd60000>; Wed, 15 May 2019 00:16:39 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 15 May 2019 00:17:19 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 15 May 2019 00:17:19 -0700
+Received: from [10.19.108.132] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 May
+ 2019 07:17:16 +0000
+Subject: Re: [PATCH V3 1/8] dt-bindings: memory: tegra: Add external memory
+ controller binding for Tegra210
+To:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190414175939.12368-1-digetx@gmail.com>
- <20190414175939.12368-6-digetx@gmail.com>
- <20190508075706.GW14916@sirena.org.uk>
- <9756d8ca-0778-5185-5b6b-3168d63819ec@gmail.com>
- <20190512090627.GO21483@sirena.org.uk>
- <586b4f29-1937-2d7b-3944-c29311502878@gmail.com>
- <20190513173816.GG5168@sirena.org.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b7bd37d4-471a-4c31-f561-8d4eb89519a4@gmail.com>
-Date:   Tue, 14 May 2019 22:12:45 +0300
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>
+CC:     <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20190510084719.18902-1-josephl@nvidia.com>
+ <20190510084719.18902-2-josephl@nvidia.com>
+ <fd68f906-79b4-6eda-b1fa-abaf3b4c6a12@gmail.com>
+From:   Joseph Lo <josephl@nvidia.com>
+Message-ID: <63360b18-6a17-ab3f-6c54-6e11e24885d0@nvidia.com>
+Date:   Wed, 15 May 2019 15:17:10 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190513173816.GG5168@sirena.org.uk>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <fd68f906-79b4-6eda-b1fa-abaf3b4c6a12@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1557904599; bh=rvmmtMaDz2XaVLEijpVuOgwxP0IUeQ7iihHR6HcMzMU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=a2qSGk4gKxUaZ3GAI9557ok/St7di3j7E+S/1xLLPItkQWok5/yNI9bIcGgy1oPWt
+         flKon0UEMX/TARGfN54tRSRDgwsEIbXiM9nCsZxipiYytw7oG0OX58Q4q4NMsofplv
+         ygRbceZlgrjJl1A65JLdfdMgTOlyYGgSubSOCLiHxLsHIqLmh4ZNBbYuDXMVmC30k4
+         p/XtllqlZ4GwIWGalS/ZYWgrwk+2FJUa0joB37Tr91SjdhcFTv3Nqlxl1HNq3+SKdd
+         sKeE/tsAbvBRst/mOT0Gir54nk+rgr5ylnuIqFOgMwwGm69E+ZfpFcOezckDHatz2s
+         U2jnfk4YYjXKw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.05.2019 20:38, Mark Brown пишет:
-> On Sun, May 12, 2019 at 08:42:39PM +0300, Dmitry Osipenko wrote:
->> 12.05.2019 12:06, Mark Brown пишет:
-> 
->>> This seems like it should be easy enough to describe - we just need
->>> minimum and maximum spreads between pairs of rails.
-> 
->> Yes, but the proper CORE/RTC minimum voltages shall be maintained until
->> all drivers will get support for the voltage management, which likely to
->> take a lot of time to get upstreamed. So I'd want to get at least some
->> basics working for the start, later on it should be possible to consider
->> generalization of the regulators coupling. Mark, are you okay with
->> having the custom regulators coupler as an interim solution?
-> 
-> Let me think about it.  Interim solutions have this habit of hanging
-> around and the bit with needing to get all the drivers loaded is very
-> much an open and substantial question...  :/  Definitely not something
-> I'd close the door on at this point though.
-> 
+On 5/15/19 12:28 AM, Dmitry Osipenko wrote:
+> 10.05.2019 11:47, Joseph Lo =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> Add the binding document for the external memory controller (EMC) which
+>> communicates with external LPDDR4 devices. It includes the bindings of
+>> the EMC node and a sub-node of EMC table which under the reserved memory
+>> node. The EMC table contains the data of the rates that EMC supported.
+>>
+>> Signed-off-by: Joseph Lo <josephl@nvidia.com>
+>> ---
+>> v3:
+>> - drop the bindings of EMC table
+>> - add memory-region and reserved-memory node for EMC table
+>> ---
+>>   .../nvidia,tegra210-emc.txt                   | 55 +++++++++++++++++++
+>>   1 file changed, 55 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/memory-controller=
+s/nvidia,tegra210-emc.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia=
+,tegra210-emc.txt b/Documentation/devicetree/bindings/memory-controllers/nv=
+idia,tegra210-emc.txt
+>> new file mode 100644
+>> index 000000000000..d65aeef2329c
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra2=
+10-emc.txt
+>> @@ -0,0 +1,55 @@
+>> +NVIDIA Tegra210 SoC EMC (external memory controller)
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+>> +
+>> +Device node
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +Required properties :
+>> +- compatible : should be "nvidia,tegra210-emc".
+>> +- reg : physical base address and length of the controller's registers.
+>> +- clocks : phandles of the possible source clocks.
+>> +- clock-names : names of the possible source clocks.
+>> +- interrupts : Should contain the EMC general interrupt.
+>> +- memory-region : phandle to the reserved memory (see
+>> +  Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt=
+) which
+>> +  contains a sub-node of EMC table.
+>> +- nvidia,memory-controller : phandle of the memory controller.
+>> +
+>> +Reserved memory node
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +Should contain a sub-node of EMC table with required properties:
+>> +- compatible : should be "nvidia,tegra210-emc-table".
+>> +- reg : physical address and length of the location of EMC table.
+>> +
+>> +Example:
+>> +	reserved-memory {
+>> +		#address-cells =3D <2>;
+>> +		#size-cells =3D <2>;
+>> +		ranges;
+>> +
+>> +		emc_table: emc-table@8be00000 {
+>> +			compatible =3D "nvidia,tegra210-emc-table";
+>> +			reg =3D <0x0 0x8be00000 0x0 0x10000>;
+>> +			status =3D "okay";
+>> +		};
+>=20
+> You essentially moved the v1 binding into obscure and undocumented blob,
+> ignoring previous review comments. This is a very odd move... please
+> explain what is going on.
+>=20
 
-This one has a good chance to stick around for a substantial time.
+Discussed with Thierry offline which way we prefer to pass the EMC table=20
+to the kernel. Some reasons below we decide to chose this one (via=20
+binary blob).
 
-Realistically I see two variants right now:
+- The EMC table is much bigger than the previous Tegra generations=20
+(LPDDR4 v.s. LPDDR2/3). It's harder to settle in the review process. And=20
+if there is a new fix of the table in the future, we'll need to go=20
+through that again.
+- Because it's LPDDR4 we want to support here, to support higher rates,=20
+the devices have must be gone through the training process, which is=20
+done in the firmware. Which means We already have the table somewhere in=20
+the memory and kernel can just re-use that. No need to convert them back=20
+to DT and pass to the kernel. This is much easier to maintain in the=20
+future if there is something needs to fix.
+- With the mechanism above, we don't need to maintain the huge EMC table=20
+in the DT file like below.
+http://patchwork.ozlabs.org/patch/1063886/
+http://patchwork.ozlabs.org/patch/1063889/
 
-  1) get at least some basics to work (regulators coupling, CPUFreq
-voltage managing) and then continue step-by-step
+And sorry, maybe it's not clear at that moment, but I did mention that=20
+we want to go with the new method (via binary blob) in the previous review.
+Please see http://patchwork.ozlabs.org/patch/1084467/
 
-  2) give up on it all in upstream because likely that an immediate
-complete solution will take just too much time and effort for a one
-person to cope (I have other things to do as well)
-
-Mark, I'm glad that you're not strongly opposed. Will prepare  v2.
-
-If anyone else has something to say, please don't shy.
+Thanks,
+Joseph
