@@ -2,200 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 781FA1F4C2
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 14:47:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07B171F53E
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 15:14:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbfEOMq4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 May 2019 08:46:56 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:33801 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726773AbfEOMqz (ORCPT
+        id S1727357AbfEONOv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 May 2019 09:14:51 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:42842 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726752AbfEONOv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 May 2019 08:46:55 -0400
-Received: by mail-pl1-f194.google.com with SMTP id w7so1310643plz.1
-        for <linux-tegra@vger.kernel.org>; Wed, 15 May 2019 05:46:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=b3HyjACi/MsUUs/bdvxi48Ab6BnFJ6ZhEKEib98a4qc=;
-        b=Xql7xL76UlYG2HgQrNw2rS48dkmsc4mtYUzCNuPcx9exYI1ZmEu7lZqz2wZCRpSq5N
-         P/62eA1WGojofeojjMEVVfykGFGMoC0h24yl2IGMP+MMD6n/+9xLNayyFAwmk67CqnR1
-         m8FLpulEhu3q1K43A5KpMSgYNY/9ZQFxlv1sLLC+Y4jO+Ip0fUJakXQ0r3SGBP8eKC6y
-         8c8qARg+kB1bO3KBeiRnMVlAPDwWif2wtpKXbjbo5qVDDAOu6rngr7KYzRQuR7hO5Gmh
-         lcl5CLLB06Ib9xN7L7Nu/HtKO3R428g2WTFCp36Qq7GME8YG4fu4z4pF+aWoLIZ6h2KQ
-         NZMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=b3HyjACi/MsUUs/bdvxi48Ab6BnFJ6ZhEKEib98a4qc=;
-        b=BBXT2tTZPwumxuPq4iL3sMNJcLQShO6lQ0wRiJGPw5LiMVdY1PITuyL+YF/g/jeYJp
-         gBgAJ5uePsmr394d0pQa4w1GcHTwybAV5aQXQJc04yiJL/DJ564kdywS1UMer8jj8jEO
-         tUEjlTLDfGsushpSZgDrWuC8B5OSkrlXpDdIbDZ86F8YuPWDiZLDPI3n1/g2esOhFBGD
-         XVaAkkuDuSLt53KekqeVbLTvlKGQ63nj6jLOKYE3KZhBWCGsOGpONSOnCA8xG1kc5u35
-         j4I6+PTpm3HhVUAOb9pies6fbiOXjDMSnUb+QCzoRIaGx0PZiWsWcnFq73xe2w5PTFmm
-         +Bew==
-X-Gm-Message-State: APjAAAUWjwe/V4JpxqXOtW7azOT8J4keVGmgmVY2+Vc8lOjvUCtk5q4J
-        ohFDKNMs/QdOk1XzmZJhE4+tI2hsM0TfDEMTkBRW4A==
-X-Google-Smtp-Source: APXvYqwTSlq+glzh8dvBA9RnhTgkzA0FJBG+kmyFPUzc3vgEhgrnY6HSdtm+CvmJk20OFdPWunOILeeGu3jijFHRxb0=
-X-Received: by 2002:a17:902:4181:: with SMTP id f1mr22625568pld.22.1557924414679;
- Wed, 15 May 2019 05:46:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190506185207.31069-1-tmurphy@arista.com> <20190506185207.31069-3-tmurphy@arista.com>
- <20190507064000.GB5173@infradead.org>
-In-Reply-To: <20190507064000.GB5173@infradead.org>
-From:   Tom Murphy <tmurphy@arista.com>
-Date:   Wed, 15 May 2019 13:46:43 +0100
-Message-ID: <CAPL0++5AUyVHexpsE86PfXxmQgDHfxjSSoAAGXM5c7Mdix=OZQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] iommu/dma-iommu: Handle deferred devices
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     iommu@lists.linux-foundation.org, Tom Murphy <murphyt7@tcd.ie>,
-        Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Wed, 15 May 2019 09:14:51 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4FDEYE5098121;
+        Wed, 15 May 2019 13:14:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type : in-reply-to;
+ s=corp-2018-07-02; bh=0DM8Zd/vrI5DngyCF4cDMV1bvR8ByAC+SJiy59iXGdU=;
+ b=UDJwuWe6GzN/hxoJ1yY3K3fVGNwGMX98k6CqjToCOyjDmC3VkKmt4TBVYbvtRso8DhbE
+ +H6cdxzNYPJ20RMvgbcuT9UYCitCTX3W2yzFmv28oS44ia0VA0bZdH1DuwiZ0dPhf9mY
+ 8BhwoQRhmrx+NE9aOef++YJRQZGZPSpgtzjgPYmHQzlvvCS8RUgedcVaRw20f3e0RCEi
+ gAjvDV3ZTm9kM324q9XGsSlRL3m7+82w+sBKXSRZ5Em69YrNqgrWzckR6BHCchFvQ3TU
+ 2Tt2pU7MT4JIqZEQjW/fIoc1EiJKeqRLhCSPJNpww/o/u0s6TlWztpbrNngOuylH8zaq WA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2130.oracle.com with ESMTP id 2sdkwdvvfm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 15 May 2019 13:14:45 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4FDDLY4079773;
+        Wed, 15 May 2019 13:14:45 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3020.oracle.com with ESMTP id 2sgk76ga31-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 15 May 2019 13:14:45 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4FDEhBX017295;
+        Wed, 15 May 2019 13:14:43 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 15 May 2019 06:14:42 -0700
+Date:   Wed, 15 May 2019 16:14:34 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Adrian Hunter <adrian.hunter@intel.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH v2] mmc: tegra: Fix a warning message
+Message-ID: <20190515131434.GA18205@mwanda>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPDyKFpm9dB55aCUQkDHgyfcJdniNG9jCbdQ4ezYgQ=L8Rxfhw@mail.gmail.com>
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9257 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905150084
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9257 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905150085
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-like this?
+The WARN_ON() macro takes a condition, not a warning message.  Really,
+this should probably be dev_warn_once().
 
-In that case we need to add a call to iommu_dma_alloc_remap.
-
-From 862aeebb601008cf863e3aff4ff8ed7cefebeefa Mon Sep 17 00:00:00 2001
-From: Tom Murphy <tmurphy@tmurphy-419tom-0.sjc.aristanetworks.com>
-Date: Wed, 15 May 2019 05:43:25 -0700
-Subject: [PATCH] iommu/dma-iommu: Handle deferred devices
-
-Handle devices which defer their attach to the iommu in the dma-iommu api
-
-Signed-off-by: Tom Murphy <tmurphy@arista.com>
+Fixes: ea8fc5953e8b ("mmc: tegra: update hw tuning process")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
- drivers/iommu/dma-iommu.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+v2: Use dev_warn_once()
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 7f313cfa9..a48ae906d 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -22,6 +22,7 @@
- #include <linux/pci.h>
- #include <linux/scatterlist.h>
- #include <linux/vmalloc.h>
-+#include <linux/crash_dump.h>
+ drivers/mmc/host/sdhci-tegra.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- struct iommu_dma_msi_page {
-     struct list_head    list;
-@@ -323,6 +324,21 @@ static int iommu_dma_init_domain(struct
-iommu_domain *domain, dma_addr_t base,
-     return iova_reserve_iommu_regions(dev, domain);
- }
-
-+static int handle_deferred_device(struct device *dev,
-+        struct iommu_domain *domain)
-+{
-+    const struct iommu_ops *ops = domain->ops;
-+
-+    if (!is_kdump_kernel())
-+        return 0;
-+
-+    if (unlikely(ops->is_attach_deferred &&
-+            ops->is_attach_deferred(domain, dev)))
-+        return iommu_attach_device(domain, dev);
-+
-+    return 0;
-+}
-+
- /**
-  * dma_info_to_prot - Translate DMA API directions and attributes to IOMMU API
-  *                    page flags.
-@@ -432,6 +448,9 @@ static dma_addr_t __iommu_dma_map(struct device
-*dev, phys_addr_t phys,
-     size_t iova_off = 0;
-     dma_addr_t iova;
-
-+    if (unlikely(handle_deferred_device(dev, domain)))
-+        return DMA_MAPPING_ERROR;
-+
-     if (cookie->type == IOMMU_DMA_IOVA_COOKIE) {
-         iova_off = iova_offset(&cookie->iovad, phys);
-         size = iova_align(&cookie->iovad, size + iova_off);
-@@ -609,6 +628,9 @@ static void *iommu_dma_alloc_remap(struct device
-*dev, size_t size,
-     dma_addr_t iova;
-     void *vaddr;
-
-+    if (unlikely(handle_deferred_device(dev, domain)))
-+        return DMA_MAPPING_ERROR;
-+
-     *dma_handle = DMA_MAPPING_ERROR;
-
-     min_size = alloc_sizes & -alloc_sizes;
-@@ -836,7 +858,7 @@ static dma_addr_t iommu_dma_map_page(struct device
-*dev, struct page *page,
-     bool coherent = dev_is_dma_coherent(dev);
-     dma_addr_t dma_handle;
-
--    dma_handle =__iommu_dma_map(dev, phys, size,
-+    dma_handle = __iommu_dma_map(dev, phys, size,
-             dma_info_to_prot(dir, coherent, attrs),
-             iommu_get_dma_domain(dev));
-     if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
-@@ -954,6 +976,9 @@ static int iommu_dma_map_sg(struct device *dev,
-struct scatterlist *sg,
-     unsigned long mask = dma_get_seg_boundary(dev);
-     int i;
-
-+    if (unlikely(handle_deferred_device(dev, domain)))
-+        return 0;
-+
-     if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-         iommu_dma_sync_sg_for_device(dev, sg, nents, dir);
-
+diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+index f608417ae967..fc07970acaf5 100644
+--- a/drivers/mmc/host/sdhci-tegra.c
++++ b/drivers/mmc/host/sdhci-tegra.c
+@@ -865,7 +865,8 @@ static void tegra_sdhci_tap_correction(struct sdhci_host *host, u8 thd_up,
+ 	}
+ 
+ 	if (!first_fail) {
+-		WARN_ON("no edge detected, continue with hw tuned delay.\n");
++		dev_warn_once(mmc_dev(host->mmc),
++			      "no edge detected, continue with hw tuned delay.\n");
+ 	} else if (first_pass) {
+ 		/* set tap location at fixed tap relative to the first edge */
+ 		edge1 = first_fail_tap + (first_pass_tap - first_fail_tap) / 2;
 -- 
-2.20.0
+2.20.1
 
-On Tue, May 7, 2019 at 7:40 AM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Mon, May 06, 2019 at 07:52:04PM +0100, Tom Murphy wrote:
-> > +static int handle_deferred_device(struct device *dev)
-> > +{
-> > +     struct iommu_domain *domain;
-> > +     const struct iommu_ops *ops;
-> > +
-> > +     if (!is_kdump_kernel())
-> > +             return 0;
-> > +
-> > +     domain = iommu_get_domain_for_dev(dev);
->
-> > -     dma_handle =__iommu_dma_map(dev, phys, size,
-> > +     if (unlikely(handle_deferred_device(dev)))
-> > +             return DMA_MAPPING_ERROR;
-> > +
-> > +     dma_handle = __iommu_dma_map(dev, phys, size,
->
-> __iommu_dma_map already looks up the domain, and as far as I can
-> tell all callers need the handle_deferred_device call.  Should we
-> just move it to there and pass the domain from the caller?
->
-> Also shouldn't the iommu_attach_device call inside
-> handle_deferred_device also get an unlikely marker?
