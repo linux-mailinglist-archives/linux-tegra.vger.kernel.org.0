@@ -2,102 +2,184 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B171F53E
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 15:14:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 343631F5F4
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 15:51:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727357AbfEONOv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 May 2019 09:14:51 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:42842 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726752AbfEONOv (ORCPT
+        id S1726635AbfEONvQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 May 2019 09:51:16 -0400
+Received: from mail-it1-f193.google.com ([209.85.166.193]:52827 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725953AbfEONvP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 May 2019 09:14:51 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4FDEYE5098121;
-        Wed, 15 May 2019 13:14:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2018-07-02; bh=0DM8Zd/vrI5DngyCF4cDMV1bvR8ByAC+SJiy59iXGdU=;
- b=UDJwuWe6GzN/hxoJ1yY3K3fVGNwGMX98k6CqjToCOyjDmC3VkKmt4TBVYbvtRso8DhbE
- +H6cdxzNYPJ20RMvgbcuT9UYCitCTX3W2yzFmv28oS44ia0VA0bZdH1DuwiZ0dPhf9mY
- 8BhwoQRhmrx+NE9aOef++YJRQZGZPSpgtzjgPYmHQzlvvCS8RUgedcVaRw20f3e0RCEi
- gAjvDV3ZTm9kM324q9XGsSlRL3m7+82w+sBKXSRZ5Em69YrNqgrWzckR6BHCchFvQ3TU
- 2Tt2pU7MT4JIqZEQjW/fIoc1EiJKeqRLhCSPJNpww/o/u0s6TlWztpbrNngOuylH8zaq WA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 2sdkwdvvfm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 15 May 2019 13:14:45 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4FDDLY4079773;
-        Wed, 15 May 2019 13:14:45 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 2sgk76ga31-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 15 May 2019 13:14:45 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4FDEhBX017295;
-        Wed, 15 May 2019 13:14:43 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 15 May 2019 06:14:42 -0700
-Date:   Wed, 15 May 2019 16:14:34 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Adrian Hunter <adrian.hunter@intel.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Wed, 15 May 2019 09:51:15 -0400
+Received: by mail-it1-f193.google.com with SMTP id q65so196840itg.2;
+        Wed, 15 May 2019 06:51:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=p/y8JRassq6ldagHFCRqos7/WsoBIbYVcLzev7Ry3W8=;
+        b=KaHZE40aR03wi9RLD9spGr5b93BbQ5DubEQrkywFhVa/nXaUR1JKUW8uo9C3F/L4cf
+         5GRSuGcX6WUjHS72cONwr20aOHsj/qpk/0knlB/TCTMnD1u7F6+VB8A+388jl/AUuEd0
+         pF3fcsHPPc7HU3fF/KFu01x7DWvRFlJwiPbmtlAdUKaRERF9t06ihbQnLpa1TRBADuae
+         R+upDTYboIUgtTjOb4E77GIR9OBSjlu/SO2YVW33vbZLBY5HF+1+b/mJAUgjp9QlcZlJ
+         Sf1SVNMNjb4Gm3WPRdniVtcdObc/IQyzSBx3W1+HfnGYWQq9MwMYQp7GpfUEh22jkXg4
+         kmmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=p/y8JRassq6ldagHFCRqos7/WsoBIbYVcLzev7Ry3W8=;
+        b=YRc8Teo8NlUcmksobpM3nPQi0LLgzao7UYYSLIp+6qExbYisLM9Fyan6nBGWnEFLal
+         C7PJ9VZNWuBS5E/St4D+e1T7hXeGCrDWeq0uY1aR3/sJ8VD03BPQVyixAXgVKtAYrkjQ
+         /Xu8Y5OHThleKoPtTkfWBXdRxLTt1YTl4pXt42Tp0VZqGCjiVet9fivQxkJvwxzoPAXo
+         /r0P+aQNZW72iasIDCRVXQiMk+TSH9XdYKvtbtPGMCIazGE0NSVs7dFvbdytXnz1Gu3o
+         LQV16Xp7wsTeaIFuogquuvY6Kp5FdfGPgKGNac9e4vbxrxPFy964bcH2ngPrfYU14fOp
+         bfFg==
+X-Gm-Message-State: APjAAAVz4Lucposd2PDI4r+08nl8rbNI41d+7etR5daemDYfxIv3sq4/
+        7rGaUcRDLcuXOEgBUIzqNTY=
+X-Google-Smtp-Source: APXvYqyUdVq7O/jGC2ASOLVYVe+9UfE6Gezo9Pbls9Qhpg3DCNcoBRXv/sg0AXqtNZTG2PeckYWVYg==
+X-Received: by 2002:a02:c8da:: with SMTP id q26mr28090176jao.0.1557928274570;
+        Wed, 15 May 2019 06:51:14 -0700 (PDT)
+Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.googlemail.com with ESMTPSA id q16sm615991ior.75.2019.05.15.06.51.11
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 May 2019 06:51:13 -0700 (PDT)
+Subject: Re: [PATCH V3 1/8] dt-bindings: memory: tegra: Add external memory
+ controller binding for Tegra210
+To:     Joseph Lo <josephl@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH v2] mmc: tegra: Fix a warning message
-Message-ID: <20190515131434.GA18205@mwanda>
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20190510084719.18902-1-josephl@nvidia.com>
+ <20190510084719.18902-2-josephl@nvidia.com>
+ <fd68f906-79b4-6eda-b1fa-abaf3b4c6a12@gmail.com>
+ <63360b18-6a17-ab3f-6c54-6e11e24885d0@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <c3909c66-5aa4-161b-98d4-02ad20e02c88@gmail.com>
+Date:   Wed, 15 May 2019 16:50:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFpm9dB55aCUQkDHgyfcJdniNG9jCbdQ4ezYgQ=L8Rxfhw@mail.gmail.com>
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9257 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905150084
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9257 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1905150085
+In-Reply-To: <63360b18-6a17-ab3f-6c54-6e11e24885d0@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The WARN_ON() macro takes a condition, not a warning message.  Really,
-this should probably be dev_warn_once().
+15.05.2019 10:17, Joseph Lo пишет:
+> On 5/15/19 12:28 AM, Dmitry Osipenko wrote:
+>> 10.05.2019 11:47, Joseph Lo пишет:
+>>> Add the binding document for the external memory controller (EMC) which
+>>> communicates with external LPDDR4 devices. It includes the bindings of
+>>> the EMC node and a sub-node of EMC table which under the reserved memory
+>>> node. The EMC table contains the data of the rates that EMC supported.
+>>>
+>>> Signed-off-by: Joseph Lo <josephl@nvidia.com>
+>>> ---
+>>> v3:
+>>> - drop the bindings of EMC table
+>>> - add memory-region and reserved-memory node for EMC table
+>>> ---
+>>>   .../nvidia,tegra210-emc.txt                   | 55 +++++++++++++++++++
+>>>   1 file changed, 55 insertions(+)
+>>>   create mode 100644
+>>> Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.txt
+>>>
+>>>
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.txt
+>>> b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.txt
+>>>
+>>> new file mode 100644
+>>> index 000000000000..d65aeef2329c
+>>> --- /dev/null
+>>> +++
+>>> b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra210-emc.txt
+>>>
+>>> @@ -0,0 +1,55 @@
+>>> +NVIDIA Tegra210 SoC EMC (external memory controller)
+>>> +====================================================
+>>> +
+>>> +Device node
+>>> +===========
+>>> +Required properties :
+>>> +- compatible : should be "nvidia,tegra210-emc".
+>>> +- reg : physical base address and length of the controller's registers.
+>>> +- clocks : phandles of the possible source clocks.
+>>> +- clock-names : names of the possible source clocks.
+>>> +- interrupts : Should contain the EMC general interrupt.
+>>> +- memory-region : phandle to the reserved memory (see
+>>> + 
+>>> Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt) which
+>>>
+>>> +  contains a sub-node of EMC table.
+>>> +- nvidia,memory-controller : phandle of the memory controller.
+>>> +
+>>> +Reserved memory node
+>>> +====================
+>>> +Should contain a sub-node of EMC table with required properties:
+>>> +- compatible : should be "nvidia,tegra210-emc-table".
+>>> +- reg : physical address and length of the location of EMC table.
+>>> +
+>>> +Example:
+>>> +    reserved-memory {
+>>> +        #address-cells = <2>;
+>>> +        #size-cells = <2>;
+>>> +        ranges;
+>>> +
+>>> +        emc_table: emc-table@8be00000 {
+>>> +            compatible = "nvidia,tegra210-emc-table";
+>>> +            reg = <0x0 0x8be00000 0x0 0x10000>;
+>>> +            status = "okay";
+>>> +        };
+>>
+>> You essentially moved the v1 binding into obscure and undocumented blob,
+>> ignoring previous review comments. This is a very odd move... please
+>> explain what is going on.
+>>
+> 
+> Discussed with Thierry offline which way we prefer to pass the EMC table
+> to the kernel. Some reasons below we decide to chose this one (via
+> binary blob).
+> 
+> - The EMC table is much bigger than the previous Tegra generations
+> (LPDDR4 v.s. LPDDR2/3). It's harder to settle in the review process. And
+> if there is a new fix of the table in the future, we'll need to go
+> through that again.
 
-Fixes: ea8fc5953e8b ("mmc: tegra: update hw tuning process")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-v2: Use dev_warn_once()
+I don't think that this a very good excuse for not documenting the
+blob's structure.
 
- drivers/mmc/host/sdhci-tegra.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> - Because it's LPDDR4 we want to support here, to support higher rates,
+> the devices have must be gone through the training process, which is
+> done in the firmware. Which means We already have the table somewhere in
+> the memory and kernel can just re-use that. No need to convert them back
+> to DT and pass to the kernel. This is much easier to maintain in the
+> future if there is something needs to fix.
+> - With the mechanism above, we don't need to maintain the huge EMC table
+> in the DT file like below.
+> http://patchwork.ozlabs.org/patch/1063886/
+> http://patchwork.ozlabs.org/patch/1063889/
 
-diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-index f608417ae967..fc07970acaf5 100644
---- a/drivers/mmc/host/sdhci-tegra.c
-+++ b/drivers/mmc/host/sdhci-tegra.c
-@@ -865,7 +865,8 @@ static void tegra_sdhci_tap_correction(struct sdhci_host *host, u8 thd_up,
- 	}
- 
- 	if (!first_fail) {
--		WARN_ON("no edge detected, continue with hw tuned delay.\n");
-+		dev_warn_once(mmc_dev(host->mmc),
-+			      "no edge detected, continue with hw tuned delay.\n");
- 	} else if (first_pass) {
- 		/* set tap location at fixed tap relative to the first edge */
- 		edge1 = first_fail_tap + (first_pass_tap - first_fail_tap) / 2;
--- 
-2.20.1
+The blob's EMC table contains stuff specific to downstream kernel, hence
+it's a not very re-usable downstream software ABI mixed with HW
+description that you're bringing into upstream. This is not very
+welcomed, although I don't see it as a big problem if you'll state that
+all clearly in the commit message with a solid explanation why it is the
+best possible option.
 
+> And sorry, maybe it's not clear at that moment, but I did mention that
+> we want to go with the new method (via binary blob) in the previous review.
+> Please see http://patchwork.ozlabs.org/patch/1084467/
+
+Okay. It will be better if the discussion happened publicly, at least I
+hope that Rob is involved in it.
