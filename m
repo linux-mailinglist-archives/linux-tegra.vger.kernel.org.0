@@ -2,93 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFFC41EAA0
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 11:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A76E01EB00
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 11:35:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725902AbfEOJGE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 May 2019 05:06:04 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:57980 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbfEOJGE (ORCPT
+        id S1725966AbfEOJfa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 May 2019 05:35:30 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:44818 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725871AbfEOJf3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 May 2019 05:06:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=2m8SrTRV/x1QGk297rz2AW7VmvJVYnyP18FsnHYZkM8=; b=U5x0UwHRRftnMtkU875/Vs7Q4
-        f2PAe4M8Vv5EuVXuJA8yXuK660K7XvgMbfilt49EkO6BDzAosrfhCD/IVWZFeRWOy/lhn+iyD6Y7f
-        nmgE2cpLHShoThLutqkDlpUTGf1ClbSUiosOxkvpppiwQ0qXWhGyEn/IZm0Pvsx+d0VzY=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=debutante.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpa (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hQprN-00039P-AX; Wed, 15 May 2019 09:06:01 +0000
-Received: by debutante.sirena.org.uk (Postfix, from userid 1000)
-        id 9A30F1126D5D; Wed, 15 May 2019 10:05:57 +0100 (BST)
-Date:   Wed, 15 May 2019 10:05:57 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Wed, 15 May 2019 05:35:29 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4F9Ok9c107630;
+        Wed, 15 May 2019 09:35:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2018-07-02;
+ bh=DTLu+306jeoQ71JC0Verk/5lk+Fahjkf4IY4TjYIpB8=;
+ b=zZYz42jdhC+iqrGWnQGaT5ExLVwSjdyHIJE5gWbydr7zqW/UzZu3x1mpMzr3S3lIJWVL
+ sEQRPopZdUInLckNpwWfR9RqOns4zwkaTVPXPKdrMpK6487mmEfUpkwMtVD2H0Foqxd7
+ WIVR7WbiemdWGpHZebIJldLKZY1a+5mLhuWjKTPFY9TnN69Mbiv1Ps80KgHpGIShqWII
+ hZHSSJiuLMTE8foi3bLY9r7FbgcSjKSLtpFJ77ZajcUK+F5Uwp7y5tEeNXGCnwZra//V
+ IP20zqLMnS7IpW1L4gVd9TC380psfoTR1u2l3orN5bUJaTRqrnpGPZkGd3BMlKsV3y6I nw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 2sdq1qkgx8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 15 May 2019 09:35:25 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4F9ZJUd148809;
+        Wed, 15 May 2019 09:35:24 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 2sdmebmuka-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 15 May 2019 09:35:24 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x4F9ZNE5028224;
+        Wed, 15 May 2019 09:35:23 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 15 May 2019 02:35:23 -0700
+Date:   Wed, 15 May 2019 12:35:14 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Adrian Hunter <adrian.hunter@intel.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 6/6] soc/tegra: regulators: Add regulators coupler
- for Tegra30
-Message-ID: <20190515090557.GB5613@sirena.org.uk>
-References: <20190414175939.12368-1-digetx@gmail.com>
- <20190414175939.12368-7-digetx@gmail.com>
- <20190508075848.GX14916@sirena.org.uk>
- <af6de446-ab45-1745-30e5-426c6b34421f@gmail.com>
- <20190512090446.GN21483@sirena.org.uk>
- <3988cfb6-55fe-48c4-5365-ac79871f7fd2@gmail.com>
- <20190513174000.GH5168@sirena.org.uk>
- <9e13bbd1-ff28-1570-b1a6-0cc6337b8f6c@gmail.com>
+        linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] mmc: tegra: Fix a warning message
+Message-ID: <20190515093512.GD3409@mwanda>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="TakKZr9L6Hm6aLOc"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9e13bbd1-ff28-1570-b1a6-0cc6337b8f6c@gmail.com>
-X-Cookie: You will lose an important tape file.
+X-Mailer: git-send-email haha only kidding
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9257 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905150061
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9257 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905150061
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+The WARN_ON() macro takes a condition, not a warning message.  I've
+changed this to use WARN(1, "msg...
 
---TakKZr9L6Hm6aLOc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: ea8fc5953e8b ("mmc: tegra: update hw tuning process")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/mmc/host/sdhci-tegra.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, May 14, 2019 at 09:30:05PM +0300, Dmitry Osipenko wrote:
-> 13.05.2019 20:40, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+index f608417ae967..10d7aaf68bab 100644
+--- a/drivers/mmc/host/sdhci-tegra.c
++++ b/drivers/mmc/host/sdhci-tegra.c
+@@ -865,7 +865,7 @@ static void tegra_sdhci_tap_correction(struct sdhci_host *host, u8 thd_up,
+ 	}
+ 
+ 	if (!first_fail) {
+-		WARN_ON("no edge detected, continue with hw tuned delay.\n");
++		WARN(1, "no edge detected, continue with hw tuned delay.\n");
+ 	} else if (first_pass) {
+ 		/* set tap location at fixed tap relative to the first edge */
+ 		edge1 = first_fail_tap + (first_pass_tap - first_fail_tap) / 2;
+-- 
+2.20.1
 
-> > The thing with OPPs is that they specify a whole table of values that
-> > work together including regulator settings, the result being that you
-> > have many fewer options but don't need to think about constraints.
-
-> I'm afraid this is just a way of abusing the OPP's. I actually already
-
-There's nothing wrong with handling regulators in an OPP, that's a
-totally normal thing.
-
---TakKZr9L6Hm6aLOc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzb1nQACgkQJNaLcl1U
-h9B+uAf+ICo1YFwIDtc0IRXVChQYg8IxHaOtl3E0HssgAOIT+MbeRs+M+SSk6EbC
-Kr1Psm76LVW/stVAjPoOmyapJczTaKrlNHDwDHwrQE7gEXgQ31AsOFzEMjQrVKzU
-P2FBDNi1dIOvNJ27+0+FqDcBQOMIDZHUy/Z/bJhdQGtdg0YXp+SyTHxSnUIuNLTI
-4DCFaCyP76gLH3Q8wkQjE5MmUeFQ8E0v4RlrImFH4NaJndqwKGoVMKGsCqPo6DTr
-1bQdnF0AgJoRLEvsD/tPhff5AlaGjnuSfVeENJ4A2YQPLWcTDbs+uqh8T88D5Y59
-0RP2BxB9PjODwkZuyRaWsFUDGNkkqQ==
-=k+RW
------END PGP SIGNATURE-----
-
---TakKZr9L6Hm6aLOc--
