@@ -2,92 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B2D71F048
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 13:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A5971F092
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 13:46:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732351AbfEOLmk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 May 2019 07:42:40 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:38536 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732060AbfEOLmk (ORCPT
+        id S1731854AbfEOLpR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 May 2019 07:45:17 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:39751 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732119AbfEOLpQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 May 2019 07:42:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=MsMZWcEhieyD9y/MB1UTwo9lx4vEdenhn0ViWkYWga0=; b=YPUAoCHj9TAeCyAY9x620+maF
-        MTsK55mHerI2S3KHuTJN/zQumYR2a2uJqdILUENk4iqLHEOmIwGJypY2hAbthxdHYkg6tsOcweSEq
-        6VO7MTxNMmCVGpF3dp1/ga4D+WAiMxz2CW3RgmVnMnUyFz6XEZpRZbAjxyCKf618uMvL8=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=debutante.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpa (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hQsIv-0003eS-5H; Wed, 15 May 2019 11:42:37 +0000
-Received: by debutante.sirena.org.uk (Postfix, from userid 1000)
-        id 319621126D6A; Wed, 15 May 2019 12:42:33 +0100 (BST)
-Date:   Wed, 15 May 2019 12:42:33 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>
-Subject: Re: [PATCH V5 1/4] spi: tegra114: add support for gpio based CS
-Message-ID: <20190515114233.GF5613@sirena.org.uk>
-References: <1557810235-16401-1-git-send-email-skomatineni@nvidia.com>
- <1557810235-16401-2-git-send-email-skomatineni@nvidia.com>
- <cf4bd167-49b8-5649-a2e2-7bf5ddcc6e2d@nvidia.com>
- <BYAPR12MB33986B88CF3A30036E3F1F04C2080@BYAPR12MB3398.namprd12.prod.outlook.com>
- <20190515093522.GC5613@sirena.org.uk>
- <BYAPR12MB3398ED52051F5BFA08D7B3A6C2090@BYAPR12MB3398.namprd12.prod.outlook.com>
- <20190515112900.GE5613@sirena.org.uk>
- <BYAPR12MB3398528B86D3DE9CC3AA6D85C2090@BYAPR12MB3398.namprd12.prod.outlook.com>
+        Wed, 15 May 2019 07:45:16 -0400
+Received: by mail-lf1-f66.google.com with SMTP id f1so1747979lfl.6;
+        Wed, 15 May 2019 04:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=mUy1je0IIPUFedYE7Ug9F2Gjdt7jwZe0h7nDZjYmm7Y=;
+        b=HhxMaYDABJSSM6XGK0JrZcAExbjVZpiZSBdB1aDNBn7mf9mePa71fOhDs1kTouAhes
+         GQCoQ5NBEYKlqzmFstALTi4I5T0OqLnfBiZy4ZigcQRCsL33aXE9SE8+KlQDDmHq/GHY
+         sMvzCIWUH3Zy56Xq/Qml98I0ugBvbgeRS6dxgPm/2DfkVdyeWwgK/7sVtT8VJxTKS5Cr
+         9jPQeGegROpenRV+zWqCd5wo2MC+fotHkp0/fULj/c/tGhJCxT84TrohnjVXfGeknUQg
+         XCeFF7bQ0BM4LJ5eKjOCA+WlDQ/EJMsG7IbSaYd+ReoSuKcDKpnXDWtDQ1VNQ8XyByIx
+         6EfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mUy1je0IIPUFedYE7Ug9F2Gjdt7jwZe0h7nDZjYmm7Y=;
+        b=X6PHCI+k4/I7vmYFIkbfUfZ2kNdx3H1HxWBxJ1LxpJ0TfvJO8T5JHI0TNUz3KBkZay
+         mGk1oVMzXi1gMgGVJAMKUkf+P0x0kw5BT9juyHHBP7PiaxOmqihV4Kwg2ZDqr55Vo9H7
+         Suynz4eOtRu3csaXPSiVP8vyaP3jmgQHo/yK23zCde6pUwWUn6r+ERv4XOMd6S7jntl/
+         K9a42Zh/e1XMw0JKQxhhqq2cYBrbNsvM1Y6jhleOFf8Y00cPX7p3qOQOCSfkHdR0lOiP
+         ibtQBwhhI2gEDtXpbgqkEg74fkrLy2GlpgTSvWwzrTPpOOU7uEXJZnCRMa77fUFvPITQ
+         L8Xw==
+X-Gm-Message-State: APjAAAUkjYPs8YRoD4dw4qmnvO/TV/EMtCFps78v9DAObC8+O0g7OWw9
+        qD+CWTDtSAHpwun+hJ7Dehg1OXxz
+X-Google-Smtp-Source: APXvYqycCnOMw8rry0esZ+lXyPteNia2a59tl/Vtxt0BkGqym6pa0NfbDPGAAr6Y/Tm30kAbIC7rcw==
+X-Received: by 2002:a19:4acf:: with SMTP id x198mr19797849lfa.7.1557920714019;
+        Wed, 15 May 2019 04:45:14 -0700 (PDT)
+Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
+        by smtp.googlemail.com with ESMTPSA id y186sm343648lfa.14.2019.05.15.04.45.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 May 2019 04:45:13 -0700 (PDT)
+Subject: Re: [RFC PATCH v1 6/6] soc/tegra: regulators: Add regulators coupler
+ for Tegra30
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190414175939.12368-1-digetx@gmail.com>
+ <20190414175939.12368-7-digetx@gmail.com>
+ <20190508075848.GX14916@sirena.org.uk>
+ <af6de446-ab45-1745-30e5-426c6b34421f@gmail.com>
+ <20190512090446.GN21483@sirena.org.uk>
+ <3988cfb6-55fe-48c4-5365-ac79871f7fd2@gmail.com>
+ <20190513174000.GH5168@sirena.org.uk>
+ <9e13bbd1-ff28-1570-b1a6-0cc6337b8f6c@gmail.com>
+ <20190515090557.GB5613@sirena.org.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <3be50306-d3e0-f931-9d6b-0ae0ad5c78ce@gmail.com>
+Date:   Wed, 15 May 2019 14:44:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dgjlcl3Tl+kb3YDk"
-Content-Disposition: inline
-In-Reply-To: <BYAPR12MB3398528B86D3DE9CC3AA6D85C2090@BYAPR12MB3398.namprd12.prod.outlook.com>
-X-Cookie: You will lose an important tape file.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190515090557.GB5613@sirena.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+15.05.2019 12:05, Mark Brown пишет:
+> On Tue, May 14, 2019 at 09:30:05PM +0300, Dmitry Osipenko wrote:
+>> 13.05.2019 20:40, Mark Brown пишет:
+> 
+>>> The thing with OPPs is that they specify a whole table of values that
+>>> work together including regulator settings, the result being that you
+>>> have many fewer options but don't need to think about constraints.
+> 
+>> I'm afraid this is just a way of abusing the OPP's. I actually already
+> 
+> There's nothing wrong with handling regulators in an OPP, that's a
+> totally normal thing.
+> 
 
---dgjlcl3Tl+kb3YDk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 15, 2019 at 11:40:41AM +0000, Sowjanya Komatineni wrote:
-> I tried few settings before sending V5 too but didn't made diff.
-> Will try with different email client.
->=20
-> What email client are you using?
-
-I personally use mutt.  I know people also use things like Thunderbird
-and Evolution successfully.  There should be other people at nVidia you
-can ask about how they get things set up I guess?
-
---dgjlcl3Tl+kb3YDk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzb+ygACgkQJNaLcl1U
-h9B1yQf/aoNSV/N3Iq8hWgg8l7YtShuKh8pJ5p5FRa8eM/RrsWiGS0Ih3uARw12Y
-jwhP0HRwm1WMSphc4F/gwbRIS6KiCLmtK21uVfQ8ZhwePMzM7riNNCNInkHsEyq/
-MWm7JRK3YEjPpbqRhzGjUylGbuMqeY2oifTnZPMhLpu98nqZBxdkLlbvVMvQ4Lzq
-bs8R5PeuqWFOZgb2d89fb6jGVheVWKGjP4cxlreDlGd00IlBZDdKFMUlkxqWytj8
-LRLPtjy6Ekaq5qQh7TDrxHkogptz9dQo5cB4gfDPj3AN+UVX7caCwUe2qc3x3e66
-xjey0jls24Elt0FLSZAgUIPOremvZw==
-=Fhe/
------END PGP SIGNATURE-----
-
---dgjlcl3Tl+kb3YDk--
+Only if those regulators are directly related to the hardware unit,
+which is not the case here. Regulators coupling is the right abstraction
+that glues things together, there is absolutely no need in trying to
+make workarounds using OPP.
