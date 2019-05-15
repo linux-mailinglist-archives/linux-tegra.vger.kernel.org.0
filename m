@@ -2,93 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 501981F637
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 16:10:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 554631F6FF
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 16:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726834AbfEOOKR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 May 2019 10:10:17 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:40334 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726292AbfEOOKR (ORCPT
+        id S1726718AbfEOO4q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 May 2019 10:56:46 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:53584 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725966AbfEOO4q (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 May 2019 10:10:17 -0400
-Received: by mail-io1-f65.google.com with SMTP id s20so2318338ioj.7;
-        Wed, 15 May 2019 07:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:newsgroups:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=bJKKiXfZHHaE5DlOGJdlOVX5mGDL68zBtWY0bhW/6uA=;
-        b=MSDWB71CYoxyiah01bf1F5zqjU1MoQmhDvYYLbYgiz8yjIfmtvchCk/Ik5QAOkL6ca
-         IteQJ5g98GBQoEDJjlfSBLCGCsKhkiItE1VylU+ueXbvFHkm5qPHd0Hv66kQ8pE9J33v
-         BxDiKiPvJXa/g8vCAoI5swKl5YZoRrsN5gHZzyLdDySnxWEmrMXXMLgDdf7Nxm8Lqg/W
-         66GtetVRpm0gpUdb9ByHQaFFkLGrwW0Fv6WK/ZnuRa/2KqyrCVg5Jt8K5MpPPsOFt51J
-         ViUlwqK/90ZM78Xz0W2YnrLLKQ4Ard1I8aMS5eTvYCM7TcuAsuumLR183xkjPsowwm2U
-         +Ygg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:newsgroups:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=bJKKiXfZHHaE5DlOGJdlOVX5mGDL68zBtWY0bhW/6uA=;
-        b=VzuiL5VYxjRMpsso6PDayX697TENZ4JU61v5pzEglCFRWNGIgXDvL6dT+9Fe1J6I3v
-         1s4uzES8GBa4PqRVmn0UNjlLA3XB/YXHsFG1VjEd0UazOysUD6/vIKhDIX8Hy6GSX5Te
-         j74V7af//TmexiNIIwsM9kJcgSVZpzEZoyDiGvDjqHmFOMwApgggx9rtG4A3+7xZOHKi
-         Re+MRWe3aEFJRzCM/6eB/jMOoCOg3azQFH24JkgC6qZWSLAGnAo83cS0WN4R65dhaAgK
-         Obu1nqpYw++j+ofxUtic633CPJ1nvIfKN8UtAgef3EqlUvwQ/pgmEHnJrsBE+9s+jKVN
-         bsgw==
-X-Gm-Message-State: APjAAAWICjXvL/wyyl6Phs34TWumHlWAoghUg0ZXerXtKTWKzv/s1U1i
-        WlQzodHmXUpOdCNCQzobyfQ=
-X-Google-Smtp-Source: APXvYqwcZEQnqPFobfTT9ooD47mXfVeRMSKzq+Qe9T+bm955ynqqx8GiA4Zf3Wzi25ls/NCO/XGe9g==
-X-Received: by 2002:a5d:851a:: with SMTP id q26mr9307591ion.246.1557929416470;
-        Wed, 15 May 2019 07:10:16 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
-        by smtp.googlemail.com with ESMTPSA id z18sm697958ioi.33.2019.05.15.07.10.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 May 2019 07:10:15 -0700 (PDT)
-Subject: Re: [PATCH V3 5/8] memory: tegra: Add EMC scaling support code for
- Tegra210
-To:     Joseph Lo <josephl@nvidia.com>,
+        Wed, 15 May 2019 10:56:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=tMMwCkIhSKNuN46CCLZ+HPK8zIH9a55x1v9yGOdHZN8=; b=efKuWkAuR7gdoaxyK76NDlPln
+        vhr7wVoYqnmnbgDquleYq3fgOgItX9pA8kx1K/zIpDnOtaCA28t1OgHlynPTuLsFRFbU9F4fplE2N
+        6zwORjNSWupiM4cL6LTo0O5utbV5shoeG/Ln4O5kWTG+524osX7J2KZzTYEEuxwqny4ac=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=debutante.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpa (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hQvKk-000421-MJ; Wed, 15 May 2019 14:56:42 +0000
+Received: by debutante.sirena.org.uk (Postfix, from userid 1000)
+        id DED161121C02; Wed, 15 May 2019 15:56:35 +0100 (BST)
+Date:   Wed, 15 May 2019 15:56:35 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Newsgroups: gmane.linux.ports.arm.kernel,gmane.linux.ports.tegra,gmane.linux.drivers.devicetree,gmane.linux.kernel.clk
-References: <20190510084719.18902-1-josephl@nvidia.com>
- <20190510084719.18902-6-josephl@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <630d7218-3f5f-88bc-1ba4-065a6200265e@gmail.com>
-Date:   Wed, 15 May 2019 17:09:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v1 6/6] soc/tegra: regulators: Add regulators coupler
+ for Tegra30
+Message-ID: <20190515145635.GG5613@sirena.org.uk>
+References: <20190414175939.12368-1-digetx@gmail.com>
+ <20190414175939.12368-7-digetx@gmail.com>
+ <20190508075848.GX14916@sirena.org.uk>
+ <af6de446-ab45-1745-30e5-426c6b34421f@gmail.com>
+ <20190512090446.GN21483@sirena.org.uk>
+ <3988cfb6-55fe-48c4-5365-ac79871f7fd2@gmail.com>
+ <20190513174000.GH5168@sirena.org.uk>
+ <9e13bbd1-ff28-1570-b1a6-0cc6337b8f6c@gmail.com>
+ <20190515090557.GB5613@sirena.org.uk>
+ <3be50306-d3e0-f931-9d6b-0ae0ad5c78ce@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190510084719.18902-6-josephl@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="9Iq5ULCa7nGtWwZS"
+Content-Disposition: inline
+In-Reply-To: <3be50306-d3e0-f931-9d6b-0ae0ad5c78ce@gmail.com>
+X-Cookie: You will lose an important tape file.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-10.05.2019 11:47, Joseph Lo пишет:
-> This patch adds the required APIs and variables for the EMC scaling
-> sequence code on Tegra210.
-> 
-> Based on the work of Peter De Schrijver <pdeschrijver@nvidia.com>.
-> 
-> Signed-off-by: Joseph Lo <josephl@nvidia.com>
-> ---
 
-> +int tegra_emc_dt_parse_pdata(struct platform_device *pdev,
-> +			     struct emc_table **tables,
-> +			     struct emc_table **derated_tables,
-> +			     int *num_entries);
-There is no definition for this function. Again, please clean up the
-code properly.
+--9Iq5ULCa7nGtWwZS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Dmitry
+On Wed, May 15, 2019 at 02:44:33PM +0300, Dmitry Osipenko wrote:
+> 15.05.2019 12:05, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Tue, May 14, 2019 at 09:30:05PM +0300, Dmitry Osipenko wrote:
+
+> >> I'm afraid this is just a way of abusing the OPP's. I actually already
+
+> > There's nothing wrong with handling regulators in an OPP, that's a
+> > totally normal thing.
+
+> Only if those regulators are directly related to the hardware unit,
+> which is not the case here. Regulators coupling is the right abstraction
+> that glues things together, there is absolutely no need in trying to
+> make workarounds using OPP.
+
+The thing with OPPs is that they are often system level rather than
+related to one specific parrt of the device - one of the reasons people
+use them is that they eliminate the needs to think about dynamic
+combinations of things and instead pick a suitable configuration off a
+relatively short menu.  This makes both validation and runtime easier.
+
+--9Iq5ULCa7nGtWwZS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzcKKMACgkQJNaLcl1U
+h9B+NwgAgLI94SGFcIjf5e/zV+qGvk219uqkypT4TVitsRux+TDwXPBqqpipHToV
+Y2NXTgG5QUiNeMvAYRKlJaOc4JKTm6kUiU1EKyhOfjom9CbyNUZt6hkzDssVP4L+
+wg7iQ3Xs19lWCMOXLjrmJmfUhDvvXsT5SQl0xxyzLmlXeq6QQ/saeGi6QXorG6Uz
+GDz6A+BItUayv1ZLakLeGoUcRKngFHpUjJzIy8yO/zJ9WzWkS252z2u8z4TnhTms
+59I9K9q2ia/syGa//PM2mNT2cbCGsHQykgYSlWIRWlldgL/OnxtIdS5vUvUhnl9G
++Vv/NLM9ommlZnjuTVxUCVp4J81D/A==
+=JHHM
+-----END PGP SIGNATURE-----
+
+--9Iq5ULCa7nGtWwZS--
