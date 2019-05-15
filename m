@@ -2,97 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A5971F092
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 13:46:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6FFB1F0C9
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 13:47:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731854AbfEOLpR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 May 2019 07:45:17 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:39751 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732119AbfEOLpQ (ORCPT
+        id S1732023AbfEOLrR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 May 2019 07:47:17 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:33323 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732081AbfEOLrR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 May 2019 07:45:16 -0400
-Received: by mail-lf1-f66.google.com with SMTP id f1so1747979lfl.6;
-        Wed, 15 May 2019 04:45:14 -0700 (PDT)
+        Wed, 15 May 2019 07:47:17 -0400
+Received: by mail-vs1-f68.google.com with SMTP id y6so1498112vsb.0
+        for <linux-tegra@vger.kernel.org>; Wed, 15 May 2019 04:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mUy1je0IIPUFedYE7Ug9F2Gjdt7jwZe0h7nDZjYmm7Y=;
-        b=HhxMaYDABJSSM6XGK0JrZcAExbjVZpiZSBdB1aDNBn7mf9mePa71fOhDs1kTouAhes
-         GQCoQ5NBEYKlqzmFstALTi4I5T0OqLnfBiZy4ZigcQRCsL33aXE9SE8+KlQDDmHq/GHY
-         sMvzCIWUH3Zy56Xq/Qml98I0ugBvbgeRS6dxgPm/2DfkVdyeWwgK/7sVtT8VJxTKS5Cr
-         9jPQeGegROpenRV+zWqCd5wo2MC+fotHkp0/fULj/c/tGhJCxT84TrohnjVXfGeknUQg
-         XCeFF7bQ0BM4LJ5eKjOCA+WlDQ/EJMsG7IbSaYd+ReoSuKcDKpnXDWtDQ1VNQ8XyByIx
-         6EfA==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8CaNTciGEsHBR+UTd+uCW4xRoPEY0Ah8mRVVm+sOGOk=;
+        b=GW5qLT99fTjNxKbhvCZACauQJBvVRAlAQnNaIkPUUN1ClwMaXyk9V097k7+3sNUuF4
+         vpRCYbi+Drt9IdY1MS/kyaVQg9t1z7QRLFqlM7IrPYGXQpbM+XFKEzTg3n+iuzgL6m3K
+         Rp7n56F8iafdDVh6oftWvNNQyColmbSKHggU+T7ylrtdaSJR8nXLI3FkujJ78KlQozUH
+         M+CTtfjUJdzm0c1JXx5+SHtrxSvufnxFRt/mQ4v9zTv+40VJfvEwFb7NJHsioVxZM8IZ
+         b+Cm3xSSvCbUrIM6MRaPYq6reo5b9q7kSFUaHenagtAsF68BV5pYFEntMYDwXSX+irPs
+         mMtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mUy1je0IIPUFedYE7Ug9F2Gjdt7jwZe0h7nDZjYmm7Y=;
-        b=X6PHCI+k4/I7vmYFIkbfUfZ2kNdx3H1HxWBxJ1LxpJ0TfvJO8T5JHI0TNUz3KBkZay
-         mGk1oVMzXi1gMgGVJAMKUkf+P0x0kw5BT9juyHHBP7PiaxOmqihV4Kwg2ZDqr55Vo9H7
-         Suynz4eOtRu3csaXPSiVP8vyaP3jmgQHo/yK23zCde6pUwWUn6r+ERv4XOMd6S7jntl/
-         K9a42Zh/e1XMw0JKQxhhqq2cYBrbNsvM1Y6jhleOFf8Y00cPX7p3qOQOCSfkHdR0lOiP
-         ibtQBwhhI2gEDtXpbgqkEg74fkrLy2GlpgTSvWwzrTPpOOU7uEXJZnCRMa77fUFvPITQ
-         L8Xw==
-X-Gm-Message-State: APjAAAUkjYPs8YRoD4dw4qmnvO/TV/EMtCFps78v9DAObC8+O0g7OWw9
-        qD+CWTDtSAHpwun+hJ7Dehg1OXxz
-X-Google-Smtp-Source: APXvYqycCnOMw8rry0esZ+lXyPteNia2a59tl/Vtxt0BkGqym6pa0NfbDPGAAr6Y/Tm30kAbIC7rcw==
-X-Received: by 2002:a19:4acf:: with SMTP id x198mr19797849lfa.7.1557920714019;
-        Wed, 15 May 2019 04:45:14 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
-        by smtp.googlemail.com with ESMTPSA id y186sm343648lfa.14.2019.05.15.04.45.12
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 May 2019 04:45:13 -0700 (PDT)
-Subject: Re: [RFC PATCH v1 6/6] soc/tegra: regulators: Add regulators coupler
- for Tegra30
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8CaNTciGEsHBR+UTd+uCW4xRoPEY0Ah8mRVVm+sOGOk=;
+        b=VIGyF6xZQUQd01rF2nWSUByHNKDjpSonFibd73D05RLWPgUmJ8ljxqH0URRvEHhG3J
+         hVQh0/FdO+hMuMpoBIXWhSMatu+kgiDVyyxQ4BDOFFg/AyLLxNvEQHrhVPOqglJSzwNk
+         b0rQEQRdsp1LJZ1/4NJkItmU2afjBD0pakeosYgtv23ADnBxqzhrX0vJ8rxIvp26ZG8+
+         VqmDEW53XpkhJ6kPcEm0jVzHUwSsY+tJq/p/RF/ynRU86TeXiMb4+mWd8qYBlSkqozDd
+         W06pySv2Hxrpt2EzuMFWrayhKUxX31TggHParodjY93QuU/k+ADsxEmTCIK+2p9rxQW/
+         GgQw==
+X-Gm-Message-State: APjAAAVYpoR3DD9QAETiBocHrTuCUAhi2zlstIZkw9I918VYaQWSmLqb
+        d6c6qTOxVZs9erMy3Aacb+S5EogW7/+ni7faZpcZRQ==
+X-Google-Smtp-Source: APXvYqxv3EjsB/HLoWV0JoOdPbs8OtLIh/Pa3Lms7B8RBJhHyMns7p3zd86ZrsKz4XVdkXUFCKsYY3ajS2OzVB9UAZk=
+X-Received: by 2002:a67:7c58:: with SMTP id x85mr657717vsc.191.1557920836166;
+ Wed, 15 May 2019 04:47:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190515093512.GD3409@mwanda>
+In-Reply-To: <20190515093512.GD3409@mwanda>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 15 May 2019 13:46:40 +0200
+Message-ID: <CAPDyKFpm9dB55aCUQkDHgyfcJdniNG9jCbdQ4ezYgQ=L8Rxfhw@mail.gmail.com>
+Subject: Re: [PATCH] mmc: tegra: Fix a warning message
+To:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     Adrian Hunter <adrian.hunter@intel.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190414175939.12368-1-digetx@gmail.com>
- <20190414175939.12368-7-digetx@gmail.com>
- <20190508075848.GX14916@sirena.org.uk>
- <af6de446-ab45-1745-30e5-426c6b34421f@gmail.com>
- <20190512090446.GN21483@sirena.org.uk>
- <3988cfb6-55fe-48c4-5365-ac79871f7fd2@gmail.com>
- <20190513174000.GH5168@sirena.org.uk>
- <9e13bbd1-ff28-1570-b1a6-0cc6337b8f6c@gmail.com>
- <20190515090557.GB5613@sirena.org.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3be50306-d3e0-f931-9d6b-0ae0ad5c78ce@gmail.com>
-Date:   Wed, 15 May 2019 14:44:33 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190515090557.GB5613@sirena.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-15.05.2019 12:05, Mark Brown пишет:
-> On Tue, May 14, 2019 at 09:30:05PM +0300, Dmitry Osipenko wrote:
->> 13.05.2019 20:40, Mark Brown пишет:
-> 
->>> The thing with OPPs is that they specify a whole table of values that
->>> work together including regulator settings, the result being that you
->>> have many fewer options but don't need to think about constraints.
-> 
->> I'm afraid this is just a way of abusing the OPP's. I actually already
-> 
-> There's nothing wrong with handling regulators in an OPP, that's a
-> totally normal thing.
-> 
+On Wed, 15 May 2019 at 11:35, Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> The WARN_ON() macro takes a condition, not a warning message.  I've
+> changed this to use WARN(1, "msg...
+>
+> Fixes: ea8fc5953e8b ("mmc: tegra: update hw tuning process")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+>  drivers/mmc/host/sdhci-tegra.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+> index f608417ae967..10d7aaf68bab 100644
+> --- a/drivers/mmc/host/sdhci-tegra.c
+> +++ b/drivers/mmc/host/sdhci-tegra.c
+> @@ -865,7 +865,7 @@ static void tegra_sdhci_tap_correction(struct sdhci_host *host, u8 thd_up,
+>         }
+>
+>         if (!first_fail) {
+> -               WARN_ON("no edge detected, continue with hw tuned delay.\n");
+> +               WARN(1, "no edge detected, continue with hw tuned delay.\n");
 
-Only if those regulators are directly related to the hardware unit,
-which is not the case here. Regulators coupling is the right abstraction
-that glues things together, there is absolutely no need in trying to
-make workarounds using OPP.
+Not sure why this is a WARN*() in the first place.
+
+Seems like a dev_warn() or possibly a dev_warn_once() should be used instead.
+
+>         } else if (first_pass) {
+>                 /* set tap location at fixed tap relative to the first edge */
+>                 edge1 = first_fail_tap + (first_pass_tap - first_fail_tap) / 2;
+> --
+> 2.20.1
+>
+
+Kind regards
+Uffe
