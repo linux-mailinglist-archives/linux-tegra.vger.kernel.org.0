@@ -2,98 +2,200 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6FFB1F0C9
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 13:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 781FA1F4C2
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 May 2019 14:47:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732023AbfEOLrR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 May 2019 07:47:17 -0400
-Received: from mail-vs1-f68.google.com ([209.85.217.68]:33323 "EHLO
-        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732081AbfEOLrR (ORCPT
+        id S1726937AbfEOMq4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 May 2019 08:46:56 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:33801 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726773AbfEOMqz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 May 2019 07:47:17 -0400
-Received: by mail-vs1-f68.google.com with SMTP id y6so1498112vsb.0
-        for <linux-tegra@vger.kernel.org>; Wed, 15 May 2019 04:47:16 -0700 (PDT)
+        Wed, 15 May 2019 08:46:55 -0400
+Received: by mail-pl1-f194.google.com with SMTP id w7so1310643plz.1
+        for <linux-tegra@vger.kernel.org>; Wed, 15 May 2019 05:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=arista.com; s=googlenew;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8CaNTciGEsHBR+UTd+uCW4xRoPEY0Ah8mRVVm+sOGOk=;
-        b=GW5qLT99fTjNxKbhvCZACauQJBvVRAlAQnNaIkPUUN1ClwMaXyk9V097k7+3sNUuF4
-         vpRCYbi+Drt9IdY1MS/kyaVQg9t1z7QRLFqlM7IrPYGXQpbM+XFKEzTg3n+iuzgL6m3K
-         Rp7n56F8iafdDVh6oftWvNNQyColmbSKHggU+T7ylrtdaSJR8nXLI3FkujJ78KlQozUH
-         M+CTtfjUJdzm0c1JXx5+SHtrxSvufnxFRt/mQ4v9zTv+40VJfvEwFb7NJHsioVxZM8IZ
-         b+Cm3xSSvCbUrIM6MRaPYq6reo5b9q7kSFUaHenagtAsF68BV5pYFEntMYDwXSX+irPs
-         mMtQ==
+        bh=b3HyjACi/MsUUs/bdvxi48Ab6BnFJ6ZhEKEib98a4qc=;
+        b=Xql7xL76UlYG2HgQrNw2rS48dkmsc4mtYUzCNuPcx9exYI1ZmEu7lZqz2wZCRpSq5N
+         P/62eA1WGojofeojjMEVVfykGFGMoC0h24yl2IGMP+MMD6n/+9xLNayyFAwmk67CqnR1
+         m8FLpulEhu3q1K43A5KpMSgYNY/9ZQFxlv1sLLC+Y4jO+Ip0fUJakXQ0r3SGBP8eKC6y
+         8c8qARg+kB1bO3KBeiRnMVlAPDwWif2wtpKXbjbo5qVDDAOu6rngr7KYzRQuR7hO5Gmh
+         lcl5CLLB06Ib9xN7L7Nu/HtKO3R428g2WTFCp36Qq7GME8YG4fu4z4pF+aWoLIZ6h2KQ
+         NZMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8CaNTciGEsHBR+UTd+uCW4xRoPEY0Ah8mRVVm+sOGOk=;
-        b=VIGyF6xZQUQd01rF2nWSUByHNKDjpSonFibd73D05RLWPgUmJ8ljxqH0URRvEHhG3J
-         hVQh0/FdO+hMuMpoBIXWhSMatu+kgiDVyyxQ4BDOFFg/AyLLxNvEQHrhVPOqglJSzwNk
-         b0rQEQRdsp1LJZ1/4NJkItmU2afjBD0pakeosYgtv23ADnBxqzhrX0vJ8rxIvp26ZG8+
-         VqmDEW53XpkhJ6kPcEm0jVzHUwSsY+tJq/p/RF/ynRU86TeXiMb4+mWd8qYBlSkqozDd
-         W06pySv2Hxrpt2EzuMFWrayhKUxX31TggHParodjY93QuU/k+ADsxEmTCIK+2p9rxQW/
-         GgQw==
-X-Gm-Message-State: APjAAAVYpoR3DD9QAETiBocHrTuCUAhi2zlstIZkw9I918VYaQWSmLqb
-        d6c6qTOxVZs9erMy3Aacb+S5EogW7/+ni7faZpcZRQ==
-X-Google-Smtp-Source: APXvYqxv3EjsB/HLoWV0JoOdPbs8OtLIh/Pa3Lms7B8RBJhHyMns7p3zd86ZrsKz4XVdkXUFCKsYY3ajS2OzVB9UAZk=
-X-Received: by 2002:a67:7c58:: with SMTP id x85mr657717vsc.191.1557920836166;
- Wed, 15 May 2019 04:47:16 -0700 (PDT)
+        bh=b3HyjACi/MsUUs/bdvxi48Ab6BnFJ6ZhEKEib98a4qc=;
+        b=BBXT2tTZPwumxuPq4iL3sMNJcLQShO6lQ0wRiJGPw5LiMVdY1PITuyL+YF/g/jeYJp
+         gBgAJ5uePsmr394d0pQa4w1GcHTwybAV5aQXQJc04yiJL/DJ564kdywS1UMer8jj8jEO
+         tUEjlTLDfGsushpSZgDrWuC8B5OSkrlXpDdIbDZ86F8YuPWDiZLDPI3n1/g2esOhFBGD
+         XVaAkkuDuSLt53KekqeVbLTvlKGQ63nj6jLOKYE3KZhBWCGsOGpONSOnCA8xG1kc5u35
+         j4I6+PTpm3HhVUAOb9pies6fbiOXjDMSnUb+QCzoRIaGx0PZiWsWcnFq73xe2w5PTFmm
+         +Bew==
+X-Gm-Message-State: APjAAAUWjwe/V4JpxqXOtW7azOT8J4keVGmgmVY2+Vc8lOjvUCtk5q4J
+        ohFDKNMs/QdOk1XzmZJhE4+tI2hsM0TfDEMTkBRW4A==
+X-Google-Smtp-Source: APXvYqwTSlq+glzh8dvBA9RnhTgkzA0FJBG+kmyFPUzc3vgEhgrnY6HSdtm+CvmJk20OFdPWunOILeeGu3jijFHRxb0=
+X-Received: by 2002:a17:902:4181:: with SMTP id f1mr22625568pld.22.1557924414679;
+ Wed, 15 May 2019 05:46:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190515093512.GD3409@mwanda>
-In-Reply-To: <20190515093512.GD3409@mwanda>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Wed, 15 May 2019 13:46:40 +0200
-Message-ID: <CAPDyKFpm9dB55aCUQkDHgyfcJdniNG9jCbdQ4ezYgQ=L8Rxfhw@mail.gmail.com>
-Subject: Re: [PATCH] mmc: tegra: Fix a warning message
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     Adrian Hunter <adrian.hunter@intel.com>,
+References: <20190506185207.31069-1-tmurphy@arista.com> <20190506185207.31069-3-tmurphy@arista.com>
+ <20190507064000.GB5173@infradead.org>
+In-Reply-To: <20190507064000.GB5173@infradead.org>
+From:   Tom Murphy <tmurphy@arista.com>
+Date:   Wed, 15 May 2019 13:46:43 +0100
+Message-ID: <CAPL0++5AUyVHexpsE86PfXxmQgDHfxjSSoAAGXM5c7Mdix=OZQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] iommu/dma-iommu: Handle deferred devices
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     iommu@lists.linux-foundation.org, Tom Murphy <murphyt7@tcd.ie>,
+        Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, 15 May 2019 at 11:35, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> The WARN_ON() macro takes a condition, not a warning message.  I've
-> changed this to use WARN(1, "msg...
->
-> Fixes: ea8fc5953e8b ("mmc: tegra: update hw tuning process")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  drivers/mmc/host/sdhci-tegra.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-> index f608417ae967..10d7aaf68bab 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -865,7 +865,7 @@ static void tegra_sdhci_tap_correction(struct sdhci_host *host, u8 thd_up,
->         }
->
->         if (!first_fail) {
-> -               WARN_ON("no edge detected, continue with hw tuned delay.\n");
-> +               WARN(1, "no edge detected, continue with hw tuned delay.\n");
+like this?
 
-Not sure why this is a WARN*() in the first place.
+In that case we need to add a call to iommu_dma_alloc_remap.
 
-Seems like a dev_warn() or possibly a dev_warn_once() should be used instead.
+From 862aeebb601008cf863e3aff4ff8ed7cefebeefa Mon Sep 17 00:00:00 2001
+From: Tom Murphy <tmurphy@tmurphy-419tom-0.sjc.aristanetworks.com>
+Date: Wed, 15 May 2019 05:43:25 -0700
+Subject: [PATCH] iommu/dma-iommu: Handle deferred devices
 
->         } else if (first_pass) {
->                 /* set tap location at fixed tap relative to the first edge */
->                 edge1 = first_fail_tap + (first_pass_tap - first_fail_tap) / 2;
-> --
-> 2.20.1
+Handle devices which defer their attach to the iommu in the dma-iommu api
+
+Signed-off-by: Tom Murphy <tmurphy@arista.com>
+---
+ drivers/iommu/dma-iommu.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 7f313cfa9..a48ae906d 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -22,6 +22,7 @@
+ #include <linux/pci.h>
+ #include <linux/scatterlist.h>
+ #include <linux/vmalloc.h>
++#include <linux/crash_dump.h>
+
+ struct iommu_dma_msi_page {
+     struct list_head    list;
+@@ -323,6 +324,21 @@ static int iommu_dma_init_domain(struct
+iommu_domain *domain, dma_addr_t base,
+     return iova_reserve_iommu_regions(dev, domain);
+ }
+
++static int handle_deferred_device(struct device *dev,
++        struct iommu_domain *domain)
++{
++    const struct iommu_ops *ops = domain->ops;
++
++    if (!is_kdump_kernel())
++        return 0;
++
++    if (unlikely(ops->is_attach_deferred &&
++            ops->is_attach_deferred(domain, dev)))
++        return iommu_attach_device(domain, dev);
++
++    return 0;
++}
++
+ /**
+  * dma_info_to_prot - Translate DMA API directions and attributes to IOMMU API
+  *                    page flags.
+@@ -432,6 +448,9 @@ static dma_addr_t __iommu_dma_map(struct device
+*dev, phys_addr_t phys,
+     size_t iova_off = 0;
+     dma_addr_t iova;
+
++    if (unlikely(handle_deferred_device(dev, domain)))
++        return DMA_MAPPING_ERROR;
++
+     if (cookie->type == IOMMU_DMA_IOVA_COOKIE) {
+         iova_off = iova_offset(&cookie->iovad, phys);
+         size = iova_align(&cookie->iovad, size + iova_off);
+@@ -609,6 +628,9 @@ static void *iommu_dma_alloc_remap(struct device
+*dev, size_t size,
+     dma_addr_t iova;
+     void *vaddr;
+
++    if (unlikely(handle_deferred_device(dev, domain)))
++        return DMA_MAPPING_ERROR;
++
+     *dma_handle = DMA_MAPPING_ERROR;
+
+     min_size = alloc_sizes & -alloc_sizes;
+@@ -836,7 +858,7 @@ static dma_addr_t iommu_dma_map_page(struct device
+*dev, struct page *page,
+     bool coherent = dev_is_dma_coherent(dev);
+     dma_addr_t dma_handle;
+
+-    dma_handle =__iommu_dma_map(dev, phys, size,
++    dma_handle = __iommu_dma_map(dev, phys, size,
+             dma_info_to_prot(dir, coherent, attrs),
+             iommu_get_dma_domain(dev));
+     if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
+@@ -954,6 +976,9 @@ static int iommu_dma_map_sg(struct device *dev,
+struct scatterlist *sg,
+     unsigned long mask = dma_get_seg_boundary(dev);
+     int i;
+
++    if (unlikely(handle_deferred_device(dev, domain)))
++        return 0;
++
+     if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+         iommu_dma_sync_sg_for_device(dev, sg, nents, dir);
+
+-- 
+2.20.0
+
+On Tue, May 7, 2019 at 7:40 AM Christoph Hellwig <hch@infradead.org> wrote:
 >
-
-Kind regards
-Uffe
+> On Mon, May 06, 2019 at 07:52:04PM +0100, Tom Murphy wrote:
+> > +static int handle_deferred_device(struct device *dev)
+> > +{
+> > +     struct iommu_domain *domain;
+> > +     const struct iommu_ops *ops;
+> > +
+> > +     if (!is_kdump_kernel())
+> > +             return 0;
+> > +
+> > +     domain = iommu_get_domain_for_dev(dev);
+>
+> > -     dma_handle =__iommu_dma_map(dev, phys, size,
+> > +     if (unlikely(handle_deferred_device(dev)))
+> > +             return DMA_MAPPING_ERROR;
+> > +
+> > +     dma_handle = __iommu_dma_map(dev, phys, size,
+>
+> __iommu_dma_map already looks up the domain, and as far as I can
+> tell all callers need the handle_deferred_device call.  Should we
+> just move it to there and pass the domain from the caller?
+>
+> Also shouldn't the iommu_attach_device call inside
+> handle_deferred_device also get an unlikely marker?
