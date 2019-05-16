@@ -2,128 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 238D020A3C
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 May 2019 16:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B2AB20B9F
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 May 2019 17:54:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726717AbfEPOzP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 May 2019 10:55:15 -0400
-Received: from mail-it1-f193.google.com ([209.85.166.193]:39932 "EHLO
-        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726692AbfEPOzP (ORCPT
+        id S1726501AbfEPPyB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 May 2019 11:54:01 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:18307 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726314AbfEPPyA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 May 2019 10:55:15 -0400
-Received: by mail-it1-f193.google.com with SMTP id 9so6723339itf.4;
-        Thu, 16 May 2019 07:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=II2aVvOkMx3fjlXY4NrDqjsrfVAGmqJjZ4EMQ52ILtE=;
-        b=QI9s0oDwhDFl8oLqw8BkhsHfiXP81XmJSPIuNP2LsqkhxGPCizT6C6BrtrKau+95iQ
-         HEwVAeFV4A3hR3uQfoxZYhVXSnw2HBAFIxlRR7qcTE3HE9dG5ArKvUYgUcrxfJ901pOJ
-         EYEksEV4IDkjAWi5rX6JiFuWofYXfS7y0IoWArWbjQo4B7qaoM2PIqoCbzbiPtT6NG+B
-         W/VyyGEP/vtJDOLwtE+HtNcu/aIIfNave1REE3pYuiJfOql/erp+LalbXdSQoSD99kUh
-         Byb6NW4nzb26fAAObiJQK/CWg6EMz0rZUVeEjPiP/UuPha8s/zNQ1dgmre4VVkKsp/cG
-         Nd4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=II2aVvOkMx3fjlXY4NrDqjsrfVAGmqJjZ4EMQ52ILtE=;
-        b=GYAS9CFUvpSkiSvzVRtcy6aFBBJx+d+ggc5ZcQT1P/fzPfhIJ+ZGQ4v19x9BCA9AfJ
-         FCaq0D63ZBkKC2nw1qxOLivUt3zWfclVj5wdxP11crDfjeNJ4ibIttO8/UalCa7LkX+G
-         YzuwWdsm/w61MYwO2SMYf+Fcvy8SgE0hpdcW7ifjx9EZ6ospgXJVO+fHQ6ldk4mbxSC4
-         DYRqebrUpxdicKRteVFJT/Q/PO5THQ+SO+l4kjLLZVRXj10+Fu/PCOHNvPuRxZHbHwcV
-         zUpxToFxdtFEldWsM+9myE/P/3vNZ46m0ErbNGtiAP+0VmmFWHEtsFonvYBktldFaw6o
-         E8jg==
-X-Gm-Message-State: APjAAAUqJgyL2/Ogd0+VPJdRU9HAW30lxSWKfYwUHCue4Xy9yt6fIUYD
-        dynlouKn180CKA1ehZIK/Rjca3qP
-X-Google-Smtp-Source: APXvYqz+BV3HV37t6+sIkwydMn16eHxVIeUK/39DRMH4CpTNvFDNSbpwz3BieUAIoAb0OQotPcxo7Q==
-X-Received: by 2002:a24:64d0:: with SMTP id t199mr13004949itc.136.1558018514328;
-        Thu, 16 May 2019 07:55:14 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-35-107.pppoe.spdop.ru. [94.29.35.107])
-        by smtp.googlemail.com with ESMTPSA id c91sm314112itd.4.2019.05.16.07.55.11
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 May 2019 07:55:13 -0700 (PDT)
-Subject: Re: [PATCH v2 2/4] dt-bindings: memory: Add binding for NVIDIA
- Tegra30 External Memory Controller
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Joseph Lo <josephl@nvidia.com>, devicetree@vger.kernel.org,
-        linux-clk <linux-clk@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20190414202009.31268-1-digetx@gmail.com>
- <20190414202009.31268-3-digetx@gmail.com> <20190429220542.GA17924@bogus>
- <137c766e-66f6-828a-5c3b-f526d66d37bd@gmail.com>
- <CAL_JsqKCWytgQEDPLX27xdaDrARtHssbhFcL47RO0zfECm0Gig@mail.gmail.com>
- <27d24f4e-cf4c-b2d1-140a-5dcef021fa40@gmail.com>
- <7b6867f4-54b2-f3b5-2b4e-87ea3000fa44@gmail.com>
-Message-ID: <063f38c2-d594-f584-d2b5-6586b73a2b92@gmail.com>
-Date:   Thu, 16 May 2019 17:55:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thu, 16 May 2019 11:54:00 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cdd876e0000>; Thu, 16 May 2019 08:53:18 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 16 May 2019 08:53:59 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 16 May 2019 08:53:59 -0700
+Received: from HQMAIL102.nvidia.com (172.18.146.10) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
+ 2019 15:53:59 +0000
+Received: from HQMAIL103.nvidia.com (172.20.187.11) by HQMAIL102.nvidia.com
+ (172.18.146.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
+ 2019 15:53:58 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL103.nvidia.com
+ (172.20.187.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 16 May 2019 15:53:58 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.21.132.148]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5cdd87960000>; Thu, 16 May 2019 08:53:58 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>
+CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        Sameer Pujar <spujar@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH 0/3] dmaengine: tegra210-adma: Fixes for v5.2
+Date:   Thu, 16 May 2019 16:53:51 +0100
+Message-ID: <1558022034-19911-1-git-send-email-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <7b6867f4-54b2-f3b5-2b4e-87ea3000fa44@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1558021998; bh=pM+YOCbQto1OejUghfBuIjZ6bFWGQspblKysmdA8HuY=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=Hh73VGfLUKbOJEnmwKX59lD4pfDH7K4bOiycxLKDifmfxvGa6zEPo/4+pNfu8ZsXE
+         7WT0uVi9obA86nuqhJQ+xHuqkXdSvlLDW0FK85e3418VKmhiwDlgqY1m9D8XRSuPgv
+         AVjT5PCcMs7OOEFcKKVcNNJZAOTyy6OzZy5+XHy3a+4FZ0+pes+vnkJ7X2GIHxxKv6
+         +GL5AwfQxMI6d+Zbm7ThNUkK9P82SI8VTgcGrr8o0eYy0Ghfs/9hwT3klp/+mugwEO
+         O0xgFMIs5s5BUOGt0SOeNHyRUbyKRjE8qGw+EYOzvq9fx58gNmaHZmWMm3LZ6gXUFA
+         parnkFqqjs1Cg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-02.05.2019 4:39, Dmitry Osipenko пишет:
-> 02.05.2019 3:52, Dmitry Osipenko пишет:
->> 02.05.2019 3:17, Rob Herring пишет:
->>> On Wed, May 1, 2019 at 7:06 PM Dmitry Osipenko <digetx@gmail.com> wrote:
->>>>
->>>> 30.04.2019 1:05, Rob Herring пишет:
->>>>> On Sun, Apr 14, 2019 at 11:20:07PM +0300, Dmitry Osipenko wrote:
->>>>>> Add device-tree binding for NVIDIA Tegra30 External Memory Controller.
->>>>>> The binding is based on the Tegra124 EMC binding since hardware is
->>>>>> similar, although there are couple significant differences.
->>>>>
->>>>> My comments on Tegra124 binding apply here.
->>>>
->>>> The common timing definition doesn't fully match the definition that is
->>>> used by Tegra's Memory Controller, thus the DQS (data strobe) timing
->>>> parameter is comprised of multiple sub-parameters that describe how to
->>>> generate the strobe in hardware. There are also more additional
->>>> parameters that are specific to Tegra and they are individually
->>>> characterized for each memory model and clock rate. Hence the common
->>>> timing definition isn't usable.
->>>
->>> I don't understand. Every PC in the world can work with any DIMM
->>> (within a given generation) just with SPD data. Why is that not
->>> sufficient here?
->>
->> Because this is not a standard PC, but a custom embedded hardware that
->> is simpler and also doesn't fully follow the standards in some cases.
-> 
-> Even if there is a way to derive at least some of required parameters
-> from the common timing, I don't have information about how to do it and
-> there is pretty much no chance to get it into public.
-> 
-> Rob, please let me know if you're okay with this binding.
-> 
+Here are 3 fixes for the Tegra210 ADMA driver for v5.2.
 
-I looked through the Technical Reference Manual a bit more closely and
-it actually has comments about how to convert some of the common timing
-parameters into register values. Some of those parameters are not
-trivial to convert and the doc could be incomplete, and some of the
-parameters are not documented at all.
+Jon Hunter (3):
+  dmaengine: tegra210-adma: Fix crash during probe
+  dmaengine: tegra210-adma: Fix channel FIFO configuration
+  dmaengine: tegra210-adma: Fix spelling
 
-The other much more minor reason against the common timing description
-is that all boards come with the memory timing definition in a
-platform-specific form in downstream kernel. We're re-using that
-definition in the device-tree, hence it is easy to port the timings from
-downstream into upstream.
+ drivers/dma/tegra210-adma.c | 57 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 36 insertions(+), 21 deletions(-)
+
+-- 
+2.7.4
+
