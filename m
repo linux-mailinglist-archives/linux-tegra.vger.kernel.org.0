@@ -2,90 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A6DF1FF3C
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 May 2019 07:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF15E1FFA0
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 May 2019 08:40:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726681AbfEPFyy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 May 2019 01:54:54 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:9005 "EHLO
+        id S1726354AbfEPGkQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 May 2019 02:40:16 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:4907 "EHLO
         hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726554AbfEPFyy (ORCPT
+        with ESMTP id S1726221AbfEPGkQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 May 2019 01:54:54 -0400
+        Thu, 16 May 2019 02:40:16 -0400
 Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cdcfb340000>; Wed, 15 May 2019 22:55:00 -0700
+        id <B5cdd05d30000>; Wed, 15 May 2019 23:40:20 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 15 May 2019 22:54:53 -0700
+  Wed, 15 May 2019 23:40:13 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 15 May 2019 22:54:53 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
- 2019 05:54:53 +0000
-Received: from manikanta-bm2.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Thu, 16 May 2019 05:54:50 +0000
-From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
-To:     <thierry.reding@gmail.com>, <bhelgaas@google.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <jonathanh@nvidia.com>, <lorenzo.pieralisi@arm.com>,
-        <vidyas@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        by hqpgpgate102.nvidia.com on Wed, 15 May 2019 23:40:13 -0700
+Received: from HQMAIL106.nvidia.com (172.18.146.12) by HQMAIL103.nvidia.com
+ (172.20.187.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
+ 2019 06:40:12 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL106.nvidia.com
+ (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 16 May 2019 06:40:13 +0000
+Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.65.118]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5cdd05ca0003>; Wed, 15 May 2019 23:40:12 -0700
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <mark.rutland@arm.com>, <robh+dt@kernel.org>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Subject: [PATCH V4 28/28] PCI: tegra: Change link retry log level to debug
-Date:   Thu, 16 May 2019 11:23:07 +0530
-Message-ID: <20190516055307.25737-29-mmaddireddy@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190516055307.25737-1-mmaddireddy@nvidia.com>
-References: <20190516055307.25737-1-mmaddireddy@nvidia.com>
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: [Patch V3 0/8] Tegra XUSB gadget driver support 
+Date:   Thu, 16 May 2019 12:09:24 +0530
+Message-ID: <1557988772-15406-1-git-send-email-nkristam@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1557986100; bh=ODSQ3H6QpjZ33bav4EoCXIZJrO5RM6uGA/a5ICNR0vE=;
+        t=1557988820; bh=3GfE5X2VVKBA2g15MaDixjGxzqaJGLU7eTXrPcvBu00=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=gmZYH0p8LKdrtToEEzo+yOgoiLNiILl1C+ST4l5U8rSQIewaGMGyJXH+HqYeT+qEY
-         CXOR7QXW8PpMFqu+D+ws2Ut3Qghx1QQnSI6kCnuWL88gXBEsJ/JXwtX12TY3zCRHKP
-         /Rs43uGP9KOrJYheeBGikIflZ0X8Uf2Qd6OmO/fWhreCoygJwtAius167p70e4IkYZ
-         wQkY/P/8XuCTngPhQUVS+nKWtO/IuF79C7lQfidQq3ZNmLfkaVKMCH92ZCqyh0JviB
-         h+MsJfY5CdB9Me5GvNFhs0JHTqgpbjlpSkfX6wHk27mEV95EoZwoGIFULAUcN2OV/L
-         zJv+/3CYLkujA==
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=CGG9aKeiZS7UlfEzh6/hZNx3/pZwt2r8zsGVVfHpRFGwxoLVBC0EXEaCYiyMZOGaj
+         2TT5/Khhiizg8zo4Zdmri57wQnLd4QYsHkMo8NAz1Y7riW4B2QOU01PUXv3Ynk9qnh
+         Rfj+CghApLkmaXdI7mpjSazf+CBO+G1m2qn1olpuKJDNi6+j9M/k7QCJdIiftHSVbL
+         wMPuqdXN60TdX+KGobL2agBrL6yM0/0/oIUJLTTfG0PEEPQptkDAqafm6T8Mu/ICnh
+         KSkjS340/ADObj6deGMbr1qKfZC0AvtY1NDvqqu/YDw8qFvrqHAKBQ0IRkYkUZLs5N
+         aum+8OXusSdIQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Driver checks for link up three times before giving up, each retry attempt
-is printed as an error. Letting users know that PCIe link is down and in the
-process of being brought up again is for debug, not an error condition.
+This is the third verion of series "Tegra XUSB gadget driver support"
 
-Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Patches 1-3 are phy driver changes to add support for device
+mode.
+Patches 4-7 are changes related to XUSB device mode
+controller driver.
+Patch 8 is to enable XUDC driver in defconfig
+
+Test Steps(USB 2.0):
+- Enable "USB Gadget precomposed configurations" in defconfig
+- Build, flash and boot Jetson TX1
+- Connect Jetson TX1 and Ubuntu device using USB A to Micro B
+  cable
+- After boot on Jetson TX1 terminal usb0 network device should be
+  enumerated
+- Assign static ip to usb0 on Jetson TX1 and corresponding net
+  device on ubuntu
+- Run ping test and transfer test(used scp) to check data transfer
+  communication
+
+SS mode is verified by enabling Type A port as peripheral
+
 ---
-V4: No change
+V3:
+* Rebased patch 1 to top of tree.
+* Fixed bug in patch 2, where xudc interrupts dont get generated if USB host
+  mode fails to probe. Moved fake port detection logic to generic xusb.c. fake
+  usb port data is updated based on soc flag need_fake_usb3_port.
+* Added extra lines whereever necessary to make code more readable in patch 3
+  and 7.
+* dt binding doc is corrected for typos and extcon references. Also added
+  details for clocks and removed xusb_ references to clock and power-domain
+  names and accordingly patch 5 is updated.
+* removed avdd-pll-utmip-supply in patch 6, as its now part of padctl driver.
+* Patch 8 has no changes.
+---
+V2:
+* Patches 1-3 are new patches in this series, which splits unified features
+  patch to speprated features and removes need of port-fake entry in DT.
+* Patch 4 is re-arragend dt-bindings patch which incorporates previous
+  patch comments to sort DT entries alphabetically, addresses name changes
+  and PM domain details added.
+* Patch 5-6 are re-arranged DT patches with major changes - sort entries
+  alphabetically, and adds clock names.
+* Patch 7 is UDC driver tegra XUSB device mode controller with major
+  changes - remove un-used module params, lockinng for device_mode flag,
+  moving un-needed info logs to debug level, making changes feature flag
+  dependent rather than SOC based macros and other error handling in probe.
+* Patch 8 has no changes.
 
-V3: Changed dev_err to dev_dbg
+Nagarjuna Kristam (8):
+  phy: tegra: xusb: t210: add XUSB dual mode support
+  phy: tegra: xusb: t210: add usb3 port fake support
+  phy: tegra: xusb: t210: add vbus override support
+  dt-bindings: usb: Add  NVIDIA Tegra XUSB device mode controller
+    binding
+  arm64: tegra: Add xudc node for Tegra210
+  arm64: tegra: Enable xudc on Jetson TX1
+  usb: gadget: Add UDC driver for tegra XUSB device mode controller
+  arm64: defconfig: Enable tegra XUDC driver
 
-V2: Updated commit log
+ .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  |  101 +
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |   14 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   19 +
+ arch/arm64/configs/defconfig                       |    1 +
+ drivers/phy/tegra/xusb-tegra210.c                  |  137 +-
+ drivers/phy/tegra/xusb.c                           |   91 +
+ drivers/phy/tegra/xusb.h                           |    4 +
+ drivers/usb/gadget/udc/Kconfig                     |   10 +
+ drivers/usb/gadget/udc/Makefile                    |    1 +
+ drivers/usb/gadget/udc/tegra_xudc.c                | 3807 ++++++++++++++++++++
+ include/linux/phy/tegra/xusb.h                     |    6 +-
+ 11 files changed, 4186 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
+ create mode 100644 drivers/usb/gadget/udc/tegra_xudc.c
 
- drivers/pci/controller/pci-tegra.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-index 09b4d384ba38..e9420d87363e 100644
---- a/drivers/pci/controller/pci-tegra.c
-+++ b/drivers/pci/controller/pci-tegra.c
-@@ -2372,7 +2372,7 @@ static bool tegra_pcie_port_check_link(struct tegra_pcie_port *port)
- 		} while (--timeout);
- 
- 		if (!timeout) {
--			dev_err(dev, "link %u down, retrying\n", port->index);
-+			dev_dbg(dev, "link %u down, retrying\n", port->index);
- 			goto retry;
- 		}
- 
 -- 
-2.17.1
+2.7.4
 
