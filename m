@@ -2,87 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DCEC20BA6
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 May 2019 17:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 171BC20D5C
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 May 2019 18:49:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbfEPPyF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 May 2019 11:54:05 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:14966 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726314AbfEPPyE (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 May 2019 11:54:04 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cdd87a20000>; Thu, 16 May 2019 08:54:10 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 16 May 2019 08:54:04 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 16 May 2019 08:54:04 -0700
-Received: from HQMAIL112.nvidia.com (172.18.146.18) by HQMAIL103.nvidia.com
- (172.20.187.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
- 2019 15:54:03 +0000
-Received: from HQMAIL108.nvidia.com (172.18.146.13) by HQMAIL112.nvidia.com
- (172.18.146.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
- 2019 15:54:03 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL108.nvidia.com
- (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 16 May 2019 15:54:03 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.21.132.148]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5cdd879a000a>; Thu, 16 May 2019 08:54:03 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>
-CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        Sameer Pujar <spujar@nvidia.com>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 3/3] dmaengine: tegra210-adma: Fix spelling
-Date:   Thu, 16 May 2019 16:53:54 +0100
-Message-ID: <1558022034-19911-4-git-send-email-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558022034-19911-1-git-send-email-jonathanh@nvidia.com>
-References: <1558022034-19911-1-git-send-email-jonathanh@nvidia.com>
-X-NVConfidentiality: public
+        id S1728035AbfEPQtV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 May 2019 12:49:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40846 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726808AbfEPQtV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 16 May 2019 12:49:21 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4C602205ED;
+        Thu, 16 May 2019 16:49:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558025360;
+        bh=NveVv6Q4uybGZ7z8KgxQg+EoijBp4AG6PhqLjNTFtuk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ha4b8+uzYVMXkGCsYm/z2nlq8/2n8i8AQNuu2FEBBbgPs8bIL1x7u25zqNhF3u7yQ
+         gODK8UO6AXtykgE7h07OVkpJJeitO49bQsAs8ZSjRpvLZKiBjP5K86c/xSy+Xs2jTB
+         mXhkT9LIoS5V2RgNjdxi3fI0z3R6KrOMyPVFsc7I=
+Date:   Thu, 16 May 2019 18:49:18 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Daniel Wagner <wagi@monom.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-kernel@vger.kernel.org,
+        torvalds@linux-foundation.org, akpm@linux-foundation.org,
+        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
+        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
+        stable@vger.kernel.org, linux-tegra <linux-tegra@vger.kernel.org>,
+        Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH 4.4 000/266] 4.4.180-stable review
+Message-ID: <20190516164918.GA12641@kroah.com>
+References: <20190515090722.696531131@linuxfoundation.org>
+ <f32de22f-c928-2eaa-ee3f-d2b26c184dd4@nvidia.com>
+ <75c1f549-9098-933e-ab8b-4d0eeab87ddd@monom.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558022050; bh=vno5ZnO0uFYdq1GC2u7c0/xM2N790DJl7R77zxmzCPw=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=Uyj4+7+OviRg6PRW4zSxLHZqaA56FtqX1YNkBy/elP7r2tlhVHYqFHlPGbju7DtNM
-         615FTFsrZsnajVrmnfaujkuJApWaNn5aiIY/8RydBWr0Ku6xY+KS7S61JyJDImCNIq
-         VS/n6bjKW1Rs+WtDQkXc55uaSO6A3cmJDgfkl4n/plIpGCh6x+eg4w1lmCrCKW/PWm
-         c95BC2UQBjGGyN1PNTdChteF5G92IjIDO6wbEYTqr4YVo+nOw4GClTcf0+Ri7tY8YS
-         LDvw30CBkDmWFOHKgUJaOgT1Hg2mdHNKk+1p1MX1WnmA9aW4KJpajqnFz/SvDDLx8d
-         +8o/CX7BSb+/Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <75c1f549-9098-933e-ab8b-4d0eeab87ddd@monom.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Correct spelling of 'register' in Tegra210 ADMA driver.
+On Thu, May 16, 2019 at 01:59:43PM +0200, Daniel Wagner wrote:
+> Hi Jon,
+> 
+> > Boot regression detected for Tegra ...
+> > 
+> > Test results for stable-v4.4:
+> >     6 builds:	6 pass, 0 fail
+> >     15 boots:	6 pass, 9 fail
+> >     8 tests:	8 pass, 0 fail
+> > 
+> > Linux version:	4.4.180-rc1-gbe756da
+> > Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+> >                 tegra30-cardhu-a04
+> > 
+> > Bisect is point to the following commit ...
+> > 
+> > # first bad commit: [7849d64a1700ddae1963ff22a77292e9fb5c2983] mm, vmstat: make quiet_vmstat lighter
+> > 
+> > Reverting this on top v4.4.180-rc1 fixes the problem.  
+> 
+> I guess the patch depends on another change. I'll try to figure out what
+> is missing.
 
-Fixes: ded1f3db4cd6 ("dmaengine: tegra210-adma: prepare for supporting newer Tegra chips")
+Jon, thanks for the testing, I'll go drop this patch now from the final
+version.
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- drivers/dma/tegra210-adma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Daniel, if you can come up with a working series, I'll be glad to take
+it.  Or, I'd recommend you just move to a newer kernel :)
 
-diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-index 3f50fd11c380..17ea4dd99c62 100644
---- a/drivers/dma/tegra210-adma.c
-+++ b/drivers/dma/tegra210-adma.c
-@@ -95,7 +95,7 @@ struct tegra_adma;
-  * @global_int_clear: Register offset of DMA global interrupt clear.
-  * @ch_req_tx_shift: Register offset for AHUB transmit channel select.
-  * @ch_req_rx_shift: Register offset for AHUB receive channel select.
-- * @ch_base_offset: Reister offset of DMA channel registers.
-+ * @ch_base_offset: Register offset of DMA channel registers.
-  * @ch_fifo_ctrl: Default value for channel FIFO CTRL register.
-  * @ch_req_mask: Mask for Tx or Rx channel select.
-  * @ch_req_max: Maximum number of Tx or Rx channels available.
--- 
-2.7.4
+thanks,
 
+greg k-h
