@@ -2,98 +2,188 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69B9620409
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 May 2019 13:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7018D20664
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 May 2019 14:00:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726739AbfEPLEh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 May 2019 07:04:37 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:2954 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726363AbfEPLEh (ORCPT
+        id S1726878AbfEPLxd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 May 2019 07:53:33 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:4741 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726723AbfEPLxd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 May 2019 07:04:37 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cdd439b0001>; Thu, 16 May 2019 04:03:55 -0700
+        Thu, 16 May 2019 07:53:33 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cdd4f410000>; Thu, 16 May 2019 04:53:37 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 16 May 2019 04:04:36 -0700
+  Thu, 16 May 2019 04:53:30 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 16 May 2019 04:04:36 -0700
-Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
- 2019 11:04:33 +0000
-Subject: Re: [PATCH 5.1 00/46] 5.1.3-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190515090616.670410738@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <5b7b4163-f616-3cd8-ea45-3fd3f495ae7f@nvidia.com>
-Date:   Thu, 16 May 2019 12:04:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        by hqpgpgate102.nvidia.com on Thu, 16 May 2019 04:53:30 -0700
+Received: from HQMAIL112.nvidia.com (172.18.146.18) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
+ 2019 11:53:30 +0000
+Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL112.nvidia.com
+ (172.18.146.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
+ 2019 11:53:30 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 16 May 2019 11:53:30 +0000
+Received: from kyarlagadda-linux.nvidia.com (Not Verified[10.19.64.169]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5cdd4f370000>; Thu, 16 May 2019 04:53:29 -0700
+From:   Krishna Yarlagadda <kyarlagadda@nvidia.com>
+To:     <linus.walleij@linaro.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <linux-kernel@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+CC:     <pdeschrijver@nvidia.com>, <josephl@nvidia.com>,
+        <smangipudi@nvidia.com>, <ldewangan@nvidia.com>,
+        <vidyas@nvidia.com>, Krishna Yarlagadda <kyarlagadda@nvidia.com>
+Subject: [PATCH V3 1/4] dt-binding: Tegra194 pinctrl support
+Date:   Thu, 16 May 2019 17:23:11 +0530
+Message-ID: <1558007594-14824-1-git-send-email-kyarlagadda@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20190515090616.670410738@linuxfoundation.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558004635; bh=NQoOq/5EeDi+HzR+1avUBXkV8WDOXJJTiLY5G2RZTg8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=EpyE4lPf0W1Iqv5qc6ysuul/CTIevH2Ot3aM7xA1nmUK6sbpxsdco6U/0TD1Q8MTH
-         3H+LoUHTzOzU1k4KVpwpSU9TFucQKIOmxqyLqET6o3jicnZTo761WDznh0giuErF/G
-         hE6crDDhvv+UnAlBE4I+D9QKTRwEb4n+LY/7jOdL2DMw45TUGXLpQ9sSDkeV/rI7iT
-         5wnZyC/oCFnKKfdT2EjO62lWu02EcmMTv+/ycM/XTRenUDoUBRxoLRq/8sPEY4Bhsi
-         IR90r4wWT883D+e4MqWT8CX0p+TLLlzEfHepVuOWoxQzvM0o9oAkn6fiX7iwYJ/GBH
-         O2g5g8ohLTL+A==
+        t=1558007617; bh=c+YpXF05rlm4EMkpRgTcr8+uuVrXJmn3e/VNxp+q8K0=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=hStxZEjuc3HtPn+RNYp/FlLmA5aiXzvfl40GFhxhJzH2OHKQojMk80M0YXyQX6Usv
+         u+a+19XekCQjd5cX4VTgcmuKpIDznipvQJqdylc8hkfcsoME/15GEUGR/KmubpbjTI
+         zkQPPNXPv1Hos2brOD0FAXOIWVTrHCbllb/KEtEIcb4lQDSdhGzIR/36QqE+UnGMmi
+         sMELqBVaA7VZyFETvFDRLnuNcgy0xTrdQEd+VV/xUc5bhH2f0Hmi0/WF4dkPYZNmze
+         TajUNNJ//gys0OacT21HxFT+Us7ksYFdYDl1omiRWCEMzDlztNYZXonncNfxbppOzE
+         3TePwyw7UsssA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Add binding doc for Tegra 194 pinctrl driver
 
-On 15/05/2019 11:56, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.1.3 release.
-> There are 46 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Fri 17 May 2019 09:04:22 AM UTC.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.3-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+Signed-off-by: Krishna Yarlagadda <kyarlagadda@nvidia.com>
+---
+Changes in V3:
+remove optional fields not supported by pins published here
 
-All tests are passing for Tegra ...
+ .../bindings/pinctrl/nvidia,tegra194-pinmux.txt    | 107 +++++++++++++++++++++
+ 1 file changed, 107 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra194-pinmux.txt
 
-Test results for stable-v5.1:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    32 tests:	32 pass, 0 fail
-
-Linux version:	5.1.3-rc1-g6c9703a
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Cheers
-Jon
-
+diff --git a/Documentation/devicetree/bindings/pinctrl/nvidia,tegra194-pinmux.txt b/Documentation/devicetree/bindings/pinctrl/nvidia,tegra194-pinmux.txt
+new file mode 100644
+index 0000000..8763f44
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pinctrl/nvidia,tegra194-pinmux.txt
+@@ -0,0 +1,107 @@
++NVIDIA Tegra194 pinmux controller
++
++Required properties:
++- compatible: "nvidia,tegra194-pinmux"
++- reg: Should contain a list of base address and size pairs for:
++  - first entry: The APB_MISC_GP_*_PADCTRL registers (pad control)
++  - second entry: The PINMUX_AUX_* registers (pinmux)
++
++Please refer to pinctrl-bindings.txt in this directory for details of the
++common pinctrl bindings used by client devices, including the meaning of the
++phrase "pin configuration node".
++
++Tegra's pin configuration nodes act as a container for an arbitrary number of
++subnodes. Each of these subnodes represents some desired configuration for a
++pin, a group, or a list of pins or groups. This configuration can include the
++mux function to select on those pin(s)/group(s), and various pin configuration
++parameters, such as pull-up, tristate, drive strength, etc.
++
++See the TRM to determine which properties and values apply to each pin/group.
++Macro values for property values are defined in
++include/dt-binding/pinctrl/pinctrl-tegra.h.
++
++Required subnode-properties:
++- nvidia,pins : An array of strings. Each string contains the name of a pin or
++    group. Valid values for these names are listed below.
++
++Optional subnode-properties:
++- nvidia,function: A string containing the name of the function to mux to the
++    pin or group.
++- nvidia,pull: Integer, representing the pull-down/up to apply to the pin.
++    0: none, 1: down, 2: up.
++- nvidia,tristate: Integer.
++    0: drive, 1: tristate.
++- nvidia,enable-input: Integer. Enable the pin's input path.
++    enable :TEGRA_PIN_ENABLE and
++    disable or output only: TEGRA_PIN_DISABLE.
++- nvidia,open-drain: Integer.
++    enable: TEGRA_PIN_ENABLE.
++    disable: TEGRA_PIN_DISABLE.
++- nvidia,lock: Integer. Lock the pin configuration against further changes
++    until reset.
++    enable: TEGRA_PIN_ENABLE.
++    disable: TEGRA_PIN_DISABLE.
++- nvidia,io-hv: Integer. Select high-voltage receivers.
++    normal: TEGRA_PIN_DISABLE
++    high: TEGRA_PIN_ENABLE
++- nvidia,schmitt: Integer. Enables Schmitt Trigger on the input.
++    normal: TEGRA_PIN_DISABLE
++    high: TEGRA_PIN_ENABLE
++- nvidia,drive-type: Integer. Valid range 0...3.
++- nvidia,pull-down-strength: Integer. Controls drive strength. 0 is weakest.
++    The range of valid values depends on the pingroup. See "CAL_DRVDN" in the
++    Tegra TRM.
++- nvidia,pull-up-strength: Integer. Controls drive strength. 0 is weakest.
++    The range of valid values depends on the pingroup. See "CAL_DRVUP" in the
++    Tegra TRM.
++
++Valid values for pin and group names (nvidia,pin) are:
++
++    These correspond to Tegra PADCTL_* (pinmux) registers.
++
++  Mux groups:
++
++    These correspond to Tegra PADCTL_* (pinmux) registers. Any property
++    that exists in those registers may be set for the following pin names.
++
++    pex_l5_clkreq_n_pgg0, pex_l5_rst_n_pgg1
++
++  Drive groups:
++
++    These registers controls a single pin for which a mux group exists.
++    See the list above for the pin name to use when configuring the pinmux.
++
++    pex_l5_clkreq_n_pgg0, pex_l5_rst_n_pgg1
++
++Valid values for nvidia,functions are:
++
++    pe5
++
++Power Domain:
++    pex_l5_clkreq_n_pgg0 and pex_l5_rst_n_pgg1 are part of PCIE C5 power
++    partition. Client devices must enable this partition before accessing
++    these pins here.
++
++
++Example:
++
++		tegra_pinctrl: pinmux: pinmux@2430000 {
++			compatible = "nvidia,tegra194-pinmux";
++			reg = <0x2430000 0x17000
++			       0xc300000 0x4000>;
++
++			pinctrl-names = "pex_rst";
++			pinctrl-0 = <&pex_rst_c5_out_state>;
++
++			pex_rst_c5_out_state: pex_rst_c5_out {
++				pex_rst {
++					nvidia,pins = "pex_l5_rst_n_pgg1";
++					nvidia,schmitt = <TEGRA_PIN_DISABLE>;
++					nvidia,lpdr = <TEGRA_PIN_ENABLE>;
++					nvidia,enable-input = <TEGRA_PIN_DISABLE>;
++					nvidia,io-high-voltage = <TEGRA_PIN_ENABLE>;
++					nvidia,tristate = <TEGRA_PIN_DISABLE>;
++					nvidia,pull = <TEGRA_PIN_PULL_NONE>;
++				};
++			};
++		};
 -- 
-nvpublic
+2.7.4
+
