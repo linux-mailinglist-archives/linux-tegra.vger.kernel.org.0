@@ -2,72 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 964F0214BA
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 May 2019 09:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 102922153E
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 May 2019 10:19:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728521AbfEQHoQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 May 2019 03:44:16 -0400
-Received: from mail.monom.org ([188.138.9.77]:52138 "EHLO mail.monom.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728323AbfEQHoQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 May 2019 03:44:16 -0400
-Received: from mail.monom.org (localhost [127.0.0.1])
-        by filter.mynetwork.local (Postfix) with ESMTP id 4B8F75006D0;
-        Fri, 17 May 2019 09:44:14 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.monom.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=ham autolearn_force=no version=3.4.2
-Received: from [127.0.0.1] (mail.monom.org [188.138.9.77])
-        by mail.monom.org (Postfix) with ESMTPSA id 61CD55003F5;
-        Fri, 17 May 2019 09:44:13 +0200 (CEST)
+        id S1727912AbfEQITK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 May 2019 04:19:10 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:18532 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727811AbfEQITJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 17 May 2019 04:19:09 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cde6e780002>; Fri, 17 May 2019 01:19:04 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 17 May 2019 01:19:08 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 17 May 2019 01:19:08 -0700
+Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 May
+ 2019 08:19:06 +0000
 Subject: Re: [PATCH 4.4 000/266] 4.4.180-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
-        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
-        stable@vger.kernel.org, linux-tegra <linux-tegra@vger.kernel.org>,
+To:     Daniel Wagner <wagi@monom.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-kernel@vger.kernel.org>, <torvalds@linux-foundation.org>,
+        <akpm@linux-foundation.org>, <linux@roeck-us.net>,
+        <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
         Michal Hocko <mhocko@suse.com>
 References: <20190515090722.696531131@linuxfoundation.org>
  <f32de22f-c928-2eaa-ee3f-d2b26c184dd4@nvidia.com>
  <75c1f549-9098-933e-ab8b-4d0eeab87ddd@monom.org>
  <20190516164918.GA12641@kroah.com>
-From:   Daniel Wagner <wagi@monom.org>
-Message-ID: <1f9c1d93-0c00-2eea-96ef-10eb078317a4@monom.org>
-Date:   Fri, 17 May 2019 09:44:12 +0200
+ <1f9c1d93-0c00-2eea-96ef-10eb078317a4@monom.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <da3b7cf4-6ea0-ebe8-c680-2a93fbabde0d@nvidia.com>
+Date:   Fri, 17 May 2019 09:19:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190516164918.GA12641@kroah.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1f9c1d93-0c00-2eea-96ef-10eb078317a4@monom.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1558081144; bh=S06TagP6Qxrl3rJljPJPCB7yMxGspWctuLjuU00DheY=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=D3HZ6/tn6VLL6LOq2MNrB//u8oQhSZ9r8t/2EMiAxq2ZGrOwSbGFY39Oc7MuuYCbk
+         +mb7T+Hhs288JY7ED0LtFv5UnswUIo9IihDa620pLKkxGBc7uesoZ00RONEQiELNmP
+         g0Pj7lrd+OFtI+yHQveVaSAFjrDhfVcp60+JPb7yF+XK1wDRxCoCs7HW231CcHKjLc
+         j6FdRtyYlWxe8BCULYi1xn7bpqIX+g15f382Ryalsy/LQEZ5C0PMBX/3TTs/kANLSE
+         T9k3jC2jNeH3NfRoq3kyFGyd28eH5s0/hoeDU45Ees2AZV46nA6gBo+VQvQNuhyank
+         9ZkmoiPTYjgww==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Greg,
 
-On 16.05.19 18:49, Greg Kroah-Hartman wrote:
-> Jon, thanks for the testing, I'll go drop this patch now from the final
-> version.
+On 17/05/2019 08:44, Daniel Wagner wrote:
+> Hi Greg,
+> 
+> On 16.05.19 18:49, Greg Kroah-Hartman wrote:
+>> Jon, thanks for the testing, I'll go drop this patch now from the final
+>> version.
+> 
+> That's fine, I wanted to suggest this too. I have some time to look at
+> this next week. So there is no hurry with this patch.
+> 
+>> Daniel, if you can come up with a working series, I'll be glad to take
+>> it.  Or, I'd recommend you just move to a newer kernel :)
+> 
+> Sure, I will see what is missing.
+> 
+> @Jon if I get have something to test, would you have time to give it a
+> try first?
 
-That's fine, I wanted to suggest this too. I have some time to look at
-this next week. So there is no hurry with this patch.
+Yes no problem.
 
-> Daniel, if you can come up with a working series, I'll be glad to take
-> it.  Or, I'd recommend you just move to a newer kernel :)
+Cheers
+Jon
 
-Sure, I will see what is missing.
-
-@Jon if I get have something to test, would you have time to give it a
-try first?
-
-There is someone constantly updating the v4.4.y tree, which makes me
-update the -rt patches all the time. Don't fear, I am not running 4.4.y,
-this is only for important infrastructure :)
-
-Thanks,
-Daniel
+-- 
+nvpublic
