@@ -2,286 +2,165 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3196E217CC
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 May 2019 13:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB1FB2183D
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 May 2019 14:39:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728876AbfEQLec (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 May 2019 07:34:32 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:4259 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728103AbfEQLec (ORCPT
+        id S1728766AbfEQMjJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 May 2019 08:39:09 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:18913 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728169AbfEQMjJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 May 2019 07:34:32 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cde9c4b0000>; Fri, 17 May 2019 04:34:35 -0700
+        Fri, 17 May 2019 08:39:09 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cdeab660000>; Fri, 17 May 2019 05:39:02 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 17 May 2019 04:34:29 -0700
+  Fri, 17 May 2019 05:39:06 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 17 May 2019 04:34:29 -0700
-Received: from [10.24.47.197] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 May
- 2019 11:34:24 +0000
-Subject: Re: [PATCH V3 3/4] pinctrl: tegra: Add Tegra194 pinmux driver
-To:     Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        <linus.walleij@linaro.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <linux-kernel@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-CC:     <pdeschrijver@nvidia.com>, <josephl@nvidia.com>,
-        <smangipudi@nvidia.com>, <ldewangan@nvidia.com>
-References: <1558007594-14824-1-git-send-email-kyarlagadda@nvidia.com>
- <1558007594-14824-3-git-send-email-kyarlagadda@nvidia.com>
-X-Nvconfidentiality: public
+        by hqpgpgate102.nvidia.com on Fri, 17 May 2019 05:39:06 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 May
+ 2019 12:39:06 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 17 May 2019 12:39:06 +0000
+Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.38]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5cdeab640002>; Fri, 17 May 2019 05:39:06 -0700
 From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <9066b6bd-c8ca-2d5b-dd1e-20c94a492cbf@nvidia.com>
-Date:   Fri, 17 May 2019 17:04:21 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+To:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <kishon@ti.com>, <catalin.marinas@arm.com>, <will.deacon@arm.com>,
+        <jingoohan1@gmail.com>, <gustavo.pimentel@synopsys.com>
+CC:     <mperttunen@nvidia.com>, <linux-pci@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
+Subject: [PATCH V7 00/15] Add Tegra194 PCIe support
+Date:   Fri, 17 May 2019 18:08:31 +0530
+Message-ID: <20190517123846.3708-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <1558007594-14824-3-git-send-email-kyarlagadda@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558092875; bh=Y9BZ/VKBiBTqykuPOxXX48dcESowFVreE6atkN5q4r0=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=BsUDj2JP+4MavbWeCkanjVpCdVKQ/l9UQ7JSwGY57tMPmAFlIRzHbplcVkCx1Druk
-         FQZ5BcaRMGy4VuCPYPdMmi+NdWBZeImWpE5U+Nc19MN5QtWMcFlsIN8tssSNpRG46I
-         qBv68PpTdsocvUudwUxOQ4PKexQKqLDtHq+mSSqoydrB1ttSD+ES+GUdD5vHLWF1J1
-         qaP18/P95SHz0Fc22/TaJJ+eqCAjLodurb+nfmQChLh36bLrNwO0Gq6VrkV9jmj4Jk
-         ZXOekKwl70su7X0p7Ace1vfUBhdGmyTcgIxzHM5A4BGaTPj00HoWC94BMscies35+D
-         xIsMq9IDi6MEA==
+        t=1558096742; bh=u/4AQVGziCNrQ2xZIY5ClKkgupD/qrSZhq0/kL2pPfY=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=RlvE92GtZrhBCY5g6Zd8L8lpTh6FL8fuplUsYjbi5BSy9ScwKBrvN11R3mRdl9HdH
+         7iQRI8frfo7GYejfKff64JwMbMRDXL1k7B+jHH1coNx4EGm13piclFjAyZC+7+lsVX
+         wW815Q800kLvqm9T30tPDnAnsbcheqr0gR9NPHOcwkDb669Sy3fhhw2eoF8ceI7+3S
+         URa8bN6CYWnfs3RViOT8gzSB6BFtbApcy54NhmIAo/PZw1I1p+eguHOHQ4LJbKp4oI
+         1bPYzm4K21l/5jW7Qhj5jnPNkkdpTvdifqT7FQQmQWA+Qgmp9ahc+LFM/NdblLQLuj
+         FZOyNnlbTjqAA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 5/16/2019 5:23 PM, Krishna Yarlagadda wrote:
-> Tegra194 has PCIE L5 rst and clkreq pins which need to be controlled
-> dynamically at runtime. This driver supports change pinmux for these
-> pins. Pinmux for rest of the pins is set statically by bootloader and
-> will not be changed by this driver
-> 
-> Signed-off-by: Krishna Yarlagadda <kyarlagadda@nvidia.com>
-> Signed-off-by: Suresh Mangipudi <smangipudi@nvidia.com>
-> ---
-> Changes in V3:
-> Fix build issue observed with previous version
-> 
->   drivers/pinctrl/tegra/Kconfig            |   4 +
->   drivers/pinctrl/tegra/Makefile           |   1 +
->   drivers/pinctrl/tegra/pinctrl-tegra194.c | 170 +++++++++++++++++++++++++++++++
->   3 files changed, 175 insertions(+)
->   create mode 100644 drivers/pinctrl/tegra/pinctrl-tegra194.c
-> 
-> diff --git a/drivers/pinctrl/tegra/Kconfig b/drivers/pinctrl/tegra/Kconfig
-> index 24e20cc..6f79f1f 100644
-> --- a/drivers/pinctrl/tegra/Kconfig
-> +++ b/drivers/pinctrl/tegra/Kconfig
-> @@ -23,6 +23,10 @@ config PINCTRL_TEGRA210
->   	bool
->   	select PINCTRL_TEGRA
->   
-> +config PINCTRL_TEGRA194
-> +	bool
-> +	select PINCTRL_TEGRA
-> +
->   config PINCTRL_TEGRA_XUSB
->   	def_bool y if ARCH_TEGRA
->   	select GENERIC_PHY
-> diff --git a/drivers/pinctrl/tegra/Makefile b/drivers/pinctrl/tegra/Makefile
-> index bbcb043..ead4e10 100644
-> --- a/drivers/pinctrl/tegra/Makefile
-> +++ b/drivers/pinctrl/tegra/Makefile
-> @@ -5,4 +5,5 @@ obj-$(CONFIG_PINCTRL_TEGRA30)		+= pinctrl-tegra30.o
->   obj-$(CONFIG_PINCTRL_TEGRA114)		+= pinctrl-tegra114.o
->   obj-$(CONFIG_PINCTRL_TEGRA124)		+= pinctrl-tegra124.o
->   obj-$(CONFIG_PINCTRL_TEGRA210)		+= pinctrl-tegra210.o
-> +obj-$(CONFIG_PINCTRL_TEGRA194)		+= pinctrl-tegra194.o
->   obj-$(CONFIG_PINCTRL_TEGRA_XUSB)	+= pinctrl-tegra-xusb.o
-> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra194.c b/drivers/pinctrl/tegra/pinctrl-tegra194.c
-> new file mode 100644
-> index 0000000..957ef19
-> --- /dev/null
-> +++ b/drivers/pinctrl/tegra/pinctrl-tegra194.c
-> @@ -0,0 +1,170 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Pinctrl data for the NVIDIA Tegra194 pinmux
-> + *
-> + * Copyright (c) 2019, NVIDIA CORPORATION.  All rights reserved.
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + */
-> +
-> +#include <linux/init.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pinctrl/pinctrl.h>
-> +#include <linux/pinctrl/pinmux.h>
-> +
-> +#include "pinctrl-tegra.h"
-> +
-> +/* Define unique ID for each pins */
-> +enum pin_id {
-> +	TEGRA_PIN_PEX_L5_CLKREQ_N_PGG0 = 256,
-> +	TEGRA_PIN_PEX_L5_RST_N_PGG1 = 257,
-> +	TEGRA_PIN_NUM_GPIOS = 258,
-> +};
-> +
-> +/* Table for pin descriptor */
-> +static const struct pinctrl_pin_desc tegra194_pins[] = {
-> +	PINCTRL_PIN(TEGRA_PIN_PEX_L5_CLKREQ_N_PGG0,
-> +		    "TEGRA_PIN_PEX_L5_CLKREQ_N_PGG0"),
-> +	PINCTRL_PIN(TEGRA_PIN_PEX_L5_RST_N_PGG1,
-> +		    "TEGRA_PIN_PEX_L5_RST_N_PGG1"),
-> +};
-> +
-> +static const unsigned int pex_l5_clkreq_n_pgg0_pins[] = {
-> +	TEGRA_PIN_PEX_L5_CLKREQ_N_PGG0,
-> +};
-> +
-> +static const unsigned int pex_l5_rst_n_pgg1_pins[] = {
-> +	TEGRA_PIN_PEX_L5_RST_N_PGG1,
-> +};
-> +
-> +/* Define unique ID for each function */
-> +enum tegra_mux_dt {
-> +	TEGRA_MUX_RSVD0,
-> +	TEGRA_MUX_RSVD1,
-> +	TEGRA_MUX_RSVD2,
-> +	TEGRA_MUX_RSVD3,
-> +	TEGRA_MUX_PE5,
-> +};
-> +
-> +/* Make list of each function name */
-> +#define TEGRA_PIN_FUNCTION(lid)			\
-> +	{					\
-> +		.name = #lid,			\
-> +	}
-> +static struct tegra_function tegra194_functions[] = {
-> +	TEGRA_PIN_FUNCTION(rsvd0),
-> +	TEGRA_PIN_FUNCTION(rsvd1),
-> +	TEGRA_PIN_FUNCTION(rsvd2),
-> +	TEGRA_PIN_FUNCTION(rsvd3),
-> +	TEGRA_PIN_FUNCTION(pe5),
-> +};
-> +
-> +#define DRV_PINGROUP_ENTRY_Y(r, drvdn_b, drvdn_w, drvup_b,	\
-> +			     drvup_w, slwr_b, slwr_w, slwf_b,	\
-> +			     slwf_w, bank)			\
-> +		.drv_reg = ((r)),			\
-> +		.drv_bank = bank,				\
-> +		.drvdn_bit = drvdn_b,				\
-> +		.drvdn_width = drvdn_w,				\
-> +		.drvup_bit = drvup_b,				\
-> +		.drvup_width = drvup_w,				\
-> +		.slwr_bit = slwr_b,				\
-> +		.slwr_width = slwr_w,				\
-> +		.slwf_bit = slwf_b,				\
-> +		.slwf_width = slwf_w
-> +
-> +#define PIN_PINGROUP_ENTRY_Y(r, bank, pupd, e_lpbk, e_input,	\
-> +			     e_od, schmitt_b, drvtype)		\
-> +		.mux_reg = ((r)),				\
-> +		.lpmd_bit = -1,					\
-> +		.lock_bit = -1,					\
-> +		.hsm_bit = -1,					\
-> +		.parked_bit = -1,				\
-> +		.mux_bank = bank,				\
-> +		.mux_bit = 0,					\
-> +		.pupd_reg = ((r)),		\
-> +		.pupd_bank = bank,				\
-> +		.pupd_bit = 2,					\
-> +		.tri_reg = ((r)),				\
-> +		.tri_bank = bank,				\
-> +		.tri_bit = 4,					\
-> +		.einput_bit = e_input,				\
-> +		.odrain_bit = e_od,				\
-> +		.schmitt_bit = schmitt_b,			\
-> +		.drvtype_bit = 13,				\
-> +		.drv_reg = -1
-> +
-> +#define drive_pex_l5_clkreq_n_pgg0				\
-> +	DRV_PINGROUP_ENTRY_Y(0x14004, 12, 5, 20, 5, -1, -1, -1, -1, 0)
-> +#define drive_pex_l5_rst_n_pgg1					\
-> +	DRV_PINGROUP_ENTRY_Y(0x1400c, 12, 5, 20, 5, -1, -1, -1, -1, 0)
-> +
-> +#define PINGROUP(pg_name, f0, f1, f2, f3, r, bank, pupd, e_lpbk,	\
-> +		 e_input, e_lpdr, e_od, schmitt_b, drvtype, io_rail)	\
-> +	{							\
-> +		.name = #pg_name,				\
-> +		.pins = pg_name##_pins,				\
-> +		.npins = ARRAY_SIZE(pg_name##_pins),		\
-> +			.funcs = {				\
-> +				TEGRA_MUX_##f0,			\
-> +				TEGRA_MUX_##f1,			\
-> +				TEGRA_MUX_##f2,			\
-> +				TEGRA_MUX_##f3,			\
-> +			},					\
-> +		PIN_PINGROUP_ENTRY_Y(r, bank, pupd, e_lpbk,	\
-> +				     e_input, e_od,		\
-> +				     schmitt_b, drvtype),	\
-> +		drive_##pg_name,				\
-> +	}
-> +
-> +static const struct tegra_pingroup tegra194_groups[] = {
-> +	PINGROUP(pex_l5_clkreq_n_pgg0, PE5, RSVD1, RSVD2, RSVD3, 0x14000, 0,
-> +		 Y, -1, 6, 8, 11, 12, N, "vddio_pex_ctl_2"),
-> +	PINGROUP(pex_l5_rst_n_pgg1, PE5, RSVD1, RSVD2, RSVD3, 0x14008, 0,
-> +		 Y, -1, 6, 8, 11, 12, N, "vddio_pex_ctl_2"),
-> +};
-> +
-> +static const struct tegra_pinctrl_soc_data tegra194_pinctrl = {
-> +	.ngpios = TEGRA_PIN_NUM_GPIOS,
-> +	.pins = tegra194_pins,
-> +	.npins = ARRAY_SIZE(tegra194_pins),
-> +	.functions = tegra194_functions,
-> +	.nfunctions = ARRAY_SIZE(tegra194_functions),
-> +	.groups = tegra194_groups,
-> +	.ngroups = ARRAY_SIZE(tegra194_groups),
-> +	.hsm_in_mux = true,
-> +	.schmitt_in_mux = true,
-> +	.drvtype_in_mux = true,
-> +};
-> +
-> +static int tegra194_pinctrl_probe(struct platform_device *pdev)
-> +{
-> +	return tegra_pinctrl_probe(pdev, &tegra194_pinctrl);
-> +}
-> +
-> +static const struct of_device_id tegra194_pinctrl_of_match[] = {
-> +	{ .compatible = "nvidia,tegra194-pinmux", },
-> +	{ },
-> +};
-> +
-> +static struct platform_driver tegra194_pinctrl_driver = {
-> +	.driver = {
-> +		.name = "tegra194-pinctrl",
-> +		.of_match_table = tegra194_pinctrl_of_match,
-> +	},
-> +	.probe = tegra194_pinctrl_probe,
-> +};
-> +
-> +static int __init tegra194_pinctrl_init(void)
-> +{
-> +	return platform_driver_register(&tegra194_pinctrl_driver);
-> +}
-> +arch_initcall(tegra194_pinctrl_init);
-> 
+Tegra194 has six PCIe controllers based on Synopsys DesignWare core.
+There are two Universal PHY (UPHY) blocks with each supporting 12(HSIO:
+Hisg Speed IO) and 8(NVHS: NVIDIA High Speed) lanes respectively.
+Controllers:0~4 use UPHY lanes from HSIO brick whereas Controller:5 uses
+UPHY lanes from NVHS brick. Lane mapping in HSIO UPHY brick to each PCIe
+controller (0~4) is controlled in XBAR module by BPMP-FW. Since PCIe
+core has PIPE interface, a glue module called PIPE-to-UPHY (P2U) is used
+to connect each UPHY lane (applicable to both HSIO and NVHS UPHY bricks)
+to PCIe controller
+This patch series
+- Adds support for P2U PHY driver
+- Adds support for PCIe host controller
+- Adds device tree nodes each PCIe controllers
+- Enables nodes applicable to p2972-0000 platform
+- Adds helper APIs in Designware core driver to get capability regs offset
+- Adds defines for new feature registers of PCIe spec revision 4
+- Makes changes in DesignWare core driver to get Tegra194 PCIe working
 
-Tested-by: Vidya Sagar <vidyas@nvidia.com>
+Testing done on P2972-0000 platform
+- Able to get PCIe link up with on-board Marvel eSATA controller
+- Able to get PCIe link up with NVMe cards connected to M.2 Key-M slot
+- Able to do data transfers with both SATA drives and NVMe cards
+
+Note
+- Enabling x8 slot on P2972-0000 platform requires pinmux driver for Tegra194.
+  It is being worked on currently and hence Controller:5 (i.e. x8 slot) is
+  disabled in this patch series. A future patch series would enable this.
+- This series is based on top of the following series
+  Jisheng's patches to add support to .remove() in Designware sub-system
+  https://patchwork.kernel.org/project/linux-pci/list/?series=98559
+  (Jisheng's patches are now accepted and applied for v5.2)
+  My patches made on top of Jisheng's patches to export various symbols
+  https://patchwork.kernel.org/project/linux-pci/list/?series=101259
+
+Changes since [v6]:
+* Took care of review comments from Rob
+* Added a quirk to disable MSI for root ports
+* Removed using pcie_pme_disable_msi() API in host controller driver
+
+Changes since [v5]:
+* Removed patch that exports pcie_bus_config symbol
+* Took care of review comments from Thierry and Rob
+
+Changes since [v4]:
+* Removed redundant APIs in pcie-designware-ep.c file after moving them
+  to pcie-designware.c file based on Bjorn's review comments
+
+Changes since [v3]:
+* Rebased on top of linux-next top of the tree
+* Addressed Gustavo's comments and added his Ack for some of the changes.
+
+Changes since [v2]:
+* Addressed review comments from Thierry
+
+Changes since [v1]:
+* Addressed review comments from Bjorn, Thierry, Jonathan, Rob & Kishon
+* Added more patches in v2 series
+
+Vidya Sagar (15):
+  PCI: Add #defines for some of PCIe spec r4.0 features
+  PCI: Disable MSI for Tegra194 root port
+  PCI: dwc: Perform dbi regs write lock towards the end
+  PCI: dwc: Move config space capability search API
+  PCI: dwc: Add ext config space capability search API
+  dt-bindings: PCI: designware: Add binding for CDM register check
+  PCI: dwc: Add support to enable CDM register check
+  dt-bindings: Add PCIe supports-clkreq property
+  dt-bindings: PCI: tegra: Add device tree support for Tegra194
+  dt-bindings: PHY: P2U: Add Tegra194 P2U block
+  arm64: tegra: Add P2U and PCIe controller nodes to Tegra194 DT
+  arm64: tegra: Enable PCIe slots in P2972-0000 board
+  phy: tegra: Add PCIe PIPE2UPHY support
+  PCI: tegra: Add Tegra194 PCIe support
+  arm64: Add Tegra194 PCIe driver to defconfig
+
+ .../bindings/pci/designware-pcie.txt          |    5 +
+ .../bindings/pci/nvidia,tegra194-pcie.txt     |  158 ++
+ Documentation/devicetree/bindings/pci/pci.txt |    5 +
+ .../bindings/phy/phy-tegra194-p2u.txt         |   28 +
+ .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |    2 +-
+ .../boot/dts/nvidia/tegra194-p2972-0000.dts   |   41 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  437 +++++
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/pci/controller/dwc/Kconfig            |   10 +
+ drivers/pci/controller/dwc/Makefile           |    1 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |   37 +-
+ .../pci/controller/dwc/pcie-designware-host.c |   14 +-
+ drivers/pci/controller/dwc/pcie-designware.c  |   88 +
+ drivers/pci/controller/dwc/pcie-designware.h  |   12 +
+ drivers/pci/controller/dwc/pcie-tegra194.c    | 1620 +++++++++++++++++
+ drivers/pci/quirks.c                          |   14 +
+ drivers/phy/tegra/Kconfig                     |    7 +
+ drivers/phy/tegra/Makefile                    |    1 +
+ drivers/phy/tegra/pcie-p2u-tegra194.c         |  109 ++
+ include/uapi/linux/pci_regs.h                 |   22 +-
+ 20 files changed, 2569 insertions(+), 43 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
+ create mode 100644 Documentation/devicetree/bindings/phy/phy-tegra194-p2u.txt
+ create mode 100644 drivers/pci/controller/dwc/pcie-tegra194.c
+ create mode 100644 drivers/phy/tegra/pcie-p2u-tegra194.c
+
+-- 
+2.17.1
+
