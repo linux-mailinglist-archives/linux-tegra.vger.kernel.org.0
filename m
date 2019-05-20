@@ -2,49 +2,49 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 258B32328B
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 May 2019 13:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CCB12328E
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 May 2019 13:34:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731760AbfETLcw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 May 2019 07:32:52 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:43303 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732934AbfETLcw (ORCPT
+        id S1732945AbfETLc5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 May 2019 07:32:57 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:39452 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731168AbfETLc4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 May 2019 07:32:52 -0400
-Received: by mail-pg1-f195.google.com with SMTP id f25so123120pgv.10
-        for <linux-tegra@vger.kernel.org>; Mon, 20 May 2019 04:32:51 -0700 (PDT)
+        Mon, 20 May 2019 07:32:56 -0400
+Received: by mail-pf1-f193.google.com with SMTP id z26so7092636pfg.6
+        for <linux-tegra@vger.kernel.org>; Mon, 20 May 2019 04:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :in-reply-to:references;
-        bh=Cnx84NxIhSp4uZgqi6VSWZYaVNVqt10XSPlG8JL56aM=;
-        b=Mc4UZBCTGeP16M5dC8d43FPiSMsrdIIRD0s1wJ3KIvGHw+JOobzUKZHB0Q73iG3BTg
-         V1l22QS5KJy5tXZPxHsQ9Mo7fVFBsMD7FRweoPvewbBbo62lTppD8pPJHBkor7ekGe3j
-         PPFqi5Wdl4B9MzR3QJGHoKzN9KO9A5aa2u6lsjS6tZ9ohu5PS1AQTwdCEgh1IVHPURc5
-         Py3c2rYZyRrff+CtksSQP1kLT7g3w0aSUXqFbK2960r8YJHBAG0F6FtkWv/SXPaG5Gq8
-         XKa7McsxohMfNawU7tUAhFpQfWCIpWFs89ePwMm5HMMISDMi9KE0isl13qia+OwjzVYJ
-         H+fg==
+        bh=SIcVyU2wUJ5jnbmBXFPsqnRHsqNC2CkR/vX822PSMOY=;
+        b=QKc8XOBsWShq6QEmKaBcAza24sj5L89yQgva5BBJBD15azjrDgyggyl2Y6xH7l9m0+
+         qnbIVd8x46sGrGKbAFeOh9JcMuN8/8jHVUwKDDhLh5QIfnAQQVJcZo5GHolCqHVWUW1O
+         HOOJE3BxF5szua4H8FJtxAzbduLES4VIQYRkDnjzWncNLnDgwlxQgwChnpNXpKFovDT6
+         4ZR45hFmVZ3QeHbNTfQ+mYMUwLMzZPT9tDEZSw9OLO4EKIVIp293+huklSqG+P9pT0sK
+         JqjJIHo8V9bygr+sN87cZAnBBnSAcX+nCot+RqBM0luM5W3PidNFeReMZjG/yi3x4T1B
+         DwzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:in-reply-to:references;
-        bh=Cnx84NxIhSp4uZgqi6VSWZYaVNVqt10XSPlG8JL56aM=;
-        b=aoTpz1EPdH8a9vSJcKD1OR7UtGqxRiPBa/H2cA0x3a6zBaCDH3wrkVziUTQTx/ofLZ
-         Kq5JYcgxXe7OgkLY05QQ+V1ydaGhr8lso3MIPok9xok0IU1Cx0LPm1mgDGqPqJcqeTD0
-         vLB/6HNYzNDjcthcDcGDLi0N07irh+34B6ZKkCwC49nvfKIrzRc2zmmJrOFXjEfn3MSG
-         tBVruMXs77yYDkU2ssfoQ6R3+JRMZMVj7Bx2W0gB7vo6STiWNudQchkF59fIJQ8o2mm/
-         +hEV8E47KiOz7lCUc2TtJsoFBbEYPEheupqyjd/fLPq5U0g90PWqLPGkX43dy/k6MtMl
-         J+2w==
-X-Gm-Message-State: APjAAAWuv9y35SZUCu0+N0YwawaXBkQPly/TkAufQYrW7mksbcVW2ULb
-        2gI+4R+yy4qqqjaseNifvnmdYA==
-X-Google-Smtp-Source: APXvYqwEGtRYs32a6qVJ0IDeIICdhKvEjXa4z1alPx313+QuihcD0g4n814DyWumr6jWnBbSFvUJJg==
-X-Received: by 2002:a65:42cd:: with SMTP id l13mr21734824pgp.72.1558351971654;
-        Mon, 20 May 2019 04:32:51 -0700 (PDT)
+        bh=SIcVyU2wUJ5jnbmBXFPsqnRHsqNC2CkR/vX822PSMOY=;
+        b=VqIXF7X5W6easPGlIxQfobrAeW55BMQutmyIYBo+R8q8BKLWykH5YC1iMTK/Dc/x9x
+         +Sy8FQgR59qHlMaiG5YFbu8WPBXuSzZyqYnXOohfh1LxJw/IzL+lV24E8J5JgtD72u95
+         opcbT6ZAeYffhBpmpNXTFc0epiQJ6AOnnxqOlhLYKDvpJBtn2gx5iga7RqRk5LVeOo2m
+         EHmzlikKuTM/26DbpS0L4EzI6KeEeTNJxjskMwIAp2KBX3yGHxvhHSQaLb5G3QGP49QQ
+         mq4AR7gLW0tSOfQUh51ITlUItr4OmGpxvONmPrHlaoKUzVJwigwobARtzDhaktYKkj1r
+         IyXg==
+X-Gm-Message-State: APjAAAWH0Ku7hKpGfYR0fnH+1I+anEK/qxh7AmhFOIDyWrHL96GOiJCm
+        OBDX3GWSwPUdmGZ6m1nn+ONNqA==
+X-Google-Smtp-Source: APXvYqxLeHaPHSHfiQmInEnHejopO5Ea8Zrwi3xZ14RXUo26VmHyfg5o1zIlWo3HHOh+5pmpHodGlw==
+X-Received: by 2002:a63:184:: with SMTP id 126mr48415643pgb.420.1558351976125;
+        Mon, 20 May 2019 04:32:56 -0700 (PDT)
 Received: from baolinwangubtpc.spreadtrum.com ([117.18.48.102])
-        by smtp.gmail.com with ESMTPSA id z124sm21310020pfz.116.2019.05.20.04.32.47
+        by smtp.gmail.com with ESMTPSA id z124sm21310020pfz.116.2019.05.20.04.32.51
         (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 20 May 2019 04:32:51 -0700 (PDT)
+        Mon, 20 May 2019 04:32:55 -0700 (PDT)
 From:   Baolin Wang <baolin.wang@linaro.org>
 To:     dan.j.williams@intel.com, vkoul@kernel.org
 Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
@@ -54,9 +54,9 @@ Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
         jroedel@suse.de, vincent.guittot@linaro.org,
         baolin.wang@linaro.org, dmaengine@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 4/8] dmaengine: dma-jz4780: Let the core do the device node validation
-Date:   Mon, 20 May 2019 19:32:17 +0800
-Message-Id: <231f063f65d0f4ca9a69edfb267fb82500954415.1558351667.git.baolin.wang@linaro.org>
+Subject: [PATCH v2 5/8] dmaengine: mmp_tdma: Let the core do the device node validation
+Date:   Mon, 20 May 2019 19:32:18 +0800
+Message-Id: <5600ce71701aac33035d78bf038d97ca331bf18b.1558351667.git.baolin.wang@linaro.org>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1558351667.git.baolin.wang@linaro.org>
 References: <cover.1558351667.git.baolin.wang@linaro.org>
@@ -71,48 +71,48 @@ Let the DMA engine core do the device node validation instead of drivers.
 
 Signed-off-by: Baolin Wang <baolin.wang@linaro.org>
 ---
- drivers/dma/dma-jz4780.c |    7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/dma/mmp_tdma.c |   10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/dma/dma-jz4780.c b/drivers/dma/dma-jz4780.c
-index 9ce0a38..7e1d381 100644
---- a/drivers/dma/dma-jz4780.c
-+++ b/drivers/dma/dma-jz4780.c
-@@ -160,7 +160,6 @@ struct jz4780_dma_dev {
- };
- 
- struct jz4780_dma_filter_data {
--	struct device_node *of_node;
- 	uint32_t transfer_type;
- 	int channel;
- };
-@@ -765,8 +764,6 @@ static bool jz4780_dma_filter_fn(struct dma_chan *chan, void *param)
- 	struct jz4780_dma_dev *jzdma = jz4780_dma_chan_parent(jzchan);
- 	struct jz4780_dma_filter_data *data = param;
- 
--	if (jzdma->dma_device.dev->of_node != data->of_node)
--		return false;
- 
- 	if (data->channel > -1) {
- 		if (data->channel != jzchan->id)
-@@ -790,7 +787,6 @@ static struct dma_chan *jz4780_of_dma_xlate(struct of_phandle_args *dma_spec,
- 	if (dma_spec->args_count != 2)
- 		return NULL;
- 
--	data.of_node = ofdma->of_node;
- 	data.transfer_type = dma_spec->args[0];
- 	data.channel = dma_spec->args[1];
- 
-@@ -815,7 +811,8 @@ static struct dma_chan *jz4780_of_dma_xlate(struct of_phandle_args *dma_spec,
- 		return dma_get_slave_channel(
- 			&jzdma->chan[data.channel].vchan.chan);
- 	} else {
--		return dma_request_channel(mask, jz4780_dma_filter_fn, &data);
-+		return __dma_request_channel(&mask, jz4780_dma_filter_fn, &data,
-+					     ofdma->of_node);
- 	}
+diff --git a/drivers/dma/mmp_tdma.c b/drivers/dma/mmp_tdma.c
+index 0c56faa0..e76858b 100644
+--- a/drivers/dma/mmp_tdma.c
++++ b/drivers/dma/mmp_tdma.c
+@@ -586,18 +586,12 @@ static int mmp_tdma_chan_init(struct mmp_tdma_device *tdev,
  }
  
+ struct mmp_tdma_filter_param {
+-	struct device_node *of_node;
+ 	unsigned int chan_id;
+ };
+ 
+ static bool mmp_tdma_filter_fn(struct dma_chan *chan, void *fn_param)
+ {
+ 	struct mmp_tdma_filter_param *param = fn_param;
+-	struct mmp_tdma_chan *tdmac = to_mmp_tdma_chan(chan);
+-	struct dma_device *pdma_device = tdmac->chan.device;
+-
+-	if (pdma_device->dev->of_node != param->of_node)
+-		return false;
+ 
+ 	if (chan->chan_id != param->chan_id)
+ 		return false;
+@@ -615,13 +609,13 @@ static struct dma_chan *mmp_tdma_xlate(struct of_phandle_args *dma_spec,
+ 	if (dma_spec->args_count != 1)
+ 		return NULL;
+ 
+-	param.of_node = ofdma->of_node;
+ 	param.chan_id = dma_spec->args[0];
+ 
+ 	if (param.chan_id >= TDMA_CHANNEL_NUM)
+ 		return NULL;
+ 
+-	return dma_request_channel(mask, mmp_tdma_filter_fn, &param);
++	return __dma_request_channel(&mask, mmp_tdma_filter_fn, &param,
++				     ofdma->of_node);
+ }
+ 
+ static const struct of_device_id mmp_tdma_dt_ids[] = {
 -- 
 1.7.9.5
 
