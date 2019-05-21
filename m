@@ -2,158 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5D062533C
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 May 2019 17:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A83A3255F9
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 May 2019 18:47:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728750AbfEUPAs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 May 2019 11:00:48 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45115 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728748AbfEUPAs (ORCPT
+        id S1728858AbfEUQrg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 May 2019 12:47:36 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:1173 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727965AbfEUQrg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 May 2019 11:00:48 -0400
-Received: by mail-wr1-f67.google.com with SMTP id b18so18947030wrq.12;
-        Tue, 21 May 2019 08:00:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vyK/mPyRJOdcHJJCImc+aiGr+T+jcqi6u6xDwEP/lVw=;
-        b=qIrsm3PA+ie9ByYZGnDHhdENmckxt9Wn3Zpm4I9oeebpgQYv3j29+6DT+BIQKOnrjx
-         9cgi6T39TSV04E4Lhu7Adq4u/Lo4LYGJj7+yuFpd+cF6ioNsrJi48uY0I/TM7jTidbfa
-         L3hlrWXDR4FqeTYnK7uDOoZ5MO8xMLecI+Fs2QahMVsfX+DE7uqvl+DLe1w3PR+yoWOy
-         iaCVsFp3VpXqsQk4a++yW0wPZg7bVR9XxeP+5XLbs4fmdpE89Q4dZFObo/Lf3m87iEa/
-         +q7kzTtPMnVhpMpROlp4DsWcdsH4s5NsTNwt+4QgUwJ3hz6/H/DVhZ05jWJST+PptrTd
-         yvHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vyK/mPyRJOdcHJJCImc+aiGr+T+jcqi6u6xDwEP/lVw=;
-        b=fBbhvteaUrAGtDr6s9resNbkjejaoO3RaeUqGPzyFSuWucvZ+Qd7TzMKveFMHDCApd
-         lXJvu9Nn5QNiU4WxJO+Br+Be65s8RBrTgkrC7brUlosez8o3U7mHwueM2PRRFiFF98qR
-         zA8Lra2uFzXlXh/Nwtm+JvEKvZyJSb/gXyRx1ALjhFspddCTt0UWs9UrJIm+rO/KWx8j
-         HgfSOe5ViTHXN3/80GABv78a7gKc6w9NQIE/zEhMAl39ZEcpxug0DSmm5EL4H8Oku0zn
-         7ZCnc8V8DCEI+q6YosTcKcJcrt7GCFf23TREmHq7YoccHRmZsPITENTybKrU064QbHG5
-         mWCg==
-X-Gm-Message-State: APjAAAV1AbK3Tlnq5hW0DA6IQq1HhbTsWAMdOwYyDhXgcPvZuxthDqA+
-        8vJJHFaXbH2e9wiSILuHTP4=
-X-Google-Smtp-Source: APXvYqwiC5nPtcRDsTzuXv+IiYZ2EjEjqlmSAdKy4NhHJ3M5HUK029K3c5V+FHD/e2eb0BRkOjxWeQ==
-X-Received: by 2002:adf:83c5:: with SMTP id 63mr20838465wre.33.1558450846486;
-        Tue, 21 May 2019 08:00:46 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id u2sm32242993wra.82.2019.05.21.08.00.45
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 21 May 2019 08:00:45 -0700 (PDT)
-Date:   Tue, 21 May 2019 17:00:44 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: phy: tegra-xusb: List PLL power supplies
-Message-ID: <20190521150044.GA7098@ulmo>
-References: <20190425153444.6281-1-thierry.reding@gmail.com>
+        Tue, 21 May 2019 12:47:36 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ce42ba70000>; Tue, 21 May 2019 09:47:35 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 21 May 2019 09:47:34 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 21 May 2019 09:47:34 -0700
+Received: from [10.25.72.115] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 May
+ 2019 16:47:29 +0000
+Subject: Re: [PATCH V7 02/15] PCI: Disable MSI for Tegra194 root port
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <jonathanh@nvidia.com>, <kishon@ti.com>, <catalin.marinas@arm.com>,
+        <will.deacon@arm.com>, <jingoohan1@gmail.com>,
+        <gustavo.pimentel@synopsys.com>, <mperttunen@nvidia.com>,
+        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20190517123846.3708-1-vidyas@nvidia.com>
+ <20190517123846.3708-3-vidyas@nvidia.com> <20190521102729.GB29166@ulmo>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <f63051b0-a220-125b-219e-25156d65ea6d@nvidia.com>
+Date:   Tue, 21 May 2019 22:17:26 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="cNdxnHkX5QqsyA0e"
-Content-Disposition: inline
-In-Reply-To: <20190425153444.6281-1-thierry.reding@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190521102729.GB29166@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1558457255; bh=BlKoVyxfa3/PhGnDYxQwviA1iVDUS1wMLF49XD5WLTo=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=EeQpa9fitk/OpoQb5fgRexaj/4U0V03Hh0lFLdmYSKWSxWr0BxeUY1pOsh3perPWB
+         SVrQaG2Es6cVEJE9EcAkpzaUoe60SPjdpXy08bnbbNt9SXoNgvTk4Zh9/BoEqEtNSW
+         NPLtiibkt0oh3/H2R3pz2t8h0xyFRQ0W9hxD4848k7pI4sY8vWFWGltTlk8aT8G5wQ
+         NdeLJpPeJqt0Z9aq2LNe77mtwWiM3EwVsYl7NZCFrZfxwU0pFW6XX/hp7Cet/gZsnm
+         yjcGWIB56i2lBnp8u4z42Li1AYeei5ZBUCmPodnipCn0mPZNdyRypL1GmUo5PaUvx8
+         /rRw7QYrXZMww==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 5/21/2019 3:57 PM, Thierry Reding wrote:
+> On Fri, May 17, 2019 at 06:08:33PM +0530, Vidya Sagar wrote:
+>> Tegra194 rootports don't generate MSI interrupts for PME events and hence
+>> MSI needs to be disabled for them to avoid root ports service drivers
+>> registering their respective ISRs with MSI interrupt.
+>>
+>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+>> ---
+>> Changes since [v6]:
+>> * This is a new patch
+>>
+>>   drivers/pci/quirks.c | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
+>>
+>> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+>> index 0f16acc323c6..28f9a0380df5 100644
+>> --- a/drivers/pci/quirks.c
+>> +++ b/drivers/pci/quirks.c
+>> @@ -2592,6 +2592,20 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA,
+>>   			PCI_DEVICE_ID_NVIDIA_NVENET_15,
+>>   			nvenet_msi_disable);
+>>   
+>> +/*
+>> + * Tegra194's PCIe root ports don't generate MSI interrupts for PME events
+>> + * instead legacy interrupts are generated. Hence, to avoid service drivers
+>> + * registering their respective ISRs for MSIs, need to disable MSI interrupts
+>> + * for root ports.
+>> + */
+>> +static void disable_tegra194_rp_msi(struct pci_dev *dev)
+>> +{
+>> +	dev->no_msi = 1;
+>> +}
+>> +DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x1ad0, disable_tegra194_rp_msi);
+>> +DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x1ad1, disable_tegra194_rp_msi);
+>> +DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x1ad2, disable_tegra194_rp_msi);
+>> +
+> 
+> Later functions in this file seem to use a more consistent naming
+> pattern, according to which the name for this would become:
+> 
+> 	pci_quirk_nvidia_tegra194_disable_rp_msi
+> 
+> Might be worth considering making this consistent.
+> 
+> This could also be moved to the DWC driver to restrict this to where it
+> is needed. In either case, this seems like a good solution, so:
+> 
+> Reviewed-by: Thierry Reding <treding@nvidia.com>
+> 
+Ok. I'll move it to DWC driver along with name change for the quirk API.
 
---cNdxnHkX5QqsyA0e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Apr 25, 2019 at 05:34:42PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> These power supplies provide power for various PLLs that are set up and
-> driven by the XUSB pad controller. These power supplies were previously
-> improperly added to the PCIe and XUSB controllers, but depending on the
-> driver probe order, power to the PLLs will not be supplied soon enough
-> and cause initialization to fail.
->=20
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
-> This was previously reviewed here:
->=20
->     https://patchwork.ozlabs.org/patch/1077153/
->=20
->  .../bindings/phy/nvidia,tegra124-xusb-padctl.txt     | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-
-Hi Kishon,
-
-do you have any comments on this series. It's fairly straightforward but
-is required in order to make XUSB work properly on Jetson Nano for which
-support was merged in v5.2-rc1.
-
-Thanks,
-Thierry
-
->=20
-> diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-p=
-adctl.txt b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padc=
-tl.txt
-> index daedb15f322e..9fb682e47c29 100644
-> --- a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.t=
-xt
-> +++ b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.t=
-xt
-> @@ -42,6 +42,18 @@ Required properties:
->  - reset-names: Must include the following entries:
->    - "padctl"
-> =20
-> +For Tegra124:
-> +- avdd-pll-utmip-supply: UTMI PLL power supply. Must supply 1.8 V.
-> +- avdd-pll-erefe-supply: PLLE reference PLL power supply. Must supply 1.=
-05 V.
-> +- avdd-pex-pll-supply: PCIe/USB3 PLL power supply. Must supply 1.05 V.
-> +- hvdd-pex-pll-e-supply: High-voltage PLLE power supply. Must supply 3.3=
- V.
-> +
-> +For Tegra210:
-> +- avdd-pll-utmip-supply: UTMI PLL power supply. Must supply 1.8 V.
-> +- avdd-pll-uerefe-supply: PLLE reference PLL power supply. Must supply 1=
-=2E05 V.
-> +- dvdd-pex-pll-supply: PCIe/USB3 PLL power supply. Must supply 1.05 V.
-> +- hvdd-pex-pll-e-supply: High-voltage PLLE power supply. Must supply 1.8=
- V.
-> +
->  For Tegra186:
->  - avdd-pll-erefeut-supply: UPHY brick and reference clock as well as UTM=
-I PHY
->    power supply. Must supply 1.8 V.
-> --=20
-> 2.21.0
->=20
-
---cNdxnHkX5QqsyA0e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzkEpwACgkQ3SOs138+
-s6GifhAAoCiCcvnoALjMNw+bcAVupWuDb+KWFF59YbxHzUKtctPi36CiVZrsdKqO
-l3p+Mp23SKd/F/NlNDuU6n0HHSCYCOT/o1Fyy8bF1B056wPomE39k4RxZ/bmdp2D
-VHsLW66+WajZf/cYYAY7m8koEL8Nk2h2kJS7rDZ6dKQWxnx0NUNJyxH1HLLsk2d+
-egRa8aeaPFvMEFsHDgX+Ux6/kRglG/pXfe+eulrR9DJzKeISBKc3SC43iYisll9t
-Z+r28EO1jOWemRr9s0ezjorVw/JApiijSe5B1czBFnGd/1PN7IwPeNjsgFaZ2IS5
-QTdP1r5Mot9v3Rkv3nlxApI0YmpeewqNXgUf86MJuu/TTEqGuiZjf4Afse0MNiJx
-z7vBiWhESttcvbB4qVVUyC/lEadJuUAADxAdgUQFGb1UoMCHkF7CdPQuhgNFvMi3
-tvDv6W/I3s24fZkQ3U9smc5lLYAAR/zqlz3lG3c4mkpBuF1BneiINa4mfusJ6LzB
-T0TdAe8AtP6Vk3A4jNG0zEdiXKp66uTHwaBj2AxIJMm623a5WJPesNf5HAvTV4q7
-zT3nJxH/KG5iZNPjEK/I7+XWFzpOaD956tojDFQ5qv+MuSKakkp/rUqPoz+BHsJO
-99cCv4ObZHJmzVRj7+FjetkLR6euXlUDm2dxu2geowjPKXfAbJU=
-=u4HU
------END PGP SIGNATURE-----
-
---cNdxnHkX5QqsyA0e--
