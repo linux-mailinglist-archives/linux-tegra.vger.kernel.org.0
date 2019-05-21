@@ -2,107 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3389250FE
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 May 2019 15:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5D062533C
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 May 2019 17:00:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727534AbfEUNrW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 May 2019 09:47:22 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:39192 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726995AbfEUNrV (ORCPT
+        id S1728750AbfEUPAs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 May 2019 11:00:48 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:45115 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728748AbfEUPAs (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 May 2019 09:47:21 -0400
-Received: by mail-lj1-f194.google.com with SMTP id a10so15943174ljf.6;
-        Tue, 21 May 2019 06:47:20 -0700 (PDT)
+        Tue, 21 May 2019 11:00:48 -0400
+Received: by mail-wr1-f67.google.com with SMTP id b18so18947030wrq.12;
+        Tue, 21 May 2019 08:00:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=In5PRp85Hdp7mJFze1AHQkeVW9zdgNgdDH3L4mddjfI=;
-        b=VUnf2o+ViCCTsf9a7aQEus8kSVExtQxa2qJjTwk++BreeX0+tlkonkHafflrc2y0fB
-         1rHXxl/zAK4hq1UyWtGk0jEoSeLbn6+vvGibilMBecXBuhFBbrjuiiToz/ZISMLHnKcH
-         IACydUqrVt18rQggUf27Dz3vV6T1XLI+h8cdTWe/VsLGdB1kntXnaiBxuvnFRvNQBvLt
-         SbIRp6CMl9m82GbIMCmHULKrv+pz8qyCf5fH5qNRSSaOziJH4Vad8ft/jxhEHeXZAY5Z
-         am9v3E4Zlbc9PIVVt4mRzGXOZqPLJwRczdLa58G9y/d1lkfdi058ZOJZvQq8E3YCP++x
-         55Wg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vyK/mPyRJOdcHJJCImc+aiGr+T+jcqi6u6xDwEP/lVw=;
+        b=qIrsm3PA+ie9ByYZGnDHhdENmckxt9Wn3Zpm4I9oeebpgQYv3j29+6DT+BIQKOnrjx
+         9cgi6T39TSV04E4Lhu7Adq4u/Lo4LYGJj7+yuFpd+cF6ioNsrJi48uY0I/TM7jTidbfa
+         L3hlrWXDR4FqeTYnK7uDOoZ5MO8xMLecI+Fs2QahMVsfX+DE7uqvl+DLe1w3PR+yoWOy
+         iaCVsFp3VpXqsQk4a++yW0wPZg7bVR9XxeP+5XLbs4fmdpE89Q4dZFObo/Lf3m87iEa/
+         +q7kzTtPMnVhpMpROlp4DsWcdsH4s5NsTNwt+4QgUwJ3hz6/H/DVhZ05jWJST+PptrTd
+         yvHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=In5PRp85Hdp7mJFze1AHQkeVW9zdgNgdDH3L4mddjfI=;
-        b=CluZ5x+rLdaNyyo5T2ebvBYlYcuxVRSm2NJLMEOi0geOVwgie6ZCLCqJlWjj88UDLk
-         aHj0KJxlZuJg0PhnYQ+FaPvBwwq7Num3YllvP2CO5KXGvtgEkZVa4iUajqjmXYyFxBFE
-         w+iKYak+7KIr0YPKK54ECjjRgjLYVl+uNXzzzG8ptRceaIy7P1jkDo27G49ArvE3XD4X
-         x3b/JVsZHqTYWqAXU25/iYhejw4jmjG/xI/fVkxi9fJ2RRNaAEzCuNt+dewRb2Q/H+6C
-         Mvq0yv+jRatmg1V0uimH/uzRzS2LWt1A4aoAbzyV12Ij6VZSOMChBTwjIvi+4tqtP5Hv
-         iIaA==
-X-Gm-Message-State: APjAAAXePh2TEom58JMUJsmUWSbyHh6E1FOhm3g3Owb+Qf+vh4QZjOHm
-        MFXqkv/tfW5ww7te56BiITPPuhPb
-X-Google-Smtp-Source: APXvYqy/MngDy/oMQUQBSli0p3w5nw/8PnfFEKecb2nSAakgxPyzjNmCOnf8QHRDDe7bp2cQVFO/ww==
-X-Received: by 2002:a2e:730c:: with SMTP id o12mr39365811ljc.61.1558446438471;
-        Tue, 21 May 2019 06:47:18 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.32.140])
-        by smtp.googlemail.com with ESMTPSA id z6sm4601722ljh.61.2019.05.21.06.47.14
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 May 2019 06:47:15 -0700 (PDT)
-Subject: Re: [PATCH v1] dmaengine: tegra-apb: Handle DMA_PREP_INTERRUPT flag
- properly
-To:     Vinod Koul <vkoul@kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Ben Dooks <ben.dooks@codethink.co.uk>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190505181235.14798-1-digetx@gmail.com>
- <287d7e67-1572-b4f2-d4bb-b1f02f534d47@nvidia.com>
- <20190521045545.GP15118@vkoul-mobl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <973513f9-0d87-4c39-6b29-f98a1d9dc00c@gmail.com>
-Date:   Tue, 21 May 2019 16:46:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vyK/mPyRJOdcHJJCImc+aiGr+T+jcqi6u6xDwEP/lVw=;
+        b=fBbhvteaUrAGtDr6s9resNbkjejaoO3RaeUqGPzyFSuWucvZ+Qd7TzMKveFMHDCApd
+         lXJvu9Nn5QNiU4WxJO+Br+Be65s8RBrTgkrC7brUlosez8o3U7mHwueM2PRRFiFF98qR
+         zA8Lra2uFzXlXh/Nwtm+JvEKvZyJSb/gXyRx1ALjhFspddCTt0UWs9UrJIm+rO/KWx8j
+         HgfSOe5ViTHXN3/80GABv78a7gKc6w9NQIE/zEhMAl39ZEcpxug0DSmm5EL4H8Oku0zn
+         7ZCnc8V8DCEI+q6YosTcKcJcrt7GCFf23TREmHq7YoccHRmZsPITENTybKrU064QbHG5
+         mWCg==
+X-Gm-Message-State: APjAAAV1AbK3Tlnq5hW0DA6IQq1HhbTsWAMdOwYyDhXgcPvZuxthDqA+
+        8vJJHFaXbH2e9wiSILuHTP4=
+X-Google-Smtp-Source: APXvYqwiC5nPtcRDsTzuXv+IiYZ2EjEjqlmSAdKy4NhHJ3M5HUK029K3c5V+FHD/e2eb0BRkOjxWeQ==
+X-Received: by 2002:adf:83c5:: with SMTP id 63mr20838465wre.33.1558450846486;
+        Tue, 21 May 2019 08:00:46 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id u2sm32242993wra.82.2019.05.21.08.00.45
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 21 May 2019 08:00:45 -0700 (PDT)
+Date:   Tue, 21 May 2019 17:00:44 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: phy: tegra-xusb: List PLL power supplies
+Message-ID: <20190521150044.GA7098@ulmo>
+References: <20190425153444.6281-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190521045545.GP15118@vkoul-mobl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="cNdxnHkX5QqsyA0e"
+Content-Disposition: inline
+In-Reply-To: <20190425153444.6281-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-21.05.2019 7:55, Vinod Koul пишет:
-> On 08-05-19, 10:24, Jon Hunter wrote:
->>
->> On 05/05/2019 19:12, Dmitry Osipenko wrote:
->>> The DMA_PREP_INTERRUPT flag means that descriptor's callback should be
->>> invoked upon transfer completion and that's it. For some reason driver
->>> completely disables the hardware interrupt handling, leaving channel in
->>> unusable state if transfer is issued with the flag being unset. Note
->>> that there are no occurrences in the relevant drivers that do not set
->>> the flag, hence this patch doesn't fix any actual bug and merely fixes
->>> potential problem.
->>>
->>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>
->> >From having a look at this, I am guessing that we have never really
->> tested the case where DMA_PREP_INTERRUPT flag is not set because as you
->> mentioned it does not look like this will work at all!
-> 
-> That is a fair argument
->>
->> Is there are use-case you are looking at where you don't set the
->> DMA_PREP_INTERRUPT flag?
->>
->> If not I am wondering if we should even bother supporting this and warn
->> if it is not set. AFAICT it does not appear to be mandatory, but maybe
->> Vinod can comment more on this.
-> 
-> This is supposed to be used in the cases where you submit a bunch of
-> descriptors and selectively dont want an interrupt in few cases...
-> 
-> Is this such a case?
 
-The flag is set by device drivers. AFAIK, none of the drivers that are
-used on Tegra SoC's make a use of that flag, at least not in upstream.
+--cNdxnHkX5QqsyA0e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Apr 25, 2019 at 05:34:42PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> These power supplies provide power for various PLLs that are set up and
+> driven by the XUSB pad controller. These power supplies were previously
+> improperly added to the PCIe and XUSB controllers, but depending on the
+> driver probe order, power to the PLLs will not be supplied soon enough
+> and cause initialization to fail.
+>=20
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> This was previously reviewed here:
+>=20
+>     https://patchwork.ozlabs.org/patch/1077153/
+>=20
+>  .../bindings/phy/nvidia,tegra124-xusb-padctl.txt     | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+
+Hi Kishon,
+
+do you have any comments on this series. It's fairly straightforward but
+is required in order to make XUSB work properly on Jetson Nano for which
+support was merged in v5.2-rc1.
+
+Thanks,
+Thierry
+
+>=20
+> diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-p=
+adctl.txt b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padc=
+tl.txt
+> index daedb15f322e..9fb682e47c29 100644
+> --- a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.t=
+xt
+> +++ b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.t=
+xt
+> @@ -42,6 +42,18 @@ Required properties:
+>  - reset-names: Must include the following entries:
+>    - "padctl"
+> =20
+> +For Tegra124:
+> +- avdd-pll-utmip-supply: UTMI PLL power supply. Must supply 1.8 V.
+> +- avdd-pll-erefe-supply: PLLE reference PLL power supply. Must supply 1.=
+05 V.
+> +- avdd-pex-pll-supply: PCIe/USB3 PLL power supply. Must supply 1.05 V.
+> +- hvdd-pex-pll-e-supply: High-voltage PLLE power supply. Must supply 3.3=
+ V.
+> +
+> +For Tegra210:
+> +- avdd-pll-utmip-supply: UTMI PLL power supply. Must supply 1.8 V.
+> +- avdd-pll-uerefe-supply: PLLE reference PLL power supply. Must supply 1=
+=2E05 V.
+> +- dvdd-pex-pll-supply: PCIe/USB3 PLL power supply. Must supply 1.05 V.
+> +- hvdd-pex-pll-e-supply: High-voltage PLLE power supply. Must supply 1.8=
+ V.
+> +
+>  For Tegra186:
+>  - avdd-pll-erefeut-supply: UPHY brick and reference clock as well as UTM=
+I PHY
+>    power supply. Must supply 1.8 V.
+> --=20
+> 2.21.0
+>=20
+
+--cNdxnHkX5QqsyA0e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzkEpwACgkQ3SOs138+
+s6GifhAAoCiCcvnoALjMNw+bcAVupWuDb+KWFF59YbxHzUKtctPi36CiVZrsdKqO
+l3p+Mp23SKd/F/NlNDuU6n0HHSCYCOT/o1Fyy8bF1B056wPomE39k4RxZ/bmdp2D
+VHsLW66+WajZf/cYYAY7m8koEL8Nk2h2kJS7rDZ6dKQWxnx0NUNJyxH1HLLsk2d+
+egRa8aeaPFvMEFsHDgX+Ux6/kRglG/pXfe+eulrR9DJzKeISBKc3SC43iYisll9t
+Z+r28EO1jOWemRr9s0ezjorVw/JApiijSe5B1czBFnGd/1PN7IwPeNjsgFaZ2IS5
+QTdP1r5Mot9v3Rkv3nlxApI0YmpeewqNXgUf86MJuu/TTEqGuiZjf4Afse0MNiJx
+z7vBiWhESttcvbB4qVVUyC/lEadJuUAADxAdgUQFGb1UoMCHkF7CdPQuhgNFvMi3
+tvDv6W/I3s24fZkQ3U9smc5lLYAAR/zqlz3lG3c4mkpBuF1BneiINa4mfusJ6LzB
+T0TdAe8AtP6Vk3A4jNG0zEdiXKp66uTHwaBj2AxIJMm623a5WJPesNf5HAvTV4q7
+zT3nJxH/KG5iZNPjEK/I7+XWFzpOaD956tojDFQ5qv+MuSKakkp/rUqPoz+BHsJO
+99cCv4ObZHJmzVRj7+FjetkLR6euXlUDm2dxu2geowjPKXfAbJU=
+=u4HU
+-----END PGP SIGNATURE-----
+
+--cNdxnHkX5QqsyA0e--
