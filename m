@@ -2,106 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6108D2422C
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 May 2019 22:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40031245E5
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 May 2019 04:17:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726067AbfETUhd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 May 2019 16:37:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52596 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725951AbfETUhd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 May 2019 16:37:33 -0400
-Received: from localhost (173-25-83-245.client.mchsi.com [173.25.83.245])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7B6CA21019;
-        Mon, 20 May 2019 20:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558384652;
-        bh=uVbjxAUWgCbC+3W6qUA4GM+o+g6rMmmsC7o/66teuCg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p8eQOUOSP4VPav8rhVBRjLttgRZQ9uFqptDiDuCLlAxvIb7mQ5ZQoPB7mJKMabxf3
-         0CRkwsnHenKlW4ZhoSOnWXc3OJZSnFxke+708NryVmv7GcXTP3ordbOVmbiYPjJmiJ
-         fBK1TpkRYOX5kw88+elCoKaFCTGG+fybOZ8CTC+0=
-Date:   Mon, 20 May 2019 15:37:31 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc:     thierry.reding@gmail.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        jonathanh@nvidia.com, lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH V4 20/28] PCI: tegra: Use legacy IRQ for port service
- drivers
-Message-ID: <20190520203731.GA54609@google.com>
-References: <20190516055307.25737-1-mmaddireddy@nvidia.com>
- <20190516055307.25737-21-mmaddireddy@nvidia.com>
+        id S1727590AbfEUCQ4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 May 2019 22:16:56 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:11616 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726325AbfEUCQ4 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 20 May 2019 22:16:56 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ce35f950000>; Mon, 20 May 2019 19:16:54 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 20 May 2019 19:16:53 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 20 May 2019 19:16:53 -0700
+Received: from [10.19.108.117] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 May
+ 2019 02:16:51 +0000
+Subject: Re: [Patch V3 1/8] phy: tegra: xusb: t210: add XUSB dual mode support
+To:     Nagarjuna Kristam <nkristam@nvidia.com>, <balbi@kernel.org>,
+        <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
+        <robh+dt@kernel.org>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+References: <1557988772-15406-1-git-send-email-nkristam@nvidia.com>
+ <1557988772-15406-2-git-send-email-nkristam@nvidia.com>
+From:   jckuo <jckuo@nvidia.com>
+Message-ID: <b0c36707-a198-8996-f2c5-c8c410bf5450@nvidia.com>
+Date:   Tue, 21 May 2019 10:16:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190516055307.25737-21-mmaddireddy@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1557988772-15406-2-git-send-email-nkristam@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1558405014; bh=hTNWfpPzKc+o2LhadCsahKcFEzKIn4MCvixm6q/cOJY=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=oJXcu5fJMrbsInh4v9x3uWYlXw34mx2n9AzroLDs7PSYWo/HUlV3mWo/OZPtUlTJQ
+         l+W0g18C+d75kWR4R5tb3VuDJ3FVsp5AonCmWVdBzOikK4KLQZwt5ZEYIu6oux4MGe
+         OiygHEYoLBxOcHavkK6oxWo+PIVk1thA+HB/gR4wtVCJgDUGk7liLCBG7nyDsfahjh
+         seJZHlIZoRlQKa37QUdV5Cu0eFJ+dhiBLarFXA5dHpn0kkf1QXogmNiQveouV0nvrN
+         4kPG68exwlM5+5KTJXQ7fCTVQyZDEZl5Ny1v0nwW+MsGNABnIcmg5RQoROJPYttu6r
+         +xVbg1Lwvqh2Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 16, 2019 at 11:22:59AM +0530, Manikanta Maddireddy wrote:
-> Tegra signals PCIe services like AER, PME, etc. over legacy IRQ line.
-> By default, service drivers register interrupt routine over MSI IRQ line.
-> Use pcie_pme_disable_msi() function to disable MSI for service drivers.
+Reviewed-by: JC Kuo <jckuo@nvidia.com>
 
-I think this device is not quite spec-compliant:
 
-  https://lore.kernel.org/linux-pci/20190520175729.GC49425@google.com/
-
-and you should work around this with a quirk that sets pdev->no_msi so
-we don't use MSI for it at all.
-
-> PME and AER interrupts registered to MSI without this change,
-> cat /proc/interrupts | grep -i pci
-> 36: 21 0 0 0 0 0 GICv2 104 Level       PCIE
-> 37: 35 0 0 0 0 0 GICv2 105 Level       Tegra PCIe MSI
-> 76: 0  0 0 0 0 0 Tegra PCIe MSI 0 Edge PCIe PME, aerdrv, PCIe BW notif
-> 
-> PME and AER interrupts registered to legacy IRQ with this change,
-> cat /proc/interrupts | grep -i pci
-> 36: 33 0 0 0 0 0 GICv2 104 Level      PCIE, PCIe PME, aerdrv, PCIe BW notif
-> 37: 52 0 0 0 0 0 GICv2 105 Level      Tegra PCIe MSI
-> 
-> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-> Acked-by: Thierry Reding <treding@nvidia.com>
+On 5/16/19 2:39 PM, Nagarjuna Kristam wrote:
+> Configure the port capabilities based on usb_dr_mode settings.
+>
+> Based on work by JC Kuo <jckuo@nvidia.com>.
+>
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
 > ---
-> V4: No change
-> 
-> V3: Corrected typo in commit log
-> 
-> V2: No change
-> 
->  drivers/pci/controller/pci-tegra.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-> index ac57c5badd9b..0024bc42b400 100644
-> --- a/drivers/pci/controller/pci-tegra.c
-> +++ b/drivers/pci/controller/pci-tegra.c
-> @@ -41,6 +41,7 @@
->  #include <soc/tegra/pmc.h>
->  
->  #include "../pci.h"
-> +#include "../pcie/portdrv.h"
->  
->  #define INT_PCI_MSI_NR (8 * 32)
->  
-> @@ -2725,6 +2726,9 @@ static int tegra_pcie_probe(struct platform_device *pdev)
->  		goto put_resources;
->  	}
->  
-> +	/* Switch to legacy IRQ for PCIe services like AER, PME*/
-> +	pcie_pme_disable_msi();
-> +
->  	pm_runtime_enable(pcie->dev);
->  	err = pm_runtime_get_sync(pcie->dev);
->  	if (err) {
-> -- 
-> 2.17.1
-> 
+>   drivers/phy/tegra/xusb-tegra210.c | 22 +++++++++++++++++++---
+>   1 file changed, 19 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/phy/tegra/xusb-tegra210.c b/drivers/phy/tegra/xusb-tegra210.c
+> index 05bee32..4beebcc 100644
+> --- a/drivers/phy/tegra/xusb-tegra210.c
+> +++ b/drivers/phy/tegra/xusb-tegra210.c
+> @@ -1,5 +1,5 @@
+>   /*
+> - * Copyright (c) 2014, NVIDIA CORPORATION.  All rights reserved.
+> + * Copyright (c) 2014-2019, NVIDIA CORPORATION.  All rights reserved.
+>    * Copyright (C) 2015 Google, Inc.
+>    *
+>    * This program is free software; you can redistribute it and/or modify it
+> @@ -47,7 +47,10 @@
+>   #define XUSB_PADCTL_USB2_PAD_MUX_USB2_BIAS_PAD_XUSB 0x1
+>   
+>   #define XUSB_PADCTL_USB2_PORT_CAP 0x008
+> +#define XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_DISABLED(x) (0x0 << ((x) * 4))
+>   #define XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_HOST(x) (0x1 << ((x) * 4))
+> +#define XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_DEVICE(x) (0x2 << ((x) * 4))
+> +#define XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_OTG(x) (0x3 << ((x) * 4))
+>   #define XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_MASK(x) (0x3 << ((x) * 4))
+>   
+>   #define XUSB_PADCTL_SS_PORT_MAP 0x014
+> @@ -72,6 +75,7 @@
+>   #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPADX_CTL1(x) (0x084 + (x) * 0x40)
+>   #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_SHIFT 7
+>   #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_MASK 0x3
+> +#define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_VAL 0x1
+>   #define XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_FIX18 (1 << 6)
+>   
+>   #define XUSB_PADCTL_USB2_OTG_PADX_CTL0(x) (0x088 + (x) * 0x40)
+> @@ -965,7 +969,14 @@ static int tegra210_usb2_phy_power_on(struct phy *phy)
+>   
+>   	value = padctl_readl(padctl, XUSB_PADCTL_USB2_PORT_CAP);
+>   	value &= ~XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_MASK(index);
+> -	value |= XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_HOST(index);
+> +	if (port->mode == USB_DR_MODE_UNKNOWN)
+> +		value |= XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_DISABLED(index);
+> +	else if (port->mode == USB_DR_MODE_PERIPHERAL)
+> +		value |= XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_DEVICE(index);
+> +	else if (port->mode == USB_DR_MODE_HOST)
+> +		value |= XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_HOST(index);
+> +	else if (port->mode == USB_DR_MODE_OTG)
+> +		value |= XUSB_PADCTL_USB2_PORT_CAP_PORTX_CAP_OTG(index);
+>   	padctl_writel(padctl, value, XUSB_PADCTL_USB2_PORT_CAP);
+>   
+>   	value = padctl_readl(padctl, XUSB_PADCTL_USB2_OTG_PADX_CTL0(index));
+> @@ -997,7 +1008,12 @@ static int tegra210_usb2_phy_power_on(struct phy *phy)
+>   			     XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
+>   	value &= ~(XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_MASK <<
+>   		   XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_SHIFT);
+> -	value |= XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_FIX18;
+> +	if (port->mode == USB_DR_MODE_HOST)
+> +		value |= XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_FIX18;
+> +	else
+> +		value |=
+> +		      XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_VAL <<
+> +		      XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD_CTL1_VREG_LEV_SHIFT;
+>   	padctl_writel(padctl, value,
+>   		      XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPADX_CTL1(index));
+>   
