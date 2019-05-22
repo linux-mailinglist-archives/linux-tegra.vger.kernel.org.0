@@ -2,115 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A86C42681D
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 18:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 326DA27055
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 22:03:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729603AbfEVQWW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 May 2019 12:22:22 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:1967 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729588AbfEVQWV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 May 2019 12:22:21 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ce577390000>; Wed, 22 May 2019 09:22:17 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 22 May 2019 09:22:20 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 22 May 2019 09:22:20 -0700
-Received: from [10.2.170.210] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 22 May
- 2019 16:22:19 +0000
-Subject: Re: [PATCH] mmc: tegra: Fix a warning message
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-CC:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>
-References: <20190515093512.GD3409@mwanda>
- <CAPDyKFpm9dB55aCUQkDHgyfcJdniNG9jCbdQ4ezYgQ=L8Rxfhw@mail.gmail.com>
- <20190522133709.GP30938@ulmo>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <f8b4cc7c-6f12-21df-e76c-59699ff647b0@nvidia.com>
-Date:   Wed, 22 May 2019 09:22:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1730263AbfEVUDG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 May 2019 16:03:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42384 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730064AbfEVTVp (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 22 May 2019 15:21:45 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E137A217F9;
+        Wed, 22 May 2019 19:21:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558552904;
+        bh=0lg5N/7Bkd1++LNMP/cq8J/BuEcRMVCNkQmqXXD80FM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=wPiZuqX1bKXG4wijitfbFkF31/HU2DhT1s5Z1Vr25ZvW/Sg7HlQikqViYg5aHeF06
+         Q1kTYhmkuqGCLZhiQjmQuHI7AqfJ2w4otUGAq2kSj52fseKRoLjo9iaPxc1HXsQzaY
+         1ItL+Tft2GcRNba+woQ7RwlTUDjxzq2qJCNSrz60=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Sameer Pujar <spujar@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.1 021/375] dmaengine: tegra210-dma: free dma controller in remove()
+Date:   Wed, 22 May 2019 15:15:21 -0400
+Message-Id: <20190522192115.22666-21-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190522192115.22666-1-sashal@kernel.org>
+References: <20190522192115.22666-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20190522133709.GP30938@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558542137; bh=ZsC4IEtqXi/ZnetadpRadeyjRQPUySYWX9WQm/c9Zmk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=dCdc4EgVErMIs5/eTARulpqisVqeNKoibL2OjKtm8gENe+Hqc6W9ZQRoNEQNbsX9r
-         +jiq78rvboYp6Yibk4j4W/YF/15Q/fCJx+b9Q+xASFTq+844LpBPMSjs5S618V+avp
-         kd33pK9tEZhhe99nbOykvqpypk9fmZsbI+UU1iAmYRZbNRZI0cFGxeGuWToJkAKXpF
-         E9LKuHB0C/yTAKjfZ86l2tWNHXF0UaJdi5BhY+cTN3Ie8r6Gd+oMxRNdl+n1Tz+5c1
-         D/2lkmP+RhPkJqlzxp+P1HvfCCnJ/K3x+ZvnHj8kvt7nn6Sh7gGsPx4V6EOq/bxwMo
-         h6vNyb3T3dGGw==
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 5/22/19 6:37 AM, Thierry Reding wrote:
-> On Wed, May 15, 2019 at 01:46:40PM +0200, Ulf Hansson wrote:
->> On Wed, 15 May 2019 at 11:35, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->>> The WARN_ON() macro takes a condition, not a warning message.  I've
->>> changed this to use WARN(1, "msg...
->>>
->>> Fixes: ea8fc5953e8b ("mmc: tegra: update hw tuning process")
->>> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
->>> ---
->>>   drivers/mmc/host/sdhci-tegra.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
->>> index f608417ae967..10d7aaf68bab 100644
->>> --- a/drivers/mmc/host/sdhci-tegra.c
->>> +++ b/drivers/mmc/host/sdhci-tegra.c
->>> @@ -865,7 +865,7 @@ static void tegra_sdhci_tap_correction(struct sdhci_host *host, u8 thd_up,
->>>          }
->>>
->>>          if (!first_fail) {
->>> -               WARN_ON("no edge detected, continue with hw tuned delay.\n");
->>> +               WARN(1, "no edge detected, continue with hw tuned delay.\n");
->> Not sure why this is a WARN*() in the first place.
->>
->> Seems like a dev_warn() or possibly a dev_warn_once() should be used instead.
-> I think this was on purpose in order to increase the likelihood of this
-> getting reported. Sowjanya knows the details much better, but I think
-> this is supposed to be very rare and really a problem with the tap
-> settings in device tree, which is something that we want to know and
-> fix.
->
-> Let's see if Sowjanya can shed some light on this.
->
-> Thierry
->
-This warn can happen when no edge is detected and hw tuning results include
+From: Sameer Pujar <spujar@nvidia.com>
 
-all passing taps which is very unlikely. So, I believe WARN(1, msg) 
-should be good to use.
+[ Upstream commit f030e419501cb95e961e9ed35c493b5d46a04eca ]
 
-Sowjanya
+Following kernel panic is seen during DMA driver unload->load sequence
+==========================================================================
+Unable to handle kernel paging request at virtual address ffffff8001198880
+Internal error: Oops: 86000007 [#1] PREEMPT SMP
+CPU: 0 PID: 5907 Comm: HwBinder:4123_1 Tainted: G C 4.9.128-tegra-g065839f
+Hardware name: galen (DT)
+task: ffffffc3590d1a80 task.stack: ffffffc3d0678000
+PC is at 0xffffff8001198880
+LR is at of_dma_request_slave_channel+0xd8/0x1f8
+pc : [<ffffff8001198880>] lr : [<ffffff8008746f30>] pstate: 60400045
+sp : ffffffc3d067b710
+x29: ffffffc3d067b710 x28: 000000000000002f
+x27: ffffff800949e000 x26: ffffff800949e750
+x25: ffffff800949e000 x24: ffffffbefe817d84
+x23: ffffff8009f77cb0 x22: 0000000000000028
+x21: ffffffc3ffda49c8 x20: 0000000000000029
+x19: 0000000000000001 x18: ffffffffffffffff
+x17: 0000000000000000 x16: ffffff80082b66a0
+x15: ffffff8009e78250 x14: 000000000000000a
+x13: 0000000000000038 x12: 0101010101010101
+x11: 0000000000000030 x10: 0101010101010101
+x9 : fffffffffffffffc x8 : 7f7f7f7f7f7f7f7f
+x7 : 62ff726b6b64622c x6 : 0000000000008064
+x5 : 6400000000000000 x4 : ffffffbefe817c44
+x3 : ffffffc3ffda3e08 x2 : ffffff8001198880
+x1 : ffffffc3d48323c0 x0 : ffffffc3d067b788
 
->>>          } else if (first_pass) {
->>>                  /* set tap location at fixed tap relative to the first edge */
->>>                  edge1 = first_fail_tap + (first_pass_tap - first_fail_tap) / 2;
->>> --
->>> 2.20.1
->>>
->> Kind regards
->> Uffe
+Process HwBinder:4123_1 (pid: 5907, stack limit = 0xffffffc3d0678028)
+Call trace:
+[<ffffff8001198880>] 0xffffff8001198880
+[<ffffff80087459f8>] dma_request_chan+0x50/0x1f0
+[<ffffff8008745bc0>] dma_request_slave_channel+0x28/0x40
+[<ffffff8001552c44>] tegra_alt_pcm_open+0x114/0x170
+[<ffffff8008d65fa4>] soc_pcm_open+0x10c/0x878
+[<ffffff8008d18618>] snd_pcm_open_substream+0xc0/0x170
+[<ffffff8008d1878c>] snd_pcm_open+0xc4/0x240
+[<ffffff8008d189e0>] snd_pcm_playback_open+0x58/0x80
+[<ffffff8008cfc6d4>] snd_open+0xb4/0x178
+[<ffffff8008250628>] chrdev_open+0xb8/0x1d0
+[<ffffff8008246fdc>] do_dentry_open+0x214/0x318
+[<ffffff80082485d0>] vfs_open+0x58/0x88
+[<ffffff800825bce0>] do_last+0x450/0xde0
+[<ffffff800825c718>] path_openat+0xa8/0x368
+[<ffffff800825dd84>] do_filp_open+0x8c/0x110
+[<ffffff8008248a74>] do_sys_open+0x164/0x220
+[<ffffff80082b66dc>] compat_SyS_openat+0x3c/0x50
+[<ffffff8008083040>] el0_svc_naked+0x34/0x38
+---[ end trace 67e6d544e65b5145 ]---
+Kernel panic - not syncing: Fatal exception
+==========================================================================
+
+In device probe(), of_dma_controller_register() registers DMA controller.
+But when driver is removed, this is not freed. During driver reload this
+results in data abort and kernel panic. Add of_dma_controller_free() in
+driver remove path to fix the issue.
+
+Fixes: f46b195799b5 ("dmaengine: tegra-adma: Add support for Tegra210 ADMA")
+Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/dma/tegra210-adma.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index 5ec0dd97b3971..9aa35a7f13692 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -787,6 +787,7 @@ static int tegra_adma_remove(struct platform_device *pdev)
+ 	struct tegra_adma *tdma = platform_get_drvdata(pdev);
+ 	int i;
+ 
++	of_dma_controller_free(pdev->dev.of_node);
+ 	dma_async_device_unregister(&tdma->dma_dev);
+ 
+ 	for (i = 0; i < tdma->nr_channels; ++i)
+-- 
+2.20.1
+
