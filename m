@@ -2,65 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ABEB26490
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 15:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6971264B8
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 15:28:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728912AbfEVNYS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 May 2019 09:24:18 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:35518 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729161AbfEVNYS (ORCPT
+        id S1728744AbfEVN24 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 May 2019 09:28:56 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44524 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727975AbfEVN2z (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 May 2019 09:24:18 -0400
-Received: by mail-wr1-f67.google.com with SMTP id m3so2302007wrv.2;
-        Wed, 22 May 2019 06:24:16 -0700 (PDT)
+        Wed, 22 May 2019 09:28:55 -0400
+Received: by mail-wr1-f66.google.com with SMTP id w13so2291898wru.11;
+        Wed, 22 May 2019 06:28:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=a4JBStCcSZC4v0Q51f4UGvVDbTYVZbXrg5o7Yfs72tw=;
-        b=tjFCBLs4VCFoQspPTBklAZxOg1zTMohdRF6b3Ybz4R0OIlg7ieqtmqU6PKhUw2NFdw
-         pQzj6SAMk77H5DpPmyPSDAq1rLtZIujN8ErBDIgJl9UxI9D+3TtCTLKLIdASjdHLxHKx
-         dHullA3i68cDPI4o+IATreD8JCoUs2eAfwrRdm4DtQ5Y5szlGpU3KXBhvRyLdmyk1mBi
-         ZspFom/vebb7Q+1UMW1ZPHzJHGsGq/SD1P8gMk7RW/xjG5zogVMSW0UtJyaXym57JIFX
-         RrxP+p9g60VMHTzgiLmPe92B+8TVK5ebGIYwTwvxorZXw4H1AD1OAv915w1mD+I5JsWs
-         QwMQ==
+        bh=eAAuLA5om6VrYrWHB9GFmGEVserHpuSE9+0R0hizySY=;
+        b=ILvH+n+XRHqMb/uN9Hzjj3WSX5iuHxn5eVTmWiV/SSCRBoaUQK7/28mFpKUBK1ebqd
+         hwFWezE7FHLpin6ZkGQoSuQUtUUOq9z+/YNtjDRBzv9QQnZK8jTNj4Ct+1/tzR9VWcBh
+         jvjN0iQxw5jFJ0Kkm20e3/OdIsbsWNzcgo0xerrROkDSO4YHqJ8nc4ZOcQBsNkE/gHUD
+         dA2a90kQMeT7U9FVeJ1v3EehQv9oCpkPNdXK54bG5LaeuQC0kkwwuRSI3gKW2We1fVln
+         Q5EXGdX6totPPgpVu2BXU3KkFcfJ2Vt9bqxXMAgJG6UvbHcOyADvojj7xratFMqtnQEP
+         Dnug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=a4JBStCcSZC4v0Q51f4UGvVDbTYVZbXrg5o7Yfs72tw=;
-        b=REWTXGI4w0FYFzakhFmDp8haVcNpqysj8O88T/D8ceD7Y1TsTGs61ssKmAVNT2lAc1
-         cz7a4aFnpyBT2NPIn7qRAlWU5KkNFoSAjWVJvWhyV3CU2j1B7jjnUmwv/xPHjNyhugPg
-         0SEfdHPKilQd17/iNGj+LTT3S6lbhZerp9YOWGXyftJEuqAqw3J3xBeHc9OS0DQnLx+g
-         2K7sLEE9TXJJtgjm2eirti4qjFjP7+U+Cn+zfCFlUEvftlrfH2yZu2Vb6VM2J4txeQBW
-         +I//G+r7bQBjECPiRBACwa4rQ+v33Sex6iNcSTH05NiJ/lMNiz8M7T/v4DFLI8y09eKe
-         AQyQ==
-X-Gm-Message-State: APjAAAW2fUKsBVnCCjP+i7tBRrlOWXTCQOzpWF2Sq1YOCTydpIHsXR58
-        aPcSn6oCsZ+p/ZDbY1aYnkA=
-X-Google-Smtp-Source: APXvYqzUeF0lFDRFrXPXN9JFJusI6NdigE6jSBgERTEp8G1tIf5DsJl8uPkylwnXzmKUvgdDMK3vbw==
-X-Received: by 2002:adf:ce89:: with SMTP id r9mr6362559wrn.300.1558531455728;
-        Wed, 22 May 2019 06:24:15 -0700 (PDT)
+        bh=eAAuLA5om6VrYrWHB9GFmGEVserHpuSE9+0R0hizySY=;
+        b=FC7T0/Xo0e7h+6613+0/Don0L/NkNGmDIAHhdecZfCLTo7UVNMQt/X4phnJcqGr7wp
+         vkOPaB/reMZH0C3Oho6k8PKyZiroy75UqMV7D5VSOVfWWX3afQVeqTgipZQozVU80FEg
+         Q5zrb8QmNgvCoCZ9Gh4BF1mjahdSK6bcWjGYctSnoDBCGTH+GD/8xEjeL0yBzJh1a0q9
+         0dEz8PnCh+pc4dEJgx+AAPsQbMn8MdcFFkRDyzMq3evb5ER2nVYU2TQlp/vIxD56RRrL
+         i6j24isHZFkj3vxptil+ih/SsXnVV7Hz11XJo4IsBxTkfVPjOFj/CmMznHCo+f5Nw34j
+         0DMQ==
+X-Gm-Message-State: APjAAAWMMGY0mOnsoo4ov+lhWa3cYDHt0vcFcgGAP+BLmoS/O8YtZJWH
+        pyCVs+QQGZEuOsmo9qaYRGs=
+X-Google-Smtp-Source: APXvYqxZtrMiJQU38jZUcjGsvAJFMuXF0t9BcMGrWaz6+oeSS6GT/87elRamgKNNbKfR/TxA/YBGCg==
+X-Received: by 2002:adf:c188:: with SMTP id x8mr2612144wre.256.1558531733373;
+        Wed, 22 May 2019 06:28:53 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id i125sm11765781wmi.2.2019.05.22.06.24.14
+        by smtp.gmail.com with ESMTPSA id b206sm7249288wmd.28.2019.05.22.06.28.51
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 22 May 2019 06:24:14 -0700 (PDT)
-Date:   Wed, 22 May 2019 15:24:13 +0200
+        Wed, 22 May 2019 06:28:52 -0700 (PDT)
+Date:   Wed, 22 May 2019 15:28:51 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Sowjanya Komatineni <skomatineni@nvidia.com>
 Cc:     jonathanh@nvidia.com, jckuo@nvidia.com, talho@nvidia.com,
         josephl@nvidia.com, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V1 10/12] gpio: tegra: implement wake event support for
- Tegra210 and prior GPIO
-Message-ID: <20190522132413.GL30938@ulmo>
+Subject: Re: [PATCH V1 11/12] soc/tegra: pmc: configure tegra deep sleep
+ control settings
+Message-ID: <20190522132851.GM30938@ulmo>
 References: <1558481483-22254-1-git-send-email-skomatineni@nvidia.com>
- <1558481483-22254-11-git-send-email-skomatineni@nvidia.com>
+ <1558481483-22254-12-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="yaPAUYI/0vT2YKpA"
+        protocol="application/pgp-signature"; boundary="hnsKUeImFCk/igEn"
 Content-Disposition: inline
-In-Reply-To: <1558481483-22254-11-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <1558481483-22254-12-git-send-email-skomatineni@nvidia.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -68,240 +68,142 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---yaPAUYI/0vT2YKpA
+--hnsKUeImFCk/igEn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 21, 2019 at 04:31:21PM -0700, Sowjanya Komatineni wrote:
-> The GPIO controller doesn't have any controls to enable the system to
-> wake up from low power states based on activity on GPIO pins. An extra
-> hardware block that is part of the power management controller (PMC)
-> contains these controls. In order for the GPIO controller to be able
-> to cooperate with the PMC, obtain a reference to the PMC's IRQ domain
-> and make it a parent to the GPIO controller's IRQ domain. This way the
-> PMC gets an opportunity to program the additional registers required
-> to enable wakeup sources on suspend.
+On Tue, May 21, 2019 at 04:31:22PM -0700, Sowjanya Komatineni wrote:
+> Tegra210 and prior Tegra chips have power request signal polarity,
+> deep sleep entry and wake related timings which are platform specific
+> that should be configured before entering into deep sleep.
+>=20
+> Below are the timings specific configurations for deep sleep and wake.
+> - Core rail power-on stabilization timer
+> - OSC clock stabilization timer after SOC rail power is stabilized.
+> - Core power off time is the minimum wake delay to keep the system
+> in deep sleep state irrespective of any quick wake event.
+>=20
+> These values depends on the discharge time of regulators and turn OFF
+> time of the PMIC to allow the complete system to finish entering into
+> deep sleep state.
+>=20
+> These values vary based on the platform design and are specified
+> through the device tree.
+>=20
+> This patch has implementation to configure these configurations which
+> are must to have for deep sleep state.
 >=20
 > Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 > ---
->  drivers/gpio/gpio-tegra.c | 109 ++++++++++++++++++++++++++++++++++++++++=
-+++---
->  1 file changed, 103 insertions(+), 6 deletions(-)
+>  arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi |  7 +++++++
+>  drivers/soc/tegra/pmc.c                        | 18 ++++++++++++++++++
+>  2 files changed, 25 insertions(+)
 >=20
-> diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
-> index 6d9b6906b9d0..d57e33050d0c 100644
-> --- a/drivers/gpio/gpio-tegra.c
-> +++ b/drivers/gpio/gpio-tegra.c
-> @@ -32,6 +32,8 @@
->  #include <linux/pinctrl/consumer.h>
->  #include <linux/pm.h>
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi b/arch/arm64/=
+boot/dts/nvidia/tegra210-p2180.dtsi
+> index 4dcd0d36189a..7ac5e55a30aa 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
+> +++ b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
+> @@ -266,6 +266,13 @@
 > =20
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
->  #define GPIO_BANK(x)		((x) >> 5)
->  #define GPIO_PORT(x)		(((x) >> 3) & 0x3)
->  #define GPIO_BIT(x)		((x) & 0x7)
-> @@ -275,8 +277,22 @@ static int tegra_gpio_set_config(struct gpio_chip *c=
-hip, unsigned int offset,
->  static int tegra_gpio_to_irq(struct gpio_chip *chip, unsigned int offset)
->  {
->  	struct tegra_gpio_info *tgi =3D gpiochip_get_data(chip);
-> +	struct irq_domain *domain =3D tgi->irq_domain;
-> +
-> +	if (!gpiochip_irqchip_irq_valid(chip, offset))
-> +		return -ENXIO;
-> +
-> +	if (irq_domain_is_hierarchy(domain)) {
-> +		struct irq_fwspec spec;
-> +
-> +		spec.fwnode =3D domain->fwnode;
-> +		spec.param_count =3D 2;
-> +		spec.param[0] =3D offset;
-> +		spec.param[1] =3D IRQ_TYPE_NONE;
-> +		return irq_domain_alloc_irqs(domain, 1, NUMA_NO_NODE, &spec);
-> +	}
+>  	pmc@7000e400 {
+>  		nvidia,invert-interrupt;
+> +		nvidia,suspend-mode =3D <0>;
+> +		nvidia,cpu-pwr-good-time =3D <0>;
+> +		nvidia,cpu-pwr-off-time =3D <0>;
+> +		nvidia,core-pwr-good-time =3D <4587 3876>;
+> +		nvidia,core-pwr-off-time =3D <39065>;
+> +		nvidia,core-power-req-active-high;
+> +		nvidia,sys-clock-req-active-high;
+>  	};
 > =20
-> -	return irq_find_mapping(tgi->irq_domain, offset);
-> +	return irq_find_mapping(domain, offset);
->  }
-> =20
->  static void tegra_gpio_irq_ack(struct irq_data *d)
-> @@ -365,7 +381,10 @@ static int tegra_gpio_irq_set_type(struct irq_data *=
-d, unsigned int type)
->  	else if (type & (IRQ_TYPE_EDGE_FALLING | IRQ_TYPE_EDGE_RISING))
->  		irq_set_handler_locked(d, handle_edge_irq);
-> =20
-> -	return 0;
-> +	if (d->parent_data)
-> +		return irq_chip_set_type_parent(d, type);
-> +	else
-> +		return 0;
+>  	/* eMMC */
 
-Why is this needed?
-
->  }
-> =20
->  static void tegra_gpio_irq_shutdown(struct irq_data *d)
-> @@ -566,10 +585,79 @@ static const struct dev_pm_ops tegra_gpio_pm_ops =
-=3D {
->  	SET_SYSTEM_SLEEP_PM_OPS(tegra_gpio_suspend, tegra_gpio_resume)
->  };
-> =20
-> +static int tegra_gpio_irq_domain_translate(struct irq_domain *domain,
-> +					   struct irq_fwspec *fwspec,
-> +					   unsigned long *hwirq,
-> +					   unsigned int *type)
-> +{
-> +	if (WARN_ON(fwspec->param_count < 2))
-> +		return -EINVAL;
-> +
-> +	*type =3D fwspec->param[1] & IRQ_TYPE_SENSE_MASK;
-> +	*hwirq =3D fwspec->param[0];
-> +
-> +	return 0;
-> +}
-> +
-> +static int tegra_gpio_irq_domain_alloc(struct irq_domain *domain,
-> +				       unsigned int virq,
-> +				       unsigned int num_irqs, void *data)
-> +{
-> +	struct tegra_gpio_info *tgi =3D gpiochip_get_data(domain->host_data);
-> +	struct irq_fwspec *fwspec =3D data;
-> +	struct irq_fwspec spec;
-
-You can put the above two lines onto a single line.
-
-> +	struct tegra_gpio_bank *bank;
-> +	unsigned long hwirq;
-> +	unsigned int type;
-> +	int err =3D 0;
-> +
-> +	if (WARN_ON(fwspec->param_count < 2))
-> +		return -EINVAL;
-> +
-> +	if (!irq_domain_get_of_node(domain->parent))
-> +		return -EINVAL;
-
-Can this ever fail?
-
-> +
-> +	err =3D tegra_gpio_irq_domain_translate(domain, fwspec, &hwirq, &type);
-> +	if (err)
-> +		return err;
-> +
-> +	bank =3D &tgi->bank_info[GPIO_BANK(hwirq)];
-> +	err =3D irq_domain_set_hwirq_and_chip(domain, virq, hwirq,
-> +					    &tgi->ic, bank);
-> +
-> +	if (err < 0)
-> +		return err;
-> +
-> +	spec.fwnode =3D domain->parent->fwnode;
-> +	spec.param_count =3D 3;
-> +	spec.param[0] =3D GIC_SPI;
-> +	spec.param[1] =3D fwspec->param[0];
-> +	spec.param[2] =3D fwspec->param[1];
-> +
-> +	return irq_domain_alloc_irqs_parent(domain, virq, 1, &spec);
-
-What if num_irqs is different from 1? I'm not exactly sure what to pass
-as &spec, but likely we'd have to create an array of struct irq_fwspec
-and pass that along. It seems like some drivers catch that case and
-refuse to work rather than pass potentially rubbish information along.
-See for example drivers/irqchip/irq-meson-gpio.c.
-
-> +}
-> +
-> +static const struct irq_domain_ops tegra_gpio_irq_domain_ops =3D {
-> +	.translate =3D tegra_gpio_irq_domain_translate,
-> +	.alloc =3D tegra_gpio_irq_domain_alloc,
-> +};
-> +
-> +static const struct of_device_id tegra_pmc_of_match[] =3D {
-> +	{ .compatible =3D "nvidia,tegra210-pmc" },
-> +	{ .compatible =3D "nvidia,tegra132-pmc" },
-> +	{ .compatible =3D "nvidia,tegra124-pmc" },
-> +	{ .compatible =3D "nvidia,tegra114-pmc" },
-> +	{ .compatible =3D "nvidia,tegra30-pmc" },
-> +	{ .compatible =3D "nvidia,tegra20-pmc" },
-> +	{ }
-> +};
-> +
->  static int tegra_gpio_probe(struct platform_device *pdev)
->  {
->  	struct tegra_gpio_info *tgi;
->  	struct tegra_gpio_bank *bank;
-> +	struct device_node *np;
-> +	struct irq_domain *parent_domain =3D NULL;
->  	unsigned int gpio, i, j;
->  	int ret;
-> =20
-> @@ -612,8 +700,15 @@ static int tegra_gpio_probe(struct platform_device *=
-pdev)
->  	tgi->ic.irq_set_type		=3D tegra_gpio_irq_set_type;
->  	tgi->ic.irq_shutdown		=3D tegra_gpio_irq_shutdown;
->  #ifdef CONFIG_PM_SLEEP
-> -	tgi->ic.irq_set_wake		=3D tegra_gpio_irq_set_wake;
-> +	tgi->ic.irq_set_wake		=3D irq_chip_set_wake_parent;
-
-This doesn't seem right. What about tegra_gpio_irq_set_wake()? If it's
-no longer needed, just remove it. But then, what about the extra logic
-in that function that causes the interrupts to be enabled during
-suspend? Is that no longer necessary? Maybe that's no longer needed on
-Tegra210, but what about other Tegra generations?
+This hunk looks like maybe it belongs in the last patch?
 
 Thierry
 
->  #endif
-> +	np =3D of_find_matching_node(NULL, tegra_pmc_of_match);
-> +	if (np) {
-> +		parent_domain =3D irq_find_host(np);
-> +		of_node_put(np);
-> +		if (!parent_domain)
-> +			return -EPROBE_DEFER;
-> +	}
+> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+> index 5e68e1de1780..8d225962d136 100644
+> --- a/drivers/soc/tegra/pmc.c
+> +++ b/drivers/soc/tegra/pmc.c
+> @@ -66,6 +66,7 @@
+>  #define  PMC_CNTRL_SIDE_EFFECT_LP0	BIT(14) /* LP0 when CPU pwr gated */
+>  #define  PMC_CNTRL_SYSCLK_OE		BIT(11) /* system clock enable */
+>  #define  PMC_CNTRL_SYSCLK_POLARITY	BIT(10) /* sys clk polarity */
+> +#define  PMC_CNTRL_PWRREQ_POLARITY	BIT(8)
+>  #define  PMC_CNTRL_MAIN_RST		BIT(4)
+>  #define  PMC_CNTRL_LATCH_WAKEUPS	BIT(5)
 > =20
->  	platform_set_drvdata(pdev, tgi);
+> @@ -98,6 +99,8 @@
 > =20
-> @@ -625,9 +720,11 @@ static int tegra_gpio_probe(struct platform_device *=
-pdev)
->  	if (!tgi->bank_info)
->  		return -ENOMEM;
+>  #define PMC_CPUPWRGOOD_TIMER		0xc8
+>  #define PMC_CPUPWROFF_TIMER		0xcc
+> +#define PMC_COREPWRGOOD_TIMER		0x3c
+> +#define PMC_COREPWROFF_TIMER		0xe0
 > =20
-> -	tgi->irq_domain =3D irq_domain_add_linear(pdev->dev.of_node,
-> -						tgi->gc.ngpio,
-> -						&irq_domain_simple_ops, NULL);
-> +	tgi->irq_domain =3D irq_domain_add_hierarchy(parent_domain, 0,
-> +						   tgi->gc.ngpio,
-> +						   pdev->dev.of_node,
-> +						   &tegra_gpio_irq_domain_ops,
-> +						   &tgi->gc);
->  	if (!tgi->irq_domain)
->  		return -ENODEV;
+>  #define PMC_PWR_DET_VALUE		0xe4
 > =20
+> @@ -2293,6 +2296,7 @@ static const struct tegra_pmc_regs tegra20_pmc_regs=
+ =3D {
+>  static void tegra20_pmc_init(struct tegra_pmc *pmc)
+>  {
+>  	u32 value;
+> +	unsigned long osc, pmu, off;
+> =20
+>  	/* Always enable CPU power request */
+>  	value =3D tegra_pmc_readl(pmc, PMC_CNTRL);
+> @@ -2306,6 +2310,11 @@ static void tegra20_pmc_init(struct tegra_pmc *pmc)
+>  	else
+>  		value |=3D PMC_CNTRL_SYSCLK_POLARITY;
+> =20
+> +	if (pmc->corereq_high)
+> +		value &=3D ~PMC_CNTRL_PWRREQ_POLARITY;
+> +	else
+> +		value |=3D PMC_CNTRL_PWRREQ_POLARITY;
+> +
+>  	/* configure the output polarity while the request is tristated */
+>  	tegra_pmc_writel(pmc, value, PMC_CNTRL);
+> =20
+> @@ -2313,6 +2322,15 @@ static void tegra20_pmc_init(struct tegra_pmc *pmc)
+>  	value =3D tegra_pmc_readl(pmc, PMC_CNTRL);
+>  	value |=3D PMC_CNTRL_SYSCLK_OE;
+>  	tegra_pmc_writel(pmc, value, PMC_CNTRL);
+> +
+> +	osc =3D DIV_ROUND_UP_ULL(pmc->core_osc_time * 8192, 1000000);
+> +	pmu =3D DIV_ROUND_UP_ULL(pmc->core_pmu_time * 32768, 1000000);
+> +	off =3D DIV_ROUND_UP_ULL(pmc->core_off_time * 32768, 1000000);
+> +	if (osc && pmu)
+> +		tegra_pmc_writel(pmc, ((osc << 8) & 0xff00) | (pmu & 0xff),
+> +				 PMC_COREPWRGOOD_TIMER);
+> +	if (off)
+> +		tegra_pmc_writel(pmc, off, PMC_COREPWROFF_TIMER);
+>  }
+> =20
+>  static void tegra20_pmc_setup_irq_polarity(struct tegra_pmc *pmc,
 > --=20
 > 2.7.4
 >=20
 
---yaPAUYI/0vT2YKpA
+--hnsKUeImFCk/igEn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzlTXoACgkQ3SOs138+
-s6HrchAArpxYmrjI7qy7yEaDqPo0KASXMR+eUjyS0BudrNh7swJNlIhBTGLSRaaI
-r4i9RQl7Tt8nTKKam9NrA3WmtJg/dZO/tOS/zL8HvywdZBCVspzMbox0TZVb/gE2
-C5RrncjWL3gjEsS+AkF/VH1a8BuFkrW41pPhhPE1HhU8brZSP4u8Y4mbNwQ+PUXO
-KTBeUqQ3WdJ8c9RRxPxzHCNjrWDP5l5WLfLA956XKya2+yxAa4DAiB/vaxBPl2H8
-cE57QSECDghHr6uxyXHKqs0BYJvr5Xib6AV+3FrCAU9uQoui3HRjAPuoZP9jTtPU
-738yKruQNwqCa+sFV0cGHF4rSdOs0JraEvu1SX4jtowshyQZR94iu3bGiXKRP5ta
-SBiQXPjgDufMuNhEKJPhhJTcIPfIDcVNsu4ZhDTehHxzJBYluhHvAEa4guNDNUn/
-OWpr7MDoHNpgPzG8DCTcwEZJA7CMXsTSWZYOukPeAHJbGRLy4GFlOGZb+5uAzkQH
-CvReaKQjY6Wp0KFWdvpxFVJp48i0giF7xcylw7nIJnLx8UdZE7XANakEVtj1DhT1
-mdr/dY9MAi+E/W/qNU1+CKN8TaJN1kGZ9rF6iDeUVqS3rYFRU1XSLlWbBB4CPKUQ
-qmJ9c0RxlTcT61L0rrJPKxcVqdXMXh9rAtyY3+AT1zUdSlBgAqM=
-=HHsq
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzlTpMACgkQ3SOs138+
+s6Hceg//eJ9RnI4FqaavIppTxvP+6ycPplyXRYYRThqnNCkniyHlND9eTi13aWTZ
+7KPyxOq1soDt75QXoah478RxkuCUkQ48w3/t6J622eN8r5n/VC+XHvprajKCPJeO
+3O3i+Ma5gIqdpBCx2wgv+/OZExgE2oFfhRWUPFxpeM+PCKu6C8ild7288lXAxu6K
+tL+GBFbbd1YbvO98X0vSrC8hP8f2/byKSwBmnwQUcFJsumylyQ9QS/ILgp8Gb20s
+MJSqOCQmxKp8yuQfq41YHKuBYwdWSN5VVE/s/N+3CvM3mQCV1gWKMCfIryZc819J
+k4aAAeqRp+hua9E2G/DJvMjJTNm299DNjHbqF9pmE49ggTam9yBxiwZXwHiI1snY
+yH66DmApDxu5g5AxsjcWdees7km+Ug8ZaNCR2TewjBkOq/end8mZhVvRjN27jlq/
+oIKUpxqT8hFm8voF55Y5bYWZ3H2eyP+GAH6f1b4HDytS8epsDx9Uj/yc/URmpvXA
+lflvfcrHRFEsSYIyX6fNbw0s+oJCb04f6oLz0tB5T53AyClU6xW+cDHLF9Dvdt4p
+G6Q8ZEEtrcyIzvxkBNS2hbiqjKnTAX9iKU+r3/1RJ49okvsEgAUIMrfqyIJ+xxeK
+rjkPkgQSaCbE4TGzSwmk6gKDCFKk1/FCJmMvasMS9cUbQg0eIQU=
+=vVPi
 -----END PGP SIGNATURE-----
 
---yaPAUYI/0vT2YKpA--
+--hnsKUeImFCk/igEn--
