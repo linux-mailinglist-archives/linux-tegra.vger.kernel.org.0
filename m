@@ -2,92 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C996025AC9
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 01:31:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 122C325EB6
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 09:35:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727946AbfEUXbU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 May 2019 19:31:20 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:1183 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727790AbfEUXbU (ORCPT
+        id S1725850AbfEVHfI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 May 2019 03:35:08 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50397 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725801AbfEVHfI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 May 2019 19:31:20 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ce48a480001>; Tue, 21 May 2019 16:31:20 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 21 May 2019 16:31:19 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 21 May 2019 16:31:19 -0700
-Received: from HQMAIL106.nvidia.com (172.18.146.12) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 May
- 2019 23:31:18 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL106.nvidia.com
- (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 21 May 2019 23:31:18 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.110.102.174]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ce48a460005>; Tue, 21 May 2019 16:31:18 -0700
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>
-CC:     <jckuo@nvidia.com>, <talho@nvidia.com>, <josephl@nvidia.com>,
-        <skomatineni@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH V1 12/12] arm64: tegra: enable wake from deep sleep on RTC alarm.
-Date:   Tue, 21 May 2019 16:31:23 -0700
-Message-ID: <1558481483-22254-13-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558481483-22254-1-git-send-email-skomatineni@nvidia.com>
-References: <1558481483-22254-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        Wed, 22 May 2019 03:35:08 -0400
+Received: by mail-wm1-f66.google.com with SMTP id f204so1066450wme.0
+        for <linux-tegra@vger.kernel.org>; Wed, 22 May 2019 00:35:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3USNmTFASDI25Xnff4nyiTrS0Z8Dx8HlEBn7dan5y08=;
+        b=cvBQR6BGCSD/Yaw8xiwS/aiY/f57uDE6r4YfcijpV8dALktEsaAML+5TWazSEo0UCR
+         RUo+qjoNJ0JlHdjLVph7YkuxZvXtgRDc6XyLB7ResJ0kqJzh+JwgoS3mh0LyZbeQTSjI
+         +2uxuYWy0GBtU6vrQgHP01FI8ycLEAyngOzB83Y0MzrMIzPyJn6NgTZ5M81JDsn3ZI9R
+         rtrgJlxyTAQ4bRFlk6PEP4Ur2w/IS2vGYZNb5McZpGseqo/qQQDAhbtlc1+tVvsWOYPh
+         Ckbv2EnX5jc9ZxJD01RimaiPBryJSoQkA0jSr/suo5GLu3DCbZN94AM4pEd4sT+7vONh
+         IlPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3USNmTFASDI25Xnff4nyiTrS0Z8Dx8HlEBn7dan5y08=;
+        b=ayxXP+kVMhyBwc4BEk31EAZxpa4rSyzGW9cB3WgMf0rbP6VKYBFbiWlBaqL2I3lhpW
+         xo0H9pCXZfXFqbTXSC0YgvPrASUnvR77LR75TUpDr0EwTzTT0GSHfb5TfYefv2n7vaBV
+         ljangeHqzGUKVWlJ+XZH3aCV4yVpr7C43lCKgL95jWcQm9GlPQ6dBNZpzb0nqEKhmaX1
+         R1sOh61rgcz7B8shRmGLVprX+gBWxLtcANhxovSvoKdfpj4KhRF1IbE8gjezATq1OTb6
+         VRxWbrFX+jO6KAAiwe5/JjHbMRrweFO+0t3L8U+8nBa6gvcu5pG1mUcXooPifvfWD1W3
+         ty+g==
+X-Gm-Message-State: APjAAAVwRcA1WAJPy4G6vQqKOUn70kigmspgfaSNEzMuK51ed+z6xtNp
+        CYkfoI++HRPUYJAq1ZBJvFE=
+X-Google-Smtp-Source: APXvYqx4MjSHFMArM213SDEkgjV+phknCFyTP/5ZdbOIW2/O+c3EOGHZYE3UJ8QPjSRNvoV3PH4Z0Q==
+X-Received: by 2002:a05:600c:21d7:: with SMTP id x23mr6369534wmj.105.1558510505866;
+        Wed, 22 May 2019 00:35:05 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id 205sm8068758wmd.43.2019.05.22.00.35.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 22 May 2019 00:35:05 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, Anuj Gangwar <anujg@nvidia.com>,
+        Bibek Basu <bbasu@nvidia.com>, linux-tegra@vger.kernel.org
+Subject: [PATCH] arm64: tegra: Clarify that P2771 is the Jetson TX2
+Date:   Wed, 22 May 2019 09:35:04 +0200
+Message-Id: <20190522073504.28483-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558481480; bh=0l4gC+Qj0JmgYVzpD51BKCVjV4o0qtIe+OiFzC2IyHA=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=pdt5MZBns4+ceXvILOGcVnbdVCbXXruvt8Ivg02qDNzL3ohJttqjXz9PSUadVtnYu
-         RtysGhBViJw/q/9DFqZIzNZXUFC0Fm/f5qZnoBiYkimLa2Hb/5d+4XPBsevvjwdHZg
-         mo3VMzUnzyFN/VhoEW9WrbqYOAh0Z0XMU/BMjNCPM7zZJpE2m2T6EdnpCQZ2hoMIFV
-         Ma7SwSfaGtKO/OkaCnMDce4PEtj7FOyxH8pnSx5KwmRgODLINjcB7nQXtko8mU0ONI
-         h49YWOkx0085rPlDk+HtmB8SDt1lY4+VYXHflPz5A4vWRZLhagkvLq+guxAIng5v3K
-         T5nM7976tebHA==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch updates device tree for RTC and PMC to allow system wake
-from deep sleep on RTC alarm.
+From: Thierry Reding <treding@nvidia.com>
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+P2771 is the internal part number for the Jetson TX2 developer kit.
+Clarify that using the DT model property.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra210.dtsi | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-index a550c0a4d572..cf5c215efb04 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-@@ -763,7 +763,8 @@
- 	rtc@7000e000 {
- 		compatible = "nvidia,tegra210-rtc", "nvidia,tegra20-rtc";
- 		reg = <0x0 0x7000e000 0x0 0x100>;
--		interrupts = <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupts = <16 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-parent = <&pmc>;
- 		clocks = <&tegra_car TEGRA210_CLK_RTC>;
- 		clock-names = "rtc";
- 	};
-@@ -773,6 +774,8 @@
- 		reg = <0x0 0x7000e400 0x0 0x400>;
- 		clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
- 		clock-names = "pclk", "clk32k_in";
-+		#interrupt-cells = <2>;
-+		interrupt-controller;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+index dfc206dd6fbb..5102de1dac9c 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+@@ -7,7 +7,7 @@
+ #include "tegra186-p3310.dtsi"
  
- 		powergates {
- 			pd_audio: aud {
+ / {
+-	model = "NVIDIA Tegra186 P2771-0000 Development Board";
++	model = "NVIDIA Jetson TX2 Developer Kit";
+ 	compatible = "nvidia,p2771-0000", "nvidia,tegra186";
+ 
+ 	i2c@3160000 {
 -- 
-2.7.4
+2.21.0
 
