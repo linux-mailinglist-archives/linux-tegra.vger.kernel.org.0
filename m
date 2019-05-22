@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D1F426B1A
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 21:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D70026E72
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 21:50:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731098AbfEVTYD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 May 2019 15:24:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45070 "EHLO mail.kernel.org"
+        id S1732128AbfEVT0r (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 May 2019 15:26:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48460 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731092AbfEVTYC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 May 2019 15:24:02 -0400
+        id S1732116AbfEVT0r (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 22 May 2019 15:26:47 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B201621473;
-        Wed, 22 May 2019 19:24:00 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3125C217F9;
+        Wed, 22 May 2019 19:26:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558553041;
+        s=default; t=1558553206;
         bh=rAcvKwp2UduGNAUik+s6lh38sOxMN6Y08aQsqhokFCI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hFBkApFgALB2EhYughhFO2BCMJl3zTGC3JxEjHcwhWsHsxEUrzDflN3NCZ+mUuI3/
-         NKXQF+E/8N9xU4QVDEU8aVZ7FaKo0d+HgCisPgssVD2T3oTtlIXtYLOO31J6ZcAM+3
-         YEQlp80vOLfSf3Npi0CzZrH0l3rj4QCERrN3vicY=
+        b=cSig2ufCsM32BqcnDqdA0w478XepokFaG5PDXWvOuW5uBuhU0nWZts2bQ6Kbv1TjG
+         ZlFNIINo3AtzxIkkw8sUbi15lpoCeR0ZREIv1+fK1Bpy6m4onj8ebpiTuaqHMdIsZF
+         bACqynFTo9OHHHAlyTxeUnmm8brlvezRMuVJdO6c=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sameer Pujar <spujar@nvidia.com>,
         Jon Hunter <jonathanh@nvidia.com>,
         Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
         dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.0 016/317] dmaengine: tegra210-dma: free dma controller in remove()
-Date:   Wed, 22 May 2019 15:18:37 -0400
-Message-Id: <20190522192338.23715-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 011/244] dmaengine: tegra210-dma: free dma controller in remove()
+Date:   Wed, 22 May 2019 15:22:37 -0400
+Message-Id: <20190522192630.24917-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190522192338.23715-1-sashal@kernel.org>
-References: <20190522192338.23715-1-sashal@kernel.org>
+In-Reply-To: <20190522192630.24917-1-sashal@kernel.org>
+References: <20190522192630.24917-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
