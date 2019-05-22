@@ -2,56 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 122C325EB6
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 09:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A94D525ED4
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 09:54:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725850AbfEVHfI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 May 2019 03:35:08 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50397 "EHLO
+        id S1728085AbfEVHyQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 May 2019 03:54:16 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39203 "EHLO
         mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbfEVHfI (ORCPT
+        with ESMTP id S1727946AbfEVHyQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 May 2019 03:35:08 -0400
-Received: by mail-wm1-f66.google.com with SMTP id f204so1066450wme.0
-        for <linux-tegra@vger.kernel.org>; Wed, 22 May 2019 00:35:06 -0700 (PDT)
+        Wed, 22 May 2019 03:54:16 -0400
+Received: by mail-wm1-f66.google.com with SMTP id n25so1082215wmk.4
+        for <linux-tegra@vger.kernel.org>; Wed, 22 May 2019 00:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3USNmTFASDI25Xnff4nyiTrS0Z8Dx8HlEBn7dan5y08=;
-        b=cvBQR6BGCSD/Yaw8xiwS/aiY/f57uDE6r4YfcijpV8dALktEsaAML+5TWazSEo0UCR
-         RUo+qjoNJ0JlHdjLVph7YkuxZvXtgRDc6XyLB7ResJ0kqJzh+JwgoS3mh0LyZbeQTSjI
-         +2uxuYWy0GBtU6vrQgHP01FI8ycLEAyngOzB83Y0MzrMIzPyJn6NgTZ5M81JDsn3ZI9R
-         rtrgJlxyTAQ4bRFlk6PEP4Ur2w/IS2vGYZNb5McZpGseqo/qQQDAhbtlc1+tVvsWOYPh
-         Ckbv2EnX5jc9ZxJD01RimaiPBryJSoQkA0jSr/suo5GLu3DCbZN94AM4pEd4sT+7vONh
-         IlPw==
+        bh=34K0TGjeATDdf8IOVKeWs5JeW/U7EXmZnjE2mvWzffg=;
+        b=aFK8qzVcDuOsDTCwBpUSLZZnteMHELM15Cxahrysvvpt6sAx/Q/owRRKLkeEeQkSR5
+         7Pfgfib+8OYqK7yH4mIKaR/7J5pkYcn+wXvnMc3a/eajlMEncYBNoyWDu5gfyE+Xo34E
+         6IRx+UYRP0+0D/h1OFY54Px2BZ+pBTQlxb2o1ihW8FTLCzOcn8Tg76hzSAXaqRF3XILZ
+         DWUf7xjs6OnEa4N+QEBthXqAXPZSQDmi4Q8RvXuE5n4uOG4cG8CGTdeh0mXawB6YrGgZ
+         oyRCxgjP75eDnkrZo51TAF8jVTI7zpJ6VTaIcWdUPHoNHFaqAm8yf8YT/eINEb2FDZw9
+         6zJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3USNmTFASDI25Xnff4nyiTrS0Z8Dx8HlEBn7dan5y08=;
-        b=ayxXP+kVMhyBwc4BEk31EAZxpa4rSyzGW9cB3WgMf0rbP6VKYBFbiWlBaqL2I3lhpW
-         xo0H9pCXZfXFqbTXSC0YgvPrASUnvR77LR75TUpDr0EwTzTT0GSHfb5TfYefv2n7vaBV
-         ljangeHqzGUKVWlJ+XZH3aCV4yVpr7C43lCKgL95jWcQm9GlPQ6dBNZpzb0nqEKhmaX1
-         R1sOh61rgcz7B8shRmGLVprX+gBWxLtcANhxovSvoKdfpj4KhRF1IbE8gjezATq1OTb6
-         VRxWbrFX+jO6KAAiwe5/JjHbMRrweFO+0t3L8U+8nBa6gvcu5pG1mUcXooPifvfWD1W3
-         ty+g==
-X-Gm-Message-State: APjAAAVwRcA1WAJPy4G6vQqKOUn70kigmspgfaSNEzMuK51ed+z6xtNp
-        CYkfoI++HRPUYJAq1ZBJvFE=
-X-Google-Smtp-Source: APXvYqx4MjSHFMArM213SDEkgjV+phknCFyTP/5ZdbOIW2/O+c3EOGHZYE3UJ8QPjSRNvoV3PH4Z0Q==
-X-Received: by 2002:a05:600c:21d7:: with SMTP id x23mr6369534wmj.105.1558510505866;
-        Wed, 22 May 2019 00:35:05 -0700 (PDT)
+        bh=34K0TGjeATDdf8IOVKeWs5JeW/U7EXmZnjE2mvWzffg=;
+        b=TsmKOtucdeboW+f/i+C8R+etOwRsmrvAjuMwx7vzy3+nFQLpvZgeqeFuH1i8xzWxRH
+         BeRgVRlOa637yRvf9n/smf7VG89XZqi/MNo1sBazAWpDClEVlJXZvKyT8ZxZZVJwbXye
+         nq41OmmAh6YVZO67Pd6JU/5icA84dJuULHciwYkvNg2fvcpZ+IAR+QZd1mTY37wS4d60
+         SgR2lEqqJ5uf+ZOanc/S3Wnl6408tgqUsO6r6aMLixBY76l/LGJtNqwtYDd3HifnpSGF
+         UahyCvZ2Fsdhp3G7M7/zWYGSRqXliMhT3ZbKh/s6IiMzNFZfDLJ150QgqJIaiEq8sTJn
+         fI8Q==
+X-Gm-Message-State: APjAAAWgUcXGHZaBYbhtyY/DgxxFYC9WaLJUfA6X5fqxRBj0nBqAbwiM
+        lsHu2rlMZRDsKRyUGsPqRWc=
+X-Google-Smtp-Source: APXvYqx9aQD0RV84cuCdeN6o6I8AX7vlCyBSPnn8uMuuwCqfH9pkPaet7tpcRY7kaevymPd67cnbtw==
+X-Received: by 2002:a7b:cb81:: with SMTP id m1mr6593710wmi.9.1558511654265;
+        Wed, 22 May 2019 00:54:14 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id 205sm8068758wmd.43.2019.05.22.00.35.05
+        by smtp.gmail.com with ESMTPSA id q16sm5458152wmj.17.2019.05.22.00.54.13
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 22 May 2019 00:35:05 -0700 (PDT)
+        Wed, 22 May 2019 00:54:13 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, Anuj Gangwar <anujg@nvidia.com>,
         Bibek Basu <bbasu@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH] arm64: tegra: Clarify that P2771 is the Jetson TX2
-Date:   Wed, 22 May 2019 09:35:04 +0200
-Message-Id: <20190522073504.28483-1-thierry.reding@gmail.com>
+Subject: [PATCH 1/4] arm64: tegra: Clarify that P2771 is the Jetson TX2 Developer Kit
+Date:   Wed, 22 May 2019 09:54:09 +0200
+Message-Id: <20190522075412.30839-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -62,7 +62,7 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-P2771 is the internal part number for the Jetson TX2 developer kit.
+P2771 is the internal part number for the Jetson TX2 Developer Kit.
 Clarify that using the DT model property.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
