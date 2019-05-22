@@ -2,57 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A94D525ED4
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 09:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41CB025ED5
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 09:54:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728085AbfEVHyQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 May 2019 03:54:16 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:39203 "EHLO
+        id S1728370AbfEVHyS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 May 2019 03:54:18 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39206 "EHLO
         mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727946AbfEVHyQ (ORCPT
+        with ESMTP id S1727946AbfEVHyR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 May 2019 03:54:16 -0400
-Received: by mail-wm1-f66.google.com with SMTP id n25so1082215wmk.4
-        for <linux-tegra@vger.kernel.org>; Wed, 22 May 2019 00:54:14 -0700 (PDT)
+        Wed, 22 May 2019 03:54:17 -0400
+Received: by mail-wm1-f66.google.com with SMTP id n25so1082282wmk.4
+        for <linux-tegra@vger.kernel.org>; Wed, 22 May 2019 00:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=34K0TGjeATDdf8IOVKeWs5JeW/U7EXmZnjE2mvWzffg=;
-        b=aFK8qzVcDuOsDTCwBpUSLZZnteMHELM15Cxahrysvvpt6sAx/Q/owRRKLkeEeQkSR5
-         7Pfgfib+8OYqK7yH4mIKaR/7J5pkYcn+wXvnMc3a/eajlMEncYBNoyWDu5gfyE+Xo34E
-         6IRx+UYRP0+0D/h1OFY54Px2BZ+pBTQlxb2o1ihW8FTLCzOcn8Tg76hzSAXaqRF3XILZ
-         DWUf7xjs6OnEa4N+QEBthXqAXPZSQDmi4Q8RvXuE5n4uOG4cG8CGTdeh0mXawB6YrGgZ
-         oyRCxgjP75eDnkrZo51TAF8jVTI7zpJ6VTaIcWdUPHoNHFaqAm8yf8YT/eINEb2FDZw9
-         6zJg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=toVACGXBx18Y2vxcEbYtE4cJq4mW2GCPqGkJY2PpimM=;
+        b=s/HidqJblQnsycAV7nj2L2KxlyV00nn3U4PoaGefxOXlLMZW9kOBYGEHr0YmSfaMb6
+         u+d1LU4WL4tUQ+JX3rmxVMsH0PZGQbzA55UsjC16dGjUiNxD03ykbOlCrOVkQpceu+wM
+         Caq2ssqRZ/Mwmlbsv02hE7AvVgxLmSEWaz/q14GSmNSBT8brmA4KifSpVZG70WXjIU9J
+         U6FeGCiFHOFaETiJkvWnOXN3akfZesXbu9Eo/rOJML8a0euL5l201O/6ETLpl8o62A77
+         t7tVrRNABs9NEhRhfsdtx5MCkBKQAc647peQMj499YE+DO/MeWgtMHPV4YPjfh1Q9A0U
+         6yOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=34K0TGjeATDdf8IOVKeWs5JeW/U7EXmZnjE2mvWzffg=;
-        b=TsmKOtucdeboW+f/i+C8R+etOwRsmrvAjuMwx7vzy3+nFQLpvZgeqeFuH1i8xzWxRH
-         BeRgVRlOa637yRvf9n/smf7VG89XZqi/MNo1sBazAWpDClEVlJXZvKyT8ZxZZVJwbXye
-         nq41OmmAh6YVZO67Pd6JU/5icA84dJuULHciwYkvNg2fvcpZ+IAR+QZd1mTY37wS4d60
-         SgR2lEqqJ5uf+ZOanc/S3Wnl6408tgqUsO6r6aMLixBY76l/LGJtNqwtYDd3HifnpSGF
-         UahyCvZ2Fsdhp3G7M7/zWYGSRqXliMhT3ZbKh/s6IiMzNFZfDLJ150QgqJIaiEq8sTJn
-         fI8Q==
-X-Gm-Message-State: APjAAAWgUcXGHZaBYbhtyY/DgxxFYC9WaLJUfA6X5fqxRBj0nBqAbwiM
-        lsHu2rlMZRDsKRyUGsPqRWc=
-X-Google-Smtp-Source: APXvYqx9aQD0RV84cuCdeN6o6I8AX7vlCyBSPnn8uMuuwCqfH9pkPaet7tpcRY7kaevymPd67cnbtw==
-X-Received: by 2002:a7b:cb81:: with SMTP id m1mr6593710wmi.9.1558511654265;
-        Wed, 22 May 2019 00:54:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=toVACGXBx18Y2vxcEbYtE4cJq4mW2GCPqGkJY2PpimM=;
+        b=T8b5XfJ+CUg0zqhmW6L00/ZR/hHom1DfP/JIfrphMmgR/sXVsgoa3dwy0mnKVJwttw
+         NyaenhMGamxEH85eYRJUh+E9qOG/BC6j/idI8cDEDhCXqI/InKMEmkZMIaEjX1UlA61K
+         UHsLf4To5MKuhCzlirSHukmBYcsdRRoNljPuq18zMF2pD0b6mrEwhGe0ihluYqQ4dA/q
+         4OyHzYE6JcedR3s0wgmw83/T1LHsCJLW70vpffm3t+DnyUIS9k7wQ/FrDC52oQVxxIgL
+         5NzIZMWcKK/7tbGHGe2/r4d6iPD/qy/BVmFtCTAeforV5Zx7t/hAWZvPHTRcjePKP19G
+         W/5Q==
+X-Gm-Message-State: APjAAAVRanvSgDxwjpYkSy1Ew7gk5tnjKDitUv48w8aFiWTucXG66F8r
+        MGdkrLpOf1rDj1cFcRxVMf0=
+X-Google-Smtp-Source: APXvYqwpAKETh0Nlapz19jg2B8EUcLDRGFMgms5Wakz+0keXXGm+1YJt7ueQt1gpBICftoFnuE8PKw==
+X-Received: by 2002:a7b:c04c:: with SMTP id u12mr5977810wmc.59.1558511655785;
+        Wed, 22 May 2019 00:54:15 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id q16sm5458152wmj.17.2019.05.22.00.54.13
+        by smtp.gmail.com with ESMTPSA id n15sm25830193wru.67.2019.05.22.00.54.15
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 22 May 2019 00:54:13 -0700 (PDT)
+        Wed, 22 May 2019 00:54:15 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, Anuj Gangwar <anujg@nvidia.com>,
         Bibek Basu <bbasu@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH 1/4] arm64: tegra: Clarify that P2771 is the Jetson TX2 Developer Kit
-Date:   Wed, 22 May 2019 09:54:09 +0200
-Message-Id: <20190522075412.30839-1-thierry.reding@gmail.com>
+Subject: [PATCH 2/4] arm64: tegra: Clarify that P3310 is the Jetson TX2
+Date:   Wed, 22 May 2019 09:54:10 +0200
+Message-Id: <20190522075412.30839-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190522075412.30839-1-thierry.reding@gmail.com>
+References: <20190522075412.30839-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -62,27 +64,27 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-P2771 is the internal part number for the Jetson TX2 Developer Kit.
-Clarify that using the DT model property.
+P3310 is the internal part number for the Jetson TX2 module. Clarify
+that using the DT model property.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 2 +-
+ arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-index dfc206dd6fbb..5102de1dac9c 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-@@ -7,7 +7,7 @@
- #include "tegra186-p3310.dtsi"
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi b/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi
+index 64686b033c38..38ad1053f21a 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi
+@@ -4,7 +4,7 @@
+ #include <dt-bindings/mfd/max77620.h>
  
  / {
--	model = "NVIDIA Tegra186 P2771-0000 Development Board";
-+	model = "NVIDIA Jetson TX2 Developer Kit";
- 	compatible = "nvidia,p2771-0000", "nvidia,tegra186";
+-	model = "NVIDIA Tegra186 P3310 Processor Module";
++	model = "NVIDIA Jetson TX2";
+ 	compatible = "nvidia,p3310", "nvidia,tegra186";
  
- 	i2c@3160000 {
+ 	aliases {
 -- 
 2.21.0
 
