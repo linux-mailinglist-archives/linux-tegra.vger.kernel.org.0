@@ -2,128 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E24A26728
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 17:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A86C42681D
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 18:22:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728527AbfEVPsa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 May 2019 11:48:30 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:33558 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729402AbfEVPs3 (ORCPT
+        id S1729603AbfEVQWW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 May 2019 12:22:22 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:1967 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729588AbfEVQWV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 May 2019 11:48:29 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c66so5040257wme.0
-        for <linux-tegra@vger.kernel.org>; Wed, 22 May 2019 08:48:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4ymCN4zK26ZTUFCEXX7eQSW+kelBNJC5uXfNvBUA89w=;
-        b=SFk/HRAUYcYrwCMhsQ2edNdvV5hwj+tm2jzDiidQKYpQ7PC6R3+2qJ6oihdSnqcAR5
-         1N7zPNgIENz0Xa7mggkJ9pMW5U+leJ9FwbRm/ZuOf82rpKimd9LKqoE4Sey3atnhhtGH
-         sgAYV8IDrSRwA//5yQ7YSMQeM2Hfdx8cC2XyUhoLMjcVbLLmZrPAiyaxDVDQZNgn7r4A
-         dc5cv2fEPpkTY4wqXBc1BstyU6YwlQSwaEXsqERVK7MBXPT4rHoVMvHuMs7djKFPdmLA
-         /VoeiSotnElK/vtb6xVFXGfRCD/eEkP1kn9AGBofejsYnXrngE6nq27zBuGj8/smPEcx
-         fK2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4ymCN4zK26ZTUFCEXX7eQSW+kelBNJC5uXfNvBUA89w=;
-        b=baBFNMAsmDB+t8UnuLI14lsGgYOMJyDgJTqoLel8urUl9nZajYYGDc+9SSbMX63pRg
-         5BUGvkWUCtBJghr2jZluHI3c4pgr95nHRi9MnDFJw9dv8gv3IdFldkyb1a+WENB8LMMn
-         Lj9lrjhyZhTRNEPQE+DYmJpG+gpt9sKhirSoMIq958nGuGp9BDbrS/Su6wVt5EB/TjjE
-         cmSivHt9/o+dsr9wEcwiYnv8FtFR+Yd35zpXHOeIcJ9TRnbJnkzI8uvgxwh0+eTk46+K
-         yyfo123YQQemhqM1pBrrVfx4dMsPdKIg9aO69fqUyUQgtqIUrSORcCJVhM1KRJjiYXoD
-         4F8Q==
-X-Gm-Message-State: APjAAAVjjSL8eSsT+8telREuYy0TKyGfsruu8zYpkAG3JgWCSV6efab7
-        eHEidJ2QxZK/MmVDleMtURc=
-X-Google-Smtp-Source: APXvYqzs7YHIDcZN4IrAo88L1Gs+cRh/lgeCh5bjQJtVA479VVwk4p4HXw1ftnCxMsHoHR99X76uVA==
-X-Received: by 2002:a1c:6a0e:: with SMTP id f14mr1642875wmc.69.1558540107798;
-        Wed, 22 May 2019 08:48:27 -0700 (PDT)
-Received: from arch-x1c3.cbg.collabora.co.uk ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
-        by smtp.gmail.com with ESMTPSA id t6sm12567117wmt.34.2019.05.22.08.48.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 May 2019 08:48:27 -0700 (PDT)
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     kernel@collabora.com, Thierry Reding <treding@nvidia.com>,
-        linux-tegra@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/4] drm/tegra: remove irrelevant DRM_UNLOCKED flag
-Date:   Wed, 22 May 2019 16:46:59 +0100
-Message-Id: <20190522154702.16269-1-emil.l.velikov@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        Wed, 22 May 2019 12:22:21 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ce577390000>; Wed, 22 May 2019 09:22:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 22 May 2019 09:22:20 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 22 May 2019 09:22:20 -0700
+Received: from [10.2.170.210] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 22 May
+ 2019 16:22:19 +0000
+Subject: Re: [PATCH] mmc: tegra: Fix a warning message
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+CC:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>
+References: <20190515093512.GD3409@mwanda>
+ <CAPDyKFpm9dB55aCUQkDHgyfcJdniNG9jCbdQ4ezYgQ=L8Rxfhw@mail.gmail.com>
+ <20190522133709.GP30938@ulmo>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <f8b4cc7c-6f12-21df-e76c-59699ff647b0@nvidia.com>
+Date:   Wed, 22 May 2019 09:22:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190522133709.GP30938@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1558542137; bh=ZsC4IEtqXi/ZnetadpRadeyjRQPUySYWX9WQm/c9Zmk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=dCdc4EgVErMIs5/eTARulpqisVqeNKoibL2OjKtm8gENe+Hqc6W9ZQRoNEQNbsX9r
+         +jiq78rvboYp6Yibk4j4W/YF/15Q/fCJx+b9Q+xASFTq+844LpBPMSjs5S618V+avp
+         kd33pK9tEZhhe99nbOykvqpypk9fmZsbI+UU1iAmYRZbNRZI0cFGxeGuWToJkAKXpF
+         E9LKuHB0C/yTAKjfZ86l2tWNHXF0UaJdi5BhY+cTN3Ie8r6Gd+oMxRNdl+n1Tz+5c1
+         D/2lkmP+RhPkJqlzxp+P1HvfCCnJ/K3x+ZvnHj8kvt7nn6Sh7gGsPx4V6EOq/bxwMo
+         h6vNyb3T3dGGw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Emil Velikov <emil.velikov@collabora.com>
+On 5/22/19 6:37 AM, Thierry Reding wrote:
+> On Wed, May 15, 2019 at 01:46:40PM +0200, Ulf Hansson wrote:
+>> On Wed, 15 May 2019 at 11:35, Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>>> The WARN_ON() macro takes a condition, not a warning message.  I've
+>>> changed this to use WARN(1, "msg...
+>>>
+>>> Fixes: ea8fc5953e8b ("mmc: tegra: update hw tuning process")
+>>> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+>>> ---
+>>>   drivers/mmc/host/sdhci-tegra.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+>>> index f608417ae967..10d7aaf68bab 100644
+>>> --- a/drivers/mmc/host/sdhci-tegra.c
+>>> +++ b/drivers/mmc/host/sdhci-tegra.c
+>>> @@ -865,7 +865,7 @@ static void tegra_sdhci_tap_correction(struct sdhci_host *host, u8 thd_up,
+>>>          }
+>>>
+>>>          if (!first_fail) {
+>>> -               WARN_ON("no edge detected, continue with hw tuned delay.\n");
+>>> +               WARN(1, "no edge detected, continue with hw tuned delay.\n");
+>> Not sure why this is a WARN*() in the first place.
+>>
+>> Seems like a dev_warn() or possibly a dev_warn_once() should be used instead.
+> I think this was on purpose in order to increase the likelihood of this
+> getting reported. Sowjanya knows the details much better, but I think
+> this is supposed to be very rare and really a problem with the tap
+> settings in device tree, which is something that we want to know and
+> fix.
+>
+> Let's see if Sowjanya can shed some light on this.
+>
+> Thierry
+>
+This warn can happen when no edge is detected and hw tuning results include
 
-DRM_UNLOCKED doesn't do anything for non-legacy drivers. Remove it.
+all passing taps which is very unlikely. So, I believe WARN(1, msg) 
+should be good to use.
 
-Cc: Thierry Reding <treding@nvidia.com>
-Cc: linux-tegra@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
----
- drivers/gpu/drm/tegra/drm.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+Sowjanya
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 0c5f1e6a0446..8836c113b392 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -891,33 +891,33 @@ static int tegra_gem_get_flags(struct drm_device *drm, void *data,
- static const struct drm_ioctl_desc tegra_drm_ioctls[] = {
- #ifdef CONFIG_DRM_TEGRA_STAGING
- 	DRM_IOCTL_DEF_DRV(TEGRA_GEM_CREATE, tegra_gem_create,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_GEM_MMAP, tegra_gem_mmap,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_SYNCPT_READ, tegra_syncpt_read,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_SYNCPT_INCR, tegra_syncpt_incr,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_SYNCPT_WAIT, tegra_syncpt_wait,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_OPEN_CHANNEL, tegra_open_channel,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_CLOSE_CHANNEL, tegra_close_channel,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_GET_SYNCPT, tegra_get_syncpt,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_SUBMIT, tegra_submit,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_GET_SYNCPT_BASE, tegra_get_syncpt_base,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_GEM_SET_TILING, tegra_gem_set_tiling,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_GEM_GET_TILING, tegra_gem_get_tiling,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_GEM_SET_FLAGS, tegra_gem_set_flags,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_GEM_GET_FLAGS, tegra_gem_get_flags,
--			  DRM_UNLOCKED | DRM_RENDER_ALLOW),
-+			  DRM_RENDER_ALLOW),
- #endif
- };
- 
--- 
-2.21.0
-
+>>>          } else if (first_pass) {
+>>>                  /* set tap location at fixed tap relative to the first edge */
+>>>                  edge1 = first_fail_tap + (first_pass_tap - first_fail_tap) / 2;
+>>> --
+>>> 2.20.1
+>>>
+>> Kind regards
+>> Uffe
