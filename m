@@ -2,164 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D5442788A
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 May 2019 10:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E64F3278FD
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 May 2019 11:16:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729698AbfEWIyc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 May 2019 04:54:32 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:4201 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725814AbfEWIyc (ORCPT
+        id S1726299AbfEWJQA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 May 2019 05:16:00 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:2558 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726230AbfEWJQA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 May 2019 04:54:32 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ce65fc50000>; Thu, 23 May 2019 01:54:30 -0700
+        Thu, 23 May 2019 05:16:00 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ce664cb0002>; Thu, 23 May 2019 02:15:55 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 23 May 2019 01:54:30 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 23 May 2019 02:15:59 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 23 May 2019 01:54:30 -0700
-Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 May
- 2019 08:54:27 +0000
-Subject: Re: Applied "ASoC: simple-card: Fix configuration of DAI format" to
- the asoc tree
-To:     Mark Brown <broonie@kernel.org>
-CC:     <alsa-devel@alsa-project.org>, Jaroslav Kysela <perex@perex.cz>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        Takashi Iwai <tiwai@suse.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <20190521203241.B277E1126D1B@debutante.sirena.org.uk>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <51ce00db-05ce-ba66-f1be-74c800f6daed@nvidia.com>
-Date:   Thu, 23 May 2019 09:54:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        by hqpgpgate102.nvidia.com on Thu, 23 May 2019 02:15:59 -0700
+Received: from localhost (10.124.1.5) by HQMAIL107.nvidia.com (172.20.187.13)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 May 2019 09:15:58
+ +0000
+Date:   Thu, 23 May 2019 11:15:56 +0200
+From:   Thierry Reding <treding@nvidia.com>
+To:     Emil Velikov <emil.l.velikov@gmail.com>
+CC:     <dri-devel@lists.freedesktop.org>, <kernel@collabora.com>,
+        <linux-tegra@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 1/4] drm/tegra: remove irrelevant DRM_UNLOCKED flag
+Message-ID: <20190523091555.GA18130@ulmo>
+References: <20190522154702.16269-1-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190521203241.B277E1126D1B@debutante.sirena.org.uk>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+In-Reply-To: <20190522154702.16269-1-emil.l.velikov@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="wRRV7LY7NUeQGEoC"
+Content-Disposition: inline
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558601671; bh=nEAGdQpsuiGbyUsp/OlVYhTmZlrhOGEiFb+mN7BRwqw=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=N2+5ucc9z+nzenpVaXE1PYc49m0cyFnjFgsAW6RgYS4Hp11q0bDfUuYgvXHCWh4oS
-         oriY7nwHGrMh8TTZxErFOOCTVLxm4uAWYh9DRlfXSJRJkpL12X1qwON+Ltws7aN9/u
-         lvhPydHp4bgR3hNb0v3L8/6SwLpuG/xtDNVbrdCk85JuSFz3jtosfMQ0m2Vg/yn5Fg
-         BtIiTDsqUQmJJCrRpN6e9faG6VUwBRFDCMFEuoZVcZSCEh83IUxWkAz4QtBl06KIZN
-         ndSyC7/fcvp6i49+WYjAA+evZg75nqhW8JaE+sbkTazEDxL1zLtKlSQutM/0NcGP2m
-         7CMReaH9tJbww==
+        t=1558602955; bh=JiNWuDtsuAFVjdnenp7qJhr3ZcqG7e/96vpigUCg98Q=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:In-Reply-To:X-NVConfidentiality:User-Agent:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:
+         Content-Disposition;
+        b=iUFtbMfA0KvZvXb5x8fcndTW+owvmQk+aCrDaEDBh9R3llWbugB3nZFF/mO1lcpM9
+         6NqZLWSeG8FzDCThv70MQ9CZR7Yu434rnjCdrfidYHhq7l6mCS9CAl4NKGxCgFPsGP
+         hKeL3iX6f8yCoVcR/Ju94PBnFdzdBOt8YWBpC7tqsn7LJF5iTdbXqNiPnJYl+YQ+0B
+         Ja0/hBPJxTd07kJAUmALFvtqeO4kduUbGJ/3Fu9t46Pm9Iv9z6nL5Juil7RsNx7KYP
+         H9l98SChRJ3z+BVUYoI9/PTzVCDHhHwXfNiv1/LORchEE32rOtZ4KFUdodFDpLKKLX
+         2pv5k5i4APO7Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Mark,
+--wRRV7LY7NUeQGEoC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 21/05/2019 21:32, Mark Brown wrote:
-> The patch
-> 
->    ASoC: simple-card: Fix configuration of DAI format
-> 
-> has been applied to the asoc tree at
-> 
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.2
-> 
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.  
-> 
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
-> 
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
-> 
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
-> 
-> Thanks,
-> Mark
-> 
-> From 069d037aea98ffa64c26d4b1dc958fb8f39f5c2b Mon Sep 17 00:00:00 2001
-> From: Jon Hunter <jonathanh@nvidia.com>
-> Date: Thu, 16 May 2019 18:51:26 +0100
-> Subject: [PATCH] ASoC: simple-card: Fix configuration of DAI format
-> 
-> When configuring a codec to be both bit-clock and frame-master, it was
-> found that the codec was always configured as bit-clock and frame-slave.
-> Looking at the simple_dai_link_of() function there appears to be two
-> problems with the configuration of the DAI format, which are ...
-> 
-> 1. The function asoc_simple_parse_daifmt() is called before the function
->    asoc_simple_parse_codec() and this means that the device-tree node
->    for the codec has not been parsed yet, which is needed by the
->    function asoc_simple_parse_daifmt() to determine who is the codec.
-> 2. The phandle passed to asoc_simple_parse_daifmt() is the phandle to
->    the 'codec' node and not the phandle of the actual codec defined by
->    the 'sound-dai' property under the 'codec' node.
-> 
-> Fix the above by moving the call to asoc_simple_parse_daifmt() after the
-> the call to asoc_simple_parse_codec() and pass the phandle for the codec
-> to asoc_simple_parse_daifmt().
-Please can you drop this patch?
+On Wed, May 22, 2019 at 04:46:59PM +0100, Emil Velikov wrote:
+> From: Emil Velikov <emil.velikov@collabora.com>
+>=20
+> DRM_UNLOCKED doesn't do anything for non-legacy drivers. Remove it.
+>=20
+> Cc: Thierry Reding <treding@nvidia.com>
+> Cc: linux-tegra@vger.kernel.org
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> ---
+>  drivers/gpu/drm/tegra/drm.c | 28 ++++++++++++++--------------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
 
-Per some offline review with Morimoto-san, it turns out that the actual
-issue resided in my DT (which was incorrect) and not the simple-card
-machine driver.
+I assume you want to take this through drm-misc? In that case:
 
-In my DT I incorrectly had ...
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-sound {
-	compatible = "simple-audio-card";
+Otherwise let me know and I'll pick it up into the Tegra tree.
 
-	...
-=>	simple-audio-card,bitclock-master = <&codec>;
-=>	simple-audio-card,frame-master = <&codec>;
-	...
+Thierry
 
-	simple-audio-card,cpu {
-		sound-dai = <&xxx>;
-	};
+--wRRV7LY7NUeQGEoC
+Content-Type: application/pgp-signature; name="signature.asc"
 
-	simple-audio-card,codec {
-=>		sound-dai = <&codec>;
-	};
-};
+-----BEGIN PGP SIGNATURE-----
 
-But I should have had ...
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzmZMgACgkQ3SOs138+
+s6HDbQ/+Nb4/XzRK2QUP3qBku8izstd6Np9t5erO7ZgQ0T/v5ctkG3ZZFMTjXRDl
+y647hQphtVliCn3BzOyl51VzDN/vEoifIidUI8wkJXnm1fRb9tZxwzJHi/5iDgq4
+mfbtN8sumBNp/YPDiGRR36te8qmf+BHPnuJ1diKb5foNFu871NkBWMzUBnSiDzcv
+fLHluu/o6OJ7QdGYA5j145BbFlwtI0BNSq6PwGhDG+mZ9NQ4EX+EluJ2NS8fFN1l
+4j7rY1qUMldmWSu/WEJR//jHlAUDOVvlLRhkVzHq06UD4OoU+cS2pTSju6cYQ9CH
+daTJK+lNU0SFW5RfEtbMGhXLwXRXM9Z98YEXZcuLnRAN6U/gK8i7CHnC6mt89Ak6
+LaCRACFyNiaeMC+ISo2F5pc4Lzujbxl7et9JVqgyCrwlVhK7XicjPklV/seXZYuU
+fUQOryXR0d//mgo80+FR1lQg7KzsySQyXV1GsFMjNrmeoDniDmrO+3vVVyK3zHKc
+EbLsrz2AzU1b8BkD88PjXJeu5EfG7ebo9LcOPa3p55EpZC7YPuRZxf2NmwsaBBYi
+sNqkUl+/7Qz+ZihW2PqZYT25pzBysEeEIib9KwWM9yM3m9YlroU5zbftoBOxE91J
+aqOAkN4KU6ixgOmh8Ymm5ky5ClfxMw/E2uJkPCmoBGEEpFmjb9Q=
+=JLGP
+-----END PGP SIGNATURE-----
 
-sound {
-	compatible = "simple-audio-card";
-
-	...
-=>	simple-audio-card,bitclock-master = <&codec>;
-=>	simple-audio-card,frame-master = <&codec>;
-	...
-
-	simple-audio-card,cpu {
-		sound-dai = <&xxx>;
-	};
-
-=>	codec: simple-audio-card,codec {	/* simple-card wants here */
-		sound-dai = <&xxx>;		/* not here */
-	};
-};
-
-Thanks to Morimoto-san for correcting me!
-
-Cheers
-Jon
-
--- 
-nvpublic
+--wRRV7LY7NUeQGEoC--
