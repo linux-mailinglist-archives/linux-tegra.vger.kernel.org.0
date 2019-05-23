@@ -2,65 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9442127A23
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 May 2019 12:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 449F027A75
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 May 2019 12:26:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727466AbfEWKPQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 May 2019 06:15:16 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37176 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726429AbfEWKPQ (ORCPT
+        id S1726429AbfEWK0K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 May 2019 06:26:10 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:34317 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727434AbfEWK0K (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 May 2019 06:15:16 -0400
-Received: by mail-wr1-f65.google.com with SMTP id e15so5630737wrs.4;
-        Thu, 23 May 2019 03:15:15 -0700 (PDT)
+        Thu, 23 May 2019 06:26:10 -0400
+Received: by mail-wr1-f66.google.com with SMTP id f8so5673004wrt.1;
+        Thu, 23 May 2019 03:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=U9kWFboW6XcJ3prQWjhWjMmlPfsMdYcgbJwfJuWODks=;
-        b=cEWib4SKNxQ8+TV3EjdE1KNAYnTQMQB/SUAJDQn6O9/eH63hnxlPUQ11Qqk2g9JhmM
-         gRCVR6cMMwx4uL9nqhr8fWnyq2Ukbvnz9Bix0fZzZ36Yi5e2oIawONoHKqMetB1HgJc6
-         E5KtQXhsDdz3zdggjGUqc+e1qYwWF4RLKQ6jjNMePdEDeo3ScWXSnYR040YiXe5SDqRK
-         BJwKECuHHgMLT+skV9RsaGQihM2qhqzmj10Sa3+59UcVQ8iSH4v/zkM1ebrufDn5RZ87
-         LJVawxrKzErhR1hSANxysXRI8pd9H8B155GvSUWNsS3PAQ4B2pCiC2e96c7GpCDgwAdZ
-         YQbQ==
+        bh=qFC5SrExE3ziUojUjgB24ZUk3BEaqL7m9QR0bld0BkM=;
+        b=RqtKI/vPi9UwhL2g9FW+D+zuyKRGS+pacgVIfmWu1gpQdiuW4J+QHTAlrG7/HyKp2z
+         pMa1Uj/DUlJmL3jmrDoTPrc0vnhjIWHb2iub63z4X3soQfv6+343SJaP8cKgA0u/nfeL
+         R1naioUF0NrdSn18lg16GlTzOlrzlGgYNstBCrYWMrgHwWlwi23z/RxPzgLXqO2E0Z/+
+         JsBeYHK2e0SDGz3594u95mtyHDV0wAiAWn+uixmREeh/pz/0alWgiUte/pH9IVq1sfo0
+         W6qQlQqsqPEhJq37QUkVQIK/H5q3gl0+zFXd7DuMM+ahulTEj0OcGBpqt8Ffu7a0+LU1
+         6b0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=U9kWFboW6XcJ3prQWjhWjMmlPfsMdYcgbJwfJuWODks=;
-        b=Fgq+5MnwBoB6eTe3B4wMMK8XgJXxvAVoGSbn4YonRTeq0WWU07muTKQGw2pDgPTntS
-         tX8AvajJMQOxb4S66LjntBw9A7v1M8Pu63dMj9LXY1TbmNs1tjcZHiFbnLEYTHzgVgiU
-         eTWQm6VmF9DV5KsrbfiQAibP63VYeXpS+Hp/jILZhc2NUZQthyroKnL6kFz8eWRMtG1w
-         joBUXHCEAahd5T0lx2X9ewfZeMY1sZUqeYd7i0WqY3c45ctaPFKthpHtwMln/gJIsEVZ
-         PDGfhM7ZqjQykccBJMc2oABUxwbGl6VbVEerGcXe9/6S1Gr+Y1tg6bOAmov3vB/8E8/S
-         Atnw==
-X-Gm-Message-State: APjAAAXEhl0ix8cJLii2zH3gJYlxvNBtj/1MZ6LM/0VgO1TaI3gm3ZU6
-        iVqw23Nxb66+OMUoT/biahc=
-X-Google-Smtp-Source: APXvYqxlOYwVgF/nRi/hsyeGUyvidTRUB37kvdgQKNiREpBavjo4O8mNMaL5B76y90O3q26YZbiyYA==
-X-Received: by 2002:adf:e301:: with SMTP id b1mr27591181wrj.304.1558606514329;
-        Thu, 23 May 2019 03:15:14 -0700 (PDT)
+        bh=qFC5SrExE3ziUojUjgB24ZUk3BEaqL7m9QR0bld0BkM=;
+        b=NghzuoqsCrTM2hTqKoga7NmQokzjHLXPOUCm4ZGQCgWmqM0axIZxQDnqEu8Ua3reRQ
+         UkCLVsdx01Ou6RKWpgcCEqzNMGPceU1UwNKuFUkrrAK0QlzpXzVzZWQ4komPdKIPTsht
+         Fu/u9i8hLlJpo2z7wzqKEL3lcMY6ZMwShdnLt6P3N5iNrZremIcuVoe2wSqV29mhhEZy
+         xNrMIkMOyw3O7nypAPURKoSaRgMA3h8ZbPL2H8xs3AAjb1pPVlwQV3Z1DBQgtI2PuX5h
+         XVI52o2ZBUPHdxLpOBhpJ8MKCQ7p1ubPp3fqXqTS1qGLxXzO1zEfroJ/x4ARO9fNOEhn
+         F0Nw==
+X-Gm-Message-State: APjAAAWKfNtFgaPIQ83R+/guOJDmz6QTuX10w0lAMlweWQhAOW+K5UL9
+        ycCWUHeGpU8+49HmJaTHCgo4veIaHX0=
+X-Google-Smtp-Source: APXvYqyrsrguH6setE9UOtuWl7arQ0j0JqlR21SDAGfF8QvM3fElNI2ehfHkIDXpJe68HxiEJ/i1Pg==
+X-Received: by 2002:a5d:6b03:: with SMTP id v3mr14753858wrw.309.1558607168706;
+        Thu, 23 May 2019 03:26:08 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id y1sm9071531wma.14.2019.05.23.03.15.13
+        by smtp.gmail.com with ESMTPSA id w13sm8917257wmk.0.2019.05.23.03.26.07
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 May 2019 03:15:13 -0700 (PDT)
-Date:   Thu, 23 May 2019 12:15:12 +0200
+        Thu, 23 May 2019 03:26:07 -0700 (PDT)
+Date:   Thu, 23 May 2019 12:26:06 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Nagarjuna Kristam <nkristam@nvidia.com>
 Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
         mark.rutland@arm.com, robh+dt@kernel.org,
         linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [Patch V3 5/8] arm64: tegra: Add xudc node for Tegra210
-Message-ID: <20190523101512.GE30331@ulmo>
+Subject: Re: [Patch V3 7/8] usb: gadget: Add UDC driver for tegra XUSB device
+ mode controller
+Message-ID: <20190523102606.GF30331@ulmo>
 References: <1557988772-15406-1-git-send-email-nkristam@nvidia.com>
- <1557988772-15406-6-git-send-email-nkristam@nvidia.com>
+ <1557988772-15406-8-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="X3gaHHMYHkYqP6yf"
+        protocol="application/pgp-signature"; boundary="aPdhxNJGSeOG9wFI"
 Content-Disposition: inline
-In-Reply-To: <1557988772-15406-6-git-send-email-nkristam@nvidia.com>
+In-Reply-To: <1557988772-15406-8-git-send-email-nkristam@nvidia.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -68,85 +69,50 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---X3gaHHMYHkYqP6yf
+--aPdhxNJGSeOG9wFI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 16, 2019 at 12:09:29PM +0530, Nagarjuna Kristam wrote:
-> Tegra210 has one XUSB device mode controller, which can be operated
-> HS and SS modes. Add DT support for XUSB device mode controller.
+On Thu, May 16, 2019 at 12:09:31PM +0530, Nagarjuna Kristam wrote:
+> This patch adds UDC driver for tegra XUSB 3.0 device mode controller.
+> XUSB device mode controller supports SS, HS and FS modes
+>=20
+> Based on work by:
+>   Mark Kuo <mkuo@nvidia.com>
+>   Andrew Bresticker <abrestic@chromium.org>
 >=20
 > Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
 > ---
->  arch/arm64/boot/dts/nvidia/tegra210.dtsi | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/d=
-ts/nvidia/tegra210.dtsi
-> index a550c0a..edef00b 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-> @@ -1184,6 +1184,25 @@
->  		status =3D "disabled";
->  	};
-> =20
-> +	xudc@700d0000 {
-> +		compatible =3D "nvidia,tegra210-xudc";
-> +		reg =3D <0x0 0x700d0000 0x0 0x8000>,
-> +			<0x0 0x700d8000 0x0 0x1000>,
-> +			<0x0 0x700d9000 0x0 0x1000>;
+>  drivers/usb/gadget/udc/Kconfig      |   10 +
+>  drivers/usb/gadget/udc/Makefile     |    1 +
+>  drivers/usb/gadget/udc/tegra_xudc.c | 3807 +++++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 3818 insertions(+)
+>  create mode 100644 drivers/usb/gadget/udc/tegra_xudc.c
 
-Same comments regarding alignment as for the bindings patch.
+Looks good to me, but please address Chunfeng's comments:
 
-> +		interrupts =3D <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks =3D <&tegra_car TEGRA210_CLK_XUSB_DEV>,
-> +			<&tegra_car TEGRA210_CLK_XUSB_SS>,
-> +			<&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
-> +			<&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
-> +			<&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-Same here.
-
-> +		clock-names =3D "dev", "ss", "ss_src",
-> +			      "hs_src", "fs_src";
-
-No need to split this across multiple lines, it all fits within 72/80
-characters.
-
-Thierry
-
-> +		power-domains =3D <&pd_xusbdev>, <&pd_xusbss>;
-> +		power-domain-names =3D "dev", "ss";
-> +		nvidia,xusb-padctl =3D <&padctl>;
-> +		status =3D "disabled";
-> +	};
-> +
->  	mipi: mipi@700e3000 {
->  		compatible =3D "nvidia,tegra210-mipi";
->  		reg =3D <0x0 0x700e3000 0x0 0x100>;
-> --=20
-> 2.7.4
->=20
-
---X3gaHHMYHkYqP6yf
+--aPdhxNJGSeOG9wFI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzmcrAACgkQ3SOs138+
-s6EI6Q/8C/tEyZ3kqPVWgXpCadqrSgkSRS7wF2qitJizWLq5HNXrft5rq2AgbHEe
-suqQeuxZtfEdVHqZRKA1u5kvgUNGtheWyfFlGhvlFywgjl1DKF6BghRbu+Fpmnb6
-pOf6btzypjCMxPXEitBxtG23be/ozX2Eh6ItOKI8nEMmlSKZzQTlAMO1L4u2fpud
-1rVidRQSuVLaulyu/XPjodMU/Q5a6GSEdN82Rw/ywkmbLgN0MAIK/lXEZtiscbFK
-1LkNFrw/EIrCqkk9vDuAv9ta7xsoNx0HxTsDR/9E8+9GVSnfG7XN1bweNkDIdTlx
-uSKXMkPtJv1/Gho9g21jlj4hl9JIKzaj4bLhhXaR9mgSz68HEP7X+YiUrF0Ju8gw
-NghhEzNIQfawj7UWQhuKPRNQjUOUDgisSltsn0Rpsku6uVr8kScdxxk36k/rzcPD
-nuNN4rUaXmDScfCnCsggd69x+hC7eopllPtMrOgJlLxylZAkwSBJHSyl03m6dMUP
-MSFIAqWOXnJDZWc/nB3NvW5G1IAQdSMgiEeVrcEUcVp677L6qmzYK3LpJRCqUMV0
-x0f3wSmbB+17rf18epZ6lY/BSWm8tnWHB6UDbAFEZeqIr6DcSWmpLOINu2XKIrC9
-J/CBnj+cewWYzOEtIETSmQEefVHGs+GE8etz80NEyNdUk9zaYXg=
-=oAnT
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzmdTwACgkQ3SOs138+
+s6HsmBAAs3zsZ3R7r94PXVAXdD0EvYx1TgGb0Xp/1R/e6nLD85CHeYOwwZ5OJnGH
+fmsVUPYAM9S1I3NocnOgMf/eBl5fUCNY8g5EOgfh55j7svLM0hX+yIv8omje8AA4
+e745dH6K369HN6bRf7JBrRQmg7P1gf7WUxDJbryUHWg+/aCgNCrVpOquswDczYFa
+ThfkYWO6XnfdMeszP5oVQGlguDhBFAzpIs2pEtXR2YGzF3IbM8WzR22vTJtybAif
+2HvvM7/lYsCgs3T21S2qEoHDz9i0MwQgFg9vT89iCgo2jsWL+V8Xq0cUPSEkHU40
+yx6tsMZ96gwLg6kG8agN1gdXyXEDmueszhRwYcWCZZAHu4XflbtiO0mAN1KSZxNh
+X4BeybKLkSUM/iqO1tDgtRU/46TZQKWNwO+bCUpMzntyfi76DbNdQH4Ltt49o3aH
+5PkPkG/oc/sfFQx5ikNII+urMhHJIxzAS9+sNRMptQCCrzg4RB/RGyQdyb7fk6Je
+pt0t4AM1HHGN1BdZ1ij1Q8m6cz6wyaZUjl1HKJFrZmaaFCkHchfGyvqJOSbH+iig
+gJEm6rk12boPc3PzGgL9JsKx4S6P0TUnfQ92c5+DyeA3BTnpC6duvGopVT/yMDZq
+BS7+1vbwYb+0XAtfEeEkPrnwG8k6MV0q0QYHHLZ+nE1HdR9APpc=
+=vI9Z
 -----END PGP SIGNATURE-----
 
---X3gaHHMYHkYqP6yf--
+--aPdhxNJGSeOG9wFI--
