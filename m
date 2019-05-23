@@ -2,224 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56C8327BF3
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 May 2019 13:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B474D27DE6
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 May 2019 15:18:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729934AbfEWLkH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 May 2019 07:40:07 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:15183 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729361AbfEWLkH (ORCPT
+        id S1730553AbfEWNSG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 May 2019 09:18:06 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:49486 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730323AbfEWNSF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 May 2019 07:40:07 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ce686950002>; Thu, 23 May 2019 04:40:05 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 23 May 2019 04:40:05 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 23 May 2019 04:40:05 -0700
-Received: from [10.24.193.7] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 May
- 2019 11:40:02 +0000
-Subject: Re: [Patch V3 4/8] dt-bindings: usb: Add NVIDIA Tegra XUSB device
- mode controller binding
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
-        <robh+dt@kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <1557988772-15406-1-git-send-email-nkristam@nvidia.com>
- <1557988772-15406-5-git-send-email-nkristam@nvidia.com>
- <20190523101359.GD30331@ulmo>
-X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <9a617a32-96e5-9622-747e-d6ab6e90c305@nvidia.com>
-Date:   Thu, 23 May 2019 17:11:18 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thu, 23 May 2019 09:18:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=eSnzH8gIbU9tJo6la2gamT3PIFGOBGMMJHt4i5H7kKg=; b=lw7G/4RrH9Bm3DNiQrsfJaqQe
+        WKKv/vODnOA81N7DCMb7ceVMt8TQQRWXaUgPnbWJJZFLUaBwQMA0ZfqYDpZWTLh+EeH/NQaVUhn8A
+        XpGQal/q4oCNwN67wjZz8c7ROPNr+jWnTZGBbk6QZXYgFNulj2mcg4ytF/WYo4/m86N8s=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=debutante.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpa (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hTnbU-0000By-Ks; Thu, 23 May 2019 13:17:52 +0000
+Received: by debutante.sirena.org.uk (Postfix, from userid 1000)
+        id 27CAA1126D24; Thu, 23 May 2019 14:17:52 +0100 (BST)
+Date:   Thu, 23 May 2019 14:17:52 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Takashi Iwai <tiwai@suse.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: Applied "ASoC: simple-card: Fix configuration of DAI format" to
+ the asoc tree
+Message-ID: <20190523131752.GE17245@sirena.org.uk>
+References: <20190521203241.B277E1126D1B@debutante.sirena.org.uk>
+ <51ce00db-05ce-ba66-f1be-74c800f6daed@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190523101359.GD30331@ulmo>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558611605; bh=ILDdYUf/PZUzSIHaXUje7hlRQV29KDo46iEtGkgcolY=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Vs7xN7n9O9zAV9uZ2XSGwY6YJhlIVsMRimGAyjfBiApl2/nSmSIWcubs82EL4ZZMx
-         LnI5kSTvkEV8Bo3VPaFEl6yR5/ncavSdbo8ehpK3deso5uS8Si44JPn3mqzQ1MftKP
-         Z75wEYz2CRQTnaYj7Eun5YjLA+xafm76ZOSbo5OxIW6k0LXeAnuba+x+ppFbkyVDg1
-         VK3rDN764bYTY36s3iUf22itgSQg88idlJm9iT0YTFx2pbw5Qd5qulcVwN9u2kZfa+
-         rdGX/a8Gi2AEWqtqxC8qF4HSyIUepQEeEk/n/JPQlTeOwSByE0/I3WbaatG9XNjr3S
-         0vjdAVtL2kKrg==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="XuV1QlJbYrcVoo+x"
+Content-Disposition: inline
+In-Reply-To: <51ce00db-05ce-ba66-f1be-74c800f6daed@nvidia.com>
+X-Cookie: I brake for chezlogs!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+--XuV1QlJbYrcVoo+x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 23-05-2019 15:43, Thierry Reding wrote:
-> On Thu, May 16, 2019 at 12:09:28PM +0530, Nagarjuna Kristam wrote:
->> Add device-tree binding documentation for the XUSB device mode controller
->> present on Tegra210 SoC. This controller supports the USB 3.0
->> specification.
->>
->> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
->> ---
->>  .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  | 101 +++++++++++++++++++++
->>  1 file changed, 101 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
->>
->> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
->> new file mode 100644
->> index 0000000..d78b436
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
->> @@ -0,0 +1,101 @@
->> +Device tree binding for NVIDIA Tegra XUSB device mode controller (XUDC)
->> +=======================================================================
->> +
->> +The Tegra XUDC controller supports both USB 2.0 HighSpeed/FullSpeed and
->> +USB 3.0 SuperSpeed protocols.
->> +
->> +Required properties:
->> +--------------------
->> +- compatible: For Tegra210, must contain "nvidia,tegra210-xudc".
->> +- reg: Must contain the base and length of the XUSB device registers, XUSB device
->> +  PCI Config registers and XUSB device controller registers.
->> +- interrupts: Must contain the XUSB device interrupt.
->> +- clocks: Must contain an entry for all clocks used.
->> +  See ../clock/clock-bindings.txt for details.
->> +- clock-names: Must include the following entries:
->> +   - dev: Clock to enable core XUSB dev clock.
->> +   - ss: Clock to enable XUSB super speed clock.
->> +   - ss_src: Clock to enable XUSB super speed dev clock.
->> +   - hs_src: Clock to enable XUSB high Speed dev clock.
->> +   - fs_src: Clock to enable XUSB full Speed dev clock.
-> 
-> You use inconsistent spelling for "speed" here.
-> 
-will do
->> +- nvidia,xusb-padctl: phandle to the XUSB pad controller that is used to
->> +  configure the USB pads used by the XUDC controller.
->> +- power-domains: A list of PM domain specifiers that reference each power-domain
->> +  used by the XUSB device mode controller. This list must comprise of a specifier
->> +  for the XUSBA and XUSBB power-domains. See ../power/power_domain.txt and
->> +  ../arm/tegra/nvidia,tegra20-pmc.txt for details.
->> +- power-domain-names: A list of names that represent each of the specifiers in
->> +  the 'power-domains' property. Must include 'ss' and 'dev'.
->> +
->> +For Tegra210:
->> +- avddio-usb-supply: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
->> +- hvdd-usb-supply: USB controller power supply. Must supply 3.3 V.
->> +
->> +- phys: Must contain an entry for each entry in phy-names.
->> +  See ../phy/phy-bindings.txt for details.
->> +- phy-names: Should include an entry for each PHY used by the controller.
->> +  Names must be "usb2", and "usb3" if support SuperSpeed device mode.
->> +  - "usb3" phy, SuperSpeed (SSTX+/SSTX-/SSRX+/SSRX-) data lines.
->> +  - "usb2" phy, USB 2.0 (D+/D-) data lines.
->> +
->> +- extcon: Must contains an extcon entry which detects USB VBUS pin.
->> +  See ../extcon/extcon-usb-gpio.txt for details.
-> 
-> Do the phys, phy-names and extcon properties only apply to Tegra210? It
-> sounds like those would also apply to other generations, so they should
-> go before the "For Tegra210:" line.
-> 
-Will move before Tegra210
->> +
->> +Example:
->> +--------
->> +	pmc: pmc@7000e400 {
->> +		compatible = "nvidia,tegra210-pmc";
->> +		reg = <0x0 0x7000e400 0x0 0x400>;
->> +		clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
->> +		clock-names = "pclk", "clk32k_in";
->> +
->> +		powergates {
->> +			pd_xusbss: xusba {
->> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_SS>;
->> +				resets = <&tegra_car TEGRA210_CLK_XUSB_SS>;
-> 
-> We typically use the literal number here to be consistent with the cases
-> where the clock ID differs from the reset ID.
-> 
-Will keep reset ID to numeric values
->> +				#power-domain-cells = <0>;
->> +			};
->> +
->> +			pd_xusbdev: xusbb {
->> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>;
->> +				resets = <&tegra_car 95>;
-> 
-> It seems like don't follow that rule exactly since this is the same
-> thing we have for XUSB already. I think it'd be best to stick with the
-> literal number (like here) and remove the odd ones out. I can prepare
-> patches to convert over the existing oddballs.
-> 
->> +				#power-domain-cells = <0>;
->> +			};
->> +		};
->> +	};
->> +
->> +	xudc@700d0000 {
->> +		compatible = "nvidia,tegra210-xudc";
->> +		reg = <0x0 0x700d0000 0x0 0x8000>,
->> +			<0x0 0x700d8000 0x0 0x1000>,
->> +			<0x0 0x700d9000 0x0 0x1000>;
-> 
-> Use tabs, followed by spaces to properly align with the first entry,
-> like you do for clock-names below.
-> 
-Will allign accordingly
->> +
->> +		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
->> +
->> +		clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
->> +			<&tegra_car TEGRA210_CLK_XUSB_SS>,
->> +			<&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
->> +			<&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
->> +			<&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
-> 
-> Ditto.
-> 
->> +		clock-names = "dev", "ss", "ss_src",
->> +			      "hs_src", "fs_src";
->> +
->> +		power-domains = <&pd_xusbdev>, <&pd_xusbss>;
->> +		power-domain-names = "dev", "ss";
->> +
->> +		nvidia,xusb-padctl = <&padctl>;
->> +
->> +		phys = <&{/padctl@7009f000/pads/usb2/lanes/usb2-0}>;
->> +		phy-names = "usb2;
-> 
-> Does it perhaps make sense to include the pad controller snippet in here
-> as well?
->> Thierry
-> 
-Will add the reference.
--Nagarjuna
->> +
->> +		avddio-usb-supply = <&vdd_pex_1v05>;
->> +		hvdd-usb-supply = <&vdd_3v3_sys>;
->> +
->> +		extcon = <&extcon_usb>;
->> +	};
->> +
->> +	extcon_usb: extcon_vbus {
->> +		compatible = "linux,extcon-usb-gpio";
->> +		vbus-gpio = <&gpio TEGRA_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
->> +	};
->> +
->> -- 
->> 2.7.4
->>
+On Thu, May 23, 2019 at 09:54:25AM +0100, Jon Hunter wrote:
+
+> Please can you drop this patch?
+
+> Per some offline review with Morimoto-san, it turns out that the actual
+> issue resided in my DT (which was incorrect) and not the simple-card
+> machine driver.
+
+Sure, can you send a patch doing a revert with a commit log explaining
+why please?
+
+--XuV1QlJbYrcVoo+x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzmnX8ACgkQJNaLcl1U
+h9DyeAf/aqaSRpEHFdpE0yh4ivOxtAiWHU4BGbL0CGJ3CqeO3BzuYJQHxDNAgNWe
+6+jnVf+RcMVwAFOJ3E4fqt6rYsQ+qIf/aHRGKmUX++TapvVWGnYCMZ6QK3FugGdp
+9YAdt2Go05f+SuPe8xCpgnh2NZubzLRmKycDBbW9xc9C7OOgi+2BxXpdyL7Z66bH
+cYsJ/OdsgDBVnrl2wT4xVMfS6C4x93ym2m4BZEls7E9tyV3E4niW/wMcTlC3I2gd
+SvunVwfZf/3SagJYwJpOBl2zFX/Mi27G+b0O3uCXpidWAZag2CgDPtB2CoAH7/XH
+r9LWxEXv8rzMATbdPAIp9UFP+BE4JA==
+=jm60
+-----END PGP SIGNATURE-----
+
+--XuV1QlJbYrcVoo+x--
