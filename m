@@ -2,129 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8814226CC5
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 May 2019 21:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20E06273B9
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 May 2019 03:02:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732059AbfEVThT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 May 2019 15:37:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53870 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730606AbfEVTaY (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 May 2019 15:30:24 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C6150217D9;
-        Wed, 22 May 2019 19:30:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558553423;
-        bh=N09jMq2spg9BBnOBVwJkzNW3m3MswQpPzbq01cnH42o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MNlJA6CrhncIWtsr/KQEtyFAgCaOw/sVJ/N8XJka7ipbTnn/cfRw/kppRj2Vlv0af
-         flJ0Ycsdy1XpneNdAoP98cpFCn5smTr/Sza8Iz4pM8mNsQmDv5WFS0eYmygqbsO4mF
-         d2NHghgzvlme4mOj+Y4Q2r1fUY92/tLZ8nr6CjhU=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sameer Pujar <spujar@nvidia.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 004/114] dmaengine: tegra210-dma: free dma controller in remove()
-Date:   Wed, 22 May 2019 15:28:27 -0400
-Message-Id: <20190522193017.26567-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190522193017.26567-1-sashal@kernel.org>
-References: <20190522193017.26567-1-sashal@kernel.org>
+        id S1729081AbfEWBCl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 May 2019 21:02:41 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:44528 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727691AbfEWBCl (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 22 May 2019 21:02:41 -0400
+Received: by mail-ed1-f67.google.com with SMTP id b8so6505448edm.11;
+        Wed, 22 May 2019 18:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tA5b54p1qAqxHmO8t68gnIq4GqiDwcEvhH8K1Xe2zjw=;
+        b=qnENwEOUwQ0oxBfzZgZVDizpmBDyGrl+bjfNeGAv897O0JjjKvO/YUq6LvV0ePVtJ5
+         0Wi0J1qCjbKbV4DAQhSHlLD8iEnyUGUjq3YjunPjjRgx+NwCHRqAmXLs8ISqZscv0Z9c
+         kTwTfr+GPcok3Sd8A2U9A64NgglZjfRJeQroLzU9O1xP3AS4uvBPHbvtrID+zyL0YBHM
+         EESszfmgC/t4uBWRQrRPCk9jv6WrEHtIJ6cfDasfXxSAEKYDB8K69kmkl7rq6IOhrkXD
+         bG1xT3oL8xWv/e96b+LAI0YPGlS5ne04pg1/+jeF63vF2bs0lE8NUqq6XfyoKufrK7cV
+         HBYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tA5b54p1qAqxHmO8t68gnIq4GqiDwcEvhH8K1Xe2zjw=;
+        b=St1heKk9WBK+XNKA97k3vGoohR9MUOTrx/CzFmcf21rdaPVgnE03y8ZD/P/rUvaBWC
+         CAvodtI8OICZzYf7Obhuq//joyD7Ed73nfOxmMIJQ949BfWaT/fQRUYcFmPuzXgcXCKx
+         JYcKMTRWcz35lmIh4jim4VKX8coOu9UCsmGfOy/GbRBRMADcOtjXc+1jBGhOCs/l9Ywk
+         7AtVm9yBMNohe3PPnEGtpUcP1cXNHqLJoNR7C3b0xdcZZdqNuBRzeSA+Zmh+f3/nK62t
+         k40dYwx8Nv3IzOrq/dhqregDL3zL43gLYxmqWc24fi6oAeonepd1dwwvE9+rGVILZ1go
+         wT6w==
+X-Gm-Message-State: APjAAAXpfkTIPejwNcvOZAYEkzTg54z/dfnnYWf1fnVfSx2K3WybiZIs
+        UmvST/Y1MDM+DRxE0B9RJHI=
+X-Google-Smtp-Source: APXvYqxMd8Rw+eFYKZ3xhYt6YenC9cRk5cOMYV4dwwHFyHns3qasNH6+Ciu3ihv7UDQS2ZFH3fJMog==
+X-Received: by 2002:a50:90ea:: with SMTP id d39mr93636417eda.15.1558573359135;
+        Wed, 22 May 2019 18:02:39 -0700 (PDT)
+Received: from archlinux-epyc ([2a01:4f9:2b:2b15::2])
+        by smtp.gmail.com with ESMTPSA id p27sm4098813ejf.65.2019.05.22.18.02.37
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 22 May 2019 18:02:37 -0700 (PDT)
+Date:   Wed, 22 May 2019 18:02:35 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        ldewangan@nvidia.com, broonie@kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-spi@vger.kernel.org
+Subject: Re: [PATCH V5 4/4] spi: tegra114: add support for TX and RX trimmers
+Message-ID: <20190523010235.GA105588@archlinux-epyc>
+References: <1557810235-16401-1-git-send-email-skomatineni@nvidia.com>
+ <1557810235-16401-5-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1557810235-16401-5-git-send-email-skomatineni@nvidia.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Sameer Pujar <spujar@nvidia.com>
+Hi Sowjanya,
 
-[ Upstream commit f030e419501cb95e961e9ed35c493b5d46a04eca ]
+On Mon, May 13, 2019 at 10:03:55PM -0700, Sowjanya Komatineni wrote:
+> Tegra SPI master controller has programmable trimmers to adjust the
+> data with respect to the clock.
+> 
+> These trimmers are programmed in TX_CLK_TAP_DELAY and RX_CLK_TAP_DELAY
+> fields of COMMAND2 register.
+> 
+> SPI TX trimmer is to adjust the outgoing data with respect to the
+> outgoing clock and SPI RX trimmer is to adjust the loopback clock with
+> respect to the incoming data from the slave device.
+> 
+> These trimmers vary based on trace lengths of the platform design for
+> each of the slaves on the SPI bus and optimal value programmed is from
+> the platform validation across PVT.
+> 
+> This patch adds support for configuring TX and RX clock delay trimmers
+> through the device tree properties.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/spi/spi-tegra114.c | 67 ++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 65 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/spi/spi-tegra114.c b/drivers/spi/spi-tegra114.c
+> index e59ff7c1cee6..253a7f182fc9 100644
+> --- a/drivers/spi/spi-tegra114.c
+> +++ b/drivers/spi/spi-tegra114.c
 
-Following kernel panic is seen during DMA driver unload->load sequence
-==========================================================================
-Unable to handle kernel paging request at virtual address ffffff8001198880
-Internal error: Oops: 86000007 [#1] PREEMPT SMP
-CPU: 0 PID: 5907 Comm: HwBinder:4123_1 Tainted: G C 4.9.128-tegra-g065839f
-Hardware name: galen (DT)
-task: ffffffc3590d1a80 task.stack: ffffffc3d0678000
-PC is at 0xffffff8001198880
-LR is at of_dma_request_slave_channel+0xd8/0x1f8
-pc : [<ffffff8001198880>] lr : [<ffffff8008746f30>] pstate: 60400045
-sp : ffffffc3d067b710
-x29: ffffffc3d067b710 x28: 000000000000002f
-x27: ffffff800949e000 x26: ffffff800949e750
-x25: ffffff800949e000 x24: ffffffbefe817d84
-x23: ffffff8009f77cb0 x22: 0000000000000028
-x21: ffffffc3ffda49c8 x20: 0000000000000029
-x19: 0000000000000001 x18: ffffffffffffffff
-x17: 0000000000000000 x16: ffffff80082b66a0
-x15: ffffff8009e78250 x14: 000000000000000a
-x13: 0000000000000038 x12: 0101010101010101
-x11: 0000000000000030 x10: 0101010101010101
-x9 : fffffffffffffffc x8 : 7f7f7f7f7f7f7f7f
-x7 : 62ff726b6b64622c x6 : 0000000000008064
-x5 : 6400000000000000 x4 : ffffffbefe817c44
-x3 : ffffffc3ffda3e08 x2 : ffffff8001198880
-x1 : ffffffc3d48323c0 x0 : ffffffc3d067b788
+<snip>
 
-Process HwBinder:4123_1 (pid: 5907, stack limit = 0xffffffc3d0678028)
-Call trace:
-[<ffffff8001198880>] 0xffffff8001198880
-[<ffffff80087459f8>] dma_request_chan+0x50/0x1f0
-[<ffffff8008745bc0>] dma_request_slave_channel+0x28/0x40
-[<ffffff8001552c44>] tegra_alt_pcm_open+0x114/0x170
-[<ffffff8008d65fa4>] soc_pcm_open+0x10c/0x878
-[<ffffff8008d18618>] snd_pcm_open_substream+0xc0/0x170
-[<ffffff8008d1878c>] snd_pcm_open+0xc4/0x240
-[<ffffff8008d189e0>] snd_pcm_playback_open+0x58/0x80
-[<ffffff8008cfc6d4>] snd_open+0xb4/0x178
-[<ffffff8008250628>] chrdev_open+0xb8/0x1d0
-[<ffffff8008246fdc>] do_dentry_open+0x214/0x318
-[<ffffff80082485d0>] vfs_open+0x58/0x88
-[<ffffff800825bce0>] do_last+0x450/0xde0
-[<ffffff800825c718>] path_openat+0xa8/0x368
-[<ffffff800825dd84>] do_filp_open+0x8c/0x110
-[<ffffff8008248a74>] do_sys_open+0x164/0x220
-[<ffffff80082b66dc>] compat_SyS_openat+0x3c/0x50
-[<ffffff8008083040>] el0_svc_naked+0x34/0x38
----[ end trace 67e6d544e65b5145 ]---
-Kernel panic - not syncing: Fatal exception
-==========================================================================
+> +static void tegra_spi_cleanup(struct spi_device *spi)
+> +{
+> +	struct tegra_spi_client_data *cdata = spi->controller_data;
+> +
+> +	spi->controller_data = NULL;
+> +	if (spi->dev.of_node)
+> +		kfree(cdata);
+> +}
+> +
 
-In device probe(), of_dma_controller_register() registers DMA controller.
-But when driver is removed, this is not freed. During driver reload this
-results in data abort and kernel panic. Add of_dma_controller_free() in
-driver remove path to fix the issue.
+This function is not called anywhere and it is marked as static so it
+triggers an unused function warning. Was that intentional?
 
-Fixes: f46b195799b5 ("dmaengine: tegra-adma: Add support for Tegra210 ADMA")
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/dma/tegra210-adma.c | 1 +
- 1 file changed, 1 insertion(+)
+drivers/spi/spi-tegra114.c:938:13: warning: unused function 'tegra_spi_cleanup' [-Wunused-function]
+static void tegra_spi_cleanup(struct spi_device *spi)
+            ^
+1 warning generated.
 
-diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-index b10cbaa82ff53..af3487538c191 100644
---- a/drivers/dma/tegra210-adma.c
-+++ b/drivers/dma/tegra210-adma.c
-@@ -786,6 +786,7 @@ static int tegra_adma_remove(struct platform_device *pdev)
- 	struct tegra_adma *tdma = platform_get_drvdata(pdev);
- 	int i;
- 
-+	of_dma_controller_free(pdev->dev.of_node);
- 	dma_async_device_unregister(&tdma->dma_dev);
- 
- 	for (i = 0; i < tdma->nr_channels; ++i)
--- 
-2.20.1
-
+Cheers,
+Nathan
