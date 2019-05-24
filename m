@@ -2,133 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 20ECC29AA9
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 17:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2113F29AE5
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 17:21:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389307AbfEXPMO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 May 2019 11:12:14 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:36528 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389129AbfEXPMO (ORCPT
+        id S2389435AbfEXPVP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 May 2019 11:21:15 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52792 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389079AbfEXPVP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 May 2019 11:12:14 -0400
-Received: by mail-lf1-f67.google.com with SMTP id y10so7437117lfl.3;
-        Fri, 24 May 2019 08:12:12 -0700 (PDT)
+        Fri, 24 May 2019 11:21:15 -0400
+Received: by mail-wm1-f65.google.com with SMTP id y3so9821321wmm.2
+        for <linux-tegra@vger.kernel.org>; Fri, 24 May 2019 08:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3OFuz1ctW8EXs3j2sT/f6sr8fJB1b9c1HDH5fn4La0E=;
-        b=EBqHw7ZZyrMIw0bwCg2e1yg65WCIXKALtx8Hsc5jm4dMOKXhXPyFRI4SBRnqNlKVV6
-         4YKC8SqoVudMHhYj4vZ6fI5jw8C3tKqZrm+SAd5W31m5nucQEs8vobApXCmw5oI0mmQr
-         o7J3fS4YvV2H8k6nwLnvsC/xzpYCN9ygTQ59dslzFkyuHguz2KE+UHOosbzdYpCIwAJX
-         UssSzlD3bMNKe13sc66q8A8s5wwE7wudi1zTkfWBeZn5VGRjC7GUN1CzQnLuTqWOVmsN
-         e6XNG++DJRWNiBycJLKn+U8OOpBE2T1GePW2BDv7oGk2IOOfcUlu+s1OOMnCKIRC6gOl
-         x9wA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Z0n3xscdT5tjZjNABlDhyi59ToxPXKWRSC1PEc2N1vo=;
+        b=Cg4ikwx3uIhHhcVDDT8OzO1sANiceBX/o63nUbOrsDPUV8QkwAtqZtqw6t+m9wf2Kv
+         WTTRKEMiU7BhSvW/3ATKPM2xH+TUZtoO1jsvvtrM598BDFpP9AWmCioZH2nXxbyM+0AU
+         QwXcw1RE1F+zKMjlf0CW0Wmp08rXt4aQNbHnnIWYuELfS3FPHRKECeCNemvnoqxmYGrW
+         z6Hm+O41YYMi7Qe7jibJdZUR/vIydxFmWeJvbzZmYrpusKlGmuNNiMlGRhHCDCH9bbrZ
+         TbTfeBfeSxpZKjuSPsSvOOlKIpNnx6y6qrN9aLtyV5ifjuhld+7p1p9HfTNzWYtKf/Qt
+         2OpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3OFuz1ctW8EXs3j2sT/f6sr8fJB1b9c1HDH5fn4La0E=;
-        b=AnSdUcLB6Y99zuFKw/cPMDhi2rcIoqP6WhcTOU/YvZNOPGr1tctd8meAr2LzNWpe0Y
-         4m2goG8w/ApPslaxJnjXbmpMUCCm+s5MMG8prO+WrB6Mpiqwlyu+tdtdCY40mkTRwJJR
-         PiW/0ITnl5LQRs9IdL845g0PE+N2qAiylJBXBncxDYgEu0vk7puGvvawjRS+BcBsio7f
-         Rx1yE5Q91elEloYD6SR6pQwBYmH8jscbb8Jl/4KDWVu3mMth/4pAXniV3dVMXTurkUvI
-         DM3TwhqQklHsROSKFN5ubRtY1pgTSTq2FKtfy7QZ+LYIE0yE7plBghlYY8VIUC4kRE2k
-         0DKA==
-X-Gm-Message-State: APjAAAUDgrB8iyf6BsK+a2cWpVIgofM/uKdFWR+X6FaDUl79iFvrZ8Rw
-        f9vQWfzsElpv2E6QrB6XxY8=
-X-Google-Smtp-Source: APXvYqwoFDqcSsqo6ShH12EuQNSjowSOZvAbxkkXO/uL+eDvaYb9H6TBq+WVaIAaetlbdQcaZmIlfw==
-X-Received: by 2002:ac2:4286:: with SMTP id m6mr10082691lfh.150.1558710731991;
-        Fri, 24 May 2019 08:12:11 -0700 (PDT)
-Received: from localhost.localdomain ([94.29.35.141])
-        by smtp.gmail.com with ESMTPSA id w25sm860400lfl.0.2019.05.24.08.12.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 May 2019 08:12:09 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Mark Brown <broonie@kernel.org>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Mallikarjun Kasoju <mkasoju@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 RE-SEND] regulator: max77620: Support Maxim 77663
-Date:   Fri, 24 May 2019 18:10:34 +0300
-Message-Id: <20190524151034.26048-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Z0n3xscdT5tjZjNABlDhyi59ToxPXKWRSC1PEc2N1vo=;
+        b=b0zPztF+VyKpOALD69TqNnpaWt2ADRDDgp2oJgI+S71Toz9Qj1oy4jNfF7Saw2ShGw
+         iqf3xozqSeQQAddFRiHVqyaD7UnzcaMiEUn4kt7/0uq7dfuztdIHQUew9a/4YlnMxxyt
+         sey3WXoTfSilJfSBHg/hfR2seJXC8OomeBvx+T2k9bAuhX4oC+dNAxEah9QcsLQbESFE
+         BY75z5zPih8Xj0uXhR9vlaYuPGfGMQogTeDwzJKGQuJLh4RSusnnI+5itQlZUqEHH1mB
+         0mpqqGEqWHhbXeS3NlAbxLEYfqDH/XBgQMggvtcv9/AHWvcp6k4CBaePXgZTPAfrCnVC
+         mNkw==
+X-Gm-Message-State: APjAAAXV8Mbz5WXMclY0JJ+B15bZTKpQuAyxUSZyInOxenu+aP25cla8
+        XQKyiD0NYKPqM8v4exc9GaY=
+X-Google-Smtp-Source: APXvYqw/tjSQC/yLPiP22aq0AwQVRX1KiMl6mSXoSrGriw2BGcoK0e1mSjtS0FLb4tUQTf0ip+ujvw==
+X-Received: by 2002:a1c:3:: with SMTP id 3mr17492373wma.44.1558711273403;
+        Fri, 24 May 2019 08:21:13 -0700 (PDT)
+Received: from arch-x1c3 ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
+        by smtp.gmail.com with ESMTPSA id g13sm3307837wrw.63.2019.05.24.08.21.12
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 24 May 2019 08:21:12 -0700 (PDT)
+Date:   Fri, 24 May 2019 16:19:52 +0100
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+To:     Thierry Reding <treding@nvidia.com>
+Cc:     dri-devel@lists.freedesktop.org, kernel@collabora.com,
+        linux-tegra@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 1/4] drm/tegra: remove irrelevant DRM_UNLOCKED flag
+Message-ID: <20190524151952.GC8938@arch-x1c3>
+References: <20190522154702.16269-1-emil.l.velikov@gmail.com>
+ <20190523091555.GA18130@ulmo>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190523091555.GA18130@ulmo>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add support for Maxim 77663.
+On 2019/05/23, Thierry Reding wrote:
+> On Wed, May 22, 2019 at 04:46:59PM +0100, Emil Velikov wrote:
+> > From: Emil Velikov <emil.velikov@collabora.com>
+> > 
+> > DRM_UNLOCKED doesn't do anything for non-legacy drivers. Remove it.
+> > 
+> > Cc: Thierry Reding <treding@nvidia.com>
+> > Cc: linux-tegra@vger.kernel.org
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> > ---
+> >  drivers/gpu/drm/tegra/drm.c | 28 ++++++++++++++--------------
+> >  1 file changed, 14 insertions(+), 14 deletions(-)
+> 
+> I assume you want to take this through drm-misc? In that case:
+> 
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> 
+> Otherwise let me know and I'll pick it up into the Tegra tree.
+> 
+Yes, I'll pick it up through drm-misc.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
+Thanks
+Emil
 
-This patch was a part of MFD/Regulator patch-series and the MFD patches are
-already in v5.2, the regulator patch was left out because the MFD subsys
-maintainer decided to not take it via the MFD tree. There are no changes in
-v5 of this patch, this is merely a re-send of the patch.
-
- drivers/regulator/max77620-regulator.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/regulator/max77620-regulator.c b/drivers/regulator/max77620-regulator.c
-index 0ad91a7f9cb9..0ec9f81fe74a 100644
---- a/drivers/regulator/max77620-regulator.c
-+++ b/drivers/regulator/max77620-regulator.c
-@@ -761,6 +761,24 @@ static struct max77620_regulator_info max20024_regs_info[MAX77620_NUM_REGS] = {
- 	RAIL_LDO(LDO8, ldo8, "in-ldo7-8", N, 800000, 3950000, 50000),
- };
- 
-+static struct max77620_regulator_info max77663_regs_info[MAX77620_NUM_REGS] = {
-+	RAIL_SD(SD0, sd0, "in-sd0", SD0, 600000, 3387500, 12500, 0xFF, NONE),
-+	RAIL_SD(SD1, sd1, "in-sd1", SD1, 800000, 1587500, 12500, 0xFF, NONE),
-+	RAIL_SD(SD2, sd2, "in-sd2", SDX, 600000, 3787500, 12500, 0xFF, NONE),
-+	RAIL_SD(SD3, sd3, "in-sd3", SDX, 600000, 3787500, 12500, 0xFF, NONE),
-+	RAIL_SD(SD4, sd4, "in-sd4", SDX, 600000, 3787500, 12500, 0xFF, NONE),
-+
-+	RAIL_LDO(LDO0, ldo0, "in-ldo0-1", N, 800000, 2375000, 25000),
-+	RAIL_LDO(LDO1, ldo1, "in-ldo0-1", N, 800000, 2375000, 25000),
-+	RAIL_LDO(LDO2, ldo2, "in-ldo2",   P, 800000, 3950000, 50000),
-+	RAIL_LDO(LDO3, ldo3, "in-ldo3-5", P, 800000, 3950000, 50000),
-+	RAIL_LDO(LDO4, ldo4, "in-ldo4-6", P, 800000, 1587500, 12500),
-+	RAIL_LDO(LDO5, ldo5, "in-ldo3-5", P, 800000, 3950000, 50000),
-+	RAIL_LDO(LDO6, ldo6, "in-ldo4-6", P, 800000, 3950000, 50000),
-+	RAIL_LDO(LDO7, ldo7, "in-ldo7-8", N, 800000, 3950000, 50000),
-+	RAIL_LDO(LDO8, ldo8, "in-ldo7-8", N, 800000, 3950000, 50000),
-+};
-+
- static int max77620_regulator_probe(struct platform_device *pdev)
- {
- 	struct max77620_chip *max77620_chip = dev_get_drvdata(pdev->dev.parent);
-@@ -785,9 +803,14 @@ static int max77620_regulator_probe(struct platform_device *pdev)
- 	case MAX77620:
- 		rinfo = max77620_regs_info;
- 		break;
--	default:
-+	case MAX20024:
- 		rinfo = max20024_regs_info;
- 		break;
-+	case MAX77663:
-+		rinfo = max77663_regs_info;
-+		break;
-+	default:
-+		return -EINVAL;
- 	}
- 
- 	config.regmap = pmic->rmap;
-@@ -881,6 +904,7 @@ static const struct dev_pm_ops max77620_regulator_pm_ops = {
- static const struct platform_device_id max77620_regulator_devtype[] = {
- 	{ .name = "max77620-pmic", },
- 	{ .name = "max20024-pmic", },
-+	{ .name = "max77663-pmic", },
- 	{},
- };
- MODULE_DEVICE_TABLE(platform, max77620_regulator_devtype);
--- 
-2.21.0
 
