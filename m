@@ -2,98 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DE0F29695
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 13:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BE82296B6
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 13:12:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390874AbfEXLFr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 May 2019 07:05:47 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:11512 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390743AbfEXLFr (ORCPT
+        id S2390927AbfEXLLN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 May 2019 07:11:13 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:52574 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390920AbfEXLLM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 May 2019 07:05:47 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ce7d0050000>; Fri, 24 May 2019 04:05:41 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 24 May 2019 04:05:46 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 24 May 2019 04:05:46 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 May
- 2019 11:05:44 +0000
-Subject: Re: [PATCH 5.1 000/122] 5.1.5-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190523181705.091418060@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <02faed58-61a0-b4ff-a127-533b97207c0f@nvidia.com>
-Date:   Fri, 24 May 2019 12:05:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Fri, 24 May 2019 07:11:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=6LU7sDJKxPMA6OFCSaUXHyqjt8vt2VZhmSa0y+SVYGI=; b=NEjqqlOstTB1P+pLf2ReDgqAP
+        Qlva+QxzNTcWA2+n6SO1OhUe8ldQHcVMCK8O4wZOt7E0xptV7GqbhFu/oTzUSAZD5iEBV0ypM5vVs
+        27z2md8tfsvRAgyjtiNMqctJ2EfYTARqGCRUnMrmLcyAo49tAqgZ0mvXP9+WU6DTyTyCo=;
+Received: from 188.29.164.87.threembb.co.uk ([188.29.164.87] helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hU86C-00036y-Ss; Fri, 24 May 2019 11:10:57 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id 4E5BC440046; Fri, 24 May 2019 12:10:54 +0100 (BST)
+Date:   Fri, 24 May 2019 12:10:54 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] Revert "ASoC: simple-card: Fix configuration of DAI
+ format"
+Message-ID: <20190524111054.GA2456@sirena.org.uk>
+References: <1558688044-22025-1-git-send-email-jonathanh@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190523181705.091418060@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558695941; bh=RIkLUJEjdcMVR4xn8Xmw6tQ1LpPQ82uqzb2gy615118=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=B59FONo+j+yW98QvPOydj/D3pOZKyVgBfDCbhnvlDY7OzBI5oOOJpXSi1yd5n5hJf
-         h2nhgFvNp3Wv5EIVuSnRQM3++cJa7rcIbI2m2KAL7pbb25++3wmlv4uBn1lr878FV9
-         nUQ6tleeGjXsUmuW2Tds2IcDqZ4rf1c2ozjspKOmQFN+lv57Ncm332DK/zYBxGKhyK
-         35NrclmgmXbceWAyXpuDDWzrx127z128E9pHM9dKT7WfceSb2zWD0tVujCYWLkkI0v
-         hiinTwSE6fIje4rVkeppy3waTXdul2Ek6hR0PynOZwY+m5vxnnnolRprUT/md4lIoR
-         TmWYPhTFK8/Ww==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
+Content-Disposition: inline
+In-Reply-To: <1558688044-22025-1-git-send-email-jonathanh@nvidia.com>
+X-Cookie: The other line moves faster.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 23/05/2019 20:05, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.1.5 release.
-> There are 122 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Sat 25 May 2019 06:14:44 PM UTC.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.5-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+--6TrnltStXW4iwmi0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-All tests are passing for Tegra ...
+On Fri, May 24, 2019 at 09:54:04AM +0100, Jon Hunter wrote:
+> Revert commit 069d037aea98 ("ASoC: simple-card: Fix configuration of
+> DAI format"). During further review, it turns out that the actual issue
+> was caused by an incorrectly formatted device-tree node describing the
+> soundcard.
 
-Test results for stable-v5.1:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    32 tests:	32 pass, 0 fail
+Please use subject lines matching the style for the subsystem.  This
+makes it easier for people to identify relevant patches.
 
-Linux version:	5.1.5-rc1-gad8ad5ad
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
+--6TrnltStXW4iwmi0
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Cheers
-Jon
+-----BEGIN PGP SIGNATURE-----
 
--- 
-nvpublic
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzn0TsACgkQJNaLcl1U
+h9D7hgf+KnlthPCAcNyZh9TNU0VlaxTKG3nZmDHU6QQg/BOOt48b+aWZBg7UIuHi
+ii8RJQsiBLnRhDUs8COFEcoyDMwlCaFcyn31Gtfno7H2IvZgWHgN9zff1hkibOZ+
+571fGi0LS3x+5htd4wNPQQdNSai7uSTVR4NYGl2jh9H3fLLRU16PatCRlT5xQoyO
+lEc+c6Ag/greLJbHgoT5bJf0GSOTaGcATCI2NWmTx86dyZ568Fs7gEDKGph7Md8h
+NGMHhk8Wew0avn6epDR2opQhXFP1pqD9KK/TUm0GgRX0x2gqauePZeq6W2ucgQD1
+CuA1xZr3ytSJsWyVaP1GGMEPph0iRw==
+=NXV0
+-----END PGP SIGNATURE-----
+
+--6TrnltStXW4iwmi0--
