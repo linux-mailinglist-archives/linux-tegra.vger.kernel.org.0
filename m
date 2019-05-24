@@ -2,86 +2,161 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 348AC296F3
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 13:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6FE1297DC
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 14:12:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391018AbfEXLSw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 May 2019 07:18:52 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:33408 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390882AbfEXLSs (ORCPT
+        id S2391479AbfEXMMv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 May 2019 08:12:51 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:43346 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391462AbfEXMMv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 May 2019 07:18:48 -0400
-Received: by mail-lj1-f195.google.com with SMTP id w1so8356073ljw.0
-        for <linux-tegra@vger.kernel.org>; Fri, 24 May 2019 04:18:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2peW6HqQkWUW+gSiVSqq2LhrRA/8zFUHT/OOexWrJ7U=;
-        b=B87X4ShB9NkC+MOPhwk8HPyvcO3PkkdHwojp6+E8o0MihsFdKTzu2Yw53JssT8Z+MV
-         e0reDyN/FTfF4UpHMln9YociCvietZjQasoDoIUDSibkaYEpwvA28ZcZGVbU+qJA4bqe
-         nSg5CPHzl7Histd1kA/d5W4KfXURvZNGpFdsTnc4/SxZLF3kWoXRcr7IxDK/uImTZnoN
-         8SO67f3NrXVdhCsjy3YMOpsWpj26WL4oveV6iT+EAoes4YL3jdUjhWi9CgRl7WuMaZ0c
-         qgcJCIhg/A1p4IeVwptdAejJqoZaPvH066EfOj8qKiTUUx33oQyFMo2q7Cg23b5KfK2G
-         YDbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2peW6HqQkWUW+gSiVSqq2LhrRA/8zFUHT/OOexWrJ7U=;
-        b=EJe5ckRnGhyD3zasU6RJF4nb3gB05HmcJFWGe4JidK4WuUEgEpdm40GKIbMtf0jRIH
-         xbfox2Z6jfjY7VsNm/E7KeHyj841fXcwsVRKKzdvxVZW1w8WPJsTJjNtgf2HjWdTN8N9
-         zbvuu+aCvhI2HH+xzk6jqXE1ipng5OcSInNYQH2Z0oWpVFCEnN8jkuKFsXERxP0MluRl
-         bI0bQgTh9DDPa0SaKivDgxqOkQ1hLgK195XOM2R2upHxbdgoJyDTydc6uK+8UtnVIyKY
-         2VWOxpFsj1mcx/n/jHpPPtu+88K0nDjy6sd4OOTyju49PO1NiBVDgXJk1cuTNTYwduTv
-         hD6Q==
-X-Gm-Message-State: APjAAAWzoBdpNzW8wdZU9kx22O1UIGFTfYzkryodw7D8qUUXQCNwWZDS
-        1scI/qPaymBTkFX7YyLwSzlKHOLUQJEksyCBWQhPbA==
-X-Google-Smtp-Source: APXvYqySUTFUwtqsVu7peqTFry7ckapDnXMraEZeN13DWhiqn0x6IoFkQd+OxM0zC+G9OLOSMAE0+m/N2T6BVnhx0XA=
-X-Received: by 2002:a2e:9456:: with SMTP id o22mr2546591ljh.56.1558696726287;
- Fri, 24 May 2019 04:18:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <1558007594-14824-1-git-send-email-kyarlagadda@nvidia.com> <1558007594-14824-3-git-send-email-kyarlagadda@nvidia.com>
-In-Reply-To: <1558007594-14824-3-git-send-email-kyarlagadda@nvidia.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 24 May 2019 13:18:33 +0200
-Message-ID: <CACRpkdYqFn0sdLcQgiSJyOXH0nFrHNsOkMBjO9H2aD9Eedr-tw@mail.gmail.com>
-Subject: Re: [PATCH V3 3/4] pinctrl: tegra: Add Tegra194 pinmux driver
-To:     Krishna Yarlagadda <kyarlagadda@nvidia.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Joseph Lo <josephl@nvidia.com>,
-        Suresh Mangipudi <smangipudi@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>, vidyas@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 24 May 2019 08:12:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
+        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+        List-Archive; bh=AvMpC7Jz5X1XI3BJzxwbegp9Vy5WFXCNZ3EH9Hh+SNM=; b=aFHsGJCgf2iV
+        df4A+dqMywe9Q+gYMIVBeLEduaAznTZhJSwUc6mYB3lZGLz+5b5oXbR1T7EZYzX42GvsQAJmTP4EQ
+        w1L/ddmB3gwBesAuwjcDNDmcKGyNebPnZICYAID61AkUS/p22U/P1Kph8MIUACMiKfkSmeEJryuM7
+        bKegg=;
+Received: from [176.12.107.140] (helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hU93v-0003Ct-3q; Fri, 24 May 2019 12:12:39 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id 0163B440049; Fri, 24 May 2019 13:12:37 +0100 (BST)
+From:   Mark Brown <broonie@kernel.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
+Subject: Applied "ASoC: simple-card: Restore original configuration of DAI format" to the asoc tree
+In-Reply-To: <1558688044-22025-1-git-send-email-jonathanh@nvidia.com>
+X-Patchwork-Hint: ignore
+Message-Id: <20190524121238.0163B440049@finisterre.sirena.org.uk>
+Date:   Fri, 24 May 2019 13:12:37 +0100 (BST)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 16, 2019 at 1:54 PM Krishna Yarlagadda
-<kyarlagadda@nvidia.com> wrote:
+The patch
 
-> Tegra194 has PCIE L5 rst and clkreq pins which need to be controlled
-> dynamically at runtime. This driver supports change pinmux for these
-> pins. Pinmux for rest of the pins is set statically by bootloader and
-> will not be changed by this driver
->
-> Signed-off-by: Krishna Yarlagadda <kyarlagadda@nvidia.com>
-> Signed-off-by: Suresh Mangipudi <smangipudi@nvidia.com>
-> ---
-> Changes in V3:
-> Fix build issue observed with previous version
+   ASoC: simple-card: Restore original configuration of DAI format
 
-All looks good to me but it would feel so much better if Thierry
-or Jonathan ACKed this patch set before I merge it.
+has been applied to the asoc tree at
 
-Yours,
-Linus Walleij
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.2
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+From 4819d06292c9b57eabdd6d1603e49a27baf183be Mon Sep 17 00:00:00 2001
+From: Jon Hunter <jonathanh@nvidia.com>
+Date: Fri, 24 May 2019 09:54:04 +0100
+Subject: [PATCH] ASoC: simple-card: Restore original configuration of DAI
+ format
+
+Revert commit 069d037aea98 ("ASoC: simple-card: Fix configuration of
+DAI format"). During further review, it turns out that the actual issue
+was caused by an incorrectly formatted device-tree node describing the
+soundcard.
+
+The following is incorrect because the simple-audio-card
+'bitclock-master' and 'frame-master' properties should not reference the
+actual codec phandle ...
+
+	sound {
+		compatible = "simple-audio-card";
+		...
+	=>	simple-audio-card,bitclock-master = <&codec>;
+	=>	simple-audio-card,frame-master = <&codec>;
+		...
+
+		simple-audio-card,cpu {
+			sound-dai = <&xxx>;
+		};
+
+		simple-audio-card,codec {
+	=>		sound-dai = <&codec>;
+		};
+	};
+
+Rather, these properties should reference the phandle to the
+'simple-audio-card,codec' property as shown below ...
+
+	sound {
+		compatible = "simple-audio-card";
+		...
+	=>	simple-audio-card,bitclock-master = <&codec>;
+	=>	simple-audio-card,frame-master = <&codec>;
+		...
+
+		simple-audio-card,cpu {
+			sound-dai = <&xxx>;
+		};
+
+	=>	codec: simple-audio-card,codec { /* simple-card wants here */
+			sound-dai = <&xxx>;	 /* not here */
+		};
+	};
+
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/generic/simple-card.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
+index c2c8dcbcf795..9b568f578bcd 100644
+--- a/sound/soc/generic/simple-card.c
++++ b/sound/soc/generic/simple-card.c
+@@ -283,6 +283,11 @@ static int simple_dai_link_of(struct asoc_simple_priv *priv,
+ 	codec_dai		=
+ 	dai_props->codec_dai	= &priv->dais[li->dais++];
+ 
++	ret = asoc_simple_parse_daifmt(dev, node, codec,
++				       prefix, &dai_link->dai_fmt);
++	if (ret < 0)
++		goto dai_link_of_err;
++
+ 	simple_parse_mclk_fs(top, cpu, codec, dai_props, prefix);
+ 
+ 	ret = asoc_simple_parse_cpu(cpu, dai_link, &single_cpu);
+@@ -293,11 +298,6 @@ static int simple_dai_link_of(struct asoc_simple_priv *priv,
+ 	if (ret < 0)
+ 		goto dai_link_of_err;
+ 
+-	ret = asoc_simple_parse_daifmt(dev, node, dai_link->codecs->of_node,
+-				       prefix, &dai_link->dai_fmt);
+-	if (ret < 0)
+-		goto dai_link_of_err;
+-
+ 	ret = asoc_simple_parse_platform(plat, dai_link);
+ 	if (ret < 0)
+ 		goto dai_link_of_err;
+-- 
+2.20.1
+
