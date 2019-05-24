@@ -2,87 +2,157 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B165129B5F
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 17:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8B8629CEB
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 19:25:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389496AbfEXPnS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 May 2019 11:43:18 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:33704 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389206AbfEXPnR (ORCPT
+        id S1731853AbfEXRYT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 May 2019 13:24:19 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:46329 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726381AbfEXRYS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 May 2019 11:43:17 -0400
-Received: by mail-pg1-f195.google.com with SMTP id h17so5284567pgv.0;
-        Fri, 24 May 2019 08:43:17 -0700 (PDT)
+        Fri, 24 May 2019 13:24:18 -0400
+Received: by mail-lj1-f196.google.com with SMTP id m15so9292595ljg.13;
+        Fri, 24 May 2019 10:24:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=b667PaiUgQ8Q7PpALzJt/7gtzGVjETB3D6yMZYIALTM=;
-        b=k//C0g7exdcOJUzXWpFbNqGCMszp+12V7HlLpivolIypgaoPAXyanHxWMU4qG1gZcw
-         j1aKpX5rg9hmij2IMvONUlM7bHhfdSlddZ9/R01ZA/zH/TJ5ijO7uDi0K2YYu7Rp+sAO
-         vydLknKzVLK8+FqaHvqN7AmvInf2J6sfzVZNkLzeIAkAksKw1kc1y4VO6zlrDoBE2pVs
-         da+DIMZQSrtnYqqjXcd+MybTXwHcrqDWHYikIlBJFmraFEGxoqcBklt7RwffmlQUXlkC
-         Zd15JQuglsWt0Bmx0kQy2RRFlZH8ZwL+eEJQr1PoD989P1TC75l4ymQk7jyq81nc/YAS
-         jGhQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ssbN1TdbzNBmflVEU1aQ4WjQYnrmIvlJ3fJbTkCYEoc=;
+        b=R80k6ZW4+477eCiLEWOyECzHViN14QHa/kc5EGUKydeVagXzDJWmZ7z+meczBLoeyW
+         pCQ94EWNunx6Ta5bYQhRIv+Tbr9vPSBTilIF7022NToesQ6zbpz1t8U9aQdmTL06UXrU
+         QbmcWcCG2K0J+Ra4eYS4j8KpamYnZNDi4svTSO6b1kF7Ej4PxQRHNOmtFQjd8CntkQwY
+         Xr24AmDUKHzhmdQjIVN4Z1cG0NO7KwBj0T3ohcgoKFbYL+9VEs3sG++iM8fDYEOwKwUE
+         wB11Dk5zVbzxI8hdpsXFtaDD+tHTA13o2lLmym5uznvx4DGncqPXtDWjKz3P2H/qcjFR
+         LFXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=b667PaiUgQ8Q7PpALzJt/7gtzGVjETB3D6yMZYIALTM=;
-        b=mtqTagC6fE2MvlfdVBfUnwjPFbJNqW9coFtwoHa9ZQeKTG20WvfUSLEPsU0HHK+2gk
-         MpONsvGlLgFt0Osx8BP+PhXQHL9RG9huHlCW0q8I/IzHXqoAHSnjDBaqFweiBC+vf/pi
-         EbAVieQ8Z4qNOaQ2f/X1y20x/3wu6m4uMQBXcTXKF9jA9BA3lyzjYAfksz0XhnbbunSm
-         c7lxIeOadkjOdpCKI9mtqoP0zXHPJcb+2XCgPoWn7yCSH5VclUnZfj71rQemTXUhY9Xv
-         lQoKu3D9Fv6iAFsf58yXUijZdt7Gh0meTsFkz5gVzDVjUD0RoOuAwhhgopP8JNIXd2uM
-         dAVg==
-X-Gm-Message-State: APjAAAWoVeSDiVStdz091e+KRFF8ffkIVW4XynVft4cJUpErWCUj8aIC
-        ITdxYvdU880NRCj0axxeIPY=
-X-Google-Smtp-Source: APXvYqwhRl211cWfEVTBxkcGOE9w1J3jhmtE5k3PSWuOj9tEW3/mOIt0iLAt0La053XLjoZSI4kECg==
-X-Received: by 2002:a62:e0cb:: with SMTP id d72mr20598365pfm.242.1558712597167;
-        Fri, 24 May 2019 08:43:17 -0700 (PDT)
-Received: from zhanggen-UX430UQ ([66.42.35.75])
-        by smtp.gmail.com with ESMTPSA id e73sm4397753pfh.59.2019.05.24.08.43.01
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ssbN1TdbzNBmflVEU1aQ4WjQYnrmIvlJ3fJbTkCYEoc=;
+        b=Zi4Qye3R529K/7zL92/0BNGkcw1NhMoU3DsyuL1iZx0pzk80Yiljz54l+NTSzctLzd
+         RT443tXg1HiFd5KrWI5MZacufOxWHqLXiQPPdh/8eDjraQ/w7ez1lzaMQ/ss+ID3UtFv
+         DZIKJY86k5ukgVnvPE2pEYObDTKCB5b9pHrhzD2VcMH5OJxz3dx+QZaIJa6eFlrkNEdS
+         5A6/pLdKomSDPdaaen/F5UtED2omDyqGGuqkuDwte8ssKwne4heSzaoZJm91M66zNRrz
+         zptj+vQQtdhszsv3+1KiKrTQSjo1/pmIrRHtt9BUJrj+JzldtjiF9oMtFTWtkZmvTiDW
+         3RQQ==
+X-Gm-Message-State: APjAAAXZYbzDFh2W/4ehycs2IzXrS/rWYx3dSd6rA5py6ty5H5LgqaBR
+        n6WFxrTebDHG2dcnjONexTk=
+X-Google-Smtp-Source: APXvYqzyc1Puq1aWXJFdGKsz3v4v+LL6XzFiaqiieBRLRqI9otzuddshUBYwjZTlBA/waQu/xMB7vw==
+X-Received: by 2002:a2e:9acb:: with SMTP id p11mr24038393ljj.129.1558718655086;
+        Fri, 24 May 2019 10:24:15 -0700 (PDT)
+Received: from localhost.localdomain ([94.29.35.141])
+        by smtp.gmail.com with ESMTPSA id d13sm196957lfm.27.2019.05.24.10.24.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 May 2019 08:43:16 -0700 (PDT)
-Date:   Fri, 24 May 2019 23:42:52 +0800
-From:   Gen Zhang <blackgod016574@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     lgirdwood@gmail.com, perex@perex.cz, alsa-devel@alsa-project.org,
+        Fri, 24 May 2019 10:24:13 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>
+Cc:     devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] tegra_wm9712: Fix a memory leaking bug in
- tegra_wm9712_driver_probe()
-Message-ID: <20190524154252.GA10186@zhanggen-UX430UQ>
-References: <20190524005014.GA2289@zhanggen-UX430UQ>
- <b2d43dfe-17e5-a975-435b-49f2aa2ad550@nvidia.com>
- <20190524143309.GA8631@zhanggen-UX430UQ>
- <e52f4140-a119-a584-40a2-6359d6e1784a@nvidia.com>
- <20190524150053.GA9235@zhanggen-UX430UQ>
- <1740686f-a466-430c-9d01-ab83ea6998ac@nvidia.com>
+Subject: [PATCH v3 0/8] memory: tegra: Introduce Tegra30 EMC driver
+Date:   Fri, 24 May 2019 20:23:45 +0300
+Message-Id: <20190524172353.29087-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1740686f-a466-430c-9d01-ab83ea6998ac@nvidia.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, May 24, 2019 at 04:36:54PM +0100, Jon Hunter wrote:
-> There could well be cases where you need to explicitly call
-> devm_kfree(), but having a quick glance at the example above, I don't
-> see why you would call devm_kfree() here and yes looks like that code
-> could be simplified significantly. Notice that hisi_sas_debugfs_exit()
-> does not free any memory as it is not necessary to explicitly do so.
-> 
-> Cheers
-> Jon
-> 
-> -- 
-> nvpublic
-Thanks for your suggestions, Jon! I think I need to e-mail to those
-maintainers about this issue.
+Hello,
 
-Thanks
-Gen
+This series introduces driver for the External Memory Controller (EMC)
+found on Tegra30 chips, it controls the external DRAM on the board. The
+purpose of this driver is to program memory timing for external memory on
+the EMC clock rate change. The driver was tested using the ACTMON devfreq
+driver that performs memory frequency scaling based on memory-usage load.
+
+Changelog:
+
+v3: - Addressed review comments that were made by Stephen Boyd to v2 by
+      adding explicit typing for the callback variable, by including
+      "clk-provider.h" directly in the code and by dropping __clk_lookup
+      usage where possible.
+
+      Added more patches into this series:
+
+        memory: tegra20-emc: Drop setting EMC rate to max on probe
+        memory: tegra20-emc: Adapt for clock driver changes
+        memory: tegra20-emc: Include io.h instead of iopoll.h
+        memory: tegra20-emc: Replace clk_get_sys with devm_clk_get
+
+      Initially I was going to include these patches into other patchset,
+      but changed my mind after rearranging things a tad. The "Adapt for
+      clock driver changes" patch is directly related to the clock changes
+      done in the first patch of this series, the rest are minor cleanups
+      that are fine to include here as well.
+
+      Added some more words to the commit message of "Add binding for NVIDIA
+      Tegra30 External Memory Controller" patch, clarifying why common DDR
+      timing device-tree form isn't suitable for Tegra30.
+
+      The Tegra30 EMC driver now explicitly selects the registers access
+      mode (EMC_DBG mux), not relying on the setting left from bootloader.
+
+v2: - Added support for changing MC clock diver configuration based on
+      Memory Controller (MC) configuration which is part of the memory
+      timing.
+
+    - Merged the "Add custom EMC clock implementation" patch into this
+      series because the "Introduce Tegra30 EMC driver" patch directly
+      depends on it. Please note that Tegra20 EMC driver will need to be
+      adapted for the clock changes as well, I'll send out the Tegra20
+      patches after this series will be applied because of some other
+      dependencies (devfreq) and because the temporary breakage won't
+      be critical (driver will just error out on probe).
+
+    - EMC driver now performs MC configuration validation by checking
+      that the number of MC / EMC timings matches and that the timings
+      rate is the same.
+
+    - EMC driver now supports timings that want to change the MC clock
+      configuration.
+
+    - Other minor prettifying changes of the code.
+
+Dmitry Osipenko (8):
+  clk: tegra20/30: Add custom EMC clock implementation
+  memory: tegra20-emc: Drop setting EMC rate to max on probe
+  memory: tegra20-emc: Adapt for clock driver changes
+  memory: tegra20-emc: Include io.h instead of iopoll.h
+  memory: tegra20-emc: Replace clk_get_sys with devm_clk_get
+  dt-bindings: memory: Add binding for NVIDIA Tegra30 External Memory
+    Controller
+  memory: tegra: Introduce Tegra30 EMC driver
+  ARM: dts: tegra30: Add External Memory Controller node
+
+ .../memory-controllers/nvidia,tegra30-emc.txt |  249 ++++
+ arch/arm/boot/dts/tegra30.dtsi                |   11 +
+ drivers/clk/tegra/Makefile                    |    2 +
+ drivers/clk/tegra/clk-tegra20-emc.c           |  299 +++++
+ drivers/clk/tegra/clk-tegra20.c               |   55 +-
+ drivers/clk/tegra/clk-tegra30.c               |   38 +-
+ drivers/clk/tegra/clk.h                       |    6 +
+ drivers/memory/tegra/Kconfig                  |   10 +
+ drivers/memory/tegra/Makefile                 |    1 +
+ drivers/memory/tegra/mc.c                     |    3 -
+ drivers/memory/tegra/mc.h                     |   30 +-
+ drivers/memory/tegra/tegra20-emc.c            |   94 +-
+ drivers/memory/tegra/tegra30-emc.c            | 1165 +++++++++++++++++
+ drivers/memory/tegra/tegra30.c                |   44 +
+ include/linux/clk/tegra.h                     |   14 +
+ 15 files changed, 1903 insertions(+), 118 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.txt
+ create mode 100644 drivers/clk/tegra/clk-tegra20-emc.c
+ create mode 100644 drivers/memory/tegra/tegra30-emc.c
+
+-- 
+2.21.0
+
