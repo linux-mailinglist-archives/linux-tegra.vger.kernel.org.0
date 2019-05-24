@@ -2,115 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B4A829B3D
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 17:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B165129B5F
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 17:43:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389496AbfEXPg7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 May 2019 11:36:59 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:4921 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389419AbfEXPg6 (ORCPT
+        id S2389496AbfEXPnS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 May 2019 11:43:18 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:33704 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389206AbfEXPnR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 May 2019 11:36:58 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ce80f9a0000>; Fri, 24 May 2019 08:36:58 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 24 May 2019 08:36:58 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 24 May 2019 08:36:58 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 May
- 2019 15:36:56 +0000
+        Fri, 24 May 2019 11:43:17 -0400
+Received: by mail-pg1-f195.google.com with SMTP id h17so5284567pgv.0;
+        Fri, 24 May 2019 08:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=b667PaiUgQ8Q7PpALzJt/7gtzGVjETB3D6yMZYIALTM=;
+        b=k//C0g7exdcOJUzXWpFbNqGCMszp+12V7HlLpivolIypgaoPAXyanHxWMU4qG1gZcw
+         j1aKpX5rg9hmij2IMvONUlM7bHhfdSlddZ9/R01ZA/zH/TJ5ijO7uDi0K2YYu7Rp+sAO
+         vydLknKzVLK8+FqaHvqN7AmvInf2J6sfzVZNkLzeIAkAksKw1kc1y4VO6zlrDoBE2pVs
+         da+DIMZQSrtnYqqjXcd+MybTXwHcrqDWHYikIlBJFmraFEGxoqcBklt7RwffmlQUXlkC
+         Zd15JQuglsWt0Bmx0kQy2RRFlZH8ZwL+eEJQr1PoD989P1TC75l4ymQk7jyq81nc/YAS
+         jGhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=b667PaiUgQ8Q7PpALzJt/7gtzGVjETB3D6yMZYIALTM=;
+        b=mtqTagC6fE2MvlfdVBfUnwjPFbJNqW9coFtwoHa9ZQeKTG20WvfUSLEPsU0HHK+2gk
+         MpONsvGlLgFt0Osx8BP+PhXQHL9RG9huHlCW0q8I/IzHXqoAHSnjDBaqFweiBC+vf/pi
+         EbAVieQ8Z4qNOaQ2f/X1y20x/3wu6m4uMQBXcTXKF9jA9BA3lyzjYAfksz0XhnbbunSm
+         c7lxIeOadkjOdpCKI9mtqoP0zXHPJcb+2XCgPoWn7yCSH5VclUnZfj71rQemTXUhY9Xv
+         lQoKu3D9Fv6iAFsf58yXUijZdt7Gh0meTsFkz5gVzDVjUD0RoOuAwhhgopP8JNIXd2uM
+         dAVg==
+X-Gm-Message-State: APjAAAWoVeSDiVStdz091e+KRFF8ffkIVW4XynVft4cJUpErWCUj8aIC
+        ITdxYvdU880NRCj0axxeIPY=
+X-Google-Smtp-Source: APXvYqwhRl211cWfEVTBxkcGOE9w1J3jhmtE5k3PSWuOj9tEW3/mOIt0iLAt0La053XLjoZSI4kECg==
+X-Received: by 2002:a62:e0cb:: with SMTP id d72mr20598365pfm.242.1558712597167;
+        Fri, 24 May 2019 08:43:17 -0700 (PDT)
+Received: from zhanggen-UX430UQ ([66.42.35.75])
+        by smtp.gmail.com with ESMTPSA id e73sm4397753pfh.59.2019.05.24.08.43.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 24 May 2019 08:43:16 -0700 (PDT)
+Date:   Fri, 24 May 2019 23:42:52 +0800
+From:   Gen Zhang <blackgod016574@gmail.com>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     lgirdwood@gmail.com, perex@perex.cz, alsa-devel@alsa-project.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] tegra_wm9712: Fix a memory leaking bug in
  tegra_wm9712_driver_probe()
-To:     Gen Zhang <blackgod016574@gmail.com>
-CC:     <lgirdwood@gmail.com>, <perex@perex.cz>,
-        <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+Message-ID: <20190524154252.GA10186@zhanggen-UX430UQ>
 References: <20190524005014.GA2289@zhanggen-UX430UQ>
  <b2d43dfe-17e5-a975-435b-49f2aa2ad550@nvidia.com>
  <20190524143309.GA8631@zhanggen-UX430UQ>
  <e52f4140-a119-a584-40a2-6359d6e1784a@nvidia.com>
  <20190524150053.GA9235@zhanggen-UX430UQ>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <1740686f-a466-430c-9d01-ab83ea6998ac@nvidia.com>
-Date:   Fri, 24 May 2019 16:36:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ <1740686f-a466-430c-9d01-ab83ea6998ac@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190524150053.GA9235@zhanggen-UX430UQ>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558712218; bh=rDbHj92qicJ93c3g6qztLoh7zaFndpxTw1RYqjrPd9Q=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=W+2G8WaQZfLr2917mkUcJkjSRe6m9eWd6+SU1muUO0R1zbqSow4az4woRWlAcdpz0
-         fsfq12f8q/MWRiLOGWNTcMx+g0bVlol5gS32f9/xGKd9WlZSoM3cec6x3okEVHDC7s
-         h8x/Pn7dUGal0TW0+4RyaT4MULKI0FidG/EnuyVhw3j1vDe4fk5dg1WIvBg80MEHKh
-         oBTcTgUSnSEBH+5CLGby4Vv30My1eOhEEOgYK/HP784zcm9LPIUxi8ztVFGY7h5IB7
-         d/NvHRHJh46Z5Mb7sAOGKiNRXXpPe/0i1Byc7sZzpcIhQiXs2RZjOScqbMC2BFWcl/
-         QlpZ6KKsmlufQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1740686f-a466-430c-9d01-ab83ea6998ac@nvidia.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Fri, May 24, 2019 at 04:36:54PM +0100, Jon Hunter wrote:
+> There could well be cases where you need to explicitly call
+> devm_kfree(), but having a quick glance at the example above, I don't
+> see why you would call devm_kfree() here and yes looks like that code
+> could be simplified significantly. Notice that hisi_sas_debugfs_exit()
+> does not free any memory as it is not necessary to explicitly do so.
+> 
+> Cheers
+> Jon
+> 
+> -- 
+> nvpublic
+Thanks for your suggestions, Jon! I think I need to e-mail to those
+maintainers about this issue.
 
-On 24/05/2019 16:00, Gen Zhang wrote:
-> On Fri, May 24, 2019 at 03:47:34PM +0100, Jon Hunter wrote:
->>
->> On 24/05/2019 15:33, Gen Zhang wrote:
->>> On Fri, May 24, 2019 at 09:33:13AM +0100, Jon Hunter wrote:
->>>>
->>>> On 24/05/2019 01:50, Gen Zhang wrote:
->>>>> In tegra_wm9712_driver_probe(), 'machine->codec' is allocated by
->>>>> platform_device_alloc(). When it is NULL, function returns ENOMEM.
->>>>> However, 'machine' is allocated by devm_kzalloc() before this site.
->>>>> Thus we should free 'machine' before function ends to prevent memory
->>>>> leaking.
->>>>
->>>> Memory allocated by devm_xxx() is automatically freed on failure so this
->>>> is not correct.
->>> Thanks for your comments, Jon. But after I examined the code, I am still
->>> confused about the usage of devm_kmalloc(). You can kindly refer to 
->>> hisi_sas_debugfs_init() in drivers/scsi/hisi_sas/hisi_sas_main.c. And
->>> devm_kfree() is used to free a memory allocated by devm_kmalloc(). And
->>> I found other situations similar to this in other files.
->>>
->>> So, I hope you can give me some guidance on this. Thanks!
->>
->> Please refer to the devres documentation [0].
->>
->> Cheers,
->> Jon
->>
->> [0] https://www.kernel.org/doc/Documentation/driver-model/devres.txt
->>
->> -- 
->> nvpublic
-> Thanks for your reply. I figured out that devm_kmalloc will free the 
-> memory no matter fail or not. But I still want to ask why other codes
-> as I above mentioned use devm_kfree() to free memory allocated by 
-> devm_kmalloc(). If the memory is automatically freed, is this 
-> devm_kfee() redundant codes that should be removed? Am I 
-> misunderstanding this again or it is something else?
-
-There could well be cases where you need to explicitly call
-devm_kfree(), but having a quick glance at the example above, I don't
-see why you would call devm_kfree() here and yes looks like that code
-could be simplified significantly. Notice that hisi_sas_debugfs_exit()
-does not free any memory as it is not necessary to explicitly do so.
-
-Cheers
-Jon
-
--- 
-nvpublic
+Thanks
+Gen
