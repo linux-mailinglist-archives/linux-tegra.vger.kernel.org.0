@@ -2,138 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EC77293D2
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 10:57:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D54B29682
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 13:04:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389680AbfEXIyT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 May 2019 04:54:19 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:2118 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389964AbfEXIyT (ORCPT
+        id S2390657AbfEXLEH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 May 2019 07:04:07 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:6471 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390374AbfEXLEG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 May 2019 04:54:19 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ce7b1350000>; Fri, 24 May 2019 01:54:13 -0700
+        Fri, 24 May 2019 07:04:06 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ce7cfa60000>; Fri, 24 May 2019 04:04:06 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 24 May 2019 01:54:18 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 24 May 2019 04:04:05 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 24 May 2019 01:54:18 -0700
-Received: from HQMAIL108.nvidia.com (172.18.146.13) by HQMAIL106.nvidia.com
- (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 May
- 2019 08:54:17 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL108.nvidia.com
- (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 24 May 2019 08:54:18 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.21.132.148]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ce7b1380001>; Fri, 24 May 2019 01:54:17 -0700
+        by hqpgpgate101.nvidia.com on Fri, 24 May 2019 04:04:05 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 May
+ 2019 11:04:03 +0000
+Subject: Re: [PATCH 4.9 00/53] 4.9.179-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20190523181710.981455400@linuxfoundation.org>
 From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC:     <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] Revert "ASoC: simple-card: Fix configuration of DAI format"
-Date:   Fri, 24 May 2019 09:54:04 +0100
-Message-ID: <1558688044-22025-1-git-send-email-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-X-NVConfidentiality: public
+Message-ID: <f2cd8618-eec9-e46c-a476-8bb4f73fcb9d@nvidia.com>
+Date:   Fri, 24 May 2019 12:04:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20190523181710.981455400@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558688053; bh=nLIuj+dWoHUdiLPx4+WIEBrzL5eS8acbrvzehEuKewA=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=U7qLd1q8OQQZhGp7qzKaeHeA6i3Xdhy1PU+tomyMsdXeT4AGyOeWMWaCXa08lSbM6
-         Ph7h2yRh/+ZedkiWZQnPeGmW0K5ElEw0egotjTyGYhWPBzT205VlCYFU2ppM+kiBFz
-         m6eeyCwAzBO5/yYdYJBIWWnlr27Xx09z0RcImMFsqbe39IRJV06XrGA44rpdD6hpqQ
-         h/N7mlX7YjWvHukBqJEUgsWu1oC14osKxZbMIztu1lG9IE63xMMpwIwDJLsr79cVTg
-         wkmj8u9jXSR5Ma0APD7hh6Y3raoh7J6UeY9SXog8GRaf8PvgiOEWs4vL0SQsWm8P2N
-         wpIIL0Of/k6UA==
+        t=1558695846; bh=PQN2kWMNhnBUCGTqtCDK4wjKvYu9US1k8DVUexG457U=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=fJugU/VuaPy9QnEs0AMpRXHtCHWi4/JARyr8gSDx73KR46bsUbTDXbttjo/HmiYfx
+         jKFIbeX1lpjQkeMYsbB7h5rXfihlr8V49YhptVT0sOUFEGs/lLFD+vEPBHYbJKQX2Q
+         OlC4az08vlHM/zEnTmECmIIsY/UuNVCu2ebo9piNOROpHZFec5jcYkkzhPMdCCv3sq
+         8jfH8baS9GdQBSaeEY91s7484YSWpW7TJGnLQeU1q588NIrCiZC23gClvlFJIuCzAi
+         AeWm3zk8BKacBHi7ElUMytdfO9tTWEX1vduRGibURYkGqw5DoVg8S5cuGzmkTJjs4h
+         GBbTF7c+0O4Mg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Revert commit 069d037aea98 ("ASoC: simple-card: Fix configuration of
-DAI format"). During further review, it turns out that the actual issue
-was caused by an incorrectly formatted device-tree node describing the
-soundcard.
 
-The following is incorrect because the simple-audio-card
-'bitclock-master' and 'frame-master' properties should not reference the
-actual codec phandle ...
+On 23/05/2019 20:05, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.9.179 release.
+> There are 53 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Sat 25 May 2019 06:15:18 PM UTC.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.179-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.9.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-	sound {
-		compatible = "simple-audio-card";
-		...
-	=>	simple-audio-card,bitclock-master = <&codec>;
-	=>	simple-audio-card,frame-master = <&codec>;
-		...
+All tests are passing for Tegra ...
 
-		simple-audio-card,cpu {
-			sound-dai = <&xxx>;
-		};
+Test results for stable-v4.9:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    24 tests:	24 pass, 0 fail
 
-		simple-audio-card,codec {
-	=>		sound-dai = <&codec>;
-		};
-	};
+Linux version:	4.9.179-rc1-gf6bc31d
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
-Rather, these properties should reference the phandle to the
-'simple-audio-card,codec' property as shown below ...
+Cheers
+Jon
 
-	sound {
-		compatible = "simple-audio-card";
-		...
-	=>	simple-audio-card,bitclock-master = <&codec>;
-	=>	simple-audio-card,frame-master = <&codec>;
-		...
-
-		simple-audio-card,cpu {
-			sound-dai = <&xxx>;
-		};
-
-	=>	codec: simple-audio-card,codec { /* simple-card wants here */
-			sound-dai = <&xxx>;	 /* not here */
-		};
-	};
-
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- sound/soc/generic/simple-card.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
-index c2a2c5fd0801..d16e894fce2b 100644
---- a/sound/soc/generic/simple-card.c
-+++ b/sound/soc/generic/simple-card.c
-@@ -283,6 +283,11 @@ static int simple_dai_link_of(struct asoc_simple_priv *priv,
- 	codec_dai		=
- 	dai_props->codec_dai	= &priv->dais[li->dais++];
- 
-+	ret = asoc_simple_parse_daifmt(dev, node, codec,
-+				       prefix, &dai_link->dai_fmt);
-+	if (ret < 0)
-+		goto dai_link_of_err;
-+
- 	simple_parse_mclk_fs(top, cpu, codec, dai_props, prefix);
- 
- 	ret = asoc_simple_parse_cpu(cpu, dai_link, &single_cpu);
-@@ -293,11 +298,6 @@ static int simple_dai_link_of(struct asoc_simple_priv *priv,
- 	if (ret < 0)
- 		goto dai_link_of_err;
- 
--	ret = asoc_simple_parse_daifmt(dev, node, dai_link->codecs->of_node,
--				       prefix, &dai_link->dai_fmt);
--	if (ret < 0)
--		goto dai_link_of_err;
--
- 	ret = asoc_simple_parse_platform(plat, dai_link);
- 	if (ret < 0)
- 		goto dai_link_of_err;
 -- 
-2.7.4
-
+nvpublic
