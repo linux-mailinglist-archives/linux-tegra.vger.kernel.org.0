@@ -2,161 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6FE1297DC
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 14:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9CD429A1C
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 May 2019 16:33:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391479AbfEXMMv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 May 2019 08:12:51 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:43346 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391462AbfEXMMv (ORCPT
+        id S2391601AbfEXOdc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 May 2019 10:33:32 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:33957 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391500AbfEXOdb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 May 2019 08:12:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
-        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=AvMpC7Jz5X1XI3BJzxwbegp9Vy5WFXCNZ3EH9Hh+SNM=; b=aFHsGJCgf2iV
-        df4A+dqMywe9Q+gYMIVBeLEduaAznTZhJSwUc6mYB3lZGLz+5b5oXbR1T7EZYzX42GvsQAJmTP4EQ
-        w1L/ddmB3gwBesAuwjcDNDmcKGyNebPnZICYAID61AkUS/p22U/P1Kph8MIUACMiKfkSmeEJryuM7
-        bKegg=;
-Received: from [176.12.107.140] (helo=finisterre.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hU93v-0003Ct-3q; Fri, 24 May 2019 12:12:39 +0000
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-        id 0163B440049; Fri, 24 May 2019 13:12:37 +0100 (BST)
-From:   Mark Brown <broonie@kernel.org>
+        Fri, 24 May 2019 10:33:31 -0400
+Received: by mail-pl1-f195.google.com with SMTP id w7so4258568plz.1;
+        Fri, 24 May 2019 07:33:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=bkANiCU/QOHZhbNxPjGAJHjS7JejXUR7CHNVdlS4/ms=;
+        b=QDjjTITkxQodeNlBDOvaMduMLdxc/XVqi1m23ey82bMaG6/I38qQn8QskKhffhvdI2
+         zDl3+ofdsRdHQ85Ypnascg2McRI4/rjka2NHxgxWTvsVkwkA30RW/Qr5E0JVspgd91h8
+         FcpaXsjy6/bsZf31X2j3zaXNQocT4e49DA4mYeOHt+CXU5uJgSqtQZwHdagEexnaJm0s
+         5+y4+s9RIaDyn0/LoSUOdrqjgj3NKzEwJH0vLL7+rvoaKTD/7Tdx8cr+SVEX+bLpx2T/
+         fJbi/LMjO2tVdoH7+ze4jinDC6atA6OFNjxLSudP+Y2pLxpQGagR0ZC9Zs9chjrAH+OU
+         Vscg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=bkANiCU/QOHZhbNxPjGAJHjS7JejXUR7CHNVdlS4/ms=;
+        b=X5SqNvOsCG1aa9ggjvmpeuSO71+dSdehiFsIuGSUn/177DlpA8DQWXEdhvtnDQVNb5
+         2JPupS2JTtMoXddHt7ZL+MiXOaSh5r7gtYULrpsCsnanUsu8VXvBt+a5vIwLrr0bqhkm
+         c8snTG0iwfI77Mcn1SVKYu5XSL14dvwoe7f4zWZ1m7IIrNwv7ci+CUMeOh92dhoxkAgZ
+         Pe9awnFCDhLH4PPcjj+2j5B1PYby03BOoIxo90mNJ9zJqca7cIC3p894GESf6UTNlhmF
+         NluoDW9ReadNp15lb5U5iyFTPlj5KBjnZ1Jwr31dEmGmCg59i08/3B83y81aEKs1Pav+
+         eL2Q==
+X-Gm-Message-State: APjAAAVNr/g16N8K402BtksOlnna9V37LrPM3SKxXY12KKcJY06ER0mR
+        cAo4xQsWO13HVh1as1iAtVI=
+X-Google-Smtp-Source: APXvYqwye2akahN+OdAFoz3/avW9PE6yMBVVQi/FuXlUVOKHcANsVWoerj1ea1bSWcNDJSABYTiHrA==
+X-Received: by 2002:a17:902:6a4:: with SMTP id 33mr64032456plh.338.1558708411303;
+        Fri, 24 May 2019 07:33:31 -0700 (PDT)
+Received: from zhanggen-UX430UQ ([66.42.35.75])
+        by smtp.gmail.com with ESMTPSA id s134sm3476408pfc.110.2019.05.24.07.33.19
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 24 May 2019 07:33:30 -0700 (PDT)
+Date:   Fri, 24 May 2019 22:33:09 +0800
+From:   Gen Zhang <blackgod016574@gmail.com>
 To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Subject: Applied "ASoC: simple-card: Restore original configuration of DAI format" to the asoc tree
-In-Reply-To: <1558688044-22025-1-git-send-email-jonathanh@nvidia.com>
-X-Patchwork-Hint: ignore
-Message-Id: <20190524121238.0163B440049@finisterre.sirena.org.uk>
-Date:   Fri, 24 May 2019 13:12:37 +0100 (BST)
+Cc:     lgirdwood@gmail.com, perex@perex.cz, alsa-devel@alsa-project.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] tegra_wm9712: Fix a memory leaking bug in
+ tegra_wm9712_driver_probe()
+Message-ID: <20190524143309.GA8631@zhanggen-UX430UQ>
+References: <20190524005014.GA2289@zhanggen-UX430UQ>
+ <b2d43dfe-17e5-a975-435b-49f2aa2ad550@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b2d43dfe-17e5-a975-435b-49f2aa2ad550@nvidia.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The patch
+On Fri, May 24, 2019 at 09:33:13AM +0100, Jon Hunter wrote:
+> 
+> On 24/05/2019 01:50, Gen Zhang wrote:
+> > In tegra_wm9712_driver_probe(), 'machine->codec' is allocated by
+> > platform_device_alloc(). When it is NULL, function returns ENOMEM.
+> > However, 'machine' is allocated by devm_kzalloc() before this site.
+> > Thus we should free 'machine' before function ends to prevent memory
+> > leaking.
+> 
+> Memory allocated by devm_xxx() is automatically freed on failure so this
+> is not correct.
+Thanks for your comments, Jon. But after I examined the code, I am still
+confused about the usage of devm_kmalloc(). You can kindly refer to 
+hisi_sas_debugfs_init() in drivers/scsi/hisi_sas/hisi_sas_main.c. And
+devm_kfree() is used to free a memory allocated by devm_kmalloc(). And
+I found other situations similar to this in other files.
 
-   ASoC: simple-card: Restore original configuration of DAI format
+So, I hope you can give me some guidance on this. Thanks!
+> 
+> > Further, we should free 'machine->util_data', 'machine->codec' and
+> > 'machine' before this function normally ends to prevent memory leaking.
+> 
+> This is also incorrect. Why would we free all resources after
+> successfully initialising the driver?
+I re-checked this part, and it is totally incorrect. It should be deleted.
 
-has been applied to the asoc tree at
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From 4819d06292c9b57eabdd6d1603e49a27baf183be Mon Sep 17 00:00:00 2001
-From: Jon Hunter <jonathanh@nvidia.com>
-Date: Fri, 24 May 2019 09:54:04 +0100
-Subject: [PATCH] ASoC: simple-card: Restore original configuration of DAI
- format
-
-Revert commit 069d037aea98 ("ASoC: simple-card: Fix configuration of
-DAI format"). During further review, it turns out that the actual issue
-was caused by an incorrectly formatted device-tree node describing the
-soundcard.
-
-The following is incorrect because the simple-audio-card
-'bitclock-master' and 'frame-master' properties should not reference the
-actual codec phandle ...
-
-	sound {
-		compatible = "simple-audio-card";
-		...
-	=>	simple-audio-card,bitclock-master = <&codec>;
-	=>	simple-audio-card,frame-master = <&codec>;
-		...
-
-		simple-audio-card,cpu {
-			sound-dai = <&xxx>;
-		};
-
-		simple-audio-card,codec {
-	=>		sound-dai = <&codec>;
-		};
-	};
-
-Rather, these properties should reference the phandle to the
-'simple-audio-card,codec' property as shown below ...
-
-	sound {
-		compatible = "simple-audio-card";
-		...
-	=>	simple-audio-card,bitclock-master = <&codec>;
-	=>	simple-audio-card,frame-master = <&codec>;
-		...
-
-		simple-audio-card,cpu {
-			sound-dai = <&xxx>;
-		};
-
-	=>	codec: simple-audio-card,codec { /* simple-card wants here */
-			sound-dai = <&xxx>;	 /* not here */
-		};
-	};
-
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/generic/simple-card.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
-index c2c8dcbcf795..9b568f578bcd 100644
---- a/sound/soc/generic/simple-card.c
-+++ b/sound/soc/generic/simple-card.c
-@@ -283,6 +283,11 @@ static int simple_dai_link_of(struct asoc_simple_priv *priv,
- 	codec_dai		=
- 	dai_props->codec_dai	= &priv->dais[li->dais++];
- 
-+	ret = asoc_simple_parse_daifmt(dev, node, codec,
-+				       prefix, &dai_link->dai_fmt);
-+	if (ret < 0)
-+		goto dai_link_of_err;
-+
- 	simple_parse_mclk_fs(top, cpu, codec, dai_props, prefix);
- 
- 	ret = asoc_simple_parse_cpu(cpu, dai_link, &single_cpu);
-@@ -293,11 +298,6 @@ static int simple_dai_link_of(struct asoc_simple_priv *priv,
- 	if (ret < 0)
- 		goto dai_link_of_err;
- 
--	ret = asoc_simple_parse_daifmt(dev, node, dai_link->codecs->of_node,
--				       prefix, &dai_link->dai_fmt);
--	if (ret < 0)
--		goto dai_link_of_err;
--
- 	ret = asoc_simple_parse_platform(plat, dai_link);
- 	if (ret < 0)
- 		goto dai_link_of_err;
--- 
-2.20.1
-
+Thanks
+Gen
