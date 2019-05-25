@@ -2,59 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9FEE2A343
-	for <lists+linux-tegra@lfdr.de>; Sat, 25 May 2019 09:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 499532A389
+	for <lists+linux-tegra@lfdr.de>; Sat, 25 May 2019 11:00:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbfEYHEA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 25 May 2019 03:04:00 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:36711 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726145AbfEYHEA (ORCPT
+        id S1726610AbfEYI55 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 25 May 2019 04:57:57 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:38413 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726461AbfEYI55 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 25 May 2019 03:04:00 -0400
-Received: by mail-pf1-f196.google.com with SMTP id v80so6613486pfa.3;
-        Sat, 25 May 2019 00:03:59 -0700 (PDT)
+        Sat, 25 May 2019 04:57:57 -0400
+Received: by mail-pg1-f195.google.com with SMTP id v11so6351487pgl.5;
+        Sat, 25 May 2019 01:57:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=Ou9qucjjS1yvpscRKVmRRDKnwn1q8SEEK4iftZmvq6M=;
-        b=ATa9IqXhpNknuRnnk037f1U6Wxr3N5YBbIe47DjrNQJKxe/WJi9JnrTLdBwB5NLGpb
-         S0kubHshm4bHRHlbBkWQ61ZfQUbqLb7Ow9TotSlUyA+nDbq0aIfCRnn8BZ4fXwUJCED8
-         9EvuIJka24CFEde+tWxY020XqIbnCNSmsM5KB0TZLb2GtZbJYZCbw/80PeG/gZq8YAm/
-         iwX3FkCRSNamIt87A9L47qHWNqDAHMVbLX7UHvj1LSWzm9qRtfKkUcHhVRLM0N0Zdi2u
-         E/k66nOFfavkbQG+MpD9q72O/P80f6xbNGslU9lZT8eDASSPMNN1FPiSpY62XJjE1lNY
-         nMMQ==
+        bh=h6CJNeJfwAGepu78xNvsTOU487N30UR9DpFDGMST21U=;
+        b=XpCxCnFwOzDp3VcZX1o5V0FlLljMvB1oe0hW1xZcJhnrT6e8amg4l8ewlFYRILf2ZR
+         Od7hQYRTsynjfzguryfqVKPWc4eFpdlue+oZxKlWK25hoXHcSBPxtNpPJQCI1xebbImt
+         ZB5vM6JDt8PvKwuHa3JcoGSCclB4Qt6iNlE30C37aOO64CjqYsAWKvztCZkkDpAOqZZ1
+         H246X7hPwAsxJrmawBRjAPEba/SItvKXWbxngV7CPXJki5JHUbDzmI5MNFteEst0Qbr9
+         SRDbiS+CQs423SC8HY+Xjnn0A4XpvHgxALFpFUBM5zLDnlFh00XMoIrK1XLcl9N8wQWn
+         ZGTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=Ou9qucjjS1yvpscRKVmRRDKnwn1q8SEEK4iftZmvq6M=;
-        b=f/DnPUFgleSbEMzSEpp8EcljpNz6/mfXuJZcVfbSB3oo/jbDYXNQ8fi1Xe0jtlZ6qP
-         BrTxmCfSL5RosfuErFN1QMO8P5SaNdOu4LoytUzoLno+htE1PP+e1XCSWPpW8uv1lZPX
-         IFRXowauwNb7YgQknw/6qTM13NZkVEeArmHGrYq8FUUJI1FItmDATe6ezruy0B8IZQoL
-         pEibbrP15baQQ2UEV+d52rv3qltLbUm+OQ1jIaEJl0UE57Y0FvhJZaKr0G1ODlU8qPhG
-         SJYnqtNcX1EPmM6PYxiKi12t5IlGQbTwlW26PA35h/PVx84Cy1x9817xh4NDwbWC2ey/
-         sYcw==
-X-Gm-Message-State: APjAAAUzh24ECYhQIfWAGgSf23K1RyR01TsCaSh/wxIEzuE9dmHwmH1M
-        W1iRRfVstTFz0ebxVD5QKPo=
-X-Google-Smtp-Source: APXvYqz2fGzaLhOvTZ21B/Yj6WrUS10LI1Zb4JIpAoP+/EKpHI31hwmtNsEYlR5FcngbX8d1WspBsA==
-X-Received: by 2002:a17:90a:1b0b:: with SMTP id q11mr14288409pjq.80.1558767839357;
-        Sat, 25 May 2019 00:03:59 -0700 (PDT)
+        bh=h6CJNeJfwAGepu78xNvsTOU487N30UR9DpFDGMST21U=;
+        b=OibhhVN2JjJ8XhD/0zbKb9Z5Ff7lCESyCiCPLWoE+E5xCW7b3pJquw8VRN9RuRWVcG
+         8to1zYRZvRyPvThBRtulf33tFPYgvsCtISnnd3iTv3pQLXOcbK93kcge3nmUysFZdraB
+         ZeXn0FeBRP2n63893FN3rWzSXD6UClRn4ZDXjCvFsXNsgMf9TNEgGeyQIbSuwY0tXelw
+         PbQyQ9nb8/e6wqsXkKWxWNfMWLxwdSyljkD7Cs7f6RLso4jHBV6nzQiI9hNUCalilssp
+         0C1lpsqhULTUJc4cMutmG0X7TuPnSe9tXS9tDPIs8sm2zsG8XYTk7RYMeoJc7ptD5Lmk
+         UskA==
+X-Gm-Message-State: APjAAAVsUqBiGOEPViG7Ak2NIzTI08oZA09YyuDLsflMHf2SpcH4ZAHS
+        geP6IXwKoZBbw8OavveFjSQ=
+X-Google-Smtp-Source: APXvYqwBnOPc5MegctYdFcVCQeHguaHsZC8pE6zpPcNGND4G4MHfDDnpxIIuEAeIgwwHpyIswt2CqA==
+X-Received: by 2002:a62:1483:: with SMTP id 125mr89353590pfu.137.1558774676547;
+        Sat, 25 May 2019 01:57:56 -0700 (PDT)
 Received: from hari-Inspiron-1545 ([183.83.92.73])
-        by smtp.gmail.com with ESMTPSA id l3sm5637001pgl.3.2019.05.25.00.03.56
+        by smtp.gmail.com with ESMTPSA id y13sm6946808pfb.143.2019.05.25.01.57.50
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 25 May 2019 00:03:58 -0700 (PDT)
-Date:   Sat, 25 May 2019 12:33:53 +0530
+        Sat, 25 May 2019 01:57:55 -0700 (PDT)
+Date:   Sat, 25 May 2019 14:27:48 +0530
 From:   Hariprasad Kelam <hariprasad.kelam@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
+To:     ingoo Han <jingoohan1@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Yue Wang <yue.wang@Amlogic.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Xiaowei Song <songxiaowei@hisilicon.com>,
+        Binghui Wang <wangbinghui@hisilicon.com>,
+        Stanimir Varbanov <svarbanov@mm-sol.com>,
+        Andy Gross <agross@kernel.org>,
+        David Brown <david.brown@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tegra: fix warning PTR_ERR_OR_ZERO can be used
-Message-ID: <20190525070353.GA6727@hari-Inspiron-1545>
+        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH] drivers/pci/controller: fix warning PTR_ERR_OR_ZERO can be
+ used
+Message-ID: <20190525085748.GA10926@hari-Inspiron-1545>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -64,52 +77,136 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-fix below warnings reported by coccicheck
+fix below warnings reported by coccichek
 
-/drivers/gpu/drm/tegra/drm.c:509:1-3: WARNING: PTR_ERR_OR_ZERO can be
-used
-./drivers/gpu/drm/tegra/gem.c:419:1-3: WARNING: PTR_ERR_OR_ZERO can be
-used
+/drivers/pci/controller/pci-tegra.c:1132:1-3: WARNING: PTR_ERR_OR_ZERO
+can be used
+./drivers/pci/controller/dwc/pcie-qcom.c:703:1-3: WARNING:
+PTR_ERR_OR_ZERO can be used
+./drivers/pci/controller/dwc/pci-meson.c:185:1-3: WARNING:
+PTR_ERR_OR_ZERO can be used
+./drivers/pci/controller/dwc/pci-meson.c:262:1-3: WARNING:
+PTR_ERR_OR_ZERO can be used
+./drivers/pci/controller/dwc/pcie-kirin.c:141:1-3: WARNING:
+PTR_ERR_OR_ZERO can be used
+./drivers/pci/controller/dwc/pcie-kirin.c:177:1-3: WARNING:
+PTR_ERR_OR_ZERO can be used
+./drivers/pci/controller/dwc/pci-exynos.c:95:1-3: WARNING:
+PTR_ERR_OR_ZERO can be used
 
 Signed-off-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
 ---
- drivers/gpu/drm/tegra/drm.c | 6 ++----
- drivers/gpu/drm/tegra/gem.c | 5 +----
- 2 files changed, 3 insertions(+), 8 deletions(-)
+ drivers/pci/controller/dwc/pci-exynos.c | 4 +---
+ drivers/pci/controller/dwc/pci-meson.c  | 8 ++------
+ drivers/pci/controller/dwc/pcie-kirin.c | 8 ++------
+ drivers/pci/controller/dwc/pcie-qcom.c  | 4 +---
+ drivers/pci/controller/pci-tegra.c      | 4 +---
+ 5 files changed, 7 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 0c5f1e6..0a8fcc1 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -506,10 +506,8 @@ static int tegra_gem_create(struct drm_device *drm, void *data,
+diff --git a/drivers/pci/controller/dwc/pci-exynos.c b/drivers/pci/controller/dwc/pci-exynos.c
+index cee5f2f..b0b4849 100644
+--- a/drivers/pci/controller/dwc/pci-exynos.c
++++ b/drivers/pci/controller/dwc/pci-exynos.c
+@@ -92,10 +92,8 @@ static int exynos5440_pcie_get_mem_resources(struct platform_device *pdev,
  
- 	bo = tegra_bo_create_with_handle(file, drm, args->size, args->flags,
- 					 &args->handle);
--	if (IS_ERR(bo))
--		return PTR_ERR(bo);
--
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	ep->mem_res->elbi_base = devm_ioremap_resource(dev, res);
+-	if (IS_ERR(ep->mem_res->elbi_base))
+-		return PTR_ERR(ep->mem_res->elbi_base);
+ 
 -	return 0;
-+	
-+	return PTR_ERR_OR_ZERO(bo);
++	return PTR_ERR_OR_ZERO(ep->mem_res->elbi_base);
  }
  
- static int tegra_gem_mmap(struct drm_device *drm, void *data,
-diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-index 4cce11f..6e27fc0 100644
---- a/drivers/gpu/drm/tegra/gem.c
-+++ b/drivers/gpu/drm/tegra/gem.c
-@@ -416,10 +416,7 @@ int tegra_bo_dumb_create(struct drm_file *file, struct drm_device *drm,
+ static int exynos5440_pcie_get_clk_resources(struct exynos_pcie *ep)
+diff --git a/drivers/pci/controller/dwc/pci-meson.c b/drivers/pci/controller/dwc/pci-meson.c
+index e35e9ea..1ca78c2 100644
+--- a/drivers/pci/controller/dwc/pci-meson.c
++++ b/drivers/pci/controller/dwc/pci-meson.c
+@@ -182,10 +182,8 @@ static int meson_pcie_get_mems(struct platform_device *pdev,
  
- 	bo = tegra_bo_create_with_handle(file, drm, args->size, 0,
- 					 &args->handle);
--	if (IS_ERR(bo))
--		return PTR_ERR(bo);
--
+ 	/* Meson SoC has two PCI controllers use same phy register*/
+ 	mp->mem_res.phy_base = meson_pcie_get_mem_shared(pdev, mp, "phy");
+-	if (IS_ERR(mp->mem_res.phy_base))
+-		return PTR_ERR(mp->mem_res.phy_base);
+ 
 -	return 0;
-+	return PTR_ERR_OR_ZERO(bo);
++	return PTR_ERR_OR_ZERO(mp->mem_res.phy_base);
  }
  
- static vm_fault_t tegra_bo_fault(struct vm_fault *vmf)
+ static void meson_pcie_power_on(struct meson_pcie *mp)
+@@ -259,10 +257,8 @@ static int meson_pcie_probe_clocks(struct meson_pcie *mp)
+ 		return PTR_ERR(res->general_clk);
+ 
+ 	res->clk = meson_pcie_probe_clock(dev, "pcie", 0);
+-	if (IS_ERR(res->clk))
+-		return PTR_ERR(res->clk);
+ 
+-	return 0;
++	return PTR_ERR_OR_ZERO(res->clk);
+ }
+ 
+ static inline void meson_elb_writel(struct meson_pcie *mp, u32 val, u32 reg)
+diff --git a/drivers/pci/controller/dwc/pcie-kirin.c b/drivers/pci/controller/dwc/pcie-kirin.c
+index 9b59929..87cfdb4 100644
+--- a/drivers/pci/controller/dwc/pcie-kirin.c
++++ b/drivers/pci/controller/dwc/pcie-kirin.c
+@@ -138,10 +138,8 @@ static long kirin_pcie_get_clk(struct kirin_pcie *kirin_pcie,
+ 		return PTR_ERR(kirin_pcie->apb_sys_clk);
+ 
+ 	kirin_pcie->pcie_aclk = devm_clk_get(dev, "pcie_aclk");
+-	if (IS_ERR(kirin_pcie->pcie_aclk))
+-		return PTR_ERR(kirin_pcie->pcie_aclk);
+ 
+-	return 0;
++	return PTR_ERR_OR_ZERO(kirin_pcie->pcie_aclk);
+ }
+ 
+ static long kirin_pcie_get_resource(struct kirin_pcie *kirin_pcie,
+@@ -174,10 +172,8 @@ static long kirin_pcie_get_resource(struct kirin_pcie *kirin_pcie,
+ 
+ 	kirin_pcie->sysctrl =
+ 		syscon_regmap_lookup_by_compatible("hisilicon,hi3660-sctrl");
+-	if (IS_ERR(kirin_pcie->sysctrl))
+-		return PTR_ERR(kirin_pcie->sysctrl);
+ 
+-	return 0;
++	return PTR_ERR_OR_ZERO(kirin_pcie->sysctrl);
+ }
+ 
+ static int kirin_pcie_phy_init(struct kirin_pcie *kirin_pcie)
+diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
+index 0ed235d..6c421e6 100644
+--- a/drivers/pci/controller/dwc/pcie-qcom.c
++++ b/drivers/pci/controller/dwc/pcie-qcom.c
+@@ -700,10 +700,8 @@ static int qcom_pcie_get_resources_2_4_0(struct qcom_pcie *pcie)
+ 		return PTR_ERR(res->ahb_reset);
+ 
+ 	res->phy_ahb_reset = devm_reset_control_get_exclusive(dev, "phy_ahb");
+-	if (IS_ERR(res->phy_ahb_reset))
+-		return PTR_ERR(res->phy_ahb_reset);
+ 
+-	return 0;
++	return PTR_ERR_OR_ZERO(res->phy_ahb_reset);
+ }
+ 
+ static void qcom_pcie_deinit_2_4_0(struct qcom_pcie *pcie)
+diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+index 464ba25..3cd5069 100644
+--- a/drivers/pci/controller/pci-tegra.c
++++ b/drivers/pci/controller/pci-tegra.c
+@@ -1129,10 +1129,8 @@ static int tegra_pcie_resets_get(struct tegra_pcie *pcie)
+ 		return PTR_ERR(pcie->afi_rst);
+ 
+ 	pcie->pcie_xrst = devm_reset_control_get_exclusive(dev, "pcie_x");
+-	if (IS_ERR(pcie->pcie_xrst))
+-		return PTR_ERR(pcie->pcie_xrst);
+ 
+-	return 0;
++	return PTR_ERR_OR_ZERO(pcie->pcie_xrst);
+ }
+ 
+ static int tegra_pcie_phys_get_legacy(struct tegra_pcie *pcie)
 -- 
 2.7.4
 
