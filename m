@@ -2,272 +2,169 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8FAB2A6EF
-	for <lists+linux-tegra@lfdr.de>; Sat, 25 May 2019 22:39:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90E312A804
+	for <lists+linux-tegra@lfdr.de>; Sun, 26 May 2019 06:38:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726004AbfEYUjk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 25 May 2019 16:39:40 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:15571 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbfEYUjj (ORCPT
+        id S1725842AbfEZEiC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 26 May 2019 00:38:02 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8029 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725825AbfEZEiC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 25 May 2019 16:39:39 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ce9a8000000>; Sat, 25 May 2019 13:39:31 -0700
+        Sun, 26 May 2019 00:38:02 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cea18270001>; Sat, 25 May 2019 21:38:00 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sat, 25 May 2019 13:39:37 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sat, 25 May 2019 21:38:00 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sat, 25 May 2019 13:39:37 -0700
-Received: from [10.2.167.13] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 25 May
- 2019 20:39:32 +0000
-Subject: Re: [PATCH V1 10/12] gpio: tegra: implement wake event support for
- Tegra210 and prior GPIO
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <jonathanh@nvidia.com>, <jckuo@nvidia.com>, <talho@nvidia.com>,
-        <josephl@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1558481483-22254-1-git-send-email-skomatineni@nvidia.com>
- <1558481483-22254-11-git-send-email-skomatineni@nvidia.com>
- <20190522132413.GL30938@ulmo>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <8f37c4d8-44d4-50d0-26c4-af31706a1d0c@nvidia.com>
-Date:   Sat, 25 May 2019 13:39:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        by hqpgpgate101.nvidia.com on Sat, 25 May 2019 21:38:00 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 26 May
+ 2019 04:37:59 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Sun, 26 May 2019 04:37:59 +0000
+Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.38]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5cea18220001>; Sat, 25 May 2019 21:37:59 -0700
+From:   Vidya Sagar <vidyas@nvidia.com>
+To:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <kishon@ti.com>, <catalin.marinas@arm.com>, <will.deacon@arm.com>,
+        <jingoohan1@gmail.com>, <gustavo.pimentel@synopsys.com>
+CC:     <mperttunen@nvidia.com>, <linux-pci@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
+Subject: [PATCH V8 00/15] Add Tegra194 PCIe support
+Date:   Sun, 26 May 2019 10:07:36 +0530
+Message-ID: <20190526043751.12729-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20190522132413.GL30938@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558816771; bh=uta99uJTUgmK29m3hWS1FvdurN+vedEqaC5OAOyKPTk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=bTw29r2JvPqYskVwMHBLXjmTwGJsF3QHZH47zSGc4fwhaRDsTq++zHn5kZYbRTeDn
-         uLf+IugL0q05733yIC7/lAs+YDWhW8eGcF2DnOWqBK5gkKrWrq1kMbzZguut0uj62h
-         WGe2ZYczRibIt14vmo0vqrfsKqNJDjhZdU10A108rl3NkZG+bRhL5ghsSwKr1g/w2U
-         uv8xZjO4lwunRUgThuQuAqKmrLfRQnn0ZgjVhWSscYo5uJbaH0sP8Krk6Ii8zJjsdd
-         Q+TblfY8O/JD+gH11rNcxnHDCD4gow/jnCI3qxsE+KGtEbf02+2XAMoq+2dKm/fekJ
-         NkXPmMKzHm4wg==
+        t=1558845480; bh=VkdO8kQBKEDIbyVWkA1+CcUOpe0ZgcnulvRz1Y9ibz0=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=ncOj7R3+lgbpnNWPYCKNdW/i0MYa5Pskf+4i5PFXTq0jNtXy4eyNdzNsXEhUQ45sC
+         Q4Vr2koZKbjSwf3D97nK5R1KAfaxp8V6aRZAm0riU9pQh0Q0dM8CvARDxt4T8cUkDf
+         G4kFrIo08VA80i1zWiv+EMsTRbIrUwHttOhIl+/AhaNOx0PLQhaE10ulXoVQ5llbpW
+         A4C22/OezPNNiwiqeRr83jxCpsfVE4/N1p/1x7pS7rSss/dcbyZrv4rTRO1/wYqSBV
+         VQwb9ISAMp2964r6/H3LTxuvP2rqihYSqk92wzOPSR50EOTKqTHe0ficzEpT+OxcPe
+         bUkgz7egGxM1Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Tegra194 has six PCIe controllers based on Synopsys DesignWare core.
+There are two Universal PHY (UPHY) blocks with each supporting 12(HSIO:
+Hisg Speed IO) and 8(NVHS: NVIDIA High Speed) lanes respectively.
+Controllers:0~4 use UPHY lanes from HSIO brick whereas Controller:5 uses
+UPHY lanes from NVHS brick. Lane mapping in HSIO UPHY brick to each PCIe
+controller (0~4) is controlled in XBAR module by BPMP-FW. Since PCIe
+core has PIPE interface, a glue module called PIPE-to-UPHY (P2U) is used
+to connect each UPHY lane (applicable to both HSIO and NVHS UPHY bricks)
+to PCIe controller
+This patch series
+- Adds support for P2U PHY driver
+- Adds support for PCIe host controller
+- Adds device tree nodes each PCIe controllers
+- Enables nodes applicable to p2972-0000 platform
+- Adds helper APIs in Designware core driver to get capability regs offset
+- Adds defines for new feature registers of PCIe spec revision 4
+- Makes changes in DesignWare core driver to get Tegra194 PCIe working
 
-On 5/22/19 6:24 AM, Thierry Reding wrote:
-> On Tue, May 21, 2019 at 04:31:21PM -0700, Sowjanya Komatineni wrote:
->> The GPIO controller doesn't have any controls to enable the system to
->> wake up from low power states based on activity on GPIO pins. An extra
->> hardware block that is part of the power management controller (PMC)
->> contains these controls. In order for the GPIO controller to be able
->> to cooperate with the PMC, obtain a reference to the PMC's IRQ domain
->> and make it a parent to the GPIO controller's IRQ domain. This way the
->> PMC gets an opportunity to program the additional registers required
->> to enable wakeup sources on suspend.
->>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   drivers/gpio/gpio-tegra.c | 109 +++++++++++++++++++++++++++++++++++++++++++---
->>   1 file changed, 103 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
->> index 6d9b6906b9d0..d57e33050d0c 100644
->> --- a/drivers/gpio/gpio-tegra.c
->> +++ b/drivers/gpio/gpio-tegra.c
->> @@ -32,6 +32,8 @@
->>   #include <linux/pinctrl/consumer.h>
->>   #include <linux/pm.h>
->>   
->> +#include <dt-bindings/interrupt-controller/arm-gic.h>
->> +
->>   #define GPIO_BANK(x)		((x) >> 5)
->>   #define GPIO_PORT(x)		(((x) >> 3) & 0x3)
->>   #define GPIO_BIT(x)		((x) & 0x7)
->> @@ -275,8 +277,22 @@ static int tegra_gpio_set_config(struct gpio_chip *chip, unsigned int offset,
->>   static int tegra_gpio_to_irq(struct gpio_chip *chip, unsigned int offset)
->>   {
->>   	struct tegra_gpio_info *tgi = gpiochip_get_data(chip);
->> +	struct irq_domain *domain = tgi->irq_domain;
->> +
->> +	if (!gpiochip_irqchip_irq_valid(chip, offset))
->> +		return -ENXIO;
->> +
->> +	if (irq_domain_is_hierarchy(domain)) {
->> +		struct irq_fwspec spec;
->> +
->> +		spec.fwnode = domain->fwnode;
->> +		spec.param_count = 2;
->> +		spec.param[0] = offset;
->> +		spec.param[1] = IRQ_TYPE_NONE;
->> +		return irq_domain_alloc_irqs(domain, 1, NUMA_NO_NODE, &spec);
->> +	}
->>   
->> -	return irq_find_mapping(tgi->irq_domain, offset);
->> +	return irq_find_mapping(domain, offset);
->>   }
->>   
->>   static void tegra_gpio_irq_ack(struct irq_data *d)
->> @@ -365,7 +381,10 @@ static int tegra_gpio_irq_set_type(struct irq_data *d, unsigned int type)
->>   	else if (type & (IRQ_TYPE_EDGE_FALLING | IRQ_TYPE_EDGE_RISING))
->>   		irq_set_handler_locked(d, handle_edge_irq);
->>   
->> -	return 0;
->> +	if (d->parent_data)
->> +		return irq_chip_set_type_parent(d, type);
->> +	else
->> +		return 0;
-> Why is this needed?
+Testing done on P2972-0000 platform
+- Able to get PCIe link up with on-board Marvel eSATA controller
+- Able to get PCIe link up with NVMe cards connected to M.2 Key-M slot
+- Able to do data transfers with both SATA drives and NVMe cards
 
-Invoking GPIO irq_domain parent's set_type to configure PMC wake level 
-based on the type for those GPIO's
+Note
+- Enabling x8 slot on P2972-0000 platform requires pinmux driver for Tegra194.
+  It is being worked on currently and hence Controller:5 (i.e. x8 slot) is
+  disabled in this patch series. A future patch series would enable this.
+- This series is based on top of the following series
+  Jisheng's patches to add support to .remove() in Designware sub-system
+  https://patchwork.kernel.org/project/linux-pci/list/?series=98559
+  (Jisheng's patches are now accepted and applied for v5.2)
+  My patches made on top of Jisheng's patches to export various symbols
+  https://patchwork.kernel.org/project/linux-pci/list/?series=101259
 
-that are wake-able thru specified PMC wake events.
+Changes since [v7]:
+* Changed P2U driver file name from pcie-p2u-tegra194.c to phy-tegra194-p2u.c
+* Addressed review comments from Thierry and Rob
 
->
->>   }
->>   
->>   static void tegra_gpio_irq_shutdown(struct irq_data *d)
->> @@ -566,10 +585,79 @@ static const struct dev_pm_ops tegra_gpio_pm_ops = {
->>   	SET_SYSTEM_SLEEP_PM_OPS(tegra_gpio_suspend, tegra_gpio_resume)
->>   };
->>   
->> +static int tegra_gpio_irq_domain_translate(struct irq_domain *domain,
->> +					   struct irq_fwspec *fwspec,
->> +					   unsigned long *hwirq,
->> +					   unsigned int *type)
->> +{
->> +	if (WARN_ON(fwspec->param_count < 2))
->> +		return -EINVAL;
->> +
->> +	*type = fwspec->param[1] & IRQ_TYPE_SENSE_MASK;
->> +	*hwirq = fwspec->param[0];
->> +
->> +	return 0;
->> +}
->> +
->> +static int tegra_gpio_irq_domain_alloc(struct irq_domain *domain,
->> +				       unsigned int virq,
->> +				       unsigned int num_irqs, void *data)
->> +{
->> +	struct tegra_gpio_info *tgi = gpiochip_get_data(domain->host_data);
->> +	struct irq_fwspec *fwspec = data;
->> +	struct irq_fwspec spec;
-> You can put the above two lines onto a single line.
->
-Will fix in next version
->> +	struct tegra_gpio_bank *bank;
->> +	unsigned long hwirq;
->> +	unsigned int type;
->> +	int err = 0;
->> +
->> +	if (WARN_ON(fwspec->param_count < 2))
->> +		return -EINVAL;
->> +
->> +	if (!irq_domain_get_of_node(domain->parent))
->> +		return -EINVAL;
-> Can this ever fail?
-Will remove in next version of updated series..
->
->> +
->> +	err = tegra_gpio_irq_domain_translate(domain, fwspec, &hwirq, &type);
->> +	if (err)
->> +		return err;
->> +
->> +	bank = &tgi->bank_info[GPIO_BANK(hwirq)];
->> +	err = irq_domain_set_hwirq_and_chip(domain, virq, hwirq,
->> +					    &tgi->ic, bank);
->> +
->> +	if (err < 0)
->> +		return err;
->> +
->> +	spec.fwnode = domain->parent->fwnode;
->> +	spec.param_count = 3;
->> +	spec.param[0] = GIC_SPI;
->> +	spec.param[1] = fwspec->param[0];
->> +	spec.param[2] = fwspec->param[1];
->> +
->> +	return irq_domain_alloc_irqs_parent(domain, virq, 1, &spec);
-> What if num_irqs is different from 1? I'm not exactly sure what to pass
-> as &spec, but likely we'd have to create an array of struct irq_fwspec
-> and pass that along. It seems like some drivers catch that case and
-> refuse to work rather than pass potentially rubbish information along.
-> See for example drivers/irqchip/irq-meson-gpio.c.
-Will fix in next version
->> +}
->> +
->> +static const struct irq_domain_ops tegra_gpio_irq_domain_ops = {
->> +	.translate = tegra_gpio_irq_domain_translate,
->> +	.alloc = tegra_gpio_irq_domain_alloc,
->> +};
->> +
->> +static const struct of_device_id tegra_pmc_of_match[] = {
->> +	{ .compatible = "nvidia,tegra210-pmc" },
->> +	{ .compatible = "nvidia,tegra132-pmc" },
->> +	{ .compatible = "nvidia,tegra124-pmc" },
->> +	{ .compatible = "nvidia,tegra114-pmc" },
->> +	{ .compatible = "nvidia,tegra30-pmc" },
->> +	{ .compatible = "nvidia,tegra20-pmc" },
->> +	{ }
->> +};
->> +
->>   static int tegra_gpio_probe(struct platform_device *pdev)
->>   {
->>   	struct tegra_gpio_info *tgi;
->>   	struct tegra_gpio_bank *bank;
->> +	struct device_node *np;
->> +	struct irq_domain *parent_domain = NULL;
->>   	unsigned int gpio, i, j;
->>   	int ret;
->>   
->> @@ -612,8 +700,15 @@ static int tegra_gpio_probe(struct platform_device *pdev)
->>   	tgi->ic.irq_set_type		= tegra_gpio_irq_set_type;
->>   	tgi->ic.irq_shutdown		= tegra_gpio_irq_shutdown;
->>   #ifdef CONFIG_PM_SLEEP
->> -	tgi->ic.irq_set_wake		= tegra_gpio_irq_set_wake;
->> +	tgi->ic.irq_set_wake		= irq_chip_set_wake_parent;
-> This doesn't seem right. What about tegra_gpio_irq_set_wake()? If it's
-> no longer needed, just remove it. But then, what about the extra logic
-> in that function that causes the interrupts to be enabled during
-> suspend? Is that no longer necessary? Maybe that's no longer needed on
-> Tegra210, but what about other Tegra generations?
->
-> Thierry
->
-Missed this. Will fix in next version
->>   #endif
->> +	np = of_find_matching_node(NULL, tegra_pmc_of_match);
->> +	if (np) {
->> +		parent_domain = irq_find_host(np);
->> +		of_node_put(np);
->> +		if (!parent_domain)
->> +			return -EPROBE_DEFER;
->> +	}
->>   
->>   	platform_set_drvdata(pdev, tgi);
->>   
->> @@ -625,9 +720,11 @@ static int tegra_gpio_probe(struct platform_device *pdev)
->>   	if (!tgi->bank_info)
->>   		return -ENOMEM;
->>   
->> -	tgi->irq_domain = irq_domain_add_linear(pdev->dev.of_node,
->> -						tgi->gc.ngpio,
->> -						&irq_domain_simple_ops, NULL);
->> +	tgi->irq_domain = irq_domain_add_hierarchy(parent_domain, 0,
->> +						   tgi->gc.ngpio,
->> +						   pdev->dev.of_node,
->> +						   &tegra_gpio_irq_domain_ops,
->> +						   &tgi->gc);
->>   	if (!tgi->irq_domain)
->>   		return -ENODEV;
->>   
->> -- 
->> 2.7.4
->>
+Changes since [v6]:
+* Took care of review comments from Rob
+* Added a quirk to disable MSI for root ports
+* Removed using pcie_pme_disable_msi() API in host controller driver
+
+Changes since [v5]:
+* Removed patch that exports pcie_bus_config symbol
+* Took care of review comments from Thierry and Rob
+
+Changes since [v4]:
+* Removed redundant APIs in pcie-designware-ep.c file after moving them
+  to pcie-designware.c file based on Bjorn's review comments
+
+Changes since [v3]:
+* Rebased on top of linux-next top of the tree
+* Addressed Gustavo's comments and added his Ack for some of the changes.
+
+Changes since [v2]:
+* Addressed review comments from Thierry
+
+Changes since [v1]:
+* Addressed review comments from Bjorn, Thierry, Jonathan, Rob & Kishon
+* Added more patches in v2 series
+
+Vidya Sagar (15):
+  PCI: Add #defines for some of PCIe spec r4.0 features
+  PCI: Disable MSI for Tegra194 root port
+  PCI: dwc: Perform dbi regs write lock towards the end
+  PCI: dwc: Move config space capability search API
+  PCI: dwc: Add ext config space capability search API
+  dt-bindings: PCI: designware: Add binding for CDM register check
+  PCI: dwc: Add support to enable CDM register check
+  dt-bindings: Add PCIe supports-clkreq property
+  dt-bindings: PCI: tegra: Add device tree support for Tegra194
+  dt-bindings: PHY: P2U: Add Tegra194 P2U block
+  arm64: tegra: Add P2U and PCIe controller nodes to Tegra194 DT
+  arm64: tegra: Enable PCIe slots in P2972-0000 board
+  phy: tegra: Add PCIe PIPE2UPHY support
+  PCI: tegra: Add Tegra194 PCIe support
+  arm64: Add Tegra194 PCIe driver to defconfig
+
+ .../bindings/pci/designware-pcie.txt          |    5 +
+ .../bindings/pci/nvidia,tegra194-pcie.txt     |  155 ++
+ Documentation/devicetree/bindings/pci/pci.txt |    5 +
+ .../bindings/phy/phy-tegra194-p2u.txt         |   28 +
+ .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |    2 +-
+ .../boot/dts/nvidia/tegra194-p2972-0000.dts   |   41 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  437 +++++
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/pci/controller/dwc/Kconfig            |   10 +
+ drivers/pci/controller/dwc/Makefile           |    1 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |   37 +-
+ .../pci/controller/dwc/pcie-designware-host.c |   14 +-
+ drivers/pci/controller/dwc/pcie-designware.c  |   87 +
+ drivers/pci/controller/dwc/pcie-designware.h  |   12 +
+ drivers/pci/controller/dwc/pcie-tegra194.c    | 1621 +++++++++++++++++
+ drivers/pci/quirks.c                          |   23 +
+ drivers/phy/tegra/Kconfig                     |    7 +
+ drivers/phy/tegra/Makefile                    |    1 +
+ drivers/phy/tegra/phy-tegra194-p2u.c          |  109 ++
+ include/uapi/linux/pci_regs.h                 |   22 +-
+ 20 files changed, 2575 insertions(+), 43 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
+ create mode 100644 Documentation/devicetree/bindings/phy/phy-tegra194-p2u.txt
+ create mode 100644 drivers/pci/controller/dwc/pcie-tegra194.c
+ create mode 100644 drivers/phy/tegra/phy-tegra194-p2u.c
+
+-- 
+2.17.1
+
