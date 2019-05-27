@@ -2,82 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E85C2B5FB
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 May 2019 15:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C3DA2B73E
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 May 2019 16:05:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726282AbfE0NEk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 May 2019 09:04:40 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:34958 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726115AbfE0NEk (ORCPT
+        id S1726184AbfE0OFx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 May 2019 10:05:53 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39705 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726527AbfE0OFx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 May 2019 09:04:40 -0400
-Received: by mail-pg1-f196.google.com with SMTP id t1so9100932pgc.2;
-        Mon, 27 May 2019 06:04:39 -0700 (PDT)
+        Mon, 27 May 2019 10:05:53 -0400
+Received: by mail-wr1-f66.google.com with SMTP id e2so8303150wrv.6;
+        Mon, 27 May 2019 07:05:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=8nEvWdeXB353GkLTXsYXaoTX1Inedn4FgEz1vhTKYzA=;
-        b=jC7eajPWyBEabmQ+SQNNVO0g3VpabETTz1MQAxcpb4lMaooOZtMfF2zyYCjg/KAm0D
-         cwrzVt8ONAxQgODhnP68iH98DZSoWrT1CFBmt0j5RuMnR6+qf+WUtO/BCudQKVfRhrsL
-         FO1Os+mvVGbYcFPJhhMEDjbxtdCQkBC9z36ed5JVjnLrrtdHzGc4/gWh23nHPqUd/L6j
-         C1Jimi9wb7Gzuhwv8DgMFimajTwd98nT8owUy9DkOTFmNz8P3/BcGoOWCX2V8Zg6tito
-         7lIDkkcaH6ks9MuaWi6FLJu/dVWAKI0WL/cMt3OMlNBBtCU9SGDs3WnC8XpvKXXb5xrN
-         qkxQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=6hb/vstt/ckjUS8P3ICK1pDxDvXAAKGAvOGmGjTozso=;
+        b=ILXi7XaabQUJqUxjZfUsX5+MLPvqGwZoDgOIVgTx+k7VxIBmaTM/qoIDHDIpssg4fb
+         ayOHxS9IMhO6c1hVx3UxATna7KBU4t7Gf3NysO9sYzQIfBnEiQStAqEypOpJMzv3TKBL
+         78fr1EcLtajpbpDQS/BaD46tpODku5rob0V0FnLNm9XGRIpGlSETrWIcnNlmN79jAB3M
+         whtEHmX2yHqVeRMd3cvxJIyVnkb3FdZ5BgBh9ERK9btPlsaMgA/+7kgwrzeez34a6ne9
+         eCU7GZf+gtIDQHOZdpX/tz5RkMAYK3US8Ce7Ibj0W/WcAU5YzU3k0EHkPevX//ZiJtyd
+         lCtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=8nEvWdeXB353GkLTXsYXaoTX1Inedn4FgEz1vhTKYzA=;
-        b=Z1c84XYtpinfU87T4lGQ6kbjpMAq31mG0oRM8PigiC46RHN91lPiMWrZqkd9zAh76N
-         2TBGClrlwcexE130SxBXHZ/bSWz+66bMBdPTt+yUjSB9usU1q4VLb+mFIppElHUPhbNi
-         DeE4zsLAYdKv9t8SU8trxka7LX/MCVRusyqTQgU1wB287oy+1OJvhO70HzoBZTMU8S1n
-         sgxvo16fFiBcNWrFGIZW+Ooe4JZecfxPrU9kGWkSOLauUfdHSuORSIjrM390m+hRYdsZ
-         frE4Vb6nHdZcBXaMSklPbd2sg9KeNbAR85+nAxQZlcmOmf+JyWR57dOLAGzHtoaAJXHm
-         aeXw==
-X-Gm-Message-State: APjAAAXLVsqre0V+qD2HfmfDbTVWfFz6Ws49ZPAwlVYyHhVmHuYFi5Rf
-        5/yoOraEEl0lvZM9shfHaXhNMaLf
-X-Google-Smtp-Source: APXvYqzhiX5WieFozlD4LN379CfF6I6m6azS3kWics+rEo7niYRAQW+W9n5n2Y4ph7YP2fkrrufjNg==
-X-Received: by 2002:a62:ee05:: with SMTP id e5mr133336776pfi.117.1558962279371;
-        Mon, 27 May 2019 06:04:39 -0700 (PDT)
-Received: from zhanggen-UX430UQ ([66.42.35.75])
-        by smtp.gmail.com with ESMTPSA id l7sm13469882pfl.9.2019.05.27.06.04.35
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 27 May 2019 06:04:38 -0700 (PDT)
-Date:   Mon, 27 May 2019 21:04:30 +0800
-From:   Gen Zhang <blackgod016574@gmail.com>
-To:     jassisinghbrar@gmail.com, thierry.reding@gmail.com
-Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] tegra-hsp: fix a missing-check bug in
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6hb/vstt/ckjUS8P3ICK1pDxDvXAAKGAvOGmGjTozso=;
+        b=CW7xy8sZlRFXuZ9FoSL3KdQCEy1ZlbjlyvvjDK2rqSFfkGNi0AJ5sPkQoDwmePvb5W
+         Z2+IrDR5gesAB0JqJp3Fmmi2uptx821QPWL8iy5yVV1Q3yWLlFNsUbB8Bg3f7xkRJFbu
+         wfXI94gAbgbddhelLzvvBmXzBIYEAmdR0ifHGEmK5xe65QbBL1LJvBSc6brdAsbZwwlL
+         Dvxk4+26tPqT2Jd3DHyQpeuTly0EaY6o2FWPpE9DV2jsmvKIqJa65JyyUS4hWDl8DYhA
+         cKcDslA14IqHyQwBXKnJ0bws6GsXIGN4kKKfSP5eDzLIPoXEjnplZx4v/UmqIczj9UON
+         pKrA==
+X-Gm-Message-State: APjAAAXaP2hruuclSzZ8N1q5FYE3ElDB4R1BAZh6FqoInC+Tla656wHO
+        oBIUlQE2TS9o8ElP3TrhdpM=
+X-Google-Smtp-Source: APXvYqzgoVqrwLdg/mjCyGNk8/7Z7B4scH8z/XC+PUSO/6lo6kJLx3qIlP+ss41dIHMQ78GrhQL/QQ==
+X-Received: by 2002:a5d:4581:: with SMTP id p1mr2672975wrq.228.1558965951119;
+        Mon, 27 May 2019 07:05:51 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id n7sm233080wrw.64.2019.05.27.07.05.49
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 27 May 2019 07:05:50 -0700 (PDT)
+Date:   Mon, 27 May 2019 16:05:49 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Gen Zhang <blackgod016574@gmail.com>
+Cc:     jassisinghbrar@gmail.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] tegra-hsp: fix a missing-check bug in
  tegra_hsp_doorbell_create()
-Message-ID: <20190527130430.GA5367@zhanggen-UX430UQ>
+Message-ID: <20190527140549.GA7202@ulmo>
+References: <20190527130430.GA5367@zhanggen-UX430UQ>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="0F1p//8PRICkK4MW"
 Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20190527130430.GA5367@zhanggen-UX430UQ>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-In tegra_hsp_doorbell_create(), 'db->name' is allocated by 
-devm_kstrdup_const(). It returns NULL when fails. So 'db->name' should
-be checked.
 
-Signed-off-by: Gen Zhang <blackgod016574@gmail.com>
----
-diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
-index 11fc9fd..b613c46 100644
---- a/drivers/mailbox/tegra-hsp.c
-+++ b/drivers/mailbox/tegra-hsp.c
-@@ -292,6 +292,8 @@ tegra_hsp_doorbell_create(struct tegra_hsp *hsp, const char *name,
- 	db->channel.hsp = hsp;
- 
- 	db->name = devm_kstrdup_const(hsp->dev, name, GFP_KERNEL);
-+	if (!db->name)
-+		return ERR_PTR(-ENOMEM);
- 	db->master = master;
- 	db->index = index;
- 
----
+--0F1p//8PRICkK4MW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, May 27, 2019 at 09:04:30PM +0800, Gen Zhang wrote:
+> In tegra_hsp_doorbell_create(), 'db->name' is allocated by=20
+> devm_kstrdup_const(). It returns NULL when fails. So 'db->name' should
+> be checked.
+>=20
+> Signed-off-by: Gen Zhang <blackgod016574@gmail.com>
+> ---
+> diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+> index 11fc9fd..b613c46 100644
+> --- a/drivers/mailbox/tegra-hsp.c
+> +++ b/drivers/mailbox/tegra-hsp.c
+> @@ -292,6 +292,8 @@ tegra_hsp_doorbell_create(struct tegra_hsp *hsp, cons=
+t char *name,
+>  	db->channel.hsp =3D hsp;
+> =20
+>  	db->name =3D devm_kstrdup_const(hsp->dev, name, GFP_KERNEL);
+> +	if (!db->name)
+> +		return ERR_PTR(-ENOMEM);
+
+I don't think this could ever happen, since name is always from .rodata
+and hence devm_kstrdup_const() never returns NULL. But formally this is
+correct, so:
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--0F1p//8PRICkK4MW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzr7rcACgkQ3SOs138+
+s6Hd8A//fg5fcdNI/oAjJsmTdTg0zepmc4GvUXAhcMbvB9yGHL0jCumWWMS/UgyZ
+8s8z5+3IBQUJl3WvIgJuzhuP5wS0EnmF3XHrNjMRMAACoemXlwPRQ/4BR6dQnxBx
+0REskkPLrqdEs3t4RAtVZVJhBTAm3jlWCXpFXImfzLcHqRYvNuTayj6iuT/twxMx
+ZZXMD5LUZkQJzauVU7MD4+CcvYwQNB6lOa97N1W32ueHiO4kjOdgEPHkzWxyTn7S
+oCsCYmIPSFUgsq4rLRKsVzap6oQ0WglVRmvOqv7D8EgNYglw3frxwynVBP0TVGxp
+U3wXBrOSzk8MktqYbSJkFuzooE1xY59fq5V8SLu/RIP0tePQRnsL/0GdoDgswd1W
+FBmqSHqSEwVBmkCAJh3B8ZPGRK5rTfTNs+PPEXLfCIuaOQ2fK1KXKfr7QDASj7oo
+Fyfk4APGqaxVIOhhL1kVWG94x5QQbWQnFB4SWw3aupHMn+N3Z2+4qBSYSOs2m+lo
+vwAeA1ugvNvACRuQZ0rxZ41tylo8JooLM/DehkoDQk2vkG233GBQ4znJOPOTTF7d
+ZKF6nByrDvhQ3dfEkPV5wUF8T3a+pvh5Ajh+Nv60jR7LHsvQkOlqGgOjDGW4ARsm
+QaZqeSHavaxFs82nyD4d2JnHyUwbdRzmsHz0Yir93EKhnd/QGTQ=
+=dYIV
+-----END PGP SIGNATURE-----
+
+--0F1p//8PRICkK4MW--
