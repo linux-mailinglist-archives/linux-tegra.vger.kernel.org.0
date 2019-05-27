@@ -2,57 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADFD92AC94
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 May 2019 00:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D26782AE4C
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 May 2019 07:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726005AbfEZW1q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 26 May 2019 18:27:46 -0400
-Received: from imap1.codethink.co.uk ([176.9.8.82]:38718 "EHLO
-        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725863AbfEZW1q (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 26 May 2019 18:27:46 -0400
-Received: from x4db76deb.dyn.telefonica.de ([77.183.109.235] helo=[10.0.95.2])
-        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
-        id 1hV1cF-0004F7-V8; Sun, 26 May 2019 23:27:44 +0100
-Subject: Re: [PATCH] drm/tegra: fix warning PTR_ERR_OR_ZERO can be used
-To:     Hariprasad Kelam <hariprasad.kelam@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190525070353.GA6727@hari-Inspiron-1545>
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <7446cd38-71c5-284d-8a9a-b5ac6865bf35@codethink.co.uk>
-Date:   Sun, 26 May 2019 23:27:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726106AbfE0FyT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 May 2019 01:54:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58058 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725774AbfE0FyS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 27 May 2019 01:54:18 -0400
+Received: from localhost (unknown [171.61.91.186])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 87701206BA;
+        Mon, 27 May 2019 05:54:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558936458;
+        bh=kTw1vIy63CpClmQ1NgX+q/BmbQU4gJ8nmM5rDKV/lig=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uFCIi4/VcdUahYdnkFYtl1U+KJI/g4FzbMitep4L3JOecatzJ3BTr/U5hNAFtmhDF
+         4E+VOFNyj4QYLeLswDpKeiIQJ+qfDT8UDMc4KMXNUatvAHKrLJNSav99Q8b/i13KLU
+         V3Wc8MHZY/TRrT7YRa0Y2QLyJd46EbA9GzIEahUw=
+Date:   Mon, 27 May 2019 11:24:14 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Baolin Wang <baolin.wang@linaro.org>
+Cc:     dan.j.williams@intel.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com,
+        wsa+renesas@sang-engineering.com, jroedel@suse.de,
+        vincent.guittot@linaro.org, dmaengine@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 0/8] Add matching device node validation in DMA engine
+ core
+Message-ID: <20190527055414.GB15118@vkoul-mobl>
+References: <cover.1558351667.git.baolin.wang@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190525070353.GA6727@hari-Inspiron-1545>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1558351667.git.baolin.wang@linaro.org>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 25/05/2019 08:03, Hariprasad Kelam wrote:
-> fix below warnings reported by coccicheck
+On 20-05-19, 19:32, Baolin Wang wrote:
+> Hi,
 > 
-> /drivers/gpu/drm/tegra/drm.c:509:1-3: WARNING: PTR_ERR_OR_ZERO can be
-> used
-> ./drivers/gpu/drm/tegra/gem.c:419:1-3: WARNING: PTR_ERR_OR_ZERO can be
-> used
+> This patch set adds a device node validation in DMA engine core, that will
+> help some drivers to remove the duplicate device node validation in each
+> driver.
 
-I'd say the coccicheck should say "Improvement:" here, it's not
-something wrong, just code that has a better call available.
+Applied all, thanks
 
 -- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
-
-https://www.codethink.co.uk/privacy.html
+~Vinod
