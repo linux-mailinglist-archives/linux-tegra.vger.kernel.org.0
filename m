@@ -2,61 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4229B2B1EE
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 May 2019 12:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 673F32B218
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 May 2019 12:29:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726878AbfE0KOO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 May 2019 06:14:14 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:50652 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726626AbfE0KOO (ORCPT
+        id S1726071AbfE0K3n (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 May 2019 06:29:43 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:46299 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725814AbfE0K3m (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 May 2019 06:14:14 -0400
-Received: by mail-wm1-f68.google.com with SMTP id f204so15593631wme.0;
-        Mon, 27 May 2019 03:14:12 -0700 (PDT)
+        Mon, 27 May 2019 06:29:42 -0400
+Received: by mail-wr1-f65.google.com with SMTP id r7so16380027wrr.13;
+        Mon, 27 May 2019 03:29:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9AMH17m9bkd9xBQ84jMqHVsdu+Aw8uZOs+xLuI44dKQ=;
-        b=cW7Gw5RcInassntx8h6jvpum6B+yvq3UlkoBex9Hl4yNw/UDWBwzH7TylzvsNNebg2
-         TtjCIQBMku/Vvdyh/foFH5j1VpNXiWMF04+Xw1Qtmul/QEqSvpabvLlfonFAApymsHJt
-         zDeiThcgUEGKXGKxlAPCuCpbYzrbsKacI3OrisSs9QURSkqzwcpgoLnFbRvPKDkVCu5m
-         YbGsNU1ysOrXgmEPN/PWa28HrRb4bbtD8T4tqGGuL4xted9F0e6P+yxRClZzMaJQSSAZ
-         mcvW9shC1krtHL0bPRMBmhWTwKbM4v1E/u0MRJG7fn9EPYd85sw40hJmvOEx8aDTcVsb
-         rdJg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Sr6ztk9kkAYwhQ9kmB1b0Qy6c/tH1fWZgChf86og+j0=;
+        b=J4YwJzRPlspr7Lly+76uDgjLddXxvmY92zjufT+BkRVcH073GQzVaeMmOAbwE2xgaW
+         aYlaTbv7oTPL7HcIW0PbWPryhxjDxbSlRySdx5Qm8UzL84i6CFb8RREi69r9YCY0TNBV
+         bl3iJOXxJYQ0cgJSbs5p2R9bepozOtJCw4vYywg3t2NMxO8m2vVWvD8dVG4JNu5AQ85m
+         MpHCKtKi476QS8qiRcSdSpHMSBLjabnhrTS3gd5Sl90e9kQ3ftpiM5YjLm1R1CJcUjj4
+         zlj9Rlefl/0rQVvqsrUh+UirDPjW4uGlx9gUyMK5Ib2YBkP6McOT2JQbIiE7WjpxAV9+
+         2GuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9AMH17m9bkd9xBQ84jMqHVsdu+Aw8uZOs+xLuI44dKQ=;
-        b=k8gXAymNQWEePS/g9XoLXUhyRk3It8rIzh5aP3ZRAfV4Ou+7cLP/dhTOjKW/kBUDY8
-         iTFcei19n9TTmAP6fg0NAN1bTvzI31u0LdU5OPEwtW1rTPqtMEOXb/U/VutdW9CvDAUi
-         Z+tGc0OfFCFYyMuBZzqscMSacGgFJr9iujDhoHCbh0CZaztMXtXGKyCV/fy0UhrlQ1jZ
-         8CuS9JFAlimo8/9shO+JIijmvkdKUWagGRV4wuqjhNnhFDAY3G6mlO85fVJVfT2G+aHW
-         tCY+ZR9TleLJlmy9dFw0VodmzxG4D3/+jJigAJwPAClsJjKvRyAzXYh7QPSV/tWUvCCY
-         N+zw==
-X-Gm-Message-State: APjAAAU0CdseM0DCTIbE/JEJtjuoqWSXFaMGwxloA0kG/w35td0O/PYc
-        GosG3EWScdZ+h7HBuVNsoEs=
-X-Google-Smtp-Source: APXvYqxuoXNjr/uGKKOy7i1mJ0Nz9tk6F+28rnvwa+15KVE/sz4/ERJv6r7vIngVOb064HlBR7uZxg==
-X-Received: by 2002:a7b:cd84:: with SMTP id y4mr16376378wmj.41.1558952051534;
-        Mon, 27 May 2019 03:14:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Sr6ztk9kkAYwhQ9kmB1b0Qy6c/tH1fWZgChf86og+j0=;
+        b=RbUgPt9yXVLPAbBVexAlBHfwPcAEm1xZ1sSriYJ8sD6OdGRJhDfdc/JBUs39xQ55IJ
+         DpGlG9fGQqH5tdxgdkk3b2TZ1rcBO08yomaHPsAEw3jgeaoNG5anXhh1nVk4JANbdPyL
+         LlENtVi1pwzXNRCky+lKY6K88yYKQKnhzI63OTn5GI8APg2Jt30+76eK3/GR/zrdQV1G
+         DfSaZWcQGmhpfQ/6LXzF5I1///4q7HuGoi7biDAzmgItli8WzlUq/oNUKrbAt91UANyL
+         wo6MU53ZmC8knR30McHwiBRrNJJNdMdk5qlqN872Ywt9NfOB7UEGK4zUHntPi/UbxsAi
+         CLIQ==
+X-Gm-Message-State: APjAAAWzVjY9+0H/uY9ZbLoiAy41xD8qFsQaBJXxA0LFlVGm1T5mjE/e
+        SvERbfKqoe+6Cz4ME0ZQBq9o33YU
+X-Google-Smtp-Source: APXvYqyfFzuhEgbSsrOd6YLa6WQIAUJML6bJ/6hmBGHh8Zekal2z9NVxCa5jE/SAeKjujN64jUw1Iw==
+X-Received: by 2002:adf:cf03:: with SMTP id o3mr10492942wrj.5.1558952981010;
+        Mon, 27 May 2019 03:29:41 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id u11sm9327783wrn.1.2019.05.27.03.14.10
+        by smtp.gmail.com with ESMTPSA id q9sm12644695wmq.9.2019.05.27.03.29.40
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 27 May 2019 03:14:11 -0700 (PDT)
+        Mon, 27 May 2019 03:29:40 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Kartik Kartik <kkartik@nvidia.com>, linux-rtc@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] rtc: tegra: Turn into regular driver
-Date:   Mon, 27 May 2019 12:13:59 +0200
-Message-Id: <20190527101359.5898-4-thierry.reding@gmail.com>
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH] i2c: tegra: Avoid error message on deferred probe
+Date:   Mon, 27 May 2019 12:29:39 +0200
+Message-Id: <20190527102939.7616-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190527101359.5898-1-thierry.reding@gmail.com>
-References: <20190527101359.5898-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -66,64 +62,29 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Drivers registered with module_platform_driver_probe() are considered
-non-hotpluggable, which among other things means that they don't support
-deferred probe. However, recent changes in how the ARM SMMU works have
-required the BPMP (which is the clock provider on Tegra186 and later) be
-bound to the SMMU, which in turn means that the BPMP driver can defer
-probe and hence clocks become available much later than they used to.
-For most other drivers this is not a problem because they already
-properly support deferred probe, but rtc-tegra is the odd one out that
-now fails to probe and will therefore never be registered.
-
-Fix this by making the driver a regular driver that supports unloading
-and deferred probe.
+If the driver defers probe because of a missing clock, avoid outputting
+an error message. The clock will show up eventually.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/rtc/rtc-tegra.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/i2c/busses/i2c-tegra.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/rtc/rtc-tegra.c b/drivers/rtc/rtc-tegra.c
-index b68ba2dd1d36..8bbaea24926e 100644
---- a/drivers/rtc/rtc-tegra.c
-+++ b/drivers/rtc/rtc-tegra.c
-@@ -2,7 +2,7 @@
- /*
-  * An RTC driver for the NVIDIA Tegra 200 series internal RTC.
-  *
-- * Copyright (c) 2010, NVIDIA Corporation.
-+ * Copyright (c) 2010-2019, NVIDIA Corporation.
-  */
+diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+index ebaa78d17d6e..6bfd5297f425 100644
+--- a/drivers/i2c/busses/i2c-tegra.c
++++ b/drivers/i2c/busses/i2c-tegra.c
+@@ -1517,7 +1517,9 @@ static int tegra_i2c_probe(struct platform_device *pdev)
  
- #include <linux/clk.h>
-@@ -274,7 +274,7 @@ static const struct of_device_id tegra_rtc_dt_match[] = {
- };
- MODULE_DEVICE_TABLE(of, tegra_rtc_dt_match);
+ 	div_clk = devm_clk_get(&pdev->dev, "div-clk");
+ 	if (IS_ERR(div_clk)) {
+-		dev_err(&pdev->dev, "missing controller clock\n");
++		if (PTR_ERR(div_clk) != -EPROBE_DEFER)
++			dev_err(&pdev->dev, "missing controller clock\n");
++
+ 		return PTR_ERR(div_clk);
+ 	}
  
--static int __init tegra_rtc_probe(struct platform_device *pdev)
-+static int tegra_rtc_probe(struct platform_device *pdev)
- {
- 	struct tegra_rtc_info *info;
- 	struct resource *res;
-@@ -406,6 +406,7 @@ static void tegra_rtc_shutdown(struct platform_device *pdev)
- }
- 
- static struct platform_driver tegra_rtc_driver = {
-+	.probe = tegra_rtc_probe,
- 	.remove = tegra_rtc_remove,
- 	.shutdown = tegra_rtc_shutdown,
- 	.driver = {
-@@ -414,8 +415,7 @@ static struct platform_driver tegra_rtc_driver = {
- 		.pm = &tegra_rtc_pm_ops,
- 	},
- };
--
--module_platform_driver_probe(tegra_rtc_driver, tegra_rtc_probe);
-+module_platform_driver(tegra_rtc_driver);
- 
- MODULE_AUTHOR("Jon Mayo <jmayo@nvidia.com>");
- MODULE_DESCRIPTION("driver for Tegra internal RTC");
 -- 
 2.21.0
 
