@@ -2,55 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86E822B246
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 May 2019 12:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89D852B27D
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 May 2019 12:52:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726343AbfE0KfJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 May 2019 06:35:09 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50787 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbfE0KfJ (ORCPT
+        id S1726063AbfE0Kwz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 May 2019 06:52:55 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37534 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725814AbfE0Kwz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 May 2019 06:35:09 -0400
-Received: by mail-wm1-f66.google.com with SMTP id f204so15660037wme.0
-        for <linux-tegra@vger.kernel.org>; Mon, 27 May 2019 03:35:07 -0700 (PDT)
+        Mon, 27 May 2019 06:52:55 -0400
+Received: by mail-wm1-f68.google.com with SMTP id 7so15378343wmo.2;
+        Mon, 27 May 2019 03:52:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=qHnemxDd/2kUpim9rlgQmmcIZc8mqNvWZRwHX4+Gm18=;
-        b=NIYAmIydLKqJ5DEiR8RS95LVG2Nw/nQ/zVTgu7q9Jkb8V5d3QCa9GwhVP5lL4UIFYr
-         Qgsdmn1cduxy+UnWPvnMGoQRRKAnbQcuTQrplTRcsrwEmT9ak+eO4yiYny6RSe+3EY5s
-         27Ph3DtjCu6pRioKnahGFwp3O35I+C5K0W4L1GWW2IiP/sujE/rDkRQXwlV67Hu5dtJm
-         39oMTqwMgu4VUn+kzNzpOptalN31kPZ4jb0bUC9F4vcbtib5OJufFzGn62/7wPeHrUXE
-         1Vb9axuY2knmUdhfKaoM5qZKPkOg2FmxChkC3/AqjqE+WyXKGB91euzKwqkqICZgupxA
-         DjIA==
+        bh=A1VWy41IvoBarmDwJxKEbfTJGr59Xp9sqvlsdgaxrsc=;
+        b=J5gRHCse3CBmGc8Tbhh4Z7Ego/mItRapUC4tFdD7VIq2E2J6ITKBdnuhX0gOG75Q+F
+         72kdy4TL3OhGPj3aKHq+tD5P4ByOIsYwzzu536W02hsutPmvXPkAF9Px5NLWOJFNqpQR
+         QcDj3KcF/b0UafdyYSj44khXzz4T7KHC1ea/L8+u7XFg/X9IvTe/w+AR+JzS1Kila4eQ
+         UfuV12TR3I4AzYGYWUQ5eE+BR5HQyEyTEEPSk5kyOhhnY9Gbo/aXH8CChft7DJxAyk+0
+         CXS2sFaVuF03N6FoqF7Oo6m/iQ7MIBLu9GbC4Q8S6y0SKJRZXgmsyNo5sWqdxeEsDGI+
+         7nMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=qHnemxDd/2kUpim9rlgQmmcIZc8mqNvWZRwHX4+Gm18=;
-        b=sI/Dmiofx1EFeKhQR7+zagy59dNoRCcAkA8WoVVANVZspGGJnsS3V5jL3tOoJCz7bF
-         bRtG16ZRdNsw7j37fjbKzGmGz6vtcBH0ONbmyNJl51M/tgzPHZ9GqF9FwnLMpBpgC2X1
-         o6VmCsrxzapz3wwAw9XG1kjeUeykN3zqpTX/vt9DiFgW9Jk6lb9Z6MC+uSSe3e1RPFJw
-         +A36MUew4UoWr/AWn5tDYu4Eyobg0l0aIsJNqPHyfrclxU/+ObfCdImlG93AubyhNTMc
-         ek3Bfg10z8KRd7ei5BSru8NKJB4NXBjw0YePf5iDkYK/YsMUVb40PAXM//t9ef8ufda5
-         gFjg==
-X-Gm-Message-State: APjAAAXrPDGoJ1djV7nHxFjUcSEcH/AVbrxkNRPVKq8cCk4cSzwqHKvS
-        9sHxekJIUQukCgr+qsXLEQ3M1ww+
-X-Google-Smtp-Source: APXvYqzRxvC3i+uHla6pZwuH1Ll6gQwF8fHBx9OastYnopgPxp7Peo8hrAlHbvQHKJn3r2YfQXStQg==
-X-Received: by 2002:a1c:4484:: with SMTP id r126mr1309320wma.27.1558953306777;
-        Mon, 27 May 2019 03:35:06 -0700 (PDT)
+        bh=A1VWy41IvoBarmDwJxKEbfTJGr59Xp9sqvlsdgaxrsc=;
+        b=lh4PEzQSoh7LyByoVBIBJ++IPt6bGXWE8zDEa4Ido/RPT0AEIbMqYs+HerQnNrNAz+
+         WsJNnG4IhXgJZlE6DplDxTEBwPLplZNCybOgZbqhYYrJG70t7XTFwLNzSpciwF5JaCUa
+         Ug6fRD3DZ7txXNVYNjDEBcUO9kRTqeXylAaP08Zs8h3Fs4krOOFzgpBLbkGD0/uZ6sdX
+         SdILhCyb55yTH+yRawKOckp+Y6EQe3k6pKYjguuBxKglHvas6gFuK8KezQnWoyPleYRw
+         ZijyiJudu2AGMX1WhWEheRKt1soLta4rTQGeBRgbIOTYfQpZSFwFrGwKVBWJOiWL5tiQ
+         H3Qg==
+X-Gm-Message-State: APjAAAVc7lZpkUFUb2a5x5NpA8aM6noVQ3DGj+9aNPIGPKd1/9OaZZAm
+        w1/H2qC0m8jOXIay6SRwz9o=
+X-Google-Smtp-Source: APXvYqzcLhyjl5mQsT1SZ9iPldQjotTqTvtgR4egYrw0ernmhv1aXyAumiFkr5weubhrHo9ioAOHLQ==
+X-Received: by 2002:a1c:6c04:: with SMTP id h4mr18906175wmc.135.1558954373276;
+        Mon, 27 May 2019 03:52:53 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id l13sm9888989wme.37.2019.05.27.03.35.06
+        by smtp.gmail.com with ESMTPSA id o8sm25682324wra.4.2019.05.27.03.52.52
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 27 May 2019 03:35:06 -0700 (PDT)
+        Mon, 27 May 2019 03:52:52 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH] arm64: tegra: Add pin control states for I2C on Tegra186
-Date:   Mon, 27 May 2019 12:35:05 +0200
-Message-Id: <20190527103505.8384-1-thierry.reding@gmail.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jose Abreu <joabreu@synopsys.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH] net: stmmac: Do not output error on deferred probe
+Date:   Mon, 27 May 2019 12:52:51 +0200
+Message-Id: <20190527105251.11198-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,41 +65,32 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Two of the Tegra I2C controllers share pads with the DPAUX controllers.
-In order for the I2C controllers to use these pads, they have to be set
-into I2C mode. Use the I2C and off pin control states defined in the DT
-nodes for DPAUX as "default" and "idle" states, respectively. This
-ensures that the I2C controller driver can properly configure the pins
-when it needs to perform I2C transactions.
+If the subdriver defers probe, do not show an error message. It's
+perfectly fine for this error to occur since the driver will get another
+chance to probe after some time and will usually succeed after all of
+the resources that it requires have been registered.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index 426ac0bdf6a6..00bd4ce80fa3 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -173,6 +173,9 @@
- 		clock-names = "div-clk";
- 		resets = <&bpmp TEGRA186_RESET_I2C4>;
- 		reset-names = "i2c";
-+		pinctrl-names = "default", "idle";
-+		pinctrl-0 = <&state_dpaux1_i2c>;
-+		pinctrl-1 = <&state_dpaux1_off>;
- 		status = "disabled";
- 	};
- 
-@@ -201,6 +204,9 @@
- 		clock-names = "div-clk";
- 		resets = <&bpmp TEGRA186_RESET_I2C6>;
- 		reset-names = "i2c";
-+		pinctrl-names = "default", "idle";
-+		pinctrl-0 = <&state_dpaux_i2c>;
-+		pinctrl-1 = <&state_dpaux_off>;
- 		status = "disabled";
- 	};
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
+index 3256e5cbad27..5bc224834c77 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
+@@ -455,7 +455,11 @@ static int dwc_eth_dwmac_probe(struct platform_device *pdev)
+ 	priv = data->probe(pdev, plat_dat, &stmmac_res);
+ 	if (IS_ERR(priv)) {
+ 		ret = PTR_ERR(priv);
+-		dev_err(&pdev->dev, "failed to probe subdriver: %d\n", ret);
++
++		if (ret != -EPROBE_DEFER)
++			dev_err(&pdev->dev, "failed to probe subdriver: %d\n",
++				ret);
++
+ 		goto remove_config;
+ 	}
  
 -- 
 2.21.0
