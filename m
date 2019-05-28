@@ -2,50 +2,45 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B98DF2CD94
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 May 2019 19:25:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 776272CE20
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 May 2019 20:00:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbfE1RZz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 May 2019 13:25:55 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:36130 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726515AbfE1RZz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 May 2019 13:25:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=gh2+I8dFZc+qTvK8LM4KjXXs/DmXe2CijJfrbBulRew=; b=XL/lLtpDZiOfE/wysPvGMUydez
-        yCGRSZozXW0K1P0Yy9SUvjuscK9pjwBCEa2fLl9sk2zmBca5dR+1bHzgWjbE7qEBq5iIKHVzl+bY3
-        nKu62sioByRRe0u7RcIKo7glBsuwFstzfrfa8M1lv2DzOR6DxWMClmPU7z3c/XlCqaec=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.89)
-        (envelope-from <andrew@lunn.ch>)
-        id 1hVfrB-0001G8-18; Tue, 28 May 2019 19:25:49 +0200
-Date:   Tue, 28 May 2019 19:25:48 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
+        id S1727724AbfE1SAn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 May 2019 14:00:43 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:49198 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726576AbfE1SAn (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 28 May 2019 14:00:43 -0400
+Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::3d8])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 09783122CA807;
+        Tue, 28 May 2019 11:00:42 -0700 (PDT)
+Date:   Tue, 28 May 2019 11:00:42 -0700 (PDT)
+Message-Id: <20190528.110042.807042977833322022.davem@davemloft.net>
+To:     thierry.reding@gmail.com
+Cc:     peppe.cavallaro@st.com, alexandre.torgue@st.com,
+        joabreu@synopsys.com, jonathanh@nvidia.com, netdev@vger.kernel.org,
         linux-tegra@vger.kernel.org
 Subject: Re: [PATCH] net: stmmac: Do not output error on deferred probe
-Message-ID: <20190528172548.GS18059@lunn.ch>
-References: <20190527105251.11198-1-thierry.reding@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From:   David Miller <davem@davemloft.net>
 In-Reply-To: <20190527105251.11198-1-thierry.reding@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <20190527105251.11198-1-thierry.reding@gmail.com>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 28 May 2019 11:00:43 -0700 (PDT)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, May 27, 2019 at 12:52:51PM +0200, Thierry Reding wrote:
+From: Thierry Reding <thierry.reding@gmail.com>
+Date: Mon, 27 May 2019 12:52:51 +0200
+
 > From: Thierry Reding <treding@nvidia.com>
 > 
 > If the subdriver defers probe, do not show an error message. It's
@@ -55,6 +50,4 @@ On Mon, May 27, 2019 at 12:52:51PM +0200, Thierry Reding wrote:
 > 
 > Signed-off-by: Thierry Reding <treding@nvidia.com>
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-
-    Andrew
+Applied.
