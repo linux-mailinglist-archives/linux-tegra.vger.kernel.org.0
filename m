@@ -2,209 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00E1E2DFC3
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 May 2019 16:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 149722E038
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 May 2019 16:53:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726311AbfE2Oav (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 May 2019 10:30:51 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46326 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726012AbfE2Oav (ORCPT
+        id S1726857AbfE2Oxi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 May 2019 10:53:38 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:40898 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726701AbfE2Oxb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 May 2019 10:30:51 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r7so1924438wrr.13;
-        Wed, 29 May 2019 07:30:48 -0700 (PDT)
+        Wed, 29 May 2019 10:53:31 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 15so1822562wmg.5;
+        Wed, 29 May 2019 07:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+mrvH5d9LnblMFOrU+glO76G4SJ6Ih/eDveF6jIta9Q=;
-        b=W8JOsQlGyoa8Jr2aFnmr9GTCVgVQPuDWb5dA8jyvf5hljd0EQOPlPcqfwGv+SjUXLy
-         porOr0Iv98gZ9Y7mR2bjcnU70c9NHxyTAMIa4Nf8gIv0DrvsK1xLCHWUZMmbHl0oUqr7
-         4TccOQzdz5Z8CpYqCEKmCTHP4wXt7tYhdsC3ZUySUSt9cVs1c+P2NSQ+tK7l9/PKDt68
-         jckUnUFNGI7iN3Llm0zLMU+ZWDlo3EJkggkKVJX7qjh4Nd6fjXrF4xP+Yy1BwgKaOO8l
-         ex/8ul9IQucbV2n6Wl0yLJrm4rvSKfsbAmoh02MoLTVvh9bQC5cTdrYlRW49PsM7OmPJ
-         pqcA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V8YS4yymyIJQGrMMcy8svUF2AoqiD+RwwGe4T+u/tvI=;
+        b=cPwDgmdNH0Kt2d+P5AQL/GVo0J0j2E6mJeWrvlYBknQMzj7KRC3ROjz/Ld4psuTqh9
+         7Hd7VNtPd2NRobiXhOX/87F41FHnheQSS/iZT2MIlj1YKF79hdQar+xS4iN+crjJLvJo
+         9uXmXKoN8eZLRDvxzMtqTdNywDvJQs1eOQz+p+9JH05szfP+7qIDx1X3gNcj4J9+/LkD
+         piuN2PzJsDOhwqtma0aZOFmuZ8TcihxteLJ7QkHSULtNu87W7WFq+rqwSKKj7cuHnTyU
+         2mH8r7LQkCnPHKXe7zqOTToljSBTvSjvm2HapNYxad9BGNgp2dVk8nEN9PkHzbicGget
+         XYUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+mrvH5d9LnblMFOrU+glO76G4SJ6Ih/eDveF6jIta9Q=;
-        b=If9tRhSAs7yZo2lKRprEg80SWlHlx06hXVeokYwrnrGYr5bb+ExF1rM5TwnwGxyQp1
-         gUuBCJf6fiuybWy59jJTYqjXrdV/Oy3pIyEmgiabgyVFxTQ3rGuzgZx8IVezujSpPj+h
-         24ZVxw3RtRb3X736ZAshmcDpBdpRkabestyaoeQ7q6jlzuuc9A8pTasxH9fk71Xo2CHF
-         xYkWsS5L3k+BhOBIoX0zxX0+pg/JunY8n7tMBXOteL7MqPGjIs8xloRFraYPVT+5hHwZ
-         DhntbFDS5rKzmF7tvZLmEd4iU01rM3g9Qm9YQti+buZ8m/x+sAH3SBYXc64e0hrh1IoZ
-         hpqw==
-X-Gm-Message-State: APjAAAWCF+KfPJRY14uCqeUrOgwuDGiukR86FwwjIWaC9VB3W2cetw7k
-        EFAvwzk2XR6WZSYL4NFdt8oXosKh
-X-Google-Smtp-Source: APXvYqwkTFr7sjDIT5btyNSIMcJc7h73x4bwa4wtzCODaT/zS9/J1zsFj3/ICGIgfnmRBZ7O4yOHqg==
-X-Received: by 2002:a5d:610e:: with SMTP id v14mr402211wrt.343.1559140248146;
-        Wed, 29 May 2019 07:30:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V8YS4yymyIJQGrMMcy8svUF2AoqiD+RwwGe4T+u/tvI=;
+        b=X5tKRhj0WYW3y6kRVqYxw1f7T6hDZt5zyG5K/0u7bBpLbxpVInEz/WA/CfnpIOWmzs
+         EuLSr1NuXO4WNOuqlUYBIBsFArmSoECfSEyunOm03QAU3fYVKWhBTS4YlJ8xQaqDSrnv
+         iFP4Tdv+3zhAvHAZf/rqsWzkSPHutcNlvMJe9T0LX0sv0Uwr5m/75eeJJWVHzHkBhDWr
+         wQtGcRupedLjbvjwLtr0LMkU8S6aI4m4YehSKSLr0M6cledgDE3nucD+qR9kIMCMG2mz
+         zn05iMPO6AlksDHDXmUya7qNl+rt4bWVH9ECjAlEfLvifSndlhjBnrASz1Fl8UyHkDc1
+         l+PA==
+X-Gm-Message-State: APjAAAXECSwbFNlu3zY/oxdDilx+KRwbEeHFPivneTV+pvPTgY3ix1Bk
+        Ii+7uBvY3PP9ModYIXjvlOw=
+X-Google-Smtp-Source: APXvYqwSeV7F8N0/DKUi/jbr2lZV7RO9hHsArEclGOMv/01BQW2+13qxM+DQSJfOtr07iomxLI0myw==
+X-Received: by 2002:a7b:c939:: with SMTP id h25mr7294735wml.7.1559141604564;
+        Wed, 29 May 2019 07:53:24 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id n7sm6577025wrw.64.2019.05.29.07.30.47
+        by smtp.gmail.com with ESMTPSA id y16sm17925234wru.28.2019.05.29.07.53.23
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 29 May 2019 07:30:47 -0700 (PDT)
-Date:   Wed, 29 May 2019 16:30:46 +0200
+        Wed, 29 May 2019 07:53:23 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     jonathanh@nvidia.com, tglx@linutronix.de, jason@lakedaemon.net,
-        marc.zyngier@arm.com, linus.walleij@linaro.org, stefan@agner.ch,
-        mark.rutland@arm.com, pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
-        sboyd@kernel.org, linux-clk@vger.kernel.org,
-        linux-gpio@vger.kernel.org, jckuo@nvidia.com, josephl@nvidia.com,
-        talho@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mperttunen@nvidia.com,
-        spatra@nvidia.com, robh+dt@kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH V2 08/12] soc/tegra: pmc: allow support for more tegra
- wake models
-Message-ID: <20190529143046.GF17679@ulmo>
-References: <1559084936-4610-1-git-send-email-skomatineni@nvidia.com>
- <1559084936-4610-9-git-send-email-skomatineni@nvidia.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Lina Iyer <ilina@codeaurora.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, linux-gpio@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] Implement wake event support on Tegra186 and later
+Date:   Wed, 29 May 2019 16:53:20 +0200
+Message-Id: <20190529145322.20630-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="qp4W5+cUSnZs0RIF"
-Content-Disposition: inline
-In-Reply-To: <1559084936-4610-9-git-send-email-skomatineni@nvidia.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
---qp4W5+cUSnZs0RIF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, May 28, 2019 at 04:08:52PM -0700, Sowjanya Komatineni wrote:
-> This patch allows to create separate irq_set_wake and irq_set_type
-> implementations for different tegra designs PMC that has different
-> wake models which require difference wake registers and different
-> programming sequence.
->=20
-> AOWAKE model support is available for Tegra186 and Tegra194 only
-> and it resides within PMC and supports tiered wake architecture.
->=20
-> Tegra210 and prior tegra designs uses PMC directly to receive wake
-> events and coordinate the wake sequence.
->=20
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  drivers/soc/tegra/pmc.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-> index 5648e5c09ef5..974b4c9f6ada 100644
-> --- a/drivers/soc/tegra/pmc.c
-> +++ b/drivers/soc/tegra/pmc.c
-> @@ -235,6 +235,8 @@ struct tegra_pmc_soc {
->  	void (*setup_irq_polarity)(struct tegra_pmc *pmc,
->  				   struct device_node *np,
->  				   bool invert);
-> +	int (*irq_set_wake)(struct irq_data *data, unsigned int on);
-> +	int (*irq_set_type)(struct irq_data *data, unsigned int type);
-> =20
->  	const char * const *reset_sources;
->  	unsigned int num_reset_sources;
-> @@ -1915,12 +1917,15 @@ static const struct irq_domain_ops tegra_pmc_irq_=
-domain_ops =3D {
->  	.alloc =3D tegra_pmc_irq_alloc,
->  };
-> =20
-> -static int tegra_pmc_irq_set_wake(struct irq_data *data, unsigned int on)
-> +static int tegra186_pmc_irq_set_wake(struct irq_data *data, unsigned int=
- on)
->  {
->  	struct tegra_pmc *pmc =3D irq_data_get_irq_chip_data(data);
->  	unsigned int offset, bit;
->  	u32 value;
-> =20
-> +	if (data->hwirq =3D=3D ULONG_MAX)
-> +		return 0;
-> +
->  	offset =3D data->hwirq / 32;
->  	bit =3D data->hwirq % 32;
-> =20
+The following is a set of patches that allow certain interrupts to be
+used as wakeup sources on Tegra186 and later. To implement this, each
+of the GPIO controllers' IRQ domain needs to become hierarchical, and
+parented to the PMC domain. The PMC domain in turn implements a new
+IRQ domain that is a child to the GIC IRQ domain.
 
-I've submitted this hunk as a separate patch because I think we may end
-up needing to backport that to v5.0.
+The above ensures that the interrupt chip implementation of the PMC is
+called at the correct time. The ->irq_set_type() and ->irq_set_wake()
+implementations program the PMC wake registers in a way to enable the
+given interrupts as wakeup sources.
 
-No need for you to worry about that, though. I'll take care of it when I
-apply this patch.
+This is based on a suggestion from Thomas Gleixner that resulted from
+the following thread:
+
+        https://lkml.org/lkml/2018/9/13/1042
+
+Changes in v3:
+- use irq_create_fwspec_mapping() instead of irq_domain_alloc_irqs()
+- drop preparatory patch exporting irq_domain_alloc_irqs()
+- properly set GPIO instance on Tegra186
+
+Changes in v2:
+- dropped the Tegra PMC specific patches to simplify the series
+- drop wakeup-parent usage, lookup up PMC by compatible
+- convert Tegra186 GPIO driver to use valid mask
+- move hierarchy support code into gpiolib core
+
+Linus, this is a new revision based on our previous discussion. Sorry it
+took so long to get back to this. I also verified that with this series
+I can make things work with gpio-keys whether I use the "gpios" property
+or the "interrupts" property, which was your primary concern.
+
+I'm also adding Lina to the thread since she's been basing her QCOM
+series on top of this patch. Lina, it'd be great if you could confirm
+that the changes I made in this version continue to work for you.
 
 Thierry
 
-> @@ -1943,7 +1948,7 @@ static int tegra_pmc_irq_set_wake(struct irq_data *=
-data, unsigned int on)
->  	return 0;
->  }
-> =20
-> -static int tegra_pmc_irq_set_type(struct irq_data *data, unsigned int ty=
-pe)
-> +static int tegra186_pmc_irq_set_type(struct irq_data *data, unsigned int=
- type)
->  {
->  	struct tegra_pmc *pmc =3D irq_data_get_irq_chip_data(data);
->  	u32 value;
-> @@ -1996,8 +2001,10 @@ static int tegra_pmc_irq_init(struct tegra_pmc *pm=
-c)
->  	pmc->irq.irq_unmask =3D irq_chip_unmask_parent;
->  	pmc->irq.irq_eoi =3D irq_chip_eoi_parent;
->  	pmc->irq.irq_set_affinity =3D irq_chip_set_affinity_parent;
-> -	pmc->irq.irq_set_type =3D tegra_pmc_irq_set_type;
-> -	pmc->irq.irq_set_wake =3D tegra_pmc_irq_set_wake;
-> +	if (pmc->soc->irq_set_type)
-> +		pmc->irq.irq_set_type =3D pmc->soc->irq_set_type;
-> +	if (pmc->soc->irq_set_wake)
-> +		pmc->irq.irq_set_wake =3D pmc->soc->irq_set_wake;
-> =20
->  	pmc->domain =3D irq_domain_add_hierarchy(parent, 0, 96, pmc->dev->of_no=
-de,
->  					       &tegra_pmc_irq_domain_ops, pmc);
-> @@ -2670,6 +2677,8 @@ static const struct tegra_pmc_soc tegra186_pmc_soc =
-=3D {
->  	.regs =3D &tegra186_pmc_regs,
->  	.init =3D NULL,
->  	.setup_irq_polarity =3D tegra186_pmc_setup_irq_polarity,
-> +	.irq_set_wake =3D tegra186_pmc_irq_set_wake,
-> +	.irq_set_type =3D tegra186_pmc_irq_set_type,
->  	.reset_sources =3D tegra186_reset_sources,
->  	.num_reset_sources =3D ARRAY_SIZE(tegra186_reset_sources),
->  	.reset_levels =3D tegra186_reset_levels,
-> @@ -2748,6 +2757,8 @@ static const struct tegra_pmc_soc tegra194_pmc_soc =
-=3D {
->  	.regs =3D &tegra186_pmc_regs,
->  	.init =3D NULL,
->  	.setup_irq_polarity =3D tegra186_pmc_setup_irq_polarity,
-> +	.irq_set_wake =3D tegra186_pmc_irq_set_wake,
-> +	.irq_set_type =3D tegra186_pmc_irq_set_type,
->  	.num_wake_events =3D ARRAY_SIZE(tegra194_wake_events),
->  	.wake_events =3D tegra194_wake_events,
->  };
-> --=20
-> 2.7.4
->=20
+Thierry Reding (2):
+  gpio: Add support for hierarchical IRQ domains
+  gpio: tegra186: Implement wake event support
 
---qp4W5+cUSnZs0RIF
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/gpio/Kconfig         |   1 +
+ drivers/gpio/gpio-tegra186.c | 120 +++++++++++++++++++++++++++++++----
+ drivers/gpio/gpiolib.c       |  33 ++++++++--
+ include/linux/gpio/driver.h  |   8 +++
+ 4 files changed, 144 insertions(+), 18 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.21.0
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzul5YACgkQ3SOs138+
-s6EvRg//SiL8/cj7vXeGPNhShOjMQH5iYJIHqsX0WbMVVHn86pA6gpNyEYzZKaMU
-Sx9GsAU6QQSaitW2WJ+9Dd2+uNaHiOIFSqZwGEHUxDcYCyEsvNhq99mPVw+KOQXs
-u+hCCzhEN/4emURsfohOTDBRORr30tbLqzl3WinPLrseqLlY5oHXz5RmzXPY8wRV
-ZmBo6X5xXAr3IctQpZUlTDr/TiY60JLEN3zVqPHlNEShtlMVVVzMzR6ByP20NSh0
-fVL/P3iTC3nKHtwlqhaaMpu27wMNz+HHa6xaMRRkM+BLQyuDlN5cZEN3HsiFijB3
-lYn5sMz9bonxyaHX5ROFOeqCfGqPAhBde6d92X+/uq3xLAzt7VzHL9NCNlAjDzMi
-CK6H+9+Uv669KZqw1PG+DhPFNCyCJYx9rPTaR1xZ8T1M2pakLXl15CwSJMIvNWd3
-4hdhDYtCIcrlu23UkjwKZFOIxyMzijobk9FLRBRQoxkL8MXtqqPGlWlAF2Gw4nwi
-k1rcuUPgm/RCtnLa03zGehmKgiJpsGOSevI+ahEPeHSeSaPGbaxgLOXKO0D2PWA3
-80QpD6NO6NiU5VuM/BYomu29sZYWVEQxR1F2LIR4JB3nm2a77nh/eNo7TMlk1WSn
-NNL00bUomOFZXHk+D39puub7N443xeLpEg9PqWtia/nxhyFLrbM=
-=mmOw
------END PGP SIGNATURE-----
-
---qp4W5+cUSnZs0RIF--
