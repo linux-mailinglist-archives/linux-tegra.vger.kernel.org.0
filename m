@@ -2,113 +2,132 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B60302E798
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 May 2019 23:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30D112E95E
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 01:28:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726601AbfE2VpT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 May 2019 17:45:19 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:44687 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726311AbfE2VpT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 May 2019 17:45:19 -0400
-Received: by mail-io1-f68.google.com with SMTP id f22so3201959iol.11;
-        Wed, 29 May 2019 14:45:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Xore5EbM1RPfaLGDfwvhBCS+nazjtQv0oHu+w4QdH3A=;
-        b=PNLKJhpev592jajRJweAd6ImF/wZIJ9YUIGUSqTBtUSiUhlTIrxrN9PmdrAhG1UvWU
-         2mYWvkBW+ZyalqKAWpjwq+jqOB2ozxHzr6Wqj9g4HvRwPNTApf19g+/t/19uu+gPHLpg
-         4D9Y2L7KYq0bI1IqIM6tZ0wbfPdXx8E4CE1Uk4lmADOuhgLg8fRHSakyWCPfq46H/CgF
-         M4MMxqZ7hgvadjj6JV+7mnaAenPGpQcwNi1Tux65omB4Ds1BCwcKWLalcwfz0Bc0wjjw
-         CqRmxnWABROB1QQRALB3mRl5Mkqr7MJZmzKhEIdJe5Xxuxnh9I9PaVv2wWsVSYpVVI0r
-         GiWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Xore5EbM1RPfaLGDfwvhBCS+nazjtQv0oHu+w4QdH3A=;
-        b=s9Pi6bVX/rudiajGcM0Vjv9uleZnniQkNrchCYeJPzcSdCNvryO2x+F9qi+pQRnJYi
-         MhqZSgarKQSJRPjaY0F+rGybk/FS+Ez7c8lEbPGuKUYjTv3JKKRfiazJOOuV7JPiF2E5
-         0sLDbYXXvBriCm+PkBL1+2syADVb9Z4offkQ/IbX6gdLv4SbmxbsPUxG2cUJljQhM6Nj
-         8Aca3fijLyReUymrgxg5QhCiYbQKyYoogYMP067zPdRV/ToQC49T9Quqse773fkGdl+s
-         lz5FUUTkBAEEKrHFqPRtHKL7BtL1KJ8JBgZ9aUwupi7vWYhlEHr1dJPguy6oYhKegYbO
-         5fvg==
-X-Gm-Message-State: APjAAAVz/AN8Au0s89jnawaBkUoX/WdXtPL6grFn2RAuNEHX/Ooex3tx
-        V6KWUFvNrW2kF8zxgAnf4dI=
-X-Google-Smtp-Source: APXvYqyZrKJjM9qRtO2iSZD3sXsntg5OG3mNUdRz0cpJ9sP9DLJh3Rb6v5ULOHPHFoseVQFmAwXqZA==
-X-Received: by 2002:a6b:b7d5:: with SMTP id h204mr214015iof.188.1559166318332;
-        Wed, 29 May 2019 14:45:18 -0700 (PDT)
-Received: from localhost.localdomain ([94.29.35.141])
-        by smtp.gmail.com with ESMTPSA id n193sm259992itn.27.2019.05.29.14.45.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 14:45:17 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ben Dooks <ben.dooks@codethink.co.uk>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1] dmaengine: tegra-apb: Error out if DMA_PREP_INTERRUPT flag is unset
-Date:   Thu, 30 May 2019 00:43:55 +0300
-Message-Id: <20190529214355.15339-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        id S1726543AbfE2X2M (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 May 2019 19:28:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46736 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726240AbfE2X2L (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 29 May 2019 19:28:11 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 14A5224366;
+        Wed, 29 May 2019 23:28:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559172490;
+        bh=8kdlDPHPJB9SK5OUX6kVhT6RIbf9CHlBwHsoSX6UV6o=;
+        h=In-Reply-To:References:Cc:To:From:Subject:Date:From;
+        b=bLZP9ZV/pnaLDEkb6Fbtff0PTHDRn9b6Voj3YcGTY/tQ1tNF2rGSeBQaB0XHoihS2
+         TMcVcgkYcQf5St5x/266iplFn0U8BGyKco7QXrQCq3EcSeFylbzskaTS6YDmEbn/Ee
+         T2XcGWR3cupx2hA2oTOV9Orc6ECjgp2zfX++VPkc=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1559084936-4610-4-git-send-email-skomatineni@nvidia.com>
+References: <1559084936-4610-1-git-send-email-skomatineni@nvidia.com> <1559084936-4610-4-git-send-email-skomatineni@nvidia.com>
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
+        skomatineni@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mperttunen@nvidia.com,
+        spatra@nvidia.com, robh+dt@kernel.org, devicetree@vger.kernel.org
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>, jason@lakedaemon.net,
+        jonathanh@nvidia.com, linus.walleij@linaro.org,
+        marc.zyngier@arm.com, mark.rutland@arm.com, stefan@agner.ch,
+        tglx@linutronix.de, thierry.reding@gmail.com
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH V2 03/12] clk: tegra: save and restore PLLs state for system
+User-Agent: alot/0.8.1
+Date:   Wed, 29 May 2019 16:28:09 -0700
+Message-Id: <20190529232810.14A5224366@mail.kernel.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Apparently driver was never tested with DMA_PREP_INTERRUPT flag being
-unset since it completely disables interrupt handling instead of skipping
-the callbacks invocations, hence putting channel into unusable state.
+Quoting Sowjanya Komatineni (2019-05-28 16:08:47)
+> This patch has implementation of saving and restoring PLL's state to
+> support system suspend and resume operations.
 
-The flag is always set by all of kernel drivers that use APB DMA, so let's
-error out in otherwise case for consistency. It won't be difficult to
-support that case properly if ever will be needed.
+Can you provide some more background on _why_ this patch should exist?
+That's typically what gets written in the commit text.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/dma/tegra20-apb-dma.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+>=20
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/clk/tegra/clk-divider.c | 19 ++++++++
+>  drivers/clk/tegra/clk-pll-out.c | 25 +++++++++++
+>  drivers/clk/tegra/clk-pll.c     | 99 ++++++++++++++++++++++++++++++++---=
+------
+>  drivers/clk/tegra/clk.h         |  9 ++++
+>  4 files changed, 132 insertions(+), 20 deletions(-)
+>=20
+> diff --git a/drivers/clk/tegra/clk-divider.c b/drivers/clk/tegra/clk-divi=
+der.c
+> index 2a1822a22740..718694727042 100644
+> --- a/drivers/clk/tegra/clk-divider.c
+> +++ b/drivers/clk/tegra/clk-divider.c
+> @@ -14,6 +14,7 @@
+>   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+>   */
+> =20
+> +#include <linux/clk.h>
+>  #include <linux/kernel.h>
+>  #include <linux/io.h>
+>  #include <linux/err.h>
+> @@ -179,3 +180,21 @@ struct clk *tegra_clk_register_mc(const char *name, =
+const char *parent_name,
+>                                           reg, 16, 1, CLK_DIVIDER_READ_ON=
+LY,
+>                                           mc_div_table, lock);
+>  }
+> +
+> +#if defined(CONFIG_PM_SLEEP)
+> +void tegra_clk_divider_resume(struct clk_hw *hw, unsigned long rate)
+> +{
+> +       struct clk_hw *parent =3D clk_hw_get_parent(hw);
+> +       unsigned long parent_rate;
+> +
+> +       if (IS_ERR(parent)) {
 
-diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-index cf462b1abc0b..2c84a660ba36 100644
---- a/drivers/dma/tegra20-apb-dma.c
-+++ b/drivers/dma/tegra20-apb-dma.c
-@@ -988,8 +988,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
- 		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
- 	}
- 
--	if (flags & DMA_PREP_INTERRUPT)
-+	if (flags & DMA_PREP_INTERRUPT) {
- 		csr |= TEGRA_APBDMA_CSR_IE_EOC;
-+	} else {
-+		WARN_ON_ONCE(1);
-+		return NULL;
-+	}
- 
- 	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
- 
-@@ -1131,8 +1135,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_dma_cyclic(
- 		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
- 	}
- 
--	if (flags & DMA_PREP_INTERRUPT)
-+	if (flags & DMA_PREP_INTERRUPT) {
- 		csr |= TEGRA_APBDMA_CSR_IE_EOC;
-+	} else {
-+		WARN_ON_ONCE(1);
-+		return NULL;
-+	}
- 
- 	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
- 
--- 
-2.21.0
+Will this ever happen? Collapse the WARN_ON into the if please:
+
+	if (WARN_ON(IS_ERR(parent)))
+
+> +               WARN_ON(1);
+> +               return;
+> +       }
+> +
+> +       parent_rate =3D clk_hw_get_rate(parent);
+> +
+> +       if (clk_frac_div_set_rate(hw, rate, parent_rate) < 0)
+> +               WARN_ON(1);
+> +}
+> +#endif
+> diff --git a/drivers/clk/tegra/clk.h b/drivers/clk/tegra/clk.h
+> index 09bccbb9640c..e4d124cc5657 100644
+> --- a/drivers/clk/tegra/clk.h
+> +++ b/drivers/clk/tegra/clk.h
+> @@ -841,6 +841,15 @@ int tegra_pll_p_div_to_hw(struct tegra_clk_pll *pll,=
+ u8 p_div);
+>  int div_frac_get(unsigned long rate, unsigned parent_rate, u8 width,
+>                  u8 frac_width, u8 flags);
+> =20
+> +#ifdef CONFIG_PM_SLEEP
+
+Can you remove this ifdef? It just complicates compilation testing.
+
+> +void tegra_clk_pll_resume(struct clk *c, unsigned long rate);
+> +void tegra_clk_divider_resume(struct clk_hw *hw, unsigned long rate);
+> +void tegra_clk_pll_out_resume(struct clk *clk, unsigned long rate);
+> +void tegra_clk_plle_tegra210_resume(struct clk *c);
+> +void tegra_clk_sync_state_pll(struct clk *c);
+> +void tegra_clk_sync_state_pll_out(struct clk *clk);
+
+Do these APIs need to operate on struct clk? Why can't they operate on
+clk_hw or why can't we drive the suspend/resume sequence from the clk
+provider driver itself?
 
