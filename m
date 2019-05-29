@@ -2,112 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E75A92DE89
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 May 2019 15:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B09C52DEC6
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 May 2019 15:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727680AbfE2Ni2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 May 2019 09:38:28 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39277 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727351AbfE2Ni1 (ORCPT
+        id S1727246AbfE2Nq3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 May 2019 09:46:29 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36857 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726702AbfE2Nq3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 May 2019 09:38:27 -0400
-Received: by mail-lj1-f196.google.com with SMTP id a10so2489164ljf.6;
-        Wed, 29 May 2019 06:38:25 -0700 (PDT)
+        Wed, 29 May 2019 09:46:29 -0400
+Received: by mail-wr1-f65.google.com with SMTP id s17so1855587wru.3;
+        Wed, 29 May 2019 06:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:newsgroups:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=VoMv/71us6M8DbDViUqysPdNgAN+xa2mLNMMXYgg6YA=;
-        b=fpu2tXpr7clU9LTk7+KSRqjY63WODxNTsAcGqDq5xKZ2wIbupZFJILlIdQZ4TftjNl
-         TmyGmp5IsKkvk/qitY+t+oMibDc5WR0hiyTI+QvmrGMbRNx2pF9znsL5Vvv/gYvumKCh
-         MZWzLFgHPnVRAHZhovrKRLH+jRci9pJcfWKEgQCiwG52567NA9TLoIWiSJx6JMkEEKxK
-         bl79yTvtQ/vUU4hjm5yRhaUzCKgyjOLkxjSOTeV60mZoiXxmALxK7Ba7up3bXO0P8+YE
-         wf5A5SjHT5oPaD+dYfu3sgdFjuN2p3uwiQvPMDgsoIfbKbMJcvWY0Vv/WQqIoUzXM/n5
-         8niw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=zA1ZbrjHanDMuERyrJxkqEcLI/WGuk9rXVkOoOWshjU=;
+        b=VNmUOLL0fE8kIppYw/blCmqwLCixw9nqxg96YcAZtWz8YlQ1zsDg2EEGdzpSMiKWiw
+         75/U2myJGZdLzOBDHXsYowRTo0KZFt6RswEIjlGdUQ3Yps6BsG7wbRa8xohWcVTRUBQd
+         xoHu4754hkdq6vaVkOrihGwdpxFX40aPZAlTkY4rribl8o/VboEFEnmdtp+nGCIEJadf
+         LBBq0hpxrIdQslgAa+1LK96v8Eoyt5GR3sfHlCIFaFYiui+bklFCAe8868qmeC7LvsbE
+         sMG7jpg1UuwBZys1pNcVNKe5KoXzJH5p7VK0i5EgND959svenTndwx9t5p9k454M0dTG
+         punQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:newsgroups:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=VoMv/71us6M8DbDViUqysPdNgAN+xa2mLNMMXYgg6YA=;
-        b=gLkv66moLIGucKuW/H4f9lqmIHrpcYuMNPMYznI/2BDY/yq3WXkd1rZBduyMGuJFVF
-         eh3aN8qH+tebEYcMGZLegM0VXI92syxESd2fu0vEMcuGi4Y3JFynQ6uWusomeXKBTL+w
-         6+KCgI2j3QoFmT69CEFfJH2Qt6jTC1XNFAJCXv7TKp7lhBvjJ4uWyVJwO+5Pa4/1Hk8w
-         FP0phq9fCVWMMficVcbZm8RcyOheitOrcuWdFmFoGZSqUpcHwvSK7oJlURkuKglnMt1X
-         7VQ1DC4tM8kO7JLMD0Sc6pCqTLoiv/UtDGS/ZMa0RlGG/ePfS1dp9vTnJBsMUhZrh0Ov
-         NUsQ==
-X-Gm-Message-State: APjAAAXcpYrGDO9MkD8Nq8PF+N/NxFB+8Sq804px3SDM8sUTQmPCLJAL
-        RidCTADJOjAjWVaYyZG4xcxYRqie
-X-Google-Smtp-Source: APXvYqzERz4U+Q9lLxvdncfDaBvdigW9kVACUuZgbRyZIBY4T9hQ8Em3/wCwkzyuRxGYSusJMHudyw==
-X-Received: by 2002:a2e:9a9a:: with SMTP id p26mr3978876lji.64.1559137104811;
-        Wed, 29 May 2019 06:38:24 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.35.141])
-        by smtp.googlemail.com with ESMTPSA id d5sm3525117lji.85.2019.05.29.06.38.23
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 06:38:24 -0700 (PDT)
-Subject: Re: [PATCH V4 5/8] memory: tegra: Add EMC scaling support code for
- Tegra210
-To:     Joseph Lo <josephl@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Newsgroups: gmane.linux.ports.arm.kernel,gmane.linux.ports.tegra,gmane.linux.drivers.devicetree,gmane.linux.kernel.clk
-References: <20190529082139.5581-1-josephl@nvidia.com>
- <20190529082139.5581-6-josephl@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5bd95d0b-e1a5-e717-4d5a-b9ef5d5fa4a5@gmail.com>
-Date:   Wed, 29 May 2019 16:37:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=zA1ZbrjHanDMuERyrJxkqEcLI/WGuk9rXVkOoOWshjU=;
+        b=gpN8nUFogn4eBWoFNji5tZrs63RD9tQv3l4SYhms/hKxuXOivio0hFzn8EYd/DUnS9
+         KeBGDAk6jRb074DiFMaJghjgYU7wZmyMJuPzmmVedi99rSFz+Sbw47zqG4UJpwNwjFq0
+         X55B6QYt1FC5lguyKtFG2aGlB8WyeCX1z7D3TIaD2SwNqBnWbVokdTDiYMEUbXloJBbx
+         BRrXXRe3LNzy8PGOFIDf8aHcNWuHTTs8B23FJzepIBirLFSC6bf3G+Sl3jrN6tvi4ESj
+         zRFE9QxtVMQlTu7zKvCsuhhlNQfUjiwpPuA10YetN0I9PeEdeyV8JBdX0RQGEPevHovE
+         1pFg==
+X-Gm-Message-State: APjAAAVWeN2gH3aAjD11Tpkq/MJNDrS377kIdILHIuO6ly8FS1ZJtqf5
+        L+qtExoDYQpzle391LdikZk=
+X-Google-Smtp-Source: APXvYqxsooOprXPdPQ5zlSWgan6UOpPtRJkHPupbP7w6C7kptTdp5VeuHqj9JLzmc0TMjNmB49l3XA==
+X-Received: by 2002:a5d:6190:: with SMTP id j16mr3108705wru.49.1559137587741;
+        Wed, 29 May 2019 06:46:27 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id 6sm34132977wrd.51.2019.05.29.06.46.26
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 29 May 2019 06:46:26 -0700 (PDT)
+Date:   Wed, 29 May 2019 15:46:25 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sameer Pujar <spujar@nvidia.com>
+Subject: Re: [PATCH] clk: tegra210: Fix default rates for HDA clocks
+Message-ID: <20190529134625.GD17223@ulmo>
+References: <1559121501-8566-1-git-send-email-jonathanh@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190529082139.5581-6-josephl@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="AbQceqfdZEv+FvjW"
+Content-Disposition: inline
+In-Reply-To: <1559121501-8566-1-git-send-email-jonathanh@nvidia.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-29.05.2019 11:21, Joseph Lo пишет:
-> This patch adds the required APIs and variables for the EMC scaling
-> sequence code on Tegra210.
-> 
-> Based on the work of Peter De Schrijver <pdeschrijver@nvidia.com>.
-> 
-> Signed-off-by: Joseph Lo <josephl@nvidia.com>
+
+--AbQceqfdZEv+FvjW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, May 29, 2019 at 10:18:21AM +0100, Jon Hunter wrote:
+> Currently the default clock rates for the HDA and HDA2CODEC_2X clocks
+> are both 19.2MHz. However, the default rates for these clocks should
+> actually be 51MHz and 48MHz, respectively. Correct the default clock
+> rates for these clocks by specifying them in the clock init table for
+> Tegra210.
+>=20
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 > ---
-> v4:
-> - fix the API with generic naming
-> - use 'u16' in 'struct emc_table_register_offset'
-> ---
+>  drivers/clk/tegra/clk-tegra210.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-[snip]
+Does this fix anything? Should this be backported to stable releases?
 
-> +void emc_writel(struct tegra_emc *emc, u32 val, unsigned long offset)
-> +{
-> +	writel_relaxed(val, emc->emc_base[REG_EMC] + offset);
-> +}
-> +
->  u32 emc_readl(struct tegra_emc *emc, unsigned long offset)
->  {
->  	return readl_relaxed(emc->emc_base[REG_EMC] + offset);
->  }
->  
-> +u32 emc1_readl(struct tegra_emc *emc, unsigned long offset)
-> +{
-> +	return readl_relaxed(emc->emc_base[REG_EMC1] + offset);
-> +}
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-Please make all the global one-line functions static and inlined, then
-move them out into the header. This will allow compiler to optimize code
-better and also will hide these generic-looking global symbol names from
-unrelated parties in the multiplatform kernel build.
+--AbQceqfdZEv+FvjW
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Dmitry
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzujTEACgkQ3SOs138+
+s6Gtwg//ahUkusGdGV9/e18/FFhmcqOEMi+6PyOAh6dfSA2zRMIRKtCr3ZpgLvlC
+WHp272SeeDP46I+NVREKSwQ99uwadiWBCDYc3xYyktl7md091y6GIIF6Dc+1ANMG
+7Umm65k4mgbpPcMJtaldiXzgKuQClEM6fPikEduCEIjSIhfeODpA8T6sIsML3OuS
+q7IM9U6BE9BIjI8+e3mYk51Zw8bol+OxOfT67Iuj4jrugWTz3P8QlzmHRoslEO57
+kYx2chG5eslDbE3biqb4x6vCceQIzQL8uXYIfua9hIvq7Vh1f/IzFloICH/3calk
+e4+fLed8Ot3gtQVVSyUsMpexVHX5/glIK+YeWVqSdyYE39U1bhaZSjEfylDpY5qR
+Wh9YXpQo/p/myv0PLviK2vvaIv/UKrRKwC+4lzNuQej95K3nkEylRJgbOGruj1Iz
+69wA9kLe1bHoukNETyMpEHPozJKsdknqzLKsPuZJMW7oZPM+omwCb5mU9plYlF2h
+sMxq2Z1/oUWDptGAYHzrP7XQ3ZJQEAOtYz8f4LwEHcPSyFIqtXsOomFfckVEIBDW
+Lh3QifHXjlaFjjmL/h5hI2mapMFiTH5shELGaDmyn634mdFbygk8ZaaYzQXlF72O
+XR/5Uc2RviTrsJUztyhMN0qWF3SH/uAklsOgkCvRacgoS13hQEs=
+=Udg9
+-----END PGP SIGNATURE-----
+
+--AbQceqfdZEv+FvjW--
