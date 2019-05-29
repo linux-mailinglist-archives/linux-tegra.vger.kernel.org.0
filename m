@@ -2,85 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 603B62D8D8
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 May 2019 11:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59BD92DA97
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 May 2019 12:27:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726147AbfE2JSe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 May 2019 05:18:34 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:5485 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726012AbfE2JSe (ORCPT
+        id S1726015AbfE2K07 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 May 2019 06:26:59 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41411 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725956AbfE2K06 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 May 2019 05:18:34 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cee4e690000>; Wed, 29 May 2019 02:18:33 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 29 May 2019 02:18:33 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 29 May 2019 02:18:33 -0700
-Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 May
- 2019 09:18:33 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 29 May 2019 09:18:33 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.21.132.148]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5cee4e670004>; Wed, 29 May 2019 02:18:32 -0700
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] clk: tegra210: Fix default rates for HDA clocks
-Date:   Wed, 29 May 2019 10:18:21 +0100
-Message-ID: <1559121501-8566-1-git-send-email-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-X-NVConfidentiality: public
+        Wed, 29 May 2019 06:26:58 -0400
+Received: by mail-wr1-f65.google.com with SMTP id c2so1337491wrm.8
+        for <linux-tegra@vger.kernel.org>; Wed, 29 May 2019 03:26:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qH4FDRgRxazUxppnfy66oz7/ZG4EwLFotnt4vrr38Jk=;
+        b=RgPCHnOIk/VcuuhD4LkWOrkoHFmhwsd+XnEJ0uKI0Y9pFcLjlriu5i/gfZaqJkJujN
+         uX0w3ErsriLvqQyvfuHw/+6hzD/3YSqYPn0Ok9CmE+geqXFAhUFw2w9Rpmi9fxUdaSoT
+         f8PsppOSw4hmU0VwylunyMWmFY3WF4dXd1VNRV/N2fphARv3Ag67OCa7fqP1RXTHdWEN
+         fvFHW1W62sR7GQpBSpZXJtdi/18X+yaqtKkKcyEMVDWq9579Kt2NmIoQ5s/aCDIDEVqx
+         +Y9+u1uii1HMVENAm79jR3qM7CuW6h9yq7Vs1947aMQK2Hx5LDPu8larIK/Vv2e3aVX+
+         e6DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qH4FDRgRxazUxppnfy66oz7/ZG4EwLFotnt4vrr38Jk=;
+        b=Guqr02cM6Qws/8CIAasAOWUTwi93dsNJFHr6OiF0NsLPYYoBeF+RlvCFczIVmS3dW/
+         7ASUI/ehYTbOQe57EY1dMSLGCjbjiakdLhu4Qtbo03+IoG9Yu35/+f9+yfpg+1QmZVLR
+         yMqoA8xn6IuFDFnf2mrOQr0ivEI8NvPWfMmgyhtV8RMx0hB8vb+9roiFA2xpszibk4W8
+         FcfN55cmjPCKFSbrZO/CHrJ0PUqYmzaLz3E0A8KRT9jK5cgbTBUPfaQ2AQVXV8QtsntF
+         aNWlx9LlfWrcshOOgheODkMRoyZ7Rruj+oJ88ZRUbBx696xFsIFBmiKLnYF1rhJKVPAC
+         L/WQ==
+X-Gm-Message-State: APjAAAVy1t+EOoKyUsSGhXjfteprnJKJBKYPvokqgmMaohx9YmPeFaAh
+        eVJE322lORJ4q8XNRBMJ4Yg=
+X-Google-Smtp-Source: APXvYqxpCtSZC0Q2fp8eoEj2RPZV2FI55G/Xb0w+oZGygASEKhSjAxQ5kZ6u9HACyVknmUMaPS9vhA==
+X-Received: by 2002:adf:8062:: with SMTP id 89mr11498516wrk.97.1559125617201;
+        Wed, 29 May 2019 03:26:57 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id f21sm841586wmb.2.2019.05.29.03.26.56
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 29 May 2019 03:26:56 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 1/2] soc/tegra: pmc: Fail to allocate more than one wake IRQ
+Date:   Wed, 29 May 2019 12:26:53 +0200
+Message-Id: <20190529102654.14665-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559121513; bh=R5/eMVjqBGrmlh8gW6+X0+5WtMkn8HWkBhV9avG/N5Q=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=Jn3w4pERFvmYGnGKNbHOxcFr7QJNb39Zj3bROvKf0F4AxSQZF1kaWs1RMVNohBnF2
-         1RwdwKPpoXzKhr5VXVT5kaUuT1Czn/BmlR4hVzA9tbciN2JGK+2yMCyR0LF1CggEww
-         qV9R5waeZEoeZbpMHAiYAxm+OIb4eL+zxBGUXir2DzjEwQYcxup+SPC2qVpT1xx/VB
-         VtwRviEd9DblR/hnhsqB2vnrDvO1NP8Msa9vTOxhKbJSW30LfNuozW8BuqVwRST9Cx
-         ItsMK427/aWfvsLAG23MO/N94A7JoGpQaZhCKVW5J/8HwhJRT+oUZASv2khTjGsh8f
-         4N2Pl5ffVfySA==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Currently the default clock rates for the HDA and HDA2CODEC_2X clocks
-are both 19.2MHz. However, the default rates for these clocks should
-actually be 51MHz and 48MHz, respectively. Correct the default clock
-rates for these clocks by specifying them in the clock init table for
-Tegra210.
+From: Thierry Reding <treding@nvidia.com>
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+The code currently doesn't support allocating more than one wake IRQ at
+a time. Detect this situation and error out. Also make sure to output a
+warning when that happens to help track down callers.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/clk/tegra/clk-tegra210.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/soc/tegra/pmc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
-index ed3c7df75d1e..8b3b3d771813 100644
---- a/drivers/clk/tegra/clk-tegra210.c
-+++ b/drivers/clk/tegra/clk-tegra210.c
-@@ -3377,6 +3377,8 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA210_CLK_I2S3_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
- 	{ TEGRA210_CLK_I2S4_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
- 	{ TEGRA210_CLK_VIMCLK_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA210_CLK_HDA, TEGRA210_CLK_PLL_P, 51000000, 0 },
-+	{ TEGRA210_CLK_HDA2CODEC_2X, TEGRA210_CLK_PLL_P, 48000000, 0 },
- 	/* This MUST be the last entry. */
- 	{ TEGRA210_CLK_CLK_MAX, TEGRA210_CLK_CLK_MAX, 0, 0 },
- };
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index 5648e5c09ef5..653fe2c466f6 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -1863,6 +1863,9 @@ static int tegra_pmc_irq_alloc(struct irq_domain *domain, unsigned int virq,
+ 	unsigned int i;
+ 	int err = 0;
+ 
++	if (WARN_ON(num_irqs > 1))
++		return -EINVAL;
++
+ 	for (i = 0; i < soc->num_wake_events; i++) {
+ 		const struct tegra_wake_event *event = &soc->wake_events[i];
+ 
 -- 
-2.7.4
+2.21.0
 
