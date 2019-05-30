@@ -2,119 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A07042FB5F
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 14:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F9B2FC0D
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 15:16:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbfE3MBl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 May 2019 08:01:41 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:16744 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727222AbfE3MBl (ORCPT
+        id S1726399AbfE3NQb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 May 2019 09:16:31 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:46375 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726253AbfE3NQb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 May 2019 08:01:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cefc6230000>; Thu, 30 May 2019 05:01:39 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 30 May 2019 05:01:39 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 30 May 2019 05:01:39 -0700
-Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 May
- 2019 12:01:37 +0000
-Subject: Re: [PATCH v1] dmaengine: tegra-apb: Error out if DMA_PREP_INTERRUPT
- flag is unset
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
+        Thu, 30 May 2019 09:16:31 -0400
+Received: by mail-lf1-f68.google.com with SMTP id l26so4965642lfh.13;
+        Thu, 30 May 2019 06:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:newsgroups:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/wo/IbEeAJ9hsENKT3caSWlfePL4jGoTXJCbueVNDgA=;
+        b=Q72IpVwPw6IchK/vyAidzYWyEO6OG9P709yrvua0CMrz/RlZUHUi9zsBgxxnUIBv17
+         lFnYWHS59WHi57gTvMwdShuxj6Ie9x9ImMRtkl7JDp1Mjk0vnVhh4CvWYwPYy0wN+Keg
+         lHmlwijyZshMaT/yXgcGpYhEMt5+xPGJGFs77tmGqmCObDjODW4vs1wIyvqpeMmyQD4G
+         XjbnvqwyWeqtEoDodAi80xk3hgMDLtOY0tCVgqJmOyQfN3I9YcQElEjF+YaLevLNUi+H
+         1RStWXksOA9ud5BKClsroeJls+Y96O0cPnvK5maHj35YH4QS/aD0qFjEWkCpI9yDl9sh
+         fIgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:newsgroups:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=/wo/IbEeAJ9hsENKT3caSWlfePL4jGoTXJCbueVNDgA=;
+        b=IERjaFDWyaVPZ1NaCktmo5TJEUp+9hjYnHwCSMzs4e2UoZBN6yTw1HEDwx2w/43sL/
+         LUhPqs/jvhbQOik4mGwkfAussEkJuGyvGiLAPErZdOwbE/8nVcSyUA4uSFkCJM/dQkG9
+         if/ypcrhxZVrT+NPSzWH2RCWN3dGW4tkXi5ObuLuf0jSDua2hnCXMD8wUBNyLFL+rqJ6
+         t72mKA2SORTL4ABP//tXSgLHlLS3fODB6rdTdwIPSKdNhi1Z1x7NYzHkSpLgNJ+zJiUQ
+         QRp00WXJxSU+FODarQk2JxduUufGyHqjl+YYCpXFWdywX0WoLrFJW3FarEvpSKqegMCk
+         rCug==
+X-Gm-Message-State: APjAAAX5hycSqMpNpbLfikVG6vfv1St94hgGt2TRAbjnLbfJBXtN/ehc
+        QlwXdDbh0DwGZ7qpTiYbJZk=
+X-Google-Smtp-Source: APXvYqxpcgDwwYzwQSo6d4iOLauigH9H3tz8PaSQRCVDJa7sOicZdKK2t7a/GYAL3OvRBVkp6qP1fw==
+X-Received: by 2002:a19:6b04:: with SMTP id d4mr2079636lfa.57.1559222188882;
+        Thu, 30 May 2019 06:16:28 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.35.141])
+        by smtp.googlemail.com with ESMTPSA id p5sm480738ljg.55.2019.05.30.06.16.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 30 May 2019 06:16:28 -0700 (PDT)
+Subject: Re: [PATCH V4 6/8] memory: tegra: Add EMC scaling sequence code for
+ Tegra210
+To:     Joseph Lo <josephl@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Ben Dooks <ben.dooks@codethink.co.uk>
-CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20190529214355.15339-1-digetx@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <9b0e0d20-6386-a38a-1347-4264d249cb44@nvidia.com>
-Date:   Thu, 30 May 2019 13:01:35 +0100
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Newsgroups: gmane.linux.ports.arm.kernel,gmane.linux.ports.tegra,gmane.linux.drivers.devicetree,gmane.linux.kernel.clk
+References: <20190529082139.5581-1-josephl@nvidia.com>
+ <20190529082139.5581-7-josephl@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <3929cca9-5277-a88d-5270-c6c2a9c5c2a0@gmail.com>
+Date:   Thu, 30 May 2019 16:16:26 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190529214355.15339-1-digetx@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190529082139.5581-7-josephl@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559217699; bh=reDR5M2JTDqXTNW7rZr6EEAnF0APcRZ8+YH4GK7K9dE=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=BliolhNRG2WTgLrf6H0GFf5HF31eruBgAHOZAX6toRT8oUBUTYu6t2Fn4HDHfFdJL
-         LfX4YVRxf9P8LarsHlwQS9BL9vEySKTUE81LAW36e3f7UXT/OFEoLN8tZa5Pkte1VX
-         svKBviaEQYzKQ7Q0QhVCnq8raycDlnkbj4OHBgwAFarfVJGU/UJcpulXgboES0XU9G
-         Yl0YwdNCoe23LPh20wdwQjwLTfpCOavYH5HQAFo0uZja1cGhBEX944JHQnaR8yl2WS
-         esnhAbT8t+EU6qnFfzkMhcNiHJ7DzU8SYuGbRGvAjF9NS7brdhMYGcK+Q2ZX9qs/Pn
-         6kYWF83dcrYhg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 29/05/2019 22:43, Dmitry Osipenko wrote:
-> Apparently driver was never tested with DMA_PREP_INTERRUPT flag being
-> unset since it completely disables interrupt handling instead of skipping
-> the callbacks invocations, hence putting channel into unusable state.
+29.05.2019 11:21, Joseph Lo пишет:
+> This patch includes the sequence for clock tuning and the dynamic
+> training mechanism for the clock above 800MHz.
 > 
-> The flag is always set by all of kernel drivers that use APB DMA, so let's
-> error out in otherwise case for consistency. It won't be difficult to
-> support that case properly if ever will be needed.
+> And historically there have been different sequences to change the EMC
+> clock. The sequence to be used is specified in the EMC table.
+> However, for the currently supported upstreaming platform, only the most
+> recent sequence is used. So only support that in this patch.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> Based on the work of Peter De Schrijver <pdeschrijver@nvidia.com>.
+> 
+> Signed-off-by: Joseph Lo <josephl@nvidia.com>
 > ---
->  drivers/dma/tegra20-apb-dma.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+> v4:
+> - no change
+> ---
+>  drivers/memory/tegra/Makefile                 |    2 +-
+>  drivers/memory/tegra/tegra210-emc-cc-r21021.c | 1953 +++++++++++++++++
+>  drivers/memory/tegra/tegra210-emc.c           |    5 +
+>  drivers/memory/tegra/tegra210-emc.h           |  157 ++
+>  4 files changed, 2116 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/memory/tegra/tegra210-emc-cc-r21021.c
 > 
-> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-> index cf462b1abc0b..2c84a660ba36 100644
-> --- a/drivers/dma/tegra20-apb-dma.c
-> +++ b/drivers/dma/tegra20-apb-dma.c
-> @@ -988,8 +988,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
->  		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
->  	}
+> diff --git a/drivers/memory/tegra/Makefile b/drivers/memory/tegra/Makefile
+> index f78bbb7cd16f..def087f13a09 100644
+> --- a/drivers/memory/tegra/Makefile
+> +++ b/drivers/memory/tegra/Makefile
+> @@ -12,5 +12,5 @@ obj-$(CONFIG_TEGRA_MC) += tegra-mc.o
 >  
-> -	if (flags & DMA_PREP_INTERRUPT)
-> +	if (flags & DMA_PREP_INTERRUPT) {
->  		csr |= TEGRA_APBDMA_CSR_IE_EOC;
-> +	} else {
-> +		WARN_ON_ONCE(1);
-> +		return NULL;
-> +	}
->  
->  	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
->  
-> @@ -1131,8 +1135,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_dma_cyclic(
->  		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
->  	}
->  
-> -	if (flags & DMA_PREP_INTERRUPT)
-> +	if (flags & DMA_PREP_INTERRUPT) {
->  		csr |= TEGRA_APBDMA_CSR_IE_EOC;
-> +	} else {
-> +		WARN_ON_ONCE(1);
-> +		return NULL;
-> +	}
->  
->  	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
+>  obj-$(CONFIG_TEGRA20_EMC)  += tegra20-emc.o
+>  obj-$(CONFIG_TEGRA124_EMC) += tegra124-emc.o
+> -obj-$(CONFIG_TEGRA210_EMC) += tegra210-emc.o
+> +obj-$(CONFIG_TEGRA210_EMC) += tegra210-emc.o tegra210-emc-cc-r21021.o
+>  obj-$(CONFIG_ARCH_TEGRA_186_SOC) += tegra186.o
+> diff --git a/drivers/memory/tegra/tegra210-emc-cc-r21021.c b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
+> new file mode 100644
+> index 000000000000..ec5e1db71896
+> --- /dev/null
+> +++ b/drivers/memory/tegra/tegra210-emc-cc-r21021.c
+> @@ -0,0 +1,1953 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2014-2019, NVIDIA CORPORATION.  All rights reserved.
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/io.h>
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/of.h>
+> +#include <soc/tegra/mc.h>
 
-Looks good to me.
-
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
-
-Cheers
-Jon
+Minor nit: please keep all the includes sorted in alphabet order.
 
 -- 
-nvpublic
+Dmitry
