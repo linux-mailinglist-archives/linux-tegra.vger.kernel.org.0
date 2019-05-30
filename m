@@ -2,99 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EAF312FB15
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 13:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A07042FB5F
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 14:01:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726532AbfE3LnJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 May 2019 07:43:09 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33958 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726339AbfE3LnI (ORCPT
+        id S1727225AbfE3MBl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 May 2019 08:01:41 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:16744 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727222AbfE3MBl (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 May 2019 07:43:08 -0400
-Received: by mail-lf1-f67.google.com with SMTP id v18so4781950lfi.1;
-        Thu, 30 May 2019 04:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AfIJUQIJtYB15GKYwWwSC4aOpQ5iN7AaoTDt0q758OI=;
-        b=C6caECW1ACTDGTB5k3qKTLFFXCM5giPH2RO3+zrU2HieJt9TAFjtfq9XDFweICrekd
-         lBUgQeooHd736yMnaBX/Rlk7gOrJZUc+fcylhk8cOi2+NX77wn7tTK7jOLU5AGhcUy7f
-         J0eCA0a0p6JwIOAg33kSjPA3dmf/AkXbWIeh7vBMNCRxoxPO/XM4crzxOoBLlGes9g5I
-         7hKf+LeuBpuByUjp2OVRv8//h9pxhwDQ+27qoF92KlTiBBOOEf2156ySmOKZ3l5oVKfo
-         vJH9y5vaP6Bi5QnpAnXEy946zFWg7+buOA/1vOjkh+7yjVtCHsjxPfO5iCwWe/LFSh77
-         V5SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=AfIJUQIJtYB15GKYwWwSC4aOpQ5iN7AaoTDt0q758OI=;
-        b=kRX9vYnNjIRjti5IJTo8/mtIR890NcQOT712f8nLKxF+n6amGZ9NuQEa+p3nUD1z7X
-         Nx9GvwsJCbn3ylAuYVnLKt7H/J9F5uaTGxdRY2jc/SGueMkLXf0S999jcG61bsjlvtMH
-         RTZKzQR2Al8Pci/OFWi/+cSc/bqDmfMYuLjAHpS1iyEfiOQNHWBDHZaB7ePUW7++oQ62
-         a/avE0WdnemqZ0KzrhZiAGmqOrgLlJBggmXfg1WoJy4PG7DM5HHJM79hz8IDX+Ol6UBL
-         3M+fzn0IYWbePWgXUjBzklVw9Z4D6fZSRQxWmWo8EIfYzUjsYQ/ZxlvlEB/OI4hydEhC
-         e5bA==
-X-Gm-Message-State: APjAAAX6Y1yOeNmQktLSB0ejxfLYLpVCQM5BuO6j4ie7XA8tlAXMzGfE
-        e3niSg6c8YTN/I19ZyfXF2kw139m
-X-Google-Smtp-Source: APXvYqyMw0O8azT+38bH3/Lq9CJrahVmxItdzYLZauTb1HSG62AyVGY1RZH+JWengrRCA+8jSPA0mA==
-X-Received: by 2002:a19:4017:: with SMTP id n23mr2066509lfa.112.1559216586593;
-        Thu, 30 May 2019 04:43:06 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.35.141])
-        by smtp.googlemail.com with ESMTPSA id d2sm446964lfh.1.2019.05.30.04.43.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 May 2019 04:43:06 -0700 (PDT)
-Subject: Re: [PATCH V2] drivers: i2c: tegra: fix checkpatch defects
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Bitan Biswas <bbiswas@nvidia.com>,
+        Thu, 30 May 2019 08:01:41 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cefc6230000>; Thu, 30 May 2019 05:01:39 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 30 May 2019 05:01:39 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 30 May 2019 05:01:39 -0700
+Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 May
+ 2019 12:01:37 +0000
+Subject: Re: [PATCH v1] dmaengine: tegra-apb: Error out if DMA_PREP_INTERRUPT
+ flag is unset
+To:     Dmitry Osipenko <digetx@gmail.com>,
         Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>
-References: <1559196850-7007-1-git-send-email-bbiswas@nvidia.com>
- <e9e3d8b0-a76a-81a9-1110-2d07ba1c787f@gmail.com>
-Message-ID: <911e52ed-8f3c-583a-7610-e38723219eca@gmail.com>
-Date:   Thu, 30 May 2019 14:43:05 +0300
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>
+CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20190529214355.15339-1-digetx@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <9b0e0d20-6386-a38a-1347-4264d249cb44@nvidia.com>
+Date:   Thu, 30 May 2019 13:01:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <e9e3d8b0-a76a-81a9-1110-2d07ba1c787f@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190529214355.15339-1-digetx@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1559217699; bh=reDR5M2JTDqXTNW7rZr6EEAnF0APcRZ8+YH4GK7K9dE=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=BliolhNRG2WTgLrf6H0GFf5HF31eruBgAHOZAX6toRT8oUBUTYu6t2Fn4HDHfFdJL
+         LfX4YVRxf9P8LarsHlwQS9BL9vEySKTUE81LAW36e3f7UXT/OFEoLN8tZa5Pkte1VX
+         svKBviaEQYzKQ7Q0QhVCnq8raycDlnkbj4OHBgwAFarfVJGU/UJcpulXgboES0XU9G
+         Yl0YwdNCoe23LPh20wdwQjwLTfpCOavYH5HQAFo0uZja1cGhBEX944JHQnaR8yl2WS
+         esnhAbT8t+EU6qnFfzkMhcNiHJ7DzU8SYuGbRGvAjF9NS7brdhMYGcK+Q2ZX9qs/Pn
+         6kYWF83dcrYhg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.05.2019 14:36, Dmitry Osipenko пишет:
-> 30.05.2019 9:14, Bitan Biswas пишет:
->> Fix checkpatch.pl warning(s)/error(s)/check(s) in i2c-tegra.c
->> except for BUG/BUG_ON checks
-> 
-> Please turn the BUG_ON's into WARN_ON's. The machine won't go on fire,
-> hence there is absolutely no good reason in making system unusable on a
-> software bug. BUG_ON may be more useful for development, but not for a
-> casual daily usage.
-> 
->> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
->> ---
-> 
->> @@ -1034,7 +1038,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
->>  	u32 *buffer = NULL;
->>  	int err = 0;
->>  	bool dma;
->> -	u16 xfer_time = 100;
->> +	u16 xfer_tm = 100;
-> 
-> What's wrong with the "time"? I'm finding the "xfer_tm" as a very
-> unintuitive naming.
-> 
 
-Also, please don't version patch as v2 if v1 was never sent out.
+On 29/05/2019 22:43, Dmitry Osipenko wrote:
+> Apparently driver was never tested with DMA_PREP_INTERRUPT flag being
+> unset since it completely disables interrupt handling instead of skipping
+> the callbacks invocations, hence putting channel into unusable state.
+> 
+> The flag is always set by all of kernel drivers that use APB DMA, so let's
+> error out in otherwise case for consistency. It won't be difficult to
+> support that case properly if ever will be needed.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/dma/tegra20-apb-dma.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+> index cf462b1abc0b..2c84a660ba36 100644
+> --- a/drivers/dma/tegra20-apb-dma.c
+> +++ b/drivers/dma/tegra20-apb-dma.c
+> @@ -988,8 +988,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
+>  		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
+>  	}
+>  
+> -	if (flags & DMA_PREP_INTERRUPT)
+> +	if (flags & DMA_PREP_INTERRUPT) {
+>  		csr |= TEGRA_APBDMA_CSR_IE_EOC;
+> +	} else {
+> +		WARN_ON_ONCE(1);
+> +		return NULL;
+> +	}
+>  
+>  	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
+>  
+> @@ -1131,8 +1135,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_dma_cyclic(
+>  		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
+>  	}
+>  
+> -	if (flags & DMA_PREP_INTERRUPT)
+> +	if (flags & DMA_PREP_INTERRUPT) {
+>  		csr |= TEGRA_APBDMA_CSR_IE_EOC;
+> +	} else {
+> +		WARN_ON_ONCE(1);
+> +		return NULL;
+> +	}
+>  
+>  	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
+
+Looks good to me.
+
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+
+Cheers
+Jon
+
+-- 
+nvpublic
