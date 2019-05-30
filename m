@@ -2,69 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BFE930001
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 18:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 202E330118
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 19:32:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727377AbfE3QOS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 May 2019 12:14:18 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44221 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725934AbfE3QOS (ORCPT
+        id S1726483AbfE3RcX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 May 2019 13:32:23 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:39201 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725961AbfE3RcX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 May 2019 12:14:18 -0400
-Received: by mail-lj1-f193.google.com with SMTP id e13so6583431ljl.11;
-        Thu, 30 May 2019 09:14:17 -0700 (PDT)
+        Thu, 30 May 2019 13:32:23 -0400
+Received: by mail-it1-f195.google.com with SMTP id j204so5398557ite.4;
+        Thu, 30 May 2019 10:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XmK9q1mGN7b6J4ODdEo3M1qArYHGWBwKVshxM4f06qI=;
-        b=NC+9gVMIPhE4UEq4DmEQVSxKVVvwWVxObVXuy3Dy5tCThFcZXko5nmhViQRnze2i/I
-         fSwXUz+NaxDnIHe0IC480esVOWswPMZeWILlHqW74AfwllaX2QGptx7cKGx3qLTtS8j6
-         NzEcEdw+QKfjvFBS0VtMyk1XfKXDuxdwvR9xdd681UFY+nT6KHPleB0RyM+ZDi7xKLOz
-         /fHNz2v5OVDrGszE4fUAUl2dUU/+7pXCVebD+bHigJ2t7xUJ9S2ZoTX9Sj+0Jo06ctuC
-         Mad5J+HrWL+0HoBvSW2iQKBWGlZMshQ8rU6aZjdEBMPedGBkXxcpZkeNF7Bw1hcwFUrQ
-         NS1Q==
+        bh=pKmEOfA6jUQ1ifSdiSIAMrHcs6zqoAn0Gtn6sTHRPiI=;
+        b=d5+bc6Y5akW+fa5Hoke6kWvu0vyu03vP7dRu+bOGz73qJuRyVu9QnRTkOHMTdsgYXL
+         ms6OwHAdLUDdDPWSnUkm3ozAED44zbHWVawtoLZBcDlTI4Tws1rgeHR33XOmM8KWopeo
+         hdafFIbtsThw3r2n4FXQAHb8Dymne82HIl172SRhHYn7laekt+ogvoTJmtllAhWyj0dN
+         AMqDwIH2yqqc2l02dNQlH47gozMl0atPCtRtF0Gd15bUe9NQ0aL3X3MD4luqN3wf037I
+         +df1+uWNKf+sKMZi1dnZCC/wnGKCsASIn3mC6K1OXer9F/B2oNcJdj1dbpQVvWpnXUzj
+         7h1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=XmK9q1mGN7b6J4ODdEo3M1qArYHGWBwKVshxM4f06qI=;
-        b=WQ445ZyVhmiQgwkBDPvgjhXRbcepTdyrQeY7z4GnRrLu640baOOoh4TVm4pW4DXDVv
-         WCwaAPpHf0qhatTg7i1QkJ5QKu+NWiVZd0YNdnUkafm5IMbBtpdXfj7NMSe2kaK7I32+
-         QxyovlH2CGvQpBCvMHrlaeTPQKTF3gSf9hF8FlxDUW1zbgGZ+Es5+RxPW0brT+kLAFrR
-         3LJuVG7giRwzVUoAOCyM8GKeY13T0dOqoAh4/ZxwnPsUR/aNCKdoFY5eoayO/NhGEko2
-         tN95o/5JD9rHePOJkqJ4+exZFU6Q9W7ix9loQGxBWAZ3+HnZZVuBQqWlSHT6QVljKbzR
-         CZvw==
-X-Gm-Message-State: APjAAAVYzXAWdXXoCdEzyJCt1V1lawNvcfDQOZ81tj+VW8UCrJYiVb4z
-        XsNLuN2cSTBPVin9Clh7Cnw=
-X-Google-Smtp-Source: APXvYqzmFSkb0VYg/nw/YZHYkemnGBzkLyFKJzkID+tESoZ47z/BnAUSJVfRTTWIL2jjvt0h3pYjCw==
-X-Received: by 2002:a2e:8741:: with SMTP id q1mr2523378ljj.97.1559232856343;
-        Thu, 30 May 2019 09:14:16 -0700 (PDT)
+        bh=pKmEOfA6jUQ1ifSdiSIAMrHcs6zqoAn0Gtn6sTHRPiI=;
+        b=SkCrbSh2gIYVySn3K/WIVZHX5K4hKPJP291qfPwXOUFW1KbN6Yr37AwcHtVflcNckv
+         gjrzzdwf8FYcm7yBU3fsjlEvdB+IjQTRZKIpu8VpL+rQIWs04ZNInBK0Cmwd433fCon1
+         Y7ViFxKM5Fi5uc73WM74PTJc600QSYAS1cPeUWkM92TD471xkYEXM65aMqOGMoFggWQ0
+         FxVqdPbRMvshTnUTgkkzGmObzmeWmVlMQJiIoP9Zgk2ZEsa+4z2AHPXgm6YdQLlfl2S8
+         QARLfWSQyBPAc7TCZgAIX5LlGPGeEpdm//Mb/aJ/Z3tfYr8I+082kaltabyjoJRDZtiQ
+         EhtQ==
+X-Gm-Message-State: APjAAAVy71rHmyOTtO7vpVpLnZNlrxxzlZTlw2730ms0wOGsTnUWLZyj
+        TEDQC1keyjW2qKsLBikHTPQJ7Sl3
+X-Google-Smtp-Source: APXvYqzWalcDXeau3RDQT3d7nz3EyiT/OOhQOLICDbi9RNEmdsp2lSwPMxnZ4oViDzGHPI0E8NF1BA==
+X-Received: by 2002:a24:fcc7:: with SMTP id b190mr4049196ith.122.1559237542407;
+        Thu, 30 May 2019 10:32:22 -0700 (PDT)
 Received: from [192.168.2.145] ([94.29.35.141])
-        by smtp.googlemail.com with ESMTPSA id r14sm570580lff.44.2019.05.30.09.14.14
+        by smtp.googlemail.com with ESMTPSA id a7sm574793iok.19.2019.05.30.10.32.20
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 May 2019 09:14:14 -0700 (PDT)
-Subject: Re: [PATCH V4 5/8] memory: tegra: Add EMC scaling support code for
- Tegra210
-To:     Joseph Lo <josephl@nvidia.com>,
+        Thu, 30 May 2019 10:32:21 -0700 (PDT)
+Subject: Re: [PATCH v1] dmaengine: tegra-apb: Error out if DMA_PREP_INTERRUPT
+ flag is unset
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20190529082139.5581-1-josephl@nvidia.com>
- <20190529082139.5581-6-josephl@nvidia.com>
+        Ben Dooks <ben.dooks@codethink.co.uk>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190529214355.15339-1-digetx@gmail.com>
+ <9b0e0d20-6386-a38a-1347-4264d249cb44@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1e197124-57f5-285b-1624-bba2f3d31386@gmail.com>
-Date:   Thu, 30 May 2019 19:14:13 +0300
+Message-ID: <359abcbb-b3bd-ad32-9f35-15bb9b25f3b0@gmail.com>
+Date:   Thu, 30 May 2019 20:32:17 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190529082139.5581-6-josephl@nvidia.com>
+In-Reply-To: <9b0e0d20-6386-a38a-1347-4264d249cb44@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -73,40 +72,60 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-29.05.2019 11:21, Joseph Lo пишет:
-> This patch adds the required APIs and variables for the EMC scaling
-> sequence code on Tegra210.
+30.05.2019 15:01, Jon Hunter пишет:
 > 
-> Based on the work of Peter De Schrijver <pdeschrijver@nvidia.com>.
+> On 29/05/2019 22:43, Dmitry Osipenko wrote:
+>> Apparently driver was never tested with DMA_PREP_INTERRUPT flag being
+>> unset since it completely disables interrupt handling instead of skipping
+>> the callbacks invocations, hence putting channel into unusable state.
+>>
+>> The flag is always set by all of kernel drivers that use APB DMA, so let's
+>> error out in otherwise case for consistency. It won't be difficult to
+>> support that case properly if ever will be needed.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/dma/tegra20-apb-dma.c | 12 ++++++++++--
+>>  1 file changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+>> index cf462b1abc0b..2c84a660ba36 100644
+>> --- a/drivers/dma/tegra20-apb-dma.c
+>> +++ b/drivers/dma/tegra20-apb-dma.c
+>> @@ -988,8 +988,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
+>>  		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
+>>  	}
+>>  
+>> -	if (flags & DMA_PREP_INTERRUPT)
+>> +	if (flags & DMA_PREP_INTERRUPT) {
+>>  		csr |= TEGRA_APBDMA_CSR_IE_EOC;
+>> +	} else {
+>> +		WARN_ON_ONCE(1);
+>> +		return NULL;
+>> +	}
+>>  
+>>  	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
+>>  
+>> @@ -1131,8 +1135,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_dma_cyclic(
+>>  		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
+>>  	}
+>>  
+>> -	if (flags & DMA_PREP_INTERRUPT)
+>> +	if (flags & DMA_PREP_INTERRUPT) {
+>>  		csr |= TEGRA_APBDMA_CSR_IE_EOC;
+>> +	} else {
+>> +		WARN_ON_ONCE(1);
+>> +		return NULL;
+>> +	}
+>>  
+>>  	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
 > 
-> Signed-off-by: Joseph Lo <josephl@nvidia.com>
-> ---
-> v4:
-> - fix the API with generic naming
-> - use 'u16' in 'struct emc_table_register_offset'
-> ---
+> Looks good to me.
+> 
+> Acked-by: Jon Hunter <jonathanh@nvidia.com>
+> 
+> Cheers
+> Jon
+> 
 
->  
-> +extern const struct emc_table_register_offset reg_off;
-> +extern unsigned long dram_over_temp_state;
-
-Please avoid global variables where they are not really needed.
-
-Add reg_off pointer to tegra_emc.
-
-Remove dram_over_temp_state variable entirely and replace it with
-TEGRA_DRAM_OVER_TEMP_NONE in the code since nothing changes the variable.
-
-Again, prepend all global symbols with tegra210_.
-
-Alternatively you could simply include tegra210-emc-cc-r21021.c into
-tegra210-emc.c, I don't see anything wrong with that variant.
-
-	#include "tegra210-emc-cc-r21021.c"
-
-Or you could squash it all into a single source file if variants other
-than "r21021" are not planned to be supported. This will help to reduce
-messiness of the code and will allow compiler to better optimize it all.
-
--- 
-Dmitry
+Thanks
