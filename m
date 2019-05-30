@@ -2,83 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41DB52FC64
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 15:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BFE930001
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 18:14:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726888AbfE3NcV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 May 2019 09:32:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54194 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726253AbfE3NcV (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 May 2019 09:32:21 -0400
-Received: from localhost (ip67-88-213-2.z213-88-67.customer.algx.net [67.88.213.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A85D0259B8;
-        Thu, 30 May 2019 13:32:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559223140;
-        bh=6bTBp+WOjfsPhCq3IwAUB9bCrZwGkgQM1ytUSu7ur/o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=E/UqNYGgr+xj7a2UDunARGNf4Sed7f9pJLs6OAIF+7fdUHxlf3jLiTIY6b8QS8khq
-         Dw6r28XvpW0vlPZvRXV04amvDmExxn8L9z6MM6v6PLVPK3Mrnyo82aMcQu8qx8FWqr
-         elz0tRMcPXYtLsBTsnyuCVQO95ODyHP4naLO+UGE=
-Date:   Thu, 30 May 2019 06:32:20 -0700
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.1 000/405] 5.1.6-stable review
-Message-ID: <20190530133220.GB21642@kroah.com>
-References: <20190530030540.291644921@linuxfoundation.org>
- <0f0f1d03-64c9-7197-c82d-1ca27142be00@nvidia.com>
+        id S1727377AbfE3QOS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 May 2019 12:14:18 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:44221 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725934AbfE3QOS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 30 May 2019 12:14:18 -0400
+Received: by mail-lj1-f193.google.com with SMTP id e13so6583431ljl.11;
+        Thu, 30 May 2019 09:14:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XmK9q1mGN7b6J4ODdEo3M1qArYHGWBwKVshxM4f06qI=;
+        b=NC+9gVMIPhE4UEq4DmEQVSxKVVvwWVxObVXuy3Dy5tCThFcZXko5nmhViQRnze2i/I
+         fSwXUz+NaxDnIHe0IC480esVOWswPMZeWILlHqW74AfwllaX2QGptx7cKGx3qLTtS8j6
+         NzEcEdw+QKfjvFBS0VtMyk1XfKXDuxdwvR9xdd681UFY+nT6KHPleB0RyM+ZDi7xKLOz
+         /fHNz2v5OVDrGszE4fUAUl2dUU/+7pXCVebD+bHigJ2t7xUJ9S2ZoTX9Sj+0Jo06ctuC
+         Mad5J+HrWL+0HoBvSW2iQKBWGlZMshQ8rU6aZjdEBMPedGBkXxcpZkeNF7Bw1hcwFUrQ
+         NS1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XmK9q1mGN7b6J4ODdEo3M1qArYHGWBwKVshxM4f06qI=;
+        b=WQ445ZyVhmiQgwkBDPvgjhXRbcepTdyrQeY7z4GnRrLu640baOOoh4TVm4pW4DXDVv
+         WCwaAPpHf0qhatTg7i1QkJ5QKu+NWiVZd0YNdnUkafm5IMbBtpdXfj7NMSe2kaK7I32+
+         QxyovlH2CGvQpBCvMHrlaeTPQKTF3gSf9hF8FlxDUW1zbgGZ+Es5+RxPW0brT+kLAFrR
+         3LJuVG7giRwzVUoAOCyM8GKeY13T0dOqoAh4/ZxwnPsUR/aNCKdoFY5eoayO/NhGEko2
+         tN95o/5JD9rHePOJkqJ4+exZFU6Q9W7ix9loQGxBWAZ3+HnZZVuBQqWlSHT6QVljKbzR
+         CZvw==
+X-Gm-Message-State: APjAAAVYzXAWdXXoCdEzyJCt1V1lawNvcfDQOZ81tj+VW8UCrJYiVb4z
+        XsNLuN2cSTBPVin9Clh7Cnw=
+X-Google-Smtp-Source: APXvYqzmFSkb0VYg/nw/YZHYkemnGBzkLyFKJzkID+tESoZ47z/BnAUSJVfRTTWIL2jjvt0h3pYjCw==
+X-Received: by 2002:a2e:8741:: with SMTP id q1mr2523378ljj.97.1559232856343;
+        Thu, 30 May 2019 09:14:16 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.35.141])
+        by smtp.googlemail.com with ESMTPSA id r14sm570580lff.44.2019.05.30.09.14.14
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 30 May 2019 09:14:14 -0700 (PDT)
+Subject: Re: [PATCH V4 5/8] memory: tegra: Add EMC scaling support code for
+ Tegra210
+To:     Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20190529082139.5581-1-josephl@nvidia.com>
+ <20190529082139.5581-6-josephl@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1e197124-57f5-285b-1624-bba2f3d31386@gmail.com>
+Date:   Thu, 30 May 2019 19:14:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0f0f1d03-64c9-7197-c82d-1ca27142be00@nvidia.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <20190529082139.5581-6-josephl@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 30, 2019 at 02:23:11PM +0100, Jon Hunter wrote:
+29.05.2019 11:21, Joseph Lo пишет:
+> This patch adds the required APIs and variables for the EMC scaling
+> sequence code on Tegra210.
 > 
-> On 30/05/2019 03:59, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.1.6 release.
-> > There are 405 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Sat 01 Jun 2019 03:01:59 AM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.6-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
+> Based on the work of Peter De Schrijver <pdeschrijver@nvidia.com>.
 > 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.1:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     32 tests:	32 pass, 0 fail
-> 
-> Linux version:	5.1.6-rc1-g6df8e06
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
-> 
+> Signed-off-by: Joseph Lo <josephl@nvidia.com>
+> ---
+> v4:
+> - fix the API with generic naming
+> - use 'u16' in 'struct emc_table_register_offset'
+> ---
 
-Wonderful, thanks for testing all of these and letting me know.
+>  
+> +extern const struct emc_table_register_offset reg_off;
+> +extern unsigned long dram_over_temp_state;
 
-greg k-h
+Please avoid global variables where they are not really needed.
+
+Add reg_off pointer to tegra_emc.
+
+Remove dram_over_temp_state variable entirely and replace it with
+TEGRA_DRAM_OVER_TEMP_NONE in the code since nothing changes the variable.
+
+Again, prepend all global symbols with tegra210_.
+
+Alternatively you could simply include tegra210-emc-cc-r21021.c into
+tegra210-emc.c, I don't see anything wrong with that variant.
+
+	#include "tegra210-emc-cc-r21021.c"
+
+Or you could squash it all into a single source file if variants other
+than "r21021" are not planned to be supported. This will help to reduce
+messiness of the code and will allow compiler to better optimize it all.
+
+-- 
+Dmitry
