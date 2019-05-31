@@ -2,78 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7C5130384
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 May 2019 22:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F030D30A3D
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 May 2019 10:26:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726326AbfE3Uqj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 May 2019 16:46:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52472 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726169AbfE3Uqj (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 May 2019 16:46:39 -0400
-Received: from localhost (unknown [207.225.69.115])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 471722617A;
-        Thu, 30 May 2019 20:46:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559249198;
-        bh=3l/fBGXgNQ3z54neldfhfMe6aZgeoJlVyXU0AaAwnio=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=v2pCGD1jqzExF0Y6VZpFYt1i0aBb2vFESyML1kkiCIWUs+pjHG6XtXbVHLl2EVijj
-         BPpjNLOPwnr4zqUnkCf/x7hqMD+CaVljtHhdHFyBj1AcxfemywLbyFdg0YxXlX7x0e
-         6FJIMcqspp4XZ2rNP9jiDTQ9BLMjDT3ZOje9k6gs=
-Date:   Thu, 30 May 2019 13:46:38 -0700
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Cc:     digetx@gmail.com, mchehab@kernel.org, thierry.reding@gmail.com,
-        jonathan@nvidia.com, linux-media@vger.kernel.org,
-        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: tegra-vde: Remove variable
-Message-ID: <20190530204638.GA4784@kroah.com>
-References: <20190530204439.29830-1-nishkadg.linux@gmail.com>
+        id S1726331AbfEaI0i (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 May 2019 04:26:38 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:7322 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726240AbfEaI0h (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 31 May 2019 04:26:37 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cf0e5320001>; Fri, 31 May 2019 01:26:26 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 31 May 2019 01:26:37 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 31 May 2019 01:26:37 -0700
+Received: from tbergstrom-lnx.Nvidia.com (172.20.13.39) by
+ HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Fri, 31 May 2019 08:26:36 +0000
+Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
+        id 67E4740BFF; Fri, 31 May 2019 11:26:34 +0300 (EEST)
+Date:   Fri, 31 May 2019 11:26:34 +0300
+From:   Peter De Schrijver <pdeschrijver@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Nicolas Chauvet <kwizart@gmail.com>
+Subject: Re: [PATCH v3 0/8] NVIDIA Tegra clocksource driver improvements
+Message-ID: <20190531082634.GA6070@pdeschrijver-desktop.Nvidia.com>
+References: <20190524153253.28564-1-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20190530204439.29830-1-nishkadg.linux@gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <20190524153253.28564-1-digetx@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1559291187; bh=VcZEf7tgMNIXUUg2aicGt0agDtisPyMFpAo7p5giBdA=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
+        b=dglyHjYnmWAOWHzKaqceaJx0Ys6DQXlaf3TFxqQb8JHYiYzozq4oJdsSPGPD235Ar
+         X/bjWk9y8g0q6EGDe6DUucL96LJFyzgIzQvNxZpl7Sy7rgqksECiBBRq/4cRQtqGUT
+         S4Jbd2MfLwoOzAGCVr7GozHU8QPlZ31oAWoh65XEYpnDhCkgSuBDRzqbPg6MkoaYV2
+         0t1Lifc1N+UATaavXZ+VzSS4eh3ogSzAud448T0d9Jq8XYtEe0ez4lHyAgDgPZohNh
+         +e7gyJZZA0INC8ZO9BIdyWgMn7bGjnI9C3DP2dOT0aIdyaq70LXUiC4sq3/VTUIBnf
+         Lie7wCUBnA9ww==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, May 31, 2019 at 02:14:39AM +0530, Nishka Dasgupta wrote:
-> Remove unnecessary variable iram_tables and use its value directly.
-> Issue found using Coccinelle.
+On Fri, May 24, 2019 at 06:32:45PM +0300, Dmitry Osipenko wrote:
+> Hello,
 > 
-> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
-> ---
->  drivers/staging/media/tegra-vde/tegra-vde.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-vde/tegra-vde.c b/drivers/staging/media/tegra-vde/tegra-vde.c
-> index a5020dbf6eef..3205973218e4 100644
-> --- a/drivers/staging/media/tegra-vde/tegra-vde.c
-> +++ b/drivers/staging/media/tegra-vde/tegra-vde.c
-> @@ -273,12 +273,10 @@ static void tegra_vde_setup_iram_entry(struct tegra_vde *vde,
->  				       unsigned int row,
->  				       u32 value1, u32 value2)
->  {
-> -	u32 *iram_tables = vde->iram;
-> -
->  	trace_vde_setup_iram_entry(table, row, value1, value2);
->  
-> -	iram_tables[0x20 * table + row * 2] = value1;
-> -	iram_tables[0x20 * table + row * 2 + 1] = value2;
-> +	vde->iram[0x20 * table + row * 2] = value1;
-> +	vde->iram[0x20 * table + row * 2 + 1] = value2;
+> This series primarily unifies the driver code across all Tegra SoC
+> generations. In a result the clocksources are allocated per-CPU on
+> older Tegra's and have a higher rating than the arch-timer, the newer
+> Tegra210 is getting support for microsecond clocksource and the driver's
+> code is getting much cleaner. Note that arch-timer usage is discouraged on
+> all Tegra's due to the time jitter caused by the CPU frequency scaling.
 
-Ick, no, why?  why why why?
+I think the limitations are more as follows:
 
-You keep sending these patches, please take a bit of time to think about
-what you are doing and see if the change actually makes sense.
+Chip	timer		suffers cpu dvfs jitter		can wakeup from cc7
+T20	us-timer	No				Yes
+T20	twd timer	Yes				No?
+T30	us-timer	No				Yes
+T30	twd timer	Yes				No?
+T114	us-timer	No				Yes
+T114	arch timer	No				Yes
+T124	us-timer	No				Yes
+T124	arch timer	No				Yes
+T210	us-timer	No				Yes
+T210	arch timer	No				No
+T210	clk_m timer	No				Yes
 
-Again, here, no, it does not.
+right?
 
-greg k-h
+Peter.
