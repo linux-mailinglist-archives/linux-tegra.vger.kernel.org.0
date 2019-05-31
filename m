@@ -2,92 +2,212 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48D9130E4D
-	for <lists+linux-tegra@lfdr.de>; Fri, 31 May 2019 14:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00B4731081
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 May 2019 16:47:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbfEaMqQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 31 May 2019 08:46:16 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:39339 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726403AbfEaMqQ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 31 May 2019 08:46:16 -0400
-Received: by mail-lj1-f193.google.com with SMTP id a10so6264954ljf.6;
-        Fri, 31 May 2019 05:46:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7U/vllzeRGoDUSqNH2O6vtCvwbIbsyISBbyc9R5lGXI=;
-        b=Zv/Zj9UWstKjDWB/X3qKfz4kr5pyDkK9IzR5eo/kkqqHuoFoTMGTBsrnQoI5gB7mXm
-         X83RIBzfPQFr2ygu5IDJIHg9l7t9+ankLHbczoJ16RHB/J5HBrdrihDkicBX+o/q4ReQ
-         BDULxbzzaiu1Q1Vvo24NfWZqlA/pi4eMjJ2cC2TiyeL0+eQWM4CE1UXdAvFDr6NRBF+Q
-         kxE8XYrkqtbhGrOMmBx3X6Jg1C4MWo90pL1Zw3gkJ0VAVd8kUASyOhIci+DeueSZOnNe
-         5KchYf3uo5Ms8BFRUI2/6IMtDCSkK5ZQapRQhMoUuEyqUvnv543DA33owZ39+zXcayj6
-         UNRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7U/vllzeRGoDUSqNH2O6vtCvwbIbsyISBbyc9R5lGXI=;
-        b=RWwUn7gx4txZZH/RnPNMs+L2TbNq+4LpnuO/BwPbvXkuaMM49ah3zv53oxpT8fx/d4
-         Jpti90x6mjcijcdLr5xtCHYZ43uq19kIKqCnOwZTcLv3rS5VGj+40Wf2MyYeAARljl0E
-         TurYVdt4tnr5Ue/0c/xsB9okAMR45KCr0DUijGbde8C/kaDQqqfEryaPS1FoymYJUook
-         LLxDeEqPLGQho5r2IB47AZp/B9NdIfWwUd1jfpu7C+YM2tjGNFlZrcq0ma4GwhVSnoJH
-         OzBwhVH+RIElI9qMyzoMqqSVm3yLQ3530unOA+JneBVkOKgUtqo4xukPq53sPCVKyAzV
-         E7CA==
-X-Gm-Message-State: APjAAAUU8tGzTYd/2Wg5Az6iNfXSKrC1ZjZSBNCown+nSenjxOu8Twxa
-        uDAQP2LtcwHqcZU2tJEgwrMGnCmo
-X-Google-Smtp-Source: APXvYqz1JzGq7x9Q+0+jYp9r4eBCRmz5OsVKb9/7kw292QmWKtEySx3VGA7zk5mW/9KqkICOIKZUng==
-X-Received: by 2002:a2e:249:: with SMTP id 70mr5320344ljc.178.1559306774051;
-        Fri, 31 May 2019 05:46:14 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.35.141])
-        by smtp.googlemail.com with ESMTPSA id i21sm407469ljh.12.2019.05.31.05.46.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 31 May 2019 05:46:13 -0700 (PDT)
-Subject: Re: [PATCH V2] drivers: i2c: tegra: fix checkpatch defects
-To:     Bitan Biswas <bbiswas@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
+        id S1726643AbfEaOrc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 May 2019 10:47:32 -0400
+Received: from foss.arm.com ([217.140.101.70]:52792 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726421AbfEaOrc (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 31 May 2019 10:47:32 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE3AC341;
+        Fri, 31 May 2019 07:47:31 -0700 (PDT)
+Received: from redmoon (unknown [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5DA8D3F5AF;
+        Fri, 31 May 2019 07:47:28 -0700 (PDT)
+Date:   Fri, 31 May 2019 15:47:18 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Hariprasad Kelam <hariprasad.kelam@gmail.com>,
+        ingoo Han <jingoohan1@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Yue Wang <yue.wang@amlogic.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Xiaowei Song <songxiaowei@hisilicon.com>,
+        Binghui Wang <wangbinghui@hisilicon.com>,
+        Stanimir Varbanov <svarbanov@mm-sol.com>,
+        Andy Gross <agross@kernel.org>,
+        David Brown <david.brown@linaro.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>
-References: <1559196850-7007-1-git-send-email-bbiswas@nvidia.com>
- <e9e3d8b0-a76a-81a9-1110-2d07ba1c787f@gmail.com>
- <911e52ed-8f3c-583a-7610-e38723219eca@gmail.com>
- <b86b9104-1754-531f-70b9-3c1a5d347b9b@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <2d83ad21-b012-1b3e-fc9a-741972ee3ba9@gmail.com>
-Date:   Fri, 31 May 2019 15:45:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] drivers/pci/controller: fix warning PTR_ERR_OR_ZERO can
+ be used
+Message-ID: <20190531144710.GA9356@redmoon>
+References: <20190525085748.GA10926@hari-Inspiron-1545>
+ <20190527140952.GB7202@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <b86b9104-1754-531f-70b9-3c1a5d347b9b@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190527140952.GB7202@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-31.05.2019 12:04, Bitan Biswas пишет:
+On Mon, May 27, 2019 at 04:09:52PM +0200, Thierry Reding wrote:
+> On Sat, May 25, 2019 at 02:27:48PM +0530, Hariprasad Kelam wrote:
+> > fix below warnings reported by coccichek
+> > 
+> > /drivers/pci/controller/pci-tegra.c:1132:1-3: WARNING: PTR_ERR_OR_ZERO
+> > can be used
 > 
+> This has been discussed many times before, but PTR_ERR_OR_ZERO is not
+> liked by everybody. Most of these are actually in place on purpose. One
+> of the reasons I hear most frequently cited in opposition to this macro
+> is that it complicates things when you need to add some new code in, so
+> PTR_ERR_OR_ZERO() becomes wrong and has to be changed. The original,
+> with the "return 0;" being explicit doesn't have that problem and you
+> can easily add things in between.
 > 
-> On 5/30/19 4:43 AM, Dmitry Osipenko wrote:
->> 30.05.2019 14:36, Dmitry Osipenko пишет:
->>> 30.05.2019 9:14, Bitan Biswas пишет:
->>>> Fix checkpatch.pl warning(s)/error(s)/check(s) in i2c-tegra.c
->>>> except for BUG/BUG_ON checks
->>>
->>> Please turn the BUG_ON's into WARN_ON's. The machine won't go on fire,
->>> hence there is absolutely no good reason in making system unusable on a
->>> software bug. BUG_ON may be more useful for development, but not for a
->>> casual daily usage.
-> I shall update the patch to remove the BUG/BUG_ON calls.
+> It's obviously up to Bjorn to decide whether he wants this, but I
+> vaguely remember discussing this particular instance with him before and
+> we both agreed that we didn't think this was worth it.
 
-Please replace them with WARN_ON_ONCE.
++1, patch dropped, thanks Hariprasad for reporting it anyway.
+
+Lorenzo
+
+> Perhaps it's time to make checkpatch not complain about this anymore? Or
+> at least make this not a WARNING.
+> 
+> Thierry
+> 
+> > ./drivers/pci/controller/dwc/pcie-qcom.c:703:1-3: WARNING:
+> > PTR_ERR_OR_ZERO can be used
+> > ./drivers/pci/controller/dwc/pci-meson.c:185:1-3: WARNING:
+> > PTR_ERR_OR_ZERO can be used
+> > ./drivers/pci/controller/dwc/pci-meson.c:262:1-3: WARNING:
+> > PTR_ERR_OR_ZERO can be used
+> > ./drivers/pci/controller/dwc/pcie-kirin.c:141:1-3: WARNING:
+> > PTR_ERR_OR_ZERO can be used
+> > ./drivers/pci/controller/dwc/pcie-kirin.c:177:1-3: WARNING:
+> > PTR_ERR_OR_ZERO can be used
+> > ./drivers/pci/controller/dwc/pci-exynos.c:95:1-3: WARNING:
+> > PTR_ERR_OR_ZERO can be used
+> > 
+> > Signed-off-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+> > ---
+> >  drivers/pci/controller/dwc/pci-exynos.c | 4 +---
+> >  drivers/pci/controller/dwc/pci-meson.c  | 8 ++------
+> >  drivers/pci/controller/dwc/pcie-kirin.c | 8 ++------
+> >  drivers/pci/controller/dwc/pcie-qcom.c  | 4 +---
+> >  drivers/pci/controller/pci-tegra.c      | 4 +---
+> >  5 files changed, 7 insertions(+), 21 deletions(-)
+> > 
+> > diff --git a/drivers/pci/controller/dwc/pci-exynos.c b/drivers/pci/controller/dwc/pci-exynos.c
+> > index cee5f2f..b0b4849 100644
+> > --- a/drivers/pci/controller/dwc/pci-exynos.c
+> > +++ b/drivers/pci/controller/dwc/pci-exynos.c
+> > @@ -92,10 +92,8 @@ static int exynos5440_pcie_get_mem_resources(struct platform_device *pdev,
+> >  
+> >  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> >  	ep->mem_res->elbi_base = devm_ioremap_resource(dev, res);
+> > -	if (IS_ERR(ep->mem_res->elbi_base))
+> > -		return PTR_ERR(ep->mem_res->elbi_base);
+> >  
+> > -	return 0;
+> > +	return PTR_ERR_OR_ZERO(ep->mem_res->elbi_base);
+> >  }
+> >  
+> >  static int exynos5440_pcie_get_clk_resources(struct exynos_pcie *ep)
+> > diff --git a/drivers/pci/controller/dwc/pci-meson.c b/drivers/pci/controller/dwc/pci-meson.c
+> > index e35e9ea..1ca78c2 100644
+> > --- a/drivers/pci/controller/dwc/pci-meson.c
+> > +++ b/drivers/pci/controller/dwc/pci-meson.c
+> > @@ -182,10 +182,8 @@ static int meson_pcie_get_mems(struct platform_device *pdev,
+> >  
+> >  	/* Meson SoC has two PCI controllers use same phy register*/
+> >  	mp->mem_res.phy_base = meson_pcie_get_mem_shared(pdev, mp, "phy");
+> > -	if (IS_ERR(mp->mem_res.phy_base))
+> > -		return PTR_ERR(mp->mem_res.phy_base);
+> >  
+> > -	return 0;
+> > +	return PTR_ERR_OR_ZERO(mp->mem_res.phy_base);
+> >  }
+> >  
+> >  static void meson_pcie_power_on(struct meson_pcie *mp)
+> > @@ -259,10 +257,8 @@ static int meson_pcie_probe_clocks(struct meson_pcie *mp)
+> >  		return PTR_ERR(res->general_clk);
+> >  
+> >  	res->clk = meson_pcie_probe_clock(dev, "pcie", 0);
+> > -	if (IS_ERR(res->clk))
+> > -		return PTR_ERR(res->clk);
+> >  
+> > -	return 0;
+> > +	return PTR_ERR_OR_ZERO(res->clk);
+> >  }
+> >  
+> >  static inline void meson_elb_writel(struct meson_pcie *mp, u32 val, u32 reg)
+> > diff --git a/drivers/pci/controller/dwc/pcie-kirin.c b/drivers/pci/controller/dwc/pcie-kirin.c
+> > index 9b59929..87cfdb4 100644
+> > --- a/drivers/pci/controller/dwc/pcie-kirin.c
+> > +++ b/drivers/pci/controller/dwc/pcie-kirin.c
+> > @@ -138,10 +138,8 @@ static long kirin_pcie_get_clk(struct kirin_pcie *kirin_pcie,
+> >  		return PTR_ERR(kirin_pcie->apb_sys_clk);
+> >  
+> >  	kirin_pcie->pcie_aclk = devm_clk_get(dev, "pcie_aclk");
+> > -	if (IS_ERR(kirin_pcie->pcie_aclk))
+> > -		return PTR_ERR(kirin_pcie->pcie_aclk);
+> >  
+> > -	return 0;
+> > +	return PTR_ERR_OR_ZERO(kirin_pcie->pcie_aclk);
+> >  }
+> >  
+> >  static long kirin_pcie_get_resource(struct kirin_pcie *kirin_pcie,
+> > @@ -174,10 +172,8 @@ static long kirin_pcie_get_resource(struct kirin_pcie *kirin_pcie,
+> >  
+> >  	kirin_pcie->sysctrl =
+> >  		syscon_regmap_lookup_by_compatible("hisilicon,hi3660-sctrl");
+> > -	if (IS_ERR(kirin_pcie->sysctrl))
+> > -		return PTR_ERR(kirin_pcie->sysctrl);
+> >  
+> > -	return 0;
+> > +	return PTR_ERR_OR_ZERO(kirin_pcie->sysctrl);
+> >  }
+> >  
+> >  static int kirin_pcie_phy_init(struct kirin_pcie *kirin_pcie)
+> > diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
+> > index 0ed235d..6c421e6 100644
+> > --- a/drivers/pci/controller/dwc/pcie-qcom.c
+> > +++ b/drivers/pci/controller/dwc/pcie-qcom.c
+> > @@ -700,10 +700,8 @@ static int qcom_pcie_get_resources_2_4_0(struct qcom_pcie *pcie)
+> >  		return PTR_ERR(res->ahb_reset);
+> >  
+> >  	res->phy_ahb_reset = devm_reset_control_get_exclusive(dev, "phy_ahb");
+> > -	if (IS_ERR(res->phy_ahb_reset))
+> > -		return PTR_ERR(res->phy_ahb_reset);
+> >  
+> > -	return 0;
+> > +	return PTR_ERR_OR_ZERO(res->phy_ahb_reset);
+> >  }
+> >  
+> >  static void qcom_pcie_deinit_2_4_0(struct qcom_pcie *pcie)
+> > diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+> > index 464ba25..3cd5069 100644
+> > --- a/drivers/pci/controller/pci-tegra.c
+> > +++ b/drivers/pci/controller/pci-tegra.c
+> > @@ -1129,10 +1129,8 @@ static int tegra_pcie_resets_get(struct tegra_pcie *pcie)
+> >  		return PTR_ERR(pcie->afi_rst);
+> >  
+> >  	pcie->pcie_xrst = devm_reset_control_get_exclusive(dev, "pcie_x");
+> > -	if (IS_ERR(pcie->pcie_xrst))
+> > -		return PTR_ERR(pcie->pcie_xrst);
+> >  
+> > -	return 0;
+> > +	return PTR_ERR_OR_ZERO(pcie->pcie_xrst);
+> >  }
+> >  
+> >  static int tegra_pcie_phys_get_legacy(struct tegra_pcie *pcie)
+> > -- 
+> > 2.7.4
+> > 
+
+
