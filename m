@@ -2,126 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3831131D81
-	for <lists+linux-tegra@lfdr.de>; Sat,  1 Jun 2019 15:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1581632014
+	for <lists+linux-tegra@lfdr.de>; Sat,  1 Jun 2019 19:22:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729427AbfFAN3P (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 1 Jun 2019 09:29:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57534 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729884AbfFAN1B (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 1 Jun 2019 09:27:01 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6B2D8273D1;
-        Sat,  1 Jun 2019 13:26:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559395620;
-        bh=WiKANmaMlD3Gbk6YfVehwxHNLtkVsP/TGQIBMtp9hHM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hhJN/2yDRlJ1qOdAIyyRp1YQk7JDG9NPoXJ3Ps9mTXNVww/WPDBulonK0HryJ9ff3
-         3sjdX3XRGy9wOA64lTrKlGbshb3iyGzEluPzS/xQexsjLZXl67tJvBch1bxdLRK0vH
-         gzodJO7gnnFfCUUy6Yah8Csx6bJNmYXTl3fV7BlI=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
-        iommu@lists.linux-foundation.org
-Subject: [PATCH AUTOSEL 4.4 34/56] iommu/tegra-smmu: Fix invalid ASID bits on Tegra30/114
-Date:   Sat,  1 Jun 2019 09:25:38 -0400
-Message-Id: <20190601132600.27427-34-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190601132600.27427-1-sashal@kernel.org>
-References: <20190601132600.27427-1-sashal@kernel.org>
+        id S1726343AbfFARVn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 1 Jun 2019 13:21:43 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:38376 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726075AbfFARVn (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 1 Jun 2019 13:21:43 -0400
+Received: by mail-lj1-f194.google.com with SMTP id o13so12519768lji.5
+        for <linux-tegra@vger.kernel.org>; Sat, 01 Jun 2019 10:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tccTfkPaCkJqRCXrpmp0F9b3WbVNC0IPQMXCiDJx7Zw=;
+        b=UZtlyyL6Ejbc3chPwsjMtIJrr+PXyz7LxaO4UIZFJt2+uxLH5ykzqraVFcICHhrsY9
+         pGfOa7MQ2C6zVn3ddiQXwce6RVhQcO8AvhM3d3OmVGP9AlXxqoOqMNQtxdd+fsYhSoZ3
+         6mdjty69zdNWY2S+vzaOoG3QQSTu3k9QJSCFac1JleRtSBsrOUd+FLpqegh+BbUlPfG2
+         Ih1/6yKSKGQVyfe/wYgbkqaXy7OEU0wvX176nvmmPqyDNm/VH5RLolti/OKrXLhwTs5D
+         U5ApdQK/AFDljwY6mE/ZUvu9SXcqTwmt1oX4FzuSMHFmNkx9doAwynnQDftnnTzwdz2t
+         T8Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tccTfkPaCkJqRCXrpmp0F9b3WbVNC0IPQMXCiDJx7Zw=;
+        b=D3bcfNU7CQlIkOAY3tGiQzrXzSW7cM2XhvJ1K4XCecJKdUDQYutBvLbZ2uTdKLD/U7
+         rJkGjqbbz1UaHGzKWkQGubEvL/+EK6VAMg9e+NdzrDeFaCD2fp7M5NkfIWdhbaDrN4pD
+         KbQZDSF/w313VaOEuUmu+VYGz4uD2CoYoaeT6N8vLV9RDRlARDfoF17wOhRNFWLI0+RM
+         dd+UOFt1UVWlwyK4BYHE4owKiBykn9lY9RbxIuiUajK8D3VIByzBoGXpKYhjxaNhZku7
+         CYvYVK8NLktFv5QgL1S+CrsOQmFxOqGlYKMaovK8A6VyA/zVD6WITlz5D6V+unZfOJ4F
+         gIDg==
+X-Gm-Message-State: APjAAAXUtEGR8sRa7XwsF+2n6tr08vv5KXRHN7xWKr0cl6tnM+mpJ3bb
+        wpmEo574sxeJ8Br6bmR43Z2uHeZ3HzUExGR0UdOebg==
+X-Google-Smtp-Source: APXvYqy7Mf/XaWFq/LXOzPSf1s6Jcjn+sKV/HBkrnZUpN8ofis3WnAWx2KOtRgDlC08AA+7Y/pJ1KFcI15Rf9GhIu2A=
+X-Received: by 2002:a2e:9018:: with SMTP id h24mr2415646ljg.165.1559409701490;
+ Sat, 01 Jun 2019 10:21:41 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <1558007594-14824-1-git-send-email-kyarlagadda@nvidia.com>
+In-Reply-To: <1558007594-14824-1-git-send-email-kyarlagadda@nvidia.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 1 Jun 2019 19:21:30 +0200
+Message-ID: <CACRpkdYMx9obZV70EsieU_3eVVxqu9jVFpCO3Fk4t-2PUya97Q@mail.gmail.com>
+Subject: Re: [PATCH V3 1/4] dt-binding: Tegra194 pinctrl support
+To:     Krishna Yarlagadda <kyarlagadda@nvidia.com>
+Cc:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Joseph Lo <josephl@nvidia.com>,
+        Suresh Mangipudi <smangipudi@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>, vidyas@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+On Thu, May 16, 2019 at 1:53 PM Krishna Yarlagadda
+<kyarlagadda@nvidia.com> wrote:
 
-[ Upstream commit 43a0541e312f7136e081e6bf58f6c8a2e9672688 ]
+> Add binding doc for Tegra 194 pinctrl driver
+>
+> Signed-off-by: Krishna Yarlagadda <kyarlagadda@nvidia.com>
+> ---
+> Changes in V3:
+> remove optional fields not supported by pins published here
 
-Both Tegra30 and Tegra114 have 4 ASID's and the corresponding bitfield of
-the TLB_FLUSH register differs from later Tegra generations that have 128
-ASID's.
+Patch applied with the tags.
 
-In a result the PTE's are now flushed correctly from TLB and this fixes
-problems with graphics (randomly failing tests) on Tegra30.
-
-Cc: stable <stable@vger.kernel.org>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/iommu/tegra-smmu.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 9305964250aca..c4eb293b15242 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -91,7 +91,6 @@ static inline u32 smmu_readl(struct tegra_smmu *smmu, unsigned long offset)
- #define  SMMU_TLB_FLUSH_VA_MATCH_ALL     (0 << 0)
- #define  SMMU_TLB_FLUSH_VA_MATCH_SECTION (2 << 0)
- #define  SMMU_TLB_FLUSH_VA_MATCH_GROUP   (3 << 0)
--#define  SMMU_TLB_FLUSH_ASID(x)          (((x) & 0x7f) << 24)
- #define  SMMU_TLB_FLUSH_VA_SECTION(addr) ((((addr) & 0xffc00000) >> 12) | \
- 					  SMMU_TLB_FLUSH_VA_MATCH_SECTION)
- #define  SMMU_TLB_FLUSH_VA_GROUP(addr)   ((((addr) & 0xffffc000) >> 12) | \
-@@ -194,8 +193,12 @@ static inline void smmu_flush_tlb_asid(struct tegra_smmu *smmu,
- {
- 	u32 value;
- 
--	value = SMMU_TLB_FLUSH_ASID_MATCH | SMMU_TLB_FLUSH_ASID(asid) |
--		SMMU_TLB_FLUSH_VA_MATCH_ALL;
-+	if (smmu->soc->num_asids == 4)
-+		value = (asid & 0x3) << 29;
-+	else
-+		value = (asid & 0x7f) << 24;
-+
-+	value |= SMMU_TLB_FLUSH_ASID_MATCH | SMMU_TLB_FLUSH_VA_MATCH_ALL;
- 	smmu_writel(smmu, value, SMMU_TLB_FLUSH);
- }
- 
-@@ -205,8 +208,12 @@ static inline void smmu_flush_tlb_section(struct tegra_smmu *smmu,
- {
- 	u32 value;
- 
--	value = SMMU_TLB_FLUSH_ASID_MATCH | SMMU_TLB_FLUSH_ASID(asid) |
--		SMMU_TLB_FLUSH_VA_SECTION(iova);
-+	if (smmu->soc->num_asids == 4)
-+		value = (asid & 0x3) << 29;
-+	else
-+		value = (asid & 0x7f) << 24;
-+
-+	value |= SMMU_TLB_FLUSH_ASID_MATCH | SMMU_TLB_FLUSH_VA_SECTION(iova);
- 	smmu_writel(smmu, value, SMMU_TLB_FLUSH);
- }
- 
-@@ -216,8 +223,12 @@ static inline void smmu_flush_tlb_group(struct tegra_smmu *smmu,
- {
- 	u32 value;
- 
--	value = SMMU_TLB_FLUSH_ASID_MATCH | SMMU_TLB_FLUSH_ASID(asid) |
--		SMMU_TLB_FLUSH_VA_GROUP(iova);
-+	if (smmu->soc->num_asids == 4)
-+		value = (asid & 0x3) << 29;
-+	else
-+		value = (asid & 0x7f) << 24;
-+
-+	value |= SMMU_TLB_FLUSH_ASID_MATCH | SMMU_TLB_FLUSH_VA_GROUP(iova);
- 	smmu_writel(smmu, value, SMMU_TLB_FLUSH);
- }
- 
--- 
-2.20.1
-
+Yours,
+Linus Walleij
