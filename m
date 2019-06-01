@@ -2,178 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B11731A8F
-	for <lists+linux-tegra@lfdr.de>; Sat,  1 Jun 2019 10:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7BF931BC0
+	for <lists+linux-tegra@lfdr.de>; Sat,  1 Jun 2019 15:01:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726921AbfFAI2v (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 1 Jun 2019 04:28:51 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:13619 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726089AbfFAI2v (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 1 Jun 2019 04:28:51 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cf237360003>; Sat, 01 Jun 2019 01:28:38 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sat, 01 Jun 2019 01:28:49 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sat, 01 Jun 2019 01:28:49 -0700
-Received: from [10.2.175.94] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 1 Jun
- 2019 08:28:46 +0000
-Subject: Re: [PATCH V2 10/12] gpio: tegra: implement wake event support for
- Tegra210 and prior GPIO
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <jonathanh@nvidia.com>, <tglx@linutronix.de>,
-        <jason@lakedaemon.net>, <marc.zyngier@arm.com>,
-        <linus.walleij@linaro.org>, <stefan@agner.ch>,
-        <mark.rutland@arm.com>, <pdeschrijver@nvidia.com>,
-        <pgaikwad@nvidia.com>, <sboyd@kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <jckuo@nvidia.com>, <josephl@nvidia.com>, <talho@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <1559084936-4610-1-git-send-email-skomatineni@nvidia.com>
- <1559084936-4610-11-git-send-email-skomatineni@nvidia.com>
- <20190529140318.GB17679@ulmo>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <9f9633e0-5f45-d2ba-9758-d2a85a41ede9@nvidia.com>
-Date:   Sat, 1 Jun 2019 01:28:44 -0700
+        id S1726210AbfFANBh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 1 Jun 2019 09:01:37 -0400
+Received: from mail-it1-f196.google.com ([209.85.166.196]:53413 "EHLO
+        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726142AbfFANBh (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 1 Jun 2019 09:01:37 -0400
+Received: by mail-it1-f196.google.com with SMTP id m141so20316375ita.3;
+        Sat, 01 Jun 2019 06:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=EL5TH2hMWoiZtVZYy6bsOd3s/PXyVs5Seh9sogDRgo8=;
+        b=HmB0ttk1MhgqW/0cXl3XPzMzL4CI9dP8Jcb8mL4XyLDHx3wrdnlYirDqCIWMORY2Mz
+         5CrrJ1HciCx/37BAlpXy4BkcZoHVFM9XcYL9sn9cvyTLWLSnpqyDWxUkQX4VXUG+BR3S
+         hCBhf+9kjFAzwqmNwb/eI7Ab1kO9ACrkTlCCt8sxcXxonHfbgeip7U5DizmFb8lgC2kP
+         vn9IkDKfBZxFnE5SGO3Tc5M6s/BNaK0DEGb8/VbVMzYLPva8q9lk1eg0IpBB7J5dRPUw
+         T8ZS3Lsuwq6va+DztgPnbR1dCjrWRgruVaSTtH0b8nMHz+ah+ll+FcmA5vUWyg6dmIZI
+         Ddew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EL5TH2hMWoiZtVZYy6bsOd3s/PXyVs5Seh9sogDRgo8=;
+        b=EZEwZlD7ltEbMrBOBmGjXCCDcaM1Ohxr7ADy2PjcYDqlMXg8cpSeWUqFLv6BMfJyMs
+         qPyT1APuiRYBVxP4VsFW5ry3Aa8Puebpmd8FclHAczqx5hUu+jSNIPyAZW4pmfBAW2t5
+         vFNwIUIo56TUcDpwVayEa+tyh4WK+dIWGzFTA6FpKaI45MSqDfj2xFpwsOAuxgKwVCYv
+         dzJIK/3+UR2ePeJfpi2QJqD5rCbEl9Ad6DNUlqMrHHsWiFvKnGOsPfIYiVwIKHyYQjuU
+         Nd3G7jYLXXhSCedePKrqe92QCEVjy85ezqebiEwH9AwXkI7zHNSDLq+GVI3D23sN4GvJ
+         MDyQ==
+X-Gm-Message-State: APjAAAXylPM4GgMBUFMnyqbwfkcEqts/SSHA/uYfdAR9gylWOuJIsfFt
+        n4Wi7rMkoP5Mr3BN7YO2A2c=
+X-Google-Smtp-Source: APXvYqz7lBkSUf/T6lvzRFN+Eo5IERMTYy2MiQMbZ8bARPCNx5RSpa6Uvjdh2+rSC9CZyha9y2z+Fg==
+X-Received: by 2002:a24:d945:: with SMTP id p66mr11171733itg.38.1559394096673;
+        Sat, 01 Jun 2019 06:01:36 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.35.141])
+        by smtp.googlemail.com with ESMTPSA id e188sm3003250ioa.3.2019.06.01.06.01.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 01 Jun 2019 06:01:35 -0700 (PDT)
+Subject: Re: [PATCH v3 0/8] NVIDIA Tegra clocksource driver improvements
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nicolas Chauvet <kwizart@gmail.com>
+References: <20190524153253.28564-1-digetx@gmail.com>
+ <20190531082634.GA6070@pdeschrijver-desktop.Nvidia.com>
+ <c686aae8-3be0-805e-265b-a7f16f2a6c02@gmail.com>
+ <26aeb9f0-5eb1-005a-02c1-4d785fe70331@linaro.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <6909cb87-8583-4ec8-74b7-a6153aec0246@gmail.com>
+Date:   Sat, 1 Jun 2019 16:00:24 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190529140318.GB17679@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <26aeb9f0-5eb1-005a-02c1-4d785fe70331@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559377718; bh=2Mn+83g9lYSX5HL4pR4UbLQLsdFwFvdRDBYLBT+eapI=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=UlbLJgdSTBA5HmzxDmW7Vh/SHAYjqeWsO5RPXAisT2RenbLyd+h6OEWiCm1s2s58T
-         hkThcPGhldVHORCjG+BM+4NHIhmVFGnXRjnP8UfIqhNA99po0mxP81+tz7VNm9bVBf
-         no4vGoCrs+70SRSO0QFWje7UZJgdrMD05nqCZGQhxd0pqveSI0GgvTYR2XKoWHpqEh
-         M0LR1gDCG3eddr5Ei2YwGcn8jKZPI/8lXsdcGWrHdHUDpIo3MaZonB0qrR97Nw6HXx
-         DfRlOf9KAC43y/hzIuHXgWLQDDNzC/aeyKspVm4LFMV28t4wOLmjUqkRPcTfqkmcWN
-         YDklPJQZPMaJQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 5/29/19 7:03 AM, Thierry Reding wrote:
-> On Tue, May 28, 2019 at 04:08:54PM -0700, Sowjanya Komatineni wrote:
->> The GPIO controller doesn't have any controls to enable the system to
->> wake up from low power states based on activity on GPIO pins. An extra
->> hardware block that is part of the power management controller (PMC)
->> contains these controls. In order for the GPIO controller to be able
->> to cooperate with the PMC, obtain a reference to the PMC's IRQ domain
->> and make it a parent to the GPIO controller's IRQ domain. This way the
->> PMC gets an opportunity to program the additional registers required
->> to enable wakeup sources on suspend.
+31.05.2019 23:31, Daniel Lezcano пишет:
+> On 31/05/2019 14:33, Dmitry Osipenko wrote:
+>> 31.05.2019 11:26, Peter De Schrijver пишет:
+>>> On Fri, May 24, 2019 at 06:32:45PM +0300, Dmitry Osipenko wrote:
+>>>> Hello,
+>>>>
+>>>> This series primarily unifies the driver code across all Tegra SoC
+>>>> generations. In a result the clocksources are allocated per-CPU on
+>>>> older Tegra's and have a higher rating than the arch-timer, the newer
+>>>> Tegra210 is getting support for microsecond clocksource and the driver's
+>>>> code is getting much cleaner. Note that arch-timer usage is discouraged on
+>>>> all Tegra's due to the time jitter caused by the CPU frequency scaling.
+>>>
+>>> I think the limitations are more as follows:
+>>>
+>>> Chip	timer		suffers cpu dvfs jitter		can wakeup from cc7
+>>> T20	us-timer	No				Yes
+>>> T20	twd timer	Yes				No?
+>>> T30	us-timer	No				Yes
+>>> T30	twd timer	Yes				No?
+>>> T114	us-timer	No				Yes
+>>> T114	arch timer	No				Yes
+>>> T124	us-timer	No				Yes
+>>> T124	arch timer	No				Yes
+>>> T210	us-timer	No				Yes
+>>> T210	arch timer	No				No
+>>> T210	clk_m timer	No				Yes
+>>>
+>>> right?
 >>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   drivers/gpio/gpio-tegra.c | 116 +++++++++++++++++++++++++++++++++++++++++++---
->>   1 file changed, 110 insertions(+), 6 deletions(-)
+>> Doesn't arch timer run off the CPU clock? If yes (that's what I
+>> assumed), then it should be affected by the DVFS. Otherwise I'll lower
+>> the clocksource's rating for T114/124/132.
 >>
->> diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
->> index 6d9b6906b9d0..5190129668d3 100644
->> --- a/drivers/gpio/gpio-tegra.c
->> +++ b/drivers/gpio/gpio-tegra.c
->> @@ -32,6 +32,8 @@
->>   #include <linux/pinctrl/consumer.h>
->>   #include <linux/pm.h>
->>   
->> +#include <dt-bindings/interrupt-controller/arm-gic.h>
->> +
->>   #define GPIO_BANK(x)		((x) >> 5)
->>   #define GPIO_PORT(x)		(((x) >> 3) & 0x3)
->>   #define GPIO_BIT(x)		((x) & 0x7)
->> @@ -275,8 +277,22 @@ static int tegra_gpio_set_config(struct gpio_chip *chip, unsigned int offset,
->>   static int tegra_gpio_to_irq(struct gpio_chip *chip, unsigned int offset)
->>   {
->>   	struct tegra_gpio_info *tgi = gpiochip_get_data(chip);
->> +	struct irq_domain *domain = tgi->irq_domain;
->> +
->> +	if (!gpiochip_irqchip_irq_valid(chip, offset))
->> +		return -ENXIO;
->> +
->> +	if (irq_domain_is_hierarchy(domain)) {
->> +		struct irq_fwspec spec;
->> +
->> +		spec.fwnode = domain->fwnode;
->> +		spec.param_count = 2;
->> +		spec.param[0] = offset;
->> +		spec.param[1] = IRQ_TYPE_NONE;
->> +		return irq_domain_alloc_irqs(domain, 1, NUMA_NO_NODE, &spec);
-> This looks like it was copied from the equivalent Tegra186 patch. I have
-> since then changed the implementation, based on feedback by Linus, to
-> not call irq_domain_alloc_irqs() here and instead call
-> irq_create_fwspec_mapping(). This has the advantage of not requiring the
-> irq_domain_alloc_irqs() function to be exported. It ends up calling that
-> function internally, but as discussed with Linus it's also a nicer way
-> to create these mappings.
->
-existing gpio-tegra driver maps hwirq to virtual interrupt number using 
-irq_create_mapping during gpio probe
+>> TWD can't wake CPU from the power-down state, so it's a solid "No" for
+>> TWD in the "can wakeup from cc7" column.
+> 
+> Wouldn't make sense to rename the timer-tegra20.c to timer-tegra.c now ?
 
-and irq_create_fwspec_mapping() will always return virq number as virq 
-number exists already and irq_domain_alloc_irqs doesn't happen.
-
-So I was using irq_domain_alloc_irqs().
-
-
->> +	}
->>   
->> -	return irq_find_mapping(tgi->irq_domain, offset);
->> +	return irq_find_mapping(domain, offset);
->>   }
->>   
->>   static void tegra_gpio_irq_ack(struct irq_data *d)
->> @@ -365,7 +381,10 @@ static int tegra_gpio_irq_set_type(struct irq_data *d, unsigned int type)
->>   	else if (type & (IRQ_TYPE_EDGE_FALLING | IRQ_TYPE_EDGE_RISING))
->>   		irq_set_handler_locked(d, handle_edge_irq);
->>   
->> -	return 0;
->> +	if (d->parent_data)
->> +		return irq_chip_set_type_parent(d, type);
->> +	else
->> +		return 0;
-> There's no need for this final else. Just make it a regular "return 0;"
-> at the end of the function, without the extra else branch.
->
->>   }
->>   
->>   static void tegra_gpio_irq_shutdown(struct irq_data *d)
->> @@ -503,6 +522,7 @@ static int tegra_gpio_irq_set_wake(struct irq_data *d, unsigned int enable)
->>   	struct tegra_gpio_bank *bank = irq_data_get_irq_chip_data(d);
->>   	unsigned int gpio = d->hwirq;
->>   	u32 port, bit, mask;
->> +	int ret;
->>   
->>   	port = GPIO_PORT(gpio);
->>   	bit = GPIO_BIT(gpio);
->> @@ -513,7 +533,14 @@ static int tegra_gpio_irq_set_wake(struct irq_data *d, unsigned int enable)
->>   	else
->>   		bank->wake_enb[port] &= ~mask;
->>   
->> -	return irq_set_irq_wake(bank->irq, enable);
->> +	ret = irq_set_irq_wake(bank->irq, enable);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	if (d->parent_data)
->> +		return irq_chip_set_wake_parent(d, enable);
->> +	else
->> +		return 0;
-> Same here.
->
-> Thierry
+Wouldn't hurt, given the refreshment that driver is getting lately. I'll
+include a patch for that in the next revision, thanks.
