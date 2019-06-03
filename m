@@ -2,96 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FFCA338C6
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 21:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72EFA3393E
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 21:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726911AbfFCTE2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Jun 2019 15:04:28 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:35871 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726842AbfFCTE2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 15:04:28 -0400
-Received: by mail-lf1-f68.google.com with SMTP id q26so14466181lfc.3;
-        Mon, 03 Jun 2019 12:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=UtwYPIjZ42A6onEXbTjq/QuGswOItAJSTPwR+apDGiY=;
-        b=sMrvAxcYfXNUviEHEnCtvKgFVE836xKMCpUXm73t5lOkP5xUvKxgb5/vk75z0Sjajo
-         5krxgUniGjRrd/KPOmOD8i+pXAoaMGMd+63f99E4Ebe1QpxRQ7TT91KZATx2+aT2kAzL
-         ke0VDy4NjLHdCQ3m5iBEgswbHThd8+p2Lqk8FDX98kJCeBN7OHpBy2bm40vzWY4jRDgY
-         EPtlZw7svD1ZzInc22n5kGwVpG+Jdmu0v9k9+8EeUwUNRmem8oSzlSF4rsKGqQudCoKA
-         jwWyT4ZorP4SuWRCUaTCA4WVXP9iVmLTS0hMj6c2RLt8feNYuRcZGiid/Fvj32G5E9ZD
-         q8Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UtwYPIjZ42A6onEXbTjq/QuGswOItAJSTPwR+apDGiY=;
-        b=FV9ZIMl/+uO7AHvm48oQ50XZeD2QRzefiYtTorCsW81pqJwqS0MfllYSEhhWesJUk+
-         Y/Un/TRvYDA+60mBA28suk9tMSHwRDqu2P+Z05OyXf3AAvr2KXMA8X0V7pp3lx4ihatJ
-         tn2255Z9NGD00JBeUsoyvsbOZaH7Hub7JqTvbbSssxVhilH7su/1+sPdAJWZp5s5Pznk
-         xOdJodcXT4W/AKvsU38XXGqM6j8GJeX1exWT7EShMFE/LBjnEg+UabA0QD9nrdgk9qYB
-         WphCWK6ijxHlqdv0mi/oI5BCM83GkCVvbvfeSN9583BlRdpVB5NbWFZkU2NJWEd2alJs
-         qytg==
-X-Gm-Message-State: APjAAAWzIDKHisLB6gNsVz1teSEE4UXh+x5dhtA3W/71QQw51ZVUS6mS
-        DR1zPIe9ONHGnl0LpT0oDOQeUxo5
-X-Google-Smtp-Source: APXvYqzqzLCtVGr7EitdsLEfbcc9TA3vFm+FQ8dUIaK97cWDR55QlhwCkEm47jV09PlMx00U/VkVHg==
-X-Received: by 2002:ac2:5922:: with SMTP id v2mr14401591lfi.180.1559588665943;
-        Mon, 03 Jun 2019 12:04:25 -0700 (PDT)
-Received: from localhost.localdomain ([94.29.35.141])
-        by smtp.gmail.com with ESMTPSA id l22sm2768805ljb.39.2019.06.03.12.04.23
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Jun 2019 12:04:25 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Joseph Lo <josephl@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 10/10] clocksource/drivers/tegra: Rename timer-tegra20.c to timer-tegra.c
-Date:   Mon,  3 Jun 2019 21:59:48 +0300
-Message-Id: <20190603185948.30438-11-digetx@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190603185948.30438-1-digetx@gmail.com>
-References: <20190603185948.30438-1-digetx@gmail.com>
+        id S1726301AbfFCTsD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Jun 2019 15:48:03 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:8114 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726033AbfFCTsD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 15:48:03 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cf579710000>; Mon, 03 Jun 2019 12:48:01 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 03 Jun 2019 12:48:02 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 03 Jun 2019 12:48:02 -0700
+Received: from [10.26.11.157] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 3 Jun
+ 2019 19:47:59 +0000
+Subject: Re: [PATCH 07/26] iommu/dma: move the arm64 wrappers to common code
+To:     Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+CC:     Joerg Roedel <joro@8bytes.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        <iommu@lists.linux-foundation.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20190422175942.18788-1-hch@lst.de>
+ <20190422175942.18788-8-hch@lst.de>
+ <06b331f0-7df7-a6cd-954c-789f89a0836d@arm.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <acb46c7f-0855-de30-485f-a6242968f947@nvidia.com>
+Date:   Mon, 3 Jun 2019 20:47:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <06b331f0-7df7-a6cd-954c-789f89a0836d@arm.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1559591281; bh=RMxapgyeEuOTQ8bInOu5Fbjyth09Qz8mwr+ogzgFnH8=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=mVkn8qHn4oghIo8cKZJkJcmq0wsglM5sp4kJ+xEF9zxvkcO3EetQgf2WDxh88dKjl
+         WU1kgDYR/RidtsSNfnah+urlkR+Aos1fbomRJh6Mppj0JQQvyIivYS5V6fRQJohR0L
+         3BANrGnTtJhH+HsC14T2ZHd6w6ZJtQMfzzOPCu3UOfCCJvUHBxlBeVRcxyTcmiFwqk
+         JUR6R9NsmkaIo7NwILxJWuVb0kwVn28ZNBRL28dX8Tmsmorji8+p9XEtvX/entSiKW
+         QlKhjgG5mx2vvbBDIHNrTzsMbbV5vRMD3GixETL4yf3Ev9Z+ZL6g8+QFpf4nVKcf9X
+         S9Y166LHlYo4Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Rename driver's source file to better reflect that it's not specific to
-older SoC generations.
 
-Suggested-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/clocksource/Makefile                           | 2 +-
- drivers/clocksource/{timer-tegra20.c => timer-tegra.c} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename drivers/clocksource/{timer-tegra20.c => timer-tegra.c} (100%)
+On 29/04/2019 13:56, Robin Murphy wrote:
+> On 22/04/2019 18:59, Christoph Hellwig wrote:
+>> There is nothing really arm64 specific in the iommu_dma_ops
+>> implementation, so move it to dma-iommu.c and keep a lot of symbols
+>> self-contained.=C2=A0 Note the implementation does depend on the
+>> DMA_DIRECT_REMAP infrastructure for now, so we'll have to make the
+>> DMA_IOMMU support depend on it, but this will be relaxed soon.
+>=20
+> Nothing looks objectionable, and boot testing with this much of the
+> series merged has my coherent and non-coherent IOMMU-backed devices
+> appearing to still work OK, so:
+>=20
+> Acked-by: Robin Murphy <robin.murphy@arm.com>
 
-diff --git a/drivers/clocksource/Makefile b/drivers/clocksource/Makefile
-index 236858fa7fbf..4145b21eaed3 100644
---- a/drivers/clocksource/Makefile
-+++ b/drivers/clocksource/Makefile
-@@ -36,7 +36,7 @@ obj-$(CONFIG_U300_TIMER)	+= timer-u300.o
- obj-$(CONFIG_SUN4I_TIMER)	+= timer-sun4i.o
- obj-$(CONFIG_SUN5I_HSTIMER)	+= timer-sun5i.o
- obj-$(CONFIG_MESON6_TIMER)	+= timer-meson6.o
--obj-$(CONFIG_TEGRA_TIMER)	+= timer-tegra20.o
-+obj-$(CONFIG_TEGRA_TIMER)	+= timer-tegra.o
- obj-$(CONFIG_VT8500_TIMER)	+= timer-vt8500.o
- obj-$(CONFIG_NSPIRE_TIMER)	+= timer-zevio.o
- obj-$(CONFIG_BCM_KONA_TIMER)	+= bcm_kona_timer.o
-diff --git a/drivers/clocksource/timer-tegra20.c b/drivers/clocksource/timer-tegra.c
-similarity index 100%
-rename from drivers/clocksource/timer-tegra20.c
-rename to drivers/clocksource/timer-tegra.c
--- 
-2.21.0
+Since next-20190529 one of our tests for MMC has started failing, where
+the symptom is that the data written to the MMC does not match the
+source. Bisecting this is pointing to this commit. Unfortunately, I am
+not able to cleanly revert this on top of -next, but wanted to report
+this if case you have any ideas.
 
+Cheers
+Jon
+
+--=20
+nvpublic
