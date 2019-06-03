@@ -2,80 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D956732E05
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 12:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE7EF32E18
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 12:58:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727513AbfFCKwB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Jun 2019 06:52:01 -0400
-Received: from 8bytes.org ([81.169.241.247]:41064 "EHLO theia.8bytes.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727255AbfFCKwB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 3 Jun 2019 06:52:01 -0400
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id C6EF836B; Mon,  3 Jun 2019 12:51:59 +0200 (CEST)
-Date:   Mon, 3 Jun 2019 12:51:58 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Tom Murphy <tmurphy@arista.com>
-Cc:     iommu@lists.linux-foundation.org, murphyt7@tcd.ie,
-        Will Deacon <will.deacon@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] iommu/amd: Convert the AMD iommu driver to the
- dma-iommu api
-Message-ID: <20190603105158.GL12745@8bytes.org>
-References: <20190506185207.31069-1-tmurphy@arista.com>
+        id S1727030AbfFCK6R (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Jun 2019 06:58:17 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:44889 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726792AbfFCK6R (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 06:58:17 -0400
+Received: by mail-lj1-f196.google.com with SMTP id e13so15680193ljl.11
+        for <linux-tegra@vger.kernel.org>; Mon, 03 Jun 2019 03:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3Hkb6ZGh0otQQtsG7EyeKc0XPVB1qeyVKCVz7z7GAK4=;
+        b=MNMZwokibxUU6+0ryf7ELuQ9C9y6uLdFUZOlzwg8shXKvhfYvV5rRTTzeh41/lQAZ0
+         1LQYdLODDWtYRXLksN6sfVGsFKWNE/4H3RgIXGAVjS1WA+aSNz/WyaO88z1qtMbacZYi
+         uQLRyzQiUXprUBV1rwhQdLbRxTqLq5tncp1K/DcF5kuGm15RXfZlVbfkTKQSq2t+AA7A
+         huj8SnqIzDRgQgjB36zFWJgjWu+yJQIQhFigor+UBthANFKjAT+aJXi3GcdwzFWW10EI
+         eRIotdz3v5wpob/mQOhREKzUz3fvttn9KQVGTI0T/TaHwb3rwmpTMjPzsCjP0iPCVqn7
+         OlXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3Hkb6ZGh0otQQtsG7EyeKc0XPVB1qeyVKCVz7z7GAK4=;
+        b=hhf6JU2x4NPPX80r5HhznbjaSXHlL2BCF+Nn7Z6kqQz87ky2BVd5lJgNceDt2YNd8F
+         VFilmF4GEbxJdk8TJ/NGYlhALioJLwy9HG5AzAlgXTuYz3M4RVb9IdE5voo4e4Ob5MpD
+         z2V1EqZpJmfNh2MMetxYZ5CwlCFWRuX5MDwx576JH7SmIb4fQOOIoQjr2ejaSwQ3ksM+
+         YKncaq0nAQ8uODP6Zh3Qtp9iSWA76GR8o7GVDdeTyCqcY6Lm4Ma1CQHsBM07n72Wq/CW
+         vOtgYpi9Orj7YikrMTbUOhf6nPs8iA+Ffq6uA+dkFUhNdxlsxNbJL2S1y9eHKlGJWqej
+         Nx2w==
+X-Gm-Message-State: APjAAAUsYmdyvJdiIULbdJsAIs9Owm5xOtO3CQd4F6ofQDKVNx5xqn3Z
+        t4v4UoQbDlO6X24bQNEMZ4UnACoGAUaKIBTNbok00w==
+X-Google-Smtp-Source: APXvYqxo/ADke86oscEtkWdOZe3GDp/cLqsLQ6zE2mLLJbDnU81g0eCO5QoeN9mSyfQkx4QxgcHARZqrEYTDhPchXJA=
+X-Received: by 2002:a2e:9018:: with SMTP id h24mr6376615ljg.165.1559559494919;
+ Mon, 03 Jun 2019 03:58:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190506185207.31069-1-tmurphy@arista.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190529145322.20630-1-thierry.reding@gmail.com>
+ <20190529145322.20630-2-thierry.reding@gmail.com> <CACRpkdb5vB6OwcAxtjsKLzHt9V27juEOEEDqqQczKT-3r+7X-g@mail.gmail.com>
+ <20190603075324.GA27753@ulmo>
+In-Reply-To: <20190603075324.GA27753@ulmo>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 3 Jun 2019 12:58:02 +0200
+Message-ID: <CACRpkda47EX981Dw=jLrU=PHn50+AQhJmpVRWJ9uJEQdcAsrTw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] gpio: Add support for hierarchical IRQ domains
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Lina Iyer <ilina@codeaurora.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Tom,
+On Mon, Jun 3, 2019 at 9:53 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+> Me
 
-On Mon, May 06, 2019 at 07:52:02PM +0100, Tom Murphy wrote:
-> Convert the AMD iommu driver to the dma-iommu api. Remove the iova
-> handling and reserve region code from the AMD iommu driver.
+> > Please drop this. The default .to_irq() should be good for everyone.
+> > Also patch 2/2 now contains a identical copy of the gpiolib
+> > .to_irq() which I suspect you indended to drop, actually.
+>
+> It's not actually identical to the gpiolib implementation. There's still
+> the conversion to the non-linear DT representation for GPIO specifiers
+> from the linear GPIO number space, which is not taken care of by the
+> gpiolib variant. That's precisely the point why this patch makes it
+> possible to let the driver override things.
 
-Thank you for your work on this! I appreciate that much, but I am not
-sure we are ready to make that move for the AMD and Intel IOMMU drivers
-yet.
+OK something is off here, because the purpose of the irqdomain
+is exactly to translate between different number spaces, so it should
+not happen in the .to_irq() function at all.
 
-My main concern right now is that these changes will add a per-page
-table lock into the fast-path for dma-mapping operations. There has been
-much work in the past to remove all locking from these code-paths and
-make it scalable on x86.
+Irqdomain uses .map() in the old variant and .translate() in the
+hierarchical variant to do this, so something is skewed.
 
-The dma-ops implementations in the x86 IOMMU drivers have the benefit
-that they can call their page-table manipulation functions directly and
-without locks, because they can make the necessary assumptions. The
-IOMMU-API mapping/unmapping path can't make these assumptions because it
-is also used for non-DMA-API use-cases.
+All .to_irq() should ever do is just call the irqdomain to do the
+translation, no other logic (unless I am mistaken) so we should
+be able to keep the simple .to_irq() logic inside gpiolib.
 
-So before we can move the AMD and Intel drivers to the generic DMA-API
-implementation we need to solve this problem to not introduce new
-scalability regressions.
-
-Regards,
-
-	Joerg
-
+Yours,
+Linus Walleij
