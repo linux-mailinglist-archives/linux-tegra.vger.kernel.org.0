@@ -2,49 +2,49 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A05D32F41
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 14:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C884933385
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 17:29:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726792AbfFCMMb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Jun 2019 08:12:31 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53221 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726136AbfFCMMb (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 08:12:31 -0400
-Received: by mail-wm1-f66.google.com with SMTP id s3so3593194wms.2;
-        Mon, 03 Jun 2019 05:12:29 -0700 (PDT)
+        id S1727154AbfFCP2w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Jun 2019 11:28:52 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:45916 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727120AbfFCP2w (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 11:28:52 -0400
+Received: by mail-wr1-f66.google.com with SMTP id b18so12515972wrq.12;
+        Mon, 03 Jun 2019 08:28:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Gr8uL1ZbiRgi6+lmlL+2AZVHdd6JTOvP+v0Gm0FVkYw=;
-        b=dg6Wmedk9pr6qSmdO2XuCrqUoH6eyfdFDx7E+NxA7XZ1RO6CLFitZCggXFAk/UyLT4
-         E/3zIXRsg09U8AaAMVCHmUgIs+lkZSJIndgcUWLJFJNrHC20gzI7Nvobhao9VKy12jxX
-         /sAzygnbTq6Yj8CtU4TtKpf/5HunfoalfmT57TqXkhnyZQ5IC6sEwrcGdZq6o+gFLsNC
-         GxA+ZruI2gZHgzD3xEHBl92emdXrnHgw/707H+sZ9XErBN2/AWQZ0356cZKTEZtIKNUn
-         Pj6p3tQK9U3fmnDIo5OlC70xXSmy6jIHSgA5SOL9JTTdtkCOkCD696FOW2qUsb/yIf0b
-         Ro2g==
+        bh=R0W4k3BICJ2WutXYH9IGV5/N63dSSF//OiRLIaj1e9Y=;
+        b=S9Kkj17DDzDE5Z7XeeEr+Rzf+HfZirV7k6u/QNk25GVYowii2mVqhnbBb7z9YBCNLf
+         qSHAIPSfiBDzhIHa2Hluko5PH5p3lXrLHkYVAB0AtRMcEyGvWyUYIfascea08kABZeAO
+         7febfroAd6uFY+EnOPYO4ONxC9tlnyXvy6w1iRj9IAjZUoUxUrQ2R4x9JKM1ZQOd43qg
+         ggW7PaIC5ZNy+QpYN0QI5xBoJbBNX00qgdnpwU+REWtcLWHhPgqz6fTIEgvCRSLpAwLx
+         EQxYgYvZtkVdLzGiYpGK/ii1i4B0MyefEoLPhUP266vd+Yc0GFzH5K4e88Ddgo3x0oEc
+         /WHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Gr8uL1ZbiRgi6+lmlL+2AZVHdd6JTOvP+v0Gm0FVkYw=;
-        b=VTrVRnMljYiTeLj+4mH7wEztZV5Ao0Ofe6uyI8vAusIqphmC76xF9VpJPqhT+F1rl3
-         OoDKLlXqwOWfS/Z799hb31JmTzMLfSsOK1v3/ErD9h67ntQ+mbUImX87mcndvkHymiAH
-         hC+i0bxndRTO03NAfBJNOnQqnjDabX7Ww9flbN0wO9U7ZRDI7iNsxL8kQHztmLBOr+co
-         t8x4qfGNIfxwVS9Pu1OO8utHwq92z+WsiJdGZSrNv0jgM+nHIvjvL0rEWQnGfLqSN9EB
-         +3Rt8D8mlqT9i64be+QB92WyFZ5BjP1s3uc8DJueNyczSdfqmzNh6RVO6dJ/zjmYQ+ry
-         AsUg==
-X-Gm-Message-State: APjAAAWBX9mZ0FAkrYrOQV9rrRRkHJn5uC8lU2nr4vNV/3WOk08+4CeH
-        l+DWHWtnZUqt+HtzYDY/3t0=
-X-Google-Smtp-Source: APXvYqzxAfb0ik/mZl5P/EWMos7rAeT0GZe6/1qJUsEvS/MSW4qpsHms9ZH2p0VgEmfgyBDT6W2H+w==
-X-Received: by 2002:a05:600c:228b:: with SMTP id 11mr14191078wmf.26.1559563949142;
-        Mon, 03 Jun 2019 05:12:29 -0700 (PDT)
+        bh=R0W4k3BICJ2WutXYH9IGV5/N63dSSF//OiRLIaj1e9Y=;
+        b=Bj+873IZEFJY374Kkrh7YnYK9UkdWlxUQezY647F5HYPL3Bo9CSDBOxJEQpqK11tas
+         voFJnaIpvnUa1MWqfxd6emsHYy2rH0eQLi9uUUXdJ/63CmL09E1L5uLR+P48QyaOvSD7
+         ZS+5EGumxjgsRuKqrTXQgwDeEJZh0NEnCZXik5L2D4qEiNh1+xJHNLz6UIGe3Q0n95hq
+         AcAXrUYeqKqn1fCQ0QtJcKTx4XzqUPYbZlOrZbcUpKcR7ouh6ddoUZQ5G6M+b69s+0CS
+         EktMB9s1Pwds0CUbp5RQUjkcFQ9jjAilFsB+rqjtssj9RkKKU1/i5oFWZh2ZdIhY9jh1
+         L1cg==
+X-Gm-Message-State: APjAAAU5JJKTPEH4ZUm9GjGmoojCdlpegTU2Ko4GKL74zgyGSwVO3eQa
+        b8IYFkBLG1M62+QxeEGR1kk=
+X-Google-Smtp-Source: APXvYqxNjelk8UuA5p+0R6FFQve85Va22YZnaVsDYbsKcbDvsVP02pGq0aCY6v8Q0G/y3TqkgdKYnQ==
+X-Received: by 2002:adf:8367:: with SMTP id 94mr17313992wrd.179.1559575730576;
+        Mon, 03 Jun 2019 08:28:50 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id z6sm3337251wrw.2.2019.06.03.05.12.28
+        by smtp.gmail.com with ESMTPSA id f197sm15425228wme.39.2019.06.03.08.28.49
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 03 Jun 2019 05:12:28 -0700 (PDT)
-Date:   Mon, 3 Jun 2019 14:12:27 +0200
+        Mon, 03 Jun 2019 08:28:49 -0700 (PDT)
+Date:   Mon, 3 Jun 2019 17:28:48 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
@@ -56,17 +56,18 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         linux-tegra@vger.kernel.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v3 1/2] gpio: Add support for hierarchical IRQ domains
-Message-ID: <20190603121227.GB30132@ulmo>
+Message-ID: <20190603152848.GA23747@ulmo>
 References: <20190529145322.20630-1-thierry.reding@gmail.com>
  <20190529145322.20630-2-thierry.reding@gmail.com>
  <CACRpkdb5vB6OwcAxtjsKLzHt9V27juEOEEDqqQczKT-3r+7X-g@mail.gmail.com>
  <20190603075324.GA27753@ulmo>
  <CACRpkda47EX981Dw=jLrU=PHn50+AQhJmpVRWJ9uJEQdcAsrTw@mail.gmail.com>
+ <20190603121227.GB30132@ulmo>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="JP+T4n/bALQSJXh8"
+        protocol="application/pgp-signature"; boundary="Q68bSM7Ycu6FN28Q"
 Content-Disposition: inline
-In-Reply-To: <CACRpkda47EX981Dw=jLrU=PHn50+AQhJmpVRWJ9uJEQdcAsrTw@mail.gmail.com>
+In-Reply-To: <20190603121227.GB30132@ulmo>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -74,64 +75,74 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---JP+T4n/bALQSJXh8
+--Q68bSM7Ycu6FN28Q
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 03, 2019 at 12:58:02PM +0200, Linus Walleij wrote:
-> On Mon, Jun 3, 2019 at 9:53 AM Thierry Reding <thierry.reding@gmail.com> =
-wrote:
-> > Me
+On Mon, Jun 03, 2019 at 02:12:27PM +0200, Thierry Reding wrote:
+> On Mon, Jun 03, 2019 at 12:58:02PM +0200, Linus Walleij wrote:
+> > On Mon, Jun 3, 2019 at 9:53 AM Thierry Reding <thierry.reding@gmail.com=
+> wrote:
+> > > Me
+> >=20
+> > > > Please drop this. The default .to_irq() should be good for everyone.
+> > > > Also patch 2/2 now contains a identical copy of the gpiolib
+> > > > .to_irq() which I suspect you indended to drop, actually.
+> > >
+> > > It's not actually identical to the gpiolib implementation. There's st=
+ill
+> > > the conversion to the non-linear DT representation for GPIO specifiers
+> > > from the linear GPIO number space, which is not taken care of by the
+> > > gpiolib variant. That's precisely the point why this patch makes it
+> > > possible to let the driver override things.
+> >=20
+> > OK something is off here, because the purpose of the irqdomain
+> > is exactly to translate between different number spaces, so it should
+> > not happen in the .to_irq() function at all.
+> >=20
+> > Irqdomain uses .map() in the old variant and .translate() in the
+> > hierarchical variant to do this, so something is skewed.
+> >=20
+> > All .to_irq() should ever do is just call the irqdomain to do the
+> > translation, no other logic (unless I am mistaken) so we should
+> > be able to keep the simple .to_irq() logic inside gpiolib.
 >=20
-> > > Please drop this. The default .to_irq() should be good for everyone.
-> > > Also patch 2/2 now contains a identical copy of the gpiolib
-> > > .to_irq() which I suspect you indended to drop, actually.
-> >
-> > It's not actually identical to the gpiolib implementation. There's still
-> > the conversion to the non-linear DT representation for GPIO specifiers
-> > from the linear GPIO number space, which is not taken care of by the
-> > gpiolib variant. That's precisely the point why this patch makes it
-> > possible to let the driver override things.
->=20
-> OK something is off here, because the purpose of the irqdomain
-> is exactly to translate between different number spaces, so it should
-> not happen in the .to_irq() function at all.
->=20
-> Irqdomain uses .map() in the old variant and .translate() in the
-> hierarchical variant to do this, so something is skewed.
->=20
-> All .to_irq() should ever do is just call the irqdomain to do the
-> translation, no other logic (unless I am mistaken) so we should
-> be able to keep the simple .to_irq() logic inside gpiolib.
+> Well, that's exactly the problem that I'm trying to solve. The problem
+> is that .translate() translates from the DT number space to the GPIO or
+> IRQ number space. However, since gpiochip_to_irq() now wants to call the
+> irq_create_fwspec_mapping() interface, it must convert from the offset
+> (in GPIO space) into the DT number space, which is what that function
+> expects.
 
-Well, that's exactly the problem that I'm trying to solve. The problem
-is that .translate() translates from the DT number space to the GPIO or
-IRQ number space. However, since gpiochip_to_irq() now wants to call the
-irq_create_fwspec_mapping() interface, it must convert from the offset
-(in GPIO space) into the DT number space, which is what that function
-expects.
+Hm... I wonder if we even need this irq_create_fwspec_mapping() there.
+Couldn't we just do an irq_create_mapping() since we already know which
+one of the GPIO IRQ controller's interrupts we want to create a mapping
+for? If we already convert to the GPIO number space in the .translate()
+then the offset already corresponds to the one that we need to map, no?
+
+I'll make a note to try that tomorrow.
 
 Thierry
 
---JP+T4n/bALQSJXh8
+--Q68bSM7Ycu6FN28Q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz1DqUACgkQ3SOs138+
-s6FVhA/+Ntg+Cx3rozwF01ZERFalnR9/BSEZVnaumyiI7sPBN7oUjVKDz2STSBx9
-afn5lhn/4zkPKoQSJxSOI/r2O7rTURcgI5oxk7tF2yqGeczzAK5vwIcT5G0nSJuT
-TkXRlJ9zfqtPyeB2Yx4GfCWSEH/Vr41qyvSkguXh/i9W6BvLa2P6bswPnlyAxfNT
-Koqvr3s1n8XTAe0I9LgMfOysi4z11rkFzFa+mlYUKZ3AEcugwmaq7YB+Vh/h/3tB
-kGujCh54G7A+pS4btTFMh838a87X1BsK1wmGYEl6IMGtvIgFgjLXH5OsqY6v7w27
-xsy9mSsJvjqkgs3g0ket7A98fJj2cCyPwizWcw7E928I2gsycFTme1eD15Lqc67g
-9bs5u4qYz3XmlQKwpfcJrclWOuf2t4oLz1oOmGSN23BgCaeN0LeC8bNwz3qRQike
-PF3OjFVuT2akYLqdwWulq7QuChpF+MM08gxyGrDzi5r6LeseHW1pCxkkx1232UdW
-zCkLy0sB2REYnGtehK1tPxQsFlgdvpcGkFT/OO8GUs8SlFTi6KMV05obpLyKM5Kr
-M2zy80BLHRqTt92WkFbDpDjJDjPSI5/TDIoLeyfygwHnyHYRQgcFK3Amd3ymEkO+
-I41b2VVXfoJKe+5jvXJaCOe5k4BfwEzhX9se78FozBsPLC7VnIw=
-=9g0c
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz1PKwACgkQ3SOs138+
+s6EvrxAAhvVOkUGVn6WQQ2jnZM1b0tya6pzAhUw11OYc7Ub6nc6yFaiQ8wE0pbcG
+cAApoHS1T00Yj8qHqUQHieIVRAEE0dpWheKOs4hNsWHu/SlYW0l19EbfYOFBqo+n
+iQje2Vtmc2/eYSwHmE1ggqbX2OO9MtvxQ7oyKCPxXzDlXOO0c7zEMKvHmZpEp4zy
+RBNCQAcqUR3JbUgMVd4qvxytWjxhJo/AscOJ2754Wvd7Ut6FpO0qIJsTCcOCMaua
+6le5HOOYVEgj0Wd/3CFJUrpQWlikVPRUHVCZECieBoruv2IcffHC/zxDlYpMTRdV
++9OLds+6TRf1R6AiIPiAm/tcRpG+D30RoR8AsruR+9GuVZoRQf21Pr+pTT4WhWRT
+NPYRVSxe+mAMXgCjoWcu5qWYkweMsCxUVFhGWyoe0tRlxV3t0BJf6Rd+69SgbMmd
+RTJtLY/3vGkNkI7iXFEJgH8iBr0mPLCBMG6SwcA7E3xopVqhzHU2lsSNUEG5x6nz
+z09tzO1Bsr2RNAz5j5mPxJPUdbcUwE3dHnRB4XG99vCBxsPoPNShHir/9ygUg2tM
+sFLPLcMvHJfNe/jukF+3C0jLVVs8ZYY4yDfJtltKDwhoBeiS1+T7hocMlsohM8VG
+Mmsv1050gE6pzqQKF4sxEhqNO8vuh4gbOyX8cYThMdtkBic2aFQ=
+=IpuP
 -----END PGP SIGNATURE-----
 
---JP+T4n/bALQSJXh8--
+--Q68bSM7Ycu6FN28Q--
