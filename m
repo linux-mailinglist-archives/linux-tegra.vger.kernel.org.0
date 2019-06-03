@@ -2,96 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1980E339FC
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 23:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3FFB33C2E
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 01:59:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbfFCVnR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Jun 2019 17:43:17 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:42330 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726141AbfFCVnR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 17:43:17 -0400
-Received: by mail-pg1-f196.google.com with SMTP id e6so7765411pgd.9
-        for <linux-tegra@vger.kernel.org>; Mon, 03 Jun 2019 14:43:17 -0700 (PDT)
+        id S1726294AbfFCX7r (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Jun 2019 19:59:47 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:38785 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726163AbfFCX7q (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 19:59:46 -0400
+Received: by mail-lj1-f195.google.com with SMTP id o13so17912721lji.5;
+        Mon, 03 Jun 2019 16:59:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=VW42IbBxqCmygzQCFpcjeZ/PAiP/LWUNMoAtneJfK2o=;
-        b=UADAZlD/U4M9EA2LgPMh0NCp9/idKYyxD+RCHyD+rCimp189pdksYDd1PMRUAMCjlU
-         ihQMXalred1RCZECuXHReDSJ2ZwVZh81D5d+ybstt6rXcZKYgz0h1qo4AipPnt0JHPoV
-         4BgiYGdZrKXeOmDCu2PDhkMkPdJEH6STm5foll0ExNTJ9+puHLNi5icPYiXvJF4SqE8+
-         trc/g0e6Nv3/AGNi9NV4ZkDhKI3i/tq3khW7V8iBwom65HmpSGFrpz9kQ6N24W41aPqz
-         O4drF3OIPLcEL1b3MNoIV/cKBAQZN49cCOmiXtti2OYlcQBJ6AbnEz2Khs5odxgqU18m
-         RSbg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iLI33PWY4RayWc4+RDodbHUftFLrLjYjOlOE4x7nHGA=;
+        b=Wq61tK1UIJMjPwtuP+c98memmM8swNGb9jNmWOhXSU+4lYcj3+Em7QOGXwJr1HTdkk
+         URnQNWNCLJSIySBJE7ebjSarvuZlFuYone8LKn7IBChh84tJNZVDZlWF3vVvAMT/yoHb
+         vaGa2yqE1VIX0fE+DGge5OqeeKIs1hAF2/GUFG6D+AVMnlvJAZw6eJkIDL/DfNHi4lt0
+         5OA8s4rc9eE7A7sZo0KRaDEmYTd5MXvo0VXfiQxa0aUKaOXqRnDDg3hsqnDZLkcYWugP
+         Zkyb19bMel+JNmB+LkptWtkbNePUCdVj0mXqgiqFKRTmy8CEgPmRPsHhPX5lW2AUxxJt
+         LA4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VW42IbBxqCmygzQCFpcjeZ/PAiP/LWUNMoAtneJfK2o=;
-        b=TYxPVja5J1HrL5KcvFNlf2EaDdrGZyfCBKinZYKN3sP736QvDAAjYMxRPoqJ+NE9FC
-         8XzSKMzcP+nCZNib0DbQs35+kjlMg4QtjGW1ISlrGZC2SEW6Hu/SGz4Yonyec9B78Kjz
-         QIUjE3Zl//N6kau4elWETq0BbiccPs4ABIyyfsN4QF3Pq/zdDf8VHwwpsLtTOnpY+MY4
-         otYSid8vAdF7JoA//PwFndPDmeZZUdxF3bgsaCTSN17+0+cTtJxWqfsy3OIIkIBsCNJk
-         /DTlYOvIpX7vOkMS9yJMdXdh+3q7MEsyLWw9jqsFNijgc/aEivXf/D/s364QAPKwibmy
-         gqGA==
-X-Gm-Message-State: APjAAAVpSHF05x1n5eZew+yjrCNaGLzni+VIE9EB0FAi1kkSO6Ade0WD
-        acV2KG7ZD7S1a+BM+eGthjioUHO8Z/E=
-X-Google-Smtp-Source: APXvYqyWT1CJYwKeIjOmJnZ9a08Bvsxu6peLGr1qXHSuhy5ICDJNIjDxSz5L6+ZduK/bzCREbYvnig==
-X-Received: by 2002:a62:5801:: with SMTP id m1mr34555449pfb.32.1559596667303;
-        Mon, 03 Jun 2019 14:17:47 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id 132sm3227541pfz.83.2019.06.03.14.17.46
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 03 Jun 2019 14:17:46 -0700 (PDT)
-Date:   Mon, 3 Jun 2019 14:17:46 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     treding@nvidia.com
-Cc:     catalin.marinas@arm.com, will.deacon@arm.com,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] arm64: defconfig: Add HWMON INA3221 support
-Message-ID: <20190603211745.GA21855@Asurada-Nvidia.nvidia.com>
-References: <20190424181010.28950-1-nicoleotsuka@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iLI33PWY4RayWc4+RDodbHUftFLrLjYjOlOE4x7nHGA=;
+        b=XnrkZoCzap6tshP7XD8fLB3KdBpawgaBVCuX2Olxg+crHWumePjhz+A7KH7dZ/Rk30
+         p7adUcy7hgnNmkMCIVxLHBGax/WDcbqEma2evQfrAiB4eh4KUogQKiYkFsOup6GpJKwA
+         cxTPDJaNArdEMq6lu2BTIclPMLWCS2l+qDLhI8Sd3efvjDovks4hGOSu+BewGEaRkRKK
+         E7bwbZxxca7bXaYubRGpxpcg8Ru0kHh5FZO3waAXSSTuVE2N3Dgp8OKAfTFypS9N9Mee
+         0QAlTdQyjvzywpOs7ed3eEP/OsrmBuYSEblaC+yNOFiRI6SU0LHb0P/FG65xIM0hAPfQ
+         CWvQ==
+X-Gm-Message-State: APjAAAUrxy7dB1OrPNIIzNM39s5g94JNw4i5DvrhEtPaDK2wGGee6VAM
+        WDp3eJCf3Z2Vuz5ufVk24kQ=
+X-Google-Smtp-Source: APXvYqwBYDxdQDZQkSjquZc65ex4DkOMb/zSC9BckjTcjMAqmug2OlzDBADeydRy7AKhvMgxqXbNJA==
+X-Received: by 2002:a2e:b04c:: with SMTP id d12mr179877ljl.218.1559606383862;
+        Mon, 03 Jun 2019 16:59:43 -0700 (PDT)
+Received: from localhost.localdomain ([94.29.35.141])
+        by smtp.gmail.com with ESMTPSA id n7sm2943151lfi.68.2019.06.03.16.59.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Jun 2019 16:59:42 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/8] Introduce customized regulators coupling
+Date:   Tue,  4 Jun 2019 02:58:56 +0300
+Message-Id: <20190603235904.19097-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190424181010.28950-1-nicoleotsuka@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Apr 24, 2019 at 11:10:10AM -0700, Nicolin Chen wrote:
-> Tegra186 board under arm64 is using this device, according to
-> its dts file. So this patch enables its driver with a "=m" as
-> the other HWMON drivers.
-> 
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+Hello,
 
-Sorry to ping this patch. But I am wondering if I sent it wrong
--- had been missing some other reviewers or maillists. May some
-one kindly remind me?
+This series introduces a way of specifying a customized regulators coupler
+which is necessary for cases like a non-trivial DVFS implementation. For
+now I'm primarily targeting the CPUFreq driver of NVIDIA Tegra20 and Tegra30
+SoC's to get into a better shape, such that things like CPU voltage scaling
+could be supported. Both these SoC's have voltage-coupled regulators, one of
+the coupled regulators powers CPU and other(s) power SoC peripherals. CPU and
+each of the SoC's peripherals have it's own demand for a minimal voltage
+(which basically depends on the clock rate), hence regulators voltage shall
+not get lower than the minimum value required by one of peripherals (or CPU).
+Right now none of peripheral drivers support voltage scaling in the upstream
+kernel and voltages are statically specified in board device-trees via
+minimum voltage values of the regulators. In order to implement a full-featured
+DVFS, all drivers should gain support for voltage scaling and then there should
+be some solution for having disabled drivers and hardware that is left in
+enabled state by bootloader. That is not an easy problem to solve, so I'm
+trying to start easy by getting some basics to work at first.
 
-Thank you
-Nicolin
+NVIDIA Tegra20 SoC's have a quite straight-forward voltage coupling between 3
+regulators and the customized coupler is needed to address the missing
+support of a full-featured system-wide DVFS, support for coupling of more than
+2 regulators and support for a "min-spread" voltage. Probably it should be
+possible to switch to a generic coupler later on, but for now it will be
+much easier to start with a custom coupler that has all necessary features
+in a simplified form.
 
-> ---
->  arch/arm64/configs/defconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index 04cc2a2adc39..00043e706399 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -424,6 +424,7 @@ CONFIG_SENSORS_LM90=m
->  CONFIG_SENSORS_PWM_FAN=m
->  CONFIG_SENSORS_RASPBERRYPI_HWMON=m
->  CONFIG_SENSORS_INA2XX=m
-> +CONFIG_SENSORS_INA3221=m
->  CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
->  CONFIG_CPU_THERMAL=y
->  CONFIG_THERMAL_EMULATION=y
-> -- 
-> 2.17.1
-> 
+NVIDIA Tegra30 SoC's have a bit more complicated coupling rules due to
+variable dependency between the regulators (min-spread value depends on
+a voltage of one of the coupled regulators).
+
+This series has been tested on multiple devices by different people without
+any known issues. CPUFreq voltage scaling works perfectly well with it and
+voltage of peripherals is maintained at a good level. In a result thermal
+sensors show that SoC package is a less warm by few degrees during of CPU
+idling.
+
+Changelog:
+
+v2: The coupler's registration is now done in a more generic fashion and
+    allow multiple couplers to be registered in a system.
+
+    Added device-tree binding document for NVIDIA Tegra20/30 SoC's that
+    describes hardware specifics of these SoC's in regards to regulators
+    voltage coupling. In a result coupled regulators that are dedicated to
+    SoC could be distinguished from each other, which in turns is also useful
+    for the customized couplers implementation.
+
+    The customized couplers got some more polish and now have a bit more
+    stricter checkings for coupling rules violation.
+
+The initial v1 of this series could be found here:
+
+	https://lore.kernel.org/patchwork/project/lkml/list/?series=390439
+
+This series, along with CPUFreq and other "in-progress" patches, could be
+found here:
+
+	https://github.com/grate-driver/linux/commits/master
+
+Dmitry Osipenko (8):
+  regulator: core: Introduce API for regulators coupling customization
+  regulator: core: Parse max-spread value per regulator couple
+  regulator: core: Expose some of core functions
+  regulator: core Bump MAX_COUPLED to 3
+  dt-bindings: regulator: Document regulators coupling of NVIDIA
+    Tegra20/30 SoC's
+  regulator: core: Don't attach generic coupler to Tegra SoC regulators
+  soc/tegra: regulators: Add regulators coupler for Tegra20
+  soc/tegra: regulators: Add regulators coupler for Tegra30
+
+ .../nvidia,tegra-regulators-coupling.txt      |  65 ++++
+ drivers/regulator/core.c                      | 143 +++++--
+ drivers/regulator/of_regulator.c              |  49 ++-
+ drivers/soc/tegra/Kconfig                     |  12 +
+ drivers/soc/tegra/Makefile                    |   2 +
+ drivers/soc/tegra/regulators-tegra20.c        | 348 ++++++++++++++++++
+ drivers/soc/tegra/regulators-tegra30.c        | 300 +++++++++++++++
+ include/linux/regulator/driver.h              |  46 ++-
+ include/linux/regulator/machine.h             |   3 +-
+ 9 files changed, 916 insertions(+), 52 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/regulator/nvidia,tegra-regulators-coupling.txt
+ create mode 100644 drivers/soc/tegra/regulators-tegra20.c
+ create mode 100644 drivers/soc/tegra/regulators-tegra30.c
+
+-- 
+2.21.0
+
