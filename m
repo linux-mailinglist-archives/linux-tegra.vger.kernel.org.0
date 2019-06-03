@@ -2,91 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72EFA3393E
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 21:48:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1980E339FC
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 23:43:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726301AbfFCTsD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Jun 2019 15:48:03 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:8114 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726033AbfFCTsD (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 15:48:03 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cf579710000>; Mon, 03 Jun 2019 12:48:01 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 03 Jun 2019 12:48:02 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 03 Jun 2019 12:48:02 -0700
-Received: from [10.26.11.157] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 3 Jun
- 2019 19:47:59 +0000
-Subject: Re: [PATCH 07/26] iommu/dma: move the arm64 wrappers to common code
-To:     Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
-CC:     Joerg Roedel <joro@8bytes.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        <iommu@lists.linux-foundation.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190422175942.18788-1-hch@lst.de>
- <20190422175942.18788-8-hch@lst.de>
- <06b331f0-7df7-a6cd-954c-789f89a0836d@arm.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <acb46c7f-0855-de30-485f-a6242968f947@nvidia.com>
-Date:   Mon, 3 Jun 2019 20:47:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726303AbfFCVnR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Jun 2019 17:43:17 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:42330 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726141AbfFCVnR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 17:43:17 -0400
+Received: by mail-pg1-f196.google.com with SMTP id e6so7765411pgd.9
+        for <linux-tegra@vger.kernel.org>; Mon, 03 Jun 2019 14:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VW42IbBxqCmygzQCFpcjeZ/PAiP/LWUNMoAtneJfK2o=;
+        b=UADAZlD/U4M9EA2LgPMh0NCp9/idKYyxD+RCHyD+rCimp189pdksYDd1PMRUAMCjlU
+         ihQMXalred1RCZECuXHReDSJ2ZwVZh81D5d+ybstt6rXcZKYgz0h1qo4AipPnt0JHPoV
+         4BgiYGdZrKXeOmDCu2PDhkMkPdJEH6STm5foll0ExNTJ9+puHLNi5icPYiXvJF4SqE8+
+         trc/g0e6Nv3/AGNi9NV4ZkDhKI3i/tq3khW7V8iBwom65HmpSGFrpz9kQ6N24W41aPqz
+         O4drF3OIPLcEL1b3MNoIV/cKBAQZN49cCOmiXtti2OYlcQBJ6AbnEz2Khs5odxgqU18m
+         RSbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VW42IbBxqCmygzQCFpcjeZ/PAiP/LWUNMoAtneJfK2o=;
+        b=TYxPVja5J1HrL5KcvFNlf2EaDdrGZyfCBKinZYKN3sP736QvDAAjYMxRPoqJ+NE9FC
+         8XzSKMzcP+nCZNib0DbQs35+kjlMg4QtjGW1ISlrGZC2SEW6Hu/SGz4Yonyec9B78Kjz
+         QIUjE3Zl//N6kau4elWETq0BbiccPs4ABIyyfsN4QF3Pq/zdDf8VHwwpsLtTOnpY+MY4
+         otYSid8vAdF7JoA//PwFndPDmeZZUdxF3bgsaCTSN17+0+cTtJxWqfsy3OIIkIBsCNJk
+         /DTlYOvIpX7vOkMS9yJMdXdh+3q7MEsyLWw9jqsFNijgc/aEivXf/D/s364QAPKwibmy
+         gqGA==
+X-Gm-Message-State: APjAAAVpSHF05x1n5eZew+yjrCNaGLzni+VIE9EB0FAi1kkSO6Ade0WD
+        acV2KG7ZD7S1a+BM+eGthjioUHO8Z/E=
+X-Google-Smtp-Source: APXvYqyWT1CJYwKeIjOmJnZ9a08Bvsxu6peLGr1qXHSuhy5ICDJNIjDxSz5L6+ZduK/bzCREbYvnig==
+X-Received: by 2002:a62:5801:: with SMTP id m1mr34555449pfb.32.1559596667303;
+        Mon, 03 Jun 2019 14:17:47 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id 132sm3227541pfz.83.2019.06.03.14.17.46
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 03 Jun 2019 14:17:46 -0700 (PDT)
+Date:   Mon, 3 Jun 2019 14:17:46 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     treding@nvidia.com
+Cc:     catalin.marinas@arm.com, will.deacon@arm.com,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] arm64: defconfig: Add HWMON INA3221 support
+Message-ID: <20190603211745.GA21855@Asurada-Nvidia.nvidia.com>
+References: <20190424181010.28950-1-nicoleotsuka@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <06b331f0-7df7-a6cd-954c-789f89a0836d@arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559591281; bh=RMxapgyeEuOTQ8bInOu5Fbjyth09Qz8mwr+ogzgFnH8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=mVkn8qHn4oghIo8cKZJkJcmq0wsglM5sp4kJ+xEF9zxvkcO3EetQgf2WDxh88dKjl
-         WU1kgDYR/RidtsSNfnah+urlkR+Aos1fbomRJh6Mppj0JQQvyIivYS5V6fRQJohR0L
-         3BANrGnTtJhH+HsC14T2ZHd6w6ZJtQMfzzOPCu3UOfCCJvUHBxlBeVRcxyTcmiFwqk
-         JUR6R9NsmkaIo7NwILxJWuVb0kwVn28ZNBRL28dX8Tmsmorji8+p9XEtvX/entSiKW
-         QlKhjgG5mx2vvbBDIHNrTzsMbbV5vRMD3GixETL4yf3Ev9Z+ZL6g8+QFpf4nVKcf9X
-         S9Y166LHlYo4Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190424181010.28950-1-nicoleotsuka@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Wed, Apr 24, 2019 at 11:10:10AM -0700, Nicolin Chen wrote:
+> Tegra186 board under arm64 is using this device, according to
+> its dts file. So this patch enables its driver with a "=m" as
+> the other HWMON drivers.
+> 
+> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
 
-On 29/04/2019 13:56, Robin Murphy wrote:
-> On 22/04/2019 18:59, Christoph Hellwig wrote:
->> There is nothing really arm64 specific in the iommu_dma_ops
->> implementation, so move it to dma-iommu.c and keep a lot of symbols
->> self-contained.=C2=A0 Note the implementation does depend on the
->> DMA_DIRECT_REMAP infrastructure for now, so we'll have to make the
->> DMA_IOMMU support depend on it, but this will be relaxed soon.
->=20
-> Nothing looks objectionable, and boot testing with this much of the
-> series merged has my coherent and non-coherent IOMMU-backed devices
-> appearing to still work OK, so:
->=20
-> Acked-by: Robin Murphy <robin.murphy@arm.com>
+Sorry to ping this patch. But I am wondering if I sent it wrong
+-- had been missing some other reviewers or maillists. May some
+one kindly remind me?
 
-Since next-20190529 one of our tests for MMC has started failing, where
-the symptom is that the data written to the MMC does not match the
-source. Bisecting this is pointing to this commit. Unfortunately, I am
-not able to cleanly revert this on top of -next, but wanted to report
-this if case you have any ideas.
+Thank you
+Nicolin
 
-Cheers
-Jon
-
---=20
-nvpublic
+> ---
+>  arch/arm64/configs/defconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index 04cc2a2adc39..00043e706399 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -424,6 +424,7 @@ CONFIG_SENSORS_LM90=m
+>  CONFIG_SENSORS_PWM_FAN=m
+>  CONFIG_SENSORS_RASPBERRYPI_HWMON=m
+>  CONFIG_SENSORS_INA2XX=m
+> +CONFIG_SENSORS_INA3221=m
+>  CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
+>  CONFIG_CPU_THERMAL=y
+>  CONFIG_THERMAL_EMULATION=y
+> -- 
+> 2.17.1
+> 
