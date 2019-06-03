@@ -2,97 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E16BB3382E
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 20:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A48D8338BF
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Jun 2019 21:04:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726721AbfFCSeP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Jun 2019 14:34:15 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:4380 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726715AbfFCSeO (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 14:34:14 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cf568240001>; Mon, 03 Jun 2019 11:34:12 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 03 Jun 2019 11:34:13 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 03 Jun 2019 11:34:13 -0700
-Received: from [10.26.11.157] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 3 Jun
- 2019 18:34:11 +0000
-Subject: Re: [PATCH 5.1 00/40] 5.1.7-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190603090522.617635820@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <75303365-74d0-de3c-2f54-5cff3469d8a0@nvidia.com>
-Date:   Mon, 3 Jun 2019 19:34:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726211AbfFCTEJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Jun 2019 15:04:09 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:37346 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726136AbfFCTEI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 15:04:08 -0400
+Received: by mail-lj1-f194.google.com with SMTP id 131so4743910ljf.4;
+        Mon, 03 Jun 2019 12:04:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t7rhVtFUtXBw/lf8LHeh6OAS84syCgQdznpIyj0FjEk=;
+        b=H1Iu0YTWpc8i3DtuIS9EgzwQYZDE5z1R7rkVf6O/Et2ksvY2hmjSeQfH+ZE45JpJM5
+         nArP6LHiXMKP5eGq9a2zwuJ1e5JcnFoLf3teQRgHI12Nxsi2tQ88FQt5nm3YOQ35mI9x
+         U+CkXEqeXuDRv+sHZenbWnN0x/iFCP/1XpzqxU5pRrz61Zbjrk0pA3vtwG/OdO47S+aT
+         7RDpiVGb9BZNfWdTEfIL8U2l2JtNTzfOJ0L7T6WNFLfH/tNQgv6S2Zmgxle0GmFKdVcz
+         9DJ7TMYxyWTGiD77SKMZhELuwq1Gj5VSaUgRJLjIT0DDm7WVgSrgckHvcEcGqHYv9itM
+         +zJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t7rhVtFUtXBw/lf8LHeh6OAS84syCgQdznpIyj0FjEk=;
+        b=PGYcAUNeKwgrkfLQW5a0KGZFD7BoQLja8oXx3OGdHIXKE9dEtueF9wCbToDo26niGB
+         hdqtpLhG96/UPdEZEbf9QcL09ANpWA7FwZW3NKDOixBU5hvL02tU6CXxSNEGB8uKzpPN
+         sQvz/f46xVgfj1uX6dFmoquLfg4eR3xHtj8Ud0xs2ASfPlPTdqhtNo2AX2OK/Hk1KyXZ
+         3pF9eJX8FTAoS/5jHDTBaWoGNdv31PXi60wTgiNnX6vDYqce1wKs29qzOA3F326ORO1R
+         hQE7FPDauULLJHpXxhyvKckVU4wjvaO2OwnSAcYkie5obtbcMQhZcvuEO3s+caq8hb7E
+         S6ag==
+X-Gm-Message-State: APjAAAXrJ0VsweiHWFtJ4x8pJMva4bdBJSo6JlkGL4nPl1Itbtb8t7J+
+        Mrv9IBpgxZxMNz8fOpqLzRs=
+X-Google-Smtp-Source: APXvYqwMxFjSOlkMO2M/hnaHAJhz6XFwDjeLkN0Li6GoRXRKvAd4FxkNfCSV0jF+yMF9tTycCD1wbQ==
+X-Received: by 2002:a2e:8197:: with SMTP id e23mr15054298ljg.28.1559588646774;
+        Mon, 03 Jun 2019 12:04:06 -0700 (PDT)
+Received: from localhost.localdomain ([94.29.35.141])
+        by smtp.gmail.com with ESMTPSA id l22sm2768805ljb.39.2019.06.03.12.04.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Jun 2019 12:04:05 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/10] NVIDIA Tegra clocksource driver improvements
+Date:   Mon,  3 Jun 2019 21:59:38 +0300
+Message-Id: <20190603185948.30438-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190603090522.617635820@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559586852; bh=yT2aKoUSjC1S496mvwRzbK4hBYRD0SeSWYW01CRMMn0=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ekYMgx6mGLFm7AY85sJOnEg8rkEFkTjF0zSjRh0/I74CMliENYS9kSyqDWVePeEMT
-         Z+m/pJjgMA1F+Y8WsYCWcItO4BgfppNFk4yjQ0HK6cGE4wA1KT13FGZ+ZLQY1T0Ryu
-         5InpQ74kl0H7mt3/uN3K7SYQ3dpTZ630HPcjkj6YAZRjozY4mR5kgdu9hT8toINNE0
-         Oi0bShbUWl5zeqd+9ow2IqjjuUAcYUh7/Kez6nixY7g0In0XwX+SnfvptdxjXAgfoj
-         nbgoRlqr+jecbEjZ6mOl46o9rq/vyx5+peonsbroAV0ILXktibBpDPENd5Mfd0MsSM
-         h9L8SiiAor/VQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hello,
 
-On 03/06/2019 10:08, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.1.7 release.
-> There are 40 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Wed 05 Jun 2019 09:04:46 AM UTC.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.7-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+This series primarily unifies the driver code across all Tegra SoC
+generations. In a result the clocksources are allocated per-CPU on
+older Tegra's and have a higher rating than the arch-timer where
+appropriate, the newer Tegra210 is getting support for microsecond
+clocksource and the driver's code is getting much cleaner.
 
-All tests are passing for Tegra ...
+The series was extensively tested on Tegra20 and Tegra30.
 
-Test results for stable-v5.1:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    32 tests:	32 pass, 0 fail
+Changelog:
 
-Linux version:	5.1.7-rc1-ge674455
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
+v4: In the comment to v3 Peter De Schrijver pointed out that arch-timer
+    isn't affected by DVFS changes and thus it is preferred over tegra-timer
+    on [T114, T210). Added new patch to address that: "Lower clocksource
+    rating for some Tegra's".
 
-Cheers
-Jon
+    Daniel Lezcano suggested that it will be worthwhile to rename driver's
+    source file as driver now covers more SoC generations than it initially
+    did. Hence the new "Rename timer-tegra20.c to timer-tegra.c" patch.
+
+v3: Fixed compilation on ARM64. Turned out that it doesn't have the
+    delay-timer, thanks to Nicolas Chauvet for the report.
+
+    Added new "Support COMPILE_TEST universally" patch for better
+    compile-test coverage.
+
+v2: Rebased on recent linux-next. Now all of #ifdef's are removed from the
+    code due to the recent patch that generalized persistent clocksource.
+
+    Couple other minor cosmetic changes.
+
+Dmitry Osipenko (10):
+  clocksource/drivers/tegra: Support per-CPU timers on all Tegra's
+  clocksource/drivers/tegra: Unify timer code
+  clocksource/drivers/tegra: Reset hardware state on init
+  clocksource/drivers/tegra: Replace readl/writel with relaxed versions
+  clocksource/drivers/tegra: Release all IRQ's on request_irq() error
+  clocksource/drivers/tegra: Minor code clean up
+  clocksource/drivers/tegra: Use SPDX identifier
+  clocksource/drivers/tegra: Support COMPILE_TEST universally
+  clocksource/drivers/tegra: Lower clocksource rating for some Tegra's
+  clocksource/drivers/tegra: Rename timer-tegra20.c to timer-tegra.c
+
+ drivers/clocksource/Kconfig                   |   2 +-
+ drivers/clocksource/Makefile                  |   2 +-
+ .../{timer-tegra20.c => timer-tegra.c}        | 296 +++++++++---------
+ 3 files changed, 148 insertions(+), 152 deletions(-)
+ rename drivers/clocksource/{timer-tegra20.c => timer-tegra.c} (54%)
 
 -- 
-nvpublic
+2.21.0
+
