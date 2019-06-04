@@ -2,93 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D16F34583
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 13:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C4523466A
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 14:19:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727248AbfFDLfN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Jun 2019 07:35:13 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:15548 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727239AbfFDLfM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jun 2019 07:35:12 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cf6576e0000>; Tue, 04 Jun 2019 04:35:10 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 04 Jun 2019 04:35:11 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 04 Jun 2019 04:35:11 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Jun
- 2019 11:35:11 +0000
-Received: from [10.26.11.158] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Jun 2019
- 11:35:08 +0000
-Subject: Re: [PATCH 07/26] iommu/dma: move the arm64 wrappers to common code
-To:     Christoph Hellwig <hch@lst.de>
-CC:     Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        <iommu@lists.linux-foundation.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190422175942.18788-1-hch@lst.de>
- <20190422175942.18788-8-hch@lst.de>
- <06b331f0-7df7-a6cd-954c-789f89a0836d@arm.com>
- <acb46c7f-0855-de30-485f-a6242968f947@nvidia.com>
- <20190604060554.GA14536@lst.de>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <5e119919-bbfd-14a4-0258-93e8249d11c4@nvidia.com>
-Date:   Tue, 4 Jun 2019 12:35:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1727409AbfFDMTZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Jun 2019 08:19:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50728 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727377AbfFDMTY (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 4 Jun 2019 08:19:24 -0400
+Received: from localhost (unknown [117.99.94.117])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8EC95247F9;
+        Tue,  4 Jun 2019 12:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559650764;
+        bh=5mDhuWW9AhtrNyi3+kKWCarCqtJksnkX7XioSL9hjMQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vHCMyNsNztRQezlvHEmUk9aqrMCdYbMy0Mdyfos6pISt0WgXVGPcBTDQqAEruEflY
+         BsWnL1h5qIH90UBz4tpmenjYSZYYgFGgYl+y4rxhPf1geZsPdf6rX2Ld0JToHN7uvP
+         FaK2332k1zX7wk9PeLuoCWFNj79Ebqi+LQ1OZNeU=
+Date:   Tue, 4 Jun 2019 17:46:16 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] dmaengine: tegra-apb: Error out if DMA_PREP_INTERRUPT
+ flag is unset
+Message-ID: <20190604121616.GX15118@vkoul-mobl>
+References: <20190529214355.15339-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190604060554.GA14536@lst.de>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559648110; bh=VdqCX9RhIKbSosQO8ZrtJXPmMRZiVMAZh+LN9yQt9Zk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=emCZJ7it6lQS53IGu3TzNnekDYJaA//l1h7EaXgGok72LlXH4v9jhBAOGQz59yBV4
-         uYLIm9wA8pSFenLXo9wX7QKjEjv1kcJRtovDerKh6hs3he51kpHfqrKB19qfA8gG2N
-         Y37awIOpATCkodK1yiiLnWKsYxhHzIPMofESI5qT+J2Pu+7R+6uDdYfIRE3tHij3LC
-         wuYTsm1vWBrKeeJ3WgBQkWNLGs1mOxBO/NnkHfhYBVTqVNVhwNh3Eg49AVRVUD9SIR
-         Uzr4wK1ElNJox0xa4xVXPelS4UcglZJJ7ebbiM61sRgdQ84RBEMjJqexYIaLMth4JY
-         Lh71EqBvSMgrw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190529214355.15339-1-digetx@gmail.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 04/06/2019 07:05, Christoph Hellwig wrote:
-> On Mon, Jun 03, 2019 at 08:47:57PM +0100, Jon Hunter wrote:
->> Since next-20190529 one of our tests for MMC has started failing, where
->> the symptom is that the data written to the MMC does not match the
->> source. Bisecting this is pointing to this commit. Unfortunately, I am
->> not able to cleanly revert this on top of -next, but wanted to report
->> this if case you have any ideas.
+On 30-05-19, 00:43, Dmitry Osipenko wrote:
+> Apparently driver was never tested with DMA_PREP_INTERRUPT flag being
+> unset since it completely disables interrupt handling instead of skipping
+> the callbacks invocations, hence putting channel into unusable state.
 > 
-> Does this fix your problem?
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git/commit/?h=generic-dma-ops&id=1b961423158caaae49d3900b7c9c37477bbfa9b3
+> The flag is always set by all of kernel drivers that use APB DMA, so let's
+> error out in otherwise case for consistency. It won't be difficult to
+> support that case properly if ever will be needed.
 
-Yes I can confirm with this patch on today's -next the issue is no
-longer seen, and reverting this patch on top of today's -next causes the
-problem to occur again. So yes this fixes my problem.
-
-Thanks!
-Jon
+Applied, thanks
 
 -- 
-nvpublic
+~Vinod
