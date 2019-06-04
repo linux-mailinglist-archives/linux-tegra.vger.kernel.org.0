@@ -2,120 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB1BF34C9B
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 17:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B841F34CD5
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 18:07:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728127AbfFDPvs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Jun 2019 11:51:48 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35341 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728041AbfFDPvs (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jun 2019 11:51:48 -0400
-Received: by mail-wm1-f68.google.com with SMTP id c6so617762wml.0
-        for <linux-tegra@vger.kernel.org>; Tue, 04 Jun 2019 08:51:46 -0700 (PDT)
+        id S1728228AbfFDQHu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Jun 2019 12:07:50 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:34713 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727422AbfFDQHt (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jun 2019 12:07:49 -0400
+Received: by mail-lj1-f194.google.com with SMTP id j24so20279179ljg.1
+        for <linux-tegra@vger.kernel.org>; Tue, 04 Jun 2019 09:07:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Z+OhEzHhvUeJebIEatFExcxGd1KsR5MutbeuVcAmdiM=;
-        b=IZoG5iQfhwH3WPZ7yI+hJljmBqEI9xfgXEgkUxl7gTycgWFGden7jqMKmTnTQvh+u2
-         yMHOBvLA3h8oxxpysF/UgPQrSmeRxjSvx92v/YzblfFF4jRFuyXJHzWATLk/jsv5+O86
-         bg4pNSi0dbnzBb070ToI5yPLMbPr4tMH25bK24rnfsfCLA5c7RxSSgq7n0WbXHVziroz
-         WlQKYvRbvKpLvYjznY9TJsVjmwIJEdHMRhh5hY10oaM2+YSdXMvGsgkwJpjQc8N2JVXv
-         WpNhN+W3C5O+JjEjhoumaTjIB9W7BNEjercK1MWRCXUW7m1uWOiTpP1AK268hRL2IK1b
-         /hfw==
+        h=subject:to:cc:newsgroups:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=VF44+WYtB7En5GNeSO4eswVwBmaeX+wh57RI5M6cz6Q=;
+        b=oFyRJLfRytrvPMZvCzvn5QO5LhmHtFBiaeLWsle1aw2B6kGF6xMd3QZ1LVBbl4hhkT
+         9THLoZAIBA6txtQADsyeRz9W9yBg2fD40v5l8wfI0WXJhOpXjxBEIL0NpUWJIXI38y8G
+         dD8TmR3OWNWUdrTk3SzmA6QES8VnpF7SSjaWqSnAe40aXyohMpdAn5Js35DXcecn2BVz
+         NWsLzrYfA57kf2C/QLXBOyte42eJPbrtIAM2FWVN0WAwGXqFyj2OfaPkSkB2MQl4Lgac
+         EfspCYV0Lp1hjBWoPXclHwqOGJNY90nYNu2UQcb51M+m/uv4OBiyFRInrtO0kuW6ZkNm
+         KiQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Z+OhEzHhvUeJebIEatFExcxGd1KsR5MutbeuVcAmdiM=;
-        b=TkcuzNh8BHRODcjXcT8moryGSLmVho4/yXzq25KR2NV1yvKHAa0PX1ngw1cKEHP1hQ
-         YHCbl2ZgsM9Xy2oOTGAAMIIPHSPM2XLP+RomEIkVlMMOC/hbQ6+Ixzgqte1V9HPS2mVx
-         8+BBYrrAopf7OFhLuGHN3oDOK9nCNAABI7LrvgNbJS+o6q/3p3cBgAL35Nzw7DLOfoku
-         QbxAL9nvdFpRm3EEVtqFO4rRJ7l/XlUhC+Ts/gvH6ZMsnl5JfEAMSDd25i++VAgJn/ZO
-         D33lxXlxJ0FFjrjUEP6l8tVZoDxPg3bFttW+HxJ1/rleFLys9lXNXJfCw78f6+YFmrdm
-         uRrA==
-X-Gm-Message-State: APjAAAVo5+AFB0TRMwFYSVbeAjeeN8HvXfiGZqnXHBGJZW1/KOMOB0L7
-        QlFA8Myuto2IcSt7GJesX5E=
-X-Google-Smtp-Source: APXvYqzipgasfebfDR/ejdqGH7KrYRMV/DH+W6zwO2QcBQ3VZMp4cnJ2vJlkoz7iUX8LbNQ0GZifUg==
-X-Received: by 2002:a1c:a848:: with SMTP id r69mr17095918wme.12.1559663506048;
-        Tue, 04 Jun 2019 08:51:46 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id d18sm3512155wrn.26.2019.06.04.08.51.45
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 04 Jun 2019 08:51:45 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
+        h=x-gm-message-state:subject:to:cc:newsgroups:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=VF44+WYtB7En5GNeSO4eswVwBmaeX+wh57RI5M6cz6Q=;
+        b=HXfSPtyZcFaraqvA+KHB23KbvmTKNx0g5CMwKbM4eHIy+tN/7cjdlpxyZ8yb4u+dR8
+         QviZiTKHy22twRIXAy7LBN/hfdpsKHc4/LH9Qrl+WmOIPzTpRS4GEGqdl60UOFyaom7R
+         iYwY8SUAUmuxfaKiyyiWx8zfVSu/CNpgW5EJ/m+Z8qXqioQ8FVxCuHbqzV0MRRfLrx9h
+         y9JVWPFHSU2pOuQbOnb53Ja38Z5MpqIh2NLpKDZbZXZb9crKPa3jLxFy8vULIv1vy8J8
+         3pMvYSIMMtkHCdprVIkQIiwMweb4VsA6FkrD4fH79zNh955z/RuxSv2fl/N6PtwUTwRb
+         pNyw==
+X-Gm-Message-State: APjAAAX8fk5AixgRGLRIw7s703Yxr9910mBOWcVwD9GQQBSiesbg/FXY
+        0Vt2njdxRvl4YXiSTYqBrHo=
+X-Google-Smtp-Source: APXvYqwcyYVSud5I4XEFwrZTha4GIe0mgcmUTecv6gTyyubTSfmBVu9KFIFcykfctoSbMo5peq3r+w==
+X-Received: by 2002:a2e:9bc5:: with SMTP id w5mr17814995ljj.87.1559664467688;
+        Tue, 04 Jun 2019 09:07:47 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.35.141])
+        by smtp.googlemail.com with ESMTPSA id u13sm3812882lfi.4.2019.06.04.09.07.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 04 Jun 2019 09:07:46 -0700 (PDT)
+Subject: Re: [PATCH] gpu: host1x: Do not output error message for deferred
+ probe
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 3/3] soc/tegra: pmc: Add comments clarifying wake events
-Date:   Tue,  4 Jun 2019 17:51:35 +0200
-Message-Id: <20190604155135.25390-3-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190604155135.25390-1-thierry.reding@gmail.com>
-References: <20190604155135.25390-1-thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Newsgroups: gmane.comp.video.dri.devel,gmane.linux.ports.tegra
+References: <20190604153150.22265-1-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <21c2443c-9166-edc0-5d7b-46b9e3c48e70@gmail.com>
+Date:   Tue, 4 Jun 2019 19:07:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190604153150.22265-1-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+04.06.2019 18:31, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> When deferring probe, avoid logging a confusing error message. While at
+> it, make the error message more informational.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/gpu/host1x/dev.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> index c55e2d634887..5a3f797240d4 100644
+> --- a/drivers/gpu/host1x/dev.c
+> +++ b/drivers/gpu/host1x/dev.c
+> @@ -247,8 +247,11 @@ static int host1x_probe(struct platform_device *pdev)
+>  
+>  	host->clk = devm_clk_get(&pdev->dev, NULL);
+>  	if (IS_ERR(host->clk)) {
+> -		dev_err(&pdev->dev, "failed to get clock\n");
+>  		err = PTR_ERR(host->clk);
+> +
+> +		if (err != -EPROBE_DEFER)
+> +			dev_err(&pdev->dev, "failed to get clock: %d\n", err);
+> +
+>  		return err;
+>  	}
 
-Add some comments to clarify the purpose of the wake event support
-implemented in the PMC driver.
+The clock driver should be available at the time of host1x's probing on
+all Tegra's because it is one of essential core drivers that become
+available early during boot.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/soc/tegra/pmc.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I guess you're making this change for T186, is it because the BPMP
+driver's probe getting deferred? If yes, won't it be possible to fix the
+defer of the clock driver instead of making such changes in the affected
+drivers?
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 6e66b5e293be..af8f63a844cd 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -241,6 +241,11 @@ struct tegra_pmc_soc {
- 	const char * const *reset_levels;
- 	unsigned int num_reset_levels;
- 
-+	/*
-+	 * These describe events that can wake the system from sleep (i.e.
-+	 * LP0 or SC7). Wakeup from other sleep states (such as LP1 or LP2)
-+	 * are dealt with in the LIC.
-+	 */
- 	const struct tegra_wake_event *wake_events;
- 	unsigned int num_wake_events;
- };
-@@ -1906,6 +1911,11 @@ static int tegra_pmc_irq_alloc(struct irq_domain *domain, unsigned int virq,
- 		}
- 	}
- 
-+	/*
-+	 * For interrupts that don't have associated wake events, assign a
-+	 * dummy hardware IRQ number. This is used in the ->irq_set_type()
-+	 * and ->irq_set_wake() callbacks to return early for these IRQs.
-+	 */
- 	if (i == soc->num_wake_events)
- 		err = irq_domain_set_hwirq_and_chip(domain, virq, ULONG_MAX,
- 						    &pmc->irq, pmc);
-@@ -1924,6 +1934,7 @@ static int tegra_pmc_irq_set_wake(struct irq_data *data, unsigned int on)
- 	unsigned int offset, bit;
- 	u32 value;
- 
-+	/* nothing to do if there's no associated wake event */
- 	if (WARN_ON(data->hwirq == ULONG_MAX))
- 		return 0;
- 
-@@ -1954,6 +1965,7 @@ static int tegra_pmc_irq_set_type(struct irq_data *data, unsigned int type)
- 	struct tegra_pmc *pmc = irq_data_get_irq_chip_data(data);
- 	u32 value;
- 
-+	/* nothing to do if there's no associated wake event */
- 	if (data->hwirq == ULONG_MAX)
- 		return 0;
- 
 -- 
-2.21.0
-
+Dmitry
