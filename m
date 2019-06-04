@@ -2,123 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7AB0342B6
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 11:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11663344D6
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 12:54:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726977AbfFDJI4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Jun 2019 05:08:56 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:10699 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726873AbfFDJI4 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jun 2019 05:08:56 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cf635270000>; Tue, 04 Jun 2019 02:08:55 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 04 Jun 2019 02:08:55 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 04 Jun 2019 02:08:55 -0700
-Received: from [10.26.11.158] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Jun
- 2019 09:08:53 +0000
-Subject: Re: [PATCH 2/2] arm64: tegra: enable ACONNECT, ADMA and AGIC
-To:     Sameer Pujar <spujar@nvidia.com>, <thierry.reding@gmail.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1557143908-5850-1-git-send-email-spujar@nvidia.com>
- <1557143908-5850-2-git-send-email-spujar@nvidia.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <d503728b-e689-f3bf-c620-f911bef31339@nvidia.com>
-Date:   Tue, 4 Jun 2019 10:08:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1727246AbfFDKyv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Jun 2019 06:54:51 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:37751 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727240AbfFDKyv (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jun 2019 06:54:51 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 22so5989052wmg.2;
+        Tue, 04 Jun 2019 03:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=j6hUjIqRG1YkL75o/DPFfpMfo/IVNVfXJC4sNpNd0tg=;
+        b=APWwtvePIWTDcmPk7AtpRlDbr1f2wInftq4QFEJXHzXrs/AXrq6ZbwtQ6YVl7LxQSc
+         OCrQKXigLLaA0wNdtGjyDGmGgZpSRWsnhoNLR+hiD5Cn4c81m48Xovo/n6axPPo0K86t
+         k8ZV0YwsVLhYgj5Ocx6ujK13fNgxIY3QROEmaetKSyh4SQ1/axt/exIWF8thZkdo6AYo
+         jwmcOCjvNiDZ9MdIzwb9s4QhLF9mSh8ZogUMm6xNW+FIgkdJXVGfH4UUzvBBpYjoKQ7x
+         BeAXdkKv+r1swHZ2ySRHqSQstSfq+0Pps0Ce0tRJ12MRhC7k050di+ydIzofqtbej1xN
+         HMVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=j6hUjIqRG1YkL75o/DPFfpMfo/IVNVfXJC4sNpNd0tg=;
+        b=gwRQ/2HqaeqnRfLOrMFKaqDhz/Eqm8mzloQ/4nV1P2grSVvVPnHlg6uGBD8gRKr4sE
+         +2hDMX6HN83sBYfp3HTJH5MDFzBhBi0N8q13cp2VkQo9OvdTKPyh/A3BqN9qHk9JDEtE
+         sn0MmnG5ElPDPusbBvSXxCBHjgjYju18N5egyo1ZHup2pAJET3fW1oT3LuUr95D/VJPq
+         Gncd7I5xQRqdAqZMiI1RDMEbZf5wnT9xeQp/0BCM3RVG66btyVQf0zdwjJz76rTTNYRM
+         v0/Rzdx0aM7abySEWXa9R1jVCFS0L41f//FoNnTNqPjRxxHyQRdKCoL+X7vHP/c8P+sw
+         AG/A==
+X-Gm-Message-State: APjAAAU2+Wqpa2mMApN/75MWm0dmrooCiq6rNFJBfQW4PUVJBMPTJFw6
+        eHORhN2L8Ri6rcFatqMfn04=
+X-Google-Smtp-Source: APXvYqxutJ6NBBR2g6rHF5LKUIMrFLHnOtdFcq1XJfM/uFiLfMehOpzohOS+/agVOJNsl49BvO9GHA==
+X-Received: by 2002:a1c:be03:: with SMTP id o3mr17643273wmf.139.1559645688942;
+        Tue, 04 Jun 2019 03:54:48 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id b5sm13175277wrx.22.2019.06.04.03.54.47
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 04 Jun 2019 03:54:47 -0700 (PDT)
+Date:   Tue, 4 Jun 2019 12:54:46 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 01/16] PM / devfreq: tegra: Fix kHz to Hz conversion
+Message-ID: <20190604105446.GA16519@ulmo>
+References: <20190501233815.32643-1-digetx@gmail.com>
+ <20190501233815.32643-2-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1557143908-5850-2-git-send-email-spujar@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559639335; bh=XJ9GGX4x6JbOACeYCqBh7B/qBxUQCNT/wafeU/9X04A=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ZarS4JaOLon6rCEsN2iL4jq8pFgLd/VQr0mCuAWicN1nX7BG8SxnszcIv011tSIOh
-         vHEJV8SRUieG+zWjxem7hh+xJVi9pxj9jMT6sU5meN4A/Ve0ciX4vRAEBI4BzC7yfy
-         iouDdpXlGqXyova1XrWNx4EtKuFtccgdYfyxjwPZtY7Burmrige0ZbhpRFu4HTxkY1
-         Y0HD4IsfS1Y9qSSg8y7cLr1WzGsmybMTLk3POGAUJKEFsNicjK0ls5A5vKbLU+BH8U
-         7uH226feSf4NzIrs4pwciGWAH/yeiaDXYDTv0Ue7rkRR2wCqMMPupMyZkvLK7x69bY
-         pKGmPLM/8WggQ==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+Content-Disposition: inline
+In-Reply-To: <20190501233815.32643-2-digetx@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 06/05/2019 12:58, Sameer Pujar wrote:
-> Enable ACONNECT, ADMA and AGIC devices for following platforms
->   * Jetson TX2
->   * Jetson Xavier
-> 
-> Verified driver probe path and devices get registered fine.
-> 
-> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+--LZvS9be/3tNcYl/X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, May 02, 2019 at 02:38:00AM +0300, Dmitry Osipenko wrote:
+> The kHz to Hz is incorrectly converted in a few places in the code,
+> this results in a wrong frequency being calculated because devfreq core
+> uses OPP frequencies that are given in Hz to clamp the rate, while
+> tegra-devfreq gives to the core value in kHz and then it also expects to
+> receive value in kHz from the core. In a result memory freq is always set
+> to a value which is close to ULONG_MAX because of the bug. Hence the EMC
+> frequency is always capped to the maximum and the driver doesn't do
+> anything useful. This patch was tested on Tegra30 and Tegra124 SoC's, EMC
+> frequency scaling works properly now.
+>=20
+> Cc: <stable@vger.kernel.org> # 4.14+
+> Tested-by: Steev Klimaszewski <steev@kali.org>
+> Reviewed-by: Chanwoo Choi <cw00.choi@samsung.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 12 ++++++++++++
->  arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 12 ++++++++++++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-> index 31457f3..21e73db 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-> +++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-> @@ -183,4 +183,16 @@
->  			vin-supply = <&vdd_5v0_sys>;
->  		};
->  	};
-> +
-> +	aconnect@2a41000 {
-> +		status = "okay";
-> +
-> +		dma@2930000 {
-> +			status = "okay";
-> +		};
-> +
-> +		agic@2a41000 {
-> +			status = "okay";
-> +		};
-> +	};
->  };
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-> index b62e969..bca28fc 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-> +++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-> @@ -169,4 +169,16 @@
->  			};
->  		};
->  	};
-> +
-> +	aconnect@2a41000 {
-> +		status = "okay";
-> +
-> +		dma@2930000 {
-> +			status = "okay";
-> +		};
-> +
-> +		agic@2a41000 {
-> +			status = "okay";
-> +		};
-> +	};
->  };
+>  drivers/devfreq/tegra-devfreq.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
 
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-Cheers
-Jon
+--LZvS9be/3tNcYl/X
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-nvpublic
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz2TfQACgkQ3SOs138+
+s6GExg/9HsPjT2SjCQvZabaE2o3s+/XY1gquN4JnV0phciJyXkDiCEYstAtLTcwR
+K464Jww0SwHI9j28NVkTwfCI5ZCV8PJgjY+5R/NRSW0JidhZS8AaMKkFfCMa8Ubz
+8KBWHvn+iRlGR4Lpssr/nWPqk0NLga+exxpzQVQmY7iPZ02yxoC3sNiJmbXHT54F
+o7QgAd1qwFST5DQ/yMHzZK27iUhFdupDGkyb2BVh2X0y6q2iseuvoW5at81ZuoVI
+TB8Knl5dWItuG/ERGfnfoU8hV5i7RJDzTcnlLh//GSdD4cpRLGFVDbDE7lgnd4vq
+DSCu/I4befv91FmHVIgEgI5qmccCzm9sFUrRT3Ga8hGtclm/namJyL8std4Jxh+b
+9s7O9EeBAo/ZisfXhlzZnY5mg2Z8dfCxwxbxXhPZE/Mz6/ndmGfVFKsXRIvVBd5f
+lDn71dlug/uXWQ5Tudkz/23JQyGW6dbQK14BZPt/2EEygyJnsmJckQuyOYUhy3Ak
+xBkemlaQNzBS/ILhs7TVKA/+EFkdS/8Fcow5Kl4RdORdx9aXpbNxPIOMNWqyJYVH
+v7Y0DsHPN98oshCFNQ7K0z9XIV6auZrlZ7RCnyfXhCz4NLQcxlrGYGQX6NIafFN8
+ZXJgm+e4fuFBdNGBWUeh5STwqInQ4zLEdp9RwywxzH+SUoA6ePg=
+=8Afm
+-----END PGP SIGNATURE-----
+
+--LZvS9be/3tNcYl/X--
