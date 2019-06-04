@@ -2,83 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D46833D15
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 04:24:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2012133D3D
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 04:35:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726501AbfFDCYD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Jun 2019 22:24:03 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:34704 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726488AbfFDCYD (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 22:24:03 -0400
-Received: by mail-oi1-f195.google.com with SMTP id u64so14449899oib.1
-        for <linux-tegra@vger.kernel.org>; Mon, 03 Jun 2019 19:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=sBuZQgLGgSQ7kvRAL03aIr/Wcvjnnb3lyTs/Aaqfbwk=;
-        b=uXxcaXLwANyRa3+NmViVADczyp+SQWIRrz4yHcKYqPorLi6YwOdY8iIZ9ZeOzNsByH
-         uSKqOXNkrAGVc2uaUPT2Pq1rTY5R0T8nCJ1qz8TlDpZuBhYhCUwlqVYPfhdH/XHq4Vqe
-         TKm/Q48MGRe4lutSLUGeeIWvZJPabCG7pcTnCFNUo3y6sAwiSOHkl0NzAG3BrDCVhbnL
-         iFVLbyk897P+wM6kWFFvHguyVDulSsyFhemJ3l3nLhoN36baybFzgNuQCsPs/mDm9H/k
-         F76p3dKGxFkL2LMWByAZHtm7SltVMkuvkzvsIlKkxwO4xV1twh93IQFsle1zWkwb2FLE
-         tuKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=sBuZQgLGgSQ7kvRAL03aIr/Wcvjnnb3lyTs/Aaqfbwk=;
-        b=CV1xjWAGewJ1OXpCmgXuCV0JsuGTE+nfKYp/gwAAQMuCoIMw9E1uf1vS4V4xuKVNx3
-         gChCq3EDQ0Bc26/pmf3LQN1KE/d6tflXhvGCWoB4nhGlh8VApkc0ROwUdPhBrT6DAxL5
-         1n7NKVziMegezCpCtFPE1o2Qk5I3bojRgCk8xjl3XKlaCUakAiZ2g7xe3O482WIF2gU5
-         eHIz3txfxcUEGBip6X3DdfJq5c8ul0BM5QtmYmgLsmjQ+sxBYUvWj/NjdQquhUwkaj6F
-         e/xa28hpSGEC/5+sACiyi4DX8ZQ5GxZnNDSfSITwNPIDF7jKC3lUaMEk2O9JPHCBFfVI
-         a/5A==
-X-Gm-Message-State: APjAAAVy2t542/uYrFVGIdBRE2erRXHU62EA+sAzeHxCWnDvl5e7xIVs
-        MTWxi6xcIpTxx6KRLARwloMUZhcv3uDSimlo704=
-X-Google-Smtp-Source: APXvYqw8jQ23yIAIP/ibRuqFL1purvdmWMRxLGuNqw3GaUnIhJ/DwQ0i+JQBtbdCTF6YlsnIUUgb7XQDZ0shWMuWKFQ=
-X-Received: by 2002:aca:3545:: with SMTP id c66mr2444017oia.129.1559615042928;
- Mon, 03 Jun 2019 19:24:02 -0700 (PDT)
+        id S1726341AbfFDCfk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Jun 2019 22:35:40 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:7721 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbfFDCfk (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 22:35:40 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cf5d8fa0000>; Mon, 03 Jun 2019 19:35:38 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 03 Jun 2019 19:35:39 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 03 Jun 2019 19:35:39 -0700
+Received: from HQMAIL112.nvidia.com (172.18.146.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Jun
+ 2019 02:35:39 +0000
+Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL112.nvidia.com
+ (172.18.146.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Jun
+ 2019 02:35:38 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 4 Jun 2019 02:35:38 +0000
+Received: from josephl-linux.nvidia.com (Not Verified[10.19.108.132]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5cf5d8f90000>; Mon, 03 Jun 2019 19:35:38 -0700
+From:   Joseph Lo <josephl@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Joseph Lo <josephl@nvidia.com>
+Subject: [PATCH] arm64: tegra: add CPU cache topology for Tegra186
+Date:   Tue, 4 Jun 2019 10:35:35 +0800
+Message-ID: <20190604023535.7115-1-josephl@nvidia.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Received: by 2002:a4a:97e3:0:0:0:0:0 with HTTP; Mon, 3 Jun 2019 19:24:02 -0700 (PDT)
-Reply-To: officeinfo1089@gmail.com
-From:   "Mr.Adams Bello" <monicabentley645@gmail.com>
-Date:   Tue, 4 Jun 2019 03:24:02 +0100
-Message-ID: <CAEB4qVbgxyVe3vMODZzObUezvJKriw-Td0OA7V78mUdYVu2GVw@mail.gmail.com>
-Subject: ATTENTION
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1559615738; bh=AmoNdluQeX3k2IWG+5yEa3tuSV9eSMqeTaMre8hA2sc=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+         Content-Type;
+        b=PfvFfsYvBjBPMBICFj850oIPuFNbI+4lWuy3JTXDpYALRFPTyW/PZ/WDU963aAheJ
+         u2iCEl8UH+19bNRUw0MAtChrQxGT05vSGpCEu3ZgrrpcnUL8qhmQi0ULJwyfYaDG67
+         IQiHUSkkiTdsras+StyU/9LCszNZDqYfrYBmBvYp3ejS9I9fihALc+lVOFq7k9eNxi
+         rMIpAZcnX75/LpfmobhOoQzjJQhn/+oYzocXBuk3WEItxQvyDQUAVLLA3piwJ4ayIv
+         Oniz63K1DF+i4p80F7ljwuOWa2wZQFF9121SrWOANPQEHcj3GrezYPmVaC+7hKGMPW
+         CelZgORJksfWw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
--- 
-Dear Beneficiary,
+Tegra186 has two CPU clusters with its own cache hierarchy. This patch
+adds them with the cache information of each of the CPUs.
 
-The is to bring to your notice that the Department of Treasury Office
-in Nigeria in affiliation with the Federal Government of Nigeria,and
-the Office of Foreign Assets Control here in Nigeria has been
-authorized in their sanction programs to compensate 1,000 scam victims
-who has being a victim of internet scam. The Federal Government of
-Nigeria in collaboration with the Department of the Treasury Office
-has decided to pay $1,000.000.00 USD(One Million United States
-Dollars) each in order to restore the global economy to the enviable
-standard of respectable persons that was scammed. Your names and
-particulars was mentioned by one of the syndicates who was arrested as
-one of the victims of their operations. Although to issue payments to
-the right persons we need you to reconfirm your information's to
-compare with what was given to us. Most importantly you are hereby
-warned not to communicate or duplicate this message to anyone or
-whatsoever as investigations are still ongoing in trace of the other
-criminals so therefore this information's should remain confidential
-to you alone and the agencies involved in the exercise.
+Signed-off-by: Joseph Lo <josephl@nvidia.com>
+---
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Finally all payments are done by AUTOMATED TELLER MACHINE(ATM), loaded
-with $1,000.000.00 with your names on the ATM CARD waiting to be sent
-to you reconfirmation of your information's on our desk.
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts=
+/nvidia/tegra186.dtsi
+index 426ac0bdf6a6..26055c7f26e7 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+@@ -1128,38 +1128,52 @@
+ 		cpu@0 {
+ 			compatible =3D "nvidia,tegra186-denver";
+ 			device_type =3D "cpu";
++			next-level-cache =3D <&L2_DENVER>;
+ 			reg =3D <0x000>;
+ 		};
+=20
+ 		cpu@1 {
+ 			compatible =3D "nvidia,tegra186-denver";
+ 			device_type =3D "cpu";
++			next-level-cache =3D <&L2_DENVER>;
+ 			reg =3D <0x001>;
+ 		};
+=20
+ 		cpu@2 {
+ 			compatible =3D "arm,cortex-a57";
+ 			device_type =3D "cpu";
++			next-level-cache =3D <&L2_A57>;
+ 			reg =3D <0x100>;
+ 		};
+=20
+ 		cpu@3 {
+ 			compatible =3D "arm,cortex-a57";
+ 			device_type =3D "cpu";
++			next-level-cache =3D <&L2_A57>;
+ 			reg =3D <0x101>;
+ 		};
+=20
+ 		cpu@4 {
+ 			compatible =3D "arm,cortex-a57";
+ 			device_type =3D "cpu";
++			next-level-cache =3D <&L2_A57>;
+ 			reg =3D <0x102>;
+ 		};
+=20
+ 		cpu@5 {
+ 			compatible =3D "arm,cortex-a57";
+ 			device_type =3D "cpu";
++			next-level-cache =3D <&L2_A57>;
+ 			reg =3D <0x103>;
+ 		};
++
++		L2_DENVER: l2-cache0 {
++			compatible =3D "cache";
++		};
++
++		L2_A57: l2-cache1 {
++			compatible =3D "cache";
++		};
+ 	};
+=20
+ 	bpmp: bpmp {
+--=20
+2.21.0
 
-Best Regards
-Mr. Adams Bello
-Secretary's Desk
-E-mail: officeinfo1089@gmail.com
