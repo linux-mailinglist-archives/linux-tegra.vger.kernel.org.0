@@ -2,113 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF93F34891
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 15:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 073FE348DF
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 15:34:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727417AbfFDNW7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Jun 2019 09:22:59 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:56111 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727264AbfFDNW7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jun 2019 09:22:59 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 16so20234wmg.5;
-        Tue, 04 Jun 2019 06:22:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=yTXjE3DyGnzh3mUQCwTWjsUXUr+7mBrootKOJ/1rR7Y=;
-        b=Kk38JklNyGB2JU3VCr8PV9QIp6qB/aOd5e3AVfnbIVfXvhEH3oMEElGdErgmCdQ95g
-         3sr3wKmDNqP0jU/CnFogQhZ12DPGDvaO+h+q3dNeN/ghR9hiJWzGtRXovOsDuh4Wnq+w
-         /7Vb7EfPFBTyXYNTBOnthe/9xQQzCjKlkO65fljVUtNEMDtSyO0GBJWTmHCRj5mLy4Cj
-         X9C/cSLppes07D3kHXA6WefpE1q/elBLYL+3nNFWTVxIjRhw8pXv/ZvzPIx//dwtlolD
-         0lCAj/z4JPg+p2Y17KxCRHXfR9C+W7nkKpxZrGk3WISOcCE4ZhpOuieEytV09DyqnAmz
-         fmiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=yTXjE3DyGnzh3mUQCwTWjsUXUr+7mBrootKOJ/1rR7Y=;
-        b=J2f0RFYSXInmpWPC4Mm2hNwdjHuFwnq4/Ta0FMbiiifHfvSU8wXyJtE7NuTSSu8LAt
-         HqPu9y/33yuH+r+sjgV6pcMyW+l3Vk3IxuIyqGpDUOIILQdPUzteqcoJifBJA+h5N6s/
-         K0fpK52cseeBzFC3ii6gg6xQ1/gxIc+Mqnr9njKPTP0kTwshgGUkgEjIrfwj5zVxAEx5
-         8I4YE9Mo7qOY4Ld6j0/DrE9TZqEuLWJBsWSHSvjuTko9noWRBChBPf6UmGcX3Ih/sYVY
-         REiH1bBKLbncGsMkisPkXxfR0lHYZLDnCNRlrZ74NwaCCgwDHCZpvCpOR1FGPwA7pgrj
-         JmfQ==
-X-Gm-Message-State: APjAAAXmBO3Halg7Q1cy33Z3JRoS/0yVW6u3pLFeFGZEooMBdxol2Vqg
-        fooiaygAG0E7ISXojRJ4LT+N9Aax
-X-Google-Smtp-Source: APXvYqz04o0c48ru37D9lXxMyiFeP8r3dkJ2gUAm1fe9Q/3v4SP3QZMwTy3fJI0QKfftHcJYDpVO6A==
-X-Received: by 2002:a1c:7ec8:: with SMTP id z191mr5985020wmc.66.1559654576723;
-        Tue, 04 Jun 2019 06:22:56 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id z17sm10507895wru.21.2019.06.04.06.22.55
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 04 Jun 2019 06:22:55 -0700 (PDT)
-Date:   Tue, 4 Jun 2019 15:22:54 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc:     bhelgaas@google.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        jonathanh@nvidia.com, lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH V4 28/28] PCI: tegra: Change link retry log level to debug
-Message-ID: <20190604132254.GU16519@ulmo>
-References: <20190516055307.25737-1-mmaddireddy@nvidia.com>
- <20190516055307.25737-29-mmaddireddy@nvidia.com>
+        id S1727569AbfFDNd7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Jun 2019 09:33:59 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:1833 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727688AbfFDNd7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jun 2019 09:33:59 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cf673440001>; Tue, 04 Jun 2019 06:33:56 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 04 Jun 2019 06:33:58 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 04 Jun 2019 06:33:58 -0700
+Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Jun
+ 2019 13:33:57 +0000
+Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
+        id 7F1E540DE3; Tue,  4 Jun 2019 16:33:55 +0300 (EEST)
+Date:   Tue, 4 Jun 2019 16:33:55 +0300
+From:   Peter De Schrijver <pdeschrijver@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "Jonathan Hunter" <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 00/10] NVIDIA Tegra clocksource driver improvements
+Message-ID: <20190604133355.GE29894@pdeschrijver-desktop.Nvidia.com>
+References: <20190603185948.30438-1-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kSOhxpxUsM1s2qz/"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20190516055307.25737-29-mmaddireddy@nvidia.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190603185948.30438-1-digetx@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1559655236; bh=2sojii35KxqDwKfii9xBSRKtdkHnDinO/EJKDqXI9KI=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
+        b=k+0FH7uj/+J5LyNT46gLV4oI/dgnh2cTKQ5C4mRdT73cX0uHgtKXpMfY5gFO+E01r
+         GwBsrw9gHcZSe2GBOoEj5hVOtqfADGMnSIKl7+GKIOreM3HbEigdYOPbPCYamNBJCz
+         8cfIgde29EzFB5vRVgIoeHkPpzEoYmvR1rQjaSjUiYL/SiBZizIkqRStkd4g6QAWWS
+         hI7WiSIBEj0PHmXtgP0DZjNEkdIEqx/lAC0JGl64i21d0vBmzEhbkDHtSg1RGFZ0FZ
+         W4hPHk/S3+CQwMVVs1rrroKe/HFYtI9Fkj/ntakRLsVXgJdoF+v18t4Zq9VdstgUke
+         pYE1tqtX7gdxw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Jun 03, 2019 at 09:59:38PM +0300, Dmitry Osipenko wrote:
+> Hello,
+> 
+> This series primarily unifies the driver code across all Tegra SoC
+> generations. In a result the clocksources are allocated per-CPU on
+> older Tegra's and have a higher rating than the arch-timer where
+> appropriate, the newer Tegra210 is getting support for microsecond
+> clocksource and the driver's code is getting much cleaner.
+> 
+> The series was extensively tested on Tegra20 and Tegra30.
+> 
+> Changelog:
+> 
+> v4: In the comment to v3 Peter De Schrijver pointed out that arch-timer
+>     isn't affected by DVFS changes and thus it is preferred over tegra-timer
+>     on [T114, T210). Added new patch to address that: "Lower clocksource
+>     rating for some Tegra's".
+> 
+>     Daniel Lezcano suggested that it will be worthwhile to rename driver's
+>     source file as driver now covers more SoC generations than it initially
+>     did. Hence the new "Rename timer-tegra20.c to timer-tegra.c" patch.
+> 
+> v3: Fixed compilation on ARM64. Turned out that it doesn't have the
+>     delay-timer, thanks to Nicolas Chauvet for the report.
+> 
+>     Added new "Support COMPILE_TEST universally" patch for better
+>     compile-test coverage.
+> 
+> v2: Rebased on recent linux-next. Now all of #ifdef's are removed from the
+>     code due to the recent patch that generalized persistent clocksource.
+> 
+>     Couple other minor cosmetic changes.
 
---kSOhxpxUsM1s2qz/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 16, 2019 at 11:23:07AM +0530, Manikanta Maddireddy wrote:
-> Driver checks for link up three times before giving up, each retry attempt
-> is printed as an error. Letting users know that PCIe link is down and in =
-the
-> process of being brought up again is for debug, not an error condition.
->=20
-> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-> ---
-> V4: No change
->=20
-> V3: Changed dev_err to dev_dbg
->=20
-> V2: Updated commit log
->=20
->  drivers/pci/controller/pci-tegra.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---kSOhxpxUsM1s2qz/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz2cK4ACgkQ3SOs138+
-s6HOaQ//aYSYk26RIhZPjP4NCUdL8P7gXfov4RmSEnWQWJ21VBAHzfBdmcpKd9S/
-JiEiYtnCpR9gHrKHOqR5TTbFaOcCZ4mgHfp58iXJvchMKvrxPSbaoN17TFl0nDy/
-oMS3gCBsI9AMF9D+c1P/98jFydG1Wjr26fg+ROtG9+jZ93Cc9bdBp2IgHG5OLKvC
-B5ZpOP0DVW1b98xovgUpWFOXnOke86owLa6oLVsoFhc+SnRuqzERycHcEBuRvFph
-Q7d8UfWPhdS5JONqb1hs8qF3LFWSgFoHS4sgR7Lm+eoXl+pV33pNhsHF6Ab2LdBo
-JTLbJCrmFkAWGy8DIk06GO25wdURUutKgDKCV1+hzLc+S4QHvtnaQta5R2LcPLul
-/RoXgppX/8oKwWtVlNJtDRwyutA2tNEindB5WftJEnuPo1jvFCb2Wba7gEROuSxp
-4tHWivdeRdgINTiSFE4jo4dkY6grXvwwcupZnTH9i4yu1UQs4cMF1qAIf1Smz5bX
-3lkdp+ZLNQi7VLs86e6mAZIPJUz13WQPZPnamiiJucmCiXUbUWHW80qUb1Wn2oW+
-qlPWd6k/pB3r36j5gVCyvdeJQAdSxIU0yd5oIifqYUG6WPrwyFUJC0Kk8L9oy4lf
-66GaZEHYX+iH7IOlQ7e+ceANSlcCfGe1+M1EUr+4ijJ1amNHV+A=
-=0bFR
------END PGP SIGNATURE-----
-
---kSOhxpxUsM1s2qz/--
+Series Acked-By: Peter De Schrijver <pdeschrijver@nvidia.com>
