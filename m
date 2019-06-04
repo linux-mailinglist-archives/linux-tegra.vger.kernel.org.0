@@ -2,129 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2012133D3D
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 04:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A131233E9B
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 07:50:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726341AbfFDCfk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Jun 2019 22:35:40 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:7721 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbfFDCfk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Jun 2019 22:35:40 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cf5d8fa0000>; Mon, 03 Jun 2019 19:35:38 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 03 Jun 2019 19:35:39 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 03 Jun 2019 19:35:39 -0700
-Received: from HQMAIL112.nvidia.com (172.18.146.18) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Jun
- 2019 02:35:39 +0000
-Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL112.nvidia.com
- (172.18.146.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Jun
- 2019 02:35:38 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 4 Jun 2019 02:35:38 +0000
-Received: from josephl-linux.nvidia.com (Not Verified[10.19.108.132]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5cf5d8f90000>; Mon, 03 Jun 2019 19:35:38 -0700
-From:   Joseph Lo <josephl@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Joseph Lo <josephl@nvidia.com>
-Subject: [PATCH] arm64: tegra: add CPU cache topology for Tegra186
-Date:   Tue, 4 Jun 2019 10:35:35 +0800
-Message-ID: <20190604023535.7115-1-josephl@nvidia.com>
-X-Mailer: git-send-email 2.21.0
+        id S1726616AbfFDFuw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Jun 2019 01:50:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39792 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726136AbfFDFuw (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 4 Jun 2019 01:50:52 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 851DA2064A;
+        Tue,  4 Jun 2019 05:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559627452;
+        bh=8YP+B1ND8Pm6lUjJ+92tc60zGcMtjXzLQtP4SnSTPjg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dC7E8LMpNhv7m1w5hAs2kIIAEmJZv/A/Zh5PoL8Zwc9/o18HYNCCppUBMYW8CVJ/d
+         7ikuisF18Q+6tLxxAbXKDHKDQvx0xn8Lt4HERNsQwvRfv/lxn5I8zlBYb4uS3qX30C
+         6KuPQfln5P31K1C7TkF/DOu8VdOKxYV2lU9mCCok=
+Date:   Tue, 4 Jun 2019 07:50:48 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 5.1 00/40] 5.1.7-stable review
+Message-ID: <20190604055048.GD16504@kroah.com>
+References: <20190603090522.617635820@linuxfoundation.org>
+ <75303365-74d0-de3c-2f54-5cff3469d8a0@nvidia.com>
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559615738; bh=AmoNdluQeX3k2IWG+5yEa3tuSV9eSMqeTaMre8hA2sc=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
-         Content-Type;
-        b=PfvFfsYvBjBPMBICFj850oIPuFNbI+4lWuy3JTXDpYALRFPTyW/PZ/WDU963aAheJ
-         u2iCEl8UH+19bNRUw0MAtChrQxGT05vSGpCEu3ZgrrpcnUL8qhmQi0ULJwyfYaDG67
-         IQiHUSkkiTdsras+StyU/9LCszNZDqYfrYBmBvYp3ejS9I9fihALc+lVOFq7k9eNxi
-         rMIpAZcnX75/LpfmobhOoQzjJQhn/+oYzocXBuk3WEItxQvyDQUAVLLA3piwJ4ayIv
-         Oniz63K1DF+i4p80F7ljwuOWa2wZQFF9121SrWOANPQEHcj3GrezYPmVaC+7hKGMPW
-         CelZgORJksfWw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <75303365-74d0-de3c-2f54-5cff3469d8a0@nvidia.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Tegra186 has two CPU clusters with its own cache hierarchy. This patch
-adds them with the cache information of each of the CPUs.
+On Mon, Jun 03, 2019 at 07:34:09PM +0100, Jon Hunter wrote:
+> 
+> On 03/06/2019 10:08, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 5.1.7 release.
+> > There are 40 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> > 
+> > Responses should be made by Wed 05 Jun 2019 09:04:46 AM UTC.
+> > Anything received after that time might be too late.
+> > 
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.7-rc1.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
+> > and the diffstat can be found below.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> All tests are passing for Tegra ...
+> 
+> Test results for stable-v5.1:
+>     12 builds:	12 pass, 0 fail
+>     22 boots:	22 pass, 0 fail
+>     32 tests:	32 pass, 0 fail
+> 
+> Linux version:	5.1.7-rc1-ge674455
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra30-cardhu-a04
 
-Signed-off-by: Joseph Lo <josephl@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Thanks for testing all of these and letting me know.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts=
-/nvidia/tegra186.dtsi
-index 426ac0bdf6a6..26055c7f26e7 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -1128,38 +1128,52 @@
- 		cpu@0 {
- 			compatible =3D "nvidia,tegra186-denver";
- 			device_type =3D "cpu";
-+			next-level-cache =3D <&L2_DENVER>;
- 			reg =3D <0x000>;
- 		};
-=20
- 		cpu@1 {
- 			compatible =3D "nvidia,tegra186-denver";
- 			device_type =3D "cpu";
-+			next-level-cache =3D <&L2_DENVER>;
- 			reg =3D <0x001>;
- 		};
-=20
- 		cpu@2 {
- 			compatible =3D "arm,cortex-a57";
- 			device_type =3D "cpu";
-+			next-level-cache =3D <&L2_A57>;
- 			reg =3D <0x100>;
- 		};
-=20
- 		cpu@3 {
- 			compatible =3D "arm,cortex-a57";
- 			device_type =3D "cpu";
-+			next-level-cache =3D <&L2_A57>;
- 			reg =3D <0x101>;
- 		};
-=20
- 		cpu@4 {
- 			compatible =3D "arm,cortex-a57";
- 			device_type =3D "cpu";
-+			next-level-cache =3D <&L2_A57>;
- 			reg =3D <0x102>;
- 		};
-=20
- 		cpu@5 {
- 			compatible =3D "arm,cortex-a57";
- 			device_type =3D "cpu";
-+			next-level-cache =3D <&L2_A57>;
- 			reg =3D <0x103>;
- 		};
-+
-+		L2_DENVER: l2-cache0 {
-+			compatible =3D "cache";
-+		};
-+
-+		L2_A57: l2-cache1 {
-+			compatible =3D "cache";
-+		};
- 	};
-=20
- 	bpmp: bpmp {
---=20
-2.21.0
-
+greg k-h
