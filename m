@@ -2,200 +2,154 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62796349CA
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 16:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A906F349CD
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 16:10:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727461AbfFDOKb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Jun 2019 10:10:31 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:1228 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727033AbfFDOKb (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jun 2019 10:10:31 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cf67bc80000>; Tue, 04 Jun 2019 07:10:16 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 04 Jun 2019 07:10:29 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 04 Jun 2019 07:10:29 -0700
-Received: from [10.24.192.32] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Jun
- 2019 14:10:25 +0000
-Subject: Re: [PATCH V4 22/28] PCI: tegra: Access endpoint config only if PCIe
- link is up
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <bhelgaas@google.com>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <jonathanh@nvidia.com>,
-        <lorenzo.pieralisi@arm.com>, <vidyas@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20190516055307.25737-1-mmaddireddy@nvidia.com>
- <20190516055307.25737-23-mmaddireddy@nvidia.com>
- <20190604131436.GS16519@ulmo>
-X-Nvconfidentiality: public
-From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Message-ID: <09bcc121-eaca-3866-d0ef-7806503e883f@nvidia.com>
-Date:   Tue, 4 Jun 2019 19:40:00 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727521AbfFDOKg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Jun 2019 10:10:36 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:37946 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727033AbfFDOKg (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Jun 2019 10:10:36 -0400
+Received: by mail-wm1-f65.google.com with SMTP id t5so220412wmh.3;
+        Tue, 04 Jun 2019 07:10:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=MQWqnTPlMzq7RFdsPJKNaftIwxm2Lc34V6bRTX+Tfwo=;
+        b=atzLld6h4CKQyI/4lFPboJMv2pm8uRk7p6FD7sjdir1Th3+kWeM3IPGivKigl19Ev6
+         Yg1bdCDK3UMamefNtAfjc2oxK6BpDw4URX5BPhaGGTyqXsfOeliOLn4QIGGfoRpUed7+
+         9H+Ia0aaX52Cm8d3/1eZctHnuqV+zK3DdQQDG3cw0gPaVzas763IK0a+2Q4O04bwvWhh
+         AdeopgfwAwFltVeSNDtdqZ9p6fh3uLNW+EBQrqxwNf3mgOv43FvVZhjKQRQXdVDJOMUT
+         ljATMS9tS+nrLWjCvngi2o32M8qh4nuSt0/zrkJ5UsUt32qLAola+5Hvhhi0kSAsPpRC
+         LUkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=MQWqnTPlMzq7RFdsPJKNaftIwxm2Lc34V6bRTX+Tfwo=;
+        b=cMLeXw7+HDYhMplrSeTCwSKDcSXTu9SEjK6y/rTXXkWWkvY4x8uf9W+yS2vc5nBeEf
+         9u+lPWIgkf+wxkATfKZrnmLCAykgdUChRcoinThGuwhnzKoORcrXmjJFqW3xrwnfWyLp
+         CI4wlQDE7H4b6neJPf7JrK3LPEU5L5rKykw4lPgnD1PB/+fLocH61GSy+0CYNAmyQpBT
+         HhzQV2KjYt3Z8zk33TLw7vjYj6n+osv1stzs08KD65Ai+ChCyD1LFH5GpeIfP4NG3ihS
+         124xh5cFKIJ4k0wLnNQKnlgyfKKtkCWuXMYSuzZwBNTunh3hj/fn5eXJN3z4owA8X+Gv
+         TmqA==
+X-Gm-Message-State: APjAAAU/pQZAKRbycdMBGKzxLymntYXHa5sMMzTGTY7+6cvftnHw8Lx1
+        HqJYZqEnIwXBLLeAxKWnSJ8=
+X-Google-Smtp-Source: APXvYqwSjpawjPwIm+UKAqYA7R7GBTeTSB6g2Oebf3dshW7QAiQVDwb9DUK+sLE7TJ9uv/c7BLw2bg==
+X-Received: by 2002:a1c:9c02:: with SMTP id f2mr18695262wme.8.1559657433513;
+        Tue, 04 Jun 2019 07:10:33 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id f197sm18574336wme.39.2019.06.04.07.10.32
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 04 Jun 2019 07:10:32 -0700 (PDT)
+Date:   Tue, 4 Jun 2019 16:10:31 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 14/16] PM / devfreq: tegra: Enable COMPILE_TEST for
+ the driver
+Message-ID: <20190604141031.GB397@ulmo>
+References: <20190501233815.32643-1-digetx@gmail.com>
+ <20190501233815.32643-15-digetx@gmail.com>
+ <20190604112026.GN16519@ulmo>
+ <ed2c502f-8f49-d89b-32c6-4b5415e1fa47@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190604131436.GS16519@ulmo>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559657416; bh=e8fq9MpMuIFTNejCHaVxMSMSN3rhrW0rCYiIMJL4v58=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Transfer-Encoding:Content-Language;
-        b=aHG7sdhriXAHkcHW0sAQZ4NsYP8jZKtaPRPo2Fv7SI10LSWMulwb7d4zPJNpUrc1D
-         bJGC17YGNK+4UgbdHC3Fziaa1qOY3edBY0l2cbRuOJ+5/Xw9F/CWzHSYPyz1jP78JZ
-         LgQ80vvicsYRuMHmsj0mX9oSYdH4rCXnUug9fDMKuhVkmO7uGTa5qmNA5PDzHYqXhF
-         PFdMR8R5wE0p5MVRikSZ3BHLc03cYB5/9qrVqvcUwCv2+ECDZH8kYKdeM6/lhlZkXK
-         MX7U1+WGMMUTZvNTeiEMPIJUIGavbxQO6rdpdK+pVV2cfndFhZxdqEyIZNo6esenjB
-         yqxD9RdG+vu1w==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="O5XBE6gyVG5Rl6Rj"
+Content-Disposition: inline
+In-Reply-To: <ed2c502f-8f49-d89b-32c6-4b5415e1fa47@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+--O5XBE6gyVG5Rl6Rj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 04-Jun-19 6:44 PM, Thierry Reding wrote:
-> On Thu, May 16, 2019 at 11:23:01AM +0530, Manikanta Maddireddy wrote:
->> Few endpoints like Wi-Fi supports power on/off and to leverage that
->> root port must support hot-plug and hot-unplug. Tegra PCIe doesn't
->> support hot-plug and hot-unplug, however it supports endpoint power
->> on/off feature as follows,
->>  - Power off sequence:
->>    - Transition of PCIe link to L2
->>    - Power off endpoint
->>    - Leave root port in power up state with the link in L2
->>  - Power on sequence:
->>    - Power on endpoint
->>    - Apply hot reset to get PCIe link up
->>
->> PCIe client driver stops accessing PCIe endpoint config and BAR registers
->> after endpoint is powered off. However, software applications like x11
->> server or lspci can access endpoint config registers in which case
->> host controller raises "response decoding" errors. To avoid this scenario,
->> add PCIe link up check in config read and write callback functions before
->> accessing endpoint config registers.
->>
->> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
->> ---
->> V4: No change
->>
->> V3: Update the commit log with explanation for the need of this patch
->>
->> V2: Change tegra_pcie_link_status() to tegra_pcie_link_up()
->>
->>  drivers/pci/controller/pci-tegra.c | 38 ++++++++++++++++++++++++++++++
->>  1 file changed, 38 insertions(+)
-> This still doesn't look right to me conceptually. If somebody wants to
-> access the PCI devices after the kernel has powered them off, why can't
-> we just power the devices back on so that we allow userspace to properly
-> access the devices?
+On Tue, Jun 04, 2019 at 04:53:17PM +0300, Dmitry Osipenko wrote:
+> 04.06.2019 14:20, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Thu, May 02, 2019 at 02:38:13AM +0300, Dmitry Osipenko wrote:
+> >> The driver's compilation doesn't have any specific dependencies, hence
+> >> the COMPILE_TEST option can be supported in Kconfig.
+> >>
+> >> Reviewed-by: Chanwoo Choi <cw00.choi@samsung.com>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  drivers/devfreq/Kconfig | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/devfreq/Kconfig b/drivers/devfreq/Kconfig
+> >> index 56db9dc05edb..a6bba6e1e7d9 100644
+> >> --- a/drivers/devfreq/Kconfig
+> >> +++ b/drivers/devfreq/Kconfig
+> >> @@ -93,7 +93,7 @@ config ARM_EXYNOS_BUS_DEVFREQ
+> >> =20
+> >>  config ARM_TEGRA_DEVFREQ
+> >>  	tristate "NVIDIA Tegra30/114/124/210 DEVFREQ Driver"
+> >> -	depends on ARCH_TEGRA
+> >> +	depends on ARCH_TEGRA || COMPILE_TEST
+> >>  	select PM_OPP
+> >>  	help
+> >>  	  This adds the DEVFREQ driver for the Tegra family of SoCs.
+> >=20
+> > You need to be careful with these. You're using I/O register accessors,
+> > which are not supported on the UM architecture, for example.
+> >=20
+> > This may end up getting flagged during build testing.
+>=20
+> We have similar cases in other drivers and it doesn't cause any known
+> problems because (I think) build-bots are aware of this detail. Hence
 
-1. WiFi devices provides power-off feature for power saving in mobiles.
-When WiFi is turned off we shouldn't power on the HW back without user
-turning it back on.
-2. When ever user process tries to access config space, it'll end up
-in these functions. We cannot have is_powered_on check in config read/write
-callbacks.
-3. WiFi power on/off is device specific feature, we shouldn't handle it
-in PCI subsystem or host controller driver.
+I don't understand how the build-bots would be aware of this detail.
+Unless you explicitly state what the dependencies are, how would the
+build-bots know? Perhaps there's some logic built-in somewhere that I
+don't know about?
 
->
-> Or if that's not what we want, shouldn't we add something to the core
-> PCI infrastructure to let us deal with this? It seems like this is some
-> general problem that would apply to every PCI device and host bridge
-> driver. Having each driver implement this logic separately doesn't seem
-> like a good idea to me.
->
-> Thierry
+> there is no real need to be overreactive here and in this particular
+> case it's better to react to real problems once they show up (we already
+> did that by fixing build breakage caused by a CLK API problem found by
+> bot in v3). Does it sound like a good argument to you? ACK?
 
-This should be handled by hotplug feature, whenever endpoint is powered-off/
-removed from the slot, hot unplug event should take care of it. Unfortunately
-Tegra PCIe doesn't support hotplug feature.
+No. This strikes me as a strange argument. I'm pointing out a potential
+source of problems and you just brush it aside claiming that it's not
+true, or even if it was true that we'll see eventually and we can fix it
+up when there's an actual problem.
 
-Manikanta
+Why would you want to have to fix things up if you can avoid breakage in
+the first place by being a little proactive?
 
->> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
->> index d20c88a79e00..33f4dfab9e35 100644
->> --- a/drivers/pci/controller/pci-tegra.c
->> +++ b/drivers/pci/controller/pci-tegra.c
->> @@ -428,6 +428,14 @@ static inline u32 pads_readl(struct tegra_pcie *pcie, unsigned long offset)
->>  	return readl(pcie->pads + offset);
->>  }
->>  
->> +static bool tegra_pcie_link_up(struct tegra_pcie_port *port)
->> +{
->> +	u32 value;
->> +
->> +	value = readl(port->base + RP_LINK_CONTROL_STATUS);
->> +	return !!(value & RP_LINK_CONTROL_STATUS_DL_LINK_ACTIVE);
->> +}
->> +
->>  /*
->>   * The configuration space mapping on Tegra is somewhat similar to the ECAM
->>   * defined by PCIe. However it deviates a bit in how the 4 bits for extended
->> @@ -493,20 +501,50 @@ static void __iomem *tegra_pcie_map_bus(struct pci_bus *bus,
->>  static int tegra_pcie_config_read(struct pci_bus *bus, unsigned int devfn,
->>  				  int where, int size, u32 *value)
->>  {
->> +	struct tegra_pcie *pcie = bus->sysdata;
->> +	struct pci_dev *bridge;
->> +	struct tegra_pcie_port *port;
->> +
->>  	if (bus->number == 0)
->>  		return pci_generic_config_read32(bus, devfn, where, size,
->>  						 value);
->>  
->> +	bridge = pcie_find_root_port(bus->self);
->> +
->> +	list_for_each_entry(port, &pcie->ports, list)
->> +		if (port->index + 1 == PCI_SLOT(bridge->devfn))
->> +			break;
->> +
->> +	/* If there is no link, then there is no device */
->> +	if (!tegra_pcie_link_up(port)) {
->> +		*value = 0xffffffff;
->> +		return PCIBIOS_DEVICE_NOT_FOUND;
->> +	}
->> +
->>  	return pci_generic_config_read(bus, devfn, where, size, value);
->>  }
->>  
->>  static int tegra_pcie_config_write(struct pci_bus *bus, unsigned int devfn,
->>  				   int where, int size, u32 value)
->>  {
->> +	struct tegra_pcie *pcie = bus->sysdata;
->> +	struct tegra_pcie_port *port;
->> +	struct pci_dev *bridge;
->> +
->>  	if (bus->number == 0)
->>  		return pci_generic_config_write32(bus, devfn, where, size,
->>  						  value);
->>  
->> +	bridge = pcie_find_root_port(bus->self);
->> +
->> +	list_for_each_entry(port, &pcie->ports, list)
->> +		if (port->index + 1 == PCI_SLOT(bridge->devfn))
->> +			break;
->> +
->> +	/* If there is no link, then there is no device */
->> +	if (!tegra_pcie_link_up(port))
->> +		return PCIBIOS_DEVICE_NOT_FOUND;
->> +
->>  	return pci_generic_config_write(bus, devfn, where, size, value);
->>  }
->>  
->> -- 
->> 2.17.1
->>
+Thierry
 
+--O5XBE6gyVG5Rl6Rj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz2e9cACgkQ3SOs138+
+s6E4kw/+I6WkfUA6GnWVtk4560uJsTWMw63natQl7Vz+UpCHky4vw7eUN+Pt7Erc
+eiN0fPVTsblMKeZ6LuweWk8ZtZ5iqNAaeBYu43DbiqJ60x+WxShfucYjgnLM+4F+
+G/fuIInBSMDbe3TzIMS1C/C7pIgWbkdrsadU+j0Z/PFp/WJ4JElXWgxG+aeOW3wo
+lIIgU7Wzz9aCVktOkVkz738FCzv84dE79zoeMpMPTSpjCha3d5NkXmFhzvcNTJ3z
+vOFt0MWiFwzLjzR2oxfWNUgleB4oGNeRslL7uEakleZEPcDquDS31fNyzlZ/1iPU
+ZC7EH5aWc9GCGXhUFLkQrMt30PJa+huwCIFL20fWwpLhoHdSzdBMOmEg2z4xIpoY
+1DsWC52KpF1soSoYN3EHhqd/9GKGMW9ZSGicsXuI+i0ZY5lW02O11pvC9ZgVUwKY
+xHIY6+9oDmnVAHNIxRN3VwrfaeEgu+snV4cngeBtv/Lmh0XHPVKelUSjgAlVJ3nB
+8x/r+tjq18K6XGOWSxHFggtxFMwdGRmJnfCBrNItemdOZsQ8vTRUvjM29bgLD7EU
+kVj1JQIDKDqnVIyYDBwo2OquIPyznVMXXNMhoP3M/QGp70OWnj9Y2sWod0vr1zSh
+2Pj6WiWBwhBcZXQQKv9McEbxgQBnE0Gca8u1BBKlin5Jc/V1Dl8=
+=uV5V
+-----END PGP SIGNATURE-----
+
+--O5XBE6gyVG5Rl6Rj--
