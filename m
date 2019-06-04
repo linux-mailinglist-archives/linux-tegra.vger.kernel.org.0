@@ -2,48 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BB1033EB9
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 08:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F5CD34299
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Jun 2019 11:06:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726410AbfFDGGW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Jun 2019 02:06:22 -0400
-Received: from verein.lst.de ([213.95.11.211]:33266 "EHLO newverein.lst.de"
+        id S1726960AbfFDJF7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Jun 2019 05:05:59 -0400
+Received: from foss.arm.com ([217.140.101.70]:38450 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726136AbfFDGGW (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 4 Jun 2019 02:06:22 -0400
-Received: by newverein.lst.de (Postfix, from userid 2407)
-        id EF17568B02; Tue,  4 Jun 2019 08:05:54 +0200 (CEST)
-Date:   Tue, 4 Jun 2019 08:05:54 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>,
-        Christoph Hellwig <hch@lst.de>, Joerg Roedel <joro@8bytes.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 07/26] iommu/dma: move the arm64 wrappers to common code
-Message-ID: <20190604060554.GA14536@lst.de>
-References: <20190422175942.18788-1-hch@lst.de> <20190422175942.18788-8-hch@lst.de> <06b331f0-7df7-a6cd-954c-789f89a0836d@arm.com> <acb46c7f-0855-de30-485f-a6242968f947@nvidia.com>
+        id S1726873AbfFDJF7 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 4 Jun 2019 05:05:59 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7099A78;
+        Tue,  4 Jun 2019 02:05:58 -0700 (PDT)
+Received: from e107533-lin.cambridge.arm.com (unknown [10.37.9.40])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 775CA3F246;
+        Tue,  4 Jun 2019 02:05:57 -0700 (PDT)
+Date:   Tue, 4 Jun 2019 10:05:54 +0100
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Joseph Lo <josephl@nvidia.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] arm64: tegra: add CPU cache topology for Tegra186
+Message-ID: <20190604090554.GD23250@e107533-lin.cambridge.arm.com>
+References: <20190604023535.7115-1-josephl@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <acb46c7f-0855-de30-485f-a6242968f947@nvidia.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20190604023535.7115-1-josephl@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 03, 2019 at 08:47:57PM +0100, Jon Hunter wrote:
-> Since next-20190529 one of our tests for MMC has started failing, where
-> the symptom is that the data written to the MMC does not match the
-> source. Bisecting this is pointing to this commit. Unfortunately, I am
-> not able to cleanly revert this on top of -next, but wanted to report
-> this if case you have any ideas.
+On Tue, Jun 04, 2019 at 10:35:35AM +0800, Joseph Lo wrote:
+> Tegra186 has two CPU clusters with its own cache hierarchy. This patch
+> adds them with the cache information of each of the CPUs.
+> 
 
-Does this fix your problem?
+Please add geometry information if you prefer to expose the same to the
+user-space. We removed support to read the system registers to fetch
+these information. In-fact it was for one of the Tegra platforms that
+geometry in those registers don't match the actual values, at-least
+that was the argument to drop the support for the same.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git/commit/?h=generic-dma-ops&id=1b961423158caaae49d3900b7c9c37477bbfa9b3
+--
+Regards,
+Sudeep
