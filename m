@@ -2,64 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3A8A35D0B
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jun 2019 14:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9262E35D12
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jun 2019 14:43:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727762AbfFEMkd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Jun 2019 08:40:33 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40819 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727273AbfFEMkd (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jun 2019 08:40:33 -0400
-Received: by mail-lj1-f195.google.com with SMTP id a21so7768167ljh.7
-        for <linux-tegra@vger.kernel.org>; Wed, 05 Jun 2019 05:40:30 -0700 (PDT)
+        id S1727572AbfFEMnW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Jun 2019 08:43:22 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:44209 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727341AbfFEMnW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jun 2019 08:43:22 -0400
+Received: by mail-lf1-f68.google.com with SMTP id r15so18946163lfm.11;
+        Wed, 05 Jun 2019 05:43:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=F3z++oW2IhMf1GzZIotPJ3MBv9UbyrLqG9Y4gz4WZQ4=;
-        b=ZNpomXs+e7K4V0UYU/JcvfauHnAQn+2+/7m6uu7jLqSk8Ox/52l8y5XBYjYLb08eRY
-         GREfhFm78JlkpnKYRV5GavYecCSXrTy5NwUnoD8AEMWbtW556mGxtyZ8DWT7oiMlW23A
-         fRYktfLaPNLrsd4Cnm7QsEnQAKvZr11OF21gTz+uYcFVP3A3bhZDZxECG7bysnJwJSA/
-         yZtXOVnnHuVZZnIr+Q6/9hiJ69ZfiQNKwXAMlk9ZglgBv4Y3rBCmGuAuapgrTVVxiqBV
-         V6q00LqU9KXuT3Hs0Nt7X0wjXVLw/Zmij6Uhy8VwWWuG9LK9Ucy1ePjxgVVc8P7T0RZr
-         SZGQ==
+        bh=Vnxt4/lgx61Y+LGTYa1gbOrzarCfTGoHPTnXkUV0ghY=;
+        b=NoNspzM6txCWkvf1u5H3nuD494ovlx2gdDxTWi2m4ijP2GVJ7qzBLWiRskddBGDV4R
+         lxlHoC9GynJUp+ezWLJM7WFN9O5H8keYcCKIG4hpttOJ2pyzyjqn8d0VZoCVYdNUFIfS
+         1IBL+xcaIyF/eqAxt66Bl4cuuAMOIcyLEUJcqLvmlwFkMtcU+t2BIx4uirs6uwoR100R
+         PDXAsdoQSt3u0YJGeZmw0oJfcF8GAvygfALJHEhtB1bIh7ow9kATZQ6lR0jUZMULfXDS
+         rresDiPf3ezs8G/bQz0ULTLtRdh+YeX9yQf0kPwjyhriJDVemU1yie33w4eO7taBI/sv
+         6rCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=F3z++oW2IhMf1GzZIotPJ3MBv9UbyrLqG9Y4gz4WZQ4=;
-        b=uBMokjRWwjZNEIKMZD+8rl6jaRMQSbYHjWzo/8Bx5vkrcy2CzdUB3OwzNTFpHPW788
-         QYtK78uoVoFznz3153+uknHqQx4Rbkh92XFR7AhnQ0FHsPKxDpPMXojpXjmsyykOp8H2
-         z2vEehbx3h9RdIvoyOuQPH+i5Ksk8qx5gD2qFAErPyk+4aJ88M5ud1Lio/pXLJQ+7Fda
-         VK6r9y9x9mfzlfqNcTgqH6EJDC+4RotQlqL7pNiH0fjpPUJWhJuzAn9iyCYavOgceyMb
-         G7ITSJ/YV1O9IEbI40YwYejkigktRF13MA9DIWX9lJ5iMAYiXJ7PjfXofp7AuiyGyzMG
-         OqmA==
-X-Gm-Message-State: APjAAAVBkoEKwRZzm/btYQLhnh5J1V8wGcd0eCxhc6nMiQitWFtaBDMW
-        /iWi5hWRd5CzJjV6d0vuBsg=
-X-Google-Smtp-Source: APXvYqwYTtGzhqh+0GiYfqc6mnUR1wFzn9JInJTf9okH1F98QuT9sANak87M24pwKwB+myjqfQxfMg==
-X-Received: by 2002:a2e:95d5:: with SMTP id y21mr3747681ljh.84.1559738430123;
-        Wed, 05 Jun 2019 05:40:30 -0700 (PDT)
+        bh=Vnxt4/lgx61Y+LGTYa1gbOrzarCfTGoHPTnXkUV0ghY=;
+        b=t+9e+vSv5H52HMtFybpkl6bAYSdy2jjvlfX1Z8mmTlXPhj0Nn5U0tQM7QEASDeE040
+         Fm5IL8hU1RepmuSqKbkKDL5HXtsta0Na9LORlj64UVFN30LrJjAVqPy5ptU7D4oz9w3e
+         5Dbb4MOTOpugWh3dN0trZsh1bMx+UbSTB7UeVY1mHIbwMRSZydCOaiZ8GY8pSKOGh+Wz
+         KXgV/vhI9oqtWgrADOxlfY4+Xtm18RZvlivS6UvisxWZ2xuq3o4b4Yw7YoBa33TWzoe2
+         6ddh6Y3ly3hSOE6fgyDLBtymFgcx+IC4vURo0QK108DABicd9KCmwPlPK0iWRzS2f+7t
+         k/VA==
+X-Gm-Message-State: APjAAAXpkwpTBmlX7Hv3SxzVirpHqGkMz7qiu8PZ5YFZpmeEcMopM2II
+        A18x8hCarnTN20pHA1dgxzwkNbIJ
+X-Google-Smtp-Source: APXvYqy6ozufNv9bgd8rZ6WD8T9wKGSeLSrX5pYzIadpXvue/zzho5+1Z80LY/df2zjKI41rMKCTsA==
+X-Received: by 2002:a19:6a07:: with SMTP id u7mr16853914lfu.74.1559738599438;
+        Wed, 05 Jun 2019 05:43:19 -0700 (PDT)
 Received: from [192.168.2.145] ([94.29.35.141])
-        by smtp.googlemail.com with ESMTPSA id u10sm4651043lfu.18.2019.06.05.05.40.28
+        by smtp.googlemail.com with ESMTPSA id z12sm1092101lfg.67.2019.06.05.05.43.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Jun 2019 05:40:29 -0700 (PDT)
-Subject: Re: [PATCH] gpu: host1x: Do not output error message for deferred
- probe
+        Wed, 05 Jun 2019 05:43:18 -0700 (PDT)
+Subject: Re: [PATCH v1] rtc: tegra: Drop MODULE_ALIAS
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20190604153150.22265-1-thierry.reding@gmail.com>
- <21c2443c-9166-edc0-5d7b-46b9e3c48e70@gmail.com>
- <20190605082848.GB10944@ulmo>
- <1654b4cb-930c-dbc7-b40d-1f854ff2ac69@gmail.com> <20190605123226.GA724@ulmo>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rtc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190605122613.21303-1-digetx@gmail.com>
+ <20190605123327.GB724@ulmo>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <60f6e811-e4de-7bc6-fc9d-53a8bb8aff53@gmail.com>
-Date:   Wed, 5 Jun 2019 15:40:28 +0300
+Message-ID: <3cc5b0f5-83ae-23b8-e064-652300b93aae@gmail.com>
+Date:   Wed, 5 Jun 2019 15:43:17 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190605123226.GA724@ulmo>
+In-Reply-To: <20190605123327.GB724@ulmo>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -68,89 +69,22 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-05.06.2019 15:32, Thierry Reding пишет:
-> On Wed, Jun 05, 2019 at 02:25:43PM +0300, Dmitry Osipenko wrote:
->> 05.06.2019 11:28, Thierry Reding пишет:
->>> On Tue, Jun 04, 2019 at 07:07:42PM +0300, Dmitry Osipenko wrote:
->>>> 04.06.2019 18:31, Thierry Reding пишет:
->>>>> From: Thierry Reding <treding@nvidia.com>
->>>>>
->>>>> When deferring probe, avoid logging a confusing error message. While at
->>>>> it, make the error message more informational.
->>>>>
->>>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>>>> ---
->>>>>  drivers/gpu/host1x/dev.c | 5 ++++-
->>>>>  1 file changed, 4 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
->>>>> index c55e2d634887..5a3f797240d4 100644
->>>>> --- a/drivers/gpu/host1x/dev.c
->>>>> +++ b/drivers/gpu/host1x/dev.c
->>>>> @@ -247,8 +247,11 @@ static int host1x_probe(struct platform_device *pdev)
->>>>>  
->>>>>  	host->clk = devm_clk_get(&pdev->dev, NULL);
->>>>>  	if (IS_ERR(host->clk)) {
->>>>> -		dev_err(&pdev->dev, "failed to get clock\n");
->>>>>  		err = PTR_ERR(host->clk);
->>>>> +
->>>>> +		if (err != -EPROBE_DEFER)
->>>>> +			dev_err(&pdev->dev, "failed to get clock: %d\n", err);
->>>>> +
->>>>>  		return err;
->>>>>  	}
->>>>
->>>> The clock driver should be available at the time of host1x's probing on
->>>> all Tegra's because it is one of essential core drivers that become
->>>> available early during boot.
->>>
->>> That's the currently baked-in assumption. However, there can be any
->>> number of reasons for why the clocks may not show up as early as
->>> expected, as evidenced in the case of Tegra186.
->>>
->>>> I guess you're making this change for T186, is it because the BPMP
->>>> driver's probe getting deferred? If yes, won't it be possible to fix the
->>>> defer of the clock driver instead of making such changes in the affected
->>>> drivers?
->>>
->>> The reason why this is now happening on Tegra186 is because the BPMP is
->>> bound to an IOMMU to avoid getting faults from the new no-bypass policy
->>> that the ARM SMMU driver is implementing as of v5.2-rc1.
->>>
->>> As a result of binding to an IOMMU, the first probe of the BPMP driver
->>> will get deferred, so any driver trying to request a clock after that
->>> and before BPMP gets probed successfully the next time, any clk_get()
->>> calls will fail with -EPROBE_DEFER.
->>>
->>> This is a bit unfortunate, but like I said, these kinds of things can
->>> happen, and probe deferral was designed specifically to deal with that
->>> kind of situation so that we wouldn't have to rely on all of these
->>> built-in assumptions that occasionally break.
->>>
->>> The driver also already handles deferred probe properly. The only thing
->>> that this patch really changes is to no longer consider -EPROBE_DEFER an
->>> error. It's in fact a pretty common situation in many drivers and should
->>> not warrant a kernel log message.
+05.06.2019 15:33, Thierry Reding пишет:
+> On Wed, Jun 05, 2019 at 03:26:13PM +0300, Dmitry Osipenko wrote:
+>> RTC driver was converted to OF driver long time ago. The MODULE_ALIAS
+>> macro has no effect for the OF drivers since the alias is overridden by
+>> the drivers core to follow the OF naming convention of the driver's alias,
+>> which is based on the device-tree matching name.
 >>
->> You're trying to mask symptoms instead of curing the decease and it looks
->> like the decease could be cured.
+>> $ cat /sys/devices/soc0/7000e000.rtc/modalias
+>> of:NrtcT(null)Cnvidia,tegra20-rtc
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/rtc/rtc-tegra.c | 1 -
+>>  1 file changed, 1 deletion(-)
 > 
-> There's nothing here to cure. -EPROBE_DEFER was designed specifically to
-> avoid having to play these kinds of games with initcall levels.
+> Acked-by: Thierry Reding <treding@nvidia.com>
 > 
-> What this patch tries to do is just to avoid printing an error message
-> for something that is not an error. -EPROBE_DEFER is totally expected to
-> happen, it's normal, it's not something that we should bother users with
-> because things end up sorting themselves out in the end.
-> 
->> Won't something like this work for you?
-> 
-> I'm sure we could find a number of ways to fix this. But there's no need
-> to fix this because it's not broken. What is broken is that we output an
-> error message when this happens and make an elephant out of a fly.
 
-Sure, this is absolutely not critical and deferred probe is doing its job.
-But don't you agree that it's better to fix the root of the annoyance once
-and for all?
-
-Would be awesome if you could give a whirl to the patches that I'm suggesting.
+Thanks!
