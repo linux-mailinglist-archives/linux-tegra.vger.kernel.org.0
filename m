@@ -2,109 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46BE535B49
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jun 2019 13:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD26135CD5
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jun 2019 14:29:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727459AbfFELah (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Jun 2019 07:30:37 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:19331 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726280AbfFELah (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jun 2019 07:30:37 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cf7a7da0000>; Wed, 05 Jun 2019 04:30:34 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 05 Jun 2019 04:30:36 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 05 Jun 2019 04:30:36 -0700
-Received: from [10.21.132.143] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 5 Jun
- 2019 11:30:33 +0000
-Subject: Re: [PATCH] clk: tegra210: Fix default rates for HDA clocks
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Sameer Pujar <spujar@nvidia.com>
-References: <1559121501-8566-1-git-send-email-jonathanh@nvidia.com>
- <20190529134625.GD17223@ulmo>
- <5f2b8f8d-f3e5-fab8-8cf0-fa8a3e917845@nvidia.com>
-Message-ID: <f2757c84-363c-cef0-db9d-c4e4423200b5@nvidia.com>
-Date:   Wed, 5 Jun 2019 12:30:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1727585AbfFEM3D (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Jun 2019 08:29:03 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:44119 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727486AbfFEM3D (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jun 2019 08:29:03 -0400
+Received: by mail-lf1-f66.google.com with SMTP id r15so18912520lfm.11;
+        Wed, 05 Jun 2019 05:29:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8HVlknpI+BmHQFC/piG0dRX/l8wTKMARAJ5WDZfkyic=;
+        b=Ms2rYs0QFqMMCLu3YyyLF5yBWqj+Bpee1W+md7KV21p2AXZ3bbf/lvJA+pCrBEFiyx
+         o+homoHfmpbb9DJ9fBxqDt/Ulc9PmWNmFyuW0qIHuDpT2UgePwuuSBZq9+MaaLvBaxgR
+         Vv3y97dNDm9/OG6FjLG1NFWtj9d44S8QTQaWh+Pn62HoX8yka1RznREopJOgRgS7JKwV
+         b2e73K3hfizwgYJr81tFRDM+sqrBTjiboQ05/nWM3wbRfF9jNVVlvRsyDxJZaoUkyWGt
+         3PK0mSjaoaxIAHjXSGpwzrntQya9c9s8UcIUve80+oHcBQXxOrIGuWkt2mCM+hGX/Oxj
+         n6TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8HVlknpI+BmHQFC/piG0dRX/l8wTKMARAJ5WDZfkyic=;
+        b=it7KJ5B0WmLD3wdqaDXXK6Se3Ttd7CdnKhXBzzXletbkj51oJE5EW0zehwDAULV5Oe
+         jgFnQ31YqgTkDfSymgNvygd8QR8i93DSECl6kJYZEfSl4pSRJzP0jyGm2BCnlZ3C2L8h
+         rDwNqurO91zzquVWJKe39gniimz8/L4V5ckX/eJkAz38ow6x3ugdyvxqOf5XlsTCy1wG
+         E3dFcnoiMghnLOsf6ZgZt3E0NHddHC7d9Oc80ZOPy0NKunzmypbK43H7mqd4giIPfRLc
+         6kPNKXJiWf3BuMtfcQxmW6OfeM0QOSw9bIF3DTmGF6VofTVwsMqAFSV+n1PxZwB2CIF9
+         YFvQ==
+X-Gm-Message-State: APjAAAUIcCEPEoqK5BdxlACl9G1vTJvjsWne8J95Is389Fyoj+Eklmn8
+        Z2+lxguw5JewSsFHWHq4WfM=
+X-Google-Smtp-Source: APXvYqwax0TiKlVgZKW45dW7mssIGKZdV/et3rVrkRpwCOQ/zRog6pHZ2QRxpfApp+D29cc4/5nKFw==
+X-Received: by 2002:a19:6a07:: with SMTP id u7mr16808990lfu.74.1559737741231;
+        Wed, 05 Jun 2019 05:29:01 -0700 (PDT)
+Received: from localhost.localdomain ([94.29.35.141])
+        by smtp.gmail.com with ESMTPSA id f1sm901969ljf.48.2019.06.05.05.28.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Jun 2019 05:29:00 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-rtc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] rtc: tegra: Drop MODULE_ALIAS
+Date:   Wed,  5 Jun 2019 15:26:13 +0300
+Message-Id: <20190605122613.21303-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <5f2b8f8d-f3e5-fab8-8cf0-fa8a3e917845@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559734234; bh=0p6mNaMjQPO8lN/MkCvb/luHUOwN9kFQfK7z4rY4vdA=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=dl01BDGHx9+fNyiOUX2eAW9yEZJO15tTStvOb+pqXTH76B5v114SjSrkN+h+vE+gC
-         Cg2oj9A8y5B9bzGhRTieqpsu55HLrhJLix+58bWEmwDeahaPRnjD9CqaGGAb1hjsDS
-         Jc8hXb1Zm3ysIYx93gRyEzozYe3Fep8XWDhU+Ld3hBvGv+oR3GvsvdtxOhMkqJhoDW
-         1TbiSOjm1BAXipzOFFGmQz3QTPKuZnV/FL2/ClgX3sXsOfZ8OqHqVQ2xbbamGRbqcA
-         bpD19rrTdc7L2LBQb4C1QI4iTgaPBh1ZdYRNWhBNGhRl74IKWytAFwgrIoM9WBXB12
-         hnoTqTFqH5O5A==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+RTC driver was converted to OF driver long time ago. The MODULE_ALIAS
+macro has no effect for the OF drivers since the alias is overridden by
+the drivers core to follow the OF naming convention of the driver's alias,
+which is based on the device-tree matching name.
 
-On 31/05/2019 15:58, Jon Hunter wrote:
-> 
-> On 29/05/2019 14:46, Thierry Reding wrote:
->> On Wed, May 29, 2019 at 10:18:21AM +0100, Jon Hunter wrote:
->>> Currently the default clock rates for the HDA and HDA2CODEC_2X clocks
->>> are both 19.2MHz. However, the default rates for these clocks should
->>> actually be 51MHz and 48MHz, respectively. Correct the default clock
->>> rates for these clocks by specifying them in the clock init table for
->>> Tegra210.
->>>
->>> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
->>> ---
->>>  drivers/clk/tegra/clk-tegra210.c | 2 ++
->>>  1 file changed, 2 insertions(+)
->>
->> Does this fix anything? Should this be backported to stable releases?
-> 
-> Good point. We are aligning the clock configuration with what we ship.
-> So I thought for completeness it would be good to test HDA playback
-> across the various sample-rates we support (32kHz to 192kHz) but with or
-> without this patch I am not hearing anything. Let me check on this with
-> Sameer as I would like to see if we need to mark this for stable or not.
-> 
->> Acked-by: Thierry Reding <treding@nvidia.com>
+$ cat /sys/devices/soc0/7000e000.rtc/modalias
+of:NrtcT(null)Cnvidia,tegra20-rtc
 
-I have confirmed that this does fix HDA playback on Tegra210. Without
-this fix, I am seeing the following messages during playback and
-playback is distorted ...
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/rtc/rtc-tegra.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Write error: -32,Broken pipe
-[   15.069335] tegra-mc 70019000.memory-controller: hdar: read
-@0x0000000000000000: EMEM address decode error (EMEM decode error)
-Write error: -32,Broken pipe
-[   15.465362] tegra-mc 70019000.memory-controller: hdar: read
-@0x0000000000000000: EMEM address decode error (EMEM decode error)
-Write error: -32,Broken pipe
-[   15.858615] tegra-mc 70019000.memory-controller: hdar: read
-@0x0000000000000000: EMEM address decode error (EMEM decode error)
-W
-
-Do you want me to update the change and resend?
-
-Jon
-
+diff --git a/drivers/rtc/rtc-tegra.c b/drivers/rtc/rtc-tegra.c
+index 8bbaea24926e..8fa1b3febf69 100644
+--- a/drivers/rtc/rtc-tegra.c
++++ b/drivers/rtc/rtc-tegra.c
+@@ -419,5 +419,4 @@ module_platform_driver(tegra_rtc_driver);
+ 
+ MODULE_AUTHOR("Jon Mayo <jmayo@nvidia.com>");
+ MODULE_DESCRIPTION("driver for Tegra internal RTC");
+-MODULE_ALIAS("platform:tegra_rtc");
+ MODULE_LICENSE("GPL");
 -- 
-nvpublic
+2.21.0
+
