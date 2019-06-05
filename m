@@ -2,69 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04C3635663
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jun 2019 07:50:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80D353566D
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jun 2019 07:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbfFEFub (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Jun 2019 01:50:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:51614 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726050AbfFEFub (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jun 2019 01:50:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
-        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=OjIrnGQGCOhzp7rHkVNxq6gEHvDiczQ7n+SWfkZXfuA=; b=FOh08iBoGdxd0TgZxWZAe6HY72
-        /y1hc0WRaI1KV40nBnCVCTOhmnFS1h4bSdNQSrxJOcNtvxu9PmbP/uk1SBAVW477UVP8nRBqs8cbF
-        J5rNRQNgZgLlmWRdm3illrkt8ckb3/2rN9ec5hh+jO5+vHItXKFdgfmAJFEuqyf+sww13/3n97E7S
-        vmtMhW40lznrYzWF2YPcOysOUiar1cIRSChCJkFf0lIO4NYUTTy0cr1p0wB2J5Fcp87h6zNekn8aN
-        GFTzn57fRV37XuUpKUTT7A5+IWgfzWtQwvq+XOvRwiMRtJIxwiUQHM5iDrSZzCiFK2UrdsiP5ne72
-        HRloGgdA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYOoX-0005Al-PR; Wed, 05 Jun 2019 05:50:21 +0000
-Date:   Tue, 4 Jun 2019 22:50:21 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Tom Murphy <tmurphy@arista.com>
-Cc:     iommu@lists.linux-foundation.org, Heiko Stuebner <heiko@sntech.de>,
-        Will Deacon <will.deacon@arm.com>,
-        David Brown <david.brown@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Kukjin Kim <kgene@kernel.org>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Andy Gross <andy.gross@linaro.org>,
-        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Robin Murphy <robin.murphy@arm.com>,
-        linux-kernel@vger.kernel.org, murphyt7@tcd.ie,
-        David Woodhouse <dwmw2@infradead.org>
-Subject: Re: [PATCH v3 1/4] iommu: Add gfp parameter to iommu_ops::map
-Message-ID: <20190605055021.GA15036@infradead.org>
-References: <20190506185207.31069-1-tmurphy@arista.com>
- <20190506185207.31069-2-tmurphy@arista.com>
+        id S1726056AbfFEFvg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Jun 2019 01:51:36 -0400
+Received: from mga02.intel.com ([134.134.136.20]:49038 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726050AbfFEFvf (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 5 Jun 2019 01:51:35 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 22:51:35 -0700
+X-ExtLoop1: 1
+Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.198]) ([10.237.72.198])
+  by orsmga001.jf.intel.com with ESMTP; 04 Jun 2019 22:51:33 -0700
+Subject: Re: [PATCH] sdhci: tegra: Do not log error message on deferred probe
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-mmc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+References: <20190604153446.22857-1-thierry.reding@gmail.com>
+From:   Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
+ Business Identity Code: 0357606 - 4, Domiciled in Helsinki
+Message-ID: <f856f9c3-e989-df46-739b-72f3030bdeb8@intel.com>
+Date:   Wed, 5 Jun 2019 08:50:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190604153446.22857-1-thierry.reding@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190506185207.31069-2-tmurphy@arista.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, May 06, 2019 at 07:52:03PM +0100, Tom Murphy via iommu wrote:
-> We can remove the mutex lock from amd_iommu_map and amd_iommu_unmap.
-> iommu_map doesn’t lock while mapping and so no two calls should touch
-> the same iova range. The AMD driver already handles the page table page
-> allocations without locks so we can safely remove the locks.
+On 4/06/19 6:34 PM, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Recent changes have made it much more probably that clocks are not
+> available yet when the SDHCI driver is first probed. However, that
+> is a situation that the driver can cope with just fine.
+> 
+> To avoid confusion, don't output an error when this happens.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 
-Btw, this really should be a separate patch.
+Acked-by: Adrian Hunter <adrian.hunter@intel.com>
+
+> ---
+>  drivers/mmc/host/sdhci-tegra.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+> index 10d7aaf68bab..8a6a51bc038b 100644
+> --- a/drivers/mmc/host/sdhci-tegra.c
+> +++ b/drivers/mmc/host/sdhci-tegra.c
+> @@ -1550,8 +1550,11 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
+>  
+>  	clk = devm_clk_get(mmc_dev(host->mmc), NULL);
+>  	if (IS_ERR(clk)) {
+> -		dev_err(mmc_dev(host->mmc), "clk err\n");
+>  		rc = PTR_ERR(clk);
+> +
+> +		if (rc != -EPROBE_DEFER)
+> +			dev_err(&pdev->dev, "failed to get clock: %d\n", rc);
+> +
+>  		goto err_clk_get;
+>  	}
+>  	clk_prepare_enable(clk);
+> 
+
