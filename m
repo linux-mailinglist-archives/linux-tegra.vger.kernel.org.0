@@ -2,152 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0E4435CFB
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jun 2019 14:38:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 531FA35D05
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Jun 2019 14:40:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727411AbfFEMie (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Jun 2019 08:38:34 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44452 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727273AbfFEMie (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jun 2019 08:38:34 -0400
-Received: by mail-wr1-f67.google.com with SMTP id w13so19258363wru.11;
-        Wed, 05 Jun 2019 05:38:32 -0700 (PDT)
+        id S1727615AbfFEMkR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Jun 2019 08:40:17 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:42630 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727273AbfFEMkR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Jun 2019 08:40:17 -0400
+Received: by mail-ed1-f68.google.com with SMTP id z25so5579889edq.9
+        for <linux-tegra@vger.kernel.org>; Wed, 05 Jun 2019 05:40:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=9D3ypK1jNrXXP78FSrpag9w6FVvOQQOTO7rf8vLaKZQ=;
-        b=gTqSOkNp4dWI7DqqFRrpWC0i5v2Gsy+Bl6n+EozDsdNt8/41QJZmmd+4iw6MWwirJv
-         My/yy4mUBoPTQLWoJGXGjkG77wsHm68yfuYLLzm4gn199uQDW9u9exj7n7w19MZ5kqkf
-         R2pjc5+NFDsra/OgEJoXshprvNwT/aZSGpz+b5TW76+Oa+OwgtxbDCHc77ngf/J/RZo/
-         bZsNM+G9pIDVfBLG1XP4wtyFyiMVORLenm0HqcCx5KvqwJpdy02+K99fODsaczHP/Z+L
-         d2N5taX9IITkXLqcG7atrefjshw6t285WG8BaKsDLzMOir/ZDMr5W2WcE6zz4kQdhxVh
-         rRPA==
+        bh=19Zu+rAYo+G3lJ9CumK/W89DuTXy0hR8UhibNfpN+P4=;
+        b=fE4SL0f4q/InjUL5sSgaTYrHEFfPwX9MhChobpROX88enEjOxXYKx8+1mdXozTcsI1
+         G3z8q8zOfG6gwLa8W2F9+AFnBBMjzOmdN6ca2IkZdIfokFXR00CBOkYBzcGJvjnYRtzc
+         Ga8ZX+6HMGPAmPpx2qIHOl+1N928Yo8fy+qzM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9D3ypK1jNrXXP78FSrpag9w6FVvOQQOTO7rf8vLaKZQ=;
-        b=g+TDnqSiNIkeNS+BjoKqS474Cl54PE/4840yspVTp5cn5OOuDlKSD4KngF+N1i8Y4k
-         st4FVSkVIhK3B3bDGbBGzD80nb88S533D6no4oez4nIl/1g+33Go/pQjoLD1dDCSGQuL
-         kEkYjMI2Fzt3PFsbiLKP+aXU60S+XViFK2T5JiFxQEGzFhXiVciMYFuz1okeZj+TzFqw
-         ABMl6SwkR0dcMLEBHKv1raqguDdQdBTSqnoU7MwiZreb5aW2deMfw7LOoDaNdKgyByVy
-         LUprwpEz+ktFBRPTZprm8DNGvozyV5Y2JCFl5A706fb+nIhZHcu5lL7VBrm6YjUm/Ye1
-         qXog==
-X-Gm-Message-State: APjAAAUkxYDl4hMPIg3JfVXLrspjBvmj8Z5jIe174tET+2NGQD9LniS0
-        tgqlfdbXdmUI4SsvdvJOVOE=
-X-Google-Smtp-Source: APXvYqxgJTzolF4uDBpvTA6U4fB8aq1pFFlSHSXVQXdpRB68LM4KZN8GHIpY7vqmfOowjQNpd7hICg==
-X-Received: by 2002:adf:fe4e:: with SMTP id m14mr961373wrs.21.1559738312046;
-        Wed, 05 Jun 2019 05:38:32 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id f21sm19701243wmb.2.2019.06.05.05.38.31
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 05 Jun 2019 05:38:31 -0700 (PDT)
-Date:   Wed, 5 Jun 2019 14:38:30 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sameer Pujar <spujar@nvidia.com>
-Subject: Re: [PATCH] clk: tegra210: Fix default rates for HDA clocks
-Message-ID: <20190605123830.GA1012@ulmo>
-References: <1559121501-8566-1-git-send-email-jonathanh@nvidia.com>
- <20190529134625.GD17223@ulmo>
- <5f2b8f8d-f3e5-fab8-8cf0-fa8a3e917845@nvidia.com>
- <f2757c84-363c-cef0-db9d-c4e4423200b5@nvidia.com>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=19Zu+rAYo+G3lJ9CumK/W89DuTXy0hR8UhibNfpN+P4=;
+        b=evBXHlzsnNdzCeMQFdCgJut+GJt2OW0nJgcJ2vkW/X9OjKG2/gpF2waIjeFNzFFmh+
+         dEWn75v2PqFwQxHb+o3/LLAJAG46UTkS0SvoFt/e/1udSXnEexA+h7Pp/Ru45NkB/DWQ
+         ZmJ3ZOwv3cetAOapOyaOkMXC5sdFqQ0bH2xMVF5UoCblmTu6KOjvtJ14x8Q6i5wlWzuZ
+         IMRGyMB6tG96Sy0W3zmOiaZF8vQHbngmmQO85uktCl1Vm1Lq8HaiJd+0V70D3O8yWFuo
+         591ewsM2U6bBfIOkTW9p/KnA7/8DC+WZmPnRwmFz+j569jRhwY2XkbkI2Z3pXs5NFD2T
+         xINg==
+X-Gm-Message-State: APjAAAUOzRlLuL/jEuuocIxkbB7YBDGK8IRAaziBQcgVQvGmMegp9S6w
+        B3GegTlXJz5Fv+4X24YeB1bfkg==
+X-Google-Smtp-Source: APXvYqwtCdDy+7ckC3bq0JLPz1ETCd0W2/kqC6hte7TbeC809Dxf35J8hw0BPRDFWMWhdfcS7f/ZEQ==
+X-Received: by 2002:a50:ca89:: with SMTP id x9mr41756654edh.164.1559738415815;
+        Wed, 05 Jun 2019 05:40:15 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+        by smtp.gmail.com with ESMTPSA id z27sm832131ejk.20.2019.06.05.05.40.14
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 05 Jun 2019 05:40:14 -0700 (PDT)
+Date:   Wed, 5 Jun 2019 14:40:12 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] gpu: host1x: Do not output error message for deferred
+ probe
+Message-ID: <20190605124012.GU21222@phenom.ffwll.local>
+References: <20190604153150.22265-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f2757c84-363c-cef0-db9d-c4e4423200b5@nvidia.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190604153150.22265-1-thierry.reding@gmail.com>
+X-Operating-System: Linux phenom 4.14.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, Jun 04, 2019 at 05:31:50PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> When deferring probe, avoid logging a confusing error message. While at
+> it, make the error message more informational.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/gpu/host1x/dev.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> index c55e2d634887..5a3f797240d4 100644
+> --- a/drivers/gpu/host1x/dev.c
+> +++ b/drivers/gpu/host1x/dev.c
+> @@ -247,8 +247,11 @@ static int host1x_probe(struct platform_device *pdev)
+>  
+>  	host->clk = devm_clk_get(&pdev->dev, NULL);
+>  	if (IS_ERR(host->clk)) {
+> -		dev_err(&pdev->dev, "failed to get clock\n");
+>  		err = PTR_ERR(host->clk);
+> +
+> +		if (err != -EPROBE_DEFER)
+> +			dev_err(&pdev->dev, "failed to get clock: %d\n", err);
 
---bg08WKrSYDhXBjb5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-On Wed, Jun 05, 2019 at 12:30:31PM +0100, Jon Hunter wrote:
->=20
-> On 31/05/2019 15:58, Jon Hunter wrote:
-> >=20
-> > On 29/05/2019 14:46, Thierry Reding wrote:
-> >> On Wed, May 29, 2019 at 10:18:21AM +0100, Jon Hunter wrote:
-> >>> Currently the default clock rates for the HDA and HDA2CODEC_2X clocks
-> >>> are both 19.2MHz. However, the default rates for these clocks should
-> >>> actually be 51MHz and 48MHz, respectively. Correct the default clock
-> >>> rates for these clocks by specifying them in the clock init table for
-> >>> Tegra210.
-> >>>
-> >>> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> >>> ---
-> >>>  drivers/clk/tegra/clk-tegra210.c | 2 ++
-> >>>  1 file changed, 2 insertions(+)
-> >>
-> >> Does this fix anything? Should this be backported to stable releases?
-> >=20
-> > Good point. We are aligning the clock configuration with what we ship.
-> > So I thought for completeness it would be good to test HDA playback
-> > across the various sample-rates we support (32kHz to 192kHz) but with or
-> > without this patch I am not hearing anything. Let me check on this with
-> > Sameer as I would like to see if we need to mark this for stable or not.
-> >=20
-> >> Acked-by: Thierry Reding <treding@nvidia.com>
->=20
-> I have confirmed that this does fix HDA playback on Tegra210. Without
-> this fix, I am seeing the following messages during playback and
-> playback is distorted ...
->=20
-> Write error: -32,Broken pipe
-> [   15.069335] tegra-mc 70019000.memory-controller: hdar: read
-> @0x0000000000000000: EMEM address decode error (EMEM decode error)
-> Write error: -32,Broken pipe
-> [   15.465362] tegra-mc 70019000.memory-controller: hdar: read
-> @0x0000000000000000: EMEM address decode error (EMEM decode error)
-> Write error: -32,Broken pipe
-> [   15.858615] tegra-mc 70019000.memory-controller: hdar: read
-> @0x0000000000000000: EMEM address decode error (EMEM decode error)
-> W
->=20
-> Do you want me to update the change and resend?
+> +
+>  		return err;
+>  	}
+>  
+> -- 
+> 2.21.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-Honestly I'm not sure if it's worth it. I haven't seen any bug reports
-for this and we haven't had audio over HDMI support for very long, so a
-backport may not be necessary.
-
-I guess there'd be some use to backport this so that our stable kernel
-testing passes these. So it's really up to you. I have a slight tendency
-towards backporting, because it's really tiny and then we just have it
-out of the way and it's not going to haunt us.
-
-Thierry
-
---bg08WKrSYDhXBjb5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz3t8YACgkQ3SOs138+
-s6HDVw//fVw0ZwJVA8M4iHuRpPgj6iIfoP9raM5gEG0eUfa6FEr3iDtfOIW+rB7G
-GQqEtIR/l6GaPKrRWQX/0AwTOKb3uIoVxACSye7jh/M4o8A4ml8faPvQGpx97Oe3
-3hq6aEaU3lwTCOv4hJy3QWXAYqNJAyEFv9puOm0iiNuTODVNHO4dlAg8SYZQMzG+
-FqBPH08pEZaQ0sRktNX00wcWrrLPEnRJwHZr0yWfnajdeWJAhNtrU5d5vD5ffUsn
-sdu5PnEOxZdpuzqPFdwZDYAmj5i+D7cw1aLF9vN+Vzuju4dxtVgb+0uWSD4osmyy
-l8TDbLrVNx2IRqMe6EaMl8tg5ZCubNtVbA/cuo+XdBGjNBzXQVTPK/sni/Tt/g3K
-+gl5cyOcCdGDjNyER6Ve2g1hmnBld4mkKrH1A20IDlIhO1WTa3Eej0eWpfJzpIvR
-nS0Zds+7tNDsjDlSjlBFSxmgzUtmhtQdJ7M4ymdXZNt5BVcQGBK4fteewDYZgf2T
-23+LpkKudJxWPVTLc60Bzu+EYUOOyrdOMoITAKWmzw5k0ZaLwSpmgcrvPi+xGrgk
-THaYxb8LgJENFvOZQF7MFepAGRfaeknYptfUKV2Qw/+Rrjjyg2ZqIbT86bBq5obj
-izICkwk+/IWwz0efRc0kMYu6+S9Tpfr5rewS7hB2uzg+EM8AMqQ=
-=AXlW
------END PGP SIGNATURE-----
-
---bg08WKrSYDhXBjb5--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
