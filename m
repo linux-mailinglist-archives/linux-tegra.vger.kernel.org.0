@@ -2,129 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B7537985
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 18:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 977D1379BC
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 18:32:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727167AbfFFQaP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Jun 2019 12:30:15 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:44765 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727054AbfFFQaP (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Jun 2019 12:30:15 -0400
-Received: by mail-io1-f66.google.com with SMTP id s7so664587iob.11;
-        Thu, 06 Jun 2019 09:30:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=d7LytwrxXouA0Zs6R/AiX1+NNXroNALfB+EP9vrU3ak=;
-        b=CqDzhS28zOoXKqAmwZIGxqbShXAuwtqOzzqhggdfQVmXEfeJln82iHfrubi8vmVLfS
-         yjJMYT3JBT/pMQKyZwotP9cvg2CPLI8iawIC3LlhyybNGEuMJPBZA+O+H2877aBFuMbL
-         fowQ67ZuQZWNM0tESPs5I+ZMat9YSqOm1ldfdSI2UKOfdg6wUiV0O33De7/PxsH5+wSq
-         l81xAi7PWhySQ6y27rt+nSwNwEM6scBeWf8/0MdhaHXNE2CqjVBMUTROQtLn9CxfCemq
-         GhHxb/tduVEt73Elpc5FUhkGrzq0IKIOwLOF30IDZE9W7sPzQDwCvl53nvNTchjYHmPg
-         EScA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=d7LytwrxXouA0Zs6R/AiX1+NNXroNALfB+EP9vrU3ak=;
-        b=oZjtX10MbGsBMCbVvrwui4jl2zt3dsNfGaOeozmkNqKShGuk+4ph3bwFZexI/vk2mc
-         gL+hp6ykj1UhkBjcdGbPnmvdJA4tRSA8Y7VAH97hQEtEmdy+glFJVM1UD6n30dxBE6M4
-         kZixBdK7F9dW3Dov8WTG5mt7lfyd3a6CgxbwD67/0hGRNuqpzGr9EOtUhPQzNBQ91ayD
-         8pfK1rNKfxFpEJjEOe84Rjep7IpxqR65bBWVPQBykl7CwJsTGX4b8HbTc8hPU5BgKFAZ
-         /pn12b3A5DRUKpd8vM5lq+vWl0/MT7uD9pNnw9fstf/2u25b4VZgOJV3p1bFIJYr+58m
-         fxag==
-X-Gm-Message-State: APjAAAX174f9/toB1jjcRHvewBTABUqGMBnLyLIp9vHsX3ulynf+2+eD
-        6fRAnTcwXx9ulXmVFmjrh/Q=
-X-Google-Smtp-Source: APXvYqx6Y2P7X9DmDW6zWXGbATaWZwdPGt54+mRbNR9V0Z0IbrAHa9vJLSmEXZTPLGvVlVq2Z9SkCg==
-X-Received: by 2002:a6b:8dcf:: with SMTP id p198mr33147282iod.46.1559838614878;
-        Thu, 06 Jun 2019 09:30:14 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.35.141])
-        by smtp.googlemail.com with ESMTPSA id c100sm1217734itd.0.2019.06.06.09.30.10
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Jun 2019 09:30:14 -0700 (PDT)
-Subject: Re: [PATCH V8 13/15] phy: tegra: Add PCIe PIPE2UPHY support
-To:     Vidya Sagar <vidyas@nvidia.com>, lorenzo.pieralisi@arm.com,
-        bhelgaas@google.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, kishon@ti.com,
-        catalin.marinas@arm.com, will.deacon@arm.com, jingoohan1@gmail.com,
-        gustavo.pimentel@synopsys.com
-Cc:     mperttunen@nvidia.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-References: <20190526043751.12729-1-vidyas@nvidia.com>
- <20190526043751.12729-14-vidyas@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c81c5d42-4292-ba6d-b5ab-afe1a604115f@gmail.com>
-Date:   Thu, 6 Jun 2019 19:30:08 +0300
+        id S1726722AbfFFQcn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Jun 2019 12:32:43 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:17548 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726103AbfFFQcm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Jun 2019 12:32:42 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cf940290002>; Thu, 06 Jun 2019 09:32:41 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 06 Jun 2019 09:32:41 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 06 Jun 2019 09:32:41 -0700
+Received: from [10.21.132.143] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Jun
+ 2019 16:32:39 +0000
+Subject: Re: [PATCH] [RFC] dmaengine: add fifo_size member
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Sameer Pujar <spujar@nvidia.com>, Vinod Koul <vkoul@kernel.org>
+CC:     <dan.j.williams@intel.com>, <tiwai@suse.com>,
+        <dmaengine@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
+        <mkumard@nvidia.com>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <1556623828-21577-1-git-send-email-spujar@nvidia.com>
+ <20190502060446.GI3845@vkoul-mobl.Dlink>
+ <e852d576-9cc2-ed42-1a1a-d696112c88bf@nvidia.com>
+ <20190502122506.GP3845@vkoul-mobl.Dlink>
+ <3368d1e1-0d7f-f602-5b96-a978fcf4d91b@nvidia.com>
+ <20190504102304.GZ3845@vkoul-mobl.Dlink>
+ <ce0e9c0b-b909-54ae-9086-a1f0f6be903c@nvidia.com>
+ <20190506155046.GH3845@vkoul-mobl.Dlink>
+ <b7e28e73-7214-f1dc-866f-102410c88323@nvidia.com>
+ <ed95f03a-bbe7-ad62-f2e1-9bfe22ec733a@ti.com>
+ <4cab47d0-41c3-5a87-48e1-d7f085c2e091@nvidia.com>
+ <8a5b84db-c00b-fff4-543f-69d90c245660@nvidia.com>
+ <3f836a10-eaf3-f59b-7170-6fe937cf2e43@ti.com>
+ <a36302fc-3173-070b-5c97-7d2c55d5e2cc@nvidia.com>
+ <a08bec36-b375-6520-eff4-3d847ddfe07d@ti.com>
+ <4593f37c-5e89-8559-4e80-99dbfe4235de@nvidia.com>
+ <deae510a-f6ae-6a51-2875-a7463cac9169@gmail.com>
+ <ac9a965d-0166-3d80-5ac4-ae841d7ae726@nvidia.com>
+ <50e1f9ed-1ea0-38f6-1a77-febd6a3a0848@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <4b098fb6-1a5b-1100-ae16-978a887c9535@nvidia.com>
+Date:   Thu, 6 Jun 2019 17:32:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190526043751.12729-14-vidyas@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <50e1f9ed-1ea0-38f6-1a77-febd6a3a0848@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1559838761; bh=k8u67P195ByQ7NwcJoTWbUMcfVgkrN8EE1wBTc4lo2Q=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=bcTBAfzNv7bqbRwB6bN21BDIGn8RjgA/UQZsXULBJ1EfkcaiOJvxj/hkXbRLyqAnm
+         JRcmH7ROBIyqb1/32m03N3zKHyuE9xfbuoJdho52dOJ9Ic0PvVpr9CZTd+xGoTB8le
+         aU3QrutiN7vjLgRJ+BfEgaHrmH4ORIoCBF/BArqIwBC2RqIPfdbB6Np07bDwSS47N/
+         rtyiTigJGXJgXuE/xvn5cpuXhokNpk5+8ftoYNSdXTxnd6wBO6WFWFqqHy1NiGfw0d
+         M/JYZOwrZ5QMJaamn3Zrdo9rKOdiZXWJABDTX8NDF2rwMmvcx6b8dz07DsbzQPkXDN
+         NK2+k2D5O6cXw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-26.05.2019 7:37, Vidya Sagar пишет:
-> Synopsys DesignWare core based PCIe controllers in Tegra 194 SoC interface
-> with Universal PHY (UPHY) module through a PIPE2UPHY (P2U) module.
-> For each PCIe lane of a controller, there is a P2U unit instantiated at
-> hardware level. This driver provides support for the programming required
-> for each P2U that is going to be used for a PCIe controller.
-> 
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> ---
-> Changes since [v7]:
-> * Changed P2U driver file name from pcie-p2u-tegra194.c to phy-tegra194-p2u.c
-> 
-> Changes since [v6]:
-> * None
-> 
-> Changes since [v5]:
-> * Addressed review comments from Thierry
-> 
-> Changes since [v4]:
-> * None
-> 
-> Changes since [v3]:
-> * Rebased on top of linux-next top of the tree
-> 
-> Changes since [v2]:
-> * Replaced spaces with tabs in Kconfig file
-> * Sorted header file inclusion alphabetically
-> 
-> Changes since [v1]:
-> * Added COMPILE_TEST in Kconfig
-> * Removed empty phy_ops implementations
-> * Modified code according to DT documentation file modifications
-> 
->  drivers/phy/tegra/Kconfig            |   7 ++
->  drivers/phy/tegra/Makefile           |   1 +
->  drivers/phy/tegra/phy-tegra194-p2u.c | 109 +++++++++++++++++++++++++++
->  3 files changed, 117 insertions(+)
->  create mode 100644 drivers/phy/tegra/phy-tegra194-p2u.c
-> 
-> diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
-> index a3b1de953fb7..c56fc8452e03 100644
-> --- a/drivers/phy/tegra/Kconfig
-> +++ b/drivers/phy/tegra/Kconfig
-> @@ -6,3 +6,10 @@ config PHY_TEGRA_XUSB
->  
->  	  To compile this driver as a module, choose M here: the module will
->  	  be called phy-tegra-xusb.
-> +
-> +config PHY_TEGRA194_P2U
-> +	tristate "NVIDIA Tegra194 PIPE2UPHY PHY driver"
-> +	depends on ARCH_TEGRA || COMPILE_TEST
 
-ARCH_TEGRA is a bit too much, ARCH_TEGRA_194_SOC should fit better here.
+On 06/06/2019 16:18, Dmitry Osipenko wrote:
+
+...
+
+>>> If I understood everything correctly, the FIFO buffer is shared among
+>>> all of the ADMA clients and hence it should be up to the ADMA driver to
+>>> manage the quotas of the clients. So if there is only one client that
+>>> uses ADMA at a time, then this client will get a whole FIFO buffer, but
+>>> once another client starts to use ADMA, then the ADMA driver will have
+>>> to reconfigure hardware to split the quotas.
+>>
+>> The FIFO quotas are managed by the ADMAIF driver (does not exist in
+>> mainline currently but we are working to upstream this) because it is
+>> this device that owns and needs to configure the FIFOs. So it is really
+>> a means to pass the information from the ADMAIF to the ADMA.
+> 
+> So you'd want to reserve a larger FIFO for an audio channel that has a
+> higher audio rate since it will perform reads more often. You could also
+> prioritize one channel over the others, like in a case of audio call for
+> example.
+> 
+> Is the shared buffer smaller than may be needed by clients in a worst
+> case scenario? If you could split the quotas statically such that each
+> client won't ever starve, then seems there is no much need in the
+> dynamic configuration.
+
+Actually, this is still very much relevant for the static case. Even if
+we defined a static configuration of the FIFO mapping in the ADMAIF
+driver we still need to pass this information to the ADMA. I don't
+really like the idea of having it statically defined in two different
+drivers.
+
+Jon
 
 -- 
-Dmitry
+nvpublic
