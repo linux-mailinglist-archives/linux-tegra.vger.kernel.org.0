@@ -2,143 +2,208 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1668337BA6
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 19:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D61F37C04
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 20:17:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728812AbfFFR42 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Jun 2019 13:56:28 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35375 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728762AbfFFR40 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Jun 2019 13:56:26 -0400
-Received: by mail-lj1-f193.google.com with SMTP id h11so2906770ljb.2;
-        Thu, 06 Jun 2019 10:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ypu9yesBsK3nZ3WNQW/z70b8cFn+k8rJ5hY1PK+94RY=;
-        b=jK8nfl4iev447eqDDOo0DHFrAEVpNo92GOvACQbKwq2uank7tOHRXLB9ihq8BgNVn+
-         XaIs1DgsJ3WQ+JIVcjPggv+p6smZ+ia0L4pe85/szO29YD9g7an9ITehaLLAmUc79ZG+
-         krbKRxQlM8KkodCmvgZld8+2kj4OxUJIOfUThNMAX8laR1xhjhmG5b+P2OpV/Va2GOvn
-         PGe/Pa58LdX9ypIh9auGNaGG4hEzKcPTKYMPT9p9pAlx31DiIslvQymDXHnqj9RlFcJ9
-         NDTVrTBbshQ7M7ltdghdv74tuQdXYyn34xYGQkDGnZEHi3pRb234Ni5gqsqsJSTtax4t
-         Cy2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ypu9yesBsK3nZ3WNQW/z70b8cFn+k8rJ5hY1PK+94RY=;
-        b=q4JYcRJ6LgZkYtg6tdoKKd3yj6Qe0ZbQyp8ASuk+GsJDnptIODqWMFc3Go1DxIxndu
-         M+z/fIkzm1MVl5UrgfrLkiJkQLOpryb55yiWcd+giU8GgWyEd3lIcM+Y7V4eu5NImueb
-         3b2snY01nfWyoMFDfGQHRb+7r3c2oONgyEGHVYZhDxyVIOSO31kApVcGj6/lrqb+yIaU
-         /WW56WaGsghB0NeeFHrmEEaQ8KuSKK4+4dQ9n8RlLy3yRC4zsjB5XW1sIU+YZ7xU5+8g
-         Bjxc+e8bjFevg//J4ZNYbkd26hHf2tpQFJpcNFUi9KahW41IQ4l8UAwt7GWfZLOU4LJU
-         sJgw==
-X-Gm-Message-State: APjAAAWmbdMK238nGUDZUC4RkfljhlJd+1s1dKeO/x+WI+IMtnrjjdlH
-        qAI46tYrB2kDUY88GBUqyE+JFtV9
-X-Google-Smtp-Source: APXvYqz7M2NP5kCWR+y8c0p6FMz8K7hG2iEUno+KL37IflNEKBBse9Jre3hDHpZI7QH9xMHDTiZzKQ==
-X-Received: by 2002:a2e:9f52:: with SMTP id v18mr25343396ljk.176.1559843783549;
-        Thu, 06 Jun 2019 10:56:23 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.35.141])
-        by smtp.googlemail.com with ESMTPSA id j7sm513504lji.27.2019.06.06.10.56.21
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Jun 2019 10:56:22 -0700 (PDT)
-Subject: Re: [PATCH] [RFC] dmaengine: add fifo_size member
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Sameer Pujar <spujar@nvidia.com>, Vinod Koul <vkoul@kernel.org>
-Cc:     dan.j.williams@intel.com, tiwai@suse.com,
-        dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sharadg@nvidia.com, rlokhande@nvidia.com, dramesh@nvidia.com,
-        mkumard@nvidia.com, linux-tegra <linux-tegra@vger.kernel.org>
-References: <1556623828-21577-1-git-send-email-spujar@nvidia.com>
- <3368d1e1-0d7f-f602-5b96-a978fcf4d91b@nvidia.com>
- <20190504102304.GZ3845@vkoul-mobl.Dlink>
- <ce0e9c0b-b909-54ae-9086-a1f0f6be903c@nvidia.com>
- <20190506155046.GH3845@vkoul-mobl.Dlink>
- <b7e28e73-7214-f1dc-866f-102410c88323@nvidia.com>
- <ed95f03a-bbe7-ad62-f2e1-9bfe22ec733a@ti.com>
- <4cab47d0-41c3-5a87-48e1-d7f085c2e091@nvidia.com>
- <8a5b84db-c00b-fff4-543f-69d90c245660@nvidia.com>
- <3f836a10-eaf3-f59b-7170-6fe937cf2e43@ti.com>
- <a36302fc-3173-070b-5c97-7d2c55d5e2cc@nvidia.com>
- <a08bec36-b375-6520-eff4-3d847ddfe07d@ti.com>
- <4593f37c-5e89-8559-4e80-99dbfe4235de@nvidia.com>
- <deae510a-f6ae-6a51-2875-a7463cac9169@gmail.com>
- <ac9a965d-0166-3d80-5ac4-ae841d7ae726@nvidia.com>
- <50e1f9ed-1ea0-38f6-1a77-febd6a3a0848@gmail.com>
- <4b098fb6-1a5b-1100-ae16-978a887c9535@nvidia.com>
- <e6741e07-be0c-d16b-36d7-77a3288f0500@gmail.com>
- <a652b103-979d-7910-5e3f-ec4bca3a3a3b@nvidia.com>
- <457eb5e1-40cc-8c0f-e21c-3881c3c04de2@gmail.com>
-Message-ID: <307ade99-757a-ac75-6358-28f8e5dd9596@gmail.com>
-Date:   Thu, 6 Jun 2019 20:56:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1730472AbfFFSRN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Jun 2019 14:17:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55988 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727559AbfFFSRN (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 6 Jun 2019 14:17:13 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 744502083D;
+        Thu,  6 Jun 2019 18:17:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559845031;
+        bh=IZaxa10bAX0fTd5ai/JE91vM5GqtEaR8JsnsK21q+rQ=;
+        h=In-Reply-To:References:To:From:Subject:Cc:Date:From;
+        b=mSshB7oTeQVUtdrxOdlaNvgUOi5c69iz71IfpIe+XHfD3rhdmI/tahbtMLQyAGkUW
+         6lrYHXxxVjUyDY+KeXXR/+3nkeV7b+jyhBC1yCUKL/MYzo6Jwa2PODUW4wAqVeU0mv
+         g/JXG7Q14eObcSshhQcyo+GzXvquHUYZxonW44pk=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <457eb5e1-40cc-8c0f-e21c-3881c3c04de2@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1559084936-4610-8-git-send-email-skomatineni@nvidia.com>
+References: <1559084936-4610-1-git-send-email-skomatineni@nvidia.com> <1559084936-4610-8-git-send-email-skomatineni@nvidia.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>, jason@lakedaemon.net,
+        jonathanh@nvidia.com, linus.walleij@linaro.org,
+        marc.zyngier@arm.com, mark.rutland@arm.com, stefan@agner.ch,
+        tglx@linutronix.de, thierry.reding@gmail.com
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH V2 07/12] clk: tegra: support for Tegra210 clocks suspend-resume
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
+        skomatineni@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mperttunen@nvidia.com,
+        spatra@nvidia.com, robh+dt@kernel.org, devicetree@vger.kernel.org
+User-Agent: alot/0.8.1
+Date:   Thu, 06 Jun 2019 11:17:10 -0700
+Message-Id: <20190606181711.744502083D@mail.kernel.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-06.06.2019 20:25, Dmitry Osipenko пишет:
-> 06.06.2019 19:53, Jon Hunter пишет:
->>
->> On 06/06/2019 17:44, Dmitry Osipenko wrote:
->>> 06.06.2019 19:32, Jon Hunter пишет:
->>>>
->>>> On 06/06/2019 16:18, Dmitry Osipenko wrote:
->>>>
->>>> ...
->>>>
->>>>>>> If I understood everything correctly, the FIFO buffer is shared among
->>>>>>> all of the ADMA clients and hence it should be up to the ADMA driver to
->>>>>>> manage the quotas of the clients. So if there is only one client that
->>>>>>> uses ADMA at a time, then this client will get a whole FIFO buffer, but
->>>>>>> once another client starts to use ADMA, then the ADMA driver will have
->>>>>>> to reconfigure hardware to split the quotas.
->>>>>>
->>>>>> The FIFO quotas are managed by the ADMAIF driver (does not exist in
->>>>>> mainline currently but we are working to upstream this) because it is
->>>>>> this device that owns and needs to configure the FIFOs. So it is really
->>>>>> a means to pass the information from the ADMAIF to the ADMA.
->>>>>
->>>>> So you'd want to reserve a larger FIFO for an audio channel that has a
->>>>> higher audio rate since it will perform reads more often. You could also
->>>>> prioritize one channel over the others, like in a case of audio call for
->>>>> example.
->>>>>
->>>>> Is the shared buffer smaller than may be needed by clients in a worst
->>>>> case scenario? If you could split the quotas statically such that each
->>>>> client won't ever starve, then seems there is no much need in the
->>>>> dynamic configuration.
->>>>
->>>> Actually, this is still very much relevant for the static case. Even if
->>>> we defined a static configuration of the FIFO mapping in the ADMAIF
->>>> driver we still need to pass this information to the ADMA. I don't
->>>> really like the idea of having it statically defined in two different
->>>> drivers.
->>>
->>> Ah, so you need to apply the same configuration in two places. Correct?
->>>
->>> Are ADMAIF and ADMA really two different hardware blocks? Or you
->>> artificially decoupled the ADMA driver?
->>
->> These are two different hardware modules with their own register sets.
->> Yes otherwise, it would be a lot simpler!
-> 
-> The register sets are indeed separated, but it looks like that ADMAIF is
-> really a part of ADMA that is facing to Audio Crossbar. No? What is the
-> purpose of ADMAIF? Maybe you could amend the ADMA hardware description
-> with the ADMAIF addition until it's too late.
-> 
+Quoting Sowjanya Komatineni (2019-05-28 16:08:51)
+> @@ -3381,6 +3398,367 @@ static struct tegra_clk_init_table init_table[] _=
+_initdata =3D {
+>         { TEGRA210_CLK_CLK_MAX, TEGRA210_CLK_CLK_MAX, 0, 0 },
+>  };
+> =20
+> +#ifdef CONFIG_PM_SLEEP
+> +static unsigned long pll_c_rate, pll_c2_rate, pll_c3_rate, pll_x_rate;
+> +static unsigned long pll_c4_rate, pll_d2_rate, pll_dp_rate;
+> +static unsigned long pll_re_vco_rate, pll_d_rate, pll_a_rate, pll_a1_rat=
+e;
+> +static unsigned long pll_c_out1_rate;
+> +static unsigned long pll_a_out0_rate, pll_c4_out3_rate;
+> +static unsigned long pll_p_out_rate[5];
+> +static unsigned long pll_u_out1_rate, pll_u_out2_rate;
+> +static unsigned long pll_mb_rate;
+> +static u32 pll_m_v;
+> +static u32 pll_p_outa, pll_p_outb;
+> +static u32 pll_re_out_div, pll_re_out_1;
+> +static u32 cpu_softrst_ctx[3];
+> +static u32 cclkg_burst_policy_ctx[2];
+> +static u32 cclklp_burst_policy_ctx[2];
+> +static u32 sclk_burst_policy_ctx[3];
+> +static u32 sclk_ctx, spare_ctx, misc_clk_enb_ctx, clk_arm_ctx;
 
-Ugh.. I now regret looking at the TRM. That Audio Processor Engine is a
-horrifying beast, it even has FPGA :)
+This is a lot of state to maintain globally. Can it go into a container
+struct so we can get docs and understand what's going on a little
+better?
+
+> +
+> +static struct platform_device *dfll_pdev;
+> +#define car_readl(_base, _off) \
+> +       readl_relaxed(clk_base + (_base) + ((_off) * 4))
+> +#define car_writel(_val, _base, _off) \
+> +       writel_relaxed(_val, clk_base + (_base) + ((_off) * 4))
+> +
+> +static u32 *periph_clk_src_ctx;
+> +struct periph_source_bank {
+> +       u32 start;
+> +       u32 end;
+
+Do these need to be u32 or could they be u16?
+
+> +};
+> +
+> +static struct periph_source_bank periph_srcs[] =3D {
+
+Can this be const?
+
+> +       [0] =3D {
+> +               .start =3D 0x100,
+> +               .end =3D 0x198,
+> +       },
+> +       [1] =3D {
+> +               .start =3D 0x1a0,
+> +               .end =3D 0x1f8,
+> +       },
+> +       [2] =3D {
+> +               .start =3D 0x3b4,
+> +               .end =3D 0x42c,
+> +       },
+> +       [3] =3D {
+> +               .start =3D 0x49c,
+> +               .end =3D 0x4b4,
+> +       },
+> +       [4] =3D {
+> +               .start =3D 0x560,
+> +               .end =3D 0x564,
+> +       },
+> +       [5] =3D {
+> +               .start =3D 0x600,
+> +               .end =3D 0x678,
+> +       },
+> +       [6] =3D {
+> +               .start =3D 0x694,
+> +               .end =3D 0x6a0,
+> +       },
+> +       [7] =3D {
+> +               .start =3D 0x6b8,
+> +               .end =3D 0x718,
+> +       },
+> +};
+> +
+> +/* This array lists the valid clocks for each periph clk bank */
+> +static u32 periph_clks_on[] =3D {
+
+const?
+
+> +       0xdcd7dff9,
+> +       0x87d1f3e7,
+> +       0xf3fed3fa,
+> +       0xffc18cfb,
+> +       0x793fb7ff,
+> +       0x3fe66fff,
+> +       0xfc1fc7ff,
+
+What are these magic numbers?
+
+> +};
+> +
+> +static inline unsigned long clk_get_rate_nolock(struct clk *clk)
+> +{
+> +       if (IS_ERR_OR_NULL(clk)) {
+
+NULL is a valid clk pointer. Typically usage of IS_ERR_OR_NULL() is
+wrong.
+
+> +               WARN_ON(1);
+> +               return 0;
+> +       }
+> +
+> +       return clk_hw_get_rate(__clk_get_hw(clk));
+> +}
+> +
+> +static inline struct clk *pll_p_clk(unsigned int x)
+> +{
+> +       if (x < 4) {
+
+What is magic value 4?
+
+> +               return clks[TEGRA210_CLK_PLL_P_OUT1 + x];
+> +       } else if (x !=3D 4) {
+> +               WARN_ON(1);
+> +               return NULL;
+> +       } else {
+> +               return clks[TEGRA210_CLK_PLL_P_OUT5];
+> +       }
+> +}
+> +
+[..]
+> +
+> +static void tegra210_clk_resume(void)
+> +{
+[..]
+> +       fence_udelay(2, clk_base);
+> +       for (i =3D 0; i < BURST_POLICY_REG_SIZE; i++) {
+> +               car_writel(cclklp_burst_policy_ctx[i], CCLKLP_BURST_POLIC=
+Y, i);
+> +               car_writel(sclk_burst_policy_ctx[i], SCLK_BURST_POLICY, i=
+);
+> +       }
+> +       car_writel(sclk_burst_policy_ctx[i], SYS_CLK_DIV, 0);
+> +
+> +       car_writel(sclk_ctx, SYSTEM_CLK_RATE, 0);
+> +       car_writel(spare_ctx, SPARE_REG0, 0);
+> +       car_writel(misc_clk_enb_ctx, MISC_CLK_ENB, 0);
+> +       car_writel(clk_arm_ctx, CLK_MASK_ARM, 0);
+> +
+> +       /* enable all clocks before configuring clock sources */
+> +       tegra_clk_periph_force_on(periph_clks_on, ARRAY_SIZE(periph_clks_=
+on),
+> +                                 clk_base);
+> +
+> +       wmb();
+
+Please add a comment before barriers so we know what they're for.
+
+> +       fence_udelay(2, clk_base);
+> +
