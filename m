@@ -2,167 +2,141 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ADED37815
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 17:35:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3C6637825
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 17:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729242AbfFFPe7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Jun 2019 11:34:59 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37097 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729185AbfFFPe7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Jun 2019 11:34:59 -0400
-Received: by mail-lj1-f195.google.com with SMTP id 131so2485052ljf.4;
-        Thu, 06 Jun 2019 08:34:57 -0700 (PDT)
+        id S1729192AbfFFPg7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Jun 2019 11:36:59 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:35309 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728871AbfFFPg7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Jun 2019 11:36:59 -0400
+Received: by mail-wm1-f66.google.com with SMTP id c6so433893wml.0;
+        Thu, 06 Jun 2019 08:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=CNzuT4B+gj0fca3L+CBElR5BCGQz7D37R5CsfOS0R5U=;
-        b=VWscwD+f7KttjezbVWzpZtP1ZvHaxYlbphCgYRA7iz58igJeZyW24ly4jyIogAH0Uw
-         SHrCD9VcA1bnc0g4lDBUhiArGjnOKqINogD2cGRbqydhHmnbOt/9FOVwptsK9Ts/EDtM
-         vDeCBMXacEKgoIZrgg06bMgL6XwQiMlNa6OYNbARX2UOEv9qlrzo91Z0ocO6b9jNToYz
-         bk9kivBv6638oKvzKIlHqdQFNM0fpg9+4i4hwoRfSp3YM5699DWdG248k1ySlPOe+zy8
-         uVede+6ARmkEQwT4pDGyhUevnkhKW36zKI80lgtHM1ZzG3Repouf0aKJO1Ff4gS7RXBF
-         mv6w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=DyRXAwIkACrL75qrkaIpiaUyXrFK4zgAUD6OMPn5KbE=;
+        b=g3S2sTxqBXi5WyyBC3kSqRB4jy1/u8zRu8CaUu9B6m1YAV7H2ngfPZ/1L/yjfJqfG4
+         Rcg1ScXJJlGFN5bz+QrAH0iXCJ4VfvP5L9a5ehiumq51US+TgIvDDkrOZ+lCxaMXj3bJ
+         +bKu0U37sa7xvVg0BHrevd6nIQZjEwe/Pt3VltHUfBlZb4NuxEFlF+J0Y6rn/8vm5r7d
+         d9brNEt7L7LPi7f54EQAw7mqjZHbrI9oaQ0UpV0gIbPhnBUnxrCfFj+4/H+RcldEqBbA
+         J7IFnBVF48uPXmLNIEvshA9A4XJIfT4tSfCb2sSjwpRmrq0Jeg7fwUZzzcwBMKLnwqRt
+         z+hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=CNzuT4B+gj0fca3L+CBElR5BCGQz7D37R5CsfOS0R5U=;
-        b=Gh74JyOWZ7yCfR8bCvvK+yG8e4qIhyBMqG2WYcE0NascSTzLcWy5BpPO0K/jROuPVH
-         GEOfWVbU17mVAiDCKQs/4sVNDkCczWAGIyuBjfrTDuJ1ngGELMBmd7w7xG+3cjKIGbgT
-         lnE7pJN24qH0wssvvCqun93wPmlF4yjWeg6Id/kVJmdiPcHB+l3dazF/stuXWzEDtxx8
-         241Hwid/grhqPPrUeSgTWXQgsMNvrwA0sVN5R1cFvOaJgNKqD0c9cGnvIMiUTpNwM0Ru
-         jL98ob5bW70YgT8jHtlwiilss+TWQaFp1GQ3M7XLxE6WEe2zEeuvHYQ3DFWuEB/LdVyD
-         6/Aw==
-X-Gm-Message-State: APjAAAXikuLb3n0lOH5R9D2Ap9GCWNGP1H6gER4K3cPSfroFivw3P0DH
-        2za24uaqeQUKhcr9CwAbS0s=
-X-Google-Smtp-Source: APXvYqycnx3S37BNA7DJjEmd/qBgfJr+RwE4m5dx1DAhWLvIzmnhmE5vqjakjfMRNCOKq5AfjVegUw==
-X-Received: by 2002:a2e:988b:: with SMTP id b11mr10513015ljj.85.1559835296660;
-        Thu, 06 Jun 2019 08:34:56 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.35.141])
-        by smtp.googlemail.com with ESMTPSA id z12sm343409lfe.2.2019.06.06.08.34.55
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Jun 2019 08:34:55 -0700 (PDT)
-Subject: Re: [PATCH V2] i2c: busses: tegra: Add suspend-resume support
-To:     Bitan Biswas <bbiswas@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>
-References: <1559800475-5446-1-git-send-email-bbiswas@nvidia.com>
- <bf93e88f-cbed-3bb0-223a-74ad0b08aa9e@gmail.com>
- <5871f51b-11d4-8bc9-6f40-4a91f2aab8f8@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3d4ea007-e289-6b52-5321-68a7399e62d7@gmail.com>
-Date:   Thu, 6 Jun 2019 18:34:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DyRXAwIkACrL75qrkaIpiaUyXrFK4zgAUD6OMPn5KbE=;
+        b=aT1n4/xsKy6uXywBhDxbQruPkiIYceGdK99ksHZpPvmSeGfgBnVYzzjkYaqxZ+6dsM
+         NHuKjKQ4Oy9JnPHxXIF5Q75cXXNPqbjVEXlVFoH/rWrXYtnZ/DpF1PUJvJVXDX9/PWDk
+         lKtq4EDY2IDOM69BD0oBu1m4geqrMgbPug11LeiwYJM53VdkGr20vVz1WuQBTzaQfw1f
+         0IO+8lx04/noI+KDGGwXhuK8BIA0515/laOrB9h4f2DbQmdZ3kmpOsWBqimzWptTCNWl
+         DtlBZxyG6lKXWw+X1F/iXhVq+SCkkavwnJMa1nvfpRBYixvvRzA1H3mcOkhQ/BeJUOwR
+         909Q==
+X-Gm-Message-State: APjAAAV3le4ImTk7pf2uSPtpfeKx3Dl/StNke0IKK+2dNFrHG0RySQK5
+        gC/fFC59CHo/1vS5HjnyAjM=
+X-Google-Smtp-Source: APXvYqzoIc0HCuMlyYira3wL7A3WbV0QPNSbcpXOCeVTl1Ab6mMnqDsM2t7fldaeLqrPRCvQdP5yOw==
+X-Received: by 2002:a1c:c706:: with SMTP id x6mr456960wmf.162.1559835417018;
+        Thu, 06 Jun 2019 08:36:57 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id s11sm1697185wro.17.2019.06.06.08.36.56
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 06 Jun 2019 08:36:56 -0700 (PDT)
+Date:   Thu, 6 Jun 2019 17:36:55 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     lorenzo.pieralisi@arm.com, bhelgaas@google.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, jonathanh@nvidia.com, kishon@ti.com,
+        catalin.marinas@arm.com, will.deacon@arm.com, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, mperttunen@nvidia.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V8 14/15] PCI: tegra: Add Tegra194 PCIe support
+Message-ID: <20190606153655.GC3338@ulmo>
+References: <20190526043751.12729-1-vidyas@nvidia.com>
+ <20190526043751.12729-15-vidyas@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <5871f51b-11d4-8bc9-6f40-4a91f2aab8f8@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="bAmEntskrkuBymla"
+Content-Disposition: inline
+In-Reply-To: <20190526043751.12729-15-vidyas@nvidia.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-06.06.2019 16:58, Bitan Biswas пишет:
-> 
-> 
-> On 6/6/19 5:06 AM, Dmitry Osipenko wrote:
->> 06.06.2019 8:54, Bitan Biswas пишет:
->>> Post suspend I2C registers have power on reset values. Before any
->>> transfer initialize I2C registers to prevent I2C transfer timeout
->>> and implement suspend and resume callbacks needed. Fix below errors
->>> post suspend:
->>>
->>> 1) Tegra I2C transfer timeout during jetson tx2 resume:
->>>
->>> [   27.520613] pca953x 1-0074: calling pca953x_resume+0x0/0x1b0 @
->>> 2939, parent: i2c-1
->>> [   27.633623] tegra-i2c 3160000.i2c: i2c transfer timed out
->>> [   27.639162] pca953x 1-0074: Unable to sync registers 0x3-0x5. -110
->>> [   27.645336] pca953x 1-0074: Failed to sync GPIO dir registers: -110
->>> [   27.651596] PM: dpm_run_callback(): pca953x_resume+0x0/0x1b0
->>> returns -110
->>> [   27.658375] pca953x 1-0074: pca953x_resume+0x0/0x1b0 returned -110
->>> after 127152 usecs
->>> [   27.666194] PM: Device 1-0074 failed to resume: error -110
->>>
->>> 2) Tegra I2C transfer timeout error on jetson Xavier post resume.
->>>
->>> Remove i2c bus lock-unlock calls in resume callback as
->>> i2c_mark_adapter_*
->>> (suspended-resumed) help ensure i2c core calls from client are not
->>> executed before i2c-tegra resume.
->>>
->>> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
->>> ---
->>>   drivers/i2c/busses/i2c-tegra.c | 23 +++++++++++++++++++++++
->>>   1 file changed, 23 insertions(+)
->>>
->>> diff --git a/drivers/i2c/busses/i2c-tegra.c
->>> b/drivers/i2c/busses/i2c-tegra.c
->>> index ebaa78d..76b7926 100644
->>> --- a/drivers/i2c/busses/i2c-tegra.c
->>> +++ b/drivers/i2c/busses/i2c-tegra.c
->>> @@ -1687,7 +1687,30 @@ static int tegra_i2c_remove(struct
->>> platform_device *pdev)
->>>   }
->>>     #ifdef CONFIG_PM_SLEEP
->>> +static int tegra_i2c_suspend(struct device *dev)
->>> +{
->>> +    struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->>> +
->>> +    i2c_mark_adapter_suspended(&i2c_dev->adapter);
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static int tegra_i2c_resume(struct device *dev)
->>> +{
->>> +    struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->>> +    int ret;
->>> +
->>> +    ret = tegra_i2c_init(i2c_dev, false);
->>> +    if (ret)
->>> +        return ret;
->>
->> We're expecting that tegra_i2c_init returns a error code on a failure
->> and nothing else, hence it will be a bit more expressive to name the
->> returned variable as "err". There is nothing wrong with yours variant,
->> this is just a very minor recommendation from me. Please note that a bit
->> more wise choice of the names makes easier to follow the code for other
->> people and hence results in a cleaner code.
-> Agreed.
-> 
->>
->>> +
->>> +    i2c_mark_adapter_resumed(&i2c_dev->adapter);
->>
->> Please add a blank line here for a better readability and to make the
->> patch consistent. You added the blank line in a similar case of
->> tegra_i2c_suspend() and this makes it inconsistent.
->>
-> OK.
-> 
->>> +    return 0;
->>> +}
->>> +
->>>   static const struct dev_pm_ops tegra_i2c_pm = {
->>> +    SET_SYSTEM_SLEEP_PM_OPS(tegra_i2c_suspend, tegra_i2c_resume)
->>>       SET_RUNTIME_PM_OPS(tegra_i2c_runtime_suspend,
->>> tegra_i2c_runtime_resume,
->>>                  NULL)
->>>   };
->>>
-> I shall send updated patch with suggested changes.
 
-Yes, please.
+--bAmEntskrkuBymla
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, May 26, 2019 at 10:07:50AM +0530, Vidya Sagar wrote:
+> Add support for Synopsys DesignWare core IP based PCIe host controller
+> present in Tegra194 SoC.
+>=20
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> ---
+> Changes since [v7]:
+> * Addressed review comments from Thierry
+>=20
+> Changes since [v6]:
+> * Removed code around "nvidia,disable-aspm-states" DT property
+> * Refactored code to remove code duplication
+>=20
+> Changes since [v5]:
+> * Addressed review comments from Thierry
+>=20
+> Changes since [v4]:
+> * None
+>=20
+> Changes since [v3]:
+> * None
+>=20
+> Changes since [v2]:
+> * Changed 'nvidia,init-speed' to 'nvidia,init-link-speed'
+> * Changed 'nvidia,pex-wake' to 'nvidia,wake-gpios'
+> * Removed .runtime_suspend() & .runtime_resume() implementations
+>=20
+> Changes since [v1]:
+> * Made CONFIG_PCIE_TEGRA194 as 'm' by default from its previous 'y' state
+> * Modified code as per changes made to DT documentation
+> * Refactored code to address Bjorn & Thierry's review comments
+> * Added goto to avoid recursion in tegra_pcie_dw_host_init() API
+> * Merged .scan_bus() of dw_pcie_host_ops implementation to tegra_pcie_dw_=
+host_init() API
+>=20
+>  drivers/pci/controller/dwc/Kconfig         |   10 +
+>  drivers/pci/controller/dwc/Makefile        |    1 +
+>  drivers/pci/controller/dwc/pcie-tegra194.c | 1621 ++++++++++++++++++++
+>  3 files changed, 1632 insertions(+)
+>  create mode 100644 drivers/pci/controller/dwc/pcie-tegra194.c
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--bAmEntskrkuBymla
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz5MxcACgkQ3SOs138+
+s6G/ZhAAjpmV/vx2RYEnxlLLhgYrDv+eJ4c99U63vbP5N/OjnWh9s51GJWF26MbS
+y2mW0FgYxsUXm+M3WFBBs7l38iCwYp8bTAahH7i3kEyw+Eb0nv/UMq0DF2t6ESOR
+zxA76mLckgzZ0rn7wXGqYVLPU7M0eTw1SGJhz5YTPmR3ghTfE837R1vkfXKV3bYo
+zr8V8p6ZsZ5AgaYg781zLnxIhc84iuXMGSpt0n4Bw9T0IX9TBoZvnOKa9kPujQdk
+R53voGhAVATSx/c/MuA6TLc3SdKedKdaP8V2POGWZbffTbYT74wa7TxC+p5SlYQu
+KcmedzYUsiqAqjG/uIiIG2X2zOqGBgp4Z1zmizaEC6mzaJWEPfZBWz2MXZqNPhq8
+l4P2JgOfB8TwF7Qtw18IaIYa26L1Uaxt/604YnSpJJeQxHpXJVgHQ4K+cgENneLI
+EWc4RYCr5O0M4q6P6IIyZypKXBtzMd4eCVM0pDlPz6HRInNGNzgFa6DPENWMExc1
+V15xEZXmXGwhVwhuqoMmXN7Rd0p+5wSWQFWxKETXf1NETlN5L89s3hoEZ+O9eDBU
+tHb1eaY9+wuq56jwySzGst3np9/8VGx+p9u5xE0coTDHSlQbb7XpSe8cfhDSXp0n
+3k5kNWWMNn6SGUe3H8P7mquhingQDwZ30PCGTCpfvwnxM7q9o68=
+=8lND
+-----END PGP SIGNATURE-----
+
+--bAmEntskrkuBymla--
