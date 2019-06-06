@@ -2,62 +2,75 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 372F2375F2
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 16:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0E723768E
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 16:25:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726924AbfFFOCb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Jun 2019 10:02:31 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:4080 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726014AbfFFOCb (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Jun 2019 10:02:31 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cf91cf30000>; Thu, 06 Jun 2019 07:02:27 -0700
+        id S1727603AbfFFOZN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Jun 2019 10:25:13 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:16508 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727133AbfFFOZN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Jun 2019 10:25:13 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cf922380001>; Thu, 06 Jun 2019 07:24:56 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 06 Jun 2019 07:02:29 -0700
+  Thu, 06 Jun 2019 07:25:10 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 06 Jun 2019 07:02:29 -0700
-Received: from [10.19.65.14] (172.20.13.39) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Thu, 06 Jun 2019 07:25:10 -0700
+Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Jun
- 2019 14:02:25 +0000
-Subject: Re: [PATCH V4] drivers: i2c: tegra: fix checkpatch defects
+ 2019 14:25:05 +0000
+Subject: Re: [PATCH] [RFC] dmaengine: add fifo_size member
 To:     Dmitry Osipenko <digetx@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>
-References: <1559806523-1352-1-git-send-email-bbiswas@nvidia.com>
- <bbe8ef0e-fdef-613c-9758-6525b60e5992@gmail.com>
-From:   Bitan Biswas <bbiswas@nvidia.com>
-Message-ID: <e8c2f722-eeaa-7449-d4fb-6caf0466bcc8@nvidia.com>
-Date:   Thu, 6 Jun 2019 07:02:22 -0700
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Sameer Pujar <spujar@nvidia.com>, Vinod Koul <vkoul@kernel.org>
+CC:     <dan.j.williams@intel.com>, <tiwai@suse.com>,
+        <dmaengine@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
+        <mkumard@nvidia.com>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <1556623828-21577-1-git-send-email-spujar@nvidia.com>
+ <20190502060446.GI3845@vkoul-mobl.Dlink>
+ <e852d576-9cc2-ed42-1a1a-d696112c88bf@nvidia.com>
+ <20190502122506.GP3845@vkoul-mobl.Dlink>
+ <3368d1e1-0d7f-f602-5b96-a978fcf4d91b@nvidia.com>
+ <20190504102304.GZ3845@vkoul-mobl.Dlink>
+ <ce0e9c0b-b909-54ae-9086-a1f0f6be903c@nvidia.com>
+ <20190506155046.GH3845@vkoul-mobl.Dlink>
+ <b7e28e73-7214-f1dc-866f-102410c88323@nvidia.com>
+ <ed95f03a-bbe7-ad62-f2e1-9bfe22ec733a@ti.com>
+ <4cab47d0-41c3-5a87-48e1-d7f085c2e091@nvidia.com>
+ <8a5b84db-c00b-fff4-543f-69d90c245660@nvidia.com>
+ <3f836a10-eaf3-f59b-7170-6fe937cf2e43@ti.com>
+ <a36302fc-3173-070b-5c97-7d2c55d5e2cc@nvidia.com>
+ <a08bec36-b375-6520-eff4-3d847ddfe07d@ti.com>
+ <4593f37c-5e89-8559-4e80-99dbfe4235de@nvidia.com>
+ <deae510a-f6ae-6a51-2875-a7463cac9169@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <ac9a965d-0166-3d80-5ac4-ae841d7ae726@nvidia.com>
+Date:   Thu, 6 Jun 2019 15:25:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <bbe8ef0e-fdef-613c-9758-6525b60e5992@gmail.com>
+In-Reply-To: <deae510a-f6ae-6a51-2875-a7463cac9169@gmail.com>
 X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1559829747; bh=9ea4rzxE76TWibLae4YzTOSLjPkEepUFQEAB54hh5pg=;
+        t=1559831096; bh=t+tKC+EGTYGC+QMvXfn241RfTbKDiYGV7tALtJGBqB0=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=JDIkh50u1TPR5ZUoITIUxNIWjWF1pScVPIVNrxnybkCh52a/H0Ii4E88L7ptCceZy
-         DNDAZNquRohErOllKAHYgayNDTtYBjdo8R9oif5PGZQwvLVlepn8rGL9tWZPHfTbPH
-         w5hC/ZxXsumr9Ua7uqhggFq7vGoKxkQ91yzeiqqgIHdlsTc6VAYZmdrT2h4Th7Lc1P
-         zz3/qIh21YeUZ0U/mPQKe6/mtBGCf+E9vs3HEk7tyUAwQHCeniUitNh7PiK/s8onNo
-         xqNBVoc8qA5/Rq5OLwTw8qdrGFU9KUDayeIHfh/pnrkISIX/aSlJedefcAWyt+5etp
-         IBLcE0GIRwnJg==
+        b=LaFN5H0KNPnS6jBiXARz7+/mBgDuj23yLfHD8ru1kkHNqVLvUlAAkPCpsfk4yh8uU
+         CXwbgHYYJtISocqOlYvuQciSZBGXE7jjvbkzSGagZrdKJW90phXoEV0bTQulU+AtPT
+         7OYegMhoEvBH3nR5GT9o0sObAzXjhcIGSonyYFJDYlsbx8EYsQEL+w0A/yWrrwQsr9
+         ui6abD1umzv8YFcSL3SKb5cBnIp1v0MkJNq10QcUhxvz2efNQwU3xWqG2ArrvkN9fW
+         lZvDANQa33ESmrQsI5eJNMb6Y/AfVlHr2bcCOe4tczU9lZC+wMcijRHc/wl7p0T83e
+         n3RH6B5vCWKGw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -65,210 +78,179 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 
 
-On 6/6/19 4:39 AM, Dmitry Osipenko wrote:
-> 06.06.2019 10:35, Bitan Biswas =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> Fix checkpatch.pl warning(s)/error(s)/check(s) in i2c-tegra.c
+On 06/06/2019 14:45, Dmitry Osipenko wrote:
+> 06.06.2019 15:37, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
 >>
->> Remove redundant BUG_ON calls or replace with WARN_ON_ONCE
->> as needed. Replace BUG() with error handling code.
->> Define I2C_ERR_UNEXPECTED_STATUS for error handling.
+>> On 06/06/2019 12:54, Peter Ujfalusi wrote:
+>>>
+>>>
+>>> On 06/06/2019 13.49, Jon Hunter wrote:
+>>>>
+>>>> On 06/06/2019 11:22, Peter Ujfalusi wrote:
+>>>>
+>>>> ...
+>>>>
+>>>>>>>> It does sounds like that FIFO_SIZE =3D=3D src/dst_maxburst in your=
+ case as
+>>>>>>>> well.
+>>>>>>> Not exactly equal.
+>>>>>>> ADMA burst_size can range from 1(WORD) to 16(WORDS)
+>>>>>>> FIFO_SIZE can be adjusted from 16(WORDS) to 1024(WORDS) [can vary i=
+n
+>>>>>>> multiples of 16]
+>>>>>>
+>>>>>> So I think that the key thing to highlight here, is that the as Same=
+er
+>>>>>> highlighted above for the Tegra ADMA there are two values that need =
+to
+>>>>>> be programmed; the DMA client FIFO size and the max burst size. The =
+ADMA
+>>>>>> has register fields for both of these.
+>>>>>
+>>>>> How does the ADMA uses the 'client FIFO size' and 'max burst size'
+>>>>> values and what is the relation of these values to the peripheral sid=
+e
+>>>>> (ADMAIF)?
+>>>>
+>>>> Per Sameer's previous comment, the FIFO size is used by the ADMA to
+>>>> determine how much space is available in the FIFO. I assume the burst
+>>>> size just limits how much data is transferred per transaction.
+>>>>
+>>>>>> As you can see from the above the FIFO size can be much greater than=
+ the
+>>>>>> burst size and so ideally both of these values would be passed to th=
+e DMA.
+>>>>>>
+>>>>>> We could get by with just passing the FIFO size (as the max burst si=
+ze)
+>>>>>> and then have the DMA driver set the max burst size depending on thi=
+s,
+>>>>>> but this does feel quite correct for this DMA. Hence, ideally, we wo=
+uld
+>>>>>> like to pass both.
+>>>>>>
+>>>>>> We are also open to other ideas.
+>>>>>
+>>>>> I can not find public documentation (I think they are walled off by
+>>>>> registration), but correct me if I'm wrong:
+>>>>
+>>>> No unfortunately, you are not wrong here :-(
+>>>>
+>>>>> ADMAIF - peripheral side
+>>>>>  - kind of a small DMA for audio preipheral(s)?
+>>>>
+>>>> Yes this is the interface to the APE (audio processing engine) and dat=
+a
+>>>> sent to the ADMAIF is then sent across a crossbar to one of many
+>>>> devices/interfaces (I2S, DMIC, etc). Basically a large mux that is use=
+r
+>>>> configurable depending on the use-case.
+>>>>
+>>>>>  - Variable FIFO size
+>>>>
+>>>> Yes.
+>>>>
+>>>>>  - sends DMA request to ADMA per words
+>>>>
+>>>> From Sameer's notes it says the ADMAIF send a signal to the ADMA per
+>>>> word, yes.
+>>>>
+>>>>> ADMA - system DMA
+>>>>>  - receives the DMA requests from ADMAIF
+>>>>>  - counts the requests
+>>>>>  - based on some threshold of the counter it will send/read from ADMA=
+IF?
+>>>>>   - maxburst number of words probably?
+>>>>
+>>>> Sounds about right to me.
+>>>>
+>>>>> ADMA needs to know the ADMAIF's FIFO size because, it is the one who =
+is
+>>>>> managing that FIFO from the outside, making sure that it does not ove=
+r
+>>>>> or underrun?
+>>>>
+>>>> Yes.
+>>>>
+>>>>> And it is the one who sets the pace (in effect the DMA burst size - h=
+ow
+>>>>> many bytes the DMA jumps between refills) of refills to the ADMAIF's =
+FIFO?
+>>>>
+>>>> Yes.
+>>>>
+>>>> So currently, if you look at the ADMA driver
+>>>> (drivers/dma/tegra210-adma.c) you will see we use the src/dst_maxburst
+>>>> for the burst, but the FIFO size is hard-coded (see the
+>>>> TEGRA210_FIFO_CTRL_DEFAULT and TEGRA186_FIFO_CTRL_DEFAULT definitions)=
+.
+>>>> Ideally, we should not hard-code this but pass it.
+>>>
+>>> Sure, hardcoding is never good ;)
+>>>
+>>>> Given that there are no current users of the ADMA upstream, we could
+>>>> change the usage of the src/dst_maxburst, but being able to set the FI=
+FO
+>>>> size as well would be ideal.
+>>>
+>>> Looking at the drivers/dma/tegra210-adma.c for the
+>>> TEGRA*_FIFO_CTRL_DEFAULT definition it is still not clear where the
+>>> remote FIFO size would fit.
+>>> There are fields for overflow and starvation(?) thresholds and TX/RX
+>>> size (assuming word length, 3 =3D=3D 32bits?).
 >>
->> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
->> ---
->>   drivers/i2c/busses/i2c-tegra.c | 67 +++++++++++++++++++++++-----------=
---------
->>   1 file changed, 37 insertions(+), 30 deletions(-)
+>> The TX/RX size are the FIFO size. So 3 equates to a FIFO size of 3 * 64
+>> bytes.
 >>
->> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-teg=
-ra.c
->> index 76b7926..55a5d87 100644
->> --- a/drivers/i2c/busses/i2c-tegra.c
->> +++ b/drivers/i2c/busses/i2c-tegra.c
->> @@ -78,6 +78,7 @@
->>   #define I2C_ERR_NO_ACK				0x01
->>   #define I2C_ERR_ARBITRATION_LOST		0x02
->>   #define I2C_ERR_UNKNOWN_INTERRUPT		0x04
->> +#define I2C_ERR_UNEXPECTED_STATUS               0x08
->>  =20
->>   #define PACKET_HEADER0_HEADER_SIZE_SHIFT	28
->>   #define PACKET_HEADER0_PACKET_ID_SHIFT		16
->> @@ -112,7 +113,7 @@
->>   #define I2C_CLKEN_OVERRIDE			0x090
->>   #define I2C_MST_CORE_CLKEN_OVR			BIT(0)
->>  =20
->> -#define I2C_CONFIG_LOAD_TIMEOUT			1000000
->> +#define I2C_CONFIG_LOAD_TMOUT			1000000
->>  =20
->>   #define I2C_MST_FIFO_CONTROL			0x0b4
->>   #define I2C_MST_FIFO_CONTROL_RX_FLUSH		BIT(0)
->> @@ -280,6 +281,7 @@ struct tegra_i2c_dev {
->>   	u32 bus_clk_rate;
->>   	u16 clk_divisor_non_hs_mode;
->>   	bool is_multimaster_mode;
->> +	/* xfer_lock: lock to serialize transfer submission and processing */
->>   	spinlock_t xfer_lock;
->>   	struct dma_chan *tx_dma_chan;
->>   	struct dma_chan *rx_dma_chan;
->> @@ -306,7 +308,7 @@ static u32 dvc_readl(struct tegra_i2c_dev *i2c_dev, =
-unsigned long reg)
->>    * to the I2C block inside the DVC block
->>    */
->>   static unsigned long tegra_i2c_reg_addr(struct tegra_i2c_dev *i2c_dev,
->> -	unsigned long reg)
->> +					unsigned long reg)
->>   {
->>   	if (i2c_dev->is_dvc)
->>   		reg +=3D (reg >=3D I2C_TX_FIFO) ? 0x10 : 0x40;
->> @@ -314,7 +316,7 @@ static unsigned long tegra_i2c_reg_addr(struct tegra=
-_i2c_dev *i2c_dev,
->>   }
->>  =20
->>   static void i2c_writel(struct tegra_i2c_dev *i2c_dev, u32 val,
->> -	unsigned long reg)
->> +		       unsigned long reg)
->>   {
->>   	writel(val, i2c_dev->base + tegra_i2c_reg_addr(i2c_dev, reg));
->>  =20
->> @@ -329,13 +331,13 @@ static u32 i2c_readl(struct tegra_i2c_dev *i2c_dev=
-, unsigned long reg)
->>   }
->>  =20
->>   static void i2c_writesl(struct tegra_i2c_dev *i2c_dev, void *data,
->> -	unsigned long reg, int len)
->> +			unsigned long reg, int len)
->>   {
->>   	writesl(i2c_dev->base + tegra_i2c_reg_addr(i2c_dev, reg), data, len);
->>   }
->>  =20
->>   static void i2c_readsl(struct tegra_i2c_dev *i2c_dev, void *data,
->> -	unsigned long reg, int len)
->> +		       unsigned long reg, int len)
->>   {
->>   	readsl(i2c_dev->base + tegra_i2c_reg_addr(i2c_dev, reg), data, len);
->>   }
->> @@ -486,7 +488,7 @@ static int tegra_i2c_flush_fifos(struct tegra_i2c_de=
-v *i2c_dev)
->>   			dev_warn(i2c_dev->dev, "timeout waiting for fifo flush\n");
->>   			return -ETIMEDOUT;
->>   		}
->> -		msleep(1);
->> +		usleep_range(1000, 2000);
->>   	}
->>   	return 0;
->>   }
->> @@ -525,7 +527,6 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_=
-dev *i2c_dev)
->>   	 * prevent overwriting past the end of buf
->>   	 */
->>   	if (rx_fifo_avail > 0 && buf_remaining > 0) {
->> -		BUG_ON(buf_remaining > 3);
->>   		val =3D i2c_readl(i2c_dev, I2C_RX_FIFO);
->>   		val =3D cpu_to_le32(val);
->>   		memcpy(buf, &val, buf_remaining);
->> @@ -533,7 +534,6 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_=
-dev *i2c_dev)
->>   		rx_fifo_avail--;
->>   	}
->>  =20
->> -	BUG_ON(rx_fifo_avail > 0 && buf_remaining > 0);
->>   	i2c_dev->msg_buf_remaining =3D buf_remaining;
->>   	i2c_dev->msg_buf =3D buf;
->>  =20
->> @@ -591,7 +591,6 @@ static int tegra_i2c_fill_tx_fifo(struct tegra_i2c_d=
-ev *i2c_dev)
->>   	 * boundary and fault.
->>   	 */
->>   	if (tx_fifo_avail > 0 && buf_remaining > 0) {
->> -		BUG_ON(buf_remaining > 3);
->>   		memcpy(&val, buf, buf_remaining);
->>   		val =3D le32_to_cpu(val);
->>  =20
->> @@ -680,10 +679,11 @@ static int tegra_i2c_wait_for_config_load(struct t=
-egra_i2c_dev *i2c_dev)
->>   		i2c_writel(i2c_dev, I2C_MSTR_CONFIG_LOAD, I2C_CONFIG_LOAD);
->>   		if (in_interrupt())
->>   			err =3D readl_poll_timeout_atomic(addr, val, val =3D=3D 0,
->> -					1000, I2C_CONFIG_LOAD_TIMEOUT);
->> +							1000,
->> +							I2C_CONFIG_LOAD_TMOUT);
->>   		else
->> -			err =3D readl_poll_timeout(addr, val, val =3D=3D 0,
->> -					1000, I2C_CONFIG_LOAD_TIMEOUT);
->> +			err =3D readl_poll_timeout(addr, val, val =3D=3D 0, 1000,
->> +						 I2C_CONFIG_LOAD_TMOUT);
->>  =20
->>   		if (err) {
->>   			dev_warn(i2c_dev->dev,
->> @@ -858,16 +858,21 @@ static irqreturn_t tegra_i2c_isr(int irq, void *de=
-v_id)
->>   		if (i2c_dev->msg_read && (status & I2C_INT_RX_FIFO_DATA_REQ)) {
->>   			if (i2c_dev->msg_buf_remaining)
->>   				tegra_i2c_empty_rx_fifo(i2c_dev);
->> -			else
->> -				BUG();
->> +			else {
->> +				dev_err(i2c_dev->dev, "unexpected rx data request\n");
->> +				i2c_dev->msg_err |=3D I2C_ERR_UNEXPECTED_STATUS;
->> +				goto err;
->> +			}
->>   		}
->>  =20
->>   		if (!i2c_dev->msg_read && (status & I2C_INT_TX_FIFO_DATA_REQ)) {
->> -			if (i2c_dev->msg_buf_remaining)
->> -				tegra_i2c_fill_tx_fifo(i2c_dev);
->> -			else
->> +			if (i2c_dev->msg_buf_remaining) {
->> +				if (tegra_i2c_fill_tx_fifo(i2c_dev))
->> +					goto err;
->> +			} else {
->>   				tegra_i2c_mask_irq(i2c_dev,
->>   						   I2C_INT_TX_FIFO_DATA_REQ);
->> +			}
->>   		}
->>   	}
->>  =20
->> @@ -885,7 +890,7 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_=
-id)
->>   	if (status & I2C_INT_PACKET_XFER_COMPLETE) {
->>   		if (i2c_dev->is_curr_dma_xfer)
->>   			i2c_dev->msg_buf_remaining =3D 0;
->> -		BUG_ON(i2c_dev->msg_buf_remaining);
->> +		WARN_ON_ONCE(i2c_dev->msg_buf_remaining);
->>   		complete(&i2c_dev->msg_complete);
->>   	}
->>   	goto done;
->> @@ -1024,7 +1029,7 @@ static int tegra_i2c_issue_bus_clear(struct i2c_ad=
-apter *adap)
->>   }
->>  =20
->>   static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
->> -	struct i2c_msg *msg, enum msg_end_type end_state)
->> +			      struct i2c_msg *msg, enum msg_end_type end_state)
->>   {
->>   	u32 packet_header;
->>   	u32 int_mask;
->> @@ -1034,7 +1039,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev=
- *i2c_dev,
->>   	u32 *buffer =3D NULL;
->>   	int err =3D 0;
->>   	bool dma;
->> -	u16 xfer_time =3D 100;
->> +	u16 xfer_tm =3D 100;
+>>> Both threshold is set to one, so I assume currently ADMA is
+>>> pushing/pulling data word by word.
+>>
+>> That's different. That indicates thresholds when transfers start.
+>>
+>>> Not sure what the burst size is used for, my guess would be that it is
+>>> used on the memory (DDR) side for optimized, more efficient accesses?
+>>
+>> That is the actual burst size.
+>>
+>>> My guess is that the threshold values are the counter limits, if the DM=
+A
+>>> request counter reaches it then ADMA would do a threshold limit worth o=
+f
+>>> push/pull to ADMAIF.
+>>> Or there is another register where the remote FIFO size can be written
+>>> and ADMA is counting back from there until it reaches the threshold (an=
+d
+>>> pushes/pulling again threshold amount of data) so it keeps the FIFO
+>>> filled with at least threshold amount of data?
+>>>
+>>> I think in both cases the threshold would be the maxburst.
+>>>
+>>> I suppose you have the patch for adma on how to use the fifo_size
+>>> parameter? That would help understand what you are trying to achieve be=
+tter.
+>>
+>> Its quite simple, we would just use the FIFO size to set the fields
+>> TEGRAXXX_ADMA_CH_FIFO_CTRL_TXSIZE/RXSIZE in the
+>> TEGRAXXX_ADMA_CH_FIFO_CTRL register. That's all.
+>>
+>> Jon
+>>
 >=20
-> Why xfer_time is renamed? It is much more important to keep code
-> readable rather than to satisfy checkpatch. You should *not* follow
-> checkpatch recommendations where they do not make much sense. The
-> xfer_tm is a less intuitive naming and hence it harms readability of the
-> code. Hence it is better to have "lines over 80 chars" in this
-> particular case.
-Agreed. I shall share updated patch.
-
+> Hi,
 >=20
-> Also, please don't skip review comments. I already pointed out the above
-> in the answer to previous version of the patch.
->=20
-I apologize for the oversight. I shall be more careful in future.
+> If I understood everything correctly, the FIFO buffer is shared among
+> all of the ADMA clients and hence it should be up to the ADMA driver to
+> manage the quotas of the clients. So if there is only one client that
+> uses ADMA at a time, then this client will get a whole FIFO buffer, but
+> once another client starts to use ADMA, then the ADMA driver will have
+> to reconfigure hardware to split the quotas.
 
--regards,
-  Bitan
+The FIFO quotas are managed by the ADMAIF driver (does not exist in
+mainline currently but we are working to upstream this) because it is
+this device that owns and needs to configure the FIFOs. So it is really
+a means to pass the information from the ADMAIF to the ADMA.
 
+Jon
+
+--=20
+nvpublic
