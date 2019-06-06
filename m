@@ -2,109 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF0A3789B
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 17:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27B7537985
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Jun 2019 18:30:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729566AbfFFPyJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Jun 2019 11:54:09 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53722 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729274AbfFFPyI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Jun 2019 11:54:08 -0400
-Received: by mail-wm1-f67.google.com with SMTP id x15so459467wmj.3
-        for <linux-tegra@vger.kernel.org>; Thu, 06 Jun 2019 08:54:08 -0700 (PDT)
+        id S1727167AbfFFQaP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Jun 2019 12:30:15 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:44765 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727054AbfFFQaP (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Jun 2019 12:30:15 -0400
+Received: by mail-io1-f66.google.com with SMTP id s7so664587iob.11;
+        Thu, 06 Jun 2019 09:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zSC9WcLG/V6JDcdJ4LnaqDL5kXFCoFRHF1ciOZdHNZk=;
-        b=FnueILvDh2XgnVzGsCGuaEJhpvaljUun85J5T1x2yo88yXEpnUsvLdp6fO3Ze9Q9ci
-         XL+4JNW5OftOhIimH9UO0am/gyAyfyjgkUzbjftMD5DWsgCD/HZ39Liu8J1lYGr5G8Vw
-         r+IIj22mJ1KRboBC2ERLokKFTM0HGNs+tMHqS5Ttx8199XAJqKtyIEDj/Qnv4A0adm9W
-         BxtIGEwCJvB0EWTs/ZXrtMh7jb+Pk/huBMZRWhpTnygDtHtsvNFTlQpAqKx0yUVNGXZB
-         TzRxEt9tGA8szgVzQQlTYPI9zyyyG6UcEIPwuFQOA5l8qWkWo63NWtP1idzo9OE6Du4Z
-         XY0g==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=d7LytwrxXouA0Zs6R/AiX1+NNXroNALfB+EP9vrU3ak=;
+        b=CqDzhS28zOoXKqAmwZIGxqbShXAuwtqOzzqhggdfQVmXEfeJln82iHfrubi8vmVLfS
+         yjJMYT3JBT/pMQKyZwotP9cvg2CPLI8iawIC3LlhyybNGEuMJPBZA+O+H2877aBFuMbL
+         fowQ67ZuQZWNM0tESPs5I+ZMat9YSqOm1ldfdSI2UKOfdg6wUiV0O33De7/PxsH5+wSq
+         l81xAi7PWhySQ6y27rt+nSwNwEM6scBeWf8/0MdhaHXNE2CqjVBMUTROQtLn9CxfCemq
+         GhHxb/tduVEt73Elpc5FUhkGrzq0IKIOwLOF30IDZE9W7sPzQDwCvl53nvNTchjYHmPg
+         EScA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=zSC9WcLG/V6JDcdJ4LnaqDL5kXFCoFRHF1ciOZdHNZk=;
-        b=HZshVTkJWB8U+XPGTDDeBcyJh3yvpmq8AWkhj2gm22UOuD+1ULuV8TxwOcOySXBpUS
-         vjKygXuS5tJaqtxj+sWvseQILJ5giJhB9UEBhnUDhAFIOKvLC5FjvhUP7MR8ZeQzgSDd
-         FX+QRwDpVCQ4PzqgFdshABlMtRRjqOC03VMIfXTlUdjVJd0YTrYOsDXDJ9E+MGqsZCl0
-         6/U+ukUQUEYmHZg9E0tgafeIXCgScprlFmsrenN+pYyVFDUCvgSbzJ7LlxfkFo5KiYaS
-         zxDiR7qmheZII1meuH0ucql28wqL4RtJzIb0RomYFUkZFWOhOqF0JFKAPWr0BE3xV9Sb
-         wh0w==
-X-Gm-Message-State: APjAAAX7XEgW/fWHSFeiHGhFGawYS98dk6Izf4ho442gOsmLNKhXUq3E
-        C+UdQ8Cov1Zy+qRZF/fShiQ=
-X-Google-Smtp-Source: APXvYqy3wioOCzSFBzFiCQDS58YnFUm5SLj1AI/R91MVQxzwZYjzzYH2if1QYeOWQ2M0552GB9SBBw==
-X-Received: by 2002:a1c:7d4e:: with SMTP id y75mr486102wmc.169.1559836447513;
-        Thu, 06 Jun 2019 08:54:07 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id t6sm2437418wmb.29.2019.06.06.08.54.06
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 06 Jun 2019 08:54:06 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH] arm64: tegra: Add ID EEPROMs on Jetson Nano
-Date:   Thu,  6 Jun 2019 17:54:05 +0200
-Message-Id: <20190606155405.16388-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        bh=d7LytwrxXouA0Zs6R/AiX1+NNXroNALfB+EP9vrU3ak=;
+        b=oZjtX10MbGsBMCbVvrwui4jl2zt3dsNfGaOeozmkNqKShGuk+4ph3bwFZexI/vk2mc
+         gL+hp6ykj1UhkBjcdGbPnmvdJA4tRSA8Y7VAH97hQEtEmdy+glFJVM1UD6n30dxBE6M4
+         kZixBdK7F9dW3Dov8WTG5mt7lfyd3a6CgxbwD67/0hGRNuqpzGr9EOtUhPQzNBQ91ayD
+         8pfK1rNKfxFpEJjEOe84Rjep7IpxqR65bBWVPQBykl7CwJsTGX4b8HbTc8hPU5BgKFAZ
+         /pn12b3A5DRUKpd8vM5lq+vWl0/MT7uD9pNnw9fstf/2u25b4VZgOJV3p1bFIJYr+58m
+         fxag==
+X-Gm-Message-State: APjAAAX174f9/toB1jjcRHvewBTABUqGMBnLyLIp9vHsX3ulynf+2+eD
+        6fRAnTcwXx9ulXmVFmjrh/Q=
+X-Google-Smtp-Source: APXvYqx6Y2P7X9DmDW6zWXGbATaWZwdPGt54+mRbNR9V0Z0IbrAHa9vJLSmEXZTPLGvVlVq2Z9SkCg==
+X-Received: by 2002:a6b:8dcf:: with SMTP id p198mr33147282iod.46.1559838614878;
+        Thu, 06 Jun 2019 09:30:14 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.35.141])
+        by smtp.googlemail.com with ESMTPSA id c100sm1217734itd.0.2019.06.06.09.30.10
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 06 Jun 2019 09:30:14 -0700 (PDT)
+Subject: Re: [PATCH V8 13/15] phy: tegra: Add PCIe PIPE2UPHY support
+To:     Vidya Sagar <vidyas@nvidia.com>, lorenzo.pieralisi@arm.com,
+        bhelgaas@google.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, kishon@ti.com,
+        catalin.marinas@arm.com, will.deacon@arm.com, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com
+Cc:     mperttunen@nvidia.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
+References: <20190526043751.12729-1-vidyas@nvidia.com>
+ <20190526043751.12729-14-vidyas@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <c81c5d42-4292-ba6d-b5ab-afe1a604115f@gmail.com>
+Date:   Thu, 6 Jun 2019 19:30:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190526043751.12729-14-vidyas@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+26.05.2019 7:37, Vidya Sagar пишет:
+> Synopsys DesignWare core based PCIe controllers in Tegra 194 SoC interface
+> with Universal PHY (UPHY) module through a PIPE2UPHY (P2U) module.
+> For each PCIe lane of a controller, there is a P2U unit instantiated at
+> hardware level. This driver provides support for the programming required
+> for each P2U that is going to be used for a PCIe controller.
+> 
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> ---
+> Changes since [v7]:
+> * Changed P2U driver file name from pcie-p2u-tegra194.c to phy-tegra194-p2u.c
+> 
+> Changes since [v6]:
+> * None
+> 
+> Changes since [v5]:
+> * Addressed review comments from Thierry
+> 
+> Changes since [v4]:
+> * None
+> 
+> Changes since [v3]:
+> * Rebased on top of linux-next top of the tree
+> 
+> Changes since [v2]:
+> * Replaced spaces with tabs in Kconfig file
+> * Sorted header file inclusion alphabetically
+> 
+> Changes since [v1]:
+> * Added COMPILE_TEST in Kconfig
+> * Removed empty phy_ops implementations
+> * Modified code according to DT documentation file modifications
+> 
+>  drivers/phy/tegra/Kconfig            |   7 ++
+>  drivers/phy/tegra/Makefile           |   1 +
+>  drivers/phy/tegra/phy-tegra194-p2u.c | 109 +++++++++++++++++++++++++++
+>  3 files changed, 117 insertions(+)
+>  create mode 100644 drivers/phy/tegra/phy-tegra194-p2u.c
+> 
+> diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
+> index a3b1de953fb7..c56fc8452e03 100644
+> --- a/drivers/phy/tegra/Kconfig
+> +++ b/drivers/phy/tegra/Kconfig
+> @@ -6,3 +6,10 @@ config PHY_TEGRA_XUSB
+>  
+>  	  To compile this driver as a module, choose M here: the module will
+>  	  be called phy-tegra-xusb.
+> +
+> +config PHY_TEGRA194_P2U
+> +	tristate "NVIDIA Tegra194 PIPE2UPHY PHY driver"
+> +	depends on ARCH_TEGRA || COMPILE_TEST
 
-The Jetson Nano has two ID EEPROMs, one for the module and another for
-the carrier board. Add both to the device tree so that they can be read
-from at runtime.
+ARCH_TEGRA is a bit too much, ARCH_TEGRA_194_SOC should fit better here.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- .../boot/dts/nvidia/tegra210-p3450-0000.dts   | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index 5d0181908f45..97349fcacee9 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -88,6 +88,31 @@
- 		status = "okay";
- 	};
- 
-+	i2c@7000c500 {
-+		status = "okay";
-+		clock-frequency = <100000>;
-+
-+		eeprom@50 {
-+			compatible = "atmel,24c02";
-+			reg = <0x50>;
-+
-+			address-bits = <8>;
-+			page-size = <8>;
-+			size = <256>;
-+			read-only;
-+		};
-+
-+		eeprom@57 {
-+			compatible = "atmel,24c02";
-+			reg = <0x57>;
-+
-+			address-bits = <8>;
-+			page-size = <8>;
-+			size = <256>;
-+			read-only;
-+		};
-+	};
-+
- 	hdmi_ddc: i2c@7000c700 {
- 		status = "okay";
- 		clock-frequency = <100000>;
 -- 
-2.21.0
-
+Dmitry
