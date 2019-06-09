@@ -2,91 +2,122 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36CA43A09B
-	for <lists+linux-tegra@lfdr.de>; Sat,  8 Jun 2019 18:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC6793A584
+	for <lists+linux-tegra@lfdr.de>; Sun,  9 Jun 2019 14:49:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbfFHQLy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 8 Jun 2019 12:11:54 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33478 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727160AbfFHQLy (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 8 Jun 2019 12:11:54 -0400
-Received: by mail-wr1-f68.google.com with SMTP id n9so5081116wru.0;
-        Sat, 08 Jun 2019 09:11:53 -0700 (PDT)
+        id S1728496AbfFIMtB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 9 Jun 2019 08:49:01 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:41160 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728319AbfFIMtB (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 9 Jun 2019 08:49:01 -0400
+Received: by mail-lj1-f194.google.com with SMTP id s21so5511867lji.8
+        for <linux-tegra@vger.kernel.org>; Sun, 09 Jun 2019 05:49:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Y4PnFWfBk6Xs11lqTRjbODydzKCSY590i30A9Lot5Po=;
-        b=ZAmZERqkcjVMhfBvtyGFlFVF7SfDPsPuVflNUIMDgFTJKZJH/jgsCCC97PPGBZfcae
-         47taAPkdlEjs/Zk6jUPAL0ji4LENFSoa4stjQq9EkhalfPmCJnnYccFU3ZUzRLxcNXZY
-         2ATP8LI8TiBy5RwtfCWihhAfk/Vqbrwa1vn3ZKESDCc97hdQotM4hwrUdmQ2fv0rhuRD
-         apK5TK+Ett7TTuOgQxiweqe5qdtVTx+zq5n6I67jZi+9Bv7P1KtwwbemV92DuJkuUng0
-         VygrfeVunrTxxH3esjmZ9JsLhAYt2A2gb4yuRXJZXalJKdC0Af1VtioblEte9xw1eLjZ
-         AHJw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=HTkijLgHpahbU8iPdZoCkCjwTACeSfhcFyc/UqmC25A=;
+        b=KxJshuGvHEVpki2MbV+pkHZOdg2TWxsmTSYjfZtsluih4PmS3MDoQB1dvyK2g7GrrI
+         AKeNl0WVOF8GF7wMOuRS9UwzFVt8or4KO9kRW30XCreXf5NmXRuEZx/G5mGb/YzXxIXR
+         JomFEIAckOmu0lYL5UYpynZqgZGJxm+3c/nOjo09FnStWYfCiiKZLQoG3+/Yiv5TzzHR
+         kaVmTMSHzJxEMoQu28lgk4Y9BBR0++deSiXH0cHljXCeCd0ljmfhRo7ZE59M83Pt5g2B
+         0tvlvTXWFO42rTm1m+30ajkITwqPyUHYw4I9VlDK12X1rjeHqE5aZew+aImIyOHyQ7nb
+         yxbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Y4PnFWfBk6Xs11lqTRjbODydzKCSY590i30A9Lot5Po=;
-        b=GalOrJ+kKm9X/EiigyJ8eoGCyAz9bSJxwkZBz25q20iJsj+3//gLOkUat8M/TLWlEF
-         0x4n0aduCZo6a1YwADz4EsqW7j4JCsDyttZo2lBQefqsQ7QXVqJWWleLVI7qgoR36ehM
-         8RnbvPmJJQ1VkshTpifZUuQ/+EkW18N+0kc0Rr20TBetfHfMWZoYDEfYpQlT2ICv+Cbp
-         TX6dr7gb0fwmmNlrfZoNSVhUGbXve8yX8j4AcFcAesONM6NB/7e6W0PXzx5vma1GVY05
-         8PxCdWfCzYkv4rENuWuwABm9ycxQ+NmJm25w/ix6z8Or4Zud52brJR0pAB4o6DXrWz+d
-         VSAg==
-X-Gm-Message-State: APjAAAWOCDHFiyJrbz7tG36QOGur18ls1NEQCbdRMkLSvNwuQeWrQzjD
-        PvQ9PpUvdfS+8WHZX3iuoO4=
-X-Google-Smtp-Source: APXvYqyAnGtd2Yb+NKLvwxiQu5fqoK6BlLJG3wKiocP5POoNMrCLHscr/cDFU70tlB5weRBukFTltw==
-X-Received: by 2002:a5d:514d:: with SMTP id u13mr21348654wrt.77.1560010312591;
-        Sat, 08 Jun 2019 09:11:52 -0700 (PDT)
-Received: from zhanggen-UX430UQ ([108.61.173.19])
-        by smtp.gmail.com with ESMTPSA id b2sm7403881wrp.72.2019.06.08.09.11.49
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=HTkijLgHpahbU8iPdZoCkCjwTACeSfhcFyc/UqmC25A=;
+        b=daekFsnj6OsocWFqaPM9M9q3HGHqcrULTDQK1rIixUtGnPePmiF5IGQxoMoEZNd7W7
+         3UCe0B+hlfecPJfXSkRb6R4l4533Wb2lEXFeOIQ1Efvjq0l814yWRWWQ9kxCPgCi669K
+         FcYjtkJfdFgbQK0Bae3tZJV5egSgHwpqEWrPSNXHiD4i8lkAFo04dKRJZSj5pH3c331I
+         bWEgHvJjSZKNydMNJpuQMcwGDgb9mqcB07NPf7sG5rNNf+31/qnBqgrdX5WEcuOdT1Ic
+         0odot5mqHdRD7uKp+Zc3bBZhkn3128RLZEvSF2bDvlgfcQeqonyFDA60lmzOgJnxA1Jh
+         H+QQ==
+X-Gm-Message-State: APjAAAUOg/Bm8xldRIZdBHdH5S7Bbsf4f3m0K8XAFNShBgdcxAgQQrdq
+        ggFCE5HIL0RiHg3sWHBYFVM=
+X-Google-Smtp-Source: APXvYqzp5SzfrKd+porFnoOVyQH/+AhmpmjU35QDywWYnFsIU3oCoTHdsxV6HbGtXwJDQPo2m2f28Q==
+X-Received: by 2002:a2e:8716:: with SMTP id m22mr33471188lji.128.1560084539423;
+        Sun, 09 Jun 2019 05:48:59 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.googlemail.com with ESMTPSA id f4sm1367381ljm.13.2019.06.09.05.48.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 08 Jun 2019 09:11:52 -0700 (PDT)
-Date:   Sun, 9 Jun 2019 00:11:44 +0800
-From:   Gen Zhang <blackgod016574@gmail.com>
-To:     jassisinghbrar@gmail.com
-Cc:     thierry.reding@gmail.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] tegra-hsp: fix a missing-check bug in
- tegra_hsp_doorbell_create()
-Message-ID: <20190608161144.GA4090@zhanggen-UX430UQ>
-References: <20190530011920.GA6490@zhanggen-UX430UQ>
+        Sun, 09 Jun 2019 05:48:58 -0700 (PDT)
+Subject: Re: [PATCH] gpu: host1x: Increase maximum DMA segment size
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20190605084605.12225-1-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <db06ce74-6051-8bb4-555d-505f8d3baa85@gmail.com>
+Date:   Sun, 9 Jun 2019 15:48:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190530011920.GA6490@zhanggen-UX430UQ>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20190605084605.12225-1-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 30, 2019 at 09:19:20AM +0800, Gen Zhang wrote:
-> In tegra_hsp_doorbell_create(), 'db->name' is allocated by 
-> devm_kstrdup_const(). It returns NULL when fails. So 'db->name' should
-> be checked.
+05.06.2019 11:46, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> Signed-off-by: Gen Zhang <blackgod016574@gmail.com>
-> Acked-by: Thierry Reding <treding@nvidia.com>
+> Recent versions of the DMA API debug code have started to warn about
+> violations of the maximum DMA segment size. This is because the segment
+> size defaults to 64 KiB, which can easily be exceeded in large buffer
+> allocations such as used in DRM/KMS for framebuffers.
+> 
+> Technically the Tegra SMMU and ARM SMMU don't have a maximum segment
+> size (they map individual pages irrespective of whether they are
+> contiguous or not), so the choice of 4 MiB is a bit arbitrary here. The
+> maximum segment size is a 32-bit unsigned integer, though, so we can't
+> set it to the correct maximum size, which would be the size of the
+> aperture.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
-> diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
-> index 11fc9fd..b613c46 100644
-> --- a/drivers/mailbox/tegra-hsp.c
-> +++ b/drivers/mailbox/tegra-hsp.c
-> @@ -292,6 +292,8 @@ tegra_hsp_doorbell_create(struct tegra_hsp *hsp, const char *name,
->  	db->channel.hsp = hsp;
+>  drivers/gpu/host1x/bus.c | 3 +++
+>  include/linux/host1x.h   | 2 ++
+>  2 files changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+> index 9797ccb0a073..6387302c1245 100644
+> --- a/drivers/gpu/host1x/bus.c
+> +++ b/drivers/gpu/host1x/bus.c
+> @@ -414,6 +414,9 @@ static int host1x_device_add(struct host1x *host1x,
 >  
->  	db->name = devm_kstrdup_const(hsp->dev, name, GFP_KERNEL);
-> +	if (!db->name)
-> +		return ERR_PTR(-ENOMEM);
->  	db->master = master;
->  	db->index = index;
+>  	of_dma_configure(&device->dev, host1x->dev->of_node, true);
 >  
-> ---
-Can anyone look into this patch? It's acked by Thierry Reding 
-<treding@nvidia.com>.
+> +	device->dev.dma_parms = &device->dma_parms;
+> +	dma_set_max_seg_size(&device->dev, SZ_4M);
+> +
+>  	err = host1x_device_parse_dt(device, driver);
+>  	if (err < 0) {
+>  		kfree(device);
+> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+> index cfff30b9a62e..e6eea45e1154 100644
+> --- a/include/linux/host1x.h
+> +++ b/include/linux/host1x.h
+> @@ -297,6 +297,8 @@ struct host1x_device {
+>  	struct list_head clients;
+>  
+>  	bool registered;
+> +
+> +	struct device_dma_parameters dma_parms;
+>  };
+>  
+>  static inline struct host1x_device *to_host1x_device(struct device *dev)
+> 
 
-Thanks
-Gen
+Just a very minor nit:
+
+It may be worthwhile to include "dma-mapping.h" directly for consistency
+here as well since nothing includes it directly. I noticed a build
+breakage of the grate-driver's kernel on a rebase with "git --exec
+'make..'" cause we have some of "iommu/iova" headers that are moved
+around in the intermediate patches.
