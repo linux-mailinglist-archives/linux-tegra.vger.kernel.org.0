@@ -2,122 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC6793A584
-	for <lists+linux-tegra@lfdr.de>; Sun,  9 Jun 2019 14:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D8B53AB9D
+	for <lists+linux-tegra@lfdr.de>; Sun,  9 Jun 2019 21:28:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728496AbfFIMtB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 9 Jun 2019 08:49:01 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41160 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728319AbfFIMtB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 9 Jun 2019 08:49:01 -0400
-Received: by mail-lj1-f194.google.com with SMTP id s21so5511867lji.8
-        for <linux-tegra@vger.kernel.org>; Sun, 09 Jun 2019 05:49:00 -0700 (PDT)
+        id S1729115AbfFIT2x (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 9 Jun 2019 15:28:53 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:41150 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729082AbfFIT2x (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 9 Jun 2019 15:28:53 -0400
+Received: by mail-lf1-f66.google.com with SMTP id 136so5106382lfa.8;
+        Sun, 09 Jun 2019 12:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HTkijLgHpahbU8iPdZoCkCjwTACeSfhcFyc/UqmC25A=;
-        b=KxJshuGvHEVpki2MbV+pkHZOdg2TWxsmTSYjfZtsluih4PmS3MDoQB1dvyK2g7GrrI
-         AKeNl0WVOF8GF7wMOuRS9UwzFVt8or4KO9kRW30XCreXf5NmXRuEZx/G5mGb/YzXxIXR
-         JomFEIAckOmu0lYL5UYpynZqgZGJxm+3c/nOjo09FnStWYfCiiKZLQoG3+/Yiv5TzzHR
-         kaVmTMSHzJxEMoQu28lgk4Y9BBR0++deSiXH0cHljXCeCd0ljmfhRo7ZE59M83Pt5g2B
-         0tvlvTXWFO42rTm1m+30ajkITwqPyUHYw4I9VlDK12X1rjeHqE5aZew+aImIyOHyQ7nb
-         yxbA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1ZoIoKi0kkLJMizKse887C3ko3aOcz0ZOXxYdZLy4d4=;
+        b=rI+eAeI12KQMNNI8DRChQtMvW8+8G2Bielug4vr/1U4QwhU8FT21DcLXLHKG6FiRIU
+         otZxHzdn343b8Re4GM4Y3YfoiXWHwmh0X22F/ty0x+zQNwk2dLgdRpSBl3hJiOe6+CDD
+         yIIkp/b8DBYxgr2SuffdNBUCdb/TJ7L3QPdEmI5lckiWmcu7pQrFLPEqZijHG7diAjKb
+         9GqFHqL2PPMJAmW1dAeNccyHhAdEig5mbTDDZFpFK3acMlSWHMHCLNRooJcqp/79T7MS
+         jiG7By7Q+qNx+I+9F+ctvXLnvc4tIfOLCloDCB0hJcCcdnrawKqdk0CNLGrQMKu6/LV5
+         yagA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=HTkijLgHpahbU8iPdZoCkCjwTACeSfhcFyc/UqmC25A=;
-        b=daekFsnj6OsocWFqaPM9M9q3HGHqcrULTDQK1rIixUtGnPePmiF5IGQxoMoEZNd7W7
-         3UCe0B+hlfecPJfXSkRb6R4l4533Wb2lEXFeOIQ1Efvjq0l814yWRWWQ9kxCPgCi669K
-         FcYjtkJfdFgbQK0Bae3tZJV5egSgHwpqEWrPSNXHiD4i8lkAFo04dKRJZSj5pH3c331I
-         bWEgHvJjSZKNydMNJpuQMcwGDgb9mqcB07NPf7sG5rNNf+31/qnBqgrdX5WEcuOdT1Ic
-         0odot5mqHdRD7uKp+Zc3bBZhkn3128RLZEvSF2bDvlgfcQeqonyFDA60lmzOgJnxA1Jh
-         H+QQ==
-X-Gm-Message-State: APjAAAUOg/Bm8xldRIZdBHdH5S7Bbsf4f3m0K8XAFNShBgdcxAgQQrdq
-        ggFCE5HIL0RiHg3sWHBYFVM=
-X-Google-Smtp-Source: APXvYqzp5SzfrKd+porFnoOVyQH/+AhmpmjU35QDywWYnFsIU3oCoTHdsxV6HbGtXwJDQPo2m2f28Q==
-X-Received: by 2002:a2e:8716:: with SMTP id m22mr33471188lji.128.1560084539423;
-        Sun, 09 Jun 2019 05:48:59 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id f4sm1367381ljm.13.2019.06.09.05.48.58
+        bh=1ZoIoKi0kkLJMizKse887C3ko3aOcz0ZOXxYdZLy4d4=;
+        b=aHxu3nhQ1kWyNNw0VFI//D1JQ7KD7zHJcRlvoNaXcK01TpqEcGsyvGEQ4eV1sRVh0F
+         bpxSQrIO3r9dgbOM/IS8Nf2fP7V0+CvQnTH+kJ6fes9Dw6NxxJfb8F1YN8pYgJLrXr4D
+         mXgtoYDfNqBzr+ILOpJPRu6jMuP3dl+tDW2KGHSNfcy9qdQ5R3fAn4iKQ/a7ETl6MVRN
+         gDvJmKLPDK771Rtd2YxYwtOHMhfshqVW4Jdf2IP/lNAM5YXMMiXnEo+0af2SL9I/k+T+
+         P1dXm0euaz79KsnXqcKg7RBIYMmMmj0EB5jBv/zMkP5Of56QN0jeyuv1bx+YAHZce8+F
+         YuAg==
+X-Gm-Message-State: APjAAAWLtvZXuJquQw059O6LLVgfzbweoMWRzy/3aXYD4Ya+Ym4ptXQj
+        7TR1OPAzk6jXVmfxaK3Xk8o=
+X-Google-Smtp-Source: APXvYqxfNYZrf+mO+N684rY5EEzLcUrScGZGCBGK1tq5V93tEM7Hh6WQsrOlxHMQV3aB+GtB4IHERg==
+X-Received: by 2002:ac2:514b:: with SMTP id q11mr33037205lfd.33.1560108531932;
+        Sun, 09 Jun 2019 12:28:51 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.gmail.com with ESMTPSA id e26sm1531685ljl.33.2019.06.09.12.28.50
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 09 Jun 2019 05:48:58 -0700 (PDT)
-Subject: Re: [PATCH] gpu: host1x: Increase maximum DMA segment size
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20190605084605.12225-1-thierry.reding@gmail.com>
+        Sun, 09 Jun 2019 12:28:50 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <db06ce74-6051-8bb4-555d-505f8d3baa85@gmail.com>
-Date:   Sun, 9 Jun 2019 15:48:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/3] Few more cleanups for tegra-timer
+Date:   Sun,  9 Jun 2019 22:27:27 +0300
+Message-Id: <20190609192730.29459-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190605084605.12225-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-05.06.2019 11:46, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Recent versions of the DMA API debug code have started to warn about
-> violations of the maximum DMA segment size. This is because the segment
-> size defaults to 64 KiB, which can easily be exceeded in large buffer
-> allocations such as used in DRM/KMS for framebuffers.
-> 
-> Technically the Tegra SMMU and ARM SMMU don't have a maximum segment
-> size (they map individual pages irrespective of whether they are
-> contiguous or not), so the choice of 4 MiB is a bit arbitrary here. The
-> maximum segment size is a 32-bit unsigned integer, though, so we can't
-> set it to the correct maximum size, which would be the size of the
-> aperture.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/gpu/host1x/bus.c | 3 +++
->  include/linux/host1x.h   | 2 ++
->  2 files changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-> index 9797ccb0a073..6387302c1245 100644
-> --- a/drivers/gpu/host1x/bus.c
-> +++ b/drivers/gpu/host1x/bus.c
-> @@ -414,6 +414,9 @@ static int host1x_device_add(struct host1x *host1x,
->  
->  	of_dma_configure(&device->dev, host1x->dev->of_node, true);
->  
-> +	device->dev.dma_parms = &device->dma_parms;
-> +	dma_set_max_seg_size(&device->dev, SZ_4M);
-> +
->  	err = host1x_device_parse_dt(device, driver);
->  	if (err < 0) {
->  		kfree(device);
-> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-> index cfff30b9a62e..e6eea45e1154 100644
-> --- a/include/linux/host1x.h
-> +++ b/include/linux/host1x.h
-> @@ -297,6 +297,8 @@ struct host1x_device {
->  	struct list_head clients;
->  
->  	bool registered;
-> +
-> +	struct device_dma_parameters dma_parms;
->  };
->  
->  static inline struct host1x_device *to_host1x_device(struct device *dev)
-> 
+Hello,
 
-Just a very minor nit:
+I took a look at tegra-timer once again and spotted few more things that
+could be improved in addition to [0] which is already in linux-next.
 
-It may be worthwhile to include "dma-mapping.h" directly for consistency
-here as well since nothing includes it directly. I noticed a build
-breakage of the grate-driver's kernel on a rebase with "git --exec
-'make..'" cause we have some of "iommu/iova" headers that are moved
-around in the intermediate patches.
+Please apply this small series in addition to [0], thanks in advance!
+
+[0] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=111529
+
+Dmitry Osipenko (3):
+  clocksource/drivers/tegra: Remove duplicated use of per_cpu_ptr
+  clocksource/drivers/tegra: Set and use timer's period
+  clocksource/drivers/tegra: Drop unneeded typecasting in one place
+
+ drivers/clocksource/timer-tegra.c | 47 +++++++++++++++++++------------
+ 1 file changed, 29 insertions(+), 18 deletions(-)
+
+-- 
+2.21.0
+
