@@ -2,82 +2,156 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F6E83B303
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 12:20:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E8AE3B32D
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 12:30:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389332AbfFJKTy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Jun 2019 06:19:54 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:19792 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389291AbfFJKTy (ORCPT
+        id S2389277AbfFJKaK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Jun 2019 06:30:10 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:40712 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388708AbfFJKaK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Jun 2019 06:19:54 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cfe2ec80000>; Mon, 10 Jun 2019 03:19:52 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 10 Jun 2019 03:19:53 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 10 Jun 2019 03:19:53 -0700
-Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 10 Jun
- 2019 10:19:53 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 10 Jun 2019 10:19:53 +0000
-Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.65.118]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5cfe2ec50005>; Mon, 10 Jun 2019 03:19:52 -0700
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>
-CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [Patch V4 8/8] arm64: defconfig: Enable tegra XUDC driver
-Date:   Mon, 10 Jun 2019 15:49:09 +0530
-Message-ID: <1560161949-26031-9-git-send-email-nkristam@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560161949-26031-1-git-send-email-nkristam@nvidia.com>
-References: <1560161949-26031-1-git-send-email-nkristam@nvidia.com>
-X-NVConfidentiality: public
+        Mon, 10 Jun 2019 06:30:10 -0400
+Received: by mail-lj1-f195.google.com with SMTP id a21so7412802ljh.7;
+        Mon, 10 Jun 2019 03:30:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=k8dA6RtWLtudf1teyKI10V5TZyW2ANtVz5AmNzW3i/g=;
+        b=R6ydAOyZW56n9eFfphJR3L864w54mjYrfJx1u/g+k8w4wrbL5Ki2c24IN3boXytA7Y
+         hV5GURE68GTT3Pyke1Bc6QHNt94gUPRiSXF/HYkW6X6OTSUPCDdYREXLOBzkmUyKhn86
+         FbsBCg88HuFjRewh+9Xpp8IFIHHsTERCncPmWnxi6JM7XTlmXSQih6rgKn4gSN3cOExh
+         5bYqJ+4dl0x0QkxpBRsi7ublZsDrD8mAS+7WSe90nHPIkMfaQPvnHAkewM/5EeQMq0Jp
+         TZXMc/tC8aYx+WYHzGjGrzeTEuW4y+3qrc7qioQyx+aHFloyQeUzjLQ3eXKW84ftAWM/
+         RR0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=k8dA6RtWLtudf1teyKI10V5TZyW2ANtVz5AmNzW3i/g=;
+        b=D+7hBImH+35GS6PnsETPx3jtVHsObuBT9Dr8hjwK0Bmgfb6nWO8ST0g6hZVrt9B+Ce
+         fLUC9GW9K9tMNLmr9JyBf6k3335fNDdfBDj1hBoD1gVXHwcgWRA6i1rGyo0NNHKtUF3D
+         1Ou1qeWPrmH0ebHxpgJYhYAATu3wSJ/bRduuYqpOKql4PAsMCn+conyIhzpVCmfKWFGs
+         C22REHzb3vX08C5XfGPSc13otTY9J7gekizLKkZ0/n+YJYM/7KB+nkUJl0UGjW99GXBs
+         cMfhj4HqYiJXrnvYJYkpuk1tOre2dqEt1atJ7JRChOL/l+kamcrkXxDImuPi7hLALcyz
+         JbPg==
+X-Gm-Message-State: APjAAAV0x1KoWCpo9vuy1MXRGsQa8pKxnWVcpmxEjnsYkuwUNKQfC89d
+        O9Wpm3ZuWuFtnAV+PpjV0Ww=
+X-Google-Smtp-Source: APXvYqznUdzN9LQp8pXPFcTmESUCywQVgS0KTkZAzwrqkOh/LVRnl5fEgB5uaBQAoytYy1dMIv28Qg==
+X-Received: by 2002:a2e:89cc:: with SMTP id c12mr36047954ljk.90.1560162607864;
+        Mon, 10 Jun 2019 03:30:07 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.googlemail.com with ESMTPSA id 80sm1913515lfz.56.2019.06.10.03.30.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Jun 2019 03:30:06 -0700 (PDT)
+Subject: Re: [PATCH V3 6/6] i2c: tegra: remove BUG, BUG_ON
+To:     Bitan Biswas <bbiswas@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     Shardar Mohammed <smohammed@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mantravadi Karthik <mkarthik@nvidia.com>
+References: <1560143324-21754-1-git-send-email-bbiswas@nvidia.com>
+ <1560143324-21754-6-git-send-email-bbiswas@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <89190a56-bc79-7c07-9b21-ebdfb532df30@gmail.com>
+Date:   Mon, 10 Jun 2019 13:30:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560161992; bh=FeCrLOohF5hF22QycDZ6u+H5QlmZDk8jFM9rdOnSybk=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=Hkhuq+uiFoX9spXhGlmV412aXodMoI08N2oHQRqHDsBwTwhzIG73ZpeOGcyp9wV0d
-         hMmWhXqK72vjYqpq+zj2igZH2N0NVc0baq/tg46ihIKvWCfstjIYbUm+Q9S9pDICU4
-         L2fk5OE7xGBKVENiEz2hwe/jKbFPCL0MxMiD5/3nkgQshArDYH3VsFmyMI/hPZTb4A
-         mJEpfjcc3CzOG3QhqJFkGRZjf/vSqbO3X6p0wyaDG7CS3/ZGnj07CYWhdCJvb3gZ60
-         xdrPLxyH4RTDhs6qZX6220gm+QXgcqiflAAhPY/hwDW/m1YXzjUclooFIgmY6iU6tf
-         9lPc2AssJ12Fw==
+In-Reply-To: <1560143324-21754-6-git-send-email-bbiswas@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable support for Nvidia XUSB device mode controller driver.
+10.06.2019 8:08, Bitan Biswas пишет:
+> Remove redundant BUG_ON calls or replace with WARN_ON_ONCE
+> as needed. Replace BUG() with error handling code.
+> Define I2C_ERR_UNEXPECTED_STATUS for error handling.
+> 
+> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+> ---
+>  drivers/i2c/busses/i2c-tegra.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+> index 4dfb4c1..d9e99b4 100644
+> --- a/drivers/i2c/busses/i2c-tegra.c
+> +++ b/drivers/i2c/busses/i2c-tegra.c
+> @@ -73,6 +73,7 @@
+>  #define I2C_ERR_NO_ACK				BIT(0)
+>  #define I2C_ERR_ARBITRATION_LOST		BIT(1)
+>  #define I2C_ERR_UNKNOWN_INTERRUPT		BIT(2)
+> +#define I2C_ERR_UNEXPECTED_STATUS		BIT(3)
+>  
+>  #define PACKET_HEADER0_HEADER_SIZE_SHIFT	28
+>  #define PACKET_HEADER0_PACKET_ID_SHIFT		16
+> @@ -515,7 +516,6 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
+>  	 * prevent overwriting past the end of buf
+>  	 */
+>  	if (rx_fifo_avail > 0 && buf_remaining > 0) {
+> -		BUG_ON(buf_remaining > 3);
+>  		val = i2c_readl(i2c_dev, I2C_RX_FIFO);
+>  		val = cpu_to_le32(val);
+>  		memcpy(buf, &val, buf_remaining);
+> @@ -523,7 +523,6 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
+>  		rx_fifo_avail--;
+>  	}
+>  
+> -	BUG_ON(rx_fifo_avail > 0 && buf_remaining > 0);
+>  	i2c_dev->msg_buf_remaining = buf_remaining;
+>  	i2c_dev->msg_buf = buf;
+>  
+> @@ -581,7 +580,6 @@ static int tegra_i2c_fill_tx_fifo(struct tegra_i2c_dev *i2c_dev)
+>  	 * boundary and fault.
+>  	 */
+>  	if (tx_fifo_avail > 0 && buf_remaining > 0) {
+> -		BUG_ON(buf_remaining > 3);
+>  		memcpy(&val, buf, buf_remaining);
+>  		val = le32_to_cpu(val);
+>  
+> @@ -847,10 +845,13 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
+>  
+>  	if (!i2c_dev->is_curr_dma_xfer) {
+>  		if (i2c_dev->msg_read && (status & I2C_INT_RX_FIFO_DATA_REQ)) {
+> -			if (i2c_dev->msg_buf_remaining)
+> +			if (i2c_dev->msg_buf_remaining) {
+>  				tegra_i2c_empty_rx_fifo(i2c_dev);
+> -			else
+> -				BUG();
+> +			} else {
+> +				dev_err(i2c_dev->dev, "unexpected rx data request\n");
+> +				i2c_dev->msg_err |= I2C_ERR_UNEXPECTED_STATUS;
+> +				goto err;
+> +			}
+>  		}
+>  
+>  		if (!i2c_dev->msg_read && (status & I2C_INT_TX_FIFO_DATA_REQ)) {
+> @@ -876,7 +877,10 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
+>  	if (status & I2C_INT_PACKET_XFER_COMPLETE) {
+>  		if (i2c_dev->is_curr_dma_xfer)
+>  			i2c_dev->msg_buf_remaining = 0;
+> -		BUG_ON(i2c_dev->msg_buf_remaining);
+> +		if (WARN_ON_ONCE(i2c_dev->msg_buf_remaining)) {
+> +			i2c_dev->msg_err |= I2C_ERR_UNKNOWN_INTERRUPT;
+> +			goto err;
+> +		}
+>  		complete(&i2c_dev->msg_complete);
+>  	}
+>  	goto done;
+> 
 
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index f0bad30..87a8d0d 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -577,6 +577,7 @@ CONFIG_USB_ULPI=y
- CONFIG_USB_GADGET=y
- CONFIG_USB_RENESAS_USBHS_UDC=m
- CONFIG_USB_RENESAS_USB3=m
-+CONFIG_USB_TEGRA_XUDC=m
- CONFIG_MMC=y
- CONFIG_MMC_BLOCK_MINORS=32
- CONFIG_MMC_ARMMMCI=y
--- 
-2.7.4
-
+It looks nearly ideal now, although there is still one thing that could
+be improved. We're going to print a error message in a case of RX and
+spew a warning on a similar case of TX, this makes code inconsistent.
+Let's switch to either a error message or just a warning in both places.
