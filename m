@@ -2,82 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CB9F3B744
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 16:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7C443B9E9
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 18:48:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403874AbfFJOZs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Jun 2019 10:25:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56820 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2403856AbfFJOZs (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Jun 2019 10:25:48 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 26A2B207E0;
-        Mon, 10 Jun 2019 14:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560176747;
-        bh=EHU+U6e5Cw/kl6IWPHzHeUl1AkftBJ8qbSPrssDP8uE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=E+nvLis80kiwWuIiGX7ZN9sFBPjAh4SY5KdpVtmvAgpTFyLcEdxRW/w1tcPNBO5d6
-         jZ5zYStGnLqDelyRAOOA1ybTQmhNBrJ3GO04in6P3TFHTLZL326PCzWeXcPwc9S9cL
-         z+cmXn+9lKmNCweFKDAw5GBaA/6RTRZQ4HYHUbq0=
-Date:   Mon, 10 Jun 2019 16:25:45 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.1 00/70] 5.1.9-stable review
-Message-ID: <20190610142545.GE5937@kroah.com>
-References: <20190609164127.541128197@linuxfoundation.org>
- <c767d39b-49b2-de5b-2527-a39fcd242bb6@nvidia.com>
+        id S1728104AbfFJQsV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Jun 2019 12:48:21 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:33775 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726217AbfFJQsV (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 10 Jun 2019 12:48:21 -0400
+Received: by mail-ed1-f67.google.com with SMTP id h9so15442744edr.0;
+        Mon, 10 Jun 2019 09:48:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j3h84NSaTkFu6Uv0SKats11wFiFF0h143HuYgUGuRqE=;
+        b=I5P5/aH1ZEVMpLlREl6deIyYZL3L/UOc0GjF7sM6HE0KdE3gIsK+/GG93fOwgTxoxY
+         TxXPKY6WxzlVG5zuQtNi5o2Cj+TyGRc4On5AMuORsB0VDQomI0scOoCYXz51hUL7bxhT
+         KtgJ5KII3Tx5vcVxO7TDLfmYer6gHExdvGPcmc4eg+ZPKfzxSyY78ot0TBqm/fhLi5ND
+         nI4NFjEgVIhMnKxj3V47h1U9+pwV2Bypis6TFVrgEF2iL9zqU4gqlZlmW+SP9qgEBmzD
+         ciefdGbisQI4kuO1I6HwaDMtsdTyxYtEXqeEckOl+Mtk5N631IIL8UBSyqfWlVaKvkV6
+         s2QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j3h84NSaTkFu6Uv0SKats11wFiFF0h143HuYgUGuRqE=;
+        b=K2Ut5xeodc4hIFOgn9G4y5HfErbup8pcuuXhIK5j/Ewot51NKdyVLRZsyX2AR/nVh9
+         W4DI0ZS30lbD3IFFcx6tTSk2gQBvTYao3TJ+TT9etDkn/3eP2MVz3ddiYRZhEfxL78MK
+         v2ANGwkSP0qFVHxT7earDkexBVXczQ/PxyASsXGAPEkvc93i/HTTioNoXOGp+tmSRLVO
+         jq22nGVlR9RWVNlisQpsfd+vQgAvNhNbNxxGII90xI7Rvd60lWZ/DAJ0fKx3mXn8iKPF
+         Seye1nTrkSpdQYO7F+0GhOA8kUg4G+tLfz+cf1lhDeQxUkN0iB8Fxgnlv8rVKKP3lIuS
+         X/Lw==
+X-Gm-Message-State: APjAAAW8do71GPQtLVEX5zsUy/GTP8aDHd7BhkU55+WfLSt9Mb36+0GE
+        tK4uOr/iwyuL/vLNl+WRr3c=
+X-Google-Smtp-Source: APXvYqyQNnMgnO7RCcBBNA8dsWEBVtgx/ft6pFxBCg02eg1aIRMpbKitPj/ecSJuKQbVCFjuPpFgmw==
+X-Received: by 2002:a50:972a:: with SMTP id c39mr39634199edb.46.1560185300056;
+        Mon, 10 Jun 2019 09:48:20 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.gmail.com with ESMTPSA id a9sm3075799edc.44.2019.06.10.09.48.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Jun 2019 09:48:19 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] Few more cleanups for tegra-timer
+Date:   Mon, 10 Jun 2019 19:43:54 +0300
+Message-Id: <20190610164400.11830-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c767d39b-49b2-de5b-2527-a39fcd242bb6@nvidia.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 10, 2019 at 09:52:18AM +0100, Jon Hunter wrote:
-> 
-> On 09/06/2019 17:41, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.1.9 release.
-> > There are 70 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Tue 11 Jun 2019 04:40:04 PM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.9-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.1:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     32 tests:	32 pass, 0 fail
-> 
-> Linux version:	5.1.9-rc1-g5b3d375b3838
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
+Hello,
 
-Thanks for testing all of these and letting me know.
+This a followup to [0] that includes some more fixes and further
+prettifies the driver's code.
 
-greg k-h
+[0] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=111529
+
+Changelog:
+
+v2: Fixed a bug that was introduced by [0] in a newly added patch:
+    "Restore timer rate on Tegra210".
+
+    Fixed potential problem in regards to error handling in another new
+    patch: "Restore base address before cleanup".
+
+    Added new patch "Add verbose definition for 1MHz constant" as per
+    Daniel's Lezcano recommendation.
+
+    Fixed a code typo that was made in "Remove duplicated use of per_cpu_ptr"
+    of v1.
+
+Dmitry Osipenko (6):
+  clocksource/drivers/tegra: Restore timer rate on Tegra210
+  clocksource/drivers/tegra: Remove duplicated use of per_cpu_ptr
+  clocksource/drivers/tegra: Set and use timer's period
+  clocksource/drivers/tegra: Drop unneeded typecasting in one place
+  clocksource/drivers/tegra: Add verbose definition for 1MHz constant
+  clocksource/drivers/tegra: Restore base address before cleanup
+
+ drivers/clocksource/timer-tegra.c | 59 +++++++++++++++++++------------
+ 1 file changed, 37 insertions(+), 22 deletions(-)
+
+-- 
+2.21.0
+
