@@ -2,196 +2,226 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 559293B024
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 10:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E43EF3B03C
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 10:11:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388227AbfFJIBc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Jun 2019 04:01:32 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:12140 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387781AbfFJIBc (ORCPT
+        id S2388261AbfFJILT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Jun 2019 04:11:19 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45459 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388227AbfFJILS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Jun 2019 04:01:32 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cfe0e580001>; Mon, 10 Jun 2019 01:01:28 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 10 Jun 2019 01:01:29 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 10 Jun 2019 01:01:29 -0700
-Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 10 Jun
- 2019 08:01:27 +0000
-Subject: Re: [PATCH] [RFC] dmaengine: add fifo_size member
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Sameer Pujar <spujar@nvidia.com>, Vinod Koul <vkoul@kernel.org>
-CC:     <dan.j.williams@intel.com>, <tiwai@suse.com>,
-        <dmaengine@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <sharadg@nvidia.com>, <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
-        <mkumard@nvidia.com>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <1556623828-21577-1-git-send-email-spujar@nvidia.com>
- <3368d1e1-0d7f-f602-5b96-a978fcf4d91b@nvidia.com>
- <20190504102304.GZ3845@vkoul-mobl.Dlink>
- <ce0e9c0b-b909-54ae-9086-a1f0f6be903c@nvidia.com>
- <20190506155046.GH3845@vkoul-mobl.Dlink>
- <b7e28e73-7214-f1dc-866f-102410c88323@nvidia.com>
- <ed95f03a-bbe7-ad62-f2e1-9bfe22ec733a@ti.com>
- <4cab47d0-41c3-5a87-48e1-d7f085c2e091@nvidia.com>
- <8a5b84db-c00b-fff4-543f-69d90c245660@nvidia.com>
- <3f836a10-eaf3-f59b-7170-6fe937cf2e43@ti.com>
- <a36302fc-3173-070b-5c97-7d2c55d5e2cc@nvidia.com>
- <a08bec36-b375-6520-eff4-3d847ddfe07d@ti.com>
- <4593f37c-5e89-8559-4e80-99dbfe4235de@nvidia.com>
- <d0db90e3-3d05-dfba-8768-28511d9ee3ac@ti.com>
- <5208a50a-9ca0-8f24-9ad0-d7503ec53f1c@nvidia.com>
- <ba845a19-5dfb-a891-719f-43821b2dd412@nvidia.com>
- <e67a2d7c-5bd1-93ad-fe75-afcab38bc17c@ti.com>
- <a65f2b07-4a3a-7f83-e21f-8b374844a4b9@nvidia.com>
- <56aa6f45-cfd8-7f1e-9392-628ceb58093f@ti.com>
- <68e72598-8d53-115c-14a2-9d3042165aff@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <4526f63f-8e77-334d-7656-ae1c7bc57d3b@nvidia.com>
-Date:   Mon, 10 Jun 2019 09:01:25 +0100
+        Mon, 10 Jun 2019 04:11:18 -0400
+Received: by mail-wr1-f68.google.com with SMTP id f9so8138845wre.12
+        for <linux-tegra@vger.kernel.org>; Mon, 10 Jun 2019 01:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xqTjft69CxSIHkVtNgFVRZKuKKxogiXAplAKbQKO8k4=;
+        b=mP86zpa7qBBQ+cO1517Cu9yNQ2uOrdhcTqZWIt6+6u3n/x03korwlS86QR1Erzx8jR
+         1W1Lo66/jMAQLwrmvGs437nVLodzk4p+SuTpZth8NZUMMsDog9wlidFwLGzpvGgWOJXM
+         3kXbrpyJSXNCm1E621+6GrvowxGYnl3o10DfrAHZG6atjX0Gh/Chcveigvl5kUgfTWEO
+         iDxmymXF69rkobJghYyCPt6vvuIaSJRCr8H9Nb3DVCcebn3nWGsCBEgdZ7V4+UVSmEqz
+         nCbdEQ3rslwFVaDVh9giBdMl+BtGl3O4bVMdnKwLuty4UvGMh9cb4kIt6ZRL+jbuhOP7
+         sfUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=xqTjft69CxSIHkVtNgFVRZKuKKxogiXAplAKbQKO8k4=;
+        b=PkL+B2oUyAhucFUdJ5BNSkpMbLA1PbQUPOzMMJVwq1EM4jycGH4PopCbEL0mGwUmJC
+         SxCUnfHtsU1SVzvJ8bGocB/+a61PbaXSgJ7cQDf411zpx92c6R9chZv++EJo0zydv5Zs
+         wX766q5uWAvmBOUq3+QQ/c/y+e0B/S4VA1DjPOIkKu4QWKFKxIB685jOSf21hGpEp7MN
+         F95tMta8xbYpUd0uJ98ZWwNfx2w/S13x5z61cVrl99+3gtf0u7kJzkcglYJiimU8LpzN
+         Z1VEd2cy4U1Yn5buER5UzWOAI1NsMXnfqI4FMETHn0a7hrwCubmn+jpgv/9BITr/z3Zv
+         AJiQ==
+X-Gm-Message-State: APjAAAU90X7yX9Q1prBYlXdG9C9oYmFD4Anrh4yC7kkk037Rt8Ryj9OH
+        qHeDD+Wwyo1qD85KdksoecsQuA==
+X-Google-Smtp-Source: APXvYqxQvfC5Ih+9ei+kGD1ilEYKD7wqPOf21PLaTwKmxPmk6UdfeZfYExrHtCK27tIZhK1yRtrg8w==
+X-Received: by 2002:adf:fd01:: with SMTP id e1mr18548373wrr.167.1560154276575;
+        Mon, 10 Jun 2019 01:11:16 -0700 (PDT)
+Received: from [192.168.0.41] (229.84.95.92.rev.sfr.net. [92.95.84.229])
+        by smtp.googlemail.com with ESMTPSA id l19sm7540453wmj.33.2019.06.10.01.11.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Jun 2019 01:11:15 -0700 (PDT)
+Subject: Re: [PATCH v1 1/3] clocksource/drivers/tegra: Remove duplicated use
+ of per_cpu_ptr
+To:     Dmitry Osipenko <digetx@gmail.com>, Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190609192730.29459-1-digetx@gmail.com>
+ <20190609192730.29459-2-digetx@gmail.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <4e1f1389-afde-3994-2ccc-4e57e9ad78d1@linaro.org>
+Date:   Mon, 10 Jun 2019 10:11:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <68e72598-8d53-115c-14a2-9d3042165aff@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190609192730.29459-2-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560153688; bh=J6mu682EDtgVy1AkOKuHMBhb1MvhvrxrmHSYVdgfyu0=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=QZwvNMH57JHS9D83nppsjdvlOAZnb4X5DZhNZW9mrWofRmO44rMUvM925DOc+wlUv
-         49YAPOWXa4ZYOZ1907WDID+ovFQLi7NJAuOipzpeKfysNmrhuIj1FeA8KQIO0sYWew
-         pTvEvAKjwQFi0C1X6qn1NmJLVqhBi7rNp+NfM9qSCv2Lhs2sPSC3gEbae6+ncTN804
-         52DhV+w/vwX//9EDSFyzNLbL8Qbg9GI5F2cIQEtEa1WfMt1cjhD0frxh8jlYq+Jh8x
-         7Sh13Sd6eQBFDDfa/fadlfZSASPwpjFDXUGpOW9wIj9tvCPnyBSBOkMEa/qALeVr6c
-         EfTmGtG6txxIg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 07/06/2019 21:53, Dmitry Osipenko wrote:
-> 07.06.2019 16:35, Peter Ujfalusi =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>
->>
->> On 07/06/2019 15.58, Jon Hunter wrote:
->>>> Imho if you can explain it without using 'HACK' in the sentences it
->>>> might be OK, but it does not feel right.
->>>
->>> I don't perceive this as a hack. Although from looking at the
->>> description of the src/dst_maxburst these are burst size with regard to
->>> the device, so maybe it is a stretch.
->>>
->>>> However since your ADMA and ADMIF is highly coupled and it does needs
->>>> special maxburst information (burst and allocated FIFO depth) I would
->>>> rather use src_maxburst/dst_maxburst alone for DEV_TO_MEM/MEM_TO_DEV:
->>>>
->>>> ADMA_BURST_SIZE(maxburst)	((maxburst) & 0xff)
->>>> ADMA_FIFO_SIZE(maxburst)	(((maxburst) >> 8) & 0xffffff)
->>>>
->>>> So lower 1 byte is the burst value you want from ADMA
->>>> the other 3 bytes are the allocated FIFO size for the given ADMAIF cha=
-nnel.
->>>>
->>>> Sure, you need a header for this to make sure there is no
->>>> misunderstanding between the two sides.
->>>
->>> I don't like this because as I mentioned to Dmitry, the ADMA can perfor=
-m
->>> memory-to-memory transfers where such encoding would not be applicable.
->>
->> mem2mem does not really use dma_slave_config, it is for used by
->> is_slave_direction() =3D=3D true type of transfers.
->>
->> But true, if you use ADMA against anything other than ADMAIF then this
->> might be not right for non cyclic transfers.
->>
->>> That does not align with the description in the
->>> include/linux/dmaengine.h either.
->>
->> True.
->>
->>>> Or pass the allocated FIFO size via maxburst and then the ADMA driver
->>>> will pick a 'good/safe' burst value for it.
->>>>
->>>> Or new member, but do you need two of them for src/dst? Probably
->>>> fifo_depth is better word for it, or allocated_fifo_depth.
->>>
->>> Right, so looking at the struct dma_slave_config we have ...
->>>
->>> u32 src_maxburst;
->>> u32 dst_maxburst;
->>> u32 src_port_window_size;
->>> u32 dst_port_window_size;
->>>
->>> Now if we could make these window sizes a union like the following this
->>> could work ...
->>>
->>> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
->>> index 8fcdee1c0cf9..851251263527 100644
->>> --- a/include/linux/dmaengine.h
->>> +++ b/include/linux/dmaengine.h
->>> @@ -360,8 +360,14 @@ struct dma_slave_config {
->>>         enum dma_slave_buswidth dst_addr_width;
->>>         u32 src_maxburst;
->>>         u32 dst_maxburst;
->>> -       u32 src_port_window_size;
->>> -       u32 dst_port_window_size;
->>> +       union {
->>> +               u32 port_window_size;
->>> +               u32 port_fifo_size;
->>> +       } src;
->>> +       union {
->>> +               u32 port_window_size;
->>> +               u32 port_fifo_size;
->>> +       } dst;
->>
->> What if in the future someone will have a setup where they would need bo=
-th?
->>
->> So not sure. Your problems are coming from a split DMA setup where the
->> two are highly coupled, but sits in a different place and need to be
->> configured as one device.
->>
->> I think xilinx_dma is facing with similar issues and they have a custom
->> API to set parameters which does not fit or is peripheral specific:
->> include/linux/dma/xilinx_dma.h
->>
->> Not sure if that is an acceptable solution.
->=20
-> If there are no other drivers with the exactly same requirement, then
-> the custom API is an a good variant given that there is a precedent
-> already. It is always possible to convert to a common thing later on
-> since that's all internal to kernel.
->=20
-> Jon / Sameer, you should check all the other drivers thoroughly to find
-> anyone who is doing the same thing as you need in order to achieve
-> something that is really common. I'm also wondering if it will be
-> possible to make dma_slave_config more flexible in order to start
-> accepting vendor specific properties in a somewhat common fashion, maybe
-> Vinod and Dan already have some thoughts on it? Apparently there is
-> already a need for the customization and people are just starting to
-> invent their own thing, but maybe that's fine too. That's really up to
-> subsys maintainer to decide in what direction to steer.
+Hi Dmitry,
 
-I am not a fan of having custom APIs, however, I would agree that
-extending the dma_slave_config to allow a DMA specific structure to be
-passed with additional configuration would be useful in this case as
-well as the Xilinx case.
 
-Cheers
-Jon
+On 09/06/2019 21:27, Dmitry Osipenko wrote:
+> It was left unnoticed by accident, which means that the code could be
+> cleaned up a tad more.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/clocksource/timer-tegra.c | 40 +++++++++++++++++++------------
+>  1 file changed, 25 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
+> index 9406855781ff..6da169de47f9 100644
+> --- a/drivers/clocksource/timer-tegra.c
+> +++ b/drivers/clocksource/timer-tegra.c
+> @@ -216,6 +216,19 @@ static inline unsigned int tegra_irq_idx_for_cpu(int cpu, bool tegra20)
+>  	return TIMER10_IRQ_IDX + cpu;
+>  }
+>  
+> +static inline unsigned long tegra_rate_for_timer(struct timer_of *to,
+> +						 bool tegra20)
+> +{
+> +	/*
+> +	 * TIMER1-9 are fixed to 1MHz, TIMER10-13 are running off the
+> +	 * parent clock.
+> +	 */
+> +	if (tegra20)
+> +		return 1000000;
 
---=20
-nvpublic
+Mind to take the opportunity to convert the literal value to a constant?
+
+> +
+> +	return to->of_clk.rate;
+> +}
+> +
+>  static int __init tegra_init_timer(struct device_node *np, bool tegra20,
+>  				   int rating)
+>  {
+> @@ -268,30 +281,27 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
+>  
+>  	for_each_possible_cpu(cpu) {
+>  		struct timer_of *cpu_to = per_cpu_ptr(&tegra_to, cpu);
+> +		unsigned long flags = IRQF_TIMER | IRQF_NOBALANCING;
+> +		unsigned long rate = tegra_rate_for_timer(&tegra_to, tegra20);
+>  		unsigned int base = tegra_base_for_cpu(cpu, tegra20);
+>  		unsigned int idx = tegra_irq_idx_for_cpu(cpu, tegra20);
+> +		unsigned int irq = irq_of_parse_and_map(np, idx);
+>  
+> -		/*
+> -		 * TIMER1-9 are fixed to 1MHz, TIMER10-13 are running off the
+> -		 * parent clock.
+> -		 */
+> -		if (tegra20)
+> -			cpu_to->of_clk.rate = 1000000;
+> -
+> -		cpu_to = per_cpu_ptr(&tegra_to, cpu);
+> -		cpu_to->of_base.base = timer_reg_base + base;
+> -		cpu_to->clkevt.rating = rating;
+> -		cpu_to->clkevt.cpumask = cpumask_of(cpu);
+> -		cpu_to->clkevt.irq = irq_of_parse_and_map(np, idx);
+> -		if (!cpu_to->clkevt.irq) {
+> +		if (!irq) {
+>  			pr_err("failed to map irq for cpu%d\n", cpu);
+>  			ret = -EINVAL;
+>  			goto out_irq;
+>  		}
+>  
+> +		cpu_to->clkevt.irq = irq;
+> +		cpu_to->clkevt.rating = rating;
+> +		cpu_to->clkevt.cpumask = cpumask_of(cpu);
+> +		cpu_to->of_base.base = timer_reg_base + base;
+> +		cpu_to->of_clk.rate = rate;
+> +
+>  		irq_set_status_flags(cpu_to->clkevt.irq, IRQ_NOAUTOEN);
+> -		ret = request_irq(cpu_to->clkevt.irq, tegra_timer_isr,
+> -				  IRQF_TIMER | IRQF_NOBALANCING,
+> +
+> +		ret = request_irq(cpu_to->clkevt.irq, tegra_timer_isr, flags,
+>  				  cpu_to->clkevt.name, &cpu_to->clkevt);
+>  		if (ret) {
+>  			pr_err("failed to set up irq for cpu%d: %d\n",
+> 
+
+
+-- 
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
