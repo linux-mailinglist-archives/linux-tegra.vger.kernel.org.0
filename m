@@ -2,70 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E8AE3B32D
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 12:30:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7AF13B35F
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 12:39:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389277AbfFJKaK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Jun 2019 06:30:10 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40712 "EHLO
+        id S2389476AbfFJKjE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Jun 2019 06:39:04 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:41433 "EHLO
         mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388708AbfFJKaK (ORCPT
+        with ESMTP id S2389217AbfFJKjD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Jun 2019 06:30:10 -0400
-Received: by mail-lj1-f195.google.com with SMTP id a21so7412802ljh.7;
-        Mon, 10 Jun 2019 03:30:08 -0700 (PDT)
+        Mon, 10 Jun 2019 06:39:03 -0400
+Received: by mail-lj1-f195.google.com with SMTP id s21so7455398lji.8;
+        Mon, 10 Jun 2019 03:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=k8dA6RtWLtudf1teyKI10V5TZyW2ANtVz5AmNzW3i/g=;
-        b=R6ydAOyZW56n9eFfphJR3L864w54mjYrfJx1u/g+k8w4wrbL5Ki2c24IN3boXytA7Y
-         hV5GURE68GTT3Pyke1Bc6QHNt94gUPRiSXF/HYkW6X6OTSUPCDdYREXLOBzkmUyKhn86
-         FbsBCg88HuFjRewh+9Xpp8IFIHHsTERCncPmWnxi6JM7XTlmXSQih6rgKn4gSN3cOExh
-         5bYqJ+4dl0x0QkxpBRsi7ublZsDrD8mAS+7WSe90nHPIkMfaQPvnHAkewM/5EeQMq0Jp
-         TZXMc/tC8aYx+WYHzGjGrzeTEuW4y+3qrc7qioQyx+aHFloyQeUzjLQ3eXKW84ftAWM/
-         RR0w==
+        bh=Hp7w9EcTH4KoMgfbV9O4tF43GQhl8J4iWH4CNXKJYUo=;
+        b=bCz67vUq0UCl9uUSJrNhDdwSkJLYFfbl268PifQuzXtVXxfgDyJVbRClyy5PXaRs5J
+         ipGnjD1Hwd0RO6VkPm9FzQ49WQcUqTjoEW4NfzFAqsBO3hZwvvBwmLHZLRrtTzlBNS7p
+         Oi5PRq59hOqwbyf/BRIiAS1QgmK6mLVTuJ+UEo9lUkzjfaDQVw5l1SNRp9mdvLzOdNxU
+         Lfza/Y/R5u97oHI/Cu5Y6VsGMRgoFUSXiTd8+TzVAzbO0b4U1FCMAOrqpTyuNdatyNnw
+         YlwiehFgqtkWrDWQJ20GpEMj+fsHUZkF93KryKwdBI4mYDn0I7x5kmog1IUImaRuAL3+
+         1EMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=k8dA6RtWLtudf1teyKI10V5TZyW2ANtVz5AmNzW3i/g=;
-        b=D+7hBImH+35GS6PnsETPx3jtVHsObuBT9Dr8hjwK0Bmgfb6nWO8ST0g6hZVrt9B+Ce
-         fLUC9GW9K9tMNLmr9JyBf6k3335fNDdfBDj1hBoD1gVXHwcgWRA6i1rGyo0NNHKtUF3D
-         1Ou1qeWPrmH0ebHxpgJYhYAATu3wSJ/bRduuYqpOKql4PAsMCn+conyIhzpVCmfKWFGs
-         C22REHzb3vX08C5XfGPSc13otTY9J7gekizLKkZ0/n+YJYM/7KB+nkUJl0UGjW99GXBs
-         cMfhj4HqYiJXrnvYJYkpuk1tOre2dqEt1atJ7JRChOL/l+kamcrkXxDImuPi7hLALcyz
-         JbPg==
-X-Gm-Message-State: APjAAAV0x1KoWCpo9vuy1MXRGsQa8pKxnWVcpmxEjnsYkuwUNKQfC89d
-        O9Wpm3ZuWuFtnAV+PpjV0Ww=
-X-Google-Smtp-Source: APXvYqznUdzN9LQp8pXPFcTmESUCywQVgS0KTkZAzwrqkOh/LVRnl5fEgB5uaBQAoytYy1dMIv28Qg==
-X-Received: by 2002:a2e:89cc:: with SMTP id c12mr36047954ljk.90.1560162607864;
-        Mon, 10 Jun 2019 03:30:07 -0700 (PDT)
+        bh=Hp7w9EcTH4KoMgfbV9O4tF43GQhl8J4iWH4CNXKJYUo=;
+        b=ByJ+XviRe64Qt+3shlBXx5sE4wRmgzbYLlBwUIj3bWTLjtnbrZDws9MqKC1DczY9A1
+         9KvBL9Buh5V+prBlRvscBufoJASlsiSZLDAtOasmgV2ZOyFa1QHBb5bjlzWrW7BWPYLz
+         VKqrYoKpDIRR6Wv5G1Y6KugSYxxEk6UiiUZfqLqKNtuFyJYvlh627Omylbg/afW/sjdR
+         EYwAqxmqXnrQjbf2dC0YJjs2ZP8wJQe22HaY6de68zII1YHyKtsevwRM/690BI92P13+
+         aeYhkFnnIQAGMGcPjYiA1SWxgjhlljO1MSp6236eoq7al36161UY2U4UeYqggd4xVetM
+         /+HQ==
+X-Gm-Message-State: APjAAAX3oBBQAFLY5IT6T0DiYM/8Rjk6BgSmwTT4BI8hL9MBg9gg4lNO
+        KCS4i9Oli1DtXZZJGFSj1vHV1b+v
+X-Google-Smtp-Source: APXvYqy6dE+w/d1u45lfinXgUoGU2kUiYOqHJEz/yVSwhrUuWmGw17GdIvpO9ivXBlM6KbjC+6tfPQ==
+X-Received: by 2002:a2e:5b5b:: with SMTP id p88mr26490359ljb.192.1560163141834;
+        Mon, 10 Jun 2019 03:39:01 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id 80sm1913515lfz.56.2019.06.10.03.30.06
+        by smtp.googlemail.com with ESMTPSA id z6sm1391557ljk.57.2019.06.10.03.39.00
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Jun 2019 03:30:06 -0700 (PDT)
-Subject: Re: [PATCH V3 6/6] i2c: tegra: remove BUG, BUG_ON
-To:     Bitan Biswas <bbiswas@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
+        Mon, 10 Jun 2019 03:39:01 -0700 (PDT)
+Subject: Re: [PATCH v1 1/3] clocksource/drivers/tegra: Remove duplicated use
+ of per_cpu_ptr
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>
-References: <1560143324-21754-1-git-send-email-bbiswas@nvidia.com>
- <1560143324-21754-6-git-send-email-bbiswas@nvidia.com>
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190609192730.29459-1-digetx@gmail.com>
+ <20190609192730.29459-2-digetx@gmail.com>
+ <4e1f1389-afde-3994-2ccc-4e57e9ad78d1@linaro.org>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <89190a56-bc79-7c07-9b21-ebdfb532df30@gmail.com>
-Date:   Mon, 10 Jun 2019 13:30:05 +0300
+Message-ID: <479f97eb-f695-31d8-d12b-4b577b90f4d0@gmail.com>
+Date:   Mon, 10 Jun 2019 13:39:00 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <1560143324-21754-6-git-send-email-bbiswas@nvidia.com>
+In-Reply-To: <4e1f1389-afde-3994-2ccc-4e57e9ad78d1@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -74,84 +72,70 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-10.06.2019 8:08, Bitan Biswas пишет:
-> Remove redundant BUG_ON calls or replace with WARN_ON_ONCE
-> as needed. Replace BUG() with error handling code.
-> Define I2C_ERR_UNEXPECTED_STATUS for error handling.
+10.06.2019 11:11, Daniel Lezcano пишет:
 > 
-> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
-> ---
->  drivers/i2c/busses/i2c-tegra.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
+> Hi Dmitry,
 > 
-> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-> index 4dfb4c1..d9e99b4 100644
-> --- a/drivers/i2c/busses/i2c-tegra.c
-> +++ b/drivers/i2c/busses/i2c-tegra.c
-> @@ -73,6 +73,7 @@
->  #define I2C_ERR_NO_ACK				BIT(0)
->  #define I2C_ERR_ARBITRATION_LOST		BIT(1)
->  #define I2C_ERR_UNKNOWN_INTERRUPT		BIT(2)
-> +#define I2C_ERR_UNEXPECTED_STATUS		BIT(3)
->  
->  #define PACKET_HEADER0_HEADER_SIZE_SHIFT	28
->  #define PACKET_HEADER0_PACKET_ID_SHIFT		16
-> @@ -515,7 +516,6 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
->  	 * prevent overwriting past the end of buf
->  	 */
->  	if (rx_fifo_avail > 0 && buf_remaining > 0) {
-> -		BUG_ON(buf_remaining > 3);
->  		val = i2c_readl(i2c_dev, I2C_RX_FIFO);
->  		val = cpu_to_le32(val);
->  		memcpy(buf, &val, buf_remaining);
-> @@ -523,7 +523,6 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
->  		rx_fifo_avail--;
->  	}
->  
-> -	BUG_ON(rx_fifo_avail > 0 && buf_remaining > 0);
->  	i2c_dev->msg_buf_remaining = buf_remaining;
->  	i2c_dev->msg_buf = buf;
->  
-> @@ -581,7 +580,6 @@ static int tegra_i2c_fill_tx_fifo(struct tegra_i2c_dev *i2c_dev)
->  	 * boundary and fault.
->  	 */
->  	if (tx_fifo_avail > 0 && buf_remaining > 0) {
-> -		BUG_ON(buf_remaining > 3);
->  		memcpy(&val, buf, buf_remaining);
->  		val = le32_to_cpu(val);
->  
-> @@ -847,10 +845,13 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
->  
->  	if (!i2c_dev->is_curr_dma_xfer) {
->  		if (i2c_dev->msg_read && (status & I2C_INT_RX_FIFO_DATA_REQ)) {
-> -			if (i2c_dev->msg_buf_remaining)
-> +			if (i2c_dev->msg_buf_remaining) {
->  				tegra_i2c_empty_rx_fifo(i2c_dev);
-> -			else
-> -				BUG();
-> +			} else {
-> +				dev_err(i2c_dev->dev, "unexpected rx data request\n");
-> +				i2c_dev->msg_err |= I2C_ERR_UNEXPECTED_STATUS;
-> +				goto err;
-> +			}
->  		}
->  
->  		if (!i2c_dev->msg_read && (status & I2C_INT_TX_FIFO_DATA_REQ)) {
-> @@ -876,7 +877,10 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
->  	if (status & I2C_INT_PACKET_XFER_COMPLETE) {
->  		if (i2c_dev->is_curr_dma_xfer)
->  			i2c_dev->msg_buf_remaining = 0;
-> -		BUG_ON(i2c_dev->msg_buf_remaining);
-> +		if (WARN_ON_ONCE(i2c_dev->msg_buf_remaining)) {
-> +			i2c_dev->msg_err |= I2C_ERR_UNKNOWN_INTERRUPT;
-> +			goto err;
-> +		}
->  		complete(&i2c_dev->msg_complete);
->  	}
->  	goto done;
 > 
+> On 09/06/2019 21:27, Dmitry Osipenko wrote:
+>> It was left unnoticed by accident, which means that the code could be
+>> cleaned up a tad more.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/clocksource/timer-tegra.c | 40 +++++++++++++++++++------------
+>>  1 file changed, 25 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
+>> index 9406855781ff..6da169de47f9 100644
+>> --- a/drivers/clocksource/timer-tegra.c
+>> +++ b/drivers/clocksource/timer-tegra.c
+>> @@ -216,6 +216,19 @@ static inline unsigned int tegra_irq_idx_for_cpu(int cpu, bool tegra20)
+>>  	return TIMER10_IRQ_IDX + cpu;
+>>  }
+>>  
+>> +static inline unsigned long tegra_rate_for_timer(struct timer_of *to,
+>> +						 bool tegra20)
+>> +{
+>> +	/*
+>> +	 * TIMER1-9 are fixed to 1MHz, TIMER10-13 are running off the
+>> +	 * parent clock.
+>> +	 */
+>> +	if (tegra20)
+>> +		return 1000000;
+> 
+> Mind to take the opportunity to convert the literal value to a constant?
 
-It looks nearly ideal now, although there is still one thing that could
-be improved. We're going to print a error message in a case of RX and
-spew a warning on a similar case of TX, this makes code inconsistent.
-Let's switch to either a error message or just a warning in both places.
+Sure!
+
+>> +
+>> +	return to->of_clk.rate;
+>> +}
+>> +
+>>  static int __init tegra_init_timer(struct device_node *np, bool tegra20,
+>>  				   int rating)
+>>  {
+>> @@ -268,30 +281,27 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
+>>  
+>>  	for_each_possible_cpu(cpu) {
+>>  		struct timer_of *cpu_to = per_cpu_ptr(&tegra_to, cpu);
+>> +		unsigned long flags = IRQF_TIMER | IRQF_NOBALANCING;
+>> +		unsigned long rate = tegra_rate_for_timer(&tegra_to, tegra20);
+
+Oh, this actually shall be (to, tegra20). Will correct this in v2!
+
+>>  		unsigned int base = tegra_base_for_cpu(cpu, tegra20);
+>>  		unsigned int idx = tegra_irq_idx_for_cpu(cpu, tegra20);
+>> +		unsigned int irq = irq_of_parse_and_map(np, idx);
+>>  
+>> -		/*
+>> -		 * TIMER1-9 are fixed to 1MHz, TIMER10-13 are running off the
+>> -		 * parent clock.
+>> -		 */
+>> -		if (tegra20)
+>> -			cpu_to->of_clk.rate = 1000000;
+
+I also spotted that there is a bug here that I introduced in a previous
+patch. The of_clk.rate is initialized only for the first per-cpu
+clocksource and then we need to replicate it for the rest of CPU's in a
+case of T210. I'll add an explicit fixup for this.
