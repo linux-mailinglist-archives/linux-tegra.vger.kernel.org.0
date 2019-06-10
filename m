@@ -2,103 +2,170 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A20A3BB04
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 19:34:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7E9D3BBAB
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 20:12:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387643AbfFJReC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Jun 2019 13:34:02 -0400
-Received: from foss.arm.com ([217.140.110.172]:46788 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387492AbfFJReC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Jun 2019 13:34:02 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 940F9337;
-        Mon, 10 Jun 2019 10:34:01 -0700 (PDT)
-Received: from redmoon (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E77D3F246;
-        Mon, 10 Jun 2019 10:34:00 -0700 (PDT)
-Date:   Mon, 10 Jun 2019 18:33:54 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc:     thierry.reding@gmail.com, bhelgaas@google.com, robh+dt@kernel.org,
-        mark.rutland@arm.com, jonathanh@nvidia.com, vidyas@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH V4 00/28] Enable Tegra PCIe root port features
-Message-ID: <20190610173354.GA12678@redmoon>
-References: <20190516055307.25737-1-mmaddireddy@nvidia.com>
- <b7d09498-b97e-3428-02bd-ecd7c7f3e733@nvidia.com>
+        id S2388411AbfFJSM1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Jun 2019 14:12:27 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:44684 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388309AbfFJSM0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 10 Jun 2019 14:12:26 -0400
+Received: by mail-lj1-f194.google.com with SMTP id k18so8867192ljc.11;
+        Mon, 10 Jun 2019 11:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=m4IicXmHL+piZ9OJ4E7oQZcLcDU6vLsCg4k119cayko=;
+        b=IY1+wvJKprjqmACc+45BoI+/W6BTEuaoh087ueM67xoxK1L8Av+H6QcyQHH4Xj6096
+         rOoFYVhZL2Nyi4E6VpFKl6sVjALsZ7c3vFAG7mwSnVyz9sltElJI5laKvjHqdvCcd4e1
+         nmkyjQRBmdQ8V9/RhX/IGWjSiEVp50SglLTUBAUNmqd+GW0QXZbCRjL9gM0Pw6ShGph5
+         gGOy0bSa5dF1ShBFP3LM/+zOgh51utmJtJ/z2PrP+biQ98UW+zNzVV2uOpfAIvqSMjjp
+         iZbm6r96ffqXCd12dSmqzddQI3oT5bKFnbHaeFMY0OOqNLhETYgSjlcta1ncXcEMnw+W
+         B2GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=m4IicXmHL+piZ9OJ4E7oQZcLcDU6vLsCg4k119cayko=;
+        b=mUWjUMdHsGY666L6JB+2z0nulTVmTDEPWYyIXK5mfNZORHJ5+ZhBHpWUbyRMreaoDw
+         KdglErBf+T3jJT+45rHDEe4/8xwTqcgfJPDVhLU+hqCMmQgwN2sr5c5jckxc9UPSCMP8
+         fYgO4OrTjh3GptVpyOCPimh5MBikHFTmlmrLS9LBLp1axTSeh19wOIiCN7Np//m9x+TC
+         nbzUHZnPJ+zkOx71EYjfiZkwz7f+RJO0rWcHqNFGO0RCHE2WtvtvY6H2nuRwUrBjSr6z
+         vYAEzvejtB6VeOhQSejcLrcKq/0wNCHTEDxlSdgcwKHSnD6s5fpY9iJ4yvZvjjx7fAkI
+         TfSg==
+X-Gm-Message-State: APjAAAX4VljPXbLx99az6OHUwUoaw2efH2VwnBZVzuL2G0CYql6scG5L
+        895BagatPqcnKAenidRX/x0=
+X-Google-Smtp-Source: APXvYqwaayRXWK8Ozv+7Emttxy6k6eTTEr5onHP+e5W8bGJ1iOoHAbNoR3LCbqs0pbXVL/JHhy9LDg==
+X-Received: by 2002:a2e:989a:: with SMTP id b26mr7891942ljj.31.1560190344354;
+        Mon, 10 Jun 2019 11:12:24 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.googlemail.com with ESMTPSA id p27sm2119121lfh.8.2019.06.10.11.12.23
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Jun 2019 11:12:23 -0700 (PDT)
+Subject: Re: [PATCH V4 6/6] i2c: tegra: remove BUG, BUG_ON
+To:     Bitan Biswas <bbiswas@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     Shardar Mohammed <smohammed@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mantravadi Karthik <mkarthik@nvidia.com>
+References: <1560186515-30797-1-git-send-email-bbiswas@nvidia.com>
+ <1560186515-30797-6-git-send-email-bbiswas@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <06ab30b6-bf79-c628-0a04-d0307511a06f@gmail.com>
+Date:   Mon, 10 Jun 2019 21:12:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b7d09498-b97e-3428-02bd-ecd7c7f3e733@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <1560186515-30797-6-git-send-email-bbiswas@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 10, 2019 at 10:15:07AM +0530, Manikanta Maddireddy wrote:
-> Hi Lorenzo,
+10.06.2019 20:08, Bitan Biswas пишет:
+> Remove redundant BUG_ON calls or replace with WARN_ON_ONCE
+> as needed. Remove BUG() and make Rx and Tx case handling
+> similar.
 > 
-> Thierry Ack'ed most of the patches, I am planning to address the review
-> comments for remaining two patches and publish V5. If you can review the
-> series, I will consolidate both the comments and address in V5.
+> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+> ---
+>  drivers/i2c/busses/i2c-tegra.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 
-It will take me some time to get to this series but it is on my
-radar, start preparing v5 but wait before posting it, I should
-be able to comment shortly.
+Looks that this is still not correct. What if it transfer-complete flag
+is set and buffer is full on RX? In this case the transfer will succeed
+while it was a failure.
 
-Lorenzo
+> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+> index 4dfb4c1..30619d6 100644
+> --- a/drivers/i2c/busses/i2c-tegra.c
+> +++ b/drivers/i2c/busses/i2c-tegra.c
+> @@ -515,7 +515,6 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
+>  	 * prevent overwriting past the end of buf
+>  	 */
+>  	if (rx_fifo_avail > 0 && buf_remaining > 0) {
+> -		BUG_ON(buf_remaining > 3);
 
-> Manikanta
+Actually error should be returned here since out-of-bounds memory
+accesses must be avoided, hence:
+
+	if (WARN_ON_ONCE(buf_remaining > 3))
+		return -EINVAL;
+
+>  		val = i2c_readl(i2c_dev, I2C_RX_FIFO);
+>  		val = cpu_to_le32(val);
+>  		memcpy(buf, &val, buf_remaining);
+> @@ -523,7 +522,6 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
+>  		rx_fifo_avail--;
+>  	}
+>  
+> -	BUG_ON(rx_fifo_avail > 0 && buf_remaining > 0);
+
+Better not to ignore this as well:
+
+	if (WARN_ON_ONCE(rx_fifo_avail > 0 &&
+			 buf_remaining > 0))
+		return -EINVAL;
+
+>  	i2c_dev->msg_buf_remaining = buf_remaining;
+>  	i2c_dev->msg_buf = buf;
+>  
+> @@ -581,7 +579,6 @@ static int tegra_i2c_fill_tx_fifo(struct tegra_i2c_dev *i2c_dev)
+>  	 * boundary and fault.
+>  	 */
+>  	if (tx_fifo_avail > 0 && buf_remaining > 0) {
+> -		BUG_ON(buf_remaining > 3);
+
+And here, cause this will corrupt stack:
+
+		if (WARN_ON_ONCE(buf_remaining > 3))
+			return -EINVAL;
+
+>  		memcpy(&val, buf, buf_remaining);
+>  		val = le32_to_cpu(val);
+>  
+> @@ -850,7 +847,8 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
+>  			if (i2c_dev->msg_buf_remaining)
+>  				tegra_i2c_empty_rx_fifo(i2c_dev);
+>  			else
+> -				BUG();
+> +				tegra_i2c_mask_irq(i2c_dev,
+> +						   I2C_INT_RX_FIFO_DATA_REQ);
+
+Then here:
+
+	if (WARN_ON_ONCE(!i2c_dev->msg_buf_remaining) ||
+	    tegra_i2c_empty_rx_fifo(i2c_dev)) {
+		i2c_dev->msg_err |= I2C_ERR_UNKNOWN_INTERRUPT;
+		goto err;
+	}
+
+>  		}
+>  
+>  		if (!i2c_dev->msg_read && (status & I2C_INT_TX_FIFO_DATA_REQ)) {
+> @@ -876,7 +874,10 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
+>  	if (status & I2C_INT_PACKET_XFER_COMPLETE) {
+>  		if (i2c_dev->is_curr_dma_xfer)
+>  			i2c_dev->msg_buf_remaining = 0;
+> -		BUG_ON(i2c_dev->msg_buf_remaining);
+> +		if (WARN_ON_ONCE(i2c_dev->msg_buf_remaining)) {
+> +			i2c_dev->msg_err |= I2C_ERR_UNKNOWN_INTERRUPT;
+> +			goto err;
+> +		}
+>  		complete(&i2c_dev->msg_complete);
+>  	}
+>  	goto done;
 > 
-> 
-> On 16-May-19 11:22 AM, Manikanta Maddireddy wrote:
-> > This series of patches adds,
-> > - Tegra root port features like Gen2, AER, etc
-> > - Power and perf optimizations
-> > - Fixes like "power up sequence", "dev_err prints", etc
-> >
-> > This series of patches are tested on Tegra186 based Jetson-TX2, Tegra210
-> > based Jetson-TX1, T124 based Jetson-TK1 platforms, Tegra20 and Tegra30
-> > platforms.
-> >
-> > Manikanta Maddireddy (28):
-> >   soc/tegra: pmc: Export tegra_powergate_power_on()
-> >   PCI: tegra: Handle failure cases in tegra_pcie_power_on()
-> >   PCI: tegra: Rearrange Tegra PCIe driver functions
-> >   PCI: tegra: Mask AFI_INTR in runtime suspend
-> >   PCI: tegra: Fix PCIe host power up sequence
-> >   PCI: tegra: Add PCIe Gen2 link speed support
-> >   PCI: tegra: Advertise PCIe Advanced Error Reporting (AER) capability
-> >   PCI: tegra: Program UPHY electrical settings for Tegra210
-> >   PCI: tegra: Enable opportunistic UpdateFC and ACK
-> >   PCI: tegra: Disable AFI dynamic clock gating
-> >   PCI: tegra: Process pending DLL transactions before entering L1 or L2
-> >   PCI: tegra: Enable PCIe xclk clock clamping
-> >   PCI: tegra: Increase the deskew retry time
-> >   PCI: tegra: Add SW fixup for RAW violations
-> >   PCI: tegra: Update flow control timer frequency in Tegra210
-> >   PCI: tegra: Set target speed as Gen1 before starting LTSSM
-> >   PCI: tegra: Fix PLLE power down issue due to CLKREQ# signal
-> >   PCI: tegra: Program AFI_CACHE* registers only for Tegra20
-> >   PCI: tegra: Change PRSNT_SENSE IRQ log to debug
-> >   PCI: tegra: Use legacy IRQ for port service drivers
-> >   PCI: tegra: Add AFI_PEX2_CTRL reg offset as part of soc struct
-> >   PCI: tegra: Access endpoint config only if PCIe link is up
-> >   dt-bindings: pci: tegra: Document PCIe DPD pinctrl optional prop
-> >   arm64: tegra: Add PEX DPD states as pinctrl properties
-> >   PCI: tegra: Put PEX CLK & BIAS pads in DPD mode
-> >   PCI: Add DT binding for "reset-gpios" property
-> >   PCI: tegra: Add support for GPIO based PERST#
-> >   PCI: tegra: Change link retry log level to debug
-> >
-> >  .../bindings/pci/nvidia,tegra20-pcie.txt      |   8 +
-> >  Documentation/devicetree/bindings/pci/pci.txt |   3 +
-> >  arch/arm64/boot/dts/nvidia/tegra210.dtsi      |  19 +
-> >  drivers/pci/controller/pci-tegra.c            | 615 +++++++++++++++---
-> >  drivers/soc/tegra/pmc.c                       |   1 +
-> >  5 files changed, 566 insertions(+), 80 deletions(-)
-> >
-> 
+
