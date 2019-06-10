@@ -2,92 +2,145 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE2533B9F2
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 18:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 425033BA5B
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Jun 2019 19:08:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387674AbfFJQsa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Jun 2019 12:48:30 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:45176 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387631AbfFJQs3 (ORCPT
+        id S1727679AbfFJRIo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Jun 2019 13:08:44 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:3305 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726514AbfFJRIo (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Jun 2019 12:48:29 -0400
-Received: by mail-ed1-f67.google.com with SMTP id a14so13523550edv.12;
-        Mon, 10 Jun 2019 09:48:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BxXKYRWk7wLff/X0PCdAhA7tlHzWZaCttQ0fF+vhvTg=;
-        b=Xdj5HEagIq9at0zndmhl0YU/6tSpCliQTx7V5rV0vEAO6AyOd8Rju8GO/6Up3Agtoz
-         GwdAYJOGiQn5SNwnqbEOzfgidEIZzlRNwZ7/GUI1xnZbbXQgWFiedR+sfem0+w7JpExR
-         mKBIKtJyfhrwiXZwnXoIGelLqkepp5Fz8oTTjRXerL3N7E9z4ay6WYKoZbM2J7eVc3km
-         S1AOKRDysxidqcmk6P+3Q1M1A64U1PRkVJ87Zx9BbACL1dfQoAUwbW6CJdLoXwMcgiY0
-         +tQ7sJ+cmjm0J0UvaD3IYaS5B5QM/KLfzmXSaX/99DDiO5AZYRMVViIu5SDBGWr+SjV5
-         1aaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BxXKYRWk7wLff/X0PCdAhA7tlHzWZaCttQ0fF+vhvTg=;
-        b=Lvwyoh6kAY4tprQxCOcRJPNSfWDNnwLXcg+s0fxiOvF9A8xI34aGFT3IsSip7MaXXA
-         48xW0+JfquE9F4cLD4HsqwTG0CoICpIlhDnuwhhD3erQ7W+vmTCB3fHZf2hwM5hT44vA
-         Cw61Gw6cPVKEcR2AyRBKkhVkor5ZJ2vANddF8JaUC0RmU/yibILTUewoadbS3ScEWoCo
-         65lHTZwjqSS7L5t8rQWCZsYQHK0qid+G4jZRHiErK5Haic7CFIjp8KL8NnSd2JShSzdq
-         vaLKPYjppLObQXfYTKHof4xBbkR/+EN3jq7lKk9twbIx7GgAA3fBIxIceNS2mvAtC/Gs
-         MP9g==
-X-Gm-Message-State: APjAAAV2BGQr6Zzt94b6OHVeGmay4YHt5xZaaQfCzffUFVoAillIFiLi
-        obfzUsjlwCdQ7VZfqNj30z8=
-X-Google-Smtp-Source: APXvYqxcIZXx5c5l3eAVsYrhZtfTvMKVzaWiRk2WfamNhsAjGYdWWZqiILUTGnjekHyXFLf0vJCY6A==
-X-Received: by 2002:a17:906:1f44:: with SMTP id d4mr50587328ejk.195.1560185307551;
-        Mon, 10 Jun 2019 09:48:27 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.gmail.com with ESMTPSA id a9sm3075799edc.44.2019.06.10.09.48.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Jun 2019 09:48:27 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Joseph Lo <josephl@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        Mon, 10 Jun 2019 13:08:44 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cfe8e990003>; Mon, 10 Jun 2019 10:08:41 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 10 Jun 2019 10:08:43 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 10 Jun 2019 10:08:43 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL106.nvidia.com
+ (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 10 Jun
+ 2019 17:08:42 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 10 Jun 2019 17:08:43 +0000
+Received: from dhcp-10-19-65-14.client.nvidia.com (Not Verified[10.19.65.14]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5cfe8e970002>; Mon, 10 Jun 2019 10:08:42 -0700
+From:   Bitan Biswas <bbiswas@nvidia.com>
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/6] clocksource/drivers/tegra: Restore base address before cleanup
-Date:   Mon, 10 Jun 2019 19:44:00 +0300
-Message-Id: <20190610164400.11830-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190610164400.11830-1-digetx@gmail.com>
-References: <20190610164400.11830-1-digetx@gmail.com>
+        <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Peter Rosin <peda@axentia.se>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Dmitry Osipenko <digetx@gmail.com>
+CC:     Shardar Mohammed <smohammed@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mantravadi Karthik <mkarthik@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>
+Subject: [PATCH V4 1/6] i2c: tegra: clean up macros
+Date:   Mon, 10 Jun 2019 10:08:30 -0700
+Message-ID: <1560186515-30797-1-git-send-email-bbiswas@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1560186521; bh=ottEE2XiiiPbfH/Skr0UtzLGEI1kOObrtR9qGE7imE4=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=Ob0ThZfaayW3jUZ47c8lfFO2bE/dcCPtXzBJGV9nm8jpJMLtCJBKP2Y3aTmMIYe1m
+         ZW/Bl7MPAwS/sYgM4njtWsYoqujM8QZhro0iwZtcXXixDW7iR1rCB8FgTUKAMmIpFH
+         Anhx+2euGkQMd6TOLfjjWB4h1cEKLLhJ2U7VvD6u96Du4gaHe98g8AIJE5yJW3quMx
+         s29vuQ7a9YrgIhqEOk7DbmCakIjzCA+FZgFMw9oNbsEruLcLr4N7NrIeloWGnJY+Dx
+         I/1tu4kHfzKdgsu12Ma9HahdgzpdVk1VRDJmFrvtq6ceC+e+B6wGZo2fbL0Ko8+LYI
+         Deyg5zw2koasg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-We're adjusting the timer's base for each per-CPU timer to point to the
-actual start of the timer since device-tree defines a compound registers
-range that includes all of the timers. In this case the original base
-need to be restore before calling iounmap to unmap the proper address.
+Clean up macros by:
+1) removing unused macros
+2) replace constants by macro BIT()
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/clocksource/timer-tegra.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/i2c/busses/i2c-tegra.c | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
-index 2a428fdf702f..7be91db98bd7 100644
---- a/drivers/clocksource/timer-tegra.c
-+++ b/drivers/clocksource/timer-tegra.c
-@@ -345,6 +345,8 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
- 			irq_dispose_mapping(cpu_to->clkevt.irq);
- 		}
- 	}
-+
-+	to->of_base.base = timer_reg_base;
- out:
- 	timer_of_cleanup(to);
+diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+index 1dbba39..00692d8 100644
+--- a/drivers/i2c/busses/i2c-tegra.c
++++ b/drivers/i2c/busses/i2c-tegra.c
+@@ -54,20 +54,15 @@
+ #define I2C_INT_STATUS				0x068
+ #define I2C_INT_BUS_CLR_DONE			BIT(11)
+ #define I2C_INT_PACKET_XFER_COMPLETE		BIT(7)
+-#define I2C_INT_ALL_PACKETS_XFER_COMPLETE	BIT(6)
+-#define I2C_INT_TX_FIFO_OVERFLOW		BIT(5)
+-#define I2C_INT_RX_FIFO_UNDERFLOW		BIT(4)
+ #define I2C_INT_NO_ACK				BIT(3)
+ #define I2C_INT_ARBITRATION_LOST		BIT(2)
+ #define I2C_INT_TX_FIFO_DATA_REQ		BIT(1)
+ #define I2C_INT_RX_FIFO_DATA_REQ		BIT(0)
+ #define I2C_CLK_DIVISOR				0x06c
+ #define I2C_CLK_DIVISOR_STD_FAST_MODE_SHIFT	16
+-#define I2C_CLK_MULTIPLIER_STD_FAST_MODE	8
  
+ #define DVC_CTRL_REG1				0x000
+ #define DVC_CTRL_REG1_INTR_EN			BIT(10)
+-#define DVC_CTRL_REG2				0x004
+ #define DVC_CTRL_REG3				0x008
+ #define DVC_CTRL_REG3_SW_PROG			BIT(26)
+ #define DVC_CTRL_REG3_I2C_DONE_INTR_EN		BIT(30)
+@@ -75,24 +70,21 @@
+ #define DVC_STATUS_I2C_DONE_INTR		BIT(30)
+ 
+ #define I2C_ERR_NONE				0x00
+-#define I2C_ERR_NO_ACK				0x01
+-#define I2C_ERR_ARBITRATION_LOST		0x02
+-#define I2C_ERR_UNKNOWN_INTERRUPT		0x04
++#define I2C_ERR_NO_ACK				BIT(0)
++#define I2C_ERR_ARBITRATION_LOST		BIT(1)
++#define I2C_ERR_UNKNOWN_INTERRUPT		BIT(2)
+ 
+ #define PACKET_HEADER0_HEADER_SIZE_SHIFT	28
+ #define PACKET_HEADER0_PACKET_ID_SHIFT		16
+ #define PACKET_HEADER0_CONT_ID_SHIFT		12
+ #define PACKET_HEADER0_PROTOCOL_I2C		BIT(4)
+ 
+-#define I2C_HEADER_HIGHSPEED_MODE		BIT(22)
+ #define I2C_HEADER_CONT_ON_NAK			BIT(21)
+-#define I2C_HEADER_SEND_START_BYTE		BIT(20)
+ #define I2C_HEADER_READ				BIT(19)
+ #define I2C_HEADER_10BIT_ADDR			BIT(18)
+ #define I2C_HEADER_IE_ENABLE			BIT(17)
+ #define I2C_HEADER_REPEAT_START			BIT(16)
+ #define I2C_HEADER_CONTINUE_XFER		BIT(15)
+-#define I2C_HEADER_MASTER_ADDR_SHIFT		12
+ #define I2C_HEADER_SLAVE_ADDR_SHIFT		1
+ 
+ #define I2C_BUS_CLEAR_CNFG			0x084
+@@ -106,8 +98,6 @@
+ 
+ #define I2C_CONFIG_LOAD				0x08C
+ #define I2C_MSTR_CONFIG_LOAD			BIT(0)
+-#define I2C_SLV_CONFIG_LOAD			BIT(1)
+-#define I2C_TIMEOUT_CONFIG_LOAD			BIT(2)
+ 
+ #define I2C_CLKEN_OVERRIDE			0x090
+ #define I2C_MST_CORE_CLKEN_OVR			BIT(0)
+@@ -133,7 +123,6 @@
+ #define I2C_STANDARD_MODE			100000
+ #define I2C_FAST_MODE				400000
+ #define I2C_FAST_PLUS_MODE			1000000
+-#define I2C_HS_MODE				3500000
+ 
+ /* Packet header size in bytes */
+ #define I2C_PACKET_HEADER_SIZE			12
 -- 
-2.21.0
+2.7.4
 
