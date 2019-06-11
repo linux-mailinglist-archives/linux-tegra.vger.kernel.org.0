@@ -2,270 +2,180 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A8CA3C547
-	for <lists+linux-tegra@lfdr.de>; Tue, 11 Jun 2019 09:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEA453C553
+	for <lists+linux-tegra@lfdr.de>; Tue, 11 Jun 2019 09:44:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404257AbfFKHiN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 11 Jun 2019 03:38:13 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:8895 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404480AbfFKHiN (ORCPT
+        id S2404148AbfFKHnc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 11 Jun 2019 03:43:32 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:49150 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2403920AbfFKHnc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 11 Jun 2019 03:38:13 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cff5a600000>; Tue, 11 Jun 2019 00:38:08 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 11 Jun 2019 00:38:10 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 11 Jun 2019 00:38:10 -0700
-Received: from [10.19.65.14] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 11 Jun
- 2019 07:38:06 +0000
-Subject: Re: [PATCH V4 6/6] i2c: tegra: remove BUG, BUG_ON
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Peter Rosin <peda@axentia.se>,
-        Wolfram Sang <wsa@the-dreams.de>
-CC:     Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>
-References: <1560186515-30797-1-git-send-email-bbiswas@nvidia.com>
- <1560186515-30797-6-git-send-email-bbiswas@nvidia.com>
- <06ab30b6-bf79-c628-0a04-d0307511a06f@gmail.com>
- <851d7837-5b98-228e-d8c9-3c41be1fb2e0@nvidia.com>
- <e733bcb0-ea8c-61d1-e6b5-cee8b7696c70@gmail.com>
-From:   Bitan Biswas <bbiswas@nvidia.com>
-Message-ID: <fe0a0cb2-73e3-8f5c-8115-f99c150bd5df@nvidia.com>
-Date:   Tue, 11 Jun 2019 00:38:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Tue, 11 Jun 2019 03:43:32 -0400
+X-UUID: 61b29e41fa6d47a7ae42b6bcebcd34f3-20190611
+X-UUID: 61b29e41fa6d47a7ae42b6bcebcd34f3-20190611
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1932523170; Tue, 11 Jun 2019 15:43:11 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS32N1.mediatek.inc
+ (172.27.4.71) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Tue, 11 Jun
+ 2019 15:43:09 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 11 Jun 2019 15:43:09 +0800
+Message-ID: <1560238989.8487.122.camel@mhfsdcap03>
+Subject: Re: [Patch V4 4/8] dt-bindings: usb: Add NVIDIA Tegra XUSB device
+ mode controller binding
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <mark.rutland@arm.com>, <robh+dt@kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Date:   Tue, 11 Jun 2019 15:43:09 +0800
+In-Reply-To: <1560161949-26031-5-git-send-email-nkristam@nvidia.com>
+References: <1560161949-26031-1-git-send-email-nkristam@nvidia.com>
+         <1560161949-26031-5-git-send-email-nkristam@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-In-Reply-To: <e733bcb0-ea8c-61d1-e6b5-cee8b7696c70@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560238688; bh=ZyPPJDNvO7cDnmdl/kTHgbcR7ae41C4gpQR83a0/vbo=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=V6rSEtASgNvCDYQjA/C42XVGp4xyB2wrxjw0xtgho6fRT/uAaDZVrweDBmT7C7kjc
-         7/V2AW7CJa1PLj7McltTf17W2u5n5RNlKs+Cjh8AhLGRHq5Q4cDxkbqXbybrv1Tck0
-         T67ghYqDLV6bpM2q785jsxkguhgZH4RTAIy9u8Ql1wfpBy3vNhq2gJTGiUqHW5ikKS
-         c85XzF7EjIIfad8OT/D/DExWhdBBMjOej+cnj9AFc7CgKDKq5lAWZcs+NJTQsKcT0O
-         soEjoyH1S/HQf6Y59kg6tW0b6EdBka1JfmdXPnc3GWKGzsSr2J8lqgdSfZCjbrh+w3
-         uyL3Lxo8fTJqw==
+X-TM-SNTS-SMTP: 1E83E09A0ACA320913AA3B54C7BF879C832F44EB01B88D683A1920F5C0F8E0812000:8
+X-MTK:  N
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, 2019-06-10 at 15:49 +0530, Nagarjuna Kristam wrote:
+> Add device-tree binding documentation for the XUSB device mode controller
+> present on Tegra210 SoC. This controller supports the USB 3.0
+> specification.
+> 
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> Reviewed-by: JC Kuo <jckuo@nvidia.com>
+> ---
+>  .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  | 108 +++++++++++++++++++++
+>  1 file changed, 108 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
+> new file mode 100644
+> index 0000000..cde4e11
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
+> @@ -0,0 +1,108 @@
+> +Device tree binding for NVIDIA Tegra XUSB device mode controller (XUDC)
+> +=======================================================================
+> +
+> +The Tegra XUDC controller supports both USB 2.0 HighSpeed/FullSpeed and
+> +USB 3.0 SuperSpeed protocols.
+> +
+> +Required properties:
+> +--------------------
+> +- compatible: For Tegra210, must contain "nvidia,tegra210-xudc".
+> +- reg: Must contain the base and length of the XUSB device registers, XUSB device
+> +  PCI Config registers and XUSB device controller registers.
+> +- reg-names: Must include all the register names needed for the driver
+add names list?
+
+> +- interrupts: Must contain the XUSB device interrupt.
+> +- clocks: Must contain an entry for all clocks used.
+> +  See ../clock/clock-bindings.txt for details.
+> +- clock-names: Must include the following entries:
+> +   - dev: Clock to enable core XUSB dev clock.
+> +   - ss: Clock to enable XUSB super speed clock.
+> +   - ss_src: Clock to enable XUSB super speed dev clock.
+> +   - hs_src: Clock to enable XUSB high speed dev clock.
+> +   - fs_src: Clock to enable XUSB full speed dev clock.
+> +- nvidia,xusb-padctl: phandle to the XUSB pad controller that is used to
+> +  configure the USB pads used by the XUDC controller.
+> +- power-domains: A list of PM domain specifiers that reference each power-domain
+> +  used by the XUSB device mode controller. This list must comprise of a specifier
+> +  for the XUSBA and XUSBB power-domains. See ../power/power_domain.txt and
+> +  ../arm/tegra/nvidia,tegra20-pmc.txt for details.
+> +- power-domain-names: A list of names that represent each of the specifiers in
+> +  the 'power-domains' property. Must include 'ss' and 'dev'.
+> +- phys: Must contain an entry for each entry in phy-names.
+> +  See ../phy/phy-bindings.txt for details.
+> +- phy-names: Should include an entry for each PHY used by the controller.
+> +  Names must be "usb2", and "usb3" if support SuperSpeed device mode.
+> +  - "usb3" phy, SuperSpeed (SSTX+/SSTX-/SSRX+/SSRX-) data lines.
+> +  - "usb2" phy, USB 2.0 (D+/D-) data lines.
+> +
+> +For Tegra210:
+> +- avddio-usb-supply: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
+> +- hvdd-usb-supply: USB controller power supply. Must supply 3.3 V.
+> +
+> +
+> +Optional properties:
+> +--------------------
+> +- usb-role-switch: boolean property to indicate use of USB Role Switch driver.
+> +
+> +Sub-nodes:
+> +----------
+> +- The port would be added as subnode if use "usb-role-switch" property.
+> +  see graph.txt.
+> +
+> +Example:
+> +--------
+> +	pmc: pmc@7000e400 {
+> +		compatible = "nvidia,tegra210-pmc";
+> +		reg = <0x0 0x7000e400 0x0 0x400>;
+> +		clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
+> +		clock-names = "pclk", "clk32k_in";
+> +
+> +		powergates {
+> +			pd_xusbss: xusba {
+> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_SS>;
+> +				resets = <&tegra_car 156>;
+> +				#power-domain-cells = <0>;
+> +			};
+> +
+> +			pd_xusbdev: xusbb {
+> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>;
+> +				resets = <&tegra_car 95>;
+> +				#power-domain-cells = <0>;
+> +			};
+> +		};
+> +	};
+> +
+> +	xudc@700d0000 {
+> +		compatible = "nvidia,tegra210-xudc";
+> +		reg = <0x0 0x700d0000 0x0 0x8000>,
+> +		      <0x0 0x700d8000 0x0 0x1000>,
+> +		      <0x0 0x700d9000 0x0 0x1000>;
+> +		reg-names = "base", "fpci", "ipfs";
+> +
+> +		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +		clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
+> +			 <&tegra_car TEGRA210_CLK_XUSB_SS>,
+> +			 <&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
+> +			 <&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
+> +			 <&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
+> +		clock-names = "dev", "ss", "ss_src", "hs_src", "fs_src";
+> +
+> +		power-domains = <&pd_xusbdev>, <&pd_xusbss>;
+> +		power-domain-names = "dev", "ss";
+> +
+> +		nvidia,xusb-padctl = <&padctl>;
+> +
+> +		phys = <&{/padctl@7009f000/pads/usb2/lanes/usb2-0}>;
+> +		phy-names = "usb2;
+> +
+> +		avddio-usb-supply = <&vdd_pex_1v05>;
+> +		hvdd-usb-supply = <&vdd_3v3_sys>;
+> +
+> +		usb-role-switch;
+> +		port {
+> +			usb_role_switch: endpoint@0 {
+> +				remote-endpoint = <&bconn_ep>;
+> +			};
+> +		};
+> +
+> +	};
 
 
-On 6/10/19 2:00 PM, Dmitry Osipenko wrote:
-> 10.06.2019 22:41, Bitan Biswas =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>
->>
->> On 6/10/19 11:12 AM, Dmitry Osipenko wrote:
->>> 10.06.2019 20:08, Bitan Biswas =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>> Remove redundant BUG_ON calls or replace with WARN_ON_ONCE
->>>> as needed. Remove BUG() and make Rx and Tx case handling
->>>> similar.
->>>>
->>>> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
->>>> ---
->>>>  =C2=A0 drivers/i2c/busses/i2c-tegra.c | 11 ++++++-----
->>>>  =C2=A0 1 file changed, 6 insertions(+), 5 deletions(-)
->>>
->>> Looks that this is still not correct. What if it transfer-complete flag
->>> is set and buffer is full on RX? In this case the transfer will succeed
->>> while it was a failure.
->>>
->>>> diff --git a/drivers/i2c/busses/i2c-tegra.c
->>>> b/drivers/i2c/busses/i2c-tegra.c
->>>> index 4dfb4c1..30619d6 100644
->>>> --- a/drivers/i2c/busses/i2c-tegra.c
->>>> +++ b/drivers/i2c/busses/i2c-tegra.c
->>>> @@ -515,7 +515,6 @@ static int tegra_i2c_empty_rx_fifo(struct
->>>> tegra_i2c_dev *i2c_dev)
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * prevent overwriting past the e=
-nd of buf
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (rx_fifo_avail > 0 && buf_remaining=
- > 0) {
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(buf_remaining > 3);
->>>
->>> Actually error should be returned here since out-of-bounds memory
->>> accesses must be avoided, hence:
->>>
->>>  =C2=A0=C2=A0=C2=A0=C2=A0if (WARN_ON_ONCE(buf_remaining > 3))
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->> buf_remaining will be less than equal to 3 because of the expression
->> earlier
->> https://elixir.bootlin.com/linux/v5.2-rc4/source/drivers/i2c/busses/i2c-=
-tegra.c#L520
->>
->=20
-> Ah yes, indeed!
->=20
-I see that I am wrong and buf_remaining > 3 needs to be prevented at
-
-https://elixir.bootlin.com/linux/v5.2-rc4/source/drivers/i2c/busses/i2c-teg=
-ra.c#L528
-
-because of word_to_transfer is limited to rx_fifo_avail:
-
-https://elixir.bootlin.com/linux/v5.2-rc4/source/drivers/i2c/busses/i2c-teg=
-ra.c#L515
-
-I shall add the check for less than 3 in both RX and TX cases in a=20
-separate patch in this series.
-
->>
->>>
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =3D i2c_re=
-adl(i2c_dev, I2C_RX_FIFO);
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =3D cpu_to=
-_le32(val);
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(buf, &v=
-al, buf_remaining);
->>>> @@ -523,7 +522,6 @@ static int tegra_i2c_empty_rx_fifo(struct
->>>> tegra_i2c_dev *i2c_dev)
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rx_fifo_avail-=
--;
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>  =C2=A0 -=C2=A0=C2=A0=C2=A0 BUG_ON(rx_fifo_avail > 0 && buf_remaining =
-> 0);
->>>
->>> Better not to ignore this as well:
->>>
->>>  =C2=A0=C2=A0=C2=A0=C2=A0if (WARN_ON_ONCE(rx_fifo_avail > 0 &&
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 buf_remaining > 0))
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->>>
->> Please check below line.
->> https://elixir.bootlin.com/linux/v5.2-rc4/source/drivers/i2c/busses/i2c-=
-tegra.c#L532
->>
->>
->> It ensures that buf_remaining will be 0 and we never hit the BUG_ON as
->> follows:
->=20
-> [1] Okay, but it doesn't ensure about rx_fifo_avail. So it could be:
->=20
-> 	if (WARN_ON_ONCE(rx_fifo_avail))
-> 		return -EINVAL;
-I shall add the WARN_ON_ONCE.
-
-
->=20
->>>> -=C2=A0=C2=A0=C2=A0 BUG_ON(rx_fifo_avail > 0 && buf_remaining > 0);
->>
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i2c_dev->msg_buf_remaining =3D buf_rem=
-aining;
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i2c_dev->msg_buf =3D buf;
->>>>  =C2=A0 @@ -581,7 +579,6 @@ static int tegra_i2c_fill_tx_fifo(struct
->>>> tegra_i2c_dev *i2c_dev)
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * boundary and fault.
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (tx_fifo_avail > 0 && buf_remaining=
- > 0) {
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(buf_remaining > 3);
->>>
->>> And here, cause this will corrupt stack:
->>>
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (WARN_ON_ONCE(buf_remain=
-ing > 3))
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn -EINVAL;
->>>
->> Please check the line
->> https://elixir.bootlin.com/linux/v5.2-rc4/source/drivers/i2c/busses/i2c-=
-tegra.c#L576
->>
->>
->> It ensures buf_remaining will be less or equal to 3.
->=20
-> Okay, agree here.
->=20
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(&val, b=
-uf, buf_remaining);
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =3D le32_t=
-o_cpu(val);
->>>>  =C2=A0 @@ -850,7 +847,8 @@ static irqreturn_t tegra_i2c_isr(int irq, =
-void
->>>> *dev_id)
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 if (i2c_dev->msg_buf_remaining)
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tegra_i2c_empty_rx_fifo(i2c_dev);
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 else
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 BUG();
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 tegra_i2c_mask_irq(i2c_dev,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 I2C_INT_RX_FIFO_DATA_REQ);
->>>
->>> Then here:
->>>
->>>  =C2=A0=C2=A0=C2=A0=C2=A0if (WARN_ON_ONCE(!i2c_dev->msg_buf_remaining) =
-||
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tegra_i2c_empty_rx_fifo(i2c=
-_dev)) {
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i2c_dev->msg_err |=3D I2C_E=
-RR_UNKNOWN_INTERRUPT;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto err;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0}
->>>
->> Can you please elaborate why the condition needs to be as follows
->> instead of " if (WARN_ON_ONCE(i2c_dev->msg_buf_remaining)) " ?
->>
->>>  =C2=A0=C2=A0=C2=A0=C2=A0 if (WARN_ON_ONCE(!i2c_dev->msg_buf_remaining)=
- ||
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tegra_i2c_empty_rx_fi=
-fo(i2c_dev)) {
->=20
-> Because this is a "receive" transfer and hence it is a error condition
-> if the data-message was already fully received and then there is another
-> request from hardware to receive more data. So
-> "!i2c_dev->msg_buf_remaining" is the error condition here because there
-> is no more space in the buffer.
->=20
-> Looking at this again, seems checking for "if
-> (WARN_ON_ONCE(rx_fifo_avail))" in the above hunk [1] will be already
-> enough since a not fully drained RX FIFO means that there is no enough
-> space in the buffer. Then it could be:
->=20
->          if (tegra_i2c_empty_rx_fifo(i2c_dev)) {
->                  i2c_dev->msg_err |=3D I2C_ERR_UNKNOWN_INTERRUPT;
->                  goto err;
-> 	}
->=20
-In the case "if (status & I2C_INT_PACKET_XFER_COMPLETE) {" , we do not=20
-have any tegra_i2c_empty_rx_fifo call today. In this current driver I do=20
-not see any code that checks for the buffer space and prevents RX FIFO=20
-from being drained. The transfer complete when seen must have already=20
-consumed all bytes of msg_buf_remaining in the call at the line
-
-https://elixir.bootlin.com/linux/v5.2-rc4/source/drivers/i2c/busses/i2c-teg=
-ra.c#L860
-
-So we can put the "WARN_ON_ONCE(i2c_dev->msg_buf_remaining) with msg_err=20
-assignment and goto err" to confirm if some corner case is not handled.
-
-Planning to share updated patch.
-
--Thanks,
-  Bitan
