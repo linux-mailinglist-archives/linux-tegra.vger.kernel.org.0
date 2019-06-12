@@ -2,117 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7816F421C5
-	for <lists+linux-tegra@lfdr.de>; Wed, 12 Jun 2019 11:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 831DD42243
+	for <lists+linux-tegra@lfdr.de>; Wed, 12 Jun 2019 12:22:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437944AbfFLJ4N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 12 Jun 2019 05:56:13 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:9938 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727463AbfFLJ4N (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 12 Jun 2019 05:56:13 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d00cc3c0001>; Wed, 12 Jun 2019 02:56:12 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 12 Jun 2019 02:56:12 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 12 Jun 2019 02:56:12 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 12 Jun
- 2019 09:56:11 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 12 Jun
- 2019 09:56:11 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 12 Jun 2019 09:56:11 +0000
-Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.38]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d00cc360001>; Wed, 12 Jun 2019 02:56:11 -0700
-From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <kishon@ti.com>, <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <jingoohan1@gmail.com>, <gustavo.pimentel@synopsys.com>
-CC:     <digetx@gmail.com>, <mperttunen@nvidia.com>,
-        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
-Subject: [PATCH V10 15/15] arm64: Add Tegra194 PCIe driver to defconfig
-Date:   Wed, 12 Jun 2019 15:23:39 +0530
-Message-ID: <20190612095339.20118-16-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190612095339.20118-1-vidyas@nvidia.com>
-References: <20190612095339.20118-1-vidyas@nvidia.com>
-X-NVConfidentiality: public
+        id S1731913AbfFLKVk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 12 Jun 2019 06:21:40 -0400
+Received: from sauhun.de ([88.99.104.3]:58160 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727404AbfFLKVk (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 12 Jun 2019 06:21:40 -0400
+Received: from localhost (p5486CACA.dip0.t-ipconnect.de [84.134.202.202])
+        by pokefinder.org (Postfix) with ESMTPSA id 5A19F2C54BC;
+        Wed, 12 Jun 2019 12:21:38 +0200 (CEST)
+Date:   Wed, 12 Jun 2019 12:21:37 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Bitan Biswas <bbiswas@nvidia.com>
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Shardar Mohammed <smohammed@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mantravadi Karthik <mkarthik@nvidia.com>
+Subject: Re: [PATCH V5 1/7] i2c: tegra: clean up macros
+Message-ID: <20190612102137.mc2fwrifmbl2x6dr@ninjato>
+References: <1560250274-18499-1-git-send-email-bbiswas@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560333372; bh=X0ccuyLoiNssgnPmNxd9/0PgI5r6ZqmMmCkpX+oOCcE=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=Nt8cUzm3F7L/loGih8+lnsyOKMPnQmAadQ9SoZZ6wEDMAeqWy/60ba+XTWHDlZ49d
-         i6lV1nUu3o/XuNDyD2c+AaHW8cTBwkBaJRN2OEoRpgoo6yLtkRFnC7b1zcaFyu68xl
-         lqKmYoDt6WXHmV6oJ5fiu08QHZf1mKqW7+wgzW5AkjH9V52FGYI4mIatk3BqgDrkA5
-         t6+VYSQJdthgAd5FFpVcXImjbYY7InCi3dOTx9VF/T89c4RWJYynZUm20hf2jC827Y
-         oeQc4X44cNfgI9SbNjwQ5m7dnC7+Y/RIO2GsGGYwBYHNA2H6A07UtwsPb3HORzvjuo
-         xle42ECNl+suA==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="glfpl6iv3trozchb"
+Content-Disposition: inline
+In-Reply-To: <1560250274-18499-1-git-send-email-bbiswas@nvidia.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add PCIe host controller driver for DesignWare core based
-PCIe controller IP present in Tegra194.
 
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
----
-Changes since [v9]:
-* None
+--glfpl6iv3trozchb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Changes since [v8]:
-* None
+On Tue, Jun 11, 2019 at 03:51:08AM -0700, Bitan Biswas wrote:
+> Clean up macros by:
+> 1) removing unused macros
+> 2) replace constants by macro BIT()
+>=20
+> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 
-Changes since [v7]:
-* None
+Applied to for-next, thanks!
 
-Changes since [v6]:
-* None
 
-Changes since [v5]:
-* None
+--glfpl6iv3trozchb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Changes since [v4]:
-* None
+-----BEGIN PGP SIGNATURE-----
 
-Changes since [v3]:
-* None
+iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0A0jEACgkQFA3kzBSg
+KbZ4YBAAr3ydA4TVT7tPO956qQjxScFkJ8fFKU/zTKTL9covc5QfQinf4fyTkGbv
+WR53r2u4NfAEtq/4wTbOA4bfK6t4FCZG9cH31YeY6ce6MkHTAFo7vKls09c0m8sg
+wPgoyPuRnw5GftVK7gwLfhIg3Gh7xDdyDD0XNzFC6/pKFe0OJmDWFR8S43FWsiwP
+t5x//BT5N2EjQq3HKYoJwjU8+iUeBisEdAuataWuqLfLiVz2JfxBRGx6/WUr0QqU
+RTpZ6Y+kgZ6/9fFIF4C8jgpjg0YOYoScX2NL6D0k/C//maaTVcgzaV5MrkjQZoLL
+wHDj0LTCGPcz+UFkCYrtJnogyUOBGWQawLGXOoNWJXD+U5l+DkZP9YSWeq3Um4+o
+0Puvn+GHBPjYC0yjP+basLveGfuWjRhTBz/7vlAAP5xT+NKRFw6UZ6ygk8mi4sQx
+OcoTLdBgbpUbufiRdP2HLyMZXbf4A5C5HqkvJS3ELq82ZbfjJVn6Wzo418NcJRmX
+s1xxElkDi7SsuI8F1d5P8c7cSmpDY7Wv8MX6GIaXiCm/bcsNa1yIOYNi6eVx6liz
+nQpcm4P7ngtaRuAh/EbU4fYs1O5sMU0Iuixz/6Es1YQWX1vh+Ehn5IGB5os3V8fr
+4upKSK/pFR78pqZE18Kgvv+ejjaIAGANjY6ooD7mGxAvpJXCDTo=
+=/aKc
+-----END PGP SIGNATURE-----
 
-Changes since [v2]:
-* None
-
-Changes since [v1]:
-* Changed CONFIG_PCIE_TEGRA194 from 'y' to 'm'
-
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index bb0705e1f52e..6462a4dbac87 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -192,6 +192,7 @@ CONFIG_PCIE_QCOM=y
- CONFIG_PCIE_ARMADA_8K=y
- CONFIG_PCIE_KIRIN=y
- CONFIG_PCIE_HISI_STB=y
-+CONFIG_PCIE_TEGRA194=m
- CONFIG_UEVENT_HELPER_PATH="/sbin/hotplug"
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
--- 
-2.17.1
-
+--glfpl6iv3trozchb--
