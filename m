@@ -2,117 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D260941A9F
-	for <lists+linux-tegra@lfdr.de>; Wed, 12 Jun 2019 05:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ABE641F10
+	for <lists+linux-tegra@lfdr.de>; Wed, 12 Jun 2019 10:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406872AbfFLDPC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 11 Jun 2019 23:15:02 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:17962 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406681AbfFLDPB (ORCPT
+        id S2437073AbfFLIaI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 12 Jun 2019 04:30:08 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:12217 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405127AbfFLIaI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 11 Jun 2019 23:15:01 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d006e320000>; Tue, 11 Jun 2019 20:14:58 -0700
+        Wed, 12 Jun 2019 04:30:08 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d00b80f0001>; Wed, 12 Jun 2019 01:30:08 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 11 Jun 2019 20:15:01 -0700
+  Wed, 12 Jun 2019 01:30:07 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 11 Jun 2019 20:15:01 -0700
-Received: from jckuo-lt.nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Wed, 12 Jun 2019 01:30:07 -0700
+Received: from [10.21.132.143] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 12 Jun
- 2019 03:14:59 +0000
-From:   JC Kuo <jckuo@nvidia.com>
-To:     <pdeschrijver@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH] clk: tegra210: fix PLLU and PLLU_OUT1
-Date:   Wed, 12 Jun 2019 11:14:34 +0800
-Message-ID: <20190612031434.10055-1-jckuo@nvidia.com>
-X-Mailer: git-send-email 2.17.1
+ 2019 08:30:04 +0000
+Subject: Re: [PATCH v2 1/6] clocksource/drivers/tegra: Restore timer rate on
+ Tegra210
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190610164400.11830-1-digetx@gmail.com>
+ <20190610164400.11830-2-digetx@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <17eac2c4-41fa-a616-83e9-fa18a9e1483d@nvidia.com>
+Date:   Wed, 12 Jun 2019 09:30:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190610164400.11830-2-digetx@gmail.com>
 X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560309298; bh=5FUPvxEoHIcBrnrq+5lfTwLCptlL0Tbs8/mtenJL3sg=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:X-Originating-IP:X-ClientProxiedBy:Content-Type;
-        b=VuYsSdl52kud6phEwrb3yIIS7CWtmHAP7WKsOhOPBNZLnJwbkGEBQNPts+RSgu5W2
-         BuxbmWRVpdR/nyQXpfLwffdym5OemZZuubH707qbcmuuBqw3/fSPLYn4N87AhLZ6B9
-         YyySdz+6HaeCbIyIEHwToM+g+WK1a8WeITP0aO66KkVew1Y6SgJYsvI8DS48c0xH/D
-         yE+VNgbHHzdPQsnglikeDdRWk2rX4LfBiwzGE8HS81OsYudRhGGVymEC5BwncVQJyr
-         0WhDh6nfgNaLyKKfp3YR8CZIMGI/vWLCpC8Rq0tGEMqdO/yPFgTwAdRpcUzcJ4RSy0
-         irqY3BtGPltEw==
+        t=1560328208; bh=qOuZdVqQoD7M68KhzitblLcmWzDZCGt4MzV/a//dz1M=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=KYeUjfQk3U8nyEos2/HHdJUpBo4c26qZS7WO6W3tSj6mtlrJU1sidpCaL5EiVWSWA
+         hWIOLtWVXVNbIl8+QDNpnhUiXplDLgW9UB0477iJMsFC9K2Ay6Y3pqbkcmTVc0RDM7
+         8jDcq2U5whcxx9RIZ9I72s4r+cm4/CLp989Z9GQhmBTLHhZDgv3Ny9jfa5ss4aTK6b
+         rI1jbj1wlWDknVf5kf7LAViJ3iBmyhzbsTE8X553XK7uJeoLPz8z2ELxKtp8VX3jh9
+         P0ux6q0kp3Y9TT5FAlsT0K1nR6e5Vtz5q2oyHVQAO7TluJVGHALMgXoENhrNmHvX36
+         JsWmUk6AO30Kg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Full-speed and low-speed USB devices do not work with Tegra210
-platforms because of incorrect PLLU/PLLU_OUT1 clock settings.
 
-When full-speed device is connected:
-[   14.059886] usb 1-3: new full-speed USB device number 2 using tegra-xusb
-[   14.196295] usb 1-3: device descriptor read/64, error -71
-[   14.436311] usb 1-3: device descriptor read/64, error -71
-[   14.675749] usb 1-3: new full-speed USB device number 3 using tegra-xusb
-[   14.812335] usb 1-3: device descriptor read/64, error -71
-[   15.052316] usb 1-3: device descriptor read/64, error -71
-[   15.164799] usb usb1-port3: attempt power cycle
+On 10/06/2019 17:43, Dmitry Osipenko wrote:
+> The clocksource rate is initialized only for the first per-CPU clocksource
+> and then that rate shall be replicated for the rest of clocksource's
+> because they are initialized manually in the code.
+> 
+> Fixes: 3be2a85a0b61 ("Support per-CPU timers on all Tegra's")
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/clocksource/timer-tegra.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
+> index 9406855781ff..830c66e2d927 100644
+> --- a/drivers/clocksource/timer-tegra.c
+> +++ b/drivers/clocksource/timer-tegra.c
+> @@ -277,6 +277,8 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
+>  		 */
+>  		if (tegra20)
+>  			cpu_to->of_clk.rate = 1000000;
+> +		else
+> +			cpu_to->of_clk.rate = timer_of_rate(to);
+>  
+>  		cpu_to = per_cpu_ptr(&tegra_to, cpu);
+>  		cpu_to->of_base.base = timer_reg_base + base;
 
-When low-speed device is connected:
-[   37.610949] usb usb1-port3: Cannot enable. Maybe the USB cable is bad?
-[   38.557376] usb usb1-port3: Cannot enable. Maybe the USB cable is bad?
-[   38.564977] usb usb1-port3: attempt power cycle
+Thanks. This fixes a boot regression we are seeing on -next with
+Tegra210 (introduced by the commit referenced above). So ...
 
-This commit fixes the issue by:
- 1. initializing PLLU_OUT1 before initializing XUSB_FS_SRC clock
-    because PLLU_OUT1 is parent of XUSB_FS_SRC.
- 2. changing PLLU post-divider to /2 (DIVP=1) according to Technical
-    Reference Manual.
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
-Fixes: e745f992cf4b ("clk: tegra: Rework pll_u")
-Signed-off-by: JC Kuo <jckuo@nvidia.com>
----
- drivers/clk/tegra/clk-tegra210.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Cheers
+Jon
 
-diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
-index e1ba62d2b1a0..b3e070fb53f9 100644
---- a/drivers/clk/tegra/clk-tegra210.c
-+++ b/drivers/clk/tegra/clk-tegra210.c
-@@ -2204,9 +2204,9 @@ static struct div_nmp pllu_nmp = {
- };
- 
- static struct tegra_clk_pll_freq_table pll_u_freq_table[] = {
--	{ 12000000, 480000000, 40, 1, 0, 0 },
--	{ 13000000, 480000000, 36, 1, 0, 0 }, /* actual: 468.0 MHz */
--	{ 38400000, 480000000, 25, 2, 0, 0 },
-+	{ 12000000, 480000000, 40, 1, 1, 0 },
-+	{ 13000000, 480000000, 36, 1, 1, 0 }, /* actual: 468.0 MHz */
-+	{ 38400000, 480000000, 25, 2, 1, 0 },
- 	{        0,         0,  0, 0, 0, 0 },
- };
- 
-@@ -3333,6 +3333,7 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA210_CLK_DFLL_REF, TEGRA210_CLK_PLL_P, 51000000, 1 },
- 	{ TEGRA210_CLK_SBC4, TEGRA210_CLK_PLL_P, 12000000, 1 },
- 	{ TEGRA210_CLK_PLL_RE_VCO, TEGRA210_CLK_CLK_MAX, 672000000, 1 },
-+	{ TEGRA210_CLK_PLL_U_OUT1, TEGRA210_CLK_CLK_MAX, 48000000, 1 },
- 	{ TEGRA210_CLK_XUSB_GATE, TEGRA210_CLK_CLK_MAX, 0, 1 },
- 	{ TEGRA210_CLK_XUSB_SS_SRC, TEGRA210_CLK_PLL_U_480M, 120000000, 0 },
- 	{ TEGRA210_CLK_XUSB_FS_SRC, TEGRA210_CLK_PLL_U_48M, 48000000, 0 },
-@@ -3357,7 +3358,6 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA210_CLK_PLL_DP, TEGRA210_CLK_CLK_MAX, 270000000, 0 },
- 	{ TEGRA210_CLK_SOC_THERM, TEGRA210_CLK_PLL_P, 51000000, 0 },
- 	{ TEGRA210_CLK_CCLK_G, TEGRA210_CLK_CLK_MAX, 0, 1 },
--	{ TEGRA210_CLK_PLL_U_OUT1, TEGRA210_CLK_CLK_MAX, 48000000, 1 },
- 	{ TEGRA210_CLK_PLL_U_OUT2, TEGRA210_CLK_CLK_MAX, 60000000, 1 },
- 	{ TEGRA210_CLK_SPDIF_IN_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
- 	{ TEGRA210_CLK_I2S0_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
 -- 
-2.17.1
-
+nvpublic
