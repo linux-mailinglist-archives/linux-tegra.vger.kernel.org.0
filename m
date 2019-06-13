@@ -2,184 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40D8844E82
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 23:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C390544F34
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 00:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725747AbfFMVcN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Jun 2019 17:32:13 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:40549 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727150AbfFMVcM (ORCPT
+        id S1726921AbfFMWjW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Jun 2019 18:39:22 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:40535 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725852AbfFMWjS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Jun 2019 17:32:12 -0400
-Received: by mail-qt1-f195.google.com with SMTP id a15so145916qtn.7;
-        Thu, 13 Jun 2019 14:32:11 -0700 (PDT)
+        Thu, 13 Jun 2019 18:39:18 -0400
+Received: by mail-ed1-f68.google.com with SMTP id k8so493081eds.7
+        for <linux-tegra@vger.kernel.org>; Thu, 13 Jun 2019 15:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tcd-ie.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EcPKIz/cx9BuSCY4h5Jds9dddvg3WP5b4PjiRQaCMNk=;
+        b=Q7YqbkWKog9myMLVKuEgSGV/QhFlPY8pqvqD3ElQJa5O+VupGahQ/2KWdmD42UChZU
+         wPmlxSspSryqNb5xCB8JLtGZX6vRCzXM8xY7AmfA6QICBXISxNprKepOzIgPRJ0PmKvq
+         lwOf3L9Aeaw9au+GkaXXU5HxIJQ1vxFfownqyJtqMjhF5SRbY4FdMVVh7ZLQ7hbQYj3Q
+         iidXZkXXf0qlsVYk9WxwAFcMHH4IP3leZkOYhpAmRlGBv4K+6lmx2ZeQRojQOmlcq9FK
+         mitiCFQNPcpZ74hbmAblxvrrqQFu7g6p6HGZuZiNBMXyyAAw52tc7SZA4bY0a5yZBSlR
+         Rxmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bV+jbWLbQyP5MQv/RIkQ4h7mTt3iu1hS0A/gRh+q9oc=;
-        b=kJnsl/xHkCeIRlcPBHqRtJWSFxXRiryJOKDwxmG6EWcAcj7ejfkqG+EYVr9ST4Hd14
-         ncB9hi0BgawHfVsYzt2Ut+eade/AIHiEBC5DmdXqxR2mhr9PR192KBz9JjV2K0kTL2sh
-         aPW2NjXZO/tmqqmfSPM1Se0CSuj9C6B+srzMx/2Pfio7ko1AZJtE1ODLfFz/j7T248rg
-         myERSjAuacvlCBtb5QZ/O3LCt7C1oKk5Qh8rW93rci14OKfHHOPkOjq4pHBXDdSVwsHK
-         B9hilzRARCvlZDM1xh0sm0Ci0IOZMgeJWT9gVox2BkDr6g+aVcTzU25aTE7jcUCuKDEr
-         TabA==
-X-Gm-Message-State: APjAAAWH0mnA0vgXo+/ImjCKmbCX5QHroeO+tjy719pfvlufmf2FA1vO
-        eSeY6lyR6WyJFG1IitOWTkn7HVY=
-X-Google-Smtp-Source: APXvYqxItT0FcgweR+DA+RahPmYsCBs8tX4ll8M1VN4Cz/+iJXrwrzmp2/jti9IbKhtmp/r2OS5A3w==
-X-Received: by 2002:a0c:9564:: with SMTP id m33mr5337341qvm.89.1560461530974;
-        Thu, 13 Jun 2019 14:32:10 -0700 (PDT)
-Received: from localhost ([64.188.179.243])
-        by smtp.gmail.com with ESMTPSA id h185sm589865qkd.11.2019.06.13.14.32.10
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EcPKIz/cx9BuSCY4h5Jds9dddvg3WP5b4PjiRQaCMNk=;
+        b=gZLnjON1JvTRwgtuvMZxk7Cxo268k2u1qN9c9ji/L6hzrKJ+G76T9k0e2Ev6+mUNlD
+         NHNuaY7YskPjmX0ANTJzKTglD0nQIKSk0Tcj88vq1CtdQrNpAiDu1T+FkrZR235HdXbV
+         DcNTkoScOB8hptnx2kTZ1M3dcCzuC2PVm3Wze9nyqBFAOUMPSKNyMDzFQantWRDeZk5A
+         Lm+HtIw390/BTu4tGTCGsOzUKCxvRQGF2ERSMFy7gnwxeurK5UajhAALRfTvHUn0pgHp
+         ABHLtNsOTK4WMuq2ySggY7FacalVKGfoJ5dZWtRJXry1OSthfmIcQkNbrdTvwPOtn/8P
+         D8/A==
+X-Gm-Message-State: APjAAAXT88EMB9YnOxMbuclPBW2oYkk5YRXj/u5NWzR97WYbCwgtsk6f
+        VYcuPNNKOkSx+CvfTUGOo1wBjg==
+X-Google-Smtp-Source: APXvYqznp1hHyw5PYwIoh2oTLD6q+OMGquaY21fb63SmdivVnsFdvFIZnOzRxPqoidZqkL4RdKrnQw==
+X-Received: by 2002:a50:bdc2:: with SMTP id z2mr97240407edh.245.1560465555952;
+        Thu, 13 Jun 2019 15:39:15 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8084:a0:bc00:8042:d435:a754:1f22])
+        by smtp.googlemail.com with ESMTPSA id s16sm216522eji.27.2019.06.13.15.39.13
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 13 Jun 2019 14:32:10 -0700 (PDT)
-Date:   Thu, 13 Jun 2019 15:32:09 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        mark.rutland@arm.com, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [Patch V3 4/8] dt-bindings: usb: Add  NVIDIA Tegra XUSB device
- mode controller binding
-Message-ID: <20190613213209.GA27327@bogus>
-References: <1557988772-15406-1-git-send-email-nkristam@nvidia.com>
- <1557988772-15406-5-git-send-email-nkristam@nvidia.com>
+        Thu, 13 Jun 2019 15:39:14 -0700 (PDT)
+From:   Tom Murphy <murphyt7@tcd.ie>
+To:     iommu@lists.linux-foundation.org
+Cc:     Tom Murphy <murphyt7@tcd.ie>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Andy Gross <agross@kernel.org>,
+        David Brown <david.brown@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: [PATCH v4 0/5] iommu/amd: Convert the AMD iommu driver to the dma-iommu api
+Date:   Thu, 13 Jun 2019 23:38:55 +0100
+Message-Id: <20190613223901.9523-1-murphyt7@tcd.ie>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1557988772-15406-5-git-send-email-nkristam@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, May 16, 2019 at 12:09:28PM +0530, Nagarjuna Kristam wrote:
-> Add device-tree binding documentation for the XUSB device mode controller
-> present on Tegra210 SoC. This controller supports the USB 3.0
-> specification.
-> 
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> ---
->  .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  | 101 +++++++++++++++++++++
->  1 file changed, 101 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
-> new file mode 100644
-> index 0000000..d78b436
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
-> @@ -0,0 +1,101 @@
-> +Device tree binding for NVIDIA Tegra XUSB device mode controller (XUDC)
-> +=======================================================================
-> +
-> +The Tegra XUDC controller supports both USB 2.0 HighSpeed/FullSpeed and
-> +USB 3.0 SuperSpeed protocols.
-> +
-> +Required properties:
-> +--------------------
-> +- compatible: For Tegra210, must contain "nvidia,tegra210-xudc".
-> +- reg: Must contain the base and length of the XUSB device registers, XUSB device
-> +  PCI Config registers and XUSB device controller registers.
-> +- interrupts: Must contain the XUSB device interrupt.
-> +- clocks: Must contain an entry for all clocks used.
-> +  See ../clock/clock-bindings.txt for details.
-> +- clock-names: Must include the following entries:
-> +   - dev: Clock to enable core XUSB dev clock.
-> +   - ss: Clock to enable XUSB super speed clock.
-> +   - ss_src: Clock to enable XUSB super speed dev clock.
-> +   - hs_src: Clock to enable XUSB high Speed dev clock.
-> +   - fs_src: Clock to enable XUSB full Speed dev clock.
-> +- nvidia,xusb-padctl: phandle to the XUSB pad controller that is used to
-> +  configure the USB pads used by the XUDC controller.
-> +- power-domains: A list of PM domain specifiers that reference each power-domain
-> +  used by the XUSB device mode controller. This list must comprise of a specifier
-> +  for the XUSBA and XUSBB power-domains. See ../power/power_domain.txt and
-> +  ../arm/tegra/nvidia,tegra20-pmc.txt for details.
-> +- power-domain-names: A list of names that represent each of the specifiers in
-> +  the 'power-domains' property. Must include 'ss' and 'dev'.
-> +
-> +For Tegra210:
-> +- avddio-usb-supply: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
+Convert the AMD iommu driver to the dma-iommu api. Remove the iova
+handling and reserve region code from the AMD iommu driver.
 
-Wouldn't an analog supply belong in the phy node?
+Change-log:
+V4:
+-Rebase on top of linux-next
+-Split the removing of the unnecessary locking in the amd iommu driver into a seperate patch
+-refactor the "iommu/dma-iommu: Handle deferred devices" patch and address comments
+v3:
+-rename dma_limit to dma_mask
+-exit handle_deferred_device early if (!is_kdump_kernel())
+-remove pointless calls to handle_deferred_device
+v2:
+-Rebase on top of this series:
+ http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-iommu-ops.3
+-Add a gfp_t parameter to the iommu_ops::map function.
+-Made use of the reserve region code inside the dma-iommu api
 
-> +- hvdd-usb-supply: USB controller power supply. Must supply 3.3 V.
-> +
-> +- phys: Must contain an entry for each entry in phy-names.
-> +  See ../phy/phy-bindings.txt for details.
-> +- phy-names: Should include an entry for each PHY used by the controller.
-> +  Names must be "usb2", and "usb3" if support SuperSpeed device mode.
-> +  - "usb3" phy, SuperSpeed (SSTX+/SSTX-/SSRX+/SSRX-) data lines.
-> +  - "usb2" phy, USB 2.0 (D+/D-) data lines.
-> +
-> +- extcon: Must contains an extcon entry which detects USB VBUS pin.
-> +  See ../extcon/extcon-usb-gpio.txt for details.
+Tom Murphy (5):
+  iommu/amd: Remove unnecessary locking from AMD iommu driver
+  iommu: Add gfp parameter to iommu_ops::map
+  iommu/dma-iommu: Handle deferred devices
+  iommu/dma-iommu: Use the dev->coherent_dma_mask
+  iommu/amd: Convert AMD iommu driver to the dma-iommu api
 
-Use the usb-connector binding for new bindings.
+ drivers/iommu/Kconfig           |   1 +
+ drivers/iommu/amd_iommu.c       | 690 ++++----------------------------
+ drivers/iommu/amd_iommu_types.h |   1 -
+ drivers/iommu/arm-smmu-v3.c     |   2 +-
+ drivers/iommu/arm-smmu.c        |   2 +-
+ drivers/iommu/dma-iommu.c       |  45 ++-
+ drivers/iommu/exynos-iommu.c    |   2 +-
+ drivers/iommu/intel-iommu.c     |   2 +-
+ drivers/iommu/iommu.c           |  43 +-
+ drivers/iommu/ipmmu-vmsa.c      |   2 +-
+ drivers/iommu/msm_iommu.c       |   2 +-
+ drivers/iommu/mtk_iommu.c       |   2 +-
+ drivers/iommu/mtk_iommu_v1.c    |   2 +-
+ drivers/iommu/omap-iommu.c      |   2 +-
+ drivers/iommu/qcom_iommu.c      |   2 +-
+ drivers/iommu/rockchip-iommu.c  |   2 +-
+ drivers/iommu/s390-iommu.c      |   2 +-
+ drivers/iommu/tegra-gart.c      |   2 +-
+ drivers/iommu/tegra-smmu.c      |   2 +-
+ drivers/iommu/virtio-iommu.c    |   2 +-
+ include/linux/iommu.h           |  21 +-
+ 21 files changed, 179 insertions(+), 652 deletions(-)
 
-> +
-> +Example:
-> +--------
-> +	pmc: pmc@7000e400 {
-> +		compatible = "nvidia,tegra210-pmc";
-> +		reg = <0x0 0x7000e400 0x0 0x400>;
-> +		clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
-> +		clock-names = "pclk", "clk32k_in";
-> +
-> +		powergates {
-> +			pd_xusbss: xusba {
-> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_SS>;
-> +				resets = <&tegra_car TEGRA210_CLK_XUSB_SS>;
-> +				#power-domain-cells = <0>;
-> +			};
-> +
-> +			pd_xusbdev: xusbb {
-> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>;
-> +				resets = <&tegra_car 95>;
-> +				#power-domain-cells = <0>;
-> +			};
-> +		};
-> +	};
-> +
-> +	xudc@700d0000 {
-> +		compatible = "nvidia,tegra210-xudc";
-> +		reg = <0x0 0x700d0000 0x0 0x8000>,
-> +			<0x0 0x700d8000 0x0 0x1000>,
-> +			<0x0 0x700d9000 0x0 0x1000>;
-> +
-> +		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +		clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
-> +			<&tegra_car TEGRA210_CLK_XUSB_SS>,
-> +			<&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
-> +			<&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
-> +			<&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
-> +		clock-names = "dev", "ss", "ss_src",
-> +			      "hs_src", "fs_src";
-> +
-> +		power-domains = <&pd_xusbdev>, <&pd_xusbss>;
-> +		power-domain-names = "dev", "ss";
-> +
-> +		nvidia,xusb-padctl = <&padctl>;
-> +
-> +		phys = <&{/padctl@7009f000/pads/usb2/lanes/usb2-0}>;
-> +		phy-names = "usb2;
-> +
-> +		avddio-usb-supply = <&vdd_pex_1v05>;
-> +		hvdd-usb-supply = <&vdd_3v3_sys>;
-> +
-> +		extcon = <&extcon_usb>;
-> +	};
-> +
-> +	extcon_usb: extcon_vbus {
-> +		compatible = "linux,extcon-usb-gpio";
-> +		vbus-gpio = <&gpio TEGRA_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
-> +	};
-> +
-> -- 
-> 2.7.4
-> 
+-- 
+2.20.1
+
