@@ -2,120 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7134943C9C
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 17:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4739143C6F
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 17:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728631AbfFMPgt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Jun 2019 11:36:49 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:2395 "EHLO
+        id S1730340AbfFMPf0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Jun 2019 11:35:26 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:2637 "EHLO
         hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727068AbfFMKQg (ORCPT
+        with ESMTP id S1727537AbfFMKVv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Jun 2019 06:16:36 -0400
+        Thu, 13 Jun 2019 06:21:51 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0222830000>; Thu, 13 Jun 2019 03:16:35 -0700
+        id <B5d0223bf0000>; Thu, 13 Jun 2019 03:21:51 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 13 Jun 2019 03:16:35 -0700
+  Thu, 13 Jun 2019 03:21:50 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 13 Jun 2019 03:16:35 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 13 Jun
- 2019 10:16:34 +0000
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 13 Jun
- 2019 10:16:34 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 13 Jun 2019 10:16:34 +0000
-Received: from linux.nvidia.com (Not Verified[10.24.34.185]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d0222800000>; Thu, 13 Jun 2019 03:16:34 -0700
-From:   Sameer Pujar <spujar@nvidia.com>
-To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        by hqpgpgate101.nvidia.com on Thu, 13 Jun 2019 03:21:50 -0700
+Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 13 Jun
+ 2019 10:21:48 +0000
+Subject: Re: [PATCH v3 1/2] arm64: tegra: add ACONNECT, ADMA and AGIC nodes
+To:     Sameer Pujar <spujar@nvidia.com>, <thierry.reding@gmail.com>,
         <robh+dt@kernel.org>, <mark.rutland@arm.com>
 CC:     <mkumard@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Sameer Pujar <spujar@nvidia.com>
-Subject: [PATCH v4 2/2] arm64: tegra: enable ACONNECT, ADMA and AGIC
-Date:   Thu, 13 Jun 2019 15:46:12 +0530
-Message-ID: <1560420972-22350-2-git-send-email-spujar@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560420972-22350-1-git-send-email-spujar@nvidia.com>
-References: <1560420972-22350-1-git-send-email-spujar@nvidia.com>
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1560417053-2966-1-git-send-email-spujar@nvidia.com>
+ <8a71e670-7943-6bce-ba61-3f020fd9450d@nvidia.com>
+ <6a4b5fac-68cd-542a-a907-0d80713f9d82@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <7a8426e9-a2c3-5cf6-9088-8ad81f558488@nvidia.com>
+Date:   Thu, 13 Jun 2019 11:21:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <6a4b5fac-68cd-542a-a907-0d80713f9d82@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560420996; bh=Ut1UkGG17UXlzA3WeeU3wLonRkWHH4MJt9Oc92srUWM=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:MIME-Version:Content-Type;
-        b=Nrkl761ODoMRiYyybyGdXvInSSKReqWldFS0AAHJvGvYo/xHOm8kBI1a5ft57rG2i
-         URkyANCfVPSlcBxBbJVVBirROKqlK+C6yYM0i0HEeJQMftprF/iYPi725GWs5yAS8N
-         dKLSYqinfkQJbBSB2OrtDXEKc8HmXMEvE4L1IRCDKuywJMuFpmlix5vNf/WRkkl9NF
-         fasUsOY07K3hkrX/GzMp9ckS4XTKymqeU0wixepz3OpM1oBtPiTemZeVYSpBX27Jx+
-         yOlzyg9jLC9g5CzlucBmA0j95EAbmsY+y0+Rhn5alIL7xcfITTGG6LQk8Pm14N5ow8
-         M5vNmcmmCQNBQ==
+        t=1560421311; bh=iFkZqe5rMtibcofnVbf+47xZPC5Xxy4wl7HLwK+mfZk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=Zsnuif08gCsNzH5xlIZ9xgBZY1smO8FcZDt9qpu5enC2fLBjVKg6i+TjlJWXSlRqz
+         a8mu0jG635NLs8XlpkY3hbiVqvc3PVcZ0v4COg6LVIT5nEGBOBSkwnMgBHaoa7sWse
+         b8TGwokYGGmfoaE5TnaLnAkA4Nj+hy2U+ZS8CEscrAyf2+E5dMiu89VXXnGzZ54TYn
+         RNeDXyCpfUT4MyVSbCdbY8ActWGm3hAkZpjbriK1mdlyjda8G1zgPsyesPBFiHNA04
+         o6CmARCA9WsLiswQT9PQRY7ApL9GlzfKrmYrqHyNqj0GM0LIgezfsK4iURc94+7nRG
+         stcB3ppiWxQwg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable ACONNECT, ADMA and AGIC devices for following platforms
-  * Jetson TX2
-  * Jetson Xavier
 
-Verified driver probe path and devices get registered fine.
+On 13/06/2019 10:47, Sameer Pujar wrote:
+>=20
+> On 6/13/2019 3:12 PM, Jon Hunter wrote:
+>> On 13/06/2019 10:10, Sameer Pujar wrote:
+>>> Add DT nodes for following devices on Tegra186 and Tegra194
+>>> =C2=A0 * ACONNECT
+>>> =C2=A0 * ADMA
+>>> =C2=A0 * AGIC
+>>>
+>>> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+>>> ---
+>>> =C2=A0 changes in current revision
+>>> =C2=A0=C2=A0 * use single address range for all APE modules
+>>> =C2=A0=C2=A0 * fix address range for agic
+>>>
+>>> =C2=A0 arch/arm64/boot/dts/nvidia/tegra186.dtsi | 67
+>>> ++++++++++++++++++++++++++++++++
+>>> =C2=A0 arch/arm64/boot/dts/nvidia/tegra194.dtsi | 67
+>>> ++++++++++++++++++++++++++++++++
+>>> =C2=A0 2 files changed, 134 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+>>> b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+>>> index 426ac0b..b4d735e 100644
+>>> --- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+>>> +++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+>>> @@ -1295,4 +1295,71 @@
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_=
+LOW)>;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interrupt-parent=
+ =3D <&gic>;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 aconnect@2a41000 {
+>> This address does not look correct. This appears to be the address of
+>> the AGIC. I think it should be 2900000, however, I also wonder if we
+>> should even bother with an address for the aconnect as this is just a
+>> bus and we don't specific a 'reg' property.
+> Do you mean, should be ok to just mention "aconnect {"?
 
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
----
- changes in current revision
-  * changed names for aconnect and agic nodes
+I did a bit more reading and for Tegra186 there are no registers
+implement for the aconnect (which is different from Tegra210) and so in
+this case we should just have ...
 
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 12 ++++++++++++
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 12 ++++++++++++
- 2 files changed, 24 insertions(+)
+	aconnect {
+		...
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-index 5102de1..d055913 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-@@ -298,4 +298,16 @@
- 			vin-supply = <&vdd_5v0_sys>;
- 		};
- 	};
-+
-+	aconnect {
-+		status = "okay";
-+
-+		dma-controller@2930000 {
-+			status = "okay";
-+		};
-+
-+		interrupt-controller@2a41000 {
-+			status = "okay";
-+		};
-+	};
- };
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index 6e6df65..c4a57959 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -167,4 +167,16 @@
- 			};
- 		};
- 	};
-+
-+	aconnect {
-+		status = "okay";
-+
-+		dma-controller@2930000 {
-+			status = "okay";
-+		};
-+
-+		interrupt-controller@2a41000 {
-+			status = "okay";
-+		};
-+	};
- };
--- 
-2.7.4
+>>
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible =3D "nvidia,tegr=
+a210-aconnect";
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clocks =3D <&bpmp TEGRA186_=
+CLK_APE>,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 <&bpmp TEGRA186_CLK_APB2APE>;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clock-names =3D "ape", "apb=
+2ape";
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 power-domains =3D <&bpmp TE=
+GRA186_POWER_DOMAIN_AUD>;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #address-cells =3D <1>;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #size-cells =3D <1>;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ranges =3D <0x02900000 0x0 =
+0x02900000 0x1FFFFF>;
+>> This should be 0x1fffff.
+> done
 
+Sorry this should be 0x200000.
+
+Cheers
+Jon
+
+--=20
+nvpublic
