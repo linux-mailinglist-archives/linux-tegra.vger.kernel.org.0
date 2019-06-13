@@ -2,102 +2,190 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E72EA446AA
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 18:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11E29446E3
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 18:55:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392997AbfFMQxm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Jun 2019 12:53:42 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:38010 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730181AbfFMQxk (ORCPT
+        id S1729794AbfFMQzP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Jun 2019 12:55:15 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:35195 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393037AbfFMQzP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Jun 2019 12:53:40 -0400
-Received: by mail-wm1-f66.google.com with SMTP id s15so10872187wmj.3;
-        Thu, 13 Jun 2019 09:53:39 -0700 (PDT)
+        Thu, 13 Jun 2019 12:55:15 -0400
+Received: by mail-io1-f65.google.com with SMTP id m24so18489974ioo.2;
+        Thu, 13 Jun 2019 09:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=B4FVqXBYoVQEIlsaX3zo8xQpS0bIMFHHRYcbxji5ppI=;
-        b=me63D8Re60mBfgiq6Kee2NUjBCG98fgeGSRsfH3vxcwb8vIT6ICqH9hfDHG3uCN2RV
-         yqg6QpJ0+77dyda0uRpdwiy+07DqAE2FmtNwtB3h+BLNEpfdiY1zJCXns/gOiRyU+SU9
-         OE5T81jLnDrTha8UcAIF3z9RYJpqh0Wm+a2I7r9r2sXRYyE159/ebq9hTaD5Wf4JYPZK
-         a/IwJJQNoOfpp+DJIM9MdEbsLaPdG0zE7jEQZN9YEmF0k2l47NjRGQnWMOAW4s3nLp7p
-         32rYX4nGkZNZX8m8fmGPbbRaYiVjrNNgFiV+jwphYCBh7rItDKv3c6YZInVz7L+rAt9e
-         Sfdg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ClC0u2JGR2lSo+6Tvkb2x52kadnHao11/SSLbD6/58k=;
+        b=JrNaEHWuGK31T7Uo+VSWno6hHFAJENibo1UonPm+66izBPrzhseMDm7bv7X64xM5DK
+         Cw9kQc0KCnUjh4IFkW/C31Zk4kzA6mouPoQfGyg+p3mDujIALjKIKTevGWXwncMxhJwO
+         m2kMdmGqR/BatXqMusdoFI5nCzADTl/eYJnHTXoEVhw1h5HEyYenJYrp+kjJoQb3v6xJ
+         mOUMwPay5Dm1ubWMu/GLLAxiBdkfT+DerQmRsGvmVB4Tgr0z0KELyQqYVcHzYXJRIgy/
+         iSvOID0iZKuxCkn7pAxT6UAXELNV164onq0HuVxvAytjhlCn0A1cPqeVRPVxyuBCioD9
+         8QjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=B4FVqXBYoVQEIlsaX3zo8xQpS0bIMFHHRYcbxji5ppI=;
-        b=mb1fZDQWBHdp8Rrspfo3xKsIkoIQsEHXEHogBg6HGcZkRM3gy5NLRL2q2J72MTu9AH
-         WpDxUPv39hxphTlYYCxeGe8Zs+0Vjm2p/fhb/u2f8gpjBAm9RM6ZLMNY3aXnvVUI/BFg
-         l5yVrjPzqEiql3wiWDfQeSGw11jSU/xI2AQAM+gffYIqlFZJITms3Y/NX8dgMhShher2
-         61z3De72DbM5B98QdInmKNtZN1ft3TEGJ1AR/xERuAsjOzHYGMzrwxqHha58nexw6eOV
-         JnXpc19mC3iRC/nfxUaUqk7FeW6aqS5HH43z/ZLCot5qh1dm0AuZRq5ubblsfsOmQRD0
-         w+oQ==
-X-Gm-Message-State: APjAAAVCGJRbMJC7zhyHFSJeVagUcQn+rBITSEPbPQCbwqx941rWVrvy
-        0L1CHt8WREYW4rCHSR7hyIU=
-X-Google-Smtp-Source: APXvYqwlIwdg4httjAD2WhScp/mZNYmeTVDW8BWPi42Xi+V0Pbu745HNjkaIzfO+P4ZOX+1h2omj9g==
-X-Received: by 2002:a1c:808b:: with SMTP id b133mr4285413wmd.160.1560444818376;
-        Thu, 13 Jun 2019 09:53:38 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id c16sm103779wrr.53.2019.06.13.09.53.37
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 13 Jun 2019 09:53:37 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 4/4] arm64: tegra: Add ID EEPROM for Jetson TX1 Developer Kit
-Date:   Thu, 13 Jun 2019 18:53:31 +0200
-Message-Id: <20190613165331.8689-4-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190613165331.8689-1-thierry.reding@gmail.com>
-References: <20190613165331.8689-1-thierry.reding@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ClC0u2JGR2lSo+6Tvkb2x52kadnHao11/SSLbD6/58k=;
+        b=e73VH3RwIHHY1EyQXo8Afv5XNF3VUjZM3fSke4mZmU+lLOJKkJs9lnD2hHpvetmCkW
+         O70kXcLIXwXxxOK15JzU6r2+IGImYBRazj3G/IToJSt3M9C1sYmqiZj40uhFOvrK5ovX
+         dvBL/5SKGdgA8mCeK3iC293erEW03Zw28z0ZqeaBHYFlD9/pbHvtrQiuQeHG3syCE1W1
+         di5eCTnwhU6lIiap9XfC4slKFfUtJeRudSwHy4ofgIu+icIi7pqvomg+U65+f6nwxNvD
+         nBrq1xjWgvqcv7hh7SFjGTHVHi4pyUJmVV5VUdXFiXgMCvDVSufGi3EtdOn2LnpA0BuV
+         6S3Q==
+X-Gm-Message-State: APjAAAVJYRTZV3YXQ/IsepKSXHY6hArqGPIXV6jkwuKco15X/bQYdM7X
+        0xF6SFK00IhaM8FxdX1RHjV+wHGZMkx/sFF6E2o=
+X-Google-Smtp-Source: APXvYqylceZhLVcUp0gOO9Vg8sEwwQ2V26ZkYvdHadRA9KxZ4IFbMZeY52TIAhHmV5cKS4Wm3sFmdLPdFRRz42Unlow=
+X-Received: by 2002:a5e:8e42:: with SMTP id r2mr453389ioo.305.1560444913870;
+ Thu, 13 Jun 2019 09:55:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190613162703.986-1-tiny.windzz@gmail.com> <20190613162703.986-3-tiny.windzz@gmail.com>
+ <ac67e363-70cf-af64-d634-c3b0b6d408fa@ti.com>
+In-Reply-To: <ac67e363-70cf-af64-d634-c3b0b6d408fa@ti.com>
+From:   Frank Lee <tiny.windzz@gmail.com>
+Date:   Fri, 14 Jun 2019 00:55:02 +0800
+Message-ID: <CAEExFWuM+oMUKf440myr0GHAnatdzaxr=0ibFDGVXDHs6J1bzA@mail.gmail.com>
+Subject: Re: [PATCH 03/10] iommu/omap: convert to SPDX license tags
+To:     Suman Anna <s-anna@ti.com>
+Cc:     "joro@8bytes.org" <joro@8bytes.org>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "kgene@kernel.org" <kgene@kernel.org>,
+        "krzk@kernel.org" <krzk@kernel.org>,
+        "will.deacon@arm.com" <will.deacon@arm.com>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "agross@kernel.org" <agross@kernel.org>,
+        "david.brown@linaro.org" <david.brown@linaro.org>,
+        "robdclark@gmail.com" <robdclark@gmail.com>,
+        "heiko@sntech.de" <heiko@sntech.de>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Fri, Jun 14, 2019 at 12:39 AM Suman Anna <s-anna@ti.com> wrote:
+>
+> Hi Yangtao,
+>
+> On 6/13/19 11:26 AM, Yangtao Li wrote:
+> > Updates license to use SPDX-License-Identifier.
+> >
+> > Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+>
+> Thanks for the patch. Can you also update another related file
+> while at this. Will leave it to Joerg if he prefers it as a separate
+> patch, or folded into this patch.
+>
+> include/linux/platform_data/iommu-omap.h
+>
 
-There is an ID EEPROM on the Jetson TX1 carrier board, part of the
-Jetson TX1 Developer Kit, that exposes information that can be used to
-identify the carrier board. Add the device tree node so that operating
-systems can access this EEPROM.
+Done.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Yangtao
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts b/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-index 5a57396b5948..a3cafe39ba4c 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-@@ -79,6 +79,19 @@
- 		};
- 	};
- 
-+	i2c@7000c500 {
-+		/* carrier board ID EEPROM */
-+		eeprom@57 {
-+			compatible = "atmel,24c02";
-+			reg = <0x57>;
-+
-+			address-bits = <8>;
-+			page-size = <8>;
-+			size = <256>;
-+			read-only;
-+		};
-+	};
-+
- 	clock@70110000 {
- 		status = "okay";
- 
--- 
-2.21.0
-
+> Acked-by: Suman Anna <s-anna@ti.com>
+>
+> regards
+> Suman
+>
+> > ---
+> >  drivers/iommu/omap-iommu-debug.c | 5 +----
+> >  drivers/iommu/omap-iommu.c       | 5 +----
+> >  drivers/iommu/omap-iommu.h       | 5 +----
+> >  drivers/iommu/omap-iopgtable.h   | 5 +----
+> >  4 files changed, 4 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/drivers/iommu/omap-iommu-debug.c b/drivers/iommu/omap-iommu-debug.c
+> > index 4abc0ef522a8..55ec67a45101 100644
+> > --- a/drivers/iommu/omap-iommu-debug.c
+> > +++ b/drivers/iommu/omap-iommu-debug.c
+> > @@ -1,13 +1,10 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> >  /*
+> >   * omap iommu: debugfs interface
+> >   *
+> >   * Copyright (C) 2008-2009 Nokia Corporation
+> >   *
+> >   * Written by Hiroshi DOYU <Hiroshi.DOYU@nokia.com>
+> > - *
+> > - * This program is free software; you can redistribute it and/or modify
+> > - * it under the terms of the GNU General Public License version 2 as
+> > - * published by the Free Software Foundation.
+> >   */
+> >
+> >  #include <linux/err.h>
+> > diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
+> > index d2fb347aa4ff..e6442876913f 100644
+> > --- a/drivers/iommu/omap-iommu.c
+> > +++ b/drivers/iommu/omap-iommu.c
+> > @@ -1,3 +1,4 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> >  /*
+> >   * omap iommu: tlb and pagetable primitives
+> >   *
+> > @@ -6,10 +7,6 @@
+> >   *
+> >   * Written by Hiroshi DOYU <Hiroshi.DOYU@nokia.com>,
+> >   *           Paul Mundt and Toshihiro Kobayashi
+> > - *
+> > - * This program is free software; you can redistribute it and/or modify
+> > - * it under the terms of the GNU General Public License version 2 as
+> > - * published by the Free Software Foundation.
+> >   */
+> >
+> >  #include <linux/dma-mapping.h>
+> > diff --git a/drivers/iommu/omap-iommu.h b/drivers/iommu/omap-iommu.h
+> > index 1703159ef5af..5256e17d86a7 100644
+> > --- a/drivers/iommu/omap-iommu.h
+> > +++ b/drivers/iommu/omap-iommu.h
+> > @@ -1,13 +1,10 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> >  /*
+> >   * omap iommu: main structures
+> >   *
+> >   * Copyright (C) 2008-2009 Nokia Corporation
+> >   *
+> >   * Written by Hiroshi DOYU <Hiroshi.DOYU@nokia.com>
+> > - *
+> > - * This program is free software; you can redistribute it and/or modify
+> > - * it under the terms of the GNU General Public License version 2 as
+> > - * published by the Free Software Foundation.
+> >   */
+> >
+> >  #ifndef _OMAP_IOMMU_H
+> > diff --git a/drivers/iommu/omap-iopgtable.h b/drivers/iommu/omap-iopgtable.h
+> > index 01a315227bf0..871c2a38f453 100644
+> > --- a/drivers/iommu/omap-iopgtable.h
+> > +++ b/drivers/iommu/omap-iopgtable.h
+> > @@ -1,13 +1,10 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> >  /*
+> >   * omap iommu: pagetable definitions
+> >   *
+> >   * Copyright (C) 2008-2010 Nokia Corporation
+> >   *
+> >   * Written by Hiroshi DOYU <Hiroshi.DOYU@nokia.com>
+> > - *
+> > - * This program is free software; you can redistribute it and/or modify
+> > - * it under the terms of the GNU General Public License version 2 as
+> > - * published by the Free Software Foundation.
+> >   */
+> >
+> >  #ifndef _OMAP_IOPGTABLE_H
+> >
+>
