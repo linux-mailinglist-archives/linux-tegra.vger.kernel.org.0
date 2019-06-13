@@ -2,58 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EAA04433C
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 18:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B2684430F
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 18:29:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731840AbfFMQ2A (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Jun 2019 12:28:00 -0400
-Received: from avon.wwwdotorg.org ([104.237.132.123]:43052 "EHLO
-        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727271AbfFMQ15 (ORCPT
+        id S2387933AbfFMQ1L (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Jun 2019 12:27:11 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:39970 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731011AbfFMQ1K (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Jun 2019 12:27:57 -0400
-X-Greylist: delayed 333 seconds by postgrey-1.27 at vger.kernel.org; Thu, 13 Jun 2019 12:27:57 EDT
-Received: from [10.20.204.51] (unknown [216.228.112.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by avon.wwwdotorg.org (Postfix) with ESMTPSA id 3310F1C01A0;
-        Thu, 13 Jun 2019 10:22:24 -0600 (MDT)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.100.3 at avon.wwwdotorg.org
-Subject: Re: [PATCH 1/3] arm64: tegra: Add ethernet alias on Jetson TX1
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-References: <20190613161517.2837-1-thierry.reding@gmail.com>
-From:   Stephen Warren <swarren@wwwdotorg.org>
-Message-ID: <04a355c8-a4ae-9275-a85a-791ce5c1b34c@wwwdotorg.org>
-Date:   Thu, 13 Jun 2019 10:22:23 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190613161517.2837-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Thu, 13 Jun 2019 12:27:10 -0400
+Received: by mail-pf1-f196.google.com with SMTP id p184so8868333pfp.7;
+        Thu, 13 Jun 2019 09:27:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=v6vzilPAtj2ODZwSW8fHlBGBIGUDcN2J3Si9o5NBA3E=;
+        b=kAXXgwoguPvU4cAuhcaUgbXJuBSrc4pXZ01mFgLMVTiAUcb3NIkvnGdriEvuRYpcS4
+         KCkN0/7AHFbsRxOm8x2szfUod289BCzSUB2ccFOtOVvhKdOyGMzy87Zl4dSeFroG+guL
+         esu84wiMoP6w/H+9AVYLyYbjuEGjHZzfZcq2VaqLVuBVPuF438x9B/V4m6ISqtGWYOQM
+         8j/Kz0duNoACz0A3QT+4bKsgCn6EYE+p503sKJ0P7oLkeyri1jHoyoEfTeT7CCHRCAYz
+         W6zqItpX7twXVXqsYxk+Veh+fw38UvbAkJGCbeVSGbdwoGav2hPr0WylW6UZnDsmRVLn
+         tv3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=v6vzilPAtj2ODZwSW8fHlBGBIGUDcN2J3Si9o5NBA3E=;
+        b=V5VfdJ+hsQp4sMWKz4YXl9AaCAZioIlF6glvMh1tN60KWYJ8d71Cw/fy3uTv7opZLd
+         3NRMBe1Mw/hkEC3MnAjz0zhvaxIflKxMbi03bD4omVg29k0swBuyFW1T4vxFte1GvND2
+         FBndOQps1zcFHWZqvbKFMV8Yp8n3L3+3hgfx36QKH0BPKPhe/WoedsACXLJ7W5Vf5GCi
+         V8Wmwap7B3gOrQPRGSUek2dKOxxT7kfbzqXpK2bZTZ0Nxvg3CuG5qEB2fewexrQhb2lY
+         5P5Ha7eyLaUaA3iUrTBNv9axVwadTi9yNfJTF/FTwYb8aI+InKEh+WaFvHqQOsCrexL1
+         DvFQ==
+X-Gm-Message-State: APjAAAVYdx8XN/38i1QfHzVtvoRA0xgYes0bMSE0RiWAkA7BBOKX7Utw
+        YH8sS5jp7V1FbvgIP3URfVI=
+X-Google-Smtp-Source: APXvYqzPxG4x6iJ3bSwjicFDgP/gbJZePtynT5+d9Kai+1QhkL96mw1oCJcSqEHcntuvftQRVXyDCg==
+X-Received: by 2002:a17:90a:db52:: with SMTP id u18mr6471125pjx.107.1560443229896;
+        Thu, 13 Jun 2019 09:27:09 -0700 (PDT)
+Received: from localhost (68.168.130.77.16clouds.com. [68.168.130.77])
+        by smtp.gmail.com with ESMTPSA id z186sm185768pfz.7.2019.06.13.09.27.08
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 13 Jun 2019 09:27:09 -0700 (PDT)
+From:   Yangtao Li <tiny.windzz@gmail.com>
+To:     joro@8bytes.org, m.szyprowski@samsung.com, kgene@kernel.org,
+        krzk@kernel.org, will.deacon@arm.com, robin.murphy@arm.com,
+        agross@kernel.org, david.brown@linaro.org, robdclark@gmail.com,
+        heiko@sntech.de, thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc:     iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        Yangtao Li <tiny.windzz@gmail.com>
+Subject: [PATCH 01/10] iommu/exynos: convert to SPDX license tags
+Date:   Thu, 13 Jun 2019 12:26:54 -0400
+Message-Id: <20190613162703.986-1-tiny.windzz@gmail.com>
+X-Mailer: git-send-email 2.17.0
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 6/13/19 10:15 AM, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Adding this alias for the Ethernet interface on Jetson TX1 allows the
-> bootloader to pass the MAC address to the Linux kernel.
+Updates license to use SPDX-License-Identifier.
 
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+---
+ drivers/iommu/exynos-iommu.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-> +	aliases {
-> +		ethernet = "/usb@70090000/ethernet@1";
-> +	};
+diff --git a/drivers/iommu/exynos-iommu.c b/drivers/iommu/exynos-iommu.c
+index 05c6bc099d62..938a33d2f89d 100644
+--- a/drivers/iommu/exynos-iommu.c
++++ b/drivers/iommu/exynos-iommu.c
+@@ -1,10 +1,7 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * Copyright (c) 2011,2016 Samsung Electronics Co., Ltd.
+  *		http://www.samsung.com
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
+  */
+ 
+ #ifdef CONFIG_EXYNOS_IOMMU_DEBUG
+-- 
+2.17.0
 
-Don't aliases require an ID in the property name, i.e shouldn't this be 
-"ethernet0" rather than just "ethernet"? This is a bit more obvious in 
-the TX2 patch where sdhci0, sdhci1, and serial0 are shown in the diff 
-context.
-
-Patch should probably be CC'd to some/all of ARM/DT/... mailing lists?
