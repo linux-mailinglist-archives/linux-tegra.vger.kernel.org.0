@@ -2,136 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65FD5437E5
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 17:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B652543AD8
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 17:24:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733119AbfFMPCB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Jun 2019 11:02:01 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:6732 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733035AbfFMPCA (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Jun 2019 11:02:00 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0265670002>; Thu, 13 Jun 2019 08:01:59 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 13 Jun 2019 08:01:59 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 13 Jun 2019 08:01:59 -0700
-Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 13 Jun
- 2019 15:01:57 +0000
-Subject: Re: [PATCH v5 1/2] arm64: tegra: add ACONNECT, ADMA and AGIC nodes
-To:     Sameer Pujar <spujar@nvidia.com>, <thierry.reding@gmail.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>
-CC:     <mkumard@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1560422477-11242-1-git-send-email-spujar@nvidia.com>
- <3f1ebc62-1498-f26c-9044-8634242fc61e@nvidia.com>
- <9c5dbfc5-122b-2049-fdad-7ffeab6a9ec9@nvidia.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <97303572-48d5-3da6-6e60-51056c82b7fd@nvidia.com>
-Date:   Thu, 13 Jun 2019 16:01:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S2389317AbfFMPYI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Jun 2019 11:24:08 -0400
+Received: from foss.arm.com ([217.140.110.172]:42462 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389298AbfFMPYI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 13 Jun 2019 11:24:08 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E47D03EF;
+        Thu, 13 Jun 2019 08:24:07 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 90FD23F718;
+        Thu, 13 Jun 2019 08:24:06 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 16:24:04 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Manikanta Maddireddy <mmaddireddy@nvidia.com>, bhelgaas@google.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, jonathanh@nvidia.com,
+        vidyas@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH V4 27/28] PCI: tegra: Add support for GPIO based PERST#
+Message-ID: <20190613152404.GB30445@e121166-lin.cambridge.arm.com>
+References: <20190516055307.25737-1-mmaddireddy@nvidia.com>
+ <20190516055307.25737-28-mmaddireddy@nvidia.com>
+ <20190604132233.GT16519@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <9c5dbfc5-122b-2049-fdad-7ffeab6a9ec9@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560438119; bh=gAeYNrokAD9Q2kca+yWScB3sbyQIxjUJco5GbiuobI8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=SjLLkrxl12fk5dLATa9X7QQSsJB3mKzVLXzocYLZAsRb8Ujbfjn/O4TUsCommW+Kx
-         0YUlZl0V+wMcHqzns4QKM7Iq138xtW0mMSSNcpkv208Ar6pPe38/av3wWkNPr0WEAn
-         n1MYFRryF3pRteSTg2InXvl7Kh5VGLDdEKdTx0RYDrfRxlI89kdh1RxkxipItU0xHY
-         Cl1zvUWTOpp3Yn212zxZbVEiaK84V2oiciohoeLcQ5MbgjxKPqQAT1Mvw2S2Lp0OEG
-         dfMe6sGJ4dpo/6uJtrqt3GGEsxDMM6JWdaiXqNc1/YmeS4hxFuk+By6vz45gQuzhWI
-         OletykY5rHcIQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190604132233.GT16519@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, Jun 04, 2019 at 03:22:33PM +0200, Thierry Reding wrote:
 
-On 13/06/2019 15:43, Sameer Pujar wrote:
->=20
-> On 6/13/2019 7:39 PM, Jon Hunter wrote:
->> On 13/06/2019 11:41, Sameer Pujar wrote:
->>> Add DT nodes for following devices on Tegra186 and Tegra194
->>> =C2=A0 * ACONNECT
->>> =C2=A0 * ADMA
->>> =C2=A0 * AGIC
->>>
->>> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
->>> ---
->>> =C2=A0 changes from previous revision
->>> =C2=A0=C2=A0 * fixed size value for ranges property in aconnect
->>>
->>> =C2=A0 arch/arm64/boot/dts/nvidia/tegra186.dtsi | 67
->>> ++++++++++++++++++++++++++++++++
->>> =C2=A0 arch/arm64/boot/dts/nvidia/tegra194.dtsi | 67
->>> ++++++++++++++++++++++++++++++++
->>> =C2=A0 2 files changed, 134 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
->>> b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
->>> index 426ac0b..5e9fe7e 100644
->>> --- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
->>> +++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
->>> @@ -1295,4 +1295,71 @@
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_=
-LOW)>;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interrupt-parent=
- =3D <&gic>;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->>> +
->>> +=C2=A0=C2=A0=C2=A0 aconnect {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible =3D "nvidia,tegr=
-a210-aconnect";
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clocks =3D <&bpmp TEGRA186_=
-CLK_APE>,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 <&bpmp TEGRA186_CLK_APB2APE>;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clock-names =3D "ape", "apb=
-2ape";
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 power-domains =3D <&bpmp TE=
-GRA186_POWER_DOMAIN_AUD>;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #address-cells =3D <1>;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #size-cells =3D <1>;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ranges =3D <0x02900000 0x0 =
-0x02900000 0x200000>;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 status =3D "disabled";
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma-controller@2930000 {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 com=
-patible =3D "nvidia,tegra186-adma";
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg=
- =3D <0x02930000 0x50000>;
->> Sorry but I have been double checking these register addresses and I
->> wonder if this should be a length of 0x10000. The 0x50000 includes all
->> the ranges where the registers are paged, so I don't think that this is
->> correct including these.
-> Is it because we don't have virtualization support yet?
+[...]
 
-Yes those are for virtulisation, but I don't believe we need them here.
+> > +	} else {
+> > +		value = afi_readl(port->pcie, ctrl);
+> > +		value &= ~AFI_PEX_CTRL_RST;
+> > +		afi_writel(port->pcie, value, ctrl);
+> > +	}
+> >  
+> >  	usleep_range(1000, 2000);
+> >  
+> > -	value = afi_readl(port->pcie, ctrl);
+> > -	value |= AFI_PEX_CTRL_RST;
+> > -	afi_writel(port->pcie, value, ctrl);
+> > +	if (port->reset_gpiod) {
+> > +		gpiod_set_value(port->reset_gpiod, 1);
+> 
+> After this the port should be functional, right? I think it'd be better
+> to reverse the logic here and move the polarity of the GPIO into device
+> tree. gpiod_set_value() takes care of inverting the level internally if
+> the GPIO is marked as low-active in DT.
+> 
+> The end result is obviously the same, but it makes the usage much
+> clearer. If somebody want to write a DT for their board, they will look
+> at the schematics and see a low-active reset line and may be tempted to
+> describe it as such in DT, but with your current code that would be
+> exactly the wrong way around.
 
-> and isn't the range 0x10000 covers only global register space, don't we
-> want to include page1 ADMA channel registers. In that case it would be
-> 0x20000.
+I agree with Thierry here, you should change the logic.
 
-Yes, 0x20000 is correct indeed
+Question: what's the advantage of adding GPIO reset support if that's
+architected already in port registers ? I am pretty sure there is a
+reason behind it (and forgive me the dumb question) and I would like to
+have it written in the commit log.
 
-Cheers
-Jon
+Thanks,
+Lorenzo
 
---=20
-nvpublic
+> > +	} else {
+> > +		value = afi_readl(port->pcie, ctrl);
+> > +		value |= AFI_PEX_CTRL_RST;
+> > +		afi_writel(port->pcie, value, ctrl);
+> > +	}
+> >  }
+> >  
+> >  static void tegra_pcie_enable_rp_features(struct tegra_pcie_port *port)
+> > @@ -2238,6 +2249,7 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+> >  		struct tegra_pcie_port *rp;
+> >  		unsigned int index;
+> >  		u32 value;
+> > +		char *label;
+> >  
+> >  		err = of_pci_get_devfn(port);
+> >  		if (err < 0) {
+> > @@ -2296,6 +2308,23 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+> >  		if (IS_ERR(rp->base))
+> >  			return PTR_ERR(rp->base);
+> >  
+> > +		label = kasprintf(GFP_KERNEL, "pex-reset-%u", index);
+> 
+> devm_kasprintf()?
+> 
+> Thierry
+> 
+> > +		if (!label) {
+> > +			dev_err(dev, "failed to create reset GPIO label\n");
+> > +			return -ENOMEM;
+> > +		}
+> > +
+> > +		rp->reset_gpiod = devm_gpiod_get_from_of_node(dev, port,
+> > +							      "reset-gpios", 0,
+> > +							      GPIOD_OUT_LOW,
+> > +							      label);
+> > +		kfree(label);
+> > +		if (IS_ERR(rp->reset_gpiod)) {
+> > +			err = PTR_ERR(rp->reset_gpiod);
+> > +			dev_err(dev, "failed to get reset GPIO: %d\n", err);
+> > +			return err;
+> > +		}
+> > +
+> >  		list_add_tail(&rp->list, &pcie->ports);
+> >  	}
+> >  
+> > -- 
+> > 2.17.1
+> > 
+
+
