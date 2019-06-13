@@ -2,174 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 265FF43A5A
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 17:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2971343A02
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Jun 2019 17:18:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732051AbfFMPUk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Jun 2019 11:20:40 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:34529 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732019AbfFMMwz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Jun 2019 08:52:55 -0400
-Received: by mail-lf1-f67.google.com with SMTP id y198so15009572lfa.1
-        for <linux-tegra@vger.kernel.org>; Thu, 13 Jun 2019 05:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gwNxjWG8gQI5GgqIvq/lAc/Jdb6+55lVV208Tw8pEgk=;
-        b=oSjivdVlU9Sm07SzG22+RcLNFv+XUuw1bt1G54OlPCzmQieEZd/+Nr4sojeGWuTrgS
-         MuOWdPDVlBkOnAZDk08BA1CsYYbvLs4gCa5Q9LxP6Vl3YJGapkjO42aoTKCPcxz00wrh
-         KtJ4fB7I6HYQhVdOT/Fh2gISxa/87pc3R6a/3EVb5vRQj/Eojp4yd2WuEXjlgFhZdDBf
-         yNV+Z1HiCI0GjWl0vzWoJY1HOS4MptkwJBPKbYfs73t/rbmgUO1CY0FbuagchHMDuKzd
-         sBDG3TcZuW66KDCdRAYJu5hhamcemoMz9RG/nfWuESh/+AgGhoheq7CecDeQqgY6fSv9
-         24HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gwNxjWG8gQI5GgqIvq/lAc/Jdb6+55lVV208Tw8pEgk=;
-        b=G4iZrEZi+vBSuYCK5yG3dBTUZxbyAVlepWvyAzgwrMpiFXdEC58duEx9rBSlFuOvOC
-         dW8M/6jDQ7BqJnFTPLN3MX+i74WpMShAL8yX3z57mB8cmcX2RnmQdaTo63aOkj6GVtBZ
-         XhppoUx10M25GEYe/TjgKtkIdgr7dxLVH+adAK1X9d9BYzwZhsLlfyL+1HyNLW7BuN4C
-         4zvYTiF7f6qN5UTC9keaPQF0wgjaDuKysmn73Wo+otdVJYYOViY6uc/LhVL182CbSJnb
-         i8HCwbP+20k0ufhMcf6n3tJpCYhSnWHgR7WP3rxS56zmoN2eDJzPGQQWyXRv11vGyS6z
-         CwBg==
-X-Gm-Message-State: APjAAAV7IpeyXp6sRwFB4kJIfC2nRqv4dZPj7znt5fawRQXpCJyy5k32
-        JDk8va4KLl5ft/oegTOAlz1uQquft3W3w4TqyMGDNg==
-X-Google-Smtp-Source: APXvYqxaCjMi4oyf4GocqT+eEm1qxowC4wzM0YSXx7qe4cKDVB+5e6DRAwmbdgCmNzvKlpKfGIFH1kOriFPcaWrNIuo=
-X-Received: by 2002:ac2:5382:: with SMTP id g2mr43910753lfh.92.1560430372375;
- Thu, 13 Jun 2019 05:52:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190602205424.28674-1-linus.walleij@linaro.org>
- <20190603091045.GC27753@ulmo> <CACRpkda9AMOpLq=02qw_q9Kkr1osiLz3F=ikFATKCj5u84K2Bw@mail.gmail.com>
- <20190604125834.GQ16519@ulmo>
-In-Reply-To: <20190604125834.GQ16519@ulmo>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 13 Jun 2019 14:52:39 +0200
-Message-ID: <CACRpkdYm9Te5BGZH9nLdFEHGQ9kCH_qj98v4Dh69SroR6yMejQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] RFC: gpio: Add support for hierarchical IRQ domains
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
+        id S1726993AbfFMPSA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Jun 2019 11:18:00 -0400
+Received: from sauhun.de ([88.99.104.3]:40378 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732166AbfFMNN0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 13 Jun 2019 09:13:26 -0400
+Received: from localhost (p5486CF99.dip0.t-ipconnect.de [84.134.207.153])
+        by pokefinder.org (Postfix) with ESMTPSA id A828A4A1220;
+        Thu, 13 Jun 2019 15:13:24 +0200 (CEST)
+Date:   Thu, 13 Jun 2019 15:13:21 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Laxman Dewangan <ldewangan@nvidia.com>
+Cc:     Bitan Biswas <bbiswas@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Shardar Mohammed <smohammed@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        Thierry Reding <treding@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mantravadi Karthik <mkarthik@nvidia.com>
+Subject: Re: [PATCH V5 6/7] i2c: tegra: fix PIO rx/tx residual transfer check
+Message-ID: <20190613131321.GA6370@ninjato>
+References: <1560250274-18499-1-git-send-email-bbiswas@nvidia.com>
+ <1560250274-18499-6-git-send-email-bbiswas@nvidia.com>
+ <20190612102458.liieiohnprfyyvs6@ninjato>
+ <5841fe57-fe68-aab3-670c-26b40a5d46ae@nvidia.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="IS0zKkzwUGydFO0o"
+Content-Disposition: inline
+In-Reply-To: <5841fe57-fe68-aab3-670c-26b40a5d46ae@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 4, 2019 at 2:58 PM Thierry Reding <thierry.reding@gmail.com> wrote:
 
-> The point that I'm trying to argue is that rather than find a
-> complicated data structure that can represent all sorts of possible
-> mappings, it'd be much simpler to just write code that can map from
-> one to another.
->
-> Some things are just much easier to write in code than in data.
+--IS0zKkzwUGydFO0o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-OK I get the point, but I wonder if it is really anything else than
-linear ranges here.
 
-> On Tegra for example, we use this code to compact the sparse DT number
-> space to the contiguous number space used by the GPIO chip:
->
->         port = fwspec->param[0] / 8;
->         pin = fwspec->param[0] % 8;
->
->         for (i = 0; i < port; i++)
->                 offset += gpio->soc->ports[i].pins;
+> Most of patches are coming from the downstream as part of upstream effort.
+> Hence not reviewing explicitly.
 
-That is a set of linear ranges.
+It would help me a lot if you could ack the patches, then, once you are
+fine with them. I am really relying on driver maintainers these days. An
+ack or rev from them is kinda required and speeds up things
+significantly.
 
-> I've tested both ways, with just using plain gpiod_to_irq() or going via
-> the IRQ domain. Both times I tested with gpio-keys, so it all works as
-> expected.
 
-OK then.
+--IS0zKkzwUGydFO0o
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> However, the problem with gpiochip_to_irq() is that it basically needs
-> to emulate as if data was coming from a device tree. That's basically
-> what you do in the twocell code as well. The only difference on Tegra,
-> again, is that we now need to expand the number space to the sparse DT
-> number space by filling in the holes again. This is needed to make sure
-> that when the IRQ fwspec is passed to the IRQ domain's .translate()
-> callback, the values in the fwspec actually correspond to the ones
-> defined by the DT.
+-----BEGIN PGP SIGNATURE-----
 
-Yeah I kind of get it now...
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0CS+0ACgkQFA3kzBSg
+Kba1RQ/9GWBeTxXEjL9VYaeijLQUznToGQszZUm59CLaUakBZ1U5zHv4Q1mXscqT
+nS5W/g+jehr+iveA57dhlj5S+QftqasQ6gSUS6esF5Un6PIDfpty4mwWPda4Rq0n
+DhPCALujwZD5BM4jSB4M2xLSypmMjOPpPQq1WfA1BhEJVLBW5hdf1lBbecBNcm4k
+TE3s0VFdZmzVdLQQKNsKNPfct1TyQiD+RzELa22ptlHDpMOIMudT0EHWpmXUNyID
+oN8ZGO6ygdlUjLDeCe3QgGLVJaEDndS8sgu4vPpRwnDHbOx5CLOT5zktN1YitupR
+fFvSxH1JSWu8mHJ/rsbu7vYv/NfiFvubaUucFexHUFuVHCEbV7Su7Zjy3NebcJyo
+RgHv3UtljdmL0QhOg4DoQJRQ3iMFEhRVDQ1iAcUubcr6mSpBF48/WpqvW0mOpEyd
+rAO75Lf0uW9Hdhbdmdb7Sb/p4z5QfMBOXstBB/79OiQOp1c3C7jmL4bxrbbEAcKq
+1hT/Q79CEm8snsH0vua4aQr37BTf+G7lMPKlGRfwd70Dk1P5gOBNdzZUb8PetReU
+lMSiE7DjkwHe6b5+UVJg7AScWLl78opLyMqrvnpBhihEqrg4tvvhMCgqwKbJR8gm
+pEq1e6OqggD9dsf4GU79FkqbgwX13ZJsDBRsndEMPEPxpk0zTiI=
+=VgqH
+-----END PGP SIGNATURE-----
 
-> > What would satisfy Tegra? I can think of trivial things like encoding a
-> > "range" (int n_hwirqs) in each entry if that makes things more
-> > convenient/faster when handling mapping of entire ranges.
->
-> Like I said, the above would work for Tegra. My only gripe with it is
-> that it's totally wasteful because we basically need 140 entries of the
-> above (that's roughly 1.5-2 KiB) to do what is essentially a 1:1
-> mapping.
-
-It is not "totally wasteful" if the code can be reused with other
-SoCs.
-
-> One one hand we need to translate the GPIO/IRQ specifier into the linear
-> domain of the GPIO/IRQ controller. Then in gpiochip_to_irq() we need to
-> go back and translate to the GPIO/IRQ specifier in order to please the
-> IRQ domain API. At the same time I don't think there's really a way
-> around that. Ultimately both the gpiochip_to_irq() and regular IRQ
-> mapping code paths end up calling irq_domain_ops.alloc(), which in turn
-> requires the struct irq_fwspec.
-
-Yeah I think you might need a custom .translate() function.
-Can I please implement it on the less complex ixp4xx first,
-before we move to the extra complicated Tegra186 problem?
-
-> The difference is that the *DT specifier* is *not* linear and *not* a
-> 1:1 mapping of the GPIO number space. That's the reason for doing the
-> back and forth conversion between the DT and GPIO number spaces.
-
-Yeah I get this... just hard to fit it in as it is evidently a bit
-of corner case. And it's not so good to design a generic
-feature in gpiolib (as I try to do) based on a corner case
-with strange DT specifiers.
-
-But let's add it when we need it, which may be step 2 then.
-
-> > Where is the gpiochip.irq.domain coming from in the Tegra186
-> > case?
->
-> Erm... this is using just the plain gpio_irq_chip helpers.
-> gpiochip_add_irqchip() ends up creating the IRQ domain.
-
-Actually this has become a real problem for me as maintainer
-now. And I'm talking about this:
-
-$ git grep add_simple drivers/gpio/gpiolib.c
-drivers/gpio/gpiolib.c:         gpiochip->irq.domain = irq_domain_add_simple(np,
-drivers/gpio/gpiolib.c: gpiochip->irq.domain = irq_domain_add_simple(of_node,
-
-There are two independent runpaths inside gpiolib for adding
-irqdomains and it is a mess and if it confuses me then it
-is going to confuse many others unless I'm entirely unfit
-for this maintenance job.
-
-We need to shrink gpiolib by initializing all gpio irqchips the
-same way before we start adding more fancy features.
-
-commit e0d89728981393b7d694bd3419b7794b9882c92d
-"gpio: Implement tighter IRQ chip integration"
-introduced these two runpaths, now we need to switch all
-existing irqchips over and delete the old code so that
-we don't mess things up even more and can't find our way
-out.
-
-Let's fix this first then move on to these new features.
-
-Yours,
-Linus Walleij
+--IS0zKkzwUGydFO0o--
