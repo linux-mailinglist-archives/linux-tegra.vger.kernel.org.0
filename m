@@ -2,64 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B5624635A
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 17:50:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FBD446365
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 17:52:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725825AbfFNPuq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 11:50:46 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36026 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbfFNPuq (ORCPT
+        id S1725996AbfFNPwO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 11:52:14 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:36214 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725801AbfFNPwO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 11:50:46 -0400
-Received: by mail-wm1-f66.google.com with SMTP id u8so2817316wmm.1;
-        Fri, 14 Jun 2019 08:50:44 -0700 (PDT)
+        Fri, 14 Jun 2019 11:52:14 -0400
+Received: by mail-wm1-f67.google.com with SMTP id u8so2821723wmm.1;
+        Fri, 14 Jun 2019 08:52:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=e2XcDuwIyNAh57NBRLkL6rwxqRee1n0foFF5ZrRtRWI=;
-        b=m+anzo/0NhjK3a5J5QJExf6oEWBHOxnYsrV0KdY0yuTaZqWMTK7J9rbAgyd1Yyn9vE
-         D3JOz6hm0mAKACo4/i4FXmljdjPipx2c9x2eRO+9AO1Yw3iaJAQpV7QIJNkLvqmPMGlx
-         8ZQN18xIZ0MmUSNc2mGipMKi5a9Ec51ZTbmmnM0hLo/6tvXZkK6l3WgMUrlIHw3xJEer
-         9ireQccv3r69JxMkZUSkq8k6ZX4guI/BJn4qisfaFPjwHBp5z+hJyC62t9W9cwGRhH10
-         19nEmqHJ8BdpmGQ+i3bNp+vy7oPMAuAijRiUYw1EbzebMUdrnrHGaHCTs91kwJj1OxRA
-         JxoQ==
+        bh=Yc0M3nTKwaQlaSGBH4dokXAfrG6fhV88i/j5CNPCL2U=;
+        b=RitidenUYWXN5BPG4W5mLQ3l7BKQQkPW1IntaH57/2ydMS0RLx+5mAWajHqgjri7RO
+         wy06TNxc6gvzcISt9DCap0ncGktmnxT2fblUVfT17FwUJdiR6p4un0vhdU0X8v9OwH1c
+         ZQrxHIyw/JvhrcwHPRE/rJ79eO6D8qNLYS0hK3I9eybaCyVACU4yPfNP754K60C+l6aP
+         vsoH3w1MQ3h5c43DiYJLydpUB/FDI4lJhih1G1TM8ekfvOW6T1dTPLwqu7Ls90kLdSkz
+         z9iIEItPfEN5D+V58alFP5o/fCDiTrKWwfttdYEzKMnF6CiL9hL+c/S6weKYzdFxRKWl
+         n01A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=e2XcDuwIyNAh57NBRLkL6rwxqRee1n0foFF5ZrRtRWI=;
-        b=H1AR8lwlYLQE6wFEYrVi4iwpAYjfD/TzZHzWyTy+JAUZLZ6HW47/1lnTXetNbYHwke
-         NKis+Z4n29Rvok0wPKO/tF7opOI3bN0jcE6CSE8zeCCDoiVJoHtQTEaDoH/6mdkQCdWk
-         KZpJPX4l73ltOPMoyRfymURvgMcT8u8+78MUR9nlYcVjwTFxZmVc2Sc4077QfBsC7Ix/
-         6GAW1GO3sWC/98VOMNCgag/vnXg/yxTOr4QYGr3pb7GhyIqkIexx/iT1UK0tb7xktnkP
-         NNiZ7dO1w9P/cSu8yRTsB1iynpp6iVoRV6lquKsCGgNm2kz1Ah+UrbYB0VkDIfIp8yym
-         P1dw==
-X-Gm-Message-State: APjAAAX/biChPecDDtvVpUKG/pNoFDpRTnNipOBDyy27QQiiwd1BPsud
-        CZSZw7ZN8ALIpGHdUTjmC+E=
-X-Google-Smtp-Source: APXvYqzhXBKor0kJbtvKDs5JRHIZCcjiyXGB01F6+CP/8GkLUmVUKV0LSx/on4F1VppkAP45EcMxZg==
-X-Received: by 2002:a7b:c247:: with SMTP id b7mr9038345wmj.13.1560527443712;
-        Fri, 14 Jun 2019 08:50:43 -0700 (PDT)
+        bh=Yc0M3nTKwaQlaSGBH4dokXAfrG6fhV88i/j5CNPCL2U=;
+        b=lYyBS02wqEZYRzhPS6vpif447S9O2atM9w92IH4b5GIIHZ1S/gPWjeuElEwpcAqq9L
+         sPDgBdCcwtu1kUl3oZIZZiAKR5c93VY8vnwk8/kyDk8YA4fKfHFV9RrmVFq8l/cwg5jQ
+         GZPZbgjS/xn6MJ32h9+idEe7B2MjORmJvnc6Fo6UOK537aii5/2qxqtg3pF8mbTv7QBl
+         AHNsBnpnPcGzGbMzhDJxz2IZsFms1MnqMPOWy/EE0Yo1aWghsfC0xKZ8FlUZzM+afuSx
+         Slp9CbFMRYSKKCy8fca1kpKb6lyU3JbAX2bKmNAlG9wTRdEps6CwbSTD4YuC49bWzJPv
+         AR6w==
+X-Gm-Message-State: APjAAAXpRHtVpu6rsJVJEDfeX9vrlnhBFAtngmDZNw4IYGZuUf+krv+y
+        +XJ9OJhjMn1Rk/GJh8StXbOWz17A
+X-Google-Smtp-Source: APXvYqzeZJjkz+lMDsPARX2Q8/EDKIU/+YPWJ7ukkoAa0gc2g15xCr+I6BndMujpgwpmJT2z6hTvAg==
+X-Received: by 2002:a1c:c583:: with SMTP id v125mr8202325wmf.158.1560527531895;
+        Fri, 14 Jun 2019 08:52:11 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id b6sm2419009wrx.85.2019.06.14.08.50.42
+        by smtp.gmail.com with ESMTPSA id o8sm4389269wrj.71.2019.06.14.08.52.11
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 14 Jun 2019 08:50:42 -0700 (PDT)
-Date:   Fri, 14 Jun 2019 17:50:41 +0200
+        Fri, 14 Jun 2019 08:52:11 -0700 (PDT)
+Date:   Fri, 14 Jun 2019 17:52:10 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Bitan Biswas <bbiswas@nvidia.com>
 Cc:     Jassi Brar <jassisinghbrar@gmail.com>,
         Thierry Reding <treding@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH V1 1/2] mailbox: tegra: hsp: add noirq resume
-Message-ID: <20190614155041.GB26922@ulmo>
+Subject: Re: [PATCH V1 2/2] mailbox: tegra: avoid resume NULL mailboxes
+Message-ID: <20190614155210.GC26922@ulmo>
 References: <1560515734-2085-1-git-send-email-bbiswas@nvidia.com>
+ <1560515734-2085-2-git-send-email-bbiswas@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7ZAtKRhVyVSsbBD2"
+        protocol="application/pgp-signature"; boundary="z4+8/lEcDcG5Ke9S"
 Content-Disposition: inline
-In-Reply-To: <1560515734-2085-1-git-send-email-bbiswas@nvidia.com>
+In-Reply-To: <1560515734-2085-2-git-send-email-bbiswas@nvidia.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -67,82 +68,72 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---7ZAtKRhVyVSsbBD2
+--z4+8/lEcDcG5Ke9S
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 14, 2019 at 05:35:33AM -0700, Bitan Biswas wrote:
-> Add noirq resume instead of resume callback for Tegra HSP. Tegra HSP
-> resume needs tegra_hsp_doorbell_startup() call to fix timeout error for
-> tegra_bpmp_transfer() during genpd resume noirq on jetson-tx2.
+On Fri, Jun 14, 2019 at 05:35:34AM -0700, Bitan Biswas wrote:
+> If Tegra hsp device tree does not have 'shared irqs',
 
-s/jetson-tx2/Jetson TX2/?
-
->=20
-> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
-> ---
->  drivers/mailbox/tegra-hsp.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
-> index 91f1a0c..f147374 100644
-> --- a/drivers/mailbox/tegra-hsp.c
-> +++ b/drivers/mailbox/tegra-hsp.c
-> @@ -771,10 +771,16 @@ static int tegra_hsp_probe(struct platform_device *=
-pdev)
->  	return 0;
->  }
-> =20
-> -static int __maybe_unused tegra_hsp_resume(struct device *dev)
-> +static int __maybe_unused tegra_hsp_noirq_resume(struct device *dev)
-
-Maybe call this tegra_hsp_resume_noirq() to match the naming of the
-dev_pm_ops callback?
-
->  {
->  	struct tegra_hsp *hsp =3D dev_get_drvdata(dev);
->  	unsigned int i;
-> +	struct tegra_hsp_doorbell *db;
-> +
-> +	list_for_each_entry(db, &hsp->doorbells, list) {
-> +		if (db && db->channel.chan)
-> +			tegra_hsp_doorbell_startup(db->channel.chan);
-> +	}
-> =20
->  	for (i =3D 0; i < hsp->num_sm; i++) {
->  		struct tegra_hsp_mailbox *mb =3D &hsp->mailboxes[i];
-> @@ -786,7 +792,9 @@ static int __maybe_unused tegra_hsp_resume(struct dev=
-ice *dev)
->  	return 0;
->  }
-> =20
-> -static SIMPLE_DEV_PM_OPS(tegra_hsp_pm_ops, NULL, tegra_hsp_resume);
-> +static const struct dev_pm_ops tegra_hsp_pm_ops =3D {
-> +	.resume_noirq   =3D tegra_hsp_noirq_resume,
-
-There seems to be two extra spaces before that =3D.
+s/hsp/HSP/, otherwise looks good.
 
 Thierry
 
---7ZAtKRhVyVSsbBD2
+> mailboxes pointer is NULL. Add non-NULL HSP mailboxes
+> check in resume callback before tegra_hsp_mailbox_startup()
+> call and prevent NULL pointer exception.
+>=20
+> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+> ---
+>  drivers/mailbox/tegra-hsp.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+> index f147374..a11fb1c 100644
+> --- a/drivers/mailbox/tegra-hsp.c
+> +++ b/drivers/mailbox/tegra-hsp.c
+> @@ -782,11 +782,13 @@ static int __maybe_unused tegra_hsp_noirq_resume(st=
+ruct device *dev)
+>  			tegra_hsp_doorbell_startup(db->channel.chan);
+>  	}
+> =20
+> -	for (i =3D 0; i < hsp->num_sm; i++) {
+> -		struct tegra_hsp_mailbox *mb =3D &hsp->mailboxes[i];
+> +	if (hsp->mailboxes) {
+> +		for (i =3D 0; i < hsp->num_sm; i++) {
+> +			struct tegra_hsp_mailbox *mb =3D &hsp->mailboxes[i];
+> =20
+> -		if (mb->channel.chan->cl)
+> -			tegra_hsp_mailbox_startup(mb->channel.chan);
+> +			if (mb->channel.chan->cl)
+> +				tegra_hsp_mailbox_startup(mb->channel.chan);
+> +		}
+>  	}
+> =20
+>  	return 0;
+> --=20
+> 2.7.4
+>=20
+
+--z4+8/lEcDcG5Ke9S
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0DwlEACgkQ3SOs138+
-s6FF9hAAiJ4bYQf3muX8DROz4Scc57EGDwt0MelsUs6uPgSREWy1pruYby4Ynmub
-9bT2rhXcUZYDRHZTKqnwhgl1juMnbMMjfCWfjrbE68/2sX/6td5/qYhwCiUVq0uK
-4j0rlF1SgzlqIoeEWaZaVVpxiWGuh192MH1NVacIYQvJvanWhlFxJzeO9yUKX5eb
-5hDxA6MrLsU9hGx3GS8GJ64Df8mfHJOy3kZ6sACOaBY/w03oB3kU3GB6LIW3B/ck
-ds5wx6VLvrfw1OCuM0jlijd7aFM72/u3Gv6U0kGLmXhAaptOZtSYYGVCTcbKlCL6
-mwY6ryNasRgWIIk7S7Ni2ilTo9AJaHzmf4dL/XlXgPVAK7QDHKzRm3CYu5hjCmMx
-c/WBwP9Cme+/ZtI3TK/gvEBtWwdHOsLDb+kpfE8GFHCFQ2exigovGEqMy+Fscqrl
-9Vs7wGoVHFEKZafXike8rFB6otmdEhRhEh0+nFVXFmn4kqa2ZeTdsettOGRmXowR
-o0FB4D4bHESnGmPzv2DpD8ievqDM9jFy2blj762OjxwITNw3V6AtQ47Ay9IYNOz0
-L609ZNxyqi45+6PyYUkuIIj6XR0Ny/TaAHQCkzIUDMtbg4guV9qnVr9XQxytgm9H
-hnCI5uBSdK4M9nv3eFFGSsgwBnIf9sc3+Zxl12TELCvroW5MJEQ=
-=IXnu
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0DwqoACgkQ3SOs138+
+s6HJehAAlPsKTuPsEIq3BYzsUwtxA2ZtjCFy0N/+cOom6PoIlmFZQ3ZqVVYmVGUt
+6sP7L8VoUzcgP1LXassF3wiTLv7/Il+hWM9SxHN5k8a1UBEnij4vxtt13/vIirLh
+FfeV5AyZZ7FmgsyGm/ZM41evcYZg/WM6JKXaHGMjbxMhxXk2sQxH98WY2urTSxoz
+rb2+MRrTQu5jrbUiF//cjSrULA6tcldY567nFyFPTRTu8e+jtqGna1lMDIrNHw5q
+n3SR3Z5sOobv5R5qcp4SBBrHLRMPaiIPiGrLnUccLDsxrjYzeII51Ij2ib5y4osZ
+BfALmCAAy06DoJWoeTLH706nEv0hIeXTYTQSgWgY2Jqzt68beW0pOc59KFjcn/fr
+4yK51+AqGwwYNfnlVSp1WdJD4eXdahHzBWFpBzr9koHpsYUeTnUfMNfrZRHsOPJb
+9gWbFUmUj7O7QzTdB5coMcmhSi9bpGd9B5/9Lrk7S/fKRUQfI6YhjHRhaZTG3R80
+7Yg5p133EU334sl3K6i91ekysja57vJDlQngieJzGWRZRItjMOSI+l2PxsGXD4Z+
+KTXVl57gbB6Zl5W44CWfAo0N/+UblHIfLn81x6hmAuD5G3ewHVj0CcG0ccyn2Cem
+H1NjV3NH0goy6jG2v/XfL88I38u2Hm9ZG03yK80lJekkZ+nS5OY=
+=ErAC
 -----END PGP SIGNATURE-----
 
---7ZAtKRhVyVSsbBD2--
+--z4+8/lEcDcG5Ke9S--
