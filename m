@@ -2,97 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 112ED45CEF
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 14:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3835945D5E
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 15:02:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727906AbfFNMfn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 08:35:43 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:18914 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727544AbfFNMfm (ORCPT
+        id S1728113AbfFNNCa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 09:02:30 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33450 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726874AbfFNNC3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 08:35:42 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d03949d0000>; Fri, 14 Jun 2019 05:35:41 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 14 Jun 2019 05:35:41 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 14 Jun 2019 05:35:41 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
- 2019 12:35:41 +0000
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
- 2019 12:35:41 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 14 Jun 2019 12:35:41 +0000
-Received: from dhcp-10-19-65-14.client.nvidia.com (Not Verified[10.19.65.14]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d03949b0005>; Fri, 14 Jun 2019 05:35:41 -0700
-From:   Bitan Biswas <bbiswas@nvidia.com>
-To:     Jassi Brar <jassisinghbrar@gmail.com>,
+        Fri, 14 Jun 2019 09:02:29 -0400
+Received: by mail-lf1-f68.google.com with SMTP id y17so1709848lfe.0;
+        Fri, 14 Jun 2019 06:02:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pRP7qyOkDFtVUVsLDhfDaqQj/BTUTCxxtpJ3rjbJ4gI=;
+        b=YPo2ruTox4SlsGl1IjghGXdBC0uUqlmcRpaKkG31j06io3XMIThlhH3uiY3fLJwb4T
+         65uGl/tIgF0nWit/WY1kWqaAGaqJsaOdlgc6QGih659sfwzGvAux6nYrZi1pv8QVC3Ca
+         m5rRSgxQT5ehHMYNggHl8rf6uOde73KauwWSyD/qfavQb/7wXp61Yr7H4Dd7kSYiwyJV
+         /woRvyYYkNx9DyE0QM2+iyFEiipJ98y6ts8e6/rcd47OwEhmc4dnbqF1e5MzbKbcAg33
+         Rd/Jwd7tyHAYx54EyYqMbz6C41PXk5QhAxt4F0qqqmW9LYVVEaBw/N6INJkrb2pxmKEF
+         cP6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pRP7qyOkDFtVUVsLDhfDaqQj/BTUTCxxtpJ3rjbJ4gI=;
+        b=Xd8JJAuh788qcMJhXIZY8/jEofLY4gWVmX10sdtnY142QHxLFulqoMTuvWxOI5lOQy
+         CfFFHYVx71Uh3PglMS0mjh0xSjO/g5Oym2sRAiq+N1VZgfjtD+5/yXdBGHDhP6yjK7jS
+         FCcWtFVOPLm+8l+jtz7RQi2euUzL4Qby3TiGxCs5xKDhNzXAgXdg9QwNGZ8qqXUIvex1
+         b4FL5OYWKvrut2u8EnCZ3u0RxbPQzcBCCriIqxHuFlHxghPrhBCbWqpxxIBqJWq9mosQ
+         OMbI++C/E70jwrPcC0AZSyUUxrd3GnrfaDTiHGyNMv1O1KAZGaEQcy7zP7Q9rXSV0Ui5
+         u0zA==
+X-Gm-Message-State: APjAAAX6iXALVsFPOZD4cFgajRZDoLLJJs/rAiHCI1vJKpYNUIOmGiD9
+        lFNrp9FKNqwtTgVDi/HqFdaRVuSR
+X-Google-Smtp-Source: APXvYqxQYD8gAVrptvWPCVyszEwO3Y573I51sTNfYV1C6xkSIzv1jts7i8RQZD1N7ozD3+c8eci+wQ==
+X-Received: by 2002:a19:bec9:: with SMTP id o192mr26311169lff.78.1560517346711;
+        Fri, 14 Jun 2019 06:02:26 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.googlemail.com with ESMTPSA id j25sm483692lfh.6.2019.06.14.06.02.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 14 Jun 2019 06:02:26 -0700 (PDT)
+Subject: Re: [PATCH V5 6/7] i2c: tegra: fix PIO rx/tx residual transfer check
+To:     Bitan Biswas <bbiswas@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
         Thierry Reding <treding@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-CC:     Bitan Biswas <bbiswas@nvidia.com>
-Subject: [PATCH V1 2/2] mailbox: tegra: avoid resume NULL mailboxes
-Date:   Fri, 14 Jun 2019 05:35:34 -0700
-Message-ID: <1560515734-2085-2-git-send-email-bbiswas@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560515734-2085-1-git-send-email-bbiswas@nvidia.com>
-References: <1560515734-2085-1-git-send-email-bbiswas@nvidia.com>
-X-NVConfidentiality: public
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     Shardar Mohammed <smohammed@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mantravadi Karthik <mkarthik@nvidia.com>
+References: <1560250274-18499-1-git-send-email-bbiswas@nvidia.com>
+ <1560250274-18499-6-git-send-email-bbiswas@nvidia.com>
+ <42ce2523-dab9-0cdf-e8ff-42631dd161b7@gmail.com>
+ <78140337-dca0-e340-a501-9e37eca6cc87@nvidia.com>
+ <9cb7123a-1ebd-3a93-60dc-c8f57f60270b@gmail.com>
+ <e795ddcf-dd11-4e39-2a94-b663e5ecb35b@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d2c97291-6392-d614-5cd9-1490a816548c@gmail.com>
+Date:   Fri, 14 Jun 2019 16:02:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560515741; bh=W0vodVafNnZ9SVYrkOcPCGni/aGjg0Pc6LT5sGuXzWY=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=kta6kvEga9Ppkn3G3zREviAkmVh8jYdDmzK1qMkmRBVpzNO0SLhigs4uh52QzaTQo
-         51bkA+JhkpUYw38oFmlmJYCqIV1zf+jQ+1y0x9XYgE3BbbnzfMfjj4dRyVYNFaurfT
-         PcgaKzpY0G71r3qDB71vRkif4/xu5DShFG+95HakLQ+AuUhfRZ9rp+BKtg0ae73HAD
-         wtxJEd0SGd6iUx5HK06pDqEChChB/QxfiNFEdY2ORr49rZUYcaUzpdAGlttIIlxcoU
-         ElF8NlBljgmhlGLXQL7ccxppjTubds2pJavnb3hLXpfg42tDCsBXZLug8LLunoG4bm
-         SW9eYpfl/Q7Aw==
+In-Reply-To: <e795ddcf-dd11-4e39-2a94-b663e5ecb35b@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-If Tegra hsp device tree does not have 'shared irqs',
-mailboxes pointer is NULL. Add non-NULL HSP mailboxes
-check in resume callback before tegra_hsp_mailbox_startup()
-call and prevent NULL pointer exception.
+14.06.2019 12:50, Bitan Biswas пишет:
+> 
+> 
+> On 6/13/19 5:28 AM, Dmitry Osipenko wrote:
+>> 13.06.2019 14:30, Bitan Biswas пишет:
+>>>
+>>>
+>>> On 6/12/19 7:30 AM, Dmitry Osipenko wrote:
+>>>> 11.06.2019 13:51, Bitan Biswas пишет:
+>>>>> Fix expression for residual bytes(less than word) transfer
+>>>>> in I2C PIO mode RX/TX.
+>>>>>
+>>>>> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+>>>>> ---
+>>>>
+>>>> [snip]
+>>>>
+>>>>>            /*
+>>>>> -         * Update state before writing to FIFO.  If this casues us
+>>>>> +         * Update state before writing to FIFO.  If this causes us
+>>>>>             * to finish writing all bytes (AKA buf_remaining goes to
+>>>>> 0) we
+>>>>>             * have a potential for an interrupt (PACKET_XFER_COMPLETE is
+>>>>> -         * not maskable).  We need to make sure that the isr sees
+>>>>> -         * buf_remaining as 0 and doesn't call us back re-entrantly.
+>>>>> +         * not maskable).
+>>>>>             */
+>>>>>            buf_remaining -= words_to_transfer * BYTES_PER_FIFO_WORD;
+>>>>
+>>>> Looks like the comment could be removed altogether because it doesn't
+>>>> make sense since interrupt handler is under xfer_lock which is kept
+>>>> locked during of tegra_i2c_xfer_msg().
+>>> I would push a separate patch to remove this comment because of
+>>> xfer_lock in ISR now.
+>>>
+>>>>
+>>>> Moreover the comment says that "PACKET_XFER_COMPLETE is not maskable",
+>>>> but then what I2C_INT_PACKET_XFER_COMPLETE masking does?
+>>>>
+>>> I2C_INT_PACKET_XFER_COMPLETE masking support available in Tegra chips
+>>> newer than Tegra30 allows one to not see interrupt after Packet transfer
+>>> complete. With the xfer_lock in ISR the scenario discussed in comment
+>>> can be ignored.
+>>
+>> Also note that xfer_lock could be removed and replaced with a just
+>> irq_enable/disable() calls in tegra_i2c_xfer_msg() because we only care
+>> about IRQ not firing during of the preparation process.
+> This should need sufficient testing hence let us do it in a different series.
 
-Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
----
- drivers/mailbox/tegra-hsp.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+I don't think that there is much to test here since obviously it should work.
 
-diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
-index f147374..a11fb1c 100644
---- a/drivers/mailbox/tegra-hsp.c
-+++ b/drivers/mailbox/tegra-hsp.c
-@@ -782,11 +782,13 @@ static int __maybe_unused tegra_hsp_noirq_resume(struct device *dev)
- 			tegra_hsp_doorbell_startup(db->channel.chan);
- 	}
- 
--	for (i = 0; i < hsp->num_sm; i++) {
--		struct tegra_hsp_mailbox *mb = &hsp->mailboxes[i];
-+	if (hsp->mailboxes) {
-+		for (i = 0; i < hsp->num_sm; i++) {
-+			struct tegra_hsp_mailbox *mb = &hsp->mailboxes[i];
- 
--		if (mb->channel.chan->cl)
--			tegra_hsp_mailbox_startup(mb->channel.chan);
-+			if (mb->channel.chan->cl)
-+				tegra_hsp_mailbox_startup(mb->channel.chan);
-+		}
- 	}
- 
- 	return 0;
--- 
-2.7.4
+>>
+>> It also looks like tegra_i2c_[un]nmask_irq isn't really needed and all
+>> IRQ's could be simply unmasked during the driver's probe, in that case
+>> it may worth to add a kind of "in-progress" flag to catch erroneous
+>> interrupts.
+>>
+> TX interrupt needs special handling if this change is done. Hence I think it should be
+> taken up after sufficient testing in a separate patch.
 
+This one is indeed a bit more trickier. Probably another alternative could be to keep GIC
+interrupt disabled while no transfer is performed, then you'll have to request interrupt
+in a disabled state using IRQ_NOAUTOEN flag.
+
+And yes, that all should be a separate changes if you're going to implement them.
