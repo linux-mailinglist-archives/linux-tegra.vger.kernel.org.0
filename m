@@ -2,106 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2EAF46500
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F67346509
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:53:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725801AbfFNQvg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 12:51:36 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:44235 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725814AbfFNQvf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:51:35 -0400
-Received: by mail-lf1-f67.google.com with SMTP id r15so2176648lfm.11;
-        Fri, 14 Jun 2019 09:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=La0om+Dm2f2QFp3CrekJBlv0rebzycLNY6Yi9piJU5o=;
-        b=XIj2dn3MekBc7CEwjalh574vqRmrX+0g+5gz5K2IAnjYDYIHOO5nhpQcEj2SwDzTIS
-         FfD58vd4ah4wj8Pr3cSIddxPdG1wKT4vaafRN4hy7DLbFBR3VSMGxofTfE8Tf2nRpsP4
-         3PzFKbF8xmpfgZdLpZ08Ie66e+PkE0y0s3keXCND9LJX73qoyDkQ7YEE5gkqfWX252Xc
-         8OTMsa3jcKP4/l/xawElS2mVoCrRHMAFO777paf1VjG+Li7PkNiJ4lZumf4fIX83g95L
-         cAEiSiDXrPYafCNqy4rRmEUzc7PJTnJJBg25e7eOuPu/ddmrxWU54JtX+FMSFxkbLeWg
-         AU+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=La0om+Dm2f2QFp3CrekJBlv0rebzycLNY6Yi9piJU5o=;
-        b=GlE1bsAC+GozkA9z2z3Ve0uTV02k0reKm51cQj42FhUcl1KQ4/CPAFyzpAaDSmHkBr
-         vJiVrmv00XgcB3GGBxx33oEZR4cri4xyFwEDpv9wW0lajyjQkz5C1WrucwOYdNLhICcD
-         5+aahJM/9fT0beLEZnoxvH4COjJUpF/bvbYU19w53t40qLmf2g4i6heHb0+JITmi7cCX
-         do+C2eNqxJwfidb39WNo2jfkohn7ROquCHxvMuKFwGX6t1lp9LjfgKBg/AJ4YwYMufje
-         baf24zjnkwne2GxOTWonBJT0vTw3YBbguVp+9iIUnoDf6VxGxIQFry//5eqtyEJFkxrC
-         vlIA==
-X-Gm-Message-State: APjAAAUF8LJUX3uGwnZWpCSTjiZmEZ8RuOg5PmGGDk+M0oxO9kBoi/QM
-        UFn5hxVxZXoKsYQq+Iu+m6r/uDkH
-X-Google-Smtp-Source: APXvYqxTap64O3rowcREbfhX3IoZGv0kxTYgz7zM69D7MW1NwadlRCFNuj+ZZnORA9/9Kkt+QlIJUA==
-X-Received: by 2002:a19:4017:: with SMTP id n23mr52512076lfa.112.1560531093330;
-        Fri, 14 Jun 2019 09:51:33 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id m24sm546452lfl.41.2019.06.14.09.51.32
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Jun 2019 09:51:32 -0700 (PDT)
-Subject: Re: [PATCH v2 6/6] clocksource/drivers/tegra: Restore base address
- before cleanup
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Joseph Lo <josephl@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190610164400.11830-1-digetx@gmail.com>
- <20190610164400.11830-7-digetx@gmail.com>
- <b2eeb477-2e08-eaf5-6355-4a05cec5a9b7@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <dbc69b48-f83c-7af7-4a49-7cd2ee9937ab@gmail.com>
-Date:   Fri, 14 Jun 2019 19:51:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1725802AbfFNQx5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 12:53:57 -0400
+Received: from foss.arm.com ([217.140.110.172]:38198 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725801AbfFNQx5 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 14 Jun 2019 12:53:57 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C10C028;
+        Fri, 14 Jun 2019 09:53:56 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D45B3F694;
+        Fri, 14 Jun 2019 09:53:55 -0700 (PDT)
+Date:   Fri, 14 Jun 2019 17:53:53 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>, bhelgaas@google.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, jonathanh@nvidia.com,
+        vidyas@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH V4 27/28] PCI: tegra: Add support for GPIO based PERST#
+Message-ID: <20190614165353.GB30511@e121166-lin.cambridge.arm.com>
+References: <20190516055307.25737-28-mmaddireddy@nvidia.com>
+ <20190604132233.GT16519@ulmo>
+ <20190613152404.GB30445@e121166-lin.cambridge.arm.com>
+ <cb2dd446-1275-7179-33ac-e5c237d81da6@nvidia.com>
+ <20190614143222.GB23116@e121166-lin.cambridge.arm.com>
+ <1508173d-0ecc-f498-6ab2-78a718086b35@nvidia.com>
+ <20190614145023.GA24588@e121166-lin.cambridge.arm.com>
+ <20190614152304.GK15526@ulmo>
+ <20190614155934.GA28253@e121166-lin.cambridge.arm.com>
+ <51e4ae62-f842-1d2f-fbca-0b2063dd53a6@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <b2eeb477-2e08-eaf5-6355-4a05cec5a9b7@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <51e4ae62-f842-1d2f-fbca-0b2063dd53a6@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-14.06.2019 18:48, Jon Hunter пишет:
-> 
-> On 10/06/2019 17:44, Dmitry Osipenko wrote:
->> We're adjusting the timer's base for each per-CPU timer to point to the
->> actual start of the timer since device-tree defines a compound registers
->> range that includes all of the timers. In this case the original base
->> need to be restore before calling iounmap to unmap the proper address.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/clocksource/timer-tegra.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
->> index 2a428fdf702f..7be91db98bd7 100644
->> --- a/drivers/clocksource/timer-tegra.c
->> +++ b/drivers/clocksource/timer-tegra.c
->> @@ -345,6 +345,8 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
->>  			irq_dispose_mapping(cpu_to->clkevt.irq);
->>  		}
->>  	}
->> +
->> +	to->of_base.base = timer_reg_base;
->>  out:
->>  	timer_of_cleanup(to);
-> 
-> So what you are saying is that because we don't know which CPU executes
-> the tegra_init_timer() function, then it is necessary to restore the
-> base. IOW if it is not CPU0, then the base will be updated and hence,
-> need to be restored. Correct?
+On Fri, Jun 14, 2019 at 10:00:49PM +0530, Manikanta Maddireddy wrote:
 
-We know what the CPU is, it is always CPU0. What we don't know is what TIMER is
-assigned for CPU0. On Tegra210 it is TIMER10, for other Tegra's it is TIMER0.
+[...]
+
+> GPIO based PERST# is per-platform requirement.
+> If DT prop is not present, then devm_gpiod_get_from_of_node() returns
+> NULL gpio_desc.
+> 
+> struct gpio_desc *gpiod_get_from_of_node(struct device_node *node,
+>                                          const char *propname, int index,
+>                                          enum gpiod_flags dflags,
+>                                          const char *label)
+> {
+>         struct gpio_desc *desc;
+>         unsigned long lflags = 0;
+>         enum of_gpio_flags flags;
+>         bool active_low = false;
+>         bool single_ended = false;
+>         bool open_drain = false;
+>         bool transitory = false;
+>         int ret;
+> 
+>         desc = of_get_named_gpiod_flags(node, propname,
+>                                         index, &flags);
+> 
+>         if (!desc || IS_ERR(desc)) {
+> */* If it is not there, just return NULL */****if (PTR_ERR(desc) == -ENOENT)****return NULL;*
+>                 return desc;
+>         }
+> 	...
+> 
+> }
+
+Ok. My point then is that you have no way to enforce this requirement on
+platforms that actually need it, I do not even know if there is a
+way you can do it (I was thinking along the lines of using a
+compatible string to detect whether the GPIO #PERST reset is mandatory)
+but maybe this is not even a SOC property.
+
+Maybe what I am asking is overkill, I just wanted to understand.
+
+I was just asking a question to understand how you handle the case
+where a GPIO pin definition is missing in DT for a platform that
+actually needs it, the driver will probe but nothing will work.
+
+It would be good to describe this and capture it in the commit log.
+
+Thanks,
+Lorenzo
