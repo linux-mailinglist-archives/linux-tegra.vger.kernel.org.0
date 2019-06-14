@@ -2,138 +2,162 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FBD446365
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 17:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95FCB46383
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 17:59:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725996AbfFNPwO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 11:52:14 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:36214 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbfFNPwO (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 11:52:14 -0400
-Received: by mail-wm1-f67.google.com with SMTP id u8so2821723wmm.1;
-        Fri, 14 Jun 2019 08:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Yc0M3nTKwaQlaSGBH4dokXAfrG6fhV88i/j5CNPCL2U=;
-        b=RitidenUYWXN5BPG4W5mLQ3l7BKQQkPW1IntaH57/2ydMS0RLx+5mAWajHqgjri7RO
-         wy06TNxc6gvzcISt9DCap0ncGktmnxT2fblUVfT17FwUJdiR6p4un0vhdU0X8v9OwH1c
-         ZQrxHIyw/JvhrcwHPRE/rJ79eO6D8qNLYS0hK3I9eybaCyVACU4yPfNP754K60C+l6aP
-         vsoH3w1MQ3h5c43DiYJLydpUB/FDI4lJhih1G1TM8ekfvOW6T1dTPLwqu7Ls90kLdSkz
-         z9iIEItPfEN5D+V58alFP5o/fCDiTrKWwfttdYEzKMnF6CiL9hL+c/S6weKYzdFxRKWl
-         n01A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Yc0M3nTKwaQlaSGBH4dokXAfrG6fhV88i/j5CNPCL2U=;
-        b=lYyBS02wqEZYRzhPS6vpif447S9O2atM9w92IH4b5GIIHZ1S/gPWjeuElEwpcAqq9L
-         sPDgBdCcwtu1kUl3oZIZZiAKR5c93VY8vnwk8/kyDk8YA4fKfHFV9RrmVFq8l/cwg5jQ
-         GZPZbgjS/xn6MJ32h9+idEe7B2MjORmJvnc6Fo6UOK537aii5/2qxqtg3pF8mbTv7QBl
-         AHNsBnpnPcGzGbMzhDJxz2IZsFms1MnqMPOWy/EE0Yo1aWghsfC0xKZ8FlUZzM+afuSx
-         Slp9CbFMRYSKKCy8fca1kpKb6lyU3JbAX2bKmNAlG9wTRdEps6CwbSTD4YuC49bWzJPv
-         AR6w==
-X-Gm-Message-State: APjAAAXpRHtVpu6rsJVJEDfeX9vrlnhBFAtngmDZNw4IYGZuUf+krv+y
-        +XJ9OJhjMn1Rk/GJh8StXbOWz17A
-X-Google-Smtp-Source: APXvYqzeZJjkz+lMDsPARX2Q8/EDKIU/+YPWJ7ukkoAa0gc2g15xCr+I6BndMujpgwpmJT2z6hTvAg==
-X-Received: by 2002:a1c:c583:: with SMTP id v125mr8202325wmf.158.1560527531895;
-        Fri, 14 Jun 2019 08:52:11 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id o8sm4389269wrj.71.2019.06.14.08.52.11
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 14 Jun 2019 08:52:11 -0700 (PDT)
-Date:   Fri, 14 Jun 2019 17:52:10 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Bitan Biswas <bbiswas@nvidia.com>
-Cc:     Jassi Brar <jassisinghbrar@gmail.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH V1 2/2] mailbox: tegra: avoid resume NULL mailboxes
-Message-ID: <20190614155210.GC26922@ulmo>
-References: <1560515734-2085-1-git-send-email-bbiswas@nvidia.com>
- <1560515734-2085-2-git-send-email-bbiswas@nvidia.com>
+        id S1725836AbfFNP7o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 11:59:44 -0400
+Received: from foss.arm.com ([217.140.110.172]:37120 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725801AbfFNP7o (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 14 Jun 2019 11:59:44 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5026828;
+        Fri, 14 Jun 2019 08:59:41 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D03963F718;
+        Fri, 14 Jun 2019 08:59:39 -0700 (PDT)
+Date:   Fri, 14 Jun 2019 16:59:34 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Manikanta Maddireddy <mmaddireddy@nvidia.com>, bhelgaas@google.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, jonathanh@nvidia.com,
+        vidyas@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH V4 27/28] PCI: tegra: Add support for GPIO based PERST#
+Message-ID: <20190614155934.GA28253@e121166-lin.cambridge.arm.com>
+References: <20190516055307.25737-1-mmaddireddy@nvidia.com>
+ <20190516055307.25737-28-mmaddireddy@nvidia.com>
+ <20190604132233.GT16519@ulmo>
+ <20190613152404.GB30445@e121166-lin.cambridge.arm.com>
+ <cb2dd446-1275-7179-33ac-e5c237d81da6@nvidia.com>
+ <20190614143222.GB23116@e121166-lin.cambridge.arm.com>
+ <1508173d-0ecc-f498-6ab2-78a718086b35@nvidia.com>
+ <20190614145023.GA24588@e121166-lin.cambridge.arm.com>
+ <20190614152304.GK15526@ulmo>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="z4+8/lEcDcG5Ke9S"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1560515734-2085-2-git-send-email-bbiswas@nvidia.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190614152304.GK15526@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Fri, Jun 14, 2019 at 05:23:04PM +0200, Thierry Reding wrote:
+> On Fri, Jun 14, 2019 at 03:50:23PM +0100, Lorenzo Pieralisi wrote:
+> > On Fri, Jun 14, 2019 at 08:08:26PM +0530, Manikanta Maddireddy wrote:
+> > > 
+> > > 
+> > > On 14-Jun-19 8:02 PM, Lorenzo Pieralisi wrote:
+> > > > On Fri, Jun 14, 2019 at 04:07:35PM +0530, Manikanta Maddireddy wrote:
+> > > >>
+> > > >> On 13-Jun-19 8:54 PM, Lorenzo Pieralisi wrote:
+> > > >>> On Tue, Jun 04, 2019 at 03:22:33PM +0200, Thierry Reding wrote:
+> > > >>>
+> > > >>> [...]
+> > > >>>
+> > > >>>>> +	} else {
+> > > >>>>> +		value = afi_readl(port->pcie, ctrl);
+> > > >>>>> +		value &= ~AFI_PEX_CTRL_RST;
+> > > >>>>> +		afi_writel(port->pcie, value, ctrl);
+> > > >>>>> +	}
+> > > >>>>>  
+> > > >>>>>  	usleep_range(1000, 2000);
+> > > >>>>>  
+> > > >>>>> -	value = afi_readl(port->pcie, ctrl);
+> > > >>>>> -	value |= AFI_PEX_CTRL_RST;
+> > > >>>>> -	afi_writel(port->pcie, value, ctrl);
+> > > >>>>> +	if (port->reset_gpiod) {
+> > > >>>>> +		gpiod_set_value(port->reset_gpiod, 1);
+> > > >>>> After this the port should be functional, right? I think it'd be better
+> > > >>>> to reverse the logic here and move the polarity of the GPIO into device
+> > > >>>> tree. gpiod_set_value() takes care of inverting the level internally if
+> > > >>>> the GPIO is marked as low-active in DT.
+> > > >>>>
+> > > >>>> The end result is obviously the same, but it makes the usage much
+> > > >>>> clearer. If somebody want to write a DT for their board, they will look
+> > > >>>> at the schematics and see a low-active reset line and may be tempted to
+> > > >>>> describe it as such in DT, but with your current code that would be
+> > > >>>> exactly the wrong way around.
+> > > >>> I agree with Thierry here, you should change the logic.
+> > > >>>
+> > > >>> Question: what's the advantage of adding GPIO reset support if that's
+> > > >>> architected already in port registers ? I am pretty sure there is a
+> > > >>> reason behind it (and forgive me the dumb question) and I would like to
+> > > >>> have it written in the commit log.
+> > > >>>
+> > > >>> Thanks,
+> > > >>> Lorenzo
+> > > >> Each PCIe controller has a dedicated SFIO pin to support PERST#
+> > > >> signal. Port register can control only this particular SFIO pin.
+> > > >> However, in one of the Nvidia platform, instead of using PCIe SFIO
+> > > >> pin, different gpio is routed PCIe slot. This happened because of a
+> > > >> confusion in IO ball naming convention. To support this particular
+> > > >> platform, driver has provide gpio support. I will update the commit
+> > > >> log in V5.
+> > > > What happens on that platform where you trigger reset through a port
+> > > > register with :
+> > > >
+> > > > value = afi_readl(port->pcie, ctrl);
+> > > > value |= AFI_PEX_CTRL_RST;
+> > > > afi_writel(port->pcie, value, ctrl);
+> > > >
+> > > > (imagine the DT is not updated for instance or on current
+> > > > mainline) ?
+> > > >
+> > > > Lorenzo
+> > > 
+> > > Lets take an example of PCIe controller-0, SFIO ball name which is
+> > > controlled by the port-0 register is PEX_L0_RST. It will deassert
+> > > PEX_L0_RST SFIO line but it doesn't go to PCIe slot, so fundamental
+> > > reset(PERST# deassert) is not applied to the endpoint connected to
+> > > that slot.
+> > 
+> > That's the point I am making, if the reset is not applied nothing
+> > will work (provided PEX_L0_RST does not do any damage either).
+> > 
+> > For the platform in question you should make reset-gpios mandatory and
+> > fail if not present (instead of toggling the wrong reset line) there is
+> > no chance the driver can work without that property AFAICS.
+> 
+> I'm not sure I understand what you're proposing here. Are you suggesting
+> that we put a check in the driver to see if we're running on a specific
+> board and then fail if the reset-gpios are not there?
 
---z4+8/lEcDcG5Ke9S
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am just trying to understand what this patch does. By reading it again
+it looks like it makes GPIO PERST# reset mandatory for all platforms
+supported by this driver (because if the driver does not grab an handle
+to the GPIO tegra_pcie_parse_dt() fails), if I read the code correctly,
+apologies if not.
 
-On Fri, Jun 14, 2019 at 05:35:34AM -0700, Bitan Biswas wrote:
-> If Tegra hsp device tree does not have 'shared irqs',
+Which makes me question the check:
 
-s/hsp/HSP/, otherwise looks good.
+	if (port->reset_gpiod) {
+		gpiod_set_value(port->reset_gpiod, 0);
 
-Thierry
+in tegra_pcie_port_reset(), if we are there port->reset_gpiod can't be
+NULL or I am missing something and also make:
 
-> mailboxes pointer is NULL. Add non-NULL HSP mailboxes
-> check in resume callback before tegra_hsp_mailbox_startup()
-> call and prevent NULL pointer exception.
->=20
-> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
-> ---
->  drivers/mailbox/tegra-hsp.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
-> index f147374..a11fb1c 100644
-> --- a/drivers/mailbox/tegra-hsp.c
-> +++ b/drivers/mailbox/tegra-hsp.c
-> @@ -782,11 +782,13 @@ static int __maybe_unused tegra_hsp_noirq_resume(st=
-ruct device *dev)
->  			tegra_hsp_doorbell_startup(db->channel.chan);
->  	}
-> =20
-> -	for (i =3D 0; i < hsp->num_sm; i++) {
-> -		struct tegra_hsp_mailbox *mb =3D &hsp->mailboxes[i];
-> +	if (hsp->mailboxes) {
-> +		for (i =3D 0; i < hsp->num_sm; i++) {
-> +			struct tegra_hsp_mailbox *mb =3D &hsp->mailboxes[i];
-> =20
-> -		if (mb->channel.chan->cl)
-> -			tegra_hsp_mailbox_startup(mb->channel.chan);
-> +			if (mb->channel.chan->cl)
-> +				tegra_hsp_mailbox_startup(mb->channel.chan);
-> +		}
->  	}
-> =20
->  	return 0;
-> --=20
-> 2.7.4
->=20
+	} else {
+		value = afi_readl(port->pcie, ctrl);
+		value &= ~AFI_PEX_CTRL_RST;
+		afi_writel(port->pcie, value, ctrl);
+	}
 
---z4+8/lEcDcG5Ke9S
-Content-Type: application/pgp-signature; name="signature.asc"
+path dead code.
 
------BEGIN PGP SIGNATURE-----
+Is this GPIO based #PERST a per-platform requirement or you want
+to update the driver to always use GPIO based #PERST ?
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0DwqoACgkQ3SOs138+
-s6HJehAAlPsKTuPsEIq3BYzsUwtxA2ZtjCFy0N/+cOom6PoIlmFZQ3ZqVVYmVGUt
-6sP7L8VoUzcgP1LXassF3wiTLv7/Il+hWM9SxHN5k8a1UBEnij4vxtt13/vIirLh
-FfeV5AyZZ7FmgsyGm/ZM41evcYZg/WM6JKXaHGMjbxMhxXk2sQxH98WY2urTSxoz
-rb2+MRrTQu5jrbUiF//cjSrULA6tcldY567nFyFPTRTu8e+jtqGna1lMDIrNHw5q
-n3SR3Z5sOobv5R5qcp4SBBrHLRMPaiIPiGrLnUccLDsxrjYzeII51Ij2ib5y4osZ
-BfALmCAAy06DoJWoeTLH706nEv0hIeXTYTQSgWgY2Jqzt68beW0pOc59KFjcn/fr
-4yK51+AqGwwYNfnlVSp1WdJD4eXdahHzBWFpBzr9koHpsYUeTnUfMNfrZRHsOPJb
-9gWbFUmUj7O7QzTdB5coMcmhSi9bpGd9B5/9Lrk7S/fKRUQfI6YhjHRhaZTG3R80
-7Yg5p133EU334sl3K6i91ekysja57vJDlQngieJzGWRZRItjMOSI+l2PxsGXD4Z+
-KTXVl57gbB6Zl5W44CWfAo0N/+UblHIfLn81x6hmAuD5G3ewHVj0CcG0ccyn2Cem
-H1NjV3NH0goy6jG2v/XfL88I38u2Hm9ZG03yK80lJekkZ+nS5OY=
-=ErAC
------END PGP SIGNATURE-----
+And if it is a per-platform requirement I assume that a missing
+DT property describing the GPIO #PERST should cause a probe failure,
+not a fallback to port registers reset (which may have unintended
+consequences).
 
---z4+8/lEcDcG5Ke9S--
+From the commit log it is not clear what this patch does and for what
+reason it does it but it should be, let's define it here and update the
+log accordingly for everyone's benefit.
+
+Lorenzo
