@@ -2,73 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70BC8465E1
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 19:39:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CDB4465F8
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 19:43:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726545AbfFNRjx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 13:39:53 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:39782 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726184AbfFNRjx (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 13:39:53 -0400
-Received: by mail-io1-f68.google.com with SMTP id r185so1583185iod.6;
-        Fri, 14 Jun 2019 10:39:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pyNZh3/ZiJGCHGyK6bSxYhhEMHeQph+kYYlr649t5fI=;
-        b=fnFmAH1S+PAJamnF3NqeGjNJKLKabKSrwIeQ4EWJOLeaxDi+l9iEip4OJmJBE4s4L5
-         t9EWMjkoX75msS90FvzStnVp/1AD3CIo70/WhRleVWjKXaqS3APRMAJECm+XcYadU/ix
-         NoYetrWGQsDpipp5CJSmFksF4KKmbPS+G5fi+ZUtKbo2GXH7BN59YlDslJywgc2SS+gy
-         7nSTV2khtyZxk64W+L6RLIHRhrh19JY6SbxYGhrM4ZCTDfu5g2mtLUyNnQtuaUcGndFD
-         fG4rYx3xyR8Rc02ZTzSUJSrO3nLpuK/4ZfzmIZPbx6Ud+dlFALl7B/IX0ZD07hvzgrFQ
-         PnCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pyNZh3/ZiJGCHGyK6bSxYhhEMHeQph+kYYlr649t5fI=;
-        b=SttPqDvXao+Cd1GUZVy+vSg5gDTLY2Q9Otpe/yV70Fb+zOHaHaJx3Wh8xQF1TjMOIF
-         5QHdQmJ/Ha0Zn8uBhhA14w/FEYM26cvLKlK+9z9TlaiBhXlYV8qavsw5BwSAwqxLHuUX
-         uF8InqHc50SU1oitdoURr2ZdrPt3oev36tv/GQ1XldHxVoN43NTdUOnAFW+9xOL2OKMc
-         mA3dpY0EcS8yOPWysqrGMR07haTDus5lFQDx9BZZPpXPiQRtcodliTmvcXx/UvCZ5N4w
-         tpy/8punK88JAJUxt96r+vaXj+N53i6BimIiEAVv9zNqCwuwZSyb/qxM9FXbfOGuttfw
-         Z84g==
-X-Gm-Message-State: APjAAAVnnlWrQz+T6WTQ8JU3+RnJG+M/ZDFP2EC9ft37csziXFskjuLy
-        7pMt2JHyF4X+jBmA5mj3T4d8fdAb9lR/VLGfA80=
-X-Google-Smtp-Source: APXvYqwNZ0eXs3p92pVUhwtqOL0humBUMj2IEaTDc3AAW0U+hb04I4VnHxh86HS27ouhORHP6iTBY8v4nEVPMWiA21c=
-X-Received: by 2002:a02:9567:: with SMTP id y94mr69763782jah.28.1560533991898;
- Fri, 14 Jun 2019 10:39:51 -0700 (PDT)
+        id S1726556AbfFNRnn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 13:43:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726082AbfFNRnn (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 14 Jun 2019 13:43:43 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DBED2217D6;
+        Fri, 14 Jun 2019 17:43:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560534223;
+        bh=BtDCf12TGdb1xn6LpgZ0JJLH/0SL+ngyj/+nSlrc6Es=;
+        h=In-Reply-To:References:To:From:Subject:Cc:Date:From;
+        b=vsFm6CaywHnFbxL0coOrDPK9iTyz03GVrC6NChXvyDD9cOdQMwR3X/S/mHfqsNA/E
+         K0NPrm27dMLVr8svfuhNq77NUgNETjucsJpVVW+xEO6k1RfnoI/ianDlZs5gVGtoo0
+         Bq2DRwEPGVfdXZGiVbq1pk5QV1CBPXydhxHUOuuo=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20190613162703.986-1-tiny.windzz@gmail.com> <20190614071245.GA2950@infradead.org>
-In-Reply-To: <20190614071245.GA2950@infradead.org>
-From:   Frank Lee <tiny.windzz@gmail.com>
-Date:   Sat, 15 Jun 2019 01:39:40 +0800
-Message-ID: <CAEExFWupzjErW1E0z3tcR2xyGgpWXwgLZOTqvru4=hk98EfGhQ@mail.gmail.com>
-Subject: Re: [PATCH 01/10] iommu/exynos: convert to SPDX license tags
-To:     tglx@linutronix.de
-Cc:     joro@8bytes.org, m.szyprowski@samsung.com, kgene@kernel.org,
-        krzk@kernel.org, will.deacon@arm.com, robin.murphy@arm.com,
-        agross@kernel.org, David Brown <david.brown@linaro.org>,
-        Rob Clark <robdclark@gmail.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        jonathanh@nvidia.com, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Christoph Hellwig <hch@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1559743299-11576-1-git-send-email-jonathanh@nvidia.com>
+References: <1559743299-11576-1-git-send-email-jonathanh@nvidia.com>
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH V2] clk: tegra210: Fix default rates for HDA clocks
+Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sameer Pujar <spujar@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>, stable@vger.kernel.org
+User-Agent: alot/0.8.1
+Date:   Fri, 14 Jun 2019 10:43:42 -0700
+Message-Id: <20190614174342.DBED2217D6@mail.kernel.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Need me to make them a patch?
+Quoting Jon Hunter (2019-06-05 07:01:39)
+> Currently the default clock rates for the HDA and HDA2CODEC_2X clocks
+> are both 19.2MHz. However, the default rates for these clocks should
+> actually be 51MHz and 48MHz, respectively. The current clock settings
+> results in a distorted output during audio playback. Correct the default
+> clock rates for these clocks by specifying them in the clock init table
+> for Tegra210.
+>=20
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> ---
 
-MBR,
-Yangtao
+Applied to clk-fixes
+
