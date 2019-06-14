@@ -2,106 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C4E545CBB
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 14:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6E2C45CE0
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 14:31:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727651AbfFNMYM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 08:24:12 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:44693 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727589AbfFNMYM (ORCPT
+        id S1727836AbfFNMbq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 08:31:46 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:13611 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727544AbfFNMbq (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 08:24:12 -0400
-Received: by mail-lf1-f66.google.com with SMTP id r15so1584487lfm.11;
-        Fri, 14 Jun 2019 05:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=o4Nl8rjY2UzCouAOHPI/9INbLAzUgRaKqvtMbrkxiws=;
-        b=WLambb/Vy6vYSOJ9jXU5eoOBs/rxyVa0+iG3a+RAAWyIuZobL2o1aDDlXtLJCmJQjA
-         5V24joWsquKYP5GyQ1X8cda41MAWkdyARRj7ERRc7E/KI4bTstKdAvFkTQsZe/KMJO0X
-         zkiX4BEdyZEgVyCOFjUPOf2X1jK8CyZpvDrz433VQD0clF0fMYDyWlBISdYaXZ90GG4H
-         +5NUF8qv4Sa5VXP8uNKYDcUpXYayjzIGTqrWlmJrrM4s0PnN/pT5SyOWYz4WVAfbZrOZ
-         vy3F9ipID7w1lvwMFIyruBjmeJXqsyV1G4yWpnIMpHSE0byeLXW2k5AKZUT02v8F+uGT
-         YdcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=o4Nl8rjY2UzCouAOHPI/9INbLAzUgRaKqvtMbrkxiws=;
-        b=RW+WQYMNZ/zjtBHJFxATSm/ePvgfTtAAvEA/wTttM/o0TRyEmt1srSKfoEezwebRCF
-         Z3nceusLFfWyzuJbmh40uWib/tet6I258Fkk7s86mB+5Wm4JTBoKnZfKFq25ExFk/lB6
-         PzvMlEa3Cqntq8E8+SkPgoysSP8EVjcxWNa+96Ck9tOpsaSRlT/x/TL7uen4dMxUOwk1
-         Rkx4oG533fci9XYHaUmunwX8CgPiOBG23Y447e9zpA0zy1U69AiF875RX7KtXUCTj6Qx
-         sARAUktB+MWudzHY58IN7ApMILUHUmxn8t9I8WupI4k0gfZutUvva6sS3tT1nHpSRUpb
-         WjbA==
-X-Gm-Message-State: APjAAAWS0pLWh7/jJCa6q0Myu4Q3J5zzy1K2p5fGEKUkoqrfbFWA3sz9
-        IyzgFubcjJ8zzjGPm8+Q6fH2LyD7
-X-Google-Smtp-Source: APXvYqzOMXpsfHkDgK1K1A9K/9ExirOTklRHlG8QbOcQAjHjs/mt/qh4wUF+bfWc+gB1lFtdb4GJoA==
-X-Received: by 2002:a19:5e4e:: with SMTP id z14mr30643718lfi.11.1560515049076;
-        Fri, 14 Jun 2019 05:24:09 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id 24sm629708ljs.63.2019.06.14.05.24.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Jun 2019 05:24:08 -0700 (PDT)
-Subject: Re: [PATCH 1/2] clocksource: tegra: Use rating when registering clock
- source
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Fri, 14 Jun 2019 08:31:46 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0393b10000>; Fri, 14 Jun 2019 05:31:45 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 14 Jun 2019 05:31:45 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 14 Jun 2019 05:31:45 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL108.nvidia.com
+ (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
+ 2019 12:31:44 +0000
+Received: from HQMAIL108.nvidia.com (172.18.146.13) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
+ 2019 12:31:44 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL108.nvidia.com
+ (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 14 Jun 2019 12:31:43 +0000
+Received: from dhcp-10-19-65-14.client.nvidia.com (Not Verified[10.19.65.14]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d0393ae0001>; Fri, 14 Jun 2019 05:31:44 -0700
+From:   Bitan Biswas <bbiswas@nvidia.com>
+To:     Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Timo Alho <talho@nvidia.com>,
+        Sivaram Nair <sivaramn@nvidia.com>,
+        Allison Randal <allison@lohutok.net>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190614104747.19712-1-thierry.reding@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <8ff5d2da-907e-611c-ec82-bbe50197c2f4@gmail.com>
-Date:   Fri, 14 Jun 2019 15:24:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     Bitan Biswas <bbiswas@nvidia.com>
+Subject: [PATCH V1] firmware: tegra: early resume bpmp
+Date:   Fri, 14 Jun 2019 05:31:39 -0700
+Message-ID: <1560515499-1015-1-git-send-email-bbiswas@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20190614104747.19712-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1560515505; bh=exJ9JHFPJP+5N/mN9hpEt8WRKiK/ZQdiCxv0VhMcx2E=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=i2iXEMeuyb1JUvpjOVLCFhUjKeIu9f+3JyfYdf2Q1GK83hfu1fo5IxcIAZymXQfdg
+         WveAlyu5pvBl76zU0kud2Gi4tUwtjPXZRpQZkFXo71oXYAN4jl+lww3/LZgihUOIz4
+         Od/CdXebOvfG9+ODlsh0rU1IgvORAO80a4mZHNMx1j7HNAiMStqBl26uNL2MDr7iPW
+         VvMTPArzFW3UZoCfXT4pv0DabrQUpBtdr8oINBKXf+Lq9BbQk3jKJ/g2C63AKULkeM
+         GwcaS7ggT1A51Hn3x0mryvVNGE26LEJ2LWdNfPKoSbGCdCc5WF531GPYYOyUVJQZm3
+         HjoBzzDfzfHmg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-14.06.2019 13:47, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> The rating is parameterized depending on SoC generation to make sure it
-> takes precedence on implementations where the architected timer can't be
-> used. This rating is already used for the clock event device. Use the
-> same rating for the clock source to be consistent.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/clocksource/timer-tegra.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
-> index f6a8eb0d7322..e6608141cccb 100644
-> --- a/drivers/clocksource/timer-tegra.c
-> +++ b/drivers/clocksource/timer-tegra.c
-> @@ -318,7 +318,7 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
->  	sched_clock_register(tegra_read_sched_clock, 32, TIMER_1MHz);
->  
->  	ret = clocksource_mmio_init(timer_reg_base + TIMERUS_CNTR_1US,
-> -				    "timer_us", TIMER_1MHz, 300, 32,
-> +				    "timer_us", TIMER_1MHz, rating, 32,
->  				    clocksource_mmio_readl_up);
->  	if (ret)
->  		pr_err("failed to register clocksource: %d\n", ret);
-> 
+Early resume Tegra bpmp to fix Xavier clock rate error as follows:
+[  159.017101] of_serial 3110000.serial: calling platform_pm_resume+0x0/0x58 @ 317, parent: cbb
+[  159.025501] of_serial 3110000.serial: platform_pm_resume+0x0/0x58 returned 0 after 14 usecs
+[  159.033694] tegra-i2c 31c0000.i2c: calling platform_pm_resume+0x0/0x58 @ 317, parent: cbb
+[  159.042254] tegra-i2c 31c0000.i2c: failed changing clock rate: -22
+[  159.048216] PM: dpm_run_callback(): platform_pm_resume+0x0/0x58 returns -22
+[  159.055553] tegra-i2c 31c0000.i2c: platform_pm_resume+0x0/0x58 returned -22 after 13072 usecs
+[  159.063875] PM: Device 31c0000.i2c failed to resume: error -22
 
-Looks good. Although, could you please clarify whether arch-timer stops on T210 when CPU
-enters deepest (powerdown) idle state? I'm starting to lose track a bit already. Because
-if arch-timer stops in the deepest idle state, then it's a bit odd that Joseph didn't add
-the clocksource for T210 in the first place and v5.1 probably shouldn't work well because
-of that already.
+Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+---
+ drivers/firmware/tegra/bpmp.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
+index dd775e8..de09036 100644
+--- a/drivers/firmware/tegra/bpmp.c
++++ b/drivers/firmware/tegra/bpmp.c
+@@ -811,7 +811,9 @@ static int __maybe_unused tegra_bpmp_resume(struct device *dev)
+ 		return 0;
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(tegra_bpmp_pm_ops, NULL, tegra_bpmp_resume);
++const struct dev_pm_ops tegra_bpmp_pm_ops = {
++	.resume_early = tegra_bpmp_resume
++};
+ 
+ #if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC) || \
+     IS_ENABLED(CONFIG_ARCH_TEGRA_194_SOC)
+-- 
+2.7.4
+
