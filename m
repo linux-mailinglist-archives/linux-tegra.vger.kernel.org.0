@@ -2,72 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C35C46487
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB3A1464AD
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:44:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725859AbfFNQmA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 12:42:00 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33956 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbfFNQmA (ORCPT
+        id S1726468AbfFNQoO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 12:44:14 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:39379 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725859AbfFNQoM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:42:00 -0400
-Received: by mail-lf1-f67.google.com with SMTP id y198so2198661lfa.1;
-        Fri, 14 Jun 2019 09:41:58 -0700 (PDT)
+        Fri, 14 Jun 2019 12:44:12 -0400
+Received: by mail-lf1-f68.google.com with SMTP id p24so2179111lfo.6;
+        Fri, 14 Jun 2019 09:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6k6lYkzsQAZ/wO+Z6taNnrfa8/r9v0TyRuTT8h4ykCI=;
-        b=AUSh6qm3af5d0ndrL+qmwsOiotqORMfo+QZNW7vKyhOuLWV6m/JPsWTPZ9YyVs3LWC
-         w5AVVTLsKLbNgcoI+LCTxpUkX+JAiK7B85nit26U7BfEXc4cTPyr1dCsJ9jXMwGNxQMO
-         5TNoVSG6b6X186vaIf5kOwwTaBFnvnTPI4BQRJOsjX9JEnBWo6NOw2axMsSZ61jFnDAa
-         pl/spa7mC21TQpEKlw2ncGutBDFBUODNpHFBkhsJGWC03BgjV7joI5J9fPJXNnxqCshq
-         xQugTDpAo99SlZd/0ujWXc6m1lktoP8qAUMkJnN5OZCADTg2H8guYSwIJoAzwur4aEwc
-         T3tw==
+        bh=m9lLYU7jn518ojnFF4nYlS29/w9slDIZ2Qw8HKCiVkg=;
+        b=dJCVqaYTv0Ezro7ql3iIqLgyKhuUvBpEh1thMHwh5XM7Jpe5oSbJp+g5Tmv6RIfn35
+         ndwv2cYqQSWd1cZRp0l8px8y2O9OGXU80ro9JxbQBwEbmwPyx5tueqQcjOKeuAc03yYd
+         8KVPG9MvvpsNSEH7xr/TagGHkiJnCu7+vAQUk9ZBv5XZZ1xa2YwHRnFg5goqC7Tr7Ir+
+         gKx4D83LbUHPY2OlUM1CxbJiq/EkH3q0mwlkUp4cYg/A/1IFyCi/50IHVGYOyKrYNG+s
+         8CwI4ahPhUHbnfl/bVWCzokJWSNGpaIc1PO9bI8U4V1xkFkn9+05U0UEYuGpAgK56AZP
+         pbdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=6k6lYkzsQAZ/wO+Z6taNnrfa8/r9v0TyRuTT8h4ykCI=;
-        b=qfqHtI+5gOd8rWmQXNwp/lIeZ0Na6GGI+9h/gjYKJ0nMuDGyWqlw7en4CbcHQGxpE1
-         h81LpQ4XCGfGO3PHfEwES5L8TVedQXPjxgfxwyFtdgrQYL24mhMKdWLeAoOSqUwm7HOe
-         xHU/QkLgGt5w2UKGKVTVnFzXTrE5twd6AfEslHq6gwK50fzbK23yq9sY3arPAnGs+Q9T
-         iIkkEqm9QxEcv1sB92nKGI+pJvb9ZhBEhQwMjlbKjejc2LVeY3ck/XjwiDNAShuCrm5A
-         1DddkrdAnq7BdYt/LIXpmPP/7XLKSVPq8TojW6vVWx3MfqmeFWaX4OzToYmNK/ocb9Ph
-         k4qQ==
-X-Gm-Message-State: APjAAAVeWBmMb+fAsvbadnCx3qhI5duVV0BFg5P/umNdMEMpdgxk25xJ
-        s3odw7SPuxEBcwSHyq1yAbOYi5vh
-X-Google-Smtp-Source: APXvYqylQtZkSBxwbidnNi/eilDXOEow7VGpIVlbewz6VQYdy+BUk0+FkvHLP3GPXAgXKj71610xFg==
-X-Received: by 2002:a05:6512:15a:: with SMTP id m26mr4775595lfo.71.1560530517119;
-        Fri, 14 Jun 2019 09:41:57 -0700 (PDT)
+        bh=m9lLYU7jn518ojnFF4nYlS29/w9slDIZ2Qw8HKCiVkg=;
+        b=pvhIJqh4bwDBYZZmCq94YNgUpfSftgIuHd7QeE3z/hlWxeFIe+XFuvu2hfiH8/B8QK
+         HZnoi6xaKAVbU3CUVayNobExjxxYIHUy+nfJOrIEgoIYSjSnnc6dy6GQKXgFdai1+6cT
+         tjaRgyElsRpySCL+J+SA1O/Z2rgYKlEWn0pWkA8jlldG7r271PAhlE6PDNkgymqtjDzL
+         s+rYmIoFYyRgHm/dE00U0ms45zRFzNDU2CtM9a4k2ZjFuVxn56YzPRnDpiDoM7MCe9k3
+         V7B11t9SoFbdGSAoMsCPyxidceXjXYOtboGmuv2ZfoT2eHJtaAK9ngFRC/SiQC2OslO1
+         eXpQ==
+X-Gm-Message-State: APjAAAXEeNbXBus5j2mC/SYIzqfjijaKMsUlsgChEw/N3sZoBj7k1yg2
+        NI61ho86vwSPndT8DMavocPmjQEQ
+X-Google-Smtp-Source: APXvYqyPAYvifKzpZ0d8kYngJqpcsskzy85z/YO/mz0OJmLmJbvLifzSPv2ay5136cNm6ILxJV71OA==
+X-Received: by 2002:ac2:528e:: with SMTP id q14mr20186797lfm.17.1560530648985;
+        Fri, 14 Jun 2019 09:44:08 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id p15sm679286lji.80.2019.06.14.09.41.55
+        by smtp.googlemail.com with ESMTPSA id f10sm676257ljk.95.2019.06.14.09.44.07
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Jun 2019 09:41:56 -0700 (PDT)
-Subject: Re: [PATCH 2/2] rtc: tegra: Implement suspend clock source
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org,
+        Fri, 14 Jun 2019 09:44:08 -0700 (PDT)
+Subject: Re: [PATCH v1] dmaengine: tegra-apb: Support per-burst residue
+ granularity
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20190614104747.19712-1-thierry.reding@gmail.com>
- <20190614104747.19712-2-thierry.reding@gmail.com>
- <5a00bccf-6542-51bd-9030-99a59f14f2f9@gmail.com>
- <20190614134110.GF15526@ulmo>
- <d9b65fd9-ecad-b241-a0d6-251a648488aa@gmail.com>
- <20190614141400.GI15526@ulmo>
+References: <20190613210849.10382-1-digetx@gmail.com>
+ <5fbe4374-cc9a-8212-017e-05f4dee64443@nvidia.com>
+ <7ab96aa5-0be2-dc01-d187-eb718093eb99@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3c6ac621-bc2a-c9c8-64fc-531be7dd323d@gmail.com>
-Date:   Fri, 14 Jun 2019 19:41:54 +0300
+Message-ID: <840fcf60-8e24-ff44-a816-ef63a5f18652@gmail.com>
+Date:   Fri, 14 Jun 2019 19:44:07 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190614141400.GI15526@ulmo>
+In-Reply-To: <7ab96aa5-0be2-dc01-d187-eb718093eb99@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -76,204 +73,84 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-14.06.2019 17:14, Thierry Reding пишет:
-> On Fri, Jun 14, 2019 at 04:49:44PM +0300, Dmitry Osipenko wrote:
->> 14.06.2019 16:41, Thierry Reding пишет:
->>> On Fri, Jun 14, 2019 at 03:01:13PM +0300, Dmitry Osipenko wrote:
->>>> 14.06.2019 13:47, Thierry Reding пишет:
->>>>> From: Thierry Reding <treding@nvidia.com>
->>>>>
->>>>> The suspend clock source for Tegra210 and earlier is currently
->>>>> implemented in the Tegra timer driver. However, the suspend clock source
->>>>> code accesses registers that are part of the RTC hardware block, so both
->>>>> can step on each others' toes. In practice this isn't an issue, but
->>>>> there is no reason why the RTC driver can't implement the clock source,
->>>>> so move the code over to the tegra-rtc driver.
->>>>>
->>>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>>>> ---
->>>>>  drivers/clocksource/timer-tegra.c | 44 -------------------------------
->>>>>  drivers/rtc/rtc-tegra.c           | 42 +++++++++++++++++++++++++++++
->>>>>  2 files changed, 42 insertions(+), 44 deletions(-)
->>>>>
->>>>> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
->>>>> index e6608141cccb..87eac618924d 100644
->>>>> --- a/drivers/clocksource/timer-tegra.c
->>>>> +++ b/drivers/clocksource/timer-tegra.c
->>>>> @@ -21,10 +21,6 @@
->>>>>  
->>>>>  #include "timer-of.h"
->>>>>  
->>>>> -#define RTC_SECONDS		0x08
->>>>> -#define RTC_SHADOW_SECONDS	0x0c
->>>>> -#define RTC_MILLISECONDS	0x10
->>>>> -
->>>>>  #define TIMERUS_CNTR_1US	0x10
->>>>>  #define TIMERUS_USEC_CFG	0x14
->>>>>  #define TIMERUS_CNTR_FREEZE	0x4c
->>>>> @@ -164,34 +160,6 @@ static struct delay_timer tegra_delay_timer = {
->>>>>  };
->>>>>  #endif
->>>>>  
->>>>> -static struct timer_of suspend_rtc_to = {
->>>>> -	.flags = TIMER_OF_BASE | TIMER_OF_CLOCK,
->>>>> -};
->>>>> -
->>>>> -/*
->>>>> - * tegra_rtc_read - Reads the Tegra RTC registers
->>>>> - * Care must be taken that this function is not called while the
->>>>> - * tegra_rtc driver could be executing to avoid race conditions
->>>>> - * on the RTC shadow register
->>>>> - */
->>>>> -static u64 tegra_rtc_read_ms(struct clocksource *cs)
->>>>> -{
->>>>> -	void __iomem *reg_base = timer_of_base(&suspend_rtc_to);
->>>>> -
->>>>> -	u32 ms = readl_relaxed(reg_base + RTC_MILLISECONDS);
->>>>> -	u32 s = readl_relaxed(reg_base + RTC_SHADOW_SECONDS);
->>>>> -
->>>>> -	return (u64)s * MSEC_PER_SEC + ms;
->>>>> -}
->>>>> -
->>>>> -static struct clocksource suspend_rtc_clocksource = {
->>>>> -	.name	= "tegra_suspend_timer",
->>>>> -	.rating	= 200,
->>>>> -	.read	= tegra_rtc_read_ms,
->>>>> -	.mask	= CLOCKSOURCE_MASK(32),
->>>>> -	.flags	= CLOCK_SOURCE_IS_CONTINUOUS | CLOCK_SOURCE_SUSPEND_NONSTOP,
->>>>> -};
->>>>> -
->>>>>  static inline unsigned int tegra_base_for_cpu(int cpu, bool tegra20)
->>>>>  {
->>>>>  	if (tegra20) {
->>>>> @@ -385,15 +353,3 @@ static int __init tegra20_init_timer(struct device_node *np)
->>>>>  	return tegra_init_timer(np, true, rating);
->>>>>  }
->>>>>  TIMER_OF_DECLARE(tegra20_timer, "nvidia,tegra20-timer", tegra20_init_timer);
->>>>> -
->>>>> -static int __init tegra20_init_rtc(struct device_node *np)
->>>>> -{
->>>>> -	int ret;
->>>>> -
->>>>> -	ret = timer_of_init(np, &suspend_rtc_to);
->>>>> -	if (ret)
->>>>> -		return ret;
->>>>> -
->>>>> -	return clocksource_register_hz(&suspend_rtc_clocksource, 1000);
->>>>> -}
->>>>> -TIMER_OF_DECLARE(tegra20_rtc, "nvidia,tegra20-rtc", tegra20_init_rtc);
->>>>> diff --git a/drivers/rtc/rtc-tegra.c b/drivers/rtc/rtc-tegra.c
->>>>> index 8fa1b3febf69..6da54264a27a 100644
->>>>> --- a/drivers/rtc/rtc-tegra.c
->>>>> +++ b/drivers/rtc/rtc-tegra.c
->>>>> @@ -6,6 +6,7 @@
->>>>>   */
->>>>>  
->>>>>  #include <linux/clk.h>
->>>>> +#include <linux/clocksource.h>
->>>>>  #include <linux/delay.h>
->>>>>  #include <linux/init.h>
->>>>>  #include <linux/io.h>
->>>>> @@ -52,8 +53,15 @@ struct tegra_rtc_info {
->>>>>  	struct clk *clk;
->>>>>  	int irq; /* alarm and periodic IRQ */
->>>>>  	spinlock_t lock;
->>>>> +
->>>>> +	struct clocksource clksrc;
->>>>>  };
->>>>>  
->>>>> +static struct tegra_rtc_info *to_tegra_rtc(struct clocksource *clksrc)
->>>>> +{
->>>>> +	return container_of(clksrc, struct tegra_rtc_info, clksrc);
->>>>> +}
->>>>> +
->>>>>  /*
->>>>>   * RTC hardware is busy when it is updating its values over AHB once every
->>>>>   * eight 32 kHz clocks (~250 us). Outside of these updates the CPU is free to
->>>>> @@ -268,6 +276,17 @@ static const struct rtc_class_ops tegra_rtc_ops = {
->>>>>  	.alarm_irq_enable = tegra_rtc_alarm_irq_enable,
->>>>>  };
->>>>>  
->>>>> +static u64 tegra_rtc_read_ms(struct clocksource *clksrc)
->>>>> +{
->>>>> +	struct tegra_rtc_info *info = to_tegra_rtc(clksrc);
->>>>> +	u32 ms, s;
->>>>> +
->>>>> +	ms = readl_relaxed(info->base + TEGRA_RTC_REG_MILLI_SECONDS);
->>>>> +	s = readl_relaxed(info->base + TEGRA_RTC_REG_SHADOW_SECONDS);
->>>>> +
->>>>> +	return (u64)s * MSEC_PER_SEC + ms;
->>>>> +}
->>>>> +
->>>>>  static const struct of_device_id tegra_rtc_dt_match[] = {
->>>>>  	{ .compatible = "nvidia,tegra20-rtc", },
->>>>>  	{}
->>>>> @@ -339,6 +358,28 @@ static int tegra_rtc_probe(struct platform_device *pdev)
->>>>>  		goto disable_clk;
->>>>>  	}
->>>>>  
->>>>> +	/*
->>>>> +	 * The Tegra RTC is the only reliable clock source that persists
->>>>> +	 * across an SC7 transition (VDD_CPU and VDD_CORE off) on Tegra210
->>>>> +	 * and earlier. Starting with Tegra186, the ARM v8 architected timer
->>>>> +	 * is in an always on power partition and its reference clock keeps
->>>>> +	 * running during SC7. Therefore, we technically don't need to have
->>>>> +	 * the RTC register as a clock source on Tegra186 and later, but it
->>>>> +	 * doesn't hurt either, so we just register it unconditionally here.
->>>>> +	 */
->>>>> +	info->clksrc.name = "tegra_rtc";
->>>>> +	info->clksrc.rating = 200;
->>>>> +	info->clksrc.read = tegra_rtc_read_ms;
->>>>> +	info->clksrc.mask = CLOCKSOURCE_MASK(32);
->>>>
->>>> Hm.. shouldn't this be CLOCKSOURCE_MASK(52)? Given that there are 32 bits for seconds and
->>>> 10bits for milliseconds.
->>>
->>> Did you mean to say CLOCKSOURCE_MASK(42)? Yeah, that's probably better
->>> here.
+14.06.2019 18:24, Jon Hunter пишет:
+> 
+> On 14/06/2019 16:21, Jon Hunter wrote:
 >>
->> Yes, 42 :)
+>> On 13/06/2019 22:08, Dmitry Osipenko wrote:
+>>> Tegra's APB DMA engine updates words counter after each transferred burst
+>>> of data, hence it can report transfer's residual with more fidelity which
+>>> may be required in cases like audio playback. In particular this fixes
+>>> audio stuttering during playback in a chromiuim web browser. The patch is
+>>> based on the original work that was made by Ben Dooks [1]. It was tested
+>>> on Tegra20 and Tegra30 devices.
+>>>
+>>> [1] https://lore.kernel.org/lkml/20190424162348.23692-1-ben.dooks@codethink.co.uk/
+>>>
+>>> Inspired-by: Ben Dooks <ben.dooks@codethink.co.uk>
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> ---
+>>>  drivers/dma/tegra20-apb-dma.c | 35 ++++++++++++++++++++++++++++-------
+>>>  1 file changed, 28 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+>>> index 79e9593815f1..c5af8f703548 100644
+>>> --- a/drivers/dma/tegra20-apb-dma.c
+>>> +++ b/drivers/dma/tegra20-apb-dma.c
+>>> @@ -797,12 +797,36 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
+>>>  	return 0;
+>>>  }
+>>>  
+>>> +static unsigned int tegra_dma_update_residual(struct tegra_dma_channel *tdc,
+>>> +					      struct tegra_dma_sg_req *sg_req,
+>>> +					      struct tegra_dma_desc *dma_desc,
+>>> +					      unsigned int residual)
+>>> +{
+>>> +	unsigned long status, wcount = 0;
+>>> +
+>>> +	if (!list_is_first(&sg_req->node, &tdc->pending_sg_req))
+>>> +		return residual;
+>>> +
+>>> +	if (tdc->tdma->chip_data->support_separate_wcount_reg)
+>>> +		wcount = tdc_read(tdc, TEGRA_APBDMA_CHAN_WORD_TRANSFER);
+>>> +
+>>> +	status = tdc_read(tdc, TEGRA_APBDMA_CHAN_STATUS);
+>>> +
+>>> +	if (!tdc->tdma->chip_data->support_separate_wcount_reg)
+>>> +		wcount = status;
+>>> +
+>>> +	if (status & TEGRA_APBDMA_STATUS_ISE_EOC)
+>>> +		return residual - sg_req->req_len;
+>>> +
+>>> +	return residual - get_current_xferred_count(tdc, sg_req, wcount);
+>>> +}
+>>> +
+>>>  static enum dma_status tegra_dma_tx_status(struct dma_chan *dc,
+>>>  	dma_cookie_t cookie, struct dma_tx_state *txstate)
+>>>  {
+>>>  	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
+>>> +	struct tegra_dma_sg_req *sg_req = NULL;
+>>>  	struct tegra_dma_desc *dma_desc;
+>>> -	struct tegra_dma_sg_req *sg_req;
+>>>  	enum dma_status ret;
+>>>  	unsigned long flags;
+>>>  	unsigned int residual;
+>>> @@ -838,6 +862,8 @@ static enum dma_status tegra_dma_tx_status(struct dma_chan *dc,
+>>>  		residual = dma_desc->bytes_requested -
+>>>  			   (dma_desc->bytes_transferred %
+>>>  			    dma_desc->bytes_requested);
+>>> +		residual = tegra_dma_update_residual(tdc, sg_req, dma_desc,
+>>> +						     residual);
+>>
+>> I had a quick look at this, I am not sure that we want to call
+>> tegra_dma_update_residual() here for cases where the dma_desc is on the
+>> free_dma_desc list. In fact, couldn't this be simplified a bit for case
+>> where the dma_desc is on the free list? In that case I believe that the
+>> residual should always be 0.
 > 
-> I'm wondering if that could perhaps be a little problematic because
-> we're not actually using all of the 10 bits for the milliseconds. So the
-> maximum value that we can return is:
-> 
-> 	4294967296 * 1000 + 999 = 4294967296999
-> 
-> However, the maximum value for a 42 bit mask is:
-> 
-> 	2^42 - 1 = 4398046511103
-> 
-> That mask is only used in order to wrap around in delta computations. So
-> I can imagine a situation where we'd end up with a wrong value in the
-> delta. I suppose this can only really happen if the two samples are very
-> far apart in time, so maybe this isn't worth worrying about.
+> Actually, no, it could be non-zero in the case the transfer is aborted.
 
-I'm a bit puzzled now. Looks problematic that wraparound will happen unexpectedly for
-the timekeeping. Although please bare in mind that I'm not expert in the area of
-timekeeping, actually I know very little about it.
+Looks like everything should be fine as-is.
 
-Maybe tegra_rtc_read_ms() should track wraparound case itself and return a
-monotonically incrementing value?
-
-static u64 tegra_rtc_read_ms(struct clocksource *clksrc)
-{
-	struct tegra_rtc_info *info = to_tegra_rtc(clksrc);
-	u64 ms, s, now;
-
-	ms = readl_relaxed(info->base + TEGRA_RTC_REG_MILLI_SECONDS);
-	s = readl_relaxed(info->base + TEGRA_RTC_REG_SHADOW_SECONDS);
-
-	now = s * MSEC_PER_SEC + ms;
-
-	if (now < info->last)
-		info->ms_cnt += 0x3e8000003e8ull - info->last + now;
-	else
-		info->ms_cnt += now - info->last;
-
-	info->last = now;
-
-	return info->ms_cnt;
-}
-
-and then simply CLOCKSOURCE_MASK(64).
+BTW, it's a bit hard to believe that there is any real benefit from the
+free_dma_desc list at all, maybe worth to just remove it?
