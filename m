@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7F21464C2
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2EAF46500
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbfFNQpx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 12:45:53 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:36120 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725846AbfFNQpx (ORCPT
+        id S1725801AbfFNQvg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 12:51:36 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44235 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725814AbfFNQvf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:45:53 -0400
-Received: by mail-lf1-f65.google.com with SMTP id q26so2193788lfc.3;
-        Fri, 14 Jun 2019 09:45:51 -0700 (PDT)
+        Fri, 14 Jun 2019 12:51:35 -0400
+Received: by mail-lf1-f67.google.com with SMTP id r15so2176648lfm.11;
+        Fri, 14 Jun 2019 09:51:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Gw/MY9qgeDsiVUyYG0Da4jLf/gn9jRPqLU0qfk6Sj5Q=;
-        b=JKtf4ik0NbeTHSwAa8PoMb/iH5wstiMFSAQunFYk7cnjB9bgV5KUW7Ah3WUaqfhe9P
-         OalXwS/wUotbFM27YlsEFBd4tUzBYXicRvag3cIqEUCNXfd2tZubtzt/JwEnfCT43Xd4
-         eleGs+wceM9fI+PxzoUfNiOFXp1IqAllWqEg1HPX4bvZMHqMjTkGKaZLYE9TmjSKgQjp
-         Ms5UbG5Ux1Z+SBgqgWSvkWPF+U31fRkiLHKpurUmdTzOhq8w3AgLiHhMgovwJ5kzTELK
-         Lmh0amtVAM11mmWVBc69RPrYpwY28KqKC+F6yBYbhebvPo9KvVwE5P7nMXig83rlGD+r
-         zRsA==
+        bh=La0om+Dm2f2QFp3CrekJBlv0rebzycLNY6Yi9piJU5o=;
+        b=XIj2dn3MekBc7CEwjalh574vqRmrX+0g+5gz5K2IAnjYDYIHOO5nhpQcEj2SwDzTIS
+         FfD58vd4ah4wj8Pr3cSIddxPdG1wKT4vaafRN4hy7DLbFBR3VSMGxofTfE8Tf2nRpsP4
+         3PzFKbF8xmpfgZdLpZ08Ie66e+PkE0y0s3keXCND9LJX73qoyDkQ7YEE5gkqfWX252Xc
+         8OTMsa3jcKP4/l/xawElS2mVoCrRHMAFO777paf1VjG+Li7PkNiJ4lZumf4fIX83g95L
+         cAEiSiDXrPYafCNqy4rRmEUzc7PJTnJJBg25e7eOuPu/ddmrxWU54JtX+FMSFxkbLeWg
+         AU+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Gw/MY9qgeDsiVUyYG0Da4jLf/gn9jRPqLU0qfk6Sj5Q=;
-        b=H/ayDzYTqZKecw8bXV3/uz2Y2GwOH/iMXYfAkqL7hZAlumrDArOerq+slohbcZ+Gk1
-         zEKjwhUGdwnVWOOxo/kXXnT/wWieWXwBd2Vn3BRwrVBziFzz3S4RYtOFAxFoJ6BC3OvP
-         2yMyL0YFddKoGqn5AXcJ/auAyIzQmlSQ/LfiWwIK28xDyxYJCZ+6bdY+NWxbVcF9q6G+
-         6NDgXGgsFJuJNwqDqZfrL7ejX9qJ19pX2KB4aswmkeEWJBq/b30DP6LjSk4EBeYsD+p3
-         GxJWh6OZb35yBZiUaXvuxiUyC4vQv6sz4b1IMkn/9NNuUaM8Br/la3xJhMUNl/xm+qyY
-         l82A==
-X-Gm-Message-State: APjAAAWLdMEE1hfUOfNxCdienK68/uYmdASlm6fyZFQ+Jb+FCHs5Vuow
-        7FYV/KSjrhN1mQ7gpNU/uFOB2wMB
-X-Google-Smtp-Source: APXvYqwnFkQTMrM/Hf9/rBogPFsz1fFn1ZMbAuJJDGYIGVOFc2HhOfBS9lTDIk9PGEKSOk5UqPDsrQ==
-X-Received: by 2002:ac2:4209:: with SMTP id y9mr7701278lfh.83.1560530750347;
-        Fri, 14 Jun 2019 09:45:50 -0700 (PDT)
+        bh=La0om+Dm2f2QFp3CrekJBlv0rebzycLNY6Yi9piJU5o=;
+        b=GlE1bsAC+GozkA9z2z3Ve0uTV02k0reKm51cQj42FhUcl1KQ4/CPAFyzpAaDSmHkBr
+         vJiVrmv00XgcB3GGBxx33oEZR4cri4xyFwEDpv9wW0lajyjQkz5C1WrucwOYdNLhICcD
+         5+aahJM/9fT0beLEZnoxvH4COjJUpF/bvbYU19w53t40qLmf2g4i6heHb0+JITmi7cCX
+         do+C2eNqxJwfidb39WNo2jfkohn7ROquCHxvMuKFwGX6t1lp9LjfgKBg/AJ4YwYMufje
+         baf24zjnkwne2GxOTWonBJT0vTw3YBbguVp+9iIUnoDf6VxGxIQFry//5eqtyEJFkxrC
+         vlIA==
+X-Gm-Message-State: APjAAAUF8LJUX3uGwnZWpCSTjiZmEZ8RuOg5PmGGDk+M0oxO9kBoi/QM
+        UFn5hxVxZXoKsYQq+Iu+m6r/uDkH
+X-Google-Smtp-Source: APXvYqxTap64O3rowcREbfhX3IoZGv0kxTYgz7zM69D7MW1NwadlRCFNuj+ZZnORA9/9Kkt+QlIJUA==
+X-Received: by 2002:a19:4017:: with SMTP id n23mr52512076lfa.112.1560531093330;
+        Fri, 14 Jun 2019 09:51:33 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id f1sm202518ljf.53.2019.06.14.09.45.49
+        by smtp.googlemail.com with ESMTPSA id m24sm546452lfl.41.2019.06.14.09.51.32
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Jun 2019 09:45:49 -0700 (PDT)
-Subject: Re: [PATCH v2 3/6] clocksource/drivers/tegra: Set and use timer's
- period
+        Fri, 14 Jun 2019 09:51:32 -0700 (PDT)
+Subject: Re: [PATCH v2 6/6] clocksource/drivers/tegra: Restore base address
+ before cleanup
 To:     Jon Hunter <jonathanh@nvidia.com>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
         Joseph Lo <josephl@nvidia.com>,
@@ -55,15 +55,15 @@ To:     Jon Hunter <jonathanh@nvidia.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190610164400.11830-1-digetx@gmail.com>
- <20190610164400.11830-4-digetx@gmail.com>
- <ac8a1da8-9b82-3d5a-5fa6-0c1cc7f627f1@nvidia.com>
+ <20190610164400.11830-7-digetx@gmail.com>
+ <b2eeb477-2e08-eaf5-6355-4a05cec5a9b7@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3e941c50-ac62-719e-aac1-7072e9a3bcd0@gmail.com>
-Date:   Fri, 14 Jun 2019 19:45:48 +0300
+Message-ID: <dbc69b48-f83c-7af7-4a49-7cd2ee9937ab@gmail.com>
+Date:   Fri, 14 Jun 2019 19:51:31 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <ac8a1da8-9b82-3d5a-5fa6-0c1cc7f627f1@nvidia.com>
+In-Reply-To: <b2eeb477-2e08-eaf5-6355-4a05cec5a9b7@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -74,41 +74,34 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 14.06.2019 18:48, Jon Hunter пишет:
 > 
-> On 10/06/2019 17:43, Dmitry Osipenko wrote:
->> The of_clk structure has a period field that is set up initially by
->> timer_of_clk_init(), that period value need to be adjusted for a case of
->> TIMER1-9 that are running at a fixed rate that doesn't match the clock's
->> rate. Note that the period value is currently used only by some of the
->> clocksource drivers internally and hence this is just a minor cleanup
->> change that doesn't fix anything.
+> On 10/06/2019 17:44, Dmitry Osipenko wrote:
+>> We're adjusting the timer's base for each per-CPU timer to point to the
+>> actual start of the timer since device-tree defines a compound registers
+>> range that includes all of the timers. In this case the original base
+>> need to be restore before calling iounmap to unmap the proper address.
 >>
 >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 >> ---
->>  drivers/clocksource/timer-tegra.c | 5 +++--
->>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>  drivers/clocksource/timer-tegra.c | 2 ++
+>>  1 file changed, 2 insertions(+)
 >>
 >> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
->> index 810b4e7435cf..646b3530c2d2 100644
+>> index 2a428fdf702f..7be91db98bd7 100644
 >> --- a/drivers/clocksource/timer-tegra.c
 >> +++ b/drivers/clocksource/timer-tegra.c
->> @@ -71,9 +71,9 @@ static int tegra_timer_shutdown(struct clock_event_device *evt)
->>  static int tegra_timer_set_periodic(struct clock_event_device *evt)
->>  {
->>  	void __iomem *reg_base = timer_of_base(to_timer_of(evt));
->> +	unsigned long period = timer_of_period(to_timer_of(evt));
->>  
->> -	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER |
->> -		       ((timer_of_rate(to_timer_of(evt)) / HZ) - 1),
->> +	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER | (period - 1),
->>  		       reg_base + TIMER_PTV);
->>  
->>  	return 0;
->> @@ -297,6 +297,7 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
->>  		cpu_to->clkevt.rating = rating;
->>  		cpu_to->clkevt.cpumask = cpumask_of(cpu);
->>  		cpu_to->of_base.base = timer_reg_base + base;
->> +		cpu_to->of_clk.period = DIV_ROUND_UP(rate, HZ);
+>> @@ -345,6 +345,8 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
+>>  			irq_dispose_mapping(cpu_to->clkevt.irq);
+>>  		}
+>>  	}
+>> +
+>> +	to->of_base.base = timer_reg_base;
+>>  out:
+>>  	timer_of_cleanup(to);
 > 
-> Any reason you made this a round-up?
+> So what you are saying is that because we don't know which CPU executes
+> the tegra_init_timer() function, then it is necessary to restore the
+> base. IOW if it is not CPU0, then the base will be updated and hence,
+> need to be restored. Correct?
 
-That's what timer_of_clk_init() does, I assume it should be a more correct variant.
+We know what the CPU is, it is always CPU0. What we don't know is what TIMER is
+assigned for CPU0. On Tegra210 it is TIMER10, for other Tegra's it is TIMER0.
