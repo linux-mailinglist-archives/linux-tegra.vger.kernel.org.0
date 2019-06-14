@@ -2,139 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB75A465AE
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 19:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70BC8465E1
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 19:39:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726756AbfFNRXr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 13:23:47 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:19637 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726103AbfFNRXq (ORCPT
+        id S1726545AbfFNRjx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 13:39:53 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:39782 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726184AbfFNRjx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 13:23:46 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d03d8210001>; Fri, 14 Jun 2019 10:23:45 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 14 Jun 2019 10:23:45 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 14 Jun 2019 10:23:45 -0700
-Received: from [10.24.192.32] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
- 2019 17:23:42 +0000
-Subject: Re: [PATCH V4 27/28] PCI: tegra: Add support for GPIO based PERST#
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     Thierry Reding <thierry.reding@gmail.com>, <bhelgaas@google.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <jonathanh@nvidia.com>, <vidyas@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20190516055307.25737-28-mmaddireddy@nvidia.com>
- <20190604132233.GT16519@ulmo>
- <20190613152404.GB30445@e121166-lin.cambridge.arm.com>
- <cb2dd446-1275-7179-33ac-e5c237d81da6@nvidia.com>
- <20190614143222.GB23116@e121166-lin.cambridge.arm.com>
- <1508173d-0ecc-f498-6ab2-78a718086b35@nvidia.com>
- <20190614145023.GA24588@e121166-lin.cambridge.arm.com>
- <20190614152304.GK15526@ulmo>
- <20190614155934.GA28253@e121166-lin.cambridge.arm.com>
- <51e4ae62-f842-1d2f-fbca-0b2063dd53a6@nvidia.com>
- <20190614165353.GB30511@e121166-lin.cambridge.arm.com>
-X-Nvconfidentiality: public
-From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Message-ID: <1c662f82-8329-5e1b-58bf-b2fe1643adb0@nvidia.com>
-Date:   Fri, 14 Jun 2019 22:53:13 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Fri, 14 Jun 2019 13:39:53 -0400
+Received: by mail-io1-f68.google.com with SMTP id r185so1583185iod.6;
+        Fri, 14 Jun 2019 10:39:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pyNZh3/ZiJGCHGyK6bSxYhhEMHeQph+kYYlr649t5fI=;
+        b=fnFmAH1S+PAJamnF3NqeGjNJKLKabKSrwIeQ4EWJOLeaxDi+l9iEip4OJmJBE4s4L5
+         t9EWMjkoX75msS90FvzStnVp/1AD3CIo70/WhRleVWjKXaqS3APRMAJECm+XcYadU/ix
+         NoYetrWGQsDpipp5CJSmFksF4KKmbPS+G5fi+ZUtKbo2GXH7BN59YlDslJywgc2SS+gy
+         7nSTV2khtyZxk64W+L6RLIHRhrh19JY6SbxYGhrM4ZCTDfu5g2mtLUyNnQtuaUcGndFD
+         fG4rYx3xyR8Rc02ZTzSUJSrO3nLpuK/4ZfzmIZPbx6Ud+dlFALl7B/IX0ZD07hvzgrFQ
+         PnCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pyNZh3/ZiJGCHGyK6bSxYhhEMHeQph+kYYlr649t5fI=;
+        b=SttPqDvXao+Cd1GUZVy+vSg5gDTLY2Q9Otpe/yV70Fb+zOHaHaJx3Wh8xQF1TjMOIF
+         5QHdQmJ/Ha0Zn8uBhhA14w/FEYM26cvLKlK+9z9TlaiBhXlYV8qavsw5BwSAwqxLHuUX
+         uF8InqHc50SU1oitdoURr2ZdrPt3oev36tv/GQ1XldHxVoN43NTdUOnAFW+9xOL2OKMc
+         mA3dpY0EcS8yOPWysqrGMR07haTDus5lFQDx9BZZPpXPiQRtcodliTmvcXx/UvCZ5N4w
+         tpy/8punK88JAJUxt96r+vaXj+N53i6BimIiEAVv9zNqCwuwZSyb/qxM9FXbfOGuttfw
+         Z84g==
+X-Gm-Message-State: APjAAAVnnlWrQz+T6WTQ8JU3+RnJG+M/ZDFP2EC9ft37csziXFskjuLy
+        7pMt2JHyF4X+jBmA5mj3T4d8fdAb9lR/VLGfA80=
+X-Google-Smtp-Source: APXvYqwNZ0eXs3p92pVUhwtqOL0humBUMj2IEaTDc3AAW0U+hb04I4VnHxh86HS27ouhORHP6iTBY8v4nEVPMWiA21c=
+X-Received: by 2002:a02:9567:: with SMTP id y94mr69763782jah.28.1560533991898;
+ Fri, 14 Jun 2019 10:39:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190614165353.GB30511@e121166-lin.cambridge.arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560533025; bh=3CBnkFdGS4UTonodjsvkHODIWZ6WFboQ59T/RqSru8Y=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Transfer-Encoding:Content-Language;
-        b=lmaxOTZvROR0MfaPsBg4jLsAOYnOe6ahzTDz6xEqF3tenMe+bSiEBLsPIu+qLN7sS
-         8QLBswT36O2eRT8dv3JWcWeEoPONNFz8iO6MsDkXxvp9QLTfXvQHdElUAj+02ANkGk
-         7U31LaaPBXuoBhM0CNdW/Ik3v8Qz/I+qGs3RZSgrbVAJHnd+/s2OhfDYq3nafB5C37
-         dWFHsPdc0ERWk/M/y+tM2/In7lw1HIYNDh8CICQXJ8dt3bG/8gd9u+KLJuWtrAy+QC
-         49aKTa8Z4x2zBXxIce1igYzZQFWYXi5BE8PS51YctELQ29+vreQIMgPCktswU7WgIs
-         a+1FIsxkL9p+A==
+References: <20190613162703.986-1-tiny.windzz@gmail.com> <20190614071245.GA2950@infradead.org>
+In-Reply-To: <20190614071245.GA2950@infradead.org>
+From:   Frank Lee <tiny.windzz@gmail.com>
+Date:   Sat, 15 Jun 2019 01:39:40 +0800
+Message-ID: <CAEExFWupzjErW1E0z3tcR2xyGgpWXwgLZOTqvru4=hk98EfGhQ@mail.gmail.com>
+Subject: Re: [PATCH 01/10] iommu/exynos: convert to SPDX license tags
+To:     tglx@linutronix.de
+Cc:     joro@8bytes.org, m.szyprowski@samsung.com, kgene@kernel.org,
+        krzk@kernel.org, will.deacon@arm.com, robin.murphy@arm.com,
+        agross@kernel.org, David Brown <david.brown@linaro.org>,
+        Rob Clark <robdclark@gmail.com>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        jonathanh@nvidia.com, linux-samsung-soc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rockchip@lists.infradead.org,
+        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Christoph Hellwig <hch@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Need me to make them a patch?
 
-
-On 14-Jun-19 10:23 PM, Lorenzo Pieralisi wrote:
-> On Fri, Jun 14, 2019 at 10:00:49PM +0530, Manikanta Maddireddy wrote:
->
-> [...]
->
->> GPIO based PERST# is per-platform requirement.
->> If DT prop is not present, then devm_gpiod_get_from_of_node() returns
->> NULL gpio_desc.
->>
->> struct gpio_desc *gpiod_get_from_of_node(struct device_node *node,
->>                                          const char *propname, int index,
->>                                          enum gpiod_flags dflags,
->>                                          const char *label)
->> {
->>         struct gpio_desc *desc;
->>         unsigned long lflags = 0;
->>         enum of_gpio_flags flags;
->>         bool active_low = false;
->>         bool single_ended = false;
->>         bool open_drain = false;
->>         bool transitory = false;
->>         int ret;
->>
->>         desc = of_get_named_gpiod_flags(node, propname,
->>                                         index, &flags);
->>
->>         if (!desc || IS_ERR(desc)) {
->> */* If it is not there, just return NULL */****if (PTR_ERR(desc) == -ENOENT)****return NULL;*
->>                 return desc;
->>         }
->> 	...
->>
->> }
-> Ok. My point then is that you have no way to enforce this requirement on
-> platforms that actually need it, I do not even know if there is a
-> way you can do it (I was thinking along the lines of using a
-> compatible string to detect whether the GPIO #PERST reset is mandatory)
-> but maybe this is not even a SOC property.
->
-> Maybe what I am asking is overkill, I just wanted to understand.
->
-> I was just asking a question to understand how you handle the case
-> where a GPIO pin definition is missing in DT for a platform that
-> actually needs it, the driver will probe but nothing will work.
->
-> It would be good to describe this and capture it in the commit log.
->
-> Thanks,
-> Lorenzo
-
-I can't think of a easy way to enforce this requirement. As you said
-compatible string is per SOC, so we can't use it for a platform.
-This issue is present on only one platform, so it is hard to miss the
-DT property. That is the reason for publishing this patch with out this
-enforcement in driver.
-
-I thought for changing PERST# to GPIO for all platform, but testing is
-a tedious job. Also I don't have Tegra20 and Tegra30 platforms.
-
-Do you want me to drop the patch or update the limitation in the commit
-log?
-
-Manikanta
-
-
+MBR,
+Yangtao
