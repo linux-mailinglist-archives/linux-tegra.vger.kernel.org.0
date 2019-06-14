@@ -2,97 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0391646424
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EC3D4647C
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:40:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725808AbfFNQbJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 12:31:09 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:10280 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726138AbfFNQbJ (ORCPT
+        id S1725814AbfFNQkz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 12:40:55 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:17406 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725808AbfFNQkz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:31:09 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d03cbcc0000>; Fri, 14 Jun 2019 09:31:08 -0700
+        Fri, 14 Jun 2019 12:40:55 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d03ce160000>; Fri, 14 Jun 2019 09:40:54 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 14 Jun 2019 09:31:08 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 14 Jun 2019 09:40:54 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 14 Jun 2019 09:31:08 -0700
-Received: from HQMAIL110.nvidia.com (172.18.146.15) by HQMAIL108.nvidia.com
- (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
- 2019 16:31:08 +0000
-Received: from HQMAIL104.nvidia.com (172.18.146.11) by hqmail110.nvidia.com
- (172.18.146.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
- 2019 16:31:08 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 14 Jun 2019 16:31:08 +0000
-Received: from dhcp-10-19-65-14.client.nvidia.com (Not Verified[10.19.65.14]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d03cbca0000>; Fri, 14 Jun 2019 09:31:07 -0700
-From:   Bitan Biswas <bbiswas@nvidia.com>
-To:     Jassi Brar <jassisinghbrar@gmail.com>,
-        Thierry Reding <treding@nvidia.com>,
+        by hqpgpgate101.nvidia.com on Fri, 14 Jun 2019 09:40:54 -0700
+Received: from [10.19.65.14] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
+ 2019 16:40:51 +0000
+Subject: Re: [PATCH V1] firmware: tegra: early resume bpmp
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     Thierry Reding <treding@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-CC:     Bitan Biswas <bbiswas@nvidia.com>
-Subject: [PATCH V2 2/2] mailbox: tegra: avoid resume NULL mailboxes
-Date:   Fri, 14 Jun 2019 09:31:01 -0700
-Message-ID: <1560529861-31376-2-git-send-email-bbiswas@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560529861-31376-1-git-send-email-bbiswas@nvidia.com>
-References: <1560529861-31376-1-git-send-email-bbiswas@nvidia.com>
-X-NVConfidentiality: public
+        Timo Alho <talho@nvidia.com>,
+        Sivaram Nair <sivaramn@nvidia.com>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1560515499-1015-1-git-send-email-bbiswas@nvidia.com>
+ <20190614154827.GA26922@ulmo>
+From:   Bitan Biswas <bbiswas@nvidia.com>
+Message-ID: <577c405d-249b-00ce-221e-bff7cc9ed8b7@nvidia.com>
+Date:   Fri, 14 Jun 2019 09:40:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20190614154827.GA26922@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560529868; bh=wQqysFlLS0zu4DydDP6S++xJ52fy53qDS/chsaQerCE=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=KJL2+bkB99aFE6pgh2ctbQ5VBc/TsYaojUzv2sNYHOExst0qKjRyy+pJYsEdpwRHE
-         v6pqYV/ATQ9rSZyDaLt2+LNVHUtNqyzCl8asVmRdtotxLLfLk4+/W2Q+p6nNleXoDE
-         YGbKe8AchsS/6nzRZ9QT4CNePX5IwIYKHrjF/1ZeQags1xJvBcWi3Bya9NCtf/DzNp
-         ozjOipZX03L5Mp57YX7r+gWZ89dmMH2uGWFCFTZefrpozy/SgLLTnPS2Or9pkUemRY
-         poDu5AbiLED1cBBgAbLJ5BD6DPwsIvUAJ7EGLn+mMXSZHqBu1d8s+KkD6mQB6FWbF8
-         WHTEhE0GFRI/w==
+        t=1560530454; bh=JXewWE1/k64Bh0+FBbmbCYEvsXTB95yMYrlVGc+MDwc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=asNuK6NEBQdEkejjWhw9wKcCjS33xAOIuIBTbbjJW/RuFEQbz1P4ET7jPOuzCUMGo
+         +EMTw5gLMXj0rmVyLwp6IpoWXWmIW7O0dB9GDoPm+3t0ZCtgI08qeYt8tcSLFElFDo
+         f6+TxNrcTrIMlVg/ZU/YLTBQHRINn9qz5VCvfQwAUg0RrL7ETKmB370GJAopggyxTM
+         zknI5sEZfH6+xX6t2aTmLXULQ+g05oJlJelOTT/CMjQlnRfWIRd4Ovtw95rnreeS19
+         P+Z308rpYuT5CsbsijwZHDakeC+izWAaLuwUnFXIO3rmQdCHS/hjXCKyibC95tevXK
+         YulTK3oy71V5Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-If Tegra HSP device tree does not have 'shared irqs',
-mailboxes pointer is NULL. Add non-NULL HSP mailboxes
-check in resume callback before tegra_hsp_mailbox_startup()
-call and prevent NULL pointer exception.
 
-Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
----
- drivers/mailbox/tegra-hsp.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
-index 91e223e..4c5ba35 100644
---- a/drivers/mailbox/tegra-hsp.c
-+++ b/drivers/mailbox/tegra-hsp.c
-@@ -782,11 +782,13 @@ static int __maybe_unused tegra_hsp_resume(struct device *dev)
- 			tegra_hsp_doorbell_startup(db->channel.chan);
- 	}
- 
--	for (i = 0; i < hsp->num_sm; i++) {
--		struct tegra_hsp_mailbox *mb = &hsp->mailboxes[i];
-+	if (hsp->mailboxes) {
-+		for (i = 0; i < hsp->num_sm; i++) {
-+			struct tegra_hsp_mailbox *mb = &hsp->mailboxes[i];
- 
--		if (mb->channel.chan->cl)
--			tegra_hsp_mailbox_startup(mb->channel.chan);
-+			if (mb->channel.chan->cl)
-+				tegra_hsp_mailbox_startup(mb->channel.chan);
-+		}
- 	}
- 
- 	return 0;
--- 
-2.7.4
+On 6/14/19 8:48 AM, Thierry Reding wrote:
+> On Fri, Jun 14, 2019 at 05:31:39AM -0700, Bitan Biswas wrote:
+>> Early resume Tegra bpmp to fix Xavier clock rate error as follows:
+>> [  159.017101] of_serial 3110000.serial: calling platform_pm_resume+0x0/0x58 @ 317, parent: cbb
+>> [  159.025501] of_serial 3110000.serial: platform_pm_resume+0x0/0x58 returned 0 after 14 usecs
+>> [  159.033694] tegra-i2c 31c0000.i2c: calling platform_pm_resume+0x0/0x58 @ 317, parent: cbb
+>> [  159.042254] tegra-i2c 31c0000.i2c: failed changing clock rate: -22
+>> [  159.048216] PM: dpm_run_callback(): platform_pm_resume+0x0/0x58 returns -22
+>> [  159.055553] tegra-i2c 31c0000.i2c: platform_pm_resume+0x0/0x58 returned -22 after 13072 usecs
+>> [  159.063875] PM: Device 31c0000.i2c failed to resume: error -22
+>>
+>> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+>> ---
+>>   drivers/firmware/tegra/bpmp.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
+>> index dd775e8..de09036 100644
+>> --- a/drivers/firmware/tegra/bpmp.c
+>> +++ b/drivers/firmware/tegra/bpmp.c
+>> @@ -811,7 +811,9 @@ static int __maybe_unused tegra_bpmp_resume(struct device *dev)
+>>   		return 0;
+>>   }
+>>   
+>> -static SIMPLE_DEV_PM_OPS(tegra_bpmp_pm_ops, NULL, tegra_bpmp_resume);
+>> +const struct dev_pm_ops tegra_bpmp_pm_ops = {
+>> +	.resume_early = tegra_bpmp_resume
+>> +};
+> 
+> I've changed this to be static while applying to for-5.3/firmware.
+Is this patch already part of some other patch? In that case I can 
+abandon the patch.
 
+Else, I shall add static keyword.
+
+
+-regards,
+  Bitan
