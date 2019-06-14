@@ -2,94 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6E2C45CE0
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 14:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2253945CEA
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 14:35:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727836AbfFNMbq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 08:31:46 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:13611 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727544AbfFNMbq (ORCPT
+        id S1727793AbfFNMfT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 08:35:19 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:35745 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727544AbfFNMfS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 08:31:46 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0393b10000>; Fri, 14 Jun 2019 05:31:45 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 14 Jun 2019 05:31:45 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 14 Jun 2019 05:31:45 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL108.nvidia.com
- (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
- 2019 12:31:44 +0000
-Received: from HQMAIL108.nvidia.com (172.18.146.13) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
- 2019 12:31:44 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL108.nvidia.com
- (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 14 Jun 2019 12:31:43 +0000
-Received: from dhcp-10-19-65-14.client.nvidia.com (Not Verified[10.19.65.14]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d0393ae0001>; Fri, 14 Jun 2019 05:31:44 -0700
-From:   Bitan Biswas <bbiswas@nvidia.com>
-To:     Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        Sivaram Nair <sivaramn@nvidia.com>,
-        Allison Randal <allison@lohutok.net>,
+        Fri, 14 Jun 2019 08:35:18 -0400
+Received: by mail-lj1-f196.google.com with SMTP id x25so2259007ljh.2;
+        Fri, 14 Jun 2019 05:35:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1kNA1FB4w/lkcMPFwJQ6UiFI1ZjIBIZGglQjoe4iAUs=;
+        b=ocmOFEN8JsrpnDaEcsGswFmg310y4igtpJoHbSyYKbYtP6eA3pxzE6/IguqrLmKbtd
+         enkJhHXrJmfUV01ZITcnbS+84TpSh1Kx5x9ITe2nuQzhfrzzdZZFT7ErtcnFxtNIfGEx
+         FCzgRkGkr1fHeJUJqe1Tp90kFSalyxEdofvBYrwwBIYe7BVdEx7Yk6nj2k4i20B6DyQ+
+         iNfKcNwL2n16CaQN7Siy+oAAxlh4d/SuV0EF9gV/fNaN2Etf3OQOFczonG8jyUIRgjXg
+         70ByDAETbX1TbRfg+V+EKC8nkWWdRHM1+aP188aA2C7ZwVkXiEoKb+j3k9i9TH8ANPd9
+         uXKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1kNA1FB4w/lkcMPFwJQ6UiFI1ZjIBIZGglQjoe4iAUs=;
+        b=E37fyv//A8uW5W4M9gFVWN7PMTMB6UnUmGHwskIt2Vfsufc8lONa5rIG3td5JJ52aD
+         nStPqcZ3OpX60LycXGEd2iHGpM8Lkr1bQC5lfynj3I45v4kmyMbFMhQY2oDRbYNOM0AC
+         Ox4druzBOZTTbT0JKSe5bG7dV0qYYZztWT6W+HmzbtzN3XtZWicxEtCQgsAnLQ+sLbwF
+         LUWHjSGwHjtKCSxQAkWtbZeLml2Q4RqTY75C3lAkjXiotWcKPGLIBcHjxZrZRUAFh7SJ
+         wN3rm5MIeykihbCuyrv7lDhImPOpSaOtp/4U+wSShkk6EFIguXuwCNkrH+Z4t6TmuU7I
+         +E1w==
+X-Gm-Message-State: APjAAAUzG2861rSjRsnBYKxUWjC8LgUTVjr6iA0hW5s1saipdWq+wlJo
+        MXfzBEiFqafDcW1GNlmYtDk4STKa
+X-Google-Smtp-Source: APXvYqwh4OFKtZvWP7uzgjbU+/ho8VXj0IhWKKKDVkMhRs9y/U3uxnjJ0rLmPYrR+aBTHXTly4uUAQ==
+X-Received: by 2002:a2e:9b10:: with SMTP id u16mr4040443lji.231.1560515715977;
+        Fri, 14 Jun 2019 05:35:15 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.googlemail.com with ESMTPSA id q2sm462739lfj.25.2019.06.14.05.35.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 14 Jun 2019 05:35:15 -0700 (PDT)
+Subject: Re: [PATCH 2/2] rtc: tegra: Implement suspend clock source
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Bitan Biswas <bbiswas@nvidia.com>
-Subject: [PATCH V1] firmware: tegra: early resume bpmp
-Date:   Fri, 14 Jun 2019 05:31:39 -0700
-Message-ID: <1560515499-1015-1-git-send-email-bbiswas@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-X-NVConfidentiality: public
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190614104747.19712-1-thierry.reding@gmail.com>
+ <20190614104747.19712-2-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d3de8c42-3718-d87d-3c38-af18c671036c@gmail.com>
+Date:   Fri, 14 Jun 2019 15:35:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560515505; bh=exJ9JHFPJP+5N/mN9hpEt8WRKiK/ZQdiCxv0VhMcx2E=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=i2iXEMeuyb1JUvpjOVLCFhUjKeIu9f+3JyfYdf2Q1GK83hfu1fo5IxcIAZymXQfdg
-         WveAlyu5pvBl76zU0kud2Gi4tUwtjPXZRpQZkFXo71oXYAN4jl+lww3/LZgihUOIz4
-         Od/CdXebOvfG9+ODlsh0rU1IgvORAO80a4mZHNMx1j7HNAiMStqBl26uNL2MDr7iPW
-         VvMTPArzFW3UZoCfXT4pv0DabrQUpBtdr8oINBKXf+Lq9BbQk3jKJ/g2C63AKULkeM
-         GwcaS7ggT1A51Hn3x0mryvVNGE26LEJ2LWdNfPKoSbGCdCc5WF531GPYYOyUVJQZm3
-         HjoBzzDfzfHmg==
+In-Reply-To: <20190614104747.19712-2-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Early resume Tegra bpmp to fix Xavier clock rate error as follows:
-[  159.017101] of_serial 3110000.serial: calling platform_pm_resume+0x0/0x58 @ 317, parent: cbb
-[  159.025501] of_serial 3110000.serial: platform_pm_resume+0x0/0x58 returned 0 after 14 usecs
-[  159.033694] tegra-i2c 31c0000.i2c: calling platform_pm_resume+0x0/0x58 @ 317, parent: cbb
-[  159.042254] tegra-i2c 31c0000.i2c: failed changing clock rate: -22
-[  159.048216] PM: dpm_run_callback(): platform_pm_resume+0x0/0x58 returns -22
-[  159.055553] tegra-i2c 31c0000.i2c: platform_pm_resume+0x0/0x58 returned -22 after 13072 usecs
-[  159.063875] PM: Device 31c0000.i2c failed to resume: error -22
+14.06.2019 13:47, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> The suspend clock source for Tegra210 and earlier is currently
+> implemented in the Tegra timer driver. However, the suspend clock source
+> code accesses registers that are part of the RTC hardware block, so both
+> can step on each others' toes. In practice this isn't an issue, but
+> there is no reason why the RTC driver can't implement the clock source,
+> so move the code over to the tegra-rtc driver.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
 
-Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
----
- drivers/firmware/tegra/bpmp.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
-index dd775e8..de09036 100644
---- a/drivers/firmware/tegra/bpmp.c
-+++ b/drivers/firmware/tegra/bpmp.c
-@@ -811,7 +811,9 @@ static int __maybe_unused tegra_bpmp_resume(struct device *dev)
- 		return 0;
- }
- 
--static SIMPLE_DEV_PM_OPS(tegra_bpmp_pm_ops, NULL, tegra_bpmp_resume);
-+const struct dev_pm_ops tegra_bpmp_pm_ops = {
-+	.resume_early = tegra_bpmp_resume
-+};
- 
- #if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC) || \
-     IS_ENABLED(CONFIG_ARCH_TEGRA_194_SOC)
--- 
-2.7.4
+[snip]
 
+> +static struct tegra_rtc_info *to_tegra_rtc(struct clocksource *clksrc)
+> +{
+> +	return container_of(clksrc, struct tegra_rtc_info, clksrc);
+> +}
+
+Shouldn't hurt to inline this function explicitly because I assume that it won't get
+inlined with a certain kernel configurations, like with enabled ftracing for example.
