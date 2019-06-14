@@ -2,117 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDFAD46395
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7EE4463AB
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:11:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725869AbfFNQCi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 12:02:38 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35326 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725775AbfFNQCi (ORCPT
+        id S1726209AbfFNQLM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 12:11:12 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:15947 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725789AbfFNQLL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:02:38 -0400
-Received: by mail-wr1-f66.google.com with SMTP id m3so3110983wrv.2;
-        Fri, 14 Jun 2019 09:02:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=gQsuYi+KebcM7tlxMdU3Khi/bx1No/cabfItgTIubfs=;
-        b=tpzB1R91nqlxSZ4kdloWLRCtwL+SliQaHgaRq7AhvujgiQ84Hp/01tTOijZAOlPS2T
-         xvrB/FsycJWBsLL099dN6PwZwvmWM2rmVYIYkv9CupgZi8PqEy61h66yHCR3Iw9yi+vW
-         0Fn6w6Nfy7Fk2Hw15k2i+a4yXC8J9up4AM+bLHMiMr4cFcDI7FLzK//TStOfJ5F1eZ17
-         JBONzh8xEO0KYWLjcYbQ86ytDRpsJYLFjiUEqSPjMn/yGi/lv+T3hDrLe72jAggawACK
-         PYng6e7t9yq97U2u27MZtlm8AWYv74hiUdaM53zSthNnQcJ4YhwPPhIsqwiPpGWaGmDL
-         C3BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gQsuYi+KebcM7tlxMdU3Khi/bx1No/cabfItgTIubfs=;
-        b=OxSEHmHcDHGEC+PLeYI6gO7AH5sm/s4HYaw/mSsv29VbifAyIX61QhRIFweWEu/LxE
-         hKuYZTdvQnT4xul11KSyATeNVXyh8mGFSjzB6bYkeoJe35p/asJHPTtcKpEmbi6fq3lg
-         lm2zLmBJ4L7g8aaLtcIhgoZ9eqU3mSPjKjJ1F8cDZsQ9qKQpgjTsOUGGmYYETeb1c4G/
-         5TB4xKVYmB7ZPsNU5hURhxPg2EUzYnLf5VmpVXrPmIYx8OpeD6oFF33CtkzD+R9XPY7q
-         rrCNnHXeriQOwQjbcwqZ6ukHcJnHc7MEACdG18n4jzFBkNW5DzFdchgWGhA0f5URJGwl
-         5jbA==
-X-Gm-Message-State: APjAAAU8wsrFLfQ4GWsi+OWiIxcNs8sbvQPicHvgauPU8G4BIk4PaKHn
-        4qEZt9eDlE8BOQ+TOSALnTQ=
-X-Google-Smtp-Source: APXvYqx9Toxm0ZJf+Ly7O8F8BYRLKGsArVNs1xI5C8m55JLZcfH71qhzCj9IG98Lhj6OjVgdkUP2GQ==
-X-Received: by 2002:a5d:488a:: with SMTP id g10mr64468279wrq.344.1560528156220;
-        Fri, 14 Jun 2019 09:02:36 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id y6sm2409416wma.6.2019.06.14.09.02.35
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 14 Jun 2019 09:02:35 -0700 (PDT)
-Date:   Fri, 14 Jun 2019 18:02:34 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Nathan Huckleberry <nhuck@google.com>
-Cc:     jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH v2] memory: tegra: Fix -Wunused-const-variable
-Message-ID: <20190614160234.GB28409@ulmo>
-References: <CAKwvOdn930hhHcnCA9arJ5=9SsT-6BfFC_1punmUZX2xWM-Hnw@mail.gmail.com>
- <20190613182610.238801-1-nhuck@google.com>
+        Fri, 14 Jun 2019 12:11:11 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d03c71f0000>; Fri, 14 Jun 2019 09:11:11 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 14 Jun 2019 09:11:11 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 14 Jun 2019 09:11:11 -0700
+Received: from [10.19.65.14] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
+ 2019 16:11:08 +0000
+Subject: Re: [PATCH V1 1/2] mailbox: tegra: hsp: add noirq resume
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     Jassi Brar <jassisinghbrar@gmail.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+References: <1560515734-2085-1-git-send-email-bbiswas@nvidia.com>
+ <20190614155041.GB26922@ulmo>
+From:   Bitan Biswas <bbiswas@nvidia.com>
+Message-ID: <ff0b9ae6-c964-4eed-3d06-40a11ec72415@nvidia.com>
+Date:   Fri, 14 Jun 2019 09:11:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="i0/AhcQY5QxfSsSZ"
-Content-Disposition: inline
-In-Reply-To: <20190613182610.238801-1-nhuck@google.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190614155041.GB26922@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1560528671; bh=U1G5/chSX76jJebfU8fFuPn83smOgYAa1oniljWF5KA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=fIxpnoH/l3viomNBG2W4wQaHrLGYdOqN9YcNmewVeOORmayP7o7acSPqoFa7e6pIa
+         Ow+MJQqvamONiC41Z07WVU6tbYmPgE3YfxdoICsYAgYWlsFW8u00yh0VVYalCGGlq3
+         Lpz5eCxD69SitQaADLBFti0VsYFqD76/qqN/G37Xvl31D2wvi0AUQHb91llpGNlXZk
+         gIfop4oIYxLAN0lHn/lqc6lBo0g0436My9vGRTzPcLDRdNORHPd+m0OtrZlWHxpO2S
+         WAh7eCHMAfjptYYZeMDhUmSLRM4hbNX+lLcgXGv7Ml2rV+yQ+LC8c84kG4uZ7XXERJ
+         SRlBQIaUNluew==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---i0/AhcQY5QxfSsSZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 13, 2019 at 11:26:10AM -0700, Nathan Huckleberry wrote:
-> Clang produces the following warning
->=20
-> drivers/memory/tegra/tegra124.c:36:28: warning: unused variable
-> 'tegra124_mc_emem_regs' [-Wunused-const-variable]
-> static const unsigned long tegra124_mc_emem_regs[] =3D {
->                            ^
->=20
-> The only usage of this variable is from within an ifdef.
-> It seems logical to move the variable into the ifdef as well.
->=20
-> Cc: clang-built-linux@googlegroups.com
-> Link: https://github.com/ClangBuiltLinux/linux/issues/526
-> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-> ---
-> Changes from v1 -> v2:
-> * Moved definition of tegra124_mc_emem_regs into existing ifdef
->  drivers/memory/tegra/tegra124.c | 44 ++++++++++++++++-----------------
->  1 file changed, 22 insertions(+), 22 deletions(-)
+On 6/14/19 8:50 AM, Thierry Reding wrote:
+> On Fri, Jun 14, 2019 at 05:35:33AM -0700, Bitan Biswas wrote:
+>> Add noirq resume instead of resume callback for Tegra HSP. Tegra HSP
+>> resume needs tegra_hsp_doorbell_startup() call to fix timeout error for
+>> tegra_bpmp_transfer() during genpd resume noirq on jetson-tx2.
+> 
+> s/jetson-tx2/Jetson TX2/?
+I shall replace the string "jetson-tx2" in commit description with 
+"Jetson TX2".
 
-Applied, thanks.
+> 
+>>
+>> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+>> ---
+>>   drivers/mailbox/tegra-hsp.c | 12 ++++++++++--
+>>   1 file changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+>> index 91f1a0c..f147374 100644
+>> --- a/drivers/mailbox/tegra-hsp.c
+>> +++ b/drivers/mailbox/tegra-hsp.c
+>> @@ -771,10 +771,16 @@ static int tegra_hsp_probe(struct platform_device *pdev)
+>>   	return 0;
+>>   }
+>>   
+>> -static int __maybe_unused tegra_hsp_resume(struct device *dev)
+>> +static int __maybe_unused tegra_hsp_noirq_resume(struct device *dev)
+> 
+> Maybe call this tegra_hsp_resume_noirq() to match the naming of the
+> dev_pm_ops callback?
+I shall rename tegra_hsp_noirq_resume back to tegra_hsp_resume.
 
-Thierry
+> 
+>>   {
+>>   	struct tegra_hsp *hsp = dev_get_drvdata(dev);
+>>   	unsigned int i;
+>> +	struct tegra_hsp_doorbell *db;
+>> +
+>> +	list_for_each_entry(db, &hsp->doorbells, list) {
+>> +		if (db && db->channel.chan)
+>> +			tegra_hsp_doorbell_startup(db->channel.chan);
+>> +	}
+>>   
+>>   	for (i = 0; i < hsp->num_sm; i++) {
+>>   		struct tegra_hsp_mailbox *mb = &hsp->mailboxes[i];
+>> @@ -786,7 +792,9 @@ static int __maybe_unused tegra_hsp_resume(struct device *dev)
+>>   	return 0;
+>>   }
+>>   
+>> -static SIMPLE_DEV_PM_OPS(tegra_hsp_pm_ops, NULL, tegra_hsp_resume);
+>> +static const struct dev_pm_ops tegra_hsp_pm_ops = {
+>> +	.resume_noirq   = tegra_hsp_noirq_resume,
+> 
+> There seems to be two extra spaces before that =.
+Missed extra spaces. Shall fix.
 
---i0/AhcQY5QxfSsSZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0DxRoACgkQ3SOs138+
-s6Hufw/9Ec9XB2EyJYZEW3fBZ6EdkkTZ89eyLwpbp/7Twoh20GQItlUGEJZFNAvK
-enZi2pOoGHMFp5RDmGdpwwk11a4f4e6h4LYGAAko1vg3LOZ6PKSNixTe1AFJKBI3
-0H/CLUARvTEeM8450C8VZnFDIb9Il8xByUY/d/hHYDgHsBFWLu8zTvBmsH23qVRZ
-DfUbVsuPEWM2Q4kxq7unVx/RME1k6GJZw0wCWRy94q/sj6AjgBOCTPteoH5DSWF6
-paGobJgw6AZQo2pjTUi7w159dvqN5SJwn59FMwEbiqtv0yVuEfb1KHSFIgp1AwSL
-34U4MchsRD7EnMF9DDlFnva76qfXCME/oB5Kux+GZXqJjrCaIwlcEEmqSI10KWC8
-hv9u1Ss2aBdWE9vZwD2ykoanyz3BLPeVquVqFz0RXS+tQ9D1pIr4E6INEsPzASM1
-xAsp3E7eC+OdWsdOfkogWh/RlW3OFRIIXkBdqaXlgFzizpztruIvDTVnArDTXUbI
-F6ckVy3BzhZnnWQQI6UxMzzSRqDXy9PyAxBg6ErroXTu6QjBQ3psREQ3KTICPMNW
-ALMOMHJamxvapi6K1Ghcqty3m8wjoSXcMjB6D382lQ6ojHmxMzxQ2CjVAD2OmD9a
-G3mdQpg8wk0jmxY3ZgYL/T/tz228kvs6HIEcFU9bvPt7Ir7QcnE=
-=KQH8
------END PGP SIGNATURE-----
-
---i0/AhcQY5QxfSsSZ--
+-Thanks,
+  Bitan
