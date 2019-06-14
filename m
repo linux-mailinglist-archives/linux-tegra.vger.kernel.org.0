@@ -2,28 +2,28 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7827646346
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 17:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FD124634E
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 17:48:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726183AbfFNPsm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 11:48:42 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:7903 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726020AbfFNPsl (ORCPT
+        id S1726268AbfFNPss (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 11:48:48 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:15148 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726298AbfFNPsr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 11:48:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d03c1d80000>; Fri, 14 Jun 2019 08:48:40 -0700
+        Fri, 14 Jun 2019 11:48:47 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d03c1de0001>; Fri, 14 Jun 2019 08:48:46 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 14 Jun 2019 08:48:40 -0700
+  Fri, 14 Jun 2019 08:48:46 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 14 Jun 2019 08:48:40 -0700
+        by hqpgpgate101.nvidia.com on Fri, 14 Jun 2019 08:48:46 -0700
 Received: from [10.26.11.12] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
- 2019 15:48:38 +0000
-Subject: Re: [PATCH v2 4/6] clocksource/drivers/tegra: Drop unneeded
- typecasting in one place
+ 2019 15:48:44 +0000
+Subject: Re: [PATCH v2 5/6] clocksource/drivers/tegra: Add verbose definition
+ for 1MHz constant
 To:     Dmitry Osipenko <digetx@gmail.com>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
         Joseph Lo <josephl@nvidia.com>,
@@ -31,14 +31,14 @@ To:     Dmitry Osipenko <digetx@gmail.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>
 CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20190610164400.11830-1-digetx@gmail.com>
- <20190610164400.11830-5-digetx@gmail.com>
+ <20190610164400.11830-6-digetx@gmail.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <2bea2303-42bb-a306-72ec-be60b00e2b23@nvidia.com>
-Date:   Fri, 14 Jun 2019 16:48:36 +0100
+Message-ID: <2d890693-20b5-6f1d-89c8-f89533f04f22@nvidia.com>
+Date:   Fri, 14 Jun 2019 16:48:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190610164400.11830-5-digetx@gmail.com>
+In-Reply-To: <20190610164400.11830-6-digetx@gmail.com>
 X-Originating-IP: [172.20.13.39]
 X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -46,17 +46,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560527320; bh=qqFCsTbLnbXGAwdf+gOzklHxTJ/H1R22gcikOiKKLQs=;
+        t=1560527326; bh=mL9uq+zgkQoheW7I6zgddAifZts2XKq2svr6yIs+L1E=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=IcBrn2YsQtpxsPqaKB5Ma3bulre+MaYssQ07cLUQ862DVeHKZquVi7xXQG+ZNAuuB
-         4ldewxi440XXSo4KLvmbTKP5jvWXyxvaoY+FGPL86I545RHoHJrqQO/f3kuRVLPqnM
-         CyUQCJbPJ07poTk+DMNTl5x1LrAjlLOhtlTW05+rFmH5onSRqHlc9cY1Mo0U+jwmvY
-         N/jNwfwT4x2E9NT2NxBZgcakRvype1KlSNZmDL4VQpYNEuIDlu83uvmOfd+7o2sQXm
-         bxaKf5dnKnWCTjIZv/KKV0VbpBBWloQNIyCNZLpkEcpgNk7+iY6OwZ/zaAJb9qLm55
-         ETVHrMy9W7OKA==
+        b=aF+fQfFb4btr30nxav/w2tKyLXnX98ExqLjIcfEjuToLwuJV95Cwmq/K/lxN81hmd
+         9MCNUosn2GvMsnHNLvgcgVkbHUVMlRf9c0kFZrsuRsOjYepidD5wOi8MMp70T4KHG/
+         mlRHjJqWQEZSBRaxCLP0GOJ8kOxwlKDVzaZWyC/8FCD7ISaXvjZlD3l5p6KFG2vrwI
+         HOLXc7LVrJZCbIYt9cSg+S3wWjKFJ4KuDQWT9976QyEOOoHnq1vb8k1vg+cL0IoKL5
+         m1/br5erny33qwYVljrmpphloACv01+ESDXavFY2hST9tLGJS9ACUEgdjkjWODqLVt
+         VAxy7yhiVn7eg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -64,27 +64,60 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 
 On 10/06/2019 17:43, Dmitry Osipenko wrote:
-> There is no need to cast void because kernel allows to do that without
-> a warning message from a compiler.
+> Convert all 1MHz literals to a verbose constant for better readability.
 > 
+> Suggested-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/clocksource/timer-tegra.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/clocksource/timer-tegra.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
-> index 646b3530c2d2..a7fa12488066 100644
+> index a7fa12488066..2a428fdf702f 100644
 > --- a/drivers/clocksource/timer-tegra.c
 > +++ b/drivers/clocksource/timer-tegra.c
-> @@ -81,7 +81,7 @@ static int tegra_timer_set_periodic(struct clock_event_device *evt)
+> @@ -44,6 +44,8 @@
+>  #define TIMER1_IRQ_IDX		0
+>  #define TIMER10_IRQ_IDX		10
 >  
->  static irqreturn_t tegra_timer_isr(int irq, void *dev_id)
->  {
-> -	struct clock_event_device *evt = (struct clock_event_device *)dev_id;
-> +	struct clock_event_device *evt = dev_id;
->  	void __iomem *reg_base = timer_of_base(to_timer_of(evt));
+> +#define TIMER_1MHz		1000000
+> +
+>  static u32 usec_config;
+>  static void __iomem *timer_reg_base;
 >  
->  	writel_relaxed(TIMER_PCR_INTR_CLR, reg_base + TIMER_PCR);
+> @@ -158,7 +160,7 @@ static unsigned long tegra_delay_timer_read_counter_long(void)
+>  
+>  static struct delay_timer tegra_delay_timer = {
+>  	.read_current_timer = tegra_delay_timer_read_counter_long,
+> -	.freq = 1000000,
+> +	.freq = TIMER_1MHz,
+>  };
+>  #endif
+>  
+> @@ -224,7 +226,7 @@ static inline unsigned long tegra_rate_for_timer(struct timer_of *to,
+>  	 * parent clock.
+>  	 */
+>  	if (tegra20)
+> -		return 1000000;
+> +		return TIMER_1MHz;
+>  
+>  	return timer_of_rate(to);
+>  }
+> @@ -313,11 +315,11 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
+>  		}
+>  	}
+>  
+> -	sched_clock_register(tegra_read_sched_clock, 32, 1000000);
+> +	sched_clock_register(tegra_read_sched_clock, 32, TIMER_1MHz);
+>  
+>  	ret = clocksource_mmio_init(timer_reg_base + TIMERUS_CNTR_1US,
+> -				    "timer_us", 1000000,
+> -				    300, 32, clocksource_mmio_readl_up);
+> +				    "timer_us", TIMER_1MHz, 300, 32,
+> +				    clocksource_mmio_readl_up);
+>  	if (ret)
+>  		pr_err("failed to register clocksource: %d\n", ret);
+>  
 
 Acked-by: Jon Hunter <jonathanh@nvidia.com>
 
