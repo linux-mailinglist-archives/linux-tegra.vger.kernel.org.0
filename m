@@ -2,63 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A8EB46391
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDFAD46395
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 18:02:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725827AbfFNQBv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 12:01:51 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40078 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725775AbfFNQBv (ORCPT
+        id S1725869AbfFNQCi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 12:02:38 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35326 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbfFNQCi (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:01:51 -0400
-Received: by mail-wm1-f68.google.com with SMTP id v19so2830302wmj.5
-        for <linux-tegra@vger.kernel.org>; Fri, 14 Jun 2019 09:01:49 -0700 (PDT)
+        Fri, 14 Jun 2019 12:02:38 -0400
+Received: by mail-wr1-f66.google.com with SMTP id m3so3110983wrv.2;
+        Fri, 14 Jun 2019 09:02:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=fUFWgrHMxZFj694JqdS5Mj4bEK1nUO7EOXhJ9PHAuY8=;
-        b=n5K1BgFJN8dNHinLtf34OmSk/68dIJ04uif9ywLR1lDfGCq1Kig7qS31uLwTqAI1EA
-         PErGkpp66ID549+T10rLmRll9JqdnCO4xEpge76a4mpB/Z6laJC3XwZSClZz/sdoN6DF
-         Vq/USjRgK6FRldyZo9ROlBWZ2ikrM8INMVoYa3fgMS7U+obO5W7ITATrH+oOrdVHV6/A
-         DJWYFNX4b/mtd08zRlPz+RWmGCHD6TaKqFtwX9W+MUtaV4gEdwB0ZuHePDPYRGzG3nXt
-         iUhzsWvVEfIFgXehdFlN5lXOK6+DaUU3IUPy0tHGbYT+CV23QltKcUAfyZVSyxVu7w5Z
-         qSZg==
+        bh=gQsuYi+KebcM7tlxMdU3Khi/bx1No/cabfItgTIubfs=;
+        b=tpzB1R91nqlxSZ4kdloWLRCtwL+SliQaHgaRq7AhvujgiQ84Hp/01tTOijZAOlPS2T
+         xvrB/FsycJWBsLL099dN6PwZwvmWM2rmVYIYkv9CupgZi8PqEy61h66yHCR3Iw9yi+vW
+         0Fn6w6Nfy7Fk2Hw15k2i+a4yXC8J9up4AM+bLHMiMr4cFcDI7FLzK//TStOfJ5F1eZ17
+         JBONzh8xEO0KYWLjcYbQ86ytDRpsJYLFjiUEqSPjMn/yGi/lv+T3hDrLe72jAggawACK
+         PYng6e7t9yq97U2u27MZtlm8AWYv74hiUdaM53zSthNnQcJ4YhwPPhIsqwiPpGWaGmDL
+         C3BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fUFWgrHMxZFj694JqdS5Mj4bEK1nUO7EOXhJ9PHAuY8=;
-        b=jMS5rmf1A5c9tbaAMkZ7uudAZVYOMRGV4UJzM7x8SZae16Hwepi4X7YI458k4QiYxs
-         hrjHR+RBcYRiM+DnvCF/AnaNxhKwN2RK1Fokfa7aFO2hgFjzfXKYixSvbNorK0UAAQ3+
-         fBZc6PJpb+67L/WkGS45ST/nSDHRcfknPgJZ4OCH9kLrG9Gn0DY+C5vLznPUSw6jKMgW
-         e84fXRsorXIBNE0RUcWA8JvYjeiKLynBsprhMtsPzJDdgXw5CAFjjEJIy2okXKfKh+bW
-         UTHTLTqenNwU5gBjioPcgmzFe8Wko1sPx/xPpPyFRbra4N8kL/GOitZEmqiNGztzsivH
-         tU3g==
-X-Gm-Message-State: APjAAAXiCJYAIU591+xH9yYRo1ciOx4KH1qd6Iw+jPRpkiC2m/23vxgC
-        8uYDZK4tFN+gl9WJbFItMejaY88Y
-X-Google-Smtp-Source: APXvYqy3dZO9hdBko6KVw3wzXcaVPzt7z4Fgaxw8z3HlBkP23ru41yrMf9/CE3IFELNjwTICU43WnA==
-X-Received: by 2002:a1c:9e4d:: with SMTP id h74mr8809366wme.9.1560528108891;
-        Fri, 14 Jun 2019 09:01:48 -0700 (PDT)
+        bh=gQsuYi+KebcM7tlxMdU3Khi/bx1No/cabfItgTIubfs=;
+        b=OxSEHmHcDHGEC+PLeYI6gO7AH5sm/s4HYaw/mSsv29VbifAyIX61QhRIFweWEu/LxE
+         hKuYZTdvQnT4xul11KSyATeNVXyh8mGFSjzB6bYkeoJe35p/asJHPTtcKpEmbi6fq3lg
+         lm2zLmBJ4L7g8aaLtcIhgoZ9eqU3mSPjKjJ1F8cDZsQ9qKQpgjTsOUGGmYYETeb1c4G/
+         5TB4xKVYmB7ZPsNU5hURhxPg2EUzYnLf5VmpVXrPmIYx8OpeD6oFF33CtkzD+R9XPY7q
+         rrCNnHXeriQOwQjbcwqZ6ukHcJnHc7MEACdG18n4jzFBkNW5DzFdchgWGhA0f5URJGwl
+         5jbA==
+X-Gm-Message-State: APjAAAU8wsrFLfQ4GWsi+OWiIxcNs8sbvQPicHvgauPU8G4BIk4PaKHn
+        4qEZt9eDlE8BOQ+TOSALnTQ=
+X-Google-Smtp-Source: APXvYqx9Toxm0ZJf+Ly7O8F8BYRLKGsArVNs1xI5C8m55JLZcfH71qhzCj9IG98Lhj6OjVgdkUP2GQ==
+X-Received: by 2002:a5d:488a:: with SMTP id g10mr64468279wrq.344.1560528156220;
+        Fri, 14 Jun 2019 09:02:36 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id o14sm2901938wrp.77.2019.06.14.09.01.47
+        by smtp.gmail.com with ESMTPSA id y6sm2409416wma.6.2019.06.14.09.02.35
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 14 Jun 2019 09:01:48 -0700 (PDT)
-Date:   Fri, 14 Jun 2019 18:01:47 +0200
+        Fri, 14 Jun 2019 09:02:35 -0700 (PDT)
+Date:   Fri, 14 Jun 2019 18:02:34 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     treding@nvidia.com, linux-tegra@vger.kernel.org,
-        catalin.marinas@arm.com, will.deacon@arm.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: defconfig: Add HWMON INA3221 support
-Message-ID: <20190614160147.GA28409@ulmo>
-References: <20190424181010.28950-1-nicoleotsuka@gmail.com>
+To:     Nathan Huckleberry <nhuck@google.com>
+Cc:     jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH v2] memory: tegra: Fix -Wunused-const-variable
+Message-ID: <20190614160234.GB28409@ulmo>
+References: <CAKwvOdn930hhHcnCA9arJ5=9SsT-6BfFC_1punmUZX2xWM-Hnw@mail.gmail.com>
+ <20190613182610.238801-1-nhuck@google.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="NzB8fVQJ5HfG6fxh"
+        protocol="application/pgp-signature"; boundary="i0/AhcQY5QxfSsSZ"
 Content-Disposition: inline
-In-Reply-To: <20190424181010.28950-1-nicoleotsuka@gmail.com>
+In-Reply-To: <20190613182610.238801-1-nhuck@google.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -66,43 +66,53 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---NzB8fVQJ5HfG6fxh
+--i0/AhcQY5QxfSsSZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 24, 2019 at 11:10:10AM -0700, Nicolin Chen wrote:
-> Tegra186 board under arm64 is using this device, according to
-> its dts file. So this patch enables its driver with a "=3Dm" as
-> the other HWMON drivers.
+On Thu, Jun 13, 2019 at 11:26:10AM -0700, Nathan Huckleberry wrote:
+> Clang produces the following warning
 >=20
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> drivers/memory/tegra/tegra124.c:36:28: warning: unused variable
+> 'tegra124_mc_emem_regs' [-Wunused-const-variable]
+> static const unsigned long tegra124_mc_emem_regs[] =3D {
+>                            ^
+>=20
+> The only usage of this variable is from within an ifdef.
+> It seems logical to move the variable into the ifdef as well.
+>=20
+> Cc: clang-built-linux@googlegroups.com
+> Link: https://github.com/ClangBuiltLinux/linux/issues/526
+> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
 > ---
->  arch/arm64/configs/defconfig | 1 +
->  1 file changed, 1 insertion(+)
+> Changes from v1 -> v2:
+> * Moved definition of tegra124_mc_emem_regs into existing ifdef
+>  drivers/memory/tegra/tegra124.c | 44 ++++++++++++++++-----------------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
 
 Applied, thanks.
 
 Thierry
 
---NzB8fVQJ5HfG6fxh
+--i0/AhcQY5QxfSsSZ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0DxOoACgkQ3SOs138+
-s6GVwg/+P/AvfzdpZqk+ZPGxa7bpI+hMZJWx608PHZLFziGdVT6L4TCTbkitOnA2
-lsrSkOXjfjVBbxe+wz9zHRYjlQuTkeqNJ7qa/q7X0IDXn3L238gOz1Cw34IBu+Uq
-GJUlHtzqAIMd4QoISPKUkEn2QxAGDJyxFq9XPOCgxcwwfmLK7J+n0qdfSrX86Azc
-T8itykniaIepsFW4T85KUAd+D4ORat7sns5gpWNKqGG5QqCJJDLVURK8pDflqltz
-x5EsWdPy7WrPV58CCj8dMKd8xO5FM7qUUlzP3/vQILQiXza9npEa6Okg5tTd1Yo8
-Pso2qjA1JsoO2nxMYU1MOohveyuuuk0E31imHNf5Uem5x/ThUPWZQdXi5q5OMKl8
-o8miSKjm0IFHE9mAgM/lQ1kGmD2s1eNpl90uObQFcqHeoLT6/yNlIvNLP5Ij7WW2
-HtHG14Jbd2Bmax5OY8AFI8DPFqLRAJsyI0fAFFveZ0dSsn4fo08WAwbjRK+Ps0Ue
-+94KsuaTg7Ig5aZ9fhStz9LGgw6lUG64gA/DjgQWSP0Q8f1Vr1LgB4T43x2tZ7Id
-x95bl3PkZOavjeuGjV5FFV4K+foMkQyUQDHKFx2VimGo4ZH6xv0HNa+X9D4XeHx6
-GD4tm6nhf2PQ9H1Oc7Rt/plmwhEm42sN+8DJAPpigq22j3i0bAE=
-=eXs8
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0DxRoACgkQ3SOs138+
+s6Hufw/9Ec9XB2EyJYZEW3fBZ6EdkkTZ89eyLwpbp/7Twoh20GQItlUGEJZFNAvK
+enZi2pOoGHMFp5RDmGdpwwk11a4f4e6h4LYGAAko1vg3LOZ6PKSNixTe1AFJKBI3
+0H/CLUARvTEeM8450C8VZnFDIb9Il8xByUY/d/hHYDgHsBFWLu8zTvBmsH23qVRZ
+DfUbVsuPEWM2Q4kxq7unVx/RME1k6GJZw0wCWRy94q/sj6AjgBOCTPteoH5DSWF6
+paGobJgw6AZQo2pjTUi7w159dvqN5SJwn59FMwEbiqtv0yVuEfb1KHSFIgp1AwSL
+34U4MchsRD7EnMF9DDlFnva76qfXCME/oB5Kux+GZXqJjrCaIwlcEEmqSI10KWC8
+hv9u1Ss2aBdWE9vZwD2ykoanyz3BLPeVquVqFz0RXS+tQ9D1pIr4E6INEsPzASM1
+xAsp3E7eC+OdWsdOfkogWh/RlW3OFRIIXkBdqaXlgFzizpztruIvDTVnArDTXUbI
+F6ckVy3BzhZnnWQQI6UxMzzSRqDXy9PyAxBg6ErroXTu6QjBQ3psREQ3KTICPMNW
+ALMOMHJamxvapi6K1Ghcqty3m8wjoSXcMjB6D382lQ6ojHmxMzxQ2CjVAD2OmD9a
+G3mdQpg8wk0jmxY3ZgYL/T/tz228kvs6HIEcFU9bvPt7Ir7QcnE=
+=KQH8
 -----END PGP SIGNATURE-----
 
---NzB8fVQJ5HfG6fxh--
+--i0/AhcQY5QxfSsSZ--
