@@ -2,55 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC9814557A
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 09:13:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF4FB456A4
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 09:47:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726011AbfFNHM4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 03:12:56 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60754 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725843AbfFNHM4 (ORCPT
+        id S1725891AbfFNHrR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 03:47:17 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:16045 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725819AbfFNHrR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 03:12:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=iTqU4HCutRR3uOJUYQ45ZU7506Sl5CfUv5xpSiuoAIU=; b=s1QW40cdUPPbUO6WyXX5MasT2
-        zpUzI0yFs1dQWyfV9pw8s8UglBzqG+hjlADCXiVES4YrjrDEhXQvqU3LokO6gSsZwbjRHmb+6ZyE1
-        FuDxJYef6OyM+Hxt2LP7pNdGVoMXpMHIdsuXRR2OX42DSoYiurBP9/ocQAMN4Eta7uIzpXrzg9fmp
-        Y6r0Be3/EI5gOKvt4DARL3XPteJl0Va8ohPC+ryF0kMr7AlVaHJTI5rRsCiDRjvakeLyezkJsw8fG
-        3bMGg1n2z31C8vbZYnB2aHllCUjOCFyLrkeM3GqhFS7vfUhCcWJNuI/OTr0WLGQyWdFBmmlWt2b+L
-        5rQEFqwrg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbgOE-0000yO-1z; Fri, 14 Jun 2019 07:12:46 +0000
-Date:   Fri, 14 Jun 2019 00:12:46 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Yangtao Li <tiny.windzz@gmail.com>
-Cc:     joro@8bytes.org, m.szyprowski@samsung.com, kgene@kernel.org,
-        krzk@kernel.org, will.deacon@arm.com, robin.murphy@arm.com,
-        agross@kernel.org, david.brown@linaro.org, robdclark@gmail.com,
-        heiko@sntech.de, thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 01/10] iommu/exynos: convert to SPDX license tags
-Message-ID: <20190614071245.GA2950@infradead.org>
-References: <20190613162703.986-1-tiny.windzz@gmail.com>
+        Fri, 14 Jun 2019 03:47:17 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0351040000>; Fri, 14 Jun 2019 00:47:16 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 14 Jun 2019 00:47:16 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 14 Jun 2019 00:47:16 -0700
+Received: from jckuo-lt.nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
+ 2019 07:47:14 +0000
+From:   JC Kuo <jckuo@nvidia.com>
+To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <pdeschrijver@nvidia.com>,
+        <afrid@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <nkristam@nvidia.com>,
+        <skomatineni@nvidia.com>, JC Kuo <jckuo@nvidia.com>
+Subject: [PATCH 0/8] Tegra XHCI controller ELPG support
+Date:   Fri, 14 Jun 2019 15:46:48 +0800
+Message-ID: <20190614074652.21960-1-jckuo@nvidia.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190613162703.986-1-tiny.windzz@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1560498436; bh=8u3amQ38YMlftXEJnPfMiHDFL4HnCwY6N58gDQB7uBY=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-Originating-IP:X-ClientProxiedBy:Content-Type;
+        b=G+nCVAFF2alK7yY5BCT8z0KH9ZT2lbD6PEMPcs75CkhkRHX7sPnLSqac455hwkhA/
+         Aw8m3u02N9lVnOCk3IgSEbEayjBZEorC+oebrQ4rP5MFrCnL98E+gXAtEP/eCLdKVA
+         ErEXwWXdL6+G5Xw/c1jN0pkE40BoSYaw/nCPf4lxGIb0+SvuTvI9V6xgTLF3LHv3IE
+         D/qyJjt1yZf4SSkJ+MJJq5Y6m8F4U5TOjTNDh3zVZOziZxonvBo8j2J36j8FnY+i45
+         apjbzD8aE4zYvTb3IjKUJbCcIAcF80KsFR3gt5++gbKy7RBv++Do2vg/UYWGj2HloD
+         J4uDJGK38r2Ow==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Thomas Gleixner is doing automated SPDX conversion that directly
-got to Linux at the moment.  I'd avoid doing more manual ones for
-now as it will just create conflicts.
+Tegra XHCI controler can be placed in ELPG (Engine Level PowerGate)
+state for power saving when all of the connected USB devices are in
+suspended state. This patch series includes clk, phy and pmc changes
+that are required for properly place controller in ELPG and bring
+controller out of ELPG.
+
+
+JC Kuo (8):
+  clk: tegra: Add PLLE HW power sequencer control
+  clk: tegra: don't enable PLLE HW sequencer at init
+  phy: tegra: xusb: t210: rearrange UPHY init
+  phy: tegra: xusb: add sleepwalk and suspend/resume
+  soc/tegra: pmc: support T210 USB 2.0 Sleepwalk
+  phy: tegra: xusb: t210: support wake and sleepwalk
+  arm64: tegra: add Tegra210 XUSB PADCTL irq
+  xhci: tegra: enable ELPG for runtime/system PM
+
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi |    3 +-
+ drivers/clk/tegra/clk-pll.c              |   12 -
+ drivers/clk/tegra/clk-tegra210.c         |   45 +
+ drivers/phy/tegra/xusb-tegra210.c        | 1023 +++++++++++++++++-----
+ drivers/phy/tegra/xusb.c                 |   80 +-
+ drivers/phy/tegra/xusb.h                 |   10 +
+ drivers/soc/tegra/pmc.c                  |  462 ++++++++++
+ drivers/usb/host/xhci-tegra.c            |  802 ++++++++++++++---
+ include/linux/clk/tegra.h                |    2 +
+ include/linux/phy/tegra/xusb.h           |   12 +
+ include/soc/tegra/pmc.h                  |   13 +
+ 11 files changed, 2108 insertions(+), 356 deletions(-)
+
+-- 
+2.17.1
+
