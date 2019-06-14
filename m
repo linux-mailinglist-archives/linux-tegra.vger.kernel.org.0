@@ -2,91 +2,151 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB71346318
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 17:41:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E01434633E
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Jun 2019 17:48:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725991AbfFNPlI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Jun 2019 11:41:08 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:38586 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725780AbfFNPlI (ORCPT
+        id S1725846AbfFNPsU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Jun 2019 11:48:20 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:14453 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbfFNPsT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Jun 2019 11:41:08 -0400
-Received: by mail-wr1-f66.google.com with SMTP id d18so3030459wrs.5
-        for <linux-tegra@vger.kernel.org>; Fri, 14 Jun 2019 08:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6yxdohThGBUtdpRD6h9COxHEz21xgFRqKFvgk7EA2t0=;
-        b=uat5c6+w97Xy/qimiLXz/6X441lBNWBaoGWglx/DPj5EPwSG50rLcMGd+23r9WdkGG
-         radRvWpKQhq4wSh7k2LIT3yikS5mUAz4v13oALIielDN7XdJNXuDFBngxyMnnQVHFe4c
-         AFGuuIvWD1+oMQZWoB97V7G6C36FH4ibRnG49SpPPqApmD9hIIZsbecgDq3V7Z+3eFNR
-         CF7qLZt1YKa0JhO1aotRyOP7Oq9JU7o+3DvtIxMk51RYuU+j8IoOhLQoDH5epZt2fVfm
-         Qf1q6mo44YG7kProGkQXH1UXxw5D9GEcWQja4qatfJ4sgm/k4d1gV/UfRurCYfSH1Nbc
-         6w2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6yxdohThGBUtdpRD6h9COxHEz21xgFRqKFvgk7EA2t0=;
-        b=Ls29I1s9CJUTn76byFGHnksS0pWpGXN9N7JwLdBagYXxWVeD1egJpZLNYjykhODats
-         dYCJtCIGB22gNQ+t3FZMDLwF/g8OMgmctfVTxvmMaPFUcdz4+CoVasZd83SGT6zDcpnT
-         68PVB2nPhilRh5k/Rv8AK/RSN/lY3p6IFe0fVYlMvB8CrmvIqIeyWuuSZrgmPirfDyT7
-         G/OvGq739H6x7Mv374tYvuPdLw31UXdfgyn89TjPbCxtvqQioQVn1X2umBjYuI68HnvF
-         jTplTLCQBugno2Wb/pw4dEx7uXr1gE61erGW8EwAtaAxhnm4xyEJsl5Mx+NTVR8h6AZc
-         KeVw==
-X-Gm-Message-State: APjAAAW54mfRdbIm/y+cposFL2narYOaGbtyUsdEzXG1AAEMJtjOzxRA
-        YBEw/ZEqRLyEOPQw1Y4OvEk=
-X-Google-Smtp-Source: APXvYqwJQ6uFu2GoaMjaznCDz667ETqJZISKySLNLYleCRUpeVAv+L3dk312J4zYxKyguTVw7iTWEg==
-X-Received: by 2002:adf:e7ca:: with SMTP id e10mr3642231wrn.281.1560526866191;
-        Fri, 14 Jun 2019 08:41:06 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id f204sm4784275wme.18.2019.06.14.08.41.05
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 14 Jun 2019 08:41:05 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH] arm64: tegra: Enable CPU sleep on Jetson Nano
-Date:   Fri, 14 Jun 2019 17:41:04 +0200
-Message-Id: <20190614154104.26115-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        Fri, 14 Jun 2019 11:48:19 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d03c1c30000>; Fri, 14 Jun 2019 08:48:19 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 14 Jun 2019 08:48:19 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 14 Jun 2019 08:48:19 -0700
+Received: from [10.26.11.12] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
+ 2019 15:48:16 +0000
+Subject: Re: [PATCH v2 2/6] clocksource/drivers/tegra: Remove duplicated use
+ of per_cpu_ptr
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190610164400.11830-1-digetx@gmail.com>
+ <20190610164400.11830-3-digetx@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <1aea7e18-fd5a-5ec7-4ae3-fb19826495bb@nvidia.com>
+Date:   Fri, 14 Jun 2019 16:48:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190610164400.11830-3-digetx@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1560527299; bh=d0CqwZtrd3MjNIrGnFs7ZW/50hIL3KZX0LJnt3QZFBM=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=FYfbiYiy2n6VZ3OqRUnig6QIZ78kdfaNUInMVVyZilKpl1UKW8yC68JnrIdGKjptd
+         mToHNHrtdI9PBXeEJfUdqM5rM4MsQiu7eoD2f39i58S7q9PJWHfhYJm+D14UOpnqs9
+         9w1UlaYe8S5KqNxnaM2Off3ohwNQ6CK2FetEXJv/oqymHuNPZKcdfPYTAWW0LUPo05
+         6XMg6LTr9AOXsfwnIPF4O0ruz+v87aPKaWEBAYXRcqDlxzbqxgKSwC+5LSIsn22poB
+         Xs7WPexzN4hrScT2dmCe1i/3icXZeeQP72CCD0y4twcw2M9ChiM7x5KDkylH6zwe4j
+         2s+r5Kjkl2esA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-Jetson Nano implements CPU sleep via PSCI, much like any of the other
-Tegra X1 platforms. Enable the sleep states to allow the CPU to go into
-lower power states when idle.
+On 10/06/2019 17:43, Dmitry Osipenko wrote:
+> It was left unnoticed by accident, which means that the code could be
+> cleaned up a tad more.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/clocksource/timer-tegra.c | 42 ++++++++++++++++++-------------
+>  1 file changed, 25 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
+> index 830c66e2d927..810b4e7435cf 100644
+> --- a/drivers/clocksource/timer-tegra.c
+> +++ b/drivers/clocksource/timer-tegra.c
+> @@ -216,6 +216,19 @@ static inline unsigned int tegra_irq_idx_for_cpu(int cpu, bool tegra20)
+>  	return TIMER10_IRQ_IDX + cpu;
+>  }
+>  
+> +static inline unsigned long tegra_rate_for_timer(struct timer_of *to,
+> +						 bool tegra20)
+> +{
+> +	/*
+> +	 * TIMER1-9 are fixed to 1MHz, TIMER10-13 are running off the
+> +	 * parent clock.
+> +	 */
+> +	if (tegra20)
+> +		return 1000000;
+> +
+> +	return timer_of_rate(to);
+> +}
+> +
+>  static int __init tegra_init_timer(struct device_node *np, bool tegra20,
+>  				   int rating)
+>  {
+> @@ -268,32 +281,27 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
+>  
+>  	for_each_possible_cpu(cpu) {
+>  		struct timer_of *cpu_to = per_cpu_ptr(&tegra_to, cpu);
+> +		unsigned long flags = IRQF_TIMER | IRQF_NOBALANCING;
+> +		unsigned long rate = tegra_rate_for_timer(to, tegra20);
+>  		unsigned int base = tegra_base_for_cpu(cpu, tegra20);
+>  		unsigned int idx = tegra_irq_idx_for_cpu(cpu, tegra20);
+> +		unsigned int irq = irq_of_parse_and_map(np, idx);
+>  
+> -		/*
+> -		 * TIMER1-9 are fixed to 1MHz, TIMER10-13 are running off the
+> -		 * parent clock.
+> -		 */
+> -		if (tegra20)
+> -			cpu_to->of_clk.rate = 1000000;
+> -		else
+> -			cpu_to->of_clk.rate = timer_of_rate(to);
+> -
+> -		cpu_to = per_cpu_ptr(&tegra_to, cpu);
+> -		cpu_to->of_base.base = timer_reg_base + base;
+> -		cpu_to->clkevt.rating = rating;
+> -		cpu_to->clkevt.cpumask = cpumask_of(cpu);
+> -		cpu_to->clkevt.irq = irq_of_parse_and_map(np, idx);
+> -		if (!cpu_to->clkevt.irq) {
+> +		if (!irq) {
+>  			pr_err("failed to map irq for cpu%d\n", cpu);
+>  			ret = -EINVAL;
+>  			goto out_irq;
+>  		}
+>  
+> +		cpu_to->clkevt.irq = irq;
+> +		cpu_to->clkevt.rating = rating;
+> +		cpu_to->clkevt.cpumask = cpumask_of(cpu);
+> +		cpu_to->of_base.base = timer_reg_base + base;
+> +		cpu_to->of_clk.rate = rate;
+> +
+>  		irq_set_status_flags(cpu_to->clkevt.irq, IRQ_NOAUTOEN);
+> -		ret = request_irq(cpu_to->clkevt.irq, tegra_timer_isr,
+> -				  IRQF_TIMER | IRQF_NOBALANCING,
+> +
+> +		ret = request_irq(cpu_to->clkevt.irq, tegra_timer_isr, flags,
+>  				  cpu_to->clkevt.name, &cpu_to->clkevt);
+>  		if (ret) {
+>  			pr_err("failed to set up irq for cpu%d: %d\n",
+> 
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index b36e8758936b..3e471c736124 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -582,6 +582,12 @@
- 		cpu@3 {
- 			enable-method = "psci";
- 		};
-+
-+		idle-states {
-+			cpu-sleep {
-+				status = "okay";
-+			};
-+		};
- 	};
- 
- 	gpio-keys {
+Cheers
+Jon
+
 -- 
-2.21.0
-
+nvpublic
