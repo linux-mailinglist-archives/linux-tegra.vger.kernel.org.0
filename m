@@ -2,92 +2,180 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E05474DD
-	for <lists+linux-tegra@lfdr.de>; Sun, 16 Jun 2019 15:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DABE74775E
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 01:36:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbfFPN4U (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 16 Jun 2019 09:56:20 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:43608 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725874AbfFPN4U (ORCPT
+        id S1727413AbfFPXgH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 16 Jun 2019 19:36:07 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:40526 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727238AbfFPXgH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 16 Jun 2019 09:56:20 -0400
-Received: by mail-lf1-f68.google.com with SMTP id j29so4643047lfk.10;
-        Sun, 16 Jun 2019 06:56:18 -0700 (PDT)
+        Sun, 16 Jun 2019 19:36:07 -0400
+Received: by mail-lj1-f195.google.com with SMTP id a21so7494255ljh.7;
+        Sun, 16 Jun 2019 16:36:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vUj7/cmqz5EsJjON5muTu2B1PksKipHdgkZedARaWAY=;
-        b=EArIxiUtzwv4fAo+tQXYXVYXrYx2cB+95rmkMP1Sbun8BYAnoXJvcPNJ/+VqPFG7NV
-         RPrMmnQO0vhs5xa32MLsOiZv0l8PCJ8cpaPqhI2flQWvJqgbAcTNjvAxCzSwYJ7Wnbqx
-         8ME4LPcwqiU1sF5dW5bKJa8CbpWGd10FcE1NdAk1Pm89ovais6IaK27HFTgvojNoa2EO
-         QqjQFZTrx+kRH6ptv+PeApRs4rUu/bYTsNRNgQyTuy/XQQ9r8N2WGQ10Vc93gmIwNN6j
-         9+ef2fyP0GA5kaZ3bDgK4ygInimJmZAndBQWqnx2UA1K8ICDQQeW8AjiynhslUrERBml
-         hJqQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L+LU7+GDzyc9Nezc+LMmj0Gd4S4WEMfsuAb4Lyp6cQA=;
+        b=mlwvpwq8BYWuen554yfnPbl0SQlVE/+XpwxFTQ2pMNUOtCLzgPsUsRBVAbYQ+Zx5Vh
+         cxMaJA8DaR+sAk1NI8/B6tH8egUZizK9iIlbHpSJcEzU3iNC9ofxm4spRjiixGNopPce
+         8Ga0tRXayoEE4dU4AmPb6aWwJgruB2DQP2ClVTn82jyI5ZtoFeMpDJZAL6OE9S+00YHT
+         25g4JiyLwyzKCdMti9mfxzU8Kl1BUAT5P4lolJfZT6MPjhOhtAcvkAXD5MZlorIthfW+
+         lD8farvJ6fbxK6nxnOOajxrFDfeyaV4KktMCpfcKGI46kAdZSw66WCN1uqOb61Z0YdZS
+         XxKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=vUj7/cmqz5EsJjON5muTu2B1PksKipHdgkZedARaWAY=;
-        b=iMZ9D5coofBoyYdS1DlOfqWCsVtFs/pYbq7lUYLmQKO/dY3QuwzTkJrn6rXBKesw2b
-         NofVkrvy5XxrFjWG5OmwtsAYQnsAPUIiE29tIxc/F5znb5D6ctgXLn3/1ns3ne5x86mc
-         0oaIifEgbpJcY2X0LG2r8v7jLaeal1Rmt1lvHTMu7g0wQs5JmlEBUD0mftpCqRd1xfNQ
-         rFRuzKSxcu1zdi/vsmT/XaduAmIZkDwZpIlz5QUkN3fCyRisABTybhZTUnzJwPiMIAOb
-         Mf+FmYedxBxH7U+l1hv8oaUcSFw2F+Zbm44cR6m5ud2Xc+u1uUt7mip4qFsacrxKJzK4
-         swaQ==
-X-Gm-Message-State: APjAAAVxtX86D5HtiPl7YMQRnzeCY/DyyiFis/hvaX5BsPU4YtAVsaSf
-        7utSn2xAiblI7FNDRCzYeoQ=
-X-Google-Smtp-Source: APXvYqziCr78Zs5kDjI/NHZgifF4wyDPKUb+UgfVgT5G+4vXttuXr/e5KKMq7FdThf8SUrN9mEM1kg==
-X-Received: by 2002:a19:6e41:: with SMTP id q1mr45228904lfk.20.1560693377880;
-        Sun, 16 Jun 2019 06:56:17 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id z12sm1297835lfg.67.2019.06.16.06.56.16
+        bh=L+LU7+GDzyc9Nezc+LMmj0Gd4S4WEMfsuAb4Lyp6cQA=;
+        b=pIyciNegFiHr+sLg+xNawtn9rk/T0r83I2eaDw2+IOYD77THPqRVhHTvbUOQ0CR1Aj
+         VF7lYdmPoz7v442x5NDXtP1qnX+Gjs66YN8lqEGH9XYw2jF8161+i9MtsuH9VPtxDTRd
+         2IcO6ka/jGiKFp0nH5KrNltN+LsekSoyYwSKxEbNW8SxsfwrXZunBtZyPq45kg4bTvPP
+         r7NePlOiAwHR4iGb+ptHD/i0kfJmsf8T9lAupgsPoxW0kuiLML7RYR+N/SxYpAYHvfm4
+         Du3E1dtuhiX9K04p++MrJtzPouNtt7UGznGnKzLh0kEC1Enhj2NV3x0CW0Iaazw0bPYy
+         eCyQ==
+X-Gm-Message-State: APjAAAV9N+pFVbwr/9ReEfxtlV/ImAtgfUOMhuedl1sFcpkl2CManfnY
+        dnDyYfGGammDEvBW3X9BccI=
+X-Google-Smtp-Source: APXvYqzfF1XY4C9BCOmR4qJUkLfJ0SYMovCjrMqGNLFtbazopEydcGQi6N2rFSrgtNIRIDFtePQGlQ==
+X-Received: by 2002:a2e:3013:: with SMTP id w19mr45588286ljw.73.1560728164706;
+        Sun, 16 Jun 2019 16:36:04 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.gmail.com with ESMTPSA id q4sm2008377lje.99.2019.06.16.16.36.03
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 16 Jun 2019 06:56:17 -0700 (PDT)
-Subject: Re: [PATCH V3] i2c: busses: tegra: Add suspend-resume support
-To:     Wolfram Sang <wsa@the-dreams.de>, Bitan Biswas <bbiswas@nvidia.com>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>
-References: <1559885867-10190-1-git-send-email-bbiswas@nvidia.com>
- <20190614211129.GG17899@ninjato>
- <758d6dc2-f044-6be3-6896-196ef477d393@nvidia.com>
- <20190615045405.GA1023@kunai>
+        Sun, 16 Jun 2019 16:36:03 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <69a9a7e3-f885-b6ab-60bb-a1165ce2db23@gmail.com>
-Date:   Sun, 16 Jun 2019 16:56:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+To:     Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/10] memory: tegra: Introduce Tegra30 EMC driver
+Date:   Mon, 17 Jun 2019 02:35:41 +0300
+Message-Id: <20190616233551.6838-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20190615045405.GA1023@kunai>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-15.06.2019 7:54, Wolfram Sang пишет:
-> 
->>> Without a maintainer ack, this is an exception this time. Should we add
->>> Dmitry as another maintainer or reviewer at least?
->>>
->> I shall followup with Maintainer for ACK in future I2C tegra patches.
-> 
-> This comment was not directed at you, sorry if that was not clear. It
-> was more for Laxman, Thierry, Jonathan, and Dmitry (if he is
-> interested).
-> 
+Hello,
 
-I don't mind at all to review and test patches for the driver and can propose myself
-as a reviewer if that helps and if there are no objections from the Tegra maintainers.
-My primary interest is to have my devices working after next kernel update, but I also
-like to review patches in general if they are touching area that I'm familiar with.
+This series introduces driver for the External Memory Controller (EMC)
+found on Tegra30 chips, it controls the external DRAM on the board. The
+purpose of this driver is to program memory timing for external memory on
+the EMC clock rate change. The driver was tested using the ACTMON devfreq
+driver that performs memory frequency scaling based on memory-usage load.
+
+Changelog:
+
+v4: - Addressed review comments that were made by Peter De Schrijver to v3
+      by adding fence_udelay() after writes in the "Add custom EMC clock
+      implementation" patch.
+
+    - Added two new minor patches:
+
+        memory: tegra: Ensure timing control debug features are disabled
+        memory: tegra: Consolidate registers definition into one place
+
+      The first one is needed to ensure that EMC driver will work
+      properly regardless of hardware configuration left after boot.
+      The second patch is just a minor code cleanup.
+
+    - The "Introduce Tegra30 EMC driver" got also few very minor changes.
+      Now every possible error case is handled, nothing is ignored.
+      The EMC_DBG register is explicitly initialized during probe to be
+      on the safe side.
+
+v3: - Addressed review comments that were made by Stephen Boyd to v2 by
+      adding explicit typing for the callback variable, by including
+      "clk-provider.h" directly in the code and by dropping __clk_lookup
+      usage where possible.
+
+    - Added more patches into this series:
+
+        memory: tegra20-emc: Drop setting EMC rate to max on probe
+        memory: tegra20-emc: Adapt for clock driver changes
+        memory: tegra20-emc: Include io.h instead of iopoll.h
+        memory: tegra20-emc: Replace clk_get_sys with devm_clk_get
+
+      Initially I was going to include these patches into other patchset,
+      but changed my mind after rearranging things a tad. The "Adapt for
+      clock driver changes" patch is directly related to the clock changes
+      done in the first patch of this series, the rest are minor cleanups
+      that are fine to include here as well.
+
+    - Added some more words to the commit message of "Add binding for NVIDIA
+      Tegra30 External Memory Controller" patch, clarifying why common DDR
+      timing device-tree form isn't suitable for Tegra30.
+
+    - The Tegra30 EMC driver now explicitly selects the registers access
+      mode (EMC_DBG mux), not relying on the setting left from bootloader.
+
+v2: - Added support for changing MC clock diver configuration based on
+      Memory Controller (MC) configuration which is part of the memory
+      timing.
+
+    - Merged the "Add custom EMC clock implementation" patch into this
+      series because the "Introduce Tegra30 EMC driver" patch directly
+      depends on it. Please note that Tegra20 EMC driver will need to be
+      adapted for the clock changes as well, I'll send out the Tegra20
+      patches after this series will be applied because of some other
+      dependencies (devfreq) and because the temporary breakage won't
+      be critical (driver will just error out on probe).
+
+    - EMC driver now performs MC configuration validation by checking
+      that the number of MC / EMC timings matches and that the timings
+      rate is the same.
+
+    - EMC driver now supports timings that want to change the MC clock
+      configuration.
+
+    - Other minor prettifying changes of the code.
+
+Dmitry Osipenko (10):
+  clk: tegra20/30: Add custom EMC clock implementation
+  memory: tegra20-emc: Drop setting EMC rate to max on probe
+  memory: tegra20-emc: Adapt for clock driver changes
+  memory: tegra20-emc: Include io.h instead of iopoll.h
+  memory: tegra20-emc: Replace clk_get_sys with devm_clk_get
+  dt-bindings: memory: Add binding for NVIDIA Tegra30 External Memory
+    Controller
+  memory: tegra: Introduce Tegra30 EMC driver
+  memory: tegra: Ensure timing control debug features are disabled
+  memory: tegra: Consolidate registers definition into one place
+  ARM: dts: tegra30: Add External Memory Controller node
+
+ .../memory-controllers/nvidia,tegra30-emc.txt |  249 ++++
+ arch/arm/boot/dts/tegra30.dtsi                |   11 +
+ drivers/clk/tegra/Makefile                    |    2 +
+ drivers/clk/tegra/clk-tegra20-emc.c           |  305 +++++
+ drivers/clk/tegra/clk-tegra20.c               |   55 +-
+ drivers/clk/tegra/clk-tegra30.c               |   38 +-
+ drivers/clk/tegra/clk.h                       |    6 +
+ drivers/memory/tegra/Kconfig                  |   10 +
+ drivers/memory/tegra/Makefile                 |    1 +
+ drivers/memory/tegra/mc.c                     |   42 +-
+ drivers/memory/tegra/mc.h                     |   74 +-
+ drivers/memory/tegra/tegra124.c               |   20 -
+ drivers/memory/tegra/tegra20-emc.c            |   94 +-
+ drivers/memory/tegra/tegra30-emc.c            | 1197 +++++++++++++++++
+ drivers/memory/tegra/tegra30.c                |   24 +
+ include/linux/clk/tegra.h                     |   14 +
+ include/soc/tegra/mc.h                        |    2 +-
+ 17 files changed, 1973 insertions(+), 171 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.txt
+ create mode 100644 drivers/clk/tegra/clk-tegra20-emc.c
+ create mode 100644 drivers/memory/tegra/tegra30-emc.c
+
+-- 
+2.22.0
+
