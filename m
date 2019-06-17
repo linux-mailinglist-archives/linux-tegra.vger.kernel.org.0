@@ -2,51 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E1414842F
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 15:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAAF548459
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 15:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727078AbfFQNhD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 09:37:03 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:37760 "EHLO
+        id S1726151AbfFQNpB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 09:45:01 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52126 "EHLO
         mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725884AbfFQNhC (ORCPT
+        with ESMTP id S1725983AbfFQNpB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 09:37:02 -0400
-Received: by mail-wm1-f66.google.com with SMTP id f17so6639886wme.2;
-        Mon, 17 Jun 2019 06:37:00 -0700 (PDT)
+        Mon, 17 Jun 2019 09:45:01 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 207so9354866wma.1;
+        Mon, 17 Jun 2019 06:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Pz+MJpArisYQrfWi1l8CgjJCZ0sBnaJmYJFQI+E8ins=;
-        b=vPwuP/5DaUP8MHatA256OU+MddlRTG15mE+/aKo0T3mbrwDrrIuLBK8fLPPRGOBX1X
-         oaI6M7Op4jX1pLz/bsmk6yo5txOt7BRJVvBG0md2TZQPiR1kUjy3suE/p07QZk4W73jL
-         qUJumPYSlCb9/yBkNBNLJFYm7LkFxnPEuVn0wJrOnGLLZfAysnt6/OtJ2Ivw6EMxFfkn
-         GILlR+EmSvMh3nh54hdB/f6M3NK636FoL5oGkpKtjsR+wR0HPKazRVHC+0idUyfqT/sI
-         +jCtSTZhap8sanpocCwvnbgyHlUE9jFniGLulkJPspMGJ9fE2YJOP7ULXGNepL7XeCiB
-         +yaA==
+        bh=OQWr/q8FG80RylP2O4RMDll4yVbzxbxdT0J72wII+Wg=;
+        b=LwIKOUf/XcyQRDlCLWbs7G0s7dyJ490GnLSVJlYt3gqfnnnDHFvIlSIq5KPkdWbbr0
+         EbpWL2q2VgT/ClXJzEhwTixO1Dm9tmmkKJOGlOEY2Ua7i+HUt/tZYwqoVKYwQjUCHtPz
+         YNan3jXi2xtT6x8yGJitrLsraYcw8glXH7N90j58Xvd3Gqx6GhdC9wB27qOHX/dFjOvt
+         ZClIi38D4eYqSWn57UX1pxcIbbrHiyn7+4My8F56ZHwdilRyjaTFnhtuLnMxl/mmEq2V
+         tsWqE3Ob5RyTSyAjDi8dFjLzzR+eEVxdNiWwta4B7/vIV7ZAHcQYhXAsCwfvC4UL5+Hi
+         TgZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Pz+MJpArisYQrfWi1l8CgjJCZ0sBnaJmYJFQI+E8ins=;
-        b=QzQOJb29KzMy6rpwW98MQocyM+rMngTQTITLJz04PJWI1fB6mFHrbiPQ/n5WnqBTtm
-         TsuxTW7S8DVUvjqI1lC7q+5j8Br9SceY3uhPBIgMRGXiLmvxa2Ga+84+sY0wzZBeSOLP
-         WGTVOLtxXhY/XFD33T9JXh13S7qx/7E/V9JyZys33KK4WNSvFycMNlQ61o2jLksbyUH/
-         dIWbEww0TwBv4pbqws6E6DmLmTdV/9u1AYTQrw+WlyvpiJiO2Wqleadtc0HAvJcH8QEB
-         zRQe6nJT90B9JkxT1vmPx5JZA0skDuNsDrhzZKX3GTsqGURmUvMRAiHs3AV2JhrA8TB6
-         36Ww==
-X-Gm-Message-State: APjAAAWZn42F7vNwA4BD/6ESPHA4+06hDPteBz3adhP/4bC1nuJ3irg9
-        Pt8n3xdCeXCSqQt0iFPrbC+6jd+f
-X-Google-Smtp-Source: APXvYqyTub4yFw683PZGg3zLIzHE0p9JVXfc/pFFw7Uvu1JjB4Tf23crEMJMOqRO5zo3L/ty+KbLAA==
-X-Received: by 2002:a05:600c:1008:: with SMTP id c8mr19509319wmc.133.1560778619493;
-        Mon, 17 Jun 2019 06:36:59 -0700 (PDT)
+        bh=OQWr/q8FG80RylP2O4RMDll4yVbzxbxdT0J72wII+Wg=;
+        b=hslDStrtghHLAlWhxDoqq8eUlnFknQMlnrUpaly1vHk0W7VgiNmHEzVuGTVa4RK810
+         5Dpvr84MI9xo+4t1AgVdrKZpD7qkVFxyKcPc7Kci7NjA4+kwoBtylvfkJf18W0MT9/S5
+         Y6R86H0dwWi9+k1QOdzofmJUaM0UUuaG9W7zKg+oQnIR+AnqbPeIk4UCZvwJDJD1/E8q
+         WG7xuAWZ8cxeDna6YWbhoddR0n/HNYLdLDC9zoEcFF0IzN83c7jkvtDhnAy6N++D+RZC
+         uWc1BJJ/Znw9ECtlZj7qs2HyZ3gFZNxz5NZKMWLmO5YY4wVDXozB/LrCguxtKHCL0oB9
+         BsTQ==
+X-Gm-Message-State: APjAAAVJNPF4MoymNZdJAUfYGKT4Tm6qoQ0OrAHxjLvAdrpNoCdCv7Vj
+        /nxKVInXeg5eZhskSfDwLesebcU3
+X-Google-Smtp-Source: APXvYqxSeM5EsXbMda9TmrGNmeq5fBAHHZM3UH8tyUUCj8zDvtqesxiAf64l7OGeHOh3fwdRHY6sQg==
+X-Received: by 2002:a1c:cb4d:: with SMTP id b74mr19769936wmg.43.1560779098118;
+        Mon, 17 Jun 2019 06:44:58 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id t1sm15671157wra.74.2019.06.17.06.36.58
+        by smtp.googlemail.com with ESMTPSA id 18sm9666582wmg.43.2019.06.17.06.44.56
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jun 2019 06:36:58 -0700 (PDT)
-Subject: Re: [PATCH v1 3/4] staging: media: tegra-vde: Add IOMMU support
+        Mon, 17 Jun 2019 06:44:57 -0700 (PDT)
+Subject: Re: [PATCH v1 4/4] staging: media: tegra-vde: Defer dmabuf's
+ unmapping
 To:     Hans Verkuil <hverkuil@xs4all.nl>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,15 +57,15 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
 References: <20190602213712.26857-1-digetx@gmail.com>
- <20190602213712.26857-7-digetx@gmail.com>
- <5c274249-6c88-b4bd-70fe-0751f5bbfdfc@xs4all.nl>
+ <20190602213712.26857-8-digetx@gmail.com>
+ <4c00cfe6-6598-2017-cce5-ce3c30fd14ba@xs4all.nl>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <06a73666-8985-68a6-66cf-cf9cc00d6929@gmail.com>
-Date:   Mon, 17 Jun 2019 16:36:57 +0300
+Message-ID: <9bc14323-6c7e-54ff-50d6-48260ad9ea8c@gmail.com>
+Date:   Mon, 17 Jun 2019 16:44:56 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <5c274249-6c88-b4bd-70fe-0751f5bbfdfc@xs4all.nl>
+In-Reply-To: <4c00cfe6-6598-2017-cce5-ce3c30fd14ba@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -73,53 +74,40 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.06.2019 16:31, Hans Verkuil пишет:
+17.06.2019 16:33, Hans Verkuil пишет:
 > On 6/2/19 11:37 PM, Dmitry Osipenko wrote:
->> All Tegra's could provide memory isolation for the video decoder
->> hardware using IOMMU, it is also required for Tegra30+ in order
->> to handle sparse dmabuf's which GPU exports in a default kernel
->> configuration.
+>> Frequent IOMMU remappings take about 50% of CPU usage because there is
+>> quite a lot to remap. Defer dmabuf's unmapping by 5 seconds in order to
+>> mitigate the mapping overhead which goes away completely and driver works
+>> as fast as in a case of a disabled IOMMU. The case of a disabled IOMMU
+>> should also benefit a tad from the caching since CPU cache maintenance
+>> that happens on dmabuf's attaching takes some resources.
 >>
->> Inspired-by: Thierry Reding <thierry.reding@gmail.com>
 >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 >> ---
->>  drivers/staging/media/tegra-vde/Kconfig       |   1 +
->>  drivers/staging/media/tegra-vde/Makefile      |   1 +
->>  drivers/staging/media/tegra-vde/iommu.c       | 148 ++++++++++++++
->>  drivers/staging/media/tegra-vde/trace.h       |   1 +
->>  .../media/tegra-vde/{tegra-vde.c => vde.c}    | 188 +++++++++---------
->>  drivers/staging/media/tegra-vde/vde.h         |  89 +++++++++
->>  6 files changed, 335 insertions(+), 93 deletions(-)
->>  create mode 100644 drivers/staging/media/tegra-vde/iommu.c
->>  rename drivers/staging/media/tegra-vde/{tegra-vde.c => vde.c} (91%)
->>  create mode 100644 drivers/staging/media/tegra-vde/vde.h
+>>  drivers/staging/media/tegra-vde/Makefile      |   2 +-
+>>  .../staging/media/tegra-vde/dmabuf-cache.c    | 223 ++++++++++++++++++
+>>  drivers/staging/media/tegra-vde/iommu.c       |   2 -
+>>  drivers/staging/media/tegra-vde/vde.c         | 143 +++--------
+>>  drivers/staging/media/tegra-vde/vde.h         |  18 +-
+>>  5 files changed, 273 insertions(+), 115 deletions(-)
+>>  create mode 100644 drivers/staging/media/tegra-vde/dmabuf-cache.c
 >>
->> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
->> index ff8e846cd15d..2e7f644ae591 100644
->> --- a/drivers/staging/media/tegra-vde/Kconfig
->> +++ b/drivers/staging/media/tegra-vde/Kconfig
->> @@ -3,6 +3,7 @@ config TEGRA_VDE
->>  	tristate "NVIDIA Tegra Video Decoder Engine driver"
->>  	depends on ARCH_TEGRA || COMPILE_TEST
->>  	select DMA_SHARED_BUFFER
->> +	select IOMMU_IOVA if IOMMU_SUPPORT
->>  	select SRAM
->>  	help
->>  	    Say Y here to enable support for the NVIDIA Tegra video decoder
 >> diff --git a/drivers/staging/media/tegra-vde/Makefile b/drivers/staging/media/tegra-vde/Makefile
->> index 7f9020e634f3..c11867e28233 100644
+>> index c11867e28233..2827f7601de8 100644
 >> --- a/drivers/staging/media/tegra-vde/Makefile
 >> +++ b/drivers/staging/media/tegra-vde/Makefile
->> @@ -1,2 +1,3 @@
+>> @@ -1,3 +1,3 @@
 >>  # SPDX-License-Identifier: GPL-2.0
->> +tegra-vde-y := vde.o iommu.o
+>> -tegra-vde-y := vde.o iommu.o
+>> +tegra-vde-y := vde.o iommu.o dmabuf-cache.o
 >>  obj-$(CONFIG_TEGRA_VDE)	+= tegra-vde.o
->> diff --git a/drivers/staging/media/tegra-vde/iommu.c b/drivers/staging/media/tegra-vde/iommu.c
+>> diff --git a/drivers/staging/media/tegra-vde/dmabuf-cache.c b/drivers/staging/media/tegra-vde/dmabuf-cache.c
 >> new file mode 100644
->> index 000000000000..295c3d7cccd3
+>> index 000000000000..fcde8d1c37e7
 >> --- /dev/null
->> +++ b/drivers/staging/media/tegra-vde/iommu.c
->> @@ -0,0 +1,148 @@
+>> +++ b/drivers/staging/media/tegra-vde/dmabuf-cache.c
+>> @@ -0,0 +1,223 @@
 >> +// SPDX-License-Identifier: GPL-2.0+
 >> +/*
 >> + * NVIDIA Tegra Video decoder driver
@@ -127,76 +115,73 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 >> + * Copyright (C) 2016-2019 GRATE-DRIVER project
 >> + */
 >> +
->> +#include <linux/iommu.h>
+>> +#include <linux/dma-buf.h>
 >> +#include <linux/iova.h>
 >> +#include <linux/kernel.h>
->> +#include <linux/platform_device.h>
->> +
->> +#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
->> +#include <asm/dma-iommu.h>
->> +#endif
+>> +#include <linux/list.h>
+>> +#include <linux/sched.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/workqueue.h>
 >> +
 >> +#include "vde.h"
 >> +
->> +int tegra_vde_iommu_map(struct tegra_vde *vde,
->> +			struct sg_table *sgt,
->> +			struct iova **iovap,
->> +			dma_addr_t *addrp,
->> +			size_t size)
->> +{
+>> +struct tegra_vde_cache_entry {
+>> +	enum dma_data_direction dma_dir;
+>> +	struct dma_buf_attachment *a;
+>> +	struct delayed_work dwork;
+>> +	struct tegra_vde *vde;
+>> +	struct list_head list;
+>> +	struct sg_table *sgt;
 >> +	struct iova *iova;
->> +	unsigned long shift;
->> +	unsigned long end;
->> +	dma_addr_t addr;
+>> +	unsigned int refcnt;
+>> +};
 >> +
->> +	end = vde->domain->geometry.aperture_end;
->> +	size = iova_align(&vde->iova, size);
->> +	shift = iova_shift(&vde->iova);
+>> +static void tegra_vde_release_entry(struct tegra_vde_cache_entry *entry)
+>> +{
+>> +	struct dma_buf *dmabuf = entry->a->dmabuf;
 >> +
->> +	iova = alloc_iova(&vde->iova, size >> shift, end >> shift, true);
->> +	if (!iova)
->> +		return -ENOMEM;
+>> +	WARN_ON_ONCE(entry->refcnt);
 >> +
->> +	addr = iova_dma_addr(&vde->iova, iova);
+>> +	if (entry->vde->domain)
+>> +		tegra_vde_iommu_unmap(entry->vde, entry->iova);
 >> +
->> +	size = iommu_map_sg(vde->domain, addr, sgt->sgl, sgt->nents,
->> +			    IOMMU_READ | IOMMU_WRITE);
->> +	if (!size) {
->> +		__free_iova(&vde->iova, iova);
->> +		return -ENXIO;
->> +	}
+>> +	dma_buf_unmap_attachment(entry->a, entry->sgt, entry->dma_dir);
+>> +	dma_buf_detach(dmabuf, entry->a);
+>> +	dma_buf_put(dmabuf);
 >> +
->> +	*iovap = iova;
->> +	*addrp = addr;
->> +
->> +	return 0;
+>> +	list_del(&entry->list);
+>> +	kfree(entry);
 >> +}
 >> +
->> +void tegra_vde_iommu_unmap(struct tegra_vde *vde, struct iova *iova)
+>> +static void tegra_vde_delayed_unmap(struct work_struct *work)
 >> +{
->> +	unsigned long shift = iova_shift(&vde->iova);
->> +	unsigned long size = iova_size(iova) << shift;
->> +	dma_addr_t addr = iova_dma_addr(&vde->iova, iova);
+>> +	struct tegra_vde_cache_entry *entry;
 >> +
->> +	iommu_unmap(vde->domain, addr, size);
->> +	__free_iova(&vde->iova, iova);
->> +}
+>> +	entry = container_of(work, struct tegra_vde_cache_entry,
+>> +			     dwork.work);
 >> +
->> +int tegra_vde_iommu_init(struct tegra_vde *vde)
->> +{
->> +	struct iova *iova;
->> +	unsigned long order;
->> +	unsigned long shift;
->> +	int err;
->> +
->> +	vde->group = iommu_group_get(vde->miscdev.parent);
->> +	if (!vde->group)
->> +		return 0;
->> +
->> +#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
->> +	if (dev->archdata.mapping) {
+>> +	mutex_lock(&entry->vde->map_lock);
+>> +	tegra_vde_release_entry(entry);
+>> +	mutex_unlock(&entry->vde->map_lock);
 > 
-> 'dev' doesn't exist, so this fails to compile!
+> From smatch:
+> 
+> drivers/staging/media/tegra-vde/dmabuf-cache.c:55 tegra_vde_delayed_unmap() error: dereferencing freed memory 'entry'
 
-Oh, indeed! I actually didn't even try to compile with CONFIG_ARM_DMA_USE_IOMMU. Will
-fix it in v2, thanks!
+That's a very good catch, thanks you very much! I'm keep forgetting about smatch, it's
+a useful tool. And unfortunately I can't KASAN the driver because ARM32 doesn't
+support KASAN in upstream and Xorg hangs with the unofficial patch that adds support
+for the KASAN.
+
+[snip]
+
+>> +	entry->dma_dir = dma_dir;
+>> +	entry->iova = iova;
+> 
+> From smatch:
+> 
+> drivers/staging/media/tegra-vde/dmabuf-cache.c:133 tegra_vde_dmabuf_cache_map() error: uninitialized symbol 'iova'.
+
+This is fine, but indeed won't hurt to explicitly initialize to NULL.
+
+Thanks again!
