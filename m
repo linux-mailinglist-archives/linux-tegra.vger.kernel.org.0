@@ -2,88 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E30B548AF8
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 19:58:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E9E148AED
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 19:58:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728654AbfFQR6Y (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 13:58:24 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:34935 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728564AbfFQR6V (ORCPT
+        id S1728598AbfFQR6T (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 13:58:19 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:11787 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726091AbfFQR6T (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 13:58:21 -0400
-Received: by mail-wm1-f68.google.com with SMTP id c6so351588wml.0;
-        Mon, 17 Jun 2019 10:58:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RA99XH++ZeHo9lFJDfpQ1th6xBYVyCVIO6aT2ccvLfQ=;
-        b=iir/cwro3Uo0pydX2p6MssHcUcKCWLi3F0aRNfT9oiuPoCu3KzQi3D++TfCMCA5kbq
-         UhdVsSno+MyWwqU7UMla2YRrjl3vooBFlx0nKtYTh44mvlxTjTeU/ZMsoTFT3Na0Nbo8
-         zbXVWPc9pfLCEz8akgJpe2z9seqCP2z2haWgAfsi9/bgn50zH7bOZc5jW9vXW8SMk4Rt
-         tx2lTCVIciiKlEe6uGemUYOgLdxEayja9E1N+noF29tOg7VjKlKwytO7pxFuV7oS4QEN
-         rJlpCllgKrwVj7eJfedrwSjRfOJSjzakYsBlPrwpP8+Cypssx+Hl6JwcIa7W9QWRzmBt
-         BA8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RA99XH++ZeHo9lFJDfpQ1th6xBYVyCVIO6aT2ccvLfQ=;
-        b=DCGnKi4bh/i7N18dukr0h5GrOPxayUkr5Eaa/GezQM3lXq6m926Ous4Y2+Zc8TNW1C
-         bDftOe0KuqoauxRY8v0izGsPtoZoY2NOwjjah0DpzURbmgmbMqmi1PPBnXLykO0WywCF
-         k4CHJ4KAptYMqawclTTklG06/dEsjQzmSxVclzkDtauMFTKl+1d+AAMzjfssBg71nZdU
-         ejwM3BJZXarygvyYm7vKpI2P2gN09hERsJOD8ZM0IcDKOeujk0/LOLO7aJiKb32+RbgV
-         zg01Cm5IqmNdAGYUEK0g1tWBKhCyOa1gqQcdKJFDh17q7Uw9QtHqwLcOlKFM0okJyhiz
-         Y0uA==
-X-Gm-Message-State: APjAAAV/II8C/5PTvRr4LJSTuCrIlEzV8B/k/38nhqf1XLTlV1OQrXUy
-        nN78oGbx2NYcOQG+U/M4OBA=
-X-Google-Smtp-Source: APXvYqxzwMRI3pC9nLxx+cmi8fX06IrtlUhdDEcmz2BcTfXpaVk8v0SGvmPS+vZF06+nGUJcsaBAYg==
-X-Received: by 2002:a1c:343:: with SMTP id 64mr21050453wmd.116.1560794289646;
-        Mon, 17 Jun 2019 10:58:09 -0700 (PDT)
-Received: from arch-x1c3 ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
-        by smtp.gmail.com with ESMTPSA id s188sm13333537wmf.40.2019.06.17.10.58.07
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 17 Jun 2019 10:58:08 -0700 (PDT)
-Date:   Mon, 17 Jun 2019 18:56:06 +0100
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        spice-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        etnaviv@lists.freedesktop.org, xen-devel@lists.xenproject.org,
-        linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 06/59] drm/prime: Actually remove DRIVER_PRIME everywhere
-Message-ID: <20190617175606.GE26766@arch-x1c3>
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-7-daniel.vetter@ffwll.ch>
+        Mon, 17 Jun 2019 13:58:19 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d07d4ba0000>; Mon, 17 Jun 2019 10:58:18 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 17 Jun 2019 10:58:18 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 17 Jun 2019 10:58:18 -0700
+Received: from [10.19.65.14] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 17 Jun
+ 2019 17:58:15 +0000
+Subject: Re: [PATCH V3] i2c: busses: tegra: Add suspend-resume support
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Wolfram Sang <wsa@the-dreams.de>
+CC:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Shardar Mohammed <smohammed@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mantravadi Karthik <mkarthik@nvidia.com>
+References: <1559885867-10190-1-git-send-email-bbiswas@nvidia.com>
+ <20190614211129.GG17899@ninjato>
+ <758d6dc2-f044-6be3-6896-196ef477d393@nvidia.com>
+ <20190615045405.GA1023@kunai> <20190617070935.GB30126@ulmo>
+From:   Bitan Biswas <bbiswas@nvidia.com>
+Message-ID: <4abda3d1-b70b-672d-0fe0-6e0ef748f9aa@nvidia.com>
+Date:   Mon, 17 Jun 2019 10:58:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190614203615.12639-7-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190617070935.GB30126@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1560794298; bh=0ueJBY+Lv6odOXcv++qxQRsJjIhWcKA5wndZDLgnKGQ=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=DKuno/6ydOH7Oel00ywdck6oDWWbiMppgU5mfbnBCi2UpQgMyp0sEkZJRXo9G4tya
+         p2qppgQL8nRHOjFGHKaT+rHIhZb6d94OUqE2S/lRmZ0VHz50HJqyHKcSOAsgmKhkz9
+         +tEA1iDctCwUDteJS7Odxcxw4Fd+3ubJVqyK/jhKhmzGsxIPhph+oIYoWYyyguC4Iv
+         0mI2BJBKIZI4FGBzbKaJVCfv43IMmA/stOwV9ZitcBDOcKRy0FLEAoHvw6DEKcu0o7
+         9elO43NwIuepL23nFFExsPyjajML5/S5fAic3KWqJNjrHteAgjgHMz5cs6KyXyTVV6
+         AmY/+giItMaqg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2019/06/14, Daniel Vetter wrote:
-> Split out to make the functional changes stick out more.
+
+
+On 6/17/19 12:09 AM, Thierry Reding wrote:
+> On Sat, Jun 15, 2019 at 06:54:05AM +0200, Wolfram Sang wrote:
+>>
+>>>> Without a maintainer ack, this is an exception this time. Should we add
+>>>> Dmitry as another maintainer or reviewer at least?
+>>>>
+>>> I shall followup with Maintainer for ACK in future I2C tegra patches.
+>>
+>> This comment was not directed at you, sorry if that was not clear. It
+>> was more for Laxman, Thierry, Jonathan, and Dmitry (if he is
+>> interested).
 > 
-Since this patch flew-by, as standalone one (intentionally or not) I'd
-add, anything vaguely like:
+> I thought I had already acked this. I've certainly been testing this
+> since I carry it in a local tree. So for what it's worth:
+> 
+> Tested-by: Thierry Reding <treding@nvidia.com>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> 
+> Bitan, I don't mind getting the patches to the corporate email address,
+> but please make sure to also always include the gmail address when
+> sending patches to the public mailing lists. My workflow is somewhat
+> quirky that way because I work remotely and for historical reasons.
+I shall put both email addresses going forward.
 
-"Core users of DRIVER_PRIME were removed from core with prior patches."
-
-HTH
-Emil
+-regards,
+  Bitan
