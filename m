@@ -2,96 +2,132 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E9E148AED
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 19:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0FA048CD1
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 20:44:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728598AbfFQR6T (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 13:58:19 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:11787 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726091AbfFQR6T (ORCPT
+        id S1727087AbfFQSlh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 14:41:37 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:35253 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725764AbfFQSlh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 13:58:19 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d07d4ba0000>; Mon, 17 Jun 2019 10:58:18 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 17 Jun 2019 10:58:18 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 17 Jun 2019 10:58:18 -0700
-Received: from [10.19.65.14] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 17 Jun
- 2019 17:58:15 +0000
-Subject: Re: [PATCH V3] i2c: busses: tegra: Add suspend-resume support
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Wolfram Sang <wsa@the-dreams.de>
-CC:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>
-References: <1559885867-10190-1-git-send-email-bbiswas@nvidia.com>
- <20190614211129.GG17899@ninjato>
- <758d6dc2-f044-6be3-6896-196ef477d393@nvidia.com>
- <20190615045405.GA1023@kunai> <20190617070935.GB30126@ulmo>
-From:   Bitan Biswas <bbiswas@nvidia.com>
-Message-ID: <4abda3d1-b70b-672d-0fe0-6e0ef748f9aa@nvidia.com>
-Date:   Mon, 17 Jun 2019 10:58:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190617070935.GB30126@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560794298; bh=0ueJBY+Lv6odOXcv++qxQRsJjIhWcKA5wndZDLgnKGQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=DKuno/6ydOH7Oel00ywdck6oDWWbiMppgU5mfbnBCi2UpQgMyp0sEkZJRXo9G4tya
-         p2qppgQL8nRHOjFGHKaT+rHIhZb6d94OUqE2S/lRmZ0VHz50HJqyHKcSOAsgmKhkz9
-         +tEA1iDctCwUDteJS7Odxcxw4Fd+3ubJVqyK/jhKhmzGsxIPhph+oIYoWYyyguC4Iv
-         0mI2BJBKIZI4FGBzbKaJVCfv43IMmA/stOwV9ZitcBDOcKRy0FLEAoHvw6DEKcu0o7
-         9elO43NwIuepL23nFFExsPyjajML5/S5fAic3KWqJNjrHteAgjgHMz5cs6KyXyTVV6
-         AmY/+giItMaqg==
+        Mon, 17 Jun 2019 14:41:37 -0400
+Received: from orion.localdomain ([77.2.173.233]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MhUDl-1iFYm80Vff-00eexp; Mon, 17 Jun 2019 20:41:15 +0200
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     thloh@altera.com, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, andriy.shevchenko@linux.intel.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, grygorii.strashko@ti.com,
+        ssantosh@kernel.org, khilman@kernel.org, mcoquelin.stm32@gmail.com,
+        alexandre.torgue@st.com, linux-gpio@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: [PATCH 01/30] include: linux: platform_device: more helpers for declaring platform drivers
+Date:   Mon, 17 Jun 2019 20:40:42 +0200
+Message-Id: <1560796871-18560-1-git-send-email-info@metux.net>
+X-Mailer: git-send-email 1.9.1
+X-Provags-ID: V03:K1:vh3WgaKAfp/7utsDwGStG8lhMEJOLPpqeqqOIPZUy69iRDhMgUT
+ YLO0VVH9+WSHOOP9Z9lTkwLZQut5VFowC3UxPBimZV2gDZsASGuddTCo4Ns+x279im1k6P6
+ DvVmuitj/sUJGSikRzupru9N53/CfW5itFY6p4aDEVz9PvxnW7pBVq3Fmi/cVgqMjBnVHGa
+ GhxJ055QzOASmoYXb/xGw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pncoYwVZfPU=:I4jSkF7FQyUU1Sq0ZMKvoJ
+ hrJzfvo2len4wsFtN0hwymlMcBge1MDGz+loqbRkJ8CW/uRDselgl9z8OUHkvxhAJwTUPCoK2
+ 5LRdxHWKDEVzf+MuRQjoI+ISMzc40B9oTOcQXNJn3uxLp24Zf0lG++O4eNVoKQJk32AVy3b6T
+ 7z80l+YlX2u6QXjMp2DzSlFJ5FwvWeJ2nTmoWP8EpQeg8OoAf/ecvdpSWa7ZjRgf3udyWH7Fm
+ YTcg2Rho7x7lehyZlIG+aFWHsQqBlWWsAa2cKA0/W8Nlk4QHva+ZiPenQ4qo+tavkhrew/M1J
+ 99WAeRqb8RxlmqjxXqIVewncVfPRIbnHN4lm53x1O4kYrdlRETFiqL3wsiLhsU6pb7OhSpcke
+ H01Gpa7OSgdd+7tbdwfSE2dnCuhFHgxdI9iP2KiBrO08v6ihVnsWKvCjCdsBr0wd0c/vmqaaD
+ cOC+hxmoLR4uO7790+Uwko4cRo813Uc1adwb/A7nrMNIWc3D1yWASdCxy0X14MJ5ewLUt3EMS
+ 04MllSWdEijwsXKnH9zr+YctR/GxkORREQwZab5xab0l6k+QY4bGbB1FH1I6l1cMBHHJ0EYMf
+ xUbRGtlHTBwRBpR7kHDfTij/AkHg00n1c4hTwOWu7/YHW1ud65SgcWkdAVvYU8Mr1ylUhXiUU
+ 1LeCBRSQvuBLsKgKGHNygUZdlvOtR7m3hQ+MhrZslo8e24+3/0fbPcwoAc1RtbmIk3gFaYxiZ
+ TlsWX1yXNmkScOxTVP7Gxd5Jxz50lkfGbbRVwQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Enrico Weigelt <info@metux.net>
 
+Add more helper macros for trivial driver init cases, similar to the
+already existing module_platform_driver()+friends - now for those which
+are initialized at other stages. Lots of drivers couldn't use the existing
+macros, as they need to be called at different init stages, eg. subsys,
+postcore, arch.
 
-On 6/17/19 12:09 AM, Thierry Reding wrote:
-> On Sat, Jun 15, 2019 at 06:54:05AM +0200, Wolfram Sang wrote:
->>
->>>> Without a maintainer ack, this is an exception this time. Should we add
->>>> Dmitry as another maintainer or reviewer at least?
->>>>
->>> I shall followup with Maintainer for ACK in future I2C tegra patches.
->>
->> This comment was not directed at you, sorry if that was not clear. It
->> was more for Laxman, Thierry, Jonathan, and Dmitry (if he is
->> interested).
-> 
-> I thought I had already acked this. I've certainly been testing this
-> since I carry it in a local tree. So for what it's worth:
-> 
-> Tested-by: Thierry Reding <treding@nvidia.com>
-> Acked-by: Thierry Reding <treding@nvidia.com>
-> 
-> Bitan, I don't mind getting the patches to the corporate email address,
-> but please make sure to also always include the gmail address when
-> sending patches to the public mailing lists. My workflow is somewhat
-> quirky that way because I work remotely and for historical reasons.
-I shall put both email addresses going forward.
+This helps to further reduce driver init boilerplate.
 
--regards,
-  Bitan
+Signed-off-by: Enrico Weigelt <info@metux.net>
+---
+ include/linux/platform_device.h | 51 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+
+diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
+index beb25f2..5f3a967 100644
+--- a/include/linux/platform_device.h
++++ b/include/linux/platform_device.h
+@@ -259,6 +259,57 @@ static inline void platform_set_drvdata(struct platform_device *pdev,
+ } \
+ module_exit(__platform_driver##_exit);
+ 
++/* postcore_platform_driver() - Helper macro for drivers that don't do
++ * anything special in module init/exit.  This eliminates a lot of
++ * boilerplate.  Each module may only use this macro once, and
++ * calling it replaces postcore_initcall() and module_exit()
++ */
++#define postcore_platform_driver(__platform_driver) \
++static int __init __platform_driver##_init(void) \
++{ \
++	return platform_driver_register(&(__platform_driver)); \
++} \
++postcore_initcall(__platform_driver##_init); \
++static void __exit __platform_driver##_exit(void) \
++{ \
++	platform_driver_unregister(&(__platform_driver)); \
++} \
++module_exit(__platform_driver##_exit);
++
++/* subsys_platform_driver() - Helper macro for drivers that don't do
++ * anything special in module init/exit.  This eliminates a lot of
++ * boilerplate.  Each module may only use this macro once, and
++ * calling it replaces subsys_initcall() and module_exit()
++ */
++#define subsys_platform_driver(__platform_driver) \
++static int __init __platform_driver##_init(void) \
++{ \
++	return platform_driver_register(&(__platform_driver)); \
++} \
++subsys_initcall(__platform_driver##_init); \
++static void __exit __platform_driver##_exit(void) \
++{ \
++	platform_driver_unregister(&(__platform_driver)); \
++} \
++module_exit(__platform_driver##_exit);
++
++/* arch_platform_driver() - Helper macro for drivers that don't do
++ * anything special in module init/exit.  This eliminates a lot of
++ * boilerplate.  Each module may only use this macro once, and
++ * calling it replaces arch_initcall() and module_exit()
++ */
++#define arch_platform_driver(__platform_driver) \
++static int __init __platform_driver##_init(void) \
++{ \
++	return platform_driver_register(&(__platform_driver)); \
++} \
++arch_initcall(__platform_driver##_init); \
++static void __exit __platform_driver##_exit(void) \
++{ \
++	platform_driver_unregister(&(__platform_driver)); \
++} \
++module_exit(__platform_driver##_exit);
++
+ /* builtin_platform_driver_probe() - Helper macro for drivers that don't do
+  * anything special in device init.  This eliminates some boilerplate.  Each
+  * driver may only use this macro once, and using it replaces device_initcall.
+-- 
+1.9.1
+
