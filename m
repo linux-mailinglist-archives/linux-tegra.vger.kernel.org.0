@@ -2,97 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BBE747FEE
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 12:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 791AC47FFD
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 12:51:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbfFQKnf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 06:43:35 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:6722 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726174AbfFQKnf (ORCPT
+        id S1726797AbfFQKvr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 06:51:47 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:11531 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726174AbfFQKvr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 06:43:35 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d076ed60001>; Mon, 17 Jun 2019 03:43:34 -0700
+        Mon, 17 Jun 2019 06:51:47 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0770c30000>; Mon, 17 Jun 2019 03:51:47 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 17 Jun 2019 03:43:34 -0700
+  Mon, 17 Jun 2019 03:51:46 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 17 Jun 2019 03:43:34 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Mon, 17 Jun 2019 03:51:46 -0700
+Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 17 Jun
- 2019 10:43:30 +0000
-Subject: Re: [PATCH 3/3] clk: tegra: Do not enable PLL_RE_VCO on Tegra210
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-CC:     Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Alex Frid <afrid@nvidia.com>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>
-References: <20190613161225.2531-1-thierry.reding@gmail.com>
- <20190613161225.2531-3-thierry.reding@gmail.com>
+ 2019 10:51:45 +0000
+Subject: Re: [PATCH v2 3/6] clocksource/drivers/tegra: Set and use timer's
+ period
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190610164400.11830-1-digetx@gmail.com>
+ <20190610164400.11830-4-digetx@gmail.com>
+ <ac8a1da8-9b82-3d5a-5fa6-0c1cc7f627f1@nvidia.com>
+ <3e941c50-ac62-719e-aac1-7072e9a3bcd0@gmail.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <da08f3e8-65d5-7051-8ee5-b76d206cd9c5@nvidia.com>
-Date:   Mon, 17 Jun 2019 11:43:28 +0100
+Message-ID: <660f3645-3fa6-175c-75a6-3fcc79e972ad@nvidia.com>
+Date:   Mon, 17 Jun 2019 11:51:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190613161225.2531-3-thierry.reding@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
+In-Reply-To: <3e941c50-ac62-719e-aac1-7072e9a3bcd0@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560768214; bh=oMjmLsaCco78LbUTwLXoRRUJz8wezGvJ9pb4I2FfSJ8=;
+        t=1560768707; bh=SgptNflpnXD1DnpgQHNTfQiFDVoOPgbP24o4RhvwUaA=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=X+44mihJDEro78eEVjVIk/4lt5uLCnr2ZaYZgLahlrB3ZGeHZ1X8CmKoBEyVYUBEs
-         t6gxCFTW8MeFtp6gmTNu2pLetNWFEBE/15Wtebt1+UIp4meWTyzWqx/zxgBIg5T+4+
-         9zM8GwCNQpfwJmxNtE66EQ7wLFu9OMmmucUbWiUdJh5A/bcD9NwS6kIGvC3hsglh6v
-         B4WoiXrlimdMZJPQCN92GaykPX4Q2R9jF9WtELEAxHnjUr8Xr0d495hl+q4Fk4xXI1
-         uzcrFCYWU1ioAoHkug8mqwsrQx8hk9B8XZBm/XEd56LaH1N80ZnEhDDJsqFtcdnIG9
-         g1fvCcrkEV9WA==
+        b=Oa1tNaR+/D0beA/8ayKUethaiBYfObqF7GN9zyVeyEtQu4OX4ljLHte/5Dwd+uhXM
+         pWmtYHINoX9uN3b6lvyFD0IyCpATKOoS42ZnPt7w60VkWfZy5F06CMzlsWTZztEANY
+         ppeXPInYOjvBQ8jetFSykHBPZRSJJAw697CzmtmHoljopYLCiKrUsfYBAa9OXrqTb3
+         hhqKx+7ypz8TcJ+h/jb6RLKSZPDO9VjHT43p7kreJb2EHbTBS+J3FcNGTQ1SngoUOu
+         8jY6bpCxNriNPH9EZsm9vjtONxsQ5EvewgL/QtkLOIDDCSbIfhu9WeTdE0ue26J5SX
+         hDiAwYSPHvP1w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 13/06/2019 17:12, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> It turns out that this PLL is not used on Tegra210, so there's no need
-> to enable it via the init table. Remove the init table entry for this
-> PLL to avoid it getting enabled at boot time. If the bootloader enabled
-> it and forgot to turn it off, the common clock framework will now know
-> to disable it because it is unused.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/clk/tegra/clk-tegra210.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
-> index 793c7acaf4e2..13537e4458b5 100644
-> --- a/drivers/clk/tegra/clk-tegra210.c
-> +++ b/drivers/clk/tegra/clk-tegra210.c
-> @@ -3337,7 +3337,6 @@ static struct tegra_clk_init_table init_table[] __initdata = {
->  	{ TEGRA210_CLK_DFLL_SOC, TEGRA210_CLK_PLL_P, 51000000, 1 },
->  	{ TEGRA210_CLK_DFLL_REF, TEGRA210_CLK_PLL_P, 51000000, 1 },
->  	{ TEGRA210_CLK_SBC4, TEGRA210_CLK_PLL_P, 12000000, 1 },
-> -	{ TEGRA210_CLK_PLL_RE_VCO, TEGRA210_CLK_CLK_MAX, 672000000, 1 },
->  	{ TEGRA210_CLK_XUSB_GATE, TEGRA210_CLK_CLK_MAX, 0, 1 },
->  	{ TEGRA210_CLK_XUSB_SS_SRC, TEGRA210_CLK_PLL_U_480M, 120000000, 0 },
->  	{ TEGRA210_CLK_XUSB_FS_SRC, TEGRA210_CLK_PLL_U_48M, 48000000, 0 },
+On 14/06/2019 17:45, Dmitry Osipenko wrote:
+> 14.06.2019 18:48, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>
+>> On 10/06/2019 17:43, Dmitry Osipenko wrote:
+>>> The of_clk structure has a period field that is set up initially by
+>>> timer_of_clk_init(), that period value need to be adjusted for a case o=
+f
+>>> TIMER1-9 that are running at a fixed rate that doesn't match the clock'=
+s
+>>> rate. Note that the period value is currently used only by some of the
+>>> clocksource drivers internally and hence this is just a minor cleanup
+>>> change that doesn't fix anything.
+>>>
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> ---
+>>>  drivers/clocksource/timer-tegra.c | 5 +++--
+>>>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/ti=
+mer-tegra.c
+>>> index 810b4e7435cf..646b3530c2d2 100644
+>>> --- a/drivers/clocksource/timer-tegra.c
+>>> +++ b/drivers/clocksource/timer-tegra.c
+>>> @@ -71,9 +71,9 @@ static int tegra_timer_shutdown(struct clock_event_de=
+vice *evt)
+>>>  static int tegra_timer_set_periodic(struct clock_event_device *evt)
+>>>  {
+>>>  	void __iomem *reg_base =3D timer_of_base(to_timer_of(evt));
+>>> +	unsigned long period =3D timer_of_period(to_timer_of(evt));
+>>> =20
+>>> -	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER |
+>>> -		       ((timer_of_rate(to_timer_of(evt)) / HZ) - 1),
+>>> +	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER | (period - 1),
+>>>  		       reg_base + TIMER_PTV);
+>>> =20
+>>>  	return 0;
+>>> @@ -297,6 +297,7 @@ static int __init tegra_init_timer(struct device_no=
+de *np, bool tegra20,
+>>>  		cpu_to->clkevt.rating =3D rating;
+>>>  		cpu_to->clkevt.cpumask =3D cpumask_of(cpu);
+>>>  		cpu_to->of_base.base =3D timer_reg_base + base;
+>>> +		cpu_to->of_clk.period =3D DIV_ROUND_UP(rate, HZ);
+>>
+>> Any reason you made this a round-up?
+>=20
+> That's what timer_of_clk_init() does, I assume it should be a more correc=
+t variant.
 
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Sounds to me like this should be 2 patches, because you are changing the
+value. This is not just purely cleanup IMO.
 
-Cheers
 Jon
 
--- 
+--=20
 nvpublic
