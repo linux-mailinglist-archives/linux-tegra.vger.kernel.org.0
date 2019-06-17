@@ -2,70 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3845484D7
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 16:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F996485C9
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 16:43:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726005AbfFQOE0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 10:04:26 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:33302 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725983AbfFQOE0 (ORCPT
+        id S1727404AbfFQOle (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 10:41:34 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43562 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726215AbfFQOld (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 10:04:26 -0400
-Received: by mail-wm1-f67.google.com with SMTP id h19so55832wme.0;
-        Mon, 17 Jun 2019 07:04:24 -0700 (PDT)
+        Mon, 17 Jun 2019 10:41:33 -0400
+Received: by mail-wr1-f65.google.com with SMTP id p13so10227105wru.10;
+        Mon, 17 Jun 2019 07:41:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=BuqClaap0w5GHctpIDrpMGvsw7n1c6lqu80Oeh7+HF4=;
-        b=LTfnykgvaXHiqXM050U7gKRlj3j8cKCyF4O+eKf+23gaHgsXH96Ha2qmlkHDQul9eK
-         L3lZXvdIrwiwr0SVuAmxVmr0vFvnv1GxCItel0zmvH9uUr/QXXeqGiqyCafyOd7vsfo5
-         yZ85msUx+Qmwmhz1KJuerPVq3h5ucE0IbLVL0k5sEApEiaFSOHetWqvbcBVIJcz1cww5
-         MCtF0TDQ6AtM83Pieg6VeqQbAPa6Xiwa4BrXcGQOGhGXirebkQaz8EL4vOZjEgsZZ6B8
-         C6yakwuJFTRWZPiGPU8yOk8qKhxBLG3cT6gIoYP9cvGVuWvclGHqZAU6xM8p8G34h5m1
-         rJyQ==
+        bh=DgQ2aFFaMuedqeg/T0B3p6R/q8u5IJuWcTl2OYiCMQc=;
+        b=qK6Q5tOJo2T7nE3BnfMo+6u/ZmMmySiXhG2FxO6ZignoMh9qdTDr+JXVhj7eVi3tBu
+         hCi78EtTMc6FP3f7anV6ixE6xd9d3f1JCgmzb6TGs8Lt6ypn6JBaXwxS2pLWghuo3Bi4
+         1Nkjqjh/g8wkzuNhrk8mGF7C/mMxFaxqrfkitpTB9ytJ6TNHxm83BWj7fXDX4Zx/NQPM
+         FzVwdkF4sJPn5D/ADkXYMupEqy0oe1wC1TbNwYIpgZWYTvS6vWNAxEERx6Dxxc2IeeKG
+         Zgu5fMwnOLBxaLnsTgFe4nvUBPbDtyXBXBoTbQmOJTSc/io5PhttO9pIokmYkO95JGoD
+         cEIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=BuqClaap0w5GHctpIDrpMGvsw7n1c6lqu80Oeh7+HF4=;
-        b=ty8zGFUgZEtnfKKiaQe5cBYiv0M6LVVrrUWD/JWKODTGhds24kZ05uDyeS6Y69DtXb
-         UrtFDAMCcL/Xh8h2w6VPUsd+CtM7aeHShFRS4FTkQP9282zPY5j9lkr34n+qtFguAKKq
-         XyoRPyhu3AI8SkeEA89F08i595XHxyXZgfaMTSzoL0W8IOFreHT2kTkY/ailLI3XTrqi
-         iEi1TaZOEQLa4LuxMqW2zEGSuUOWNGIWTVVVEcu0UbcI0+TDfvhq0MGvgps02HDmy/Nz
-         eQDWcvdN8zdN2xz87fpp2A+kkYpqm3UdEvEWcgD0wWWrVEX7n1SpiJe590G9EZ/IT+oI
-         rvGw==
-X-Gm-Message-State: APjAAAXEVdznCJBgCu3xT3IXsHbKqGfzpE30bLGrjF6zhlBDPlmr1oIo
-        MT1yW5ZB8aodK4nFV3+taR8TUCQF
-X-Google-Smtp-Source: APXvYqxGKvhJt9PMQ8eRA08hSnu0dr+vzetCPAfysG3aTTP0mlDqN83vTBvZuTwkyKKsfokZrSQ61w==
-X-Received: by 2002:a1c:ef0c:: with SMTP id n12mr18157057wmh.132.1560780263321;
-        Mon, 17 Jun 2019 07:04:23 -0700 (PDT)
+        bh=DgQ2aFFaMuedqeg/T0B3p6R/q8u5IJuWcTl2OYiCMQc=;
+        b=BNokqjWXZLBleRg+88ChPY7ucw2zle0VefcJ3S0zuA9J0bFz9FhSUkGRP6K1g3pLTu
+         IxpTj7ejWeIOaBd+YXNkTQDm84fCtSRCLlMN38NfIRz2EbmPf0RvQtKbVKSD+ZFiYVKM
+         wfkN75/2Urk+QAYx2EuOLzhipCJLPa6d2tMV8mSHAITd8dwK42B4O2GZFqtQryXbZSKa
+         tXJMIlIx2k4zZpJJZAmil6O5vrqN0q/yWaezk4VBWdraowiGvbiO9MqjMsT/QQzNSeqR
+         iHtyQzKr0wn1sTkd/IX7uW0F5Mc27+a3Agegywbg0L8E2bPg834rzpMXw4J5tkb5MyUw
+         zyMA==
+X-Gm-Message-State: APjAAAVwgbBHyUdoJt41ldyPAOexpe4eOSKcH8HDTCBg7CAEDctjNhER
+        Bns8pMZanRUKPSZ5BW9MxVtXWz7T
+X-Google-Smtp-Source: APXvYqyFm3o8vzEpLQ65QaBfSKkGFQTqNgY+iTXKJNW0PWaxO4y4NZWgq1unJBbTQHszYaOSXwNS5Q==
+X-Received: by 2002:a5d:4001:: with SMTP id n1mr61003712wrp.293.1560782491226;
+        Mon, 17 Jun 2019 07:41:31 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id e11sm11378596wrc.9.2019.06.17.07.04.21
+        by smtp.googlemail.com with ESMTPSA id f2sm17360696wrq.48.2019.06.17.07.41.30
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jun 2019 07:04:22 -0700 (PDT)
-Subject: Re: [PATCH v2 3/6] clocksource/drivers/tegra: Set and use timer's
- period
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Joseph Lo <josephl@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190610164400.11830-1-digetx@gmail.com>
- <20190610164400.11830-4-digetx@gmail.com>
- <ac8a1da8-9b82-3d5a-5fa6-0c1cc7f627f1@nvidia.com>
- <3e941c50-ac62-719e-aac1-7072e9a3bcd0@gmail.com>
- <660f3645-3fa6-175c-75a6-3fcc79e972ad@nvidia.com>
+        Mon, 17 Jun 2019 07:41:30 -0700 (PDT)
+Subject: Re: [PATCH v1 1/2] clocksource/drivers/tegra: Cycles can't be 0
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190616234744.8975-1-digetx@gmail.com>
+ <20190617092148.GA508@ulmo>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e0e1b708-7dd4-a58a-7906-05bf3065cbda@gmail.com>
-Date:   Mon, 17 Jun 2019 17:04:21 +0300
+Message-ID: <6a0b098a-c040-88aa-f8de-b1a56f13af26@gmail.com>
+Date:   Mon, 17 Jun 2019 17:41:29 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <660f3645-3fa6-175c-75a6-3fcc79e972ad@nvidia.com>
+In-Reply-To: <20190617092148.GA508@ulmo>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -74,58 +69,48 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.06.2019 13:51, Jon Hunter пишет:
+17.06.2019 12:21, Thierry Reding пишет:
+> On Mon, Jun 17, 2019 at 02:47:43AM +0300, Dmitry Osipenko wrote:
+>> The minimum number of "cycles" is limited to 1 by
+>> clockevents_config_and_register().
 > 
-> On 14/06/2019 17:45, Dmitry Osipenko wrote:
->> 14.06.2019 18:48, Jon Hunter пишет:
->>>
->>> On 10/06/2019 17:43, Dmitry Osipenko wrote:
->>>> The of_clk structure has a period field that is set up initially by
->>>> timer_of_clk_init(), that period value need to be adjusted for a case of
->>>> TIMER1-9 that are running at a fixed rate that doesn't match the clock's
->>>> rate. Note that the period value is currently used only by some of the
->>>> clocksource drivers internally and hence this is just a minor cleanup
->>>> change that doesn't fix anything.
->>>>
->>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>> ---
->>>>  drivers/clocksource/timer-tegra.c | 5 +++--
->>>>  1 file changed, 3 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
->>>> index 810b4e7435cf..646b3530c2d2 100644
->>>> --- a/drivers/clocksource/timer-tegra.c
->>>> +++ b/drivers/clocksource/timer-tegra.c
->>>> @@ -71,9 +71,9 @@ static int tegra_timer_shutdown(struct clock_event_device *evt)
->>>>  static int tegra_timer_set_periodic(struct clock_event_device *evt)
->>>>  {
->>>>  	void __iomem *reg_base = timer_of_base(to_timer_of(evt));
->>>> +	unsigned long period = timer_of_period(to_timer_of(evt));
->>>>  
->>>> -	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER |
->>>> -		       ((timer_of_rate(to_timer_of(evt)) / HZ) - 1),
->>>> +	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER | (period - 1),
->>>>  		       reg_base + TIMER_PTV);
->>>>  
->>>>  	return 0;
->>>> @@ -297,6 +297,7 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
->>>>  		cpu_to->clkevt.rating = rating;
->>>>  		cpu_to->clkevt.cpumask = cpumask_of(cpu);
->>>>  		cpu_to->of_base.base = timer_reg_base + base;
->>>> +		cpu_to->of_clk.period = DIV_ROUND_UP(rate, HZ);
->>>
->>> Any reason you made this a round-up?
+> Looks to me like cycles also depends on the multiplier and shift that
+> are computed for the clock source. It looks like the multiplier will
+> never be zero and the shift will always be such that it won't result in
+> a zero cycles either. But might be worth mentioning this in the commit
+> message. And it might be nice to also repeate that in a comment close to
+> the code, just to document this.
+> 
+> It took me a couple of minutes to track this all down, so I think we
+> should take the same amount of time to document it so that we don't have
+> to go through it again once we've forgotten why we made this change.
+
+It's explicitly stated in the comment [1] what's the intent of the min_delta. But it's
+also good that you verified the clocksource code itself :)
+
+[1] https://elixir.bootlin.com/linux/v5.2-rc5/source/kernel/time/clockevents.c#L500
+
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/clocksource/timer-tegra.c | 4 +---
+>>  1 file changed, 1 insertion(+), 3 deletions(-)
 >>
->> That's what timer_of_clk_init() does, I assume it should be a more correct variant.
+>> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
+>> index f6a8eb0d7322..090c85358fe8 100644
+>> --- a/drivers/clocksource/timer-tegra.c
+>> +++ b/drivers/clocksource/timer-tegra.c
+>> @@ -54,9 +54,7 @@ static int tegra_timer_set_next_event(unsigned long cycles,
+>>  {
+>>  	void __iomem *reg_base = timer_of_base(to_timer_of(evt));
+>>  
+>> -	writel_relaxed(TIMER_PTV_EN |
+>> -		       ((cycles > 1) ? (cycles - 1) : 0), /* n+1 scheme */
+>> -		       reg_base + TIMER_PTV);
+>> +	writel_relaxed(TIMER_PTV_EN | (cycles - 1), reg_base + TIMER_PTV);
 > 
-> Sounds to me like this should be 2 patches, because you are changing the
-> value. This is not just purely cleanup IMO.
+> Maybe keep the n+1 scheme comment and explain why we don't need to
+> handle the case where cycles < 1. That way it becomes crystal clear that
+> we don't need it, so we decrease the chances of somebody coming around
+> and trying to "fix" this.
 
-Indeed, that could be at least mentioned in the commit message. Probably I just
-assumed that this is such a minor change that not worth anything. A hundred of
-microseconds is hardly noticeable.
-
-I'm not really sure if this really worth a re-spin at this point. Jon, are you insisting?
-
-Also, I now see that some drivers use DIV_ROUND_CLOSEST(), maybe it will be even
-better? Not sure.. given that this is still a microseconds difference.
+Okay, I'll extend the commit message and add a clarifying comment to the code in v2.
