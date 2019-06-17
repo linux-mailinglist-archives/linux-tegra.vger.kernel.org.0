@@ -2,147 +2,155 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43FF74813D
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 13:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD6C44819A
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 14:13:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725826AbfFQLsx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 07:48:53 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39016 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725763AbfFQLsx (ORCPT
+        id S1726674AbfFQMNL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 08:13:11 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:40977 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbfFQMNL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 07:48:53 -0400
-Received: by mail-wr1-f65.google.com with SMTP id x4so9603509wrt.6;
-        Mon, 17 Jun 2019 04:48:51 -0700 (PDT)
+        Mon, 17 Jun 2019 08:13:11 -0400
+Received: by mail-lf1-f66.google.com with SMTP id 136so6309702lfa.8;
+        Mon, 17 Jun 2019 05:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=YFZzGQiR/+q8BqcMsjHSVIUX4cRDO+kiz9QvlDUt+/o=;
-        b=RGGbjb6x8Bl+gCJ6qmzaAQAjg3dzjOzIBHOEEY/T1qsZYPuqTqCYn/LK0QhJFDSJ1Z
-         5dCwlEjJP6C28OhXXYfENT7YKEZ85lf5ItpbENW1yYTOQfP5vA1O/AlTNQSnhvxqnpr2
-         5Xf5jw7QxELcjjmWM/1AgkVvH3Nquxy9JKNIhtoqvVC9npCFtjBNBh128Vsxrjdkziju
-         2FogeYr2uyOcOI22hWwg/oxPozky3R906gMcE9fVICrMtUca9Bt7d0RqFISwMdfy82u4
-         HNrBB8dn52aGgxF3bKhGk6TWkyJ9+xInu+J7x1W7e3f7N0BBifNbtaoor+o3Dw0na1oK
-         VfRg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=v8xl5FGOCSkcD2QoMw/AQ+uejhm6gYRlLjIBKV4yJrs=;
+        b=FBFvQR/wRMLc+J9WDSadXShi5AiG9AtyAUkcJMO8yCx7lCyNAZkjoOLIoEf8IRRb60
+         hiQS+C5nRppZFwNZPEkHMz0OCiqeU6GW5K7TBikWUXG3p2hLyRkl5BtNzzjwZ4+WQXU+
+         hEt0HSzK1ApY6FDo4fm5/6D4KQkFajsxwYrbxRXcbkxlrMAlljfI/ghuolJqi0Z8hECv
+         meS4hzDGk9FaQGwtCay0OkBJ0MKFYvcsL2J1OV0+c9tSlMCQ3omcXdk2FaurethzW4Ux
+         RAebywuQEE276skNXgVT6T8cEKyhaHyTyCnuYw5zTUbWGZLZnDJr0eI6J/RMBNIXCb45
+         C8tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YFZzGQiR/+q8BqcMsjHSVIUX4cRDO+kiz9QvlDUt+/o=;
-        b=UfkKTgHJ4Qa+iYSwg80IY0HBHw7OF85qE+HwnXFnBHOtR5Ojzd7yVpJtydin0g9F2W
-         NtEe0+LM26ScDoSG3WkFhwh1UZHNwpwCL+AeSghCReAHRZMF4h6/xjHh3WLEwFfYfknw
-         Un7pdDAj7wdFJmSicfUAWYb4UNrmtu6FBvoUSwTnW/Kwl/90OJINo8bzZvId7lcqLyzL
-         Z0sTp0N9edhOsRHepVS/CQHd+QPdN8I72cV7yurd1OjSK+vAlhN9svNK7D2b/P9ZdbuV
-         6xi9fOErqpsaEc05iPQL5rM19svJsqClo2PyG8z4UQWds46qYO9eJbuDNlxZJZeouQz6
-         yAtQ==
-X-Gm-Message-State: APjAAAXpXfdgpO5yAWuNgd0+uxNuRaHhjjC2GqZgz9hVbniAvCiBo4Pj
-        moBeGlupYDAiWMcAUk9jmro=
-X-Google-Smtp-Source: APXvYqzbohfQXHTSgJpr150hQG2s0BU+/GxYSWrhYfr7eLtWqRK5RzlsTV/R1nmSt+iSooHPz6e06g==
-X-Received: by 2002:adf:dd82:: with SMTP id x2mr1576838wrl.27.1560772130643;
-        Mon, 17 Jun 2019 04:48:50 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id 18sm9533971wmg.43.2019.06.17.04.48.49
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 17 Jun 2019 04:48:49 -0700 (PDT)
-Date:   Mon, 17 Jun 2019 13:48:49 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc:     bhelgaas@google.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        jonathanh@nvidia.com, lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH V4 26/28] PCI: Add DT binding for "reset-gpios" property
-Message-ID: <20190617114849.GM508@ulmo>
-References: <20190516055307.25737-1-mmaddireddy@nvidia.com>
- <20190516055307.25737-27-mmaddireddy@nvidia.com>
- <20190617113038.GK508@ulmo>
- <bc6a3de8-89b0-41a8-006e-0db85fbb4d4d@nvidia.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=v8xl5FGOCSkcD2QoMw/AQ+uejhm6gYRlLjIBKV4yJrs=;
+        b=C1gD36ntuQ5Mm4qX/nws+dL0EzITO8k39hjMJ9A9lpV5vEEFM7QYtmF90FxMi7W4/o
+         +Z63QYr1IGvwOlt0dwAhIYR8yzan/BTDeyQHaCxo3iLa7tcsVmtJUhNQjpWu7EaY5eHk
+         /9PC91BUhJ13JS+Lcn+QPc2UDx2pGx6HG1Y4dCrnXoVR3gve96FWpb0lItlqcxgb8+dl
+         SmGUPKwq/he1g6iUmLgm8NGU59b8nzrNSjGydgFdJ5dTOWhFjCoBEV6BVOqQvq5ACBL+
+         z/N/LodeEY/S12E05WzPl2ZLlIQMoLnGSLTPDKARNkaHprpBX/rqacGKpqggLltODkTl
+         z/+w==
+X-Gm-Message-State: APjAAAXd7HBV/8R35QruAVm7nwhzFbAhnzBmBhYOvWwcgeKzP+AnBoN9
+        /H3XRxZ0gQhyslJ2d5Cb4+I=
+X-Google-Smtp-Source: APXvYqz5x03Co/1PbMmLiFwuKlWURo0Fboj+OU+Dr1c/F4hnwrjPemNBvAUUIL3kUFM4iGdG3XxCdQ==
+X-Received: by 2002:ac2:4c3c:: with SMTP id u28mr20583634lfq.136.1560773588894;
+        Mon, 17 Jun 2019 05:13:08 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.googlemail.com with ESMTPSA id o21sm2125582ljg.82.2019.06.17.05.13.07
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Jun 2019 05:13:08 -0700 (PDT)
+Subject: Re: [PATCH V7] i2c: tegra: remove BUG, BUG_ON
+To:     Bitan Biswas <bbiswas@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     Shardar Mohammed <smohammed@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mantravadi Karthik <mkarthik@nvidia.com>
+References: <1560748152-6575-1-git-send-email-bbiswas@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <5a8ad23f-33c8-5140-cef8-f9cef70764b1@gmail.com>
+Date:   Mon, 17 Jun 2019 15:13:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="TxukmIqg3MmZ0Kmh"
-Content-Disposition: inline
-In-Reply-To: <bc6a3de8-89b0-41a8-006e-0db85fbb4d4d@nvidia.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <1560748152-6575-1-git-send-email-bbiswas@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+17.06.2019 8:09, Bitan Biswas пишет:
+> Remove BUG, BUG_ON as it makes system usable:
+>  - Remove redundant BUG_ON calls or replace with WARN_ON_ONCE
+>    as needed.
+>  - Remove BUG() and mask Rx interrupt similar as Tx
+>    for message fully sent case.
+>  - Add caller error handling and WARN_ON_ONCE check for non-zero
+>    rx_fifo_avail in tegra_i2c_empty_rx_fifo() after all processing.
 
---TxukmIqg3MmZ0Kmh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The commit message should describe motivation of the change and not the change itself,
+unless it's some additional information which is required for better understanding of
+the code.
 
-On Mon, Jun 17, 2019 at 05:08:45PM +0530, Manikanta Maddireddy wrote:
->=20
->=20
-> On 17-Jun-19 5:00 PM, Thierry Reding wrote:
-> > On Thu, May 16, 2019 at 11:23:05AM +0530, Manikanta Maddireddy wrote:
-> >> Add DT binding for "reset-gpios" property which supports GPIO based PE=
-RST#
-> >> signal.
-> >>
-> >> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-> >> Reviewed-by: Rob Herring <robh@kernel.org>
-> >> Acked-by: Thierry Reding <treding@nvidia.com>
-> >> ---
-> >> V4: No change
-> >>
-> >> V3: Moved to common pci binding doc
-> >>
-> >> V2: Using standard "reset-gpio" property
-> >>
-> >>  Documentation/devicetree/bindings/pci/pci.txt | 3 +++
-> >>  1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/pci/pci.txt b/Documenta=
-tion/devicetree/bindings/pci/pci.txt
-> >> index c77981c5dd18..79124898aa5b 100644
-> >> --- a/Documentation/devicetree/bindings/pci/pci.txt
-> >> +++ b/Documentation/devicetree/bindings/pci/pci.txt
-> >> @@ -24,3 +24,6 @@ driver implementation may support the following prop=
-erties:
-> >>     unsupported link speed, for instance, trying to do training for
-> >>     unsupported link speed, etc.  Must be '4' for gen4, '3' for gen3, =
-'2'
-> >>     for gen2, and '1' for gen1. Any other values are invalid.
-> >> +- reset-gpios:
-> >> +   If present this property specifies PERST# GPIO. Host drivers can p=
-arse the
-> >> +   GPIO and apply fundamental reset to endpoints.
-> > As mentioned in patch 27/28, maybe mention here that this is only a
-> > workaround for bad board designs and that it shouldn't be necessary in
-> > the majority of cases.
-> >
-> > Thierry
->=20
-> This is common DT binding doc, I cannot add Tegra specific here.
-> reset-gpios is common DT prop, so Rob asked me to add it in common file.
+In yours case it could be something like that:
 
-Ah, indeed. Alright, let's document it in the Tegra driver patch, then.
+    The usage of BUG() macro is generally discouraged in kernel, unless
+    it's a problem that results in a physical damage or loss of data.
+    This patch removes unnecessary BUG() macros and replaces the rest
+    with a warnings.
 
-Thierry
+> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+> ---
+>  drivers/i2c/busses/i2c-tegra.c | 45 ++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 37 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+> index 4dfb4c1..b155b61 100644
+> --- a/drivers/i2c/busses/i2c-tegra.c
+> +++ b/drivers/i2c/busses/i2c-tegra.c
+> @@ -73,6 +73,7 @@
+>  #define I2C_ERR_NO_ACK				BIT(0)
+>  #define I2C_ERR_ARBITRATION_LOST		BIT(1)
+>  #define I2C_ERR_UNKNOWN_INTERRUPT		BIT(2)
+> +#define I2C_ERR_RX_BUFFER_OVERFLOW		BIT(3)
+>  
+>  #define PACKET_HEADER0_HEADER_SIZE_SHIFT	28
+>  #define PACKET_HEADER0_PACKET_ID_SHIFT		16
+> @@ -515,7 +516,11 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
+>  	 * prevent overwriting past the end of buf
+>  	 */
+>  	if (rx_fifo_avail > 0 && buf_remaining > 0) {
+> -		BUG_ON(buf_remaining > 3);
+> +		/*
+> +		 * buf_remaining > 3 check not needed as rx_fifo_avail == 0
+> +		 * when (words_to_transfer was > rx_fifo_avail) earlier
+> +		 * in this function.
+> +		 */
+>  		val = i2c_readl(i2c_dev, I2C_RX_FIFO);
+>  		val = cpu_to_le32(val);
+>  		memcpy(buf, &val, buf_remaining);
+> @@ -523,7 +528,15 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
+>  		rx_fifo_avail--;
+>  	}
+>  
+> -	BUG_ON(rx_fifo_avail > 0 && buf_remaining > 0);
+> +	if ((!(i2c_dev->msg_buf_remaining)) &&
 
---TxukmIqg3MmZ0Kmh
-Content-Type: application/pgp-signature; name="signature.asc"
+The RX FIFO shall be drained completely no matter what.
 
------BEGIN PGP SIGNATURE-----
+Hence why the "i2c_dev->msg_buf_remaining" checking is needed here?
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0HfiAACgkQ3SOs138+
-s6Fn+w/+LYI/OWEFoh9H55Bv5F4iAYdjJsFolI2oa373iKROlpxS3+KJQ1sE3rGO
-Q+WSuTiuR2mWU98KZtW7wC1bq4tZIFatu1NSWU+GHoOsFK4RFF7ysbgD3i4xIRm9
-lnVADCS4XYTjtU6pt8psSiYaIGmTStAVeqJ1qMENChW417flbJzT4EWpuaqsPMy/
-OpNvBkJSm/9CpnRcxpc7YIQhdr7EUQtOj/h+r8TNrBACdu1ipH15jps2iv3Co2K8
-4SIO89bAEsbp+yH2aaC0jE3sJdXsXKLkd8s57Dhz2jHI7DGK9hUutX2Z/UmIVw0v
-yuTVrE4peXcNoFDoBDcT+qKSjuanEF6fDIPrXuuvtUapwLzSRHRCMuj0lrtg0vTD
-Tgiic1Asw6eTM9ruKq+MHJpaD0SQYIUGWOq50bNl1bavmHDdxhEO+aMh/742STpR
-ULwnCMVgldH2dCQ08PXjzxusIOOCXX0jaDA943LvwPBcQ4xvojyx0FZ/Qe9dygCq
-Pi/blX9EbqzGJjd8rA+QymTxpmI1UmP0NiXgP/7VqLMc4DFfGkEKf28o6rgucxa4
-1Wt8uNxCrptrOYf7ywh1L/xbeDY+q0o9m0oQ1jny9UlCihLNDbS/rbkdYOplDqW5
-uWhAqucz679mcX3rCo4GB2CHoHVt0NHPAnm1Y3aIh1EUY8fiZjs=
-=mels
------END PGP SIGNATURE-----
+Secondly, in the future please don't add parens where they are not needed. In this
+case parens around !i2c_dev->msg_buf_remaining are not needed at all.
 
---TxukmIqg3MmZ0Kmh--
+> +	    WARN_ON_ONCE(rx_fifo_avail))
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * buf_remaining > 0 at this point can only have rx_fifo_avail == 0
+
+The rx_fifo_avail is always 0 at this point, including the case of buf_remaining == 0.
+It will be better if you'll add a comment for the WARN_ON_ONCE(rx_fifo_avail) above,
+saying that RX FIFO must be fully drained, and then just drop this comment.
+
+> +	 * as this corresponds to (words_to_transfer was > rx_fifo_avail)
+> +	 * case earlier in this function.
+> +	 */
+>  	i2c_dev->msg_buf_remaining = buf_remaining;
+>  	i2c_dev->msg_buf = buf;
+
+[snip]
