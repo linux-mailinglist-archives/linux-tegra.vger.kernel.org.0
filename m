@@ -2,91 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8021F4869E
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 17:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FD16486E9
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 17:23:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727670AbfFQPIR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 11:08:17 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51271 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727417AbfFQPIQ (ORCPT
+        id S1727997AbfFQPXp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 11:23:45 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:50056 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726215AbfFQPXp (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 11:08:16 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 207so9683382wma.1;
-        Mon, 17 Jun 2019 08:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=drOUk7hcYTDS3ImtEYKzz1UKjn+tkNi4N2VeCrqXb4k=;
-        b=J+afOhMUX1X7A38kJ/Mq04wXk3bCR2HUSF0c35e6343jOrWU5whQeziHmaoVwY1tw/
-         Gcz76A6yYukxnM+Rw6T0VDwT0UtdeIw8Zt+imrev/qeF9zafkxfUFYRfwlk7f3cH25zP
-         RSTao6CU5b+J3J3idfWMh+l2CSZwKrPsTvb+hnqMoA93wQnCBCut1TxZ9iQa8XJqybe9
-         DunKsxP3FoYzn8KaKsqA2WiDQrV12eChAnlmwZcdyH13TrynhBYkcIISe69xVZNbOz/k
-         KWbmgCxi6qep/NFShbSmTOA87Dsx7s1uaR6ospYib5RzE1W5FtChadWFNnVzfiozH/ht
-         urPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=drOUk7hcYTDS3ImtEYKzz1UKjn+tkNi4N2VeCrqXb4k=;
-        b=HiRCwtJaxAlpoAe63xjA2WTmnzWlju5+1CX8rv1tEndo9Z+EHU6IGoFmc3G6YSMVqF
-         1GNEDn9fMUIy+xfx+KdEVYEpjzG5rPVQBQXBPekVJ5WJcS+lXsvfYOMJtcx4OtxMRcp+
-         Bhf/cWFfffPPuG8OZVgT5SzSUmtYdUX8n10AiWirsIaiU2fem+Bj+wBfa7Kt5mhl+8WN
-         tBVSCKASMN+2nuNHHStBRWHe7DVXOUn6M8MMAdE8AFlXy4cIbFOr64vPgzDRcx0oRmQo
-         Bt1sCeCKyJH/JRpG19uuNYFwolURaOg4nOj8R1EO/j2WmnNZxFp22K7yO+1qBFc8uqA/
-         Y1ug==
-X-Gm-Message-State: APjAAAXHl25oxx9Syu7HpPNW5IXZVDpICoNMw7/wtPgN/1c3IMnQ7Ui3
-        2kigTdXX14GfMDfYPmPoQg12V4T1
-X-Google-Smtp-Source: APXvYqxaSrlIaNzQJ9iLsbpcpPsSCclTDkuVNqnj0CDCrMYyJtZV+GwV2vrTmg1tENM9PAcmt3L8mQ==
-X-Received: by 2002:a1c:f415:: with SMTP id z21mr14163099wma.34.1560784094372;
-        Mon, 17 Jun 2019 08:08:14 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id r12sm17562343wrt.95.2019.06.17.08.08.12
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jun 2019 08:08:13 -0700 (PDT)
-Subject: Re: [PATCH v4 00/10] memory: tegra: Introduce Tegra30 EMC driver
-To:     Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Joseph Lo <josephl@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        Mon, 17 Jun 2019 11:23:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=8C2RKXkQRfYqFChj5UHmnTcYUmNVBUlMQMcooU9hEyY=; b=E9TNbSnLi1vaGDH3PAblQKIXF
+        S31sNkOKRYFy6sniLOfUI1RXEoiMRdxIixESHsYLn4A5uErcUl3r6YIt7d0Ihew5JvpXd9rOf40f2
+        SBtdngRTsYMTQ6Pzjp2VZdeUjgnsXUFbVlPk/SXoUDfHmeSpZR3Nnh5V6eeZwB5vEczmQ=;
+Received: from [2001:470:1f1d:6b5:7e7a:91ff:fede:4a45] (helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hctTx-0001wa-L8; Mon, 17 Jun 2019 15:23:41 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id D784C440046; Mon, 17 Jun 2019 16:23:40 +0100 (BST)
+Date:   Mon, 17 Jun 2019 16:23:40 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190616233551.6838-1-digetx@gmail.com>
- <20190617082143.GM29894@pdeschrijver-desktop.Nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <10dd12ce-b85d-7c33-8b10-7c7e66a109ad@gmail.com>
-Date:   Mon, 17 Jun 2019 18:08:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/8] regulator: core: Introduce API for regulators
+ coupling customization
+Message-ID: <20190617152340.GX5316@sirena.org.uk>
+References: <20190603235904.19097-1-digetx@gmail.com>
+ <20190603235904.19097-2-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190617082143.GM29894@pdeschrijver-desktop.Nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Swav0nNPrA3tWuBp"
+Content-Disposition: inline
+In-Reply-To: <20190603235904.19097-2-digetx@gmail.com>
+X-Cookie: Editing is a rewording activity.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.06.2019 11:21, Peter De Schrijver пишет:
-> On Mon, Jun 17, 2019 at 02:35:41AM +0300, Dmitry Osipenko wrote:
->> Hello,
->>
->> This series introduces driver for the External Memory Controller (EMC)
->> found on Tegra30 chips, it controls the external DRAM on the board. The
->> purpose of this driver is to program memory timing for external memory on
->> the EMC clock rate change. The driver was tested using the ACTMON devfreq
->> driver that performs memory frequency scaling based on memory-usage load.
-> 
-> Acked-By: Peter De Schrijver <pdeschrijver@nvidia.com>
-> 
 
-Thank you very much! I'll address comments from Thierry in v5 and probably add one
-more very minor change. I'll add yours ACK to v5 if there won't be any radical
-changes. Thanks again for helping with the review!
+--Swav0nNPrA3tWuBp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Jun 04, 2019 at 02:58:57AM +0300, Dmitry Osipenko wrote:
+> Right now regulator core supports only one type of regulators coupling,
+> the "voltage max-spread" which keeps voltages of coupled regulators in a
+> given range from each other. A more sophisticated coupling may be required
+> in practice, one example is the NVIDIA Tegra SoC's which besides the
+> max-spreading have other restrictions that must be adhered. Introduce API
+> that allow platforms to provide their own customized coupling algorithms.
+
+So, I don't completely hate this and I'm not sure there's any good
+solutions here...
+
+> + * @balance_voltage: Callback invoked when voltage of a coupled regulator is
+> + *                   changing. The callee should perform voltage balancing
+> + *                   and change voltage of the coupled regulators.
+
+Some documentation on what the context for calling this is (locking and
+so on) and how it should do the adjustments it wants to do would be
+good.
+
+--Swav0nNPrA3tWuBp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl0HsHsACgkQJNaLcl1U
+h9AZ/wf+Pme+NJZgnNHaUP/TA5RgftsxYHZ1bXA8oSKUiZBT9rTdOHx9ZD+S+W0A
+gw+3s/TA8Ih05PlGrB9IHVsJErrUKUUemfGB9vK2HLYP5B6FRTAXexN/4jJ3xEZ2
+gBbhAAEbzvE9QtOcJEx2bjtHXAVtfsteRJ0vrvm2Ws+Hyvav7vjyAoJ8J8Q7acww
+g7fo7iYuiUy7GV3g9GeE/R6y8iKE1/+B3QHKk1q3HY6l1a+Dfpf4/tk8lwR8QSN5
+MxwjIb9benyzSlJvaf/sibjUJbXmKaGB145bY2TV6xTz7LOB8CwxwV6nyP//joGB
+MdEI1WNmiyjzfwYe31h3sRxWhPviVg==
+=S4Pq
+-----END PGP SIGNATURE-----
+
+--Swav0nNPrA3tWuBp--
