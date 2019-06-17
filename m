@@ -2,136 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFA6C47E35
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 11:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32C7147E3B
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 11:23:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727549AbfFQJVx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 05:21:53 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:41383 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726286AbfFQJVw (ORCPT
+        id S1726753AbfFQJXf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 05:23:35 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:45449 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726286AbfFQJXf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 05:21:52 -0400
-Received: by mail-wr1-f68.google.com with SMTP id c2so9095134wrm.8;
-        Mon, 17 Jun 2019 02:21:50 -0700 (PDT)
+        Mon, 17 Jun 2019 05:23:35 -0400
+Received: by mail-pf1-f195.google.com with SMTP id r1so5336612pfq.12;
+        Mon, 17 Jun 2019 02:23:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=52fOR4EmlSTl6p5K6cDrjlKg/KeC1MUaln6oFxSrOjU=;
-        b=dxlFOcnbjOZOWWnfb/ieu1A7WpmO7JkiyKwmziYEpi7ygdj+kD6F2nMqRNpijFSdH0
-         r40ac/KqsI7joPNCV41eZZxXR5dJtqg8PoHB5KXd/bAxvLJFihxnt649R6TNa+xOiYn6
-         bEkNYQ9btO1PV1eZp7x+GRzSE/Ixa+9avFln22naVMe4cRxGaV01mRfT/FPXFR+x6/Vy
-         Rd85lwMLyXgMOf7NFfeFn1DMn2Fcf68tIELSHTl4wob/0Op8aa1wheUCWFrAIW2YeKWf
-         97KstsnHj2ZcDMIixWAkVcWS6PcKn/oWaWSug+cMWTAvxfX+OgjZzfaJUo35+Qe1+APR
-         sJhw==
+        bh=mm/MzCVqKcyrtAkNiFo5ey/RdkAUyCycunAmsvAE86I=;
+        b=kCqpL+mIstO+C5j0tCc3sH0FHwAOHw+NR+PmwQqYcD/O8eRi/hcNgJgZMocXXj0jyM
+         q8B4rhn6mD6hW4j6it6A/fOOnyNiWPxBMr+owe/khCBpiCjANJh5CedTHlvW4bbxoRXY
+         igLkmnBoZcaf0P3DAF16DkVO89yEcJ1g1LNQeHExuI1BsGSm9EANDLNQKUf7rxeRlphO
+         72SaPh+M53xabikhB6FBA6ZkYCO9a2/WCgK06Wykl4Sk9XQm0WoEYPtaNkxm6NQJjcuB
+         oVrp5Kw2rKDbgoXRM2HemZK7hA3vcL28RxLuRf8e2A+klc9T80jA58jZbasY/F4wts5G
+         II8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=52fOR4EmlSTl6p5K6cDrjlKg/KeC1MUaln6oFxSrOjU=;
-        b=t5v/kEPDPYt28F+QobaRcXRWuAAeIYXMizsBxPZht+AZUx0FAPj/I11CPJvIFX4zWF
-         XRcO2WQNmDewt/Kvi+MvWRrEoR5r4aYx6FNbRj+pY663CHQ4dIDJBKPB4NI65oCE+p4J
-         +XWU/SdhhhKQ8QNDbaBbfuEzAdo9jLOzZn0jiA6S/QUbXizq+ZmiBHOHYrKnQv/PPb3z
-         7iShhrSb4hYda/1ThJPC/hRqf4lAMuO94Ha6lIdKNFznp+EXMqH6UVfADHMg4zVtAFO1
-         0ZBOS8oHDTK4SZc7KWMe/yuQTnnrZt9dqzrAFakyNk4/qGlWFOxZ4ZOsg1aHcKCNwHeV
-         ZRjg==
-X-Gm-Message-State: APjAAAXVobr9rn6KA64huRhFLjSiZ8vsFasPyTdavWdf6gOLVdMmtEcm
-        OZzPFqd+qGrUYgphEWJ588Y=
-X-Google-Smtp-Source: APXvYqyW0ZeOP4sbQOuHkaMP7/0vNVAsCgoN2X3g1SLfWVz2teEVGYA8rh8mTsmS8n+G5Hgzyj3IJg==
-X-Received: by 2002:a5d:4d84:: with SMTP id b4mr23155923wru.242.1560763309835;
-        Mon, 17 Jun 2019 02:21:49 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id c6sm9918833wma.25.2019.06.17.02.21.48
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 17 Jun 2019 02:21:49 -0700 (PDT)
-Date:   Mon, 17 Jun 2019 11:21:48 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] clocksource/drivers/tegra: Cycles can't be 0
-Message-ID: <20190617092148.GA508@ulmo>
-References: <20190616234744.8975-1-digetx@gmail.com>
+        bh=mm/MzCVqKcyrtAkNiFo5ey/RdkAUyCycunAmsvAE86I=;
+        b=uQDL5ktFSG8aECgc4hTkM3+a5Jz/gLnyat3h1RoBpFfBX/y63+hOV0ugZPR7Uvzjm3
+         9ryeCufofydPX6Cx8uJpEXgM8IahdHHHmzB/JXzPHu/EDPnLtg7gPYwcQheskT/zpJOC
+         q0pD4b3NUA8Uxtq2V2WWn96Wgj/xS+4KlMgj3Gp6JQBncxXOja/wBEMirSlptjkvA1ui
+         mV5t/ijjk/+n2YaybOmBNClr0fk00iYZDD0IEmiqxc7kczvLw9UzH3c5g4sOBMdUeBxn
+         DCxrdLQ9DqfKXQSwdmQKdPGkSLAUadPiuyFyL9IYwo2LCAsnBingkt1iPt3nbBP1C4pp
+         qstg==
+X-Gm-Message-State: APjAAAVkKH6vYiUHsD6zhVAl0yEbVJigb7Btwu+PIjWutQdyImBiwdHx
+        vrvo1+hLs5nb1gapstb3H/QNLrl9/HufBQ==
+X-Google-Smtp-Source: APXvYqzgXDqKW2zMewLh1l3CLftdcu5SiOFPeP0IvqDt5vQFl3nXFvEOLqar0ByJ8P3aWym4RTwO/g==
+X-Received: by 2002:a63:570c:: with SMTP id l12mr48974700pgb.252.1560763414394;
+        Mon, 17 Jun 2019 02:23:34 -0700 (PDT)
+Received: from ubuntu ([104.192.108.10])
+        by smtp.gmail.com with ESMTPSA id p7sm21369214pfp.131.2019.06.17.02.23.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Jun 2019 02:23:33 -0700 (PDT)
+Date:   Mon, 17 Jun 2019 02:23:28 -0700
+From:   Gen Zhang <blackgod016574@gmail.com>
+To:     jassisinghbrar@gmail.com
+Cc:     thierry.reding@gmail.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] tegra-hsp: fix a missing-check bug in
+ tegra_hsp_doorbell_create()
+Message-ID: <20190617092328.GA3764@ubuntu>
+References: <20190530011920.GA6490@zhanggen-UX430UQ>
+ <20190608161144.GA4090@zhanggen-UX430UQ>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="huq684BweRXVnRxX"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190616234744.8975-1-digetx@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190608161144.GA4090@zhanggen-UX430UQ>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Sun, Jun 09, 2019 at 12:11:44AM +0800, Gen Zhang wrote:
+> On Thu, May 30, 2019 at 09:19:20AM +0800, Gen Zhang wrote:
+> > In tegra_hsp_doorbell_create(), 'db->name' is allocated by 
+> > devm_kstrdup_const(). It returns NULL when fails. So 'db->name' should
+> > be checked.
+> > 
+> > Signed-off-by: Gen Zhang <blackgod016574@gmail.com>
+> > Acked-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> > diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+> > index 11fc9fd..b613c46 100644
+> > --- a/drivers/mailbox/tegra-hsp.c
+> > +++ b/drivers/mailbox/tegra-hsp.c
+> > @@ -292,6 +292,8 @@ tegra_hsp_doorbell_create(struct tegra_hsp *hsp, const char *name,
+> >  	db->channel.hsp = hsp;
+> >  
+> >  	db->name = devm_kstrdup_const(hsp->dev, name, GFP_KERNEL);
+> > +	if (!db->name)
+> > +		return ERR_PTR(-ENOMEM);
+> >  	db->master = master;
+> >  	db->index = index;
+> >  
+> > ---
+> Can anyone look into this patch? It's acked by Thierry Reding 
+> <treding@nvidia.com>.
+> 
+> Thanks
+> Gen
+Could anyone look into this patch? It's not updated for about 20 days.
+And I am really on a deadline to get this patch applied.
 
---huq684BweRXVnRxX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 17, 2019 at 02:47:43AM +0300, Dmitry Osipenko wrote:
-> The minimum number of "cycles" is limited to 1 by
-> clockevents_config_and_register().
-
-Looks to me like cycles also depends on the multiplier and shift that
-are computed for the clock source. It looks like the multiplier will
-never be zero and the shift will always be such that it won't result in
-a zero cycles either. But might be worth mentioning this in the commit
-message. And it might be nice to also repeate that in a comment close to
-the code, just to document this.
-
-It took me a couple of minutes to track this all down, so I think we
-should take the same amount of time to document it so that we don't have
-to go through it again once we've forgotten why we made this change.
-
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/clocksource/timer-tegra.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/time=
-r-tegra.c
-> index f6a8eb0d7322..090c85358fe8 100644
-> --- a/drivers/clocksource/timer-tegra.c
-> +++ b/drivers/clocksource/timer-tegra.c
-> @@ -54,9 +54,7 @@ static int tegra_timer_set_next_event(unsigned long cyc=
-les,
->  {
->  	void __iomem *reg_base =3D timer_of_base(to_timer_of(evt));
-> =20
-> -	writel_relaxed(TIMER_PTV_EN |
-> -		       ((cycles > 1) ? (cycles - 1) : 0), /* n+1 scheme */
-> -		       reg_base + TIMER_PTV);
-> +	writel_relaxed(TIMER_PTV_EN | (cycles - 1), reg_base + TIMER_PTV);
-
-Maybe keep the n+1 scheme comment and explain why we don't need to
-handle the case where cycles < 1. That way it becomes crystal clear that
-we don't need it, so we decrease the chances of somebody coming around
-and trying to "fix" this.
-
-Thierry
-
---huq684BweRXVnRxX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0HW6kACgkQ3SOs138+
-s6H95xAAt3MihWlhBTfBQKS+SEt8OK3jGabb9ObCvnOeFgW0+ZoQ1j9FxZ1W6n6v
-0f2OlhTcGaZz+2WlivwemWmTxE2QSLbYYPCkoDOHwP1tUF61s0IiMmXMZNYUbnMF
-343t1M3zI001EqXI1mOGRi4AKGotxp5nnqnvPmRtX27YMPxLG0s9pKvxkTHEPNMM
-nMInSLkWzQtLvqosmIDw81FF6s0AI3b27WTHHQwNwEVJPmV1qE4vWp3rfsnAbpct
-H1WibUTvayJN9Yfvy+tVYOrI29FGE4n4o/Yrks3spFzJRxoSZ10fU+VrXYlykT8M
-Y5h5vEsKnoIj3tBCdoWru42+uLfwPsOjDxk99MlFxx+GNITsuePSL5h1wnJDcOrp
-ySlqLTXvWkBcPXqiJzvrvOD3Gyq34x3jADuR4oKI4mGK3tX1zv2cGSVtdp/URk2N
-PQvlijaMNh6mS47AWB/i9/+gsTQVUOIsCw0fqktQhghD36VrtXJGnMX5oz9FjXEI
-zaCZwfBqNjO2AVxgADH+T2nrlnY9jl1wOMf6jKxjD97XwNbAZIvp0l9G4+CMmqI0
-SVfpmg9ERRWf2PF8vmMm1BzSjBgYjnPOua/YWdnJC240mXJ/+MqciLfeLbExeAqU
-T9k8N0hAZOb232Y2jWCNi1SOvMgUTgnDuvKwaXsA79z3b4ENsyY=
-=CQ3S
------END PGP SIGNATURE-----
-
---huq684BweRXVnRxX--
+Thanks
+Gen
