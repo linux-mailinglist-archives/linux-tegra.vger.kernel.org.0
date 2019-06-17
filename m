@@ -2,328 +2,356 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5BD647F0F
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 12:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3CE47F85
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 12:20:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727763AbfFQKCO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 06:02:14 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:3331 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726708AbfFQKCO (ORCPT
+        id S1726665AbfFQKU4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 06:20:56 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53723 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726302AbfFQKUz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 06:02:14 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0765220002>; Mon, 17 Jun 2019 03:02:10 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 17 Jun 2019 03:02:10 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 17 Jun 2019 03:02:10 -0700
-Received: from [10.24.192.33] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 17 Jun
- 2019 10:02:07 +0000
-Subject: Re: [PATCH V4 22/28] PCI: tegra: Access endpoint config only if PCIe
- link is up
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     <bhelgaas@google.com>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <jonathanh@nvidia.com>,
-        <vidyas@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20190516055307.25737-1-mmaddireddy@nvidia.com>
- <20190516055307.25737-23-mmaddireddy@nvidia.com>
- <20190604131436.GS16519@ulmo>
- <09bcc121-eaca-3866-d0ef-7806503e883f@nvidia.com>
- <ca34eb24-8696-576f-26bc-8d6141f81a41@nvidia.com>
- <20190613143946.GA30445@e121166-lin.cambridge.arm.com>
- <20190613154250.GA32713@ulmo>
-X-Nvconfidentiality: public
-From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Message-ID: <a523a19c-fdfa-01f7-6f6d-2ca367a10a50@nvidia.com>
-Date:   Mon, 17 Jun 2019 15:31:38 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Mon, 17 Jun 2019 06:20:55 -0400
+Received: by mail-wm1-f68.google.com with SMTP id x15so8631215wmj.3;
+        Mon, 17 Jun 2019 03:20:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vifh+3gjoodEIpud+Hpd9HMfQ/cxxyVKKnAZRymLaSY=;
+        b=ZX/XcAE3h4r1mYP371Gp5YOkYNsb87HUsYIg1+URkDgPKUm/CYjI1cNbSaunfURRVU
+         yzo+45JdiU1Pf0XW9pcVYqvUi3bbjiv/KvnUNZaRGREqMPi3B2m8/9E4X/XMsjuWaEJf
+         vrSJWN4hJi21evRD7Reu84q4OFF7KSel+6AyKw7SUgDtoPsWsPhvjFAQ+vz1zMTHYmBc
+         fr1vEFX2qqqeVKmZiikaWNT98x4K64F4RPjgPbwVGBQ1sqr1zxafaMm9XZHOficDs9Za
+         ESh33CUfD+5EK8W1NS/JyNxbyxGpWmap0PsLT8pDj6hgu9nPN4XrcZo+e9jb8Su9/rH7
+         23Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vifh+3gjoodEIpud+Hpd9HMfQ/cxxyVKKnAZRymLaSY=;
+        b=IreJubkIvYU9Wn3jTSocjcySun7U3dogm1k7e9kgGKI7sCOlQ8GCWM22b0WK8nheZC
+         cLoDGMKJD3pTRc4uRBb0TZAHlVRnziQo3Loc5zLdEOVe+mIcWVTFmP50Dh1+gn0yR2Tx
+         o/Vgv46fDfv6gS3tOs8LBOKBWj106hGQhQDVQkYH65pW46GyIT8/USPpIVFGw34GNSW5
+         TGj9N7o/U+z4+X/A9/8ObcHhjka2/tJNzxF9y98VX+KuMFccpCAazf/pEyXotwYQF6x9
+         0sENpz7GqYtE7os/487UN7h2F21mQZMB372611Ax9lIgKLaTZwFhmt5v9qEsHGK5j7l0
+         6O+A==
+X-Gm-Message-State: APjAAAVnRxCpo45YrDThJvA707dFbOwKp3lXRxusXt6/noh7z66fox8l
+        IyDAnU2Breqc6Gz5kSPwHhU=
+X-Google-Smtp-Source: APXvYqxQKkNJE3X9lgVydtC9tPUROvSJ9Fxo3ivHHShNoSEAIWhK5cR1ZpKliuRwXO+eKpUx23fXSg==
+X-Received: by 2002:a7b:c40c:: with SMTP id k12mr16712086wmi.122.1560766852029;
+        Mon, 17 Jun 2019 03:20:52 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id l1sm13013219wrf.46.2019.06.17.03.20.51
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 17 Jun 2019 03:20:51 -0700 (PDT)
+Date:   Mon, 17 Jun 2019 12:20:49 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] rtc: tegra: Implement suspend clock source
+Message-ID: <20190617102049.GF508@ulmo>
+References: <20190614104747.19712-1-thierry.reding@gmail.com>
+ <20190614104747.19712-2-thierry.reding@gmail.com>
+ <5a00bccf-6542-51bd-9030-99a59f14f2f9@gmail.com>
+ <20190614134110.GF15526@ulmo>
+ <d9b65fd9-ecad-b241-a0d6-251a648488aa@gmail.com>
+ <20190614141400.GI15526@ulmo>
+ <3c6ac621-bc2a-c9c8-64fc-531be7dd323d@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190613154250.GA32713@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560765730; bh=N+VAy2swHiKc3i3+6+QVz4R51don4+1RmrioRr9col0=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Transfer-Encoding:Content-Language;
-        b=UgFFOxROJjd3c/QJ5CRRrGU25PSiLqCr3lcdufuJEd7xrLofn/MTZC/Pe5jOTAWe8
-         eNp/CDXrJIFN/GdtgSlTsomuS9TbjQ2adUfh8LmfDtZksF+C+c07oJlMLEiHwBeGjI
-         sKI/JU0blAvjqLyEBEwfHpYBZmzqdjDy9gynT/8BksV6MMpln4Hqi9FvKOdnN226dc
-         z6iAOoXRqiVnsCIZOCF+NFg9Ih8Db8JLla5corcA+8UqVtzLlXLcRnWIZUOkeqT3X1
-         I36UahHZJQruVzYvMWfnooSm5hjTTkPZDBQ50EWOp7w7Vt/9yU43OZGQRW7Boq0TQ9
-         9Wyh8lkj4dYpw==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="hUH5gZbnpyIv7Mn4"
+Content-Disposition: inline
+In-Reply-To: <3c6ac621-bc2a-c9c8-64fc-531be7dd323d@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+--hUH5gZbnpyIv7Mn4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 13-Jun-19 9:12 PM, Thierry Reding wrote:
-> On Thu, Jun 13, 2019 at 03:39:46PM +0100, Lorenzo Pieralisi wrote:
->> On Mon, Jun 10, 2019 at 10:08:16AM +0530, Manikanta Maddireddy wrote:
->>>
->>> On 04-Jun-19 7:40 PM, Manikanta Maddireddy wrote:
->>>> On 04-Jun-19 6:44 PM, Thierry Reding wrote:
->>>>> On Thu, May 16, 2019 at 11:23:01AM +0530, Manikanta Maddireddy wrote:
->>>>>> Few endpoints like Wi-Fi supports power on/off and to leverage that
->>>>>> root port must support hot-plug and hot-unplug. Tegra PCIe doesn't
->>>>>> support hot-plug and hot-unplug, however it supports endpoint power
->>>>>> on/off feature as follows,
->>>>>>  - Power off sequence:
->>>>>>    - Transition of PCIe link to L2
->>>>>>    - Power off endpoint
->>>>>>    - Leave root port in power up state with the link in L2
->>>>>>  - Power on sequence:
->>>>>>    - Power on endpoint
->>>>>>    - Apply hot reset to get PCIe link up
->>>>>>
->>>>>> PCIe client driver stops accessing PCIe endpoint config and BAR regi=
-sters
->>>>>> after endpoint is powered off. However, software applications like x=
-11
->>>>>> server or lspci can access endpoint config registers in which case
->>>>>> host controller raises "response decoding" errors. To avoid this sce=
-nario,
->>>>>> add PCIe link up check in config read and write callback functions b=
-efore
->>>>>> accessing endpoint config registers.
->>>>>>
->>>>>> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
->>>>>> ---
->>>>>> V4: No change
->>>>>>
->>>>>> V3: Update the commit log with explanation for the need of this patc=
-h
->>>>>>
->>>>>> V2: Change tegra_pcie_link_status() to tegra_pcie_link_up()
->>>>>>
->>>>>>  drivers/pci/controller/pci-tegra.c | 38 +++++++++++++++++++++++++++=
-+++
->>>>>>  1 file changed, 38 insertions(+)
->>>>> This still doesn't look right to me conceptually. If somebody wants t=
-o
->>>>> access the PCI devices after the kernel has powered them off, why can=
-'t
->>>>> we just power the devices back on so that we allow userspace to prope=
-rly
->>>>> access the devices?
->>>> 1. WiFi devices provides power-off feature for power saving in mobiles=
-.
->>>> When WiFi is turned off we shouldn't power on the HW back without user
->>>> turning it back on.
->>>> 2. When ever user process tries to access config space, it'll end up
->>>> in these functions. We cannot have is_powered_on check in config read/=
-write
->>>> callbacks.
->>>> 3. WiFi power on/off is device specific feature, we shouldn't handle i=
-t
->>>> in PCI subsystem or host controller driver.
->>>>
->>>>> Or if that's not what we want, shouldn't we add something to the core
->>>>> PCI infrastructure to let us deal with this? It seems like this is so=
-me
->>>>> general problem that would apply to every PCI device and host bridge
->>>>> driver. Having each driver implement this logic separately doesn't se=
-em
->>>>> like a good idea to me.
->>>>>
->>>>> Thierry
->>>> This should be handled by hotplug feature, whenever endpoint is powere=
-d-off/
->>>> removed from the slot, hot unplug event should take care of it. Unfort=
-unately
->>>> Tegra PCIe doesn't support hotplug feature.
->>>>
->>>> Manikanta
->>> Hi Bjorn,
->>>
->>> I thought about your comment in
->>> https://patchwork.ozlabs.org/patch/1084204/ again.  What if I add link
->>> up check in tegra_pcie_isr() and make "response decoding error" as
->>> debug print? EP Config access will happen when link is down, but
->>> "Response decoding error" print comes only if debug log is enabled.
->>> This way we can avoid race issue in config accessors and we get prints
->>> when debug logs are enabled.
->> I still do not see what you are actually solving. This patch should
->> be dropped.
-> The problem that Manikanta is trying to solve here occurs in this
-> situation (Manikanta, correct me if I've got this wrong): on some
-> setups, a WiFi module connected over PCI will toggle a power GPIO as
-> part of runtime suspend. This effectively causes the module to disappear
-> from the PCI bus (i.e. it can no longer be accessed until the power GPIO
-> is toggled again).
+On Fri, Jun 14, 2019 at 07:41:54PM +0300, Dmitry Osipenko wrote:
+> 14.06.2019 17:14, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Fri, Jun 14, 2019 at 04:49:44PM +0300, Dmitry Osipenko wrote:
+> >> 14.06.2019 16:41, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> On Fri, Jun 14, 2019 at 03:01:13PM +0300, Dmitry Osipenko wrote:
+> >>>> 14.06.2019 13:47, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>>>> From: Thierry Reding <treding@nvidia.com>
+> >>>>>
+> >>>>> The suspend clock source for Tegra210 and earlier is currently
+> >>>>> implemented in the Tegra timer driver. However, the suspend clock s=
+ource
+> >>>>> code accesses registers that are part of the RTC hardware block, so=
+ both
+> >>>>> can step on each others' toes. In practice this isn't an issue, but
+> >>>>> there is no reason why the RTC driver can't implement the clock sou=
+rce,
+> >>>>> so move the code over to the tegra-rtc driver.
+> >>>>>
+> >>>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> >>>>> ---
+> >>>>>  drivers/clocksource/timer-tegra.c | 44 ---------------------------=
+----
+> >>>>>  drivers/rtc/rtc-tegra.c           | 42 +++++++++++++++++++++++++++=
+++
+> >>>>>  2 files changed, 42 insertions(+), 44 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksourc=
+e/timer-tegra.c
+> >>>>> index e6608141cccb..87eac618924d 100644
+> >>>>> --- a/drivers/clocksource/timer-tegra.c
+> >>>>> +++ b/drivers/clocksource/timer-tegra.c
+> >>>>> @@ -21,10 +21,6 @@
+> >>>>> =20
+> >>>>>  #include "timer-of.h"
+> >>>>> =20
+> >>>>> -#define RTC_SECONDS		0x08
+> >>>>> -#define RTC_SHADOW_SECONDS	0x0c
+> >>>>> -#define RTC_MILLISECONDS	0x10
+> >>>>> -
+> >>>>>  #define TIMERUS_CNTR_1US	0x10
+> >>>>>  #define TIMERUS_USEC_CFG	0x14
+> >>>>>  #define TIMERUS_CNTR_FREEZE	0x4c
+> >>>>> @@ -164,34 +160,6 @@ static struct delay_timer tegra_delay_timer =
+=3D {
+> >>>>>  };
+> >>>>>  #endif
+> >>>>> =20
+> >>>>> -static struct timer_of suspend_rtc_to =3D {
+> >>>>> -	.flags =3D TIMER_OF_BASE | TIMER_OF_CLOCK,
+> >>>>> -};
+> >>>>> -
+> >>>>> -/*
+> >>>>> - * tegra_rtc_read - Reads the Tegra RTC registers
+> >>>>> - * Care must be taken that this function is not called while the
+> >>>>> - * tegra_rtc driver could be executing to avoid race conditions
+> >>>>> - * on the RTC shadow register
+> >>>>> - */
+> >>>>> -static u64 tegra_rtc_read_ms(struct clocksource *cs)
+> >>>>> -{
+> >>>>> -	void __iomem *reg_base =3D timer_of_base(&suspend_rtc_to);
+> >>>>> -
+> >>>>> -	u32 ms =3D readl_relaxed(reg_base + RTC_MILLISECONDS);
+> >>>>> -	u32 s =3D readl_relaxed(reg_base + RTC_SHADOW_SECONDS);
+> >>>>> -
+> >>>>> -	return (u64)s * MSEC_PER_SEC + ms;
+> >>>>> -}
+> >>>>> -
+> >>>>> -static struct clocksource suspend_rtc_clocksource =3D {
+> >>>>> -	.name	=3D "tegra_suspend_timer",
+> >>>>> -	.rating	=3D 200,
+> >>>>> -	.read	=3D tegra_rtc_read_ms,
+> >>>>> -	.mask	=3D CLOCKSOURCE_MASK(32),
+> >>>>> -	.flags	=3D CLOCK_SOURCE_IS_CONTINUOUS | CLOCK_SOURCE_SUSPEND_NONS=
+TOP,
+> >>>>> -};
+> >>>>> -
+> >>>>>  static inline unsigned int tegra_base_for_cpu(int cpu, bool tegra2=
+0)
+> >>>>>  {
+> >>>>>  	if (tegra20) {
+> >>>>> @@ -385,15 +353,3 @@ static int __init tegra20_init_timer(struct de=
+vice_node *np)
+> >>>>>  	return tegra_init_timer(np, true, rating);
+> >>>>>  }
+> >>>>>  TIMER_OF_DECLARE(tegra20_timer, "nvidia,tegra20-timer", tegra20_in=
+it_timer);
+> >>>>> -
+> >>>>> -static int __init tegra20_init_rtc(struct device_node *np)
+> >>>>> -{
+> >>>>> -	int ret;
+> >>>>> -
+> >>>>> -	ret =3D timer_of_init(np, &suspend_rtc_to);
+> >>>>> -	if (ret)
+> >>>>> -		return ret;
+> >>>>> -
+> >>>>> -	return clocksource_register_hz(&suspend_rtc_clocksource, 1000);
+> >>>>> -}
+> >>>>> -TIMER_OF_DECLARE(tegra20_rtc, "nvidia,tegra20-rtc", tegra20_init_r=
+tc);
+> >>>>> diff --git a/drivers/rtc/rtc-tegra.c b/drivers/rtc/rtc-tegra.c
+> >>>>> index 8fa1b3febf69..6da54264a27a 100644
+> >>>>> --- a/drivers/rtc/rtc-tegra.c
+> >>>>> +++ b/drivers/rtc/rtc-tegra.c
+> >>>>> @@ -6,6 +6,7 @@
+> >>>>>   */
+> >>>>> =20
+> >>>>>  #include <linux/clk.h>
+> >>>>> +#include <linux/clocksource.h>
+> >>>>>  #include <linux/delay.h>
+> >>>>>  #include <linux/init.h>
+> >>>>>  #include <linux/io.h>
+> >>>>> @@ -52,8 +53,15 @@ struct tegra_rtc_info {
+> >>>>>  	struct clk *clk;
+> >>>>>  	int irq; /* alarm and periodic IRQ */
+> >>>>>  	spinlock_t lock;
+> >>>>> +
+> >>>>> +	struct clocksource clksrc;
+> >>>>>  };
+> >>>>> =20
+> >>>>> +static struct tegra_rtc_info *to_tegra_rtc(struct clocksource *clk=
+src)
+> >>>>> +{
+> >>>>> +	return container_of(clksrc, struct tegra_rtc_info, clksrc);
+> >>>>> +}
+> >>>>> +
+> >>>>>  /*
+> >>>>>   * RTC hardware is busy when it is updating its values over AHB on=
+ce every
+> >>>>>   * eight 32 kHz clocks (~250 us). Outside of these updates the CPU=
+ is free to
+> >>>>> @@ -268,6 +276,17 @@ static const struct rtc_class_ops tegra_rtc_op=
+s =3D {
+> >>>>>  	.alarm_irq_enable =3D tegra_rtc_alarm_irq_enable,
+> >>>>>  };
+> >>>>> =20
+> >>>>> +static u64 tegra_rtc_read_ms(struct clocksource *clksrc)
+> >>>>> +{
+> >>>>> +	struct tegra_rtc_info *info =3D to_tegra_rtc(clksrc);
+> >>>>> +	u32 ms, s;
+> >>>>> +
+> >>>>> +	ms =3D readl_relaxed(info->base + TEGRA_RTC_REG_MILLI_SECONDS);
+> >>>>> +	s =3D readl_relaxed(info->base + TEGRA_RTC_REG_SHADOW_SECONDS);
+> >>>>> +
+> >>>>> +	return (u64)s * MSEC_PER_SEC + ms;
+> >>>>> +}
+> >>>>> +
+> >>>>>  static const struct of_device_id tegra_rtc_dt_match[] =3D {
+> >>>>>  	{ .compatible =3D "nvidia,tegra20-rtc", },
+> >>>>>  	{}
+> >>>>> @@ -339,6 +358,28 @@ static int tegra_rtc_probe(struct platform_dev=
+ice *pdev)
+> >>>>>  		goto disable_clk;
+> >>>>>  	}
+> >>>>> =20
+> >>>>> +	/*
+> >>>>> +	 * The Tegra RTC is the only reliable clock source that persists
+> >>>>> +	 * across an SC7 transition (VDD_CPU and VDD_CORE off) on Tegra210
+> >>>>> +	 * and earlier. Starting with Tegra186, the ARM v8 architected ti=
+mer
+> >>>>> +	 * is in an always on power partition and its reference clock kee=
+ps
+> >>>>> +	 * running during SC7. Therefore, we technically don't need to ha=
+ve
+> >>>>> +	 * the RTC register as a clock source on Tegra186 and later, but =
+it
+> >>>>> +	 * doesn't hurt either, so we just register it unconditionally he=
+re.
+> >>>>> +	 */
+> >>>>> +	info->clksrc.name =3D "tegra_rtc";
+> >>>>> +	info->clksrc.rating =3D 200;
+> >>>>> +	info->clksrc.read =3D tegra_rtc_read_ms;
+> >>>>> +	info->clksrc.mask =3D CLOCKSOURCE_MASK(32);
+> >>>>
+> >>>> Hm.. shouldn't this be CLOCKSOURCE_MASK(52)? Given that there are 32=
+ bits for seconds and
+> >>>> 10bits for milliseconds.
+> >>>
+> >>> Did you mean to say CLOCKSOURCE_MASK(42)? Yeah, that's probably better
+> >>> here.
+> >>
+> >> Yes, 42 :)
+> >=20
+> > I'm wondering if that could perhaps be a little problematic because
+> > we're not actually using all of the 10 bits for the milliseconds. So the
+> > maximum value that we can return is:
+> >=20
+> > 	4294967296 * 1000 + 999 =3D 4294967296999
+> >=20
+> > However, the maximum value for a 42 bit mask is:
+> >=20
+> > 	2^42 - 1 =3D 4398046511103
+> >=20
+> > That mask is only used in order to wrap around in delta computations. So
+> > I can imagine a situation where we'd end up with a wrong value in the
+> > delta. I suppose this can only really happen if the two samples are very
+> > far apart in time, so maybe this isn't worth worrying about.
+>=20
+> I'm a bit puzzled now. Looks problematic that wraparound will happen unex=
+pectedly for
+> the timekeeping. Although please bare in mind that I'm not expert in the =
+area of
+> timekeeping, actually I know very little about it.
+>=20
+> Maybe tegra_rtc_read_ms() should track wraparound case itself and return a
+> monotonically incrementing value?
+>=20
+> static u64 tegra_rtc_read_ms(struct clocksource *clksrc)
+> {
+> 	struct tegra_rtc_info *info =3D to_tegra_rtc(clksrc);
+> 	u64 ms, s, now;
+>=20
+> 	ms =3D readl_relaxed(info->base + TEGRA_RTC_REG_MILLI_SECONDS);
+> 	s =3D readl_relaxed(info->base + TEGRA_RTC_REG_SHADOW_SECONDS);
+>=20
+> 	now =3D s * MSEC_PER_SEC + ms;
+>=20
+> 	if (now < info->last)
+> 		info->ms_cnt +=3D 0x3e8000003e8ull - info->last + now;
+> 	else
+> 		info->ms_cnt +=3D now - info->last;
+>=20
+> 	info->last =3D now;
+>=20
+> 	return info->ms_cnt;
+> }
+>=20
+> and then simply CLOCKSOURCE_MASK(64).
 
-GPIO is toggled as part of WiFi on/off, can be triggered from network manag=
-er UI.
+This sounds like a bit of overkill to me. There's an obscure constant in
+there that's completely non-obvious and we're duplicating code that's
+effectively already in the core. I think the only thing that we need to
+make sure is that we don't confuse the timekeeping system by having this
+discrepancy of 24 values between the values that we report and the mask.
 
->
-> This is fine from a kernel point of view because the kernel keeps track
-> of what devices are suspended. However, userspace will occasionally try
-> to read the configuration space access of all devices, and since it
-> doesn't have any knowledge about the suspend state of these devices, it
-> doesn't know which ones to leave alone. I think this happens when the
-> X.Org server is running.
+I think we could probably do this by setting a mask of 41 bits and then
+also applying that mask to the values that we return:
 
-This is fine from a kernel point of view because PCI client driver
-doesn't initiate any PCIe transaction until network interface
-is up during WiFi on.
+	return (u64)(s * MSEC_PER_SEC + ms) & clksrc->mask;
 
->
-> One thing that Manikanta and I had discussed was that perhaps the device
-> should be hot-unplugged when it goes into this low-power state. However,
-> we don't support hotplug on Tegra210 where this is needed, so we'd need
-> some sort of software-induced hot-unplug. However, this low power state
-> is entered when the WiFi interface is taken down (i.e. ip link set dev
-> <interface> down). If we were to remove the PCI device in that case, it
-> means that the interface goes away completely, which is completely
-> unexpected from a user's perspective. After all, taking a link down and
-> up may be something that scripts are doing all the time. They'd fall
-> over if after taking the interface down, the interface completely
-> disappears.
->
-> It's also not entirely clear to me how we get the device back onto the
-> bus again after it is in low power. If we hot-unplug the device, then
-> the driver will be unbound. Presumably the driver is what's controlling
-> the power GPIO, so there won't be any entity that can be used to bring
-> the chip back to life. Unless we deal with that power GPIO elsewhere
-> (rfkill switch perhaps?).
+That way we always wrap around before we reach the maximum numerical
+value that we could. So we "loose" that 24 value range, but that's not
+really a problem.
 
-Correct, rfkill switch should handle the GPIO.
-Sequence will be,
- - WiFi ON
-   - rfkill switch enables the WiFi GPIO
-   - Tegra PCIe receives hot plug event
-   - Tegra PCIe hot plug driver rescans PCI bus and enumerates the device
-   - PCI client driver is probed, which will create network interface
- - WiFi OFF
-   - rfkill switch disables the WiFi GPIO
-   - Tegra PCIe receives hot unplug event
-   - Tegra PCIe hot plug driver removes PCI devices under the bus
-   - PCI client driver remove is executed, which will remove network interf=
-ace
+Actually, saying it that way I don't think we actually have to worry
+about this at all. Those 24 values (0x3E8-0x3FF) are already lost. We
+never return any values in that range because the MILLI_SECONDS register
+wraps around to 0x000 after 0x3E7. So we will never end up with any of
+those 24 values being used. They are effectively already lost. The fact
+that we "hide" them by contracting the 10 bit field to 1000 values does
+not change that.
 
-We don't need current patch in this case because PCI device is not present
-in the PCI hierarchy, so there cannot be EP config access with link down.
-However Tegra doesn't support hot plug and unplug events. I am not sure
-if we have any software based hot plug event trigger.
+Thierry
 
-I will drop current patch and pursue if above sequence can be
-implemented for Tegra.
+--hUH5gZbnpyIv7Mn4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Manikanta
+-----BEGIN PGP SIGNATURE-----
 
->
-> Perhaps one other way to deal with this would be to track the suspend
-> state of devices and then have the code that implements the PCI access
-> from userspace refuse accesses to devices that are asleep. I suppose
-> this is somewhat of an odd use-case because traditionally I guess PCI
-> devices never power down to a state where their configuration space can
-> no longer be accessed. At least that's what would explain why this has
-> never been an issue before. Or perhaps it has?
->
-> The last resort would be to just never put the WiFi chip into that low
-> power mode, though I'm not exactly sure what that means for the power
-> consumption on the affected systems.
->
-> Manikanta, can you fill in some of the blanks above?
->
-> Thierry
->>> Thierry,
->>> Please share your inputs as well.
->>>
->>> Manikanta
->>> =C2=A0
->>>
->>>>>> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/contro=
-ller/pci-tegra.c
->>>>>> index d20c88a79e00..33f4dfab9e35 100644
->>>>>> --- a/drivers/pci/controller/pci-tegra.c
->>>>>> +++ b/drivers/pci/controller/pci-tegra.c
->>>>>> @@ -428,6 +428,14 @@ static inline u32 pads_readl(struct tegra_pcie =
-*pcie, unsigned long offset)
->>>>>>  	return readl(pcie->pads + offset);
->>>>>>  }
->>>>>> =20
->>>>>> +static bool tegra_pcie_link_up(struct tegra_pcie_port *port)
->>>>>> +{
->>>>>> +	u32 value;
->>>>>> +
->>>>>> +	value =3D readl(port->base + RP_LINK_CONTROL_STATUS);
->>>>>> +	return !!(value & RP_LINK_CONTROL_STATUS_DL_LINK_ACTIVE);
->>>>>> +}
->>>>>> +
->>>>>>  /*
->>>>>>   * The configuration space mapping on Tegra is somewhat similar to =
-the ECAM
->>>>>>   * defined by PCIe. However it deviates a bit in how the 4 bits for=
- extended
->>>>>> @@ -493,20 +501,50 @@ static void __iomem *tegra_pcie_map_bus(struct=
- pci_bus *bus,
->>>>>>  static int tegra_pcie_config_read(struct pci_bus *bus, unsigned int=
- devfn,
->>>>>>  				  int where, int size, u32 *value)
->>>>>>  {
->>>>>> +	struct tegra_pcie *pcie =3D bus->sysdata;
->>>>>> +	struct pci_dev *bridge;
->>>>>> +	struct tegra_pcie_port *port;
->>>>>> +
->>>>>>  	if (bus->number =3D=3D 0)
->>>>>>  		return pci_generic_config_read32(bus, devfn, where, size,
->>>>>>  						 value);
->>>>>> =20
->>>>>> +	bridge =3D pcie_find_root_port(bus->self);
->>>>>> +
->>>>>> +	list_for_each_entry(port, &pcie->ports, list)
->>>>>> +		if (port->index + 1 =3D=3D PCI_SLOT(bridge->devfn))
->>>>>> +			break;
->>>>>> +
->>>>>> +	/* If there is no link, then there is no device */
->>>>>> +	if (!tegra_pcie_link_up(port)) {
->>>>>> +		*value =3D 0xffffffff;
->>>>>> +		return PCIBIOS_DEVICE_NOT_FOUND;
->>>>>> +	}
->>>>>> +
->>>>>>  	return pci_generic_config_read(bus, devfn, where, size, value);
->>>>>>  }
->>>>>> =20
->>>>>>  static int tegra_pcie_config_write(struct pci_bus *bus, unsigned in=
-t devfn,
->>>>>>  				   int where, int size, u32 value)
->>>>>>  {
->>>>>> +	struct tegra_pcie *pcie =3D bus->sysdata;
->>>>>> +	struct tegra_pcie_port *port;
->>>>>> +	struct pci_dev *bridge;
->>>>>> +
->>>>>>  	if (bus->number =3D=3D 0)
->>>>>>  		return pci_generic_config_write32(bus, devfn, where, size,
->>>>>>  						  value);
->>>>>> =20
->>>>>> +	bridge =3D pcie_find_root_port(bus->self);
->>>>>> +
->>>>>> +	list_for_each_entry(port, &pcie->ports, list)
->>>>>> +		if (port->index + 1 =3D=3D PCI_SLOT(bridge->devfn))
->>>>>> +			break;
->>>>>> +
->>>>>> +	/* If there is no link, then there is no device */
->>>>>> +	if (!tegra_pcie_link_up(port))
->>>>>> +		return PCIBIOS_DEVICE_NOT_FOUND;
->>>>>> +
->>>>>>  	return pci_generic_config_write(bus, devfn, where, size, value);
->>>>>>  }
->>>>>> =20
->>>>>> --=20
->>>>>> 2.17.1
->>>>>>
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0HaX4ACgkQ3SOs138+
+s6E4HRAAjudfjmA6NJ+84ATQF51/ybM2nzh4E3OxY0SFLjuGQ79IkzzpEgAgHWFh
+6699sQSsWBt55ZFJNpUWj/ugqt11F53fpuhJW4jU8DbWtRBTs+NLXQP0nNG8/qmL
+B9Oq4FB497RukWHtNcgKd2gDT7CINMs5qQm3upAT+akQwkL+eWaPCJ3xvZbHynu2
+NJN6wpIR1R7UErbhgqpfeKVJw/1elNJKbthzSOiPR6S7xOoROI6wO+aluehTzDpy
+1SPgATh3DQKzzdGkrSXVP6VUSLXztZM9porIyG2fJOceCrB5ZM0HSob0nR9p6Bc3
++rvMQeqHQhf66mtSaiPRaIuJwfNop0o8j5/JfNwKqx5HHJjno2kJ5A27idgY3QA5
+OPJ1Qd85zaSCTjkx1iNrj9xUFX4lY8EHo9cWSzapqDjGgeczJM6rO/Y/Pxph5S2w
+F/DtwnIRRdL2Dp+Cl/bBmlJP0ND8wseax2gyJNVL7tPJ1cWGYC7PVE0zc6OzhFJE
+41U2KWNjzT08vgHpLeCxNQSFp7/oNGQDWd5ynBM/mHACzmUF+ViKichSIwtJQpFn
+QoPqFXZuvdKE0Fu727ugSAT+wT9Cd7TqKkXQvxKdIVgWkC5VKWwHE/UHJNkB2Eq4
+ncF3zFzmW+saZTKn1hm6ZJYxTj9i51O+4OX7X13AypqsgHwZqmY=
+=r2rw
+-----END PGP SIGNATURE-----
 
+--hUH5gZbnpyIv7Mn4--
