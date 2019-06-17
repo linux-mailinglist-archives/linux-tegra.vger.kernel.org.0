@@ -2,95 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DCBF47FD8
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 12:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB53147FDC
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Jun 2019 12:39:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726183AbfFQKj2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Jun 2019 06:39:28 -0400
-Received: from foss.arm.com ([217.140.110.172]:44932 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726091AbfFQKj2 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Jun 2019 06:39:28 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A408344;
-        Mon, 17 Jun 2019 03:39:27 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 829DD3F246;
-        Mon, 17 Jun 2019 03:41:11 -0700 (PDT)
-Date:   Mon, 17 Jun 2019 11:39:21 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>, bhelgaas@google.com,
-        robh+dt@kernel.org, mark.rutland@arm.com, jonathanh@nvidia.com,
-        vidyas@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH V4 27/28] PCI: tegra: Add support for GPIO based PERST#
-Message-ID: <20190617103921.GA20619@e121166-lin.cambridge.arm.com>
-References: <20190614143222.GB23116@e121166-lin.cambridge.arm.com>
- <1508173d-0ecc-f498-6ab2-78a718086b35@nvidia.com>
- <20190614145023.GA24588@e121166-lin.cambridge.arm.com>
- <20190614152304.GK15526@ulmo>
- <20190614155934.GA28253@e121166-lin.cambridge.arm.com>
- <51e4ae62-f842-1d2f-fbca-0b2063dd53a6@nvidia.com>
- <20190614165353.GB30511@e121166-lin.cambridge.arm.com>
- <1c662f82-8329-5e1b-58bf-b2fe1643adb0@nvidia.com>
- <20190617094839.GE18020@e121166-lin.cambridge.arm.com>
- <0f9bb97d-5a30-a654-0cc6-a57a7bd894c8@nvidia.com>
+        id S1726320AbfFQKjx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Jun 2019 06:39:53 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:6607 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726091AbfFQKjx (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 17 Jun 2019 06:39:53 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d076df80000>; Mon, 17 Jun 2019 03:39:52 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 17 Jun 2019 03:39:52 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 17 Jun 2019 03:39:52 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 17 Jun
+ 2019 10:39:50 +0000
+Subject: Re: [PATCH 2/3] clk: tegra: Warn if an enabled PLL is in IDDQ
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+CC:     Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Alex Frid <afrid@nvidia.com>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+References: <20190613161225.2531-1-thierry.reding@gmail.com>
+ <20190613161225.2531-2-thierry.reding@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <b4c8a1fe-4d68-9999-8fc9-e7db3c64525f@nvidia.com>
+Date:   Mon, 17 Jun 2019 11:39:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0f9bb97d-5a30-a654-0cc6-a57a7bd894c8@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20190613161225.2531-2-thierry.reding@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1560767992; bh=kQFk3zDZhpQES8JzjRgG2LOS80h8G3LxcbooJmrhzZo=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=Xrz7XlUiiVOX3NiIqAEhCqvDI1SjIFoSknoa9JR7oyCcO0agLLQNyBe50O5kA4yEZ
+         u2NVx6K5arnufAn3JGbAN6WnBc2lKnEDUrqI3TbJJu+kBWyFSmu0i3MQ+VCV3ZrVOO
+         e9S3ViBguppCLUn9b2LkOcjhijEap9jAAlQPe7rMdv6t+TBmRSXFejkboWziLyIwvD
+         lT19dK/bkgdUiMheTEdcXWvSeCIk7lxgYchJAzyawoLDHQBmsrqUYmJX2JFtO6YbNn
+         Ixfby82wWJ84D7M8irwoo77d5mjeySVo+cqjcF3Vp+ttOjVoSeOj9U9WcfVoqskHJG
+         MrmOM195D/mWg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 17, 2019 at 03:57:09PM +0530, Manikanta Maddireddy wrote:
-> 
-> 
-> On 17-Jun-19 3:18 PM, Lorenzo Pieralisi wrote:
-> > On Fri, Jun 14, 2019 at 10:53:13PM +0530, Manikanta Maddireddy wrote:
-> >
-> > [...]
-> >
-> >>> Ok. My point then is that you have no way to enforce this requirement on
-> >>> platforms that actually need it, I do not even know if there is a
-> >>> way you can do it (I was thinking along the lines of using a
-> >>> compatible string to detect whether the GPIO #PERST reset is mandatory)
-> >>> but maybe this is not even a SOC property.
-> >>>
-> >>> Maybe what I am asking is overkill, I just wanted to understand.
-> >>>
-> >>> I was just asking a question to understand how you handle the case
-> >>> where a GPIO pin definition is missing in DT for a platform that
-> >>> actually needs it, the driver will probe but nothing will work.
-> >>>
-> >>> It would be good to describe this and capture it in the commit log.
-> >>>
-> >>> Thanks,
-> >>> Lorenzo
-> >> I can't think of a easy way to enforce this requirement. As you said
-> >> compatible string is per SOC, so we can't use it for a platform.
-> >> This issue is present on only one platform, so it is hard to miss the
-> >> DT property. That is the reason for publishing this patch with out this
-> >> enforcement in driver.
-> >>
-> >> I thought for changing PERST# to GPIO for all platform, but testing is
-> >> a tedious job. Also I don't have Tegra20 and Tegra30 platforms.
-> > I can't help with that.
-> >
-> >> Do you want me to drop the patch or update the limitation in the commit
-> >> log?
-> > It is Thierry's call, if he is OK with it fine by me, please do
-> > update the commit log, it will help everybody understand.
-> >
-> > Lorenzo
-> 
-> Sure, I will update the commit log in V5.
-> Please let me know if you completed reviewing this series, I will
-> send V5 addressing review comments in this patch.
 
-Post v5, we should be able to get it in v5.3, thanks.
+On 13/06/2019 17:12, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> A PLL in IDDQ doesn't work, whether it's enabled or not. This is not a
+> configuration that makes sense, so warn about it.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/clk/tegra/clk-tegra210.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
+> index 4904ac4a75db..793c7acaf4e2 100644
+> --- a/drivers/clk/tegra/clk-tegra210.c
+> +++ b/drivers/clk/tegra/clk-tegra210.c
+> @@ -1003,8 +1003,12 @@ static void tegra210_pllre_set_defaults(struct tegra_clk_pll *pllre)
+>  		_pll_misc_chk_default(clk_base, pllre->params, 0, val,
+>  				~mask & PLLRE_MISC0_WRITE_MASK);
+>  
+> -		/* Enable lock detect */
+> +		/* The PLL doesn't work if it's in IDDQ. */
+>  		val = readl_relaxed(clk_base + pllre->params->ext_misc_reg[0]);
+> +		if (val & PLLRE_MISC0_IDDQ)
+> +			pr_warn("unexpected IDDQ bit set for enabled clock\n");
+> +
+> +		/* Enable lock detect */
+>  		val &= ~mask;
+>  		val |= PLLRE_MISC0_DEFAULT_VALUE & mask;
+>  		writel_relaxed(val, clk_base + pllre->params->ext_misc_reg[0]);
 
-Lorenzo
+Looks like there are a few other instances of this that could be fixed
+as well.
+
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+
+Cheers
+Jon
+
+-- 
+nvpublic
