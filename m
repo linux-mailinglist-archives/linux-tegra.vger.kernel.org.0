@@ -2,143 +2,318 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 066CF4AB30
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 21:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAEE44AB4E
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 22:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730521AbfFRTsg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 15:48:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60842 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730176AbfFRTsf (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 15:48:35 -0400
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D0A5F206E0;
-        Tue, 18 Jun 2019 19:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560887314;
-        bh=B+P3EIUfBOoeviB9x7VEMBkgJuOvE5XAkLXgLqXgA1U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d4aa/HY3/uH51bmvZBqzTIu09V5+HGoAigLH5I1623wc4xfpXh2MoiaiNUSAwpnj6
-         zRjfudgEhpNOEJI5ndiRQtB+LNX2PfCB3UfJPSWUtv0sFrCigj1HorhtNz8CoB9NZu
-         135PY4ZSiiSgFSk95kmQcQGjwDkbVwFjQbOfsHQQ=
-Date:   Tue, 18 Jun 2019 14:48:30 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc:     thierry.reding@gmail.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        jonathanh@nvidia.com, lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        id S1730511AbfFRUAM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 16:00:12 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:45437 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730242AbfFRUAM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 18 Jun 2019 16:00:12 -0400
+Received: by mail-lj1-f194.google.com with SMTP id m23so768524lje.12;
+        Tue, 18 Jun 2019 13:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=TjGF81tj98h/0UjJqMA7NYIu8S8jblr5D4qB1Jhpm24=;
+        b=XOe/b3QlIPeA0jhi1iww/25TB2i0qPJFOavaAZwW+Uco70lKnUuUQHhoCGG02pL3NE
+         PnAglJqZOaXfaA984JKz2MbNj2GgkL/3LisTaJOCwwywIKwaxJFl/etppWu2LeB7duGD
+         g6QaanEFy+kIeJhl38ou2jEn+odB+ZjsVOcb0hjoW8eOS2TR1LHHT0XrUVHIqBb/+yEu
+         pt/KykQ2qgJPdCbt2Sd9V1Gm+3SYkfnqDtjIbSFCem1EgZgjq78NYwdTyQV7sHWHHlSH
+         kGr3RbHTtGzRyIM+Ggx/UQpzhoC6gEBiM/6h2BO0Eh5FnbSXYRjoupqT1gEfBg/xym3W
+         DYnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TjGF81tj98h/0UjJqMA7NYIu8S8jblr5D4qB1Jhpm24=;
+        b=CKl0xfKU/qvo8UafnGQmEZdWY0iVA/kTmWbJMcBc9hTUAaAzEuAbvAmYYfsg/ikclO
+         X4JGyuj6JR9DPJt5G/O3YKf61dMZJWFKm+hz7hijeCZBwRPfmUuuWv0+PUBwv+QQrn0S
+         dfjAwoqQiLA42ianUmXRoJ+ClOUgpvVJhqfTv/5kO0dTEYGjyUH9b03uzOLu9nQU6SQ1
+         sQmBTZejg2oX10Jgp0n5WKdEx1t8WVVPZSRPQKj9krZ2WqqOyKW773/0OytS+2Bcx9gl
+         WhDKn++4OOTm8wciKER6pqgHlcKQtZCHWQTayZ2rey8jnrH3BDqLSBOiLIP/8QrGgMJ6
+         zNWg==
+X-Gm-Message-State: APjAAAUfbxh276RpRHcM9F1Vkth1YUf5+gPMrBcLVM5ezcMSOKno4pjS
+        lsfQeZSka/tEHggENVNRRxGvOOlF
+X-Google-Smtp-Source: APXvYqwdQezmOUkqH1JHgRhJYM98fHe5Va6v2KulnWuu3d5B7O1aFG+sCWJICjFNNocRC5Ac8iWE2g==
+X-Received: by 2002:a2e:8583:: with SMTP id b3mr45898545lji.171.1560888008129;
+        Tue, 18 Jun 2019 13:00:08 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.googlemail.com with ESMTPSA id h3sm2756684lja.93.2019.06.18.13.00.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Jun 2019 13:00:07 -0700 (PDT)
+Subject: Re: [PATCH V3 02/17] pinctrl: tegra: add suspend and resume support
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Stephen Warren <swarren@wwwdotorg.org>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
+        jason@lakedaemon.net, marc.zyngier@arm.com,
+        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com,
+        pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [PATCH V6 20/27] PCI: tegra: Disable MSI for Tegra PCIe root port
-Message-ID: <20190618194830.GA110859@google.com>
-References: <20190618180206.4908-1-mmaddireddy@nvidia.com>
- <20190618180206.4908-21-mmaddireddy@nvidia.com>
+References: <1560843991-24123-1-git-send-email-skomatineni@nvidia.com>
+ <1560843991-24123-3-git-send-email-skomatineni@nvidia.com>
+ <7706a287-44b7-3ad6-37ff-47e97172a798@gmail.com>
+ <a23ffbae-dd85-c023-7aae-3b81e0b17ebc@gmail.com>
+ <fd415362-7479-6f98-c8db-1b7758fd3f1d@wwwdotorg.org>
+ <e53bf16a-681e-da31-1e9c-4ed2a24ed3a6@nvidia.com>
+ <cff9b6a2-dc33-d03b-9945-799b158deb07@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <232324b1-c0eb-ba1b-0fd0-31fcbd701e07@gmail.com>
+Date:   Tue, 18 Jun 2019 23:00:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190618180206.4908-21-mmaddireddy@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <cff9b6a2-dc33-d03b-9945-799b158deb07@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 11:31:59PM +0530, Manikanta Maddireddy wrote:
-> Tegra PCIe generates PME and AER events over legacy interrupt line. Disable
-> MSI to avoid service drivers registering interrupt routine over MSI IRQ
-> line.
+18.06.2019 20:34, Sowjanya Komatineni пишет:
 > 
-> PME and AER interrupts registered to MSI without this change,
-> cat /proc/interrupts | grep -i pci
-> 36: 21 0 0 0 0 0 GICv2 104 Level       PCIE
-> 37: 35 0 0 0 0 0 GICv2 105 Level       Tegra PCIe MSI
-> 76: 0  0 0 0 0 0 Tegra PCIe MSI 0 Edge PCIe PME, aerdrv, PCIe BW notif
-> 
-> PME and AER interrupts registered to legacy IRQ with this change,
-> cat /proc/interrupts | grep -i pci
-> 36: 33 0 0 0 0 0 GICv2 104 Level      PCIE, PCIe PME, aerdrv, PCIe BW notif
-> 37: 52 0 0 0 0 0 GICv2 105 Level      Tegra PCIe MSI
-> 
-> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-> ---
-> V6: Replaced pcie_pme_disable_msi() with no_msi quirk
-> 
-> V5: No change
-> 
-> V4: No change
-> 
-> V3: Corrected typo in commit log
-> 
-> V2: No change
-> 
->  drivers/pci/quirks.c | 39 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index a59ad09ce911..20dcad421991 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -2576,6 +2576,45 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA,
->  			PCI_DEVICE_ID_NVIDIA_NVENET_15,
->  			nvenet_msi_disable);
->  
-> +/*
-> + * Tegra PCIe generates PME and AER events over legacy interrupt line.
-> + * So disable msi for Tegra PCIe root ports.
+> On 6/18/19 9:50 AM, Sowjanya Komatineni wrote:
+>>
+>> On 6/18/19 8:41 AM, Stephen Warren wrote:
+>>> On 6/18/19 3:30 AM, Dmitry Osipenko wrote:
+>>>> 18.06.2019 12:22, Dmitry Osipenko пишет:
+>>>>> 18.06.2019 10:46, Sowjanya Komatineni пишет:
+>>>>>> This patch adds suspend and resume support for Tegra pinctrl driver
+>>>>>> and registers them to syscore so the pinmux settings are restored
+>>>>>> before the devices resume.
+>>>>>>
+>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>>> ---
+>>>>>>   drivers/pinctrl/tegra/pinctrl-tegra.c    | 62 ++++++++++++++++++++++++++++++++
+>>>>>>   drivers/pinctrl/tegra/pinctrl-tegra.h    |  5 +++
+>>>>>>   drivers/pinctrl/tegra/pinctrl-tegra114.c |  1 +
+>>>>>>   drivers/pinctrl/tegra/pinctrl-tegra124.c |  1 +
+>>>>>>   drivers/pinctrl/tegra/pinctrl-tegra20.c  |  1 +
+>>>>>>   drivers/pinctrl/tegra/pinctrl-tegra210.c | 13 +++++++
+>>>>>>   drivers/pinctrl/tegra/pinctrl-tegra30.c  |  1 +
+>>>>>>   7 files changed, 84 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c
+>>>>>> b/drivers/pinctrl/tegra/pinctrl-tegra.c
+>>>>>> index 34596b246578..ceced30d8bd1 100644
+>>>>>> --- a/drivers/pinctrl/tegra/pinctrl-tegra.c
+>>>>>> +++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
+>>>>>> @@ -20,11 +20,16 @@
+>>>>>>   #include <linux/pinctrl/pinmux.h>
+>>>>>>   #include <linux/pinctrl/pinconf.h>
+>>>>>>   #include <linux/slab.h>
+>>>>>> +#include <linux/syscore_ops.h>
+>>>>>>     #include "../core.h"
+>>>>>>   #include "../pinctrl-utils.h"
+>>>>>>   #include "pinctrl-tegra.h"
+>>>>>>   +#define EMMC2_PAD_CFGPADCTRL_0            0x1c8
+>>>>>> +#define EMMC4_PAD_CFGPADCTRL_0            0x1e0
+>>>>>> +#define EMMC_DPD_PARKING            (0x1fff << 14)
+>>>>>> +
+>>>>>>   static inline u32 pmx_readl(struct tegra_pmx *pmx, u32 bank, u32 reg)
+>>>>>>   {
+>>>>>>       return readl(pmx->regs[bank] + reg);
+>>>>>> @@ -619,6 +624,48 @@ static void tegra_pinctrl_clear_parked_bits(struct tegra_pmx *pmx)
+>>>>>>               pmx_writel(pmx, val, g->mux_bank, g->mux_reg);
+>>>>>>           }
+>>>>>>       }
+>>>>>> +
+>>>>>> +    if (pmx->soc->has_park_padcfg) {
+>>>>>> +        val = pmx_readl(pmx, 0, EMMC2_PAD_CFGPADCTRL_0);
+>>>>>> +        val &= ~EMMC_DPD_PARKING;
+>>>>>> +        pmx_writel(pmx, val, 0, EMMC2_PAD_CFGPADCTRL_0);
+>>>>>> +
+>>>>>> +        val = pmx_readl(pmx, 0, EMMC4_PAD_CFGPADCTRL_0);
+>>>>>> +        val &= ~EMMC_DPD_PARKING;
+>>>>>> +        pmx_writel(pmx, val, 0, EMMC4_PAD_CFGPADCTRL_0);
+>>>>>> +    }
+>>>>>> +}
+>>>>>
+>>>>> Is there any reason why parked_bit can't be changed to parked_bitmask like I was
+>>>>> asking in a comment to v2?
+>>>>>
+>>>>> I suppose that it's more preferable to keep pinctrl-tegra.c platform-agnostic for
+>>>>> consistency when possible, hence adding platform specifics here should be discouraged.
+>>>>> And then the parked_bitmask will also result in a proper hardware description in the code.
+>>>>>
+>>>>
+>>>> I'm now also vaguely recalling that Stephen Warren had some kind of a "code generator"
+>>>> for the pinctrl drivers. So I guess all those tables were auto-generated initially.
+>>>>
+>>>> Stephen, maybe you could adjust the generator to take into account the bitmask (of
+>>>> course if that's a part of the generated code) and then re-gen it all for Sowjanya?
+>>>
+>>> https://github.com/NVIDIA/tegra-pinmux-scripts holds the scripts that generate
+>>> tegra-pinctrlNNN.c. See soc-to-kernel-pinctrl-driver.py. IIRC, tegra-pinctrl.c (the core
+>>> file) isn't auto-generated. Sowjanya is welcome to send a patch to that repo if the code
+>>> needs to be updated.
+>>
+>>
+>> Hi Dmitry,
+>>
+>> Just want to be clear on my understanding of your request.
+>>
+>> "change parked_bit to parked_bitmask" are you requested to change parked_bit of PINGROUP
+>> and DRV_PINGROUP to use bitmask value rather than bit position inorder to have parked bit
+>> configuration for EMMC PADs as well to happen by masking rather than checking for
+>> existence of parked_bit?
+>>
+>> Trying to understand the reason/benefit for changing parked_bit to parked_bitmask.
+> Also, Park bits in CFGPAD registers are not common for all CFGPAD registers. Park bits are
+> available only for EMMC and also those bits are used for something else on other CFGPAD
+> registers so bitmask can't be common and this also need an update to DRV_PINGROUP macro args
+> just only to handle EMMC parked_bitmask. So not sure of the benefit in using bitmask rather
 
-s/msi/MSI/
+Hi Sowjanya,
 
-What's going on here?  Vidya posted a very similar patch [1] (although
-his included nice spec citations, which you omitted), but his added
-quirks for 0x1ad0, 0x1ad1, and 0x1ad2.  You didn't include any of
-those here.
+The main motivation is to describe hardware properly in the drivers. Why to make a
+hacky-looking workaround while you can make things properly? Especially if that doesn't take
+much effort.
 
-Maybe Lorenzo will sort this all out, but it would make things easier
-if you and Vidya got together and integrated your patches yourselves
-so Lorenzo didn't have to worry about it.
+Stephen, thank you very much for the pointer to the script. Looks like it should be easy to
+modify the script accordingly to the required change.
 
-[1] https://lore.kernel.org/lkml/20190612095339.20118-3-vidyas@nvidia.com
+Sowjanya, below is a draft of the change that I'm suggesting. I see this as two separate
+patches: first converts drivers to use parked_bitmask, second adds suspend-resume support.
 
-> + */
-> +static void pci_quirk_nvidia_tegra_disable_rp_msi(struct pci_dev *dev)
-> +{
-> +	dev->no_msi = 1;
-> +}
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf0,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf1,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1c,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1d,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e12,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e13,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0fae,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0faf,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x10e5,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x10e6,
-> +			      PCI_CLASS_BRIDGE_PCI, 8,
-> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
-> +
->  /*
->   * Some versions of the MCP55 bridge from Nvidia have a legacy IRQ routing
->   * config register.  This register controls the routing of legacy
-> -- 
-> 2.17.1
-> 
+Please note that in the end it's up to you and Tegra/PINCTRL maintainers to decide if this
+is a worthwhile change that I'm suggesting. In my opinion it is much better to have a
+generic solution rather than to have a special quirk solely for T210.
+
+diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
+index 34596b246578..4150da74bd44 100644
+--- a/drivers/pinctrl/tegra/pinctrl-tegra.c
++++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
+@@ -613,9 +613,9 @@ static void tegra_pinctrl_clear_parked_bits(struct tegra_pmx *pmx)
+
+ 	for (i = 0; i < pmx->soc->ngroups; ++i) {
+ 		g = &pmx->soc->groups[i];
+-		if (g->parked_bit >= 0) {
++		if (g->parked_bitmask != -1) {
+ 			val = pmx_readl(pmx, g->mux_bank, g->mux_reg);
+-			val &= ~(1 << g->parked_bit);
++			val &= ~g->parked_bitmask;
+ 			pmx_writel(pmx, val, g->mux_bank, g->mux_reg);
+ 		}
+ 	}
+diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.h b/drivers/pinctrl/tegra/pinctrl-tegra.h
+index 287702660783..875eb7a1d838 100644
+--- a/drivers/pinctrl/tegra/pinctrl-tegra.h
++++ b/drivers/pinctrl/tegra/pinctrl-tegra.h
+@@ -96,7 +96,7 @@ struct tegra_function {
+  * @tri_reg:		Tri-state register offset.
+  * @tri_bank:		Tri-state register bank.
+  * @tri_bit:		Tri-state register bit.
+- * @parked_bit:		Parked register bit. -1 if unsupported.
++ * @parked_bitmask:	Parked register bitmask. -1 if unsupported.
+  * @einput_bit:		Enable-input register bit.
+  * @odrain_bit:		Open-drain register bit.
+  * @lock_bit:		Lock register bit.
+@@ -146,7 +146,7 @@ struct tegra_pingroup {
+ 	s32 mux_bit:6;
+ 	s32 pupd_bit:6;
+ 	s32 tri_bit:6;
+-	s32 parked_bit:6;
++	s32 parked_bitmask:26;
+ 	s32 einput_bit:6;
+ 	s32 odrain_bit:6;
+ 	s32 lock_bit:6;
+diff --git a/drivers/pinctrl/tegra/pinctrl-tegra210.c b/drivers/pinctrl/tegra/pinctrl-tegra210.c
+index 0b56ad5c9c1c..d2ba13466e06 100644
+--- a/drivers/pinctrl/tegra/pinctrl-tegra210.c
++++ b/drivers/pinctrl/tegra/pinctrl-tegra210.c
+@@ -1302,7 +1302,7 @@ static struct tegra_function tegra210_functions[] = {
+ 		.lock_bit = 7,						\
+ 		.ioreset_bit = -1,					\
+ 		.rcv_sel_bit = PINGROUP_BIT_##e_io_hv(10),		\
+-		.parked_bit = 5,					\
++		.parked_bitmask = BIT(5),				\
+ 		.hsm_bit = PINGROUP_BIT_##hsm(9),			\
+ 		.schmitt_bit = 12,					\
+ 		.drvtype_bit = PINGROUP_BIT_##drvtype(13),		\
+@@ -1320,7 +1320,7 @@ static struct tegra_function tegra210_functions[] = {
+ 	}
+
+ #define DRV_PINGROUP(pg_name, r, drvdn_b, drvdn_w, drvup_b, drvup_w,	\
+-		     slwr_b, slwr_w, slwf_b, slwf_w)			\
++		     slwr_b, slwr_w, slwf_b, slwf_w, prk_mask)		\
+ 	{								\
+ 		.name = "drive_" #pg_name,				\
+ 		.pins = drive_##pg_name##_pins,				\
+@@ -1335,7 +1335,7 @@ static struct tegra_function tegra210_functions[] = {
+ 		.rcv_sel_bit = -1,					\
+ 		.drv_reg = DRV_PINGROUP_REG(r),				\
+ 		.drv_bank = 0,						\
+-		.parked_bit = -1,					\
++		.parked_bitmask = prk_mask,				\
+ 		.hsm_bit = -1,						\
+ 		.schmitt_bit = -1,					\
+ 		.lpmd_bit = -1,						\
+@@ -1516,31 +1516,31 @@ static const struct tegra_pingroup tegra210_groups[] = {
+ 	PINGROUP(pz5,                  SOC,        RSVD1,  RSVD2, RSVD3, 0x3290, N,   N,       N,
+     -1,    -1,      -1,      -1,      -1,      -1,     -1,     -1,     -1),
+
+ 	/* pg_name, r, drvdn_b, drvdn_w, drvup_b, drvup_w, slwr_b, slwr_w, slwf_b, slwf_w */
+-	DRV_PINGROUP(pa6,    0x9c0, 12, 5,  20, 5,  -1, -1, -1, -1),
+-	DRV_PINGROUP(pcc7,   0x9c4, 12, 5,  20, 5,  -1, -1, -1, -1),
+-	DRV_PINGROUP(pe6,    0x9c8, 12, 5,  20, 5,  -1, -1, -1, -1),
+-	DRV_PINGROUP(pe7,    0x9cc, 12, 5,  20, 5,  -1, -1, -1, -1),
+-	DRV_PINGROUP(ph6,    0x9d0, 12, 5,  20, 5,  -1, -1, -1, -1),
+-	DRV_PINGROUP(pk0,    0x9d4, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pk1,    0x9d8, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pk2,    0x9dc, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pk3,    0x9e0, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pk4,    0x9e4, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pk5,    0x9e8, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pk6,    0x9ec, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pk7,    0x9f0, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pl0,    0x9f4, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pl1,    0x9f8, -1, -1, -1, -1, 28, 2,  30, 2),
+-	DRV_PINGROUP(pz0,    0x9fc, 12, 7,  20, 7,  -1, -1, -1, -1),
+-	DRV_PINGROUP(pz1,    0xa00, 12, 7,  20, 7,  -1, -1, -1, -1),
+-	DRV_PINGROUP(pz2,    0xa04, 12, 7,  20, 7,  -1, -1, -1, -1),
+-	DRV_PINGROUP(pz3,    0xa08, 12, 7,  20, 7,  -1, -1, -1, -1),
+-	DRV_PINGROUP(pz4,    0xa0c, 12, 7,  20, 7,  -1, -1, -1, -1),
+-	DRV_PINGROUP(pz5,    0xa10, 12, 7,  20, 7,  -1, -1, -1, -1),
+-	DRV_PINGROUP(sdmmc1, 0xa98, 12, 7,  20, 7,  28, 2,  30, 2),
+-	DRV_PINGROUP(sdmmc2, 0xa9c, 2,  6,  8,  6,  28, 2,  30, 2),
+-	DRV_PINGROUP(sdmmc3, 0xab0, 12, 7,  20, 7,  28, 2,  30, 2),
+-	DRV_PINGROUP(sdmmc4, 0xab4, 2,  6,  8,  6,  28, 2,  30, 2),
++	DRV_PINGROUP(pa6,    0x9c0, 12, 5,  20, 5,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(pcc7,   0x9c4, 12, 5,  20, 5,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(pe6,    0x9c8, 12, 5,  20, 5,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(pe7,    0x9cc, 12, 5,  20, 5,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(ph6,    0x9d0, 12, 5,  20, 5,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(pk0,    0x9d4, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pk1,    0x9d8, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pk2,    0x9dc, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pk3,    0x9e0, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pk4,    0x9e4, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pk5,    0x9e8, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pk6,    0x9ec, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pk7,    0x9f0, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pl0,    0x9f4, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pl1,    0x9f8, -1, -1, -1, -1, 28, 2,  30, 2, -1),
++	DRV_PINGROUP(pz0,    0x9fc, 12, 7,  20, 7,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(pz1,    0xa00, 12, 7,  20, 7,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(pz2,    0xa04, 12, 7,  20, 7,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(pz3,    0xa08, 12, 7,  20, 7,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(pz4,    0xa0c, 12, 7,  20, 7,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(pz5,    0xa10, 12, 7,  20, 7,  -1, -1, -1, -1, -1),
++	DRV_PINGROUP(sdmmc1, 0xa98, 12, 7,  20, 7,  28, 2,  30, 2, -1),
++	DRV_PINGROUP(sdmmc2, 0xa9c, 2,  6,  8,  6,  28, 2,  30, 2, 0x7ffc000),
++	DRV_PINGROUP(sdmmc3, 0xab0, 12, 7,  20, 7,  28, 2,  30, 2, -1),
++	DRV_PINGROUP(sdmmc4, 0xab4, 2,  6,  8,  6,  28, 2,  30, 2, 0x7ffc000),
+ };
+
+ static const struct tegra_pinctrl_soc_data tegra210_pinctrl = {
