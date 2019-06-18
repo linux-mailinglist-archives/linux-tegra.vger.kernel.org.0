@@ -2,108 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7304A6CF
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 18:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B9D34A6D5
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 18:27:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729550AbfFRQ0d (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 12:26:33 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:7599 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729308AbfFRQ0d (ORCPT
+        id S1729472AbfFRQ1N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 12:27:13 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36559 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729308AbfFRQ1N (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 12:26:33 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0910b80001>; Tue, 18 Jun 2019 09:26:32 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 18 Jun 2019 09:26:32 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 18 Jun 2019 09:26:32 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Jun
- 2019 16:26:30 +0000
-Subject: Re: [PATCH 2/3] gpio: tegra: no need to cast away return value of
- debugfs_create_file()
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <bamv2005@gmail.com>, <linus.walleij@linaro.org>,
-        <bgolaszewski@baylibre.com>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
-        <linux-gpio@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-References: <20190618155047.16894-1-gregkh@linuxfoundation.org>
- <20190618155047.16894-2-gregkh@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <06e0fa20-7bf9-7e5d-93a7-efba1379f74d@nvidia.com>
-Date:   Tue, 18 Jun 2019 17:26:28 +0100
+        Tue, 18 Jun 2019 12:27:13 -0400
+Received: by mail-lf1-f67.google.com with SMTP id q26so9799498lfc.3;
+        Tue, 18 Jun 2019 09:27:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=REVlNnHgsxxtrnRVJcK1dH+P9nh4ar/FfEMg7w0Qpd0=;
+        b=IY/Id4HO7ampe58gGhhmNuUi6Lb+7e1swZEK3Mjh55ZXpTAeppucaBOWtMDGv+6/if
+         esex+rXKkSwK/ptGmnxnm4pnm90+lSVML7jZ9IqU/MT8SbbdN5EIduZ8exjcxijWVc6g
+         rUX9dHQI2kDfNt571LNXW1Slt23WZxMXWuxmmpH9eh1BskCMMGx63sg7D1oagSEUdQQ0
+         CLh4Gh+H7mBWVqx9y9Gs6uoXpOW4o1FdcAjWFU/XsMHq2XC8QQPZ2r8vTt8dAMKMpfb1
+         QowO7JV2kCwnJhsvmIpGgRrLa9E90hD1QuoPx984H8S0dhrVRJJSddAH1UFOX1wj1VQC
+         9/pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=REVlNnHgsxxtrnRVJcK1dH+P9nh4ar/FfEMg7w0Qpd0=;
+        b=saknnV2NWVhbxNu1oWDzHep3IkOfJWetKtL1ZR3AmGHX8XVlqaV6SfjpQf1IGswMyY
+         +/gvCydLQ8N50d++Fm0340qQKO5nXSoSyj13uX6tWah6Zdcx14dJP3YLGRrhDOpJVrHQ
+         FJ7ZAfq/GbYftPf3WDWVxBbiFmXnncNtGsQU6QUArttyhVfLPCboaBii/XKQ69Skoo0g
+         uj2KLaItB8RQsed4v7ycqMQZ1XxGVMzLa1ZgYbbGFUD36dQzINlsD4S6vXZ1k6B33cgj
+         6+Zep8Spo0n8NM/KtNr9n5686dFZMDDLc150KPxIuxAI8FQFlfdmwTgtag5LAOU1Skrp
+         npDQ==
+X-Gm-Message-State: APjAAAWVNv1DAgSuPIjmxpQqFTm4KP6Ydpl2JrcsRM/zqebjvmRfUQ4P
+        uRX0BVVli4hCNla2qdD42lSfnJp1
+X-Google-Smtp-Source: APXvYqyDGAL4Pm+/zw3qJcxh6hhA6+zLJOo5w840grHNTulAvDw9l1c/oqnWP4xzeHiAFIY7AhVdyQ==
+X-Received: by 2002:ac2:46d5:: with SMTP id p21mr11745258lfo.133.1560875230790;
+        Tue, 18 Jun 2019 09:27:10 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.googlemail.com with ESMTPSA id z12sm2287618lfe.2.2019.06.18.09.27.09
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Jun 2019 09:27:10 -0700 (PDT)
+Subject: Re: [PATCH v2 2/8] regulator: core: Parse max-spread value per
+ regulator couple
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190603235904.19097-1-digetx@gmail.com>
+ <20190603235904.19097-3-digetx@gmail.com>
+ <20190617152514.GY5316@sirena.org.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a3917cf4-6090-2c47-f8f6-c25db52662e0@gmail.com>
+Date:   Tue, 18 Jun 2019 19:27:09 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190618155047.16894-2-gregkh@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190617152514.GY5316@sirena.org.uk>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560875192; bh=Rhj/X3ALWCfaekV+4J24yq5Xi5sZtL/j2ZdMAq4thlI=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=IYlwwYt5eiT9sVTH8HE0GxZPOiQIB0Ii6XWwx7QQo6t02Vk4nNxbWG7h7pZ7406Ep
-         47KXxp4UpOcuoBW3gxATQlmYtfIHki/lbZcAIlRp9wl/GqXz9i6c6mvVI74dniVvvU
-         ACUc5MkDkvVXusOGYyfw9px/C6T75yYrSf+e5xLcRqIRU06O6CL9kd+FtZIm1C+VVb
-         T5/Ez0DOVu+Uc2AiX1G/Gtbs+Xfh8r0UmbZPrWpwJXH8wmv3YSiE5YatgRWg6+hNM7
-         kOopepyfwVTXcFqSMWlubQmKyRlP+rFjGGlMa8rTcUf4/gkJSfv1a5iLDHhJslHt0t
-         goPatj+4A2OOw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 18/06/2019 16:50, Greg Kroah-Hartman wrote:
-> It is fine to ignore the return value (and encouraged), so need to cast
-
-I assume you mean 'no need' here.
-
-> away the return value, you will not get a build warning at all.
+17.06.2019 18:25, Mark Brown пишет:
+> On Tue, Jun 04, 2019 at 02:58:58AM +0300, Dmitry Osipenko wrote:
 > 
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-tegra@vger.kernel.org
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  drivers/gpio/gpio-tegra.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>> +#include <linux/regulator/driver.h>
+>>  #include <linux/regulator/consumer.h>
+>>  #include <linux/suspend.h>
+>>  
+>> @@ -156,7 +157,7 @@ struct regulation_constraints {
+>>  	int system_load;
+>>  
+>>  	/* used for coupled regulators */
+>> -	int max_spread;
+>> +	int max_spread[MAX_COUPLED];
 > 
-> diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
-> index 6d9b6906b9d0..a54bba1bda6c 100644
-> --- a/drivers/gpio/gpio-tegra.c
-> +++ b/drivers/gpio/gpio-tegra.c
-> @@ -550,8 +550,8 @@ DEFINE_SHOW_ATTRIBUTE(tegra_dbg_gpio);
->  
->  static void tegra_gpio_debuginit(struct tegra_gpio_info *tgi)
->  {
-> -	(void) debugfs_create_file("tegra_gpio", 0444,
-> -				   NULL, tgi, &tegra_dbg_gpio_fops);
-> +	debugfs_create_file("tegra_gpio", 0444, NULL, tgi,
-> +			    &tegra_dbg_gpio_fops);
->  }
->  
->  #else
+> I'd rather move MAX_COUPLED into a separate header than include driver.h
+> so we've got a bit more compile time sepration.
+> 
 
-Looks like we can get rid of this entire function and just call
-debugfs_create_file directly to simplify the code even more. We can
-handle that.
-
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
-
-Thanks
-Jon
-
--- 
-nvpublic
+I'll address this in the next revision.
