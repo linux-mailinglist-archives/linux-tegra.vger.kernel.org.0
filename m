@@ -2,98 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 755C54A821
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 19:18:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A2114A825
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 19:19:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729435AbfFRRRb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 13:17:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729325AbfFRRRb (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 13:17:31 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B37F92084A;
-        Tue, 18 Jun 2019 17:17:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560878250;
-        bh=gxz2lsIBCHtqlrnai2PXL2UVxeOWfaZQU6bFik8Sjj8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CBfvxYNfBRkQj6K4ExHDKwqnVm+acxu60RvMLEjDJey3U8oM/E3szhQXmTN76AaXO
-         6lrYYQIDAaAJ4NgrRHQOxGhaJO2V6RyuwXGFAZH/A9Gr4qIKZ8uEy6UKgcxxZpEs2I
-         YoTbQpM2FgBFHc6rXHfms7VauinEtgRaTI84o/UM=
-Date:   Tue, 18 Jun 2019 19:17:27 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     bamv2005@gmail.com, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 2/3] gpio: tegra: no need to cast away return value of
- debugfs_create_file()
-Message-ID: <20190618171727.GA26838@kroah.com>
-References: <20190618155047.16894-1-gregkh@linuxfoundation.org>
- <20190618155047.16894-2-gregkh@linuxfoundation.org>
- <06e0fa20-7bf9-7e5d-93a7-efba1379f74d@nvidia.com>
+        id S1729395AbfFRRTJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 13:19:09 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:37015 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728572AbfFRRTJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 18 Jun 2019 13:19:09 -0400
+Received: by mail-lf1-f68.google.com with SMTP id d11so9911106lfb.4;
+        Tue, 18 Jun 2019 10:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=FtHDj9Tfcen/+u/bZK7GRRsh71fKJ+0OXIcYDtNSl6s=;
+        b=gzC4HxOLPhizo5fmOnj3WKbpXxtLUwhx0SLOGzL3XIfIc+Cu0JzMbgpJMAdbbZ7uXP
+         beZl2uyuctH6nvT+fRMHx1CxTEmISEyCIxpoKAzvK4iUIXDOlGNTwBVbycdXWFicy1eq
+         739hygZNBTEJIg7XMn+yDmnNlnqfWX4cxyA7jz0autdYa/kh50ow2KggJqSqVPUCcFA0
+         NpM6702A9WqVJfCsl72iu0VtnB3zWyp32t4R4I4NgAtfe93oMpNVD/JwrQRe+6cIazx/
+         Mc0fuTZvwiVL5ynmn1X8CX03Z28wxkVuXpRldpQF+IIE8KtB9nxJyce4B9mLLGT3IBtO
+         RP7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FtHDj9Tfcen/+u/bZK7GRRsh71fKJ+0OXIcYDtNSl6s=;
+        b=PhMBHALYzHGTFRUcVuQMtwoV0HmjFugXN2TAhgG4VvTSEIZSlD8eTaSHCcSZ3PVi7h
+         nPyawsukcVKfYPA7YauX7cv1PbcRA4m7gYDVvLuISvH/AWgu1Eo+uFhs3eTYybLM8mea
+         tNxFSh2YEmGxADGJNgx+sC8PBHoOvyCQpuH7LQsn9YVTzgnrTB1zJMzkBUfzKxk436m5
+         /k9L1m5RHounv+wLwJ3V8KYZccrqx3e3AKaOuOGdJ+9t8KIS8epKfKLxaVKCXRPBAZ8B
+         CrD4ZNeCpSLBYhU5t/9aWaG1s/AktaJBEBLxYTwdZZ2Xc3INRFCfG/5asUd5Xb+GTn3U
+         Ay1Q==
+X-Gm-Message-State: APjAAAX1WZffdjr1c0pyivMnvlFwgnOtL6Kqtc7nAwJy17pn1gTabEqc
+        aSgCjnGZbu/xUVckoWJ/eqtdzj8x
+X-Google-Smtp-Source: APXvYqwBvTr5CNyY7fy4r40iUI1XUZv1qTlgGyNEdwQU4eqRPLmyGGPIAKeOFd1PtHBbKFmCo35zew==
+X-Received: by 2002:ac2:5212:: with SMTP id a18mr52325935lfl.50.1560878346452;
+        Tue, 18 Jun 2019 10:19:06 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.googlemail.com with ESMTPSA id e12sm2274715lfb.66.2019.06.18.10.19.05
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Jun 2019 10:19:05 -0700 (PDT)
+Subject: Re: [PATCH v2 7/8] soc/tegra: regulators: Add regulators coupler for
+ Tegra20
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190603235904.19097-1-digetx@gmail.com>
+ <20190603235904.19097-8-digetx@gmail.com>
+ <20190617154632.GB5316@sirena.org.uk>
+ <2308e5da-a8fd-a0e6-f98c-0931a30baf14@gmail.com>
+ <20190618171453.GO5316@sirena.org.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <bb84db4c-4d11-3199-ce96-3cd7c70ba911@gmail.com>
+Date:   Tue, 18 Jun 2019 20:19:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <06e0fa20-7bf9-7e5d-93a7-efba1379f74d@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190618171453.GO5316@sirena.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 05:26:28PM +0100, Jon Hunter wrote:
+18.06.2019 20:14, Mark Brown пишет:
+> On Tue, Jun 18, 2019 at 07:52:06PM +0300, Dmitry Osipenko wrote:
+>> 17.06.2019 18:46, Mark Brown пишет:
 > 
-> On 18/06/2019 16:50, Greg Kroah-Hartman wrote:
-> > It is fine to ignore the return value (and encouraged), so need to cast
+>>>> +// SPDX-License-Identifier: GPL-2.0+
+>>>> +/*
+>>>> + * Voltage regulators coupling resolver for NVIDIA Tegra20
+>>>> + *
+>>>> + * Copyright (C) 2019 GRATE-DRIVER project
 > 
-> I assume you mean 'no need' here.
-
-{sigh} yes :)
-
-> > away the return value, you will not get a build warning at all.
-> > 
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> > Cc: linux-gpio@vger.kernel.org
-> > Cc: linux-tegra@vger.kernel.org
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> >  drivers/gpio/gpio-tegra.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
-> > index 6d9b6906b9d0..a54bba1bda6c 100644
-> > --- a/drivers/gpio/gpio-tegra.c
-> > +++ b/drivers/gpio/gpio-tegra.c
-> > @@ -550,8 +550,8 @@ DEFINE_SHOW_ATTRIBUTE(tegra_dbg_gpio);
-> >  
-> >  static void tegra_gpio_debuginit(struct tegra_gpio_info *tgi)
-> >  {
-> > -	(void) debugfs_create_file("tegra_gpio", 0444,
-> > -				   NULL, tgi, &tegra_dbg_gpio_fops);
-> > +	debugfs_create_file("tegra_gpio", 0444, NULL, tgi,
-> > +			    &tegra_dbg_gpio_fops);
-> >  }
-> >  
-> >  #else
+>>> Please make the entire comment a C++ one so things look more
+>>> intentional.
 > 
-> Looks like we can get rid of this entire function and just call
-> debugfs_create_file directly to simplify the code even more. We can
-> handle that.
+>> This is actually a correct SPDX comment style for the source files, accordingly to
+>> checkpatch. While the C++ style should be used for header files only. I'm not
+>> following the SPDX effort much, don't know from where these SPDX-style rules are
+>> coming from.
 > 
-> Acked-by: Jon Hunter <jonathanh@nvidia.com>
+> The SPDX bit is fine, what I'm saying is make the rest of the comment
+> also be a C++ comment.
+> 
 
-Great!  Do you want to just take this through your tree and then add
-that change on top of it?  Or do you need me to take it and make that
-change?
-
-thanks,
-
-greg k-h
+Ah, I just realized that the "// " is the C++ comment style and not C. I can turn it
+all into the C++, no problems.
