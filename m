@@ -2,141 +2,163 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 306F049C2F
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 10:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7FEE49C3C
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 10:43:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729201AbfFRIka (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 04:40:30 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:17253 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726091AbfFRIk3 (ORCPT
+        id S1729127AbfFRIm4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 04:42:56 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:3615 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728818AbfFRIm4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 04:40:29 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d08a37c0000>; Tue, 18 Jun 2019 01:40:28 -0700
+        Tue, 18 Jun 2019 04:42:56 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d08a40f0001>; Tue, 18 Jun 2019 01:42:55 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 18 Jun 2019 01:40:28 -0700
+  Tue, 18 Jun 2019 01:42:54 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 18 Jun 2019 01:40:28 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Jun
- 2019 08:40:27 +0000
-Subject: Re: [PATCH v2 3/6] clocksource/drivers/tegra: Set and use timer's
- period
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Joseph Lo <josephl@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20190610164400.11830-1-digetx@gmail.com>
- <20190610164400.11830-4-digetx@gmail.com>
- <ac8a1da8-9b82-3d5a-5fa6-0c1cc7f627f1@nvidia.com>
- <3e941c50-ac62-719e-aac1-7072e9a3bcd0@gmail.com>
- <660f3645-3fa6-175c-75a6-3fcc79e972ad@nvidia.com>
- <e0e1b708-7dd4-a58a-7906-05bf3065cbda@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <b92383e6-31e4-0797-1e7a-76410ebfba6c@nvidia.com>
-Date:   Tue, 18 Jun 2019 09:40:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        by hqpgpgate101.nvidia.com on Tue, 18 Jun 2019 01:42:54 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Jun
+ 2019 08:42:54 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 18 Jun 2019 08:42:54 +0000
+Received: from dhcp-10-19-65-14.client.nvidia.com (Not Verified[10.19.65.14]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d08a40b0006>; Tue, 18 Jun 2019 01:42:54 -0700
+From:   Bitan Biswas <bbiswas@nvidia.com>
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Peter Rosin <peda@axentia.se>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Dmitry Osipenko <digetx@gmail.com>
+CC:     Shardar Mohammed <smohammed@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mantravadi Karthik <mkarthik@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>
+Subject: [PATCH V2] i2c: tegra: disable irq in tegra_i2c_xfer_msg
+Date:   Tue, 18 Jun 2019 01:42:48 -0700
+Message-ID: <1560847368-16069-1-git-send-email-bbiswas@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <e0e1b708-7dd4-a58a-7906-05bf3065cbda@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560847228; bh=uu8oQenvSHld2AvajCP3nExj7WMFx6UMW1gqyl1qM+I=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=n4zGH4E1lK28Rylw2DnhYLMnrBo/4XoRObVPUU/3fGVC8I24FLXZQSbX4H9P2M34/
-         t6CshJrpYp5zsMj/78hTsZJWoI2LTCz3zlFQWTdCic5qpTK+ecKoH//AbBLt1602Y9
-         6Q68wMfO7aaQJ8bTJzT9HUDv1pcjMntqtgTU9stxJ+tBXPTv4ZROE3GSP3jLR5FK9H
-         HbFCk+/2J9b5SKuRFfztLcDsRcGgQS0TmjaETJTWfY3Dgg0fUaoANubWo2TJ+PHcOG
-         WPCPsN/PqedFmmd9QRVl1Wi5TnS8het9r5S5yxcZgUpL0u+eE151omPj8JLnfPayEG
-         OCMZDwiJxTyPw==
+        t=1560847375; bh=HqDxJokKgFe1kNELmIXIfg1rSInkOt34jaRIIaxFV6c=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=o4hxEGOBt4jHW3AFM4uPmORRpOmNjwGP8oUU8ZQbkzc5+fZLQ8K0vW2m4yxcTdL2o
+         NMVJuIi4dwqn84EqY1B+FcKwYnHX1V19S4s2qwYN6O1zBEISZgxmwXO02OulJZOo2T
+         wrsGLliKsvC0jfdv7DIRAAWKVrL77VAXbFEnEhtPjePR0e0jdXNM3RWuY/Cv3KWH+8
+         C4V4AHpBboog2tr0U3IlQfkMLpnFwWINn/eVbKCAjiYgusTdShVgpBcZzH1UGESC5d
+         40RCE7Me3Y1grrVGY/BuslqMIDDf3oqjg60CW18AlFR3s8GaUyfc/lrW+z5YmeqrGk
+         /booCGUDRst8w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+tegra_i2c_xfer_msg initiates the I2C transfer in DMA
+or PIO mode. It involves steps that need FIFO register
+access, DMA API calls like dma_sync_single_for_device, etc.
+Tegra I2C ISR has calls to tegra_i2c_empty_rx_fifo in PIO mode
+and in DMA/PIO mode writes different I2C registers including
+I2C interrupt status. ISR cannot start processing
+before the preparation step at tegra_i2c_xfer_msg is complete.
+Hence, a synchronization between ISR and tegra_i2c_xfer_msg
+is in place today using spinlock.
 
-On 17/06/2019 15:04, Dmitry Osipenko wrote:
-> 17.06.2019 13:51, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>
->> On 14/06/2019 17:45, Dmitry Osipenko wrote:
->>> 14.06.2019 18:48, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>
->>>> On 10/06/2019 17:43, Dmitry Osipenko wrote:
->>>>> The of_clk structure has a period field that is set up initially by
->>>>> timer_of_clk_init(), that period value need to be adjusted for a case=
- of
->>>>> TIMER1-9 that are running at a fixed rate that doesn't match the cloc=
-k's
->>>>> rate. Note that the period value is currently used only by some of th=
-e
->>>>> clocksource drivers internally and hence this is just a minor cleanup
->>>>> change that doesn't fix anything.
->>>>>
->>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>>> ---
->>>>>  drivers/clocksource/timer-tegra.c | 5 +++--
->>>>>  1 file changed, 3 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/=
-timer-tegra.c
->>>>> index 810b4e7435cf..646b3530c2d2 100644
->>>>> --- a/drivers/clocksource/timer-tegra.c
->>>>> +++ b/drivers/clocksource/timer-tegra.c
->>>>> @@ -71,9 +71,9 @@ static int tegra_timer_shutdown(struct clock_event_=
-device *evt)
->>>>>  static int tegra_timer_set_periodic(struct clock_event_device *evt)
->>>>>  {
->>>>>  	void __iomem *reg_base =3D timer_of_base(to_timer_of(evt));
->>>>> +	unsigned long period =3D timer_of_period(to_timer_of(evt));
->>>>> =20
->>>>> -	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER |
->>>>> -		       ((timer_of_rate(to_timer_of(evt)) / HZ) - 1),
->>>>> +	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER | (period - 1),
->>>>>  		       reg_base + TIMER_PTV);
->>>>> =20
->>>>>  	return 0;
->>>>> @@ -297,6 +297,7 @@ static int __init tegra_init_timer(struct device_=
-node *np, bool tegra20,
->>>>>  		cpu_to->clkevt.rating =3D rating;
->>>>>  		cpu_to->clkevt.cpumask =3D cpumask_of(cpu);
->>>>>  		cpu_to->of_base.base =3D timer_reg_base + base;
->>>>> +		cpu_to->of_clk.period =3D DIV_ROUND_UP(rate, HZ);
->>>>
->>>> Any reason you made this a round-up?
->>>
->>> That's what timer_of_clk_init() does, I assume it should be a more corr=
-ect variant.
->>
->> Sounds to me like this should be 2 patches, because you are changing the
->> value. This is not just purely cleanup IMO.
->=20
-> Indeed, that could be at least mentioned in the commit message. Probably =
-I just
-> assumed that this is such a minor change that not worth anything. A hundr=
-ed of
-> microseconds is hardly noticeable.
->=20
-> I'm not really sure if this really worth a re-spin at this point. Jon, ar=
-e you insisting?
+Spinlock busy waits and can add avoidable delays.
 
-At a minimum the changelog needs to be udpated to reflect what is going
-on here. Yes it may not be a massive difference, but I prefer not to
-change things without any rationale.
+In this patch needed synchronization is achieved by disabling
+I2C interrupt during preparation step and enabling interrupt
+once preparation is over and spinlock is no longer needed.
 
-Cheers
-Jon
+Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+---
+ drivers/i2c/busses/i2c-tegra.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
---=20
-nvpublic
+diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+index 6fb545e..ccc7fae 100644
+--- a/drivers/i2c/busses/i2c-tegra.c
++++ b/drivers/i2c/busses/i2c-tegra.c
+@@ -240,7 +240,6 @@ struct tegra_i2c_hw_feature {
+  * @bus_clk_rate: current I2C bus clock rate
+  * @clk_divisor_non_hs_mode: clock divider for non-high-speed modes
+  * @is_multimaster_mode: track if I2C controller is in multi-master mode
+- * @xfer_lock: lock to serialize transfer submission and processing
+  * @tx_dma_chan: DMA transmit channel
+  * @rx_dma_chan: DMA receive channel
+  * @dma_phys: handle to DMA resources
+@@ -270,8 +269,6 @@ struct tegra_i2c_dev {
+ 	u32 bus_clk_rate;
+ 	u16 clk_divisor_non_hs_mode;
+ 	bool is_multimaster_mode;
+-	/* xfer_lock: lock to serialize transfer submission and processing */
+-	spinlock_t xfer_lock;
+ 	struct dma_chan *tx_dma_chan;
+ 	struct dma_chan *rx_dma_chan;
+ 	dma_addr_t dma_phys;
+@@ -835,7 +832,6 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
+ 
+ 	status = i2c_readl(i2c_dev, I2C_INT_STATUS);
+ 
+-	spin_lock(&i2c_dev->xfer_lock);
+ 	if (status == 0) {
+ 		dev_warn(i2c_dev->dev, "irq status 0 %08x %08x %08x\n",
+ 			 i2c_readl(i2c_dev, I2C_PACKET_TRANSFER_STATUS),
+@@ -935,7 +931,6 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
+ 
+ 	complete(&i2c_dev->msg_complete);
+ done:
+-	spin_unlock(&i2c_dev->xfer_lock);
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -1054,7 +1049,6 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
+ 	u32 packet_header;
+ 	u32 int_mask;
+ 	unsigned long time_left;
+-	unsigned long flags;
+ 	size_t xfer_size;
+ 	u32 *buffer = NULL;
+ 	int err = 0;
+@@ -1085,7 +1079,10 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
+ 	 */
+ 	xfer_time += DIV_ROUND_CLOSEST(((xfer_size * 9) + 2) * MSEC_PER_SEC,
+ 					i2c_dev->bus_clk_rate);
+-	spin_lock_irqsave(&i2c_dev->xfer_lock, flags);
++	if (!i2c_dev->irq_disabled) {
++		disable_irq_nosync(i2c_dev->irq);
++		i2c_dev->irq_disabled = true;
++	}
+ 
+ 	int_mask = I2C_INT_NO_ACK | I2C_INT_ARBITRATION_LOST;
+ 	tegra_i2c_unmask_irq(i2c_dev, int_mask);
+@@ -1180,7 +1177,10 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
+ 		i2c_readl(i2c_dev, I2C_INT_MASK));
+ 
+ unlock:
+-	spin_unlock_irqrestore(&i2c_dev->xfer_lock, flags);
++	if (i2c_dev->irq_disabled) {
++		i2c_dev->irq_disabled = false;
++		enable_irq(i2c_dev->irq);
++	}
+ 
+ 	if (dma) {
+ 		if (err)
+@@ -1576,7 +1576,6 @@ static int tegra_i2c_probe(struct platform_device *pdev)
+ 				I2C_PACKET_HEADER_SIZE;
+ 	init_completion(&i2c_dev->msg_complete);
+ 	init_completion(&i2c_dev->dma_complete);
+-	spin_lock_init(&i2c_dev->xfer_lock);
+ 
+ 	if (!i2c_dev->hw->has_single_clk_source) {
+ 		fast_clk = devm_clk_get(&pdev->dev, "fast-clk");
+-- 
+2.7.4
+
