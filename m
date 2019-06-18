@@ -2,52 +2,51 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B9D34A6D5
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 18:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15DC84A6E2
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 18:29:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729472AbfFRQ1N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 12:27:13 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:36559 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729308AbfFRQ1N (ORCPT
+        id S1729514AbfFRQ3u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 12:29:50 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:33945 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729319AbfFRQ3u (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 12:27:13 -0400
-Received: by mail-lf1-f67.google.com with SMTP id q26so9799498lfc.3;
-        Tue, 18 Jun 2019 09:27:11 -0700 (PDT)
+        Tue, 18 Jun 2019 12:29:50 -0400
+Received: by mail-lj1-f196.google.com with SMTP id p17so218842ljg.1;
+        Tue, 18 Jun 2019 09:29:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=REVlNnHgsxxtrnRVJcK1dH+P9nh4ar/FfEMg7w0Qpd0=;
-        b=IY/Id4HO7ampe58gGhhmNuUi6Lb+7e1swZEK3Mjh55ZXpTAeppucaBOWtMDGv+6/if
-         esex+rXKkSwK/ptGmnxnm4pnm90+lSVML7jZ9IqU/MT8SbbdN5EIduZ8exjcxijWVc6g
-         rUX9dHQI2kDfNt571LNXW1Slt23WZxMXWuxmmpH9eh1BskCMMGx63sg7D1oagSEUdQQ0
-         CLh4Gh+H7mBWVqx9y9Gs6uoXpOW4o1FdcAjWFU/XsMHq2XC8QQPZ2r8vTt8dAMKMpfb1
-         QowO7JV2kCwnJhsvmIpGgRrLa9E90hD1QuoPx984H8S0dhrVRJJSddAH1UFOX1wj1VQC
-         9/pQ==
+        bh=4q8d4fxsPgs4M6ir/dEft8nMebwBlWc7Y3opWmNrzjI=;
+        b=YdJUUnfNMd8dDECZZx5+DNhyMvGb0M/7lEUSAPomERL7HHxJvdYleQg0i30f8EPyai
+         NTLbp7aEYRXHqlWRyOFKlJHek7o0MBolxxDpH+dEjl6q358SJHEUgzE9XnRbV+nw/KF3
+         CVV/FwGPnDVYxx3Ej5dFJIcGeflJTVS1yM7pxayaF69dh2j1IftSLLqdlkqWVJFumzZQ
+         F1Tt6UCqZ9ix42G6Ry1TThKB3QcpIX6Zk/L0VrcQ373cln1IxdFZc7PTaGmSgqL5VI09
+         kiDE4NVneGTtLJ9WCJGpixHsZSTCplTAVnbY52K0aLQGZbSl2cCkKgUitHmRqLvime3a
+         WG9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=REVlNnHgsxxtrnRVJcK1dH+P9nh4ar/FfEMg7w0Qpd0=;
-        b=saknnV2NWVhbxNu1oWDzHep3IkOfJWetKtL1ZR3AmGHX8XVlqaV6SfjpQf1IGswMyY
-         +/gvCydLQ8N50d++Fm0340qQKO5nXSoSyj13uX6tWah6Zdcx14dJP3YLGRrhDOpJVrHQ
-         FJ7ZAfq/GbYftPf3WDWVxBbiFmXnncNtGsQU6QUArttyhVfLPCboaBii/XKQ69Skoo0g
-         uj2KLaItB8RQsed4v7ycqMQZ1XxGVMzLa1ZgYbbGFUD36dQzINlsD4S6vXZ1k6B33cgj
-         6+Zep8Spo0n8NM/KtNr9n5686dFZMDDLc150KPxIuxAI8FQFlfdmwTgtag5LAOU1Skrp
-         npDQ==
-X-Gm-Message-State: APjAAAWVNv1DAgSuPIjmxpQqFTm4KP6Ydpl2JrcsRM/zqebjvmRfUQ4P
-        uRX0BVVli4hCNla2qdD42lSfnJp1
-X-Google-Smtp-Source: APXvYqyDGAL4Pm+/zw3qJcxh6hhA6+zLJOo5w840grHNTulAvDw9l1c/oqnWP4xzeHiAFIY7AhVdyQ==
-X-Received: by 2002:ac2:46d5:: with SMTP id p21mr11745258lfo.133.1560875230790;
-        Tue, 18 Jun 2019 09:27:10 -0700 (PDT)
+        bh=4q8d4fxsPgs4M6ir/dEft8nMebwBlWc7Y3opWmNrzjI=;
+        b=Ldw4sq21UyV0fSMGmjGV9IrEk6VdMq5DXnAZxh/qcsrsj6g74NRbIg5WfZPMRPKdDQ
+         EYJaL+6uy1GFKZXhZrpuCtt69kX659YMyvfLmvdl9vbAIPTReLQtLXFwoy9yIx/Nhoqt
+         +M/IaHx1TwzbyYVLZ3SQ9+6ooWcnfsENNqp5L0nWXbhrtxjCBWifrUUrddP3vCBC1g8D
+         m7SDgGz9Tp4gGRkJQC7KemFZgt6J49yinHjqRR7w4YGdseH9WWvOqBp2ClZnQ6w5EOlN
+         apoApslTvGLKMZlSqMvNDR6ChNNy0/gwBpLZWLqO5mpLkJ0tCnZyRc+5BnE0g/UkiPPt
+         Yu5g==
+X-Gm-Message-State: APjAAAVwqDlSwFqgofWd2R3IxnYcj7uTowq4hJrZbyAI4urBybPO6acf
+        Wk7f63N/jwyKb3Xb0i75kbKVhVRS
+X-Google-Smtp-Source: APXvYqwzIqCd8H8wtmTUJkqjeNuP8mbxR7gJbEsgeOORwRQ/iw/WrwE0SCSwHLRZyjsR7gZlKgUj6A==
+X-Received: by 2002:a2e:6c14:: with SMTP id h20mr3235615ljc.38.1560875387542;
+        Tue, 18 Jun 2019 09:29:47 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id z12sm2287618lfe.2.2019.06.18.09.27.09
+        by smtp.googlemail.com with ESMTPSA id v7sm2723693ljj.3.2019.06.18.09.29.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Jun 2019 09:27:10 -0700 (PDT)
-Subject: Re: [PATCH v2 2/8] regulator: core: Parse max-spread value per
- regulator couple
+        Tue, 18 Jun 2019 09:29:46 -0700 (PDT)
+Subject: Re: [PATCH v2 3/8] regulator: core: Expose some of core functions
 To:     Mark Brown <broonie@kernel.org>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -55,15 +54,15 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190603235904.19097-1-digetx@gmail.com>
- <20190603235904.19097-3-digetx@gmail.com>
- <20190617152514.GY5316@sirena.org.uk>
+ <20190603235904.19097-4-digetx@gmail.com>
+ <20190617153259.GZ5316@sirena.org.uk>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a3917cf4-6090-2c47-f8f6-c25db52662e0@gmail.com>
-Date:   Tue, 18 Jun 2019 19:27:09 +0300
+Message-ID: <f0a83ad0-a6a6-52ae-6184-4908e8dd19fd@gmail.com>
+Date:   Tue, 18 Jun 2019 19:29:46 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190617152514.GY5316@sirena.org.uk>
+In-Reply-To: <20190617153259.GZ5316@sirena.org.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -72,22 +71,17 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.06.2019 18:25, Mark Brown пишет:
-> On Tue, Jun 04, 2019 at 02:58:58AM +0300, Dmitry Osipenko wrote:
+17.06.2019 18:32, Mark Brown пишет:
+> On Tue, Jun 04, 2019 at 02:58:59AM +0300, Dmitry Osipenko wrote:
+>> Expose some of internal functions that are required for implementation of
+>> customized regulator couplers.
 > 
->> +#include <linux/regulator/driver.h>
->>  #include <linux/regulator/consumer.h>
->>  #include <linux/suspend.h>
->>  
->> @@ -156,7 +157,7 @@ struct regulation_constraints {
->>  	int system_load;
->>  
->>  	/* used for coupled regulators */
->> -	int max_spread;
->> +	int max_spread[MAX_COUPLED];
+>>  include/linux/regulator/driver.h | 11 ++++++
 > 
-> I'd rather move MAX_COUPLED into a separate header than include driver.h
-> so we've got a bit more compile time sepration.
+> I'm a bit dubious about exposing any of this but there's no way we
+> should be exposing it directly to random drivers, this needs a new
+> header so it's more obvious that normal code shouldn't be using these
+> interfaces.
 > 
 
-I'll address this in the next revision.
+That's a good call! Will address it in the v3.
