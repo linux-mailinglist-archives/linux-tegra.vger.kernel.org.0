@@ -2,107 +2,146 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CF104AD86
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 23:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3C674ADCD
+	for <lists+linux-tegra@lfdr.de>; Wed, 19 Jun 2019 00:22:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729982AbfFRVrB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 17:47:01 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41006 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730489AbfFRVrB (ORCPT
+        id S1730333AbfFRWW6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 18:22:58 -0400
+Received: from imap1.codethink.co.uk ([176.9.8.82]:55121 "EHLO
+        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730176AbfFRWW5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 17:47:01 -0400
-Received: by mail-ed1-f66.google.com with SMTP id p15so23836898eds.8
-        for <linux-tegra@vger.kernel.org>; Tue, 18 Jun 2019 14:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=LZrn7Rr8zleiGvdxF1w3tKSgpu14wo0qoDaXcva9cvY=;
-        b=cENkHwfGotPGYAS9ExYWo2joZg+slq8McfhA3rkxAqOPj0ksLNdOTNAxpl5enwcP5V
-         3cnJt6nTzVQlDqo6fcl2fBjx9ljMJMj4YNEIQPrgWbv4nTRjx9ehHycRkMOP1QVqOA4g
-         P3SyvrpeP4wyJz7wm+YeVuo6sw8Bmlz8VH4z0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LZrn7Rr8zleiGvdxF1w3tKSgpu14wo0qoDaXcva9cvY=;
-        b=QTMpMaiGKvdYCmqobmGuPGAf23Kcq8G+6MRLqaYkQVhUmyWAIcWw6EGcSz0Q7Y7UWX
-         21pJ9iwLKqADFV5TmzAbbrPW6lPNABAdM/PD95G7ojaVuZx8Fc1usCo+BWgIDekTe+g8
-         jjEE3ZYdSH6MDwge3KVLtXOWmNb+llEq0YL/8ksa4RVixaQJw8BWewS+A5uhYuwmOphM
-         WsXuEhP8GpVq7O8iWAmEO+HWtYWrUJg4ezjR1oGUx92YuX12WlXwsPwvsXWcvzNoBkkA
-         v3+DChnnzKZm1E28h1efuK373DQSc1APHG4Z1pjeBFYJwY/nxHnUrDB9von8K6K6IukI
-         eGIA==
-X-Gm-Message-State: APjAAAUN8TmraJ1PKqTaAnntKU55fMQDsGQKG1lTbx4AoVFgmVcFYJPv
-        otHBZpaxlFia1MMqdO/YmicBCg==
-X-Google-Smtp-Source: APXvYqwJvQ6v8diODmfivubZ8dOtPtpsb20XW5926nxdAIASSUgh96jzAqpn/te9CMxx45doYfrhew==
-X-Received: by 2002:a50:8dc5:: with SMTP id s5mr128399509edh.138.1560894419613;
-        Tue, 18 Jun 2019 14:46:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
-        by smtp.gmail.com with ESMTPSA id h23sm869911edh.40.2019.06.18.14.46.58
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 18 Jun 2019 14:46:58 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 23:46:56 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
+        Tue, 18 Jun 2019 18:22:57 -0400
+Received: from business-176-094-080-062.static.arcor-ip.net ([176.94.80.62] helo=[172.29.8.33])
+        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
+        id 1hdMVC-0006RF-LJ; Tue, 18 Jun 2019 23:22:54 +0100
+Subject: Re: [PATCH v1] dmaengine: tegra-apb: Support per-burst residue
+ granularity
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org
-Subject: Re: drm connectors, tegra, and the web they weave (was Re: [PATCH
- 58/59] drm/todo: Add new debugfs todo)
-Message-ID: <20190618214656.GH12905@phenom.ffwll.local>
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-59-daniel.vetter@ffwll.ch>
- <20190618151938.GA2567@kroah.com>
- <20190618152530.GA4576@kroah.com>
- <CAKMK7uEd0sZ81RMjDsz6cnkW+krPuvoqUcEY4U3ofB9W_qeFvA@mail.gmail.com>
- <20190618180113.GA26105@kroah.com>
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190613210849.10382-1-digetx@gmail.com>
+From:   Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+Message-ID: <f2290604-12f4-019b-47e7-4e4e29a433d4@codethink.co.uk>
+Date:   Tue, 18 Jun 2019 23:22:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190618180113.GA26105@kroah.com>
-X-Operating-System: Linux phenom 4.19.0-5-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190613210849.10382-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 08:01:13PM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Jun 18, 2019 at 07:32:20PM +0200, Daniel Vetter wrote:
-> > On Tue, Jun 18, 2019 at 5:25 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > > On Tue, Jun 18, 2019 at 05:19:38PM +0200, Greg Kroah-Hartman wrote:
-> > > > I could just "open code" a bunch of calls to debugfs_create_file() for
-> > > > these drivers, which would solve this issue, but in a more "non-drm"
-> > > > way.  Is it worth to just do that instead of overthinking the whole
-> > > > thing and trying to squish it into the drm "model" of drm debugfs calls?
-> > >
-> > > An example of "open coding" this is the patch below for the sor.c
-> > > driver.
-> > 
-> > I think open-coding is the way to go here. One of the todos is to
-> > extend debugfs support for crtc/connectors, but looking at the
-> > open-coded version we really don't need a drm-flavoured midlayer here.
+On 13/06/2019 22:08, Dmitry Osipenko wrote:
+> Tegra's APB DMA engine updates words counter after each transferred burst
+> of data, hence it can report transfer's residual with more fidelity which
+> may be required in cases like audio playback. In particular this fixes
+> audio stuttering during playback in a chromiuim web browser. The patch is
+> based on the original work that was made by Ben Dooks [1]. It was tested
+> on Tegra20 and Tegra30 devices.
 > 
-> There already is debugfs support in the code for crtc/connectors, these
-> files are "hanging" off of those locations already.  I'll keep that, but
-> indent it one more directory so that there's no namespace collisions.
+> [1] https://lore.kernel.org/lkml/20190424162348.23692-1-ben.dooks@codethink.co.uk/
+> 
+> Inspired-by: Ben Dooks <ben.dooks@codethink.co.uk>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>   drivers/dma/tegra20-apb-dma.c | 35 ++++++++++++++++++++++++++++-------
+>   1 file changed, 28 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+> index 79e9593815f1..c5af8f703548 100644
+> --- a/drivers/dma/tegra20-apb-dma.c
+> +++ b/drivers/dma/tegra20-apb-dma.c
+> @@ -797,12 +797,36 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
+>   	return 0;
+>   }
+>   
+> +static unsigned int tegra_dma_update_residual(struct tegra_dma_channel *tdc,
+> +					      struct tegra_dma_sg_req *sg_req,
+> +					      struct tegra_dma_desc *dma_desc,
+> +					      unsigned int residual)
+> +{
+> +	unsigned long status, wcount = 0;
+> +
+> +	if (!list_is_first(&sg_req->node, &tdc->pending_sg_req))
+> +		return residual;
+> +
+> +	if (tdc->tdma->chip_data->support_separate_wcount_reg)
+> +		wcount = tdc_read(tdc, TEGRA_APBDMA_CHAN_WORD_TRANSFER);
+> +
+> +	status = tdc_read(tdc, TEGRA_APBDMA_CHAN_STATUS);
+> +
+> +	if (!tdc->tdma->chip_data->support_separate_wcount_reg)
+> +		wcount = status;
+> +
+> +	if (status & TEGRA_APBDMA_STATUS_ISE_EOC)
+> +		return residual - sg_req->req_len;
+> +
+> +	return residual - get_current_xferred_count(tdc, sg_req, wcount);
+> +}
 
-The todo was to have some drm wrappers here for the boilerplate, but after
-looking at your version that's not a good idea. So not just making sure
-crtcs/connectors have a debugfs directory made for them, but more.
+I am unfortunately nowhere near my notes, so can't completely
+review this. I think the complexity of my patch series is due
+to an issue with the count being updated before the EOC IRQ
+is actually flagged (and most definetly before it gets to the
+CPU IRQ handler).
 
-Wrt adding a new directory: debugfs isnt uapi, but there's usually a
-massive pile of script relying on them, so it's not nice to shuffle paths
-around. Plus the lifetimes match anyway (at least if you don't hotplug
-connectors, which tegra doesn't do).
--Daniel
+The test system I was using, which i've not really got any
+access to at the moment would show these internal inconsistent
+states every few hours, however it was moving 48kHz 8ch 16bit
+TDM data.
+
+Thanks for looking into this, I am not sure if I am going to
+get any time to look into this within the next couple of
+months.
+
+>   static enum dma_status tegra_dma_tx_status(struct dma_chan *dc,
+>   	dma_cookie_t cookie, struct dma_tx_state *txstate)
+>   {
+>   	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
+> +	struct tegra_dma_sg_req *sg_req = NULL;
+>   	struct tegra_dma_desc *dma_desc;
+> -	struct tegra_dma_sg_req *sg_req;
+>   	enum dma_status ret;
+>   	unsigned long flags;
+>   	unsigned int residual;
+> @@ -838,6 +862,8 @@ static enum dma_status tegra_dma_tx_status(struct dma_chan *dc,
+>   		residual = dma_desc->bytes_requested -
+>   			   (dma_desc->bytes_transferred %
+>   			    dma_desc->bytes_requested);
+> +		residual = tegra_dma_update_residual(tdc, sg_req, dma_desc,
+> +						     residual);
+>   		dma_set_residue(txstate, residual);
+>   	}
+>   
+> @@ -1441,12 +1467,7 @@ static int tegra_dma_probe(struct platform_device *pdev)
+>   		BIT(DMA_SLAVE_BUSWIDTH_4_BYTES) |
+>   		BIT(DMA_SLAVE_BUSWIDTH_8_BYTES);
+>   	tdma->dma_dev.directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
+> -	/*
+> -	 * XXX The hardware appears to support
+> -	 * DMA_RESIDUE_GRANULARITY_BURST-level reporting, but it's
+> -	 * only used by this driver during tegra_dma_terminate_all()
+> -	 */
+> -	tdma->dma_dev.residue_granularity = DMA_RESIDUE_GRANULARITY_SEGMENT;
+> +	tdma->dma_dev.residue_granularity = DMA_RESIDUE_GRANULARITY_BURST;
+>   	tdma->dma_dev.device_config = tegra_dma_slave_config;
+>   	tdma->dma_dev.device_terminate_all = tegra_dma_terminate_all;
+>   	tdma->dma_dev.device_tx_status = tegra_dma_tx_status;
+> 
+
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
+
+https://www.codethink.co.uk/privacy.html
