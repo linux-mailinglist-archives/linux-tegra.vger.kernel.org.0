@@ -2,466 +2,321 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A35AD4A8F0
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 19:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73D3B4A8FB
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 20:01:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729868AbfFRR6p (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 13:58:45 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:12210 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729349AbfFRR6o (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 13:58:44 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0926530002>; Tue, 18 Jun 2019 10:58:43 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 18 Jun 2019 10:58:42 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 18 Jun 2019 10:58:42 -0700
-Received: from [10.2.168.217] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Jun
- 2019 17:58:39 +0000
-Subject: Re: [PATCH V3 11/17] clk: tegra210: support for Tegra210 clocks
- suspend and resume
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <jonathanh@nvidia.com>, <tglx@linutronix.de>,
-        <jason@lakedaemon.net>, <marc.zyngier@arm.com>,
-        <linus.walleij@linaro.org>, <stefan@agner.ch>,
-        <mark.rutland@arm.com>, <pdeschrijver@nvidia.com>,
-        <pgaikwad@nvidia.com>, <sboyd@kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <jckuo@nvidia.com>, <josephl@nvidia.com>, <talho@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
-        <digetx@gmail.com>, <devicetree@vger.kernel.org>
-References: <1560843991-24123-1-git-send-email-skomatineni@nvidia.com>
- <1560843991-24123-12-git-send-email-skomatineni@nvidia.com>
- <20190618121607.GN28892@ulmo>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <491e0b18-11e7-837c-4591-06ed30950e1d@nvidia.com>
-Date:   Tue, 18 Jun 2019 10:58:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1729349AbfFRSBS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 14:01:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44412 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727616AbfFRSBS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 18 Jun 2019 14:01:18 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D2B2A205F4;
+        Tue, 18 Jun 2019 18:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560880876;
+        bh=EJAL56xlrmUBeksBeGjUSqjS0zi77FmIgNTKq+9/7yc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BXlsULq+fxWur0HBgYhcedXTBzIW7t/hcvyg9NDYBdyCi09Fw3atbvrpsZdtSGALK
+         1N5MkEwU/KPJC5bZrjzUPqX/llnJiwW85VtgtbywLmnseFBOojEhlcfG7ga3yuTFhP
+         7zdtCoGWvtHMIeT15EEz40iPd1gAGbw2XPImckY4=
+Date:   Tue, 18 Jun 2019 20:01:13 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org
+Subject: Re: drm connectors, tegra, and the web they weave (was Re: [PATCH
+ 58/59] drm/todo: Add new debugfs todo)
+Message-ID: <20190618180113.GA26105@kroah.com>
+References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
+ <20190614203615.12639-59-daniel.vetter@ffwll.ch>
+ <20190618151938.GA2567@kroah.com>
+ <20190618152530.GA4576@kroah.com>
+ <CAKMK7uEd0sZ81RMjDsz6cnkW+krPuvoqUcEY4U3ofB9W_qeFvA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190618121607.GN28892@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560880723; bh=EZsFDs+jzXTMfQC/Kn7gXDe1CR7sMkPUl6QccPbfO5Y=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=jR8WquhkrocPgWQ1vEIvs1EDxkSv75AdwJyVBJNuPl1kC/9pzufogNsvaaseFu7WD
-         6AxOrtTWac3gf3FPbMrQJM/TIAMHrfWa6R+NwDfzfMr3wvBnbjaMgu1jE6pMJdbSxG
-         4FknJ8+dScDMNzSsTlfiWeHYe1b0yZliwz2su55whwpOibpzMm3n1eDeqENGIGzAWS
-         yOh6Yzk9MiXrTvgPaQUdUWXdWulqy1l64rx+I9yW8Rzzu5CvKiqozOG6wCU3m4bMWd
-         63tg84riQcuQ9oTDCss8b8vS5417RULIb97BfxBjrdAcf2YfvgEUSl5w7+gWMGBGW2
-         4NGHTJ96N+8ZQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEd0sZ81RMjDsz6cnkW+krPuvoqUcEY4U3ofB9W_qeFvA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, Jun 18, 2019 at 07:32:20PM +0200, Daniel Vetter wrote:
+> On Tue, Jun 18, 2019 at 5:25 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Tue, Jun 18, 2019 at 05:19:38PM +0200, Greg Kroah-Hartman wrote:
+> > > On Fri, Jun 14, 2019 at 10:36:14PM +0200, Daniel Vetter wrote:
+> > > > Greg is busy already, but maybe he won't do everything ...
+> > > >
+> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > ---
+> > > >  Documentation/gpu/todo.rst | 3 +++
+> > > >  1 file changed, 3 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> > > > index 9717540ee28f..026e55c517e1 100644
+> > > > --- a/Documentation/gpu/todo.rst
+> > > > +++ b/Documentation/gpu/todo.rst
+> > > > @@ -375,6 +375,9 @@ There's a bunch of issues with it:
+> > > >    this (together with the drm_minor->drm_device move) would allow us to remove
+> > > >    debugfs_init.
+> > > >
+> > > > +- Drop the return code and error checking from all debugfs functions. Greg KH is
+> > > > +  working on this already.
+> > >
+> > >
+> > > Part of this work was to try to delete drm_debugfs_remove_files().
+> > >
+> > > There are only 4 files that currently still call this function:
+> > >       drivers/gpu/drm/tegra/dc.c
+> > >       drivers/gpu/drm/tegra/dsi.c
+> > >       drivers/gpu/drm/tegra/hdmi.c
+> > >       drivers/gpu/drm/tegra/sor.c
+> > >
+> > > For dc.c, the driver wants to add debugfs files to the struct drm_crtc
+> > > debugfs directory.  Which is fine, but it has to do some special memory
+> > > allocation to get the debugfs callback to point not to the struct
+> > > drm_minor pointer, but rather the drm_crtc structure.
+> 
+> There's already a todo to switch the drm_minor debugfs stuff over to
+> drm_device. drm_minor is essentially different uapi flavours (/dev/
+> minor nodes, hence the name) sitting on top of the same drm_device.
+> Last time I checked all the debugfs files want the drm_device, not the
+> minor. I think we even discussed to only register the debugfs files
+> for the first minor, and create the other ones as symlinks to the
+> first one. But haven't yet gotten around to typing that.
+> 
+> drm_crtc/connector are parts of drm_device with modesetting support,
+> so the drm_minor is even worse choice really.
 
-On 6/18/19 5:16 AM, Thierry Reding wrote:
-> On Tue, Jun 18, 2019 at 12:46:25AM -0700, Sowjanya Komatineni wrote:
->> This patch adds system suspend and resume support for Tegra210
->> clocks.
->>
->> All the CAR controller settings are lost on suspend when core power
->> goes off.
->>
->> This patch has implementation for saving and restoring all the PLLs
->> and clocks context during system suspend and resume to have the
->> system back to operating state.
->>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   drivers/clk/tegra/clk-tegra210.c | 218 +++++++++++++++++++++++++++++++++++++--
->>   1 file changed, 211 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
->> index e1ba62d2b1a0..c34d92e871f4 100644
->> --- a/drivers/clk/tegra/clk-tegra210.c
->> +++ b/drivers/clk/tegra/clk-tegra210.c
->> @@ -9,10 +9,12 @@
->>   #include <linux/clkdev.h>
->>   #include <linux/of.h>
->>   #include <linux/of_address.h>
->> +#include <linux/of_platform.h>
->>   #include <linux/delay.h>
->>   #include <linux/export.h>
->>   #include <linux/mutex.h>
->>   #include <linux/clk/tegra.h>
->> +#include <linux/syscore_ops.h>
->>   #include <dt-bindings/clock/tegra210-car.h>
->>   #include <dt-bindings/reset/tegra210-car.h>
->>   #include <linux/iopoll.h>
->> @@ -20,6 +22,7 @@
->>   #include <soc/tegra/pmc.h>
->>   
->>   #include "clk.h"
->> +#include "clk-dfll.h"
->>   #include "clk-id.h"
->>   
->>   /*
->> @@ -36,6 +39,8 @@
->>   #define CLK_SOURCE_LA 0x1f8
->>   #define CLK_SOURCE_SDMMC2 0x154
->>   #define CLK_SOURCE_SDMMC4 0x164
->> +#define CLK_OUT_ENB_Y 0x298
->> +#define CLK_ENB_PLLP_OUT_CPU BIT(31)
->>   
->>   #define PLLC_BASE 0x80
->>   #define PLLC_OUT 0x84
->> @@ -225,6 +230,7 @@
->>   
->>   #define CLK_RST_CONTROLLER_RST_DEV_Y_SET 0x2a8
->>   #define CLK_RST_CONTROLLER_RST_DEV_Y_CLR 0x2ac
->> +#define CPU_SOFTRST_CTRL 0x380
->>   
->>   #define LVL2_CLK_GATE_OVRA 0xf8
->>   #define LVL2_CLK_GATE_OVRC 0x3a0
->> @@ -2820,6 +2826,7 @@ static int tegra210_enable_pllu(void)
->>   	struct tegra_clk_pll_freq_table *fentry;
->>   	struct tegra_clk_pll pllu;
->>   	u32 reg;
->> +	int ret;
->>   
->>   	for (fentry = pll_u_freq_table; fentry->input_rate; fentry++) {
->>   		if (fentry->input_rate == pll_ref_freq)
->> @@ -2836,7 +2843,7 @@ static int tegra210_enable_pllu(void)
->>   	reg = readl_relaxed(clk_base + pllu.params->ext_misc_reg[0]);
->>   	reg &= ~BIT(pllu.params->iddq_bit_idx);
->>   	writel_relaxed(reg, clk_base + pllu.params->ext_misc_reg[0]);
->> -	udelay(5);
->> +	fence_udelay(5, clk_base);
->>   
->>   	reg = readl_relaxed(clk_base + PLLU_BASE);
->>   	reg &= ~GENMASK(20, 0);
->> @@ -2844,13 +2851,13 @@ static int tegra210_enable_pllu(void)
->>   	reg |= fentry->n << 8;
->>   	reg |= fentry->p << 16;
->>   	writel(reg, clk_base + PLLU_BASE);
->> -	udelay(1);
->> +	fence_udelay(1, clk_base);
-> These udelay() -> fence_udelay() seem like they should be a separate
-> patch.
->
->>   	reg |= PLL_ENABLE;
->>   	writel(reg, clk_base + PLLU_BASE);
->> +	fence_udelay(1, clk_base);
->>   
->> -	readl_relaxed_poll_timeout_atomic(clk_base + PLLU_BASE, reg,
->> -					  reg & PLL_BASE_LOCK, 2, 1000);
->> -	if (!(reg & PLL_BASE_LOCK)) {
->> +	ret = tegra210_wait_for_mask(&pllu, PLLU_BASE, PLL_BASE_LOCK);
->> +	if (ret) {
->>   		pr_err("Timed out waiting for PLL_U to lock\n");
->>   		return -ETIMEDOUT;
->>   	}
->> @@ -2890,12 +2897,12 @@ static int tegra210_init_pllu(void)
->>   		reg = readl_relaxed(clk_base + XUSB_PLL_CFG0);
->>   		reg &= ~XUSB_PLL_CFG0_PLLU_LOCK_DLY_MASK;
->>   		writel_relaxed(reg, clk_base + XUSB_PLL_CFG0);
->> -		udelay(1);
->> +		fence_udelay(1, clk_base);
->>   
->>   		reg = readl_relaxed(clk_base + PLLU_HW_PWRDN_CFG0);
->>   		reg |= PLLU_HW_PWRDN_CFG0_SEQ_ENABLE;
->>   		writel_relaxed(reg, clk_base + PLLU_HW_PWRDN_CFG0);
->> -		udelay(1);
->> +		fence_udelay(1, clk_base);
->>   
->>   		reg = readl_relaxed(clk_base + PLLU_BASE);
->>   		reg &= ~PLLU_BASE_CLKENABLE_USB;
->> @@ -3282,6 +3289,188 @@ static void tegra210_disable_cpu_clock(u32 cpu)
->>   }
->>   
->>   #ifdef CONFIG_PM_SLEEP
->> +static u32 cpu_softrst_ctx[3];
->> +static struct platform_device *dfll_pdev;
->> +static u32 *periph_clk_src_ctx;
->> +struct periph_source_bank {
-> Blank line between the above two.
->
->> +	u32 start;
->> +	u32 end;
->> +};
->> +
->> +static struct periph_source_bank periph_srcs[] = {
->> +	[0] = {
->> +		.start = 0x100,
->> +		.end = 0x198,
->> +	},
->> +	[1] = {
->> +		.start = 0x1a0,
->> +		.end = 0x1f8,
->> +	},
->> +	[2] = {
->> +		.start = 0x3b4,
->> +		.end = 0x42c,
->> +	},
->> +	[3] = {
->> +		.start = 0x49c,
->> +		.end = 0x4b4,
->> +	},
->> +	[4] = {
->> +		.start = 0x560,
->> +		.end = 0x564,
->> +	},
->> +	[5] = {
->> +		.start = 0x600,
->> +		.end = 0x678,
->> +	},
->> +	[6] = {
->> +		.start = 0x694,
->> +		.end = 0x6a0,
->> +	},
->> +	[7] = {
->> +		.start = 0x6b8,
->> +		.end = 0x718,
->> +	},
->> +};
->> +
->> +/* This array lists the valid clocks for each periph clk bank */
->> +static u32 periph_clks_on[] = {
->> +	0xdcd7dff9,
->> +	0x87d1f3e7,
->> +	0xf3fed3fa,
->> +	0xffc18cfb,
->> +	0x793fb7ff,
->> +	0x3fe66fff,
->> +	0xfc1fc7ff,
->> +};
-> Hm... this is a bunch of magic. Perhaps replace this by a list of the
-> clock IDs? That's perhaps a little more verbose, but if we ever need to
-> tweak the list of IDs in that periph_clks_on array, that'll be quite the
-> challenge.
->
-> Also, is this list a "guess" or are these all guaranteed to be always
-> on? What if some of these ended up getting disabled as part of suspend
-> already (by their users). If we force them on, won't their references
-> become unbalanced if the driver later enables them again on resume?
+Heh, ok, so the existing code is working around that choice right now,
+but that wasn't a good choice, so I'll ignore it :)
 
-Yes, will replace with list of peripheral clock names..
+> Not exactly sure why we went with this, but probably dates back to the
+> *bsd compat layer and a lot of these files hanging out in procfs too
+> (we've fixed those mistakes a few years ago, yay!).
+> 
+> > > So, to remove this call, I need to remove this special memory allocation
+> > > and to do that, I need to somehow be able to cast from drm_minor back to
+> > > the drm_crtc structure being used in this driver.  And I can't figure
+> > > how they are related at all.
+> > >
+> > > Any pointers here (pun intended) would be appreciated.
+> > >
+> > > For the other 3 files, the situation is much the same, but I need to get
+> > > from a 'struct drm_minor' pointer to a 'struct drm_connector' pointer.
+> 
+> Ditch the drm_minor, there's no no way to get from that to something
+> like drm_connector/crtc, since it's a n:m relationship.
 
-This list is not a guess. Each entry of this list maps to CLK_ENB set 
-register.
+Ok, will do.
 
-Total 7 registers are available and each bit of these registers is for 
-enable/disable clock to corresponding peripheral.
+> 
+> > > I could just "open code" a bunch of calls to debugfs_create_file() for
+> > > these drivers, which would solve this issue, but in a more "non-drm"
+> > > way.  Is it worth to just do that instead of overthinking the whole
+> > > thing and trying to squish it into the drm "model" of drm debugfs calls?
+> >
+> > An example of "open coding" this is the patch below for the sor.c
+> > driver.
+> 
+> I think open-coding is the way to go here. One of the todos is to
+> extend debugfs support for crtc/connectors, but looking at the
+> open-coded version we really don't need a drm-flavoured midlayer here.
 
-Some of the bits are off as those peripheral clocks don't need to be 
-enabled as we are not changing source or not using them like MIPIBIF, 
-PLLG_REF..
+There already is debugfs support in the code for crtc/connectors, these
+files are "hanging" off of those locations already.  I'll keep that, but
+indent it one more directory so that there's no namespace collisions.
 
-This list of peripheral clocks are enabled during resume before changing 
-clock sources and after clock source update, they are restored back to 
-the state they were before suspend. So their references don't become 
-unbalanced.
+> > Totally untested, not even built, but you should get the idea here.
+> >
+> > thanks,
+> >
+> > greg k-h
+> >
+> > ---------------
+> >
+> > diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> > index 5be5a0817dfe..3216221c77c4 100644
+> > --- a/drivers/gpu/drm/tegra/sor.c
+> > +++ b/drivers/gpu/drm/tegra/sor.c
+> > @@ -414,7 +414,8 @@ struct tegra_sor {
+> >
+> >         struct drm_dp_aux *aux;
+> >
+> > -       struct drm_info_list *debugfs_files;
+> > +       struct dentry *debugfs_root;
+> > +       struct drm_device *drm;
+> >
+> >         const struct tegra_sor_ops *ops;
+> >         enum tegra_io_pad pad;
+> > @@ -1262,10 +1263,9 @@ static int tegra_sor_crc_wait(struct tegra_sor *sor, unsigned long timeout)
+> >
+> >  static int tegra_sor_show_crc(struct seq_file *s, void *data)
+> >  {
+> > -       struct drm_info_node *node = s->private;
+> > -       struct tegra_sor *sor = node->info_ent->data;
+> > +       struct tegra_sor *sor = s->private;
+> >         struct drm_crtc *crtc = sor->output.encoder.crtc;
+> > -       struct drm_device *drm = node->minor->dev;
+> > +       struct drm_device *drm = sor->drm;
+> >         int err = 0;
+> >         u32 value;
+> >
+> > @@ -1302,6 +1302,20 @@ static int tegra_sor_show_crc(struct seq_file *s, void *data)
+> >         return err;
+> >  }
+> >
+> > +static int crc_open(struct inode *inode, struct file *file)
+> > +{
+> > +       struct tegra_sor *sor = inode->i_private;
+> > +       return single_open(file, tegra_sor_show_crc, sor);
+> > +}
+> > +
+> > +static const struct file_operations crc_fops = {
+> > +       .owner = THIS_MODULE,
+> > +       .open = crc_open,
+> > +       .read = seq_read,
+> > +       .llseek = seq_lseek,
+> > +       .release = single_release,
+> > +};
+> 
+> Hm, is there not a macro to create such simple files with read/write
+> ops? At least for sysfs this is a bit less boilerplate iirc.
 
->> +
->> +static struct platform_device *dfll_pdev;
-> I think you already predeclared this one above.
->
->> +#define car_readl(_base, _off) readl_relaxed(clk_base + (_base) + ((_off) * 4))
->> +#define car_writel(_val, _base, _off) \
->> +		writel_relaxed(_val, clk_base + (_base) + ((_off) * 4))
->> +
->> +static u32 * __init tegra210_init_suspend_ctx(void)
->> +{
->> +	int i, size = 0;
-> Can both be unsigned int.
->
->> +
->> +	for (i = 0; i < ARRAY_SIZE(periph_srcs); i++)
->> +		size += periph_srcs[i].end - periph_srcs[i].start + 4;
->> +
->> +	periph_clk_src_ctx = kmalloc(size, GFP_KERNEL);
->> +
->> +	return periph_clk_src_ctx;
-> It's somewhat wasteful to return a global variable since you can access
-> it anyway. Perhaps it'd be more useful to make the function return a
-> boolean?
->
->> +}
->> +
->> +static int tegra210_clk_suspend(void)
->> +{
->> +	int i;
-> unsigned int.
->
->> +	unsigned long off;
->> +	struct device_node *node;
->> +	u32 *clk_rst_ctx = periph_clk_src_ctx;
->> +	u32 val;
->> +
->> +	tegra_cclkg_burst_policy_save_context();
->> +
->> +	if (!dfll_pdev) {
->> +		node = of_find_compatible_node(NULL, NULL,
->> +					       "nvidia,tegra210-dfll");
->> +		if (node)
->> +			dfll_pdev = of_find_device_by_node(node);
->> +		of_node_put(node);
->> +		if (!dfll_pdev)
->> +			pr_err("dfll node not found. no suspend for dfll\n");
->> +	}
-> Wouldn't it make sense to run this only once, perhaps as part of
-> tegra210_init_suspend_ctx()?
->
->> +
->> +	if (dfll_pdev)
->> +		tegra_dfll_suspend(dfll_pdev);
->> +
->> +	/* Enable PLLP_OUT_CPU after dfll suspend */
->> +	val = car_readl(CLK_OUT_ENB_Y, 0);
->> +	val |= CLK_ENB_PLLP_OUT_CPU;
->> +	car_writel(val, CLK_OUT_ENB_Y, 0);
->> +
->> +	tegra_clk_periph_suspend(clk_base);
->> +
->> +	for (i = 0; i < ARRAY_SIZE(periph_srcs); i++)
->> +		for (off = periph_srcs[i].start; off <= periph_srcs[i].end;
->> +		     off += 4)
->> +			*clk_rst_ctx++ = car_readl(off, 0);
->> +
->> +	tegra_sclk_cclklp_burst_policy_save_context();
->> +
->> +	for (i = 0; i < ARRAY_SIZE(cpu_softrst_ctx); i++)
->> +		cpu_softrst_ctx[i] = car_readl(CPU_SOFTRST_CTRL, i);
->> +
->> +	clk_save_context();
->> +
->> +	return 0;
->> +}
->> +
->> +static void tegra210_clk_resume(void)
->> +{
->> +	int i;
->> +	unsigned long off;
->> +	u32 val;
->> +	u32 *clk_rst_ctx = periph_clk_src_ctx;
->> +	struct clk_hw *parent;
->> +	struct clk *clk;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(cpu_softrst_ctx); i++)
->> +		car_writel(cpu_softrst_ctx[i], CPU_SOFTRST_CTRL, i);
->> +
->> +	tegra_clk_osc_resume(clk_base);
->> +
->> +	/*
->> +	 * restore all the plls before configuring clocks and resetting
->> +	 * the devices.
->> +	 */
->> +	tegra210_init_pllu();
->> +	tegra_sclk_cpulp_burst_policy_restore_context();
->> +	clk_restore_context();
->> +
->> +	/* enable all clocks before configuring clock sources */
->> +	tegra_clk_periph_force_on(periph_clks_on, ARRAY_SIZE(periph_clks_on),
->> +				  clk_base);
->> +	/* wait for all writes to happen to have all the clocks enabled */
->> +	wmb();
->> +	fence_udelay(2, clk_base);
->> +
->> +	/* restore all the devices clock sources */
->> +	for (i = 0; i < ARRAY_SIZE(periph_srcs); i++)
->> +		for (off = periph_srcs[i].start; off <= periph_srcs[i].end;
->> +		     off += 4)
->> +			car_writel(*clk_rst_ctx++, off, 0);
->> +
->> +	/* propagate and restore resets, restore clock state */
->> +	fence_udelay(5, clk_base);
->> +	tegra_clk_periph_resume(clk_base);
->> +
->> +	/*
->> +	 * restore CPUG clocks:
->> +	 * - enable DFLL in open loop mode
->> +	 * - switch CPUG to DFLL clock source
->> +	 * - close DFLL loop
->> +	 * - sync PLLX state
->> +	 */
->> +	if (dfll_pdev)
->> +		tegra_dfll_resume(dfll_pdev, false);
->> +
->> +	tegra_cclkg_burst_policy_restore_context();
->> +	fence_udelay(2, clk_base);
->> +
->> +	if (dfll_pdev)
->> +		tegra_dfll_resume(dfll_pdev, true);
->> +
->> +	parent = clk_hw_get_parent(__clk_get_hw(clks[TEGRA210_CLK_CCLK_G]));
->> +	clk = clks[TEGRA210_CLK_PLL_X];
->> +	if (parent != __clk_get_hw(clk))
->> +		tegra_clk_sync_state_pll(__clk_get_hw(clk));
->> +
->> +	/* Disable PLL_OUT_CPU after DFLL resume */
->> +	val = car_readl(CLK_OUT_ENB_Y, 0);
->> +	val &= ~CLK_ENB_PLLP_OUT_CPU;
->> +	car_writel(val, CLK_OUT_ENB_Y, 0);
->> +}
-> I'm surprised by the amount of work that we need to do here. I had hoped
-> that the clock framework's save/restore infrastructure would be enough.
-> I suppose you do call clk_restore_context() somewhere in there, so maybe
-> this really is as good as it gets.
->
-> Thierry
+For "simple" things like single variables, yes, there is.
 
-Reason is there are dependencies b/w the clocks and DFLL resume and 
-clocks resume order needed is not same as clock tree list.
+For more "free-form" text, where you want to use a seq file interface,
+this seems to be the "simplest" boiler-plate to create.  Actually should
+be pretty simple to create a macro for this, as it's pretty trivial (the
+drm core already wraps this on its own, so it can be done...)
 
-during resume as per clock tree, CPU clock configs to use DFLL will 
-happen first as its first in the clock tree but DFLL resume should be 
-done prior to switching CPU to use from DFLL output.
+I'll do that too.
 
-To resume DFLL, peripheral clocks should be restored.
+> >  #define DEBUGFS_REG32(_name) { .name = #_name, .offset = _name }
+> >
+> >  static const struct debugfs_reg32 tegra_sor_regs[] = {
+> > @@ -1424,10 +1438,9 @@ static const struct debugfs_reg32 tegra_sor_regs[] = {
+> >
+> >  static int tegra_sor_show_regs(struct seq_file *s, void *data)
+> >  {
+> > -       struct drm_info_node *node = s->private;
+> > -       struct tegra_sor *sor = node->info_ent->data;
+> > +       struct tegra_sor *sor = s->private;
+> >         struct drm_crtc *crtc = sor->output.encoder.crtc;
+> > -       struct drm_device *drm = node->minor->dev;
+> > +       struct drm_device *drm = sor->drm;
+> 
+> sor->output.connector.dev should give you this already. And I think
+> getting at the drm_device is the only reason we needed the drm_minor
+> here at all.
 
-Considering these dependencies, performing peripheral and DFLL/CPU 
-resume in Tegra210 clock driver rather than in corresponding peripheral 
-clk_ops using save and restore context callback.
+Ah, good, I missed that, should make this code simpler then, thanks!
 
->> +
->>   static void tegra210_cpu_clock_suspend(void)
->>   {
->>   	/* switch coresite to clk_m, save off original source */
->> @@ -3295,8 +3484,20 @@ static void tegra210_cpu_clock_resume(void)
->>   	writel(tegra210_cpu_clk_sctx.clk_csite_src,
->>   				clk_base + CLK_SOURCE_CSITE);
->>   }
->> +#else
->> +#define tegra210_clk_suspend	NULL
->> +#define tegra210_clk_resume	NULL
->> +static inline u32 *tegra210_init_suspend_ctx(void)
->> +{
->> +	return NULL;
->> +}
->>   #endif
->>   
->> +static struct syscore_ops tegra_clk_syscore_ops = {
->> +	.suspend = tegra210_clk_suspend,
->> +	.resume = tegra210_clk_resume,
->> +};
->> +
->>   static struct tegra_cpu_car_ops tegra210_cpu_car_ops = {
->>   	.wait_for_reset	= tegra210_wait_cpu_in_reset,
->>   	.disable_clock	= tegra210_disable_cpu_clock,
->> @@ -3580,5 +3781,8 @@ static void __init tegra210_clock_init(struct device_node *np)
->>   	tegra210_mbist_clk_init();
->>   
->>   	tegra_cpu_car_ops = &tegra210_cpu_car_ops;
->> +
->> +	if (tegra210_init_suspend_ctx())
->> +		register_syscore_ops(&tegra_clk_syscore_ops);
->>   }
->>   CLK_OF_DECLARE(tegra210, "nvidia,tegra210-car", tegra210_clock_init);
->> -- 
->> 2.7.4
->>
+
+> 
+> >         unsigned int i;
+> >         int err = 0;
+> >
+> > @@ -1450,51 +1463,44 @@ static int tegra_sor_show_regs(struct seq_file *s, void *data)
+> >         return err;
+> >  }
+> >
+> > -static const struct drm_info_list debugfs_files[] = {
+> > -       { "crc", tegra_sor_show_crc, 0, NULL },
+> > -       { "regs", tegra_sor_show_regs, 0, NULL },
+> > +static int regs_open(struct inode *inode, struct file *file)
+> > +{
+> > +       struct tegra_sor *sor = inode->i_private;
+> > +       return single_open(file, tegra_sor_show_regs, sor);
+> > +}
+> > +
+> > +static const struct file_operations crc_fops = {
+> > +       .owner = THIS_MODULE,
+> > +       .open = crc_open,
+> > +       .read = seq_read,
+> > +       .llseek = seq_lseek,
+> > +       .release = single_release,
+> >  };
+> >
+> >  static int tegra_sor_late_register(struct drm_connector *connector)
+> >  {
+> > -       struct tegra_output *output = connector_to_output(connector);
+> > -       unsigned int i, count = ARRAY_SIZE(debugfs_files);
+> >         struct drm_minor *minor = connector->dev->primary;
+> > -       struct dentry *root = connector->debugfs_entry;
+> > +       struct tegra_output *output = connector_to_output(connector);
+> >         struct tegra_sor *sor = to_sor(output);
+> > -       int err;
+> > +       struct dentry *root;
+> >
+> > -       sor->debugfs_files = kmemdup(debugfs_files, sizeof(debugfs_files),
+> > -                                    GFP_KERNEL);
+> > -       if (!sor->debugfs_files)
+> > -               return -ENOMEM;
+> > +       sor->drm = minor->dev;
+> >
+> > -       for (i = 0; i < count; i++)
+> > -               sor->debugfs_files[i].data = sor;
+> > +       root = debugfs_create_dir("sor", connector->debugfs_entry);
+> 
+> Hm I think the old files got created right in the
+> drm_connector->debugfs_entry directory?
+
+They did.  I was trying to be nice and keep things in their own
+directory so I could clean it up.  But I guess we want the drm core to
+be cleaning things up, I forgot about drm_debugfs_remove_files() being
+the main goal to get rid of here :)
+
+> > +       sor->debugfs_root = root;
+> >
+> > -       err = drm_debugfs_create_files(sor->debugfs_files, count, root, minor);
+> > -       if (err < 0)
+> > -               goto free;
+> > +       debugfs_create_file("crc", S_IFREG | S_IRUGO, root, sor, &crc_fops);
+> > +       debugfs_create_file("regs", S_IFREG | S_IRUGO, root, sor, &regs_fops);
+> >
+> >         return 0;
+> > -
+> > -free:
+> > -       kfree(sor->debugfs_files);
+> > -       sor->debugfs_files = NULL;
+> > -
+> > -       return err;
+> >  }
+> 
+> I think if you can create a debugfs-simple-file macro, this here would
+> win hands-down from a boilerplate pov. I like.
+
+Ok, will do.
+
+> >  static void tegra_sor_early_unregister(struct drm_connector *connector)
+> >  {
+> >         struct tegra_output *output = connector_to_output(connector);
+> > -       unsigned int count = ARRAY_SIZE(debugfs_files);
+> >         struct tegra_sor *sor = to_sor(output);
+> >
+> > -       drm_debugfs_remove_files(sor->debugfs_files, count,
+> > -                                connector->dev->primary);
+> > -       kfree(sor->debugfs_files);
+> > -       sor->debugfs_files = NULL;
+> > +       debugfs_remove_recursive(sor->debugfs_root);
+> 
+> Not needed, we tear down everything as part of drm_dev_unregister
+> anyway. So you can ditch this.
+
+Wonderful, will do.
+
+thanks for the review.
+
+greg k-h
