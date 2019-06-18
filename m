@@ -2,84 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1075949C65
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 10:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2969049C78
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 10:57:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729143AbfFRIx2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 04:53:28 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:13022 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728991AbfFRIx2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 04:53:28 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d08a6870000>; Tue, 18 Jun 2019 01:53:27 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 18 Jun 2019 01:53:27 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 18 Jun 2019 01:53:27 -0700
-Received: from [10.19.65.14] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Jun
- 2019 08:53:23 +0000
-Subject: Re: [PATCH V1] i2c: tegra: disable irq in tegra_i2c_xfer_msg
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Peter Rosin <peda@axentia.se>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Dmitry Osipenko <digetx@gmail.com>
-CC:     Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>
-References: <1560835386-2865-1-git-send-email-bbiswas@nvidia.com>
- <30d1d048-f474-f1fb-6415-ee6389900032@nvidia.com>
-From:   Bitan Biswas <bbiswas@nvidia.com>
-Message-ID: <93b72301-2132-f9da-b5b8-f2fb3c4163c4@nvidia.com>
-Date:   Tue, 18 Jun 2019 01:53:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1729031AbfFRI5e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 04:57:34 -0400
+Received: from mga05.intel.com ([192.55.52.43]:9223 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728385AbfFRI5e (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 18 Jun 2019 04:57:34 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jun 2019 01:57:34 -0700
+X-ExtLoop1: 1
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.145])
+  by orsmga001.jf.intel.com with ESMTP; 18 Jun 2019 01:57:28 -0700
+Received: from andy by smile with local (Exim 4.92)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1hd9vj-0007K4-1F; Tue, 18 Jun 2019 11:57:27 +0300
+Date:   Tue, 18 Jun 2019 11:57:27 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, thloh@altera.com,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, grygorii.strashko@ti.com,
+        ssantosh@kernel.org, khilman@kernel.org, mcoquelin.stm32@gmail.com,
+        alexandre.torgue@st.com, linux-gpio@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: Re: [PATCH 01/30] include: linux: platform_device: more helpers for
+ declaring platform drivers
+Message-ID: <20190618085727.GJ9224@smile.fi.intel.com>
+References: <1560796871-18560-1-git-send-email-info@metux.net>
 MIME-Version: 1.0
-In-Reply-To: <30d1d048-f474-f1fb-6415-ee6389900032@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560848007; bh=jjS1JGwpvnUR+qVH5bcDlfnpRNxu98MHj8uxqf5sc4g=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=maxNwVfu+QLlK3N7Gb9XYDMz6xRGbcYNcjyRh2yil7sdTwbYA8lIFUHRHNrJxoT1s
-         7WJtJUzc+7/sLxUzcWIDqxxNotlL3GyrjZV6QcZ2zj0Rn6h1VQVxt9pP5nuktYXsyg
-         iJl1E3cUVDhMAt/POrFmWQflbIE6VzHOr4RRu8eiRKHWq6wFZM5UPpZURvOkK0Kt/M
-         5/rW6cincGn8HqKy4IcA5PXcycPoset15rr38C+Uq4HtFTwD65Iw9WiThMuz4iC8tH
-         a9KfJMYTHyiXrDVSah82AmJb2r+BytWA6pP7NamktnNm6zO0NXdbH2GGODOcMXx6VA
-         w3nLmUJho/NHQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1560796871-18560-1-git-send-email-info@metux.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-
-On 6/17/19 11:32 PM, Jon Hunter wrote:
+On Mon, Jun 17, 2019 at 08:40:42PM +0200, Enrico Weigelt, metux IT consult wrote:
+> From: Enrico Weigelt <info@metux.net>
 > 
-> On 18/06/2019 06:23, Bitan Biswas wrote:
->> Synchronize ISR and tegra_i2c_xfer_msg execution
->> by disabling interrupt. This avoids spinlock usage
->> for same purpose.
+> Add more helper macros for trivial driver init cases, similar to the
+> already existing module_platform_driver()+friends - now for those which
+> are initialized at other stages. Lots of drivers couldn't use the existing
+> macros, as they need to be called at different init stages, eg. subsys,
+> postcore, arch.
 > 
-> I think that you need to explain the motivation/benefit of this. It is
-> not immediately clear to me. Sorry if I have missed some previous
-> discussion.
-I updated the commit description with details and benefit. Please review 
-Patch V2.
+> This helps to further reduce driver init boilerplate.
 
--regards,
-  Bitan
+> +/* postcore_platform_driver() - Helper macro for drivers that don't do
+> + * anything special in module init/exit.  This eliminates a lot of
+> + * boilerplate.  Each module may only use this macro once, and
+> + * calling it replaces postcore_initcall() and module_exit()
+> + */
+
+Perhaps you meant kernel-doc format?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
