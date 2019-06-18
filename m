@@ -2,139 +2,143 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61C5F4AB1F
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 21:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 066CF4AB30
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 21:48:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730358AbfFRToR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 15:44:17 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:14507 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725909AbfFRToR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 15:44:17 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d093f100000>; Tue, 18 Jun 2019 12:44:16 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 18 Jun 2019 12:44:16 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 18 Jun 2019 12:44:16 -0700
-Received: from [10.26.11.81] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Jun
- 2019 19:44:13 +0000
-Subject: Re: [PATCH net-next 3/3] net: stmmac: Convert to phylink and remove
- phylib logic
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Jose Abreu <Jose.Abreu@synopsys.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <cover.1560266175.git.joabreu@synopsys.com>
- <6226d6a0de5929ed07d64b20472c52a86e71383d.1560266175.git.joabreu@synopsys.com>
- <d9ffce3d-4827-fa4a-89e8-0492c4bc1848@nvidia.com>
- <78EB27739596EE489E55E81C33FEC33A0B9C8D6E@DE02WEMBXB.internal.synopsys.com>
- <26cfaeff-a310-3b79-5b57-fd9c93bd8929@nvidia.com>
- <78EB27739596EE489E55E81C33FEC33A0B9C8DD9@DE02WEMBXB.internal.synopsys.com>
- <b66c7578-172f-4443-f4c3-411525e28738@nvidia.com>
- <d96f8bea-f7ef-82ae-01ba-9c97aec0ee38@nvidia.com>
-Message-ID: <6f36b6b6-8209-ed98-e7e1-3dac0a92f6cd@nvidia.com>
-Date:   Tue, 18 Jun 2019 20:44:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1730521AbfFRTsg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 15:48:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730176AbfFRTsf (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 18 Jun 2019 15:48:35 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D0A5F206E0;
+        Tue, 18 Jun 2019 19:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560887314;
+        bh=B+P3EIUfBOoeviB9x7VEMBkgJuOvE5XAkLXgLqXgA1U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d4aa/HY3/uH51bmvZBqzTIu09V5+HGoAigLH5I1623wc4xfpXh2MoiaiNUSAwpnj6
+         zRjfudgEhpNOEJI5ndiRQtB+LNX2PfCB3UfJPSWUtv0sFrCigj1HorhtNz8CoB9NZu
+         135PY4ZSiiSgFSk95kmQcQGjwDkbVwFjQbOfsHQQ=
+Date:   Tue, 18 Jun 2019 14:48:30 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc:     thierry.reding@gmail.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        jonathanh@nvidia.com, lorenzo.pieralisi@arm.com, vidyas@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH V6 20/27] PCI: tegra: Disable MSI for Tegra PCIe root port
+Message-ID: <20190618194830.GA110859@google.com>
+References: <20190618180206.4908-1-mmaddireddy@nvidia.com>
+ <20190618180206.4908-21-mmaddireddy@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <d96f8bea-f7ef-82ae-01ba-9c97aec0ee38@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560887056; bh=PwZarqBwDAlCSx+BZ96mh7Tp8BKOluB88TjkXU/xKMw=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=R4uJclZHP4uqM8KUkkbfj3B9imly/wEhiSJ+rvRgRqF3AJa6y9N1BU6AXqkxxAAN1
-         mNyagoJzU6qaXcWda8VeAbmZLFnX75S6fAuQQHcvCk3gd2EShrvgg1Z+bjMMc4B8rG
-         FJu/aAOR/Exkzc6LDxCm9bJ8mUYHGeMtsrFgMASjIzGq+V35FV3nybMf5El3fm2l2c
-         a9IXt/mfbR5HkwAzEORHNYj/z0kXPVAYYDufwAP4cL4C61y+gIAHwH/PXO/UTUq1YL
-         0SH0j61GFIRBnjbVDvzrPYmzQexp/GLub91IIoZcWbLe8IdIUEPvNW+KAN/m6Wuzle
-         rvnwW7P2e7h7Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190618180206.4908-21-mmaddireddy@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 18/06/2019 16:20, Jon Hunter wrote:
+On Tue, Jun 18, 2019 at 11:31:59PM +0530, Manikanta Maddireddy wrote:
+> Tegra PCIe generates PME and AER events over legacy interrupt line. Disable
+> MSI to avoid service drivers registering interrupt routine over MSI IRQ
+> line.
 > 
-> On 18/06/2019 11:18, Jon Hunter wrote:
->>
->> On 18/06/2019 10:46, Jose Abreu wrote:
->>> From: Jon Hunter <jonathanh@nvidia.com>
->>>
->>>> I am not certain but I don't believe so. We are using a static IP address
->>>> and mounting the root file-system via NFS when we see this ...
->>>
->>> Can you please add a call to napi_synchronize() before every 
->>> napi_disable() calls, like this:
->>>
->>> if (queue < rx_queues_cnt) {
->>> 	napi_synchronize(&ch->rx_napi);
->>> 	napi_disable(&ch->rx_napi);
->>> }
->>>
->>> if (queue < tx_queues_cnt) {
->>> 	napi_synchronize(&ch->tx_napi);
->>> 	napi_disable(&ch->tx_napi);
->>> }
->>>
->>> [ I can send you a patch if you prefer ]
->>
->> Yes I can try this and for completeness you mean ...
->>
->> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
->> index 4ca46289a742..d4a12cb64d8e 100644
->> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
->> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
->> @@ -146,10 +146,15 @@ static void stmmac_disable_all_queues(struct stmmac_priv *priv)
->>         for (queue = 0; queue < maxq; queue++) {
->>                 struct stmmac_channel *ch = &priv->channel[queue];
->>  
->> -               if (queue < rx_queues_cnt)
->> +               if (queue < rx_queues_cnt) {
->> +                       napi_synchronize(&ch->rx_napi);
->>                         napi_disable(&ch->rx_napi);
->> -               if (queue < tx_queues_cnt)
->> +               }
->> +
->> +               if (queue < tx_queues_cnt) {
->> +                       napi_synchronize(&ch->tx_napi);
->>                         napi_disable(&ch->tx_napi);
->> +               }
->>         }
->>  }
+> PME and AER interrupts registered to MSI without this change,
+> cat /proc/interrupts | grep -i pci
+> 36: 21 0 0 0 0 0 GICv2 104 Level       PCIE
+> 37: 35 0 0 0 0 0 GICv2 105 Level       Tegra PCIe MSI
+> 76: 0  0 0 0 0 0 Tegra PCIe MSI 0 Edge PCIe PME, aerdrv, PCIe BW notif
 > 
-> So good news and bad news ...
+> PME and AER interrupts registered to legacy IRQ with this change,
+> cat /proc/interrupts | grep -i pci
+> 36: 33 0 0 0 0 0 GICv2 104 Level      PCIE, PCIe PME, aerdrv, PCIe BW notif
+> 37: 52 0 0 0 0 0 GICv2 105 Level      Tegra PCIe MSI
 > 
-> The good news is that the above change does fix the initial crash
-> I am seeing. However, even with this change applied on top of
-> -next, it is still dying somewhere else and so there appears to
-> be a second issue. 
+> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
+> ---
+> V6: Replaced pcie_pme_disable_msi() with no_msi quirk
+> 
+> V5: No change
+> 
+> V4: No change
+> 
+> V3: Corrected typo in commit log
+> 
+> V2: No change
+> 
+>  drivers/pci/quirks.c | 39 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+> 
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index a59ad09ce911..20dcad421991 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -2576,6 +2576,45 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA,
+>  			PCI_DEVICE_ID_NVIDIA_NVENET_15,
+>  			nvenet_msi_disable);
+>  
+> +/*
+> + * Tegra PCIe generates PME and AER events over legacy interrupt line.
+> + * So disable msi for Tegra PCIe root ports.
 
-Further testing has shown that actually this does NOT resolve the issue
-and I am still seeing the crash. Sorry for the false-positive.
+s/msi/MSI/
 
-Jon
+What's going on here?  Vidya posted a very similar patch [1] (although
+his included nice spec citations, which you omitted), but his added
+quirks for 0x1ad0, 0x1ad1, and 0x1ad2.  You didn't include any of
+those here.
 
--- 
-nvpublic
+Maybe Lorenzo will sort this all out, but it would make things easier
+if you and Vidya got together and integrated your patches yourselves
+so Lorenzo didn't have to worry about it.
+
+[1] https://lore.kernel.org/lkml/20190612095339.20118-3-vidyas@nvidia.com
+
+> + */
+> +static void pci_quirk_nvidia_tegra_disable_rp_msi(struct pci_dev *dev)
+> +{
+> +	dev->no_msi = 1;
+> +}
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf0,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf1,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1c,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1d,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e12,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e13,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0fae,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0faf,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x10e5,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_NVIDIA, 0x10e6,
+> +			      PCI_CLASS_BRIDGE_PCI, 8,
+> +			      pci_quirk_nvidia_tegra_disable_rp_msi);
+> +
+>  /*
+>   * Some versions of the MCP55 bridge from Nvidia have a legacy IRQ routing
+>   * config register.  This register controls the routing of legacy
+> -- 
+> 2.17.1
+> 
