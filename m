@@ -2,306 +2,197 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84E6A4A877
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 19:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0D9B4A884
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Jun 2019 19:35:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729566AbfFRRcd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 13:32:33 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:33041 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729337AbfFRRcd (ORCPT
+        id S1730009AbfFRRfE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 13:35:04 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:10677 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729586AbfFRRfD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 13:32:33 -0400
-Received: by mail-ot1-f67.google.com with SMTP id p4so6270356oti.0
-        for <linux-tegra@vger.kernel.org>; Tue, 18 Jun 2019 10:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EKu5pmQOusob9IpFJMSHf1IH3Ni0klBpt0miLowK0K0=;
-        b=jjYe7p8SQ8u4LnggZnHee8ecQK7UTaDZV4BCcw098lVLiWO40f7Eteczo+oKOGnTMx
-         rKfulwovaxtSqbaglv18CNCNt8NahqLq6nn5QB1eViGSDSoCtqRpcRCRJJGy3Wfw9G5f
-         L7a3Vw/oHfSgsH1mc+QmxChEhpmIQtMqUxI3Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EKu5pmQOusob9IpFJMSHf1IH3Ni0klBpt0miLowK0K0=;
-        b=UWHMyhhh+HtMxwB5fBu8Xv3nhfTbm09FI9LFek/cVtGlZl6U1Qua0Q0wtS1pLVU6ed
-         a8E33TR7x6E72Th39T5RcfOFR3b/w08TkWIQjBDuQcLJ5uGPDwwSb5158+fmiEVFV/XT
-         fMb4034VrpYzDyiMjWoYHhgtTkVUMoFgXGcbHhO67/nYq7OA0vjg8iPQWRTtCT+nEXX9
-         ajL1z9fgYwJQi9+QmenuPSjkC/IwB6/wqh4bmc8SNSJMblIb4P0wSGM+CY59Vr0iZAzb
-         6Fn9SCoBfll4ckA6eS1A66OzPgsEnAC2lWTIn4RBP5KL38asp8cgxpOJtwh4+is5zbbI
-         H3Dg==
-X-Gm-Message-State: APjAAAUpxO0bPJVkxPoIfrfPXqX1HYfv+EqRL+I9/1R865VzKqxTtxx3
-        sDlla0Lfs0ZqacVVVSuUd6u0PpG/dnqYiW8Tatw84w==
-X-Google-Smtp-Source: APXvYqzF+F/kjYWtANF28v6zLvX3IsDKCejh4tKGV10zC+oBZ3KLhvHxbML/cuCRuvnqxOLGqngKj6+ctU4pDvVPFM4=
-X-Received: by 2002:a9d:6644:: with SMTP id q4mr52320266otm.308.1560879152643;
- Tue, 18 Jun 2019 10:32:32 -0700 (PDT)
+        Tue, 18 Jun 2019 13:35:03 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0920c60002>; Tue, 18 Jun 2019 10:35:02 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 18 Jun 2019 10:35:01 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 18 Jun 2019 10:35:01 -0700
+Received: from [10.2.168.217] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Jun
+ 2019 17:34:58 +0000
+Subject: Re: [PATCH V3 02/17] pinctrl: tegra: add suspend and resume support
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Stephen Warren <swarren@wwwdotorg.org>,
+        Dmitry Osipenko <digetx@gmail.com>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <tglx@linutronix.de>, <jason@lakedaemon.net>,
+        <marc.zyngier@arm.com>, <linus.walleij@linaro.org>,
+        <stefan@agner.ch>, <mark.rutland@arm.com>,
+        <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <jckuo@nvidia.com>,
+        <josephl@nvidia.com>, <talho@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
+        <devicetree@vger.kernel.org>
+References: <1560843991-24123-1-git-send-email-skomatineni@nvidia.com>
+ <1560843991-24123-3-git-send-email-skomatineni@nvidia.com>
+ <7706a287-44b7-3ad6-37ff-47e97172a798@gmail.com>
+ <a23ffbae-dd85-c023-7aae-3b81e0b17ebc@gmail.com>
+ <fd415362-7479-6f98-c8db-1b7758fd3f1d@wwwdotorg.org>
+ <e53bf16a-681e-da31-1e9c-4ed2a24ed3a6@nvidia.com>
+Message-ID: <cff9b6a2-dc33-d03b-9945-799b158deb07@nvidia.com>
+Date:   Tue, 18 Jun 2019 10:34:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-59-daniel.vetter@ffwll.ch> <20190618151938.GA2567@kroah.com>
- <20190618152530.GA4576@kroah.com>
-In-Reply-To: <20190618152530.GA4576@kroah.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue, 18 Jun 2019 19:32:20 +0200
-Message-ID: <CAKMK7uEd0sZ81RMjDsz6cnkW+krPuvoqUcEY4U3ofB9W_qeFvA@mail.gmail.com>
-Subject: Re: drm connectors, tegra, and the web they weave (was Re: [PATCH
- 58/59] drm/todo: Add new debugfs todo)
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <e53bf16a-681e-da31-1e9c-4ed2a24ed3a6@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1560879302; bh=EtLjwWpiDtqSfPhNA/8G8Clz5OAG+A5COmGeaCrkKVg=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=kwGAzBsQ1yoTWwKlo2/UOXv2gkDJ8firGCWiN14gqHzMxIIzL+NJZ9lpPELHx7++8
+         C93tekf3G0sFEXan2CyLBApX5uH4osQ5xuNl+ata+wnHZmNVrOtlPPhO6hhKsV/Juf
+         bZZ27nnu7W7H0ZnSISHtqcoPE+/xNqqhYTqKlosqswoYZXizfVaeos2MrmAZ08rpAS
+         yLrxRqjT/pGG5gMZ13xiR+i9Huo6g16m5gpObtCMD/6v8RkLqVDaMmayD+7Pe8lziR
+         FxzKA/nr4019w/Sj8inE7uex06rlPkDCg+nyeUgJDyr2rcvucvqnbVPNXZILdkVwtR
+         xtp0jurZ5tT0Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 5:25 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Tue, Jun 18, 2019 at 05:19:38PM +0200, Greg Kroah-Hartman wrote:
-> > On Fri, Jun 14, 2019 at 10:36:14PM +0200, Daniel Vetter wrote:
-> > > Greg is busy already, but maybe he won't do everything ...
-> > >
-> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > ---
-> > >  Documentation/gpu/todo.rst | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > > index 9717540ee28f..026e55c517e1 100644
-> > > --- a/Documentation/gpu/todo.rst
-> > > +++ b/Documentation/gpu/todo.rst
-> > > @@ -375,6 +375,9 @@ There's a bunch of issues with it:
-> > >    this (together with the drm_minor->drm_device move) would allow us to remove
-> > >    debugfs_init.
-> > >
-> > > +- Drop the return code and error checking from all debugfs functions. Greg KH is
-> > > +  working on this already.
-> >
-> >
-> > Part of this work was to try to delete drm_debugfs_remove_files().
-> >
-> > There are only 4 files that currently still call this function:
-> >       drivers/gpu/drm/tegra/dc.c
-> >       drivers/gpu/drm/tegra/dsi.c
-> >       drivers/gpu/drm/tegra/hdmi.c
-> >       drivers/gpu/drm/tegra/sor.c
-> >
-> > For dc.c, the driver wants to add debugfs files to the struct drm_crtc
-> > debugfs directory.  Which is fine, but it has to do some special memory
-> > allocation to get the debugfs callback to point not to the struct
-> > drm_minor pointer, but rather the drm_crtc structure.
 
-There's already a todo to switch the drm_minor debugfs stuff over to
-drm_device. drm_minor is essentially different uapi flavours (/dev/
-minor nodes, hence the name) sitting on top of the same drm_device.
-Last time I checked all the debugfs files want the drm_device, not the
-minor. I think we even discussed to only register the debugfs files
-for the first minor, and create the other ones as symlinks to the
-first one. But haven't yet gotten around to typing that.
-
-drm_crtc/connector are parts of drm_device with modesetting support,
-so the drm_minor is even worse choice really.
-
-Not exactly sure why we went with this, but probably dates back to the
-*bsd compat layer and a lot of these files hanging out in procfs too
-(we've fixed those mistakes a few years ago, yay!).
-
-> > So, to remove this call, I need to remove this special memory allocation
-> > and to do that, I need to somehow be able to cast from drm_minor back to
-> > the drm_crtc structure being used in this driver.  And I can't figure
-> > how they are related at all.
-> >
-> > Any pointers here (pun intended) would be appreciated.
-> >
-> > For the other 3 files, the situation is much the same, but I need to get
-> > from a 'struct drm_minor' pointer to a 'struct drm_connector' pointer.
-
-Ditch the drm_minor, there's no no way to get from that to something
-like drm_connector/crtc, since it's a n:m relationship.
-
-> > I could just "open code" a bunch of calls to debugfs_create_file() for
-> > these drivers, which would solve this issue, but in a more "non-drm"
-> > way.  Is it worth to just do that instead of overthinking the whole
-> > thing and trying to squish it into the drm "model" of drm debugfs calls?
+On 6/18/19 9:50 AM, Sowjanya Komatineni wrote:
 >
-> An example of "open coding" this is the patch below for the sor.c
-> driver.
-
-I think open-coding is the way to go here. One of the todos is to
-extend debugfs support for crtc/connectors, but looking at the
-open-coded version we really don't need a drm-flavoured midlayer here.
-
-> Totally untested, not even built, but you should get the idea here.
+> On 6/18/19 8:41 AM, Stephen Warren wrote:
+>> On 6/18/19 3:30 AM, Dmitry Osipenko wrote:
+>>> 18.06.2019 12:22, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> 18.06.2019 10:46, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>> This patch adds suspend and resume support for Tegra pinctrl driver
+>>>>> and registers them to syscore so the pinmux settings are restored
+>>>>> before the devices resume.
+>>>>>
+>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>> ---
+>>>>> =C2=A0 drivers/pinctrl/tegra/pinctrl-tegra.c=C2=A0=C2=A0=C2=A0 | 62=20
+>>>>> ++++++++++++++++++++++++++++++++
+>>>>> =C2=A0 drivers/pinctrl/tegra/pinctrl-tegra.h=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 5 +++
+>>>>> =C2=A0 drivers/pinctrl/tegra/pinctrl-tegra114.c |=C2=A0 1 +
+>>>>> =C2=A0 drivers/pinctrl/tegra/pinctrl-tegra124.c |=C2=A0 1 +
+>>>>> =C2=A0 drivers/pinctrl/tegra/pinctrl-tegra20.c=C2=A0 |=C2=A0 1 +
+>>>>> =C2=A0 drivers/pinctrl/tegra/pinctrl-tegra210.c | 13 +++++++
+>>>>> =C2=A0 drivers/pinctrl/tegra/pinctrl-tegra30.c=C2=A0 |=C2=A0 1 +
+>>>>> =C2=A0 7 files changed, 84 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c=20
+>>>>> b/drivers/pinctrl/tegra/pinctrl-tegra.c
+>>>>> index 34596b246578..ceced30d8bd1 100644
+>>>>> --- a/drivers/pinctrl/tegra/pinctrl-tegra.c
+>>>>> +++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
+>>>>> @@ -20,11 +20,16 @@
+>>>>> =C2=A0 #include <linux/pinctrl/pinmux.h>
+>>>>> =C2=A0 #include <linux/pinctrl/pinconf.h>
+>>>>> =C2=A0 #include <linux/slab.h>
+>>>>> +#include <linux/syscore_ops.h>
+>>>>> =C2=A0 =C2=A0 #include "../core.h"
+>>>>> =C2=A0 #include "../pinctrl-utils.h"
+>>>>> =C2=A0 #include "pinctrl-tegra.h"
+>>>>> =C2=A0 +#define EMMC2_PAD_CFGPADCTRL_0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x1c8
+>>>>> +#define EMMC4_PAD_CFGPADCTRL_0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x1e0
+>>>>> +#define EMMC_DPD_PARKING=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 (0x1fff << 14)
+>>>>> +
+>>>>> =C2=A0 static inline u32 pmx_readl(struct tegra_pmx *pmx, u32 bank, u=
+32=20
+>>>>> reg)
+>>>>> =C2=A0 {
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return readl(pmx->regs[bank] + reg);
+>>>>> @@ -619,6 +624,48 @@ static void=20
+>>>>> tegra_pinctrl_clear_parked_bits(struct tegra_pmx *pmx)
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 pmx_writel(pmx, val, g->mux_bank, g->mux_reg);
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>> +
+>>>>> +=C2=A0=C2=A0=C2=A0 if (pmx->soc->has_park_padcfg) {
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =3D pmx_readl(pmx, 0,=
+ EMMC2_PAD_CFGPADCTRL_0);
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val &=3D ~EMMC_DPD_PARKIN=
+G;
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pmx_writel(pmx, val, 0, E=
+MMC2_PAD_CFGPADCTRL_0);
+>>>>> +
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =3D pmx_readl(pmx, 0,=
+ EMMC4_PAD_CFGPADCTRL_0);
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val &=3D ~EMMC_DPD_PARKIN=
+G;
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pmx_writel(pmx, val, 0, E=
+MMC4_PAD_CFGPADCTRL_0);
+>>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>>> +}
+>>>>
+>>>> Is there any reason why parked_bit can't be changed to=20
+>>>> parked_bitmask like I was
+>>>> asking in a comment to v2?
+>>>>
+>>>> I suppose that it's more preferable to keep pinctrl-tegra.c=20
+>>>> platform-agnostic for
+>>>> consistency when possible, hence adding platform specifics here=20
+>>>> should be discouraged.
+>>>> And then the parked_bitmask will also result in a proper hardware=20
+>>>> description in the code.
+>>>>
+>>>
+>>> I'm now also vaguely recalling that Stephen Warren had some kind of=20
+>>> a "code generator"
+>>> for the pinctrl drivers. So I guess all those tables were=20
+>>> auto-generated initially.
+>>>
+>>> Stephen, maybe you could adjust the generator to take into account=20
+>>> the bitmask (of
+>>> course if that's a part of the generated code) and then re-gen it=20
+>>> all for Sowjanya?
+>>
+>> https://github.com/NVIDIA/tegra-pinmux-scripts holds the scripts that=20
+>> generate tegra-pinctrlNNN.c. See soc-to-kernel-pinctrl-driver.py.=20
+>> IIRC, tegra-pinctrl.c (the core file) isn't auto-generated. Sowjanya=20
+>> is welcome to send a patch to that repo if the code needs to be updated.
 >
-> thanks,
 >
-> greg k-h
+> Hi Dmitry,
 >
-> ---------------
+> Just want to be clear on my understanding of your request.
 >
-> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-> index 5be5a0817dfe..3216221c77c4 100644
-> --- a/drivers/gpu/drm/tegra/sor.c
-> +++ b/drivers/gpu/drm/tegra/sor.c
-> @@ -414,7 +414,8 @@ struct tegra_sor {
+> "change parked_bit to parked_bitmask" are you requested to change=20
+> parked_bit of PINGROUP and DRV_PINGROUP to use bitmask value rather=20
+> than bit position inorder to have parked bit configuration for EMMC=20
+> PADs as well to happen by masking rather than checking for existence=20
+> of parked_bit?
 >
->         struct drm_dp_aux *aux;
+> Trying to understand the reason/benefit for changing parked_bit to=20
+> parked_bitmask.
+Also, Park bits in CFGPAD registers are not common for all CFGPAD=20
+registers. Park bits are available only for EMMC and also those bits are=20
+used for something else on other CFGPAD registers so bitmask can't be=20
+common and this also need an update to DRV_PINGROUP macro args just only=20
+to handle EMMC parked_bitmask. So not sure of the benefit in using=20
+bitmask rather than parked_bit
 >
-> -       struct drm_info_list *debugfs_files;
-> +       struct dentry *debugfs_root;
-> +       struct drm_device *drm;
+> thanks
 >
->         const struct tegra_sor_ops *ops;
->         enum tegra_io_pad pad;
-> @@ -1262,10 +1263,9 @@ static int tegra_sor_crc_wait(struct tegra_sor *sor, unsigned long timeout)
+> Sowjanya
 >
->  static int tegra_sor_show_crc(struct seq_file *s, void *data)
->  {
-> -       struct drm_info_node *node = s->private;
-> -       struct tegra_sor *sor = node->info_ent->data;
-> +       struct tegra_sor *sor = s->private;
->         struct drm_crtc *crtc = sor->output.encoder.crtc;
-> -       struct drm_device *drm = node->minor->dev;
-> +       struct drm_device *drm = sor->drm;
->         int err = 0;
->         u32 value;
->
-> @@ -1302,6 +1302,20 @@ static int tegra_sor_show_crc(struct seq_file *s, void *data)
->         return err;
->  }
->
-> +static int crc_open(struct inode *inode, struct file *file)
-> +{
-> +       struct tegra_sor *sor = inode->i_private;
-> +       return single_open(file, tegra_sor_show_crc, sor);
-> +}
-> +
-> +static const struct file_operations crc_fops = {
-> +       .owner = THIS_MODULE,
-> +       .open = crc_open,
-> +       .read = seq_read,
-> +       .llseek = seq_lseek,
-> +       .release = single_release,
-> +};
-
-Hm, is there not a macro to create such simple files with read/write
-ops? At least for sysfs this is a bit less boilerplate iirc.
-
-> +
->  #define DEBUGFS_REG32(_name) { .name = #_name, .offset = _name }
->
->  static const struct debugfs_reg32 tegra_sor_regs[] = {
-> @@ -1424,10 +1438,9 @@ static const struct debugfs_reg32 tegra_sor_regs[] = {
->
->  static int tegra_sor_show_regs(struct seq_file *s, void *data)
->  {
-> -       struct drm_info_node *node = s->private;
-> -       struct tegra_sor *sor = node->info_ent->data;
-> +       struct tegra_sor *sor = s->private;
->         struct drm_crtc *crtc = sor->output.encoder.crtc;
-> -       struct drm_device *drm = node->minor->dev;
-> +       struct drm_device *drm = sor->drm;
-
-sor->output.connector.dev should give you this already. And I think
-getting at the drm_device is the only reason we needed the drm_minor
-here at all.
-
->         unsigned int i;
->         int err = 0;
->
-> @@ -1450,51 +1463,44 @@ static int tegra_sor_show_regs(struct seq_file *s, void *data)
->         return err;
->  }
->
-> -static const struct drm_info_list debugfs_files[] = {
-> -       { "crc", tegra_sor_show_crc, 0, NULL },
-> -       { "regs", tegra_sor_show_regs, 0, NULL },
-> +static int regs_open(struct inode *inode, struct file *file)
-> +{
-> +       struct tegra_sor *sor = inode->i_private;
-> +       return single_open(file, tegra_sor_show_regs, sor);
-> +}
-> +
-> +static const struct file_operations crc_fops = {
-> +       .owner = THIS_MODULE,
-> +       .open = crc_open,
-> +       .read = seq_read,
-> +       .llseek = seq_lseek,
-> +       .release = single_release,
->  };
->
->  static int tegra_sor_late_register(struct drm_connector *connector)
->  {
-> -       struct tegra_output *output = connector_to_output(connector);
-> -       unsigned int i, count = ARRAY_SIZE(debugfs_files);
->         struct drm_minor *minor = connector->dev->primary;
-> -       struct dentry *root = connector->debugfs_entry;
-> +       struct tegra_output *output = connector_to_output(connector);
->         struct tegra_sor *sor = to_sor(output);
-> -       int err;
-> +       struct dentry *root;
->
-> -       sor->debugfs_files = kmemdup(debugfs_files, sizeof(debugfs_files),
-> -                                    GFP_KERNEL);
-> -       if (!sor->debugfs_files)
-> -               return -ENOMEM;
-> +       sor->drm = minor->dev;
->
-> -       for (i = 0; i < count; i++)
-> -               sor->debugfs_files[i].data = sor;
-> +       root = debugfs_create_dir("sor", connector->debugfs_entry);
-
-Hm I think the old files got created right in the
-drm_connector->debugfs_entry directory?
-
-> +       sor->debugfs_root = root;
->
-> -       err = drm_debugfs_create_files(sor->debugfs_files, count, root, minor);
-> -       if (err < 0)
-> -               goto free;
-> +       debugfs_create_file("crc", S_IFREG | S_IRUGO, root, sor, &crc_fops);
-> +       debugfs_create_file("regs", S_IFREG | S_IRUGO, root, sor, &regs_fops);
->
->         return 0;
-> -
-> -free:
-> -       kfree(sor->debugfs_files);
-> -       sor->debugfs_files = NULL;
-> -
-> -       return err;
->  }
-
-I think if you can create a debugfs-simple-file macro, this here would
-win hands-down from a boilerplate pov. I like.
-
->  static void tegra_sor_early_unregister(struct drm_connector *connector)
->  {
->         struct tegra_output *output = connector_to_output(connector);
-> -       unsigned int count = ARRAY_SIZE(debugfs_files);
->         struct tegra_sor *sor = to_sor(output);
->
-> -       drm_debugfs_remove_files(sor->debugfs_files, count,
-> -                                connector->dev->primary);
-> -       kfree(sor->debugfs_files);
-> -       sor->debugfs_files = NULL;
-> +       debugfs_remove_recursive(sor->debugfs_root);
-
-Not needed, we tear down everything as part of drm_dev_unregister
-anyway. So you can ditch this.
-
->  }
->
->  static void tegra_sor_connector_reset(struct drm_connector *connector)
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
