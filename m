@@ -2,187 +2,225 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EEAF4B6C1
-	for <lists+linux-tegra@lfdr.de>; Wed, 19 Jun 2019 13:10:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66ABA4B768
+	for <lists+linux-tegra@lfdr.de>; Wed, 19 Jun 2019 13:51:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727144AbfFSLKK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 19 Jun 2019 07:10:10 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:42387 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727067AbfFSLKK (ORCPT
+        id S1727244AbfFSLvo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 19 Jun 2019 07:51:44 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:2994 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727067AbfFSLvn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 19 Jun 2019 07:10:10 -0400
-Received: by mail-lf1-f67.google.com with SMTP id y13so11776272lfh.9;
-        Wed, 19 Jun 2019 04:10:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=agVmxRNzCuCx+wKLmyH141AlxoV2jzZrMRtDmJLMRdo=;
-        b=vhJ+TrmCMqjiAGAqb/+xR/4OF+fxEXIy9HJyCHGXIabdhdxz0rv2kWtwfU1DaIMXMd
-         xj51bgU6RsdkacKIi5dExfStZq2IAwXBbjKYTEzbhM8bMnS/SJUsyOfdMoVJlrSduO7c
-         mOZeM/bu8FRGzv+vWX6S4ZHN/y1cLKZ2+KdG1LTFXXrgK7CK2e/ZpiEtKB5UyeqorHxN
-         7QReUEWCJoKhRbfeBnk4pBK/dz7c1HCVUyePPLA/VjGHf1d+TVgwvbKskIUPnTN5KypV
-         lKRa+NDdkbDlo+xNSUc+2kkQR9KSkZpF69fCfJ43/dlHxvqN5VjlFikyorEoVqdGvDCG
-         1U7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=agVmxRNzCuCx+wKLmyH141AlxoV2jzZrMRtDmJLMRdo=;
-        b=XJvUs5xtRywJOaCGhVlvR6mAbopKZOmEDlNd2elP7UKIolDQSADr2pDboW0DitvFoE
-         yxuk7Hc5ITci7PepzbCBfpsonEBuovriuK+soMPo3gLdBlC9oZ9RiVtG7MvC8HHvQirP
-         lnyruxckGP67fOx3oG40vNebmVvEpp+UskfjbKsRypI1p5y5T6K58DNclG9CBuJ54vwT
-         dvrdX5GVX/HBDOd6XNk/mIv8cDlosSxQ6GNx6XOjPRT3YxCOG8uJ1Ko4CwSE7C9RHNaJ
-         y1CrOOwMg0mUaMbIvodrjdayTZXk6iOpIh5f9tl4CI7PuEweUd9xaurKkQu8YHlHU8A7
-         ndgA==
-X-Gm-Message-State: APjAAAU7XesdxWhgspbXD1T4/xGr6+a3Tz/IiHZpg5mneBUu9gTMCIMU
-        SgaJveJFymYE+NfCyMCcHAIjusT/
-X-Google-Smtp-Source: APXvYqyoZrUHug/s8P72I46vuiR40PXLFVO9StkFPFjwlMt9GF2bXKQK359OiFAP6F7foXvQgumMWg==
-X-Received: by 2002:a19:5e4e:: with SMTP id z14mr43970008lfi.11.1560942606802;
-        Wed, 19 Jun 2019 04:10:06 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id g5sm3050493ljj.69.2019.06.19.04.10.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Jun 2019 04:10:06 -0700 (PDT)
-Subject: Re: [PATCH v1] dmaengine: tegra-apb: Support per-burst residue
- granularity
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Ben Dooks <ben.dooks@codethink.co.uk>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190613210849.10382-1-digetx@gmail.com>
- <f2290604-12f4-019b-47e7-4e4e29a433d4@codethink.co.uk>
- <7354d471-95e1-ffcd-db65-578e9aa425ac@gmail.com>
- <1db9bac2-957d-3c0a-948a-429bc59f1b72@nvidia.com>
- <c8bccb6e-27f8-d6c8-cfdb-10ab5ae98b26@gmail.com>
- <49d087fe-a634-4a53-1caa-58a0e52ef1ba@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <73d5cdb7-0462-944a-1f9a-3dc02f179385@gmail.com>
-Date:   Wed, 19 Jun 2019 14:10:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        Wed, 19 Jun 2019 07:51:43 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0a21cc0000>; Wed, 19 Jun 2019 04:51:40 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 19 Jun 2019 04:51:41 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 19 Jun 2019 04:51:41 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 19 Jun
+ 2019 11:51:40 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 19 Jun 2019 11:51:41 +0000
+Received: from linux.nvidia.com (Not Verified[10.24.34.185]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d0a21ca0000>; Wed, 19 Jun 2019 04:51:40 -0700
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>
+CC:     <mkumard@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH v6 1/2] arm64: tegra: add ACONNECT, ADMA and AGIC nodes
+Date:   Wed, 19 Jun 2019 17:21:21 +0530
+Message-ID: <1560945082-24554-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <49d087fe-a634-4a53-1caa-58a0e52ef1ba@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1560945101; bh=NCFJKw39pNrBM4JKSza0teZuVvu9uD2pLwcU88PBbr4=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:Content-Type;
+        b=ijYFqy0dteaLz0ykFTjm2cT30R5B+YrzCPTH5hA9Rf+OHRvC+CTiBDWjhI0sBDJsI
+         gYqsaQ+yjA4wjdUi/cIHxeaaB4zM3DAJZVKmxeKHlanX7pusLR8FQuUBRg/HNndfTq
+         Z3311oqWPl6cJEZ6m18HtVTM9FUHJnrPe/j1AmDiV3XKQ0btj53QqEo7rj8+Fb+MY/
+         q+5lAAiYJSkCrnlPgcWJf8aF1pm+mUl5PaOgG3Bx1O8d21lJDf36P3fs6HDQVyPVSA
+         5/y88U/pIeZxPQHYAthueSQibvIJR94D9GzIGC6X8Yk08qkst+e4kiG5zvyoldkXKN
+         D6cqCMyB6v5gQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-19.06.2019 13:55, Jon Hunter пишет:
-> 
-> On 19/06/2019 11:27, Dmitry Osipenko wrote:
->> 19.06.2019 13:04, Jon Hunter пишет:
->>>
->>> On 19/06/2019 00:27, Dmitry Osipenko wrote:
->>>> 19.06.2019 1:22, Ben Dooks пишет:
->>>>> On 13/06/2019 22:08, Dmitry Osipenko wrote:
->>>>>> Tegra's APB DMA engine updates words counter after each transferred burst
->>>>>> of data, hence it can report transfer's residual with more fidelity which
->>>>>> may be required in cases like audio playback. In particular this fixes
->>>>>> audio stuttering during playback in a chromiuim web browser. The patch is
->>>>>> based on the original work that was made by Ben Dooks [1]. It was tested
->>>>>> on Tegra20 and Tegra30 devices.
->>>>>>
->>>>>> [1] https://lore.kernel.org/lkml/20190424162348.23692-1-ben.dooks@codethink.co.uk/
->>>>>>
->>>>>> Inspired-by: Ben Dooks <ben.dooks@codethink.co.uk>
->>>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>>>> ---
->>>>>>   drivers/dma/tegra20-apb-dma.c | 35 ++++++++++++++++++++++++++++-------
->>>>>>   1 file changed, 28 insertions(+), 7 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
->>>>>> index 79e9593815f1..c5af8f703548 100644
->>>>>> --- a/drivers/dma/tegra20-apb-dma.c
->>>>>> +++ b/drivers/dma/tegra20-apb-dma.c
->>>>>> @@ -797,12 +797,36 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
->>>>>>       return 0;
->>>>>>   }
->>>>>>   +static unsigned int tegra_dma_update_residual(struct tegra_dma_channel *tdc,
->>>>>> +                          struct tegra_dma_sg_req *sg_req,
->>>>>> +                          struct tegra_dma_desc *dma_desc,
->>>>>> +                          unsigned int residual)
->>>>>> +{
->>>>>> +    unsigned long status, wcount = 0;
->>>>>> +
->>>>>> +    if (!list_is_first(&sg_req->node, &tdc->pending_sg_req))
->>>>>> +        return residual;
->>>>>> +
->>>>>> +    if (tdc->tdma->chip_data->support_separate_wcount_reg)
->>>>>> +        wcount = tdc_read(tdc, TEGRA_APBDMA_CHAN_WORD_TRANSFER);
->>>>>> +
->>>>>> +    status = tdc_read(tdc, TEGRA_APBDMA_CHAN_STATUS);
->>>>>> +
->>>>>> +    if (!tdc->tdma->chip_data->support_separate_wcount_reg)
->>>>>> +        wcount = status;
->>>>>> +
->>>>>> +    if (status & TEGRA_APBDMA_STATUS_ISE_EOC)
->>>>>> +        return residual - sg_req->req_len;
->>>>>> +
->>>>>> +    return residual - get_current_xferred_count(tdc, sg_req, wcount);
->>>>>> +}
->>>>>
->>>>> I am unfortunately nowhere near my notes, so can't completely
->>>>> review this. I think the complexity of my patch series is due
->>>>> to an issue with the count being updated before the EOC IRQ
->>>>> is actually flagged (and most definetly before it gets to the
->>>>> CPU IRQ handler).
->>>>>
->>>>> The test system I was using, which i've not really got any
->>>>> access to at the moment would show these internal inconsistent
->>>>> states every few hours, however it was moving 48kHz 8ch 16bit
->>>>> TDM data.
->>>>>
->>>>> Thanks for looking into this, I am not sure if I am going to
->>>>> get any time to look into this within the next couple of
->>>>> months.
->>>>
->>>> I'll try to add some debug checks to try to catch the case where count is updated before EOC
->>>> is set. Thank you very much for the clarification of the problem. So far I haven't spotted
->>>> anything going wrong.
->>>>
->>>> Jon / Laxman, are you aware about the possibility to get such inconsistency of words count
->>>> vs EOC? Assuming the cyclic transfer mode.
->>>
->>> I can't say that I am. However, for the case of cyclic transfer, given
->>> that the next transfer is always programmed into the registers before
->>> the last one completes, I could see that by the time the interrupt is
->>> serviced that the DMA has moved on to the next transfer (which I assume
->>> would reset the count).
->>>
->>> Interestingly, our downstream kernel implemented a change to avoid the
->>> count appearing to move backwards. I am curious if this also works,
->>> which would be a lot simpler that what Ben has implemented and may
->>> mitigate that race condition that Ben is describing.
->>>
->>> Cheers
->>> Jon
->>>
->>> [0]
->>> https://nv-tegra.nvidia.com/gitweb/?p=linux-4.4.git;a=commit;h=c7bba40c6846fbf3eaad35c4472dcc7d8bbc02e5
->>>
->>
->> The downstream patch doesn't check for EOC and has no comments about it, so it's hard to
->> tell if it's intentional. Secondly, looks like the downstream patch is mucked up because it
->> doesn't check whether the dma_desc is *the active* transfer and not a pending!
-> 
-> I agree that it should check to see if it is active. I assume that what
-> this patch is doing is not updating the dma position if it appears to
-> have gone backwards, implying we have moved on to the next buffer. Yes
-> this is still probably not as accurate as Ben's implementation because
-> most likely we have finished that transfer and this patch would report
-> that it is not quite finished.
-> 
-> If Ben's patch works for you then why not go with this?
+Add DT nodes for following devices on Tegra186 and Tegra194
+ * ACONNECT
+ * ADMA
+ * AGIC
 
-Because I'm doubtful that it is really the case and not something else. It will be very odd
-if hardware updates words count and sets EOC asynchronously, I'd call it as a faulty design
-and thus a bug that need to worked around in software if that's really happening.
+Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+---
+ changes in current revision
+   * updated ranges property for aconnect
+   * renamed agic node
+
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 67 ++++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 67 ++++++++++++++++++++++++++++++++
+ 2 files changed, 134 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+index 426ac0b..4bb765d 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+@@ -1295,4 +1295,71 @@
+ 				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
+ 		interrupt-parent = <&gic>;
+ 	};
++
++	aconnect {
++		compatible = "nvidia,tegra210-aconnect";
++		clocks = <&bpmp TEGRA186_CLK_APE>,
++			 <&bpmp TEGRA186_CLK_APB2APE>;
++		clock-names = "ape", "apb2ape";
++		power-domains = <&bpmp TEGRA186_POWER_DOMAIN_AUD>;
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges = <0x02900000 0x0 0x02900000 0x200000>;
++		status = "disabled";
++
++		dma-controller@2930000 {
++			compatible = "nvidia,tegra186-adma";
++			reg = <0x02930000 0x20000>;
++			interrupt-parent = <&agic>;
++			interrupts =  <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++			#dma-cells = <1>;
++			clocks = <&bpmp TEGRA186_CLK_AHUB>;
++			clock-names = "d_audio";
++			status = "disabled";
++		};
++
++		agic: interrupt-controller@2a40000 {
++			compatible = "nvidia,tegra210-agic";
++			#interrupt-cells = <3>;
++			interrupt-controller;
++			reg = <0x02a41000 0x1000>,
++			      <0x02a42000 0x2000>;
++			interrupts = <GIC_SPI 145
++				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
++			clocks = <&bpmp TEGRA186_CLK_APE>;
++			clock-names = "clk";
++			status = "disabled";
++		};
++	};
+ };
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index c77ca21..d6aee0d 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -1054,4 +1054,71 @@
+ 				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
+ 		interrupt-parent = <&gic>;
+ 	};
++
++	aconnect {
++		compatible = "nvidia,tegra210-aconnect";
++		clocks = <&bpmp TEGRA194_CLK_APE>,
++			 <&bpmp TEGRA194_CLK_APB2APE>;
++		clock-names = "ape", "apb2ape";
++		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_AUD>;
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges = <0x02900000 0x0 0x02900000 0x200000>;
++		status = "disabled";
++
++		dma-controller@2930000 {
++			compatible = "nvidia,tegra186-adma";
++			reg = <0x02930000 0x20000>;
++			interrupt-parent = <&agic>;
++			interrupts =  <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>,
++				      <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++			#dma-cells = <1>;
++			clocks = <&bpmp TEGRA194_CLK_AHUB>;
++			clock-names = "d_audio";
++			status = "disabled";
++		};
++
++		agic: interrupt-controller@2a40000 {
++			compatible = "nvidia,tegra210-agic";
++			#interrupt-cells = <3>;
++			interrupt-controller;
++			reg = <0x02a41000 0x1000>,
++			      <0x02a42000 0x2000>;
++			interrupts = <GIC_SPI 145
++				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
++			clocks = <&bpmp TEGRA194_CLK_APE>;
++			clock-names = "clk";
++			status = "disabled";
++		};
++	};
+ };
+-- 
+2.7.4
+
