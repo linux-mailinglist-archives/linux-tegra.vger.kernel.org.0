@@ -2,115 +2,281 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9568F4AF1F
-	for <lists+linux-tegra@lfdr.de>; Wed, 19 Jun 2019 02:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F73C4AF61
+	for <lists+linux-tegra@lfdr.de>; Wed, 19 Jun 2019 03:14:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729377AbfFSAlK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Jun 2019 20:41:10 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53704 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbfFSAlK (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Jun 2019 20:41:10 -0400
-Received: by mail-wm1-f68.google.com with SMTP id x15so5147617wmj.3;
-        Tue, 18 Jun 2019 17:41:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4SHCjBMan004B+ijIlPx4Pn3xROU+n7uFgrQp2KsfSs=;
-        b=eL+CRB0yQi9G/o531hvb2YOujfgf1xcnevSWIFFukShk/sDef498WkAoHShxPC0m5T
-         rqVJ2SJmmL98sI2FQeVeYLw/N85A/Zud1WJ1MTjr0HoolcTeFcV6EHzwFE7mWNmpBldY
-         bIyiM9by8ogLGzdelWaDbzAAsKwCfAeIPeTSpagrI+6N9btBBid0mHUDvxGzdEmTifF7
-         GjmxXLlLfVfv78OSH1Wa5CXrNhb0WwRLUNpvqGyf2ft/h9xYqcMFtG+I4jUJc0Y0fJsn
-         qtPk/rLLEkEwbhZ8FwyzVDSpfmPI/OIXbw4u857NjtcZNrir+ke/9Oz1ZB9cIB20vfY1
-         8kFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4SHCjBMan004B+ijIlPx4Pn3xROU+n7uFgrQp2KsfSs=;
-        b=K2dUuDi79vUqAu0W06t7NuZkQ7Zde/yhEtl1mnGG8Z2swlxEULgQXEudDw0DhoFDix
-         zVs1+BBb68bFGyTNLa2ipAdifDPl1XWvBjpC9F92ndrTk82mLaQ4HN36cvwxWeiVUJ2J
-         JHRvlmpKsWsqilecA6mUpwGKV3GlZcNfNsTOJcpXZC+XgJEOxn+ewwcm2TYUuWR9y70w
-         dyKZo/SmXlx77b/+7+NeZlHwZ/sdqYNS8k5mSdvi2axnWGl//HOXSS4pQcGm43TN7wEd
-         ny5ic0nOWdF9iKqz/UZ5aFLoOhiQJTVTRwNKenf9mYtgk4OopVCInRU3y8D+mpOKv4AL
-         f91A==
-X-Gm-Message-State: APjAAAV83LmFJjGzt0HItD/wkrLxkZkNKCensHkLZ2imexhcC5azFSIC
-        CL8De1DTLGw6R8YYDr+9JChzAg7a
-X-Google-Smtp-Source: APXvYqyM5EDqjy/4xxrG+0PX2bsz4GstmJ3Q06xdocP3+YhT8u2Fk4bpcgwr500Dp8PQQLTiXPHvrA==
-X-Received: by 2002:a1c:a686:: with SMTP id p128mr157437wme.163.1560904867553;
-        Tue, 18 Jun 2019 17:41:07 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id n10sm15767722wrw.83.2019.06.18.17.41.06
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Jun 2019 17:41:06 -0700 (PDT)
-Subject: Re: [PATCH v3 3/8] clocksource/drivers/tegra: Set and use timer's
- period
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190618140358.13148-1-digetx@gmail.com>
- <20190618140358.13148-4-digetx@gmail.com>
- <16c20c1b-d106-cb1e-6d67-bdd402ecf57f@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <17556fe2-8481-258a-9be9-2598da0a67eb@gmail.com>
-Date:   Wed, 19 Jun 2019 03:41:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        id S1726330AbfFSBOD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Jun 2019 21:14:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44844 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725988AbfFSBOD (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 18 Jun 2019 21:14:03 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9DE5C2085A;
+        Wed, 19 Jun 2019 01:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560906841;
+        bh=0oA8iKNjDBImKIknIntrfPTeFR79Ue0XzhHS3S9ota4=;
+        h=In-Reply-To:References:To:From:Subject:Cc:Date:From;
+        b=1Gx1aGWdyS3+f2N0SgZpIHzViDPpllNrQ50woby6BCTcdDxKIEquTp148BQQBipkb
+         rvAWhGCU4jygNT3qLiEEt+SCmEZ8jf67Mq/BE6+DLzYPoiHSo6xQtogoVKmVEthmQe
+         sm3xEJAS47DhL/gF7er+6btnkYdR+yIhWFCFVkjE=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <16c20c1b-d106-cb1e-6d67-bdd402ecf57f@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190616233551.6838-2-digetx@gmail.com>
+References: <20190616233551.6838-1-digetx@gmail.com> <20190616233551.6838-2-digetx@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Joseph Lo <josephl@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v4 01/10] clk: tegra20/30: Add custom EMC clock implementation
+Cc:     devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+User-Agent: alot/0.8.1
+Date:   Tue, 18 Jun 2019 18:14:00 -0700
+Message-Id: <20190619011401.9DE5C2085A@mail.kernel.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-18.06.2019 19:32, Jon Hunter пишет:
-> 
-> On 18/06/2019 15:03, Dmitry Osipenko wrote:
->> The of_clk structure has a period field that is set up initially by
->> timer_of_clk_init(), that period value need to be adjusted for a case of
->> TIMER1-9 that are running at a fixed rate that doesn't match the clock's
->> rate. Note that the period value is currently used only by some of the
->> clocksource drivers internally and hence this is just a minor cleanup
->> change that doesn't fix anything.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/clocksource/timer-tegra.c | 5 +++--
->>  1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
->> index ff5a4ccb5d52..e6221e070499 100644
->> --- a/drivers/clocksource/timer-tegra.c
->> +++ b/drivers/clocksource/timer-tegra.c
->> @@ -71,9 +71,9 @@ static int tegra_timer_shutdown(struct clock_event_device *evt)
->>  static int tegra_timer_set_periodic(struct clock_event_device *evt)
->>  {
->>  	void __iomem *reg_base = timer_of_base(to_timer_of(evt)); 
->> +	unsigned long period = timer_of_period(to_timer_of(evt));
->>  
->> -	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER |
->> -		       ((timer_of_rate(to_timer_of(evt)) / HZ) - 1),
->> +	writel_relaxed(TIMER_PTV_EN | TIMER_PTV_PER | (period - 1),
->>  		       reg_base + TIMER_PTV);
->>  
->>  	return 0;
->> @@ -297,6 +297,7 @@ static int __init tegra_init_timer(struct device_node *np, bool tegra20,
->>  		cpu_to->clkevt.rating = rating;
->>  		cpu_to->clkevt.cpumask = cpumask_of(cpu);
->>  		cpu_to->of_base.base = timer_reg_base + base;
->> +		cpu_to->of_clk.period = rate / HZ;
->>  		cpu_to->of_clk.rate = rate;
->>  
->>  		irq_set_status_flags(cpu_to->clkevt.irq, IRQ_NOAUTOEN);
-> 
-> Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Quoting Dmitry Osipenko (2019-06-16 16:35:42)
+> A proper External Memory Controller clock rounding and parent selection
+> functionality is required by the EMC drivers. It is not available using
+> the generic clock implementation, hence add a custom one.=20
 
-Thanks!
+Why isn't it available? Please add this information to the commit text.
+
+> The clock rate
+> rounding shall be done by the EMC drivers because they have information
+> about available memory timings, so the drivers will have to register a
+> callback that will round the requested rate. EMC clock users won't be able
+> to request EMC clock by getting -EPROBE_DEFER until EMC driver is probed
+> and the callback is set up. The functionality is somewhat similar to the
+> clk-emc.c which serves Tegra124+ SoC's, the later HW generations support
+> more parent clock sources and the HW configuration and integration with
+> the EMC drivers differs a tad from the older gens, hence it's not really
+> worth to try to squash everything into a single source file.
+>=20
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+[...]
+> diff --git a/drivers/clk/tegra/clk-tegra20-emc.c b/drivers/clk/tegra/clk-=
+tegra20-emc.c
+> new file mode 100644
+> index 000000000000..b7f64ad5c04c
+> --- /dev/null
+> +++ b/drivers/clk/tegra/clk-tegra20-emc.c
+> @@ -0,0 +1,305 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/bits.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/clk/tegra.h>
+> +#include <linux/err.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/slab.h>
+> +
+> +#include "clk.h"
+> +
+> +#define CLK_SOURCE_EMC_2X_CLK_DIVISOR_MASK     GENMASK(7, 0)
+> +#define CLK_SOURCE_EMC_2X_CLK_SRC_MASK         GENMASK(31, 30)
+> +#define CLK_SOURCE_EMC_2X_CLK_SRC_SHIFT                30
+> +
+> +#define MC_EMC_SAME_FREQ       BIT(16)
+> +#define USE_PLLM_UD            BIT(29)
+> +
+> +#define EMC_SRC_PLL_M          0
+> +#define EMC_SRC_PLL_C          1
+> +#define EMC_SRC_PLL_P          2
+> +#define EMC_SRC_CLK_M          3
+> +
+[...]
+> +void tegra20_clk_set_emc_round_callback(tegra20_clk_emc_round_cb *round_=
+cb,
+> +                                       void *cb_arg)
+> +{
+> +       struct clk *clk =3D __clk_lookup("emc");
+> +       struct tegra_clk_emc *emc;
+> +       struct clk_hw *hw;
+> +
+> +       if (clk) {
+> +               hw =3D __clk_get_hw(clk);
+> +               emc =3D to_tegra_clk_emc(hw);
+> +
+> +               emc->round_cb =3D round_cb;
+> +               emc->cb_arg =3D cb_arg;
+> +       }
+> +}
+> +
+> +bool tegra20_clk_emc_driver_available(struct clk_hw *emc_hw)
+> +{
+> +       return to_tegra_clk_emc(emc_hw)->round_cb !=3D NULL;
+> +}
+> +
+> +struct clk *tegra20_clk_register_emc(void __iomem *ioaddr)
+
+Is this used outside this file?
+
+> +{
+> +       struct tegra_clk_emc *emc;
+> +       struct clk_init_data init;
+> +       struct clk *clk;
+> +
+> +       emc =3D kzalloc(sizeof(*emc), GFP_KERNEL);
+> +       if (!emc)
+> +               return NULL;
+> +
+> +       init.name =3D "emc";
+> +       init.ops =3D &tegra_clk_emc_ops;
+> +       init.flags =3D CLK_IS_CRITICAL;
+
+Can you please add a comment in the code why this clk is critical?
+
+> +       init.parent_names =3D emc_parent_clk_names;
+> +       init.num_parents =3D ARRAY_SIZE(emc_parent_clk_names);
+> +
+> +       emc->reg =3D ioaddr;
+> +       emc->hw.init =3D &init;
+> +
+> +       clk =3D clk_register(NULL, &emc->hw);
+> +       if (IS_ERR(clk)) {
+> +               kfree(emc);
+> +               return NULL;
+> +       }
+> +
+> +       return clk;
+> +}
+> +
+> +void tegra30_clk_set_emc_round_callback(tegra30_clk_emc_round_cb *round_=
+cb,
+> +                                       void *cb_arg)
+> +{
+> +       tegra20_clk_set_emc_round_callback(round_cb, cb_arg);
+> +}
+> +
+> +bool tegra30_clk_emc_driver_available(struct clk_hw *emc_hw)
+> +{
+> +       return tegra20_clk_emc_driver_available(emc_hw);
+> +}
+> +
+> +struct clk *tegra30_clk_register_emc(void __iomem *ioaddr)
+> +{
+> +       struct tegra_clk_emc *emc;
+> +       struct clk_hw *hw;
+> +       struct clk *clk;
+> +
+> +       clk =3D tegra20_clk_register_emc(ioaddr);
+> +       if (!clk)
+> +               return NULL;
+> +
+> +       hw =3D __clk_get_hw(clk);
+
+It would be nicer to not use __clk_get_hw() and have the above function
+return the clk_hw pointer instead. Then some driver can return the clk
+pointer from there, if it's even needed for anything?
+
+> +       emc =3D to_tegra_clk_emc(hw);
+> +       emc->want_low_jitter =3D true;
+> +
+> +       return clk;
+> +}
+> +
+> +int tegra30_clk_prepare_emc_mc_same_freq(struct clk *emc_clk, bool same)
+> +{
+> +       struct tegra_clk_emc *emc;
+> +       struct clk_hw *hw;
+> +
+> +       if (emc_clk) {
+> +               hw =3D __clk_get_hw(emc_clk);
+> +               emc =3D to_tegra_clk_emc(hw);
+> +               emc->mc_same_freq =3D same;
+> +
+> +               return 0;
+> +       }
+> +
+> +       return -EINVAL;
+> +}
+> diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegr=
+a20.c
+> index bcd871134f45..f937a0f35afb 100644
+> --- a/drivers/clk/tegra/clk-tegra20.c
+> +++ b/drivers/clk/tegra/clk-tegra20.c
+> @@ -1115,6 +1083,8 @@ static struct clk *tegra20_clk_src_onecell_get(stru=
+ct of_phandle_args *clkspec,
+>         if (IS_ERR(clk))
+>                 return clk;
+> =20
+> +       hw =3D __clk_get_hw(clk);
+> +
+>         /*
+>          * Tegra20 CDEV1 and CDEV2 clocks are a bit special case, their p=
+arent
+>          * clock is created by the pinctrl driver. It is possible for clk=
+ user
+> @@ -1124,13 +1094,16 @@ static struct clk *tegra20_clk_src_onecell_get(st=
+ruct of_phandle_args *clkspec,
+>          */
+>         if (clkspec->args[0] =3D=3D TEGRA20_CLK_CDEV1 ||
+>             clkspec->args[0] =3D=3D TEGRA20_CLK_CDEV2) {
+> -               hw =3D __clk_get_hw(clk);
+> -
+>                 parent_hw =3D clk_hw_get_parent(hw);
+>                 if (!parent_hw)
+>                         return ERR_PTR(-EPROBE_DEFER);
+>         }
+> =20
+> +       if (clkspec->args[0] =3D=3D TEGRA20_CLK_EMC) {
+> +               if (!tegra20_clk_emc_driver_available(hw))
+> +                       return ERR_PTR(-EPROBE_DEFER);
+> +       }
+> +
+>         return clk;
+>  }
+> =20
+> diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegr=
+a30.c
+> index 7b4c6a488527..fab075808c20 100644
+> --- a/drivers/clk/tegra/clk-tegra30.c
+> +++ b/drivers/clk/tegra/clk-tegra30.c
+> @@ -1302,6 +1298,26 @@ static struct tegra_audio_clk_info tegra30_audio_p=
+lls[] =3D {
+>         { "pll_a", &pll_a_params, tegra_clk_pll_a, "pll_p_out1" },
+>  };
+> =20
+> +static struct clk *tegra30_clk_src_onecell_get(struct of_phandle_args *c=
+lkspec,
+> +                                              void *data)
+> +{
+> +       struct clk_hw *hw;
+> +       struct clk *clk;
+> +
+> +       clk =3D of_clk_src_onecell_get(clkspec, data);
+> +       if (IS_ERR(clk))
+> +               return clk;
+> +
+> +       hw =3D __clk_get_hw(clk);
+> +
+> +       if (clkspec->args[0] =3D=3D TEGRA30_CLK_EMC) {
+> +               if (!tegra30_clk_emc_driver_available(hw))
+> +                       return ERR_PTR(-EPROBE_DEFER);
+> +       }
+> +
+> +       return clk;
+> +}
+
+This above function makes me uneasy because it looks like a clk_get() on
+top of a clk_get()?=20
+
+> +
+>  static void __init tegra30_clock_init(struct device_node *np)
+>  {
+>         struct device_node *node;
