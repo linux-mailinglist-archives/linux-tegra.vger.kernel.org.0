@@ -2,51 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE2164B36D
-	for <lists+linux-tegra@lfdr.de>; Wed, 19 Jun 2019 09:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90F884B377
+	for <lists+linux-tegra@lfdr.de>; Wed, 19 Jun 2019 09:58:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731062AbfFSH40 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 19 Jun 2019 03:56:26 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45959 "EHLO
+        id S1731065AbfFSH6C (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 19 Jun 2019 03:58:02 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43789 "EHLO
         mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726142AbfFSH4Z (ORCPT
+        with ESMTP id S1730418AbfFSH6C (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 19 Jun 2019 03:56:25 -0400
-Received: by mail-lj1-f196.google.com with SMTP id m23so2228585lje.12
-        for <linux-tegra@vger.kernel.org>; Wed, 19 Jun 2019 00:56:24 -0700 (PDT)
+        Wed, 19 Jun 2019 03:58:02 -0400
+Received: by mail-lj1-f196.google.com with SMTP id 16so2245394ljv.10
+        for <linux-tegra@vger.kernel.org>; Wed, 19 Jun 2019 00:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=ay8I7XJ9iCOvh0M9Fd42oOlQR4wemxkRFmtvtAGMWPE=;
-        b=jF1jLJIMjj62N1sJ/CeWes0b/z3GjaG3HiDI20T0YQdCmP6e6VUjjIPaoanpdpYeD1
-         oyOKbIViVeufbYehdZ2oxsUTHxmoD6kPcKZdlyW3q04HpdT+ICakz5JZxME10w5v1MzS
-         gN5AZJzt61T+WDruBbbUOnKO4p2HujxsPXsNvXZ1yp9K4IcCLdeZbMAPjAPw6aGLZJK6
-         Sr2MG72KAG9m/k6x3Bo4KAQtefacuvQbWqWzAdbdFD/+rELTYjZh39PyHkcUwnAe8lYx
-         pTCczbloa5W3cr9OIol0bg88q0wLkTYk5Lgb8qYs5jXnZcich6NWQs7/VmcJY8Ztna4z
-         rOtw==
+        bh=UYXQ8ORQAtuliQYo9/TvRwHxArXDs2AP/hpE8FcllZk=;
+        b=NCv3ZoWAGJtU7GIADPpPY3/1luv0podsGDANGlNUgxCq6hj3bdfpRh1yHBmWoNpPHG
+         kAE8ed9fToOV/cTtHWp0D+V9Jb8avi5LQI5pZOd+XXwxUYlmopjhMzPDa63SSrvTkycA
+         ADLQvHuYghv3jU6NM4n1lZPp9uVpbCk/3dLZys1NRdN5TRQmtzW75qIbImXTXAnM2Rct
+         /TbMb6BOhGZsu6fZMd7f2JACUIdCbk9qBos/WwikaZ+Gv2RzUwLP56X/ScCTHVVaLtCM
+         SMWnhyRrv9VxUkL/iAWtP6TJ5oAkHTl/AIUuVC9hRYva9A91Oq1LAcJ6NAxllzYZZeQG
+         0Agg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ay8I7XJ9iCOvh0M9Fd42oOlQR4wemxkRFmtvtAGMWPE=;
-        b=FvDnRI5n3YM4ntl42sx7S+wFW9pgblUHN2hiQsd5GnScbAxOcj2+dQTEIocggZMBtu
-         9zRuByi4ZcCyxkiVxXFammIaySUDwKrQiRzFQb146JiAjBdfnA4wOWq9GBbiKM89e6HC
-         ZfcCip9F4wV/Hj8st2/5RuoCgtD9f38LGT8Yctj675RxSs5U42DLCaug1WFeGX4/5ovy
-         M9YqvqvXW4puVcVBAhtcm3zw/Pq0zbIu9wCUhFHUCv4xR97NTv2589/iYhr5MXazmoDV
-         yV3puHAykFqAPaN1fQNlJDLbZZ5UKgctZ88I+JhoQdT9f4zih62/m8puIQm8Dhi1rZa3
-         bZvA==
-X-Gm-Message-State: APjAAAWcYKMeSYTPIc1AcmqGDYNtnGx8NZaznCY4j4NQhkx5YqHMmJCU
-        8hHCgwP150PQfK4Yx9Q3kxCkEFJouN8OGP5agHVsqg==
-X-Google-Smtp-Source: APXvYqwjfWxX+EG4Xqz7eu0QZY2s9wB/HAP4nhdPGeG9Hus7luuLwMAdoDJTs+YfuKobg/C2mU9tsnW1VzFiwiyNjrA=
-X-Received: by 2002:a2e:9284:: with SMTP id d4mr66873430ljh.26.1560930983583;
- Wed, 19 Jun 2019 00:56:23 -0700 (PDT)
+        bh=UYXQ8ORQAtuliQYo9/TvRwHxArXDs2AP/hpE8FcllZk=;
+        b=b2Q5uo8VLsbRTzl/GyTANmDZfxlB7ncFs2fZprt4ng7mdbQ0EzlTD1zUTsFW4g7R/F
+         2l3JZ5kpCBzIz5AWjrPSFrOvNgrPUoIiW+sIyOTHGJPmurt5a1tr8zVovyTA788VNB+I
+         +aVIwp22yIyQg0uvdGM40C34kZrCSL5MV9PWR6Z/FHlaq8pC75JodLh54iiLuyVLnnUp
+         kaaoCyxbe8NKAHrNzVi+xKJpYoJfdwlo1Y9YUegxA0hn4m6WSgJoZV9/xghTebQfVag8
+         C2GywXTjoSuLvywPqTp1I7YHgZFNxDxH6cWcc5fjZQmSikWOId/Vu9s6SLyks85GyEUn
+         umbQ==
+X-Gm-Message-State: APjAAAXUzz7l+jYbgJXf2Es+PBueUM/0vax/oJHR5/nZwrbO2bTRuYs2
+        QuNf8nPeCKzG285RVHq8sUHTE/JBAE5DloyxrnUI6w==
+X-Google-Smtp-Source: APXvYqwO7kM+IPzZZWHTy4NJqVwYpImHEjNOFU1wjg54Z/smwwYuX0kB/6CJlJDWBcgz1AFTUM+rKeBYM/4nFCVyWng=
+X-Received: by 2002:a2e:5d46:: with SMTP id r67mr35872518ljb.187.1560931080308;
+ Wed, 19 Jun 2019 00:58:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190108143713.15120-1-anders.roxell@linaro.org> <20190110081615.GD5213@ulmo>
-In-Reply-To: <20190110081615.GD5213@ulmo>
+References: <20190108143713.15120-1-anders.roxell@linaro.org>
+ <20190110081615.GD5213@ulmo> <CADYN=9LtpcJMbcUHN0Eg4bsYoX7f+xm_KiJ_3fE15-5k6mwC5g@mail.gmail.com>
+In-Reply-To: <CADYN=9LtpcJMbcUHN0Eg4bsYoX7f+xm_KiJ_3fE15-5k6mwC5g@mail.gmail.com>
 From:   Anders Roxell <anders.roxell@linaro.org>
-Date:   Wed, 19 Jun 2019 09:56:12 +0200
-Message-ID: <CADYN=9LtpcJMbcUHN0Eg4bsYoX7f+xm_KiJ_3fE15-5k6mwC5g@mail.gmail.com>
+Date:   Wed, 19 Jun 2019 09:57:49 +0200
+Message-ID: <CADYN=9KUXdnmpEHRY7CGCpQa3H4C0M=a3wyNueXkgpssSdik6A@mail.gmail.com>
 Subject: Re: [PATCH] mailbox: tegra-hsp: mark PM functions as __maybe_unused
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     jassisinghbrar@gmail.com, jonathanh@nvidia.com,
@@ -59,31 +60,42 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 10 Jan 2019 at 09:16, Thierry Reding <thierry.reding@gmail.com> wro=
-te:
+On Wed, 19 Jun 2019 at 09:56, Anders Roxell <anders.roxell@linaro.org> wrot=
+e:
 >
-> On Tue, Jan 08, 2019 at 03:37:13PM +0100, Anders Roxell wrote:
-> > Without CONFIG_PM_SLEEP, we get annoying warnings about unused
-> > functions:
+> On Thu, 10 Jan 2019 at 09:16, Thierry Reding <thierry.reding@gmail.com> w=
+rote:
 > >
-> > drivers/mailbox/tegra-hsp.c:782:12: warning: =E2=80=98tegra_hsp_resume=
-=E2=80=99 defined but not used [-Wunused-function]
-> >  static int tegra_hsp_resume(struct device *dev)
-> >             ^~~~~~~~~~~~~~~~
+> > On Tue, Jan 08, 2019 at 03:37:13PM +0100, Anders Roxell wrote:
+> > > Without CONFIG_PM_SLEEP, we get annoying warnings about unused
+> > > functions:
+> > >
+> > > drivers/mailbox/tegra-hsp.c:782:12: warning: =E2=80=98tegra_hsp_resum=
+e=E2=80=99 defined but not used [-Wunused-function]
+> > >  static int tegra_hsp_resume(struct device *dev)
+> > >             ^~~~~~~~~~~~~~~~
+> > >
+> > > Mark them as __maybe_unused to shut up the warning and silently drop =
+the
+> > > functions without having to add ugly #ifdefs.
+> > >
+> > > Fixes: 9a63f0f40599 ("mailbox: tegra-hsp: Add suspend/resume support"=
+)
+> > > Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+> > > ---
+> > >  drivers/mailbox/tegra-hsp.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > Mark them as __maybe_unused to shut up the warning and silently drop th=
-e
-> > functions without having to add ugly #ifdefs.
-> >
-> > Fixes: 9a63f0f40599 ("mailbox: tegra-hsp: Add suspend/resume support")
-> > Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> > ---
-> >  drivers/mailbox/tegra-hsp.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > Acked-by: Thierry Reding <treding@nvidia.com>
 >
-> Acked-by: Thierry Reding <treding@nvidia.com>
+> Will this be picked up ?
 
-Will this be picked up ?
+its already solved.
 
-Cheers,
+Sorry for the noice. =3D/
+
 Anders
+
+>
+> Cheers,
+> Anders
