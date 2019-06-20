@@ -2,393 +2,295 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07BD34D47B
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 19:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54A144D492
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 19:08:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726786AbfFTRD5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 13:03:57 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:39693 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726649AbfFTRD5 (ORCPT
+        id S1731567AbfFTRIf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 13:08:35 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:51068 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726562AbfFTRIf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 13:03:57 -0400
-Received: by mail-wr1-f66.google.com with SMTP id x4so3795611wrt.6;
-        Thu, 20 Jun 2019 10:03:54 -0700 (PDT)
+        Thu, 20 Jun 2019 13:08:35 -0400
+Received: by mail-wm1-f65.google.com with SMTP id c66so3836378wmf.0
+        for <linux-tegra@vger.kernel.org>; Thu, 20 Jun 2019 10:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=b9votx6CthLSY5zum6pHAk4YSe75nGjkPv3ECkJa0v8=;
-        b=Yjr34gUBrCq2BqD/DX/EFXOYx3vuJroPbkVAQ6LUe1L3jQyZgyGE8DV9rKORu0z1mF
-         Xfq11/85iMQtQhBVDWGa5HDe0khez1/cfAyLCucfg3rtkKlgqqL485ATDDrpvHR1zAD7
-         MigXEY5ETYc7lPzN10ttLLcVZQR/EHpvibK2Xb9nysjf6iEwcHK5j0mZ0hXFu7pZONaL
-         zv8j4pMBoYJx/zvgD7vZI0O6hzQ3f0/fGO+rAiP8u+JFnlrU0wIWK0Gwt7y0qCSTyQH0
-         quvG7ImxDsZaE2q4SGEfoWjZvZSRKyBqn1jWT69a4nPDR3NMJNCN7eKChAc7JKhBA2rf
-         mGIw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=uz+mhHWqJu5W51phZe+YwIkqo1ZzdpMiKSfx+tEOH+I=;
+        b=VRM3OZKLaPb9eHlqozTuDhcKNK4Ch46gsJNxrRDQJcHudaUiSwOCpsm5qB8VuTmx+t
+         X6mIFRCyL915RCx6ekbR6sozaMPztRnDNrWtLDcSf1+yNM/qsWtOSlvSmdYEW5445sNR
+         s9hTpmxo2i36mESgPPKM3QhuvFwLvdz/noyaB7Pf1VsIgsdkxcdPiwFX8m4HKoejPtie
+         5b98E7G/nfqnFghfEQp33hMIvhaluwLWcrqaox+cK/+fLxS1mT5SW4iCp2Fy+15lkAaD
+         ijCmhIhKJ/jCm/hqGoVki9oMQKhZd19CxBuIBQy2mZnw/pv20OzBwhR4HHHtWp67QLfX
+         tLiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=b9votx6CthLSY5zum6pHAk4YSe75nGjkPv3ECkJa0v8=;
-        b=c3ECkqB+Y+QIPr4mRs/2zgcWIjgSnfaa6fzFvMsqa3KIz0oi3P26K0XnwmI/fqlNdC
-         Btm6yvKn7kVLzNoF8OLoju3XBirRP3yFjphmuOUgT1VybvNNYdvp04iO4CmIZUjCdtFn
-         bapeH4udsPsQE83UuiNZ8YQ1hi/YZ7Q4CYtZXVYu3G5ADsaQtO+FyQJBlxY1G/R1YlVG
-         ILOw0RbeiYm/TY2fdMzpCYHo4w1MiRQjjR3I14kSO3cOf6KRZuxyEqDiFDCgz77wSe+g
-         ianhCjXMstPGFHlloQMMxv286rMgyKrAzqNSgG8pi/ZqzEL59CX5WSJpb8S034ALCHQG
-         beBw==
-X-Gm-Message-State: APjAAAVA1m808fup1IHdoTs8RvNIfF3AN9jqf8223c/VlGNAKAng9n4W
-        EPXqJexPl3NGCxc6liIkH0A=
-X-Google-Smtp-Source: APXvYqz0DEGCxpTAuVi//n3tWLmhZHmffwQ9JgKaDHhD5t3JakseP+/WweFScRkww/dE27ewbS4LOQ==
-X-Received: by 2002:adf:ec49:: with SMTP id w9mr23663367wrn.303.1561050233238;
-        Thu, 20 Jun 2019 10:03:53 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=uz+mhHWqJu5W51phZe+YwIkqo1ZzdpMiKSfx+tEOH+I=;
+        b=WDqDfHhUuwi2E1lJKYS0MTBtY4MXb1gF/pIgfmbWs56ZyEGZ7O3bU9nL3PHftU+280
+         HNGZRxGQDG+PT5ipsHvfCZXUsaj+QYW4v0HsEUjy6Efm83dwLeHfHpSPI0nnImoyUGwb
+         xedv7U8dlmJHycVXQJ7d5WSH+cbZAGMmOrmXwlHfdrtDtWxC7xd7DGFa+X4srlsXupSZ
+         uKxapaM4a3pouUz7zIvdWVl5EQKuidmSmVN4nEJgM4nee/WLAZYHw01Wsk+fBtPLQouB
+         15L2bkvlgsoUt7mJDMoibZaLNajzX96ytUM1y5IlbU1DnXcNfjjaxLrkqirGDfoWuQqx
+         705g==
+X-Gm-Message-State: APjAAAU2ZLzHxbKFpcNr3vT6SkULjpFkZqNENyIiJ/oecUJvThsRsIlh
+        IhoK58BYQasBKhTGUow6r9U=
+X-Google-Smtp-Source: APXvYqxGHIj+gpssVdiGV1fl5VCV1vUfKpqEfoftjkQHED+xKiPb0DHRZm8Yd82ZBdHjdhf4v41a3A==
+X-Received: by 2002:a7b:cae2:: with SMTP id t2mr384335wml.157.1561050513226;
+        Thu, 20 Jun 2019 10:08:33 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id m9sm267824wrr.14.2019.06.20.10.03.52
+        by smtp.gmail.com with ESMTPSA id w2sm226444wrr.31.2019.06.20.10.08.31
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 20 Jun 2019 10:03:52 -0700 (PDT)
+        Thu, 20 Jun 2019 10:08:32 -0700 (PDT)
+Date:   Thu, 20 Jun 2019 19:08:31 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Stephen Warren <swarren@wwwdotorg.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
+To:     Stephen Warren <swarren@wwwdotorg.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: [PATCH 2/2] pinctrl: tegra: Add bitmask support for parked bits
-Date:   Thu, 20 Jun 2019 19:03:50 +0200
-Message-Id: <20190620170350.20224-2-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190620170350.20224-1-thierry.reding@gmail.com>
-References: <20190620170350.20224-1-thierry.reding@gmail.com>
+        Dmitry Osipenko <digetx@gmail.com>, linux-tegra@vger.kernel.org
+Subject: Re: [pinmux scripts PATCH 1/3] Update kernel driver template
+Message-ID: <20190620170831.GA20367@ulmo>
+References: <20190620170055.19771-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="HlL+5n6rz5pIUxbD"
+Content-Disposition: inline
+In-Reply-To: <20190620170055.19771-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-Some pin groups have park bits for multiple pins in one register.
-Support this by turning the parked bit field into a parked bitmask
-field. If no parked bits are supported, the bitmask can be 0.
+--HlL+5n6rz5pIUxbD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Update the pingroup table on Tegra210, which is the only generation
-where this is supported, with the parked bitmask.
+On Thu, Jun 20, 2019 at 07:00:53PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> Some changes in recent years have modified the upstream kernel driver in
+> some ways that make it incompatible with the current template. Update
+> the template to take into account changes introduced by the following
+> commits:
+>=20
+> 	commit e3d2160f12d6aa7a87d9db09d8458b4a3492cd45
+> 	Author: Paul Gortmaker <paul.gortmaker@windriver.com>
+> 	Date:   Mon May 22 16:56:47 2017 -0400
+>=20
+> 	    pinctrl: tegra: clean up modular vs. non-modular distinctions
+>=20
+> 	    None of the Kconfigs for any of these drivers are tristate,
+> 	    meaning that they currently are not being built as a module by anyon=
+e.
+>=20
+> 	    Lets remove the modular code that is essentially orphaned, so that
+> 	    when reading the drivers there is no doubt they are builtin-only.  A=
+ll
+> 	    drivers get similar changes, so they are handled in batch.
+>=20
+> 	    We remove module.h from code that isn't doing anything modular at
+> 	    all;  if they have __init sections, then replace it with init.h.
+>=20
+> 	    A couple drivers have module_exit() code that is essentially orphane=
+d,
+> 	    and so we remove that.
+>=20
+> 	    Quite a few bool drivers (hence non-modular) are converted over to
+> 	    to builtin_platform_driver().
+>=20
+> 	    Since module_platform_driver() uses the same init level priority as
+> 	    builtin_platform_driver() the init ordering remains unchanged with
+> 	    this commit.
+>=20
+> 	    Also note that MODULE_DEVICE_TABLE is a no-op for non-modular code.
+>=20
+> 	    We also delete the MODULE_LICENSE tag etc. since all that information
+> 	    was (or is now) contained at the top of the file in the comments.
+>=20
+> 	    Cc: Linus Walleij <linus.walleij@linaro.org>
+> 	    Cc: Stephen Warren <swarren@wwwdotorg.org>
+> 	    Cc: Thierry Reding <thierry.reding@gmail.com>
+> 	    Cc: Alexandre Courbot <gnurou@gmail.com>
+> 	    Cc: Pritesh Raithatha <praithatha@nvidia.com>
+> 	    Cc: Ashwini Ghuge <aghuge@nvidia.com>
+> 	    Cc: linux-gpio@vger.kernel.org
+> 	    Cc: linux-tegra@vger.kernel.org
+> 	    Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> 	    Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+>=20
+> 	commit 3c94d2d08a032d911bbe34f2edb24cb63a63644a
+> 	Author: Stefan Agner <stefan@agner.ch>
+> 	Date:   Thu Jul 26 17:40:24 2018 +0200
+>=20
+> 	    pinctrl: tegra: define GPIO compatible node per SoC
+>=20
+> 	    Tegra 2 uses a different GPIO controller which uses "tegra20-gpio" as
+> 	    compatible string.
+>=20
+> 	    Make the compatible string the GPIO node is using a SoC specific
+> 	    property. This prevents the kernel from registering the GPIO range
+> 	    twice in case the GPIO range is specified in the device tree.
+>=20
+> 	    Fixes: 9462510ce31e ("pinctrl: tegra: Only set the gpio range if nee=
+ded")
+> 	    Signed-off-by: Stefan Agner <stefan@agner.ch>
+> 	    Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+>=20
+> 	commit 1e0813ee5599932c856bda64a568895ed7a33d3a
+> 	Author: Dmitry Osipenko <digetx@gmail.com>
+> 	Date:   Thu Aug 2 14:11:43 2018 +0300
+>=20
+> 	    pinctrl: tegra: Move drivers registration to arch_init level
+>=20
+> 	    There is a bug in regards to deferred probing within the drivers core
+> 	    that causes GPIO-driver to suspend after its users. The bug appears =
+if
+> 	    GPIO-driver probe is getting deferred, which happens after introduci=
+ng
+> 	    dependency on PINCTRL-driver for the GPIO-driver by defining "gpio-r=
+anges"
+> 	    property in device-tree. The bug in the drivers core is old (more th=
+an 4
+> 	    years now) and is well known, unfortunately there is no easy fix for=
+ it.
+> 	    The good news is that we can workaround the deferred probe issue by
+> 	    changing GPIO / PINCTRL drivers registration order and hence by movi=
+ng
+> 	    PINCTRL driver registration to the arch_init level and GPIO to the
+> 	    subsys_init.
+>=20
+> 	    Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> 	    Acked-by: Stefan Agner <stefan@agner.ch>
+> 	    Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+>=20
+> Note that the last one is something that we probably should fix
+> correctly by using device links rather than working around it by playing
+> init level tricks.
+>=20
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  soc-to-kernel-pinctrl-driver.py | 27 +++++++++++----------------
+>  1 file changed, 11 insertions(+), 16 deletions(-)
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/pinctrl/tegra/pinctrl-tegra.c    |  4 +-
- drivers/pinctrl/tegra/pinctrl-tegra.h    |  4 +-
- drivers/pinctrl/tegra/pinctrl-tegra114.c |  4 +-
- drivers/pinctrl/tegra/pinctrl-tegra124.c |  4 +-
- drivers/pinctrl/tegra/pinctrl-tegra194.c |  4 +-
- drivers/pinctrl/tegra/pinctrl-tegra20.c  |  6 +--
- drivers/pinctrl/tegra/pinctrl-tegra210.c | 60 ++++++++++++------------
- drivers/pinctrl/tegra/pinctrl-tegra30.c  |  4 +-
- 8 files changed, 45 insertions(+), 45 deletions(-)
+There was supposed to be a cover letter for this... Anyway, patches 1
+and 2 basically get the kernel driver template up to date with the
+latest kernel driver. Patch 3 is Sowjanya's patch from yesterday but
+with one suggestion worked in to make the parked_bitmask field take 0
+as the special value meaning "unsupported".
 
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
-index 34596b246578..9df30809aaf6 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
-@@ -613,9 +613,9 @@ static void tegra_pinctrl_clear_parked_bits(struct tegra_pmx *pmx)
- 
- 	for (i = 0; i < pmx->soc->ngroups; ++i) {
- 		g = &pmx->soc->groups[i];
--		if (g->parked_bit >= 0) {
-+		if (g->parked_bitmask > 0) {
- 			val = pmx_readl(pmx, g->mux_bank, g->mux_reg);
--			val &= ~(1 << g->parked_bit);
-+			val &= ~g->parked_bitmask;
- 			pmx_writel(pmx, val, g->mux_bank, g->mux_reg);
- 		}
- 	}
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.h b/drivers/pinctrl/tegra/pinctrl-tegra.h
-index 287702660783..105309774079 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra.h
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra.h
-@@ -96,7 +96,6 @@ struct tegra_function {
-  * @tri_reg:		Tri-state register offset.
-  * @tri_bank:		Tri-state register bank.
-  * @tri_bit:		Tri-state register bit.
-- * @parked_bit:		Parked register bit. -1 if unsupported.
-  * @einput_bit:		Enable-input register bit.
-  * @odrain_bit:		Open-drain register bit.
-  * @lock_bit:		Lock register bit.
-@@ -118,6 +117,7 @@ struct tegra_function {
-  * @slwf_bit:		Slew Falling register bit.
-  * @slwf_width:		Slew Falling field width.
-  * @drvtype_bit:	Drive type register bit.
-+ * @parked_bitmask:	Parked register mask. 0 if unsupported.
-  *
-  * -1 in a *_reg field means that feature is unsupported for this group.
-  * *_bank and *_reg values are irrelevant when *_reg is -1.
-@@ -146,7 +146,6 @@ struct tegra_pingroup {
- 	s32 mux_bit:6;
- 	s32 pupd_bit:6;
- 	s32 tri_bit:6;
--	s32 parked_bit:6;
- 	s32 einput_bit:6;
- 	s32 odrain_bit:6;
- 	s32 lock_bit:6;
-@@ -164,6 +163,7 @@ struct tegra_pingroup {
- 	s32 drvup_width:6;
- 	s32 slwr_width:6;
- 	s32 slwf_width:6;
-+	u32 parked_bitmask;
- };
- 
- /**
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra114.c b/drivers/pinctrl/tegra/pinctrl-tegra114.c
-index 29821c03b471..e72ab1eb2398 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra114.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra114.c
-@@ -1572,8 +1572,8 @@ static struct tegra_function tegra114_functions[] = {
- 		.lock_bit = 7,						\
- 		.ioreset_bit = PINGROUP_BIT_##ior(8),			\
- 		.rcv_sel_bit = PINGROUP_BIT_##rcv_sel(9),		\
--		.parked_bit = -1,					\
- 		.drv_reg = -1,						\
-+		.parked_bitmask = 0,					\
- 	}
- 
- #define DRV_PINGROUP(pg_name, r, hsm_b, schmitt_b, lpmd_b, drvdn_b,	\
-@@ -1593,7 +1593,6 @@ static struct tegra_function tegra114_functions[] = {
- 		.rcv_sel_bit = -1,					\
- 		.drv_reg = DRV_PINGROUP_REG(r),				\
- 		.drv_bank = 0,						\
--		.parked_bit = -1,					\
- 		.hsm_bit = hsm_b,					\
- 		.schmitt_bit = schmitt_b,				\
- 		.lpmd_bit = lpmd_b,					\
-@@ -1606,6 +1605,7 @@ static struct tegra_function tegra114_functions[] = {
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
- 		.drvtype_bit = PINGROUP_BIT_##drvtype(6),		\
-+		.parked_bitmask = 0,					\
- 	}
- 
- static const struct tegra_pingroup tegra114_groups[] = {
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra124.c b/drivers/pinctrl/tegra/pinctrl-tegra124.c
-index 3616d8b97c32..26096c6b967e 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra124.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra124.c
-@@ -1741,8 +1741,8 @@ static struct tegra_function tegra124_functions[] = {
- 		.lock_bit = 7,						\
- 		.ioreset_bit = PINGROUP_BIT_##ior(8),			\
- 		.rcv_sel_bit = PINGROUP_BIT_##rcv_sel(9),		\
--		.parked_bit = -1,					\
- 		.drv_reg = -1,						\
-+		.parked_bitmask = 0,					\
- 	}
- 
- #define DRV_PINGROUP(pg_name, r, hsm_b, schmitt_b, lpmd_b, drvdn_b,	\
-@@ -1762,7 +1762,6 @@ static struct tegra_function tegra124_functions[] = {
- 		.rcv_sel_bit = -1,					\
- 		.drv_reg = DRV_PINGROUP_REG(r),				\
- 		.drv_bank = 0,						\
--		.parked_bit = -1,					\
- 		.hsm_bit = hsm_b,					\
- 		.schmitt_bit = schmitt_b,				\
- 		.lpmd_bit = lpmd_b,					\
-@@ -1775,6 +1774,7 @@ static struct tegra_function tegra124_functions[] = {
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
- 		.drvtype_bit = PINGROUP_BIT_##drvtype(6),		\
-+		.parked_bitmask = 0,					\
- 	}
- 
- #define MIPI_PAD_CTRL_PINGROUP(pg_name, r, b, f0, f1)			\
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra194.c b/drivers/pinctrl/tegra/pinctrl-tegra194.c
-index 957ef198850a..daf44cf240c9 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra194.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra194.c
-@@ -87,7 +87,6 @@ static struct tegra_function tegra194_functions[] = {
- 		.lpmd_bit = -1,					\
- 		.lock_bit = -1,					\
- 		.hsm_bit = -1,					\
--		.parked_bit = -1,				\
- 		.mux_bank = bank,				\
- 		.mux_bit = 0,					\
- 		.pupd_reg = ((r)),		\
-@@ -100,7 +99,8 @@ static struct tegra_function tegra194_functions[] = {
- 		.odrain_bit = e_od,				\
- 		.schmitt_bit = schmitt_b,			\
- 		.drvtype_bit = 13,				\
--		.drv_reg = -1
-+		.drv_reg = -1,					\
-+		.parked_bitmask = 0
- 
- #define drive_pex_l5_clkreq_n_pgg0				\
- 	DRV_PINGROUP_ENTRY_Y(0x14004, 12, 5, 20, 5, -1, -1, -1, -1, 0)
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra20.c b/drivers/pinctrl/tegra/pinctrl-tegra20.c
-index 4b7837e38fb5..0dc2cf0d05b1 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra20.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra20.c
-@@ -1989,13 +1989,13 @@ static struct tegra_function tegra20_functions[] = {
- 		.tri_reg = ((tri_r) - TRISTATE_REG_A),		\
- 		.tri_bank = 0,					\
- 		.tri_bit = tri_b,				\
--		.parked_bit = -1,				\
- 		.einput_bit = -1,				\
- 		.odrain_bit = -1,				\
- 		.lock_bit = -1,					\
- 		.ioreset_bit = -1,				\
- 		.rcv_sel_bit = -1,				\
- 		.drv_reg = -1,					\
-+		.parked_bitmask = 0,				\
- 	}
- 
- /* Pin groups with only pull up and pull down control */
-@@ -2009,7 +2009,7 @@ static struct tegra_function tegra20_functions[] = {
- 		.pupd_bank = 2,					\
- 		.pupd_bit = pupd_b,				\
- 		.drv_reg = -1,					\
--		.parked_bit = -1,				\
-+		.parked_bitmask = 0,				\
- 	}
- 
- /* Pin groups for drive strength registers (configurable version) */
-@@ -2025,7 +2025,7 @@ static struct tegra_function tegra20_functions[] = {
- 		.tri_reg = -1,					\
- 		.drv_reg = ((r) - PINGROUP_REG_A),		\
- 		.drv_bank = 3,					\
--		.parked_bit = -1,				\
-+		.parked_bitmask = 0,				\
- 		.hsm_bit = hsm_b,				\
- 		.schmitt_bit = schmitt_b,			\
- 		.lpmd_bit = lpmd_b,				\
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra210.c b/drivers/pinctrl/tegra/pinctrl-tegra210.c
-index 1462023bba35..39ab6480a941 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra210.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra210.c
-@@ -1302,7 +1302,6 @@ static struct tegra_function tegra210_functions[] = {
- 		.lock_bit = 7,						\
- 		.ioreset_bit = -1,					\
- 		.rcv_sel_bit = PINGROUP_BIT_##e_io_hv(10),		\
--		.parked_bit = 5,					\
- 		.hsm_bit = PINGROUP_BIT_##hsm(9),			\
- 		.schmitt_bit = 12,					\
- 		.drvtype_bit = PINGROUP_BIT_##drvtype(13),		\
-@@ -1317,10 +1316,11 @@ static struct tegra_function tegra210_functions[] = {
- 		.slwr_width = slwr_w,					\
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
-+		.parked_bitmask = BIT(5),				\
- 	}
- 
--#define DRV_PINGROUP(pg_name, r, drvdn_b, drvdn_w, drvup_b, drvup_w,	\
--		     slwr_b, slwr_w, slwf_b, slwf_w)			\
-+#define DRV_PINGROUP(pg_name, r, prk_mask, drvdn_b, drvdn_w, drvup_b,	\
-+		     drvup_w, slwr_b, slwr_w, slwf_b, slwf_w)		\
- 	{								\
- 		.name = "drive_" #pg_name,				\
- 		.pins = drive_##pg_name##_pins,				\
-@@ -1335,7 +1335,6 @@ static struct tegra_function tegra210_functions[] = {
- 		.rcv_sel_bit = -1,					\
- 		.drv_reg = DRV_PINGROUP_REG(r),				\
- 		.drv_bank = 0,						\
--		.parked_bit = -1,					\
- 		.hsm_bit = -1,						\
- 		.schmitt_bit = -1,					\
- 		.lpmd_bit = -1,						\
-@@ -1348,6 +1347,7 @@ static struct tegra_function tegra210_functions[] = {
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
- 		.drvtype_bit = -1,					\
-+		.parked_bitmask = prk_mask,				\
- 	}
- 
- static const struct tegra_pingroup tegra210_groups[] = {
-@@ -1515,32 +1515,32 @@ static const struct tegra_pingroup tegra210_groups[] = {
- 	PINGROUP(pz4,                  SDMMC1,     RSVD1,  RSVD2, RSVD3, 0x328c, N,   N,       N,       -1,    -1,      -1,      -1,      -1,      -1,     -1,     -1,     -1),
- 	PINGROUP(pz5,                  SOC,        RSVD1,  RSVD2, RSVD3, 0x3290, N,   N,       N,       -1,    -1,      -1,      -1,      -1,      -1,     -1,     -1,     -1),
- 
--	/* pg_name, r, drvdn_b, drvdn_w, drvup_b, drvup_w, slwr_b, slwr_w, slwf_b, slwf_w */
--	DRV_PINGROUP(pa6,    0x9c0, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(pcc7,   0x9c4, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(pe6,    0x9c8, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(pe7,    0x9cc, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(ph6,    0x9d0, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(pk0,    0x9d4, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk1,    0x9d8, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk2,    0x9dc, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk3,    0x9e0, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk4,    0x9e4, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk5,    0x9e8, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk6,    0x9ec, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk7,    0x9f0, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pl0,    0x9f4, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pl1,    0x9f8, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pz0,    0x9fc, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz1,    0xa00, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz2,    0xa04, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz3,    0xa08, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz4,    0xa0c, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz5,    0xa10, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(sdmmc1, 0xa98, 12, 7,  20, 7,  28, 2,  30, 2),
--	DRV_PINGROUP(sdmmc2, 0xa9c, 2,  6,  8,  6,  28, 2,  30, 2),
--	DRV_PINGROUP(sdmmc3, 0xab0, 12, 7,  20, 7,  28, 2,  30, 2),
--	DRV_PINGROUP(sdmmc4, 0xab4, 2,  6,  8,  6,  28, 2,  30, 2),
-+	/* pg_name, r, prk_mask, drvdn_b, drvdn_w, drvup_b, drvup_w, slwr_b, slwr_w, slwf_b, slwf_w */
-+	DRV_PINGROUP(pa6,    0x9c0, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pcc7,   0x9c4, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pe6,    0x9c8, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pe7,    0x9cc, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(ph6,    0x9d0, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pk0,    0x9d4, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk1,    0x9d8, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk2,    0x9dc, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk3,    0x9e0, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk4,    0x9e4, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk5,    0x9e8, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk6,    0x9ec, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk7,    0x9f0, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pl0,    0x9f4, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pl1,    0x9f8, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pz0,    0x9fc, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz1,    0xa00, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz2,    0xa04, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz3,    0xa08, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz4,    0xa0c, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz5,    0xa10, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(sdmmc1, 0xa98, 0x0,       12, 7,  20, 7,  28, 2,  30, 2),
-+	DRV_PINGROUP(sdmmc2, 0xa9c, 0x7ffc000, 2,  6,  8,  6,  28, 2,  30, 2),
-+	DRV_PINGROUP(sdmmc3, 0xab0, 0x0,       12, 7,  20, 7,  28, 2,  30, 2),
-+	DRV_PINGROUP(sdmmc4, 0xab4, 0x7ffc000, 2,  6,  8,  6,  28, 2,  30, 2),
- };
- 
- static const struct tegra_pinctrl_soc_data tegra210_pinctrl = {
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra30.c b/drivers/pinctrl/tegra/pinctrl-tegra30.c
-index 610124c3d192..7299a371827f 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra30.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra30.c
-@@ -2133,8 +2133,8 @@ static struct tegra_function tegra30_functions[] = {
- 		.lock_bit = 7,						\
- 		.ioreset_bit = PINGROUP_BIT_##ior(8),			\
- 		.rcv_sel_bit = -1,					\
--		.parked_bit = -1,					\
- 		.drv_reg = -1,						\
-+		.parked_bitmask = 0,					\
- 	}
- 
- #define DRV_PINGROUP(pg_name, r, hsm_b, schmitt_b, lpmd_b, drvdn_b,	\
-@@ -2154,7 +2154,6 @@ static struct tegra_function tegra30_functions[] = {
- 		.rcv_sel_bit = -1,					\
- 		.drv_reg = DRV_PINGROUP_REG(r),				\
- 		.drv_bank = 0,						\
--		.parked_bit = -1,					\
- 		.hsm_bit = hsm_b,					\
- 		.schmitt_bit = schmitt_b,				\
- 		.lpmd_bit = lpmd_b,					\
-@@ -2167,6 +2166,7 @@ static struct tegra_function tegra30_functions[] = {
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
- 		.drvtype_bit = -1,					\
-+		.parked_bitmask = 0,					\
- 	}
- 
- static const struct tegra_pingroup tegra30_groups[] = {
--- 
-2.21.0
+I've also sent out two patches that are the result of regenerating the
+various SoC drivers from the updated script and tables.
 
+Thierry
+
+>=20
+> diff --git a/soc-to-kernel-pinctrl-driver.py b/soc-to-kernel-pinctrl-driv=
+er.py
+> index 65e4c604f1c9..37f34b15db2b 100755
+> --- a/soc-to-kernel-pinctrl-driver.py
+> +++ b/soc-to-kernel-pinctrl-driver.py
+> @@ -41,22 +41,16 @@ if dbg: print(args)
+>  soc =3D tegra_pmx_soc_parser.load_soc(args.soc)
+> =20
+>  print('''\
+> +// SPDX-License-Identifier: GPL-2.0-only
+>  /*
+>   * Pinctrl data for the NVIDIA %s pinmux
+>   *
+> - * Copyright (c) %s, NVIDIA CORPORATION.  All rights reserved.
+> - *
+> - * This program is free software; you can redistribute it and/or modify =
+it
+> - * under the terms and conditions of the GNU General Public License,
+> - * version 2, as published by the Free Software Foundation.
+> + * Author: %s
+>   *
+> - * This program is distributed in the hope it will be useful, but WITHOUT
+> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> - * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
+> - * more details.
+> + * Copyright (c) %s, NVIDIA CORPORATION.  All rights reserved.
+>   */
+> =20
+> -#include <linux/module.h>
+> +#include <linux/init.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pinctrl/pinctrl.h>
+> @@ -68,7 +62,7 @@ print('''\
+>   * Most pins affected by the pinmux can also be GPIOs. Define these firs=
+t.
+>   * These must match how the GPIO driver names/numbers its pins.
+>   */
+> -''' % (soc.titlename, soc.kernel_copyright_years), end=3D'')
+> +''' % (soc.titlename, soc.kernel_author, soc.kernel_copyright_years), en=
+d=3D'')
+> =20
+>  # Do not add any more exceptions here; new SoCs should be formatted corr=
+ectly
+>  if soc.name =3D=3D 'tegra30':
+> @@ -615,6 +609,7 @@ print('''\
+> =20
+>  static const struct tegra_pinctrl_soc_data %(soc)s_pinctrl =3D {
+>  	.ngpios =3D NUM_GPIOS,
+> +	.gpio_compatible =3D "nvidia,%(soc)s-gpio",
+>  	.pins =3D %(soc)s_pins,
+>  	.npins =3D ARRAY_SIZE(%(soc)s_pins),
+>  	.functions =3D %(soc)s_functions,
+> @@ -635,7 +630,6 @@ static const struct of_device_id %(soc)s_pinctrl_of_m=
+atch[] =3D {
+>  	{ .compatible =3D "nvidia,%(soc)s-pinmux", },
+>  	{ },
+>  };
+> -MODULE_DEVICE_TABLE(of, %(soc)s_pinctrl_of_match);
+> =20
+>  static struct platform_driver %(soc)s_pinctrl_driver =3D {
+>  	.driver =3D {
+> @@ -644,9 +638,10 @@ static struct platform_driver %(soc)s_pinctrl_driver=
+ =3D {
+>  	},
+>  	.probe =3D %(soc)s_pinctrl_probe,
+>  };
+> -module_platform_driver(%(soc)s_pinctrl_driver);
+> =20
+> -MODULE_AUTHOR("%(author)s");
+> -MODULE_DESCRIPTION("NVIDIA %(usoc)s pinctrl driver");
+> -MODULE_LICENSE("GPL v2");
+> +static int __init %(soc)s_pinctrl_init(void)
+> +{
+> +	return platform_driver_register(&%(soc)s_pinctrl_driver);
+> +}
+> +arch_initcall(%(soc)s_pinctrl_init);
+>  ''' % socvars, end=3D'')
+> --=20
+> 2.21.0
+>=20
+
+--HlL+5n6rz5pIUxbD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0LvYsACgkQ3SOs138+
+s6HHjhAAuqA0I/eqpH3qFG3M9jaZyguW1CbMtrtssUsPuZAsRPW8IaesRtyX0x5G
+wBQm1bgWn88VyNSPWJJWpcb6GyXmMj4NCmwo1F0rn4jpIy1G5Bhzl7dQTcPuXaes
+KBObP9gl9bGXKDDqc2Kq7i0IKjDUz7CpUUVDqjG1d5y18UVlRSpuV+pxouMWDM8j
+S6OcEU2JeW90ZVW33mPnQJg12sdN9bE4118MsjaJiOnErmTg6mdQp/a5ptDtJZWt
+1cwA4VXNcEoRQwrRuVadwm0NsODxIWGqsTyzLBNp+DTjtuqDSpe1liA2emjbk1rd
+6C0ArghdLlGVfCiBX6y6GV5Lj5zLdt9ZCSmznKHUr6yqwWdGSZkCjpVv2t+bfD/I
+GujEAUuI1HOG61EonqKm5o8ahOnUkn3tmTA93bDuGp79xdNXcNBxB/WGNtZO1ME+
+m/bTT4ujEXmorfcbcL6Cwtelm6navpbZ9c0dYXCp++Dc0nLmdWDaLmKRH+czReIX
+UdW8ehdsXMwlfsRkUP3IpceGoar3g8NYm3u+DEfSpMU+h4xdYBwh7WnAOon7vm0c
+BmBtISHJitnt2RWupSKWQT5F/x7ryilQMx2XU2Xa2uE5i2LXwh7/aBF131bCRLfO
+eq0mHANirEgyisRcC5hljA6Xwgg71OWx0r4CKaxRFeJGbgTHejw=
+=nhQE
+-----END PGP SIGNATURE-----
+
+--HlL+5n6rz5pIUxbD--
