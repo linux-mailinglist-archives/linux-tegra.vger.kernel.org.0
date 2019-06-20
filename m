@@ -2,64 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C71724C663
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 07:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F1374C858
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 09:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725912AbfFTFBB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 01:01:01 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:1709 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725872AbfFTFBB (ORCPT
+        id S1726081AbfFTHYF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 03:24:05 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:54338 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725875AbfFTHYF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 01:01:01 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0b130a0000>; Wed, 19 Jun 2019 22:00:58 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 19 Jun 2019 22:00:58 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 19 Jun 2019 22:00:58 -0700
-Received: from [10.19.65.14] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
- 2019 05:00:54 +0000
-Subject: Re: [PATCH V9] i2c: tegra: remove BUG() macro
-To:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Peter Rosin <peda@axentia.se>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Dmitry Osipenko <digetx@gmail.com>
-CC:     Shardar Mohammed <smohammed@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mantravadi Karthik <mkarthik@nvidia.com>,
-        "Thierry Reding" <thierry.reding@gmail.com>
-References: <1560856182-26072-1-git-send-email-bbiswas@nvidia.com>
-From:   Bitan Biswas <bbiswas@nvidia.com>
-Message-ID: <a2a94eb5-c3c3-24bb-e7a6-0d02f2546f94@nvidia.com>
-Date:   Wed, 19 Jun 2019 22:00:51 -0700
+        Thu, 20 Jun 2019 03:24:05 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5K7Nmuw074605;
+        Thu, 20 Jun 2019 02:23:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1561015428;
+        bh=4nptE+V/8zTkQNKxzkmRKnHwJXFg/cYh6mx5TMhKhtI=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=vrU7djtQBnNcjPj8h1kXXoUlHOqY7vzkaCMbFrKYEYBmem9hPzglV3HH97v/7T4Z/
+         XYuVUmPEpVyz8xaCir4fLsxMvj7rqdEBOIuv+xkxvxjvidu/Vw5jaMejrMotL2rdRI
+         j3+ARvTMDq07pmeGXHSk2wPX+1sfAPqoxUjO4Dxo=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5K7NmsK070685
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 20 Jun 2019 02:23:48 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 20
+ Jun 2019 02:23:48 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 20 Jun 2019 02:23:48 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5K7Nfrn091447;
+        Thu, 20 Jun 2019 02:23:42 -0500
+Subject: Re: [PATCH V10 10/15] dt-bindings: PHY: P2U: Add Tegra194 P2U block
+To:     Vidya Sagar <vidyas@nvidia.com>, <lorenzo.pieralisi@arm.com>,
+        <bhelgaas@google.com>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <catalin.marinas@arm.com>,
+        <will.deacon@arm.com>, <jingoohan1@gmail.com>,
+        <gustavo.pimentel@synopsys.com>
+CC:     <digetx@gmail.com>, <mperttunen@nvidia.com>,
+        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20190612095339.20118-1-vidyas@nvidia.com>
+ <20190612095339.20118-11-vidyas@nvidia.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <1ecf61d7-5535-4f07-5e1e-5d492f4194da@ti.com>
+Date:   Thu, 20 Jun 2019 12:52:16 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1560856182-26072-1-git-send-email-bbiswas@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20190612095339.20118-11-vidyas@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561006858; bh=fYK1YbOLXLOtJfuwb+ssRvSQx1QHtpEJNfYKlLvob5Y=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=k/I4WdmDTLwcuyLc2eosg3rscAeySxlTqFn8VH3dri5WOfRnKe7DoPeh9vKvVkD0Q
-         XWeUcSdPPSJ9hUk0xC6+y9qGpWqJaomL5IcQ7Se8qao/+W1mnrHZ9ouS1WaraMABda
-         NElV4FpAB7faFin8e1HqoP7S0/ZpX6gEB4hJUwcZBZq9o7bFyWnU6jNE+bLOc4CgST
-         cCMj4s5OFbwogdZkAhhwPRlin9FxiIzIFm4MeXD3uIKZ1Bh4P+8uqHtNzjo/jeeUjL
-         ik/7t60MhV2YFAl+txpRbgpfANDlzwc5hazdpWK9X6Cz/7FIlUVYBLwAYOon4SsXrI
-         tULrs5g0TZyLw==
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -67,121 +69,82 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 
 
-On 6/18/19 4:09 AM, Bitan Biswas wrote:
-> The usage of BUG() macro is generally discouraged in kernel, unless
-> it's a problem that results in a physical damage or loss of data.
-> This patch removes unnecessary BUG() macros and replaces the rest
-> with warning.
+On 12/06/19 3:23 PM, Vidya Sagar wrote:
+> Add support for Tegra194 P2U (PIPE to UPHY) module block which is a glue
+> module instantiated one for each PCIe lane between Synopsys DesignWare core
+> based PCIe IP and Universal PHY block.
 > 
-> Signed-off-by: Bitan Biswas <bbiswas@nvidia.com>
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+
+Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
 > ---
->   drivers/i2c/busses/i2c-tegra.c | 47 +++++++++++++++++++++++++++++++++++-------
->   1 file changed, 39 insertions(+), 8 deletions(-)
+> Changes since [v9]:
+> * None
 > 
-> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-> index 4dfb4c1..e9ff96d 100644
-> --- a/drivers/i2c/busses/i2c-tegra.c
-> +++ b/drivers/i2c/busses/i2c-tegra.c
-> @@ -73,6 +73,7 @@
->   #define I2C_ERR_NO_ACK				BIT(0)
->   #define I2C_ERR_ARBITRATION_LOST		BIT(1)
->   #define I2C_ERR_UNKNOWN_INTERRUPT		BIT(2)
-> +#define I2C_ERR_RX_BUFFER_OVERFLOW		BIT(3)
->   
->   #define PACKET_HEADER0_HEADER_SIZE_SHIFT	28
->   #define PACKET_HEADER0_PACKET_ID_SHIFT		16
-> @@ -489,6 +490,13 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
->   	size_t buf_remaining = i2c_dev->msg_buf_remaining;
->   	int words_to_transfer;
->   
-> +	/*
-> +	 * Catch overflow due to message fully sent
-> +	 * before the check for RX FIFO availability.
-> +	 */
-> +	if (WARN_ON_ONCE(!(i2c_dev->msg_buf_remaining)))
-> +		return -EINVAL;
-> +
->   	if (i2c_dev->hw->has_mst_fifo) {
->   		val = i2c_readl(i2c_dev, I2C_MST_FIFO_STATUS);
->   		rx_fifo_avail = (val & I2C_MST_FIFO_STATUS_RX_MASK) >>
-> @@ -515,7 +523,11 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
->   	 * prevent overwriting past the end of buf
->   	 */
->   	if (rx_fifo_avail > 0 && buf_remaining > 0) {
-> -		BUG_ON(buf_remaining > 3);
-> +		/*
-> +		 * buf_remaining > 3 check not needed as rx_fifo_avail == 0
-> +		 * when (words_to_transfer was > rx_fifo_avail) earlier
-> +		 * in this function.
-> +		 */
->   		val = i2c_readl(i2c_dev, I2C_RX_FIFO);
->   		val = cpu_to_le32(val);
->   		memcpy(buf, &val, buf_remaining);
-> @@ -523,7 +535,10 @@ static int tegra_i2c_empty_rx_fifo(struct tegra_i2c_dev *i2c_dev)
->   		rx_fifo_avail--;
->   	}
->   
-> -	BUG_ON(rx_fifo_avail > 0 && buf_remaining > 0);
-> +	/* RX FIFO must be drained, otherwise it's an Overflow case. */
-> +	if (WARN_ON_ONCE(rx_fifo_avail))
-> +		return -EINVAL;
-> +
->   	i2c_dev->msg_buf_remaining = buf_remaining;
->   	i2c_dev->msg_buf = buf;
->   
-> @@ -581,7 +596,11 @@ static int tegra_i2c_fill_tx_fifo(struct tegra_i2c_dev *i2c_dev)
->   	 * boundary and fault.
->   	 */
->   	if (tx_fifo_avail > 0 && buf_remaining > 0) {
-> -		BUG_ON(buf_remaining > 3);
-> +		/*
-> +		 * buf_remaining > 3 check not needed as tx_fifo_avail == 0
-> +		 * when (words_to_transfer was > tx_fifo_avail) earlier
-> +		 * in this function for non-zero words_to_transfer.
-> +		 */
->   		memcpy(&val, buf, buf_remaining);
->   		val = le32_to_cpu(val);
->   
-> @@ -847,10 +866,15 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
->   
->   	if (!i2c_dev->is_curr_dma_xfer) {
->   		if (i2c_dev->msg_read && (status & I2C_INT_RX_FIFO_DATA_REQ)) {
-> -			if (i2c_dev->msg_buf_remaining)
-> -				tegra_i2c_empty_rx_fifo(i2c_dev);
-> -			else
-> -				BUG();
-> +			if (tegra_i2c_empty_rx_fifo(i2c_dev)) {
-> +				/*
-> +				 * Overflow error condition: message fully sent,
-> +				 * with no XFER_COMPLETE interrupt but hardware
-> +				 * asks to transfer more.
-> +				 */
-> +				i2c_dev->msg_err |= I2C_ERR_RX_BUFFER_OVERFLOW;
-> +				goto err;
-> +			}
->   		}
->   
->   		if (!i2c_dev->msg_read && (status & I2C_INT_TX_FIFO_DATA_REQ)) {
-> @@ -876,7 +900,14 @@ static irqreturn_t tegra_i2c_isr(int irq, void *dev_id)
->   	if (status & I2C_INT_PACKET_XFER_COMPLETE) {
->   		if (i2c_dev->is_curr_dma_xfer)
->   			i2c_dev->msg_buf_remaining = 0;
-> -		BUG_ON(i2c_dev->msg_buf_remaining);
-> +		/*
-> +		 * Underflow error condition: XFER_COMPLETE before message
-> +		 * fully sent.
-> +		 */
-> +		if (WARN_ON_ONCE(i2c_dev->msg_buf_remaining)) {
-> +			i2c_dev->msg_err |= I2C_ERR_UNKNOWN_INTERRUPT;
-> +			goto err;
-> +		}
->   		complete(&i2c_dev->msg_complete);
->   	}
->   	goto done;
+> Changes since [v8]:
+> * None
 > 
-
-Please get back if there are any further comments regarding this patch.
-
--regards,
-  Bitan
-
+> Changes since [v7]:
+> * None
+> 
+> Changes since [v6]:
+> * None
+> 
+> Changes since [v5]:
+> * Added Sob
+> * Changed node name from "p2u@xxxxxxxx" to "phy@xxxxxxxx"
+> 
+> Changes since [v4]:
+> * None
+> 
+> Changes since [v3]:
+> * None
+> 
+> Changes since [v2]:
+> * Changed node label to reflect new format that includes either 'hsio' or
+>   'nvhs' in its name to reflect which UPHY brick they belong to
+> 
+> Changes since [v1]:
+> * This is a new patch in v2 series
+> 
+>  .../bindings/phy/phy-tegra194-p2u.txt         | 28 +++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/phy-tegra194-p2u.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/phy-tegra194-p2u.txt b/Documentation/devicetree/bindings/phy/phy-tegra194-p2u.txt
+> new file mode 100644
+> index 000000000000..d23ff90baad5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/phy-tegra194-p2u.txt
+> @@ -0,0 +1,28 @@
+> +NVIDIA Tegra194 P2U binding
+> +
+> +Tegra194 has two PHY bricks namely HSIO (High Speed IO) and NVHS (NVIDIA High
+> +Speed) each interfacing with 12 and 8 P2U instances respectively.
+> +A P2U instance is a glue logic between Synopsys DesignWare Core PCIe IP's PIPE
+> +interface and PHY of HSIO/NVHS bricks. Each P2U instance represents one PCIe
+> +lane.
+> +
+> +Required properties:
+> +- compatible: For Tegra19x, must contain "nvidia,tegra194-p2u".
+> +- reg: Should be the physical address space and length of respective each P2U
+> +       instance.
+> +- reg-names: Must include the entry "ctl".
+> +
+> +Required properties for PHY port node:
+> +- #phy-cells: Defined by generic PHY bindings.  Must be 0.
+> +
+> +Refer to phy/phy-bindings.txt for the generic PHY binding properties.
+> +
+> +Example:
+> +
+> +p2u_hsio_0: phy@3e10000 {
+> +	compatible = "nvidia,tegra194-p2u";
+> +	reg = <0x03e10000 0x10000>;
+> +	reg-names = "ctl";
+> +
+> +	#phy-cells = <0>;
+> +};
+> 
