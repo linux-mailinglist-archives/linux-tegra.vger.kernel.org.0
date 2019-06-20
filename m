@@ -2,114 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 889094CB17
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 11:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAD074CB78
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 12:01:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbfFTJj7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 05:39:59 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34508 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725937AbfFTJj7 (ORCPT
+        id S1726268AbfFTKBK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 06:01:10 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:16910 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726175AbfFTKBK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 05:39:59 -0400
-Received: by mail-wr1-f66.google.com with SMTP id k11so2329832wrl.1;
-        Thu, 20 Jun 2019 02:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=60NPO1jNpQvd7Ez31xiYkmEeG4s8Fwi9JQHXOHTFnZA=;
-        b=njgUJ1u0/jmMLVeZBWWtKW7im7ll2M30pi/UEoCUfv+8k3TLoatQ6FHqEkQxegnJ21
-         1r2KX3041H+yUrnyJeuiDfd8LbqmQCqNWWZKiSPVYSG1Yjx6ktW7GWz0/9CEcgQYb1oC
-         AOHSi/o1FdpyozWhGHoLFrZ6Jrir9fCfK/toc/uDICoZ9GU1miakz/srxVuDTQMJr3Wt
-         WmT/F967pUnui+TbY7Gib8bxJXmNfr7f2wsSwLIW1F4jNKijEssowlJ+5YaJiu34asf3
-         hpFf3s/ZUUstJItyDx7eQZrBF0TFUoMtoCiAc9GsUmKv46XY6++dsp+C4a3F6G0ddjCi
-         SusA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=60NPO1jNpQvd7Ez31xiYkmEeG4s8Fwi9JQHXOHTFnZA=;
-        b=rEq0Ncj+BAacgxwXLikMJAlURzTLsCGhaskxRzkOp5nPhog2gs1ayXYafT1d/Hn49o
-         ZKES8lq7bKgdvpPPo1rfkhg1G0R3ELvIQZ/pP4gniAzJOXnJqBN4e1A+g/Iu6aYTC7fP
-         pZEKClWQiLrkeMS+SGPEvVDk1jB6flEk4enyhuSnOxHK9Nla8yVWxp80rLv97LPIsISG
-         72TE/416F7EAxzVphvvKhjr8vpjUaRmKYHT24exks3lthei80HYaV/r0W72ewQ8HL04d
-         70mTLYrk/MQE3Bc7RKX5vJQlB72sTOSTXe3FL4yjjFmYZcwEYOhgjuj7eFBdYrs0PleE
-         noJw==
-X-Gm-Message-State: APjAAAWIahq6vTkXDlN6WdGJfXsQtUiq4WrfRwIr5bJhfxD9A9XH+aBA
-        mrZ0/WSmVpFvfx+r6F5G6mI=
-X-Google-Smtp-Source: APXvYqz/QiChR4nRct216cdjVr+StmgHBQwnJMAfrEgDwXvUONAdLPrqVpnqJrkLbPN5J5tTlJIPlA==
-X-Received: by 2002:adf:f246:: with SMTP id b6mr31407645wrp.92.1561023596478;
-        Thu, 20 Jun 2019 02:39:56 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id v65sm6011756wme.31.2019.06.20.02.39.55
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 20 Jun 2019 02:39:55 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 11:39:54 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     jonathanh@nvidia.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        mkumard@nvidia.com, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] arm64: tegra: enable ACONNECT, ADMA and AGIC
-Message-ID: <20190620093954.GJ26689@ulmo>
+        Thu, 20 Jun 2019 06:01:10 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0b59640000>; Thu, 20 Jun 2019 03:01:08 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 20 Jun 2019 03:01:09 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 20 Jun 2019 03:01:09 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
+ 2019 10:01:07 +0000
+Subject: Re: [PATCH v6 1/2] arm64: tegra: add ACONNECT, ADMA and AGIC nodes
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Sameer Pujar <spujar@nvidia.com>
+CC:     <robh+dt@kernel.org>, <mark.rutland@arm.com>, <mkumard@nvidia.com>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
 References: <1560945082-24554-1-git-send-email-spujar@nvidia.com>
- <1560945082-24554-2-git-send-email-spujar@nvidia.com>
+ <20190620093929.GI26689@ulmo>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <5da5b498-cbc7-26dd-bd68-7f2376eb6b30@nvidia.com>
+Date:   Thu, 20 Jun 2019 11:01:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="AXxEqdD4tcVTjWte"
-Content-Disposition: inline
-In-Reply-To: <1560945082-24554-2-git-send-email-spujar@nvidia.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190620093929.GI26689@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1561024869; bh=qdyhSSt7RMpn1tWpQVWYh3tgNpZcqv4QGKpRxtDW2Sw=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=UcYaJmA1XyZElfQVXNOZsorTWCrIXlmqn79vGS87RD22Q1z+QjwSDGLGWgSLqlL7j
+         jMNjUt5Ev4dBEc2ERU6GuxIVombvS3hCzLGpqKcY9Pas46Xu0a84YgP9j/jzh/+Qiz
+         YHBQeNBg1ugBgYT+BDSl67mINDWiEZJBH+WwJ4OWegynqr9u9vGYLAKPdWifKfhcLG
+         YV9OpW8ZnPp6LLptYGVhxX9UrC35AJ/zLWM3WRx4p3djRDcauXuvB5BwUrbp+51sgI
+         v/2yc0IMR53lhsmEI+YN0wwkeMTfIFF/F/TH6rbX6Fcs7KWWqFI7ShQDCnmLuDU7p6
+         BxgsYq28m4AZw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---AXxEqdD4tcVTjWte
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 20/06/2019 10:39, Thierry Reding wrote:
+> On Wed, Jun 19, 2019 at 05:21:21PM +0530, Sameer Pujar wrote:
+>> Add DT nodes for following devices on Tegra186 and Tegra194
+>>  * ACONNECT
+>>  * ADMA
+>>  * AGIC
+>>
+>> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+>> ---
+>>  changes in current revision
+>>    * updated ranges property for aconnect
+>>    * renamed agic node
+>>
+>>  arch/arm64/boot/dts/nvidia/tegra186.dtsi | 67 ++++++++++++++++++++++++++++++++
+>>  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 67 ++++++++++++++++++++++++++++++++
+>>  2 files changed, 134 insertions(+)
+> 
+> Applied to for-5.3/arm64/dt, thanks.
+> 
+> I ended up deciding to put the aconnect node among the nodes with unit-
+> addresses, in the numerical order that it would fit in if the top-level
+> aconnect node didn't exist. I think that looks much more consistent in
+> the end, even though it's slightly bending the rules that we have.
 
-On Wed, Jun 19, 2019 at 05:21:22PM +0530, Sameer Pujar wrote:
-> Enable ACONNECT, ADMA and AGIC devices for following platforms
->   * Jetson TX2
->   * Jetson Xavier
->=20
-> Verified driver probe path and devices get registered fine.
->=20
-> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> ---
->  changes in current revision
->    * renamed agic, interrupt-controller, name
->=20
->  arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 12 ++++++++++++
->  arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 12 ++++++++++++
->  2 files changed, 24 insertions(+)
+Thanks. Good point, I had not thought that bit through. Works for me,
+especially as the aconnect bus has a ranges property and so is
+associated with an address range.
 
-Applied to for-5.3/arm64/dt, thanks.
+Cheers
+Jon
 
-Thierry
-
---AXxEqdD4tcVTjWte
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0LVGoACgkQ3SOs138+
-s6HmwxAAuz3s2lsYuNspLRTR7ZEw+HSokk6+25gsH3D8xjf6/9CeYFTfEFwu9fRV
-svrVsN2wkVUvThaNn5UpajTzJJ+AUg5isdIcNUJ5zwlAbFmhCzwxGFgMit6aMxnz
-if2/SLmiNZ6QnzU1r7RUkqMGC69hHhrV7daAEcYTWklLYYmIeU6wX3cLrVCsvnQ7
-QF/087CR/T66/ECHcKodVtsE86BrLsiyVaiQq2AeAOscFWhIzv/M98aQb9OiceRm
-2OB7nf+qhsdjU1M1G73rpcNuRHdppTOxm2ZFP22mk4VLLLmrL1nHA6XbGUQTNedW
-h5TrwlsEVDtUyqLj6OThRByxv0+lvatK9Wor2su8h2v4KZubxL+FjcfbwWN8kgxP
-r6QE9Swo2EZzqav5PFaY3nXbG+F1oFaPZpw6MkG70Swv26cwh3DEAvw4a9iPvzhh
-W9gaqXYIc01SZkX2Nub5Zx0AKptK/4NI21aE+uO8HnYS43Qydvs+6JVqGA9oRSmT
-ZF9Kd+585Upebth/fZHspW0YgxWNlO0WtqWjBt8wFeyMkYamHft1d8kSXGyiccsv
-9ZDZncC7trCxQyF4NUc8xibtAO2P2bsc9Sq6qgYfOQxct/4Ve/2queKa3xwIruxB
-aCw4MrbJQ7EKFkph8e6gZ8cIUfA29VqxIN/ZmcRP3uI5FkbylCU=
-=CBE0
------END PGP SIGNATURE-----
-
---AXxEqdD4tcVTjWte--
+-- 
+nvpublic
