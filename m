@@ -2,203 +2,155 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3EA04D10D
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 16:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C1104D10A
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 16:57:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726686AbfFTO6B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 10:58:01 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:13866 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726530AbfFTO6B (ORCPT
+        id S1726675AbfFTO51 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 10:57:27 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52864 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726530AbfFTO51 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 10:58:01 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0b9ef60000>; Thu, 20 Jun 2019 07:57:58 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 20 Jun 2019 07:57:59 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 20 Jun 2019 07:57:59 -0700
-Received: from [10.24.70.135] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
- 2019 14:57:53 +0000
-Subject: Re: [PATCH V6 06/27] PCI: tegra: Add PCIe Gen2 link speed support
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     <thierry.reding@gmail.com>, <bhelgaas@google.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <jonathanh@nvidia.com>, <vidyas@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20190618180206.4908-1-mmaddireddy@nvidia.com>
- <20190618180206.4908-7-mmaddireddy@nvidia.com>
- <20190620143251.GB31996@e121166-lin.cambridge.arm.com>
-X-Nvconfidentiality: public
-From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Message-ID: <d46fbde3-1e42-e7b6-8926-efb599ad335f@nvidia.com>
-Date:   Thu, 20 Jun 2019 20:27:15 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        Thu, 20 Jun 2019 10:57:27 -0400
+Received: by mail-wm1-f65.google.com with SMTP id s3so3399528wms.2
+        for <linux-tegra@vger.kernel.org>; Thu, 20 Jun 2019 07:57:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jVeVd/SOgfJIfQYBg3GapZljoFKEHSza1escPVxTheM=;
+        b=lnVcpu9jdw1fkvNGkw5nqzives27bpvn/3g7rn5ckjaMvaS+bazWp6gOzk+qjJMCi2
+         xP5kHhwHCbJmdpCgGgr6I2OorfLGFbuTeTfbb8ENR+uiuuqpH4U5v91PJGbJ/UBI/now
+         l3FbH0A9CIg9tE2CJlDfoXrxjtVxcEhSXwZRwa63M2sCHdsQ28vwRaIpuK9KXUAQrxN5
+         e88LbZu/tsZnqp96IfL3QblctoNVxPWYOJ8d44Lwx25X4BAhMdX9koIlqILh5IfxqE0l
+         2g20jVeiX1o3sfq7qkE4IJ5QJ4RGTaKWSB71uJTu/gIrHh8j1aFkudyY0DN2vSohVdIE
+         IMCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jVeVd/SOgfJIfQYBg3GapZljoFKEHSza1escPVxTheM=;
+        b=Hc36k1mG3OeJoQRlbJ4Nl9PrUpvbfCW7Y55/CfMs/nUWNakahYAZXrAQHUA4ylfQC1
+         6QCo1MB6PsDB/aBUhrG8uJUuf9Ull3aEHSHXO+D+igC7GSMFU7k81RPXAc7AdXRH4k2H
+         dnrUBK0FPsOmI5EaQL+kq2JdI7Y0EtWuKADN+gmCju7wsgamu0C85gczVcqlv63OOo9M
+         685ehhEnswFHa1Asi4VK1nMXwOlCrVc5SnHIqat1uxPqocqFdns8hnGsw6w7W+MuoqRC
+         F5+ZSMOmrazdaIuqKpD/CAWFNWUoGWxPaJAoP7CHY3f1L/y6UiiK604ydGXs3jGFMyj7
+         yR5Q==
+X-Gm-Message-State: APjAAAV6Vm77w5jSglMAjCxt8Hn1YJSNj0iWNyegsTzPbEpFToSqokEN
+        f5mXSVH5M4iR5rfR4bfQO9k=
+X-Google-Smtp-Source: APXvYqyYiQPkAZJf+o+9K/gQbBobSmxW98WPFXYmR02C5XP8G0IXMBpJ17YMUS+ZeWNvdlCtlZbBCQ==
+X-Received: by 2002:a1c:2c6:: with SMTP id 189mr53068wmc.108.1561042644895;
+        Thu, 20 Jun 2019 07:57:24 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id 72sm18649464wrk.22.2019.06.20.07.57.23
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 20 Jun 2019 07:57:24 -0700 (PDT)
+Date:   Thu, 20 Jun 2019 16:57:23 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org
+Subject: Re: drm connectors, tegra,  and the web they weave (was Re: [PATCH
+ 58/59] drm/todo: Add new debugfs todo)
+Message-ID: <20190620145723.GC15501@ulmo>
+References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
+ <20190614203615.12639-59-daniel.vetter@ffwll.ch>
+ <20190618151938.GA2567@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20190620143251.GB31996@e121166-lin.cambridge.arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561042679; bh=2S/ArD3L74xcVrtoGOwf8r/JIu/P3SRHFU4l7stm63M=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Transfer-Encoding:Content-Language;
-        b=q8smOu5BHToVrsT690tV4CUKDZBTnYS30PXuU3OiKsW3DDb/NsFMHrBD0VXJQiW07
-         MygeNAWOoU11gJ+n+ymZInEPozfP7CqNOkQ4qJ829OydHJdLOCGuqQuOj3ghHjB2F0
-         2/duAuTiTo3e48c1+6p1moQgh4H2ndlAkgq4u9+yi17nYXP/SI/P9dBp4jOKfhLzYm
-         G5wMiryrvAmpXJLGJQxHPNs8SsnN/V51mCba4IzibEcdRhhbWvQ+GRFWpJ3fzS5PIA
-         qj4Lj0OyrLmLfM1B8K8BhvXMNMOynZvOt4dOp3juUeGqQX7k8303FUgq4Qlnl2X5+f
-         MEujO30z2i6YA==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
+Content-Disposition: inline
+In-Reply-To: <20190618151938.GA2567@kroah.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+--vOmOzSkFvhd7u8Ms
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 20-Jun-19 8:02 PM, Lorenzo Pieralisi wrote:
-> On Tue, Jun 18, 2019 at 11:31:45PM +0530, Manikanta Maddireddy wrote:
->> Tegra124, Tegra132, Tegra210 and Tegra186 support Gen2 link speed. After
->> PCIe link is up in Gen1, set target link speed as Gen2 and retrain link.
->> Link switches to Gen2 speed if Gen2 capable end point is connected, else
->> link stays in Gen1.
->>
->> Per PCIe 4.0r0.9 sec 7.6.3.7 implementation note, driver need to wait for
->> PCIe LTSSM to come back from recovery before retraining the link.
->>
->> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
->> Acked-by: Thierry Reding <treding@nvidia.com>
->> ---
->> V6: No change
->>
->> V5: No change
->>
->> V4: No change
->>
->> V3: Added blank line after each while loop.
->>
->> V2: Changed "for loop" to "while", to make it compact and handled coding
->> style comments.
->>
->>  drivers/pci/controller/pci-tegra.c | 64 ++++++++++++++++++++++++++++++
->>  1 file changed, 64 insertions(+)
->>
->> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
->> index 5e9fcef5f8eb..5d19067f7193 100644
->> --- a/drivers/pci/controller/pci-tegra.c
->> +++ b/drivers/pci/controller/pci-tegra.c
->> @@ -191,6 +191,8 @@
->>  #define  RP_LINK_CONTROL_STATUS_DL_LINK_ACTIVE	0x20000000
->>  #define  RP_LINK_CONTROL_STATUS_LINKSTAT_MASK	0x3fff0000
->>  
->> +#define RP_LINK_CONTROL_STATUS_2		0x000000b0
->> +
->>  #define PADS_CTL_SEL		0x0000009c
->>  
->>  #define PADS_CTL		0x000000a0
->> @@ -226,6 +228,7 @@
->>  #define PADS_REFCLK_CFG_DRVI_SHIFT		12 /* 15:12 */
->>  
->>  #define PME_ACK_TIMEOUT 10000
->> +#define LINK_RETRAIN_TIMEOUT 100000 /* in usec */
->>  
->>  struct tegra_msi {
->>  	struct msi_controller chip;
->> @@ -2089,6 +2092,64 @@ static bool tegra_pcie_port_check_link(struct tegra_pcie_port *port)
->>  	return false;
->>  }
->>  
->> +static void tegra_pcie_change_link_speed(struct tegra_pcie *pcie)
->> +{
->> +	struct device *dev = pcie->dev;
->> +	struct tegra_pcie_port *port, *tmp;
->> +	ktime_t deadline;
->> +	u32 value;
->> +
->> +	list_for_each_entry_safe(port, tmp, &pcie->ports, list) {
-> And the reason to use the _safe version is ?
->
-> Lorenzo
+On Tue, Jun 18, 2019 at 05:19:38PM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Jun 14, 2019 at 10:36:14PM +0200, Daniel Vetter wrote:
+> > Greg is busy already, but maybe he won't do everything ...
+> >=20
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  Documentation/gpu/todo.rst | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >=20
+> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> > index 9717540ee28f..026e55c517e1 100644
+> > --- a/Documentation/gpu/todo.rst
+> > +++ b/Documentation/gpu/todo.rst
+> > @@ -375,6 +375,9 @@ There's a bunch of issues with it:
+> >    this (together with the drm_minor->drm_device move) would allow us t=
+o remove
+> >    debugfs_init.
+> > =20
+> > +- Drop the return code and error checking from all debugfs functions. =
+Greg KH is
+> > +  working on this already.
+>=20
+>=20
+> Part of this work was to try to delete drm_debugfs_remove_files().
+>=20
+> There are only 4 files that currently still call this function:
+> 	drivers/gpu/drm/tegra/dc.c
+> 	drivers/gpu/drm/tegra/dsi.c
+> 	drivers/gpu/drm/tegra/hdmi.c
+> 	drivers/gpu/drm/tegra/sor.c
+>=20
+> For dc.c, the driver wants to add debugfs files to the struct drm_crtc
+> debugfs directory.  Which is fine, but it has to do some special memory
+> allocation to get the debugfs callback to point not to the struct
+> drm_minor pointer, but rather the drm_crtc structure.
 
-This function is called in probe and resume_noirq. list entry is deleted in
-remove, I don't see any scenario where it can cause a race condition.
-It is fine to drop _safe. I will fix it in next version.
+Actually the reason why the memory allocation is done is because there
+can be multiple instances of the display controller. In fact, there's
+always at least two (and up to four in later Tegra generations). The DRM
+debugfs infrastructure, however, doesn't automatically duplicate the
+data for each drm_debugfs_create_files() call and at the same time it
+does not allow you to specify driver-private data other than by
+embedding it in the drm_info_list structure. So rather than manually
+create the drm_info_list for each display controller instance, the code
+creates a template that is then duplicated and for which the driver-
+private is then set. That way multiple invocations end up with different
+data.
 
-Manikanta
+This is because of the extra indirection that the DRM debugfs
+infrastructure introduces. It's in fact much easier to do this with just
+plain debugfs function calls. The only downside is the boilerplate
+required to make that happen.
 
->> +		/*
->> +		 * "Supported Link Speeds Vector" in "Link Capabilities 2"
->> +		 * is not supported by Tegra. tegra_pcie_change_link_speed()
->> +		 * is called only for Tegra chips which support Gen2.
->> +		 * So there no harm if supported link speed is not verified.
->> +		 */
->> +		value = readl(port->base + RP_LINK_CONTROL_STATUS_2);
->> +		value &= ~PCI_EXP_LNKSTA_CLS;
->> +		value |= PCI_EXP_LNKSTA_CLS_5_0GB;
->> +		writel(value, port->base + RP_LINK_CONTROL_STATUS_2);
->> +
->> +		/*
->> +		 * Poll until link comes back from recovery to avoid race
->> +		 * condition.
->> +		 */
->> +		deadline = ktime_add_us(ktime_get(), LINK_RETRAIN_TIMEOUT);
->> +
->> +		while (ktime_before(ktime_get(), deadline)) {
->> +			value = readl(port->base + RP_LINK_CONTROL_STATUS);
->> +			if ((value & PCI_EXP_LNKSTA_LT) == 0)
->> +				break;
->> +
->> +			usleep_range(2000, 3000);
->> +		}
->> +
->> +		if (value & PCI_EXP_LNKSTA_LT)
->> +			dev_warn(dev, "PCIe port %u link is in recovery\n",
->> +				 port->index);
->> +
->> +		/* Retrain the link */
->> +		value = readl(port->base + RP_LINK_CONTROL_STATUS);
->> +		value |= PCI_EXP_LNKCTL_RL;
->> +		writel(value, port->base + RP_LINK_CONTROL_STATUS);
->> +
->> +		deadline = ktime_add_us(ktime_get(), LINK_RETRAIN_TIMEOUT);
->> +
->> +		while (ktime_before(ktime_get(), deadline)) {
->> +			value = readl(port->base + RP_LINK_CONTROL_STATUS);
->> +			if ((value & PCI_EXP_LNKSTA_LT) == 0)
->> +				break;
->> +
->> +			usleep_range(2000, 3000);
->> +		}
->> +
->> +		if (value & PCI_EXP_LNKSTA_LT)
->> +			dev_err(dev, "failed to retrain link of port %u\n",
->> +				port->index);
->> +	}
->> +}
->> +
->>  static void tegra_pcie_enable_ports(struct tegra_pcie *pcie)
->>  {
->>  	struct device *dev = pcie->dev;
->> @@ -2113,6 +2174,9 @@ static void tegra_pcie_enable_ports(struct tegra_pcie *pcie)
->>  		tegra_pcie_port_disable(port);
->>  		tegra_pcie_port_free(port);
->>  	}
->> +
->> +	if (pcie->soc->has_gen2)
->> +		tegra_pcie_change_link_speed(pcie);
->>  }
->>  
->>  static void tegra_pcie_disable_ports(struct tegra_pcie *pcie)
->> -- 
->> 2.17.1
->>
+Thierry
 
+--vOmOzSkFvhd7u8Ms
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0LntIACgkQ3SOs138+
+s6Ec6g//cyahw97qX6MVrsqeWZdi0lCt9yzfOA36w8oeensdVxwAld5K7dDQOGy5
+g9qbcdy+u5QWNnV9UWOl51RRJN34hiH01OV38QRq0T+cMzFZIvFcuU7RBCSWk/LN
+edpFR83XlgnQ3NzNfXHPSNTSkHzUmuJ/9j129Vguawx4HBpfB9sJ4jObJGBS+HT9
++noFFGkqxyvjThPS/g7X3GuotSASX1I11fhK6ApqFS7yp5arzPAUw5yPMz/1Ti9a
+DQg/VYuX52SOlTVY6JIo9ZCs6ifPQbUkQN1YMEmavePm36KBpBpQC8sb+vTBU+d1
+xlOo1eTnL448MCtc6/TzBCYbYT+Bc/At1/stUdH5MFx+3GfqIPx/jBY7Qg1zCY6K
+fmayiJZJukL0IDlA/kCJa8eWA+X0zYIyND9LI07yZoP/i6SiOvi92GraGv7aK4aN
+1pba/s7nA3XlVzDWzM0Mmtqx/ziNTrKcWXdccS/V7RKd4KHS7JNR7bBNvzsK2BxJ
+B+OXJ7GjVk5/4hX+JOn4hcOhkPmGt4ftWACPaaiVG0sFSt8gGKPVkiH7JKfWofkp
+GVI/WGL8hzmpqA8Orfs8am5/x14K2Y1mUseW2XC5DS/T7PzeQMBDwyB1hmB8KYwq
+CxRXBTsK+YlJxN3Z496TaPtCzEsu2XzmSzDYDkOC2cXrK0Dk5yU=
+=KmPe
+-----END PGP SIGNATURE-----
+
+--vOmOzSkFvhd7u8Ms--
