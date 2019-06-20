@@ -2,120 +2,237 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CABB4C945
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 10:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DC1C4C98D
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 10:35:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731080AbfFTISV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 04:18:21 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:11525 "EHLO
+        id S1725977AbfFTIfN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 04:35:13 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:12696 "EHLO
         hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725877AbfFTISV (ORCPT
+        with ESMTP id S1725925AbfFTIfN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 04:18:21 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0b414b0000>; Thu, 20 Jun 2019 01:18:19 -0700
+        Thu, 20 Jun 2019 04:35:13 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0b453e0000>; Thu, 20 Jun 2019 01:35:10 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 20 Jun 2019 01:18:20 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 20 Jun 2019 01:35:11 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 20 Jun 2019 01:18:20 -0700
-Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
- 2019 08:18:19 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 20 Jun 2019 08:18:19 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.21.132.148]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d0b414a0002>; Thu, 20 Jun 2019 01:18:19 -0700
+        by hqpgpgate101.nvidia.com on Thu, 20 Jun 2019 01:35:11 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
+ 2019 08:35:09 +0000
+Subject: Re: [PATCH v6 1/2] arm64: tegra: add ACONNECT, ADMA and AGIC nodes
+To:     Sameer Pujar <spujar@nvidia.com>, <thierry.reding@gmail.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>
+CC:     <mkumard@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1560945082-24554-1-git-send-email-spujar@nvidia.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, <stable@vger.kernel.org>
-Subject: [PATCH 3/3] arm64: tegra: Fix Jetson Nano GPU regulator
-Date:   Thu, 20 Jun 2019 09:17:02 +0100
-Message-ID: <20190620081702.17209-4-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190620081702.17209-1-jonathanh@nvidia.com>
-References: <20190620081702.17209-1-jonathanh@nvidia.com>
-X-NVConfidentiality: public
+Message-ID: <953850e1-c562-65bd-a7a1-75d31d4cd154@nvidia.com>
+Date:   Thu, 20 Jun 2019 09:35:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <1560945082-24554-1-git-send-email-spujar@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561018699; bh=4BwHSOEWA4xYe11LAIREqHwR6axdZ3eGywYYy70TgW8=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=dO+pB5Vrs3cuDGLZqJ7Ruu7nqJsI3Dj87xL3W4JQ/bejWWxHemt12lK/Jnd41uihN
-         T1cDI5B6OzTT63Zbl125ecsHEXI6k9vKJRaclNzkRJRNdxUZCqwldoOzqeR8MBhRNc
-         FFDCRxvS3Uv0cKoXvSufbZRTgCjyQ9lUDSzPfg4y40odu7iCOw4dM0iadYnyuqUSp7
-         JNPHqE2WK26kMscAsCgPWDWkFYvlVonNijQVAGKBf08TWF1psufYwfkslC2A0qQ6ps
-         Dh0VjQw/iag/Hx7ZUeGaECr9IRaKudQZTj6JsZ9+RsH3Q4qEtdeRGQjoZVKUmqM5Av
-         sE8OqSKZS1BwQ==
+        t=1561019710; bh=u8ruBWZaG4+DMY43KeT5wsAt3fh+0m2tf7B99LSbLp4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=OMOhoz7bhWzwwLx0CLZJzJG7UgTNjRaOi+uLprovtsMM+D6Nu8qZfWa5ebrt9JCoM
+         2mV3Uz+unUAnZ4eq4gBTw7ld6yV+8rk+1o6naD2MQ+RM/1aGh/f5oqhTt8QbJtgKxN
+         q8PzS8T/hNK9vuRu0e6m2LUX4//tLvdvHNF0KTenvT8MyvfRIQ+wLMMmz3/XCDpzzQ
+         3utDxz1x8cmT3jJqNvJdynhrlYFHQX/vYPi0Iih//HFs4kvjZAJ4l0XNS4oZOBF/3z
+         mBPNzsh42Q6gukUKLLKQtSX+rh5rEvAha+CfzAq5CeYY0Eq1fxC2sSL0RPf8hcK+T1
+         E7/xDaevtRotg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-There are a few issues with the GPU regulator defined for Jetson Nano
-which are:
 
-1. The GPU regulator is a PWM based regulator and not a fixed voltage
-   regulator.
-2. The output voltages for the GPU regulator are not correct.
-3. The regulator enable ramp delay is too short for the regulator and
-   needs to be increased. 2ms should be sufficient.
-4. This is the same regulator used on Jetson TX1 and so make the ramp
-   delay and settling time the same as Jetson TX1.
+On 19/06/2019 12:51, Sameer Pujar wrote:
+> Add DT nodes for following devices on Tegra186 and Tegra194
+>  * ACONNECT
+>  * ADMA
+>  * AGIC
+> 
+> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> ---
+>  changes in current revision
+>    * updated ranges property for aconnect
+>    * renamed agic node
+> 
+>  arch/arm64/boot/dts/nvidia/tegra186.dtsi | 67 ++++++++++++++++++++++++++++++++
+>  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 67 ++++++++++++++++++++++++++++++++
+>  2 files changed, 134 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+> index 426ac0b..4bb765d 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+> +++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+> @@ -1295,4 +1295,71 @@
+>  				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
+>  		interrupt-parent = <&gic>;
+>  	};
+> +
+> +	aconnect {
+> +		compatible = "nvidia,tegra210-aconnect";
+> +		clocks = <&bpmp TEGRA186_CLK_APE>,
+> +			 <&bpmp TEGRA186_CLK_APB2APE>;
+> +		clock-names = "ape", "apb2ape";
+> +		power-domains = <&bpmp TEGRA186_POWER_DOMAIN_AUD>;
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		ranges = <0x02900000 0x0 0x02900000 0x200000>;
+> +		status = "disabled";
+> +
+> +		dma-controller@2930000 {
+> +			compatible = "nvidia,tegra186-adma";
+> +			reg = <0x02930000 0x20000>;
+> +			interrupt-parent = <&agic>;
+> +			interrupts =  <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+> +			#dma-cells = <1>;
+> +			clocks = <&bpmp TEGRA186_CLK_AHUB>;
+> +			clock-names = "d_audio";
+> +			status = "disabled";
+> +		};
+> +
+> +		agic: interrupt-controller@2a40000 {
+> +			compatible = "nvidia,tegra210-agic";
+> +			#interrupt-cells = <3>;
+> +			interrupt-controller;
+> +			reg = <0x02a41000 0x1000>,
+> +			      <0x02a42000 0x2000>;
+> +			interrupts = <GIC_SPI 145
+> +				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
+> +			clocks = <&bpmp TEGRA186_CLK_APE>;
+> +			clock-names = "clk";
+> +			status = "disabled";
+> +		};
+> +	};
+>  };
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> index c77ca21..d6aee0d 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> @@ -1054,4 +1054,71 @@
+>  				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
+>  		interrupt-parent = <&gic>;
+>  	};
+> +
+> +	aconnect {
+> +		compatible = "nvidia,tegra210-aconnect";
+> +		clocks = <&bpmp TEGRA194_CLK_APE>,
+> +			 <&bpmp TEGRA194_CLK_APB2APE>;
+> +		clock-names = "ape", "apb2ape";
+> +		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_AUD>;
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		ranges = <0x02900000 0x0 0x02900000 0x200000>;
+> +		status = "disabled";
+> +
+> +		dma-controller@2930000 {
+> +			compatible = "nvidia,tegra186-adma";
+> +			reg = <0x02930000 0x20000>;
+> +			interrupt-parent = <&agic>;
+> +			interrupts =  <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>,
+> +				      <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+> +			#dma-cells = <1>;
+> +			clocks = <&bpmp TEGRA194_CLK_AHUB>;
+> +			clock-names = "d_audio";
+> +			status = "disabled";
+> +		};
+> +
+> +		agic: interrupt-controller@2a40000 {
+> +			compatible = "nvidia,tegra210-agic";
+> +			#interrupt-cells = <3>;
+> +			interrupt-controller;
+> +			reg = <0x02a41000 0x1000>,
+> +			      <0x02a42000 0x2000>;
+> +			interrupts = <GIC_SPI 145
+> +				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
+> +			clocks = <&bpmp TEGRA194_CLK_APE>;
+> +			clock-names = "clk";
+> +			status = "disabled";
+> +		};
+> +	};
+>  };
+> 
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- .../boot/dts/nvidia/tegra210-p3450-0000.dts   | 21 +++++++++++--------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index 63df72eecf21..9d17ec707bce 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -88,6 +88,10 @@
- 		status = "okay";
- 	};
- 
-+	pwm@7000a000 {
-+		status = "okay";
-+	};
-+
- 	i2c@7000c500 {
- 		status = "okay";
- 		clock-frequency = <100000>;
-@@ -664,17 +668,16 @@
- 		};
- 
- 		vdd_gpu: regulator@6 {
--			compatible = "regulator-fixed";
-+			compatible = "pwm-regulator";
- 			reg = <6>;
--
-+			pwms = <&pwm 1 4880>;
- 			regulator-name = "VDD_GPU";
--			regulator-min-microvolt = <5000000>;
--			regulator-max-microvolt = <5000000>;
--			regulator-enable-ramp-delay = <250>;
--
--			gpio = <&pmic 6 GPIO_ACTIVE_HIGH>;
--			enable-active-high;
--
-+			regulator-min-microvolt = <710000>;
-+			regulator-max-microvolt = <1320000>;
-+			regulator-ramp-delay = <80>;
-+			regulator-enable-ramp-delay = <2000>;
-+			regulator-settling-time-us = <160>;
-+			enable-gpios = <&pmic 6 GPIO_ACTIVE_HIGH>;
- 			vin-supply = <&vdd_5v0_sys>;
- 		};
- 	};
+Cheers
+Jon
+
 -- 
-2.17.1
-
+nvpublic
