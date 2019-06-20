@@ -2,71 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EBD394D1BC
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 17:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA6F84D1D4
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 17:16:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726530AbfFTPLX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 11:11:23 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:41702 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726512AbfFTPLW (ORCPT
+        id S1726530AbfFTPQ3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 11:16:29 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41400 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726512AbfFTPQ2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 11:11:22 -0400
-Received: by mail-wr1-f65.google.com with SMTP id c2so3406661wrm.8
-        for <linux-tegra@vger.kernel.org>; Thu, 20 Jun 2019 08:11:20 -0700 (PDT)
+        Thu, 20 Jun 2019 11:16:28 -0400
+Received: by mail-wr1-f67.google.com with SMTP id c2so3424591wrm.8
+        for <linux-tegra@vger.kernel.org>; Thu, 20 Jun 2019 08:16:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=0H9zlAD92P9ekBZ1IL5Ma72ZjrQuRTtWpdcHpCq85Z0=;
-        b=rHrwXAOeR1/KtWequmWPWdA65pILcJ8Ugg/uhlmaLRf6zbVBySb7v+dG0Tm4RryMmR
-         T4QuTSmFcAB3DAxquMiXQmYJMKgwrOiHxSllIjmbAvjuehVdy4WyLykvLNHsGlYKrBWu
-         unT1LLRUgk1slKMOzkVDpf3+Fl3oZdhDvwWpq1SdBP7TayEDXYPw4/p+RZw1XeZrG8T/
-         vSYbu3j5LhNspeCsSouRUQKJ1FmTSKc7+T0+P9rZdeDRKdtALRu/UrOwfaCQcKVneR7y
-         xt9gHbkufAg0oaNLK2ZoKk+XOywXf6v0k7EXD2PTTERXSUEv2DsoALvbzARNLSEYQbtm
-         rt7Q==
+        bh=IT9vkCui+a0GOhlDNYpQyXbKfhcqVQwdMdDuT3nr9yU=;
+        b=SVLRulcIBrfZoF3YrkMm+H0ZoAK+MTXwO797CeVzRbuLQnVISU2ndoNvqr8sKUAIFd
+         Y/M67a06fK8zdwjRCO+b2ogskqpyCb5jbkWvTyuNMptoO9cFPPr5R23fggmuCEDC04M+
+         2/1gfILi2AgyQFSOUpfPTS2z2o+ohPjyWK2dEnKylv32UUSfqUjMh8dwF+svai5GRx5T
+         qMPUb6hVEm7oX7arAwhm63HxlSwEefFktBH+W1TjhNRKhXMWKwyQk8pZzLO0QVjXg/xC
+         V0z1anRyctB7zRndIGFR7FBFSgRpOMIVyJe+BGkZDOota0UbCDTGIKbEuIlJf6yxNuJH
+         YyaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0H9zlAD92P9ekBZ1IL5Ma72ZjrQuRTtWpdcHpCq85Z0=;
-        b=sRqOpgHA7MFpTH0WnqdIK0s1Kir9ju/4Xl2LdE7M7Ot8acGS4eDD8tXpFQ8Mf7leHG
-         zARbcYmJyDp9jIYwuf9riYAj8KaoIPY5A2BTMQ7ARGy1RvM3Wam40LCUiRk/DH7qR5bO
-         sY8PWTI6Kq0TrDgjW6zstJFfaDgAXJbtNQ/h0UK6yglB+bUGKxx4xKr/8b/BDKoCMKmR
-         kf763vxriaNl+Qq1Py6C+8C0+dg+ov3Hkl/lLAdifF76RkOv12vJEf2YIAuL/MF27djF
-         86Wjmlk3Z+JZRqfa133QcOVCuPF3QklZ1RawvcxjXENcJfffRrxl+knYvNcMnTc0V6yq
-         Cicg==
-X-Gm-Message-State: APjAAAU1vYKJTrFynMXM/gb+meOFpqMhRVky9h486dEl+XRK5x/Wk5fx
-        oed6ERH/nuzyZOd/yS3xZYc=
-X-Google-Smtp-Source: APXvYqxLgLTJRrKRTzgbmzlJtFRAFQi6lL43mcKlCoh2TXalCaiWaw2DfmIMa07K4qj2M0uHp8AFAw==
-X-Received: by 2002:a5d:42c5:: with SMTP id t5mr74980574wrr.5.1561043479267;
-        Thu, 20 Jun 2019 08:11:19 -0700 (PDT)
+        bh=IT9vkCui+a0GOhlDNYpQyXbKfhcqVQwdMdDuT3nr9yU=;
+        b=AFX8XHaztOG9SNLScxSjX8hZdw7bv7+/vwMMsnS5nqlmQcngGBpDIRJ99CPyYSzUWL
+         AwEYGI8yJQCAZrJOOqGBvSeKmS9ju46HrK2XrHYiqnS2IE1DEWoU3qUMFjR5w0Jra6po
+         MwPVmjunHBpwBwZSPj56fA217sdfOLWCmGle5+vNGy/PH4xeKH25kgToyfaNrL5BUvjl
+         FPVPHoKkZ+e6JOQs8OOGplTRMrzTZ8bE9RYvpkggR543LqwQgtu4sJVXP9zCsg3G2+cF
+         FbCY68FSJuvVcfsFxsxaNhCKsYnx4LO22fZwpiWhANACJtTtX7BCt+hplmYq1XZdfrBy
+         O48A==
+X-Gm-Message-State: APjAAAX7V0wGBge9kxHIgvKNJDO68jEYQKhRfKA+AhoyiwECbxWZ6HOG
+        xM2S2Gq60Gb20iqKd56UBZw=
+X-Google-Smtp-Source: APXvYqwJucwdCy0ytAcwUaj1mQRdNW9f+uHOrK1BwGfdhtMBQF+L/ZHf/0zrwAht8kIXvuetfTln0A==
+X-Received: by 2002:adf:fbcf:: with SMTP id d15mr20076948wrs.50.1561043785742;
+        Thu, 20 Jun 2019 08:16:25 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id z5sm4224300wma.36.2019.06.20.08.11.18
+        by smtp.gmail.com with ESMTPSA id n3sm17181284wro.59.2019.06.20.08.16.24
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 20 Jun 2019 08:11:18 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 17:11:17 +0200
+        Thu, 20 Jun 2019 08:16:25 -0700 (PDT)
+Date:   Thu, 20 Jun 2019 17:16:24 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     Jon Hunter <jonathanh@nvidia.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
         DRI Development <dri-devel@lists.freedesktop.org>,
         Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         Daniel Vetter <daniel.vetter@intel.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
         linux-tegra@vger.kernel.org
 Subject: Re: drm connectors, tegra, and the web they weave (was Re: [PATCH
  58/59] drm/todo: Add new debugfs todo)
-Message-ID: <20190620151117.GD15501@ulmo>
+Message-ID: <20190620151624.GE15501@ulmo>
 References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
  <20190614203615.12639-59-daniel.vetter@ffwll.ch>
  <20190618151938.GA2567@kroah.com>
- <20190618152530.GA4576@kroah.com>
- <CAKMK7uEd0sZ81RMjDsz6cnkW+krPuvoqUcEY4U3ofB9W_qeFvA@mail.gmail.com>
+ <3271ab62-43dc-a845-45ff-c3dae62ad2d6@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uxuisgdDHaNETlh8"
+        protocol="application/pgp-signature"; boundary="9crTWz/Z+Zyzu20v"
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uEd0sZ81RMjDsz6cnkW+krPuvoqUcEY4U3ofB9W_qeFvA@mail.gmail.com>
+In-Reply-To: <3271ab62-43dc-a845-45ff-c3dae62ad2d6@nvidia.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -74,309 +73,103 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---uxuisgdDHaNETlh8
+--9crTWz/Z+Zyzu20v
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 18, 2019 at 07:32:20PM +0200, Daniel Vetter wrote:
-> On Tue, Jun 18, 2019 at 5:25 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Tue, Jun 18, 2019 at 05:19:38PM +0200, Greg Kroah-Hartman wrote:
-> > > On Fri, Jun 14, 2019 at 10:36:14PM +0200, Daniel Vetter wrote:
-> > > > Greg is busy already, but maybe he won't do everything ...
-> > > >
-> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > ---
-> > > >  Documentation/gpu/todo.rst | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > > > index 9717540ee28f..026e55c517e1 100644
-> > > > --- a/Documentation/gpu/todo.rst
-> > > > +++ b/Documentation/gpu/todo.rst
-> > > > @@ -375,6 +375,9 @@ There's a bunch of issues with it:
-> > > >    this (together with the drm_minor->drm_device move) would allow =
-us to remove
-> > > >    debugfs_init.
-> > > >
-> > > > +- Drop the return code and error checking from all debugfs functio=
-ns. Greg KH is
-> > > > +  working on this already.
-> > >
-> > >
-> > > Part of this work was to try to delete drm_debugfs_remove_files().
-> > >
-> > > There are only 4 files that currently still call this function:
-> > >       drivers/gpu/drm/tegra/dc.c
-> > >       drivers/gpu/drm/tegra/dsi.c
-> > >       drivers/gpu/drm/tegra/hdmi.c
-> > >       drivers/gpu/drm/tegra/sor.c
-> > >
-> > > For dc.c, the driver wants to add debugfs files to the struct drm_crtc
-> > > debugfs directory.  Which is fine, but it has to do some special memo=
-ry
-> > > allocation to get the debugfs callback to point not to the struct
-> > > drm_minor pointer, but rather the drm_crtc structure.
+On Tue, Jun 18, 2019 at 04:37:16PM +0100, Jon Hunter wrote:
 >=20
-> There's already a todo to switch the drm_minor debugfs stuff over to
-> drm_device. drm_minor is essentially different uapi flavours (/dev/
-> minor nodes, hence the name) sitting on top of the same drm_device.
-> Last time I checked all the debugfs files want the drm_device, not the
-> minor. I think we even discussed to only register the debugfs files
-> for the first minor, and create the other ones as symlinks to the
-> first one. But haven't yet gotten around to typing that.
+> On 18/06/2019 16:19, Greg Kroah-Hartman wrote:
+> > On Fri, Jun 14, 2019 at 10:36:14PM +0200, Daniel Vetter wrote:
+> >> Greg is busy already, but maybe he won't do everything ...
+> >>
+> >> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> >> ---
+> >>  Documentation/gpu/todo.rst | 3 +++
+> >>  1 file changed, 3 insertions(+)
+> >>
+> >> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> >> index 9717540ee28f..026e55c517e1 100644
+> >> --- a/Documentation/gpu/todo.rst
+> >> +++ b/Documentation/gpu/todo.rst
+> >> @@ -375,6 +375,9 @@ There's a bunch of issues with it:
+> >>    this (together with the drm_minor->drm_device move) would allow us =
+to remove
+> >>    debugfs_init.
+> >> =20
+> >> +- Drop the return code and error checking from all debugfs functions.=
+ Greg KH is
+> >> +  working on this already.
+> >=20
+> >=20
+> > Part of this work was to try to delete drm_debugfs_remove_files().
+> >=20
+> > There are only 4 files that currently still call this function:
+> > 	drivers/gpu/drm/tegra/dc.c
+> > 	drivers/gpu/drm/tegra/dsi.c
+> > 	drivers/gpu/drm/tegra/hdmi.c
+> > 	drivers/gpu/drm/tegra/sor.c
+> >=20
+> > For dc.c, the driver wants to add debugfs files to the struct drm_crtc
+> > debugfs directory.  Which is fine, but it has to do some special memory
+> > allocation to get the debugfs callback to point not to the struct
+> > drm_minor pointer, but rather the drm_crtc structure.
+> >=20
+> > So, to remove this call, I need to remove this special memory allocation
+> > and to do that, I need to somehow be able to cast from drm_minor back to
+> > the drm_crtc structure being used in this driver.  And I can't figure
+> > how they are related at all.
+> >=20
+> > Any pointers here (pun intended) would be appreciated.
+> >=20
+> > For the other 3 files, the situation is much the same, but I need to get
+> > from a 'struct drm_minor' pointer to a 'struct drm_connector' pointer.
+> >=20
+> > I could just "open code" a bunch of calls to debugfs_create_file() for
+> > these drivers, which would solve this issue, but in a more "non-drm"
+> > way.  Is it worth to just do that instead of overthinking the whole
+> > thing and trying to squish it into the drm "model" of drm debugfs calls?
+> >=20
+> > Either way, who can test these changes?  I can't even build the tegra
+> > driver without digging up an arm64 cross-compiler, and can't test it as
+> > I have no hardware at all.
 >=20
-> drm_crtc/connector are parts of drm_device with modesetting support,
-> so the drm_minor is even worse choice really.
-
-For the connector drivers we already sit on top of the per-connector
-debugfs directories. I think the only reason why we don't do that for
-the display controller is because drm_crtc didn't have built-in debugfs
-support like the connectors have. It looks like that's no longer true,
-though it's been there for a while. I think it'd be good to just move
-those over as well.
-
-As for passing struct drm_minor, I think that's mostly unnecessary. As
-far as I can tell, we only use drm_minor to get at drm_device, which in
-turn we only use to check some features flags, and drm_minor itself is
-only used to track the list of files that are being added so that they
-can later be removed again. Given that we can just tear down everything
-debugfs recursively, I don't think we need any of that.
-
+> We can definitely compile and boot test these no problem. In fact
+> anything that lands in -next we will boot test. However, I can do some
+> quick sanity if you have something to test.
 >=20
-> Not exactly sure why we went with this, but probably dates back to the
-> *bsd compat layer and a lot of these files hanging out in procfs too
-> (we've fixed those mistakes a few years ago, yay!).
->=20
-> > > So, to remove this call, I need to remove this special memory allocat=
-ion
-> > > and to do that, I need to somehow be able to cast from drm_minor back=
- to
-> > > the drm_crtc structure being used in this driver.  And I can't figure
-> > > how they are related at all.
-> > >
-> > > Any pointers here (pun intended) would be appreciated.
-> > >
-> > > For the other 3 files, the situation is much the same, but I need to =
-get
-> > > from a 'struct drm_minor' pointer to a 'struct drm_connector' pointer.
->=20
-> Ditch the drm_minor, there's no no way to get from that to something
-> like drm_connector/crtc, since it's a n:m relationship.
+> Thierry may have more specific Tegra DRM tests.
 
-Yeah. That too.
-
-> > > I could just "open code" a bunch of calls to debugfs_create_file() for
-> > > these drivers, which would solve this issue, but in a more "non-drm"
-> > > way.  Is it worth to just do that instead of overthinking the whole
-> > > thing and trying to squish it into the drm "model" of drm debugfs cal=
-ls?
-> >
-> > An example of "open coding" this is the patch below for the sor.c
-> > driver.
->=20
-> I think open-coding is the way to go here. One of the todos is to
-> extend debugfs support for crtc/connectors, but looking at the
-> open-coded version we really don't need a drm-flavoured midlayer here.
-
-Exactly my thoughts. It'd be nice to have some sort of macro to help
-bring the boilerplate down a bit.
+We don't have any automated tests for this yet, unfortunately. Let me
+work on something. In the meantime I can manually test any of the
+patches that Greg sends out. These should be fairly trivial to test.
+It's difficult to check for success/failure on something like the
+register dump or the CRC, but I think for now we don't really need much
+more than just validating that things don't crash when we read one of
+these debugfs files.
 
 Thierry
 
-> > Totally untested, not even built, but you should get the idea here.
-> >
-> > thanks,
-> >
-> > greg k-h
-> >
-> > ---------------
-> >
-> > diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-> > index 5be5a0817dfe..3216221c77c4 100644
-> > --- a/drivers/gpu/drm/tegra/sor.c
-> > +++ b/drivers/gpu/drm/tegra/sor.c
-> > @@ -414,7 +414,8 @@ struct tegra_sor {
-> >
-> >         struct drm_dp_aux *aux;
-> >
-> > -       struct drm_info_list *debugfs_files;
-> > +       struct dentry *debugfs_root;
-> > +       struct drm_device *drm;
-> >
-> >         const struct tegra_sor_ops *ops;
-> >         enum tegra_io_pad pad;
-> > @@ -1262,10 +1263,9 @@ static int tegra_sor_crc_wait(struct tegra_sor *=
-sor, unsigned long timeout)
-> >
-> >  static int tegra_sor_show_crc(struct seq_file *s, void *data)
-> >  {
-> > -       struct drm_info_node *node =3D s->private;
-> > -       struct tegra_sor *sor =3D node->info_ent->data;
-> > +       struct tegra_sor *sor =3D s->private;
-> >         struct drm_crtc *crtc =3D sor->output.encoder.crtc;
-> > -       struct drm_device *drm =3D node->minor->dev;
-> > +       struct drm_device *drm =3D sor->drm;
-> >         int err =3D 0;
-> >         u32 value;
-> >
-> > @@ -1302,6 +1302,20 @@ static int tegra_sor_show_crc(struct seq_file *s=
-, void *data)
-> >         return err;
-> >  }
-> >
-> > +static int crc_open(struct inode *inode, struct file *file)
-> > +{
-> > +       struct tegra_sor *sor =3D inode->i_private;
-> > +       return single_open(file, tegra_sor_show_crc, sor);
-> > +}
-> > +
-> > +static const struct file_operations crc_fops =3D {
-> > +       .owner =3D THIS_MODULE,
-> > +       .open =3D crc_open,
-> > +       .read =3D seq_read,
-> > +       .llseek =3D seq_lseek,
-> > +       .release =3D single_release,
-> > +};
->=20
-> Hm, is there not a macro to create such simple files with read/write
-> ops? At least for sysfs this is a bit less boilerplate iirc.
->=20
-> > +
-> >  #define DEBUGFS_REG32(_name) { .name =3D #_name, .offset =3D _name }
-> >
-> >  static const struct debugfs_reg32 tegra_sor_regs[] =3D {
-> > @@ -1424,10 +1438,9 @@ static const struct debugfs_reg32 tegra_sor_regs=
-[] =3D {
-> >
-> >  static int tegra_sor_show_regs(struct seq_file *s, void *data)
-> >  {
-> > -       struct drm_info_node *node =3D s->private;
-> > -       struct tegra_sor *sor =3D node->info_ent->data;
-> > +       struct tegra_sor *sor =3D s->private;
-> >         struct drm_crtc *crtc =3D sor->output.encoder.crtc;
-> > -       struct drm_device *drm =3D node->minor->dev;
-> > +       struct drm_device *drm =3D sor->drm;
->=20
-> sor->output.connector.dev should give you this already. And I think
-> getting at the drm_device is the only reason we needed the drm_minor
-> here at all.
->=20
-> >         unsigned int i;
-> >         int err =3D 0;
-> >
-> > @@ -1450,51 +1463,44 @@ static int tegra_sor_show_regs(struct seq_file =
-*s, void *data)
-> >         return err;
-> >  }
-> >
-> > -static const struct drm_info_list debugfs_files[] =3D {
-> > -       { "crc", tegra_sor_show_crc, 0, NULL },
-> > -       { "regs", tegra_sor_show_regs, 0, NULL },
-> > +static int regs_open(struct inode *inode, struct file *file)
-> > +{
-> > +       struct tegra_sor *sor =3D inode->i_private;
-> > +       return single_open(file, tegra_sor_show_regs, sor);
-> > +}
-> > +
-> > +static const struct file_operations crc_fops =3D {
-> > +       .owner =3D THIS_MODULE,
-> > +       .open =3D crc_open,
-> > +       .read =3D seq_read,
-> > +       .llseek =3D seq_lseek,
-> > +       .release =3D single_release,
-> >  };
-> >
-> >  static int tegra_sor_late_register(struct drm_connector *connector)
-> >  {
-> > -       struct tegra_output *output =3D connector_to_output(connector);
-> > -       unsigned int i, count =3D ARRAY_SIZE(debugfs_files);
-> >         struct drm_minor *minor =3D connector->dev->primary;
-> > -       struct dentry *root =3D connector->debugfs_entry;
-> > +       struct tegra_output *output =3D connector_to_output(connector);
-> >         struct tegra_sor *sor =3D to_sor(output);
-> > -       int err;
-> > +       struct dentry *root;
-> >
-> > -       sor->debugfs_files =3D kmemdup(debugfs_files, sizeof(debugfs_fi=
-les),
-> > -                                    GFP_KERNEL);
-> > -       if (!sor->debugfs_files)
-> > -               return -ENOMEM;
-> > +       sor->drm =3D minor->dev;
-> >
-> > -       for (i =3D 0; i < count; i++)
-> > -               sor->debugfs_files[i].data =3D sor;
-> > +       root =3D debugfs_create_dir("sor", connector->debugfs_entry);
->=20
-> Hm I think the old files got created right in the
-> drm_connector->debugfs_entry directory?
->=20
-> > +       sor->debugfs_root =3D root;
-> >
-> > -       err =3D drm_debugfs_create_files(sor->debugfs_files, count, roo=
-t, minor);
-> > -       if (err < 0)
-> > -               goto free;
-> > +       debugfs_create_file("crc", S_IFREG | S_IRUGO, root, sor, &crc_f=
-ops);
-> > +       debugfs_create_file("regs", S_IFREG | S_IRUGO, root, sor, &regs=
-_fops);
-> >
-> >         return 0;
-> > -
-> > -free:
-> > -       kfree(sor->debugfs_files);
-> > -       sor->debugfs_files =3D NULL;
-> > -
-> > -       return err;
-> >  }
->=20
-> I think if you can create a debugfs-simple-file macro, this here would
-> win hands-down from a boilerplate pov. I like.
-
-I fully agree with this and all of your points above.
-
-> >  static void tegra_sor_early_unregister(struct drm_connector *connector)
-> >  {
-> >         struct tegra_output *output =3D connector_to_output(connector);
-> > -       unsigned int count =3D ARRAY_SIZE(debugfs_files);
-> >         struct tegra_sor *sor =3D to_sor(output);
-> >
-> > -       drm_debugfs_remove_files(sor->debugfs_files, count,
-> > -                                connector->dev->primary);
-> > -       kfree(sor->debugfs_files);
-> > -       sor->debugfs_files =3D NULL;
-> > +       debugfs_remove_recursive(sor->debugfs_root);
->=20
-> Not needed, we tear down everything as part of drm_dev_unregister
-> anyway. So you can ditch this.
-
-And this. Greg, let me know if you need a hand with the patches or if
-you want any of these to be build/runtime tested.
-
-Thierry
-
---uxuisgdDHaNETlh8
+--9crTWz/Z+Zyzu20v
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0LohIACgkQ3SOs138+
-s6EFHA/+M445JdfOy3KDU0l1Z+q8GIbxBghef/HSVY+H+0PKwfIEYpUdRl2Dkz7S
-bqbRKJu+domYu7UHGIyR3QpDSq1At6FpvxR1tIZ25PHmsehNOvscCdn1MBN+LuzZ
-wMJ+XEwzu1OE9xlIAr4Vr8LTY6Fzn2Sql+vz3UxuVuRgg2xxFSGzdUrEaIrbZjcu
-6/iGXwtD4xHrMq6aHQs+fvwRkYUBFDnQU9o0aoahG8WhG9tdnsuF7yxtlGZn+jLw
-NwijgUtLNxU/YLrRK4w1G/mQdVIO/syfHbzavzpe2XDLqgSnYU+WjeRWHzNUKPna
-WBfgIJ5XPyyaXdPx67D06+RdJDiUC/YsXUF336zsebKW/Drd+mhN44lfL76T5zIm
-7Ot/Sm7GLgWRSh4zp7EXoXMSFnsMrGH57Yaf1NOVFPgnr+eH0aA8/uJZo0ZUkMkT
-nfdl0AhY/pTOUQZphcfz6ZEcq9ACYiRV53/8h4guonDV0YrSIM/M6+DnKW/5IxXZ
-ekUrfs3tqn2Aj9/AVHOc/ZQy+s5M9T70uTj1rJaH+xDJFexn/L4HJQHtCYZY1McP
-S9xvn7QGr911GPWLB1m4uLtKHr33XLHpSRUHRj51HU5TexSa161Ui0CMuNxN+L/J
-M28ZIZV20yPOPH6iMG5HpyLoMnriCtIrDkfIhyR28UjUCBmmfb4=
-=yJCg
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0Lo0gACgkQ3SOs138+
+s6F7Xg//ecOqoBL8AssSxaDF3YMC4vMabwdQg+3VN31KOZsE1S7DRYjQ9HZT267N
+SZ1DkL2IyXYzycZrTTkkeqiumcIAEe/0xiXyLlalJJOp4CR9Q6PE8skqB25J59xo
+WGjt5AY7iDgNGNt0R5o3zVHWRkuLbUidpkdNMfHwSF1vg2tBwH8gKAeAJRPQJH0S
+nuUWZGVIo8vB16fEO3RNwjTvh5LNS/uzC/3IqAQk3sdikU0ep+B0UzWYPZTIUXq0
+S4JvvUey+MbyHK35bkKxyUImGsqIUiOtKNHjjReFeZgRJq4YParaHjNVh5JeF8ZI
+yE6J7ToQnPtX8jyYgZ2D+ch75xAGlx3qmHBr7qBaGdOx/S9gWaZdqIA4PPJA/U+s
+TsxUj2UOvRB9fpxjRTE4hSfOF+AONJXeVb9M0BiyMCikHV9I1QXgQ89ZmQJGgBFV
+CrJjhPA/U5ToEk6k0fh7D8n74Jg9S2s38vNweVsknXK153QlOQoyrTf8QKDEYoVV
+vgv89xL2GBy5al5oVnpdhrX45z6VEDX7NrTjl4D7OppChEhTjC1IDw+OVMTsJorN
+7MLtkh/a5m1RT0BKGJK8BvgZ2cTy61zpmCaOgot9pmusaweFfVaGPn9GZutTFCgu
+TIxUd3PEMK/rcGjhCbTvz22UTLMAxDm6uIfSF4tuRsOSrAaajMY=
+=KWX0
 -----END PGP SIGNATURE-----
 
---uxuisgdDHaNETlh8--
+--9crTWz/Z+Zyzu20v--
