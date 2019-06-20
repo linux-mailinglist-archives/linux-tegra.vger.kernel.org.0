@@ -2,63 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D843F4C9AF
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 10:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E027C4CA64
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 11:13:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726122AbfFTIrS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 04:47:18 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38082 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725875AbfFTIrS (ORCPT
+        id S1726445AbfFTJNO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 05:13:14 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40159 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725889AbfFTJNL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 04:47:18 -0400
-Received: by mail-wm1-f65.google.com with SMTP id s15so2243582wmj.3;
-        Thu, 20 Jun 2019 01:47:16 -0700 (PDT)
+        Thu, 20 Jun 2019 05:13:11 -0400
+Received: by mail-wm1-f68.google.com with SMTP id v19so2326100wmj.5;
+        Thu, 20 Jun 2019 02:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=5GCO7ZYT99Ki0xYemo3RK6CqmnGlA3SPqu9SbbMTgRw=;
-        b=P8UG6MFbkhkh5xnDC+Ul1XG0D8BKw5yVSO9gsFv1JDfEpJMcgtbDig6UrF1b9tgD9r
-         2n/BvJeD3d0WT4tuE6zFc+CoSTVjNeHfIhdnVy6E+u8dTChJeGVSOl1cuEqvnSaSxBxg
-         2ONnhNPGFczZ+PUarDxcQZOEEq9egFmGwFFTZN3ofWBheFKfWrDM1+pVP3jjxryS9xKD
-         dtrI0YBJEH5mdwtPQjkieMbrYBcQMR0bGkeWDPc6WDT13UMtbLhU1I5gQiV28SCX9yOW
-         9P1uk5ts7ohVSQ7yeFndxL3bG2OsuI00R2AtQT7cacv7+3sBhvUJZes428wXseb7ccsD
-         LSaA==
+        bh=wGXxJqECKz9cySdRUBaO0GlwWrE9CiX7wN8WQeEMVA4=;
+        b=jQ86ZolbYH3Y4/PH2mE8qNDk118/dnGikW9LBMwhxzPkZEs6N0I7T2ZBnUl/Me2Zhd
+         WAfyVmsVRzDGGrtxuSerIgtvu37yPW6x2NW5c/LVjE+Tl8oNnTPnWaxEqyC3wgO8gPpT
+         bnsitRR1WYRtNPJknEmItodaS3lJU1cl7b3sZtbQPVcC585Kl7hA2HLzSMFL2GLMlub2
+         zkIEdBOPRNMpR9czW3DzuXLvw1R5VE7ffPF5y2Iz6oUWHRlVimtio5NFLSUXldq/5tr+
+         miCi2IcXM+09i3OXe9C955ssP1L7prRhm1hmxkH4wteZt7olnhqsOzCLuLVXfzP1Xcnj
+         K1nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5GCO7ZYT99Ki0xYemo3RK6CqmnGlA3SPqu9SbbMTgRw=;
-        b=oJe/yLL+Qbl2WdVc+uP58ToHSLezqTYbZ7vIaLMrA1q3HjOPvBJl/OdONDkt+Rat2D
-         m2l0pL3qBJJYFfJXoM+NzFpPNzsnE2TPX7Kxp0bvq5mwvLGrlttHjb/Tp1L+7PdQZi1z
-         wNSeq/QY/dZX3UBFXMHLq4mMpSZrktUtfQIA+FZAYqtlD0VM3b0+hoetJHpOf4qMx5ZS
-         orBDfBzeb7Sx0r77MQLaBqfXtK3SVlD//3mYsON5EBksLiY7zbk7ZJQcGXhNFwayDtZl
-         K3ViV1Wt2QIiSum7lncD7CQkNNp5+bWbOEgWptuLd69TRT1uBrlTiJfmZd6ftigO10Ho
-         sFqg==
-X-Gm-Message-State: APjAAAW1a1crHXL/iqyF3Wj8w/271H72PVOXrUo6kQd4sm6AO6puax7u
-        kzuKx14w711DRT+5CK5wtjiROVTd9nQ=
-X-Google-Smtp-Source: APXvYqzxxE2sWgW5TbpKSVdzCsEc3j3wGfepWqXrrWfTSjvPS6O57iuuAtzSDZC1pjX4/YhKNoNoPg==
-X-Received: by 2002:a1c:4041:: with SMTP id n62mr1875231wma.100.1561020435315;
-        Thu, 20 Jun 2019 01:47:15 -0700 (PDT)
+        bh=wGXxJqECKz9cySdRUBaO0GlwWrE9CiX7wN8WQeEMVA4=;
+        b=MU3Db0UDsNCKgvK3AoEi8Ife2piyjPUBXSvlGQBEMRMeQjDh36AHCyjmzn3OXTWF6E
+         do9UmoofMbxdK1qi6FdrBKhjSUdxlAVSMfmVFTr4W/ZnXZA6a13Ls9zYavt01kRoTDny
+         YnSi84mO1a1G5zYmMSEYeMIX07Ye3Fk7R/JdYiA8ufIYiAtyaTDpBqfOfnem7jmCDPP+
+         U4cZ5qK6Ku2lH2KgGHDyfzLIKq5DW61JelBDNojPj4veK0XA963EUvXLHsZiX7qYyW9G
+         4WnAjp8cGNh0EDt8Ifpo8eCteqThUKsQHj1LVgGCxjovk86a/ekwidVM1CHQzoHgCLf4
+         ZRwA==
+X-Gm-Message-State: APjAAAVGo9x6tuh3bQ8/Wbu7m+R7EnS5t+vgE6ylrI3f3rejCrZtT2/1
+        Bl+yL6SvgMCpB0xWXxDEZns=
+X-Google-Smtp-Source: APXvYqxdb65XWtl4WJaYkSAXJ0d5symvMDqq82VznzsRvUOCOO0R7Tcu7Or2GEc3v2auihHgZxk5cw==
+X-Received: by 2002:a1c:b6d4:: with SMTP id g203mr1967964wmf.19.1561021988879;
+        Thu, 20 Jun 2019 02:13:08 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id y6sm4534133wmd.16.2019.06.20.01.47.14
+        by smtp.gmail.com with ESMTPSA id 72sm17272000wrk.22.2019.06.20.02.13.07
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 20 Jun 2019 01:47:14 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 10:47:13 +0200
+        Thu, 20 Jun 2019 02:13:08 -0700 (PDT)
+Date:   Thu, 20 Jun 2019 11:13:07 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Sameer Pujar <spujar@nvidia.com>
-Subject: Re: [PATCH] dmaengine: tegra210-adma: Don't program FIFO threshold
-Message-ID: <20190620084713.GA26689@ulmo>
-References: <20190620075424.14795-1-jonathanh@nvidia.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH 1/3] arm64: tegra: Fix AGIC register range
+Message-ID: <20190620091307.GF26689@ulmo>
+References: <20190620081702.17209-1-jonathanh@nvidia.com>
+ <20190620081702.17209-2-jonathanh@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
+        protocol="application/pgp-signature"; boundary="5CUMAwwhRxlRszMD"
 Content-Disposition: inline
-In-Reply-To: <20190620075424.14795-1-jonathanh@nvidia.com>
+In-Reply-To: <20190620081702.17209-2-jonathanh@nvidia.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -66,53 +68,52 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---a8Wt8u1KmwUX3Y2C
+--5CUMAwwhRxlRszMD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 20, 2019 at 08:54:24AM +0100, Jon Hunter wrote:
-> From: Jonathan Hunter <jonathanh@nvidia.com>
+On Thu, Jun 20, 2019 at 09:17:00AM +0100, Jon Hunter wrote:
+> The Tegra AGIC interrupt controller is an ARM GIC400 interrupt
+> controller. Per the ARM GIC device-tree binding, the first address
+> region is for the GIC distributor registers and the second address
+> region is for the GIC CPU interface registers. The address space for
+> the distributor registers is 4kB, but currently this is incorrectly
+> defined as 8kB for the Tegra AGIC and overlaps with the CPU interface
+> registers. Correct the address space for the distributor to be 4kB.
 >=20
-> The Tegra210 ADMA supports two modes for transferring data to a FIFO
-> which are ...
->=20
-> 1. Transfer data to/from the FIFO as soon as a single burst can be
->    transferred.
-> 2. Transfer data to/from the FIFO based upon FIFO thresholds, where
->    the FIFO threshold is specified in terms on multiple bursts.
->=20
-> Currently, the ADMA driver programs the FIFO threshold values in the
-> FIFO_CTRL register, but never enables the transfer mode that uses
-> these threshold values. Given that these have never been used so far,
-> simplify the ADMA driver by removing the programming of these threshold
-> values.
->=20
-> Signed-off-by: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 > ---
->  drivers/dma/tegra210-adma.c | 12 ++----------
->  1 file changed, 2 insertions(+), 10 deletions(-)
+>  arch/arm64/boot/dts/nvidia/tegra210.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Applied to for-5.3/arm64/dt, though I also added the following Fixes:
+line:
 
---a8Wt8u1KmwUX3Y2C
+Fixes: bcdbde433542 ("arm64: tegra: Add AGIC node for Tegra210")
+
+Thanks,
+Thierry
+
+--5CUMAwwhRxlRszMD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0LSAwACgkQ3SOs138+
-s6FiOhAAu0+Kphi5/85mxAbW9vW4ealuleXGpCh6n/u6+yEX23t2UBjioPLCsr8F
-wfq+mVEfaM3mr7Ew7T6Gq9T0CdNTGvj1Ou/9vUMbHYpgaOgA7ut6jVywG6YP13Jd
-vmjmBmxiFRn2Cs0jFTIwyTOyBMZv5fccj1xQnMd6t8H5L8b3qkAvFwL0vxyjIdDe
-L3ZMRbcEwfF58pHzW6YuiLCuBGJbfUTmwaoDQ5lQ6wYJ3QoJCjWeEGHm8olOB6wB
-8HeFyL6So6wNw+XL4qZKYa4DsLqCZa8B5vK+HueJPKyD6LPBLFEimv17/AN5HB0R
-fsFNumbmESGJD9+mJdMRjed3UeDAA/BXOIJz1DYTzOmTAR9jwUu0qQX8MRBHwpMS
-fFf2COh2/Eaf2Sek8jaRk6RYX9SloCI1dUdN2HBc6KDRKGmNx/oHWuVLfXYMaeeY
-STw9qtnWf2VeOEl7GLlzfIhjtoyWuqQbISom0mV6ok8a64QOTyxwVGe4JBIZdzz6
-S3+2koUNvyeU2EjylFsloY2SH6Eu4Gnlv0eoAj+cAukQRYEPsVyNE7tZbsJXcjll
-PUEeLc44bXdLqUBsr7QunwTLa1dpVFiWfluXQlWpxdPmTV0ozL6fwPs+WO88dvbm
-EKGrvcYmYORUbvHCb5tiK0SsTcYrJQVtRXwNv+KqZGHGQxbrj4g=
-=ukxb
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0LTiIACgkQ3SOs138+
+s6GY4w/+MMaim+cU/P4jt3haccBqVOz26dTGf4DqXEF/agrQwv0CwCOuwWjUxzLY
+enl2a+nzqXC6UwHRetCeL+En/ul0nbmF8+4OptO+gFd5t6E2T+bcV6KeV7DxrfMp
+uTWAwiQctbDqJjRJ2dv1weTTfbpC/hEtd4VmbPW7R62z5FEC+EmUcOFbIQql3XuK
+6No6LVFDiCvV+8p4zHpbNEmfm/glVzsoV/CjS/rGVszfGteG1+dNX2gt5ASuxjFB
+5XyN9z2NSzkQat9sMKMk56EY1xC+HuHi5ZlZboReTxf9wq/3rpofyalMoeWcm4RV
+rzNWNXU5yWoII8L4CR80WsGV4BphyklkzFUgC61Z7MXu/STIGrTPB3U9vbJdBNov
+kidAGdL1u+ya9cvrBB3St+G9P+rsYIGAgZY0yePBTlXRSUYbYkfSiyiKiDVdE1LM
+riiaB4gqMpxchLlY0AcUf0gGep+1z+eOTmKng2EmEbSAF1D3WW7r48EMyctvhRo/
+3jHaWe3K8uzYVT3eYANyAWK3pacyWFPjVSZTbFJ9taLZIKsKXj7LQrclZGZ79NvN
+QOxbQepxdHyMgJ+ZeueB+vbspaMpcmAfNhrcmlZ9oeFU2EDTjqCJfy4Tw8yEaKwn
+zK39Mhin/EY8vr76fV8k2Oz644MiCxV4zyz31F/b+TRisRf7AI4=
+=Gdxk
 -----END PGP SIGNATURE-----
 
---a8Wt8u1KmwUX3Y2C--
+--5CUMAwwhRxlRszMD--
