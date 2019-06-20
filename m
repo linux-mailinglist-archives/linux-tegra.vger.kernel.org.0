@@ -2,220 +2,162 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1A184D0A8
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 16:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2425F4D0C6
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 16:50:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726758AbfFTOrf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 10:47:35 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:13335 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726649AbfFTOrf (ORCPT
+        id S1726866AbfFTOuT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 10:50:19 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42117 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726686AbfFTOuT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 10:47:35 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0b9c830004>; Thu, 20 Jun 2019 07:47:31 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 20 Jun 2019 07:47:32 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 20 Jun 2019 07:47:32 -0700
-Received: from [10.24.70.135] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
- 2019 14:47:15 +0000
-Subject: Re: [PATCH V6 04/27] PCI: tegra: Mask AFI_INTR in runtime suspend
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     <thierry.reding@gmail.com>, <bhelgaas@google.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <jonathanh@nvidia.com>, <vidyas@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20190618180206.4908-1-mmaddireddy@nvidia.com>
- <20190618180206.4908-5-mmaddireddy@nvidia.com>
- <20190620142702.GA31996@e121166-lin.cambridge.arm.com>
-X-Nvconfidentiality: public
-From:   Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Message-ID: <a1666bdd-ea33-db95-ddc7-257d9e3a3988@nvidia.com>
-Date:   Thu, 20 Jun 2019 20:16:38 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        Thu, 20 Jun 2019 10:50:19 -0400
+Received: by mail-wr1-f66.google.com with SMTP id x17so3320344wrl.9
+        for <linux-tegra@vger.kernel.org>; Thu, 20 Jun 2019 07:50:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=hm8noEl+mXcjCJ5uoNHwR3iW+YieyytTnm7E4DsqIOA=;
+        b=aQn3Nmujshz2gHjAPk9l8nqFRkec9X6tZrPeH9we0CcldGP2+eFNvO/hff/1sqh7SP
+         6pE4djZm/NyYQTS9MePFJuZBYS41EC1xm+9L6BHQiS+sFJsJAhQU8ODJH52lAJcS3qoJ
+         CgBieLDZDTCWYbuslKezfZXmXOGhOFdpwbWM1n0y7LF7uFa8GypTpri9Z/cacL8JZwCX
+         KvlfQPK5r0/EZgskdq4KJbM/ZlqGCLctwyqpVHjMHQ76mTnYeB+YDlYNkuYxUn8HMSdP
+         +qakLb+KXYh7+mwlEPoedWJGLFgtPcs3w2EUt7n0OvSugHcUckgMeHSHO29PGxOapK2j
+         oS1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=hm8noEl+mXcjCJ5uoNHwR3iW+YieyytTnm7E4DsqIOA=;
+        b=SPxFuzrGdIGBuB0xw1wgAtmg9vpbeGaRwq9J4Hzkfgi6dNXmFQKTrW6jRzEPdVqTzH
+         15f1ZTdCnzgKxpVllHcg7UQkVstJGJInEzJA7qnEUGpXm9KgQblJV9v2ZTJIIKPpKP8s
+         Jho1N0CAxIiYtbK1mcbG2LQ2z0AFyLA0YtWTUmyv7sKVkB8omeKtpqK/CvDWC36ZVt9p
+         h6Nc6H6FoxLQJtbWO1aTwH75Xx980pMGgoeTlHxPUKGjWgp62rLD3ArkFUJcO5M/gIq6
+         pbhHT1UtOCvLc9ofIIawu/qio63r5xjzhYU1ffd0022lhoBzy2q5qOMXakyK7X3ES9bq
+         IyIQ==
+X-Gm-Message-State: APjAAAUmxffTRk1EKcDpPdYh7bI3dzkzNOV3CyiwZ1lHQXUnO9lRxNJF
+        iRmeQtC2Zc2fTG9Dth0CDP2WDhDHMVU=
+X-Google-Smtp-Source: APXvYqwczqrf3HviX2H3AujmEDBEe7VhDXI1TXvMkXVAv/l7IBAn+i3l+ogH5MSk/1yskNMBKsDd5w==
+X-Received: by 2002:a5d:498a:: with SMTP id r10mr93304845wrq.28.1561042216573;
+        Thu, 20 Jun 2019 07:50:16 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id v15sm18584632wrt.25.2019.06.20.07.50.15
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 20 Jun 2019 07:50:15 -0700 (PDT)
+Date:   Thu, 20 Jun 2019 16:50:14 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org
+Subject: Re: drm connectors, tegra, and the web they weave (was Re: [PATCH
+ 58/59] drm/todo: Add new debugfs todo)
+Message-ID: <20190620145014.GB15501@ulmo>
+References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
+ <20190614203615.12639-59-daniel.vetter@ffwll.ch>
+ <20190618151938.GA2567@kroah.com>
+ <20190618152530.GA4576@kroah.com>
+ <CAKMK7uEd0sZ81RMjDsz6cnkW+krPuvoqUcEY4U3ofB9W_qeFvA@mail.gmail.com>
+ <20190618180113.GA26105@kroah.com>
+ <20190618214656.GH12905@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20190620142702.GA31996@e121166-lin.cambridge.arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561042052; bh=NTHydstnbFbVPB33d0LB8odp5/Ty0DyeiINEbd+NdTI=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Transfer-Encoding:Content-Language;
-        b=ejG4RmBJFLBnrZ7mLg8wN6dP++3QRXJUhb12lyKemGJSMtdDcatG7vrfNxx0YWgvX
-         AJujQK9lGhE8a7VJUP8Io8GD1amU/ah9YKvQVosJw5lMhWRgOHa9Vfzq0T2YXqXoxl
-         z9IB2AWuiPub23aNJ92Yuqqz58+xtRgH8MJEdIadD9O/skUrgPlQdI7iAzz8gVdLW2
-         KeyHQob5JhJNTN8m7E9tn3L0Lm5B58LfmRLC6p5236fKyfGGR2z5NiFfKYlAtu8/uH
-         Ho0k8ozbWqBRci5A8lig4NT2JsnjABU0pXxj7REyZaY1DRfKAvNeAN1AQ2pTVqp8dw
-         e+bosVPQDKZ6g==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="XOIedfhf+7KOe/yw"
+Content-Disposition: inline
+In-Reply-To: <20190618214656.GH12905@phenom.ffwll.local>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+--XOIedfhf+7KOe/yw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 20-Jun-19 7:57 PM, Lorenzo Pieralisi wrote:
-> On Tue, Jun 18, 2019 at 11:31:43PM +0530, Manikanta Maddireddy wrote:
->> AFI_INTR is unmasked in tegra_pcie_enable_controller(), mask it to avoid
->> unwanted interrupts raised by AFI after pex_rst is asserted.
->>
->> Following sequence triggers such scenario,
->>  - tegra_pcie_remove() triggers runtime suspend
->>  - pex_rst is asserted in runtime suspend
->>  - PRSNT_MAP bit field in RP_PRIV_MISC register changes from EP_PRSNT to
->>    EP_ABSNT
->>  - This is sensed by AFI and triggers "Slot present pin change" interrupt
->>  - tegra_pcie_isr() function accesses AFI register when runtime suspend
->>    is going through power off sequence
->>
->> rmmod pci-tegra
->>  pci_generic_config_write32: 108 callbacks suppressed
->>  pci_bus 0002:00: 2-byte config write to 0002:00:02.0 offset 0x4c may corrupt adjacent RW1C bits
->>  pci_bus 0002:00: 2-byte config write to 0002:00:02.0 offset 0x9c may corrupt adjacent RW1C bits
->>  pci_bus 0002:00: 2-byte config write to 0002:00:02.0 offset 0x88 may corrupt adjacent RW1C bits
->>  pci_bus 0002:00: 2-byte config write to 0002:00:02.0 offset 0x90 may corrupt adjacent RW1C bits
->>  pci_bus 0002:00: 2-byte config write to 0002:00:02.0 offset 0x4 may corrupt adjacent RW1C bits
->>  igb 0002:04:00.1: removed PHC on enP2p4s0f1
->>  igb 0002:04:00.0: removed PHC on enP2p4s0f0
->>  pci_bus 0002:00: 2-byte config write to 0002:00:01.0 offset 0x4c may corrupt adjacent RW1C bits
->>  pci_bus 0002:00: 2-byte config write to 0002:00:01.0 offset 0x9c may corrupt adjacent RW1C bits
->>  pci_bus 0002:00: 2-byte config write to 0002:00:01.0 offset 0x88 may corrupt adjacent RW1C bits
->>  pci_bus 0002:00: 2-byte config write to 0002:00:01.0 offset 0x90 may corrupt adjacent RW1C bits
->>  pci_bus 0002:00: 2-byte config write to 0002:00:01.0 offset 0x4 may corrupt adjacent RW1C bits
->>  rcu: INFO: rcu_preempt self-detected stall on CPU
->>  SError Interrupt on CPU0, code 0xbf000002 -- SError
->>  CPU: 0 PID: 0 Comm: swapper/0 Tainted: G        W         5.1.0-rc3-next-20190405-00027-gcd8110499e6f-dirty #42
->>  Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
->>  pstate: 20000085 (nzCv daIf -PAN -UAO)
->>  pc : tegra_pcie_isr+0x58/0x178 [pci_tegra]
->>  lr : tegra_pcie_isr+0x40/0x178 [pci_tegra]
->>  sp : ffff000010003da0
->>  x29: ffff000010003da0 x28: 0000000000000000
->>  x27: ffff8000f9e61000 x26: ffff000010fbf420
->>  x25: ffff000011427f93 x24: ffff8000fa600410
->>  x23: ffff00001129d000 x22: ffff00001129d000
->>  x21: ffff8000f18bf3c0 x20: 0000000000000070
->>  x19: 00000000ffffffff x18: 0000000000000000
->>  x17: 0000000000000000 x16: 0000000000000000
->>  x15: 0000000000000000 x14: ffff000008d40a48
->>  x13: ffff000008d40a30 x12: ffff000008d40a20
->>  x11: ffff000008d40a10 x10: ffff000008d40a00
->>  x9 : ffff000008d409e8 x8 : ffff000008d40ae8
->>  x7 : ffff000008d40ad0 x6 : ffff000010003e58
->>  x5 : ffff8000fac00248 x4 : 0000000000000000
->>  x3 : ffff000008d40b08 x2 : fffffffffffffff8
->>  x1 : ffff000008d3f4e8 x0 : 00000000ffffffff
->>  Kernel panic - not syncing: Asynchronous SError Interrupt
->>  CPU: 0 PID: 0 Comm: swapper/0 Tainted: G        W         5.1.0-rc3-next-20190405-00027-gcd8110499e6f-dirty #42
->>  Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
->>  Call trace:
->>   dump_backtrace+0x0/0x158
->>   show_stack+0x14/0x20
->>   dump_stack+0xa8/0xcc
->>   panic+0x140/0x2f4
->>   nmi_panic+0x6c/0x70
->>   arm64_serror_panic+0x74/0x80
->>   __pte_error+0x0/0x28
->>   el1_error+0x84/0xf8
->>   tegra_pcie_isr+0x58/0x178 [pci_tegra]
->>   __handle_irq_event_percpu+0x70/0x198
->>   handle_irq_event_percpu+0x34/0x88
->>   handle_irq_event+0x48/0x78
->>   handle_fasteoi_irq+0xb4/0x190
->>   generic_handle_irq+0x24/0x38
->>   __handle_domain_irq+0x5c/0xb8
->>   gic_handle_irq+0x58/0xa8
->>   el1_irq+0xb8/0x180
->>   cpuidle_enter_state+0x138/0x358
->>   cpuidle_enter+0x18/0x20
->>   call_cpuidle+0x1c/0x48
->>   do_idle+0x230/0x2d0
->>   cpu_startup_entry+0x20/0x28
->>   rest_init+0xd4/0xe0
->>   arch_call_rest_init+0xc/0x14
->>   start_kernel+0x444/0x470
->>
->> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
->> Acked-by: Thierry Reding <treding@nvidia.com>
->> ---
->> V6: No change
->>
->> V5:
->> * Added blank line before block-style comment
->>
->> V4: No change
->>
->> V3:
->> * Update the commit log and comment to reflect why this fix is required
->> * MSI interrupt is not disabled
->>
->> V2: This is new patch in V2
->>
->>  drivers/pci/controller/pci-tegra.c | 15 +++++++++++++++
->>  1 file changed, 15 insertions(+)
->>
->> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
->> index bb3c0af9c830..0453bfb2726e 100644
->> --- a/drivers/pci/controller/pci-tegra.c
->> +++ b/drivers/pci/controller/pci-tegra.c
->> @@ -1622,6 +1622,15 @@ static int tegra_pcie_disable_msi(struct tegra_pcie *pcie)
->>  	return 0;
->>  }
->>  
->> +static void tegra_pcie_disable_interrupts(struct tegra_pcie *pcie)
->> +{
->> +	u32 value;
->> +
->> +	value = afi_readl(pcie, AFI_INTR_MASK);
->> +	value &= ~AFI_INTR_MASK_INT_MASK;
->> +	afi_writel(pcie, value, AFI_INTR_MASK);
->> +}
->> +
->>  static int tegra_pcie_get_xbar_config(struct tegra_pcie *pcie, u32 lanes,
->>  				      u32 *xbar)
->>  {
->> @@ -2467,6 +2476,12 @@ static int __maybe_unused tegra_pcie_pm_suspend(struct device *dev)
->>  
->>  	tegra_pcie_disable_ports(pcie);
->>  
->> +	/*
->> +	 * AFI_INTR is unmasked in tegra_pcie_enable_controller(), mask it to
->> +	 * avoid unwanted interrupts raised by AFI after pex_rst is asserted.
->> +	 */
->> +	tegra_pcie_disable_interrupts(pcie);
-> When do you re-enable it ? I assume it is enabled by default for
-> a reason, so if you disable on suspend you renable it on resume.
->
-> Please explain or I will drop this patch from the series.
->
-> Lorenzo
+On Tue, Jun 18, 2019 at 11:46:56PM +0200, Daniel Vetter wrote:
+> On Tue, Jun 18, 2019 at 08:01:13PM +0200, Greg Kroah-Hartman wrote:
+> > On Tue, Jun 18, 2019 at 07:32:20PM +0200, Daniel Vetter wrote:
+> > > On Tue, Jun 18, 2019 at 5:25 PM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > > On Tue, Jun 18, 2019 at 05:19:38PM +0200, Greg Kroah-Hartman wrote:
+> > > > > I could just "open code" a bunch of calls to debugfs_create_file(=
+) for
+> > > > > these drivers, which would solve this issue, but in a more "non-d=
+rm"
+> > > > > way.  Is it worth to just do that instead of overthinking the who=
+le
+> > > > > thing and trying to squish it into the drm "model" of drm debugfs=
+ calls?
+> > > >
+> > > > An example of "open coding" this is the patch below for the sor.c
+> > > > driver.
+> > >=20
+> > > I think open-coding is the way to go here. One of the todos is to
+> > > extend debugfs support for crtc/connectors, but looking at the
+> > > open-coded version we really don't need a drm-flavoured midlayer here.
+> >=20
+> > There already is debugfs support in the code for crtc/connectors, these
+> > files are "hanging" off of those locations already.  I'll keep that, but
+> > indent it one more directory so that there's no namespace collisions.
+>=20
+> The todo was to have some drm wrappers here for the boilerplate, but after
+> looking at your version that's not a good idea. So not just making sure
+> crtcs/connectors have a debugfs directory made for them, but more.
+>=20
+> Wrt adding a new directory: debugfs isnt uapi, but there's usually a
+> massive pile of script relying on them, so it's not nice to shuffle paths
+> around. Plus the lifetimes match anyway (at least if you don't hotplug
+> connectors, which tegra doesn't do).
 
-Power on reset value of AFI_INTR_MASK_INT_MASK is 0, it is not enabled by default.
-In suspend AFI reset is asserted, so in resume AFI programming has to be done
-again including AFI_INTR_MASK_INT_MASK. Even if I don't disable here, in resume
-it has to be enabled after bringing AFI out of reset.
+So, I think you two already covered everything. From a Tegra perspective
+there's not really a need to care about the exact structure of debugfs
+because there are only a handful of scripts that use this and they are
+not exactly widely distributed. At the same time there's really no need
+to add another level of directories, since the connector really is the
+SOR, so an sor directory in the connector's directory is just redundant.
+Cleaning up and lifetime management aren't issues, really, so there are
+no good arguments for adding it, in my opinion.
 
-tegra_pcie_pm_resume() -> tegra_pcie_enable_controller() will enable it.
+Historically, the sor.c driver is interesting because it used to be just
+plain debugfs calls. Only when I added a second debugfs file I decided
+to go with the built-in DRM infrastructure for this and then later went
+and converted the first file to it as well, for consistency. I do
+remember though that I was very unhappy about the fact that I had to do
+all this kmemdup()'ing just to make debugfs files per-instance (the DRM
+infrastructure doesn't allow that by default). In retrospect that was a
+poor decision and I should've just stuck with debugfs and perhaps just
+spin a couple of helpers around that instead.
 
-Manikanta 
+So I'm happy to see this effort.
 
->
->> +
->>  	if (pcie->soc->program_uphy) {
->>  		err = tegra_pcie_phy_power_off(pcie);
->>  		if (err < 0)
->> -- 
->> 2.17.1
->>
+Thierry
 
+--XOIedfhf+7KOe/yw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0LnSIACgkQ3SOs138+
+s6GbLg//Tf3ufNZkqFacywTcO2/eLYw94OGpRZCe4oB2e4jJKCHs1SWTUWtDPWZU
+b0R/dzDuxQNct7JbIFyEvXpJ82NiXN3tffzxbE7xQ0KrEQMqaVV2vM3rf9WqNHMV
+ibx/VzorAkbvXEkODn8xmx33ieDsJOzlRVq3Oo3/Lw8oLs7+mYrr/LHzYGuGA8ue
+XYFGzR8xdRTlbXNxQQ3EgsUn0ILD+UwGxaVb4lJnhtCf0M1auQwFclxO9T253mJO
+mbrdEcpoQEUWBrdXjdicazSiiB6TrfH066uERoG4+AyFJbVP872FJVTkp5p9RGXj
+lLgZcVJJrleSMPXSZIX3lqsvOpVsXrzxDsPN+Wswx2j0fLl62/drAthWoV1M9LPE
+p6x5gx262qT5+qxWJOZaNcSrPYIuaz3SqFclSTWaDZTllVopS/y6QSXX9bg5cTHk
+6HRQZ7lmega0AcQb+acdqjQDJWz+dje8ZAKAVZFAiB2wfQXbpRP+UptUP5X0qyz+
+PZUpTWrn+vzEYtao4iflUL/lgLw6d+Zd4n2JRNjp4SCcuKP9/r88IJ8kIwVyem8X
+sGO8V0IF8aVR6eH6VYX/xrAsalrFOAuhAWpD1c5IJtzjtwg99xCADR+Wv0WU1N12
++l8viBAMu1vgmbrwbGIqRv0sHXVa/v8qlPvP5WuhwQnOI59TsHk=
+=UkZH
+-----END PGP SIGNATURE-----
+
+--XOIedfhf+7KOe/yw--
