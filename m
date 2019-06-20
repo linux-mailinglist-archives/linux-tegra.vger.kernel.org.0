@@ -2,117 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 761904D207
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 17:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A20DD4D274
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 17:52:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726940AbfFTPWg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 11:22:36 -0400
-Received: from foss.arm.com ([217.140.110.172]:44334 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726661AbfFTPWf (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 11:22:35 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EEF0E28;
-        Thu, 20 Jun 2019 08:22:34 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AD953F246;
-        Thu, 20 Jun 2019 08:22:33 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 16:22:31 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-Cc:     thierry.reding@gmail.com, bhelgaas@google.com, robh+dt@kernel.org,
-        mark.rutland@arm.com, jonathanh@nvidia.com, vidyas@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH V6 06/27] PCI: tegra: Add PCIe Gen2 link speed support
-Message-ID: <20190620152231.GB23729@e121166-lin.cambridge.arm.com>
-References: <20190618180206.4908-1-mmaddireddy@nvidia.com>
- <20190618180206.4908-7-mmaddireddy@nvidia.com>
- <20190620143251.GB31996@e121166-lin.cambridge.arm.com>
- <d46fbde3-1e42-e7b6-8926-efb599ad335f@nvidia.com>
+        id S1726620AbfFTPwR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 11:52:17 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:5596 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726530AbfFTPwR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 20 Jun 2019 11:52:17 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0babb00000>; Thu, 20 Jun 2019 08:52:16 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 20 Jun 2019 08:52:16 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 20 Jun 2019 08:52:16 -0700
+Received: from HQMAIL108.nvidia.com (172.18.146.13) by HQMAIL106.nvidia.com
+ (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
+ 2019 15:52:16 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL108.nvidia.com
+ (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 20 Jun 2019 15:52:16 +0000
+Received: from linux.nvidia.com (Not Verified[10.24.34.185]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d0babae0001>; Thu, 20 Jun 2019 08:52:15 -0700
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH] bus: tegra-aconnect: remove PM_CLK dependency
+Date:   Thu, 20 Jun 2019 21:21:59 +0530
+Message-ID: <1561045919-15449-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d46fbde3-1e42-e7b6-8926-efb599ad335f@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1561045936; bh=iSxjPdPZNkQOarWsq5J5T0iyWq6tQ6oEzE6ETixXATk=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:Content-Type;
+        b=F9LVNyD/80NrUVG45fMJpTIRvnB3NcGs0yE+sbzihlBnEBlOlLx6zmaio4UHl+W6W
+         0hiv2kCxsbBkAOizfGUD08mwtgzg/cNTwAJiXrjPN5f/VFEgpBS+yYD5ba0u1XdOT3
+         yrSvgj6j+YuRNjvAEzPiV4QC7O3pRlhkeVhsrvdBhge+pcu6Qm3zFEyOHZaw0WAazx
+         feshpTDYkAVAgfADTO5c56jPLHSPor5ROtdOVFOlS53niaFPstsiGvrYJI4o0ks7eJ
+         JNfu+K9JB0h0R8t9fNKPJM4PfkU1Wy3pLD+JSv6FAl+gc4kJqPqwCehgQ7M+eeyaku
+         ck+hR4uuYaDiQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jun 20, 2019 at 08:27:15PM +0530, Manikanta Maddireddy wrote:
-> 
-> 
-> On 20-Jun-19 8:02 PM, Lorenzo Pieralisi wrote:
-> > On Tue, Jun 18, 2019 at 11:31:45PM +0530, Manikanta Maddireddy wrote:
-> >> Tegra124, Tegra132, Tegra210 and Tegra186 support Gen2 link speed. After
-> >> PCIe link is up in Gen1, set target link speed as Gen2 and retrain link.
-> >> Link switches to Gen2 speed if Gen2 capable end point is connected, else
-> >> link stays in Gen1.
-> >>
-> >> Per PCIe 4.0r0.9 sec 7.6.3.7 implementation note, driver need to wait for
-> >> PCIe LTSSM to come back from recovery before retraining the link.
-> >>
-> >> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
-> >> Acked-by: Thierry Reding <treding@nvidia.com>
-> >> ---
-> >> V6: No change
-> >>
-> >> V5: No change
-> >>
-> >> V4: No change
-> >>
-> >> V3: Added blank line after each while loop.
-> >>
-> >> V2: Changed "for loop" to "while", to make it compact and handled coding
-> >> style comments.
-> >>
-> >>  drivers/pci/controller/pci-tegra.c | 64 ++++++++++++++++++++++++++++++
-> >>  1 file changed, 64 insertions(+)
-> >>
-> >> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-> >> index 5e9fcef5f8eb..5d19067f7193 100644
-> >> --- a/drivers/pci/controller/pci-tegra.c
-> >> +++ b/drivers/pci/controller/pci-tegra.c
-> >> @@ -191,6 +191,8 @@
-> >>  #define  RP_LINK_CONTROL_STATUS_DL_LINK_ACTIVE	0x20000000
-> >>  #define  RP_LINK_CONTROL_STATUS_LINKSTAT_MASK	0x3fff0000
-> >>  
-> >> +#define RP_LINK_CONTROL_STATUS_2		0x000000b0
-> >> +
-> >>  #define PADS_CTL_SEL		0x0000009c
-> >>  
-> >>  #define PADS_CTL		0x000000a0
-> >> @@ -226,6 +228,7 @@
-> >>  #define PADS_REFCLK_CFG_DRVI_SHIFT		12 /* 15:12 */
-> >>  
-> >>  #define PME_ACK_TIMEOUT 10000
-> >> +#define LINK_RETRAIN_TIMEOUT 100000 /* in usec */
-> >>  
-> >>  struct tegra_msi {
-> >>  	struct msi_controller chip;
-> >> @@ -2089,6 +2092,64 @@ static bool tegra_pcie_port_check_link(struct tegra_pcie_port *port)
-> >>  	return false;
-> >>  }
-> >>  
-> >> +static void tegra_pcie_change_link_speed(struct tegra_pcie *pcie)
-> >> +{
-> >> +	struct device *dev = pcie->dev;
-> >> +	struct tegra_pcie_port *port, *tmp;
-> >> +	ktime_t deadline;
-> >> +	u32 value;
-> >> +
-> >> +	list_for_each_entry_safe(port, tmp, &pcie->ports, list) {
-> > And the reason to use the _safe version is ?
-> >
-> > Lorenzo
-> 
-> This function is called in probe and resume_noirq. list entry is deleted in
-> remove, I don't see any scenario where it can cause a race condition.
-> It is fine to drop _safe. I will fix it in next version.
+aconnect bus driver does not use pm-clk interface now and hence the
+dependency is removed from Kconfig.
 
-I will do it myself, it is not a fundamental issue, do not send another
-version.
+Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+---
+ drivers/bus/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-Thanks,
-Lorenzo
+diff --git a/drivers/bus/Kconfig b/drivers/bus/Kconfig
+index 1851112..4587ef2 100644
+--- a/drivers/bus/Kconfig
++++ b/drivers/bus/Kconfig
+@@ -128,7 +128,6 @@ config TEGRA_ACONNECT
+ 	tristate "Tegra ACONNECT Bus Driver"
+ 	depends on ARCH_TEGRA_210_SOC
+ 	depends on OF && PM
+-	select PM_CLK
+ 	help
+ 	  Driver for the Tegra ACONNECT bus which is used to interface with
+ 	  the devices inside the Audio Processing Engine (APE) for Tegra210.
+-- 
+2.7.4
+
