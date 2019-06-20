@@ -2,39 +2,40 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DC1C4C98D
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 10:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E67024C995
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Jun 2019 10:37:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725977AbfFTIfN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 04:35:13 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:12696 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725925AbfFTIfN (ORCPT
+        id S1726084AbfFTIhK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Jun 2019 04:37:10 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:4395 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730401AbfFTIhK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 04:35:13 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0b453e0000>; Thu, 20 Jun 2019 01:35:10 -0700
+        Thu, 20 Jun 2019 04:37:10 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0b45b60002>; Thu, 20 Jun 2019 01:37:10 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 20 Jun 2019 01:35:11 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 20 Jun 2019 01:37:09 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 20 Jun 2019 01:35:11 -0700
+        by hqpgpgate102.nvidia.com on Thu, 20 Jun 2019 01:37:09 -0700
 Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
- 2019 08:35:09 +0000
-Subject: Re: [PATCH v6 1/2] arm64: tegra: add ACONNECT, ADMA and AGIC nodes
+ 2019 08:37:07 +0000
+Subject: Re: [PATCH v6 2/2] arm64: tegra: enable ACONNECT, ADMA and AGIC
 To:     Sameer Pujar <spujar@nvidia.com>, <thierry.reding@gmail.com>,
         <robh+dt@kernel.org>, <mark.rutland@arm.com>
 CC:     <mkumard@nvidia.com>, <devicetree@vger.kernel.org>,
         <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <1560945082-24554-1-git-send-email-spujar@nvidia.com>
+ <1560945082-24554-2-git-send-email-spujar@nvidia.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <953850e1-c562-65bd-a7a1-75d31d4cd154@nvidia.com>
-Date:   Thu, 20 Jun 2019 09:35:07 +0100
+Message-ID: <7a5cd105-0e49-cd5f-650a-e4caa64c6638@nvidia.com>
+Date:   Thu, 20 Jun 2019 09:37:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1560945082-24554-1-git-send-email-spujar@nvidia.com>
+In-Reply-To: <1560945082-24554-2-git-send-email-spujar@nvidia.com>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -42,17 +43,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561019710; bh=u8ruBWZaG4+DMY43KeT5wsAt3fh+0m2tf7B99LSbLp4=;
+        t=1561019830; bh=kIzvlCTC2QG8LnzWlQUQjDEnI0BqnPyICmvbcCwX7/w=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=OMOhoz7bhWzwwLx0CLZJzJG7UgTNjRaOi+uLprovtsMM+D6Nu8qZfWa5ebrt9JCoM
-         2mV3Uz+unUAnZ4eq4gBTw7ld6yV+8rk+1o6naD2MQ+RM/1aGh/f5oqhTt8QbJtgKxN
-         q8PzS8T/hNK9vuRu0e6m2LUX4//tLvdvHNF0KTenvT8MyvfRIQ+wLMMmz3/XCDpzzQ
-         3utDxz1x8cmT3jJqNvJdynhrlYFHQX/vYPi0Iih//HFs4kvjZAJ4l0XNS4oZOBF/3z
-         mBPNzsh42Q6gukUKLLKQtSX+rh5rEvAha+CfzAq5CeYY0Eq1fxC2sSL0RPf8hcK+T1
-         E7/xDaevtRotg==
+        b=Cdhnf0MMHyLWN8DEMiK7tuJwFO9CiWRZ5JPHpfjPoZ6uHgE7m30AWjtSCEScIcsUK
+         ZKP0HkNaqX1H9IBR+GdW+1nGRj8QLBvSGusE4hCx4p+b6vfPPavbhmJ9+/6E2oLUze
+         cCiGI/niACbKIqMdhokMHz2vMoqLSXnjXS8+dBtiZenmM43BVCceVe/d2iVVeuX9nv
+         sf+Sgeido6NrpuoqFod0hG85ZOkl9af5BnEjKajBttpV4jX+ZxGBF5iO8v99l8Ez37
+         i2sk8APczjT8Pjz2xXcUVGrWmiCr+hxKk65iClcOhLGDt1spC50p7kHwu2jXXBFEaR
+         FNe6MNfjTjEkw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -60,170 +61,60 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 
 On 19/06/2019 12:51, Sameer Pujar wrote:
-> Add DT nodes for following devices on Tegra186 and Tegra194
->  * ACONNECT
->  * ADMA
->  * AGIC
+> Enable ACONNECT, ADMA and AGIC devices for following platforms
+>   * Jetson TX2
+>   * Jetson Xavier
+> 
+> Verified driver probe path and devices get registered fine.
 > 
 > Signed-off-by: Sameer Pujar <spujar@nvidia.com>
 > ---
 >  changes in current revision
->    * updated ranges property for aconnect
->    * renamed agic node
+>    * renamed agic, interrupt-controller, name
 > 
->  arch/arm64/boot/dts/nvidia/tegra186.dtsi | 67 ++++++++++++++++++++++++++++++++
->  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 67 ++++++++++++++++++++++++++++++++
->  2 files changed, 134 insertions(+)
+>  arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 12 ++++++++++++
+>  arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 12 ++++++++++++
+>  2 files changed, 24 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-> index 426ac0b..4bb765d 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-> @@ -1295,4 +1295,71 @@
->  				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
->  		interrupt-parent = <&gic>;
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+> index 5102de1..55c84bb 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+> +++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+> @@ -298,4 +298,16 @@
+>  			vin-supply = <&vdd_5v0_sys>;
+>  		};
 >  	};
 > +
 > +	aconnect {
-> +		compatible = "nvidia,tegra210-aconnect";
-> +		clocks = <&bpmp TEGRA186_CLK_APE>,
-> +			 <&bpmp TEGRA186_CLK_APB2APE>;
-> +		clock-names = "ape", "apb2ape";
-> +		power-domains = <&bpmp TEGRA186_POWER_DOMAIN_AUD>;
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges = <0x02900000 0x0 0x02900000 0x200000>;
-> +		status = "disabled";
+> +		status = "okay";
 > +
 > +		dma-controller@2930000 {
-> +			compatible = "nvidia,tegra186-adma";
-> +			reg = <0x02930000 0x20000>;
-> +			interrupt-parent = <&agic>;
-> +			interrupts =  <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
-> +			#dma-cells = <1>;
-> +			clocks = <&bpmp TEGRA186_CLK_AHUB>;
-> +			clock-names = "d_audio";
-> +			status = "disabled";
+> +			status = "okay";
 > +		};
 > +
-> +		agic: interrupt-controller@2a40000 {
-> +			compatible = "nvidia,tegra210-agic";
-> +			#interrupt-cells = <3>;
-> +			interrupt-controller;
-> +			reg = <0x02a41000 0x1000>,
-> +			      <0x02a42000 0x2000>;
-> +			interrupts = <GIC_SPI 145
-> +				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
-> +			clocks = <&bpmp TEGRA186_CLK_APE>;
-> +			clock-names = "clk";
-> +			status = "disabled";
+> +		interrupt-controller@2a40000 {
+> +			status = "okay";
 > +		};
 > +	};
 >  };
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> index c77ca21..d6aee0d 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> @@ -1054,4 +1054,71 @@
->  				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
->  		interrupt-parent = <&gic>;
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
+> index 6e6df65..5981cdc 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
+> +++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
+> @@ -167,4 +167,16 @@
+>  			};
+>  		};
 >  	};
 > +
 > +	aconnect {
-> +		compatible = "nvidia,tegra210-aconnect";
-> +		clocks = <&bpmp TEGRA194_CLK_APE>,
-> +			 <&bpmp TEGRA194_CLK_APB2APE>;
-> +		clock-names = "ape", "apb2ape";
-> +		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_AUD>;
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges = <0x02900000 0x0 0x02900000 0x200000>;
-> +		status = "disabled";
+> +		status = "okay";
 > +
 > +		dma-controller@2930000 {
-> +			compatible = "nvidia,tegra186-adma";
-> +			reg = <0x02930000 0x20000>;
-> +			interrupt-parent = <&agic>;
-> +			interrupts =  <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>,
-> +				      <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
-> +			#dma-cells = <1>;
-> +			clocks = <&bpmp TEGRA194_CLK_AHUB>;
-> +			clock-names = "d_audio";
-> +			status = "disabled";
+> +			status = "okay";
 > +		};
 > +
-> +		agic: interrupt-controller@2a40000 {
-> +			compatible = "nvidia,tegra210-agic";
-> +			#interrupt-cells = <3>;
-> +			interrupt-controller;
-> +			reg = <0x02a41000 0x1000>,
-> +			      <0x02a42000 0x2000>;
-> +			interrupts = <GIC_SPI 145
-> +				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
-> +			clocks = <&bpmp TEGRA194_CLK_APE>;
-> +			clock-names = "clk";
-> +			status = "disabled";
+> +		interrupt-controller@2a40000 {
+> +			status = "okay";
 > +		};
 > +	};
 >  };
