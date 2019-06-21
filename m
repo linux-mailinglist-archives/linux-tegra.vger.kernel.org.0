@@ -2,76 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5459E4DF3F
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Jun 2019 05:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1F424EB73
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Jun 2019 17:02:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725941AbfFUDGf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Jun 2019 23:06:35 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:17833 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725906AbfFUDGe (ORCPT
+        id S1726063AbfFUPCK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Jun 2019 11:02:10 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36337 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726049AbfFUPCK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Jun 2019 23:06:34 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0c49b80000>; Thu, 20 Jun 2019 20:06:32 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 20 Jun 2019 20:06:33 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 20 Jun 2019 20:06:33 -0700
-Received: from [10.24.70.43] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 21 Jun
- 2019 03:06:29 +0000
-Subject: Re: [PATCH] dmaengine: tegra210-adma: fix transfer failure
-To:     Jon Hunter <jonathanh@nvidia.com>, <vkoul@kernel.org>,
-        <dan.j.williams@intel.com>
-CC:     <thierry.reding@gmail.com>, <ldewangan@nvidia.com>,
-        <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1561047348-14413-1-git-send-email-spujar@nvidia.com>
- <bf478236-9aa7-68cc-4a56-296db2fc4379@nvidia.com>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <bcd31292-4caf-19fa-c4ea-d85c5fd77861@nvidia.com>
-Date:   Fri, 21 Jun 2019 08:36:26 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        Fri, 21 Jun 2019 11:02:10 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n4so5715617wrs.3
+        for <linux-tegra@vger.kernel.org>; Fri, 21 Jun 2019 08:02:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L6dQv323Ey+4JIjdvTNU3vCXrozzKoZF5cqgk/Zii2Q=;
+        b=oYMXiTi7gTsFbaVkl8bkK3VjNmg7W75D+0HSYCtoAyztnBevEe5ZWBUQG3WHE4TNYG
+         ipVqnCwkcMCZyWysCr+/CEbO1N0yg8Ei/ZPxQTFuxGEl/gu5IS0Hov8Kd6Do3SpjNeua
+         Q6lGBpIKXF6c4DDK2q9BZ1OgALbfNW/qxK5lfUUI3jfeMfOfsIbAPtp3obpEMugyP86V
+         GfX58CtHxFd7r232R9GoXestxkX9RBpYDAfeRq5pYLTgdhutGRnKoLnQOX4APs4uLZml
+         1oQBPdfr78yIR0VK3bwF9Cj3D/QqrKKonBYE2x5URiSGLslEWsYqd1pz+2LsHmSu4IFo
+         qTDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L6dQv323Ey+4JIjdvTNU3vCXrozzKoZF5cqgk/Zii2Q=;
+        b=EzfR31TIc87ph957XDKZKVk0s1SGC9kMmn/AeHwIPcFH8DXGEJ1tSa1YQjmPFlDy6P
+         QiXRPqKLeOa59zqYuT/mAnPPJoZ6jKe+n9CcVrFWba4fm/Vddi0oFAS8NauUXdINFgFq
+         wU57oBwQ/AJifbAwQt8dzDGJT31Rx6rMAD2mr4RhQ9vopKXopYpHmQ4+oUD/tqe9zpx3
+         gqU9wH781ILiOhb4J77PPkE0amSo/mhp1omXOyhoTmqkfm7mooEbSoRT+pFUf+mwzRhP
+         RrjOW3XJvh1Ud4inwtr0prIrVEs5nznb9HCpr2F6jXv4JkiCw9I44lgIp8R8T+NsAU+s
+         A66w==
+X-Gm-Message-State: APjAAAWodEF0AGEbG2zgg5mt0X7CUHcIunwGMwKfuo5XsC4a7kMEhVm3
+        m7kDkg1Rg/2yn6PJ37ViJRA=
+X-Google-Smtp-Source: APXvYqyywkuCCQ4TzzIszhPEqQRM4uPekw8uBNBNrr0JsRaa4vg+ysnSPdvzNSky7V2AqMVkXRxlyA==
+X-Received: by 2002:a5d:508a:: with SMTP id a10mr27908816wrt.59.1561129328516;
+        Fri, 21 Jun 2019 08:02:08 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id x129sm2241343wmg.44.2019.06.21.08.02.07
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 21 Jun 2019 08:02:07 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     arm@kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL 1/5] firmware: tegra: Changes for v5.3-rc1
+Date:   Fri, 21 Jun 2019 17:02:02 +0200
+Message-Id: <20190621150206.19037-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <bf478236-9aa7-68cc-4a56-296db2fc4379@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561086393; bh=40qWngcJ5jntuve/oNsoItdezzKA7yP0XJAN671D/Fc=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=jjX0zTNCpWzwZOI5kUCnaO+ziNCoL60UwRp4Gpg10j2KAIp4X1bHHGwRjnvugJeuI
-         ppw0PSoFcmoq0amnR8DQeAvCgiQ/9iaYqhiDxDOAoctQWYatWZseJVsGflTjgGGGTc
-         Yi2MOXGddTqDzNT7EG7cje5DxIF3K54kGl5iAMJ6HkJqBHlYWqnnGzzsaaSRL2zm58
-         cbWNYbc5FVls9IAfYdW3wQ0xcE34FlA0g0X/9JClw6XQSAQ+pT/PR9DRxeNl0vPj40
-         VL0EXtnx8Eo2ypZA15xalfJCMrHMQR+pGS1dshOQv21B5525dwEicuM3WZoZ4R9EEs
-         Y9UM/nbS9LwcQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi ARM SoC maintainers,
 
-On 6/20/2019 10:13 PM, Jon Hunter wrote:
-> On 20/06/2019 17:15, Sameer Pujar wrote:
->>  From Tegra186 onwards OUTSTANDING_REQUESTS field is added in channel
->> configuration register (bits 7:4). ADMA allows a maximum of 8 reads
->> to source and that many writes to target memory be outstanding at any
->> given point of time. If this field is not programmed, DMA transfers
->> fail to happen.
-> BTW, I am not sure I follow the above. You say a max of 8 reads to the
-> source, however, the field we are programming can have a value of up to
-> 15. So does that mean this field should only be programmed with a max of 8?
-Yes. As per spec. ADMA allows max value of 8.
-> Thanks
-> Jon
->
+The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
+
+  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.3-firmware
+
+for you to fetch changes up to 61ed7ef952fc482ec8d4a966ed0d1e32df276c59:
+
+  firmware: tegra: Early resume BPMP (2019-06-14 17:45:17 +0200)
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+firmware: tegra: Changes for v5.3-rc1
+
+This contains a single, simple change that resumes the BPMP driver early
+so that it is available when the various consumers want to enable their
+clocks.
+
+----------------------------------------------------------------
+Bitan Biswas (1):
+      firmware: tegra: Early resume BPMP
+
+ drivers/firmware/tegra/bpmp.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
