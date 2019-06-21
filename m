@@ -2,58 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A1F424EB73
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Jun 2019 17:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7770B4EB74
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Jun 2019 17:02:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726063AbfFUPCK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 21 Jun 2019 11:02:10 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:36337 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726049AbfFUPCK (ORCPT
+        id S1726049AbfFUPCM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Jun 2019 11:02:12 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42428 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbfFUPCM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 21 Jun 2019 11:02:10 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n4so5715617wrs.3
-        for <linux-tegra@vger.kernel.org>; Fri, 21 Jun 2019 08:02:09 -0700 (PDT)
+        Fri, 21 Jun 2019 11:02:12 -0400
+Received: by mail-wr1-f66.google.com with SMTP id x17so6887377wrl.9
+        for <linux-tegra@vger.kernel.org>; Fri, 21 Jun 2019 08:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=L6dQv323Ey+4JIjdvTNU3vCXrozzKoZF5cqgk/Zii2Q=;
-        b=oYMXiTi7gTsFbaVkl8bkK3VjNmg7W75D+0HSYCtoAyztnBevEe5ZWBUQG3WHE4TNYG
-         ipVqnCwkcMCZyWysCr+/CEbO1N0yg8Ei/ZPxQTFuxGEl/gu5IS0Hov8Kd6Do3SpjNeua
-         Q6lGBpIKXF6c4DDK2q9BZ1OgALbfNW/qxK5lfUUI3jfeMfOfsIbAPtp3obpEMugyP86V
-         GfX58CtHxFd7r232R9GoXestxkX9RBpYDAfeRq5pYLTgdhutGRnKoLnQOX4APs4uLZml
-         1oQBPdfr78yIR0VK3bwF9Cj3D/QqrKKonBYE2x5URiSGLslEWsYqd1pz+2LsHmSu4IFo
-         qTDw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=1h6XJ5OhQWJ9WnLTMAcYwIqIRZbHQHwK183NqHTTkqE=;
+        b=L8qdZ67/uqfvi3TBYrRdLx/FaNFulsbj6J7nviPrp1E8/9PQ5WhjW858T2IRH7X/P/
+         zmUpU83OKDEDlbAqQwStA9QWsm6Z6n0+mFfOOrsGwcqg/MGWS9oB59JeBioZv2RcTKhu
+         SLEBvVm3nuTxQpf2RlmWPRikhDCgAOrnEczxzM+1KFf/4JmYL60q34zcuMIv0IzdmdJA
+         APKnuC5h5p3sbn0M7U/QbqyEOBJ5E2JFpKVk/+Qo7jY7HlkUgXzdAjAozKoP32ZtyU0A
+         hbhVtjxAMzhgoxfsh37CBoP2YsKG4/Uvjr2MvZRXBWrIBcuv6cW7OCEzLd9dG05017vO
+         qB2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=L6dQv323Ey+4JIjdvTNU3vCXrozzKoZF5cqgk/Zii2Q=;
-        b=EzfR31TIc87ph957XDKZKVk0s1SGC9kMmn/AeHwIPcFH8DXGEJ1tSa1YQjmPFlDy6P
-         QiXRPqKLeOa59zqYuT/mAnPPJoZ6jKe+n9CcVrFWba4fm/Vddi0oFAS8NauUXdINFgFq
-         wU57oBwQ/AJifbAwQt8dzDGJT31Rx6rMAD2mr4RhQ9vopKXopYpHmQ4+oUD/tqe9zpx3
-         gqU9wH781ILiOhb4J77PPkE0amSo/mhp1omXOyhoTmqkfm7mooEbSoRT+pFUf+mwzRhP
-         RrjOW3XJvh1Ud4inwtr0prIrVEs5nznb9HCpr2F6jXv4JkiCw9I44lgIp8R8T+NsAU+s
-         A66w==
-X-Gm-Message-State: APjAAAWodEF0AGEbG2zgg5mt0X7CUHcIunwGMwKfuo5XsC4a7kMEhVm3
-        m7kDkg1Rg/2yn6PJ37ViJRA=
-X-Google-Smtp-Source: APXvYqyywkuCCQ4TzzIszhPEqQRM4uPekw8uBNBNrr0JsRaa4vg+ysnSPdvzNSky7V2AqMVkXRxlyA==
-X-Received: by 2002:a5d:508a:: with SMTP id a10mr27908816wrt.59.1561129328516;
-        Fri, 21 Jun 2019 08:02:08 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1h6XJ5OhQWJ9WnLTMAcYwIqIRZbHQHwK183NqHTTkqE=;
+        b=qIvVb3I+mlWLgSOhmytlIScMvdF4v3I9mOhNAk2T5XC4gM355KCac4Jju238z7IvGP
+         4xSlKojz57sQIxqqyAvivcbHJX8nUi6GuuVSCm/L8UUMkmoeqf/6ZYnTvs1pqVVJIDVY
+         RD+V96z1kjIb8ReQ9VMVFD0HyKy71uo++EtTRsu+xV2tN5vuBS/q4aEt1zGRJhSi2QKI
+         1unlipfrbdYCm6o9tlw3BtPSMFQogn1/505vOLNplpWE6IpqfvPuCEauSsKkOwK7I1sa
+         zXqO/PjEiKxLNO8IshcGH/tLRIDr7fQl3oCFWDw21LvjtD3urn4+EybbxxMSE3kCZ2c7
+         DoDw==
+X-Gm-Message-State: APjAAAXU+DJl2yFfqRlq/j5RfZ0OcCW+idKUaSQffncRBuSwRVa14oON
+        vZaLl8Pfk+XFvgv2QJ7cXr8=
+X-Google-Smtp-Source: APXvYqyorCk4OcXIKyoPbn3x/xMcQPSmgP9su2DFFoV31EmJZwmwiqzkHUBVKVS8aGsESSc10C91ww==
+X-Received: by 2002:adf:c541:: with SMTP id s1mr294725wrf.44.1561129330076;
+        Fri, 21 Jun 2019 08:02:10 -0700 (PDT)
 Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id x129sm2241343wmg.44.2019.06.21.08.02.07
+        by smtp.gmail.com with ESMTPSA id l17sm3684989wrq.37.2019.06.21.08.02.09
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 21 Jun 2019 08:02:07 -0700 (PDT)
+        Fri, 21 Jun 2019 08:02:09 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 1/5] firmware: tegra: Changes for v5.3-rc1
-Date:   Fri, 21 Jun 2019 17:02:02 +0200
-Message-Id: <20190621150206.19037-1-thierry.reding@gmail.com>
+Subject: [GIT PULL 2/5] memory: tegra: Changes for v5.3-rc1
+Date:   Fri, 21 Jun 2019 17:02:03 +0200
+Message-Id: <20190621150206.19037-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190621150206.19037-1-thierry.reding@gmail.com>
+References: <20190621150206.19037-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -69,25 +71,24 @@ The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.3-firmware
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.3-memory
 
-for you to fetch changes up to 61ed7ef952fc482ec8d4a966ed0d1e32df276c59:
+for you to fetch changes up to 76ce48bdb303afa6e33cfbadca9d6bee23a4f559:
 
-  firmware: tegra: Early resume BPMP (2019-06-14 17:45:17 +0200)
+  memory: tegra: Fix -Wunused-const-variable (2019-06-14 18:02:02 +0200)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-firmware: tegra: Changes for v5.3-rc1
+memory: tegra: Changes for v5.3-rc1
 
-This contains a single, simple change that resumes the BPMP driver early
-so that it is available when the various consumers want to enable their
-clocks.
+A single fix for an unused constant variable, due to it being declared
+outside the only #ifdef that it was being used from.
 
 ----------------------------------------------------------------
-Bitan Biswas (1):
-      firmware: tegra: Early resume BPMP
+Nathan Huckleberry (1):
+      memory: tegra: Fix -Wunused-const-variable
 
- drivers/firmware/tegra/bpmp.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/memory/tegra/tegra124.c | 44 ++++++++++++++++++++---------------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
