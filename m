@@ -2,409 +2,476 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E86E4EBC9
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Jun 2019 17:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE6F04F015
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Jun 2019 22:44:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbfFUPTk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 21 Jun 2019 11:19:40 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55799 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726070AbfFUPTj (ORCPT
+        id S1726018AbfFUUob (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Jun 2019 16:44:31 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:6721 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725985AbfFUUob (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 21 Jun 2019 11:19:39 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a15so6668374wmj.5;
-        Fri, 21 Jun 2019 08:19:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WKRI4ePs49uxdstxyDjLNZQ13213BdNn41ZLx2LNQUc=;
-        b=hHTzkzkhYiZgKfgddjSJkXqLunpoOZ6T8qzcIlBjv07BtFHBEjqnEUa1yUydpGrXh8
-         l06QC61Pt+ptjNpKfjUZijKdxp4JpiPk4Ax6m03+dB3+3HroAWcZqBbRkYYv4zfisXoK
-         3Legffgn62hD703TEEkMNpTOh4m8O/dbMyDKgxAInofpQu5AXXGFQwitA/7WBJd4woir
-         sPuBf1RpQcAPilO1NZUb7IoMGYdJkB/elbjlMBok9ewXuLMBOv7Ay9X0Xi8b1qjfmW6C
-         X3tkueUfDjXyzg+qYUzZh/f4hemeyX3mSIbD4CSnkEPM7He9nPUY02quKd1qAL2TNa1b
-         HTnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WKRI4ePs49uxdstxyDjLNZQ13213BdNn41ZLx2LNQUc=;
-        b=q/EO6q70JNAMM2fLrvC8BxV3eOpXuLwj7+HY/xLikp1nu7sQA+XKBhhd10Nw59GNu5
-         gGIijkchriQDWsJX/21Kbr2HXutC927VOvqC+LPNVDmambcm0xSgJcT0d5qm1d3TAEFo
-         cdGqTnbSbz2a2ZxwX+NeVu7wHPDBOJ5R1IH4ZUS++90I3ND2OyX2j2wWmHfaRhnnSeTw
-         +dKopzu/cCvo/2sqjnbWabMjwh2Q1zb7LvWj8aHiMkoUiy648wI/7AXRGs1U2mAGezhr
-         4umg7bONjB4/x6NvJCT1qcxRdhl0oge8sZmiwjmVyPJvrqjhque6dPW3o2Crt+mB+jzx
-         b9mw==
-X-Gm-Message-State: APjAAAWnuM2uUqh+VTZflF8DwYWPL7I/VHcx7oOFxQYbQVEUXcQBwOsn
-        /wDKN6Uldg8euFQuqhs3bq4=
-X-Google-Smtp-Source: APXvYqz97tO2XEs8F/vDRvvc2X0RDue+i826gNBwfCJsOBe1q7o8ErcYYTBeR+rnBXKzhl46Np+xmQ==
-X-Received: by 2002:a7b:cb08:: with SMTP id u8mr4421651wmj.167.1561130375609;
-        Fri, 21 Jun 2019 08:19:35 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id e11sm5706155wrc.9.2019.06.21.08.19.34
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 21 Jun 2019 08:19:35 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Stephen Warren <swarren@wwwdotorg.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: [PATCH v2 2/2] pinctrl: tegra: Add bitmask support for parked bits
-Date:   Fri, 21 Jun 2019 17:19:32 +0200
-Message-Id: <20190621151932.20662-2-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190621151932.20662-1-thierry.reding@gmail.com>
-References: <20190621151932.20662-1-thierry.reding@gmail.com>
+        Fri, 21 Jun 2019 16:44:31 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d0d41ac0001>; Fri, 21 Jun 2019 13:44:29 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 21 Jun 2019 13:44:27 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 21 Jun 2019 13:44:27 -0700
+Received: from [10.2.174.126] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 21 Jun
+ 2019 20:44:23 +0000
+Subject: Re: [PATCH V3 11/17] clk: tegra210: support for Tegra210 clocks
+ suspend and resume
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <jonathanh@nvidia.com>, <tglx@linutronix.de>,
+        <jason@lakedaemon.net>, <marc.zyngier@arm.com>,
+        <linus.walleij@linaro.org>, <stefan@agner.ch>,
+        <mark.rutland@arm.com>, <pdeschrijver@nvidia.com>,
+        <pgaikwad@nvidia.com>, <sboyd@kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+        <jckuo@nvidia.com>, <josephl@nvidia.com>, <talho@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
+        <digetx@gmail.com>, <devicetree@vger.kernel.org>
+References: <1560843991-24123-1-git-send-email-skomatineni@nvidia.com>
+ <1560843991-24123-12-git-send-email-skomatineni@nvidia.com>
+ <20190618121607.GN28892@ulmo>
+ <491e0b18-11e7-837c-4591-06ed30950e1d@nvidia.com>
+ <20190619081541.GA3187@ulmo>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <467eec6e-87fd-0b59-f2f6-75eae4a15a34@nvidia.com>
+Date:   Fri, 21 Jun 2019 13:44:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190619081541.GA3187@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1561149869; bh=rMya3Lsh8UkESwXjmICg3L7PVGzynThgYAA0U3Q3z+s=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=dOPOOF916qaV1KpO9gd7faBpvrrghFMtQD9ge9fbbRSusg1fu+QAFB968lGK9VlGa
+         attGAfjJBg9gbLLjFG9fL4VCi8JiYwEYWmW2fBlYoyq0p6dlWJrAMMLUk3WT0+bL3R
+         uVn/72IcURycFECcFOfSnsWHCHwTdHh4Ugdf7P176JlTIIFsok1NAWrOreDihpkZng
+         LvnmfEezHR7J8sagnlrFj2n1nCURIUj//1PlFtgeSz+/0Uuk5UqgmYc2QB1VZnGETc
+         pfF84AV1PuoLYcwgmw4MP9vPKSHPqFdw/J5pqXQAVz8quN6XFHBoioJ9zDbcySeVli
+         hBjCtUUw/vppg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-Some pin groups have park bits for multiple pins in one register.
-Support this by turning the parked bit field into a parked bitmask
-field. If no parked bits are supported, the bitmask can be 0.
+On 6/19/19 1:15 AM, Thierry Reding wrote:
+> On Tue, Jun 18, 2019 at 10:58:40AM -0700, Sowjanya Komatineni wrote:
+>> On 6/18/19 5:16 AM, Thierry Reding wrote:
+>>> On Tue, Jun 18, 2019 at 12:46:25AM -0700, Sowjanya Komatineni wrote:
+>>>> This patch adds system suspend and resume support for Tegra210
+>>>> clocks.
+>>>>
+>>>> All the CAR controller settings are lost on suspend when core power
+>>>> goes off.
+>>>>
+>>>> This patch has implementation for saving and restoring all the PLLs
+>>>> and clocks context during system suspend and resume to have the
+>>>> system back to operating state.
+>>>>
+>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>> ---
+>>>>    drivers/clk/tegra/clk-tegra210.c | 218 +++++++++++++++++++++++++++++++++++++--
+>>>>    1 file changed, 211 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
+>>>> index e1ba62d2b1a0..c34d92e871f4 100644
+>>>> --- a/drivers/clk/tegra/clk-tegra210.c
+>>>> +++ b/drivers/clk/tegra/clk-tegra210.c
+>>>> @@ -9,10 +9,12 @@
+>>>>    #include <linux/clkdev.h>
+>>>>    #include <linux/of.h>
+>>>>    #include <linux/of_address.h>
+>>>> +#include <linux/of_platform.h>
+>>>>    #include <linux/delay.h>
+>>>>    #include <linux/export.h>
+>>>>    #include <linux/mutex.h>
+>>>>    #include <linux/clk/tegra.h>
+>>>> +#include <linux/syscore_ops.h>
+>>>>    #include <dt-bindings/clock/tegra210-car.h>
+>>>>    #include <dt-bindings/reset/tegra210-car.h>
+>>>>    #include <linux/iopoll.h>
+>>>> @@ -20,6 +22,7 @@
+>>>>    #include <soc/tegra/pmc.h>
+>>>>    #include "clk.h"
+>>>> +#include "clk-dfll.h"
+>>>>    #include "clk-id.h"
+>>>>    /*
+>>>> @@ -36,6 +39,8 @@
+>>>>    #define CLK_SOURCE_LA 0x1f8
+>>>>    #define CLK_SOURCE_SDMMC2 0x154
+>>>>    #define CLK_SOURCE_SDMMC4 0x164
+>>>> +#define CLK_OUT_ENB_Y 0x298
+>>>> +#define CLK_ENB_PLLP_OUT_CPU BIT(31)
+>>>>    #define PLLC_BASE 0x80
+>>>>    #define PLLC_OUT 0x84
+>>>> @@ -225,6 +230,7 @@
+>>>>    #define CLK_RST_CONTROLLER_RST_DEV_Y_SET 0x2a8
+>>>>    #define CLK_RST_CONTROLLER_RST_DEV_Y_CLR 0x2ac
+>>>> +#define CPU_SOFTRST_CTRL 0x380
+>>>>    #define LVL2_CLK_GATE_OVRA 0xf8
+>>>>    #define LVL2_CLK_GATE_OVRC 0x3a0
+>>>> @@ -2820,6 +2826,7 @@ static int tegra210_enable_pllu(void)
+>>>>    	struct tegra_clk_pll_freq_table *fentry;
+>>>>    	struct tegra_clk_pll pllu;
+>>>>    	u32 reg;
+>>>> +	int ret;
+>>>>    	for (fentry = pll_u_freq_table; fentry->input_rate; fentry++) {
+>>>>    		if (fentry->input_rate == pll_ref_freq)
+>>>> @@ -2836,7 +2843,7 @@ static int tegra210_enable_pllu(void)
+>>>>    	reg = readl_relaxed(clk_base + pllu.params->ext_misc_reg[0]);
+>>>>    	reg &= ~BIT(pllu.params->iddq_bit_idx);
+>>>>    	writel_relaxed(reg, clk_base + pllu.params->ext_misc_reg[0]);
+>>>> -	udelay(5);
+>>>> +	fence_udelay(5, clk_base);
+>>>>    	reg = readl_relaxed(clk_base + PLLU_BASE);
+>>>>    	reg &= ~GENMASK(20, 0);
+>>>> @@ -2844,13 +2851,13 @@ static int tegra210_enable_pllu(void)
+>>>>    	reg |= fentry->n << 8;
+>>>>    	reg |= fentry->p << 16;
+>>>>    	writel(reg, clk_base + PLLU_BASE);
+>>>> -	udelay(1);
+>>>> +	fence_udelay(1, clk_base);
+>>> These udelay() -> fence_udelay() seem like they should be a separate
+>>> patch.
+>>>
+>>>>    	reg |= PLL_ENABLE;
+>>>>    	writel(reg, clk_base + PLLU_BASE);
+>>>> +	fence_udelay(1, clk_base);
+>>>> -	readl_relaxed_poll_timeout_atomic(clk_base + PLLU_BASE, reg,
+>>>> -					  reg & PLL_BASE_LOCK, 2, 1000);
+>>>> -	if (!(reg & PLL_BASE_LOCK)) {
+>>>> +	ret = tegra210_wait_for_mask(&pllu, PLLU_BASE, PLL_BASE_LOCK);
+>>>> +	if (ret) {
+>>>>    		pr_err("Timed out waiting for PLL_U to lock\n");
+>>>>    		return -ETIMEDOUT;
+>>>>    	}
+>>>> @@ -2890,12 +2897,12 @@ static int tegra210_init_pllu(void)
+>>>>    		reg = readl_relaxed(clk_base + XUSB_PLL_CFG0);
+>>>>    		reg &= ~XUSB_PLL_CFG0_PLLU_LOCK_DLY_MASK;
+>>>>    		writel_relaxed(reg, clk_base + XUSB_PLL_CFG0);
+>>>> -		udelay(1);
+>>>> +		fence_udelay(1, clk_base);
+>>>>    		reg = readl_relaxed(clk_base + PLLU_HW_PWRDN_CFG0);
+>>>>    		reg |= PLLU_HW_PWRDN_CFG0_SEQ_ENABLE;
+>>>>    		writel_relaxed(reg, clk_base + PLLU_HW_PWRDN_CFG0);
+>>>> -		udelay(1);
+>>>> +		fence_udelay(1, clk_base);
+>>>>    		reg = readl_relaxed(clk_base + PLLU_BASE);
+>>>>    		reg &= ~PLLU_BASE_CLKENABLE_USB;
+>>>> @@ -3282,6 +3289,188 @@ static void tegra210_disable_cpu_clock(u32 cpu)
+>>>>    }
+>>>>    #ifdef CONFIG_PM_SLEEP
+>>>> +static u32 cpu_softrst_ctx[3];
+>>>> +static struct platform_device *dfll_pdev;
+>>>> +static u32 *periph_clk_src_ctx;
+>>>> +struct periph_source_bank {
+>>> Blank line between the above two.
+>>>
+>>>> +	u32 start;
+>>>> +	u32 end;
+>>>> +};
+>>>> +
+>>>> +static struct periph_source_bank periph_srcs[] = {
+>>>> +	[0] = {
+>>>> +		.start = 0x100,
+>>>> +		.end = 0x198,
+>>>> +	},
+>>>> +	[1] = {
+>>>> +		.start = 0x1a0,
+>>>> +		.end = 0x1f8,
+>>>> +	},
+>>>> +	[2] = {
+>>>> +		.start = 0x3b4,
+>>>> +		.end = 0x42c,
+>>>> +	},
+>>>> +	[3] = {
+>>>> +		.start = 0x49c,
+>>>> +		.end = 0x4b4,
+>>>> +	},
+>>>> +	[4] = {
+>>>> +		.start = 0x560,
+>>>> +		.end = 0x564,
+>>>> +	},
+>>>> +	[5] = {
+>>>> +		.start = 0x600,
+>>>> +		.end = 0x678,
+>>>> +	},
+>>>> +	[6] = {
+>>>> +		.start = 0x694,
+>>>> +		.end = 0x6a0,
+>>>> +	},
+>>>> +	[7] = {
+>>>> +		.start = 0x6b8,
+>>>> +		.end = 0x718,
+>>>> +	},
+>>>> +};
+>>>> +
+>>>> +/* This array lists the valid clocks for each periph clk bank */
+>>>> +static u32 periph_clks_on[] = {
+>>>> +	0xdcd7dff9,
+>>>> +	0x87d1f3e7,
+>>>> +	0xf3fed3fa,
+>>>> +	0xffc18cfb,
+>>>> +	0x793fb7ff,
+>>>> +	0x3fe66fff,
+>>>> +	0xfc1fc7ff,
+>>>> +};
+>>> Hm... this is a bunch of magic. Perhaps replace this by a list of the
+>>> clock IDs? That's perhaps a little more verbose, but if we ever need to
+>>> tweak the list of IDs in that periph_clks_on array, that'll be quite the
+>>> challenge.
+>>>
+>>> Also, is this list a "guess" or are these all guaranteed to be always
+>>> on? What if some of these ended up getting disabled as part of suspend
+>>> already (by their users). If we force them on, won't their references
+>>> become unbalanced if the driver later enables them again on resume?
+>> Yes, will replace with list of peripheral clock names..
+>>
+>> This list is not a guess. Each entry of this list maps to CLK_ENB set
+>> register.
+>>
+>> Total 7 registers are available and each bit of these registers is for
+>> enable/disable clock to corresponding peripheral.
+>>
+>> Some of the bits are off as those peripheral clocks don't need to be enabled
+>> as we are not changing source or not using them like MIPIBIF, PLLG_REF..
+>>
+>> This list of peripheral clocks are enabled during resume before changing
+>> clock sources and after clock source update, they are restored back to the
+>> state they were before suspend. So their references don't become unbalanced.
+> Okay, good. Can you maybe put a version of that explanation in a comment
+> on top of the periph_clks_on declaration? And perhaps also describe this
+> in the commit message.
+>
+> Or maybe even better, add some comments in the main suspend/resume paths
+> to sort of "guide" through what's happening.
+>
+>>>> +
+>>>> +static struct platform_device *dfll_pdev;
+>>> I think you already predeclared this one above.
+>>>
+>>>> +#define car_readl(_base, _off) readl_relaxed(clk_base + (_base) + ((_off) * 4))
+>>>> +#define car_writel(_val, _base, _off) \
+>>>> +		writel_relaxed(_val, clk_base + (_base) + ((_off) * 4))
+>>>> +
+>>>> +static u32 * __init tegra210_init_suspend_ctx(void)
+>>>> +{
+>>>> +	int i, size = 0;
+>>> Can both be unsigned int.
+>>>
+>>>> +
+>>>> +	for (i = 0; i < ARRAY_SIZE(periph_srcs); i++)
+>>>> +		size += periph_srcs[i].end - periph_srcs[i].start + 4;
+>>>> +
+>>>> +	periph_clk_src_ctx = kmalloc(size, GFP_KERNEL);
+>>>> +
+>>>> +	return periph_clk_src_ctx;
+>>> It's somewhat wasteful to return a global variable since you can access
+>>> it anyway. Perhaps it'd be more useful to make the function return a
+>>> boolean?
+>>>
+>>>> +}
+>>>> +
+>>>> +static int tegra210_clk_suspend(void)
+>>>> +{
+>>>> +	int i;
+>>> unsigned int.
+>>>
+>>>> +	unsigned long off;
+>>>> +	struct device_node *node;
+>>>> +	u32 *clk_rst_ctx = periph_clk_src_ctx;
+>>>> +	u32 val;
+>>>> +
+>>>> +	tegra_cclkg_burst_policy_save_context();
+>>>> +
+>>>> +	if (!dfll_pdev) {
+>>>> +		node = of_find_compatible_node(NULL, NULL,
+>>>> +					       "nvidia,tegra210-dfll");
+>>>> +		if (node)
+>>>> +			dfll_pdev = of_find_device_by_node(node);
+>>>> +		of_node_put(node);
+>>>> +		if (!dfll_pdev)
+>>>> +			pr_err("dfll node not found. no suspend for dfll\n");
+>>>> +	}
+>>> Wouldn't it make sense to run this only once, perhaps as part of
+>>> tegra210_init_suspend_ctx()?
 
-Update the pingroup table on Tegra210, which is the only generation
-where this is supported, with the parked bitmask.
+tegra210_init_suspend_ctx is invoked during tegra210_clock_init and as 
+clock init happens earlier than dfll probe,
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v2:
-- write to mux_bank/mux_reg or drv_bank/drv_reg depending on pin
+dfll platform device will not be available at that time. So acquiring 
+dfll pdev during 1st suspend.
 
- drivers/pinctrl/tegra/pinctrl-tegra.c    | 18 +++++--
- drivers/pinctrl/tegra/pinctrl-tegra.h    |  4 +-
- drivers/pinctrl/tegra/pinctrl-tegra114.c |  4 +-
- drivers/pinctrl/tegra/pinctrl-tegra124.c |  4 +-
- drivers/pinctrl/tegra/pinctrl-tegra194.c |  4 +-
- drivers/pinctrl/tegra/pinctrl-tegra20.c  |  6 +--
- drivers/pinctrl/tegra/pinctrl-tegra210.c | 60 ++++++++++++------------
- drivers/pinctrl/tegra/pinctrl-tegra30.c  |  4 +-
- 8 files changed, 57 insertions(+), 47 deletions(-)
-
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
-index 34596b246578..186ef98e7b2b 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
-@@ -613,10 +613,20 @@ static void tegra_pinctrl_clear_parked_bits(struct tegra_pmx *pmx)
- 
- 	for (i = 0; i < pmx->soc->ngroups; ++i) {
- 		g = &pmx->soc->groups[i];
--		if (g->parked_bit >= 0) {
--			val = pmx_readl(pmx, g->mux_bank, g->mux_reg);
--			val &= ~(1 << g->parked_bit);
--			pmx_writel(pmx, val, g->mux_bank, g->mux_reg);
-+		if (g->parked_bitmask > 0) {
-+			unsigned int bank, reg;
-+
-+			if (g->mux_reg != -1) {
-+				bank = g->mux_bank;
-+				reg = g->mux_reg;
-+			} else {
-+				bank = g->drv_bank;
-+				reg = g->drv_reg;
-+			}
-+
-+			val = pmx_readl(pmx, bank, reg);
-+			val &= ~g->parked_bitmask;
-+			pmx_writel(pmx, val, bank, reg);
- 		}
- 	}
- }
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.h b/drivers/pinctrl/tegra/pinctrl-tegra.h
-index 287702660783..105309774079 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra.h
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra.h
-@@ -96,7 +96,6 @@ struct tegra_function {
-  * @tri_reg:		Tri-state register offset.
-  * @tri_bank:		Tri-state register bank.
-  * @tri_bit:		Tri-state register bit.
-- * @parked_bit:		Parked register bit. -1 if unsupported.
-  * @einput_bit:		Enable-input register bit.
-  * @odrain_bit:		Open-drain register bit.
-  * @lock_bit:		Lock register bit.
-@@ -118,6 +117,7 @@ struct tegra_function {
-  * @slwf_bit:		Slew Falling register bit.
-  * @slwf_width:		Slew Falling field width.
-  * @drvtype_bit:	Drive type register bit.
-+ * @parked_bitmask:	Parked register mask. 0 if unsupported.
-  *
-  * -1 in a *_reg field means that feature is unsupported for this group.
-  * *_bank and *_reg values are irrelevant when *_reg is -1.
-@@ -146,7 +146,6 @@ struct tegra_pingroup {
- 	s32 mux_bit:6;
- 	s32 pupd_bit:6;
- 	s32 tri_bit:6;
--	s32 parked_bit:6;
- 	s32 einput_bit:6;
- 	s32 odrain_bit:6;
- 	s32 lock_bit:6;
-@@ -164,6 +163,7 @@ struct tegra_pingroup {
- 	s32 drvup_width:6;
- 	s32 slwr_width:6;
- 	s32 slwf_width:6;
-+	u32 parked_bitmask;
- };
- 
- /**
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra114.c b/drivers/pinctrl/tegra/pinctrl-tegra114.c
-index 29821c03b471..e72ab1eb2398 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra114.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra114.c
-@@ -1572,8 +1572,8 @@ static struct tegra_function tegra114_functions[] = {
- 		.lock_bit = 7,						\
- 		.ioreset_bit = PINGROUP_BIT_##ior(8),			\
- 		.rcv_sel_bit = PINGROUP_BIT_##rcv_sel(9),		\
--		.parked_bit = -1,					\
- 		.drv_reg = -1,						\
-+		.parked_bitmask = 0,					\
- 	}
- 
- #define DRV_PINGROUP(pg_name, r, hsm_b, schmitt_b, lpmd_b, drvdn_b,	\
-@@ -1593,7 +1593,6 @@ static struct tegra_function tegra114_functions[] = {
- 		.rcv_sel_bit = -1,					\
- 		.drv_reg = DRV_PINGROUP_REG(r),				\
- 		.drv_bank = 0,						\
--		.parked_bit = -1,					\
- 		.hsm_bit = hsm_b,					\
- 		.schmitt_bit = schmitt_b,				\
- 		.lpmd_bit = lpmd_b,					\
-@@ -1606,6 +1605,7 @@ static struct tegra_function tegra114_functions[] = {
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
- 		.drvtype_bit = PINGROUP_BIT_##drvtype(6),		\
-+		.parked_bitmask = 0,					\
- 	}
- 
- static const struct tegra_pingroup tegra114_groups[] = {
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra124.c b/drivers/pinctrl/tegra/pinctrl-tegra124.c
-index 3616d8b97c32..26096c6b967e 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra124.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra124.c
-@@ -1741,8 +1741,8 @@ static struct tegra_function tegra124_functions[] = {
- 		.lock_bit = 7,						\
- 		.ioreset_bit = PINGROUP_BIT_##ior(8),			\
- 		.rcv_sel_bit = PINGROUP_BIT_##rcv_sel(9),		\
--		.parked_bit = -1,					\
- 		.drv_reg = -1,						\
-+		.parked_bitmask = 0,					\
- 	}
- 
- #define DRV_PINGROUP(pg_name, r, hsm_b, schmitt_b, lpmd_b, drvdn_b,	\
-@@ -1762,7 +1762,6 @@ static struct tegra_function tegra124_functions[] = {
- 		.rcv_sel_bit = -1,					\
- 		.drv_reg = DRV_PINGROUP_REG(r),				\
- 		.drv_bank = 0,						\
--		.parked_bit = -1,					\
- 		.hsm_bit = hsm_b,					\
- 		.schmitt_bit = schmitt_b,				\
- 		.lpmd_bit = lpmd_b,					\
-@@ -1775,6 +1774,7 @@ static struct tegra_function tegra124_functions[] = {
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
- 		.drvtype_bit = PINGROUP_BIT_##drvtype(6),		\
-+		.parked_bitmask = 0,					\
- 	}
- 
- #define MIPI_PAD_CTRL_PINGROUP(pg_name, r, b, f0, f1)			\
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra194.c b/drivers/pinctrl/tegra/pinctrl-tegra194.c
-index 957ef198850a..daf44cf240c9 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra194.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra194.c
-@@ -87,7 +87,6 @@ static struct tegra_function tegra194_functions[] = {
- 		.lpmd_bit = -1,					\
- 		.lock_bit = -1,					\
- 		.hsm_bit = -1,					\
--		.parked_bit = -1,				\
- 		.mux_bank = bank,				\
- 		.mux_bit = 0,					\
- 		.pupd_reg = ((r)),		\
-@@ -100,7 +99,8 @@ static struct tegra_function tegra194_functions[] = {
- 		.odrain_bit = e_od,				\
- 		.schmitt_bit = schmitt_b,			\
- 		.drvtype_bit = 13,				\
--		.drv_reg = -1
-+		.drv_reg = -1,					\
-+		.parked_bitmask = 0
- 
- #define drive_pex_l5_clkreq_n_pgg0				\
- 	DRV_PINGROUP_ENTRY_Y(0x14004, 12, 5, 20, 5, -1, -1, -1, -1, 0)
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra20.c b/drivers/pinctrl/tegra/pinctrl-tegra20.c
-index 4b7837e38fb5..0dc2cf0d05b1 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra20.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra20.c
-@@ -1989,13 +1989,13 @@ static struct tegra_function tegra20_functions[] = {
- 		.tri_reg = ((tri_r) - TRISTATE_REG_A),		\
- 		.tri_bank = 0,					\
- 		.tri_bit = tri_b,				\
--		.parked_bit = -1,				\
- 		.einput_bit = -1,				\
- 		.odrain_bit = -1,				\
- 		.lock_bit = -1,					\
- 		.ioreset_bit = -1,				\
- 		.rcv_sel_bit = -1,				\
- 		.drv_reg = -1,					\
-+		.parked_bitmask = 0,				\
- 	}
- 
- /* Pin groups with only pull up and pull down control */
-@@ -2009,7 +2009,7 @@ static struct tegra_function tegra20_functions[] = {
- 		.pupd_bank = 2,					\
- 		.pupd_bit = pupd_b,				\
- 		.drv_reg = -1,					\
--		.parked_bit = -1,				\
-+		.parked_bitmask = 0,				\
- 	}
- 
- /* Pin groups for drive strength registers (configurable version) */
-@@ -2025,7 +2025,7 @@ static struct tegra_function tegra20_functions[] = {
- 		.tri_reg = -1,					\
- 		.drv_reg = ((r) - PINGROUP_REG_A),		\
- 		.drv_bank = 3,					\
--		.parked_bit = -1,				\
-+		.parked_bitmask = 0,				\
- 		.hsm_bit = hsm_b,				\
- 		.schmitt_bit = schmitt_b,			\
- 		.lpmd_bit = lpmd_b,				\
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra210.c b/drivers/pinctrl/tegra/pinctrl-tegra210.c
-index 1462023bba35..39ab6480a941 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra210.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra210.c
-@@ -1302,7 +1302,6 @@ static struct tegra_function tegra210_functions[] = {
- 		.lock_bit = 7,						\
- 		.ioreset_bit = -1,					\
- 		.rcv_sel_bit = PINGROUP_BIT_##e_io_hv(10),		\
--		.parked_bit = 5,					\
- 		.hsm_bit = PINGROUP_BIT_##hsm(9),			\
- 		.schmitt_bit = 12,					\
- 		.drvtype_bit = PINGROUP_BIT_##drvtype(13),		\
-@@ -1317,10 +1316,11 @@ static struct tegra_function tegra210_functions[] = {
- 		.slwr_width = slwr_w,					\
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
-+		.parked_bitmask = BIT(5),				\
- 	}
- 
--#define DRV_PINGROUP(pg_name, r, drvdn_b, drvdn_w, drvup_b, drvup_w,	\
--		     slwr_b, slwr_w, slwf_b, slwf_w)			\
-+#define DRV_PINGROUP(pg_name, r, prk_mask, drvdn_b, drvdn_w, drvup_b,	\
-+		     drvup_w, slwr_b, slwr_w, slwf_b, slwf_w)		\
- 	{								\
- 		.name = "drive_" #pg_name,				\
- 		.pins = drive_##pg_name##_pins,				\
-@@ -1335,7 +1335,6 @@ static struct tegra_function tegra210_functions[] = {
- 		.rcv_sel_bit = -1,					\
- 		.drv_reg = DRV_PINGROUP_REG(r),				\
- 		.drv_bank = 0,						\
--		.parked_bit = -1,					\
- 		.hsm_bit = -1,						\
- 		.schmitt_bit = -1,					\
- 		.lpmd_bit = -1,						\
-@@ -1348,6 +1347,7 @@ static struct tegra_function tegra210_functions[] = {
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
- 		.drvtype_bit = -1,					\
-+		.parked_bitmask = prk_mask,				\
- 	}
- 
- static const struct tegra_pingroup tegra210_groups[] = {
-@@ -1515,32 +1515,32 @@ static const struct tegra_pingroup tegra210_groups[] = {
- 	PINGROUP(pz4,                  SDMMC1,     RSVD1,  RSVD2, RSVD3, 0x328c, N,   N,       N,       -1,    -1,      -1,      -1,      -1,      -1,     -1,     -1,     -1),
- 	PINGROUP(pz5,                  SOC,        RSVD1,  RSVD2, RSVD3, 0x3290, N,   N,       N,       -1,    -1,      -1,      -1,      -1,      -1,     -1,     -1,     -1),
- 
--	/* pg_name, r, drvdn_b, drvdn_w, drvup_b, drvup_w, slwr_b, slwr_w, slwf_b, slwf_w */
--	DRV_PINGROUP(pa6,    0x9c0, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(pcc7,   0x9c4, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(pe6,    0x9c8, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(pe7,    0x9cc, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(ph6,    0x9d0, 12, 5,  20, 5,  -1, -1, -1, -1),
--	DRV_PINGROUP(pk0,    0x9d4, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk1,    0x9d8, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk2,    0x9dc, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk3,    0x9e0, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk4,    0x9e4, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk5,    0x9e8, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk6,    0x9ec, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pk7,    0x9f0, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pl0,    0x9f4, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pl1,    0x9f8, -1, -1, -1, -1, 28, 2,  30, 2),
--	DRV_PINGROUP(pz0,    0x9fc, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz1,    0xa00, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz2,    0xa04, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz3,    0xa08, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz4,    0xa0c, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(pz5,    0xa10, 12, 7,  20, 7,  -1, -1, -1, -1),
--	DRV_PINGROUP(sdmmc1, 0xa98, 12, 7,  20, 7,  28, 2,  30, 2),
--	DRV_PINGROUP(sdmmc2, 0xa9c, 2,  6,  8,  6,  28, 2,  30, 2),
--	DRV_PINGROUP(sdmmc3, 0xab0, 12, 7,  20, 7,  28, 2,  30, 2),
--	DRV_PINGROUP(sdmmc4, 0xab4, 2,  6,  8,  6,  28, 2,  30, 2),
-+	/* pg_name, r, prk_mask, drvdn_b, drvdn_w, drvup_b, drvup_w, slwr_b, slwr_w, slwf_b, slwf_w */
-+	DRV_PINGROUP(pa6,    0x9c0, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pcc7,   0x9c4, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pe6,    0x9c8, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pe7,    0x9cc, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(ph6,    0x9d0, 0x0,       12, 5,  20, 5,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pk0,    0x9d4, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk1,    0x9d8, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk2,    0x9dc, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk3,    0x9e0, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk4,    0x9e4, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk5,    0x9e8, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk6,    0x9ec, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pk7,    0x9f0, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pl0,    0x9f4, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pl1,    0x9f8, 0x0,       -1, -1, -1, -1, 28, 2,  30, 2),
-+	DRV_PINGROUP(pz0,    0x9fc, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz1,    0xa00, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz2,    0xa04, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz3,    0xa08, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz4,    0xa0c, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(pz5,    0xa10, 0x0,       12, 7,  20, 7,  -1, -1, -1, -1),
-+	DRV_PINGROUP(sdmmc1, 0xa98, 0x0,       12, 7,  20, 7,  28, 2,  30, 2),
-+	DRV_PINGROUP(sdmmc2, 0xa9c, 0x7ffc000, 2,  6,  8,  6,  28, 2,  30, 2),
-+	DRV_PINGROUP(sdmmc3, 0xab0, 0x0,       12, 7,  20, 7,  28, 2,  30, 2),
-+	DRV_PINGROUP(sdmmc4, 0xab4, 0x7ffc000, 2,  6,  8,  6,  28, 2,  30, 2),
- };
- 
- static const struct tegra_pinctrl_soc_data tegra210_pinctrl = {
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra30.c b/drivers/pinctrl/tegra/pinctrl-tegra30.c
-index 610124c3d192..7299a371827f 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra30.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra30.c
-@@ -2133,8 +2133,8 @@ static struct tegra_function tegra30_functions[] = {
- 		.lock_bit = 7,						\
- 		.ioreset_bit = PINGROUP_BIT_##ior(8),			\
- 		.rcv_sel_bit = -1,					\
--		.parked_bit = -1,					\
- 		.drv_reg = -1,						\
-+		.parked_bitmask = 0,					\
- 	}
- 
- #define DRV_PINGROUP(pg_name, r, hsm_b, schmitt_b, lpmd_b, drvdn_b,	\
-@@ -2154,7 +2154,6 @@ static struct tegra_function tegra30_functions[] = {
- 		.rcv_sel_bit = -1,					\
- 		.drv_reg = DRV_PINGROUP_REG(r),				\
- 		.drv_bank = 0,						\
--		.parked_bit = -1,					\
- 		.hsm_bit = hsm_b,					\
- 		.schmitt_bit = schmitt_b,				\
- 		.lpmd_bit = lpmd_b,					\
-@@ -2167,6 +2166,7 @@ static struct tegra_function tegra30_functions[] = {
- 		.slwf_bit = slwf_b,					\
- 		.slwf_width = slwf_w,					\
- 		.drvtype_bit = -1,					\
-+		.parked_bitmask = 0,					\
- 	}
- 
- static const struct tegra_pingroup tegra30_groups[] = {
--- 
-2.21.0
-
+>>>> +
+>>>> +	if (dfll_pdev)
+>>>> +		tegra_dfll_suspend(dfll_pdev);
+>>>> +
+>>>> +	/* Enable PLLP_OUT_CPU after dfll suspend */
+>>>> +	val = car_readl(CLK_OUT_ENB_Y, 0);
+>>>> +	val |= CLK_ENB_PLLP_OUT_CPU;
+>>>> +	car_writel(val, CLK_OUT_ENB_Y, 0);
+>>>> +
+>>>> +	tegra_clk_periph_suspend(clk_base);
+>>>> +
+>>>> +	for (i = 0; i < ARRAY_SIZE(periph_srcs); i++)
+>>>> +		for (off = periph_srcs[i].start; off <= periph_srcs[i].end;
+>>>> +		     off += 4)
+>>>> +			*clk_rst_ctx++ = car_readl(off, 0);
+>>>> +
+>>>> +	tegra_sclk_cclklp_burst_policy_save_context();
+>>>> +
+>>>> +	for (i = 0; i < ARRAY_SIZE(cpu_softrst_ctx); i++)
+>>>> +		cpu_softrst_ctx[i] = car_readl(CPU_SOFTRST_CTRL, i);
+>>>> +
+>>>> +	clk_save_context();
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static void tegra210_clk_resume(void)
+>>>> +{
+>>>> +	int i;
+>>>> +	unsigned long off;
+>>>> +	u32 val;
+>>>> +	u32 *clk_rst_ctx = periph_clk_src_ctx;
+>>>> +	struct clk_hw *parent;
+>>>> +	struct clk *clk;
+>>>> +
+>>>> +	for (i = 0; i < ARRAY_SIZE(cpu_softrst_ctx); i++)
+>>>> +		car_writel(cpu_softrst_ctx[i], CPU_SOFTRST_CTRL, i);
+>>>> +
+>>>> +	tegra_clk_osc_resume(clk_base);
+>>>> +
+>>>> +	/*
+>>>> +	 * restore all the plls before configuring clocks and resetting
+>>>> +	 * the devices.
+>>>> +	 */
+>>>> +	tegra210_init_pllu();
+>>>> +	tegra_sclk_cpulp_burst_policy_restore_context();
+>>>> +	clk_restore_context();
+>>>> +
+>>>> +	/* enable all clocks before configuring clock sources */
+>>>> +	tegra_clk_periph_force_on(periph_clks_on, ARRAY_SIZE(periph_clks_on),
+>>>> +				  clk_base);
+>>>> +	/* wait for all writes to happen to have all the clocks enabled */
+>>>> +	wmb();
+>>>> +	fence_udelay(2, clk_base);
+>>>> +
+>>>> +	/* restore all the devices clock sources */
+>>>> +	for (i = 0; i < ARRAY_SIZE(periph_srcs); i++)
+>>>> +		for (off = periph_srcs[i].start; off <= periph_srcs[i].end;
+>>>> +		     off += 4)
+>>>> +			car_writel(*clk_rst_ctx++, off, 0);
+>>>> +
+>>>> +	/* propagate and restore resets, restore clock state */
+>>>> +	fence_udelay(5, clk_base);
+>>>> +	tegra_clk_periph_resume(clk_base);
+>>>> +
+>>>> +	/*
+>>>> +	 * restore CPUG clocks:
+>>>> +	 * - enable DFLL in open loop mode
+>>>> +	 * - switch CPUG to DFLL clock source
+>>>> +	 * - close DFLL loop
+>>>> +	 * - sync PLLX state
+>>>> +	 */
+>>>> +	if (dfll_pdev)
+>>>> +		tegra_dfll_resume(dfll_pdev, false);
+>>>> +
+>>>> +	tegra_cclkg_burst_policy_restore_context();
+>>>> +	fence_udelay(2, clk_base);
+>>>> +
+>>>> +	if (dfll_pdev)
+>>>> +		tegra_dfll_resume(dfll_pdev, true);
+>>>> +
+>>>> +	parent = clk_hw_get_parent(__clk_get_hw(clks[TEGRA210_CLK_CCLK_G]));
+>>>> +	clk = clks[TEGRA210_CLK_PLL_X];
+>>>> +	if (parent != __clk_get_hw(clk))
+>>>> +		tegra_clk_sync_state_pll(__clk_get_hw(clk));
+>>>> +
+>>>> +	/* Disable PLL_OUT_CPU after DFLL resume */
+>>>> +	val = car_readl(CLK_OUT_ENB_Y, 0);
+>>>> +	val &= ~CLK_ENB_PLLP_OUT_CPU;
+>>>> +	car_writel(val, CLK_OUT_ENB_Y, 0);
+>>>> +}
+>>> I'm surprised by the amount of work that we need to do here. I had hoped
+>>> that the clock framework's save/restore infrastructure would be enough.
+>>> I suppose you do call clk_restore_context() somewhere in there, so maybe
+>>> this really is as good as it gets.
+>>>
+>>> Thierry
+>> Reason is there are dependencies b/w the clocks and DFLL resume and clocks
+>> resume order needed is not same as clock tree list.
+>>
+>> during resume as per clock tree, CPU clock configs to use DFLL will happen
+>> first as its first in the clock tree but DFLL resume should be done prior to
+>> switching CPU to use from DFLL output.
+>>
+>> To resume DFLL, peripheral clocks should be restored.
+>>
+>> Considering these dependencies, performing peripheral and DFLL/CPU resume in
+>> Tegra210 clock driver rather than in corresponding peripheral clk_ops using
+>> save and restore context callback.
+> Okay makes sense. As mentioned above, I think it'd be great if you could
+> add more comments throughout the tegra210_clk_{suspend,resume}() code to
+> guide the reader through what you're doing, given that this is far from
+> obvious. You already do quite a bit of that, but it's perhaps better to
+> explain more what's going on and, perhaps more importantly, why. You're
+> currently mostly repeating the code sequence in the code. It'd be great
+> to have the general suspend/resume sequence detailed and highlight why
+> the sequence is the way it is and what the dependencies are, etc.
+>
+> Thierry
+>
+OK, Will add more comments in V4
+>>>> +
+>>>>    static void tegra210_cpu_clock_suspend(void)
+>>>>    {
+>>>>    	/* switch coresite to clk_m, save off original source */
+>>>> @@ -3295,8 +3484,20 @@ static void tegra210_cpu_clock_resume(void)
+>>>>    	writel(tegra210_cpu_clk_sctx.clk_csite_src,
+>>>>    				clk_base + CLK_SOURCE_CSITE);
+>>>>    }
+>>>> +#else
+>>>> +#define tegra210_clk_suspend	NULL
+>>>> +#define tegra210_clk_resume	NULL
+>>>> +static inline u32 *tegra210_init_suspend_ctx(void)
+>>>> +{
+>>>> +	return NULL;
+>>>> +}
+>>>>    #endif
+>>>> +static struct syscore_ops tegra_clk_syscore_ops = {
+>>>> +	.suspend = tegra210_clk_suspend,
+>>>> +	.resume = tegra210_clk_resume,
+>>>> +};
+>>>> +
+>>>>    static struct tegra_cpu_car_ops tegra210_cpu_car_ops = {
+>>>>    	.wait_for_reset	= tegra210_wait_cpu_in_reset,
+>>>>    	.disable_clock	= tegra210_disable_cpu_clock,
+>>>> @@ -3580,5 +3781,8 @@ static void __init tegra210_clock_init(struct device_node *np)
+>>>>    	tegra210_mbist_clk_init();
+>>>>    	tegra_cpu_car_ops = &tegra210_cpu_car_ops;
+>>>> +
+>>>> +	if (tegra210_init_suspend_ctx())
+>>>> +		register_syscore_ops(&tegra_clk_syscore_ops);
+>>>>    }
+>>>>    CLK_OF_DECLARE(tegra210, "nvidia,tegra210-car", tegra210_clock_init);
+>>>> -- 
+>>>> 2.7.4
+>>>>
