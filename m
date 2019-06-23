@@ -2,58 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BAF9E4FD67
-	for <lists+linux-tegra@lfdr.de>; Sun, 23 Jun 2019 19:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F4A54FE14
+	for <lists+linux-tegra@lfdr.de>; Sun, 23 Jun 2019 23:10:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726677AbfFWRvm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 23 Jun 2019 13:51:42 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44039 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726417AbfFWRvm (ORCPT
+        id S1726336AbfFWVKc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 23 Jun 2019 17:10:32 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:36825 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726299AbfFWVKc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 23 Jun 2019 13:51:42 -0400
-Received: by mail-lj1-f193.google.com with SMTP id k18so10349132ljc.11;
-        Sun, 23 Jun 2019 10:51:40 -0700 (PDT)
+        Sun, 23 Jun 2019 17:10:32 -0400
+Received: by mail-lj1-f196.google.com with SMTP id i21so10606171ljj.3;
+        Sun, 23 Jun 2019 14:10:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=I2qjKuaK2bAC6HwMuzdrbSEtzdln2IR0U/1QHxDJnig=;
-        b=vHKP5U/b4Y5fe87aMnMbnhNneSbOQNKMAR/ogmA9aVTaiHiFbM+029R6fUcnbgjHTa
-         rpsPci6nFQkCrzcD1S7nbwStAzGhBy6e0GcsNjuu9Rrg8Zf/LYljujokdwUmIKgQfQVu
-         1tkmlX/ekPOkTzeb/akWGuQv3DNBqO5G7A43N7wlcIgk+/lOYiJ5tJpO79wa69pcsWhz
-         zhTcPOeJE83pQGuDmDFGqTnzPkBZrb8F4tKIgO9L6kkkZpYE8pxsEqEdWTsqc/3h0VD2
-         6Tvs/fpZSgsRjtbkOyDrnw78bz3+IKTiC32jkXLc9ZVsIwRPbYaQRspyubYi7CPQg6kw
-         pVBA==
+        bh=FUYds1nHwlBm8sTfIQLXLWxXLyaXlnCj5nOq+o+++sc=;
+        b=XK1sfU+diLMm6VHca4rlXy7ZB//5PhP35ZjCAojUEMrYPEdbE1wqdQx2mKmgQRipuU
+         1hmuajSZeMUVkPCM1hwc0QRzY4LfNeajVYK8ylrfCd2OOzOggKLkpVE9Nr7ZwPFN77BX
+         QrTjtdbZfeVqVjr+i+a3IARcS52Q4U+Wrz0yOzkf5xuzE5WZ4YRQu4xq/xWHtScJbPdd
+         pn4I+nSXx8+3rPZJDLTdeYi4zg4EqinnIKw6+74WId8Zk9sWD7gS0kMoh6eKlD/2mbS5
+         7y9LJ348HkxD/oRnAq4uYzoC5BMbyo1iT4IjnumDuA1b6qs/LKtMM1Ydw65pgijFtPgl
+         e30A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=I2qjKuaK2bAC6HwMuzdrbSEtzdln2IR0U/1QHxDJnig=;
-        b=uHvuTnAK5bVPG3BY2oUb7jOqpM2xdjRpYp1cyCdWO8dYXwJusBFNJvsoGX2KGWuAaD
-         MTK2SIm3rRTy12B1prv+CVAN5v07o8QEMFozfY2DbANiVmT/IAvDtf3F43KpEEQauknr
-         VLP2TZnC5ohmyfiMkkwVOgZjcLczGjNtNt7ex4rH2nR7j8+syQ2KG9dJ9jX4FOmz/RZc
-         zTLW58Cb3KSxmWz7BJeCQ4jrFCtB26iONMVQ4BSiO03r65kPuQ+2CeQQLkxQgKaC6tiV
-         Gm6LuqkswutHz4luCmuRqDYlpYNQ3YcpFje5GeknpGv29hakkkEpMMr/W5lIITDat9R0
-         8FhQ==
-X-Gm-Message-State: APjAAAWclCo5Y8ysRHCEK7TjMm967ua9Vk/wjpbTsdSFswPmcQeZcmaf
-        O9MyrPVLfhqpKllJfOZn9yS2nYbP
-X-Google-Smtp-Source: APXvYqwN3ULDWGn/ez52l0K+WbE83Ki8B/PRvoeJM9DvUa1T3I9jvVc6qVJCf6amPevExY5hdKuStw==
-X-Received: by 2002:a2e:3013:: with SMTP id w19mr66938891ljw.73.1561312300308;
-        Sun, 23 Jun 2019 10:51:40 -0700 (PDT)
+        bh=FUYds1nHwlBm8sTfIQLXLWxXLyaXlnCj5nOq+o+++sc=;
+        b=MCL6wDTIohe7Ij/EV3xe5XXWbf5Qt6wjiQNBzVd3lQWZebK5WuEz03DJKYfTlFoPnH
+         g7ECIp4nRoBIYI9urm2Cn61XYFXDtnGn/ZSXH9wvowyI+HmftbGqp/5c1o8hWhq54SOE
+         sizoudaLd7rAfClMMLph/LupK3ZdNFXnaaeRcQM66o4Mv1dNSvieMlvgSlzEaK5WRi5F
+         IaZH/0BSJUbte7LDbBBheFRgnBrr6pq2rfaN2A+vVt3Tp9vs7vJLyzJnAOvoC7M9vItz
+         zR5l8uCVdCbmEyFBMACqD6rCw0nHj+QrTeXzxzmeF31F1Js4sbwSXKONy25V2H1LTaJn
+         IgdA==
+X-Gm-Message-State: APjAAAU0crctQKyh+2L608xX9WPaLfJVKmWWhQLIYh5f7aRxlnSgw/cF
+        GX+39ENjcOPDfsE4jIvQFBE=
+X-Google-Smtp-Source: APXvYqyzz40+yzbvzwRft/6F1qLWJgBrykLbxR0i6r3BemaNpRW0ssY0D4gWLAEEdr1M9SUAsyYbog==
+X-Received: by 2002:a2e:635d:: with SMTP id x90mr70174045ljb.140.1561324228599;
+        Sun, 23 Jun 2019 14:10:28 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.gmail.com with ESMTPSA id l22sm417693ljc.4.2019.06.23.10.51.39
+        by smtp.gmail.com with ESMTPSA id b11sm1431125ljf.8.2019.06.23.14.10.27
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 Jun 2019 10:51:39 -0700 (PDT)
+        Sun, 23 Jun 2019 14:10:27 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Marc Dietrich <marvin24@gmx.de>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+To:     Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v1] OPP: Fix crashing when current OPP has unsupportable voltage
-Date:   Sun, 23 Jun 2019 20:50:53 +0300
-Message-Id: <20190623175053.26167-1-digetx@gmail.com>
+Subject: [PATCH v3 0/5] Introduce customized regulators coupling
+Date:   Mon, 24 Jun 2019 00:08:30 +0300
+Message-Id: <20190623210835.26281-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -62,33 +64,126 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Fix NULL dereference caused by a typo in the code. In particular it
-happens when CPU is running on a frequency which has unsupportable voltage
-(by regulator) defined in the OPP table and a custom set_opp() callback is
-being used. The problem was spotted during of testing of upcoming update
-for the NVIDIA Tegra CPUFreq driver.
+Hello,
 
-Cc: stable <stable@vger.kernel.org>
-Fixes: 7e535993fa4f ("OPP: Separate out custom OPP handler specific code")
-Reported-by: Marc Dietrich <marvin24@gmx.de>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/opp/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series introduces a way of specifying a customized regulators coupler
+which is necessary for cases like a non-trivial DVFS implementation. For
+now I'm primarily targeting the CPUFreq driver of NVIDIA Tegra20 and Tegra30
+SoC's to get into a better shape, such that things like CPU voltage scaling
+could be supported. Both these SoC's have voltage-coupled regulators, one of
+the coupled regulators powers CPU and other(s) power SoC peripherals. CPU and
+each of the SoC's peripherals have it's own demand for a minimal voltage
+(which basically depends on the clock rate), hence regulators voltage shall
+not get lower than the minimum value required by one of peripherals (or CPU).
+Right now none of peripheral drivers support voltage scaling in the upstream
+kernel and voltages are statically specified in board device-trees via
+minimum voltage values of the regulators. In order to implement a full-featured
+DVFS, all drivers should gain support for voltage scaling and then there should
+be some solution for having disabled drivers and hardware that is left in
+enabled state by bootloader. That is not an easy problem to solve, so I'm
+trying to start easy by getting some basics to work at first.
 
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 9fda9a0ec016..89ec6aa220cf 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -685,7 +685,7 @@ static int _set_opp_custom(const struct opp_table *opp_table,
- 
- 	data->old_opp.rate = old_freq;
- 	size = sizeof(*old_supply) * opp_table->regulator_count;
--	if (IS_ERR(old_supply))
-+	if (!old_supply)
- 		memset(data->old_opp.supplies, 0, size);
- 	else
- 		memcpy(data->old_opp.supplies, old_supply, size);
+NVIDIA Tegra20 SoC's have a quite straight-forward voltage coupling between 3
+regulators and the customized coupler is needed to address the missing
+support of a full-featured system-wide DVFS, support for coupling of more than
+2 regulators and support for a "min-spread" voltage. Probably it should be
+possible to switch to a generic coupler later on, but for now it will be
+much easier to start with a custom coupler that has all necessary features
+in a simplified form.
+
+NVIDIA Tegra30 SoC's have a bit more complicated coupling rules due to
+variable dependency between the regulators (min-spread value depends on
+a voltage of one of the coupled regulators).
+
+This series has been tested on multiple devices by different people without
+any known issues. CPUFreq voltage scaling works perfectly well with it and
+voltage of peripherals is maintained at a good level. In a result thermal
+sensors show that SoC package is a less warm by few degrees during of CPU
+idling.
+
+Changelog:
+
+v3: Addressed review comments that were made by Mark Brown to the v2 by
+
+      - Extending doc-comments of the new Regulator Coupler API with
+        more details about what couplers are expected to do and what's
+        the context of callbacks execution (locking, etc).
+
+      - The Coupler API is now factored out into a standalone header
+        file and thus likely that further changes to the API won't touch
+        other headers related to regulator's core, avoiding unnecessary
+        re-compilations.
+
+      - All required resources are allocated dynamically now and static
+        MAX_COUPLED constant is gone.
+
+      - The attach_regulator callback now supports the return code 1,
+        which tells that customized coupler didn't fail, but doesn't want
+        to handle the given regulator. This allows to have multiple couplers
+        in a system.
+
+      - SPDX comment-style now matches to the rest of the header in the
+        newly added source files of this series.
+
+      - Corrected spellings, added COMPILE_TEST for the Tegra-couplers.
+
+      - Coupler's initialization now doesn't fail if regulator can't change
+        voltage, i.e. REGULATOR_CHANGE_VOLTAGE flag is unset. This allows
+        coupled regulators to not fail theirs registration and thus may
+        allow kernel to bootup properly if the voltage change isn't crucial
+        for the booting process. This problem was spotted during of a more
+        broad testing, in particular this caused TPS6586x driver to fail
+        the probe because one of the coupled regulators had a fixed voltage
+        defined in a device-tree. Now the driver is probing successfully
+        and the regulator's voltage change is what is failing instead.
+        This also allows customized couplers to support handling of a
+        fixed regulators if required.
+
+v2: The coupler's registration is now done in a more generic fashion and
+    allow multiple couplers to be registered in a system.
+
+    Added device-tree binding document for NVIDIA Tegra20/30 SoC's that
+    describes hardware specifics of these SoC's in regards to regulators
+    voltage coupling. In a result coupled regulators that are dedicated to
+    SoC could be distinguished from each other, which in turns is also useful
+    for the customized couplers implementation.
+
+    The customized couplers got some more polish and now have a bit more
+    stricter checkings for coupling rules violation.
+
+The initial v1 of this series could be found here:
+
+	https://lore.kernel.org/lkml/20190414175939.12368-1-digetx@gmail.com/
+
+This series, along with CPUFreq and other "in-progress" patches, could be
+found here:
+
+	https://github.com/grate-driver/linux/commits/master
+
+Dmitry Osipenko (5):
+  regulator: core: Introduce API for regulators coupling customization
+  regulator: core: Expose some of core functions needed by couplers
+  dt-bindings: regulator: Document regulators coupling of NVIDIA
+    Tegra20/30 SoCs
+  soc/tegra: regulators: Add regulators coupler for Tegra20
+  soc/tegra: regulators: Add regulators coupler for Tegra30
+
+ .../nvidia,tegra-regulators-coupling.txt      |  65 ++++
+ drivers/regulator/core.c                      | 194 +++++++---
+ drivers/regulator/of_regulator.c              |  63 +++-
+ drivers/soc/tegra/Kconfig                     |  10 +
+ drivers/soc/tegra/Makefile                    |   2 +
+ drivers/soc/tegra/regulators-tegra20.c        | 350 ++++++++++++++++++
+ drivers/soc/tegra/regulators-tegra30.c        | 302 +++++++++++++++
+ include/linux/regulator/coupler.h             |  97 +++++
+ include/linux/regulator/driver.h              |   6 +-
+ include/linux/regulator/machine.h             |   2 +-
+ 10 files changed, 1016 insertions(+), 75 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/regulator/nvidia,tegra-regulators-coupling.txt
+ create mode 100644 drivers/soc/tegra/regulators-tegra20.c
+ create mode 100644 drivers/soc/tegra/regulators-tegra30.c
+ create mode 100644 include/linux/regulator/coupler.h
+
 -- 
 2.22.0
 
