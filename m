@@ -2,120 +2,51 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FE2D502A5
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 09:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6650B502AF
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 09:04:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727385AbfFXHAY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Jun 2019 03:00:24 -0400
-Received: from mailout3.samsung.com ([203.254.224.33]:17288 "EHLO
-        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727096AbfFXHAY (ORCPT
+        id S1727496AbfFXHEO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Jun 2019 03:04:14 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50038 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727462AbfFXHEO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Jun 2019 03:00:24 -0400
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20190624070022epoutp032b40fe275133b106417d20fcd641453b~rEE3c_c5u0749407494epoutp03t
-        for <linux-tegra@vger.kernel.org>; Mon, 24 Jun 2019 07:00:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20190624070022epoutp032b40fe275133b106417d20fcd641453b~rEE3c_c5u0749407494epoutp03t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1561359622;
-        bh=gjOb94pyYvpO/imGBEoJBVAesPbCsDcNH0NJiUfAVno=;
-        h=Subject:Reply-To:From:To:CC:Date:References:From;
-        b=gBTyaRm7fkRfIvlXNMvcOdrC5EoUcrG6XFX+qrnIJ2J1cK8E+8FzSjQKzxdWEYoIZ
-         wZWnwHieo4RkEtTaPtsSpRiDsunUY2wx9uePnG9G+GMywE4yRmwZ+WHPJdAdkO/RSj
-         LKLoB/ORsu3BHcpywVXwFHChJdf2wuA5CydbS9CE=
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.158]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20190624070011epcas1p21937d6d1c96c66e4c069cf5d2a85770a~rEEttDfw01292512925epcas1p2l;
-        Mon, 24 Jun 2019 07:00:11 +0000 (GMT)
-X-AuditID: b6c32a36-ce1ff7000000102e-74-5d1074c7993a
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
-        epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        67.CD.04142.7C4701D5; Mon, 24 Jun 2019 15:59:19 +0900 (KST)
-Mime-Version: 1.0
-Subject: Re: [PATCH v4 13/16] PM / devfreq: tegra: Support Tegra30
-Reply-To: myungjoo.ham@samsung.com
-From:   MyungJoo Ham <myungjoo.ham@samsung.com>
-To:     "digetx@gmail.com" <digetx@gmail.com>,
-        "janathanh@nvidia.com" <janathanh@nvidia.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>
-CC:     "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
-Date:   Mon, 24 Jun 2019 15:59:19 +0900
-X-CMS-MailID: 20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-X-CPGSPASS: Y
-X-CPGSPASS: Y
-CMS-TYPE: 101P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupjk+LIzCtJLcpLzFFi42LZdlhTV/d4iUCswbwD8hYvD2laXP/ynNVi
-        9cfHjBYzpv9hsri8aw6bxefeI4wWnV9msTmwe+ycdZfdo7f5HZtH35ZVjB6fN8kFsERl22Sk
-        JqakFimk5iXnp2TmpdsqeQfHO8ebmhkY6hpaWpgrKeQl5qbaKrn4BOi6ZeYAHaCkUJaYUwoU
-        CkgsLlbSt7Mpyi8tSVXIyC8usVVKLUjJKbAs0CtOzC0uzUvXS87PtTI0MDAyBSpMyM6YcGcl
-        Y8FTzorTX1ayNDA+Ye9i5OSQEDCROPRrEyuILSSwg1HiwFH1LkYODl4BQYm/O4RBwsICThLN
-        Py6yQZQoSTTc3McMEdeX6HiwjRHEZhPQldi64S4LiC0i0MAosX2mQxcjFwezwE5GiXdb7kPt
-        4pWY0f6UBcKWlti+fCsjhC0qcXP1W3YY+/2x+VBxEYnWe2eZIWxBiQc/dzPC9M6Y8h9qTrXE
-        temL2UGWSQi0MEr0rp4CVaQvcWbuSbCreQV8JaZ2/gFrYBFQlfj47THUMheJ/c/ugtUzC8hL
-        bH87hxnkeWYBTYn1u/QhShQldv6eywhzf8PG3+zobGYBPol3X3tYYeI75j1hgrDVJA7tXgJV
-        LyNxevpCqF88JF6c2Mc6gVFxFiKoZyE5YhbCEQsYmVcxiqUWFOempxYbFhghR+4mRnBa1DLb
-        wbjonM8hRgEORiUeXoEN/LFCrIllxZW5hxglOJiVRHiXJgrECvGmJFZWpRblxxeV5qQWH2I0
-        BYbFRGYp0eR8YMrOK4k3NDUyNja2MDE0MzU0VBLnjee+GSMkkJ5YkpqdmlqQWgTTx8TBKdXA
-        eDxr9sVini0/jlbFZGe9W8Bu9S/HR8j25c2zyudsLH6Kh05Tf/ElovbOFyWryY5aH312Rba1
-        bz0gL/DjpFHH3Vam2H71hMWHj86f6PJrfY4Cx3Szr0ELhcNZStUMvP9yljy+/LlWuspLk5cr
-        9Hr/kny9pIeXLuy+/1CFq4W94M+X0DU7jr0xVmIpzkg01GIuKk4EAIGly8ShAwAA
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f
-References: <CGME20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
+        Mon, 24 Jun 2019 03:04:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=OoUthh4K4QVJptThzzsksGKju8VbXnICnnIphBGevoY=; b=BohYL1cB9GVEVEEB/AQ+8Wjp+
+        b9vzWf/zdBChO5/Yxc6ATgd75pIyE2sUBr9MEVSXGU/iabRj+A7a/YiVSO98Mhva/KDGjks8AulSq
+        XyqeR6U2u1kwW76TBuewbiVFdJsBNtOgafjIeXWZEbYEG6mEyfDQkyWmtRoU8RE3FRIYHOzHuk5vf
+        JRh0putoHM099rGuVjmQHkDrQ6wcOUyyFof//B/CD6vJiszBlSqCvk5ikDiHNXBHO4EmpcRrlSVAE
+        YEirofTW1iSPhXf11n+fiEqcpqvkNDItmurm7DbKV7yv4/QvyVisvbi/clmel2U/YLe5Riq9USF2z
+        BDkMd0B9A==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hfJ1R-0007yG-74; Mon, 24 Jun 2019 07:04:13 +0000
+Date:   Mon, 24 Jun 2019 00:04:13 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] gpu: host1x: Remove implicit IOMMU backing on
+ client's registration
+Message-ID: <20190624070413.GA23846@infradead.org>
+References: <20190623173743.24088-1-digetx@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190623173743.24088-1-digetx@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-> On Thu, May 02, 2019 at 02:38:12AM +0300, Dmitry Osipenko wrote:
-> > The devfreq driver can be used on Tegra30 without any code change and
-> > it works perfectly fine, the default Tegra124 parameters are good enough
-> > for Tegra30.
-> > 
-> > Reviewed-by: Chanwoo Choi 
-> > Signed-off-by: Dmitry Osipenko 
-> > ---
-> >  drivers/devfreq/Kconfig         | 4 ++--
-> >  drivers/devfreq/tegra-devfreq.c | 1 +
-> >  2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> Acked-by: Thierry Reding 
-> 
-> diff --git a/drivers/devfreq/Kconfig b/drivers/devfreq/Kconfig
-> index 7dd46d4..b291803 100644
-> --- a/drivers/devfreq/Kconfig
-> +++ b/drivers/devfreq/Kconfig
-> @@ -93,8 +93,8 @@ config ARM_EXYNOS_BUS_DEVFREQ
->  	  This does not yet operate with optimal voltages.
->  
->  config ARM_TEGRA_DEVFREQ
-> -	tristate "Tegra DEVFREQ Driver"
-> -	depends on ARCH_TEGRA_124_SOC
-> +	tristate "NVIDIA Tegra30/114/124/210 DEVFREQ Driver"
-> +	depends on ARCH_TEGRA
->  	select PM_OPP
->  	help
->  	  This adds the DEVFREQ driver for the Tegra family of SoCs.
-
-A question:
-
-Does this driver support Tegra20 as well?
-I'm asking this because ARCH_TEGRA includes ARCH_TEGRA_2x_SOC
-according to /drivers/soc/tegra/Kconfig.
-
-Cheers,
-MyungJoo.
-
+Don't we have a device tree problem here if there is a domain covering
+them?  I though we should only pick up an IOMMU for a given device
+if DT explicitly asked for that?
