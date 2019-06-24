@@ -2,128 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2F6950394
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 09:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C1FE50454
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 10:15:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbfFXHea (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Jun 2019 03:34:30 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:17715 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726453AbfFXHea (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Jun 2019 03:34:30 -0400
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20190624073427epoutp012d07f6bdabc63729ba152952ac2814a4~rEioTgyXl0222102221epoutp01U
-        for <linux-tegra@vger.kernel.org>; Mon, 24 Jun 2019 07:34:27 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20190624073427epoutp012d07f6bdabc63729ba152952ac2814a4~rEioTgyXl0222102221epoutp01U
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1561361667;
-        bh=hemYUVKcGXHPpvU5K4qf2wgUfLKg+lVK/vDiZZht2ds=;
-        h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-        b=pLwFYyx4jUUb8aYl+FA24QdgY0V18OxM0adal6zmZfoCVnxW4fizA8dPfzRwcYCHG
-         eUDcibnTDGpNGRe7cJItEJzO4cy37rmR7kTV697srFC8Dc34lnYHchvROI+gO2QjGa
-         9j9GqjBvqVTmFpJqp2zbuVVmGYIGKMWtdp6cAvsw=
-Received: from epsmges1p4.samsung.com (unknown [182.195.40.156]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
-        20190624073424epcas1p3745daaf40398429cc4bdf8bf92d87455~rEilAkNHp2996729967epcas1p3m;
-        Mon, 24 Jun 2019 07:34:24 +0000 (GMT)
-X-AuditID: b6c32a38-5e3ff700000010a1-8c-5d107cf69a41
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
-        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-        02.0A.04257.6FC701D5; Mon, 24 Jun 2019 16:34:15 +0900 (KST)
-Mime-Version: 1.0
-Subject: Re: [PATCH v4 13/16] PM / devfreq: tegra: Support Tegra30
-Reply-To: myungjoo.ham@samsung.com
-From:   MyungJoo Ham <myungjoo.ham@samsung.com>
-To:     "digetx@gmail.com" <digetx@gmail.com>
-CC:     Chanwoo Choi <cw00.choi@samsung.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20190624073414epcms1p87b6dc13758b6bd401d275cfba583314a@epcms1p8>
-Date:   Mon, 24 Jun 2019 16:34:14 +0900
-X-CMS-MailID: 20190624073414epcms1p87b6dc13758b6bd401d275cfba583314a
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnk+LIzCtJLcpLzFFi42LZdlhTX/d7jUCsQftSJovrX56zWqz++JjR
-        omXWIhaLy7vmsFl87j3CaNH5ZRabxc9d81gc2D12zrrL7tHb/I7No2/LKkaPz5vkAliism0y
-        UhNTUosUUvOS81My89JtlbyD453jTc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgC5QUihLzCkF
-        CgUkFhcr6dvZFOWXlqQqZOQXl9gqpRak5BRYFugVJ+YWl+al6yXn51oZGhgYmQIVJmRntJzq
-        Zi04yF2xccN8pgbGU5xdjJwcEgImErNfnGbsYuTiEBLYwShx+dUSli5GDg5eAUGJvzuEQWqE
-        BZwkmn9cZAOxhQSUJBpu7mOGiOtLdDzYxghiswnoSmzdcJcFxBYR0JTYuKKXBWQms8BpJonN
-        a3+yQSzjlZjR/pQFwpaW2L58KyPILk4BP4k1/3kgwqISN1e/ZYex3x+bzwhhi0i03jvLDGEL
-        Sjz4uZsRZsyMKf+hRlZLXJu+mB1kr4RAC6NE7+opUEX6EmfmngS7gVfAV2L5l/OsIDaLgKrE
-        pI4nUENdJFbfPQ1WwywgL7H97RxmkNuYgZ5Zv0sfokRRYufvuYwQJXwS7772sMK8tWPeEyYI
-        W03i0O4lUPfLSJyevhBqvIfEixP7WCFhOJVR4tIe+QmMCrMQIT0LyeJZCIsXMDKvYhRLLSjO
-        TU8tNiwwQY7cTYzgxKhlsYNxzzmfQ4wCHIxKPLwCG/hjhVgTy4orcw8xSnAwK4nwLk0UiBXi
-        TUmsrEotyo8vKs1JLT7EaAr0/0RmKdHkfGDSziuJNzQ1MjY2tjAxNDM1NFQS543nvhkjJJCe
-        WJKanZpakFoE08fEwSnVwMg9qeBd6cwT1wPKzPILH169UrZ+Ev/TEwz3tyv+2r+3S2z117b8
-        feeyRBncSg4esZG1v6O2tmX6Ezv97YmuST8EFH64RZQnmGn+OiwRyptR4cd7Md/giG2nzprp
-        va8e9wcVCn2TfPj0gP6RVSW9H77zVixLY8hZFtv0qPmB1/mLlZPcHdi+piuxFGckGmoxFxUn
-        AgDqdthpogMAAA==
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f
-References: <20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
-        <CGME20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p8>
+        id S1727510AbfFXIPH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Jun 2019 04:15:07 -0400
+Received: from foss.arm.com ([217.140.110.172]:43394 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725881AbfFXIPH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 24 Jun 2019 04:15:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8393C2B;
+        Mon, 24 Jun 2019 01:15:06 -0700 (PDT)
+Received: from big-swifty.misterjones.org (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E19C33F71E;
+        Mon, 24 Jun 2019 01:15:02 -0700 (PDT)
+Date:   Mon, 24 Jun 2019 09:15:01 +0100
+Message-ID: <86d0j3pfga.wl-marc.zyngier@arm.com>
+From:   Marc Zyngier <marc.zyngier@arm.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <tglx@linutronix.de>, <jason@lakedaemon.net>,
+        <linus.walleij@linaro.org>, <stefan@agner.ch>,
+        <mark.rutland@arm.com>, <pdeschrijver@nvidia.com>,
+        <pgaikwad@nvidia.com>, <sboyd@kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+        <jckuo@nvidia.com>, <josephl@nvidia.com>, <talho@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
+        <digetx@gmail.com>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH V4 13/18] soc/tegra: pmc: allow support for more tegra wake
+In-Reply-To: <1561345379-2429-14-git-send-email-skomatineni@nvidia.com>
+References: <1561345379-2429-1-git-send-email-skomatineni@nvidia.com>
+        <1561345379-2429-14-git-send-email-skomatineni@nvidia.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 EasyPG/1.0.0 Emacs/26
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+Organization: ARM Ltd
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, 24 Jun 2019 04:02:54 +0100,
+Sowjanya Komatineni <skomatineni@nvidia.com> wrote:
 > 
->A question:
+> This patch allows to create separate irq_set_wake and irq_set_type
+> implementations for different tegra designs PMC that has different
+> wake models which require difference wake registers and different
+> programming sequence.
 > 
->Does this driver support Tegra20 as well?
->I'm asking this because ARCH_TEGRA includes ARCH_TEGRA_2x_SOC
->according to /drivers/soc/tegra/Kconfig.
+> AOWAKE model support is available for Tegra186 and Tegra194 only
+> and it resides within PMC and supports tiered wake architecture.
 > 
+> Tegra210 and prior tegra designs uses PMC directly to receive wake
+> events and coordinate the wake sequence.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/soc/tegra/pmc.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+> index edd4fe06810f..e87f29a35fcf 100644
+> --- a/drivers/soc/tegra/pmc.c
+> +++ b/drivers/soc/tegra/pmc.c
+> @@ -226,6 +226,8 @@ struct tegra_pmc_soc {
+>  	void (*setup_irq_polarity)(struct tegra_pmc *pmc,
+>  				   struct device_node *np,
+>  				   bool invert);
+> +	int (*irq_set_wake)(struct irq_data *data, unsigned int on);
+> +	int (*irq_set_type)(struct irq_data *data, unsigned int type);
+>  
+>  	const char * const *reset_sources;
+>  	unsigned int num_reset_sources;
+> @@ -1919,7 +1921,7 @@ static const struct irq_domain_ops tegra_pmc_irq_domain_ops = {
+>  	.alloc = tegra_pmc_irq_alloc,
+>  };
+>  
+> -static int tegra_pmc_irq_set_wake(struct irq_data *data, unsigned int on)
+> +static int tegra186_pmc_irq_set_wake(struct irq_data *data, unsigned int on)
+>  {
+>  	struct tegra_pmc *pmc = irq_data_get_irq_chip_data(data);
+>  	unsigned int offset, bit;
+> @@ -1951,7 +1953,7 @@ static int tegra_pmc_irq_set_wake(struct irq_data *data, unsigned int on)
+>  	return 0;
+>  }
+>  
+> -static int tegra_pmc_irq_set_type(struct irq_data *data, unsigned int type)
+> +static int tegra186_pmc_irq_set_type(struct irq_data *data, unsigned int type)
+>  {
+>  	struct tegra_pmc *pmc = irq_data_get_irq_chip_data(data);
+>  	u32 value;
+> @@ -2005,8 +2007,10 @@ static int tegra_pmc_irq_init(struct tegra_pmc *pmc)
+>  	pmc->irq.irq_unmask = irq_chip_unmask_parent;
+>  	pmc->irq.irq_eoi = irq_chip_eoi_parent;
+>  	pmc->irq.irq_set_affinity = irq_chip_set_affinity_parent;
+> -	pmc->irq.irq_set_type = tegra_pmc_irq_set_type;
+> -	pmc->irq.irq_set_wake = tegra_pmc_irq_set_wake;
+> +	if (pmc->soc->irq_set_type)
+> +		pmc->irq.irq_set_type = pmc->soc->irq_set_type;
+> +	if (pmc->soc->irq_set_wake)
+> +		pmc->irq.irq_set_wake = pmc->soc->irq_set_wake;
 
-For this matter, how about updating your 13/16 patch as follows?
+I already commented on how superfluous these 'if ()' where. If you
+disagree, please let me know why.
 
----
- drivers/devfreq/Kconfig         | 4 ++--
- drivers/devfreq/tegra-devfreq.c | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+Thanks,
 
-diff --git a/drivers/devfreq/Kconfig b/drivers/devfreq/Kconfig
-index 7dd46d44579d..78c4b436aad8 100644
---- a/drivers/devfreq/Kconfig
-+++ b/drivers/devfreq/Kconfig
-@@ -93,8 +93,8 @@ config ARM_EXYNOS_BUS_DEVFREQ
- 	  This does not yet operate with optimal voltages.
- 
- config ARM_TEGRA_DEVFREQ
--	tristate "Tegra DEVFREQ Driver"
--	depends on ARCH_TEGRA_124_SOC
-+	tristate "NVIDIA Tegra30/114/124/210 DEVFREQ Driver"
-+	depends on ARCH_TEGRA_3x_SOC || ARCH_TEGRA_114_SOC || ARCH_TEGRA_124_SOC || ARCH_TEGRA_210_SOC
- 	select PM_OPP
- 	help
- 	  This adds the DEVFREQ driver for the Tegra family of SoCs.
-diff --git a/drivers/devfreq/tegra-devfreq.c b/drivers/devfreq/tegra-devfreq.c
-index 5cddf2199c4e..a6ba75f4106d 100644
---- a/drivers/devfreq/tegra-devfreq.c
-+++ b/drivers/devfreq/tegra-devfreq.c
-@@ -726,6 +726,7 @@ static int tegra_devfreq_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id tegra_devfreq_of_match[] = {
-+	{ .compatible = "nvidia,tegra30-actmon" },
- 	{ .compatible = "nvidia,tegra124-actmon" },
- 	{ },
- };
+	M.
+
 -- 
-2.17.1
-
+Jazz is not dead, it just smells funny.
