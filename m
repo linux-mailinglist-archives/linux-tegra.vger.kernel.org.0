@@ -2,95 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C3B54FEA3
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 03:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 082C04FF26
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 04:13:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726354AbfFXBtQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 23 Jun 2019 21:49:16 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38267 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726323AbfFXBtQ (ORCPT
+        id S1726320AbfFXCNJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 23 Jun 2019 22:13:09 -0400
+Received: from mailout4.samsung.com ([203.254.224.34]:41294 "EHLO
+        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726869AbfFXCNJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 23 Jun 2019 21:49:16 -0400
-Received: by mail-lj1-f196.google.com with SMTP id r9so10909632ljg.5;
-        Sun, 23 Jun 2019 18:49:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=334pQU/K019L/xPgu12eyPFo9ngLaIjC4OmIKGsurD8=;
-        b=qoH1VMAtHIpF2Y+Vy0lGAEKDuRzO9hYXc7m77KROcS6j/noy5cZzEbC8pZ8LH0FPGx
-         FFvTt+ALdo949E53lDh9R7E/MUTzHiYGN08Il4UZLbWs0QFHG8/4ToeZo9tGvHJCS/K5
-         AaCugNsxAIHOh9ImOckVfXx+XQjjPheXRdStj+USdcQQRoLdgfb8litqFldXPQZed7Q6
-         zOtvBc5nysQTk/gdFEC+NcUJe0jCxZXAuMyE/g8SmbmTeBZ0Bgjy3KJE1Mk6xJNEo8kU
-         tXnU8CYCo3y7d1PHTHashT+nVJywv309ZEyaZXbhnRA76C3nyaOK3lA1/nkLFh5xDUZs
-         13Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=334pQU/K019L/xPgu12eyPFo9ngLaIjC4OmIKGsurD8=;
-        b=YhVMgRO/qSel6X6xpARoRu5sCUTPYN7jss4/D57PqF7zVqIUrbfZmIOWaY5mjCL2Te
-         j9W7zcmoCRxJ0ycq/zZEXDwFpQF3voskPoWgK8Z0DpHhlLQBrxJhCts0Pr/nwzOS5P/e
-         qsRSANrqGtNisvsc/5LPijBLcRMlBt77TKMqUbbr1rv9C8uETJ7R0/W0i/Ga3+e5i1Zk
-         CwamAf4BlBEVqkxdLmGEvyaufoTep3SqF6BkBLB97ap1GcdIcq0wVsnST/cUck7UM6z8
-         EMTXmGaYtlpDc730vFVrRa0smU+JcMQLjDMSDSaswObleWgBQjVtDzDyE4LFMMCvQsOs
-         S6NQ==
-X-Gm-Message-State: APjAAAX16TgFTVtSo6vmtWRsp8hrLklHQk/qtrmQi+TDPT2w/Yfy0ofo
-        UdgzCRfSANNLfm2NYAkSBgzCyaIW
-X-Google-Smtp-Source: APXvYqxEEKJhCeD4AZKNpynf6pv2TU2j54d4+FEkWU0nC+rYYRCVHsR8/RaqjV3pF3rF69LLMz7oTQ==
-X-Received: by 2002:a2e:5cc8:: with SMTP id q191mr51568583ljb.118.1561339302350;
-        Sun, 23 Jun 2019 18:21:42 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id n1sm1332343lfk.19.2019.06.23.18.21.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 Jun 2019 18:21:41 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] pinctrl: tegra: Add bitmask support for parked
- bits
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Stephen Warren <swarren@wwwdotorg.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Stefan Agner <stefan@agner.ch>, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-References: <20190621151932.20662-1-thierry.reding@gmail.com>
- <20190621151932.20662-2-thierry.reding@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5f38ce80-dac5-5a1e-0569-27535a6f35fd@gmail.com>
-Date:   Mon, 24 Jun 2019 04:21:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
-MIME-Version: 1.0
-In-Reply-To: <20190621151932.20662-2-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Sun, 23 Jun 2019 22:13:09 -0400
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20190624021306epoutp04e2a189c4183b444109c44264ab8e2559~rAKDHVvQg0904609046epoutp04b
+        for <linux-tegra@vger.kernel.org>; Mon, 24 Jun 2019 02:13:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20190624021306epoutp04e2a189c4183b444109c44264ab8e2559~rAKDHVvQg0904609046epoutp04b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1561342386;
+        bh=Bjxv0RRUWPDBM+vlsvLdx6BQWrwtvpQPL5LR7DGLxjw=;
+        h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+        b=hzjpX5+9hx/a1tdVMF8nJlqTy4AoOattbUJB3gjjl2g9E4cDDgyE9EZSCiKyYCk+j
+         AAxsgbzscgkEwuqqh8zB5aSwmHq5Hbw1hY7hQdcmF4cgc1m7EqhAuZDv3vU7K8i5Lx
+         O9AvXL2KfXmItk6fZhNotQzX4qzE3540oCxuNXuo=
+Received: from epsmges1p4.samsung.com (unknown [182.195.40.155]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+        20190624021301epcas1p32614991eb0c0533de1d556cbf4945e11~rAJ_vt4kw0385803858epcas1p3A;
+        Mon, 24 Jun 2019 02:13:01 +0000 (GMT)
+X-AuditID: b6c32a38-5cbff700000010a1-02-5d10319df346
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        D9.4A.04257.D91301D5; Mon, 24 Jun 2019 11:12:45 +0900 (KST)
+Mime-Version: 1.0
+Subject: RE: [PATCH v1 01/11] PM / devfreq: tegra30: Change irq type to
+ unsigned int
+Reply-To: myungjoo.ham@samsung.com
+From:   MyungJoo Ham <myungjoo.ham@samsung.com>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>
+CC:     "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <20190623214658.11680-2-digetx@gmail.com>
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20190624021245epcms1p5366dd98904dac95625dc2deb4b649cb1@epcms1p5>
+Date:   Mon, 24 Jun 2019 11:12:45 +0900
+X-CMS-MailID: 20190624021245epcms1p5366dd98904dac95625dc2deb4b649cb1
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRj285ydHZfLz2n1YWXrQBeFpUedHStDSGJQghFUWDIPeprD3diZ
+        KytIUqk0zUIr5qUsI9PCC16ms5QZRZlFiYWEJd3MUrtohFjUtjOxf8/38Lzv87zv95KY7DIR
+        QmoNFs5sYHUUIcHb+8IUiioapkaOl9PMy5kxEdPw/R1g8m1XcWbgxISYGeyqJJjp4nuAOT1j
+        I5jZrmqcKbn9nEjwU9lHaoGq0zYiVhXnTRGqktZ6oJpuCU0WpWRtyeTYDM4s5wzpxgytQRNP
+        7dit3qZWxkbSCjqO2UjJDayei6cSdyYrtmt1rkCU3Mrqsl1UMsvzVMTWLWZjtoWTZxp5SzzF
+        mTJ0pjjTBp7V89kGzYZ0o34THRkZpXQJ07Iyx2YLRKZx38ODde+JXNDoWwj8SARjUF7BW8KN
+        ZdAO0IXRfYWAJKUwEP2xB7npILgHnSmxAUFCodzhu5jAR6BTo+0enoAK1NY0ghcCCRkM5wC6
+        0/lO5H5gsBOgqdY3YsFMii6d/IALeDnquNHmqfaDsejRi1PeQEvQcMOkeB5/vX8ZCDgYFbwe
+        wAQciEZnHWC+z6Wyv96eR9GLi9fEbmME8wEqbijziiLQ46qHnimlMAl9cvzyYByuQd+c173F
+        iej0UJHIjTG4CnVMVmLuTWAwDDV2RQiS1ahzrgoIksVo6ucZ0fxc9ur33vxrkdNR682/AvVf
+        rPFmVqGzM+WYsMWbAHU046VAblvYte0/Y9uC8RWA1YOlnInXazieNsX8/7stwHOc4YwddD/Z
+        6QSQBJS/FDYFpMpErJXP0TsBIjEqWOqv80+VSTPYnCOc2ag2Z+s43gmUrvnPYSFL0o2uUzdY
+        1LQyKjo6momhY5U0TS2TqhcNH5BBDWvhsjjOxJnn63xJv5BcEBy0SSKRfbM23uofqa7T3teG
+        Nj/tt35pOb+4rHZ2fXivpXSiyOiYHIxS1ZT77F33O+djwLFDnxVvQ7ldn5Z2/6ocL5qx90w/
+        S8Ff6VoqHMPyvocpuWUXjgds7H/c8yCh4od9haYmxzDUdnK5JDVtQmrVjoUm1Ww+mNTb7uMT
+        s3L/KgrnM1k6HDPz7D9DtmwasgMAAA==
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20190623214841epcas5p161cceab51cb10d5146e57d49a696d5e5
+References: <20190623214658.11680-2-digetx@gmail.com>
+        <20190623214658.11680-1-digetx@gmail.com>
+        <CGME20190623214841epcas5p161cceab51cb10d5146e57d49a696d5e5@epcms1p5>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-21.06.2019 18:19, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Some pin groups have park bits for multiple pins in one register.
-> Support this by turning the parked bit field into a parked bitmask
-> field. If no parked bits are supported, the bitmask can be 0.
-> 
-> Update the pingroup table on Tegra210, which is the only generation
-> where this is supported, with the parked bitmask.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
-> Changes in v2:
-> - write to mux_bank/mux_reg or drv_bank/drv_reg depending on pin
+>IRQ numbers are always positive, hence the corresponding variable should
+>be unsigned to keep types consistent. This is a minor change that cleans
+>up code a tad more.
+>
+>Suggested-by: Thierry Reding <thierry.reding@gmail.com>
+>Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
-Looking great! Thank you!
+Acked-by: MyungJoo Ham <myungjoo.ham@samsung.com>
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 
-For Tegra20/30
-
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
+Cheers,
+MyungJoo
