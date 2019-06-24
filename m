@@ -2,202 +2,206 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E97C4FF2E
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 04:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDA164FF5C
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 04:28:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726973AbfFXCQc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 23 Jun 2019 22:16:32 -0400
-Received: from mailout4.samsung.com ([203.254.224.34]:43202 "EHLO
-        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726525AbfFXCQc (ORCPT
+        id S1727114AbfFXC2B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 23 Jun 2019 22:28:01 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:39706 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726334AbfFXC2B (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 23 Jun 2019 22:16:32 -0400
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20190623234831epoutp04f87888c847ff4986a909c1885130c045~q_L0Y9Lur3217432174epoutp04N
-        for <linux-tegra@vger.kernel.org>; Sun, 23 Jun 2019 23:48:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20190623234831epoutp04f87888c847ff4986a909c1885130c045~q_L0Y9Lur3217432174epoutp04N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1561333711;
-        bh=y5JFwrOZq4d42qzJPkw+Zg+TcIER/Wk/VIKyGC4xXtM=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=ZROOufcthysiq9fS5Ltd8c6Dx5aWt+gIVm844JI6QoJpm/HScuN0loVoZU9aW1Put
-         +uHq2Ab/UTYaNPfVOjKy+8rYxbN+J3ehT7mR+gyN9IpPjKGcBURZp3mEIMNXtwPd/p
-         5BW7lWaXJOrD3/n0+45cQP8GNsUCSdFRFcxViUgg=
-Received: from epsmges1p4.samsung.com (unknown [182.195.40.158]) by
-        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20190623234827epcas1p13e2ecfb1ca561a0b2c3a901536393930~q_Lv3tEc_0191701917epcas1p1O;
-        Sun, 23 Jun 2019 23:48:27 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
-        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-        4D.7E.04257.2CF001D5; Mon, 24 Jun 2019 08:48:18 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-        20190623234817epcas1p394d0ec7c278969f0b2e3d73c45df407a~q_LnCE6ds0503705037epcas1p3f;
-        Sun, 23 Jun 2019 23:48:17 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20190623234817epsmtrp10e6374e407264530a6ab2f883a9634cb~q_LnBOmNw2617626176epsmtrp1E;
-        Sun, 23 Jun 2019 23:48:17 +0000 (GMT)
-X-AuditID: b6c32a38-5e3ff700000010a1-1f-5d100fc2f8bf
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        2C.AF.03662.1CF001D5; Mon, 24 Jun 2019 08:48:17 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20190623234817epsmtip1264e7902c17275a3cf2cc2e0c14370f0~q_Lm5JBod0344203442epsmtip1y;
-        Sun, 23 Jun 2019 23:48:17 +0000 (GMT)
-Subject: Re: [PATCH v4 00/16] NVIDIA Tegra devfreq improvements and
- Tegra20/30 support
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Sun, 23 Jun 2019 22:28:01 -0400
+Received: by mail-lj1-f194.google.com with SMTP id v18so10959956ljh.6;
+        Sun, 23 Jun 2019 19:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AxwkbS0fcKxl/zIGar7QxJotcV1Cfh9QGSRQWWbJSBg=;
+        b=Ei9NsraczeHKUZb0Z0zmCoMcPr+e5hwgLg05gvNPMZ8DLa4IiTm2zelemz7bINhTwi
+         vy2xpLJ8202+q2bOJBRssMDimnxVFqyGvWutFBzgawBniOHvXtAo11l0ozfiFSxOyTbv
+         TukZ8a0b8HG6Gi0LcreguEcrmfDwqxC5X4rNLaEaF/scgej/hruRcBf1XXsXR4b/O5YW
+         Daheluu9KxWOa5ApxVukBIoglVVOXH1FWPs24mKHEFyuv0+Lnt83tz8s65ptamRRKmad
+         yHlK+llIfRy9Z+9Oulq9aZFWJSq6mIQvZ/XCGHIrnPfoQDTWvovjVhQNKgmhucfdo+jq
+         5dXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AxwkbS0fcKxl/zIGar7QxJotcV1Cfh9QGSRQWWbJSBg=;
+        b=DYgmO1YW7VN+qXB4K+LorDpsMYGb3yApY524TiXAPqoDH+x6K3wZd0X+Nu6YY65Du2
+         ois3KWr7JQ0qZ52g+W6tX8MZxIzLSA5R8VI0R9ZAbI4DJwKBnUZP4eT0DTk3blL1AkIJ
+         ZwgNHmAI0qAAaCAEQG+qIvleBB0p7qvZYLp1j86ih+EMf3NG3HyFTB0Gvn7KBMDs8vSP
+         PiwRwBhizdBdR8WnYlWeZoeYDNM3f5kcfCUj+J6vBW5DNMEVABgAGgXGzFSEewm24EaD
+         pXPFpo27zhwa4H6ed5vyrzlddFvJXxKUqtp/RU3Q+rQAAxjvOHPDU1BVpLzk5qLwzxR0
+         zAyA==
+X-Gm-Message-State: APjAAAV2F39LLbdF9G3z7N/1TcZ5HtftpK0Fp7t2fB2uiBELchJMLWIm
+        hHB8BoKtlOyk3g31mMOgk9uX0krn
+X-Google-Smtp-Source: APXvYqwPpB9/9fAw0cA0stESzi1IeHuvaf8NeVtoSNT9CqQKSwzfeCmcUwm33KL6BbTdnMnqUTIqeQ==
+X-Received: by 2002:a2e:9ec9:: with SMTP id h9mr40819998ljk.90.1561336316510;
+        Sun, 23 Jun 2019 17:31:56 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.gmail.com with ESMTPSA id y5sm1495146ljj.5.2019.06.23.17.31.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 23 Jun 2019 17:31:55 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <31fc1430-5a3b-cccb-06bb-7b46081edb68@samsung.com>
-Date:   Mon, 24 Jun 2019 08:50:53 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.7.1
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 00/10] memory: tegra: Introduce Tegra30 EMC driver
+Date:   Mon, 24 Jun 2019 03:31:22 +0300
+Message-Id: <20190624003132.29473-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <389cc71d-8f0b-fa39-1325-433d27c75dc8@gmail.com>
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIJsWRmVeSWpSXmKPExsWy7bCmvu4hfoFYg2f/NS1Wf3zMaNEyaxGL
-        xdmmN+wWl3fNYbP43HuE0aLzyyw2i9uNK9gsfu6ax2LRt/YSmwOnx467Sxg9ds66y+7R2/yO
-        zaNvyypGj8+b5AJYo7JtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22V
-        XHwCdN0yc4AOUlIoS8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUWBboFSfmFpfmpesl
-        5+daGRoYGJkCFSZkZyx6sJqp4IFkRdOHWYwNjEdFuhg5OSQETCR23bvH3sXIxSEksINRYsm0
-        xUwQzidGiQ1n30E53xglTp/+ygbT8nP/V2aIxF5Gic7OB1D97xkljn84D1YlLBAh8WrROmYQ
-        W0QgUOLds31gHcwCbUwS7Rf/MoEk2AS0JPa/uAHWwC+gKHH1x2NGEJtXwE7ief8nVhCbRUBV
-        ovntBLAaUaChl7fsgqoRlDg58wkLiM0pYCsx/8txsGXMAuISt57MZ4Kw5SWat84GWywh8J9N
-        YmLnR6gfXCR2fO9mgbCFJV4d38IOYUtJvOxvg7KrJVaePMIG0dzBKLFl/wVWiISxxP6lk4E2
-        cABt0JRYv0sfIqwosfP3XEaIxXwS7772sIKUSAjwSnS0CUGUKEtcfnCXCcKWlFjc3sk2gVFp
-        FpJ3ZiF5YRaSF2YhLFvAyLKKUSy1oDg3PbXYsMAEOb43MYKTq5bFDsY953wOMQpwMCrx8Aps
-        4I8VYk0sK67MPcQowcGsJMLLk8MTK8SbklhZlVqUH19UmpNafIjRFBjaE5mlRJPzgYk/ryTe
-        0NTI2NjYwsTQzNTQUEmcN577ZoyQQHpiSWp2ampBahFMHxMHp1QDo+fzoN2zf6ZtuhYdz3jY
-        JbWtoTgl+seu/gStxoQIcQF1rx3nzN6sDNz/4MoMtg2K5U+uWQud/fkwLY43aG/Y2jdZbomW
-        x/u9n2noJ8w7+jI8fq9F2uOE2DPdh1XaUqaVneLuXR6Y8WHryen5Md7VTovj+b6z7FW8WaEd
-        M8NkzhoFfUHBfO8uJZbijERDLeai4kQAQ/dOV8QDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFIsWRmVeSWpSXmKPExsWy7bCSnO5BfoFYg4uv5CxWf3zMaNEyaxGL
-        xdmmN+wWl3fNYbP43HuE0aLzyyw2i9uNK9gsfu6ax2LRt/YSmwOnx467Sxg9ds66y+7R2/yO
-        zaNvyypGj8+b5AJYo7hsUlJzMstSi/TtErgyFj1YzVTwQLKi6cMsxgbGoyJdjJwcEgImEj/3
-        f2UGsYUEdjNKnF+UDBGXlJh28ShQnAPIFpY4fLi4i5ELqOQto8TSiRvYQGqEBSIk5l+4xARi
-        iwgESpx+sJURpIhZoINJ4sn6n4wQHfuZJbZ3fWUBqWIT0JLY/+IGWDe/gKLE1R+PGUFsXgE7
-        ief9n1hBbBYBVYnmtxPAakSBNvS1zWaDqBGUODnzCdgcTgFbiflfjoNdzSygLvFn3iUoW1zi
-        1pP5TBC2vETz1tnMExiFZyFpn4WkZRaSlllIWhYwsqxilEwtKM5Nzy02LDDKSy3XK07MLS7N
-        S9dLzs/dxAiOMS2tHYwnTsQfYhTgYFTi4RXYwB8rxJpYVlyZe4hRgoNZSYSXJ4cnVog3JbGy
-        KrUoP76oNCe1+BCjNAeLkjivfP6xSCGB9MSS1OzU1ILUIpgsEwenVANj/+8vs1ifhtToZJkH
-        CDx7PdFDblXhXgf7EuV6x6nfo1abMnqyFmv++TtntYssR5LKQdOw78cc5ir5tYkfXrNyYqar
-        VefF5ztzA4zLOx9uWvt1WVu2n0b0p30zJ3q9WahrJDmH8ZqG0GcOR5Wltcqnrn15ZXb50iMW
-        dp2Md28n3VhnerJKPnCGEktxRqKhFnNRcSIAPNA1Pa0CAAA=
-X-CMS-MailID: 20190623234817epcas1p394d0ec7c278969f0b2e3d73c45df407a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20190501234148epcas5p1cc9a8dafa9ee6d8d046d1292b8270727
-References: <CGME20190501234148epcas5p1cc9a8dafa9ee6d8d046d1292b8270727@epcas5p1.samsung.com>
-        <20190501233815.32643-1-digetx@gmail.com>
-        <60ef6e47-e61b-3a92-e90d-90debedfcfc4@samsung.com>
-        <fa061a65-f108-6c5e-1f87-950a9a8caafc@gmail.com>
-        <0fb50eb1-a173-1756-6889-2526a10ac707@gmail.com>
-        <683b343a-e64f-8345-ac44-10f5c00521bd@samsung.com>
-        <5c2a7c32-a98c-3930-14ae-beb0241908d0@gmail.com>
-        <389cc71d-8f0b-fa39-1325-433d27c75dc8@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
+Hello,
 
-On 19. 6. 24. 오전 2:17, Dmitry Osipenko wrote:
-> 05.06.2019 2:09, Dmitry Osipenko пишет:
->> 04.06.2019 3:49, Chanwoo Choi пишет:
->>> On 19. 6. 4. 오전 1:52, Dmitry Osipenko wrote:
->>>> 03.05.2019 3:52, Dmitry Osipenko пишет:
->>>>> 03.05.2019 3:31, Chanwoo Choi пишет:
->>>>>> Hi Dmitry,
->>>>>>
->>>>>> On 19. 5. 2. 오전 8:37, Dmitry Osipenko wrote:
->>>>>>> Changelog:
->>>>>>>
->>>>>>> v4: Addressed all review comments that were made by Chanwoo Choi to v3:
->>>>>>>
->>>>>>>     - changed the driver removal order to match the probe exactly
->>>>>>>     - added clarifying comment for 1/8 ratio to the Tegra20 driver
->>>>>>>
->>>>>>>     Chanwoo, please also note that the clk patch that should fix
->>>>>>>     compilation problem that was reported the kbuild-test-robot is already
->>>>>>>     applied and available in the recent linux-next.
->>>>>>
->>>>>> I knew that Stephen picked up your path about clock.
->>>>>
->>>>> Hi Chanwoo,
->>>>>
->>>>> Okay, good. Thank you very much for reviewing this series! I assume it's
->>>>> too late now for v5.2, but it should be good to go for v5.3.
->>>>>
->>>>
->>>> Hello Chanwoo,
->>>>
->>>> Will be nice to see the patches in the linux-next before they'll hit mainline. We have tested that
->>>> everything works fine on a selective devices, but won't hurt to get some extra testing beforehand.
->>>> AFAIK, at least NVIDIA people are regularly testing -next on theirs dev boards. Please note that
->>>> this not very important, so don't bother if there is some hurdle with pushing to the tracking branch
->>>> for now. Also please let me know if you're expecting to see some ACK's on the patches, I'm sure
->>>> we'll be able to work out that with Thierry and Jon if necessary.
->>>>
->>>>
->>>
->>> Hi Dmitry,
->>> I think that it is enough for applying to mainline branch.
->>> The devfreq.git is maintained by Myungjoo. He will be merged or
->>> reviewed if there are th remained review point.
->>
->> Thank you very much!
->>
->>>
->>> Hi Myungjoo,
->>> I reviewed the Dmitry's patches from v1 to v4 patches.
->>> And then I tested them on my testing branch[1] for catching
->>> the build warning and error. In result, it is clean.
->>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git/log/?h=devfreq-testing
->>>
->>> Please review or apply these patches for v5.3.
->>>
->>
->> Hello Myungjoo,
->>
->> I think this patchset should be completed now. Thierry has some extra
->> comments to the patches, but seems nothing critical so far and all the
->> concerns could be addressed in a follow-up series. Please let me know if
->> you're fine with this, I can re-spin v5 as well if necessary.
->>
-> 
-> Hello Chanwoo,
-> 
-> It looks like Myungjoo is inactive at the moment. Do you know if he'll
-> be back to the time of the merge window opening or you'll be curating
-> the pull request for 5.3 this time?
+This series introduces driver for the External Memory Controller (EMC)
+found on Tegra30 chips, it controls the external DRAM on the board. The
+purpose of this driver is to program memory timing for external memory on
+the EMC clock rate change. The driver was tested using the ACTMON devfreq
+driver that performs memory frequency scaling based on memory-usage load.
 
-Myungoo works in the same place. I'll talk with him.
+Changelog:
 
-> 
-> Secondly, I'll send a few more patches on top of this series, addressing
-> Thierry's comments and making more improvements. Please let me know if
-> this causes any problems and I should re-spin the whole series.
+v5: - Addressed review comments that were made by Thierry Reding to v4 by
+      adding appropriate copyrights to the source code headers and making
+      Tegra30 EMC driver to use common Tegra20 CLK API directly instead
+      of having a dummy-proxy functions specifically for Tegra30.
 
-OK. I'll review them.
+    - Addressed review comments that were made by Stephen Boyd to v4 by
+      rewording commit message of the "Add custom EMC clock implementation"
+      patch and adding clarifying comment (to that patch as well) which
+      tells why EMC is a critical clock.
 
+    - Added suspend-resume to Tegra30 EMC driver to error out if EMC driver
+      is in a "bad state" as it will likely cause a hang on entering suspend.
+
+    - Dropped patch "tegra20-emc: Replace clk_get_sys with devm_clk_get"
+      because the replaced clocks are actually should be removed altogether
+      in the "Drop setting EMC rate to max on probe" patch and that was
+      missed by an accident.
+
+    - Added "tegra20-emc: Pre-configure debug register" patch which ensures
+      that inappropriate HW debug features are disabled at a probe time.
+      The same change is also made in the "Introduce Tegra30 EMC driver"
+      patch.
+
+    - Added ACKs to the patches from Peter De Schrijver that he gave to v4
+      since all of the v5 changes are actually very minor.
+
+v4: - Addressed review comments that were made by Peter De Schrijver to v3
+      by adding fence_udelay() after writes in the "Add custom EMC clock
+      implementation" patch.
+
+    - Added two new minor patches:
+
+        memory: tegra: Ensure timing control debug features are disabled
+        memory: tegra: Consolidate registers definition into one place
+
+      The first one is needed to ensure that EMC driver will work
+      properly regardless of hardware configuration left after boot.
+      The second patch is just a minor code cleanup.
+
+    - The "Introduce Tegra30 EMC driver" got also few very minor changes.
+      Now every possible error case is handled, nothing is ignored.
+      The EMC_DBG register is explicitly initialized during probe to be
+      on the safe side.
+
+v3: - Addressed review comments that were made by Stephen Boyd to v2 by
+      adding explicit typing for the callback variable, by including
+      "clk-provider.h" directly in the code and by dropping __clk_lookup
+      usage where possible.
+
+    - Added more patches into this series:
+
+        memory: tegra20-emc: Drop setting EMC rate to max on probe
+        memory: tegra20-emc: Adapt for clock driver changes
+        memory: tegra20-emc: Include io.h instead of iopoll.h
+        memory: tegra20-emc: Replace clk_get_sys with devm_clk_get
+
+      Initially I was going to include these patches into other patchset,
+      but changed my mind after rearranging things a tad. The "Adapt for
+      clock driver changes" patch is directly related to the clock changes
+      done in the first patch of this series, the rest are minor cleanups
+      that are fine to include here as well.
+
+    - Added some more words to the commit message of "Add binding for NVIDIA
+      Tegra30 External Memory Controller" patch, clarifying why common DDR
+      timing device-tree form isn't suitable for Tegra30.
+
+    - The Tegra30 EMC driver now explicitly selects the registers access
+      mode (EMC_DBG mux), not relying on the setting left from bootloader.
+
+v2: - Added support for changing MC clock diver configuration based on
+      Memory Controller (MC) configuration which is part of the memory
+      timing.
+
+    - Merged the "Add custom EMC clock implementation" patch into this
+      series because the "Introduce Tegra30 EMC driver" patch directly
+      depends on it. Please note that Tegra20 EMC driver will need to be
+      adapted for the clock changes as well, I'll send out the Tegra20
+      patches after this series will be applied because of some other
+      dependencies (devfreq) and because the temporary breakage won't
+      be critical (driver will just error out on probe).
+
+    - EMC driver now performs MC configuration validation by checking
+      that the number of MC / EMC timings matches and that the timings
+      rate is the same.
+
+    - EMC driver now supports timings that want to change the MC clock
+      configuration.
+
+    - Other minor prettifying changes of the code.
+
+Dmitry Osipenko (10):
+  clk: tegra20/30: Add custom EMC clock implementation
+  memory: tegra20-emc: Drop setting EMC rate to max on probe
+  memory: tegra20-emc: Adapt for clock driver changes
+  memory: tegra20-emc: Include io.h instead of iopoll.h
+  memory: tegra20-emc: Pre-configure debug register
+  dt-bindings: memory: Add binding for NVIDIA Tegra30 External Memory
+    Controller
+  memory: tegra: Introduce Tegra30 EMC driver
+  memory: tegra: Ensure timing control debug features are disabled
+  memory: tegra: Consolidate registers definition into common header
+  ARM: dts: tegra30: Add External Memory Controller node
+
+ .../memory-controllers/nvidia,tegra30-emc.txt |  249 ++++
+ arch/arm/boot/dts/tegra30.dtsi                |   11 +
+ drivers/clk/tegra/Makefile                    |    2 +
+ drivers/clk/tegra/clk-tegra20-emc.c           |  293 ++++
+ drivers/clk/tegra/clk-tegra20.c               |   55 +-
+ drivers/clk/tegra/clk-tegra30.c               |   38 +-
+ drivers/clk/tegra/clk.h                       |    3 +
+ drivers/memory/tegra/Kconfig                  |   10 +
+ drivers/memory/tegra/Makefile                 |    1 +
+ drivers/memory/tegra/mc.c                     |   42 +-
+ drivers/memory/tegra/mc.h                     |   74 +-
+ drivers/memory/tegra/tegra124.c               |   20 -
+ drivers/memory/tegra/tegra20-emc.c            |  119 +-
+ drivers/memory/tegra/tegra30-emc.c            | 1225 +++++++++++++++++
+ drivers/memory/tegra/tegra30.c                |   24 +
+ include/linux/clk/tegra.h                     |   11 +
+ include/soc/tegra/mc.h                        |    2 +-
+ 17 files changed, 1995 insertions(+), 184 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.txt
+ create mode 100644 drivers/clk/tegra/clk-tegra20-emc.c
+ create mode 100644 drivers/memory/tegra/tegra30-emc.c
 
 -- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+2.22.0
+
