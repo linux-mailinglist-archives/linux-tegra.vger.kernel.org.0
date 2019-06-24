@@ -2,94 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 122944FFC9
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 05:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D2BE50219
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Jun 2019 08:20:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727626AbfFXDD5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 23 Jun 2019 23:03:57 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:13267 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727617AbfFXDD4 (ORCPT
+        id S1726834AbfFXGT6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Jun 2019 02:19:58 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:38664 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726355AbfFXGT5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 23 Jun 2019 23:03:56 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d103d9b0001>; Sun, 23 Jun 2019 20:03:55 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 23 Jun 2019 20:03:55 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 23 Jun 2019 20:03:55 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 24 Jun
- 2019 03:03:55 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 24 Jun 2019 03:03:55 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.174.126]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d103d980002>; Sun, 23 Jun 2019 20:03:55 -0700
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <tglx@linutronix.de>, <jason@lakedaemon.net>,
-        <marc.zyngier@arm.com>, <linus.walleij@linaro.org>,
-        <stefan@agner.ch>, <mark.rutland@arm.com>
-CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
-        <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <jckuo@nvidia.com>,
-        <josephl@nvidia.com>, <talho@nvidia.com>, <skomatineni@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
-        <digetx@gmail.com>, <devicetree@vger.kernel.org>
-Subject: [PATCH V4 18/18] arm64: dts: tegra210-p2180: Jetson TX1 SC7 timings
-Date:   Sun, 23 Jun 2019 20:02:59 -0700
-Message-ID: <1561345379-2429-19-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561345379-2429-1-git-send-email-skomatineni@nvidia.com>
-References: <1561345379-2429-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        Mon, 24 Jun 2019 02:19:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=HJFnO/8iFK6/8h+P54G3yCQG359ggQHSy2fGcxIE6tg=; b=dpTYhomxoOK7Fn9FZAWy/F2d7
+        OB7DbwOE/C/akpzeuzlFpIzjTzgoisvDVOi16ZOChuge0F6rRBKzi/zyrVCPfV41l37CddrCDy9wj
+        PkqmyYHP3GYQM23anQWNnajftFlRUdipaP1YC40vmEHUC9Xv2wt5GzuZEx40uTy0BMPSEfE4SLZFr
+        1GN8Gsm6hYT++2wtH7J0rAf26csTNJaeQwzpPzSohD0iNWgp9gSggAiNUCv8SKdG8HI94/bi3Wrnh
+        LvnWeGzcHl93S3WJCQWQi4N0S74dvgznU+OwCpBcRWi+2ZzrGpfA+z42pLHGuyd8wUxyrpgpbOC+0
+        xR9laD4Pg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hfIKP-0001PA-JV; Mon, 24 Jun 2019 06:19:45 +0000
+Date:   Sun, 23 Jun 2019 23:19:45 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Tom Murphy <murphyt7@tcd.ie>, Joerg Roedel <joro@8bytes.org>
+Cc:     iommu@lists.linux-foundation.org, Heiko Stuebner <heiko@sntech.de>,
+        Will Deacon <will.deacon@arm.com>,
+        virtualization@lists.linux-foundation.org,
+        David Brown <david.brown@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        linux-kernel@vger.kernel.org, Kukjin Kim <kgene@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>
+Subject: Re: [PATCH v4 0/5] iommu/amd: Convert the AMD iommu driver to the
+ dma-iommu api
+Message-ID: <20190624061945.GA4912@infradead.org>
+References: <20190613223901.9523-1-murphyt7@tcd.ie>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561345435; bh=3ikE8x0cNN1fPtdTTddMKObVTKhfyEJPwIrj8ksa4Wg=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=NJDNIdtgFCnSUNvZiIZyyoYq1MWL9GEcD/rJdXw/+TFyNHK0D8uab/04bae25LrUk
-         hu0quJxkUQhU6l9Zc6HE448Vdi+Ze21BYW3dJQ22g95Xp/wRccKQ/UWuHnnU0xabj9
-         I4TG90+yg0sPZnCo4TZ17nUr/oLJExjB6SE0ETOtZKaXY38weSTY2Yw8Hn2Q8zNP4v
-         vRGRS7XsMCWFIsVRE+c7bHU400IxlGM4hnaEN+S+h7y2ku+LDHVPrF+FYhwxcmVIqB
-         SI1nqT2QU46yMOK8Oj50NrTQtBQ5N+vHxQxR2UYuvceFQrsAK4nHh94nwaUqnPWBEr
-         z5tKKIND8eUAg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190613223901.9523-1-murphyt7@tcd.ie>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch has Jetson TX1 platform specific SC7 timing configuration
-in device tree.
+Tom,
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+next time please cc Jerg as the AMD IOMMU maintainer.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
-index 27723829d033..cb58f79deb48 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
-@@ -279,6 +279,13 @@
- 
- 	pmc@7000e400 {
- 		nvidia,invert-interrupt;
-+		nvidia,suspend-mode = <0>;
-+		nvidia,cpu-pwr-good-time = <0>;
-+		nvidia,cpu-pwr-off-time = <0>;
-+		nvidia,core-pwr-good-time = <4587 3876>;
-+		nvidia,core-pwr-off-time = <39065>;
-+		nvidia,core-power-req-active-high;
-+		nvidia,sys-clock-req-active-high;
- 	};
- 
- 	/* eMMC */
--- 
-2.7.4
-
+Joerg, any chance you could review this?  Toms patches to convert the
+AMD and Intel IOMMU drivers to the dma-iommu code are going to make my
+life in DMA land significantly easier, so I have a vested interest
+in this series moving forward :)
