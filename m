@@ -2,125 +2,708 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ED6D52063
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 03:42:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D285A524DB
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 09:33:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729889AbfFYBm1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Jun 2019 21:42:27 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:50533 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729873AbfFYBm0 (ORCPT
+        id S1727853AbfFYHdR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 03:33:17 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:50310 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727813AbfFYHdR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Jun 2019 21:42:26 -0400
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20190625014223epoutp014299eddbd6ecdcd5a2e0edd7d8934b95~rTYg3nAjI0935709357epoutp01g
-        for <linux-tegra@vger.kernel.org>; Tue, 25 Jun 2019 01:42:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20190625014223epoutp014299eddbd6ecdcd5a2e0edd7d8934b95~rTYg3nAjI0935709357epoutp01g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1561426943;
-        bh=Q+wSE1D1mkFPZ3kbjNBSBDW6V8ZYgQZcbvAOHEb9UBw=;
-        h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-        b=ilPzVsZM5LcPCnpIXO9KGG1sIxvKCVsnZgcdv8IOz8Jt7t0NgV/ldqJMLrTEz1eGD
-         ezbR+FYhwGnG8VocWUy3W6vEWC4mZN/U0SxROI/gO2lm2AKsr/FBBc2Iq0z2GmuVUq
-         3D5RqORgFlML4QAQtft/rtu/zIgCBDpTyx3muQ+4=
-Received: from epsmges1p1.samsung.com (unknown [182.195.40.156]) by
-        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20190625014219epcas1p18d32dff3ac18bf156107086369b628a0~rTYdK9I8B2220822208epcas1p1V;
-        Tue, 25 Jun 2019 01:42:19 +0000 (GMT)
-X-AuditID: b6c32a35-973ff7000000102b-44-5d117bf69493
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        F9.F9.04139.6FB711D5; Tue, 25 Jun 2019 10:42:14 +0900 (KST)
-Mime-Version: 1.0
-Subject: RE: Re: [PATCH v4 13/16] PM / devfreq: tegra: Support Tegra30
-Reply-To: myungjoo.ham@samsung.com
-From:   MyungJoo Ham <myungjoo.ham@samsung.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-CC:     Chanwoo Choi <cw00.choi@samsung.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <7561edbc-c17c-101a-b339-fc7f9968a470@gmail.com>
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20190625014214epcms1p1b8f2d76cd8cfdf3fdf517be08a92ccdf@epcms1p1>
-Date:   Tue, 25 Jun 2019 10:42:14 +0900
-X-CMS-MailID: 20190625014214epcms1p1b8f2d76cd8cfdf3fdf517be08a92ccdf
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnk+LIzCtJLcpLzFFi42LZdlhTT/dbtWCswfQJkhbXvzxntVj98TGj
-        RcusRSwWl3fNYbP43HuE0aLzyyw2i5+75rE4sHvsnHWX3aO3+R2bR9+WVYwenzfJBbBEZdtk
-        pCampBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAF2gpFCWmFMK
-        FApILC5W0rezKcovLUlVyMgvLrFVSi1IySmwLNArTswtLs1L10vOz7UyNDAwMgUqTMjOuPd9
-        NmvBHbGKSVfOsjQwdoh1MXJwSAiYSLxYEdfFyMUhJLCDUeL/whlsIHFeAUGJvzuEuxg5OYQF
-        3CS2XfvNAmILCShJNNzcxwwR15foeLCNEcRmE9CV2LrhLliNiICaxPKjf1hBZjILnGaS2Lz2
-        JxtIQkKAV2JG+1MWCFtaYvvyrWDNnAK2Et2/vjFBxEUlbq5+yw5jvz82nxHCFpFovXeWGcIW
-        lHjwczcjzJwZU/5DzayWuDZ9MTvIYgmBFkaJ3tVToIr0Jc7MPQn1mK/EyTVlIGEWAVWJ6Q/X
-        Q810keg5NRnsBmYBbYllC18zg5QzC2hKrN+lD1GiKLHz91xGiBI+iXdfe1hh3tox7wnU+WoS
-        h3YvgTpfRuL09IVQ4z0kXpzYxwoJ52Zmie7X89gmMCrMQgT1LCSbZyFsXsDIvIpRLLWgODc9
-        tdiwwBA5cjcxghOjlukOxinnfA4xCnAwKvHw/jgmECvEmlhWXJl7iFGCg1lJhHdpIlCINyWx
-        siq1KD++qDQntfgQoykwACYyS4km5wOTdl5JvKGpkbGxsYWJoZmpoaGSOG88980YIYH0xJLU
-        7NTUgtQimD4mDk6pBsZplrqcW6N2N0w8fa8+9uztw8ur1LLmzN3GdqzkoymzlYERo3bCsmXP
-        /35/sDuUT7ls/98rd/9lBpxwurIxyGCa8YX3eio3/j9baJFXaj2z7cM+j9Ce1SlnJqRPWGCr
-        y5fw8s4WsRffVePVD/Avj5jG2/dq/9PpjlsOX/CfqHLyR2RnypcTbOWmSizFGYmGWsxFxYkA
-        Ew20XKIDAAA=
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f
-References: <7561edbc-c17c-101a-b339-fc7f9968a470@gmail.com>
-        <37db00bc-3a22-d1c2-7bdc-e27af42cd5c7@gmail.com>
-        <20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
-        <20190624073414epcms1p87b6dc13758b6bd401d275cfba583314a@epcms1p8>
-        <20190624111134epcms1p361aed3c72edd6eebc95408331c8d9739@epcms1p3>
-        <CGME20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
+        Tue, 25 Jun 2019 03:33:17 -0400
+Received: by mail-wm1-f68.google.com with SMTP id c66so1716198wmf.0;
+        Tue, 25 Jun 2019 00:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4L8jWpgpRoRFlWj8KS2xl7Z08afaUsYJAa3YKcB1ch4=;
+        b=rIPjFWyRu2kk6+mcHZkPmumdbKRzCNEN1YWuQc3fGGs+QyFhNhW4F59mtx85xomKTA
+         kvyK9xwOFskKduSHJV0kpdyyoOhvG3zP6D38kTbKG6jK0BHrHBm7Oj4Rb6OcONAeONl2
+         7ktOf5/yQznqmOB4YdIYjr5fc/d3+9RTUJTU1qPB8Fdl0pSqqL1a0FM2JzVdKKMOEQCK
+         HNBV7ornDFoOW8aTpQxeT+AbpwXFFMOw7luafQ25Jwppkf2yv9/af84aM0Ju0CfJieoQ
+         kqOZ6iAINZmbn3fJmLaUtk7OAGv+eg+Eaiz/08Q9jDsm+gaBdVm5eavgrZzvhy9xJRev
+         dCsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4L8jWpgpRoRFlWj8KS2xl7Z08afaUsYJAa3YKcB1ch4=;
+        b=NZLAFueNfBJAjdLvfZR5TWDyDJfronWCtiBXFnWuDs+IXeRLaCEUiNUFQJN3uqvHPn
+         F8gwMIzssz74Ztscv1UeCdetcl34AU6zloY6oFDJXrenSy6aqx15zHvB6Bp/IEIqydbz
+         lUzvp16YcM8lWhQPEEsoljFIu7SXT0968T+tC226VjFhsgzB5UxP1KBInYBMAv9rauNv
+         FOjU8UjxGa65qsdmPbyr78PIZ+yIyb9V8ukjS3h8IEWozBt9s/WxeadiVQr4h4XpW1Wx
+         PVxjtasVqjN7/JGzV5oM02wPTtyWAi0hKb4TnWT+JbnjB/LUL+WTVU/JS83v6+l9NRAf
+         MVuw==
+X-Gm-Message-State: APjAAAXq7O+KlXDd74IgoVBetn4+8G3P4p8Lh62f7/iZlI3CEnCtHxfY
+        kPTNxcmdmWwHChuc3n00Tdo=
+X-Google-Smtp-Source: APXvYqwV2rtrF92xMKWhxZG9GLTn1JdtlWyF2OB2EVpYGW0pj8to/Dp62dRF5qehpxJ1Z/iB+MAguQ==
+X-Received: by 2002:a1c:be05:: with SMTP id o5mr1460743wmf.52.1561447992329;
+        Tue, 25 Jun 2019 00:33:12 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id y6sm1750279wmd.16.2019.06.25.00.33.11
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 25 Jun 2019 00:33:11 -0700 (PDT)
+Date:   Tue, 25 Jun 2019 09:33:10 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     lorenzo.pieralisi@arm.com, bhelgaas@google.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, jonathanh@nvidia.com, kishon@ti.com,
+        catalin.marinas@arm.com, will.deacon@arm.com, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, digetx@gmail.com,
+        mperttunen@nvidia.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V10 11/15] arm64: tegra: Add P2U and PCIe controller
+ nodes to Tegra194 DT
+Message-ID: <20190625073310.GA1516@ulmo>
+References: <20190612095339.20118-1-vidyas@nvidia.com>
+ <20190612095339.20118-12-vidyas@nvidia.com>
+ <20190620105525.GA15892@ulmo>
+ <a3c4e151-9fd3-9368-1498-b8f225da62d9@nvidia.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="fdj2RfSjLxBAspz7"
+Content-Disposition: inline
+In-Reply-To: <a3c4e151-9fd3-9368-1498-b8f225da62d9@nvidia.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Sender : Dmitry Osipenko <digetx=40gmail.com>
->24.06.2019 14:11, MyungJoo Ham =D0=BF=D0=B8=D1=88=D0=B5=D1=82:=0D=0A>>>=0D=
-=0A>>>=20---------=20Original=20Message=20---------=0D=0A>>>=20Sender=20:=
-=20Dmitry=20Osipenko=20<digetx=40gmail.com>=0D=0A>>>=0D=0A>>>=2024.06.2019=
-=2010:34,=20MyungJoo=20Ham=20=D0=BF=D0=B8=D1=88=D0=B5=D1=82:=0D=0A>>>>>=0D=
-=0A>>>>>=20A=20question:=0D=0A>>>>>=0D=0A>>>>>=20Does=20this=20driver=20sup=
-port=20Tegra20=20as=20well?=0D=0A>>>>>=20I'm=20asking=20this=20because=20AR=
-CH_TEGRA=20includes=20ARCH_TEGRA_2x_SOC=0D=0A>>>>>=20according=20to=20/driv=
-ers/soc/tegra/Kconfig.=0D=0A>>>>>=0D=0A>>>>=0D=0A>>>>=20For=20this=20matter=
-,=20how=20about=20updating=20your=2013/16=20patch=20as=20follows?=0D=0A>>>>=
-=0D=0A>>=20=5B=5D=0D=0A>>>=0D=0A>>>=20Good=20call=21=20I'll=20update=20this=
-=20patch=20following=20yours=20suggestion,=20thanks.=0D=0A>>=20=0D=0A>>=20O=
-r,=20you=20may=20approve=20the=20modified=20commits=20here:=0D=0A>>=20https=
-://git.kernel.org/pub/scm/linux/kernel/git/mzx/devfreq.git/log/?h=3Dfor-nex=
-t=0D=0A>=20=0D=0A>Looks=20almost=20good=20to=20me=21=0D=0A>=20=0D=0A>I=20ju=
-st=20recalled=20that=20there=20is=20also=20a=2064bit=20variant=20of=20Tegra=
-124,=20the=20Tegra132.=20Hence=0D=0A>the=20Tegra30+=20Kconfig=20entry=20sho=
-uld=20look=20like=20this=20(it's=20also=20worthy=20to=20break=20the=20lines=
-=0D=0A>for=20readability):=0D=0A>=20=0D=0A>diff=20--git=20a/drivers/devfreq=
-/Kconfig=20b/drivers/devfreq/Kconfig=0D=0A>index=20ccb1a68c4b51..bd2efbc277=
-25=20100644=0D=0A>---=20a/drivers/devfreq/Kconfig=0D=0A>+++=20b/drivers/dev=
-freq/Kconfig=0D=0A>=40=40=20-94,7=20+94,10=20=40=40=20config=20ARM_EXYNOS_B=
-US_DEVFREQ=0D=0A>=20=0D=0A>=20config=20ARM_TEGRA_DEVFREQ=0D=0A>=20=20=20=20=
-=20=20=20=20tristate=20=22NVIDIA=20Tegra30/114/124/210=20DEVFREQ=20Driver=
-=22=0D=0A>-=20=20=20=20=20=20=20depends=20on=20ARCH_TEGRA=20=7C=7C=20COMPIL=
-E_TEST=0D=0A>+=20=20=20=20=20=20=20depends=20on=20ARCH_TEGRA_3x_SOC=20=20=
-=7C=7C=20ARCH_TEGRA_114_SOC=20=7C=7C=20=5C=0D=0A>+=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20ARCH_TEGRA_132_SOC=20=7C=7C=20ARCH_TEGRA_124_=
-SOC=20=7C=7C=20=5C=0D=0A>+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20ARCH_TEGRA_210_SOC=20=7C=7C=20=5C=0D=0A>+=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20COMPILE_TEST=0D=0A>=20=20=20=20=20=20=20=20selec=
-t=20PM_OPP=0D=0A>=20=20=20=20=20=20=20=20help=0D=0A>=20=20=20=20=20=20=20=
-=20=20=20This=20adds=20the=20DEVFREQ=20driver=20for=20the=20Tegra=20family=
-=20of=20SoCs.=0D=0A>=20=0D=0A>Could=20you=20please=20adjust=20the=20patches=
-=20like=20I'm=20suggesting?=20I'll=20approve=20yours=20change=0D=0A>then=20=
-and=20won't=20re-spin=20the=20first=20batch=20of=20the=20patches.=0D=0A=0D=
-=0AI've=20adjusted=20as=20you=20suggested.=20It's=20pushed=20to=20the=20git=
-=20repo=20as=20well.=0D=0A=0D=0ACheers,=0D=0AMyungJoo.=0D=0A=0D=0A
+
+--fdj2RfSjLxBAspz7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jun 24, 2019 at 01:02:06PM +0530, Vidya Sagar wrote:
+> On 6/20/2019 4:25 PM, Thierry Reding wrote:
+> > On Wed, Jun 12, 2019 at 03:23:35PM +0530, Vidya Sagar wrote:
+> > > Add P2U (PIPE to UPHY) and PCIe controller nodes to device tree.
+> > > The Tegra194 SoC contains six PCIe controllers and twenty P2U instanc=
+es
+> > > grouped into two different PHY bricks namely High-Speed IO (HSIO-12 P=
+2Us)
+> > > and NVIDIA High Speed (NVHS-8 P2Us) respectively.
+> > >=20
+> > > Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> > > ---
+> > > Changes since [v9]:
+> > > * None
+> > >=20
+> > > Changes since [v8]:
+> > > * None
+> > >=20
+> > > Changes since [v7]:
+> > > * Replaced 'core_apb' with 'apb' in reset names
+> > > * Used macros instead of hardcoded numbers in 'interrupt-map' property
+> > > * Aligned 'ranges' entries
+> > >=20
+> > > Changes since [v6]:
+> > > * Removed properties "nvidia,disable-aspm-states" & "nvidia,controlle=
+r-id".
+> > > * Modified property "nvidia,bpmp" to include controller-id as well.
+> > >=20
+> > > Changes since [v5]:
+> > > * Changes 'p2u@xxxxxxxx' to 'phy@xxxxxxxx'
+> > > * Arranged all PCIe nodes in the order of their addresses
+> > >=20
+> > > Changes since [v4]:
+> > > * None
+> > >=20
+> > > Changes since [v3]:
+> > > * None
+> > >=20
+> > > Changes since [v2]:
+> > > * Included 'hsio' or 'nvhs' in P2U node's label names to reflect whic=
+h brick
+> > >    they belong to
+> > > * Removed leading zeros in unit address
+> > >=20
+> > > Changes since [v1]:
+> > > * Flattened all P2U nodes by removing 'hsio-p2u' and 'nvhs-p2u' super=
+ nodes
+> > > * Changed P2U nodes compatible string from 'nvidia,tegra194-phy-p2u' =
+to 'nvidia,tegra194-p2u'
+> > > * Changed reg-name from 'base' to 'ctl'
+> > > * Updated all PCIe nodes according to the changes made to DT document=
+ation file
+> > >=20
+> > >   arch/arm64/boot/dts/nvidia/tegra194.dtsi | 437 ++++++++++++++++++++=
++++
+> > >   1 file changed, 437 insertions(+)
+> >=20
+> > Applied to for-5.3/arm64/dt, thanks.
+> >=20
+> > I did end up sorting the new nodes differently so that they are ordered
+> > according to the general rules (sort by unit-address, then
+> > alphabetically). That's slightly complicated by the fact that the PCI
+> > controllers have registers that seem to be right in the middle of the
+> > host1x aperture, so I had to bend the rules a little.
+> >=20
+> > Thierry
+>=20
+> I see that you moved all PCIe nodes under CBB node. There is an issue wit=
+h that.
+> PCIe nodes have apertures defined in both 32-bit region and 64-bit region=
+ which
+> are mentioned through "ranges" property. Apertures defined in 64-bit regi=
+on do not
+> fit within "ranges" defined for CBB region which can handle only 32-bit "=
+ranges" of
+> CBB sub-nodes and ends @ 0x40000000. It is because of this reason that I =
+kept PCIe
+> nodes outside of CBB master node. Do you agree with my understanding? If =
+yes, can
+> you please move PCIe nodes out of CBB node? (Also in platform dts file)
+
+Yeah, I noticed this discrepancy while doing the final builds and before
+pushing things out. I think the problem here is that we restricted the
+CBB region to #address-cells =3D <1> where it really should've been 2
+cells for the addresses given the size of the addressable region. I've
+reverted my changes for now, but I think eventually we'll want to adjust
+CBB to be #address-cells =3D <2> and maybe even #size-cells =3D <2> to take
+into account the PCIe ranges.
+
+Another possibility might be that PCI is actually on a different "bus"
+(i.e. not CBB) in which case it'd be best to model that. But the TRM is
+not very clear about the bus hierarchy.
+
+Thierry
+
+>=20
+> Thanks,
+> Vidya Sagar
+>=20
+> >=20
+> > > diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/bo=
+ot/dts/nvidia/tegra194.dtsi
+> > > index c77ca211fa8f..feba034f26f0 100644
+> > > --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> > > +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> > > @@ -884,6 +884,166 @@
+> > >   				nvidia,interface =3D <3>;
+> > >   			};
+> > >   		};
+> > > +
+> > > +		p2u_hsio_0: phy@3e10000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03e10000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_1: phy@3e20000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03e20000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_2: phy@3e30000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03e30000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_3: phy@3e40000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03e40000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_4: phy@3e50000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03e50000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_5: phy@3e60000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03e60000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_6: phy@3e70000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03e70000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_7: phy@3e80000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03e80000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_8: phy@3e90000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03e90000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_9: phy@3ea0000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03ea0000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_nvhs_0: phy@3eb0000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03eb0000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_nvhs_1: phy@3ec0000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03ec0000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_nvhs_2: phy@3ed0000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03ed0000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_nvhs_3: phy@3ee0000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03ee0000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_nvhs_4: phy@3ef0000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03ef0000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_nvhs_5: phy@3f00000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03f00000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_nvhs_6: phy@3f10000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03f10000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_nvhs_7: phy@3f20000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03f20000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_10: phy@3f30000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03f30000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > > +
+> > > +		p2u_hsio_11: phy@3f40000 {
+> > > +			compatible =3D "nvidia,tegra194-p2u";
+> > > +			reg =3D <0x03f40000 0x10000>;
+> > > +			reg-names =3D "ctl";
+> > > +
+> > > +			#phy-cells =3D <0>;
+> > > +		};
+> > >   	};
+> > >   	sysram@40000000 {
+> > > @@ -1054,4 +1214,281 @@
+> > >   				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
+> > >   		interrupt-parent =3D <&gic>;
+> > >   	};
+> > > +
+> > > +	pcie@14100000 {
+> > > +		compatible =3D "nvidia,tegra194-pcie", "snps,dw-pcie";
+> > > +		power-domains =3D <&bpmp TEGRA194_POWER_DOMAIN_PCIEX1A>;
+> > > +		reg =3D <0x00 0x14100000 0x0 0x00020000   /* appl registers (128K)=
+      */
+> > > +		       0x00 0x30000000 0x0 0x00040000   /* configuration space (25=
+6K) */
+> > > +		       0x00 0x30040000 0x0 0x00040000   /* iATU_DMA reg space (256=
+K)  */
+> > > +		       0x00 0x30080000 0x0 0x00040000>; /* DBI reg space (256K)   =
+    */
+> > > +		reg-names =3D "appl", "config", "atu_dma", "dbi";
+> > > +
+> > > +		status =3D "disabled";
+> > > +
+> > > +		#address-cells =3D <3>;
+> > > +		#size-cells =3D <2>;
+> > > +		device_type =3D "pci";
+> > > +		num-lanes =3D <1>;
+> > > +		num-viewport =3D <8>;
+> > > +		linux,pci-domain =3D <1>;
+> > > +
+> > > +		clocks =3D <&bpmp TEGRA194_CLK_PEX0_CORE_1>;
+> > > +		clock-names =3D "core";
+> > > +
+> > > +		resets =3D <&bpmp TEGRA194_RESET_PEX0_CORE_1_APB>,
+> > > +			 <&bpmp TEGRA194_RESET_PEX0_CORE_1>;
+> > > +		reset-names =3D "apb", "core";
+> > > +
+> > > +		interrupts =3D <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>,	/* controller int=
+errupt */
+> > > +			     <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>;	/* MSI interrupt */
+> > > +		interrupt-names =3D "intr", "msi";
+> > > +
+> > > +		#interrupt-cells =3D <1>;
+> > > +		interrupt-map-mask =3D <0 0 0 0>;
+> > > +		interrupt-map =3D <0 0 0 0 &gic GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
+> > > +
+> > > +		nvidia,bpmp =3D <&bpmp 1>;
+> > > +
+> > > +		supports-clkreq;
+> > > +		nvidia,aspm-cmrt-us =3D <60>;
+> > > +		nvidia,aspm-pwr-on-t-us =3D <20>;
+> > > +		nvidia,aspm-l0s-entrance-latency-us =3D <3>;
+> > > +
+> > > +		bus-range =3D <0x0 0xff>;
+> > > +		ranges =3D <0x81000000 0x0  0x30100000 0x0  0x30100000 0x0 0x00100=
+000   /* downstream I/O (1MB) */
+> > > +			  0xc2000000 0x12 0x00000000 0x12 0x00000000 0x0 0x30000000   /* =
+prefetchable memory (768MB) */
+> > > +			  0x82000000 0x0  0x40000000 0x12 0x30000000 0x0 0x10000000>; /* =
+non-prefetchable memory (256MB) */
+> > > +	};
+> > > +
+> > > +	pcie@14120000 {
+> > > +		compatible =3D "nvidia,tegra194-pcie", "snps,dw-pcie";
+> > > +		power-domains =3D <&bpmp TEGRA194_POWER_DOMAIN_PCIEX1A>;
+> > > +		reg =3D <0x00 0x14120000 0x0 0x00020000   /* appl registers (128K)=
+      */
+> > > +		       0x00 0x32000000 0x0 0x00040000   /* configuration space (25=
+6K) */
+> > > +		       0x00 0x32040000 0x0 0x00040000   /* iATU_DMA reg space (256=
+K)  */
+> > > +		       0x00 0x32080000 0x0 0x00040000>; /* DBI reg space (256K)   =
+    */
+> > > +		reg-names =3D "appl", "config", "atu_dma", "dbi";
+> > > +
+> > > +		status =3D "disabled";
+> > > +
+> > > +		#address-cells =3D <3>;
+> > > +		#size-cells =3D <2>;
+> > > +		device_type =3D "pci";
+> > > +		num-lanes =3D <1>;
+> > > +		num-viewport =3D <8>;
+> > > +		linux,pci-domain =3D <2>;
+> > > +
+> > > +		clocks =3D <&bpmp TEGRA194_CLK_PEX0_CORE_2>;
+> > > +		clock-names =3D "core";
+> > > +
+> > > +		resets =3D <&bpmp TEGRA194_RESET_PEX0_CORE_2_APB>,
+> > > +			 <&bpmp TEGRA194_RESET_PEX0_CORE_2>;
+> > > +		reset-names =3D "apb", "core";
+> > > +
+> > > +		interrupts =3D <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>,	/* controller int=
+errupt */
+> > > +			     <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>;	/* MSI interrupt */
+> > > +		interrupt-names =3D "intr", "msi";
+> > > +
+> > > +		#interrupt-cells =3D <1>;
+> > > +		interrupt-map-mask =3D <0 0 0 0>;
+> > > +		interrupt-map =3D <0 0 0 0 &gic GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>;
+> > > +
+> > > +		nvidia,bpmp =3D <&bpmp 2>;
+> > > +
+> > > +		supports-clkreq;
+> > > +		nvidia,aspm-cmrt-us =3D <60>;
+> > > +		nvidia,aspm-pwr-on-t-us =3D <20>;
+> > > +		nvidia,aspm-l0s-entrance-latency-us =3D <3>;
+> > > +
+> > > +		bus-range =3D <0x0 0xff>;
+> > > +		ranges =3D <0x81000000 0x0  0x32100000 0x0  0x32100000 0x0 0x00100=
+000   /* downstream I/O (1MB) */
+> > > +			  0xc2000000 0x12 0x40000000 0x12 0x40000000 0x0 0x30000000   /* =
+prefetchable memory (768MB) */
+> > > +			  0x82000000 0x0  0x40000000 0x12 0x70000000 0x0 0x10000000>; /* =
+non-prefetchable memory (256MB) */
+> > > +	};
+> > > +
+> > > +	pcie@14140000 {
+> > > +		compatible =3D "nvidia,tegra194-pcie", "snps,dw-pcie";
+> > > +		power-domains =3D <&bpmp TEGRA194_POWER_DOMAIN_PCIEX1A>;
+> > > +		reg =3D <0x00 0x14140000 0x0 0x00020000   /* appl registers (128K)=
+      */
+> > > +		       0x00 0x34000000 0x0 0x00040000   /* configuration space (25=
+6K) */
+> > > +		       0x00 0x34040000 0x0 0x00040000   /* iATU_DMA reg space (256=
+K)  */
+> > > +		       0x00 0x34080000 0x0 0x00040000>; /* DBI reg space (256K)   =
+    */
+> > > +		reg-names =3D "appl", "config", "atu_dma", "dbi";
+> > > +
+> > > +		status =3D "disabled";
+> > > +
+> > > +		#address-cells =3D <3>;
+> > > +		#size-cells =3D <2>;
+> > > +		device_type =3D "pci";
+> > > +		num-lanes =3D <1>;
+> > > +		num-viewport =3D <8>;
+> > > +		linux,pci-domain =3D <3>;
+> > > +
+> > > +		clocks =3D <&bpmp TEGRA194_CLK_PEX0_CORE_3>;
+> > > +		clock-names =3D "core";
+> > > +
+> > > +		resets =3D <&bpmp TEGRA194_RESET_PEX0_CORE_3_APB>,
+> > > +			 <&bpmp TEGRA194_RESET_PEX0_CORE_3>;
+> > > +		reset-names =3D "apb", "core";
+> > > +
+> > > +		interrupts =3D <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>,	/* controller int=
+errupt */
+> > > +			     <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;	/* MSI interrupt */
+> > > +		interrupt-names =3D "intr", "msi";
+> > > +
+> > > +		#interrupt-cells =3D <1>;
+> > > +		interrupt-map-mask =3D <0 0 0 0>;
+> > > +		interrupt-map =3D <0 0 0 0 &gic GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>;
+> > > +
+> > > +		nvidia,bpmp =3D <&bpmp 3>;
+> > > +
+> > > +		supports-clkreq;
+> > > +		nvidia,aspm-cmrt-us =3D <60>;
+> > > +		nvidia,aspm-pwr-on-t-us =3D <20>;
+> > > +		nvidia,aspm-l0s-entrance-latency-us =3D <3>;
+> > > +
+> > > +		bus-range =3D <0x0 0xff>;
+> > > +		ranges =3D <0x81000000 0x0  0x34100000 0x0  0x34100000 0x0 0x00100=
+000   /* downstream I/O (1MB) */
+> > > +			  0xc2000000 0x12 0x80000000 0x12 0x80000000 0x0 0x30000000   /* =
+prefetchable memory (768MB) */
+> > > +			  0x82000000 0x0  0x40000000 0x12 0xb0000000 0x0 0x10000000>; /* =
+non-prefetchable memory (256MB) */
+> > > +	};
+> > > +
+> > > +	pcie@14160000 {
+> > > +		compatible =3D "nvidia,tegra194-pcie", "snps,dw-pcie";
+> > > +		power-domains =3D <&bpmp TEGRA194_POWER_DOMAIN_PCIEX4A>;
+> > > +		reg =3D <0x00 0x14160000 0x0 0x00020000   /* appl registers (128K)=
+      */
+> > > +		       0x00 0x36000000 0x0 0x00040000   /* configuration space (25=
+6K) */
+> > > +		       0x00 0x36040000 0x0 0x00040000   /* iATU_DMA reg space (256=
+K)  */
+> > > +		       0x00 0x36080000 0x0 0x00040000>; /* DBI reg space (256K)   =
+    */
+> > > +		reg-names =3D "appl", "config", "atu_dma", "dbi";
+> > > +
+> > > +		status =3D "disabled";
+> > > +
+> > > +		#address-cells =3D <3>;
+> > > +		#size-cells =3D <2>;
+> > > +		device_type =3D "pci";
+> > > +		num-lanes =3D <4>;
+> > > +		num-viewport =3D <8>;
+> > > +		linux,pci-domain =3D <4>;
+> > > +
+> > > +		clocks =3D <&bpmp TEGRA194_CLK_PEX0_CORE_4>;
+> > > +		clock-names =3D "core";
+> > > +
+> > > +		resets =3D <&bpmp TEGRA194_RESET_PEX0_CORE_4_APB>,
+> > > +			 <&bpmp TEGRA194_RESET_PEX0_CORE_4>;
+> > > +		reset-names =3D "apb", "core";
+> > > +
+> > > +		interrupts =3D <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>,	/* controller int=
+errupt */
+> > > +			     <GIC_SPI 52 IRQ_TYPE_LEVEL_HIGH>;	/* MSI interrupt */
+> > > +		interrupt-names =3D "intr", "msi";
+> > > +
+> > > +		#interrupt-cells =3D <1>;
+> > > +		interrupt-map-mask =3D <0 0 0 0>;
+> > > +		interrupt-map =3D <0 0 0 0 &gic GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
+> > > +
+> > > +		nvidia,bpmp =3D <&bpmp 4>;
+> > > +
+> > > +		supports-clkreq;
+> > > +		nvidia,aspm-cmrt-us =3D <60>;
+> > > +		nvidia,aspm-pwr-on-t-us =3D <20>;
+> > > +		nvidia,aspm-l0s-entrance-latency-us =3D <3>;
+> > > +
+> > > +		bus-range =3D <0x0 0xff>;
+> > > +		ranges =3D <0x81000000 0x0  0x36100000 0x0  0x36100000 0x0 0x00100=
+000   /* downstream I/O (1MB) */
+> > > +			  0xc2000000 0x14 0x00000000 0x14 0x00000000 0x3 0x40000000   /* =
+prefetchable memory (13GB) */
+> > > +			  0x82000000 0x0  0x40000000 0x17 0x40000000 0x0 0xc0000000>; /* =
+non-prefetchable memory (3GB) */
+> > > +	};
+> > > +
+> > > +	pcie@14180000 {
+> > > +		compatible =3D "nvidia,tegra194-pcie", "snps,dw-pcie";
+> > > +		power-domains =3D <&bpmp TEGRA194_POWER_DOMAIN_PCIEX8B>;
+> > > +		reg =3D <0x00 0x14180000 0x0 0x00020000   /* appl registers (128K)=
+      */
+> > > +		       0x00 0x38000000 0x0 0x00040000   /* configuration space (25=
+6K) */
+> > > +		       0x00 0x38040000 0x0 0x00040000   /* iATU_DMA reg space (256=
+K)  */
+> > > +		       0x00 0x38080000 0x0 0x00040000>; /* DBI reg space (256K)   =
+    */
+> > > +		reg-names =3D "appl", "config", "atu_dma", "dbi";
+> > > +
+> > > +		status =3D "disabled";
+> > > +
+> > > +		#address-cells =3D <3>;
+> > > +		#size-cells =3D <2>;
+> > > +		device_type =3D "pci";
+> > > +		num-lanes =3D <8>;
+> > > +		num-viewport =3D <8>;
+> > > +		linux,pci-domain =3D <0>;
+> > > +
+> > > +		clocks =3D <&bpmp TEGRA194_CLK_PEX0_CORE_0>;
+> > > +		clock-names =3D "core";
+> > > +
+> > > +		resets =3D <&bpmp TEGRA194_RESET_PEX0_CORE_0_APB>,
+> > > +			 <&bpmp TEGRA194_RESET_PEX0_CORE_0>;
+> > > +		reset-names =3D "apb", "core";
+> > > +
+> > > +		interrupts =3D <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,	/* controller int=
+errupt */
+> > > +			     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;	/* MSI interrupt */
+> > > +		interrupt-names =3D "intr", "msi";
+> > > +
+> > > +		#interrupt-cells =3D <1>;
+> > > +		interrupt-map-mask =3D <0 0 0 0>;
+> > > +		interrupt-map =3D <0 0 0 0 &gic GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
+> > > +
+> > > +		nvidia,bpmp =3D <&bpmp 0>;
+> > > +
+> > > +		supports-clkreq;
+> > > +		nvidia,aspm-cmrt-us =3D <60>;
+> > > +		nvidia,aspm-pwr-on-t-us =3D <20>;
+> > > +		nvidia,aspm-l0s-entrance-latency-us =3D <3>;
+> > > +
+> > > +		bus-range =3D <0x0 0xff>;
+> > > +		ranges =3D <0x81000000 0x0  0x38100000 0x0  0x38100000 0x0 0x00100=
+000   /* downstream I/O (1MB) */
+> > > +			  0xc2000000 0x18 0x00000000 0x18 0x00000000 0x3 0x40000000   /* =
+prefetchable memory (13GB) */
+> > > +			  0x82000000 0x0  0x40000000 0x1b 0x40000000 0x0 0xc0000000>; /* =
+non-prefetchable memory (3GB) */
+> > > +	};
+> > > +
+> > > +	pcie@141a0000 {
+> > > +		compatible =3D "nvidia,tegra194-pcie", "snps,dw-pcie";
+> > > +		power-domains =3D <&bpmp TEGRA194_POWER_DOMAIN_PCIEX8A>;
+> > > +		reg =3D <0x00 0x141a0000 0x0 0x00020000   /* appl registers (128K)=
+      */
+> > > +		       0x00 0x3a000000 0x0 0x00040000   /* configuration space (25=
+6K) */
+> > > +		       0x00 0x3a040000 0x0 0x00040000   /* iATU_DMA reg space (256=
+K)  */
+> > > +		       0x00 0x3a080000 0x0 0x00040000>; /* DBI reg space (256K)   =
+    */
+> > > +		reg-names =3D "appl", "config", "atu_dma", "dbi";
+> > > +
+> > > +		status =3D "disabled";
+> > > +
+> > > +		#address-cells =3D <3>;
+> > > +		#size-cells =3D <2>;
+> > > +		device_type =3D "pci";
+> > > +		num-lanes =3D <8>;
+> > > +		num-viewport =3D <8>;
+> > > +		linux,pci-domain =3D <5>;
+> > > +
+> > > +		clocks =3D <&bpmp TEGRA194_CLK_PEX1_CORE_5>,
+> > > +			<&bpmp TEGRA194_CLK_PEX1_CORE_5M>;
+> > > +		clock-names =3D "core", "core_m";
+> > > +
+> > > +		resets =3D <&bpmp TEGRA194_RESET_PEX1_CORE_5_APB>,
+> > > +			 <&bpmp TEGRA194_RESET_PEX1_CORE_5>;
+> > > +		reset-names =3D "apb", "core";
+> > > +
+> > > +		interrupts =3D <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>,	/* controller int=
+errupt */
+> > > +			     <GIC_SPI 54 IRQ_TYPE_LEVEL_HIGH>;	/* MSI interrupt */
+> > > +		interrupt-names =3D "intr", "msi";
+> > > +
+> > > +		nvidia,bpmp =3D <&bpmp 5>;
+> > > +
+> > > +		#interrupt-cells =3D <1>;
+> > > +		interrupt-map-mask =3D <0 0 0 0>;
+> > > +		interrupt-map =3D <0 0 0 0 &gic GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>;
+> > > +
+> > > +		supports-clkreq;
+> > > +		nvidia,aspm-cmrt-us =3D <60>;
+> > > +		nvidia,aspm-pwr-on-t-us =3D <20>;
+> > > +		nvidia,aspm-l0s-entrance-latency-us =3D <3>;
+> > > +
+> > > +		bus-range =3D <0x0 0xff>;
+> > > +		ranges =3D <0x81000000 0x0  0x3a100000 0x0  0x3a100000 0x0 0x00100=
+000   /* downstream I/O (1MB) */
+> > > +			  0xc2000000 0x1c 0x00000000 0x1c 0x00000000 0x3 0x40000000   /* =
+prefetchable memory (13GB) */
+> > > +			  0x82000000 0x0  0x40000000 0x1f 0x40000000 0x0 0xc0000000>; /* =
+non-prefetchable memory (3GB) */
+> > > +	};
+> > >   };
+> > > --=20
+> > > 2.17.1
+> > >=20
+>=20
+
+--fdj2RfSjLxBAspz7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0RzjUACgkQ3SOs138+
+s6EEyg/7BJPYgJNxpVpRxw4T2GOAYfa6SvKjYjgVwKz64lCOs9ob5AVZVvb1AMbk
+ArxbHhFVDmKyC3wRDR+xGRETaKiTHbUGzJjjNVTYRREWbnmQVEzZnUITCiZDQIbr
+MEC4wM1qsIEDeH4p9SXhhvTshZBciJSFK/PCuK8A7LOND5XnzZYG4c4kYd2K6XmA
+K1P0UgGwXukwkhkmWqJrejGQfkqoWW3ZeQB/LIkSe39vZ6cVJyNSgqfuhAMERWOk
+NNdyKDe3vjAfkyKlNUHvp1oVeDfApldczUSaU0eN6SJ2Xja7Iq1W4rOjybI0WwrY
+wwoWCEoSQ5xXZqjwbGhqNOIVk6UycK/oNei6mtwjCYbulnYCsvMV1y42/OSz7HfR
+OOX/unuiDFFBf0aajf33wE0PgdUmflBPHZLJFZ8p0/BA3R3506cIhM3hrO8rkE/W
+g6SkuOSubDoYQ892ZXkAGCX66fO9q/2bJdMWy6aE7ptVRXg9Bm5CuEZz12c1YVHa
+1tIx9mQD0nHAaeZ2YfZAG56Awn9q6uhwuWuw7SAVovpRtU5q1VRzkrmRZ1m7KpL0
+pDXHEi5kOKWLqA1Z4kpwuoOGLFajUCglYQ7bjQ3DJzCoh9ehA9EgfW8Zg6exKfeH
+oBcZh0lEiyuPn5RxzjAByNAot444n0k2xles1LxNWBGaTW/meQs=
+=wjcX
+-----END PGP SIGNATURE-----
+
+--fdj2RfSjLxBAspz7--
