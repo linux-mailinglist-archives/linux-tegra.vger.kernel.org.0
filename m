@@ -2,70 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C2A354FB3
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 15:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB67654FB6
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 15:04:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728449AbfFYNEi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jun 2019 09:04:38 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40876 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727338AbfFYNEi (ORCPT
+        id S1727975AbfFYNEv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 09:04:51 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:39902 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727338AbfFYNEv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jun 2019 09:04:38 -0400
-Received: by mail-lj1-f194.google.com with SMTP id a21so16168931ljh.7
-        for <linux-tegra@vger.kernel.org>; Tue, 25 Jun 2019 06:04:37 -0700 (PDT)
+        Tue, 25 Jun 2019 09:04:51 -0400
+Received: by mail-lf1-f68.google.com with SMTP id p24so12568578lfo.6
+        for <linux-tegra@vger.kernel.org>; Tue, 25 Jun 2019 06:04:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=lixom-net.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=2zOQyrtvUDW6ArA1LQxPYYIsqo2yCVY1e6qoWCiPcR0=;
-        b=rxOgYOaTGquyezcJBBosGht0L/NnpgjymTC8JWIQdpVPywMvS8we0LMxfazo50IJn4
-         szISpl7g6iP6lD2PtiYn+EWisK5SnEjFEVfvWvpu7kpzF9pPohr8qwKgKtTGf+SnRRQ7
-         Cc8rSibRS5++TSHPHm2tzcvXiZ5TaOpX9PHAydfSlbneSXFYt+Qyd8+yChkXWWIgwWON
-         nvetE6DfPb7kMfC0Ic0GJa7bRLcTnj0drJR8A3RUA32hXMgnJE0B7jAkdduIVO/FQ4cN
-         hhsS7n1gp65+gbCvFNSPXnnn2iVxp1nNnBRy2oLmi41SKcG7aiAccCkd4yvEIZzSqicr
-         f5Og==
+        bh=eQzUmO/yDPryTDEQ3h0y0bVtCB5daoADnlN5nOVyMMw=;
+        b=bCVsNv5e5J0DQJ40FfhYgOy1q/MUPEySUEeS5QAfqvrjKk8oYduCz04Ybw4a98kb4+
+         B5+uNxPXPMIBXiMt1QHCdzWTWU3xBt8fCvoHdq1tIZC81NjKz45z5HDISjNES/iifk6m
+         WdK/ZgVvTaPD6pcuTj+2erFj5czL3+47idB8l/yj0oYjS9WBr3IzocTXD+txtszGqwRz
+         jpDmmB3MVfA7LxBay9O6BiXVY/GM5CnMJpOEqsOM0RQMIxW5vSpaLr6i/6Oz2B62W8bh
+         OuAD0JpmjoE1BkoVe7B9Yb5L5y+VpWCZs/yrhC9i3dAAJB7y7PnCD2XD3m+FDtONiI6o
+         UfpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2zOQyrtvUDW6ArA1LQxPYYIsqo2yCVY1e6qoWCiPcR0=;
-        b=rvcId/xKJjCtZ5BAttZv19oyk/QRlCSEd1DKvTqOnGAej3CjB1tVs5XPnYeKm2LF2I
-         1PBN6QgTwuU0ymj4dgDSMnCMjeMS84pim43SqsBQCxvbSKN1WHSoPZiJ8N5bB6tssoHF
-         bb7l7+NbtFN4SC+x26ywrnViuP6lXQqFVFID3Ph+5Twgh1KSTj+Omep9PAYt8Uyi/y2W
-         sAwS2zga6IzdfVZHgQ6IYrkxt4LYwpEF5l9mXPfDw8U2CsCm1snbk1a8YLbiIsvk29AV
-         DiNgbaMacL29eGwATq5+9wt1Kzwgv6ObZKNAH9UoXn5Qtr+ORwVYCLz+oJ1CmEivDjRe
-         pOSg==
-X-Gm-Message-State: APjAAAXJBoqS+VEfvesOna7nrewztEophYBHm67A6MUlQR1+1RlTR6kY
-        halk47JfHGbwqQUhfeYVSiCHvg==
-X-Google-Smtp-Source: APXvYqwL0bsvvDeXmDKk7Ob5p085vp/omAFpfgiZ4BKegUVhss7kIN4gFC7dOwWgQrl3DtxhtsBI9Q==
-X-Received: by 2002:a2e:860d:: with SMTP id a13mr69632728lji.215.1561467876538;
-        Tue, 25 Jun 2019 06:04:36 -0700 (PDT)
+        bh=eQzUmO/yDPryTDEQ3h0y0bVtCB5daoADnlN5nOVyMMw=;
+        b=q6fvBnW833zEn0bLBA008WWNW7XX0/D4qB0a4Yd52OP2GBA0jstDuSIpLk/5uLi2Uv
+         nIgslB2UANLIk945RsAkONIookQ3AdmmfgwtSeOjdGcMywDPtZSLw+49ocfPZgQ6D55S
+         boVpgwuZhd24fSKY44eCHuVuxkX553N0HC/PFxm95hh1FK17VZYbUvda6bS51JH7D1au
+         AX9Sg8n1+J59bMAP5bBzmQd+TPtkcpuUyUHWBLTBwE1caHEXRyyYuctXXaWAU6cbRn8W
+         I1lDj+DG8i13fuvIuFzv1v8R4KeTR8L8ENeaG4eRGKtgmmSd0XCdZgt/VAnvu3eGMrbA
+         ZYQQ==
+X-Gm-Message-State: APjAAAVbe/HGLwBrcJPKkJOlTAkIXmj2xsp6HXQdpPftvkwJV0J7MBMt
+        k4HbA7MeM/lBNKfMuzxWus5WGw==
+X-Google-Smtp-Source: APXvYqyI2hHLxBxby5RkiQn4JKsfR70VLafaWYQ4ovy6vtoE2UUiMLjtC3JanTeQ1zrv8W6cfAK8dA==
+X-Received: by 2002:a19:7f17:: with SMTP id a23mr38316385lfd.49.1561467888965;
+        Tue, 25 Jun 2019 06:04:48 -0700 (PDT)
 Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
-        by smtp.gmail.com with ESMTPSA id 2sm2226094lju.52.2019.06.25.06.04.34
+        by smtp.gmail.com with ESMTPSA id b25sm1941545lff.42.2019.06.25.06.04.47
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 25 Jun 2019 06:04:35 -0700 (PDT)
-Date:   Tue, 25 Jun 2019 05:20:09 -0700
+        Tue, 25 Jun 2019 06:04:48 -0700 (PDT)
+Date:   Tue, 25 Jun 2019 05:42:00 -0700
 From:   Olof Johansson <olof@lixom.net>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     arm@kernel.org, Jon Hunter <jonathanh@nvidia.com>,
         linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [GIT PULL 5/5] arm64: tegra: Default configuration changes for
- v5.3-rc1
-Message-ID: <20190625122009.f7px5fojvmql5vbc@localhost>
+Subject: Re: [GIT PULL 1/5] firmware: tegra: Changes for v5.3-rc1
+Message-ID: <20190625124200.toijgcugdtxheaxd@localhost>
 References: <20190621150206.19037-1-thierry.reding@gmail.com>
- <20190621150206.19037-5-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190621150206.19037-5-thierry.reding@gmail.com>
+In-Reply-To: <20190621150206.19037-1-thierry.reding@gmail.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jun 21, 2019 at 05:02:06PM +0200, Thierry Reding wrote:
+On Fri, Jun 21, 2019 at 05:02:02PM +0200, Thierry Reding wrote:
 > Hi ARM SoC maintainers,
 > 
 > The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
@@ -74,29 +72,23 @@ On Fri, Jun 21, 2019 at 05:02:06PM +0200, Thierry Reding wrote:
 > 
 > are available in the Git repository at:
 > 
->   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.3-arm64-defconfig
+>   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.3-firmware
 > 
-> for you to fetch changes up to 01d6fb565b4a7858af1699727f25da2279d75deb:
+> for you to fetch changes up to 61ed7ef952fc482ec8d4a966ed0d1e32df276c59:
 > 
->   arm64: defconfig: Add Tegra194 PCIe driver (2019-06-20 13:02:27 +0200)
+>   firmware: tegra: Early resume BPMP (2019-06-14 17:45:17 +0200)
 > 
 > Thanks,
 > Thierry
 > 
 > ----------------------------------------------------------------
-> arm64: tegra: Default configuration changes for v5.3-rc1
+> firmware: tegra: Changes for v5.3-rc1
 > 
-> This enables the INA3221 power monitoring driver that is used on many of
-> the Jetson boards as well as Tegra194 PCIe support.
-> 
-> ----------------------------------------------------------------
-> Nicolin Chen (1):
->       arm64: defconfig: Add HWMON INA3221 support
-> 
-> Vidya Sagar (1):
->       arm64: defconfig: Add Tegra194 PCIe driver
+> This contains a single, simple change that resumes the BPMP driver early
+> so that it is available when the various consumers want to enable their
+> clocks.
 
-Merged, thanks!
+Merged, thanks.
 
 
 -Olof
