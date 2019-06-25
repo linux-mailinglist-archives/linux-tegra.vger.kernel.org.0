@@ -2,131 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1560954DA0
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 13:30:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58C6054E49
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 14:05:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730189AbfFYLaF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jun 2019 07:30:05 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38122 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728940AbfFYLaF (ORCPT
+        id S1729361AbfFYMFJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 08:05:09 -0400
+Received: from mail-lf1-f45.google.com ([209.85.167.45]:33854 "EHLO
+        mail-lf1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726949AbfFYMFJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jun 2019 07:30:05 -0400
-Received: by mail-lj1-f196.google.com with SMTP id r9so15866508ljg.5;
-        Tue, 25 Jun 2019 04:30:03 -0700 (PDT)
+        Tue, 25 Jun 2019 08:05:09 -0400
+Received: by mail-lf1-f45.google.com with SMTP id y198so12454272lfa.1
+        for <linux-tegra@vger.kernel.org>; Tue, 25 Jun 2019 05:05:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GrSlqTrfjDTebmzfMhekFIQ03hJAaaEIvyasOyrgdGQ=;
-        b=VaU2CpSwoLaCkJA70KwSxJ0Y4hBQSzr6GCIF3d/2vKmYsnAJ98uUD67CX7ROoIVEu9
-         AD2XU24rdlnNwSB3jqVxtlzPq0P4Cra9qaARXbnLQ5QLShlQoyksaAaFdlmmsIzccaT+
-         wwkFvo0CrRwksJtYB9/N0k+rgv47x71+z+9Ix0pF81+ds58SkQ5Tx4IGHn+FxWAndmku
-         oAVvCWJejcqecSIwT3RetqOfOJXDeixvMQthTULy6IznXWAmqBMQEhbWi9P42d52gj5n
-         wigZExHZbvBRGrQZex6hM//uuK/RNvNX3WKf1lx0NXZVQt6F6kNHxPmrv/7bgkAW4Bun
-         0A5Q==
+        d=lixom-net.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=qadH5+nzVEx4R5Bge758kjMglsEaEQxb20mDYvAc9Nk=;
+        b=Tgl5EWorIElxYCJ8/Z9ivZktrSnJJ9N/vunRcYwNXCtLgahHZTs7/x44sG1HbPcfga
+         iwqZTghzJbk+gQDBc5hw3cOCnFcQFap4WAKDZyfPMqPK5Pt3UDhReUBlmqLPtWA0c0uF
+         cWVapDa+6FNYGnXNW9O3y3SC58SZVIDMUAJiiE/Oj+OxlMZ/HZZCqRezINhI7m/1A4M7
+         d1zcWuWS2e69tOqhO6nFBBZsQcJjDbjEUEe8uNTlAUo2g+qAdxC9b755jL/VX+9tdSlD
+         Qa7AJbs9/tIfKtRNTIFgRFQIff1mMyufZiNUrUxeBhUZxgXj9lmVITqJy+S/eplm8nqU
+         euWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GrSlqTrfjDTebmzfMhekFIQ03hJAaaEIvyasOyrgdGQ=;
-        b=EY9HGvZxIGxUA2J8PcCwkiatUhCdxjvbS+qw0XSPRZM23lF/GHkDtYxteoM2rd4fzX
-         9M4muHRlENL7/RoyRnLx9yATylrJ1akUYieSVuXnXt7hn/3Wctzho8nRQH3zU/Qg2Vu6
-         Pu3O1OlY4hx9f0zu8dO/7K1T3ftGYq2GDr9qizrlb0X1R328eP0BDTy1OahIu01DQNdE
-         spoBcpZE2p9NCLdshEqF9WtzJaCngFDRZQsb/UFOs8c3SFnBBj47Y3nu36I/XScZlV6x
-         zq+1iT6TBzqOTo3QHgDsi5VnTeSrE0/oHmFn3SMcalIFiPkO1OaJvtukUdfmtza0HtKc
-         NWyg==
-X-Gm-Message-State: APjAAAWszUIHnl+X630hbkUXCKpiLlZGfdFVBMJFPF6HI5iRfWpqM/v0
-        6Ro1zwxo3IhKM1SoxmNE3cc=
-X-Google-Smtp-Source: APXvYqzWn4IVRrzmk2mj1JPP+8NJ6RlFFd8d53q/lJpzHV8OxKKuKphNXquiy/1j5sApPGrFtkE6Xg==
-X-Received: by 2002:a2e:3c1a:: with SMTP id j26mr38705844lja.230.1561462203119;
-        Tue, 25 Jun 2019 04:30:03 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id t4sm1020232ljh.9.2019.06.25.04.30.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Jun 2019 04:30:02 -0700 (PDT)
-Subject: Re: [PATCH v4 13/16] PM / devfreq: tegra: Support Tegra30
-To:     myungjoo.ham@samsung.com
-Cc:     Chanwoo Choi <cw00.choi@samsung.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>
-References: <7561edbc-c17c-101a-b339-fc7f9968a470@gmail.com>
- <37db00bc-3a22-d1c2-7bdc-e27af42cd5c7@gmail.com>
- <20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
- <20190624073414epcms1p87b6dc13758b6bd401d275cfba583314a@epcms1p8>
- <20190624111134epcms1p361aed3c72edd6eebc95408331c8d9739@epcms1p3>
- <CGME20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
- <20190625014214epcms1p1b8f2d76cd8cfdf3fdf517be08a92ccdf@epcms1p1>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7488653b-e8ec-27e6-0390-5e23481857e9@gmail.com>
-Date:   Tue, 25 Jun 2019 14:30:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qadH5+nzVEx4R5Bge758kjMglsEaEQxb20mDYvAc9Nk=;
+        b=IQmUjNvfRQ+EKsfF+WDJbyJWwigT6xH8dTp54K12YY5J1ImyHZUVjvL9LGEwnF7zoa
+         9tnJ+D29GTXtnzUA0V4pr4qvwXYbyMXHUtSo8nYhJetmWa83hi7tu9OE8QvZHQfQfXyZ
+         fBAEQE4/CWZIi6IongdSDAQ+jgmVf4Kh3u9wuuORDGO0uAzTSepbwy7c76hHlmzD36IL
+         8afrbNjOL0NlK9Qft9NxrT2kK7VRUI0f0sN+urdc/3kOYq8OoSuWGpo3IJg7TbQj9p8H
+         quJN1SVBZfkbM5AxKGZ2qkvJH4H3mivM550eit/YCCfEAS42FwZmsIRk1u694VJATISw
+         U7oQ==
+X-Gm-Message-State: APjAAAXEBa7u8FrGwXGmujFff401f2PhpTPyvUfDc6mBr3ZYB+Jyd6YP
+        LYLHoS4+385FimyQU62ovPheRw==
+X-Google-Smtp-Source: APXvYqynz7kF7NDtkWFbRgZ9ZjI/KLxYVS4SqQXrVIvQYmQdRjihLKqNmSWqzhP/EmodnaevJXzc7w==
+X-Received: by 2002:ac2:4c3c:: with SMTP id u28mr45327556lfq.136.1561464307675;
+        Tue, 25 Jun 2019 05:05:07 -0700 (PDT)
+Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
+        by smtp.gmail.com with ESMTPSA id i2sm2224801ljc.96.2019.06.25.05.05.06
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 25 Jun 2019 05:05:06 -0700 (PDT)
+Date:   Tue, 25 Jun 2019 04:49:25 -0700
+From:   Olof Johansson <olof@lixom.net>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     arm@kernel.org, Jon Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [GIT PULL 4/5] arm64: tegra: Device tree changes for v5.3-rc1
+Message-ID: <20190625114925.qqei4zi2gy3p5rpu@localhost>
+References: <20190621150206.19037-1-thierry.reding@gmail.com>
+ <20190621150206.19037-4-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190625014214epcms1p1b8f2d76cd8cfdf3fdf517be08a92ccdf@epcms1p1>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190621150206.19037-4-thierry.reding@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-25.06.2019 4:42, MyungJoo Ham пишет:
-> Sender : Dmitry Osipenko <digetx@gmail.com>
->> 24.06.2019 14:11, MyungJoo Ham пишет:
->>>>
->>>> --------- Original Message ---------
->>>> Sender : Dmitry Osipenko <digetx@gmail.com>
->>>>
->>>> 24.06.2019 10:34, MyungJoo Ham пишет:
->>>>>>
->>>>>> A question:
->>>>>>
->>>>>> Does this driver support Tegra20 as well?
->>>>>> I'm asking this because ARCH_TEGRA includes ARCH_TEGRA_2x_SOC
->>>>>> according to /drivers/soc/tegra/Kconfig.
->>>>>>
->>>>>
->>>>> For this matter, how about updating your 13/16 patch as follows?
->>>>>
->>> []
->>>>
->>>> Good call! I'll update this patch following yours suggestion, thanks.
->>>
->>> Or, you may approve the modified commits here:
->>> https://git.kernel.org/pub/scm/linux/kernel/git/mzx/devfreq.git/log/?h=for-next
->>
->> Looks almost good to me!
->>
->> I just recalled that there is also a 64bit variant of Tegra124, the Tegra132. Hence
->> the Tegra30+ Kconfig entry should look like this (it's also worthy to break the lines
->> for readability):
->>
->> diff --git a/drivers/devfreq/Kconfig b/drivers/devfreq/Kconfig
->> index ccb1a68c4b51..bd2efbc27725 100644
->> --- a/drivers/devfreq/Kconfig
->> +++ b/drivers/devfreq/Kconfig
->> @@ -94,7 +94,10 @@ config ARM_EXYNOS_BUS_DEVFREQ
->>
->> config ARM_TEGRA_DEVFREQ
->>        tristate "NVIDIA Tegra30/114/124/210 DEVFREQ Driver"
->> -       depends on ARCH_TEGRA || COMPILE_TEST
->> +       depends on ARCH_TEGRA_3x_SOC  || ARCH_TEGRA_114_SOC || \
->> +                  ARCH_TEGRA_132_SOC || ARCH_TEGRA_124_SOC || \
->> +                  ARCH_TEGRA_210_SOC || \
->> +                  COMPILE_TEST
->>        select PM_OPP
->>        help
->>          This adds the DEVFREQ driver for the Tegra family of SoCs.
->>
->> Could you please adjust the patches like I'm suggesting? I'll approve yours change
->> then and won't re-spin the first batch of the patches.
+On Fri, Jun 21, 2019 at 05:02:05PM +0200, Thierry Reding wrote:
+> Hi ARM SoC maintainers,
 > 
-> I've adjusted as you suggested. It's pushed to the git repo as well.
+> The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
+> 
+>   Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.3-arm64-dt
+> 
+> for you to fetch changes up to a586c88eab65619f3654194dc90d46c98e712af2:
+> 
+>   arm64: tegra: Enable PCIe slots in P2972-0000 board (2019-06-21 16:06:00 +0200)
+> 
+> Thanks,
+> Thierry
+> 
+> ----------------------------------------------------------------
+> arm64: tegra: Device tree changes for v5.3-rc1
+> 
+> This contains the bulk of the Tegra changes this cycle. It has a bunch
+> of improvements across almost all boards. These are mostly small and not
+> too exciting additions.
+> 
+> Most notably perhaps is the continuation of Jetson Nano support, which
+> is now mostly on feature parity with Jetson TX1.
+> 
+> ----------------------------------------------------------------
+> Jon Hunter (3):
+>       arm64: tegra: Fix AGIC register range
+>       arm64: tegra: Update Jetson TX1 GPU regulator timings
+>       arm64: tegra: Fix Jetson Nano GPU regulator
+> 
+> Joseph Lo (1):
+>       arm64: tegra: Add CPU cache topology for Tegra186
+> 
+> Manikanta Maddireddy (1):
+>       arm64: tegra: Add PEX DPD states as pinctrl properties
+> 
+> Nicolin Chen (1):
+>       arm64: tegra: Add INA3221 channel info for Jetson TX2
+> 
+> Sameer Pujar (2):
+>       arm64: tegra: Add ACONNECT, ADMA and AGIC nodes
+>       arm64: tegra: Enable ACONNECT, ADMA and AGIC
+> 
+> Thierry Reding (18):
+>       arm64: tegra: Use TEGRA186_ prefix for GPIOs
+>       dt-bindings: tegra186-gpio: Remove unused definitions
+>       arm64: tegra: Clarify that P2771 is the Jetson TX2 Developer Kit
+>       arm64: tegra: Clarify that P3310 is the Jetson TX2
+>       arm64: tegra: Clarify that P2888 is the Jetson AGX Xavier
 
-Thank you very much, looking good now!
+Thanks for this one. The numerical-to-product mapping is quite opaque.
+
+Merged,
+
+
+-Olof
