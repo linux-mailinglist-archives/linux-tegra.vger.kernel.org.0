@@ -2,110 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11CE054D65
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 13:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 813BB54D96
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 13:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727227AbfFYLTv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jun 2019 07:19:51 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:40364 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727138AbfFYLTv (ORCPT
+        id S1728841AbfFYL0d (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 07:26:33 -0400
+Received: from dc8-smtprelay2.synopsys.com ([198.182.47.102]:53144 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729595AbfFYL0c (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jun 2019 07:19:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=JCFOlY7my5LaNTExvJt7ORvW5sA/RJVVsz2dF8gTHNY=; b=UV1bFLAxFhqpsTRLYrIOSnkUm
-        Zp7bkceku7WRDzTJcfrwG/udKCHgZki8IlMw/T/ujjHJzENADaWcx8xI92qETqPO0Z1vmuNZrMvK3
-        C+ZX2mAveWVF13pbON8bjOe/X15KFtFothA4KVuN0KXKLDSmmc3QO/NLekrMJFVsW7LpM=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=finisterre.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hfjUK-00057J-1Q; Tue, 25 Jun 2019 11:19:48 +0000
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-        id 223C5440046; Tue, 25 Jun 2019 12:19:47 +0100 (BST)
-Date:   Tue, 25 Jun 2019 12:19:47 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] regulator: core: Expose some of core functions
- needed by couplers
-Message-ID: <20190625111946.GP5316@sirena.org.uk>
-References: <20190623210835.26281-1-digetx@gmail.com>
- <20190623210835.26281-3-digetx@gmail.com>
+        Tue, 25 Jun 2019 07:26:32 -0400
+Received: from mailhost.synopsys.com (dc8-mailhost2.synopsys.com [10.13.135.210])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 342E9C012A;
+        Tue, 25 Jun 2019 11:26:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1561461991; bh=vVKDdL95YK7O617w/US4DS9xOUVhdNnWIgicamkGlvc=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=cBUI74WG7KWVYQcH/H+W4D+8juUUQQnw2XABxipk1GJy/8RSoM8chZxwSzQKMGwbY
+         pq/RVHl5xA55IaEJ/3WSvIArG2kH2tSoUCSUDl/+OoZQMpv/vTWwkJFvuwvHngqrNe
+         IJuwBFrbxBDvrLBIksrtcwe2aX0yNBFqEM4IKfiSPoC+YgGN5DC0nThB57tJJ366uG
+         dmfYfqZ4pgHEBe1Pga4nnzryv0oZ2tQWJl0ZL38mNhghC24ttnG+hXSCvzTqaEZlOf
+         5Nw7emvKHJHORsJlg/dw6eX6yg8ZmEO5jYefHxtc8YauvxezNt5UC68Wru/SClbom7
+         J0FDSEXkMi4gw==
+Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id C6786A0065;
+        Tue, 25 Jun 2019 11:26:27 +0000 (UTC)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 25 Jun 2019 04:25:43 -0700
+Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
+ by DE02WEHTCA.internal.synopsys.com ([::1]) with mapi id 14.03.0415.000; Tue,
+ 25 Jun 2019 13:25:40 +0200
+From:   Jose Abreu <Jose.Abreu@synopsys.com>
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        "Alexandre Torgue" <alexandre.torgue@st.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "Heiner Kallweit" <hkallweit1@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: RE: [PATCH net-next 3/3] net: stmmac: Convert to phylink and remove
+ phylib logic
+Thread-Topic: [PATCH net-next 3/3] net: stmmac: Convert to phylink and
+ remove phylib logic
+Thread-Index: AQHVIGkArVRmnWNiHUiOZ+Vq9aFNYKahDpUAgAAiuoD//+CkgIAAIfYQ///oM4CAAFRJgIAASacAgALGAQCAB4+TsIAAGyiAgAAlVRA=
+Date:   Tue, 25 Jun 2019 11:25:40 +0000
+Message-ID: <78EB27739596EE489E55E81C33FEC33A0B9D76C2@DE02WEMBXB.internal.synopsys.com>
+References: <cover.1560266175.git.joabreu@synopsys.com>
+ <6226d6a0de5929ed07d64b20472c52a86e71383d.1560266175.git.joabreu@synopsys.com>
+ <d9ffce3d-4827-fa4a-89e8-0492c4bc1848@nvidia.com>
+ <78EB27739596EE489E55E81C33FEC33A0B9C8D6E@DE02WEMBXB.internal.synopsys.com>
+ <26cfaeff-a310-3b79-5b57-fd9c93bd8929@nvidia.com>
+ <78EB27739596EE489E55E81C33FEC33A0B9C8DD9@DE02WEMBXB.internal.synopsys.com>
+ <b66c7578-172f-4443-f4c3-411525e28738@nvidia.com>
+ <d96f8bea-f7ef-82ae-01ba-9c97aec0ee38@nvidia.com>
+ <6f36b6b6-8209-ed98-e7e1-3dac0a92f6cd@nvidia.com>
+ <7f0f2ed0-f47c-4670-d169-25f0413c1fd3@nvidia.com>
+ <78EB27739596EE489E55E81C33FEC33A0B9D7024@DE02WEMBXB.internal.synopsys.com>
+ <113f37a2-c37f-cdb5-5194-4361d949258a@nvidia.com>
+In-Reply-To: <113f37a2-c37f-cdb5-5194-4361d949258a@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.107.19.16]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="pSb/ns2SnWJqkKHb"
-Content-Disposition: inline
-In-Reply-To: <20190623210835.26281-3-digetx@gmail.com>
-X-Cookie: Editing is a rewording activity.
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
---pSb/ns2SnWJqkKHb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Jun 24, 2019 at 12:08:32AM +0300, Dmitry Osipenko wrote:
-> Expose some of internal functions that are required for implementation of
-> customized regulator couplers.
-
-The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
-
-  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git tags/regulator-couple-api
-
-for you to fetch changes up to d22b85a1b97d12a4940ef9d778f6122546736f78:
-
-  regulator: core: Expose some of core functions needed by couplers (2019-06-25 12:15:35 +0100)
-
-----------------------------------------------------------------
-regulator: Coupling API
-
-This series introduces a way of specifying a customized regulators coupler
-which is necessary for cases like a non-trivial DVFS implementation.
-
-----------------------------------------------------------------
-Dmitry Osipenko (2):
-      regulator: core: Introduce API for regulators coupling customization
-      regulator: core: Expose some of core functions needed by couplers
-
- drivers/regulator/core.c          | 194 ++++++++++++++++++++++++++++----------
- drivers/regulator/of_regulator.c  |  63 +++++++++----
- include/linux/regulator/coupler.h |  97 +++++++++++++++++++
- include/linux/regulator/driver.h  |   6 +-
- include/linux/regulator/machine.h |   2 +-
- 5 files changed, 287 insertions(+), 75 deletions(-)
- create mode 100644 include/linux/regulator/coupler.h
-
---pSb/ns2SnWJqkKHb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl0SA1IACgkQJNaLcl1U
-h9B/agf/ZN1FfEH/kisPsw/QpppR+haTC2xYUvHQmelY29bbY2yXwjPYBpXl8Ztk
-/rE6ZjD3gCdXzuBBSCyd8P+RTnkb/18NynDJAVv9WLe6AOZ/e1UYB4d7mh0O/IAB
-bjE+IiBMcwzgaMBnBTyF+EJ8JmhWkkEl9Z/FE0RcXT4oiTAU6oHSQ8Xs96H9/374
-Hqf9QfEge+nvqAdVwsmhJ2cbb+BXbGDfmcMRJjWv0swcRfJqDrLTFn6ATq/i5o7j
-ni2sOaGeQj0x5dhMUUT8oq4+ElSHJaJft2jpwb3xRdCehu+UYdLWeP13jwiS0afJ
-NIcKyExMiyb/PEYmhAN57EljvVIoGA==
-=6Ntz
------END PGP SIGNATURE-----
-
---pSb/ns2SnWJqkKHb--
+RnJvbTogSm9uIEh1bnRlciA8am9uYXRoYW5oQG52aWRpYS5jb20+DQoNCj4gSSBoYXZlIGJlZW4g
+bG9va2luZyBhdCB0aGlzIGEgYml0IGNsb3NlciBhbmQgSSBjYW4gc2VlIHRoZSBwcm9ibGVtLiBX
+aGF0DQo+IGhhcHBlbnMgaXMgdGhhdCAuLi4NCj4gDQo+IDEuIHN0bW1hY19tYWNfbGlua191cCgp
+IGlzIGNhbGxlZCBhbmQgcHJpdi0+ZWVlX2FjdGl2ZSBpcyBzZXQgdG8gZmFsc2UNCj4gMi4gc3Rt
+bWFjX2VlZV9pbml0KCkgaXMgY2FsbGVkIGJ1dCBiZWNhdXNlIHByaXYtPmVlZV9hY3RpdmUgaXMg
+ZmFsc2UsDQo+ICAgIHRpbWVyX3NldHVwKCkgZm9yIGVlZV9jdHJsX3RpbWVyIGlzIG5ldmVyIGNh
+bGxlZC4NCj4gMy4gc3RtbWFjX2VlZV9pbml0KCkgcmV0dXJucyB0cnVlIGFuZCBzbyB0aGVuIHBy
+aXYtPmVlZV9lbmFibGVkIGlzIHNldCANCj4gICAgdG8gdHJ1ZS4NCj4gNC4gV2hlbiBzdG1tYWNf
+dHhfY2xlYW4oKSBpcyBjYWxsZWQgYmVjYXVzZSBwcml2LT5lZWVfZW5hYmxlZCBpcyBzZXQgdG8g
+ICAgDQo+ICAgIHRydWUsIG1vZF90aW1lcigpIGlzIGNhbGxlZCBmb3IgdGhlIGVlZV9jdHJsX3Rp
+bWVyLCBidXQgYmVjYXVzZSANCj4gICAgdGltZXJfc2V0dXAoKSB3YXMgbmV2ZXIgY2FsbGVkLCB3
+ZSBoaXQgdGhlIEJVRyBkZWZpbmVkIGF0DQo+ICAgIGtlcm5lbC90aW1lL3RpbWVyLmM6OTUyLCBi
+ZWNhdXNlIG5vIGZ1bmN0aW9uIGlzIGRlZmluZWQgZm9yIHRoZSANCj4gICAgdGltZXIuDQo+IA0K
+PiBUaGUgZm9sbG93aW5nIGZpeGVzIGl0IGZvciBtZSAuLi4NCj4gDQo+IC0tLSBhL2RyaXZlcnMv
+bmV0L2V0aGVybmV0L3N0bWljcm8vc3RtbWFjL3N0bW1hY19tYWluLmMNCj4gKysrIGIvZHJpdmVy
+cy9uZXQvZXRoZXJuZXQvc3RtaWNyby9zdG1tYWMvc3RtbWFjX21haW4uYw0KPiBAQCAtMzk5LDEw
+ICszOTksMTMgQEAgYm9vbCBzdG1tYWNfZWVlX2luaXQoc3RydWN0IHN0bW1hY19wcml2ICpwcml2
+KQ0KPiAgICAgICAgIG11dGV4X2xvY2soJnByaXYtPmxvY2spOw0KPiAgDQo+ICAgICAgICAgLyog
+Q2hlY2sgaWYgaXQgbmVlZHMgdG8gYmUgZGVhY3RpdmF0ZWQgKi8NCj4gLSAgICAgICBpZiAoIXBy
+aXYtPmVlZV9hY3RpdmUgJiYgcHJpdi0+ZWVlX2VuYWJsZWQpIHsNCj4gLSAgICAgICAgICAgICAg
+IG5ldGRldl9kYmcocHJpdi0+ZGV2LCAiZGlzYWJsZSBFRUVcbiIpOw0KPiAtICAgICAgICAgICAg
+ICAgZGVsX3RpbWVyX3N5bmMoJnByaXYtPmVlZV9jdHJsX3RpbWVyKTsNCj4gLSAgICAgICAgICAg
+ICAgIHN0bW1hY19zZXRfZWVlX3RpbWVyKHByaXYsIHByaXYtPmh3LCAwLCB0eF9scGlfdGltZXIp
+Ow0KPiArICAgICAgIGlmICghcHJpdi0+ZWVlX2FjdGl2ZSkgew0KPiArICAgICAgICAgICAgICAg
+aWYgKHByaXYtPmVlZV9lbmFibGVkKSB7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgIG5ldGRl
+dl9kYmcocHJpdi0+ZGV2LCAiZGlzYWJsZSBFRUVcbiIpOw0KPiArICAgICAgICAgICAgICAgICAg
+ICAgICBkZWxfdGltZXJfc3luYygmcHJpdi0+ZWVlX2N0cmxfdGltZXIpOw0KPiArICAgICAgICAg
+ICAgICAgICAgICAgICBzdG1tYWNfc2V0X2VlZV90aW1lcihwcml2LCBwcml2LT5odywgMCwgdHhf
+bHBpX3RpbWVyKTsNCj4gKyAgICAgICAgICAgICAgIH0NCj4gKyAgICAgICAgICAgICAgIG11dGV4
+X3VubG9jaygmcHJpdi0+bG9jayk7DQo+ICAgICAgICAgICAgICAgICByZXR1cm4gZmFsc2U7DQo+
+ICAgICAgICAgfQ0KPiANCj4gSXQgYWxzbyBsb29rcyBsaWtlIHlvdSBoYXZlIGEgcG90ZW50aW9u
+IGRlYWRsb2NrIGluIHRoZSBjdXJyZW50IGNvZGUNCj4gYmVjYXVzZSBpbiB0aGUgY2FzZSBvZiBp
+ZiAoIXByaXYtPmVlZV9hY3RpdmUgJiYgcHJpdi0+ZWVlX2VuYWJsZWQpDQo+IHlvdSBkb24ndCB1
+bmxvY2sgdGhlIG11dGV4LiBUaGUgYWJvdmUgZml4ZXMgdGhpcyBhcyB3ZWxsLiBJIGNhbiBzZW5k
+IGENCj4gZm9ybWFsIHBhdGNoIGlmIHRoaXMgbG9va3MgY29ycmVjdC4gDQoNClRoYW5rcyBmb3Ig
+bG9va2luZyBpbnRvIHRoaXMhIFRoZSBmaXggbG9va3MgY29ycmVjdCBzbyBpZiB5b3UgY291bGQg
+DQpzdWJtaXQgYSBwYXRjaCBpdCB3b3VsZCBiZSBncmVhdCENCg0KVGhhbmtzLA0KSm9zZSBNaWd1
+ZWwgQWJyZXUNCg==
