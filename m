@@ -2,194 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCBA851EF3
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 01:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ED6D52063
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 03:42:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728053AbfFXXJl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Jun 2019 19:09:41 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:58549 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728045AbfFXXJl (ORCPT
+        id S1729889AbfFYBm1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Jun 2019 21:42:27 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:50533 "EHLO
+        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729873AbfFYBm0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Jun 2019 19:09:41 -0400
-Received: from 79.184.254.216.ipv4.supernova.orange.pl (79.184.254.216) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.267)
- id d4c091cf0ca37d7c; Tue, 25 Jun 2019 01:09:37 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Linux PCI <linux-pci@vger.kernel.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Keith Busch <kbusch@kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v2] PCI: PM: Skip devices in D0 for suspend-to-idle
-Date:   Tue, 25 Jun 2019 01:09:36 +0200
-Message-ID: <2287147.DxjcvLeq6l@kreacher>
-In-Reply-To: <CAJZ5v0gGdXmgc_9r2rbiadq4e31hngpjYQ40QoC6C0z19da_hQ@mail.gmail.com>
-References: <1668247.RaJIPSxJUN@kreacher> <CAJZ5v0hdtXqoK84DpYtyMSCnkR9zOHFiUPAzWZDtkFmEjyWD1g@mail.gmail.com> <CAJZ5v0gGdXmgc_9r2rbiadq4e31hngpjYQ40QoC6C0z19da_hQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        Mon, 24 Jun 2019 21:42:26 -0400
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20190625014223epoutp014299eddbd6ecdcd5a2e0edd7d8934b95~rTYg3nAjI0935709357epoutp01g
+        for <linux-tegra@vger.kernel.org>; Tue, 25 Jun 2019 01:42:23 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20190625014223epoutp014299eddbd6ecdcd5a2e0edd7d8934b95~rTYg3nAjI0935709357epoutp01g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1561426943;
+        bh=Q+wSE1D1mkFPZ3kbjNBSBDW6V8ZYgQZcbvAOHEb9UBw=;
+        h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+        b=ilPzVsZM5LcPCnpIXO9KGG1sIxvKCVsnZgcdv8IOz8Jt7t0NgV/ldqJMLrTEz1eGD
+         ezbR+FYhwGnG8VocWUy3W6vEWC4mZN/U0SxROI/gO2lm2AKsr/FBBc2Iq0z2GmuVUq
+         3D5RqORgFlML4QAQtft/rtu/zIgCBDpTyx3muQ+4=
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.156]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20190625014219epcas1p18d32dff3ac18bf156107086369b628a0~rTYdK9I8B2220822208epcas1p1V;
+        Tue, 25 Jun 2019 01:42:19 +0000 (GMT)
+X-AuditID: b6c32a35-973ff7000000102b-44-5d117bf69493
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        F9.F9.04139.6FB711D5; Tue, 25 Jun 2019 10:42:14 +0900 (KST)
+Mime-Version: 1.0
+Subject: RE: Re: [PATCH v4 13/16] PM / devfreq: tegra: Support Tegra30
+Reply-To: myungjoo.ham@samsung.com
+From:   MyungJoo Ham <myungjoo.ham@samsung.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Chanwoo Choi <cw00.choi@samsung.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <7561edbc-c17c-101a-b339-fc7f9968a470@gmail.com>
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20190625014214epcms1p1b8f2d76cd8cfdf3fdf517be08a92ccdf@epcms1p1>
+Date:   Tue, 25 Jun 2019 10:42:14 +0900
+X-CMS-MailID: 20190625014214epcms1p1b8f2d76cd8cfdf3fdf517be08a92ccdf
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnk+LIzCtJLcpLzFFi42LZdlhTT/dbtWCswfQJkhbXvzxntVj98TGj
+        RcusRSwWl3fNYbP43HuE0aLzyyw2i5+75rE4sHvsnHWX3aO3+R2bR9+WVYwenzfJBbBEZdtk
+        pCampBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAF2gpFCWmFMK
+        FApILC5W0rezKcovLUlVyMgvLrFVSi1IySmwLNArTswtLs1L10vOz7UyNDAwMgUqTMjOuPd9
+        NmvBHbGKSVfOsjQwdoh1MXJwSAiYSLxYEdfFyMUhJLCDUeL/whlsIHFeAUGJvzuEuxg5OYQF
+        3CS2XfvNAmILCShJNNzcxwwR15foeLCNEcRmE9CV2LrhLliNiICaxPKjf1hBZjILnGaS2Lz2
+        JxtIQkKAV2JG+1MWCFtaYvvyrWDNnAK2Et2/vjFBxEUlbq5+yw5jvz82nxHCFpFovXeWGcIW
+        lHjwczcjzJwZU/5DzayWuDZ9MTvIYgmBFkaJ3tVToIr0Jc7MPQn1mK/EyTVlIGEWAVWJ6Q/X
+        Q810keg5NRnsBmYBbYllC18zg5QzC2hKrN+lD1GiKLHz91xGiBI+iXdfe1hh3tox7wnU+WoS
+        h3YvgTpfRuL09IVQ4z0kXpzYxwoJ52Zmie7X89gmMCrMQgT1LCSbZyFsXsDIvIpRLLWgODc9
+        tdiwwBA5cjcxghOjlukOxinnfA4xCnAwKvHw/jgmECvEmlhWXJl7iFGCg1lJhHdpIlCINyWx
+        siq1KD++qDQntfgQoykwACYyS4km5wOTdl5JvKGpkbGxsYWJoZmpoaGSOG88980YIYH0xJLU
+        7NTUgtQimD4mDk6pBsZplrqcW6N2N0w8fa8+9uztw8ur1LLmzN3GdqzkoymzlYERo3bCsmXP
+        /35/sDuUT7ls/98rd/9lBpxwurIxyGCa8YX3eio3/j9baJFXaj2z7cM+j9Ce1SlnJqRPWGCr
+        y5fw8s4WsRffVePVD/Avj5jG2/dq/9PpjlsOX/CfqHLyR2RnypcTbOWmSizFGYmGWsxFxYkA
+        Ew20XKIDAAA=
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f
+References: <7561edbc-c17c-101a-b339-fc7f9968a470@gmail.com>
+        <37db00bc-3a22-d1c2-7bdc-e27af42cd5c7@gmail.com>
+        <20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
+        <20190624073414epcms1p87b6dc13758b6bd401d275cfba583314a@epcms1p8>
+        <20190624111134epcms1p361aed3c72edd6eebc95408331c8d9739@epcms1p3>
+        <CGME20190624065919epcms1p1a366de5f455f5138c438d1da8151c12f@epcms1p1>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tuesday, June 25, 2019 12:20:26 AM CEST Rafael J. Wysocki wrote:
-> On Mon, Jun 24, 2019 at 11:37 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> >
-> > On Mon, Jun 24, 2019 at 2:43 PM Jon Hunter <jonathanh@nvidia.com> wrote:
-> > >
-> > > Hi Rafael,
-> > >
-> > > On 13/06/2019 22:59, Rafael J. Wysocki wrote:
-> > > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > >
-> > > > Commit d491f2b75237 ("PCI: PM: Avoid possible suspend-to-idle issue")
-> > > > attempted to avoid a problem with devices whose drivers want them to
-> > > > stay in D0 over suspend-to-idle and resume, but it did not go as far
-> > > > as it should with that.
-> > > >
-> > > > Namely, first of all, the power state of a PCI bridge with a
-> > > > downstream device in D0 must be D0 (based on the PCI PM spec r1.2,
-> > > > sec 6, table 6-1, if the bridge is not in D0, there can be no PCI
-> > > > transactions on its secondary bus), but that is not actively enforced
-> > > > during system-wide PM transitions, so use the skip_bus_pm flag
-> > > > introduced by commit d491f2b75237 for that.
-> > > >
-> > > > Second, the configuration of devices left in D0 (whatever the reason)
-> > > > during suspend-to-idle need not be changed and attempting to put them
-> > > > into D0 again by force is pointless, so explicitly avoid doing that.
-> > > >
-> > > > Fixes: d491f2b75237 ("PCI: PM: Avoid possible suspend-to-idle issue")
-> > > > Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > > > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> > > > Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > >
-> > > I have noticed a regression in both the mainline and -next branches on
-> > > one of our boards when testing suspend. The bisect is point to this
-> > > commit and reverting on top of mainline does fix the problem. So far I
-> > > have not looked at this in close detail but kernel log is showing ...
-> >
-> > Can you please collect a log like that, but with dynamic debug in
-> > pci-driver.c enabled?
-> >
-> > Note that reverting this commit is rather out of the question, so we
-> > need to get to the bottom of the failure.
-> 
-> I suspect that there is a problem with the pm_suspend_via_firmware()
-> check which returns 'false' on the affected board, but the platform
-> actually removes power from devices left in D0 during suspend.
-> 
-> I guess it would be more appropriate to check something like
-> pm_suspend_no_platform() which would return 'true' in the
-> suspend-to-idle patch w/ ACPI.
-
-So I wonder if the patch below makes any difference?
-
----
- drivers/pci/pci-driver.c |    8 ++++----
- include/linux/suspend.h  |   26 ++++++++++++++++++++++++--
- kernel/power/suspend.c   |    3 +++
- 3 files changed, 31 insertions(+), 6 deletions(-)
-
-Index: linux-pm/include/linux/suspend.h
-===================================================================
---- linux-pm.orig/include/linux/suspend.h
-+++ linux-pm/include/linux/suspend.h
-@@ -209,8 +209,9 @@ extern int suspend_valid_only_mem(suspen
- 
- extern unsigned int pm_suspend_global_flags;
- 
--#define PM_SUSPEND_FLAG_FW_SUSPEND	(1 << 0)
--#define PM_SUSPEND_FLAG_FW_RESUME	(1 << 1)
-+#define PM_SUSPEND_FLAG_FW_SUSPEND	BIT(0)
-+#define PM_SUSPEND_FLAG_FW_RESUME	BIT(1)
-+#define PM_SUSPEND_FLAG_NO_PLATFORM	BIT(2)
- 
- static inline void pm_suspend_clear_flags(void)
- {
-@@ -227,6 +228,11 @@ static inline void pm_set_resume_via_fir
- 	pm_suspend_global_flags |= PM_SUSPEND_FLAG_FW_RESUME;
- }
- 
-+static inline void pm_set_suspend_no_platform(void)
-+{
-+	pm_suspend_global_flags |= PM_SUSPEND_FLAG_NO_PLATFORM;
-+}
-+
- /**
-  * pm_suspend_via_firmware - Check if platform firmware will suspend the system.
-  *
-@@ -268,6 +274,22 @@ static inline bool pm_resume_via_firmwar
- 	return !!(pm_suspend_global_flags & PM_SUSPEND_FLAG_FW_RESUME);
- }
- 
-+/**
-+ * pm_suspend_no_platform - Check if platform may change device power states.
-+ *
-+ * To be called during system-wide power management transitions to sleep states
-+ * or during the subsequent system-wide transitions back to the working state.
-+ *
-+ * Return 'true' if the power states of devices remain under full control of the
-+ * kernel throughout the system-wide suspend and resume cycle in progress (that
-+ * is, if a device is put into a certain power state during suspend, it can be
-+ * expected to remain in that state during resume).
-+ */
-+static inline bool pm_suspend_no_platform(void)
-+{
-+	return !!(pm_suspend_global_flags & PM_SUSPEND_FLAG_NO_PLATFORM);
-+}
-+
- /* Suspend-to-idle state machnine. */
- enum s2idle_states {
- 	S2IDLE_STATE_NONE,      /* Not suspended/suspending. */
-Index: linux-pm/kernel/power/suspend.c
-===================================================================
---- linux-pm.orig/kernel/power/suspend.c
-+++ linux-pm/kernel/power/suspend.c
-@@ -493,6 +493,9 @@ int suspend_devices_and_enter(suspend_st
- 
- 	pm_suspend_target_state = state;
- 
-+	if (state == PM_SUSPEND_TO_IDLE)
-+		pm_set_suspend_no_platform();
-+
- 	error = platform_suspend_begin(state);
- 	if (error)
- 		goto Close;
-Index: linux-pm/drivers/pci/pci-driver.c
-===================================================================
---- linux-pm.orig/drivers/pci/pci-driver.c
-+++ linux-pm/drivers/pci/pci-driver.c
-@@ -870,7 +870,7 @@ static int pci_pm_suspend_noirq(struct d
- 			pci_dev->bus->self->skip_bus_pm = true;
- 	}
- 
--	if (pci_dev->skip_bus_pm && !pm_suspend_via_firmware()) {
-+	if (pci_dev->skip_bus_pm && pm_suspend_no_platform()) {
- 		dev_dbg(dev, "PCI PM: Skipped\n");
- 		goto Fixup;
- 	}
-@@ -925,10 +925,10 @@ static int pci_pm_resume_noirq(struct de
- 	/*
- 	 * In the suspend-to-idle case, devices left in D0 during suspend will
- 	 * stay in D0, so it is not necessary to restore or update their
--	 * configuration here and attempting to put them into D0 again may
--	 * confuse some firmware, so avoid doing that.
-+	 * configuration here and attempting to put them into D0 again is
-+	 * pointless, so avoid doing that.
- 	 */
--	if (!pci_dev->skip_bus_pm || pm_suspend_via_firmware())
-+	if (!(pci_dev->skip_bus_pm && pm_suspend_no_platform()))
- 		pci_pm_default_resume_early(pci_dev);
- 
- 	pci_fixup_device(pci_fixup_resume_early, pci_dev);
-
-
-
+Sender : Dmitry Osipenko <digetx=40gmail.com>
+>24.06.2019 14:11, MyungJoo Ham =D0=BF=D0=B8=D1=88=D0=B5=D1=82:=0D=0A>>>=0D=
+=0A>>>=20---------=20Original=20Message=20---------=0D=0A>>>=20Sender=20:=
+=20Dmitry=20Osipenko=20<digetx=40gmail.com>=0D=0A>>>=0D=0A>>>=2024.06.2019=
+=2010:34,=20MyungJoo=20Ham=20=D0=BF=D0=B8=D1=88=D0=B5=D1=82:=0D=0A>>>>>=0D=
+=0A>>>>>=20A=20question:=0D=0A>>>>>=0D=0A>>>>>=20Does=20this=20driver=20sup=
+port=20Tegra20=20as=20well?=0D=0A>>>>>=20I'm=20asking=20this=20because=20AR=
+CH_TEGRA=20includes=20ARCH_TEGRA_2x_SOC=0D=0A>>>>>=20according=20to=20/driv=
+ers/soc/tegra/Kconfig.=0D=0A>>>>>=0D=0A>>>>=0D=0A>>>>=20For=20this=20matter=
+,=20how=20about=20updating=20your=2013/16=20patch=20as=20follows?=0D=0A>>>>=
+=0D=0A>>=20=5B=5D=0D=0A>>>=0D=0A>>>=20Good=20call=21=20I'll=20update=20this=
+=20patch=20following=20yours=20suggestion,=20thanks.=0D=0A>>=20=0D=0A>>=20O=
+r,=20you=20may=20approve=20the=20modified=20commits=20here:=0D=0A>>=20https=
+://git.kernel.org/pub/scm/linux/kernel/git/mzx/devfreq.git/log/?h=3Dfor-nex=
+t=0D=0A>=20=0D=0A>Looks=20almost=20good=20to=20me=21=0D=0A>=20=0D=0A>I=20ju=
+st=20recalled=20that=20there=20is=20also=20a=2064bit=20variant=20of=20Tegra=
+124,=20the=20Tegra132.=20Hence=0D=0A>the=20Tegra30+=20Kconfig=20entry=20sho=
+uld=20look=20like=20this=20(it's=20also=20worthy=20to=20break=20the=20lines=
+=0D=0A>for=20readability):=0D=0A>=20=0D=0A>diff=20--git=20a/drivers/devfreq=
+/Kconfig=20b/drivers/devfreq/Kconfig=0D=0A>index=20ccb1a68c4b51..bd2efbc277=
+25=20100644=0D=0A>---=20a/drivers/devfreq/Kconfig=0D=0A>+++=20b/drivers/dev=
+freq/Kconfig=0D=0A>=40=40=20-94,7=20+94,10=20=40=40=20config=20ARM_EXYNOS_B=
+US_DEVFREQ=0D=0A>=20=0D=0A>=20config=20ARM_TEGRA_DEVFREQ=0D=0A>=20=20=20=20=
+=20=20=20=20tristate=20=22NVIDIA=20Tegra30/114/124/210=20DEVFREQ=20Driver=
+=22=0D=0A>-=20=20=20=20=20=20=20depends=20on=20ARCH_TEGRA=20=7C=7C=20COMPIL=
+E_TEST=0D=0A>+=20=20=20=20=20=20=20depends=20on=20ARCH_TEGRA_3x_SOC=20=20=
+=7C=7C=20ARCH_TEGRA_114_SOC=20=7C=7C=20=5C=0D=0A>+=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20ARCH_TEGRA_132_SOC=20=7C=7C=20ARCH_TEGRA_124_=
+SOC=20=7C=7C=20=5C=0D=0A>+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20ARCH_TEGRA_210_SOC=20=7C=7C=20=5C=0D=0A>+=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20COMPILE_TEST=0D=0A>=20=20=20=20=20=20=20=20selec=
+t=20PM_OPP=0D=0A>=20=20=20=20=20=20=20=20help=0D=0A>=20=20=20=20=20=20=20=
+=20=20=20This=20adds=20the=20DEVFREQ=20driver=20for=20the=20Tegra=20family=
+=20of=20SoCs.=0D=0A>=20=0D=0A>Could=20you=20please=20adjust=20the=20patches=
+=20like=20I'm=20suggesting?=20I'll=20approve=20yours=20change=0D=0A>then=20=
+and=20won't=20re-spin=20the=20first=20batch=20of=20the=20patches.=0D=0A=0D=
+=0AI've=20adjusted=20as=20you=20suggested.=20It's=20pushed=20to=20the=20git=
+=20repo=20as=20well.=0D=0A=0D=0ACheers,=0D=0AMyungJoo.=0D=0A=0D=0A
