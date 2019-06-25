@@ -2,111 +2,216 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27BBF55228
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 16:40:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D92E55463
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 18:24:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730991AbfFYOkH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jun 2019 10:40:07 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:36922 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730689AbfFYOkG (ORCPT
+        id S1727975AbfFYQX6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 12:23:58 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34545 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726740AbfFYQX6 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jun 2019 10:40:06 -0400
-Received: by mail-lj1-f196.google.com with SMTP id 131so16533350ljf.4;
-        Tue, 25 Jun 2019 07:40:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=q0m3ZCcvvlamTMjrKbKQpPCjAq0COFaxIHyMR99gkW4=;
-        b=UH7jR3TDn/mUxso6TpcyTOtnuNk/kSdJZKteGrbYjSjp1oiEvdriH+931yXLyjy1P/
-         PfJU3kpY4MIkqm+n36A2osZQXizmmeYDQLbHsBA2b6LxpZGeBFe1sxmtrBonQwkYEE85
-         6a/iLuKv2fs9ncZFjrlli7ni4FOW2LPVk7T7dvI7HstK0w69OHQxGp1CdUd5nQOUOKq3
-         3vUX4SBh4JeldgoBofMvNlgBg588xFsMd/GlhH+0uT+2GGzvBxtdW4UPpCtBtI9QYtxB
-         JRlNrnTmzY7XiVUNSIR5qGOLmKV3z5h9JWNxH3kP8T4CmDLvFwSlbwECLY7tWy9MtcDA
-         kxog==
+        Tue, 25 Jun 2019 12:23:58 -0400
+Received: by mail-ot1-f68.google.com with SMTP id n5so17900452otk.1;
+        Tue, 25 Jun 2019 09:23:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=q0m3ZCcvvlamTMjrKbKQpPCjAq0COFaxIHyMR99gkW4=;
-        b=PT0aUZr5zhjItdUwJfmV5H85exu2eZqvQ5rhCQomE18rqYxl+eZ1DCo+e4APLZugkS
-         +tTjv17j+PBlVpGwH+bKb6Wcs9LSFH/DzhsiHcXFVAGCjFC4yFM7x9G0Ruu0BQdEsLwu
-         DGUKCisNZbVoJE1vuK3Y1ofyC6UZtbutU3ibQvgTzQ+CwV1RAz248SmQORRVyxhxCoVB
-         CxnaNbbKLEIMJpDN43BNjUg4nZDBamlOHapTQVhaTcw4xQcK4n762M2ZFcV46euuAj8n
-         y6qyno0R2mo1cYsrsL8qo2bgzLH8LlGYuGG1KC072y0j8eQAdoEeODylcpXdaWsdf5gZ
-         CWfg==
-X-Gm-Message-State: APjAAAWnuV/SgdeTuf521o3x0VbuNMk+SfWyMRYtWg2N0VRvZ5TStubd
-        KKsESVw7YFNGf9slv4JfQkzFWvC8
-X-Google-Smtp-Source: APXvYqwwGogsn+0F5BzrzfyS8cU7M9D0Jg0oyoWVeDuvdXH78LpECLVu/4t74BUaXxcL4PdcgQSqtg==
-X-Received: by 2002:a2e:9a87:: with SMTP id p7mr36337953lji.133.1561473604136;
-        Tue, 25 Jun 2019 07:40:04 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.googlemail.com with ESMTPSA id 25sm2273267ljv.40.2019.06.25.07.40.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Jun 2019 07:40:03 -0700 (PDT)
-Subject: Re: [PATCH v3 2/5] regulator: core: Expose some of core functions
- needed by couplers
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190623210835.26281-1-digetx@gmail.com>
- <20190623210835.26281-3-digetx@gmail.com>
- <20190625111946.GP5316@sirena.org.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a0626c9d-c68b-9043-8b2f-870f594938b8@gmail.com>
-Date:   Tue, 25 Jun 2019 17:40:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uSdP7UKm4WLYMLtVhLBpxY7TViBn/YrfzYDpWCwidcM=;
+        b=OdxwhvVfCoFbWlhpErwJ6LSoeICrOtJDh2BwBvXnXQ6ym/4LJjiA1qZIea5W9Ocr68
+         +BxTfPRrtakB3Tv3PxX1hn+j+5YVofz3HqXwaQDcPj9zw1bg0SHlsKkNS8GV4kow+H+k
+         IlnqekOg9pnuUlaOjcL2W8aE/nj5zjxONN164S+Qr7o+52lKBAOYYLFgitMYkZu0aQPr
+         6XGN/dVr5x/ZmrTtHWnqCNylNe0RPGD+oVEFPqKl81fJSZubupoTH9/xoGb1VmUq4ukQ
+         LA9s1wT7l/vQ671RcQObMZlUrJsbaNMW97GNIl1z/8sSLOlyvU3Y3zQmlengrzaLsOzy
+         w7PQ==
+X-Gm-Message-State: APjAAAULED1QGrGgh+URAy6uDokucNmUovjg3g0O+KrI9hz0LyqM4QwU
+        X3Jgas6JNFMJ1MlBaHEke+2jAYUwTqe4RvNbkI8=
+X-Google-Smtp-Source: APXvYqwwUsY5xStaihgCfS3kxVuGmJgr1opwxgHBqNXcDzYTr9GEsLR5kWCakYY4KXAsFNz25LejwnwxCvkAc/7My14=
+X-Received: by 2002:a05:6830:8a:: with SMTP id a10mr5881905oto.167.1561479837395;
+ Tue, 25 Jun 2019 09:23:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190625111946.GP5316@sirena.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <1668247.RaJIPSxJUN@kreacher> <CAJZ5v0hdtXqoK84DpYtyMSCnkR9zOHFiUPAzWZDtkFmEjyWD1g@mail.gmail.com>
+ <CAJZ5v0gGdXmgc_9r2rbiadq4e31hngpjYQ40QoC6C0z19da_hQ@mail.gmail.com> <2287147.DxjcvLeq6l@kreacher>
+In-Reply-To: <2287147.DxjcvLeq6l@kreacher>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 25 Jun 2019 18:23:46 +0200
+Message-ID: <CAJZ5v0gU9OedmZBNDGefG3GjS7FHRmgQ67eOcr2vXRrAg3zZbg@mail.gmail.com>
+Subject: Re: [PATCH v2] PCI: PM: Skip devices in D0 for suspend-to-idle
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux ACPI <linux-acpi@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Keith Busch <kbusch@kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-25.06.2019 14:19, Mark Brown пишет:
-> On Mon, Jun 24, 2019 at 12:08:32AM +0300, Dmitry Osipenko wrote:
->> Expose some of internal functions that are required for implementation of
->> customized regulator couplers.
-> 
-> The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
-> 
->   Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git tags/regulator-couple-api
-> 
-> for you to fetch changes up to d22b85a1b97d12a4940ef9d778f6122546736f78:
-> 
->   regulator: core: Expose some of core functions needed by couplers (2019-06-25 12:15:35 +0100)
-> 
-> ----------------------------------------------------------------
-> regulator: Coupling API
-> 
-> This series introduces a way of specifying a customized regulators coupler
-> which is necessary for cases like a non-trivial DVFS implementation.
-> 
-> ----------------------------------------------------------------
-> Dmitry Osipenko (2):
->       regulator: core: Introduce API for regulators coupling customization
->       regulator: core: Expose some of core functions needed by couplers
-> 
->  drivers/regulator/core.c          | 194 ++++++++++++++++++++++++++++----------
->  drivers/regulator/of_regulator.c  |  63 +++++++++----
->  include/linux/regulator/coupler.h |  97 +++++++++++++++++++
->  include/linux/regulator/driver.h  |   6 +-
->  include/linux/regulator/machine.h |   2 +-
->  5 files changed, 287 insertions(+), 75 deletions(-)
->  create mode 100644 include/linux/regulator/coupler.h
-> 
+On Tue, Jun 25, 2019 at 1:09 AM Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
+>
+> On Tuesday, June 25, 2019 12:20:26 AM CEST Rafael J. Wysocki wrote:
+> > On Mon, Jun 24, 2019 at 11:37 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> > >
+> > > On Mon, Jun 24, 2019 at 2:43 PM Jon Hunter <jonathanh@nvidia.com> wrote:
+> > > >
+> > > > Hi Rafael,
+> > > >
+> > > > On 13/06/2019 22:59, Rafael J. Wysocki wrote:
+> > > > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > > > >
+> > > > > Commit d491f2b75237 ("PCI: PM: Avoid possible suspend-to-idle issue")
+> > > > > attempted to avoid a problem with devices whose drivers want them to
+> > > > > stay in D0 over suspend-to-idle and resume, but it did not go as far
+> > > > > as it should with that.
+> > > > >
+> > > > > Namely, first of all, the power state of a PCI bridge with a
+> > > > > downstream device in D0 must be D0 (based on the PCI PM spec r1.2,
+> > > > > sec 6, table 6-1, if the bridge is not in D0, there can be no PCI
+> > > > > transactions on its secondary bus), but that is not actively enforced
+> > > > > during system-wide PM transitions, so use the skip_bus_pm flag
+> > > > > introduced by commit d491f2b75237 for that.
+> > > > >
+> > > > > Second, the configuration of devices left in D0 (whatever the reason)
+> > > > > during suspend-to-idle need not be changed and attempting to put them
+> > > > > into D0 again by force is pointless, so explicitly avoid doing that.
+> > > > >
+> > > > > Fixes: d491f2b75237 ("PCI: PM: Avoid possible suspend-to-idle issue")
+> > > > > Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > > > > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > > > > Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> > > > > Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > > >
+> > > > I have noticed a regression in both the mainline and -next branches on
+> > > > one of our boards when testing suspend. The bisect is point to this
+> > > > commit and reverting on top of mainline does fix the problem. So far I
+> > > > have not looked at this in close detail but kernel log is showing ...
+> > >
+> > > Can you please collect a log like that, but with dynamic debug in
+> > > pci-driver.c enabled?
+> > >
+> > > Note that reverting this commit is rather out of the question, so we
+> > > need to get to the bottom of the failure.
+> >
+> > I suspect that there is a problem with the pm_suspend_via_firmware()
+> > check which returns 'false' on the affected board, but the platform
+> > actually removes power from devices left in D0 during suspend.
+> >
+> > I guess it would be more appropriate to check something like
+> > pm_suspend_no_platform() which would return 'true' in the
+> > suspend-to-idle patch w/ ACPI.
+>
+> So I wonder if the patch below makes any difference?
 
-Thank you very much! Very nice to see some more progress!
+Mika, can you please test this one in combination with the other
+changes we've been working on?
+
+I really don't expect to see problems, but just to be sure ...
+
+> ---
+>  drivers/pci/pci-driver.c |    8 ++++----
+>  include/linux/suspend.h  |   26 ++++++++++++++++++++++++--
+>  kernel/power/suspend.c   |    3 +++
+>  3 files changed, 31 insertions(+), 6 deletions(-)
+>
+> Index: linux-pm/include/linux/suspend.h
+> ===================================================================
+> --- linux-pm.orig/include/linux/suspend.h
+> +++ linux-pm/include/linux/suspend.h
+> @@ -209,8 +209,9 @@ extern int suspend_valid_only_mem(suspen
+>
+>  extern unsigned int pm_suspend_global_flags;
+>
+> -#define PM_SUSPEND_FLAG_FW_SUSPEND     (1 << 0)
+> -#define PM_SUSPEND_FLAG_FW_RESUME      (1 << 1)
+> +#define PM_SUSPEND_FLAG_FW_SUSPEND     BIT(0)
+> +#define PM_SUSPEND_FLAG_FW_RESUME      BIT(1)
+> +#define PM_SUSPEND_FLAG_NO_PLATFORM    BIT(2)
+>
+>  static inline void pm_suspend_clear_flags(void)
+>  {
+> @@ -227,6 +228,11 @@ static inline void pm_set_resume_via_fir
+>         pm_suspend_global_flags |= PM_SUSPEND_FLAG_FW_RESUME;
+>  }
+>
+> +static inline void pm_set_suspend_no_platform(void)
+> +{
+> +       pm_suspend_global_flags |= PM_SUSPEND_FLAG_NO_PLATFORM;
+> +}
+> +
+>  /**
+>   * pm_suspend_via_firmware - Check if platform firmware will suspend the system.
+>   *
+> @@ -268,6 +274,22 @@ static inline bool pm_resume_via_firmwar
+>         return !!(pm_suspend_global_flags & PM_SUSPEND_FLAG_FW_RESUME);
+>  }
+>
+> +/**
+> + * pm_suspend_no_platform - Check if platform may change device power states.
+> + *
+> + * To be called during system-wide power management transitions to sleep states
+> + * or during the subsequent system-wide transitions back to the working state.
+> + *
+> + * Return 'true' if the power states of devices remain under full control of the
+> + * kernel throughout the system-wide suspend and resume cycle in progress (that
+> + * is, if a device is put into a certain power state during suspend, it can be
+> + * expected to remain in that state during resume).
+> + */
+> +static inline bool pm_suspend_no_platform(void)
+> +{
+> +       return !!(pm_suspend_global_flags & PM_SUSPEND_FLAG_NO_PLATFORM);
+> +}
+> +
+>  /* Suspend-to-idle state machnine. */
+>  enum s2idle_states {
+>         S2IDLE_STATE_NONE,      /* Not suspended/suspending. */
+> Index: linux-pm/kernel/power/suspend.c
+> ===================================================================
+> --- linux-pm.orig/kernel/power/suspend.c
+> +++ linux-pm/kernel/power/suspend.c
+> @@ -493,6 +493,9 @@ int suspend_devices_and_enter(suspend_st
+>
+>         pm_suspend_target_state = state;
+>
+> +       if (state == PM_SUSPEND_TO_IDLE)
+> +               pm_set_suspend_no_platform();
+> +
+>         error = platform_suspend_begin(state);
+>         if (error)
+>                 goto Close;
+> Index: linux-pm/drivers/pci/pci-driver.c
+> ===================================================================
+> --- linux-pm.orig/drivers/pci/pci-driver.c
+> +++ linux-pm/drivers/pci/pci-driver.c
+> @@ -870,7 +870,7 @@ static int pci_pm_suspend_noirq(struct d
+>                         pci_dev->bus->self->skip_bus_pm = true;
+>         }
+>
+> -       if (pci_dev->skip_bus_pm && !pm_suspend_via_firmware()) {
+> +       if (pci_dev->skip_bus_pm && pm_suspend_no_platform()) {
+>                 dev_dbg(dev, "PCI PM: Skipped\n");
+>                 goto Fixup;
+>         }
+> @@ -925,10 +925,10 @@ static int pci_pm_resume_noirq(struct de
+>         /*
+>          * In the suspend-to-idle case, devices left in D0 during suspend will
+>          * stay in D0, so it is not necessary to restore or update their
+> -        * configuration here and attempting to put them into D0 again may
+> -        * confuse some firmware, so avoid doing that.
+> +        * configuration here and attempting to put them into D0 again is
+> +        * pointless, so avoid doing that.
+>          */
+> -       if (!pci_dev->skip_bus_pm || pm_suspend_via_firmware())
+> +       if (!(pci_dev->skip_bus_pm && pm_suspend_no_platform()))
+>                 pci_pm_default_resume_early(pci_dev);
+>
+>         pci_fixup_device(pci_fixup_resume_early, pci_dev);
+>
+>
+>
