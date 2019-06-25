@@ -2,216 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D92E55463
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 18:24:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BA4455952
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 22:46:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727975AbfFYQX6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jun 2019 12:23:58 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34545 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726740AbfFYQX6 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jun 2019 12:23:58 -0400
-Received: by mail-ot1-f68.google.com with SMTP id n5so17900452otk.1;
-        Tue, 25 Jun 2019 09:23:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uSdP7UKm4WLYMLtVhLBpxY7TViBn/YrfzYDpWCwidcM=;
-        b=OdxwhvVfCoFbWlhpErwJ6LSoeICrOtJDh2BwBvXnXQ6ym/4LJjiA1qZIea5W9Ocr68
-         +BxTfPRrtakB3Tv3PxX1hn+j+5YVofz3HqXwaQDcPj9zw1bg0SHlsKkNS8GV4kow+H+k
-         IlnqekOg9pnuUlaOjcL2W8aE/nj5zjxONN164S+Qr7o+52lKBAOYYLFgitMYkZu0aQPr
-         6XGN/dVr5x/ZmrTtHWnqCNylNe0RPGD+oVEFPqKl81fJSZubupoTH9/xoGb1VmUq4ukQ
-         LA9s1wT7l/vQ671RcQObMZlUrJsbaNMW97GNIl1z/8sSLOlyvU3Y3zQmlengrzaLsOzy
-         w7PQ==
-X-Gm-Message-State: APjAAAULED1QGrGgh+URAy6uDokucNmUovjg3g0O+KrI9hz0LyqM4QwU
-        X3Jgas6JNFMJ1MlBaHEke+2jAYUwTqe4RvNbkI8=
-X-Google-Smtp-Source: APXvYqwwUsY5xStaihgCfS3kxVuGmJgr1opwxgHBqNXcDzYTr9GEsLR5kWCakYY4KXAsFNz25LejwnwxCvkAc/7My14=
-X-Received: by 2002:a05:6830:8a:: with SMTP id a10mr5881905oto.167.1561479837395;
- Tue, 25 Jun 2019 09:23:57 -0700 (PDT)
+        id S1727251AbfFYUqm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 16:46:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43984 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726053AbfFYUqm (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 25 Jun 2019 16:46:42 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D640E205ED;
+        Tue, 25 Jun 2019 20:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561495600;
+        bh=4zflnPJOjSzJah74cHqrZgjnWn4XRJGSe8xqS8yMJt4=;
+        h=In-Reply-To:References:To:From:Subject:Cc:Date:From;
+        b=1IBQKZ4QdO9mARvZO4fdimMmjFiTYyPvYCcleQH84/+xvmlxpz2ZLt+7vlYvJO/Rd
+         MetUEuXkt6V+Mf82FiEQb7OL3AjJEWviaNLdmYjswYyq7kIa5yAPxZ9jVKnmPmdfBU
+         +uvHaijX0g2RMbCAesFySwxy8qll5906VdBCxCO8=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <1668247.RaJIPSxJUN@kreacher> <CAJZ5v0hdtXqoK84DpYtyMSCnkR9zOHFiUPAzWZDtkFmEjyWD1g@mail.gmail.com>
- <CAJZ5v0gGdXmgc_9r2rbiadq4e31hngpjYQ40QoC6C0z19da_hQ@mail.gmail.com> <2287147.DxjcvLeq6l@kreacher>
-In-Reply-To: <2287147.DxjcvLeq6l@kreacher>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 25 Jun 2019 18:23:46 +0200
-Message-ID: <CAJZ5v0gU9OedmZBNDGefG3GjS7FHRmgQ67eOcr2vXRrAg3zZbg@mail.gmail.com>
-Subject: Re: [PATCH v2] PCI: PM: Skip devices in D0 for suspend-to-idle
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Keith Busch <kbusch@kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1560843991-24123-7-git-send-email-skomatineni@nvidia.com>
+References: <1560843991-24123-1-git-send-email-skomatineni@nvidia.com> <1560843991-24123-7-git-send-email-skomatineni@nvidia.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>, jason@lakedaemon.net,
+        jonathanh@nvidia.com, linus.walleij@linaro.org,
+        marc.zyngier@arm.com, mark.rutland@arm.com, stefan@agner.ch,
+        tglx@linutronix.de, thierry.reding@gmail.com
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH V3 06/17] clk: tegra: pll: save and restore pll context
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
+        skomatineni@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mperttunen@nvidia.com,
+        spatra@nvidia.com, robh+dt@kernel.org, digetx@gmail.com,
+        devicetree@vger.kernel.org
+User-Agent: alot/0.8.1
+Date:   Tue, 25 Jun 2019 13:46:40 -0700
+Message-Id: <20190625204640.D640E205ED@mail.kernel.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 25, 2019 at 1:09 AM Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
->
-> On Tuesday, June 25, 2019 12:20:26 AM CEST Rafael J. Wysocki wrote:
-> > On Mon, Jun 24, 2019 at 11:37 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > >
-> > > On Mon, Jun 24, 2019 at 2:43 PM Jon Hunter <jonathanh@nvidia.com> wrote:
-> > > >
-> > > > Hi Rafael,
-> > > >
-> > > > On 13/06/2019 22:59, Rafael J. Wysocki wrote:
-> > > > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > >
-> > > > > Commit d491f2b75237 ("PCI: PM: Avoid possible suspend-to-idle issue")
-> > > > > attempted to avoid a problem with devices whose drivers want them to
-> > > > > stay in D0 over suspend-to-idle and resume, but it did not go as far
-> > > > > as it should with that.
-> > > > >
-> > > > > Namely, first of all, the power state of a PCI bridge with a
-> > > > > downstream device in D0 must be D0 (based on the PCI PM spec r1.2,
-> > > > > sec 6, table 6-1, if the bridge is not in D0, there can be no PCI
-> > > > > transactions on its secondary bus), but that is not actively enforced
-> > > > > during system-wide PM transitions, so use the skip_bus_pm flag
-> > > > > introduced by commit d491f2b75237 for that.
-> > > > >
-> > > > > Second, the configuration of devices left in D0 (whatever the reason)
-> > > > > during suspend-to-idle need not be changed and attempting to put them
-> > > > > into D0 again by force is pointless, so explicitly avoid doing that.
-> > > > >
-> > > > > Fixes: d491f2b75237 ("PCI: PM: Avoid possible suspend-to-idle issue")
-> > > > > Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > > > > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > > Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> > > > > Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > > >
-> > > > I have noticed a regression in both the mainline and -next branches on
-> > > > one of our boards when testing suspend. The bisect is point to this
-> > > > commit and reverting on top of mainline does fix the problem. So far I
-> > > > have not looked at this in close detail but kernel log is showing ...
-> > >
-> > > Can you please collect a log like that, but with dynamic debug in
-> > > pci-driver.c enabled?
-> > >
-> > > Note that reverting this commit is rather out of the question, so we
-> > > need to get to the bottom of the failure.
-> >
-> > I suspect that there is a problem with the pm_suspend_via_firmware()
-> > check which returns 'false' on the affected board, but the platform
-> > actually removes power from devices left in D0 during suspend.
-> >
-> > I guess it would be more appropriate to check something like
-> > pm_suspend_no_platform() which would return 'true' in the
-> > suspend-to-idle patch w/ ACPI.
->
-> So I wonder if the patch below makes any difference?
-
-Mika, can you please test this one in combination with the other
-changes we've been working on?
-
-I really don't expect to see problems, but just to be sure ...
-
-> ---
->  drivers/pci/pci-driver.c |    8 ++++----
->  include/linux/suspend.h  |   26 ++++++++++++++++++++++++--
->  kernel/power/suspend.c   |    3 +++
->  3 files changed, 31 insertions(+), 6 deletions(-)
->
-> Index: linux-pm/include/linux/suspend.h
-> ===================================================================
-> --- linux-pm.orig/include/linux/suspend.h
-> +++ linux-pm/include/linux/suspend.h
-> @@ -209,8 +209,9 @@ extern int suspend_valid_only_mem(suspen
->
->  extern unsigned int pm_suspend_global_flags;
->
-> -#define PM_SUSPEND_FLAG_FW_SUSPEND     (1 << 0)
-> -#define PM_SUSPEND_FLAG_FW_RESUME      (1 << 1)
-> +#define PM_SUSPEND_FLAG_FW_SUSPEND     BIT(0)
-> +#define PM_SUSPEND_FLAG_FW_RESUME      BIT(1)
-> +#define PM_SUSPEND_FLAG_NO_PLATFORM    BIT(2)
->
->  static inline void pm_suspend_clear_flags(void)
->  {
-> @@ -227,6 +228,11 @@ static inline void pm_set_resume_via_fir
->         pm_suspend_global_flags |= PM_SUSPEND_FLAG_FW_RESUME;
+Quoting Sowjanya Komatineni (2019-06-18 00:46:20)
+> diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
+> index 1583f5fc992f..4b0ed8fc6268 100644
+> --- a/drivers/clk/tegra/clk-pll.c
+> +++ b/drivers/clk/tegra/clk-pll.c
+> @@ -1008,6 +1008,54 @@ static unsigned long clk_plle_recalc_rate(struct c=
+lk_hw *hw,
+>         return rate;
 >  }
->
-> +static inline void pm_set_suspend_no_platform(void)
+> =20
+> +void tegra_clk_sync_state_pll(struct clk_hw *hw)
 > +{
-> +       pm_suspend_global_flags |= PM_SUSPEND_FLAG_NO_PLATFORM;
+> +       if (!__clk_get_enable_count(hw->clk))
+> +               clk_pll_disable(hw);
+> +       else
+> +               clk_pll_enable(hw);
 > +}
 > +
->  /**
->   * pm_suspend_via_firmware - Check if platform firmware will suspend the system.
->   *
-> @@ -268,6 +274,22 @@ static inline bool pm_resume_via_firmwar
->         return !!(pm_suspend_global_flags & PM_SUSPEND_FLAG_FW_RESUME);
->  }
->
-> +/**
-> + * pm_suspend_no_platform - Check if platform may change device power states.
-> + *
-> + * To be called during system-wide power management transitions to sleep states
-> + * or during the subsequent system-wide transitions back to the working state.
-> + *
-> + * Return 'true' if the power states of devices remain under full control of the
-> + * kernel throughout the system-wide suspend and resume cycle in progress (that
-> + * is, if a device is put into a certain power state during suspend, it can be
-> + * expected to remain in that state during resume).
-> + */
-> +static inline bool pm_suspend_no_platform(void)
+> +static int tegra_clk_pll_save_context(struct clk_hw *hw)
 > +{
-> +       return !!(pm_suspend_global_flags & PM_SUSPEND_FLAG_NO_PLATFORM);
+> +       struct tegra_clk_pll *pll =3D to_clk_pll(hw);
+> +
+> +       pll->rate =3D clk_hw_get_rate(hw);
+> +
+> +       if (!strcmp(__clk_get_name(hw->clk), "pll_mb"))
+> +               pll->pllbase_ctx =3D pll_readl_base(pll);
+> +       else if (!strcmp(__clk_get_name(hw->clk), "pll_re_vco"))
+> +               pll->pllbase_ctx =3D pll_readl_base(pll) & (0xf << 16);
+> +
+> +       return 0;
 > +}
 > +
->  /* Suspend-to-idle state machnine. */
->  enum s2idle_states {
->         S2IDLE_STATE_NONE,      /* Not suspended/suspending. */
-> Index: linux-pm/kernel/power/suspend.c
-> ===================================================================
-> --- linux-pm.orig/kernel/power/suspend.c
-> +++ linux-pm/kernel/power/suspend.c
-> @@ -493,6 +493,9 @@ int suspend_devices_and_enter(suspend_st
->
->         pm_suspend_target_state = state;
->
-> +       if (state == PM_SUSPEND_TO_IDLE)
-> +               pm_set_suspend_no_platform();
+> +static void tegra_clk_pll_restore_context(struct clk_hw *hw)
+> +{
+> +       struct tegra_clk_pll *pll =3D to_clk_pll(hw);
+> +       u32 val;
 > +
->         error = platform_suspend_begin(state);
->         if (error)
->                 goto Close;
-> Index: linux-pm/drivers/pci/pci-driver.c
-> ===================================================================
-> --- linux-pm.orig/drivers/pci/pci-driver.c
-> +++ linux-pm/drivers/pci/pci-driver.c
-> @@ -870,7 +870,7 @@ static int pci_pm_suspend_noirq(struct d
->                         pci_dev->bus->self->skip_bus_pm = true;
->         }
->
-> -       if (pci_dev->skip_bus_pm && !pm_suspend_via_firmware()) {
-> +       if (pci_dev->skip_bus_pm && pm_suspend_no_platform()) {
->                 dev_dbg(dev, "PCI PM: Skipped\n");
->                 goto Fixup;
->         }
-> @@ -925,10 +925,10 @@ static int pci_pm_resume_noirq(struct de
->         /*
->          * In the suspend-to-idle case, devices left in D0 during suspend will
->          * stay in D0, so it is not necessary to restore or update their
-> -        * configuration here and attempting to put them into D0 again may
-> -        * confuse some firmware, so avoid doing that.
-> +        * configuration here and attempting to put them into D0 again is
-> +        * pointless, so avoid doing that.
->          */
-> -       if (!pci_dev->skip_bus_pm || pm_suspend_via_firmware())
-> +       if (!(pci_dev->skip_bus_pm && pm_suspend_no_platform()))
->                 pci_pm_default_resume_early(pci_dev);
->
->         pci_fixup_device(pci_fixup_resume_early, pci_dev);
->
->
->
+> +       if (clk_pll_is_enabled(hw))
+> +               return;
+> +
+> +       if (!strcmp(__clk_get_name(hw->clk), "pll_mb")) {
+
+Is there any way to avoid doing a string comparison here, and instead do
+something like a pointer comparison? Or maybe look at some flag in the
+tegra_clk_pll to figure out what to do differently? Using a string
+comparison is not too nice. Or even have different clk ops for the
+different clks and then do different things in this restore clk_op?
+
+> +               pll_writel_base(pll->pllbase_ctx, pll);
+> +       } else if (!strcmp(__clk_get_name(hw->clk), "pll_re_vco")) {
+> +               val =3D pll_readl_base(pll);
+> +               val &=3D ~(0xf << 16);
+> +               pll_writel_base(pll->pllbase_ctx | val, pll);
+> +       }
+> +
+> +       if (pll->params->set_defaults)
+> +               pll->params->set_defaults(pll);
+> +
+> +       clk_set_rate(hw->clk, pll->rate);
+
+Do you need to call clk_set_rate() here to change the frequency of the
+clk or just the parents of the clk, or both? I'd think that when we're
+restoring the clk the cached rate of the clk would match whatever we're
+restoring to, so this is a NOP. So does this do anything?
+
+I'd prefer that the restore ops just restore the clk hardware state of
+the clk_hw passed in, and not try to fix up the entire tree around a
+certain clk, if that's even possible.
+
+> +
+> +       /* do not sync pllx state here. pllx is sync'd after dfll resume =
+*/
+> +       if (strcmp(__clk_get_name(hw->clk), "pll_x"))
+> +               tegra_clk_sync_state_pll(hw);
+> +}
+> +
+>  const struct clk_ops tegra_clk_pll_ops =3D {
+>         .is_enabled =3D clk_pll_is_enabled,
+>         .enable =3D clk_pll_enable,
+> @@ -1015,6 +1063,8 @@ const struct clk_ops tegra_clk_pll_ops =3D {
+>         .recalc_rate =3D clk_pll_recalc_rate,
+>         .round_rate =3D clk_pll_round_rate,
+>         .set_rate =3D clk_pll_set_rate,
+> +       .save_context =3D tegra_clk_pll_save_context,
+> +       .restore_context =3D tegra_clk_pll_restore_context,
