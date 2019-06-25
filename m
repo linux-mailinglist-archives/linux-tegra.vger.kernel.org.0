@@ -2,95 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 306DF528E0
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 12:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4980954D48
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 13:10:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729335AbfFYKBQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jun 2019 06:01:16 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:3157 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726421AbfFYKBQ (ORCPT
+        id S1730191AbfFYLKV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 07:10:21 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:19234 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727746AbfFYLKV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jun 2019 06:01:16 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d11f0ea0000>; Tue, 25 Jun 2019 03:01:14 -0700
+        Tue, 25 Jun 2019 07:10:21 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d12011d0001>; Tue, 25 Jun 2019 04:10:21 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 25 Jun 2019 03:01:15 -0700
+  Tue, 25 Jun 2019 04:10:19 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 25 Jun 2019 03:01:15 -0700
-Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Tue, 25 Jun 2019 04:10:19 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 25 Jun
- 2019 10:01:13 +0000
-Subject: Re: [PATCH 5.1 000/121] 5.1.15-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190624092320.652599624@linuxfoundation.org>
+ 2019 11:10:17 +0000
+Subject: Re: [PATCH net-next 3/3] net: stmmac: Convert to phylink and remove
+ phylib logic
+To:     Jose Abreu <Jose.Abreu@synopsys.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <cover.1560266175.git.joabreu@synopsys.com>
+ <6226d6a0de5929ed07d64b20472c52a86e71383d.1560266175.git.joabreu@synopsys.com>
+ <d9ffce3d-4827-fa4a-89e8-0492c4bc1848@nvidia.com>
+ <78EB27739596EE489E55E81C33FEC33A0B9C8D6E@DE02WEMBXB.internal.synopsys.com>
+ <26cfaeff-a310-3b79-5b57-fd9c93bd8929@nvidia.com>
+ <78EB27739596EE489E55E81C33FEC33A0B9C8DD9@DE02WEMBXB.internal.synopsys.com>
+ <b66c7578-172f-4443-f4c3-411525e28738@nvidia.com>
+ <d96f8bea-f7ef-82ae-01ba-9c97aec0ee38@nvidia.com>
+ <6f36b6b6-8209-ed98-e7e1-3dac0a92f6cd@nvidia.com>
+ <7f0f2ed0-f47c-4670-d169-25f0413c1fd3@nvidia.com>
+ <78EB27739596EE489E55E81C33FEC33A0B9D7024@DE02WEMBXB.internal.synopsys.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <163f4750-24c9-104c-95aa-16f51656ef63@nvidia.com>
-Date:   Tue, 25 Jun 2019 11:01:11 +0100
+Message-ID: <113f37a2-c37f-cdb5-5194-4361d949258a@nvidia.com>
+Date:   Tue, 25 Jun 2019 12:10:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190624092320.652599624@linuxfoundation.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
+In-Reply-To: <78EB27739596EE489E55E81C33FEC33A0B9D7024@DE02WEMBXB.internal.synopsys.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
  HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561456874; bh=F+G9++7Dd6V5HfkR9MugXeCZVTJPB1SQBLIx7Vb0Q5c=;
+        t=1561461021; bh=ywXSgknL1Gy2ftDz0c9HRG7PbJQeUv91vnO+i6OhLZ4=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=mPFmQX1oR45P7r7qbq7DTnK7vKTayJtVK9oUVnfPqKiroW0gvZAsfHTxfNqno2pT6
-         GbgvRXQvI5QUtNyt08QQ0dyI/LPfeQxKxnckouYFhyVqeIRHwaayMsx9szNiSKH7L3
-         YvpBYC0fiTaBze/vBEAsr4OV/Uxg3ef83bky+q//8UMBY4OZH7XRsEC77sy7MGKlL0
-         lULX87GlKLiM54zLR0ve5egt4ea4jGlBNcGOv45pklxAZBGPs084IUpSM4CC0zl/hl
-         L0EQWzbOMazpG3zxhJ7USg/cInOdPQ2xysBhj/7aeKtk8fsXNubuJn0rvoxGeusxN8
-         op4xggD/PoB9A==
+        b=J9xgagejO3vqCTRQb9mVBdvVaM+6AcQW66kLwwnvuI2Q2QFjL5mB27Vl6Cz/BnpGA
+         8q1wiF5aqsIAzrthX2fNUiwCuBAJ/8+UhijqgZTWdXuM5pBF1SBa2ZLuMB6kVmKArz
+         HKJyyAYvRK/4ZUajLTTLuRy5/mnhvxA2520aSqW4NAcx60w0gmLKL7ymNIYmjgyac3
+         YmK+jNHAADo2ONnQiaH9YKKlMoxqcUfxknGI4sX1N7mhctJx3X6DK2ws3zWwEfExd3
+         54fxDhZUGekKioLX2NBMATjSTb+SyVJSYOjE1Po1om4APyvq6p5eXt8To1IXtAad4T
+         HLVyGrWnpl/Hg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 24/06/2019 10:55, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.1.15 release.
-> There are 121 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+On 25/06/2019 08:37, Jose Abreu wrote:
+> From: Jon Hunter <jonathanh@nvidia.com>
 > 
-> Responses should be made by Wed 26 Jun 2019 09:22:03 AM UTC.
-> Anything received after that time might be too late.
+>> Any further feedback? I am still seeing this issue on today's -next.
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.15-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
-> and the diffstat can be found below.
+> Apologies but I was in FTO.
 > 
-> thanks,
+> Is there any possibility you can just disable the ethX configuration in 
+> the rootfs mount and manually configure it after rootfs is done ?
 > 
-> greg k-h
+> I just want to make sure in which conditions this is happening (if in 
+> ifdown or ifup).
 
-All tests passing for Tegra ...
+I have been looking at this a bit closer and I can see the problem. What
+happens is that ...
 
-Test results for stable-v5.1:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    32 tests:	32 pass, 0 fail
+1. stmmac_mac_link_up() is called and priv->eee_active is set to false
+2. stmmac_eee_init() is called but because priv->eee_active is false,
+   timer_setup() for eee_ctrl_timer is never called.
+3. stmmac_eee_init() returns true and so then priv->eee_enabled is set 
+   to true.
+4. When stmmac_tx_clean() is called because priv->eee_enabled is set to    
+   true, mod_timer() is called for the eee_ctrl_timer, but because 
+   timer_setup() was never called, we hit the BUG defined at
+   kernel/time/timer.c:952, because no function is defined for the 
+   timer.
 
-Linux version:	5.1.15-rc1-gd74a88068af9
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
+The following fixes it for me ...
+
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -399,10 +399,13 @@ bool stmmac_eee_init(struct stmmac_priv *priv)
+        mutex_lock(&priv->lock);
+ 
+        /* Check if it needs to be deactivated */
+-       if (!priv->eee_active && priv->eee_enabled) {
+-               netdev_dbg(priv->dev, "disable EEE\n");
+-               del_timer_sync(&priv->eee_ctrl_timer);
+-               stmmac_set_eee_timer(priv, priv->hw, 0, tx_lpi_timer);
++       if (!priv->eee_active) {
++               if (priv->eee_enabled) {
++                       netdev_dbg(priv->dev, "disable EEE\n");
++                       del_timer_sync(&priv->eee_ctrl_timer);
++                       stmmac_set_eee_timer(priv, priv->hw, 0, tx_lpi_timer);
++               }
++               mutex_unlock(&priv->lock);
+                return false;
+        }
+
+It also looks like you have a potention deadlock in the current code
+because in the case of if (!priv->eee_active && priv->eee_enabled)
+you don't unlock the mutex. The above fixes this as well. I can send a
+formal patch if this looks correct. 
 
 Cheers
 Jon
