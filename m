@@ -2,91 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E0B8524F3
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 09:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A89C527C3
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 11:18:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728745AbfFYHha (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jun 2019 03:37:30 -0400
-Received: from dc2-smtprelay2.synopsys.com ([198.182.61.142]:51418 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728479AbfFYHha (ORCPT
+        id S1730772AbfFYJSj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 05:18:39 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:46408 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730523AbfFYJSi (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jun 2019 03:37:30 -0400
-Received: from mailhost.synopsys.com (dc8-mailhost1.synopsys.com [10.13.135.209])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A0EFBC0246;
-        Tue, 25 Jun 2019 07:37:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1561448250; bh=0hdJqtZRKRFCAm+OSBWo1+z63ElRNgJ2jXFsP7pragI=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=UUa8F07j5BjoGbbBqa7s7KQ9cHnosJNdCrOmDgjTpidsA7W43gVEmZ+v8vB1ogeGQ
-         Pb/IrqMnccPIwMDP/ywnO7lZnNN6p/9bud7qHSVfhv6ePatj0ETz3EQ+aJRhEGBFc0
-         IMKVAco7FXzwXviU05GSSK5lWEQXDxhlbjip5cyT2PxsfLjWe0mBi+OXBllOJ7BbGl
-         J/DdLWO4/+MshgPeCOOvND+cDwcX61cSwdybceP9kXPKsSsegMn5wAmnZAAl1nFpt/
-         KpV/QCL3iTE3iIZ+/6j831RonuXx8/tEQsGqtTrC9NL27AaE4t+hu0mJTbsC8EQYxh
-         W2GzPUc++ISzg==
-Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2.internal.synopsys.com [10.12.239.237])
-        (using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 92003A005D;
-        Tue, 25 Jun 2019 07:37:26 +0000 (UTC)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 25 Jun 2019 00:37:26 -0700
-Received: from DE02WEMBXB.internal.synopsys.com ([fe80::95ce:118a:8321:a099])
- by DE02WEHTCB.internal.synopsys.com ([::1]) with mapi id 14.03.0415.000; Tue,
- 25 Jun 2019 09:37:24 +0200
-From:   Jose Abreu <Jose.Abreu@synopsys.com>
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: RE: [PATCH net-next 3/3] net: stmmac: Convert to phylink and remove
- phylib logic
-Thread-Topic: [PATCH net-next 3/3] net: stmmac: Convert to phylink and
- remove phylib logic
-Thread-Index: AQHVIGkArVRmnWNiHUiOZ+Vq9aFNYKahDpUAgAAiuoD//+CkgIAAIfYQ///oM4CAAFRJgIAASacAgALGAQCAB4+TsA==
-Date:   Tue, 25 Jun 2019 07:37:23 +0000
-Message-ID: <78EB27739596EE489E55E81C33FEC33A0B9D7024@DE02WEMBXB.internal.synopsys.com>
-References: <cover.1560266175.git.joabreu@synopsys.com>
- <6226d6a0de5929ed07d64b20472c52a86e71383d.1560266175.git.joabreu@synopsys.com>
- <d9ffce3d-4827-fa4a-89e8-0492c4bc1848@nvidia.com>
- <78EB27739596EE489E55E81C33FEC33A0B9C8D6E@DE02WEMBXB.internal.synopsys.com>
- <26cfaeff-a310-3b79-5b57-fd9c93bd8929@nvidia.com>
- <78EB27739596EE489E55E81C33FEC33A0B9C8DD9@DE02WEMBXB.internal.synopsys.com>
- <b66c7578-172f-4443-f4c3-411525e28738@nvidia.com>
- <d96f8bea-f7ef-82ae-01ba-9c97aec0ee38@nvidia.com>
- <6f36b6b6-8209-ed98-e7e1-3dac0a92f6cd@nvidia.com>
- <7f0f2ed0-f47c-4670-d169-25f0413c1fd3@nvidia.com>
-In-Reply-To: <7f0f2ed0-f47c-4670-d169-25f0413c1fd3@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.107.19.16]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Tue, 25 Jun 2019 05:18:38 -0400
+Received: by mail-lj1-f194.google.com with SMTP id v24so15464385ljg.13
+        for <linux-tegra@vger.kernel.org>; Tue, 25 Jun 2019 02:18:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t4qhaTHJZ+3VBU1sVx1P1bcNOnkqcH9GEq/1NAbRuaM=;
+        b=dudxju8wkw9TnDww1MEY+prohp3emhDrV6fkIsizGs9ivSRezr09XAmqfYjzhFzVMU
+         M7dAzWcIrqssTYQ+ntjda0GlaqnCFf3x8MqRLrGBB2pELALKPgRLTC96hz/QGoV5nGP3
+         vQ+v+HCwhp3r+tZpxQ5nVhn7UVTGXadDPrevIgF0bafpI5g85m1kUYlXK7xsxEZGebTu
+         u/CEYDoE6RcP+5AtgX3cltmInNUs7FXhX761Rm9Wk9qS3//cZYLbP84TOJGFDG9y5lOn
+         Z40GhL86T6fir5q17T6MJR/rukojQMoAcghGapd2Wa8oQLWJvjHMdmsR6ogv9aMnWXOD
+         h8lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t4qhaTHJZ+3VBU1sVx1P1bcNOnkqcH9GEq/1NAbRuaM=;
+        b=mj+RU40pbJXTGdXf08DOvNByCx7tHjPxKLXfVSx8EAzI/JHKFjGrXCGrgOeZT9T1Hq
+         L01fen+fI/Ixd8gl9CibIwt/STiVHbAFyZQ9ddI5zBBVwtKreDnZUVpy2VAG6yiW3DeN
+         R167atw8rskPWamUrkRyDEwpZF9Jn+jOH1KlFil0jOtNo9sJk46oUMmZ02jMfm5Muizb
+         zmJdChOhHPG3Dhl69ORMogAeWeG2QLzItT5NVyTt9GJDupFS3dywWLvGu6nVPsJRsB3i
+         q75hj0OEx409u1LLP7lWp8zmRiIad+7LTNFFID93gNczrUrz6KMjolhAg07Gp3IdYVbW
+         6JJQ==
+X-Gm-Message-State: APjAAAXQlr+PVdCwbPi5O7SVJfJFR/L8u439yRb2LX8RlOy0bkx4Zign
+        ydVabCfE3H/BpRFNaLV9NEiscfmLblbtzzIUPnpigQ==
+X-Google-Smtp-Source: APXvYqzvk2RCfrRnXaXWwBrZIvYLYyUWEsxMZVmaEfW91r8is6s4PyLGcy8jnjPFrzrLe73W09Y89A9lRRIfkn3eSFk=
+X-Received: by 2002:a2e:2c14:: with SMTP id s20mr15217716ljs.54.1561454316621;
+ Tue, 25 Jun 2019 02:18:36 -0700 (PDT)
 MIME-Version: 1.0
+References: <1560796871-18560-1-git-send-email-info@metux.net>
+In-Reply-To: <1560796871-18560-1-git-send-email-info@metux.net>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 25 Jun 2019 11:18:25 +0200
+Message-ID: <CACRpkdYQXFd5q+k8aKWKK5krzq0KpCmo9fsUW8Dx3jHq1LHwhA@mail.gmail.com>
+Subject: Re: [PATCH 01/30] include: linux: platform_device: more helpers for
+ declaring platform drivers
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Tien Hock Loh <thloh@altera.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-RnJvbTogSm9uIEh1bnRlciA8am9uYXRoYW5oQG52aWRpYS5jb20+DQoNCj4gQW55IGZ1cnRoZXIg
-ZmVlZGJhY2s/IEkgYW0gc3RpbGwgc2VlaW5nIHRoaXMgaXNzdWUgb24gdG9kYXkncyAtbmV4dC4N
-Cg0KQXBvbG9naWVzIGJ1dCBJIHdhcyBpbiBGVE8uDQoNCklzIHRoZXJlIGFueSBwb3NzaWJpbGl0
-eSB5b3UgY2FuIGp1c3QgZGlzYWJsZSB0aGUgZXRoWCBjb25maWd1cmF0aW9uIGluIA0KdGhlIHJv
-b3RmcyBtb3VudCBhbmQgbWFudWFsbHkgY29uZmlndXJlIGl0IGFmdGVyIHJvb3RmcyBpcyBkb25l
-ID8NCg0KSSBqdXN0IHdhbnQgdG8gbWFrZSBzdXJlIGluIHdoaWNoIGNvbmRpdGlvbnMgdGhpcyBp
-cyBoYXBwZW5pbmcgKGlmIGluIA0KaWZkb3duIG9yIGlmdXApLg0KDQpUaGFua3MsDQpKb3NlIE1p
-Z3VlbCBBYnJldQ0K
+On Mon, Jun 17, 2019 at 8:41 PM Enrico Weigelt, metux IT consult
+<info@metux.net> wrote:
+
+> From: Enrico Weigelt <info@metux.net>
+>
+> Add more helper macros for trivial driver init cases, similar to the
+> already existing module_platform_driver()+friends - now for those which
+> are initialized at other stages. Lots of drivers couldn't use the existing
+> macros, as they need to be called at different init stages, eg. subsys,
+> postcore, arch.
+>
+> This helps to further reduce driver init boilerplate.
+>
+> Signed-off-by: Enrico Weigelt <info@metux.net>
+
+You need to send this to Greg as device core maintainer.
+Possibly to Rafael as well, he did a very intersting rework
+on device dependencies with device links.
+
+While in general I agree that this diets down a lot of duplicate
+code that we have done the same way over and over, there
+is the issue that we don't want any drivers to do this mockery
+and instead use deferred probe and ultimately just probe in the
+right order.
+
+I think device links were supposed to fix this up, but it indeed
+assumes that you know of these dependencies before you
+start probing the first driver, and often you do not, unless the
+hardware description explicitly encodes that. And that is one
+big problem.
+
+If we should do this, device core changes must be merged or
+explicitly ACKed first.
+
+Yours,
+Linus Walleij
