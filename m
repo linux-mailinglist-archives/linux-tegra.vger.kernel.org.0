@@ -2,154 +2,132 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD00C559D9
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Jun 2019 23:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A366755B68
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jun 2019 00:38:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726334AbfFYVWq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jun 2019 17:22:46 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:8463 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725290AbfFYVWp (ORCPT
+        id S1726179AbfFYWiT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 18:38:19 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:11971 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725782AbfFYWiT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jun 2019 17:22:45 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d1290a20001>; Tue, 25 Jun 2019 14:22:42 -0700
+        Tue, 25 Jun 2019 18:38:19 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d12a25d0000>; Tue, 25 Jun 2019 15:38:21 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 25 Jun 2019 14:22:43 -0700
+  Tue, 25 Jun 2019 15:38:18 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 25 Jun 2019 14:22:43 -0700
-Received: from [10.110.103.70] (172.20.13.39) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Tue, 25 Jun 2019 15:38:18 -0700
+Received: from [10.26.11.186] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 25 Jun
- 2019 21:22:42 +0000
-Subject: Re: [PATCH V3 06/17] clk: tegra: pll: save and restore pll context
-To:     Stephen Boyd <sboyd@kernel.org>, <jason@lakedaemon.net>,
-        <jonathanh@nvidia.com>, <linus.walleij@linaro.org>,
-        <marc.zyngier@arm.com>, <mark.rutland@arm.com>, <stefan@agner.ch>,
-        <tglx@linutronix.de>, <thierry.reding@gmail.com>
-CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
-        <linux-clk@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <jckuo@nvidia.com>, <josephl@nvidia.com>, <talho@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
-        <digetx@gmail.com>, <devicetree@vger.kernel.org>
-References: <1560843991-24123-1-git-send-email-skomatineni@nvidia.com>
- <1560843991-24123-7-git-send-email-skomatineni@nvidia.com>
- <20190625204640.D640E205ED@mail.kernel.org>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <1d34f117-9882-7e11-9641-90f3b7ebc273@nvidia.com>
-Date:   Tue, 25 Jun 2019 14:22:43 -0700
+ 2019 22:38:17 +0000
+Subject: Re: [PATCH 5/9] ASoC: soc-core: use soc_find_component() at
+ snd_soc_get_dai_id()
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Mark Brown <broonie@kernel.org>
+CC:     Linux-ALSA <alsa-devel@alsa-project.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <87y33aaluu.wl-kuninori.morimoto.gx@renesas.com>
+ <87r292alro.wl-kuninori.morimoto.gx@renesas.com>
+ <cb3a6d0a-ca7b-d6b6-72db-5dff520acfc9@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <374e71f7-b49c-ec79-f3ca-ae630a383521@nvidia.com>
+Date:   Tue, 25 Jun 2019 23:38:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190625204640.D640E205ED@mail.kernel.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+In-Reply-To: <cb3a6d0a-ca7b-d6b6-72db-5dff520acfc9@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561497762; bh=hQq9zJfXZXl1rOsdFRIeo5nPIVHqhZjlNT3Q2VrPlQk=;
+        t=1561502301; bh=IbMAqbxmQOxup47m/oBr9tWB4Q6AVv96KeE9VVQ8/qQ=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=Y4N840opIgVuHmpvaOTFetAl+QpI9mntDy4WT4f5UR/ubLzxtJhZTTQgN5os097Bp
-         YOkxmqmMAkCJOUEMKC/rRPumaNf9mkF3tDJ6QGGQxFUGj8eO/vZIzFVzsQyQn95P/l
-         /W/IPMLBEQdM9FsZFgHzPZ/ZfjFU1u/iip5/9bmNKqAM7EDivgyI0VL2EXs7OouQMA
-         Wy+A9tqV8wvHucn6G/aCLIKE6ziAeJlpsa07+DHt01Lb0I/tAjzTTr9vZMsJUKTRz/
-         9R0tjhcuSXnPgNdV5yScRySul2vMkvKy62Zf4AKLl9GJxK1DjPyIOYWdOuHjPObkn/
-         NIhrvn25PM/Lg==
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=lCGuudjLKmUyNe6FOqomnuqJbu0X/uhag1pKzh1E80ZFkXTSBeZYXI6SgpFCAapCm
+         5jFa/y5Ik00Oj0GB35kRTt4UYSdiTwob/zsX/BE/mHak01DtCMmlNrCr2CIrcCE0sd
+         7GBvtAkKRXjHrA+zVcGRd++NtoGdIovyGsgHGftuDGZX6hOHxXumPGLOGBW/Orc1tt
+         +rGt26mv8Nlux/ne347CI3cJ4HAmpbhypqSI4Jhg9XjnK/deKCIgVH2Oes0LSXokfS
+         WwQbC8RaumY0NgeT66iQyVFIYQ6Y5qeb34bavdWrXME33kLcQrKhNTd/OVZiuiJTU2
+         9i4cgeGIuXgSA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 6/25/19 1:46 PM, Stephen Boyd wrote:
-> Quoting Sowjanya Komatineni (2019-06-18 00:46:20)
->> diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
->> index 1583f5fc992f..4b0ed8fc6268 100644
->> --- a/drivers/clk/tegra/clk-pll.c
->> +++ b/drivers/clk/tegra/clk-pll.c
->> @@ -1008,6 +1008,54 @@ static unsigned long clk_plle_recalc_rate(struct clk_hw *hw,
->>          return rate;
->>   }
->>   
->> +void tegra_clk_sync_state_pll(struct clk_hw *hw)
->> +{
->> +       if (!__clk_get_enable_count(hw->clk))
->> +               clk_pll_disable(hw);
->> +       else
->> +               clk_pll_enable(hw);
->> +}
->> +
->> +static int tegra_clk_pll_save_context(struct clk_hw *hw)
->> +{
->> +       struct tegra_clk_pll *pll = to_clk_pll(hw);
->> +
->> +       pll->rate = clk_hw_get_rate(hw);
->> +
->> +       if (!strcmp(__clk_get_name(hw->clk), "pll_mb"))
->> +               pll->pllbase_ctx = pll_readl_base(pll);
->> +       else if (!strcmp(__clk_get_name(hw->clk), "pll_re_vco"))
->> +               pll->pllbase_ctx = pll_readl_base(pll) & (0xf << 16);
->> +
->> +       return 0;
->> +}
->> +
->> +static void tegra_clk_pll_restore_context(struct clk_hw *hw)
->> +{
->> +       struct tegra_clk_pll *pll = to_clk_pll(hw);
->> +       u32 val;
->> +
->> +       if (clk_pll_is_enabled(hw))
->> +               return;
->> +
->> +       if (!strcmp(__clk_get_name(hw->clk), "pll_mb")) {
-> Is there any way to avoid doing a string comparison here, and instead do
-> something like a pointer comparison? Or maybe look at some flag in the
-> tegra_clk_pll to figure out what to do differently? Using a string
-> comparison is not too nice. Or even have different clk ops for the
-> different clks and then do different things in this restore clk_op?
-OK, Will update...
->> +               pll_writel_base(pll->pllbase_ctx, pll);
->> +       } else if (!strcmp(__clk_get_name(hw->clk), "pll_re_vco")) {
->> +               val = pll_readl_base(pll);
->> +               val &= ~(0xf << 16);
->> +               pll_writel_base(pll->pllbase_ctx | val, pll);
->> +       }
->> +
->> +       if (pll->params->set_defaults)
->> +               pll->params->set_defaults(pll);
->> +
->> +       clk_set_rate(hw->clk, pll->rate);
-> Do you need to call clk_set_rate() here to change the frequency of the
-> clk or just the parents of the clk, or both? I'd think that when we're
-> restoring the clk the cached rate of the clk would match whatever we're
-> restoring to, so this is a NOP. So does this do anything?
->
-> I'd prefer that the restore ops just restore the clk hardware state of
-> the clk_hw passed in, and not try to fix up the entire tree around a
-> certain clk, if that's even possible.
+On 25/06/2019 21:47, Dmitry Osipenko wrote:
+> 13.05.2019 10:07, Kuninori Morimoto =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>>
+>> soc-core core already has soc_find_component() which find
+>> component from device node.
+>> Let's use existing function to find component.
+>>
+>> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>> ---
+>>  sound/soc/soc-core.c | 17 +++++------------
+>>  1 file changed, 5 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+>> index e55170c..e83edbe 100644
+>> --- a/sound/soc/soc-core.c
+>> +++ b/sound/soc/soc-core.c
+>> @@ -3751,7 +3751,7 @@ EXPORT_SYMBOL_GPL(snd_soc_of_parse_daifmt);
+>> =20
+>>  int snd_soc_get_dai_id(struct device_node *ep)
+>>  {
+>> -	struct snd_soc_component *pos;
+>> +	struct snd_soc_component *component;
+>>  	struct device_node *node;
+>>  	int ret;
+>> =20
+>> @@ -3765,17 +3765,10 @@ int snd_soc_get_dai_id(struct device_node *ep)
+>>  	 */
+>>  	ret =3D -ENOTSUPP;
+>>  	mutex_lock(&client_mutex);
+>> -	for_each_component(pos) {
+>> -		struct device_node *component_of_node =3D soc_component_to_node(pos);
+>> -
+>> -		if (component_of_node !=3D node)
+>> -			continue;
+>> -
+>> -		if (pos->driver->of_xlate_dai_id)
+>> -			ret =3D pos->driver->of_xlate_dai_id(pos, ep);
+>> -
+>> -		break;
+>> -	}
+>> +	component =3D soc_find_component(node, NULL);
+>> +	if (component &&
+>> +	    component->driver->of_xlate_dai_id)
+>> +		ret =3D component->driver->of_xlate_dai_id(component, ep);
+>>  	mutex_unlock(&client_mutex);
+>> =20
+>>  	of_node_put(node);
+>>
+>=20
+> Hi,
+>=20
+> This patch causes crash on today's linux-next apparently because "CPU DAI=
+" is not
+> registered now, any ideas?
 
-On restore, need to program tegra plls rate back to the same rate as 
-they were before suspend, so I am calling clk_set_rate to program pll 
-m,n,p values in hw registers.
+FWIW I am seeing the same crash/regression, however, the bisect is
+pointing to commit b9f2e25c599bbbf0646957e07ebb72b942c286cc ("ASoC:
+soc-core: use soc_find_component() at snd_soc_find_dai()") and reverting
+this commit fixes the problem for me.
 
->> +
->> +       /* do not sync pllx state here. pllx is sync'd after dfll resume */
->> +       if (strcmp(__clk_get_name(hw->clk), "pll_x"))
->> +               tegra_clk_sync_state_pll(hw);
->> +}
->> +
->>   const struct clk_ops tegra_clk_pll_ops = {
->>          .is_enabled = clk_pll_is_enabled,
->>          .enable = clk_pll_enable,
->> @@ -1015,6 +1063,8 @@ const struct clk_ops tegra_clk_pll_ops = {
->>          .recalc_rate = clk_pll_recalc_rate,
->>          .round_rate = clk_pll_round_rate,
->>          .set_rate = clk_pll_set_rate,
->> +       .save_context = tegra_clk_pll_save_context,
->> +       .restore_context = tegra_clk_pll_restore_context,
+Dmitry, are you sure it is this commit? They do have a similar name.
+
+Cheers
+Jon
+
+--=20
+nvpublic
