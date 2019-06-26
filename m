@@ -2,60 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A4CA56743
-	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jun 2019 12:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDB9356AF4
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jun 2019 15:43:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726468AbfFZK6s (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 26 Jun 2019 06:58:48 -0400
-Received: from mga07.intel.com ([134.134.136.100]:45547 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726131AbfFZK6s (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 26 Jun 2019 06:58:48 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Jun 2019 03:58:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,419,1557212400"; 
-   d="scan'208";a="183139426"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.157])
-  by fmsmga001.fm.intel.com with SMTP; 26 Jun 2019 03:58:44 -0700
-Received: by lahna (sSMTP sendmail emulation); Wed, 26 Jun 2019 13:58:43 +0300
-Date:   Wed, 26 Jun 2019 13:58:43 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Keith Busch <kbusch@kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v2] PCI: PM: Skip devices in D0 for suspend-to-idle
-Message-ID: <20190626105843.GQ2640@lahna.fi.intel.com>
-References: <1668247.RaJIPSxJUN@kreacher>
- <CAJZ5v0hdtXqoK84DpYtyMSCnkR9zOHFiUPAzWZDtkFmEjyWD1g@mail.gmail.com>
- <CAJZ5v0gGdXmgc_9r2rbiadq4e31hngpjYQ40QoC6C0z19da_hQ@mail.gmail.com>
- <2287147.DxjcvLeq6l@kreacher>
- <CAJZ5v0gU9OedmZBNDGefG3GjS7FHRmgQ67eOcr2vXRrAg3zZbg@mail.gmail.com>
+        id S1727798AbfFZNnN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 26 Jun 2019 09:43:13 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:16977 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726984AbfFZNnN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 26 Jun 2019 09:43:13 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d13766e0000>; Wed, 26 Jun 2019 06:43:10 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 26 Jun 2019 06:43:12 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 26 Jun 2019 06:43:12 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL106.nvidia.com
+ (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 26 Jun
+ 2019 13:43:12 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 26 Jun 2019 13:43:12 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.21.132.148]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d13766e0000>; Wed, 26 Jun 2019 06:43:11 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-gpio@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <gregkh@linuxfoundation.org>, Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH] gpio: tegra: Clean-up debugfs initialisation
+Date:   Wed, 26 Jun 2019 14:42:58 +0100
+Message-ID: <20190626134258.26991-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0gU9OedmZBNDGefG3GjS7FHRmgQ67eOcr2vXRrAg3zZbg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1561556590; bh=1QvTJ+i/3pGnKJ2oaxpkTtqqpxbadolSu4kWtM0U694=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=J/x0Ye7ExrC6TisZTW7YFyP5eOHtbq6bPkc4xPfY6TlZ297vvLXvSo6+x+v15lcK+
+         p9rIIZGLVOMUwE4NAKorbnbktdyHEFJH4t3ZjMRUtV+s2pWr3KS6feS8zeUmDDy0kN
+         UwAogVzClCIxa+zYTZiko3LgAUibxelO7yzjxzWOghRjWLeH4mOQvknmHD3oPPqUej
+         4pbKVxf0q32eNG/Q7O9U+AB5Tu0N/5F3UTkhcICC3FzcfarLIPgNJMR6yDm/CSORjF
+         ijELy3w27uaqv5B7cOrS73NaY6RCRynGkzANXat/BDXGv4C+77q4xLDZvAUQhdebtB
+         IilDGAgQAMguA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 25, 2019 at 06:23:46PM +0200, Rafael J. Wysocki wrote:
-> > So I wonder if the patch below makes any difference?
-> 
-> Mika, can you please test this one in combination with the other
-> changes we've been working on?
+The function tegra_gpio_debuginit() just calls debugfs_create_file()
+and given that there is already a stub function implemented for
+debugfs_create_file() when CONFIG_DEBUG_FS is not enabled, there is
+no need for the function tegra_gpio_debuginit() and so remove it.
 
-Sure, I'll give it a try shortly.
+Finally, use a space and not a tab between the #ifdef and
+CONFIG_DEBUG_FS.
+
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ drivers/gpio/gpio-tegra.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
+index 0f59161a4701..59b99d8c3647 100644
+--- a/drivers/gpio/gpio-tegra.c
++++ b/drivers/gpio/gpio-tegra.c
+@@ -508,7 +508,7 @@ static int tegra_gpio_irq_set_wake(struct irq_data *d, unsigned int enable)
+ }
+ #endif
+ 
+-#ifdef	CONFIG_DEBUG_FS
++#ifdef CONFIG_DEBUG_FS
+ 
+ #include <linux/debugfs.h>
+ #include <linux/seq_file.h>
+@@ -538,19 +538,6 @@ static int tegra_dbg_gpio_show(struct seq_file *s, void *unused)
+ }
+ 
+ DEFINE_SHOW_ATTRIBUTE(tegra_dbg_gpio);
+-
+-static void tegra_gpio_debuginit(struct tegra_gpio_info *tgi)
+-{
+-	debugfs_create_file("tegra_gpio", 0444, NULL, tgi,
+-			    &tegra_dbg_gpio_fops);
+-}
+-
+-#else
+-
+-static inline void tegra_gpio_debuginit(struct tegra_gpio_info *tgi)
+-{
+-}
+-
+ #endif
+ 
+ static const struct dev_pm_ops tegra_gpio_pm_ops = {
+@@ -675,7 +662,8 @@ static int tegra_gpio_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
+-	tegra_gpio_debuginit(tgi);
++	debugfs_create_file("tegra_gpio", 0444, NULL, tgi,
++			    &tegra_dbg_gpio_fops);
+ 
+ 	return 0;
+ }
+-- 
+2.17.1
+
