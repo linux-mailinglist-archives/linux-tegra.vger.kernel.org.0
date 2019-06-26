@@ -2,83 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A88255D1E
-	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jun 2019 02:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD62055D88
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jun 2019 03:34:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbfFZA4m (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Jun 2019 20:56:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33072 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726037AbfFZA4m (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Jun 2019 20:56:42 -0400
-Received: from localhost (unknown [172.104.248.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6ABE72085A;
-        Wed, 26 Jun 2019 00:56:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561510601;
-        bh=abXAdpfboVZdQSoog5ldf1FPShcMnkPsqNEx5/DnyCo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OB4KBcaQM89i63n0Gb2hSuILySIPM2YSgq8ZxYt49ot4+fLd9JpEOQIalLoFooiVa
-         7QUzKC1I3qhJy3qkBvBX9ntPKIILa0FniwApxmaeVozNMpmltU/mey7ZbADb2Et6bj
-         Ms2hnQ6aRK4eUPN6B48TwhSUPvzs93bawrgrcDso=
-Date:   Wed, 26 Jun 2019 08:51:16 +0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.1 000/121] 5.1.15-stable review
-Message-ID: <20190626005116.GC21530@kroah.com>
-References: <20190624092320.652599624@linuxfoundation.org>
- <163f4750-24c9-104c-95aa-16f51656ef63@nvidia.com>
+        id S1726339AbfFZBe7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Jun 2019 21:34:59 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:40233 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726037AbfFZBe7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 25 Jun 2019 21:34:59 -0400
+Received: by mail-lf1-f68.google.com with SMTP id a9so358796lff.7;
+        Tue, 25 Jun 2019 18:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HJ2vim5KZIApK8x3ewXLTeNdS/0vU4ME8rbQ/SI9AvY=;
+        b=nWEUztQtFeiRmi6ulmabtFA6qwg+mF9tIoEySdAet7Ac+qrU7fZRQLxTngA/zUte1O
+         XxffWdH8G+hHyfOXQ/zATYw31RGkA62NCazDi+TqsLL3H7XXnUuY+WeTkhBUKQJBMLlB
+         Z3zs9kOR6esRFPgMQ4uOsB3NAj8FYhK8/5mUoJq7eg4QcyHuWnZ8jIW+pe5Hj3iecmCq
+         6ZV0fWcp2ukcFxZULBnSAm8o7i+A7p8mkzXKYrgkHNwIy51o46m4geg/qaK6wU0q3Rs+
+         4xDwe5a8PdWZOb48arVLUHHAcVnvHLZhmSCNPLGumElB6Fb/25G7JPeArnnWg0XzmmFg
+         vBSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HJ2vim5KZIApK8x3ewXLTeNdS/0vU4ME8rbQ/SI9AvY=;
+        b=t9n9JMvbG2X949tmzGBzqudoCRl61Odb7qHkwIR/eK01Kp4TnGzNGZOKBMm0714owI
+         SjiU5RxUNDLRgCeZqBNcv9v2VLHXLK3gUG5w7qcoXElxepVNC+Nb38IyH6K+Fx1/CzJT
+         a0hkkqME1dhxK0OXJGbcNaeWjGYScaYCsVj481FTiwpVh3O/GH3Ki0YTRuA9KAdj2rXv
+         zg9a6aLYevqVL0UwPKPPrcPglypfeWzmORKVa1EvQhx72e4iz9q7tEHMiVWTatpsOM9m
+         z04KOtqB0+294TydYH7vuL3k49GVw7GotAZjIaH2ly4oTTO6nYwJlYRzdLgpUOE7Pvv4
+         bCpg==
+X-Gm-Message-State: APjAAAU464u6j/X5zMb5XsQw3ASzI8qixWaq7yqkaRVzalWNY700hcyg
+        PnC7AUIdl/jF932+Us25GJU=
+X-Google-Smtp-Source: APXvYqzO3fEmmWcJPm56uMETxyIiZAVvFVgQYiK4xpd1n+RBoFRBQ36hLCCmQpLjPWFmtypqPCiucg==
+X-Received: by 2002:a19:6a07:: with SMTP id u7mr1004503lfu.74.1561512896931;
+        Tue, 25 Jun 2019 18:34:56 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.gmail.com with ESMTPSA id 199sm2549581ljf.44.2019.06.25.18.34.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 25 Jun 2019 18:34:55 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/17] More improvements for Tegra30 devfreq driver
+Date:   Wed, 26 Jun 2019 04:32:34 +0300
+Message-Id: <20190626013252.30470-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163f4750-24c9-104c-95aa-16f51656ef63@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jun 25, 2019 at 11:01:11AM +0100, Jon Hunter wrote:
-> 
-> On 24/06/2019 10:55, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.1.15 release.
-> > There are 121 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Wed 26 Jun 2019 09:22:03 AM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.15-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests passing for Tegra ...
-> 
-> Test results for stable-v5.1:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     32 tests:	32 pass, 0 fail
-> 
-> Linux version:	5.1.15-rc1-gd74a88068af9
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
-> 
+Hello,
 
-Thanks for testing all of these and letting me know.
+This series addresses some additional review comments that were made by
+Thierry Reding to [1] and makes several important changes to the driver,
+fixing excessive interrupts activity. In the end I'm proposing myself as
+a maintainer for the Tegra devfreq drivers.
 
-greg k-h
+[1] https://lore.kernel.org/lkml/0fb50eb1-a173-1756-6889-2526a10ac707@gmail.com/T/
+
+Changelog:
+
+v2:  Added more patches that are cleaning driver's code further and
+     squashing another kHz conversion bug.
+
+     The patch "Rework frequency management logic" of the v1 series is now
+     converted to "Set up watermarks properly" because I found some problems
+     in the original patch and then realized that there is no need to change
+     the logic much. So the logic mostly preserved and only got improvements.
+
+     The series is based on the today's linux-next (25 Jun) and takes into
+     account minor changes that MyungJoo Ham made to the already queued
+     patches from the first batch [1].
+
+Dmitry Osipenko (17):
+  PM / devfreq: tegra30: Change irq type to unsigned int
+  PM / devfreq: tegra30: Keep interrupt disabled while governor is
+    stopped
+  PM / devfreq: tegra30: Handle possible round-rate error
+  PM / devfreq: tegra30: Drop write-barrier
+  PM / devfreq: tegra30: Set up watermarks properly
+  PM / devfreq: tegra30: Tuneup boosting thresholds
+  PM / devfreq: tegra30: Use CPUFreq notifier
+  PM / devfreq: tegra30: Move clk-notifier's registration to governor's
+    start
+  PM / devfreq: tegra30: Reset boosting on startup
+  PM / devfreq: tegra30: Don't enable consecutive-down interrupt on
+    startup
+  PM / devfreq: tegra30: Add debug messages
+  PM / devfreq: tegra30: Inline all one-line functions
+  PM / devfreq: tegra30: Constify structs
+  PM / devfreq: tegra30: Ensure that target freq won't overflow
+  PM / devfreq: tegra30: Fix integer overflow on CPU's freq max out
+  PM / devfreq: tegra30: Use kHz units uniformly in the code
+  PM / devfreq: tegra20/30: Add Dmitry as a maintainer
+
+ MAINTAINERS                       |   9 +
+ drivers/devfreq/tegra30-devfreq.c | 562 +++++++++++++++++++++---------
+ 2 files changed, 413 insertions(+), 158 deletions(-)
+
+-- 
+2.22.0
+
