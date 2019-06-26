@@ -2,140 +2,132 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AA615622E
-	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jun 2019 08:14:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 129F2565DB
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jun 2019 11:46:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726042AbfFZGOY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 26 Jun 2019 02:14:24 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:50823 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725790AbfFZGOX (ORCPT
+        id S1725379AbfFZJqq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 26 Jun 2019 05:46:46 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:4292 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726242AbfFZJqq (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 26 Jun 2019 02:14:23 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hg1C5-0005zD-Ll; Wed, 26 Jun 2019 08:14:09 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hg1C1-0003D1-Jo; Wed, 26 Jun 2019 08:14:05 +0200
-Date:   Wed, 26 Jun 2019 08:14:05 +0200
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, grygorii.strashko@ti.com,
-        mcoquelin.stm32@gmail.com, thloh@altera.com, festevam@gmail.com,
-        linus.walleij@linaro.org, khilman@kernel.org,
-        patches@opensource.cirrus.com, bgolaszewski@baylibre.com,
-        linux-omap@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-imx@nxp.com, kernel@pengutronix.de, ssantosh@kernel.org,
-        linux-tegra@vger.kernel.org, andriy.shevchenko@linux.intel.com,
-        shawnguo@kernel.org, s.hauer@pengutronix.de,
-        alexandre.torgue@st.com
-Subject: Re: [PATCH 01/30] include: linux: platform_device: more helpers for
- declaring platform drivers
-Message-ID: <20190626061405.qsqq5na4oactuo6f@pengutronix.de>
-References: <1560796871-18560-1-git-send-email-info@metux.net>
+        Wed, 26 Jun 2019 05:46:46 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d133f070000>; Wed, 26 Jun 2019 02:46:47 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 26 Jun 2019 02:46:45 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 26 Jun 2019 02:46:45 -0700
+Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 26 Jun
+ 2019 09:46:43 +0000
+Subject: Re: [PATCH] ASoC: soc-core: don't use soc_find_component() at
+ snd_soc_find_dai()
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Mark Brown <broonie@kernel.org>
+CC:     Linux-ALSA <alsa-devel@alsa-project.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <878stpyvky.wl-kuninori.morimoto.gx@renesas.com>
+ <8291b20f-8926-8089-0507-36b8b1025b35@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <c4587ef2-0cec-ddad-f3ae-2b271505569c@nvidia.com>
+Date:   Wed, 26 Jun 2019 10:46:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1560796871-18560-1-git-send-email-info@metux.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-tegra@vger.kernel.org
+In-Reply-To: <8291b20f-8926-8089-0507-36b8b1025b35@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1561542407; bh=kOuHvF4pFuFql+uak+NdzZIhDUvLPSYVA2iwgAPBa4A=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=nQeuJjRis+7fHfAF1qy2MQUg5yfCmmM4vi/ylcuFz7pFkuEeUOSgbG1s06ymueho7
+         P1qsxtSlh61UDNrC5j9XxeVe+kef80Zyg/IdcMVQaXMa81KPOK565NM/WJKqYjej0i
+         qlz5C4hheCceOwejJP4tz2s3nTxQNlf2BqY83ysAVw8OEkayKS9Mdo1Prn8EKxFXkQ
+         tS8kFm703GyyL0PnLAZe11GcsNFvd2gyMP2YXMoRtWfvtLZsRSOoQDeTw2JcAYz/Gp
+         6/xETyhb11+VT45b0H3FgpnNU2RgEdIP7WUUzhgmDoLeFCPa5SESSH6KdVa/UUxNL7
+         +VgrzScgXR2YQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
 
-On Mon, Jun 17, 2019 at 08:40:42PM +0200, Enrico Weigelt, metux IT consult wrote:
-> From: Enrico Weigelt <info@metux.net>
-> 
-> Add more helper macros for trivial driver init cases, similar to the
-> already existing module_platform_driver()+friends - now for those which
-> are initialized at other stages. Lots of drivers couldn't use the existing
-> macros, as they need to be called at different init stages, eg. subsys,
-> postcore, arch.
-> 
-> This helps to further reduce driver init boilerplate.
-> 
-> Signed-off-by: Enrico Weigelt <info@metux.net>
-> ---
->  include/linux/platform_device.h | 51 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 51 insertions(+)
-> 
-> diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
-> index beb25f2..5f3a967 100644
-> --- a/include/linux/platform_device.h
-> +++ b/include/linux/platform_device.h
-> @@ -259,6 +259,57 @@ static inline void platform_set_drvdata(struct platform_device *pdev,
->  } \
->  module_exit(__platform_driver##_exit);
->  
-> +/* postcore_platform_driver() - Helper macro for drivers that don't do
-> + * anything special in module init/exit.  This eliminates a lot of
-> + * boilerplate.  Each module may only use this macro once, and
-> + * calling it replaces postcore_initcall() and module_exit()
-> + */
-> +#define postcore_platform_driver(__platform_driver) \
-> +static int __init __platform_driver##_init(void) \
-> +{ \
-> +	return platform_driver_register(&(__platform_driver)); \
-> +} \
-> +postcore_initcall(__platform_driver##_init); \
-> +static void __exit __platform_driver##_exit(void) \
-> +{ \
-> +	platform_driver_unregister(&(__platform_driver)); \
-> +} \
-> +module_exit(__platform_driver##_exit);
-> +
-> +/* subsys_platform_driver() - Helper macro for drivers that don't do
-> + * anything special in module init/exit.  This eliminates a lot of
-> + * boilerplate.  Each module may only use this macro once, and
-> + * calling it replaces subsys_initcall() and module_exit()
-> + */
-> +#define subsys_platform_driver(__platform_driver) \
-> +static int __init __platform_driver##_init(void) \
-> +{ \
-> +	return platform_driver_register(&(__platform_driver)); \
-> +} \
-> +subsys_initcall(__platform_driver##_init); \
-> +static void __exit __platform_driver##_exit(void) \
-> +{ \
-> +	platform_driver_unregister(&(__platform_driver)); \
-> +} \
-> +module_exit(__platform_driver##_exit);
+On 26/06/2019 02:54, Dmitry Osipenko wrote:
+> 26.06.2019 4:40, Kuninori Morimoto =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>>
+>> commit b9f2e25c599bb ("ASoC: soc-core: use soc_find_component() at
+>> snd_soc_find_dai()") used soc_find_component() at snd_soc_find_dai(),
+>> but, some CPU driver has CPU component for DAI and Platform component,
+>> for example generic DMAEngine component.
+>> In such case, CPU component and Platform component have same
+>> of_node / name.
+>>
+>> Here soc_find_component() returns *1st* found component.
+>> Thus, we shouldn't use soc_find_component() at snd_soc_find_dai().
+>> This patch fixup this it, and add comment to indicate this limitation.
+>>
+>> Fixes: commit b9f2e25c599bb ("ASoC: soc-core: use soc_find_component() a=
+t snd_soc_find_dai()")
+>> Reported-by: Dmitry Osipenko <digetx@gmail.com>
+>> Reported-by: Jon Hunter <jonathanh@nvidia.com>
+>> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>> ---
+>>  sound/soc/soc-core.c | 13 +++++++++++--
+>>  1 file changed, 11 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+>> index 358f1fb..8ccaf63 100644
+>> --- a/sound/soc/soc-core.c
+>> +++ b/sound/soc/soc-core.c
+>> @@ -786,6 +786,14 @@ static struct snd_soc_component *soc_find_component=
+(
+>> =20
+>>  	lockdep_assert_held(&client_mutex);
+>> =20
+>> +	/*
+>> +	 * NOTE
+>> +	 *
+>> +	 * It returns *1st* found component, but some driver
+>> +	 * has few components by same of_node/name
+>> +	 * ex)
+>> +	 *	CPU component and generic DMAEngine component
+>> +	 */
+>>  	for_each_component(component)
+>>  		if (snd_soc_is_matching_component(dlc, component))
+>>  			return component;
+>> @@ -813,8 +821,9 @@ struct snd_soc_dai *snd_soc_find_dai(
+>>  	lockdep_assert_held(&client_mutex);
+>> =20
+>>  	/* Find CPU DAI from registered DAIs */
+>> -	component =3D soc_find_component(dlc);
+>> -	if (component) {
+>> +	for_each_component(component) {
+>> +		if (!snd_soc_is_matching_component(dlc, component))
+>> +			continue;
+>>  		for_each_component_dais(component, dai) {
+>>  			if (dlc->dai_name && strcmp(dai->name, dlc->dai_name)
+>>  			    && (!dai->driver->name
+>>
+>=20
+> Thank you very much!
+>=20
+> Tested-by: Dmitry Osipenko <digetx@gmail.com>
 
-Would it make sense to do something like:
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
-	#define __module_platform_driver(__platform_driver, __initlvl) \
-	static int __init __platform_driver##_init(void) \
-	{ \
-		return platform_driver_register(&(__platform_driver)); \
-	} \
-	__initlvl ## _initcall(__platform_driver##_init); \
-	static void __exit __platform_driver##_exit(void) \
-	{ \
-		platform_driver_unregister(&(__platform_driver)); \
-	} \
-	module_exit(__platform_driver##_exit);
+Thanks!
+Jon
 
-	#define postcore_platform_driver(__platform_driver) __module_platform_driver(__platform_driver, postcore)
-	#define subsys_platform_driver(__platform_driver) __module_platform_driver(__platform_driver, subsys)
-	...
-
-Which would be more compact and makes the difference between these
-macros a bit more obvious.
-
-Best regards
-Uwe
-
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+--=20
+nvpublic
