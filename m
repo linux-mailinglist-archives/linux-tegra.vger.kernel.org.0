@@ -2,48 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0EAA56C9E
-	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jun 2019 16:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7B0956CA0
+	for <lists+linux-tegra@lfdr.de>; Wed, 26 Jun 2019 16:48:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728385AbfFZOrv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 26 Jun 2019 10:47:51 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:39232 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728377AbfFZOrv (ORCPT
+        id S1728388AbfFZOrx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 26 Jun 2019 10:47:53 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:54839 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728383AbfFZOrw (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 26 Jun 2019 10:47:51 -0400
-Received: by mail-wr1-f68.google.com with SMTP id x4so3065546wrt.6
-        for <linux-tegra@vger.kernel.org>; Wed, 26 Jun 2019 07:47:49 -0700 (PDT)
+        Wed, 26 Jun 2019 10:47:52 -0400
+Received: by mail-wm1-f65.google.com with SMTP id g135so2403182wme.4
+        for <linux-tegra@vger.kernel.org>; Wed, 26 Jun 2019 07:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NrTLjCEQJCPZZPBocCnR2gGFul+oEek89zztJZXdth0=;
-        b=h57Q8Ma7QA2S62Pumxd4IWE4LAB/INnqTPU1uEJawVth6Pq50X9neJBTKuh6OyAZ7m
-         oY3MP7K3tFa4H34C2hQwW9heisfx5XMpEMRhGyeR6xv9XEtdpCjzwnZkDMKjAMHr50s5
-         WhjUdPc/yoUIEzD9s2ev5j9N+GANAzVh/MIDS4H2+R3BV6OCwYfyeoqwESRKPE6ZouHu
-         r1qBBrTd9t1rw6QjMR0EzjZAQhCKmpfvg8D1oNWDXqOFAAj7mdPB0dxCkHsI6ihhN6Uv
-         Fda5MbwzojrblJOZCWTkiT5quzNRRxJQx6RGumw/5Ji06gyUmki+3DefjcMtveHEDNf7
-         p7pg==
+        bh=nq1XbTkt1vTkv4HhT7D+cz8CUmDBD84eY2DPwK+R49I=;
+        b=hjvzg9a9a0GenL06gSEprpW5hS+B+44Q/gkHp+AUPMnoLW1Bd05iBosXOcZ1GGfuxp
+         WPTDCKLDCOMesFSuks/dgz8jra2jLk7kiD4Vqen8neczpsp4q6FrKNyFeEp0C+uTAe6j
+         2Zi52MITdf4b6wUq2zeEwfI7dzy4PAlW9qpYa15Wi9tH5qfIyIukx8f2t/+fJhmAPMsM
+         6wT5N8qDxTetD43SLjJFvuWQsIjygRQ/9UJw6v/8UKz8lWKvxNj4F3/h1nckZ4BKKSAj
+         W3JEHme142is+z+CQzKpOiD25ypNIxDrQI5UPw5rjI3dNkDUzuK0SixBohvRtoeffTm8
+         yYnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=NrTLjCEQJCPZZPBocCnR2gGFul+oEek89zztJZXdth0=;
-        b=IiB2ALsPG1Y6PZiAXk9M8nzGNSF7yy1AVbQ7vzvf+i1ozKbaesdcKnLJv9Gozh/YZT
-         YLxRj7TUhUE/RPt48/NzR+qjzb5QR5r6+KX/ILc/qh8DD6gvMIrLkDvwobAP7CG4t6Vb
-         ZevBEFEDN4D8wtxuVq1PTxQSODFZ26YgoZB+nyzMAzphqy/pjWV9x6FX9cOfdkEJByq0
-         2onY5g5Nx0782UP4pLbNHqRhTXxbGjJpocJOIJDuqGb2cb8Ddr5vn0zMDOS9iUiWQIJ4
-         2eai6zjnGYRrLjYAqNm0b3fok88SU+q0aldy1IUJnU98fW34D7ojOdTF3ApiTRbt8ffp
-         NUPg==
-X-Gm-Message-State: APjAAAWXUOwSWWECADObcARJOu/Yw5DC0AW1jNMOttRPk0isjnAT2MRz
-        HkpQXZy3uJ9JW72b+k/yB7YDWQ==
-X-Google-Smtp-Source: APXvYqxGpQiv5E4WGjCIQKYH9Y+gRBsbnKqD8dw94pr4vFwmPC93zjhp1ZIbYHoWZw3keMJc9Bn4Yg==
-X-Received: by 2002:a5d:5112:: with SMTP id s18mr3803585wrt.111.1561560468935;
-        Wed, 26 Jun 2019 07:47:48 -0700 (PDT)
+        bh=nq1XbTkt1vTkv4HhT7D+cz8CUmDBD84eY2DPwK+R49I=;
+        b=uFaTSRY9o6POs/ksbZGGpqlmjtwvzMDp4HCov/cwWfXoMqcmo7OD6FDg+zPaLqrhs9
+         UAdCrIH08hZJzVHcdqdbyjIUU8f8K58/gIbhSYMFB/0zGAEh/qzInRmd/KHJ9Dkt9nC7
+         /+SK/HlsnSUOqUWlDlKO5AqboF+J0Rp87TR9lk811DvHgouB8m9uoBplSWoN3mdayauQ
+         9YhML6DUTr6lkS/oez7msUz5KrJ1L9dgCIsaN0s/nzlu1q8811djM+18jNBJcbpj8pMN
+         n1bdFMAGVdwKaLrhempEDKfXkXyWwxCdvWc/zGBAIPaqA8odPDpiWu/lGniJHxVZunDU
+         B6Cg==
+X-Gm-Message-State: APjAAAX/F42S/CGVkAbDLVZu2DomdO6TErTIQqB9nwAkWaNPubL7sn7A
+        zkbPVnVEPsZ+MsMxZCbb53bg3Q==
+X-Google-Smtp-Source: APXvYqy/gyXrr5TSHewUeTIot1Go2roqfk1bh0jcUiD6g99PjFboR54K2WyI/H9X9RIhFOcEYYsI4w==
+X-Received: by 2002:a1c:1d83:: with SMTP id d125mr2999871wmd.63.1561560470791;
+        Wed, 26 Jun 2019 07:47:50 -0700 (PDT)
 Received: from mai.imgcgcw.net (26.92.130.77.rev.sfr.net. [77.130.92.26])
-        by smtp.gmail.com with ESMTPSA id h84sm2718557wmf.43.2019.06.26.07.47.47
+        by smtp.gmail.com with ESMTPSA id h84sm2718557wmf.43.2019.06.26.07.47.49
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Jun 2019 07:47:48 -0700 (PDT)
+        Wed, 26 Jun 2019 07:47:50 -0700 (PDT)
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
 To:     tglx@linutronix.de
 Cc:     linux-kernel@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
@@ -51,9 +51,9 @@ Cc:     linux-kernel@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <treding@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT)
-Subject: [PATCH 22/25] clocksource/drivers/tegra: Cycles can't be 0
-Date:   Wed, 26 Jun 2019 16:46:48 +0200
-Message-Id: <20190626144651.16742-22-daniel.lezcano@linaro.org>
+Subject: [PATCH 23/25] clocksource/drivers/tegra: Set up maximum-ticks limit properly
+Date:   Wed, 26 Jun 2019 16:46:49 +0200
+Message-Id: <20190626144651.16742-23-daniel.lezcano@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190626144651.16742-1-daniel.lezcano@linaro.org>
 References: <adba7d03-e9bd-9542-60bc-0f2d4874a40e@linaro.org>
@@ -65,41 +65,40 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Dmitry Osipenko <digetx@gmail.com>
 
-Tegra's timer uses n+1 scheme for the counter, i.e. timer will fire after
-one tick if 0 is loaded. The minimum and maximum numbers of oneshot ticks
-are defined by clockevents_config_and_register(min, max) invocation and
-the min value is set to 1 tick. Hence "cycles" value can't ever be 0,
-unless it's a bug in clocksource core.
+Tegra's timer has 29 bits for the counter and for the "load" register
+which sets counter to a load-value. The counter's value is lower than
+the actual value by 1 because it starts to decrement after one tick,
+hence the maximum number of ticks that hardware can handle equals to
+29 bits + 1.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 Acked-by: Jon Hunter <jonathanh@nvidia.com>
 Acked-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 ---
- drivers/clocksource/timer-tegra.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/clocksource/timer-tegra.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/clocksource/timer-tegra.c b/drivers/clocksource/timer-tegra.c
-index 8e70f38f1898..a907e71065bd 100644
+index a907e71065bd..e9635c25eef4 100644
 --- a/drivers/clocksource/timer-tegra.c
 +++ b/drivers/clocksource/timer-tegra.c
-@@ -56,9 +56,16 @@ static int tegra_timer_set_next_event(unsigned long cycles,
- {
- 	void __iomem *reg_base = timer_of_base(to_timer_of(evt));
+@@ -139,9 +139,17 @@ static int tegra_timer_setup(unsigned int cpu)
+ 	irq_force_affinity(to->clkevt.irq, cpumask_of(cpu));
+ 	enable_irq(to->clkevt.irq);
  
--	writel_relaxed(TIMER_PTV_EN |
--		       ((cycles > 1) ? (cycles - 1) : 0), /* n+1 scheme */
--		       reg_base + TIMER_PTV);
 +	/*
 +	 * Tegra's timer uses n+1 scheme for the counter, i.e. timer will
-+	 * fire after one tick if 0 is loaded.
-+	 *
-+	 * The minimum and maximum numbers of oneshot ticks are defined
-+	 * by clockevents_config_and_register(1, 0x1fffffff + 1) invocation
-+	 * below in the code. Hence the cycles (ticks) can't be outside of
-+	 * a range supportable by hardware.
++	 * fire after one tick if 0 is loaded and thus minimum number of
++	 * ticks is 1. In result both of the clocksource's tick limits are
++	 * higher than a minimum and maximum that hardware register can
++	 * take by 1, this is then taken into account by set_next_event
++	 * callback.
 +	 */
-+	writel_relaxed(TIMER_PTV_EN | (cycles - 1), reg_base + TIMER_PTV);
+ 	clockevents_config_and_register(&to->clkevt, timer_of_rate(to),
+ 					1, /* min */
+-					0x1fffffff); /* 29 bits */
++					0x1fffffff + 1); /* max 29 bits + 1 */
  
  	return 0;
  }
