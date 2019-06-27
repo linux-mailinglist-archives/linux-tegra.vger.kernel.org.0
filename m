@@ -2,118 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05B0158BED
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Jun 2019 22:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B756F58C8F
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Jun 2019 23:12:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbfF0Uof (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Jun 2019 16:44:35 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:44704 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726384AbfF0Uoe (ORCPT
+        id S1726502AbfF0VM0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Jun 2019 17:12:26 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:39137 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbfF0VM0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Jun 2019 16:44:34 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 85AA66085C; Thu, 27 Jun 2019 20:44:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1561668273;
-        bh=fqJngYFZovJRH4LMJ9rXXIBSC2Q0Q4+IE1S7MgXNT2o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OaT98YmwswqhoFLvu9AAkYbhBabxkEqrBa1LHx48b2kTEb8B2k/7AFB5jGrrHc67S
-         4yjpnpKOq6iSe/VPgWnABZVlIG0rfFpLFmtn35NzTuLGgfEZPu3Ol5s3kyXuFRhxaM
-         q991sETK0apliQ7J977RqXAdzq08EGCDyXAq5Kvo=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        pdx-caf-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.0
-Received: from localhost (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: ilina@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 73A396085C;
-        Thu, 27 Jun 2019 20:44:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1561668272;
-        bh=fqJngYFZovJRH4LMJ9rXXIBSC2Q0Q4+IE1S7MgXNT2o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X54MxjAhz2wrbSvg/wIVYblS4krMWyFR1F95IWCZUV44O9np7mvGW/0bSdpNVjFj+
-         /hLSy/wzJVuHkdqSMf9WS8+2Hj+w13qxo0AQ3f4d8BneNI5T4AqMykeLNSKO3+4x21
-         XRDk/bsNuclyJzCYcEEkHPnMUurA8J6ka0LCwFW0=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 73A396085C
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=ilina@codeaurora.org
-Date:   Thu, 27 Jun 2019 14:44:31 -0600
-From:   Lina Iyer <ilina@codeaurora.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        David Daney <david.daney@cavium.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH 1/4 v1] gpio: Add support for hierarchical IRQ domains
-Message-ID: <20190627204431.GA24030@codeaurora.org>
-References: <20190624132531.6184-1-linus.walleij@linaro.org>
+        Thu, 27 Jun 2019 17:12:26 -0400
+Received: by mail-lf1-f65.google.com with SMTP id p24so2526159lfo.6;
+        Thu, 27 Jun 2019 14:12:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CBc6n3CYBkvzlHwB103ylCdVYWoXy633oQ/H/yLj6/w=;
+        b=IBVQo2NIxQgWfrMsSBV/CHWRUTOIIF9Xagubni4fRrQxJNeWq3bbXN1Qb10t1LDe/I
+         +Ndj9PzHav8EWxvP2tQJkDUIWLrO4R3OhRtMM9gCDv/ZBkKl8U0ZyUt41D7CjGf8b2j2
+         XwOsUwEmYxfq1whLJgzPDJcLPRTlTbnT8stnDJkYvYIVuIR9ZJGSaoaxloBhDiUUEtMZ
+         Nj3KIw22UYd1KPDvv9IIA18T/JsrEf599L3QmuwY1ihE8Pn02SkZ+KLZ2D5UZccIL84a
+         VzaZON9wBf6uDdk4GV9X625QLhJIzYZ0q/QP1iMBZ0C+RpBR0SgdJgdLN44DeUfBYnG7
+         IwrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CBc6n3CYBkvzlHwB103ylCdVYWoXy633oQ/H/yLj6/w=;
+        b=UB6XfqXlOAoUucHK6ZC3jhfsC8EvGeur/VqvR/spxuwWATY0r1bg47UpXd+VKe2Skl
+         e08+5iFPpN7f2ru9TTuX8b38CkFHTmkVkP3JCuCqMyH/ddApoNuHIZGGvGILeGVnQCKp
+         KyeqrSFvbcpbf79y/PYnnJ7EDcyp8uFE9iL6F3Z3LtuMlIYRMFFtGEJ3nl1Axs0YO5yt
+         I7bJfBdK6OP1svY7yvti0eo2THyYKwp1wSNdAaBgy5nJwHnRUhAGOU3VZsqe/sxS0/0j
+         pKXZmnfTQH4vv1EUQyeG6N7CtoFerpX62ZzKUekP0Z7YrZFk1v2AA1FLlbtVQG+VL57x
+         VQyQ==
+X-Gm-Message-State: APjAAAWR6tovM5apYj90gKX0JPet3Hjtdo/OxzlQzocMJjLcY6Zo8CVn
+        qpP+nPN6nqEK3GBorBQsXpw=
+X-Google-Smtp-Source: APXvYqx/N1+0rPOFfGO+DAGSU3BX6/9MST9BPLoWWDpXv3liIvxdN7ty5A1jm6+tx0wK2VCm4zmW/A==
+X-Received: by 2002:ac2:4839:: with SMTP id 25mr3154376lft.79.1561669943453;
+        Thu, 27 Jun 2019 14:12:23 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
+        by smtp.gmail.com with ESMTPSA id p29sm30485ljp.87.2019.06.27.14.12.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 27 Jun 2019 14:12:22 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/22] More improvements for Tegra30 devfreq driver
+Date:   Fri, 28 Jun 2019 00:10:53 +0300
+Message-Id: <20190627211115.21138-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20190624132531.6184-1-linus.walleij@linaro.org>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 24 2019 at 07:29 -0600, Linus Walleij wrote:
->+static const struct irq_domain_ops gpiochip_hierarchy_domain_ops = {
->+	.activate = gpiochip_irq_domain_activate,
->+	.deactivate = gpiochip_irq_domain_deactivate,
->+	.translate = gpiochip_hierarchy_irq_domain_translate,
->+	.alloc = gpiochip_hierarchy_irq_domain_alloc,
->+	.free = irq_domain_free_irqs_common,
->+};
->+
->+static int gpiochip_hierarchy_add_domain(struct gpio_chip *gc)
->+{
->+	if (!gc->irq.parent_domain) {
->+		chip_err(gc, "missing parent irqdomain\n");
->+		return -EINVAL;
->+	}
->+
->+	if (!gc->irq.parent_domain ||
->+	    !gc->irq.child_to_parent_hwirq ||
->+	    !gc->irq.fwnode) {
->+		chip_err(gc, "missing irqdomain vital data\n");
->+		return -EINVAL;
->+	}
->+
->+	gc->irq.domain = irq_domain_create_hierarchy(
->+		gc->irq.parent_domain,
->+		IRQ_DOMAIN_FLAG_HIERARCHY,
->+		gc->ngpio,
->+		gc->irq.fwnode,
->+		&gpiochip_hierarchy_domain_ops,
-This should probably be used only if gc->irq.domain_ops is not set.
->+		gc);
->+
->+	if (!gc->irq.domain) {
->+		chip_err(gc, "failed to add hierarchical domain\n");
->+		return -EINVAL;
->+	}
->+
->+	gpiochip_set_hierarchical_irqchip(gc, gc->irq.chip);
->+
->+	chip_info(gc, "set up hierarchical irqdomain\n");
->+
->+	return 0;
->+}
->+
+Hello,
 
-Thanks,
-Lina
+This series addresses some additional review comments that were made by
+Thierry Reding to [1] and makes several important changes to the driver,
+fixing excessive interrupts activity. In the end I'm proposing myself as
+a maintainer for the Tegra devfreq drivers.
+
+[1] https://lore.kernel.org/lkml/0fb50eb1-a173-1756-6889-2526a10ac707@gmail.com/T/
+
+Changelog:
+
+v3:  Added support for tracepoints, replacing the debug messages.
+     Fixed few more bugs with the help of tracepoints.
+
+     New patches in this version:
+
+       PM / devfreq: tegra30: Use tracepoints for debugging
+       PM / devfreq: tegra30: Optimize CPUFreq notifier
+       PM / devfreq: tegra30: Optimize upper consecutive watermark selection
+       PM / devfreq: tegra30: Optimize upper average watermark selection
+       PM / devfreq: tegra30: Include appropriate header
+
+     Some of older patches of this series also got some extra minor polish.
+
+v2:  Added more patches that are cleaning driver's code further and
+     squashing another kHz conversion bug.
+
+     The patch "Rework frequency management logic" of the v1 series is now
+     converted to "Set up watermarks properly" because I found some problems
+     in the original patch and then realized that there is no need to change
+     the logic much. So the logic mostly preserved and only got improvements.
+
+     The series is based on the today's linux-next (25 Jun) and takes into
+     account minor changes that MyungJoo Ham made to the already queued
+     patches from the first batch [1].
+
+Dmitry Osipenko (22):
+  PM / devfreq: tegra30: Change irq type to unsigned int
+  PM / devfreq: tegra30: Keep interrupt disabled while governor is
+    stopped
+  PM / devfreq: tegra30: Handle possible round-rate error
+  PM / devfreq: tegra30: Drop write-barrier
+  PM / devfreq: tegra30: Set up watermarks properly
+  PM / devfreq: tegra30: Tune up boosting thresholds
+  PM / devfreq: tegra30: Use CPUFreq notifier
+  PM / devfreq: tegra30: Move clk-notifier's registration to governor's
+    start
+  PM / devfreq: tegra30: Reset boosting on startup
+  PM / devfreq: tegra30: Don't enable consecutive-down interrupt on
+    startup
+  PM / devfreq: tegra30: Add debug messages
+  PM / devfreq: tegra30: Inline all one-line functions
+  PM / devfreq: tegra30: Constify structs
+  PM / devfreq: tegra30: Ensure that target freq won't overflow
+  PM / devfreq: tegra30: Fix integer overflow on CPU's freq max out
+  PM / devfreq: tegra30: Use kHz units uniformly in the code
+  PM / devfreq: tegra30: Use tracepoints for debugging
+  PM / devfreq: tegra30: Optimize CPUFreq notifier
+  PM / devfreq: tegra30: Optimize upper consecutive watermark selection
+  PM / devfreq: tegra30: Optimize upper average watermark selection
+  PM / devfreq: tegra30: Include appropriate header
+  PM / devfreq: tegra20/30: Add Dmitry as a maintainer
+
+ MAINTAINERS                            |   9 +
+ drivers/devfreq/tegra30-devfreq.c      | 631 ++++++++++++++++++-------
+ include/trace/events/tegra30_devfreq.h | 105 ++++
+ 3 files changed, 583 insertions(+), 162 deletions(-)
+ create mode 100644 include/trace/events/tegra30_devfreq.h
+
+-- 
+2.22.0
+
