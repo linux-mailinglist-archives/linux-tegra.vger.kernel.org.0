@@ -2,76 +2,201 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0CD9586FD
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Jun 2019 18:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8250587AE
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Jun 2019 18:52:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726315AbfF0Q0J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Jun 2019 12:26:09 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:33126 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726405AbfF0Q0I (ORCPT
+        id S1726631AbfF0QwO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Jun 2019 12:52:14 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:14316 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726619AbfF0QwN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Jun 2019 12:26:08 -0400
-Received: by mail-lf1-f68.google.com with SMTP id y17so2020025lfe.0
-        for <linux-tegra@vger.kernel.org>; Thu, 27 Jun 2019 09:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9RRMDm00p9AJVdFcHrfeUH7UMA7Myos4ORq1dN0RjbM=;
-        b=gaKEOSGiWwLZ3KPNv4G3TGQzDHLXQtNfe54AlgbSKN1ik0ggWcCbxmtl37nBHB6EeS
-         c9rqKO1wDxaWBHYCScqLI/6D6i2loQXfo9w06QCxLXIb9V9P4nNp4dUcMDeYLpBlyf8T
-         znR7X3qvG4hAK/3sNmZILIXc3J6kAv7xXuYYC+jKoxx2qWwnEydZEyLgUPr2C7Ae5XFX
-         UlYzjXlGuSA4zh2/4C8TcfnhtzE6RenQx+mSxLV194hTU7L04etMrs3pxG4DG3QLgXQc
-         vVmscEsFCEYoMp3jIjrMLx6QFIXxiTc8VBNbZUToq3RHUuG/UqQ/VfpJ5iq/jTMZc9E0
-         jlbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9RRMDm00p9AJVdFcHrfeUH7UMA7Myos4ORq1dN0RjbM=;
-        b=N/LtZN9UuCV+pyU8WH6OBZYxLc//RCjuPMplOxzj7rakPm/IhxAsVu9oeMhrnRmi7T
-         YRdzxZ7keH8eZV6YqFIubVyGZL6bvH1s9udWa7PgNH4x4GCmR8B7s6ey8FveyYa6pAvg
-         9w1pt9gLZlGmoRnsmWZO5rqKT4kv+C76ddXRiVDS6e93xLO6AIZh6fxkW8ErIeoF0Q+B
-         eRwjzDg74Nmv2ZMKhxKkiHuyYlMIXPfHu7cd+fG98GPy5W2v2qjKtg9IN0FUdnaG3Pzj
-         eubAM8+7uCDHstpTX0vkkW4YiSYR0F+cvCMLFdStZybgjK0tsWPBeQQrrfaWWlabjEeR
-         ww4w==
-X-Gm-Message-State: APjAAAWi4c5+4Xogp3kelYvSosR2gKymkn7YAE4LWAUYSGQbFc+UwiBo
-        9LLuGJXzkmbHiaIzr8bDCfcj8/HA9rjI/x7mkANZ2ClDnA8=
-X-Google-Smtp-Source: APXvYqyTl3tFgPOvf0mzEQrfvC/KAMaf6z9PDn6A4m2Us0uL3kh2uRdxdZjJI8AUObAJ6tPtR9okP4jozgaGcXhkCRg=
-X-Received: by 2002:a19:7616:: with SMTP id c22mr2561517lff.115.1561652766589;
- Thu, 27 Jun 2019 09:26:06 -0700 (PDT)
+        Thu, 27 Jun 2019 12:52:13 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d14f43a0000>; Thu, 27 Jun 2019 09:52:10 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 27 Jun 2019 09:52:12 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 27 Jun 2019 09:52:12 -0700
+Received: from [10.25.73.176] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 27 Jun
+ 2019 16:52:06 +0000
+Subject: Re: [PATCH V11 03/12] PCI: dwc: Perform dbi regs write lock towards
+ the end
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC:     <bhelgaas@google.com>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <kishon@ti.com>, <catalin.marinas@arm.com>,
+        <will.deacon@arm.com>, <jingoohan1@gmail.com>,
+        <gustavo.pimentel@synopsys.com>, <digetx@gmail.com>,
+        <mperttunen@nvidia.com>, <linux-pci@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20190624091505.1711-1-vidyas@nvidia.com>
+ <20190624091505.1711-4-vidyas@nvidia.com>
+ <20190627145800.GD3782@e121166-lin.cambridge.arm.com>
+ <ecae46b4-54cc-7f4d-5a86-908431fd472a@nvidia.com>
+ <20190627155047.GF3782@e121166-lin.cambridge.arm.com>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <fbef2fee-1ca9-b894-6d1a-f2a9449968a5@nvidia.com>
+Date:   Thu, 27 Jun 2019 22:22:03 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <20190626134258.26991-1-jonathanh@nvidia.com>
-In-Reply-To: <20190626134258.26991-1-jonathanh@nvidia.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 27 Jun 2019 17:25:54 +0100
-Message-ID: <CACRpkdZrdzs8TfESG4GJ-Tn0oZ4FoE90zrR3oO3KgdQBDLeASA@mail.gmail.com>
-Subject: Re: [PATCH] gpio: tegra: Clean-up debugfs initialisation
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-tegra@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190627155047.GF3782@e121166-lin.cambridge.arm.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1561654330; bh=yvZTQ4IOvwV6hxGeLW9GOQ2PqNDwou5Z7nhqxb2MGzs=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=iYpJIifkIFk1Yn0Eghy9VIv8CWqVmaUl2NjkJCcCnw4fa44o14waMoJZ5wiY2vv4i
+         AonS5CXCnMzgLrRHT3pgAav4AlJ6wHA79wV19iTR2hU3lKQPkXn5ZeZN30IhnSEuTl
+         7j+nz+zLL7eMFU1AYZsTIvEY7gReETQa/nmiCqdp/KsBYN1ZLNckPodg5tL8PvbqWq
+         qyy9BkbegqMYkCWBvxKzXSi8ha/QC9Q0lbPnkvEN07Bphh/8hxtwnaBr0qB8/Js98s
+         qDXzoUxEMVyK/6y0EGWf0UF0sCYc+P7x/uEBCX5HiehRt9Opb3Ipyiu4L+dzJi0aHz
+         4x3HfLnIFxTEQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jun 26, 2019 at 2:43 PM Jon Hunter <jonathanh@nvidia.com> wrote:
+On 6/27/2019 9:20 PM, Lorenzo Pieralisi wrote:
+> On Thu, Jun 27, 2019 at 09:03:08PM +0530, Vidya Sagar wrote:
+>> On 6/27/2019 8:28 PM, Lorenzo Pieralisi wrote:
+>>> On Mon, Jun 24, 2019 at 02:44:56PM +0530, Vidya Sagar wrote:
+>>>> Remove multiple write enable and disable sequences of dbi registers as
+>>>> Tegra194 implements writes to BAR-0 register (offset: 0x10) controlled by
+>>>> DBI write-lock enable bit thereby not allowing any further writes to BAR-0
+>>>> register in config space to take place. Hence enabling write permission at
+>>>> the start of function and disabling the same only towards the end.
+>>>
+>>> I do not understand what this patch does, I would like to rephrase
+>>> the commit log in a way that is easier to parse.
+>>>
+>>> In particular I do not get what you mean in relation to BAR-0, I am
+>>> confused, please clarify.
+>>>
+>>> Lorenzo
+>> Well, some of the Synopsys DesignWare core's DBI registers are
+>> protected with a lock without which, they are read-only by default.
+>> Existing code in dw_pcie_setup_rc() API tries to unlock and lock
+>> multiple times whenever it wants to update those write-protected
+>> registers. This patch attempts to unlock all such write-protected
+>> registers for writing once in the beginning of the function and lock
+>> them back towards the end.  As far as BAR-0 register (which is at
+>> offset 0x10 in DBI space... nothing but the config space) in Tegra194
+>> is concerned, it is one of those registers to which writes are
+>> protected. I could have added unlock/lock pair around accessing this
+>> register, but that would bloat this API with one more pair of
+>> unlock/lock, instead I chose to remove unlock/lock pairs for all
+>> protected registers and have unlock in the beginning and lock towards
+>> the end.
+> 
+> Ok, so DBI space registers that require write permissions are per-IP.
+> This is clearer so the commit log must be rewritten, it is not clear at
+> all in this respect at least not as-is, if you read it you will
+> notice ;-)
+Ok. I'll update commit message in next patch series.
 
-> The function tegra_gpio_debuginit() just calls debugfs_create_file()
-> and given that there is already a stub function implemented for
-> debugfs_create_file() when CONFIG_DEBUG_FS is not enabled, there is
-> no need for the function tegra_gpio_debuginit() and so remove it.
->
-> Finally, use a space and not a tab between the #ifdef and
-> CONFIG_DEBUG_FS.
->
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+-Vidya Sagar
+> 
+> Lorenzo
+> 
+>>
+>> -Vidya Sagar
+>>
+>>>
+>>>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+>>>> Reviewed-by: Thierry Reding <treding@nvidia.com>
+>>>> Acked-by: Jingoo Han <jingoohan1@gmail.com>
+>>>> ---
+>>>> Changes since [v10]:
+>>>> * None
+>>>>
+>>>> Changes since [v9]:
+>>>> * None
+>>>>
+>>>> Changes since [v8]:
+>>>> * None
+>>>>
+>>>> Changes since [v7]:
+>>>> * None
+>>>>
+>>>> Changes since [v6]:
+>>>> * None
+>>>>
+>>>> Changes since [v5]:
+>>>> * Moved write enable to the beginning of the API and write disable to the end
+>>>>
+>>>> Changes since [v4]:
+>>>> * None
+>>>>
+>>>> Changes since [v3]:
+>>>> * None
+>>>>
+>>>> Changes since [v2]:
+>>>> * None
+>>>>
+>>>> Changes since [v1]:
+>>>> * None
+>>>>
+>>>>    drivers/pci/controller/dwc/pcie-designware-host.c | 14 ++++++++------
+>>>>    1 file changed, 8 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+>>>> index f93252d0da5b..d3156446ff27 100644
+>>>> --- a/drivers/pci/controller/dwc/pcie-designware-host.c
+>>>> +++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+>>>> @@ -628,6 +628,12 @@ void dw_pcie_setup_rc(struct pcie_port *pp)
+>>>>    	u32 val, ctrl, num_ctrls;
+>>>>    	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+>>>> +	/*
+>>>> +	 * Enable DBI read-only registers for writing/updating configuration.
+>>>> +	 * Write permission gets disabled towards the end of this function.
+>>>> +	 */
+>>>> +	dw_pcie_dbi_ro_wr_en(pci);
+>>>> +
+>>>>    	dw_pcie_setup(pci);
+>>>>    	if (!pp->ops->msi_host_init) {
+>>>> @@ -650,12 +656,10 @@ void dw_pcie_setup_rc(struct pcie_port *pp)
+>>>>    	dw_pcie_writel_dbi(pci, PCI_BASE_ADDRESS_1, 0x00000000);
+>>>>    	/* Setup interrupt pins */
+>>>> -	dw_pcie_dbi_ro_wr_en(pci);
+>>>>    	val = dw_pcie_readl_dbi(pci, PCI_INTERRUPT_LINE);
+>>>>    	val &= 0xffff00ff;
+>>>>    	val |= 0x00000100;
+>>>>    	dw_pcie_writel_dbi(pci, PCI_INTERRUPT_LINE, val);
+>>>> -	dw_pcie_dbi_ro_wr_dis(pci);
+>>>>    	/* Setup bus numbers */
+>>>>    	val = dw_pcie_readl_dbi(pci, PCI_PRIMARY_BUS);
+>>>> @@ -687,15 +691,13 @@ void dw_pcie_setup_rc(struct pcie_port *pp)
+>>>>    	dw_pcie_wr_own_conf(pp, PCI_BASE_ADDRESS_0, 4, 0);
+>>>> -	/* Enable write permission for the DBI read-only register */
+>>>> -	dw_pcie_dbi_ro_wr_en(pci);
+>>>>    	/* Program correct class for RC */
+>>>>    	dw_pcie_wr_own_conf(pp, PCI_CLASS_DEVICE, 2, PCI_CLASS_BRIDGE_PCI);
+>>>> -	/* Better disable write permission right after the update */
+>>>> -	dw_pcie_dbi_ro_wr_dis(pci);
+>>>>    	dw_pcie_rd_own_conf(pp, PCIE_LINK_WIDTH_SPEED_CONTROL, 4, &val);
+>>>>    	val |= PORT_LOGIC_SPEED_CHANGE;
+>>>>    	dw_pcie_wr_own_conf(pp, PCIE_LINK_WIDTH_SPEED_CONTROL, 4, val);
+>>>> +
+>>>> +	dw_pcie_dbi_ro_wr_dis(pci);
+>>>>    }
+>>>>    EXPORT_SYMBOL_GPL(dw_pcie_setup_rc);
+>>>> -- 
+>>>> 2.17.1
+>>>>
+>>
 
-Patch applied with Bartosz review tag.
-
-Yours,
-Linus Walleij
