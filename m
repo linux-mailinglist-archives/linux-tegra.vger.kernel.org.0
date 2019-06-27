@@ -2,22 +2,22 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CB10584A2
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Jun 2019 16:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D072584FB
+	for <lists+linux-tegra@lfdr.de>; Thu, 27 Jun 2019 16:58:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726913AbfF0Oin (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Jun 2019 10:38:43 -0400
-Received: from foss.arm.com ([217.140.110.172]:55674 "EHLO foss.arm.com"
+        id S1726631AbfF0O6G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Jun 2019 10:58:06 -0400
+Received: from foss.arm.com ([217.140.110.172]:56108 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726431AbfF0Oin (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Jun 2019 10:38:43 -0400
+        id S1726497AbfF0O6G (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 27 Jun 2019 10:58:06 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72489360;
-        Thu, 27 Jun 2019 07:38:42 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B367360;
+        Thu, 27 Jun 2019 07:58:05 -0700 (PDT)
 Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD71B3F246;
-        Thu, 27 Jun 2019 07:38:39 -0700 (PDT)
-Date:   Thu, 27 Jun 2019 15:38:37 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B6A5D3F246;
+        Thu, 27 Jun 2019 07:58:02 -0700 (PDT)
+Date:   Thu, 27 Jun 2019 15:58:00 +0100
 From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 To:     Vidya Sagar <vidyas@nvidia.com>
 Cc:     bhelgaas@google.com, robh+dt@kernel.org, mark.rutland@arm.com,
@@ -28,27 +28,39 @@ Cc:     bhelgaas@google.com, robh+dt@kernel.org, mark.rutland@arm.com,
         devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V11 01/12] PCI: Add #defines for some of PCIe spec r4.0
- features
-Message-ID: <20190627143837.GC3782@e121166-lin.cambridge.arm.com>
+Subject: Re: [PATCH V11 03/12] PCI: dwc: Perform dbi regs write lock towards
+ the end
+Message-ID: <20190627145800.GD3782@e121166-lin.cambridge.arm.com>
 References: <20190624091505.1711-1-vidyas@nvidia.com>
- <20190624091505.1711-2-vidyas@nvidia.com>
+ <20190624091505.1711-4-vidyas@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190624091505.1711-2-vidyas@nvidia.com>
+In-Reply-To: <20190624091505.1711-4-vidyas@nvidia.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jun 24, 2019 at 02:44:54PM +0530, Vidya Sagar wrote:
-> Add #defines only for the Data Link Feature and Physical Layer 16.0 GT/s
-> features.
-> 
+On Mon, Jun 24, 2019 at 02:44:56PM +0530, Vidya Sagar wrote:
+> Remove multiple write enable and disable sequences of dbi registers as
+> Tegra194 implements writes to BAR-0 register (offset: 0x10) controlled by
+> DBI write-lock enable bit thereby not allowing any further writes to BAR-0
+> register in config space to take place. Hence enabling write permission at
+> the start of function and disabling the same only towards the end.
+
+I do not understand what this patch does, I would like to rephrase
+the commit log in a way that is easier to parse.
+
+In particular I do not get what you mean in relation to BAR-0, I am
+confused, please clarify.
+
+Lorenzo
+
 > Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
 > Reviewed-by: Thierry Reding <treding@nvidia.com>
+> Acked-by: Jingoo Han <jingoohan1@gmail.com>
 > ---
 > Changes since [v10]:
 > * None
@@ -66,7 +78,7 @@ On Mon, Jun 24, 2019 at 02:44:54PM +0530, Vidya Sagar wrote:
 > * None
 > 
 > Changes since [v5]:
-> * None
+> * Moved write enable to the beginning of the API and write disable to the end
 > 
 > Changes since [v4]:
 > * None
@@ -75,57 +87,62 @@ On Mon, Jun 24, 2019 at 02:44:54PM +0530, Vidya Sagar wrote:
 > * None
 > 
 > Changes since [v2]:
-> * Updated commit message and description to explicitly mention that defines are
->   added only for some of the features and not all.
+> * None
 > 
 > Changes since [v1]:
 > * None
 > 
->  include/uapi/linux/pci_regs.h | 22 +++++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
-
-I need Bjorn's ACK to merge this patch.
-
-Lorenzo
-
-> diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
-> index f28e562d7ca8..1c79f6a097d2 100644
-> --- a/include/uapi/linux/pci_regs.h
-> +++ b/include/uapi/linux/pci_regs.h
-> @@ -713,7 +713,9 @@
->  #define PCI_EXT_CAP_ID_DPC	0x1D	/* Downstream Port Containment */
->  #define PCI_EXT_CAP_ID_L1SS	0x1E	/* L1 PM Substates */
->  #define PCI_EXT_CAP_ID_PTM	0x1F	/* Precision Time Measurement */
-> -#define PCI_EXT_CAP_ID_MAX	PCI_EXT_CAP_ID_PTM
-> +#define PCI_EXT_CAP_ID_DLF	0x25	/* Data Link Feature */
-> +#define PCI_EXT_CAP_ID_PL	0x26	/* Physical Layer 16.0 GT/s */
-> +#define PCI_EXT_CAP_ID_MAX	PCI_EXT_CAP_ID_PL
+>  drivers/pci/controller/dwc/pcie-designware-host.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+> index f93252d0da5b..d3156446ff27 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-host.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+> @@ -628,6 +628,12 @@ void dw_pcie_setup_rc(struct pcie_port *pp)
+>  	u32 val, ctrl, num_ctrls;
+>  	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
 >  
->  #define PCI_EXT_CAP_DSN_SIZEOF	12
->  #define PCI_EXT_CAP_MCAST_ENDPOINT_SIZEOF 40
-> @@ -1053,4 +1055,22 @@
->  #define  PCI_L1SS_CTL1_LTR_L12_TH_SCALE	0xe0000000  /* LTR_L1.2_THRESHOLD_Scale */
->  #define PCI_L1SS_CTL2		0x0c	/* Control 2 Register */
+> +	/*
+> +	 * Enable DBI read-only registers for writing/updating configuration.
+> +	 * Write permission gets disabled towards the end of this function.
+> +	 */
+> +	dw_pcie_dbi_ro_wr_en(pci);
+> +
+>  	dw_pcie_setup(pci);
 >  
-> +/* Data Link Feature */
-> +#define PCI_DLF_CAP		0x04	/* Capabilities Register */
-> +#define  PCI_DLF_LOCAL_DLF_SUP_MASK	0x007fffff  /* Local Data Link Feature Supported */
-> +#define  PCI_DLF_EXCHANGE_ENABLE	0x80000000  /* Data Link Feature Exchange Enable */
-> +#define PCI_DLF_STS		0x08	/* Status Register */
-> +#define  PCI_DLF_REMOTE_DLF_SUP_MASK	0x007fffff  /* Remote Data Link Feature Supported */
-> +#define  PCI_DLF_REMOTE_DLF_SUP_VALID	0x80000000  /* Remote Data Link Feature Support Valid */
+>  	if (!pp->ops->msi_host_init) {
+> @@ -650,12 +656,10 @@ void dw_pcie_setup_rc(struct pcie_port *pp)
+>  	dw_pcie_writel_dbi(pci, PCI_BASE_ADDRESS_1, 0x00000000);
+>  
+>  	/* Setup interrupt pins */
+> -	dw_pcie_dbi_ro_wr_en(pci);
+>  	val = dw_pcie_readl_dbi(pci, PCI_INTERRUPT_LINE);
+>  	val &= 0xffff00ff;
+>  	val |= 0x00000100;
+>  	dw_pcie_writel_dbi(pci, PCI_INTERRUPT_LINE, val);
+> -	dw_pcie_dbi_ro_wr_dis(pci);
+>  
+>  	/* Setup bus numbers */
+>  	val = dw_pcie_readl_dbi(pci, PCI_PRIMARY_BUS);
+> @@ -687,15 +691,13 @@ void dw_pcie_setup_rc(struct pcie_port *pp)
+>  
+>  	dw_pcie_wr_own_conf(pp, PCI_BASE_ADDRESS_0, 4, 0);
+>  
+> -	/* Enable write permission for the DBI read-only register */
+> -	dw_pcie_dbi_ro_wr_en(pci);
+>  	/* Program correct class for RC */
+>  	dw_pcie_wr_own_conf(pp, PCI_CLASS_DEVICE, 2, PCI_CLASS_BRIDGE_PCI);
+> -	/* Better disable write permission right after the update */
+> -	dw_pcie_dbi_ro_wr_dis(pci);
+>  
+>  	dw_pcie_rd_own_conf(pp, PCIE_LINK_WIDTH_SPEED_CONTROL, 4, &val);
+>  	val |= PORT_LOGIC_SPEED_CHANGE;
+>  	dw_pcie_wr_own_conf(pp, PCIE_LINK_WIDTH_SPEED_CONTROL, 4, val);
 > +
-> +/* Physical Layer 16.0 GT/s */
-> +#define PCI_PL_16GT_CAP		0x04	/* Capabilities Register */
-> +#define PCI_PL_16GT_CTRL	0x08	/* Control Register */
-> +#define PCI_PL_16GT_STS		0x0c	/* Status Register */
-> +#define PCI_PL_16GT_LDPM_STS	0x10	/* Local Data Parity Mismatch Status Register */
-> +#define PCI_PL_16GT_FRDPM_STS	0x14	/* First Retimer Data Parity Mismatch Status Register */
-> +#define PCI_PL_16GT_SRDPM_STS	0x18	/* Second Retimer Data Parity Mismatch Status Register */
-> +#define PCI_PL_16GT_RSVD	0x1C	/* Reserved */
-> +#define PCI_PL_16GT_LE_CTRL	0x20	/* Lane Equalization Control Register */
-> +
->  #endif /* LINUX_PCI_REGS_H */
+> +	dw_pcie_dbi_ro_wr_dis(pci);
+>  }
+>  EXPORT_SYMBOL_GPL(dw_pcie_setup_rc);
 > -- 
 > 2.17.1
 > 
