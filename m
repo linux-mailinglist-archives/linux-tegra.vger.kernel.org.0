@@ -2,99 +2,166 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 384EB58CA1
-	for <lists+linux-tegra@lfdr.de>; Thu, 27 Jun 2019 23:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 393EF5909B
+	for <lists+linux-tegra@lfdr.de>; Fri, 28 Jun 2019 04:16:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbfF0VMz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 27 Jun 2019 17:12:55 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:33641 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726834AbfF0VMs (ORCPT
+        id S1726589AbfF1CNg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 27 Jun 2019 22:13:36 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:5470 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725770AbfF1CNg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 27 Jun 2019 17:12:48 -0400
-Received: by mail-lj1-f195.google.com with SMTP id h10so3824779ljg.0;
-        Thu, 27 Jun 2019 14:12:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CeMarD4hqNHq1WSuy0GaGBvM3DFC+UAsO/kYojepr1Q=;
-        b=N4VR9SXJX36Bsaa75+t9O+PVV5XextD3p/eZpf/U5TdKAc4UXmA2nrMgyxzHakpGIA
-         mVQEiX7CseqV4Hk6uSTBbQbDz+7RxLY6Jstfxfcd6XqFyC9cEKI40gb9Mu43PWkHJsMO
-         3B7Cdzn5GQ64F184oOqVhh+ZjMhzxcgPAwoMhTIa+jxgcSD2OI72w7qvLFQh9NJsRBwX
-         5Av71S9SIXucdBr5HpGP98cxVRjsO/QLorn335qR11+K497FARh4R5Ur10pbWu4eNQup
-         pFxXfx7LFVxeOnKBXp/n0+oulhzbuJA2uKAyTzsiPb/n4LqutzJhtLHOYYm7x8PJwN2D
-         XLOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CeMarD4hqNHq1WSuy0GaGBvM3DFC+UAsO/kYojepr1Q=;
-        b=Dm8cF0jifkr/AiS/O36uPXSJZJyH96OHr/XEAjE+2NfNSZ6LNEyKOEtZjaaG2enfQP
-         DL+lPRXP7nffBB25XcUdpFmGi67B3LA7V78i5hxUCjzEhc7Al2l4NGxlnWlH0hXKaL4O
-         mqhqzqzo1lZkYeW5dD9DYcjsZiFjRx89OHltDtWKB9edFn2RsM3EYTKTggRFeJ4FXkAv
-         h/6EoQhSVexo71+KTaDB/Ym7r838QJvjNLlibyj6OfzEM3THcfUviLcZPO5SswMwQwT9
-         IiY9ZVj0Wvj73I5b/4FMkqVNCJM+FVfbU0L3jMdPw5WCMlPTiRYNoaUMH7pfe0cUPh3w
-         cFKg==
-X-Gm-Message-State: APjAAAVF26Hv73WxC74OAMQ+u4lkf4Dbi6/7oDCBmUhhmc2ojNByMRe/
-        DYo3HzqTk8qwzEdbOq0ff9U=
-X-Google-Smtp-Source: APXvYqwZU55S5p6XQUjCDvNUW2lo50OoD6/zee/XTUPeERX6OE5/oMefK56F31LjG+l3+uANh3DkQw==
-X-Received: by 2002:a2e:870f:: with SMTP id m15mr3867623lji.223.1561669966292;
-        Thu, 27 Jun 2019 14:12:46 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.gmail.com with ESMTPSA id p29sm30485ljp.87.2019.06.27.14.12.45
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 27 Jun 2019 14:12:45 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 22/22] PM / devfreq: tegra20/30: Add Dmitry as a maintainer
-Date:   Fri, 28 Jun 2019 00:11:15 +0300
-Message-Id: <20190627211115.21138-23-digetx@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190627211115.21138-1-digetx@gmail.com>
-References: <20190627211115.21138-1-digetx@gmail.com>
+        Thu, 27 Jun 2019 22:13:36 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d1577d00000>; Thu, 27 Jun 2019 19:13:36 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 27 Jun 2019 19:13:33 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 27 Jun 2019 19:13:33 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 28 Jun
+ 2019 02:13:32 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 28 Jun 2019 02:13:33 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.110.102.155]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d1577cd0000>; Thu, 27 Jun 2019 19:13:33 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <tglx@linutronix.de>, <jason@lakedaemon.net>,
+        <marc.zyngier@arm.com>, <linus.walleij@linaro.org>,
+        <stefan@agner.ch>, <mark.rutland@arm.com>
+CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <jckuo@nvidia.com>,
+        <josephl@nvidia.com>, <talho@nvidia.com>, <skomatineni@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
+        <digetx@gmail.com>, <devicetree@vger.kernel.org>
+Subject: [PATCH V5 00/18] SC7 entry and exit support for Tegra210
+Date:   Thu, 27 Jun 2019 19:12:34 -0700
+Message-ID: <1561687972-19319-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1561688016; bh=ZOCE9zjoMHUFAnpZCSr2RE82QUgVkauUv+okuy0Asas=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=BWazzRGIkGQ1ebBLvfe4M/Tei5UPV8iq2oYuyAKDuF98G9dfvbrslhzBqfxH3cYq6
+         njz+RCv/o6QJnOyQ/PRVhLz5dnR2SFzMp/16nEDNGYFSQ4JAsiXafBvUfwpsrlh5XK
+         9Skrfk9zUm9qAi1jmKFnFq56/YVcG/rxD6JqQfF14+wPhhtJ3vA844p9CmtMfHxxch
+         ryH8finaYUrOOTtTV86T8C0sapaXtgF5bi5KyQ52YHSxil4VcRVB3vb0BWA+jSJ003
+         9b6TJBMtgTSXkL52FaxSBwvNskDHG0jG9RsLHeVkKdt8QsnXJIbOCcZL9IWCYHXorv
+         dQWWHgbEJZD/g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
-want to help keep them working and evolving in the future.
+This patch series includes Tegra210 deepsleep support with RTC alarm
+wake event.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+This series also includes save and restore of PLLs, clocks, OSC contexts
+for deepsleep exit to normal operation.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 792d2d927712..bfd827417a27 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10250,6 +10250,15 @@ F:	include/linux/memblock.h
- F:	mm/memblock.c
- F:	Documentation/core-api/boot-time-mm.rst
- 
-+MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
-+M:	Dmitry Osipenko <digetx@gmail.com>
-+L:	linux-pm@vger.kernel.org
-+L:	linux-tegra@vger.kernel.org
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mzx/devfreq.git
-+S:	Maintained
-+F:	drivers/devfreq/tegra20-devfreq.c
-+F:	drivers/devfreq/tegra30-devfreq.c
-+
- MEMORY MANAGEMENT
- L:	linux-mm@kvack.org
- W:	http://www.linux-mm.org
+This patch series doesn't support 100% suspend/resume to allow fully
+functional state upon resume and we are working on some more drivers suspend
+and resume implementations.
+
+[V5]: Changes between V4 & V5 are
+	- V4 feedback fixes
+
+[V4]: Changes between V3 & V4 are
+	- V3 feedback fixes
+	- Removed park bits clear for EMMC pads in pinctrl-tegra driver
+	  function tegra_pinctrl_clear_parked_bits as based on V3 feedback
+	  parked_bit is updated to parked_bitmask to use with DRV_PINGROUP
+	  as well and thierry posted patch series for this.
+	- Implemented all peripheral clocks save and restore through their
+	  corresponding clk_ops save_context and restore_context and removed
+	  all direct registers store and restore in clk-tegra210 driver.
+	- Created separate patch for fence_delay update during PLLU init based
+	  on V3 feedback.
+	- Added more comments in tegra210_clk_resume regarding dfll restore
+	  sequence and its dependency on peripheral clocks restore.
+
+[V3]: Changes between V2 & V3 are
+	- V2 feedback fixes
+	- GPIO restore should happen prior to Pinctrl restore to prevent
+	  glitch on GPIO lines. So using resume_noirq for gpio tegra to allow
+	  gpio resume prior to pinctrl resume.
+	- Implemented save_context and restore_context callbacks for clock
+	  plls, pll outs and dividers in corresponding drivers.
+	  Note: Peripheral clocks and clock enable and reset need to be in
+	  Tegra210 clock suspend/resume as they need to be in proper sequence
+	  w.r.t DFLL resume for restoring CPU clock.
+	- Removed gpio-tegra changes for hierarchical support to have PMC as
+	  parent to GPIOs for GPIO wake event support. Thierry is working on
+	  gpiolib for some cleanup before adding hierarchical support. So
+	  holding on to GPIO wake support for now.
+
+[V2] : V1 feedback fixes
+	Patch 0002: This version still using syscore. Thierry suggest not to
+	use syscore and waiting on suggestion from Linux Walleij for any better
+	way of storing current state of pins before suspend entry and restoring
+	them on resume at very early stage. So left this the same way as V1 and
+	will address once I get more feedback on this.
+	Also need to findout and implement proper way of forcing resume order
+	between pinctrl and gpio driver.
+
+[V1]:	Tegra210 SC7 entry and exit thru RTC wake and Power button GPIO wake
+	using hierarchical IRQ with PMC as parent to GPIO.
+
+
+
+
+Sowjanya Komatineni (18):
+  irqchip: tegra: do not disable COP IRQ during suspend
+  pinctrl: tegra: add suspend and resume support
+  clk: tegra: save and restore divider rate
+  clk: tegra: pllout: save and restore pllout context
+  clk: tegra: pll: save and restore pll context
+  clk: tegra: save and restore CPU and System clocks context
+  clk: tegra: support for saving and restoring OSC context
+  clk: tegra: add suspend resume support for DFLL
+  clk: tegra: add save and restore context support for peripheral clocks
+  clk: tegra210: use fence_udelay during PLLU init
+  clk: tegra210: support for Tegra210 clocks suspend and resume
+  soc/tegra: pmc: allow support for more tegra wake
+  soc/tegra: pmc: add pmc wake support for tegra210
+  arm64: tegra: enable wake from deep sleep on RTC alarm.
+  soc/tegra: pmc: configure core power request polarity
+  soc/tegra: pmc: configure deep sleep control settings
+  arm64: dts: tegra210-p2180: Jetson TX1 SC7 timings
+  arm64: dts: tegra210-p2180: Jetson nano SC7 timings
+
+ arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi     |   7 +
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |   7 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   5 +-
+ drivers/clk/tegra/clk-dfll.c                       |  78 ++++++++++++
+ drivers/clk/tegra/clk-dfll.h                       |   2 +
+ drivers/clk/tegra/clk-divider.c                    |  23 ++++
+ drivers/clk/tegra/clk-periph-fixed.c               |  31 +++++
+ drivers/clk/tegra/clk-periph-gate.c                |  34 +++++
+ drivers/clk/tegra/clk-periph.c                     |  43 +++++++
+ drivers/clk/tegra/clk-pll-out.c                    |  28 ++++
+ drivers/clk/tegra/clk-pll.c                        | 121 +++++++++++++-----
+ drivers/clk/tegra/clk-sdmmc-mux.c                  |  30 +++++
+ drivers/clk/tegra/clk-tegra-fixed.c                |  14 ++
+ drivers/clk/tegra/clk-tegra-super-gen4.c           |   4 -
+ drivers/clk/tegra/clk-tegra210.c                   | 128 +++++++++++++++++--
+ drivers/clk/tegra/clk.c                            |  94 ++++++++++++++
+ drivers/clk/tegra/clk.h                            |  45 ++++++-
+ drivers/irqchip/irq-tegra.c                        |  20 ++-
+ drivers/pinctrl/tegra/pinctrl-tegra.c              |  52 ++++++++
+ drivers/pinctrl/tegra/pinctrl-tegra.h              |   3 +
+ drivers/pinctrl/tegra/pinctrl-tegra210.c           |   1 +
+ drivers/soc/tegra/pmc.c                            | 141 ++++++++++++++++++++-
+ 22 files changed, 858 insertions(+), 53 deletions(-)
+
 -- 
-2.22.0
+2.7.4
 
