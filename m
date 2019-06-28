@@ -2,190 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 828275A016
-	for <lists+linux-tegra@lfdr.de>; Fri, 28 Jun 2019 17:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 884865A754
+	for <lists+linux-tegra@lfdr.de>; Sat, 29 Jun 2019 01:01:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbfF1P6V (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 28 Jun 2019 11:58:21 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:35032 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726787AbfF1P6U (ORCPT
+        id S1726785AbfF1XBd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 28 Jun 2019 19:01:33 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:6500 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726672AbfF1XBd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 28 Jun 2019 11:58:20 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 039EF60AA3; Fri, 28 Jun 2019 15:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1561737500;
-        bh=APkeNd5JV3ZMlJeYJ23oxnlZ0WDm5BFkwS+DaKHgNws=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nZOx2gCRCBQ1yAb2oBsSGK82xukznVdUC6zoOimtI0NCj8DJrUKH1sBtDW1aFcXa7
-         HW6tcdDW1YtKikqRjRz5qUHHrq4tgahSwPc4uNgq3YTtPvo9YGa8HOgvuGZ5ABs3WR
-         v1ukgB/4MNPWcBapi+cr00h/5+13Et1/dJPZ3IQE=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        pdx-caf-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.0
-Received: from localhost (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: ilina@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6D693602F2;
-        Fri, 28 Jun 2019 15:58:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1561737498;
-        bh=APkeNd5JV3ZMlJeYJ23oxnlZ0WDm5BFkwS+DaKHgNws=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hwv+/+MvfWey3N6Wp0eff8/1BSt1DpChn0LRN5niX/MpDo2B4dXEQSUE8RS3u14c3
-         PzUX0Fty9+7J9ZPa13avO6DeZP4m/+5ghbCrlU3nK9gxT5N5yauoXaAt6SVB7iSPy1
-         R5JxLdjsdh/x4IIN3Klz4o/oCDvlE656Bc3yKCJQ=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6D693602F2
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=ilina@codeaurora.org
-Date:   Fri, 28 Jun 2019 09:58:17 -0600
-From:   Lina Iyer <ilina@codeaurora.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        David Daney <david.daney@cavium.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH 1/4 v1] gpio: Add support for hierarchical IRQ domains
-Message-ID: <20190628155817.GB24030@codeaurora.org>
-References: <20190624132531.6184-1-linus.walleij@linaro.org>
- <20190626210900.GA1629@codeaurora.org>
- <CACRpkdbxicUbg9NSaYsRMQG0Qo-WysdU07qD_T3rDEe7cjCcUw@mail.gmail.com>
+        Fri, 28 Jun 2019 19:01:33 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d169c4e0002>; Fri, 28 Jun 2019 16:01:35 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 28 Jun 2019 16:01:32 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 28 Jun 2019 16:01:32 -0700
+Received: from [10.2.170.163] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 28 Jun
+ 2019 23:01:28 +0000
+Subject: Re: [PATCH V5 02/18] pinctrl: tegra: Add suspend and resume support
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <tglx@linutronix.de>,
+        <jason@lakedaemon.net>, <marc.zyngier@arm.com>,
+        <linus.walleij@linaro.org>, <stefan@agner.ch>,
+        <mark.rutland@arm.com>
+CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <jckuo@nvidia.com>,
+        <josephl@nvidia.com>, <talho@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
+        <devicetree@vger.kernel.org>
+References: <1561687972-19319-1-git-send-email-skomatineni@nvidia.com>
+ <1561687972-19319-3-git-send-email-skomatineni@nvidia.com>
+ <0409f478-e425-4e7f-5fff-8c3a94f47ee8@gmail.com>
+ <ca8199af-43db-c878-a93f-66c275acf864@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <99403cb1-aaef-4dd4-68a0-67864ca7ce6c@nvidia.com>
+Date:   Fri, 28 Jun 2019 16:00:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CACRpkdbxicUbg9NSaYsRMQG0Qo-WysdU07qD_T3rDEe7cjCcUw@mail.gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+In-Reply-To: <ca8199af-43db-c878-a93f-66c275acf864@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1561762895; bh=aZPjidkvt159Y1MlR25AZKLnSpkr1g2vQ76FONNdB1Q=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=TngsqlhbXI3lxjG0tIi7SiikP3nxfWP/IXevXHZU1hy4iGjkbLN9oHiHb9MRjlCi0
+         u6U5nmerqTk5xHMj1PrOJfpyJi/nT9Oto8lvPQknQG3LiDc8audlyubqw9fv+PrayF
+         JjZmAPKr7Rm7GtJsyqsad+nkhthHl7ahX1jPRJw57v6Hi4/3QtAQ0liR/zQs5ST7QZ
+         yevuS/YS57bBnQ0/ubmFTaLxBe39ziLd3TVUK0y/L8AqSHOszp76x+1aZ/qSmFt+Ni
+         VdoXyxwQlh3BNZijdmZucTKHRabf7WM52MZw9xMpYhEelcNDjFYrdTSfCYPyrxzcTY
+         FF4tFxdRwy/hA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Linus,
 
-On Fri, Jun 28 2019 at 03:15 -0600, Linus Walleij wrote:
->Hi Lina,
->
->thanks for your comments!
->
->On Wed, Jun 26, 2019 at 10:09 PM Lina Iyer <ilina@codeaurora.org> wrote:
->
->> Thanks for the patch Linus. I was running into the warning in
->> gpiochip_set_irq_hooks(), because it was called from two places.
->> Hopefully, this will fix that as well. I will give it a try.
->
->That's usually when creating two irqchips from a static config.
->The most common solution is to put struct irq_chip into the
->driver state container and assign all functions dynamically so
->the irqchip is a "live" struct if you see how I mean. This is
->needed because the gpiolib irqchip core will augment some
->of the pointers in the irqchip, so if that is done twice, it feels
->a bit shaky.
->
-Yeah, I realized what was happening. I have fixed it in my drivers.
-
->> On Mon, Jun 24 2019 at 07:29 -0600, Linus Walleij wrote:
->
->> >+  girq->num_parents = 1;
->> >+  girq->parents = devm_kcalloc(dev, 1, sizeof(*girq->parents),
->> >+                               GFP_KERNEL);
+On 6/28/19 5:05 AM, Dmitry Osipenko wrote:
+> 28.06.2019 14:56, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> 28.06.2019 5:12, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> This patch adds support for Tegra pinctrl driver suspend and resume.
+>>>
+>>> During suspend, context of all pinctrl registers are stored and
+>>> on resume they are all restored to have all the pinmux and pad
+>>> configuration for normal operation.
+>>>
+>>> Acked-by: Thierry Reding <treding@nvidia.com>
+>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>> ---
+>>>   int tegra_pinctrl_probe(struct platform_device *pdev,
+>>>   			const struct tegra_pinctrl_soc_data *soc_data);
+>>>   #endif
+>>> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra210.c b/drivers/pinctrl=
+/tegra/pinctrl-tegra210.c
+>>> index 0b56ad5c9c1c..edd3f4606cdb 100644
+>>> --- a/drivers/pinctrl/tegra/pinctrl-tegra210.c
+>>> +++ b/drivers/pinctrl/tegra/pinctrl-tegra210.c
+>>> @@ -1571,6 +1571,7 @@ static struct platform_driver tegra210_pinctrl_dr=
+iver =3D {
+>>>   	.driver =3D {
+>>>   		.name =3D "tegra210-pinctrl",
+>>>   		.of_match_table =3D tegra210_pinctrl_of_match,
+>>> +		.pm =3D &tegra_pinctrl_pm,
+>>>   	},
+>>>   	.probe =3D tegra210_pinctrl_probe,
+>>>   };
+>>>
+>> Could you please address my comments in the next revision if there will =
+be one?
 >>
->> Could this be folded into the gpiolib?
->
->It is part of the existing API for providing an irq_chip along
->with the gpio_chip but you are right, it's kludgy. I do have
->a patch like this, making the parents a static sized field
->simply:
->https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git/commit/?h=devel-gpio-irqchip
->
->So I might go on this approach. (In a separate patch.)
->
->> >+  /* Get a pointer to the gpio_irq_chip */
->> >+  girq = &g->gc.irq;
->> >+  girq->chip = &g->irq;
->> >+  girq->default_type = IRQ_TYPE_NONE;
->> >+  girq->handler = handle_bad_irq;
->> >+  girq->fwnode = g->fwnode;
->> >+  girq->parent_domain = parent;
->> >+  girq->child_to_parent_hwirq = my_gpio_child_to_parent_hwirq;
->> >+
->> Should be the necessary, if the driver implements it's own .alloc?
->
->The idea is that when using GPIOLIB_IRQCHIP and
->IRQ_DOMAIN_HIERARCHY together, the drivers utilizing
->GPIOLIB_IRQCHIP will rely on the .alloc() and .translate()
->implementations in gpiolib so the ambition is that these should
->cover all hierarchical use cases.
->
->> >+static int gpiochip_hierarchy_add_domain(struct gpio_chip *gc)
->> >+{
->> >+      if (!gc->irq.parent_domain) {
->> >+              chip_err(gc, "missing parent irqdomain\n");
->> >+              return -EINVAL;
->> >+      }
->> >+
->> >+      if (!gc->irq.parent_domain ||
->> >+          !gc->irq.child_to_parent_hwirq ||
->>
->> This should probably be validated if the .ops have not been set.
->
->Yeah the idea here is a pretty imperialistic one: the gpiolib
->always provide the ops for hierarchical IRQ. The library
->implementation should cover all needs of all consumers,
->for the hierarchical case.
->
->I might be wrong, but then I need to see some example
->of hierarchies that need something more than what the
->gpiolib core is providing and idiomatic enough that it can't
->be rewritten and absolutely must have its own ops.
->
-Here is an example of what I am working on [1]. The series is based on
-this patch. What I want to point out is the .alloc function. The TLMM
-irqchip's parent could be a PDC or a MPM depending on the QCOM SoC
-architecture. They behave differently. The PDC takes over for the GPIO
-and handles the monitoring etc, while the MPM comes into play only after
-the SoC is in low power therefore TLMM needs to do its job. The way to
-cleanly support both of themis to have our own .alloc functions to help
-understand the the wakeup-parent irqchip's behavior.
+> Also, what about adding ".pm' for other Tegras? I'm sure Jon could test t=
+hem for you.
 
-Since I need my own .ops, it makes the function below irrelevant to
-gpiolib. While I would still need a function to translate to parent
-hwirq, I don't see it any beneficial to gpiolib.
+This series is for Tegra210 SC7 entry/exit along with clocks and pinctrl=20
+suspend resume needed for Tegra210 basic sc7 entry and exit.
 
-thanks,
-Lina
+This includes pinctrl, pmc changes, clock-tegra210 driver changes all=20
+w.r.t Tegra210 platforms specific.
 
->> >+      int (*child_to_parent_hwirq)(struct gpio_chip *chip,
->> >+                                   unsigned int child_hwirq,
->> >+                                   unsigned int child_type,
->> >+                                   unsigned int *parent_hwirq,
->> >+                                   unsigned int *parent_type);
->>
->> Would irq_fwspec(s) be better than passing all these arguments around?
->
->I looked over these three drivers that I patched in the series
->and they all seemed to need pretty much these arguments,
->so wrapping it into fwspec would probably just make all
->drivers have to unwrap them to get child (I guess not parent)
->back out.
->
->But we can patch it later if it proves this is too much arguments
->for some drivers. Its the right amount for those I changed,
->AFAICT.
->
->Yours,
->Linus Walleij
+Suspend/resume support for other Tegras will be in separate patch series.
 
-[1]. https://github.com/i-lina/linux/commits/gpio2-2
+
+thanks
+
+Sowjanya
 
