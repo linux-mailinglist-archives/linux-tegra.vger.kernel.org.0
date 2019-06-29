@@ -2,120 +2,122 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 884865A754
-	for <lists+linux-tegra@lfdr.de>; Sat, 29 Jun 2019 01:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69EE05AAFF
+	for <lists+linux-tegra@lfdr.de>; Sat, 29 Jun 2019 14:38:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726785AbfF1XBd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 28 Jun 2019 19:01:33 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:6500 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726672AbfF1XBd (ORCPT
+        id S1727064AbfF2Mi0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 29 Jun 2019 08:38:26 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41039 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726906AbfF2Mi0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 28 Jun 2019 19:01:33 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d169c4e0002>; Fri, 28 Jun 2019 16:01:35 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 28 Jun 2019 16:01:32 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 28 Jun 2019 16:01:32 -0700
-Received: from [10.2.170.163] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 28 Jun
- 2019 23:01:28 +0000
+        Sat, 29 Jun 2019 08:38:26 -0400
+Received: by mail-lf1-f68.google.com with SMTP id 136so5722119lfa.8;
+        Sat, 29 Jun 2019 05:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PxB3Diftculh9VRXp9qOsj2Wfuu0tHg69Smbkbmpvq8=;
+        b=MoijBk+rB6pc0O8vADSTYaf5vdNDqq1PKwA907cqdu6ACgVCscLMcBULehxqNnSGb+
+         1+tOLBFscFsF7Oz/lekwrsnKfQK/SfWqQ/of3/2+KSP/uNXsujm9zfQgwpkC0sP9Epaj
+         otgk8C9ffHOxbgKxzzrDsE+xXG1G/wThi0m1AZjWGZh+W6eYWabiUXuzfWJbNawI0E3p
+         D92y6kh5himm1HQdCFpoB+2ddFwJ/viMZWtHlZqItX20ygAeTbjD6nxJpufnhUzX2nxw
+         gLg6/4vcbI25DXgVIkLkiKpFW+2q4OwLAGQ3PcQ1tTyBeLNKw7K6iyceui/+aLIpkkDU
+         Q8sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PxB3Diftculh9VRXp9qOsj2Wfuu0tHg69Smbkbmpvq8=;
+        b=DkGSVEGHCKxdQYEmlHXXUtXRC05yl6RIm8KPltNyMpyrm3vgXbAtOfprugo8qqNrzS
+         4ynLVa4IbZkm+G/toGTnmv22cpC6mtrQOWOFcRdf+APHLjSYU0RPcBZtxg+UpnFhmw3m
+         UYDvl/VYOoMVXCU9DZmfBXCGCDJzm1zifg9LezLmp/qOY6996GTlWxjhb6S5nluywbDH
+         TUf6h0G1+CO6vHQH8kc9N2YeZoUDbNYL5TktJq+DgoEygXWue4hTCqXnsrpOGseMzDkg
+         3Gw056xdJkK1fxcMInoP7AiXoXmG+pz4Wls2PqvFFgS7SBjepQuYpxs8SayZnmgoWeJ6
+         SW0g==
+X-Gm-Message-State: APjAAAWBUTDQ0SgAxtkQb4QCuWy5TFt3SQFL0foziN5ma4hb2rsORAjD
+        LM1A+CLMmXPB/aJcMd4LjLZZH4NO
+X-Google-Smtp-Source: APXvYqz78bHqqcP8bJJmKNHs8RZazuz7Fr9E/6nX+Zc1vmRRrK0GetZI1zCxC7fhwxsNCvqFZgQlLQ==
+X-Received: by 2002:ac2:51ab:: with SMTP id f11mr2968217lfk.55.1561811903067;
+        Sat, 29 Jun 2019 05:38:23 -0700 (PDT)
+Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
+        by smtp.googlemail.com with ESMTPSA id o74sm1294461lff.46.2019.06.29.05.38.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 29 Jun 2019 05:38:22 -0700 (PDT)
 Subject: Re: [PATCH V5 02/18] pinctrl: tegra: Add suspend and resume support
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <tglx@linutronix.de>,
-        <jason@lakedaemon.net>, <marc.zyngier@arm.com>,
-        <linus.walleij@linaro.org>, <stefan@agner.ch>,
-        <mark.rutland@arm.com>
-CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
-        <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <jckuo@nvidia.com>,
-        <josephl@nvidia.com>, <talho@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
-        <devicetree@vger.kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
+        jason@lakedaemon.net, marc.zyngier@arm.com,
+        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org
 References: <1561687972-19319-1-git-send-email-skomatineni@nvidia.com>
  <1561687972-19319-3-git-send-email-skomatineni@nvidia.com>
  <0409f478-e425-4e7f-5fff-8c3a94f47ee8@gmail.com>
  <ca8199af-43db-c878-a93f-66c275acf864@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <99403cb1-aaef-4dd4-68a0-67864ca7ce6c@nvidia.com>
-Date:   Fri, 28 Jun 2019 16:00:49 -0700
+ <99403cb1-aaef-4dd4-68a0-67864ca7ce6c@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <fbfb2167-d0b3-b66a-d1ba-378c877817ed@gmail.com>
+Date:   Sat, 29 Jun 2019 15:38:20 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <ca8199af-43db-c878-a93f-66c275acf864@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <99403cb1-aaef-4dd4-68a0-67864ca7ce6c@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561762895; bh=aZPjidkvt159Y1MlR25AZKLnSpkr1g2vQ76FONNdB1Q=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=TngsqlhbXI3lxjG0tIi7SiikP3nxfWP/IXevXHZU1hy4iGjkbLN9oHiHb9MRjlCi0
-         u6U5nmerqTk5xHMj1PrOJfpyJi/nT9Oto8lvPQknQG3LiDc8audlyubqw9fv+PrayF
-         JjZmAPKr7Rm7GtJsyqsad+nkhthHl7ahX1jPRJw57v6Hi4/3QtAQ0liR/zQs5ST7QZ
-         yevuS/YS57bBnQ0/ubmFTaLxBe39ziLd3TVUK0y/L8AqSHOszp76x+1aZ/qSmFt+Ni
-         VdoXyxwQlh3BNZijdmZucTKHRabf7WM52MZw9xMpYhEelcNDjFYrdTSfCYPyrxzcTY
-         FF4tFxdRwy/hA==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 6/28/19 5:05 AM, Dmitry Osipenko wrote:
-> 28.06.2019 14:56, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> 28.06.2019 5:12, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> This patch adds support for Tegra pinctrl driver suspend and resume.
+29.06.2019 2:00, Sowjanya Komatineni пишет:
+> 
+> On 6/28/19 5:05 AM, Dmitry Osipenko wrote:
+>> 28.06.2019 14:56, Dmitry Osipenko пишет:
+>>> 28.06.2019 5:12, Sowjanya Komatineni пишет:
+>>>> This patch adds support for Tegra pinctrl driver suspend and resume.
+>>>>
+>>>> During suspend, context of all pinctrl registers are stored and
+>>>> on resume they are all restored to have all the pinmux and pad
+>>>> configuration for normal operation.
+>>>>
+>>>> Acked-by: Thierry Reding <treding@nvidia.com>
+>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>> ---
+>>>>   int tegra_pinctrl_probe(struct platform_device *pdev,
+>>>>               const struct tegra_pinctrl_soc_data *soc_data);
+>>>>   #endif
+>>>> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra210.c
+>>>> b/drivers/pinctrl/tegra/pinctrl-tegra210.c
+>>>> index 0b56ad5c9c1c..edd3f4606cdb 100644
+>>>> --- a/drivers/pinctrl/tegra/pinctrl-tegra210.c
+>>>> +++ b/drivers/pinctrl/tegra/pinctrl-tegra210.c
+>>>> @@ -1571,6 +1571,7 @@ static struct platform_driver tegra210_pinctrl_driver = {
+>>>>       .driver = {
+>>>>           .name = "tegra210-pinctrl",
+>>>>           .of_match_table = tegra210_pinctrl_of_match,
+>>>> +        .pm = &tegra_pinctrl_pm,
+>>>>       },
+>>>>       .probe = tegra210_pinctrl_probe,
+>>>>   };
+>>>>
+>>> Could you please address my comments in the next revision if there will be one?
 >>>
->>> During suspend, context of all pinctrl registers are stored and
->>> on resume they are all restored to have all the pinmux and pad
->>> configuration for normal operation.
->>>
->>> Acked-by: Thierry Reding <treding@nvidia.com>
->>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>> ---
->>>   int tegra_pinctrl_probe(struct platform_device *pdev,
->>>   			const struct tegra_pinctrl_soc_data *soc_data);
->>>   #endif
->>> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra210.c b/drivers/pinctrl=
-/tegra/pinctrl-tegra210.c
->>> index 0b56ad5c9c1c..edd3f4606cdb 100644
->>> --- a/drivers/pinctrl/tegra/pinctrl-tegra210.c
->>> +++ b/drivers/pinctrl/tegra/pinctrl-tegra210.c
->>> @@ -1571,6 +1571,7 @@ static struct platform_driver tegra210_pinctrl_dr=
-iver =3D {
->>>   	.driver =3D {
->>>   		.name =3D "tegra210-pinctrl",
->>>   		.of_match_table =3D tegra210_pinctrl_of_match,
->>> +		.pm =3D &tegra_pinctrl_pm,
->>>   	},
->>>   	.probe =3D tegra210_pinctrl_probe,
->>>   };
->>>
->> Could you please address my comments in the next revision if there will =
-be one?
->>
-> Also, what about adding ".pm' for other Tegras? I'm sure Jon could test t=
-hem for you.
+>> Also, what about adding ".pm' for other Tegras? I'm sure Jon could test them for you.
+> 
+> This series is for Tegra210 SC7 entry/exit along with clocks and pinctrl suspend
+> resume needed for Tegra210 basic sc7 entry and exit.
+> 
+> This includes pinctrl, pmc changes, clock-tegra210 driver changes all w.r.t Tegra210
+> platforms specific.
+> 
+> Suspend/resume support for other Tegras will be in separate patch series.
 
-This series is for Tegra210 SC7 entry/exit along with clocks and pinctrl=20
-suspend resume needed for Tegra210 basic sc7 entry and exit.
-
-This includes pinctrl, pmc changes, clock-tegra210 driver changes all=20
-w.r.t Tegra210 platforms specific.
-
-Suspend/resume support for other Tegras will be in separate patch series.
-
-
-thanks
-
-Sowjanya
-
+Okay, fair enough.
