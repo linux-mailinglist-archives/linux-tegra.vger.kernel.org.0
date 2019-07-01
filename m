@@ -2,139 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A48E5B96A
-	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2019 12:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C711A5BA62
+	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2019 13:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727454AbfGAKus (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 1 Jul 2019 06:50:48 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:18358 "EHLO
+        id S1728238AbfGALJt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 1 Jul 2019 07:09:49 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:19560 "EHLO
         hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727124AbfGAKus (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Jul 2019 06:50:48 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d19e58a0000>; Mon, 01 Jul 2019 03:50:50 -0700
+        with ESMTP id S1727645AbfGALJt (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Jul 2019 07:09:49 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d19e9ff0001>; Mon, 01 Jul 2019 04:09:51 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 01 Jul 2019 03:50:46 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 01 Jul 2019 04:09:48 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 01 Jul 2019 03:50:46 -0700
-Received: from [10.24.46.111] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 1 Jul
- 2019 10:50:43 +0000
-Subject: Re: [PATCH] PCI: tegra: Enable Relaxed Ordering only for Tegra20 &
- Tegra30
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     <bhelgaas@google.com>, <treding@nvidia.com>,
-        <jonathanh@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <linux-pci@vger.kernel.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
-References: <20190618073810.30270-1-vidyas@nvidia.com>
- <20190627100616.GA30071@e121166-lin.cambridge.arm.com>
- <716ad7c9-08bb-b885-69bd-a442d6f9b2eb@nvidia.com>
- <20190627152303.GE3782@e121166-lin.cambridge.arm.com>
-X-Nvconfidentiality: public
+        by hqpgpgate102.nvidia.com on Mon, 01 Jul 2019 04:09:48 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 1 Jul
+ 2019 11:09:47 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 1 Jul 2019 11:09:47 +0000
+Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.38]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d19e9f90000>; Mon, 01 Jul 2019 04:09:47 -0700
 From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <f54f595c-b03f-47d7-09d2-d0cf148b1ba3@nvidia.com>
-Date:   Mon, 1 Jul 2019 16:20:41 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+To:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <treding@nvidia.com>, <swarren@nvidia.com>, <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>,
+        <sagar.tv@gmail.com>
+Subject: [PATCH V2] PCI: tegra: Enable Relaxed Ordering only for Tegra20 & Tegra30
+Date:   Mon, 1 Jul 2019 16:39:42 +0530
+Message-ID: <20190701110942.24305-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20190627152303.GE3782@e121166-lin.cambridge.arm.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561978250; bh=q882PDq25kuZRevJKIe02NSInIQJ7WUfjiLxvUzGrhA=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=mkD5jrEuRdgEmAtbCqBCQnta/zLLCsP96c1vTGwSnhGLcpbr3GPIGCw7X1JCynwK/
-         ZZQ3gEOlAv2mkCFAFpj3gKbJRcCkLPiRVU/asuaVhXigA4Nt31PkUNZTC/nhmNBl+s
-         SvLxlB61Ct3/REOgnFZJSrNGDthohRt/nKHKgHXPcQoAMZq07ckNVPc18toD0tb1Bo
-         PiRwWJTioi1VqPryS8ut6g+yjs+FQKJEqHo2j2fLb9pBlxVFXLsGC5+fbxaqpkG12D
-         qZxAubY2BOvmu4lQ42gZEl6dshHDsm0GdvMTozrIh/1zEc/GoWPUAWtfRgebXWtmGY
-         aHBzDcSozgA4g==
+        t=1561979391; bh=ZbnJnTHs4oFdQE2uMI8aNFd9ivRt5GX/d6xemOgOi9I=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=dELN3TCNh1lkrDoIo0FAuPs7jeNlTODXm8TCtOMRQpyXp1WqVbVIBHkBPyNsGUkLp
+         Z6A7pL1vC4npK+gQIuRoMEPIzlxroOPrr3Lw9UDvk8tGiRRjD+bwDL7FhQ0aVsZPs8
+         Jm/+/K/XB7w+vlNz9HorL+hLi+V9UdY4l81eBfj3LPpoCWiYUZA/gZ41NbwL3QJMuK
+         KZzx7cBLT8vacKrEdcGRaRg+f2AQpY3EmdNzbc399ITv6NALH/kmGcndZNI2oDL5jF
+         oXlqsUGo6C5Ck6IelXQMrbBeobwrutBk9+ts4NqLo2j094Q/oFmltWpSm0uUmwlvAf
+         G28LMpUBQxG6Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 6/27/2019 8:53 PM, Lorenzo Pieralisi wrote:
-> On Thu, Jun 27, 2019 at 08:41:37PM +0530, Vidya Sagar wrote:
->> On 6/27/2019 3:36 PM, Lorenzo Pieralisi wrote:
->>> On Tue, Jun 18, 2019 at 01:08:10PM +0530, Vidya Sagar wrote:
->>>> Currently Relaxed Ordering bit in the configuration space is enabled for
->>>> all devices whereas it should be enabled only for root ports for Tegra20
->>>> and Tegra30 chips to avoid deadlock in hardware.
->>>
->>> This is a fix so I think you had better add a Fixes: tag and if the
->>> erratum is a public document it would be good to add it to the log
->>> to explain what the problem is.
->>>
->>> Thanks,
->>> Lorenzo
->> This has been there from the beginning. I mean, if I have to give a tag as part
->> of Fixes: , then I should give the tag that adds this driver itself. Is that fine?
->> I can quote the following document section 31.1 for Tegra20, but the same information
->> is not mentioned in Tegra30 specific public document.
->> https://www.chiark.greenend.org.uk/~theom/riscos/docs/Tegra2_TRM_DP04508001v01p.pdf
->> Is it fine to just quote only this document?
-> 
-> I am pretty sure an errata document should exist about this and Nvidia
-> owns it (if it is not public, well, there is nothing to quote then); I
-> would not quote this website, it does not look like Nvidia official
-> documentation.
-We have the TRM (Technical Reference Manual) document available for Tegra20 at
-https://developer.nvidia.com/embedded/downloads#?search=tegra%202 but basic registration
-is required to download the document. I'll mention this link in the commit message.
+Currently Relaxed Ordering bit in the configuration space is enabled for
+all devices, but, as per the Technical Reference Manual of Tegra20 which is
+available at https://developer.nvidia.com/embedded/downloads#?search=tegra%202
+in Sec 34.1, it is mentioned that Relexed Ordering bit needs to be enabled in
+its root ports to avoid deadlock in hardware. The same is applicable for
+Tegra30 as well though it is not explicitly mentioned in Tegra30 TRM document,
+but the same should not be extended to root ports of other Tegra SoCs or
+other hosts.
 
-> 
-> For the Fixes: tag, it is up to you, to me this seems like a
-> critical bug (deadlock in hardware) and I do not think you
-> want to ship stable kernels with it. It depends on the entity
-> of the bug we are fixing, I leave it to you to decide the
-> best course of action, I am just trying to help.
-Since there is no specific commit that introduced this issue and the issue has been there
-from the beginning, I'm of the opinion that giving initial commit tag (the one that added
-the driver itself) for 'Fixes: tag doesn't really help here.
+Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+---
+V2:
+* Modified commit message to include reference to Tegra20 TRM document.
 
-> 
-> Lorenzo
-> 
->> Thanks,
->> Vidya Sagar
->>>
->>>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
->>>> ---
->>>>    drivers/pci/controller/pci-tegra.c | 7 +++++--
->>>>    1 file changed, 5 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
->>>> index 464ba2538d52..bc7be369c1b3 100644
->>>> --- a/drivers/pci/controller/pci-tegra.c
->>>> +++ b/drivers/pci/controller/pci-tegra.c
->>>> @@ -545,12 +545,15 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_fixup_class);
->>>>    DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_fixup_class);
->>>>    DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_fixup_class);
->>>> -/* Tegra PCIE requires relaxed ordering */
->>>> +/* Tegra20 and Tegra30 PCIE requires relaxed ordering */
->>>>    static void tegra_pcie_relax_enable(struct pci_dev *dev)
->>>>    {
->>>>    	pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_DEVCTL_RELAX_EN);
->>>>    }
->>>> -DECLARE_PCI_FIXUP_FINAL(PCI_ANY_ID, PCI_ANY_ID, tegra_pcie_relax_enable);
->>>> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0bf0, tegra_pcie_relax_enable);
->>>> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_relax_enable);
->>>> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_relax_enable);
->>>> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_relax_enable);
->>>>    static int tegra_pcie_request_resources(struct tegra_pcie *pcie)
->>>>    {
->>>> -- 
->>>> 2.17.1
->>>>
->>
+ drivers/pci/controller/pci-tegra.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+index 9cc03a2549c0..241760aa15bd 100644
+--- a/drivers/pci/controller/pci-tegra.c
++++ b/drivers/pci/controller/pci-tegra.c
+@@ -787,12 +787,15 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_fixup_class);
+ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_fixup_class);
+ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_fixup_class);
+ 
+-/* Tegra PCIE requires relaxed ordering */
++/* Tegra20 and Tegra30 PCIE requires relaxed ordering */
+ static void tegra_pcie_relax_enable(struct pci_dev *dev)
+ {
+ 	pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_DEVCTL_RELAX_EN);
+ }
+-DECLARE_PCI_FIXUP_FINAL(PCI_ANY_ID, PCI_ANY_ID, tegra_pcie_relax_enable);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0bf0, tegra_pcie_relax_enable);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_relax_enable);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_relax_enable);
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_relax_enable);
+ 
+ static int tegra_pcie_request_resources(struct tegra_pcie *pcie)
+ {
+-- 
+2.17.1
 
