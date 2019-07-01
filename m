@@ -2,106 +2,139 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 154DA5B61B
-	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2019 09:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A48E5B96A
+	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2019 12:50:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727035AbfGAHw7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 1 Jul 2019 03:52:59 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36181 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727010AbfGAHw7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Jul 2019 03:52:59 -0400
-Received: by mail-pg1-f195.google.com with SMTP id c13so5617610pgg.3;
-        Mon, 01 Jul 2019 00:52:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=rdcIi2cumO41Y4zgqEx+RI7IBrTExhB5mGxaS338vMg=;
-        b=EKBIvdtpU4JjTSu+btioEx6SVuPsS2YcCGeGEzSHD8Mqpbt3QjFzV01J0HGdAsZMxA
-         miNJP3pvKvK5Vv+QBePJUFMAkF288+oNkNeqoj4C/DTPSCZQdZjVWd0S6PUHXogRcXUA
-         LkI1bUyYnk4xpBuAeWcTqic5UQ5H/XSi+WrjJofVuO+MJwUy7qq5bH2UnIZDLsheczc/
-         X2ynD5HruKB9PzJ8PJTO4+YJymag+fizsW1DpLODc4NNbZ/dfa3eAbp56Yy9ogNwHlIV
-         UE7clsbPccJZVbnCX4wiWFeH+PNqnTE4xtfPm/R6metV6iITyl/Gz0sBO8kHFuSdzR0V
-         VhMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rdcIi2cumO41Y4zgqEx+RI7IBrTExhB5mGxaS338vMg=;
-        b=kx6g0YwVHg+9vNJA+409opAoIaSyateStgrqgQgLiGOEOiZsW6MP5TSQu7u0mYiTZ1
-         myal7tgHJBjqR/9lNjfX9GDGpYf3zSPuIdmReDJ+gZY4R0bklVrQuNhAp1j4F/544gan
-         nOf7Zl5kj8VWEVfI7d9Wi7GmLeFBQ66K8vZ2ecjJ6gklBnVAy/AhdUhMVW4PYia2v/k4
-         JRcbZjgJIE0yQusr9u6UjEbfs3SnwpCyEmsXGi4B65tjB6dHS+7OCkIcp8c90Qe+nIo4
-         /aCX9O/u4Qmg/FabF0tndgWs+i1XmYca/syKUSu4aePFzimtJChEbUjFPlHM9L/Br5vH
-         7muQ==
-X-Gm-Message-State: APjAAAX0Z6XUSxmlbOvSxn5/1xujZ+XUqzVJ7JvuJBCd4ZT1b9tvKOen
-        tGwHMKDXiNybqh6Mb9ncW7E=
-X-Google-Smtp-Source: APXvYqz+5OQaUvqEiswzedP1HrM6edG/iaiLW0IB1Z0Zqu6vyMD+jY20kS9fCmT0tw3iTMQujMtKbQ==
-X-Received: by 2002:a17:90a:3585:: with SMTP id r5mr30793616pjb.15.1561967578351;
-        Mon, 01 Jul 2019 00:52:58 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id t96sm8530996pjb.1.2019.07.01.00.52.57
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 01 Jul 2019 00:52:57 -0700 (PDT)
-Date:   Mon, 1 Jul 2019 00:52:55 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Fuqian Huang <huangfq.daxian@gmail.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Olof Johansson <olof@lixom.net>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Arnd Bergmann <arnd@arndb.de>, Enrico Weigelt <info@metux.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Anson Huang <anson.huang@nxp.com>,
-        Richard Fontana <rfontana@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Christian Hoff <christian_hoff@gmx.net>,
-        Tony Lindgren <tony@atomide.com>,
-        Alexios Zavras <alexios.zavras@intel.com>,
-        Gabriel Fernandez <gabriel.fernandez@st.com>,
-        Luca Weiss <luca@z3ntu.xyz>, Rob Herring <robh@kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 2/4] input: keyboard/mouse/touchscreen/misc: Use
- dev_get_drvdata()
-Message-ID: <20190701075255.GD172968@dtor-ws>
-References: <20190701032342.25971-1-huangfq.daxian@gmail.com>
+        id S1727454AbfGAKus (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 1 Jul 2019 06:50:48 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:18358 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727124AbfGAKus (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Jul 2019 06:50:48 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d19e58a0000>; Mon, 01 Jul 2019 03:50:50 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 01 Jul 2019 03:50:46 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 01 Jul 2019 03:50:46 -0700
+Received: from [10.24.46.111] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 1 Jul
+ 2019 10:50:43 +0000
+Subject: Re: [PATCH] PCI: tegra: Enable Relaxed Ordering only for Tegra20 &
+ Tegra30
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC:     <bhelgaas@google.com>, <treding@nvidia.com>,
+        <jonathanh@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        <linux-pci@vger.kernel.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20190618073810.30270-1-vidyas@nvidia.com>
+ <20190627100616.GA30071@e121166-lin.cambridge.arm.com>
+ <716ad7c9-08bb-b885-69bd-a442d6f9b2eb@nvidia.com>
+ <20190627152303.GE3782@e121166-lin.cambridge.arm.com>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <f54f595c-b03f-47d7-09d2-d0cf148b1ba3@nvidia.com>
+Date:   Mon, 1 Jul 2019 16:20:41 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190701032342.25971-1-huangfq.daxian@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190627152303.GE3782@e121166-lin.cambridge.arm.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1561978250; bh=q882PDq25kuZRevJKIe02NSInIQJ7WUfjiLxvUzGrhA=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=mkD5jrEuRdgEmAtbCqBCQnta/zLLCsP96c1vTGwSnhGLcpbr3GPIGCw7X1JCynwK/
+         ZZQ3gEOlAv2mkCFAFpj3gKbJRcCkLPiRVU/asuaVhXigA4Nt31PkUNZTC/nhmNBl+s
+         SvLxlB61Ct3/REOgnFZJSrNGDthohRt/nKHKgHXPcQoAMZq07ckNVPc18toD0tb1Bo
+         PiRwWJTioi1VqPryS8ut6g+yjs+FQKJEqHo2j2fLb9pBlxVFXLsGC5+fbxaqpkG12D
+         qZxAubY2BOvmu4lQ42gZEl6dshHDsm0GdvMTozrIh/1zEc/GoWPUAWtfRgebXWtmGY
+         aHBzDcSozgA4g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Fuqian,
-
-On Mon, Jul 01, 2019 at 11:23:12AM +0800, Fuqian Huang wrote:
-> Using dev_get_drvdata directly.
+On 6/27/2019 8:53 PM, Lorenzo Pieralisi wrote:
+> On Thu, Jun 27, 2019 at 08:41:37PM +0530, Vidya Sagar wrote:
+>> On 6/27/2019 3:36 PM, Lorenzo Pieralisi wrote:
+>>> On Tue, Jun 18, 2019 at 01:08:10PM +0530, Vidya Sagar wrote:
+>>>> Currently Relaxed Ordering bit in the configuration space is enabled for
+>>>> all devices whereas it should be enabled only for root ports for Tegra20
+>>>> and Tegra30 chips to avoid deadlock in hardware.
+>>>
+>>> This is a fix so I think you had better add a Fixes: tag and if the
+>>> erratum is a public document it would be good to add it to the log
+>>> to explain what the problem is.
+>>>
+>>> Thanks,
+>>> Lorenzo
+>> This has been there from the beginning. I mean, if I have to give a tag as part
+>> of Fixes: , then I should give the tag that adds this driver itself. Is that fine?
+>> I can quote the following document section 31.1 for Tegra20, but the same information
+>> is not mentioned in Tegra30 specific public document.
+>> https://www.chiark.greenend.org.uk/~theom/riscos/docs/Tegra2_TRM_DP04508001v01p.pdf
+>> Is it fine to just quote only this document?
 > 
+> I am pretty sure an errata document should exist about this and Nvidia
+> owns it (if it is not public, well, there is nothing to quote then); I
+> would not quote this website, it does not look like Nvidia official
+> documentation.
+We have the TRM (Technical Reference Manual) document available for Tegra20 at
+https://developer.nvidia.com/embedded/downloads#?search=tegra%202 but basic registration
+is required to download the document. I'll mention this link in the commit message.
 
-I prefer using proper bus accessors.
+> 
+> For the Fixes: tag, it is up to you, to me this seems like a
+> critical bug (deadlock in hardware) and I do not think you
+> want to ship stable kernels with it. It depends on the entity
+> of the bug we are fixing, I leave it to you to decide the
+> best course of action, I am just trying to help.
+Since there is no specific commit that introduced this issue and the issue has been there
+from the beginning, I'm of the opinion that giving initial commit tag (the one that added
+the driver itself) for 'Fixes: tag doesn't really help here.
 
-Thanks.
+> 
+> Lorenzo
+> 
+>> Thanks,
+>> Vidya Sagar
+>>>
+>>>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+>>>> ---
+>>>>    drivers/pci/controller/pci-tegra.c | 7 +++++--
+>>>>    1 file changed, 5 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+>>>> index 464ba2538d52..bc7be369c1b3 100644
+>>>> --- a/drivers/pci/controller/pci-tegra.c
+>>>> +++ b/drivers/pci/controller/pci-tegra.c
+>>>> @@ -545,12 +545,15 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_fixup_class);
+>>>>    DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_fixup_class);
+>>>>    DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_fixup_class);
+>>>> -/* Tegra PCIE requires relaxed ordering */
+>>>> +/* Tegra20 and Tegra30 PCIE requires relaxed ordering */
+>>>>    static void tegra_pcie_relax_enable(struct pci_dev *dev)
+>>>>    {
+>>>>    	pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_DEVCTL_RELAX_EN);
+>>>>    }
+>>>> -DECLARE_PCI_FIXUP_FINAL(PCI_ANY_ID, PCI_ANY_ID, tegra_pcie_relax_enable);
+>>>> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0bf0, tegra_pcie_relax_enable);
+>>>> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_relax_enable);
+>>>> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_relax_enable);
+>>>> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_relax_enable);
+>>>>    static int tegra_pcie_request_resources(struct tegra_pcie *pcie)
+>>>>    {
+>>>> -- 
+>>>> 2.17.1
+>>>>
+>>
 
--- 
-Dmitry
