@@ -2,162 +2,239 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DED5F5BBEF
-	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2019 14:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 763AB5C37E
+	for <lists+linux-tegra@lfdr.de>; Mon,  1 Jul 2019 21:11:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727302AbfGAMmc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 1 Jul 2019 08:42:32 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:9287 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727049AbfGAMmc (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Jul 2019 08:42:32 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d19ffb20000>; Mon, 01 Jul 2019 05:42:26 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 01 Jul 2019 05:42:29 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 01 Jul 2019 05:42:29 -0700
-Received: from [10.24.46.111] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 1 Jul
- 2019 12:42:23 +0000
-Subject: Re: [PATCH V11 01/12] PCI: Add #defines for some of PCIe spec r4.0
- features
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        <bhelgaas@google.com>
-CC:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <kishon@ti.com>, <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <jingoohan1@gmail.com>, <gustavo.pimentel@synopsys.com>,
-        <digetx@gmail.com>, <mperttunen@nvidia.com>,
-        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
-References: <20190624091505.1711-1-vidyas@nvidia.com>
- <20190624091505.1711-2-vidyas@nvidia.com>
- <20190627143837.GC3782@e121166-lin.cambridge.arm.com>
-X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <04eb3a58-d9c3-d0ed-97a0-ef249b0df7b9@nvidia.com>
-Date:   Mon, 1 Jul 2019 18:12:20 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726678AbfGATL1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 1 Jul 2019 15:11:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55554 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726652AbfGATL1 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 1 Jul 2019 15:11:27 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8D5E42183F;
+        Mon,  1 Jul 2019 19:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562008286;
+        bh=M69bW3LLjAy9GRa5kws2W/TLGTCeIxO8p9s0yzUQV6M=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Fw2v6uirjEIwW3zfhLjQ35yRI+0y4ld/Oc50hhARgaTB5gb29LplirkzCi769nRHA
+         9uDmkotdqbeKCANPmgKOYLaBXbwZdwU85hD/EcrSEJIPrcd8/oqmQdOtDhWp0nmhnW
+         DtD6ncuuRgjRRw34Jgw6RuE8tYHlWmxJlaXEOH5s=
+Received: by mail-qk1-f174.google.com with SMTP id r6so11975258qkc.0;
+        Mon, 01 Jul 2019 12:11:26 -0700 (PDT)
+X-Gm-Message-State: APjAAAUwtQGjijJizjwtPRmBhAvRiNY1jvlFi7Vlj90Awf6CKR23wMnv
+        SWmXfJP6gVbiFpCRHClvDAHqbeI34JBuFIOhkg==
+X-Google-Smtp-Source: APXvYqy7FNZ6+l5eVy5svcAAz6HHDiNQIVOJTM7lSZQktlB01iGiNfghocoJtgdl5EKMFj+EaLYQ+fikqa/RiR0JGWk=
+X-Received: by 2002:a37:6357:: with SMTP id x84mr21600084qkb.393.1562008285770;
+ Mon, 01 Jul 2019 12:11:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190627143837.GC3782@e121166-lin.cambridge.arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1561984946; bh=kNykchmSvY0+P9KV8+dRy9nOI5CR9P45cgI9ABjOI5U=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Y5kzyYAJJMfzuI7ta+fVw5FSO79Z69AOC5wz22H1bjPkL4fEXjopktZgjC0Bgzc+g
-         fpNwBvAGask9SYB0nvM/Ok4UuN1u+HltxliSX2NL8447RaDHUfl4iqwpaLqEra0JcB
-         xFqIL9YRGT9yWtAh6bveoAYtdsFQyOk43rZlnaYvpfOwnx2uMMropBTuMFwlvKJqGF
-         hufl1MBJW2NI9/lYWqQvTdPHuzysQ1OYKpNHPSY4QGw58xSdhYZiZSe0U4gL/MWUEL
-         Ov8d3eGGq92mztOc3Q0aQgqmVqw+4olYqEJYjROZh8ySw+vhw0ZCxRU2oc/JFCFlD0
-         feYdv4ygZKFVQ==
+References: <20190630210019.26914-1-digetx@gmail.com> <20190630210019.26914-8-digetx@gmail.com>
+In-Reply-To: <20190630210019.26914-8-digetx@gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 1 Jul 2019 13:11:13 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJq5iwQcbUixMWK819OTof8DzrZ3UMhByc1pTAFTdwnjg@mail.gmail.com>
+Message-ID: <CAL_JsqJq5iwQcbUixMWK819OTof8DzrZ3UMhByc1pTAFTdwnjg@mail.gmail.com>
+Subject: Re: [PATCH v6 07/15] dt-bindings: memory: tegra30: Convert to
+ Tegra124 YAML
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Joseph Lo <josephl@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
+        linux-clk <linux-clk@vger.kernel.org>,
+        linux-tegra@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 6/27/2019 8:08 PM, Lorenzo Pieralisi wrote:
-> On Mon, Jun 24, 2019 at 02:44:54PM +0530, Vidya Sagar wrote:
->> Add #defines only for the Data Link Feature and Physical Layer 16.0 GT/s
->> features.
->>
->> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
->> Reviewed-by: Thierry Reding <treding@nvidia.com>
->> ---
->> Changes since [v10]:
->> * None
->>
->> Changes since [v9]:
->> * None
->>
->> Changes since [v8]:
->> * None
->>
->> Changes since [v7]:
->> * None
->>
->> Changes since [v6]:
->> * None
->>
->> Changes since [v5]:
->> * None
->>
->> Changes since [v4]:
->> * None
->>
->> Changes since [v3]:
->> * None
->>
->> Changes since [v2]:
->> * Updated commit message and description to explicitly mention that defines are
->>    added only for some of the features and not all.
->>
->> Changes since [v1]:
->> * None
->>
->>   include/uapi/linux/pci_regs.h | 22 +++++++++++++++++++++-
->>   1 file changed, 21 insertions(+), 1 deletion(-)
-> 
-> I need Bjorn's ACK to merge this patch.
-I sent V12 patches out for review.
-Bjorn, please provide ACK for V12 version of this change.
+On Sun, Jun 30, 2019 at 3:04 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>
 
--Vidya Sagar
+"Convert" implies you delete the old binding doc.
 
-> 
-> Lorenzo
-> 
->> diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
->> index f28e562d7ca8..1c79f6a097d2 100644
->> --- a/include/uapi/linux/pci_regs.h
->> +++ b/include/uapi/linux/pci_regs.h
->> @@ -713,7 +713,9 @@
->>   #define PCI_EXT_CAP_ID_DPC	0x1D	/* Downstream Port Containment */
->>   #define PCI_EXT_CAP_ID_L1SS	0x1E	/* L1 PM Substates */
->>   #define PCI_EXT_CAP_ID_PTM	0x1F	/* Precision Time Measurement */
->> -#define PCI_EXT_CAP_ID_MAX	PCI_EXT_CAP_ID_PTM
->> +#define PCI_EXT_CAP_ID_DLF	0x25	/* Data Link Feature */
->> +#define PCI_EXT_CAP_ID_PL	0x26	/* Physical Layer 16.0 GT/s */
->> +#define PCI_EXT_CAP_ID_MAX	PCI_EXT_CAP_ID_PL
->>   
->>   #define PCI_EXT_CAP_DSN_SIZEOF	12
->>   #define PCI_EXT_CAP_MCAST_ENDPOINT_SIZEOF 40
->> @@ -1053,4 +1055,22 @@
->>   #define  PCI_L1SS_CTL1_LTR_L12_TH_SCALE	0xe0000000  /* LTR_L1.2_THRESHOLD_Scale */
->>   #define PCI_L1SS_CTL2		0x0c	/* Control 2 Register */
->>   
->> +/* Data Link Feature */
->> +#define PCI_DLF_CAP		0x04	/* Capabilities Register */
->> +#define  PCI_DLF_LOCAL_DLF_SUP_MASK	0x007fffff  /* Local Data Link Feature Supported */
->> +#define  PCI_DLF_EXCHANGE_ENABLE	0x80000000  /* Data Link Feature Exchange Enable */
->> +#define PCI_DLF_STS		0x08	/* Status Register */
->> +#define  PCI_DLF_REMOTE_DLF_SUP_MASK	0x007fffff  /* Remote Data Link Feature Supported */
->> +#define  PCI_DLF_REMOTE_DLF_SUP_VALID	0x80000000  /* Remote Data Link Feature Support Valid */
->> +
->> +/* Physical Layer 16.0 GT/s */
->> +#define PCI_PL_16GT_CAP		0x04	/* Capabilities Register */
->> +#define PCI_PL_16GT_CTRL	0x08	/* Control Register */
->> +#define PCI_PL_16GT_STS		0x0c	/* Status Register */
->> +#define PCI_PL_16GT_LDPM_STS	0x10	/* Local Data Parity Mismatch Status Register */
->> +#define PCI_PL_16GT_FRDPM_STS	0x14	/* First Retimer Data Parity Mismatch Status Register */
->> +#define PCI_PL_16GT_SRDPM_STS	0x18	/* Second Retimer Data Parity Mismatch Status Register */
->> +#define PCI_PL_16GT_RSVD	0x1C	/* Reserved */
->> +#define PCI_PL_16GT_LE_CTRL	0x20	/* Lane Equalization Control Register */
->> +
->>   #endif /* LINUX_PCI_REGS_H */
->> -- 
->> 2.17.1
->>
+> The Tegra30 binding will actually differ from the Tegra124 a tad, in
+> particular the EMEM configuration description. Hence rename the binding
+> to Tegra124 during of the conversion to YAML.
+>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../nvidia,tegra124-mc.yaml                   | 149 ++++++++++++++++++
+>  1 file changed, 149 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
+> new file mode 100644
+> index 000000000000..d18242510295
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
+> @@ -0,0 +1,149 @@
+> +# SPDX-License-Identifier: (GPL-2.0)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-mc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title:
+> +  NVIDIA Tegra124 SoC Memory Controller
+> +
+> +maintainers:
+> +  - Jon Hunter <jonathanh@nvidia.com>
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +
+> +description: |
+> +  Tegra124 SoC features a hybrid 2x32-bit / 1x64-bit memory controller.
+> +  These are interleaved to provide high performance with the load shared across
+> +  two memory channels. The Tegra124 Memory Controller handles memory requests
+> +  from internal clients and arbitrates among them to allocate memory bandwidth
+> +  for DDR3L and LPDDR3 SDRAMs.
+> +
+> +properties:
+> +  compatible:
+> +    const: nvidia,tegra124-mc
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description:
+> +      Physical base address.
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description:
+> +      Memory Controller clock.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: mc
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description:
+> +      Memory Controller interrupt.
+> +
+> +  "#reset-cells":
+> +    const: 1
+> +
+> +  "#iommu-cells":
+> +    const: 1
+> +
+> +patternProperties:
+> +  ".*":
 
+Please define a node name or pattern for node names.
+
+> +    properties:
+> +      nvidia,ram-code:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description:
+> +          Value of RAM_CODE this timing set is used for.
+> +
+> +    patternProperties:
+> +      ".*":
+
+Same here.
+
+> +        properties:
+> +          clock-frequency:
+> +            description:
+> +              Memory clock rate in Hz.
+
+No constraints? Anything from 0 to 4GHz works?
+
+> +
+> +          nvidia,emem-configuration:
+> +            $ref: /schemas/types.yaml#/definitions/uint32-array
+> +            description: |
+> +              Values to be written to the EMEM register block. See section
+> +              "15.6.1 MC Registers" in the TRM.
+> +            items:
+> +              - description: MC_EMEM_ARB_CFG
+> +              - description: MC_EMEM_ARB_OUTSTANDING_REQ
+> +              - description: MC_EMEM_ARB_TIMING_RCD
+> +              - description: MC_EMEM_ARB_TIMING_RP
+> +              - description: MC_EMEM_ARB_TIMING_RC
+> +              - description: MC_EMEM_ARB_TIMING_RAS
+> +              - description: MC_EMEM_ARB_TIMING_FAW
+> +              - description: MC_EMEM_ARB_TIMING_RRD
+> +              - description: MC_EMEM_ARB_TIMING_RAP2PRE
+> +              - description: MC_EMEM_ARB_TIMING_WAP2PRE
+> +              - description: MC_EMEM_ARB_TIMING_R2R
+> +              - description: MC_EMEM_ARB_TIMING_W2W
+> +              - description: MC_EMEM_ARB_TIMING_R2W
+> +              - description: MC_EMEM_ARB_TIMING_W2R
+> +              - description: MC_EMEM_ARB_DA_TURNS
+> +              - description: MC_EMEM_ARB_DA_COVERS
+> +              - description: MC_EMEM_ARB_MISC0
+> +              - description: MC_EMEM_ARB_MISC1
+> +              - description: MC_EMEM_ARB_RING1_THROTTLE
+> +
+> +        required:
+> +          - clock-frequency
+> +          - nvidia,emem-configuration
+> +
+> +    required:
+> +      - nvidia,ram-code
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - "#reset-cells"
+> +  - "#iommu-cells"
+> +
+> +examples:
+> +  - |
+> +    memory-controller@70019000 {
+> +        compatible = "nvidia,tegra124-mc";
+> +        reg = <0x0 0x70019000 0x0 0x1000>;
+> +        clocks = <&tegra_car 32>;
+> +        clock-names = "mc";
+> +
+> +        interrupts = <0 77 4>;
+> +
+> +        #iommu-cells = <1>;
+> +        #reset-cells = <1>;
+> +
+> +        emc-timings-3 {
+> +            nvidia,ram-code = <3>;
+> +
+> +            timing-12750000 {
+> +                clock-frequency = <12750000>;
+> +
+> +                nvidia,emem-configuration = <
+> +                    0x40040001 /* MC_EMEM_ARB_CFG */
+> +                    0x8000000a /* MC_EMEM_ARB_OUTSTANDING_REQ */
+> +                    0x00000001 /* MC_EMEM_ARB_TIMING_RCD */
+> +                    0x00000001 /* MC_EMEM_ARB_TIMING_RP */
+> +                    0x00000002 /* MC_EMEM_ARB_TIMING_RC */
+> +                    0x00000000 /* MC_EMEM_ARB_TIMING_RAS */
+> +                    0x00000002 /* MC_EMEM_ARB_TIMING_FAW */
+> +                    0x00000001 /* MC_EMEM_ARB_TIMING_RRD */
+> +                    0x00000002 /* MC_EMEM_ARB_TIMING_RAP2PRE */
+> +                    0x00000008 /* MC_EMEM_ARB_TIMING_WAP2PRE */
+> +                    0x00000003 /* MC_EMEM_ARB_TIMING_R2R */
+> +                    0x00000002 /* MC_EMEM_ARB_TIMING_W2W */
+> +                    0x00000003 /* MC_EMEM_ARB_TIMING_R2W */
+> +                    0x00000006 /* MC_EMEM_ARB_TIMING_W2R */
+> +                    0x06030203 /* MC_EMEM_ARB_DA_TURNS */
+> +                    0x000a0402 /* MC_EMEM_ARB_DA_COVERS */
+> +                    0x77e30303 /* MC_EMEM_ARB_MISC0 */
+> +                    0x70000f03 /* MC_EMEM_ARB_MISC1 */
+> +                    0x001f0000 /* MC_EMEM_ARB_RING1_THROTTLE */
+> +                >;
+> +            };
+> +        };
+> +    };
+> --
+> 2.22.0
+>
