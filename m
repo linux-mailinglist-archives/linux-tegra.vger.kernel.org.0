@@ -2,49 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAFBA5C5F8
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jul 2019 01:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F3025CBEF
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jul 2019 10:18:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbfGAXn0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 1 Jul 2019 19:43:26 -0400
-Received: from avon.wwwdotorg.org ([104.237.132.123]:33386 "EHLO
-        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726362AbfGAXn0 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 1 Jul 2019 19:43:26 -0400
-Received: from [10.20.204.51] (unknown [216.228.112.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by avon.wwwdotorg.org (Postfix) with ESMTPSA id 47B2B1C00B5;
-        Mon,  1 Jul 2019 17:43:25 -0600 (MDT)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.100.3 at avon.wwwdotorg.org
-Subject: Re: [pinmux scripts PATCH 1/3] Update kernel driver template
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>, linux-tegra@vger.kernel.org
-References: <20190620170055.19771-1-thierry.reding@gmail.com>
-From:   Stephen Warren <swarren@wwwdotorg.org>
-Message-ID: <82164495-67ba-1ae4-b25a-be0b273ff210@wwwdotorg.org>
-Date:   Mon, 1 Jul 2019 17:43:23 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726344AbfGBISo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jul 2019 04:18:44 -0400
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:36293 "EHLO
+        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726160AbfGBISo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jul 2019 04:18:44 -0400
+Received: by mail-yb1-f193.google.com with SMTP id t10so1023712ybk.3;
+        Tue, 02 Jul 2019 01:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=HAdClOUcHZ3IYsbl5G0rdG7nEVZII6d9JlEQ/5XRWdk=;
+        b=FwZV5NXMNI5saJ1G6bx15kCv6z1R0kIQ/OlYpnallmC4052OFYRIMUdar2Pnl7GUFT
+         Q3bKhIRB0X9PALZKZh8ZbQGLPGGBaGTdk3nXfc/IZuBhK2i3ge+qe8vSc+czhI9SiGWm
+         oqj+2aBO/F6z9BoxoDfIJI37e9B7gRULfaQsthCZfuUL5r7pwHHCxQ/nspoLDRVJzrCZ
+         f2aJRey0bxy9ncHKWSneF8WW4QPHPrgarhs9/N/Zwy1bziHC/quawgJGgzu61s5nIMiO
+         RRGAi91FpAYcHZZbHGNcMElnzDj+5BIK9LJpBavEQoVi9ZmQx/vPu4FwOhh1Dk6UfHqV
+         XUhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HAdClOUcHZ3IYsbl5G0rdG7nEVZII6d9JlEQ/5XRWdk=;
+        b=I2KJ2vC9VrqspMTsQUK6WWHE+4O7upxJTNilMq8vAyXEp8H8apt0hSyV/YK4ep7JCU
+         nomP2noIZFcAGnwnFCtd9RSBj3sxjfUiRW/ehxdlNw+QvgKboDxGRofT/OYbn7tMLKFq
+         tJeSG+RMcUdxpSf72fZDJWH1egvc5ssFAZ9Hg3iqcf832ARSkB3VkRVDPFcv453/e8EU
+         MBuw8IgAN12xcM2QlTbUdACIXFpUS5plAy1k+ZRwWpLK0J7FFiLA21JKdoUXCa3R/PHP
+         2P3AMXrjVHZcdy/koHXKGVb475CfxQOtq65ugx3X2/ZSIGh75cMeQOKe9IEClwcxLAc5
+         Zp7A==
+X-Gm-Message-State: APjAAAUz1sC/srvOzg1VYacCvPxU52+gDG/wW6NLGlnLMDGXTe4kmBJF
+        JgP0ym/X/4gyKwQDDc3HytYZqoaNA/pQN8fJHiw=
+X-Google-Smtp-Source: APXvYqwClpSzv6om5yiHw+9Sq3JuKWwAJ3+EDe4nfSlCRU988YJhWO0Q93wVfyW/7gxXqZfMBwixd3t50uVQ5DNxGB4=
+X-Received: by 2002:a25:9347:: with SMTP id g7mr5943206ybo.277.1562055523517;
+ Tue, 02 Jul 2019 01:18:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190620170055.19771-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190701032342.25971-1-huangfq.daxian@gmail.com> <20190701075255.GD172968@dtor-ws>
+In-Reply-To: <20190701075255.GD172968@dtor-ws>
+From:   Fuqian Huang <huangfq.daxian@gmail.com>
+Date:   Tue, 2 Jul 2019 16:18:32 +0800
+Message-ID: <CABXRUiSO2Fos1V3hR5t3AviZ9Hit_y+E-Tp3PNOQj6-FKUBJBw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] input: keyboard/mouse/touchscreen/misc: Use dev_get_drvdata()
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Olof Johansson <olof@lixom.net>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        Arnd Bergmann <arnd@arndb.de>, Enrico Weigelt <info@metux.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Anson Huang <anson.huang@nxp.com>,
+        Richard Fontana <rfontana@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Allison Randal <allison@lohutok.net>,
+        Christian Hoff <christian_hoff@gmx.net>,
+        Tony Lindgren <tony@atomide.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Gabriel Fernandez <gabriel.fernandez@st.com>,
+        Luca Weiss <luca@z3ntu.xyz>, Rob Herring <robh@kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 6/20/19 11:00 AM, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Some changes in recent years have modified the upstream kernel driver in
-> some ways that make it incompatible with the current template. Update
-> the template to take into account changes introduced by the following
-> commits:
+I am not an expert on this. I just write a coccinelle script to search
+this kind of misuse and fix it in a naive way.
+Could you tell me about how to use the proper bus accessors? Then I
+will fix it up and resend a v2 patch set.
 
-All 3 patches applied.
+Thanks.
+
+Dmitry Torokhov <dmitry.torokhov@gmail.com> =E6=96=BC 2019=E5=B9=B47=E6=9C=
+=881=E6=97=A5=E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:52=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> Hi Fuqian,
+>
+> On Mon, Jul 01, 2019 at 11:23:12AM +0800, Fuqian Huang wrote:
+> > Using dev_get_drvdata directly.
+> >
+>
+> I prefer using proper bus accessors.
+>
+> Thanks.
+>
+> --
+> Dmitry
