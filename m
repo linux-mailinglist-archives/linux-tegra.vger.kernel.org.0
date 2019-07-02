@@ -2,106 +2,178 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BAC185CCF3
-	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jul 2019 11:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 589DD5CE44
+	for <lists+linux-tegra@lfdr.de>; Tue,  2 Jul 2019 13:20:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbfGBJvj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 2 Jul 2019 05:51:39 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:44350 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725868AbfGBJvi (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jul 2019 05:51:38 -0400
-Received: by mail-pl1-f194.google.com with SMTP id t7so90293plr.11;
-        Tue, 02 Jul 2019 02:51:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=96/3jtqs845f5zIFwO5nxuuVCQy9SyepnoAKFsIrIMw=;
-        b=JfZyrUjlJL43ILmmdwAy6F7txZsfdzO4AQzkvU7IZPP/iF9/X6mtv5kQO6hMGe4MJV
-         2l0FeeMmm6hwQNIyj1F/HRmwbXPZJxWLb+aw+9WQ+CbJpEYfWp2N7nLI+xWWUA0TJddq
-         J1SrIjHpPakOu+/2qOzUTtgqt0GDGhKM+5lqGldG1FvUP7qTXUHsZLLs3KmEJ2mmKzc6
-         C0hgtVgTsJFWst0ts15bRtKuNlwucq4HLOHhSZuiWhCIsNxLQzP8oppYwIx6iYl5TZEl
-         3kcJwVcth2oV3/nxOU2RR9CqWxMtosf0r3x2Ok+Rq1pTgO/MbphyI9wQ0PhKI1a//55F
-         yo4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=96/3jtqs845f5zIFwO5nxuuVCQy9SyepnoAKFsIrIMw=;
-        b=HvrIYKAxGpf0qO821BMs53SIpW4laZ0gsOH++pVqhHL+9Ot6X2/oN+ebOR7AVsA2mN
-         astrVA17BR3yuDdEHUcxW/y40jB/S1Sdsc4paMeJdxK8+MZVYHbyzrPf9CP15HZK4kOi
-         IIZ7MIslvhSnVGsQkhHBeDcxndICidZuJ3BUg7CBx82i5GIFK4xuVkNj8Ban4lamoexU
-         0QFFOrk3tcCVnWjrGACEWosuX+99XQng+THNEZo3XK2rBbSGaE718RCjl5MMSQ9J8Q64
-         nN+6iLnaBOLzGetAKcKrlH8te/+fL4uBmJFLPSCy1wquJQcIbLlzCmwos6H7w+QKrjMF
-         hWgQ==
-X-Gm-Message-State: APjAAAXCIyNd+1Gx5T7jtwfIndv821+fgC2Jbw/NveLF5qZX1jcFif8w
-        hxT9XADAASJ4EVC3JTw2oAOqVsdusMDr/XKo3zs=
-X-Google-Smtp-Source: APXvYqxhyUjR0CrI9KX1v9haSzz6fkp5zqzu2IxjxZvlFO45fy5nIdN3K4RDU2J0uhXSTOlvwyIMohZj8GfA+WQFMqk=
-X-Received: by 2002:a17:902:934a:: with SMTP id g10mr34957358plp.18.1562061097869;
- Tue, 02 Jul 2019 02:51:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190701032342.25971-1-huangfq.daxian@gmail.com>
- <20190701075255.GD172968@dtor-ws> <CABXRUiSO2Fos1V3hR5t3AviZ9Hit_y+E-Tp3PNOQj6-FKUBJBw@mail.gmail.com>
-In-Reply-To: <CABXRUiSO2Fos1V3hR5t3AviZ9Hit_y+E-Tp3PNOQj6-FKUBJBw@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 2 Jul 2019 12:51:25 +0300
-Message-ID: <CAHp75VeUo2Au66tETo3zneBpeaVU+Y+-h5zghpo+hPuB=a6-eA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] input: keyboard/mouse/touchscreen/misc: Use dev_get_drvdata()
-To:     Fuqian Huang <huangfq.daxian@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        id S1726150AbfGBLUc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 2 Jul 2019 07:20:32 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:13656 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725972AbfGBLUc (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 2 Jul 2019 07:20:32 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d1b3e010001>; Tue, 02 Jul 2019 04:20:33 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 02 Jul 2019 04:20:30 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 02 Jul 2019 04:20:30 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 2 Jul
+ 2019 11:20:25 +0000
+Subject: Re: [PATCH v3] dmaengine: tegra-apb: Support per-burst residue
+ granularity
+To:     Dmitry Osipenko <digetx@gmail.com>,
         Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Olof Johansson <olof@lixom.net>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Arnd Bergmann <arnd@arndb.de>, Enrico Weigelt <info@metux.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Anson Huang <anson.huang@nxp.com>,
-        Richard Fontana <rfontana@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Christian Hoff <christian_hoff@gmx.net>,
-        Tony Lindgren <tony@atomide.com>,
-        Alexios Zavras <alexios.zavras@intel.com>,
-        Gabriel Fernandez <gabriel.fernandez@st.com>,
-        Luca Weiss <luca@z3ntu.xyz>, Rob Herring <robh@kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Ben Dooks <ben.dooks@codethink.co.uk>
+CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20190627194728.8948-1-digetx@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <dab25158-272c-a18f-a858-433f7f9000e0@nvidia.com>
+Date:   Tue, 2 Jul 2019 12:20:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <20190627194728.8948-1-digetx@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1562066434; bh=Dq9X1vgzOiGTU9ncjvT6tcogAvFK6UBwOjiod+Q2p30=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=RSCH5jJITPtkMKI3SdMzRH1ZpLmv+8AvKvkuiClEBStQcapmzmp1NMc3ZmkpYVb1G
+         zVl3QeNkwBSo9fbi2nGafwOLrdBDQugHgEDsrpguqlHSK8LxcTk8N9TnkqqNJsbHGC
+         loVqngBxoGCBqFre1dC+RRDigfJGdhr6qnRtDsTCzpw9nEIw8a0DMkOa8tq5osLNrZ
+         sLX40gluGOaFbCQgH4kKT4wdwyonrszIUB8QUU66AftunAXQYML02EqC3KfxSVRFGu
+         FDvnaSQlzLeM+nWUWfG4F2HtNvluat4pUoSH/HnQ4U+wWpOsIMIAQeiBFfcU1d0cAv
+         wL+BrklyLWpxA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jul 2, 2019 at 11:20 AM Fuqian Huang <huangfq.daxian@gmail.com> wrote:
->
-> I am not an expert on this. I just write a coccinelle script to search
-> this kind of misuse and fix it in a naive way.
-> Could you tell me about how to use the proper bus accessors? Then I
-> will fix it up and resend a v2 patch set.
 
-First, don't top post.
-And answering to this, simple drop the patch.
-Proper bus accessors is exactly what it's used in the current code.
+On 27/06/2019 20:47, Dmitry Osipenko wrote:
+> Tegra's APB DMA engine updates words counter after each transferred burst
+> of data, hence it can report transfer's residual with more fidelity which
+> may be required in cases like audio playback. In particular this fixes
+> audio stuttering during playback in a chromium web browser. The patch is
+> based on the original work that was made by Ben Dooks and a patch from
+> downstream kernel. It was tested on Tegra20 and Tegra30 devices.
+> 
+> Link: https://lore.kernel.org/lkml/20190424162348.23692-1-ben.dooks@codethink.co.uk/
+> Link: https://nv-tegra.nvidia.com/gitweb/?p=linux-4.4.git;a=commit;h=c7bba40c6846fbf3eaad35c4472dcc7d8bbc02e5
+> Inspired-by: Ben Dooks <ben.dooks@codethink.co.uk>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+> 
+> Changelog:
+> 
+> v3:  Added workaround for a hardware design shortcoming that results
+>      in a words counter wraparound before end-of-transfer bit is set
+>      in a cyclic mode.
+> 
+> v2:  Addressed review comments made by Jon Hunter to v1. We won't try
+>      to get words count if dma_desc is on free list as it will result
+>      in a NULL dereference because this case wasn't handled properly.
+> 
+>      The residual value is now updated properly, avoiding potential
+>      integer overflow by adding the "bytes" to the "bytes_transferred"
+>      instead of the subtraction.
+> 
+>  drivers/dma/tegra20-apb-dma.c | 69 +++++++++++++++++++++++++++++++----
+>  1 file changed, 62 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+> index 79e9593815f1..71473eda28ee 100644
+> --- a/drivers/dma/tegra20-apb-dma.c
+> +++ b/drivers/dma/tegra20-apb-dma.c
+> @@ -152,6 +152,7 @@ struct tegra_dma_sg_req {
+>  	bool				last_sg;
+>  	struct list_head		node;
+>  	struct tegra_dma_desc		*dma_desc;
+> +	unsigned int			words_xferred;
+>  };
+>  
+>  /*
+> @@ -496,6 +497,7 @@ static void tegra_dma_configure_for_next(struct tegra_dma_channel *tdc,
+>  	tdc_write(tdc, TEGRA_APBDMA_CHAN_CSR,
+>  				nsg_req->ch_regs.csr | TEGRA_APBDMA_CSR_ENB);
+>  	nsg_req->configured = true;
+> +	nsg_req->words_xferred = 0;
+>  
+>  	tegra_dma_resume(tdc);
+>  }
+> @@ -511,6 +513,7 @@ static void tdc_start_head_req(struct tegra_dma_channel *tdc)
+>  					typeof(*sg_req), node);
+>  	tegra_dma_start(tdc, sg_req);
+>  	sg_req->configured = true;
+> +	sg_req->words_xferred = 0;
+>  	tdc->busy = true;
+>  }
+>  
+> @@ -797,6 +800,61 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
+>  	return 0;
+>  }
+>  
+> +static unsigned int tegra_dma_sg_bytes_xferred(struct tegra_dma_channel *tdc,
+> +					       struct tegra_dma_sg_req *sg_req)
+> +{
+> +	unsigned long status, wcount = 0;
+> +
+> +	if (!list_is_first(&sg_req->node, &tdc->pending_sg_req))
+> +		return 0;
+> +
+> +	if (tdc->tdma->chip_data->support_separate_wcount_reg)
+> +		wcount = tdc_read(tdc, TEGRA_APBDMA_CHAN_WORD_TRANSFER);
+> +
+> +	status = tdc_read(tdc, TEGRA_APBDMA_CHAN_STATUS);
+> +
+> +	if (!tdc->tdma->chip_data->support_separate_wcount_reg)
+> +		wcount = status;
+> +
+> +	if (status & TEGRA_APBDMA_STATUS_ISE_EOC)
+> +		return sg_req->req_len;
+> +
+> +	wcount = get_current_xferred_count(tdc, sg_req, wcount);
+> +
+> +	if (!wcount) {
+> +		/*
+> +		 * If wcount wasn't ever polled for this SG before, then
+> +		 * simply assume that transfer hasn't started yet.
+> +		 *
+> +		 * Otherwise it's the end of the transfer.
+> +		 *
+> +		 * The alternative would be to poll the status register
+> +		 * until EOC bit is set or wcount goes UP. That's so
+> +		 * because EOC bit is getting set only after the last
+> +		 * burst's completion and counter is less than the actual
+> +		 * transfer size by 4 bytes. The counter value wraps around
+> +		 * in a cyclic mode before EOC is set(!), so we can't easily
+> +		 * distinguish start of transfer from its end.
+> +		 */
+> +		if (sg_req->words_xferred)
+> +			wcount = sg_req->req_len - 4;
+> +
+> +	} else if (wcount < sg_req->words_xferred) {
+> +		/*
+> +		 * This case shall not ever happen because EOC bit
+> +		 * must be set once next cyclic transfer is started.
 
+I am not sure I follow this and why this condition cannot happen for
+cyclic transfers. What about non-cyclic transfers?
+
+Cheers
+Jon
 
 -- 
-With Best Regards,
-Andy Shevchenko
+nvpublic
