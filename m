@@ -2,97 +2,130 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B9485E1F2
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2019 12:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8828B5E413
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2019 14:39:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727244AbfGCKVO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 3 Jul 2019 06:21:14 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:11455 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727314AbfGCKVM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jul 2019 06:21:12 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d1c81940000>; Wed, 03 Jul 2019 03:21:08 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 03 Jul 2019 03:21:11 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 03 Jul 2019 03:21:11 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 3 Jul
- 2019 10:21:08 +0000
-Subject: Re: [PATCH 4.19 00/72] 4.19.57-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190702080124.564652899@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <1890f906-16d6-a3c3-69fd-d604dafd6889@nvidia.com>
-Date:   Wed, 3 Jul 2019 11:21:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1725943AbfGCMjo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Jul 2019 08:39:44 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:46697 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725847AbfGCMjo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jul 2019 08:39:44 -0400
+Received: by mail-lj1-f196.google.com with SMTP id v24so2217052ljg.13
+        for <linux-tegra@vger.kernel.org>; Wed, 03 Jul 2019 05:39:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DklxO8bY9y+1KEtywoAmTmeIAIeruqC3jg7uHqcYFaM=;
+        b=tcUAwT6hnidAlzpm/SNnRA/csXBqG7JcW5mgulZK2UCfSSNM9gxmq3O7QGcjdlss2U
+         8KIw4HL3PZuubK712g7qbm/q508RKfpnD3PhBXCIiMgPpCplFOM02+kVr27wULmDeYOP
+         zSZEhsMAwtixbTJJxF5O1kTIMGABG6kOKo0QbNMYzw2ArMFPPL5LcYsXzQ1pfZfTidmZ
+         kcMrdpzNkkjzFZsULDjr7PbChbGgXocEquSFLMPgJOEoaSESyyuXjSwRFrpVl/OjeBPN
+         m9aSxasRM1iEjzr4Ea6u0gTgzOlA2oMaAhSVFGTp4UYMtMhVJQEMyO5mbLRlBJlVDTof
+         v1Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DklxO8bY9y+1KEtywoAmTmeIAIeruqC3jg7uHqcYFaM=;
+        b=kNxh6fVckb26obBkCC5SOeDj3qyzIc+VIFVD3lZQ9GEImOHi+uXmjuRZ5F24Cq3r1R
+         FmcqcP0al54cV2/b9sMGXhh8LZ0JGU1eS/sDfHhfx3/DhHewxSs7UmWu4ecYhsKcj0Jm
+         +636fZPd5xofnSA/cDxv63oYCs4jQYPYjK4/x36wk//Y9BfRl9JyhQ0tf0n3VUCiGWVv
+         6/tz5k9G6TJnmYSY2E46/qHGKMtwGVxsBCkrOZfLDKjynaQ78LcLtu8jdbOyAqF1Zppn
+         l8MATDbvyFMqrRFPjhns1+8Nn8jLDldhcwg39hBY54veRej3AmG/33fJQh11k/2MtZsi
+         bSrA==
+X-Gm-Message-State: APjAAAU2JxumumXDqb2ANTtICWxn83lavPAwSAsq4HX7Whdpr8O2gj0z
+        enoRofrcv5cYqWvoqEEVC75+iWIIkMYFKXlPwSYjTA==
+X-Google-Smtp-Source: APXvYqxZRBnGvMRF6tBp3C2/OLtTuTS0lKqo4NzZvUuSWpCW+si5oCjMsGsbzwn/jmNq4IOkkyYTZgGJBJBUeI0YTvI=
+X-Received: by 2002:a2e:a0d5:: with SMTP id f21mr21386534ljm.69.1562157582719;
+ Wed, 03 Jul 2019 05:39:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190702080124.564652899@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562149268; bh=XS6F2p121XQG5c7JeVGcXx6l921vqyQyVWylrICfnmQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=JF8ea33rGnNeQcMc8z9WSnBue+eDiF7EulRgiLUOh5CmTm5hQjSfKhRaoT/eUqFqC
-         aVPxqG6LlWh9d3unyQEM7RrngEHPOfNF1WjhyZ3iNXJHSWisz7z4ssBktAJxUfu8yJ
-         HwaUUR496DkYez8Wjr1vDu6hG1KtwBKFMH0/zuqUBecGXzQhVekSQqIRhdQjnaTdBa
-         1xW1fsILXYRAYd3s/FYzr0p99FPn9q0d7ZU1XpfzyF/VhEM0fyZ7jEaJBsK34MExyc
-         Eq0uLtUOxbpuWHpWb6ZzNc62PfhX35og4yHOkDGbNIghBDdoFSUWaOKSu/lg+TDAHF
-         TPROgk9ruoMvA==
+References: <20190624132531.6184-1-linus.walleij@linaro.org> <20190703092236.GA15393@onstation.org>
+In-Reply-To: <20190703092236.GA15393@onstation.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 3 Jul 2019 14:39:31 +0200
+Message-ID: <CACRpkdab1NQNLwAKTxcuziAxu7oU7+Ypgea08qdZ=3R2Wr9cag@mail.gmail.com>
+Subject: Re: [PATCH 1/4 v1] gpio: Add support for hierarchical IRQ domains
+To:     Brian Masney <masneyb@onstation.org>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lina Iyer <ilina@codeaurora.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
+        David Daney <david.daney@cavium.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Thierry Reding <treding@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Wed, Jul 3, 2019 at 11:22 AM Brian Masney <masneyb@onstation.org> wrote:
+> On Mon, Jun 24, 2019 at 03:25:28PM +0200, Linus Walleij wrote:
+> >  static int gpiochip_to_irq(struct gpio_chip *chip, unsigned offset)
+> >  {
+> > +     struct irq_domain *domain = chip->irq.domain;
+> > +
+> >       if (!gpiochip_irqchip_irq_valid(chip, offset))
+> >               return -ENXIO;
+> >
+> > -     return irq_create_mapping(chip->irq.domain, offset);
+> > +     if (irq_domain_is_hierarchy(domain)) {
+> > +             struct irq_fwspec spec;
+> > +
+> > +             spec.fwnode = domain->fwnode;
+> > +             spec.param_count = 2;
+> > +             spec.param[0] = offset;
+> > +             spec.param[1] = IRQ_TYPE_NONE;
+> > +
+> > +             return irq_create_fwspec_mapping(&spec);
+> > +     }
+>
+> spmi-gpio's to_irq() needs to add one to the offset:
+>
+>         static int pmic_gpio_to_irq(struct gpio_chip *chip, unsigned pin)
+>         {
+>                 struct pmic_gpio_state *state = gpiochip_get_data(chip);
+>                 struct irq_fwspec fwspec;
+>
+>                 fwspec.fwnode = state->fwnode;
+>                 fwspec.param_count = 2;
+>                 fwspec.param[0] = pin + PMIC_GPIO_PHYSICAL_OFFSET;
+>                 /*
+>                  * Set the type to a safe value temporarily. This will be overwritten
+>                  * later with the proper value by irq_set_type.
+>                  */
+>                 fwspec.param[1] = IRQ_TYPE_EDGE_RISING;
+>
+>                 return irq_create_fwspec_mapping(&fwspec);
+>         }
+>
+> ssbi-gpio will have the same problem as well.
+>
+> What do you think about adding a new field to the struct gpio_irq_chip
+> inside the CONFIG_IRQ_DOMAIN_HIERARCHY ifdef called something like
+> to_irq_offset? (I'm bad at naming things.)
 
-On 02/07/2019 09:01, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 4.19.57 release.
-> There are 72 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Thu 04 Jul 2019 07:59:45 AM UTC.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.57-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+I think to cover Lina's need and following the direction set out
+by Thierry's desire to have callback so we can control the
+parent-to-child translation with code, it might be best to have
+an optional callback for translating fwspec.param[0].
 
-All tests are passing for Tegra ...
+Thierry seems to need exactly this for the Tegra driver to,
+I think that is why it has custom ops today.
 
-Test results for stable-v4.19:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    32 tests:	32 pass, 0 fail
+> Also, instead of hardcoding IRQ_TYPE_NONE, what do you think about using
+> the default_type field that's available?
 
-Linux version:	4.19.57-rc1-g4d057dfd72c6
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
+I want to get rid of the .default_type in the long run, it is
+nominally only for board files where the .set_type() isn't
+ever getting called. For anything modern, the .set_type()
+callback is always called before any irq is used.
 
-Cheers
-Jon
-
--- 
-nvpublic
+Yours,
+Linus Walleij
