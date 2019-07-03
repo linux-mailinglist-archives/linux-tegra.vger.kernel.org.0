@@ -2,178 +2,192 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 451955E600
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2019 16:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AD6E5E957
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2019 18:37:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727040AbfGCOFW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 3 Jul 2019 10:05:22 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:43484 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbfGCOFS (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jul 2019 10:05:18 -0400
-Received: by mail-lj1-f196.google.com with SMTP id 16so2546141ljv.10;
-        Wed, 03 Jul 2019 07:05:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZG2UMgdDAV2oBx4LVT6IwYAPv5J7xFdj5LWkwxMiZXY=;
-        b=bLHtnmEAF5ZvaXPGQOuCRooghIah73EC/ySluBdo8Lbxhv6TkdN7TfpCNQPQ6p4ne0
-         XdEo/oLl1aHia6gzSIEBdlS8xz4scZnWvrDGuF3jyGuOy4ryf3xDg9KJxomuUoKeOk9T
-         /k4v4XAZBHqKeahgjLy7EbkHo4REGuZUjLHTPkNjfLcvV5jKs+Afb0xXAZIoz8/b48r5
-         dNqgJHN6Xr9j5akdJ2mGX/qx1JI+YQ4EjnHvoEdqlt/U+3+fKemnJzqeo4ob4qyBbsEg
-         pOjnWBqPM7rsJU0uzeoZcFhYiOtzo8SpeV1yalAFrsBey8Zb7GbazbtFSM8AVK1NtW0Z
-         XCNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZG2UMgdDAV2oBx4LVT6IwYAPv5J7xFdj5LWkwxMiZXY=;
-        b=IlvRG7kfhHmCtaBccIMQzmquHxxqg6jdL8mr3wXY8QSuVEt1JXIplGs+j44c0jISPI
-         6AKMUJzkns0cNdSjHkiY2YMzXJz7cWXENwpy2LDiM2aoZgVaUiLm1/sKStX4KKu5z5oc
-         FSADanq6vBsy+VDeZ0ZEi/4bnNnIYYWGuM844Ti96Py8hflMmrPyiySxlvHi5z5LSJjK
-         gsgKNH87YhvpJHEUTIwCQxN2E0+w/C7eEB3rb9SqiXG+3VbMbCT3trXx+s2R/5J+go4Z
-         9IIDLLJBP5aJKKinJuq5NcgCvm0N1bJj+jVlxAMtM3iYawywWPBMeJFYQ8/ycZHAHOb3
-         qNHw==
-X-Gm-Message-State: APjAAAW1l3DI0egKkWnzZrgvaEYnnJtyK5jO/c5VSrO7sjSPNlCM+izW
-        LK3Pk7MjRPds+aQ4Ni1h/OPd3GJo
-X-Google-Smtp-Source: APXvYqw1MsZOHp0+5AV+cKjF9JNTP/sQsStMZ1Ql/RyUNFlCwQE83BtnATOAyep+C3N642uR6wF6pQ==
-X-Received: by 2002:a05:651c:213:: with SMTP id y19mr2846579ljn.25.1562162715557;
-        Wed, 03 Jul 2019 07:05:15 -0700 (PDT)
-Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id z12sm411215lfg.67.2019.07.03.07.05.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jul 2019 07:05:14 -0700 (PDT)
-Subject: Re: [PATCH v6 07/15] dt-bindings: memory: tegra30: Convert to
- Tegra124 YAML
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Joseph Lo <josephl@nvidia.com>,
+        id S1726678AbfGCQhl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Jul 2019 12:37:41 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8478 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbfGCQhl (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jul 2019 12:37:41 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d1cd9d10000>; Wed, 03 Jul 2019 09:37:37 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 03 Jul 2019 09:37:38 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 03 Jul 2019 09:37:38 -0700
+Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 3 Jul
+ 2019 16:37:36 +0000
+Subject: Re: [PATCH v4] dmaengine: tegra-apb: Support per-burst residue
+ granularity
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-        linux-clk <linux-clk@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20190630210019.26914-1-digetx@gmail.com>
- <20190630210019.26914-8-digetx@gmail.com>
- <CAL_JsqJq5iwQcbUixMWK819OTof8DzrZ3UMhByc1pTAFTdwnjg@mail.gmail.com>
- <ba299725-b65b-ce7d-6376-a26918cc985b@gmail.com>
- <d98f16ee-ac43-8f1e-d324-d6e2cfccf3c8@gmail.com>
- <CAL_Jsq+-cuqVf60MbaNTz3jCUQkEpU8EgUe1xyOzHLsM5zjjEg@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7d24fa15-0bd0-2ae6-7951-36826956a24f@gmail.com>
-Date:   Wed, 3 Jul 2019 17:05:12 +0300
+        Ben Dooks <ben.dooks@codethink.co.uk>
+CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20190703012836.16568-1-digetx@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <b0a0b110-61c8-ae8b-22a0-3311f70b428a@nvidia.com>
+Date:   Wed, 3 Jul 2019 17:37:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+-cuqVf60MbaNTz3jCUQkEpU8EgUe1xyOzHLsM5zjjEg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190703012836.16568-1-digetx@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1562171857; bh=+hij/D6gVD7l9xuZhS70byu/Uv6XOjg3bl4uM9oJDT8=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=FSF187M8c+wiVdHpa4JRJXMBeHA7V+nYPo8TEmvT2Ppbkmch1h7l76edg1gLKCOf5
+         IAoGnrB0mHKjCEqUfK3gARBkkFD2EHCfKhXtHd5mTnWdoe3ruoL3Sa9trX5lkGnzo+
+         0dmIAobjC0MxtaOX0a88USkYxnNhBIiaIt44Gn9hwBJ+fq6fCiIOcqEOyM4EEaqko2
+         oNiRvb8/makgmb4K0ugZjytIhU7WWlHGtGAgHkjCTjkyhQC8M9oowPG2av1xyGCjcQ
+         EdK43Ce2W5Bs1EPgQadGi9MX/uLNQZ3w1003fgIoAerKbphz6PJ59JG/aN/8qhZUyD
+         H6s30HkbEIiqQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.07.2019 16:22, Rob Herring пишет:
-> On Tue, Jul 2, 2019 at 6:48 PM Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> 01.07.2019 22:30, Dmitry Osipenko пишет:
->>> 01.07.2019 22:11, Rob Herring пишет:
->>>> On Sun, Jun 30, 2019 at 3:04 PM Dmitry Osipenko <digetx@gmail.com> wrote:
->>>>>
->>>>
->>>> "Convert" implies you delete the old binding doc.
->>>
->>> Yes, unfortunately the deletion got lost by accident after rebase and it was already
->>> too late when I noticed that. Will be fixed in the next revision.
->>>
->>>>> The Tegra30 binding will actually differ from the Tegra124 a tad, in
->>>>> particular the EMEM configuration description. Hence rename the binding
->>>>> to Tegra124 during of the conversion to YAML.
->>>>>
->>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>>> ---
->>>>>  .../nvidia,tegra124-mc.yaml                   | 149 ++++++++++++++++++
->>>>>  1 file changed, 149 insertions(+)
->>>>>  create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
->>>>> new file mode 100644
->>>>> index 000000000000..d18242510295
->>>>> --- /dev/null
->>>>> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
->>>>> @@ -0,0 +1,149 @@
->>>>> +# SPDX-License-Identifier: (GPL-2.0)
->>>>> +%YAML 1.2
->>>>> +---
->>>>> +$id: http://devicetree.org/schemas/memory-controllers/nvidia,tegra124-mc.yaml#
->>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>> +
->>>>> +title:
->>>>> +  NVIDIA Tegra124 SoC Memory Controller
->>>>> +
->>>>> +maintainers:
->>>>> +  - Jon Hunter <jonathanh@nvidia.com>
->>>>> +  - Thierry Reding <thierry.reding@gmail.com>
->>>>> +
->>>>> +description: |
->>>>> +  Tegra124 SoC features a hybrid 2x32-bit / 1x64-bit memory controller.
->>>>> +  These are interleaved to provide high performance with the load shared across
->>>>> +  two memory channels. The Tegra124 Memory Controller handles memory requests
->>>>> +  from internal clients and arbitrates among them to allocate memory bandwidth
->>>>> +  for DDR3L and LPDDR3 SDRAMs.
->>>>> +
->>>>> +properties:
->>>>> +  compatible:
->>>>> +    const: nvidia,tegra124-mc
->>>>> +
->>>>> +  reg:
->>>>> +    maxItems: 1
->>>>> +    description:
->>>>> +      Physical base address.
->>>>> +
->>>>> +  clocks:
->>>>> +    maxItems: 1
->>>>> +    description:
->>>>> +      Memory Controller clock.
->>>>> +
->>>>> +  clock-names:
->>>>> +    items:
->>>>> +      - const: mc
->>>>> +
->>>>> +  interrupts:
->>>>> +    maxItems: 1
->>>>> +    description:
->>>>> +      Memory Controller interrupt.
->>>>> +
->>>>> +  "#reset-cells":
->>>>> +    const: 1
->>>>> +
->>>>> +  "#iommu-cells":
->>>>> +    const: 1
->>>>> +
->>>>> +patternProperties:
->>>>> +  ".*":
->>>>
->>>> Please define a node name or pattern for node names.
->>>
->>> There was no pattern specified in the original binding. But I guess the existing
->>> upstream device-trees could be used as the source for the pattern.
->>
->> Actually it looks like the use of explicit pattern is not really a good idea because
->> device-tree could have node named in a way that it doesn't match the pattern and hence
->> dtbs_check silently skips the non-matching nodes. Is there any way to express that
->> non-matching nodes shall be rejected?
-> 
-> additionalProperties: false
-> 
-> It's not ideal because you have to list all properties and can't
-> combine multiple schema, but that's getting addressed in json-schema
-> draft8. That shouldn't matter for you in this case though.
 
-Works like a charm! Thank you very much.
+On 03/07/2019 02:28, Dmitry Osipenko wrote:
+> Tegra's APB DMA engine updates words counter after each transferred burst
+> of data, hence it can report transfer's residual with more fidelity which
+> may be required in cases like audio playback. In particular this fixes
+> audio stuttering during playback in a chromium web browser. The patch is
+> based on the original work that was made by Ben Dooks and a patch from
+> downstream kernel. It was tested on Tegra20 and Tegra30 devices.
+> 
+> Link: https://lore.kernel.org/lkml/20190424162348.23692-1-ben.dooks@codethink.co.uk/
+> Link: https://nv-tegra.nvidia.com/gitweb/?p=linux-4.4.git;a=commit;h=c7bba40c6846fbf3eaad35c4472dcc7d8bbc02e5
+> Inspired-by: Ben Dooks <ben.dooks@codethink.co.uk>
+> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+> 
+> Changelog:
+> 
+> v4: The words_xferred is now also reset on a new iteration of a cyclic
+>     transfer by ISR, so that dmaengine_tx_status() won't produce a
+>     misleading warning splat on TX status re-checking after a cycle
+>     completion when cyclic transfer consists of a single SG.
+> 
+> v3: Added workaround for a hardware design shortcoming that results
+>     in a words counter wraparound before end-of-transfer bit is set
+>     in a cyclic mode.
+> 
+> v2: Addressed review comments made by Jon Hunter to v1. We won't try
+>     to get words count if dma_desc is on free list as it will result
+>     in a NULL dereference because this case wasn't handled properly.
+> 
+>     The residual value is now updated properly, avoiding potential
+>     integer overflow by adding the "bytes" to the "bytes_transferred"
+>     instead of the subtraction.
+> 
+>  drivers/dma/tegra20-apb-dma.c | 72 +++++++++++++++++++++++++++++++----
+>  1 file changed, 65 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+> index 79e9593815f1..148d136191d7 100644
+> --- a/drivers/dma/tegra20-apb-dma.c
+> +++ b/drivers/dma/tegra20-apb-dma.c
+> @@ -152,6 +152,7 @@ struct tegra_dma_sg_req {
+>  	bool				last_sg;
+>  	struct list_head		node;
+>  	struct tegra_dma_desc		*dma_desc;
+> +	unsigned int			words_xferred;
+>  };
+>  
+>  /*
+> @@ -496,6 +497,7 @@ static void tegra_dma_configure_for_next(struct tegra_dma_channel *tdc,
+>  	tdc_write(tdc, TEGRA_APBDMA_CHAN_CSR,
+>  				nsg_req->ch_regs.csr | TEGRA_APBDMA_CSR_ENB);
+>  	nsg_req->configured = true;
+> +	nsg_req->words_xferred = 0;
+>  
+>  	tegra_dma_resume(tdc);
+>  }
+> @@ -511,6 +513,7 @@ static void tdc_start_head_req(struct tegra_dma_channel *tdc)
+>  					typeof(*sg_req), node);
+>  	tegra_dma_start(tdc, sg_req);
+>  	sg_req->configured = true;
+> +	sg_req->words_xferred = 0;
+>  	tdc->busy = true;
+>  }
+>  
+> @@ -638,6 +641,8 @@ static void handle_cont_sngl_cycle_dma_done(struct tegra_dma_channel *tdc,
+>  		list_add_tail(&dma_desc->cb_node, &tdc->cb_desc);
+>  	dma_desc->cb_count++;
+>  
+> +	sgreq->words_xferred = 0;
+> +
+>  	/* If not last req then put at end of pending list */
+>  	if (!list_is_last(&sgreq->node, &tdc->pending_sg_req)) {
+>  		list_move_tail(&sgreq->node, &tdc->pending_sg_req);
+> @@ -797,6 +802,62 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
+>  	return 0;
+>  }
+>  
+> +static unsigned int tegra_dma_sg_bytes_xferred(struct tegra_dma_channel *tdc,
+> +					       struct tegra_dma_sg_req *sg_req)
+> +{
+> +	unsigned long status, wcount = 0;
+> +
+> +	if (!list_is_first(&sg_req->node, &tdc->pending_sg_req))
+> +		return 0;
+> +
+> +	if (tdc->tdma->chip_data->support_separate_wcount_reg)
+> +		wcount = tdc_read(tdc, TEGRA_APBDMA_CHAN_WORD_TRANSFER);
+> +
+> +	status = tdc_read(tdc, TEGRA_APBDMA_CHAN_STATUS);
+> +
+> +	if (!tdc->tdma->chip_data->support_separate_wcount_reg)
+> +		wcount = status;
+> +
+> +	if (status & TEGRA_APBDMA_STATUS_ISE_EOC)
+> +		return sg_req->req_len;
+> +
+> +	wcount = get_current_xferred_count(tdc, sg_req, wcount);
+> +
+> +	if (!wcount) {
+> +		/*
+> +		 * If wcount wasn't ever polled for this SG before, then
+> +		 * simply assume that transfer hasn't started yet.
+> +		 *
+> +		 * Otherwise it's the end of the transfer.
+> +		 *
+> +		 * The alternative would be to poll the status register
+> +		 * until EOC bit is set or wcount goes UP. That's so
+> +		 * because EOC bit is getting set only after the last
+> +		 * burst's completion and counter is less than the actual
+> +		 * transfer size by 4 bytes. The counter value wraps around
+> +		 * in a cyclic mode before EOC is set(!), so we can't easily
+> +		 * distinguish start of transfer from its end.
+> +		 */
+> +		if (sg_req->words_xferred)
+> +			wcount = sg_req->req_len - 4;
+> +
+> +	} else if (wcount < sg_req->words_xferred) {
+> +		/*
+> +		 * This case shall not ever happen because EOC bit
+> +		 * must be set once next cyclic transfer is started.
+
+Should this still be cyclic here?
+
+Cheers
+Jon
+
+-- 
+nvpublic
