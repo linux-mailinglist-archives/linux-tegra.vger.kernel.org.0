@@ -2,192 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AD6E5E957
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2019 18:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3ACB5E965
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2019 18:39:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbfGCQhl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 3 Jul 2019 12:37:41 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:8478 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbfGCQhl (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jul 2019 12:37:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d1cd9d10000>; Wed, 03 Jul 2019 09:37:37 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 03 Jul 2019 09:37:38 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 03 Jul 2019 09:37:38 -0700
-Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 3 Jul
- 2019 16:37:36 +0000
-Subject: Re: [PATCH v4] dmaengine: tegra-apb: Support per-burst residue
- granularity
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Ben Dooks <ben.dooks@codethink.co.uk>
-CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20190703012836.16568-1-digetx@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <b0a0b110-61c8-ae8b-22a0-3311f70b428a@nvidia.com>
-Date:   Wed, 3 Jul 2019 17:37:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726678AbfGCQjy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Jul 2019 12:39:54 -0400
+Received: from foss.arm.com ([217.140.110.172]:52682 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727026AbfGCQjx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 3 Jul 2019 12:39:53 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E662C344;
+        Wed,  3 Jul 2019 09:39:52 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 914F73F718;
+        Wed,  3 Jul 2019 09:39:51 -0700 (PDT)
+Date:   Wed, 3 Jul 2019 17:39:41 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     bhelgaas@google.com, treding@nvidia.com, swarren@nvidia.com,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V2] PCI: tegra: Enable Relaxed Ordering only for Tegra20
+ & Tegra30
+Message-ID: <20190703161922.GA22679@e121166-lin.cambridge.arm.com>
+References: <20190701110942.24305-1-vidyas@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190703012836.16568-1-digetx@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562171857; bh=+hij/D6gVD7l9xuZhS70byu/Uv6XOjg3bl4uM9oJDT8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=FSF187M8c+wiVdHpa4JRJXMBeHA7V+nYPo8TEmvT2Ppbkmch1h7l76edg1gLKCOf5
-         IAoGnrB0mHKjCEqUfK3gARBkkFD2EHCfKhXtHd5mTnWdoe3ruoL3Sa9trX5lkGnzo+
-         0dmIAobjC0MxtaOX0a88USkYxnNhBIiaIt44Gn9hwBJ+fq6fCiIOcqEOyM4EEaqko2
-         oNiRvb8/makgmb4K0ugZjytIhU7WWlHGtGAgHkjCTjkyhQC8M9oowPG2av1xyGCjcQ
-         EdK43Ce2W5Bs1EPgQadGi9MX/uLNQZ3w1003fgIoAerKbphz6PJ59JG/aN/8qhZUyD
-         H6s30HkbEIiqQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190701110942.24305-1-vidyas@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Jul 01, 2019 at 04:39:42PM +0530, Vidya Sagar wrote:
+> Currently Relaxed Ordering bit in the configuration space is enabled for
+> all devices, but, as per the Technical Reference Manual of Tegra20 which is
 
-On 03/07/2019 02:28, Dmitry Osipenko wrote:
-> Tegra's APB DMA engine updates words counter after each transferred burst
-> of data, hence it can report transfer's residual with more fidelity which
-> may be required in cases like audio playback. In particular this fixes
-> audio stuttering during playback in a chromium web browser. The patch is
-> based on the original work that was made by Ben Dooks and a patch from
-> downstream kernel. It was tested on Tegra20 and Tegra30 devices.
-> 
-> Link: https://lore.kernel.org/lkml/20190424162348.23692-1-ben.dooks@codethink.co.uk/
-> Link: https://nv-tegra.nvidia.com/gitweb/?p=linux-4.4.git;a=commit;h=c7bba40c6846fbf3eaad35c4472dcc7d8bbc02e5
-> Inspired-by: Ben Dooks <ben.dooks@codethink.co.uk>
-> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+What devices ?
+
+> available at https://developer.nvidia.com/embedded/downloads#?search=tegra%202
+> in Sec 34.1, it is mentioned that Relexed Ordering bit needs to be enabled in
+> its root ports to avoid deadlock in hardware. The same is applicable for
+> Tegra30 as well though it is not explicitly mentioned in Tegra30 TRM document,
+> but the same should not be extended to root ports of other Tegra SoCs or
+> other hosts.
+
+Should not or must not ? What does this sentence mean ?
+
+Can we try to be more precise please ?
+
+As I said before the commit log must be clear to anyone reading it
+even if he has no background information.
+
+Lorenzo
+
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
 > ---
+> V2:
+> * Modified commit message to include reference to Tegra20 TRM document.
 > 
-> Changelog:
+>  drivers/pci/controller/pci-tegra.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> v4: The words_xferred is now also reset on a new iteration of a cyclic
->     transfer by ISR, so that dmaengine_tx_status() won't produce a
->     misleading warning splat on TX status re-checking after a cycle
->     completion when cyclic transfer consists of a single SG.
-> 
-> v3: Added workaround for a hardware design shortcoming that results
->     in a words counter wraparound before end-of-transfer bit is set
->     in a cyclic mode.
-> 
-> v2: Addressed review comments made by Jon Hunter to v1. We won't try
->     to get words count if dma_desc is on free list as it will result
->     in a NULL dereference because this case wasn't handled properly.
-> 
->     The residual value is now updated properly, avoiding potential
->     integer overflow by adding the "bytes" to the "bytes_transferred"
->     instead of the subtraction.
-> 
->  drivers/dma/tegra20-apb-dma.c | 72 +++++++++++++++++++++++++++++++----
->  1 file changed, 65 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-> index 79e9593815f1..148d136191d7 100644
-> --- a/drivers/dma/tegra20-apb-dma.c
-> +++ b/drivers/dma/tegra20-apb-dma.c
-> @@ -152,6 +152,7 @@ struct tegra_dma_sg_req {
->  	bool				last_sg;
->  	struct list_head		node;
->  	struct tegra_dma_desc		*dma_desc;
-> +	unsigned int			words_xferred;
->  };
+> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+> index 9cc03a2549c0..241760aa15bd 100644
+> --- a/drivers/pci/controller/pci-tegra.c
+> +++ b/drivers/pci/controller/pci-tegra.c
+> @@ -787,12 +787,15 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_fixup_class);
+>  DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_fixup_class);
+>  DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_fixup_class);
 >  
->  /*
-> @@ -496,6 +497,7 @@ static void tegra_dma_configure_for_next(struct tegra_dma_channel *tdc,
->  	tdc_write(tdc, TEGRA_APBDMA_CHAN_CSR,
->  				nsg_req->ch_regs.csr | TEGRA_APBDMA_CSR_ENB);
->  	nsg_req->configured = true;
-> +	nsg_req->words_xferred = 0;
->  
->  	tegra_dma_resume(tdc);
+> -/* Tegra PCIE requires relaxed ordering */
+> +/* Tegra20 and Tegra30 PCIE requires relaxed ordering */
+>  static void tegra_pcie_relax_enable(struct pci_dev *dev)
+>  {
+>  	pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_DEVCTL_RELAX_EN);
 >  }
-> @@ -511,6 +513,7 @@ static void tdc_start_head_req(struct tegra_dma_channel *tdc)
->  					typeof(*sg_req), node);
->  	tegra_dma_start(tdc, sg_req);
->  	sg_req->configured = true;
-> +	sg_req->words_xferred = 0;
->  	tdc->busy = true;
->  }
+> -DECLARE_PCI_FIXUP_FINAL(PCI_ANY_ID, PCI_ANY_ID, tegra_pcie_relax_enable);
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0bf0, tegra_pcie_relax_enable);
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_relax_enable);
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_relax_enable);
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_relax_enable);
 >  
-> @@ -638,6 +641,8 @@ static void handle_cont_sngl_cycle_dma_done(struct tegra_dma_channel *tdc,
->  		list_add_tail(&dma_desc->cb_node, &tdc->cb_desc);
->  	dma_desc->cb_count++;
->  
-> +	sgreq->words_xferred = 0;
-> +
->  	/* If not last req then put at end of pending list */
->  	if (!list_is_last(&sgreq->node, &tdc->pending_sg_req)) {
->  		list_move_tail(&sgreq->node, &tdc->pending_sg_req);
-> @@ -797,6 +802,62 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
->  	return 0;
->  }
->  
-> +static unsigned int tegra_dma_sg_bytes_xferred(struct tegra_dma_channel *tdc,
-> +					       struct tegra_dma_sg_req *sg_req)
-> +{
-> +	unsigned long status, wcount = 0;
-> +
-> +	if (!list_is_first(&sg_req->node, &tdc->pending_sg_req))
-> +		return 0;
-> +
-> +	if (tdc->tdma->chip_data->support_separate_wcount_reg)
-> +		wcount = tdc_read(tdc, TEGRA_APBDMA_CHAN_WORD_TRANSFER);
-> +
-> +	status = tdc_read(tdc, TEGRA_APBDMA_CHAN_STATUS);
-> +
-> +	if (!tdc->tdma->chip_data->support_separate_wcount_reg)
-> +		wcount = status;
-> +
-> +	if (status & TEGRA_APBDMA_STATUS_ISE_EOC)
-> +		return sg_req->req_len;
-> +
-> +	wcount = get_current_xferred_count(tdc, sg_req, wcount);
-> +
-> +	if (!wcount) {
-> +		/*
-> +		 * If wcount wasn't ever polled for this SG before, then
-> +		 * simply assume that transfer hasn't started yet.
-> +		 *
-> +		 * Otherwise it's the end of the transfer.
-> +		 *
-> +		 * The alternative would be to poll the status register
-> +		 * until EOC bit is set or wcount goes UP. That's so
-> +		 * because EOC bit is getting set only after the last
-> +		 * burst's completion and counter is less than the actual
-> +		 * transfer size by 4 bytes. The counter value wraps around
-> +		 * in a cyclic mode before EOC is set(!), so we can't easily
-> +		 * distinguish start of transfer from its end.
-> +		 */
-> +		if (sg_req->words_xferred)
-> +			wcount = sg_req->req_len - 4;
-> +
-> +	} else if (wcount < sg_req->words_xferred) {
-> +		/*
-> +		 * This case shall not ever happen because EOC bit
-> +		 * must be set once next cyclic transfer is started.
-
-Should this still be cyclic here?
-
-Cheers
-Jon
-
--- 
-nvpublic
+>  static int tegra_pcie_request_resources(struct tegra_pcie *pcie)
+>  {
+> -- 
+> 2.17.1
+> 
