@@ -2,102 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26C3B5E0EF
-	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2019 11:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB4BB5E1E5
+	for <lists+linux-tegra@lfdr.de>; Wed,  3 Jul 2019 12:20:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727212AbfGCJWi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 3 Jul 2019 05:22:38 -0400
-Received: from onstation.org ([52.200.56.107]:60234 "EHLO onstation.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727184AbfGCJWi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 3 Jul 2019 05:22:38 -0400
-Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: masneyb)
-        by onstation.org (Postfix) with ESMTPSA id 1C05E3E95F;
-        Wed,  3 Jul 2019 09:22:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
-        s=default; t=1562145757;
-        bh=MH4ZrK2Jua+n6MRiflRYHzLRS4WvfEi4I6wWLLkwjEU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YXfV6H2YadszOhH1PJDpU8vjEfzK0SNyA6ky+iUUtf8gTW8wCyog4iIqmOcAvx0vm
-         FxDSJeS/COsKTv1Kq5EAs/N5rMJMXy1yEwYUlfHmoY1qdDXqavzSBsnJxZqNPMd8nM
-         BNUH6ZfdLAtOL6nnFoHSI2bVNuTVi36TUB7OrQlY=
-Date:   Wed, 3 Jul 2019 05:22:36 -0400
-From:   Brian Masney <masneyb@onstation.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        David Daney <david.daney@cavium.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH 1/4 v1] gpio: Add support for hierarchical IRQ domains
-Message-ID: <20190703092236.GA15393@onstation.org>
-References: <20190624132531.6184-1-linus.walleij@linaro.org>
+        id S1727244AbfGCKU0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 3 Jul 2019 06:20:26 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:11402 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726486AbfGCKUZ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 3 Jul 2019 06:20:25 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d1c81650001>; Wed, 03 Jul 2019 03:20:21 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 03 Jul 2019 03:20:24 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 03 Jul 2019 03:20:24 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 3 Jul
+ 2019 10:20:22 +0000
+Subject: Re: [PATCH 4.14 00/43] 4.14.132-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20190702080123.904399496@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <a47ff63e-9250-d12c-2bc2-6027e4b0f6c5@nvidia.com>
+Date:   Wed, 3 Jul 2019 11:20:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190624132531.6184-1-linus.walleij@linaro.org>
+In-Reply-To: <20190702080123.904399496@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1562149221; bh=gyQVgxER1zUiBZgEtuKwwAdpSeLgNHaZVj1LUOHZVD4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=eEVegu5XbQnCHgr6eFdPTlTIjOZWPAekficjzBAXNPGE9eaAwhM5mMtIMAa6nCGKF
+         71Afji0xOy7H/4S2bYw29EjQMz//JoCPZwMbwtINAi9oJIgRkSAqUApfcFUHh0DMna
+         xbwtFnvH3ybg3Mi5hLOxPuqY1Ta9OIIyIkIZokLthhdQcTB6hLapwr3AtF+ZwEw6L8
+         fGixeqquMwfqEvdXBREG5HyM2m4YvwNQ4CytfLcCBDH42i6Tn3JUaD+UrR9Upl2Oxh
+         0Li3oaOIuhqXtp05jIHcQMM5j/QrpDYgs7xwKOH3SlG5fXR/fu/3ywmMwHzUXugTVx
+         1uISmUxI7RPhg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Linus,
 
-On Mon, Jun 24, 2019 at 03:25:28PM +0200, Linus Walleij wrote:
->  static int gpiochip_to_irq(struct gpio_chip *chip, unsigned offset)
->  {
-> +	struct irq_domain *domain = chip->irq.domain;
-> +
->  	if (!gpiochip_irqchip_irq_valid(chip, offset))
->  		return -ENXIO;
->  
-> -	return irq_create_mapping(chip->irq.domain, offset);
-> +	if (irq_domain_is_hierarchy(domain)) {
-> +		struct irq_fwspec spec;
-> +
-> +		spec.fwnode = domain->fwnode;
-> +		spec.param_count = 2;
-> +		spec.param[0] = offset;
-> +		spec.param[1] = IRQ_TYPE_NONE;
-> +
-> +		return irq_create_fwspec_mapping(&spec);
-> +	}
+On 02/07/2019 09:01, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.14.132 release.
+> There are 43 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Thu 04 Jul 2019 07:59:45 AM UTC.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.132-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-spmi-gpio's to_irq() needs to add one to the offset:
+All tests are passing for Tegra ...
 
-	static int pmic_gpio_to_irq(struct gpio_chip *chip, unsigned pin)
-	{
-		struct pmic_gpio_state *state = gpiochip_get_data(chip);
-		struct irq_fwspec fwspec;
-	
-		fwspec.fwnode = state->fwnode;
-		fwspec.param_count = 2;
-		fwspec.param[0] = pin + PMIC_GPIO_PHYSICAL_OFFSET;
-		/*
-		 * Set the type to a safe value temporarily. This will be overwritten
-		 * later with the proper value by irq_set_type.
-		 */
-		fwspec.param[1] = IRQ_TYPE_EDGE_RISING;
-	
-		return irq_create_fwspec_mapping(&fwspec);
-	}
+Test results for stable-v4.14:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    24 tests:	24 pass, 0 fail
 
-ssbi-gpio will have the same problem as well.
+Linux version:	4.14.132-rc1-g3734933c2330
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
-What do you think about adding a new field to the struct gpio_irq_chip
-inside the CONFIG_IRQ_DOMAIN_HIERARCHY ifdef called something like
-to_irq_offset? (I'm bad at naming things.)
+Cheers
+Jon
 
-Also, instead of hardcoding IRQ_TYPE_NONE, what do you think about using
-the default_type field that's available?
-
-Brian
+-- 
+nvpublic
