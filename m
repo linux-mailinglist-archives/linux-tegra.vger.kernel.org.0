@@ -2,83 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E23215F6C1
-	for <lists+linux-tegra@lfdr.de>; Thu,  4 Jul 2019 12:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33C765F6D0
+	for <lists+linux-tegra@lfdr.de>; Thu,  4 Jul 2019 12:50:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727552AbfGDKki (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 4 Jul 2019 06:40:38 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:35770 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727524AbfGDKkh (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jul 2019 06:40:37 -0400
-Received: by mail-qt1-f195.google.com with SMTP id d23so7553015qto.2;
-        Thu, 04 Jul 2019 03:40:37 -0700 (PDT)
+        id S1727403AbfGDKuB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 4 Jul 2019 06:50:01 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:33375 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727385AbfGDKuB (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jul 2019 06:50:01 -0400
+Received: by mail-qk1-f193.google.com with SMTP id r6so5236482qkc.0;
+        Thu, 04 Jul 2019 03:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=J75O2ZYm/AIRp38Aj0T7xtVwqkjaGCkxGvM6r7neVEo=;
-        b=svb8eN7znP/WGdtT3CrWT/7VclWevgOLXH+ZMAI+DC5wM3BXGnt/u6lc/RE+8iDWfw
-         liiW9ZYL607XBo6qnD1lpUXoPDUdioXWw/QKbHmoNOlVMnjHgEf/OR6/CNQFnchp65cI
-         JFhf5SKwp/K1XSyb+i76xI+4IWvnfjFE41buuQVjjfCguncDCNHAvrkZzQpLGiJT0kgb
-         JoK7NVI67JRxQFX3fxfRan0bcYG0bOy7TqDV+5zuDFAuy2AeT/9MXv9mR4K7iAxBp8kn
-         b3wSRfUEgsQlsZoVJ7Fsfno3dfay2OdhPT3OkFpDa9U+3h+PoPnKO2Q7RJPE3CTqI7Q4
-         Mpdg==
+        bh=ZpEm0qbYV2AOo6mYpK2DWfLknfBvYxL9zIA4zwMNziY=;
+        b=r3HGrjnE9Q9FvvzzC0UPykUCtL1UGrm9Knuvsvy5V0elmtwtxUTD3hH6yFZOWmBPCV
+         g5cRQzrE+fs+zfS7nh/0GXJgfQI0gqesPfrObWslpWMFKP2LjZ9BO8leWvM0uFdToWs/
+         4u7m/5otx9KLmBPcJS5GQHdHBi8SdExi868QPEHnEo9COGdtHFOtwfrbqmHYLsw99B1+
+         nO05Jov0TRsn7rEQ/E3HJVc0+YWXscX4du995SpBNGTZx/O1VXGReqkbNEpc4YSi/1v6
+         +2qghIRbN0fLXKgvqX1itMOmax85xbz7pN3HeINX3qdg7ZWEPoHc6d30xMj8itvX53nq
+         lLFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=J75O2ZYm/AIRp38Aj0T7xtVwqkjaGCkxGvM6r7neVEo=;
-        b=kB8Okg9geItCbpuDjE2ubpSUWnboA5Uk4fWU6OyQ/Qer94kWLp2S4vbXp4ypKrf34e
-         3h9YvbgFT/Cr+3NZ/5D9GROHwbizyXpPht618QWVsZGSDb2U0Yjkua9X2x3LNTqHfwmk
-         a3uwKZETgUjXOs1nvLhdP7iBgWjf44IIo1XzoCmJGJ1IsJo+AGj1ycZkBVwuc6jSEyd4
-         r6Kxxe/vBUBxyZ4UgfftFiDUkhqWQWoxIMaNl0gBRaJ2O8olPn5havmezPGWHur6akbb
-         ldTmnMpoGQlBEmpOmjmPZKG0lhbqL9+S9ft0HBCHMjK2A9oE5z9pr75WMGDku1IUuoXQ
-         Mngg==
-X-Gm-Message-State: APjAAAXwdh1AqRLjM+wSjesbzEYDFM1a9W7gfsZ3J5iqktuYXPddW3jU
-        1s8SR9b/8nnUfJpWAouXCLtatHOW
-X-Google-Smtp-Source: APXvYqz+yPk+2MUL4Psf0OlCLMqisNELh1oDhrrNJ46MfRnYY8Jr2unJvbo1n+PNfKtsECoRc7/Sdg==
-X-Received: by 2002:a0c:d1f0:: with SMTP id k45mr37041274qvh.69.1562236836520;
-        Thu, 04 Jul 2019 03:40:36 -0700 (PDT)
+        bh=ZpEm0qbYV2AOo6mYpK2DWfLknfBvYxL9zIA4zwMNziY=;
+        b=T+LxYRlmwjUBDZ2iYixtolSBXH0UfibF0qHmt74l+6fl9Na9a7gqjtaa8KQtpfX5aU
+         2H0FVVrKa8IrBAAEMwgsSvSMe9YKpaB3MI2MSxA4xktUbIzX4/0zK/o86yWl+ONXsQz0
+         566Mxu0ayhwso17OTBQHLFibRR+gzGfc3aVhFiHLP9CHM/9Nv9HnN/n6JHVf/jcBhzx8
+         8X/os6E7Z8apJmtR3kpeDhfDdSwhC50aoBoeBgRhiXoaHaghP65+yxMSnTka4TfWKrOk
+         Su1AMFZyUFqaegC7hEjVKSymdS6zUnp4wMJ05NMF4rXeodNR63l7PL2JaRX+uoXINuKt
+         gTEA==
+X-Gm-Message-State: APjAAAUe0bIqPdAd+cXYgpx9KxqHP309LBg3UgqcoxNGRHDc2SFfnLS6
+        Vp5ZJAD7ABXv2UTwJznxkmIbi+6H
+X-Google-Smtp-Source: APXvYqxBROn75GpAf/0WcDoaJ/874C8/GHpcSFFhkDXK6dT5Zh72jGJ3MJiNQSruJE1iHqCmPEqs+A==
+X-Received: by 2002:a37:2c46:: with SMTP id s67mr35667468qkh.396.1562237399657;
+        Thu, 04 Jul 2019 03:49:59 -0700 (PDT)
 Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id s7sm980077qtq.8.2019.07.04.03.40.32
+        by smtp.googlemail.com with ESMTPSA id y9sm1837259qki.116.2019.07.04.03.49.57
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 04 Jul 2019 03:40:35 -0700 (PDT)
-Subject: Re: [PATCH V5 02/18] pinctrl: tegra: Add suspend and resume support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        jckuo@nvidia.com, Joseph Lo <josephl@nvidia.com>, talho@nvidia.com,
-        linux-tegra@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>, spatra@nvidia.com,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-References: <1561687972-19319-1-git-send-email-skomatineni@nvidia.com>
- <1561687972-19319-3-git-send-email-skomatineni@nvidia.com>
- <a262cbb3-845c-3ad1-16cc-375a24b9f7e9@gmail.com>
- <822867d6-4a4d-5f68-9b21-84a20d73c589@gmail.com>
- <CACRpkdYdCmT0ErTuewYbv7bPkjoFLrK9KSVuKVMkAXNQYAGV7g@mail.gmail.com>
+        Thu, 04 Jul 2019 03:49:58 -0700 (PDT)
+Subject: Re: [PATCH v4] dmaengine: tegra-apb: Support per-burst residue
+ granularity
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190703012836.16568-1-digetx@gmail.com>
+ <b0a0b110-61c8-ae8b-22a0-3311f70b428a@nvidia.com>
+ <b1f4d7c3-636e-947f-ac76-fc639ac7fee4@gmail.com>
+ <55d402ad-6cb9-9e91-a8a4-b89d37674f4d@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <66b5e81b-d468-e2aa-7336-3d4854c234ab@gmail.com>
-Date:   Thu, 4 Jul 2019 13:40:30 +0300
+Message-ID: <a0168814-09e2-6dfe-5c5c-e053911cede6@gmail.com>
+Date:   Thu, 4 Jul 2019 13:49:56 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdYdCmT0ErTuewYbv7bPkjoFLrK9KSVuKVMkAXNQYAGV7g@mail.gmail.com>
+In-Reply-To: <55d402ad-6cb9-9e91-a8a4-b89d37674f4d@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -87,28 +73,152 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-04.07.2019 10:31, Linus Walleij пишет:
-> On Sat, Jun 29, 2019 at 5:58 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+04.07.2019 10:10, Jon Hunter пишет:
 > 
->> Oh, also what about GPIO-pinctrl suspend resume ordering .. is it okay that pinctrl
->> will be resumed after GPIO? Shouldn't a proper pin-muxing be selected at first?
+> On 03/07/2019 18:00, Dmitry Osipenko wrote:
+>> 03.07.2019 19:37, Jon Hunter пишет:
+>>>
+>>> On 03/07/2019 02:28, Dmitry Osipenko wrote:
+>>>> Tegra's APB DMA engine updates words counter after each transferred burst
+>>>> of data, hence it can report transfer's residual with more fidelity which
+>>>> may be required in cases like audio playback. In particular this fixes
+>>>> audio stuttering during playback in a chromium web browser. The patch is
+>>>> based on the original work that was made by Ben Dooks and a patch from
+>>>> downstream kernel. It was tested on Tegra20 and Tegra30 devices.
+>>>>
+>>>> Link: https://lore.kernel.org/lkml/20190424162348.23692-1-ben.dooks@codethink.co.uk/
+>>>> Link: https://nv-tegra.nvidia.com/gitweb/?p=linux-4.4.git;a=commit;h=c7bba40c6846fbf3eaad35c4472dcc7d8bbc02e5
+>>>> Inspired-by: Ben Dooks <ben.dooks@codethink.co.uk>
+>>>> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>>> ---
+>>>>
+>>>> Changelog:
+>>>>
+>>>> v4: The words_xferred is now also reset on a new iteration of a cyclic
+>>>>     transfer by ISR, so that dmaengine_tx_status() won't produce a
+>>>>     misleading warning splat on TX status re-checking after a cycle
+>>>>     completion when cyclic transfer consists of a single SG.
+>>>>
+>>>> v3: Added workaround for a hardware design shortcoming that results
+>>>>     in a words counter wraparound before end-of-transfer bit is set
+>>>>     in a cyclic mode.
+>>>>
+>>>> v2: Addressed review comments made by Jon Hunter to v1. We won't try
+>>>>     to get words count if dma_desc is on free list as it will result
+>>>>     in a NULL dereference because this case wasn't handled properly.
+>>>>
+>>>>     The residual value is now updated properly, avoiding potential
+>>>>     integer overflow by adding the "bytes" to the "bytes_transferred"
+>>>>     instead of the subtraction.
+>>>>
+>>>>  drivers/dma/tegra20-apb-dma.c | 72 +++++++++++++++++++++++++++++++----
+>>>>  1 file changed, 65 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+>>>> index 79e9593815f1..148d136191d7 100644
+>>>> --- a/drivers/dma/tegra20-apb-dma.c
+>>>> +++ b/drivers/dma/tegra20-apb-dma.c
+>>>> @@ -152,6 +152,7 @@ struct tegra_dma_sg_req {
+>>>>  	bool				last_sg;
+>>>>  	struct list_head		node;
+>>>>  	struct tegra_dma_desc		*dma_desc;
+>>>> +	unsigned int			words_xferred;
+>>>>  };
+>>>>  
+>>>>  /*
+>>>> @@ -496,6 +497,7 @@ static void tegra_dma_configure_for_next(struct tegra_dma_channel *tdc,
+>>>>  	tdc_write(tdc, TEGRA_APBDMA_CHAN_CSR,
+>>>>  				nsg_req->ch_regs.csr | TEGRA_APBDMA_CSR_ENB);
+>>>>  	nsg_req->configured = true;
+>>>> +	nsg_req->words_xferred = 0;
+>>>>  
+>>>>  	tegra_dma_resume(tdc);
+>>>>  }
+>>>> @@ -511,6 +513,7 @@ static void tdc_start_head_req(struct tegra_dma_channel *tdc)
+>>>>  					typeof(*sg_req), node);
+>>>>  	tegra_dma_start(tdc, sg_req);
+>>>>  	sg_req->configured = true;
+>>>> +	sg_req->words_xferred = 0;
+>>>>  	tdc->busy = true;
+>>>>  }
+>>>>  
+>>>> @@ -638,6 +641,8 @@ static void handle_cont_sngl_cycle_dma_done(struct tegra_dma_channel *tdc,
+>>>>  		list_add_tail(&dma_desc->cb_node, &tdc->cb_desc);
+>>>>  	dma_desc->cb_count++;
+>>>>  
+>>>> +	sgreq->words_xferred = 0;
+>>>> +
+>>>>  	/* If not last req then put at end of pending list */
+>>>>  	if (!list_is_last(&sgreq->node, &tdc->pending_sg_req)) {
+>>>>  		list_move_tail(&sgreq->node, &tdc->pending_sg_req);
+>>>> @@ -797,6 +802,62 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> +static unsigned int tegra_dma_sg_bytes_xferred(struct tegra_dma_channel *tdc,
+>>>> +					       struct tegra_dma_sg_req *sg_req)
+>>>> +{
+>>>> +	unsigned long status, wcount = 0;
+>>>> +
+>>>> +	if (!list_is_first(&sg_req->node, &tdc->pending_sg_req))
+>>>> +		return 0;
+>>>> +
+>>>> +	if (tdc->tdma->chip_data->support_separate_wcount_reg)
+>>>> +		wcount = tdc_read(tdc, TEGRA_APBDMA_CHAN_WORD_TRANSFER);
+>>>> +
+>>>> +	status = tdc_read(tdc, TEGRA_APBDMA_CHAN_STATUS);
+>>>> +
+>>>> +	if (!tdc->tdma->chip_data->support_separate_wcount_reg)
+>>>> +		wcount = status;
+>>>> +
+>>>> +	if (status & TEGRA_APBDMA_STATUS_ISE_EOC)
+>>>> +		return sg_req->req_len;
+>>>> +
+>>>> +	wcount = get_current_xferred_count(tdc, sg_req, wcount);
+>>>> +
+>>>> +	if (!wcount) {
+>>>> +		/*
+>>>> +		 * If wcount wasn't ever polled for this SG before, then
+>>>> +		 * simply assume that transfer hasn't started yet.
+>>>> +		 *
+>>>> +		 * Otherwise it's the end of the transfer.
+>>>> +		 *
+>>>> +		 * The alternative would be to poll the status register
+>>>> +		 * until EOC bit is set or wcount goes UP. That's so
+>>>> +		 * because EOC bit is getting set only after the last
+>>>> +		 * burst's completion and counter is less than the actual
+>>>> +		 * transfer size by 4 bytes. The counter value wraps around
+>>>> +		 * in a cyclic mode before EOC is set(!), so we can't easily
+>>>> +		 * distinguish start of transfer from its end.
+>>>> +		 */
+>>>> +		if (sg_req->words_xferred)
+>>>> +			wcount = sg_req->req_len - 4;
+>>>> +
+>>>> +	} else if (wcount < sg_req->words_xferred) {
+>>>> +		/*
+>>>> +		 * This case shall not ever happen because EOC bit
+>>>> +		 * must be set once next cyclic transfer is started.
+>>>
+>>> Should this still be cyclic here?
+>>
+>> Do you mean the "comment" by "here"?
+>>
+>> It will be absolutely terrible if this case happens for oneshot transfer, assume
+>> kernel/hardware is on fire.
 > 
-> Thierry sent some initial patches about this I think. We need to use
-> device links for this to work properly so he adds support for
-> linking the pinctrl and GPIO devices through the ranges.
+> Or more likely a SW bug :-)
 > 
-> For links between pin control handles and their consumers, see also:
-> 036f394dd77f pinctrl: Enable device link creation for pin control
-> c6045b4e3cad pinctrl: stmfx: enable links creations
-> 489b64d66325 pinctrl: stm32: Add links to consumers
-> 
-> I am using STM32 as guinea pig for this, consider adding links also
-> from the Tegra pinctrl. I might simply make these pinctrl consumer
-> to producer links default because I think it makes a lot sense.
+> Yes should never happen for either sg or cyclic, but there is no mention
+> of sg transfers. Maybe the sg case is more obvious but in general this
+> case should never happen for any transfer.
 
-IIUC, currently the plan is to resume pinctrl *after* GPIO for Tegra210 [1]. But this
-contradicts to what was traditionally done for older Tegras where pinctrl was always
-resumed first and apparently it won't work well for the GPIO ranges as well. I think this
-and the other patchsets related to suspend-resume still need some more thought.
+Alright, so what the change you are proposing? Or is it fine now?
 
-[1] https://patchwork.kernel.org/patch/11012077/
+I can certainly change the comment's wording, just please tell me what you want it to be.
+
+/*
+ * This case shall not ever happen because EOC bit
+ * must be set once transfer is actually finished.
+
+Does this sound better?
