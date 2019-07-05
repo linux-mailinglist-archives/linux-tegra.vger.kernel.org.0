@@ -2,114 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C4B32602BA
-	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jul 2019 10:57:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 415B7602FA
+	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jul 2019 11:16:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727510AbfGEI5c (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 5 Jul 2019 04:57:32 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:8923 "EHLO
+        id S1727503AbfGEJQC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 5 Jul 2019 05:16:02 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:9843 "EHLO
         hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726427AbfGEI5c (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 5 Jul 2019 04:57:32 -0400
+        with ESMTP id S1726116AbfGEJQC (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 5 Jul 2019 05:16:02 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d1f10ff0000>; Fri, 05 Jul 2019 01:57:35 -0700
+        id <B5d1f15550001>; Fri, 05 Jul 2019 02:16:06 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 05 Jul 2019 01:57:31 -0700
+  Fri, 05 Jul 2019 02:16:01 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 05 Jul 2019 01:57:31 -0700
-Received: from [10.26.11.221] (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Fri, 05 Jul 2019 02:16:01 -0700
+Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 5 Jul
- 2019 08:57:28 +0000
-Subject: Re: [PATCH V3] PCI: tegra: Enable Relaxed Ordering only for Tegra20 &
- Tegra30
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Vidya Sagar <vidyas@nvidia.com>
-CC:     <bhelgaas@google.com>, <treding@nvidia.com>, <swarren@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
-References: <20190704150428.4035-1-vidyas@nvidia.com>
- <20190704160948.GA28058@e121166-lin.cambridge.arm.com>
+ 2019 09:16:01 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 5 Jul 2019 09:16:01 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.26.11.221]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d1f15500002>; Fri, 05 Jul 2019 02:16:01 -0700
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <310ce6f7-9379-9857-ac7c-53118b80966b@nvidia.com>
-Date:   Fri, 5 Jul 2019 09:57:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        Sameer Pujar <spujar@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Subject: [RESEND PATCH] dmaengine: tegra210-adma: Don't program FIFO threshold
+Date:   Fri, 5 Jul 2019 10:15:57 +0100
+Message-ID: <20190705091557.726-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20190704160948.GA28058@e121166-lin.cambridge.arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562317055; bh=Y65L4SlD3nFwcEsHObKuUGmbM8XzhhPABML9Lsxmtn8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Cwx9Rojuc+VqH0QwO2hYnig785gwggT/X/RQKsj0xG/cEOHcBp6cSDj1e6c5IHeLp
-         2K0nViCrJhrTGMxxN4SVgREYD+uVkcd/Eg8Nq5Y2VgnVIHslDswvdS7c7sIdpSRlO0
-         QJI1vi7O8a0D3D/fiVwVwx27fOnsDcqd5b4yvziIIiJCCp5G0KFf5VKlgK9ypIAbVl
-         NPhVxnt00DBLY/m8HJMajVNT4mp3A+C834cxulU7LtD/7ejgsxWPXpKcRvjkliPjpZ
-         BWdXkrNjHjFvEYpf3z+ZNX+FvyJNoF3lu1Ax3MHk5LUhn8/6wfUfby49GMq2fJnF4/
-         YAXwNcptxIDcQ==
+        t=1562318166; bh=jiguMpEBj30ZH+O4x/4BoXH1jweBXXuBplQDNP+ZChM=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=MIlGRls/tay6RGJh0NwBlVrQAPL9wgzw4bBFyCyXZGHRK04zpCccNhZIzlD7O63kv
+         5scxknnikx29ipbJVC/ILwUJAdagWRzvGuVF4EpGENaVFyCiCUcMVA8RmUvLrc7RdI
+         dGicy7kOETvv6sUaKiUcl+0uoawB7VfXUjRn2YKewFI0UYHdj7LR50cNXEkgpanSqG
+         AQprjj+sM0bUnQUPep9XTEj1xivp98tDHojmnFrLv/ijTKbLeNdamgo1kO4QvDM85r
+         Opc1RkxNgX3x+PhSSMOq+u9l4UBelOTxK4sCFuQrQgm6H2v4G+ZpYEQn+4HAq8iiYO
+         5z3JWMUrAMxVg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Lorenzo,
+From: Jonathan Hunter <jonathanh@nvidia.com>
 
-On 04/07/2019 17:09, Lorenzo Pieralisi wrote:
-> On Thu, Jul 04, 2019 at 08:34:28PM +0530, Vidya Sagar wrote:
->> Currently Relaxed Ordering bit in the configuration space is enabled for
->> all PCIe devices as the quirk uses PCI_ANY_ID for both Vendor-ID and
->> Device-ID, but, as per the Technical Reference Manual of Tegra20 which is
->> available at https://developer.nvidia.com/embedded/downloads#?search=tegra%202
->> in Sec 34.1, it is mentioned that Relexed Ordering bit needs to be enabled in
->> its root ports to avoid deadlock in hardware. The same is applicable for
->> Tegra30 as well though it is not explicitly mentioned in Tegra30 TRM document,
->> but the same must not be extended to root ports of other Tegra SoCs or
->> other hosts as the same issue doesn't exist there.
->>
->> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> 
-> You forgot Thierry's ACK, I added it back but next time pay more
-> attention please.
-> 
-> You should link the versions through eg git send-email
-> --in-reply-to=Message-Id so that it is easier to follow.
-> 
->> ---
->> V3:
->> * Modified commit message to make it more precise and explicit
->>
->> V2:
->> * Modified commit message to include reference to Tegra20 TRM document.
->>
->>  drivers/pci/controller/pci-tegra.c | 7 +++++--
->>  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> I applied it to pci/tegra after rewriting the whole commit log and
-> adding a Fixes: tag that you or someone at Nvidia will follow up;
-> I will check.
+The Tegra210 ADMA supports two modes for transferring data to a FIFO
+which are ...
 
-I had a chat with Vidya last night to understand the issue, so now I
-have a good understanding of the problem this has caused, which is very
-unfortunate indeed!
+1. Transfer data to/from the FIFO as soon as a single burst can be
+   transferred.
+2. Transfer data to/from the FIFO based upon FIFO thresholds, where
+   the FIFO threshold is specified in terms on multiple bursts.
 
-Vidya mentioned that you would like us to get this backported to stable
-branches. Please correct me if I am wrong here. We can certainly do
-that, but I do have concerns about doing so, for non-Tegra devices
-inparticularly, given that this has been around for sometime now. Hence,
-I was wondering if we should leave this soak in the mainline for at
-least a kernel release cycle before doing so. I really don't want to
-break stable for anyone. What are your thoughts on this?
+Currently, the ADMA driver programs the FIFO threshold values in the
+FIFO_CTRL register, but never enables the transfer mode that uses
+these threshold values. Given that these have never been used so far,
+simplify the ADMA driver by removing the programming of these threshold
+values.
 
-Cheers
-Jon
+Signed-off-by: Jonathan Hunter <jonathanh@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+---
 
+Resending the patch rebased on top next-20190704. I have added Thierry's
+ACK as well.
+
+ drivers/dma/tegra210-adma.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index 2805853e963f..d8646a49ba5b 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -42,12 +42,8 @@
+ #define ADMA_CH_CONFIG_MAX_BUFS				8
+ 
+ #define ADMA_CH_FIFO_CTRL				0x2c
+-#define TEGRA210_ADMA_CH_FIFO_CTRL_OFLWTHRES(val)	(((val) & 0xf) << 24)
+-#define TEGRA210_ADMA_CH_FIFO_CTRL_STRVTHRES(val)	(((val) & 0xf) << 16)
+ #define TEGRA210_ADMA_CH_FIFO_CTRL_TXSIZE(val)		(((val) & 0xf) << 8)
+ #define TEGRA210_ADMA_CH_FIFO_CTRL_RXSIZE(val)		((val) & 0xf)
+-#define TEGRA186_ADMA_CH_FIFO_CTRL_OFLWTHRES(val)	(((val) & 0x1f) << 24)
+-#define TEGRA186_ADMA_CH_FIFO_CTRL_STRVTHRES(val)	(((val) & 0x1f) << 16)
+ #define TEGRA186_ADMA_CH_FIFO_CTRL_TXSIZE(val)		(((val) & 0x1f) << 8)
+ #define TEGRA186_ADMA_CH_FIFO_CTRL_RXSIZE(val)		((val) & 0x1f)
+ 
+@@ -64,14 +60,10 @@
+ 
+ #define TEGRA_ADMA_BURST_COMPLETE_TIME			20
+ 
+-#define TEGRA210_FIFO_CTRL_DEFAULT (TEGRA210_ADMA_CH_FIFO_CTRL_OFLWTHRES(1) | \
+-				    TEGRA210_ADMA_CH_FIFO_CTRL_STRVTHRES(1) | \
+-				    TEGRA210_ADMA_CH_FIFO_CTRL_TXSIZE(3)    | \
++#define TEGRA210_FIFO_CTRL_DEFAULT (TEGRA210_ADMA_CH_FIFO_CTRL_TXSIZE(3) | \
+ 				    TEGRA210_ADMA_CH_FIFO_CTRL_RXSIZE(3))
+ 
+-#define TEGRA186_FIFO_CTRL_DEFAULT (TEGRA186_ADMA_CH_FIFO_CTRL_OFLWTHRES(1) | \
+-				    TEGRA186_ADMA_CH_FIFO_CTRL_STRVTHRES(1) | \
+-				    TEGRA186_ADMA_CH_FIFO_CTRL_TXSIZE(3)    | \
++#define TEGRA186_FIFO_CTRL_DEFAULT (TEGRA186_ADMA_CH_FIFO_CTRL_TXSIZE(3) | \
+ 				    TEGRA186_ADMA_CH_FIFO_CTRL_RXSIZE(3))
+ 
+ #define ADMA_CH_REG_FIELD_VAL(val, mask, shift)	(((val) & mask) << shift)
 -- 
-nvpublic
+2.17.1
+
