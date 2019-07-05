@@ -2,43 +2,43 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDEAB5FC6E
-	for <lists+linux-tegra@lfdr.de>; Thu,  4 Jul 2019 19:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D603A5FFD7
+	for <lists+linux-tegra@lfdr.de>; Fri,  5 Jul 2019 05:45:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727553AbfGDRX6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 4 Jul 2019 13:23:58 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:10537 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727551AbfGDRX6 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jul 2019 13:23:58 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d1e362f0000>; Thu, 04 Jul 2019 10:23:59 -0700
+        id S1727286AbfGEDpy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 4 Jul 2019 23:45:54 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:11285 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727115AbfGEDpy (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 4 Jul 2019 23:45:54 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d1ec7f00001>; Thu, 04 Jul 2019 20:45:52 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 04 Jul 2019 10:23:55 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 04 Jul 2019 20:45:53 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 04 Jul 2019 10:23:55 -0700
-Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Jul
- 2019 17:23:53 +0000
-Subject: Re: [PATCH V6 26/27] PCI: tegra: Add support for GPIO based PERST#
-To:     Manikanta Maddireddy <mmaddireddy@nvidia.com>
-CC:     <thierry.reding@gmail.com>, <bhelgaas@google.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <lorenzo.pieralisi@arm.com>, <vidyas@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20190618180206.4908-1-mmaddireddy@nvidia.com>
- <20190618180206.4908-27-mmaddireddy@nvidia.com>
- <a4ddd0a3-f0b4-23de-fb0e-91a417d20362@nvidia.com>
- <84d26bcc-f5d5-6694-98c9-1363d706d76c@nvidia.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <2411c2b7-9676-46d6-d4ab-af1ad0b41ce1@nvidia.com>
-Date:   Thu, 4 Jul 2019 18:23:51 +0100
+        by hqpgpgate102.nvidia.com on Thu, 04 Jul 2019 20:45:53 -0700
+Received: from [10.19.108.127] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 5 Jul
+ 2019 03:45:22 +0000
+Subject: Re: [PATCH 2/8] clk: tegra: don't enable PLLE HW sequencer at init
+To:     Jon Hunter <jonathanh@nvidia.com>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <pdeschrijver@nvidia.com>,
+        <afrid@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <nkristam@nvidia.com>,
+        <skomatineni@nvidia.com>
+References: <20190614074652.21960-1-jckuo@nvidia.com>
+ <20190614074652.21960-3-jckuo@nvidia.com>
+ <4b63588d-937c-ea9f-573f-0fc2028b6061@nvidia.com>
+X-Nvconfidentiality: public
+From:   JC Kuo <jckuo@nvidia.com>
+Message-ID: <db0e32ac-eacd-e6e0-ed33-22bdfd8295da@nvidia.com>
+Date:   Fri, 5 Jul 2019 11:45:21 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <84d26bcc-f5d5-6694-98c9-1363d706d76c@nvidia.com>
+In-Reply-To: <4b63588d-937c-ea9f-573f-0fc2028b6061@nvidia.com>
 X-Originating-IP: [172.20.13.39]
 X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -46,186 +46,106 @@ Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562261039; bh=t5/c7rY/CJnHjbReNk328auzvUyGc8ngBvfIKnaFBCo=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
+        t=1562298352; bh=vjXUBF0Gkj114nabhLTU/RVS0DLjij1fs7qcvEn1AXA=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=XqsNdby9M38ZnItgZuBi1i7FDY1Q730E0p0l0QwvveP3m4QyAHcRr5jmSleDBO3Id
-         yzT60rNa/u5qd2q3b6JEOm0GIjARIs7pGJvdoqU6iURa9AJSYuOl2i0ZCFEnM1PxSC
-         kh+9A2eDZAV+lpZEe/3qB9MAPiEeNMdk/XQQL/6xXdzVwJhlfYNPI4NwYc/KhOjEOP
-         +5YW9K/dwUVTwM8nrmLdoUrtU36uFaeJ7cLW+qG9tajx37bmRXWrVyokoNPulIPaxA
-         JTJEPmluSKJ8SiG6gj3vz2RG+F49gUqWzumBw7ceDdzqTe3VjFlOwffyep0SxcL9av
-         xQpv6sXxzW+Iw==
+        b=n1b+ys2temx4x7ViUzEcf/8zZBQuEwn4cnJipXMfhStdlDwLH5Dy6WkriRyFLob0Q
+         lfc6Yxdu8eWHIrzLwkinCf0OSsMQwXHGa6OfFEWB3LgWjAX2zuXLoTsPgm8wSF2T4p
+         BJtkIo3lhuBm/QHpvQCJXgosMJStoEKTW7377CQw1Ur0swM9yCLHPkEJXYZCiyrpSy
+         GeFojlVhMlpFtzg9U0ObXvDbHSYKd5G2dOj7WQm1Ujt90wnSbxfE2+dDNIbcBCMp7o
+         Pwq0rkOpmkh13VuzNYfQA18OKmteeu3L/myNVN6mKliIdn2qpfdcv7XD73TLyirG2M
+         PqYJDD8ZBIEhQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 04/07/2019 16:29, Manikanta Maddireddy wrote:
+On 7/4/19 8:22 PM, Jon Hunter wrote:
 > 
+> On 14/06/2019 08:46, JC Kuo wrote:
+>> PLLE hardware power sequencer references PEX/SATA UPHY PLL hardware
+>> power sequencers' output to enable/disable PLLE. PLLE hardware power
+>> sequencer has to be enabled only after PEX/SATA UPHY PLL's sequencers
+>> are enabled.
+>>
+>> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+>> ---
+>>  drivers/clk/tegra/clk-pll.c | 12 ------------
+>>  1 file changed, 12 deletions(-)
+>>
+>> diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
+>> index 1583f5fc992f..e6de65987fd2 100644
+>> --- a/drivers/clk/tegra/clk-pll.c
+>> +++ b/drivers/clk/tegra/clk-pll.c
+>> @@ -2469,18 +2469,6 @@ static int clk_plle_tegra210_enable(struct clk_hw *hw)
+>>  	pll_writel(val, PLLE_SS_CTRL, pll);
+>>  	udelay(1);
+>>  
+>> -	val = pll_readl_misc(pll);
+>> -	val &= ~PLLE_MISC_IDDQ_SW_CTRL;
+>> -	pll_writel_misc(val, pll);
+>> -
+>> -	val = pll_readl(pll->params->aux_reg, pll);
+>> -	val |= (PLLE_AUX_USE_LOCKDET | PLLE_AUX_SS_SEQ_INCLUDE);
+>> -	val &= ~(PLLE_AUX_ENABLE_SWCTL | PLLE_AUX_SS_SWCTL);
+>> -	pll_writel(val, pll->params->aux_reg, pll);
+>> -	udelay(1);
+>> -	val |= PLLE_AUX_SEQ_ENABLE;
+>> -	pll_writel(val, pll->params->aux_reg, pll);
+>> -
+>>  out:
+>>  	if (pll->lock)
+>>  		spin_unlock_irqrestore(pll->lock, flags);
+>>
 > 
-> On 04-Jul-19 8:18 PM, Jon Hunter wrote:
->> On 18/06/2019 19:02, Manikanta Maddireddy wrote:
->>> Tegra PCIe has fixed per port SFIO line to signal PERST#, which can be
->>> controlled by AFI port register. However, if a platform routes a different
->>> GPIO to the PCIe slot, then port register cannot control it. Add support
->>> for GPIO based PERST# signal for such platforms. GPIO number comes from per
->>> port PCIe device tree node. PCIe driver probe doesn't fail if per port
->>> "reset-gpios" property is not populated, make sure that DT property is not
->>> missed for such platforms.
->> Really? So how come on Jetson TK1 I see ...
->>
->> [    1.073165] tegra-pcie 1003000.pcie: failed to get reset GPIO: -2
->>
->>
->> [    1.073210] tegra-pcie: probe of 1003000.pcie failed with error -2
->>
->> And now ethernet is broken? Why has this not been tested on all Tegra
->> platforms? There is no reason why code submitted to upstream by us
->> (people at NVIDIA) have not tested this on our internal test farm. This
->> is disappointing.
+> So this function is called clk_plle_tegra210_enable() and is called by
+> the CCF enable callback. However, after the above change, does this mean
+> that this no longer enables the PLL? I understand that that is what you
+> want, but from an architecture perspective, it seems incorrect to have
+> an enable function that when called does not enable the PLL as expected.
 > 
-> I did verified this patch on our internal TK1 test farm. I also tested
-> on TX1 and TX2.
-> This issue popped up because below fix in gpiolib driver went in
-> at the same time.
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=025bf37725f1929542361eef2245df30badf242e
-
-Ah! OK now that was unlucky. I guess a bisect would have told me that
-but it was clear to see PCI was broken and so quicker to debug this
-directly. OK, then sorry for the rant!
- 
->>> Signed-off-by: Manikanta Maddireddy <mmaddireddy@nvidia.com>
->>> Acked-by: Thierry Reding <treding@nvidia.com>
->>> ---
->>> V6: No change
->>>
->>> V5:
->>> * Updated reset gpio toggle logic to reflect active low usage
->>> * Replaced kasprintf() with devm_kasprintf()
->>> * Updated commit message with more information.
->>>
->>> V4: Using devm_gpiod_get_from_of_node() to get reset-gpios
->>>
->>> V3: Using helper function to get reset-gpios
->>>
->>> V2: Using standard "reset-gpio" property
->>>
->>>  drivers/pci/controller/pci-tegra.c | 45 ++++++++++++++++++++++++++----
->>>  1 file changed, 39 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
->>> index d2841532ff0e..a819bc087a05 100644
->>> --- a/drivers/pci/controller/pci-tegra.c
->>> +++ b/drivers/pci/controller/pci-tegra.c
->>> @@ -17,6 +17,7 @@
->>>  #include <linux/debugfs.h>
->>>  #include <linux/delay.h>
->>>  #include <linux/export.h>
->>> +#include <linux/gpio.h>
->>>  #include <linux/interrupt.h>
->>>  #include <linux/iopoll.h>
->>>  #include <linux/irq.h>
->>> @@ -399,6 +400,8 @@ struct tegra_pcie_port {
->>>  	unsigned int lanes;
->>>  
->>>  	struct phy **phys;
->>> +
->>> +	struct gpio_desc *reset_gpio;
->>>  };
->>>  
->>>  struct tegra_pcie_bus {
->>> @@ -544,15 +547,23 @@ static void tegra_pcie_port_reset(struct tegra_pcie_port *port)
->>>  	unsigned long value;
->>>  
->>>  	/* pulse reset signal */
->>> -	value = afi_readl(port->pcie, ctrl);
->>> -	value &= ~AFI_PEX_CTRL_RST;
->>> -	afi_writel(port->pcie, value, ctrl);
->>> +	if (port->reset_gpio) {
->>> +		gpiod_set_value(port->reset_gpio, 1);
->>> +	} else {
->>> +		value = afi_readl(port->pcie, ctrl);
->>> +		value &= ~AFI_PEX_CTRL_RST;
->>> +		afi_writel(port->pcie, value, ctrl);
->>> +	}
->>>  
->>>  	usleep_range(1000, 2000);
->>>  
->>> -	value = afi_readl(port->pcie, ctrl);
->>> -	value |= AFI_PEX_CTRL_RST;
->>> -	afi_writel(port->pcie, value, ctrl);
->>> +	if (port->reset_gpio) {
->>> +		gpiod_set_value(port->reset_gpio, 0);
->>> +	} else {
->>> +		value = afi_readl(port->pcie, ctrl);
->>> +		value |= AFI_PEX_CTRL_RST;
->>> +		afi_writel(port->pcie, value, ctrl);
->>> +	}
->>>  }
->>>  
->>>  static void tegra_pcie_enable_rp_features(struct tegra_pcie_port *port)
->>> @@ -2199,6 +2210,7 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
->>>  		struct tegra_pcie_port *rp;
->>>  		unsigned int index;
->>>  		u32 value;
->>> +		char *label;
->>>  
->>>  		err = of_pci_get_devfn(port);
->>>  		if (err < 0) {
->>> @@ -2257,6 +2269,27 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
->>>  		if (IS_ERR(rp->base))
->>>  			return PTR_ERR(rp->base);
->>>  
->>> +		label = devm_kasprintf(dev, GFP_KERNEL, "pex-reset-%u", index);
->>> +		if (!label) {
->>> +			dev_err(dev, "failed to create reset GPIO label\n");
->>> +			return -ENOMEM;
->>> +		}
->>> +
->>> +		/*
->>> +		 * Returns null if reset-gpios property is not populated and
->>> +		 * fall back to using AFI per port register to toggle PERST#
->>> +		 * SFIO line.
->>> +		 */
->>> +		rp->reset_gpio = devm_gpiod_get_from_of_node(dev, port,
->>> +							     "reset-gpios", 0,
->>> +							     GPIOD_OUT_LOW,
->>> +							     label);
->>> +		if (IS_ERR(rp->reset_gpio)) {
->>> +			err = PTR_ERR(rp->reset_gpio);
->>> +			dev_err(dev, "failed to get reset GPIO: %d\n", err);
->>> +			return err;
->>> +		}
->>> +
->> So I believe that we can just remove the above. I will give it a test
->> and see.
->>
->> Cheers
->> Jon
->>
-> Error check should be modified as follows,
+> I don't fully understand why we need to add the new helpers from the
+> previous patch and we cannot use the CCF APIs directly?
 > 
-> 	if (PTR_ERR(rp->reset_gpio) == -ENOENT)
-> 		rp->reset_gpio = NULL;
-> 	else if (IS_ERR(rp->reset_gpio))
->  		return PTR_ERR(rp->reset_gpio);
+> If you really need to split the existing enable function, then the CCF
+> does have prepare and enable callbacks that can be used.
+> 
+> Cheers
+> Jon
+> 
+Hi Jon,
+Thanks for review. With this change, clk_plle_tegra210_enable() still enables
+PLLE (by setting PLLE_BASE_ENABLE bit). It just skips the procedure to enable
+the hardware sequencer (controlled by PLLE_AUX_SEQ_ENABLE bit).
 
-OK, but I think that this should be ...
+PLLE has a hardware power sequencer logic which is a state machine that can
+power on/off PLLE without any software intervention. The sequencer has two
+inputs, one from XUSB UPHY PLL and the other from SATA UPHY PLL. PLLE provides
+reference clock to XUSB and SATA UPHY PLLs. When both of the downstream PLLs are
+powered-off, PLLE hardware power sequencer will automatically power off PLLE for
+power saving.
 
-+               if (IS_ERR(rp->reset_gpio)) {
-+                       if (PTR_ERR(rp->reset_gpio) == -ENOENT) {
-+                               rp->reset_gpio = NULL;
-+                       } else {
-+                               dev_err(dev, "failed to get reset GPIO: %d\n", err);
-+                               return PTR_ERR(rp->reset_gpio);
-+                       }
-+               }
- 
-Cheers
-Jon
+XUSB and SATA UPHY PLLs also have their own hardware power sequencer logic. XUSB
+UPHY PLL is shared between XUSB SuperSpeed ports and PCIE controllers. The XUSB
+UPHY PLL hardware power sequencer has inputs from XUSB and PCIE. When all of the
+XUSB SuperSpeed ports and PCIE controllers are in low power state, XUSB UPHY PLL
+hardware power sequencer automatically power off PLL and signals idle to PLLE
+hardware power sequencer. Similar applies to SATA UPHY PLL.
 
--- 
-nvpublic
+Therefore, before enabling PLLE hardware power sequencer, software must ensure
+that both XUSB and SATA UPHY PLLs hardware power sequencers are enabled properly.
+
+Tegra210 XUSB PADCTL driver (drivers/phy/tegra/xusb-tegra210.c) is in charge of
+enabling XUSB and SATA UPHY PLLs in software controlled power state. Sequencers
+are managed by CAR registers, so xusb-tegra210.c invokes the following APIs to
+get hardware power sequencers enabled.
+
+  tegra210_xusb_pll_hw_control_enable()
+  tegra210_xusb_pll_hw_sequence_start()
+  tegra210_sata_pll_hw_control_enable()
+  tegra210_sata_pll_hw_sequence_start()
+
+Thanks,
+JC
