@@ -2,86 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E986610CE
-	for <lists+linux-tegra@lfdr.de>; Sat,  6 Jul 2019 15:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 552FF61325
+	for <lists+linux-tegra@lfdr.de>; Sun,  7 Jul 2019 00:34:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbfGFNax (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 6 Jul 2019 09:30:53 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:40489 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726177AbfGFNax (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 6 Jul 2019 09:30:53 -0400
-Received: by mail-qk1-f195.google.com with SMTP id s145so6347492qke.7;
-        Sat, 06 Jul 2019 06:30:52 -0700 (PDT)
+        id S1726673AbfGFWet (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 6 Jul 2019 18:34:49 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:42376 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726734AbfGFWet (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 6 Jul 2019 18:34:49 -0400
+Received: by mail-lj1-f195.google.com with SMTP id t28so12363269lje.9
+        for <linux-tegra@vger.kernel.org>; Sat, 06 Jul 2019 15:34:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=r1uur5w8ObwX1oCfpGwmNTVaZPh0PgRbq8JXumqABIA=;
-        b=BdpSxSFrdgrvmM7V7mHLns3FuMPQ4wxpqiNkYavWuqjuRbQ5A85kd7XIhoUgNIA7uC
-         JxSimCaW/w6IHkmNGEv7dhIERvfCS5NWIAYl72YmM8axdb05+eYzHiz1UmE91GPd0BdA
-         FdAvqXtQJ6vuxF2LVXX+J/Cu0XCC0H1k1qUXmgpb6tCGY9bjrOugzF55MK+okUhV/EoS
-         JlRYB6KMsYCZk+ir9eYKEqMFtHvIdpkNo4GJNTsOsCknC1dE8ROlu5dgYiiIPd0BAgw8
-         G93rsO4WO8d8ZPTAVapFdVzYUVAP+TnWbEADTqZ3ImAGgS2Ah6l2raUOKhKDYokTspJz
-         RNcw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dLgw/xR00Rr0ulhIzOABkbpz/zSiCLJleiWD8vd5tcg=;
+        b=jEQXswWhcYyBI2kICuWjcqZ8qlrjejgxySrCHGjgjHLp8PnD7krqad3WkJ8xReW61Y
+         1hQNCTuxFppFbD4mgAFO5nQicCKWYeNOB2OO/NVOFdNyF6tzkjozA2ul0ShgJc/Zyo9n
+         N8+H0zy3Ze7bt+RXNx/9lBBo5nNXommXKO0LwwEqMYF1BAu5hJkZMp9UHAp6m6czyDuY
+         Ax6y0NoSPrOhMImI0xTL8ML6u3sFnuGsaD/f8q+7Rx3/rM/eNZyK1pIO/p4nj98HRgL3
+         DgRt9NeDYk86uzsxaUhglTNrZVZ8T3CVvZ8zNNyQqPdWVlV7ett6l9A511QUhbnduseu
+         srJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=r1uur5w8ObwX1oCfpGwmNTVaZPh0PgRbq8JXumqABIA=;
-        b=E9jqnoNAf5xrpOH2ohbT+/f4vXADl1Be7C2AaAbT5LkbROZ4l5uL6ctCuecMb5jTvl
-         YHFanae8Zc5eYLkN3CCpxc8SPA2MVS5hJgND9DH+vnoIeJhdRj5pKTbSDSgtBiqI8xO6
-         0781GWbLQkDqrYtaczGYpq++OCLtBACZU8f8lXxrfmVvHyXhlEIJ8i0TK2oHzUePC8EE
-         lw7s0TsMlaz+3YnC6p9yl5Ptgo8VXqGST/NS6kecDcqIDmg4JTdQE7Ekx9jhG9nRmN21
-         L0J15A3GNTzLzvai8mmQf5394r5dpZvf6+aiweRphRjruiWmi1wsT53ly9JQCDIIOQVl
-         qIWQ==
-X-Gm-Message-State: APjAAAUAj2jl3P9LTxvXNrpNT3Cx4jd6cHF5zpR2jHsk8cVc5QC4ylos
-        wT3yuu4amyfVUGQusco1B2ydw457
-X-Google-Smtp-Source: APXvYqzu72Moh6z2h2prDLF1TrU/k5WIvsqclD1GfTBorrJZnlUpcRdBBGxRPZEC3RiGmrupCtabQQ==
-X-Received: by 2002:a37:83c4:: with SMTP id f187mr6955579qkd.380.1562419852257;
-        Sat, 06 Jul 2019 06:30:52 -0700 (PDT)
-Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id x1sm4671884qkj.22.2019.07.06.06.30.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 06 Jul 2019 06:30:51 -0700 (PDT)
-Subject: Re: [PATCH] i2c: tegra: Add Dmitry as a reviewer
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190623174655.25445-1-digetx@gmail.com>
- <20190705184947.GJ4717@kunai>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0090fe86-4851-8289-0b8f-843b25590ea2@gmail.com>
-Date:   Sat, 6 Jul 2019 16:30:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dLgw/xR00Rr0ulhIzOABkbpz/zSiCLJleiWD8vd5tcg=;
+        b=V7gwssagYCZ/pFwrZpvKs7dAO3pdjT2jUa/qmkZEf4YuTWO9YGY/Og0eWzu8ac/2fD
+         izrUDlTIBZSuJ+ldTBUDyAuLfAa+lqGxMV0v+wUp5KFcleJEHgeblEmlRlTnc4VJJFwl
+         OMUGEhNPfcAM/nanFsk00tObeq9fnS+ol0D7faYLvydkjoyydrIknn86GY1DHWqNrtYx
+         kKmlw8DNx2lwwDhNg4oQHOceYrJRMwJmoBnT4MNAN3RtzNGeCjAhS+SM403Md84Ccxv6
+         Gsmaq675rvNYBqM2ohTXeeoZIVhQgcQU6xYZZFLRjYszXhduXZ2dLu3LekXz4d2mUq9n
+         Dgow==
+X-Gm-Message-State: APjAAAX+KZ63r6YMzYFccB/jzVXziRFZ2GsB1V7DYC68ly6ksvFY2+F2
+        iUv5bQeihB2mtmt9OTf/XU1g6KrECCKLWva2l34CFA==
+X-Google-Smtp-Source: APXvYqx13cF2PlmOp1PXhyDx6OecBtpXWBZN1yq1vnMDfsUTnM3Hdprtb3l623OoOJwZ/o/YlJlhAo+9QwKz/g+KDGw=
+X-Received: by 2002:a2e:a0cf:: with SMTP id f15mr5997493ljm.180.1562452487644;
+ Sat, 06 Jul 2019 15:34:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190705184947.GJ4717@kunai>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190705123220.54008-1-yuehaibing@huawei.com> <CAMpxmJVZHJKQ7bbHo=T9R99qguF315bZ=YVRrCdqti2SyzAnDg@mail.gmail.com>
+ <74ffe8ea-e6fb-bd2a-42bd-08392eb27c69@huawei.com> <CAMpxmJUeg1jVZdCeiRqTZykBZNPGAeQkaNfA7qc1zt+sL9HPjA@mail.gmail.com>
+ <CAMpxmJU0=w=htiY3CL9GDBU+waBjV0X7yh1UG6ip5BiV3J7nXA@mail.gmail.com>
+In-Reply-To: <CAMpxmJU0=w=htiY3CL9GDBU+waBjV0X7yh1UG6ip5BiV3J7nXA@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 7 Jul 2019 00:34:36 +0200
+Message-ID: <CACRpkdZikRyZtbYajc7gN0N6xRoCQpGGVO9rivwuG6-AeVo1xw@mail.gmail.com>
+Subject: Re: [PATCH] gpio: tegra: Fix build error without CONFIG_DEBUG_FS
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Yuehaibing <yuehaibing@huawei.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-05.07.2019 21:49, Wolfram Sang пишет:
-> On Sun, Jun 23, 2019 at 08:46:55PM +0300, Dmitry Osipenko wrote:
->> I'm contributing to Tegra's upstream development in general and happened
->> to review the Tegra's I2C patches for awhile because I'm actively using
->> upstream kernel on all of my Tegra-powered devices and initially some of
->> the submitted patches were getting my attention since they were causing
->> problems. Recently Wolfram Sang asked whether I'm interested in becoming
->> a reviewer for the driver and I don't mind at all.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> 
-> Applied to for-current with a comment that Thierry acked this in the
-> mail thread prior this patch. Thanks!
-> 
+On Fri, Jul 5, 2019 at 2:59 PM Bartosz Golaszewski
+<bgolaszewski@baylibre.com> wrote:
 
-Awesome, thank you very much!
+> Wait, nevermind. I think that commit a4de43049a1d ("gpio: tegra:
+> Clean-up debugfs initialisation") is wrong and we missed that. Linus
+> what do you think about reverting it?
+
+OK I reverted it.
+
+Linus
