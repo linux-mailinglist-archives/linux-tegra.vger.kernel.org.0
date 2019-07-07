@@ -2,157 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28A416146D
-	for <lists+linux-tegra@lfdr.de>; Sun,  7 Jul 2019 10:10:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7E28617CF
+	for <lists+linux-tegra@lfdr.de>; Mon,  8 Jul 2019 00:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727147AbfGGIKM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 7 Jul 2019 04:10:12 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:39851 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726325AbfGGIKM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 Jul 2019 04:10:12 -0400
-Received: by mail-lf1-f65.google.com with SMTP id v85so5902698lfa.6
-        for <linux-tegra@vger.kernel.org>; Sun, 07 Jul 2019 01:10:11 -0700 (PDT)
+        id S1727850AbfGGWfE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 7 Jul 2019 18:35:04 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:37722 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727820AbfGGWfD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 Jul 2019 18:35:03 -0400
+Received: by mail-qk1-f193.google.com with SMTP id d15so11882585qkl.4;
+        Sun, 07 Jul 2019 15:35:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Og+1ZMEbhyV3WkQcVL8uCE7LlGWe+B5LDW/MNApWX1Y=;
-        b=S1Ri51ACwXiJMsz2WwUSg2J/xsP0BTp5sA8ch2iWa1+lHQrGaK1Y+Jwh1LDGzxbZaL
-         L7MNooFvJq4ZjNqhtLqpIjGn+/wwp4r3BR0/mG63AZCsix8oJTVLLEPgZG1yFxyEV5Fo
-         UIsrlNiop6OhKKnltnEi+bkxLXCDkI3Rear1Ry0JaJ4Pz9fO6y+avnY45+1gGOAYTYk5
-         2hM8/bs/AOG7rRnhEqn0/Tu+HrF0cLop37FrpHnFslu0VukxToPHqZ1tuIQEyE2w1ny5
-         ofMA+mkcAsf4Y22/l56JbnSeX6O8Pct3X+uu5A1tznXkxy5HRYIVSe+Eo8uBz/odh718
-         MW1g==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0CL8ZubwI9pxioIsO+wdfiQKWRkWUvqc6jWagPflEy8=;
+        b=j2QPKbz9mnJorrz5ljWMjblQ9fC7gblcSF7t01I0RXMNO88zVdO1dmMBvvRHob0bMF
+         FHrii8L6aYSyJYEb0hoPzEhBLQ01zi7Zixg2bA+NpZMdxOf3X6hZmRc6Us/K68SY66jj
+         hAdd1vbV0GUNoG5lh62kSI3Obz1XZI4WTyOajZO5ReHyO/JUBAZrsh4BoCbXgqYaGrBr
+         1OB0ejUfSaLN982QgJuhrt0THhsTN3obVb/2gSUgm6gtfkqW7lFw3kwmY5Ll4OQFnuXD
+         7uQFNMysU0b+QZJjjigQT2BnkLAf6ggVpWHLj1QkxgO02KCSl/d33ttZVZEmeatOIhns
+         znQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Og+1ZMEbhyV3WkQcVL8uCE7LlGWe+B5LDW/MNApWX1Y=;
-        b=jBBJ4NrPCT5bdS06dTetsWptHfMoWFdZ8ZaqIPlkf8CMAeYZ9OhjdO+4sPTG4PpeUE
-         zwbUPvcN3N0JDj+zhMrOcJsnuS0E67IdiIEe2aNCGIlVWB76EJ9PheYjXAozMvZY3Npj
-         GnIOTaMfNji8NSgl4slAUuNdA3VjCyZ92FEGUagrzXPszejnvIE65muCykPPqYyU4Nkg
-         toLD6sm234p4wSdA49t3r34Dldgwd/PX75q00lUiP+SICDhqlpbuntrbOAA+O9pBzQwP
-         JeQQiimIyaPRuJC3WwHqCnYSTJ59hPA9Q6y+SdecZF89vYdAXGSyd+vPk5orFvPPzJOJ
-         Pjbg==
-X-Gm-Message-State: APjAAAWt4QmzvQ22ru2mWdHt/5xMa4wGeS/YbQ44ZSyGNNV4qzTFqsBH
-        xp2ytsd86/paXwijBpl6BUMcYoz4GiynHefT6+bX5w==
-X-Google-Smtp-Source: APXvYqxoHHmUVZdcgQBEOQn+LeoqbK4jG7rRaLTFboV1selGXXe7TJPonCkYixwGCn7jRaj0WJKy6ko1zRXlE/GqdJs=
-X-Received: by 2002:a19:7616:: with SMTP id c22mr5869043lff.115.1562487010498;
- Sun, 07 Jul 2019 01:10:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0CL8ZubwI9pxioIsO+wdfiQKWRkWUvqc6jWagPflEy8=;
+        b=ax7PF3CZHjx67EnHnoR2qq5cGk/dnVNrpec5J6+QaQko3n5WhQlOJBNOBlFJJAwoc9
+         nZa9RUHilNsZUdP01OuN4GSndWRh0ykLtvEQGl55vDgR5xs9BXgN5NDbHo6EFKLNC/vl
+         ftjyYt36BYQMQxldPoRiEhtanvEjKHiO7XmfQ830+qaKgHAZNwpDNz1D+85ghSCulCXZ
+         buh98lLNBJtl9/2FICpQ7gFgjbaPnj5uHscxANTgHfU4TCYDgXqO57HN6CoXJUGynNeK
+         GHS3dqOz23jNKUf+GBloa3/FdkyzXzX51UzAtDdtS5PQHSBoCwUefs/Xf6a3ETYTmbgJ
+         dI2Q==
+X-Gm-Message-State: APjAAAXj+IHX7JUmoNzgpahbcCHJYyZwsEVttkk/Zj2ULp1bK5hLwhSo
+        DsKtwRWcEEkBllRPCAYlgaU=
+X-Google-Smtp-Source: APXvYqzSKsSweq1HMKIN23WTw8T4ov81hRQm0gf9ursc2xBy/wksNMudoqyJaByxKktHo0Pq76SFsg==
+X-Received: by 2002:a37:5f45:: with SMTP id t66mr11845712qkb.286.1562538902622;
+        Sun, 07 Jul 2019 15:35:02 -0700 (PDT)
+Received: from localhost.localdomain (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
+        by smtp.gmail.com with ESMTPSA id p4sm6998453qkb.84.2019.07.07.15.35.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 07 Jul 2019 15:35:01 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/24] More improvements for Tegra30 devfreq driver
+Date:   Mon,  8 Jul 2019 01:32:39 +0300
+Message-Id: <20190707223303.6755-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-References: <20190624132531.6184-1-linus.walleij@linaro.org> <20190707014620.GA9690@onstation.org>
-In-Reply-To: <20190707014620.GA9690@onstation.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 7 Jul 2019 10:09:58 +0200
-Message-ID: <CACRpkdY7ydVi90JpNKJy2nPXxm0N2Ji5PmQu1gWbmifFnbpFYA@mail.gmail.com>
-Subject: Re: [PATCH 1/4 v1] gpio: Add support for hierarchical IRQ domains
-To:     Brian Masney <masneyb@onstation.org>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        David Daney <david.daney@cavium.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Thierry Reding <treding@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Jul 7, 2019 at 3:46 AM Brian Masney <masneyb@onstation.org> wrote:
+Hello,
 
-> I got this working with spmi-gpio with two additional changes. See below
-> for details. Hopefully I'll have time tomorrow evening (GMT-4) to finish
-> cleaning up what I have so I can send out my series.
+This series addresses some additional review comments that were made by
+Thierry Reding to [1] and makes several important changes to the driver,
+fixing excessive interrupts activity. In the end I'm proposing myself as
+a maintainer for the Tegra devfreq drivers.
 
-Awesome! No hurry because it is v5.4 material at this point but I'm
-hoping to get to something you, Lina and Thierry can all use for early
-merge and smoke test.
+[1] https://lore.kernel.org/lkml/0fb50eb1-a173-1756-6889-2526a10ac707@gmail.com/T/
 
-> > +static const struct irq_domain_ops gpiochip_hierarchy_domain_ops = {
-> > +     .activate = gpiochip_irq_domain_activate,
-> > +     .deactivate = gpiochip_irq_domain_deactivate,
-> > +     .translate = gpiochip_hierarchy_irq_domain_translate,
-> > +     .alloc = gpiochip_hierarchy_irq_domain_alloc,
-> > +     .free = irq_domain_free_irqs_common,
-> > +};
->
-> spmi and ssbi gpio both need to subtract one from the hwirq in the
-> translate function.
->
-> https://elixir.bootlin.com/linux/latest/source/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c#L956
->
-> I'm going to optionally allow overriding the translate() function
-> pointer as well.
+Changelog:
 
-Hm was more thinking to let gpiolib call out to an optional translate
-function (on top of the template) but this is maybe cleaner.
+v4:  Added two new patches to the series:
 
-> > +             /*
-> > +              * We set handle_bad_irq because the .set_type() should
-> > +              * always be invoked and set the right type of handler.
-> > +              */
-> > +             irq_domain_set_info(d,
-> > +                                 irq + i,
-> > +                                 hwirq + i,
-> > +                                 gc->irq.chip,
-> > +                                 gc,
-> > +                                 handle_bad_irq,
->                                     ^^^^^^^^^^
-> In order to get this working, I had to change handle_bad_irq to
-> handle_level_irq otherwise I get this attempted NULL pointer
-> dereference:
+       PM / devfreq: tegra30: Synchronize average count on target's update
+       PM / devfreq: tegra30: Increase sampling period to 16ms
 
-Hmmmmmmmm that should not happen, we need to get to the
-bottom of this.
+     The first patch addresses problem where governor could get stuck due
+     to outdated "average count" value which is snapshoted by ISR and there
+     are cases where manual update of the value is required.
 
-> [    2.624430] [<c0372af4>] (irq_chip_ack_parent) from [<c0373f6c>] (__irq_do_set_handler+0x1b4/0x1bc)
-> [    2.632584] [<c0373f6c>] (__irq_do_set_handler) from [<c0373fc0>] (__irq_set_handler+0x4c/0x78)
-> [    2.641441] [<c0373fc0>] (__irq_set_handler) from [<c0375d44>] (irq_domain_set_info+0x38/0x4c)
-> [    2.650126] [<c0375d44>] (irq_domain_set_info) from [<c06cf28c>] (gpiochip_hierarchy_irq_domain_alloc+0x16c/0x22c)
-> [    2.658808] [<c06cf28c>] (gpiochip_hierarchy_irq_domain_alloc) from [<c0376bac>] (__irq_domain_alloc_irqs+0x12c/0x320)
+     The second patch is just a minor optimization.
 
-I wonder why irq_chip_ack_parent() is called there.
-Like there is some pending IRQ or something.
+v3:  Added support for tracepoints, replacing the debug messages.
+     Fixed few more bugs with the help of tracepoints.
 
-> The parent's irq_chip struct isn't populated yet and the error occurs
-> here:
->
->     void irq_chip_ack_parent(struct irq_data *data)
->     {
->             data = data->parent_data;
->             data->chip->irq_ack(data);
->                   ^^^^
->
-> We haven't called irq_domain_alloc_irqs_parent() yet, which is fine.
->
-> __irq_do_set_handler() has a special check for handle_bad_irq():
->
-> https://elixir.bootlin.com/linux/latest/source/kernel/irq/chip.c#L974
->
-> I'm not sure what the proper fix is here and not going to dig into this
-> anymore this evening.
+     New patches in this version:
 
-I'm a bit puzzled too. :/
+       PM / devfreq: tegra30: Use tracepoints for debugging
+       PM / devfreq: tegra30: Optimize CPUFreq notifier
+       PM / devfreq: tegra30: Optimize upper consecutive watermark selection
+       PM / devfreq: tegra30: Optimize upper average watermark selection
+       PM / devfreq: tegra30: Include appropriate header
 
-> > diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-> > index 1ce7fcd0f989..3099c7fbefdb 100644
-> > --- a/Documentation/driver-api/gpio/driver.rst
-> > +++ b/Documentation/driver-api/gpio/driver.rst
->
-> I'm still on linux next-20190701. Does this patch series of yours
-> require any other patches? I get a merge conflict against driver.rst.
-> Everything else applies cleanly. I honestly haven't looked in detail
-> about the conflicts.
+     Some of older patches of this series also got some extra minor polish.
 
-I have some pending documentation patch I think.
-Sorry about that.
+v2:  Added more patches that are cleaning driver's code further and
+     squashing another kHz conversion bug.
 
-Yours,
-Linus Walleij
+     The patch "Rework frequency management logic" of the v1 series is now
+     converted to "Set up watermarks properly" because I found some problems
+     in the original patch and then realized that there is no need to change
+     the logic much. So the logic mostly preserved and only got improvements.
+
+     The series is based on the today's linux-next (25 Jun) and takes into
+     account minor changes that MyungJoo Ham made to the already queued
+     patches from the first batch [1].
+
+Dmitry Osipenko (24):
+  PM / devfreq: tegra30: Change irq type to unsigned int
+  PM / devfreq: tegra30: Keep interrupt disabled while governor is
+    stopped
+  PM / devfreq: tegra30: Handle possible round-rate error
+  PM / devfreq: tegra30: Drop write-barrier
+  PM / devfreq: tegra30: Set up watermarks properly
+  PM / devfreq: tegra30: Tune up boosting thresholds
+  PM / devfreq: tegra30: Use CPUFreq notifier
+  PM / devfreq: tegra30: Move clk-notifier's registration to governor's
+    start
+  PM / devfreq: tegra30: Reset boosting on startup
+  PM / devfreq: tegra30: Don't enable consecutive-down interrupt on
+    startup
+  PM / devfreq: tegra30: Add debug messages
+  PM / devfreq: tegra30: Inline all one-line functions
+  PM / devfreq: tegra30: Constify structs
+  PM / devfreq: tegra30: Ensure that target freq won't overflow
+  PM / devfreq: tegra30: Fix integer overflow on CPU's freq max out
+  PM / devfreq: tegra30: Use kHz units uniformly in the code
+  PM / devfreq: tegra30: Use tracepoints for debugging
+  PM / devfreq: tegra30: Optimize CPUFreq notifier
+  PM / devfreq: tegra30: Optimize upper consecutive watermark selection
+  PM / devfreq: tegra30: Optimize upper average watermark selection
+  PM / devfreq: tegra30: Synchronize average count on target's update
+  PM / devfreq: tegra30: Include appropriate header
+  PM / devfreq: tegra30: Increase sampling period to 16ms
+  PM / devfreq: tegra20/30: Add Dmitry as a maintainer
+
+ MAINTAINERS                            |   9 +
+ drivers/devfreq/tegra30-devfreq.c      | 648 +++++++++++++++++++------
+ include/trace/events/tegra30_devfreq.h | 105 ++++
+ 3 files changed, 607 insertions(+), 155 deletions(-)
+ create mode 100644 include/trace/events/tegra30_devfreq.h
+
+-- 
+2.22.0
+
