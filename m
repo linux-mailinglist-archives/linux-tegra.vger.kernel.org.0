@@ -2,56 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B18061860
-	for <lists+linux-tegra@lfdr.de>; Mon,  8 Jul 2019 01:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5760761865
+	for <lists+linux-tegra@lfdr.de>; Mon,  8 Jul 2019 01:13:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727373AbfGGXI6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 7 Jul 2019 19:08:58 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:45458 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727341AbfGGXI6 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 Jul 2019 19:08:58 -0400
-Received: by mail-qt1-f194.google.com with SMTP id j19so16258119qtr.12;
-        Sun, 07 Jul 2019 16:08:58 -0700 (PDT)
+        id S1727186AbfGGXNp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 7 Jul 2019 19:13:45 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:43866 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726044AbfGGXNp (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 Jul 2019 19:13:45 -0400
+Received: by mail-qt1-f195.google.com with SMTP id w17so13163891qto.10;
+        Sun, 07 Jul 2019 16:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=YbpUkQHY6Ip6i0r/7exLkfwdi2NsHJU1OTryULkaYts=;
-        b=BLXkljUpTEmVUt/VutqfDgk7OUIUZHw4jD7ozcWcd0aG5U9eACZHI0xROyMrLDDVbP
-         lPCRyQUCYZbgbak1tDOMp1w+n+nKfiS4ejsF58wRqp+kKvGdS53GTElovDS3z87RNrcM
-         4MWVl1SApfvuGHE3YBl5167xzYJmlQ/1v52brGxglNc5N5a3Pbt3Gyd6XEibSF9N+9VP
-         O2qBsBeco059nglx5DRsFqrBLDdRWlEPT3nDzP2xTMhsXJQeaeCOdcJVg+v7CTmKxDt7
-         TjdLZ51CuksE6Rr0GZtCx9UQFcD8mcxo14AZy0TwM/aMZdOOV26xG9LTjtokjrXzT4uu
-         oTSQ==
+        bh=jX8co8wrgwZjn2Un2b2HqEtzTkCfWW53T8N10nbRoLs=;
+        b=p1T29PG0y8Qhzef1GATJAzJnw4Xs1yhwGY6g2t7uzw6kiqKY+7gD/DnlFY6CRUHwSB
+         cJ1zwhsZK/BtnM518cBUmOGj/m+4o1HfFRGQmDS6EaEtFhZmHO+xS4OREftl+WsjSOmo
+         ricp6I1bABHTRmPsk63w0zutRjffdAsTsyu1GnIndxWAQY18O17WQJlPPngMZSd6jMzM
+         dkoMwMQS0CN5S950bj5N4MwBCz34XHoC42u1sKM5fM/o8tP5El8pUk6rzNNHtnCt9lLm
+         4VlXmo1079ZmjlTENJKovkZr1Iu0yZW83TJX9p8Xt8VvzJoLj1UMDsK0BEFq9BVB1W8H
+         0pYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=YbpUkQHY6Ip6i0r/7exLkfwdi2NsHJU1OTryULkaYts=;
-        b=UA9TnxOPdgOSb/wmXe0yA5u69CbAXLqLQt4fGA9ZBFn1vQyg/XR0WSxFjien2zAkbo
-         9PWPr8Jf2dI9w8ISkTkBH1pbSPITKmrcA3Jili2W8jA3Foj2kE99B3fDsUcozjOeVRXz
-         0/dIIUt+qlhLoQXFhHhoOp8WZKJ2yr0/vZ13vWOsk4jAG6XDCHwLt/wI4AmLJrfmHVmL
-         K3RYgo5arNBYkTf+OqYlMoMhiotE/XkP7O9onV/kvp0tevuib9i3vtMn/VycNEs665MM
-         4sS8ySD3w7VkTad3BqrL25cmge/f5E0DQUSmDofLJvjmAn9DVs/9e1kXiEiWGn23kMXm
-         i9wA==
-X-Gm-Message-State: APjAAAUvX97NdI2FoGpQj0t7VTlfH15PtKZ+WXrwyWdRL7ianpMzNfo1
-        I2juQt5H1xL7xtI58f6LOcI=
-X-Google-Smtp-Source: APXvYqyeRUVYT74pZ3WFecZohbxQ17Dq/xPT33eFQmBbi4L2sDyEbjhDijETTfJg6g/NKwAe3e7/4g==
-X-Received: by 2002:a0c:d14e:: with SMTP id c14mr12399534qvh.206.1562540937735;
-        Sun, 07 Jul 2019 16:08:57 -0700 (PDT)
+        bh=jX8co8wrgwZjn2Un2b2HqEtzTkCfWW53T8N10nbRoLs=;
+        b=GbFFSWvyiLCo5NS/st7qluUJktqrplZvEq3Z7KsS/R26k63P3ZNhnbQP4RHeGu+qf7
+         aTC/BWug5pbr8JAmBEd/8314F1zmEE7LuK513sK0oV7ZyymVXi+shBa+Mkl5/LnpqXqc
+         KG6KtUc/QggUSemydn2rriLz9naR35FOROB9zwwOACZkC6YI1Xac0UPbaDpYVfRtKtp9
+         5iPgy67sdrR3HuIVuIgC4SZoxssLnq6GEHGUh6rOBKdMzAC6DF0SbytrSFGACYaO4KHI
+         oKRkKhB3wMQaTVD/hTTEMtDG45n2pBtpuuSeqC462VUBqKqBZOGevXyIJp4Yb8BquBy1
+         Fn+g==
+X-Gm-Message-State: APjAAAUCpPAsHAGRuhSpEiNJ5OIkm8zdT/LzdDoIAyRaVbu3CmLEaudN
+        7G5ZzK4+uceOX9fzoXzH288=
+X-Google-Smtp-Source: APXvYqwakS20w3/01v0ZpqXyhS7C7JLX9QTO/uqiAcg08mKusrOBdJNQAuPrRVZbUND+SyLYARPgSw==
+X-Received: by 2002:aed:38c2:: with SMTP id k60mr11121436qte.83.1562541224341;
+        Sun, 07 Jul 2019 16:13:44 -0700 (PDT)
 Received: from localhost.localdomain (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.gmail.com with ESMTPSA id k74sm7434319qke.53.2019.07.07.16.08.56
+        by smtp.gmail.com with ESMTPSA id x8sm957115qkl.27.2019.07.07.16.13.42
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 07 Jul 2019 16:08:57 -0700 (PDT)
+        Sun, 07 Jul 2019 16:13:43 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] soc/tegra: pmc: Query PCLK clock rate at probe time
-Date:   Mon,  8 Jul 2019 02:08:43 +0300
-Message-Id: <20190707230843.11224-1-digetx@gmail.com>
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] i2c: tegra: Compile PM functions unconditionally
+Date:   Mon,  8 Jul 2019 02:12:34 +0300
+Message-Id: <20190707231234.11679-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -60,82 +62,83 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The PCLK clock is running off SCLK, which is a critical clock that is
-very unlikely to randomly change its rate. It's also a bit clumsy (and
-apparently incorrect) to query the clock's rate with interrupts being
-disabled because clk_get_rate() takes a mutex and that's the case during
-suspend/cpuidle entering. Lastly, it's better to always fully reprogram
-PMC state because it's not obvious whether it could be changed after SC7.
+The I2C driver fails to probe if CONFIG_PM_SLEEP=n because runtime PM
+doesn't depend on the PM sleep and in this case the runtime PM ops are
+not included in the driver, resulting in I2C clock not being enabled.
+It's much cleaner to simply allow compiler to remove the dead code
+instead of messing with the #ifdefs.
+
+This patch fixes such errors when CONFIG_PM_SLEEP=n:
+
+  tegra-i2c 7000c400.i2c: timeout waiting for fifo flush
+  tegra-i2c 7000c400.i2c: Failed to initialize i2c controller
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/pmc.c | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+ drivers/i2c/busses/i2c-tegra.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 9f9c1c677cf4..532e0ada012b 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -1433,6 +1433,7 @@ void tegra_pmc_set_suspend_mode(enum tegra_suspend_mode mode)
- void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
- {
- 	unsigned long long rate = 0;
-+	u64 ticks;
- 	u32 value;
- 
- 	switch (mode) {
-@@ -1441,7 +1442,7 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
- 		break;
- 
- 	case TEGRA_SUSPEND_LP2:
--		rate = clk_get_rate(pmc->clk);
-+		rate = pmc->rate;
- 		break;
- 
- 	default:
-@@ -1451,26 +1452,20 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
- 	if (WARN_ON_ONCE(rate == 0))
- 		rate = 100000000;
- 
--	if (rate != pmc->rate) {
--		u64 ticks;
--
--		ticks = pmc->cpu_good_time * rate + USEC_PER_SEC - 1;
--		do_div(ticks, USEC_PER_SEC);
--		tegra_pmc_writel(pmc, ticks, PMC_CPUPWRGOOD_TIMER);
--
--		ticks = pmc->cpu_off_time * rate + USEC_PER_SEC - 1;
--		do_div(ticks, USEC_PER_SEC);
--		tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
-+	ticks = pmc->cpu_good_time * rate + USEC_PER_SEC - 1;
-+	do_div(ticks, USEC_PER_SEC);
-+	tegra_pmc_writel(pmc, ticks, PMC_CPUPWRGOOD_TIMER);
- 
--		wmb();
--
--		pmc->rate = rate;
--	}
-+	ticks = pmc->cpu_off_time * rate + USEC_PER_SEC - 1;
-+	do_div(ticks, USEC_PER_SEC);
-+	tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
- 
- 	value = tegra_pmc_readl(pmc, PMC_CNTRL);
- 	value &= ~PMC_CNTRL_SIDE_EFFECT_LP0;
- 	value |= PMC_CNTRL_CPU_PWRREQ_OE;
- 	tegra_pmc_writel(pmc, value, PMC_CNTRL);
-+
-+	wmb();
+diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+index 9fcb13beeb8f..18f0ceed9f1b 100644
+--- a/drivers/i2c/busses/i2c-tegra.c
++++ b/drivers/i2c/busses/i2c-tegra.c
+@@ -636,7 +636,7 @@ static void tegra_dvc_init(struct tegra_i2c_dev *i2c_dev)
+ 	dvc_writel(i2c_dev, val, DVC_CTRL_REG1);
  }
- #endif
  
-@@ -2082,6 +2077,7 @@ static int tegra_pmc_probe(struct platform_device *pdev)
- 		pmc->clk = NULL;
- 	}
+-static int tegra_i2c_runtime_resume(struct device *dev)
++static int __maybe_unused tegra_i2c_runtime_resume(struct device *dev)
+ {
+ 	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+ 	int ret;
+@@ -665,7 +665,7 @@ static int tegra_i2c_runtime_resume(struct device *dev)
+ 	return 0;
+ }
  
-+	pmc->rate = clk_get_rate(pmc->clk);
- 	pmc->dev = &pdev->dev;
+-static int tegra_i2c_runtime_suspend(struct device *dev)
++static int __maybe_unused tegra_i2c_runtime_suspend(struct device *dev)
+ {
+ 	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
  
- 	tegra_pmc_init(pmc);
+@@ -1711,8 +1711,7 @@ static int tegra_i2c_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-#ifdef CONFIG_PM_SLEEP
+-static int tegra_i2c_suspend(struct device *dev)
++static int __maybe_unused tegra_i2c_suspend(struct device *dev)
+ {
+ 	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+ 
+@@ -1721,7 +1720,7 @@ static int tegra_i2c_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int tegra_i2c_resume(struct device *dev)
++static int __maybe_unused tegra_i2c_resume(struct device *dev)
+ {
+ 	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+ 	int err;
+@@ -1741,18 +1740,13 @@ static const struct dev_pm_ops tegra_i2c_pm = {
+ 			   NULL)
+ };
+ 
+-#define TEGRA_I2C_PM	(&tegra_i2c_pm)
+-#else
+-#define TEGRA_I2C_PM	NULL
+-#endif
+-
+ static struct platform_driver tegra_i2c_driver = {
+ 	.probe   = tegra_i2c_probe,
+ 	.remove  = tegra_i2c_remove,
+ 	.driver  = {
+ 		.name  = "tegra-i2c",
+ 		.of_match_table = tegra_i2c_of_match,
+-		.pm    = TEGRA_I2C_PM,
++		.pm    = &tegra_i2c_pm,
+ 	},
+ };
+ 
 -- 
 2.22.0
 
