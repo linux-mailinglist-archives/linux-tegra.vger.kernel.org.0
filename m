@@ -2,75 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A7BD61B6F
-	for <lists+linux-tegra@lfdr.de>; Mon,  8 Jul 2019 09:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E8D561D6B
+	for <lists+linux-tegra@lfdr.de>; Mon,  8 Jul 2019 13:02:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727444AbfGHHzv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 8 Jul 2019 03:55:51 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:8648 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725836AbfGHHzv (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 8 Jul 2019 03:55:51 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d22f7010000>; Mon, 08 Jul 2019 00:55:45 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 08 Jul 2019 00:55:50 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 08 Jul 2019 00:55:50 -0700
-Received: from tbergstrom-lnx.Nvidia.com (172.20.13.39) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Mon, 8 Jul 2019 07:55:49 +0000
-Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
-        id A8A4342890; Mon,  8 Jul 2019 10:55:47 +0300 (EEST)
-Date:   Mon, 8 Jul 2019 10:55:47 +0300
-From:   Peter De Schrijver <pdeschrijver@nvidia.com>
-To:     JC Kuo <jckuo@nvidia.com>
-CC:     Jon Hunter <jonathanh@nvidia.com>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <afrid@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <nkristam@nvidia.com>,
-        <skomatineni@nvidia.com>
-Subject: Re: [PATCH 3/8] phy: tegra: xusb: t210: rearrange UPHY init
-Message-ID: <20190708075547.GC12715@pdeschrijver-desktop.Nvidia.com>
-References: <20190614074652.21960-1-jckuo@nvidia.com>
- <20190614074652.21960-4-jckuo@nvidia.com>
- <1a57e3e6-a9b2-87ba-a76b-1785ddd0d935@nvidia.com>
- <94af84e5-5bc3-d481-b784-c0e0dd2b7859@nvidia.com>
+        id S1729383AbfGHLB5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 8 Jul 2019 07:01:57 -0400
+Received: from onstation.org ([52.200.56.107]:56098 "EHLO onstation.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725836AbfGHLB4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 8 Jul 2019 07:01:56 -0400
+Received: from localhost.localdomain (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: masneyb)
+        by onstation.org (Postfix) with ESMTPSA id 009DE3E912;
+        Mon,  8 Jul 2019 11:01:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
+        s=default; t=1562583716;
+        bh=Qm/4+Z0/sz1rCO9MskaUatf9RSxxFsoX4hvz0Scz0wo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lWSxrK30kwh+TjTMBFonMQCYwFPlJ0SeNYUzF6nJyzLDvnOf1IbNg+wdOStKLus8S
+         ZU5MDFgGkK35t6IhWxM9f7GeBJb9bwT9iW7Ya/+9sollmo91dJ0/x45oD3BKRlhwEW
+         q862w4up8QzG6e+7MhBnuFBeHFu5mDPjahF8QmaI=
+From:   Brian Masney <masneyb@onstation.org>
+To:     linus.walleij@linaro.org
+Cc:     linux-gpio@vger.kernel.org, bgolaszewski@baylibre.com,
+        tglx@linutronix.de, marc.zyngier@arm.com, ilina@codeaurora.org,
+        jonathanh@nvidia.com, skomatineni@nvidia.com, bbiswas@nvidia.com,
+        linux-tegra@vger.kernel.org, david.daney@cavium.com,
+        yamada.masahiro@socionext.com, treding@nvidia.com,
+        bjorn.andersson@linaro.org, agross@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] gpio: hierarchical IRQ improvements
+Date:   Mon,  8 Jul 2019 07:01:34 -0400
+Message-Id: <20190708110138.24657-1-masneyb@onstation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <94af84e5-5bc3-d481-b784-c0e0dd2b7859@nvidia.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562572546; bh=s7gBsVMVHBYedTs39MDLgXJIF7Cw3ubVGD31xQtf62k=;
-        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
-         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
-        b=p6WUTZQY4cm2PThQd0HgVbUZbnnY1U85OUByI1mZ9YCqzCq7bT16pIGNKKKkmOeKG
-         NDlhAB75e62a7dCRWHs2wXPvwaFzmCpW6cF4HokXIHtOIsttsbxo3UZpHOdK1Ij+UA
-         JuYNd22yjjQea03IESbEabSg6i2MpsC4l8KrBz0c74DRKO58ano11g3LDByDe7Aywu
-         qBtJElKuIZWMD7WI9ptY10GEj4PKUozaPkjX2UbJhf6ofTZDNCTPkliLcrmpek2YST
-         nfBV47i0Lcl3oBVl4jU2AY2rdA4vE0a7H5hvAm0cvzVxgz/V2nF+3tMlFWQumnj8gy
-         GpAULTRybhNmg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jul 05, 2019 at 02:48:49PM +0800, JC Kuo wrote:
-> > Looks like you are moving all the code from the port enable to the phy
-> > enable and after this change the port enable does nothing. Do we not
-> > differentiate between phy and port? I think a bit more description is
-> > necessary here to describe the impact of this change.
-> Sorry that I am not sure whether I should use "LP0" or "SC7" for Linux system
-> suspend (either to ram or disk). Should I use SC7 instead of LP0?
+This builds on top of Linus Walleij's existing patches that adds
+hierarchical IRQ support to the GPIO core [1] so that Qualcomm's
+spmi-gpio and ssbi-gpio can be converted to use these new helpers.
 
-Please use SC7 rather than LP0.
+Linus: Feel free to squash these into your existing patches if you'd
+like to use any of this code. Just give me some kind of mention in the
+commit description.
 
-Peter.
+[1] https://lore.kernel.org/linux-gpio/20190624132531.6184-1-linus.walleij@linaro.org/
+
+Brian Masney (4):
+  gpio: introduce gpiochip_populate_parent_fwspec_{two,four}cell
+    functions
+  gpio: allow customizing hierarchical IRQ chips
+  gpio: use handler in gpio_irq_chip instead of handle_bad_irq
+  qcom: spmi-gpio: convert to hierarchical IRQ helpers in gpio core
+
+ drivers/gpio/gpiolib.c                   | 78 ++++++++++++++++----
+ drivers/pinctrl/qcom/Kconfig             |  1 +
+ drivers/pinctrl/qcom/pinctrl-spmi-gpio.c | 92 +++++++-----------------
+ include/linux/gpio/driver.h              | 65 +++++++++++++++++
+ 4 files changed, 154 insertions(+), 82 deletions(-)
+
+-- 
+2.20.1
 
