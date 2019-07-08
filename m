@@ -2,105 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72DC161879
-	for <lists+linux-tegra@lfdr.de>; Mon,  8 Jul 2019 01:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A441561ADE
+	for <lists+linux-tegra@lfdr.de>; Mon,  8 Jul 2019 09:05:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727702AbfGGXjN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 7 Jul 2019 19:39:13 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:33130 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727622AbfGGXjF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 7 Jul 2019 19:39:05 -0400
-Received: by mail-lj1-f193.google.com with SMTP id h10so14036275ljg.0;
-        Sun, 07 Jul 2019 16:39:03 -0700 (PDT)
+        id S1727413AbfGHHFD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 8 Jul 2019 03:05:03 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:37521 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727163AbfGHHFC (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 8 Jul 2019 03:05:02 -0400
+Received: by mail-lj1-f195.google.com with SMTP id z28so5827263ljn.4
+        for <linux-tegra@vger.kernel.org>; Mon, 08 Jul 2019 00:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=m6IbPJ6wDnrb4fcms6auW9pIcul91gDJiEO4g8AMoqg=;
-        b=hUlpixej+aTYqmP0Y8BC6Z42cHgL51W18NKAEXFzvUf67CQrL07FBElT7LnS5okf7n
-         OOfbt0geThq4TlSgFC0nMpAT/KWN7pfkxLwqXU0Iq6enS0Gm0lyHmQKG6RhblHxte7Td
-         cDid3Lk4NMKcv6fbKP70bVLZbKZR30eNpfxqwcmWhLVq5+dTXsjDDL0crzFHsl2NpD81
-         ibOw8ugIEqQsozILPK63hgnl38zbmi2RKNKPGqjsXjh7qm+AhikX6xBaeaq6KPG7I0nQ
-         qDu50RsJD4abWhRZpMtOAyTS1VuoDvIqOZOKUOcp0NmcnGBSrIpAjmMcCY6QpHOQ7PxL
-         G5wQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6oDs/R2687/0m7enmYw96V3f6cwSyu/SOwSXESh+rOo=;
+        b=GB4xqh9L/HaUV5F66gDo9xBaWCSzE8KYoNyzROYxYBWSYTPYa1vkONawouQ9WcBb4m
+         oKv+YUGogMOMx2H1LASw1F4ZIEQYVlgClCGPN6ENIJsk93AZOPRI3EGFaPPy8CNWJ9LW
+         iTMnWmPGCpn3ZirpK+iuDaufcQIIiE2Cjxt9rCTdVvnw6kJALuc2lNYVIub7CpCnu1sE
+         6QDT/UAi6Y9kFymRXoM0qvIjMx03KkbVndf93VMjgMcNbcg2fuObmdZsvHvSqFe0PFuL
+         SDO6SvsEYCd2YLG3HrxfXT/mqVVUTUaGcivZQeYSvo7pUw7w2U5hF/cdKGWX/+M9LuNA
+         lT0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=m6IbPJ6wDnrb4fcms6auW9pIcul91gDJiEO4g8AMoqg=;
-        b=XZTA5JK1v7BGJWRBRQvXY5IKntugDP1bcSEInRj6Jzio2/fgUqIdk0tY1/Z2WGub/y
-         GyZ01aoPhwT0OcgdSy14LJUnD1shJF4FvwOY9wsHGvG3XmJ2E/3g3wFw2dlsR1rTNMyI
-         XmrZzlohOQXlCQJB7tiYWeDePOBxeJ51LgqiG2+oLGl6RTKkMECDFOBkah7ZPRiNvWwi
-         6xhci8syg7LAvKYcl6iZXhsi8GELlkZsjaL3KvsD8zj1H5UZ6IYDR0I+fErlTpsh2hMF
-         nXrKYQyuZSp/P0QDVJl89oUCznJKtMyffmd/AvAOkjWKpGjB6PvkMJM7ew3G9h3fO1qd
-         GB7Q==
-X-Gm-Message-State: APjAAAWZdQGp9Sdeam3NsCxfue/DwbRii+cCUElP4cUpkb4GT1Q+VT+F
-        mWZdq/pDnfYZ7QztiCqb2HQ=
-X-Google-Smtp-Source: APXvYqwol9QdoQv+SXsrn0ugomHu4YqCbffe9VcqqXA1rd+0VQRNz4LMcLmqDhU4aPnLGZRky4qStw==
-X-Received: by 2002:a2e:9209:: with SMTP id k9mr8350395ljg.96.1562542742975;
-        Sun, 07 Jul 2019 16:39:02 -0700 (PDT)
-Received: from localhost.localdomain (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.gmail.com with ESMTPSA id y5sm3246520ljj.5.2019.07.07.16.39.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 07 Jul 2019 16:39:02 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1 6/6] cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP from all states
-Date:   Mon,  8 Jul 2019 02:38:09 +0300
-Message-Id: <20190707233809.14400-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190707233809.14400-1-digetx@gmail.com>
-References: <20190707233809.14400-1-digetx@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6oDs/R2687/0m7enmYw96V3f6cwSyu/SOwSXESh+rOo=;
+        b=EOvS6LWtBsuHkUdAyVxumNqt1+3EgJR6RRboetzNVjDmrD4wzXFD3Wll//1khBVxos
+         EFTyPMuWP5Ig8bn35ks4K3zTVxRp+Z5wlLH3GmL8mc7JRaoh8t9NATNuar837YoipTP5
+         i43cj6jRc9vTuz4pd/W2XX4oFO29kEQelqseah4uQdi2mimKI1xhUcKKyQgYiTnUDi56
+         1C/pFGFXmogRwSBUWxZaf0bAG0sRxXOaFLFloioozAbOUAUauEY7syGO7tm7N9Ny0kuH
+         wqYuoKWR0mqF/O0dLRIrsV35O+orHm2CWtP+0JQX5KEfgY6z9LntADVqsrBawRUCRav0
+         c6Vw==
+X-Gm-Message-State: APjAAAVATZYLY4zBEjc0ShUquLGTF2bIdmiGFR1V53T0KH7YkA1Mutsd
+        vKRtfw1UTFnJwuFhLem7SYgIHQpRJWZhi5MB11A3xQ==
+X-Google-Smtp-Source: APXvYqxTN6GN2XqcfqXpDohhEROVzao7dZxkipjljHsOdogU+UAMikcAZsfe7DAG4OkITSbIAHoDnnP/haQ0jkcsewI=
+X-Received: by 2002:a2e:a0cf:: with SMTP id f15mr9464901ljm.180.1562569501270;
+ Mon, 08 Jul 2019 00:05:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190626134258.26991-1-jonathanh@nvidia.com>
+In-Reply-To: <20190626134258.26991-1-jonathanh@nvidia.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 8 Jul 2019 09:04:50 +0200
+Message-ID: <CACRpkdaFOs24DJbXg4eKVOAzdGOx__X9rbHPcPUzpTJpZ-jbVw@mail.gmail.com>
+Subject: Re: [PATCH] gpio: tegra: Clean-up debugfs initialisation
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Tegra's clocksource driver got some rework recently and now the
-internal/local CPU timers usage is discouraged on Tegra20/30 SoCs in
-a favor of the platform-specific timers that are assigned as per-CPU
-clocksources because they do not suffer from the CPU-freq changes and
-are always-ON during of CPU-idling. That happened in the commit
-f6d50ec5f85c ("clocksource/drivers/tegra: Support per-CPU timers on all
-Tegra's"). The Tegra's clocksource driver is the essential arch-driver
-that is guaranteed to always present on all Tegra SoCs up to Tegra124.
+On Wed, Jun 26, 2019 at 3:43 PM Jon Hunter <jonathanh@nvidia.com> wrote:
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/cpuidle/cpuidle-tegra.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> The function tegra_gpio_debuginit() just calls debugfs_create_file()
+> and given that there is already a stub function implemented for
+> debugfs_create_file() when CONFIG_DEBUG_FS is not enabled, there is
+> no need for the function tegra_gpio_debuginit() and so remove it.
+>
+> Finally, use a space and not a tab between the #ifdef and
+> CONFIG_DEBUG_FS.
+>
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 
-diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
-index 464b2376905a..e2aa46231c05 100644
---- a/drivers/cpuidle/cpuidle-tegra.c
-+++ b/drivers/cpuidle/cpuidle-tegra.c
-@@ -143,7 +143,6 @@ static struct cpuidle_driver tegra_idle_driver = {
- 			.exit_latency		= 2000,
- 			.target_residency	= 2200,
- 			.power_usage		= 0,
--			.flags			= CPUIDLE_FLAG_TIMER_STOP,
- 			.name			= "powered-down",
- 			.desc			= "CPU core powered-off",
- 		},
-@@ -152,8 +151,7 @@ static struct cpuidle_driver tegra_idle_driver = {
- 			.exit_latency		= 5000,
- 			.target_residency	= 10000,
- 			.power_usage		= 0,
--			.flags			= CPUIDLE_FLAG_COUPLED |
--						  CPUIDLE_FLAG_TIMER_STOP,
-+			.flags			= CPUIDLE_FLAG_COUPLED,
- 			.name			= "powered-down",
- 			.desc			= "CPU cluster powered-off",
- 		},
--- 
-2.22.0
+Sadly I've had to revert this commit because of build errors, but
+let's see if we can figure it out after the merge window.
 
+Yours,
+Linus Walleij
