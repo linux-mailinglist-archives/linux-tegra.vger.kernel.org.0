@@ -2,235 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B75961D66
-	for <lists+linux-tegra@lfdr.de>; Mon,  8 Jul 2019 13:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C1D761E8A
+	for <lists+linux-tegra@lfdr.de>; Mon,  8 Jul 2019 14:38:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730282AbfGHLCD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 8 Jul 2019 07:02:03 -0400
-Received: from onstation.org ([52.200.56.107]:56190 "EHLO onstation.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730266AbfGHLB6 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 8 Jul 2019 07:01:58 -0400
-Received: from localhost.localdomain (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: masneyb)
-        by onstation.org (Postfix) with ESMTPSA id 9E60048975;
-        Mon,  8 Jul 2019 11:01:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
-        s=default; t=1562583718;
-        bh=DgaHBZzlEyqiB3ritaN8n33SgsqcrBxMo8HWSjWaz0k=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=R1W8KCUrDNvaDFW0VvoF6RuvHAmiufdyCW1EKHA1QGGOvkJ/g79ehdd3LSyCwkLdH
-         WNQMvwLojw/0TLaau0mNyl4XdF/yUA4xvLv7jY+PYSpGEZeLL8Rkgl4Sxlkj25O859
-         8v4Tl70fvCWeCsaIYIMhXfUcBmktrz1Yo7vswcao=
-From:   Brian Masney <masneyb@onstation.org>
-To:     linus.walleij@linaro.org
-Cc:     linux-gpio@vger.kernel.org, bgolaszewski@baylibre.com,
-        tglx@linutronix.de, marc.zyngier@arm.com, ilina@codeaurora.org,
-        jonathanh@nvidia.com, skomatineni@nvidia.com, bbiswas@nvidia.com,
-        linux-tegra@vger.kernel.org, david.daney@cavium.com,
-        yamada.masahiro@socionext.com, treding@nvidia.com,
-        bjorn.andersson@linaro.org, agross@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] qcom: spmi-gpio: convert to hierarchical IRQ helpers in gpio core
-Date:   Mon,  8 Jul 2019 07:01:38 -0400
-Message-Id: <20190708110138.24657-5-masneyb@onstation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190708110138.24657-1-masneyb@onstation.org>
-References: <20190708110138.24657-1-masneyb@onstation.org>
+        id S1729662AbfGHMiw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 8 Jul 2019 08:38:52 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:49197 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727544AbfGHMiw (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 8 Jul 2019 08:38:52 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MFsAJ-1hiUBN3Zux-00HNox; Mon, 08 Jul 2019 14:38:46 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Dmitry Osipenko <digetx@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] gpio: tegra: fix debugfs compile error
+Date:   Mon,  8 Jul 2019 14:38:17 +0200
+Message-Id: <20190708123843.3302581-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:MSFUKXJPI4w10gi5nIw9N7d6gTewK6MnUXHlro7LaCUr6eFZ32c
+ CVfIwEp/Yeh2OhpLrwyRjgIVMO5VvpaD6HE4pdXXoesHctLKVesrcGNX3JbJ6V3xjVERn4J
+ HOMNBm2NYE9hdU2W600TMEH9qHk6BmEGTny9CIIUUpNcQIOXNYjfwNPvwMo8T72gXkgDl7p
+ /yuw1mdSJjFQ3zuMGWqxg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mtajkxsIi98=:gEYCd7m+A0QSVqeIysMG6+
+ I8KyaNRiW26n1eB4lByLWF3jJDDBdojMUsI8iWNqG5k14EE4JQjWZQ9EmVlVcvnxnQsxdZ2wu
+ FNorKrqPUQugWbe/QePFvtdkYuJzJnmiermFLrmcVmerxfgluQ6TvLBO7XeOL5DU6O2bweKMt
+ QjnyHD/caoKBS0idl3Fe7rNHZJYKjtR2HcRHwgcxK5sfDOVu/Uvy5gXv2OC2nDbXGTVDVfMjl
+ kteR5fl9+Pg26kS94OxE1Yte7HjN8fE1kOJyci1ZeLyLqWBFnVnIbcFtSRvxGPvdomm8bsNqT
+ wKFkMIb8fsu33boEPOKVabhv8CtTpCjeTZNzFYlKs9uov/q36g1sh1jBrmIA9a/Zv7fjPZBvZ
+ HZFjfgvLkKXmM46gLB5MnHr5k580PHUxeXC/JU2fEQ9EeeA4qO9KOUjAgaFRdUzsM1Kpq/il+
+ iYJ/k+CTAWbS+rJ4tnFbvJjjpZk4JdGgJArWxWyTmDObvIKiQQ7jgUxD66jei+D7mNDP/fIcU
+ Z+l8SVz/wzV26Swqw4hjwH1DNYpWoIf4DSXwnyfq3lg7Bn1XmOJt8taMG/LWZkbmq7Mmk5Bkh
+ WeThMPl4iiExHOuV9hjB40mqH9kmJD074vp6D7VltBZ8CEm41qR1G2Tn+xKT6c1uaCC4f11dN
+ A87qC0mjojL7s73TRNLtqdfDs9KS3d4DAYrnGRrynd+FV0Fp7lVjyNe0lMx1jMBl4hVtl6B+N
+ e9g0ypuomU8RZxnrqaMknmUTJbgRJaGrglSwwQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Now that the GPIO core has support for hierarchical IRQ chips, convert
-Qualcomm's spmi-gpio over to use these new helpers to reduce duplicated
-code across drivers.
+Without this header, some configurations now run into a build failure:
 
-This change was tested on a LG Nexus 5 (hammerhead) phone.
+drivers/gpio/gpio-tegra.c:665:2: error: implicit declaration of function 'debugfs_create_file'
+      [-Werror,-Wimplicit-function-declaration]
+        debugfs_create_file("tegra_gpio", 0444, NULL, tgi,
+        ^
+drivers/gpio/gpio-tegra.c:665:2: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+drivers/gpio/gpio-tegra.c:666:9: error: use of undeclared identifier 'tegra_dbg_gpio_fops'
 
-Signed-off-by: Brian Masney <masneyb@onstation.org>
+Remove the #ifdef here and let the compiler drop the unused
+functions itself when debugfs_create_file() is an empty inline
+function.
+
+Fixes: a4de43049a1d ("gpio: tegra: Clean-up debugfs initialisation")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/pinctrl/qcom/Kconfig             |  1 +
- drivers/pinctrl/qcom/pinctrl-spmi-gpio.c | 92 +++++++-----------------
- 2 files changed, 26 insertions(+), 67 deletions(-)
+ drivers/gpio/gpio-tegra.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/pinctrl/qcom/Kconfig b/drivers/pinctrl/qcom/Kconfig
-index 27ab585a639c..9b36da702925 100644
---- a/drivers/pinctrl/qcom/Kconfig
-+++ b/drivers/pinctrl/qcom/Kconfig
-@@ -138,6 +138,7 @@ config PINCTRL_QCOM_SPMI_PMIC
-        select PINMUX
-        select PINCONF
-        select GENERIC_PINCONF
-+       select GPIOLIB_IRQCHIP
-        select IRQ_DOMAIN_HIERARCHY
-        help
-          This is the pinctrl, pinmux, pinconf and gpiolib driver for the
-diff --git a/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c b/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
-index f39da87ea185..0bef149c2f16 100644
---- a/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
-+++ b/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
-@@ -170,8 +170,6 @@ struct pmic_gpio_state {
- 	struct regmap	*map;
- 	struct pinctrl_dev *ctrl;
- 	struct gpio_chip chip;
--	struct fwnode_handle *fwnode;
--	struct irq_domain *domain;
- };
+diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
+index 59b99d8c3647..dbcecbe5f52f 100644
+--- a/drivers/gpio/gpio-tegra.c
++++ b/drivers/gpio/gpio-tegra.c
+@@ -9,6 +9,7 @@
+  *	Erik Gilling <konkers@google.com>
+  */
  
- static const struct pinconf_generic_params pmic_gpio_bindings[] = {
-@@ -751,23 +749,6 @@ static int pmic_gpio_of_xlate(struct gpio_chip *chip,
- 	return gpio_desc->args[0] - PMIC_GPIO_PHYSICAL_OFFSET;
++#include <linux/debugfs.h>
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/irq.h>
+@@ -22,6 +23,7 @@
+ #include <linux/irqchip/chained_irq.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pm.h>
++#include <linux/seq_file.h>
+ 
+ #define GPIO_BANK(x)		((x) >> 5)
+ #define GPIO_PORT(x)		(((x) >> 3) & 0x3)
+@@ -508,10 +510,6 @@ static int tegra_gpio_irq_set_wake(struct irq_data *d, unsigned int enable)
  }
+ #endif
  
--static int pmic_gpio_to_irq(struct gpio_chip *chip, unsigned pin)
--{
--	struct pmic_gpio_state *state = gpiochip_get_data(chip);
--	struct irq_fwspec fwspec;
+-#ifdef CONFIG_DEBUG_FS
 -
--	fwspec.fwnode = state->fwnode;
--	fwspec.param_count = 2;
--	fwspec.param[0] = pin + PMIC_GPIO_PHYSICAL_OFFSET;
--	/*
--	 * Set the type to a safe value temporarily. This will be overwritten
--	 * later with the proper value by irq_set_type.
--	 */
--	fwspec.param[1] = IRQ_TYPE_EDGE_RISING;
--
--	return irq_create_fwspec_mapping(&fwspec);
--}
--
- static void pmic_gpio_dbg_show(struct seq_file *s, struct gpio_chip *chip)
+-#include <linux/debugfs.h>
+-#include <linux/seq_file.h>
+ 
+ static int tegra_dbg_gpio_show(struct seq_file *s, void *unused)
  {
- 	struct pmic_gpio_state *state = gpiochip_get_data(chip);
-@@ -787,7 +768,6 @@ static const struct gpio_chip pmic_gpio_gpio_template = {
- 	.request		= gpiochip_generic_request,
- 	.free			= gpiochip_generic_free,
- 	.of_xlate		= pmic_gpio_of_xlate,
--	.to_irq			= pmic_gpio_to_irq,
- 	.dbg_show		= pmic_gpio_dbg_show,
- };
- 
-@@ -964,46 +944,24 @@ static int pmic_gpio_domain_translate(struct irq_domain *domain,
- 	return 0;
+@@ -538,7 +536,6 @@ static int tegra_dbg_gpio_show(struct seq_file *s, void *unused)
  }
  
--static int pmic_gpio_domain_alloc(struct irq_domain *domain, unsigned int virq,
--				  unsigned int nr_irqs, void *data)
-+static unsigned int pmic_gpio_child_pin_to_irq(struct gpio_chip *chip,
-+					       unsigned int pin)
- {
--	struct pmic_gpio_state *state = container_of(domain->host_data,
--						     struct pmic_gpio_state,
--						     chip);
--	struct irq_fwspec *fwspec = data;
--	struct irq_fwspec parent_fwspec;
--	irq_hw_number_t hwirq;
--	unsigned int type;
--	int ret, i;
--
--	ret = pmic_gpio_domain_translate(domain, fwspec, &hwirq, &type);
--	if (ret)
--		return ret;
--
--	for (i = 0; i < nr_irqs; i++)
--		irq_domain_set_info(domain, virq + i, hwirq + i,
--				    &pmic_gpio_irq_chip, state,
--				    handle_level_irq, NULL, NULL);
-+	return pin + PMIC_GPIO_PHYSICAL_OFFSET;
-+}
+ DEFINE_SHOW_ATTRIBUTE(tegra_dbg_gpio);
+-#endif
  
--	parent_fwspec.fwnode = domain->parent->fwnode;
--	parent_fwspec.param_count = 4;
--	parent_fwspec.param[0] = 0;
--	parent_fwspec.param[1] = hwirq + 0xc0;
--	parent_fwspec.param[2] = 0;
--	parent_fwspec.param[3] = fwspec->param[1];
-+static int pmic_gpio_child_to_parent_hwirq(struct gpio_chip *chip,
-+					   unsigned int child_hwirq,
-+					   unsigned int child_type,
-+					   unsigned int *parent_hwirq,
-+					   unsigned int *parent_type)
-+{
-+	*parent_hwirq = child_hwirq + 0xc0;
-+	*parent_type = child_type;
- 
--	return irq_domain_alloc_irqs_parent(domain, virq, nr_irqs,
--					    &parent_fwspec);
-+	return 0;
- }
- 
--static const struct irq_domain_ops pmic_gpio_domain_ops = {
--	.activate = gpiochip_irq_domain_activate,
--	.alloc = pmic_gpio_domain_alloc,
--	.deactivate = gpiochip_irq_domain_deactivate,
--	.free = irq_domain_free_irqs_common,
--	.translate = pmic_gpio_domain_translate,
--};
--
- static int pmic_gpio_probe(struct platform_device *pdev)
- {
- 	struct irq_domain *parent_domain;
-@@ -1013,6 +971,7 @@ static int pmic_gpio_probe(struct platform_device *pdev)
- 	struct pinctrl_desc *pctrldesc;
- 	struct pmic_gpio_pad *pad, *pads;
- 	struct pmic_gpio_state *state;
-+	struct gpio_irq_chip *girq;
- 	int ret, npins, i;
- 	u32 reg;
- 
-@@ -1092,19 +1051,21 @@ static int pmic_gpio_probe(struct platform_device *pdev)
- 	if (!parent_domain)
- 		return -ENXIO;
- 
--	state->fwnode = of_node_to_fwnode(state->dev->of_node);
--	state->domain = irq_domain_create_hierarchy(parent_domain, 0,
--						    state->chip.ngpio,
--						    state->fwnode,
--						    &pmic_gpio_domain_ops,
--						    &state->chip);
--	if (!state->domain)
--		return -ENODEV;
-+	girq = &state->chip.irq;
-+	girq->chip = &pmic_gpio_irq_chip;
-+	girq->default_type = IRQ_TYPE_NONE;
-+	girq->handler = handle_level_irq;
-+	girq->fwnode = of_node_to_fwnode(state->dev->of_node);
-+	girq->parent_domain = parent_domain;
-+	girq->child_to_parent_hwirq = pmic_gpio_child_to_parent_hwirq;
-+	girq->populate_parent_fwspec = gpiochip_populate_parent_fwspec_fourcell;
-+	girq->child_pin_to_irq = pmic_gpio_child_pin_to_irq;
-+	girq->child_irq_domain_ops.translate = pmic_gpio_domain_translate;
- 
- 	ret = gpiochip_add_data(&state->chip, state);
- 	if (ret) {
- 		dev_err(state->dev, "can't add gpio chip\n");
--		goto err_chip_add_data;
-+		return ret;
- 	}
- 
- 	/*
-@@ -1130,8 +1091,6 @@ static int pmic_gpio_probe(struct platform_device *pdev)
- 
- err_range:
- 	gpiochip_remove(&state->chip);
--err_chip_add_data:
--	irq_domain_remove(state->domain);
- 	return ret;
- }
- 
-@@ -1140,7 +1099,6 @@ static int pmic_gpio_remove(struct platform_device *pdev)
- 	struct pmic_gpio_state *state = platform_get_drvdata(pdev);
- 
- 	gpiochip_remove(&state->chip);
--	irq_domain_remove(state->domain);
- 	return 0;
- }
- 
+ static const struct dev_pm_ops tegra_gpio_pm_ops = {
+ 	SET_SYSTEM_SLEEP_PM_OPS(tegra_gpio_suspend, tegra_gpio_resume)
 -- 
-2.20.1
+2.20.0
 
