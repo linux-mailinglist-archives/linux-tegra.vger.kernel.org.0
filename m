@@ -2,40 +2,40 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA5BA633F9
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 12:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53B9763401
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 12:12:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726025AbfGIKLF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 9 Jul 2019 06:11:05 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:3761 "EHLO
+        id S1726045AbfGIKMV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 9 Jul 2019 06:12:21 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:3825 "EHLO
         hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725989AbfGIKLF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 06:11:05 -0400
+        with ESMTP id S1725989AbfGIKMV (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 06:12:21 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d24683d0000>; Tue, 09 Jul 2019 03:11:09 -0700
+        id <B5d2468890000>; Tue, 09 Jul 2019 03:12:25 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 09 Jul 2019 03:11:04 -0700
+  Tue, 09 Jul 2019 03:12:20 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 09 Jul 2019 03:11:04 -0700
+        by hqpgpgate101.nvidia.com on Tue, 09 Jul 2019 03:12:20 -0700
 Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Jul
- 2019 10:11:00 +0000
-Subject: Re: [PATCH] gpio: tegra: Clean-up debugfs initialisation
-To:     Linus Walleij <linus.walleij@linaro.org>
-CC:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ 2019 10:12:13 +0000
+Subject: Re: [PATCH v1] i2c: tegra: Compile PM functions unconditionally
+To:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, Greg KH <gregkh@linuxfoundation.org>
-References: <20190626134258.26991-1-jonathanh@nvidia.com>
- <CACRpkdaFOs24DJbXg4eKVOAzdGOx__X9rbHPcPUzpTJpZ-jbVw@mail.gmail.com>
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        "Wolfram Sang" <wsa@the-dreams.de>
+CC:     <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20190707231234.11679-1-digetx@gmail.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <f5e711a6-4472-8dcb-56b2-b789733231c2@nvidia.com>
-Date:   Tue, 9 Jul 2019 11:10:58 +0100
+Message-ID: <13be0f2e-2131-2e0d-d39f-9f1c964b8698@nvidia.com>
+Date:   Tue, 9 Jul 2019 11:12:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdaFOs24DJbXg4eKVOAzdGOx__X9rbHPcPUzpTJpZ-jbVw@mail.gmail.com>
+In-Reply-To: <20190707231234.11679-1-digetx@gmail.com>
 X-Originating-IP: [172.20.13.39]
 X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -43,41 +43,107 @@ Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562667069; bh=6fNmm7kUJzUHvZ1fbCr1sr5Retr+BtaSN8qhB6Q733g=;
+        t=1562667145; bh=30gNHPfyhaFNJ6Klft+DktYka3Ta2cIvCT6iqeMPorI=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=cXygdqz7rZ5U8EZJm+G65m4sc+y3onxftSwo9n5GBkt47M8fgrGze25+6UBtqcMJU
-         RrIG9R+jJirJl8qp1N48C6w7Ntt9rsrMMlRt6a0j4UvUJAnVIn93JVgF7opKG+PnLE
-         Q5SVBbTuFPCRWUQ5Qch8oOMYfHlevQjnd7e4N8Hfe5BWQ/aUNpiOhOoPHW2EOTwwj9
-         JE+M57kCfI50qO2BVYtTWAxQyPfpN3q5sm7hsqZiyQQRVc8GA+6trNWOwX0Ipo6wI3
-         hHF5SEy7yKK4s+F63qZGjKR8N3NJw5Rx6dh053f5NCYDPQ68oQcSHC7ItSpQjaoMrU
-         54N5tRKg004mQ==
+        b=h8X8NPeeWPB86ub0L6XkU5i/BprfGwHTjQ4fHJor9F8iTKnWoCcYKBy309Ab2a4zs
+         cl4e64DpslzK+9cPsAxRBCYxjZL8lxiKuT//mKtqDnHX9kjv1u5CbxSAirDW4RkHbT
+         AR1YKT9iisqhQnaWTbyKUkz3iNl0WGWHhvY4d9O7GVELiflLnpYCsBpw+b2g/04ULP
+         ly51PkYnsSwL8LNtbT43+eTLCxSMcrtRFozZox6PfJLbyuvD08WSLYfyYcah0/ySK5
+         BfSpAMCftsM4dOMeLBUN4+FfPJkWqoMS6x4rWrVnNsLkXxFDTDneQ91yRVjLYG2XwI
+         TVsp6sLbobV8w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 08/07/2019 08:04, Linus Walleij wrote:
-> On Wed, Jun 26, 2019 at 3:43 PM Jon Hunter <jonathanh@nvidia.com> wrote:
+On 08/07/2019 00:12, Dmitry Osipenko wrote:
+> The I2C driver fails to probe if CONFIG_PM_SLEEP=n because runtime PM
+> doesn't depend on the PM sleep and in this case the runtime PM ops are
+> not included in the driver, resulting in I2C clock not being enabled.
+> It's much cleaner to simply allow compiler to remove the dead code
+> instead of messing with the #ifdefs.
 > 
->> The function tegra_gpio_debuginit() just calls debugfs_create_file()
->> and given that there is already a stub function implemented for
->> debugfs_create_file() when CONFIG_DEBUG_FS is not enabled, there is
->> no need for the function tegra_gpio_debuginit() and so remove it.
->>
->> Finally, use a space and not a tab between the #ifdef and
->> CONFIG_DEBUG_FS.
->>
->> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> This patch fixes such errors when CONFIG_PM_SLEEP=n:
 > 
-> Sadly I've had to revert this commit because of build errors, but
-> let's see if we can figure it out after the merge window.
+>   tegra-i2c 7000c400.i2c: timeout waiting for fifo flush
+>   tegra-i2c 7000c400.i2c: Failed to initialize i2c controller
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/i2c/busses/i2c-tegra.c | 16 +++++-----------
+>  1 file changed, 5 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+> index 9fcb13beeb8f..18f0ceed9f1b 100644
+> --- a/drivers/i2c/busses/i2c-tegra.c
+> +++ b/drivers/i2c/busses/i2c-tegra.c
+> @@ -636,7 +636,7 @@ static void tegra_dvc_init(struct tegra_i2c_dev *i2c_dev)
+>  	dvc_writel(i2c_dev, val, DVC_CTRL_REG1);
+>  }
+>  
+> -static int tegra_i2c_runtime_resume(struct device *dev)
+> +static int __maybe_unused tegra_i2c_runtime_resume(struct device *dev)
+>  {
+>  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+>  	int ret;
+> @@ -665,7 +665,7 @@ static int tegra_i2c_runtime_resume(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -static int tegra_i2c_runtime_suspend(struct device *dev)
+> +static int __maybe_unused tegra_i2c_runtime_suspend(struct device *dev)
+>  {
+>  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+>  
+> @@ -1711,8 +1711,7 @@ static int tegra_i2c_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> -#ifdef CONFIG_PM_SLEEP
+> -static int tegra_i2c_suspend(struct device *dev)
+> +static int __maybe_unused tegra_i2c_suspend(struct device *dev)
+>  {
+>  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+>  
+> @@ -1721,7 +1720,7 @@ static int tegra_i2c_suspend(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -static int tegra_i2c_resume(struct device *dev)
+> +static int __maybe_unused tegra_i2c_resume(struct device *dev)
+>  {
+>  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
+>  	int err;
+> @@ -1741,18 +1740,13 @@ static const struct dev_pm_ops tegra_i2c_pm = {
+>  			   NULL)
+>  };
+>  
+> -#define TEGRA_I2C_PM	(&tegra_i2c_pm)
+> -#else
+> -#define TEGRA_I2C_PM	NULL
+> -#endif
+> -
+>  static struct platform_driver tegra_i2c_driver = {
+>  	.probe   = tegra_i2c_probe,
+>  	.remove  = tegra_i2c_remove,
+>  	.driver  = {
+>  		.name  = "tegra-i2c",
+>  		.of_match_table = tegra_i2c_of_match,
+> -		.pm    = TEGRA_I2C_PM,
+> +		.pm    = &tegra_i2c_pm,
+>  	},
+>  };
+>  
 
-Sorry about that. I will be more thorough in future.
+Looks good to me.
 
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+
+Cheers
 Jon
 
 -- 
