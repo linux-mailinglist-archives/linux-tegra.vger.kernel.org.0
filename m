@@ -2,81 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D8A662E40
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 04:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 392446302C
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 07:49:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727379AbfGIChd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 8 Jul 2019 22:37:33 -0400
-Received: from onstation.org ([52.200.56.107]:59956 "EHLO onstation.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726394AbfGIChd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 8 Jul 2019 22:37:33 -0400
-Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: masneyb)
-        by onstation.org (Postfix) with ESMTPSA id E0FFA3E913;
-        Tue,  9 Jul 2019 02:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
-        s=default; t=1562639852;
-        bh=PpL4jIvEjNzv0fxPAfTOwE/hxjYf0rAQKipDsAuTYws=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fwRCB0OqaOQjWUxd8vRgEGzftdGwaiIVW0UeqSnzKogs2DtFbStjItsTsSPSDEBN7
-         Mqlh4HuO1IdORbCwNvEx94+EM/WNJ/cR8fdeahMgfotRkQ9lUIZMdeYKnj7CzPB1pi
-         lLqcaOUIEttTAPFUfF0G7aghmTDrrMh0UHfs9+cU=
-Date:   Mon, 8 Jul 2019 22:37:31 -0400
-From:   Brian Masney <masneyb@onstation.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        David Daney <david.daney@cavium.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH 1/4 v1] gpio: Add support for hierarchical IRQ domains
-Message-ID: <20190709023731.GA7401@onstation.org>
-References: <20190624132531.6184-1-linus.walleij@linaro.org>
+        id S1725975AbfGIFtm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 9 Jul 2019 01:49:42 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:39342 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725832AbfGIFtm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 01:49:42 -0400
+Received: by mail-qk1-f196.google.com with SMTP id w190so2644975qkc.6;
+        Mon, 08 Jul 2019 22:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=G8bFHO9ERI+gTpLxJGdPs7eJ2Lvsv0iXpU1CdINSs20=;
+        b=r6N4iEKIb1M6dPZmH5V0NwJGABKPMEHOathvp1R8fTfznxz++n/GX8mNBIOggA3e2Y
+         WBBlwxVccGxFlSjUqXcLQaShyi1te9HsBgamOA6z6vC+p+ETZ51Z4RItVzSMumPg2F4N
+         wM8vHvIDn0AyIQcRxIIrFvPz00HExwnDWn2EgeiChsi99XmorHxOqtKZsjVrnnrM9Rv5
+         95EnD+VN3iJ+LLBKOLrGWtK157/Y3cP419UoY1aKtU/NG/5nL+Owb0wjNjWz3vH+KgZX
+         YP/Q3A5SuMDVJxD7yXx6KN9x0jAJco/Voaqax0wgObGxEgrjDFwGa918CN3BTgI5MR1U
+         JIxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=G8bFHO9ERI+gTpLxJGdPs7eJ2Lvsv0iXpU1CdINSs20=;
+        b=T88CtsnSAZlIfskmhDeQXgqItQZkXsU/UeEzi9cvX1k3+UQYbq3hs8OoNWiTPX7YFY
+         x6RYZ3YSPw6kieTo9UGhlRiupg8UIzDeC5YvUCnfT8pn7/GgfgIgazArv01VeajOyfbU
+         P+N9rSDiN5DjFNkQn8GWGhmnx8y0v7UDPK4P9g1jAkwfYpFi/OZ4My3/23C+O/KUb5rb
+         2pRa6KTcDaOXKXkvCaJ9gJp20ByX+76KHmuBacv4KCyR8A22OpGJPti0UUkbVObAPUeP
+         ceUu/BUpMt1+7bJV9gsozTwRKTJKIKy7QgLs/r97rUVFRxzweFFvnDxF4/hTHvdTQnYr
+         ltDQ==
+X-Gm-Message-State: APjAAAUR4qSOWHp74HH3G3obFlu5J0VIiXrOrwTM8044P91+0ArcaQqF
+        bNGMwekEs5fKIes1z3NPnhVpmeun
+X-Google-Smtp-Source: APXvYqzHjOCe75idq3CFtuKGhVKAD514DDOOkm7xCpEwzs4U/kSkhhnH751s3KxvK1sZpmT08Pw0vQ==
+X-Received: by 2002:ae9:ed4b:: with SMTP id c72mr17179650qkg.400.1562651381058;
+        Mon, 08 Jul 2019 22:49:41 -0700 (PDT)
+Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
+        by smtp.googlemail.com with ESMTPSA id i23sm5592434qtm.17.2019.07.08.22.49.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 08 Jul 2019 22:49:40 -0700 (PDT)
+Subject: Re: [PATCH v1 6/6] cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP
+ from all states
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190707233809.14400-1-digetx@gmail.com>
+ <20190707233809.14400-7-digetx@gmail.com>
+Message-ID: <89baad3d-36f3-a2ac-3794-e174fbeb953a@gmail.com>
+Date:   Tue, 9 Jul 2019 08:49:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190624132531.6184-1-linus.walleij@linaro.org>
+In-Reply-To: <20190707233809.14400-7-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Linus,
+08.07.2019 2:38, Dmitry Osipenko пишет:
+> The Tegra's clocksource driver got some rework recently and now the
+> internal/local CPU timers usage is discouraged on Tegra20/30 SoCs in
+> a favor of the platform-specific timers that are assigned as per-CPU
+> clocksources because they do not suffer from the CPU-freq changes and
+> are always-ON during of CPU-idling. That happened in the commit
+> f6d50ec5f85c ("clocksource/drivers/tegra: Support per-CPU timers on all
+> Tegra's"). The Tegra's clocksource driver is the essential arch-driver
+> that is guaranteed to always present on all Tegra SoCs up to Tegra124.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/cpuidle/cpuidle-tegra.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
+> index 464b2376905a..e2aa46231c05 100644
+> --- a/drivers/cpuidle/cpuidle-tegra.c
+> +++ b/drivers/cpuidle/cpuidle-tegra.c
+> @@ -143,7 +143,6 @@ static struct cpuidle_driver tegra_idle_driver = {
+>  			.exit_latency		= 2000,
+>  			.target_residency	= 2200,
+>  			.power_usage		= 0,
+> -			.flags			= CPUIDLE_FLAG_TIMER_STOP,
+>  			.name			= "powered-down",
+>  			.desc			= "CPU core powered-off",
+>  		},
+> @@ -152,8 +151,7 @@ static struct cpuidle_driver tegra_idle_driver = {
+>  			.exit_latency		= 5000,
+>  			.target_residency	= 10000,
+>  			.power_usage		= 0,
+> -			.flags			= CPUIDLE_FLAG_COUPLED |
+> -						  CPUIDLE_FLAG_TIMER_STOP,
+> +			.flags			= CPUIDLE_FLAG_COUPLED,
+>  			.name			= "powered-down",
+>  			.desc			= "CPU cluster powered-off",
+>  		},
+> 
 
-On Mon, Jun 24, 2019 at 03:25:28PM +0200, Linus Walleij wrote:
-> +associated irqdomain and resource allocation callbacks. These are activated
-> +by selecting the Kconfig symbol GPIOLIB_IRQCHIP. If the symbol
-> +IRQ_DOMAIN_HIERARCHY is also selected, hierarchical helpers will also be
-> +provided. A big portion of overhead code will be managed by gpiolib,
-> +under the assumption that your interrupts are 1-to-1-mapped to the
-> +GPIO line index:
-> +
-> +  GPIO line offset   Hardware IRQ
-> +  0                  0
-> +  1                  1
-> +  2                  2
-> +  ...                ...
-> +  ngpio-1            ngpio-1
-> +
-> +If some GPIO lines do not have corresponding IRQs, the bitmask valid_mask
-> +and the flag need_valid_mask in gpio_irq_chip can be used to mask off some
-> +lines as invalid for associating with IRQs.
-
-I forgot to call out in my patch series that the GPIOs are numbered
-1..ngpio on Qualcomm and the existing to_irq and translate callbacks
-in mainline take care of adding and subtracting one to / from the
-offset.
-
-I was under the (false?) assumption that GPIO numbering on all platforms
-start at one. Is that not the case?
-
-Brian
+Actually, it should be fine to keep this flag because I found that
+tick_broadcast_oneshot_control() checks for the C3STOP flag and thus
+CPUIDLE_FLAG_TIMER_STOP has no effect in that case. Will drop this patch in the next revision.
