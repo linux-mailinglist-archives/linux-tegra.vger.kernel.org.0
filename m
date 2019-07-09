@@ -2,105 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2512D63D0C
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 23:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F28D63E37
+	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jul 2019 01:02:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729696AbfGIVET (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 9 Jul 2019 17:04:19 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:40424 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726318AbfGIVET (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 17:04:19 -0400
-Received: by mail-qk1-f193.google.com with SMTP id s145so227798qke.7;
-        Tue, 09 Jul 2019 14:04:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aEogp/cBvpbqRpq9HNPTDGBPzInEZSXBFxGFWaMG1AM=;
-        b=jLgwzCz9+zRNaNgqU1yTRHMOC0sD/PbzqlpKe1j+xds1BV0y9Eg4wutDD5/kICyDkV
-         iIRECLZ0QEtHw+LQc+XPmegDwYs2L3AakvdIHCkQ5oyYscCs7rOcQOLSuMH24DLC3vxR
-         v5z9Rxh4CKZpbZ6KstYNFO3BtYNZuJWL9lNLKD8floP78nSvqhHWBt3CupBCnNpgxA+8
-         JOHIKNWma5iW+ZKBFulpzZ1JrsA6sD8gU5hjwpBqw3pn4EWN9eyULn4IjR4IYz7KpA07
-         fLTPeduBPFNd0DERNjVoaDEPf6tKiPFO0Z/1r1BImMvH2zVoOFcP/l9I1PYr/tsf4Go4
-         q9pQ==
+        id S1727068AbfGIXCJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 9 Jul 2019 19:02:09 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:41555 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726284AbfGIXCJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 19:02:09 -0400
+Received: by mail-io1-f68.google.com with SMTP id j5so561055ioj.8;
+        Tue, 09 Jul 2019 16:02:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aEogp/cBvpbqRpq9HNPTDGBPzInEZSXBFxGFWaMG1AM=;
-        b=L2Go+AalE91hMF+rjfIMWKjM+7aQlm8QKV5Ly9kUE6001wKe3cYnNZXPELFLhT7Thg
-         4btaS5YT0VCj3NxEnUfnrInUwvH8YjPTIfE2ISOmjRdBhWSy2TzDTJ5VNWnZPchdLKwg
-         hS48mjH/A/7HR2Lnq/NKbelRfJTX6GBJw4E/65cdXy8erA3zqnpXhVeHZwA72yq0WQiO
-         zwnNDEFH4v+XUvIHFVCcWiFsb9EL+l4L15oIiIi21OoGkEyN2ejxyAKARTf54Ax4maWQ
-         L0ixPouB2QyjwQI1nYfulUU/Z9ohjizXaTSEijre3sz9UG33XoYzqFmeTRs5iQofiwKu
-         /HqQ==
-X-Gm-Message-State: APjAAAWrUiyeb1zsRrlxMU7avjxmndnLr3nkilS676vaNQ3j9iYAFV+V
-        j3DjJp8bHeSZ11gbbhLVITg9nAs4
-X-Google-Smtp-Source: APXvYqxsnTsrAhygBiAvta/IeP+a0jcZA//lyzZOvNaMpkQT/ZUsA60EkzdlG2QjXDOIKCdE3A/sGw==
-X-Received: by 2002:a05:620a:16d6:: with SMTP id a22mr20551083qkn.414.1562706258071;
-        Tue, 09 Jul 2019 14:04:18 -0700 (PDT)
-Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id z1sm98720qkg.103.2019.07.09.14.04.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Jul 2019 14:04:17 -0700 (PDT)
-Subject: Re: [PATCH v1] drm/tegra: Fix gpiod_get_from_of_node() regression
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190705151139.19032-1-digetx@gmail.com>
- <9425f0e8-36ec-76cb-b177-fa486fcafc19@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <2a4c63f8-9ea7-a017-57f9-1dec0f178a79@gmail.com>
-Date:   Wed, 10 Jul 2019 00:04:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=pcfzVHuGTYaM+j7i87z+SeIwIRADA9ILTB1ox662dYs=;
+        b=t3i3tja4EcN7SbpClNw8QJ56hNls3RysUjYx2lcgg9JJxOv+h6YReFQdIZ97TQvlbf
+         baEJ8ry5Z0H7TYAXGlQPO3/AOLFr39I/ue+EEUIu2ePia7agXm6ajdEgXOOpZPwZ77Ve
+         oBvz8WPqZK+hpMoxQdYznmnwq6krg5v10hvIl1ZsYmjZmiAQuHVOeMIIyv353NJEGDGO
+         Ki8bBd+b7Yj0EWVP749zqy4+XMUOVDzGmOGaGCMTiaYFBlgzK2ZwC/uvTa2LpoArcspv
+         rEMvSXAbaFehM/KNOODTzjhaIWonjx1Cv0xuRIMejsGDk40QEiQcMiOATraeq4t3UX1p
+         /pbA==
+X-Gm-Message-State: APjAAAXUsurDeCwpvtLZSskRkFAo9lTBOXMvPCXylccJIVsXPpb3790A
+        mGEFZRUTK4zswoW70E6R4A==
+X-Google-Smtp-Source: APXvYqxr8IaXXWQHna/ksmbbhy36DTh6Ah1Gj4ZIqx5lFEKgGrqa4E+x4KguEAntWpLEUg1eJJrSsA==
+X-Received: by 2002:a6b:1604:: with SMTP id 4mr27029736iow.245.1562713327886;
+        Tue, 09 Jul 2019 16:02:07 -0700 (PDT)
+Received: from localhost ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id b14sm362851iod.33.2019.07.09.16.02.06
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 09 Jul 2019 16:02:06 -0700 (PDT)
+Date:   Tue, 9 Jul 2019 17:02:05 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] media: dt: bindings: tegra-vde: Document new optional
+ IOMMU property
+Message-ID: <20190709230205.GA1040@bogus>
+References: <20190623170730.5095-1-digetx@gmail.com>
+ <20190623170730.5095-4-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <9425f0e8-36ec-76cb-b177-fa486fcafc19@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190623170730.5095-4-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-09.07.2019 19:27, Jon Hunter пишет:
+On Sun, 23 Jun 2019 20:07:26 +0300, Dmitry Osipenko wrote:
+> All NVIDIA Tegra SoC generations provide IOMMU support for the video
+> decoder engine. Document new optional device-tree property that connects
+> VDE with the IOMMU provider.
 > 
-> On 05/07/2019 16:11, Dmitry Osipenko wrote:
->> That function now returns ERR_PTR instead of NULL if "hpd-gpio" is not
->> present in device-tree. The offending patch missed to adapt the Tegra's
->> DRM driver for the API change.
->>
->> Fixes: 025bf37725f1 ("gpio: Fix return value mismatch of function gpiod_get_from_of_node()")
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/gpu/drm/tegra/output.c | 8 ++++++--
->>  1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
->> index 274cb955e2e1..471d33809cd4 100644
->> --- a/drivers/gpu/drm/tegra/output.c
->> +++ b/drivers/gpu/drm/tegra/output.c
->> @@ -126,8 +126,12 @@ int tegra_output_probe(struct tegra_output *output)
->>  						       "nvidia,hpd-gpio", 0,
->>  						       GPIOD_IN,
->>  						       "HDMI hotplug detect");
->> -	if (IS_ERR(output->hpd_gpio))
->> -		return PTR_ERR(output->hpd_gpio);
->> +	if (IS_ERR(output->hpd_gpio)) {
->> +		if (PTR_ERR(output->hpd_gpio) == -ENOENT)
->> +			output->hpd_gpio = NULL;
->> +		else
->> +			return PTR_ERR(output->hpd_gpio);
->> +	}
->>  
->>  	if (output->hpd_gpio) {
->>  		err = gpiod_to_irq(output->hpd_gpio);
->>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
 > 
-> Acked-by: Jon Hunter <jonathanh@nvidia.com>
+> No changes since v1.
+> 
+>  Documentation/devicetree/bindings/media/nvidia,tegra-vde.txt | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Thanks!
+Reviewed-by: Rob Herring <robh@kernel.org>
