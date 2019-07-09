@@ -2,119 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D37363834
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 16:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7990E63959
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 18:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726241AbfGIOxY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 9 Jul 2019 10:53:24 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:36143 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbfGIOxX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 10:53:23 -0400
-Received: by mail-qt1-f194.google.com with SMTP id z4so18442448qtc.3;
-        Tue, 09 Jul 2019 07:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YbsGaS1BVbJ+f3VVB6My2e8DPp6j8hXOIEffynol0Ok=;
-        b=pXmFco6SOoagS7jQFlMht0LwTgnpY+87Ybjy0HLOGFQ+LsPExFi8j1H3T5RXHqDp2l
-         UByeml2I0IuXGS6j8C1peLZYmsXYcbgF2233PzQK4HIvDX+muI9ED9zPcxazOC6PuB7q
-         Dia4ZhKXjxJ0VE+nprtXPo7l4ZxpLvSy11veYqg/nMFp9VtydK5mmuCPmIlwTVc7/E3M
-         mAd71PJ3xUJMW5RjVh+KL2zwfLB8bA79mnw8vUv/cVJCsnKOFnNCqPESPUll/og01Vs8
-         OT6CJvNdtxgWVzhNWeA1wqmaJgpCFJqeNmQrHEF6AbqM+jbhTvbCTP4UHdTst1sPDSra
-         7dwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YbsGaS1BVbJ+f3VVB6My2e8DPp6j8hXOIEffynol0Ok=;
-        b=G6NxmtpFj5+RDpycaDCpDflg9dsXZ6g+ULztYq6E8q9IPN1FZCD1I61B0NsER6265h
-         mXyMdMz9QXsjhWO+BNMfM9qRgKp3CEGot1awvAXrUNypNsFYI4VS8fguOKpYHGUv/mrV
-         LqoWZaaTEXxV0Fli8SElCqQVu2ojy7hy9TtseZsWkpjHVin5//44PWuIR7V5uUpKpVJR
-         1RDd6rZVkbDTPmoWVoQCENVa6fWWl3Usix8zYIi4zyxbV8ogK1EVi4qnme6DEM+q+W+e
-         tbszROsHaC+udK7fE3zz+qP0OW4WpZGWjBkoP3Zlixb45E28TlRZl31wpBB1w1nhN0eR
-         odiw==
-X-Gm-Message-State: APjAAAWDksHKDhRPeNf49+IBhoeK36DYOf+hYNhF2LBwle2hZKyeSTzf
-        b1Fjc+1P/zA5VPJqFM7IMrDqF+wq
-X-Google-Smtp-Source: APXvYqwbU2+yK2jTnkJvrpeIWH19D9iyd+/+yn4kHi335O5rSYQCwV6LlRPM6TTPp5MXcPkWBRFuqQ==
-X-Received: by 2002:a05:6214:3f0:: with SMTP id cf16mr19329542qvb.211.1562684002950;
-        Tue, 09 Jul 2019 07:53:22 -0700 (PDT)
-Received: from localhost.localdomain (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.gmail.com with ESMTPSA id x46sm9667276qtx.96.2019.07.09.07.53.20
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Jul 2019 07:53:22 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1] drm/modes: Skip invalid cmdline mode
-Date:   Tue,  9 Jul 2019 17:51:51 +0300
-Message-Id: <20190709145151.23086-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.22.0
+        id S1726133AbfGIQ1g (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 9 Jul 2019 12:27:36 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:18027 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725816AbfGIQ1g (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 12:27:36 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d24c07c0000>; Tue, 09 Jul 2019 09:27:40 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 09 Jul 2019 09:27:35 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 09 Jul 2019 09:27:35 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Jul
+ 2019 16:27:34 +0000
+Subject: Re: [PATCH v1] drm/tegra: Fix gpiod_get_from_of_node() regression
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     <dri-devel@lists.freedesktop.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20190705151139.19032-1-digetx@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <9425f0e8-36ec-76cb-b177-fa486fcafc19@nvidia.com>
+Date:   Tue, 9 Jul 2019 17:27:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190705151139.19032-1-digetx@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1562689660; bh=eiMzdExQqfXSHcpxt0RmPgRZdbS5a+9W8kuVpeJfT2c=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=dx1hthAf1o0tT3KQdGbZYxZ3xITziFcwzhbVcVlCGqjCi/pXXZcY0f+Juxw7JzeXG
+         eiFsootJn9+BVTyUxsLp+tS5HJ/z4SOR2RK5TL4kr+1ia/YIBULICdwqpC9HJbidxl
+         PEHODPxSDzE/aBh3WSRjb0ntsQf+Y8d2VnwvDfbCaT/4+AcZGz5v423d3smJzDiXp0
+         1JaK5aMrkeeRNdhkArKkkVN2wLWgseC1bXG5S6MUKrBCcA2ZtNKfUZuBDIHKXoUvpY
+         yRqpsCiQnPZ/FSqdzYqCaBcj8EU/lovtZkh6h7CJKsB1y6kKEs1LFV/gQd4yt43MJN
+         U+eLjK17qMMTg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The named mode could be invalid and then cmdline parser misses to validate
-mode's dimensions, happily adding 0x0 mode as a valid mode. One case where
-this happens is NVIDIA Tegra devices that are using downstream bootloader
-which adds "video=tegrafb" to the kernel's cmdline and thus upstream Tegra
-DRM driver fails to probe because of the invalid mode.
 
-Fixes: 3aeeb13d8996 ("drm/modes: Support modes names on the command line")
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/drm_client_modeset.c | 3 ++-
- drivers/gpu/drm/drm_modes.c          | 6 ++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+On 05/07/2019 16:11, Dmitry Osipenko wrote:
+> That function now returns ERR_PTR instead of NULL if "hpd-gpio" is not
+> present in device-tree. The offending patch missed to adapt the Tegra's
+> DRM driver for the API change.
+> 
+> Fixes: 025bf37725f1 ("gpio: Fix return value mismatch of function gpiod_get_from_of_node()")
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/gpu/drm/tegra/output.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+> index 274cb955e2e1..471d33809cd4 100644
+> --- a/drivers/gpu/drm/tegra/output.c
+> +++ b/drivers/gpu/drm/tegra/output.c
+> @@ -126,8 +126,12 @@ int tegra_output_probe(struct tegra_output *output)
+>  						       "nvidia,hpd-gpio", 0,
+>  						       GPIOD_IN,
+>  						       "HDMI hotplug detect");
+> -	if (IS_ERR(output->hpd_gpio))
+> -		return PTR_ERR(output->hpd_gpio);
+> +	if (IS_ERR(output->hpd_gpio)) {
+> +		if (PTR_ERR(output->hpd_gpio) == -ENOENT)
+> +			output->hpd_gpio = NULL;
+> +		else
+> +			return PTR_ERR(output->hpd_gpio);
+> +	}
+>  
+>  	if (output->hpd_gpio) {
+>  		err = gpiod_to_irq(output->hpd_gpio);
+> 
 
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index e95fceac8f8b..56d36779d213 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -180,7 +180,8 @@ drm_connector_pick_cmdline_mode(struct drm_connector *connector)
- 
- create_mode:
- 	mode = drm_mode_create_from_cmdline_mode(connector->dev, cmdline_mode);
--	list_add(&mode->head, &connector->modes);
-+	if (mode)
-+		list_add(&mode->head, &connector->modes);
- 
- 	return mode;
- }
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 910561d4f071..74a5739df506 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -158,6 +158,9 @@ struct drm_display_mode *drm_cvt_mode(struct drm_device *dev, int hdisplay,
- 	int interlace;
- 	u64 tmp;
- 
-+	if (!hdisplay || !vdisplay)
-+		return NULL;
-+
- 	/* allocate the drm_display_mode structure. If failure, we will
- 	 * return directly
- 	 */
-@@ -392,6 +395,9 @@ drm_gtf_mode_complex(struct drm_device *dev, int hdisplay, int vdisplay,
- 	int hsync, hfront_porch, vodd_front_porch_lines;
- 	unsigned int tmp1, tmp2;
- 
-+	if (!hdisplay || !vdisplay)
-+		return NULL;
-+
- 	drm_mode = drm_mode_create(dev);
- 	if (!drm_mode)
- 		return NULL;
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+
+Cheers
+Jon
+
 -- 
-2.22.0
-
+nvpublic
