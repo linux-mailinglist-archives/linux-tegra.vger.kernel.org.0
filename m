@@ -2,73 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12F656351D
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 13:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D15896361F
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 14:45:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726081AbfGILpJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 9 Jul 2019 07:45:09 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:36280 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726030AbfGILpI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 07:45:08 -0400
-Received: by mail-lf1-f66.google.com with SMTP id q26so13191180lfc.3
-        for <linux-tegra@vger.kernel.org>; Tue, 09 Jul 2019 04:45:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=seSzBj7AVM5QAXmTv+Gol7Pcz0p7LUdYuUhosI+3OMk=;
-        b=IIni4gkwnjWLWCyUw1SdCL25sb64vL0YCG20t+qjKZU2aG8OHTv4Map8ZoiYxfoSAr
-         dSZiRr8g1HPLIceVx+A7oA8o7YR85fzdcjp+agRhQQ2YMmBYVYC77S5XRJaxq8+pdFiL
-         Br44M5cTSEqno5Wo3p08ugG7lAW/ZecDoB0IuV0OTzQEDEQ7+sGLlIXyCW+9RJzbX6G1
-         pJRfumDWsnM9F25A/nwLs1uFEXbTgy5BaHAh2KwLsc8QE5YuwVqcRLHPprMG3lmwu3h7
-         CqBJGDwARV32389VNVOzhXPN+5Phff3eq4z8Fzge8n7dpVD9fuq7YlJdT1BhcWqf2jqB
-         uPMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=seSzBj7AVM5QAXmTv+Gol7Pcz0p7LUdYuUhosI+3OMk=;
-        b=VNAvkvsYqMdLkFrp3RYPj+gGeB2ogTKuLaab7Uq+x5FD1uJLVGd3/Am5qG6axnRFpP
-         EKbVXdqBJ+i7Lf6/aWQr60ZM8WZuar48pcdKXQWpIyVvEWIl9DupS76APYZHrHe1gKrr
-         SlmoEPGvgPMZe+AXwBIufGc2mJWsrq5vDh/sg1g7SEj/yuNBgvyxyG2BtP4QOuN+ucFb
-         qkk4rP6Y6ytWpm++SHRBdFqrpOKBsNlWWOgzAh627ceqMU38uoMO7uF3uzfB+djAosqf
-         CEyiXjzA7kzD58ecLzWloIexnaRRasfhQ6LaVEg+UqCk1ElYJo33fjp3v1iWDocgeS3P
-         e/uw==
-X-Gm-Message-State: APjAAAWpnx3FMfg2suR3ljPeW80vgd9VPIC4Qda6CZXefYgMeWYt6v3C
-        dzriUl7IBMu9HCyUxRqN3L1RoSzmIR9XLtnu+WJ7Ug==
-X-Google-Smtp-Source: APXvYqy/8XcCvB7nFODWD7OENtnuJiJybM+yNUBuqGnuVouCx9mUgPQgu2w6rIbgvNniO8PCprZNbAC9qXzmLQHXU80=
-X-Received: by 2002:ac2:5c42:: with SMTP id s2mr11675399lfp.61.1562672706813;
- Tue, 09 Jul 2019 04:45:06 -0700 (PDT)
+        id S1726126AbfGIMpb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 9 Jul 2019 08:45:31 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:60189 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726025AbfGIMpb (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 08:45:31 -0400
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: maxime.ripard@bootlin.com)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 152E7200004;
+        Tue,  9 Jul 2019 12:45:26 +0000 (UTC)
+Date:   Tue, 9 Jul 2019 14:45:26 +0200
+From:   Maxime Ripard <maxime.ripard@bootlin.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>, eben@raspberrypi.org,
+        dri-devel@lists.freedesktop.org,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v5 05/12] drm/modes: Rewrite the command line parser
+Message-ID: <20190709124526.36szuriteq3jumhr@flea>
+References: <cover.5190d070d1439d762d7ab273f4ae2573087fee20.1560783090.git-series.maxime.ripard@bootlin.com>
+ <e32cd4009153b184103554009135c7bf7c9975d7.1560783090.git-series.maxime.ripard@bootlin.com>
+ <e1fcea71-b551-274e-4ea0-178bb0d5f71c@gmail.com>
 MIME-Version: 1.0
-References: <20190626134258.26991-1-jonathanh@nvidia.com> <CACRpkdaFOs24DJbXg4eKVOAzdGOx__X9rbHPcPUzpTJpZ-jbVw@mail.gmail.com>
- <f5e711a6-4472-8dcb-56b2-b789733231c2@nvidia.com>
-In-Reply-To: <f5e711a6-4472-8dcb-56b2-b789733231c2@nvidia.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 9 Jul 2019 13:44:54 +0200
-Message-ID: <CACRpkdbGoh-rHpiKzp+QKirSRdE8uE3nGoUDCxx7USvOkES-kg@mail.gmail.com>
-Subject: Re: [PATCH] gpio: tegra: Clean-up debugfs initialisation
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-tegra@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="vcujhgabco7cibei"
+Content-Disposition: inline
+In-Reply-To: <e1fcea71-b551-274e-4ea0-178bb0d5f71c@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jul 9, 2019 at 12:11 PM Jon Hunter <jonathanh@nvidia.com> wrote:
-> On 08/07/2019 08:04, Linus Walleij wrote:
 
-> > Sadly I've had to revert this commit because of build errors, but
-> > let's see if we can figure it out after the merge window.
+--vcujhgabco7cibei
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri, Jul 05, 2019 at 07:54:47PM +0300, Dmitry Osipenko wrote:
+> 17.06.2019 17:51, Maxime Ripard =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > From: Maxime Ripard <maxime.ripard@free-electrons.com>
+> >
+> > Rewrite the command line parser in order to get away from the state mac=
+hine
+> > parsing the video mode lines.
+> >
+> > Hopefully, this will allow to extend it more easily to support named mo=
+des
+> > and / or properties set directly on the command line.
+> >
+> > Reviewed-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> > Signed-off-by: Maxime Ripard <maxime.ripard@free-electrons.com>
+> > ---
+> >  drivers/gpu/drm/drm_modes.c | 325 +++++++++++++++++++++++--------------
+> >  1 file changed, 210 insertions(+), 115 deletions(-)
 >
-> Sorry about that. I will be more thorough in future.
+> I have a Tegra device that uses a stock android bootloader which
+> passes "video=3Dtegrafb" in the kernels cmdline. That wasn't a problem
+> before this patch, but now Tegra DRM driver fails to probe because
+> the mode is 0x0:0 and hence framebuffer allocation fails. Is it a
+> legit regression that should be fixed in upstream?
 
-Don't beat yourself up about it, happens all the time. I saw Arnd
-sent some suggested fixups BTW!
+Thierry indeed reported that issue, but the discussion pretty much
+stalled since then.
 
-Yours,
-Linus Walleij
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--vcujhgabco7cibei
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXSSMYQAKCRDj7w1vZxhR
+xakIAP4+CIpP0/uIjF6b/BDiYxakJHM0UScucoPgY1Mh8fCrpwD/SLOeZeYOzZ3R
+g10KDEYVYh0DflC+UIvy2n8COGx6YAw=
+=FVma
+-----END PGP SIGNATURE-----
+
+--vcujhgabco7cibei--
