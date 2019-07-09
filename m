@@ -2,146 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53B9763401
-	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 12:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA7CC634B5
+	for <lists+linux-tegra@lfdr.de>; Tue,  9 Jul 2019 13:03:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbfGIKMV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 9 Jul 2019 06:12:21 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:3825 "EHLO
+        id S1726055AbfGILDE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 9 Jul 2019 07:03:04 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:9353 "EHLO
         hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725989AbfGIKMV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 06:12:21 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d2468890000>; Tue, 09 Jul 2019 03:12:25 -0700
+        with ESMTP id S1726060AbfGILDE (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 9 Jul 2019 07:03:04 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d24746a0000>; Tue, 09 Jul 2019 04:03:06 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 09 Jul 2019 03:12:20 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 09 Jul 2019 04:03:01 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 09 Jul 2019 03:12:20 -0700
+        by hqpgpgate102.nvidia.com on Tue, 09 Jul 2019 04:03:01 -0700
 Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Jul
- 2019 10:12:13 +0000
-Subject: Re: [PATCH v1] i2c: tegra: Compile PM functions unconditionally
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        "Wolfram Sang" <wsa@the-dreams.de>
-CC:     <linux-i2c@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20190707231234.11679-1-digetx@gmail.com>
+ 2019 11:02:59 +0000
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <13be0f2e-2131-2e0d-d39f-9f1c964b8698@nvidia.com>
-Date:   Tue, 9 Jul 2019 11:12:12 +0100
+Subject: Re: [PATCH V3] PCI: tegra: Enable Relaxed Ordering only for Tegra20 &
+ Tegra30
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Vidya Sagar <vidyas@nvidia.com>, <bhelgaas@google.com>,
+        <treding@nvidia.com>, <swarren@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20190704150428.4035-1-vidyas@nvidia.com>
+ <20190704160948.GA28058@e121166-lin.cambridge.arm.com>
+ <310ce6f7-9379-9857-ac7c-53118b80966b@nvidia.com>
+ <20190705093859.GA17491@e121166-lin.cambridge.arm.com>
+Message-ID: <c3168cfd-69f5-b51b-6ec6-c64d447efe13@nvidia.com>
+Date:   Tue, 9 Jul 2019 12:02:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190707231234.11679-1-digetx@gmail.com>
+In-Reply-To: <20190705093859.GA17491@e121166-lin.cambridge.arm.com>
 X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562667145; bh=30gNHPfyhaFNJ6Klft+DktYka3Ta2cIvCT6iqeMPorI=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+        t=1562670186; bh=duxsM4jaiCIGu9f68Hhmt/737H3A12RFzUMlXOvrCvE=;
+        h=X-PGP-Universal:From:Subject:To:CC:References:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=h8X8NPeeWPB86ub0L6XkU5i/BprfGwHTjQ4fHJor9F8iTKnWoCcYKBy309Ab2a4zs
-         cl4e64DpslzK+9cPsAxRBCYxjZL8lxiKuT//mKtqDnHX9kjv1u5CbxSAirDW4RkHbT
-         AR1YKT9iisqhQnaWTbyKUkz3iNl0WGWHhvY4d9O7GVELiflLnpYCsBpw+b2g/04ULP
-         ly51PkYnsSwL8LNtbT43+eTLCxSMcrtRFozZox6PfJLbyuvD08WSLYfyYcah0/ySK5
-         BfSpAMCftsM4dOMeLBUN4+FfPJkWqoMS6x4rWrVnNsLkXxFDTDneQ91yRVjLYG2XwI
-         TVsp6sLbobV8w==
+        b=EYFLVwpiCs217ROg5nwsOsO905r5vdJiu/rSh0V3XuQpv44jB2LPAy+dzoe1CiKf7
+         e2ksdTAuA8YyioUmF3FaQuoaOzr5Dbv7FEOe1DKS/IPP8fIANC/017l/hk7WrkiegD
+         yQwi5w4d1eE7yBdUExKhHKequtdox44WIx3WYwIrflqeED0vCDIIXi/c3L7fvHR8fs
+         zatwhGqH7rQOl4ps9URRYMDM74ly4F9nMEaQRAPAt0r/4FDfibAHeHQ9wcY0KviAWu
+         CSKKKSleCgh+/GXTQ3T2mr3Kwr8nvs0zRtJ7HXRZq3kadmV/IGYQxVvY+aIFANXmPz
+         h+67Lq3aiRsgw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 08/07/2019 00:12, Dmitry Osipenko wrote:
-> The I2C driver fails to probe if CONFIG_PM_SLEEP=n because runtime PM
-> doesn't depend on the PM sleep and in this case the runtime PM ops are
-> not included in the driver, resulting in I2C clock not being enabled.
-> It's much cleaner to simply allow compiler to remove the dead code
-> instead of messing with the #ifdefs.
+On 05/07/2019 10:38, Lorenzo Pieralisi wrote:
+> [+Greg]
 > 
-> This patch fixes such errors when CONFIG_PM_SLEEP=n:
+> On Fri, Jul 05, 2019 at 09:57:25AM +0100, Jon Hunter wrote:
+>> Hi Lorenzo,
+>>
+>> On 04/07/2019 17:09, Lorenzo Pieralisi wrote:
+>>> On Thu, Jul 04, 2019 at 08:34:28PM +0530, Vidya Sagar wrote:
+>>>> Currently Relaxed Ordering bit in the configuration space is enabled for
+>>>> all PCIe devices as the quirk uses PCI_ANY_ID for both Vendor-ID and
+>>>> Device-ID, but, as per the Technical Reference Manual of Tegra20 which is
+>>>> available at https://developer.nvidia.com/embedded/downloads#?search=tegra%202
+>>>> in Sec 34.1, it is mentioned that Relexed Ordering bit needs to be enabled in
+>>>> its root ports to avoid deadlock in hardware. The same is applicable for
+>>>> Tegra30 as well though it is not explicitly mentioned in Tegra30 TRM document,
+>>>> but the same must not be extended to root ports of other Tegra SoCs or
+>>>> other hosts as the same issue doesn't exist there.
+>>>>
+>>>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+>>>
+>>> You forgot Thierry's ACK, I added it back but next time pay more
+>>> attention please.
+>>>
+>>> You should link the versions through eg git send-email
+>>> --in-reply-to=Message-Id so that it is easier to follow.
+>>>
+>>>> ---
+>>>> V3:
+>>>> * Modified commit message to make it more precise and explicit
+>>>>
+>>>> V2:
+>>>> * Modified commit message to include reference to Tegra20 TRM document.
+>>>>
+>>>>  drivers/pci/controller/pci-tegra.c | 7 +++++--
+>>>>  1 file changed, 5 insertions(+), 2 deletions(-)
+>>>
+>>> I applied it to pci/tegra after rewriting the whole commit log and
+>>> adding a Fixes: tag that you or someone at Nvidia will follow up;
+>>> I will check.
+>>
+>> I had a chat with Vidya last night to understand the issue, so now I
+>> have a good understanding of the problem this has caused, which is very
+>> unfortunate indeed!
+>>
+>> Vidya mentioned that you would like us to get this backported to stable
+>> branches. Please correct me if I am wrong here. We can certainly do
+>> that, but I do have concerns about doing so, for non-Tegra devices
+>> inparticularly, given that this has been around for sometime now. Hence,
+>> I was wondering if we should leave this soak in the mainline for at
+>> least a kernel release cycle before doing so. I really don't want to
+>> break stable for anyone. What are your thoughts on this?
 > 
->   tegra-i2c 7000c400.i2c: timeout waiting for fifo flush
->   tegra-i2c 7000c400.i2c: Failed to initialize i2c controller
+> I looped in Greg to pick his brain, since it is unclear how we should
+> apply the stable kernel rules on this specific patch. Basically, this
+> technically is not a bug, it is just bad code that forces a feature on
+> ALL kernels that compile the PCI Tegra Controller driver in the kernel.
+> I would really really want to have this patch applied to all stable
+> kernels but first as you said it is better to apply it to mainline and
+> check it does not cause any issues on any other arch/platform then
+> we can think about backporting it to stable kernels.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/i2c/busses/i2c-tegra.c | 16 +++++-----------
->  1 file changed, 5 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-> index 9fcb13beeb8f..18f0ceed9f1b 100644
-> --- a/drivers/i2c/busses/i2c-tegra.c
-> +++ b/drivers/i2c/busses/i2c-tegra.c
-> @@ -636,7 +636,7 @@ static void tegra_dvc_init(struct tegra_i2c_dev *i2c_dev)
->  	dvc_writel(i2c_dev, val, DVC_CTRL_REG1);
->  }
->  
-> -static int tegra_i2c_runtime_resume(struct device *dev)
-> +static int __maybe_unused tegra_i2c_runtime_resume(struct device *dev)
->  {
->  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->  	int ret;
-> @@ -665,7 +665,7 @@ static int tegra_i2c_runtime_resume(struct device *dev)
->  	return 0;
->  }
->  
-> -static int tegra_i2c_runtime_suspend(struct device *dev)
-> +static int __maybe_unused tegra_i2c_runtime_suspend(struct device *dev)
->  {
->  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->  
-> @@ -1711,8 +1711,7 @@ static int tegra_i2c_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_PM_SLEEP
-> -static int tegra_i2c_suspend(struct device *dev)
-> +static int __maybe_unused tegra_i2c_suspend(struct device *dev)
->  {
->  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->  
-> @@ -1721,7 +1720,7 @@ static int tegra_i2c_suspend(struct device *dev)
->  	return 0;
->  }
->  
-> -static int tegra_i2c_resume(struct device *dev)
-> +static int __maybe_unused tegra_i2c_resume(struct device *dev)
->  {
->  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->  	int err;
-> @@ -1741,18 +1740,13 @@ static const struct dev_pm_ops tegra_i2c_pm = {
->  			   NULL)
->  };
->  
-> -#define TEGRA_I2C_PM	(&tegra_i2c_pm)
-> -#else
-> -#define TEGRA_I2C_PM	NULL
-> -#endif
-> -
->  static struct platform_driver tegra_i2c_driver = {
->  	.probe   = tegra_i2c_probe,
->  	.remove  = tegra_i2c_remove,
->  	.driver  = {
->  		.name  = "tegra-i2c",
->  		.of_match_table = tegra_i2c_of_match,
-> -		.pm    = TEGRA_I2C_PM,
-> +		.pm    = &tegra_i2c_pm,
->  	},
->  };
->  
+> I am not happy to force Relaxed Ordering on any PCIe device on
+> any platform/arch compiling PCI Tegra controller in, so somehow
+> we must rectify this situation, this is gross as I said before.
 
-Looks good to me.
-
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Yes understood. Let's plan to sync up on this once v5.3 is out and see
+how the land lies. We have an internal issue filed to track this and so
+we should not forget!
 
 Cheers
 Jon
