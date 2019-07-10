@@ -2,49 +2,49 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92BFC644CD
-	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jul 2019 12:00:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBF0B644F9
+	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jul 2019 12:12:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727447AbfGJKAF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 10 Jul 2019 06:00:05 -0400
-Received: from mga17.intel.com ([192.55.52.151]:42541 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725994AbfGJKAF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 10 Jul 2019 06:00:05 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2019 03:00:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,474,1557212400"; 
-   d="scan'208";a="186111514"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
-  by fmsmga001.fm.intel.com with SMTP; 10 Jul 2019 03:00:01 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Wed, 10 Jul 2019 13:00:00 +0300
-Date:   Wed, 10 Jul 2019 13:00:00 +0300
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+        id S1727058AbfGJKMd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 10 Jul 2019 06:12:33 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:51473 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726580AbfGJKMd (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 10 Jul 2019 06:12:33 -0400
+X-Originating-IP: 86.250.200.211
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: maxime.ripard@bootlin.com)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 76E2860006;
+        Wed, 10 Jul 2019 10:12:29 +0000 (UTC)
+Date:   Wed, 10 Jul 2019 12:12:29 +0200
+From:   Maxime Ripard <maxime.ripard@bootlin.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
         Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v1] drm/modes: Skip invalid cmdline mode
-Message-ID: <20190710100000.GZ5942@intel.com>
+Message-ID: <20190710101229.54ufuhmh22dfxclr@flea>
 References: <20190709145151.23086-1-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ahmo6bieusk7uhsj"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190709145151.23086-1-digetx@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: NeoMutt/20180716
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
+
+
+--ahmo6bieusk7uhsj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 On Tue, Jul 09, 2019 at 05:51:51PM +0300, Dmitry Osipenko wrote:
 > The named mode could be invalid and then cmdline parser misses to validate
@@ -52,75 +52,30 @@ On Tue, Jul 09, 2019 at 05:51:51PM +0300, Dmitry Osipenko wrote:
 > this happens is NVIDIA Tegra devices that are using downstream bootloader
 > which adds "video=tegrafb" to the kernel's cmdline and thus upstream Tegra
 > DRM driver fails to probe because of the invalid mode.
-> 
+>
 > Fixes: 3aeeb13d8996 ("drm/modes: Support modes names on the command line")
-
-Is that actually true? This problem has been in the code since forever AFAICS.
-
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/gpu/drm/drm_client_modeset.c | 3 ++-
->  drivers/gpu/drm/drm_modes.c          | 6 ++++++
->  2 files changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index e95fceac8f8b..56d36779d213 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -180,7 +180,8 @@ drm_connector_pick_cmdline_mode(struct drm_connector *connector)
->  
->  create_mode:
->  	mode = drm_mode_create_from_cmdline_mode(connector->dev, cmdline_mode);
-> -	list_add(&mode->head, &connector->modes);
-> +	if (mode)
-> +		list_add(&mode->head, &connector->modes);
 
-That's the same as what I did here
-https://patchwork.freedesktop.org/patch/309223/?series=61781&rev=1
+Applied to drm-misc-next-fixes
 
-But I'd have to rebase that so let's just go with your patch.
+Thanks for figuring this out!
 
->  
->  	return mode;
->  }
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index 910561d4f071..74a5739df506 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -158,6 +158,9 @@ struct drm_display_mode *drm_cvt_mode(struct drm_device *dev, int hdisplay,
->  	int interlace;
->  	u64 tmp;
->  
-> +	if (!hdisplay || !vdisplay)
-> +		return NULL;
-> +
->  	/* allocate the drm_display_mode structure. If failure, we will
->  	 * return directly
->  	 */
-> @@ -392,6 +395,9 @@ drm_gtf_mode_complex(struct drm_device *dev, int hdisplay, int vdisplay,
->  	int hsync, hfront_porch, vodd_front_porch_lines;
->  	unsigned int tmp1, tmp2;
->  
-> +	if (!hdisplay || !vdisplay)
-> +		return NULL;
-> +
+Maxime
 
-These lgtm
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Patch is
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+--ahmo6bieusk7uhsj
+Content-Type: application/pgp-signature; name="signature.asc"
 
->  	drm_mode = drm_mode_create(dev);
->  	if (!drm_mode)
->  		return NULL;
-> -- 
-> 2.22.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Ville Syrjälä
-Intel
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXSW6DQAKCRDj7w1vZxhR
+xUYsAP9EUafm0rr0sX06bl/cIzBTLvcr/5GalKzSZToTJ2kjlwD/aGukUMgjynHS
+9tpGZZ5GnYj8IbRYJWM5g6SBjjc6MA4=
+=8k/L
+-----END PGP SIGNATURE-----
+
+--ahmo6bieusk7uhsj--
