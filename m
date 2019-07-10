@@ -2,108 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE76764429
-	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jul 2019 11:12:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92BFC644CD
+	for <lists+linux-tegra@lfdr.de>; Wed, 10 Jul 2019 12:00:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727497AbfGJJMA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 10 Jul 2019 05:12:00 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:18456 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726580AbfGJJMA (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 10 Jul 2019 05:12:00 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d25abda0000>; Wed, 10 Jul 2019 02:11:54 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 10 Jul 2019 02:11:59 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 10 Jul 2019 02:11:59 -0700
-Received: from [10.26.11.158] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 10 Jul
- 2019 09:11:56 +0000
-Subject: Re: [RESEND PATCH] dmaengine: tegra210-adma: Don't program FIFO
- threshold
-To:     Vinod Koul <vkoul@kernel.org>
-CC:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        Sameer Pujar <spujar@nvidia.com>
-References: <20190705091557.726-1-jonathanh@nvidia.com>
- <20190705130531.GE2911@vkoul-mobl>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <ac13d007-4b42-c3af-70db-de06703eb154@nvidia.com>
-Date:   Wed, 10 Jul 2019 10:11:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1727447AbfGJKAF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 10 Jul 2019 06:00:05 -0400
+Received: from mga17.intel.com ([192.55.52.151]:42541 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725994AbfGJKAF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 10 Jul 2019 06:00:05 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2019 03:00:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,474,1557212400"; 
+   d="scan'208";a="186111514"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+  by fmsmga001.fm.intel.com with SMTP; 10 Jul 2019 03:00:01 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Wed, 10 Jul 2019 13:00:00 +0300
+Date:   Wed, 10 Jul 2019 13:00:00 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1] drm/modes: Skip invalid cmdline mode
+Message-ID: <20190710100000.GZ5942@intel.com>
+References: <20190709145151.23086-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190705130531.GE2911@vkoul-mobl>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562749914; bh=G60ez2mN5dTDYDltN/wrNsRVVYDWXcm1whA8ovlkPNs=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ZXNtHjMmtH0Hlef8wp1D5g7Yq0XQsJrtVHDG0YbCpozGMg8Vuo2nbp6hqeJFttT0D
-         vSbBbztA+OkuvN0IEB7hHgimNP3B3qpK5+QdlhjYYeBmTrHooTsfx4c9lf9xSbtGK3
-         72YCM9er7RBA7WgIRPGDkQYho768LuGaATpt0bAQvLYR0pZNWA/vt+r8KfO7n7QMNx
-         ST1U3ObS9gvhomdNVRk2wbghW1ad4vaKw5skp0A5cgSiTZEDqIyIP1flnAvOuvJyXX
-         R3G3uwxRvjEWm5puTTcvXGiKQSNdGC6JSe8LdHdduLIV63QbImV7aL2nU/4Us4n/VF
-         I+M83IJjBkotQ==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190709145151.23086-1-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 05/07/2019 14:05, Vinod Koul wrote:
-> On 05-07-19, 10:15, Jon Hunter wrote:
->> From: Jonathan Hunter <jonathanh@nvidia.com>
->>
->> The Tegra210 ADMA supports two modes for transferring data to a FIFO
->> which are ...
->>
->> 1. Transfer data to/from the FIFO as soon as a single burst can be
->>    transferred.
->> 2. Transfer data to/from the FIFO based upon FIFO thresholds, where
->>    the FIFO threshold is specified in terms on multiple bursts.
->>
->> Currently, the ADMA driver programs the FIFO threshold values in the
->> FIFO_CTRL register, but never enables the transfer mode that uses
->> these threshold values. Given that these have never been used so far,
->> simplify the ADMA driver by removing the programming of these threshold
->> values.
->>
->> Signed-off-by: Jonathan Hunter <jonathanh@nvidia.com>
->> Acked-by: Thierry Reding <treding@nvidia.com>
->> ---
->>
->> Resending the patch rebased on top next-20190704. I have added Thierry's
->> ACK as well.
+On Tue, Jul 09, 2019 at 05:51:51PM +0300, Dmitry Osipenko wrote:
+> The named mode could be invalid and then cmdline parser misses to validate
+> mode's dimensions, happily adding 0x0 mode as a valid mode. One case where
+> this happens is NVIDIA Tegra devices that are using downstream bootloader
+> which adds "video=tegrafb" to the kernel's cmdline and thus upstream Tegra
+> DRM driver fails to probe because of the invalid mode.
 > 
-> Thanks but this fails as well. I had applied few tegra patches so I
-> suspect that is causing issues now. It would have been nice to have them
-> in series.
+> Fixes: 3aeeb13d8996 ("drm/modes: Support modes names on the command line")
+
+Is that actually true? This problem has been in the code since forever AFAICS.
+
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/gpu/drm/drm_client_modeset.c | 3 ++-
+>  drivers/gpu/drm/drm_modes.c          | 6 ++++++
+>  2 files changed, 8 insertions(+), 1 deletion(-)
 > 
-> Would you rebase on
-> git.kernel.org/pub/scm/linux/kernel/git/vkoul/slave-dma.git next (yeah
-> this is different location, i dont see to push to infradead today)
+> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> index e95fceac8f8b..56d36779d213 100644
+> --- a/drivers/gpu/drm/drm_client_modeset.c
+> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> @@ -180,7 +180,8 @@ drm_connector_pick_cmdline_mode(struct drm_connector *connector)
+>  
+>  create_mode:
+>  	mode = drm_mode_create_from_cmdline_mode(connector->dev, cmdline_mode);
+> -	list_add(&mode->head, &connector->modes);
+> +	if (mode)
+> +		list_add(&mode->head, &connector->modes);
 
-So this patch should apply cleanly on top of the fixes series I sent for
-v5.2 [0] which you merged and is now in mainline. So if I rebase on the
-above, I wondering if it is then going to conflict with mainline? Looks
-like the above branch is based upon v5.2-rc1 and hence the conflict.
+That's the same as what I did here
+https://patchwork.freedesktop.org/patch/309223/?series=61781&rev=1
 
-Cheers
-Jon
+But I'd have to rebase that so let's just go with your patch.
 
-[0] https://patchwork.kernel.org/cover/10946849/
+>  
+>  	return mode;
+>  }
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index 910561d4f071..74a5739df506 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -158,6 +158,9 @@ struct drm_display_mode *drm_cvt_mode(struct drm_device *dev, int hdisplay,
+>  	int interlace;
+>  	u64 tmp;
+>  
+> +	if (!hdisplay || !vdisplay)
+> +		return NULL;
+> +
+>  	/* allocate the drm_display_mode structure. If failure, we will
+>  	 * return directly
+>  	 */
+> @@ -392,6 +395,9 @@ drm_gtf_mode_complex(struct drm_device *dev, int hdisplay, int vdisplay,
+>  	int hsync, hfront_porch, vodd_front_porch_lines;
+>  	unsigned int tmp1, tmp2;
+>  
+> +	if (!hdisplay || !vdisplay)
+> +		return NULL;
+> +
+
+These lgtm
+
+Patch is
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+>  	drm_mode = drm_mode_create(dev);
+>  	if (!drm_mode)
+>  		return NULL;
+> -- 
+> 2.22.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
-nvpublic
+Ville Syrjälä
+Intel
