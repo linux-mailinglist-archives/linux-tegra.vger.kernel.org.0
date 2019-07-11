@@ -2,69 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66F2365E70
-	for <lists+linux-tegra@lfdr.de>; Thu, 11 Jul 2019 19:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E9965F8C
+	for <lists+linux-tegra@lfdr.de>; Thu, 11 Jul 2019 20:36:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728640AbfGKRZb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 11 Jul 2019 13:25:31 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:34197 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726213AbfGKRZa (ORCPT
+        id S1729246AbfGKSfl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 11 Jul 2019 14:35:41 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:34776 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729220AbfGKSfl (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 11 Jul 2019 13:25:30 -0400
-Received: by mail-lf1-f68.google.com with SMTP id b29so4621864lfq.1;
-        Thu, 11 Jul 2019 10:25:28 -0700 (PDT)
+        Thu, 11 Jul 2019 14:35:41 -0400
+Received: by mail-lf1-f65.google.com with SMTP id b29so4752745lfq.1;
+        Thu, 11 Jul 2019 11:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2YMfHUBjXHpo+j06pyniNllvZMRnbJcOo4hnaLC71sE=;
-        b=ApmKnjpVGrYMZYw9nmXLaN19GMQAPjPv7W7548PsMxVOiIztXhPoNpajU9makN5x2H
-         OU0g1aGH+1kMbq6R3KOSnFMvkR8XhQ2jFY2cP+EMCN/4OFxDNNoOwETRn6/Xy+NtZtX4
-         YKd4yvHwa1C/idpQfxRbeKHt3PemDXwQi4pah8oRvYDoaKqVfPRMzg0UDVwEfg5k4mUN
-         mDTv06DQjk2qoQ+t7NqHgN5e1oupNpskmuphiTmuBMeSlkwl8o6yFHkJAk5PuqFp0gHM
-         aTgj3TNmg6D7mj6G4ID7Ezg4KvEfhTp/OlYXv/nFMYo3JEp4+AtKyQmtxC3zmv1PZApN
-         IqIw==
+        bh=wKMI5ifbIPZAJbFiPZeuzbDh42mNlq1JCxAaFNXFBZM=;
+        b=lGRaSTp/kJmMQY4/UXQfzWQxN6kJ37RANV2EgmG5cyeA7hB9S5qJ9Qd+peZ1PkXaoC
+         vpbuUibVs/kHzgURy5fDIC7k3opQL4RMEF/iBidMYYsy86PfYNsc/6QvxHJOjEQO47gm
+         cMf7KkEQhOvUtQ5W+GJU0BB0iGzAOSkuVSs3yzs/RDQBTY19HTfu1AO9y90yNp5Sy+fe
+         1JwYhPkIVp3/iRcOBuzOnUeRWmtt3HnuVsZC/LJdG9cs5FK40wDFJLQdEZtYmeDL2wST
+         29sNSEOJyWgQPekEwCcgUcm0TXSE0mDLnIMBlWCnLYEoK4ie/544Q0pSfBKvE/3xnFfY
+         70rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=2YMfHUBjXHpo+j06pyniNllvZMRnbJcOo4hnaLC71sE=;
-        b=luE1FzP7fw951kVwYtvGw391QaIPfWDy6yMp5SznCzF8GaGtUDHD5M+BH0Uhbi9WAI
-         IZzo8KYEX/0lJKUOKnJrKsI8HC4LAI99wqCSorLGNn6kv1xsU2z0exhQndJ8gr6eMPCs
-         DDmd/mLT3z6I1I0CxArymII0UblBRnOoYg2spXFni8QbQC6aZu+Ah/w6GwZ+SRSVf/NK
-         A7cfS6AgT+KNlb3/GadnhseUiQZmPC8S2gZoSQjl58LRjHLy5QASMvJ/ANCCUJw9k/Z2
-         DIFf+3oZR58oFCMDmnIEiqV+UfDHeAlOIvbYYjSet6Exbkujf/Wu5PmDfCkUY0G/fnz9
-         l0iQ==
-X-Gm-Message-State: APjAAAUBI6g4wTozkiQscO5gs9rqK41juFEEnxWH1MG/+xWPdxkS3jfS
-        b9WQYCD0V5ng9+qJw+kFgLLBBPmo
-X-Google-Smtp-Source: APXvYqzfDDUhalkCcqE0q9tb+NTPSe5zxtMtKXFg82as9QK71ou16O9M+55H/j8aZ6Ikhc++VBbZ9A==
-X-Received: by 2002:ac2:52b7:: with SMTP id r23mr2490854lfm.120.1562865927145;
-        Thu, 11 Jul 2019 10:25:27 -0700 (PDT)
+        bh=wKMI5ifbIPZAJbFiPZeuzbDh42mNlq1JCxAaFNXFBZM=;
+        b=fZwXRBgNWwfbIr09DOj0Ci3af3ivDMrn764bY/FK5f1iwY37Ox21wM2o9JDdYxV6kZ
+         hfsxD84tYB5sOtFh298QJIGjMG/j7R3DIZMc/8VKEjh3z3nsYJjK9r7S7ngBULYxwWWo
+         NKaTXLGAtFWWsaWSVVgHkpLi/C79TIEnl6RufMiXrmGftAPd9lC2LDLY3doDBuRdYhlk
+         VHhxq/WEkZF6LEQ84RxM6ch+2Q6CoxRz3aPOrUCnCPcpHzQRS1PFydaOgTVGNOWxVgKu
+         7Bo3EcAoZ0ecg+ygxu+ncimu/M3eRF2Ht+fNNJHlSOR13V9e8rAiqq+Ye7xUTC3gVDfg
+         A3sQ==
+X-Gm-Message-State: APjAAAVyZo/8+8/87mzIlp4b5Hr1cS0FJ+f+nNs10Ktm/dO55KvNYXVo
+        K81JEja19vAl93V6koFEg2UVebSW
+X-Google-Smtp-Source: APXvYqzQQCneYJZEHs5X7hJTQTW9sgutGejskcGUh3zXo27THqReH+bSYb5at7FsIE1521mVmsfXAA==
+X-Received: by 2002:ac2:50cd:: with SMTP id h13mr2686090lfm.36.1562870137666;
+        Thu, 11 Jul 2019 11:35:37 -0700 (PDT)
 Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id b1sm1084553ljj.26.2019.07.11.10.25.25
+        by smtp.googlemail.com with ESMTPSA id n24sm1111590ljc.25.2019.07.11.11.35.36
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Jul 2019 10:25:26 -0700 (PDT)
-Subject: Re: [PATCH v2 2/6] ARM: tegra: Expose functions required for cpuidle
- driver
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        Thu, 11 Jul 2019 11:35:36 -0700 (PDT)
+Subject: Re: [PATCH v2 3/6] cpuidle: Add unified driver for NVIDIA Tegra SoCs
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Daniel Lezcano <daniel.lezcano@linaro.org>
 Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20190711031312.10038-1-digetx@gmail.com>
- <20190711031312.10038-3-digetx@gmail.com>
- <bc6e96be-91ee-5d94-cbc2-46d2e2f25bce@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <514c1cd6-2180-b55f-dacc-f0e08d9a366f@gmail.com>
-Date:   Thu, 11 Jul 2019 20:25:25 +0300
+ <20190711031312.10038-4-digetx@gmail.com>
+Message-ID: <c54c43fd-9b11-4aa8-3acf-d2260d0fca4a@gmail.com>
+Date:   Thu, 11 Jul 2019 21:35:36 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <bc6e96be-91ee-5d94-cbc2-46d2e2f25bce@nvidia.com>
+In-Reply-To: <20190711031312.10038-4-digetx@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -73,194 +71,210 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-11.07.2019 15:42, Jon Hunter пишет:
+11.07.2019 6:13, Dmitry Osipenko пишет:
+> The new driver is based on the old CPU Idle drivers that are removed now
+> from arm/arch/mach-tegra/ directory. Those removed drivers were reworked
+> and squashed into a single unified driver that covers multiple hardware
+> generations, starting from Tegra20 and ending with Tegra124.
 > 
-> On 11/07/2019 04:13, Dmitry Osipenko wrote:
->> The upcoming unified CPUIDLE driver will be added to the drivers/cpuidle/
->> directory and it will require all these Tegra PM-core functions.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  arch/arm/mach-tegra/Makefile  |  2 +-
->>  arch/arm/mach-tegra/platsmp.c |  2 --
->>  arch/arm/mach-tegra/pm.c      | 16 +++++++---------
->>  arch/arm/mach-tegra/pm.h      |  3 ---
->>  arch/arm/mach-tegra/sleep.h   |  1 -
->>  include/linux/clk/tegra.h     | 13 +++++++++++++
->>  include/soc/tegra/pm.h        | 28 ++++++++++++++++++++++++++++
->>  7 files changed, 49 insertions(+), 16 deletions(-)
->>
->> diff --git a/arch/arm/mach-tegra/Makefile b/arch/arm/mach-tegra/Makefile
->> index 5d93a0b36866..27bd5d9865e3 100644
->> --- a/arch/arm/mach-tegra/Makefile
->> +++ b/arch/arm/mach-tegra/Makefile
->> @@ -13,7 +13,7 @@ obj-$(CONFIG_ARCH_TEGRA_2x_SOC)		+= pm-tegra20.o
->>  obj-$(CONFIG_ARCH_TEGRA_3x_SOC)		+= sleep-tegra30.o
->>  obj-$(CONFIG_ARCH_TEGRA_3x_SOC)		+= pm-tegra30.o
->>  obj-$(CONFIG_SMP)			+= platsmp.o
->> -obj-$(CONFIG_HOTPLUG_CPU)               += hotplug.o
->> +obj-y					+= hotplug.o
->>  
->>  obj-$(CONFIG_ARCH_TEGRA_114_SOC)	+= sleep-tegra30.o
->>  obj-$(CONFIG_ARCH_TEGRA_114_SOC)	+= pm-tegra30.o
->> diff --git a/arch/arm/mach-tegra/platsmp.c b/arch/arm/mach-tegra/platsmp.c
->> index e6911a14c096..c8a63719a143 100644
->> --- a/arch/arm/mach-tegra/platsmp.c
->> +++ b/arch/arm/mach-tegra/platsmp.c
->> @@ -183,8 +183,6 @@ const struct smp_operations tegra_smp_ops __initconst = {
->>  	.smp_prepare_cpus	= tegra_smp_prepare_cpus,
->>  	.smp_secondary_init	= tegra_secondary_init,
->>  	.smp_boot_secondary	= tegra_boot_secondary,
->> -#ifdef CONFIG_HOTPLUG_CPU
->>  	.cpu_kill		= tegra_cpu_kill,
->>  	.cpu_die		= tegra_cpu_die,
->> -#endif
->>  };
->> diff --git a/arch/arm/mach-tegra/pm.c b/arch/arm/mach-tegra/pm.c
->> index 6aaacb5757e1..f9c9bce9e15d 100644
->> --- a/arch/arm/mach-tegra/pm.c
->> +++ b/arch/arm/mach-tegra/pm.c
->> @@ -123,11 +123,9 @@ void tegra_clear_cpu_in_lp2(void)
->>  	spin_unlock(&tegra_lp2_lock);
->>  }
->>  
->> -bool tegra_set_cpu_in_lp2(void)
->> +void tegra_set_cpu_in_lp2(void)
->>  {
->>  	int phy_cpu_id = cpu_logical_map(smp_processor_id());
->> -	bool last_cpu = false;
->> -	cpumask_t *cpu_lp2_mask = tegra_cpu_lp2_mask;
->>  	u32 *cpu_in_lp2 = tegra_cpu_lp2_mask;
->>  
->>  	spin_lock(&tegra_lp2_lock);
->> @@ -135,11 +133,7 @@ bool tegra_set_cpu_in_lp2(void)
->>  	BUG_ON((*cpu_in_lp2 & BIT(phy_cpu_id)));
->>  	*cpu_in_lp2 |= BIT(phy_cpu_id);
->>  
->> -	if ((phy_cpu_id == 0) && cpumask_equal(cpu_lp2_mask, cpu_online_mask))
->> -		last_cpu = true;
->> -
->>  	spin_unlock(&tegra_lp2_lock);
->> -	return last_cpu;
->>  }
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  arch/arm/mach-tegra/tegra.c     |   4 +
+>  drivers/cpuidle/Kconfig.arm     |   8 +
+>  drivers/cpuidle/Makefile        |   1 +
+>  drivers/cpuidle/cpuidle-tegra.c | 304 ++++++++++++++++++++++++++++++++
+>  include/soc/tegra/cpuidle.h     |   4 +
+>  5 files changed, 321 insertions(+)
+>  create mode 100644 drivers/cpuidle/cpuidle-tegra.c
 > 
-> I think that the commit message should describe what is going on here or
-> this should be a separate change.
+> diff --git a/arch/arm/mach-tegra/tegra.c b/arch/arm/mach-tegra/tegra.c
+> index d9237769a37c..f1ce2857a251 100644
+> --- a/arch/arm/mach-tegra/tegra.c
+> +++ b/arch/arm/mach-tegra/tegra.c
+> @@ -36,6 +36,7 @@
+>  #include <asm/mach/arch.h>
+>  #include <asm/mach/time.h>
+>  #include <asm/mach-types.h>
+> +#include <asm/psci.h>
+>  #include <asm/setup.h>
+>  
+>  #include "board.h"
+> @@ -92,6 +93,9 @@ static void __init tegra_dt_init_late(void)
+>  	if (IS_ENABLED(CONFIG_ARCH_TEGRA_2x_SOC) &&
+>  	    of_machine_is_compatible("nvidia,tegra20"))
+>  		platform_device_register_simple("tegra20-cpufreq", -1, NULL, 0);
+> +
+> +	if (IS_ENABLED(CONFIG_ARM_TEGRA_CPUIDLE) && !psci_smp_available())
+> +		platform_device_register_simple("tegra-cpuidle", -1, NULL, 0);
+>  }
+>  
+>  static const char * const tegra_dt_board_compat[] = {
+> diff --git a/drivers/cpuidle/Kconfig.arm b/drivers/cpuidle/Kconfig.arm
+> index 48cb3d4bb7d1..d90861361f1d 100644
+> --- a/drivers/cpuidle/Kconfig.arm
+> +++ b/drivers/cpuidle/Kconfig.arm
+> @@ -76,3 +76,11 @@ config ARM_MVEBU_V7_CPUIDLE
+>  	depends on ARCH_MVEBU && !ARM64
+>  	help
+>  	  Select this to enable cpuidle on Armada 370, 38x and XP processors.
+> +
+> +config ARM_TEGRA_CPUIDLE
+> +	bool "CPU Idle Driver for NVIDIA Tegra SoCs"
+> +	depends on ARCH_TEGRA && !ARM64
+> +	select ARCH_NEEDS_CPU_IDLE_COUPLED if SMP
+> +	select ARM_CPU_SUSPEND
+> +	help
+> +	  Select this to enable cpuidle for NVIDIA Tegra20/30/114/124 SoCs.
+> diff --git a/drivers/cpuidle/Makefile b/drivers/cpuidle/Makefile
+> index 9d7176cee3d3..470d17fa8746 100644
+> --- a/drivers/cpuidle/Makefile
+> +++ b/drivers/cpuidle/Makefile
+> @@ -20,6 +20,7 @@ obj-$(CONFIG_ARM_U8500_CPUIDLE)         += cpuidle-ux500.o
+>  obj-$(CONFIG_ARM_AT91_CPUIDLE)          += cpuidle-at91.o
+>  obj-$(CONFIG_ARM_EXYNOS_CPUIDLE)        += cpuidle-exynos.o
+>  obj-$(CONFIG_ARM_CPUIDLE)		+= cpuidle-arm.o
+> +obj-$(CONFIG_ARM_TEGRA_CPUIDLE)		+= cpuidle-tegra.o
+>  
+>  ###############################################################################
+>  # MIPS drivers
+> diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
+> new file mode 100644
+> index 000000000000..54974cd2255f
+> --- /dev/null
+> +++ b/drivers/cpuidle/cpuidle-tegra.c
+> @@ -0,0 +1,304 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * CPU idle driver for Tegra CPUs
+> + *
+> + * Copyright (c) 2010-2013, NVIDIA Corporation.
+> + * Copyright (c) 2011 Google, Inc.
+> + * Author: Colin Cross <ccross@android.com>
+> + *         Gary King <gking@nvidia.com>
+> + *
+> + * Rework for 3.3 by Peter De Schrijver <pdeschrijver@nvidia.com>
+> + *
+> + * Tegra20/124 driver unification by Dmitry Osipenko <digetx@gmail.com>
+> + */
+> +
+> +#include <linux/cpuidle.h>
+> +#include <linux/cpumask.h>
+> +#include <linux/cpu_pm.h>
+> +#include <linux/errno.h>
+> +#include <linux/ktime.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/types.h>
+> +
+> +#include <linux/clk/tegra.h>
+> +#include <linux/firmware/trusted_foundations.h>
+> +
+> +#include <soc/tegra/cpuidle.h>
+> +#include <soc/tegra/flowctrl.h>
+> +#include <soc/tegra/fuse.h>
+> +#include <soc/tegra/pm.h>
+> +
+> +#include <asm/cpuidle.h>
+> +#include <asm/firmware.h>
+> +#include <asm/smp_plat.h>
+> +#include <asm/suspend.h>
+> +
+> +#define TEGRA_C1		0
+> +#define TEGRA_C7		1
+> +#define TEGRA_CC6		2
+> +
+> +static atomic_t tegra_idle_barrier;
+> +
+> +static inline bool tegra_cpuidle_using_firmware(void)
+> +{
+> +	return firmware_ops->prepare_idle && firmware_ops->do_idle;
+> +}
+> +
+> +static int tegra_shutdown_secondary_cpu(unsigned long cpu)
+> +{
+> +	tegra_cpu_die(cpu);
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int tegra_await_secondary_cpus_shutdown(void)
+> +{
+> +	ktime_t timeout = ktime_add_ms(ktime_get(), 1);
+> +
+> +	/*
+> +	 * The boot CPU shall await for the secondaries shutdown in order
+> +	 * to power-off CPU's cluster safely.
+> +	 */
+> +	do {
+> +		if (tegra_cpu_rail_off_ready())
+> +			return 0;
+> +
+> +	} while (ktime_compare(ktime_get(), timeout) < 0);
+> +
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +static void tegra_wake_up_secondary_cpus(void)
+> +{
+> +	unsigned int cpu, lcpu;
+> +
+> +	for_each_cpu(lcpu, cpu_online_mask) {
+> +		cpu = cpu_logical_map(lcpu);
+> +
+> +		if (cpu > 0) {
+> +			tegra_enable_cpu_clock(cpu);
+> +			tegra_cpu_out_of_reset(cpu);
+> +			flowctrl_write_cpu_halt(cpu, 0);
+> +		}
+> +	}
+> +}
+> +
+> +static int tegra_cpuidle_cc6_enter(void)
+> +{
+> +	int err;
+> +
+> +	err = tegra_await_secondary_cpus_shutdown();
+> +	if (err)
+> +		return err;
+> +
+> +	err = tegra_idle_lp2_last();
+> +
+> +	tegra_wake_up_secondary_cpus();
+> +
+> +	return err;
+> +}
+> +
+> +static int tegra_cpuidle_c7_enter(void)
+> +{
+> +	int err;
+> +
+> +	if (tegra_cpuidle_using_firmware()) {
+> +		err = call_firmware_op(prepare_idle, TF_PM_MODE_LP2_NOFLUSH_L2);
+> +		if (err)
+> +			return err;
+> +
+> +		return call_firmware_op(do_idle, 0);
+> +	}
+> +
+> +	return cpu_suspend(0, tegra30_sleep_cpu_secondary_finish);
+> +}
+> +
+> +static int tegra_cpuidle_enter(struct cpuidle_device *dev,
+> +			       int index, unsigned int cpu)
+> +{
+> +	int err;
+> +
+> +	local_fiq_disable();
+> +	tegra_set_cpu_in_lp2();
+> +	cpu_pm_enter();
+> +
+> +	switch (index) {
+> +	case TEGRA_C7:
+> +		err = tegra_cpuidle_c7_enter();
+> +		break;
+> +	case TEGRA_CC6:
+> +		cpuidle_coupled_parallel_barrier(dev, &tegra_idle_barrier);
 
-Indeed, it could be not very obvious what's going on here without a
-thorough review. I'll factor out all these minor changes into separate
-commits.
-
-In particular there is no need to know whether CPU is the "last_cpu" for
-the new driver because CPU0 is always the "last" since it awaits for the
-secondaries in the coupled state.
-
->>  static int tegra_sleep_cpu(unsigned long v2p)
->> @@ -195,14 +189,16 @@ static void tegra_pm_set(enum tegra_suspend_mode mode)
->>  	tegra_pmc_enter_suspend_mode(mode);
->>  }
->>  
->> -void tegra_idle_lp2_last(void)
->> +int tegra_idle_lp2_last(void)
->>  {
->> +	int err;
->> +
->>  	tegra_pm_set(TEGRA_SUSPEND_LP2);
->>  
->>  	cpu_cluster_pm_enter();
->>  	suspend_cpu_complex();
->>  
->> -	cpu_suspend(PHYS_OFFSET - PAGE_OFFSET, &tegra_sleep_cpu);
->> +	err = cpu_suspend(PHYS_OFFSET - PAGE_OFFSET, &tegra_sleep_cpu);
->>  
->>  	/*
->>  	 * Resume L2 cache if it wasn't re-enabled early during resume,
->> @@ -214,6 +210,8 @@ void tegra_idle_lp2_last(void)
->>  
->>  	restore_cpu_complex();
->>  	cpu_cluster_pm_exit();
->> +
->> +	return err;
->>  }
->>  
->>  enum tegra_suspend_mode tegra_pm_validate_suspend_mode(
->> diff --git a/arch/arm/mach-tegra/pm.h b/arch/arm/mach-tegra/pm.h
->> index 1e51a9b636eb..81525f5f4a44 100644
->> --- a/arch/arm/mach-tegra/pm.h
->> +++ b/arch/arm/mach-tegra/pm.h
->> @@ -23,9 +23,6 @@ void tegra20_sleep_core_init(void);
->>  void tegra30_lp1_iram_hook(void);
->>  void tegra30_sleep_core_init(void);
->>  
->> -void tegra_clear_cpu_in_lp2(void);
->> -bool tegra_set_cpu_in_lp2(void);
->> -void tegra_idle_lp2_last(void);
->>  extern void (*tegra_tear_down_cpu)(void);
->>  
->>  #ifdef CONFIG_PM_SLEEP
->> diff --git a/arch/arm/mach-tegra/sleep.h b/arch/arm/mach-tegra/sleep.h
->> index d219872b7546..0d9956e9a8ea 100644
->> --- a/arch/arm/mach-tegra/sleep.h
->> +++ b/arch/arm/mach-tegra/sleep.h
->> @@ -124,7 +124,6 @@ void tegra30_hotplug_shutdown(void);
->>  #endif
->>  
->>  void tegra20_tear_down_cpu(void);
->> -int tegra30_sleep_cpu_secondary_finish(unsigned long);
->>  void tegra30_tear_down_cpu(void);
->>  
->>  #endif
->> diff --git a/include/linux/clk/tegra.h b/include/linux/clk/tegra.h
->> index b8aef62cc3f5..cf0f2cb5e109 100644
->> --- a/include/linux/clk/tegra.h
->> +++ b/include/linux/clk/tegra.h
->> @@ -108,6 +108,19 @@ static inline void tegra_cpu_clock_resume(void)
->>  
->>  	tegra_cpu_car_ops->resume();
->>  }
->> +#else
->> +static inline bool tegra_cpu_rail_off_ready(void)
->> +{
->> +	return false;
->> +}
->> +
->> +static inline void tegra_cpu_clock_suspend(void)
->> +{
->> +}
->> +
->> +static inline void tegra_cpu_clock_resume(void)
->> +{
->> +}
->>  #endif
->>  
->>  extern void tegra210_xusb_pll_hw_control_enable(void);
->> diff --git a/include/soc/tegra/pm.h b/include/soc/tegra/pm.h
->> index 951fcd738d55..fa18c2df5028 100644
->> --- a/include/soc/tegra/pm.h
->> +++ b/include/soc/tegra/pm.h
->> @@ -20,6 +20,12 @@ tegra_pm_validate_suspend_mode(enum tegra_suspend_mode mode);
->>  
->>  /* low-level resume entry point */
->>  void tegra_resume(void);
->> +
->> +int tegra30_sleep_cpu_secondary_finish(unsigned long arg);
->> +void tegra_clear_cpu_in_lp2(void);
->> +void tegra_set_cpu_in_lp2(void);
->> +int tegra_idle_lp2_last(void);
->> +void tegra_cpu_die(unsigned int cpu);
->>  #else
->>  static inline enum tegra_suspend_mode
->>  tegra_pm_validate_suspend_mode(enum tegra_suspend_mode mode)
->> @@ -30,6 +36,28 @@ tegra_pm_validate_suspend_mode(enum tegra_suspend_mode mode)
->>  static inline void tegra_resume(void)
->>  {
->>  }
->> +
->> +static inline int tegra30_sleep_cpu_secondary_finish(unsigned long arg)
->> +{
->> +	return -1;
->> +}
-> 
-> -ENOTSUPP?
-
-Good point, thanks!
+I realized that this is not very correct. We still need to do a proper
+barrier with SGI checking in order to bail out if other CPU sent IPI
+during of the awaiting for a coupled barrier to avoid the overhead of
+unnecessary power-gating. Will correct that in the next revision.
