@@ -2,128 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25F8266B5D
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jul 2019 13:10:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB17F67007
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jul 2019 15:27:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbfGLLKl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 12 Jul 2019 07:10:41 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:16905 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726138AbfGLLKl (ORCPT
+        id S1727154AbfGLN1G (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 12 Jul 2019 09:27:06 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:9719 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726466AbfGLN1G (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 12 Jul 2019 07:10:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d286aae0001>; Fri, 12 Jul 2019 04:10:38 -0700
+        Fri, 12 Jul 2019 09:27:06 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d288aac0002>; Fri, 12 Jul 2019 06:27:10 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 12 Jul 2019 04:10:40 -0700
+  Fri, 12 Jul 2019 06:27:05 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 12 Jul 2019 04:10:40 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 12 Jul
- 2019 11:10:39 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 12 Jul 2019 11:10:39 +0000
-Received: from audio.nvidia.com (Not Verified[10.24.34.185]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d286aae0002>; Fri, 12 Jul 2019 04:10:39 -0700
-From:   Sameer Pujar <spujar@nvidia.com>
-To:     <vkoul@kernel.org>, <jonathanh@nvidia.com>, <ldewangan@nvidia.com>
-CC:     <thierry.reding@gmail.com>, <dmaengine@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>
-Subject: [PATCH v2] dmaengine: tegra210-adma: fix transfer failure
-Date:   Fri, 12 Jul 2019 16:40:30 +0530
-Message-ID: <1562929830-29344-1-git-send-email-spujar@nvidia.com>
-X-Mailer: git-send-email 2.7.4
+        by hqpgpgate101.nvidia.com on Fri, 12 Jul 2019 06:27:05 -0700
+Received: from [10.26.11.231] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 12 Jul
+ 2019 13:27:00 +0000
+Subject: Re: [PATCH 5.1 000/138] 5.1.18-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>, <j-keerthy@ti.com>
+References: <20190712121628.731888964@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <4dae64c8-046e-3647-52d6-43362e986d21@nvidia.com>
+Date:   Fri, 12 Jul 2019 14:26:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20190712121628.731888964@linuxfoundation.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562929838; bh=Bpqg9THc564UW6jjpjAHE0A0InKGoedygKCtxONKZcs=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:Content-Type;
-        b=eGt/lEK4ZiNSFr3+bBHWDszzCsqjqSQOqjI8cZnUZtSOXysZKzpFj5TBoaaTDYhIb
-         r9Es5jpJS0aK9wN0Tsu9ZHR7SEmuJob8WhC9oBOZf40OR0dBgPU9zm5PXHkmvjvC4L
-         b6uUfUeprEkuyIr125i+VTE7fPOiNWBEQaGhCyQ03ejxFd6l+XijouYHXHWBAZLFJd
-         dxivpdCPnhlHDxcLgVv/Nc1Ithl5K6InIWk1rVo6jt1cFlCfj1xAYSgAUz5KAgzykk
-         KCuSV7Htjn3cI6snTvbg+wWSgfzXoJj8JWmc3F4EBEZ/QYlT1l61JbzlrHC+0rQdJR
-         eX5OYALgjMZfA==
+        t=1562938030; bh=Q2Y5HNhu6cRQzurLvAkU7Yps/temzPw4REY6pADXcGM=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=WD1DO2vCZ3Ma+umQF1ECtY45Q6y+3121pMBxGSss+VdPeC+W1MTaGwckblX3CG35G
+         soEs6MgHX2CjBO2wONAekRsXo/Ue0MDpk+BDQm+2HgvnbGuB0HUgy34M3+2pE+TrB+
+         K1HpAXeQItji+so6783+saemJcF7ZBmhV+scRb8iDwp9eYlxUJ1jRuZJc3zLUiEmN5
+         xXR2VvqKXNo03NQyNnu36Rx+R/uYbgeQe1MlkhzCidRlH0N5udEMQKnf94FaipY8Ye
+         b9ow2uwjGRAnikK3m8A9HOhs2mwM50NQ/S/lJB5EEu+WkGm2HxDN7SEvDi8TVbWFas
+         b1Zzs/Vx6PFGA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From Tegra186 onwards OUTSTANDING_REQUESTS field is added in channel
-configuration register(bits 7:4) which defines the maximum number of reads
-from the source and writes to the destination that may be outstanding at
-any given point of time. This field must be programmed with a value
-between 1 and 8. A value of 0 will prevent any transfers from happening.
+Hi Greg,
 
-Thus added 'ch_pending_req' member in chip data structure and the same is
-populated with maximum allowed pending requests. Since the field is not
-applicable to Tegra210, mentioned bit fields are unused and hence the
-member is initialized with 0. For Tegra186, by default program this field
-with the maximum permitted value of 8.
+On 12/07/2019 13:17, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.1.18 release.
+> There are 138 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Sun 14 Jul 2019 12:14:36 PM UTC.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.18-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
+> 
+> -------------
+> Pseudo-Shortlog of commits:
 
-Fixes: 433de642a76c ("dmaengine: tegra210-adma: add support for Tegra186/Tegra194")
+...
 
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
----
- drivers/dma/tegra210-adma.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> Keerthy <j-keerthy@ti.com>
+>     ARM: dts: dra71x: Disable usb4_tm target module
 
-diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-index 2805853..5ab4e3a9 100644
---- a/drivers/dma/tegra210-adma.c
-+++ b/drivers/dma/tegra210-adma.c
-@@ -74,6 +74,8 @@
- 				    TEGRA186_ADMA_CH_FIFO_CTRL_TXSIZE(3)    | \
- 				    TEGRA186_ADMA_CH_FIFO_CTRL_RXSIZE(3))
- 
-+#define TEGRA186_DMA_MAX_PENDING_REQS			8
-+
- #define ADMA_CH_REG_FIELD_VAL(val, mask, shift)	(((val) & mask) << shift)
- 
- struct tegra_adma;
-@@ -85,6 +87,7 @@ struct tegra_adma;
-  * @ch_req_tx_shift: Register offset for AHUB transmit channel select.
-  * @ch_req_rx_shift: Register offset for AHUB receive channel select.
-  * @ch_base_offset: Register offset of DMA channel registers.
-+ * @ch_pending_req: Outstaning DMA requests for a channel.
-  * @ch_fifo_ctrl: Default value for channel FIFO CTRL register.
-  * @ch_req_mask: Mask for Tx or Rx channel select.
-  * @ch_req_max: Maximum number of Tx or Rx channels available.
-@@ -98,6 +101,7 @@ struct tegra_adma_chip_data {
- 	unsigned int ch_req_tx_shift;
- 	unsigned int ch_req_rx_shift;
- 	unsigned int ch_base_offset;
-+	unsigned int ch_pending_req;
- 	unsigned int ch_fifo_ctrl;
- 	unsigned int ch_req_mask;
- 	unsigned int ch_req_max;
-@@ -602,6 +606,7 @@ static int tegra_adma_set_xfer_params(struct tegra_adma_chan *tdc,
- 			 ADMA_CH_CTRL_FLOWCTRL_EN;
- 	ch_regs->config |= cdata->adma_get_burst_config(burst_size);
- 	ch_regs->config |= ADMA_CH_CONFIG_WEIGHT_FOR_WRR(1);
-+	ch_regs->config |= cdata->ch_pending_req;
- 	ch_regs->fifo_ctrl = cdata->ch_fifo_ctrl;
- 	ch_regs->tc = desc->period_len & ADMA_CH_TC_COUNT_MASK;
- 
-@@ -786,6 +791,7 @@ static const struct tegra_adma_chip_data tegra210_chip_data = {
- 	.ch_req_tx_shift	= 28,
- 	.ch_req_rx_shift	= 24,
- 	.ch_base_offset		= 0,
-+	.ch_pending_req		= 0,
- 	.ch_fifo_ctrl		= TEGRA210_FIFO_CTRL_DEFAULT,
- 	.ch_req_mask		= 0xf,
- 	.ch_req_max		= 10,
-@@ -800,6 +806,7 @@ static const struct tegra_adma_chip_data tegra186_chip_data = {
- 	.ch_req_tx_shift	= 27,
- 	.ch_req_rx_shift	= 22,
- 	.ch_base_offset		= 0x10000,
-+	.ch_pending_req		= (TEGRA186_DMA_MAX_PENDING_REQS << 4),
- 	.ch_fifo_ctrl		= TEGRA186_FIFO_CTRL_DEFAULT,
- 	.ch_req_mask		= 0x1f,
- 	.ch_req_max		= 20,
+...
+
+> Keerthy <j-keerthy@ti.com>
+>     ARM: dts: dra76x: Disable usb4_tm target module
+
+The above commits are generating the following compilation errors for
+ARM ...
+
+Error:
+/dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra71x.dtsi:15.1-9
+Label or path usb4_tm not found
+
+Error:
+/dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra76x.dtsi:89.1-9
+Label or path usb4_tm not found
+
+After reverting these two, I no longer see these errors.
+
+Cheers,
+Jon
+
 -- 
-2.7.4
-
+nvpublic
