@@ -2,111 +2,141 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 998C06730E
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jul 2019 18:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB8F467338
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jul 2019 18:23:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726977AbfGLQKg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 12 Jul 2019 12:10:36 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:16721 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726907AbfGLQKg (ORCPT
+        id S1727077AbfGLQXu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 12 Jul 2019 12:23:50 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39768 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726977AbfGLQXu (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 12 Jul 2019 12:10:36 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d28b1010000>; Fri, 12 Jul 2019 09:10:41 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 12 Jul 2019 09:10:35 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 12 Jul 2019 09:10:35 -0700
-Received: from [10.26.11.231] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 12 Jul
- 2019 16:10:32 +0000
-Subject: Re: [PATCH 5.2 00/61] 5.2.1-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-kernel@vger.kernel.org>, <torvalds@linux-foundation.org>,
-        <akpm@linux-foundation.org>, <linux@roeck-us.net>,
-        <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190712121620.632595223@linuxfoundation.org>
- <a1ae16a7-e8f7-b6fc-df4e-46079bebf9b3@nvidia.com>
- <20190712153108.GD13940@kroah.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <a0d871e7-a68c-5c77-1389-5b9a86f93ac9@nvidia.com>
-Date:   Fri, 12 Jul 2019 17:10:30 +0100
+        Fri, 12 Jul 2019 12:23:50 -0400
+Received: by mail-lj1-f195.google.com with SMTP id v18so9888775ljh.6;
+        Fri, 12 Jul 2019 09:23:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8YX2LaoIpYXot2QMtvHwy8R8N2TUvBM9RDNiIQ4cQ7Q=;
+        b=nltokVSSN/p/Xkq4jRStuN4Lk6uX7ML12OYVy4WMZHboGjVH5zflEh5vOBKm3BAFs1
+         7N0nc0uuadGFPHi7NcI6dYRDU+LyFG6K6hsnQF0mGD/QC9lY8Xnr0UPWBwayvB8V4e+e
+         hLON9HJcfPfaQ4O6CAPQlsrDbSFvRbKrCUP8QS9fOxWn6gEpjfVH8bVs5HwzhpDkIkao
+         xXp3tdv1I/5AojtEDHVDj7NLqvajgZyzH4mLRg9EY9ET6t6x+BSQPtjtJeIVBpDQYUyv
+         cWEYG0ZKwcf+HQ+w10g+gOGCTHuBfgAMYQuKrSGGy0PTcfYLEYL63nj8tY4KgW+IMUlg
+         pMTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8YX2LaoIpYXot2QMtvHwy8R8N2TUvBM9RDNiIQ4cQ7Q=;
+        b=itWCDz4nGSoTS9EfEsHX3ZhkbZVrL2nJJMjlMIejv7eFvVHuqvucaGViKwiqDGkkMZ
+         SW6Pp/k3vS8zWnBX6jH0UTIcKNePSuDIePSYuw0zOWeTV8nxty6rXgvYY/AZstzjaEB3
+         hNF0JBUJMX40zXCx0qBz1pK7Np50spBt1f7mp/BxEhnWpDtyeHXBdcZBa9A0ydiYyKkQ
+         ciwEoGMHHjGMmYBy1dIUZC7JO2GCGuKf2ebEHA5aOyAlbRFUuG7oV9XpjI8RI21QHK1Q
+         S1NeKdq4qDFYxjg2pz+rrVCfBJYYimEHcCqos6inwXXriWxvUV2Y4hNd2/R0JCSdQ1pd
+         IM3Q==
+X-Gm-Message-State: APjAAAVA8VtnOdyP9ZT3ollnsD7oGDM7zrlorr17JUKrT0P6I/7fsELo
+        nbpAckkj8L/UzFZ1+ohL/UxnZelN
+X-Google-Smtp-Source: APXvYqwVVpBQgAJ+iBwLONW4YShysAZHExOb7cuYCRG3sez9mFiaH1eutiGR89WwWo+77OdA1NyzaQ==
+X-Received: by 2002:a2e:4794:: with SMTP id u142mr6521643lja.222.1562948627718;
+        Fri, 12 Jul 2019 09:23:47 -0700 (PDT)
+Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
+        by smtp.googlemail.com with ESMTPSA id h3sm1549158lja.93.2019.07.12.09.23.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 12 Jul 2019 09:23:46 -0700 (PDT)
+Subject: Re: [PATCH v2 1/6] ARM: tegra: Remove cpuidle drivers
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20190711031312.10038-1-digetx@gmail.com>
+ <20190711031312.10038-2-digetx@gmail.com>
+ <c087a5cb-2ffa-1cf6-f0bf-631234759a22@nvidia.com>
+ <a6e4b43e-369c-c501-6d2e-69d5b940ff9c@gmail.com>
+ <73781434-d25a-b17b-aacb-95ace5ac5f95@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <9d79ed3e-a37f-af9c-0696-31dc33bbdefd@gmail.com>
+Date:   Fri, 12 Jul 2019 19:23:45 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190712153108.GD13940@kroah.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <73781434-d25a-b17b-aacb-95ace5ac5f95@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562947841; bh=bYr87e5kr2ZaII8bFB9CgHx1dtUYpJJfkgUrOuzXxa8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=AG1KSqHlPEW4mGoNA/PwDzdmkxHDB+DqPJZsj311xHcTDmYy+fQMCfyQwUCMYDF6z
-         /z17+yquZIlG2k457vQbAo1/9To19BKHEuvIL+A53SS6O6fajJ9HEaa5MIvMGgb3aD
-         aSLfKVXmpETBbmuTVzfxN89Tal6JEY7Jg+gxbajLughoB45K9GDpWS/+BgFnFKya2J
-         02i/uza2EACqvBA0nr0wPj3XJZtXrpIO6AMJf6+WstJcWqyOAH7FnE0T29OvxMVpUr
-         WrHmd3lkL2Ygl3pt4x12iQULtAPlrGGR/wRGer6mE5+qP/wmksilP6hC8TLaAswZYd
-         rWAmufaPSEexg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 12/07/2019 16:31, Greg Kroah-Hartman wrote:
-> On Fri, Jul 12, 2019 at 02:36:29PM +0100, Jon Hunter wrote:
->>
->> On 12/07/2019 13:19, Greg Kroah-Hartman wrote:
->>> This is the start of the stable review cycle for the 5.2.1 release.
->>> There are 61 patches in this series, all will be posted as a response
->>> to this one.  If anyone has any issues with these being applied, please
->>> let me know.
->>>
->>> Responses should be made by Sun 14 Jul 2019 12:14:36 PM UTC.
->>> Anything received after that time might be too late.
->>>
->>> The whole patch series can be found in one patch at:
->>> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2.1-rc1.gz
->>> or in the git tree and branch at:
->>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.2.y
->>> and the diffstat can be found below.
->>>
->>> thanks,
->>>
->>> greg k-h
->>
->> All tests are passing for Tegra ...
->>
->> Test results for stable-v5.2:
->>     12 builds:	12 pass, 0 fail
->>     22 boots:	22 pass, 0 fail
->>     38 tests:	38 pass, 0 fail
->>
->> Linux version:	5.2.1-rc1-g61731e8fe278
->> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->>                 tegra194-p2972-0000, tegra20-ventana,
->>                 tegra210-p2371-2180, tegra30-cardhu-a04
+12.07.2019 12:39, Jon Hunter пишет:
 > 
-> That was fast, thanks for testing all of these.
+> On 11/07/2019 18:03, Dmitry Osipenko wrote:
+>> 11.07.2019 12:26, Jon Hunter пишет:
+>>>
+>>> On 11/07/2019 04:13, Dmitry Osipenko wrote:
+>>>> Remove the old drivers to replace them cleanly with a new one later on.
+>>>>
+>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>>> ---
+>>>>  arch/arm/mach-tegra/Makefile           |  13 --
+>>>>  arch/arm/mach-tegra/cpuidle-tegra114.c |  89 -----------
+>>>>  arch/arm/mach-tegra/cpuidle-tegra20.c  | 212 -------------------------
+>>>>  arch/arm/mach-tegra/cpuidle-tegra30.c  | 132 ---------------
+>>>>  arch/arm/mach-tegra/cpuidle.c          |  50 ------
+>>>>  arch/arm/mach-tegra/cpuidle.h          |  21 ---
+>>>>  arch/arm/mach-tegra/irq.c              |  18 ---
+>>>>  arch/arm/mach-tegra/irq.h              |  11 --
+>>>>  arch/arm/mach-tegra/pm.c               |   7 -
+>>>>  arch/arm/mach-tegra/pm.h               |   1 -
+>>>>  arch/arm/mach-tegra/reset-handler.S    |  11 --
+>>>>  arch/arm/mach-tegra/reset.h            |   9 +-
+>>>>  arch/arm/mach-tegra/sleep-tegra20.S    | 190 +---------------------
+>>>>  arch/arm/mach-tegra/sleep.h            |  12 --
+>>>>  arch/arm/mach-tegra/tegra.c            |   3 -
+>>>>  drivers/soc/tegra/Kconfig              |   1 -
+>>>>  include/soc/tegra/cpuidle.h            |   4 -
+>>>>  17 files changed, 5 insertions(+), 779 deletions(-)
+>>>>  delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra114.c
+>>>>  delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra20.c
+>>>>  delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra30.c
+>>>>  delete mode 100644 arch/arm/mach-tegra/cpuidle.c
+>>>>  delete mode 100644 arch/arm/mach-tegra/cpuidle.h
+>>>>  delete mode 100644 arch/arm/mach-tegra/irq.h
+>>>
+>>> By removing all the above, it is really hard to review the diff. Is
+>>> there any way you could first consolidate the cpuidle drivers into say
+>>> the existing arch/arm/mach-tegra/cpuidle-tegra20.c and then move to
+>>> drivers/cpuidle?
+>>
+>> I'm afraid that it will make reviewing even more difficult because
+>> everything that is removed here is not returned in the further patches.
+>> The new driver is based on the older ones, but I wrote it from scratch
+>> and it's not only looks different, but also works a bit different as you
+>> may see.
+>>
+>> Could you please clarify what exactly makes it hard to review? The diff
+>> looks pretty clean to me, while squashing everything into existing
+>> driver should be quite a mess.
+> 
+> Ideally a patch should standalone and can be reviewed by itself.
+> However, to review this, we need to review patches 1, 2 and 3 at the
+> same time. So IMO it is not that convenient from a reviewers
+> perspective. Furthermore, patches 1 and 3 are large and so easy to miss
+> something.
+> 
+> Is there really no way to have a patch to combined the existing drivers,
+> then a patch to convert them into the newer rewritten version you have
+> implemented, then move the driver?
 
-Friday afternoon for me and so I am even more motivated :-)
-
-BTW, has anyone ever requested pushing out a deadline failing on the
-weekend to the following Monday? There is a chance I could miss this if
-I happen to leave early on a Friday.
-
-Cheers!
-Jon
-
--- 
-nvpublic
+Probably I spent a bit too much time with that code, so now yours
+suggestion looks to me like an unnecessary step. But I will try and see
+how it goes, at least it should be possible to break down the patch 1 a
+bit more, hopefully it will help to better understand what's going on in
+the further patches if you're not familiar or don't remember how it all
+works.
