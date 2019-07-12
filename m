@@ -2,279 +2,496 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E9965F8C
-	for <lists+linux-tegra@lfdr.de>; Thu, 11 Jul 2019 20:36:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F0FB66522
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jul 2019 05:43:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729246AbfGKSfl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 11 Jul 2019 14:35:41 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:34776 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729220AbfGKSfl (ORCPT
+        id S1729365AbfGLDnB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 11 Jul 2019 23:43:01 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:38728 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729450AbfGLDnB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 11 Jul 2019 14:35:41 -0400
-Received: by mail-lf1-f65.google.com with SMTP id b29so4752745lfq.1;
-        Thu, 11 Jul 2019 11:35:38 -0700 (PDT)
+        Thu, 11 Jul 2019 23:43:01 -0400
+Received: by mail-pg1-f194.google.com with SMTP id z75so3890336pgz.5
+        for <linux-tegra@vger.kernel.org>; Thu, 11 Jul 2019 20:43:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=wKMI5ifbIPZAJbFiPZeuzbDh42mNlq1JCxAaFNXFBZM=;
-        b=lGRaSTp/kJmMQY4/UXQfzWQxN6kJ37RANV2EgmG5cyeA7hB9S5qJ9Qd+peZ1PkXaoC
-         vpbuUibVs/kHzgURy5fDIC7k3opQL4RMEF/iBidMYYsy86PfYNsc/6QvxHJOjEQO47gm
-         cMf7KkEQhOvUtQ5W+GJU0BB0iGzAOSkuVSs3yzs/RDQBTY19HTfu1AO9y90yNp5Sy+fe
-         1JwYhPkIVp3/iRcOBuzOnUeRWmtt3HnuVsZC/LJdG9cs5FK40wDFJLQdEZtYmeDL2wST
-         29sNSEOJyWgQPekEwCcgUcm0TXSE0mDLnIMBlWCnLYEoK4ie/544Q0pSfBKvE/3xnFfY
-         70rg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vrqW04t310zz9j1QKO8T4WqqaLbcdaxJR/hXF1lbtew=;
+        b=zqVbzNgDdCO8plfkcMwmuMabGdsfqK6WJRGzJmVyg6PLa5RJBP0L1B++YFzyp3D8Ey
+         nne0aCv1sTm1DT6LEZXyf1LMY1iNELw09gbaXJAJQHpDRF5Q1kQYiwE5MMVys6uMlHhk
+         wjr774nlNpOhnaU5A0vkGHyYE8lLKDS24V2J2rrIj2AH91a4npvUB1ZygdWI6MrvaXMk
+         xedno3t9scUzh6TIpGMYFD+vpazaoTPK1Zxi5NelBtlTQSHeQiBXi+SKotHFuPczItYS
+         0y6OMKdAG976szd0ZvyVeHKcJ/aODaze95Y0bUKV7L3A+qjAvw9WneVV9wyEiQH/PNCo
+         efoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=wKMI5ifbIPZAJbFiPZeuzbDh42mNlq1JCxAaFNXFBZM=;
-        b=fZwXRBgNWwfbIr09DOj0Ci3af3ivDMrn764bY/FK5f1iwY37Ox21wM2o9JDdYxV6kZ
-         hfsxD84tYB5sOtFh298QJIGjMG/j7R3DIZMc/8VKEjh3z3nsYJjK9r7S7ngBULYxwWWo
-         NKaTXLGAtFWWsaWSVVgHkpLi/C79TIEnl6RufMiXrmGftAPd9lC2LDLY3doDBuRdYhlk
-         VHhxq/WEkZF6LEQ84RxM6ch+2Q6CoxRz3aPOrUCnCPcpHzQRS1PFydaOgTVGNOWxVgKu
-         7Bo3EcAoZ0ecg+ygxu+ncimu/M3eRF2Ht+fNNJHlSOR13V9e8rAiqq+Ye7xUTC3gVDfg
-         A3sQ==
-X-Gm-Message-State: APjAAAVyZo/8+8/87mzIlp4b5Hr1cS0FJ+f+nNs10Ktm/dO55KvNYXVo
-        K81JEja19vAl93V6koFEg2UVebSW
-X-Google-Smtp-Source: APXvYqzQQCneYJZEHs5X7hJTQTW9sgutGejskcGUh3zXo27THqReH+bSYb5at7FsIE1521mVmsfXAA==
-X-Received: by 2002:ac2:50cd:: with SMTP id h13mr2686090lfm.36.1562870137666;
-        Thu, 11 Jul 2019 11:35:37 -0700 (PDT)
-Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id n24sm1111590ljc.25.2019.07.11.11.35.36
+        bh=vrqW04t310zz9j1QKO8T4WqqaLbcdaxJR/hXF1lbtew=;
+        b=K3dF9H9xpBr/Eo6Bld7Pn4+y5liMdL1N+0PhsMF9UkRj1frgdoRBXiPelXF7Zz8XwU
+         UxKZB8APuRXJTGwBp/LIBDm7UjpCPN/1sy+XhBNtaaGtTwhUgHXLgNVXtQQ1hAPEcu6a
+         2N4WgkZTJznmrEZLudxeKklWC4j4U3tlachEnEMP66jgFAt3M8nIssOgf3ZftMmKw8US
+         x3LdsZaHcu7gQnDcWSUCkkSRUxk3bnBufY64U9x2AN/5sSJQZqL2Fweh4ATTXN54tj81
+         eICRwIUVI1d83AeuF0oKonynV1azgwhBBG3Wppwl0dJDfzOekZWsnwjHrJpH8Wq4P5AJ
+         kHqg==
+X-Gm-Message-State: APjAAAX9NKGlZklcDceR8B0UkQN6G6/ZswTQWYoDIi8+c2lK73NBDrpl
+        GwToynYhnDCbxrvXXZr7yPG90g==
+X-Google-Smtp-Source: APXvYqwqg1KXU3EogSsCRCnxKYyKfHeSw1edSLwuxHBi541K8OgcalTxkoH4l25UGQAHde/VMqwNOg==
+X-Received: by 2002:a17:90a:1b4c:: with SMTP id q70mr8647823pjq.69.1562902980143;
+        Thu, 11 Jul 2019 20:43:00 -0700 (PDT)
+Received: from localhost ([122.172.28.117])
+        by smtp.gmail.com with ESMTPSA id e124sm10700871pfh.181.2019.07.11.20.42.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Jul 2019 11:35:36 -0700 (PDT)
-Subject: Re: [PATCH v2 3/6] cpuidle: Add unified driver for NVIDIA Tegra SoCs
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20190711031312.10038-1-digetx@gmail.com>
- <20190711031312.10038-4-digetx@gmail.com>
-Message-ID: <c54c43fd-9b11-4aa8-3acf-d2260d0fca4a@gmail.com>
-Date:   Thu, 11 Jul 2019 21:35:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Thu, 11 Jul 2019 20:42:58 -0700 (PDT)
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Rafael Wysocki <rjw@rjwysocki.net>,
+        Markus Mayer <mmayer@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Keguang Zhang <keguang.zhang@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        wen.yang99@zte.com.cn, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] cpufreq: Make cpufreq_generic_init() return void
+Date:   Fri, 12 Jul 2019 09:12:29 +0530
+Message-Id: <ee8cf5fb4b4a01fdf9199037ff6d835b935cfd13.1562902877.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.21.0.rc0.269.g1a574e7a288b
 MIME-Version: 1.0
-In-Reply-To: <20190711031312.10038-4-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-11.07.2019 6:13, Dmitry Osipenko пишет:
-> The new driver is based on the old CPU Idle drivers that are removed now
-> from arm/arch/mach-tegra/ directory. Those removed drivers were reworked
-> and squashed into a single unified driver that covers multiple hardware
-> generations, starting from Tegra20 and ending with Tegra124.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  arch/arm/mach-tegra/tegra.c     |   4 +
->  drivers/cpuidle/Kconfig.arm     |   8 +
->  drivers/cpuidle/Makefile        |   1 +
->  drivers/cpuidle/cpuidle-tegra.c | 304 ++++++++++++++++++++++++++++++++
->  include/soc/tegra/cpuidle.h     |   4 +
->  5 files changed, 321 insertions(+)
->  create mode 100644 drivers/cpuidle/cpuidle-tegra.c
-> 
-> diff --git a/arch/arm/mach-tegra/tegra.c b/arch/arm/mach-tegra/tegra.c
-> index d9237769a37c..f1ce2857a251 100644
-> --- a/arch/arm/mach-tegra/tegra.c
-> +++ b/arch/arm/mach-tegra/tegra.c
-> @@ -36,6 +36,7 @@
->  #include <asm/mach/arch.h>
->  #include <asm/mach/time.h>
->  #include <asm/mach-types.h>
-> +#include <asm/psci.h>
->  #include <asm/setup.h>
->  
->  #include "board.h"
-> @@ -92,6 +93,9 @@ static void __init tegra_dt_init_late(void)
->  	if (IS_ENABLED(CONFIG_ARCH_TEGRA_2x_SOC) &&
->  	    of_machine_is_compatible("nvidia,tegra20"))
->  		platform_device_register_simple("tegra20-cpufreq", -1, NULL, 0);
-> +
-> +	if (IS_ENABLED(CONFIG_ARM_TEGRA_CPUIDLE) && !psci_smp_available())
-> +		platform_device_register_simple("tegra-cpuidle", -1, NULL, 0);
->  }
->  
->  static const char * const tegra_dt_board_compat[] = {
-> diff --git a/drivers/cpuidle/Kconfig.arm b/drivers/cpuidle/Kconfig.arm
-> index 48cb3d4bb7d1..d90861361f1d 100644
-> --- a/drivers/cpuidle/Kconfig.arm
-> +++ b/drivers/cpuidle/Kconfig.arm
-> @@ -76,3 +76,11 @@ config ARM_MVEBU_V7_CPUIDLE
->  	depends on ARCH_MVEBU && !ARM64
->  	help
->  	  Select this to enable cpuidle on Armada 370, 38x and XP processors.
-> +
-> +config ARM_TEGRA_CPUIDLE
-> +	bool "CPU Idle Driver for NVIDIA Tegra SoCs"
-> +	depends on ARCH_TEGRA && !ARM64
-> +	select ARCH_NEEDS_CPU_IDLE_COUPLED if SMP
-> +	select ARM_CPU_SUSPEND
-> +	help
-> +	  Select this to enable cpuidle for NVIDIA Tegra20/30/114/124 SoCs.
-> diff --git a/drivers/cpuidle/Makefile b/drivers/cpuidle/Makefile
-> index 9d7176cee3d3..470d17fa8746 100644
-> --- a/drivers/cpuidle/Makefile
-> +++ b/drivers/cpuidle/Makefile
-> @@ -20,6 +20,7 @@ obj-$(CONFIG_ARM_U8500_CPUIDLE)         += cpuidle-ux500.o
->  obj-$(CONFIG_ARM_AT91_CPUIDLE)          += cpuidle-at91.o
->  obj-$(CONFIG_ARM_EXYNOS_CPUIDLE)        += cpuidle-exynos.o
->  obj-$(CONFIG_ARM_CPUIDLE)		+= cpuidle-arm.o
-> +obj-$(CONFIG_ARM_TEGRA_CPUIDLE)		+= cpuidle-tegra.o
->  
->  ###############################################################################
->  # MIPS drivers
-> diff --git a/drivers/cpuidle/cpuidle-tegra.c b/drivers/cpuidle/cpuidle-tegra.c
-> new file mode 100644
-> index 000000000000..54974cd2255f
-> --- /dev/null
-> +++ b/drivers/cpuidle/cpuidle-tegra.c
-> @@ -0,0 +1,304 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * CPU idle driver for Tegra CPUs
-> + *
-> + * Copyright (c) 2010-2013, NVIDIA Corporation.
-> + * Copyright (c) 2011 Google, Inc.
-> + * Author: Colin Cross <ccross@android.com>
-> + *         Gary King <gking@nvidia.com>
-> + *
-> + * Rework for 3.3 by Peter De Schrijver <pdeschrijver@nvidia.com>
-> + *
-> + * Tegra20/124 driver unification by Dmitry Osipenko <digetx@gmail.com>
-> + */
-> +
-> +#include <linux/cpuidle.h>
-> +#include <linux/cpumask.h>
-> +#include <linux/cpu_pm.h>
-> +#include <linux/errno.h>
-> +#include <linux/ktime.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/types.h>
-> +
-> +#include <linux/clk/tegra.h>
-> +#include <linux/firmware/trusted_foundations.h>
-> +
-> +#include <soc/tegra/cpuidle.h>
-> +#include <soc/tegra/flowctrl.h>
-> +#include <soc/tegra/fuse.h>
-> +#include <soc/tegra/pm.h>
-> +
-> +#include <asm/cpuidle.h>
-> +#include <asm/firmware.h>
-> +#include <asm/smp_plat.h>
-> +#include <asm/suspend.h>
-> +
-> +#define TEGRA_C1		0
-> +#define TEGRA_C7		1
-> +#define TEGRA_CC6		2
-> +
-> +static atomic_t tegra_idle_barrier;
-> +
-> +static inline bool tegra_cpuidle_using_firmware(void)
-> +{
-> +	return firmware_ops->prepare_idle && firmware_ops->do_idle;
-> +}
-> +
-> +static int tegra_shutdown_secondary_cpu(unsigned long cpu)
-> +{
-> +	tegra_cpu_die(cpu);
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int tegra_await_secondary_cpus_shutdown(void)
-> +{
-> +	ktime_t timeout = ktime_add_ms(ktime_get(), 1);
-> +
-> +	/*
-> +	 * The boot CPU shall await for the secondaries shutdown in order
-> +	 * to power-off CPU's cluster safely.
-> +	 */
-> +	do {
-> +		if (tegra_cpu_rail_off_ready())
-> +			return 0;
-> +
-> +	} while (ktime_compare(ktime_get(), timeout) < 0);
-> +
-> +	return -ETIMEDOUT;
-> +}
-> +
-> +static void tegra_wake_up_secondary_cpus(void)
-> +{
-> +	unsigned int cpu, lcpu;
-> +
-> +	for_each_cpu(lcpu, cpu_online_mask) {
-> +		cpu = cpu_logical_map(lcpu);
-> +
-> +		if (cpu > 0) {
-> +			tegra_enable_cpu_clock(cpu);
-> +			tegra_cpu_out_of_reset(cpu);
-> +			flowctrl_write_cpu_halt(cpu, 0);
-> +		}
-> +	}
-> +}
-> +
-> +static int tegra_cpuidle_cc6_enter(void)
-> +{
-> +	int err;
-> +
-> +	err = tegra_await_secondary_cpus_shutdown();
-> +	if (err)
-> +		return err;
-> +
-> +	err = tegra_idle_lp2_last();
-> +
-> +	tegra_wake_up_secondary_cpus();
-> +
-> +	return err;
-> +}
-> +
-> +static int tegra_cpuidle_c7_enter(void)
-> +{
-> +	int err;
-> +
-> +	if (tegra_cpuidle_using_firmware()) {
-> +		err = call_firmware_op(prepare_idle, TF_PM_MODE_LP2_NOFLUSH_L2);
-> +		if (err)
-> +			return err;
-> +
-> +		return call_firmware_op(do_idle, 0);
-> +	}
-> +
-> +	return cpu_suspend(0, tegra30_sleep_cpu_secondary_finish);
-> +}
-> +
-> +static int tegra_cpuidle_enter(struct cpuidle_device *dev,
-> +			       int index, unsigned int cpu)
-> +{
-> +	int err;
-> +
-> +	local_fiq_disable();
-> +	tegra_set_cpu_in_lp2();
-> +	cpu_pm_enter();
-> +
-> +	switch (index) {
-> +	case TEGRA_C7:
-> +		err = tegra_cpuidle_c7_enter();
-> +		break;
-> +	case TEGRA_CC6:
-> +		cpuidle_coupled_parallel_barrier(dev, &tegra_idle_barrier);
+It always returns 0 (success) and its return type should really be void.
+Over that, many drivers have added error handling code based on its
+return value, which is not required at all.
 
-I realized that this is not very correct. We still need to do a proper
-barrier with SGI checking in order to bail out if other CPU sent IPI
-during of the awaiting for a coupled barrier to avoid the overhead of
-unnecessary power-gating. Will correct that in the next revision.
+change its return type to void and update all the callers.
+
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
+ drivers/cpufreq/bmips-cpufreq.c     |  7 ++-----
+ drivers/cpufreq/cpufreq.c           |  4 +---
+ drivers/cpufreq/davinci-cpufreq.c   |  3 ++-
+ drivers/cpufreq/imx6q-cpufreq.c     |  6 ++----
+ drivers/cpufreq/kirkwood-cpufreq.c  |  3 ++-
+ drivers/cpufreq/loongson1-cpufreq.c |  8 +++-----
+ drivers/cpufreq/loongson2_cpufreq.c |  3 ++-
+ drivers/cpufreq/maple-cpufreq.c     |  3 ++-
+ drivers/cpufreq/omap-cpufreq.c      | 15 +++++----------
+ drivers/cpufreq/pasemi-cpufreq.c    |  3 ++-
+ drivers/cpufreq/pmac32-cpufreq.c    |  3 ++-
+ drivers/cpufreq/pmac64-cpufreq.c    |  3 ++-
+ drivers/cpufreq/s3c2416-cpufreq.c   |  9 ++-------
+ drivers/cpufreq/s3c64xx-cpufreq.c   | 15 +++------------
+ drivers/cpufreq/s5pv210-cpufreq.c   |  3 ++-
+ drivers/cpufreq/sa1100-cpufreq.c    |  3 ++-
+ drivers/cpufreq/sa1110-cpufreq.c    |  3 ++-
+ drivers/cpufreq/spear-cpufreq.c     |  3 ++-
+ drivers/cpufreq/tegra20-cpufreq.c   |  8 +-------
+ include/linux/cpufreq.h             |  2 +-
+ 20 files changed, 42 insertions(+), 65 deletions(-)
+
+diff --git a/drivers/cpufreq/bmips-cpufreq.c b/drivers/cpufreq/bmips-cpufreq.c
+index 56a4ebbf00e0..2b187d802fe3 100644
+--- a/drivers/cpufreq/bmips-cpufreq.c
++++ b/drivers/cpufreq/bmips-cpufreq.c
+@@ -141,11 +141,8 @@ static int bmips_cpufreq_init(struct cpufreq_policy *policy)
+ 		return ret;
+ 	}
+ 
+-	ret = cpufreq_generic_init(policy, freq_table, TRANSITION_LATENCY);
+-	if (ret)
+-		bmips_cpufreq_exit(policy);
+-	else
+-		pr_info("%s: registered\n", BMIPS_CPUFREQ_NAME);
++	cpufreq_generic_init(policy, freq_table, TRANSITION_LATENCY);
++	pr_info("%s: registered\n", BMIPS_CPUFREQ_NAME);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+index 4d6043ee7834..8dda62367816 100644
+--- a/drivers/cpufreq/cpufreq.c
++++ b/drivers/cpufreq/cpufreq.c
+@@ -159,7 +159,7 @@ EXPORT_SYMBOL_GPL(arch_set_freq_scale);
+  * - set policies transition latency
+  * - policy->cpus with all possible CPUs
+  */
+-int cpufreq_generic_init(struct cpufreq_policy *policy,
++void cpufreq_generic_init(struct cpufreq_policy *policy,
+ 		struct cpufreq_frequency_table *table,
+ 		unsigned int transition_latency)
+ {
+@@ -171,8 +171,6 @@ int cpufreq_generic_init(struct cpufreq_policy *policy,
+ 	 * share the clock and voltage and clock.
+ 	 */
+ 	cpumask_setall(policy->cpus);
+-
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(cpufreq_generic_init);
+ 
+diff --git a/drivers/cpufreq/davinci-cpufreq.c b/drivers/cpufreq/davinci-cpufreq.c
+index 3de48ae60c29..297d23cad8b5 100644
+--- a/drivers/cpufreq/davinci-cpufreq.c
++++ b/drivers/cpufreq/davinci-cpufreq.c
+@@ -90,7 +90,8 @@ static int davinci_cpu_init(struct cpufreq_policy *policy)
+ 	 * Setting the latency to 2000 us to accommodate addition of drivers
+ 	 * to pre/post change notification list.
+ 	 */
+-	return cpufreq_generic_init(policy, freq_table, 2000 * 1000);
++	cpufreq_generic_init(policy, freq_table, 2000 * 1000);
++	return 0;
+ }
+ 
+ static struct cpufreq_driver davinci_driver = {
+diff --git a/drivers/cpufreq/imx6q-cpufreq.c b/drivers/cpufreq/imx6q-cpufreq.c
+index 47ccfa6b17b7..648a09a1778a 100644
+--- a/drivers/cpufreq/imx6q-cpufreq.c
++++ b/drivers/cpufreq/imx6q-cpufreq.c
+@@ -190,14 +190,12 @@ static int imx6q_set_target(struct cpufreq_policy *policy, unsigned int index)
+ 
+ static int imx6q_cpufreq_init(struct cpufreq_policy *policy)
+ {
+-	int ret;
+-
+ 	policy->clk = clks[ARM].clk;
+-	ret = cpufreq_generic_init(policy, freq_table, transition_latency);
++	cpufreq_generic_init(policy, freq_table, transition_latency);
+ 	policy->suspend_freq = max_freq;
+ 	dev_pm_opp_of_register_em(policy->cpus);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static struct cpufreq_driver imx6q_cpufreq_driver = {
+diff --git a/drivers/cpufreq/kirkwood-cpufreq.c b/drivers/cpufreq/kirkwood-cpufreq.c
+index 7ab564c1f7ae..cb74bdc5baaa 100644
+--- a/drivers/cpufreq/kirkwood-cpufreq.c
++++ b/drivers/cpufreq/kirkwood-cpufreq.c
+@@ -85,7 +85,8 @@ static int kirkwood_cpufreq_target(struct cpufreq_policy *policy,
+ /* Module init and exit code */
+ static int kirkwood_cpufreq_cpu_init(struct cpufreq_policy *policy)
+ {
+-	return cpufreq_generic_init(policy, kirkwood_freq_table, 5000);
++	cpufreq_generic_init(policy, kirkwood_freq_table, 5000);
++	return 0;
+ }
+ 
+ static struct cpufreq_driver kirkwood_cpufreq_driver = {
+diff --git a/drivers/cpufreq/loongson1-cpufreq.c b/drivers/cpufreq/loongson1-cpufreq.c
+index 21c9ce8526c0..0ea88778882a 100644
+--- a/drivers/cpufreq/loongson1-cpufreq.c
++++ b/drivers/cpufreq/loongson1-cpufreq.c
+@@ -81,7 +81,7 @@ static int ls1x_cpufreq_init(struct cpufreq_policy *policy)
+ 	struct device *cpu_dev = get_cpu_device(policy->cpu);
+ 	struct cpufreq_frequency_table *freq_tbl;
+ 	unsigned int pll_freq, freq;
+-	int steps, i, ret;
++	int steps, i;
+ 
+ 	pll_freq = clk_get_rate(cpufreq->pll_clk) / 1000;
+ 
+@@ -103,11 +103,9 @@ static int ls1x_cpufreq_init(struct cpufreq_policy *policy)
+ 	freq_tbl[i].frequency = CPUFREQ_TABLE_END;
+ 
+ 	policy->clk = cpufreq->clk;
+-	ret = cpufreq_generic_init(policy, freq_tbl, 0);
+-	if (ret)
+-		kfree(freq_tbl);
++	cpufreq_generic_init(policy, freq_tbl, 0);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int ls1x_cpufreq_exit(struct cpufreq_policy *policy)
+diff --git a/drivers/cpufreq/loongson2_cpufreq.c b/drivers/cpufreq/loongson2_cpufreq.c
+index da344696beed..890813e0bb76 100644
+--- a/drivers/cpufreq/loongson2_cpufreq.c
++++ b/drivers/cpufreq/loongson2_cpufreq.c
+@@ -95,7 +95,8 @@ static int loongson2_cpufreq_cpu_init(struct cpufreq_policy *policy)
+ 	}
+ 
+ 	policy->clk = cpuclk;
+-	return cpufreq_generic_init(policy, &loongson2_clockmod_table[0], 0);
++	cpufreq_generic_init(policy, &loongson2_clockmod_table[0], 0);
++	return 0;
+ }
+ 
+ static int loongson2_cpufreq_exit(struct cpufreq_policy *policy)
+diff --git a/drivers/cpufreq/maple-cpufreq.c b/drivers/cpufreq/maple-cpufreq.c
+index f5220b3d4ec5..28d346062166 100644
+--- a/drivers/cpufreq/maple-cpufreq.c
++++ b/drivers/cpufreq/maple-cpufreq.c
+@@ -140,7 +140,8 @@ static unsigned int maple_cpufreq_get_speed(unsigned int cpu)
+ 
+ static int maple_cpufreq_cpu_init(struct cpufreq_policy *policy)
+ {
+-	return cpufreq_generic_init(policy, maple_cpu_freqs, 12000);
++	cpufreq_generic_init(policy, maple_cpu_freqs, 12000);
++	return 0;
+ }
+ 
+ static struct cpufreq_driver maple_cpufreq_driver = {
+diff --git a/drivers/cpufreq/omap-cpufreq.c b/drivers/cpufreq/omap-cpufreq.c
+index 29643f06a3c3..8d14b42a8c6f 100644
+--- a/drivers/cpufreq/omap-cpufreq.c
++++ b/drivers/cpufreq/omap-cpufreq.c
+@@ -122,23 +122,18 @@ static int omap_cpu_init(struct cpufreq_policy *policy)
+ 			dev_err(mpu_dev,
+ 				"%s: cpu%d: failed creating freq table[%d]\n",
+ 				__func__, policy->cpu, result);
+-			goto fail;
++			clk_put(policy->clk);
++			return result;
+ 		}
+ 	}
+ 
+ 	atomic_inc_return(&freq_table_users);
+ 
+ 	/* FIXME: what's the actual transition time? */
+-	result = cpufreq_generic_init(policy, freq_table, 300 * 1000);
+-	if (!result) {
+-		dev_pm_opp_of_register_em(policy->cpus);
+-		return 0;
+-	}
++	cpufreq_generic_init(policy, freq_table, 300 * 1000);
++	dev_pm_opp_of_register_em(policy->cpus);
+ 
+-	freq_table_free();
+-fail:
+-	clk_put(policy->clk);
+-	return result;
++	return 0;
+ }
+ 
+ static int omap_cpu_exit(struct cpufreq_policy *policy)
+diff --git a/drivers/cpufreq/pasemi-cpufreq.c b/drivers/cpufreq/pasemi-cpufreq.c
+index 6b1e4abe3248..93f39a1d4c3d 100644
+--- a/drivers/cpufreq/pasemi-cpufreq.c
++++ b/drivers/cpufreq/pasemi-cpufreq.c
+@@ -196,7 +196,8 @@ static int pas_cpufreq_cpu_init(struct cpufreq_policy *policy)
+ 	policy->cur = pas_freqs[cur_astate].frequency;
+ 	ppc_proc_freq = policy->cur * 1000ul;
+ 
+-	return cpufreq_generic_init(policy, pas_freqs, get_gizmo_latency());
++	cpufreq_generic_init(policy, pas_freqs, get_gizmo_latency());
++	return 0;
+ 
+ out_unmap_sdcpwr:
+ 	iounmap(sdcpwr_mapbase);
+diff --git a/drivers/cpufreq/pmac32-cpufreq.c b/drivers/cpufreq/pmac32-cpufreq.c
+index 650104d729f3..73621bc11976 100644
+--- a/drivers/cpufreq/pmac32-cpufreq.c
++++ b/drivers/cpufreq/pmac32-cpufreq.c
+@@ -372,7 +372,8 @@ static int pmac_cpufreq_target(	struct cpufreq_policy *policy,
+ 
+ static int pmac_cpufreq_cpu_init(struct cpufreq_policy *policy)
+ {
+-	return cpufreq_generic_init(policy, pmac_cpu_freqs, transition_latency);
++	cpufreq_generic_init(policy, pmac_cpu_freqs, transition_latency);
++	return 0;
+ }
+ 
+ static u32 read_gpio(struct device_node *np)
+diff --git a/drivers/cpufreq/pmac64-cpufreq.c b/drivers/cpufreq/pmac64-cpufreq.c
+index 1af3492a000d..d7542a106e6b 100644
+--- a/drivers/cpufreq/pmac64-cpufreq.c
++++ b/drivers/cpufreq/pmac64-cpufreq.c
+@@ -321,7 +321,8 @@ static unsigned int g5_cpufreq_get_speed(unsigned int cpu)
+ 
+ static int g5_cpufreq_cpu_init(struct cpufreq_policy *policy)
+ {
+-	return cpufreq_generic_init(policy, g5_cpu_freqs, transition_latency);
++	cpufreq_generic_init(policy, g5_cpu_freqs, transition_latency);
++	return 0;
+ }
+ 
+ static struct cpufreq_driver g5_cpufreq_driver = {
+diff --git a/drivers/cpufreq/s3c2416-cpufreq.c b/drivers/cpufreq/s3c2416-cpufreq.c
+index f7ff1ed7fef1..106910351c41 100644
+--- a/drivers/cpufreq/s3c2416-cpufreq.c
++++ b/drivers/cpufreq/s3c2416-cpufreq.c
+@@ -447,21 +447,16 @@ static int s3c2416_cpufreq_driver_init(struct cpufreq_policy *policy)
+ 	/* Datasheet says PLL stabalisation time must be at least 300us,
+ 	 * so but add some fudge. (reference in LOCKCON0 register description)
+ 	 */
+-	ret = cpufreq_generic_init(policy, s3c_freq->freq_table,
++	cpufreq_generic_init(policy, s3c_freq->freq_table,
+ 			(500 * 1000) + s3c_freq->regulator_latency);
+-	if (ret)
+-		goto err_freq_table;
+-
+ 	register_reboot_notifier(&s3c2416_cpufreq_reboot_notifier);
+ 
+ 	return 0;
+ 
+-err_freq_table:
+ #ifdef CONFIG_ARM_S3C2416_CPUFREQ_VCORESCALE
+-	regulator_put(s3c_freq->vddarm);
+ err_vddarm:
+-#endif
+ 	clk_put(s3c_freq->armclk);
++#endif
+ err_armclk:
+ 	clk_put(s3c_freq->hclk);
+ err_hclk:
+diff --git a/drivers/cpufreq/s3c64xx-cpufreq.c b/drivers/cpufreq/s3c64xx-cpufreq.c
+index 37df2d892eb0..ca756269a48a 100644
+--- a/drivers/cpufreq/s3c64xx-cpufreq.c
++++ b/drivers/cpufreq/s3c64xx-cpufreq.c
+@@ -144,7 +144,6 @@ static void s3c64xx_cpufreq_config_regulator(void)
+ 
+ static int s3c64xx_cpufreq_driver_init(struct cpufreq_policy *policy)
+ {
+-	int ret;
+ 	struct cpufreq_frequency_table *freq;
+ 
+ 	if (policy->cpu != 0)
+@@ -165,8 +164,7 @@ static int s3c64xx_cpufreq_driver_init(struct cpufreq_policy *policy)
+ #ifdef CONFIG_REGULATOR
+ 	vddarm = regulator_get(NULL, "vddarm");
+ 	if (IS_ERR(vddarm)) {
+-		ret = PTR_ERR(vddarm);
+-		pr_err("Failed to obtain VDDARM: %d\n", ret);
++		pr_err("Failed to obtain VDDARM: %d\n", PTR_ERR(vddarm));
+ 		pr_err("Only frequency scaling available\n");
+ 		vddarm = NULL;
+ 	} else {
+@@ -196,16 +194,9 @@ static int s3c64xx_cpufreq_driver_init(struct cpufreq_policy *policy)
+ 	 * the PLLs, which we don't currently) is ~300us worst case,
+ 	 * but add some fudge.
+ 	 */
+-	ret = cpufreq_generic_init(policy, s3c64xx_freq_table,
++	cpufreq_generic_init(policy, s3c64xx_freq_table,
+ 			(500 * 1000) + regulator_latency);
+-	if (ret != 0) {
+-		pr_err("Failed to configure frequency table: %d\n",
+-		       ret);
+-		regulator_put(vddarm);
+-		clk_put(policy->clk);
+-	}
+-
+-	return ret;
++	return 0;
+ }
+ 
+ static struct cpufreq_driver s3c64xx_cpufreq_driver = {
+diff --git a/drivers/cpufreq/s5pv210-cpufreq.c b/drivers/cpufreq/s5pv210-cpufreq.c
+index e5cb17d4be7b..5d10030f2560 100644
+--- a/drivers/cpufreq/s5pv210-cpufreq.c
++++ b/drivers/cpufreq/s5pv210-cpufreq.c
+@@ -541,7 +541,8 @@ static int s5pv210_cpu_init(struct cpufreq_policy *policy)
+ 	s5pv210_dram_conf[1].freq = clk_get_rate(dmc1_clk);
+ 
+ 	policy->suspend_freq = SLEEP_FREQ;
+-	return cpufreq_generic_init(policy, s5pv210_freq_table, 40000);
++	cpufreq_generic_init(policy, s5pv210_freq_table, 40000);
++	return 0;
+ 
+ out_dmc1:
+ 	clk_put(dmc0_clk);
+diff --git a/drivers/cpufreq/sa1100-cpufreq.c b/drivers/cpufreq/sa1100-cpufreq.c
+index ab5cab93e638..5c075ef6adc0 100644
+--- a/drivers/cpufreq/sa1100-cpufreq.c
++++ b/drivers/cpufreq/sa1100-cpufreq.c
+@@ -181,7 +181,8 @@ static int sa1100_target(struct cpufreq_policy *policy, unsigned int ppcr)
+ 
+ static int __init sa1100_cpu_init(struct cpufreq_policy *policy)
+ {
+-	return cpufreq_generic_init(policy, sa11x0_freq_table, 0);
++	cpufreq_generic_init(policy, sa11x0_freq_table, 0);
++	return 0;
+ }
+ 
+ static struct cpufreq_driver sa1100_driver __refdata = {
+diff --git a/drivers/cpufreq/sa1110-cpufreq.c b/drivers/cpufreq/sa1110-cpufreq.c
+index dab54e051c0e..d9d04d935b3a 100644
+--- a/drivers/cpufreq/sa1110-cpufreq.c
++++ b/drivers/cpufreq/sa1110-cpufreq.c
+@@ -303,7 +303,8 @@ static int sa1110_target(struct cpufreq_policy *policy, unsigned int ppcr)
+ 
+ static int __init sa1110_cpu_init(struct cpufreq_policy *policy)
+ {
+-	return cpufreq_generic_init(policy, sa11x0_freq_table, 0);
++	cpufreq_generic_init(policy, sa11x0_freq_table, 0);
++	return 0;
+ }
+ 
+ /* sa1110_driver needs __refdata because it must remain after init registers
+diff --git a/drivers/cpufreq/spear-cpufreq.c b/drivers/cpufreq/spear-cpufreq.c
+index 4074e2615522..73bd8dc47074 100644
+--- a/drivers/cpufreq/spear-cpufreq.c
++++ b/drivers/cpufreq/spear-cpufreq.c
+@@ -153,8 +153,9 @@ static int spear_cpufreq_target(struct cpufreq_policy *policy,
+ static int spear_cpufreq_init(struct cpufreq_policy *policy)
+ {
+ 	policy->clk = spear_cpufreq.clk;
+-	return cpufreq_generic_init(policy, spear_cpufreq.freq_tbl,
++	cpufreq_generic_init(policy, spear_cpufreq.freq_tbl,
+ 			spear_cpufreq.transition_latency);
++	return 0;
+ }
+ 
+ static struct cpufreq_driver spear_cpufreq_driver = {
+diff --git a/drivers/cpufreq/tegra20-cpufreq.c b/drivers/cpufreq/tegra20-cpufreq.c
+index 3c32cc7b0671..f84ecd22f488 100644
+--- a/drivers/cpufreq/tegra20-cpufreq.c
++++ b/drivers/cpufreq/tegra20-cpufreq.c
+@@ -118,17 +118,11 @@ static int tegra_target(struct cpufreq_policy *policy, unsigned int index)
+ static int tegra_cpu_init(struct cpufreq_policy *policy)
+ {
+ 	struct tegra20_cpufreq *cpufreq = cpufreq_get_driver_data();
+-	int ret;
+ 
+ 	clk_prepare_enable(cpufreq->cpu_clk);
+ 
+ 	/* FIXME: what's the actual transition time? */
+-	ret = cpufreq_generic_init(policy, freq_table, 300 * 1000);
+-	if (ret) {
+-		clk_disable_unprepare(cpufreq->cpu_clk);
+-		return ret;
+-	}
+-
++	cpufreq_generic_init(policy, freq_table, 300 * 1000);
+ 	policy->clk = cpufreq->cpu_clk;
+ 	policy->suspend_freq = freq_table[0].frequency;
+ 	return 0;
+diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+index d757a56a74dc..536a049d7ecc 100644
+--- a/include/linux/cpufreq.h
++++ b/include/linux/cpufreq.h
+@@ -992,7 +992,7 @@ extern struct freq_attr *cpufreq_generic_attr[];
+ int cpufreq_table_validate_and_sort(struct cpufreq_policy *policy);
+ 
+ unsigned int cpufreq_generic_get(unsigned int cpu);
+-int cpufreq_generic_init(struct cpufreq_policy *policy,
++void cpufreq_generic_init(struct cpufreq_policy *policy,
+ 		struct cpufreq_frequency_table *table,
+ 		unsigned int transition_latency);
+ #endif /* _LINUX_CPUFREQ_H */
+-- 
+2.21.0.rc0.269.g1a574e7a288b
+
