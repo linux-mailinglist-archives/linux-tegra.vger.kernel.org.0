@@ -2,98 +2,149 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B743267399
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jul 2019 18:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F07766758D
+	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jul 2019 21:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726945AbfGLQvu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 12 Jul 2019 12:51:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53590 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726628AbfGLQvu (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 12 Jul 2019 12:51:50 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 819AD2080A;
-        Fri, 12 Jul 2019 16:51:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562950309;
-        bh=6yuUR9ixnrg75oWUzUm0JyD4FWHsLSIkKBmq6h7wuxA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XOLjnEbjUHuSHtZQPx2Gnur8YfSR9z/mgQSKn2O4lXAL5c3bzbVuT7gxV00bam9x8
-         JR4heiQ92j17+mIXAVFR7ywMDMtMwktVgDYUSrigypdOg3Dz63OlGIa8eZ3iS+u/b0
-         X7+jeI/J/SS6hMUrwllHbdyC2votX8DOOGCX1Oi8=
-Date:   Fri, 12 Jul 2019 18:51:46 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.2 00/61] 5.2.1-stable review
-Message-ID: <20190712165146.GA32146@kroah.com>
-References: <20190712121620.632595223@linuxfoundation.org>
- <a1ae16a7-e8f7-b6fc-df4e-46079bebf9b3@nvidia.com>
- <20190712153108.GD13940@kroah.com>
- <a0d871e7-a68c-5c77-1389-5b9a86f93ac9@nvidia.com>
+        id S1727370AbfGLTxl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Fri, 12 Jul 2019 15:53:41 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:56979 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726976AbfGLTxl (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 12 Jul 2019 15:53:41 -0400
+X-Originating-IP: 90.89.68.76
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (Authenticated sender: maxime.ripard@bootlin.com)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id BE9A0FF804;
+        Fri, 12 Jul 2019 19:53:37 +0000 (UTC)
+Date:   Fri, 12 Jul 2019 21:53:36 +0200
+From:   Maxime Ripard <maxime.ripard@bootlin.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] drm/modes: Skip invalid cmdline mode
+Message-ID: <20190712195336.zgn5mseyfba2lfu7@flea>
+References: <f530844d-70f2-c3cc-d5f6-b435f1dbdfd2@gmail.com>
+ <20190710130615.gvi2jwgr2cds66xr@flea>
+ <75719cad-c65c-7ebc-3ea8-98134f86ddc3@gmail.com>
+ <4a13f12f-05a7-473e-4e4e-7a7e32d09720@gmail.com>
+ <20190710140504.t5lsk36gnn5cdn6b@flea>
+ <e7d78307-4a48-45b1-ffbe-bc397fec0e40@gmail.com>
+ <20190711090327.keuxt2ztfqecdbef@flea>
+ <de21fe78-87a6-741f-caf7-2771f6468739@gmail.com>
+ <20190712081027.arybdoxr6nzrmkxt@flea>
+ <686a20ce-e09a-037c-a5db-bd1309790c3e@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <a0d871e7-a68c-5c77-1389-5b9a86f93ac9@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <686a20ce-e09a-037c-a5db-bd1309790c3e@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 05:10:30PM +0100, Jon Hunter wrote:
-> 
-> On 12/07/2019 16:31, Greg Kroah-Hartman wrote:
-> > On Fri, Jul 12, 2019 at 02:36:29PM +0100, Jon Hunter wrote:
-> >>
-> >> On 12/07/2019 13:19, Greg Kroah-Hartman wrote:
-> >>> This is the start of the stable review cycle for the 5.2.1 release.
-> >>> There are 61 patches in this series, all will be posted as a response
-> >>> to this one.  If anyone has any issues with these being applied, please
-> >>> let me know.
+On Fri, Jul 12, 2019 at 11:30:01AM +0300, Dmitry Osipenko wrote:
+> 12.07.2019 11:10, Maxime Ripard пишет:
+> > On Thu, Jul 11, 2019 at 06:55:03PM +0300, Dmitry Osipenko wrote:
+> >> 11.07.2019 12:03, Maxime Ripard пишет:
+> >>> On Wed, Jul 10, 2019 at 06:05:18PM +0300, Dmitry Osipenko wrote:
+> >>>> 10.07.2019 17:05, Maxime Ripard пишет:
+> >>>>> On Wed, Jul 10, 2019 at 04:29:19PM +0300, Dmitry Osipenko wrote:
+> >>>>>> This works:
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> >>>>>> index 56d36779d213..e5a2f9c8f404 100644
+> >>>>>> --- a/drivers/gpu/drm/drm_client_modeset.c
+> >>>>>> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> >>>>>> @@ -182,6 +182,8 @@ drm_connector_pick_cmdline_mode(struct drm_connector *connector)
+> >>>>>>         mode = drm_mode_create_from_cmdline_mode(connector->dev, cmdline_mode);
+> >>>>>>         if (mode)
+> >>>>>>                 list_add(&mode->head, &connector->modes);
+> >>>>>> +       else
+> >>>>>> +               cmdline_mode->specified = false;
+> >>>>>
+> >>>>> Hmmm, it's not clear to me why that wouldn't be the case.
+> >>>>>
+> >>>>> If we come back to the beginning of that function, we retrieve the
+> >>>>> cmdline_mode buffer from the connector pointer, that will probably
+> >>>>> have been parsed a first time using drm_mode_create_from_cmdline_mode
+> >>>>> in drm_helper_probe_add_cmdline_mode.
+> >>>>>
+> >>>>> Now, I'm guessing that the issue is that in
+> >>>>> drm_mode_parse_command_line_for_connector, if we have a named mode, we
+> >>>>> just copy the mode over and set mode->specified.
+> >>>>>
+> >>>>> And we then move over to do other checks, and that's probably what
+> >>>>> fails and returns, but our drm_cmdline_mode will have been modified.
+> >>>>>
+> >>>>> I'm not entirely sure how to deal with that though.
+> >>>>>
+> >>>>> I guess we could allocate a drm_cmdline_mode structure on the stack,
+> >>>>> fill that, and if successful copy over its content to the one in
+> >>>>> drm_connector. That would allow us to only change the content on
+> >>>>> success, which is what I would expect from such a function?
+> >>>>>
+> >>>>> How does that sound?
+> >>>>
+> >>>> I now see that there is DRM_MODE_TYPE_USERDEF flag that is assigned only
+> >>>> for the "cmdline" mode and drm_client_rotation() is the only place in
+> >>>> DRM code that cares about whether mode is from cmdline, hence looks like
+> >>>> it will be more correct to do the following:
 > >>>
-> >>> Responses should be made by Sun 14 Jul 2019 12:14:36 PM UTC.
-> >>> Anything received after that time might be too late.
+> >>> I'm still under the impression that we're dealing with workarounds of
+> >>> a more central issue, which is that we shouldn't return a partially
+> >>> modified drm_cmdline_mode.
 > >>>
-> >>> The whole patch series can be found in one patch at:
-> >>> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2.1-rc1.gz
-> >>> or in the git tree and branch at:
-> >>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.2.y
-> >>> and the diffstat can be found below.
-> >>>
-> >>> thanks,
-> >>>
-> >>> greg k-h
+> >>> You said it yourself, the breakage is in the commit changing the
+> >>> command line parsing logic, while you're fixing here some code that
+> >>> was introduced later on.
 > >>
-> >> All tests are passing for Tegra ...
+> >> The problem stems from assumption that *any* named mode is valid. It
+> >> looks to me that the ultimate solution would be to move the mode's name
+> >> comparison into the [1], if that's possible.
 > >>
-> >> Test results for stable-v5.2:
-> >>     12 builds:	12 pass, 0 fail
-> >>     22 boots:	22 pass, 0 fail
-> >>     38 tests:	38 pass, 0 fail
-> >>
-> >> Linux version:	5.2.1-rc1-g61731e8fe278
-> >> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-> >>                 tegra194-p2972-0000, tegra20-ventana,
-> >>                 tegra210-p2371-2180, tegra30-cardhu-a04
-> > 
-> > That was fast, thanks for testing all of these.
-> 
-> Friday afternoon for me and so I am even more motivated :-)
-> 
-> BTW, has anyone ever requested pushing out a deadline failing on the
-> weekend to the following Monday? There is a chance I could miss this if
-> I happen to leave early on a Friday.
+> >> [1] drm_mode_parse_command_line_for_connector()
+> >
+> > Well, one could argue that video=tegrafb is invalid and should be
+> > rejected as well, but we haven't cleared that up.
+>
+> The video=tegrafb is invalid mode, there is nothing to argue here. And
+> the problem is that invalid modes and not rejected for the very beginning.
 
-Sure, if things break and I notice them, I've delayed releases until
-they get fixed in the past.
+Yeah, I guess fb_get_options should also return an error in such a
+case, but I'm a bit worried about the side effects here.
 
-thanks,
+> >>> Can you try the followintg patch?
+> >>> http://code.bulix.org/8cwk4c-794565?raw
+> >>
+> >> This doesn't help because the problem with the rotation_reflection is
+> >> that it's 0 if "rotation" not present in the cmdline and then ilog2(0)
+> >> returns -1. So the patch "drm/modes: Don't apply cmdline's rotation if
+> >> it wasn't specified" should be correct in any case.
+> >
+> > So we would have the same issue with rotate=0 then?
+>
+> No, we won't. Rotation mode is parsed into the DRM_MODE bitmask and
+> rotate=0 corresponds to DRM_MODE_ROTATE_0, which is BIT(0) as you may
+> notice. Hence rotation_reflection=0 is always an invalid value, meaning
+> that "rotate" option does not present in the cmdline. Please consult the
+> code, in particular see drm_mode_parse_cmdline_options() which was
+> written by yourself ;)
 
-greg k-h
+Sigh... You're right :)
+
+Sorry for that, I'll reply to the other patch
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
