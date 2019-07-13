@@ -2,179 +2,164 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 115F967B46
-	for <lists+linux-tegra@lfdr.de>; Sat, 13 Jul 2019 18:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6781167BB3
+	for <lists+linux-tegra@lfdr.de>; Sat, 13 Jul 2019 20:57:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727877AbfGMQld (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 13 Jul 2019 12:41:33 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45571 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727656AbfGMQld (ORCPT
+        id S1727961AbfGMS5E (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 13 Jul 2019 14:57:04 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:19836 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727874AbfGMS5E (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 13 Jul 2019 12:41:33 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m23so12166049lje.12;
-        Sat, 13 Jul 2019 09:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sArqflmNJL+RuIvVxOB3J3vY2wGnGuNw/7ZgLpl13so=;
-        b=devoeaMsOdiMqtIGKbsamYRcofxr5w6ek26oEfoD77/0Bc1QktLVOhmIRyH/FU4lL0
-         UmSTKR3FhWr+piAfw7c8FVf4kL10PnB6GMdc6I3Ih4AvZR3i70OKX/I6HGAI7LSOv4kN
-         vFqZVQ7fJD4v/Hfwh2gy9dRjN1Y2xcrb6UjsTmunOmPsGmqtZxIpLMZVakc6ogGIpWjq
-         q13pGG5YpXYDSxHi7gBAvZ6u266k4VDU/S8B2X/fg/X5lCe4XNNP1GrsyYyAbwKKA+lr
-         hOd9FGBJv9YCzyYgHQoklmc8/d5pbZcxSif22u5rAKXGp9gugenwmFm0uXQPjv+jQ7yI
-         XHWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sArqflmNJL+RuIvVxOB3J3vY2wGnGuNw/7ZgLpl13so=;
-        b=ZIdi0EYIZvE2uZ6a4BLcRk8pTdYT9T72LzY0WkdEQssAlo3JNSBDrpFB/uiNrpvyH3
-         9BC1BCLYhxbrF/De+GkGZBd2Ru9LZpE/tsUOaGHVg8Y3s0UqVxXFDwKEeTEzTGtpexWC
-         jkWqydrw37AVkNlQn4CWbpoFRIzthYDghwCrCJkqkiKPhjw+DYVgB/yPqgzfcfOT+11d
-         NmJiRqeT3dBYRr/AdjpZDYW6cdrZ3HkVN9CyCjo3WL6GTzX/tRapdDlZpAkLD4Mm/jCK
-         4q9EoSsxt/sH638W+zGr9mjN6n28Ng1u58uRRiQdeTw0CMQVO3bCavv62gQsZzHC++5d
-         XkvQ==
-X-Gm-Message-State: APjAAAUeLTqWGJXpVGPco60ArbE9TVEp6BdxscGlbaJKfX1OCjlMiJT6
-        C4u/yLDQl4YiGIr8GTSlmQr+GM3t
-X-Google-Smtp-Source: APXvYqx8YN8a/gM70ryG83VKWW3fbsd0+C9KTsRG1W1isB+V4NfNP9ER91GQVjoHUyftaEEaOWJL3A==
-X-Received: by 2002:a2e:6348:: with SMTP id x69mr9311816ljb.186.1563036090359;
-        Sat, 13 Jul 2019 09:41:30 -0700 (PDT)
-Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id b17sm2061980ljf.34.2019.07.13.09.41.28
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 13 Jul 2019 09:41:29 -0700 (PDT)
-Subject: Re: [PATCH v1] drm/modes: Skip invalid cmdline mode
-To:     Maxime Ripard <maxime.ripard@bootlin.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <f530844d-70f2-c3cc-d5f6-b435f1dbdfd2@gmail.com>
- <20190710130615.gvi2jwgr2cds66xr@flea>
- <75719cad-c65c-7ebc-3ea8-98134f86ddc3@gmail.com>
- <4a13f12f-05a7-473e-4e4e-7a7e32d09720@gmail.com>
- <20190710140504.t5lsk36gnn5cdn6b@flea>
- <e7d78307-4a48-45b1-ffbe-bc397fec0e40@gmail.com>
- <20190711090327.keuxt2ztfqecdbef@flea>
- <de21fe78-87a6-741f-caf7-2771f6468739@gmail.com>
- <20190712081027.arybdoxr6nzrmkxt@flea>
- <686a20ce-e09a-037c-a5db-bd1309790c3e@gmail.com>
- <20190712195336.zgn5mseyfba2lfu7@flea>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <523f1d21-333d-dd0f-c5fa-9a2a950d8bed@gmail.com>
-Date:   Sat, 13 Jul 2019 19:41:28 +0300
+        Sat, 13 Jul 2019 14:57:04 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d2a29760000>; Sat, 13 Jul 2019 11:56:57 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Sat, 13 Jul 2019 11:57:03 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Sat, 13 Jul 2019 11:57:03 -0700
+Received: from [10.26.11.249] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 13 Jul
+ 2019 18:56:57 +0000
+Subject: Re: [PATCH 5.1 000/138] 5.1.18-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-kernel@vger.kernel.org>, <torvalds@linux-foundation.org>,
+        <akpm@linux-foundation.org>, <linux@roeck-us.net>,
+        <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>, <j-keerthy@ti.com>
+References: <20190712121628.731888964@linuxfoundation.org>
+ <4dae64c8-046e-3647-52d6-43362e986d21@nvidia.com>
+ <20190712153035.GC13940@kroah.com>
+ <5f897de4-b423-c8a2-6823-d0227eb7bd38@nvidia.com>
+ <20190713143154.GB7695@kroah.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <05b84926-ec25-0ccc-527a-4a08447fab59@nvidia.com>
+Date:   Sat, 13 Jul 2019 19:56:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190712195336.zgn5mseyfba2lfu7@flea>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190713143154.GB7695@kroah.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1563044217; bh=FRckk+cNrdRQ5NGrk/XVHFe2XQehX4SvW7PmJAI8yXw=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=CDAtnOY3DqnvrK1NmBu3h3g+j4+fhNvzrjx/v3KcsYwo0At9R6HtzNYb07dL6++m6
+         MprgnRkbtZS7la/ThbExlgmyk3w1mpk6pg25Jb6iE4bysJ3W7Hy6+Sq5zUbjVk/s0Z
+         EnRVmjXF7Kqj3ocPZG/TAtyCgcPKoSlRUaIMl13tgenOpQt8FdprRlF1T5DGbGFyp/
+         gYC2VxTqUiy/JRZl8USRJB0RrgPESirBlU1ygBbgWmosppQfJaEfRCNn6QKvOI8+ym
+         1QDcq9o6HH9pvkmu1xwXZF/vw15iyA67MTX4igKNKfwDQrDBBPk4J/+P0Z4z2do3IM
+         Tua3/Lib9Ok6A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-12.07.2019 22:53, Maxime Ripard пишет:
-> On Fri, Jul 12, 2019 at 11:30:01AM +0300, Dmitry Osipenko wrote:
->> 12.07.2019 11:10, Maxime Ripard пишет:
->>> On Thu, Jul 11, 2019 at 06:55:03PM +0300, Dmitry Osipenko wrote:
->>>> 11.07.2019 12:03, Maxime Ripard пишет:
->>>>> On Wed, Jul 10, 2019 at 06:05:18PM +0300, Dmitry Osipenko wrote:
->>>>>> 10.07.2019 17:05, Maxime Ripard пишет:
->>>>>>> On Wed, Jul 10, 2019 at 04:29:19PM +0300, Dmitry Osipenko wrote:
->>>>>>>> This works:
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
->>>>>>>> index 56d36779d213..e5a2f9c8f404 100644
->>>>>>>> --- a/drivers/gpu/drm/drm_client_modeset.c
->>>>>>>> +++ b/drivers/gpu/drm/drm_client_modeset.c
->>>>>>>> @@ -182,6 +182,8 @@ drm_connector_pick_cmdline_mode(struct drm_connector *connector)
->>>>>>>>         mode = drm_mode_create_from_cmdline_mode(connector->dev, cmdline_mode);
->>>>>>>>         if (mode)
->>>>>>>>                 list_add(&mode->head, &connector->modes);
->>>>>>>> +       else
->>>>>>>> +               cmdline_mode->specified = false;
->>>>>>>
->>>>>>> Hmmm, it's not clear to me why that wouldn't be the case.
->>>>>>>
->>>>>>> If we come back to the beginning of that function, we retrieve the
->>>>>>> cmdline_mode buffer from the connector pointer, that will probably
->>>>>>> have been parsed a first time using drm_mode_create_from_cmdline_mode
->>>>>>> in drm_helper_probe_add_cmdline_mode.
->>>>>>>
->>>>>>> Now, I'm guessing that the issue is that in
->>>>>>> drm_mode_parse_command_line_for_connector, if we have a named mode, we
->>>>>>> just copy the mode over and set mode->specified.
->>>>>>>
->>>>>>> And we then move over to do other checks, and that's probably what
->>>>>>> fails and returns, but our drm_cmdline_mode will have been modified.
->>>>>>>
->>>>>>> I'm not entirely sure how to deal with that though.
->>>>>>>
->>>>>>> I guess we could allocate a drm_cmdline_mode structure on the stack,
->>>>>>> fill that, and if successful copy over its content to the one in
->>>>>>> drm_connector. That would allow us to only change the content on
->>>>>>> success, which is what I would expect from such a function?
->>>>>>>
->>>>>>> How does that sound?
->>>>>>
->>>>>> I now see that there is DRM_MODE_TYPE_USERDEF flag that is assigned only
->>>>>> for the "cmdline" mode and drm_client_rotation() is the only place in
->>>>>> DRM code that cares about whether mode is from cmdline, hence looks like
->>>>>> it will be more correct to do the following:
->>>>>
->>>>> I'm still under the impression that we're dealing with workarounds of
->>>>> a more central issue, which is that we shouldn't return a partially
->>>>> modified drm_cmdline_mode.
->>>>>
->>>>> You said it yourself, the breakage is in the commit changing the
->>>>> command line parsing logic, while you're fixing here some code that
->>>>> was introduced later on.
->>>>
->>>> The problem stems from assumption that *any* named mode is valid. It
->>>> looks to me that the ultimate solution would be to move the mode's name
->>>> comparison into the [1], if that's possible.
->>>>
->>>> [1] drm_mode_parse_command_line_for_connector()
->>>
->>> Well, one could argue that video=tegrafb is invalid and should be
->>> rejected as well, but we haven't cleared that up.
+
+On 13/07/2019 15:31, Greg Kroah-Hartman wrote:
+> On Sat, Jul 13, 2019 at 10:16:58AM +0100, Jon Hunter wrote:
 >>
->> The video=tegrafb is invalid mode, there is nothing to argue here. And
->> the problem is that invalid modes and not rejected for the very beginning.
-> 
-> Yeah, I guess fb_get_options should also return an error in such a
-> case, but I'm a bit worried about the side effects here.
-
-At least the showstopper regression is fixed now. Everything else could
-be worked out later on.
-
->>>>> Can you try the followintg patch?
->>>>> http://code.bulix.org/8cwk4c-794565?raw
+>> On 12/07/2019 16:30, Greg Kroah-Hartman wrote:
+>>> On Fri, Jul 12, 2019 at 02:26:57PM +0100, Jon Hunter wrote:
+>>>> Hi Greg,
 >>>>
->>>> This doesn't help because the problem with the rotation_reflection is
->>>> that it's 0 if "rotation" not present in the cmdline and then ilog2(0)
->>>> returns -1. So the patch "drm/modes: Don't apply cmdline's rotation if
->>>> it wasn't specified" should be correct in any case.
+>>>> On 12/07/2019 13:17, Greg Kroah-Hartman wrote:
+>>>>> This is the start of the stable review cycle for the 5.1.18 release.
+>>>>> There are 138 patches in this series, all will be posted as a response
+>>>>> to this one.  If anyone has any issues with these being applied, please
+>>>>> let me know.
+>>>>>
+>>>>> Responses should be made by Sun 14 Jul 2019 12:14:36 PM UTC.
+>>>>> Anything received after that time might be too late.
+>>>>>
+>>>>> The whole patch series can be found in one patch at:
+>>>>> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.18-rc1.gz
+>>>>> or in the git tree and branch at:
+>>>>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
+>>>>> and the diffstat can be found below.
+>>>>>
+>>>>> thanks,
+>>>>>
+>>>>> greg k-h
+>>>>>
+>>>>> -------------
+>>>>> Pseudo-Shortlog of commits:
+>>>>
+>>>> ...
+>>>>
+>>>>> Keerthy <j-keerthy@ti.com>
+>>>>>     ARM: dts: dra71x: Disable usb4_tm target module
+>>>>
+>>>> ...
+>>>>
+>>>>> Keerthy <j-keerthy@ti.com>
+>>>>>     ARM: dts: dra76x: Disable usb4_tm target module
+>>>>
+>>>> The above commits are generating the following compilation errors for
+>>>> ARM ...
+>>>>
+>>>> Error:
+>>>> /dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra71x.dtsi:15.1-9
+>>>> Label or path usb4_tm not found
+>>>>
+>>>> Error:
+>>>> /dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra76x.dtsi:89.1-9
+>>>> Label or path usb4_tm not found
+>>>>
+>>>> After reverting these two, I no longer see these errors.
 >>>
->>> So we would have the same issue with rotate=0 then?
+>>> Both are now dropped, thanks.  I'll push out a -rc2 with that changed.
 >>
->> No, we won't. Rotation mode is parsed into the DRM_MODE bitmask and
->> rotate=0 corresponds to DRM_MODE_ROTATE_0, which is BIT(0) as you may
->> notice. Hence rotation_reflection=0 is always an invalid value, meaning
->> that "rotate" option does not present in the cmdline. Please consult the
->> code, in particular see drm_mode_parse_cmdline_options() which was
->> written by yourself ;)
+>> Hmmm ... -rc2 still not building ...
+>>
+>> Error:
+>> /dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra71x.dtsi:11.1-11
+>> Label or path rtctarget not found
+>> Error:
+>> /dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra71x.dtsi:15.1-9
+>> Label or path usb4_tm not found
+>>
+>> I still see the following commit in -rc2 ...
+>>
+>> commit 0caa574b3244cd863dd74bde680a6309cb8803ad
+>> Author: Keerthy <j-keerthy@ti.com>
+>> Date:   Fri May 17 06:44:09 2019 +0530
+>>
+>>     ARM: dts: dra71x: Disable usb4_tm target module
+>>
+>> In -rc1 I see there were 4 changes from Keerthy, any chance you reverted
+>> one of the rtc patches and not the above? Looks like the following is
+>> missing from -rc2 ...
+>>
+>> Keerthy <j-keerthy@ti.com>
+>>     ARM: dts: dra76x: Disable rtc target module
 > 
-> Sigh... You're right :)
-> 
-> Sorry for that, I'll reply to the other patch
+> Sorry, I dropped one, but not the other.  Both now gone.
 
-Thank you very much.
+Great! This looks better. All tests passing now ...
+
+Test results for stable-v5.1:
+    12 builds:	12 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    32 tests:	32 pass, 0 fail
+
+Linux version:	5.1.18-rc3-gd68c746af314
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
