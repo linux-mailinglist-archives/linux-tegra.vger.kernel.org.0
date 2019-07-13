@@ -2,120 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70BDA675D6
-	for <lists+linux-tegra@lfdr.de>; Fri, 12 Jul 2019 22:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B075767897
+	for <lists+linux-tegra@lfdr.de>; Sat, 13 Jul 2019 07:31:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727547AbfGLUVp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 12 Jul 2019 16:21:45 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:40268 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727536AbfGLUVo (ORCPT
+        id S1726395AbfGMFb2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 13 Jul 2019 01:31:28 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:7452 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbfGMFb2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 12 Jul 2019 16:21:44 -0400
-Received: by mail-pg1-f193.google.com with SMTP id w10so5009668pgj.7;
-        Fri, 12 Jul 2019 13:21:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=j1jW21CvKe9S7cEN+GY/9O3VCnC3tL6TnPcLPQ8iG+M=;
-        b=tJWrROiPZqd2Dd0RxjzGbJ+4f7+/I2dUEH9vmXLUKt1CpRQV9p8eITtJQPski2qob+
-         +cErGMYjKDw7kolfHyMb0+7VGHAnMkeYGIR15/bU14Vw0gV1g7zvSfx3jVPiF8GgcFfR
-         4nxNA2VUQ02PBPJ34+8rXWGgr8hT1xgR2OYZmkiPxLoct71ntEkUyNkSTzF0r/4FhuKN
-         WWu0W/e2F1vR3dHezpOBzROWyz9pWsZv7vFoi+YrRlSDSLigkvl5rEKVrSVjNG2vM8l2
-         gZRKhwxkJHXuDrSwXI4OMkhLt5eGcYM98W7fcXxnP96mp70nC94mBR60f7v0NtbNoS1O
-         EglA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=j1jW21CvKe9S7cEN+GY/9O3VCnC3tL6TnPcLPQ8iG+M=;
-        b=bf58kANoW85Cqknc9WCtDkxM6RML7/j869cIkH1HhPYqbPZqG5CzjWdixCM4Tske9D
-         kfL2m6Syj4T/myA3nec7E9KJlPzfdjMCkGBezy9czpZaDzwfTcUFMBVzpMc0xwVVrn8A
-         UelHtRGc9Gd+N8CuiBamloR1ZzV3wnIw3BokgL9pSdjKlKaZmeITIAMnn60v11KbKnP/
-         GZDpB1X3A8qmN2FQ+1WQXSkpLqr77V+y5JtBnb9RKmTpOwT/QSl4+2F387MwybPBhtaR
-         Yrj8LrF8h0Zc4vtNbEEPtHSEGW5SBJ0Tz8xzmxxxJvZR9fb+7PUGhRFVfEHgO1l+TJfM
-         Z8YQ==
-X-Gm-Message-State: APjAAAUAp/1DajGVrl8Yup19EZmnf2AcpPdrzRpo+cYTRzIjbyWAKRGv
-        UMGSFwq8tBdEOQpgJmJzW+M=
-X-Google-Smtp-Source: APXvYqxTesmbzMMr9AhbqLbrNKnXxmn8z7a9tWSCH56DHtlY9ZsM64py+amJDMnV0fYGXN+hWMNvcQ==
-X-Received: by 2002:a65:454c:: with SMTP id x12mr13135623pgr.354.1562962903938;
-        Fri, 12 Jul 2019 13:21:43 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q1sm17278711pfn.178.2019.07.12.13.21.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 12 Jul 2019 13:21:42 -0700 (PDT)
-Date:   Fri, 12 Jul 2019 13:21:41 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        shuah@kernel.org, patches@kernelci.org,
-        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
-        stable@vger.kernel.org, linux-tegra <linux-tegra@vger.kernel.org>,
-        j-keerthy@ti.com
-Subject: Re: [PATCH 5.1 000/138] 5.1.18-stable review
-Message-ID: <20190712202141.GA18698@roeck-us.net>
-References: <20190712121628.731888964@linuxfoundation.org>
- <4dae64c8-046e-3647-52d6-43362e986d21@nvidia.com>
- <20190712153035.GC13940@kroah.com>
+        Sat, 13 Jul 2019 01:31:28 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d296ca70000>; Fri, 12 Jul 2019 22:31:21 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 12 Jul 2019 22:31:27 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 12 Jul 2019 22:31:27 -0700
+Received: from [10.2.168.186] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 13 Jul
+ 2019 05:31:21 +0000
+Subject: Re: [PATCH V5 02/18] pinctrl: tegra: Add suspend and resume support
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+CC:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        "Stephen Boyd" <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        <jckuo@nvidia.com>, "Joseph Lo" <josephl@nvidia.com>,
+        <talho@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Mikko Perttunen" <mperttunen@nvidia.com>, <spatra@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+References: <1561687972-19319-1-git-send-email-skomatineni@nvidia.com>
+ <1561687972-19319-3-git-send-email-skomatineni@nvidia.com>
+ <a262cbb3-845c-3ad1-16cc-375a24b9f7e9@gmail.com>
+ <822867d6-4a4d-5f68-9b21-84a20d73c589@gmail.com>
+ <CACRpkdYdCmT0ErTuewYbv7bPkjoFLrK9KSVuKVMkAXNQYAGV7g@mail.gmail.com>
+ <66b5e81b-d468-e2aa-7336-3d4854c234ab@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <db7ac8e6-bfad-bc60-b46e-d886025872e4@nvidia.com>
+Date:   Fri, 12 Jul 2019 22:31:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190712153035.GC13940@kroah.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <66b5e81b-d468-e2aa-7336-3d4854c234ab@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1562995882; bh=rRFTBuUzg0mfGSt6+Tv2/mNCICucMseIncizpc4RLL4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=gIHIXdZcs4rvgy2XqMV5dCxYR5tEIVWmVqCmheHdNeO5/GnYfRdQSgHi2aL4q0xD6
+         G8Hsg5IKO7hrYRJIEhFA65Ei769BO4vZEVDz7v7C7taLaLo/jyI/BTi1qZUpzwe6YQ
+         JCvGD0RbiR4UkoLaTNCYAFdhVTrqTtByLyr/iiWnWz25q3eKiboTL7WMGRxO531PeP
+         fJeTI9IBC5SJSVybTJG2SnR1xkXIf8asmWPOmMGhn3f32nQnUld8hLOYVjTSb37woa
+         jRCoXCuXi8WM/h2KH6TdbWK1/ISUcQxpHSh6ifzgBqsuNDRxj0efptLRO3VQ6ZC9Lw
+         +HwzW8Eaqnl9g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 05:30:35PM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Jul 12, 2019 at 02:26:57PM +0100, Jon Hunter wrote:
-> > Hi Greg,
-> > 
-> > On 12/07/2019 13:17, Greg Kroah-Hartman wrote:
-> > > This is the start of the stable review cycle for the 5.1.18 release.
-> > > There are 138 patches in this series, all will be posted as a response
-> > > to this one.  If anyone has any issues with these being applied, please
-> > > let me know.
-> > > 
-> > > Responses should be made by Sun 14 Jul 2019 12:14:36 PM UTC.
-> > > Anything received after that time might be too late.
-> > > 
-> > > The whole patch series can be found in one patch at:
-> > > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.18-rc1.gz
-> > > or in the git tree and branch at:
-> > > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
-> > > and the diffstat can be found below.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
-> > > 
-> > > -------------
-> > > Pseudo-Shortlog of commits:
-> > 
-> Both are now dropped, thanks.  I'll push out a -rc2 with that changed.
-> 
 
-Can you push that update into the git repository ?
-v5.1.17-137-gde182b90f76d still has the problem.
+On 7/4/19 3:40 AM, Dmitry Osipenko wrote:
+> 04.07.2019 10:31, Linus Walleij =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On Sat, Jun 29, 2019 at 5:58 PM Dmitry Osipenko <digetx@gmail.com> wrote=
+:
+>>
+>>> Oh, also what about GPIO-pinctrl suspend resume ordering .. is it okay =
+that pinctrl
+>>> will be resumed after GPIO? Shouldn't a proper pin-muxing be selected a=
+t first?
+>> Thierry sent some initial patches about this I think. We need to use
+>> device links for this to work properly so he adds support for
+>> linking the pinctrl and GPIO devices through the ranges.
+>>
+>> For links between pin control handles and their consumers, see also:
+>> 036f394dd77f pinctrl: Enable device link creation for pin control
+>> c6045b4e3cad pinctrl: stmfx: enable links creations
+>> 489b64d66325 pinctrl: stm32: Add links to consumers
+>>
+>> I am using STM32 as guinea pig for this, consider adding links also
+>> from the Tegra pinctrl. I might simply make these pinctrl consumer
+>> to producer links default because I think it makes a lot sense.
+> IIUC, currently the plan is to resume pinctrl *after* GPIO for Tegra210 [=
+1]. But this
+> contradicts to what was traditionally done for older Tegras where pinctrl=
+ was always
+> resumed first and apparently it won't work well for the GPIO ranges as we=
+ll. I think this
+> and the other patchsets related to suspend-resume still need some more th=
+ought.
+>
+> [1] https://patchwork.kernel.org/patch/11012077/
 
-Also:
+Park bit was introduced from Tegra210 onwards and during suspend/resume,=20
+requirement of gpio restore prior to pinctrl restore is not required for=20
+prior Tegra210.
 
-Building powerpc:ppc6xx_defconfig ... failed
+Also currently pinctrl suspend/resume implementation for prior Tegra210=20
+is not yet upstreamed but having gpio restore prior to pinmux during=20
+suspend/resume should not cause any issue for prior tegra's as well as=20
+gpio resume restores pins back to same gpio config as they were during=20
+suspend entry.
 
-drivers/crypto/talitos.c: In function ‘get_request_hdr’:
-include/linux/kernel.h:979:51: error:
-	dereferencing pointer to incomplete type ‘struct talitos_edesc’
-
-Seen with both v4.19.58-92-gd66f8e7 and v5.1.17-137-gde182b90f76d.
-
-This problem is caused by "crypto: talitos - fix hash on SEC1.", which will
-need a proper backport - struct talitos_edesc is declared later in the
-source file.
-
-Guenter
