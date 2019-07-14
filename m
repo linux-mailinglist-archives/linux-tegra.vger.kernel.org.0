@@ -2,59 +2,147 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C128867BF5
-	for <lists+linux-tegra@lfdr.de>; Sat, 13 Jul 2019 22:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E68F467D9C
+	for <lists+linux-tegra@lfdr.de>; Sun, 14 Jul 2019 08:01:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727961AbfGMUrf convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-tegra@lfdr.de>); Sat, 13 Jul 2019 16:47:35 -0400
-Received: from mail.iara.government.bg ([95.43.208.99]:60812 "EHLO
-        iara.government.bg" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727957AbfGMUrf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 13 Jul 2019 16:47:35 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by iara.government.bg (Postfix) with ESMTP id F11562EF1DB;
-        Sat, 13 Jul 2019 12:34:22 +0300 (EEST)
-Received: from iara.government.bg ([127.0.0.1])
-        by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 9wk6DonROWJ7; Sat, 13 Jul 2019 12:34:22 +0300 (EEST)
-Received: from localhost (localhost [127.0.0.1])
-        by iara.government.bg (Postfix) with ESMTP id 988B22AA848;
-        Sat, 13 Jul 2019 06:43:26 +0300 (EEST)
-X-Virus-Scanned: amavisd-new at iara.government.bg
-Received: from iara.government.bg ([127.0.0.1])
-        by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id A6T2yVqpsgxS; Sat, 13 Jul 2019 06:43:26 +0300 (EEST)
-Received: from [10.108.11.57] (unknown [105.12.6.226])
-        by iara.government.bg (Postfix) with ESMTPSA id 0ABFC2EA4BD;
-        Sat, 13 Jul 2019 02:40:26 +0300 (EEST)
-Content-Type: text/plain; charset="utf-8"
+        id S1726017AbfGNGB6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 14 Jul 2019 02:01:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49884 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725958AbfGNGB5 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 14 Jul 2019 02:01:57 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 053E020838;
+        Sun, 14 Jul 2019 06:01:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563084116;
+        bh=tghmr7rETN035qBfQNLjuVLOkKK645FX3uXq5/5S3/8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aCTDf+8Q9VIu/iYj75os2r1eTiE3BBQXfyaFhjhFt2DHNR/ABgHieJfVQmkrYD7WG
+         AYP2BAc9hnb6mK49g3qyWtvE308aJkqcLrnUZ2vzVkF5NSxASMyBs9OeQoLxtnMLDS
+         wL1DA9+wLyKGKIwcjmrdPZA3vM6bGL5vaNWX5DJg=
+Date:   Sun, 14 Jul 2019 08:01:53 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>, j-keerthy@ti.com
+Subject: Re: [PATCH 5.1 000/138] 5.1.18-stable review
+Message-ID: <20190714060153.GB8005@kroah.com>
+References: <20190712121628.731888964@linuxfoundation.org>
+ <4dae64c8-046e-3647-52d6-43362e986d21@nvidia.com>
+ <20190712153035.GC13940@kroah.com>
+ <5f897de4-b423-c8a2-6823-d0227eb7bd38@nvidia.com>
+ <20190713143154.GB7695@kroah.com>
+ <05b84926-ec25-0ccc-527a-4a08447fab59@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?b?RndkOiBSZTog4oKsIDIsMDAwLDAwMC4wMCBFdXJv?=
-To:     Recipients <silistra@iara.government.bg>
-From:   silistra@iara.government.bg
-Date:   Fri, 12 Jul 2019 16:40:10 -0700
-Reply-To: carfleon@gmail.com
-Message-Id: <20190712234027.0ABFC2EA4BD@iara.government.bg>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <05b84926-ec25-0ccc-527a-4a08447fab59@nvidia.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Lieber Freund,
+On Sat, Jul 13, 2019 at 07:56:55PM +0100, Jon Hunter wrote:
+> 
+> On 13/07/2019 15:31, Greg Kroah-Hartman wrote:
+> > On Sat, Jul 13, 2019 at 10:16:58AM +0100, Jon Hunter wrote:
+> >>
+> >> On 12/07/2019 16:30, Greg Kroah-Hartman wrote:
+> >>> On Fri, Jul 12, 2019 at 02:26:57PM +0100, Jon Hunter wrote:
+> >>>> Hi Greg,
+> >>>>
+> >>>> On 12/07/2019 13:17, Greg Kroah-Hartman wrote:
+> >>>>> This is the start of the stable review cycle for the 5.1.18 release.
+> >>>>> There are 138 patches in this series, all will be posted as a response
+> >>>>> to this one.  If anyone has any issues with these being applied, please
+> >>>>> let me know.
+> >>>>>
+> >>>>> Responses should be made by Sun 14 Jul 2019 12:14:36 PM UTC.
+> >>>>> Anything received after that time might be too late.
+> >>>>>
+> >>>>> The whole patch series can be found in one patch at:
+> >>>>> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.1.18-rc1.gz
+> >>>>> or in the git tree and branch at:
+> >>>>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.1.y
+> >>>>> and the diffstat can be found below.
+> >>>>>
+> >>>>> thanks,
+> >>>>>
+> >>>>> greg k-h
+> >>>>>
+> >>>>> -------------
+> >>>>> Pseudo-Shortlog of commits:
+> >>>>
+> >>>> ...
+> >>>>
+> >>>>> Keerthy <j-keerthy@ti.com>
+> >>>>>     ARM: dts: dra71x: Disable usb4_tm target module
+> >>>>
+> >>>> ...
+> >>>>
+> >>>>> Keerthy <j-keerthy@ti.com>
+> >>>>>     ARM: dts: dra76x: Disable usb4_tm target module
+> >>>>
+> >>>> The above commits are generating the following compilation errors for
+> >>>> ARM ...
+> >>>>
+> >>>> Error:
+> >>>> /dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra71x.dtsi:15.1-9
+> >>>> Label or path usb4_tm not found
+> >>>>
+> >>>> Error:
+> >>>> /dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra76x.dtsi:89.1-9
+> >>>> Label or path usb4_tm not found
+> >>>>
+> >>>> After reverting these two, I no longer see these errors.
+> >>>
+> >>> Both are now dropped, thanks.  I'll push out a -rc2 with that changed.
+> >>
+> >> Hmmm ... -rc2 still not building ...
+> >>
+> >> Error:
+> >> /dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra71x.dtsi:11.1-11
+> >> Label or path rtctarget not found
+> >> Error:
+> >> /dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/dra71x.dtsi:15.1-9
+> >> Label or path usb4_tm not found
+> >>
+> >> I still see the following commit in -rc2 ...
+> >>
+> >> commit 0caa574b3244cd863dd74bde680a6309cb8803ad
+> >> Author: Keerthy <j-keerthy@ti.com>
+> >> Date:   Fri May 17 06:44:09 2019 +0530
+> >>
+> >>     ARM: dts: dra71x: Disable usb4_tm target module
+> >>
+> >> In -rc1 I see there were 4 changes from Keerthy, any chance you reverted
+> >> one of the rtc patches and not the above? Looks like the following is
+> >> missing from -rc2 ...
+> >>
+> >> Keerthy <j-keerthy@ti.com>
+> >>     ARM: dts: dra76x: Disable rtc target module
+> > 
+> > Sorry, I dropped one, but not the other.  Both now gone.
+> 
+> Great! This looks better. All tests passing now ...
+> 
+> Test results for stable-v5.1:
+>     12 builds:	12 pass, 0 fail
+>     22 boots:	22 pass, 0 fail
+>     32 tests:	32 pass, 0 fail
+> 
+> Linux version:	5.1.18-rc3-gd68c746af314
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra30-cardhu-a04
 
-Ich bin Herr Richard Wahl der Mega-Gewinner von $ 533M In Mega Millions Jackpot spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt. Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt. Ich habe mich freiwillig dazu entschieden, Ihnen den Betrag von € 2.000.000,00 zu spenden eine der ausgewählten 5, um meine Gewinne zu überprüfen, finden Sie auf meiner You Tube Seite unten.
+Wonderful, thanks for testing and letting me know.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=tne02ExNDrw
-
-Das ist dein Spendencode: [DF00430342018]
-
-Antworten Sie mit dem Spendencode auf diese E-Mail: liezlnatashavanessa@gmail.com
-
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
-
-Grüße
-
-Herr Richard Wahl
+greg k-h
