@@ -2,64 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E57169A03
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jul 2019 19:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D094269B9B
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jul 2019 21:47:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731769AbfGORgO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 15 Jul 2019 13:36:14 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:34677 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731574AbfGORgO (ORCPT
+        id S1731287AbfGOTrH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 15 Jul 2019 15:47:07 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:41865 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729598AbfGOTrH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 15 Jul 2019 13:36:14 -0400
-Received: by mail-lj1-f194.google.com with SMTP id p17so17148725ljg.1;
-        Mon, 15 Jul 2019 10:36:12 -0700 (PDT)
+        Mon, 15 Jul 2019 15:47:07 -0400
+Received: by mail-lf1-f65.google.com with SMTP id 62so6992175lfa.8;
+        Mon, 15 Jul 2019 12:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0PMRfKqUM64Kq/wVxUa7k/YufQQA+RCsvqjLh/9HcSo=;
-        b=X+TpJT4xZ/9Lxy1t/ff6N8LrdftCRIBFzNFuWt+av2w0RbuYQ4+ObTjT1/eetGMysj
-         njfdS8d+1knVnwhxbN8xzEqjf5fOIIpx275AkJwzQxyTUqosZGTTs+EFW6Ex/+IwNzWd
-         BBrnpp16OIBDX0HogxvaPN9KQEjTBlorGjWibxUtHOeH4supvKizCB6nW5L19k0pDwNm
-         GT52JlZm8txV/IfKwrBDNKXAKAjfA6MwYe87AbLRiPk8uYPKfQ/Cqw8sZE1qvzxNNaOa
-         Vw7O+OYJLFT6Fe0/93Jt6LP5CApZpEblbt+NNjkkW8BFFoC385/8iSeLTED1mXR3mSw9
-         E6cA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bONjuUbtQQH5jLsZ8thDiBK4rEqYehcmK7UxMShUto4=;
+        b=NlSh31vIROppItWXnHjJbFVJkxD0AyWAFmCqzruwRZ0IJ0IIUT9f+vJ2FWeoA9zJCH
+         iwhFAxyaXpVwchzAxpBrrn1eactGWwmJHI+kFbz223SobJ59kOPKbO7iqbfBuk6lgVCB
+         5Ght/sub9vvB3wavpA2f8t8Xci4Vs5H8BN3jJPsqsllE+mfkEb68N/vTIbLXqF179Y8v
+         a6cckuF6i5JwzsS+3Wwb00Esr1iw4Zcg2jclRTVI2QpKmL4bhEopcHokISUbL+uCkiCr
+         nOFM/lO7KhMumApjyG84oxTsbq+CXcTPTVNyazExbnxLcoe82uepb4KnRiMVw1gUFOr0
+         4ycA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0PMRfKqUM64Kq/wVxUa7k/YufQQA+RCsvqjLh/9HcSo=;
-        b=YW8EI5N/mspTLdTL/SwKs8SNdF5t8O4QsuMfwk2IKjd+wlah/lEx6Wc61DdubfGExX
-         nnu9ynKAsDIYmq2cd86U1upvvTJH84T/CHmIDe/Ycr4+W309DZEvxVFQebo/1WYayViO
-         Emf+3NAbZDqlPBzhxFmnpQnNzlQm2kOC1iSHue6BGmE23kzDjgS2uyXd59olAos0SNYD
-         JvrgSnxFy3djrWaakDpB8YShTCN98WAC+D4mFodm+Hrw8RWseL/edbkcOlMgjO1EdbVp
-         3CNAlp21zsRdkKF1abjkVq/I1gNDs3abp7pCOuULPrxlQy/tZlyeUoe7+2tz9+jTSkSo
-         ytyg==
-X-Gm-Message-State: APjAAAWmzkPKsMSlwxYguPbi8EvrsbqqdZmpKwjQ0JuKwq34Yolr5yng
-        g3qcIojR4F1x5pe/hkbgmMw=
-X-Google-Smtp-Source: APXvYqwgEh3J9df/Bb9vC2X+CvuZEFtq0Vtyjxzjj+oqStW68PHQPy9U0T2SB5MTRdt5wSdV/m06qw==
-X-Received: by 2002:a2e:6348:: with SMTP id x69mr14892434ljb.186.1563212172294;
-        Mon, 15 Jul 2019 10:36:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bONjuUbtQQH5jLsZ8thDiBK4rEqYehcmK7UxMShUto4=;
+        b=Qo8e4BIO3KGOI/gIf5WQya3h4366wz3JYb/j1H0+9TttFXDA/x/GAka2SuMVAO+1v7
+         HO45gRrXBjd4sDjCaTRBv6VpEdlPBy7ALssFzcwZrNBd1lU/aTnn65c/8ND+fHDUrwuf
+         vJa7v8GJZHq5ufNT7VgNIqvEuDPf69Z+oY587JnWXg741eHrt9N53J1SoOODuYu5c6nE
+         zPHbOSFzogmFMJK5/aHeHSxAOBaKBMLfpAhpE6XLlnzKDQ4VXzYgfFAK9XBjgU/ovVPT
+         Nkc0cLCmnN8FCYFUM3QXHapuYP+SK56/vR8xbSajTNmjtDLP0WLyXTkwB3Obd6Ra8RZl
+         u2FA==
+X-Gm-Message-State: APjAAAVNftvl5GhBFk5A9cSVWe3YelDkh4pZ5z8A1txhlGC+UwjPWYZq
+        h6C3DEdD5KChAolmZRip+OY=
+X-Google-Smtp-Source: APXvYqyrz4QTINSJX7yp2FooeWd7UWe+hqpIkShSDQICtMxLsN4gtSA8RJfqmLLZDps8UTQsPb21Zw==
+X-Received: by 2002:a19:c1cc:: with SMTP id r195mr12068899lff.95.1563220024867;
+        Mon, 15 Jul 2019 12:47:04 -0700 (PDT)
 Received: from localhost.localdomain (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.gmail.com with ESMTPSA id o8sm1869131lfi.15.2019.07.15.10.36.11
+        by smtp.gmail.com with ESMTPSA id y15sm2457311lfg.43.2019.07.15.12.47.03
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jul 2019 10:36:11 -0700 (PDT)
+        Mon, 15 Jul 2019 12:47:04 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
+To:     Rob Herring <robh+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/2] clk: tegra: divider: Support enable-bit for Super clocks
-Date:   Mon, 15 Jul 2019 20:35:27 +0300
-Message-Id: <20190715173527.5719-2-digetx@gmail.com>
+Subject: [PATCH v1 0/3] Support regulators coupling on NVIDIA Tegra20/30
+Date:   Mon, 15 Jul 2019 22:45:00 +0300
+Message-Id: <20190715194503.19100-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190715173527.5719-1-digetx@gmail.com>
-References: <20190715173527.5719-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -67,86 +64,36 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-All "super" clock dividers have enable bit.
+Hello,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/clk/tegra/clk-divider.c | 12 ++++++++++++
- drivers/clk/tegra/clk-super.c   |  1 +
- drivers/clk/tegra/clk.h         |  4 ++++
- 3 files changed, 17 insertions(+)
+The voltage regulators need to be coupled on NVIDIA Tegra20 and Tegra30
+SoCs in order to provide voltage scaling functionality in a generic way.
+All necessary regulator-core patches that added support for the regulators
+coupling are already have been merge into mainline kernel. This series
+adds customized voltage couplers for Tegra20/30 SoCs, paving the way for
+a refined CPUFreq driver that will utilize voltage scaling and other neat
+features. This is a resend of a leftover patches from a previous series
+[1] that was partially applied by Mark Brown. Please review, thanks in
+advance!
 
-diff --git a/drivers/clk/tegra/clk-divider.c b/drivers/clk/tegra/clk-divider.c
-index f33c19045386..a980b9bddecd 100644
---- a/drivers/clk/tegra/clk-divider.c
-+++ b/drivers/clk/tegra/clk-divider.c
-@@ -17,6 +17,7 @@
- #define get_max_div(d) div_mask(d)
- 
- #define PERIPH_CLK_UART_DIV_ENB BIT(24)
-+#define SUPER_CLK_DIV_ENB BIT(31)
- 
- static int get_div(struct tegra_clk_frac_div *divider, unsigned long rate,
- 		   unsigned long parent_rate)
-@@ -46,6 +47,10 @@ static unsigned long clk_frac_div_recalc_rate(struct clk_hw *hw,
- 	    !(reg & PERIPH_CLK_UART_DIV_ENB))
- 		return rate;
- 
-+	if ((divider->flags & TEGRA_DIVIDER_SUPER) &&
-+	    !(reg & SUPER_CLK_DIV_ENB))
-+		return rate;
-+
- 	div = (reg >> divider->shift) & div_mask(divider);
- 
- 	mul = get_mul(divider);
-@@ -96,6 +101,13 @@ static int clk_frac_div_set_rate(struct clk_hw *hw, unsigned long rate,
- 	val &= ~(div_mask(divider) << divider->shift);
- 	val |= div << divider->shift;
- 
-+	if (divider->flags & TEGRA_DIVIDER_SUPER) {
-+		if (div)
-+			val |= SUPER_CLK_DIV_ENB;
-+		else
-+			val &= ~SUPER_CLK_DIV_ENB;
-+	}
-+
- 	if (divider->flags & TEGRA_DIVIDER_UART) {
- 		if (div)
- 			val |= PERIPH_CLK_UART_DIV_ENB;
-diff --git a/drivers/clk/tegra/clk-super.c b/drivers/clk/tegra/clk-super.c
-index 39ef31b46df5..4d8e36b04f03 100644
---- a/drivers/clk/tegra/clk-super.c
-+++ b/drivers/clk/tegra/clk-super.c
-@@ -220,6 +220,7 @@ struct clk *tegra_clk_register_super_clk(const char *name,
- 	super->frac_div.width = 8;
- 	super->frac_div.frac_width = 1;
- 	super->frac_div.lock = lock;
-+	super->frac_div.flags = TEGRA_DIVIDER_SUPER;
- 	super->div_ops = &tegra_clk_frac_div_ops;
- 
- 	/* Data in .init is copied by clk_register(), so stack variable OK */
-diff --git a/drivers/clk/tegra/clk.h b/drivers/clk/tegra/clk.h
-index 905bf1096558..a4fbf55930aa 100644
---- a/drivers/clk/tegra/clk.h
-+++ b/drivers/clk/tegra/clk.h
-@@ -53,6 +53,9 @@ struct clk *tegra_clk_register_sync_source(const char *name,
-  * TEGRA_DIVIDER_UART - UART module divider has additional enable bit which is
-  *      set when divider value is not 0. This flags indicates that the divider
-  *      is for UART module.
-+ * TEGRA_DIVIDER_SUPER - Super clock divider has additional enable bit which
-+ *      is set when divider value is not 0. This flags indicates that the
-+ *      divider is for super clock.
-  */
- struct tegra_clk_frac_div {
- 	struct clk_hw	hw;
-@@ -70,6 +73,7 @@ struct tegra_clk_frac_div {
- #define TEGRA_DIVIDER_FIXED BIT(1)
- #define TEGRA_DIVIDER_INT BIT(2)
- #define TEGRA_DIVIDER_UART BIT(3)
-+#define TEGRA_DIVIDER_SUPER BIT(4)
- 
- extern const struct clk_ops tegra_clk_frac_div_ops;
- struct clk *tegra_clk_register_divider(const char *name,
+[1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=115626
+
+Dmitry Osipenko (3):
+  dt-bindings: regulator: Document regulators coupling of NVIDIA
+    Tegra20/30 SoCs
+  soc/tegra: regulators: Add regulators coupler for Tegra20
+  soc/tegra: regulators: Add regulators coupler for Tegra30
+
+ .../nvidia,tegra-regulators-coupling.txt      |  65 ++++
+ drivers/soc/tegra/Kconfig                     |  10 +
+ drivers/soc/tegra/Makefile                    |   2 +
+ drivers/soc/tegra/regulators-tegra20.c        | 350 ++++++++++++++++++
+ drivers/soc/tegra/regulators-tegra30.c        | 302 +++++++++++++++
+ 5 files changed, 729 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/regulator/nvidia,tegra-regulators-coupling.txt
+ create mode 100644 drivers/soc/tegra/regulators-tegra20.c
+ create mode 100644 drivers/soc/tegra/regulators-tegra30.c
+
 -- 
 2.22.0
 
