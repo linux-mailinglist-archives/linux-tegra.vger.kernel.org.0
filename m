@@ -2,67 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D66A687D8
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jul 2019 13:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B4AB68F3A
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jul 2019 16:13:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729976AbfGOLFl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 15 Jul 2019 07:05:41 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:43834 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729885AbfGOLFk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 15 Jul 2019 07:05:40 -0400
-Received: by mail-pl1-f194.google.com with SMTP id 4so1162349pld.10
-        for <linux-tegra@vger.kernel.org>; Mon, 15 Jul 2019 04:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
-        b=HGS8/iMuetgVtqjxe/M9HccA1zlygCGly7/jeXcDSWx8Saz/Z5MgMrIp2cgdSWY29g
-         K8CFbAm4PHBe01rQAePn9e3nA4kqcb3EqL74HD62Ua3YaotA/UCz2IbHrhvOMRk8dtlu
-         E/P+JDWCY8cDx1Q+nB9qO/puoCtuHmwzZ+Kn5k3VmiMMhYgXHImwVLabvl/cUzW9SSnM
-         pMi2vWUH1YfvVMsB+vDI3TRq9xEa+CJXBTyHDIVMNAuyaQinM1nhnoY99FJ0noODVeBS
-         kt7oqk6LHOEUCN/hpffdtrQYs9cgmVU2Ep++Eq4w/1uVw5NS2iN3IBdpHtsfPH1AHgM/
-         2cAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
-        b=G7Mt0jMZYYvHHQ/NIsMXaE/AUXIIjqHtdCyw6nDhXsHJpQedfIcptOPTNMGzZgd9lG
-         vXKmY2Thp2Lm30wqfBvagONJQhl8k1zEsx2pKKE/2x6XMc087jYfiiBWr6c4uS4rA77V
-         YmN/zPrmNYAUgCqzjpLVhyfDcEn5kvJJLyj4SmgSxnIfPOsG/a1Hk+k7Bc7HmSEcq2MP
-         qu72G0RJDs4alFgmvg0TdZU0dSn6wz5nklzBwgo76QASLGn3jlsTa1/13Knwi4SWFdiv
-         crCW4hM2LF8gIkDbLByrZq6UScW4iwB1qmdlE50954DvOJN6TqUkLMhK8vTgFkIlXfKY
-         lkJQ==
-X-Gm-Message-State: APjAAAXW3CY+2U80eHJZdg0ybgMAvF9zyKYsuVehrJIT7l4Am3dPIYBs
-        oPW4rTFh+hkCWKmEebD2KMp0AO5BSCAOyu16iII=
-X-Google-Smtp-Source: APXvYqwOiXbe+a9fRpbpLXTvNPVwsPT1oZ68shKAePpc9r68uLJsEQQtdPnaiZAs6t/7uXs9XbugJ0+3MvDIhFf7bT8=
-X-Received: by 2002:a17:902:82c4:: with SMTP id u4mr27727554plz.196.1563188740213;
- Mon, 15 Jul 2019 04:05:40 -0700 (PDT)
+        id S2388931AbfGOOMy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 15 Jul 2019 10:12:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52580 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388839AbfGOOMx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:12:53 -0400
+Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 655252081C;
+        Mon, 15 Jul 2019 14:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563199973;
+        bh=ucldNSU9aF/6swDbofRjao5OCEXesRq3j4nOSnVhMs8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nCtdxjd/Ors2uYrpLZkrNKUGEqosuWKYtWv6gfEcjqnXYMIBO7KXYcrcZvp/IpzQD
+         fP2qxnjBM0h5pxFUrPBEn169hUeCUwvCd/CCmyrjfi+3/QWRAwl+JkmmapK1AjFR19
+         g6pYm3uZNHTt8LuZyA3tJ/cbot2MK/VqySjFzGcE=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.1 151/219] clocksource/drivers/tegra: Restore base address before cleanup
+Date:   Mon, 15 Jul 2019 10:02:32 -0400
+Message-Id: <20190715140341.6443-151-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
+References: <20190715140341.6443-1-sashal@kernel.org>
 MIME-Version: 1.0
-Received: by 2002:a17:90a:b78d:0:0:0:0 with HTTP; Mon, 15 Jul 2019 04:05:39
- -0700 (PDT)
-From:   Donald Douglas <ddouglasng@gmail.com>
-Date:   Mon, 15 Jul 2019 04:05:39 -0700
-Message-ID: <CALVR28HVqJxvCvm-YQ-YA+u8OLbgMVNk_HuoUMbqH-o67LhU3A@mail.gmail.com>
-Subject: Kindly Respond
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello,
-I am Barr Fredrick Mbogo a business consultant i have a lucrative
-business to discuss with you from the Eastern part of Africa Uganda to
-be precise aimed at agreed percentage upon your acceptance of my hand
-in business and friendship. Kindly respond to me if you are interested
-to partner with me for an update. Very important.
+From: Dmitry Osipenko <digetx@gmail.com>
 
-Yours Sincerely,
-Donald Douglas,
-For,
-Barr Frederick Mbogo
-Legal Consultant.
-Reply to: barrfredmbogo@consultant.com
+[ Upstream commit fc9babc2574691d3bbf0428f007b22261fed55c6 ]
+
+We're adjusting the timer's base for each per-CPU timer to point to the
+actual start of the timer since device-tree defines a compound registers
+range that includes all of the timers. In this case the original base
+need to be restore before calling iounmap to unmap the proper address.
+
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/clocksource/timer-tegra20.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/clocksource/timer-tegra20.c b/drivers/clocksource/timer-tegra20.c
+index cc18bb135a17..84adfff59fb0 100644
+--- a/drivers/clocksource/timer-tegra20.c
++++ b/drivers/clocksource/timer-tegra20.c
+@@ -341,6 +341,8 @@ static int __init tegra_init_timer(struct device_node *np)
+ 			irq_dispose_mapping(cpu_to->clkevt.irq);
+ 		}
+ 	}
++
++	to->of_base.base = timer_reg_base;
+ out:
+ 	timer_of_cleanup(to);
+ 	return ret;
+-- 
+2.20.1
+
