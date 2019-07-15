@@ -2,40 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B4AB68F3A
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jul 2019 16:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5067869725
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jul 2019 17:09:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388931AbfGOOMy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 15 Jul 2019 10:12:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52580 "EHLO mail.kernel.org"
+        id S1732378AbfGON5Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 15 Jul 2019 09:57:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35082 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388839AbfGOOMx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:12:53 -0400
+        id S1732630AbfGON5O (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 15 Jul 2019 09:57:14 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 655252081C;
-        Mon, 15 Jul 2019 14:12:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AFD70212F5;
+        Mon, 15 Jul 2019 13:57:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563199973;
-        bh=ucldNSU9aF/6swDbofRjao5OCEXesRq3j4nOSnVhMs8=;
+        s=default; t=1563199033;
+        bh=UG91chrN/OOTQ14wBt92dwxM7zmzpsR+J/5kc7HEd+I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nCtdxjd/Ors2uYrpLZkrNKUGEqosuWKYtWv6gfEcjqnXYMIBO7KXYcrcZvp/IpzQD
-         fP2qxnjBM0h5pxFUrPBEn169hUeCUwvCd/CCmyrjfi+3/QWRAwl+JkmmapK1AjFR19
-         g6pYm3uZNHTt8LuZyA3tJ/cbot2MK/VqySjFzGcE=
+        b=KiQKYZ+PYEZbiJ34LUmout3LUTtYCJRglmnHR9L62Oj/3wsT0FfeBKqHWtxqEBKqa
+         RS8ZAUltbaXHqRO6qJ+frstqlQLDoYup9RlvggzCNWCLYjhZaZNz3NKukoJRCPxKAD
+         RkIIrekUYskx5yYGLZ1AxXlWkxi/NKqXUzc0+xkg=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
         Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 151/219] clocksource/drivers/tegra: Restore base address before cleanup
-Date:   Mon, 15 Jul 2019 10:02:32 -0400
-Message-Id: <20190715140341.6443-151-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 170/249] clocksource/drivers/tegra: Release all IRQ's on request_irq() error
+Date:   Mon, 15 Jul 2019 09:45:35 -0400
+Message-Id: <20190715134655.4076-170-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
-References: <20190715140341.6443-1-sashal@kernel.org>
+In-Reply-To: <20190715134655.4076-1-sashal@kernel.org>
+References: <20190715134655.4076-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -47,35 +46,42 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Dmitry Osipenko <digetx@gmail.com>
 
-[ Upstream commit fc9babc2574691d3bbf0428f007b22261fed55c6 ]
+[ Upstream commit 7a3916706e858ad0bc3b5629c68168e1449de26a ]
 
-We're adjusting the timer's base for each per-CPU timer to point to the
-actual start of the timer since device-tree defines a compound registers
-range that includes all of the timers. In this case the original base
-need to be restore before calling iounmap to unmap the proper address.
+Release all requested IRQ's on the request error to properly clean up
+allocated resources.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
+Acked-By: Peter De Schrijver <pdeschrijver@nvidia.com>
 Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/clocksource/timer-tegra20.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/clocksource/timer-tegra20.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/clocksource/timer-tegra20.c b/drivers/clocksource/timer-tegra20.c
-index cc18bb135a17..84adfff59fb0 100644
+index 1e7ece279730..fe5cc0963ac9 100644
 --- a/drivers/clocksource/timer-tegra20.c
 +++ b/drivers/clocksource/timer-tegra20.c
-@@ -341,6 +341,8 @@ static int __init tegra_init_timer(struct device_node *np)
- 			irq_dispose_mapping(cpu_to->clkevt.irq);
+@@ -288,7 +288,7 @@ static int __init tegra_init_timer(struct device_node *np)
+ 			pr_err("%s: can't map IRQ for CPU%d\n",
+ 			       __func__, cpu);
+ 			ret = -EINVAL;
+-			goto out;
++			goto out_irq;
+ 		}
+ 
+ 		irq_set_status_flags(cpu_to->clkevt.irq, IRQ_NOAUTOEN);
+@@ -298,7 +298,8 @@ static int __init tegra_init_timer(struct device_node *np)
+ 		if (ret) {
+ 			pr_err("%s: cannot setup irq %d for CPU%d\n",
+ 				__func__, cpu_to->clkevt.irq, cpu);
+-			ret = -EINVAL;
++			irq_dispose_mapping(cpu_to->clkevt.irq);
++			cpu_to->clkevt.irq = 0;
+ 			goto out_irq;
  		}
  	}
-+
-+	to->of_base.base = timer_reg_base;
- out:
- 	timer_of_cleanup(to);
- 	return ret;
 -- 
 2.20.1
 
