@@ -2,86 +2,173 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A5F2695FE
-	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jul 2019 17:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBFF5699B8
+	for <lists+linux-tegra@lfdr.de>; Mon, 15 Jul 2019 19:30:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731343AbfGOOMu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 15 Jul 2019 10:12:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52144 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389122AbfGOOMt (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:12:49 -0400
-Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D96872083D;
-        Mon, 15 Jul 2019 14:12:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563199967;
-        bh=lOE15GJAkkPs907XzEXCOpEE2O4/Jf4GNtl+bvxUd8M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Kr6Eb6UmMhNF3U3EntBknwUCN6uSKmYO4sPworlR+r7qMBlcq0BK9nN6H4/S37bT6
-         m/DAvdvHC6jLP6/GVqv51y8fU7n/uq6HLa4anFoUYz9K6jMl4w8710p0zJv4yhS8TU
-         ghqnzjm7s2aTtzF0n5SaZ6zQGaNASDKwGgq8D/+0=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        id S1731683AbfGOR3r (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 15 Jul 2019 13:29:47 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:42218 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730774AbfGOR3r (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 15 Jul 2019 13:29:47 -0400
+Received: by mail-lf1-f65.google.com with SMTP id s19so11578545lfb.9;
+        Mon, 15 Jul 2019 10:29:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=14LUvsDt1gvon+wQxuZkucZPfWNvGtdLSK5zNw+y+rA=;
+        b=ixrxfkci5dK+hglsPn5hYVamBJtCPCa0nsBEWDUI0EpA8GFehnCmVFI9GCfedQbpUu
+         FDTHVi3tV5sA67WmYGwasXnB3ivKrzwVNMy6/bWmDKs1XZOXtq1nTdETXmdcQPgyNfUk
+         1MA2KKVN1yaehff8y0asY8lIZ/lmYp5WycT4JNS2YfiaxTGM6K72tIpyqEOMrvljCxL8
+         23jzXHSLjHS0rfkSWtcqybyVS5dVDUVGziUOEgfy2SED+fBIQBxi4DSwau29FKuaqJSr
+         OaiFWePa0lYtnFBJ398YLihSjmxlSfB8wloB8tY0h+58x8eLb2FxgA2/zAOgdlO3qHJU
+         +Vxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=14LUvsDt1gvon+wQxuZkucZPfWNvGtdLSK5zNw+y+rA=;
+        b=b8uV0SnHUrjl/B1iLLh1MHDExQdRymjJm+9wh9zjHRKgdrkFngFz1b5OO3XmoqnpzW
+         toluuc4RuAAy1MwKj6AdBUbQ/W1pfAs+ZgQenfjCwIl9QpmtgMxcFEkh5UPjg9TwW32j
+         wSkcuVmnnbFvwKmVoczLplCOx4VjW7iSOSlDv8qc9iKJj2yNuwU9f1DlIdUAfw/ZHcUc
+         LRASDJdBHdsIPwJeHXsiyfOD5gvXcwcY/oaFv+3G7GbhPHSftuQlqJWX6Am0hbYmOskS
+         VQhmJ0GpbHWZ0Md8UxCnbd7JA7Mr0ZBP8a4IMkJBEUQLWOMZV60wYh+varncYjojfggy
+         at3w==
+X-Gm-Message-State: APjAAAUkHK9ih7hyYXx3bjCGh2vxgGcJwvpsGXzGzd6svTh/UmwpWI7w
+        9jhW7oEA9xAMpq0VzUWGg4Y=
+X-Google-Smtp-Source: APXvYqz03+U5F5T79TCqUrDKPWa9pW7113bB7WL9Hu2ZaUcqUgWSXnsTbG6w0fLEJMAFg3WfQLZ3lQ==
+X-Received: by 2002:ac2:5bc7:: with SMTP id u7mr12198271lfn.167.1563211784616;
+        Mon, 15 Jul 2019 10:29:44 -0700 (PDT)
+Received: from localhost.localdomain (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
+        by smtp.gmail.com with ESMTPSA id b17sm3248765ljf.34.2019.07.15.10.29.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Jul 2019 10:29:43 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 149/219] clocksource/drivers/tegra: Release all IRQ's on request_irq() error
-Date:   Mon, 15 Jul 2019 10:02:30 -0400
-Message-Id: <20190715140341.6443-149-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
-References: <20190715140341.6443-1-sashal@kernel.org>
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/13] Consolidate and improve NVIDIA Tegra CPUIDLE driver(s)
+Date:   Mon, 15 Jul 2019 20:26:16 +0300
+Message-Id: <20190715172629.4437-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+Hello,
 
-[ Upstream commit 7a3916706e858ad0bc3b5629c68168e1449de26a ]
+I was spending quite some time recently trying to hunt down CPU-suspend
+bug on Tegra30 SoC and in the end it was nailed. During that time I
+realized that the CPU Idle drivers could get some polish and gain new
+features, thus that's what this series does:
 
-Release all requested IRQ's on the request error to properly clean up
-allocated resources.
+  1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
+     into common drivers/cpuidle/ directory.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Acked-By: Peter De Schrijver <pdeschrijver@nvidia.com>
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/clocksource/timer-tegra20.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+  2. Enables CPU cluster power-down idling state on Tegra30.
 
-diff --git a/drivers/clocksource/timer-tegra20.c b/drivers/clocksource/timer-tegra20.c
-index fdb3d795a409..cc18bb135a17 100644
---- a/drivers/clocksource/timer-tegra20.c
-+++ b/drivers/clocksource/timer-tegra20.c
-@@ -310,7 +310,7 @@ static int __init tegra_init_timer(struct device_node *np)
- 			pr_err("%s: can't map IRQ for CPU%d\n",
- 			       __func__, cpu);
- 			ret = -EINVAL;
--			goto out;
-+			goto out_irq;
- 		}
- 
- 		irq_set_status_flags(cpu_to->clkevt.irq, IRQ_NOAUTOEN);
-@@ -320,7 +320,8 @@ static int __init tegra_init_timer(struct device_node *np)
- 		if (ret) {
- 			pr_err("%s: cannot setup irq %d for CPU%d\n",
- 				__func__, cpu_to->clkevt.irq, cpu);
--			ret = -EINVAL;
-+			irq_dispose_mapping(cpu_to->clkevt.irq);
-+			cpu_to->clkevt.irq = 0;
- 			goto out_irq;
- 		}
- 	}
+In the end there is a quite nice clean up of the Tegra CPUIDLE driver(s)
+and of the Tegra's arch code in general. Please review, thanks!
+
+Changelog:
+
+v3: - Addressed review comments that were made by Jon Hunter to v2 by
+      splitting patches into smaller (and simpler) chunks, better
+      documenting changes in the commit messages and using proper error
+      codes in the code.
+
+      Warnings are replaced with a useful error messages in the code of
+      "Introduce unified driver for NVIDIA Tegra SoCs" patch.
+
+      Secondary CPUs parking timeout increased to 100ms because I found
+      that it actually may happen to take more than 1ms if CPU is running
+      on a *very* low frequency.
+
+      Added diagnostic messages that are reporting Flow Controller state
+      when CPU parking fails.
+
+      Further polished cpuidle driver's code.
+
+      The coupled state entering is now aborted if there is a pending SGI
+      (Software Generated Interrupt) because it will be lost after GIC's
+      power-cycling. Like it was done by the old Tegra20 CPUIDLE driver.
+
+v2: - Added patches to enable the new cpuidle driver in the defconfigs:
+
+        ARM: multi_v7_defconfig: Enable Tegra cpuidle driver
+        ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
+
+    - Dropped patches that removed CPUIDLE_FLAG_TIMER_STOP from the idling
+      states because that flag actually doesn't have any negative effects,
+      but still is correct for the case of a local CPU timer on older Tegra
+      SoCs:
+
+        cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP from Tegra114/124 idle-state
+        cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP from all states
+
+    - The "Add unified driver for NVIDIA Tegra SoCs" patch got more polish.
+      Tegra30 and Terga114 states are now squashed into a single common C7
+      state (following Parker TRM terminology, see 17.2.2.2 Power Management
+      States), more comments added, etc minor changes.
+
+Dmitry Osipenko (13):
+  ARM: tegra: Remove cpuidle drivers to replace them with a new driver
+  ARM: tegra: Change tegra_set_cpu_in_lp2() type to void
+  ARM: tegra: Propagate error from tegra_idle_lp2_last()
+  ARM: tegra: Compile sleep-tegra20/30.S unconditionally
+  ARM: tegra: Expose PM functions required for new cpuidle driver
+  ARM: tegra: Rename some of the newly exposed PM functions
+  ARM: tegra: Add tegra_pm_park_secondary_cpu()
+  clk: tegra: Add missing stubs for the case of !CONFIG_PM_SLEEP
+  cpuidle: Introduce unified driver for NVIDIA Tegra SoCs
+  cpuidle: tegra: Support CPU cluster power-down state on Tegra30
+  ARM: tegra: Create simple platform device for cpuidle driver
+  ARM: multi_v7_defconfig: Enable Tegra cpuidle driver
+  ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
+
+ arch/arm/configs/multi_v7_defconfig           |   1 +
+ arch/arm/configs/tegra_defconfig              |   1 +
+ arch/arm/mach-tegra/Makefile                  |  23 +-
+ arch/arm/mach-tegra/cpuidle-tegra114.c        |  89 -----
+ arch/arm/mach-tegra/cpuidle-tegra20.c         | 212 -----------
+ arch/arm/mach-tegra/cpuidle-tegra30.c         | 132 -------
+ arch/arm/mach-tegra/cpuidle.c                 |  50 ---
+ arch/arm/mach-tegra/cpuidle.h                 |  21 --
+ arch/arm/mach-tegra/irq.c                     |   3 +-
+ arch/arm/mach-tegra/pm.c                      |  47 +--
+ arch/arm/mach-tegra/pm.h                      |   4 -
+ arch/arm/mach-tegra/reset-handler.S           |  11 -
+ arch/arm/mach-tegra/reset.h                   |   9 +-
+ arch/arm/mach-tegra/sleep-tegra20.S           | 170 ---------
+ arch/arm/mach-tegra/sleep-tegra30.S           |   6 +-
+ arch/arm/mach-tegra/sleep.h                   |  15 -
+ arch/arm/mach-tegra/tegra.c                   |   7 +-
+ drivers/cpuidle/Kconfig.arm                   |   8 +
+ drivers/cpuidle/Makefile                      |   1 +
+ drivers/cpuidle/cpuidle-tegra.c               | 348 ++++++++++++++++++
+ drivers/soc/tegra/Kconfig                     |   1 -
+ include/linux/clk/tegra.h                     |  13 +
+ include/soc/tegra/cpuidle.h                   |   2 +-
+ .../mach-tegra => include/soc/tegra}/irq.h    |   8 +-
+ include/soc/tegra/pm.h                        |  31 ++
+ 25 files changed, 450 insertions(+), 763 deletions(-)
+ delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra114.c
+ delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra20.c
+ delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra30.c
+ delete mode 100644 arch/arm/mach-tegra/cpuidle.c
+ delete mode 100644 arch/arm/mach-tegra/cpuidle.h
+ create mode 100644 drivers/cpuidle/cpuidle-tegra.c
+ rename {arch/arm/mach-tegra => include/soc/tegra}/irq.h (59%)
+
 -- 
-2.20.1
+2.22.0
 
