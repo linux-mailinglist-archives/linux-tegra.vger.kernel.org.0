@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AEDB26A9BA
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jul 2019 15:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B79346A9F4
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jul 2019 15:59:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733302AbfGPNfz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jul 2019 09:35:55 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:46470 "EHLO
+        id S2387599AbfGPN7r (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jul 2019 09:59:47 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:38448 "EHLO
         mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726039AbfGPNfz (ORCPT
+        with ESMTP id S1726997AbfGPN7r (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jul 2019 09:35:55 -0400
-Received: by mail-lj1-f196.google.com with SMTP id v24so19990126ljg.13;
-        Tue, 16 Jul 2019 06:35:53 -0700 (PDT)
+        Tue, 16 Jul 2019 09:59:47 -0400
+Received: by mail-lj1-f196.google.com with SMTP id r9so20055681ljg.5;
+        Tue, 16 Jul 2019 06:59:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JczOqdcOozRgJZn27WRtXECSpKpZWnFeQlOK21NqJTI=;
-        b=QZuO3BM9QL/bCfAs6NU0VAMucHxBgR846CrL/8fvzvPFJghkhO/b+F4hfC9b2MQP/T
-         q/RbyLnXV1oT9Pig6TN97yK4XiMKWQ5CGjc/av1crPmTHVTgBUa40Okg9biU1mvODdD0
-         HSOOb/OtD0UPtu+ovU7PgA6GHz2ewEpSrNk8rDRUca5Rjk9rv8pweR9p5Kde4H5vQZlz
-         nolXdQ6K/r/KFyAPxEj/TX5D3bDgQq0y1mksTC3/7iUr9Bxx/Yi88U5X7hPkdc+yvp9u
-         MWbagDGPuxMZOYBYCQPyLPENalhRxDD4yaxDWriolyR9RJIrmZounSCi1YnRj2soVBpp
-         xpWA==
+        bh=7H6i1LxDmB04ycY5ef1F3c/qYaMlYDDIBcVi4+5VGZs=;
+        b=MArk12hyaMeQaUedo0Zo3ngitcjN1CJN65igxLVq6n3lA6NpZVHcxE5KbtO3ipqBaU
+         uMl0q8Xw2v68Ha5HDdDRadjG0sJ/YvgCISRQEME+xeCFgMkfZBwNOrsOg1CTdQ463hOp
+         6w1Xr4LCn8iBjCustjV/j8mdtYdO15qVJOngV8yUkJt7Iv9zkeCRJA6QjtC7ni9HM+ru
+         lO94WMul5YG495bgeYL/rjCKxCxQAJZnxUBQzRZcPs5R5n0+xjrGh5s4h4DlvSjD1WsO
+         O/lDua85p4zwLhMVssZIttrcs2YEOKbYWr7WpRDaqXx4ABYbjRfZFZWm0uYIYh0Z4pVE
+         bmWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=JczOqdcOozRgJZn27WRtXECSpKpZWnFeQlOK21NqJTI=;
-        b=gsWOw9caFH0wd5BCzQQoFY/yu5MQvW//9ctU0I6RyMTkgeuQAXMIE6RJXfh8Rj3Svg
-         EtbZHu/xFlRU8XNDduuT7chx6ztjszw667tt7pSMRkcjDDguByPyR7Dbuwxk+FJ4LlSb
-         pbTDAKfsTDdz/xsjuZxS3qiPOvfVm3d24pZhKLi9sNqAj7zm8ZJzkNz01EllnmX++wwE
-         TnMjYyDwA2CCPQwJU8Ka5tbZsTAgJix2TB2lNS5TtyfjBfAJratPUyVF3suEjyj7R43T
-         Filn3S1ylGzPWX+fQpeEjnLBY1vIAPIWzOYt4U9KtAc4yFUapBLVikuzIcTb08sqlInX
-         wINQ==
-X-Gm-Message-State: APjAAAWl9O7SKqq/D5xq4DF80rwrvLhPr650hhogPjQbDQHZu4PPF7m7
-        uUIVAHbgRpVYRk4G/qet7nxWLwEE
-X-Google-Smtp-Source: APXvYqx/xOnw9CBAPawQq8tfPCiKknL+ChvYP0A6lzl+WyHt7N847pLg2hkxymRPmNwV3xygfZMsDg==
-X-Received: by 2002:a2e:b0c4:: with SMTP id g4mr2424477ljl.155.1563284152855;
-        Tue, 16 Jul 2019 06:35:52 -0700 (PDT)
+        bh=7H6i1LxDmB04ycY5ef1F3c/qYaMlYDDIBcVi4+5VGZs=;
+        b=A6VRIXR6eTgygpDpucFUjvj9vJClGu/R0x+zKL/Q+Qa6dN55CZv8cEqtSdnF/eQSUF
+         OPIgjSoc9U9XkEQkPKlylTtueoKcl5uHOj8EqVrBXfHNBdsCFvQoKsW0+Qc7RzAFvGLb
+         FlJ0NyqdYVnkAi7VgGglYpOgeDHW+hYHkOo7fpTvVxu2rviR2Ft0CIt+1ggD977/DlNb
+         SL5PJdxOdPpNhc5IWEUzfbn4lm6VeGYeDCPy+ASI0Bdf8ozTqLkYYzh45X9OcX/AU+Cc
+         j3wyDPzeawr8Ipi7FcDeXN4KkhuvY9U9eZBB7tLbxltdAnkymGSxj5nk+/fyiDYd387Y
+         dl2g==
+X-Gm-Message-State: APjAAAWypjzlY9ZVfurN0YHNmzu7Tv5snuleWIx+ADdva4iKb13EaufQ
+        DvPOcZkxir6rJsx6tAuUVdeND4TJ
+X-Google-Smtp-Source: APXvYqxQNH0L/ucC++0xm+Z0K2Lj8uPYP4FhAVzja+WgJC3TQm7601IQXRAm96Z0eFCAtgaG5+P1vw==
+X-Received: by 2002:a2e:2b01:: with SMTP id q1mr17270563lje.27.1563285584512;
+        Tue, 16 Jul 2019 06:59:44 -0700 (PDT)
 Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id u18sm3761581ljj.32.2019.07.16.06.35.51
+        by smtp.googlemail.com with ESMTPSA id r24sm4176544ljb.72.2019.07.16.06.59.43
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Jul 2019 06:35:52 -0700 (PDT)
-Subject: Re: [PATCH v4 12/24] PM / devfreq: tegra30: Inline all one-line
- functions
+        Tue, 16 Jul 2019 06:59:43 -0700 (PDT)
+Subject: Re: [PATCH v4 14/24] PM / devfreq: tegra30: Ensure that target freq
+ won't overflow
 To:     Chanwoo Choi <cw00.choi@samsung.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         MyungJoo Ham <myungjoo.ham@samsung.com>,
@@ -57,16 +57,16 @@ To:     Chanwoo Choi <cw00.choi@samsung.com>,
 Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20190707223303.6755-1-digetx@gmail.com>
- <CGME20190707223633epcas4p3873704f3199126be0e8d5cb7454c7a51@epcas4p3.samsung.com>
- <20190707223303.6755-13-digetx@gmail.com>
- <b5634fbe-8bc1-0f04-e13b-6345dfbb5615@samsung.com>
+ <CGME20190707223631epcas4p42012d0364a4c952d90f078fb45982722@epcas4p4.samsung.com>
+ <20190707223303.6755-15-digetx@gmail.com>
+ <e6b53ba0-ac98-bda6-b087-553088a43d9f@samsung.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b7da3fa2-00d1-5bd6-408c-202c85be917d@gmail.com>
-Date:   Tue, 16 Jul 2019 16:35:51 +0300
+Message-ID: <14115aa7-ed40-2775-9b0b-a2bf6ca9d47e@gmail.com>
+Date:   Tue, 16 Jul 2019 16:59:42 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <b5634fbe-8bc1-0f04-e13b-6345dfbb5615@samsung.com>
+In-Reply-To: <e6b53ba0-ac98-bda6-b087-553088a43d9f@samsung.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -75,20 +75,43 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.07.2019 15:26, Chanwoo Choi пишет:
-> Hi Dmitry,
+16.07.2019 15:30, Chanwoo Choi пишет:
+> On 19. 7. 8. 오전 7:32, Dmitry Osipenko wrote:
+>> Potentially very high boosting could cause an integer overflow for a
+>> highly clocked memory after conversion to MHz.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/devfreq/tegra30-devfreq.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+>> index 2f59c78930bd..0de1efdaabf4 100644
+>> --- a/drivers/devfreq/tegra30-devfreq.c
+>> +++ b/drivers/devfreq/tegra30-devfreq.c
+>> @@ -460,6 +460,7 @@ static unsigned long actmon_update_target(struct tegra_devfreq *tegra,
+>>  	unsigned long target_freq;
+>>  
+>>  	target_freq = dev->avg_count / ACTMON_SAMPLING_PERIOD + dev->boost_freq;
+>> +	target_freq = min(target_freq, ULONG_MAX / KHZ);
 > 
-> I'm not sure that it is necessary.
-> As I knew, usally, the 'inline' is used on header file
-> to define the empty functions.
-> 
-> Do we have to change it with 'inline' keyword?
+> Did you meet this corner case?
 
-The 'inline' attribute tells compiler that instead of jumping into the
-function, it should take the function's code and replace the function's
-invocation with that code. This is done in order to help compiler
-optimize code properly, please see [1]. There is absolutely no need to
-create a function call into a function that consists of a single
-instruction.
+I can't recall that, technically it could happen and I don't feel
+comfortable by having potential integer overflows anyway.
 
-[1] https://gcc.gnu.org/onlinedocs/gcc-9.1.0/gcc/Inline.html
+> If have to change it, you better to use 'tegra->max_freq' as following:
+> 	min(target_freq, tegra->max_freq);
+
+The 'tegra->max_freq' will work here, but 'ULONG_MAX / KHZ' is a
+constant value which is also correct and doesn't case any harm.
+
+Probably will be even more expressive to write this as:
+
+	target_freq = dev->avg_freq + dev->boost_freq;
+	target_freq = tegra_actmon_account_cpu_freq(tegra, dev, target_freq);
+
+	return min(target_freq, tegra->max_freq);
+
+
+Thank you very much for the reviews!
