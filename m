@@ -2,80 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45E1F6AB3B
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jul 2019 17:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E330D6AB7A
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jul 2019 17:17:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728513AbfGPPAy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jul 2019 11:00:54 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:37847 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728390AbfGPPAy (ORCPT
+        id S1728421AbfGPPRX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jul 2019 11:17:23 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:34061 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728004AbfGPPRW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jul 2019 11:00:54 -0400
-Received: by mail-lj1-f194.google.com with SMTP id z28so20344394ljn.4;
-        Tue, 16 Jul 2019 08:00:51 -0700 (PDT)
+        Tue, 16 Jul 2019 11:17:22 -0400
+Received: by mail-lj1-f195.google.com with SMTP id p17so20374742ljg.1;
+        Tue, 16 Jul 2019 08:17:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fDXHXukmqVU81soTlNeE/Qat/McVs867H+Cn2IJoFDs=;
-        b=gecOJZVM4OcQiUpOqailnBHkjfBooumMjKmB78rHVsli1K/IWvzEKnY50M41bR+SXX
-         BCvzNBbThA94NL0bmD7VS1YZcDSNR7F4eR6EwO5Ytm+/PaHipOYH9bhGnUNO20xEf09P
-         gbCpeGoNHnfxjsyUqSVQuQn8ZE+gAaBtnNEScCcfJXx24GWI7do2c1jeqso8aszTrEgS
-         y33b0lPbS/m13EXbER7EKj6SR0Qwa4OMKOdeMXllhiZ5NJ7iQbU1FK5xxh0vUBqxy+gm
-         rSaDHoRLZhyPwYBMm/UcaUZPoQfyt69jkOUYK1E5U4dw+6jdqrC6tYAb0CiAa9yegg4C
-         SEJg==
+        bh=WJp++cLN27g/ca+Sa3xTKXF6djUalOvIpbg8bqgN3cI=;
+        b=T9jwKbpU1/jY0Y5BI8Dbu0hEoblHKGEoBH6OjGJmEtprsNF5GCn1GwD+Ob4RVDo7V4
+         M9v+IQzj2kO2Fv9VzQEB3itQ4b3Jij8MSMWiA/M6HZs8iMuvjMiajWkJZ90EmhV0G6wq
+         f+78bd+UV2tcR9dnM4w0dfYWSZn6pD8ODyw9mO+wFl1004O+wtqIkvgMBBRI+3NEv7YO
+         1S2/fAJQrRdKD/k1EV8XikS+0umorBu01ue1pLxGBkaZiprt7TNADi5jCRIWLA4kiWDd
+         CL2wNpqwFIQQmoagM2+neFBYe1Ptx3KMhn89epzn5GBPPrCodv1qDtZRdK+ZDLWVEOdo
+         kL4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=fDXHXukmqVU81soTlNeE/Qat/McVs867H+Cn2IJoFDs=;
-        b=EB/GDdpD3Q0WjiSmmYIvALyHRB/60qk0JM8cjoAxtLk3r7cmWI0S4T5MKO5hKuLyDK
-         NUBzwy1nJli+2wXjqRyYvquxg8h7c5/hAHo6H2HxsPVUDnLlLM5ZSorFgHw5OdWZmPDy
-         ROAr/I7KPz4AsVDX/dvsC8i1NwKselM9FF1onbYzdHRHYhpjNzi75grPebAnx9Eh0s6r
-         NSxnc8Uew07Oa3OFjK3Zd5uBdLK3/riJibyZGNJGiW97jas5n8Y+rkFw4naBZsdiiDue
-         xw068xiNrI+e664zwzIHkuWWtdd9gTRiGZ4hMqLUA+XN1MPOaf2WIBOGbtNFlewl9PUJ
-         qHDw==
-X-Gm-Message-State: APjAAAUyEBmp7jk9p5nt+jVxwa4f8N7j9t2yu9gufYS8GQ9IbM5q2Qv+
-        6asU4zOGfHigZpA3zkk7aBibA0qe
-X-Google-Smtp-Source: APXvYqybnR2SPB8V1NG5Xyi+7sFdN4IOM0FsCmdXSXTqxyloVOhDBpmLe2S2l84NFhB//Gx4I7vK0w==
-X-Received: by 2002:a2e:b1c1:: with SMTP id e1mr17732360lja.228.1563289250440;
-        Tue, 16 Jul 2019 08:00:50 -0700 (PDT)
+        bh=WJp++cLN27g/ca+Sa3xTKXF6djUalOvIpbg8bqgN3cI=;
+        b=bIiR3Uyd/xgt9MQjiKGd1prL/Ho0pPX0UOAWvQO7Kb5I/i+8kP/B7h3adgmoeSWYIV
+         jYsrB2KNNlT9Y4/uxFokYObYGPGW/irtaytEOaZ0FGYfJxVVRUHI0N71f0NGgN22Lnwo
+         7av0ckUwmpMa7d90en6Pgq/tTwoMY2vluB6ZbTA2Z0NXU4qvEy6/DPAiE3WZeT4CGZre
+         K9SK0WIEygJkOUV1nsOudbzTq4dvs3JDFJumAPCX5IrjYsgdGW/bEY639EWf546+bgIP
+         /pcOFx0kRcfcV/tuPFHvW0GoH7i9est0SJYoNUt/6gBYWG52v2bWEIlHsHLIyIr25EzK
+         AIkQ==
+X-Gm-Message-State: APjAAAWYWmVHPYmVcsj782sO+EiEUoT0wOeCKeIOY9EU2OLqZj3LTbpx
+        wFA4P6PxQtL+0a3+YPXRaIPW9T1y
+X-Google-Smtp-Source: APXvYqxRp4/Wk6e/4UjTI64BrFWY/3Vyb2ZSjmmef+33NTKhQmfG28HbPFXmIky7rRkADdg3VvRv9w==
+X-Received: by 2002:a2e:1459:: with SMTP id 25mr17536548lju.153.1563290240180;
+        Tue, 16 Jul 2019 08:17:20 -0700 (PDT)
 Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id q4sm4210952lje.99.2019.07.16.08.00.48
+        by smtp.googlemail.com with ESMTPSA id p15sm3864900lji.80.2019.07.16.08.17.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Jul 2019 08:00:49 -0700 (PDT)
-Subject: Re: [PATCH V5 11/18] clk: tegra210: Add support for Tegra210 clocks
-To:     Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Joseph Lo <josephl@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
-        jason@lakedaemon.net, marc.zyngier@arm.com,
-        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com,
-        pgaikwad@nvidia.com, sboyd@kernel.org, linux-clk@vger.kernel.org,
-        linux-gpio@vger.kernel.org, jckuo@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-References: <a5e1a6df-dff7-9e0c-9551-f78103a5462f@gmail.com>
- <a9b5c364-52b4-bee1-5881-47197f043950@nvidia.com>
- <e9d4bc0e-fd5d-ae02-2d67-86c7f7c9620f@gmail.com>
- <3938092a-bbc7-b304-641d-31677539598d@nvidia.com>
- <932d4d50-120c-9191-6a9a-23bf9c96633b@nvidia.com>
- <0ee055ad-d397-32e5-60ee-d62c14c6f77b@gmail.com>
- <86fc07d5-ab2e-a52a-a570-b1dfff4c20fe@nvidia.com>
- <20190716083701.225f0fd9@dimatab>
- <21266e4f-16b1-4c87-067a-16c07c803b6e@nvidia.com>
- <c5853e1a-d812-2dbd-3bec-0a9b0b0f6f3e@nvidia.com>
- <20190716080610.GE12715@pdeschrijver-desktop.Nvidia.com>
+        Tue, 16 Jul 2019 08:17:19 -0700 (PDT)
+Subject: Re: [PATCH v4 10/24] PM / devfreq: tegra30: Don't enable
+ consecutive-down interrupt on startup
+To:     Chanwoo Choi <cw00.choi@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190707223303.6755-1-digetx@gmail.com>
+ <CGME20190707223642epcas4p1fbfbcf5181e9a25fbbaad9ef95c56f8f@epcas4p1.samsung.com>
+ <20190707223303.6755-11-digetx@gmail.com>
+ <933b99a1-ac45-25fb-e8d5-0641ec0cab18@samsung.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d908d3a2-3013-7f92-0852-115f428d1c5f@gmail.com>
-Date:   Tue, 16 Jul 2019 18:00:48 +0300
+Message-ID: <54ad7bb8-1ffe-50bc-9003-acc02b1b6f9d@gmail.com>
+Date:   Tue, 16 Jul 2019 18:17:18 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190716080610.GE12715@pdeschrijver-desktop.Nvidia.com>
+In-Reply-To: <933b99a1-ac45-25fb-e8d5-0641ec0cab18@samsung.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -84,99 +75,41 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.07.2019 11:06, Peter De Schrijver пишет:
-> On Tue, Jul 16, 2019 at 03:24:26PM +0800, Joseph Lo wrote:
->>> OK, Will add to CPUFreq driver...
->>>>
->>>> The other thing that also need attention is that T124 CPUFreq driver
->>>> implicitly relies on DFLL driver to be probed first, which is icky.
->>>>
->>> Should I add check for successful dfll clk register explicitly in
->>> CPUFreq driver probe and defer till dfll clk registers?
-
-Probably you should use the "device links". See [1][2] for the example.
-
-[1]
-https://elixir.bootlin.com/linux/v5.2.1/source/drivers/gpu/drm/tegra/dc.c#L2383
-
-[2] https://www.kernel.org/doc/html/latest/driver-api/device_link.html
-
-Return EPROBE_DEFER instead of EINVAL if device_link_add() fails. And
-use of_find_device_by_node() to get the DFLL's device, see [3].
-
-[3]
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/devfreq/tegra20-devfreq.c#n100
-
->> Sorry, I didn't follow the mail thread. Just regarding the DFLL part.
+16.07.2019 15:17, Chanwoo Choi пишет:
+> Hi Dmitry,
+> 
+> On 19. 7. 8. 오전 7:32, Dmitry Osipenko wrote:
+>> The consecutive-down event tells that we should perform frequency
+>> de-boosting, but boosting is in a reset state on start and hence the
+>> event won't do anything useful for us and it will be just a dummy
+>> interrupt request.
 >>
->> As you know it, the DFLL clock is one of the CPU clock sources and
->> integrated with DVFS control logic with the regulator. We will not switch
->> CPU to other clock sources once we switched to DFLL. Because the CPU has
->> been regulated by the DFLL HW with the DVFS table (CVB or OPP table you see
->> in the driver.). We shouldn't reparent it to other sources with unknew
->> freq/volt pair. That's not guaranteed to work. We allow switching to
->> open-loop mode but different sources.
-
-Okay, then the CPUFreq driver will have to enforce DFLL freq to PLLP's
-rate before switching to PLLP in order to have a proper CPU voltage.
-
->> And I don't exactly understand why we need to switch to PLLP in CPU idle
->> driver. Just keep it on CL-DVFS mode all the time.
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/devfreq/tegra30-devfreq.c | 1 -
+>>  1 file changed, 1 deletion(-)
 >>
->> In SC7 entry, the dfll suspend function moves it the open-loop mode. That's
->> all. The sc7-entryfirmware will handle the rest of the sequence to turn off
->> the CPU power.
->>
->> In SC7 resume, the warmboot code will handle the sequence to turn on
->> regulator and power up the CPU cluster. And leave it on PLL_P. After
->> resuming to the kernel, we re-init DFLL, restore the CPU clock policy (CPU
->> runs on DFLL open-loop mode) and then moving to close-loop mode.
-
-The DFLL is re-inited after switching CCLK to DFLL parent during of the
-early clocks-state restoring by CaR driver. Hence instead of having odd
-hacks in the CaR driver, it is much nicer to have a proper
-suspend-resume sequencing of the device drivers. In this case CPUFreq
-driver is the driver that enables DFLL and switches CPU to that clock
-source, which means that this driver is also should be responsible for
-management of the DFLL's state during of suspend/resume process. If
-CPUFreq driver disables DFLL during suspend and re-enables it during
-resume, then looks like the CaR driver hacks around DFLL are not needed.
-
->> The DFLL part looks good to me. BTW, change the patch subject to "Add
->> suspend-resume support" seems more appropriate to me.
+>> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+>> index 32fe95458ee7..878c9396bb8c 100644
+>> --- a/drivers/devfreq/tegra30-devfreq.c
+>> +++ b/drivers/devfreq/tegra30-devfreq.c
+>> @@ -558,7 +558,6 @@ static void tegra_actmon_configure_device(struct tegra_devfreq *tegra,
+>>  		<< ACTMON_DEV_CTRL_CONSECUTIVE_ABOVE_WMARK_NUM_SHIFT;
+>>  	val |= ACTMON_DEV_CTRL_AVG_ABOVE_WMARK_EN;
+>>  	val |= ACTMON_DEV_CTRL_AVG_BELOW_WMARK_EN;
+>> -	val |= ACTMON_DEV_CTRL_CONSECUTIVE_BELOW_WMARK_EN;
+>>  	val |= ACTMON_DEV_CTRL_CONSECUTIVE_ABOVE_WMARK_EN;
+>>  	val |= ACTMON_DEV_CTRL_ENB;
+>>  
 >>
 > 
-> To clarify this, the sequences for DFLL use are as follows (assuming all
-> required DFLL hw configuration has been done)
+> Maybe, I think that better to review it by Thierry.
+> I'm not sure it is right or not because it depend on h/w.
 > 
-> Switch to DFLL:
-> 0) Save current parent and frequency
-> 1) Program DFLL to open loop mode
-> 2) Enable DFLL
-> 3) Change cclk_g parent to DFLL
-> For OVR regulator:
-> 4) Change PWM output pin from tristate to output
-> 5) Enable DFLL PWM output
-> For I2C regulator:
-> 4) Enable DFLL I2C output
-> 6) Program DFLL to closed loop mode
-> 
-> Switch away from DFLL:
-> 0) Change cclk_g parent to PLLP so the CPU frequency is ok for any vdd_cpu voltage
-> 1) Program DFLL to open loop mode
-> 
-> For OVR regulator:
-> 2) Change PWM output pin from output to tristate: vdd_cpu will go back
->    to hardwired boot voltage.
-> 3) Disable DFLL PWM output
-> 
-> For I2C regulator:
-> 2) Program vdd_cpu regulator voltage to the boot voltage
-> 3) Disable DFLL I2C output
-> 
-> 4) Reprogram parent saved in step 0 of 'Switch to DFLL' to the saved
->    frequency
-> 5) Change cclk_g parent to saved parent
-> 6) Disable DFLL
 
-Thanks!
+The CONSECUTIVE_LOWER interrupts are generated if
+ACTMON_DEV_CTRL_CONSECUTIVE_BELOW_WMARK_EN is enabled and ISR enables
+the BELOW_WMARK_EN bit once CONSECUTIVE_UPPER event is received. The
+CONSECUTIVE events are used in for the frequency boosting logic and
+there is no boosting on start, hence the CONSECUTIVE_LOWER event isn't
+needed on start as well. Hope this helps.
