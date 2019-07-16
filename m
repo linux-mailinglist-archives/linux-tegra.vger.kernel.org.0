@@ -2,233 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B8D56AEEF
-	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jul 2019 20:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8DE06AF75
+	for <lists+linux-tegra@lfdr.de>; Tue, 16 Jul 2019 21:00:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388440AbfGPSnW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 16 Jul 2019 14:43:22 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:39366 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728137AbfGPSnV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 16 Jul 2019 14:43:21 -0400
-Received: by mail-lf1-f65.google.com with SMTP id v85so14461543lfa.6;
-        Tue, 16 Jul 2019 11:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ct6VuKDqu0yOaIOAQGNskNNMGjN2lhUjsRcKbgUX6uc=;
-        b=ch3kryCwLOJHjw1+WWT2pXE9wYSpfxE/C51MC921Gm9WftGAPK9A5aR1nBqEsTTSBG
-         RI7clARKc02ELRTnJoqqAY3yxyjpaMjrJqDRECfzXmnKAAOJD7Nt6xZ1+7xe8qJ+GxS4
-         993hncuvlA8OC8X6VtM3IJ2/eQskuBJxd/XlYg5K4ZKRP89v2TfIEzZslBnt7OTrLdK3
-         6+5nKBYrvaSowDM2MLvzR6ssxYkvgQ7EH96QyFstfUWlKcmri3wm+oJh/6kh4wJYt4pr
-         gKf9sgwCtXiCmUn5kNjH4wEIqjOpqYJJvuf1eumNM4MdWQpHsnchekeo9hzp6jxfaklh
-         e1kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ct6VuKDqu0yOaIOAQGNskNNMGjN2lhUjsRcKbgUX6uc=;
-        b=BFuk+8ZFYkkMKvOvyTPdqLrURilYChR5b2UmA3YFqu6a6YR3dF9WoGKd4keyNZuAMH
-         pTR5V3WMWvvNExgnD8o5K1r8f90iTsSHKngAvSzgmUvXS5j/COspuMTbbwQ5RJ2OrDu+
-         NpcG/5HzvXSLq8OuRv7fm079QyZciuWjzA3gNZ+qg7DG5vYmnth8JZXohi+f9e83uCMg
-         Mw/ce3LsgWeeMKRuR5yQGXFUiVb0BJqA0rdzORpji8R/IF+QcRkRWIGmrTmTgWo8PEsE
-         jBX4T5cs8Zv4AenIVQBwGonC/1dNLjtWgOrlgiOgOIoVkmwE7PbTlWR790xnGZzSh599
-         1yxQ==
-X-Gm-Message-State: APjAAAW/fcU/I/1U1LplYNMjtEuXn03I3EsDaOalU7u2PUI0p9gTHaXQ
-        nret0j9UoT5clZgCXiuOc1WhmQQn
-X-Google-Smtp-Source: APXvYqxdIRfoxBVjGBWC5eY+VkVnsnB7dGvzXKN+BHOaNOzoNxUduq783EhmGBs+w8gNm95yAFvX2g==
-X-Received: by 2002:a19:750b:: with SMTP id y11mr15611008lfe.16.1563302598390;
-        Tue, 16 Jul 2019 11:43:18 -0700 (PDT)
-Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru. [79.139.233.208])
-        by smtp.googlemail.com with ESMTPSA id y25sm4277219lja.45.2019.07.16.11.43.17
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Jul 2019 11:43:17 -0700 (PDT)
-Subject: Re: [PATCH V5 11/18] clk: tegra210: Add support for Tegra210 clocks
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Joseph Lo <josephl@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
-        jason@lakedaemon.net, marc.zyngier@arm.com,
-        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com,
-        pgaikwad@nvidia.com, sboyd@kernel.org, linux-clk@vger.kernel.org,
-        linux-gpio@vger.kernel.org, jckuo@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-References: <a5e1a6df-dff7-9e0c-9551-f78103a5462f@gmail.com>
- <a9b5c364-52b4-bee1-5881-47197f043950@nvidia.com>
- <e9d4bc0e-fd5d-ae02-2d67-86c7f7c9620f@gmail.com>
- <3938092a-bbc7-b304-641d-31677539598d@nvidia.com>
- <932d4d50-120c-9191-6a9a-23bf9c96633b@nvidia.com>
- <0ee055ad-d397-32e5-60ee-d62c14c6f77b@gmail.com>
- <86fc07d5-ab2e-a52a-a570-b1dfff4c20fe@nvidia.com>
- <20190716083701.225f0fd9@dimatab>
- <21266e4f-16b1-4c87-067a-16c07c803b6e@nvidia.com>
- <c5853e1a-d812-2dbd-3bec-0a9b0b0f6f3e@nvidia.com>
- <20190716080610.GE12715@pdeschrijver-desktop.Nvidia.com>
- <d908d3a2-3013-7f92-0852-115f428d1c5f@gmail.com>
- <72b5df8c-8acb-d0d0-ebcf-b406e8404973@nvidia.com>
- <2b701832-5548-7c83-7c17-05cc2f1470c8@nvidia.com>
- <76e341be-6f38-2bc1-048e-1aa6883f9b88@gmail.com>
- <0706576a-ce61-1cf3-bed1-05f54a1e2489@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5b2945c5-fcb2-2ac0-2bf2-df869dc9c713@gmail.com>
-Date:   Tue, 16 Jul 2019 21:43:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S2388457AbfGPTAS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 16 Jul 2019 15:00:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37336 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728438AbfGPTAS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 16 Jul 2019 15:00:18 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 205B620665;
+        Tue, 16 Jul 2019 19:00:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563303617;
+        bh=PcKLpA+pS1VyNuIrEf+5mScc/jl5xMwC/Ln9VrThiwM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ds6GCOFDWGbqaeNEXsfyh5tTrSYmUSx2y6p+eKtWUUz6ysDpx1PT+fCUkaFwglGSE
+         t11NOTkWtJPELCIfTSIY/hr7rfCOG445Vc4M6SbnWLkvumfjge1koPnOC50gsqRC4K
+         jj3+9KVPYqnbOCetP8iEXNID4IrEyoeh5AeMtseM=
+Date:   Tue, 16 Jul 2019 14:00:13 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Vidya Sagar <vidyas@nvidia.com>, robh+dt@kernel.org,
+        mark.rutland@arm.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, kishon@ti.com, catalin.marinas@arm.com,
+        will.deacon@arm.com, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, digetx@gmail.com,
+        mperttunen@nvidia.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V13 12/12] PCI: tegra: Add Tegra194 PCIe support
+Message-ID: <20190716190013.GB4470@google.com>
+References: <20190710062212.1745-1-vidyas@nvidia.com>
+ <20190710062212.1745-13-vidyas@nvidia.com>
+ <20190711125433.GB26088@e121166-lin.cambridge.arm.com>
+ <986d0b1a-666a-7b05-a9f3-e761518bdc92@nvidia.com>
+ <20190712160754.GA24285@e121166-lin.cambridge.arm.com>
+ <a5f8689b-1358-dd2d-4f54-7e68a6ab158b@nvidia.com>
+ <20190716112225.GA24335@e121166-lin.cambridge.arm.com>
 MIME-Version: 1.0
-In-Reply-To: <0706576a-ce61-1cf3-bed1-05f54a1e2489@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190716112225.GA24335@e121166-lin.cambridge.arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.07.2019 21:30, Sowjanya Komatineni пишет:
+On Tue, Jul 16, 2019 at 12:22:25PM +0100, Lorenzo Pieralisi wrote:
+> On Sat, Jul 13, 2019 at 12:34:34PM +0530, Vidya Sagar wrote:
+
+> > > > > So if the link is not up we still go ahead and make probe
+> > > > > succeed. What for ?
+> > > > We may need root port to be available to support hot-plugging of
+> > > > endpoint devices, so, we don't fail the probe.
+> > > 
+> > > We need it or we don't. If you do support hotplugging of endpoint
+> > > devices point me at the code, otherwise link up failure means
+> > > failure to probe.
+> > Currently hotplugging of endpoint is not supported, but it is one of
+> > the use cases that we may add support for in future. 
 > 
-> On 7/16/19 11:25 AM, Dmitry Osipenko wrote:
->> 16.07.2019 21:19, Sowjanya Komatineni пишет:
->>> On 7/16/19 9:50 AM, Sowjanya Komatineni wrote:
->>>> On 7/16/19 8:00 AM, Dmitry Osipenko wrote:
->>>>> 16.07.2019 11:06, Peter De Schrijver пишет:
->>>>>> On Tue, Jul 16, 2019 at 03:24:26PM +0800, Joseph Lo wrote:
->>>>>>>> OK, Will add to CPUFreq driver...
->>>>>>>>> The other thing that also need attention is that T124 CPUFreq
->>>>>>>>> driver
->>>>>>>>> implicitly relies on DFLL driver to be probed first, which is
->>>>>>>>> icky.
->>>>>>>>>
->>>>>>>> Should I add check for successful dfll clk register explicitly in
->>>>>>>> CPUFreq driver probe and defer till dfll clk registers?
->>>>> Probably you should use the "device links". See [1][2] for the
->>>>> example.
->>>>>
->>>>> [1]
->>>>> https://elixir.bootlin.com/linux/v5.2.1/source/drivers/gpu/drm/tegra/dc.c#L2383
->>>>>
->>>>>
->>>>>
->>>>> [2] https://www.kernel.org/doc/html/latest/driver-api/device_link.html
->>>>>
->>>>> Return EPROBE_DEFER instead of EINVAL if device_link_add() fails. And
->>>>> use of_find_device_by_node() to get the DFLL's device, see [3].
->>>>>
->>>>> [3]
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/devfreq/tegra20-devfreq.c#n100
->>>>>
->>>>>
->>>> Will go thru and add...
->> Looks like I initially confused this case with getting orphaned clock.
->> I'm now seeing that the DFLL driver registers the clock and then
->> clk_get(dfll) should be returning EPROBE_DEFER until DFLL driver is
->> probed, hence everything should be fine as-is and there is no real need
->> for the 'device link'. Sorry for the confusion!
->>
->>>>>>> Sorry, I didn't follow the mail thread. Just regarding the DFLL
->>>>>>> part.
->>>>>>>
->>>>>>> As you know it, the DFLL clock is one of the CPU clock sources and
->>>>>>> integrated with DVFS control logic with the regulator. We will not
->>>>>>> switch
->>>>>>> CPU to other clock sources once we switched to DFLL. Because the
->>>>>>> CPU has
->>>>>>> been regulated by the DFLL HW with the DVFS table (CVB or OPP table
->>>>>>> you see
->>>>>>> in the driver.). We shouldn't reparent it to other sources with
->>>>>>> unknew
->>>>>>> freq/volt pair. That's not guaranteed to work. We allow switching to
->>>>>>> open-loop mode but different sources.
->>>>> Okay, then the CPUFreq driver will have to enforce DFLL freq to PLLP's
->>>>> rate before switching to PLLP in order to have a proper CPU voltage.
->>>> PLLP freq is safe to work for any CPU voltage. So no need to enforce
->>>> DFLL freq to PLLP rate before changing CCLK_G source to PLLP during
->>>> suspend
->>>>
->>> Sorry, please ignore my above comment. During suspend, need to change
->>> CCLK_G source to PLLP when dfll is in closed loop mode first and then
->>> dfll need to be set to open loop.
->> Okay.
->>
->>>>>>> And I don't exactly understand why we need to switch to PLLP in CPU
->>>>>>> idle
->>>>>>> driver. Just keep it on CL-DVFS mode all the time.
->>>>>>>
->>>>>>> In SC7 entry, the dfll suspend function moves it the open-loop
->>>>>>> mode. That's
->>>>>>> all. The sc7-entryfirmware will handle the rest of the sequence to
->>>>>>> turn off
->>>>>>> the CPU power.
->>>>>>>
->>>>>>> In SC7 resume, the warmboot code will handle the sequence to turn on
->>>>>>> regulator and power up the CPU cluster. And leave it on PLL_P. After
->>>>>>> resuming to the kernel, we re-init DFLL, restore the CPU clock
->>>>>>> policy (CPU
->>>>>>> runs on DFLL open-loop mode) and then moving to close-loop mode.
->>>>> The DFLL is re-inited after switching CCLK to DFLL parent during of
->>>>> the
->>>>> early clocks-state restoring by CaR driver. Hence instead of having
->>>>> odd
->>>>> hacks in the CaR driver, it is much nicer to have a proper
->>>>> suspend-resume sequencing of the device drivers. In this case CPUFreq
->>>>> driver is the driver that enables DFLL and switches CPU to that clock
->>>>> source, which means that this driver is also should be responsible for
->>>>> management of the DFLL's state during of suspend/resume process. If
->>>>> CPUFreq driver disables DFLL during suspend and re-enables it during
->>>>> resume, then looks like the CaR driver hacks around DFLL are not
->>>>> needed.
->>>>>
->>>>>>> The DFLL part looks good to me. BTW, change the patch subject to
->>>>>>> "Add
->>>>>>> suspend-resume support" seems more appropriate to me.
->>>>>>>
->>>>>> To clarify this, the sequences for DFLL use are as follows (assuming
->>>>>> all
->>>>>> required DFLL hw configuration has been done)
->>>>>>
->>>>>> Switch to DFLL:
->>>>>> 0) Save current parent and frequency
->>>>>> 1) Program DFLL to open loop mode
->>>>>> 2) Enable DFLL
->>>>>> 3) Change cclk_g parent to DFLL
->>>>>> For OVR regulator:
->>>>>> 4) Change PWM output pin from tristate to output
->>>>>> 5) Enable DFLL PWM output
->>>>>> For I2C regulator:
->>>>>> 4) Enable DFLL I2C output
->>>>>> 6) Program DFLL to closed loop mode
->>>>>>
->>>>>> Switch away from DFLL:
->>>>>> 0) Change cclk_g parent to PLLP so the CPU frequency is ok for any
->>>>>> vdd_cpu voltage
->>>>>> 1) Program DFLL to open loop mode
->>>>>>
->>> I see during switch away from DFLL (suspend), cclk_g parent is not
->>> changed to PLLP before changing dfll to open loop mode.
->>>
->>> Will add this ...
->> The CPUFreq driver switches parent to PLLP during the probe, similar
->> should be done on suspend.
->>
->> I'm also wondering if it's always safe to switch to PLLP in the probe.
->> If CPU is running on a lower freq than PLLP, then some other more
->> appropriate intermediate parent should be selected.
->>
-> CPU parents are PLL_X, PLL_P, and dfll. PLL_X always runs at higher rate
-> so switching to PLL_P during CPUFreq probe prior to dfll clock enable
-> should be safe.
+> You should elaborate on this, I do not understand what you mean,
+> either the root port(s) supports hotplug or it does not.
+> 
+> > But, why should we fail probe if link up doesn't happen? As such,
+> > nothing went wrong in terms of root port initialization right?  I
+> > checked other DWC based implementations and following are not failing
+> > the probe pci-dra7xx.c, pcie-armada8k.c, pcie-artpec6.c, pcie-histb.c,
+> > pcie-kirin.c, pcie-spear13xx.c, pci-exynos.c, pci-imx6.c,
+> > pci-keystone.c, pci-layerscape.c
+> > 
+> > Although following do fail the probe if link is not up.  pcie-qcom.c,
+> > pcie-uniphier.c, pci-meson.c
+> > 
+> > So, to me, it looks more like a choice we can make whether to fail the
+> > probe or not and in this case we are choosing not to fail.
+> 
+> I disagree. I had an offline chat with Bjorn and whether link-up should
+> fail the probe or not depends on whether the root port(s) is hotplug
+> capable or not and this in turn relies on the root port "Slot
+> implemented" bit in the PCI Express capabilities register.
 
-AFAIK, PLLX could run at ~200MHz. There is also a divided output of PLLP
-which CCLKG supports, the PLLP_OUT4.
+There might be a little more we can talk about in this regard.  I did
+bring up the "Slot implemented" bit, but after thinking about it more,
+I don't really think the host bridge driver should be looking at that.
+That's a PCIe concept, and it's really *downstream* from the host
+bridge itself.  The host bridge is logically a device on the CPU bus,
+not the PCI bus.
 
-Probably, realistically, CPU is always running off a fast PLLX during
-boot, but I'm wondering what may happen on KEXEC. I guess ideally
-CPUFreq driver should also have a 'shutdown' callback to teardown DFLL
-on a reboot, but likely that there are other clock-related problems as
-well that may break KEXEC and thus it is not very important at the moment.
+I'm starting to think that the host bridge driver probe should be
+disconnected from question of whether the root port links are up.
 
-[snip]
+Logically, the host bridge driver connects the CPU bus to a PCI root
+bus, so it converts CPU-side accesses to PCI config, memory, or I/O
+port transactions.  Given that, the PCI core can enumerate devices on
+the root bus and downstream buses.
+
+Devices on the root bus typically include Root Ports, but might also
+include endpoints, Root Complex Integrated Endpoints, Root Complex
+Event Collectors, etc.  I think in principle, we would want the host
+bridge probe to succeed so we can use these devices even if none of
+the Root Ports have a link.
+
+If a Root Port is present, I think users will expect to see it in the
+"lspci" output, even if its downstream link is not up.  That will
+enable things like manually poking the Root Port via "setpci" for
+debug.  And if it has a connector, the generic pciehp should be able
+to handle hot-add events without any special help from the host bridge
+driver.
+
+On ACPI systems there is no concept of the host bridge driver probe
+failing because of lack of link on a Root Port.  If a Root Port
+doesn't have an operational link, we still keep the pci_root.c driver,
+and we'll enumerate the Root Port itself.  So I tend to think DT
+systems should behave the same way, i.e., the driver probe should
+succeed unless it fails to allocate resources or something similar.  I
+think this is analogous to a NIC or USB adapter driver, where the
+probe succeeds even if there's no network cable or USB device
+attached.
+
+Bjorn
