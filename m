@@ -2,82 +2,155 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82ED66CBFC
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 11:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E75B6CC20
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 11:45:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733131AbfGRJhG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Jul 2019 05:37:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37674 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726665AbfGRJhG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Jul 2019 05:37:06 -0400
-Received: from localhost (unknown [113.157.217.50])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4AD6B20693;
-        Thu, 18 Jul 2019 09:37:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563442625;
-        bh=zGM+s3xtBx2lFYIls5XjXhQk5pprIX0HYgAJe/Iy00w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CWfgxPU4vk3vjIn5u95Nsr2hyxlTKa70gTaxz5KxUaW/T0e94KTRAZgdFCRaEWeUg
-         lsSG79x4AEGXwrH1R+aaIeCOM2A3Ysxinn5X2RFKJ0Cu/FStaNSfbUE9UMfhr9RDLH
-         JE7xrdakhB72+zL2I3jNTvIACvWBhEjGIZpVkcQA=
-Date:   Thu, 18 Jul 2019 18:37:02 +0900
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.2 00/21] 5.2.2-stable review
-Message-ID: <20190718093702.GA9689@kroah.com>
-References: <20190718030030.456918453@linuxfoundation.org>
- <b4fe5385-9e61-51ad-0dd1-2910c529e083@nvidia.com>
+        id S1726423AbfGRJpf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Jul 2019 05:45:35 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:7436 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbfGRJpf (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 18 Jul 2019 05:45:35 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d303fbc0000>; Thu, 18 Jul 2019 02:45:32 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 18 Jul 2019 02:45:34 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 18 Jul 2019 02:45:34 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 18 Jul
+ 2019 09:45:32 +0000
+Subject: Re: [PATCH v1] soc/tegra: pmc: Query PCLK clock rate at probe time
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190707230843.11224-1-digetx@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <c9bd6dd3-7a03-6e2c-db9f-fefa059a428f@nvidia.com>
+Date:   Thu, 18 Jul 2019 10:45:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b4fe5385-9e61-51ad-0dd1-2910c529e083@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190707230843.11224-1-digetx@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1563443132; bh=u8c0NlynrGVUWsDz/CzhhNNqyF1INsuspIBnpJ+/lfM=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=FqQjLLrUQDHOoHPei66yOGo/ApxHwTZYRLuLLCBYe2NpwB41A6HqrYEwTAjykjaDN
+         CzPZDIz/LbBfnHKgF97S6ooUw9OJvot5vtle6+d1BXkTFIR+6ZEGex4uCW/e3GBhFn
+         RXxyzr43f7zwAsukSwJiUAz/cvgDlHXrf4ymfWM1H5ls9hEnajUQSUmfVARmklfdQe
+         2jgko4hiAppZQwDqt2iSnqQJza+iU/IF5lsPakDy/rSWGTBMOQVUSq2vE4QW9tCn4x
+         xTb4pY/pyWWLvjAGsPS6rnmGY5vBRpCrZT0A8Rmq7XmUsjt5K46gpqi5d9VTlzaeX1
+         Vx+otw0CWkyAA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jul 18, 2019 at 10:21:40AM +0100, Jon Hunter wrote:
-> 
-> On 18/07/2019 04:01, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.2.2 release.
-> > There are 21 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Sat 20 Jul 2019 02:59:27 AM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2.2-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.2.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.2:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
-> 
-> Linux version:	5.2.2-rc1-gcc78552c7d92
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
 
-Wonderful, thanks for testing all of these and letting me know.
+On 08/07/2019 00:08, Dmitry Osipenko wrote:
+> The PCLK clock is running off SCLK, which is a critical clock that is
+> very unlikely to randomly change its rate. It's also a bit clumsy (and
+> apparently incorrect) to query the clock's rate with interrupts being
+> disabled because clk_get_rate() takes a mutex and that's the case during
+> suspend/cpuidle entering. Lastly, it's better to always fully reprogram
+> PMC state because it's not obvious whether it could be changed after SC7.
 
-greg k-h
+I agree with the first part, but I would drop the last sentence because
+I see no evidence of this. Maybe Peter can confirm.
+
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/soc/tegra/pmc.c | 26 +++++++++++---------------
+>  1 file changed, 11 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+> index 9f9c1c677cf4..532e0ada012b 100644
+> --- a/drivers/soc/tegra/pmc.c
+> +++ b/drivers/soc/tegra/pmc.c
+> @@ -1433,6 +1433,7 @@ void tegra_pmc_set_suspend_mode(enum tegra_suspend_mode mode)
+>  void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
+>  {
+>  	unsigned long long rate = 0;
+> +	u64 ticks;
+>  	u32 value;
+>  
+>  	switch (mode) {
+> @@ -1441,7 +1442,7 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
+>  		break;
+>  
+>  	case TEGRA_SUSPEND_LP2:
+> -		rate = clk_get_rate(pmc->clk);
+> +		rate = pmc->rate;
+
+There is another call to clk_get_rate() that could be removed as well.
+
+>  		break;
+>  
+>  	default:
+> @@ -1451,26 +1452,20 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
+>  	if (WARN_ON_ONCE(rate == 0))
+>  		rate = 100000000;
+>  
+> -	if (rate != pmc->rate) {
+> -		u64 ticks;
+> -
+> -		ticks = pmc->cpu_good_time * rate + USEC_PER_SEC - 1;
+> -		do_div(ticks, USEC_PER_SEC);
+> -		tegra_pmc_writel(pmc, ticks, PMC_CPUPWRGOOD_TIMER);
+> -
+> -		ticks = pmc->cpu_off_time * rate + USEC_PER_SEC - 1;
+> -		do_div(ticks, USEC_PER_SEC);
+> -		tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
+> +	ticks = pmc->cpu_good_time * rate + USEC_PER_SEC - 1;
+> +	do_div(ticks, USEC_PER_SEC);
+> +	tegra_pmc_writel(pmc, ticks, PMC_CPUPWRGOOD_TIMER);
+
+You could go a step further and update the cpu_good_time/cpu_off_time to
+be ticks and calculated once during probe and recalculated if
+tegra_pmc_set_suspend_mode is called. I am not sure why we really need
+to pass mode to tegra_pmc_enter_suspend_mode() seeing as the mode is
+stored in the pmc struct.
+
+>  
+> -		wmb();
+> -
+> -		pmc->rate = rate;
+> -	}
+> +	ticks = pmc->cpu_off_time * rate + USEC_PER_SEC - 1;
+> +	do_div(ticks, USEC_PER_SEC);
+> +	tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
+>  
+>  	value = tegra_pmc_readl(pmc, PMC_CNTRL);
+>  	value &= ~PMC_CNTRL_SIDE_EFFECT_LP0;
+>  	value |= PMC_CNTRL_CPU_PWRREQ_OE;
+>  	tegra_pmc_writel(pmc, value, PMC_CNTRL);
+> +
+> +	wmb();
+>  }
+>  #endif
+>  
+> @@ -2082,6 +2077,7 @@ static int tegra_pmc_probe(struct platform_device *pdev)
+>  		pmc->clk = NULL;
+>  	}
+>  
+> +	pmc->rate = clk_get_rate(pmc->clk);
+
+You should check the value returned is not 0 here.
+
+Cheers
+Jon
+
+-- 
+nvpublic
