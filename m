@@ -2,146 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F00D6CB83
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 11:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9EE66CBA2
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 11:16:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726665AbfGRJGE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Jul 2019 05:06:04 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:33906 "EHLO
-        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726488AbfGRJGD (ORCPT
+        id S1726488AbfGRJQZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Jul 2019 05:16:25 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:5885 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726423AbfGRJQZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Jul 2019 05:06:03 -0400
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20190718090600epoutp02c95ae7d440c8df5297d50d9844ad6b10~ydRaBgPui1501815018epoutp02E
-        for <linux-tegra@vger.kernel.org>; Thu, 18 Jul 2019 09:06:00 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20190718090600epoutp02c95ae7d440c8df5297d50d9844ad6b10~ydRaBgPui1501815018epoutp02E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1563440760;
-        bh=qWrYdPfDRW4odSxkNZfEskpNsPLhKp0Foumpb2G/9bE=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=rQbKY5tTFxoZGFiiU29Ri4fmyVIuCTqClnzpMUkE3o3MdO9VfpSNymZoWHV/kU9sm
-         lQusZZw6cSAOSIY9e6DpZdQ2GtAmBOzxmmF3Y8fC8OyHP3X+ZSSuKbY/5nwA6oelyj
-         UAKXbry+6977g5fwgovtlYeak6gbOhTs52vYSc9A=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
-        20190718090559epcas1p3d8ce45f251b1989b3dfd227040f38f89~ydRZO3zRB1230012300epcas1p3g;
-        Thu, 18 Jul 2019 09:05:59 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.40.153]) by
-        epsnrtp4.localdomain (Postfix) with ESMTP id 45q7XP19Q3zMqYkf; Thu, 18 Jul
-        2019 09:05:57 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        72.04.04088.576303D5; Thu, 18 Jul 2019 18:05:57 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20190718090556epcas1p1ecf1dd1ae605ab33a62dabb56667aa9a~ydRWrl5OO0925709257epcas1p1S;
-        Thu, 18 Jul 2019 09:05:56 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20190718090556epsmtrp2cc7a9806a955c34e8f06fdfd59be2429~ydRWqeIXR1846618466epsmtrp2h;
-        Thu, 18 Jul 2019 09:05:56 +0000 (GMT)
-X-AuditID: b6c32a35-845ff70000000ff8-65-5d30367556da
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        56.5A.03638.476303D5; Thu, 18 Jul 2019 18:05:56 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20190718090556epsmtip297663eca605c694ff1a6cc8b4673708e~ydRWcir8a1349213492epsmtip2n;
-        Thu, 18 Jul 2019 09:05:56 +0000 (GMT)
-Subject: Re: [PATCH v4 12/24] PM / devfreq: tegra30: Inline all one-line
- functions
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <45621f73-2f86-cde7-a92e-2a34810b9c05@samsung.com>
-Date:   Thu, 18 Jul 2019 18:09:05 +0900
+        Thu, 18 Jul 2019 05:16:25 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d3038e60000>; Thu, 18 Jul 2019 02:16:22 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 18 Jul 2019 02:16:24 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 18 Jul 2019 02:16:24 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 18 Jul
+ 2019 09:16:22 +0000
+Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+To:     Jose Abreu <Jose.Abreu@synopsys.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <cover.1562149883.git.joabreu@synopsys.com>
+ <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
+ <29dcc161-f7c8-026e-c3cc-5adb04df128c@nvidia.com>
+ <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <6a6bac84-1d29-2740-1636-d3adb26b6bcc@nvidia.com>
+Date:   Thu, 18 Jul 2019 10:16:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.7.2
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <b7da3fa2-00d1-5bd6-408c-202c85be917d@gmail.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0hTYRTv2+PuKs6+puZpRdmN/lDU7Wqzq2QERQySMHqZIPOitynuxb1b
-        lAVZ9jJSSotqpb2jl1RLSwUb6DBNeif0Mitt9ND1MKOy17a7yP9+53d+5zvnd75DSlWXCDVZ
-        bLFzvIU1UUS47Gp7fHKSI02bp/3SSDDnP/UjZovzuIy5tXlQwTxoOUwww5UexFR8cRLM001n
-        COZ7S52Mqaq/T8wL0zf1nkT6ZmevQl9Z7iP0VQ3nkH7YNTVbnlsyp4hjCzk+jrMUWAuLLcZM
-        atFSw3yDLk1LJ9HpzGwqzsKauUxqQVZ20sJik38gKm4Na3L4qWxWECjN3Dm81WHn4oqsgj2T
-        4myFJlu6LVlgzYLDYkwusJozaK02RecX5pcUuQbeKmy15Frv9U5ZGeomdqIwEvAsGOp5iHai
-        cFKFmxA0vW6XiMFnBK8quxVi8BXB++c+xb+SJ4335GKiFUH3vr5gQoU/IPhWkxjAUXgZvDjz
-        IyiKxr8RVHwvDzaU4lXQ3nxeEsAETgD3m0dBfjyeDj3f+lEAK/Fc6Dv2KaiR4ZlQ6fMGcQzO
-        gZueOpmomQBdBweCOAxnwskRLxLfj4UnA0ckIp4G5Y2HpIEhAP8hoKPshFy0sAAa+lyhDUTB
-        uxsNIWtqGPa1hvj1cLbLQ4jFOxA0uO+GilPBfarG34H0d4iHiy0akZ4OzaO1oSEiwTeySx6Q
-        AFbCjm0qUTIDHrzolYh4EpzYXkHsRpRzjB3nGAvOMRac/5sdRbJzaCJnE8xGTqBt9NjvdqHg
-        tSbomtDe21ltCJOIilA+ojR5Kjm7RlhnbkNASqlo5dO3fkpZyK4r5XirgXeYOKEN6fzb3iNV
-        xxRY/bdvsRtoXUpqaiozi07T0TQVq6z7GZ+nwkbWzpVwnI3j/9VJyDB1Gar2xG4ad6Am/YoV
-        Wofa+A3ecMOk/fTW1a72GY8j52/MeUbjJbkXLl/rl3fe/7yc7wlf4akdWabe76OSX9qqI1Zm
-        kR+91VMWJ6L6mdu7FhuPsx0Zu6K67iTueRbTMTvS7rn+ymg9VpVyb7Im7dIv6vTezlvvct2D
-        +Tp7qSZaOugepWRCEUsnSHmB/Qsxmma5wwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRmVeSWpSXmKPExsWy7bCSvG6JmUGswYt/sharPz5mtGiZtYjF
-        4mzTG3aLy7vmsFl87j3CaNH5ZRabxe3GFWwWP3fNY7HoW3uJzYHTY8fdJYweO2fdZffobX7H
-        5tG3ZRWjx+dNcgGsUVw2Kak5mWWpRfp2CVwZm568ZC+Yy1HxbN8JlgbG02xdjJwcEgImEre2
-        XmQFsYUEdjNKrN9eCRGXlJh28ShzFyMHkC0scfhwcRcjF1DJW0aJ/z3nmUFqhAVCJB6s+MUK
-        khARaGKS2NR7gR0kwSwQKdEzdwsbxNA5TBLLVgqC2GwCWhL7X9wAi/MLKEpc/fGYEcTmFbCT
-        uL/wIxOIzSKgKtH77hmYLSoQITHp2k4WiBpBiZMzn4DZnAK2Eku+PmOE2KUu8WfeJWYIW1zi
-        1pP5TBC2vETz1tnMExiFZyFpn4WkZRaSlllIWhYwsqxilEwtKM5Nzy02LDDKSy3XK07MLS7N
-        S9dLzs/dxAiOMC2tHYwnTsQfYhTgYFTi4b2hpB8rxJpYVlyZe4hRgoNZSYT39kugEG9KYmVV
-        alF+fFFpTmrxIUZpDhYlcV75/GORQgLpiSWp2ampBalFMFkmDk6pBkYLxfzp1qtT7M2CVdTO
-        H9U0+dJ+uqbHye/axavz/hmeejXz6ZHwI+0cYhEnPzgf1DuWljg15G188PMJNe2f469tfTuP
-        h4l31wG7Pm8l24rX68I6X9Yzz2p9os8TwytyR/7h03tTF7vzdp82kDieV8MvyqNtU+5/4Mp6
-        TQ517r/TwhiWpq+xvqTEUpyRaKjFXFScCADhFw+brAIAAA==
-X-CMS-MailID: 20190718090556epcas1p1ecf1dd1ae605ab33a62dabb56667aa9a
-X-Msg-Generator: CA
+In-Reply-To: <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20190707223633epcas4p3873704f3199126be0e8d5cb7454c7a51
-References: <20190707223303.6755-1-digetx@gmail.com>
-        <CGME20190707223633epcas4p3873704f3199126be0e8d5cb7454c7a51@epcas4p3.samsung.com>
-        <20190707223303.6755-13-digetx@gmail.com>
-        <b5634fbe-8bc1-0f04-e13b-6345dfbb5615@samsung.com>
-        <b7da3fa2-00d1-5bd6-408c-202c85be917d@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1563441382; bh=UBDBYe0xiPnNZ74u75kBQZUwZo4ZFBRzV7GqHtAk+fk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=XcrP5o1PxtdUUz1qXpHkhMNzaV8bSChNtZMYT0uDV8m0MKu9ZEk24ssqQh2mfrOfg
+         RSgP4hkKw4iUoi/dEpQge0mcAnMmuXX/rihVFAXg77kiaa9clb5wIKZOaVnW/rk9So
+         jFzaT2aAzMdgwzRLHzNYjhD1sjPBiKN2BO7xjHBWQ3U/oQ6Brcz9Y82IlD2xdWdnIR
+         cucRi5ZVTLiYtGuR9KWixMB8bDdLtJfnClHXCHr6lujxfhQ4gsRtOAJnKI/qMjLyHi
+         LoCXUfe4/gRkNvShaTpVqmWg417ciLc24py02AeY0n6l1Qz59fhY9MNRa51moxDjGJ
+         PeUXuf+3jqsNg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 19. 7. 16. 오후 10:35, Dmitry Osipenko wrote:
-> 16.07.2019 15:26, Chanwoo Choi пишет:
->> Hi Dmitry,
->>
->> I'm not sure that it is necessary.
->> As I knew, usally, the 'inline' is used on header file
->> to define the empty functions.
->>
->> Do we have to change it with 'inline' keyword?
-> 
-> The 'inline' attribute tells compiler that instead of jumping into the
-> function, it should take the function's code and replace the function's
-> invocation with that code. This is done in order to help compiler
-> optimize code properly, please see [1]. There is absolutely no need to
-> create a function call into a function that consists of a single
-> instruction.
-> 
-> [1] https://gcc.gnu.org/onlinedocs/gcc-9.1.0/gcc/Inline.html
-> 
 
-If you want to add 'inline' keyword, I recommend that 
-you better to remove the modified function in this patch
-and then just call the 'write_relaxed or read_relaxed' function
-directly. It is same result when using inline keyword.
+On 18/07/2019 08:48, Jose Abreu wrote:
+> From: Jon Hunter <jonathanh@nvidia.com>
+> Date: Jul/17/2019, 19:58:53 (UTC+00:00)
+> 
+>> Let me know if you have any thoughts.
+> 
+> Can you try attached patch ?
 
+Yes this did not help. I tried enabling the following but no more output
+is seen.
+
+CONFIG_DMA_API_DEBUG=y
+CONFIG_DMA_API_DEBUG_SG=y
+
+Have you tried using NFS on a board with this ethernet controller?
+
+Cheers,
+Jon
 
 -- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+nvpublic
