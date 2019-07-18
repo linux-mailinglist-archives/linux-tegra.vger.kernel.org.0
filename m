@@ -2,159 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9EB06CC43
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 11:48:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47CD66CC56
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 11:53:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389847AbfGRJsF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Jul 2019 05:48:05 -0400
-Received: from mailout3.samsung.com ([203.254.224.33]:50126 "EHLO
-        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727597AbfGRJsF (ORCPT
+        id S1726482AbfGRJxG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Jul 2019 05:53:06 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:15865 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbfGRJxG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Jul 2019 05:48:05 -0400
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20190718094803epoutp0394e6b7aab1ebe76e5ec50e44fdc2c870~yd2IUTZgJ1600616006epoutp03O
-        for <linux-tegra@vger.kernel.org>; Thu, 18 Jul 2019 09:48:03 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20190718094803epoutp0394e6b7aab1ebe76e5ec50e44fdc2c870~yd2IUTZgJ1600616006epoutp03O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1563443283;
-        bh=EnL2xp05mWqLeGDMN6DJMsvJ0i6MvNbScjk8J1uUFsU=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=qEGeAxPX2yWSIHKi6M/thI+UNGe+hPvbo5zBgaqb8nSZaBV3l9un2Il3fPP2E5Z6d
-         MQ76hz4w47VGTXAUQh31+9XNVbOi5k8HDctW1alrnDWodXEvqYxZ07qxVTJr9QufwP
-         eRUVtXD2MMoWoRM5baOsi2AYCvgb1reOiTHth3bs=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20190718094802epcas1p2d8bf23068535be8c33835f37139f2bd7~yd2HknHGw2089520895epcas1p2Z;
-        Thu, 18 Jul 2019 09:48:02 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.158]) by
-        epsnrtp2.localdomain (Postfix) with ESMTP id 45q8Sw5q2rzMqYkZ; Thu, 18 Jul
-        2019 09:48:00 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
-        epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        65.76.04075.940403D5; Thu, 18 Jul 2019 18:47:53 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
-        20190718094752epcas1p4660cd9d3968a1755369c6ad049eedbb9~yd1_Jxqwa2804528045epcas1p4C;
-        Thu, 18 Jul 2019 09:47:52 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20190718094752epsmtrp1e11ba8d2cd74d9bfb934003ed8662826~yd1_JADS81806718067epsmtrp1C;
-        Thu, 18 Jul 2019 09:47:52 +0000 (GMT)
-X-AuditID: b6c32a36-b49ff70000000feb-94-5d3040496893
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        F0.4D.03706.840403D5; Thu, 18 Jul 2019 18:47:52 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20190718094752epsmtip1c604dc5d6ad1521a6a85093ce7212561~yd197g1V61985719857epsmtip1z;
-        Thu, 18 Jul 2019 09:47:52 +0000 (GMT)
-Subject: Re: [PATCH v4 19/24] PM / devfreq: tegra30: Optimize upper
- consecutive watermark selection
+        Thu, 18 Jul 2019 05:53:06 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d3041870000>; Thu, 18 Jul 2019 02:53:11 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 18 Jul 2019 02:53:04 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 18 Jul 2019 02:53:04 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 18 Jul
+ 2019 09:53:03 +0000
+Subject: Re: [PATCH v1] soc/tegra: pmc: Query PCLK clock rate at probe time
+From:   Jon Hunter <jonathanh@nvidia.com>
 To:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <17fabbaf-ceca-7551-0a58-9c8a0e7027ed@samsung.com>
-Date:   Thu, 18 Jul 2019 18:51:02 +0900
+        Peter De Schrijver <pdeschrijver@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190707230843.11224-1-digetx@gmail.com>
+ <c9bd6dd3-7a03-6e2c-db9f-fefa059a428f@nvidia.com>
+Message-ID: <aa12115c-bf1c-f50b-f38a-97fb398d1af0@nvidia.com>
+Date:   Thu, 18 Jul 2019 10:53:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.7.2
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190707223303.6755-20-digetx@gmail.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SWUwTURTNo9PpEitDUbj2Q2GMJDQCHbB1MEIwoKnKBy4xLiE4oRNAuqVT
-        iNsHWIIULUuIC6OgQYkK7hYDGEURY2qCCogiBDFqVEAximtAtO1g5O/ce8595573nlSkvIKr
-        pDlmO2szM0YSl2PX70ZGRa1O0qRrqqckdOPn14gu4uswunPfBwnd03ocp8ddHYh2fuVxeqDw
-        LE7/aq3F6LIL3XiSTN88eBrpW/hBid7lGMP1Ze4GpB+/Oj9NvDV3eTbLGFhbGGvOtBhyzFkJ
-        5NoNGckZWp2GiqLi6aVkmJkxsQlkSmpa1Koco3chMiyfMeZ5W2kMx5Exicttljw7G5Zt4ewJ
-        JGs1GK3x1miOMXF55qzoTItpGaXRxGq9wu252YdHXZj11qyd56sOiAuQU16KZFIglkChx4GV
-        IrlUSTQjqOh+Ml18QVDk2Y+E4juCrt+3sX8jjja3WCBuIqh0vRMJxScEHw41BfhUwQQLQyPX
-        JT5iDjGFwPnLgfsIEbEF7rY0+kU4oYa2933+fiARDr0/XyMfVhCJ8OLikB9jxCLoL5/y6+cS
-        m+FBRy0maILAU/3Gj2WEDvhTjZhwfij0vzkRIOAF4Gg65t8OiD84FJa9ms6QAkf2eXABB8PI
-        fbdEwCoYLi+exnvgnKcDF4ZLELjbHosFIg7a6qu8DlKvQyRcao0R2uHQMlGDBOPZMPbtoNgn
-        AUIBJcVKQbIQel4OBgh4Hpza78QrEMnPiMPPiMDPiMD/NzuJsAYUwlo5UxbLUdbYme99Ffm/
-        q1rXjOoeprYjQorIWYo+MiZdKWbyuV2mdgRSETlHMTDsbSkMzK7drM2SYcszslw70npvu1Kk
-        mptp8X5+sz2D0sbGxcXRSyidlqLIUEXtZGS6kshi7Gwuy1pZ27+5AKlMVYDWP2Mkf8a+9nd/
-        /LEsdhO/vqC6pb4hf+9JjexZxI0fBaOB6gkid42nY+VzdXpI8Pneus6INS7M2XD57YOFj75N
-        1ZQEhZuureubcCdHr46v6NLJS39Xl68oM5Xb78REji6uGwgyr7t3ZqN8T/HTVkMaOS+BSQrZ
-        0dOkqppsij+7bfIoiXHZDKUW2TjmL2hMIqPEAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprNIsWRmVeSWpSXmKPExsWy7bCSnK6Hg0GswcypeharPz5mtGiZtYjF
-        4mzTG3aLy7vmsFl87j3CaNH5ZRabxe3GFWwWP3fNY7HoW3uJzYHTY8fdJYweO2fdZffobX7H
-        5tG3ZRWjx+dNcgGsUVw2Kak5mWWpRfp2CVwZ0173shTs46lYM7mbtYGxk6uLkZNDQsBEonn/
-        FtYuRi4OIYHdjBKPDl1lgUhISky7eJS5i5EDyBaWOHy4GKLmLaPE3M4rrCA1wgKpEvdfbWMH
-        SYgINDFJbOq9wA6SYBaIlOiZu4UNomMLo8SEt8uYQRJsAloS+1/cYAOx+QUUJa7+eMwIYvMK
-        2EncW3cfzGYRUJW41f+PCcQWFYiQmHRtJwtEjaDEyZlPwGxOATOJWYtXs0AsU5f4M+8SM4Qt
-        LnHryXwmCFteonnrbOYJjMKzkLTPQtIyC0nLLCQtCxhZVjFKphYU56bnFhsWGOallusVJ+YW
-        l+al6yXn525iBEeZluYOxstL4g8xCnAwKvHw3lDSjxViTSwrrsw9xCjBwawkwnv7JVCINyWx
-        siq1KD++qDQntfgQozQHi5I479O8Y5FCAumJJanZqakFqUUwWSYOTqkGRq5HVnNu2j+0zdTK
-        8eLYc3d/zqwZxi8/u0TGWb06nmivOMtvU0XGZa3CWIMJx/Z9MXkwZ/tGTRvn925q9b9yVl13
-        UOavCOaYIvbylFxDPPvR2JnXEs9sdlDVkinKUd272ybq076otvLZee9fXpj0OKs+ewvrjg8K
-        P+ubZglcVcupPMV+IurYGSWW4oxEQy3mouJEAPqLqtauAgAA
-X-CMS-MailID: 20190718094752epcas1p4660cd9d3968a1755369c6ad049eedbb9
-X-Msg-Generator: CA
+In-Reply-To: <c9bd6dd3-7a03-6e2c-db9f-fefa059a428f@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20190707223622epcas4p48ec0d7e6fa26bc2397fa4351c0bd0c2d
-References: <20190707223303.6755-1-digetx@gmail.com>
-        <CGME20190707223622epcas4p48ec0d7e6fa26bc2397fa4351c0bd0c2d@epcas4p4.samsung.com>
-        <20190707223303.6755-20-digetx@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1563443591; bh=OYwt3mPj9v55+IxKhE/T3ZeCB4Gi6UOlq8aCbBuKd3w=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=QudFx5KhnAXpLvXRQy20R9QtIBNuMo2qAAgSj7MQcevp75JMrw+JBPrn889mCzSkc
+         37P3fzC7tfGuPJAXGvRSvXtjrH/hwqZ9idrrHCX7oAMVLIYoykWuGU80zNw8W/rP7q
+         okN5IbIVBl26oqeNgK/cV+ho4KQl2cCwxUgy6N1+Ra6mL+ABu/NkQCJ/ii0yMjG14J
+         K/UGKekIQmj0qrGCiIoHzTSL+WL/pzsiPQLnMzTFSVpxEdEoOoH31SFF0coOTQ8prk
+         6lWGztS8XsNO/BxYfP3QY2zTs89ivEovXlOgw5fn5V/jn+9JF43EiBiE8w9oqL7EWe
+         9X/hFXOQVAJqg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 19. 7. 8. 오전 7:32, Dmitry Osipenko wrote:
-> The memory activity counter may get a bit higher than a watermark which
-> is selected based on OPP that corresponds to a highest EMC rate, in this
-> case watermark is lower than the actual memory activity is and thus
-> results in unwanted "upper" interrupts.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/devfreq/tegra30-devfreq.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
 
-It seems that you can combine patch19 with patch20.
-
+On 18/07/2019 10:45, Jon Hunter wrote:
 > 
-> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index 8d6bf6e9f1ae..c3cf87231d25 100644
-> --- a/drivers/devfreq/tegra30-devfreq.c
-> +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -363,7 +363,18 @@ static void tegra_devfreq_update_wmark(struct tegra_devfreq *tegra,
->  	tegra_actmon_get_lower_upper(tegra, dev, freq - 1, &lower, &upper);
->  
->  	delta = do_percent(upper - lower, dev->config->boost_up_threshold);
-> -	device_writel(dev, lower + delta, ACTMON_DEV_UPPER_WMARK);
-> +
-> +	/*
-> +	 * The memory events count could go a bit higher than the maximum
-> +	 * defined by the OPPs, hence make the upper watermark infinitely
-> +	 * high to avoid unnecessary upper interrupts in that case.
-> +	 */
-> +	if (freq == tegra->max_freq)
-> +		upper = ULONG_MAX;
-> +	else
-> +		upper = lower + delta;
-> +
-> +	device_writel(dev, upper, ACTMON_DEV_UPPER_WMARK);
->  
->  	/*
->  	 * Meanwhile the lower mark is based on the average value
+> On 08/07/2019 00:08, Dmitry Osipenko wrote:
+>> The PCLK clock is running off SCLK, which is a critical clock that is
+>> very unlikely to randomly change its rate. It's also a bit clumsy (and
+>> apparently incorrect) to query the clock's rate with interrupts being
+>> disabled because clk_get_rate() takes a mutex and that's the case during
+>> suspend/cpuidle entering. Lastly, it's better to always fully reprogram
+>> PMC state because it's not obvious whether it could be changed after SC7.
 > 
+> I agree with the first part, but I would drop the last sentence because
+> I see no evidence of this. Maybe Peter can confirm.
+> 
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/soc/tegra/pmc.c | 26 +++++++++++---------------
+>>  1 file changed, 11 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+>> index 9f9c1c677cf4..532e0ada012b 100644
+>> --- a/drivers/soc/tegra/pmc.c
+>> +++ b/drivers/soc/tegra/pmc.c
+>> @@ -1433,6 +1433,7 @@ void tegra_pmc_set_suspend_mode(enum tegra_suspend_mode mode)
+>>  void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
+>>  {
+>>  	unsigned long long rate = 0;
+>> +	u64 ticks;
+>>  	u32 value;
+>>  
+>>  	switch (mode) {
+>> @@ -1441,7 +1442,7 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
+>>  		break;
+>>  
+>>  	case TEGRA_SUSPEND_LP2:
+>> -		rate = clk_get_rate(pmc->clk);
+>> +		rate = pmc->rate;
+> 
+> There is another call to clk_get_rate() that could be removed as well.
+> 
+>>  		break;
+>>  
+>>  	default:
+>> @@ -1451,26 +1452,20 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
+>>  	if (WARN_ON_ONCE(rate == 0))
+>>  		rate = 100000000;
+>>  
+>> -	if (rate != pmc->rate) {
+>> -		u64 ticks;
+>> -
+>> -		ticks = pmc->cpu_good_time * rate + USEC_PER_SEC - 1;
+>> -		do_div(ticks, USEC_PER_SEC);
+>> -		tegra_pmc_writel(pmc, ticks, PMC_CPUPWRGOOD_TIMER);
+>> -
+>> -		ticks = pmc->cpu_off_time * rate + USEC_PER_SEC - 1;
+>> -		do_div(ticks, USEC_PER_SEC);
+>> -		tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
+>> +	ticks = pmc->cpu_good_time * rate + USEC_PER_SEC - 1;
+>> +	do_div(ticks, USEC_PER_SEC);
+>> +	tegra_pmc_writel(pmc, ticks, PMC_CPUPWRGOOD_TIMER);
+> 
+> You could go a step further and update the cpu_good_time/cpu_off_time to
+> be ticks and calculated once during probe and recalculated if
+> tegra_pmc_set_suspend_mode is called. I am not sure why we really need
+> to pass mode to tegra_pmc_enter_suspend_mode() seeing as the mode is
+> stored in the pmc struct.
+> 
+>>  
+>> -		wmb();
+>> -
+>> -		pmc->rate = rate;
+>> -	}
+>> +	ticks = pmc->cpu_off_time * rate + USEC_PER_SEC - 1;
+>> +	do_div(ticks, USEC_PER_SEC);
+>> +	tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
+>>  
+>>  	value = tegra_pmc_readl(pmc, PMC_CNTRL);
+>>  	value &= ~PMC_CNTRL_SIDE_EFFECT_LP0;
+>>  	value |= PMC_CNTRL_CPU_PWRREQ_OE;
+>>  	tegra_pmc_writel(pmc, value, PMC_CNTRL);
+>> +
+>> +	wmb();
 
+I would not move the barrier unless there is a good reason. Maybe it is
+intentional that this happens before the other writes.
+
+Jon
 
 -- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+nvpublic
