@@ -2,54 +2,41 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9EE66CBA2
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 11:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 337EE6CBB1
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 11:19:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726488AbfGRJQZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Jul 2019 05:16:25 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:5885 "EHLO
+        id S1726488AbfGRJTq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Jul 2019 05:19:46 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:6107 "EHLO
         hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726423AbfGRJQZ (ORCPT
+        with ESMTP id S1726454AbfGRJTq (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Jul 2019 05:16:25 -0400
+        Thu, 18 Jul 2019 05:19:46 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d3038e60000>; Thu, 18 Jul 2019 02:16:22 -0700
+        id <B5d3039af0001>; Thu, 18 Jul 2019 02:19:43 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 18 Jul 2019 02:16:24 -0700
+  Thu, 18 Jul 2019 02:19:45 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 18 Jul 2019 02:16:24 -0700
+        by hqpgpgate101.nvidia.com on Thu, 18 Jul 2019 02:19:45 -0700
 Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 18 Jul
- 2019 09:16:22 +0000
-Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
- Pool
-To:     Jose Abreu <Jose.Abreu@synopsys.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <cover.1562149883.git.joabreu@synopsys.com>
- <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
- <29dcc161-f7c8-026e-c3cc-5adb04df128c@nvidia.com>
- <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
+ 2019 09:19:43 +0000
+Subject: Re: [PATCH 4.4 00/40] 4.4.186-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20190718030039.676518610@linuxfoundation.org>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <6a6bac84-1d29-2740-1636-d3adb26b6bcc@nvidia.com>
-Date:   Thu, 18 Jul 2019 10:16:20 +0100
+Message-ID: <056947a6-ad2d-1b91-4e58-f01368edd12e@nvidia.com>
+Date:   Thu, 18 Jul 2019 10:19:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
+In-Reply-To: <20190718030039.676518610@linuxfoundation.org>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -57,40 +44,54 @@ Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1563441382; bh=UBDBYe0xiPnNZ74u75kBQZUwZo4ZFBRzV7GqHtAk+fk=;
+        t=1563441583; bh=8vQnuAkXDb9yFtGqMzdBRi60XMQ5F1XsxU4P5JiO29Q=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=XcrP5o1PxtdUUz1qXpHkhMNzaV8bSChNtZMYT0uDV8m0MKu9ZEk24ssqQh2mfrOfg
-         RSgP4hkKw4iUoi/dEpQge0mcAnMmuXX/rihVFAXg77kiaa9clb5wIKZOaVnW/rk9So
-         jFzaT2aAzMdgwzRLHzNYjhD1sjPBiKN2BO7xjHBWQ3U/oQ6Brcz9Y82IlD2xdWdnIR
-         cucRi5ZVTLiYtGuR9KWixMB8bDdLtJfnClHXCHr6lujxfhQ4gsRtOAJnKI/qMjLyHi
-         LoCXUfe4/gRkNvShaTpVqmWg417ciLc24py02AeY0n6l1Qz59fhY9MNRa51moxDjGJ
-         PeUXuf+3jqsNg==
+        b=EwzDdDuEww6SiN9t61CaDnhkRXAVRWmgu60iMFVBMi4BDHMVf2DjjaRhMth7bn8+G
+         qVBIQT79+zdSEiJddkADRJCc6zTLUgDXS1PJXd8l/WDZjknra4npAgOsIP2SckThLy
+         vNOy3BUQawr5+ukzVnkOy+7vO6b3hYyL4rdf6dCx7AJI4EGqsTCyZy2sTlCccb2/na
+         njO+8QgzbbNQ1pHhaJBvrBhipLDV83puiXpFHuRcz25K/WjwLfDvH7Boqyysbsf2Lj
+         R0b0IFHjOwvFtiZbfWNm1GCk+rm5aUJ4JQa9dTDpd0s7oWSF808SyRZMqFnHiqQ3g/
+         pQByH4COWex7A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 18/07/2019 08:48, Jose Abreu wrote:
-> From: Jon Hunter <jonathanh@nvidia.com>
-> Date: Jul/17/2019, 19:58:53 (UTC+00:00)
+On 18/07/2019 04:01, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.186 release.
+> There are 40 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
->> Let me know if you have any thoughts.
+> Responses should be made by Sat 20 Jul 2019 02:59:27 AM UTC.
+> Anything received after that time might be too late.
 > 
-> Can you try attached patch ?
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.186-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Yes this did not help. I tried enabling the following but no more output
-is seen.
+All tests are passing for Tegra ...
 
-CONFIG_DMA_API_DEBUG=y
-CONFIG_DMA_API_DEBUG_SG=y
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
 
-Have you tried using NFS on a board with this ethernet controller?
+Linux version:	4.4.186-rc1-gf046b75a1ffd
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
 
-Cheers,
+Cheers
 Jon
 
 -- 
