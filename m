@@ -2,182 +2,494 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E64686CA44
-	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 09:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17A5D6CB3B
+	for <lists+linux-tegra@lfdr.de>; Thu, 18 Jul 2019 10:49:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726554AbfGRHsY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 18 Jul 2019 03:48:24 -0400
-Received: from smtprelay-out1.synopsys.com ([198.182.47.102]:33986 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726383AbfGRHsY (ORCPT
+        id S2389491AbfGRIrn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 18 Jul 2019 04:47:43 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:50528 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389247AbfGRIrn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 18 Jul 2019 03:48:24 -0400
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7333AC29A2;
-        Thu, 18 Jul 2019 07:48:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1563436103; bh=QugKmvf6S8+ycrpSPe05DwVbg0VDA8Ck6/+8PQW5dIs=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=aoOgBPZcOE2XBAWbSAIB2Au/c71APjFCE0MHf5OOVG3et1eefMh3rs479cdrL8Rwg
-         n7yoYdA64XCBKJA/0ZMeFpQHQ7w5Lcgkc8Ekol4Jnih1Zn32SnHA3qs5iMktL7xtFI
-         zm30+GVTeuul0JyWMIswDeK2Q6rrYZfMlTWCT5S3VQpLETlVz2j0YYvAwsdgEe/Wlk
-         wfzERfGhE5rbwMxvL9YJdyvKcMfK93hoQME1taSlrdEXFEbxI0OKQGGILLtENkXZaW
-         ETAr7BQgqO1PJfwU2gOjhWuPt39fOEXG0csyRHZFCzlWpWivy+i/Dm5SkFrVq++IM2
-         T86QtQMpSSuYw==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 0C1FEA00AE;
-        Thu, 18 Jul 2019 07:48:21 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 18 Jul 2019 00:48:05 -0700
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com (10.13.134.195)
- by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Thu, 18 Jul 2019 00:48:05 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GQvy0/F6+Dx2sJCORpJkW/c7T8PE5/sA65NbQyfneCydBnj7YpCnZHTmO7n/L49g+pjIJHjHqdWfnOu/IoCFPwejbyF2LvRpDu/WsdFmQcRhVMASqDyk1z9jUyb5PcNgur/WQZn4W2nmW8isjVdQ7UAcJMxCiFdPwdmPYWNRhy0GYId7PJmdqJaIgNn1JDXkoh7S4EwEm6MaSCmY+U3zlNWL5PLW5WfxJy8gciGyMjaRrDXbd8bJvKR5FZIXSubLETUSfud/vVqmhCI0vXlYkLMwJ65Brz6MYr8n9t20xJbH4Ta6LDU4JGN26ihC3Al/f4cP5yn0ZtdIJmgCCCI66g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NHEP5QXXQmd1XBmwU2qqonOpM4OdH8C8Q3hpgMVIdJM=;
- b=bgF10WUoX2YXvu3K8hvt+39GTE1t+Yw0l+mZCLpzp9HEAJZhV7rz0qtZ1pj5bvRSWyt3Is1UnBC6HtuMi90y8xDvclF0c2S5QmtAJWzAD6O1KUIUv58PHtFcoe34tyu7nJkwqUFlxdnxFp9NrKBscFc4idUj7htcSv9MDOlTKP2OfPcOBAmky/wJSajao28l3iBqjoQtDAon8yekWdYcG5LuvxtfltvqkrgH7LDYjjFx3507pFo17Oo1JFv6oAuz/dcG+1fzfQOr1j/8HQ2zloPm9HnokNFNLnS8f80XaWnOGZo7IhoQurYnjJlSAzN8t3mc49ZkVM3PkogtkjT4qA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=synopsys.com;dmarc=pass action=none
- header.from=synopsys.com;dkim=pass header.d=synopsys.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector1-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NHEP5QXXQmd1XBmwU2qqonOpM4OdH8C8Q3hpgMVIdJM=;
- b=Ttz0JbRfeOoEP1c0osxn/THKN0Dn87NyLeqzm0rBSglOW4YNaB7n30PF5wpe2kMm8gPGSxwvbOH34TaLGqQ/5L5Kp5o5SJQpzTjgcPKfn+hjhWX9g+UmfoeQkQ1xzdnqIQiuGahF0D3T2Hy1qdtKwzrPyOHyz8x+lCAzBr2N++8=
-Received: from BN8PR12MB3266.namprd12.prod.outlook.com (20.179.66.159) by
- BN8PR12MB2993.namprd12.prod.outlook.com (20.178.208.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2073.14; Thu, 18 Jul 2019 07:48:04 +0000
-Received: from BN8PR12MB3266.namprd12.prod.outlook.com
- ([fe80::61ef:5598:59e0:fc9d]) by BN8PR12MB3266.namprd12.prod.outlook.com
- ([fe80::61ef:5598:59e0:fc9d%5]) with mapi id 15.20.2073.012; Thu, 18 Jul 2019
- 07:48:04 +0000
-From:   Jose Abreu <Jose.Abreu@synopsys.com>
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: RE: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
- Pool
-Thread-Topic: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
- Pool
-Thread-Index: AQHVMYtq2Zx4WVoG/U2kL8GCK0bP/abPQEOAgADTx+A=
-Date:   Thu, 18 Jul 2019 07:48:04 +0000
-Message-ID: <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
-References: <cover.1562149883.git.joabreu@synopsys.com>
- <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
- <29dcc161-f7c8-026e-c3cc-5adb04df128c@nvidia.com>
-In-Reply-To: <29dcc161-f7c8-026e-c3cc-5adb04df128c@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=joabreu@synopsys.com; 
-x-originating-ip: [83.174.63.141]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6b8b7985-8821-401e-eb6c-08d70b544431
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(49563074)(7193020);SRVR:BN8PR12MB2993;
-x-ms-traffictypediagnostic: BN8PR12MB2993:
-x-microsoft-antispam-prvs: <BN8PR12MB2993192F026590B5B73A9D2ED3C80@BN8PR12MB2993.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2399;
-x-forefront-prvs: 01026E1310
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(136003)(366004)(396003)(346002)(376002)(189003)(199004)(76116006)(6116002)(5024004)(66616009)(71200400001)(71190400001)(3846002)(66946007)(66446008)(11346002)(6506007)(7416002)(66476007)(64756008)(66556008)(99936001)(25786009)(8936002)(33656002)(102836004)(54906003)(2906002)(6246003)(486006)(6436002)(446003)(76176011)(316002)(110136005)(81166006)(2201001)(81156014)(476003)(5660300002)(7696005)(14454004)(74316002)(68736007)(53936002)(26005)(52536014)(8676002)(256004)(478600001)(7736002)(55016002)(2501003)(229853002)(305945005)(558084003)(99286004)(9686003)(186003)(66066001)(86362001)(4326008);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR12MB2993;H:BN8PR12MB3266.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: HeBZt9EonZX0iOCDYZKK4MWvM51cygwNwq5TGP+0cH/xlsFpw1ZMwjkjlFpTfDAPxl5rlexF+VazY7rHDG26h9i8Lg8uAwTKMcQY3Nvo7fCnAxH4JaQDGo67QdRDOfjFnbTmX6cz/GzwnlxSEERBHcbMnrlysccLPdzoWKGp2CjNq4ty6o9jf1MPJ6t5uCoh57w7kCRxQebuiHfoL5R+bLQuIQcPz90OiHu8D3jlGCbGT28h8i1TiTQlTv1uCKEqdhtoPBXBfNB/toy++gnJDQ0IV27NVcYAB6KDCCcDJhwl1CIa6A01FspBDBflVN8GuvEpFpj03imgr6146iUw8F2LpEWwcwWB6jyfyJWJ62LBWZck4IFOfheZ45SYenGA/8PF+B0Zy5LU3/dXkfVE4KqP+TRXiQ8kwkORObbUpxI=
-Content-Type: multipart/mixed;
-        boundary="_002_BN8PR12MB32661E919A8DEBC7095BAA12D3C80BN8PR12MB3266namp_"
+        Thu, 18 Jul 2019 04:47:43 -0400
+Received: from 79.184.255.39.ipv4.supernova.orange.pl (79.184.255.39) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.267)
+ id 20351725900aa3ec; Thu, 18 Jul 2019 10:47:37 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Markus Mayer <mmayer@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Keguang Zhang <keguang.zhang@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-pm@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-omap@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH V3] cpufreq: Make cpufreq_generic_init() return void
+Date:   Thu, 18 Jul 2019 10:47:37 +0200
+Message-ID: <2600442.BuetrrJ8M2@kreacher>
+In-Reply-To: <770b46d99e2fa88bc8cdfd95388374284c8b3cf8.1563249700.git.viresh.kumar@linaro.org>
+References: <770b46d99e2fa88bc8cdfd95388374284c8b3cf8.1563249700.git.viresh.kumar@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b8b7985-8821-401e-eb6c-08d70b544431
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2019 07:48:04.3036
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: joabreu@synopsys.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2993
-X-OriginatorOrg: synopsys.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---_002_BN8PR12MB32661E919A8DEBC7095BAA12D3C80BN8PR12MB3266namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Tuesday, July 16, 2019 6:06:08 AM CEST Viresh Kumar wrote:
+> It always returns 0 (success) and its return type should really be void.
+> Over that, many drivers have added error handling code based on its
+> return value, which is not required at all.
+> 
+> change its return type to void and update all the callers.
+> 
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+> V2->V3:
+> - Update bmips cpufreq driver to avoid "warning: 'ret' may be used
+>   uninitialized".
+> - Build bot reported this issue almost after 4 days of posting this
+>   patch, I was expecting this a lot earlier :)
+> 
+>  drivers/cpufreq/bmips-cpufreq.c     | 17 ++++++-----------
+>  drivers/cpufreq/cpufreq.c           |  4 +---
+>  drivers/cpufreq/davinci-cpufreq.c   |  3 ++-
+>  drivers/cpufreq/imx6q-cpufreq.c     |  6 ++----
+>  drivers/cpufreq/kirkwood-cpufreq.c  |  3 ++-
+>  drivers/cpufreq/loongson1-cpufreq.c |  8 +++-----
+>  drivers/cpufreq/loongson2_cpufreq.c |  3 ++-
+>  drivers/cpufreq/maple-cpufreq.c     |  3 ++-
+>  drivers/cpufreq/omap-cpufreq.c      | 15 +++++----------
+>  drivers/cpufreq/pasemi-cpufreq.c    |  3 ++-
+>  drivers/cpufreq/pmac32-cpufreq.c    |  3 ++-
+>  drivers/cpufreq/pmac64-cpufreq.c    |  3 ++-
+>  drivers/cpufreq/s3c2416-cpufreq.c   |  9 ++-------
+>  drivers/cpufreq/s3c64xx-cpufreq.c   | 15 +++------------
+>  drivers/cpufreq/s5pv210-cpufreq.c   |  3 ++-
+>  drivers/cpufreq/sa1100-cpufreq.c    |  3 ++-
+>  drivers/cpufreq/sa1110-cpufreq.c    |  3 ++-
+>  drivers/cpufreq/spear-cpufreq.c     |  3 ++-
+>  drivers/cpufreq/tegra20-cpufreq.c   |  8 +-------
+>  include/linux/cpufreq.h             |  2 +-
+>  20 files changed, 46 insertions(+), 71 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/bmips-cpufreq.c b/drivers/cpufreq/bmips-cpufreq.c
+> index 56a4ebbf00e0..f7c23fa468f0 100644
+> --- a/drivers/cpufreq/bmips-cpufreq.c
+> +++ b/drivers/cpufreq/bmips-cpufreq.c
+> @@ -131,23 +131,18 @@ static int bmips_cpufreq_exit(struct cpufreq_policy *policy)
+>  static int bmips_cpufreq_init(struct cpufreq_policy *policy)
+>  {
+>  	struct cpufreq_frequency_table *freq_table;
+> -	int ret;
+>  
+>  	freq_table = bmips_cpufreq_get_freq_table(policy);
+>  	if (IS_ERR(freq_table)) {
+> -		ret = PTR_ERR(freq_table);
+> -		pr_err("%s: couldn't determine frequency table (%d).\n",
+> -			BMIPS_CPUFREQ_NAME, ret);
+> -		return ret;
+> +		pr_err("%s: couldn't determine frequency table (%ld).\n",
+> +			BMIPS_CPUFREQ_NAME, PTR_ERR(freq_table));
+> +		return PTR_ERR(freq_table);
+>  	}
+>  
+> -	ret = cpufreq_generic_init(policy, freq_table, TRANSITION_LATENCY);
+> -	if (ret)
+> -		bmips_cpufreq_exit(policy);
+> -	else
+> -		pr_info("%s: registered\n", BMIPS_CPUFREQ_NAME);
+> +	cpufreq_generic_init(policy, freq_table, TRANSITION_LATENCY);
+> +	pr_info("%s: registered\n", BMIPS_CPUFREQ_NAME);
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static struct cpufreq_driver bmips_cpufreq_driver = {
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 4d6043ee7834..8dda62367816 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -159,7 +159,7 @@ EXPORT_SYMBOL_GPL(arch_set_freq_scale);
+>   * - set policies transition latency
+>   * - policy->cpus with all possible CPUs
+>   */
+> -int cpufreq_generic_init(struct cpufreq_policy *policy,
+> +void cpufreq_generic_init(struct cpufreq_policy *policy,
+>  		struct cpufreq_frequency_table *table,
+>  		unsigned int transition_latency)
+>  {
+> @@ -171,8 +171,6 @@ int cpufreq_generic_init(struct cpufreq_policy *policy,
+>  	 * share the clock and voltage and clock.
+>  	 */
+>  	cpumask_setall(policy->cpus);
+> -
+> -	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(cpufreq_generic_init);
+>  
+> diff --git a/drivers/cpufreq/davinci-cpufreq.c b/drivers/cpufreq/davinci-cpufreq.c
+> index 3de48ae60c29..297d23cad8b5 100644
+> --- a/drivers/cpufreq/davinci-cpufreq.c
+> +++ b/drivers/cpufreq/davinci-cpufreq.c
+> @@ -90,7 +90,8 @@ static int davinci_cpu_init(struct cpufreq_policy *policy)
+>  	 * Setting the latency to 2000 us to accommodate addition of drivers
+>  	 * to pre/post change notification list.
+>  	 */
+> -	return cpufreq_generic_init(policy, freq_table, 2000 * 1000);
+> +	cpufreq_generic_init(policy, freq_table, 2000 * 1000);
+> +	return 0;
+>  }
+>  
+>  static struct cpufreq_driver davinci_driver = {
+> diff --git a/drivers/cpufreq/imx6q-cpufreq.c b/drivers/cpufreq/imx6q-cpufreq.c
+> index 47ccfa6b17b7..648a09a1778a 100644
+> --- a/drivers/cpufreq/imx6q-cpufreq.c
+> +++ b/drivers/cpufreq/imx6q-cpufreq.c
+> @@ -190,14 +190,12 @@ static int imx6q_set_target(struct cpufreq_policy *policy, unsigned int index)
+>  
+>  static int imx6q_cpufreq_init(struct cpufreq_policy *policy)
+>  {
+> -	int ret;
+> -
+>  	policy->clk = clks[ARM].clk;
+> -	ret = cpufreq_generic_init(policy, freq_table, transition_latency);
+> +	cpufreq_generic_init(policy, freq_table, transition_latency);
+>  	policy->suspend_freq = max_freq;
+>  	dev_pm_opp_of_register_em(policy->cpus);
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static struct cpufreq_driver imx6q_cpufreq_driver = {
+> diff --git a/drivers/cpufreq/kirkwood-cpufreq.c b/drivers/cpufreq/kirkwood-cpufreq.c
+> index 7ab564c1f7ae..cb74bdc5baaa 100644
+> --- a/drivers/cpufreq/kirkwood-cpufreq.c
+> +++ b/drivers/cpufreq/kirkwood-cpufreq.c
+> @@ -85,7 +85,8 @@ static int kirkwood_cpufreq_target(struct cpufreq_policy *policy,
+>  /* Module init and exit code */
+>  static int kirkwood_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  {
+> -	return cpufreq_generic_init(policy, kirkwood_freq_table, 5000);
+> +	cpufreq_generic_init(policy, kirkwood_freq_table, 5000);
+> +	return 0;
+>  }
+>  
+>  static struct cpufreq_driver kirkwood_cpufreq_driver = {
+> diff --git a/drivers/cpufreq/loongson1-cpufreq.c b/drivers/cpufreq/loongson1-cpufreq.c
+> index 21c9ce8526c0..0ea88778882a 100644
+> --- a/drivers/cpufreq/loongson1-cpufreq.c
+> +++ b/drivers/cpufreq/loongson1-cpufreq.c
+> @@ -81,7 +81,7 @@ static int ls1x_cpufreq_init(struct cpufreq_policy *policy)
+>  	struct device *cpu_dev = get_cpu_device(policy->cpu);
+>  	struct cpufreq_frequency_table *freq_tbl;
+>  	unsigned int pll_freq, freq;
+> -	int steps, i, ret;
+> +	int steps, i;
+>  
+>  	pll_freq = clk_get_rate(cpufreq->pll_clk) / 1000;
+>  
+> @@ -103,11 +103,9 @@ static int ls1x_cpufreq_init(struct cpufreq_policy *policy)
+>  	freq_tbl[i].frequency = CPUFREQ_TABLE_END;
+>  
+>  	policy->clk = cpufreq->clk;
+> -	ret = cpufreq_generic_init(policy, freq_tbl, 0);
+> -	if (ret)
+> -		kfree(freq_tbl);
+> +	cpufreq_generic_init(policy, freq_tbl, 0);
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static int ls1x_cpufreq_exit(struct cpufreq_policy *policy)
+> diff --git a/drivers/cpufreq/loongson2_cpufreq.c b/drivers/cpufreq/loongson2_cpufreq.c
+> index da344696beed..890813e0bb76 100644
+> --- a/drivers/cpufreq/loongson2_cpufreq.c
+> +++ b/drivers/cpufreq/loongson2_cpufreq.c
+> @@ -95,7 +95,8 @@ static int loongson2_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  	}
+>  
+>  	policy->clk = cpuclk;
+> -	return cpufreq_generic_init(policy, &loongson2_clockmod_table[0], 0);
+> +	cpufreq_generic_init(policy, &loongson2_clockmod_table[0], 0);
+> +	return 0;
+>  }
+>  
+>  static int loongson2_cpufreq_exit(struct cpufreq_policy *policy)
+> diff --git a/drivers/cpufreq/maple-cpufreq.c b/drivers/cpufreq/maple-cpufreq.c
+> index f5220b3d4ec5..28d346062166 100644
+> --- a/drivers/cpufreq/maple-cpufreq.c
+> +++ b/drivers/cpufreq/maple-cpufreq.c
+> @@ -140,7 +140,8 @@ static unsigned int maple_cpufreq_get_speed(unsigned int cpu)
+>  
+>  static int maple_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  {
+> -	return cpufreq_generic_init(policy, maple_cpu_freqs, 12000);
+> +	cpufreq_generic_init(policy, maple_cpu_freqs, 12000);
+> +	return 0;
+>  }
+>  
+>  static struct cpufreq_driver maple_cpufreq_driver = {
+> diff --git a/drivers/cpufreq/omap-cpufreq.c b/drivers/cpufreq/omap-cpufreq.c
+> index 29643f06a3c3..8d14b42a8c6f 100644
+> --- a/drivers/cpufreq/omap-cpufreq.c
+> +++ b/drivers/cpufreq/omap-cpufreq.c
+> @@ -122,23 +122,18 @@ static int omap_cpu_init(struct cpufreq_policy *policy)
+>  			dev_err(mpu_dev,
+>  				"%s: cpu%d: failed creating freq table[%d]\n",
+>  				__func__, policy->cpu, result);
+> -			goto fail;
+> +			clk_put(policy->clk);
+> +			return result;
+>  		}
+>  	}
+>  
+>  	atomic_inc_return(&freq_table_users);
+>  
+>  	/* FIXME: what's the actual transition time? */
+> -	result = cpufreq_generic_init(policy, freq_table, 300 * 1000);
+> -	if (!result) {
+> -		dev_pm_opp_of_register_em(policy->cpus);
+> -		return 0;
+> -	}
+> +	cpufreq_generic_init(policy, freq_table, 300 * 1000);
+> +	dev_pm_opp_of_register_em(policy->cpus);
+>  
+> -	freq_table_free();
+> -fail:
+> -	clk_put(policy->clk);
+> -	return result;
+> +	return 0;
+>  }
+>  
+>  static int omap_cpu_exit(struct cpufreq_policy *policy)
+> diff --git a/drivers/cpufreq/pasemi-cpufreq.c b/drivers/cpufreq/pasemi-cpufreq.c
+> index 6b1e4abe3248..93f39a1d4c3d 100644
+> --- a/drivers/cpufreq/pasemi-cpufreq.c
+> +++ b/drivers/cpufreq/pasemi-cpufreq.c
+> @@ -196,7 +196,8 @@ static int pas_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  	policy->cur = pas_freqs[cur_astate].frequency;
+>  	ppc_proc_freq = policy->cur * 1000ul;
+>  
+> -	return cpufreq_generic_init(policy, pas_freqs, get_gizmo_latency());
+> +	cpufreq_generic_init(policy, pas_freqs, get_gizmo_latency());
+> +	return 0;
+>  
+>  out_unmap_sdcpwr:
+>  	iounmap(sdcpwr_mapbase);
+> diff --git a/drivers/cpufreq/pmac32-cpufreq.c b/drivers/cpufreq/pmac32-cpufreq.c
+> index 650104d729f3..73621bc11976 100644
+> --- a/drivers/cpufreq/pmac32-cpufreq.c
+> +++ b/drivers/cpufreq/pmac32-cpufreq.c
+> @@ -372,7 +372,8 @@ static int pmac_cpufreq_target(	struct cpufreq_policy *policy,
+>  
+>  static int pmac_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  {
+> -	return cpufreq_generic_init(policy, pmac_cpu_freqs, transition_latency);
+> +	cpufreq_generic_init(policy, pmac_cpu_freqs, transition_latency);
+> +	return 0;
+>  }
+>  
+>  static u32 read_gpio(struct device_node *np)
+> diff --git a/drivers/cpufreq/pmac64-cpufreq.c b/drivers/cpufreq/pmac64-cpufreq.c
+> index 1af3492a000d..d7542a106e6b 100644
+> --- a/drivers/cpufreq/pmac64-cpufreq.c
+> +++ b/drivers/cpufreq/pmac64-cpufreq.c
+> @@ -321,7 +321,8 @@ static unsigned int g5_cpufreq_get_speed(unsigned int cpu)
+>  
+>  static int g5_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  {
+> -	return cpufreq_generic_init(policy, g5_cpu_freqs, transition_latency);
+> +	cpufreq_generic_init(policy, g5_cpu_freqs, transition_latency);
+> +	return 0;
+>  }
+>  
+>  static struct cpufreq_driver g5_cpufreq_driver = {
+> diff --git a/drivers/cpufreq/s3c2416-cpufreq.c b/drivers/cpufreq/s3c2416-cpufreq.c
+> index f7ff1ed7fef1..106910351c41 100644
+> --- a/drivers/cpufreq/s3c2416-cpufreq.c
+> +++ b/drivers/cpufreq/s3c2416-cpufreq.c
+> @@ -447,21 +447,16 @@ static int s3c2416_cpufreq_driver_init(struct cpufreq_policy *policy)
+>  	/* Datasheet says PLL stabalisation time must be at least 300us,
+>  	 * so but add some fudge. (reference in LOCKCON0 register description)
+>  	 */
+> -	ret = cpufreq_generic_init(policy, s3c_freq->freq_table,
+> +	cpufreq_generic_init(policy, s3c_freq->freq_table,
+>  			(500 * 1000) + s3c_freq->regulator_latency);
+> -	if (ret)
+> -		goto err_freq_table;
+> -
+>  	register_reboot_notifier(&s3c2416_cpufreq_reboot_notifier);
+>  
+>  	return 0;
+>  
+> -err_freq_table:
+>  #ifdef CONFIG_ARM_S3C2416_CPUFREQ_VCORESCALE
+> -	regulator_put(s3c_freq->vddarm);
+>  err_vddarm:
+> -#endif
+>  	clk_put(s3c_freq->armclk);
+> +#endif
+>  err_armclk:
+>  	clk_put(s3c_freq->hclk);
+>  err_hclk:
+> diff --git a/drivers/cpufreq/s3c64xx-cpufreq.c b/drivers/cpufreq/s3c64xx-cpufreq.c
+> index 37df2d892eb0..af0c00dabb22 100644
+> --- a/drivers/cpufreq/s3c64xx-cpufreq.c
+> +++ b/drivers/cpufreq/s3c64xx-cpufreq.c
+> @@ -144,7 +144,6 @@ static void s3c64xx_cpufreq_config_regulator(void)
+>  
+>  static int s3c64xx_cpufreq_driver_init(struct cpufreq_policy *policy)
+>  {
+> -	int ret;
+>  	struct cpufreq_frequency_table *freq;
+>  
+>  	if (policy->cpu != 0)
+> @@ -165,8 +164,7 @@ static int s3c64xx_cpufreq_driver_init(struct cpufreq_policy *policy)
+>  #ifdef CONFIG_REGULATOR
+>  	vddarm = regulator_get(NULL, "vddarm");
+>  	if (IS_ERR(vddarm)) {
+> -		ret = PTR_ERR(vddarm);
+> -		pr_err("Failed to obtain VDDARM: %d\n", ret);
+> +		pr_err("Failed to obtain VDDARM: %ld\n", PTR_ERR(vddarm));
+>  		pr_err("Only frequency scaling available\n");
+>  		vddarm = NULL;
+>  	} else {
+> @@ -196,16 +194,9 @@ static int s3c64xx_cpufreq_driver_init(struct cpufreq_policy *policy)
+>  	 * the PLLs, which we don't currently) is ~300us worst case,
+>  	 * but add some fudge.
+>  	 */
+> -	ret = cpufreq_generic_init(policy, s3c64xx_freq_table,
+> +	cpufreq_generic_init(policy, s3c64xx_freq_table,
+>  			(500 * 1000) + regulator_latency);
+> -	if (ret != 0) {
+> -		pr_err("Failed to configure frequency table: %d\n",
+> -		       ret);
+> -		regulator_put(vddarm);
+> -		clk_put(policy->clk);
+> -	}
+> -
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static struct cpufreq_driver s3c64xx_cpufreq_driver = {
+> diff --git a/drivers/cpufreq/s5pv210-cpufreq.c b/drivers/cpufreq/s5pv210-cpufreq.c
+> index e5cb17d4be7b..5d10030f2560 100644
+> --- a/drivers/cpufreq/s5pv210-cpufreq.c
+> +++ b/drivers/cpufreq/s5pv210-cpufreq.c
+> @@ -541,7 +541,8 @@ static int s5pv210_cpu_init(struct cpufreq_policy *policy)
+>  	s5pv210_dram_conf[1].freq = clk_get_rate(dmc1_clk);
+>  
+>  	policy->suspend_freq = SLEEP_FREQ;
+> -	return cpufreq_generic_init(policy, s5pv210_freq_table, 40000);
+> +	cpufreq_generic_init(policy, s5pv210_freq_table, 40000);
+> +	return 0;
+>  
+>  out_dmc1:
+>  	clk_put(dmc0_clk);
+> diff --git a/drivers/cpufreq/sa1100-cpufreq.c b/drivers/cpufreq/sa1100-cpufreq.c
+> index ab5cab93e638..5c075ef6adc0 100644
+> --- a/drivers/cpufreq/sa1100-cpufreq.c
+> +++ b/drivers/cpufreq/sa1100-cpufreq.c
+> @@ -181,7 +181,8 @@ static int sa1100_target(struct cpufreq_policy *policy, unsigned int ppcr)
+>  
+>  static int __init sa1100_cpu_init(struct cpufreq_policy *policy)
+>  {
+> -	return cpufreq_generic_init(policy, sa11x0_freq_table, 0);
+> +	cpufreq_generic_init(policy, sa11x0_freq_table, 0);
+> +	return 0;
+>  }
+>  
+>  static struct cpufreq_driver sa1100_driver __refdata = {
+> diff --git a/drivers/cpufreq/sa1110-cpufreq.c b/drivers/cpufreq/sa1110-cpufreq.c
+> index dab54e051c0e..d9d04d935b3a 100644
+> --- a/drivers/cpufreq/sa1110-cpufreq.c
+> +++ b/drivers/cpufreq/sa1110-cpufreq.c
+> @@ -303,7 +303,8 @@ static int sa1110_target(struct cpufreq_policy *policy, unsigned int ppcr)
+>  
+>  static int __init sa1110_cpu_init(struct cpufreq_policy *policy)
+>  {
+> -	return cpufreq_generic_init(policy, sa11x0_freq_table, 0);
+> +	cpufreq_generic_init(policy, sa11x0_freq_table, 0);
+> +	return 0;
+>  }
+>  
+>  /* sa1110_driver needs __refdata because it must remain after init registers
+> diff --git a/drivers/cpufreq/spear-cpufreq.c b/drivers/cpufreq/spear-cpufreq.c
+> index 4074e2615522..73bd8dc47074 100644
+> --- a/drivers/cpufreq/spear-cpufreq.c
+> +++ b/drivers/cpufreq/spear-cpufreq.c
+> @@ -153,8 +153,9 @@ static int spear_cpufreq_target(struct cpufreq_policy *policy,
+>  static int spear_cpufreq_init(struct cpufreq_policy *policy)
+>  {
+>  	policy->clk = spear_cpufreq.clk;
+> -	return cpufreq_generic_init(policy, spear_cpufreq.freq_tbl,
+> +	cpufreq_generic_init(policy, spear_cpufreq.freq_tbl,
+>  			spear_cpufreq.transition_latency);
+> +	return 0;
+>  }
+>  
+>  static struct cpufreq_driver spear_cpufreq_driver = {
+> diff --git a/drivers/cpufreq/tegra20-cpufreq.c b/drivers/cpufreq/tegra20-cpufreq.c
+> index 3c32cc7b0671..f84ecd22f488 100644
+> --- a/drivers/cpufreq/tegra20-cpufreq.c
+> +++ b/drivers/cpufreq/tegra20-cpufreq.c
+> @@ -118,17 +118,11 @@ static int tegra_target(struct cpufreq_policy *policy, unsigned int index)
+>  static int tegra_cpu_init(struct cpufreq_policy *policy)
+>  {
+>  	struct tegra20_cpufreq *cpufreq = cpufreq_get_driver_data();
+> -	int ret;
+>  
+>  	clk_prepare_enable(cpufreq->cpu_clk);
+>  
+>  	/* FIXME: what's the actual transition time? */
+> -	ret = cpufreq_generic_init(policy, freq_table, 300 * 1000);
+> -	if (ret) {
+> -		clk_disable_unprepare(cpufreq->cpu_clk);
+> -		return ret;
+> -	}
+> -
+> +	cpufreq_generic_init(policy, freq_table, 300 * 1000);
+>  	policy->clk = cpufreq->cpu_clk;
+>  	policy->suspend_freq = freq_table[0].frequency;
+>  	return 0;
+> diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+> index d757a56a74dc..536a049d7ecc 100644
+> --- a/include/linux/cpufreq.h
+> +++ b/include/linux/cpufreq.h
+> @@ -992,7 +992,7 @@ extern struct freq_attr *cpufreq_generic_attr[];
+>  int cpufreq_table_validate_and_sort(struct cpufreq_policy *policy);
+>  
+>  unsigned int cpufreq_generic_get(unsigned int cpu);
+> -int cpufreq_generic_init(struct cpufreq_policy *policy,
+> +void cpufreq_generic_init(struct cpufreq_policy *policy,
+>  		struct cpufreq_frequency_table *table,
+>  		unsigned int transition_latency);
+>  #endif /* _LINUX_CPUFREQ_H */
+> 
 
-RnJvbTogSm9uIEh1bnRlciA8am9uYXRoYW5oQG52aWRpYS5jb20+DQpEYXRlOiBKdWwvMTcvMjAx
-OSwgMTk6NTg6NTMgKFVUQyswMDowMCkNCg0KPiBMZXQgbWUga25vdyBpZiB5b3UgaGF2ZSBhbnkg
-dGhvdWdodHMuDQoNCkNhbiB5b3UgdHJ5IGF0dGFjaGVkIHBhdGNoID8NCg0KLS0tDQpUaGFua3Ms
-DQpKb3NlIE1pZ3VlbCBBYnJldQ0K
+Applied, thanks!
 
---_002_BN8PR12MB32661E919A8DEBC7095BAA12D3C80BN8PR12MB3266namp_
-Content-Type: application/octet-stream;
-	name="0001-net-stmmac-RX-Descriptors-need-to-be-clean-before-se.patch"
-Content-Description: 0001-net-stmmac-RX-Descriptors-need-to-be-clean-before-se.patch
-Content-Disposition: attachment;
-	filename="0001-net-stmmac-RX-Descriptors-need-to-be-clean-before-se.patch";
-	size=2042; creation-date="Thu, 18 Jul 2019 07:46:13 GMT";
-	modification-date="Thu, 18 Jul 2019 07:46:13 GMT"
-Content-Transfer-Encoding: base64
 
-RnJvbSAwMGJmZGU2ZjU4OWU2MGJhMWEyZDA2NzFjOGJhMGZjZDA5NjRkNmU3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpNZXNzYWdlLUlkOiA8MDBiZmRlNmY1ODllNjBiYTFhMmQwNjcxYzhiYTBm
-Y2QwOTY0ZDZlNy4xNTYzNDM1OTI3LmdpdC5qb2FicmV1QHN5bm9wc3lzLmNvbT4KRnJvbTogSm9z
-ZSBBYnJldSA8am9hYnJldUBzeW5vcHN5cy5jb20+CkRhdGU6IFRodSwgMTggSnVsIDIwMTkgMDk6
-NDI6MzEgKzAyMDAKU3ViamVjdDogW1BBVENIIG5ldF0gbmV0OiBzdG1tYWM6IFJYIERlc2NyaXB0
-b3JzIG5lZWQgdG8gYmUgY2xlYW4gYmVmb3JlCiBzZXR0aW5nIGJ1ZmZlcnMKClJYIERlc2NyaXB0
-b3JzIGFyZSBiZWluZyBjbGVhbmVkIGFmdGVyIHNldHRpbmcgdGhlIGJ1ZmZlcnMgd2hpY2ggbWF5
-CmxlYWQgdG8gYnVmZmVyIGFkZHJlc3NlcyBiZWluZyB3aXBlZCBvdXQuCgpGaXggdGhpcyBieSBj
-bGVhcmluZyBlYXJsaWVyIHRoZSBSWCBEZXNjcmlwdG9ycy4KClJlcG9ydGVkLWJ5OiBKb24gSHVu
-dGVyIDxqb25hdGhhbmhAbnZpZGlhLmNvbT4KRml4ZXM6IDJhZjYxMDZhZTk0OSAoIm5ldDogc3Rt
-bWFjOiBJbnRyb2R1Y2luZyBzdXBwb3J0IGZvciBQYWdlIFBvb2wiKQpTaWduZWQtb2ZmLWJ5OiBK
-b3NlIEFicmV1IDxqb2FicmV1QHN5bm9wc3lzLmNvbT4KCi0tLQpDYzogR2l1c2VwcGUgQ2F2YWxs
-YXJvIDxwZXBwZS5jYXZhbGxhcm9Ac3QuY29tPgpDYzogQWxleGFuZHJlIFRvcmd1ZSA8YWxleGFu
-ZHJlLnRvcmd1ZUBzdC5jb20+CkNjOiBKb3NlIEFicmV1IDxqb2FicmV1QHN5bm9wc3lzLmNvbT4K
-Q2M6ICJEYXZpZCBTLiBNaWxsZXIiIDxkYXZlbUBkYXZlbWxvZnQubmV0PgpDYzogTWF4aW1lIENv
-cXVlbGluIDxtY29xdWVsaW4uc3RtMzJAZ21haWwuY29tPgpDYzogbmV0ZGV2QHZnZXIua2VybmVs
-Lm9yZwpDYzogbGludXgtc3RtMzJAc3QtbWQtbWFpbG1hbi5zdG9ybXJlcGx5LmNvbQpDYzogbGlu
-dXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCkNjOiBsaW51eC1rZXJuZWxAdmdlci5r
-ZXJuZWwub3JnCi0tLQogZHJpdmVycy9uZXQvZXRoZXJuZXQvc3RtaWNyby9zdG1tYWMvc3RtbWFj
-X21haW4uYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC9ldGhlcm5ldC9zdG1pY3JvL3N0bW1h
-Yy9zdG1tYWNfbWFpbi5jIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvc3RtaWNyby9zdG1tYWMvc3Rt
-bWFjX21haW4uYwppbmRleCBjN2M5ZTVmMTYyZTYuLjVmMTI5NGNlMDIxNiAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9uZXQvZXRoZXJuZXQvc3RtaWNyby9zdG1tYWMvc3RtbWFjX21haW4uYworKysgYi9k
-cml2ZXJzL25ldC9ldGhlcm5ldC9zdG1pY3JvL3N0bW1hYy9zdG1tYWNfbWFpbi5jCkBAIC0xMjk1
-LDYgKzEyOTUsOCBAQCBzdGF0aWMgaW50IGluaXRfZG1hX3J4X2Rlc2NfcmluZ3Moc3RydWN0IG5l
-dF9kZXZpY2UgKmRldiwgZ2ZwX3QgZmxhZ3MpCiAJCQkgICIoJXMpIGRtYV9yeF9waHk9MHglMDh4
-XG4iLCBfX2Z1bmNfXywKIAkJCSAgKHUzMilyeF9xLT5kbWFfcnhfcGh5KTsKIAorCQlzdG1tYWNf
-Y2xlYXJfcnhfZGVzY3JpcHRvcnMocHJpdiwgcXVldWUpOworCiAJCWZvciAoaSA9IDA7IGkgPCBE
-TUFfUlhfU0laRTsgaSsrKSB7CiAJCQlzdHJ1Y3QgZG1hX2Rlc2MgKnA7CiAKQEAgLTEzMTIsOCAr
-MTMxNCw2IEBAIHN0YXRpYyBpbnQgaW5pdF9kbWFfcnhfZGVzY19yaW5ncyhzdHJ1Y3QgbmV0X2Rl
-dmljZSAqZGV2LCBnZnBfdCBmbGFncykKIAkJcnhfcS0+Y3VyX3J4ID0gMDsKIAkJcnhfcS0+ZGly
-dHlfcnggPSAodW5zaWduZWQgaW50KShpIC0gRE1BX1JYX1NJWkUpOwogCi0JCXN0bW1hY19jbGVh
-cl9yeF9kZXNjcmlwdG9ycyhwcml2LCBxdWV1ZSk7Ci0KIAkJLyogU2V0dXAgdGhlIGNoYWluZWQg
-ZGVzY3JpcHRvciBhZGRyZXNzZXMgKi8KIAkJaWYgKHByaXYtPm1vZGUgPT0gU1RNTUFDX0NIQUlO
-X01PREUpIHsKIAkJCWlmIChwcml2LT5leHRlbmRfZGVzYykKLS0gCjIuNy40Cgo=
 
---_002_BN8PR12MB32661E919A8DEBC7095BAA12D3C80BN8PR12MB3266namp_--
