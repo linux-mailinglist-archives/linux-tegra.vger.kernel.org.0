@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DAE66DBEE
-	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jul 2019 06:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7D9F6DCAC
+	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jul 2019 06:18:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388840AbfGSEM1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 19 Jul 2019 00:12:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47708 "EHLO mail.kernel.org"
+        id S2388470AbfGSEOF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 19 Jul 2019 00:14:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50094 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388822AbfGSEMY (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 19 Jul 2019 00:12:24 -0400
+        id S2388688AbfGSEOB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 19 Jul 2019 00:14:01 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9280D21873;
-        Fri, 19 Jul 2019 04:12:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7AB2221872;
+        Fri, 19 Jul 2019 04:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563509543;
-        bh=E3+Janh7I5tZaUpI1dGOCf4luRr+92HNCwwvVl12LnI=;
+        s=default; t=1563509640;
+        bh=CtIMGofK6vbJ/UInNQ4hzSV0mDxjUM13tvSfz5FMHeU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=y1UlAQcjPsS7DlMIhkRcZjLEF/dhev9ur9yLpPUSGnoPIwZBP7A7+lJInetxVsDYy
-         QM6da9ziM9XuIdvOlbkE3A7HR3tAKEmhu1emwlzVTQt2oRvrH44OyswkZYwD+zZlLn
-         RrI+o+uyofFWxiW6Up9dExiUHUG0tyDgua6K5/RQ=
+        b=RdW+HhUtAGSu/4YRN2EJcfxeiy9tXmQEhSgS8V0W6GP+OOKWOrib+uJ0PdCi4OeZZ
+         PXr5bcc1/zdD8Hti0Yk8VtF7u6YaXht83on2GFD9CPJL6m3gdbrfeDy+dqYh0bkeV8
+         11Z4LzrzqJ1yl1FKhKI5xzTAvmdXR0MIbA67ISgw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Vidya Sagar <vidyas@nvidia.com>,
@@ -30,12 +30,12 @@ Cc:     Vidya Sagar <vidyas@nvidia.com>,
         Thierry Reding <treding@nvidia.com>,
         Sasha Levin <sashal@kernel.org>, linux-pci@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 41/60] PCI: tegra: Enable Relaxed Ordering only for Tegra20 & Tegra30
-Date:   Fri, 19 Jul 2019 00:10:50 -0400
-Message-Id: <20190719041109.18262-41-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 33/45] PCI: tegra: Enable Relaxed Ordering only for Tegra20 & Tegra30
+Date:   Fri, 19 Jul 2019 00:12:52 -0400
+Message-Id: <20190719041304.18849-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719041109.18262-1-sashal@kernel.org>
-References: <20190719041109.18262-1-sashal@kernel.org>
+In-Reply-To: <20190719041304.18849-1-sashal@kernel.org>
+References: <20190719041304.18849-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -86,10 +86,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/host/pci-tegra.c b/drivers/pci/host/pci-tegra.c
-index 1987fec1f126..d2ad76ef3e83 100644
+index 8dfccf733241..6985102a4ae3 100644
 --- a/drivers/pci/host/pci-tegra.c
 +++ b/drivers/pci/host/pci-tegra.c
-@@ -607,12 +607,15 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_fixup_class);
+@@ -603,12 +603,15 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_fixup_class);
  DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_fixup_class);
  DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_fixup_class);
  
@@ -105,7 +105,7 @@ index 1987fec1f126..d2ad76ef3e83 100644
 +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_relax_enable);
 +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_relax_enable);
  
- static int tegra_pcie_request_resources(struct tegra_pcie *pcie)
+ static int tegra_pcie_setup(int nr, struct pci_sys_data *sys)
  {
 -- 
 2.20.1
