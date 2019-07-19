@@ -2,97 +2,191 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 635806DF0D
-	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jul 2019 06:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6929B6E0C9
+	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jul 2019 07:58:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731245AbfGSEcf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 19 Jul 2019 00:32:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35946 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729482AbfGSEDv (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 19 Jul 2019 00:03:51 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 07D96218A3;
-        Fri, 19 Jul 2019 04:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563509030;
-        bh=99bdJtHJ1MsJTfqqUn6pcFkaz/AWRzdopQhNpKj9osM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CjYPiLK0t5usAWz17nQIfk32PEWocYH0oqySYNugxqdXh4TQNguRdBQdUX3/x5ulh
-         c2aaUxNlWtdk6hAmzsRkYNhOPftOZXs1L/neb97a96QP1CBOhn9XjIYCF2euzArCQC
-         A6xJMcNwm8xd0MRKEofFKHXXzKA9B7U2B0JvbwaM=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thierry Reding <treding@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 030/141] gpu: host1x: Increase maximum DMA segment size
-Date:   Fri, 19 Jul 2019 00:00:55 -0400
-Message-Id: <20190719040246.15945-30-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719040246.15945-1-sashal@kernel.org>
-References: <20190719040246.15945-1-sashal@kernel.org>
+        id S1727171AbfGSF6r (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 19 Jul 2019 01:58:47 -0400
+Received: from mailout2.samsung.com ([203.254.224.25]:34945 "EHLO
+        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727109AbfGSF6r (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 19 Jul 2019 01:58:47 -0400
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20190719055844epoutp02b1ba0b25e49621274a8c80d0f7cedabd~yuXMm6L8N0117601176epoutp02F
+        for <linux-tegra@vger.kernel.org>; Fri, 19 Jul 2019 05:58:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20190719055844epoutp02b1ba0b25e49621274a8c80d0f7cedabd~yuXMm6L8N0117601176epoutp02F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1563515924;
+        bh=szd6xmQj3SvU6GXSwtu/sUN30XFQ9i4FBtIjtp320H4=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=L4nPWE41/wc4XUD+raj5XIKVlG5syKLGamDYuckNk2O6nlwbVZoSW39tzowcha9r/
+         vC/OgLzaIR2GGzEhsr9mYM7S1rrgEv5lSb/85wvRBUke2aR+cBjardRFJeeDeYGFWL
+         fQQBYmDFIVJZ8SoWvR+4qZYbSbib6BkflUGsTqYo=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20190719055844epcas1p108a3520911b3a51f3cd81064ffa3c012~yuXMDFWoy1828118281epcas1p1P;
+        Fri, 19 Jul 2019 05:58:44 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.40.156]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 45qgKr4mkHzMqYm1; Fri, 19 Jul
+        2019 05:58:40 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+        epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+        74.96.04066.01C513D5; Fri, 19 Jul 2019 14:58:40 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20190719055840epcas1p2cdb7e95837a9884de09f8d750b821d88~yuXISQCDJ2912029120epcas1p27;
+        Fri, 19 Jul 2019 05:58:40 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20190719055840epsmtrp252be86f41996fcb3cf6e08aaf388b3c2~yuXIRcOil0338603386epsmtrp2E;
+        Fri, 19 Jul 2019 05:58:40 +0000 (GMT)
+X-AuditID: b6c32a37-e27ff70000000fe2-ab-5d315c1039f5
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        84.8F.03638.01C513D5; Fri, 19 Jul 2019 14:58:40 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20190719055840epsmtip15a21710833739f20107f4d22a6ed4836~yuXIHEDtN2188921889epsmtip1Z;
+        Fri, 19 Jul 2019 05:58:40 +0000 (GMT)
+Subject: Re: [PATCH v4 12/24] PM / devfreq: tegra30: Inline all one-line
+ functions
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <8e3de3b8-d3c6-fba3-0883-a2cd8d0c4c98@samsung.com>
+Date:   Fri, 19 Jul 2019 15:01:50 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.8.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <20190719051426.4e4145d8@dimatab>
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SeUiTYRzHe/Zu76a5fFpWv6RSX6nQcu5tTV8jJehgkIR0QIVmL+5pmrva
+        OzuMIruV8qBLV62oLLtrTdGVCGaFQZcd2DGyjCgzI1fRBbXtLfK/z+9+vr/np6BUF+hoRYHF
+        QewW3sTQ4dKGawlJSTibzdHsuTqBO/OpG3FbnEel3O1NvXLugfcgzfl3tSGu9LOT5p6V1NHc
+        d69LypWf66Cnh+kbfceRvsnpk+t3be6j9eWe00jvd4/Nki0pnJZPeAOxxxJLntVQYDGmM3Pm
+        587I1aVo2CQ2jUtlYi28maQzMzOzkmYXmAIPYmJX8aaigCuLFwQmOWOa3VrkILH5VsGRzhCb
+        wWRLs6kF3iwUWYzqPKt5KqvRTNYFEpcV5l+piLd1Rq1pL6tEG5EPl6EwBeApcOuEX16GwhUq
+        3IigrbNSKhr9CGrqd1Oi8RVBb3l5IKIIlbx8pxX9zQge7etAovERQZW7iQr2HYYXQFfdD1mQ
+        o/B4OHn9lyyYROFLErh58awkGKBxIrS87aSDHInj4NG3bhRkJc6Avd2+UCMpHgd9bzzSIA/H
+        i6C/65pMzBkK7TWvQ/4wrIbKnppQHwqPhKevD0tEjoHN9QdCEgD/puHyK49MVD0THnd4kcjD
+        oOemRy5yNPj7mmmR18Gp9jZaLN6BwNNy72+xFlpqd0uCu6BwAlzwJovuOGj6eQiJg4dA35ed
+        MnFdStixTSWmxMODLp9E5FFwbHspXYkY5wA5zgESnAMkOP8PO4Kkp9EIYhPMRiKwNu3A33aj
+        0LEmpjaii3cyWxFWICZCmWXW5Khk/CphrbkVgYJiopTP3iXnqJQGfm0xsVtz7UUmIrQiXWDb
+        VVT08Dxr4PQtjlxWN1mr1XJT2BQdyzIjla5fCTkqbOQdpJAQG7H/q5MowqI3IpN/8QtjQ29p
+        ZJk7o/j9aMP2mJ4bE3/OyGurksVU6DWjxrh21lXcnxt+rqfDtX/ooPuzvc67yrFP58X5Hp4f
+        923pypQfnKuWOv5q69elH5avi0l9Hr9+oZrU92e/Jas3RZa8cUccGexasW1D2qRsNTmUers4
+        KqK2+klJY6R8ls++v/o5IxXyeTaRsgv8H9tFdJvCAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRmVeSWpSXmKPExsWy7bCSnK5AjGGsQfNtTovVHx8zWrTMWsRi
+        cbbpDbvF5V1z2Cw+9x5htOj8MovN4nbjCjaLn7vmsVj0rb3E5sDpsePuEkaPnbPusnv0Nr9j
+        8+jbsorR4/MmuQDWKC6blNSczLLUIn27BK6M3f3KBTdEKk52TWBsYLwr0MXIwSEhYCLx8KVx
+        FyMXh5DAbkaJz8uWsXcxcgLFJSWmXTzKDFEjLHH4cDFEzVtGiVWTOlhAaoQFQiQerPjFCmKL
+        CKhJLD/6hxWkiFlgM5PE2VOr2SA6mlkkJt96CDaVTUBLYv+LG2wgNr+AosTVH48ZQWxeATuJ
+        qY/vMoPYLAKqEu+ebQHbICoQIXF4xyyoGkGJkzOfgMU5BfQkJryaCTaHWUBd4s+8S8wQtrjE
+        rSfzmSBseYnmrbOZJzAKz0LSPgtJyywkLbOQtCxgZFnFKJlaUJybnltsWGCUl1quV5yYW1ya
+        l66XnJ+7iREcYVpaOxhPnIg/xCjAwajEwxuQaxArxJpYVlyZe4hRgoNZSYT39kv9WCHelMTK
+        qtSi/Pii0pzU4kOM0hwsSuK88vnHIoUE0hNLUrNTUwtSi2CyTBycUg2MZS5fLtWbqceZXWV5
+        rbeY3dy/cqXNccZVinyxfb/74hKDbhwyeffzeU7lbrZDewWdftm9UnG8bn7mQuWcgtlBvo5K
+        uY/fzFzzdsUpx3WCkcKvBJo4bGut6ye5rnGsOv9EtHsv1zov6fAOltbOjblLPyfXecTefOky
+        SfPwZWbHRG7zT4ofn0grsRRnJBpqMRcVJwIAMZeBQawCAAA=
+X-CMS-MailID: 20190719055840epcas1p2cdb7e95837a9884de09f8d750b821d88
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20190707223633epcas4p3873704f3199126be0e8d5cb7454c7a51
+References: <20190707223303.6755-1-digetx@gmail.com>
+        <CGME20190707223633epcas4p3873704f3199126be0e8d5cb7454c7a51@epcas4p3.samsung.com>
+        <20190707223303.6755-13-digetx@gmail.com>
+        <b5634fbe-8bc1-0f04-e13b-6345dfbb5615@samsung.com>
+        <b7da3fa2-00d1-5bd6-408c-202c85be917d@gmail.com>
+        <45621f73-2f86-cde7-a92e-2a34810b9c05@samsung.com>
+        <20190719042251.37cc9cda@dimatab>
+        <92f82420-5c50-468f-a403-7b4c36958076@samsung.com>
+        <97f2a317-989a-bcad-dd45-ccf00ba18cca@samsung.com>
+        <20190719051426.4e4145d8@dimatab>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On 19. 7. 19. 오전 11:14, Dmitry Osipenko wrote:
+> В Fri, 19 Jul 2019 10:27:16 +0900
+> Chanwoo Choi <cw00.choi@samsung.com> пишет:
+> 
+>> On 19. 7. 19. 오전 10:24, Chanwoo Choi wrote:
+>>> On 19. 7. 19. 오전 10:22, Dmitry Osipenko wrote:  
+>>>> В Thu, 18 Jul 2019 18:09:05 +0900
+>>>> Chanwoo Choi <cw00.choi@samsung.com> пишет:
+>>>>  
+>>>>> On 19. 7. 16. 오후 10:35, Dmitry Osipenko wrote:  
+>>>>>> 16.07.2019 15:26, Chanwoo Choi пишет:    
+>>>>>>> Hi Dmitry,
+>>>>>>>
+>>>>>>> I'm not sure that it is necessary.
+>>>>>>> As I knew, usally, the 'inline' is used on header file
+>>>>>>> to define the empty functions.
+>>>>>>>
+>>>>>>> Do we have to change it with 'inline' keyword?    
+>>>>>>
+>>>>>> The 'inline' attribute tells compiler that instead of jumping
+>>>>>> into the function, it should take the function's code and
+>>>>>> replace the function's invocation with that code. This is done
+>>>>>> in order to help compiler optimize code properly, please see
+>>>>>> [1]. There is absolutely no need to create a function call into
+>>>>>> a function that consists of a single instruction.
+>>>>>>
+>>>>>> [1] https://gcc.gnu.org/onlinedocs/gcc-9.1.0/gcc/Inline.html
+>>>>>>     
+>>>>>
+>>>>> If you want to add 'inline' keyword, I recommend that 
+>>>>> you better to remove the modified function in this patch
+>>>>> and then just call the 'write_relaxed or read_relaxed' function
+>>>>> directly. It is same result when using inline keyword.  
+>>>>
+>>>> That could be done, but it makes code less readable.
+>>>>
+>>>> See the difference:
+>>>>
+>>>> device_writel(dev, ACTMON_INTR_STATUS_CLEAR,
+>>>> ACTMON_DEV_INTR_STATUS);
+>>>>
+>>>> writel_relaxed(ACTMON_INTR_STATUS_CLEAR,
+>>>> 	       dev->regs + ACTMON_DEV_INTR_STATUS);  
+>>>
+>>> No problem if you add the detailed comment and you want to use
+>>> the 'inline' keyword.  
+>>
+>> Basically, I think that 'inline' keyword is not necessary.
+> 
+> Sure, but I'm finding that it's always nicer to explicitly inline a very
+> simple functions because compiler may not do it properly itself in some
+> cases.
+> 
+>> But if you want to use 'inline' keyword, I recommend
+>> that call the 'write_relaxed or read_relaxed' function directly
+>> with detailed description. 
+> 
+> Could you please reword this sentence? Not sure that I'm understanding
+> it correctly.
+> 
 
-[ Upstream commit 1e390478cfb527e34c9ab89ba57212cb05c33c51 ]
+If you want to used 'inline' keyword,
+Instead, I recommend that remove 'actmon_readl/writel' wrapper functions
+and then you calls 'write_relaxed or read_relaxed' function directly
+with detailed description.
 
-Recent versions of the DMA API debug code have started to warn about
-violations of the maximum DMA segment size. This is because the segment
-size defaults to 64 KiB, which can easily be exceeded in large buffer
-allocations such as used in DRM/KMS for framebuffers.
-
-Technically the Tegra SMMU and ARM SMMU don't have a maximum segment
-size (they map individual pages irrespective of whether they are
-contiguous or not), so the choice of 4 MiB is a bit arbitrary here. The
-maximum segment size is a 32-bit unsigned integer, though, so we can't
-set it to the correct maximum size, which would be the size of the
-aperture.
-
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/host1x/bus.c | 3 +++
- include/linux/host1x.h   | 2 ++
- 2 files changed, 5 insertions(+)
-
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 103fffc1904b..c9a637d9417e 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -425,6 +425,9 @@ static int host1x_device_add(struct host1x *host1x,
- 
- 	of_dma_configure(&device->dev, host1x->dev->of_node, true);
- 
-+	device->dev.dma_parms = &device->dma_parms;
-+	dma_set_max_seg_size(&device->dev, SZ_4M);
-+
- 	err = host1x_device_parse_dt(device, driver);
- 	if (err < 0) {
- 		kfree(device);
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index 89110d896d72..aef6e2f73802 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -310,6 +310,8 @@ struct host1x_device {
- 	struct list_head clients;
- 
- 	bool registered;
-+
-+	struct device_dma_parameters dma_parms;
- };
- 
- static inline struct host1x_device *to_host1x_device(struct device *dev)
 -- 
-2.20.1
-
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
