@@ -2,473 +2,196 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56D036E48F
-	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jul 2019 12:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 160156E5B3
+	for <lists+linux-tegra@lfdr.de>; Fri, 19 Jul 2019 14:30:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727330AbfGSKvw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 19 Jul 2019 06:51:52 -0400
-Received: from mail-pl1-f176.google.com ([209.85.214.176]:43521 "EHLO
-        mail-pl1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbfGSKvw (ORCPT
+        id S1728459AbfGSM3I (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 19 Jul 2019 08:29:08 -0400
+Received: from smtprelay-out1.synopsys.com ([198.182.61.142]:51688 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727891AbfGSM3I (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 19 Jul 2019 06:51:52 -0400
-Received: by mail-pl1-f176.google.com with SMTP id 4so8477766pld.10;
-        Fri, 19 Jul 2019 03:51:51 -0700 (PDT)
+        Fri, 19 Jul 2019 08:29:08 -0400
+Received: from mailhost.synopsys.com (dc2-mailhost2.synopsys.com [10.12.135.162])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id B9264C1208;
+        Fri, 19 Jul 2019 12:29:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1563539348; bh=2tjdX8YxO1dvyYBsouxijv79HEVSf5GeaMMtHdO/qIs=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=XCYv3EDNXZHKaP2NqSE9Qk0kL1ZZec1hpRjwls9DvIgIQ9rlalTl7O/IMa0Qzkqfp
+         x0RQWvyf4e1GHp1oKpXNySETbaS3THx59ZElmjNxPzlYSCy/IPGhEAecXSdc1zNyW7
+         xfhYZlpLLzd/B4tkUyrmc17O+su1wFnCgaY2qILhG5Wkg7xOqx80HeNb4W54q2dF42
+         q2pZqQ3SldNpnaVH4YQ28epRaQaxEc7w7m/I8nKxlYS3dxdvmlLi8R+VkgfjIQB2xH
+         yUugwyYGsUSMMoNgiKMgeaWSNjrgFU95rRNNSJ2qEvi3yfgliJFnGTEyhlLBgSYEbp
+         lp768CL2Tp3cw==
+Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2.internal.synopsys.com [10.12.239.237])
+        (using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 18A50A009A;
+        Fri, 19 Jul 2019 12:28:53 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 19 Jul 2019 05:28:31 -0700
+Received: from NAM05-CO1-obe.outbound.protection.outlook.com (10.13.134.195)
+ by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Fri, 19 Jul 2019 05:28:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jB4Zlls9LqIVZXG85Yh1kD7x4wPo7Z31U7AF6ZBMnEFsMfWqmEHAXaXIRjG/iqYAAhA8H6DT3TLkhPS2gdjqQhdegovU4VYZ6zpvX/2yvKRG3ZOmUpchh+3OyzJ6PRwlrIkD40H/7snkza03xDGegh8txTLzHBfhpGB7Ga8CO5C/W0M4PAMjScVL4gG7a7k1eVx8Ow8EWsnOOM2ADWbREqADZyYtHW3n/0/R0HTUaq37kPf6aVVnsI6UzQqNuI3bZIShSUdNuxTL8F5QynZl/npAFLNN2fpSD0dGqaJ6NYnQhJlvDxJgZk/dOQwWzD8d8C8nfHjWdMeOBIxUjENLog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iTP8uKxSf0+iKzNIScncMOFLuNGxUZMEicalnqjBX8w=;
+ b=RfdcJiskNUzLFymsADH7Gk6yoJpzAu6dSkhGufKd8RkZfT5xXOWGBsO4Xmr/UHqUmKLJtJpetf2eKJH6Wg6S59eE1tXSXYkV0Lu1y2LbLLctmS2/G6UjuuTm389YkYPLiKwUMKoiFi9IwEk89Okb1QTdjxO/PIrJkumAYAoXHyHfN9bygcfsDqmXFX0NBNNnUOb/SckhaQBHDNGmZR5/s7pge5P3Yez1SCMXRj/rAtPWQfXT9lRmDf/DAkGT7w3fMyivJzzJeT+Jw9sCiBN5iQKud0hFXTM3mvU3IhNvMYS2ZKwpRghzi8w8w7hgrbdACGMLNGmsFb0swi5ceKLidQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=synopsys.com;dmarc=pass action=none
+ header.from=synopsys.com;dkim=pass header.d=synopsys.com;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pHeGQrvuIZqnbU3+Zfe63uICKBYe2MWyh893KkU1oMA=;
-        b=hWGbkL1Bv3NjbOqu549YDT0TW0X1VsJ5TkbYgS2C5metxn2xQWncSbxPRBin+DSbXa
-         l3IddVIcOK55X+Bgli194YfwpN+kHyBGlcvN5Oi/1DrAVa+y30rxxv52yHRgpZQEPRrf
-         P3waNObvPA4BrcfPU7yeItavNG2JYgMHNm0CGdoOEzujPq7zxm0AbzcUIE/6yKQq1z8T
-         kvvV1YSo5fkzzcPid0oZ1z7Vv0eBaGerlGJgXemzaTC3hMHw1rH3nI0wLX2BsqRuWkKn
-         uVJC1NfpzXI62iOttQZ8ppGg81gzMkCSAjiIkOjticFB9lwIjsHGvxV62qjrOMcMm0b4
-         r5CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pHeGQrvuIZqnbU3+Zfe63uICKBYe2MWyh893KkU1oMA=;
-        b=IFcepT8mi+VGH28YynydVGkpE480elEor0GHEUW4gKyDxFUCobj5nmd3/yHu+LcGAc
-         UfCvfKBHby/A+/58TZ6Nkrt1RifGZwdasOGSuoUM3qHRpXFrmFNJVdmnh8WWKaTyvwXA
-         JSWntuxfIAtr6PcrYWjjiCw2V+9+NlIl9YE3vv+WEeUZsmeLiBrr0225hiONdrPopveB
-         V0kI38jBiJ7+U/BYXmERm8C+/LwC4v54JN/UZb3MFZ/UqFoQqxurbWOUHlAqPSxINMKL
-         qtotlHpYXR4HXvR4hpXEcp1DP7b4tmQcCbrc7tX8q4DbLKnq2ShvfMPDlokBXH72Ndig
-         uuUA==
-X-Gm-Message-State: APjAAAWjCLG3LCOAzkeKwWiY6FLoSUv0NgFctMz9SYG3dfP3NGIug3yr
-        88dLUYfdzmoygGVFuzcFuTk=
-X-Google-Smtp-Source: APXvYqzhu6/kmeGnoSN8lHhnqRdOgRPSNy+cn758HppKiSDnsBu91kvGj8SLdyKQRdwysDfluz6x6g==
-X-Received: by 2002:a17:902:9a04:: with SMTP id v4mr54589574plp.95.1563533510910;
-        Fri, 19 Jul 2019 03:51:50 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
-        by smtp.gmail.com with ESMTPSA id v18sm17876588pgl.87.2019.07.19.03.51.46
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 19 Jul 2019 03:51:50 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] Input: keyboard: Use dev_get_drv_data
-Date:   Fri, 19 Jul 2019 18:51:08 +0800
-Message-Id: <20190719105107.20651-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.20.1
+ d=synopsys.onmicrosoft.com; s=selector1-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iTP8uKxSf0+iKzNIScncMOFLuNGxUZMEicalnqjBX8w=;
+ b=mUvR7bQBZA7fj2NDJJVYdAeP8Sjc3hmOBl3001dTOGN92V/tfRFCw9UqknKUYt/fHb6h0fZI2wWMJNGYgiN1S1aGOQBQNdajPQcjuoJHNd3OEWnsMWHNf4OXF3Cdm68/fkqKRpRoH7w/8Z8GIhcmCp1gNZw+vVZVLcpTWXGAPD4=
+Received: from BN8PR12MB3266.namprd12.prod.outlook.com (20.179.66.159) by
+ BN8PR12MB2948.namprd12.prod.outlook.com (20.179.67.78) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2073.14; Fri, 19 Jul 2019 12:28:26 +0000
+Received: from BN8PR12MB3266.namprd12.prod.outlook.com
+ ([fe80::61ef:5598:59e0:fc9d]) by BN8PR12MB3266.namprd12.prod.outlook.com
+ ([fe80::61ef:5598:59e0:fc9d%5]) with mapi id 15.20.2073.012; Fri, 19 Jul 2019
+ 12:28:26 +0000
+From:   Jose Abreu <Jose.Abreu@synopsys.com>
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: RE: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+Thread-Topic: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+Thread-Index: AQHVMYtq2Zx4WVoG/U2kL8GCK0bP/abPQEOAgADTx+CAABvLAIABeX5ggAAOFICAAAG4AIAAAXQAgAAaB/CAACJUcA==
+Date:   Fri, 19 Jul 2019 12:28:26 +0000
+Message-ID: <BN8PR12MB32669EDE5784FDBEA90D022FD3CB0@BN8PR12MB3266.namprd12.prod.outlook.com>
+References: <cover.1562149883.git.joabreu@synopsys.com>
+ <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
+ <29dcc161-f7c8-026e-c3cc-5adb04df128c@nvidia.com>
+ <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <6a6bac84-1d29-2740-1636-d3adb26b6bcc@nvidia.com>
+ <BN8PR12MB3266960A104A7CDBB4E59192D3CB0@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <bc9ab3c5-b1b9-26d4-7b73-01474328eafa@nvidia.com>
+ <BN8PR12MB3266989D15E017A789E14282D3CB0@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <4db855e4-1d59-d30b-154c-e7a2aa1c9047@nvidia.com>
+ <BN8PR12MB3266FD9CF18691EDEF05A4B8D3CB0@BN8PR12MB3266.namprd12.prod.outlook.com>
+In-Reply-To: <BN8PR12MB3266FD9CF18691EDEF05A4B8D3CB0@BN8PR12MB3266.namprd12.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=joabreu@synopsys.com; 
+x-originating-ip: [83.174.63.141]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 18c9efb5-7d6b-4ba3-93f1-08d70c449957
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(49563074)(7193020);SRVR:BN8PR12MB2948;
+x-ms-traffictypediagnostic: BN8PR12MB2948:
+x-microsoft-antispam-prvs: <BN8PR12MB2948B818EEA33E2ED43AD990D3CB0@BN8PR12MB2948.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 01039C93E4
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(39860400002)(376002)(346002)(366004)(396003)(199004)(189003)(6436002)(55016002)(478600001)(7736002)(9686003)(305945005)(6246003)(71200400001)(74316002)(5660300002)(71190400001)(2906002)(8676002)(7416002)(229853002)(86362001)(53936002)(25786009)(2201001)(2940100002)(54906003)(66946007)(26005)(256004)(81156014)(8936002)(99286004)(81166006)(76116006)(66446008)(102836004)(5024004)(99936001)(66556008)(66616009)(4744005)(186003)(316002)(110136005)(68736007)(4326008)(52536014)(66476007)(64756008)(7696005)(66066001)(2501003)(6506007)(3846002)(6116002)(76176011)(446003)(11346002)(14454004)(33656002)(476003)(486006);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR12MB2948;H:BN8PR12MB3266.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: EJN1KjdOWiGBiTacTHGl4ipmnERKa+pANWEza13gunSmXAPu/NEGS5pyEkJ83yVeKHCkjXRtGYn54ZErkQ4PpfphPZdSXlT3eqJf0P816wziOwDjgqFWSdhWgPKILWzBCvBACxwKggmiK5vIxEyx8yexMgXGvYhRmMaa5sLMitXHw32lBTsdo6HGDCw0JO9+iiUS5nnX0c9dzkReU6vAT+NRQs6j6LCfXY2ZQSid9Tl4sxP5wJq9oNLkauya6L1PGklfarR1/wBYmIfZzdI4ULNe4M1ZNJ5QJ+W3MSJNOHLUNyReNVZHOL8rks1NydcYrxOqpo1UGktExlvUpdQqRK37MO/U8WGdtatVGNFeabBvXiHB/kH2PDsmLBpwuvkMnm9b3XlcsLIuQ/exORVUmhJ30La1/z1OAW322XYY6GE=
+Content-Type: multipart/mixed;
+        boundary="_002_BN8PR12MB32669EDE5784FDBEA90D022FD3CB0BN8PR12MB3266namp_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18c9efb5-7d6b-4ba3-93f1-08d70c449957
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2019 12:28:26.5847
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: joabreu@synopsys.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2948
+X-OriginatorOrg: synopsys.com
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-dev_get_drvdata is a simpler implementation comparing
-to to_platform_device + platform_get_drvdata.
-This makes the code simpler.
+--_002_BN8PR12MB32669EDE5784FDBEA90D022FD3CB0BN8PR12MB3266namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
- drivers/input/keyboard/ep93xx_keypad.c   | 10 ++++------
- drivers/input/keyboard/gpio_keys.c       |  3 +--
- drivers/input/keyboard/imx_keypad.c      | 10 ++++------
- drivers/input/keyboard/lpc32xx-keys.c    |  6 ++----
- drivers/input/keyboard/matrix_keypad.c   | 10 ++++------
- drivers/input/keyboard/omap4-keypad.c    | 10 ++++------
- drivers/input/keyboard/pmic8xxx-keypad.c |  6 ++----
- drivers/input/keyboard/pxa27x_keypad.c   | 10 ++++------
- drivers/input/keyboard/samsung-keypad.c  | 12 ++++--------
- drivers/input/keyboard/spear-keyboard.c  | 10 ++++------
- drivers/input/keyboard/st-keyscan.c      |  6 ++----
- drivers/input/keyboard/tegra-kbc.c       | 10 ++++------
- 12 files changed, 39 insertions(+), 64 deletions(-)
+RnJvbTogSm9zZSBBYnJldSA8am9hYnJldUBzeW5vcHN5cy5jb20+DQpEYXRlOiBKdWwvMTkvMjAx
+OSwgMTE6MjU6NDEgKFVUQyswMDowMCkNCg0KPiBUaGFua3MuIENhbiB5b3UgYWRkIGF0dGFjaGVk
+IHBhdGNoIGFuZCBjaGVjayBpZiBXQVJOIGlzIHRyaWdnZXJlZCA/IA0KDQpCVFcsIGFsc28gYWRk
+IHRoZSBhdHRhY2hlZCBvbmUgaW4gdGhpcyBtYWlsLiBUaGUgV0FSTiB3aWxsIHByb2JhYmx5IA0K
+bmV2ZXIgZ2V0IHRyaWdnZXJlZCB3aXRob3V0IGl0Lg0KDQpDYW4geW91IGFsc28gcHJpbnQgImJ1
+Zi0+YWRkciIgYWZ0ZXIgdGhlIFdBUk5fT04gPw0KDQotLS0NClRoYW5rcywNCkpvc2UgTWlndWVs
+IEFicmV1DQo=
 
-diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
-index 7c70492d9d6b..bcc8a17f9a01 100644
---- a/drivers/input/keyboard/ep93xx_keypad.c
-+++ b/drivers/input/keyboard/ep93xx_keypad.c
-@@ -178,8 +178,7 @@ static void ep93xx_keypad_close(struct input_dev *pdev)
- #ifdef CONFIG_PM_SLEEP
- static int ep93xx_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
-+	struct ep93xx_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 
- 	mutex_lock(&input_dev->mutex);
-@@ -191,7 +190,7 @@ static int ep93xx_keypad_suspend(struct device *dev)
- 
- 	mutex_unlock(&input_dev->mutex);
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		enable_irq_wake(keypad->irq);
- 
- 	return 0;
-@@ -199,11 +198,10 @@ static int ep93xx_keypad_suspend(struct device *dev)
- 
- static int ep93xx_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
-+	struct ep93xx_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		disable_irq_wake(keypad->irq);
- 
- 	mutex_lock(&input_dev->mutex);
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index 03f4d152f6b7..a8db71ceb50c 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -290,8 +290,7 @@ static ssize_t gpio_keys_show_##name(struct device *dev,		\
- 				     struct device_attribute *attr,	\
- 				     char *buf)				\
- {									\
--	struct platform_device *pdev = to_platform_device(dev);		\
--	struct gpio_keys_drvdata *ddata = platform_get_drvdata(pdev);	\
-+	struct gpio_keys_drvdata *ddata = dev_get_drvdata(dev);	\
- 									\
- 	return gpio_keys_attr_show_helper(ddata, buf,			\
- 					  type, only_disabled);		\
-diff --git a/drivers/input/keyboard/imx_keypad.c b/drivers/input/keyboard/imx_keypad.c
-index 97500a2de2d5..6d3d62c82de0 100644
---- a/drivers/input/keyboard/imx_keypad.c
-+++ b/drivers/input/keyboard/imx_keypad.c
-@@ -526,8 +526,7 @@ static int imx_keypad_probe(struct platform_device *pdev)
- 
- static int __maybe_unused imx_kbd_noirq_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct imx_keypad *kbd = platform_get_drvdata(pdev);
-+	struct imx_keypad *kbd = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kbd->input_dev;
- 	unsigned short reg_val = readw(kbd->mmio_base + KPSR);
- 
-@@ -539,7 +538,7 @@ static int __maybe_unused imx_kbd_noirq_suspend(struct device *dev)
- 
- 	mutex_unlock(&input_dev->mutex);
- 
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		if (reg_val & KBD_STAT_KPKD)
- 			reg_val |= KBD_STAT_KRIE;
- 		if (reg_val & KBD_STAT_KPKR)
-@@ -554,12 +553,11 @@ static int __maybe_unused imx_kbd_noirq_suspend(struct device *dev)
- 
- static int __maybe_unused imx_kbd_noirq_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct imx_keypad *kbd = platform_get_drvdata(pdev);
-+	struct imx_keypad *kbd = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kbd->input_dev;
- 	int ret = 0;
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		disable_irq_wake(kbd->irq);
- 
- 	mutex_lock(&input_dev->mutex);
-diff --git a/drivers/input/keyboard/lpc32xx-keys.c b/drivers/input/keyboard/lpc32xx-keys.c
-index a34e3271b0c9..cc15da57cfec 100644
---- a/drivers/input/keyboard/lpc32xx-keys.c
-+++ b/drivers/input/keyboard/lpc32xx-keys.c
-@@ -269,8 +269,7 @@ static int lpc32xx_kscan_probe(struct platform_device *pdev)
- #ifdef CONFIG_PM_SLEEP
- static int lpc32xx_kscan_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct lpc32xx_kscan_drv *kscandat = platform_get_drvdata(pdev);
-+	struct lpc32xx_kscan_drv *kscandat = dev_get_drvdata(dev);
- 	struct input_dev *input = kscandat->input;
- 
- 	mutex_lock(&input->mutex);
-@@ -287,8 +286,7 @@ static int lpc32xx_kscan_suspend(struct device *dev)
- 
- static int lpc32xx_kscan_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct lpc32xx_kscan_drv *kscandat = platform_get_drvdata(pdev);
-+	struct lpc32xx_kscan_drv *kscandat = dev_get_drvdata(dev);
- 	struct input_dev *input = kscandat->input;
- 	int retval = 0;
- 
-diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
-index 30924b57058f..c5a294e1de95 100644
---- a/drivers/input/keyboard/matrix_keypad.c
-+++ b/drivers/input/keyboard/matrix_keypad.c
-@@ -272,12 +272,11 @@ static void matrix_keypad_disable_wakeup(struct matrix_keypad *keypad)
- 
- static int matrix_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct matrix_keypad *keypad = platform_get_drvdata(pdev);
-+	struct matrix_keypad *keypad = dev_get_drvdata(dev);
- 
- 	matrix_keypad_stop(keypad->input_dev);
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		matrix_keypad_enable_wakeup(keypad);
- 
- 	return 0;
-@@ -285,10 +284,9 @@ static int matrix_keypad_suspend(struct device *dev)
- 
- static int matrix_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct matrix_keypad *keypad = platform_get_drvdata(pdev);
-+	struct matrix_keypad *keypad = dev_get_drvdata(dev);
- 
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		matrix_keypad_disable_wakeup(keypad);
- 
- 	matrix_keypad_start(keypad->input_dev);
-diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
-index 94c94d7f5155..a6db5494c742 100644
---- a/drivers/input/keyboard/omap4-keypad.c
-+++ b/drivers/input/keyboard/omap4-keypad.c
-@@ -412,11 +412,10 @@ MODULE_DEVICE_TABLE(of, omap_keypad_dt_match);
- #ifdef CONFIG_PM_SLEEP
- static int omap4_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct omap4_keypad *keypad_data = platform_get_drvdata(pdev);
-+	struct omap4_keypad *keypad_data = dev_get_drvdata(dev);
- 	int error;
- 
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		error = enable_irq_wake(keypad_data->irq);
- 		if (!error)
- 			keypad_data->irq_wake_enabled = true;
-@@ -427,10 +426,9 @@ static int omap4_keypad_suspend(struct device *dev)
- 
- static int omap4_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct omap4_keypad *keypad_data = platform_get_drvdata(pdev);
-+	struct omap4_keypad *keypad_data = dev_get_drvdata(dev);
- 
--	if (device_may_wakeup(&pdev->dev) && keypad_data->irq_wake_enabled) {
-+	if (device_may_wakeup(dev) && keypad_data->irq_wake_enabled) {
- 		disable_irq_wake(keypad_data->irq);
- 		keypad_data->irq_wake_enabled = false;
- 	}
-diff --git a/drivers/input/keyboard/pmic8xxx-keypad.c b/drivers/input/keyboard/pmic8xxx-keypad.c
-index d529768a1d06..1e22d276e3e9 100644
---- a/drivers/input/keyboard/pmic8xxx-keypad.c
-+++ b/drivers/input/keyboard/pmic8xxx-keypad.c
-@@ -628,8 +628,7 @@ static int pmic8xxx_kp_probe(struct platform_device *pdev)
- #ifdef CONFIG_PM_SLEEP
- static int pmic8xxx_kp_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct pmic8xxx_kp *kp = platform_get_drvdata(pdev);
-+	struct pmic8xxx_kp *kp = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kp->input;
- 
- 	if (device_may_wakeup(dev)) {
-@@ -648,8 +647,7 @@ static int pmic8xxx_kp_suspend(struct device *dev)
- 
- static int pmic8xxx_kp_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct pmic8xxx_kp *kp = platform_get_drvdata(pdev);
-+	struct pmic8xxx_kp *kp = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kp->input;
- 
- 	if (device_may_wakeup(dev)) {
-diff --git a/drivers/input/keyboard/pxa27x_keypad.c b/drivers/input/keyboard/pxa27x_keypad.c
-index 39023664d2f2..654e178ff39e 100644
---- a/drivers/input/keyboard/pxa27x_keypad.c
-+++ b/drivers/input/keyboard/pxa27x_keypad.c
-@@ -663,14 +663,13 @@ static void pxa27x_keypad_close(struct input_dev *dev)
- #ifdef CONFIG_PM_SLEEP
- static int pxa27x_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct pxa27x_keypad *keypad = platform_get_drvdata(pdev);
-+	struct pxa27x_keypad *keypad = dev_get_drvdata(dev);
- 
- 	/*
- 	 * If the keypad is used a wake up source, clock can not be disabled.
- 	 * Or it can not detect the key pressing.
- 	 */
--	if (device_may_wakeup(&pdev->dev))
-+	if (device_may_wakeup(dev))
- 		enable_irq_wake(keypad->irq);
- 	else
- 		clk_disable_unprepare(keypad->clk);
-@@ -680,8 +679,7 @@ static int pxa27x_keypad_suspend(struct device *dev)
- 
- static int pxa27x_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct pxa27x_keypad *keypad = platform_get_drvdata(pdev);
-+	struct pxa27x_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 	int ret = 0;
- 
-@@ -689,7 +687,7 @@ static int pxa27x_keypad_resume(struct device *dev)
- 	 * If the keypad is used as wake up source, the clock is not turned
- 	 * off. So do not need configure it again.
- 	 */
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		disable_irq_wake(keypad->irq);
- 	} else {
- 		mutex_lock(&input_dev->mutex);
-diff --git a/drivers/input/keyboard/samsung-keypad.c b/drivers/input/keyboard/samsung-keypad.c
-index 70c1d086bdd2..286432c4a28a 100644
---- a/drivers/input/keyboard/samsung-keypad.c
-+++ b/drivers/input/keyboard/samsung-keypad.c
-@@ -462,8 +462,7 @@ static int samsung_keypad_remove(struct platform_device *pdev)
- #ifdef CONFIG_PM
- static int samsung_keypad_runtime_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
-+	struct samsung_keypad *keypad = dev_get_drvdata(dev);
- 	unsigned int val;
- 	int error;
- 
-@@ -486,8 +485,7 @@ static int samsung_keypad_runtime_suspend(struct device *dev)
- 
- static int samsung_keypad_runtime_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
-+	struct samsung_keypad *keypad = dev_get_drvdata(dev);
- 	unsigned int val;
- 
- 	if (keypad->stopped)
-@@ -531,8 +529,7 @@ static void samsung_keypad_toggle_wakeup(struct samsung_keypad *keypad,
- 
- static int samsung_keypad_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
-+	struct samsung_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 
- 	mutex_lock(&input_dev->mutex);
-@@ -549,8 +546,7 @@ static int samsung_keypad_suspend(struct device *dev)
- 
- static int samsung_keypad_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct samsung_keypad *keypad = platform_get_drvdata(pdev);
-+	struct samsung_keypad *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = keypad->input_dev;
- 
- 	mutex_lock(&input_dev->mutex);
-diff --git a/drivers/input/keyboard/spear-keyboard.c b/drivers/input/keyboard/spear-keyboard.c
-index 7d25fa338ab4..a0276a3376d2 100644
---- a/drivers/input/keyboard/spear-keyboard.c
-+++ b/drivers/input/keyboard/spear-keyboard.c
-@@ -288,8 +288,7 @@ static int spear_kbd_remove(struct platform_device *pdev)
- 
- static int __maybe_unused spear_kbd_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct spear_kbd *kbd = platform_get_drvdata(pdev);
-+	struct spear_kbd *kbd = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kbd->input;
- 	unsigned int rate = 0, mode_ctl_reg, val;
- 
-@@ -300,7 +299,7 @@ static int __maybe_unused spear_kbd_suspend(struct device *dev)
- 
- 	mode_ctl_reg = readl_relaxed(kbd->io_base + MODE_CTL_REG);
- 
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		if (!enable_irq_wake(kbd->irq))
- 			kbd->irq_wake_enabled = true;
- 
-@@ -341,13 +340,12 @@ static int __maybe_unused spear_kbd_suspend(struct device *dev)
- 
- static int __maybe_unused spear_kbd_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct spear_kbd *kbd = platform_get_drvdata(pdev);
-+	struct spear_kbd *kbd = dev_get_drvdata(dev);
- 	struct input_dev *input_dev = kbd->input;
- 
- 	mutex_lock(&input_dev->mutex);
- 
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		if (kbd->irq_wake_enabled) {
- 			kbd->irq_wake_enabled = false;
- 			disable_irq_wake(kbd->irq);
-diff --git a/drivers/input/keyboard/st-keyscan.c b/drivers/input/keyboard/st-keyscan.c
-index f097128b93fe..b00554a41321 100644
---- a/drivers/input/keyboard/st-keyscan.c
-+++ b/drivers/input/keyboard/st-keyscan.c
-@@ -215,8 +215,7 @@ static int keyscan_probe(struct platform_device *pdev)
- #ifdef CONFIG_PM_SLEEP
- static int keyscan_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct st_keyscan *keypad = platform_get_drvdata(pdev);
-+	struct st_keyscan *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input = keypad->input_dev;
- 
- 	mutex_lock(&input->mutex);
-@@ -232,8 +231,7 @@ static int keyscan_suspend(struct device *dev)
- 
- static int keyscan_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct st_keyscan *keypad = platform_get_drvdata(pdev);
-+	struct st_keyscan *keypad = dev_get_drvdata(dev);
- 	struct input_dev *input = keypad->input_dev;
- 	int retval = 0;
- 
-diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/tegra-kbc.c
-index a37a7a9e9171..f33577944207 100644
---- a/drivers/input/keyboard/tegra-kbc.c
-+++ b/drivers/input/keyboard/tegra-kbc.c
-@@ -731,11 +731,10 @@ static void tegra_kbc_set_keypress_interrupt(struct tegra_kbc *kbc, bool enable)
- 
- static int tegra_kbc_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct tegra_kbc *kbc = platform_get_drvdata(pdev);
-+	struct tegra_kbc *kbc = dev_get_drvdata(dev);
- 
- 	mutex_lock(&kbc->idev->mutex);
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		disable_irq(kbc->irq);
- 		del_timer_sync(&kbc->timer);
- 		tegra_kbc_set_fifo_interrupt(kbc, false);
-@@ -768,12 +767,11 @@ static int tegra_kbc_suspend(struct device *dev)
- 
- static int tegra_kbc_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct tegra_kbc *kbc = platform_get_drvdata(pdev);
-+	struct tegra_kbc *kbc = dev_get_drvdata(dev);
- 	int err = 0;
- 
- 	mutex_lock(&kbc->idev->mutex);
--	if (device_may_wakeup(&pdev->dev)) {
-+	if (device_may_wakeup(dev)) {
- 		disable_irq_wake(kbc->irq);
- 		tegra_kbc_setup_wakekeys(kbc, false);
- 		/* We will use fifo interrupts for key detection. */
--- 
-2.20.1
+--_002_BN8PR12MB32669EDE5784FDBEA90D022FD3CB0BN8PR12MB3266namp_
+Content-Type: application/octet-stream;
+	name="0001-net-stmmac-Use-kcalloc-instead-of-kmalloc_array.patch"
+Content-Description: 0001-net-stmmac-Use-kcalloc-instead-of-kmalloc_array.patch
+Content-Disposition: attachment;
+	filename="0001-net-stmmac-Use-kcalloc-instead-of-kmalloc_array.patch";
+	size=2245; creation-date="Fri, 19 Jul 2019 12:28:17 GMT";
+	modification-date="Fri, 19 Jul 2019 12:27:30 GMT"
+Content-Transfer-Encoding: base64
 
+RnJvbSBlYmExMjg4NTYxNDdkNmRkZWNjODE0OGFhZWVlNDE4NjQwNjljOWI1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpNZXNzYWdlLUlkOiA8ZWJhMTI4ODU2MTQ3ZDZkZGVjYzgxNDhhYWVlZTQx
+ODY0MDY5YzliNS4xNTYzNTM5MjUwLmdpdC5qb2FicmV1QHN5bm9wc3lzLmNvbT4KRnJvbTogSm9z
+ZSBBYnJldSA8am9hYnJldUBzeW5vcHN5cy5jb20+CkRhdGU6IEZyaSwgMTkgSnVsIDIwMTkgMTM6
+NTg6NTUgKzAyMDAKU3ViamVjdDogW1BBVENIIG5ldF0gbmV0OiBzdG1tYWM6IFVzZSBrY2FsbG9j
+KCkgaW5zdGVhZCBvZiBrbWFsbG9jX2FycmF5KCkKCldlIG5lZWQgdGhlIG1lbW9yeSB0byBiZSB6
+ZXJvZWQgdXBvbiBhbGxvY2F0aW9uIHNvIHVzZSBrY2FsbG9jKCkKaW5zdGVhZC4KClNpZ25lZC1v
+ZmYtYnk6IEpvc2UgQWJyZXUgPGpvYWJyZXVAc3lub3BzeXMuY29tPgoKLS0tCkNjOiBHaXVzZXBw
+ZSBDYXZhbGxhcm8gPHBlcHBlLmNhdmFsbGFyb0BzdC5jb20+CkNjOiBBbGV4YW5kcmUgVG9yZ3Vl
+IDxhbGV4YW5kcmUudG9yZ3VlQHN0LmNvbT4KQ2M6IEpvc2UgQWJyZXUgPGpvYWJyZXVAc3lub3Bz
+eXMuY29tPgpDYzogIkRhdmlkIFMuIE1pbGxlciIgPGRhdmVtQGRhdmVtbG9mdC5uZXQ+CkNjOiBN
+YXhpbWUgQ29xdWVsaW4gPG1jb3F1ZWxpbi5zdG0zMkBnbWFpbC5jb20+CkNjOiBuZXRkZXZAdmdl
+ci5rZXJuZWwub3JnCkNjOiBsaW51eC1zdG0zMkBzdC1tZC1tYWlsbWFuLnN0b3JtcmVwbHkuY29t
+CkNjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKQ2M6IGxpbnV4LWtlcm5l
+bEB2Z2VyLmtlcm5lbC5vcmcKLS0tCiBkcml2ZXJzL25ldC9ldGhlcm5ldC9zdG1pY3JvL3N0bW1h
+Yy9zdG1tYWNfbWFpbi5jIHwgMTcgKysrKysrKystLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA4
+IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQv
+ZXRoZXJuZXQvc3RtaWNyby9zdG1tYWMvc3RtbWFjX21haW4uYyBiL2RyaXZlcnMvbmV0L2V0aGVy
+bmV0L3N0bWljcm8vc3RtbWFjL3N0bW1hY19tYWluLmMKaW5kZXggZWFjNjkyMDMwMWU5Li44ZTU1
+YWJlMTA5OWEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L3N0bWljcm8vc3RtbWFj
+L3N0bW1hY19tYWluLmMKKysrIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvc3RtaWNyby9zdG1tYWMv
+c3RtbWFjX21haW4uYwpAQCAtMTU1NSw5ICsxNTU1LDggQEAgc3RhdGljIGludCBhbGxvY19kbWFf
+cnhfZGVzY19yZXNvdXJjZXMoc3RydWN0IHN0bW1hY19wcml2ICpwcml2KQogCQkJZ290byBlcnJf
+ZG1hOwogCQl9CiAKLQkJcnhfcS0+YnVmX3Bvb2wgPSBrbWFsbG9jX2FycmF5KERNQV9SWF9TSVpF
+LAotCQkJCQkgICAgICAgc2l6ZW9mKCpyeF9xLT5idWZfcG9vbCksCi0JCQkJCSAgICAgICBHRlBf
+S0VSTkVMKTsKKwkJcnhfcS0+YnVmX3Bvb2wgPSBrY2FsbG9jKERNQV9SWF9TSVpFLCBzaXplb2Yo
+KnJ4X3EtPmJ1Zl9wb29sKSwKKwkJCQkJIEdGUF9LRVJORUwpOwogCQlpZiAoIXJ4X3EtPmJ1Zl9w
+b29sKQogCQkJZ290byBlcnJfZG1hOwogCkBAIC0xNjA4LDE1ICsxNjA3LDE1IEBAIHN0YXRpYyBp
+bnQgYWxsb2NfZG1hX3R4X2Rlc2NfcmVzb3VyY2VzKHN0cnVjdCBzdG1tYWNfcHJpdiAqcHJpdikK
+IAkJdHhfcS0+cXVldWVfaW5kZXggPSBxdWV1ZTsKIAkJdHhfcS0+cHJpdl9kYXRhID0gcHJpdjsK
+IAotCQl0eF9xLT50eF9za2J1ZmZfZG1hID0ga21hbGxvY19hcnJheShETUFfVFhfU0laRSwKLQkJ
+CQkJCSAgICBzaXplb2YoKnR4X3EtPnR4X3NrYnVmZl9kbWEpLAotCQkJCQkJICAgIEdGUF9LRVJO
+RUwpOworCQl0eF9xLT50eF9za2J1ZmZfZG1hID0ga2NhbGxvYyhETUFfVFhfU0laRSwKKwkJCQkJ
+ICAgICAgc2l6ZW9mKCp0eF9xLT50eF9za2J1ZmZfZG1hKSwKKwkJCQkJICAgICAgR0ZQX0tFUk5F
+TCk7CiAJCWlmICghdHhfcS0+dHhfc2tidWZmX2RtYSkKIAkJCWdvdG8gZXJyX2RtYTsKIAotCQl0
+eF9xLT50eF9za2J1ZmYgPSBrbWFsbG9jX2FycmF5KERNQV9UWF9TSVpFLAotCQkJCQkJc2l6ZW9m
+KHN0cnVjdCBza19idWZmICopLAotCQkJCQkJR0ZQX0tFUk5FTCk7CisJCXR4X3EtPnR4X3NrYnVm
+ZiA9IGtjYWxsb2MoRE1BX1RYX1NJWkUsCisJCQkJCSAgc2l6ZW9mKHN0cnVjdCBza19idWZmICop
+LAorCQkJCQkgIEdGUF9LRVJORUwpOwogCQlpZiAoIXR4X3EtPnR4X3NrYnVmZikKIAkJCWdvdG8g
+ZXJyX2RtYTsKIAotLSAKMi43LjQKCg==
+
+--_002_BN8PR12MB32669EDE5784FDBEA90D022FD3CB0BN8PR12MB3266namp_--
