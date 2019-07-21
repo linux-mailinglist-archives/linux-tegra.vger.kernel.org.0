@@ -2,142 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E9276EF20
-	for <lists+linux-tegra@lfdr.de>; Sat, 20 Jul 2019 12:52:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83C526F41F
+	for <lists+linux-tegra@lfdr.de>; Sun, 21 Jul 2019 18:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727801AbfGTKwh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 20 Jul 2019 06:52:37 -0400
-Received: from condef-08.nifty.com ([202.248.20.73]:33232 "EHLO
-        condef-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727571AbfGTKwh (ORCPT
+        id S1726303AbfGUQe0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 21 Jul 2019 12:34:26 -0400
+Received: from smtp01.smtpout.orange.fr ([80.12.242.123]:50606 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726429AbfGUQe0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 20 Jul 2019 06:52:37 -0400
-X-Greylist: delayed 507 seconds by postgrey-1.27 at vger.kernel.org; Sat, 20 Jul 2019 06:52:34 EDT
-Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-08.nifty.com with ESMTP id x6KAeRnP016238
-        for <linux-tegra@vger.kernel.org>; Sat, 20 Jul 2019 19:41:22 +0900
-Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id x6KAdjWa009191;
-        Sat, 20 Jul 2019 19:39:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x6KAdjWa009191
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1563619186;
-        bh=mcZz3jn7xyQ5IOn7tDEqK+9jIYpqhpvsTuekSTkT8E8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=OGQfvAdcqdQj+0lggjhXj0Xu2G/Nv0V6R+xYAF1FLnQu0zKAABFL7yOTNOkh0x3sT
-         OX+Y0V6D8ZDoo6FMHUhqjgLFWOzsg5JdDdFkH+GoYvXfVECwbVfnlWofCm3L/Yl2Zw
-         an2PUa7Hi7kzHTxNG3rtc4ulJiQ+K4+SrN1Q/F9bu+f3N8+BIZsmqHctzjtYMK6RRD
-         tpX6YvWiEKiI5a8TvKYhp7r26FDoyQNtk79a1rE0/LkQfHVFJ8GvUPHtbWpP6qczi/
-         IG8nPck3L+E2l7oQF0FAtX+XUgCMKJyrsif9OsByTUbZTXJA9M8/Hmxv0pINYznz+G
-         x6Q/+o1J+7eoA==
-X-Nifty-SrcIP: [126.26.94.249]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Ben Dooks <ben.dooks@codethink.co.uk>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH] trace: fix header include guards
-Date:   Sat, 20 Jul 2019 19:39:43 +0900
-Message-Id: <20190720103943.16982-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Sun, 21 Jul 2019 12:34:26 -0400
+Received: from localhost.localdomain ([92.140.204.221])
+        by mwinf5d01 with ME
+        id fUaM2000F4n7eLC03UaN3G; Sun, 21 Jul 2019 18:34:24 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 21 Jul 2019 18:34:24 +0200
+X-ME-IP: 92.140.204.221
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     rui.zhang@intel.com, edubezval@gmail.com,
+        daniel.lezcano@linaro.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, wni@nvidia.com, tiny.windzz@gmail.com
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] thermal: tegra: Fix a typo
+Date:   Sun, 21 Jul 2019 18:33:58 +0200
+Message-Id: <20190721163358.2377-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-These include guards are broken.
+s/sochterm/soctherm/
 
-Match the #if !define() and #define lines so that they work correctly.
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
+ drivers/thermal/tegra/soctherm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- include/trace/events/dma_fence.h     | 2 +-
- include/trace/events/napi.h          | 4 ++--
- include/trace/events/qdisc.h         | 4 ++--
- include/trace/events/tegra_apb_dma.h | 4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
-index 2212adda8f77..64e92d56c6a8 100644
---- a/include/trace/events/dma_fence.h
-+++ b/include/trace/events/dma_fence.h
-@@ -2,7 +2,7 @@
- #undef TRACE_SYSTEM
- #define TRACE_SYSTEM dma_fence
+diff --git a/drivers/thermal/tegra/soctherm.c b/drivers/thermal/tegra/soctherm.c
+index fcf70a3728b6..0ff4b22ddca7 100644
+--- a/drivers/thermal/tegra/soctherm.c
++++ b/drivers/thermal/tegra/soctherm.c
+@@ -202,7 +202,7 @@
+ /* get dividend from the depth */
+ #define THROT_DEPTH_DIVIDEND(depth)	((256 * (100 - (depth)) / 100) - 1)
  
--#if !defined(_TRACE_FENCE_H) || defined(TRACE_HEADER_MULTI_READ)
-+#if !defined(_TRACE_DMA_FENCE_H) || defined(TRACE_HEADER_MULTI_READ)
- #define _TRACE_DMA_FENCE_H
- 
- #include <linux/tracepoint.h>
-diff --git a/include/trace/events/napi.h b/include/trace/events/napi.h
-index f3a12566bed0..6678cf8b235b 100644
---- a/include/trace/events/napi.h
-+++ b/include/trace/events/napi.h
-@@ -3,7 +3,7 @@
- #define TRACE_SYSTEM napi
- 
- #if !defined(_TRACE_NAPI_H) || defined(TRACE_HEADER_MULTI_READ)
--#define _TRACE_NAPI_H_
-+#define _TRACE_NAPI_H
- 
- #include <linux/netdevice.h>
- #include <linux/tracepoint.h>
-@@ -38,7 +38,7 @@ TRACE_EVENT(napi_poll,
- 
- #undef NO_DEV
- 
--#endif /* _TRACE_NAPI_H_ */
-+#endif /* _TRACE_NAPI_H */
- 
- /* This part must be outside protection */
- #include <trace/define_trace.h>
-diff --git a/include/trace/events/qdisc.h b/include/trace/events/qdisc.h
-index 60d0d8bd336d..0d1a9ebf55ba 100644
---- a/include/trace/events/qdisc.h
-+++ b/include/trace/events/qdisc.h
-@@ -2,7 +2,7 @@
- #define TRACE_SYSTEM qdisc
- 
- #if !defined(_TRACE_QDISC_H) || defined(TRACE_HEADER_MULTI_READ)
--#define _TRACE_QDISC_H_
-+#define _TRACE_QDISC_H
- 
- #include <linux/skbuff.h>
- #include <linux/netdevice.h>
-@@ -44,7 +44,7 @@ TRACE_EVENT(qdisc_dequeue,
- 		  __entry->txq_state, __entry->packets, __entry->skbaddr )
- );
- 
--#endif /* _TRACE_QDISC_H_ */
-+#endif /* _TRACE_QDISC_H */
- 
- /* This part must be outside protection */
- #include <trace/define_trace.h>
-diff --git a/include/trace/events/tegra_apb_dma.h b/include/trace/events/tegra_apb_dma.h
-index 0818f6286110..971cd02d2daf 100644
---- a/include/trace/events/tegra_apb_dma.h
-+++ b/include/trace/events/tegra_apb_dma.h
-@@ -1,5 +1,5 @@
- #if !defined(_TRACE_TEGRA_APB_DMA_H) || defined(TRACE_HEADER_MULTI_READ)
--#define _TRACE_TEGRA_APM_DMA_H
-+#define _TRACE_TEGRA_APB_DMA_H
- 
- #include <linux/tracepoint.h>
- #include <linux/dmaengine.h>
-@@ -55,7 +55,7 @@ TRACE_EVENT(tegra_dma_isr,
- 	TP_printk("%s: irq %d\n",  __get_str(chan), __entry->irq)
- );
- 
--#endif /*  _TRACE_TEGRADMA_H */
-+#endif /* _TRACE_TEGRA_APB_DMA_H */
- 
- /* This part must be outside protection */
- #include <trace/define_trace.h>
+-/* gk20a nv_therm interface N:3 Mapping. Levels defined in tegra124-sochterm.h
++/* gk20a nv_therm interface N:3 Mapping. Levels defined in tegra124-soctherm.h
+  * level	vector
+  * NONE		3'b000
+  * LOW		3'b001
 -- 
-2.17.1
+2.20.1
 
