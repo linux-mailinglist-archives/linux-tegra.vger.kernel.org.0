@@ -2,179 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76C016FE32
-	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jul 2019 12:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 165DE6FE8A
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jul 2019 13:12:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728422AbfGVK5e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 22 Jul 2019 06:57:34 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:41470 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726130AbfGVK5e (ORCPT
+        id S1727590AbfGVLMD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 22 Jul 2019 07:12:03 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:33324 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727465AbfGVLMD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 22 Jul 2019 06:57:34 -0400
-Received: by mail-lj1-f196.google.com with SMTP id d24so37130088ljg.8;
-        Mon, 22 Jul 2019 03:57:31 -0700 (PDT)
+        Mon, 22 Jul 2019 07:12:03 -0400
+Received: by mail-wm1-f67.google.com with SMTP id h19so28527631wme.0
+        for <linux-tegra@vger.kernel.org>; Mon, 22 Jul 2019 04:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MfMbQo+3px3OA9BnZZv/vPC4tyxY+4Fa99yi+j6MVSs=;
-        b=IPH+KevhCcZGuzjzdQ0lz5atsUMe6SkDXi4+XrZuh259ziqgPwYr39ftyFmF6MozMv
-         0FuiimMJuXT9M81SWd6yIn7GIcsRO2RmTAtX+6bnHiQbOv6CwECBnCcQn24U29tC9Xws
-         mquHnECZoGFfUwH6Jio5Rzmdbcs9774hkOfwBqmbPm7kKpnmSXGk34iU98hZSsQEUap4
-         QKoCGxb7JqPUkku2oJcSC62tOPR1+ui6wKvZEXS38ZY8LeDbO+czhoikIFPROGbQrs7J
-         ijD5HKto3HhyrHLFZNx9EUkkKOsy/eJEEWb2LVMP3E+ldgpuVUcwQ1i5z4cfdG9hvJBw
-         RtSg==
+        d=bofh-nu.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ugRN07ELNBGju0FZXfeTINwMh3Eu6S1IN6qjdKCIFBE=;
+        b=gFpS54Ax3j5KsNqU6isZdGlE+UrqmTn1H7kDrcDfPtz5MDBUHiilO+ZhfhdUYaCeeU
+         rnEF6ZKsuR9+Iv9LsEGoAaEVzSJuQ9SY3MRzFskJQjMVNJtpIQo5TVJC2A470Fnv5WKA
+         Kkwh4Qvq5M8KWeAHKby9Ab4DdLCxK9kvQlmG+LVcXjze03oJ9l16KEKk7AfepwwSlUmB
+         4PCxmpKH72WnymNl5ig50UJfK/N7j5HIxINywTZieue+9SYmx5xcD735gsjHwAFt1cX0
+         5yC2/bv/9IG7OT2uIPZuVOkzW+kwc0AoBZclZ7h01TmKpUOxv2kH86Bx5WGN7FOca3nn
+         oKVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MfMbQo+3px3OA9BnZZv/vPC4tyxY+4Fa99yi+j6MVSs=;
-        b=JORvly5QnOunbyYc67O8nK49l1EjjEx2ElqklyWyaTx8dS/QCQ555imF6PL9CaYp0c
-         ncrtydc/fRi+LAUcqzUW0glowBYDjYi22rid33tONB6Wl3tVaMDwrPrvE3fAdS0pdMoc
-         PKDE8Mc8i0XJzRhD5E7kMN/5bigYMux+Bt6l8Q9V72wKprMxpIlVF3X0q9dt+Fx2RPos
-         7qGr4Cb3yHir18JFhzQuzUXcDJklwqYzQetfffphrOB3c/FXill8kcTMwKLpeR/FFdom
-         kcbI6G7BaysxJurMc4B47Nmscy2J+18lSmfKs7TsxfcLS9VIotz77kpQ8qHwxdnNOkpF
-         vPZw==
-X-Gm-Message-State: APjAAAVMigEiMAdA5kYLskIBEH5GO+bn+k87CRgVluSoWC8qJG6mqOX1
-        q80npa0H7gzhqYAk2pqcDBGN8994
-X-Google-Smtp-Source: APXvYqxKBaaGhtcXgBX8AYLsoJaFMBoWGA/+yePSQ6iGvovI8f37U1Gps+nEDTjxrdgHmGvpFBkIbA==
-X-Received: by 2002:a2e:9117:: with SMTP id m23mr35967848ljg.134.1563793050348;
-        Mon, 22 Jul 2019 03:57:30 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.googlemail.com with ESMTPSA id m4sm7464928ljc.56.2019.07.22.03.57.28
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Jul 2019 03:57:29 -0700 (PDT)
-Subject: Re: [PATCH V6 01/21] irqchip: tegra: Do not disable COP IRQ during
- suspend
-To:     Marc Zyngier <marc.zyngier@arm.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
-        jason@lakedaemon.net, linus.walleij@linaro.org, stefan@agner.ch,
-        mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-References: <1563738060-30213-1-git-send-email-skomatineni@nvidia.com>
- <1563738060-30213-2-git-send-email-skomatineni@nvidia.com>
- <f6582e43-168e-1b7e-9db8-3d263bc3ba0d@gmail.com>
- <20c1d733-60f5-6375-c03c-639de5e41739@arm.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0bee8775-756f-adad-4597-8cad53017718@gmail.com>
-Date:   Mon, 22 Jul 2019 13:57:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ugRN07ELNBGju0FZXfeTINwMh3Eu6S1IN6qjdKCIFBE=;
+        b=RoRFF/OjFp2/WWK51zNoT8Vha8H713y5t6RCpHa+IcTe2MCCrCpya6sctjRfBMDIf7
+         Mb+Bq6GE4OYu3AU7Z9kvGGF4D5/+3decEWVqeuqqwtKx52bZAMR/m8lqOVfTvgJrlps8
+         pGjrZctdWpVSnL/vqvyYYQjmFKbms6PClO47uI7KezyRRM0iDxsblbHhdXjFT9D30R/E
+         L+leqF4wdDoLotnqVBPNVmvDk2veRqm+FbsMQlg08EZEghCweAhBoyxZSpfXwxvw+A4+
+         xP5BwbLD/ndKeEx+BtkajEi6hE8MCdBdo8XnCgLkpx88QXgN/ZTxp43TtrVzkWCwXtzA
+         R6XA==
+X-Gm-Message-State: APjAAAU+MOZaL5FdMPIUxYLz2rFUUjPXHceBchs5cg7qB4+QQCOtMtZ+
+        tOWPZEOqInhH9Dt4x2PDjp953CY88tPvYX+FbFs=
+X-Google-Smtp-Source: APXvYqyMOVi1QeBfQY7y3XFV+dCnJfmPmLUDhkHjFCy6dBRz6GZNepCI13S7cLN1oIlGT7gkQSUn4ppFimfg0qTYAS4=
+X-Received: by 2002:a05:600c:24a:: with SMTP id 10mr64703351wmj.7.1563793921410;
+ Mon, 22 Jul 2019 04:12:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20c1d733-60f5-6375-c03c-639de5e41739@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <cover.1562149883.git.joabreu@synopsys.com> <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
+ <29dcc161-f7c8-026e-c3cc-5adb04df128c@nvidia.com> <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <20190722101830.GA24948@apalos>
+In-Reply-To: <20190722101830.GA24948@apalos>
+From:   Lars Persson <lists@bofh.nu>
+Date:   Mon, 22 Jul 2019 13:11:50 +0200
+Message-ID: <CADnJP=thexf2sWcVVOLWw14rpteEj0RrfDdY8ER90MpbNN4-oA@mail.gmail.com>
+Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page Pool
+To:     Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Cc:     Jose Abreu <Jose.Abreu@synopsys.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Joao Pinto <Joao.Pinto@synopsys.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-22.07.2019 13:13, Marc Zyngier пишет:
-> On 22/07/2019 10:54, Dmitry Osipenko wrote:
->> 21.07.2019 22:40, Sowjanya Komatineni пишет:
->>> Tegra210 platforms use sc7 entry firmware to program Tegra LP0/SC7 entry
->>> sequence and sc7 entry firmware is run from COP/BPMP-Lite.
->>>
->>> So, COP/BPMP-Lite still need IRQ function to finish SC7 suspend sequence
->>> for Tegra210.
->>>
->>> This patch has fix for leaving the COP IRQ enabled for Tegra210 during
->>> interrupt controller suspend operation.
->>>
->>> Acked-by: Thierry Reding <treding@nvidia.com>
->>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>> ---
->>>  drivers/irqchip/irq-tegra.c | 20 ++++++++++++++++++--
->>>  1 file changed, 18 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/irqchip/irq-tegra.c b/drivers/irqchip/irq-tegra.c
->>> index e1f771c72fc4..851f88cef508 100644
->>> --- a/drivers/irqchip/irq-tegra.c
->>> +++ b/drivers/irqchip/irq-tegra.c
->>> @@ -44,6 +44,7 @@ static unsigned int num_ictlrs;
->>>  
->>>  struct tegra_ictlr_soc {
->>>  	unsigned int num_ictlrs;
->>> +	bool supports_sc7;
->>>  };
->>>  
->>>  static const struct tegra_ictlr_soc tegra20_ictlr_soc = {
->>> @@ -56,6 +57,7 @@ static const struct tegra_ictlr_soc tegra30_ictlr_soc = {
->>>  
->>>  static const struct tegra_ictlr_soc tegra210_ictlr_soc = {
->>>  	.num_ictlrs = 6,
->>> +	.supports_sc7 = true,
->>>  };
->>>  
->>>  static const struct of_device_id ictlr_matches[] = {
->>> @@ -67,6 +69,7 @@ static const struct of_device_id ictlr_matches[] = {
->>>  
->>>  struct tegra_ictlr_info {
->>>  	void __iomem *base[TEGRA_MAX_NUM_ICTLRS];
->>> +	const struct tegra_ictlr_soc *soc;
->>>  #ifdef CONFIG_PM_SLEEP
->>>  	u32 cop_ier[TEGRA_MAX_NUM_ICTLRS];
->>>  	u32 cop_iep[TEGRA_MAX_NUM_ICTLRS];
->>> @@ -147,8 +150,20 @@ static int tegra_ictlr_suspend(void)
->>>  		lic->cop_ier[i] = readl_relaxed(ictlr + ICTLR_COP_IER);
->>>  		lic->cop_iep[i] = readl_relaxed(ictlr + ICTLR_COP_IEP_CLASS);
->>>  
->>> -		/* Disable COP interrupts */
->>> -		writel_relaxed(~0ul, ictlr + ICTLR_COP_IER_CLR);
->>> +		/*
->>> +		 * AVP/COP/BPMP-Lite is the Tegra boot processor.
->>> +		 *
->>> +		 * Tegra210 system suspend flow uses sc7entry firmware which
->>> +		 * is executed by COP/BPMP and it includes disabling COP IRQ,
->>> +		 * clamping CPU rail, turning off VDD_CPU, and preparing the
->>> +		 * system to go to SC7/LP0.
->>> +		 *
->>> +		 * COP/BPMP wakes up when COP IRQ is triggered and runs
->>> +		 * sc7entry-firmware. So need to keep COP interrupt enabled.
->>> +		 */
->>> +		if (!lic->soc->supports_sc7)
->>> +			/* Disable COP interrupts if SC7 is not supported */
->>
->> All Tegra SoCs support SC7, hence the 'supports_sc7' and the comment
->> doesn't sound correct to me. Something like 'firmware_sc7' should suit
->> better here.
-> 
-> If what you're saying is true, then the whole patch is wrong, and the
-> SC7 property should come from DT.
+On Mon, Jul 22, 2019 at 12:18 PM Ilias Apalodimas
+<ilias.apalodimas@linaro.org> wrote:
+>
+> On Thu, Jul 18, 2019 at 07:48:04AM +0000, Jose Abreu wrote:
+> > From: Jon Hunter <jonathanh@nvidia.com>
+> > Date: Jul/17/2019, 19:58:53 (UTC+00:00)
+> >
+> > > Let me know if you have any thoughts.
+> >
+> > Can you try attached patch ?
+> >
+>
+> The log says  someone calls panic() right?
+> Can we trye and figure were that happens during the stmmac init phase?
+>
 
-It should be safe to assume that all of existing Tegra210 devices use
-the firmware for SC7, hence I wouldn't say that the patch is entirely
-wrong. To me it's not entirely correct.
+The reason for the panic is hidden in this one line of the kernel logs:
+Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
 
->>
->>> +			writel_relaxed(~0ul, ictlr + ICTLR_COP_IER_CLR);
->>
->> Secondly, I'm also not sure why COP interrupts need to be disabled for
->> pre-T210 at all, since COP is unused. This looks to me like it was
->> cut-n-pasted from downstream kernel without a good reason and could be
->> simply removed.
-> 
-> Please verify that this is actually the case. Tegra-2 definitely needed
-> some level of poking, and I'm not keen on changing anything there until
-> you (or someone else) has verified it on actual HW (see e307cc8941fc).
+The init process is killed by SIGSEGV (signal 11 = 0xb).
 
-Tested on Tegra20 and Tegra30, LP1 suspend-resume works perfectly fine
-with all COP bits removed from the driver.
+I would suggest you look for data corruption bugs in the RX path. If
+the code is fetched from the NFS mount then a corrupt RX buffer can
+trigger a crash in userspace.
 
-AFAIK, the reason why downstream needed that disabling is that it uses
-proprietary firmware which is running on the COP and that firmware is
-usually a BLOB audio/video DEC-ENC driver which doesn't cleanup
-interrupts after itself. That firmware is not applicable for the
-upstream kernel, hence there is no need to care about it.
-
-> Joseph, can you please shed some light here?
-
+/Lars
