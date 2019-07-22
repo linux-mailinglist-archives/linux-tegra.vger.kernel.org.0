@@ -2,105 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7CA6FC25
-	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jul 2019 11:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A91EC6FC4A
+	for <lists+linux-tegra@lfdr.de>; Mon, 22 Jul 2019 11:37:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727624AbfGVJ1l (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 22 Jul 2019 05:27:41 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:8084 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727594AbfGVJ1l (ORCPT
+        id S1728499AbfGVJhY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 22 Jul 2019 05:37:24 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:8769 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726236AbfGVJhY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 22 Jul 2019 05:27:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d35818d0001>; Mon, 22 Jul 2019 02:27:41 -0700
+        Mon, 22 Jul 2019 05:37:24 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d3583da0000>; Mon, 22 Jul 2019 02:37:31 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 22 Jul 2019 02:27:40 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 22 Jul 2019 02:37:23 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 22 Jul 2019 02:27:40 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 22 Jul
- 2019 09:27:19 +0000
-Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 22 Jul
- 2019 09:27:19 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 22 Jul 2019 09:27:19 +0000
-Received: from viswanathl-pc.nvidia.com (Not Verified[10.24.34.161]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d3581750000>; Mon, 22 Jul 2019 02:27:19 -0700
-From:   Viswanath L <viswanathl@nvidia.com>
-To:     <thierry.reding@gmail.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-        <jonathanh@nvidia.com>
-CC:     <dri-devel@lists.freedesktop.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Viswanath L <viswanathl@nvidia.com>
-Subject: [PATCH v2] drm/tegra: sor: Enable HDA interrupts at plugin
-Date:   Mon, 22 Jul 2019 14:57:12 +0530
-Message-ID: <1563787632-19762-1-git-send-email-viswanathl@nvidia.com>
-X-Mailer: git-send-email 2.7.4
+        by hqpgpgate102.nvidia.com on Mon, 22 Jul 2019 02:37:23 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 22 Jul
+ 2019 09:37:20 +0000
+Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+To:     Jose Abreu <Jose.Abreu@synopsys.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <cover.1562149883.git.joabreu@synopsys.com>
+ <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
+ <29dcc161-f7c8-026e-c3cc-5adb04df128c@nvidia.com>
+ <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <6a6bac84-1d29-2740-1636-d3adb26b6bcc@nvidia.com>
+ <BN8PR12MB3266960A104A7CDBB4E59192D3CB0@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <bc9ab3c5-b1b9-26d4-7b73-01474328eafa@nvidia.com>
+ <BN8PR12MB3266989D15E017A789E14282D3CB0@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <4db855e4-1d59-d30b-154c-e7a2aa1c9047@nvidia.com>
+ <BN8PR12MB3266FD9CF18691EDEF05A4B8D3CB0@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <64e37224-6661-ddb0-4394-83a16e1ccb61@nvidia.com>
+ <BN8PR12MB3266E1FAC5B7874EFA69DD7BD3CB0@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <25512348-5b98-aeb7-a6fb-f90376e66a84@nvidia.com>
+ <BN8PR12MB32665C1A106D3DCBF89CEA54D3C40@BN8PR12MB3266.namprd12.prod.outlook.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <49efad87-2f74-5804-af4c-33730f865c41@nvidia.com>
+Date:   Mon, 22 Jul 2019 10:37:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <BN8PR12MB32665C1A106D3DCBF89CEA54D3C40@BN8PR12MB3266.namprd12.prod.outlook.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1563787661; bh=VobXuXAYe397QeqmnAYN9rYN9lbzFlQxcw9Xph5TjYc=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:Content-Type;
-        b=SuMOXOPQ+wi8vYTKHk7TNtX85N90p7MnKBarcwa70v6aYm1BXN2D8Ld4uXqItiIjG
-         KCANY6JGrjC7JL7uQ5pO9wVIqai9Y41gt19TQsh3NUPzuA7VQVNu/0qifmDyhCPm41
-         Q38vQ99ONufQSzYmMZ4ghOBu/rwzidp7PDKoJKwt3RsclrL4KObuaZDkjDinOESnhL
-         0uBpkB/OfTZCv5agtiq1Le1SYoEnU8hZ1lBJ1gCn8ito10W7N0dwXi3njwxsB2V90K
-         E2ABl0naYs1qeX38PeaF/FqLKu2pZsm9ydvR/zTtVUliqoLyEJZsCnmj67tmNpbqna
-         a5aTNgJXOEiOA==
+        t=1563788251; bh=UJ0seHB+XN7Jd8VCDCnDcS3jZbxUmkRZdEKXTGpmU+M=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=c83Ai06+UTmxG7QV6Zri0El0rMs4N+Vfba7mgKAH5mCYGi9gfrZ1tjJUqTYqbkp0u
+         atczBX+qG5MVadEdx/Q311ClTaGcKF5bQR1Hvufr/OtoACsQm3n0uDSc4HwkpK357S
+         A+GfgHW/n1ToDqgAjVYOjdWBpQx5zA5nSL9zvigFKMrvUr7TlarWgoVnpPthIOHnyL
+         8d35NN4TA7PxMQWlOQo28mac7ucnVl8joI/V968MYaZTVJuVsCZUb6rLCk5sGLk6Hx
+         YDoBLRZFUF0zvoqDrZqfTsmE7uN5wgwHdA54DC36AvhNi9jxsGZnvh7HPxNeJio+Md
+         f2/rfA26O0dAA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-HDMI plugout calls runtime suspend, which clears interrupt registers
-and causes audio functionality to break on subsequent plugin; setting
-interrupt registers in sor_audio_prepare() solves the issue
 
-Signed-off-by: Viswanath L <viswanathl@nvidia.com>
----
- drivers/gpu/drm/tegra/sor.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+On 22/07/2019 08:23, Jose Abreu wrote:
+> From: Jon Hunter <jonathanh@nvidia.com>
+> Date: Jul/19/2019, 14:35:52 (UTC+00:00)
+> 
+>>
+>> On 19/07/2019 13:32, Jose Abreu wrote:
+>>> From: Jon Hunter <jonathanh@nvidia.com>
+>>> Date: Jul/19/2019, 13:30:10 (UTC+00:00)
+>>>
+>>>> I booted the board without using NFS and then started used dhclient to
+>>>> bring up the network interface and it appears to be working fine. I can
+>>>> even mount the NFS share fine. So it does appear to be particular to
+>>>> using NFS to mount the rootfs.
+>>>
+>>> Damn. Can you send me your .config ?
+>>
+>> Yes no problem. Attached.
+> 
+> Can you compile your image without modules (i.e. all built-in) and let 
+> me know if the error still happens ?
 
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 5be5a08..0470cfe 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -2164,6 +2164,15 @@ static void tegra_sor_audio_prepare(struct tegra_sor *sor)
- 
- 	value = SOR_AUDIO_HDA_PRESENSE_ELDV | SOR_AUDIO_HDA_PRESENSE_PD;
- 	tegra_sor_writel(sor, value, SOR_AUDIO_HDA_PRESENSE);
-+
-+	/*
-+	 * Enable and unmask the HDA codec SCRATCH0 register interrupt. This
-+	 * is used for interoperability between the HDA codec driver and the
-+	 * HDMI/DP driver.
-+	 */
-+	value = SOR_INT_CODEC_SCRATCH1 | SOR_INT_CODEC_SCRATCH0;
-+	tegra_sor_writel(sor, value, SOR_INT_ENABLE);
-+	tegra_sor_writel(sor, value, SOR_INT_MASK);
- }
- 
- static void tegra_sor_audio_unprepare(struct tegra_sor *sor)
-@@ -2913,15 +2922,6 @@ static int tegra_sor_init(struct host1x_client *client)
- 	if (err < 0)
- 		return err;
- 
--	/*
--	 * Enable and unmask the HDA codec SCRATCH0 register interrupt. This
--	 * is used for interoperability between the HDA codec driver and the
--	 * HDMI/DP driver.
--	 */
--	value = SOR_INT_CODEC_SCRATCH1 | SOR_INT_CODEC_SCRATCH0;
--	tegra_sor_writel(sor, value, SOR_INT_ENABLE);
--	tegra_sor_writel(sor, value, SOR_INT_MASK);
--
- 	return 0;
- }
- 
+I simply removed the /lib/modules directory from the NFS share and
+verified that I still see the same issue. So it is not loading the
+modules that is a problem.
+
+Jon
+
 -- 
-2.7.4
-
+nvpublic
