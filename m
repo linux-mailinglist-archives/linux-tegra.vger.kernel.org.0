@@ -2,60 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2DEE70F31
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 04:37:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C35CF70F55
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 04:53:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731554AbfGWCh2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 22 Jul 2019 22:37:28 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:36427 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726220AbfGWCh1 (ORCPT
+        id S1729066AbfGWCxB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 22 Jul 2019 22:53:01 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:33642 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725848AbfGWCxA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 22 Jul 2019 22:37:27 -0400
-Received: by mail-lj1-f195.google.com with SMTP id i21so39532300ljj.3;
-        Mon, 22 Jul 2019 19:37:26 -0700 (PDT)
+        Mon, 22 Jul 2019 22:53:00 -0400
+Received: by mail-lf1-f67.google.com with SMTP id x3so28268433lfc.0;
+        Mon, 22 Jul 2019 19:52:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WNsHUchMl+2BsfVjcPCvfcQNivIm1GFa9STt6iz/zjU=;
-        b=gcT0KcZd7VTcULU38+WDlqb1sIdavdXbHQpYMiz/R7nNxphwaOweDvNlM2eivWw3xj
-         f0Vfc6rJp3XOctDr1OxDM0wtexOOgc/AUK++QDUIbPHNxG8qceblNwemcBPmKd0tSEye
-         dNMXPwULUk4i6OjLMe7xpYSPEa+xdMxFLNbHZ7QxN/eXmBApD5jEYzts0eXbErM4Y2QK
-         kWBnqgzjru5wx7Brz577LftJzvDBxvN5qUN+fCpXZXA15PBxTTabGhwy0Q5plsg/Mxa/
-         Y9gmdYWTeA1ObGTLgz8f35/Mc2AsOEaN4t0sn5LiDth8bbtHlKBf+VRgK0BoX+IIaHuD
-         2c1Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UGzqbbB1U0ppZ2A02MGdrN83+wMNNh/kz49yjkRagg4=;
+        b=oGOorPHkG3fQQXMk4jmm3uqhV8r8dArAEn5qvIPCMkpwf/5MW5gfmXTishC51IYLD0
+         gXyyk/zX1ndUDIEFEjxz2gWX7ui0buUAVeEbs++OEPsrFqCY19QmGCDA9vmGYPiUJlmV
+         j1QupIgqpdTXLMXNni5PsAvXkRUgzWUcbbVaPRpCQ1N/Td2qr6LQhH17rvAb2CSdAXYr
+         thCYI+tSL7SHjPzXIwZUUhQV16LOBkOIOdrwFinYx/hg42koRNMJA97e2gYN4AbbMfgw
+         URqr1Kci6UhZMS5726Pl9z4WIf1PmOOsJlKarubM/xYofn3PqUbmWMn3AJpj8zjPRHl5
+         dBZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WNsHUchMl+2BsfVjcPCvfcQNivIm1GFa9STt6iz/zjU=;
-        b=mIsC9WsJeJwICIwHDXGIpR/iQNv9QoMvMKx2LgGmtiiuyJGcEbl8jKms4V7xNWA9jz
-         7OOMqNWFeX61Gdo/LWu0ZpqCMmD1jVGEnnwJg87a9FmadUGuNSkW/iKGPlDiq6dXjg0J
-         3eY3upEEu2bKzil+rLeixxQmG7Ta9qxHl81lQI+chWuv/mqt4xC1KsFNGt8mP2zrvEl8
-         3lRXHIMs4ijcQgH8Xx345vz5WfP90oRHOJIVG4rj2r1uprCulVeDeJ+AeczLrWQo3D1h
-         tmKJq7AD+66Jjm5WR7AGVQV2Vc7278abORulDLTvB1K5j+lXhhknbw0+ykilV57Z+kJ/
-         hMAw==
-X-Gm-Message-State: APjAAAV1ea4Klcs5ETz5JaGGB+Vzl86GobVBvO3vhndV4npR/6g8gnRs
-        P2Xg73lHFTT03yZ8KliBllY=
-X-Google-Smtp-Source: APXvYqzn/Z6XRU9LqgLYqgj3qrdyzjbDU16lDweTp+eHms7p2jsK3dE4bSGD0Er9I/Rq/8SCdSHhHQ==
-X-Received: by 2002:a2e:8681:: with SMTP id l1mr11688290lji.166.1563849445457;
-        Mon, 22 Jul 2019 19:37:25 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UGzqbbB1U0ppZ2A02MGdrN83+wMNNh/kz49yjkRagg4=;
+        b=PO1BfaElMttj4/7xtChA/hie2wBQF2Sl444VreFEKIA+w+tBdHAAwVEiMkgixE25bi
+         9modekcid43u5GbfToaqyO45eks5AWOTlCX4So6b9U052td95T8BJAMIb7qdxpeDUCtC
+         654r/3yq3sYSPx4bYqjx5csw15XRnYoW10QNh+ZBfyi9p9BFSl4cEVGnSFQ7lqFt0McV
+         aawqVWVZ1Xh0FnKcOpHlpjv0Uc3m0XfzKMxwR00/CI6+oa8LpJ7nYJRwwp4S20HdU86o
+         Fc0P7G7e/GfZjOG2jLzLP+anpJzwD1S4zjYAXjfMVSLidZ8DJPhsP3TYzL0BCPz7Aito
+         wFww==
+X-Gm-Message-State: APjAAAUrH9YUuojlrRl/Iq482eul65DtSj2PW0EjD4Qts1Bks2BSUuAv
+        UYmlVa/Oo/MyeYq/Zn27Q9s=
+X-Google-Smtp-Source: APXvYqzkQl297ESK1gCyraELtwkgRNbj+CQx/Air8IrnkAcz+ps43Ei6UF1+13i4+edz7NFSQUcldw==
+X-Received: by 2002:a19:8c57:: with SMTP id i23mr32883196lfj.192.1563850378088;
+        Mon, 22 Jul 2019 19:52:58 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.gmail.com with ESMTPSA id r17sm7832425ljc.85.2019.07.22.19.37.24
+        by smtp.gmail.com with ESMTPSA id v4sm7757477lji.103.2019.07.22.19.52.56
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Jul 2019 19:37:24 -0700 (PDT)
+        Mon, 22 Jul 2019 19:52:57 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] soc/tegra: pmc: Remove unnecessary memory barrier
-Date:   Tue, 23 Jul 2019 05:35:11 +0300
-Message-Id: <20190723023511.24542-2-digetx@gmail.com>
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] clk: tegra: divider: Add missing check for enable-bit on rate's recalculation
+Date:   Tue, 23 Jul 2019 05:52:44 +0300
+Message-Id: <20190723025245.27754-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190723023511.24542-1-digetx@gmail.com>
-References: <20190723023511.24542-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -63,37 +65,42 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The removed barrier isn't needed because the writes/reads are strictly
-ordered and even if PMC had separate ports for the writes, it wouldn't
-matter since the hardware logic takes into effect after triggering CPU's
-power-gating and at that point all CPU accesses are guaranteed to be
-completed. Hence remove the barrier to eliminate the confusion.
+Unset "enable" bit means that divider is in bypass mode, hence it doesn't
+have any effect in that case. Please note that there are no known bugs
+caused by the missing check.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
 
 Changelog:
 
-v2: New patch that was added after Jon's Hunter pointing that it's better
-    not to change the barrier's placement in the code. In fact the barrier
-    is not needed at all.
+v2: Changed the commit's description from 'Fix' to 'Add' in response to the
+    Stephen's Boyd question about the need to backport the patch into stable
+    kernels. The backporting is not really needed.
 
- drivers/soc/tegra/pmc.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/clk/tegra/clk-divider.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index aba3396b2e73..3044809f1c10 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -1457,8 +1457,6 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
- 	do_div(ticks, USEC_PER_SEC);
- 	tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
+diff --git a/drivers/clk/tegra/clk-divider.c b/drivers/clk/tegra/clk-divider.c
+index e76731fb7d69..f33c19045386 100644
+--- a/drivers/clk/tegra/clk-divider.c
++++ b/drivers/clk/tegra/clk-divider.c
+@@ -40,8 +40,13 @@ static unsigned long clk_frac_div_recalc_rate(struct clk_hw *hw,
+ 	int div, mul;
+ 	u64 rate = parent_rate;
  
--	wmb();
--
- 	value = tegra_pmc_readl(pmc, PMC_CNTRL);
- 	value &= ~PMC_CNTRL_SIDE_EFFECT_LP0;
- 	value |= PMC_CNTRL_CPU_PWRREQ_OE;
+-	reg = readl_relaxed(divider->reg) >> divider->shift;
+-	div = reg & div_mask(divider);
++	reg = readl_relaxed(divider->reg);
++
++	if ((divider->flags & TEGRA_DIVIDER_UART) &&
++	    !(reg & PERIPH_CLK_UART_DIV_ENB))
++		return rate;
++
++	div = (reg >> divider->shift) & div_mask(divider);
+ 
+ 	mul = get_mul(divider);
+ 	div += mul;
 -- 
 2.22.0
 
