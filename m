@@ -2,251 +2,177 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 992BA71A53
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 16:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D08371A60
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 16:30:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390569AbfGWO2Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jul 2019 10:28:16 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35581 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729666AbfGWO2Q (ORCPT
+        id S2390593AbfGWOaQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jul 2019 10:30:16 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:3107 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729666AbfGWOaM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jul 2019 10:28:16 -0400
-Received: by mail-lj1-f193.google.com with SMTP id x25so41308810ljh.2;
-        Tue, 23 Jul 2019 07:28:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vTUZb1HVyFeOzdcGn9tmvtpOZ/RDE9iJ1j6AeqrbJII=;
-        b=EsIIDR4Q55vebn5XqOuiTRlSfDa8o1eFxchIDuCp8CfNRtqFY1DGVkFrF5J4deHOzm
-         ob4huwssyJHxU+xKcHlpk3QnQG89sPtgxVpd2FnAGZ+QFQj96y3S8PB0JYAMxyHDk0Tt
-         PKu2UJhgmj3Jvkbzi3fznPf9xyXz/gvFWsnAgwHG3TQwg2zlshPrK7JNITMvSilyPWUp
-         cqzPzQRON4qSWSvuDT5qRahE8ojKZbmWm+JKQG0nBjz8JV+P4DiSRqoWdI9AiBeGZySm
-         lh8lxPAPksvt1+JU4YeFN5Ug87jFpEZ1z4ZV1A/radye+pr8q+S6k+K/Yx9b/PiZ6ce5
-         c+8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vTUZb1HVyFeOzdcGn9tmvtpOZ/RDE9iJ1j6AeqrbJII=;
-        b=eodMQTelBZCueHBXtNfmHI26Kwto2A6oFxuQWkvv+v+oTo5Gf6ql0TEzrRmnNKe0eG
-         ASljlNHK6YMaB0BbIeLNq0lN/sObTy4mxFvgTyIjLTHCODI1J7w6hs2QxGOTpbS2q+d/
-         qfNVfmd0DZxGatc5UeEw/5P7OGB5RwSKaDIH5cRkBCwsLBKKrDNAGdT5Dmwc4hY91TMm
-         tzoU3Y1+0hC7haSxZEY8+tSf8xdDOLv8TGNnktjy0qfu32y3K1as4OdSzNAgq8Z68/8S
-         XagvEMYMK7dDH4INppIsLWS4lf1CsyZ9iBWTD21s3pNPgAFiI7D+F+0POoAXjIfhcioj
-         Hx6g==
-X-Gm-Message-State: APjAAAWrEoK2GB/EjSBP/1iYPdQXL99fiVtxHmoKxzYYGitzSTCCOLjc
-        UHJYv0IhFaVCDxqW5pM7yRzqrLK+
-X-Google-Smtp-Source: APXvYqzdzLKFwuZZl6Aqc9eGI486jK2DbGDTVDQO3OCW3ZBU7v9/TLNB50FglJh4eytnBlftgn05uQ==
-X-Received: by 2002:a2e:9a96:: with SMTP id p22mr39358762lji.57.1563892092497;
-        Tue, 23 Jul 2019 07:28:12 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.googlemail.com with ESMTPSA id t23sm8011143ljd.98.2019.07.23.07.27.49
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Jul 2019 07:28:11 -0700 (PDT)
-Subject: Re: [PATCH V6 16/21] soc/tegra: pmc: Add pmc wake support for
- tegra210
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
-        jason@lakedaemon.net, marc.zyngier@arm.com,
-        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-References: <1563738060-30213-1-git-send-email-skomatineni@nvidia.com>
- <1563738060-30213-17-git-send-email-skomatineni@nvidia.com>
- <0b3d08ea-4633-8a54-ba66-c3f3146a1ece@gmail.com>
- <ca32c2d8-d752-3ecd-3a3f-232366730c7b@gmail.com>
- <b575ca93-9f34-b07a-1234-ef1ea2a6ddee@gmail.com>
- <71a88a9c-a542-557a-0eaa-3c90112dee0e@nvidia.com>
- <70ad28cb-c268-cbbe-36f5-39df26617d8e@gmail.com>
- <629826f9-c453-386a-9e88-bd64d23b8eab@nvidia.com>
- <71c8cab1-bf72-c073-be30-4263c6b7c871@gmail.com>
- <97096b6c-f2f5-b82a-b172-802f4a06d1af@nvidia.com>
- <a58de350-f6ce-9308-1ae0-885e732b575d@gmail.com>
-Message-ID: <a545cc66-45cd-504a-4390-8274b8b79540@gmail.com>
-Date:   Tue, 23 Jul 2019 17:27:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Tue, 23 Jul 2019 10:30:12 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d3719f00001>; Tue, 23 Jul 2019 07:30:08 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 23 Jul 2019 07:30:10 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 23 Jul 2019 07:30:10 -0700
+Received: from [10.25.74.243] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 23 Jul
+ 2019 14:28:51 +0000
+Subject: RE: [PATCH V13 12/12] PCI: tegra: Add Tegra194 PCIe support
+To:     Bjorn Helgaas <helgaas@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC:     "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "kishon@ti.com" <kishon@ti.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will.deacon@arm.com" <will.deacon@arm.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
+        "digetx@gmail.com" <digetx@gmail.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Krishna Thota <kthota@nvidia.com>,
+        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+        "sagar.tv@gmail.com" <sagar.tv@gmail.com>
+References: <20190710062212.1745-1-vidyas@nvidia.com>
+ <20190710062212.1745-13-vidyas@nvidia.com>
+ <20190711125433.GB26088@e121166-lin.cambridge.arm.com>
+ <986d0b1a-666a-7b05-a9f3-e761518bdc92@nvidia.com>
+ <20190712160754.GA24285@e121166-lin.cambridge.arm.com>
+ <a5f8689b-1358-dd2d-4f54-7e68a6ab158b@nvidia.com>
+ <20190716112225.GA24335@e121166-lin.cambridge.arm.com>
+ <20190716190013.GB4470@google.com>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <9ecdeefe-ed22-47bc-50dc-139dd05029b4@nvidia.com>
+Date:   Tue, 23 Jul 2019 19:58:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <a58de350-f6ce-9308-1ae0-885e732b575d@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190716190013.GB4470@google.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1563892208; bh=y3iFx42LYhbEL+dlk0IO97VXY77VlAHy2wWmhXVOoNw=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=qlaXao0Hm4EbazMDNs0zsUCfqJhGXMIJzOnKIlOtQgFO+h939gPrIQNWVV6uU7u7G
+         TnYT3vSEXX3oS39rSU8UKYISRNsiObI9sLbr1o4PI5hSqizdo8+/Y9aPqxgl9Dt2U4
+         92PlAEamCxZjc65BYwmr+QYHIF7d2U/JBtRWW4qZyzDI144Ge2WKXjUKSyJ2j1U2Iy
+         BSjY7aKXpVvjy6rW+J/FvKj06w5t0e0vlfnTqK/A52Tn+zY+ISSC1ZdkpGQHVYjC2O
+         tjejFEjGn7SR9pwt1PHlSufRokL/jeepQqjlU8gu2uZnyUvSwLIN4fdMAyh6eZpavJ
+         ROk5kO4F8UDHg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.07.2019 6:43, Dmitry Osipenko пишет:
-> 23.07.2019 6:31, Sowjanya Komatineni пишет:
->>
->> On 7/22/19 8:25 PM, Dmitry Osipenko wrote:
->>> 23.07.2019 6:09, Sowjanya Komatineni пишет:
->>>> On 7/22/19 8:03 PM, Dmitry Osipenko wrote:
->>>>> 23.07.2019 4:52, Sowjanya Komatineni пишет:
->>>>>> On 7/22/19 6:41 PM, Dmitry Osipenko wrote:
->>>>>>> 23.07.2019 4:08, Dmitry Osipenko пишет:
->>>>>>>> 23.07.2019 3:58, Dmitry Osipenko пишет:
->>>>>>>>> 21.07.2019 22:40, Sowjanya Komatineni пишет:
->>>>>>>>>> This patch implements PMC wakeup sequence for Tegra210 and defines
->>>>>>>>>> common used RTC alarm wake event.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>>>>>>>> ---
->>>>>>>>>>    drivers/soc/tegra/pmc.c | 111
->>>>>>>>>> ++++++++++++++++++++++++++++++++++++++++++++++++
->>>>>>>>>>    1 file changed, 111 insertions(+)
->>>>>>>>>>
->>>>>>>>>> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
->>>>>>>>>> index 91c84d0e66ae..c556f38874e1 100644
->>>>>>>>>> --- a/drivers/soc/tegra/pmc.c
->>>>>>>>>> +++ b/drivers/soc/tegra/pmc.c
->>>>>>>>>> @@ -57,6 +57,12 @@
->>>>>>>>>>    #define  PMC_CNTRL_SYSCLK_OE        BIT(11) /* system clock
->>>>>>>>>> enable */
->>>>>>>>>>    #define  PMC_CNTRL_SYSCLK_POLARITY    BIT(10) /* sys clk
->>>>>>>>>> polarity */
->>>>>>>>>>    #define  PMC_CNTRL_MAIN_RST        BIT(4)
->>>>>>>>>> +#define  PMC_CNTRL_LATCH_WAKEUPS    BIT(5)
->>>>>>>> Please follow the TRM's bits naming.
->>>>>>>>
->>>>>>>> PMC_CNTRL_LATCHWAKE_EN
->>>>>>>>
->>>>>>>>>> +#define PMC_WAKE_MASK            0x0c
->>>>>>>>>> +#define PMC_WAKE_LEVEL            0x10
->>>>>>>>>> +#define PMC_WAKE_STATUS            0x14
->>>>>>>>>> +#define PMC_SW_WAKE_STATUS        0x18
->>>>>>>>>>      #define DPD_SAMPLE            0x020
->>>>>>>>>>    #define  DPD_SAMPLE_ENABLE        BIT(0)
->>>>>>>>>> @@ -87,6 +93,11 @@
->>>>>>>>>>      #define PMC_SCRATCH41            0x140
->>>>>>>>>>    +#define PMC_WAKE2_MASK            0x160
->>>>>>>>>> +#define PMC_WAKE2_LEVEL            0x164
->>>>>>>>>> +#define PMC_WAKE2_STATUS        0x168
->>>>>>>>>> +#define PMC_SW_WAKE2_STATUS        0x16c
->>>>>>>>>> +
->>>>>>>>>>    #define PMC_SENSOR_CTRL            0x1b0
->>>>>>>>>>    #define  PMC_SENSOR_CTRL_SCRATCH_WRITE    BIT(2)
->>>>>>>>>>    #define  PMC_SENSOR_CTRL_ENABLE_RST    BIT(1)
->>>>>>>>>> @@ -1922,6 +1933,55 @@ static const struct irq_domain_ops
->>>>>>>>>> tegra_pmc_irq_domain_ops = {
->>>>>>>>>>        .alloc = tegra_pmc_irq_alloc,
->>>>>>>>>>    };
->>>>>>>>>>    +static int tegra210_pmc_irq_set_wake(struct irq_data *data,
->>>>>>>>>> unsigned int on)
->>>>>>>>>> +{
->>>>>>>>>> +    struct tegra_pmc *pmc = irq_data_get_irq_chip_data(data);
->>>>>>>>>> +    unsigned int offset, bit;
->>>>>>>>>> +    u32 value;
->>>>>>>>>> +
->>>>>>>>>> +    if (data->hwirq == ULONG_MAX)
->>>>>>>>>> +        return 0;
->>>>>>>>>> +
->>>>>>>>>> +    offset = data->hwirq / 32;
->>>>>>>>>> +    bit = data->hwirq % 32;
->>>>>>>>>> +
->>>>>>>>>> +    /*
->>>>>>>>>> +     * Latch wakeups to SW_WAKE_STATUS register to capture events
->>>>>>>>>> +     * that would not make it into wakeup event register during
->>>>>>>>>> LP0 exit.
->>>>>>>>>> +     */
->>>>>>>>>> +    value = tegra_pmc_readl(pmc, PMC_CNTRL);
->>>>>>>>>> +    value |= PMC_CNTRL_LATCH_WAKEUPS;
->>>>>>>>>> +    tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>>>>>>>> +    udelay(120);
->>>>>>>>> Why it takes so much time to latch the values? Shouldn't some
->>>>>>>>> status-bit
->>>>>>>>> be polled for the completion of latching?
->>>>>>>>>
->>>>>>>>> Is this register-write really getting buffered in the PMC?
->>>>>>>>>
->>>>>>>>>> +    value &= ~PMC_CNTRL_LATCH_WAKEUPS;
->>>>>>>>>> +    tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>>>>>>>> +    udelay(120);
->>>>>>>>> 120 usecs to remove latching, really?
->>>>>>>>>
->>>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_SW_WAKE_STATUS);
->>>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_SW_WAKE2_STATUS);
->>>>>>>>>> +
->>>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_WAKE_STATUS);
->>>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_WAKE2_STATUS);
->>>>>>>>>> +
->>>>>>>>>> +    /* enable PMC wake */
->>>>>>>>>> +    if (data->hwirq >= 32)
->>>>>>>>>> +        offset = PMC_WAKE2_MASK;
->>>>>>>>>> +    else
->>>>>>>>>> +        offset = PMC_WAKE_MASK;
->>>>>>>>>> +
->>>>>>>>>> +    value = tegra_pmc_readl(pmc, offset);
->>>>>>>>>> +
->>>>>>>>>> +    if (on)
->>>>>>>>>> +        value |= 1 << bit;
->>>>>>>>>> +    else
->>>>>>>>>> +        value &= ~(1 << bit);
->>>>>>>>>> +
->>>>>>>>>> +    tegra_pmc_writel(pmc, value, offset);
->>>>>>>>> Why the latching is done *before* writing into the WAKE registers?
->>>>>>>>> What
->>>>>>>>> it is latching then?
->>>>>>>> I'm looking at the TRM doc and it says that latching should be done
->>>>>>>> *after* writing to the WAKE_MASK / LEVEL registers.
->>>>>>>>
->>>>>>>> Secondly it says that it's enough to do:
->>>>>>>>
->>>>>>>> value = tegra_pmc_readl(pmc, PMC_CNTRL);
->>>>>>>> value |= PMC_CNTRL_LATCH_WAKEUPS;
->>>>>>>> tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>>>>>>
->>>>>>>> in order to latch. There is no need for the delay and to remove the
->>>>>>>> "LATCHWAKE_EN" bit, it should be a oneshot action.
->>>>>>> Although, no. TRM says "stops latching on transition from 1
->>>>>>> to 0 (sequence - set to 1,set to 0)", so it's not a oneshot action.
->>>>>>>
->>>>>>> Have you tested this code at all? I'm wondering how it happens to
->>>>>>> work
->>>>>>> without a proper latching.
->>>>>> Yes, ofcourse its tested and this sequence to do transition is
->>>>>> recommendation from Tegra designer.
->>>>>> Will check if TRM doesn't have update properly or will re-confirm
->>>>>> internally on delay time...
->>>>>>
->>>>>> On any of the wake event PMC wakeup happens and WAKE_STATUS register
->>>>>> will have bits set for all events that triggered wake.
->>>>>> After wakeup PMC doesn't update SW_WAKE_STATUS register as per PMC
->>>>>> design.
->>>>>> SW latch register added in design helps to provide a way to capture
->>>>>> those events that happen right during wakeup time and didnt make it to
->>>>>> SW_WAKE_STATUS register.
->>>>>> So before next suspend entry, latching all prior wake events into SW
->>>>>> WAKE_STATUS and then clearing them.
->>>>> I'm now wondering whether the latching cold be turned ON permanently
->>>>> during of the PMC's probe, for simplicity.
->>>> latching should be done on suspend-resume cycle as wake events gets
->>>> generates on every suspend-resume cycle.
->>> You're saying that PMC "doesn't update SW_WAKE_STATUS" after wake-up,
->>> then I don't quite understand what's the point of disabling the latching
->>> at all.
->> When latch wake enable is set, events are latched and during 1 to 0
->> transition latching is disabled.
->>
->> This is to avoid sw_wake_status and wake_status showing diff events.
-> 
-> Okay.
-> 
->> Currently driver is not relying on SW_WAKE_STATUS but its good to latch
->> and clear so even at some point for some reason when SW_WAKE_STATUS is
->> used, this wlil not cause mismatch with wake_status.
-> 
-> Then the latching need to be enabled on suspend and disabled early on
-> resume to get a proper WAKE status.
 
-Actually, it will be better to simply not implement the latching until
-it will become really needed. In general you shouldn't add into the
-patchset anything that is unused.
+
+> -----Original Message-----
+> From: devicetree-owner@vger.kernel.org <devicetree-owner@vger.kernel.org>
+> On Behalf Of Bjorn Helgaas
+> Sent: Wednesday, July 17, 2019 12:30 AM
+> To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Vidya Sagar <vidyas@nvidia.com>; robh+dt@kernel.org;
+> mark.rutland@arm.com; thierry.reding@gmail.com; Jonathan Hunter
+> <jonathanh@nvidia.com>; kishon@ti.com; catalin.marinas@arm.com;
+> will.deacon@arm.com; jingoohan1@gmail.com;
+> gustavo.pimentel@synopsys.com; digetx@gmail.com; Mikko Perttunen
+> <mperttunen@nvidia.com>; linux-pci@vger.kernel.org;
+> devicetree@vger.kernel.org; linux-tegra@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-arm-kernel@lists.infradead.org; Krishna Thota
+> <kthota@nvidia.com>; Manikanta Maddireddy <mmaddireddy@nvidia.com>;
+> sagar.tv@gmail.com
+> Subject: Re: [PATCH V13 12/12] PCI: tegra: Add Tegra194 PCIe support
+> 
+> On Tue, Jul 16, 2019 at 12:22:25PM +0100, Lorenzo Pieralisi wrote:
+> > On Sat, Jul 13, 2019 at 12:34:34PM +0530, Vidya Sagar wrote:
+> 
+> > > > > > So if the link is not up we still go ahead and make probe
+> > > > > > succeed. What for ?
+> > > > > We may need root port to be available to support hot-plugging of
+> > > > > endpoint devices, so, we don't fail the probe.
+> > > >
+> > > > We need it or we don't. If you do support hotplugging of endpoint
+> > > > devices point me at the code, otherwise link up failure means
+> > > > failure to probe.
+> > > Currently hotplugging of endpoint is not supported, but it is one of
+> > > the use cases that we may add support for in future.
+> >
+> > You should elaborate on this, I do not understand what you mean,
+> > either the root port(s) supports hotplug or it does not.
+> >
+> > > But, why should we fail probe if link up doesn't happen? As such,
+> > > nothing went wrong in terms of root port initialization right?  I
+> > > checked other DWC based implementations and following are not
+> > > failing the probe pci-dra7xx.c, pcie-armada8k.c, pcie-artpec6.c,
+> > > pcie-histb.c, pcie-kirin.c, pcie-spear13xx.c, pci-exynos.c,
+> > > pci-imx6.c, pci-keystone.c, pci-layerscape.c
+> > >
+> > > Although following do fail the probe if link is not up.
+> > > pcie-qcom.c, pcie-uniphier.c, pci-meson.c
+> > >
+> > > So, to me, it looks more like a choice we can make whether to fail
+> > > the probe or not and in this case we are choosing not to fail.
+> >
+> > I disagree. I had an offline chat with Bjorn and whether link-up
+> > should fail the probe or not depends on whether the root port(s) is
+> > hotplug capable or not and this in turn relies on the root port "Slot
+> > implemented" bit in the PCI Express capabilities register.
+> 
+> There might be a little more we can talk about in this regard.  I did bring up the
+> "Slot implemented" bit, but after thinking about it more, I don't really think the
+> host bridge driver should be looking at that.
+> That's a PCIe concept, and it's really *downstream* from the host bridge itself.
+> The host bridge is logically a device on the CPU bus, not the PCI bus.
+> 
+> I'm starting to think that the host bridge driver probe should be disconnected
+> from question of whether the root port links are up.
+> 
+> Logically, the host bridge driver connects the CPU bus to a PCI root bus, so it
+> converts CPU-side accesses to PCI config, memory, or I/O port transactions.
+> Given that, the PCI core can enumerate devices on the root bus and downstream
+> buses.
+> 
+> Devices on the root bus typically include Root Ports, but might also include
+> endpoints, Root Complex Integrated Endpoints, Root Complex Event Collectors,
+> etc.  I think in principle, we would want the host bridge probe to succeed so we
+> can use these devices even if none of the Root Ports have a link.
+> 
+> If a Root Port is present, I think users will expect to see it in the "lspci" output,
+> even if its downstream link is not up.  That will enable things like manually
+> poking the Root Port via "setpci" for debug.  And if it has a connector, the
+> generic pciehp should be able to handle hot-add events without any special help
+> from the host bridge driver.
+> 
+> On ACPI systems there is no concept of the host bridge driver probe failing
+> because of lack of link on a Root Port.  If a Root Port doesn't have an
+> operational link, we still keep the pci_root.c driver, and we'll enumerate the
+> Root Port itself.  So I tend to think DT systems should behave the same way, i.e.,
+> the driver probe should succeed unless it fails to allocate resources or something
+> similar.  I think this is analogous to a NIC or USB adapter driver, where the probe
+> succeeds even if there's no network cable or USB device attached.
+> 
+> Bjorn
+Thanks Bjorn for your valuable inputs. I hope we are good here to not power down host
+even if there are no endpoints detected.
+
+- Vidya Sagar
