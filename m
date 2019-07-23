@@ -2,345 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2971471AA6
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 16:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C3D371B6D
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 17:19:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390606AbfGWOpI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jul 2019 10:45:08 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:18470 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388172AbfGWOpI (ORCPT
+        id S1728780AbfGWPTu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jul 2019 11:19:50 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:51539 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728591AbfGWPTu (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jul 2019 10:45:08 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d371d780002>; Tue, 23 Jul 2019 07:45:12 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 23 Jul 2019 07:45:04 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 23 Jul 2019 07:45:04 -0700
-Received: from [10.25.74.243] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 23 Jul
- 2019 14:44:13 +0000
-Subject: Re: [PATCH V13 12/12] PCI: tegra: Add Tegra194 PCIe support
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     <bhelgaas@google.com>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <kishon@ti.com>, <catalin.marinas@arm.com>,
-        <will.deacon@arm.com>, <jingoohan1@gmail.com>,
-        <gustavo.pimentel@synopsys.com>, <digetx@gmail.com>,
-        <mperttunen@nvidia.com>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
-References: <20190710062212.1745-1-vidyas@nvidia.com>
- <20190710062212.1745-13-vidyas@nvidia.com>
- <20190711125433.GB26088@e121166-lin.cambridge.arm.com>
- <986d0b1a-666a-7b05-a9f3-e761518bdc92@nvidia.com>
- <20190712160754.GA24285@e121166-lin.cambridge.arm.com>
- <a5f8689b-1358-dd2d-4f54-7e68a6ab158b@nvidia.com>
- <20190716112225.GA24335@e121166-lin.cambridge.arm.com>
-X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <be6367bc-08a0-762a-aae8-b3f0376d0e9a@nvidia.com>
-Date:   Tue, 23 Jul 2019 20:14:08 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Tue, 23 Jul 2019 11:19:50 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 54655200D5;
+        Tue, 23 Jul 2019 17:19:41 +0200 (CEST)
+Date:   Tue, 23 Jul 2019 17:19:39 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
+        linux-samsung-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, Sean Paul <sean@poorly.run>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, Jyri Sarha <jsarha@ti.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Mamta Shukla <mamtashukla555@gmail.com>,
+        linux-mediatek@lists.infradead.org,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Vincent Abriou <vincent.abriou@st.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        amd-gfx@lists.freedesktop.org,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Huang Rui <ray.huang@amd.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        freedreno@lists.freedesktop.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v4 14/23] drm/tilcdc: Provide ddc symlink in connector
+ sysfs directory
+Message-ID: <20190723151939.GA13718@ravnborg.org>
+References: <cover.1562843413.git.andrzej.p@collabora.com>
+ <d1d415022c598fb7acd033f0f322dd67250adaa9.1562843413.git.andrzej.p@collabora.com>
+ <20190723090532.GA787@ravnborg.org>
+ <3ad60be5-49cf-4017-4b74-53a2d6272deb@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20190716112225.GA24335@e121166-lin.cambridge.arm.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1563893112; bh=0Sj4goFfvfislN/p4BVaMZqfg5bqkhMrSs70BLM+oIQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=fuQh1aiFpnniGL5zRWoD1xC+sMb/n94j8pogRM+bSVEbeay1pX0CcSSGdKLgsj2rE
-         hXuHQJoy42uhw65hK40MgpIrQus2yldHI6xxnXc0UAxd7jAshK7O0iCGN4YPZcWx+q
-         MG32dNYutC/VX50ebVmPyLy4iOB3lXyMe1107NDU0vgSM7vkTEsbXrFjs9sN5SVcVm
-         3x+Vjd2aOp8PlYzDg5pWfGU7J4umgKRZOfnbz9vQ4afP+Km33uLy0jy7U8u2v7dTuo
-         6UZS8k+FBQYcLCfZj5heqDlcqBi+WeKEd0S8ccSpAwVjT+JQGPUQLmHjJU5veHzldv
-         snvttOD0ua+RA==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3ad60be5-49cf-4017-4b74-53a2d6272deb@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=QX4gbG5DAAAA:8
+        a=6mu-9OIm9KcVJ4iDVDwA:9 a=wPNLvfGTeEIA:10 a=AbAUZ8qAyYyZVLSsDulk:22
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 7/16/2019 4:52 PM, Lorenzo Pieralisi wrote:
-> On Sat, Jul 13, 2019 at 12:34:34PM +0530, Vidya Sagar wrote:
-> 
-> [...]
-> 
->>>>>> +static int tegra_pcie_bpmp_set_ctrl_state(struct tegra_pcie_dw *pcie,
->>>>>> +					  bool enable)
->>>>>> +{
->>>>>> +	struct mrq_uphy_response resp;
->>>>>> +	struct tegra_bpmp_message msg;
->>>>>> +	struct mrq_uphy_request req;
->>>>>> +	int err;
->>>>>> +
->>>>>> +	if (pcie->cid == 5)
->>>>>> +		return 0;
->>>>>
->>>>> What's wrong with cid == 5 ? Explain please.
->>>> Controller with ID=5 doesn't need any programming to enable it which is
->>>> done here through calling firmware API.
->>>>
->>>>>
->>>>>> +	memset(&req, 0, sizeof(req));
->>>>>> +	memset(&resp, 0, sizeof(resp));
->>>>>> +
->>>>>> +	req.cmd = CMD_UPHY_PCIE_CONTROLLER_STATE;
->>>>>> +	req.controller_state.pcie_controller = pcie->cid;
->>>>>> +	req.controller_state.enable = enable;
->>>>>> +
->>>>>> +	memset(&msg, 0, sizeof(msg));
->>>>>> +	msg.mrq = MRQ_UPHY;
->>>>>> +	msg.tx.data = &req;
->>>>>> +	msg.tx.size = sizeof(req);
->>>>>> +	msg.rx.data = &resp;
->>>>>> +	msg.rx.size = sizeof(resp);
->>>>>> +
->>>>>> +	if (irqs_disabled())
->>>>>
->>>>> Can you explain to me what this check is meant to achieve please ?
->>>> Firmware interface provides different APIs to be called when there are
->>>> no interrupts enabled in the system (noirq context) and otherwise
->>>> hence checking that situation here and calling appropriate API.
->>>
->>> That's what I am questioning. Being called from {suspend/resume}_noirq()
->>> callbacks (if that's the code path this check caters for) does not mean
->>> irqs_disabled() == true.
->> Agree.
->> Actually, I got a hint of having this check from the following.
->> Both tegra_bpmp_transfer_atomic() and tegra_bpmp_transfer() are indirectly
->> called by APIs registered with .master_xfer() and .master_xfer_atomic() hooks of
->> struct i2c_algorithm and the decision to call which one of these is made using the
->> following check in i2c-core.h file.
->> static inline bool i2c_in_atomic_xfer_mode(void)
->> {
->> 	return system_state > SYSTEM_RUNNING && irqs_disabled();
->> }
->> I think I should use this condition as is IIUC.
->> Please let me know if there are any concerns with this.
-> 
-> It is not a concern, it is just that I don't understand how this code
-> can be called with IRQs disabled, if you can give me an execution path I
-> am happy to leave the check there. On top of that, when called from
-> suspend NOIRQ context, it is likely to use the blocking API (because
-> IRQs aren't disabled at CPU level) behind which there is most certainly
-> an IRQ required to wake the thread up and if the IRQ in question was
-> disabled in the suspend NOIRQ phase this code is likely to deadlock.
-> 
-> I want to make sure we can justify adding this check, I do not
-> want to add it because we think it can be needed when it may not
-> be needed at all (and it gets copy and pasted over and over again
-> in other drivers).
-I had a discussion internally about this and the prescribed usage of these APIs
-seem to be that
-use tegra_bpmp_transfer() in .probe() and other paths where interrupts are
-enabled as this API needs interrupts to be enabled for its working.
-Use tegra_bpmp_transfer_atomic() surrounded by local_irq_save()/local_irq_restore()
-in other paths where interrupt servicing is disabled.
-I'll go ahead and make next patch series with this if this looks fine to you.
+Hi Andrej.
 
+On Tue, Jul 23, 2019 at 02:44:50PM +0200, Andrzej Pietrasiewicz wrote:
+> Hi Sam,
 > 
->>> Actually, if tegra_bpmp_transfer() requires IRQs to be enabled you may
->>> even end up in a situation where that blocking call does not wake up
->>> because the IRQ in question was disabled in the NOIRQ suspend/resume
->>> phase.
->>>
->>> [...]
->>>
->>>>>> +static int tegra_pcie_dw_probe(struct platform_device *pdev)
->>>>>> +{
->>>>>> +	const struct tegra_pcie_soc *data;
->>>>>> +	struct device *dev = &pdev->dev;
->>>>>> +	struct resource *atu_dma_res;
->>>>>> +	struct tegra_pcie_dw *pcie;
->>>>>> +	struct resource *dbi_res;
->>>>>> +	struct pcie_port *pp;
->>>>>> +	struct dw_pcie *pci;
->>>>>> +	struct phy **phys;
->>>>>> +	char *name;
->>>>>> +	int ret;
->>>>>> +	u32 i;
->>>>>> +
->>>>>> +	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
->>>>>> +	if (!pcie)
->>>>>> +		return -ENOMEM;
->>>>>> +
->>>>>> +	pci = &pcie->pci;
->>>>>> +	pci->dev = &pdev->dev;
->>>>>> +	pci->ops = &tegra_dw_pcie_ops;
->>>>>> +	pp = &pci->pp;
->>>>>> +	pcie->dev = &pdev->dev;
->>>>>> +
->>>>>> +	data = (struct tegra_pcie_soc *)of_device_get_match_data(dev);
->>>>>> +	if (!data)
->>>>>> +		return -EINVAL;
->>>>>> +	pcie->mode = (enum dw_pcie_device_mode)data->mode;
->>>>>> +
->>>>>> +	ret = tegra_pcie_dw_parse_dt(pcie);
->>>>>> +	if (ret < 0) {
->>>>>> +		dev_err(dev, "Failed to parse device tree: %d\n", ret);
->>>>>> +		return ret;
->>>>>> +	}
->>>>>> +
->>>>>> +	pcie->pex_ctl_supply = devm_regulator_get(dev, "vddio-pex-ctl");
->>>>>> +	if (IS_ERR(pcie->pex_ctl_supply)) {
->>>>>> +		dev_err(dev, "Failed to get regulator: %ld\n",
->>>>>> +			PTR_ERR(pcie->pex_ctl_supply));
->>>>>> +		return PTR_ERR(pcie->pex_ctl_supply);
->>>>>> +	}
->>>>>> +
->>>>>> +	pcie->core_clk = devm_clk_get(dev, "core");
->>>>>> +	if (IS_ERR(pcie->core_clk)) {
->>>>>> +		dev_err(dev, "Failed to get core clock: %ld\n",
->>>>>> +			PTR_ERR(pcie->core_clk));
->>>>>> +		return PTR_ERR(pcie->core_clk);
->>>>>> +	}
->>>>>> +
->>>>>> +	pcie->appl_res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->>>>>> +						      "appl");
->>>>>> +	if (!pcie->appl_res) {
->>>>>> +		dev_err(dev, "Failed to find \"appl\" region\n");
->>>>>> +		return PTR_ERR(pcie->appl_res);
->>>>>> +	}
->>>>>> +	pcie->appl_base = devm_ioremap_resource(dev, pcie->appl_res);
->>>>>> +	if (IS_ERR(pcie->appl_base))
->>>>>> +		return PTR_ERR(pcie->appl_base);
->>>>>> +
->>>>>> +	pcie->core_apb_rst = devm_reset_control_get(dev, "apb");
->>>>>> +	if (IS_ERR(pcie->core_apb_rst)) {
->>>>>> +		dev_err(dev, "Failed to get APB reset: %ld\n",
->>>>>> +			PTR_ERR(pcie->core_apb_rst));
->>>>>> +		return PTR_ERR(pcie->core_apb_rst);
->>>>>> +	}
->>>>>> +
->>>>>> +	phys = devm_kcalloc(dev, pcie->phy_count, sizeof(*phys), GFP_KERNEL);
->>>>>> +	if (!phys)
->>>>>> +		return PTR_ERR(phys);
->>>>>> +
->>>>>> +	for (i = 0; i < pcie->phy_count; i++) {
->>>>>> +		name = kasprintf(GFP_KERNEL, "p2u-%u", i);
->>>>>> +		if (!name) {
->>>>>> +			dev_err(dev, "Failed to create P2U string\n");
->>>>>> +			return -ENOMEM;
->>>>>> +		}
->>>>>> +		phys[i] = devm_phy_get(dev, name);
->>>>>> +		kfree(name);
->>>>>> +		if (IS_ERR(phys[i])) {
->>>>>> +			ret = PTR_ERR(phys[i]);
->>>>>> +			dev_err(dev, "Failed to get PHY: %d\n", ret);
->>>>>> +			return ret;
->>>>>> +		}
->>>>>> +	}
->>>>>> +
->>>>>> +	pcie->phys = phys;
->>>>>> +
->>>>>> +	dbi_res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dbi");
->>>>>> +	if (!dbi_res) {
->>>>>> +		dev_err(dev, "Failed to find \"dbi\" region\n");
->>>>>> +		return PTR_ERR(dbi_res);
->>>>>> +	}
->>>>>> +	pcie->dbi_res = dbi_res;
->>>>>> +
->>>>>> +	pci->dbi_base = devm_ioremap_resource(dev, dbi_res);
->>>>>> +	if (IS_ERR(pci->dbi_base))
->>>>>> +		return PTR_ERR(pci->dbi_base);
->>>>>> +
->>>>>> +	/* Tegra HW locates DBI2 at a fixed offset from DBI */
->>>>>> +	pci->dbi_base2 = pci->dbi_base + 0x1000;
->>>>>> +
->>>>>> +	atu_dma_res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->>>>>> +						   "atu_dma");
->>>>>> +	if (!atu_dma_res) {
->>>>>> +		dev_err(dev, "Failed to find \"atu_dma\" region\n");
->>>>>> +		return PTR_ERR(atu_dma_res);
->>>>>> +	}
->>>>>> +	pcie->atu_dma_res = atu_dma_res;
->>>>>> +	pci->atu_base = devm_ioremap_resource(dev, atu_dma_res);
->>>>>> +	if (IS_ERR(pci->atu_base))
->>>>>> +		return PTR_ERR(pci->atu_base);
->>>>>> +
->>>>>> +	pcie->core_rst = devm_reset_control_get(dev, "core");
->>>>>> +	if (IS_ERR(pcie->core_rst)) {
->>>>>> +		dev_err(dev, "Failed to get core reset: %ld\n",
->>>>>> +			PTR_ERR(pcie->core_rst));
->>>>>> +		return PTR_ERR(pcie->core_rst);
->>>>>> +	}
->>>>>> +
->>>>>> +	pp->irq = platform_get_irq_byname(pdev, "intr");
->>>>>> +	if (!pp->irq) {
->>>>>> +		dev_err(dev, "Failed to get \"intr\" interrupt\n");
->>>>>> +		return -ENODEV;
->>>>>> +	}
->>>>>> +
->>>>>> +	ret = devm_request_irq(dev, pp->irq, tegra_pcie_irq_handler,
->>>>>> +			       IRQF_SHARED, "tegra-pcie-intr", pcie);
->>>>>> +	if (ret) {
->>>>>> +		dev_err(dev, "Failed to request IRQ %d: %d\n", pp->irq, ret);
->>>>>> +		return ret;
->>>>>> +	}
->>>>>> +
->>>>>> +	pcie->bpmp = tegra_bpmp_get(dev);
->>>>>> +	if (IS_ERR(pcie->bpmp))
->>>>>> +		return PTR_ERR(pcie->bpmp);
->>>>>> +
->>>>>> +	platform_set_drvdata(pdev, pcie);
->>>>>> +
->>>>>> +	if (pcie->mode == DW_PCIE_RC_TYPE) {
->>>>>> +		ret = tegra_pcie_config_rp(pcie);
->>>>>> +		if (ret && ret != -ENOMEDIUM)
->>>>>> +			goto fail;
->>>>>> +		else
->>>>>> +			return 0;
->>>>>
->>>>> So if the link is not up we still go ahead and make probe
->>>>> succeed. What for ?
->>>> We may need root port to be available to support hot-plugging of
->>>> endpoint devices, so, we don't fail the probe.
->>>
->>> We need it or we don't. If you do support hotplugging of endpoint
->>> devices point me at the code, otherwise link up failure means
->>> failure to probe.
->> Currently hotplugging of endpoint is not supported, but it is one of
->> the use cases that we may add support for in future.
+> W dniu 23.07.2019 o 11:05, Sam Ravnborg pisze:
+> > Hi Andrzej
+> > 
+> > On Thu, Jul 11, 2019 at 01:26:41PM +0200, Andrzej Pietrasiewicz wrote:
+> > > Use the ddc pointer provided by the generic connector.
+> > > 
+> > > Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> > > ---
+> > >   drivers/gpu/drm/tilcdc/tilcdc_tfp410.c | 1 +
+> > >   1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c b/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
+> > > index 62d014c20988..c373edb95666 100644
+> > > --- a/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
+> > > +++ b/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
+> > > @@ -219,6 +219,7 @@ static struct drm_connector *tfp410_connector_create(struct drm_device *dev,
+> > >   	tfp410_connector->mod = mod;
+> > >   	connector = &tfp410_connector->base;
+> > > +	connector->ddc = mod->i2c;
+> > >   	drm_connector_init(dev, connector, &tfp410_connector_funcs,
+> > >   			DRM_MODE_CONNECTOR_DVID);
+> > 
+> > When reading this code, it looks strange that we set connector->ddc
+> > *before* the call to init the connector.
+> > One could risk that drm_connector_init() used memset(..) to clear all
+> > fields or so, and it would break this order.
 > 
-> You should elaborate on this, I do not understand what you mean,
-> either the root port(s) supports hotplug or it does not.
-> 
->> But, why should we fail probe if link up doesn't happen? As such,
->> nothing went wrong in terms of root port initialization right?  I
->> checked other DWC based implementations and following are not failing
->> the probe pci-dra7xx.c, pcie-armada8k.c, pcie-artpec6.c, pcie-histb.c,
->> pcie-kirin.c, pcie-spear13xx.c, pci-exynos.c, pci-imx6.c,
->> pci-keystone.c, pci-layerscape.c
->>
->> Although following do fail the probe if link is not up.  pcie-qcom.c,
->> pcie-uniphier.c, pci-meson.c
->>
->> So, to me, it looks more like a choice we can make whether to fail the
->> probe or not and in this case we are choosing not to fail.
-> 
-> I disagree. I had an offline chat with Bjorn and whether link-up should
-> fail the probe or not depends on whether the root port(s) is hotplug
-> capable or not and this in turn relies on the root port "Slot
-> implemented" bit in the PCI Express capabilities register.
-> 
-> It is a choice but it should be based on evidence.
-> 
-> Lorenzo
-With Bjorn's latest comment on top of this, I think we are good not to fail
-the probe here.
+> I verified the code of drm_connector_init() and cannot find any memset()
+> invocations there. What is your actual concern?
+My concern is that drm_connector_init() maybe sometime in the future
+will init all fileds in drm_connector, so we loose any assingments
+done to drm_connector from *before* we called the init function.
 
-- Vidya Sagar
-> 
+Moving the assignment to after drm_connector_init() would not
+let us depend on the actual implmentation of drm_connector_init().
 
+	Sam
