@@ -2,28 +2,31 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 798537190C
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 15:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18E6871955
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 15:35:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731136AbfGWNUA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jul 2019 09:20:00 -0400
-Received: from foss.arm.com ([217.140.110.172]:54704 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729749AbfGWNUA (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jul 2019 09:20:00 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDAAF28;
-        Tue, 23 Jul 2019 06:19:58 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EA0C83F71F;
-        Tue, 23 Jul 2019 06:19:56 -0700 (PDT)
+        id S1732708AbfGWNfL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jul 2019 09:35:11 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:18687 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725827AbfGWNfL (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 23 Jul 2019 09:35:11 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d370d0a0001>; Tue, 23 Jul 2019 06:35:06 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 23 Jul 2019 06:35:09 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 23 Jul 2019 06:35:09 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 23 Jul
+ 2019 13:34:23 +0000
 Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
  Pool
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Lars Persson <lists@bofh.nu>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Cc:     Joao Pinto <Joao.Pinto@synopsys.com>,
+To:     Jose Abreu <Jose.Abreu@synopsys.com>, Lars Persson <lists@bofh.nu>,
+        "Ilias Apalodimas" <ilias.apalodimas@linaro.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
         Alexandre Torgue <alexandre.torgue@st.com>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
@@ -38,7 +41,6 @@ Cc:     Joao Pinto <Joao.Pinto@synopsys.com>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>
 References: <cover.1562149883.git.joabreu@synopsys.com>
- <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
  <29dcc161-f7c8-026e-c3cc-5adb04df128c@nvidia.com>
  <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
  <20190722101830.GA24948@apalos>
@@ -49,85 +51,93 @@ References: <cover.1562149883.git.joabreu@synopsys.com>
  <BYAPR12MB3269A725AFDDA21E92946558D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
  <ab14f31f-2045-b1be-d31f-2a81b8527dac@nvidia.com>
  <BYAPR12MB32692AF2BA127C5DA5B74804D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
- <6c769226-bdd9-6fe0-b96b-5a0d800fed24@arm.com>
- <8756d681-e167-fe4a-c6f0-47ae2dcbb100@nvidia.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <3255edfa-4465-204b-4751-8d40c8fb1382@arm.com>
-Date:   Tue, 23 Jul 2019 14:19:55 +0100
+ <2ad7bf21-1f1f-db0f-2358-4901b7988b7d@nvidia.com>
+ <BYAPR12MB3269D050556BD51030DCDDFCD3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <8093e352-d992-e17f-7168-5afbd9d3fb3f@nvidia.com>
+ <BYAPR12MB3269EC45ABAF8F279288B003D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <f3525260-c43f-c983-0b5b-34a83bd53283@nvidia.com>
+Date:   Tue, 23 Jul 2019 14:34:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <8756d681-e167-fe4a-c6f0-47ae2dcbb100@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <BYAPR12MB3269EC45ABAF8F279288B003D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1563888906; bh=7VGjRoH75ovO9tIALq3z4+jcrGznO3YZAKnO1R6So9M=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=AMuTTrK149cSqktaiZ4bEIPKimlBVpQ4fVOi13I6VxYM4K0Cutj0Sk5zDx47aQUjO
+         uXn6mFEB7yRrK2dNZcrNtX/dqmF6A1fDsKy+3HQ9uAo8lylyysvAvYDhpF1MttzJBF
+         ABZkEknLIseNf+x/OhKgrHXPEIGJ6Zzpfm5pBXtbA0VHWIL2WXBme8bepGHzwY3jy4
+         /qYdriH76TTHPiRM4jygGqUWSTXI7V83RwaehzDNPo3gfL5u8aiSlV6o8/0xCf8NBj
+         dmZ3lZ4D/+zrCPFUSEhWeBXT03vU1IveZ7nBZQEbEKZrz69pcvHYNXXrcqh8yAw/cX
+         R1R2GdOrCnEHg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 23/07/2019 13:09, Jon Hunter wrote:
+
+On 23/07/2019 13:51, Jose Abreu wrote:
+> From: Jon Hunter <jonathanh@nvidia.com>
+> Date: Jul/23/2019, 12:58:55 (UTC+00:00)
 > 
-> On 23/07/2019 11:29, Robin Murphy wrote:
->> On 23/07/2019 11:07, Jose Abreu wrote:
->>> From: Jon Hunter <jonathanh@nvidia.com>
->>> Date: Jul/23/2019, 11:01:24 (UTC+00:00)
->>>
->>>> This appears to be a winner and by disabling the SMMU for the ethernet
->>>> controller and reverting commit 954a03be033c7cef80ddc232e7cbdb17df735663
->>>> this worked! So yes appears to be related to the SMMU being enabled. We
->>>> had to enable the SMMU for ethernet recently due to commit
->>>> 954a03be033c7cef80ddc232e7cbdb17df735663.
->>>
->>> Finally :)
->>>
->>> However, from "git show 954a03be033c7cef80ddc232e7cbdb17df735663":
->>>
->>> +         There are few reasons to allow unmatched stream bypass, and
->>> +         even fewer good ones.  If saying YES here breaks your board
->>> +         you should work on fixing your board.
->>>
->>> So, how can we fix this ? Is your ethernet DT node marked as
->>> "dma-coherent;" ?
 >>
->> The first thing to try would be booting the failing setup with
->> "iommu.passthrough=1" (or using CONFIG_IOMMU_DEFAULT_PASSTHROUGH) - if
->> that makes things seem OK, then the problem is likely related to address
->> translation; if not, then it's probably time to start looking at nasties
->> like coherency and ordering, although in principle I wouldn't expect the
->> SMMU to have too much impact there.
+>> On 23/07/2019 11:49, Jose Abreu wrote:
+>>> From: Jon Hunter <jonathanh@nvidia.com>
+>>> Date: Jul/23/2019, 11:38:33 (UTC+00:00)
+>>>
+>>>>
+>>>> On 23/07/2019 11:07, Jose Abreu wrote:
+>>>>> From: Jon Hunter <jonathanh@nvidia.com>
+>>>>> Date: Jul/23/2019, 11:01:24 (UTC+00:00)
+>>>>>
+>>>>>> This appears to be a winner and by disabling the SMMU for the ethernet
+>>>>>> controller and reverting commit 954a03be033c7cef80ddc232e7cbdb17df735663
+>>>>>> this worked! So yes appears to be related to the SMMU being enabled. We
+>>>>>> had to enable the SMMU for ethernet recently due to commit
+>>>>>> 954a03be033c7cef80ddc232e7cbdb17df735663.
+>>>>>
+>>>>> Finally :)
+>>>>>
+>>>>> However, from "git show 954a03be033c7cef80ddc232e7cbdb17df735663":
+>>>>>
+>>>>> +         There are few reasons to allow unmatched stream bypass, and
+>>>>> +         even fewer good ones.  If saying YES here breaks your board
+>>>>> +         you should work on fixing your board.
+>>>>>
+>>>>> So, how can we fix this ? Is your ethernet DT node marked as 
+>>>>> "dma-coherent;" ?
+>>>>
+>>>> TBH I have no idea. I can't say I fully understand your change or how it
+>>>> is breaking things for us.
+>>>>
+>>>> Currently, the Tegra DT binding does not have 'dma-coherent' set. I see
+>>>> this is optional, but I am not sure how you determine whether or not
+>>>> this should be set.
+>>>
+>>> From my understanding it means that your device / IP DMA accesses are coherent regarding the CPU point of view. I think it will be the case if GMAC is not behind any kind of IOMMU in the HW arch.
+>>
+>> I understand what coherency is, I just don't know how you tell if this
+>> implementation of the ethernet controller is coherent or not.
 > 
-> Setting "iommu.passthrough=1" works for me. However, I am not sure where
-> to go from here, so any ideas you have would be great.
+> Do you have any detailed diagram of your HW ? Such as blocks / IPs 
+> connection, address space wiring , ...
 
-OK, so that really implies it's something to do with the addresses. From 
-a quick skim of the patch, I'm wondering if it's possible for buf->addr 
-and buf->page->dma_addr to get out-of-sync at any point. The nature of 
-the IOVA allocator makes it quite likely that a stale DMA address will 
-have been reused for a new mapping, so putting the wrong address in a 
-descriptor may well mean the DMA still ends up hitting a valid 
-translation, but which is now pointing to a different page.
+Yes, this can be found in the Tegra X2 Technical Reference Manual [0].
+Unfortunately, you need to create an account to download it.
 
->> Do you know if the SMMU interrupts are working correctly? If not, it's
->> possible that an incorrect address or mapping direction could lead to
->> the DMA transaction just being silently terminated without any fault
->> indication, which generally presents as inexplicable weirdness (I've
->> certainly seen that on another platform with the mix of an unsupported
->> interrupt controller and an 'imperfect' ethernet driver).
-> 
-> If I simply remove the iommu node for the ethernet controller, then I
-> see lots of ...
-> 
-> [    6.296121] arm-smmu 12000000.iommu: Unexpected global fault, this could be serious
-> [    6.296125] arm-smmu 12000000.iommu:         GFSR 0x00000002, GFSYNR0 0x00000000, GFSYNR1 0x00000014, GFSYNR2 0x00000000
-> 
-> So I assume that this is triggering the SMMU interrupt correctly.
+Jon
 
-According to tegra186.dtsi it appears you're using the MMU-500 combined 
-interrupt, so if global faults are being delivered then context faults 
-*should* also, but I'd be inclined to try a quick hack of the relevant 
-stmmac_desc_ops::set_addr callback to write some bogus unmapped address 
-just to make sure arm_smmu_context_fault() then screams as expected, and 
-we're not missing anything else.
+[0] https://developer.nvidia.com/embedded/dlc/parker-series-trm
 
-Robin.
+-- 
+nvpublic
