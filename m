@@ -2,248 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7660B7102F
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 05:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5BBC7119E
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 08:11:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731003AbfGWDnP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 22 Jul 2019 23:43:15 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:43397 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727251AbfGWDnP (ORCPT
+        id S1729107AbfGWGLb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jul 2019 02:11:31 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:12296 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726961AbfGWGLb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 22 Jul 2019 23:43:15 -0400
-Received: by mail-lj1-f195.google.com with SMTP id y17so15034788ljk.10;
-        Mon, 22 Jul 2019 20:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=V//tCajy1nYjfoBG1maUhg9pKFrL7iNQvVjasnCSY2g=;
-        b=av/iwaNlvbLd48jRkgNOXxZZlZSO1di4EaIi8glutJpIJFBCQY4ZugSwEfagtqdGy6
-         w2r/Wn2Ms7EMnklPSxaxks7hI1b9GRnkzJ4/PglY6MyTdYX0qwcagG0HrogjECi9iTk/
-         BjFEvpVihYysrv5FtIpk+V6uOZkiAFcagoMiPjrRaHvrcj/LthZjJHVhW8bmeaM89iyJ
-         OiRDZNBVxjZc7SyCT/aDkWaMq4KlZyaNq6e3dBqQ/vVYHh6KGMIAO8YWc1PlZOEVi1Hy
-         uyr26a9qJjNqgPoXvu2RuP108GcZuyyQxHsqr4HiYjWGPlk4x7guPxqEHz0wpFuwHTnD
-         wLGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=V//tCajy1nYjfoBG1maUhg9pKFrL7iNQvVjasnCSY2g=;
-        b=TBIG8Ik4YwpMWoOBHhQRmXfUpF8MEgDMBy+hOUXKmcTlWpR70v1RQFqJVyjBsFgiBT
-         zqAgPzzf54dGvnpSjis4FJ5qWSfbvogH/4Td4l5GG/xRZDJhzfSVbdUgABJXxJ9I5OLV
-         7L0dzHjYRZ7wjzKh4/kAivBdI1jVa9pNpsKBe+C7xeRYUpFLHCE6gEKu2SiByEdTpNQH
-         oUjkFwqhhHo3NoFo70bhZimFSgxp71Z7TPaiu+TWh7DalffDqpe+Pz3mv7LRJiQUzf1O
-         tZgYeD2fq/S9HgJGYwZG9ozJ4LIEF1GAMXtra/TNVy3ZBmb1J5t0usUArai9C6O3Mp0q
-         onQg==
-X-Gm-Message-State: APjAAAUCmBiofuZsk/d+nApBY0xWvf+JyZlYb+ZutJbG2VFl2oyK8lER
-        u8MxQ9H5IYWt1xkcSTA3NYgUab/t
-X-Google-Smtp-Source: APXvYqxqYXhOIE6r64GsWx91mbCJKLkO5FoPgoFUQIc6HnskjIQ8NhkvuX/39vQhatgDbnxNmSffqQ==
-X-Received: by 2002:a2e:1290:: with SMTP id 16mr36782173ljs.88.1563853390941;
-        Mon, 22 Jul 2019 20:43:10 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.googlemail.com with ESMTPSA id w1sm6318603lfe.50.2019.07.22.20.43.09
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Jul 2019 20:43:10 -0700 (PDT)
-Subject: Re: [PATCH V6 16/21] soc/tegra: pmc: Add pmc wake support for
- tegra210
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
-        jason@lakedaemon.net, marc.zyngier@arm.com,
-        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-References: <1563738060-30213-1-git-send-email-skomatineni@nvidia.com>
- <1563738060-30213-17-git-send-email-skomatineni@nvidia.com>
- <0b3d08ea-4633-8a54-ba66-c3f3146a1ece@gmail.com>
- <ca32c2d8-d752-3ecd-3a3f-232366730c7b@gmail.com>
- <b575ca93-9f34-b07a-1234-ef1ea2a6ddee@gmail.com>
- <71a88a9c-a542-557a-0eaa-3c90112dee0e@nvidia.com>
- <70ad28cb-c268-cbbe-36f5-39df26617d8e@gmail.com>
- <629826f9-c453-386a-9e88-bd64d23b8eab@nvidia.com>
- <71c8cab1-bf72-c073-be30-4263c6b7c871@gmail.com>
- <97096b6c-f2f5-b82a-b172-802f4a06d1af@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a58de350-f6ce-9308-1ae0-885e732b575d@gmail.com>
-Date:   Tue, 23 Jul 2019 06:43:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Tue, 23 Jul 2019 02:11:31 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d36a5110001>; Mon, 22 Jul 2019 23:11:29 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 22 Jul 2019 23:11:28 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 22 Jul 2019 23:11:28 -0700
+Received: from [10.25.75.182] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 23 Jul
+ 2019 06:11:26 +0000
+Subject: Re: [PATCH v2] dmaengine: tegra210-adma: fix transfer failure
+To:     <vkoul@kernel.org>, <jonathanh@nvidia.com>, <ldewangan@nvidia.com>
+CC:     <thierry.reding@gmail.com>, <dmaengine@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+References: <1562929830-29344-1-git-send-email-spujar@nvidia.com>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <da482fff-a2dd-9bcd-5b77-d8a4bad4db1a@nvidia.com>
+Date:   Tue, 23 Jul 2019 11:41:23 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <97096b6c-f2f5-b82a-b172-802f4a06d1af@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1562929830-29344-1-git-send-email-spujar@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1563862289; bh=p67+je5WaiJR8ZrTJLiSSUn6hkZB6LRtboDmV0oKkZM=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=KatHQzdgXDIVyX5KiYHo5zO9xzAXIbzPFXQUmvOznaOPyslH1/ftspupX7iFQEzGi
+         l08yY+5ekhMzIGuM2PzOFkgc5/OQGo7Eo2Iqf0Z9hYfgAwSPcd0tybYg6cA8uZiTkp
+         a/OyHXmQbwY61zBgYv32gYfghXyvdkJjM30cn8iGbP+xiq7fgb/ByZ89kk9wLpncPk
+         vbz8Mpx2A228PDt9PAlBd7POYutoowl5T1JjGQzCYswKfoS0DVnVe/a7KxrItC1Sfg
+         yGl0hnPurahrmTIy+BqgRwM/ISsnwbtIT4lrGOlZZwQ0+JyKTiDirnNI2L9Ex0e30K
+         vqzcvKhX9tzYQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.07.2019 6:31, Sowjanya Komatineni пишет:
-> 
-> On 7/22/19 8:25 PM, Dmitry Osipenko wrote:
->> 23.07.2019 6:09, Sowjanya Komatineni пишет:
->>> On 7/22/19 8:03 PM, Dmitry Osipenko wrote:
->>>> 23.07.2019 4:52, Sowjanya Komatineni пишет:
->>>>> On 7/22/19 6:41 PM, Dmitry Osipenko wrote:
->>>>>> 23.07.2019 4:08, Dmitry Osipenko пишет:
->>>>>>> 23.07.2019 3:58, Dmitry Osipenko пишет:
->>>>>>>> 21.07.2019 22:40, Sowjanya Komatineni пишет:
->>>>>>>>> This patch implements PMC wakeup sequence for Tegra210 and defines
->>>>>>>>> common used RTC alarm wake event.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>>>>>>> ---
->>>>>>>>>    drivers/soc/tegra/pmc.c | 111
->>>>>>>>> ++++++++++++++++++++++++++++++++++++++++++++++++
->>>>>>>>>    1 file changed, 111 insertions(+)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
->>>>>>>>> index 91c84d0e66ae..c556f38874e1 100644
->>>>>>>>> --- a/drivers/soc/tegra/pmc.c
->>>>>>>>> +++ b/drivers/soc/tegra/pmc.c
->>>>>>>>> @@ -57,6 +57,12 @@
->>>>>>>>>    #define  PMC_CNTRL_SYSCLK_OE        BIT(11) /* system clock
->>>>>>>>> enable */
->>>>>>>>>    #define  PMC_CNTRL_SYSCLK_POLARITY    BIT(10) /* sys clk
->>>>>>>>> polarity */
->>>>>>>>>    #define  PMC_CNTRL_MAIN_RST        BIT(4)
->>>>>>>>> +#define  PMC_CNTRL_LATCH_WAKEUPS    BIT(5)
->>>>>>> Please follow the TRM's bits naming.
->>>>>>>
->>>>>>> PMC_CNTRL_LATCHWAKE_EN
->>>>>>>
->>>>>>>>> +#define PMC_WAKE_MASK            0x0c
->>>>>>>>> +#define PMC_WAKE_LEVEL            0x10
->>>>>>>>> +#define PMC_WAKE_STATUS            0x14
->>>>>>>>> +#define PMC_SW_WAKE_STATUS        0x18
->>>>>>>>>      #define DPD_SAMPLE            0x020
->>>>>>>>>    #define  DPD_SAMPLE_ENABLE        BIT(0)
->>>>>>>>> @@ -87,6 +93,11 @@
->>>>>>>>>      #define PMC_SCRATCH41            0x140
->>>>>>>>>    +#define PMC_WAKE2_MASK            0x160
->>>>>>>>> +#define PMC_WAKE2_LEVEL            0x164
->>>>>>>>> +#define PMC_WAKE2_STATUS        0x168
->>>>>>>>> +#define PMC_SW_WAKE2_STATUS        0x16c
->>>>>>>>> +
->>>>>>>>>    #define PMC_SENSOR_CTRL            0x1b0
->>>>>>>>>    #define  PMC_SENSOR_CTRL_SCRATCH_WRITE    BIT(2)
->>>>>>>>>    #define  PMC_SENSOR_CTRL_ENABLE_RST    BIT(1)
->>>>>>>>> @@ -1922,6 +1933,55 @@ static const struct irq_domain_ops
->>>>>>>>> tegra_pmc_irq_domain_ops = {
->>>>>>>>>        .alloc = tegra_pmc_irq_alloc,
->>>>>>>>>    };
->>>>>>>>>    +static int tegra210_pmc_irq_set_wake(struct irq_data *data,
->>>>>>>>> unsigned int on)
->>>>>>>>> +{
->>>>>>>>> +    struct tegra_pmc *pmc = irq_data_get_irq_chip_data(data);
->>>>>>>>> +    unsigned int offset, bit;
->>>>>>>>> +    u32 value;
->>>>>>>>> +
->>>>>>>>> +    if (data->hwirq == ULONG_MAX)
->>>>>>>>> +        return 0;
->>>>>>>>> +
->>>>>>>>> +    offset = data->hwirq / 32;
->>>>>>>>> +    bit = data->hwirq % 32;
->>>>>>>>> +
->>>>>>>>> +    /*
->>>>>>>>> +     * Latch wakeups to SW_WAKE_STATUS register to capture events
->>>>>>>>> +     * that would not make it into wakeup event register during
->>>>>>>>> LP0 exit.
->>>>>>>>> +     */
->>>>>>>>> +    value = tegra_pmc_readl(pmc, PMC_CNTRL);
->>>>>>>>> +    value |= PMC_CNTRL_LATCH_WAKEUPS;
->>>>>>>>> +    tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>>>>>>> +    udelay(120);
->>>>>>>> Why it takes so much time to latch the values? Shouldn't some
->>>>>>>> status-bit
->>>>>>>> be polled for the completion of latching?
->>>>>>>>
->>>>>>>> Is this register-write really getting buffered in the PMC?
->>>>>>>>
->>>>>>>>> +    value &= ~PMC_CNTRL_LATCH_WAKEUPS;
->>>>>>>>> +    tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>>>>>>> +    udelay(120);
->>>>>>>> 120 usecs to remove latching, really?
->>>>>>>>
->>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_SW_WAKE_STATUS);
->>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_SW_WAKE2_STATUS);
->>>>>>>>> +
->>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_WAKE_STATUS);
->>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_WAKE2_STATUS);
->>>>>>>>> +
->>>>>>>>> +    /* enable PMC wake */
->>>>>>>>> +    if (data->hwirq >= 32)
->>>>>>>>> +        offset = PMC_WAKE2_MASK;
->>>>>>>>> +    else
->>>>>>>>> +        offset = PMC_WAKE_MASK;
->>>>>>>>> +
->>>>>>>>> +    value = tegra_pmc_readl(pmc, offset);
->>>>>>>>> +
->>>>>>>>> +    if (on)
->>>>>>>>> +        value |= 1 << bit;
->>>>>>>>> +    else
->>>>>>>>> +        value &= ~(1 << bit);
->>>>>>>>> +
->>>>>>>>> +    tegra_pmc_writel(pmc, value, offset);
->>>>>>>> Why the latching is done *before* writing into the WAKE registers?
->>>>>>>> What
->>>>>>>> it is latching then?
->>>>>>> I'm looking at the TRM doc and it says that latching should be done
->>>>>>> *after* writing to the WAKE_MASK / LEVEL registers.
->>>>>>>
->>>>>>> Secondly it says that it's enough to do:
->>>>>>>
->>>>>>> value = tegra_pmc_readl(pmc, PMC_CNTRL);
->>>>>>> value |= PMC_CNTRL_LATCH_WAKEUPS;
->>>>>>> tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>>>>>
->>>>>>> in order to latch. There is no need for the delay and to remove the
->>>>>>> "LATCHWAKE_EN" bit, it should be a oneshot action.
->>>>>> Although, no. TRM says "stops latching on transition from 1
->>>>>> to 0 (sequence - set to 1,set to 0)", so it's not a oneshot action.
->>>>>>
->>>>>> Have you tested this code at all? I'm wondering how it happens to
->>>>>> work
->>>>>> without a proper latching.
->>>>> Yes, ofcourse its tested and this sequence to do transition is
->>>>> recommendation from Tegra designer.
->>>>> Will check if TRM doesn't have update properly or will re-confirm
->>>>> internally on delay time...
->>>>>
->>>>> On any of the wake event PMC wakeup happens and WAKE_STATUS register
->>>>> will have bits set for all events that triggered wake.
->>>>> After wakeup PMC doesn't update SW_WAKE_STATUS register as per PMC
->>>>> design.
->>>>> SW latch register added in design helps to provide a way to capture
->>>>> those events that happen right during wakeup time and didnt make it to
->>>>> SW_WAKE_STATUS register.
->>>>> So before next suspend entry, latching all prior wake events into SW
->>>>> WAKE_STATUS and then clearing them.
->>>> I'm now wondering whether the latching cold be turned ON permanently
->>>> during of the PMC's probe, for simplicity.
->>> latching should be done on suspend-resume cycle as wake events gets
->>> generates on every suspend-resume cycle.
->> You're saying that PMC "doesn't update SW_WAKE_STATUS" after wake-up,
->> then I don't quite understand what's the point of disabling the latching
->> at all.
-> When latch wake enable is set, events are latched and during 1 to 0
-> transition latching is disabled.
-> 
-> This is to avoid sw_wake_status and wake_status showing diff events.
+Hi Reviewers,
 
-Okay.
+Please review.
 
-> Currently driver is not relying on SW_WAKE_STATUS but its good to latch
-> and clear so even at some point for some reason when SW_WAKE_STATUS is
-> used, this wlil not cause mismatch with wake_status.
+Thanks,
+Sameer.
 
-Then the latching need to be enabled on suspend and disabled early on
-resume to get a proper WAKE status.
-
-[snip]
-
+On 7/12/2019 4:40 PM, Sameer Pujar wrote:
+>  From Tegra186 onwards OUTSTANDING_REQUESTS field is added in channel
+> configuration register(bits 7:4) which defines the maximum number of reads
+> from the source and writes to the destination that may be outstanding at
+> any given point of time. This field must be programmed with a value
+> between 1 and 8. A value of 0 will prevent any transfers from happening.
+>
+> Thus added 'ch_pending_req' member in chip data structure and the same is
+> populated with maximum allowed pending requests. Since the field is not
+> applicable to Tegra210, mentioned bit fields are unused and hence the
+> member is initialized with 0. For Tegra186, by default program this field
+> with the maximum permitted value of 8.
+>
+> Fixes: 433de642a76c ("dmaengine: tegra210-adma: add support for Tegra186/Tegra194")
+>
+> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> ---
+>   drivers/dma/tegra210-adma.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+> index 2805853..5ab4e3a9 100644
+> --- a/drivers/dma/tegra210-adma.c
+> +++ b/drivers/dma/tegra210-adma.c
+> @@ -74,6 +74,8 @@
+>   				    TEGRA186_ADMA_CH_FIFO_CTRL_TXSIZE(3)    | \
+>   				    TEGRA186_ADMA_CH_FIFO_CTRL_RXSIZE(3))
+>   
+> +#define TEGRA186_DMA_MAX_PENDING_REQS			8
+> +
+>   #define ADMA_CH_REG_FIELD_VAL(val, mask, shift)	(((val) & mask) << shift)
+>   
+>   struct tegra_adma;
+> @@ -85,6 +87,7 @@ struct tegra_adma;
+>    * @ch_req_tx_shift: Register offset for AHUB transmit channel select.
+>    * @ch_req_rx_shift: Register offset for AHUB receive channel select.
+>    * @ch_base_offset: Register offset of DMA channel registers.
+> + * @ch_pending_req: Outstaning DMA requests for a channel.
+>    * @ch_fifo_ctrl: Default value for channel FIFO CTRL register.
+>    * @ch_req_mask: Mask for Tx or Rx channel select.
+>    * @ch_req_max: Maximum number of Tx or Rx channels available.
+> @@ -98,6 +101,7 @@ struct tegra_adma_chip_data {
+>   	unsigned int ch_req_tx_shift;
+>   	unsigned int ch_req_rx_shift;
+>   	unsigned int ch_base_offset;
+> +	unsigned int ch_pending_req;
+>   	unsigned int ch_fifo_ctrl;
+>   	unsigned int ch_req_mask;
+>   	unsigned int ch_req_max;
+> @@ -602,6 +606,7 @@ static int tegra_adma_set_xfer_params(struct tegra_adma_chan *tdc,
+>   			 ADMA_CH_CTRL_FLOWCTRL_EN;
+>   	ch_regs->config |= cdata->adma_get_burst_config(burst_size);
+>   	ch_regs->config |= ADMA_CH_CONFIG_WEIGHT_FOR_WRR(1);
+> +	ch_regs->config |= cdata->ch_pending_req;
+>   	ch_regs->fifo_ctrl = cdata->ch_fifo_ctrl;
+>   	ch_regs->tc = desc->period_len & ADMA_CH_TC_COUNT_MASK;
+>   
+> @@ -786,6 +791,7 @@ static const struct tegra_adma_chip_data tegra210_chip_data = {
+>   	.ch_req_tx_shift	= 28,
+>   	.ch_req_rx_shift	= 24,
+>   	.ch_base_offset		= 0,
+> +	.ch_pending_req		= 0,
+>   	.ch_fifo_ctrl		= TEGRA210_FIFO_CTRL_DEFAULT,
+>   	.ch_req_mask		= 0xf,
+>   	.ch_req_max		= 10,
+> @@ -800,6 +806,7 @@ static const struct tegra_adma_chip_data tegra186_chip_data = {
+>   	.ch_req_tx_shift	= 27,
+>   	.ch_req_rx_shift	= 22,
+>   	.ch_base_offset		= 0x10000,
+> +	.ch_pending_req		= (TEGRA186_DMA_MAX_PENDING_REQS << 4),
+>   	.ch_fifo_ctrl		= TEGRA186_FIFO_CTRL_DEFAULT,
+>   	.ch_req_mask		= 0x1f,
+>   	.ch_req_max		= 20,
