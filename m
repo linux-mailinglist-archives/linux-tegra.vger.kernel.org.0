@@ -2,152 +2,132 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 478D672152
-	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 23:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C90EC721BD
+	for <lists+linux-tegra@lfdr.de>; Tue, 23 Jul 2019 23:39:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388505AbfGWVLH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 23 Jul 2019 17:11:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42908 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728921AbfGWVLH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 23 Jul 2019 17:11:07 -0400
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8DCB42238C;
-        Tue, 23 Jul 2019 21:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563916266;
-        bh=AoX+WdU4hi3SajaebzX866AE/L77/H0R0yqjY+Ea8rw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HsYtcMuBXAY+b91QM5TYQxf9CTW6rX5KYSJYp2MVp4mrFlCDwNRrYnDjvWeTZkPyN
-         YDTepnXtw5MPUYipFfNkX21sIogmAkC6m2HzYRPTH1/jzaWjAJ7XMv00ipFCxaTKO5
-         S6pguh4v7xsVrff/Ne48m2US9b9OXej/42mpAsqQ=
-Date:   Tue, 23 Jul 2019 16:11:02 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Cc:     thierry.reding@gmail.com, lorenzo.pieralisi@arm.com,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: Re: [PATCH] pci: controller: pci-tegra: Add of_node_put() before
- return
-Message-ID: <20190723211102.GA9742@google.com>
-References: <20190716054047.2671-1-nishkadg.linux@gmail.com>
+        id S1731575AbfGWVjk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 23 Jul 2019 17:39:40 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:11845 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728154AbfGWVjk (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 23 Jul 2019 17:39:40 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d377e960000>; Tue, 23 Jul 2019 14:39:35 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 23 Jul 2019 14:39:37 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 23 Jul 2019 14:39:37 -0700
+Received: from [10.26.11.185] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 23 Jul
+ 2019 21:39:32 +0000
+Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        Lars Persson <lists@bofh.nu>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <cover.1562149883.git.joabreu@synopsys.com>
+ <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
+ <29dcc161-f7c8-026e-c3cc-5adb04df128c@nvidia.com>
+ <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <20190722101830.GA24948@apalos>
+ <CADnJP=thexf2sWcVVOLWw14rpteEj0RrfDdY8ER90MpbNN4-oA@mail.gmail.com>
+ <BN8PR12MB326661846D53AAEE315A7434D3C40@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <11557fe0-0cba-cb49-0fb6-ad24792d4a53@nvidia.com>
+ <BN8PR12MB3266664ECA192E02C06061EED3C40@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <BYAPR12MB3269A725AFDDA21E92946558D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <ab14f31f-2045-b1be-d31f-2a81b8527dac@nvidia.com>
+ <BYAPR12MB32692AF2BA127C5DA5B74804D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <6c769226-bdd9-6fe0-b96b-5a0d800fed24@arm.com>
+ <8756d681-e167-fe4a-c6f0-47ae2dcbb100@nvidia.com>
+ <3255edfa-4465-204b-4751-8d40c8fb1382@arm.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <ae11deb4-abec-f0f9-312d-b11d72bc74cd@nvidia.com>
+Date:   Tue, 23 Jul 2019 22:39:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190716054047.2671-1-nishkadg.linux@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <3255edfa-4465-204b-4751-8d40c8fb1382@arm.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1563917975; bh=3lTWQ4Ol+M8dbc5nZy7wEdkUC8P1FuGjPhA49g8j8zk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=jvibVR/sKGrwa2X/qvAjnZwSbm2bNfciQjLdTf4vyefptsIWI8zsUowixYZ6tB9Nw
+         Zlr9Yf1gr0DQJXt+6R6C0hyozvsu2WvdsxMKBhuXhnbwSb0R3ax3RQpxhKCKQ5vhzl
+         VuhHWs8kZ5kB3D9acg6XfuQfHc/HPqve+4e6kkrdXG2dieduHRwBah8yWM1QwmG0XN
+         k17/J7Fa3caqZkgKym+i/gpuFwuw3F9bG7+7prK7J7P10qK3bv2yWLHppIQPmJCOxs
+         csTZdSV19F6ZS7wjvM86WuqApUCoHIJIhufWWHBg/gd9OMXU0zwVvSKBmC/J/f4jTi
+         w8VKyH/YrF9Zw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Thanks for the fix!
 
-Please pay attention to the subject line convention and make yours
-match, e.g.,
+On 23/07/2019 14:19, Robin Murphy wrote:
 
-  $ git log --oneline drivers/pci/controller/pci-tegra.c  | head -5
-  7be142caabc4 PCI: tegra: Enable Relaxed Ordering only for Tegra20 & Tegra30
-  4b16a8227907 PCI: tegra: Change link retry log level to debug
-  dbdcc22c845b PCI: tegra: Add support for GPIO based PERST#
-  2d8c7361585f PCI: tegra: Put PEX CLK & BIAS pads in DPD mode
-  adb2653b3d2e PCI: tegra: Add AFI_PEX2_CTRL reg offset as part of SoC struct
+...
 
-I think this actually fixes a *reference* leak (not a memory leak as
-you say below).  The subject line should mention that.  We can tell by
-looking at the patch that it adds of_node_put(); the subject and
-commit log should tell us *why*.
+>>> Do you know if the SMMU interrupts are working correctly? If not, it's
+>>> possible that an incorrect address or mapping direction could lead to
+>>> the DMA transaction just being silently terminated without any fault
+>>> indication, which generally presents as inexplicable weirdness (I've
+>>> certainly seen that on another platform with the mix of an unsupported
+>>> interrupt controller and an 'imperfect' ethernet driver).
+>>
+>> If I simply remove the iommu node for the ethernet controller, then I
+>> see lots of ...
+>>
+>> [=C2=A0=C2=A0=C2=A0 6.296121] arm-smmu 12000000.iommu: Unexpected global=
+ fault, this
+>> could be serious
+>> [=C2=A0=C2=A0=C2=A0 6.296125] arm-smmu 12000000.iommu:=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GFSR 0x00000002,
+>> GFSYNR0 0x00000000, GFSYNR1 0x00000014, GFSYNR2 0x00000000
+>>
+>> So I assume that this is triggering the SMMU interrupt correctly.
+>=20
+> According to tegra186.dtsi it appears you're using the MMU-500 combined
+> interrupt, so if global faults are being delivered then context faults
+> *should* also, but I'd be inclined to try a quick hack of the relevant
+> stmmac_desc_ops::set_addr callback to write some bogus unmapped address
+> just to make sure arm_smmu_context_fault() then screams as expected, and
+> we're not missing anything else.
 
-On Tue, Jul 16, 2019 at 11:10:47AM +0530, Nishka Dasgupta wrote:
-> Each iteration of for_each_child_of_node puts the previous node, but in
-> the case of a return from the middle of the loop, there is no put, thus
-> causing a memory leak.
-> Hence store these mid-loop return values in variable err and add a new
-> label err_node_put which puts the previous node and returns err. Change
-> six mid-loop return statements to point to this new label instead.
+I hacked the driver and forced the address to zero for a test and
+in doing so I see ...
 
-This sort of looks like two paragraphs and sort of looks like one.
-Please either rewrap it so it's clearly one paragraph, or add a blank
-line so it's clearly two paragraphs.
+[   10.440072] arm-smmu 12000000.iommu: Unhandled context fault: fsr=3D0x40=
+2, iova=3D0x00000000, fsynr=3D0x1c0011, cbfrsynra=3D0x14, cb=3D0
 
-s/for_each_child_of_node/for_each_child_of_node()/
-(as you already did for of_node_put() in the subject, thanks for that)
+So looks like the interrupts are working AFAICT.
 
-> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
-> ---
->  drivers/pci/controller/pci-tegra.c | 22 +++++++++++++++-------
->  1 file changed, 15 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-> index 9a917b2456f6..673a1725ef38 100644
-> --- a/drivers/pci/controller/pci-tegra.c
-> +++ b/drivers/pci/controller/pci-tegra.c
-> @@ -2237,14 +2237,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
->  		err = of_pci_get_devfn(port);
->  		if (err < 0) {
->  			dev_err(dev, "failed to parse address: %d\n", err);
-> -			return err;
-> +			goto err_node_put;
->  		}
->  
->  		index = PCI_SLOT(err);
->  
->  		if (index < 1 || index > soc->num_ports) {
->  			dev_err(dev, "invalid port number: %d\n", index);
-> -			return -EINVAL;
-> +			err = -EINVAL;
-> +			goto err_node_put;
->  		}
->  
->  		index--;
-> @@ -2253,12 +2254,13 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
->  		if (err < 0) {
->  			dev_err(dev, "failed to parse # of lanes: %d\n",
->  				err);
-> -			return err;
-> +			goto err_node_put;
->  		}
->  
->  		if (value > 16) {
->  			dev_err(dev, "invalid # of lanes: %u\n", value);
-> -			return -EINVAL;
-> +			err = -EINVAL;
-> +			goto err_node_put;
->  		}
->  
->  		lanes |= value << (index << 3);
-> @@ -2272,13 +2274,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
->  		lane += value;
->  
->  		rp = devm_kzalloc(dev, sizeof(*rp), GFP_KERNEL);
-> -		if (!rp)
-> -			return -ENOMEM;
-> +		if (!rp) {
-> +			err = -ENOMEM;
-> +			goto err_node_put;
-> +		}
->  
->  		err = of_address_to_resource(port, 0, &rp->regs);
->  		if (err < 0) {
->  			dev_err(dev, "failed to parse address: %d\n", err);
-> -			return err;
-> +			goto err_node_put;
->  		}
->  
->  		INIT_LIST_HEAD(&rp->list);
-> @@ -2330,6 +2334,10 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
->  		return err;
->  
->  	return 0;
-> +
-> +err_node_put:
-> +	of_node_put(port);
-> +	return err;
->  }
->  
->  /*
-> -- 
-> 2.19.1
-> 
+Cheers
+Jon
+
+--=20
+nvpublic
