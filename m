@@ -2,195 +2,200 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DFD2B72E49
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 13:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82E5B73371
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 18:14:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387394AbfGXL6X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 24 Jul 2019 07:58:23 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:19756 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727412AbfGXL6X (ORCPT
+        id S1726829AbfGXQOo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jul 2019 12:14:44 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:45865 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726099AbfGXQOn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Jul 2019 07:58:23 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d3847e40000>; Wed, 24 Jul 2019 04:58:28 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 24 Jul 2019 04:58:20 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 24 Jul 2019 04:58:20 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 24 Jul
- 2019 11:58:17 +0000
-Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
- Pool
-To:     Jose Abreu <Jose.Abreu@synopsys.com>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>
-CC:     David Miller <davem@davemloft.net>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "lists@bofh.nu" <lists@bofh.nu>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
-        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "wens@csie.org" <wens@csie.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <BYAPR12MB32692AF2BA127C5DA5B74804D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
- <6c769226-bdd9-6fe0-b96b-5a0d800fed24@arm.com>
- <8756d681-e167-fe4a-c6f0-47ae2dcbb100@nvidia.com>
- <20190723.115112.1824255524103179323.davem@davemloft.net>
- <20190724085427.GA10736@apalos>
- <BYAPR12MB3269AA9955844E317B62A239D3C60@BYAPR12MB3269.namprd12.prod.outlook.com>
- <20190724095310.GA12991@apalos>
- <BYAPR12MB3269C5766F553438ECFF2C9BD3C60@BYAPR12MB3269.namprd12.prod.outlook.com>
- <33de62bf-2f8a-bf00-9260-418b12bed24c@nvidia.com>
- <BYAPR12MB32696F0A2BFDF69F31C4311CD3C60@BYAPR12MB3269.namprd12.prod.outlook.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <a07c3480-af03-a61b-4e9c-d9ceb29ce622@nvidia.com>
-Date:   Wed, 24 Jul 2019 12:58:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Wed, 24 Jul 2019 12:14:43 -0400
+Received: by mail-io1-f65.google.com with SMTP id g20so90765560ioc.12;
+        Wed, 24 Jul 2019 09:14:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=U+1/75xZAzRWTYlUhVUY0io4DCPgugEaKO5dzrfUzCg=;
+        b=Jom3cCcKCdIjdKHK36v0+Rixw+zNQp9Y1uZS2BLcrqFec8yf/tPySNh6DIXI2BLp0G
+         HClAupm8QqbjVgzD8YmgE9z5BkhaGKdTVXm8HP0BgnPL+FbKYSL7/+rgp3cvx5btXg7k
+         PafbhZoMQvBb7zOcfhgfC27fUhWwn+kQyLA/lea9twrePAv/AXy1FgUquNLtQXGqkhdq
+         d4Ycwg6U6/uehqQO95vTCL7e3cYBTlSa3VB48qKLOK/Qp6vFmDTMQJqhrr/ylhBuAdWV
+         d1LlVk7JM6HTtGBJzWQ2p/dsCeXyWQ8TcMu4EbyIJMW05yOgLkYmhoGHpugs3lQ5cPuL
+         vS4A==
+X-Gm-Message-State: APjAAAWespELFb/DIv+ASbUS7MkZITUpCfU0ax2uxi0Dkg/EudoF9FBZ
+        /tRVo4CA3628NrmigRH5KQ==
+X-Google-Smtp-Source: APXvYqw/2u0AejiCtJ2dnt2U6+ugYb6v99MWFKK9mR3zL7gqP8joHRKeGopKNVlAvpBse3T2Pg2/Nw==
+X-Received: by 2002:a5d:8347:: with SMTP id q7mr72718745ior.277.1563984882457;
+        Wed, 24 Jul 2019 09:14:42 -0700 (PDT)
+Received: from localhost ([64.188.179.254])
+        by smtp.gmail.com with ESMTPSA id t14sm39192427ioi.60.2019.07.24.09.14.40
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 24 Jul 2019 09:14:41 -0700 (PDT)
+Date:   Wed, 24 Jul 2019 10:14:36 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        mark.rutland@arm.com, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [Patch V5 4/8] dt-bindings: usb: Add NVIDIA Tegra XUSB device
+ mode controller binding
+Message-ID: <20190724161436.GA9624@bogus>
+References: <1562326911-26855-1-git-send-email-nkristam@nvidia.com>
+ <1562326911-26855-5-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR12MB32696F0A2BFDF69F31C4311CD3C60@BYAPR12MB3269.namprd12.prod.outlook.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1563969508; bh=MAA3D4oh2twLiXTungHRnZV2u/pKAWOhongP9WRyQ6w=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=leET5dACvWh4OGkh9sSpgVxYbpfGDJjAS/zB2KfMZ+N0FM54yU8F8V8XHIlmAGFzY
-         SdRPn+bWXWsPwFS/MsnopXQvrVnDQKmEE8YASOMQkCJY+x6DJzHC9F8zl28Ki+1n6E
-         6FR/GNLwDo0A/7TXdPRTw9fK+dIHTVl93Z28bDah1lWcDoWeVGcmkqxHvX5EVA5qbZ
-         t9ERGJQ7voAYBZe6oL8mmvhJuhmmXLUq7fXBe4xzi3IErr7RDuI51UEhXub0hSuGG7
-         2mdOz8F6SeXe4j5A501Ub1v14ngez3RTvMt7ei5VuAy5uK8b9kJnluoUhIFbuPBvsg
-         MArTR73CMWBPg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1562326911-26855-5-git-send-email-nkristam@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 24/07/2019 12:34, Jose Abreu wrote:
-> From: Jon Hunter <jonathanh@nvidia.com>
-> Date: Jul/24/2019, 12:10:47 (UTC+00:00)
+On Fri, Jul 05, 2019 at 05:11:47PM +0530, Nagarjuna Kristam wrote:
+> Add device-tree binding documentation for the XUSB device mode controller
+> present on Tegra210 SoC. This controller supports the USB 3.0
+> specification.
 > 
->>
->> On 24/07/2019 11:04, Jose Abreu wrote:
->>
->> ...
->>
->>> Jon, I was able to replicate (at some level) your setup:
->>>
->>> # dmesg | grep -i arm-smmu
->>> [    1.337322] arm-smmu 70040000.iommu: probing hardware 
->>> configuration...
->>> [    1.337330] arm-smmu 70040000.iommu: SMMUv2 with:
->>> [    1.337338] arm-smmu 70040000.iommu:         stage 1 translation
->>> [    1.337346] arm-smmu 70040000.iommu:         stage 2 translation
->>> [    1.337354] arm-smmu 70040000.iommu:         nested translation
->>> [    1.337363] arm-smmu 70040000.iommu:         stream matching with 128 
->>> register groups
->>> [    1.337374] arm-smmu 70040000.iommu:         1 context banks (0 
->>> stage-2 only)
->>> [    1.337383] arm-smmu 70040000.iommu:         Supported page sizes: 
->>> 0x61311000
->>> [    1.337393] arm-smmu 70040000.iommu:         Stage-1: 48-bit VA -> 
->>> 48-bit IPA
->>> [    1.337402] arm-smmu 70040000.iommu:         Stage-2: 48-bit IPA -> 
->>> 48-bit PA
->>>
->>> # dmesg | grep -i stmmac
->>> [    1.344106] stmmaceth 70000000.ethernet: Adding to iommu group 0
->>> [    1.344233] stmmaceth 70000000.ethernet: no reset control found
->>> [    1.348276] stmmaceth 70000000.ethernet: User ID: 0x10, Synopsys ID: 
->>> 0x51
->>> [    1.348285] stmmaceth 70000000.ethernet:     DWMAC4/5
->>> [    1.348293] stmmaceth 70000000.ethernet: DMA HW capability register 
->>> supported
->>> [    1.348302] stmmaceth 70000000.ethernet: RX Checksum Offload Engine 
->>> supported
->>> [    1.348311] stmmaceth 70000000.ethernet: TX Checksum insertion 
->>> supported
->>> [    1.348320] stmmaceth 70000000.ethernet: TSO supported
->>> [    1.348328] stmmaceth 70000000.ethernet: Enable RX Mitigation via HW 
->>> Watchdog Timer
->>> [    1.348337] stmmaceth 70000000.ethernet: TSO feature enabled
->>> [    1.348409] libphy: stmmac: probed
->>> [ 4159.140990] stmmaceth 70000000.ethernet eth0: PHY [stmmac-0:01] 
->>> driver [Generic PHY]
->>> [ 4159.141005] stmmaceth 70000000.ethernet eth0: phy: setting supported 
->>> 00,00000000,000062ff advertising 00,00000000,000062ff
->>> [ 4159.142359] stmmaceth 70000000.ethernet eth0: No Safety Features 
->>> support found
->>> [ 4159.142369] stmmaceth 70000000.ethernet eth0: IEEE 1588-2008 Advanced 
->>> Timestamp supported
->>> [ 4159.142429] stmmaceth 70000000.ethernet eth0: registered PTP clock
->>> [ 4159.142439] stmmaceth 70000000.ethernet eth0: configuring for 
->>> phy/gmii link mode
->>> [ 4159.142452] stmmaceth 70000000.ethernet eth0: phylink_mac_config: 
->>> mode=phy/gmii/Unknown/Unknown adv=00,00000000,000062ff pause=10 link=0 
->>> an=1
->>> [ 4159.142466] stmmaceth 70000000.ethernet eth0: phy link up 
->>> gmii/1Gbps/Full
->>> [ 4159.142475] stmmaceth 70000000.ethernet eth0: phylink_mac_config: 
->>> mode=phy/gmii/1Gbps/Full adv=00,00000000,00000000 pause=0f link=1 an=0
->>> [ 4159.142481] stmmaceth 70000000.ethernet eth0: Link is Up - 1Gbps/Full 
->>> - flow control rx/tx
->>>
->>> The only missing point is the NFS boot that I can't replicate with this 
->>> setup. But I did some sanity checks:
->>>
->>> Remote Enpoint:
->>> # dd if=/dev/urandom of=output.dat bs=128M count=1
->>> # nc -c 192.168.0.2 1234 < output.dat
->>> # md5sum output.dat 
->>> fde9e0818281836e4fc0edfede2b8762  output.dat
->>>
->>> DUT:
->>> # nc -l -c -p 1234 > output.dat
->>> # md5sum output.dat 
->>> fde9e0818281836e4fc0edfede2b8762  output.dat
->>
->> On my setup, if I do not use NFS to mount the rootfs, but then manually
->> mount the NFS share after booting, I do not see any problems reading or
->> writing to files on the share. So I am not sure if it is some sort of
->> race that is occurring when mounting the NFS share on boot. It is 100%
->> reproducible when using NFS for the root file-system.
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> Reviewed-by: JC Kuo <jckuo@nvidia.com>
+> ---
+>  .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  | 110 +++++++++++++++++++++
+>  1 file changed, 110 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
 > 
-> I don't understand how can there be corruption then unless the IP AXI 
-> parameters are misconfigured which can lead to sporadic undefined 
-> behavior.
+> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
+> new file mode 100644
+> index 0000000..c6a1b81
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
+> @@ -0,0 +1,110 @@
+> +Device tree binding for NVIDIA Tegra XUSB device mode controller (XUDC)
+> +=======================================================================
+> +
+> +The Tegra XUDC controller supports both USB 2.0 HighSpeed/FullSpeed and
+> +USB 3.0 SuperSpeed protocols.
+> +
+> +Required properties:
+> +--------------------
+> +- compatible: For Tegra210, must contain "nvidia,tegra210-xudc".
+> +- reg: Must contain the base and length of all registers used.
+> +- interrupts: Must contain the XUSB device interrupt.
+> +- clocks: Must contain an entry for all clocks used.
+> +  See ../clock/clock-bindings.txt for details.
+> +- clock-names: Must include the following entries:
+> +   - dev: Clock to enable core XUSB dev clock.
+> +   - ss: Clock to enable XUSB super speed clock.
+> +   - ss_src: Clock to enable XUSB super speed dev clock.
+> +   - hs_src: Clock to enable XUSB high speed dev clock.
+> +   - fs_src: Clock to enable XUSB full speed dev clock.
+> +- nvidia,xusb-padctl: phandle to the XUSB pad controller that is used to
+> +  configure the USB pads used by the XUDC controller.
+> +- power-domains: A list of PM domain specifiers that reference each power-domain
+> +  used by the XUSB device mode controller. This list must comprise of a specifier
+> +  for the XUSBA and XUSBB power-domains. See ../power/power_domain.txt and
+> +  ../arm/tegra/nvidia,tegra20-pmc.txt for details.
+> +- power-domain-names: A list of names that represent each of the specifiers in
+> +  the 'power-domains' property. Must include 'ss' and 'dev'.
+
+The order matters and is the opposite of the example.
+
+> +- phys: Must contain an entry for each entry in phy-names.
+> +  See ../phy/phy-bindings.txt for details.
+> +- phy-names: Should include an entry for each PHY used by the controller.
+> +  Names must be "usb2", and "usb3" if support SuperSpeed device mode.
+> +  - "usb3" phy, SuperSpeed (SSTX+/SSTX-/SSRX+/SSRX-) data lines.
+> +  - "usb2" phy, USB 2.0 (D+/D-) data lines.
+> +
+> +For Tegra210:
+> +- reg-names: Must include the following entries:
+> +   - base: XUSB device controller registers.
+> +   - fpci: XUSB device PCI Config registers.
+> +   - ipfs: XUSB device registers.
+> +- avddio-usb-supply: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
+> +- hvdd-usb-supply: USB controller power supply. Must supply 3.3 V.
+> +
+> +
+> +Optional properties:
+> +--------------------
+> +- usb-role-switch: boolean property to indicate use of USB Role Switch driver.
+> +
+> +Sub-nodes:
+> +----------
+> +- The port would be added as subnode if use "usb-role-switch" property.
+> +  see graph.txt.
+> +
+> +Example:
+> +--------
+> +	pmc: pmc@7000e400 {
+> +		compatible = "nvidia,tegra210-pmc";
+> +		reg = <0x0 0x7000e400 0x0 0x400>;
+> +		clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
+> +		clock-names = "pclk", "clk32k_in";
+> +
+> +		powergates {
+> +			pd_xusbss: xusba {
+> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_SS>;
+> +				resets = <&tegra_car 156>;
+> +				#power-domain-cells = <0>;
+> +			};
+> +
+> +			pd_xusbdev: xusbb {
+> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>;
+> +				resets = <&tegra_car 95>;
+> +				#power-domain-cells = <0>;
+> +			};
+> +		};
+> +	};
+> +
+> +	xudc@700d0000 {
+
+usb@...
+
+> +		compatible = "nvidia,tegra210-xudc";
+> +		reg = <0x0 0x700d0000 0x0 0x8000>,
+> +		      <0x0 0x700d8000 0x0 0x1000>,
+> +		      <0x0 0x700d9000 0x0 0x1000>;
+> +		reg-names = "base", "fpci", "ipfs";
+> +
+> +		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +		clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
+> +			 <&tegra_car TEGRA210_CLK_XUSB_SS>,
+> +			 <&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
+> +			 <&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
+> +			 <&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
+> +		clock-names = "dev", "ss", "ss_src", "hs_src", "fs_src";
+> +
+> +		power-domains = <&pd_xusbdev>, <&pd_xusbss>;
+> +		power-domain-names = "dev", "ss";
+> +
+> +		nvidia,xusb-padctl = <&padctl>;
+> +
+> +		phys = <&{/padctl@7009f000/pads/usb2/lanes/usb2-0}>;
+
+Use a label.
+
+> +		phy-names = "usb2;
+> +
+> +		avddio-usb-supply = <&vdd_pex_1v05>;
+> +		hvdd-usb-supply = <&vdd_3v3_sys>;
+> +
+> +		usb-role-switch;
+> +		port {
+> +			usb_role_switch: endpoint@0 {
+
+Don't need a unit address.
+
+> +				remote-endpoint = <&bconn_ep>;
+> +			};
+> +		};
+> +
+> +	};
+> -- 
+> 2.7.4
 > 
-> These prints from your logs:
-> [   14.579392] Run /init as init process
-> /init: line 58: chmod: command not found
-> [ 10:22:46 ] L4T-INITRD Build DATE: Mon Jul 22 10:22:46 UTC 2019
-> [ 10:22:46 ] Root device found: nfs
-> [ 10:22:46 ] Ethernet interfaces: eth0
-> [ 10:22:46 ] IP Address: 10.21.140.41
-> 
-> Where are they coming from ? Do you have any extra init script ?
-
-By default there is an initial ramdisk that is loaded first and then the
-rootfs is mounted over NFS. However, even if I remove this ramdisk and
-directly mount the rootfs via NFS without it the problem persists. So I
-don't see any issue with the ramdisk and whats more is we have been
-using this for a long long time. Nothing has changed here.
-
-Jon
-
--- 
-nvpublic
