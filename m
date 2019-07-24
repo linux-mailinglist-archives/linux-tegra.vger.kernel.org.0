@@ -2,20 +2,21 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D79273548
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 19:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B68573598
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 19:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727570AbfGXRQq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 24 Jul 2019 13:16:46 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52164 "EHLO mx1.suse.de"
+        id S1726704AbfGXRdq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jul 2019 13:33:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55890 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727469AbfGXRQp (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Jul 2019 13:16:45 -0400
+        id S1726158AbfGXRdp (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 24 Jul 2019 13:33:45 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id C2476AC18;
-        Wed, 24 Jul 2019 17:16:42 +0000 (UTC)
-Subject: Re: [PATCH v5 02/24] drm: Add drm_connector_init() variant with ddc
+        by mx1.suse.de (Postfix) with ESMTP id BDE9BAC18;
+        Wed, 24 Jul 2019 17:17:35 +0000 (UTC)
+Subject: Re: [PATCH v5 18/24] drm/ast: Provide ddc symlink in connector sysfs
+ directory
 To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
         dri-devel@lists.freedesktop.org
 Cc:     Sam Ravnborg <sam@ravnborg.org>,
@@ -59,7 +60,7 @@ Cc:     Sam Ravnborg <sam@ravnborg.org>,
         =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
         Gerd Hoffmann <kraxel@redhat.com>
 References: <cover.1563960855.git.andrzej.p@collabora.com>
- <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
+ <0afab6e2f61907409ba13a0ba91b8ee701eb7d74.1563960855.git.andrzej.p@collabora.com>
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 Openpgp: preference=signencrypt
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -87,23 +88,23 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
  VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
  iNx9uqqx
-Message-ID: <ea96186f-8d38-a698-f29e-049987ae0163@suse.de>
-Date:   Wed, 24 Jul 2019 19:16:35 +0200
+Message-ID: <f4c0432e-9223-54bc-c995-e0704555fc6e@suse.de>
+Date:   Wed, 24 Jul 2019 19:17:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
+In-Reply-To: <0afab6e2f61907409ba13a0ba91b8ee701eb7d74.1563960855.git.andrzej.p@collabora.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="LtNJJAmlPBJFSmTCjBWxZTnrO1jKlugWK"
+ boundary="rQW7V0pPHkAw2NNiWp7qw2pJTEuWVVZkI"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---LtNJJAmlPBJFSmTCjBWxZTnrO1jKlugWK
-Content-Type: multipart/mixed; boundary="vnsNtGTawS7eHAvH285t7LPE1bVWovlWW";
+--rQW7V0pPHkAw2NNiWp7qw2pJTEuWVVZkI
+Content-Type: multipart/mixed; boundary="1nTmnYcXxxfxqvFKU3qpyJbp2Ylpbb6UI";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
@@ -136,87 +137,67 @@ Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong
  Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
  =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  Gerd Hoffmann <kraxel@redhat.com>
-Message-ID: <ea96186f-8d38-a698-f29e-049987ae0163@suse.de>
-Subject: Re: [PATCH v5 02/24] drm: Add drm_connector_init() variant with ddc
+Message-ID: <f4c0432e-9223-54bc-c995-e0704555fc6e@suse.de>
+Subject: Re: [PATCH v5 18/24] drm/ast: Provide ddc symlink in connector sysfs
+ directory
 References: <cover.1563960855.git.andrzej.p@collabora.com>
- <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
-In-Reply-To: <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
+ <0afab6e2f61907409ba13a0ba91b8ee701eb7d74.1563960855.git.andrzej.p@collabora.com>
+In-Reply-To: <0afab6e2f61907409ba13a0ba91b8ee701eb7d74.1563960855.git.andrzej.p@collabora.com>
 
---vnsNtGTawS7eHAvH285t7LPE1bVWovlWW
+--1nTmnYcXxxfxqvFKU3qpyJbp2Ylpbb6UI
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+
 
 Am 24.07.19 um 15:59 schrieb Andrzej Pietrasiewicz:
-> Allow passing ddc adapter pointer to the init function. Even if
-> drm_connector_init() sometime in the future decides to e.g. memset() al=
-l
-> connector fields to zeros, the newly added function ensures that at its=
-
-> completion the ddc member of connector is correctly set.
+> Use the ddc pointer provided by the generic connector.
 >=20
 > Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 > ---
->  drivers/gpu/drm/drm_connector.c | 19 +++++++++++++++++++
->  include/drm/drm_connector.h     |  5 +++++
->  2 files changed, 24 insertions(+)
+>  drivers/gpu/drm/ast/ast_mode.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
-ector.c
-> index 068d4b05f1be..06fbfc44fb48 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -296,6 +296,25 @@ int drm_connector_init(struct drm_device *dev,
->  }
->  EXPORT_SYMBOL(drm_connector_init);
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_m=
+ode.c
+> index c792362024a5..1c899a6e87b7 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -867,7 +867,14 @@ static int ast_connector_init(struct drm_device *d=
+ev)
+>  		return -ENOMEM;
 > =20
-> +int drm_connector_init_with_ddc(struct drm_device *dev,
-> +				struct drm_connector *connector,
-> +				const struct drm_connector_funcs *funcs,
-> +				int connector_type,
-> +				struct i2c_adapter *ddc)
-> +{
-> +	int ret;
+>  	connector =3D &ast_connector->base;
+> -	drm_connector_init(dev, connector, &ast_connector_funcs, DRM_MODE_CON=
+NECTOR_VGA);
+> +	ast_connector->i2c =3D ast_i2c_create(dev);
+> +	if (!ast_connector->i2c)
+> +		DRM_ERROR("failed to add ddc bus for connector\n");
 > +
-> +	ret =3D drm_connector_init(dev, connector, funcs, connector_type);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* provide ddc symlink in sysfs */
-> +	connector->ddc =3D ddc;
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_connector_init_with_ddc);
-> +
-
-Thanks for including such a function.
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
->  /**
->   * drm_connector_attach_edid_property - attach edid property.
->   * @connector: the connector
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 33a6fff85fdb..937fda9c1374 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1410,6 +1410,11 @@ int drm_connector_init(struct drm_device *dev,
->  		       struct drm_connector *connector,
->  		       const struct drm_connector_funcs *funcs,
->  		       int connector_type);
-> +int drm_connector_init_with_ddc(struct drm_device *dev,
-> +				struct drm_connector *connector,
-> +				const struct drm_connector_funcs *funcs,
-> +				int connector_type,
-> +				struct i2c_adapter *ddc);
->  void drm_connector_attach_edid_property(struct drm_connector *connecto=
-r);
->  int drm_connector_register(struct drm_connector *connector);
->  void drm_connector_unregister(struct drm_connector *connector);
+> +	drm_connector_init_with_ddc(dev, connector,
+> +				    &ast_connector_funcs,
+> +				    DRM_MODE_CONNECTOR_VGA,
+> +				    &ast_connector->i2c->adapter);
+> =20
+>  	drm_connector_helper_add(connector, &ast_connector_helper_funcs);
+> =20
+> @@ -881,10 +888,6 @@ static int ast_connector_init(struct drm_device *d=
+ev)
+>  	encoder =3D list_first_entry(&dev->mode_config.encoder_list, struct d=
+rm_encoder, head);
+>  	drm_connector_attach_encoder(connector, encoder);
+> =20
+> -	ast_connector->i2c =3D ast_i2c_create(dev);
+> -	if (!ast_connector->i2c)
+> -		DRM_ERROR("failed to add ddc bus for connector\n");
+> -
+>  	return 0;
+>  }
+> =20
 >=20
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 --=20
 Thomas Zimmermann
@@ -226,23 +207,23 @@ GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
 HRB 21284 (AG N=C3=BCrnberg)
 
 
---vnsNtGTawS7eHAvH285t7LPE1bVWovlWW--
+--1nTmnYcXxxfxqvFKU3qpyJbp2Ylpbb6UI--
 
---LtNJJAmlPBJFSmTCjBWxZTnrO1jKlugWK
+--rQW7V0pPHkAw2NNiWp7qw2pJTEuWVVZkI
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl04knMACgkQaA3BHVML
-eiPIEAf/SbE8+UterlzTVb4DSKX4d7+6Qm6csshf2sBPxiw6ecOqETPDYsQXsZYK
-lwqXKV0mCZ7emWWXINgeIGb27bYeXxlv/s7BpdMC/H88bZK2MqnHQdbwlXD5W+PF
-9QPMXdbn55pDDyjE/Onjmip5Ce+gkXQb2EyafrqkEuDxhCx9QCUnSwrXpV6kTmxS
-/ZCuKYDKVU89AoRunyM8VS2Uqwm9e0GZTaUHcr+3rxGUxwi99/LJu7vGLwLih7Nl
-BEJUyOIzVT9mg7dGE70z8XG/0X0bDQEQiNjKHIUdMOCKbMBZerZjPuGH2a84AS4h
-j71GFMojM8wuds7/IkMG76b5vfNGNA==
-=Nt+n
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl04kq0ACgkQaA3BHVML
+eiOVlgf9G4jOeCy2mr53PWbrCulWova4UboUrbdUc7gRFOmPd+B+OzGYuSRcUnlg
+kOVXCeSAueui+sQ0IbNuz/aH/ObT+dZzXd5gkLN9J6jj1WoLQ8Wyn4apJy13rnsE
+mHtW7wjvJ8kq5Yool9NZApYN9aD6ZTxZQwt4YokeS7Kfryf+vQN3pweb8XGBW3d4
+FuLKHRSrgcqTY1XUMAbXlEC5A0DfBo4wfar1q7u045ggLL84yMQcw3SJ9WyiPbpf
+k2v9fkgpwy60HTlNaTBxlzm4KBoRVXfYqIynlK3QMf7GF2sz0RiBF2RmzgG96f0I
+UqpER9GagpcIV5uY52PywoarGEUWuA==
+=lXB9
 -----END PGP SIGNATURE-----
 
---LtNJJAmlPBJFSmTCjBWxZTnrO1jKlugWK--
+--rQW7V0pPHkAw2NNiWp7qw2pJTEuWVVZkI--
