@@ -2,95 +2,139 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B35172ABB
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 10:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 820A772B5A
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 11:28:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726617AbfGXIyd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 24 Jul 2019 04:54:33 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35181 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726277AbfGXIyd (ORCPT
+        id S1726343AbfGXJ16 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jul 2019 05:27:58 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:33363 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725955AbfGXJ16 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Jul 2019 04:54:33 -0400
-Received: by mail-wm1-f65.google.com with SMTP id l2so40828759wmg.0
-        for <linux-tegra@vger.kernel.org>; Wed, 24 Jul 2019 01:54:31 -0700 (PDT)
+        Wed, 24 Jul 2019 05:27:58 -0400
+Received: by mail-lf1-f66.google.com with SMTP id x3so31553700lfc.0;
+        Wed, 24 Jul 2019 02:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=AxqsUQ9ydrbktURKrd3ST6ajH38XaMBsfLuUUxN1ep8=;
-        b=Ijet24iFgEAcUFy4oNncn1QCmXqFqnMwKUvJmypA9g9ZUOTrpsLOw5etR1uVg7ATTp
-         YAn2QdqOdk2Kva+Ac9H9mVP2TawOeadELXg1L+AtWlZQolQbvvLD7AgT4OdZ3YNUSDsI
-         jFGOygNEhoA2cFVA+GlXwksPVGI8AuuJ7HjKsxBAlYRVJLSpUgIuNw2yUeIoqglwjsmA
-         ZwFk9wWF7qaq2kRvZ8PmI5EsggSOEdTrvlqB9FtAOC1WGr25mgL0HSEk+8yKIdZOG41q
-         G/BmZD06mgeO3Ar8E9X99SyEaURO2d1z2bUGuVsopZIGN1Vor0+HIUC2KKGPIIvdmsV1
-         Fk2Q==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/lxoFTV2NP07iGG4lrW/6fB0F5OOcDNXPeCFzJNVz7Q=;
+        b=L8Kx6mdNwCiNdks/Ub1/XRaxPlBWUyUA6Z7rOLPfTJv3ob+28AWMKZOeaulfXRDStb
+         580dKVEKg5WA3d9k9xXFv8ksCo5tm5FPTFpkinNvmJA0h7++UKQt8gvTdQ5Wn95V6tDC
+         PTt0au5EZ3nPeVlKH49pqPWLytt9k5oW4RWTBE/FdITkrhEsenT6ApGSeO8efK8RU0uf
+         tBbI9QEL7Ie8n3bkSGLVIfVOknRxHYkaOQ0KSPjT2hEgQn2tgXfKEMeCx90myDYuGTLg
+         l6UP5Qv+b3VvSwj5lB1Uq9XhDBQN6xLkLKlg0eEWr0Wx7kol8EOTOCYwnEXMp6qOO5Dy
+         13ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AxqsUQ9ydrbktURKrd3ST6ajH38XaMBsfLuUUxN1ep8=;
-        b=WpOH6UBvjumhabpzDQOwBDV7pvXnGCBCyB0Znewn3+FMlFP6/av8xrsPaMZOyfiLGf
-         FHTm2K+axYEYBUyYABp8YcvKpxMPzfFr3reo15Ir/JlS/h+Ix5cgqJ6fw2vmN/JbFXZu
-         vjsh4aY+/6pi1Kt9pvIjWniFtH61flW0obht4C8uonlvze4RrFex9nxaTdL3h+ibg8Md
-         UMPYQt7V1EILnhJslQ61miHDg0fyNZdiOENVvu1bUa2XVr3xObOajp/krsYj82OqefcJ
-         s567vVls5msu7Jqre0bWUr/gbau2Z1MCbrDeY7bpnxtZjrDUM/VeXRjqcmGbUifu7EI3
-         z9tg==
-X-Gm-Message-State: APjAAAVaNfU5YFvhEhmQgOYfLOVA6HbKgzZS1rvvfriempGe3y7bOsy8
-        Ox0uSWP8iOC/UZg/hzLqcaIbfQ==
-X-Google-Smtp-Source: APXvYqwKIfUp/OjDiKIW3yUhz1A3lTcNVQMvMoMH8vowJ8g0DRAQsyJ5Lf4T9NdyDaRbrUzSg97b6Q==
-X-Received: by 2002:a1c:6454:: with SMTP id y81mr48189531wmb.105.1563958471195;
-        Wed, 24 Jul 2019 01:54:31 -0700 (PDT)
-Received: from apalos (athedsl-373703.home.otenet.gr. [79.131.11.197])
-        by smtp.gmail.com with ESMTPSA id x16sm33903820wmj.4.2019.07.24.01.54.29
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/lxoFTV2NP07iGG4lrW/6fB0F5OOcDNXPeCFzJNVz7Q=;
+        b=r+qKAEKTePxh4nDY/v05i1Rg7tdXW7ylFSwusiV+KtBz7Hu66qb30EdBfRqRWPm7RP
+         w2bs2PSmDEV/ZEX9fm8tpX0279wQ7+6rjacQ2HdcZVw8TZMqjrLWtHIY2sFVkOVA6fvy
+         dRwe80o8OGUureCq4vS/U3lzXrq3aBcB5Sug/CLRuvJCZhUxqCZiz8uvyY61+iMhHrY/
+         u1bN80Vbysy+BGI63BU9PibELtI3I5q4UhtLQz06wfTDP5SiR7fpwdRT5X4KUIkjl4ly
+         p6bwG4kmloKHOOiVX77pdqZfURBQ/zXC0wTK4ZmaeshXiH4TiS4Xfm46PughzXjdV+/W
+         kJjQ==
+X-Gm-Message-State: APjAAAVjrr0QbHtGrKeK510qoaSWmSj5/vCTkav0EB87SOuYbOxVD5lv
+        1cC5zz4K5uy1hdCKQKIRXGJ0oFO1
+X-Google-Smtp-Source: APXvYqxkdfUPCviiU+7pkuJRFja9wGYPlnRqvkcXlLqCZbpgvZrsXKxAar2CS3a4ltu5Twt5BsrlMA==
+X-Received: by 2002:ac2:5dfb:: with SMTP id z27mr37827658lfq.128.1563960475646;
+        Wed, 24 Jul 2019 02:27:55 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
+        by smtp.googlemail.com with ESMTPSA id z22sm8561005ljz.20.2019.07.24.02.27.54
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Jul 2019 01:54:30 -0700 (PDT)
-Date:   Wed, 24 Jul 2019 11:54:27 +0300
-From:   Ilias Apalodimas <ilias.apalodimas@linaro.org>
-To:     David Miller <davem@davemloft.net>
-Cc:     jonathanh@nvidia.com, robin.murphy@arm.com,
-        Jose.Abreu@synopsys.com, lists@bofh.nu, Joao.Pinto@synopsys.com,
-        alexandre.torgue@st.com, maxime.ripard@bootlin.com,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com, wens@csie.org,
-        mcoquelin.stm32@gmail.com, linux-tegra@vger.kernel.org,
-        peppe.cavallaro@st.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
- Pool
-Message-ID: <20190724085427.GA10736@apalos>
-References: <BYAPR12MB32692AF2BA127C5DA5B74804D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
- <6c769226-bdd9-6fe0-b96b-5a0d800fed24@arm.com>
- <8756d681-e167-fe4a-c6f0-47ae2dcbb100@nvidia.com>
- <20190723.115112.1824255524103179323.davem@davemloft.net>
+        Wed, 24 Jul 2019 02:27:54 -0700 (PDT)
+Subject: Re: [PATCH v3] drm/tegra: sor: Enable HDA interrupts at plug-in
+To:     Viswanath L <viswanathl@nvidia.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com
+Cc:     airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+References: <1563885610-27198-1-git-send-email-viswanathl@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0ba35efb-44ec-d56c-b559-59f1daa3e6e4@gmail.com>
+Date:   Wed, 24 Jul 2019 12:27:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190723.115112.1824255524103179323.davem@davemloft.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <1563885610-27198-1-git-send-email-viswanathl@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi David, 
-
-> From: Jon Hunter <jonathanh@nvidia.com>
-> Date: Tue, 23 Jul 2019 13:09:00 +0100
+23.07.2019 15:40, Viswanath L пишет:
+> HDMI plugout calls runtime suspend, which clears interrupt registers
+> and causes audio functionality to break on subsequent plug-in; setting
+> interrupt registers in sor_audio_prepare() solves the issue.
 > 
-> > Setting "iommu.passthrough=1" works for me. However, I am not sure where
-> > to go from here, so any ideas you have would be great.
+> Signed-off-by: Viswanath L <viswanathl@nvidia.com>
+
+Yours signed-off-by always should be the last line of the commit's
+message because the text below it belongs to a person who applies this
+patch, Thierry in this case. This is not a big deal at all and Thierry
+could make a fixup while applying the patch if will deem that as necessary.
+
+Secondly, there is no need to add "stable@vger.kernel.org" to the
+email's recipients because the patch will flow into stable kernel
+versions from the mainline once it will get applied. That happens based
+on the stable tag presence, hence it's enough to add the 'Cc' tag to the
+commit's message in order to get patch backported.
+
+Lastly, next time please add everyone to the email's recipients whom
+you're expecting to get a reply. Otherwise there is a chance that patch
+will be left unnoticed.
+
+Everything else looks good to me, thanks!
+
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+
+> Fixes: 8e2988a76c26 ("drm/tegra: sor: Support for audio over HDMI")
+> Cc: <stable@vger.kernel.org>
+> ---
+>  drivers/gpu/drm/tegra/sor.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 > 
-> Then definitely we are accessing outside of a valid IOMMU mapping due
-> to the page pool support changes.
-
-Yes. On the netsec driver i did test with and without SMMU to make sure i am not
-breaking anything.
-Since we map the whole page on the API i think some offset on the driver causes
-that. In any case i'll have another look on page_pool to make sure we are not
-missing anything. 
-
+> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> index 5be5a08..0470cfe 100644
+> --- a/drivers/gpu/drm/tegra/sor.c
+> +++ b/drivers/gpu/drm/tegra/sor.c
+> @@ -2164,6 +2164,15 @@ static void tegra_sor_audio_prepare(struct tegra_sor *sor)
+>  
+>  	value = SOR_AUDIO_HDA_PRESENSE_ELDV | SOR_AUDIO_HDA_PRESENSE_PD;
+>  	tegra_sor_writel(sor, value, SOR_AUDIO_HDA_PRESENSE);
+> +
+> +	/*
+> +	 * Enable and unmask the HDA codec SCRATCH0 register interrupt. This
+> +	 * is used for interoperability between the HDA codec driver and the
+> +	 * HDMI/DP driver.
+> +	 */
+> +	value = SOR_INT_CODEC_SCRATCH1 | SOR_INT_CODEC_SCRATCH0;
+> +	tegra_sor_writel(sor, value, SOR_INT_ENABLE);
+> +	tegra_sor_writel(sor, value, SOR_INT_MASK);
+>  }
+>  
+>  static void tegra_sor_audio_unprepare(struct tegra_sor *sor)
+> @@ -2913,15 +2922,6 @@ static int tegra_sor_init(struct host1x_client *client)
+>  	if (err < 0)
+>  		return err;
+>  
+> -	/*
+> -	 * Enable and unmask the HDA codec SCRATCH0 register interrupt. This
+> -	 * is used for interoperability between the HDA codec driver and the
+> -	 * HDMI/DP driver.
+> -	 */
+> -	value = SOR_INT_CODEC_SCRATCH1 | SOR_INT_CODEC_SCRATCH0;
+> -	tegra_sor_writel(sor, value, SOR_INT_ENABLE);
+> -	tegra_sor_writel(sor, value, SOR_INT_MASK);
+> -
+>  	return 0;
+>  }
+>  
 > 
-> Such a problem should be spotted with swiommu enabled with debugging.
 
-Thanks
-/Ilias
