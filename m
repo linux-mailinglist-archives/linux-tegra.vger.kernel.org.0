@@ -2,228 +2,192 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B68573598
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 19:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D26AB735CF
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 19:48:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726704AbfGXRdq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 24 Jul 2019 13:33:46 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55890 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726158AbfGXRdp (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Jul 2019 13:33:45 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id BDE9BAC18;
-        Wed, 24 Jul 2019 17:17:35 +0000 (UTC)
-Subject: Re: [PATCH v5 18/24] drm/ast: Provide ddc symlink in connector sysfs
- directory
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        David Airlie <airlied@linux.ie>,
-        Douglas Anderson <dianders@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        kernel@collabora.com, linux-samsung-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Vincent Abriou <vincent.abriou@st.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Dave Airlie <airlied@redhat.com>,
-        intel-gfx@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
-        linux-arm-msm@vger.kernel.org,
-        Mamta Shukla <mamtashukla555@gmail.com>,
-        linux-mediatek@lists.infradead.org, Jyri Sarha <jsarha@ti.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sean Paul <sean@poorly.run>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        linux-arm-kernel@lists.infradead.org,
-        Enrico Weigelt <info@metux.net>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        amd-gfx@lists.freedesktop.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-kernel@vger.kernel.org, Todor Tomov <todor.tomov@linaro.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>
-References: <cover.1563960855.git.andrzej.p@collabora.com>
- <0afab6e2f61907409ba13a0ba91b8ee701eb7d74.1563960855.git.andrzej.p@collabora.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <f4c0432e-9223-54bc-c995-e0704555fc6e@suse.de>
-Date:   Wed, 24 Jul 2019 19:17:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726539AbfGXRsf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jul 2019 13:48:35 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:9188 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725851AbfGXRsf (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 24 Jul 2019 13:48:35 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d3899ee0001>; Wed, 24 Jul 2019 10:48:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 24 Jul 2019 10:48:32 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 24 Jul 2019 10:48:32 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL108.nvidia.com
+ (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 24 Jul
+ 2019 17:48:32 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 24 Jul
+ 2019 17:48:31 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 24 Jul 2019 17:48:31 +0000
+Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.38]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d3899ea0001>; Wed, 24 Jul 2019 10:48:31 -0700
+From:   Vidya Sagar <vidyas@nvidia.com>
+To:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <kishon@ti.com>, <catalin.marinas@arm.com>, <will.deacon@arm.com>,
+        <jingoohan1@gmail.com>, <gustavo.pimentel@synopsys.com>
+CC:     <digetx@gmail.com>, <mperttunen@nvidia.com>,
+        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
+Subject: [PATCH V14 00/13] PCI: tegra: Add Tegra194 PCIe support
+Date:   Wed, 24 Jul 2019 23:18:11 +0530
+Message-ID: <20190724174824.20933-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <0afab6e2f61907409ba13a0ba91b8ee701eb7d74.1563960855.git.andrzej.p@collabora.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="rQW7V0pPHkAw2NNiWp7qw2pJTEuWVVZkI"
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1563990510; bh=zqJ/9nwKkPmIjSFIL+tOvZoM+amycJsdDpAxogstYCA=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=idbrUpL0Um3bkHxuifL0R2f2SJKgH90kO3XsmU6SlVpHnDWiQfhNbJC/8nYBoKO4C
+         I/R+2+4T+BHY6yvCzjvTTlFsJE6/jR9UmmBJhTPA909N/jYM0eCnWWe/HotlPhQSOL
+         Wc3c1w5dgm/3NgNQO3zZbCY4vLc/JMfhoS4P56IIX6Y3aGu12CcWvEsZiAQml7QD3J
+         AM/fNNUCofJ4S5v4xbQB+9KiXh4TqTjiLE7EuTIG4Gf2Gu2BqUV2kICDdI8KTToFmF
+         7P0t1KRhUqLIY1zdyCOJAf0YHGA7ag9rUbuRgjnBRdv1U2qywXcIy6L5W5w6sIYBIn
+         4+lmIeXMyV4Lw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---rQW7V0pPHkAw2NNiWp7qw2pJTEuWVVZkI
-Content-Type: multipart/mixed; boundary="1nTmnYcXxxfxqvFKU3qpyJbp2Ylpbb6UI";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong
- <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Douglas Anderson <dianders@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- Mamta Shukla <mamtashukla555@gmail.com>, linux-mediatek@lists.infradead.org,
- Jyri Sarha <jsarha@ti.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Allison Randal <allison@lohutok.net>, linux-arm-kernel@lists.infradead.org,
- Enrico Weigelt <info@metux.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
- amd-gfx@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- Todor Tomov <todor.tomov@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Message-ID: <f4c0432e-9223-54bc-c995-e0704555fc6e@suse.de>
-Subject: Re: [PATCH v5 18/24] drm/ast: Provide ddc symlink in connector sysfs
- directory
-References: <cover.1563960855.git.andrzej.p@collabora.com>
- <0afab6e2f61907409ba13a0ba91b8ee701eb7d74.1563960855.git.andrzej.p@collabora.com>
-In-Reply-To: <0afab6e2f61907409ba13a0ba91b8ee701eb7d74.1563960855.git.andrzej.p@collabora.com>
+Tegra194 has six PCIe controllers based on Synopsys DesignWare core.
+There are two Universal PHY (UPHY) blocks with each supporting 12(HSIO:
+Hisg Speed IO) and 8(NVHS: NVIDIA High Speed) lanes respectively.
+Controllers:0~4 use UPHY lanes from HSIO brick whereas Controller:5 uses
+UPHY lanes from NVHS brick. Lane mapping in HSIO UPHY brick to each PCIe
+controller (0~4) is controlled in XBAR module by BPMP-FW. Since PCIe
+core has PIPE interface, a glue module called PIPE-to-UPHY (P2U) is used
+to connect each UPHY lane (applicable to both HSIO and NVHS UPHY bricks)
+to PCIe controller
+This patch series
+- Adds support for P2U PHY driver
+- Adds support for PCIe host controller
+- Adds device tree nodes each PCIe controllers
+- Enables nodes applicable to p2972-0000 platform
+- Adds helper APIs in Designware core driver to get capability regs offset
+- Adds defines for new feature registers of PCIe spec revision 4
+- Makes changes in DesignWare core driver to get Tegra194 PCIe working
 
---1nTmnYcXxxfxqvFKU3qpyJbp2Ylpbb6UI
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Testing done on P2972-0000 platform
+- Able to get PCIe link up with on-board Marvel eSATA controller
+- Able to get PCIe link up with NVMe cards connected to M.2 Key-M slot
+- Able to do data transfers with both SATA drives and NVMe cards
 
+Note
+- Enabling x8 slot on P2972-0000 platform requires pinmux driver for Tegra194.
+  It is being worked on currently and hence Controller:5 (i.e. x8 slot) is
+  disabled in this patch series. A future patch series would enable this.
+- This series is based on top of the following series
+  Jisheng's patches to add support to .remove() in Designware sub-system
+  https://patchwork.kernel.org/project/linux-pci/list/?series=98559
+  (Update: Jisheng's patches are now accepted and applied for v5.2)
+  My patches made on top of Jisheng's patches to export various symbols
+  http://patchwork.ozlabs.org/project/linux-pci/list/?series=115671
+  (Update: My above patch series is accepted and applied for v5.3)
 
+V14:
+* Addressed Lorenzo's review comments in pcie-tegra194.c file (Patch 13/13)
+* Added a new patch to export dw_pcie_wait_for_link() API
 
-Am 24.07.19 um 15:59 schrieb Andrzej Pietrasiewicz:
-> Use the ddc pointer provided by the generic connector.
->=20
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> ---
->  drivers/gpu/drm/ast/ast_mode.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_m=
-ode.c
-> index c792362024a5..1c899a6e87b7 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -867,7 +867,14 @@ static int ast_connector_init(struct drm_device *d=
-ev)
->  		return -ENOMEM;
-> =20
->  	connector =3D &ast_connector->base;
-> -	drm_connector_init(dev, connector, &ast_connector_funcs, DRM_MODE_CON=
-NECTOR_VGA);
-> +	ast_connector->i2c =3D ast_i2c_create(dev);
-> +	if (!ast_connector->i2c)
-> +		DRM_ERROR("failed to add ddc bus for connector\n");
-> +
-> +	drm_connector_init_with_ddc(dev, connector,
-> +				    &ast_connector_funcs,
-> +				    DRM_MODE_CONNECTOR_VGA,
-> +				    &ast_connector->i2c->adapter);
-> =20
->  	drm_connector_helper_add(connector, &ast_connector_helper_funcs);
-> =20
-> @@ -881,10 +888,6 @@ static int ast_connector_init(struct drm_device *d=
-ev)
->  	encoder =3D list_first_entry(&dev->mode_config.encoder_list, struct d=
-rm_encoder, head);
->  	drm_connector_attach_encoder(connector, encoder);
-> =20
-> -	ast_connector->i2c =3D ast_i2c_create(dev);
-> -	if (!ast_connector->i2c)
-> -		DRM_ERROR("failed to add ddc bus for connector\n");
-> -
->  	return 0;
->  }
-> =20
->=20
+V13:
+* Addressed Bjorn's review comments for adding Gen-4 specific defines to pci_regs.h header file
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+V12:
+* Modified the commit message of patch-3 in this series to address review
+  comments from Lorenzo
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
+V11:
+* Removed device-tree patches from the series as they are applied to relevant
+  Tegra specific trees by Thierry Reding.
+* Included older Tegra chips to extend quirk that disables MSI interrupt being
+  used for Tegra PCIe root ports.
+* Addressed review comments in P2U driver file.
 
+V10:
+* Used _relaxed() versions of readl() & writel()
 
---1nTmnYcXxxfxqvFKU3qpyJbp2Ylpbb6UI--
+V9:
+* Made the drivers dependent on ARCH_TEGRA_194_SOC directly
+* Addressed review comments from Dmitry
 
---rQW7V0pPHkAw2NNiWp7qw2pJTEuWVVZkI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+V8:
+* Changed P2U driver file name from pcie-p2u-tegra194.c to phy-tegra194-p2u.c
+* Addressed review comments from Thierry and Rob
 
------BEGIN PGP SIGNATURE-----
+V7:
+* Took care of review comments from Rob
+* Added a quirk to disable MSI for root ports
+* Removed using pcie_pme_disable_msi() API in host controller driver
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl04kq0ACgkQaA3BHVML
-eiOVlgf9G4jOeCy2mr53PWbrCulWova4UboUrbdUc7gRFOmPd+B+OzGYuSRcUnlg
-kOVXCeSAueui+sQ0IbNuz/aH/ObT+dZzXd5gkLN9J6jj1WoLQ8Wyn4apJy13rnsE
-mHtW7wjvJ8kq5Yool9NZApYN9aD6ZTxZQwt4YokeS7Kfryf+vQN3pweb8XGBW3d4
-FuLKHRSrgcqTY1XUMAbXlEC5A0DfBo4wfar1q7u045ggLL84yMQcw3SJ9WyiPbpf
-k2v9fkgpwy60HTlNaTBxlzm4KBoRVXfYqIynlK3QMf7GF2sz0RiBF2RmzgG96f0I
-UqpER9GagpcIV5uY52PywoarGEUWuA==
-=lXB9
------END PGP SIGNATURE-----
+V6:
+* Removed patch that exports pcie_bus_config symbol
+* Took care of review comments from Thierry and Rob
 
---rQW7V0pPHkAw2NNiWp7qw2pJTEuWVVZkI--
+V5:
+* Removed redundant APIs in pcie-designware-ep.c file after moving them
+  to pcie-designware.c file based on Bjorn's review comments
+
+V4:
+* Rebased on top of linux-next top of the tree
+* Addressed Gustavo's comments and added his Ack for some of the changes.
+
+V3:
+* Addressed review comments from Thierry
+
+V2:
+* Addressed review comments from Bjorn, Thierry, Jonathan, Rob & Kishon
+* Added more patches in v2 series
+
+Vidya Sagar (13):
+  PCI: Add #defines for some of PCIe spec r4.0 features
+  PCI: Disable MSI for Tegra root ports
+  PCI: dwc: Perform dbi regs write lock towards the end
+  PCI: dwc: Move config space capability search API
+  PCI: dwc: Add ext config space capability search API
+  PCI: dwc: Export dw_pcie_wait_for_link() API
+  dt-bindings: PCI: designware: Add binding for CDM register check
+  PCI: dwc: Add support to enable CDM register check
+  dt-bindings: Add PCIe supports-clkreq property
+  dt-bindings: PCI: tegra: Add device tree support for Tegra194
+  dt-bindings: PHY: P2U: Add Tegra194 P2U block
+  phy: tegra: Add PCIe PIPE2UPHY support
+  PCI: tegra: Add Tegra194 PCIe support
+
+ .../bindings/pci/designware-pcie.txt          |    5 +
+ .../bindings/pci/nvidia,tegra194-pcie.txt     |  155 ++
+ Documentation/devicetree/bindings/pci/pci.txt |    5 +
+ .../bindings/phy/phy-tegra194-p2u.txt         |   28 +
+ drivers/pci/controller/dwc/Kconfig            |   10 +
+ drivers/pci/controller/dwc/Makefile           |    1 +
+ .../pci/controller/dwc/pcie-designware-ep.c   |   37 +-
+ .../pci/controller/dwc/pcie-designware-host.c |   14 +-
+ drivers/pci/controller/dwc/pcie-designware.c  |   88 +
+ drivers/pci/controller/dwc/pcie-designware.h  |   12 +
+ drivers/pci/controller/dwc/pcie-tegra194.c    | 1630 +++++++++++++++++
+ drivers/pci/quirks.c                          |   53 +
+ drivers/phy/tegra/Kconfig                     |    7 +
+ drivers/phy/tegra/Makefile                    |    1 +
+ drivers/phy/tegra/phy-tegra194-p2u.c          |  120 ++
+ include/uapi/linux/pci_regs.h                 |   14 +-
+ 16 files changed, 2138 insertions(+), 42 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
+ create mode 100644 Documentation/devicetree/bindings/phy/phy-tegra194-p2u.txt
+ create mode 100644 drivers/pci/controller/dwc/pcie-tegra194.c
+ create mode 100644 drivers/phy/tegra/phy-tegra194-p2u.c
+
+-- 
+2.17.1
+
