@@ -2,200 +2,247 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82E5B73371
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 18:14:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D79273548
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 19:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbfGXQOo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 24 Jul 2019 12:14:44 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:45865 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726099AbfGXQOn (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Jul 2019 12:14:43 -0400
-Received: by mail-io1-f65.google.com with SMTP id g20so90765560ioc.12;
-        Wed, 24 Jul 2019 09:14:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=U+1/75xZAzRWTYlUhVUY0io4DCPgugEaKO5dzrfUzCg=;
-        b=Jom3cCcKCdIjdKHK36v0+Rixw+zNQp9Y1uZS2BLcrqFec8yf/tPySNh6DIXI2BLp0G
-         HClAupm8QqbjVgzD8YmgE9z5BkhaGKdTVXm8HP0BgnPL+FbKYSL7/+rgp3cvx5btXg7k
-         PafbhZoMQvBb7zOcfhgfC27fUhWwn+kQyLA/lea9twrePAv/AXy1FgUquNLtQXGqkhdq
-         d4Ycwg6U6/uehqQO95vTCL7e3cYBTlSa3VB48qKLOK/Qp6vFmDTMQJqhrr/ylhBuAdWV
-         d1LlVk7JM6HTtGBJzWQ2p/dsCeXyWQ8TcMu4EbyIJMW05yOgLkYmhoGHpugs3lQ5cPuL
-         vS4A==
-X-Gm-Message-State: APjAAAWespELFb/DIv+ASbUS7MkZITUpCfU0ax2uxi0Dkg/EudoF9FBZ
-        /tRVo4CA3628NrmigRH5KQ==
-X-Google-Smtp-Source: APXvYqw/2u0AejiCtJ2dnt2U6+ugYb6v99MWFKK9mR3zL7gqP8joHRKeGopKNVlAvpBse3T2Pg2/Nw==
-X-Received: by 2002:a5d:8347:: with SMTP id q7mr72718745ior.277.1563984882457;
-        Wed, 24 Jul 2019 09:14:42 -0700 (PDT)
-Received: from localhost ([64.188.179.254])
-        by smtp.gmail.com with ESMTPSA id t14sm39192427ioi.60.2019.07.24.09.14.40
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 24 Jul 2019 09:14:41 -0700 (PDT)
-Date:   Wed, 24 Jul 2019 10:14:36 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        mark.rutland@arm.com, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [Patch V5 4/8] dt-bindings: usb: Add NVIDIA Tegra XUSB device
- mode controller binding
-Message-ID: <20190724161436.GA9624@bogus>
-References: <1562326911-26855-1-git-send-email-nkristam@nvidia.com>
- <1562326911-26855-5-git-send-email-nkristam@nvidia.com>
+        id S1727570AbfGXRQq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jul 2019 13:16:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52164 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727469AbfGXRQp (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 24 Jul 2019 13:16:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id C2476AC18;
+        Wed, 24 Jul 2019 17:16:42 +0000 (UTC)
+Subject: Re: [PATCH v5 02/24] drm: Add drm_connector_init() variant with ddc
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        David Airlie <airlied@linux.ie>,
+        Douglas Anderson <dianders@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        kernel@collabora.com, linux-samsung-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        Vincent Abriou <vincent.abriou@st.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Dave Airlie <airlied@redhat.com>,
+        intel-gfx@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+        linux-arm-msm@vger.kernel.org,
+        Mamta Shukla <mamtashukla555@gmail.com>,
+        linux-mediatek@lists.infradead.org, Jyri Sarha <jsarha@ti.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Paul <sean@poorly.run>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        linux-arm-kernel@lists.infradead.org,
+        Enrico Weigelt <info@metux.net>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        amd-gfx@lists.freedesktop.org,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        linux-kernel@vger.kernel.org, Todor Tomov <todor.tomov@linaro.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Huang Rui <ray.huang@amd.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+References: <cover.1563960855.git.andrzej.p@collabora.com>
+ <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <ea96186f-8d38-a698-f29e-049987ae0163@suse.de>
+Date:   Wed, 24 Jul 2019 19:16:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1562326911-26855-5-git-send-email-nkristam@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="LtNJJAmlPBJFSmTCjBWxZTnrO1jKlugWK"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jul 05, 2019 at 05:11:47PM +0530, Nagarjuna Kristam wrote:
-> Add device-tree binding documentation for the XUSB device mode controller
-> present on Tegra210 SoC. This controller supports the USB 3.0
-> specification.
-> 
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> Reviewed-by: JC Kuo <jckuo@nvidia.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--LtNJJAmlPBJFSmTCjBWxZTnrO1jKlugWK
+Content-Type: multipart/mixed; boundary="vnsNtGTawS7eHAvH285t7LPE1bVWovlWW";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong
+ <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Mamta Shukla <mamtashukla555@gmail.com>, linux-mediatek@lists.infradead.org,
+ Jyri Sarha <jsarha@ti.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Allison Randal <allison@lohutok.net>, linux-arm-kernel@lists.infradead.org,
+ Enrico Weigelt <info@metux.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ amd-gfx@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Todor Tomov <todor.tomov@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Message-ID: <ea96186f-8d38-a698-f29e-049987ae0163@suse.de>
+Subject: Re: [PATCH v5 02/24] drm: Add drm_connector_init() variant with ddc
+References: <cover.1563960855.git.andrzej.p@collabora.com>
+ <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
+In-Reply-To: <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
+
+--vnsNtGTawS7eHAvH285t7LPE1bVWovlWW
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 24.07.19 um 15:59 schrieb Andrzej Pietrasiewicz:
+> Allow passing ddc adapter pointer to the init function. Even if
+> drm_connector_init() sometime in the future decides to e.g. memset() al=
+l
+> connector fields to zeros, the newly added function ensures that at its=
+
+> completion the ddc member of connector is correctly set.
+>=20
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 > ---
->  .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  | 110 +++++++++++++++++++++
->  1 file changed, 110 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
-> new file mode 100644
-> index 0000000..c6a1b81
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
-> @@ -0,0 +1,110 @@
-> +Device tree binding for NVIDIA Tegra XUSB device mode controller (XUDC)
-> +=======================================================================
+>  drivers/gpu/drm/drm_connector.c | 19 +++++++++++++++++++
+>  include/drm/drm_connector.h     |  5 +++++
+>  2 files changed, 24 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> index 068d4b05f1be..06fbfc44fb48 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -296,6 +296,25 @@ int drm_connector_init(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drm_connector_init);
+> =20
+> +int drm_connector_init_with_ddc(struct drm_device *dev,
+> +				struct drm_connector *connector,
+> +				const struct drm_connector_funcs *funcs,
+> +				int connector_type,
+> +				struct i2c_adapter *ddc)
+> +{
+> +	int ret;
 > +
-> +The Tegra XUDC controller supports both USB 2.0 HighSpeed/FullSpeed and
-> +USB 3.0 SuperSpeed protocols.
+> +	ret =3D drm_connector_init(dev, connector, funcs, connector_type);
+> +	if (ret)
+> +		return ret;
 > +
-> +Required properties:
-> +--------------------
-> +- compatible: For Tegra210, must contain "nvidia,tegra210-xudc".
-> +- reg: Must contain the base and length of all registers used.
-> +- interrupts: Must contain the XUSB device interrupt.
-> +- clocks: Must contain an entry for all clocks used.
-> +  See ../clock/clock-bindings.txt for details.
-> +- clock-names: Must include the following entries:
-> +   - dev: Clock to enable core XUSB dev clock.
-> +   - ss: Clock to enable XUSB super speed clock.
-> +   - ss_src: Clock to enable XUSB super speed dev clock.
-> +   - hs_src: Clock to enable XUSB high speed dev clock.
-> +   - fs_src: Clock to enable XUSB full speed dev clock.
-> +- nvidia,xusb-padctl: phandle to the XUSB pad controller that is used to
-> +  configure the USB pads used by the XUDC controller.
-> +- power-domains: A list of PM domain specifiers that reference each power-domain
-> +  used by the XUSB device mode controller. This list must comprise of a specifier
-> +  for the XUSBA and XUSBB power-domains. See ../power/power_domain.txt and
-> +  ../arm/tegra/nvidia,tegra20-pmc.txt for details.
-> +- power-domain-names: A list of names that represent each of the specifiers in
-> +  the 'power-domains' property. Must include 'ss' and 'dev'.
+> +	/* provide ddc symlink in sysfs */
+> +	connector->ddc =3D ddc;
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_connector_init_with_ddc);
+> +
 
-The order matters and is the opposite of the example.
+Thanks for including such a function.
 
-> +- phys: Must contain an entry for each entry in phy-names.
-> +  See ../phy/phy-bindings.txt for details.
-> +- phy-names: Should include an entry for each PHY used by the controller.
-> +  Names must be "usb2", and "usb3" if support SuperSpeed device mode.
-> +  - "usb3" phy, SuperSpeed (SSTX+/SSTX-/SSRX+/SSRX-) data lines.
-> +  - "usb2" phy, USB 2.0 (D+/D-) data lines.
-> +
-> +For Tegra210:
-> +- reg-names: Must include the following entries:
-> +   - base: XUSB device controller registers.
-> +   - fpci: XUSB device PCI Config registers.
-> +   - ipfs: XUSB device registers.
-> +- avddio-usb-supply: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
-> +- hvdd-usb-supply: USB controller power supply. Must supply 3.3 V.
-> +
-> +
-> +Optional properties:
-> +--------------------
-> +- usb-role-switch: boolean property to indicate use of USB Role Switch driver.
-> +
-> +Sub-nodes:
-> +----------
-> +- The port would be added as subnode if use "usb-role-switch" property.
-> +  see graph.txt.
-> +
-> +Example:
-> +--------
-> +	pmc: pmc@7000e400 {
-> +		compatible = "nvidia,tegra210-pmc";
-> +		reg = <0x0 0x7000e400 0x0 0x400>;
-> +		clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
-> +		clock-names = "pclk", "clk32k_in";
-> +
-> +		powergates {
-> +			pd_xusbss: xusba {
-> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_SS>;
-> +				resets = <&tegra_car 156>;
-> +				#power-domain-cells = <0>;
-> +			};
-> +
-> +			pd_xusbdev: xusbb {
-> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>;
-> +				resets = <&tegra_car 95>;
-> +				#power-domain-cells = <0>;
-> +			};
-> +		};
-> +	};
-> +
-> +	xudc@700d0000 {
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-usb@...
+>  /**
+>   * drm_connector_attach_edid_property - attach edid property.
+>   * @connector: the connector
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 33a6fff85fdb..937fda9c1374 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1410,6 +1410,11 @@ int drm_connector_init(struct drm_device *dev,
+>  		       struct drm_connector *connector,
+>  		       const struct drm_connector_funcs *funcs,
+>  		       int connector_type);
+> +int drm_connector_init_with_ddc(struct drm_device *dev,
+> +				struct drm_connector *connector,
+> +				const struct drm_connector_funcs *funcs,
+> +				int connector_type,
+> +				struct i2c_adapter *ddc);
+>  void drm_connector_attach_edid_property(struct drm_connector *connecto=
+r);
+>  int drm_connector_register(struct drm_connector *connector);
+>  void drm_connector_unregister(struct drm_connector *connector);
+>=20
 
-> +		compatible = "nvidia,tegra210-xudc";
-> +		reg = <0x0 0x700d0000 0x0 0x8000>,
-> +		      <0x0 0x700d8000 0x0 0x1000>,
-> +		      <0x0 0x700d9000 0x0 0x1000>;
-> +		reg-names = "base", "fpci", "ipfs";
-> +
-> +		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +		clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
-> +			 <&tegra_car TEGRA210_CLK_XUSB_SS>,
-> +			 <&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
-> +			 <&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
-> +			 <&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
-> +		clock-names = "dev", "ss", "ss_src", "hs_src", "fs_src";
-> +
-> +		power-domains = <&pd_xusbdev>, <&pd_xusbss>;
-> +		power-domain-names = "dev", "ss";
-> +
-> +		nvidia,xusb-padctl = <&padctl>;
-> +
-> +		phys = <&{/padctl@7009f000/pads/usb2/lanes/usb2-0}>;
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
 
-Use a label.
 
-> +		phy-names = "usb2;
-> +
-> +		avddio-usb-supply = <&vdd_pex_1v05>;
-> +		hvdd-usb-supply = <&vdd_3v3_sys>;
-> +
-> +		usb-role-switch;
-> +		port {
-> +			usb_role_switch: endpoint@0 {
+--vnsNtGTawS7eHAvH285t7LPE1bVWovlWW--
 
-Don't need a unit address.
+--LtNJJAmlPBJFSmTCjBWxZTnrO1jKlugWK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-> +				remote-endpoint = <&bconn_ep>;
-> +			};
-> +		};
-> +
-> +	};
-> -- 
-> 2.7.4
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl04knMACgkQaA3BHVML
+eiPIEAf/SbE8+UterlzTVb4DSKX4d7+6Qm6csshf2sBPxiw6ecOqETPDYsQXsZYK
+lwqXKV0mCZ7emWWXINgeIGb27bYeXxlv/s7BpdMC/H88bZK2MqnHQdbwlXD5W+PF
+9QPMXdbn55pDDyjE/Onjmip5Ce+gkXQb2EyafrqkEuDxhCx9QCUnSwrXpV6kTmxS
+/ZCuKYDKVU89AoRunyM8VS2Uqwm9e0GZTaUHcr+3rxGUxwi99/LJu7vGLwLih7Nl
+BEJUyOIzVT9mg7dGE70z8XG/0X0bDQEQiNjKHIUdMOCKbMBZerZjPuGH2a84AS4h
+j71GFMojM8wuds7/IkMG76b5vfNGNA==
+=Nt+n
+-----END PGP SIGNATURE-----
+
+--LtNJJAmlPBJFSmTCjBWxZTnrO1jKlugWK--
