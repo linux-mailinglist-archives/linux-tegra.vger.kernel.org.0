@@ -2,272 +2,170 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92EF072B6C
-	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 11:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7423172BA6
+	for <lists+linux-tegra@lfdr.de>; Wed, 24 Jul 2019 11:43:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbfGXJcF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 24 Jul 2019 05:32:05 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40147 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726765AbfGXJcF (ORCPT
+        id S1727032AbfGXJns (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 24 Jul 2019 05:43:48 -0400
+Received: from smtprelay-out1.synopsys.com ([198.182.61.142]:42598 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725944AbfGXJns (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 24 Jul 2019 05:32:05 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m8so10232165lji.7;
-        Wed, 24 Jul 2019 02:32:02 -0700 (PDT)
+        Wed, 24 Jul 2019 05:43:48 -0400
+Received: from mailhost.synopsys.com (dc2-mailhost1.synopsys.com [10.12.135.161])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 56AF1C1C88;
+        Wed, 24 Jul 2019 09:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1563961427; bh=nsGQjw4xzg93aCMW1JaUJ/Dkct937RNQGjWQGCBBtrw=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=gIsP1Ft2lolpCF46gVqHVxWiCYl8rE4DPyaqCL23EU3G46YbcF5Ed/GvixzQZhg16
+         NF5EhupgnBWmLFftQ32ACJJqN3xMrGRUYfyL/gRPGsTcsWcx62cLi1xafJ8/G+QfsG
+         nFhGd4CI+aUKpxS4ox7owRgFGtPrz3gxTWe3uqmU94u/SJ6dc8bvtocIoXoP0trG7l
+         wEqqpClcMgsCKw8/RAJVCd+GCbj0IbXKzIKQXjo8k6NJdqrZp7LHApjlfV0o4RGRWO
+         5a4THDA+J8RU3EI4M2l7tYmnYRu1R9+k8RZWkdqyiG4xs5kycVXy5SicBtBYr3Hocl
+         3m2tCrg5Pv7vw==
+Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id E9A0AA0093;
+        Wed, 24 Jul 2019 09:43:43 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 24 Jul 2019 02:43:31 -0700
+Received: from NAM05-DM3-obe.outbound.protection.outlook.com (10.13.134.195)
+ by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Wed, 24 Jul 2019 02:43:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VR8h98ihHYxAc9AELg507KZqCpobLQZHIUjnzQT6eUt2zz/8FgDuElAkvBa3RRDqkqUcJLpjruYRAaiUFq6s+QyJEBlskRxFD/y1DVZ7y+v0nvg4dpgQM5KsajhC4PPdN1TpnOYdpCAqwNhMROJQ3qTj6AsnYPIom9GDJqDYKpdcrdmqwzMXeoun2GP4Lft3pJTmyfp2SplSV5GVBjGyeKxWgaQIWuaTTJNLNFudc4JEmLp6uixLPEEOq1i1g9s9yaebTL/Q389EcBY6AoLE99fCv/xehOKdJPE5Jjes8y1QmIZZ06Pxq4s4mUafFFvZ1UfBQrKSz+bOB+0omCx+yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zgNEFvzUi99+JtKtlM9mU45xe4d7SqyZyIxMW5bcWyA=;
+ b=AOdHjRAR+Y6xb3kQNS7tLB5kbVswtTQuNhx4VEA0S1PRvHj9Ym5d6U2jqQT586IGAhyCKX4qkUCrgQ0XUE0Jj+uRAf2JsesLVfew7t3EQPPLE55eOAVf6jzCN4qG+olaJI8KcKZ7SWUINNXoHMgDVpATBuUYhESyYZgcwvH7eSGaep+aIMadHENulypjTJr+wfAOzYdSzizfdUp5eppqncGM9ndYfBoBEv2szxu/F9W+7GJuc10iE3pHPRvXwb65Rci3+xUJh73YqxpcSl0t2T2T0wFVSVbonJAWP5iEWYVbIOSjtccHetiSpyYxCQ4RuHfgIV1QcIo8PZfyHxoZgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=synopsys.com;dmarc=pass action=none
+ header.from=synopsys.com;dkim=pass header.d=synopsys.com;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5cMxkDLAw0+wI5yyZZ2C4CTdBfpWEWu4MTXejHwNX3k=;
-        b=M7M4pwWQ1JNTsSdnHyUBoP7SQNVTTfussMFGMbHFszgNNxt3OdPwG/VzaVJS4AXGb8
-         jG1f6p39QbggxqQERBREgc3XGNFsPi/QeCQ/CU4lExy+EDVeFvfbiv7BRl3Yi4X3d+pc
-         j0mGhBNQmiJkYhNRVfmw6R0WrDUAy/R0uWLJrNixTDG/zsHr8hqrYLrtNci7D9EjeZlN
-         ipfd9pN665fZcqBiF8CmjszS+RThxnT+qrYyqZkAhFeA2qziUOfPiDIPaZLUAVb81Njy
-         Hj4ZVVZOp7KlgXoBD4Ft00WrFuChY0XAOifupAfDzNdpkYn/R6Ee5gTbkgRwbhjzOKSH
-         yLqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5cMxkDLAw0+wI5yyZZ2C4CTdBfpWEWu4MTXejHwNX3k=;
-        b=qojDjj0Uc3m7rhXKNCLv3Nd9vqQHTdi27vCX9JIX+1M8ouyL3BiJpbOzzkQ2zdGSet
-         7n6DGpJrI91s+H1/wgm82NMGjUWL+8vBL656xNC/9fn96Kp0YVerZQkVuckRFjXLAx7C
-         0O0yN5dg2brruuoQpE6sKOvdei92NOTnEslJB1Ku0gEvPa6lyvAHRQpJjJn5rmKJH67h
-         TGNM5CAX9/yCFVnGaZBh9ft60gNbBwlp27iAaVsv+nSyIFR9jD/FUJO9Eo+KEA7gyFhg
-         DHKSEw9P1lMVuIri+okcpnweWwBU7cYHkb9f4VYPWtJTopula7Jeph2qQFOKBf/6O97f
-         41kQ==
-X-Gm-Message-State: APjAAAWpfBRoulCZzOHVr4nBfnZK44XRIBBHzttV+OdevWIwv+qI5OWU
-        RyNM2fTHbaRXE5E3SzZ3i1+5sODh
-X-Google-Smtp-Source: APXvYqycUyi4BreK71bHIkrAD25s8hnkbaI1spXwKvLdZL3F5+ovmZJawvqf6OVoEcgFOfPILdmf8w==
-X-Received: by 2002:a2e:970a:: with SMTP id r10mr40040217lji.115.1563960721309;
-        Wed, 24 Jul 2019 02:32:01 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.googlemail.com with ESMTPSA id i17sm6990353lfp.94.2019.07.24.02.31.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Jul 2019 02:32:00 -0700 (PDT)
-Subject: Re: [PATCH V6 16/21] soc/tegra: pmc: Add pmc wake support for
- tegra210
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
-        jason@lakedaemon.net, marc.zyngier@arm.com,
-        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-References: <1563738060-30213-1-git-send-email-skomatineni@nvidia.com>
- <1563738060-30213-17-git-send-email-skomatineni@nvidia.com>
- <0b3d08ea-4633-8a54-ba66-c3f3146a1ece@gmail.com>
- <ca32c2d8-d752-3ecd-3a3f-232366730c7b@gmail.com>
- <b575ca93-9f34-b07a-1234-ef1ea2a6ddee@gmail.com>
- <71a88a9c-a542-557a-0eaa-3c90112dee0e@nvidia.com>
- <70ad28cb-c268-cbbe-36f5-39df26617d8e@gmail.com>
- <629826f9-c453-386a-9e88-bd64d23b8eab@nvidia.com>
- <71c8cab1-bf72-c073-be30-4263c6b7c871@gmail.com>
- <97096b6c-f2f5-b82a-b172-802f4a06d1af@nvidia.com>
- <a58de350-f6ce-9308-1ae0-885e732b575d@gmail.com>
- <a545cc66-45cd-504a-4390-8274b8b79540@gmail.com>
- <6fefa6cc-f762-d473-a0ce-248d352a9a53@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9848eff6-dc12-850c-25cb-a85a464c0020@gmail.com>
-Date:   Wed, 24 Jul 2019 12:31:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <6fefa6cc-f762-d473-a0ce-248d352a9a53@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+ d=synopsys.onmicrosoft.com; s=selector1-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zgNEFvzUi99+JtKtlM9mU45xe4d7SqyZyIxMW5bcWyA=;
+ b=DPfJ1eGstYI3pW/0Ki4wfN+NI9qThNJ7zLSQRoMBaFJoURjzucP47omeYOHHhlHxcl/AJIMgqh1wKM9Ai6EGKxA4POhQM+h3JPgFAHfNkCfRChHL5gFg6FbkWnJb2BPBQdyJNPQs5InZIOnchq2rXS2710IDHUKPhi+ln2qeM1A=
+Received: from BYAPR12MB3269.namprd12.prod.outlook.com (20.179.93.146) by
+ BYAPR12MB3048.namprd12.prod.outlook.com (20.178.53.221) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2094.16; Wed, 24 Jul 2019 09:43:29 +0000
+Received: from BYAPR12MB3269.namprd12.prod.outlook.com
+ ([fe80::f5b8:ac6e:ea68:cb1c]) by BYAPR12MB3269.namprd12.prod.outlook.com
+ ([fe80::f5b8:ac6e:ea68:cb1c%4]) with mapi id 15.20.2094.013; Wed, 24 Jul 2019
+ 09:43:29 +0000
+From:   Jose Abreu <Jose.Abreu@synopsys.com>
+To:     Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        David Miller <davem@davemloft.net>
+CC:     "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "Jose.Abreu@synopsys.com" <Jose.Abreu@synopsys.com>,
+        "lists@bofh.nu" <lists@bofh.nu>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
+        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "wens@csie.org" <wens@csie.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+Thread-Topic: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+Thread-Index: AQHVMYtq2Zx4WVoG/U2kL8GCK0bP/abPQEOAgADTx+CABnZ9AIAADuYAgAAFQOCAAAnIAIAABLTAgAFMy7CAAB4gAIAAAO7wgAAG6gCAABvPAIAAcGAAgADrmoCAAA0XIA==
+Date:   Wed, 24 Jul 2019 09:43:29 +0000
+Message-ID: <BYAPR12MB3269AA9955844E317B62A239D3C60@BYAPR12MB3269.namprd12.prod.outlook.com>
+References: <BYAPR12MB32692AF2BA127C5DA5B74804D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <6c769226-bdd9-6fe0-b96b-5a0d800fed24@arm.com>
+ <8756d681-e167-fe4a-c6f0-47ae2dcbb100@nvidia.com>
+ <20190723.115112.1824255524103179323.davem@davemloft.net>
+ <20190724085427.GA10736@apalos>
+In-Reply-To: <20190724085427.GA10736@apalos>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=joabreu@synopsys.com; 
+x-originating-ip: [83.174.63.141]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 125300b3-56e5-4fef-aa9b-08d7101b6265
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BYAPR12MB3048;
+x-ms-traffictypediagnostic: BYAPR12MB3048:
+x-microsoft-antispam-prvs: <BYAPR12MB30481B709FD62FE61A0FA4ABD3C60@BYAPR12MB3048.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0108A997B2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(366004)(376002)(346002)(136003)(396003)(199004)(189003)(316002)(229853002)(486006)(186003)(25786009)(305945005)(54906003)(7736002)(81166006)(81156014)(9686003)(8676002)(110136005)(6116002)(3846002)(33656002)(52536014)(66066001)(4326008)(74316002)(476003)(53936002)(256004)(14444005)(11346002)(478600001)(446003)(5660300002)(6246003)(71200400001)(26005)(8936002)(14454004)(71190400001)(7416002)(86362001)(55016002)(2906002)(99286004)(102836004)(76116006)(66946007)(64756008)(66556008)(66476007)(66446008)(6506007)(76176011)(6436002)(68736007)(7696005);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR12MB3048;H:BYAPR12MB3269.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Ft7v7HCjUoHGcFPsuefpcEXJg89UCUXy85K/Lk+ZS1aHOyoiW1omMWRIIlLtgyFPBDW1f0fFMH6OHnaIPQNinvpiIzbKZUWBi2WFw+V1RifomCQHRjOgsDKnkYLKkM4u7oc4gO4z3SQ1VRjVyXCu+4bvg8w7FpbGIbApjrHQahCI57E2zJJLkPdd2JG7sii/TceBR4Kf0Du3nI9kOkPdMnP76BI5fTd1K1jnxj8Hfgayhll0OI1n9mI0HOm587ZeewC4/FBYOuwN+wH/ydjPYQqMhyZ0Fz2OCR4aEN2kokLV2rkgPgIped/DmzcL8B9KcALlpro+Ra04ler38VvWdeiBmnYhPCo+vZVSMyvCViDR9FQyr1xbg/V7ehdp8yLqtIkpmVE+IHNlkLfwRTlRXatRPOiXCrtBCoQ9trI+/F4=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 125300b3-56e5-4fef-aa9b-08d7101b6265
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2019 09:43:29.6686
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: joabreu@synopsys.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3048
+X-OriginatorOrg: synopsys.com
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-24.07.2019 2:39, Sowjanya Komatineni пишет:
-> 
-> On 7/23/19 7:27 AM, Dmitry Osipenko wrote:
->> 23.07.2019 6:43, Dmitry Osipenko пишет:
->>> 23.07.2019 6:31, Sowjanya Komatineni пишет:
->>>> On 7/22/19 8:25 PM, Dmitry Osipenko wrote:
->>>>> 23.07.2019 6:09, Sowjanya Komatineni пишет:
->>>>>> On 7/22/19 8:03 PM, Dmitry Osipenko wrote:
->>>>>>> 23.07.2019 4:52, Sowjanya Komatineni пишет:
->>>>>>>> On 7/22/19 6:41 PM, Dmitry Osipenko wrote:
->>>>>>>>> 23.07.2019 4:08, Dmitry Osipenko пишет:
->>>>>>>>>> 23.07.2019 3:58, Dmitry Osipenko пишет:
->>>>>>>>>>> 21.07.2019 22:40, Sowjanya Komatineni пишет:
->>>>>>>>>>>> This patch implements PMC wakeup sequence for Tegra210 and
->>>>>>>>>>>> defines
->>>>>>>>>>>> common used RTC alarm wake event.
->>>>>>>>>>>>
->>>>>>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>>>>>>>>>> ---
->>>>>>>>>>>>     drivers/soc/tegra/pmc.c | 111
->>>>>>>>>>>> ++++++++++++++++++++++++++++++++++++++++++++++++
->>>>>>>>>>>>     1 file changed, 111 insertions(+)
->>>>>>>>>>>>
->>>>>>>>>>>> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
->>>>>>>>>>>> index 91c84d0e66ae..c556f38874e1 100644
->>>>>>>>>>>> --- a/drivers/soc/tegra/pmc.c
->>>>>>>>>>>> +++ b/drivers/soc/tegra/pmc.c
->>>>>>>>>>>> @@ -57,6 +57,12 @@
->>>>>>>>>>>>     #define  PMC_CNTRL_SYSCLK_OE        BIT(11) /* system clock
->>>>>>>>>>>> enable */
->>>>>>>>>>>>     #define  PMC_CNTRL_SYSCLK_POLARITY    BIT(10) /* sys clk
->>>>>>>>>>>> polarity */
->>>>>>>>>>>>     #define  PMC_CNTRL_MAIN_RST        BIT(4)
->>>>>>>>>>>> +#define  PMC_CNTRL_LATCH_WAKEUPS    BIT(5)
->>>>>>>>>> Please follow the TRM's bits naming.
->>>>>>>>>>
->>>>>>>>>> PMC_CNTRL_LATCHWAKE_EN
->>>>>>>>>>
->>>>>>>>>>>> +#define PMC_WAKE_MASK            0x0c
->>>>>>>>>>>> +#define PMC_WAKE_LEVEL            0x10
->>>>>>>>>>>> +#define PMC_WAKE_STATUS            0x14
->>>>>>>>>>>> +#define PMC_SW_WAKE_STATUS        0x18
->>>>>>>>>>>>       #define DPD_SAMPLE            0x020
->>>>>>>>>>>>     #define  DPD_SAMPLE_ENABLE        BIT(0)
->>>>>>>>>>>> @@ -87,6 +93,11 @@
->>>>>>>>>>>>       #define PMC_SCRATCH41            0x140
->>>>>>>>>>>>     +#define PMC_WAKE2_MASK            0x160
->>>>>>>>>>>> +#define PMC_WAKE2_LEVEL            0x164
->>>>>>>>>>>> +#define PMC_WAKE2_STATUS        0x168
->>>>>>>>>>>> +#define PMC_SW_WAKE2_STATUS        0x16c
->>>>>>>>>>>> +
->>>>>>>>>>>>     #define PMC_SENSOR_CTRL            0x1b0
->>>>>>>>>>>>     #define  PMC_SENSOR_CTRL_SCRATCH_WRITE    BIT(2)
->>>>>>>>>>>>     #define  PMC_SENSOR_CTRL_ENABLE_RST    BIT(1)
->>>>>>>>>>>> @@ -1922,6 +1933,55 @@ static const struct irq_domain_ops
->>>>>>>>>>>> tegra_pmc_irq_domain_ops = {
->>>>>>>>>>>>         .alloc = tegra_pmc_irq_alloc,
->>>>>>>>>>>>     };
->>>>>>>>>>>>     +static int tegra210_pmc_irq_set_wake(struct irq_data
->>>>>>>>>>>> *data,
->>>>>>>>>>>> unsigned int on)
->>>>>>>>>>>> +{
->>>>>>>>>>>> +    struct tegra_pmc *pmc = irq_data_get_irq_chip_data(data);
->>>>>>>>>>>> +    unsigned int offset, bit;
->>>>>>>>>>>> +    u32 value;
->>>>>>>>>>>> +
->>>>>>>>>>>> +    if (data->hwirq == ULONG_MAX)
->>>>>>>>>>>> +        return 0;
->>>>>>>>>>>> +
->>>>>>>>>>>> +    offset = data->hwirq / 32;
->>>>>>>>>>>> +    bit = data->hwirq % 32;
->>>>>>>>>>>> +
->>>>>>>>>>>> +    /*
->>>>>>>>>>>> +     * Latch wakeups to SW_WAKE_STATUS register to capture
->>>>>>>>>>>> events
->>>>>>>>>>>> +     * that would not make it into wakeup event register
->>>>>>>>>>>> during
->>>>>>>>>>>> LP0 exit.
->>>>>>>>>>>> +     */
->>>>>>>>>>>> +    value = tegra_pmc_readl(pmc, PMC_CNTRL);
->>>>>>>>>>>> +    value |= PMC_CNTRL_LATCH_WAKEUPS;
->>>>>>>>>>>> +    tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>>>>>>>>>> +    udelay(120);
->>>>>>>>>>> Why it takes so much time to latch the values? Shouldn't some
->>>>>>>>>>> status-bit
->>>>>>>>>>> be polled for the completion of latching?
->>>>>>>>>>>
->>>>>>>>>>> Is this register-write really getting buffered in the PMC?
->>>>>>>>>>>
->>>>>>>>>>>> +    value &= ~PMC_CNTRL_LATCH_WAKEUPS;
->>>>>>>>>>>> +    tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>>>>>>>>>> +    udelay(120);
->>>>>>>>>>> 120 usecs to remove latching, really?
->>>>>>>>>>>
->>>>>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_SW_WAKE_STATUS);
->>>>>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_SW_WAKE2_STATUS);
->>>>>>>>>>>> +
->>>>>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_WAKE_STATUS);
->>>>>>>>>>>> +    tegra_pmc_writel(pmc, 0, PMC_WAKE2_STATUS);
->>>>>>>>>>>> +
->>>>>>>>>>>> +    /* enable PMC wake */
->>>>>>>>>>>> +    if (data->hwirq >= 32)
->>>>>>>>>>>> +        offset = PMC_WAKE2_MASK;
->>>>>>>>>>>> +    else
->>>>>>>>>>>> +        offset = PMC_WAKE_MASK;
->>>>>>>>>>>> +
->>>>>>>>>>>> +    value = tegra_pmc_readl(pmc, offset);
->>>>>>>>>>>> +
->>>>>>>>>>>> +    if (on)
->>>>>>>>>>>> +        value |= 1 << bit;
->>>>>>>>>>>> +    else
->>>>>>>>>>>> +        value &= ~(1 << bit);
->>>>>>>>>>>> +
->>>>>>>>>>>> +    tegra_pmc_writel(pmc, value, offset);
->>>>>>>>>>> Why the latching is done *before* writing into the WAKE
->>>>>>>>>>> registers?
->>>>>>>>>>> What
->>>>>>>>>>> it is latching then?
->>>>>>>>>> I'm looking at the TRM doc and it says that latching should be
->>>>>>>>>> done
->>>>>>>>>> *after* writing to the WAKE_MASK / LEVEL registers.
->>>>>>>>>>
->>>>>>>>>> Secondly it says that it's enough to do:
->>>>>>>>>>
->>>>>>>>>> value = tegra_pmc_readl(pmc, PMC_CNTRL);
->>>>>>>>>> value |= PMC_CNTRL_LATCH_WAKEUPS;
->>>>>>>>>> tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>>>>>>>>
->>>>>>>>>> in order to latch. There is no need for the delay and to
->>>>>>>>>> remove the
->>>>>>>>>> "LATCHWAKE_EN" bit, it should be a oneshot action.
->>>>>>>>> Although, no. TRM says "stops latching on transition from 1
->>>>>>>>> to 0 (sequence - set to 1,set to 0)", so it's not a oneshot
->>>>>>>>> action.
->>>>>>>>>
->>>>>>>>> Have you tested this code at all? I'm wondering how it happens to
->>>>>>>>> work
->>>>>>>>> without a proper latching.
->>>>>>>> Yes, ofcourse its tested and this sequence to do transition is
->>>>>>>> recommendation from Tegra designer.
->>>>>>>> Will check if TRM doesn't have update properly or will re-confirm
->>>>>>>> internally on delay time...
->>>>>>>>
->>>>>>>> On any of the wake event PMC wakeup happens and WAKE_STATUS
->>>>>>>> register
->>>>>>>> will have bits set for all events that triggered wake.
->>>>>>>> After wakeup PMC doesn't update SW_WAKE_STATUS register as per PMC
->>>>>>>> design.
->>>>>>>> SW latch register added in design helps to provide a way to capture
->>>>>>>> those events that happen right during wakeup time and didnt make
->>>>>>>> it to
->>>>>>>> SW_WAKE_STATUS register.
->>>>>>>> So before next suspend entry, latching all prior wake events
->>>>>>>> into SW
->>>>>>>> WAKE_STATUS and then clearing them.
->>>>>>> I'm now wondering whether the latching cold be turned ON permanently
->>>>>>> during of the PMC's probe, for simplicity.
->>>>>> latching should be done on suspend-resume cycle as wake events gets
->>>>>> generates on every suspend-resume cycle.
->>>>> You're saying that PMC "doesn't update SW_WAKE_STATUS" after wake-up,
->>>>> then I don't quite understand what's the point of disabling the
->>>>> latching
->>>>> at all.
->>>> When latch wake enable is set, events are latched and during 1 to 0
->>>> transition latching is disabled.
->>>>
->>>> This is to avoid sw_wake_status and wake_status showing diff events.
->>> Okay.
->>>
->>>> Currently driver is not relying on SW_WAKE_STATUS but its good to latch
->>>> and clear so even at some point for some reason when SW_WAKE_STATUS is
->>>> used, this wlil not cause mismatch with wake_status.
->>> Then the latching need to be enabled on suspend and disabled early on
->>> resume to get a proper WAKE status.
->> Actually, it will be better to simply not implement the latching until
->> it will become really needed. In general you shouldn't add into the
->> patchset anything that is unused.
-> 
-> OK, will remove latch_wake for now.
-> 
-> Will send next version once I get all the review feedback ..
-> 
+From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Date: Jul/24/2019, 09:54:27 (UTC+00:00)
 
-That's not a bad idea. Wait for one-two weeks and if it will happen that
-nobody is replying, then just issue a new version.
+> Hi David,=20
+>=20
+> > From: Jon Hunter <jonathanh@nvidia.com>
+> > Date: Tue, 23 Jul 2019 13:09:00 +0100
+> >=20
+> > > Setting "iommu.passthrough=3D1" works for me. However, I am not sure =
+where
+> > > to go from here, so any ideas you have would be great.
+> >=20
+> > Then definitely we are accessing outside of a valid IOMMU mapping due
+> > to the page pool support changes.
+>=20
+> Yes. On the netsec driver i did test with and without SMMU to make sure i=
+ am not
+> breaking anything.
+> Since we map the whole page on the API i think some offset on the driver =
+causes
+> that. In any case i'll have another look on page_pool to make sure we are=
+ not
+> missing anything.=20
+
+Ilias, can it be due to this:
+
+stmmac_main.c:
+	pp_params.order =3D DIV_ROUND_UP(priv->dma_buf_sz, PAGE_SIZE);
+
+page_pool.c:
+	dma =3D dma_map_page_attrs(pool->p.dev, page, 0,
+				 (PAGE_SIZE << pool->p.order),
+				 pool->p.dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+
+"order", will be at least 1 and then mapping the page can cause overlap=20
+?
+
+---
+Thanks,
+Jose Miguel Abreu
