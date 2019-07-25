@@ -2,105 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 803DC74A42
-	for <lists+linux-tegra@lfdr.de>; Thu, 25 Jul 2019 11:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1D9F74A76
+	for <lists+linux-tegra@lfdr.de>; Thu, 25 Jul 2019 11:55:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387713AbfGYJpw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 25 Jul 2019 05:45:52 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:15831 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbfGYJpw (ORCPT
+        id S1728289AbfGYJzG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 25 Jul 2019 05:55:06 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:16966 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725808AbfGYJzG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 25 Jul 2019 05:45:52 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d397a500000>; Thu, 25 Jul 2019 02:45:52 -0700
+        Thu, 25 Jul 2019 05:55:06 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d397c760004>; Thu, 25 Jul 2019 02:55:02 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 25 Jul 2019 02:45:51 -0700
+  Thu, 25 Jul 2019 02:55:05 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 25 Jul 2019 02:45:51 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 25 Jul
- 2019 09:45:48 +0000
-Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
- Pool
-To:     Jose Abreu <Jose.Abreu@synopsys.com>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>
-CC:     David Miller <davem@davemloft.net>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "lists@bofh.nu" <lists@bofh.nu>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
-        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "wens@csie.org" <wens@csie.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <BYAPR12MB32692AF2BA127C5DA5B74804D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
- <6c769226-bdd9-6fe0-b96b-5a0d800fed24@arm.com>
- <8756d681-e167-fe4a-c6f0-47ae2dcbb100@nvidia.com>
- <20190723.115112.1824255524103179323.davem@davemloft.net>
- <20190724085427.GA10736@apalos>
- <BYAPR12MB3269AA9955844E317B62A239D3C60@BYAPR12MB3269.namprd12.prod.outlook.com>
- <20190724095310.GA12991@apalos>
- <BYAPR12MB3269C5766F553438ECFF2C9BD3C60@BYAPR12MB3269.namprd12.prod.outlook.com>
- <33de62bf-2f8a-bf00-9260-418b12bed24c@nvidia.com>
- <BYAPR12MB32696F0A2BFDF69F31C4311CD3C60@BYAPR12MB3269.namprd12.prod.outlook.com>
- <a07c3480-af03-a61b-4e9c-d9ceb29ce622@nvidia.com>
- <BYAPR12MB3269F4E62B64484B08F90998D3C10@BYAPR12MB3269.namprd12.prod.outlook.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <d2658b7d-1f24-70f7-fafe-b60a0fd7d240@nvidia.com>
-Date:   Thu, 25 Jul 2019 10:45:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        by hqpgpgate101.nvidia.com on Thu, 25 Jul 2019 02:55:05 -0700
+Received: from tbergstrom-lnx.Nvidia.com (172.20.13.39) by
+ HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Thu, 25 Jul 2019 09:55:04 +0000
+Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
+        id 8EF8E4286A; Thu, 25 Jul 2019 12:55:02 +0300 (EEST)
+Date:   Thu, 25 Jul 2019 12:55:02 +0300
+From:   Peter De Schrijver <pdeschrijver@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <tglx@linutronix.de>, <jason@lakedaemon.net>,
+        <marc.zyngier@arm.com>, <linus.walleij@linaro.org>,
+        <stefan@agner.ch>, <mark.rutland@arm.com>, <pgaikwad@nvidia.com>,
+        <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <jckuo@nvidia.com>,
+        <josephl@nvidia.com>, <talho@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH V6 01/21] irqchip: tegra: Do not disable COP IRQ during
+ suspend
+Message-ID: <20190725095502.GM12715@pdeschrijver-desktop.Nvidia.com>
+References: <1563738060-30213-1-git-send-email-skomatineni@nvidia.com>
+ <1563738060-30213-2-git-send-email-skomatineni@nvidia.com>
+ <f6582e43-168e-1b7e-9db8-3d263bc3ba0d@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR12MB3269F4E62B64484B08F90998D3C10@BYAPR12MB3269.namprd12.prod.outlook.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <f6582e43-168e-1b7e-9db8-3d263bc3ba0d@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1564047952; bh=5isgglopm7SeJ86vy3+jPoE2tjL+r8qlKxtTv2QKBHM=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=UOPEEsvkrrYBFIWOd177XUvGoLoWRcDIklaeRlE6HdJ86bODEuxFdAKOnXSsl7TQj
-         C1BlC2kjEQ0OhI0uEKzvHK9P8cFLhTi9bOecyjyqn+yeZ5oJTX4F0fA21jvxkmoMGW
-         TNukEvfcPf42Mg3iQLiGz6vTTPRGJWuSlRF4vZIshHT3rYR/wZStZWNFVVkYAUtTdd
-         e5axWio9Qs/BMnGYpAWXNM8SBrmW/SE92TcRbIn7zHU7j0fR3D8FXMdI5wfJW2vgh6
-         LWbcupZd1chBOxvamcdQX84cb/usJkiRoWPgbFY/h+z97ZHmL8OzwA12q1uekPsgVZ
-         PMCZNteWQgGFg==
+        t=1564048503; bh=ssTZBE+UvhxmRscb1bfFWkAue53y1Iqmywo1qz9iIgE=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
+        b=G0VLQQDUsh89ujpB7kNRnhX8LTxDvmLjwLern2fdpLIa7ywejvMlg4se10jcnfOLD
+         C+ylHNnfkSRtwQ/bOfYoZZpbdnnRbVFP2keOiR81Al2jdH4DwybrOnxreVYmz8xbgP
+         YMFrbSI6NNAsWW+d7jMeI8D6nTzJq2LNafeQ4xS8GcCmUeqRt7NNeqQjYVoJl8l4Sc
+         iI8F4gmdsKdfHp1+QhEhzptQosW8c71p0JK9HgUP/nSyc1PeK3Mly/3hdzv5aEDO5Q
+         Fxuq6XFE+P4jOPeQ6vwLfUHRLlNbIt609ThbLD1lQMqvxga4R6ZQisIcNyVj7w5D/U
+         32KNTGavqPdkQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 25/07/2019 08:44, Jose Abreu wrote:
-
-...
-
-> OK. Can you please test what Ilias mentioned ?
+On Mon, Jul 22, 2019 at 12:54:51PM +0300, Dmitry Osipenko wrote:
 > 
-> Basically you can hard-code the order to 0 in 
-> alloc_dma_rx_desc_resources():
-> - pp_params.order = DIV_ROUND_UP(priv->dma_buf_sz, PAGE_SIZE);
-> + pp_params.order = 0;
+> All Tegra SoCs support SC7, hence the 'supports_sc7' and the comment
+> doesn't sound correct to me. Something like 'firmware_sc7' should suit
+> better here.
 > 
-> Unless you use a MTU > PAGE_SIZE.
+> > +			writel_relaxed(~0ul, ictlr + ICTLR_COP_IER_CLR);
+> 
+> Secondly, I'm also not sure why COP interrupts need to be disabled for
+> pre-T210 at all, since COP is unused. This looks to me like it was
+> cut-n-pasted from downstream kernel without a good reason and could be
+> simply removed.
 
-I made the change but unfortunately the issue persists.
+I don't think we can rely on the fact that COP is unused. People can
+write their own code to run on COP.
 
-Jon
-
--- 
-nvpublic
+Peter.
