@@ -2,56 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B1027634E
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 12:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8B6C7634F
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 12:16:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726074AbfGZKQX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jul 2019 06:16:23 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:47087 "EHLO
+        id S1726086AbfGZKQY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Jul 2019 06:16:24 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:38906 "EHLO
         mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbfGZKQX (ORCPT
+        with ESMTP id S1725953AbfGZKQY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jul 2019 06:16:23 -0400
-Received: by mail-ed1-f67.google.com with SMTP id d4so52841107edr.13
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Jul 2019 03:16:22 -0700 (PDT)
+        Fri, 26 Jul 2019 06:16:24 -0400
+Received: by mail-ed1-f67.google.com with SMTP id r12so18012822edo.5
+        for <linux-tegra@vger.kernel.org>; Fri, 26 Jul 2019 03:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=F3d8K+IP7Z62EKI1ZjJ9rcL+LSug/j9TnHUjTaLFYOY=;
-        b=ozHtnV42uI/pFK8boJa/OE3nZB/tZ629d7jUI4P9ngfaa0e+s+AJHL5509gN+z7KZh
-         hLvYxWH7pdd1rd0mE+lBWzi49r3UQRzYFHxpZoqoBCITmUnyfDIbI6sI29mUFr18v29f
-         spN76EwDxjQJEjclPX2FRGQUlSpiRnOttnlGMuVDyYYv6AvA8e7tROZVwa/+T96kAOow
-         nX/2pcVWEbo8oDjamEH0cZj9tehZuD7D3PHG81tcxWV4E+FL5aUhJpVQ0rHMTBqCAVRy
-         K3Y/g/UH7mAy3fPg3yjelAf6Shmrnrahle2j/fZjYCu5nffqoGKl3RGBdtl8/k2FwDtD
-         tPBg==
+        bh=9U7aLUhu7q2hmNB7NVIfHk7D5uXAalLJc3qmTryceV8=;
+        b=gIs5aCEnJ4GoDCIMhtaTUnCC/xnMvZ8k74UMMMJkBkrLwAbXOcuWzYU1kl98ylot6T
+         GA+f3QsvW4tYgmIjYj1JmB2tKewFZVa4JPsW7WxU8m847kKQWB1Fwbi6hyK8GleKRrjA
+         t1kdW0Rmg4owuKUZ8K3OqiwnnBp3RHcQy7tBkJyCQgxFscnwuuiEjHdtZXMKOB5YU3Qd
+         u3qTvNrVyy/ukLv4UdGA7DT1Ymf+ke4/AlrZMdnXj2FY2r7rpYDwgrDxY2I8g4ntmEmO
+         wNB29KkvsT0lGw5368G3SyLyb1no920bNe8Jfn9QIv7PyBxCcc4HKajs7m5jJheHLHgU
+         cyKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=F3d8K+IP7Z62EKI1ZjJ9rcL+LSug/j9TnHUjTaLFYOY=;
-        b=kdGF1ueVbne0x92lgzrfb1cBmr/t3+0dPsD/8HDJG0Cqj6K6gMOq9we1hGwp5pTWEE
-         mX9LOLC9rJm0M0cwl5RQCz7vJKL5QRbdgm8qilJkWktW8uP284J8H7/5eXAhZGBOXoyv
-         DkQcMkPSODN/gL7m3W6fbZoCNhKdMicUxMTFGOoSV0zKtDre2dL4woFcqG+NXb667VtE
-         GqkVQeY4CQNKzb2kTNp3bPPKiXYNCwWrlG1XQcjLuAcv6KAhYZlnGqVKArIodjfBLUdE
-         PMtWGHdYjAMUqbzepFX5qnlve1cu0M2xEJu5SX/YlpvvwFPCipbpmeARZjpDbx3SmERJ
-         vdjA==
-X-Gm-Message-State: APjAAAXZAG8VqJ3DGJhtA6BVFRMGjnwsn7DaPCbbU2ZStDhi999CJvYV
-        S92y1y9++bzR/P5ll0OXR+w=
-X-Google-Smtp-Source: APXvYqyKsM9F2qOnBdoZ6kxjChFZSQTUooFmd/W2XILTJVP936B/RF5aWf++WDglXdzQi56RsbKvRw==
-X-Received: by 2002:a17:907:20bb:: with SMTP id pw27mr69989946ejb.93.1564136181254;
-        Fri, 26 Jul 2019 03:16:21 -0700 (PDT)
+        bh=9U7aLUhu7q2hmNB7NVIfHk7D5uXAalLJc3qmTryceV8=;
+        b=AjnqmQSBTOhv7iyDtUiWyQ+GN18PtlGv5/e9SkUWTPM2kDPrnXHk8oTeHLdtD+xDLd
+         g8vbnFiEznxyqZHCBYPw0sjPs1noBwgW6H26+MDlVy7vcbFdMkYhpppqt6sMMS6zV4T5
+         Jabyg2uatvZN3nEljoLO+n5m//64VPz8ugG8TBHjm247sJHArvbLGrg4TvwhLql2MRbs
+         If9Pmzwtu7J9yobWzump/aqVWXc6cN+O8i8fB/jrSb2Fcw0VPBInKHv0yk2cDoDw+wpn
+         DY3Qeka6UkTcstn6fAd8zwgWowSsUSt0V7r/D6rVuhI8R8ELFrX3m9eY73FPe0Yly0tf
+         5Z7w==
+X-Gm-Message-State: APjAAAXon7tHA4hskrv9K/3MpADk0S9cAZnMni5ioVPcYY/tOGqzZy/J
+        /knzw+kBDUiuuL6EjSsNeWQ=
+X-Google-Smtp-Source: APXvYqwhfafbmXg6ETfXwcYL7EgWTTS6t2R6//XcGuILgEg3WeDOP3AQeYyYn8RDYH1okzbrETgg2A==
+X-Received: by 2002:a50:a48a:: with SMTP id w10mr83076541edb.1.1564136182662;
+        Fri, 26 Jul 2019 03:16:22 -0700 (PDT)
 Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id 34sm13960589eds.5.2019.07.26.03.16.20
+        by smtp.gmail.com with ESMTPSA id s47sm14138905edd.40.2019.07.26.03.16.21
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 26 Jul 2019 03:16:20 -0700 (PDT)
+        Fri, 26 Jul 2019 03:16:22 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 2/3] arm64: tegra: Add unit-address for ACONNECT on Tegra194
-Date:   Fri, 26 Jul 2019 12:16:17 +0200
-Message-Id: <20190726101618.26896-2-thierry.reding@gmail.com>
+Subject: [PATCH 3/3] arm64: tegra: Fix base address for SOR1 on Tegra194
+Date:   Fri, 26 Jul 2019 12:16:18 +0200
+Message-Id: <20190726101618.26896-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190726101618.26896-1-thierry.reding@gmail.com>
 References: <20190726101618.26896-1-thierry.reding@gmail.com>
@@ -64,42 +64,29 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The ACONNECT complex starts at physical address 0x2900000, so give it a
-unit-address to comply with standard naming practices checked for by the
-device tree compiler.
+The SOR1 hardware block's registers start at physical address 0x15b40000
+as correctly specified by the unit-address, but the reg property lists a
+wrong value, likely because it was copy-and-pasted from SOR0 but not
+correctly updated.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 2 +-
- arch/arm64/boot/dts/nvidia/tegra194.dtsi           | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index 740aaf597115..fb0b9fd0b405 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -11,7 +11,7 @@
- 	compatible = "nvidia,p2972-0000", "nvidia,tegra194";
- 
- 	cbb@0 {
--		aconnect {
-+		aconnect@2900000 {
- 			status = "okay";
- 
- 			dma-controller@2930000 {
 diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 2597eb7f747b..923415fd72a4 100644
+index 923415fd72a4..ca5ffbc79e2f 100644
 --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
 +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -59,7 +59,7 @@
- 			snps,rxpbl = <8>;
- 		};
+@@ -1045,7 +1045,7 @@
  
--		aconnect {
-+		aconnect@2900000 {
- 			compatible = "nvidia,tegra194-aconnect",
- 				     "nvidia,tegra210-aconnect";
- 			clocks = <&bpmp TEGRA194_CLK_APE>,
+ 			sor1: sor@15b40000 {
+ 				compatible = "nvidia,tegra194-sor";
+-				reg = <0x155c0000 0x40000>;
++				reg = <0x15b40000 0x40000>;
+ 				interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_HIGH>;
+ 				clocks = <&bpmp TEGRA194_CLK_SOR1_REF>,
+ 					 <&bpmp TEGRA194_CLK_SOR1_OUT>,
 -- 
 2.22.0
 
