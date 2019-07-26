@@ -2,110 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A23F7637A
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 12:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3679D767C3
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 15:39:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726397AbfGZK1q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jul 2019 06:27:46 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:40430 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726138AbfGZK1q (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jul 2019 06:27:46 -0400
-Received: by mail-ed1-f65.google.com with SMTP id k8so52814519eds.7;
-        Fri, 26 Jul 2019 03:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rewoVtfouB0g/nXQoB/RM2R5vzQI4yMuwrUsg0cojFo=;
-        b=g8OSiArKsqZUyCCRvOtz447BXqWLIh9TENdSd8soBDBDjAQP6kBC/Y76w9OQNAN7uz
-         zhThUk4Hz5YWZi1BGjCD9kUPg94uaxS/LiUQtCTuD+W3GO8nyy/AkwTIypOZGrkn/ZKP
-         CoYfUqQARRdDtUaux9UkD8IULax0ircXxFaMu7puylYmpUFF/rIqcRYIgNfZ4Qe3McR7
-         xvl86H14llCjOu/smTrglGY+lgpx99qiJVKUhau8QuKtBiC+Ey+K/DpjE+8f8vBbMjV3
-         7twoAb/xQJzOTT90xqWT9/bFfjdLDAIaCEydE3OXhjg1EDtKCLDTf3B6cDa8yB4q8dKB
-         7fHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rewoVtfouB0g/nXQoB/RM2R5vzQI4yMuwrUsg0cojFo=;
-        b=h+1Z0VBCIaS28kNFReKu/7ysZcnxSEiuZTEIFT1jWUIFxO0N+kw+OQ5wjuvqX7cmZb
-         UTDb5CVSmpGJCHC7PZXlBJOAi7ha+rYM+1ZtVXhq6i2OW3lHEKEIbc1TNWDuHjAyifuc
-         jUXcNt6r/a1YuSyiStW4rqhUEMhy5JbQx8fBevPtE9tITuF4+HDBmx1JzneW6efpkJtG
-         Osap9TiIwfxdFDwbxEISctATe1Fh8fjyBtPQYuTqrRBSB8nhIfUVPoHbL3/zK6b7BG39
-         GLSmKBvGEZF8IwV+72Y309TTTEB/hfebtbhNE7eYsax8WeNDnnGdCAPfkORjr+v8u30L
-         BBcw==
-X-Gm-Message-State: APjAAAWUklX7aWI6B8NRBtQ03aJNvuAm0SzKYSJgFHCuWEkmpIOXLIof
-        m8RsduQcaSUDcBtilVmstiI=
-X-Google-Smtp-Source: APXvYqzHJhuMDDE9QF7E9JMSoVtDHfi8t0kysgpga1ZEPI+Hjwzo13gVjk020JOqtEC8/t8S217O2Q==
-X-Received: by 2002:a17:906:bcd6:: with SMTP id lw22mr72674992ejb.68.1564136863962;
-        Fri, 26 Jul 2019 03:27:43 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id h10sm13307080edn.86.2019.07.26.03.27.43
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 26 Jul 2019 03:27:43 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     "David S . Miller" <davem@davemloft.net>
-Cc:     Jose Abreu <joabreu@synopsys.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH net-next 2/2] net: stmmac: Do not request stmmaceth clock
-Date:   Fri, 26 Jul 2019 12:27:41 +0200
-Message-Id: <20190726102741.27872-2-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190726102741.27872-1-thierry.reding@gmail.com>
-References: <20190726102741.27872-1-thierry.reding@gmail.com>
+        id S1727516AbfGZNj4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Jul 2019 09:39:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45786 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727336AbfGZNjz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 26 Jul 2019 09:39:55 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 928C222BF5;
+        Fri, 26 Jul 2019 13:39:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564148395;
+        bh=WlgqJ2mMnBB9/OWIiyXcImKmI4a4+nQG6JXuqaoxSRY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=en8bKg71fCL2otUnbd17Ix7fcy1TCPgu521VMGICCvHCfAFjbggz1TvbqN8jfS8Dg
+         MjkDSpE31lYivcDa6mXuuGgALy1w0uuJUsdK4ouGbvBRRbil/mPFJzwh2Fo9FUkMed
+         SgyhmChoMXZRFr01AsrKs0jNxvWziLzimHBbLH7g=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.2 11/85] dmaengine: tegra-apb: Error out if DMA_PREP_INTERRUPT flag is unset
+Date:   Fri, 26 Jul 2019 09:38:21 -0400
+Message-Id: <20190726133936.11177-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190726133936.11177-1-sashal@kernel.org>
+References: <20190726133936.11177-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+From: Dmitry Osipenko <digetx@gmail.com>
 
-The stmmaceth clock is specified by the slave_bus and apb_pclk clocks in
-the device tree bindings for snps,dwc-qos-ethernet-4.10 compatible nodes
-of this IP.
+[ Upstream commit dc161064beb83c668e0f85766b92b1e7ed186e58 ]
 
-The subdrivers for these bindings will be requesting the stmmac clock
-correctly at a later point, so there is no need to request it here and
-cause an error message to be printed to the kernel log.
+Apparently driver was never tested with DMA_PREP_INTERRUPT flag being
+unset since it completely disables interrupt handling instead of skipping
+the callbacks invocations, hence putting channel into unusable state.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+The flag is always set by all of kernel drivers that use APB DMA, so let's
+error out in otherwise case for consistency. It won't be difficult to
+support that case properly if ever will be needed.
+
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../net/ethernet/stmicro/stmmac/stmmac_platform.c  | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/dma/tegra20-apb-dma.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-index 333b09564b88..7ad2bb90ceb1 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-@@ -521,13 +521,15 @@ stmmac_probe_config_dt(struct platform_device *pdev, const char **mac)
+diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+index ef317c90fbe1..79e9593815f1 100644
+--- a/drivers/dma/tegra20-apb-dma.c
++++ b/drivers/dma/tegra20-apb-dma.c
+@@ -977,8 +977,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
+ 		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
  	}
  
- 	/* clock setup */
--	plat->stmmac_clk = devm_clk_get(&pdev->dev,
--					STMMAC_RESOURCE_NAME);
--	if (IS_ERR(plat->stmmac_clk)) {
--		dev_warn(&pdev->dev, "Cannot get CSR clock\n");
--		plat->stmmac_clk = NULL;
-+	if (!of_device_is_compatible(np, "snps,dwc-qos-ethernet-4.10")) {
-+		plat->stmmac_clk = devm_clk_get(&pdev->dev,
-+						STMMAC_RESOURCE_NAME);
-+		if (IS_ERR(plat->stmmac_clk)) {
-+			dev_warn(&pdev->dev, "Cannot get CSR clock\n");
-+			plat->stmmac_clk = NULL;
-+		}
-+		clk_prepare_enable(plat->stmmac_clk);
- 	}
--	clk_prepare_enable(plat->stmmac_clk);
+-	if (flags & DMA_PREP_INTERRUPT)
++	if (flags & DMA_PREP_INTERRUPT) {
+ 		csr |= TEGRA_APBDMA_CSR_IE_EOC;
++	} else {
++		WARN_ON_ONCE(1);
++		return NULL;
++	}
  
- 	plat->pclk = devm_clk_get(&pdev->dev, "pclk");
- 	if (IS_ERR(plat->pclk)) {
+ 	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
+ 
+@@ -1120,8 +1124,12 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_dma_cyclic(
+ 		csr |= tdc->slave_id << TEGRA_APBDMA_CSR_REQ_SEL_SHIFT;
+ 	}
+ 
+-	if (flags & DMA_PREP_INTERRUPT)
++	if (flags & DMA_PREP_INTERRUPT) {
+ 		csr |= TEGRA_APBDMA_CSR_IE_EOC;
++	} else {
++		WARN_ON_ONCE(1);
++		return NULL;
++	}
+ 
+ 	apb_seq |= TEGRA_APBDMA_APBSEQ_WRAP_WORD_1;
+ 
 -- 
-2.22.0
+2.20.1
 
