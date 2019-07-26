@@ -2,118 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D8E67697D
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 15:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B516176B2D
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 16:11:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388306AbfGZNnr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jul 2019 09:43:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51660 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388298AbfGZNnq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jul 2019 09:43:46 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 350F722CD0;
-        Fri, 26 Jul 2019 13:43:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564148625;
-        bh=BfZ4s6f42mD9uFecUPofM7fiW/0Wm5NgAwY4qFaz8CI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vO0AQThwYsMWCBpRsAw7mu/r1RNpI7IZeWgonKp79RD8MbmehZ2jeDUt7tEPb3kp2
-         1pGoOollSRf0pCrCRnFcBkHUCawdwUQRYTxw4qN9VL7w509zJtLFVB2qu/cBT7SQFA
-         KrrwfWga70SDITky8zp5dYpPT/Np4/XwsGz3iXgc=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     JC Kuo <jckuo@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 09/37] clk: tegra210: fix PLLU and PLLU_OUT1
-Date:   Fri, 26 Jul 2019 09:43:04 -0400
-Message-Id: <20190726134332.12626-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190726134332.12626-1-sashal@kernel.org>
-References: <20190726134332.12626-1-sashal@kernel.org>
+        id S1727650AbfGZOLG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Jul 2019 10:11:06 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:10309 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727437AbfGZOLG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 26 Jul 2019 10:11:06 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d3b09f60000>; Fri, 26 Jul 2019 07:11:02 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 26 Jul 2019 07:11:04 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 26 Jul 2019 07:11:04 -0700
+Received: from [10.26.11.58] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 26 Jul
+ 2019 14:11:01 +0000
+Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+To:     Jose Abreu <Jose.Abreu@synopsys.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "David S . Miller" <davem@davemloft.net>
+References: <cover.1562149883.git.joabreu@synopsys.com>
+ <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
+ <7a79be5d-7ba2-c457-36d3-1ccef6572181@nvidia.com>
+ <BYAPR12MB3269927AB1F67D46E150ED6BD3C10@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <9e695f33-fd9f-a910-0891-2b63bd75e082@nvidia.com>
+ <BYAPR12MB3269B4A401E4DA10A07515C7D3C10@BYAPR12MB3269.namprd12.prod.outlook.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <1e2ea942-28fe-15b9-f675-8d6585f9a33f@nvidia.com>
+Date:   Fri, 26 Jul 2019 15:11:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <BYAPR12MB3269B4A401E4DA10A07515C7D3C10@BYAPR12MB3269.namprd12.prod.outlook.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1564150262; bh=7V/0vUwcrIsIcIy2xWgyyeEieWEZr2FRYFdBVkYbeyQ=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=mJDWo1CPsTJea2C7XpERAf9KXg8RisOceJD+uSLFeI1yyUzkGurA7BChg+6xKS9wa
+         yLkxSzCVyt6hC2yWO1w5HZUPPkPCFd/KbaZtV1vWd5NCVt+3LH+09luniQCev/R06V
+         ClVqhzPr+ebBRMamcTph3XbpD1oJSLEHC+tQQq8zN5FTrYrLk2FbwMVCPLYelEhzGv
+         1Ba0uS43gyhxp68YWyqG7GN1bJasAEjqijE1paEjN/rJe5I8or0GrIRwvZNrPQboZy
+         vb6yMlFe8nldtK2ANvrJp/Zj9fVC6e7JkvK3TBe7+O8Hu1OXs7SP6j8/nZfoB5pQN2
+         04nm16vaN1x0g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: JC Kuo <jckuo@nvidia.com>
 
-[ Upstream commit 0d34dfbf3023cf119b83f6470692c0b10c832495 ]
+On 25/07/2019 16:12, Jose Abreu wrote:
+> From: Jon Hunter <jonathanh@nvidia.com>
+> Date: Jul/25/2019, 15:25:59 (UTC+00:00)
+> 
+>>
+>> On 25/07/2019 14:26, Jose Abreu wrote:
+>>
+>> ...
+>>
+>>> Well, I wasn't expecting that :/
+>>>
+>>> Per documentation of barriers I think we should set descriptor fields 
+>>> and then barrier and finally ownership to HW so that remaining fields 
+>>> are coherent before owner is set.
+>>>
+>>> Anyway, can you also add a dma_rmb() after the call to 
+>>> stmmac_rx_status() ?
+>>
+>> Yes. I removed the debug print added the barrier, but that did not help.
+> 
+> So, I was finally able to setup NFS using your replicated setup and I 
+> can't see the issue :(
+> 
+> The only difference I have from yours is that I'm using TCP in NFS 
+> whilst you (I believe from the logs), use UDP.
 
-Full-speed and low-speed USB devices do not work with Tegra210
-platforms because of incorrect PLLU/PLLU_OUT1 clock settings.
+So I tried TCP by setting the kernel boot params to 'nfsvers=3' and
+'proto=tcp' and this does appear to be more stable, but not 100% stable.
+It still appears to fail in the same place about 50% of the time.
 
-When full-speed device is connected:
-[   14.059886] usb 1-3: new full-speed USB device number 2 using tegra-xusb
-[   14.196295] usb 1-3: device descriptor read/64, error -71
-[   14.436311] usb 1-3: device descriptor read/64, error -71
-[   14.675749] usb 1-3: new full-speed USB device number 3 using tegra-xusb
-[   14.812335] usb 1-3: device descriptor read/64, error -71
-[   15.052316] usb 1-3: device descriptor read/64, error -71
-[   15.164799] usb usb1-port3: attempt power cycle
+> You do have flow control active right ? And your HW FIFO size is >= 4k ?
 
-When low-speed device is connected:
-[   37.610949] usb usb1-port3: Cannot enable. Maybe the USB cable is bad?
-[   38.557376] usb usb1-port3: Cannot enable. Maybe the USB cable is bad?
-[   38.564977] usb usb1-port3: attempt power cycle
+How can I verify if flow control is active?
 
-This commit fixes the issue by:
- 1. initializing PLLU_OUT1 before initializing XUSB_FS_SRC clock
-    because PLLU_OUT1 is parent of XUSB_FS_SRC.
- 2. changing PLLU post-divider to /2 (DIVP=1) according to Technical
-    Reference Manual.
+The documentation for this device indicates a max transfer size of 16kB
+for TX and RX.
 
-Fixes: e745f992cf4b ("clk: tegra: Rework pll_u")
-Signed-off-by: JC Kuo <jckuo@nvidia.com>
-Acked-By: Peter De Schrijver <pdeschrijver@nvidia.com>
-Signed-off-by: Stephen Boyd <sboyd@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/clk/tegra/clk-tegra210.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Cheers
+Jon
 
-diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
-index b92867814e2d..cb2be154db3b 100644
---- a/drivers/clk/tegra/clk-tegra210.c
-+++ b/drivers/clk/tegra/clk-tegra210.c
-@@ -2057,9 +2057,9 @@ static struct div_nmp pllu_nmp = {
- };
- 
- static struct tegra_clk_pll_freq_table pll_u_freq_table[] = {
--	{ 12000000, 480000000, 40, 1, 0, 0 },
--	{ 13000000, 480000000, 36, 1, 0, 0 }, /* actual: 468.0 MHz */
--	{ 38400000, 480000000, 25, 2, 0, 0 },
-+	{ 12000000, 480000000, 40, 1, 1, 0 },
-+	{ 13000000, 480000000, 36, 1, 1, 0 }, /* actual: 468.0 MHz */
-+	{ 38400000, 480000000, 25, 2, 1, 0 },
- 	{        0,         0,  0, 0, 0, 0 },
- };
- 
-@@ -2983,6 +2983,7 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA210_CLK_DFLL_REF, TEGRA210_CLK_PLL_P, 51000000, 1 },
- 	{ TEGRA210_CLK_SBC4, TEGRA210_CLK_PLL_P, 12000000, 1 },
- 	{ TEGRA210_CLK_PLL_RE_VCO, TEGRA210_CLK_CLK_MAX, 672000000, 1 },
-+	{ TEGRA210_CLK_PLL_U_OUT1, TEGRA210_CLK_CLK_MAX, 48000000, 1 },
- 	{ TEGRA210_CLK_XUSB_GATE, TEGRA210_CLK_CLK_MAX, 0, 1 },
- 	{ TEGRA210_CLK_XUSB_SS_SRC, TEGRA210_CLK_PLL_U_480M, 120000000, 0 },
- 	{ TEGRA210_CLK_XUSB_FS_SRC, TEGRA210_CLK_PLL_U_48M, 48000000, 0 },
-@@ -3008,7 +3009,6 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA210_CLK_PLL_DP, TEGRA210_CLK_CLK_MAX, 270000000, 0 },
- 	{ TEGRA210_CLK_SOC_THERM, TEGRA210_CLK_PLL_P, 51000000, 0 },
- 	{ TEGRA210_CLK_CCLK_G, TEGRA210_CLK_CLK_MAX, 0, 1 },
--	{ TEGRA210_CLK_PLL_U_OUT1, TEGRA210_CLK_CLK_MAX, 48000000, 1 },
- 	{ TEGRA210_CLK_PLL_U_OUT2, TEGRA210_CLK_CLK_MAX, 60000000, 1 },
- 	/* This MUST be the last entry. */
- 	{ TEGRA210_CLK_CLK_MAX, TEGRA210_CLK_CLK_MAX, 0, 0 },
 -- 
-2.20.1
-
+nvpublic
