@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 684E8769EC
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 15:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D8E67697D
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 15:52:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727724AbfGZNzQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jul 2019 09:55:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49838 "EHLO mail.kernel.org"
+        id S2388306AbfGZNnr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Jul 2019 09:43:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51660 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387526AbfGZNmd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jul 2019 09:42:33 -0400
+        id S2388298AbfGZNnq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 26 Jul 2019 09:43:46 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7103C22BF5;
-        Fri, 26 Jul 2019 13:42:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 350F722CD0;
+        Fri, 26 Jul 2019 13:43:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564148552;
-        bh=Hu5QOIebVghfcKwn6DY+sGjjwzmxO65FJKL4H88+WJI=;
+        s=default; t=1564148625;
+        bh=BfZ4s6f42mD9uFecUPofM7fiW/0Wm5NgAwY4qFaz8CI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=U7zKjPZFBhjz9SFk1uxIj669zo1XHWb4xnhOAHDCfazVd43QbHKFtWlxAHFnq+JQJ
-         D9tf8TXh69ijBJChXraUfAkEUWp29sWCCiU7yoau9CgegLJeQdnPOxrzUpWGz7nMnM
-         SifePWCbtWkjydt36cYEDGno59er7rXgNIFvxY0I=
+        b=vO0AQThwYsMWCBpRsAw7mu/r1RNpI7IZeWgonKp79RD8MbmehZ2jeDUt7tEPb3kp2
+         1pGoOollSRf0pCrCRnFcBkHUCawdwUQRYTxw4qN9VL7w509zJtLFVB2qu/cBT7SQFA
+         KrrwfWga70SDITky8zp5dYpPT/Np4/XwsGz3iXgc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     JC Kuo <jckuo@nvidia.com>,
@@ -30,12 +30,12 @@ Cc:     JC Kuo <jckuo@nvidia.com>,
         Stephen Boyd <sboyd@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-clk@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 12/47] clk: tegra210: fix PLLU and PLLU_OUT1
-Date:   Fri, 26 Jul 2019 09:41:35 -0400
-Message-Id: <20190726134210.12156-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 09/37] clk: tegra210: fix PLLU and PLLU_OUT1
+Date:   Fri, 26 Jul 2019 09:43:04 -0400
+Message-Id: <20190726134332.12626-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190726134210.12156-1-sashal@kernel.org>
-References: <20190726134210.12156-1-sashal@kernel.org>
+In-Reply-To: <20190726134332.12626-1-sashal@kernel.org>
+References: <20190726134332.12626-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
-index 9eb1cb14fce1..4e1bc23c9865 100644
+index b92867814e2d..cb2be154db3b 100644
 --- a/drivers/clk/tegra/clk-tegra210.c
 +++ b/drivers/clk/tegra/clk-tegra210.c
-@@ -2214,9 +2214,9 @@ static struct div_nmp pllu_nmp = {
+@@ -2057,9 +2057,9 @@ static struct div_nmp pllu_nmp = {
  };
  
  static struct tegra_clk_pll_freq_table pll_u_freq_table[] = {
@@ -98,7 +98,7 @@ index 9eb1cb14fce1..4e1bc23c9865 100644
  	{        0,         0,  0, 0, 0, 0 },
  };
  
-@@ -3343,6 +3343,7 @@ static struct tegra_clk_init_table init_table[] __initdata = {
+@@ -2983,6 +2983,7 @@ static struct tegra_clk_init_table init_table[] __initdata = {
  	{ TEGRA210_CLK_DFLL_REF, TEGRA210_CLK_PLL_P, 51000000, 1 },
  	{ TEGRA210_CLK_SBC4, TEGRA210_CLK_PLL_P, 12000000, 1 },
  	{ TEGRA210_CLK_PLL_RE_VCO, TEGRA210_CLK_CLK_MAX, 672000000, 1 },
@@ -106,7 +106,7 @@ index 9eb1cb14fce1..4e1bc23c9865 100644
  	{ TEGRA210_CLK_XUSB_GATE, TEGRA210_CLK_CLK_MAX, 0, 1 },
  	{ TEGRA210_CLK_XUSB_SS_SRC, TEGRA210_CLK_PLL_U_480M, 120000000, 0 },
  	{ TEGRA210_CLK_XUSB_FS_SRC, TEGRA210_CLK_PLL_U_48M, 48000000, 0 },
-@@ -3367,7 +3368,6 @@ static struct tegra_clk_init_table init_table[] __initdata = {
+@@ -3008,7 +3009,6 @@ static struct tegra_clk_init_table init_table[] __initdata = {
  	{ TEGRA210_CLK_PLL_DP, TEGRA210_CLK_CLK_MAX, 270000000, 0 },
  	{ TEGRA210_CLK_SOC_THERM, TEGRA210_CLK_PLL_P, 51000000, 0 },
  	{ TEGRA210_CLK_CCLK_G, TEGRA210_CLK_CLK_MAX, 0, 1 },
