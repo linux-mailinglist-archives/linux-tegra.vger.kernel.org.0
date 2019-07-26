@@ -2,59 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8B6C7634F
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 12:16:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7F6476378
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 12:27:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726086AbfGZKQY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jul 2019 06:16:24 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:38906 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbfGZKQY (ORCPT
+        id S1726262AbfGZK1o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Jul 2019 06:27:44 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:42370 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726086AbfGZK1o (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jul 2019 06:16:24 -0400
-Received: by mail-ed1-f67.google.com with SMTP id r12so18012822edo.5
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Jul 2019 03:16:23 -0700 (PDT)
+        Fri, 26 Jul 2019 06:27:44 -0400
+Received: by mail-ed1-f66.google.com with SMTP id v15so52860370eds.9;
+        Fri, 26 Jul 2019 03:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9U7aLUhu7q2hmNB7NVIfHk7D5uXAalLJc3qmTryceV8=;
-        b=gIs5aCEnJ4GoDCIMhtaTUnCC/xnMvZ8k74UMMMJkBkrLwAbXOcuWzYU1kl98ylot6T
-         GA+f3QsvW4tYgmIjYj1JmB2tKewFZVa4JPsW7WxU8m847kKQWB1Fwbi6hyK8GleKRrjA
-         t1kdW0Rmg4owuKUZ8K3OqiwnnBp3RHcQy7tBkJyCQgxFscnwuuiEjHdtZXMKOB5YU3Qd
-         u3qTvNrVyy/ukLv4UdGA7DT1Ymf+ke4/AlrZMdnXj2FY2r7rpYDwgrDxY2I8g4ntmEmO
-         wNB29KkvsT0lGw5368G3SyLyb1no920bNe8Jfn9QIv7PyBxCcc4HKajs7m5jJheHLHgU
-         cyKw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fgttaSu7/U77TvA6+GrlVNqDjBSP1cH/fJcE2FiVPSc=;
+        b=Xq7dFVT2BAh2OKlWZADYRxsgSTDnQyREt3lSe51iX1a4VbZ5tbKueNdrd8Tl55F0fH
+         jE3HFiLoW8gJBQlPDGPk09oV2PXFmSxEwhfiga28IsSjQuAMyh4iZz9h/hztR9xouEnd
+         sqIB7z6gCSaIlN39Lb+vWX3jNLyTJ3SmcVHqvm1x0WsB54H9SOBztWS7rYaON6kYgWk5
+         bhSswDrnGIsOjLJshXfCPLprUZ4ieqHvqFCwH8muxoHfuCX/cVp+2R3n3jCysfYL+MwC
+         t99y8R7UaVlbRoQhdBAUbmy7gOX+/ySaOLp618i6NcMZT6wRk6d4Z0iX4GpyPt/RNhGW
+         iYZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9U7aLUhu7q2hmNB7NVIfHk7D5uXAalLJc3qmTryceV8=;
-        b=AjnqmQSBTOhv7iyDtUiWyQ+GN18PtlGv5/e9SkUWTPM2kDPrnXHk8oTeHLdtD+xDLd
-         g8vbnFiEznxyqZHCBYPw0sjPs1noBwgW6H26+MDlVy7vcbFdMkYhpppqt6sMMS6zV4T5
-         Jabyg2uatvZN3nEljoLO+n5m//64VPz8ugG8TBHjm247sJHArvbLGrg4TvwhLql2MRbs
-         If9Pmzwtu7J9yobWzump/aqVWXc6cN+O8i8fB/jrSb2Fcw0VPBInKHv0yk2cDoDw+wpn
-         DY3Qeka6UkTcstn6fAd8zwgWowSsUSt0V7r/D6rVuhI8R8ELFrX3m9eY73FPe0Yly0tf
-         5Z7w==
-X-Gm-Message-State: APjAAAXon7tHA4hskrv9K/3MpADk0S9cAZnMni5ioVPcYY/tOGqzZy/J
-        /knzw+kBDUiuuL6EjSsNeWQ=
-X-Google-Smtp-Source: APXvYqwhfafbmXg6ETfXwcYL7EgWTTS6t2R6//XcGuILgEg3WeDOP3AQeYyYn8RDYH1okzbrETgg2A==
-X-Received: by 2002:a50:a48a:: with SMTP id w10mr83076541edb.1.1564136182662;
-        Fri, 26 Jul 2019 03:16:22 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fgttaSu7/U77TvA6+GrlVNqDjBSP1cH/fJcE2FiVPSc=;
+        b=NYeXuq6aifjdmi76hiAdIPf4b17rqD9WOZyYswEa0a2JZn3b2v4LCuxIJakhUJKTkX
+         XuqvVXtf9Z1qDl1QUY+KIqi0C9D+qODJfNwY+pZVOxBd66zdATN+ls6RISrDrOjI4IQw
+         Do/ObFNwgYbBOarM9XtmO2Ap9eHeVlW84D1R+mq+0pFF/3wUQ9KtktHowrPwzcC+X2yK
+         0LjB0l4mUOlIZpx8LoUcJvcjj9rWo5InOJRtc195lIgdq0GwLCICjfxku38EeDy8eiY2
+         1fUo9wrk2atJkxTKeJeerM5lPPkoAqbRkYDLYlF6lNnnDMUEiahSNQQ0B0CJvAB8QTcq
+         oqew==
+X-Gm-Message-State: APjAAAUtX1VkOpGnQwHzxISuFi96C9KI1oNYP6sIJfXBjUATYHcbGTcu
+        U4Cu1lrhqYC7qkai3Y5CxJg=
+X-Google-Smtp-Source: APXvYqwQ4adhOOkffJ+ooQljdZOK2+c+FVkKICz8TXR5in66XUj5Vqepfv9d8dlyGCxc9wsvjX1kJA==
+X-Received: by 2002:a50:b3b8:: with SMTP id s53mr81412876edd.61.1564136862640;
+        Fri, 26 Jul 2019 03:27:42 -0700 (PDT)
 Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id s47sm14138905edd.40.2019.07.26.03.16.21
+        by smtp.gmail.com with ESMTPSA id v12sm10210515ejj.52.2019.07.26.03.27.41
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 26 Jul 2019 03:16:22 -0700 (PDT)
+        Fri, 26 Jul 2019 03:27:42 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 3/3] arm64: tegra: Fix base address for SOR1 on Tegra194
-Date:   Fri, 26 Jul 2019 12:16:18 +0200
-Message-Id: <20190726101618.26896-3-thierry.reding@gmail.com>
+To:     "David S . Miller" <davem@davemloft.net>
+Cc:     Jose Abreu <joabreu@synopsys.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Jon Hunter <jonathanh@nvidia.com>, netdev@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH net-next 1/2] net: stmmac: Make MDIO bus reset optional
+Date:   Fri, 26 Jul 2019 12:27:40 +0200
+Message-Id: <20190726102741.27872-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190726101618.26896-1-thierry.reding@gmail.com>
-References: <20190726101618.26896-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -64,29 +65,99 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The SOR1 hardware block's registers start at physical address 0x15b40000
-as correctly specified by the unit-address, but the reg property lists a
-wrong value, likely because it was copy-and-pasted from SOR0 but not
-correctly updated.
+The Tegra EQOS driver already resets the MDIO bus at probe time via the
+reset GPIO specified in the phy-reset-gpios device tree property. There
+is no need to reset the bus again later on.
+
+This avoids the need to query the device tree for the snps,reset GPIO,
+which is not part of the Tegra EQOS device tree bindings. This quiesces
+an error message from the generic bus reset code if it doesn't find the
+snps,reset related delays.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c | 3 +++
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c       | 4 +++-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c        | 1 +
+ drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c   | 8 +++++++-
+ include/linux/stmmac.h                                  | 1 +
+ 5 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 923415fd72a4..ca5ffbc79e2f 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1045,7 +1045,7 @@
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
+index 3a14cdd01f5f..66933332c68e 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c
+@@ -333,6 +333,9 @@ static void *tegra_eqos_probe(struct platform_device *pdev,
+ 	usleep_range(2000, 4000);
+ 	gpiod_set_value(eqos->reset, 0);
  
- 			sor1: sor@15b40000 {
- 				compatible = "nvidia,tegra194-sor";
--				reg = <0x155c0000 0x40000>;
-+				reg = <0x15b40000 0x40000>;
- 				interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_HIGH>;
- 				clocks = <&bpmp TEGRA194_CLK_SOR1_REF>,
- 					 <&bpmp TEGRA194_CLK_SOR1_OUT>,
++	/* MDIO bus was already reset just above */
++	data->mdio_bus_data->needs_reset = false;
++
+ 	eqos->rst = devm_reset_control_get(&pdev->dev, "eqos");
+ 	if (IS_ERR(eqos->rst)) {
+ 		err = PTR_ERR(eqos->rst);
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+index 4304c1abc5d1..40c42637ad75 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+@@ -348,7 +348,9 @@ int stmmac_mdio_register(struct net_device *ndev)
+ 		max_addr = PHY_MAX_ADDR;
+ 	}
+ 
+-	new_bus->reset = &stmmac_mdio_reset;
++	if (mdio_bus_data->needs_reset)
++		new_bus->reset = &stmmac_mdio_reset;
++
+ 	snprintf(new_bus->id, MII_BUS_ID_SIZE, "%s-%x",
+ 		 new_bus->name, priv->plat->bus_id);
+ 	new_bus->priv = ndev;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
+index 86f9c07a38cf..d5d08e11c353 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
+@@ -63,6 +63,7 @@ static void common_default_data(struct plat_stmmacenet_data *plat)
+ 	plat->has_gmac = 1;
+ 	plat->force_sf_dma_mode = 1;
+ 
++	plat->mdio_bus_data->needs_reset = true;
+ 	plat->mdio_bus_data->phy_mask = 0;
+ 
+ 	/* Set default value for multicast hash bins */
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+index 73fc2524372e..333b09564b88 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+@@ -342,10 +342,16 @@ static int stmmac_dt_phy(struct plat_stmmacenet_data *plat,
+ 		mdio = true;
+ 	}
+ 
+-	if (mdio)
++	if (mdio) {
+ 		plat->mdio_bus_data =
+ 			devm_kzalloc(dev, sizeof(struct stmmac_mdio_bus_data),
+ 				     GFP_KERNEL);
++		if (!plat->mdio_bus_data)
++			return -ENOMEM;
++
++		plat->mdio_bus_data->needs_reset = true;
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
+index 7d06241582dd..7b3e354bcd3c 100644
+--- a/include/linux/stmmac.h
++++ b/include/linux/stmmac.h
+@@ -81,6 +81,7 @@ struct stmmac_mdio_bus_data {
+ 	unsigned int phy_mask;
+ 	int *irqs;
+ 	int probed_phy_irq;
++	bool needs_reset;
+ };
+ 
+ struct stmmac_dma_cfg {
 -- 
 2.22.0
 
