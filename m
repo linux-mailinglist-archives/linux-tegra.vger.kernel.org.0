@@ -2,101 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B520476C40
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 17:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A07E76E76
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 18:04:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727467AbfGZPAw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jul 2019 11:00:52 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:38805 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727222AbfGZPAv (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jul 2019 11:00:51 -0400
-Received: by mail-lj1-f193.google.com with SMTP id r9so51772624ljg.5;
-        Fri, 26 Jul 2019 08:00:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UzwsdEpQP2Y4hgncO9eMUg7V4ByKsDvR7x0L9gt2XHw=;
-        b=ay33YbtJZ+OTKtoUZC8QPAj1U+YbwlUXIutsts+q0e3pxzFOzhdh8xZ1RG066hSNPR
-         iL2LEndafJqpl0VFzh7wCBadhUi7tGmgZuzawYuxjN6mugE2DQmvf/amL8dBPkkGhSve
-         XgsCGXvmA72ISx3do72TtxQZ1BEWZhbOQb9zvWoMouiExBpJaH0XCTgelU13UOJT0X5z
-         XLMqqQ8oQLwGi1HoXDy3tkW/FgslFxEJlcZoGgfAIDPYj1OBr+SUyDXxPod70MPjVlSJ
-         F6MkEVpg9dmtVSPoVUIqFhMQCxWSHRWqYgwP4nt3TTcTytwBJMwAfsS0afBcaFBMDsPU
-         LG7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UzwsdEpQP2Y4hgncO9eMUg7V4ByKsDvR7x0L9gt2XHw=;
-        b=ppmdYXmgN9J7KepVIcCTl70tIXLjfMRyTp4GIAT4VK2yiH5sTEcN8uwq7uSAclGE1H
-         mLnDJXC3woI0i7Rl9rck3QID2aBO+1zB79oV9faDtqv1UCiHG77sqWcH25Ez8YWyKN3U
-         5+W7tgv9j66MrmwofhN4zfDpDpVqttdI03zdlswzeLHGn7Tv5aehuy5WzR00WF+L+4PM
-         mPu+4QzZueSjqjXwo+B7abOpYedSVcFix2jzAKvfSrI9hwRxl9Roq7rZzNwizptijShq
-         8NSMwycA8wkY5Aw+09PuenAhonQw6eyQSOxe7ltGhhyLrrZiozMC+Srsvr0LzQnkB+3I
-         yAdA==
-X-Gm-Message-State: APjAAAVI+0CKhu+6JaeZD3wofoeiUTRkqmIIKR/jiY08o+H6yTqPRGRS
-        5hp1XgeW9996TsPsCzxgSptmawVy
-X-Google-Smtp-Source: APXvYqyfDuR/ORC/0Vvf/aBh3VaaWLhNE8k0fG7DJsoreWWXGTys1LvcDswSlr21DcxALfS0U6j/Uw==
-X-Received: by 2002:a2e:900c:: with SMTP id h12mr47509855ljg.197.1564153249440;
-        Fri, 26 Jul 2019 08:00:49 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.googlemail.com with ESMTPSA id m4sm10128649ljc.56.2019.07.26.08.00.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Jul 2019 08:00:48 -0700 (PDT)
-Subject: Re: [PATCH] drm/tegra: return with probe defer if GPIO subsystem is
- not ready
-To:     Stefan Agner <stefan@agner.ch>
-Cc:     thierry.reding@gmail.com, airlied@linux.ie, jonathanh@nvidia.com,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20180726133606.14587-1-stefan@agner.ch>
- <de84d04c902d1f7f22b6f024b853a1c7@agner.ch>
- <cd14bca0a1f1e097265602a1d5f0c0f5@agner.ch>
- <f035a8ba-ffa7-b98b-a444-db8b4bbd34ec@gmail.com>
- <d02d9605797d784dc941c9d98769bf5d@agner.ch>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <72141479-4ee8-d151-90dc-168e5c9a79c2@gmail.com>
-Date:   Fri, 26 Jul 2019 18:00:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726765AbfGZQEq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Jul 2019 12:04:46 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:63748 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726138AbfGZQEq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 26 Jul 2019 12:04:46 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 45wDQL2M4szB2;
+        Fri, 26 Jul 2019 18:03:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1564157003; bh=q0otr/lKVYk8Vw94f1khvqK934TypKC8T264nuUJhyI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W6ZsDhbGgytuC3eE4wxZAGUGtoVaBDMNE39oasiDVLypGr3Vozr8P+8YoU3aX5lMj
+         yh1+ENgQ6ii4Z0bTIvsQaagyr6VEobkQRqWZAR9YdN5bsKDwY7+gx4tdriWWWfTyFS
+         7vvzbOx9tFjTAExRaF06FSQGNps9RykfX0BVopGs9PW3jRAG1oVUNSZw0NGvGTvWLS
+         ONX92eAtJ3fCnqMA+qQpYyDTS1XXWV4vBUSLyVBI7a4K4JGgbDFZkKxoiVGNUTPErc
+         Gv2IFp19gNZ/bFRVU7uWUoCXO4K1jLCI2AcpYcZ7CZXonsCNVyiMy9rqgvC694+X0a
+         g95lBQ+tFP1FA==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.100.3 at mail
+Date:   Fri, 26 Jul 2019 18:04:42 +0200
+From:   mirq-test@rere.qmqm.pl
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/3] arm64: tegra: Add unit-address for CBB on Tegra194
+Message-ID: <20190726160442.GA22187@qmqm.qmqm.pl>
+References: <20190726101618.26896-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <d02d9605797d784dc941c9d98769bf5d@agner.ch>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190726101618.26896-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-26.07.2019 17:57, Stefan Agner пишет:
-> On 2019-07-26 16:46, Dmitry Osipenko wrote:
->> 26.07.2019 17:23, Stefan Agner пишет:
->>> Hi Thierry, Hi Dave,
->>>
->>> On 2018-09-07 01:31, Stefan Agner wrote:
->>>> On 26.07.2018 06:36, Stefan Agner wrote:
->>>>> If the GPIO subsystem is not ready make sure to return -EPROBE_DEFER
->>>>> instead of silently continuing without HPD.
->>>>>
->>>>> Reported-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
->>>>> Signed-off-by: Stefan Agner <stefan@agner.ch>
->>>>
->>>> I think this did not get merged yet, any chance to get it in?
->>>
->>> Any chance to get this in in the next merge window?
->>
->> The patch isn't relevant anymore (since v5.3) because the code was
->> changed and now propagates the proper error code in a case of error,
->> please see [1].
->>
->> [1]
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.3-rc1&id=bbad640709fd43ff77b8838c409c977c0b28430c
+On Fri, Jul 26, 2019 at 12:16:16PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> Oh I see, I accidentally checked in Linux 5.2. Sorry for the noise and
-> thanks for the link!
+> The control back-bone (CBB) starts at physical address 0, so give it a
+> unit-address to comply with standard naming practices checked for by the
+> device tree compiler.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 20 +++++++++----------
+>  .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  2 +-
+>  arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  2 +-
+>  3 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
+> index 62e07e1197cc..02f6a8f0d741 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
+> +++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
+> @@ -8,17 +8,17 @@
+>  	compatible = "nvidia,p2888", "nvidia,tegra194";
+>  
+>  	aliases {
+> -		sdhci0 = "/cbb/sdhci@3460000";
+> -		sdhci1 = "/cbb/sdhci@3400000";
+> +		sdhci0 = "/cbb@0/sdhci@3460000";
+> +		sdhci1 = "/cbb@0/sdhci@3400000";
+>  		serial0 = &tcu;
+>  		i2c0 = "/bpmp/i2c";
+> -		i2c1 = "/cbb/i2c@3160000";
+> -		i2c2 = "/cbb/i2c@c240000";
+> -		i2c3 = "/cbb/i2c@3180000";
+> -		i2c4 = "/cbb/i2c@3190000";
+> -		i2c5 = "/cbb/i2c@31c0000";
+> -		i2c6 = "/cbb/i2c@c250000";
+> -		i2c7 = "/cbb/i2c@31e0000";
+> +		i2c1 = "/cbb@0/i2c@3160000";
+> +		i2c2 = "/cbb@0/i2c@c240000";
+> +		i2c3 = "/cbb@0/i2c@3180000";
+> +		i2c4 = "/cbb@0/i2c@3190000";
+> +		i2c5 = "/cbb@0/i2c@31c0000";
+> +		i2c6 = "/cbb@0/i2c@c250000";
+> +		i2c7 = "/cbb@0/i2c@31e0000";
+>  	};
+[...]
 
-No problems, you're welcome.
+There are aliases in tegra194.dtsi like gen1_i2c, maybe they could
+be used here?
+
+Best Regards,
+Micha��Miros�aw
