@@ -2,101 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C92076F42
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 18:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31AF8771B3
+	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 20:55:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387505AbfGZQpb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jul 2019 12:45:31 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:33933 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728608AbfGZQpb (ORCPT
+        id S2388050AbfGZSzr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 26 Jul 2019 14:55:47 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:44222 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387743AbfGZSzr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jul 2019 12:45:31 -0400
-Received: by mail-qt1-f195.google.com with SMTP id k10so53285745qtq.1
-        for <linux-tegra@vger.kernel.org>; Fri, 26 Jul 2019 09:45:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=qaOWGs23G49TWwws7WjjdoCv06+sXW9upizbWmsREGM=;
-        b=MBKJbuMrs9FSTsgDbpfMEC2iM+Mgo/gNYAa3SM3aaQ8NIBY6v4rD+MmM6UONYqYX8y
-         fV6WIXzbBAtiC04TwawPu+avmWl7u6cCkPHfj7xZ7EBr3sjoSW9pLTlEWMwG4I9nEBuB
-         kbcCDp0IYhpUBF9aQOgKEjOHuISU6K21Q/KE9/ocl8zP/tfnDZYWpUKHH4fwMyEo1IVp
-         Ex0vqVhpapA0o+umQN6+Mh/SRg/Ff8VCFCxkyc6aHlXs2QQ89RTq1BaWvSq3RxCyQgBl
-         QnyScmmox2OYfEA5SrYaInW8kG1ozHCMQxHZWV3Vz8yXtGI4WanKuJwTW8cQPAjXIO9j
-         pUVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=qaOWGs23G49TWwws7WjjdoCv06+sXW9upizbWmsREGM=;
-        b=oZZa6DwtqE7Kp1eF2aBFRZxhFvO9fKmhySAy2boUl0bda+wzYM5WqsTnDRGOnNAf4S
-         //p6+yulskM6Ap+/2s6hHx7k2O1T1QvbyqPxIkVUuvp3s3Xzf/B/tMU38z+wIwcXLbWe
-         lQJUD/AiyUrAI9qc34ao9zzKqancDrF6T6N/HwVcKyl/y1kyFuFSx9AfB05bCKTF9Ndh
-         +HlleTQLo5ntly3cXpzCsiTvpmZYWERak2DYRvFvsVz/wkqZVp0+wybZ7BtBdukU9WcH
-         bQRpqDEnNXJ5s8sytDDFQqVuH9iiBBjt5sZzZmRyEFAavRxnW/EfVmiDLhvVVMIzTGW1
-         Du9g==
-X-Gm-Message-State: APjAAAXX9487qPpDaEkrejFFjNLaCHWCVoODaU4ZboKC4qHrRoNzyi3r
-        OJFADELDGzNVrboMc3UkgNth4vymQRXBH4ka0Fc=
-X-Google-Smtp-Source: APXvYqyRqfPcz7rcgMGQO0a1Xg8BgrG0FA5d73BKM93l8ujPyfPbiSSGVebQirNV9WxwZB6CZnlKxYXOzdXOIou0f1E=
-X-Received: by 2002:ac8:4252:: with SMTP id r18mr6404984qtm.357.1564159527359;
- Fri, 26 Jul 2019 09:45:27 -0700 (PDT)
+        Fri, 26 Jul 2019 14:55:47 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id CB69020127;
+        Fri, 26 Jul 2019 20:55:39 +0200 (CEST)
+Date:   Fri, 26 Jul 2019 20:55:38 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        David Airlie <airlied@linux.ie>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        dri-devel@lists.freedesktop.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        kernel@collabora.com, linux-samsung-soc@vger.kernel.org,
+        Jyri Sarha <jsarha@ti.com>,
+        Vincent Abriou <vincent.abriou@st.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Dave Airlie <airlied@redhat.com>,
+        intel-gfx@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+        linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Mamta Shukla <mamtashukla555@gmail.com>,
+        linux-mediatek@lists.infradead.org,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Paul <sean@poorly.run>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-arm-kernel@lists.infradead.org,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        amd-gfx@lists.freedesktop.org,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        linux-kernel@vger.kernel.org, Todor Tomov <todor.tomov@linaro.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Huang Rui <ray.huang@amd.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Subject: Review required [Was: Associate ddc adapters with connectors]
+Message-ID: <20190726185538.GD14981@ravnborg.org>
+References: <cover.1564161140.git.andrzej.p@collabora.com>
+ <20190726183520.GA22572@ravnborg.org>
 MIME-Version: 1.0
-Received: by 2002:aed:3544:0:0:0:0:0 with HTTP; Fri, 26 Jul 2019 09:45:26
- -0700 (PDT)
-Reply-To: dhl.benin2019@outlook.com
-From:   "DR, MOHAMMED BUHARI, PRESIDENT OF NIGERIA" 
-        <westernunion.benin982@gmail.com>
-Date:   Fri, 26 Jul 2019 17:45:26 +0100
-Message-ID: <CAP=nHBKv0J2KVfmfnQs7YrrDs_VuL_F5x-ghM0J6qN3=fYF1qA@mail.gmail.com>
-Subject: Attn Dear Atm Card beneficiary. GOOD NEWS,Shipment number:
- 4Z69536197319960 Content Packages: ATM Visa Card, amount of $18.5Million
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190726183520.GA22572@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+        a=e5mUnYsNAAAA:8 a=nTBMXhx45H-Va90dJ2EA:9 a=CjuIK1q_8ugA:10
+        a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Attn Dear Atm Card beneficiary.
+Hi all.
 
-GOOD NEWS,
-This is to inform you that i have paid the delivery fees for your ATM
-Master Card
-I paid it because our bank director stated that before, they
-So contact Dr. William Roberts, Director DHL Courier
-Company Benin to receive your delivery ATM Visa Card amount of $18.5m US Dollars
-It is shipment was registered to your addres.
-Contact the office now to know when they will delivery arrive to your country
+Andrzej have done a good job following up on feedback and this series is
+now ready.
 
-Email id: dhl.benin2019@outlook.com
-Tel/mobile, +229 99652699
-Contact the office now to know when they will delivery arrive to your
-country today
-Shipment Details
------------------------------------------------------
-Shipment number: 4Z69536197319960
-Content Packages: ATM Visa Card amount of $18.5Million
-Scheduled Delivery
-Remember I have paid the insurance and Security Keeping fees for you
-But the only money you are required to send to this company is $125.00
-been your accurate ATM Visa Card clearance Fee before they will effect
-the delivery to you.
-Send the required delivery fee $125.00 only to the DHL Office on this
-information
-Payment is to be made via Western Union or Money Gram transfer for
-security purposes.
+We need ack on the patches touching the individual drivers before we can
+proceed.
+Please check your drivers and get back.
 
-Receive's Name---------------------Alan Ude
-Country-------------------------------------Benin
-City-----------------------------------Cotonou
-Quest-------------------------------Honest
-Answer----------------------------------Trust
-Amount---------------------------$125.00 only
-Let me know once you send the fee today okay.
+	Sam
 
-Blessing upon, blessing upon, blessing upon blessing upon,God has
-chosen you for testimony time,
-I wait for your urgent reply
-
-Sincerely
-DR, MOHAMMED BUHARI, PRESIDENT OF NIGERIA
+> Hi Andezej.
+> 
+> On Fri, Jul 26, 2019 at 07:22:54PM +0200, Andrzej Pietrasiewicz wrote:
+> > It is difficult for a user to know which of the i2c adapters is for which
+> > drm connector. This series addresses this problem.
+> > 
+> > The idea is to have a symbolic link in connector's sysfs directory, e.g.:
+> > 
+> > ls -l /sys/class/drm/card0-HDMI-A-1/ddc
+> > lrwxrwxrwx 1 root root 0 Jun 24 10:42 /sys/class/drm/card0-HDMI-A-1/ddc \
+> > 	-> ../../../../soc/13880000.i2c/i2c-2
+> > 
+> > The user then knows that their card0-HDMI-A-1 uses i2c-2 and can e.g. run
+> > ddcutil:
+> > 
+> > ddcutil -b 2 getvcp 0x10
+> > VCP code 0x10 (Brightness): current value =    90, max value =   100
+> > 
+> > The first patch in the series adds struct i2c_adapter pointer to struct
+> > drm_connector. If the field is used by a particular driver, then an
+> > appropriate symbolic link is created by the generic code, which is also added
+> > by this patch.
+> > 
+> > Patch 2 adds a new variant of drm_connector_init(), see the changelog
+> > below.
+> > 
+> > Patches 3..24 are examples of how to convert a driver to this new scheme.
+> > 
+> ...
+> > 
+> > v5..v6:
+> > 
+> > - improved subject line of patch 1
+> > - added kernel-doc for drm_connector_init_with_ddc()
+> > - improved kernel-doc for the ddc field of struct drm_connector
+> > - added Reviewed-by in patches 17 and 18
+> > - added Acked-by in patch 2
+> > - made the ownership of ddc i2c_adapter explicit in all patches,
+> > this made the affected patches much simpler
+> 
+> Looks good now.
+> Patch 1 and 2 are:
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> The remaining patches are:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> 	Sam
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
