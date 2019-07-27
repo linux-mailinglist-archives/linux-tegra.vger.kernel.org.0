@@ -2,144 +2,162 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31AF8771B3
-	for <lists+linux-tegra@lfdr.de>; Fri, 26 Jul 2019 20:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA39477960
+	for <lists+linux-tegra@lfdr.de>; Sat, 27 Jul 2019 17:09:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388050AbfGZSzr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 26 Jul 2019 14:55:47 -0400
-Received: from asavdk3.altibox.net ([109.247.116.14]:44222 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387743AbfGZSzr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 26 Jul 2019 14:55:47 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id CB69020127;
-        Fri, 26 Jul 2019 20:55:39 +0200 (CEST)
-Date:   Fri, 26 Jul 2019 20:55:38 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        David Airlie <airlied@linux.ie>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        dri-devel@lists.freedesktop.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        kernel@collabora.com, linux-samsung-soc@vger.kernel.org,
-        Jyri Sarha <jsarha@ti.com>,
-        Vincent Abriou <vincent.abriou@st.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Dave Airlie <airlied@redhat.com>,
-        intel-gfx@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
-        linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Mamta Shukla <mamtashukla555@gmail.com>,
-        linux-mediatek@lists.infradead.org,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sean Paul <sean@poorly.run>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        amd-gfx@lists.freedesktop.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-kernel@vger.kernel.org, Todor Tomov <todor.tomov@linaro.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>
-Subject: Review required [Was: Associate ddc adapters with connectors]
-Message-ID: <20190726185538.GD14981@ravnborg.org>
-References: <cover.1564161140.git.andrzej.p@collabora.com>
- <20190726183520.GA22572@ravnborg.org>
+        id S1727589AbfG0PJR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 27 Jul 2019 11:09:17 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:41184 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726370AbfG0PJQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 27 Jul 2019 11:09:16 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 40F02F258955C599E725;
+        Sat, 27 Jul 2019 23:09:12 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0; Sat, 27 Jul 2019
+ 23:09:06 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
+        <tiwai@suse.com>, <eric@anholt.net>, <wahrenst@gmx.net>,
+        <f.fainelli@gmail.com>, <rjui@broadcom.com>,
+        <sbranden@broadcom.com>, <bcm-kernel-feedback-list@broadcom.com>,
+        <paul@crapouillou.net>, <timur@kernel.org>,
+        <nicoleotsuka@gmail.com>, <Xiubo.Lee@gmail.com>,
+        <festevam@gmail.com>, <shawnguo@kernel.org>,
+        <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+        <linux-imx@nxp.com>, <matthias.bgg@gmail.com>,
+        <jbrunet@baylibre.com>, <khilman@baylibre.com>,
+        <daniel@zonque.org>, <haojian.zhuang@gmail.com>,
+        <robert.jarzmik@free.fr>, <baohua@kernel.org>,
+        <olivier.moysan@st.com>, <arnaud.pouliquen@st.com>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>,
+        <mripard@kernel.org>, <wens@csie.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <yamada.masahiro@socionext.com>,
+        <michal.simek@xilinx.com>, <jcmvbkbc@gmail.com>
+CC:     <linux-kernel@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linuxppc-dev@lists.ozlabs.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-tegra@vger.kernel.org>, <linux-xtensa@linux-xtensa.org>,
+        <gregkh@linuxfoundation.org>, YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH -next 00/34] ASoC: use devm_platform_ioremap_resource() to simplify code
+Date:   Sat, 27 Jul 2019 23:07:04 +0800
+Message-ID: <20190727150738.54764-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190726183520.GA22572@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
-        a=e5mUnYsNAAAA:8 a=nTBMXhx45H-Va90dJ2EA:9 a=CjuIK1q_8ugA:10
-        a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+Content-Type: text/plain
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi all.
+devm_platform_ioremap_resource() internally have platform_get_resource()
+and devm_ioremap_resource() in it. So instead of calling them separately
+use devm_platform_ioremap_resource() directly.
 
-Andrzej have done a good job following up on feedback and this series is
-now ready.
+YueHaibing (34):
+  ASoC: tegra20_das: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: tegra: use devm_platform_ioremap_resource() to simplify code
+  ASoC: rockchip: use devm_platform_ioremap_resource() to simplify code
+  ASoC: ep93xx-i2s: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: mt8173: use devm_platform_ioremap_resource() to simplify code
+  ASoC: mt6797: use devm_platform_ioremap_resource() to simplify code
+  ASoC: imx-audmux: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: fsl_audmix: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: bcm2835-i2s: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: sirf: use devm_platform_ioremap_resource() to simplify code
+  ASoC: mxs-saif: use devm_platform_ioremap_resource() to simplify code
+  ASoC: spear: use devm_platform_ioremap_resource() to simplify code
+  ASoC: kirkwood-i2s: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: xtfpga-i2s: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: stm32: sai: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: codecs: msm8916-wcd: use devm_platform_ioremap_resource() to
+    simplify code
+  ASoC: codecs: jz4725b: use devm_platform_ioremap_resource() to
+    simplify code
+  ASoC: mmp-sspa: use devm_platform_ioremap_resource() to simplify code
+  ASoC: jz4740: use devm_platform_ioremap_resource() to simplify code
+  ASoC: inno_rk3036: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: uniphier: evea: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: uniphier: aio-dma: use devm_platform_ioremap_resource() to
+    simplify code
+  ASoC: psc-ac97: use devm_platform_ioremap_resource() to simplify code
+  ASoC: au1x: psc-i2s: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: meson: g12a-tohdmitx: use devm_platform_ioremap_resource() to
+    simplify code
+  ASoC: meson: axg-tdm-formatter: use devm_platform_ioremap_resource()
+    to simplify code
+  ASoC: meson: axg-pdm: use devm_platform_ioremap_resource() to simplify
+    code
+  ASoC: meson: axg-spdifin: use devm_platform_ioremap_resource() to
+    simplify code
+  ASoC: meson: axg-spdifout: use devm_platform_ioremap_resource() to
+    simplify code
+  ASoC: meson: axg-fifo: use devm_platform_ioremap_resource() to
+    simplify code
+  ASoC: xlnx: use devm_platform_ioremap_resource() to simplify code
+  ASoC: sun8i-codec-analog: use devm_platform_ioremap_resource() to
+    simplify code
+  ASoC: sunxi: sun50i-codec-analog: use devm_platform_ioremap_resource()
+    to simplify code
+  ASoC: sun8i-codec: use devm_platform_ioremap_resource() to simplify
+    code
 
-We need ack on the patches touching the individual drivers before we can
-proceed.
-Please check your drivers and get back.
+ sound/soc/au1x/psc-ac97.c                  | 5 ++---
+ sound/soc/au1x/psc-i2s.c                   | 5 ++---
+ sound/soc/bcm/bcm2835-i2s.c                | 4 +---
+ sound/soc/cirrus/ep93xx-i2s.c              | 4 +---
+ sound/soc/codecs/inno_rk3036.c             | 4 +---
+ sound/soc/codecs/jz4725b.c                 | 4 +---
+ sound/soc/codecs/jz4740.c                  | 4 +---
+ sound/soc/codecs/msm8916-wcd-digital.c     | 4 +---
+ sound/soc/codecs/rk3328_codec.c            | 4 +---
+ sound/soc/fsl/fsl_audmix.c                 | 4 +---
+ sound/soc/fsl/imx-audmux.c                 | 4 +---
+ sound/soc/kirkwood/kirkwood-i2s.c          | 4 +---
+ sound/soc/mediatek/mt6797/mt6797-afe-pcm.c | 5 +----
+ sound/soc/mediatek/mt8173/mt8173-afe-pcm.c | 4 +---
+ sound/soc/meson/axg-fifo.c                 | 4 +---
+ sound/soc/meson/axg-pdm.c                  | 4 +---
+ sound/soc/meson/axg-spdifin.c              | 4 +---
+ sound/soc/meson/axg-spdifout.c             | 4 +---
+ sound/soc/meson/axg-tdm-formatter.c        | 4 +---
+ sound/soc/meson/g12a-tohdmitx.c            | 4 +---
+ sound/soc/mxs/mxs-saif.c                   | 5 +----
+ sound/soc/pxa/mmp-sspa.c                   | 4 +---
+ sound/soc/sirf/sirf-usp.c                  | 4 +---
+ sound/soc/spear/spdif_in.c                 | 5 ++---
+ sound/soc/stm/stm32_sai.c                  | 4 +---
+ sound/soc/sunxi/sun50i-codec-analog.c      | 4 +---
+ sound/soc/sunxi/sun8i-codec-analog.c       | 4 +---
+ sound/soc/sunxi/sun8i-codec.c              | 4 +---
+ sound/soc/tegra/tegra20_das.c              | 4 +---
+ sound/soc/tegra/tegra30_i2s.c              | 4 +---
+ sound/soc/uniphier/aio-dma.c               | 4 +---
+ sound/soc/uniphier/evea.c                  | 4 +---
+ sound/soc/xilinx/xlnx_i2s.c                | 4 +---
+ sound/soc/xilinx/xlnx_spdif.c              | 3 +--
+ sound/soc/xtensa/xtfpga-i2s.c              | 4 +---
+ 35 files changed, 38 insertions(+), 106 deletions(-)
 
-	Sam
+-- 
+2.7.4
 
-> Hi Andezej.
-> 
-> On Fri, Jul 26, 2019 at 07:22:54PM +0200, Andrzej Pietrasiewicz wrote:
-> > It is difficult for a user to know which of the i2c adapters is for which
-> > drm connector. This series addresses this problem.
-> > 
-> > The idea is to have a symbolic link in connector's sysfs directory, e.g.:
-> > 
-> > ls -l /sys/class/drm/card0-HDMI-A-1/ddc
-> > lrwxrwxrwx 1 root root 0 Jun 24 10:42 /sys/class/drm/card0-HDMI-A-1/ddc \
-> > 	-> ../../../../soc/13880000.i2c/i2c-2
-> > 
-> > The user then knows that their card0-HDMI-A-1 uses i2c-2 and can e.g. run
-> > ddcutil:
-> > 
-> > ddcutil -b 2 getvcp 0x10
-> > VCP code 0x10 (Brightness): current value =    90, max value =   100
-> > 
-> > The first patch in the series adds struct i2c_adapter pointer to struct
-> > drm_connector. If the field is used by a particular driver, then an
-> > appropriate symbolic link is created by the generic code, which is also added
-> > by this patch.
-> > 
-> > Patch 2 adds a new variant of drm_connector_init(), see the changelog
-> > below.
-> > 
-> > Patches 3..24 are examples of how to convert a driver to this new scheme.
-> > 
-> ...
-> > 
-> > v5..v6:
-> > 
-> > - improved subject line of patch 1
-> > - added kernel-doc for drm_connector_init_with_ddc()
-> > - improved kernel-doc for the ddc field of struct drm_connector
-> > - added Reviewed-by in patches 17 and 18
-> > - added Acked-by in patch 2
-> > - made the ownership of ddc i2c_adapter explicit in all patches,
-> > this made the affected patches much simpler
-> 
-> Looks good now.
-> Patch 1 and 2 are:
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> The remaining patches are:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> 	Sam
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
