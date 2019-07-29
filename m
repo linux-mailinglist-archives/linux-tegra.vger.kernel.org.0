@@ -2,79 +2,149 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BF6479B01
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Jul 2019 23:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D515879B1F
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Jul 2019 23:33:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728937AbfG2VZI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Jul 2019 17:25:08 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:34722 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725945AbfG2VZI (ORCPT
+        id S1728894AbfG2VdM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Jul 2019 17:33:12 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:11890 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728405AbfG2VdM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Jul 2019 17:25:08 -0400
-Received: by mail-ot1-f65.google.com with SMTP id n5so64145254otk.1;
-        Mon, 29 Jul 2019 14:25:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KJFm+29xdmh4eMN4D0nGSnJhY+tLmcYbySYne7TR5rk=;
-        b=e46aDFveK7zG4xYYs0IECKEtaCORx0QzVb1zgQIKbIyChyNJX+s1ihxDVtTARc9SeO
-         n74BbPaT4n/xjKFS4TTfpCVnP4ZnqfPCbSlnqR5/V5DTn1z1bwLk/VegxEcOwAeBYPn4
-         R0NiP2wC85C8jlWXlBb4P1Tx4AKyMiHc0Lyp8qpiqmNSR2Er5C9eGGnwSGdfxhpZo80d
-         x+pKrkQ79wjKEHyAfju28iN1RWNQXomxtOfHljtf9ocr0azLpgzlEQndDS8rQBoBaAC+
-         rClZFLIrPnsmea6N6To34jU3HCEruDXWf5MmuTRlO6BLRBvmman4WblxmSmI8GXPZRxs
-         0fyw==
-X-Gm-Message-State: APjAAAWw6wE4eXS+Y3bx5EIOKOlycTONZVHUw0N2GbNaemjy0Amwuzi4
-        ulDegCjaNYTyNAzkYQ3Gf3JKYfg3HwX2qjYktos=
-X-Google-Smtp-Source: APXvYqwZKJSEHahFNopVUM0XNCLRgSdZ263ULw6EoirQNLdhBkJnGI89d2oNHu1aN8Et/1+cJZJbadg/yjCLAQjxwxI=
-X-Received: by 2002:a05:6830:1516:: with SMTP id k22mr77695493otp.189.1564435507068;
- Mon, 29 Jul 2019 14:25:07 -0700 (PDT)
+        Mon, 29 Jul 2019 17:33:12 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d3f660d0000>; Mon, 29 Jul 2019 14:33:01 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 29 Jul 2019 14:33:10 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 29 Jul 2019 14:33:10 -0700
+Received: from [10.26.11.172] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 29 Jul
+ 2019 21:33:06 +0000
+Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+To:     Jose Abreu <Jose.Abreu@synopsys.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        "David S . Miller" <davem@davemloft.net>
+References: <cover.1562149883.git.joabreu@synopsys.com>
+ <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
+ <7a79be5d-7ba2-c457-36d3-1ccef6572181@nvidia.com>
+ <BYAPR12MB3269927AB1F67D46E150ED6BD3C10@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <9e695f33-fd9f-a910-0891-2b63bd75e082@nvidia.com>
+ <BYAPR12MB3269B4A401E4DA10A07515C7D3C10@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <1e2ea942-28fe-15b9-f675-8d6585f9a33f@nvidia.com>
+ <BYAPR12MB326922CDCB1D4B3D4A780CFDD3C30@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <MN2PR12MB327907D4A6FB378AC989571AD3DD0@MN2PR12MB3279.namprd12.prod.outlook.com>
+ <b99b1e49-0cbc-2c66-6325-50fa6f263d91@nvidia.com>
+ <MN2PR12MB327997BDF2EA5CEE00F45AC3D3DD0@MN2PR12MB3279.namprd12.prod.outlook.com>
+ <fcf648d2-70cc-d734-871a-ca7f745791b7@arm.com>
+ <MN2PR12MB3279ABF628C52883021123C5D3DD0@MN2PR12MB3279.namprd12.prod.outlook.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <8a60361f-b914-93ef-0d80-92ae4ad8b808@nvidia.com>
+Date:   Mon, 29 Jul 2019 22:33:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <2305283.AStDPdUUnE@kreacher> <c8960d91-4446-9acf-5575-e442a652bd05@gmail.com>
- <CAGETcx_+i6_0Q2rf-UdzZ3bCPUos9Tu4JmvvO0zUoy5gB8_ESQ@mail.gmail.com>
-In-Reply-To: <CAGETcx_+i6_0Q2rf-UdzZ3bCPUos9Tu4JmvvO0zUoy5gB8_ESQ@mail.gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 29 Jul 2019 23:24:56 +0200
-Message-ID: <CAJZ5v0h5U60yCyaHeHVbWmwWDa4NBnuhgsV022nZm5HuGgV7ow@mail.gmail.com>
-Subject: Re: [PATCH v2] driver core: Remove device link creation limitation
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <MN2PR12MB3279ABF628C52883021123C5D3DD0@MN2PR12MB3279.namprd12.prod.outlook.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1564435981; bh=+tXkvnJomdlQUldytIfFdlsTnBE+q42y36xSnoRaYvU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=BuHiU6CuSm73jgRPvxOtqlowqNvcDo0RdVEDsM3mou7XM1jZUGREQyFZuANpF/PvP
+         74z9Kajzmn7ZZkLJODbpWKiSvdL21YH+vAaT4lbeq0A48hDAGkx5dlYGbRySj7NVSl
+         eeR8oEZNAaZmfNT/jAKBhIQ+ySqvcIJ+QGLGssZkoEGbiNaFn8PYEVr7Ogq3qxp6OC
+         MGKfMF0rF+daOjLKHG4uwYzh0Z1m5F8/2SDgm4MUDbOQLBKmeq5ImF6yfeemzmZKpt
+         Y8cvlCRKwGq0mSIJ3Pe9pq+Sm2pP0vRg32Z8tYF44uOAcTpCxzdqQDnj/bpHX1F7GO
+         PyR6nJoawG9Ig==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 10:47 PM Saravana Kannan <saravanak@google.com> wrote:
->
-> Rafael,
->
-> This is the fix you need. Or something link this.
->
-> I had asked you to reject DL_FLAG_MANAGED as an input flag if you are
-> marking it as internal (in the comments). But looks like you were also
-> trying to check for "undefined" bit positions. However, the check
-> isn't correct because DL_MANAGED_FLAGS doesn't include (rightfully so)
-> DL_FLAG_PM_RUNTIME and DL_FLAG_RPM_ACTIVE .
->
-> I tried to write a DL_FLAG_EXTERNAL to include all the external flags,
-> but that felt like a maintenance headache that's not worth carrying. I
-> think it's simpler to just error out when internal flags being passed
-> in and ignore any undefined bit positions.
 
-Well, IMO it is better to prevent people from passing unrecognized
-flags to device_link_add() at all, even if that means some extra
-effort when adding new flags.
+On 29/07/2019 15:08, Jose Abreu wrote:
 
-I'll post an alternative fix shortly.
+...
+
+>>> Hi Catalin and Will,
+>>>
+>>> Sorry to add you in such a long thread but we are seeing a DMA issue
+>>> with stmmac driver in an ARM64 platform with IOMMU enabled.
+>>>
+>>> The issue seems to be solved when buffers allocation for DMA based
+>>> transfers are *not* mapped with the DMA_ATTR_SKIP_CPU_SYNC flag *OR*
+>>> when IOMMU is disabled.
+>>>
+>>> Notice that after transfer is done we do use
+>>> dma_sync_single_for_{cpu,device} and then we reuse *the same* page for
+>>> another transfer.
+>>>
+>>> Can you please comment on whether DMA_ATTR_SKIP_CPU_SYNC can not be used
+>>> in ARM64 platforms with IOMMU ?
+>>
+>> In terms of what they do, there should be no difference on arm64 between:
+>>
+>> dma_map_page(..., dir);
+>> ...
+>> dma_unmap_page(..., dir);
+>>
+>> and:
+>>
+>> dma_map_page_attrs(..., dir, DMA_ATTR_SKIP_CPU_SYNC);
+>> dma_sync_single_for_device(..., dir);
+>> ...
+>> dma_sync_single_for_cpu(..., dir);
+>> dma_unmap_page_attrs(..., dir, DMA_ATTR_SKIP_CPU_SYNC);
+>>
+>> provided that the first sync covers the whole buffer and any subsequent 
+>> ones cover at least the parts of the buffer which may have changed. Plus 
+>> for coherent hardware it's entirely moot either way.
+> 
+> Thanks for confirming. That's indeed what stmmac is doing when buffer is 
+> received by syncing the packet size to CPU.
+> 
+>>
+>> Given Jon's previous findings, I would lean towards the idea that 
+>> performing the extra (redundant) cache maintenance plus barrier in 
+>> dma_unmap is mostly just perturbing timing in the same way as the debug 
+>> print which also made things seem OK.
+> 
+> Mikko said that Tegra186 is not coherent so we have to explicit flush 
+> pipeline but I don't understand why sync_single() is not doing it ...
+> 
+> Jon, can you please remove *all* debug prints, hacks, etc ... and test 
+> this one in attach with plain -net tree ?
+
+So far I have just been testing on the mainline kernel branch. The issue
+still persists after applying this on mainline. I can test on the -net
+tree, but I am not sure that will make a difference.
+
+Cheers
+Jon
+
+-- 
+nvpublic
