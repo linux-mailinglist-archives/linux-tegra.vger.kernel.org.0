@@ -2,98 +2,143 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17E9B787F1
-	for <lists+linux-tegra@lfdr.de>; Mon, 29 Jul 2019 11:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F3297897D
+	for <lists+linux-tegra@lfdr.de>; Mon, 29 Jul 2019 12:17:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727527AbfG2JDP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 29 Jul 2019 05:03:15 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:17274 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726432AbfG2JDP (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 29 Jul 2019 05:03:15 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d3eb65a0000>; Mon, 29 Jul 2019 02:03:22 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 29 Jul 2019 02:03:14 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 29 Jul 2019 02:03:14 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 29 Jul
- 2019 09:03:11 +0000
-Subject: Re: [PATCH 5.2 00/66] 5.2.4-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190726152301.936055394@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <df4d349b-03a1-58b1-cf82-4e76d5820614@nvidia.com>
-Date:   Mon, 29 Jul 2019 10:03:10 +0100
+        id S1728122AbfG2KRE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 29 Jul 2019 06:17:04 -0400
+Received: from mail.kapsi.fi ([91.232.154.25]:41637 "EHLO mail.kapsi.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726358AbfG2KRE (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 29 Jul 2019 06:17:04 -0400
+X-Greylist: delayed 1870 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Jul 2019 06:17:03 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=nAOqsxTyQ4gYltZdfhxaj3SXIvjncVO2sE1nkzwLk4E=; b=tFKJc9Yt/mc9zFIxobPi3ypDnT
+        FuFFk4dfGUY/bNKduZtIu8/UzABRB1Mha/OY/Ka8bOZirm+sTiODILWjX4eI+TPKltxOPPiQlbBWf
+        lcHn1Z0FzpIT4jJpnngoKPRCpZkJSiAYOKF0inIIvZbjXYs/JEN1xIMWhsW+oqqxsCRG8jjpVYtwH
+        xIu5UVDbY4tj1Vq8rYyxrZzG8FuW5l7NvTl6UJXLmzrim4oCDDlYgIVT73gKTNknPKxmV2BKUwywp
+        /lusWQQUCCBhcY3HRSvCHguQ35UYGPRHyFfrjCxbM/1CiWrqTaSa0O7WpHNTzhkMPxg/krGIShmVI
+        9u4ITH2A==;
+Received: from [193.209.96.43] (helo=[10.21.26.179])
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1hs2Dn-0007rJ-W0; Mon, 29 Jul 2019 12:45:36 +0300
+Subject: Re: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        Lars Persson <lists@bofh.nu>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Cc:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <cover.1562149883.git.joabreu@synopsys.com>
+ <BN8PR12MB32661E919A8DEBC7095BAA12D3C80@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <20190722101830.GA24948@apalos>
+ <CADnJP=thexf2sWcVVOLWw14rpteEj0RrfDdY8ER90MpbNN4-oA@mail.gmail.com>
+ <BN8PR12MB326661846D53AAEE315A7434D3C40@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <11557fe0-0cba-cb49-0fb6-ad24792d4a53@nvidia.com>
+ <BN8PR12MB3266664ECA192E02C06061EED3C40@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <BYAPR12MB3269A725AFDDA21E92946558D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <ab14f31f-2045-b1be-d31f-2a81b8527dac@nvidia.com>
+ <BYAPR12MB32692AF2BA127C5DA5B74804D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <2ad7bf21-1f1f-db0f-2358-4901b7988b7d@nvidia.com>
+ <BYAPR12MB3269D050556BD51030DCDDFCD3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <8093e352-d992-e17f-7168-5afbd9d3fb3f@nvidia.com>
+ <BYAPR12MB3269EC45ABAF8F279288B003D3C70@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <f3525260-c43f-c983-0b5b-34a83bd53283@nvidia.com>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <299d1803-fc5c-9298-3d10-582e76b47a9e@kapsi.fi>
+Date:   Mon, 29 Jul 2019 12:45:25 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190726152301.936055394@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <f3525260-c43f-c983-0b5b-34a83bd53283@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1564391002; bh=8XCwXG3bSoPGoVaqWvCQLwGWu4+QUH2urSLln44fk+A=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=KuC6J7DHg7P9VENLrBHysk+8WL3VTuK+Nbfc8raWib1iwAmZNY63cvUXWTmZ0zgPB
-         aOscvcWidrkyTMTl02+1ziIdtwW2lRhFWbxgMHbXqobrDaGpGGRCcgixq8GH7HbNXw
-         Doar6klqDlhwdhDV2gBpv/7xah9F5iU387D/++1qv9L908MHblNh5V/7XhtSswtOBT
-         pnXfPgIFYMuea063519gj0G/S7+XW1Rru02jtWVVbDEU5Ft4PB9ngCALYofUouWJ6x
-         pJ7TdFigAn9o9r16ijfAl6nrG/bs3T+MrO3LhzoYHYryPBTZU3JU9oYk8a8KJuNK62
-         wcKp9Q9u2uFvw==
+X-SA-Exim-Connect-IP: 193.209.96.43
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+My understanding is that Tegra186 does not have DMA coherency, but 
+Tegra194 does.
 
-On 26/07/2019 16:23, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.2.4 release.
-> There are 66 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+Mikko
+
+On 23.7.2019 16.34, Jon Hunter wrote:
 > 
-> Responses should be made by Sun 28 Jul 2019 03:21:13 PM UTC.
-> Anything received after that time might be too late.
+> On 23/07/2019 13:51, Jose Abreu wrote:
+>> From: Jon Hunter <jonathanh@nvidia.com>
+>> Date: Jul/23/2019, 12:58:55 (UTC+00:00)
+>>
+>>>
+>>> On 23/07/2019 11:49, Jose Abreu wrote:
+>>>> From: Jon Hunter <jonathanh@nvidia.com>
+>>>> Date: Jul/23/2019, 11:38:33 (UTC+00:00)
+>>>>
+>>>>>
+>>>>> On 23/07/2019 11:07, Jose Abreu wrote:
+>>>>>> From: Jon Hunter <jonathanh@nvidia.com>
+>>>>>> Date: Jul/23/2019, 11:01:24 (UTC+00:00)
+>>>>>>
+>>>>>>> This appears to be a winner and by disabling the SMMU for the ethernet
+>>>>>>> controller and reverting commit 954a03be033c7cef80ddc232e7cbdb17df735663
+>>>>>>> this worked! So yes appears to be related to the SMMU being enabled. We
+>>>>>>> had to enable the SMMU for ethernet recently due to commit
+>>>>>>> 954a03be033c7cef80ddc232e7cbdb17df735663.
+>>>>>>
+>>>>>> Finally :)
+>>>>>>
+>>>>>> However, from "git show 954a03be033c7cef80ddc232e7cbdb17df735663":
+>>>>>>
+>>>>>> +         There are few reasons to allow unmatched stream bypass, and
+>>>>>> +         even fewer good ones.  If saying YES here breaks your board
+>>>>>> +         you should work on fixing your board.
+>>>>>>
+>>>>>> So, how can we fix this ? Is your ethernet DT node marked as
+>>>>>> "dma-coherent;" ?
+>>>>>
+>>>>> TBH I have no idea. I can't say I fully understand your change or how it
+>>>>> is breaking things for us.
+>>>>>
+>>>>> Currently, the Tegra DT binding does not have 'dma-coherent' set. I see
+>>>>> this is optional, but I am not sure how you determine whether or not
+>>>>> this should be set.
+>>>>
+>>>>  From my understanding it means that your device / IP DMA accesses are coherent regarding the CPU point of view. I think it will be the case if GMAC is not behind any kind of IOMMU in the HW arch.
+>>>
+>>> I understand what coherency is, I just don't know how you tell if this
+>>> implementation of the ethernet controller is coherent or not.
+>>
+>> Do you have any detailed diagram of your HW ? Such as blocks / IPs
+>> connection, address space wiring , ...
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2.4-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.2.y
-> and the diffstat can be found below.
+> Yes, this can be found in the Tegra X2 Technical Reference Manual [0].
+> Unfortunately, you need to create an account to download it.
 > 
-> thanks,
+> Jon
 > 
-> greg k-h
-
-All tests are passing for Tegra ...
-
-Test results for stable-v5.2:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    38 tests:	38 pass, 0 fail
-
-Linux version:	5.2.4-gfc89179bfa10
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Cheers
-Jon
-
--- 
-nvpublic
+> [0] https://developer.nvidia.com/embedded/dlc/parker-series-trm
+> 
