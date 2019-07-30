@@ -2,665 +2,248 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 222C77A36B
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jul 2019 10:54:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38F077A4BB
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jul 2019 11:39:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731177AbfG3Iys (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jul 2019 04:54:48 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:8680 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731052AbfG3Iys (ORCPT
+        id S1726401AbfG3Jjj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jul 2019 05:39:39 -0400
+Received: from smtprelay-out1.synopsys.com ([198.182.61.142]:55614 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725784AbfG3Jjj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jul 2019 04:54:48 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d4005db0001>; Tue, 30 Jul 2019 01:54:52 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 30 Jul 2019 01:54:43 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 30 Jul 2019 01:54:43 -0700
-Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jul
- 2019 08:54:40 +0000
-Subject: Re: [PATCH v2] driver core: Remove device link creation limitation
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-References: <2305283.AStDPdUUnE@kreacher>
- <c8960d91-4446-9acf-5575-e442a652bd05@gmail.com>
- <7944678.tFQQHhpDPp@kreacher>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <d033cd65-4432-5675-c9f4-ca12e74d1f7b@nvidia.com>
-Date:   Tue, 30 Jul 2019 09:54:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <7944678.tFQQHhpDPp@kreacher>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 30 Jul 2019 05:39:39 -0400
+Received: from mailhost.synopsys.com (dc8-mailhost1.synopsys.com [10.13.135.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 1C567C0098;
+        Tue, 30 Jul 2019 09:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1564479578; bh=4h+68blNv5NVywr44YSkLaStZdLuLPToGk/Uc1hJlnc=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=eLFel2wwNSUTg770pjUF9mOaoAF3iwLwAdutWl3d+7Xj6XXu6Xw6l1jULIviKviTv
+         JgFlR+0euukW+j0DhGcWY4SK8J6TeGsoI7AruZRCNIC3R9vqrJlzp1cNY/1WWtpHOP
+         oeuMA+IvVVdj4kIAg+EERA8WSzGyak3PcCf4FVDbvHljOKo9waD/wZl0a9LtUEl0DE
+         zpxkztDfpB66w++m+dQQ7yAKPD2xoKIIVKRwovTjK/QGZNzBxFgjI5nIazEMZZZ2Vc
+         6/tBpymVnWf2jorBSMB/bgX3MukfKdxtZZ03aYwPGbc6ECE2CZg7Ku9ARppnVD1bcL
+         7cfP3tYOHWpKA==
+Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
+        (using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id C3B89A006B;
+        Tue, 30 Jul 2019 09:39:34 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 30 Jul 2019 02:39:34 -0700
+Received: from NAM05-BY2-obe.outbound.protection.outlook.com (10.13.134.195)
+ by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Tue, 30 Jul 2019 02:39:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rx+8+k/eTBhR10hycgcsu1m1+EuIbwW73bWvEZDHyDyeCde6WMnnjz5CH29ZPqo14sJYGmouAOztrpLRYDHaHGAYe3IxyOnGUUDhCQ7JSPAcqxY2+wbmKlbf/IBkXRMWEPyGxlKPCOBHEGT3xAuzFdb0ADwRYKNz1V7iTBiP6CCwnD1ghLgjem1zoK8nx27fPFixlRXxsuPmT41ceB4WraLb4eLMhEN78RFM9B0pGcQWYhVqRQQu2CR+FdaLmCUkwxNcQSIimna45yk4tj0+ywNFEbalKPG6RrHSdiBoghfffL1hm3ompSiWjd0GcnHxTobqZ1O0k0K0QfiwiV+Vog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vKUpENlR+Mv1EsBKHsHr4DNYqxx51Txwnucg9YPXThc=;
+ b=Bzf5DtM1i0IkcFQdZHgZASblm5/TZzRA724Mv8+8Ynt7jCxFqDDpWl9LcaQ/nj/87gjfTxPCdrAyiJAAWlbryJLTbuY895Bi20D/yUmDJTC3HGnZEQHknj2wSxdrGLhR1omByCZWRF0edpXRoGKY0FJZ9Otc/e3eF+I/woesd4g/u1kIKiHMBvUC3gsuZ/dxWgLWjGDb3jMVyt5SDm63enVeZ8NgenhSbj3uklLlHTf+4ynEEG6nBoHIvlUlAweCsDLjaEUFYiVWcCeidlVS0YpJQaled2dwq8VqLtKRqLqvnhcNsubg2p0vCH2KPB3S+3+0AxhXT+3KNQd2WP2GPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=synopsys.com;dmarc=pass action=none
+ header.from=synopsys.com;dkim=pass header.d=synopsys.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=synopsys.onmicrosoft.com; s=selector1-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vKUpENlR+Mv1EsBKHsHr4DNYqxx51Txwnucg9YPXThc=;
+ b=RJSi9YE9wL38ap+Sd0yui+gSDPsruGRUpZC+Gi0aghqGVQKAZGt3YIyKpGDyRx0pI63kzGv/rrgpuEVYzMb+HfrLToJwNZSziFzGXz3bFRIizN05SaJ3Q4c9M2AXUH0FhQptGNSKJ5MvHyHIUqd/9l453E5qsw2DzNwDtWMigO0=
+Received: from BN8PR12MB3266.namprd12.prod.outlook.com (20.179.66.159) by
+ BN8PR12MB3074.namprd12.prod.outlook.com (20.178.209.202) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2115.15; Tue, 30 Jul 2019 09:39:32 +0000
+Received: from BN8PR12MB3266.namprd12.prod.outlook.com
+ ([fe80::6016:66cc:e24f:986c]) by BN8PR12MB3266.namprd12.prod.outlook.com
+ ([fe80::6016:66cc:e24f:986c%5]) with mapi id 15.20.2115.005; Tue, 30 Jul 2019
+ 09:39:32 +0000
+From:   Jose Abreu <Jose.Abreu@synopsys.com>
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
+CC:     Joao Pinto <Joao.Pinto@synopsys.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        "David S . Miller" <davem@davemloft.net>
+Subject: RE: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+Thread-Topic: [PATCH net-next 3/3] net: stmmac: Introducing support for Page
+ Pool
+Thread-Index: AQHVMYtq2Zx4WVoG/U2kL8GCK0bP/abbdEOAgAAAgcCAABHmgIAADDMggAGB8wCAAa8dIIACpFiggAAs3ACAAAdb0IAACH4AgAACfECAAJ/bAIAAyh8g
+Date:   Tue, 30 Jul 2019 09:39:31 +0000
+Message-ID: <BN8PR12MB32664E23137805984F6FB2DAD3DC0@BN8PR12MB3266.namprd12.prod.outlook.com>
+References: <cover.1562149883.git.joabreu@synopsys.com>
+ <1b254bb7fc6044c5e6e2fdd9e00088d1d13a808b.1562149883.git.joabreu@synopsys.com>
+ <7a79be5d-7ba2-c457-36d3-1ccef6572181@nvidia.com>
+ <BYAPR12MB3269927AB1F67D46E150ED6BD3C10@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <9e695f33-fd9f-a910-0891-2b63bd75e082@nvidia.com>
+ <BYAPR12MB3269B4A401E4DA10A07515C7D3C10@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <1e2ea942-28fe-15b9-f675-8d6585f9a33f@nvidia.com>
+ <BYAPR12MB326922CDCB1D4B3D4A780CFDD3C30@BYAPR12MB3269.namprd12.prod.outlook.com>
+ <MN2PR12MB327907D4A6FB378AC989571AD3DD0@MN2PR12MB3279.namprd12.prod.outlook.com>
+ <b99b1e49-0cbc-2c66-6325-50fa6f263d91@nvidia.com>
+ <MN2PR12MB327997BDF2EA5CEE00F45AC3D3DD0@MN2PR12MB3279.namprd12.prod.outlook.com>
+ <fcf648d2-70cc-d734-871a-ca7f745791b7@arm.com>
+ <MN2PR12MB3279ABF628C52883021123C5D3DD0@MN2PR12MB3279.namprd12.prod.outlook.com>
+ <8a60361f-b914-93ef-0d80-92ae4ad8b808@nvidia.com>
+In-Reply-To: <8a60361f-b914-93ef-0d80-92ae4ad8b808@nvidia.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1564476892; bh=dgfKm5y28+yQ9fELiVhC6w1NHnDrmN8V8JfR55VjlL4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=PST+diSm2cCnP5R5UkftBXT/6mdVeMve2w3puxl4UcNZmLKw78VRahHB30vr/ifO7
-         3+WuZRexci/jqugOfwYQsdxHAcuK0Ut3ARLxA2S1ANn9EvPrgilJYyOmUzojew+NT8
-         nqUonJ6XrkQwwvAqWW0NYGvaYetrrb8TWwxsSH/KWb+TddCnEUPGlqDFU3Gwwt9CTZ
-         n1mDNIm0wxuNv27fYZpJ7GZKFeoj9wHjyZiqMaDXCNuyWvdSS2odARl4O0hhBDYVHw
-         zIkQ4Vxrjia0njn6pRPN3cmbrM24d/l5dDCczuK2BjQsIcPetjyhWNUSs4xODMGj+4
-         AhOiFUaI088Ew==
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=joabreu@synopsys.com; 
+x-originating-ip: [83.174.63.141]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4e73c822-733d-4f9b-ca79-08d714d1d38c
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(49563074)(7193020);SRVR:BN8PR12MB3074;
+x-ms-traffictypediagnostic: BN8PR12MB3074:|BN8PR12MB3074:
+x-microsoft-antispam-prvs: <BN8PR12MB30744C1074DD830DDBB64750D3DC0@BN8PR12MB3074.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0114FF88F6
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(979002)(376002)(39860400002)(346002)(396003)(366004)(136003)(189003)(199004)(86362001)(74316002)(71200400001)(68736007)(71190400001)(66616009)(53546011)(6436002)(99286004)(26005)(76116006)(66476007)(66946007)(316002)(66556008)(6506007)(9686003)(305945005)(256004)(11346002)(14444005)(7416002)(7696005)(76176011)(486006)(229853002)(476003)(54906003)(110136005)(102836004)(5660300002)(66446008)(55016002)(64756008)(5024004)(52536014)(186003)(53936002)(446003)(8676002)(4326008)(6246003)(2906002)(81156014)(8936002)(81166006)(99936001)(6116002)(3846002)(2501003)(2201001)(14454004)(7736002)(66066001)(33656002)(25786009)(478600001)(49934004)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR12MB3074;H:BN8PR12MB3266.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Mht5+xHBcKJAChmzXR/+O336D9cuJFKb0n6LE4Nk3NfYpPUW9FoBt7pQgelCBSNvUGXqUrHuwJckVOGhuW+u84cZpswOx8nQRB6+XtieCXRIzbQV8aF+Jeshv7BBQ2nf4CeQaNzzBRHQdDGyZ1ChnmrwPihXPS3N/PKch3ZhDPoM7029Z9j3jdmrZX7E9gY5LA+G9PhiixP0iRuTFr2yX4piDCZu2Eq9pAcvWqzU4PYrWzHUE+9PTmd4d3Jw2CuwoZag4sme/dz8YZRhCABSediywaZ3M+haLHaB9WGXqVx0rAwL44VfVF6OOGieZC7gLhy85f5/3bLK0bWRgxEyX/Vh6zY1dzjZvafmRSNKd2IQEy6W7GhbnawFtGjy7BS26gutIXbCllu7l94HaLdV7SQTGJd47NGl0M3bGeb0YjY=
+Content-Type: multipart/mixed;
+        boundary="_002_BN8PR12MB32664E23137805984F6FB2DAD3DC0BN8PR12MB3266namp_"
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e73c822-733d-4f9b-ca79-08d714d1d38c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2019 09:39:32.4335
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: joabreu@synopsys.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3074
+X-OriginatorOrg: synopsys.com
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+--_002_BN8PR12MB32664E23137805984F6FB2DAD3DC0BN8PR12MB3266namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 29/07/2019 22:50, Rafael J. Wysocki wrote:
-> On Monday, July 29, 2019 5:48:57 PM CEST Dmitry Osipenko wrote:
->> 16.07.2019 18:21, Rafael J. Wysocki =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->>> Subject: [PATCH] driver core: Remove device link creation limitation
->>>
->>> If device_link_add() is called for a consumer/supplier pair with an
->>> existing device link between them and the existing link's type is
->>> not in agreement with the flags passed to that function by its
->>> caller, NULL will be returned.  That is seriously inconvenient,
->>> because it forces the callers of device_link_add() to worry about
->>> what others may or may not do even if that is not relevant to them
->>> for any other reasons.
->>>
->>> It turns out, however, that this limitation can be made go away
->>> relatively easily.
->>>
->>> The underlying observation is that if DL_FLAG_STATELESS has been
->>> passed to device_link_add() in flags for the given consumer/supplier
->>> pair at least once, calling either device_link_del() or
->>> device_link_remove() to release the link returned by it should work,
->>> but there are no other requirements associated with that flag.  In
->>> turn, if at least one of the callers of device_link_add() for the
->>> given consumer/supplier pair has not passed DL_FLAG_STATELESS to it
->>> in flags, the driver core should track the status of the link and act
->>> on it as appropriate (ie. the link should be treated as "managed").
->>> This means that DL_FLAG_STATELESS needs to be set for managed device
->>> links and it should be valid to call device_link_del() or
->>> device_link_remove() to drop references to them in certain
->>> sutiations.
->>>
->>> To allow that to happen, introduce a new (internal) device link flag
->>> called DL_FLAG_MANAGED and make device_link_add() set it automatically
->>> whenever DL_FLAG_STATELESS is not passed to it.  Also make it take
->>> additional references to existing device links that were previously
->>> stateless (that is, with DL_FLAG_STATELESS set and DL_FLAG_MANAGED
->>> unset) and will need to be managed going forward and initialize
->>> their status (which has been DL_STATE_NONE so far).
->>>
->>> Accordingly, when a managed device link is dropped automatically
->>> by the driver core, make it clear DL_FLAG_MANAGED, reset the link's
->>> status back to DL_STATE_NONE and drop the reference to it associated
->>> with DL_FLAG_MANAGED instead of just deleting it right away (to
->>> allow it to stay around in case it still needs to be released
->>> explicitly by someone).
->>>
->>> With that, since setting DL_FLAG_STATELESS doesn't mean that the
->>> device link in question is not managed any more, replace all of the
->>> status-tracking checks against DL_FLAG_STATELESS with analogous
->>> checks against DL_FLAG_MANAGED and update the documentation to
->>> reflect these changes.
->>>
->>> While at it, make device_link_add() reject flags that it does not
->>> recognize, including DL_FLAG_MANAGED.
->>>
->>> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->>> Reviewed-by: Saravana Kannan <saravanak@google.com>
->>> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
->>> ---
->>>
->>> -> v2:
->>>    * Add a check to device_link_add() to return NULL if unrecognized fl=
-ags are
->>>      passed to it.
->>>    * Modify kerneldoc comments around DL_FLAG_MANAGED.
->>>
->>> I've tentatively added the Tested-by tag from Marek, because I don't ex=
-pect
->>> the changes made between the initial posting and the v2 to make any dif=
-ference
->>> for him.
->>>
->>> ---
->>>  Documentation/driver-api/device_link.rst |    4=20
->>>  drivers/base/core.c                      |  176 +++++++++++++++++-----=
----------
->>>  drivers/base/power/runtime.c             |    4=20
->>>  include/linux/device.h                   |    4=20
->>>  4 files changed, 106 insertions(+), 82 deletions(-)
->>>
->>> Index: linux-pm/drivers/base/core.c
->>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>> --- linux-pm.orig/drivers/base/core.c
->>> +++ linux-pm/drivers/base/core.c
->>> @@ -124,6 +124,50 @@ static int device_is_dependent(struct de
->>>  	return ret;
->>>  }
->>> =20
->>> +static void device_link_init_status(struct device_link *link,
->>> +				    struct device *consumer,
->>> +				    struct device *supplier)
->>> +{
->>> +	switch (supplier->links.status) {
->>> +	case DL_DEV_PROBING:
->>> +		switch (consumer->links.status) {
->>> +		case DL_DEV_PROBING:
->>> +			/*
->>> +			 * A consumer driver can create a link to a supplier
->>> +			 * that has not completed its probing yet as long as it
->>> +			 * knows that the supplier is already functional (for
->>> +			 * example, it has just acquired some resources from the
->>> +			 * supplier).
->>> +			 */
->>> +			link->status =3D DL_STATE_CONSUMER_PROBE;
->>> +			break;
->>> +		default:
->>> +			link->status =3D DL_STATE_DORMANT;
->>> +			break;
->>> +		}
->>> +		break;
->>> +	case DL_DEV_DRIVER_BOUND:
->>> +		switch (consumer->links.status) {
->>> +		case DL_DEV_PROBING:
->>> +			link->status =3D DL_STATE_CONSUMER_PROBE;
->>> +			break;
->>> +		case DL_DEV_DRIVER_BOUND:
->>> +			link->status =3D DL_STATE_ACTIVE;
->>> +			break;
->>> +		default:
->>> +			link->status =3D DL_STATE_AVAILABLE;
->>> +			break;
->>> +		}
->>> +		break;
->>> +	case DL_DEV_UNBINDING:
->>> +		link->status =3D DL_STATE_SUPPLIER_UNBIND;
->>> +		break;
->>> +	default:
->>> +		link->status =3D DL_STATE_DORMANT;
->>> +		break;
->>> +	}
->>> +}
->>> +
->>>  static int device_reorder_to_tail(struct device *dev, void *not_used)
->>>  {
->>>  	struct device_link *link;
->>> @@ -165,6 +209,10 @@ void device_pm_move_to_tail(struct devic
->>>  	device_links_read_unlock(idx);
->>>  }
->>> =20
->>> +#define DL_MANAGED_LINK_FLAGS (DL_FLAG_AUTOREMOVE_CONSUMER | \
->>> +			       DL_FLAG_AUTOREMOVE_SUPPLIER | \
->>> +			       DL_FLAG_AUTOPROBE_CONSUMER)
->>> +
->>>  /**
->>>   * device_link_add - Create a link between two devices.
->>>   * @consumer: Consumer end of the link.
->>> @@ -179,9 +227,9 @@ void device_pm_move_to_tail(struct devic
->>>   * of the link.  If DL_FLAG_PM_RUNTIME is not set, DL_FLAG_RPM_ACTIVE =
-will be
->>>   * ignored.
->>>   *
->>> - * If DL_FLAG_STATELESS is set in @flags, the link is not going to be =
-managed by
->>> - * the driver core and, in particular, the caller of this function is =
-expected
->>> - * to drop the reference to the link acquired by it directly.
->>> + * If DL_FLAG_STATELESS is set in @flags, the caller of this function =
-is
->>> + * expected to release the link returned by it directly with the help =
-of either
->>> + * device_link_del() or device_link_remove().
->>>   *
->>>   * If that flag is not set, however, the caller of this function is ha=
-nding the
->>>   * management of the link over to the driver core entirely and its ret=
-urn value
->>> @@ -201,9 +249,16 @@ void device_pm_move_to_tail(struct devic
->>>   * be used to request the driver core to automaticall probe for a cons=
-mer
->>>   * driver after successfully binding a driver to the supplier device.
->>>   *
->>> - * The combination of DL_FLAG_STATELESS and either DL_FLAG_AUTOREMOVE_=
-CONSUMER
->>> - * or DL_FLAG_AUTOREMOVE_SUPPLIER set in @flags at the same time is in=
-valid and
->>> - * will cause NULL to be returned upfront.
->>> + * The combination of DL_FLAG_STATELESS and one of DL_FLAG_AUTOREMOVE_=
-CONSUMER,
->>> + * DL_FLAG_AUTOREMOVE_SUPPLIER, or DL_FLAG_AUTOPROBE_CONSUMER set in @=
-flags at
->>> + * the same time is invalid and will cause NULL to be returned upfront=
-.
->>> + * However, if a device link between the given @consumer and @supplier=
- pair
->>> + * exists already when this function is called for them, the existing =
-link will
->>> + * be returned regardless of its current type and status (the link's f=
-lags may
->>> + * be modified then).  The caller of this function is then expected to=
- treat
->>> + * the link as though it has just been created, so (in particular) if
->>> + * DL_FLAG_STATELESS was passed in @flags, the link needs to be releas=
-ed
->>> + * explicitly when not needed any more (as stated above).
->>>   *
->>>   * A side effect of the link creation is re-ordering of dpm_list and t=
-he
->>>   * devices_kset list by moving the consumer device and all devices dep=
-ending
->>> @@ -220,10 +275,8 @@ struct device_link *device_link_add(stru
->>>  	struct device_link *link;
->>> =20
->>>  	if (!consumer || !supplier ||
->>> -	    (flags & DL_FLAG_STATELESS &&
->>> -	     flags & (DL_FLAG_AUTOREMOVE_CONSUMER |
->>> -		      DL_FLAG_AUTOREMOVE_SUPPLIER |
->>> -		      DL_FLAG_AUTOPROBE_CONSUMER)) ||
->>> +	    (flags & ~(DL_FLAG_STATELESS | DL_MANAGED_LINK_FLAGS)) ||
->>> +	    (flags & DL_FLAG_STATELESS && flags & DL_MANAGED_LINK_FLAGS) ||
->>>  	    (flags & DL_FLAG_AUTOPROBE_CONSUMER &&
->>>  	     flags & (DL_FLAG_AUTOREMOVE_CONSUMER |
->>>  		      DL_FLAG_AUTOREMOVE_SUPPLIER)))
->>> @@ -236,6 +289,9 @@ struct device_link *device_link_add(stru
->>>  		}
->>>  	}
->>> =20
->>> +	if (!(flags & DL_FLAG_STATELESS))
->>> +		flags |=3D DL_FLAG_MANAGED;
->>> +
->>>  	device_links_write_lock();
->>>  	device_pm_lock();
->>> =20
->>> @@ -262,15 +318,6 @@ struct device_link *device_link_add(stru
->>>  		if (link->consumer !=3D consumer)
->>>  			continue;
->>> =20
->>> -		/*
->>> -		 * Don't return a stateless link if the caller wants a stateful
->>> -		 * one and vice versa.
->>> -		 */
->>> -		if (WARN_ON((flags & DL_FLAG_STATELESS) !=3D (link->flags & DL_FLAG_=
-STATELESS))) {
->>> -			link =3D NULL;
->>> -			goto out;
->>> -		}
->>> -
->>>  		if (flags & DL_FLAG_PM_RUNTIME) {
->>>  			if (!(link->flags & DL_FLAG_PM_RUNTIME)) {
->>>  				pm_runtime_new_link(consumer);
->>> @@ -281,6 +328,7 @@ struct device_link *device_link_add(stru
->>>  		}
->>> =20
->>>  		if (flags & DL_FLAG_STATELESS) {
->>> +			link->flags |=3D DL_FLAG_STATELESS;
->>>  			kref_get(&link->kref);
->>>  			goto out;
->>>  		}
->>> @@ -299,6 +347,11 @@ struct device_link *device_link_add(stru
->>>  			link->flags &=3D ~(DL_FLAG_AUTOREMOVE_CONSUMER |
->>>  					 DL_FLAG_AUTOREMOVE_SUPPLIER);
->>>  		}
->>> +		if (!(link->flags & DL_FLAG_MANAGED)) {
->>> +			kref_get(&link->kref);
->>> +			link->flags |=3D DL_FLAG_MANAGED;
->>> +			device_link_init_status(link, consumer, supplier);
->>> +		}
->>>  		goto out;
->>>  	}
->>> =20
->>> @@ -325,48 +378,10 @@ struct device_link *device_link_add(stru
->>>  	kref_init(&link->kref);
->>> =20
->>>  	/* Determine the initial link state. */
->>> -	if (flags & DL_FLAG_STATELESS) {
->>> +	if (flags & DL_FLAG_STATELESS)
->>>  		link->status =3D DL_STATE_NONE;
->>> -	} else {
->>> -		switch (supplier->links.status) {
->>> -		case DL_DEV_PROBING:
->>> -			switch (consumer->links.status) {
->>> -			case DL_DEV_PROBING:
->>> -				/*
->>> -				 * A consumer driver can create a link to a
->>> -				 * supplier that has not completed its probing
->>> -				 * yet as long as it knows that the supplier is
->>> -				 * already functional (for example, it has just
->>> -				 * acquired some resources from the supplier).
->>> -				 */
->>> -				link->status =3D DL_STATE_CONSUMER_PROBE;
->>> -				break;
->>> -			default:
->>> -				link->status =3D DL_STATE_DORMANT;
->>> -				break;
->>> -			}
->>> -			break;
->>> -		case DL_DEV_DRIVER_BOUND:
->>> -			switch (consumer->links.status) {
->>> -			case DL_DEV_PROBING:
->>> -				link->status =3D DL_STATE_CONSUMER_PROBE;
->>> -				break;
->>> -			case DL_DEV_DRIVER_BOUND:
->>> -				link->status =3D DL_STATE_ACTIVE;
->>> -				break;
->>> -			default:
->>> -				link->status =3D DL_STATE_AVAILABLE;
->>> -				break;
->>> -			}
->>> -			break;
->>> -		case DL_DEV_UNBINDING:
->>> -			link->status =3D DL_STATE_SUPPLIER_UNBIND;
->>> -			break;
->>> -		default:
->>> -			link->status =3D DL_STATE_DORMANT;
->>> -			break;
->>> -		}
->>> -	}
->>> +	else
->>> +		device_link_init_status(link, consumer, supplier);
->>> =20
->>>  	/*
->>>  	 * Some callers expect the link creation during consumer driver probe=
- to
->>> @@ -528,7 +543,7 @@ static void device_links_missing_supplie
->>>   * mark the link as "consumer probe in progress" to make the supplier =
-removal
->>>   * wait for us to complete (or bad things may happen).
->>>   *
->>> - * Links with the DL_FLAG_STATELESS flag set are ignored.
->>> + * Links without the DL_FLAG_MANAGED flag set are ignored.
->>>   */
->>>  int device_links_check_suppliers(struct device *dev)
->>>  {
->>> @@ -538,7 +553,7 @@ int device_links_check_suppliers(struct
->>>  	device_links_write_lock();
->>> =20
->>>  	list_for_each_entry(link, &dev->links.suppliers, c_node) {
->>> -		if (link->flags & DL_FLAG_STATELESS)
->>> +		if (!(link->flags & DL_FLAG_MANAGED))
->>>  			continue;
->>> =20
->>>  		if (link->status !=3D DL_STATE_AVAILABLE) {
->>> @@ -563,7 +578,7 @@ int device_links_check_suppliers(struct
->>>   *
->>>   * Also change the status of @dev's links to suppliers to "active".
->>>   *
->>> - * Links with the DL_FLAG_STATELESS flag set are ignored.
->>> + * Links without the DL_FLAG_MANAGED flag set are ignored.
->>>   */
->>>  void device_links_driver_bound(struct device *dev)
->>>  {
->>> @@ -572,7 +587,7 @@ void device_links_driver_bound(struct de
->>>  	device_links_write_lock();
->>> =20
->>>  	list_for_each_entry(link, &dev->links.consumers, s_node) {
->>> -		if (link->flags & DL_FLAG_STATELESS)
->>> +		if (!(link->flags & DL_FLAG_MANAGED))
->>>  			continue;
->>> =20
->>>  		/*
->>> @@ -593,7 +608,7 @@ void device_links_driver_bound(struct de
->>>  	}
->>> =20
->>>  	list_for_each_entry(link, &dev->links.suppliers, c_node) {
->>> -		if (link->flags & DL_FLAG_STATELESS)
->>> +		if (!(link->flags & DL_FLAG_MANAGED))
->>>  			continue;
->>> =20
->>>  		WARN_ON(link->status !=3D DL_STATE_CONSUMER_PROBE);
->>> @@ -605,6 +620,13 @@ void device_links_driver_bound(struct de
->>>  	device_links_write_unlock();
->>>  }
->>> =20
->>> +static void device_link_drop_managed(struct device_link *link)
->>> +{
->>> +	link->flags &=3D ~DL_FLAG_MANAGED;
->>> +	WRITE_ONCE(link->status, DL_STATE_NONE);
->>> +	kref_put(&link->kref, __device_link_del);
->>> +}
->>> +
->>>  /**
->>>   * __device_links_no_driver - Update links of a device without a drive=
-r.
->>>   * @dev: Device without a drvier.
->>> @@ -615,18 +637,18 @@ void device_links_driver_bound(struct de
->>>   * unless they already are in the "supplier unbind in progress" state =
-in which
->>>   * case they need not be updated.
->>>   *
->>> - * Links with the DL_FLAG_STATELESS flag set are ignored.
->>> + * Links without the DL_FLAG_MANAGED flag set are ignored.
->>>   */
->>>  static void __device_links_no_driver(struct device *dev)
->>>  {
->>>  	struct device_link *link, *ln;
->>> =20
->>>  	list_for_each_entry_safe_reverse(link, ln, &dev->links.suppliers, c_n=
-ode) {
->>> -		if (link->flags & DL_FLAG_STATELESS)
->>> +		if (!(link->flags & DL_FLAG_MANAGED))
->>>  			continue;
->>> =20
->>>  		if (link->flags & DL_FLAG_AUTOREMOVE_CONSUMER)
->>> -			__device_link_del(&link->kref);
->>> +			device_link_drop_managed(link);
->>>  		else if (link->status =3D=3D DL_STATE_CONSUMER_PROBE ||
->>>  			 link->status =3D=3D DL_STATE_ACTIVE)
->>>  			WRITE_ONCE(link->status, DL_STATE_AVAILABLE);
->>> @@ -643,7 +665,7 @@ static void __device_links_no_driver(str
->>>   * %__device_links_no_driver() to update links to suppliers for it as
->>>   * appropriate.
->>>   *
->>> - * Links with the DL_FLAG_STATELESS flag set are ignored.
->>> + * Links without the DL_FLAG_MANAGED flag set are ignored.
->>>   */
->>>  void device_links_no_driver(struct device *dev)
->>>  {
->>> @@ -652,7 +674,7 @@ void device_links_no_driver(struct devic
->>>  	device_links_write_lock();
->>> =20
->>>  	list_for_each_entry(link, &dev->links.consumers, s_node) {
->>> -		if (link->flags & DL_FLAG_STATELESS)
->>> +		if (!(link->flags & DL_FLAG_MANAGED))
->>>  			continue;
->>> =20
->>>  		/*
->>> @@ -680,7 +702,7 @@ void device_links_no_driver(struct devic
->>>   * invoke %__device_links_no_driver() to update links to suppliers for=
- it as
->>>   * appropriate.
->>>   *
->>> - * Links with the DL_FLAG_STATELESS flag set are ignored.
->>> + * Links without the DL_FLAG_MANAGED flag set are ignored.
->>>   */
->>>  void device_links_driver_cleanup(struct device *dev)
->>>  {
->>> @@ -689,7 +711,7 @@ void device_links_driver_cleanup(struct
->>>  	device_links_write_lock();
->>> =20
->>>  	list_for_each_entry_safe(link, ln, &dev->links.consumers, s_node) {
->>> -		if (link->flags & DL_FLAG_STATELESS)
->>> +		if (!(link->flags & DL_FLAG_MANAGED))
->>>  			continue;
->>> =20
->>>  		WARN_ON(link->flags & DL_FLAG_AUTOREMOVE_CONSUMER);
->>> @@ -702,7 +724,7 @@ void device_links_driver_cleanup(struct
->>>  		 */
->>>  		if (link->status =3D=3D DL_STATE_SUPPLIER_UNBIND &&
->>>  		    link->flags & DL_FLAG_AUTOREMOVE_SUPPLIER)
->>> -			__device_link_del(&link->kref);
->>> +			device_link_drop_managed(link);
->>> =20
->>>  		WRITE_ONCE(link->status, DL_STATE_DORMANT);
->>>  	}
->>> @@ -724,7 +746,7 @@ void device_links_driver_cleanup(struct
->>>   *
->>>   * Return 'false' if there are no probing or active consumers.
->>>   *
->>> - * Links with the DL_FLAG_STATELESS flag set are ignored.
->>> + * Links without the DL_FLAG_MANAGED flag set are ignored.
->>>   */
->>>  bool device_links_busy(struct device *dev)
->>>  {
->>> @@ -734,7 +756,7 @@ bool device_links_busy(struct device *de
->>>  	device_links_write_lock();
->>> =20
->>>  	list_for_each_entry(link, &dev->links.consumers, s_node) {
->>> -		if (link->flags & DL_FLAG_STATELESS)
->>> +		if (!(link->flags & DL_FLAG_MANAGED))
->>>  			continue;
->>> =20
->>>  		if (link->status =3D=3D DL_STATE_CONSUMER_PROBE
->>> @@ -764,7 +786,7 @@ bool device_links_busy(struct device *de
->>>   * driver to unbind and start over (the consumer will not re-probe as =
-we have
->>>   * changed the state of the link already).
->>>   *
->>> - * Links with the DL_FLAG_STATELESS flag set are ignored.
->>> + * Links without the DL_FLAG_MANAGED flag set are ignored.
->>>   */
->>>  void device_links_unbind_consumers(struct device *dev)
->>>  {
->>> @@ -776,7 +798,7 @@ void device_links_unbind_consumers(struc
->>>  	list_for_each_entry(link, &dev->links.consumers, s_node) {
->>>  		enum device_link_state status;
->>> =20
->>> -		if (link->flags & DL_FLAG_STATELESS)
->>> +		if (!(link->flags & DL_FLAG_MANAGED))
->>>  			continue;
->>> =20
->>>  		status =3D link->status;
->>> Index: linux-pm/drivers/base/power/runtime.c
->>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>> --- linux-pm.orig/drivers/base/power/runtime.c
->>> +++ linux-pm/drivers/base/power/runtime.c
->>> @@ -1624,7 +1624,7 @@ void pm_runtime_remove(struct device *de
->>>   * runtime PM references to the device, drop the usage counter of the =
-device
->>>   * (as many times as needed).
->>>   *
->>> - * Links with the DL_FLAG_STATELESS flag set are ignored.
->>> + * Links with the DL_FLAG_MANAGED flag unset are ignored.
->>>   *
->>>   * Since the device is guaranteed to be runtime-active at the point th=
-is is
->>>   * called, nothing else needs to be done here.
->>> @@ -1641,7 +1641,7 @@ void pm_runtime_clean_up_links(struct de
->>>  	idx =3D device_links_read_lock();
->>> =20
->>>  	list_for_each_entry_rcu(link, &dev->links.consumers, s_node) {
->>> -		if (link->flags & DL_FLAG_STATELESS)
->>> +		if (!(link->flags & DL_FLAG_MANAGED))
->>>  			continue;
->>> =20
->>>  		while (refcount_dec_not_one(&link->rpm_active))
->>> Index: linux-pm/include/linux/device.h
->>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>> --- linux-pm.orig/include/linux/device.h
->>> +++ linux-pm/include/linux/device.h
->>> @@ -829,12 +829,13 @@ enum device_link_state {
->>>  /*
->>>   * Device link flags.
->>>   *
->>> - * STATELESS: The core won't track the presence of supplier/consumer d=
-rivers.
->>> + * STATELESS: The core will not remove this link automatically.
->>>   * AUTOREMOVE_CONSUMER: Remove the link automatically on consumer driv=
-er unbind.
->>>   * PM_RUNTIME: If set, the runtime PM framework will use this link.
->>>   * RPM_ACTIVE: Run pm_runtime_get_sync() on the supplier during link c=
-reation.
->>>   * AUTOREMOVE_SUPPLIER: Remove the link automatically on supplier driv=
-er unbind.
->>>   * AUTOPROBE_CONSUMER: Probe consumer driver automatically after suppl=
-ier binds.
->>> + * MANAGED: The core tracks presence of supplier/consumer drivers (int=
-ernal).
->>>   */
->>>  #define DL_FLAG_STATELESS		BIT(0)
->>>  #define DL_FLAG_AUTOREMOVE_CONSUMER	BIT(1)
->>> @@ -842,6 +843,7 @@ enum device_link_state {
->>>  #define DL_FLAG_RPM_ACTIVE		BIT(3)
->>>  #define DL_FLAG_AUTOREMOVE_SUPPLIER	BIT(4)
->>>  #define DL_FLAG_AUTOPROBE_CONSUMER	BIT(5)
->>> +#define DL_FLAG_MANAGED			BIT(6)
->>> =20
->>>  /**
->>>   * struct device_link - Device link representation.
->>> Index: linux-pm/Documentation/driver-api/device_link.rst
->>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>> --- linux-pm.orig/Documentation/driver-api/device_link.rst
->>> +++ linux-pm/Documentation/driver-api/device_link.rst
->>> @@ -78,8 +78,8 @@ typically deleted in its ``->remove`` ca
->>>  driver is compiled as a module, the device link is added on module loa=
-d and
->>>  orderly deleted on unload.  The same restrictions that apply to device=
- link
->>>  addition (e.g. exclusion of a parallel suspend/resume transition) appl=
-y equally
->>> -to deletion.  Device links with ``DL_FLAG_STATELESS`` unset (i.e. mana=
-ged
->>> -device links) are deleted automatically by the driver core.
->>> +to deletion.  Device links managed by the driver core are deleted auto=
-matically
->>> +by it.
->>> =20
->>>  Several flags may be specified on device link addition, two of which
->>>  have already been mentioned above:  ``DL_FLAG_STATELESS`` to express t=
-hat no
->>>
->>>
->>>
->>>
->>
->> Hello Rafael,
->>
->> This patch breaks NVIDIA Tegra DRM driver, which fails to probe now
->> using the recent linux-next.
->>
->> 	tegra-dc 54240000.dc: failed to link controllers
->>
->=20
-> Thanks for the report and sorry for the breakage!
->=20
-> My bad, obviously DL_FLAG_PM_RUNTIME must be accepted by device_link_add(=
-),
-> as well as DL_FLAG_RPM_ACTIVE.
->=20
-> Please test the appended patch and let me know if it helps.
+RnJvbTogSm9uIEh1bnRlciA8am9uYXRoYW5oQG52aWRpYS5jb20+DQpEYXRlOiBKdWwvMjkvMjAx
+OSwgMjI6MzM6MDQgKFVUQyswMDowMCkNCg0KPiANCj4gT24gMjkvMDcvMjAxOSAxNTowOCwgSm9z
+ZSBBYnJldSB3cm90ZToNCj4gDQo+IC4uLg0KPiANCj4gPj4+IEhpIENhdGFsaW4gYW5kIFdpbGws
+DQo+ID4+Pg0KPiA+Pj4gU29ycnkgdG8gYWRkIHlvdSBpbiBzdWNoIGEgbG9uZyB0aHJlYWQgYnV0
+IHdlIGFyZSBzZWVpbmcgYSBETUEgaXNzdWUNCj4gPj4+IHdpdGggc3RtbWFjIGRyaXZlciBpbiBh
+biBBUk02NCBwbGF0Zm9ybSB3aXRoIElPTU1VIGVuYWJsZWQuDQo+ID4+Pg0KPiA+Pj4gVGhlIGlz
+c3VlIHNlZW1zIHRvIGJlIHNvbHZlZCB3aGVuIGJ1ZmZlcnMgYWxsb2NhdGlvbiBmb3IgRE1BIGJh
+c2VkDQo+ID4+PiB0cmFuc2ZlcnMgYXJlICpub3QqIG1hcHBlZCB3aXRoIHRoZSBETUFfQVRUUl9T
+S0lQX0NQVV9TWU5DIGZsYWcgKk9SKg0KPiA+Pj4gd2hlbiBJT01NVSBpcyBkaXNhYmxlZC4NCj4g
+Pj4+DQo+ID4+PiBOb3RpY2UgdGhhdCBhZnRlciB0cmFuc2ZlciBpcyBkb25lIHdlIGRvIHVzZQ0K
+PiA+Pj4gZG1hX3N5bmNfc2luZ2xlX2Zvcl97Y3B1LGRldmljZX0gYW5kIHRoZW4gd2UgcmV1c2Ug
+KnRoZSBzYW1lKiBwYWdlIGZvcg0KPiA+Pj4gYW5vdGhlciB0cmFuc2Zlci4NCj4gPj4+DQo+ID4+
+PiBDYW4geW91IHBsZWFzZSBjb21tZW50IG9uIHdoZXRoZXIgRE1BX0FUVFJfU0tJUF9DUFVfU1lO
+QyBjYW4gbm90IGJlIHVzZWQNCj4gPj4+IGluIEFSTTY0IHBsYXRmb3JtcyB3aXRoIElPTU1VID8N
+Cj4gPj4NCj4gPj4gSW4gdGVybXMgb2Ygd2hhdCB0aGV5IGRvLCB0aGVyZSBzaG91bGQgYmUgbm8g
+ZGlmZmVyZW5jZSBvbiBhcm02NCBiZXR3ZWVuOg0KPiA+Pg0KPiA+PiBkbWFfbWFwX3BhZ2UoLi4u
+LCBkaXIpOw0KPiA+PiAuLi4NCj4gPj4gZG1hX3VubWFwX3BhZ2UoLi4uLCBkaXIpOw0KPiA+Pg0K
+PiA+PiBhbmQ6DQo+ID4+DQo+ID4+IGRtYV9tYXBfcGFnZV9hdHRycyguLi4sIGRpciwgRE1BX0FU
+VFJfU0tJUF9DUFVfU1lOQyk7DQo+ID4+IGRtYV9zeW5jX3NpbmdsZV9mb3JfZGV2aWNlKC4uLiwg
+ZGlyKTsNCj4gPj4gLi4uDQo+ID4+IGRtYV9zeW5jX3NpbmdsZV9mb3JfY3B1KC4uLiwgZGlyKTsN
+Cj4gPj4gZG1hX3VubWFwX3BhZ2VfYXR0cnMoLi4uLCBkaXIsIERNQV9BVFRSX1NLSVBfQ1BVX1NZ
+TkMpOw0KPiA+Pg0KPiA+PiBwcm92aWRlZCB0aGF0IHRoZSBmaXJzdCBzeW5jIGNvdmVycyB0aGUg
+d2hvbGUgYnVmZmVyIGFuZCBhbnkgc3Vic2VxdWVudCANCj4gPj4gb25lcyBjb3ZlciBhdCBsZWFz
+dCB0aGUgcGFydHMgb2YgdGhlIGJ1ZmZlciB3aGljaCBtYXkgaGF2ZSBjaGFuZ2VkLiBQbHVzIA0K
+PiA+PiBmb3IgY29oZXJlbnQgaGFyZHdhcmUgaXQncyBlbnRpcmVseSBtb290IGVpdGhlciB3YXku
+DQo+ID4gDQo+ID4gVGhhbmtzIGZvciBjb25maXJtaW5nLiBUaGF0J3MgaW5kZWVkIHdoYXQgc3Rt
+bWFjIGlzIGRvaW5nIHdoZW4gYnVmZmVyIGlzIA0KPiA+IHJlY2VpdmVkIGJ5IHN5bmNpbmcgdGhl
+IHBhY2tldCBzaXplIHRvIENQVS4NCj4gPiANCj4gPj4NCj4gPj4gR2l2ZW4gSm9uJ3MgcHJldmlv
+dXMgZmluZGluZ3MsIEkgd291bGQgbGVhbiB0b3dhcmRzIHRoZSBpZGVhIHRoYXQgDQo+ID4+IHBl
+cmZvcm1pbmcgdGhlIGV4dHJhIChyZWR1bmRhbnQpIGNhY2hlIG1haW50ZW5hbmNlIHBsdXMgYmFy
+cmllciBpbiANCj4gPj4gZG1hX3VubWFwIGlzIG1vc3RseSBqdXN0IHBlcnR1cmJpbmcgdGltaW5n
+IGluIHRoZSBzYW1lIHdheSBhcyB0aGUgZGVidWcgDQo+ID4+IHByaW50IHdoaWNoIGFsc28gbWFk
+ZSB0aGluZ3Mgc2VlbSBPSy4NCj4gPiANCj4gPiBNaWtrbyBzYWlkIHRoYXQgVGVncmExODYgaXMg
+bm90IGNvaGVyZW50IHNvIHdlIGhhdmUgdG8gZXhwbGljaXQgZmx1c2ggDQo+ID4gcGlwZWxpbmUg
+YnV0IEkgZG9uJ3QgdW5kZXJzdGFuZCB3aHkgc3luY19zaW5nbGUoKSBpcyBub3QgZG9pbmcgaXQg
+Li4uDQo+ID4gDQo+ID4gSm9uLCBjYW4geW91IHBsZWFzZSByZW1vdmUgKmFsbCogZGVidWcgcHJp
+bnRzLCBoYWNrcywgZXRjIC4uLiBhbmQgdGVzdCANCj4gPiB0aGlzIG9uZSBpbiBhdHRhY2ggd2l0
+aCBwbGFpbiAtbmV0IHRyZWUgPw0KPiANCj4gU28gZmFyIEkgaGF2ZSBqdXN0IGJlZW4gdGVzdGlu
+ZyBvbiB0aGUgbWFpbmxpbmUga2VybmVsIGJyYW5jaC4gVGhlIGlzc3VlDQo+IHN0aWxsIHBlcnNp
+c3RzIGFmdGVyIGFwcGx5aW5nIHRoaXMgb24gbWFpbmxpbmUuIEkgY2FuIHRlc3Qgb24gdGhlIC1u
+ZXQNCj4gdHJlZSwgYnV0IEkgYW0gbm90IHN1cmUgdGhhdCB3aWxsIG1ha2UgYSBkaWZmZXJlbmNl
+Lg0KPiANCj4gQ2hlZXJzDQo+IEpvbg0KPiANCj4gLS0gDQo+IG52cHVibGljDQoNCkkgbG9va2Vk
+IGF0IG5ldHNlYyBpbXBsZW1lbnRhdGlvbiBhbmQgSSBub3RpY2VkIHRoYXQgd2UgYXJlIHN5bmNp
+bmcgdGhlIA0Kb2xkIGJ1ZmZlciBmb3IgZGV2aWNlIGluc3RlYWQgb2YgdGhlIG5ldyBvbmUuIG5l
+dHNlYyBzeW5jcyB0aGUgYnVmZmVyIA0KZm9yIGRldmljZSBpbW1lZGlhdGVseSBhZnRlciB0aGUg
+YWxsb2NhdGlvbiB3aGljaCBtYXkgYmUgd2hhdCB3ZSBoYXZlIHRvIA0KZG8uIE1heWJlIHRoZSBh
+dHRhY2hlZCBwYXRjaCBjYW4gbWFrZSB0aGluZ3Mgd29yayBmb3IgeW91ID8NCg0KLS0tDQpUaGFu
+a3MsDQpKb3NlIE1pZ3VlbCBBYnJldQ0K
 
-This also fixes a boot regression I have observed on Tegra210. So ...
+--_002_BN8PR12MB32664E23137805984F6FB2DAD3DC0BN8PR12MB3266namp_
+Content-Type: application/octet-stream;
+	name="0001-net-stmmac-Sync-RX-Buffer-upon-allocation.patch"
+Content-Description: 0001-net-stmmac-Sync-RX-Buffer-upon-allocation.patch
+Content-Disposition: attachment;
+	filename="0001-net-stmmac-Sync-RX-Buffer-upon-allocation.patch"; size=2465;
+	creation-date="Tue, 30 Jul 2019 09:36:22 GMT";
+	modification-date="Tue, 30 Jul 2019 09:36:22 GMT"
+Content-Transfer-Encoding: base64
 
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+RnJvbSAzNjAxZTNhZTQzNTdkNDhiMzI5NGY0Mjc4MWQwZjE5MDk1ZDFiMDBlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpNZXNzYWdlLUlkOiA8MzYwMWUzYWU0MzU3ZDQ4YjMyOTRmNDI3ODFkMGYx
+OTA5NWQxYjAwZS4xNTY0NDc5MzgyLmdpdC5qb2FicmV1QHN5bm9wc3lzLmNvbT4KRnJvbTogSm9z
+ZSBBYnJldSA8am9hYnJldUBzeW5vcHN5cy5jb20+CkRhdGU6IFR1ZSwgMzAgSnVsIDIwMTkgMTE6
+MzY6MTMgKzAyMDAKU3ViamVjdDogW1BBVENIIG5ldF0gbmV0OiBzdG1tYWM6IFN5bmMgUlggQnVm
+ZmVyIHVwb24gYWxsb2NhdGlvbgoKU2lnbmVkLW9mZi1ieTogSm9zZSBBYnJldSA8am9hYnJldUBz
+eW5vcHN5cy5jb20+Ci0tLQpDYzogR2l1c2VwcGUgQ2F2YWxsYXJvIDxwZXBwZS5jYXZhbGxhcm9A
+c3QuY29tPgpDYzogQWxleGFuZHJlIFRvcmd1ZSA8YWxleGFuZHJlLnRvcmd1ZUBzdC5jb20+CkNj
+OiBKb3NlIEFicmV1IDxqb2FicmV1QHN5bm9wc3lzLmNvbT4KQ2M6ICJEYXZpZCBTLiBNaWxsZXIi
+IDxkYXZlbUBkYXZlbWxvZnQubmV0PgpDYzogTWF4aW1lIENvcXVlbGluIDxtY29xdWVsaW4uc3Rt
+MzJAZ21haWwuY29tPgpDYzogbmV0ZGV2QHZnZXIua2VybmVsLm9yZwpDYzogbGludXgtc3RtMzJA
+c3QtbWQtbWFpbG1hbi5zdG9ybXJlcGx5LmNvbQpDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5p
+bmZyYWRlYWQub3JnCkNjOiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnCi0tLQogZHJpdmVy
+cy9uZXQvZXRoZXJuZXQvc3RtaWNyby9zdG1tYWMvc3RtbWFjX21haW4uYyB8IDEzICsrKysrKysr
+KystLS0KIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQoK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L3N0bWljcm8vc3RtbWFjL3N0bW1hY19t
+YWluLmMgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9zdG1pY3JvL3N0bW1hYy9zdG1tYWNfbWFpbi5j
+CmluZGV4IDk4YjFhNWM2ZDUzNy4uOWE0YTU2YWQzNWNkIDEwMDY0NAotLS0gYS9kcml2ZXJzL25l
+dC9ldGhlcm5ldC9zdG1pY3JvL3N0bW1hYy9zdG1tYWNfbWFpbi5jCisrKyBiL2RyaXZlcnMvbmV0
+L2V0aGVybmV0L3N0bWljcm8vc3RtbWFjL3N0bW1hY19tYWluLmMKQEAgLTMyNzEsOSArMzI3MSwx
+MSBAQCBzdGF0aWMgaW5saW5lIGludCBzdG1tYWNfcnhfdGhyZXNob2xkX2NvdW50KHN0cnVjdCBz
+dG1tYWNfcnhfcXVldWUgKnJ4X3EpCiBzdGF0aWMgaW5saW5lIHZvaWQgc3RtbWFjX3J4X3JlZmls
+bChzdHJ1Y3Qgc3RtbWFjX3ByaXYgKnByaXYsIHUzMiBxdWV1ZSkKIHsKIAlzdHJ1Y3Qgc3RtbWFj
+X3J4X3F1ZXVlICpyeF9xID0gJnByaXYtPnJ4X3F1ZXVlW3F1ZXVlXTsKLQlpbnQgZGlydHkgPSBz
+dG1tYWNfcnhfZGlydHkocHJpdiwgcXVldWUpOworCWludCBsZW4sIGRpcnR5ID0gc3RtbWFjX3J4
+X2RpcnR5KHByaXYsIHF1ZXVlKTsKIAl1bnNpZ25lZCBpbnQgZW50cnkgPSByeF9xLT5kaXJ0eV9y
+eDsKIAorCWxlbiA9IERJVl9ST1VORF9VUChwcml2LT5kbWFfYnVmX3N6LCBQQUdFX1NJWkUpICog
+UEFHRV9TSVpFOworCiAJd2hpbGUgKGRpcnR5LS0gPiAwKSB7CiAJCXN0cnVjdCBzdG1tYWNfcnhf
+YnVmZmVyICpidWYgPSAmcnhfcS0+YnVmX3Bvb2xbZW50cnldOwogCQlzdHJ1Y3QgZG1hX2Rlc2Mg
+KnA7CkBAIC0zMjkxLDYgKzMyOTMsMTMgQEAgc3RhdGljIGlubGluZSB2b2lkIHN0bW1hY19yeF9y
+ZWZpbGwoc3RydWN0IHN0bW1hY19wcml2ICpwcml2LCB1MzIgcXVldWUpCiAJCX0KIAogCQlidWYt
+PmFkZHIgPSBwYWdlX3Bvb2xfZ2V0X2RtYV9hZGRyKGJ1Zi0+cGFnZSk7CisKKwkJLyogU3luYyB3
+aG9sZSBhbGxvY2F0aW9uIHRvIGRldmljZS4gVGhpcyB3aWxsIGludmFsaWRhdGUgb2xkCisJCSAq
+IGRhdGEuCisJCSAqLworCQlkbWFfc3luY19zaW5nbGVfZm9yX2RldmljZShwcml2LT5kZXZpY2Us
+IGJ1Zi0+YWRkciwgbGVuLAorCQkJCQkgICBETUFfRlJPTV9ERVZJQ0UpOworCiAJCXN0bW1hY19z
+ZXRfZGVzY19hZGRyKHByaXYsIHAsIGJ1Zi0+YWRkcik7CiAJCXN0bW1hY19yZWZpbGxfZGVzYzMo
+cHJpdiwgcnhfcSwgcCk7CiAKQEAgLTM0MjUsOCArMzQzNCw2IEBAIHN0YXRpYyBpbnQgc3RtbWFj
+X3J4KHN0cnVjdCBzdG1tYWNfcHJpdiAqcHJpdiwgaW50IGxpbWl0LCB1MzIgcXVldWUpCiAJCQlz
+a2JfY29weV90b19saW5lYXJfZGF0YShza2IsIHBhZ2VfYWRkcmVzcyhidWYtPnBhZ2UpLAogCQkJ
+CQkJZnJhbWVfbGVuKTsKIAkJCXNrYl9wdXQoc2tiLCBmcmFtZV9sZW4pOwotCQkJZG1hX3N5bmNf
+c2luZ2xlX2Zvcl9kZXZpY2UocHJpdi0+ZGV2aWNlLCBidWYtPmFkZHIsCi0JCQkJCQkgICBmcmFt
+ZV9sZW4sIERNQV9GUk9NX0RFVklDRSk7CiAKIAkJCWlmIChuZXRpZl9tc2dfcGt0ZGF0YShwcml2
+KSkgewogCQkJCW5ldGRldl9kYmcocHJpdi0+ZGV2LCAiZnJhbWUgcmVjZWl2ZWQgKCVkYnl0ZXMp
+IiwKLS0gCjIuNy40Cgo=
 
-Cheers
-Jon
-
---=20
-nvpublic
+--_002_BN8PR12MB32664E23137805984F6FB2DAD3DC0BN8PR12MB3266namp_--
