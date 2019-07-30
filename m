@@ -2,60 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE8247AFC1
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jul 2019 19:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66F3C7B04E
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jul 2019 19:41:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727720AbfG3RYT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jul 2019 13:24:19 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:46615 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730703AbfG3RYP (ORCPT
+        id S1727091AbfG3RlO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jul 2019 13:41:14 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:39816 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726432AbfG3RlO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jul 2019 13:24:15 -0400
-Received: by mail-lf1-f67.google.com with SMTP id z15so41036142lfh.13;
-        Tue, 30 Jul 2019 10:24:13 -0700 (PDT)
+        Tue, 30 Jul 2019 13:41:14 -0400
+Received: by mail-lj1-f194.google.com with SMTP id v18so62843790ljh.6;
+        Tue, 30 Jul 2019 10:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=b+B6WL/Mm5Gfj7Ncn0tXPPFbZ6O1gNJ677UNpoqOzb4=;
-        b=hYJdqV50me0Z9LIdMcr2Yt/NUeD1qzNq/EJ/XPcfa4N2919j7hN3oVhfzSs7GEl9TB
-         uQx+G8VoPAKfDYFwGnzMqkB/72fsZ0CfIvu7fwwYr72a0TI+Uyc7lvvO4zFD2ggoBVBK
-         u7oZRLwBFX+kbpv0ZNzshvreXj1nM1egHCZXdMPv+dlO0mzzaDC+bcATx12WkEnMQY2S
-         7iR9GDmKN8TtQuWWEV/5b9Eg9Jy1aOt7voz649s3a+LVMvW5vCllyKory7wijPfKSp96
-         5MbVrKAWTryDC2WJm4JdmddbDTr8XsIosoJip0DatpmblrPRdzlt1fJM23SAGUnJfRzL
-         mFdw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=grLUxdosb4UfR11DOl+yWibactqQToHflORrwM4FNak=;
+        b=tSIqv7snetyrULMsaKUF2ChW5E9SUEIs16EvBthhyGM7T7ODFVW3gS8eEkCbg8XLeC
+         9Al+EMaKmgyQ10bUU64P+SVcaNPq5Jut4bRyjYPPZXgWkbYu5bGx36ghhfwLVlWTg+Pa
+         qNzKVHDDZOzJe7wmRB3KPggVfgTuG5dH5vWSd6tLKlUU0mq0/dPcvlzmAKJzKJ3lsNnq
+         hf5759A/YDYnFUVvnmpd8GJKog+obZdPxK31zt2Dq6a2cvSXKybH00rg2pzrZsylDLQM
+         FsjtfYg+dMeOOTMhbFhzCtHeU0MiyEmxyuYrz+xx4QdO75a/MrH+F1LO9yFr5yYGlJ18
+         5j8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=b+B6WL/Mm5Gfj7Ncn0tXPPFbZ6O1gNJ677UNpoqOzb4=;
-        b=OMrZbcIXZ8Ux9TDo1VJ5OE2fmINmzgftR5pvaLW2IOxidb+LH6s55BeuQ36IkSOori
-         jG0mQSbRfr4iqD4ofGqIr9VXC3jbZ3oYAcxxHcMLFdRbGdSvDZwKx1calFP8D5vCH2pA
-         ycRtxS2P35wqll2dEXOr8DWZmRMFGLmbVCh9FLXT+3vouibaHIBWdEgInfhYkKjoiUI2
-         tenM2E7xHkl0XlusuCzw/gU7jn3XLCOImUa/xgjwFria0JRcJLXDlNMiXkTn0h68y0yW
-         bcdSPCAmQ4Zfzbc3QI7DTDg+XXedwCPGrWQCUAx/v6HUb1Bu8fUw7k0ziMyLJR3NDEpy
-         wQsA==
-X-Gm-Message-State: APjAAAX8ipmSsSYTyNOSHkXp5KKmA0SknLslQkIiN/ZAUUG5gKnjN5sC
-        NJiePRzxoNwJMq0O9rCplHA=
-X-Google-Smtp-Source: APXvYqwYFp5syPBqan4DsGyDHstS6GiCFJI4WqfTbURhiAjMn5P8Os8pIXoFfSJ1VoMaPr+3yFcT5A==
-X-Received: by 2002:ac2:42ca:: with SMTP id n10mr37481007lfl.121.1564507453058;
-        Tue, 30 Jul 2019 10:24:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=grLUxdosb4UfR11DOl+yWibactqQToHflORrwM4FNak=;
+        b=onuolSUFRRxZL4adwdEH03EUAPennpu1un/GFNlbXjz5kUTTHtp2UHa96G/eukvMEd
+         kyk4Q8U1Sanl1DeHo1jo6YykuvvxtLJUZH5nBASISL8BrPkTC/R6XU9NADFhrH2ZS3NE
+         VNPHI7S6cvOSpuPM42bn8BGOlAyCIEeNqP970JlcVxt7kZBdOshJiP2PmPKNF3j+yS0/
+         6cwi7GYuXtQkQUwZlnpSn2A014VvPWNerSZRJDlDOiyKXbeCwKmHfHmpPwwO4u5+w4is
+         sdKVjS8hjnolnzbZHuTM/GCyiM8cCOwrrJHxWn8SvnaLNaKxt5BTeFSKOuUAY0tvKQQK
+         ICUA==
+X-Gm-Message-State: APjAAAWxPGA3fgEOJqkJk0LWRFGSqHgo2aebhkMtxt791Q5olCzEqCcq
+        QDSddj5d9wtlkliYksbyfS0H2+jT
+X-Google-Smtp-Source: APXvYqznqvIJwgJKC8HTDr44K2775kb8iGYAE0g60AOMLy6IfSsQOZCCo7vtjx53/UGOGL+cs4xAgQ==
+X-Received: by 2002:a2e:93cc:: with SMTP id p12mr62833417ljh.11.1564508472098;
+        Tue, 30 Jul 2019 10:41:12 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.gmail.com with ESMTPSA id c15sm13345252lja.79.2019.07.30.10.24.12
+        by smtp.gmail.com with ESMTPSA id g5sm13721177ljj.69.2019.07.30.10.41.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Jul 2019 10:24:12 -0700 (PDT)
+        Tue, 30 Jul 2019 10:41:11 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ARM: tegra: Use WFE for power-gating on Tegra30
-Date:   Tue, 30 Jul 2019 20:23:40 +0300
-Message-Id: <20190730172340.14037-3-digetx@gmail.com>
+Subject: [PATCH v3 1/2] soc/tegra: pmc: Query PCLK clock rate at probe time
+Date:   Tue, 30 Jul 2019 20:40:19 +0300
+Message-Id: <20190730174020.15878-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190730172340.14037-1-digetx@gmail.com>
-References: <20190730172340.14037-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -63,69 +61,106 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Turned out that WFI doesn't work reliably on Tegra30 as a trigger for
-the power-gating, it causes CPU hang under some circumstances like having
-memory controller running of PLLP. The TRM doc states that WFI should be
-used for the Big-Little "Cluster Switch", while WFE for the power-gating.
-Hence let's use the WFE for CPU0 power-gating, like it is done for the
-power-gating of a secondary cores. This fixes CPU hang after entering LP2
-with memory running off PLLP.
+The PCLK clock is running off SCLK, which is a critical clock that is
+very unlikely to randomly change its rate. It is possible to get a
+lockup if kernel decides to enter LP2 cpuidle from a clk-notifier, which
+happens occasionally in a case of Tegra30 EMC driver that waits for the
+clk-change event in the clk-notify handler, because CCF's 'prepare' mutex
+in kept locked and thus clk_get_rate() wants to sleep with interrupts
+being disabled.
 
-Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/mach-tegra/sleep-tegra30.S |  4 +++-
- drivers/soc/tegra/flowctrl.c        | 19 +++++++++++++++++--
- 2 files changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/mach-tegra/sleep-tegra30.S b/arch/arm/mach-tegra/sleep-tegra30.S
-index 6c28395d8c75..17f7a2a6a494 100644
---- a/arch/arm/mach-tegra/sleep-tegra30.S
-+++ b/arch/arm/mach-tegra/sleep-tegra30.S
-@@ -683,10 +683,12 @@ tegra30_enter_sleep:
- 	dsb
- 	ldr	r0, [r6, r2] /* memory barrier */
+Changelog:
+
+v3: Changed commit's message because I actually recalled what was the
+    initial reason for the patch, since the problem reoccurred once again.
+
+v2: Addressed review comments that were made by Jon Hunter to v1 by
+    not moving the memory barrier, replacing one missed clk_get_rate()
+    with pmc->rate, handling possible clk_get_rate() error on probe and
+    slightly adjusting the commits message.
+
+ drivers/soc/tegra/pmc.c | 34 ++++++++++++++++------------------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index 9f9c1c677cf4..aba3396b2e73 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -1192,7 +1192,7 @@ static int tegra_io_pad_prepare(struct tegra_pmc *pmc, enum tegra_io_pad id,
+ 		return err;
  
-+	cmp	r10, #TEGRA30
- halted:
- 	isb
- 	dsb
--	wfi	/* CPU should be power gated here */
-+	wfine	/* CPU should be power gated here */
-+	wfeeq
+ 	if (pmc->clk) {
+-		rate = clk_get_rate(pmc->clk);
++		rate = pmc->rate;
+ 		if (!rate) {
+ 			dev_err(pmc->dev, "failed to get clock rate\n");
+ 			return -ENODEV;
+@@ -1433,6 +1433,7 @@ void tegra_pmc_set_suspend_mode(enum tegra_suspend_mode mode)
+ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
+ {
+ 	unsigned long long rate = 0;
++	u64 ticks;
+ 	u32 value;
  
- 	/* !!!FIXME!!! Implement halt failure handler */
- 	b	halted
-diff --git a/drivers/soc/tegra/flowctrl.c b/drivers/soc/tegra/flowctrl.c
-index b6bdeef33db1..eb96a3086d6d 100644
---- a/drivers/soc/tegra/flowctrl.c
-+++ b/drivers/soc/tegra/flowctrl.c
-@@ -91,8 +91,23 @@ void flowctrl_cpu_suspend_enter(unsigned int cpuid)
- 		reg &= ~TEGRA30_FLOW_CTRL_CSR_WFE_BITMAP;
- 		/* clear wfi bitmap */
- 		reg &= ~TEGRA30_FLOW_CTRL_CSR_WFI_BITMAP;
--		/* pwr gating on wfi */
--		reg |= TEGRA30_FLOW_CTRL_CSR_WFI_CPU0 << cpuid;
-+
-+		if (tegra_get_chip_id() == TEGRA30) {
-+			/*
-+			 * The wfi doesn't work well on Tegra30 because
-+			 * CPU hangs under some odd circumstances after
-+			 * power-gating (like memory running off PLLP),
-+			 * hence use wfe that is working perfectly fine.
-+			 * Note that Tegra30 TRM doc clearly stands that
-+			 * wfi should be used for the "Cluster Switching",
-+			 * while wfe for the power-gating, just like it
-+			 * is done on Tegra20.
-+			 */
-+			reg |= TEGRA20_FLOW_CTRL_CSR_WFE_CPU0 << cpuid;
-+		} else {
-+			/* pwr gating on wfi */
-+			reg |= TEGRA30_FLOW_CTRL_CSR_WFI_CPU0 << cpuid;
-+		}
+ 	switch (mode) {
+@@ -1441,31 +1442,22 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
+ 		break;
+ 
+ 	case TEGRA_SUSPEND_LP2:
+-		rate = clk_get_rate(pmc->clk);
++		rate = pmc->rate;
+ 		break;
+ 
+ 	default:
  		break;
  	}
- 	reg |= FLOW_CTRL_CSR_INTR_FLAG;			/* clear intr flag */
+ 
+-	if (WARN_ON_ONCE(rate == 0))
+-		rate = 100000000;
++	ticks = pmc->cpu_good_time * rate + USEC_PER_SEC - 1;
++	do_div(ticks, USEC_PER_SEC);
++	tegra_pmc_writel(pmc, ticks, PMC_CPUPWRGOOD_TIMER);
+ 
+-	if (rate != pmc->rate) {
+-		u64 ticks;
++	ticks = pmc->cpu_off_time * rate + USEC_PER_SEC - 1;
++	do_div(ticks, USEC_PER_SEC);
++	tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
+ 
+-		ticks = pmc->cpu_good_time * rate + USEC_PER_SEC - 1;
+-		do_div(ticks, USEC_PER_SEC);
+-		tegra_pmc_writel(pmc, ticks, PMC_CPUPWRGOOD_TIMER);
+-
+-		ticks = pmc->cpu_off_time * rate + USEC_PER_SEC - 1;
+-		do_div(ticks, USEC_PER_SEC);
+-		tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
+-
+-		wmb();
+-
+-		pmc->rate = rate;
+-	}
++	wmb();
+ 
+ 	value = tegra_pmc_readl(pmc, PMC_CNTRL);
+ 	value &= ~PMC_CNTRL_SIDE_EFFECT_LP0;
+@@ -2082,8 +2074,14 @@ static int tegra_pmc_probe(struct platform_device *pdev)
+ 		pmc->clk = NULL;
+ 	}
+ 
++	pmc->rate = clk_get_rate(pmc->clk);
+ 	pmc->dev = &pdev->dev;
+ 
++	if (!pmc->rate) {
++		dev_err(&pdev->dev, "failed to get pclk rate\n");
++		pmc->rate = 100000000;
++	}
++
+ 	tegra_pmc_init(pmc);
+ 
+ 	tegra_pmc_init_tsense_reset(pmc);
 -- 
 2.22.0
 
