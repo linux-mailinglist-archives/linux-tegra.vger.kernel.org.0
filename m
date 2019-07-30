@@ -2,100 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 489C07B052
-	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jul 2019 19:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1D6E7B04C
+	for <lists+linux-tegra@lfdr.de>; Tue, 30 Jul 2019 19:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731416AbfG3RlP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 30 Jul 2019 13:41:15 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:36266 "EHLO
+        id S1729582AbfG3RlB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 30 Jul 2019 13:41:01 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:43950 "EHLO
         mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726992AbfG3RlO (ORCPT
+        with ESMTP id S1729459AbfG3RlB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 30 Jul 2019 13:41:14 -0400
-Received: by mail-lj1-f193.google.com with SMTP id i21so62915724ljj.3;
-        Tue, 30 Jul 2019 10:41:13 -0700 (PDT)
+        Tue, 30 Jul 2019 13:41:01 -0400
+Received: by mail-lj1-f193.google.com with SMTP id y17so38325218ljk.10;
+        Tue, 30 Jul 2019 10:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nYoIRB4hdud/dqLrHKUsBQqYVNNWUy/cBvAXB5JEb04=;
-        b=Lbo+5wDMrbFMru7CZxX4Rxj6u+llEYRos7P+oAp3FdWciGiCRSc+LdidOYBPwROQ5P
-         d3NGyKGMKa6zn+h+R/ni0bSvTxdqPt/c5W9tyWpadE7Ti1qBZV8UYRMq8t1DSWOJY8sJ
-         flKn3sKJ396/TULgfMQsxs0ORuvU1ieWc4tooUHVFvqV7lOWwuxAMC5+Fl2npYFcA9q1
-         oGMc+57D+T/MGcj/5hv84iJrr+Bc3a5OQOMN7OwwqkWWsBM+pvwBhQBRFi/szQBREk5C
-         NmKQDpWVQEzBFaRo01YIb2zxUequp9khzbd3hipsySvqISuti/+0ninTjqIazIgWwHQS
-         xsSA==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3mo4Ga+8mpxjTSU2D+A1EeShdvnCMvljYCgf2KvE04w=;
+        b=EoMORwzuhk3NRLEjQ2uTtxduvaJjWKYuIUUwhSmV0VI3cXX7P8OQbs99XOiaw7wd+V
+         Pm3rw1F8fbosIAFNidbpVErSmAtfCOAAXBUz7/4upmGwvF8KgauioZZ+3KYbRTkbyw5s
+         qj90L0zeh/RN+CesUvFBuu7RunzF2eAlZ3EoGycAEOOPUVkeadYKW5BMSFtKEiE12HIs
+         jzQAaeUIDOrwS3NIoPa4sXJH+AdfBzslZjTqcdIxs4oG9f1EWH56ssiaeXssIrvub71y
+         KPom5xaRaoMuIaaR9J7FqaxwpOunahvONCBJUePmkuaHVolUAjKhGKu1TGruEg5iV6J+
+         ioMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nYoIRB4hdud/dqLrHKUsBQqYVNNWUy/cBvAXB5JEb04=;
-        b=dnbkPPV6FtaZ6L62jxHiptH50emkV80DpE5NMoN2jQYeJQr6BMDV7ZInE/bH03DYrI
-         zEJCCDvPKXme1fFwjHFZ4qS+acK8PDO7yxOIZVum/3vjMkF6DJm7oaOU7HXdlmX7R014
-         2uWVg732n+nAesBr/+rpL1STrpyYteNQUu3IVXU6N8bQ0N0O1fdJMJqfdjMPiH3ehTS1
-         h0ZETxlKfQp4kp9gQE5PKOgrvyYB4r0AiNswlifATGYGGOjSI/kI2PCNTrGG0cTDACGo
-         TI5q2kMP+NYLG8M+CF3NCQtpaoXpfLGuYLF6IOz8SAdXTzmQBVTDP/2ztt5j2kU3sabC
-         9iSg==
-X-Gm-Message-State: APjAAAVF2PbK8IeU8AJlgfQNPucZCwbSLmc9QKgRANp1gDtrZn23OvTx
-        9TdGjedYfqjcMaffVg5RxCg=
-X-Google-Smtp-Source: APXvYqwXtAm48fuuVXdJWivjrdfYyG/kEw+mvmixs+YOrm8bl8QlLP+RQ8jA7URpssf7Xoaf3N/KWQ==
-X-Received: by 2002:a2e:5bdd:: with SMTP id m90mr59141281lje.46.1564508473035;
-        Tue, 30 Jul 2019 10:41:13 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.gmail.com with ESMTPSA id g5sm13721177ljj.69.2019.07.30.10.41.12
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3mo4Ga+8mpxjTSU2D+A1EeShdvnCMvljYCgf2KvE04w=;
+        b=S6m1vXVep9RevrHXITCSypHoF+RoAsVStHp38LrYFO+mhEtxYiZgD5pCkU0SVr/Hd3
+         pUNk0xQeybPaWpBFj5sCc+7M/uEjcLbYqjxl+EmoQQ8iG35WdJ9d8qbp7zznSrFhCskA
+         0zF/+rT1Z1eYtt1eIvlevqhSGxBCHVqr8043mGZeePjIw+JYyECDfkEoxf3moDpOXjSs
+         IGwrQUGUvMEGbc09Y02vrBJ+U666zKPgpO0Eu1lWAJs2G7Iv0ATBoX8ZaUUBTMUZ1Ak8
+         okGnwgX6C8886T7KWrhUmL5YVdDqnz0y2LZpiGnXE9zHxtcOThLwmGh1/vl5zWsyNjaK
+         OpDg==
+X-Gm-Message-State: APjAAAVSy2tykIxPHInwMpGDVTRMT9nDlqRebB7SzUqYlPvxVN1TNm40
+        cUEFUekEHGwNCJpR2oDz2s4pdLAl
+X-Google-Smtp-Source: APXvYqzS5ppW/dTvIDr7a/OZHu40bdimurRO2Vnj4fqDdOJPiigMEZTM+7Zv6n4JaTpXgRxJ43H6QQ==
+X-Received: by 2002:a2e:3602:: with SMTP id d2mr3253681lja.112.1564508458168;
+        Tue, 30 Jul 2019 10:40:58 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
+        by smtp.googlemail.com with ESMTPSA id 24sm15424438ljs.63.2019.07.30.10.40.57
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Jul 2019 10:41:12 -0700 (PDT)
+        Tue, 30 Jul 2019 10:40:57 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] soc/tegra: pmc: Query PCLK clock rate at probe
+ time
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
+To:     Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
 Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] soc/tegra: pmc: Remove unnecessary memory barrier
-Date:   Tue, 30 Jul 2019 20:40:20 +0300
-Message-Id: <20190730174020.15878-2-digetx@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190730174020.15878-1-digetx@gmail.com>
-References: <20190730174020.15878-1-digetx@gmail.com>
+References: <20190723023511.24542-1-digetx@gmail.com>
+ <20190725093644.GJ12715@pdeschrijver-desktop.Nvidia.com>
+ <f7879942-0875-1f27-5870-3f8414c2148d@gmail.com>
+ <7e76b679-1a65-fa14-2cc6-2b27ece8131c@gmail.com>
+Message-ID: <0a24e723-ca4e-7b51-33a2-74eff141e1ce@gmail.com>
+Date:   Tue, 30 Jul 2019 20:40:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
+In-Reply-To: <7e76b679-1a65-fa14-2cc6-2b27ece8131c@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The removed barrier isn't needed because the writes/reads are strictly
-ordered and even if PMC had separate ports for the writes, it wouldn't
-matter since the hardware logic takes into effect after triggering CPU's
-power-gating and at that point all CPU accesses are guaranteed to be
-completed. Hence remove the barrier to eliminate the confusion.
+29.07.2019 16:07, Dmitry Osipenko пишет:
+> 25.07.2019 14:15, Dmitry Osipenko пишет:
+>> 25.07.2019 12:36, Peter De Schrijver пишет:
+>>> On Tue, Jul 23, 2019 at 05:35:10AM +0300, Dmitry Osipenko wrote:
+>>>> The PCLK clock is running off SCLK, which is a critical clock that is
+>>>> very unlikely to randomly change its rate. It's also a bit clumsy (and
+>>>> apparently incorrect) to query the clock's rate with interrupts being
+>>>> disabled because clk_get_rate() takes a mutex and that's the case during
+>>>> suspend/cpuidle entering.
+>>>>
+>>>
+>>> SCLK and PCLK certainly can change rate at runtime, although the code to
+>>> handle this hasn't reached upstream yet.
+>>
+>> Okay, maybe this patch is indeed not very worthwhile then. I'm leaving
+>> it up to you, guys, to decide.
+>>
+> 
+> I now recalled what was the initial reason for this patch because
+> happened to bump into the problem once again.. it's really problematic
+> to call clk_get_rate() with the disabled preemption because some clk
+> notifier handler may block (EMC) and cause reschedule, hence the CCF
+> 'prepare' mutex is kept locked during of CPUIDLE driver entering LP2
+> state and thus causing system lockup, since scheduling with the disabled
+> interrupts obviously won't work well.
+> 
+> So this patch actually is needed to be applied or some other solution
+> have to be provided. Since PCLK rate currently isn't altering anywhere
+> in the kernel, I'd suggest to imply apply this series. Please let me
+> know if you have any objections. I may re-iterate this patch with an
+> extended commit message, describing the resolved problem in a more
+> details, if necessary.
+> 
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
-
-Changelog:
-
-v3: No changes.
-
-v2: New patch that was added after Jon's Hunter pointing that it's better
-    not to change the barrier's placement in the code. In fact the barrier
-    is not needed at all.
-
- drivers/soc/tegra/pmc.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index aba3396b2e73..3044809f1c10 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -1457,8 +1457,6 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
- 	do_div(ticks, USEC_PER_SEC);
- 	tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
- 
--	wmb();
--
- 	value = tegra_pmc_readl(pmc, PMC_CNTRL);
- 	value &= ~PMC_CNTRL_SIDE_EFFECT_LP0;
- 	value |= PMC_CNTRL_CPU_PWRREQ_OE;
--- 
-2.22.0
-
+I'll send v3 with a changed commit's message, please take a look at it.
