@@ -2,185 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 724457BF11
-	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 13:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D3297BFAD
+	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 13:31:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387470AbfGaLPh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 31 Jul 2019 07:15:37 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:37201 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728739AbfGaLPh (ORCPT
+        id S1727993AbfGaLb1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 31 Jul 2019 07:31:27 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:35906 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387755AbfGaLaV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 31 Jul 2019 07:15:37 -0400
-Received: by mail-lj1-f194.google.com with SMTP id z28so10956383ljn.4;
-        Wed, 31 Jul 2019 04:15:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6z0jtE10XtL+WjLPVGjCGsdJe3oZV5LH8j0ivYKyCt4=;
-        b=m7LSUnp2AKhEQPzsHUvNhCfeivbslGOTTAPSQoRg7tdq7CIrz5928vLy3BEFklBZKb
-         RYXkVnRMp23ntLIEhvMtMZrcd/Ce4fPXS+ynw8gQenwGm1bTumBxKI/MaJRzgyPLMDxX
-         u/0yC8NkQzIM6IV3dmzlwhP9GZsu84ErcUZxqyWcMd8CzgAspDM5apcrk5bzLXUI9leu
-         cqC0VYHrqkQiV3hO4/Dw39WZxwWK6kbUnkO47TgCjcOmMaU7eAdCeNd7Fi9GnaRZVU0H
-         SRjohnKlGTx2VRYURDVWQZlhXaigAHCcPhkwf6bCvE4hOiWyKDVYNMPHGL+xXjfSjj9g
-         tjcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6z0jtE10XtL+WjLPVGjCGsdJe3oZV5LH8j0ivYKyCt4=;
-        b=GWCIqVk3pL8IRuqKBpLcDQ2SATFIzRIlP/lOjE32iIGcjNsGyI43X3eEFE0rWUvaEa
-         H6uqkIDHlPnwYReJ6/Aq0YW0jRzzzY56gL09aH0VpyFXS/OTnruwfcCnbSIzzgBtwCik
-         /9BKHl5477kxculrCWOiS4vUmaYC9N9hz098I5oU32WAGhhiWqetel85g0p9xdZdc2GX
-         TQ7iCObrj30Uy5tpWK2b0DjTTmvjC8OmuJAG93cZX9d6RRZq70q7+y+OayUEEOkX+tnJ
-         qLqmOdgV2+GJYBpEQ08JdGq7jnPBCMotrpYGtL+Vc4wlT6LavWNo4SRFjnP9m4C6mlYP
-         oCvw==
-X-Gm-Message-State: APjAAAWZh4slE8mObPkZGxL8B1xR5zz2U862jFhOsbpnKQVZBQhAs8H6
-        5geiKXDp0GlAd6d4wMzUO/SXciu7
-X-Google-Smtp-Source: APXvYqw91V/d9X1aLzic6f0zRJ0w1EuOIfqVFc+gfTo/wK4IYGv/9BDAISF90iCiwdueJAcscGgXWQ==
-X-Received: by 2002:a2e:9643:: with SMTP id z3mr65172467ljh.43.1564571734209;
-        Wed, 31 Jul 2019 04:15:34 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.googlemail.com with ESMTPSA id s20sm11611282lfb.95.2019.07.31.04.15.32
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 31 Jul 2019 04:15:33 -0700 (PDT)
-Subject: Re: [PATCH v7 11/20] cpufreq: tegra124: Add suspend and resume
- support
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
-        jason@lakedaemon.net, marc.zyngier@arm.com,
-        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-References: <1564532424-10449-1-git-send-email-skomatineni@nvidia.com>
- <1564532424-10449-12-git-send-email-skomatineni@nvidia.com>
- <98aae4b7-d95a-90ba-0d55-7512b3712f54@gmail.com>
-Message-ID: <505bbdc0-c48a-8583-3838-ec5c128f375f@gmail.com>
-Date:   Wed, 31 Jul 2019 14:14:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <98aae4b7-d95a-90ba-0d55-7512b3712f54@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Wed, 31 Jul 2019 07:30:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
+        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+        List-Archive; bh=1+pT3ctx398IjJGsV4QKspIhkRKYicy/NIkBKdhKy/4=; b=hNkfTKOqNoyX
+        5XkBXUgM40eLNZinRxNMeWdOfK9Qg5zMC+sf16W8TCCEcx3YBEUDHiwJJh1mcv9yaeggc2HsyTuo1
+        zRtdWBAS1IJyTfnpfR82warrFeYVNcU1aHaytOwG66ZdpTysjdjj40C9y9GgJI/nLc9x+k4bEdIiT
+        g0N4k=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hsmnb-0001kv-4a; Wed, 31 Jul 2019 11:29:39 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id 99BC02742C99; Wed, 31 Jul 2019 12:29:38 +0100 (BST)
+From:   Mark Brown <broonie@kernel.org>
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     alexandre.torgue@st.com, alsa-devel@alsa-project.org,
+        arnaud.pouliquen@st.com, baohua@kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, broonie@kernel.org,
+        daniel@zonque.org, eric@anholt.net, festevam@gmail.com,
+        f.fainelli@gmail.com, gregkh@linuxfoundation.org,
+        haojian.zhuang@gmail.com, Hulk Robot <hulkci@huawei.com>,
+        jbrunet@baylibre.com, jcmvbkbc@gmail.com, jonathanh@nvidia.com,
+        kernel@pengutronix.de, khilman@baylibre.com, lgirdwood@gmail.com,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        Mark Brown <broonie@kernel.org>, matthias.bgg@gmail.com,
+        mcoquelin.stm32@gmail.com, michal.simek@xilinx.com,
+        mripard@kernel.org, nicoleotsuka@gmail.com, olivier.moysan@st.com,
+        paul@crapouillou.net, perex@perex.cz, rjui@broadcom.com,
+        robert.jarzmik@free.fr, sbranden@broadcom.com,
+        s.hauer@pengutronix.de, shawnguo@kernel.org,
+        thierry.reding@gmail.com, timur@kernel.org, tiwai@suse.com,
+        wahrenst@gmx.net, wens@csie.org, Xiubo.Lee@gmail.com,
+        yamada.masahiro@socionext.com
+Subject: Applied "ASoC: meson: axg-tdm-formatter: use devm_platform_ioremap_resource() to simplify code" to the asoc tree
+In-Reply-To: <20190727150738.54764-27-yuehaibing@huawei.com>
+X-Patchwork-Hint: ignore
+Message-Id: <20190731112938.99BC02742C99@ypsilon.sirena.org.uk>
+Date:   Wed, 31 Jul 2019 12:29:38 +0100 (BST)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-31.07.2019 13:23, Dmitry Osipenko пишет:
-> 31.07.2019 3:20, Sowjanya Komatineni пишет:
->> This patch adds suspend and resume pm ops for cpufreq driver.
->>
->> PLLP is the safe clock source for CPU during system suspend and
->> resume as PLLP rate is below the CPU Fmax at Vmin.
->>
->> CPUFreq driver suspend switches the CPU clock source to PLLP and
->> disables the DFLL clock.
->>
->> During system resume, warmboot code powers up the CPU with PLLP
->> clock source. So CPUFreq driver resume enabled DFLL clock and
->> switches CPU back to DFLL clock source.
->>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>  drivers/cpufreq/tegra124-cpufreq.c | 60 ++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 60 insertions(+)
->>
->> diff --git a/drivers/cpufreq/tegra124-cpufreq.c b/drivers/cpufreq/tegra124-cpufreq.c
->> index 4f0c637b3b49..e979a3370988 100644
->> --- a/drivers/cpufreq/tegra124-cpufreq.c
->> +++ b/drivers/cpufreq/tegra124-cpufreq.c
->> @@ -6,6 +6,7 @@
->>  #define pr_fmt(fmt)	KBUILD_MODNAME ": " fmt
->>  
->>  #include <linux/clk.h>
->> +#include <linux/cpufreq.h>
->>  #include <linux/err.h>
->>  #include <linux/init.h>
->>  #include <linux/kernel.h>
->> @@ -128,8 +129,67 @@ static int tegra124_cpufreq_probe(struct platform_device *pdev)
->>  	return ret;
->>  }
->>  
->> +static int __maybe_unused tegra124_cpufreq_suspend(struct device *dev)
->> +{
->> +	struct tegra124_cpufreq_priv *priv = dev_get_drvdata(dev);
->> +	int err;
->> +
->> +	/*
->> +	 * PLLP rate 408Mhz is below the CPU Fmax at Vmin and is safe to
->> +	 * use during suspend and resume. So, switch the CPU clock source
->> +	 * to PLLP and disable DFLL.
->> +	 */
->> +	err = clk_set_parent(priv->cpu_clk, priv->pllp_clk);
->> +	if (err < 0) {
->> +		dev_err(dev, "failed to reparent to PLLP: %d\n", err);
->> +		return err;
->> +	}
->> +
->> +	/* disable DFLL clock */
->> +	clk_disable_unprepare(priv->dfll_clk);
->> +
->> +	return 0;
->> +}
->> +
->> +static int __maybe_unused tegra124_cpufreq_resume(struct device *dev)
->> +{
->> +	struct tegra124_cpufreq_priv *priv = dev_get_drvdata(dev);
->> +	int err;
->> +
->> +	/*
->> +	 * Warmboot code powers up the CPU with PLLP clock source.
->> +	 * Enable DFLL clock and switch CPU clock source back to DFLL.
->> +	 */
->> +	err = clk_prepare_enable(priv->dfll_clk);
->> +	if (err < 0) {
->> +		dev_err(dev, "failed to enable DFLL clock for CPU: %d\n", err);
->> +		goto disable_cpufreq;
->> +	}
->> +
->> +	err = clk_set_parent(priv->cpu_clk, priv->dfll_clk);
->> +	if (err < 0) {
->> +		dev_err(dev, "failed to reparent to DFLL clock: %d\n", err);
->> +		goto disable_dfll;
->> +	}
->> +
->> +	return 0;
->> +
->> +disable_dfll:
->> +	clk_disable_unprepare(priv->dfll_clk);
->> +disable_cpufreq:
->> +	disable_cpufreq();
->> +
->> +	return err;
->> +}
->> +
->> +static const struct dev_pm_ops tegra124_cpufreq_pm_ops = {
->> +	SET_SYSTEM_SLEEP_PM_OPS(tegra124_cpufreq_suspend,
->> +				tegra124_cpufreq_resume)
->> +};
->> +
->>  static struct platform_driver tegra124_cpufreq_platdrv = {
->>  	.driver.name	= "cpufreq-tegra124",
->> +	.driver.pm	= &tegra124_cpufreq_pm_ops,
->>  	.probe		= tegra124_cpufreq_probe,
->>  };
->>  
->>
-> 
-> Looks good,
-> 
-> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-> 
+The patch
 
-BTW, you should also CC the CPUFreq maintainers because this patch can't
-be applied without theirs ACK.
+   ASoC: meson: axg-tdm-formatter: use devm_platform_ioremap_resource() to simplify code
+
+has been applied to the asoc tree at
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.4
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+From 10392fcad7dfc8ea38959b18327ff18b81b1c161 Mon Sep 17 00:00:00 2001
+From: YueHaibing <yuehaibing@huawei.com>
+Date: Sat, 27 Jul 2019 23:07:30 +0800
+Subject: [PATCH] ASoC: meson: axg-tdm-formatter: use
+ devm_platform_ioremap_resource() to simplify code
+
+Use devm_platform_ioremap_resource() to simplify the code a bit.
+This is detected by coccinelle.
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Link: https://lore.kernel.org/r/20190727150738.54764-27-yuehaibing@huawei.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/meson/axg-tdm-formatter.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/sound/soc/meson/axg-tdm-formatter.c b/sound/soc/meson/axg-tdm-formatter.c
+index 2e498201139f..21c735afab35 100644
+--- a/sound/soc/meson/axg-tdm-formatter.c
++++ b/sound/soc/meson/axg-tdm-formatter.c
+@@ -253,7 +253,6 @@ int axg_tdm_formatter_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	const struct axg_tdm_formatter_driver *drv;
+ 	struct axg_tdm_formatter *formatter;
+-	struct resource *res;
+ 	void __iomem *regs;
+ 	int ret;
+ 
+@@ -269,8 +268,7 @@ int axg_tdm_formatter_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, formatter);
+ 	formatter->drv = drv;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	regs = devm_ioremap_resource(dev, res);
++	regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(regs))
+ 		return PTR_ERR(regs);
+ 
+-- 
+2.20.1
+
