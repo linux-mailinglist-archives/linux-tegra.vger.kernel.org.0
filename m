@@ -2,33 +2,33 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BF3D7BF97
-	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 13:31:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 889437BFEE
+	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 13:33:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387590AbfGaLa1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 31 Jul 2019 07:30:27 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:36182 "EHLO
+        id S1727758AbfGaLb6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 31 Jul 2019 07:31:58 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:35686 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728412AbfGaLa1 (ORCPT
+        with ESMTP id S1728123AbfGaLaS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 31 Jul 2019 07:30:27 -0400
+        Wed, 31 Jul 2019 07:30:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
         Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
         List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=cEMvo+aAiAvNnhZtfMZlN+6fbBamb6KwvsUBirQOEt0=; b=LGowm6Zev4yw
-        dLl7wROmA1FUtPTOHQMDyCB1LNjHCkIB3uMaNx1NGxbiPoSb4iEqqQtjvJx/r2TGrCU17jU4cp846
-        ESPOeejJf315wnoxyERNJrgcWgAzEiK7P3aBelMIkbAnw8m8zoa6x2fk4FFEq+lMF2XCxtiUtbi4N
-        CTXqM=;
+        List-Archive; bh=HscMAvIX3nC1A3wZxhpv5ijj3BAWn08doYWBJT7hs3k=; b=grOJoe/8CxJa
+        MiZrqP3xAvE6R/4WQliP9ZQiMhZtnER68XbzuPepELZRXw2Gpi1e7G4R80yVTDXWizpvf81ZXej+B
+        aT93nWJWGoocUYD66gFVQ67LB9o1fC+J5TLNcUYlilDYNJDHtGhKdGBFDPZJ2qvZT9tw5MRnMw4lK
+        P3Lp4=;
 Received: from ypsilon.sirena.org.uk ([2001:470:1f1d:6b5::7])
         by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <broonie@sirena.org.uk>)
-        id 1hsmnd-0001lD-BP; Wed, 31 Jul 2019 11:29:41 +0000
+        id 1hsmne-0001lN-AJ; Wed, 31 Jul 2019 11:29:42 +0000
 Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id BB84B2742CC3; Wed, 31 Jul 2019 12:29:40 +0100 (BST)
+        id 7EF382742CC3; Wed, 31 Jul 2019 12:29:41 +0100 (BST)
 From:   Mark Brown <broonie@kernel.org>
 To:     YueHaibing <yuehaibing@huawei.com>
 Cc:     alexandre.torgue@st.com, alsa-devel@alsa-project.org,
@@ -55,11 +55,11 @@ Cc:     alexandre.torgue@st.com, alsa-devel@alsa-project.org,
         thierry.reding@gmail.com, timur@kernel.org, tiwai@suse.com,
         wahrenst@gmx.net, wens@csie.org, Xiubo.Lee@gmail.com,
         yamada.masahiro@socionext.com
-Subject: Applied "ASoC: inno_rk3036: use devm_platform_ioremap_resource() to simplify code" to the asoc tree
-In-Reply-To: <20190727150738.54764-21-yuehaibing@huawei.com>
+Subject: Applied "ASoC: mmp-sspa: use devm_platform_ioremap_resource() to simplify code" to the asoc tree
+In-Reply-To: <20190727150738.54764-19-yuehaibing@huawei.com>
 X-Patchwork-Hint: ignore
-Message-Id: <20190731112940.BB84B2742CC3@ypsilon.sirena.org.uk>
-Date:   Wed, 31 Jul 2019 12:29:40 +0100 (BST)
+Message-Id: <20190731112941.7EF382742CC3@ypsilon.sirena.org.uk>
+Date:   Wed, 31 Jul 2019 12:29:41 +0100 (BST)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -67,7 +67,7 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 The patch
 
-   ASoC: inno_rk3036: use devm_platform_ioremap_resource() to simplify code
+   ASoC: mmp-sspa: use devm_platform_ioremap_resource() to simplify code
 
 has been applied to the asoc tree at
 
@@ -92,10 +92,10 @@ to this mail.
 Thanks,
 Mark
 
-From 2d1ffc7d0f58f6a39a34854e952f5020fc655af0 Mon Sep 17 00:00:00 2001
+From 72d09322e709c5c2d7112d6a19ec9f3846d3609d Mon Sep 17 00:00:00 2001
 From: YueHaibing <yuehaibing@huawei.com>
-Date: Sat, 27 Jul 2019 23:07:24 +0800
-Subject: [PATCH] ASoC: inno_rk3036: use devm_platform_ioremap_resource() to
+Date: Sat, 27 Jul 2019 23:07:22 +0800
+Subject: [PATCH] ASoC: mmp-sspa: use devm_platform_ioremap_resource() to
  simplify code
 
 Use devm_platform_ioremap_resource() to simplify the code a bit.
@@ -103,33 +103,33 @@ This is detected by coccinelle.
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-Link: https://lore.kernel.org/r/20190727150738.54764-21-yuehaibing@huawei.com
+Link: https://lore.kernel.org/r/20190727150738.54764-19-yuehaibing@huawei.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- sound/soc/codecs/inno_rk3036.c | 4 +---
+ sound/soc/pxa/mmp-sspa.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/inno_rk3036.c b/sound/soc/codecs/inno_rk3036.c
-index 7feedbb7bbed..14d8fe1c28a4 100644
---- a/sound/soc/codecs/inno_rk3036.c
-+++ b/sound/soc/codecs/inno_rk3036.c
-@@ -405,7 +405,6 @@ static int rk3036_codec_platform_probe(struct platform_device *pdev)
+diff --git a/sound/soc/pxa/mmp-sspa.c b/sound/soc/pxa/mmp-sspa.c
+index 72f4364b2d20..e3e5425b5c62 100644
+--- a/sound/soc/pxa/mmp-sspa.c
++++ b/sound/soc/pxa/mmp-sspa.c
+@@ -399,7 +399,6 @@ static const struct snd_soc_component_driver mmp_sspa_component = {
+ static int asoc_mmp_sspa_probe(struct platform_device *pdev)
  {
- 	struct rk3036_codec_priv *priv;
- 	struct device_node *of_node = pdev->dev.of_node;
+ 	struct sspa_priv *priv;
 -	struct resource *res;
- 	void __iomem *base;
- 	struct regmap *grf;
- 	int ret;
-@@ -414,8 +413,7 @@ static int rk3036_codec_platform_probe(struct platform_device *pdev)
- 	if (!priv)
+ 
+ 	priv = devm_kzalloc(&pdev->dev,
+ 				sizeof(struct sspa_priv), GFP_KERNEL);
+@@ -417,8 +416,7 @@ static int asoc_mmp_sspa_probe(struct platform_device *pdev)
+ 	if (priv->dma_params == NULL)
  		return -ENOMEM;
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	base = devm_ioremap_resource(&pdev->dev, res);
-+	base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base))
- 		return PTR_ERR(base);
+-	priv->sspa->mmio_base = devm_ioremap_resource(&pdev->dev, res);
++	priv->sspa->mmio_base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(priv->sspa->mmio_base))
+ 		return PTR_ERR(priv->sspa->mmio_base);
  
 -- 
 2.20.1
