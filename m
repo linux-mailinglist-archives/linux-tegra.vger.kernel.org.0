@@ -2,33 +2,33 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CD5A7BFF9
-	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 13:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A7DF7BF92
+	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 13:31:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727483AbfGaLcS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 31 Jul 2019 07:32:18 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:35648 "EHLO
+        id S2387806AbfGaLaY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 31 Jul 2019 07:30:24 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:36010 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726169AbfGaLaR (ORCPT
+        with ESMTP id S2387778AbfGaLaW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 31 Jul 2019 07:30:17 -0400
+        Wed, 31 Jul 2019 07:30:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
         Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
         List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=K4dBNNe+2/c2mZTXmVu24RlhUWhqDFMfpcb8oX0TQPA=; b=C1M1tN19u/6S
-        SE6PoJIo/ClPdBJe3SBwVgKy38tZfiWagcIjhaTSUkBY0AjjTodV5ZI4T9ePdn8MOgdNU1ywpLgzQ
-        +Z3+nXZa5PXS7FS+pq3VjfojT1Fm+8ZLn/YalvhKU0bY+jl0SSPxqlztJNIA0DRu7TqIZvIqmEsjr
-        eEP1k=;
+        List-Archive; bh=rRPz+PWWHOG3+Z69Sa198TqzitnXS8SfELUICqTQMgE=; b=MC3kMyK9KPVL
+        xh62WxhHGry3uYbLLNEwrY8hSb2Oh0BYEPEr7KQhYpnNYhl7mVPz3mFuECKljaDS+Uh5Jd6QvZO1B
+        dgD+0Ym95Ww6DObAecmO+AdqH5NOD6jvIrSwXD8htVcdZZhoHlzKP4dXHwIDXJAfHuJc6aLIbWFdQ
+        g/zwc=;
 Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
         by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <broonie@sirena.org.uk>)
-        id 1hsmnh-0001lu-9I; Wed, 31 Jul 2019 11:29:45 +0000
+        id 1hsmni-0001mW-2t; Wed, 31 Jul 2019 11:29:46 +0000
 Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id B9D4B2742C99; Wed, 31 Jul 2019 12:29:44 +0100 (BST)
+        id 6EECC2742C99; Wed, 31 Jul 2019 12:29:45 +0100 (BST)
 From:   Mark Brown <broonie@kernel.org>
 To:     YueHaibing <yuehaibing@huawei.com>
 Cc:     alexandre.torgue@st.com, alsa-devel@alsa-project.org,
@@ -55,11 +55,11 @@ Cc:     alexandre.torgue@st.com, alsa-devel@alsa-project.org,
         thierry.reding@gmail.com, timur@kernel.org, tiwai@suse.com,
         wahrenst@gmx.net, wens@csie.org, Xiubo.Lee@gmail.com,
         yamada.masahiro@socionext.com
-Subject: Applied "ASoC: meson: axg-spdifout: use devm_platform_ioremap_resource() to simplify code" to the asoc tree
-In-Reply-To: <20190727150738.54764-30-yuehaibing@huawei.com>
+Subject: Applied "ASoC: meson: axg-pdm: use devm_platform_ioremap_resource() to simplify code" to the asoc tree
+In-Reply-To: <20190727150738.54764-28-yuehaibing@huawei.com>
 X-Patchwork-Hint: ignore
-Message-Id: <20190731112944.B9D4B2742C99@ypsilon.sirena.org.uk>
-Date:   Wed, 31 Jul 2019 12:29:44 +0100 (BST)
+Message-Id: <20190731112945.6EECC2742C99@ypsilon.sirena.org.uk>
+Date:   Wed, 31 Jul 2019 12:29:45 +0100 (BST)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -67,7 +67,7 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 The patch
 
-   ASoC: meson: axg-spdifout: use devm_platform_ioremap_resource() to simplify code
+   ASoC: meson: axg-pdm: use devm_platform_ioremap_resource() to simplify code
 
 has been applied to the asoc tree at
 
@@ -92,38 +92,38 @@ to this mail.
 Thanks,
 Mark
 
-From c43fd289dd58951f3cfddb3bb66a6ed7747c5986 Mon Sep 17 00:00:00 2001
+From 2e73d98f2ecf61008926bb8a425c3281a89959c0 Mon Sep 17 00:00:00 2001
 From: YueHaibing <yuehaibing@huawei.com>
-Date: Sat, 27 Jul 2019 23:07:33 +0800
-Subject: [PATCH] ASoC: meson: axg-spdifout: use
- devm_platform_ioremap_resource() to simplify code
+Date: Sat, 27 Jul 2019 23:07:31 +0800
+Subject: [PATCH] ASoC: meson: axg-pdm: use devm_platform_ioremap_resource() to
+ simplify code
 
 Use devm_platform_ioremap_resource() to simplify the code a bit.
 This is detected by coccinelle.
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-Link: https://lore.kernel.org/r/20190727150738.54764-30-yuehaibing@huawei.com
+Link: https://lore.kernel.org/r/20190727150738.54764-28-yuehaibing@huawei.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- sound/soc/meson/axg-spdifout.c | 4 +---
+ sound/soc/meson/axg-pdm.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/sound/soc/meson/axg-spdifout.c b/sound/soc/meson/axg-spdifout.c
-index 9dea528053ad..7ce6aa97ddf7 100644
---- a/sound/soc/meson/axg-spdifout.c
-+++ b/sound/soc/meson/axg-spdifout.c
-@@ -401,7 +401,6 @@ static int axg_spdifout_probe(struct platform_device *pdev)
+diff --git a/sound/soc/meson/axg-pdm.c b/sound/soc/meson/axg-pdm.c
+index 9d5684493ffc..bfd37d49a73e 100644
+--- a/sound/soc/meson/axg-pdm.c
++++ b/sound/soc/meson/axg-pdm.c
+@@ -585,7 +585,6 @@ static int axg_pdm_probe(struct platform_device *pdev)
  {
  	struct device *dev = &pdev->dev;
- 	struct axg_spdifout *priv;
+ 	struct axg_pdm *priv;
 -	struct resource *res;
  	void __iomem *regs;
  	int ret;
  
-@@ -410,8 +409,7 @@ static int axg_spdifout_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	platform_set_drvdata(pdev, priv);
+@@ -600,8 +599,7 @@ static int axg_pdm_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 -	regs = devm_ioremap_resource(dev, res);
