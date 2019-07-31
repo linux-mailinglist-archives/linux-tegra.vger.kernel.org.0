@@ -2,33 +2,33 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1808C7BFE5
-	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 13:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0578E7BFF6
+	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 13:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387781AbfGaLaV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 31 Jul 2019 07:30:21 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:35862 "EHLO
+        id S1726653AbfGaLcR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 31 Jul 2019 07:32:17 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:35684 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387745AbfGaLaU (ORCPT
+        with ESMTP id S1728108AbfGaLaR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 31 Jul 2019 07:30:20 -0400
+        Wed, 31 Jul 2019 07:30:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
         Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
         List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=eTlh4lvM63+Wx0DzBrmZ0tzksgKJVQojvvLUdCsPwUA=; b=ptiskyC7AuFD
-        XFnW3gNje3mu5imMWSxNCSDDUac5sGXS2eNwaQrGNd2bUVueDxyIrCCVt7TdFqepH/vfy5p6yJd5f
-        ON4tmFUsHpJmBMdrCq/QR5PB5O8WqUZAj1se4LRFM9ZvP3AW+ITXLRoGhGEDXf9AwqB/5FB4EF1xv
-        AExDA=;
-Received: from ypsilon.sirena.org.uk ([2001:470:1f1d:6b5::7])
+        List-Archive; bh=7hJLG8//Tyf0+YxtxJyuLHs8MXWPYgyM07amw97SLrg=; b=i2BWEjRhpNHA
+        S1r9VB/U6dLlM1ZuubWWNziSURl6gTrcxx9GGoUYd4G+VcIn/2RNuPKJs6HbZNO9xeHSgJW2/hSMz
+        dWZu9dchxJnaWQTd3RIICNLF8eA661/DFLwyE3INaKB4XWHaZzu/ubb/M4gb95CsAI+4aE+A7fKsn
+        z3cB8=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
         by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <broonie@sirena.org.uk>)
-        id 1hsmne-0001lS-R2; Wed, 31 Jul 2019 11:29:42 +0000
+        id 1hsmnf-0001le-PJ; Wed, 31 Jul 2019 11:29:43 +0000
 Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 3841B2742CDE; Wed, 31 Jul 2019 12:29:42 +0100 (BST)
+        id 514542742C99; Wed, 31 Jul 2019 12:29:43 +0100 (BST)
 From:   Mark Brown <broonie@kernel.org>
 To:     YueHaibing <yuehaibing@huawei.com>
 Cc:     alexandre.torgue@st.com, alsa-devel@alsa-project.org,
@@ -55,11 +55,11 @@ Cc:     alexandre.torgue@st.com, alsa-devel@alsa-project.org,
         thierry.reding@gmail.com, timur@kernel.org, tiwai@suse.com,
         wahrenst@gmx.net, wens@csie.org, Xiubo.Lee@gmail.com,
         yamada.masahiro@socionext.com
-Subject: Applied "ASoC: codecs: msm8916-wcd: use devm_platform_ioremap_resource() to simplify code" to the asoc tree
-In-Reply-To: <20190727150738.54764-17-yuehaibing@huawei.com>
+Subject: Applied "ASoC: sunxi: sun50i-codec-analog: use devm_platform_ioremap_resource() to simplify code" to the asoc tree
+In-Reply-To: <20190727150738.54764-34-yuehaibing@huawei.com>
 X-Patchwork-Hint: ignore
-Message-Id: <20190731112942.3841B2742CDE@ypsilon.sirena.org.uk>
-Date:   Wed, 31 Jul 2019 12:29:42 +0100 (BST)
+Message-Id: <20190731112943.514542742C99@ypsilon.sirena.org.uk>
+Date:   Wed, 31 Jul 2019 12:29:43 +0100 (BST)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -67,7 +67,7 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 The patch
 
-   ASoC: codecs: msm8916-wcd: use devm_platform_ioremap_resource() to simplify code
+   ASoC: sunxi: sun50i-codec-analog: use devm_platform_ioremap_resource() to simplify code
 
 has been applied to the asoc tree at
 
@@ -92,10 +92,10 @@ to this mail.
 Thanks,
 Mark
 
-From f62d6426718837663484bbf0ed94e56573cbc365 Mon Sep 17 00:00:00 2001
+From 54dd39e4aca8edb231e13349ac3a3a44ef28d3d4 Mon Sep 17 00:00:00 2001
 From: YueHaibing <yuehaibing@huawei.com>
-Date: Sat, 27 Jul 2019 23:07:20 +0800
-Subject: [PATCH] ASoC: codecs: msm8916-wcd: use
+Date: Sat, 27 Jul 2019 23:07:37 +0800
+Subject: [PATCH] ASoC: sunxi: sun50i-codec-analog: use
  devm_platform_ioremap_resource() to simplify code
 
 Use devm_platform_ioremap_resource() to simplify the code a bit.
@@ -103,34 +103,30 @@ This is detected by coccinelle.
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-Link: https://lore.kernel.org/r/20190727150738.54764-17-yuehaibing@huawei.com
+Link: https://lore.kernel.org/r/20190727150738.54764-34-yuehaibing@huawei.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- sound/soc/codecs/msm8916-wcd-digital.c | 4 +---
+ sound/soc/sunxi/sun50i-codec-analog.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/msm8916-wcd-digital.c b/sound/soc/codecs/msm8916-wcd-digital.c
-index 1db7e43ec203..9fa5d44fdc79 100644
---- a/sound/soc/codecs/msm8916-wcd-digital.c
-+++ b/sound/soc/codecs/msm8916-wcd-digital.c
-@@ -1143,7 +1143,6 @@ static int msm8916_wcd_digital_probe(struct platform_device *pdev)
- 	struct msm8916_wcd_digital_priv *priv;
- 	struct device *dev = &pdev->dev;
+diff --git a/sound/soc/sunxi/sun50i-codec-analog.c b/sound/soc/sunxi/sun50i-codec-analog.c
+index 6d1de565350e..f5b7069bcca2 100644
+--- a/sound/soc/sunxi/sun50i-codec-analog.c
++++ b/sound/soc/sunxi/sun50i-codec-analog.c
+@@ -459,12 +459,10 @@ MODULE_DEVICE_TABLE(of, sun50i_codec_analog_of_match);
+ 
+ static int sun50i_codec_analog_probe(struct platform_device *pdev)
+ {
+-	struct resource *res;
+ 	struct regmap *regmap;
  	void __iomem *base;
--	struct resource *mem_res;
- 	struct regmap *digital_map;
- 	int ret;
  
-@@ -1151,8 +1150,7 @@ static int msm8916_wcd_digital_probe(struct platform_device *pdev)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	mem_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	base = devm_ioremap_resource(&pdev->dev, mem_res);
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	base = devm_ioremap_resource(&pdev->dev, res);
 +	base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base))
+ 	if (IS_ERR(base)) {
+ 		dev_err(&pdev->dev, "Failed to map the registers\n");
  		return PTR_ERR(base);
- 
 -- 
 2.20.1
 
