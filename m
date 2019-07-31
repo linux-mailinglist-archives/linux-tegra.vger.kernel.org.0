@@ -2,273 +2,151 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D635F7CCF4
-	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 21:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A62E7CF4D
+	for <lists+linux-tegra@lfdr.de>; Wed, 31 Jul 2019 23:04:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727895AbfGaTji (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 31 Jul 2019 15:39:38 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:56132 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbfGaTji (ORCPT
+        id S1728306AbfGaVEx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 31 Jul 2019 17:04:53 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:8803 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726755AbfGaVEx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 31 Jul 2019 15:39:38 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 1BF22289F21
-Message-ID: <869dd8b894883715378ba681c7dd26934284bdff.camel@collabora.com>
-Subject: Re: [PATCH v4 14/23] drm/tilcdc: Provide ddc symlink in connector
- sysfs directory
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Sam Ravnborg <sam@ravnborg.org>
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
-        linux-samsung-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, Sean Paul <sean@poorly.run>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, Jyri Sarha <jsarha@ti.com>,
-        Alexios Zavras <alexios.zavras@intel.com>,
-        Mamta Shukla <mamtashukla555@gmail.com>,
-        linux-mediatek@lists.infradead.org,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Vincent Abriou <vincent.abriou@st.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        amd-gfx@lists.freedesktop.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Todor Tomov <todor.tomov@linaro.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        freedreno@lists.freedesktop.org,
-        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>
-Date:   Wed, 31 Jul 2019 16:39:13 -0300
-In-Reply-To: <acfd895d-ab59-0190-e25c-1827bd8d214b@suse.de>
-References: <cover.1562843413.git.andrzej.p@collabora.com>
-         <d1d415022c598fb7acd033f0f322dd67250adaa9.1562843413.git.andrzej.p@collabora.com>
-         <20190723090532.GA787@ravnborg.org>
-         <3ad60be5-49cf-4017-4b74-53a2d6272deb@collabora.com>
-         <acfd895d-ab59-0190-e25c-1827bd8d214b@suse.de>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        Wed, 31 Jul 2019 17:04:53 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d42027c0002>; Wed, 31 Jul 2019 14:05:00 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 31 Jul 2019 14:04:51 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 31 Jul 2019 14:04:51 -0700
+Received: from [10.110.102.167] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 31 Jul
+ 2019 21:04:50 +0000
+Subject: Re: [PATCH v7 06/20] clk: tegra: Support for OSC context save and
+ restore
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <tglx@linutronix.de>,
+        <jason@lakedaemon.net>, <marc.zyngier@arm.com>,
+        <linus.walleij@linaro.org>, <stefan@agner.ch>,
+        <mark.rutland@arm.com>
+CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <jckuo@nvidia.com>,
+        <josephl@nvidia.com>, <talho@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
+        <devicetree@vger.kernel.org>
+References: <1564532424-10449-1-git-send-email-skomatineni@nvidia.com>
+ <1564532424-10449-7-git-send-email-skomatineni@nvidia.com>
+ <16cca6aa-1034-f38a-49d1-d87b37fb6bbb@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <b5a58bfc-c777-886f-d902-f499ec38e2ae@nvidia.com>
+Date:   Wed, 31 Jul 2019 14:04:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <16cca6aa-1034-f38a-49d1-d87b37fb6bbb@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1564607100; bh=5rrpy+cn1KnA3JbJVL1tKlVMXhmWssvFAJuR/U8+9e8=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=WS8MF5eKhGbOte36YkWSpNh9xhWM82n79UA8DnM36gXW+YMUOEMtWt3nIIDMwtTlq
+         pqTIPXMSv/oGMxkFOKXfu5UXpqKQKQ5y0UJkpkOyDekFCFXA+RHOPpx4ywwy32DzHs
+         LLa3YA1LOVNr3nX+24At6RJPfB74LzYkFNg5cYklVkH+8wwMnzg37irjhpZc82QI0M
+         f4lQ9e5HZGOt5TuF2o2akyotU+XiUsMOWd/3NJVftyTKg75H/eETNinmL/4HvAbVPn
+         tC+X9D2fmOML2s57yKFpEqIG8vcFCazukwV8Qczd0/pEAWa8lW+Ui46Ws+RaO7siJs
+         aJeDjsKzwyiyw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
 
-I'm glad to see this work moving forward!
+On 7/31/19 4:11 AM, Dmitry Osipenko wrote:
+> 31.07.2019 3:20, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> This patch adds support for saving OSC clock frequency and the
+>> drive-strength during OSC clock init and creates an API to restore
+>> OSC control register value from the saved context.
+>>
+>> This API is invoked by Tegra210 clock driver during system resume
+>> to restore the  OSC clock settings.
+>>
+>> Acked-by: Thierry Reding <treding@nvidia.com>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   drivers/clk/tegra/clk-tegra-fixed.c | 15 +++++++++++++++
+>>   drivers/clk/tegra/clk.h             |  1 +
+>>   2 files changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/clk/tegra/clk-tegra-fixed.c b/drivers/clk/tegra/clk=
+-tegra-fixed.c
+>> index 8d91b2b191cf..7c6c8abfcde6 100644
+>> --- a/drivers/clk/tegra/clk-tegra-fixed.c
+>> +++ b/drivers/clk/tegra/clk-tegra-fixed.c
+>> @@ -17,6 +17,10 @@
+>>   #define OSC_CTRL			0x50
+>>   #define OSC_CTRL_OSC_FREQ_SHIFT		28
+>>   #define OSC_CTRL_PLL_REF_DIV_SHIFT	26
+>> +#define OSC_CTRL_MASK			(0x3f2 |	\
+>> +					(0xf << OSC_CTRL_OSC_FREQ_SHIFT))
+>> +
+>> +static u32 osc_ctrl_ctx;
+>>  =20
+>>   int __init tegra_osc_clk_init(void __iomem *clk_base, struct tegra_clk=
+ *clks,
+>>   			      unsigned long *input_freqs, unsigned int num,
+>> @@ -29,6 +33,7 @@ int __init tegra_osc_clk_init(void __iomem *clk_base, =
+struct tegra_clk *clks,
+>>   	unsigned osc_idx;
+>>  =20
+>>   	val =3D readl_relaxed(clk_base + OSC_CTRL);
+>> +	osc_ctrl_ctx =3D val & OSC_CTRL_MASK;
+>>   	osc_idx =3D val >> OSC_CTRL_OSC_FREQ_SHIFT;
+>>  =20
+>>   	if (osc_idx < num)
+>> @@ -96,3 +101,13 @@ void __init tegra_fixed_clk_init(struct tegra_clk *t=
+egra_clks)
+>>   		*dt_clk =3D clk;
+>>   	}
+>>   }
+>> +
+>> +void tegra_clk_osc_resume(void __iomem *clk_base)
+>> +{
+>> +	u32 val;
+>> +
+>> +	val =3D readl_relaxed(clk_base + OSC_CTRL) & ~OSC_CTRL_MASK;
+>> +	val |=3D osc_ctrl_ctx;
+>> +	writel_relaxed(val, clk_base + OSC_CTRL);
+> Why a full raw u32 OSC_CTRL value couldn't be simply saved and restored?
 
-On Wed, 2019-07-24 at 10:01 +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 23.07.19 um 14:44 schrieb Andrzej Pietrasiewicz:
-> > Hi Sam,
-> > 
-> > W dniu 23.07.2019 o 11:05, Sam Ravnborg pisze:
-> > > Hi Andrzej
-> > > 
-> > > On Thu, Jul 11, 2019 at 01:26:41PM +0200, Andrzej Pietrasiewicz wrote:
-> > > > Use the ddc pointer provided by the generic connector.
-> > > > 
-> > > > Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> > > > ---
-> > > >   drivers/gpu/drm/tilcdc/tilcdc_tfp410.c | 1 +
-> > > >   1 file changed, 1 insertion(+)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
-> > > > b/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
-> > > > index 62d014c20988..c373edb95666 100644
-> > > > --- a/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
-> > > > +++ b/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
-> > > > @@ -219,6 +219,7 @@ static struct drm_connector
-> > > > *tfp410_connector_create(struct drm_device *dev,
-> > > >       tfp410_connector->mod = mod;
-> > > >         connector = &tfp410_connector->base;
-> > > > +    connector->ddc = mod->i2c;
-> > > >         drm_connector_init(dev, connector, &tfp410_connector_funcs,
-> > > >               DRM_MODE_CONNECTOR_DVID);
-> > > 
-> > > When reading this code, it looks strange that we set connector->ddc
-> > > *before* the call to init the connector.
-> > > One could risk that drm_connector_init() used memset(..) to clear all
-> > > fields or so, and it would break this order.
-> > 
-> > I verified the code of drm_connector_init() and cannot find any memset()
-> > invocations there. What is your actual concern?
-> 
-> I think this echoes my concern about the implicit order of operation. It
-> seems too easy to get this wrong. If you don't want to add an additional
-> interface for setting the ddc field, why not add a dedicated initializer
-> function that sets the ddc field? Something like this.
-> 
-> int drm_connector_init_with_ddc(connector, funcs, ..., ddc)
-> {
-> 	ret = drm_connector_init(connector, funcs, ...);
-> 	if (ret)
-> 		return ret;
-> 
-> 	if (!ddc)
-> 		return 0;
-> 
-> 	connector->ddc = ddc;
-> 	/* set up sysfs */
-> 
+Storing and restoring only required fields to avoid accidental=20
+misconfiguration.
 
-I know this comment comes late to the party, but I'm a slightly
-suprised to see the above instead of implementing drm_connector_init
-in terms of drm_connector_init_with_ddc, as we typically do.
+OSC_CTRL register has other bits (PLL_REF_DIV) which are configured by=20
+BR depending on OSC_FREQ and also setting PLL_REF_DIV while PLLS are in=20
+use is not safe.
 
-Namely, something along these lines (code might not even build!):
-
---------------------------------------8<-----------------------------
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index d49e19f3de3a..dbd095933175 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -179,11 +179,12 @@ void drm_connector_free_work_fn(struct work_struct *work)
- }
- 
- /**
-- * drm_connector_init - Init a preallocated connector
-+ * drm_connector_init_with_ddc - Init a preallocated connector
-  * @dev: DRM device
-  * @connector: the connector to init
-  * @funcs: callbacks for this connector
-  * @connector_type: user visible type of the connector
-+ * @ddc: pointer to the associated ddc adapter (optional)
-  *
-  * Initialises a preallocated connector. Connectors should be
-  * subclassed as part of driver connector objects.
-@@ -191,10 +192,11 @@ void drm_connector_free_work_fn(struct work_struct *work)
-  * Returns:
-  * Zero on success, error code on failure.
-  */
--int drm_connector_init(struct drm_device *dev,
--		       struct drm_connector *connector,
--		       const struct drm_connector_funcs *funcs,
--		       int connector_type)
-+int drm_connector_init_with_ddc(struct drm_device *dev,
-+				struct drm_connector *connector,
-+				const struct drm_connector_funcs *funcs,
-+				int connector_type,
-+				struct i2c_adapter *ddc)
- {
- 	struct drm_mode_config *config = &dev->mode_config;
- 	int ret;
-@@ -215,6 +217,9 @@ int drm_connector_init(struct drm_device *dev,
- 	connector->dev = dev;
- 	connector->funcs = funcs;
- 
-+	/* provide ddc symlink in sysfs */
-+	connector->ddc = ddc;
-+
- 	/* connector index is used with 32bit bitmasks */
- 	ret = ida_simple_get(&config->connector_ida, 0, 32, GFP_KERNEL);
- 	if (ret < 0) {
-@@ -295,41 +300,6 @@ int drm_connector_init(struct drm_device *dev,
- 
- 	return ret;
- }
--EXPORT_SYMBOL(drm_connector_init);
--
--/**
-- * drm_connector_init_with_ddc - Init a preallocated connector
-- * @dev: DRM device
-- * @connector: the connector to init
-- * @funcs: callbacks for this connector
-- * @connector_type: user visible type of the connector
-- * @ddc: pointer to the associated ddc adapter
-- *
-- * Initialises a preallocated connector. Connectors should be
-- * subclassed as part of driver connector objects.
-- *
-- * Ensures that the ddc field of the connector is correctly set.
-- *
-- * Returns:
-- * Zero on success, error code on failure.
-- */
--int drm_connector_init_with_ddc(struct drm_device *dev,
--				struct drm_connector *connector,
--				const struct drm_connector_funcs *funcs,
--				int connector_type,
--				struct i2c_adapter *ddc)
--{
--	int ret;
--
--	ret = drm_connector_init(dev, connector, funcs, connector_type);
--	if (ret)
--		return ret;
--
--	/* provide ddc symlink in sysfs */
--	connector->ddc = ddc;
--
--	return ret;
--}
- EXPORT_SYMBOL(drm_connector_init_with_ddc);
- 
- /**
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index fc5d08438333..1884abf61a86 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1408,10 +1408,6 @@ struct drm_connector {
- 
- #define obj_to_connector(x) container_of(x, struct drm_connector, base)
- 
--int drm_connector_init(struct drm_device *dev,
--		       struct drm_connector *connector,
--		       const struct drm_connector_funcs *funcs,
--		       int connector_type);
- int drm_connector_init_with_ddc(struct drm_device *dev,
- 				struct drm_connector *connector,
- 				const struct drm_connector_funcs *funcs,
-@@ -1425,6 +1421,16 @@ int drm_connector_attach_encoder(struct drm_connector *connector,
- 
- void drm_connector_cleanup(struct drm_connector *connector);
- 
-+static inline int
-+drm_connector_init(struct drm_device *dev,
-+		   struct drm_connector *connector,
-+		   const struct drm_connector_funcs *funcs,
-+		   int connector_type);
-+{
-+	return drm_connector_init_with_ddc(dev, connector, funcs,
-+					   connector_type, NULL);
-+}
-+
- static inline unsigned int drm_connector_index(const struct drm_connector *connector)
- {
- 	return connector->index;
--------------------------------------->8-----------------------------
-
-This might be seen as bikeshed but it seems there's value keeping all the init
-code in the same place, as opposed to scattered.
-
-Unless there are reasons for the current code, that I'm missing?
-
-Thanks,
-Ezequiel
-
+>> +	fence_udelay(2, clk_base);
+>> +}
+>> diff --git a/drivers/clk/tegra/clk.h b/drivers/clk/tegra/clk.h
+>> index f1ef6ae8c979..abba6d8a04cd 100644
+>> --- a/drivers/clk/tegra/clk.h
+>> +++ b/drivers/clk/tegra/clk.h
+>> @@ -842,6 +842,7 @@ u16 tegra_pll_get_fixed_mdiv(struct clk_hw *hw, unsi=
+gned long input_rate);
+>>   int tegra_pll_p_div_to_hw(struct tegra_clk_pll *pll, u8 p_div);
+>>   int div_frac_get(unsigned long rate, unsigned parent_rate, u8 width,
+>>   		 u8 frac_width, u8 flags);
+>> +void tegra_clk_osc_resume(void __iomem *clk_base);
+>>  =20
+>>  =20
+>>   /* Combined read fence with delay */
+>>
