@@ -2,83 +2,378 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DCDD7EC84
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 Aug 2019 08:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C25207F679
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 Aug 2019 14:07:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726818AbfHBGRf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 2 Aug 2019 02:17:35 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:2019 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726667AbfHBGRf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Aug 2019 02:17:35 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d43d57e0000>; Thu, 01 Aug 2019 23:17:35 -0700
+        id S1730339AbfHBMGz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 2 Aug 2019 08:06:55 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:7173 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728725AbfHBMGz (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Aug 2019 08:06:55 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d44275d0001>; Fri, 02 Aug 2019 05:06:54 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 01 Aug 2019 23:17:34 -0700
+  Fri, 02 Aug 2019 05:06:53 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 01 Aug 2019 23:17:34 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 2 Aug
- 2019 06:17:34 +0000
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 2 Aug
- 2019 06:17:34 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 2 Aug 2019 06:17:34 +0000
-Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.38]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d43d57b0000>; Thu, 01 Aug 2019 23:17:33 -0700
+        by hqpgpgate101.nvidia.com on Fri, 02 Aug 2019 05:06:53 -0700
+Received: from [10.24.47.37] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 2 Aug
+ 2019 12:06:46 +0000
+Subject: Re: [PATCH V13 12/12] PCI: tegra: Add Tegra194 PCIe support
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC:     <bhelgaas@google.com>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <kishon@ti.com>, <catalin.marinas@arm.com>,
+        <will.deacon@arm.com>, <jingoohan1@gmail.com>,
+        <gustavo.pimentel@synopsys.com>, <digetx@gmail.com>,
+        <mperttunen@nvidia.com>, <linux-pci@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20190710062212.1745-1-vidyas@nvidia.com>
+ <20190710062212.1745-13-vidyas@nvidia.com>
+ <20190711125433.GB26088@e121166-lin.cambridge.arm.com>
+ <986d0b1a-666a-7b05-a9f3-e761518bdc92@nvidia.com>
+ <20190712160754.GA24285@e121166-lin.cambridge.arm.com>
+ <a5f8689b-1358-dd2d-4f54-7e68a6ab158b@nvidia.com>
+ <20190716112225.GA24335@e121166-lin.cambridge.arm.com>
+ <be6367bc-08a0-762a-aae8-b3f0376d0e9a@nvidia.com>
+ <20190730154939.GA367@e121166-lin.cambridge.arm.com>
+X-Nvconfidentiality: public
 From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <talho@nvidia.com>, <sivaramn@nvidia.com>, <stefank@nvidia.com>,
-        <treding@nvidia.com>, <jonathanh@nvidia.com>
-CC:     <lorenzo.pieralisi@arm.com>, <linux-tegra@vger.kernel.org>,
-        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>,
-        <sagar.tv@gmail.com>
-Subject: [PATCH] firmware: tegra: Move BPMP resume to noirq phase
-Date:   Fri, 2 Aug 2019 11:47:27 +0530
-Message-ID: <20190802061727.18177-1-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+Message-ID: <f09c79fc-c724-5290-d630-cac3fdd7a996@nvidia.com>
+Date:   Fri, 2 Aug 2019 17:36:43 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20190730154939.GA367@e121166-lin.cambridge.arm.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1564726655; bh=gH464XhNyJxAr3+NNzQYuM4b+OIK1l8vDzoRTZrKRAg=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=njN6OoyP0qMUduWUis2PggOpFsbRlPL+tNeVd+cqAZHg88AD+xf+rANP2ZkLXawft
-         r/WwMKqd4PW7LgGmToDKvXqLlgZ6Y41e0t71sbv6MN0x4tWhWYA1ZSq/+rXDkHKqGe
-         kv7jrXZ218X8k0cMVZzSFUEJ9u6hGKTvV3jV0bNtjYK5hW0Dgzf7eApYylMaFOncQk
-         gWcpE3idJt6SG638GVrIbcf6g/VwPgZ591GV3sstHkueTgZMpNKwWVAsNWwJxxBgQ6
-         lbNyzFUYR0LQD1laFAfAiHB8hQhA7gPzUs2/ePQwWbxvfquSu4zIclcm9T/lbhrrck
-         iAlc8eOIo4RiQ==
+        t=1564747614; bh=hjAx2guWgRoUvLdMxwRDzRFlWN70OcgvI56pMJgKuRw=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=iY7PQ2xfLN1dxC5Pqb8XywrMNc0xUKEQuqBIryAaRGfalggHUkqu8F0fzTnxLXdcU
+         gxr6vc8J64areE+1dG2gSoi5/uOraW98YLcYLbGt5xmxhM91CAqxjRYH5ZU/ZCneYi
+         1ocuGoXv8x2ZYpGX7fGFtqtKyA3uh4xKelSYEIG+qZoGzcSxcNf4FiuGHlPyQpS3Wl
+         lW4nepeb8lqXFpPKkvQ7jN2AnfdHfu5+UT7solpuvrRoo2FPFGV/CGuULMdg5apoe+
+         yu1rhGx9i8vjsSyu+aY/GnF3OHsRiOka4Cjx/fUilZQQUeZvzoUYRrCZ5JBTrJnj5I
+         WkWzicpXoqfEA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Modules like PCIe in Tegra194 need BPMP firmware services in noirq phase
-and hence move BPMP resume to noirq phase.
-This patch is verified on Tegra210, Tegra186 and Tegra194.
+On 7/30/2019 9:19 PM, Lorenzo Pieralisi wrote:
+> On Tue, Jul 23, 2019 at 08:14:08PM +0530, Vidya Sagar wrote:
+>> On 7/16/2019 4:52 PM, Lorenzo Pieralisi wrote:
+>>> On Sat, Jul 13, 2019 at 12:34:34PM +0530, Vidya Sagar wrote:
+>>>
+>>> [...]
+>>>
+>>>>>>>> +static int tegra_pcie_bpmp_set_ctrl_state(struct tegra_pcie_dw *pcie,
+>>>>>>>> +					  bool enable)
+>>>>>>>> +{
+>>>>>>>> +	struct mrq_uphy_response resp;
+>>>>>>>> +	struct tegra_bpmp_message msg;
+>>>>>>>> +	struct mrq_uphy_request req;
+>>>>>>>> +	int err;
+>>>>>>>> +
+>>>>>>>> +	if (pcie->cid == 5)
+>>>>>>>> +		return 0;
+>>>>>>>
+>>>>>>> What's wrong with cid == 5 ? Explain please.
+>>>>>> Controller with ID=5 doesn't need any programming to enable it which is
+>>>>>> done here through calling firmware API.
+>>>>>>
+>>>>>>>
+>>>>>>>> +	memset(&req, 0, sizeof(req));
+>>>>>>>> +	memset(&resp, 0, sizeof(resp));
+>>>>>>>> +
+>>>>>>>> +	req.cmd = CMD_UPHY_PCIE_CONTROLLER_STATE;
+>>>>>>>> +	req.controller_state.pcie_controller = pcie->cid;
+>>>>>>>> +	req.controller_state.enable = enable;
+>>>>>>>> +
+>>>>>>>> +	memset(&msg, 0, sizeof(msg));
+>>>>>>>> +	msg.mrq = MRQ_UPHY;
+>>>>>>>> +	msg.tx.data = &req;
+>>>>>>>> +	msg.tx.size = sizeof(req);
+>>>>>>>> +	msg.rx.data = &resp;
+>>>>>>>> +	msg.rx.size = sizeof(resp);
+>>>>>>>> +
+>>>>>>>> +	if (irqs_disabled())
+>>>>>>>
+>>>>>>> Can you explain to me what this check is meant to achieve please ?
+>>>>>> Firmware interface provides different APIs to be called when there are
+>>>>>> no interrupts enabled in the system (noirq context) and otherwise
+>>>>>> hence checking that situation here and calling appropriate API.
+>>>>>
+>>>>> That's what I am questioning. Being called from {suspend/resume}_noirq()
+>>>>> callbacks (if that's the code path this check caters for) does not mean
+>>>>> irqs_disabled() == true.
+>>>> Agree.
+>>>> Actually, I got a hint of having this check from the following.
+>>>> Both tegra_bpmp_transfer_atomic() and tegra_bpmp_transfer() are indirectly
+>>>> called by APIs registered with .master_xfer() and .master_xfer_atomic() hooks of
+>>>> struct i2c_algorithm and the decision to call which one of these is made using the
+>>>> following check in i2c-core.h file.
+>>>> static inline bool i2c_in_atomic_xfer_mode(void)
+>>>> {
+>>>> 	return system_state > SYSTEM_RUNNING && irqs_disabled();
+>>>> }
+>>>> I think I should use this condition as is IIUC.
+>>>> Please let me know if there are any concerns with this.
+>>>
+>>> It is not a concern, it is just that I don't understand how this code
+>>> can be called with IRQs disabled, if you can give me an execution path I
+>>> am happy to leave the check there. On top of that, when called from
+>>> suspend NOIRQ context, it is likely to use the blocking API (because
+>>> IRQs aren't disabled at CPU level) behind which there is most certainly
+>>> an IRQ required to wake the thread up and if the IRQ in question was
+>>> disabled in the suspend NOIRQ phase this code is likely to deadlock.
+>>>
+>>> I want to make sure we can justify adding this check, I do not
+>>> want to add it because we think it can be needed when it may not
+>>> be needed at all (and it gets copy and pasted over and over again
+>>> in other drivers).
+>> I had a discussion internally about this and the prescribed usage of these APIs
+>> seem to be that
+>> use tegra_bpmp_transfer() in .probe() and other paths where interrupts are
+>> enabled as this API needs interrupts to be enabled for its working.
+>> Use tegra_bpmp_transfer_atomic() surrounded by local_irq_save()/local_irq_restore()
+>> in other paths where interrupt servicing is disabled.
+> 
+> Why tegra_bpmp_transfer_atomic() needs IRQs to be disabled ? And why
+> is it needed in this piece of code where IRQs are _never_ disabled
+> at CPU level ?
+> 
+> IRQs are enabled when you call a suspend_noirq() callback, so the
+> blocking API can be used as long as the IRQ descriptor backing
+> the IRQ that will wake-up the blocked call is marked as
+> IRQF_NO_SUSPEND.
+> 
+> The problem is not IRQs enabled/disabled at CPU level, the problem is
+> the IRQ descriptor of the IRQ required to handle the blocking BPMP call,
+> mark it as IRQF_NO_SUSPEND and remove the tegra_bpmp_transfer_atomic()
+> call from this code (or please give me a concrete example pinpointing
+> why it is needed).
+Ideally, using tegra_bpmp_transfer() alone in all paths (.probe() as well as .resume_noirq())
+should have worked as the corresponding IRQ is already flagged as IRQF_NO_SUSPEND, but,
+because of the way BPMP-FW driver in kernel making its interface available through .resume_early(),
+tegra_bpmp_transfer() wasn't working as expected and I pushed a patch (CC'ing you) at
+http://patchwork.ozlabs.org/patch/1140973/ to make it .resume_noirq() from .resume_early().
+With that in place, we can just use tegra_bpmp_trasnfer().
+I'll push a new patch with this change once my BPMP-FW driver patch is approved.
 
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
----
- drivers/firmware/tegra/bpmp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
-index 19c56133234b..6741fcda0c37 100644
---- a/drivers/firmware/tegra/bpmp.c
-+++ b/drivers/firmware/tegra/bpmp.c
-@@ -804,7 +804,7 @@ static int __maybe_unused tegra_bpmp_resume(struct device *dev)
- }
- 
- static const struct dev_pm_ops tegra_bpmp_pm_ops = {
--	.resume_early = tegra_bpmp_resume,
-+	.resume_noirq = tegra_bpmp_resume,
- };
- 
- #if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC) || \
--- 
-2.17.1
+Thanks,
+Vidya Sagar
+> 
+> Thanks,
+> Lorenzo
+> 
+>> I'll go ahead and make next patch series with this if this looks fine to you.
+>>
+>>>
+>>>>> Actually, if tegra_bpmp_transfer() requires IRQs to be enabled you may
+>>>>> even end up in a situation where that blocking call does not wake up
+>>>>> because the IRQ in question was disabled in the NOIRQ suspend/resume
+>>>>> phase.
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>>>> +static int tegra_pcie_dw_probe(struct platform_device *pdev)
+>>>>>>>> +{
+>>>>>>>> +	const struct tegra_pcie_soc *data;
+>>>>>>>> +	struct device *dev = &pdev->dev;
+>>>>>>>> +	struct resource *atu_dma_res;
+>>>>>>>> +	struct tegra_pcie_dw *pcie;
+>>>>>>>> +	struct resource *dbi_res;
+>>>>>>>> +	struct pcie_port *pp;
+>>>>>>>> +	struct dw_pcie *pci;
+>>>>>>>> +	struct phy **phys;
+>>>>>>>> +	char *name;
+>>>>>>>> +	int ret;
+>>>>>>>> +	u32 i;
+>>>>>>>> +
+>>>>>>>> +	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
+>>>>>>>> +	if (!pcie)
+>>>>>>>> +		return -ENOMEM;
+>>>>>>>> +
+>>>>>>>> +	pci = &pcie->pci;
+>>>>>>>> +	pci->dev = &pdev->dev;
+>>>>>>>> +	pci->ops = &tegra_dw_pcie_ops;
+>>>>>>>> +	pp = &pci->pp;
+>>>>>>>> +	pcie->dev = &pdev->dev;
+>>>>>>>> +
+>>>>>>>> +	data = (struct tegra_pcie_soc *)of_device_get_match_data(dev);
+>>>>>>>> +	if (!data)
+>>>>>>>> +		return -EINVAL;
+>>>>>>>> +	pcie->mode = (enum dw_pcie_device_mode)data->mode;
+>>>>>>>> +
+>>>>>>>> +	ret = tegra_pcie_dw_parse_dt(pcie);
+>>>>>>>> +	if (ret < 0) {
+>>>>>>>> +		dev_err(dev, "Failed to parse device tree: %d\n", ret);
+>>>>>>>> +		return ret;
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>> +	pcie->pex_ctl_supply = devm_regulator_get(dev, "vddio-pex-ctl");
+>>>>>>>> +	if (IS_ERR(pcie->pex_ctl_supply)) {
+>>>>>>>> +		dev_err(dev, "Failed to get regulator: %ld\n",
+>>>>>>>> +			PTR_ERR(pcie->pex_ctl_supply));
+>>>>>>>> +		return PTR_ERR(pcie->pex_ctl_supply);
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>> +	pcie->core_clk = devm_clk_get(dev, "core");
+>>>>>>>> +	if (IS_ERR(pcie->core_clk)) {
+>>>>>>>> +		dev_err(dev, "Failed to get core clock: %ld\n",
+>>>>>>>> +			PTR_ERR(pcie->core_clk));
+>>>>>>>> +		return PTR_ERR(pcie->core_clk);
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>> +	pcie->appl_res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>>>>>>>> +						      "appl");
+>>>>>>>> +	if (!pcie->appl_res) {
+>>>>>>>> +		dev_err(dev, "Failed to find \"appl\" region\n");
+>>>>>>>> +		return PTR_ERR(pcie->appl_res);
+>>>>>>>> +	}
+>>>>>>>> +	pcie->appl_base = devm_ioremap_resource(dev, pcie->appl_res);
+>>>>>>>> +	if (IS_ERR(pcie->appl_base))
+>>>>>>>> +		return PTR_ERR(pcie->appl_base);
+>>>>>>>> +
+>>>>>>>> +	pcie->core_apb_rst = devm_reset_control_get(dev, "apb");
+>>>>>>>> +	if (IS_ERR(pcie->core_apb_rst)) {
+>>>>>>>> +		dev_err(dev, "Failed to get APB reset: %ld\n",
+>>>>>>>> +			PTR_ERR(pcie->core_apb_rst));
+>>>>>>>> +		return PTR_ERR(pcie->core_apb_rst);
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>> +	phys = devm_kcalloc(dev, pcie->phy_count, sizeof(*phys), GFP_KERNEL);
+>>>>>>>> +	if (!phys)
+>>>>>>>> +		return PTR_ERR(phys);
+>>>>>>>> +
+>>>>>>>> +	for (i = 0; i < pcie->phy_count; i++) {
+>>>>>>>> +		name = kasprintf(GFP_KERNEL, "p2u-%u", i);
+>>>>>>>> +		if (!name) {
+>>>>>>>> +			dev_err(dev, "Failed to create P2U string\n");
+>>>>>>>> +			return -ENOMEM;
+>>>>>>>> +		}
+>>>>>>>> +		phys[i] = devm_phy_get(dev, name);
+>>>>>>>> +		kfree(name);
+>>>>>>>> +		if (IS_ERR(phys[i])) {
+>>>>>>>> +			ret = PTR_ERR(phys[i]);
+>>>>>>>> +			dev_err(dev, "Failed to get PHY: %d\n", ret);
+>>>>>>>> +			return ret;
+>>>>>>>> +		}
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>> +	pcie->phys = phys;
+>>>>>>>> +
+>>>>>>>> +	dbi_res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dbi");
+>>>>>>>> +	if (!dbi_res) {
+>>>>>>>> +		dev_err(dev, "Failed to find \"dbi\" region\n");
+>>>>>>>> +		return PTR_ERR(dbi_res);
+>>>>>>>> +	}
+>>>>>>>> +	pcie->dbi_res = dbi_res;
+>>>>>>>> +
+>>>>>>>> +	pci->dbi_base = devm_ioremap_resource(dev, dbi_res);
+>>>>>>>> +	if (IS_ERR(pci->dbi_base))
+>>>>>>>> +		return PTR_ERR(pci->dbi_base);
+>>>>>>>> +
+>>>>>>>> +	/* Tegra HW locates DBI2 at a fixed offset from DBI */
+>>>>>>>> +	pci->dbi_base2 = pci->dbi_base + 0x1000;
+>>>>>>>> +
+>>>>>>>> +	atu_dma_res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>>>>>>>> +						   "atu_dma");
+>>>>>>>> +	if (!atu_dma_res) {
+>>>>>>>> +		dev_err(dev, "Failed to find \"atu_dma\" region\n");
+>>>>>>>> +		return PTR_ERR(atu_dma_res);
+>>>>>>>> +	}
+>>>>>>>> +	pcie->atu_dma_res = atu_dma_res;
+>>>>>>>> +	pci->atu_base = devm_ioremap_resource(dev, atu_dma_res);
+>>>>>>>> +	if (IS_ERR(pci->atu_base))
+>>>>>>>> +		return PTR_ERR(pci->atu_base);
+>>>>>>>> +
+>>>>>>>> +	pcie->core_rst = devm_reset_control_get(dev, "core");
+>>>>>>>> +	if (IS_ERR(pcie->core_rst)) {
+>>>>>>>> +		dev_err(dev, "Failed to get core reset: %ld\n",
+>>>>>>>> +			PTR_ERR(pcie->core_rst));
+>>>>>>>> +		return PTR_ERR(pcie->core_rst);
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>> +	pp->irq = platform_get_irq_byname(pdev, "intr");
+>>>>>>>> +	if (!pp->irq) {
+>>>>>>>> +		dev_err(dev, "Failed to get \"intr\" interrupt\n");
+>>>>>>>> +		return -ENODEV;
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>> +	ret = devm_request_irq(dev, pp->irq, tegra_pcie_irq_handler,
+>>>>>>>> +			       IRQF_SHARED, "tegra-pcie-intr", pcie);
+>>>>>>>> +	if (ret) {
+>>>>>>>> +		dev_err(dev, "Failed to request IRQ %d: %d\n", pp->irq, ret);
+>>>>>>>> +		return ret;
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>> +	pcie->bpmp = tegra_bpmp_get(dev);
+>>>>>>>> +	if (IS_ERR(pcie->bpmp))
+>>>>>>>> +		return PTR_ERR(pcie->bpmp);
+>>>>>>>> +
+>>>>>>>> +	platform_set_drvdata(pdev, pcie);
+>>>>>>>> +
+>>>>>>>> +	if (pcie->mode == DW_PCIE_RC_TYPE) {
+>>>>>>>> +		ret = tegra_pcie_config_rp(pcie);
+>>>>>>>> +		if (ret && ret != -ENOMEDIUM)
+>>>>>>>> +			goto fail;
+>>>>>>>> +		else
+>>>>>>>> +			return 0;
+>>>>>>>
+>>>>>>> So if the link is not up we still go ahead and make probe
+>>>>>>> succeed. What for ?
+>>>>>> We may need root port to be available to support hot-plugging of
+>>>>>> endpoint devices, so, we don't fail the probe.
+>>>>>
+>>>>> We need it or we don't. If you do support hotplugging of endpoint
+>>>>> devices point me at the code, otherwise link up failure means
+>>>>> failure to probe.
+>>>> Currently hotplugging of endpoint is not supported, but it is one of
+>>>> the use cases that we may add support for in future.
+>>>
+>>> You should elaborate on this, I do not understand what you mean,
+>>> either the root port(s) supports hotplug or it does not.
+>>>
+>>>> But, why should we fail probe if link up doesn't happen? As such,
+>>>> nothing went wrong in terms of root port initialization right?  I
+>>>> checked other DWC based implementations and following are not failing
+>>>> the probe pci-dra7xx.c, pcie-armada8k.c, pcie-artpec6.c, pcie-histb.c,
+>>>> pcie-kirin.c, pcie-spear13xx.c, pci-exynos.c, pci-imx6.c,
+>>>> pci-keystone.c, pci-layerscape.c
+>>>>
+>>>> Although following do fail the probe if link is not up.  pcie-qcom.c,
+>>>> pcie-uniphier.c, pci-meson.c
+>>>>
+>>>> So, to me, it looks more like a choice we can make whether to fail the
+>>>> probe or not and in this case we are choosing not to fail.
+>>>
+>>> I disagree. I had an offline chat with Bjorn and whether link-up should
+>>> fail the probe or not depends on whether the root port(s) is hotplug
+>>> capable or not and this in turn relies on the root port "Slot
+>>> implemented" bit in the PCI Express capabilities register.
+>>>
+>>> It is a choice but it should be based on evidence.
+>>>
+>>> Lorenzo
+>> With Bjorn's latest comment on top of this, I think we are good not to fail
+>> the probe here.
+>>
+>> - Vidya Sagar
+>>>
+>>
 
