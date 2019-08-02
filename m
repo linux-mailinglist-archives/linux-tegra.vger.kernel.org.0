@@ -2,128 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E1F37FBEC
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 Aug 2019 16:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 630DE7FC2B
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 Aug 2019 16:26:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436646AbfHBOTI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 2 Aug 2019 10:19:08 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:44770 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727485AbfHBOTI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Aug 2019 10:19:08 -0400
-Received: by mail-ed1-f67.google.com with SMTP id k8so72487666edr.11;
-        Fri, 02 Aug 2019 07:19:06 -0700 (PDT)
+        id S1731067AbfHBO0u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 2 Aug 2019 10:26:50 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45668 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726667AbfHBO0t (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Aug 2019 10:26:49 -0400
+Received: by mail-lj1-f193.google.com with SMTP id m23so72957431lje.12;
+        Fri, 02 Aug 2019 07:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=S+20xmULIleEgfurI+8J/o6iN60n5mNoEMYMpzqwBn0=;
-        b=I5R/SbOCUyNpGi/j5ETYAUO8K7/Z+fCVItbSmqyN79qPhkMCfaoRZnqC1ZNRtL0/QP
-         YsF0FSkOb75Qgelvv0hD2fQF8hh2Y5lWRg4gYFtpcMZcBrNd6rstIxVNbqeiAfbn/PQy
-         PphA5CmAwCX+3uzCii5HPuO/3QOkqr9+bXOAhxQ4+PMEiSXCOJArrW+qyeD9DO1wf6Qu
-         CzuDPMCXEmere7MHNMEEH8eSfRUolI/g1X8vwtQnaGjvwBYglDxB/NLGtBHv45S28FNS
-         xTmxZt0A6Ff3CYcg9nIXeVQsz05JXDxS1SNbAfXN2owwZFFj/dlpsDRnLWaYSUlksYIR
-         JajA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=paaIbNir/NXEYjAZm+URauHUBEaBn2jQk4/QxgIRZ+o=;
+        b=pZKC6tyyWabSE6TsKqa54hlpapPQfb7LgC4gz0bBydO8emtZjmttwbz+6rFxVSyS2T
+         tWPkDTi5IqaQzgFPx4DvsoeHFCP8/3WaBEeV0QpNa1nI/LyC00XhW/z3HohK4GYmKwBU
+         p+f0qmqoOPiSNurp2YFa4SJkJJBMSkwtzgrbtygNRlTz3m1/Q19Y3ZkEphFUUNYCJJ4c
+         YfEF84E/QWWWQXh3rzXR943vi6Q8U6err0p8MkAFb8If28dJar+F4TN+86bqfGsQ1Gx6
+         gVQ2w+2mSsGC4U0x+0Qcvmchb/N398hiMW56xFjobwREFu4nlKk8SdcT66Ps05dZ9ezH
+         KWMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=S+20xmULIleEgfurI+8J/o6iN60n5mNoEMYMpzqwBn0=;
-        b=UMwOSXXc5Wguv+lGDvCJCFCcsO7jSMWp1+QQrm47E6BxTB339SrevkyyLJZJ71xxMc
-         brxdy1Wz6A1fSG6Ast25hFSmvKWUjV6ajuUq7EKaYdgcP+81mlwFVVNdIxrZIlkC964k
-         lYpHabS/Aa/0iCDACEMBJTf2arn7lPY1AEyxkETvkw2q/9RctkWT5dhYqvasgdUKQ0Eg
-         ZqpoGBD8pbbMzYMYCFWFO2K8q4DzWG/0X47QN48EC8S3j6qbQQQmBqfJCdWEEWVg2NmX
-         MGHazQdL+8EzaEOwDqqACklR+YpJTkwTtlQz0KgGEoz06Co6g1cyWtEPiCg6bSToUke5
-         Tc6Q==
-X-Gm-Message-State: APjAAAW8ID0yKPZnE9oOdfya/K26hGK2hEOHOfdEMZ6FZxS9WZh3PuzI
-        aaDEkzAQ1KEpH930kwqmYgI=
-X-Google-Smtp-Source: APXvYqy5YJPKTxgGPhjH5kwyrm9Ly98QXxCID8DOnXDCaD0/Lm5hWk8MsjiIsiPNPEhadgoxC319rg==
-X-Received: by 2002:a17:906:e2c2:: with SMTP id gr2mr105900563ejb.284.1564755546154;
-        Fri, 02 Aug 2019 07:19:06 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id k5sm13005950eja.41.2019.08.02.07.19.05
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 02 Aug 2019 07:19:05 -0700 (PDT)
-Date:   Fri, 2 Aug 2019 16:19:04 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 4.9 000/223] 4.9.187-stable review
-Message-ID: <20190802141904.GA11962@ulmo>
-References: <20190802092238.692035242@linuxfoundation.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=paaIbNir/NXEYjAZm+URauHUBEaBn2jQk4/QxgIRZ+o=;
+        b=j/VjsiZz3eSxuhlI9vpQOqaZxoG86AAtqZ1biZ1iw8RQzxcg03HBoLvzO9k/7BlM/g
+         UCDn2WiEOsfiJQU/4QHQwT+i1FRPsUhwmDIQrCrIe1KB9ez/lzWw4S3kbJz9ol4JVMW3
+         VnqcV2kACGJZULLRLGOzLtl6HbfqIK3zf3OmPtsgRF0alhGX9PAlFhLJGAnwOHkZS0O+
+         kfnIu5hbSL1ChjsGiocuXI27VEpGgGnQz7HWkdAbfbAM6DuL+4U2cB1pfTqT4hQIB2Fa
+         krEnryKEVrGLHEhKUs7ZuE5V9nMTZ1+DX+tqvZK5HqLgQMWtf67E37SnAVeUVizF6lD3
+         EmgA==
+X-Gm-Message-State: APjAAAVXPT1GWs3U7CHz0G1IEMDaPkiv185MTtEPxSQqp4J5lk8B4amS
+        UG4NiGG916+AaHBHZpuuCK93XW5+
+X-Google-Smtp-Source: APXvYqwGvrtuWlVEebCedmJ17hnOi4Og3etQ4F1pMYoIqdinhoWnRFZFsTqQefSjID8BKgfP8y5/jQ==
+X-Received: by 2002:a2e:301a:: with SMTP id w26mr70064844ljw.76.1564756007452;
+        Fri, 02 Aug 2019 07:26:47 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
+        by smtp.googlemail.com with ESMTPSA id q21sm12829914lfc.96.2019.08.02.07.26.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 02 Aug 2019 07:26:46 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] soc/tegra: pmc: Query PCLK clock rate at probe
+ time
+To:     Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190730174020.15878-1-digetx@gmail.com>
+ <20190802133846.GC3883@pdeschrijver-desktop.Nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <218c3d60-1a56-7ee8-840b-7d0559cd8c8e@gmail.com>
+Date:   Fri, 2 Aug 2019 17:26:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
-Content-Disposition: inline
-In-Reply-To: <20190802092238.692035242@linuxfoundation.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190802133846.GC3883@pdeschrijver-desktop.Nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+02.08.2019 16:38, Peter De Schrijver пишет:
+> On Tue, Jul 30, 2019 at 08:40:19PM +0300, Dmitry Osipenko wrote:
+>> The PCLK clock is running off SCLK, which is a critical clock that is
+>> very unlikely to randomly change its rate. It is possible to get a
+>> lockup if kernel decides to enter LP2 cpuidle from a clk-notifier, which
+>> happens occasionally in a case of Tegra30 EMC driver that waits for the
+>> clk-change event in the clk-notify handler, because CCF's 'prepare' mutex
+>> in kept locked and thus clk_get_rate() wants to sleep with interrupts
+>> being disabled.
+>>
+> 
+> I don't think this is the right solution. Eventually we will want to
+> scale sclk and pclk because the clock tree power of those is not
+> insignificant. Maybe register a notifier which updates the PMC timer
+> values when pclk changes?
 
---Dxnq1zWXvFF0Q93v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I also had a thought about the notifier for pclk, but wasn't sure if
+it's really worthwhile right now since there is no real use-case and
+it's not obvious when such case will materialize. So, I'd say that
+solution is correct but incomplete.
 
-On Fri, Aug 02, 2019 at 11:33:45AM +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 4.9.187 release.
-> There are 223 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
->=20
-> Responses should be made by Sun 04 Aug 2019 09:19:34 AM UTC.
-> Anything received after that time might be too late.
->=20
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.187=
--rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git=
- linux-4.9.y
-> and the diffstat can be found below.
->=20
-> thanks,
->=20
-> greg k-h
-
-All tests passing for Tegra...
-
-Test results for stable-v4.9:
-    8 builds:   8 pass, 0 fail
-    16 boots:   16 pass, 0 fail
-    24 tests:   24 pass, 0 fail
-
-Linux version:  4.9.187-rc1-g5380ded2525d
-Boards tested:  tegra124-jetson-tk1, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Thierry
-
---Dxnq1zWXvFF0Q93v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1ERlMACgkQ3SOs138+
-s6G5vhAAgZZWGODGGHY5R4k9PVj954QvJEyPIf8BK9D016s0YV9ki06E3d9unoMh
-JbOzHZrwCEWP4Af4s1J64DaxA5OVnAx9+6m+WcDjdZHYvNPodb3ILHzLcWGoV+PZ
-yJkTP9WTv+Mk91BOvQqYdRp0CDSSrpDFXNUcP2UPVzo495R61A0qfJAtg5XtmiA9
-FScV4ceQjWpoDA81sThSgNquUinZsGAeV4At7ovvM2XDIU++SIrIugVY0WxqtEc5
-exMwzhNvKNxGoR1rBNYC3k4DfaOtyBpVogK8JsNQoM6bIvrlTHjTucqaSdoCON6n
-Df8a5EiR0X81zIPyeQFROWfL2bcQQt+rK+tcCXjgGEk8ODSZWN7nnwjgfr3iw4ag
-8qSjJnD6jIsgpFvhC5a//c5qSLWy2ResoN5eD5G7pSbTrZmiNDGaW12kcJat9GVV
-sraa9gmIkMcSyHHI1G9r4fMA4ZEQcEaoLr8dHmHexUMI+0KhmCJQ7pXqwKP8txOh
-zWfocPBthLS2hes3JYhOsJDUhMFnxlWRYEBcLxf4kSmMN0G9x+0/7Bp2k24UeufN
-qKGC5b24qiu9Je9EOWOmvRGbVuzi+HXX0CJ5BB4Gj7qUQboIEtXmXIisw8EbYJFM
-9jySs4LwlQHnplX1pV3PymqNPwDxmcl4NqY7/ubrBhzUxDzmZX0=
-=fv1b
------END PGP SIGNATURE-----
-
---Dxnq1zWXvFF0Q93v--
+I'll make a v4 with the notifier, since you're asking about it. Thanks
+for the review!
