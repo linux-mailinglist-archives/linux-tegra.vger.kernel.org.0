@@ -2,100 +2,130 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E01AA7FF6F
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 Aug 2019 19:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04BEA7FFB8
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 Aug 2019 19:35:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404615AbfHBRVJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 2 Aug 2019 13:21:09 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:46058 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404613AbfHBRVJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Aug 2019 13:21:09 -0400
-Received: by mail-ed1-f65.google.com with SMTP id x19so67172126eda.12;
-        Fri, 02 Aug 2019 10:21:07 -0700 (PDT)
+        id S2405442AbfHBRfb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 2 Aug 2019 13:35:31 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:37246 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405108AbfHBRfa (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Aug 2019 13:35:30 -0400
+Received: by mail-lf1-f65.google.com with SMTP id c9so53435169lfh.4;
+        Fri, 02 Aug 2019 10:35:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=inMByTwvV8O4aabJajJH9w/5ZouKzmsoSvqmiPR9bto=;
-        b=idHhUTWIvhb6xC0k3eGhLumLIWXZcJacR+GTy4dO2/RxcQnK4OQ4TVgiVK4dpThYVa
-         nimZ2Oe8fB7G0Q15o0ZO+79NrKFM4JUZ8sYuOYnwdW5nm8dQ5bdZ+8NAMDLBmIx1/jh1
-         ykI5m4tlNe8OHRJRT+Zb7hsvKdQdUePMU9sXfLseAn33FXrrnLSLrjeDQiN8FI35j1Ze
-         yjTB6z3E9LxTMkGoS5TPvFNNC9tGuK1VMKAfk8QsEivV0mfxbbJ1ucWq/QEnqadDoXAP
-         c+LGvyH+YV+S2YHyd9U0JCCu92GB2etjfOI629OS2CYQgcuWIsE7lKt69yPONfsIZuN6
-         r77Q==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=m01E/00kIIUrZ+us6qTkntaWmvfO8MGjTN9DZjqTTM4=;
+        b=LAdAuboHztw2JZLafdgtT4UzeS6mncq1WKhvo7JyiSvSF0vyS3isLkwFQqzG0jKKpk
+         ZghWSAlT/5CZGGwhFgXqGtPeZ/LfjQlgTx3E5AghaB5qUdQ2WllUyvxX/dowJBtNzVUF
+         LFPJAZox16R/ZWpDSEC7NHXsBN6PZ/GKBTdLJho0tEIWT25IPgejuqKDLabN5Oduz5W9
+         J+NyLp1voKwSQg7PL832WiDwrty7Ea7e/JIL8zXVZi8+0azrxZ/SaJl3NnRYEOqC0Q2T
+         kitin+A76BSUfE/SmIkMmNN7vsk/R+p/oEvwqRn0PS1Bmn7/FfSWmtkm6jj996+GQ/vO
+         Znpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=inMByTwvV8O4aabJajJH9w/5ZouKzmsoSvqmiPR9bto=;
-        b=slQrmnHpMRabBEx08U7ZNVI5T5XCP7pcODal9jBYIZLmLalxg/1O2aRl9Po+FpeEcQ
-         8sertUxU34ICsjHntgQxHheItTT8ESrsHxniWk+5jTfEGWZb9T73cg/baOGjupwaGYnb
-         Ae22+Q7oXm5Jym+ipQAD2eSMe7VSvxbuaOboJ6xYwUcs+b0mbFBaNQC45ZdyUR1rYtzB
-         Dqy7Icrdy2CHsPB15aMIUMOvgsEXXKK63ffGG2UinkrvtHJJ+DVL76uqbMjlrK3UWCFd
-         Sro8VD2EIXOFSFaNnUmVA5EYWhazPq3+k8/YO3EK3KiKcexezOutxa8wzwsx79Pri9K1
-         lLsg==
-X-Gm-Message-State: APjAAAWPUpBQc1TBGPPKGNMaEDRqix1rtXLRpY4d6fpTIK5CzUK1ER3D
-        qLQLeRbzNZbqsOFWzcozy0p7WfuV
-X-Google-Smtp-Source: APXvYqzK0cRQJ9YE8mPvzGB/kRTFoDxdjvW7Ao0/m6JOrKkORGqKhTT5m8yLDw5oOs3R2ZhyUBjHFQ==
-X-Received: by 2002:a50:ba19:: with SMTP id g25mr120278535edc.123.1564766467179;
-        Fri, 02 Aug 2019 10:21:07 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id y12sm13205321ejq.40.2019.08.02.10.21.06
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 02 Aug 2019 10:21:06 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
-        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
-        stable@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 5.2 00/20] 5.2.6-stable review
-Date:   Fri,  2 Aug 2019 19:21:05 +0200
-Message-Id: <20190802172105.18999-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190802092055.131876977@linuxfoundation.org>
-References: <20190802092055.131876977@linuxfoundation.org>
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=m01E/00kIIUrZ+us6qTkntaWmvfO8MGjTN9DZjqTTM4=;
+        b=MdsEwqFyq51tlP5dAb9bd6aO14lQA7WrbHVNkEdb9KpM3Kqvk8Ji1wmnE0sX/0Wc5V
+         ubWvNluJinZ2R/wtgfps+nH0t/pCU0OZwjVQjcnSiuIDKR+FEDgwyOXymcNy1A+bIckQ
+         +iXhkue4Eg5JsqOyViuLyeh5sjKlDtL141tWwQbQKCuJszwtPS5+idZm88jgvsEbA1XK
+         Lbd7J1HJrDzzIzm0VPM6HmcVpjCwR+ZswuVCBh0PV4A/21LoGFz022ElmxyuwiSc+IqH
+         h4HbknOCSyMzhMUHYd0kFmKNKypiEHX/Aw23Qtzdk5yIJ95YhYfiJSkMyqy2XzyI7RC2
+         +OGA==
+X-Gm-Message-State: APjAAAVV3jzPiImSAD0Em0NK8btqk/mNmHp2+sPUuvlDbPo31w5NNdb4
+        0AZFczMrLA5E2OAUmZpIvtvSPwN2
+X-Google-Smtp-Source: APXvYqzEH57oEFNxugmY7hPZFcpHs6jb6KCEOBcB2f3QbbxjctMfhdkQqcRF4ctLUWfk5cCLSA/tLg==
+X-Received: by 2002:ac2:50c4:: with SMTP id h4mr62216920lfm.104.1564767327937;
+        Fri, 02 Aug 2019 10:35:27 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
+        by smtp.googlemail.com with ESMTPSA id k12sm12901127lfc.8.2019.08.02.10.35.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 02 Aug 2019 10:35:26 -0700 (PDT)
+Subject: Re: [PATCH V6 01/21] irqchip: tegra: Do not disable COP IRQ during
+ suspend
+To:     Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
+        jason@lakedaemon.net, marc.zyngier@arm.com,
+        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com,
+        pgaikwad@nvidia.com, sboyd@kernel.org, linux-clk@vger.kernel.org,
+        linux-gpio@vger.kernel.org, jckuo@nvidia.com, josephl@nvidia.com,
+        talho@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mperttunen@nvidia.com,
+        spatra@nvidia.com, robh+dt@kernel.org, devicetree@vger.kernel.org
+References: <1563738060-30213-1-git-send-email-skomatineni@nvidia.com>
+ <1563738060-30213-2-git-send-email-skomatineni@nvidia.com>
+ <f6582e43-168e-1b7e-9db8-3d263bc3ba0d@gmail.com>
+ <20190725095502.GM12715@pdeschrijver-desktop.Nvidia.com>
+ <dd01be5d-bab9-1329-c7ac-c3c893d49dd1@gmail.com>
+ <20190725103348.GN12715@pdeschrijver-desktop.Nvidia.com>
+ <20190725103813.GO12715@pdeschrijver-desktop.Nvidia.com>
+ <de1723df-8580-32fb-eb9d-e4c02f2b4306@gmail.com>
+ <20190802130537.GB3883@pdeschrijver-desktop.Nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <ba3924fe-d632-7bcb-5353-bc7668957661@gmail.com>
+Date:   Fri, 2 Aug 2019 20:35:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
+In-Reply-To: <20190802130537.GB3883@pdeschrijver-desktop.Nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
-
-On Fri, 02 Aug 2019 11:39:54 +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.2.6 release.
-> There are 20 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+02.08.2019 16:05, Peter De Schrijver пишет:
+> On Thu, Jul 25, 2019 at 01:59:09PM +0300, Dmitry Osipenko wrote:
+>> 25.07.2019 13:38, Peter De Schrijver пишет:
+>>> On Thu, Jul 25, 2019 at 01:33:48PM +0300, Peter De Schrijver wrote:
+>>>> On Thu, Jul 25, 2019 at 01:05:13PM +0300, Dmitry Osipenko wrote:
+>>>>> 25.07.2019 12:55, Peter De Schrijver пишет:
+>>>>>> On Mon, Jul 22, 2019 at 12:54:51PM +0300, Dmitry Osipenko wrote:
+>>>>>>>
+>>>>>>> All Tegra SoCs support SC7, hence the 'supports_sc7' and the comment
+>>>>>>> doesn't sound correct to me. Something like 'firmware_sc7' should suit
+>>>>>>> better here.
+>>>>>>>
+>>>>>>>> +			writel_relaxed(~0ul, ictlr + ICTLR_COP_IER_CLR);
+>>>>>>>
+>>>>>>> Secondly, I'm also not sure why COP interrupts need to be disabled for
+>>>>>>> pre-T210 at all, since COP is unused. This looks to me like it was
+>>>>>>> cut-n-pasted from downstream kernel without a good reason and could be
+>>>>>>> simply removed.
+>>>>>>
+>>>>>> I don't think we can rely on the fact that COP is unused. People can
+>>>>>> write their own code to run on COP.
+>>>>>
+>>>>> 1. Not upstream - doesn't matter.
+>>>>>
+>>>>
+>>>> The code is not part of the kernel, so obviously it's not upstream?
+>>>>
+>>>>> 2. That's not very good if something unknown is running on COP and then
+>>>>> kernel suddenly intervenes, don't you think so?
+>>>>
+>>>> Unless the code was written with this in mind.
+>>>>
+>>
+>> In that case, please see 1. ;)
+>>
 > 
-> Responses should be made by Sun 04 Aug 2019 09:19:34 AM UTC.
-> Anything received after that time might be too late.
+> In general the kernel should not touch the COP interrupts I think.
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2.6-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.2.y
-> and the diffstat can be found below.
+>>>
+>>> Looking at this again, I don't think we need to enable the IRQ at all.
+>>
+>> Could you please clarify? The code only saves/restores COP's interrupts
+>> context across suspend-resume.
 > 
-> thanks,
-> 
-> greg k-h
+> The sc7 entry firmware doesn't use interrupts.
 
-All tests passing for Tegra ...
-
-Test results for stable-v5.2:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    38 tests:	38 pass, 0 fail
-
-Linux version:	5.2.6-rc1-gbe893953fcc2
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Thierry
-
+Okay, it shouldn't hurt to clean up the LIC's code a tad by removing the
+COP's bits, will make a patch.
