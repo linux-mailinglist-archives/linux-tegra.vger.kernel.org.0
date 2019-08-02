@@ -2,113 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D1997FBB3
-	for <lists+linux-tegra@lfdr.de>; Fri,  2 Aug 2019 16:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E1F37FBEC
+	for <lists+linux-tegra@lfdr.de>; Fri,  2 Aug 2019 16:19:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729620AbfHBOFP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 2 Aug 2019 10:05:15 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:7870 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728714AbfHBOFP (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Aug 2019 10:05:15 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d4443240000>; Fri, 02 Aug 2019 07:05:24 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 02 Aug 2019 07:05:15 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 02 Aug 2019 07:05:15 -0700
-Received: from tbergstrom-lnx.Nvidia.com (172.20.13.39) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Fri, 2 Aug 2019 14:05:14 +0000
-Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
-        id 537EA40DF8; Fri,  2 Aug 2019 17:05:12 +0300 (EEST)
-Date:   Fri, 2 Aug 2019 17:05:12 +0300
-From:   Peter De Schrijver <pdeschrijver@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "Mark Brown" <broonie@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] soc/tegra: regulators: Add regulators coupler for
- Tegra30
-Message-ID: <20190802140512.GD3883@pdeschrijver-desktop.Nvidia.com>
-References: <20190725151832.9802-1-digetx@gmail.com>
- <20190725151832.9802-4-digetx@gmail.com>
+        id S2436646AbfHBOTI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 2 Aug 2019 10:19:08 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:44770 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727485AbfHBOTI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 2 Aug 2019 10:19:08 -0400
+Received: by mail-ed1-f67.google.com with SMTP id k8so72487666edr.11;
+        Fri, 02 Aug 2019 07:19:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=S+20xmULIleEgfurI+8J/o6iN60n5mNoEMYMpzqwBn0=;
+        b=I5R/SbOCUyNpGi/j5ETYAUO8K7/Z+fCVItbSmqyN79qPhkMCfaoRZnqC1ZNRtL0/QP
+         YsF0FSkOb75Qgelvv0hD2fQF8hh2Y5lWRg4gYFtpcMZcBrNd6rstIxVNbqeiAfbn/PQy
+         PphA5CmAwCX+3uzCii5HPuO/3QOkqr9+bXOAhxQ4+PMEiSXCOJArrW+qyeD9DO1wf6Qu
+         CzuDPMCXEmere7MHNMEEH8eSfRUolI/g1X8vwtQnaGjvwBYglDxB/NLGtBHv45S28FNS
+         xTmxZt0A6Ff3CYcg9nIXeVQsz05JXDxS1SNbAfXN2owwZFFj/dlpsDRnLWaYSUlksYIR
+         JajA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=S+20xmULIleEgfurI+8J/o6iN60n5mNoEMYMpzqwBn0=;
+        b=UMwOSXXc5Wguv+lGDvCJCFCcsO7jSMWp1+QQrm47E6BxTB339SrevkyyLJZJ71xxMc
+         brxdy1Wz6A1fSG6Ast25hFSmvKWUjV6ajuUq7EKaYdgcP+81mlwFVVNdIxrZIlkC964k
+         lYpHabS/Aa/0iCDACEMBJTf2arn7lPY1AEyxkETvkw2q/9RctkWT5dhYqvasgdUKQ0Eg
+         ZqpoGBD8pbbMzYMYCFWFO2K8q4DzWG/0X47QN48EC8S3j6qbQQQmBqfJCdWEEWVg2NmX
+         MGHazQdL+8EzaEOwDqqACklR+YpJTkwTtlQz0KgGEoz06Co6g1cyWtEPiCg6bSToUke5
+         Tc6Q==
+X-Gm-Message-State: APjAAAW8ID0yKPZnE9oOdfya/K26hGK2hEOHOfdEMZ6FZxS9WZh3PuzI
+        aaDEkzAQ1KEpH930kwqmYgI=
+X-Google-Smtp-Source: APXvYqy5YJPKTxgGPhjH5kwyrm9Ly98QXxCID8DOnXDCaD0/Lm5hWk8MsjiIsiPNPEhadgoxC319rg==
+X-Received: by 2002:a17:906:e2c2:: with SMTP id gr2mr105900563ejb.284.1564755546154;
+        Fri, 02 Aug 2019 07:19:06 -0700 (PDT)
+Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
+        by smtp.gmail.com with ESMTPSA id k5sm13005950eja.41.2019.08.02.07.19.05
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 02 Aug 2019 07:19:05 -0700 (PDT)
+Date:   Fri, 2 Aug 2019 16:19:04 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 4.9 000/223] 4.9.187-stable review
+Message-ID: <20190802141904.GA11962@ulmo>
+References: <20190802092238.692035242@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
 Content-Disposition: inline
-In-Reply-To: <20190725151832.9802-4-digetx@gmail.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1564754724; bh=4T40FxzWga3LbNPFV+QKshbSr6vY3IQ06h0Men8HJ24=;
-        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
-         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
-        b=Dkl004srNhOkuivE2fGUwLql8dZNBYo49DqQdSe6IH0rxWhuzuke+kF25uM/GXm0w
-         JcD+8ygRTNScG2Sdctgvg1KuAbwS/RpKmDp+khLiDU0/dv1FuvMAhWlXqqdazZjI/F
-         SZvtskJ8QXsnqSySjCRekP+iswUqfcFROzP+v6gtuD2NMWgzfCmM0QmaUIJPQLqt/U
-         cP+zScMJzcxCgG5epYh0lZdYoB20161MpAkRyTwzuly0B7UprQw49AE9T2imMIKLyZ
-         AmNbFVblTo6xvb+CvZbOsbOVIIBVHQqSqw3LBib5mh5cSGNbDBcfA7zfmc1u0+Pmyd
-         yfeenziXqPhRQ==
+In-Reply-To: <20190802092238.692035242@linuxfoundation.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jul 25, 2019 at 06:18:32PM +0300, Dmitry Osipenko wrote:
-> Add regulators coupler for Tegra30 SoCs that performs voltage balancing
-> of a coupled regulators and thus provides voltage scaling functionality.
-> 
-> There are 2 coupled regulators on all Tegra30 SoCs: CORE and CPU. The
-> coupled regulator voltages shall be in a range of 300mV from each other
-> and CORE voltage shall be higher than the CPU by N mV, where N depends
-> on the CPU voltage.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/soc/tegra/Kconfig              |   4 +
->  drivers/soc/tegra/Makefile             |   1 +
->  drivers/soc/tegra/regulators-tegra30.c | 316 +++++++++++++++++++++++++
->  3 files changed, 321 insertions(+)
->  create mode 100644 drivers/soc/tegra/regulators-tegra30.c
-> 
-...
 
-> +
-> +static int tegra30_core_cpu_limit(int cpu_uV)
-> +{
-> +	if (cpu_uV < 800000)
-> +		return 950000;
-> +
-> +	if (cpu_uV < 900000)
-> +		return 1000000;
-> +
-> +	if (cpu_uV < 1000000)
-> +		return 1100000;
-> +
-> +	if (cpu_uV < 1100000)
-> +		return 1200000;
-> +
-> +	if (cpu_uV < 1250000) {
-> +		switch (tegra_sku_info.cpu_speedo_id) {
-> +		case 0 ... 1:
-Aren't we supposed to add /* fall through */ here now?
-> +		case 4:
-> +		case 7 ... 8:
-> +			return 1200000;
-> +
-> +		default:
-> +			return 1300000;
-> +		}
-> +	}
-> +
+--Dxnq1zWXvFF0Q93v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Other than that, this looks ok to me.
+On Fri, Aug 02, 2019 at 11:33:45AM +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.9.187 release.
+> There are 223 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+>=20
+> Responses should be made by Sun 04 Aug 2019 09:19:34 AM UTC.
+> Anything received after that time might be too late.
+>=20
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.187=
+-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git=
+ linux-4.9.y
+> and the diffstat can be found below.
+>=20
+> thanks,
+>=20
+> greg k-h
 
-Peter.
+All tests passing for Tegra...
+
+Test results for stable-v4.9:
+    8 builds:   8 pass, 0 fail
+    16 boots:   16 pass, 0 fail
+    24 tests:   24 pass, 0 fail
+
+Linux version:  4.9.187-rc1-g5380ded2525d
+Boards tested:  tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Thierry
+
+--Dxnq1zWXvFF0Q93v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1ERlMACgkQ3SOs138+
+s6G5vhAAgZZWGODGGHY5R4k9PVj954QvJEyPIf8BK9D016s0YV9ki06E3d9unoMh
+JbOzHZrwCEWP4Af4s1J64DaxA5OVnAx9+6m+WcDjdZHYvNPodb3ILHzLcWGoV+PZ
+yJkTP9WTv+Mk91BOvQqYdRp0CDSSrpDFXNUcP2UPVzo495R61A0qfJAtg5XtmiA9
+FScV4ceQjWpoDA81sThSgNquUinZsGAeV4At7ovvM2XDIU++SIrIugVY0WxqtEc5
+exMwzhNvKNxGoR1rBNYC3k4DfaOtyBpVogK8JsNQoM6bIvrlTHjTucqaSdoCON6n
+Df8a5EiR0X81zIPyeQFROWfL2bcQQt+rK+tcCXjgGEk8ODSZWN7nnwjgfr3iw4ag
+8qSjJnD6jIsgpFvhC5a//c5qSLWy2ResoN5eD5G7pSbTrZmiNDGaW12kcJat9GVV
+sraa9gmIkMcSyHHI1G9r4fMA4ZEQcEaoLr8dHmHexUMI+0KhmCJQ7pXqwKP8txOh
+zWfocPBthLS2hes3JYhOsJDUhMFnxlWRYEBcLxf4kSmMN0G9x+0/7Bp2k24UeufN
+qKGC5b24qiu9Je9EOWOmvRGbVuzi+HXX0CJ5BB4Gj7qUQboIEtXmXIisw8EbYJFM
+9jySs4LwlQHnplX1pV3PymqNPwDxmcl4NqY7/ubrBhzUxDzmZX0=
+=fv1b
+-----END PGP SIGNATURE-----
+
+--Dxnq1zWXvFF0Q93v--
