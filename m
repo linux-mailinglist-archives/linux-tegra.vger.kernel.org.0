@@ -2,144 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8E6380942
-	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 06:28:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E386580A1A
+	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 11:41:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725783AbfHDE2V (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 4 Aug 2019 00:28:21 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:36662 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725770AbfHDE2V (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 00:28:21 -0400
-Received: by mail-qt1-f193.google.com with SMTP id z4so78004480qtc.3
-        for <linux-tegra@vger.kernel.org>; Sat, 03 Aug 2019 21:28:20 -0700 (PDT)
+        id S1726039AbfHDJlr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 4 Aug 2019 05:41:47 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:36999 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726037AbfHDJlr (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 05:41:47 -0400
+Received: by mail-lj1-f196.google.com with SMTP id z28so22468417ljn.4
+        for <linux-tegra@vger.kernel.org>; Sun, 04 Aug 2019 02:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1H1+rlJ6SD+44R7pGQZ7vthtIH3lGGxC7PwH28CcjfE=;
-        b=smcGVglE+t2HaHm8doaNhCgGPITR6e5PauCq2M9jplEXREPkga0rsKeda4QUMk+0+T
-         hUkrK5XQItZSimEdw31IaBcLGSo/JtwiaZRNktjXjRq8/i2k9K1cltp1r9XralM3FV7a
-         aTkV33CuJOOK9ZCnjJcmqV4YvsV+TuPxFRZlVFt+WbZgd5jieARZFcjUAZU1S1nJKJ18
-         95o03xSazyFPliZ6ejc/eaKKN1nWbJhlQla8kc2SuYyLyxgNguJd0ImU4orw2lzbA96i
-         Hh53ghV4Wio4y2FlFOCtHsatxrCpcYgTefv4rIYKPrCyYXs+F9preZgA42x5BmM5QI//
-         xu+Q==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Un84htxySnyq/oPIbkJczaEF16pCyxnlWEcyUuYZ++A=;
+        b=snfJhpEwOpxTOv7rx5JXLprIOInh39GnEC269uJ06AxibCy3t9kvm8xoExQwOhQ31+
+         8eL6s2/G5w3jYQxBZuHAWWUA7elVp9g5fst3fXLbz0olSN5Zg81A6ZFnZPc1kd09vvZH
+         bwjPH9dgw42QiRUw6oKeM8WYVnQrlcZUcOOe4H/2PFv1HPbfg3E+GmVCQtdrS50gvRLf
+         qSnBiGJFiecVEhWwa8qVHZpQvLmviBHjSn+8L0uyIRlY0RNZwY2ug/l9tvu2iXI7K7tj
+         ep7lopCfJvmvdcTwkZHrz/K83mv+0hyYPpoXazj5/estMkFBQwfqDP6GD/P/mgvalTBw
+         Hqxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1H1+rlJ6SD+44R7pGQZ7vthtIH3lGGxC7PwH28CcjfE=;
-        b=HRnxKMaedtXAi3LObZUyaA2DMTFodzw91fsuGvdyGhAkNm9+JXuwqKGJsjTRjBWVFQ
-         fsnZw8gKvBWf9Ucc/n+/O8l5/+XcRuYcJgJgmnqlokPX80aBxyZGznLOJYCdlV3I/56k
-         zCnZE6w2YRe1ILI0HwFK0F7yL6xf97zUJk5sNmHAIXU13foXXa88ECG5/AmMcmn90Xu8
-         IqP5/CxiLYqs/DMQkdLylMyvvLcZCNFgkRVInlXtNRRtGg3C3ZC/ljZMeLDCaSonL8BF
-         +phPkXNYWQ960EjhVlx934gH4Yvzaz/uzRqK/5ZF0pRkEEmjDf6yw+0Tc6emvG0hOlJZ
-         kyPg==
-X-Gm-Message-State: APjAAAUbe9SB7zLhwj5ASssjlM9Bh/tGTYHvqanVJaqNhY2DCa2O08cN
-        r6JC5Wxwj3b7LklqEEy8UWeJPqajjvD6ezScgXM=
-X-Google-Smtp-Source: APXvYqydRLgLRamcRvgoUr8U5fm7ids8sdNBJFrZlycVsn4Emob4Ts8SKkpIaiW4KU0wZ5bFDxuXzJ4GzmSq1Udhz18=
-X-Received: by 2002:aed:3ed5:: with SMTP id o21mr102857080qtf.369.1564892900175;
- Sat, 03 Aug 2019 21:28:20 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=Un84htxySnyq/oPIbkJczaEF16pCyxnlWEcyUuYZ++A=;
+        b=SpMr1yEM5kCnTb60yZZummrWGIzNMVWAB4YeE+Ixsxn2tGCGEr85Bzg2E/pDfKqF7U
+         gZWnCbkqLZTctaQxyMYWreEVEqOPWvPcH2NgfliCnqKlnjCJ9WuTX4Cr6fgJUZ0q1Hf+
+         bn7WXUp759of8S0wlrcCkob4XvWI7XnmogEsGLBvYcxzffdbbO+UJteCX/sZ+fb/6Xce
+         vqzbP1ELTC4U9jCwcxzrl2yp2T1Lv9gkMy0OQHAniOwNKGZ/BLMoZ/yfZrROj2drBU9n
+         MB2Jo53Ndw4ZcxYykse1YZLCLE3sEbiOFl46kH9rfzzzpfKin+sfcDq0tTjzzPSVMXXT
+         yIag==
+X-Gm-Message-State: APjAAAVSq9kvwJTvFn05pq6o1i4Jd1KNeT0BUQQd0t2OhRrpy82HR6cw
+        yseBCFtCwXF7M/FRL/DM7CI=
+X-Google-Smtp-Source: APXvYqzzpOhTKGfm1bk8OZZm2/IS1cErWTCwTOeEnhiTZjQDyTQ18VytbKnA7vZ6lyAxy0HDDY4axw==
+X-Received: by 2002:a2e:3604:: with SMTP id d4mr25146197lja.85.1564911705326;
+        Sun, 04 Aug 2019 02:41:45 -0700 (PDT)
+Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
+        by smtp.gmail.com with ESMTPSA id 25sm16230194ljn.62.2019.08.04.02.41.44
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 04 Aug 2019 02:41:44 -0700 (PDT)
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Brian Starkey <brian.starkey@arm.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+        malidp@foss.arm.com, Russell King <linux@armlinux.org.uk>,
+        Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v2 0/4] drm: drop drmP in tda998x, tegra, arm, armada
+Date:   Sun,  4 Aug 2019 11:41:28 +0200
+Message-Id: <20190804094132.29463-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <CAB9DXsEueDnFRMK1VgxVJfjsGrwADkEuMfe+EYujnWOTfi35wQ@mail.gmail.com>
- <20190802131347.GA3740@ulmo>
-In-Reply-To: <20190802131347.GA3740@ulmo>
-From:   =?UTF-8?B?TWlsYW4gQnXFoWth?= <milan.buska@gmail.com>
-Date:   Sun, 4 Aug 2019 06:27:52 +0200
-Message-ID: <CAFCWPP+rC9jHpR9-5FEuy_Ec7GdS3h7UsuRZEBqdhSptbuOF9w@mail.gmail.com>
-Subject: Re: Running ArchLinux on Jetson Nano
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Anthony MOI <anthony@huggingface.co>, linux-tegra@vger.kernel.org,
-        Lysandre Debut <lysandre@huggingface.co>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-so 3. 8. 2019 v 2:03 odes=C3=ADlatel Thierry Reding
-<thierry.reding@gmail.com> napsal:
->
-> On Fri, Jul 05, 2019 at 08:06:16PM -0400, Anthony MOI wrote:
-> > Hi Thierry,
-> >
-> > Thank you immensely for your work on the Jetson Nano and Linux Tegra. W=
-e
-> > are two developers that are trying to install Arch Linux on a Jetson Na=
-no,
-> > and you have helped us tremendously with your multiple tutorials.
-> >
-> > We are reaching out today because we feel like we have hit a wall and w=
-e
-> > would be very grateful if you could give us any indication whatsoever a=
-s to
-> > what the next step could be.
-> >
-> > Allow us to give you background on what we have done so far:
-> >
-> > - We can easily flash the provided sample root file system and get a
-> > running Ubuntu.
-> > - We managed to flash an ArchLinux-aarch64, putting all the drivers
-> > manually. With this installation, we have the 4.9 Kernel provided with =
-the
-> > L4T drivers package. Everything seems to be working fine, except that w=
-e
-> > can't get Xorg to run.
-> > - We can update/upgrade the arch system as long as we don't update the
-> > kernel/firmware
-> > - We tried to compile both U-Boot and the kernel using your `p3450`
-> > branches. We can boot using both but in the end, Xorg doesn't work eith=
-er,
-> > and the USB firmware does not load.
-> >
-> > We have what seems to be a fully working Arch Linux system right now,
-> > except for the actual display (and the USB with the custom kernel).
-> >
-> > When we try to launch our X server, we have the following error:
-> > [   540.384] (EE) NVIDIA(GPU-0): Failed to initialize the NVIDIA graphi=
-cs
-> > device!
-> > [   540.384] (EE) NVIDIA(0): Failing initialization of X screen 0
-> > When running the command `shasum -c /etc/nv_tegra_release`, all our dri=
-vers
-> > return OK.
-> >
-> > We are at a loss at what to do next, we have tried everything we could
-> > think of, and would love to have your opinion on the matter.
-> >
-> > Thank you so much for everything you=E2=80=99ve done,
->
-> Hi,
->
-> sorry this got burried in my inbox and I only stumbled across it by
-> accident.
->
-> First of all, the p3450 branch for the Linux kernel is mostly stale
-> at this point. You should get equivalent, if not better, functionality
-> using a recent linux-next release.
->
-> Second, if I understand correctly, you're trying to run the L4T
-> userspace on top of an upstream kernel. However, that's not supported
-> and will not work. If you want to use an upstream kernel you're going
-> to have to stick to an upstream graphics stack, which for X means the
-> modesetting driver (which is built into recent X servers) and Mesa.
-> The version of Mesa that ships with Arch Linux should support Tegra X1
-> and therefore Jetson Nano out of the box.
->
-> If you need to stick with the L4T driver package, then I'm afraid but
-> you also need to stick with the L4T kernel image.
->
-> Thierry
+This set of patches is one of the final steps before
+we have succeeded to stop using drmP.h in all of drm/.
 
-Hello.
-Perhaps this will help solve the problem.
-https://elinux.org/Jetson/Porting_Arch#X11_Support
-I don't know ...
+There is a few patches in flight through other trees
+and the plan is that all users shall be gone in the
+upstream kernel after next merge window.
 
-Milan
+The patches has seen build test with various configs
+with various architectures.
 
---=20
+The patches has been sent before, but to my best knowledge
+they have not been applied anywhere.
+All four patches are based on drm-misc-next,
+but I checked that the tda998x patch can be applied to
+the tda998x tree.
 
-Remember, no question is too stupid and no problem too small
-                           -- We've all been beginners
+There are no dependencies between the patches.
+
+v2:
+- rebase on top of drm-misc-next
+
+To maintainers: (Assuming the patch are OK)
+Please let me know if you take the patch, or request
+me to apply it to drm-misc-next.
+Or let me me know if the patch should be based on another tree.
+
+	Sam
+
+
+Sam Ravnborg (4):
+      drm/i2c/tda998x: drop use of drmP.h
+      drm/tegra: drop use of drmP.h
+      drm/armada: drop use of drmP.h
+      drm/arm: drop use of drmP.h
+
+ drivers/gpu/drm/arm/hdlcd_crtc.c        | 12 +++++++-----
+ drivers/gpu/drm/arm/hdlcd_drv.c         |  7 ++++++-
+ drivers/gpu/drm/arm/malidp_crtc.c       | 11 +++++++----
+ drivers/gpu/drm/arm/malidp_drv.c        |  8 +++++---
+ drivers/gpu/drm/arm/malidp_drv.h        |  7 ++++---
+ drivers/gpu/drm/arm/malidp_hw.c         |  7 ++++++-
+ drivers/gpu/drm/arm/malidp_mw.c         |  5 +++--
+ drivers/gpu/drm/arm/malidp_planes.c     |  4 +++-
+ drivers/gpu/drm/armada/armada_crtc.c    | 10 +++++++---
+ drivers/gpu/drm/armada/armada_debugfs.c |  8 ++++++--
+ drivers/gpu/drm/armada/armada_drm.h     |  5 ++++-
+ drivers/gpu/drm/armada/armada_drv.c     |  8 ++++++++
+ drivers/gpu/drm/armada/armada_fb.c      |  3 +++
+ drivers/gpu/drm/armada/armada_fbdev.c   |  3 +++
+ drivers/gpu/drm/armada/armada_gem.c     |  7 ++++++-
+ drivers/gpu/drm/armada/armada_overlay.c |  8 +++++---
+ drivers/gpu/drm/armada/armada_plane.c   |  4 +++-
+ drivers/gpu/drm/armada/armada_trace.h   |  5 ++++-
+ drivers/gpu/drm/i2c/tda998x_drv.c       |  2 +-
+ drivers/gpu/drm/tegra/dc.c              | 13 +++++++++----
+ drivers/gpu/drm/tegra/dpaux.c           |  5 +++--
+ drivers/gpu/drm/tegra/drm.c             |  8 ++++++++
+ drivers/gpu/drm/tegra/drm.h             |  3 +--
+ drivers/gpu/drm/tegra/dsi.c             |  8 +++++---
+ drivers/gpu/drm/tegra/fb.c              |  6 ++++--
+ drivers/gpu/drm/tegra/gem.c             |  3 +++
+ drivers/gpu/drm/tegra/gem.h             |  1 -
+ drivers/gpu/drm/tegra/gr2d.c            |  1 +
+ drivers/gpu/drm/tegra/hdmi.c            |  5 +++++
+ drivers/gpu/drm/tegra/hub.c             |  3 ++-
+ drivers/gpu/drm/tegra/hub.h             |  1 -
+ drivers/gpu/drm/tegra/plane.c           |  1 +
+ drivers/gpu/drm/tegra/sor.c             |  3 +++
+ drivers/gpu/drm/tegra/vic.c             |  1 +
+ 34 files changed, 137 insertions(+), 49 deletions(-)
+
+
