@@ -2,48 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A043680C58
-	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E38580C5A
+	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:17:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726694AbfHDURP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 4 Aug 2019 16:17:15 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44575 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726346AbfHDURP (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:17:15 -0400
-Received: by mail-lj1-f193.google.com with SMTP id k18so77399444ljc.11;
-        Sun, 04 Aug 2019 13:17:13 -0700 (PDT)
+        id S1726699AbfHDURR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 4 Aug 2019 16:17:17 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:45811 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726346AbfHDURR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:17:17 -0400
+Received: by mail-lj1-f195.google.com with SMTP id m23so77345306lje.12;
+        Sun, 04 Aug 2019 13:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OqhXxXwy9Hr3xWItmkC0WnCOZqEhN5kTgjtJyN6Z+CY=;
-        b=NLLRFWKzJmEIu9OTOt7Ai8tctMWnGdjeyEFU+bfOuWd3AgIJwVV5bg33IJmsvBZup+
-         JybThz+nVWyyLhyxpWRvRVqVGJqJtDYU59QsXSfu+zCyvbOcabGJOut4KqbsMVWxIH4Z
-         tW+Tv7tICzEJDkmjcIBJSlRM1z6IOKUpkGKIAU/4Ybs703WZbR3nNjvMr3m+CkOHkc17
-         Rb4XRehU55J1G+MqL6y4FTAHHomaoEOikxlyWWWJtnnFAqOmZ710XFHX0eWXQQL7lRT1
-         f/jZm/vh9FmhUey+YmveVXZdx/reIWL8VTKKHRLpUUQZGISW6Eyybhr/rBDd1ODzkPPO
-         8Y7Q==
+        bh=WgVzWcgmLIPnyZKomZGLKI2l35SfEezC0RuGRG5g/EI=;
+        b=Brv6b6OXXGcKeKH38lJ761HH0YTn5I9O/tREug6fGjyWJ+NCJsVZQvPQM7DlX+nsR6
+         WA6HO+Rv7vxjU15u7L1NOWrHWicKyXbrTATlAAXAD8yRFsCg2XGn4VI2lwGp8s6DpiMn
+         E+QAS5oYqtk6XgBCtudTDF/nIQ0Muy9Gmk0WQyu31aBZVKM5gvbZmkz16wMGlkqAX8tT
+         wSS/p1pcWPPdgD67sqBEd7oUFfCCBGs7Y8NUSBCmu45zwvTYB7/dsrGKfXnKQEvSnQFP
+         hjVSneDQ7YRnHrxMyOpJIf7d8FN3ltIdMphdq4MyGP2KAGXagMIV58euOaKS9DGq1EgA
+         VMKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=OqhXxXwy9Hr3xWItmkC0WnCOZqEhN5kTgjtJyN6Z+CY=;
-        b=hPnK8hMSEBmU5fOtMX0xrh4+xa+9yQcJPoYnhV+sYgG9nFmgGpxLZf+1yRftLdLUlc
-         QqLm7m9aKB/6MhmKC5y6thlgTtmWqL/vhvILjBGPJhE+YSqmHX9Aig6j3mb3B5cW1wgr
-         cwdhHxnqh/27hJQZ8OqdMLxwRNAciSNAV1TxwUWcV7NgcGvP9JYn4QTK9L6S7u28r72P
-         QXfdP2vpQ1qbU3WzBdAh1qPqQxVbwL67adW33O8wr98cSoDvpmLYie5Aqo6WwOn6K8X1
-         MVA2gB58L7TxF+1REKMAATIk7AjrQtokOnM+M6eTXSn4oFONk2q1heTIZIrwI9Fswpaj
-         kfxw==
-X-Gm-Message-State: APjAAAWwbXVk7RVuI2+fzyTzpySH+0ms5GsU5HZji8tj+urBBgS1nTSD
-        it+FffqTsdXIGxXcMkUMRUI=
-X-Google-Smtp-Source: APXvYqwr7YURU5x5uQX4eMotoB3lQEWzubIKRtOF0qGU+ymuvCnRLcgiy7sxe5BsFuWKIZGt+qJn3A==
-X-Received: by 2002:a2e:86c3:: with SMTP id n3mr35048878ljj.129.1564949832447;
-        Sun, 04 Aug 2019 13:17:12 -0700 (PDT)
+        bh=WgVzWcgmLIPnyZKomZGLKI2l35SfEezC0RuGRG5g/EI=;
+        b=n/rzj2fAH5FZn3mrEvLgBXdeKxg+RLhw+gVdvtOwJ9cn39uRDJWvFDNzHQk0/o26N7
+         oU2JNmb0BKVDB3cYiKd3jjpR3Kub/scvABUbg1n66si+0jjxFpFyOmwkC2FkY+gSBnxN
+         bbK4MWdbDLN7oZr8JIfgV/eftHRu6NJ5cfjHQ1p3Qr6aPjNzFqVPKzZPdQZUnl6nXoCv
+         xhiHJ7H3YGg3+HpB2UuRDiz0tkSAjv6h4lawPslVmKEQQrLi/pPUDn1hsokcuwTd7iQ2
+         5bI9JyFWz34+SwZAwRZ3Rqx0+6i3qwKGtaqL2vD9dxEf/3hVz5Csu4gTqGAmgivcrUny
+         lK8w==
+X-Gm-Message-State: APjAAAUXjNNeEbxjPkkr6hRja5hgrO1SGvlJiFJ+Kwt/2l1KumirTRai
+        UqDm4kZvJGPdut+dlsaqZGs=
+X-Google-Smtp-Source: APXvYqwud3tPWGlx2rT6WRxi5qtgEVcIyAyTabZz4LeIPtVV4R4zHjIsHNXrxj2gWB7phumt4Zx9PQ==
+X-Received: by 2002:a2e:854d:: with SMTP id u13mr78583687ljj.236.1564949835418;
+        Sun, 04 Aug 2019 13:17:15 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id p87sm16540794ljp.50.2019.08.04.13.17.10
+        by smtp.gmail.com with ESMTPSA id p87sm16540794ljp.50.2019.08.04.13.17.13
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 04 Aug 2019 13:17:11 -0700 (PDT)
+        Sun, 04 Aug 2019 13:17:14 -0700 (PDT)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>
@@ -85,9 +85,9 @@ Cc:     Alexios Zavras <alexios.zavras@intel.com>,
         Stefan Agner <stefan@agner.ch>,
         Thomas Gleixner <tglx@linutronix.de>,
         Vincent Abriou <vincent.abriou@st.com>
-Subject: [PATCH v1 04/16] drm/imx: fix opencoded use of drm_panel_*
-Date:   Sun,  4 Aug 2019 22:16:25 +0200
-Message-Id: <20190804201637.1240-5-sam@ravnborg.org>
+Subject: [PATCH v1 05/16] drm/fsl-dcu: fix opencoded use of drm_panel_*
+Date:   Sun,  4 Aug 2019 22:16:26 +0200
+Message-Id: <20190804201637.1240-6-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190804201637.1240-1-sam@ravnborg.org>
 References: <20190804201637.1240-1-sam@ravnborg.org>
@@ -98,75 +98,39 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Use the drm_panel_get_modes() function to get the modes.
-
-This patch leave one test for the function pointer:
-    panel->funcs->get_modes
-
-This is used to check if the panel may have any modes.
-There is no direct replacement.
-We may be able to just check that drm_panel_get_modes() return > 0,
-but as this is not the same functionality it is left for later.
+Use drm_panel_get_modes() to access modes.
+This has a nice side effect to simplify the code.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Stefan Agner <stefan@agner.ch>
+Cc: Alison Wang <alison.wang@nxp.com>
 ---
- drivers/gpu/drm/imx/imx-ldb.c          | 11 ++++-------
- drivers/gpu/drm/imx/parallel-display.c | 11 ++++-------
- 2 files changed, 8 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index db461b6a257f..695f307f36b2 100644
---- a/drivers/gpu/drm/imx/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -124,14 +124,11 @@ static void imx_ldb_ch_set_bus_format(struct imx_ldb_channel *imx_ldb_ch,
- static int imx_ldb_connector_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+index 279d83eaffc0..a92fd6c70b09 100644
+--- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
++++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+@@ -65,17 +65,9 @@ static const struct drm_connector_funcs fsl_dcu_drm_connector_funcs = {
+ static int fsl_dcu_drm_connector_get_modes(struct drm_connector *connector)
  {
- 	struct imx_ldb_channel *imx_ldb_ch = con_to_imx_ldb_ch(connector);
+ 	struct fsl_dcu_drm_connector *fsl_connector;
+-	int (*get_modes)(struct drm_panel *panel);
 -	int num_modes = 0;
-+	int num_modes;
  
--	if (imx_ldb_ch->panel && imx_ldb_ch->panel->funcs &&
--	    imx_ldb_ch->panel->funcs->get_modes) {
--		num_modes = imx_ldb_ch->panel->funcs->get_modes(imx_ldb_ch->panel);
--		if (num_modes > 0)
--			return num_modes;
+ 	fsl_connector = to_fsl_dcu_connector(connector);
+-	if (fsl_connector->panel && fsl_connector->panel->funcs &&
+-	    fsl_connector->panel->funcs->get_modes) {
+-		get_modes = fsl_connector->panel->funcs->get_modes;
+-		num_modes = get_modes(fsl_connector->panel);
 -	}
-+	num_modes = drm_panel_get_modes(imx_ldb_ch->panel);
-+	if (num_modes > 0)
-+		return num_modes;
+-
+-	return num_modes;
++	return drm_panel_get_modes(fsl_connector->panel);
+ }
  
- 	if (!imx_ldb_ch->edid && imx_ldb_ch->ddc)
- 		imx_ldb_ch->edid = drm_get_edid(connector, imx_ldb_ch->ddc);
-diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-index 2e51b2fade75..e7ce17503ae1 100644
---- a/drivers/gpu/drm/imx/parallel-display.c
-+++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -47,14 +47,11 @@ static int imx_pd_connector_get_modes(struct drm_connector *connector)
- {
- 	struct imx_parallel_display *imxpd = con_to_imxpd(connector);
- 	struct device_node *np = imxpd->dev->of_node;
--	int num_modes = 0;
-+	int num_modes;
- 
--	if (imxpd->panel && imxpd->panel->funcs &&
--	    imxpd->panel->funcs->get_modes) {
--		num_modes = imxpd->panel->funcs->get_modes(imxpd->panel);
--		if (num_modes > 0)
--			return num_modes;
--	}
-+	num_modes = drm_panel_get_modes(imxpd->panel);
-+	if (num_modes > 0)
-+		return num_modes;
- 
- 	if (imxpd->edid) {
- 		drm_connector_update_edid_property(connector, imxpd->edid);
+ static int fsl_dcu_drm_connector_mode_valid(struct drm_connector *connector,
 -- 
 2.20.1
 
