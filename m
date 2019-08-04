@@ -2,48 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E38580C5A
-	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2222680C60
+	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:17:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726699AbfHDURR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 4 Aug 2019 16:17:17 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45811 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726346AbfHDURR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:17:17 -0400
-Received: by mail-lj1-f195.google.com with SMTP id m23so77345306lje.12;
-        Sun, 04 Aug 2019 13:17:16 -0700 (PDT)
+        id S1726702AbfHDURU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 4 Aug 2019 16:17:20 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:44581 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726346AbfHDURU (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:17:20 -0400
+Received: by mail-lj1-f193.google.com with SMTP id k18so77399571ljc.11;
+        Sun, 04 Aug 2019 13:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WgVzWcgmLIPnyZKomZGLKI2l35SfEezC0RuGRG5g/EI=;
-        b=Brv6b6OXXGcKeKH38lJ761HH0YTn5I9O/tREug6fGjyWJ+NCJsVZQvPQM7DlX+nsR6
-         WA6HO+Rv7vxjU15u7L1NOWrHWicKyXbrTATlAAXAD8yRFsCg2XGn4VI2lwGp8s6DpiMn
-         E+QAS5oYqtk6XgBCtudTDF/nIQ0Muy9Gmk0WQyu31aBZVKM5gvbZmkz16wMGlkqAX8tT
-         wSS/p1pcWPPdgD67sqBEd7oUFfCCBGs7Y8NUSBCmu45zwvTYB7/dsrGKfXnKQEvSnQFP
-         hjVSneDQ7YRnHrxMyOpJIf7d8FN3ltIdMphdq4MyGP2KAGXagMIV58euOaKS9DGq1EgA
-         VMKA==
+        bh=yel48h0qo2wbp0mM+rNqpesYnmUiIUwuFRYEGRdGqyc=;
+        b=RhcmWOYNugg3RhzTq+cei+ZzJ5PbMDYuydezLvh4SzkEdVGuUstINi6mF3JdxqSgHE
+         vt/tTDGSa1SEDKK2uctzf8Q7x2lA/At+dJJvONXAfw1PG5quso6A1CYppTRQmjq2Mztz
+         8+QesDo5Y3z8q6FOM3FS99qDTyn9eq0bJZAAqangO3/ERv+ON6doIPb4/KiuSEd+wtXi
+         tJ+Td+ky5MuQfpIn1AOxC7vWgtQI6QRzHg+odjRtEyUsSQvmNFrXrQU7NFPkrkmguzMt
+         nJHPyyRqYLsguHOCJz+yVza9xugy775zludTZthdBmnpUbY+21C3bNWQ8WuAZTw3PPVj
+         S+AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=WgVzWcgmLIPnyZKomZGLKI2l35SfEezC0RuGRG5g/EI=;
-        b=n/rzj2fAH5FZn3mrEvLgBXdeKxg+RLhw+gVdvtOwJ9cn39uRDJWvFDNzHQk0/o26N7
-         oU2JNmb0BKVDB3cYiKd3jjpR3Kub/scvABUbg1n66si+0jjxFpFyOmwkC2FkY+gSBnxN
-         bbK4MWdbDLN7oZr8JIfgV/eftHRu6NJ5cfjHQ1p3Qr6aPjNzFqVPKzZPdQZUnl6nXoCv
-         xhiHJ7H3YGg3+HpB2UuRDiz0tkSAjv6h4lawPslVmKEQQrLi/pPUDn1hsokcuwTd7iQ2
-         5bI9JyFWz34+SwZAwRZ3Rqx0+6i3qwKGtaqL2vD9dxEf/3hVz5Csu4gTqGAmgivcrUny
-         lK8w==
-X-Gm-Message-State: APjAAAUXjNNeEbxjPkkr6hRja5hgrO1SGvlJiFJ+Kwt/2l1KumirTRai
-        UqDm4kZvJGPdut+dlsaqZGs=
-X-Google-Smtp-Source: APXvYqwud3tPWGlx2rT6WRxi5qtgEVcIyAyTabZz4LeIPtVV4R4zHjIsHNXrxj2gWB7phumt4Zx9PQ==
-X-Received: by 2002:a2e:854d:: with SMTP id u13mr78583687ljj.236.1564949835418;
-        Sun, 04 Aug 2019 13:17:15 -0700 (PDT)
+        bh=yel48h0qo2wbp0mM+rNqpesYnmUiIUwuFRYEGRdGqyc=;
+        b=Wu+jlhTscL7OYutWpxhc80R3M1+8v63f0pcTk/3ZWeNidFSxWtMijCKytrbxKYRwpL
+         AYw1LvAZs2aX5Xh89a/Eu+usn+WueluNSt6D2uhs2A5CawhOGEVJjhru66yASgz0woZz
+         ahsbg0iukaYbuZ8bNTmIoKhmXzbUUvR4LtBjdJijAY81u+euR0yCjnfzjGFKbjuO5QQb
+         5hWCEo+eZlvXbFEEidWDiiPhU7c2D9jLRG2zY4uiM8D/z3aaHJU4DNIUI2Fsrstaa7Pw
+         426JGJJOhpRQXNtvHf1gOXSv6MnBx+blgha8f4IxQ0JXo6HKGbv8EoCMvsy/UoLvcctp
+         4YNg==
+X-Gm-Message-State: APjAAAXWR63rFrWpIjAFckIkWp27sWSkuUfPBDW8HwRMopdR9RbU0hTO
+        RK8ONz0nrzd031u/nfHCd9M=
+X-Google-Smtp-Source: APXvYqxdGxd0F02kFmQDzjnepawHElytfS6OgwAwlzDKWRLVxKsqajzgR4P7dB62VuLk5D8PL5TcOg==
+X-Received: by 2002:a2e:88d3:: with SMTP id a19mr29864312ljk.32.1564949838298;
+        Sun, 04 Aug 2019 13:17:18 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id p87sm16540794ljp.50.2019.08.04.13.17.13
+        by smtp.gmail.com with ESMTPSA id p87sm16540794ljp.50.2019.08.04.13.17.16
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 04 Aug 2019 13:17:14 -0700 (PDT)
+        Sun, 04 Aug 2019 13:17:17 -0700 (PDT)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>
@@ -85,9 +85,9 @@ Cc:     Alexios Zavras <alexios.zavras@intel.com>,
         Stefan Agner <stefan@agner.ch>,
         Thomas Gleixner <tglx@linutronix.de>,
         Vincent Abriou <vincent.abriou@st.com>
-Subject: [PATCH v1 05/16] drm/fsl-dcu: fix opencoded use of drm_panel_*
-Date:   Sun,  4 Aug 2019 22:16:26 +0200
-Message-Id: <20190804201637.1240-6-sam@ravnborg.org>
+Subject: [PATCH v1 06/16] drm/msm: fix opencoded use of drm_panel_*
+Date:   Sun,  4 Aug 2019 22:16:27 +0200
+Message-Id: <20190804201637.1240-7-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190804201637.1240-1-sam@ravnborg.org>
 References: <20190804201637.1240-1-sam@ravnborg.org>
@@ -98,39 +98,31 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Use drm_panel_get_modes() to access modes.
-This has a nice side effect to simplify the code.
+Use the function drm_panel_get_modes().
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Alison Wang <alison.wang@nxp.com>
+Cc: Alexios Zavras <alexios.zavras@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Allison Randal <allison@lohutok.net>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Enrico Weigelt <info@metux.net>
 ---
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
-index 279d83eaffc0..a92fd6c70b09 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
-@@ -65,17 +65,9 @@ static const struct drm_connector_funcs fsl_dcu_drm_connector_funcs = {
- static int fsl_dcu_drm_connector_get_modes(struct drm_connector *connector)
- {
- 	struct fsl_dcu_drm_connector *fsl_connector;
--	int (*get_modes)(struct drm_panel *panel);
--	int num_modes = 0;
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
+index ecef4f5b9f26..0e21252fd1d6 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
+@@ -55,7 +55,7 @@ static int mdp4_lvds_connector_get_modes(struct drm_connector *connector)
+ 	if (panel) {
+ 		drm_panel_attach(panel, connector);
  
- 	fsl_connector = to_fsl_dcu_connector(connector);
--	if (fsl_connector->panel && fsl_connector->panel->funcs &&
--	    fsl_connector->panel->funcs->get_modes) {
--		get_modes = fsl_connector->panel->funcs->get_modes;
--		num_modes = get_modes(fsl_connector->panel);
--	}
--
--	return num_modes;
-+	return drm_panel_get_modes(fsl_connector->panel);
- }
+-		ret = panel->funcs->get_modes(panel);
++		ret = drm_panel_get_modes(panel);
  
- static int fsl_dcu_drm_connector_mode_valid(struct drm_connector *connector,
+ 		drm_panel_detach(panel);
+ 	}
 -- 
 2.20.1
 
