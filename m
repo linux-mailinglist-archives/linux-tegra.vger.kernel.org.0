@@ -2,48 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E318F80C6A
-	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC97580C6D
+	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:17:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726759AbfHDUR3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 4 Aug 2019 16:17:29 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41439 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726530AbfHDUR3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:17:29 -0400
-Received: by mail-lf1-f68.google.com with SMTP id 62so51486151lfa.8;
-        Sun, 04 Aug 2019 13:17:27 -0700 (PDT)
+        id S1726766AbfHDURc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 4 Aug 2019 16:17:32 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:45071 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726761AbfHDURc (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:17:32 -0400
+Received: by mail-lf1-f66.google.com with SMTP id u10so17590234lfm.12;
+        Sun, 04 Aug 2019 13:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wk6pfousIAMCDI6Uyo+lM1td1MgXZzePdo2c6E2Onic=;
-        b=tOCty/gZdEJZyOP/LNSmnWRovYxXff7HblVK8JBUwNKGrmTZ+mYA0XLKKLgk4z4yh/
-         fBO9mOHvoad0V1tr1vvpw8D9YeCxA6tK5vJcEFMZJnwPoPsbHn+HSREVKkWjPSp9hJxn
-         6O+7mFpQuChXeq8lCOSF1rKrQa9RJOuWSEaLRkkGuFO5ra4yL2+dKAYsbR4/XMyVHkWy
-         Z1ut/fRIY+7glcUvkTmq+AArGP1m25gmupSXINZcKexEnrAEP9Y2L6S8eT5ly7N5HAK1
-         H6xR/uxZns5l6A8wH2ZL1OO1aRJCaRQSPfhd90PwVcC82louRVZsNLqZAULk7h65wV5X
-         uqYg==
+        bh=shoyTDJcoi5HvA8suEJ+ePhtLRmu1CfLIIIm8v7PNNs=;
+        b=TT0liCbgGg0E/gJCenrGbe3V7qxESoHcLYR9Fqum61d5epYgpLiaYRYFfKL92Pr3ih
+         8qYhDSumrhQUVMEQzIyzfC1SGb+fphtyBPbjIx90BYEUkYkHRusp/zv3xYTe4Q5JntxV
+         tPvq1numLSzbK1j6IgLi22GioQ71kzagFKwDFQTjXRdiZQgt2p+E4RM5HcLdsKTlmHBc
+         xcIoztstMzYcu0dtXtODbAIM4OsypFfHT2H5Sbqg70r2FfpBM/xvUiRRgTp1cQZhCVPM
+         63T3SG4pNSJFLmpPNWxgt7AqRvsoRkBsILlP/FwlXKZdsAnovbJMjKhi+vrEpjsIAHnh
+         ymFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=wk6pfousIAMCDI6Uyo+lM1td1MgXZzePdo2c6E2Onic=;
-        b=ewpZfJOkBSCQjr3zQRXrKOnV+mw+0l4C1b8EC4imI7JWmmuuEonmU6oWIndY1oDZUp
-         lvXth7Z3If8Wo9BhcYWt0mZe67yPKc7i3qhQ834B4AIwjNS/A5R1+cJr0Wfhd5394Cwq
-         reCyiufyWC8t6F1ET0hTQIFE7+cOI4bZZ9sVXv5Zj1rikEEt1lgU8PWjzdchyYHFVfW/
-         m7a07GsW7iWjRQxt/+Dn8xd+pqmfRCLf7OkeWbXyX2aPo+PxtEUndvOtSk97V3KcoprE
-         tYDYT8o5WR7lUxflBBk1+YoWglH8Fgj8p6HU5VqnRg4ivNif0rbM8pu+nrGv2NWeAQ3u
-         MYHw==
-X-Gm-Message-State: APjAAAVFdvJF9ABZK67b2DIOZDbHuzzcK3L5uXuHPENN8x5t8n3ECujy
-        +bigkb3S+cR50ZQYUQ1ArxE=
-X-Google-Smtp-Source: APXvYqyLrFVeZI/lzYw2iRoU+pX5u/EBCoveXbxfKssjwJUGzKx1R2K/aZs1vIVE+lwZRLrksTI4Hg==
-X-Received: by 2002:ac2:5dc3:: with SMTP id x3mr30142069lfq.168.1564949846990;
-        Sun, 04 Aug 2019 13:17:26 -0700 (PDT)
+        bh=shoyTDJcoi5HvA8suEJ+ePhtLRmu1CfLIIIm8v7PNNs=;
+        b=U9+pcDg4GTOd0ock0ee2FVovF9qkPkkBRKRMk9/x/hirKl7OOSvpUMbi8SohJdYgIX
+         Qe28il04w5qUhfoFWej4DCzlIkNfJe9l7mIGkUqm09XX08ZIb1cITLQbnxwbmXbhf6bd
+         CcmDXaznlt6LRd7/BS3ypZ76YmHa02w+nVgRburBTw2TJczsKygqrmXtz3XurZmu0fKC
+         kJ7/BIz6QJ1JiMxvAtDfGdGcMtdDCciZPwoG22rT8O89UKSP4LgGt3kmVARr3GVG58fx
+         hoTO1LuCsH8m8R/CR1QsJKmz4nBhSJAiuxZLFAMVjsxWsXmVICPumS4MQpRwUGYXkfJo
+         xY+Q==
+X-Gm-Message-State: APjAAAX2aOE017Vy/rLnU7bADhv72msvXdkeVmg/8IP1LnyFmK8nJ37q
+        GV197/IJNMU1WKBgZ22x+OGxNvrhYeL0Ew==
+X-Google-Smtp-Source: APXvYqzl1MkkA4C89bp42Rzz6UlZz/8K8R5A5+jNjhZrXPItPaaVvFQmywl+F1LIRSh1rcVqQi6CzA==
+X-Received: by 2002:ac2:5c1d:: with SMTP id r29mr18089640lfp.72.1564949849567;
+        Sun, 04 Aug 2019 13:17:29 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id p87sm16540794ljp.50.2019.08.04.13.17.25
+        by smtp.gmail.com with ESMTPSA id p87sm16540794ljp.50.2019.08.04.13.17.27
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 04 Aug 2019 13:17:26 -0700 (PDT)
+        Sun, 04 Aug 2019 13:17:29 -0700 (PDT)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>
@@ -85,9 +85,9 @@ Cc:     Alexios Zavras <alexios.zavras@intel.com>,
         Stefan Agner <stefan@agner.ch>,
         Thomas Gleixner <tglx@linutronix.de>,
         Vincent Abriou <vincent.abriou@st.com>
-Subject: [PATCH v1 09/16] drm/tegra: fix opencoded use of drm_panel_*
-Date:   Sun,  4 Aug 2019 22:16:30 +0200
-Message-Id: <20190804201637.1240-10-sam@ravnborg.org>
+Subject: [PATCH v1 10/16] drm/panel: ili9322: move bus_flags to get_modes()
+Date:   Sun,  4 Aug 2019 22:16:31 +0200
+Message-Id: <20190804201637.1240-11-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190804201637.1240-1-sam@ravnborg.org>
 References: <20190804201637.1240-1-sam@ravnborg.org>
@@ -98,29 +98,78 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Use the drm_panel_get_modes function.
+To prepare the driver to receive drm_connector only in the get_modes()
+callback, move bus_flags handling to ili9322_get_modes().
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-tegra@vger.kernel.org
+Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/tegra/output.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-ilitek-ili9322.c | 34 +++++++++-----------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index 274cb955e2e1..52b8396ec2dc 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -23,7 +23,7 @@ int tegra_output_connector_get_modes(struct drm_connector *connector)
- 	 * ignore any other means of obtaining a mode.
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
+index 53dd1e128795..3c58f63adbf7 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
+@@ -349,7 +349,6 @@ static const struct regmap_config ili9322_regmap_config = {
+ 
+ static int ili9322_init(struct drm_panel *panel, struct ili9322 *ili)
+ {
+-	struct drm_connector *connector = panel->connector;
+ 	u8 reg;
+ 	int ret;
+ 	int i;
+@@ -407,23 +406,11 @@ static int ili9322_init(struct drm_panel *panel, struct ili9322 *ili)
+ 	 * Polarity and inverted color order for RGB input.
+ 	 * None of this applies in the BT.656 mode.
  	 */
- 	if (output->panel) {
--		err = output->panel->funcs->get_modes(output->panel);
-+		err = drm_panel_get_modes(output->panel);
- 		if (err > 0)
- 			return err;
- 	}
+-	if (ili->conf->dclk_active_high) {
++	reg = 0;
++	if (ili->conf->dclk_active_high)
+ 		reg = ILI9322_POL_DCLK;
+-		connector->display_info.bus_flags |=
+-			DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE;
+-	} else {
+-		reg = 0;
+-		connector->display_info.bus_flags |=
+-			DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE;
+-	}
+-	if (ili->conf->de_active_high) {
++	if (ili->conf->de_active_high)
+ 		reg |= ILI9322_POL_DE;
+-		connector->display_info.bus_flags |=
+-			DRM_BUS_FLAG_DE_HIGH;
+-	} else {
+-		connector->display_info.bus_flags |=
+-			DRM_BUS_FLAG_DE_LOW;
+-	}
+ 	if (ili->conf->hsync_active_high)
+ 		reg |= ILI9322_POL_HSYNC;
+ 	if (ili->conf->vsync_active_high)
+@@ -659,9 +646,20 @@ static int ili9322_get_modes(struct drm_panel *panel)
+ 	struct drm_connector *connector = panel->connector;
+ 	struct ili9322 *ili = panel_to_ili9322(panel);
+ 	struct drm_display_mode *mode;
++	struct drm_display_info *info;
++
++	info = &connector->display_info;
++	info->width_mm = ili->conf->width_mm;
++	info->height_mm = ili->conf->height_mm;
++	if (ili->conf->dclk_active_high)
++		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE;
++	else
++		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE;
+ 
+-	connector->display_info.width_mm = ili->conf->width_mm;
+-	connector->display_info.height_mm = ili->conf->height_mm;
++	if (ili->conf->de_active_high)
++		info->bus_flags |= DRM_BUS_FLAG_DE_HIGH;
++	else
++		info->bus_flags |= DRM_BUS_FLAG_DE_LOW;
+ 
+ 	switch (ili->input) {
+ 	case ILI9322_INPUT_SRGB_DUMMY_320X240:
 -- 
 2.20.1
 
