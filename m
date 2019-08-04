@@ -2,48 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD3EC80C51
-	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:17:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9032080C55
+	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726659AbfHDURH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 4 Aug 2019 16:17:07 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41428 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726346AbfHDURH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:17:07 -0400
-Received: by mail-lf1-f68.google.com with SMTP id 62so51485846lfa.8;
-        Sun, 04 Aug 2019 13:17:05 -0700 (PDT)
+        id S1726687AbfHDURL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 4 Aug 2019 16:17:11 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42889 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726346AbfHDURL (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:17:11 -0400
+Received: by mail-lj1-f193.google.com with SMTP id t28so77424754lje.9;
+        Sun, 04 Aug 2019 13:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZQy9HfEbGA1ab0VIPAqW/5LFlvvMfM3YtKt25w5akQg=;
-        b=kU2m0+RBLUeqJOTqmN7wdIW5oOoJZk4mOVt8g2Pj9LBw8owAvIqfINDwzOdJ8fG3vY
-         TmasVFXMgD9rbalVp2CRfKLF2xAY6JU4RpR/URtcsWX5hO4W1AcMMyl7KxM0EwKntN+X
-         s0PmeKEE1zCtIcWZZbPwdxjRU5nYL6lOJnt+7SVLtKXAqsl18OyMoAewTdWmVuRodIhM
-         KERP/ppypDVfWGQGYyvXKM9f9XAJghQ8AgeG2s18H4kOr9xhKEUbFmFZ5sLSnbcTPPgg
-         zbfqIEc3h652BTSzj7i7m2PWJWdp865ZGwAZPpyW4xSJXt92fzG/ahvoGyE7oIx+IrkH
-         t9mA==
+        bh=1TEXaZ1KpdAoiO85boEPTBxnq8MPM5bbeG78Znsg1kk=;
+        b=UY9E/BN/VsoWEhEtkdN8SUZ6JHfj/MBgZgo1KwFNcuBN2pN7TOGU5AbsZbBMQBBMp/
+         +KPl14S0+PYrY1NlQyBlfArZikLv53LGe2G/hMahk+c88DAkGoN1qgt0F0pIFL6MlC69
+         Lcg7RTaWFBAx4PfmCtkLgYHY73b8PSgMP9+nEJT1uYEv3otLP4iBzlNGlEbAcG98zDQZ
+         E6yypKdyIS1mOqIB1qbZbUit/9wBYgZ6PRdzJSzvLpvas00dvht3i0+tzIDnbOuyzH3p
+         RAn2m/o5JiW0VANG9Eoc7to6esERy5lprBeYjTpFb798pyI2UJNt8Ef9POkUjSlMe9BK
+         Z98A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=ZQy9HfEbGA1ab0VIPAqW/5LFlvvMfM3YtKt25w5akQg=;
-        b=dHjlE4RearSkQ0dOo0ZF65v+acXvSIvyAt10ksKrhW94dFa28jlednFYYQkHcllvjx
-         QUtY3LOkku1Ls656b6SZrKPoF/268Jre3qG0pruQvmt8gNbluaVmtn5yRERfRcoIUWOp
-         bnvbscdJQreLfgd0Wkr1zubmoI3QBdvMW4BG0zCk/6fphsKvLt5oxJAnrOW57p/2+Hco
-         EH+S5hPcd/oO4td3sCJoi/cmeEPYYe3f3HfDYACJK5qg2zVZ+LqgJ+0sXqY0agLz/E0x
-         KIw0ZG8cPlqaaszWFdI66UCHsOcOVHo19zHbS/dwZlq9DIzcSA8FP7UGQayTWQAylRPm
-         0kJw==
-X-Gm-Message-State: APjAAAVnT6v7GmXMvCo+mJbfAO1fVMFCBMSFFD0Ig8pY3yOo+vr32AWH
-        gf0h9+TD5ilKlgh1HajFiB8=
-X-Google-Smtp-Source: APXvYqxrxJ6f5gcwOvxklU9HO4h4OF+p5nSRTWaf0Mi726mZOEO7tha0ZCSglPRdKYDVM/d5m/f2qg==
-X-Received: by 2002:a05:6512:146:: with SMTP id m6mr5406980lfo.90.1564949824886;
-        Sun, 04 Aug 2019 13:17:04 -0700 (PDT)
+        bh=1TEXaZ1KpdAoiO85boEPTBxnq8MPM5bbeG78Znsg1kk=;
+        b=jWyHxpddpmMmDeYz4O9wM+DwQWiovQhIlbxyj0E9ZaJ1L7Cj69o7mPGtqZvRaxQDz2
+         9OfNRL2RLNEcFo8hZsevOemfRtcgUtn8yZ7vgbnm1DQ/5Dgplz0zGBrsKqiLXSYIxm8G
+         Z6uKNyUEMFPHPaWg2QLgyVsKimgp7l4QL0wl/4zqCRQD1ZV4roJapWhimJRl/PKHxXcu
+         ErWAB0IxzWX/XenruWYm2IFqEjiKop9BYVrcJOF6rISTOXGsHzf50dXdZNB7GBi8OwrK
+         shjJ534928QxTGRxHdrx2Rm3S1HTjQ8Z5m8tIoh7V1Ks+pn+rWjx2NSpTaW4uvQ/tz2v
+         MHmw==
+X-Gm-Message-State: APjAAAXnj0GaPfDPra/ezq5AisOdJWqwQM89ma/gLhZUVoDfC/UEhHpx
+        dj/EZQNH7vjo5aI/a397j7o=
+X-Google-Smtp-Source: APXvYqyX2DV4pg4STFder0QLYZxjB3cRp7z66cR5BIB23ZVo0ZMYOEKaRseLqKMG0kPOviSdCK01aQ==
+X-Received: by 2002:a2e:3211:: with SMTP id y17mr38833847ljy.86.1564949828875;
+        Sun, 04 Aug 2019 13:17:08 -0700 (PDT)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id p87sm16540794ljp.50.2019.08.04.13.17.02
+        by smtp.gmail.com with ESMTPSA id p87sm16540794ljp.50.2019.08.04.13.17.06
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 04 Aug 2019 13:17:04 -0700 (PDT)
+        Sun, 04 Aug 2019 13:17:08 -0700 (PDT)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>
@@ -85,9 +85,9 @@ Cc:     Alexios Zavras <alexios.zavras@intel.com>,
         Stefan Agner <stefan@agner.ch>,
         Thomas Gleixner <tglx@linutronix.de>,
         Vincent Abriou <vincent.abriou@st.com>
-Subject: [PATCH v1 02/16] drm/exynos: fix opencoded use of drm_panel_*
-Date:   Sun,  4 Aug 2019 22:16:23 +0200
-Message-Id: <20190804201637.1240-3-sam@ravnborg.org>
+Subject: [PATCH v1 03/16] drm/exynos: fix opencoded use of drm_panel_*
+Date:   Sun,  4 Aug 2019 22:16:24 +0200
+Message-Id: <20190804201637.1240-4-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190804201637.1240-1-sam@ravnborg.org>
 References: <20190804201637.1240-1-sam@ravnborg.org>
@@ -98,11 +98,7 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-drm_panel_attach() will check if there is a controller
-already attached - drop the check in the driver.
-
-Use drm_panel_get_modes() so the driver no longer uses the function
-pointer.
+Call via drm_panel_get_modes().
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Inki Dae <inki.dae@samsung.com>
@@ -114,28 +110,19 @@ Cc: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-samsung-soc@vger.kernel.org
 ---
- drivers/gpu/drm/exynos/exynos_drm_dpi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-index 3cebb19ec1c4..5479ff71cbc6 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-@@ -43,7 +43,7 @@ exynos_dpi_detect(struct drm_connector *connector, bool force)
- {
- 	struct exynos_dpi *ctx = connector_to_dpi(connector);
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index 6926cee91b36..36b02b456d9c 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1460,7 +1460,7 @@ static int exynos_dsi_get_modes(struct drm_connector *connector)
+ 	struct exynos_dsi *dsi = connector_to_dsi(connector);
  
--	if (ctx->panel && !ctx->panel->connector)
-+	if (ctx->panel)
- 		drm_panel_attach(ctx->panel, &ctx->connector);
- 
- 	return connector_status_connected;
-@@ -85,7 +85,7 @@ static int exynos_dpi_get_modes(struct drm_connector *connector)
- 	}
- 
- 	if (ctx->panel)
--		return ctx->panel->funcs->get_modes(ctx->panel);
-+		return drm_panel_get_modes(ctx->panel);
+ 	if (dsi->panel)
+-		return dsi->panel->funcs->get_modes(dsi->panel);
++		return drm_panel_get_modes(dsi->panel);
  
  	return 0;
  }
