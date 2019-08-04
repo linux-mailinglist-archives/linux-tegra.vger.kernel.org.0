@@ -2,59 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBD3080C97
-	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 105AA80C9F
+	for <lists+linux-tegra@lfdr.de>; Sun,  4 Aug 2019 22:37:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbfHDUci (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 4 Aug 2019 16:32:38 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:43224 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726709AbfHDUci (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:32:38 -0400
-Received: by mail-wr1-f65.google.com with SMTP id p13so7768430wru.10;
-        Sun, 04 Aug 2019 13:32:37 -0700 (PDT)
+        id S1726621AbfHDUh5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 4 Aug 2019 16:37:57 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39379 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726536AbfHDUh5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 4 Aug 2019 16:37:57 -0400
+Received: by mail-wm1-f65.google.com with SMTP id u25so60740367wmc.4;
+        Sun, 04 Aug 2019 13:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yJcTX6yAM/28X+y7Mpoop6XMEsRl/RWmoeElcLy1hsQ=;
-        b=myd3tsfjagcJQVGtr1pZjOA14+sS5tTfp/5T34+bxh0e4x9zDOcAelWWZNmLK2S6KW
-         TaJ6p4ihbxxEfmD7Ze/uyWk6EeowRlyTc+IlPeAbGdoJHPmI7By14+axKg261p/swOsF
-         f+B7roH+5Fkith597jXgSQ6sXQvSpAIUUAlDPCg+puU3fl5JoswIDY3fX6k4n5mQtVZt
-         OuC7sfW4Yy85rgFkFbL6KmD+lUd0/78qO0JsJmJOjjH7OBJZCWF7vmWG0S4ow8vzH3vD
-         OoVkyE0kHFnzKqZm97jKuQgPCLt+RjrWnp0JW/n9svkHXELwN/7qeFAfruvtAIoTWUmZ
-         YM/w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=614oQfNECnBl76zZMuP6DD7lsJ4uFIehr7gg2GuUSuc=;
+        b=udRZwvBy56EHj8w5FiQd5HmvHtoeIayI3x/yvR6sDJ+Ewn7z6yi6mu6NWlwcZAmS8D
+         WtiBRgG2YRRcKwLv9ELIX1/WwhbIuGA3JDAmeEeDqydM0Qigb41mROG+XqaZs6JgDKeG
+         aZiHbcZzbbtS3Wdmk4sivf6kI0cuBaeOc/0YiFZYn2QEy71YOfDiE0YTlvXUHcoKXwga
+         yqY9MZsRA5iUHQvgvqyw31kKMRL5MRmOT8Ub3f3s79jEmAj0QJagrIvlYSpnyA6irJRo
+         tY+ILDpiR09VHgcAF5dmquq+hnRhMYccvKffAcSmQB+ZW+z04xOzeor4jZU8bKwMAdFP
+         vauw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yJcTX6yAM/28X+y7Mpoop6XMEsRl/RWmoeElcLy1hsQ=;
-        b=tT0BDnzuL1TLs5FQLz4xigYs3JSbAsLxhvLZ5u1+ADmuZmSoazBZpFNbzl5nMA6VJK
-         /3C/8lYyBUZcI4blfYzKhnW6dCB/l1cNsGA3DVcJtDeOrRoyoqKYR8SzjbJFz1hTNsV9
-         2B9z7TJDestMlTxMxX8xS+c2qw6YY2RQYNqJXEVYX2Xf4MUHdt0qYudre3+NhgFBWVeF
-         QRB5Xu7ht6Hhg38tRatbhG5zkpTonGRXhOmpQIWXZ7ijcv+ZvrdR3DD1/2EV5UoWDIO+
-         Fi1jcjT7d83qVGUlIfOIdJJc2WI1l2FwuQbEsZbS1o5TV+s/rUZI9kqUpTXu0TFBfrGw
-         yJ0g==
-X-Gm-Message-State: APjAAAWp5Ib8cgOGmsZnLZVtJSGyOyfj/+mBDPMvlopsAz7Bk2sAs4/E
-        sL4DpZhZafj1Qk7vmAks2UY=
-X-Google-Smtp-Source: APXvYqz6zXXgesNxrw1GRqNtRHfvZKscXL1dPOOLJLrkKRVPznyq+CZfPQrkgHZO0MXDwRZqCZgaFA==
-X-Received: by 2002:adf:e4c6:: with SMTP id v6mr150550068wrm.315.1564950756492;
-        Sun, 04 Aug 2019 13:32:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=614oQfNECnBl76zZMuP6DD7lsJ4uFIehr7gg2GuUSuc=;
+        b=pphna/jYAuwTopmwpiDJVYAfrsQits0d1rFDQPSxZSGiw5HDN845vR5LpHZ1+raJ6C
+         5OjVB4KjhKBDSUahKrqLtLXPj5V+RLX/QKpHNWW4fbnCwO436259geUR6IspVVooJcD6
+         GY9BkwnGI/56HcoJpV0qyOhnNzqpkbyTMz9PAo6pP+TpDce4BkbalJUcqft1kYN34mDu
+         AenWoughFsReyaktXJb5GMuZNSPBsIe8HTRT7ZiMCKyaClvAainHYmpND9wEssFSzbAy
+         hapqp454xHytnKyv8fhGwDlrWB4zOQpTF6BTTy0ld3BCMEE6b1acKBjI5yfWMBFDncLB
+         zPMQ==
+X-Gm-Message-State: APjAAAU/rHir25pqAH7SIWM0+0/exJ28gLXSInbABnrfwDcE251XTwj+
+        SeZiljmsDS53wuXdoqzJdVY=
+X-Google-Smtp-Source: APXvYqxWQqaUp9OfLwLuDJf120aVTFuhjtTQ9WayyTg2GRXAT9S11eHNFLdnTlvX3jYer7/a2+NswA==
+X-Received: by 2002:a05:600c:2146:: with SMTP id v6mr14194434wml.59.1564951074997;
+        Sun, 04 Aug 2019 13:37:54 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-78-220-99.pppoe.mtu-net.ru. [91.78.220.99])
-        by smtp.gmail.com with ESMTPSA id b2sm112066619wrp.72.2019.08.04.13.32.35
+        by smtp.gmail.com with ESMTPSA id v16sm75542601wrn.28.2019.08.04.13.37.53
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 04 Aug 2019 13:32:35 -0700 (PDT)
+        Sun, 04 Aug 2019 13:37:54 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/2] soc/tegra: pmc: Remove unnecessary memory barrier
-Date:   Sun,  4 Aug 2019 23:29:27 +0300
-Message-Id: <20190804202927.15014-2-digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] drm/tegra: dc: Turn off and reset hardware across suspend-resume
+Date:   Sun,  4 Aug 2019 23:37:02 +0300
+Message-Id: <20190804203702.16073-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190804202927.15014-1-digetx@gmail.com>
-References: <20190804202927.15014-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -62,41 +59,30 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The removed barrier isn't needed because the writes/reads are strictly
-ordered and even if PMC had separate ports for the writes, it wouldn't
-matter since the hardware logic takes into effect after triggering CPU's
-power-gating and at that point all CPU accesses are guaranteed to be
-completed. Hence remove the barrier to eliminate the confusion.
+The drivers core bumps runtime PM refcount during of entering into
+suspend to workaround some problem where parent device may become turned
+off before its children. For now CRTCs are only getting disabled on
+suspend and in order to actually suspend the display controllers hardware,
+the runtime PM needed to be "forced" into suspend mode.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
+ drivers/gpu/drm/tegra/dc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changelog:
-
-v4: No changes.
-
-v3: No changes.
-
-v2: New patch that was added after Jon's Hunter pointing that it's better
-    not to change the barrier's placement in the code. In fact the barrier
-    is not needed at all.
-
- drivers/soc/tegra/pmc.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 4e44943d0b26..8f8fb2db064d 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -1460,8 +1460,6 @@ void tegra_pmc_enter_suspend_mode(enum tegra_suspend_mode mode)
- 	do_div(ticks, USEC_PER_SEC);
- 	tegra_pmc_writel(pmc, ticks, PMC_CPUPWROFF_TIMER);
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 4a75d149e368..6c8f5222d558 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -2572,6 +2572,8 @@ static int tegra_dc_resume(struct device *dev)
  
--	wmb();
--
- 	value = tegra_pmc_readl(pmc, PMC_CNTRL);
- 	value &= ~PMC_CNTRL_SIDE_EFFECT_LP0;
- 	value |= PMC_CNTRL_CPU_PWRREQ_OE;
+ static const struct dev_pm_ops tegra_dc_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(tegra_dc_suspend, tegra_dc_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
+ };
+ 
+ struct platform_driver tegra_dc_driver = {
 -- 
 2.22.0
 
