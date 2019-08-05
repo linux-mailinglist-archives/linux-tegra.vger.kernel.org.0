@@ -2,319 +2,172 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1A04817E9
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 13:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E3E581863
+	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 13:48:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727989AbfHELMO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 5 Aug 2019 07:12:14 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51658 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727158AbfHELMO (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 07:12:14 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9EEB72F9;
-        Mon,  5 Aug 2019 13:12:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565003530;
-        bh=9oRsbzluvIx+scgB0q5nmoh2+Hfrsu1ybp+awEmQZY8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eoYncRKfcImPqIfTcPR1dT5vdOL9hemgqDnF24i/ui4gdfshnvu+4mqRcdAQe0n66
-         c6X81UopU3KaY5I1pvjJmbar1s/WPxSaCImYooIaM2zSFk7hmI0izXPZcQMNPwuty+
-         jqej5nQxn4BVSxLv3Gcsv+pHn+fbVjvwXB4yWn1Y=
-Date:   Mon, 5 Aug 2019 14:12:08 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     dri-devel@lists.freedesktop.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Alexios Zavras <alexios.zavras@intel.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Allison Randal <allison@lohutok.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Enrico Weigelt <info@metux.net>,
-        Fabio Estevam <festevam@gmail.com>,
-        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Marek Vasut <marex@denx.de>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sean Paul <sean@poorly.run>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincent Abriou <vincent.abriou@st.com>
-Subject: Re: [PATCH v1 16/16] drm/panel: simple: use drm_panel infrastructure
-Message-ID: <20190805111208.GK29747@pendragon.ideasonboard.com>
-References: <20190804201637.1240-1-sam@ravnborg.org>
- <20190804201637.1240-17-sam@ravnborg.org>
+        id S1728056AbfHELs0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 5 Aug 2019 07:48:26 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:40145 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727259AbfHELs0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 07:48:26 -0400
+Received: by mail-ed1-f66.google.com with SMTP id k8so78330149eds.7;
+        Mon, 05 Aug 2019 04:48:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=OtvKcJn1SfDVS/E5AW0H5rc1Q9h4Ojnt6fUTf3JK2iM=;
+        b=FoZ+rtHzF965MRYwwOMGp24zDfAK+s0y1r1C3Cv/NNmxgXb5Wp1muadCXFvjllO8/m
+         Nch7JeSBSTmVUk3cWhW+xCgxru5jx5jaQpho3TA30LpNkjaJHWrFZMAJR6pnbnBlmDwo
+         S1fUIbkDo/f/o9XYkblffkhk2BMnMLFWG73At0MWzZtehsMGChuyfwp/3wJOaDTgAhgX
+         0tqi2mWcfHD+VwLJtGrxr435sepwWdi7uUf4k7QVl3s6Zxk433h9hVDCYbKqINTyI7pJ
+         /LwZGutPG4OSbxAl0D6+4nVij5jK2Usvdv+gHVxmjMmqJNn1id4OfI85m6vqhE2d14wQ
+         vrpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OtvKcJn1SfDVS/E5AW0H5rc1Q9h4Ojnt6fUTf3JK2iM=;
+        b=mqy2fCFZzOvW9QaAppm6IiEwGFKeaE9J+QyOY8hyazffOTEGkk5Mlxn6qAEDddZzld
+         WBWXSHkPLQDdazTu7pUZ/u8OA7KZ4Mx5FHBAMPmMaaAzlEPP4AUz1JdIl4yRgzQ16GBS
+         T8IXeAl0d1sHbzQYdJhWNzHOo6WC7f43KcV0I/27+ikCBDtU2Uy8D9nwxJXMdI3wUZ0Z
+         oX8XYh0cWpUhfHH7filahdO10zUv4+NYlCulIsXziNu/ZNOG1lcmtGYecT5sQBRaD60K
+         OKPvv232yOB/AWVn6xE/HnGpxZ4LrB/m5SOY+L4A6KO+4pYvmHq1mvRJqYBljyz5Gjfa
+         zM/g==
+X-Gm-Message-State: APjAAAWW8zxcnLEsHtxjR8e8myP9+v/13VGzlWZPmS0p8u42DpRwL9x+
+        Xg4Wl3bNFhDw8n5EYp8uSMA=
+X-Google-Smtp-Source: APXvYqwZTd+c2oeDw1J6fwTWpvme6B9/2SPdxwmKEZSup9tM4KIMf3q9nMA98tIH+/hVhr0QSiev9Q==
+X-Received: by 2002:a50:eb8f:: with SMTP id y15mr133630255edr.31.1565005703511;
+        Mon, 05 Aug 2019 04:48:23 -0700 (PDT)
+Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
+        by smtp.gmail.com with ESMTPSA id y19sm20113592edd.34.2019.08.05.04.48.22
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 05 Aug 2019 04:48:22 -0700 (PDT)
+Date:   Mon, 5 Aug 2019 13:48:21 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
+        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
+        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
+        stable@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 5.2 00/20] 5.2.6-stable review
+Message-ID: <20190805114821.GA24378@ulmo>
+References: <20190802092055.131876977@linuxfoundation.org>
+ <20190802172105.18999-1-thierry.reding@gmail.com>
+ <20190803070932.GB24334@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
 Content-Disposition: inline
-In-Reply-To: <20190804201637.1240-17-sam@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190803070932.GB24334@kroah.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Sam,
 
-Thank you for the patch.
+--FCuugMFkClbJLl1L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 04, 2019 at 10:16:37PM +0200, Sam Ravnborg wrote:
-> Use drm_panel infrastrucute:
-> - drm_panel has guards for calling disable/enable twice
+On Sat, Aug 03, 2019 at 09:09:32AM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Aug 02, 2019 at 07:21:05PM +0200, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > On Fri, 02 Aug 2019 11:39:54 +0200, Greg Kroah-Hartman wrote:
+> > > This is the start of the stable review cycle for the 5.2.6 release.
+> > > There are 20 patches in this series, all will be posted as a response
+> > > to this one.  If anyone has any issues with these being applied, plea=
+se
+> > > let me know.
+> > >=20
+> > > Responses should be made by Sun 04 Aug 2019 09:19:34 AM UTC.
+> > > Anything received after that time might be too late.
+> > >=20
+> > > The whole patch series can be found in one patch at:
+> > > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2=
+=2E6-rc1.gz
+> > > or in the git tree and branch at:
+> > > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc=
+=2Egit linux-5.2.y
+> > > and the diffstat can be found below.
+> > >=20
+> > > thanks,
+> > >=20
+> > > greg k-h
+> >=20
+> > All tests passing for Tegra ...
+> >=20
+> > Test results for stable-v5.2:
+> >     12 builds:	12 pass, 0 fail
+> >     22 boots:	22 pass, 0 fail
+> >     38 tests:	38 pass, 0 fail
+> >=20
+> > Linux version:	5.2.6-rc1-gbe893953fcc2
+> > Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+> >                 tegra194-p2972-0000, tegra20-ventana,
+> >                 tegra210-p2371-2180, tegra30-cardhu-a04
+>=20
+> Great!  Thanks for testing all of these and letting me know.
 
-As stated in the review of the corresponding patch, I think those checks
-should be dropped, but not moved to the panel core.
+Hi Greg,
 
-> - drm_panel has backlight support
+I stumbled across something as I was attempting to automate more parts
+of our process to generate these reports. The original test results were
+=66rom a different version of the tree: 5.2.6-rc1-gdbc7f5c7df28. I suspect
+that's the same thing that you were discussing with Pavel regarding the
+IP tunnel patch that was added subsequent to the announcement.
 
-This answers my first question in the review of 15/16 :-)
+Just for my understanding, does this mean that the patch still makes it
+into the 5.2.6 release, or was it supposed to go into 5.2.7?
 
-> To use the drm_panel infrastructure use the drm_panel_*
-> variants for prepare/enable/disable/unprepare.
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+One problem that I ran into was that when I tried to correlate the test
+results with your announcement email, there's no indication other than
+the branch name and the release candidate name (5.2.6-rc1 in this case),
+so there's no way to uniquely identify which test run belongs to the
+announcement. Given that there are no tags for the release candidates
+means that that's also not an option to uniquely associate with the
+builds and tests.
 
-The change looks good overall,
+While the differences between the two builds are very minor here, I
+wonder if there could perhaps in the future be a problem where I report
+successful results for a test, but the same tests would be broken by a
+patch added to the stable-rc branch subsequent to the announcement. The
+test report would be misleading in that case.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I noticed that you do add a couple of X-KernelTest-* headers to your
+announcement emails, so I'm wondering if perhaps it was possible for you
+to add another one that contains the exact SHA1 that corresponds to the
+snapshot that's the release candidate. That would allow everyone to
+uniquely associate test results with a specific release candidate.
 
-but this is pending an agreement on what to do with the multiple
-prepare/enable guards.
+That said, perhaps I've just got this all wrong and there's already a
+way to connect all the dots that I'm not aware of. Or maybe I'm being
+too pedantic here?
 
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 73 +++++-----------------------
->  1 file changed, 11 insertions(+), 62 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index bff7578f84dd..c7eed34f2c9c 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -21,7 +21,6 @@
->   * DEALINGS IN THE SOFTWARE.
->   */
->  
-> -#include <linux/backlight.h>
->  #include <linux/delay.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/module.h>
-> @@ -98,13 +97,10 @@ struct panel_desc {
->  
->  struct panel_simple {
->  	struct drm_panel base;
-> -	bool prepared;
-> -	bool enabled;
->  	bool no_hpd;
->  
->  	const struct panel_desc *desc;
->  
-> -	struct backlight_device *backlight;
->  	struct regulator *supply;
->  	struct i2c_adapter *ddc;
->  
-> @@ -232,20 +228,9 @@ static int panel_simple_disable(struct drm_panel *panel)
->  {
->  	struct panel_simple *p = to_panel_simple(panel);
->  
-> -	if (!p->enabled)
-> -		return 0;
-> -
-> -	if (p->backlight) {
-> -		p->backlight->props.power = FB_BLANK_POWERDOWN;
-> -		p->backlight->props.state |= BL_CORE_FBBLANK;
-> -		backlight_update_status(p->backlight);
-> -	}
-> -
->  	if (p->desc->delay.disable)
->  		msleep(p->desc->delay.disable);
->  
-> -	p->enabled = false;
-> -
->  	return 0;
->  }
->  
-> @@ -253,9 +238,6 @@ static int panel_simple_unprepare(struct drm_panel *panel)
->  {
->  	struct panel_simple *p = to_panel_simple(panel);
->  
-> -	if (!p->prepared)
-> -		return 0;
-> -
->  	gpiod_set_value_cansleep(p->enable_gpio, 0);
->  
->  	regulator_disable(p->supply);
-> @@ -263,8 +245,6 @@ static int panel_simple_unprepare(struct drm_panel *panel)
->  	if (p->desc->delay.unprepare)
->  		msleep(p->desc->delay.unprepare);
->  
-> -	p->prepared = false;
-> -
->  	return 0;
->  }
->  
-> @@ -274,9 +254,6 @@ static int panel_simple_prepare(struct drm_panel *panel)
->  	unsigned int delay;
->  	int err;
->  
-> -	if (p->prepared)
-> -		return 0;
-> -
->  	err = regulator_enable(p->supply);
->  	if (err < 0) {
->  		dev_err(panel->dev, "failed to enable supply: %d\n", err);
-> @@ -291,8 +268,6 @@ static int panel_simple_prepare(struct drm_panel *panel)
->  	if (delay)
->  		msleep(delay);
->  
-> -	p->prepared = true;
-> -
->  	return 0;
->  }
->  
-> @@ -300,20 +275,9 @@ static int panel_simple_enable(struct drm_panel *panel)
->  {
->  	struct panel_simple *p = to_panel_simple(panel);
->  
-> -	if (p->enabled)
-> -		return 0;
-> -
->  	if (p->desc->delay.enable)
->  		msleep(p->desc->delay.enable);
->  
-> -	if (p->backlight) {
-> -		p->backlight->props.state &= ~BL_CORE_FBBLANK;
-> -		p->backlight->props.power = FB_BLANK_UNBLANK;
-> -		backlight_update_status(p->backlight);
-> -	}
-> -
-> -	p->enabled = true;
-> -
->  	return 0;
->  }
->  
-> @@ -413,7 +377,7 @@ static void panel_simple_parse_panel_timing_node(struct device *dev,
->  
->  static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  {
-> -	struct device_node *backlight, *ddc;
-> +	struct device_node *ddc;
->  	struct panel_simple *panel;
->  	struct display_timing dt;
->  	int err;
-> @@ -422,8 +386,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  	if (!panel)
->  		return -ENOMEM;
->  
-> -	panel->enabled = false;
-> -	panel->prepared = false;
->  	panel->desc = desc;
->  
->  	panel->no_hpd = of_property_read_bool(dev->of_node, "no-hpd");
-> @@ -441,24 +403,13 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  		return err;
->  	}
->  
-> -	backlight = of_parse_phandle(dev->of_node, "backlight", 0);
-> -	if (backlight) {
-> -		panel->backlight = of_find_backlight_by_node(backlight);
-> -		of_node_put(backlight);
-> -
-> -		if (!panel->backlight)
-> -			return -EPROBE_DEFER;
-> -	}
-> -
->  	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
->  	if (ddc) {
->  		panel->ddc = of_find_i2c_adapter_by_node(ddc);
->  		of_node_put(ddc);
->  
-> -		if (!panel->ddc) {
-> -			err = -EPROBE_DEFER;
-> -			goto free_backlight;
-> -		}
-> +		if (!panel->ddc)
-> +			return -EPROBE_DEFER;
->  	}
->  
->  	if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
-> @@ -468,6 +419,10 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  	panel->base.dev = dev;
->  	panel->base.funcs = &panel_simple_funcs;
->  
-> +	err = drm_panel_of_backlight(&panel->base);
-> +	if (err)
-> +		goto free_ddc;
-> +
->  	err = drm_panel_add(&panel->base);
->  	if (err < 0)
->  		goto free_ddc;
-> @@ -479,9 +434,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  free_ddc:
->  	if (panel->ddc)
->  		put_device(&panel->ddc->dev);
-> -free_backlight:
-> -	if (panel->backlight)
-> -		put_device(&panel->backlight->dev);
+Thierry
 
-This looks weird, where
+--FCuugMFkClbJLl1L
+Content-Type: application/pgp-signature; name="signature.asc"
 
->  
->  	return err;
->  }
-> @@ -492,15 +444,12 @@ static int panel_simple_remove(struct device *dev)
->  
->  	drm_panel_remove(&panel->base);
->  
-> -	panel_simple_disable(&panel->base);
-> -	panel_simple_unprepare(&panel->base);
-> +	drm_panel_disable(&panel->base);
-> +	drm_panel_unprepare(&panel->base);
->  
->  	if (panel->ddc)
->  		put_device(&panel->ddc->dev);
->  
-> -	if (panel->backlight)
-> -		put_device(&panel->backlight->dev);
-> -
->  	return 0;
->  }
->  
-> @@ -508,8 +457,8 @@ static void panel_simple_shutdown(struct device *dev)
->  {
->  	struct panel_simple *panel = dev_get_drvdata(dev);
->  
-> -	panel_simple_disable(&panel->base);
-> -	panel_simple_unprepare(&panel->base);
-> +	drm_panel_disable(&panel->base);
-> +	drm_panel_unprepare(&panel->base);
->  }
->  
->  static const struct drm_display_mode ampire_am_480272h3tmqw_t01h_mode = {
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Regards,
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1IF4MACgkQ3SOs138+
+s6FfvhAAtYLaFxO1ZbDWTHEzD+V/FdBAPgHumvCme5NQJ20moeJtzbRfs6dg05s5
+2a0J0GXUUXEKyiX/fOtWnHikUDy45SBgLUeQs7zKrlal+wcpHAU4ILU24y+zvzA5
+ur6QFpcoQOOB8YLUYdvo8YkLXzZein8CHMc4BztmxV22h25UKM6VXhazYRpQZNEK
+sK0nEal97hvbjNa+ljMu59NdcG18cYAc3jjfGdH8aKoSAMAqcJOAROeyslhYrxt9
+GpvQz5ukO/TGh6DE6PX8LVPByN7VB6mhsXu1RDoXABwTmLDlYZKBjdbpQH0NLK7K
+rAVjSUeMHNTRXtVLJ3xvLI0ji2S4EA44UlbiMpXmjVC9J5QRA5SE+6Tvy3Yf3B4D
+bReO6RYeMab4P10/9kuwOTOfHu+RaJVOP8U+bS29zv2oP8vck7wpMhRYo7irRInD
+1aLnmlPH7kT/m7EDOcUpEh+DOFAwva8+7nF9vi8Kq/jIdjoTlHVhNXriw1vI0+2K
+Hzu9VdfMBsehOhbrSf1Cx2Vp8aaMunxsUyYICiuPINO5+R4fTTx1kuNxJPR2W6Jl
+ZN2YoE92ZLJ00+S6BJbCU+3u+f+Oj3o2zKDlYw9w1uzYCP46Ce9EF8R7cPeD5e9j
+QFOFa4QwfsiBcrAR/0fTReb5rBq3H/dk6ys8nbPWbw3lo8W1yeE=
+=YQnS
+-----END PGP SIGNATURE-----
 
-Laurent Pinchart
+--FCuugMFkClbJLl1L--
