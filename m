@@ -2,135 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1415481449
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 10:33:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 085498152F
+	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 11:16:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727161AbfHEId3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 5 Aug 2019 04:33:29 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:15502 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726423AbfHEId3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 04:33:29 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d47e9e20000>; Mon, 05 Aug 2019 01:33:38 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 05 Aug 2019 01:33:28 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 05 Aug 2019 01:33:28 -0700
-Received: from tbergstrom-lnx.Nvidia.com (172.20.13.39) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Mon, 5 Aug 2019 08:33:27 +0000
-Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
-        id BB5BF42845; Mon,  5 Aug 2019 11:33:25 +0300 (EEST)
-Date:   Mon, 5 Aug 2019 11:33:25 +0300
-From:   Peter De Schrijver <pdeschrijver@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "Mark Brown" <broonie@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] soc/tegra: regulators: Add regulators coupler for
- Tegra30
-Message-ID: <20190805083325.GE3883@pdeschrijver-desktop.Nvidia.com>
-References: <20190725151832.9802-1-digetx@gmail.com>
- <20190725151832.9802-4-digetx@gmail.com>
- <20190802140512.GD3883@pdeschrijver-desktop.Nvidia.com>
- <c537fbea-5884-03db-305f-6ab3d553f7ab@gmail.com>
+        id S1728023AbfHEJQ3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 5 Aug 2019 05:16:29 -0400
+Received: from mail.kmu-office.ch ([178.209.48.109]:39630 "EHLO
+        mail.kmu-office.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727259AbfHEJQ3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 05:16:29 -0400
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+        by mail.kmu-office.ch (Postfix) with ESMTPSA id 07B255C05E2;
+        Mon,  5 Aug 2019 11:16:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+        t=1564996587;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HPQtnZFrmV2z2ZY4AUfwVhL1KZOhKYp78pnR/I9Q3gU=;
+        b=dDz17VqIE1JQlYngbbljhYiHAlll72f3XT1TPeuh9u7wN5YpW3p2+imJ+iWmB7Hm6vizk6
+        BimPIm5U7TgfWtGCwCzvNwsmbj3kDU9O3OCtzuQfVbVr1ZuIFBIcNhPDSLRS2O79bmIOTJ
+        yQA/FaXqhxhjIC6jiFXV63Z5IRaa6Gc=
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <c537fbea-5884-03db-305f-6ab3d553f7ab@gmail.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1564994018; bh=mWdZVci7AOyAKC8AqAypHQ9t/8NzQXkYTYcm5zqhMdI=;
-        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
-         MIME-Version:Content-Type:Content-Disposition:
-         Content-Transfer-Encoding:In-Reply-To:X-NVConfidentiality:
-         User-Agent:X-Originating-IP:X-ClientProxiedBy;
-        b=crDdlRSVjTJgr074oPgSg+8KGNVt+bKhAYMwVXEkzOzeUsj9mXJUFPCVDGgNs55ZS
-         81EQyIcxJGKLxW3oOnNi+kJMdNI4HksxcC686y51lAGz22R/ZuhLqx5/9yOLRWhgvw
-         4i6WPydkHRZY4qMp9mXm4rv4MbsOYy9PXd/Op/P/ymGdvVrvE8NH+TD9Vuk3IDjDDb
-         74ip7JXTRxV2vGCmpAdZNZ4BoiQJNagTPt31MG+q6zaG6kD5zjqPfDHh7KM7++xhHA
-         iO9yUgk5QV03msHFngZzGKobeabNbdHjS1AUYcDFwAEfgqiUCqchkviQZYjoMogCDu
-         7YGI9W4N9pFVA==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 05 Aug 2019 11:16:26 +0200
+From:   Stefan Agner <stefan@agner.ch>
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     dri-devel@lists.freedesktop.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Allison Randal <allison@lohutok.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Enrico Weigelt <info@metux.net>,
+        Fabio Estevam <festevam@gmail.com>,
+        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Marek Vasut <marex@denx.de>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Sean Paul <sean@poorly.run>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vincent Abriou <vincent.abriou@st.com>,
+        Sam Ravnborg <sam.ravnborg@gmail.com>
+Subject: Re: [PATCH v1 05/16] drm/fsl-dcu: fix opencoded use of drm_panel_*
+In-Reply-To: <20190804201637.1240-6-sam@ravnborg.org>
+References: <20190804201637.1240-1-sam@ravnborg.org>
+ <20190804201637.1240-6-sam@ravnborg.org>
+Message-ID: <8567eb4c916a0b1d134bd62112a11903@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.9
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Aug 02, 2019 at 05:39:23PM +0300, Dmitry Osipenko wrote:
-> 02.08.2019 17:05, Peter De Schrijver =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Thu, Jul 25, 2019 at 06:18:32PM +0300, Dmitry Osipenko wrote:
-> >> Add regulators coupler for Tegra30 SoCs that performs voltage balancin=
-g
-> >> of a coupled regulators and thus provides voltage scaling functionalit=
-y.
-> >>
-> >> There are 2 coupled regulators on all Tegra30 SoCs: CORE and CPU. The
-> >> coupled regulator voltages shall be in a range of 300mV from each othe=
-r
-> >> and CORE voltage shall be higher than the CPU by N mV, where N depends
-> >> on the CPU voltage.
-> >>
-> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >> ---
-> >>  drivers/soc/tegra/Kconfig              |   4 +
-> >>  drivers/soc/tegra/Makefile             |   1 +
-> >>  drivers/soc/tegra/regulators-tegra30.c | 316 ++++++++++++++++++++++++=
-+
-> >>  3 files changed, 321 insertions(+)
-> >>  create mode 100644 drivers/soc/tegra/regulators-tegra30.c
-> >>
-> > ...
-> >=20
-> >> +
-> >> +static int tegra30_core_cpu_limit(int cpu_uV)
-> >> +{
-> >> +	if (cpu_uV < 800000)
-> >> +		return 950000;
-> >> +
-> >> +	if (cpu_uV < 900000)
-> >> +		return 1000000;
-> >> +
-> >> +	if (cpu_uV < 1000000)
-> >> +		return 1100000;
-> >> +
-> >> +	if (cpu_uV < 1100000)
-> >> +		return 1200000;
-> >> +
-> >> +	if (cpu_uV < 1250000) {
-> >> +		switch (tegra_sku_info.cpu_speedo_id) {
-> >> +		case 0 ... 1:
-> > Aren't we supposed to add /* fall through */ here now?
->=20
-> There is no compiler warning if there is nothing in-between of the
-> case-switches, so annotation isn't really necessary here. Of course it
-> is possible to add an explicit annotation just to make clear the
-> fall-through intention.
->=20
+On 2019-08-04 22:16, Sam Ravnborg wrote:
+> Use drm_panel_get_modes() to access modes.
+> This has a nice side effect to simplify the code.
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stefan Agner <stefan@agner.ch>
+> Cc: Alison Wang <alison.wang@nxp.com>
+> ---
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c | 10 +---------
+>  1 file changed, 1 insertion(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> index 279d83eaffc0..a92fd6c70b09 100644
+> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c
+> @@ -65,17 +65,9 @@ static const struct drm_connector_funcs
+> fsl_dcu_drm_connector_funcs = {
+>  static int fsl_dcu_drm_connector_get_modes(struct drm_connector *connector)
+>  {
+>  	struct fsl_dcu_drm_connector *fsl_connector;
+> -	int (*get_modes)(struct drm_panel *panel);
+> -	int num_modes = 0;
+>  
+>  	fsl_connector = to_fsl_dcu_connector(connector);
+> -	if (fsl_connector->panel && fsl_connector->panel->funcs &&
+> -	    fsl_connector->panel->funcs->get_modes) {
+> -		get_modes = fsl_connector->panel->funcs->get_modes;
+> -		num_modes = get_modes(fsl_connector->panel);
+> -	}
+> -
+> -	return num_modes;
+> +	return drm_panel_get_modes(fsl_connector->panel);
 
-Ah. Ok. Whatever you want then :)
+Oh, that old code looks rather messy. Thanks for the simplification!
 
-> >> +		case 4:
-> >> +		case 7 ... 8:
-> >> +			return 1200000;
-> >> +
-> >> +		default:
-> >> +			return 1300000;
-> >> +		}
-> >> +	}
-> >> +
-> >=20
-> > Other than that, this looks ok to me.
->=20
-> Awesome, thank you very much! Explicit ACK will be appreciated as well.
+This behaves slightly different since it now returns -EINVAL or -ENOSYS,
+but that is what we want.
 
-Acked-By: Peter De Schrijver <pdeschrijver@nvidia.com>
+Acked-by: Stefan Agner <stefan@agner.ch>
 
+--
+Stefan
+
+>  }
+>  
+>  static int fsl_dcu_drm_connector_mode_valid(struct drm_connector *connector,
