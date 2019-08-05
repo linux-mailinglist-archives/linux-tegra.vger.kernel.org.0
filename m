@@ -2,121 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6312B81543
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 11:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 788338154C
+	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 11:21:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727161AbfHEJUp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 5 Aug 2019 05:20:45 -0400
-Received: from mail.kmu-office.ch ([178.209.48.109]:39750 "EHLO
-        mail.kmu-office.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726454AbfHEJUo (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 05:20:44 -0400
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-        by mail.kmu-office.ch (Postfix) with ESMTPSA id 82F595C0169;
-        Mon,  5 Aug 2019 11:20:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-        t=1564996841;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eDYDScTuSCYF0FjQcbcrJzxIQ0/kmURL7uAqHm2hNns=;
-        b=Rxq2u4nFlSE5hZ1FNYyZNJOOGXI2LUdn8tyMLyaKzfEYo+rwaFHmxVUnWg61t+arxfbptS
-        EfHfSmB+RD8tMiMKiqGE/OBJaN1BzwJbv9b61JtDIRYnkw9x2i1R/BwMxV+VGBa+zD1d1Q
-        qce/WUzXxVIHeQivwwCACaXiPAyrhfI=
+        id S1727802AbfHEJVJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 5 Aug 2019 05:21:09 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:39821 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726880AbfHEJVJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 05:21:09 -0400
+Received: by mail-lf1-f68.google.com with SMTP id x3so3575800lfn.6
+        for <linux-tegra@vger.kernel.org>; Mon, 05 Aug 2019 02:21:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XeZuwJ8iOEhz5F2Wyo98q50Ei+RrYxquDk/4W/V9cn0=;
+        b=d38K7iRFWg8Rc6C4PuO9fKbqOufJuG0gaI0lCMNB0BnZbyW9wnVbGzVpM2JFvzyqsy
+         8YSH2Q/DdHFeEZeJxbiuBKA50NXM1R3iWzf4oEON9JzpZQ/jPku4nDplix1QVwlmePpA
+         KKt/EzMcVOckc7Xa8QNN7OueaXG9Oe+8vgR+xQvwZ0AMKPmXa0Qh1XseZuuh/AekaC/S
+         oTslBzcMnORlG314vI6mNUY/s5WyOv2ACIzwOOuy6PDwaA6FT9yek3oNCya4yDFtsx7o
+         OazivBDUDaq0/x1S+WDHAzfBHXRo4sUv+CX+Dl1SIjB56bi3lXg+eaVIRjlkOsM9q8/b
+         s4Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XeZuwJ8iOEhz5F2Wyo98q50Ei+RrYxquDk/4W/V9cn0=;
+        b=HGc+wSj9MEpXrL0/YsoFZ3DbiwA04ulf1/TOJWTNXXzUVtDZPOFfC4gySNeoZBIG8r
+         BRaJS48TbhdJa+n2AoBz0R00kgKv+Ic+sTUCsgF8b7RAvTepO+5Nz46ITaABHioQJau+
+         4JPRSEpu59n7UzD9cj+DT/WUlxDPcUGDnTm6wJnJmCPh2KdnNXIJaLDSUHZHIvGVFj0P
+         Yp5yBrcxF7/98LidM2bbUucpEdffzYz0xIeCuMvGmyp6EOPgnoF6zjWa4WTsTfimtU+F
+         GFSktg0iONImEqxnYuDXaPiylQQroLM99E6FEprNZjf9Mr+z37nu/75MZA1mhBuRwv4g
+         uUFg==
+X-Gm-Message-State: APjAAAWO6025XT0pHVAMPRIr4mL4ir9IefC9Fh8xW5VXL9B/l3VCvBfo
+        pnCEJ8HAZv0e07oIW0O1QjYUP+qk8d1R6dcTBSQtJw==
+X-Google-Smtp-Source: APXvYqxF1O5EyxUA2mWKTQH1RGnvxfpX5mkjdne+NiMtuk+mLdGY91xYa+kkP3albntIoVAT5SSzBtSmKVC7v/w3ioQ=
+X-Received: by 2002:ac2:5939:: with SMTP id v25mr1226892lfi.115.1564996867652;
+ Mon, 05 Aug 2019 02:21:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 05 Aug 2019 11:20:41 +0200
-From:   Stefan Agner <stefan@agner.ch>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     dri-devel@lists.freedesktop.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Alexios Zavras <alexios.zavras@intel.com>,
-        Alison Wang <alison.wang@nxp.com>,
-        Allison Randal <allison@lohutok.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Enrico Weigelt <info@metux.net>,
-        Fabio Estevam <festevam@gmail.com>,
-        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Marek Vasut <marex@denx.de>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sean Paul <sean@poorly.run>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Shawn Guo <shawnguo@kernel.org>,
+References: <1564607463-28802-1-git-send-email-skomatineni@nvidia.com> <1564607463-28802-2-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <1564607463-28802-2-git-send-email-skomatineni@nvidia.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 5 Aug 2019 11:20:56 +0200
+Message-ID: <CACRpkdZVR-i1c5eATL2hSPbLXcX1sR8NgXwa4j259XXUi57xug@mail.gmail.com>
+Subject: Re: [PATCH v7 01/20] pinctrl: tegra: Add suspend and resume support
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Vincent Abriou <vincent.abriou@st.com>,
-        Sam Ravnborg <sam.ravnborg@gmail.com>
-Subject: Re: [PATCH v1 07/16] drm/mxsfb: fix opencoded use of drm_panel_*
-In-Reply-To: <20190804201637.1240-8-sam@ravnborg.org>
-References: <20190804201637.1240-1-sam@ravnborg.org>
- <20190804201637.1240-8-sam@ravnborg.org>
-Message-ID: <a6833b84301dfb5f73a2f4caaf7d482d@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.9
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        jckuo@nvidia.com, Joseph Lo <josephl@nvidia.com>, talho@nvidia.com,
+        linux-tegra@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>, spatra@nvidia.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        viresh kumar <viresh.kumar@linaro.org>,
+        Linux PM list <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2019-08-04 22:16, Sam Ravnborg wrote:
-> Use the drm_panel_get_modes() function.
+On Wed, Jul 31, 2019 at 11:11 PM Sowjanya Komatineni
+<skomatineni@nvidia.com> wrote:
 
-Looks good to me,
+> This patch adds support for Tegra pinctrl driver suspend and resume.
+>
+> During suspend, context of all pinctrl registers are stored and
+> on resume they are all restored to have all the pinmux and pad
+> configuration for normal operation.
+>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 
-Acked-by: Stefan Agner <stefan@agner.ch>
+Patch applied to the pinctrl tree.
 
---
-Stefan
+This patch seems finished.
 
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
->  drivers/gpu/drm/mxsfb/mxsfb_out.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_out.c
-> b/drivers/gpu/drm/mxsfb/mxsfb_out.c
-> index 231d016c6f47..be36f4d6cc96 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_out.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_out.c
-> @@ -30,7 +30,7 @@ static int mxsfb_panel_get_modes(struct
-> drm_connector *connector)
->  			drm_connector_to_mxsfb_drm_private(connector);
->  
->  	if (mxsfb->panel)
-> -		return mxsfb->panel->funcs->get_modes(mxsfb->panel);
-> +		return drm_panel_get_modes(mxsfb->panel);
->  
->  	return 0;
->  }
+Also if the rest don't get merged for v5.4 then at least this is so
+your patch stack gets more shallow.
+
+I hope it's fine to merge this separately, else tell me and I'll
+pull it out.
+
+Yours,
+Linus Walleij
