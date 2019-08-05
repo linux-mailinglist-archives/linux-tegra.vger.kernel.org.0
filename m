@@ -2,91 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 091C981291
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 08:55:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1415481449
+	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 10:33:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726394AbfHEGzC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 5 Aug 2019 02:55:02 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:15776 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726375AbfHEGzC (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 02:55:02 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d47d2c60000>; Sun, 04 Aug 2019 23:55:02 -0700
+        id S1727161AbfHEId3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 5 Aug 2019 04:33:29 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:15502 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726423AbfHEId3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 04:33:29 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d47e9e20000>; Mon, 05 Aug 2019 01:33:38 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 04 Aug 2019 23:55:01 -0700
+  Mon, 05 Aug 2019 01:33:28 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 04 Aug 2019 23:55:01 -0700
-Received: from [10.24.44.128] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 5 Aug
- 2019 06:54:58 +0000
-Subject: Re: [PATCH] firmware: tegra: Move BPMP resume to noirq phase
-To:     <talho@nvidia.com>, <sivaramn@nvidia.com>, <stefank@nvidia.com>,
-        <treding@nvidia.com>, <jonathanh@nvidia.com>
-CC:     <lorenzo.pieralisi@arm.com>, <linux-tegra@vger.kernel.org>,
-        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
-References: <20190802061727.18177-1-vidyas@nvidia.com>
-X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <0882ed22-c6e9-b54a-cedd-2ba2a8d5036f@nvidia.com>
-Date:   Mon, 5 Aug 2019 12:24:55 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        by hqpgpgate101.nvidia.com on Mon, 05 Aug 2019 01:33:28 -0700
+Received: from tbergstrom-lnx.Nvidia.com (172.20.13.39) by
+ HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Mon, 5 Aug 2019 08:33:27 +0000
+Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
+        id BB5BF42845; Mon,  5 Aug 2019 11:33:25 +0300 (EEST)
+Date:   Mon, 5 Aug 2019 11:33:25 +0300
+From:   Peter De Schrijver <pdeschrijver@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Mark Brown" <broonie@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] soc/tegra: regulators: Add regulators coupler for
+ Tegra30
+Message-ID: <20190805083325.GE3883@pdeschrijver-desktop.Nvidia.com>
+References: <20190725151832.9802-1-digetx@gmail.com>
+ <20190725151832.9802-4-digetx@gmail.com>
+ <20190802140512.GD3883@pdeschrijver-desktop.Nvidia.com>
+ <c537fbea-5884-03db-305f-6ab3d553f7ab@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190802061727.18177-1-vidyas@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <c537fbea-5884-03db-305f-6ab3d553f7ab@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1564988102; bh=M+JBWu/EoCADEI1Lhb+zi5vjviXbpZq2N/lkwdWkeZg=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ooNk+TVrgigYKHXKBZLOtY740BrYMLLJmogqQw1qTQaJZf6osqO9iNO8Tg7PEQzrf
-         FF4FyhraHOJZ7Zw8KDM8tiKuB9cPXT5ze6wy46RaAalX0Od3u/AaFql4aLBuHTrNFL
-         PUH5NKdazbZV0P6HE8f1fMKEFuOA4hZGWpFE98OpYJU1+BrCj90wk81mcFd0thpkFd
-         vE5Mx3adeVbC9wB/L/5YC/nEN7bThRmeamk21kx5qP+vDRptPxcHxYmfmuCAUnbS3I
-         izhCCdJPdj4TspkrEfIpsXWyDN/7nBSrhiV+CXRozQi6cbyHm1pyf39mJZ3ED13ACf
-         HRR24ivWltxjg==
+        t=1564994018; bh=mWdZVci7AOyAKC8AqAypHQ9t/8NzQXkYTYcm5zqhMdI=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:Content-Type:Content-Disposition:
+         Content-Transfer-Encoding:In-Reply-To:X-NVConfidentiality:
+         User-Agent:X-Originating-IP:X-ClientProxiedBy;
+        b=crDdlRSVjTJgr074oPgSg+8KGNVt+bKhAYMwVXEkzOzeUsj9mXJUFPCVDGgNs55ZS
+         81EQyIcxJGKLxW3oOnNi+kJMdNI4HksxcC686y51lAGz22R/ZuhLqx5/9yOLRWhgvw
+         4i6WPydkHRZY4qMp9mXm4rv4MbsOYy9PXd/Op/P/ymGdvVrvE8NH+TD9Vuk3IDjDDb
+         74ip7JXTRxV2vGCmpAdZNZ4BoiQJNagTPt31MG+q6zaG6kD5zjqPfDHh7KM7++xhHA
+         iO9yUgk5QV03msHFngZzGKobeabNbdHjS1AUYcDFwAEfgqiUCqchkviQZYjoMogCDu
+         7YGI9W4N9pFVA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 8/2/2019 11:47 AM, Vidya Sagar wrote:
+On Fri, Aug 02, 2019 at 05:39:23PM +0300, Dmitry Osipenko wrote:
+> 02.08.2019 17:05, Peter De Schrijver =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Thu, Jul 25, 2019 at 06:18:32PM +0300, Dmitry Osipenko wrote:
+> >> Add regulators coupler for Tegra30 SoCs that performs voltage balancin=
+g
+> >> of a coupled regulators and thus provides voltage scaling functionalit=
+y.
+> >>
+> >> There are 2 coupled regulators on all Tegra30 SoCs: CORE and CPU. The
+> >> coupled regulator voltages shall be in a range of 300mV from each othe=
+r
+> >> and CORE voltage shall be higher than the CPU by N mV, where N depends
+> >> on the CPU voltage.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  drivers/soc/tegra/Kconfig              |   4 +
+> >>  drivers/soc/tegra/Makefile             |   1 +
+> >>  drivers/soc/tegra/regulators-tegra30.c | 316 ++++++++++++++++++++++++=
++
+> >>  3 files changed, 321 insertions(+)
+> >>  create mode 100644 drivers/soc/tegra/regulators-tegra30.c
+> >>
+> > ...
+> >=20
+> >> +
+> >> +static int tegra30_core_cpu_limit(int cpu_uV)
+> >> +{
+> >> +	if (cpu_uV < 800000)
+> >> +		return 950000;
+> >> +
+> >> +	if (cpu_uV < 900000)
+> >> +		return 1000000;
+> >> +
+> >> +	if (cpu_uV < 1000000)
+> >> +		return 1100000;
+> >> +
+> >> +	if (cpu_uV < 1100000)
+> >> +		return 1200000;
+> >> +
+> >> +	if (cpu_uV < 1250000) {
+> >> +		switch (tegra_sku_info.cpu_speedo_id) {
+> >> +		case 0 ... 1:
+> > Aren't we supposed to add /* fall through */ here now?
+>=20
+> There is no compiler warning if there is nothing in-between of the
+> case-switches, so annotation isn't really necessary here. Of course it
+> is possible to add an explicit annotation just to make clear the
+> fall-through intention.
+>=20
 
-Timo / Sivaram / Stefan,
-Can you please review this change?
+Ah. Ok. Whatever you want then :)
 
-Thanks,
-Vidya Sagar
+> >> +		case 4:
+> >> +		case 7 ... 8:
+> >> +			return 1200000;
+> >> +
+> >> +		default:
+> >> +			return 1300000;
+> >> +		}
+> >> +	}
+> >> +
+> >=20
+> > Other than that, this looks ok to me.
+>=20
+> Awesome, thank you very much! Explicit ACK will be appreciated as well.
 
-> Modules like PCIe in Tegra194 need BPMP firmware services in noirq phase
-> and hence move BPMP resume to noirq phase.
-> This patch is verified on Tegra210, Tegra186 and Tegra194.
-> 
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> ---
->   drivers/firmware/tegra/bpmp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
-> index 19c56133234b..6741fcda0c37 100644
-> --- a/drivers/firmware/tegra/bpmp.c
-> +++ b/drivers/firmware/tegra/bpmp.c
-> @@ -804,7 +804,7 @@ static int __maybe_unused tegra_bpmp_resume(struct device *dev)
->   }
->   
->   static const struct dev_pm_ops tegra_bpmp_pm_ops = {
-> -	.resume_early = tegra_bpmp_resume,
-> +	.resume_noirq = tegra_bpmp_resume,
->   };
->   
->   #if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC) || \
-> 
+Acked-By: Peter De Schrijver <pdeschrijver@nvidia.com>
 
