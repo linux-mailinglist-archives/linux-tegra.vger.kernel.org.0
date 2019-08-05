@@ -2,172 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E3E581863
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 13:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7ADA81871
+	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 13:53:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728056AbfHELs0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 5 Aug 2019 07:48:26 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:40145 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727259AbfHELs0 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 07:48:26 -0400
-Received: by mail-ed1-f66.google.com with SMTP id k8so78330149eds.7;
-        Mon, 05 Aug 2019 04:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=OtvKcJn1SfDVS/E5AW0H5rc1Q9h4Ojnt6fUTf3JK2iM=;
-        b=FoZ+rtHzF965MRYwwOMGp24zDfAK+s0y1r1C3Cv/NNmxgXb5Wp1muadCXFvjllO8/m
-         Nch7JeSBSTmVUk3cWhW+xCgxru5jx5jaQpho3TA30LpNkjaJHWrFZMAJR6pnbnBlmDwo
-         S1fUIbkDo/f/o9XYkblffkhk2BMnMLFWG73At0MWzZtehsMGChuyfwp/3wJOaDTgAhgX
-         0tqi2mWcfHD+VwLJtGrxr435sepwWdi7uUf4k7QVl3s6Zxk433h9hVDCYbKqINTyI7pJ
-         /LwZGutPG4OSbxAl0D6+4nVij5jK2Usvdv+gHVxmjMmqJNn1id4OfI85m6vqhE2d14wQ
-         vrpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=OtvKcJn1SfDVS/E5AW0H5rc1Q9h4Ojnt6fUTf3JK2iM=;
-        b=mqy2fCFZzOvW9QaAppm6IiEwGFKeaE9J+QyOY8hyazffOTEGkk5Mlxn6qAEDddZzld
-         WBWXSHkPLQDdazTu7pUZ/u8OA7KZ4Mx5FHBAMPmMaaAzlEPP4AUz1JdIl4yRgzQ16GBS
-         T8IXeAl0d1sHbzQYdJhWNzHOo6WC7f43KcV0I/27+ikCBDtU2Uy8D9nwxJXMdI3wUZ0Z
-         oX8XYh0cWpUhfHH7filahdO10zUv4+NYlCulIsXziNu/ZNOG1lcmtGYecT5sQBRaD60K
-         OKPvv232yOB/AWVn6xE/HnGpxZ4LrB/m5SOY+L4A6KO+4pYvmHq1mvRJqYBljyz5Gjfa
-         zM/g==
-X-Gm-Message-State: APjAAAWW8zxcnLEsHtxjR8e8myP9+v/13VGzlWZPmS0p8u42DpRwL9x+
-        Xg4Wl3bNFhDw8n5EYp8uSMA=
-X-Google-Smtp-Source: APXvYqwZTd+c2oeDw1J6fwTWpvme6B9/2SPdxwmKEZSup9tM4KIMf3q9nMA98tIH+/hVhr0QSiev9Q==
-X-Received: by 2002:a50:eb8f:: with SMTP id y15mr133630255edr.31.1565005703511;
-        Mon, 05 Aug 2019 04:48:23 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id y19sm20113592edd.34.2019.08.05.04.48.22
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 05 Aug 2019 04:48:22 -0700 (PDT)
-Date:   Mon, 5 Aug 2019 13:48:21 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
-        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
-        stable@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 5.2 00/20] 5.2.6-stable review
-Message-ID: <20190805114821.GA24378@ulmo>
-References: <20190802092055.131876977@linuxfoundation.org>
- <20190802172105.18999-1-thierry.reding@gmail.com>
- <20190803070932.GB24334@kroah.com>
+        id S1727868AbfHELxM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 5 Aug 2019 07:53:12 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:51682 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727357AbfHELxM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 07:53:12 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 4E79920034;
+        Mon,  5 Aug 2019 13:53:02 +0200 (CEST)
+Date:   Mon, 5 Aug 2019 13:53:00 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     dri-devel@lists.freedesktop.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        David Airlie <airlied@linux.ie>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Marek Vasut <marex@denx.de>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Vincent Abriou <vincent.abriou@st.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Allison Randal <allison@lohutok.net>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Alison Wang <alison.wang@nxp.com>,
+        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Paul <sean@poorly.run>,
+        linux-arm-kernel@lists.infradead.org,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Enrico Weigelt <info@metux.net>
+Subject: Re: [PATCH v1 01/16] drm/bridge: tc358767: fix opencoded use of
+ drm_panel_*
+Message-ID: <20190805115300.GA16513@ravnborg.org>
+References: <20190804201637.1240-1-sam@ravnborg.org>
+ <20190804201637.1240-2-sam@ravnborg.org>
+ <1564997756.3056.13.camel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190803070932.GB24334@kroah.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <1564997756.3056.13.camel@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+        a=hD80L64hAAAA:8 a=IpJZQVW2AAAA:8 a=P1BnusSwAAAA:8 a=RwHePtW7AAAA:8
+        a=pkYRv3yK2TCvuJqRAfIA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+        a=IawgGOuG5U0WyFbmm1f5:22 a=D0XLA9XvdZm18NrgonBM:22
+        a=FqraQwd7dyEg5dwJgZJs:22
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Philipp.
 
---FCuugMFkClbJLl1L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Aug 05, 2019 at 11:35:56AM +0200, Philipp Zabel wrote:
+> On Sun, 2019-08-04 at 22:16 +0200, Sam Ravnborg wrote:
+> > Replace open coded version with call to drm_panel_get_modes().
+> > 
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> >  drivers/gpu/drm/bridge/tc358767.c | 10 ++++------
+> >  1 file changed, 4 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> > index 42f03a985ac0..cebc8e620820 100644
+> > --- a/drivers/gpu/drm/bridge/tc358767.c
+> > +++ b/drivers/gpu/drm/bridge/tc358767.c
+> > @@ -1312,7 +1312,7 @@ static int tc_connector_get_modes(struct drm_connector *connector)
+> >  {
+> >  	struct tc_data *tc = connector_to_tc(connector);
+> >  	struct edid *edid;
+> > -	unsigned int count;
+> > +	int count;
+> 
+> This looks like it also fixes a potential bug ...
 
-On Sat, Aug 03, 2019 at 09:09:32AM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Aug 02, 2019 at 07:21:05PM +0200, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > On Fri, 02 Aug 2019 11:39:54 +0200, Greg Kroah-Hartman wrote:
-> > > This is the start of the stable review cycle for the 5.2.6 release.
-> > > There are 20 patches in this series, all will be posted as a response
-> > > to this one.  If anyone has any issues with these being applied, plea=
-se
-> > > let me know.
-> > >=20
-> > > Responses should be made by Sun 04 Aug 2019 09:19:34 AM UTC.
-> > > Anything received after that time might be too late.
-> > >=20
-> > > The whole patch series can be found in one patch at:
-> > > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2=
-=2E6-rc1.gz
-> > > or in the git tree and branch at:
-> > > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc=
-=2Egit linux-5.2.y
-> > > and the diffstat can be found below.
-> > >=20
-> > > thanks,
-> > >=20
-> > > greg k-h
-> >=20
-> > All tests passing for Tegra ...
-> >=20
-> > Test results for stable-v5.2:
-> >     12 builds:	12 pass, 0 fail
-> >     22 boots:	22 pass, 0 fail
-> >     38 tests:	38 pass, 0 fail
-> >=20
-> > Linux version:	5.2.6-rc1-gbe893953fcc2
-> > Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-> >                 tegra194-p2972-0000, tegra20-ventana,
-> >                 tegra210-p2371-2180, tegra30-cardhu-a04
->=20
-> Great!  Thanks for testing all of these and letting me know.
+get_modes() return either 0 or number of modes.
+The negative return values come into play in drm_panel_get_modes() when
+panel for example s NULL.
 
-Hi Greg,
+I will add this to changelog before I apply to avoid any
+misunderstanding.
 
-I stumbled across something as I was attempting to automate more parts
-of our process to generate these reports. The original test results were
-=66rom a different version of the tree: 5.2.6-rc1-gdbc7f5c7df28. I suspect
-that's the same thing that you were discussing with Pavel regarding the
-IP tunnel patch that was added subsequent to the announcement.
-
-Just for my understanding, does this mean that the patch still makes it
-into the 5.2.6 release, or was it supposed to go into 5.2.7?
-
-One problem that I ran into was that when I tried to correlate the test
-results with your announcement email, there's no indication other than
-the branch name and the release candidate name (5.2.6-rc1 in this case),
-so there's no way to uniquely identify which test run belongs to the
-announcement. Given that there are no tags for the release candidates
-means that that's also not an option to uniquely associate with the
-builds and tests.
-
-While the differences between the two builds are very minor here, I
-wonder if there could perhaps in the future be a problem where I report
-successful results for a test, but the same tests would be broken by a
-patch added to the stable-rc branch subsequent to the announcement. The
-test report would be misleading in that case.
-
-I noticed that you do add a couple of X-KernelTest-* headers to your
-announcement emails, so I'm wondering if perhaps it was possible for you
-to add another one that contains the exact SHA1 that corresponds to the
-snapshot that's the release candidate. That would allow everyone to
-uniquely associate test results with a specific release candidate.
-
-That said, perhaps I've just got this all wrong and there's already a
-way to connect all the dots that I'm not aware of. Or maybe I'm being
-too pedantic here?
-
-Thierry
-
---FCuugMFkClbJLl1L
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1IF4MACgkQ3SOs138+
-s6FfvhAAtYLaFxO1ZbDWTHEzD+V/FdBAPgHumvCme5NQJ20moeJtzbRfs6dg05s5
-2a0J0GXUUXEKyiX/fOtWnHikUDy45SBgLUeQs7zKrlal+wcpHAU4ILU24y+zvzA5
-ur6QFpcoQOOB8YLUYdvo8YkLXzZein8CHMc4BztmxV22h25UKM6VXhazYRpQZNEK
-sK0nEal97hvbjNa+ljMu59NdcG18cYAc3jjfGdH8aKoSAMAqcJOAROeyslhYrxt9
-GpvQz5ukO/TGh6DE6PX8LVPByN7VB6mhsXu1RDoXABwTmLDlYZKBjdbpQH0NLK7K
-rAVjSUeMHNTRXtVLJ3xvLI0ji2S4EA44UlbiMpXmjVC9J5QRA5SE+6Tvy3Yf3B4D
-bReO6RYeMab4P10/9kuwOTOfHu+RaJVOP8U+bS29zv2oP8vck7wpMhRYo7irRInD
-1aLnmlPH7kT/m7EDOcUpEh+DOFAwva8+7nF9vi8Kq/jIdjoTlHVhNXriw1vI0+2K
-Hzu9VdfMBsehOhbrSf1Cx2Vp8aaMunxsUyYICiuPINO5+R4fTTx1kuNxJPR2W6Jl
-ZN2YoE92ZLJ00+S6BJbCU+3u+f+Oj3o2zKDlYw9w1uzYCP46Ce9EF8R7cPeD5e9j
-QFOFa4QwfsiBcrAR/0fTReb5rBq3H/dk6ys8nbPWbw3lo8W1yeE=
-=YQnS
------END PGP SIGNATURE-----
-
---FCuugMFkClbJLl1L--
+	Sam
