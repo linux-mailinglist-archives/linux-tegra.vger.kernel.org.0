@@ -2,168 +2,147 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E4ED824A2
-	for <lists+linux-tegra@lfdr.de>; Mon,  5 Aug 2019 20:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C8AC82CCF
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Aug 2019 09:31:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730037AbfHESGH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 5 Aug 2019 14:06:07 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:8967 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726779AbfHESGH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 5 Aug 2019 14:06:07 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d48700d0002>; Mon, 05 Aug 2019 11:06:05 -0700
+        id S1731735AbfHFHaZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Aug 2019 03:30:25 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:1806 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732041AbfHFHaZ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Aug 2019 03:30:25 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d492c910001>; Tue, 06 Aug 2019 00:30:25 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 05 Aug 2019 11:06:04 -0700
+  Tue, 06 Aug 2019 00:30:24 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 05 Aug 2019 11:06:04 -0700
-Received: from [10.110.103.110] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 5 Aug
- 2019 18:06:03 +0000
-Subject: Re: [PATCH v7 01/20] pinctrl: tegra: Add suspend and resume support
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <tglx@linutronix.de>,
-        <jason@lakedaemon.net>, <marc.zyngier@arm.com>,
-        <linus.walleij@linaro.org>, <stefan@agner.ch>,
-        <mark.rutland@arm.com>
-CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
-        <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <jckuo@nvidia.com>,
-        <josephl@nvidia.com>, <talho@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
-        <devicetree@vger.kernel.org>, <rjw@rjwysocki.net>,
-        <viresh.kumar@linaro.org>, <linux-pm@vger.kernel.org>
-References: <1564607463-28802-1-git-send-email-skomatineni@nvidia.com>
- <1564607463-28802-2-git-send-email-skomatineni@nvidia.com>
- <6b1482f6-0578-f602-d8d1-541d86303ce2@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <b45ca99a-188a-c695-3f3d-48d273808f9c@nvidia.com>
-Date:   Mon, 5 Aug 2019 11:06:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        by hqpgpgate102.nvidia.com on Tue, 06 Aug 2019 00:30:24 -0700
+Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 6 Aug
+ 2019 07:30:23 +0000
+Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
+        id 71AB84286D; Tue,  6 Aug 2019 10:30:21 +0300 (EEST)
+Date:   Tue, 6 Aug 2019 10:30:21 +0300
+From:   Peter De Schrijver <pdeschrijver@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Mark Brown" <broonie@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] soc/tegra: regulators: Add regulators coupler for
+ Tegra30
+Message-ID: <20190806073021.GF3883@pdeschrijver-desktop.Nvidia.com>
+References: <20190725151832.9802-1-digetx@gmail.com>
+ <20190725151832.9802-4-digetx@gmail.com>
+ <20190802140512.GD3883@pdeschrijver-desktop.Nvidia.com>
+ <c537fbea-5884-03db-305f-6ab3d553f7ab@gmail.com>
+ <20190805083325.GE3883@pdeschrijver-desktop.Nvidia.com>
+ <1a9464b3-6e0e-00ff-64d8-b3abf7982dfb@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <6b1482f6-0578-f602-d8d1-541d86303ce2@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1a9464b3-6e0e-00ff-64d8-b3abf7982dfb@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1565028366; bh=u9t5KV0bHB75n4lpd6FYtATWM0z27WV2yxpqjZZtxoc=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=LmZso5Mdq6S+I0KfwQU77iIz1ylo93ZTYRz6BtZiUOsI9mJQ3tzZf/e7MP6RvTp7P
-         Te+W1C6VZfAOyTG5eRVi14ZeGH6Q429HWebwZAhNqFrZEdD3ueab1hx2gCyVKtLFyf
-         /K5nyn0FZyzlVdXVEku3aMJwN3meAjE2jHaVDpDp0Dl/SCARviwCIQZ6DrZvojFM7w
-         3KImXiHDVDHjovUyAgDzsJ262Q2+NKa6zUv7zLUmvrAVCpMxrtJqG7RgFPLOhEQ+z2
-         fnrpbFSr8vBHAhSzd3P3/kOrOHbbxokOAb2n+53lPQ6P+1ig9trEk5PK4XTN04lWqi
-         g6z/VwJjUAZdA==
+        t=1565076625; bh=orc8XJzHRB34A21SAzqHogdB2d1yl9L59WLJTI8JrPU=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:Content-Type:Content-Disposition:
+         Content-Transfer-Encoding:In-Reply-To:X-NVConfidentiality:
+         User-Agent:X-Originating-IP:X-ClientProxiedBy;
+        b=F0u4K6B6ojpwlnFlDZ/aCr2FUj+rU7b7EmWKlyAae0Znbik25zVThcI8xZvJGTKf/
+         C9Xbc9qVrXHTP3Bn19SCOytQyCr0jNT+7Jy/0I9VEQ3VqepaZdbUAWUuIUfGYfYfgX
+         TqRHz0ZlzNe6TqYTXUP6TH8Qazp1HqPkc6Ttcg2bMSXDtDJNCvi3K0pISeh09P3x84
+         /MBgbOydGAWXY/Q7jiloEwqHkUrI1uEy9X7qgjdKlb2Ms0zjaA1d3G0QoQVckfY2ki
+         hrGxrxXzKQ1yRGXsA9W17ybX5KYcN7NjIqwlts+Zvs3ZXzwixLeXEtvhbBR7wpXpZm
+         Wpq4X7ZIk8scw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Aug 05, 2019 at 02:03:29PM +0300, Dmitry Osipenko wrote:
+> 05.08.2019 11:33, Peter De Schrijver =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Fri, Aug 02, 2019 at 05:39:23PM +0300, Dmitry Osipenko wrote:
+> >> 02.08.2019 17:05, Peter De Schrijver =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> On Thu, Jul 25, 2019 at 06:18:32PM +0300, Dmitry Osipenko wrote:
+> >>>> Add regulators coupler for Tegra30 SoCs that performs voltage balanc=
+ing
+> >>>> of a coupled regulators and thus provides voltage scaling functional=
+ity.
+> >>>>
+> >>>> There are 2 coupled regulators on all Tegra30 SoCs: CORE and CPU. Th=
+e
+> >>>> coupled regulator voltages shall be in a range of 300mV from each ot=
+her
+> >>>> and CORE voltage shall be higher than the CPU by N mV, where N depen=
+ds
+> >>>> on the CPU voltage.
+> >>>>
+> >>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >>>> ---
+> >>>>  drivers/soc/tegra/Kconfig              |   4 +
+> >>>>  drivers/soc/tegra/Makefile             |   1 +
+> >>>>  drivers/soc/tegra/regulators-tegra30.c | 316 ++++++++++++++++++++++=
++++
+> >>>>  3 files changed, 321 insertions(+)
+> >>>>  create mode 100644 drivers/soc/tegra/regulators-tegra30.c
+> >>>>
+> >>> ...
+> >>>
+> >>>> +
+> >>>> +static int tegra30_core_cpu_limit(int cpu_uV)
+> >>>> +{
+> >>>> +	if (cpu_uV < 800000)
+> >>>> +		return 950000;
+> >>>> +
+> >>>> +	if (cpu_uV < 900000)
+> >>>> +		return 1000000;
+> >>>> +
+> >>>> +	if (cpu_uV < 1000000)
+> >>>> +		return 1100000;
+> >>>> +
+> >>>> +	if (cpu_uV < 1100000)
+> >>>> +		return 1200000;
+> >>>> +
+> >>>> +	if (cpu_uV < 1250000) {
+> >>>> +		switch (tegra_sku_info.cpu_speedo_id) {
+> >>>> +		case 0 ... 1:
+> >>> Aren't we supposed to add /* fall through */ here now?
+> >>
+> >> There is no compiler warning if there is nothing in-between of the
+> >> case-switches, so annotation isn't really necessary here. Of course it
+> >> is possible to add an explicit annotation just to make clear the
+> >> fall-through intention.
+> >>
+> >=20
+> > Ah. Ok. Whatever you want then :)
+>=20
+> I'll add the comments if there will be a need to re-spin this series.
+>=20
+> >>>> +		case 4:
+> >>>> +		case 7 ... 8:
+> >>>> +			return 1200000;
+> >>>> +
+> >>>> +		default:
+> >>>> +			return 1300000;
+> >>>> +		}
+> >>>> +	}
+> >>>> +
+> >>>
+> >>> Other than that, this looks ok to me.
+> >>
+> >> Awesome, thank you very much! Explicit ACK will be appreciated as well=
+.
+> >=20
+> > Acked-By: Peter De Schrijver <pdeschrijver@nvidia.com>
 
-On 8/5/19 3:50 AM, Dmitry Osipenko wrote:
-> 01.08.2019 0:10, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> This patch adds support for Tegra pinctrl driver suspend and resume.
->>
->> During suspend, context of all pinctrl registers are stored and
->> on resume they are all restored to have all the pinmux and pad
->> configuration for normal operation.
->>
->> Acked-by: Thierry Reding <treding@nvidia.com>
->> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   drivers/pinctrl/tegra/pinctrl-tegra.c | 59 +++++++++++++++++++++++++++=
-++++++++
->>   drivers/pinctrl/tegra/pinctrl-tegra.h |  3 ++
->>   2 files changed, 62 insertions(+)
->>
->> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/teg=
-ra/pinctrl-tegra.c
->> index 186ef98e7b2b..e3a237534281 100644
->> --- a/drivers/pinctrl/tegra/pinctrl-tegra.c
->> +++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
->> @@ -631,6 +631,58 @@ static void tegra_pinctrl_clear_parked_bits(struct =
-tegra_pmx *pmx)
->>   	}
->>   }
->>  =20
->> +static size_t tegra_pinctrl_get_bank_size(struct device *dev,
->> +					  unsigned int bank_id)
->> +{
->> +	struct platform_device *pdev =3D to_platform_device(dev);
->> +	struct resource *res;
->> +
->> +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, bank_id);
->> +
->> +	return resource_size(res) / 4;
->> +}
->> +
->> +static int tegra_pinctrl_suspend(struct device *dev)
->> +{
->> +	struct tegra_pmx *pmx =3D dev_get_drvdata(dev);
->> +	u32 *backup_regs =3D pmx->backup_regs;
->> +	u32 *regs;
->> +	size_t bank_size;
->> +	unsigned int i, k;
->> +
->> +	for (i =3D 0; i < pmx->nbanks; i++) {
->> +		bank_size =3D tegra_pinctrl_get_bank_size(dev, i);
->> +		regs =3D pmx->regs[i];
->> +		for (k =3D 0; k < bank_size; k++)
->> +			*backup_regs++ =3D readl_relaxed(regs++);
->> +	}
->> +
->> +	return pinctrl_force_sleep(pmx->pctl);
->> +}
->> +
->> +static int tegra_pinctrl_resume(struct device *dev)
->> +{
->> +	struct tegra_pmx *pmx =3D dev_get_drvdata(dev);
->> +	u32 *backup_regs =3D pmx->backup_regs;
->> +	u32 *regs;
->> +	size_t bank_size;
->> +	unsigned int i, k;
->> +
->> +	for (i =3D 0; i < pmx->nbanks; i++) {
->> +		bank_size =3D tegra_pinctrl_get_bank_size(dev, i);
->> +		regs =3D pmx->regs[i];
->> +		for (k =3D 0; k < bank_size; k++)
->> +			writel_relaxed(*backup_regs++, regs++);
->> +	}
-> I'm now curious whether any kind of barrier is needed after the
-> writings. The pmx_writel() doesn't insert a barrier after the write and
-> seems it just misuses writel, which actually should be writel_relaxed()
-> + barrier, IIUC.
+All of them.
 
-pmx_writel uses writel and it has wmb before raw_write which complete=20
-all writes initiated prior to this.
-
-By misusing writel, you mean to have barrier after register write?
-
-> It's also not obvious whether PINCTRL HW has any kind of write-FIFO and
-> thus maybe read-back + rmb() is needed in order ensure that writes are
-> actually completed.
-I believe adding write barrier wmb after writel_relaxed should be good=20
-rather than doing readback + rmb
->
-> The last thing which is not obvious is when the new configuration
-> actually takes into effect, does it happen immediately or maybe some
-> delay is needed?
->
-> [snip]
-
-Based on internal design there is no internal delay and it all depends=20
-on APB rate that it takes to write to register.
-
-Pinmux value change to reflect internally might take couple of clock=20
-cycles which is much faster than SW can read.
-
+Peter.
