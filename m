@@ -2,82 +2,148 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78781838E7
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 Aug 2019 20:44:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 994B083C90
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Aug 2019 23:44:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726715AbfHFSoK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Aug 2019 14:44:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40524 "EHLO mail.kernel.org"
+        id S1727590AbfHFVeP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Aug 2019 17:34:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52052 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726009AbfHFSoI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 6 Aug 2019 14:44:08 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727581AbfHFVeP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 6 Aug 2019 17:34:15 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2106F20818;
-        Tue,  6 Aug 2019 18:44:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AB2052089E;
+        Tue,  6 Aug 2019 21:34:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565117047;
-        bh=82KdnV5xgDw0h/RCZKJpwmgLGzGBvW3IThY72SpKrcA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SBOXAzFLr0DfHY9SWf8LsgEhWckLONpPtqkpqmKD+sHQXkPj8u8YtWI2v4SSRYwCP
-         yJ8CvUUllkvyex4vgZlPj1d+wag8DGgyI3ybWNnX7DDcXoa7gi0lo17nNC0kBNwcy8
-         u+222RaBSFjyOHk6fXPUV8zVN8CEkytzIMgTb7z0=
-Date:   Tue, 6 Aug 2019 20:44:05 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.2 000/131] 5.2.7-stable review
-Message-ID: <20190806184405.GA28058@kroah.com>
-References: <20190805124951.453337465@linuxfoundation.org>
- <c01bc729-c9c1-fe90-4850-7907fee27a2b@nvidia.com>
+        s=default; t=1565127254;
+        bh=j7dRkRn0P7DuIjEpAV9BUNkDp+uQeUKmWjYYzdwUzds=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=SGrHG4MDkeST0rTxMk/NWR0hNZq1aURM0UDmjEwTE32HO+QRZRQ9G3e5H5v/qsmbJ
+         kjKjQ+SfSAjsm9Pp1FSlVYKTODsO6/n1OTsG1U8vUOQn0ad/biJkbFqYvsI69MYXze
+         RFAsrGl8E4BcWUXexbCJjfZYptqMbem5QhQvYy4I=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.2 28/59] tracing: Fix header include guards in trace event headers
+Date:   Tue,  6 Aug 2019 17:32:48 -0400
+Message-Id: <20190806213319.19203-28-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190806213319.19203-1-sashal@kernel.org>
+References: <20190806213319.19203-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c01bc729-c9c1-fe90-4850-7907fee27a2b@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Aug 06, 2019 at 07:30:45PM +0100, Jon Hunter wrote:
-> 
-> On 05/08/2019 14:01, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.2.7 release.
-> > There are 131 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Wed 07 Aug 2019 12:47:58 PM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2.7-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.2.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests passing for Tegra ...
-> 
-> Test results for stable-v5.2:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
-> 
-> Linux version:	5.2.7-rc1-g22499a291939
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
+From: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Thanks for testing all of these and letting me know.
+[ Upstream commit b1d45c23284e55a379f85554a27a548b7988d47a ]
 
-greg k-h
+These include guards are broken.
+
+Match the #if !define() and #define lines so that they work correctly.
+
+Link: http://lkml.kernel.org/r/20190720103943.16982-1-yamada.masahiro@socionext.com
+
+Fixes: f54d1867005c3 ("dma-buf: Rename struct fence to dma_fence")
+Fixes: 2e26ca7150a4f ("tracing: Fix tracepoint.h DECLARE_TRACE() to allow more than one header")
+Fixes: e543002f77f46 ("qdisc: add tracepoint qdisc:qdisc_dequeue for dequeued SKBs")
+Fixes: 95f295f9fe081 ("dmaengine: tegra: add tracepoints to driver")
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ include/trace/events/dma_fence.h     | 2 +-
+ include/trace/events/napi.h          | 4 ++--
+ include/trace/events/qdisc.h         | 4 ++--
+ include/trace/events/tegra_apb_dma.h | 4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
+index 2212adda8f77f..64e92d56c6a8f 100644
+--- a/include/trace/events/dma_fence.h
++++ b/include/trace/events/dma_fence.h
+@@ -2,7 +2,7 @@
+ #undef TRACE_SYSTEM
+ #define TRACE_SYSTEM dma_fence
+ 
+-#if !defined(_TRACE_FENCE_H) || defined(TRACE_HEADER_MULTI_READ)
++#if !defined(_TRACE_DMA_FENCE_H) || defined(TRACE_HEADER_MULTI_READ)
+ #define _TRACE_DMA_FENCE_H
+ 
+ #include <linux/tracepoint.h>
+diff --git a/include/trace/events/napi.h b/include/trace/events/napi.h
+index f3a12566bed05..6678cf8b235b8 100644
+--- a/include/trace/events/napi.h
++++ b/include/trace/events/napi.h
+@@ -3,7 +3,7 @@
+ #define TRACE_SYSTEM napi
+ 
+ #if !defined(_TRACE_NAPI_H) || defined(TRACE_HEADER_MULTI_READ)
+-#define _TRACE_NAPI_H_
++#define _TRACE_NAPI_H
+ 
+ #include <linux/netdevice.h>
+ #include <linux/tracepoint.h>
+@@ -38,7 +38,7 @@ TRACE_EVENT(napi_poll,
+ 
+ #undef NO_DEV
+ 
+-#endif /* _TRACE_NAPI_H_ */
++#endif /* _TRACE_NAPI_H */
+ 
+ /* This part must be outside protection */
+ #include <trace/define_trace.h>
+diff --git a/include/trace/events/qdisc.h b/include/trace/events/qdisc.h
+index 60d0d8bd336d0..0d1a9ebf55ba4 100644
+--- a/include/trace/events/qdisc.h
++++ b/include/trace/events/qdisc.h
+@@ -2,7 +2,7 @@
+ #define TRACE_SYSTEM qdisc
+ 
+ #if !defined(_TRACE_QDISC_H) || defined(TRACE_HEADER_MULTI_READ)
+-#define _TRACE_QDISC_H_
++#define _TRACE_QDISC_H
+ 
+ #include <linux/skbuff.h>
+ #include <linux/netdevice.h>
+@@ -44,7 +44,7 @@ TRACE_EVENT(qdisc_dequeue,
+ 		  __entry->txq_state, __entry->packets, __entry->skbaddr )
+ );
+ 
+-#endif /* _TRACE_QDISC_H_ */
++#endif /* _TRACE_QDISC_H */
+ 
+ /* This part must be outside protection */
+ #include <trace/define_trace.h>
+diff --git a/include/trace/events/tegra_apb_dma.h b/include/trace/events/tegra_apb_dma.h
+index 0818f62861109..971cd02d2dafe 100644
+--- a/include/trace/events/tegra_apb_dma.h
++++ b/include/trace/events/tegra_apb_dma.h
+@@ -1,5 +1,5 @@
+ #if !defined(_TRACE_TEGRA_APB_DMA_H) || defined(TRACE_HEADER_MULTI_READ)
+-#define _TRACE_TEGRA_APM_DMA_H
++#define _TRACE_TEGRA_APB_DMA_H
+ 
+ #include <linux/tracepoint.h>
+ #include <linux/dmaengine.h>
+@@ -55,7 +55,7 @@ TRACE_EVENT(tegra_dma_isr,
+ 	TP_printk("%s: irq %d\n",  __get_str(chan), __entry->irq)
+ );
+ 
+-#endif /*  _TRACE_TEGRADMA_H */
++#endif /* _TRACE_TEGRA_APB_DMA_H */
+ 
+ /* This part must be outside protection */
+ #include <trace/define_trace.h>
+-- 
+2.20.1
+
