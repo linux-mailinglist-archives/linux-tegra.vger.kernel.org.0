@@ -2,301 +2,166 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00BAC8344F
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 Aug 2019 16:51:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3F37834C3
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Aug 2019 17:11:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732024AbfHFOvp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Aug 2019 10:51:45 -0400
-Received: from foss.arm.com ([217.140.110.172]:34454 "EHLO foss.arm.com"
+        id S1732261AbfHFPLu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Aug 2019 11:11:50 -0400
+Received: from mail1.skidata.com ([91.230.2.99]:21480 "EHLO mail1.skidata.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730289AbfHFOvp (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 6 Aug 2019 10:51:45 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3A31344;
-        Tue,  6 Aug 2019 07:51:43 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19C063F706;
-        Tue,  6 Aug 2019 07:51:40 -0700 (PDT)
-Date:   Tue, 6 Aug 2019 15:51:36 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     bhelgaas@google.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, kishon@ti.com,
-        catalin.marinas@arm.com, will.deacon@arm.com, jingoohan1@gmail.com,
-        gustavo.pimentel@synopsys.com, digetx@gmail.com,
-        mperttunen@nvidia.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V13 12/12] PCI: tegra: Add Tegra194 PCIe support
-Message-ID: <20190806145136.GA8537@e121166-lin.cambridge.arm.com>
-References: <20190711125433.GB26088@e121166-lin.cambridge.arm.com>
- <986d0b1a-666a-7b05-a9f3-e761518bdc92@nvidia.com>
- <20190712160754.GA24285@e121166-lin.cambridge.arm.com>
- <a5f8689b-1358-dd2d-4f54-7e68a6ab158b@nvidia.com>
- <20190716112225.GA24335@e121166-lin.cambridge.arm.com>
- <be6367bc-08a0-762a-aae8-b3f0376d0e9a@nvidia.com>
- <20190730154939.GA367@e121166-lin.cambridge.arm.com>
- <f09c79fc-c724-5290-d630-cac3fdd7a996@nvidia.com>
- <20190805140107.GA3850@e121166-lin.cambridge.arm.com>
- <a25bf401-3bbc-ff6d-a493-f454b311dc47@nvidia.com>
+        id S1726713AbfHFPLu (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 6 Aug 2019 11:11:50 -0400
+X-Greylist: delayed 441 seconds by postgrey-1.27 at vger.kernel.org; Tue, 06 Aug 2019 11:11:49 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+  t=1565104308; x=1596640308;
+  h=to:from:subject:message-id:date:mime-version:
+   content-transfer-encoding;
+  bh=s/FbWA+ooYGsQ3w5NbQeeiMbBIbhDL6Il1fWC59jSTM=;
+  b=HvA2Nd24QLuIzhXxtoSqNIqO7PXJQTnd4j++m5/7T40q3OSNKLjDO04B
+   9qzig/v9av6lRo1eQIbboNnNleOqK7Ehy1BUEsrU1MMi7C+nCIoPIXJDj
+   ZZX+OrlmGEYdvlo5usM06+Wu7CmT6ODa0bZ0fZrsYq81ruSuXESSPVs9Q
+   ZOZ3Q5hBviWEWLEAc8xuDllaY0EBNYi6EVNjBo/BsinksghW0q6XnYwKT
+   rE+SQ0PU5gpe3tISacgoC5eKcXvXj/DrmvsAkerLapac259MHOd7w8qNb
+   8UGR4xY32ljvrzBF1iXUVCSCvwVR6sHvvDLymWg3Gb2F0UKJbR6HrxGAv
+   g==;
+IronPort-SDR: 52aej4ShxVOUObQqzPSr8pYsehJGw5exMQh2/BbrWHcalA5jp68UWtEPErII3UJv31E/CuEhas
+ kJbMwtLg3p0D9sg1IkB6IyY8/LNybpkgxhmX5LqCEpV+fGh3SHwYb2vum4P0XRqb99jQBgRmqZ
+ swL9Xqnrxhs+zM9wwU3VVnofB16gWLGLEsbAXpUHVPG2ZC7WRT8yiW+HHacfLP2zHZj5QuUhBj
+ yTqoV7FkOjS4f7qXqJv0ewn4brDibxVhexy1T+55s3tf63Ros2+LIboBlyxjYXRZ18JW5RpkS+
+ H8Y=
+X-IronPort-AV: E=Sophos;i="5.64,353,1559512800"; 
+   d="scan'208";a="18813378"
+To:     <linux-tegra@vger.kernel.org>
+From:   Richard Leitner <richard.leitner@skidata.com>
+Subject: v5.2.6 Kernel panic with tegra_defconfig & tegra20-tec.dtb
+Message-ID: <0d130767-13bd-a6bc-5a68-24ddc7ea3935@skidata.com>
+Date:   Tue, 6 Aug 2019 17:04:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a25bf401-3bbc-ff6d-a493-f454b311dc47@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex5srv.skidata.net (192.168.111.83) To
+ sdex5srv.skidata.net (192.168.111.83)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Aug 05, 2019 at 10:24:42PM +0530, Vidya Sagar wrote:
+Hi,
+I've just tried to boot the current stable kernel v5.2.6 (and also the 
+latest v5.3-rc3) on my tegra20-tec board with the tegra_defconfig.
 
-[...]
+Unfortunately I'm getting a "Kernel panic - not syncing: Attempted to 
+kill the idle task!"
 
-> > > > IRQs are enabled when you call a suspend_noirq() callback, so the
-> > > > blocking API can be used as long as the IRQ descriptor backing
-> > > > the IRQ that will wake-up the blocked call is marked as
-> > > > IRQF_NO_SUSPEND.
-> > > > 
-> > > > The problem is not IRQs enabled/disabled at CPU level, the problem is
-> > > > the IRQ descriptor of the IRQ required to handle the blocking BPMP call,
-> > > > mark it as IRQF_NO_SUSPEND and remove the tegra_bpmp_transfer_atomic()
-> > > > call from this code (or please give me a concrete example pinpointing
-> > > > why it is needed).
-> > > Ideally, using tegra_bpmp_transfer() alone in all paths (.probe() as
-> > > well as .resume_noirq()) should have worked as the corresponding IRQ
-> > > is already flagged as IRQF_NO_SUSPEND, but, because of the way BPMP-FW
-> > > driver in kernel making its interface available through
-> > > .resume_early(), tegra_bpmp_transfer() wasn't working as expected and
-> > > I pushed a patch (CC'ing you) at
-> > > http://patchwork.ozlabs.org/patch/1140973/ to make it .resume_noirq()
-> > > from .resume_early().  With that in place, we can just use
-> > > tegra_bpmp_trasnfer().  I'll push a new patch with this change once my
-> > > BPMP-FW driver patch is approved.
-> > 
-> > Does this leave you with a resume_noirq() callbacks ordering issue to
-> > sort out ?
-> Not really.
-> 
-> > 
-> > a.k.a How will you guarantee that the BPMP will resume before the host
-> > bridge ?
-> It is already taken care of in the following way.  PCIe controller's
-> device-tree node has an entry with a phandle of BPMP-FW's node to get
-> a handle of it and PCIe driver uses tegra_bpmp_get() API for that.
-> This API returns -EPROBE_DEFER if BPMP-FW's driver is not ready yet,
-> which guarantees that PCIe driver gets loaded only after BPMP-FW's
-> driver and this order is followed during noirq phase also.
+I'm currently out of ideas on what to look for, so any help would be 
+greatly appreciated.
 
-OK, thanks, this makes much more sense than the original code.
+Thanks & regards;
+Richard.L
 
-Lorenzo
 
-> > Thanks,
-> > Lorenzo
-> > 
-> > > Thanks,
-> > > Vidya Sagar
-> > > > 
-> > > > Thanks,
-> > > > Lorenzo
-> > > > 
-> > > > > I'll go ahead and make next patch series with this if this looks fine to you.
-> > > > > 
-> > > > > > 
-> > > > > > > > Actually, if tegra_bpmp_transfer() requires IRQs to be enabled you may
-> > > > > > > > even end up in a situation where that blocking call does not wake up
-> > > > > > > > because the IRQ in question was disabled in the NOIRQ suspend/resume
-> > > > > > > > phase.
-> > > > > > > > 
-> > > > > > > > [...]
-> > > > > > > > 
-> > > > > > > > > > > +static int tegra_pcie_dw_probe(struct platform_device *pdev)
-> > > > > > > > > > > +{
-> > > > > > > > > > > +	const struct tegra_pcie_soc *data;
-> > > > > > > > > > > +	struct device *dev = &pdev->dev;
-> > > > > > > > > > > +	struct resource *atu_dma_res;
-> > > > > > > > > > > +	struct tegra_pcie_dw *pcie;
-> > > > > > > > > > > +	struct resource *dbi_res;
-> > > > > > > > > > > +	struct pcie_port *pp;
-> > > > > > > > > > > +	struct dw_pcie *pci;
-> > > > > > > > > > > +	struct phy **phys;
-> > > > > > > > > > > +	char *name;
-> > > > > > > > > > > +	int ret;
-> > > > > > > > > > > +	u32 i;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
-> > > > > > > > > > > +	if (!pcie)
-> > > > > > > > > > > +		return -ENOMEM;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pci = &pcie->pci;
-> > > > > > > > > > > +	pci->dev = &pdev->dev;
-> > > > > > > > > > > +	pci->ops = &tegra_dw_pcie_ops;
-> > > > > > > > > > > +	pp = &pci->pp;
-> > > > > > > > > > > +	pcie->dev = &pdev->dev;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	data = (struct tegra_pcie_soc *)of_device_get_match_data(dev);
-> > > > > > > > > > > +	if (!data)
-> > > > > > > > > > > +		return -EINVAL;
-> > > > > > > > > > > +	pcie->mode = (enum dw_pcie_device_mode)data->mode;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	ret = tegra_pcie_dw_parse_dt(pcie);
-> > > > > > > > > > > +	if (ret < 0) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to parse device tree: %d\n", ret);
-> > > > > > > > > > > +		return ret;
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pcie->pex_ctl_supply = devm_regulator_get(dev, "vddio-pex-ctl");
-> > > > > > > > > > > +	if (IS_ERR(pcie->pex_ctl_supply)) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to get regulator: %ld\n",
-> > > > > > > > > > > +			PTR_ERR(pcie->pex_ctl_supply));
-> > > > > > > > > > > +		return PTR_ERR(pcie->pex_ctl_supply);
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pcie->core_clk = devm_clk_get(dev, "core");
-> > > > > > > > > > > +	if (IS_ERR(pcie->core_clk)) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to get core clock: %ld\n",
-> > > > > > > > > > > +			PTR_ERR(pcie->core_clk));
-> > > > > > > > > > > +		return PTR_ERR(pcie->core_clk);
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pcie->appl_res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
-> > > > > > > > > > > +						      "appl");
-> > > > > > > > > > > +	if (!pcie->appl_res) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to find \"appl\" region\n");
-> > > > > > > > > > > +		return PTR_ERR(pcie->appl_res);
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +	pcie->appl_base = devm_ioremap_resource(dev, pcie->appl_res);
-> > > > > > > > > > > +	if (IS_ERR(pcie->appl_base))
-> > > > > > > > > > > +		return PTR_ERR(pcie->appl_base);
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pcie->core_apb_rst = devm_reset_control_get(dev, "apb");
-> > > > > > > > > > > +	if (IS_ERR(pcie->core_apb_rst)) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to get APB reset: %ld\n",
-> > > > > > > > > > > +			PTR_ERR(pcie->core_apb_rst));
-> > > > > > > > > > > +		return PTR_ERR(pcie->core_apb_rst);
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +
-> > > > > > > > > > > +	phys = devm_kcalloc(dev, pcie->phy_count, sizeof(*phys), GFP_KERNEL);
-> > > > > > > > > > > +	if (!phys)
-> > > > > > > > > > > +		return PTR_ERR(phys);
-> > > > > > > > > > > +
-> > > > > > > > > > > +	for (i = 0; i < pcie->phy_count; i++) {
-> > > > > > > > > > > +		name = kasprintf(GFP_KERNEL, "p2u-%u", i);
-> > > > > > > > > > > +		if (!name) {
-> > > > > > > > > > > +			dev_err(dev, "Failed to create P2U string\n");
-> > > > > > > > > > > +			return -ENOMEM;
-> > > > > > > > > > > +		}
-> > > > > > > > > > > +		phys[i] = devm_phy_get(dev, name);
-> > > > > > > > > > > +		kfree(name);
-> > > > > > > > > > > +		if (IS_ERR(phys[i])) {
-> > > > > > > > > > > +			ret = PTR_ERR(phys[i]);
-> > > > > > > > > > > +			dev_err(dev, "Failed to get PHY: %d\n", ret);
-> > > > > > > > > > > +			return ret;
-> > > > > > > > > > > +		}
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pcie->phys = phys;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	dbi_res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dbi");
-> > > > > > > > > > > +	if (!dbi_res) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to find \"dbi\" region\n");
-> > > > > > > > > > > +		return PTR_ERR(dbi_res);
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +	pcie->dbi_res = dbi_res;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pci->dbi_base = devm_ioremap_resource(dev, dbi_res);
-> > > > > > > > > > > +	if (IS_ERR(pci->dbi_base))
-> > > > > > > > > > > +		return PTR_ERR(pci->dbi_base);
-> > > > > > > > > > > +
-> > > > > > > > > > > +	/* Tegra HW locates DBI2 at a fixed offset from DBI */
-> > > > > > > > > > > +	pci->dbi_base2 = pci->dbi_base + 0x1000;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	atu_dma_res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
-> > > > > > > > > > > +						   "atu_dma");
-> > > > > > > > > > > +	if (!atu_dma_res) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to find \"atu_dma\" region\n");
-> > > > > > > > > > > +		return PTR_ERR(atu_dma_res);
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +	pcie->atu_dma_res = atu_dma_res;
-> > > > > > > > > > > +	pci->atu_base = devm_ioremap_resource(dev, atu_dma_res);
-> > > > > > > > > > > +	if (IS_ERR(pci->atu_base))
-> > > > > > > > > > > +		return PTR_ERR(pci->atu_base);
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pcie->core_rst = devm_reset_control_get(dev, "core");
-> > > > > > > > > > > +	if (IS_ERR(pcie->core_rst)) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to get core reset: %ld\n",
-> > > > > > > > > > > +			PTR_ERR(pcie->core_rst));
-> > > > > > > > > > > +		return PTR_ERR(pcie->core_rst);
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pp->irq = platform_get_irq_byname(pdev, "intr");
-> > > > > > > > > > > +	if (!pp->irq) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to get \"intr\" interrupt\n");
-> > > > > > > > > > > +		return -ENODEV;
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +
-> > > > > > > > > > > +	ret = devm_request_irq(dev, pp->irq, tegra_pcie_irq_handler,
-> > > > > > > > > > > +			       IRQF_SHARED, "tegra-pcie-intr", pcie);
-> > > > > > > > > > > +	if (ret) {
-> > > > > > > > > > > +		dev_err(dev, "Failed to request IRQ %d: %d\n", pp->irq, ret);
-> > > > > > > > > > > +		return ret;
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +
-> > > > > > > > > > > +	pcie->bpmp = tegra_bpmp_get(dev);
-> > > > > > > > > > > +	if (IS_ERR(pcie->bpmp))
-> > > > > > > > > > > +		return PTR_ERR(pcie->bpmp);
-> > > > > > > > > > > +
-> > > > > > > > > > > +	platform_set_drvdata(pdev, pcie);
-> > > > > > > > > > > +
-> > > > > > > > > > > +	if (pcie->mode == DW_PCIE_RC_TYPE) {
-> > > > > > > > > > > +		ret = tegra_pcie_config_rp(pcie);
-> > > > > > > > > > > +		if (ret && ret != -ENOMEDIUM)
-> > > > > > > > > > > +			goto fail;
-> > > > > > > > > > > +		else
-> > > > > > > > > > > +			return 0;
-> > > > > > > > > > 
-> > > > > > > > > > So if the link is not up we still go ahead and make probe
-> > > > > > > > > > succeed. What for ?
-> > > > > > > > > We may need root port to be available to support hot-plugging of
-> > > > > > > > > endpoint devices, so, we don't fail the probe.
-> > > > > > > > 
-> > > > > > > > We need it or we don't. If you do support hotplugging of endpoint
-> > > > > > > > devices point me at the code, otherwise link up failure means
-> > > > > > > > failure to probe.
-> > > > > > > Currently hotplugging of endpoint is not supported, but it is one of
-> > > > > > > the use cases that we may add support for in future.
-> > > > > > 
-> > > > > > You should elaborate on this, I do not understand what you mean,
-> > > > > > either the root port(s) supports hotplug or it does not.
-> > > > > > 
-> > > > > > > But, why should we fail probe if link up doesn't happen? As such,
-> > > > > > > nothing went wrong in terms of root port initialization right?  I
-> > > > > > > checked other DWC based implementations and following are not failing
-> > > > > > > the probe pci-dra7xx.c, pcie-armada8k.c, pcie-artpec6.c, pcie-histb.c,
-> > > > > > > pcie-kirin.c, pcie-spear13xx.c, pci-exynos.c, pci-imx6.c,
-> > > > > > > pci-keystone.c, pci-layerscape.c
-> > > > > > > 
-> > > > > > > Although following do fail the probe if link is not up.  pcie-qcom.c,
-> > > > > > > pcie-uniphier.c, pci-meson.c
-> > > > > > > 
-> > > > > > > So, to me, it looks more like a choice we can make whether to fail the
-> > > > > > > probe or not and in this case we are choosing not to fail.
-> > > > > > 
-> > > > > > I disagree. I had an offline chat with Bjorn and whether link-up should
-> > > > > > fail the probe or not depends on whether the root port(s) is hotplug
-> > > > > > capable or not and this in turn relies on the root port "Slot
-> > > > > > implemented" bit in the PCI Express capabilities register.
-> > > > > > 
-> > > > > > It is a choice but it should be based on evidence.
-> > > > > > 
-> > > > > > Lorenzo
-> > > > > With Bjorn's latest comment on top of this, I think we are good not to fail
-> > > > > the probe here.
-> > > > > 
-> > > > > - Vidya Sagar
-> > > > > > 
-> > > > > 
-> > > 
-> 
+## Booting kernel from FIT Image at 01000000 ...
+    Using 'conf@tegra20-tec.dtb' configuration
+    Trying 'kernel@1' kernel subimage
+      Description:  Linux kernel
+      Type:         Kernel Image
+      Compression:  uncompressed
+      Data Start:   0x010000e0
+      Data Size:    6676808 Bytes = 6.4 MiB
+      Architecture: ARM
+      OS:           Linux
+      Load Address: 0x17000000
+      Entry Point:  0x17000000
+      Hash algo:    sha1
+      Hash value:   bec30e474097f767c1def4f82f28eb5549cc9af0
+    Verifying Hash Integrity ... sha1+ OK
+## Flattened Device Tree from FIT Image at 01000000
+    Using 'conf@tegra20-tec.dtb' configuration
+    Trying 'fdt@tegra20-tec.dtb' FDT blob subimage
+      Description:  Flattened Device Tree blob
+      Type:         Flat Device Tree
+      Compression:  uncompressed
+      Data Start:   0x0165e328
+      Data Size:    24624 Bytes = 24 KiB
+      Architecture: ARM
+      Hash algo:    sha1
+      Hash value:   f9fbcb0d4576629bbad851c0ced43685b8dc8577
+    Verifying Hash Integrity ... sha1+ OK
+    Booting using the fdt blob at 0x0165e328
+    Loading Kernel Image ... OK
+OK
+    Loading Device Tree to 0fff6000, end 0ffff02f ... OK
+
+Starting kernel ...
+
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Linux version 5.2.6-tegra.0000 (oe-user@oe-host) (gcc 
+version 8.3.0 (GCC)) #1 SMP PREEMPT Tue Aug 6 14:48:18 UTC 2019
+[    0.000000] CPU: ARMv7 Processor [411fc090] revision 0 (ARMv7), 
+cr=10c5387d
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing 
+instruction cache
+[    0.000000] OF: fdt: Machine model: Avionic Design Tamonten 
+Evaluation Carrier
+[    0.000000] OF: fdt: Ignoring memory range 0x0 - 0x10000000
+[    0.000000] Ignoring memory below PHYS_OFFSET: 0x00000000-0x10000000
+[    0.000000] printk: bootconsole [earlycon0] enabled
+[    0.000000] Memory policy: Data cache writealloc
+[    0.000000] cma: Reserved 64 MiB at 0x1c000000
+[    0.000000] On node 0 totalpages: 65536
+[    0.000000]   Normal zone: 512 pages used for memmap
+[    0.000000]   Normal zone: 0 pages reserved
+[    0.000000]   Normal zone: 65536 pages, LIFO batch:15
+[    0.000000] Unable to handle kernel paging request at virtual address 
+bfff6000
+[    0.000000] pgd = (ptrval)
+[    0.000000] [bfff6000] *pgd=1bfd9811, *pte=00000000, *ppte=00000000
+[    0.000000] Internal error: Oops: 7 [#1] PREEMPT SMP ARM
+[    0.000000] Modules linked in:
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.2.6-tegra.0000 #1
+[    0.000000] Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
+[    0.000000] PC is at fdt_check_header+0x0/0x154
+[    0.000000] LR is at __unflatten_device_tree+0x20/0x104
+[    0.000000] pc : [<c0a57cf4>]    lr : [<c0768d88>]    psr: a00000d3
+[    0.000000] sp : c1001f08  ip : 00000000  fp : fffff000
+[    0.000000] r10: 00000000  r9 : c10febd8  r8 : c0f403d8
+[    0.000000] r7 : c110f368  r6 : 00000000  r5 : bfff6000  r4 : c0f403d8
+[    0.000000] r3 : c0f403d8  r2 : c110f368  r1 : 00000000  r0 : bfff6000
+[    0.000000] Flags: NzCv  IRQs off  FIQs off  Mode SVC_32  ISA ARM 
+Segment none
+[    0.000000] Control: 10c5387d  Table: 1000404a  DAC: 00000051
+[    0.000000] Process swapper (pid: 0, stack limit = 0x(ptrval))
+[    0.000000] Stack: (0xc1001f08 to 0xc1002000)
+[    0.000000] 1f00:                   c0f403d8 c10cf880 c1009ba8 
+c10083c0 10000000 c10febd8
+[    0.000000] 1f20: cbfffe00 c0f41414 00000000 c012b5a0 c0f66900 
+c0f03dcc ffffffff 10c5387d
+[    0.000000] 1f40: c0ca7fdc c0d630e8 c1004c48 c0ca968c c0b03b9c 
+c1004c48 c1004c48 c1004c40
+[    0.000000] 1f60: ffffffff 0fff6000 411fc090 10c5387d 00000001 
+c017f5d4 c0ca7fdc 00000000
+[    0.000000] 1f80: ffffffff 00000000 c1004c48 c1004c40 ffffffff 
+0fff6000 c10cf700 10c5387d
+[    0.000000] 1fa0: 00000001 c0f00aa0 00000000 00000000 00000000 
+00000000 00000000 00000000
+[    0.000000] 1fc0: 00000000 c0f6ea38 00000000 00000000 00000000 
+c0f00330 00000051 10c0387d
+[    0.000000] 1fe0: 00000000 0fff6000 411fc090 10c5387d 00000000 
+00000000 00000000 00000000
+[    0.000000] [<c0a57cf4>] (fdt_check_header) from [<c0f403d8>] 
+(early_init_dt_alloc_memory_arch+0x0/0x64)
+[    0.000000] [<c0f403d8>] (early_init_dt_alloc_memory_arch) from 
+[<00000000>] (0x0)
+[    0.000000] Code: e3a00020 e12fff1e e3a0001c e12fff1e (e5902000)
+[    0.000000] random: get_random_bytes called from 
+print_oops_end_marker+0x24/0x4c with crng_init=0
+[    0.000000] ---[ end trace 0000000000000000 ]---
+[    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
+[    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill 
+the idle task! ]---
+
