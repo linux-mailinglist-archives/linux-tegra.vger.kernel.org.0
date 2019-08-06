@@ -2,148 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 994B083C90
-	for <lists+linux-tegra@lfdr.de>; Tue,  6 Aug 2019 23:44:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C79183CED
+	for <lists+linux-tegra@lfdr.de>; Tue,  6 Aug 2019 23:51:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727590AbfHFVeP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Aug 2019 17:34:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52052 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727581AbfHFVeP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 6 Aug 2019 17:34:15 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AB2052089E;
-        Tue,  6 Aug 2019 21:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565127254;
-        bh=j7dRkRn0P7DuIjEpAV9BUNkDp+uQeUKmWjYYzdwUzds=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SGrHG4MDkeST0rTxMk/NWR0hNZq1aURM0UDmjEwTE32HO+QRZRQ9G3e5H5v/qsmbJ
-         kjKjQ+SfSAjsm9Pp1FSlVYKTODsO6/n1OTsG1U8vUOQn0ad/biJkbFqYvsI69MYXze
-         RFAsrGl8E4BcWUXexbCJjfZYptqMbem5QhQvYy4I=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 28/59] tracing: Fix header include guards in trace event headers
-Date:   Tue,  6 Aug 2019 17:32:48 -0400
-Message-Id: <20190806213319.19203-28-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190806213319.19203-1-sashal@kernel.org>
-References: <20190806213319.19203-1-sashal@kernel.org>
+        id S1726806AbfHFVvZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 6 Aug 2019 17:51:25 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:6224 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726052AbfHFVvZ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Aug 2019 17:51:25 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d49f65d0002>; Tue, 06 Aug 2019 14:51:25 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 06 Aug 2019 14:51:24 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 06 Aug 2019 14:51:24 -0700
+Received: from [10.110.102.151] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 6 Aug
+ 2019 21:51:23 +0000
+Subject: Re: [PATCH v7 01/20] pinctrl: tegra: Add suspend and resume support
+To:     Linus Walleij <linus.walleij@linaro.org>
+CC:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        "Stephen Boyd" <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        <jckuo@nvidia.com>, "Joseph Lo" <josephl@nvidia.com>,
+        <talho@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Mikko Perttunen" <mperttunen@nvidia.com>, <spatra@nvidia.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        viresh kumar <viresh.kumar@linaro.org>,
+        Linux PM list <linux-pm@vger.kernel.org>
+References: <1564607463-28802-1-git-send-email-skomatineni@nvidia.com>
+ <1564607463-28802-2-git-send-email-skomatineni@nvidia.com>
+ <CACRpkdZVR-i1c5eATL2hSPbLXcX1sR8NgXwa4j259XXUi57xug@mail.gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <a2fb3795-5ec1-1d03-f496-f151d1270e90@nvidia.com>
+Date:   Tue, 6 Aug 2019 14:51:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdZVR-i1c5eATL2hSPbLXcX1sR8NgXwa4j259XXUi57xug@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1565128285; bh=gUV/nSFh9pyMbly/cxjMzIWO74RSun53rYYSNmmjoN4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=oMlhdEUVeAmLGkU//WqtrKAHRzWtFZLiP6j4JhfYiR20Wo6xa2/qMIG5sVEIyqvRP
+         VNiYGpXrJvCrevAHJzkq8q/7QhZENK9zqamKqdYdefnNkULU4Iws4Ilg+XG9W2WqCZ
+         3FoURqBqFmv9gntK41TQNuDMgdwA+7fsCwHoZYd7//RhHIFM73L/f51tow56+N6Kjy
+         xwnIGz9auKNZneGQPaTt/u6N01Tel9NCTolybXgyWQGDupdaIZYDfuDi83EpeJ+58I
+         X2j+aJ03o6TC/zSlBZrz48r6vTKEyBFm+jOd4iQ+K105mVHPGMQeGAlkjF09AXQe4d
+         l3ugSzwppV/tg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-[ Upstream commit b1d45c23284e55a379f85554a27a548b7988d47a ]
+On 8/5/19 2:20 AM, Linus Walleij wrote:
+> On Wed, Jul 31, 2019 at 11:11 PM Sowjanya Komatineni
+> <skomatineni@nvidia.com> wrote:
+>
+>> This patch adds support for Tegra pinctrl driver suspend and resume.
+>>
+>> During suspend, context of all pinctrl registers are stored and
+>> on resume they are all restored to have all the pinmux and pad
+>> configuration for normal operation.
+>>
+>> Acked-by: Thierry Reding <treding@nvidia.com>
+>> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> Patch applied to the pinctrl tree.
+>
+> This patch seems finished.
+>
+> Also if the rest don't get merged for v5.4 then at least this is so
+> your patch stack gets more shallow.
+>
+> I hope it's fine to merge this separately, else tell me and I'll
+> pull it out.
+>
+> Yours,
+> Linus Walleij
 
-These include guards are broken.
+Yes, this patch can be merged separately. But, there's latest feedback 
+from Dmitry to add barrier after writes to make sure pinmux register 
+writes happen.
 
-Match the #if !define() and #define lines so that they work correctly.
+So will update this patch to add barrier in v8. So, need to wait for v8.
 
-Link: http://lkml.kernel.org/r/20190720103943.16982-1-yamada.masahiro@socionext.com
+Thanks
 
-Fixes: f54d1867005c3 ("dma-buf: Rename struct fence to dma_fence")
-Fixes: 2e26ca7150a4f ("tracing: Fix tracepoint.h DECLARE_TRACE() to allow more than one header")
-Fixes: e543002f77f46 ("qdisc: add tracepoint qdisc:qdisc_dequeue for dequeued SKBs")
-Fixes: 95f295f9fe081 ("dmaengine: tegra: add tracepoints to driver")
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- include/trace/events/dma_fence.h     | 2 +-
- include/trace/events/napi.h          | 4 ++--
- include/trace/events/qdisc.h         | 4 ++--
- include/trace/events/tegra_apb_dma.h | 4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
-index 2212adda8f77f..64e92d56c6a8f 100644
---- a/include/trace/events/dma_fence.h
-+++ b/include/trace/events/dma_fence.h
-@@ -2,7 +2,7 @@
- #undef TRACE_SYSTEM
- #define TRACE_SYSTEM dma_fence
- 
--#if !defined(_TRACE_FENCE_H) || defined(TRACE_HEADER_MULTI_READ)
-+#if !defined(_TRACE_DMA_FENCE_H) || defined(TRACE_HEADER_MULTI_READ)
- #define _TRACE_DMA_FENCE_H
- 
- #include <linux/tracepoint.h>
-diff --git a/include/trace/events/napi.h b/include/trace/events/napi.h
-index f3a12566bed05..6678cf8b235b8 100644
---- a/include/trace/events/napi.h
-+++ b/include/trace/events/napi.h
-@@ -3,7 +3,7 @@
- #define TRACE_SYSTEM napi
- 
- #if !defined(_TRACE_NAPI_H) || defined(TRACE_HEADER_MULTI_READ)
--#define _TRACE_NAPI_H_
-+#define _TRACE_NAPI_H
- 
- #include <linux/netdevice.h>
- #include <linux/tracepoint.h>
-@@ -38,7 +38,7 @@ TRACE_EVENT(napi_poll,
- 
- #undef NO_DEV
- 
--#endif /* _TRACE_NAPI_H_ */
-+#endif /* _TRACE_NAPI_H */
- 
- /* This part must be outside protection */
- #include <trace/define_trace.h>
-diff --git a/include/trace/events/qdisc.h b/include/trace/events/qdisc.h
-index 60d0d8bd336d0..0d1a9ebf55ba4 100644
---- a/include/trace/events/qdisc.h
-+++ b/include/trace/events/qdisc.h
-@@ -2,7 +2,7 @@
- #define TRACE_SYSTEM qdisc
- 
- #if !defined(_TRACE_QDISC_H) || defined(TRACE_HEADER_MULTI_READ)
--#define _TRACE_QDISC_H_
-+#define _TRACE_QDISC_H
- 
- #include <linux/skbuff.h>
- #include <linux/netdevice.h>
-@@ -44,7 +44,7 @@ TRACE_EVENT(qdisc_dequeue,
- 		  __entry->txq_state, __entry->packets, __entry->skbaddr )
- );
- 
--#endif /* _TRACE_QDISC_H_ */
-+#endif /* _TRACE_QDISC_H */
- 
- /* This part must be outside protection */
- #include <trace/define_trace.h>
-diff --git a/include/trace/events/tegra_apb_dma.h b/include/trace/events/tegra_apb_dma.h
-index 0818f62861109..971cd02d2dafe 100644
---- a/include/trace/events/tegra_apb_dma.h
-+++ b/include/trace/events/tegra_apb_dma.h
-@@ -1,5 +1,5 @@
- #if !defined(_TRACE_TEGRA_APB_DMA_H) || defined(TRACE_HEADER_MULTI_READ)
--#define _TRACE_TEGRA_APM_DMA_H
-+#define _TRACE_TEGRA_APB_DMA_H
- 
- #include <linux/tracepoint.h>
- #include <linux/dmaengine.h>
-@@ -55,7 +55,7 @@ TRACE_EVENT(tegra_dma_isr,
- 	TP_printk("%s: irq %d\n",  __get_str(chan), __entry->irq)
- );
- 
--#endif /*  _TRACE_TEGRADMA_H */
-+#endif /* _TRACE_TEGRA_APB_DMA_H */
- 
- /* This part must be outside protection */
- #include <trace/define_trace.h>
--- 
-2.20.1
+Sowjanya
 
