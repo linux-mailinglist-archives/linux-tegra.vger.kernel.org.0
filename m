@@ -2,127 +2,153 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62FA0842FD
-	for <lists+linux-tegra@lfdr.de>; Wed,  7 Aug 2019 05:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8385384B16
+	for <lists+linux-tegra@lfdr.de>; Wed,  7 Aug 2019 13:55:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727527AbfHGDku (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 6 Aug 2019 23:40:50 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:9400 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726612AbfHGDku (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 6 Aug 2019 23:40:50 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d4a48420002>; Tue, 06 Aug 2019 20:40:50 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 06 Aug 2019 20:40:49 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 06 Aug 2019 20:40:49 -0700
-Received: from [10.2.168.234] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 7 Aug
- 2019 03:40:47 +0000
-Subject: Re: [PATCH v7 01/20] pinctrl: tegra: Add suspend and resume support
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-CC:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        "Stephen Boyd" <sboyd@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        <jckuo@nvidia.com>, "Joseph Lo" <josephl@nvidia.com>,
-        <talho@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Mikko Perttunen" <mperttunen@nvidia.com>, <spatra@nvidia.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        viresh kumar <viresh.kumar@linaro.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
-References: <1564607463-28802-1-git-send-email-skomatineni@nvidia.com>
- <1564607463-28802-2-git-send-email-skomatineni@nvidia.com>
- <CACRpkdZVR-i1c5eATL2hSPbLXcX1sR8NgXwa4j259XXUi57xug@mail.gmail.com>
- <a2fb3795-5ec1-1d03-f496-f151d1270e90@nvidia.com>
-Message-ID: <dadf0cc7-fba4-9ab5-6ac9-0c8699eb4401@nvidia.com>
-Date:   Tue, 6 Aug 2019 20:40:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1729673AbfHGLzp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 7 Aug 2019 07:55:45 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:46392 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727096AbfHGLzp (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 7 Aug 2019 07:55:45 -0400
+Received: by mail-qk1-f195.google.com with SMTP id r4so65413023qkm.13
+        for <linux-tegra@vger.kernel.org>; Wed, 07 Aug 2019 04:55:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=SYVsSHsvSWXRztrf3IuVhfzf5yR2eq8e4OeojMpGXV4=;
+        b=MvVp0PhouLDFbAzPC6BlPhwnjMq6wj4aKW+xqnyO4EpFpbnlmYNShTSj2QvZyC2cwo
+         id+9iDAv2VuLz4ZkOVmpWD1iFCrwBLFEzgrsVH7lrHNpz3794rZO51JvOwAAtLZKxLag
+         KuferNUkbVm+v83TZ3zD0XXQ2ZXvook4I1m8N86QUeZ/JH7AT1mPxoVIhYstrgX7Du+a
+         Us50AGkRmA3jrnvewEbut09BEHBAtTdwhhwW7cWPiC8wTo7iwH/9xwmZYsG0GKzbXmOA
+         JfRO1GBWleE+OiE3Rry//QTfz0UyU5RMxzecKNz68fhKbBiH6J+Gnrl4QNF+hwmmjLYk
+         BZhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=SYVsSHsvSWXRztrf3IuVhfzf5yR2eq8e4OeojMpGXV4=;
+        b=plNY8YEwOgM9R3a1IhBlNxM9UeFqF7C9HX/obWBuoKaPHsHQ0D0nx1n6eOQ/u5SmCL
+         5ZLkwzP3+rCpMQXPDiErjkxRxg/vN9psd+0ohljzeXIFUqgWsAjvK0qHp/tKo62aJw7R
+         VDQ/ZEE2N/E7QB42VZDglxbCwvTDiKq5lzjdwvc+uBlfn/ReAhjN3I842uasqPCmbKNW
+         OB6OwYeyj5VbPFSMbxdYj4fq3xZUF4A1T9o6TsgFH3rZtxIGW2aJrFD/TdQS9Sq2bnFj
+         AZGQG5kvYvKMPFyUpg0Tq3mQisAcDtxRH/TRkhQhuhfhHiyW2emqNsYcRfZCDkIoiJ5H
+         KdJg==
+X-Gm-Message-State: APjAAAXrYEhfYkqepb6APiC2p/xMURJys/R6deTqMoPR2gVIFTQGZQVG
+        4VThQqv1p1F/hd1HLPprAkO62riqzZZmimoGEclrpg==
+X-Google-Smtp-Source: APXvYqwEsXcr4FpH9gDfLIkM8xlP9ZUuM0nR3mM2uKxsKf/UACxOWHfAXNmHuJ/ZKRMRUNo55y8wJzZDblUivvVNr2A=
+X-Received: by 2002:a37:4d16:: with SMTP id a22mr8030512qkb.103.1565178944593;
+ Wed, 07 Aug 2019 04:55:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a2fb3795-5ec1-1d03-f496-f151d1270e90@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1565149250; bh=R1aWkHhQGEDFlMq3J3HvsOTVA4LJ2HzCFYLdH2+sUvw=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=BLRI9h7q5uMUyX7sQu/YuoHnLzETuXQV9ErKqBny0vCUcL8RLClZ9466K66AwBrMj
-         dr15JGaRNq9162+jZoTTbeQo4InXE+YXNZ8kz/AfjToy101DOXpLDwkVcahW2Keaex
-         69R9dtf0Uikm/C4AF8rC0SsbTzNBWID8e45ARmd4w2xxYtSETYPRwx3OmmL8jM7TPj
-         5U/0MSvKHadcF6LvbSyFTaB659bfuFQCQZuJtfp/9hn/a8/3tXDT0pgAvTKwwWOhyh
-         70sBra263MOy2F7zVG/8EWwv4tIXIVcRLnbTUE+WZyQJ3LYaBg5dKbOqn1sY7nb/HW
-         iUjF6vBEglSWw==
+References: <20190804201637.1240-1-sam@ravnborg.org> <20190804201637.1240-9-sam@ravnborg.org>
+In-Reply-To: <20190804201637.1240-9-sam@ravnborg.org>
+From:   Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Date:   Wed, 7 Aug 2019 13:55:33 +0200
+Message-ID: <CA+M3ks4weUp8wtZktTj9TwLis=x4EyyRjOYh6eavvw_CxuKkuA@mail.gmail.com>
+Subject: Re: [PATCH v1 08/16] drm/sti: fix opencoded use of drm_panel_*
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     ML dri-devel <dri-devel@lists.freedesktop.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Allison Randal <allison@lohutok.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Enrico Weigelt <info@metux.net>,
+        Fabio Estevam <festevam@gmail.com>,
+        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/S5P EXYNOS AR..." 
+        <linux-samsung-soc@vger.kernel.org>, linux-tegra@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Marek Vasut <marex@denx.de>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Sean Paul <sean@poorly.run>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vincent Abriou <vincent.abriou@st.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Le dim. 4 ao=C3=BBt 2019 =C3=A0 22:17, Sam Ravnborg <sam@ravnborg.org> a =
+=C3=A9crit :
+>
+> Use the drm_panel_(enable|disable|get_modes) functions.
 
-On 8/6/19 2:51 PM, Sowjanya Komatineni wrote:
->
-> On 8/5/19 2:20 AM, Linus Walleij wrote:
->> On Wed, Jul 31, 2019 at 11:11 PM Sowjanya Komatineni
->> <skomatineni@nvidia.com> wrote:
->>
->>> This patch adds support for Tegra pinctrl driver suspend and resume.
->>>
->>> During suspend, context of all pinctrl registers are stored and
->>> on resume they are all restored to have all the pinmux and pad
->>> configuration for normal operation.
->>>
->>> Acked-by: Thierry Reding <treding@nvidia.com>
->>> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
->>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> Patch applied to the pinctrl tree.
->>
->> This patch seems finished.
->>
->> Also if the rest don't get merged for v5.4 then at least this is so
->> your patch stack gets more shallow.
->>
->> I hope it's fine to merge this separately, else tell me and I'll
->> pull it out.
->>
->> Yours,
->> Linus Walleij
->
-> Yes, this patch can be merged separately. But, there's latest feedback 
-> from Dmitry to add barrier after writes to make sure pinmux register 
-> writes happen.
->
-> So will update this patch to add barrier in v8. So, need to wait for v8.
->
-> Thanks
->
-> Sowjanya
->
-I see it merged. So will exclude suspend/resume patch and will add patch 
-for necessary write barrier fix in v8 version.
+Applied on drm-misc-next,
+Thanks.
 
-Thanks
+Benjamin
 
-Sowjanya
-
+>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> Cc: Vincent Abriou <vincent.abriou@st.com>
+> ---
+>  drivers/gpu/drm/sti/sti_dvo.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.=
+c
+> index 9e6d5d8b7030..e55870190bf5 100644
+> --- a/drivers/gpu/drm/sti/sti_dvo.c
+> +++ b/drivers/gpu/drm/sti/sti_dvo.c
+> @@ -221,8 +221,7 @@ static void sti_dvo_disable(struct drm_bridge *bridge=
+)
+>
+>         writel(0x00000000, dvo->regs + DVO_DOF_CFG);
+>
+> -       if (dvo->panel)
+> -               dvo->panel->funcs->disable(dvo->panel);
+> +       drm_panel_disable(dvo->panel);
+>
+>         /* Disable/unprepare dvo clock */
+>         clk_disable_unprepare(dvo->clk_pix);
+> @@ -262,8 +261,7 @@ static void sti_dvo_pre_enable(struct drm_bridge *bri=
+dge)
+>         if (clk_prepare_enable(dvo->clk))
+>                 DRM_ERROR("Failed to prepare/enable dvo clk\n");
+>
+> -       if (dvo->panel)
+> -               dvo->panel->funcs->enable(dvo->panel);
+> +       drm_panel_enable(dvo->panel);
+>
+>         /* Set LUT */
+>         writel(config->lowbyte,  dvo->regs + DVO_LUT_PROG_LOW);
+> @@ -340,7 +338,7 @@ static int sti_dvo_connector_get_modes(struct drm_con=
+nector *connector)
+>         struct sti_dvo *dvo =3D dvo_connector->dvo;
+>
+>         if (dvo->panel)
+> -               return dvo->panel->funcs->get_modes(dvo->panel);
+> +               return drm_panel_get_modes(dvo->panel);
+>
+>         return 0;
+>  }
+> --
+> 2.20.1
+>
