@@ -2,88 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E027A84E2A
-	for <lists+linux-tegra@lfdr.de>; Wed,  7 Aug 2019 16:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B46CF84E40
+	for <lists+linux-tegra@lfdr.de>; Wed,  7 Aug 2019 16:08:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729992AbfHGOGi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 7 Aug 2019 10:06:38 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:40008 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729968AbfHGOGi (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 7 Aug 2019 10:06:38 -0400
-Received: by mail-ed1-f66.google.com with SMTP id k8so86351496eds.7
-        for <linux-tegra@vger.kernel.org>; Wed, 07 Aug 2019 07:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AJhh4xV0LSLkw0VOcj3qALl+bM7Er5DzqLmgnQpAsmA=;
-        b=Fj8c+dEn6FA8oZt2dkPXtmCkSgQup71CCK6a6tZ6+higq4BxlUuBlP/OtrrQlhzPUT
-         8AySRSuJwW/0Fa7n2ivuLrbNlQIh3LmSRgf3Hjicuprnny/eNZSWBibwE725kaKeckzz
-         QpjH1dWcpTbcCGWnyfmZGJ476eVz7raHofAah48ksC/gjjWBokoH7YKyo5u50fS9LeHF
-         8Xukg1C2MoJ+jIsTAhOOEX/gjhPVYZzu63rcgIxOoJLcN3m9jdWrMQ/acnfTEpsm3BUR
-         GQZLefwSFmBZbOmysiLnuP73bxEZjDd0ITdcuCLZvIwa6+gxdwGII8UhYFAMq79aknwM
-         M2EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AJhh4xV0LSLkw0VOcj3qALl+bM7Er5DzqLmgnQpAsmA=;
-        b=EITxeS7NSL2tLAkbYcnQkY2bzhTiK6Wb4TXCeDBWWJMNQe5MZn7fCf311UsDBvuHaC
-         jfIm5UrnfoerSuviW1bnLG0Fmy8eFCoy8NE5y49UmlYxnutMShI8g02VPBWjCqRhF1ty
-         vXi6szHEEZeByymQcmABV0ME5dzdHUCnrT58bsnh77ywhYxOkZF84X/8Nbg4xEnk3eIr
-         Jy9cSDK7UQ56QG6jmVDTvkAp2+/k4mTe8PKhXZG+z6WbplTdhz6EAq+bkMAAX4TBU2d0
-         T4bDqAxmruwbzudp4x3fRxGYQO2VDhJ+UwJkOvpG/woosGqI0Rp6/ToN+YZ0TV4672Pf
-         nrkg==
-X-Gm-Message-State: APjAAAWekEVVHxxfqcSPRk2ZozDGAgOtmXyXOxyjwfFTUPXM0iTQF6RC
-        x/kza1ejrkPQwYJNaPu+U0o=
-X-Google-Smtp-Source: APXvYqyYEbeJQV45sGrhFq0CQEgjohTkLpK6t2CydZYiJsi3XjfiVRgA2KC3bE+0lGzNmMhNSUD99g==
-X-Received: by 2002:a50:8be8:: with SMTP id n37mr9903612edn.216.1565186796416;
-        Wed, 07 Aug 2019 07:06:36 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id o18sm20760309edq.18.2019.08.07.07.06.35
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 07 Aug 2019 07:06:35 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dave Airlie <airlied@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [GIT PULL] drm/tegra: Fixes for v5.3-rc4
-Date:   Wed,  7 Aug 2019 16:06:34 +0200
-Message-Id: <20190807140634.29166-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.22.0
+        id S2388090AbfHGOHq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 7 Aug 2019 10:07:46 -0400
+Received: from onstation.org ([52.200.56.107]:42714 "EHLO onstation.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726773AbfHGOHq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 7 Aug 2019 10:07:46 -0400
+Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: masneyb)
+        by onstation.org (Postfix) with ESMTPSA id BA57E3E951;
+        Wed,  7 Aug 2019 14:07:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
+        s=default; t=1565186865;
+        bh=6WKzOMIrRhn+HZ7Ye4fD0m71zD/5MBx+bsdK86Uuj2c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PJh2pZx1sesHz3Pw1IeyqA+GVWbYfJ/w8c7srPHO3nDhOIha6mDNXfDJs6HHIfAjM
+         CiXOvgEDhoMJYJEGRjJPE4brU1fDnmAqM60bKD9D20iVuIvBNLfFPQ3sn4nRUezk7d
+         wQ6YdoznMAubLi/7Re6c8szg+FIep7LAAvM4XQtw=
+Date:   Wed, 7 Aug 2019 10:07:44 -0400
+From:   Brian Masney <masneyb@onstation.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lina Iyer <ilina@codeaurora.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
+        David Daney <david.daney@cavium.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/4] gpio: hierarchical IRQ improvements
+Message-ID: <20190807140744.GA18224@onstation.org>
+References: <20190708110138.24657-1-masneyb@onstation.org>
+ <CACRpkdYQhyh1BW789OcxGTomMkC3e8hMr8sodbWz-z1=5s9fDw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdYQhyh1BW789OcxGTomMkC3e8hMr8sodbWz-z1=5s9fDw@mail.gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dave,
+On Wed, Aug 07, 2019 at 03:41:05PM +0200, Linus Walleij wrote:
+> On Mon, Jul 8, 2019 at 1:01 PM Brian Masney <masneyb@onstation.org> wrote:
+> 
+> > This builds on top of Linus Walleij's existing patches that adds
+> > hierarchical IRQ support to the GPIO core [1] so that Qualcomm's
+> > spmi-gpio and ssbi-gpio can be converted to use these new helpers.
+> >
+> > Linus: Feel free to squash these into your existing patches if you'd
+> > like to use any of this code. Just give me some kind of mention in the
+> > commit description.
+> >
+> > [1] https://lore.kernel.org/linux-gpio/20190624132531.6184-1-linus.walleij@linaro.org/
+> >
+> > Brian Masney (4):
+> >   gpio: introduce gpiochip_populate_parent_fwspec_{two,four}cell
+> >     functions
+> >   gpio: allow customizing hierarchical IRQ chips
+> >   gpio: use handler in gpio_irq_chip instead of handle_bad_irq
+> >   qcom: spmi-gpio: convert to hierarchical IRQ helpers in gpio core
+> 
+> I solved things like this:
+> 
+> - I kept patches 1 & 4 as-is
+> - I squashed patches 2 and 3 into the main patch with minor modifications.
+> - I added Co-developed-by: for your contributions
+> 
+> Now I need to address Masahiro's comments on top and let's see if the
+> result looks acceptable!
 
-The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
+> Ooops had to squash patch 1 as well...
 
-  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
+All of this sounds good. I'll retest once you send out the updated
+series.
 
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/tegra/linux tags/drm/tegra/for-5.3-rc4
-
-for you to fetch changes up to 2a6fc3cb5cb68597f1072bfeef28d2ca02310220:
-
-  drm/tegra: Fix gpiod_get_from_of_node() regression (2019-07-25 15:23:26 +0200)
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-drm/tegra: Fixes for v5.3-rc4
-
-This contains a single fix for a regression introduced by a combination
-of a GPIO and a drm/tegra patch merged in v5.3-rc1.
-
-----------------------------------------------------------------
-Dmitry Osipenko (1):
-      drm/tegra: Fix gpiod_get_from_of_node() regression
-
- drivers/gpu/drm/tegra/output.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Brian
