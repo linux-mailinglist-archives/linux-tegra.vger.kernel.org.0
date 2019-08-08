@@ -2,132 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B5E9863EE
-	for <lists+linux-tegra@lfdr.de>; Thu,  8 Aug 2019 16:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58D5986D2D
+	for <lists+linux-tegra@lfdr.de>; Fri,  9 Aug 2019 00:25:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733224AbfHHOJ4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 8 Aug 2019 10:09:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46856 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725785AbfHHOJz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 8 Aug 2019 10:09:55 -0400
-Received: from localhost (unknown [122.178.245.201])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8D0D721743;
-        Thu,  8 Aug 2019 14:09:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565273394;
-        bh=gA44XLKRN/pAQgX4lVuLJHPX31ttKB8ZduENEjxuRdQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1cFxuMxzmr71qoyYuXvjzcX/McYNk2Mypanay4lBJ6eV06PuGWcysIHo3ovxOufgJ
-         jvX0Jk8XEWAYjw1BK7K+ZbXaq85E5fFaEFT+bSzAtqJqY9oOJJb2baJcni3UhmzQDw
-         Ip/JEMo9RpTNQfy26s5CGE0af8tb7NsneNzINzFo=
-Date:   Thu, 8 Aug 2019 19:38:42 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     jonathanh@nvidia.com, ldewangan@nvidia.com,
-        thierry.reding@gmail.com, dmaengine@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2] dmaengine: tegra210-adma: fix transfer failure
-Message-ID: <20190808140842.GC12733@vkoul-mobl.Dlink>
-References: <1562929830-29344-1-git-send-email-spujar@nvidia.com>
+        id S2404679AbfHHWZr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 8 Aug 2019 18:25:47 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39456 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732708AbfHHWZq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 8 Aug 2019 18:25:46 -0400
+Received: by mail-lj1-f196.google.com with SMTP id v18so90278587ljh.6;
+        Thu, 08 Aug 2019 15:25:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q9p8dp4Vwd7zb49ZfmkHjOde2lTf1kQmZ0LZmoXXg+Y=;
+        b=X/HCeJp6SdIpegsENNIX5jnBFbtDSt0UzsTUaN0a3V8l4KnCb/S47gsOo5w4dI/NuL
+         V5etWewZyguGVw5FG6KZWbW1LS15klZZSFCTiM7xpoSJFKT0PQDSyqOStwc5XptUNDIb
+         qgY409tTcnSLMME5LL0QF9qUqJEJ5eul/A29A05dpYuiAE/VlwyFHs9wqNchY3n6E3tm
+         PvQ0AGqmCEPC4oalZvcTWwYpZWM+7HKgb3eXOP5yluvevmLCNFylOeAYk+oId8vPdONf
+         JOWaRweXeFZl1b7jrY0HUlayIuG7iqV2+q/o6hzKZx9BLRodDP11LPPM9cHiWEb3wN3X
+         4CBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q9p8dp4Vwd7zb49ZfmkHjOde2lTf1kQmZ0LZmoXXg+Y=;
+        b=JGAzGWjuAZo8BCyJ+jFiDtGtbpEogcNiooDB8Q1/3nLH0goLK+zBDHd1O9vjLhGwy2
+         AMGb5hZq8/csTSRCwTLpO0XWbLb+GETMzbiW7kBz5wrUIXdMfnxkVrAemaUbPFFPp8jh
+         17jh5PvWtDEfBiixw6hba23owcAHs9TZ6s+6adekP+0J4Rw+hLjVuJQ1J/eIcS8Ea5T5
+         9pj9rHF7cZ+CvccJTgTk45Q6YVjZIVbOTZmvvRTVwNULu29Op2EPzwI9oTVQj75V+RpE
+         QFGIAEgayyd0hCaz93b9eC/4UjtpyX3SLjqWLNoa7OgLy2F+D3tQzZ+dzq1ljGT2bwWt
+         UnPA==
+X-Gm-Message-State: APjAAAUx1JJ0CXUgSqw4EMqq5ZYk57Si1XVKMzl5tKnOckrzsVCbL18C
+        y0L1c2r4HgvumbNZx1lPlCY=
+X-Google-Smtp-Source: APXvYqyRb0wvQlmXB+gXw3/gwm+pd7UaBZTu3orpe9dFWQXE6Yy8xkJqi7BlFLmgkM9E0td9w8j+IQ==
+X-Received: by 2002:a2e:9b48:: with SMTP id o8mr9572286ljj.122.1565303144838;
+        Thu, 08 Aug 2019 15:25:44 -0700 (PDT)
+Received: from localhost.localdomain ([94.29.34.218])
+        by smtp.gmail.com with ESMTPSA id g5sm19318415ljj.69.2019.08.08.15.25.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 08 Aug 2019 15:25:43 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] Revert "mmc: sdhci-tegra: drop ->get_ro() implementation"
+Date:   Fri,  9 Aug 2019 01:24:30 +0300
+Message-Id: <20190808222430.28477-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1562929830-29344-1-git-send-email-spujar@nvidia.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 12-07-19, 16:40, Sameer Pujar wrote:
-> >From Tegra186 onwards OUTSTANDING_REQUESTS field is added in channel
-  ^^
-please remove the leading char from the para
+The WRITE_PROTECT bit is always in a "protected mode" on Tegra and
+WP-GPIO state need to be used instead. In a case of the GPIO absence,
+write-enable should be assumed. External SD is writable once again as
+a result of this patch because the offending commit changed behaviour for
+the case of a missing WP-GPIO to fall back to WRITE_PROTECT bit-checking,
+which is incorrect for Tegra.
 
-> configuration register(bits 7:4) which defines the maximum number of reads
-> from the source and writes to the destination that may be outstanding at
-> any given point of time. This field must be programmed with a value
-> between 1 and 8. A value of 0 will prevent any transfers from happening.
-> 
-> Thus added 'ch_pending_req' member in chip data structure and the same is
-> populated with maximum allowed pending requests. Since the field is not
-> applicable to Tegra210, mentioned bit fields are unused and hence the
-> member is initialized with 0. For Tegra186, by default program this field
-> with the maximum permitted value of 8.
-> 
-> Fixes: 433de642a76c ("dmaengine: tegra210-adma: add support for Tegra186/Tegra194")
+Cc: stable@vger.kernel.org # v5.1+
+Fixes: e8391453e27f ("mmc: sdhci-tegra: drop ->get_ro() implementation")
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/mmc/host/sdhci-tegra.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Should this be tagged stable? Also some reviews from Tegra folks would
-be great
-
-> 
-> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> ---
->  drivers/dma/tegra210-adma.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-> index 2805853..5ab4e3a9 100644
-> --- a/drivers/dma/tegra210-adma.c
-> +++ b/drivers/dma/tegra210-adma.c
-> @@ -74,6 +74,8 @@
->  				    TEGRA186_ADMA_CH_FIFO_CTRL_TXSIZE(3)    | \
->  				    TEGRA186_ADMA_CH_FIFO_CTRL_RXSIZE(3))
->  
-> +#define TEGRA186_DMA_MAX_PENDING_REQS			8
-> +
->  #define ADMA_CH_REG_FIELD_VAL(val, mask, shift)	(((val) & mask) << shift)
->  
->  struct tegra_adma;
-> @@ -85,6 +87,7 @@ struct tegra_adma;
->   * @ch_req_tx_shift: Register offset for AHUB transmit channel select.
->   * @ch_req_rx_shift: Register offset for AHUB receive channel select.
->   * @ch_base_offset: Register offset of DMA channel registers.
-> + * @ch_pending_req: Outstaning DMA requests for a channel.
->   * @ch_fifo_ctrl: Default value for channel FIFO CTRL register.
->   * @ch_req_mask: Mask for Tx or Rx channel select.
->   * @ch_req_max: Maximum number of Tx or Rx channels available.
-> @@ -98,6 +101,7 @@ struct tegra_adma_chip_data {
->  	unsigned int ch_req_tx_shift;
->  	unsigned int ch_req_rx_shift;
->  	unsigned int ch_base_offset;
-> +	unsigned int ch_pending_req;
->  	unsigned int ch_fifo_ctrl;
->  	unsigned int ch_req_mask;
->  	unsigned int ch_req_max;
-> @@ -602,6 +606,7 @@ static int tegra_adma_set_xfer_params(struct tegra_adma_chan *tdc,
->  			 ADMA_CH_CTRL_FLOWCTRL_EN;
->  	ch_regs->config |= cdata->adma_get_burst_config(burst_size);
->  	ch_regs->config |= ADMA_CH_CONFIG_WEIGHT_FOR_WRR(1);
-> +	ch_regs->config |= cdata->ch_pending_req;
-
-so for tegra186 this will be 0, which per above would prevent any
-transfers?? What did i miss
-
->  	ch_regs->fifo_ctrl = cdata->ch_fifo_ctrl;
->  	ch_regs->tc = desc->period_len & ADMA_CH_TC_COUNT_MASK;
->  
-> @@ -786,6 +791,7 @@ static const struct tegra_adma_chip_data tegra210_chip_data = {
->  	.ch_req_tx_shift	= 28,
->  	.ch_req_rx_shift	= 24,
->  	.ch_base_offset		= 0,
-> +	.ch_pending_req		= 0,
->  	.ch_fifo_ctrl		= TEGRA210_FIFO_CTRL_DEFAULT,
->  	.ch_req_mask		= 0xf,
->  	.ch_req_max		= 10,
-> @@ -800,6 +806,7 @@ static const struct tegra_adma_chip_data tegra186_chip_data = {
->  	.ch_req_tx_shift	= 27,
->  	.ch_req_rx_shift	= 22,
->  	.ch_base_offset		= 0x10000,
-> +	.ch_pending_req		= (TEGRA186_DMA_MAX_PENDING_REQS << 4),
->  	.ch_fifo_ctrl		= TEGRA186_FIFO_CTRL_DEFAULT,
->  	.ch_req_mask		= 0x1f,
->  	.ch_req_max		= 20,
-> -- 
-> 2.7.4
-
+diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+index f4d4761cf20a..02d8f524bb9e 100644
+--- a/drivers/mmc/host/sdhci-tegra.c
++++ b/drivers/mmc/host/sdhci-tegra.c
+@@ -258,6 +258,16 @@ static void tegra210_sdhci_writew(struct sdhci_host *host, u16 val, int reg)
+ 	}
+ }
+ 
++static unsigned int tegra_sdhci_get_ro(struct sdhci_host *host)
++{
++	/*
++	 * Write-enable shall be assumed if GPIO is missing in a board's
++	 * device-tree because SDHCI's WRITE_PROTECT bit doesn't work on
++	 * Tegra.
++	 */
++	return mmc_gpio_get_ro(host->mmc);
++}
++
+ static bool tegra_sdhci_is_pad_and_regulator_valid(struct sdhci_host *host)
+ {
+ 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+@@ -1224,6 +1234,7 @@ static const struct cqhci_host_ops sdhci_tegra_cqhci_ops = {
+ };
+ 
+ static const struct sdhci_ops tegra_sdhci_ops = {
++	.get_ro     = tegra_sdhci_get_ro,
+ 	.read_w     = tegra_sdhci_readw,
+ 	.write_l    = tegra_sdhci_writel,
+ 	.set_clock  = tegra_sdhci_set_clock,
+@@ -1279,6 +1290,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra30 = {
+ };
+ 
+ static const struct sdhci_ops tegra114_sdhci_ops = {
++	.get_ro     = tegra_sdhci_get_ro,
+ 	.read_w     = tegra_sdhci_readw,
+ 	.write_w    = tegra_sdhci_writew,
+ 	.write_l    = tegra_sdhci_writel,
+@@ -1332,6 +1344,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra124 = {
+ };
+ 
+ static const struct sdhci_ops tegra210_sdhci_ops = {
++	.get_ro     = tegra_sdhci_get_ro,
+ 	.read_w     = tegra_sdhci_readw,
+ 	.write_w    = tegra210_sdhci_writew,
+ 	.write_l    = tegra_sdhci_writel,
+@@ -1366,6 +1379,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra210 = {
+ };
+ 
+ static const struct sdhci_ops tegra186_sdhci_ops = {
++	.get_ro     = tegra_sdhci_get_ro,
+ 	.read_w     = tegra_sdhci_readw,
+ 	.write_l    = tegra_sdhci_writel,
+ 	.set_clock  = tegra_sdhci_set_clock,
 -- 
-~Vinod
+2.22.0
+
