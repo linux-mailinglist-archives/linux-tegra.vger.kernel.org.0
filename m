@@ -2,188 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D32E87915
-	for <lists+linux-tegra@lfdr.de>; Fri,  9 Aug 2019 13:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5286D87938
+	for <lists+linux-tegra@lfdr.de>; Fri,  9 Aug 2019 14:03:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406646AbfHILzT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 9 Aug 2019 07:55:19 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:35531 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406374AbfHILzT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 9 Aug 2019 07:55:19 -0400
-Received: by mail-lf1-f66.google.com with SMTP id p197so69285221lfa.2;
-        Fri, 09 Aug 2019 04:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7Dk0IUHM38gePXuPnJcQWs6woRmICc2Sfnk5N9jHROY=;
-        b=CHw+iblh/T0TAP092dyC0+mkS3a9L4c5UCcvy9tcg7tkhrayQi8xcfJZeFQbdQrvyY
-         pzcS2FiXN+uyLODkLKYkk+tXSiLwYEGeD0VvtXXq8RkPHPnhuwP56IzynRPCNwWrAYA9
-         cE+IFx5g6FB36M1ReRVo4HuJ759xFVn5G9yhUrrB+PTfudptknMK3VXlTbzdYU7MPKND
-         Mvx4podHovEV329raVo9sG2MdCpI+4iYQnVicheg2BuN9opzkOIuvS/pR6VVRnze8R0H
-         IObHLu2uOupWQFk2xHncZZMKzx0i+cMNLjXfh44z1Yrq/sCOjsrqgKpW2E1T5oI0YzPH
-         C1Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7Dk0IUHM38gePXuPnJcQWs6woRmICc2Sfnk5N9jHROY=;
-        b=uNLOd9PPSB9SY5sE/ODRAoSvtAn7BPr93NqXf8MV5XyzowIxQg+nwuZ7ipmNj6c2gH
-         5yzHIGZPJDusHVivNSzSqSaccQaZL0SbtHb1RX5ZiQ2gHl8NaNMT1Wc7pxIgv94eyzqy
-         gSmzsy/Si675Ii3bOlL+30mPhVFOcqJ0ZR1nTV6NQJN0l/TXgNWghhlriiTWYT0XxuQt
-         U2EjOVYBcs7ljt0tD91curBt6syJ4qD7nblx1Tdp9A8HVaO6HXMlvxA+xDkQFIMQg1jA
-         gSLKiV++EaMoakDvpn+zN4ybm+ShhMQsdyxil2FGGS7WIk0IXKA10UlvF+XeQnYgi4mt
-         nIpg==
-X-Gm-Message-State: APjAAAXz6t6191dAUC9dbkerJmiZRrZe3eZVJQSwqQEz0T4FbNCfAKwl
-        h8Ibqbj94qW1xOVHMRfKXLGrXggw
-X-Google-Smtp-Source: APXvYqyVviYpNWisgymNhjYHi8j1qtWAONZnBQwbFO+/Hj+5p0AZb7Qdt+tD8KncAepElKrzWUbwRA==
-X-Received: by 2002:ac2:43bc:: with SMTP id t28mr12887590lfl.14.1565351715595;
-        Fri, 09 Aug 2019 04:55:15 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.34.218])
-        by smtp.googlemail.com with ESMTPSA id u15sm19309007lji.61.2019.08.09.04.55.14
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 09 Aug 2019 04:55:15 -0700 (PDT)
-Subject: Re: [PATCH v8 08/21] clk: tegra: periph: Add restore_context support
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
-        jason@lakedaemon.net, marc.zyngier@arm.com,
-        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, rjw@rjwysocki.net,
-        viresh.kumar@linaro.org, linux-pm@vger.kernel.org
-References: <1565308020-31952-1-git-send-email-skomatineni@nvidia.com>
- <1565308020-31952-9-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5a5f9fb9-9cdd-5d91-4b0e-9bdb95b2625e@gmail.com>
-Date:   Fri, 9 Aug 2019 14:55:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S2406568AbfHIMDX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 9 Aug 2019 08:03:23 -0400
+Received: from mga18.intel.com ([134.134.136.126]:51699 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726140AbfHIMDX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 9 Aug 2019 08:03:23 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Aug 2019 05:03:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; 
+   d="scan'208";a="375182553"
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by fmsmga006.fm.intel.com with ESMTP; 09 Aug 2019 05:03:19 -0700
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>,
+        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, mark.rutland@arm.com, robh+dt@kernel.org
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: Re: [Patch V6 7/8] usb: gadget: Add UDC driver for tegra XUSB device mode controller
+In-Reply-To: <1565257046-9890-8-git-send-email-nkristam@nvidia.com>
+References: <1565257046-9890-1-git-send-email-nkristam@nvidia.com> <1565257046-9890-8-git-send-email-nkristam@nvidia.com>
+Date:   Fri, 09 Aug 2019 15:03:18 +0300
+Message-ID: <87tvaqtuk9.fsf@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1565308020-31952-9-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-09.08.2019 2:46, Sowjanya Komatineni пишет:
-> This patch implements restore_context support for clk-periph and
-> clk-sdmmc-mux clock operations to restore clock parent and rates
-> on system resume.
-> 
-> During system suspend, core power goes off and looses the context
-> of the Tegra clock controller registers.
-> 
-> So on system resume, clocks parent and rate are restored back to
-> the context before suspend based on cached data.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+
+Hi,
+
+Nagarjuna Kristam <nkristam@nvidia.com> writes:
+> This patch adds UDC driver for tegra XUSB 3.0 device mode controller.
+> XUSB device mode controller supports SS, HS and FS modes
+>
+> Based on work by:
+>   Mark Kuo <mkuo@nvidia.com>
+>   Hui Fu <hfu@nvidia.com>
+>   Andrew Bresticker <abrestic@chromium.org>
+>
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> Acked-by: Thierry Reding <treding@nvidia.com>
 > ---
->  drivers/clk/tegra/clk-periph.c    | 18 ++++++++++++++++++
->  drivers/clk/tegra/clk-sdmmc-mux.c | 12 ++++++++++++
->  2 files changed, 30 insertions(+)
-> 
-> diff --git a/drivers/clk/tegra/clk-periph.c b/drivers/clk/tegra/clk-periph.c
-> index 58437da25156..c9d28cbadccc 100644
-> --- a/drivers/clk/tegra/clk-periph.c
-> +++ b/drivers/clk/tegra/clk-periph.c
-> @@ -3,6 +3,7 @@
->   * Copyright (c) 2012, NVIDIA CORPORATION.  All rights reserved.
->   */
+>  drivers/usb/gadget/udc/Kconfig      |   11 +
+>  drivers/usb/gadget/udc/Makefile     |    1 +
+>  drivers/usb/gadget/udc/tegra_xudc.c | 3808 +++++++++++++++++++++++++++++++++++
+>  3 files changed, 3820 insertions(+)
+>  create mode 100644 drivers/usb/gadget/udc/tegra_xudc.c
+>
+> diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
+> index ef0259a..fe6028e 100644
+> --- a/drivers/usb/gadget/udc/Kconfig
+> +++ b/drivers/usb/gadget/udc/Kconfig
+> @@ -440,6 +440,17 @@ config USB_GADGET_XILINX
+>  	  dynamically linked module called "udc-xilinx" and force all
+>  	  gadget drivers to also be dynamically linked.
 >  
-> +#include <linux/clk.h>
->  #include <linux/clk-provider.h>
->  #include <linux/export.h>
->  #include <linux/slab.h>
-> @@ -99,6 +100,20 @@ static void clk_periph_disable(struct clk_hw *hw)
->  	gate_ops->disable(gate_hw);
->  }
->  
-> +static void clk_periph_restore_context(struct clk_hw *hw)
-> +{
-> +	struct tegra_clk_periph *periph = to_clk_periph(hw);
-> +	const struct clk_ops *div_ops = periph->div_ops;
-> +	struct clk_hw *div_hw = &periph->divider.hw;
-> +	struct clk_hw *parent = clk_hw_get_parent(hw);
-> +	int parent_id = clk_hw_get_parent_index(hw, parent);
-> +
-> +	if (!(periph->gate.flags & TEGRA_PERIPH_NO_DIV))
-> +		div_ops->restore_context(div_hw);
-> +
-> +	clk_periph_set_parent(hw, parent_id);
-> +}
-> +
->  const struct clk_ops tegra_clk_periph_ops = {
->  	.get_parent = clk_periph_get_parent,
->  	.set_parent = clk_periph_set_parent,
-> @@ -108,6 +123,7 @@ const struct clk_ops tegra_clk_periph_ops = {
->  	.is_enabled = clk_periph_is_enabled,
->  	.enable = clk_periph_enable,
->  	.disable = clk_periph_disable,
-> +	.restore_context = clk_periph_restore_context,
->  };
->  
->  static const struct clk_ops tegra_clk_periph_nodiv_ops = {
-> @@ -116,6 +132,7 @@ static const struct clk_ops tegra_clk_periph_nodiv_ops = {
->  	.is_enabled = clk_periph_is_enabled,
->  	.enable = clk_periph_enable,
->  	.disable = clk_periph_disable,
-> +	.restore_context = clk_periph_restore_context,
->  };
->  
->  static const struct clk_ops tegra_clk_periph_no_gate_ops = {
-> @@ -124,6 +141,7 @@ static const struct clk_ops tegra_clk_periph_no_gate_ops = {
->  	.recalc_rate = clk_periph_recalc_rate,
->  	.round_rate = clk_periph_round_rate,
->  	.set_rate = clk_periph_set_rate,
-> +	.restore_context = clk_periph_restore_context,
->  };
->  
->  static struct clk *_tegra_clk_register_periph(const char *name,
-> diff --git a/drivers/clk/tegra/clk-sdmmc-mux.c b/drivers/clk/tegra/clk-sdmmc-mux.c
-> index a5cd3e31dbae..8db48966b100 100644
-> --- a/drivers/clk/tegra/clk-sdmmc-mux.c
-> +++ b/drivers/clk/tegra/clk-sdmmc-mux.c
-> @@ -194,6 +194,17 @@ static void clk_sdmmc_mux_disable(struct clk_hw *hw)
->  	gate_ops->disable(gate_hw);
->  }
->  
-> +static void clk_sdmmc_mux_restore_context(struct clk_hw *hw)
-> +{
-> +	struct clk_hw *parent = clk_hw_get_parent(hw);
-> +	unsigned long parent_rate = clk_hw_get_rate(parent);
-> +	unsigned long rate = clk_hw_get_rate(hw);
-> +	int parent_id = clk_hw_get_parent_index(hw, parent);
-> +
-> +	clk_sdmmc_mux_set_parent(hw, parent_id);
-> +	clk_sdmmc_mux_set_rate(hw, rate, parent_rate);
+> +config USB_TEGRA_XUDC
+> +	tristate "NVIDIA Tegra Superspeed USB 3.0 Device Controller"
+> +	depends on ARCH_TEGRA
 
-For the periph clocks you're restoring rate at first and then the
-parent, while here it's the other way around. I'm wondering if there is
-any difference in practice and thus whether rate's divider need to be
-set to a some safe value before switching to a new parent that has a
-higher clock rate than the old parent.
+I need at least a COMPILE_TEST here.
 
-> +}
-> +
->  static const struct clk_ops tegra_clk_sdmmc_mux_ops = {
->  	.get_parent = clk_sdmmc_mux_get_parent,
->  	.set_parent = clk_sdmmc_mux_set_parent,
-> @@ -203,6 +214,7 @@ static const struct clk_ops tegra_clk_sdmmc_mux_ops = {
->  	.is_enabled = clk_sdmmc_mux_is_enabled,
->  	.enable = clk_sdmmc_mux_enable,
->  	.disable = clk_sdmmc_mux_disable,
-> +	.restore_context = clk_sdmmc_mux_restore_context,
->  };
->  
->  struct clk *tegra_clk_register_sdmmc_mux_div(const char *name,
-> 
-
+-- 
+balbi
