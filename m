@@ -2,76 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88D3588906
-	for <lists+linux-tegra@lfdr.de>; Sat, 10 Aug 2019 09:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03499892D6
+	for <lists+linux-tegra@lfdr.de>; Sun, 11 Aug 2019 19:24:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725763AbfHJHUH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 10 Aug 2019 03:20:07 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49664 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725468AbfHJHUH (ORCPT
+        id S1726383AbfHKRYc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 11 Aug 2019 13:24:32 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:35406 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725847AbfHKRYb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 10 Aug 2019 03:20:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=wcsoQD/kkeXHlE3wtt7ujhgal0D9X1wjreyfjFvyJnE=; b=rIQjVBRbUalUzEgkNxwyt43Zn
-        x4PbTuezgbMXai9FbWUTG955GfhRdZtHMgkm48H9IZG2qHXA/7l1NMmgayFmZPYBmAoaV9EQx+gsM
-        ZClXrKMYO5VeGslBdsR01nfiSE/n6l7MMbvWf1vgsIk9BezRvpL+E4ypdUw4cEZj7KxrC//oazGNg
-        46s9Kj3k4nyi4FzykAJCqTakzENOSCuyIN1KZEW4OMtenJshrE9HX7rLqy7AF4Y5CNyfUUTniyVt6
-        ZkLANDCWLqFQILL4/8oj2J44p/33VkgTremVQfjG52J0CFLFda610kjKoGRGT7vbdJ/hp42uYAtRq
-        Mv0xDjzGA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hwLfM-0006iA-Bq; Sat, 10 Aug 2019 07:19:52 +0000
-Date:   Sat, 10 Aug 2019 00:19:52 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Tom Murphy <murphyt7@tcd.ie>, Joerg Roedel <joro@8bytes.org>
-Cc:     Heiko Stuebner <heiko@sntech.de>,
-        Will Deacon <will.deacon@arm.com>,
-        virtualization@lists.linux-foundation.org,
-        David Brown <david.brown@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Kukjin Kim <kgene@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        David Woodhouse <dwmw2@infradead.org>,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v4 0/5] iommu/amd: Convert the AMD iommu driver to the
- dma-iommu api
-Message-ID: <20190810071952.GA25550@infradead.org>
-References: <20190613223901.9523-1-murphyt7@tcd.ie>
- <20190624061945.GA4912@infradead.org>
+        Sun, 11 Aug 2019 13:24:31 -0400
+Received: by mail-lf1-f66.google.com with SMTP id p197so72738888lfa.2;
+        Sun, 11 Aug 2019 10:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/pMvHtk+M/m2BtPotUFGhDIVPX/VoDUBZOFj7Ex1OpE=;
+        b=QhWmE08jXK6cT0R9qwXBbJVFKcHGm+8TQ1eixjtzcM/wkemUEM1du4hYazrXEndVpT
+         y0FEZWbMqEAdHmGfM1bRGaHecgZyq68XcfRTbistQfxW1J6U5x6Xx24YQPF/XadUGgq2
+         /9ySH0J9qBNlcMecSwyALJoRsuuCtSxh/89GGf23Fq11tcpl0yAJQa3ZjaKBesdfexxR
+         8OFPaSIL2jCvgkgPELZvaoW8Qjrdpqlpsi3K+En/nRc8+S5qLNbAkYUVb98WDKRfJW3I
+         9ZFytBnQ5ZDuEPxfqO1SH2dEHkMVPjMHifu9SMbYaN05ymxxYdAR2TPi5frIslL/unhR
+         xnEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/pMvHtk+M/m2BtPotUFGhDIVPX/VoDUBZOFj7Ex1OpE=;
+        b=ZZWPW+2IkZNnW+3U4aul1nn44W1GJyhJlcOn4Bxkve/ShvYhwbrjMY1jCQfXID583h
+         MUTkPJDIWohN/8rzc58NYxZxdxmcL99JpJ5JcGp7f5r0u1CCq34DsWGEf5vZ127/nRWX
+         J/SWupMPfWmoxGish6zkULyvgAtq2vtL4AWGh9X4YxlWur8mXvUm/pxLNCi+pPMD9lUe
+         hKMGrsGgTiEecXacfwADhwPsnfRrxQyI3IyibyG98XotIDKk5C0GsaJ04yDLtOV6Ombs
+         f9AtQM8AbV59IoVyICjIQeWsvgJMatgN+9QnlLpNWcGF4Ivudghyy6YYXBlMEilvlb21
+         YyFg==
+X-Gm-Message-State: APjAAAWDx5qhMJwoB+B6QEwElYnynoqNCCTXPJVIV2Pg++6jOBk4KEVn
+        lynxaC4QdXita8rIM7Y4yiO2n41+
+X-Google-Smtp-Source: APXvYqx0eMIALFSSfkzuJmnIRn5B58WB5jzFU9BQ57A8l/Ytm7iKaxoVhpZr+BL1i3f5Su+zBPRzTA==
+X-Received: by 2002:ac2:5976:: with SMTP id h22mr17733445lfp.79.1565544268454;
+        Sun, 11 Aug 2019 10:24:28 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.34.218])
+        by smtp.googlemail.com with ESMTPSA id q1sm20492867ljb.87.2019.08.11.10.24.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 11 Aug 2019 10:24:27 -0700 (PDT)
+Subject: Re: [PATCH v8 05/21] clk: tegra: pll: Save and restore pll context
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
+        jason@lakedaemon.net, marc.zyngier@arm.com,
+        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, rjw@rjwysocki.net,
+        viresh.kumar@linaro.org, linux-pm@vger.kernel.org
+References: <1565308020-31952-1-git-send-email-skomatineni@nvidia.com>
+ <1565308020-31952-6-git-send-email-skomatineni@nvidia.com>
+ <68f65db6-44b7-1c75-2633-4a2fffd62a92@gmail.com>
+ <dd20aa34-d838-40c4-9edd-bbe5973053f3@nvidia.com>
+ <2eecf4ff-802d-7e0e-d971-0257fae4e3a2@gmail.com>
+ <9096cbca-f647-b0af-2ab8-d48769555c3e@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d289b682-1760-efe1-e6a5-5b51c476f1ed@gmail.com>
+Date:   Sun, 11 Aug 2019 20:24:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190624061945.GA4912@infradead.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <9096cbca-f647-b0af-2ab8-d48769555c3e@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Jun 23, 2019 at 11:19:45PM -0700, Christoph Hellwig wrote:
-> Tom,
+09.08.2019 21:50, Sowjanya Komatineni пишет:
 > 
-> next time please cc Jerg as the AMD IOMMU maintainer.
+> On 8/9/19 10:50 AM, Dmitry Osipenko wrote:
+>> 09.08.2019 20:39, Sowjanya Komatineni пишет:
+>>> On 8/9/19 4:33 AM, Dmitry Osipenko wrote:
+>>>> 09.08.2019 2:46, Sowjanya Komatineni пишет:
+>>>>> This patch implements save and restore of PLL context.
+>>>>>
+>>>>> During system suspend, core power goes off and looses the settings
+>>>>> of the Tegra CAR controller registers.
+>>>>>
+>>>>> So during suspend entry pll context is stored and on resume it is
+>>>>> restored back along with its state.
+>>>>>
+>>>>> Acked-by: Thierry Reding <treding@nvidia.com>
+>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>> ---
+>>>>>    drivers/clk/tegra/clk-pll.c | 88 ++++++++++++++++++++++++++++-----------------
+>>>>>    drivers/clk/tegra/clk.h     |  2 ++
+>>>>>    2 files changed, 58 insertions(+), 32 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/clk/tegra/clk-pll.c b/drivers/clk/tegra/clk-pll.c
+>>>>> index 1583f5fc992f..e52add2bbdbb 100644
+>>>>> --- a/drivers/clk/tegra/clk-pll.c
+>>>>> +++ b/drivers/clk/tegra/clk-pll.c
+>>>>> @@ -1008,6 +1008,28 @@ static unsigned long clk_plle_recalc_rate(struct clk_hw *hw,
+>>>>>        return rate;
+>>>>>    }
+>>>>>    +static void tegra_clk_pll_restore_context(struct clk_hw *hw)
+>>>>> +{
+>>>>> +    struct tegra_clk_pll *pll = to_clk_pll(hw);
+>>>>> +    struct clk_hw *parent = clk_hw_get_parent(hw);
+>>>>> +    unsigned long parent_rate = clk_hw_get_rate(parent);
+>>>>> +    unsigned long rate = clk_hw_get_rate(hw);
+>>>>> +    u32 val;
+>>>>> +
+>>>>> +    if (clk_pll_is_enabled(hw))
+>>>>> +        return;
+>>>>> +
+>>>>> +    if (pll->params->set_defaults)
+>>>>> +        pll->params->set_defaults(pll);
+>>>>> +
+>>>>> +    clk_pll_set_rate(hw, rate, parent_rate);
+>>>>> +
+>>>>> +    if (!__clk_get_enable_count(hw->clk))
+>>>> What about orphaned clocks? Is enable_count > 0 for them?
+>>> There are no orphaned pll clocks.
+>> Sorry, I meant the "clk_ignore_unused".
 > 
-> Joerg, any chance you could review this?  Toms patches to convert the
-> AMD and Intel IOMMU drivers to the dma-iommu code are going to make my
-> life in DMA land significantly easier, so I have a vested interest
-> in this series moving forward :)
+> clocks with CLK_IGNORE_UNUSED are taken care by clk driver.
+> 
+> clk_disable_unused checks for clocks with this flag and if they are not enabled it will
+> enable them.
+> 
+> So by the time suspend happens enable_count is > 0
 
-Tom, can you repost the series?  Seems like there hasn't been any
-news for a month.
+Okay.
