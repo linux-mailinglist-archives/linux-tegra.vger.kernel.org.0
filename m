@@ -2,100 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CEDE89439
-	for <lists+linux-tegra@lfdr.de>; Sun, 11 Aug 2019 23:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88114898B9
+	for <lists+linux-tegra@lfdr.de>; Mon, 12 Aug 2019 10:34:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726812AbfHKVYy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 11 Aug 2019 17:24:54 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:36377 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726789AbfHKVYx (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 11 Aug 2019 17:24:53 -0400
-Received: by mail-lj1-f195.google.com with SMTP id u15so1645772ljl.3;
-        Sun, 11 Aug 2019 14:24:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=o7LGlq6WIVQMLtb/JEtFncARlenXInquAoE0QDVW21U=;
-        b=P51t0m3rzz0PnQOdu2pOxpETktNoisJUH72+SbZPzsmw9KgYP1PMraJK99BR99qkxa
-         Hcl1qqDbcvH/fE0z1IJom0SsGKljkT0HZKKWGUHqsC+Hjd4wTH5wQRxe5MCEKXHvY03y
-         OqTJeUSCBF3h36AnAQHmFlc6KagyLk25Rt5YLzblEu0Zdd/GlSxivXawqJDX7qRKydxe
-         X8Q47iE9OdFkXsASbni2Or/BQZxx0w047gDLhegRnwQsNjWFOd1BJBLDgm14556UJ/Zm
-         TWxIs97EDiGpwhveypfNLeT3amBCtEHz5J+i18XKQn1aZfG2333mUsDDvibssXt+dtoR
-         Po9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=o7LGlq6WIVQMLtb/JEtFncARlenXInquAoE0QDVW21U=;
-        b=IAgOUU5cnUOCyEj5rkDSBJ2QcB94Cl8ONdYPPBDCS3P3fRe3d3ody+1hQy5baxETJu
-         buznkAggIBDQl/eCpzvTtvMuy4ptoZZei+GZAhokirHsLkmUqdCPWbCRX7odkBsWi7ox
-         mfY7qOSevs7tmuGnR/OERfsocuVDBQazQHwrS+qH6YHMiMtsfHM5zDXoxGhf7vyh+lZ2
-         ihq6nv+i2D4sUB8qiOwPoVT2gk3Tlwv9oc+Z8ooIw03OfakJJXyYHh90/T9olqaBKs68
-         KVBdmaTiwPTj3VKPjNkGtqH6smnTnCKw0Kj2/764YeeOKtjnmwTLkwXqvhfiK9eqmTSf
-         SnXw==
-X-Gm-Message-State: APjAAAVjCc+pYBXRI0NYI6SkDv3PyvKR6WopwP5Ac0uA55WeeCuaqcj1
-        /uxIQp6TU0slo+njOBwYzJU=
-X-Google-Smtp-Source: APXvYqwLe+JA9gDyV0I4Abvwjk3D+0Nufs1khKyHDrSKSFRdXMkl7MVQamMrjYtd6zjrlU56W0uF1Q==
-X-Received: by 2002:a2e:9b84:: with SMTP id z4mr17382353lji.75.1565558691639;
-        Sun, 11 Aug 2019 14:24:51 -0700 (PDT)
-Received: from localhost.localdomain ([94.29.34.218])
-        by smtp.gmail.com with ESMTPSA id f1sm20470806ljk.86.2019.08.11.14.24.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 11 Aug 2019 14:24:51 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
+        id S1727140AbfHLIeU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 12 Aug 2019 04:34:20 -0400
+Received: from mga03.intel.com ([134.134.136.65]:19885 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726495AbfHLIeU (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 12 Aug 2019 04:34:20 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Aug 2019 01:34:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,376,1559545200"; 
+   d="scan'208";a="193909168"
+Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.122]) ([10.237.72.122])
+  by fmsmga001.fm.intel.com with ESMTP; 12 Aug 2019 01:34:16 -0700
+Subject: Re: [PATCH v1] Revert "mmc: sdhci-tegra: drop ->get_ro()
+ implementation"
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v6 19/19] PM / devfreq: tegra20/30: Add Dmitry as a maintainer
-Date:   Mon, 12 Aug 2019 00:23:15 +0300
-Message-Id: <20190811212315.12689-20-digetx@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190811212315.12689-1-digetx@gmail.com>
-References: <20190811212315.12689-1-digetx@gmail.com>
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Thierry Reding <treding@nvidia.com>
+References: <20190808222430.28477-1-digetx@gmail.com>
+From:   Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
+ Business Identity Code: 0357606 - 4, Domiciled in Helsinki
+Message-ID: <1771bc5f-864c-ea05-be06-f45d9260a446@intel.com>
+Date:   Mon, 12 Aug 2019 11:33:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190808222430.28477-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
-want to help keep them working and evolving in the future.
+On 9/08/19 1:24 AM, Dmitry Osipenko wrote:
+> The WRITE_PROTECT bit is always in a "protected mode" on Tegra and
+> WP-GPIO state need to be used instead. In a case of the GPIO absence,
+> write-enable should be assumed. External SD is writable once again as
+> a result of this patch because the offending commit changed behaviour for
+> the case of a missing WP-GPIO to fall back to WRITE_PROTECT bit-checking,
+> which is incorrect for Tegra.
+> 
+> Cc: stable@vger.kernel.org # v5.1+
+> Fixes: e8391453e27f ("mmc: sdhci-tegra: drop ->get_ro() implementation")
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
-Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Can we get an Ack from someone from Nvidia
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e60f5c361969..8a78abe4739e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10420,6 +10420,15 @@ F:	include/linux/memblock.h
- F:	mm/memblock.c
- F:	Documentation/core-api/boot-time-mm.rst
- 
-+MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
-+M:	Dmitry Osipenko <digetx@gmail.com>
-+L:	linux-pm@vger.kernel.org
-+L:	linux-tegra@vger.kernel.org
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mzx/devfreq.git
-+S:	Maintained
-+F:	drivers/devfreq/tegra20-devfreq.c
-+F:	drivers/devfreq/tegra30-devfreq.c
-+
- MEMORY MANAGEMENT
- L:	linux-mm@kvack.org
- W:	http://www.linux-mm.org
--- 
-2.22.0
+> ---
+>  drivers/mmc/host/sdhci-tegra.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+> index f4d4761cf20a..02d8f524bb9e 100644
+> --- a/drivers/mmc/host/sdhci-tegra.c
+> +++ b/drivers/mmc/host/sdhci-tegra.c
+> @@ -258,6 +258,16 @@ static void tegra210_sdhci_writew(struct sdhci_host *host, u16 val, int reg)
+>  	}
+>  }
+>  
+> +static unsigned int tegra_sdhci_get_ro(struct sdhci_host *host)
+> +{
+> +	/*
+> +	 * Write-enable shall be assumed if GPIO is missing in a board's
+> +	 * device-tree because SDHCI's WRITE_PROTECT bit doesn't work on
+> +	 * Tegra.
+> +	 */
+> +	return mmc_gpio_get_ro(host->mmc);
+> +}
+> +
+>  static bool tegra_sdhci_is_pad_and_regulator_valid(struct sdhci_host *host)
+>  {
+>  	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+> @@ -1224,6 +1234,7 @@ static const struct cqhci_host_ops sdhci_tegra_cqhci_ops = {
+>  };
+>  
+>  static const struct sdhci_ops tegra_sdhci_ops = {
+> +	.get_ro     = tegra_sdhci_get_ro,
+>  	.read_w     = tegra_sdhci_readw,
+>  	.write_l    = tegra_sdhci_writel,
+>  	.set_clock  = tegra_sdhci_set_clock,
+> @@ -1279,6 +1290,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra30 = {
+>  };
+>  
+>  static const struct sdhci_ops tegra114_sdhci_ops = {
+> +	.get_ro     = tegra_sdhci_get_ro,
+>  	.read_w     = tegra_sdhci_readw,
+>  	.write_w    = tegra_sdhci_writew,
+>  	.write_l    = tegra_sdhci_writel,
+> @@ -1332,6 +1344,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra124 = {
+>  };
+>  
+>  static const struct sdhci_ops tegra210_sdhci_ops = {
+> +	.get_ro     = tegra_sdhci_get_ro,
+>  	.read_w     = tegra_sdhci_readw,
+>  	.write_w    = tegra210_sdhci_writew,
+>  	.write_l    = tegra_sdhci_writel,
+> @@ -1366,6 +1379,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra210 = {
+>  };
+>  
+>  static const struct sdhci_ops tegra186_sdhci_ops = {
+> +	.get_ro     = tegra_sdhci_get_ro,
+>  	.read_w     = tegra_sdhci_readw,
+>  	.write_l    = tegra_sdhci_writel,
+>  	.set_clock  = tegra_sdhci_set_clock,
+> 
 
