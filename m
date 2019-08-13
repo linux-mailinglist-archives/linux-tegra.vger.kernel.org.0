@@ -2,130 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 648A48BF15
-	for <lists+linux-tegra@lfdr.de>; Tue, 13 Aug 2019 18:59:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAA3F8C35B
+	for <lists+linux-tegra@lfdr.de>; Tue, 13 Aug 2019 23:12:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726903AbfHMQ7J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 13 Aug 2019 12:59:09 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51573 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbfHMQ7J (ORCPT
+        id S1726383AbfHMVMl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 13 Aug 2019 17:12:41 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:38595 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725923AbfHMVMk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 13 Aug 2019 12:59:09 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 207so2166340wma.1;
-        Tue, 13 Aug 2019 09:59:07 -0700 (PDT)
+        Tue, 13 Aug 2019 17:12:40 -0400
+Received: by mail-pl1-f195.google.com with SMTP id m12so11161411plt.5;
+        Tue, 13 Aug 2019 14:12:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jvn+xJgfLUWg0oXwDG1/WgGeCa0KABLkFtSVh2iBO0E=;
-        b=pJTCnEYvaONkSFviyZYN6oKWB+sO8j/jPcyI+oPfke2MSfXLq08BNqapVJ0Fa2LppR
-         /3wdo/n9fQo3RB0SBbTYjYYTRjBnXvBRbvIvfRk5vmcejF1PuJ8Sv5iri22KQ/YzIj3j
-         BrQaRha37iIUw32ZJLlXgTYdgKzyKc94WRkHF+9d1R+/UxJb+QKaNVit3cOh8px3RNlN
-         6qIIMZiJNMyOI2mvApeoSMGXpta6BIa/I238l24v4wHH6GQsJQV7nnkqxkLvjO/cQtiM
-         vO+1krbH7IWE2ozIkh9kfvFL3e+7bjTeWp0BFaqGUp7O3LZxUnk2ytF8kHkAL3pZNd5A
-         Gidg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=FMTZJ1aiZ/0neMZIJIfdCL03wiBYtnF9l3HUQlAYkfM=;
+        b=UBdZbbpfTWiMG45dD99/jnk1Qg4/EW7lShmDgqEaUP1kZ4OeSPf9AHWgGwL7xstCQq
+         eGk1slz4uVR9cMtThrKOCf8QuPhW/LpC+qhg6lMaeSGSOadO4SwaMgTE2yWCEIi5lyMJ
+         F6q0XD6F2D+GK2Q2mRLosHyw2o+DYepPim63nkZZAWdep21CeGrvHCa1qk5h+MsSiz57
+         TrO7XlnLDXcw+syTN4g+MKsAIBN0qYs5zUhmc5hTxUvO2OrDs/boK+51QbG5GhteBxGK
+         l1bJtmEXB58q4obqrbwD59kZDfsxPbfSwap7tlQQeXPje1UTvh7vhYxj7Omq2juQOU9P
+         CKgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jvn+xJgfLUWg0oXwDG1/WgGeCa0KABLkFtSVh2iBO0E=;
-        b=oDP5yI/4vhue0Wv9pVAqvMHNw3Bea/BXn44rdYUn/2nULkwdsnFSTLX26uZUWhgCSd
-         Gfnaaf53+hVNoiIFJny1JnXW3pzv+choB8toq6BPdG88c+mR9OtUbr7oE4Z9Yd+EncPn
-         bjokg65TxWlXRTqbF8Z9e/DU7IjwaCB8JBic1deiM0tgiZMR5LRRVwdg6A3Hscz9w8Q3
-         b30VY0KB7Xgx5zX9Xpa5tcAL5xZAKpyyTTf14bWGoiPBiFjLDOXl+fSqPAsqjb3rb9Zr
-         NndNNpBzoIKtlifIV3RQ12DabxSJd9y+L4dE9c9eR2S1H0vTnR51I8pJDLAZzi8dW/BY
-         C4pg==
-X-Gm-Message-State: APjAAAUtpW21WOXysJ33+6ADR6QuaQDV9J23PEG1fc8yWJxa/phq3l7Q
-        h569schzJXostJD56HSTjofs0Hv4
-X-Google-Smtp-Source: APXvYqxC+zEaAniG5VsaaNRjK3kHb4PttUpcJj2Fx0ezq3QBmPb2Z0KTrvDiz2rc9a2ulGgETpUoVQ==
-X-Received: by 2002:a1c:7dc8:: with SMTP id y191mr4263236wmc.78.1565715546399;
-        Tue, 13 Aug 2019 09:59:06 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.34.218])
-        by smtp.googlemail.com with ESMTPSA id r16sm35040989wrc.81.2019.08.13.09.59.03
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Aug 2019 09:59:04 -0700 (PDT)
-Subject: Re: [PATCH v1 2/2] irqchip/tegra: Clean up coding style
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190811183044.13925-1-digetx@gmail.com>
- <20190811183044.13925-2-digetx@gmail.com> <86a7cdnmpx.wl-maz@kernel.org>
- <4fbc5a90-e110-b020-15d3-c4bbe81b15cc@gmail.com>
- <867e7hnin7.wl-maz@kernel.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <19845d1b-d140-a765-d548-77644923f4f0@gmail.com>
-Date:   Tue, 13 Aug 2019 19:59:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FMTZJ1aiZ/0neMZIJIfdCL03wiBYtnF9l3HUQlAYkfM=;
+        b=W/WG7mDuzTKNxx2wadX1N/zS2JgVQOBKlipyIXh6T7V5QCymXyGg/tehklbX0fNLB4
+         sPUxtIeoFIBtjiuJcaLRUPlZpZBHjhfhKA6SSTIoVUf//TsmF32WGfAXQSqIToWueXx9
+         h3xRCTK+EnJhS/WPZ36aLulsYex+iuhMXsoVo9B4/m4x6AI3Ehr5tSoczsFi1PzGRxoJ
+         CGWAlERbywSGPUjiHR5RqP02WrKH3DwiQKD7Xa31hZLISh6MME41G8YvDv41K8pkjYrH
+         b3ykjAm47X6oDMWX542AJ17WyIkrIbZFq5bw9+EkjQD1/W6wQ+cqItgk6N0Y0G1j6Abu
+         xpKQ==
+X-Gm-Message-State: APjAAAXKuqfAF9AHf6/WLxCboLocIiWvCce6ESrW6FRcrP2XgnfiHY54
+        yceZfFyw/S4KdRQP0zzImrU=
+X-Google-Smtp-Source: APXvYqwPLiE5R2WBPKC4YOkIWhqTWmJSM/5GBkicwcSuUUURz6mfiMeLgdoUjUyceQK8l7WuIaYEIw==
+X-Received: by 2002:a17:902:ba81:: with SMTP id k1mr19879412pls.213.1565730759731;
+        Tue, 13 Aug 2019 14:12:39 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id e2sm8584707pff.49.2019.08.13.14.12.38
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 13 Aug 2019 14:12:39 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 14:13:38 -0700
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     adrian.hunter@intel.com, ulf.hansson@linaro.org,
+        jonathanh@nvidia.com, linux-mmc@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        vdumpa@nvidia.com
+Subject: Re: [PATCH] mmc: tegra: Implement enable_dma() to set dma_mask
+Message-ID: <20190813211337.GA18501@Asurada-Nvidia.nvidia.com>
+References: <20190812224217.12423-1-nicoleotsuka@gmail.com>
+ <20190813093651.GE1137@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <867e7hnin7.wl-maz@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190813093651.GE1137@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.08.2019 19:18, Marc Zyngier пишет:
-> On Tue, 13 Aug 2019 16:40:27 +0100,
-> Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> 13.08.2019 17:50, Marc Zyngier пишет:
->>> On Sun, 11 Aug 2019 19:30:44 +0100,
->>> Dmitry Osipenko <digetx@gmail.com> wrote:
->>>>
->>>> Make coding style to conform to the kernel's standard by fixing checkpatch
->>>> warnings about "line over 80 characters".
->>>
->>> The last time I used a VT100 was about 30 years ago. I still think
->>> this was one of the most brilliant piece of equipment DEC ever
->>> produced, but I replaced it at the time with a Wyse 50 that had a 132
->>> column mode. But even then, I could make my XTerm as wide as I wanted,
->>> and things haven't regressed much since.
->>>
->>> More seriously, I don't consider the 80 column limit a hard one, and
->>> I'm pretty happy with code that spans more that 80 columns if that
->>> allows to read an expression without messing with the flow.
->>
->> Usually I have multiple source files opened side-by-side and the
->> view sizes are tuned for 80 chars, it messes at least my flow when
->> something goes over 80 chars.
->>
->>>>
->>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>> ---
->>>>  drivers/irqchip/irq-tegra.c | 15 +++++----------
->>>>  1 file changed, 5 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/drivers/irqchip/irq-tegra.c b/drivers/irqchip/irq-tegra.c
->>>> index 14dcacc2ad38..f829a5990dae 100644
->>>> --- a/drivers/irqchip/irq-tegra.c
->>>> +++ b/drivers/irqchip/irq-tegra.c
->>>> @@ -74,7 +74,7 @@ static struct tegra_ictlr_info *lic;
->>>>  
->>>>  static inline void tegra_ictlr_write_mask(struct irq_data *d, unsigned long reg)
->>>>  {
->>>> -	void __iomem *base = (void __iomem __force *)d->chip_data;
->>>> +	void __iomem *base = lic->base[d->hwirq / 32];
->>>
->>> (1) This is an undocumented change
->>
->> In my opinion this is a very trivial change and then the end result
->> is absolutely the same, hence nothing to document here. Just read
->> the code, I'd say.
+On Tue, Aug 13, 2019 at 11:36:51AM +0200, Thierry Reding wrote:
+> On Mon, Aug 12, 2019 at 03:42:17PM -0700, Nicolin Chen wrote:
+> > Commit 68481a7e1c84 ("mmc: tegra: Mark 64 bit dma broken on Tegra186")
+> > added a SDHCI_QUIRK2_BROKEN_64_BIT_DMA flag to let sdhci core fallback
+> > to 32-bit DMA so as to fit the 40-bit addressing on Tegra186. However,
+> > there's a common way, being mentioned in sdhci.c file, to set dma_mask
+> > via enable_dma() callback in the device driver directly.
+> > 
+> > So this patch implements an enable_dma() callback in the sdhci-tegra,
+> > in order to set an accurate DMA_BIT_MASK, other than 32-bit or 64-bit.
+> > 
+> > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> > ---
+> >  drivers/mmc/host/sdhci-tegra.c | 28 +++++++++++++++++++---------
+> >  1 file changed, 19 insertions(+), 9 deletions(-)
 > 
-> And that is the very reason why I won't take any of your patches any
-> time soon.
+> I like this. However, I'd prefer if we set the DMA mask explicitly for
+> each generation. A while ago, I had done a similar patch which relied on
+> some core changes that no longer seem necessary with this enable_dma()
+> hook. You can find the DMA masks for each generation in that patch:
+> 	http://patchwork.ozlabs.org/patch/1020678/
 
-Sorry, the last part probably sounds a bit offending, but that's not
-what I meant (please note that english isn't my native language). I was
-just trying to say that the code is self-explanatory in my opinion.
-Anyway, it's not a bad excuse for me to get a break from it all. Sorry
-again.
+Thank you for the reference patch. I will add those masks in v2.
