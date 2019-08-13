@@ -2,23 +2,23 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A49788BB6C
-	for <lists+linux-tegra@lfdr.de>; Tue, 13 Aug 2019 16:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5703F8BC05
+	for <lists+linux-tegra@lfdr.de>; Tue, 13 Aug 2019 16:50:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728045AbfHMOZT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 13 Aug 2019 10:25:19 -0400
-Received: from foss.arm.com ([217.140.110.172]:37918 "EHLO foss.arm.com"
+        id S1729640AbfHMOup (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 13 Aug 2019 10:50:45 -0400
+Received: from foss.arm.com ([217.140.110.172]:38342 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728026AbfHMOZT (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 13 Aug 2019 10:25:19 -0400
+        id S1728793AbfHMOup (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 13 Aug 2019 10:50:45 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B6F4344;
-        Tue, 13 Aug 2019 07:25:18 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC9EE344;
+        Tue, 13 Aug 2019 07:50:43 -0700 (PDT)
 Received: from big-swifty.misterjones.org (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C0EBD3F706;
-        Tue, 13 Aug 2019 07:25:14 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 15:25:06 +0100
-Message-ID: <86blwtnnwd.wl-maz@kernel.org>
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D4A073F706;
+        Tue, 13 Aug 2019 07:50:40 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 15:50:34 +0100
+Message-ID: <86a7cdnmpx.wl-maz@kernel.org>
 From:   Marc Zyngier <maz@kernel.org>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
@@ -27,9 +27,10 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Jason Cooper <jason@lakedaemon.net>,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] irqchip/tegra: Remove everything related to COP
-In-Reply-To: <20190811183044.13925-1-digetx@gmail.com>
+Subject: Re: [PATCH v1 2/2] irqchip/tegra: Clean up coding style
+In-Reply-To: <20190811183044.13925-2-digetx@gmail.com>
 References: <20190811183044.13925-1-digetx@gmail.com>
+        <20190811183044.13925-2-digetx@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 EasyPG/1.0.0 Emacs/26
  (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -41,28 +42,97 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, 11 Aug 2019 19:30:43 +0100,
+On Sun, 11 Aug 2019 19:30:44 +0100,
 Dmitry Osipenko <digetx@gmail.com> wrote:
 > 
-> There is no point in touching of the COP (ARM7TDMI auxiliary boot/firmware
-> CPU) because COP's interrupts should be related only to an old multimedia
-> firmware that is not applicable to the upstream kernel. Hence let's remove
-> everything related to the COP, for consistency.
+> Make coding style to conform to the kernel's standard by fixing checkpatch
+> warnings about "line over 80 characters".
 
-We've had that exact discussion a few weeks ago, and I objected to
-this change as there is no possible way you can know for sure people
-don't use mainline with an old firmware. The whole point of the
-firmware is to be an abstraction for the kernel, for better or worse.
+The last time I used a VT100 was about 30 years ago. I still think
+this was one of the most brilliant piece of equipment DEC ever
+produced, but I replaced it at the time with a Wyse 50 that had a 132
+column mode. But even then, I could make my XTerm as wide as I wanted,
+and things haven't regressed much since.
 
-If you really want to do something useful here, consider detecting
-such firmware (even better, detect the new ones that don't require
-this stuff) and document the various requirements. At least we'll know
-where we stand, because the changes you're making are just as random
-as what we have so far.
+More seriously, I don't consider the 80 column limit a hard one, and
+I'm pretty happy with code that spans more that 80 columns if that
+allows to read an expression without messing with the flow.
+
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/irqchip/irq-tegra.c | 15 +++++----------
+>  1 file changed, 5 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-tegra.c b/drivers/irqchip/irq-tegra.c
+> index 14dcacc2ad38..f829a5990dae 100644
+> --- a/drivers/irqchip/irq-tegra.c
+> +++ b/drivers/irqchip/irq-tegra.c
+> @@ -74,7 +74,7 @@ static struct tegra_ictlr_info *lic;
+>  
+>  static inline void tegra_ictlr_write_mask(struct irq_data *d, unsigned long reg)
+>  {
+> -	void __iomem *base = (void __iomem __force *)d->chip_data;
+> +	void __iomem *base = lic->base[d->hwirq / 32];
+
+(1) This is an undocumented change
+
+(2) Why do you think that moving from a per-interrupt base that is
+    known at setup time to something that has to be recomputed on each
+    and every access is a good thing?
 
 Thanks,
 
 	M.
+
+>  	u32 mask;
+>  
+>  	mask = BIT(d->hwirq % 32);
+> @@ -142,7 +142,8 @@ static int tegra_ictlr_suspend(void)
+>  		writel_relaxed(~0ul, ictlr + ICTLR_CPU_IER_CLR);
+>  
+>  		/* Enable the wakeup sources of ictlr */
+> -		writel_relaxed(lic->ictlr_wake_mask[i], ictlr + ICTLR_CPU_IER_SET);
+> +		writel_relaxed(lic->ictlr_wake_mask[i],
+> +			       ictlr + ICTLR_CPU_IER_SET);
+>  	}
+>  	local_irq_restore(flags);
+>  
+> @@ -222,7 +223,6 @@ static int tegra_ictlr_domain_alloc(struct irq_domain *domain,
+>  {
+>  	struct irq_fwspec *fwspec = data;
+>  	struct irq_fwspec parent_fwspec;
+> -	struct tegra_ictlr_info *info = domain->host_data;
+>  	irq_hw_number_t hwirq;
+>  	unsigned int i;
+>  
+> @@ -235,13 +235,9 @@ static int tegra_ictlr_domain_alloc(struct irq_domain *domain,
+>  	if (hwirq >= (num_ictlrs * 32))
+>  		return -EINVAL;
+>  
+> -	for (i = 0; i < nr_irqs; i++) {
+> -		int ictlr = (hwirq + i) / 32;
+> -
+> +	for (i = 0; i < nr_irqs; i++)
+>  		irq_domain_set_hwirq_and_chip(domain, virq + i, hwirq + i,
+> -					      &tegra_ictlr_chip,
+> -					      (void __force *)info->base[ictlr]);
+> -	}
+> +					      &tegra_ictlr_chip, NULL);
+>  
+>  	parent_fwspec = *fwspec;
+>  	parent_fwspec.fwnode = domain->parent->fwnode;
+> @@ -312,7 +308,6 @@ static int __init tegra_ictlr_init(struct device_node *node,
+>  	     "%pOF: Found %u interrupt controllers in DT; expected %u.\n",
+>  	     node, num_ictlrs, soc->num_ictlrs);
+>  
+> -
+>  	domain = irq_domain_add_hierarchy(parent_domain, 0, num_ictlrs * 32,
+>  					  node, &tegra_ictlr_domain_ops,
+>  					  lic);
+> -- 
+> 2.22.0
+> 
 
 -- 
 Jazz is not dead, it just smells funny.
