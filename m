@@ -2,108 +2,179 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08EB88ACBF
-	for <lists+linux-tegra@lfdr.de>; Tue, 13 Aug 2019 04:36:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 694798ADD8
+	for <lists+linux-tegra@lfdr.de>; Tue, 13 Aug 2019 06:38:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726506AbfHMCgr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 12 Aug 2019 22:36:47 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:45589 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726236AbfHMCgr (ORCPT
+        id S1726005AbfHMEij (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 13 Aug 2019 00:38:39 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:39307 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725298AbfHMEii (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 12 Aug 2019 22:36:47 -0400
-Received: by mail-lj1-f193.google.com with SMTP id t3so11573836ljj.12;
-        Mon, 12 Aug 2019 19:36:45 -0700 (PDT)
+        Tue, 13 Aug 2019 00:38:38 -0400
+Received: by mail-pg1-f194.google.com with SMTP id u17so50578580pgi.6;
+        Mon, 12 Aug 2019 21:38:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EqaP4DPE6Swxbia9mBuF7NwFDXkyaR3csxZchMYb6NQ=;
-        b=HxfDiopB+aMiyI+mRcZ7vOT3qz8bqRREVzU7iiWmfvlqnFQlNWllI3U8WBQuJGX+gb
-         l2osfsOcd9Ivl6qIfFPqcvao6X80+3ke2r87apRhMKBW4VYArtu1l/Zt8Mjbw+FQ9GEU
-         zBWxbnIUxUBLdeiknP4KPSue+RUi5WpQIgGqSnIUvFx3EFIJSR2YU9vGObWAnxcPQTM5
-         PZxvJi14SMD85CkGZbtdG+wRq5zRmkWscpRKhBZ7ea6yVBiU6n8jPzlyAMWcgsfk2YZf
-         TR5doalyNK84/PgszjaT2BXBP8BpXs8ybsthmFNSkg6CCqb8KXZiLyw81zl5tDvOEqGM
-         mRhg==
+        bh=KQPCTl794rAugb19t3k9pgcqB9NI9bu3aVo81wrxClU=;
+        b=oszJvGzgx/Z1+XOeonH6lr7kQGHeiWCbuEG1KJSG7QMKNydEY871mDi9hozYEn7NA2
+         7GHyCkhKzYYOOW3R1e3Q0Z729jOQ8ihnmTOee12zr9Oy+HCWB3sesEy4RqjlXV3CYept
+         7Kvaiy9dROIQvdQwdc2ln4gLB8xLsdnhKT+Z1UInVUypKbO5UzuMIGdStyF4qWGv4c2d
+         bkznaabJ0gz7LAfPZx4/1x55sY3w6252jcKAW48GIxFbRUVRNZePppk9cImsQf/FNiSv
+         eXzzAReL2SiyGtFSm5XlUFte28s8otYeQ2x/N7Pa74s6N/O/5Ag1jzJcjhwKq1Ha+KR7
+         vyCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=EqaP4DPE6Swxbia9mBuF7NwFDXkyaR3csxZchMYb6NQ=;
-        b=ERbY0TxZcvUbjWG3loLswBTh83vOuIT4jLy5Uff13qwxva4zbMHVUREROytueOe+XO
-         gXbEi/mHoFZoNEq7bPIfPFIdtjjB0GYWNJP+YACN/mZl8kbUTO0/zaZzkK5z31Admky/
-         TrPA+Lx1ZohE5oqFaSDerxPMAofCCMsrQOJu/nHkfFLyEy2jNMYF/YOpq9Ctcx9RQKoe
-         E752NUdZe1pxw8le1wIh8BMhYUT0G3WvrowVP7RBl1j3OWsDkbC1ng4MfxTMiU9UqahF
-         19BbVrS9W2T5iARvCeit7CKEIQLZXvkTc8K7PELg4i38CJ7/MvSv+IPJ2t+/j+IOvKYm
-         3eOQ==
-X-Gm-Message-State: APjAAAUfvZdin2KkC/11S4AELM04rx8QYzcgQ+4VU5aVSzDj2vh1gs4r
-        yWI2CRaGiEYeL7GKfgAoGd3VsbDx
-X-Google-Smtp-Source: APXvYqylNi7RD4qkYHcQ30b6C3YKH/am7Ot4EBwZckmxZuv1DhiGhDBaNLGQDG9gLfBYddOs5t5gQg==
-X-Received: by 2002:a2e:834e:: with SMTP id l14mr16001349ljh.158.1565663804698;
-        Mon, 12 Aug 2019 19:36:44 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.34.218])
-        by smtp.googlemail.com with ESMTPSA id o5sm1351827lji.43.2019.08.12.19.36.42
+        bh=KQPCTl794rAugb19t3k9pgcqB9NI9bu3aVo81wrxClU=;
+        b=M1B326EFpayBO+2vYpEyK8iwhfeB/VYsuAm7Z7YlA7X1qBVgTkb7c0g3ka9fAtbAcf
+         JCVhOR80n0szS7C4s8l55xv+0m6oABsQaIpM/eiuxE/yJHETAKqXAHPE5bPQbm33jAQ2
+         cIfxFLIem/HwuTxnYVEzrl0bDIhzIME2WruaImZxCsldoYq3r9qb2hod2xx2Bnpks4Q3
+         iwKoRIPuPbWWqIXQmKniIKWmZpQSiBWGDiaj66PVPg8TwG39slh2yhZw6+kQ197HPDR8
+         AQWN3EpJY9kVuqB0tjbKLOo+9cl7LElARWvLd75BTM0eO6gwn2mnh0QY2mOr5+4Gj0rj
+         JzBw==
+X-Gm-Message-State: APjAAAXVpiv6Vo7/zqMffET7D3rLtHmdNnMH/mr4xvjgxGl1ogP7c6Io
+        md7svv7DzFfkFdh+v/qbvYxwd8dB
+X-Google-Smtp-Source: APXvYqx1CMQL7kkSZBChBW77ttw2bvajeDQxH4izyuPRZG1wNNXUk0d4dQgk6RTL4Oq0Vs7SXChb2Q==
+X-Received: by 2002:a62:4d85:: with SMTP id a127mr39038177pfb.148.1565671117964;
+        Mon, 12 Aug 2019 21:38:37 -0700 (PDT)
+Received: from [10.0.2.15] ([122.163.110.75])
+        by smtp.gmail.com with ESMTPSA id v184sm100197756pgd.34.2019.08.12.21.38.34
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Aug 2019 19:36:43 -0700 (PDT)
-Subject: Re: [PATCH v10 01/15] clk: tegra20/30: Add custom EMC clock
- implementation
-To:     =?UTF-8?B?TWljaGHFgsKgTWlyb3PFgmF3?= <mirq-linux@rere.qmqm.pl>
-Cc:     Rob Herring <robh-dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Joseph Lo <josephl@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190811210043.20122-1-digetx@gmail.com>
- <20190811210043.20122-2-digetx@gmail.com>
- <20190812231258.GA31836@qmqm.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <8369884e-1bd7-063f-e053-5152378078e9@gmail.com>
-Date:   Tue, 13 Aug 2019 05:36:41 +0300
+        Mon, 12 Aug 2019 21:38:37 -0700 (PDT)
+Subject: Re: [PATCH] PCI: tegra: Add of_node_put() before return to fix
+ reference leak
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     thierry.reding@gmail.com, bhelgaas@google.com,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org
+References: <20190724082412.9943-1-nishkadg.linux@gmail.com>
+ <20190812110543.GC20861@e121166-lin.cambridge.arm.com>
+From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
+Message-ID: <1a01f9de-45ab-3a20-5a0c-8802c67115a0@gmail.com>
+Date:   Tue, 13 Aug 2019 10:08:32 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190812231258.GA31836@qmqm.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190812110543.GC20861@e121166-lin.cambridge.arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.08.2019 2:12, Michał Mirosław пишет:
-> On Mon, Aug 12, 2019 at 12:00:29AM +0300, Dmitry Osipenko wrote:
->> A proper External Memory Controller clock rounding and parent selection
->> functionality is required by the EMC drivers, it is not available using
->> the generic clock implementation because only the Memory Controller driver
->> is aware of what clock rates are actually available for a particular
->> device. EMC drivers will have to register a Tegra-specific CLK-API
->> callback which will perform rounding of a requested rate. EMC clock users
->> won't be able to request EMC clock by getting -EPROBE_DEFER until EMC
->> driver is probed and the callback is set up.
-> [...]
->> diff --git a/drivers/clk/tegra/Makefile b/drivers/clk/tegra/Makefile
->> index 4812e45c2214..df966ca06788 100644
->> --- a/drivers/clk/tegra/Makefile
->> +++ b/drivers/clk/tegra/Makefile
->> @@ -17,7 +17,9 @@ obj-y					+= clk-tegra-fixed.o
->>  obj-y					+= clk-tegra-super-gen4.o
->>  obj-$(CONFIG_TEGRA_CLK_EMC)		+= clk-emc.o
->>  obj-$(CONFIG_ARCH_TEGRA_2x_SOC)         += clk-tegra20.o
->> +obj-$(CONFIG_ARCH_TEGRA_2x_SOC)		+= clk-tegra20-emc.o
->>  obj-$(CONFIG_ARCH_TEGRA_3x_SOC)         += clk-tegra30.o
->> +obj-$(CONFIG_ARCH_TEGRA_3x_SOC)		+= clk-tegra20-emc.o
->>  obj-$(CONFIG_ARCH_TEGRA_114_SOC)	+= clk-tegra114.o
->>  obj-$(CONFIG_ARCH_TEGRA_124_SOC)	+= clk-tegra124.o
->>  obj-$(CONFIG_TEGRA_CLK_DFLL)		+= clk-tegra124-dfll-fcpu.o
+On 12/08/19 4:35 PM, Lorenzo Pieralisi wrote:
+> On Wed, Jul 24, 2019 at 01:54:12PM +0530, Nishka Dasgupta wrote:
+>> Each iteration of for_each_child_of_node() puts the previous node, but
+>> in the case of a return from the middle of the loop, there is no put,
+>> thus causing a reference leak.
+>>
+>> Hence store these mid-loop return values in variable err and add a new
+>> label err_node_put which puts the previous node and returns err. Change
+>> six mid-loop return statements to point to this new label instead.
+>>
+>> Issue found with Coccinelle.
+>>
+>> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+>> ---
+>> Changes in v2:
 > 
-> Doesn't it complain when both CONFIG_ARCH_TEGRA_2x_SOC and
-> CONFIG_ARCH_TEGRA_3x_SOC are enabled at the same time?
+> If you are sending a v2 make it explicit in the patch $SUBJECT and send
+> the patch --in-reply-to=<message-ID-previous-version> otherwise *I* have
+> to fish out of mailing lists previous patches to understand what you are
+> doing.
 
-No, at least not with my toolchain setup. Are you getting some warning?
+I am very sorry; it won't happen again.
+
+Thanking you,
+Nishka
+> 
+>> - Edit subject line to better reflect changes and match other patches on
+>>    this driver.
+>> - Edit commit message for readability and accuracy.
+>>
+>>   drivers/pci/controller/pci-tegra.c | 22 +++++++++++++++-------
+>>   1 file changed, 15 insertions(+), 7 deletions(-)
+> 
+> Applied to pci/tegra, thanks.
+> 
+> Lorenzo
+> 
+>> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+>> index 9a917b2456f6..673a1725ef38 100644
+>> --- a/drivers/pci/controller/pci-tegra.c
+>> +++ b/drivers/pci/controller/pci-tegra.c
+>> @@ -2237,14 +2237,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+>>   		err = of_pci_get_devfn(port);
+>>   		if (err < 0) {
+>>   			dev_err(dev, "failed to parse address: %d\n", err);
+>> -			return err;
+>> +			goto err_node_put;
+>>   		}
+>>   
+>>   		index = PCI_SLOT(err);
+>>   
+>>   		if (index < 1 || index > soc->num_ports) {
+>>   			dev_err(dev, "invalid port number: %d\n", index);
+>> -			return -EINVAL;
+>> +			err = -EINVAL;
+>> +			goto err_node_put;
+>>   		}
+>>   
+>>   		index--;
+>> @@ -2253,12 +2254,13 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+>>   		if (err < 0) {
+>>   			dev_err(dev, "failed to parse # of lanes: %d\n",
+>>   				err);
+>> -			return err;
+>> +			goto err_node_put;
+>>   		}
+>>   
+>>   		if (value > 16) {
+>>   			dev_err(dev, "invalid # of lanes: %u\n", value);
+>> -			return -EINVAL;
+>> +			err = -EINVAL;
+>> +			goto err_node_put;
+>>   		}
+>>   
+>>   		lanes |= value << (index << 3);
+>> @@ -2272,13 +2274,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+>>   		lane += value;
+>>   
+>>   		rp = devm_kzalloc(dev, sizeof(*rp), GFP_KERNEL);
+>> -		if (!rp)
+>> -			return -ENOMEM;
+>> +		if (!rp) {
+>> +			err = -ENOMEM;
+>> +			goto err_node_put;
+>> +		}
+>>   
+>>   		err = of_address_to_resource(port, 0, &rp->regs);
+>>   		if (err < 0) {
+>>   			dev_err(dev, "failed to parse address: %d\n", err);
+>> -			return err;
+>> +			goto err_node_put;
+>>   		}
+>>   
+>>   		INIT_LIST_HEAD(&rp->list);
+>> @@ -2330,6 +2334,10 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+>>   		return err;
+>>   
+>>   	return 0;
+>> +
+>> +err_node_put:
+>> +	of_node_put(port);
+>> +	return err;
+>>   }
+>>   
+>>   /*
+>> -- 
+>> 2.19.1
+>>
+
