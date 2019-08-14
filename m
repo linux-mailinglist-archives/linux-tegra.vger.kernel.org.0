@@ -2,78 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E55658CE2D
-	for <lists+linux-tegra@lfdr.de>; Wed, 14 Aug 2019 10:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A8B68CE84
+	for <lists+linux-tegra@lfdr.de>; Wed, 14 Aug 2019 10:32:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727465AbfHNISb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 14 Aug 2019 04:18:31 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:36223 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725928AbfHNISb (ORCPT
+        id S1726604AbfHNIcl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 14 Aug 2019 04:32:41 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:37210 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbfHNIcl (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 14 Aug 2019 04:18:31 -0400
-Received: by mail-lj1-f193.google.com with SMTP id u15so9022131ljl.3
-        for <linux-tegra@vger.kernel.org>; Wed, 14 Aug 2019 01:18:29 -0700 (PDT)
+        Wed, 14 Aug 2019 04:32:41 -0400
+Received: by mail-lj1-f194.google.com with SMTP id t14so1767740lji.4
+        for <linux-tegra@vger.kernel.org>; Wed, 14 Aug 2019 01:32:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=m0wjk5E/4x5K91cIqKBkHlxSBbHGEXxN+dABmdb1znY=;
-        b=HXYD3A+fwqt/PKidk2m58VKvGG4sRsUQIr6r2XXSzqfwobtUxVMzGKKH2MUjGoJpuW
-         Y2zkAy5nA1VzsN0U1aOBUxlGAoMzojbuigNte352tNiW+yF9ywySROsNWUuegooza4Hd
-         qI9aiDZG+f17RKc1xXfaAtVHrTBG34GftwfepjbsxdrV52k9FUUOU9BQFrFg2K7vLZcS
-         Jml+6QIwXexZm1bWyQsI/iYiJZ6zXTYb+sauRoAdXQidamPSPii/zJdSrvT1ysmT4ruH
-         AgSi1Z+M7yLU729X0ixSoj20EttQ0v3s50jk7aThrJzZ1AdvOjQyV5g+mKKVs8EgVRda
-         rxUQ==
+        bh=Qprk97I1dFe+WA8kDtJTqkPzn2PSILy5kREIC5Uixm4=;
+        b=qMdw+xMV024LAbvccUI3jC70aaEEO5YWomLZhuABCdzO2cL+7TrxzWBaQItupTGIe5
+         V5iI287R6yEzuK4400Xf11LNmZT5SP6D3BpwXIiP0REHYCp8lEccJQsiTnSQK7+qJw5c
+         Adf6kT0NahAxCaB61a4PDzWh0bZsvpdye0vrJeeZ3SE9yW+n4tXTOd0BO1uq9rjGvYuB
+         5Nnv5m31Aj9HkD49sGMjQwz//29/ywzsTipoA+S2vbv/e5ERHrl6TQtuGZhTkqDX2q/6
+         Bt86uvuXeQ6/przYNgkxiJfzspWLBBF/cOGwWI6Nx23yadkF0Xae3G66sAVLnvA6hs3F
+         KrJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=m0wjk5E/4x5K91cIqKBkHlxSBbHGEXxN+dABmdb1znY=;
-        b=kCGHyTit506OkTN5B84Hk+jt383MTOXPLu35NQRGf/6PgX8QgHZ7GxXbweWTLsmJ6K
-         Eyw8XfjlBmuUCg+IksigOuROZWfAvgYcHsjmXcH3ltOUBFdtAufoyGSUDQAuGMWNdX1y
-         cCBqotmCiGmJwpojsR7Ip3vpv2oEOR0365QLB1KuRyqdxn600aRkg8KUvrj80xxQ7ASV
-         LInhnsOp8uXGuGajDNAWiEDadYeAKPWyvji8t3ED7yv7kAIVL4VTAf1tXnqo80Oc6BRn
-         tXKlBDo4zdNL/wkKNsN/X89M+yKuBNDw5eSTJ2C0WLqzs4g9v4Xylkj0r0IUMkgJs2YI
-         shDw==
-X-Gm-Message-State: APjAAAUUTmliD0kMHhiVqhpK69XCPnmTuTUDLJGe5k7b25qKA4Gm6C5x
-        sAv/6diZ00Tt0MALvDlzvWzVOIY0nU0jgWUS9jua1Q==
-X-Google-Smtp-Source: APXvYqzLLOoVw3kVXVgx3yXJr9522cUBCimMwSqR12tyG2Idqh+DoGMnmwHpfho9LwjJJ12Fkv9YSmL/uuc4GD/ihEM=
-X-Received: by 2002:a2e:810b:: with SMTP id d11mr4787060ljg.62.1565770708715;
- Wed, 14 Aug 2019 01:18:28 -0700 (PDT)
+        bh=Qprk97I1dFe+WA8kDtJTqkPzn2PSILy5kREIC5Uixm4=;
+        b=cGVu+bBO5hPlrrsiu+9OVVLlPfvKAPaE9FUWY8XFEBWc6VhOMwnVizZRP8AzKcvPLY
+         A5Q2WtuV5uygETdJQ3/8WS9SpjiUEIqp4P7cm1EuhAumrQxcO8+hAjHb21oBe7vTtAMh
+         oyeYzJCE+naEoiC/KbUDbGjZVs/LFYTu263wnSrC/eLHr16f9jWOLUWjM6JriQmZrk7a
+         4449Iw0mAclqjEpy+kv7HsuvfukE5PTJKDZsk6voUGy0vOvqEKU9mgk1rbUpuIOTh2qs
+         cy+v1HyNGqupQlDRqA/zSeAKzIIILo+O2m8QY/uQaqxPl6Y0AbQXu4wifeJyNscUqk3c
+         VR5A==
+X-Gm-Message-State: APjAAAWgMGh9FoQ8nuvoEGx7Ser6QiaYjYIivR5ePFXODG6Rl1j0hAFF
+        IIuOpvynzzkTKxPahvkHvpg93NdozFnR4rBcI9Vv7g==
+X-Google-Smtp-Source: APXvYqx+fft1SOz2IQDyCGJ15XAqb3Zjb5OEqzoV7vIlggjkoFNfsMZU8eWQaIcFkhj1gV1hUfaGOfz43NWpoIBxdXE=
+X-Received: by 2002:a2e:9f0f:: with SMTP id u15mr14722764ljk.54.1565771559322;
+ Wed, 14 Aug 2019 01:32:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190808123242.5359-1-linus.walleij@linaro.org>
-In-Reply-To: <20190808123242.5359-1-linus.walleij@linaro.org>
+References: <1565308020-31952-1-git-send-email-skomatineni@nvidia.com> <1565308020-31952-2-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <1565308020-31952-2-git-send-email-skomatineni@nvidia.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 14 Aug 2019 10:18:17 +0200
-Message-ID: <CACRpkdZOUoeE4Ldzg_wAUqNxpZC3UBUSXBsMBU481oU_UHffbA@mail.gmail.com>
-Subject: Re: [PATCH 1/6 v2] gpio: Add support for hierarchical IRQ domains
-To:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lina Iyer <ilina@codeaurora.org>,
+Date:   Wed, 14 Aug 2019 10:32:28 +0200
+Message-ID: <CACRpkdasx8AooB_bhUpVhU9ig_ztri3hbryiO_FEGEO+eUXwkg@mail.gmail.com>
+Subject: Re: [PATCH v8 01/21] pinctrl: tegra: Fix write barrier placement in pmx_writel
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        David Daney <david.daney@cavium.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Thierry Reding <treding@nvidia.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        jckuo@nvidia.com, Joseph Lo <josephl@nvidia.com>, talho@nvidia.com,
+        linux-tegra@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>, spatra@nvidia.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        viresh kumar <viresh.kumar@linaro.org>,
+        Linux PM list <linux-pm@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Aug 8, 2019 at 2:32 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+On Fri, Aug 9, 2019 at 1:47 AM Sowjanya Komatineni
+<skomatineni@nvidia.com> wrote:
 
-> Hierarchical IRQ domains can be used to stack different IRQ
-> controllers on top of each other.
+> pmx_writel uses writel which inserts write barrier before the
+> register write rather.
+>
+> This patch has fix to replace writel with writel_relaxed followed
+> by a write barrier to ensure write operation before the barrier
+> is completed for successful pinctrl change.
+>
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 
-This is now applied so we get a solid base for testing in linux-next.
-Address further concerns with incremental patches, either written
-by yourselves or by poking me to do them :)
+Patch applied with the ACKs.
 
 Yours,
 Linus Walleij
