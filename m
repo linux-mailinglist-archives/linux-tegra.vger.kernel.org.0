@@ -2,84 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CD008D834
-	for <lists+linux-tegra@lfdr.de>; Wed, 14 Aug 2019 18:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B7148E06E
+	for <lists+linux-tegra@lfdr.de>; Thu, 15 Aug 2019 00:14:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726126AbfHNQhE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 14 Aug 2019 12:37:04 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:41598 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbfHNQhC (ORCPT
+        id S1729915AbfHNWOW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 14 Aug 2019 18:14:22 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:43585 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728557AbfHNWOV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 14 Aug 2019 12:37:02 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 495CE803C6;
-        Wed, 14 Aug 2019 18:36:59 +0200 (CEST)
-Date:   Wed, 14 Aug 2019 18:36:57 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     dri-devel@lists.freedesktop.org
-Cc:     David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>, malidp@foss.arm.com,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] drm: drop drmP in tda998x, tegra, arm, armada
-Message-ID: <20190814163657.GA26556@ravnborg.org>
-References: <20190804094132.29463-1-sam@ravnborg.org>
- <20190812203805.GA10640@ravnborg.org>
+        Wed, 14 Aug 2019 18:14:21 -0400
+Received: by mail-qt1-f195.google.com with SMTP id b11so340785qtp.10
+        for <linux-tegra@vger.kernel.org>; Wed, 14 Aug 2019 15:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=p6m83mGjllDiHyeRTSS1oVMHX5M/xE6ILn6PPhzsgs4=;
+        b=l5PC+4msT+R1VOq1FIInu61dIh2STHPN9aSBt/Y5M3n644FfA169IT6wzP+sfbruwG
+         5vHd8QNfmmF7FOlV1OW4+1ls9+argQAW0MZ9696kjqRFjMtNiRxkPVvom8CpuMz6+P3J
+         lvnykAE+N5ClLjt8+21Oenlj55mmWn47h6bOufTUj3iAyACG+cL0ImoQgj5m6u3w1/lr
+         fVPm9fs++0X3Li7mpOQ13No26+jYpH9OobXYps5GGnrfpp0Xq6qTsPtsJRMHzlRsuSi2
+         Q5RuPSHMeFGhG1MzboDTj+tp2IBpQDy9TN5wUYjWC528WeGARQxpLHz2F9meUvIkEvkQ
+         sSPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=p6m83mGjllDiHyeRTSS1oVMHX5M/xE6ILn6PPhzsgs4=;
+        b=bu40oeIXKiWuxhSo3K39t73rsNT3IOP8E4BVIBhe/WX2DszZ9zRfxOZzA6cbP0LlEr
+         /vwZaKyR7lvwEX00FJSpS/Z8DmRZEBHRWIZRncpP0TVf3lcmnSBrFfavn52r/QssgK6m
+         vxPcxpfCg9aO4zvnWae+FnE1PXs0H9B4PF2Asmme/hnCOiqLd+8ypnyKhWrRTVSgzvP0
+         TYjnEJmbEWVAQ1lBqjNykMuAlK5WFRV5BKWgrVujFTY3kmc2Mstlzfziha/gItAP4O55
+         GllRtYA/HDvinoAO/3U0IbRucWVH6rTXcY3iRTSpglgPFLEsmynfMSz1+TCU/5HG2eYA
+         LMmw==
+X-Gm-Message-State: APjAAAX8IO+VLZZuz/Q46/ycJ+E6aSrz+kg2UIOMKCimwhB0k72q4frs
+        ZZKagpeUExdJgRuH4lTyPRfpYjlPnuyoN5W70Gk=
+X-Google-Smtp-Source: APXvYqwvEwq36YC/YcFdGthiFQqEswOUmu8y33AXL4ty34gsygcaTEjmhvj04/dFUfa1vFoE719aJcDSjuFoUwkSVes=
+X-Received: by 2002:aed:3826:: with SMTP id j35mr1333309qte.54.1565820860049;
+ Wed, 14 Aug 2019 15:14:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190812203805.GA10640@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
-        a=0SJT8KT_22iOycAb6FwA:9 a=CjuIK1q_8ugA:10
+Received: by 2002:aed:3544:0:0:0:0:0 with HTTP; Wed, 14 Aug 2019 15:14:19
+ -0700 (PDT)
+Reply-To: Katerinejones19@gmail.com
+From:   "MS. MARYANNA B. THOMASON" <westernunion.benin982@gmail.com>
+Date:   Wed, 14 Aug 2019 23:14:19 +0100
+Message-ID: <CAP=nHB+U+By16HzeUHiDfPT5KNtemGam6gniZhL2s7_itZ3F8w@mail.gmail.com>
+Subject: TODAY, Wed, Aug 14, 2019 I AM READY FOR COMING TO YOUR ADDRESS WITH
+ THIS ATM CARD
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-> > This set of patches is one of the final steps before
-> > we have succeeded to stop using drmP.h in all of drm/.
-> > 
-> > There is a few patches in flight through other trees
-> > and the plan is that all users shall be gone in the
-> > upstream kernel after next merge window.
-> > 
-> > The patches has seen build test with various configs
-> > with various architectures.
-> > 
-> > The patches has been sent before, but to my best knowledge
-> > they have not been applied anywhere.
-> > All four patches are based on drm-misc-next,
-> > but I checked that the tda998x patch can be applied to
-> > the tda998x tree.
-> > 
-> > There are no dependencies between the patches.
-> > 
-> > v2:
-> > - rebase on top of drm-misc-next
-> > 
-> > To maintainers: (Assuming the patch are OK)
-> > Please let me know if you take the patch, or request
-> > me to apply it to drm-misc-next.
-> > Or let me me know if the patch should be based on another tree.
-> 
-> ping...
-> 
-> This patchset is one of the last steps to get rid of drmP.h.
-> Other patches are applied to various sub-system trees.
-> 
-> The idea is that after next merge window can drop drmP.h.
-> As long as we keep drmP.h around new users will sneak in.
+ATTN DEAR PARCEL BENEFICIARY.
 
-Thierry reviewed all patches - thanks!
+I AM CATHY JONES,DIPLOMATIC AGENT ASIGNED ON THE DELIVERY OF YOUR ATM
+CARD THROUGH MS. MARYANNA B. THOMASON, DHL MANAGEMENT DIRECTOR NEW
+YORK.
+TODAY, Wed, Aug 14, 2019 I AM READY FOR COMING TO YOUR ADDRESS WITH
+THIS ATM CARD, So before i deliver I want you to send me.
+official diplomatic agent delivery fee sum of $150.00 us
+ only. I am here at JFK Airport,Florida. USA
 
-Applied to drm-misc-next and pushed out.
+SEND THIS FEE BY WESTERN UNION OR MONEY WITH RECEIVER'S NAME AND ADDRESS BELOW.
 
-	Sam
+RECEIVER'S NAME-----------------ERROL PRINGLE
+ADDRESS----------------3500 OLD DENTON RD APT 208; CARROLLTON, TEXAS 75007
+COUNTRY----------------USA
+AMOUNT--------------------$150.00 ONLY
+TEST QUESTION----------------WHO IS THE CREATOR
+ANSWER------------------GOD
+ meanwhile this $150.00 is required by the Custom Service,USA Homeland
+Security,for protection of your delivery, it will make the ATM CARD
+and funds worth $15.8MILLION US DOLLARS secure, Beleiev me, this is my
+word, remark my word,you will receive your delivery from me, Mrs.
+Cathy Jones once you send this only $150.00 today.
+I WAIT ON YOUR PAYMENT CONFIRMATION, ONCE I GOT YOUR PAYMENT, I WILL
+FINALLY ARRIVE TO YOUR NEAREST ADDRESS. today
+THANKS AND MAY GOD BLESS  YOU
+CATHY JONES,DIPLOMATIC AGENT
+EMAIL; katerinejones19@gmail.com
+CALL OR TEXT ME, DIPLOMATIC AGENT MS. CATHY JONES
+Phone Number; (408) 650-6103,
