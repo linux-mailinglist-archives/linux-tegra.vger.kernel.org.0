@@ -2,103 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B52948E9E7
-	for <lists+linux-tegra@lfdr.de>; Thu, 15 Aug 2019 13:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C391A8EAA3
+	for <lists+linux-tegra@lfdr.de>; Thu, 15 Aug 2019 13:49:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730389AbfHOLN5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 15 Aug 2019 07:13:57 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:36033 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730922AbfHOLN5 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 15 Aug 2019 07:13:57 -0400
-Received: by mail-ot1-f68.google.com with SMTP id k18so5083519otr.3
-        for <linux-tegra@vger.kernel.org>; Thu, 15 Aug 2019 04:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tcd-ie.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IuWtIDr90zkI+XfebKnko5l+I/4xHf39ovWKoeqGaCw=;
-        b=nNQ/UtAXFhxaaxM9xQ9O8IFhMDMFvXunujEOMrSPWYCvTGD+YxkdrSxxRuus/GVUBp
-         GQoOAQizlE7KESwvt/hZDxMbEejumbr3zlWb4gT62uRTJXHWvWtJR7eaSmt+P/Feob0G
-         3FUQTPCC4U1ru+VC9jVwEnwjC7mL9mTGXdSrv0YV/tjgkZ9zqojYrqsx+I/zHyMAQt8f
-         8tY1ausOgFce7Ab8S1UDh3376evaQbzs8AquCZCJWaLZvUFdMNaMr4YLxIusv5ITVmeU
-         i1/FqeHC8FIMWswYm99EVT/8f/U+y5anena34TtOtJsjHhUYQi17LOqEs6UTPxD4ON1T
-         NLOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IuWtIDr90zkI+XfebKnko5l+I/4xHf39ovWKoeqGaCw=;
-        b=V6ozrb29cPD6xXtzlY6mhfffGTZAe54+BcyrCwaAIEChWPIWBm3ONxvGgcAWsjuB2j
-         55V2beUM0UUs4KKXivhv8yYwcYxPTKp4H+O6SCfCZfbOKQQfXGHW4WYOBiw5DPta7SrC
-         hPZghg/wkmFG+dVOjlGvb7jl0Etclm85qZQKSEnwxU9ikodkdOW0qXGZlv1ta599QXgD
-         7rCNCLaXf7b/VKXrhFBeIH2SmUPWIbGiBxxu+Ie4JYLTYcfAFmTiwzUbMIwNg8Cuv7ZJ
-         aMZBQ3kq+A3sn1uvSO+xwyXoq5RtugxKUAFaFoUCTo3ENjKy5Yf3jKGSXiQfeeTGMNk0
-         SFVQ==
-X-Gm-Message-State: APjAAAUKBf6nBcxb3P9IQ/k4SB3FRspsj4UG+aExLNZDQdg+9nMiwfgR
-        8/D7H7vhgmr7StN0MBaybwdh3ZGeJgWx85+ZTRkozg==
-X-Google-Smtp-Source: APXvYqyLPDKvvPTRbvGbWfWW/U8q2MBMOdJm/HCo2dFUBkYNWHxXuaIDP3Rx+nIt9imUtzeQRmZpWsoqqA6dgyl5YCA=
-X-Received: by 2002:a5e:9314:: with SMTP id k20mr5014873iom.235.1565867636592;
- Thu, 15 Aug 2019 04:13:56 -0700 (PDT)
+        id S1729838AbfHOLtd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 15 Aug 2019 07:49:33 -0400
+Received: from mga04.intel.com ([192.55.52.120]:9829 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726120AbfHOLtc (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 15 Aug 2019 07:49:32 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Aug 2019 04:49:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,389,1559545200"; 
+   d="scan'208";a="184600893"
+Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.122]) ([10.237.72.122])
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Aug 2019 04:49:29 -0700
+Subject: Re: [PATCH v2] mmc: tegra: Implement enable_dma() to set dma_mask
+To:     Nicolin Chen <nicoleotsuka@gmail.com>, ulf.hansson@linaro.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc:     linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vdumpa@nvidia.com
+References: <20190814005741.13331-1-nicoleotsuka@gmail.com>
+From:   Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
+ Business Identity Code: 0357606 - 4, Domiciled in Helsinki
+Message-ID: <09d9ba41-f4cd-e515-cd2d-0b4134648059@intel.com>
+Date:   Thu, 15 Aug 2019 14:48:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190613223901.9523-1-murphyt7@tcd.ie> <20190624061945.GA4912@infradead.org>
- <20190810071952.GA25550@infradead.org> <CALQxJuvxBc3MH3_B_fZ3FvURHOM3F3dvvZ6x=GtALUAvyu7Qxw@mail.gmail.com>
- <20190813130711.GA30468@infradead.org>
-In-Reply-To: <20190813130711.GA30468@infradead.org>
-From:   Tom Murphy <murphyt7@tcd.ie>
-Date:   Thu, 15 Aug 2019 12:13:45 +0100
-Message-ID: <CALQxJusdvvnL-7WuCy9qobB6heG2oj7XS4Bs3Z1dMyLXSeZOzg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] iommu/amd: Convert the AMD iommu driver to the
- dma-iommu api
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Joerg Roedel <joro@8bytes.org>, Heiko Stuebner <heiko@sntech.de>,
-        Will Deacon <will.deacon@arm.com>,
-        virtualization@lists.linux-foundation.org,
-        David Brown <david.brown@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Kukjin Kim <kgene@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        David Woodhouse <dwmw2@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        iommu@lists.linux-foundation.org,
-        Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190814005741.13331-1-nicoleotsuka@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Done, I just sent it there. I don't have any AMD hardware to test on
-while I'm traveling. However the rebase was very straightforward and
-the code was tested a month ago on the old linux-next.
+On 14/08/19 3:57 AM, Nicolin Chen wrote:
+> [ Integrated the change and commit message made by Thierry Reding ]
+> 
+> The SDHCI controller found in early Tegra SoCs (from Tegra20 through
+> Tegra114) used an AHB interface to the memory controller, which allowed
+> only 32 bits of memory to be addressed.
+> 
+> Starting with Tegra124, this limitation was removed by making the SDHCI
+> controllers native MCCIF clients, which means that they got increased
+> bandwidth and better arbitration to the memory controller as well as an
+> address range extended to 40 bits, out of which only 34 were actually
+> used (bits 34-39 are tied to 0 in the controller).
+> 
+> For Tegra186, all of the 40 bits can be used; For Tegra194, 39-bit can
+> be used.
+> 
+> So far, sdhci-tegra driver has been relying on sdhci core to configure
+> the DMA_BIT_MASK between 32-bit or 64-bit, using one of quirks2 flags:
+> SDHCI_QUIRK2_BROKEN_64_BIT_DMA. However, there is a common way, being
+> mentioned in sdhci.c file, to set dma_mask via enable_dma() callback in
+> the device driver directly.
+> 
+> So this patch implements an enable_dma() callback in the sdhci-tegra,
+> in order to set an accurate DMA_BIT_MASK, other than just 32/64 bits.
 
-I only have the AMD conversion done. I will work on rebasing the intel
-one when I get a chance.
-
-On Tue, 13 Aug 2019 at 14:07, Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Tue, Aug 13, 2019 at 08:09:26PM +0800, Tom Murphy wrote:
-> > Hi Christoph,
-> >
-> > I quit my job and am having a great time traveling South East Asia.
->
-> Enjoy!  I just returned from my vacation.
->
-> > I definitely don't want this work to go to waste and I hope to repost it
-> > later this week but I can't guarantee it.
-> >
-> > Let me know if you need this urgently.
->
-> It isn't in any strict sense urgent.  I just have various DMA API plans
-> that I'd rather just implement in dma-direct and dma-iommu rather than
-> also in two additional commonly used iommu drivers.  So on the one had
-> the sooner the better, on the other hand no real urgency.
+Is there a reason this cannot be done at probe time?
