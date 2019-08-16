@@ -2,106 +2,145 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E87D78F77E
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Aug 2019 01:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5AB18F859
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Aug 2019 03:10:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733299AbfHOXPr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 15 Aug 2019 19:15:47 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:46223 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731810AbfHOXPr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 15 Aug 2019 19:15:47 -0400
-Received: by mail-pg1-f194.google.com with SMTP id m3so1369065pgv.13;
-        Thu, 15 Aug 2019 16:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=/v9tU0xIroUvQiZHpPeVNbxV4bXo+Z66N2xiweMuj/s=;
-        b=VcM21+ndRnd7xqqraDhvB2sUdKKltZlEjINKqEkAQcOsXcdRlHbAkzF51Pq/xUdJKK
-         b8Me9cBOz0egqX90akXWczasU1W6RKKB6zojJDlFba4E4PpsiSxLWwe0Ogf7Ufpgc6Hy
-         wXk+WLqnbTM57rPHgNgtQg71IJLoEx8s9duD5UHqdNZlMQJ0DdM3XOE85pC8eorWYxgP
-         siQhhFTpEKj6StQ698eF9ZzOKu4w1K3iSOMQyyNnrKEH8gfJsZYF561ay0as6ARoUWiO
-         llky3FpYFpJs0iSG/2COrfIlaH2B03OCMnmHQKuT27gH09GwMK8/GXFfiNsPtDrqe2wD
-         pjkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/v9tU0xIroUvQiZHpPeVNbxV4bXo+Z66N2xiweMuj/s=;
-        b=fWTKm4SZkumSwzLFEx2WwDdlPj/RQit7E6q20nRjoqL1ghGL+XJ+qR5JJyDk+DJHen
-         +K+Wc7/25ZDwI8qmGBkKRYorZHeVHhad7uvrPrIwXbr0+VwsDDGbjXNLSCTNj2+YagNi
-         K0ON9j8Z3gnStqQ0yBnDJJ+x0uQCe5Ix00mG5a9kTpYjlluBn0Hiqi8+Gwzc7K+jXeHy
-         nWqQlu36wNm2B8ORKkg6BslrVTDkzR4pX2UlfdojYbAipHxHWsE3fPeN0XtxIkgw/qr7
-         zaHpr9aHg9Sl+QS6/+u3I/fv0J0Z2QvnQb2Vq+iyIDeKDzFdi+Liy8cNEid853i7kLhv
-         mRXA==
-X-Gm-Message-State: APjAAAUPAZB/UHV9xKT/ApdYgqYt/G/Vce5xgG65VFgPlqE08PIc5wZa
-        jXYCkaOjxabUH89/ZchjSfk=
-X-Google-Smtp-Source: APXvYqw1CMLHSWPhw3uHn0rGZ1z9tJxtVCD6aWzr7lg0zLhlZ0iQ6M67a9GlhiqTPqnx6jojQT3SsQ==
-X-Received: by 2002:a63:9245:: with SMTP id s5mr5420191pgn.123.1565910945942;
-        Thu, 15 Aug 2019 16:15:45 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id c35sm2912426pgl.72.2019.08.15.16.15.45
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 15 Aug 2019 16:15:45 -0700 (PDT)
-Date:   Thu, 15 Aug 2019 16:16:46 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Adrian Hunter <adrian.hunter@intel.com>
-Cc:     ulf.hansson@linaro.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-mmc@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        vdumpa@nvidia.com
-Subject: Re: [PATCH v2] mmc: tegra: Implement enable_dma() to set dma_mask
-Message-ID: <20190815231646.GA15635@Asurada-Nvidia.nvidia.com>
-References: <20190814005741.13331-1-nicoleotsuka@gmail.com>
- <09d9ba41-f4cd-e515-cd2d-0b4134648059@intel.com>
+        id S1726163AbfHPBK4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 15 Aug 2019 21:10:56 -0400
+Received: from onstation.org ([52.200.56.107]:49918 "EHLO onstation.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725983AbfHPBK4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 15 Aug 2019 21:10:56 -0400
+Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: masneyb)
+        by onstation.org (Postfix) with ESMTPSA id EE4203E998;
+        Fri, 16 Aug 2019 01:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
+        s=default; t=1565917855;
+        bh=trw4UAl1Eb+fVV8ZdiSFdjA+FeU/YpldiCUXoiwWXas=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GS8uyytoGyrdQNXg5spsgIJ9xfYuHND5aXCwKgk5WCdrI1+/SEMdbuKwEkpsKJJcd
+         Rirz2Pxkl+N4NAGCog+XLutC6DK1tLOz4V2cZj5AyllsH4c5zHZwvl6CggRkG/WPlC
+         CFkKFJ/fBCQp25agKqP9IYpl1GZdWGov5nWwZSI0=
+Date:   Thu, 15 Aug 2019 21:10:54 -0400
+From:   Brian Masney <masneyb@onstation.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lina Iyer <ilina@codeaurora.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
+        David Daney <david.daney@cavium.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH 1/6 v2] gpio: Add support for hierarchical IRQ domains
+Message-ID: <20190816011054.GA1041@onstation.org>
+References: <20190808123242.5359-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <09d9ba41-f4cd-e515-cd2d-0b4134648059@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20190808123242.5359-1-linus.walleij@linaro.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 02:48:20PM +0300, Adrian Hunter wrote:
-> On 14/08/19 3:57 AM, Nicolin Chen wrote:
-> > [ Integrated the change and commit message made by Thierry Reding ]
-> > 
-> > The SDHCI controller found in early Tegra SoCs (from Tegra20 through
-> > Tegra114) used an AHB interface to the memory controller, which allowed
-> > only 32 bits of memory to be addressed.
-> > 
-> > Starting with Tegra124, this limitation was removed by making the SDHCI
-> > controllers native MCCIF clients, which means that they got increased
-> > bandwidth and better arbitration to the memory controller as well as an
-> > address range extended to 40 bits, out of which only 34 were actually
-> > used (bits 34-39 are tied to 0 in the controller).
-> > 
-> > For Tegra186, all of the 40 bits can be used; For Tegra194, 39-bit can
-> > be used.
-> > 
-> > So far, sdhci-tegra driver has been relying on sdhci core to configure
-> > the DMA_BIT_MASK between 32-bit or 64-bit, using one of quirks2 flags:
-> > SDHCI_QUIRK2_BROKEN_64_BIT_DMA. However, there is a common way, being
-> > mentioned in sdhci.c file, to set dma_mask via enable_dma() callback in
-> > the device driver directly.
-> > 
-> > So this patch implements an enable_dma() callback in the sdhci-tegra,
-> > in order to set an accurate DMA_BIT_MASK, other than just 32/64 bits.
+Hi Linus,
+
+On Thu, Aug 08, 2019 at 02:32:37PM +0200, Linus Walleij wrote:
+> Hierarchical IRQ domains can be used to stack different IRQ
+> controllers on top of each other.
 > 
-> Is there a reason this cannot be done at probe time?
+> Bring hierarchical IRQ domains into the GPIOLIB core with the
+> following basic idea:
+> 
+> Drivers that need their interrupts handled hierarchically
+> specify a callback to translate the child hardware IRQ and
+> IRQ type for each GPIO offset to a parent hardware IRQ and
+> parent hardware IRQ type.
+> 
+> Users have to pass the callback, fwnode, and parent irqdomain
+> before calling gpiochip_irqchip_add().
+> 
+> We use the new method of just filling in the struct
+> gpio_irq_chip before adding the gpiochip for all hierarchical
+> irqchips of this type.
+> 
+> The code path for device tree is pretty straight-forward,
+> while the code path for old boardfiles or anything else will
+> be more convoluted requireing upfront allocation of the
+> interrupts when adding the chip.
+> 
+> One specific use-case where this can be useful is if a power
+> management controller has top-level controls for wakeup
+> interrupts. In such cases, the power management controller can
+> be a parent to other interrupt controllers and program
+> additional registers when an IRQ has its wake capability
+> enabled or disabled.
+> 
+> The hierarchical irqchip helper code will only be available
+> when IRQ_DOMAIN_HIERARCHY is selected to GPIO chips using
+> this should select or depend on that symbol. When using
+> hierarchical IRQs, the parent interrupt controller must
+> also be hierarchical all the way up to the top interrupt
+> controller wireing directly into the CPU, so on systems
+> that do not have this we can get rid of all the extra
+> code for supporting hierarchical irqs.
+> 
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Marc Zyngier <marc.zyngier@arm.com>
+> Cc: Lina Iyer <ilina@codeaurora.org>
+> Cc: Jon Hunter <jonathanh@nvidia.com>
+> Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
+> Cc: Bitan Biswas <bbiswas@nvidia.com>
+> Cc: linux-tegra@vger.kernel.org
+> Cc: David Daney <david.daney@cavium.com>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Brian Masney <masneyb@onstation.org>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> Signed-off-by: Brian Masney <masneyb@onstation.org>
+> Co-developed-by: Brian Masney <masneyb@onstation.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
 
-It's supposed to be done at probe() time. But sdhci_setup_host()
-does both 32-bit/64-bit dma_mask setting and dma_alloc(), so if
-the dma_mask isn't correctly set inside sdhci_setup_host(), the
-allocation would fall to a 64-bit IOVA range that hardware does
-not support -- smmu error would happen and crash the system. On
-the other hand, ->enable_dma() is called in that function right
-after 32-bit/64-bit dma_mask setting. Or is there any other way
-of adding to probe() that I am missing here?
+[ snip ]
 
-Thanks
-Nicolin
+
+> @@ -1827,10 +2099,23 @@ EXPORT_SYMBOL_GPL(gpiochip_irq_domain_deactivate);
+>  
+>  static int gpiochip_to_irq(struct gpio_chip *chip, unsigned offset)
+
+   ^^^^^^
+
+I started to convert ssbi-gpio over to this and pm8xxx_gpio_to_irq() has
+this little snippet that's different from spmi-gpio:
+
+	[ fwspec mapping code ]
+
+	/*
+	 * Cache the IRQ since pm8xxx_gpio_get() needs this to get determine the
+	 * line level.
+	 */
+	pin->irq = ret;
+
+Here's the relevant code in pm8xxx_gpio_get():
+
+	if (pin->mode == PM8XXX_GPIO_MODE_OUTPUT) {
+		ret = pin->output_value;
+	} else if (pin->irq >= 0) {
+		ret = irq_get_irqchip_state(pin->irq, IRQCHIP_STATE_LINE_LEVEL, &state);
+		...
+	}
+
+What do you think about using EXPORT_SYMBOL_GPL() for gpiochip_to_irq() so
+that we can call it in pm8xxx_gpio_to_irq()? Or do you have any other
+suggestions for how we can get rid of that IRQ cache?
+
+I don't see any other issues for ssbi-gpio.
+
+Brian
