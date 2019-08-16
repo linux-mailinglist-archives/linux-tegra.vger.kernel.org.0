@@ -2,145 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5AB18F859
-	for <lists+linux-tegra@lfdr.de>; Fri, 16 Aug 2019 03:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F08028FEC8
+	for <lists+linux-tegra@lfdr.de>; Fri, 16 Aug 2019 11:21:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726163AbfHPBK4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 15 Aug 2019 21:10:56 -0400
-Received: from onstation.org ([52.200.56.107]:49918 "EHLO onstation.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725983AbfHPBK4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 15 Aug 2019 21:10:56 -0400
-Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net [98.239.145.235])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: masneyb)
-        by onstation.org (Postfix) with ESMTPSA id EE4203E998;
-        Fri, 16 Aug 2019 01:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onstation.org;
-        s=default; t=1565917855;
-        bh=trw4UAl1Eb+fVV8ZdiSFdjA+FeU/YpldiCUXoiwWXas=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GS8uyytoGyrdQNXg5spsgIJ9xfYuHND5aXCwKgk5WCdrI1+/SEMdbuKwEkpsKJJcd
-         Rirz2Pxkl+N4NAGCog+XLutC6DK1tLOz4V2cZj5AyllsH4c5zHZwvl6CggRkG/WPlC
-         CFkKFJ/fBCQp25agKqP9IYpl1GZdWGov5nWwZSI0=
-Date:   Thu, 15 Aug 2019 21:10:54 -0400
-From:   Brian Masney <masneyb@onstation.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lina Iyer <ilina@codeaurora.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        David Daney <david.daney@cavium.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH 1/6 v2] gpio: Add support for hierarchical IRQ domains
-Message-ID: <20190816011054.GA1041@onstation.org>
-References: <20190808123242.5359-1-linus.walleij@linaro.org>
+        id S1726863AbfHPJV2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 16 Aug 2019 05:21:28 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:17973 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726810AbfHPJV2 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 16 Aug 2019 05:21:28 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d5675a30001>; Fri, 16 Aug 2019 02:21:39 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 16 Aug 2019 02:21:27 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 16 Aug 2019 02:21:27 -0700
+Received: from localhost (10.124.1.5) by HQMAIL107.nvidia.com (172.20.187.13)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 16 Aug 2019 09:21:27
+ +0000
+From:   Thierry Reding <treding@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.19 00/91] 4.19.67-stable review
+Date:   Fri, 16 Aug 2019 11:21:16 +0200
+Message-ID: <20190816092116.16044-1-treding@nvidia.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190814165748.991235624@linuxfoundation.org>
+References: <20190814165748.991235624@linuxfoundation.org>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190808123242.5359-1-linus.walleij@linaro.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1565947299; bh=Upt1JD8Jkgdd5LH12EQAOvqwztwGLsJsPkMQjqijHso=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:
+         Content-Transfer-Encoding;
+        b=ToEPqDdxQV5Nrn0bG8JJUDPFxAgoKNcaSPt0SDv78KGes/km7bs0VYo4DCwaw1GQL
+         Rddkp2aI9dFkO5jKeR8kccpzsMzneG1Y0Zgi1nRR376t9YBREC6wp1Ds07/113Is+P
+         jatoB6uqpRFAFSniSkrAeqs65LSt5ZMK2MxnJMHD1E+mYEcyshOv5Aa+DQutXt0iex
+         l3FK+YyGLuC7JVv3cOZu74ezANtP8a76fOHrGudqxsCpDCTEwdkXE1WdlrE/rTitW3
+         mhhMe9qi9VeMEUbceD4v0hzuv2KTFiuJtpFs1Yajmrb2sFEw7ky6A7NGv58d8adkWG
+         BJrnrBV39EGCQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Linus,
+On Wed, 14 Aug 2019 19:00:23 +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.67 release.
+> There are 91 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+>=20
+> Responses should be made by Fri 16 Aug 2019 04:55:34 PM UTC.
+> Anything received after that time might be too late.
+>=20
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.67=
+-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git=
+ linux-4.19.y
+> and the diffstat can be found below.
+>=20
+> thanks,
+>=20
+> greg k-h
 
-On Thu, Aug 08, 2019 at 02:32:37PM +0200, Linus Walleij wrote:
-> Hierarchical IRQ domains can be used to stack different IRQ
-> controllers on top of each other.
-> 
-> Bring hierarchical IRQ domains into the GPIOLIB core with the
-> following basic idea:
-> 
-> Drivers that need their interrupts handled hierarchically
-> specify a callback to translate the child hardware IRQ and
-> IRQ type for each GPIO offset to a parent hardware IRQ and
-> parent hardware IRQ type.
-> 
-> Users have to pass the callback, fwnode, and parent irqdomain
-> before calling gpiochip_irqchip_add().
-> 
-> We use the new method of just filling in the struct
-> gpio_irq_chip before adding the gpiochip for all hierarchical
-> irqchips of this type.
-> 
-> The code path for device tree is pretty straight-forward,
-> while the code path for old boardfiles or anything else will
-> be more convoluted requireing upfront allocation of the
-> interrupts when adding the chip.
-> 
-> One specific use-case where this can be useful is if a power
-> management controller has top-level controls for wakeup
-> interrupts. In such cases, the power management controller can
-> be a parent to other interrupt controllers and program
-> additional registers when an IRQ has its wake capability
-> enabled or disabled.
-> 
-> The hierarchical irqchip helper code will only be available
-> when IRQ_DOMAIN_HIERARCHY is selected to GPIO chips using
-> this should select or depend on that symbol. When using
-> hierarchical IRQs, the parent interrupt controller must
-> also be hierarchical all the way up to the top interrupt
-> controller wireing directly into the CPU, so on systems
-> that do not have this we can get rid of all the extra
-> code for supporting hierarchical irqs.
-> 
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Marc Zyngier <marc.zyngier@arm.com>
-> Cc: Lina Iyer <ilina@codeaurora.org>
-> Cc: Jon Hunter <jonathanh@nvidia.com>
-> Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
-> Cc: Bitan Biswas <bbiswas@nvidia.com>
-> Cc: linux-tegra@vger.kernel.org
-> Cc: David Daney <david.daney@cavium.com>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Brian Masney <masneyb@onstation.org>
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> Signed-off-by: Brian Masney <masneyb@onstation.org>
-> Co-developed-by: Brian Masney <masneyb@onstation.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
+All tests passing for Tegra ...
 
-[ snip ]
+Test results for stable-v4.19:
+    12 builds:	12 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    32 tests:	32 pass, 0 fail
 
+Linux version:	4.19.67-rc1-gabb1bb8b9ba6
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
-> @@ -1827,10 +2099,23 @@ EXPORT_SYMBOL_GPL(gpiochip_irq_domain_deactivate);
->  
->  static int gpiochip_to_irq(struct gpio_chip *chip, unsigned offset)
+Thierry
 
-   ^^^^^^
-
-I started to convert ssbi-gpio over to this and pm8xxx_gpio_to_irq() has
-this little snippet that's different from spmi-gpio:
-
-	[ fwspec mapping code ]
-
-	/*
-	 * Cache the IRQ since pm8xxx_gpio_get() needs this to get determine the
-	 * line level.
-	 */
-	pin->irq = ret;
-
-Here's the relevant code in pm8xxx_gpio_get():
-
-	if (pin->mode == PM8XXX_GPIO_MODE_OUTPUT) {
-		ret = pin->output_value;
-	} else if (pin->irq >= 0) {
-		ret = irq_get_irqchip_state(pin->irq, IRQCHIP_STATE_LINE_LEVEL, &state);
-		...
-	}
-
-What do you think about using EXPORT_SYMBOL_GPL() for gpiochip_to_irq() so
-that we can call it in pm8xxx_gpio_to_irq()? Or do you have any other
-suggestions for how we can get rid of that IRQ cache?
-
-I don't see any other issues for ssbi-gpio.
-
-Brian
