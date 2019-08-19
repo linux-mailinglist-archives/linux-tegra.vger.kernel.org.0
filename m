@@ -2,94 +2,132 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 411FB919EA
-	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 00:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 421CA9206D
+	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 11:33:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726279AbfHRWVH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 18 Aug 2019 18:21:07 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45903 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726103AbfHRWVH (ORCPT
+        id S1727167AbfHSJd1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 19 Aug 2019 05:33:27 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:47017 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726491AbfHSJd1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 18 Aug 2019 18:21:07 -0400
-Received: by mail-lj1-f194.google.com with SMTP id l1so3783334lji.12
-        for <linux-tegra@vger.kernel.org>; Sun, 18 Aug 2019 15:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4N7EQSOmGj3kmcTNPKFw2gJI2T24TmEUzwOY9YGFTVM=;
-        b=TD2+3+1CBIjNRgLZwww8Qq1LkU6sL6SugbzUz9h75QIzYAWD2xhMDuC0So6puRH8K/
-         iApu6xW3d/+oN6p/QIPV23VeNNe/mecvBVOJMEuOHE7gZyJFq2/RZrDODrJWG7UmxggJ
-         GDNNpMvgBHiYo3kNf4l9NRdnpmfuDrMqkq76t+AGMW5fbt3aO/vCPtfGQvAZ/MnjAsUX
-         0yZHcS/5ZsDYU+RGiZNOWT1lXWItU6r8HxgJVqpswqhfQY3PtUSlPgl+007u22HBBLYJ
-         843UiEnSTVPsCiZJ2wIlxQMVx12hy+5yUryslha16M6jZgkJ3VchfVa9xPJWa5mETfq7
-         l+zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4N7EQSOmGj3kmcTNPKFw2gJI2T24TmEUzwOY9YGFTVM=;
-        b=qOMmYcqW3RhClF2De2S9L3w5vhlnYnEjDKrTqlACiaZlNlpJWMTr71I+oDVgZz75/Q
-         jVGmIbScxJ1kIMLzxSyraSBTuCwJ+pE1HcjOdoAOOeKvP9/s6FM1XoeuQvub+gp9BBVs
-         2igIZ9HiOZ0bkAh+WKPpK53Jd7cMwSXTOuYZZUef1zVVNh0CnP43c9rzPkTGmNF5xQx6
-         vwB938S7A/eRSbIipyjku6XpX+K0+JKOAwI2/NPrXrLHHFJaQfb3WMAOkWpY83WM6mVg
-         ycJV3hZpAdWpHvoqDigQqo7wJpp75E3dyWcW31va93728valudkNtdhba6oX0Ya8GNs0
-         fHpw==
-X-Gm-Message-State: APjAAAUYpiPJDXXU2OKQuIqB6pow80l8R4fzjltsHgViSLWMZ9zS/Clk
-        q9kgeGgChDyVQc0RcMfnnMcqTHyNyxez+5aRGJ6pJg==
-X-Google-Smtp-Source: APXvYqygo5u9eGNktFx7NI+0t+FrzDYrgrxjIyb5vohICZ2YZlXEyO7G1boHyXHcMYWVxQvpQ9j4dnY7P4p+0WVk2wo=
-X-Received: by 2002:a2e:3a0e:: with SMTP id h14mr11157494lja.180.1566166865940;
- Sun, 18 Aug 2019 15:21:05 -0700 (PDT)
+        Mon, 19 Aug 2019 05:33:27 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id ze2ThLroiDqPeze2Whnf0x; Mon, 19 Aug 2019 11:33:24 +0200
+Subject: Re: [PATCH v7 7/9] drm: tegra: use cec_notifier_conn_(un)register
+To:     Dariusz Marcinkiewicz <darekm@google.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc:     David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org
+References: <20190814104520.6001-1-darekm@google.com>
+ <20190814104520.6001-8-darekm@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <69d57416-c37f-fab9-6436-ec18212cdcce@xs4all.nl>
+Date:   Mon, 19 Aug 2019 11:33:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <1565984527-5272-1-git-send-email-skomatineni@nvidia.com> <1565984527-5272-3-git-send-email-skomatineni@nvidia.com>
-In-Reply-To: <1565984527-5272-3-git-send-email-skomatineni@nvidia.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 19 Aug 2019 00:20:54 +0200
-Message-ID: <CACRpkda7CTUevWogRo9FQQOBZfO4hQqt-1fGYpAiGJTm-sE_Xw@mail.gmail.com>
-Subject: Re: [PATCH v9 02/22] pinctrl: tegra: Flush pinctrl writes during resume
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        jckuo@nvidia.com, Joseph Lo <josephl@nvidia.com>, talho@nvidia.com,
-        linux-tegra@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>, spatra@nvidia.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        viresh kumar <viresh.kumar@linaro.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190814104520.6001-8-darekm@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGM6lUmGz9zyZWI3fKcX5+QUXQVwnmbtd4ywnTRWlTQfulY8WuvWen/e1C8SBsMw1LyCX49D7z2oxYB5vqlnKSgV5x3DxRRdzZftHXIV2tQbQKFU864X
+ xh3YIzVAjS+e0sLnm6w/9N8Bxzu9lcWFraZE63V3m4T0sQNnTj2z3nbEJltVd8leQdTBRPUdpwdgOMnHRDXvXYqIFeggT+L9yh/7+HkGvWzjAIGkoZW3NltW
+ lmplfgRNALrIX59V+Dp4+VAsIYezmqUmnRJe2Ah1+3AhOtUG5X+7JnXsSMQ8VwGdigWpnqOUAOOhAsbj/lpcXT2cxi7ZZYs4iAa7S9zepy5H+gCgjksdJZzY
+ 57FfzLAJfMzM4u/RapiWNwvX/9QURM2MGASCbdIIHoOnno9xRL9hw17QDuVt0IcaSFp40O/NwAlirclhhEbXQ9scgJJaTQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Aug 16, 2019 at 9:42 PM Sowjanya Komatineni
-<skomatineni@nvidia.com> wrote:
+On 8/14/19 12:45 PM, Dariusz Marcinkiewicz wrote:
+> Use the new cec_notifier_conn_(un)register() functions to
+> (un)register the notifier for the HDMI connector, and fill in
+> the cec_connector_info.
+> 
+> Changes since v4:
+> 	- only create a CEC notifier for HDMI connectors
+> 
+> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-> This patch adds pinctrl register read to flush all the prior pinctrl
-> writes and then adds barrier for pinctrl register read to complete
-> during resume to make sure all pinctrl changes are effective.
->
-> Acked-by: Thierry Reding <treding@nvidia.com>
-> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Patch applied.
+Regards,
 
-Yours,
-Linus Walleij
+	Hans
+
+> ---
+>  drivers/gpu/drm/tegra/output.c | 28 +++++++++++++++++++++-------
+>  1 file changed, 21 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+> index bdcaa4c7168cf..34373734ff689 100644
+> --- a/drivers/gpu/drm/tegra/output.c
+> +++ b/drivers/gpu/drm/tegra/output.c
+> @@ -70,6 +70,11 @@ tegra_output_connector_detect(struct drm_connector *connector, bool force)
+>  
+>  void tegra_output_connector_destroy(struct drm_connector *connector)
+>  {
+> +	struct tegra_output *output = connector_to_output(connector);
+> +
+> +	if (output->cec)
+> +		cec_notifier_conn_unregister(output->cec);
+> +
+>  	drm_connector_unregister(connector);
+>  	drm_connector_cleanup(connector);
+>  }
+> @@ -163,18 +168,11 @@ int tegra_output_probe(struct tegra_output *output)
+>  		disable_irq(output->hpd_irq);
+>  	}
+>  
+> -	output->cec = cec_notifier_get(output->dev);
+> -	if (!output->cec)
+> -		return -ENOMEM;
+> -
+>  	return 0;
+>  }
+>  
+>  void tegra_output_remove(struct tegra_output *output)
+>  {
+> -	if (output->cec)
+> -		cec_notifier_put(output->cec);
+> -
+>  	if (output->hpd_gpio)
+>  		free_irq(output->hpd_irq, output);
+>  
+> @@ -184,6 +182,7 @@ void tegra_output_remove(struct tegra_output *output)
+>  
+>  int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
+>  {
+> +	int connector_type;
+>  	int err;
+>  
+>  	if (output->panel) {
+> @@ -199,6 +198,21 @@ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
+>  	if (output->hpd_gpio)
+>  		enable_irq(output->hpd_irq);
+>  
+> +	connector_type = output->connector.connector_type;
+> +	/*
+> +	 * Create a CEC notifier for HDMI connector.
+> +	 */
+> +	if (connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> +	    connector_type == DRM_MODE_CONNECTOR_HDMIB) {
+> +		struct cec_connector_info conn_info;
+> +
+> +		cec_fill_conn_info_from_drm(&conn_info, &output->connector);
+> +		output->cec = cec_notifier_conn_register(output->dev, NULL,
+> +							 &conn_info);
+> +		if (!output->cec)
+> +			return -ENOMEM;
+> +	}
+> +
+>  	return 0;
+>  }
+>  
+> 
+
