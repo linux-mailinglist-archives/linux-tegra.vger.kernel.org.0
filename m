@@ -2,154 +2,157 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59CF194BE1
-	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 19:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D73194C81
+	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 20:20:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727483AbfHSRkh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 19 Aug 2019 13:40:37 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:3410 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726959AbfHSRkh (ORCPT
+        id S1728088AbfHSSUY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 19 Aug 2019 14:20:24 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:16071 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727769AbfHSSUY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 19 Aug 2019 13:40:37 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d5adf130000>; Mon, 19 Aug 2019 10:40:35 -0700
+        Mon, 19 Aug 2019 14:20:24 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d5ae8660007>; Mon, 19 Aug 2019 11:20:22 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 19 Aug 2019 10:40:35 -0700
+  Mon, 19 Aug 2019 11:20:23 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 19 Aug 2019 10:40:35 -0700
+        by hqpgpgate102.nvidia.com on Mon, 19 Aug 2019 11:20:23 -0700
 Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 19 Aug
- 2019 17:40:34 +0000
-Received: from [10.2.167.147] (172.20.13.39) by DRHQMAIL107.nvidia.com
+ 2019 18:20:22 +0000
+Received: from [10.110.103.66] (10.124.1.5) by DRHQMAIL107.nvidia.com
  (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 19 Aug
- 2019 17:40:34 +0000
-Subject: Re: [PATCH v2] dmaengine: tegra210-adma: fix transfer failure
-To:     Sameer Pujar <spujar@nvidia.com>, <vkoul@kernel.org>,
-        <ldewangan@nvidia.com>
-CC:     <thierry.reding@gmail.com>, <dmaengine@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>
-References: <1562929830-29344-1-git-send-email-spujar@nvidia.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <9ac012f8-2594-cc70-44cb-b2c560c7df07@nvidia.com>
-Date:   Mon, 19 Aug 2019 18:40:33 +0100
+ 2019 18:20:22 +0000
+Subject: Re: [PATCH v9 20/22] soc/tegra: pmc: Configure deep sleep control
+ settings
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <tglx@linutronix.de>,
+        <jason@lakedaemon.net>, <marc.zyngier@arm.com>,
+        <linus.walleij@linaro.org>, <stefan@agner.ch>,
+        <mark.rutland@arm.com>
+CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <sboyd@kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <jckuo@nvidia.com>,
+        <josephl@nvidia.com>, <talho@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mperttunen@nvidia.com>, <spatra@nvidia.com>, <robh+dt@kernel.org>,
+        <devicetree@vger.kernel.org>, <rjw@rjwysocki.net>,
+        <viresh.kumar@linaro.org>, <linux-pm@vger.kernel.org>
+References: <1565984527-5272-1-git-send-email-skomatineni@nvidia.com>
+ <1565984527-5272-21-git-send-email-skomatineni@nvidia.com>
+ <bf5541d2-1bad-8a8c-fd9d-821b55861136@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <2092e557-06cb-4a74-fe40-1d83bf67ccca@nvidia.com>
+Date:   Mon, 19 Aug 2019 11:20:21 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <1562929830-29344-1-git-send-email-spujar@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+In-Reply-To: <bf5541d2-1bad-8a8c-fd9d-821b55861136@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1566236435; bh=uQh+7CPWh4ks7omq4xN3mkaxSmfuZgkVZPCXQ6ROol4=;
+        t=1566238823; bh=DG3Ncvdyhdgnv9HjB4ejbpQrlRq3pOO4ZH69laUIV64=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=mi6aAY/45Y/6Y7v+DEUgAM5rxYhPc890D2MyJu6rL7CF3tnBkTebmcofZKnLLHBYx
-         57mc6IEEbBmqJut2kglzkKem80PrBTZaAGjhTGt5IJ0kNpS5okPWVDDTCFZyxtLScH
-         dIeUuiE5mmd03tJq3rWBFaVOktTuXWzvgRaOFH0bFvSsDZQ+LJYBI8LJcitd91C4Bl
-         cjcJyqX6m/yqqiUAnelLHDtLS3HXTGI8j26YtwjPFP+Nz7IsPLXWkVOg49N815tnwG
-         c2p2J4/mnM5vEY3E/zBwiM436c1QUzOFVjYs4CSv7iT3CCXbAVUvNRcHxXe6gJBM9H
-         S+Rn5w6rIU9Yg==
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=Y8wgVA4pfeRKLIYg2KrGx9URLHJ4egqhwFl+VoI+e5pkLq7Dr+CJjxdfZe/+PIWvm
+         tbeGbpDsRjTenb3ybLjI3O5/OgofFuZD6ZlVYAl5GT2VO+wZDeTgehO4Lyx5yWPWA2
+         axs+WKmdVfPBZOnS3+Wh4a8OIoAQMN1yUQrnez2AFyXZvSNZlRllMsRFLmb0r9+nTQ
+         jr9+jOGlXhUEl7IPnlT+0h8TqaQ9S2ZX1iJqsSqJ5u4iYCwrf2hkz3d5Ft7CMe9JU3
+         Qaw9XuAp1G3xi8NZ3PNDumrp83oC++7DbYnRlT3nD0AS6WCUSJhQ3f8gmVZL5z7Qvm
+         HDclZS5QY6WTg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 12/07/2019 12:10, Sameer Pujar wrote:
-> From Tegra186 onwards OUTSTANDING_REQUESTS field is added in channel
-> configuration register(bits 7:4) which defines the maximum number of reads
-> from the source and writes to the destination that may be outstanding at
-> any given point of time. This field must be programmed with a value
-> between 1 and 8. A value of 0 will prevent any transfers from happening.
-> 
-> Thus added 'ch_pending_req' member in chip data structure and the same is
-> populated with maximum allowed pending requests. Since the field is not
-> applicable to Tegra210, mentioned bit fields are unused and hence the
-> member is initialized with 0. For Tegra186, by default program this field
-> with the maximum permitted value of 8.
-> 
-> Fixes: 433de642a76c ("dmaengine: tegra210-adma: add support for Tegra186/Tegra194")
-> 
-> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> ---
->  drivers/dma/tegra210-adma.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-> index 2805853..5ab4e3a9 100644
-> --- a/drivers/dma/tegra210-adma.c
-> +++ b/drivers/dma/tegra210-adma.c
-> @@ -74,6 +74,8 @@
->  				    TEGRA186_ADMA_CH_FIFO_CTRL_TXSIZE(3)    | \
->  				    TEGRA186_ADMA_CH_FIFO_CTRL_RXSIZE(3))
->  
-> +#define TEGRA186_DMA_MAX_PENDING_REQS			8
-> +
->  #define ADMA_CH_REG_FIELD_VAL(val, mask, shift)	(((val) & mask) << shift)
->  
->  struct tegra_adma;
-> @@ -85,6 +87,7 @@ struct tegra_adma;
->   * @ch_req_tx_shift: Register offset for AHUB transmit channel select.
->   * @ch_req_rx_shift: Register offset for AHUB receive channel select.
->   * @ch_base_offset: Register offset of DMA channel registers.
-> + * @ch_pending_req: Outstaning DMA requests for a channel.
+On 8/19/19 9:48 AM, Dmitry Osipenko wrote:
+> 16.08.2019 22:42, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> Tegra210 and prior Tegra chips have deep sleep entry and wakeup related
+>> timings which are platform specific that should be configured before
+>> entering into deep sleep.
+>>
+>> Below are the timing specific configurations for deep sleep entry and
+>> wakeup.
+>> - Core rail power-on stabilization timer
+>> - OSC clock stabilization timer after SOC rail power is stabilized.
+>> - Core power off time is the minimum wake delay to keep the system
+>>    in deep sleep state irrespective of any quick wake event.
+>>
+>> These values depends on the discharge time of regulators and turn OFF
+>> time of the PMIC to allow the complete system to finish entering into
+>> deep sleep state.
+>>
+>> These values vary based on the platform design and are specified
+>> through the device tree.
+>>
+>> This patch has implementation to configure these timings which are must
+>> to have for proper deep sleep and wakeup operations.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   drivers/soc/tegra/pmc.c | 14 +++++++++++++-
+>>   1 file changed, 13 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+>> index 53ed70773872..710969043668 100644
+>> --- a/drivers/soc/tegra/pmc.c
+>> +++ b/drivers/soc/tegra/pmc.c
+>> @@ -88,6 +88,8 @@
+>>  =20
+>>   #define PMC_CPUPWRGOOD_TIMER		0xc8
+>>   #define PMC_CPUPWROFF_TIMER		0xcc
+>> +#define PMC_COREPWRGOOD_TIMER		0x3c
+>> +#define PMC_COREPWROFF_TIMER		0xe0
+>>  =20
+>>   #define PMC_PWR_DET_VALUE		0xe4
+>>  =20
+>> @@ -2277,7 +2279,7 @@ static const struct tegra_pmc_regs tegra20_pmc_reg=
+s =3D {
+>>  =20
+>>   static void tegra20_pmc_init(struct tegra_pmc *pmc)
+>>   {
+>> -	u32 value;
+>> +	u32 value, osc, pmu, off;
+>>  =20
+>>   	/* Always enable CPU power request */
+>>   	value =3D tegra_pmc_readl(pmc, PMC_CNTRL);
+>> @@ -2303,6 +2305,16 @@ static void tegra20_pmc_init(struct tegra_pmc *pm=
+c)
+>>   	value =3D tegra_pmc_readl(pmc, PMC_CNTRL);
+>>   	value |=3D PMC_CNTRL_SYSCLK_OE;
+>>   	tegra_pmc_writel(pmc, value, PMC_CNTRL);
+>> +
+>> +	/* program core timings which are applicable only for suspend state */
+>> +	if (pmc->suspend_mode !=3D TEGRA_SUSPEND_NONE) {
+>> +		osc =3D DIV_ROUND_UP(pmc->core_osc_time * 8192, 1000000);
+>> +		pmu =3D DIV_ROUND_UP(pmc->core_pmu_time * 32768, 1000000);
+>> +		off =3D DIV_ROUND_UP(pmc->core_off_time * 32768, 1000000);
+>> +		tegra_pmc_writel(pmc, ((osc << 8) & 0xff00) | (pmu & 0xff),
+>> +				 PMC_COREPWRGOOD_TIMER);
+>> +		tegra_pmc_writel(pmc, off, PMC_COREPWROFF_TIMER);
+>> +	}
+>>   }
+>>  =20
+>>   static void tegra20_pmc_setup_irq_polarity(struct tegra_pmc *pmc,
+>>
+> In the previous version of this patch there were checks for zero values
+> of the timers with intention to skip programming of the timers if value
+> is zero. I'm a bit puzzled by the new version, given that SUSPEND_NONE
+> means that suspending isn't available at all and thus PMC timers won't
+> be utilized, hence it shouldn't matter what values are programmed for
+> the counters, isn't it?
 
-s/Outstaning/Outstanding
+Yes, as I see in documentation we already specify all these timings are=20
+required properties when suspend mode is used, I updated in this version=20
+to program core timings only when suspend mode is enabled.
 
-I do wonder if this variable should be a boolean variable
-'has_oustanding_reqs' because this is not applicable to Tegra210. I
-think this will be clearer that this is a difference between SoC
-versions and that it should not be configured for Tegra210. And then ...
 
->   * @ch_fifo_ctrl: Default value for channel FIFO CTRL register.
->   * @ch_req_mask: Mask for Tx or Rx channel select.
->   * @ch_req_max: Maximum number of Tx or Rx channels available.
-> @@ -98,6 +101,7 @@ struct tegra_adma_chip_data {
->  	unsigned int ch_req_tx_shift;
->  	unsigned int ch_req_rx_shift;
->  	unsigned int ch_base_offset;
-> +	unsigned int ch_pending_req;
->  	unsigned int ch_fifo_ctrl;
->  	unsigned int ch_req_mask;
->  	unsigned int ch_req_max;
-> @@ -602,6 +606,7 @@ static int tegra_adma_set_xfer_params(struct tegra_adma_chan *tdc,
->  			 ADMA_CH_CTRL_FLOWCTRL_EN;
->  	ch_regs->config |= cdata->adma_get_burst_config(burst_size);
->  	ch_regs->config |= ADMA_CH_CONFIG_WEIGHT_FOR_WRR(1);
-> +	ch_regs->config |= cdata->ch_pending_req;
-
-... you can ...
-
-        if (cdata->has_outstanding_reqs)
-            ch_regs->config |= TEGRA186_ADMA_CH_CONFIG_OUTSTNDREQS(8)
-
->  	ch_regs->fifo_ctrl = cdata->ch_fifo_ctrl;
->  	ch_regs->tc = desc->period_len & ADMA_CH_TC_COUNT_MASK;
->  
-> @@ -786,6 +791,7 @@ static const struct tegra_adma_chip_data tegra210_chip_data = {
->  	.ch_req_tx_shift	= 28,
->  	.ch_req_rx_shift	= 24,
->  	.ch_base_offset		= 0,
-> +	.ch_pending_req		= 0,
->  	.ch_fifo_ctrl		= TEGRA210_FIFO_CTRL_DEFAULT,
->  	.ch_req_mask		= 0xf,
->  	.ch_req_max		= 10,
-> @@ -800,6 +806,7 @@ static const struct tegra_adma_chip_data tegra186_chip_data = {
->  	.ch_req_tx_shift	= 27,
->  	.ch_req_rx_shift	= 22,
->  	.ch_base_offset		= 0x10000,
-> +	.ch_pending_req		= (TEGRA186_DMA_MAX_PENDING_REQS << 4),
->  	.ch_fifo_ctrl		= TEGRA186_FIFO_CTRL_DEFAULT,
->  	.ch_req_mask		= 0x1f,
->  	.ch_req_max		= 20,
-> 
-
--- 
-nvpublic
