@@ -2,111 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31FB0922F5
-	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 14:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04E309231A
+	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 14:09:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727068AbfHSMBM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 19 Aug 2019 08:01:12 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:40749 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726491AbfHSMBM (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 19 Aug 2019 08:01:12 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id zgLGhBcThThuuzgLKhW3k2; Mon, 19 Aug 2019 14:01:09 +0200
-Subject: Re: [PATCH v7 0/9] drm: cec: convert DRM drivers to the new notifier
- API
-To:     Dariusz Marcinkiewicz <darekm@google.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        linux-samsung-soc@vger.kernel.org,
-        David Francis <David.Francis@amd.com>,
-        amd-gfx@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
-        "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>,
-        linux-arm-kernel@lists.infradead.org,
-        nouveau@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
-        Jani Nikula <jani.nikula@intel.com>,
-        intel-gfx@lists.freedesktop.org,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Sean Paul <seanpaul@chromium.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Lim <Thomas.Lim@amd.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726987AbfHSMJX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 19 Aug 2019 08:09:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47542 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726477AbfHSMJX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 19 Aug 2019 08:09:23 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0FE4220851;
+        Mon, 19 Aug 2019 12:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566216562;
+        bh=NFJ3y2FRyz/Sijca+X82/cihiNZBB6vZUHePSvZesEI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jdzAoDkBBiO4MM+szC1VLu2M/TLylR63JiaMC69yS4bzIlTPQ2wBZ6ysvGzRJmm3z
+         c1qu1xGEm+CQ462UgIQ6S/+Ef57RC5xyGMMyUrFIWCideHRBO3VrhagOua/GP1xDWs
+         24g61s6REcFUpyFg/6LB2g9vpqCjEgiMOrWKhTTc=
+Date:   Mon, 19 Aug 2019 13:09:18 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Marc Gonzalez <marc.w.gonzalez@free.fr>,
+        Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will.deacon@arm.com>,
         Douglas Anderson <dianders@chromium.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Manasi Navare <manasi.d.navare@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Enrico Weigelt <info@metux.net>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-References: <20190814104520.6001-1-darekm@google.com>
- <42c7ef3c-b7e5-8c63-c7c2-bfc6c56100c6@xs4all.nl>
- <CALFZZQHu1C_8idxkwjBdxpW=y9gKmDnLOeTHZ9iAkNo7YubZHg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <04c7dcb9-d5b1-804f-959e-d953dec9f937@xs4all.nl>
-Date:   Mon, 19 Aug 2019 14:00:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2] iommu/arm-smmu: Break insecure users by disabling
+ bypass by default
+Message-ID: <20190819120917.hysyc6l3ckkwcx25@willie-the-truck>
+References: <20190301192017.39770-1-dianders@chromium.org>
+ <20190404145957.GA25912@fuggles.cambridge.arm.com>
+ <4754bcf1-6423-f1fe-64d4-da4a35b164ad@free.fr>
+ <20190424115231.GA14829@fuggles.cambridge.arm.com>
+ <20190502105912.GA943@ulmo>
+ <20190502110821.GD30966@fuggles.cambridge.arm.com>
+ <20190502124525.GA3579@ulmo>
+ <94cf6d56-5dcb-051a-06da-5edfacde1655@arm.com>
+ <20190819112856.GA28102@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <CALFZZQHu1C_8idxkwjBdxpW=y9gKmDnLOeTHZ9iAkNo7YubZHg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFV3jVCXFwOEmTkQx82eRsQbIhJkR81Nq+PQ7+JIxD7SfeDf16QIlfyskYXOROnMUb1Xtz63nmAd+iRuAvv3lI+kSlWyeIEhZqUxAxunUBgSNPsIh0RS
- mjy/qEor/1jPIWCs++cE11cKIMSmJG6MIRet1GEXPjDRkJmQp+a35H+MmUUZQwTTR1+nKE21+e8g8uyyOC+brrm8l7IGJzM2xkjZnb2phy+jJaFPjeDphiq2
- wJGwcAxVj3hzR83+NKHB9G1k+vXw4aQ/MzI9QM2Rfexrr6SfKwhQNC+fwINRnkI5GRv/KsnG7Cp4puXP7DO5yBdGoVSWgH5CmENYnS/eKuSiU5EKfP9JydOZ
- 0TeBKSmPe/yG2uEbKvOEhTbYTbxGExNNS3gikvrlFuX507yqvyqZgFfwXyscLCN6ETQlF3KcmsvXjIEPG2ihAzWWYLVIBTio1TyMSJGFEmpBY+moeHhgCKd5
- QCLNKE3tEPzrfY+D5ZHPBjzAXkNtyO8+jlsRa+grS9TcaYqHwmBRDX2sgu0n8SZpiRaKUQ8CUNelmd1dDTk5FXZ7tHD5MJDPHi0zvxN/SpPt23kTbWgKE5gU
- aHY/WwWjcm4lJ0BmDIdybu6YMud1jvX5At1xRAcdF5JQLSwQhzz5AnH7cbrjV+1SzM7/DENC5sFV2ym2htRgqEjwdJM7u7CUJiwVR94R62DkJg6QWcOJHjBj
- uj7LoLdwv94P1jm8zrEIn7g9nvYCZ4fPudE4xn05aUnlExieWaDmbS/aVLlYRiO3bkOp2FM2h+aMgsglzWIlUPh8/AZedUNJMF/tXdaiya9WyxwwUd0C/0s4
- RXKALAxZpKpCHYKLuvsjLjpNepoDePmgax++EIwE0VSgQkiULQDut+CklRWpNuVjs7K3YW7QhaV5TJs7hbD+zcHGBx9U78V8DDOrC94VW5aZ28ZEfOZ0uzgP
- 8OQfTYKMg0Nl1M+kmnceE4SHiS/votNR2zN+llnit1yPqD/1wvVTcJn27TGpY7LISvFLMAUQAscfevNJq/YrgAg/YmxNJ5d4U5TH2TEQp2j6XqjB3e9Qv7oJ
- 0UATqeHOZxCLGn6HGA3HDZ2pf1HIPj7fEDp02kgtojum+Qn3UuBmxKGnRQMJwwdYeIW0SvKuLMbKexAZHG2NCcawo8nAu7IqARHW7s0L/zTRIfNsao7ZFqyj
- i0dvT/P6zEDeItI9/vwF0nf9pPt0uzcREtdYflMFe+g1eRvv3+mCICN6r+bpv9SpijR9E13MwmlLVWnwDZNrTnqAOTC59SJBNJbLXkod0WXHvsxMxlJsiNS/
- NfACYT3H/B23rUIEn6UEcxP8Ddn00V3hDKUI1JC79+04/vTSsf4xZJKfVa3/jcHwzPkXnn8XxBuHr+xznAKCVi/mo5fXLuU8O8Z3XpZ1daQ0o3df/YsgVwHH
- lOIZa4FuohIX5ifk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190819112856.GA28102@ulmo>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 8/19/19 1:28 PM, Dariusz Marcinkiewicz wrote:
-> On Mon, Aug 19, 2019 at 11:38 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> Hi all,
->>
-> Hi Hans.
->> The patches in this series can be applied independently from each other.
->>
->> If you maintain one of these drivers and you want to merge it for v5.4
->> yourself, then please do so and let me know. If you prefer I commit it
->> to drm-misc, then please review and (hopefully) Ack the patch.
->>
->> I would really like to get this in for v5.4 so I can get the userspace
->> bits in for v5.4 as well through the media subsystem.
->>
->> Dariusz, can you post a v7.1 for patch 5/9 fixing the typo?
->>
-> Done.
+On Mon, Aug 19, 2019 at 01:28:56PM +0200, Thierry Reding wrote:
+> Perhaps an alternative would be to add a property to the SMMU node that
+> lists a set of stream IDs for which to enable bypass by default. We
+> could let the firmware set that when the display hardware has been set
+> up. That way when the kernel boots we can keep scanning from the
+> reserved memory and the ARM SMMU driver would not disable bypass for the
+> display hardware. Only when the display hardware is actually attached to
+> the IOMMU domain, and the 1:1 mappings have been created would bypass be
+> disabled, and at that point there should be no SMMU faults anymore, so
+> we have cleanly transitioned to the kernel.
 > 
-> I think it would be good to test v7 changes to dw-hdmi and tda998x on
-> a real hardware. Hans, do you think you would be able to test those?
-> 
-> Thank you.
-> 
+> Any thoughts?
 
-I'll try to do this for dw-hdmi today, but the tda998x testing will have to wait
-until next week.
+There is currently an extension to IORT under discussion which should
+address this problem, so it would make a lot of sense for the DT solution
+to follow the same approach. I think it will end up being along the lines
+that you suggest, although we won't just enable bypass because that leaves
+memory wide open if the device driver doesn't probe and it also creates
+an issue because device attach typically happens before the endpoint
+driver has probed.
 
-Regards,
+So the flow would look something like:
 
-	Hans
+	- Firmware describes a physical region of memory which must be
+	  reserved by the OS.
+
+	- Additionally, firmware describes a master -> reserved memory
+	  linkage as part of the IOMMU description.
+
+	- When the IOMMU probes, these reserved memory regions will be
+	  mapped 1:1 for the relevant master.
+
+This is similar to RMRR on x86, except that the mappings are intended to
+be less rigid and can be torn down if the endpoint driver decides to do
+that or for things like device passthrough.
+
+If we get that working, we should update our booting.txt so that DMA is
+allowed during boot in the limited cases which this covers.
+
+Will
