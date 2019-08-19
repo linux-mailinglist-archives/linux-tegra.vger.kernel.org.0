@@ -2,169 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55B3994E50
-	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 21:34:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99D2694EFF
+	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 22:29:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728517AbfHSTd5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 19 Aug 2019 15:33:57 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52861 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728375AbfHSTd5 (ORCPT
+        id S1728429AbfHSU3U (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 19 Aug 2019 16:29:20 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:4862 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727988AbfHSU3S (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 19 Aug 2019 15:33:57 -0400
-Received: by mail-wm1-f67.google.com with SMTP id o4so573914wmh.2;
-        Mon, 19 Aug 2019 12:33:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=M8LYhD4lhXPC7C0Kz4FM0eI8Uon0RGyTbjZ7iSLdUwY=;
-        b=G/Xz5WNgJus57o+i2ehU+l0iHOMv8K+eX7esd5Hsp8ECu1hc9Ij2lFCCMT8c/TeTQx
-         KPxGFnwhHfLCIuhABPymGXDPH0oEnZlCiWXK4u0Ggx6yY8rqCwwB764VaXJ2WamY2LwK
-         V0y5VSxnkH2oPCLaRqgkNtJKf+KXfenR2Mgqd52G43nCPwFJY4jkEoY4yIi92vlt8HU8
-         ENKFx7T9KuXh511hTtpe7jujVFXmzEyWHXNhyrD9ZGosBFQgGvTbjw9aVwqtOnqp9XpT
-         2x3s4e6pw/JIijGy+an8s+tsrNoMURxBIKU583BC6tsFmleaeStVM3g3pSv6Oa0eeXSY
-         ZmYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=M8LYhD4lhXPC7C0Kz4FM0eI8Uon0RGyTbjZ7iSLdUwY=;
-        b=IXS76+FZTUGHBAxESpVXRK31XSmSe/DDlVeF+bU7jKIbF4YK3Xkf/vwiBPq5GeyfAe
-         0JUrzz8kK4lEub/vRBA7798Z5BpVpO9YibC00K7Re/B6whvXadpNDF6bR1dgEUFyX0Ob
-         xIfUjQ27Q375vBA93fmmlcXDd25TXiQxQhTUCTIVxj7tLvwff/eb4bnj4+MANDzx00RM
-         IsjzPFpqsr/33Ut1iVN+lc+14wTGE6klFIJSAu8rC8ZTgsVNsIM8jr0ODH6m/o8XItnb
-         8Qa7bzySeDyLy261UDcZ2IFuY4S2RJTxroPdegseoyLzEIXM1YSzNuqQUo+VCsiTtbjD
-         gZag==
-X-Gm-Message-State: APjAAAXbqmpx8WvcXLdjSltC2KXT19OzATWl6uDh88sEowKdFdJUEu3X
-        rPAkxo+6aTCwHH4fQQPu5Qazc4HH
-X-Google-Smtp-Source: APXvYqx3j1A+XbE8p3KzEPzhIilb1DSi7SDFHoAeZejzy26ay1t6am8l3zqKSE2XA96TglOR8BVogQ==
-X-Received: by 2002:a1c:d108:: with SMTP id i8mr23171852wmg.28.1566243233356;
-        Mon, 19 Aug 2019 12:33:53 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.34.218])
-        by smtp.googlemail.com with ESMTPSA id o11sm12528508wrw.19.2019.08.19.12.33.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Aug 2019 12:33:52 -0700 (PDT)
-Subject: Re: [PATCH v9 20/22] soc/tegra: pmc: Configure deep sleep control
- settings
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
-        jason@lakedaemon.net, marc.zyngier@arm.com,
-        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, rjw@rjwysocki.net,
-        viresh.kumar@linaro.org, linux-pm@vger.kernel.org
-References: <1565984527-5272-1-git-send-email-skomatineni@nvidia.com>
- <1565984527-5272-21-git-send-email-skomatineni@nvidia.com>
- <bf5541d2-1bad-8a8c-fd9d-821b55861136@gmail.com>
- <2092e557-06cb-4a74-fe40-1d83bf67ccca@nvidia.com>
- <a8d65dbc-6924-c972-06e9-5bc47d66e94f@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <8f5630bd-2869-4f5b-c18d-7ee8326432d6@gmail.com>
-Date:   Mon, 19 Aug 2019 22:33:49 +0300
+        Mon, 19 Aug 2019 16:29:18 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d5b069d0000>; Mon, 19 Aug 2019 13:29:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 19 Aug 2019 13:29:18 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 19 Aug 2019 13:29:18 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 19 Aug
+ 2019 20:29:17 +0000
+Received: from [10.2.167.147] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 19 Aug
+ 2019 20:29:16 +0000
+Subject: Re: [PATCH 10/14] serial: tegra: add support to use 8 bytes trigger
+To:     Krishna Yarlagadda <kyarlagadda@nvidia.com>,
+        <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
+        <ldewangan@nvidia.com>, <jslaby@suse.com>
+CC:     <linux-serial@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Shardar Shariff Md" <smohammed@nvidia.com>
+References: <1565609303-27000-1-git-send-email-kyarlagadda@nvidia.com>
+ <1565609303-27000-11-git-send-email-kyarlagadda@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <dda0d866-ae7a-8655-7b26-4c28249c0be8@nvidia.com>
+Date:   Mon, 19 Aug 2019 21:29:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <a8d65dbc-6924-c972-06e9-5bc47d66e94f@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1565609303-27000-11-git-send-email-kyarlagadda@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1566246557; bh=WyjGFMCx57IDIkIARHgc/p/3DlhW1CTKBnwe7XnjJY8=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=MWtSopOR49l87pUtrMYz3a1WgQUITI3/vrtW8PIEM/d5lyR+MgP4+2FviE+v2getX
+         wwB9d+NUWSNlhdaU2fl9UMMKBbvYsVUmUvwx8LZX/J8UIlUXZs9wegKw6spKfCrNTm
+         /j8xTB3QrqedefG4bJivLueowAphXQWodyuHfeCOaL34j1Hc/OuPqDveB+mu0pL8Bg
+         mjhkk8FX0vGA8SjBFN8Op5/wgpFAyU+j3k0suK9tqWDoSSzXht1dSqIrvtG9UjVBi4
+         tuxb4KWAWcEvJxuNDnumqfJ8oVUVcW0DOPjS2qvwP36OQOh4YNfn/piFxOabaEHYfc
+         uUtxMU13PRwCw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-19.08.2019 22:07, Sowjanya Komatineni пишет:
+
+On 12/08/2019 12:28, Krishna Yarlagadda wrote:
+> From: Shardar Shariff Md <smohammed@nvidia.com>
 > 
-> On 8/19/19 11:20 AM, Sowjanya Komatineni wrote:
->>
->> On 8/19/19 9:48 AM, Dmitry Osipenko wrote:
->>> 16.08.2019 22:42, Sowjanya Komatineni пишет:
->>>> Tegra210 and prior Tegra chips have deep sleep entry and wakeup related
->>>> timings which are platform specific that should be configured before
->>>> entering into deep sleep.
->>>>
->>>> Below are the timing specific configurations for deep sleep entry and
->>>> wakeup.
->>>> - Core rail power-on stabilization timer
->>>> - OSC clock stabilization timer after SOC rail power is stabilized.
->>>> - Core power off time is the minimum wake delay to keep the system
->>>>    in deep sleep state irrespective of any quick wake event.
->>>>
->>>> These values depends on the discharge time of regulators and turn OFF
->>>> time of the PMIC to allow the complete system to finish entering into
->>>> deep sleep state.
->>>>
->>>> These values vary based on the platform design and are specified
->>>> through the device tree.
->>>>
->>>> This patch has implementation to configure these timings which are must
->>>> to have for proper deep sleep and wakeup operations.
->>>>
->>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>> ---
->>>>   drivers/soc/tegra/pmc.c | 14 +++++++++++++-
->>>>   1 file changed, 13 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
->>>> index 53ed70773872..710969043668 100644
->>>> --- a/drivers/soc/tegra/pmc.c
->>>> +++ b/drivers/soc/tegra/pmc.c
->>>> @@ -88,6 +88,8 @@
->>>>     #define PMC_CPUPWRGOOD_TIMER        0xc8
->>>>   #define PMC_CPUPWROFF_TIMER        0xcc
->>>> +#define PMC_COREPWRGOOD_TIMER        0x3c
->>>> +#define PMC_COREPWROFF_TIMER        0xe0
->>>>     #define PMC_PWR_DET_VALUE        0xe4
->>>>   @@ -2277,7 +2279,7 @@ static const struct tegra_pmc_regs
->>>> tegra20_pmc_regs = {
->>>>     static void tegra20_pmc_init(struct tegra_pmc *pmc)
->>>>   {
->>>> -    u32 value;
->>>> +    u32 value, osc, pmu, off;
->>>>         /* Always enable CPU power request */
->>>>       value = tegra_pmc_readl(pmc, PMC_CNTRL);
->>>> @@ -2303,6 +2305,16 @@ static void tegra20_pmc_init(struct tegra_pmc
->>>> *pmc)
->>>>       value = tegra_pmc_readl(pmc, PMC_CNTRL);
->>>>       value |= PMC_CNTRL_SYSCLK_OE;
->>>>       tegra_pmc_writel(pmc, value, PMC_CNTRL);
->>>> +
->>>> +    /* program core timings which are applicable only for suspend
->>>> state */
->>>> +    if (pmc->suspend_mode != TEGRA_SUSPEND_NONE) {
->>>> +        osc = DIV_ROUND_UP(pmc->core_osc_time * 8192, 1000000);
->>>> +        pmu = DIV_ROUND_UP(pmc->core_pmu_time * 32768, 1000000);
->>>> +        off = DIV_ROUND_UP(pmc->core_off_time * 32768, 1000000);
->>>> +        tegra_pmc_writel(pmc, ((osc << 8) & 0xff00) | (pmu & 0xff),
->>>> +                 PMC_COREPWRGOOD_TIMER);
->>>> +        tegra_pmc_writel(pmc, off, PMC_COREPWROFF_TIMER);
->>>> +    }
->>>>   }
->>>>     static void tegra20_pmc_setup_irq_polarity(struct tegra_pmc *pmc,
->>>>
->>> In the previous version of this patch there were checks for zero values
->>> of the timers with intention to skip programming of the timers if value
->>> is zero. I'm a bit puzzled by the new version, given that SUSPEND_NONE
->>> means that suspending isn't available at all and thus PMC timers won't
->>> be utilized, hence it shouldn't matter what values are programmed for
->>> the counters, isn't it?
->>
->> Yes, as I see in documentation we already specify all these timings
->> are required properties when suspend mode is used, I updated in this
->> version to program core timings only when suspend mode is enabled.
->>
-> In other words, core timings are for SC7 entry only. So when SC7/suspend
-> mode is not used, these timings doesn't matter.
+> Add support to use 8 bytes trigger for Tegra186 SOC.
+> 
+> Signed-off-by: Shardar Shariff Md <smohammed@nvidia.com>
+> Signed-off-by: Krishna Yarlagadda <kyarlagadda@nvidia.com>
+> ---
+>  drivers/tty/serial/serial-tegra.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/tty/serial/serial-tegra.c b/drivers/tty/serial/serial-tegra.c
+> index 329923c..03d1d20 100644
+> --- a/drivers/tty/serial/serial-tegra.c
+> +++ b/drivers/tty/serial/serial-tegra.c
+> @@ -88,6 +88,7 @@ struct tegra_uart_chip_data {
+>  	bool	support_clk_src_div;
+>  	bool	fifo_mode_enable_status;
+>  	int	uart_max_port;
+> +	int	dma_burst_bytes;
 
-In this case, it should be a bit more straightforward to always program
-the timers unconditionally. But since device-tree binding requires all
-the properties to be specified when suspend mode isn't NONE, then the
-new variant also makes sense. Either way is good to me, thanks.
+I assume that this is a maximum, so why not say max_dma_burst_bytes?
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+>  };
+>  
+>  struct tegra_uart_port {
+> @@ -933,7 +934,12 @@ static int tegra_uart_hw_init(struct tegra_uart_port *tup)
+>  	 * programmed in the DMA registers.
+>  	 */
+>  	tup->fcr_shadow = UART_FCR_ENABLE_FIFO;
+> -	tup->fcr_shadow |= UART_FCR_R_TRIG_01;
+> +
+> +	if (tup->cdata->dma_burst_bytes == 8)
+> +		tup->fcr_shadow |= UART_FCR_R_TRIG_10;
+> +	else
+> +		tup->fcr_shadow |= UART_FCR_R_TRIG_01;
+> +
+>  	tup->fcr_shadow |= TEGRA_UART_TX_TRIG_16B;
+>  	tegra_uart_write(tup, tup->fcr_shadow, UART_FCR);
+>  
+> @@ -1046,7 +1052,7 @@ static int tegra_uart_dma_channel_allocate(struct tegra_uart_port *tup,
+>  		}
+>  		dma_sconfig.src_addr = tup->uport.mapbase;
+>  		dma_sconfig.src_addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
+> -		dma_sconfig.src_maxburst = 4;
+> +		dma_sconfig.src_maxburst = tup->cdata->dma_burst_bytes;
+>  		tup->rx_dma_chan = dma_chan;
+>  		tup->rx_dma_buf_virt = dma_buf;
+>  		tup->rx_dma_buf_phys = dma_phys;
+> @@ -1325,6 +1331,7 @@ static struct tegra_uart_chip_data tegra20_uart_chip_data = {
+>  	.support_clk_src_div		= false,
+>  	.fifo_mode_enable_status	= false,
+>  	.uart_max_port			= 5,
+> +	.dma_burst_bytes		= 4,
+
+Isn't it simpler to store the TRIG value here?
+
+Jon
+
+-- 
+nvpublic
