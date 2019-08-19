@@ -2,170 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CCA4927AB
-	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 16:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E252A94AC1
+	for <lists+linux-tegra@lfdr.de>; Mon, 19 Aug 2019 18:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726661AbfHSOzl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 19 Aug 2019 10:55:41 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50185 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725536AbfHSOzl (ORCPT
+        id S1727398AbfHSQr6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 19 Aug 2019 12:47:58 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:34603 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726553AbfHSQr5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 19 Aug 2019 10:55:41 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id zj4ChI5vQzaKOzj4Ghs6MN; Mon, 19 Aug 2019 16:55:38 +0200
-Subject: Re: [PATCH v7 0/9] drm: cec: convert DRM drivers to the new notifier
- API
-To:     Neil Armstrong <narmstrong@baylibre.com>,
-        Dariusz Marcinkiewicz <darekm@google.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Cc:     Kate Stewart <kstewart@linuxfoundation.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        linux-samsung-soc@vger.kernel.org,
-        David Francis <David.Francis@amd.com>,
-        amd-gfx@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
-        "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>,
-        linux-arm-kernel@lists.infradead.org,
-        nouveau@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
-        Jani Nikula <jani.nikula@intel.com>,
-        intel-gfx@lists.freedesktop.org,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Sean Paul <seanpaul@chromium.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Lim <Thomas.Lim@amd.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Manasi Navare <manasi.d.navare@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Enrico Weigelt <info@metux.net>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-References: <20190814104520.6001-1-darekm@google.com>
- <42c7ef3c-b7e5-8c63-c7c2-bfc6c56100c6@xs4all.nl>
- <ad2a4af0-aeff-a81e-7885-7e9fc3c5cf90@baylibre.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <6ef361f6-2f56-32ea-c7da-52799990cac7@xs4all.nl>
-Date:   Mon, 19 Aug 2019 16:55:28 +0200
+        Mon, 19 Aug 2019 12:47:57 -0400
+Received: by mail-lf1-f65.google.com with SMTP id b29so1903647lfq.1;
+        Mon, 19 Aug 2019 09:47:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Ew3DQY1/Dy+Vj1B+2EqwrXO/bgBLBuE1m+WOVlZNw9k=;
+        b=Zzrat69qNDkyOx6bUdjul9/0REh8MBL9UAfX0aHLTfPO4Yj7u1jxyx6SYwrJdLj8fo
+         ucIFzCZgUVUpIFcZAW7T0tWl540lK7SKozSZn3bjuUdC8tGXH/VIeZtcUkFYUaXLBSGI
+         fPTywm4DUPlheCPBkNQ9zdIfjghGMGueSZ6lyvfUDEWgm+6++aS8Hcbr5F2vxTBll9h0
+         TJT0trrOtUy0/DPtiDODK9ZKAAQh5RkJZuNdnerkLAtvf4RBBlLOcs2KzDtMbttTJOMl
+         DfRWNEmeK7Da6+ru63FNSm0V9BMRRmQwnA53fZPitY9O6THMt3vPoyBLuDpEmH095hlB
+         ICPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ew3DQY1/Dy+Vj1B+2EqwrXO/bgBLBuE1m+WOVlZNw9k=;
+        b=gDFbwyrPTkF0+mLsHsmhg9DJzPUJ4R1vkEafUrzb+j9Y0XAjyuxPfzpiJbDBND6el6
+         DJfpe31hwM5fW62xZLwVKhuWZ581b4BWR/cCy/pGS4Fq/jSCTqxQrXl0ASNBwk/2UnwU
+         5eXXpvNAUP6Rt+q2Er2cpmZENMOHGiRgRs5RxyHmIWZqzpcVnYk3CRHlsixZFHdkDVAL
+         JKYDDqqDUxRlN/5Jlrzbwlh+H2q4qzqvl0K7ZW+hJXoVkWVe+01nqiIQYjNrPpYM9aMN
+         eTJBBLCzrqbIkzXMYyvjttZ3VKfhAjIwYL7MVe0myTUTxiEFPgy8kbMM0gLSZS5jd9jb
+         vKPg==
+X-Gm-Message-State: APjAAAUYA9xyR7X/FaCcqOj4VlcU4MHkBrjiJ3kubMQ8wAce9Rts/hE7
+        9AE45wOVFd1zJAp9gEKvaJ3+ggFE
+X-Google-Smtp-Source: APXvYqylRRIWkhGbH3c9BVxzslGqbyBV8LGTEodnMmUBoTGC/IS6qv/jaXeotyUzTfjx+hA9HVysqg==
+X-Received: by 2002:a19:7:: with SMTP id 7mr11557327lfa.45.1566233274484;
+        Mon, 19 Aug 2019 09:47:54 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.34.218])
+        by smtp.googlemail.com with ESMTPSA id b9sm1248849ljd.52.2019.08.19.09.47.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Aug 2019 09:47:53 -0700 (PDT)
+Subject: Re: [PATCH v9 15/22] clk: tegra210: Add suspend and resume support
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, tglx@linutronix.de,
+        jason@lakedaemon.net, marc.zyngier@arm.com,
+        linus.walleij@linaro.org, stefan@agner.ch, mark.rutland@arm.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, sboyd@kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, rjw@rjwysocki.net,
+        viresh.kumar@linaro.org, linux-pm@vger.kernel.org
+References: <1565984527-5272-1-git-send-email-skomatineni@nvidia.com>
+ <1565984527-5272-16-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <85b970d7-1a4d-1db4-8d9d-177a7cd4a7c3@gmail.com>
+Date:   Mon, 19 Aug 2019 19:47:50 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <ad2a4af0-aeff-a81e-7885-7e9fc3c5cf90@baylibre.com>
+In-Reply-To: <1565984527-5272-16-git-send-email-skomatineni@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAcnCVFj1krAOhrj/mufKqBlxMbOSgzSeUXEOKbpJLud4IZ5fiLiUug6x1ZqKp7+UUxICVYS1sbyuUUnrOXFLal39KYAgJkS9hQGkukxRIwMWkn3VN+i
- TlIwZ9a/czbewfmvQ/bnqr12/uQglwwExPpRSW6UMiqBkKAEZ3+DdBaUMvj8+8oTfBbl7cNbeCPaQ07xeSeBmmq9MFl2lBxz2akLHWAcE7Qk0Ss4uoR6i2NR
- bIZQxb0ej6/tz5Q4RNVa88cAFcoQeKuIG1L7ROnGnOk633i1oN6lF74PD6BSXHG2/v+JXzT25/5ho9Gv6QTKd80O8s0W9bBT8qRyMRRr3fb9r5vxyRVK5psz
- QgciIFY6Ft/w4rXomKAWfE+jVIg1RTAj/P6SxJ7tKA/RvXpkRv9OF8NxB0Y4tvM8bqSNrLXcWNdXUiRQpWUXIX3sV7kh/yy7O2Dl3guC3WrQ2eS1Mws603np
- +P2tiKWBOuBBwI5YWD8OHDz+8b6MhUlCVr1e6tdwL6DIbldlhQuHFmP+UH3+rm2WmTeLTpeGAHfztQu9vI93M6utuOjz/VahKjVfz+Lqg538SjRiGtoHqsFR
- I2+hPiEJhKuIQxvwKJzHENZwtWiV0aFJpNSjffCk4PI7JpOVcYdtwz87NhCyDh1IHFor1V/TlLnSKVlEX87VNX4B2BZerHERC/UVJG6C/lnwJm2AnrFDJwUD
- 55goQlcE+9rgN0iwsSLIcag0pwppehYQ+WBOceth4A627FakEjluXWxFW7/IZSlip89wUR1/bZWTqFrGQ/C0jN7vZb1/ptOaFiVlq+A1Iut+c0ToEbym6nWn
- 5kSgZ5ATlC0J+sZIfgadUMTL7f5Qf3MYq16CbpwGESfmn8nxPGWpje1Ao/0c53GJQO/x/TpBelbj3iKHxLI/DBblHxm2FxSXXkpM5bpZ6C4ntCFQviRLyeNK
- YQAH4MHXARJXkpiv5eljDCxzpu7QWBc/DiQUNptcYFz8QJ+qfdCYOG8LoEMIw3toCPfIYHYznluRBxHziZbQ/Amuj2Rfk0a0fBam4oMd8CjaKVMPzwz1xAU7
- 5zZ1he1OHjKi+nkZZ/4OLpRZ0ga07ac06gcEs+9jMgbr2oy2fIFLmBGsEx5DEIzsYxTtvq4krxsv1zkiryvF9fLE+ifV48fBarS4e+Lh32XHR0snf212eITy
- WP3Ye6Hoymy6XM8YVT2LOAElK+2+sYGN3KxJqlP9ZNqCS2x5ZC3yswQytMIufJyPzfpT/tWwGKLQCjUZg85bqs6XxhAb4FbR1jOuaFCBw7fs8c1QDdz18gig
- U2JQcgaTIA5RkOjbnD47o6ev230hQziueyxOqBVuDLyQPhe3I/g+N/1grCxgU4TT7V7AATItgXxaHD0I40r/DpdwGlw9jZpV2oxsvrXsdsBJm43L93Sx6cRv
- x4k81GGwO7UKT7bV
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 8/19/19 4:48 PM, Neil Armstrong wrote:
-> Hi Dariusz, Hans,
+16.08.2019 22:42, Sowjanya Komatineni пишет:
+> This patch adds support for clk: tegra210: suspend-resume.
 > 
-> I can apply the dw-hdmi patches if necessary.
-
-I'd appreciate it if you can do that.
-
-Thanks,
-
-	Hans
-
+> All the CAR controller settings are lost on suspend when core
+> power goes off.
 > 
-> Neil
+> This patch has implementation for saving and restoring all PLLs
+> and clocks context during system suspend and resume to have the
+> clocks back to same state for normal operation.
 > 
-> On 19/08/2019 11:38, Hans Verkuil wrote:
->> Hi all,
->>
->> The patches in this series can be applied independently from each other.
->>
->> If you maintain one of these drivers and you want to merge it for v5.4
->> yourself, then please do so and let me know. If you prefer I commit it
->> to drm-misc, then please review and (hopefully) Ack the patch.
->>
->> I would really like to get this in for v5.4 so I can get the userspace
->> bits in for v5.4 as well through the media subsystem.
->>
->> Dariusz, can you post a v7.1 for patch 5/9 fixing the typo?
->>
->> Thanks!
->>
->> 	Hans
->>
->> On 8/14/19 12:44 PM, Dariusz Marcinkiewicz wrote:
->>> This series updates DRM drivers to use new CEC notifier API.
->>>
->>> Changes since v6:
->>> 	Made CEC notifiers' registration and de-registration symmetric
->>> 	in tda998x and dw-hdmi drivers. Also, accidentally dropped one
->>> 	patch in v6 (change to drm_dp_cec), brought it back now.
->>> Changes since v5:
->>>         Fixed a warning about a missing comment for a new member of
->>> 	drm_dp_aux_cec struct. Sending to a wider audience,
->>> 	including maintainers of respective drivers.
->>> Changes since v4:
->>> 	Addressing review comments.
->>> Changes since v3:
->>>         Updated adapter flags in dw-hdmi-cec.
->>> Changes since v2:
->>> 	Include all DRM patches from "cec: improve notifier support,
->>> 	add connector info connector info" series.
->>> Changes since v1:
->>> 	Those patches delay creation of notifiers until respective
->>> 	connectors are constructed. It seems that those patches, for a
->>> 	couple of drivers, by adding the delay, introduce a race between
->>> 	notifiers' creation and the IRQs handling threads - at least I
->>> 	don't see anything obvious in there that would explicitly forbid
->>> 	such races to occur. v2 adds a write barrier to make sure IRQ
->>> 	threads see the notifier once it is created (replacing the
->>> 	WRITE_ONCE I put in v1). The best thing to do here, I believe,
->>> 	would be not to have any synchronization and make sure that an IRQ
->>> 	only gets enabled after the notifier is created.
->>> Dariusz Marcinkiewicz (9):
->>>   drm_dp_cec: add connector info support.
->>>   drm/i915/intel_hdmi: use cec_notifier_conn_(un)register
->>>   dw-hdmi-cec: use cec_notifier_cec_adap_(un)register
->>>   tda9950: use cec_notifier_cec_adap_(un)register
->>>   drm: tda998x: use cec_notifier_conn_(un)register
->>>   drm: sti: use cec_notifier_conn_(un)register
->>>   drm: tegra: use cec_notifier_conn_(un)register
->>>   drm: dw-hdmi: use cec_notifier_conn_(un)register
->>>   drm: exynos: exynos_hdmi: use cec_notifier_conn_(un)register
->>>
->>>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  2 +-
->>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 13 +++---
->>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 46 +++++++++++++------
->>>  drivers/gpu/drm/drm_dp_cec.c                  | 25 ++++++----
->>>  drivers/gpu/drm/exynos/exynos_hdmi.c          | 31 +++++++------
->>>  drivers/gpu/drm/i2c/tda9950.c                 | 12 ++---
->>>  drivers/gpu/drm/i2c/tda998x_drv.c             | 36 ++++++++++-----
->>>  drivers/gpu/drm/i915/display/intel_dp.c       |  4 +-
->>>  drivers/gpu/drm/i915/display/intel_hdmi.c     | 13 ++++--
->>>  drivers/gpu/drm/nouveau/nouveau_connector.c   |  3 +-
->>>  drivers/gpu/drm/sti/sti_hdmi.c                | 19 +++++---
->>>  drivers/gpu/drm/tegra/output.c                | 28 ++++++++---
->>>  include/drm/drm_dp_helper.h                   | 17 ++++---
->>>  13 files changed, 155 insertions(+), 94 deletions(-)
->>>
->>
+> Clock driver suspend and resume are registered as syscore_ops as clocks
+> restore need to happen before the other drivers resume to have all their
+> clocks back to the same state as before suspend.
 > 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 
+Looks good, thanks!
+
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
