@@ -2,152 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C89295288
-	for <lists+linux-tegra@lfdr.de>; Tue, 20 Aug 2019 02:19:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3EF395B39
+	for <lists+linux-tegra@lfdr.de>; Tue, 20 Aug 2019 11:41:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728878AbfHTATj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 19 Aug 2019 20:19:39 -0400
-Received: from mailout3.samsung.com ([203.254.224.33]:39299 "EHLO
-        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728827AbfHTATi (ORCPT
+        id S1729556AbfHTJlv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 20 Aug 2019 05:41:51 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34500 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729333AbfHTJlv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 19 Aug 2019 20:19:38 -0400
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20190820001935epoutp034da4560c44094f9dec09824db3462775~8eYNnCkfB0229002290epoutp03T
-        for <linux-tegra@vger.kernel.org>; Tue, 20 Aug 2019 00:19:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20190820001935epoutp034da4560c44094f9dec09824db3462775~8eYNnCkfB0229002290epoutp03T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1566260375;
-        bh=tiKuzbBFO1qPnOxWRqi4oSHOWLECBQ8oOkwty0cA6FU=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=E/fXgVUADJZ78+5uW0x+Cny6oJMuBucSHhYEjHsLzVfBMpXJV/3nMW7q07x4o11pf
-         UECHEqUE/fNsAt3RQ28GIovk06Acs4dQJ1cz03oSrjStBPKlofz4FEJOt8j7o5/+ls
-         WYgQSvw9upYHdAiKhn+kxtR+O+8YO+0367j9d3iM=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20190820001935epcas1p2e66a7c771ad6735e0c2adce1f97fd23a~8eYNF9xo00333803338epcas1p2H;
-        Tue, 20 Aug 2019 00:19:35 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.152]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 46CBHm6XfGzMqYly; Tue, 20 Aug
-        2019 00:19:32 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-        epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        F8.9C.04075.19C3B5D5; Tue, 20 Aug 2019 09:19:30 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-        20190820001929epcas1p373b9a559be18d326fac7e82b69eb2a2c~8eYHqdI5D1547915479epcas1p3m;
-        Tue, 20 Aug 2019 00:19:29 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20190820001929epsmtrp2b339e510f8b32c07efee19eb3198d6ab~8eYHpsbDk0760407604epsmtrp2h;
-        Tue, 20 Aug 2019 00:19:29 +0000 (GMT)
-X-AuditID: b6c32a36-b61ff70000000feb-a8-5d5b3c9154ae
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        A6.05.03638.19C3B5D5; Tue, 20 Aug 2019 09:19:29 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20190820001929epsmtip2c11ba8b82385296ba633598e132820e9~8eYHdM6LY2532325323epsmtip2A;
-        Tue, 20 Aug 2019 00:19:29 +0000 (GMT)
-Subject: Re: [PATCH v6 08/19] PM / devfreq: tegra30: Ensure that target freq
- won't overflow
-To:     Dmitry Osipenko <digetx@gmail.com>,
+        Tue, 20 Aug 2019 05:41:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=tzn5bK3tbNsiWgQGYaxZl6ZSSnLs1CWcQlXNKSbagq0=; b=jtXhyGX6RFLZEXfdyxYVaGpe7i
+        I/AIX1W2McUPBTSwD0AEExmIXaKs7T/fIXSvjRG9kjWzst6hw31JyidJKj3OnAqbVy7OoQF/YNdLD
+        QA34nygptFZu9wBF719DF7LO08ZjfsRjQyv6gnpDJAkmyvN5MXR+4+1Z/nZ/5gjL3bP8LD6tXWlC5
+        PQuG95sOBNDun+y68Cpf9cO5wVDzDh73H1dXlwirbKgiXPhdkErbRar31Yc7Pkg9mF/EgBGp+hSaD
+        YbrMNB3jYijcgcG1q0gx5az//hgZ2bDfcUWSSp0lOzKaGK32UhjMRis8aNos8ZhcQbVF/K0oEtw2i
+        HEJANvzg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1i00e7-0008Ol-OL; Tue, 20 Aug 2019 09:41:43 +0000
+Date:   Tue, 20 Aug 2019 02:41:43 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Tom Murphy <murphyt7@tcd.ie>
+Cc:     iommu@lists.linux-foundation.org, Heiko Stuebner <heiko@sntech.de>,
+        virtualization@lists.linux-foundation.org,
+        linux-tegra@vger.kernel.org,
         Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
+        Will Deacon <will@kernel.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        linux-samsung-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <c85dbd27-7536-9c51-19a2-fe1c2c6342b9@samsung.com>
-Date:   Tue, 20 Aug 2019 09:23:23 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.8.0
+        linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Woodhouse <dwmw2@infradead.org>,
+        linux-kernel@vger.kernel.org, Kukjin Kim <kgene@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH V5 1/5] iommu/amd: Remove unnecessary locking from AMD
+ iommu driver
+Message-ID: <20190820094143.GA24154@infradead.org>
+References: <20190815110944.3579-1-murphyt7@tcd.ie>
+ <20190815110944.3579-2-murphyt7@tcd.ie>
 MIME-Version: 1.0
-In-Reply-To: <20190811212315.12689-9-digetx@gmail.com>
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0hTcRTmt7vd3Umr28w8DSq79kBhc9e1dSsNqahFBoIQWdi8ucsm7sXu
-        jDICy16OlEwKupmVFvigBNFyQg10PbSHlhSVSUYWZbJKeyjRY9s18r/vfN93zu+c8zsEpmrG
-        1USB08t5nKydwmOk17qStJqTaTtydT0hxDR9eYOYQ0KtlHlwcFTO9HdU48x4eRAxZV8FnBk4
-        UI8zkx01UqbiymM8Q2FqH7yETH5hUG4qLw3hporWRmQab1mQJdtemGbjWAvnSeCc+S5LgdOa
-        Tm3ONq8zG4w6WkOvZFZQCU7WwaVT6zOzNBsK7OGGqITdrL0oTGWxPE+lrEnzuIq8XILNxXvT
-        Kc5tsbtXurU86+CLnFZtvsuxitbpUg1hY16h7WnXYeR+p9hz+Z6+BB0nfIgggFwOz3vifSiG
-        UJHtCJqv/cLFYAxBbeOrqeA7gqcfKjAfUkQzQo/uykXhBoIrAx+lYvAJwdVPNdKIK5bMhfsX
-        XqCIMIf8jaBsshSPCBiZA13+JkkE42QyBN4/i/KzyEXwZOINimAluQb8z/3RQlJyCVx6PRH1
-        x5HbYGyoSyZ6ZkP3meGoR0EaofFEORLrx8OL4fMSES+E0razWKQJIP/gECpplYgzrIcq4SUu
-        4lgYudMqF7EaxkM3pvh90NAdxMXkYwhaA30yUdBD4HKVJLI+jEyC5o4UkV4E/p/nppqYCaFv
-        x2XihpVw7IhKtCRC/9DgVAvzoO5oGX4CUcK0cYRpIwjTRhD+P3YBSRvRXM7NO6wcT7tTp/92
-        C4oea7KxHdU+zOxEJIGoGUrT6e25Khm7m9/r6ERAYNQc5Z7qMKW0sHuLOY/L7Cmyc3wnMoS3
-        XYmp4/Jd4dN3es20IVWv1zPLaaOBpql45cUJJldFWlkvV8hxbs7zL09CKNQlSBhZm96b07Ix
-        rn7JWO3qpZltDS83N93Mzk7JUB8J7pu5osZXkGQ9FwgMBYOqnKZN2lKNZjU/uRj6dGaJ/Nba
-        nkS8GjOc1R74UZUXs+PHrrzeFuPI2/idlcWWwLJqX/eXCpfSdn+g2H391NYam+V2xueTo/Nj
-        +0a37K/7UDncxg1SUt7G0smYh2f/AvbL5RzCAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRmVeSWpSXmKPExsWy7bCSvO5Em+hYg5/PeCxWf3zMaNEyaxGL
-        xdmmN+wWl3fNYbP43HuE0aLzyyw2i9uNK9gsfu6ax2LRt/YSmwOnx467Sxg9ds66y+7R2/yO
-        zaNvyypGj8+b5AJYo7hsUlJzMstSi/TtErgyrh1uZSx4xlmx9LRxA2MPRxcjJ4eEgInEu4sn
-        2LsYuTiEBHYzSvSue8sOkZCUmHbxKHMXIweQLSxx+HAxSFhI4C2jxLRtbiC2sECsxJkFtxhB
-        ekUEmpgkNvVeAOtlFoiU6Jm7hQ1i6FZGib6fi1lBEmwCWhL7X9xgA7H5BRQlrv54zAhi8wrY
-        Sey8uZMFxGYRUJVY8vAHE4gtKhAhcXjHLKgaQYmTM5+A1XAKmEmsmtDLCLFMXeLPvEvMELa4
-        xK0n85kgbHmJ5q2zmScwCs9C0j4LScssJC2zkLQsYGRZxSiZWlCcm55bbFhglJdarlecmFtc
-        mpeul5yfu4kRHGFaWjsYT5yIP8QowMGoxMPrMS0qVog1say4MvcQowQHs5IIb8UcoBBvSmJl
-        VWpRfnxRaU5q8SFGaQ4WJXFe+fxjkUIC6YklqdmpqQWpRTBZJg5OqQZGy+la904+/mC9IX2G
-        9y4B0xkrMv6KxbarnboX8Lg3Y99xyyrbAPsnMUuPNTjdPj3bgb3ysnOsdFfTXv9fCsc19pVn
-        vWCflctrYbXFjGtD+83n+/V0mFeL14o0Pr6vWV1V3HyVy/fsxic69dfXLBc+6+GpuTWl6yC3
-        8uTvps9tGmp2H9EtU09QYinOSDTUYi4qTgQAfIr9lqwCAAA=
-X-CMS-MailID: 20190820001929epcas1p373b9a559be18d326fac7e82b69eb2a2c
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20190811212546epcas1p22be9fefe18908cdd17a518950d296983
-References: <20190811212315.12689-1-digetx@gmail.com>
-        <CGME20190811212546epcas1p22be9fefe18908cdd17a518950d296983@epcas1p2.samsung.com>
-        <20190811212315.12689-9-digetx@gmail.com>
+In-Reply-To: <20190815110944.3579-2-murphyt7@tcd.ie>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 19. 8. 12. 오전 6:23, Dmitry Osipenko wrote:
-> We already had few integer overflow bugs, let's limit the freq for
-> consistency.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/devfreq/tegra30-devfreq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index 70dce58212a4..ca499368ee81 100644
-> --- a/drivers/devfreq/tegra30-devfreq.c
-> +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -430,7 +430,7 @@ static unsigned long actmon_update_target(struct tegra_devfreq *tegra,
->  	target_freq = dev->avg_count / ACTMON_SAMPLING_PERIOD + dev->boost_freq;
->  	target_freq = tegra_actmon_account_cpu_freq(tegra, dev, target_freq);
->  
-> -	return target_freq;
-> +	return min(target_freq, tegra->max_freq);
+On Thu, Aug 15, 2019 at 12:09:39PM +0100, Tom Murphy wrote:
+> We can remove the mutex lock from amd_iommu_map and amd_iommu_unmap.
+> iommu_map doesn’t lock while mapping and so no two calls should touch
+> the same iova range. The AMD driver already handles the page table page
+> allocations without locks so we can safely remove the locks.
 
-Once again, did you meet this case sometimes?
-
-Usually, we can prevent the overflow of target_freq
-when calculating the target frequency or this style.
-
-I think that if the overflow of target frequency happen frequently,
-it might have the problem of calculation way. 
-
->  }
->  
->  static irqreturn_t actmon_thread_isr(int irq, void *data)
-> 
-
-
--- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+I've been looking over the code and trying to understand how the
+synchronization works.  I gues we the cmpxchg64 in free_clear_pte
+is the important point here?  I have to admit I don't fully understand
+the concurrency issues here, but neither do I understand what the
+mutex you removed might have helped to start with.
