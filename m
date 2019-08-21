@@ -2,116 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39F71979C0
-	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2019 14:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3221997A65
+	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2019 15:11:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727226AbfHUMnn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 21 Aug 2019 08:43:43 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40646 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbfHUMnn (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 21 Aug 2019 08:43:43 -0400
-Received: by mail-wm1-f68.google.com with SMTP id c5so1791744wmb.5;
-        Wed, 21 Aug 2019 05:43:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=lRUmeZkZP/Okav86pMnI5msjxJq756sD1Md11UkW10Q=;
-        b=M/U8Rn5H/vzvj9u02bNKbrAwSEgzepOgy7KpgvdjpIn7rtTnns5etUIDKaLzODa3XO
-         H3mTzzhS/AQPXnyn8m3yVyqM6SXnA6PJjqEoQl205pufGlZA9cOvfe1jWTawuVdDkVzg
-         HNPk4oL3Uw55LAUdH28PhpvTp1cBrpsoz+bGi2+9DPdUoX0TeuUgAVgtZAqj3NxBOF0X
-         SnZNo90gytM83lNdnoVHFs/cyqSJI/tcsnfmNiMXvG132HuBReJ34N/TUubgj6JPthA3
-         HlN04lsscJSM62VO0+YEeZDfC+AvS0JDGWBxQnizEbxwARgChSCpDuyc9Qy1qIlvXmzI
-         fx7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=lRUmeZkZP/Okav86pMnI5msjxJq756sD1Md11UkW10Q=;
-        b=YzJ/4U+V2AV2KJ8/fWkvoTq4D0aGQbbfyFnk4/OI6e5wx96fSw0Ah5iwrVzl+6mee6
-         DbK7Y28CxBt31vzicUYA0M0fUpc5Z62NpYfVQL714dBXmalpgc0OESXYP0SoVPqOD4YL
-         4eqqZ/8dOHAagHQeGzW0eSdMRR/YMQBHt2WRsJGwjXtZzsR9IBll6iWJR9brFPXSmGwP
-         qQhYabwGQT061aBpSbHpVBlsbOBTNo/JeEwA7J9mc4HQOGCstoZmW2opQi+xfDsr5mEb
-         yY8natNWjBSqHAnpMW7RVzyQyPVrrpvkCviIPcuStG6br9JVrlUrOka3K1dhK5Qu5Sxn
-         0g/A==
-X-Gm-Message-State: APjAAAXC8xd/MOVGJnRqQ7hpEbwO3MaLrnSzVKhaWx3Odm9rUmUkoe4q
-        EYSVFgLMJUC5afKxktAHIvs=
-X-Google-Smtp-Source: APXvYqwaq1Yy4wokzmvl6Eg9zpUcD3xgJLsczGSFflfUptDZe2PuC0S6zpYoPCC69O2e8WFtVnwZSQ==
-X-Received: by 2002:a1c:1a56:: with SMTP id a83mr5974279wma.44.1566391420467;
-        Wed, 21 Aug 2019 05:43:40 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id g7sm4842135wme.17.2019.08.21.05.43.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2019 05:43:39 -0700 (PDT)
-Date:   Wed, 21 Aug 2019 14:43:37 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Colin King <colin.king@canonical.com>
-Cc:     Vidya Sagar <vidyas@nvidia.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] PCI: tegra: tegra194: fix phy_count less than zero
- check
-Message-ID: <20190821124337.GB21839@ulmo>
-References: <20190821120123.14223-1-colin.king@canonical.com>
+        id S1728339AbfHUNLI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 21 Aug 2019 09:11:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52420 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727559AbfHUNLI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 21 Aug 2019 09:11:08 -0400
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5E321233A1;
+        Wed, 21 Aug 2019 13:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566393066;
+        bh=kuKd4LaZeJI6UGgTswgE+Gt02Df19t8oQt48CusPTXY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=LZFoEmTZLW5/11AEGlzftmogTOLB8RKrREafKC4J4TPMec/ltqnY6dYL47sKyzaTV
+         BDDe2ejhf4HF6SyRH2VGUPgr+1B9W6Mo9sLVcvQ/eUWq1YnwzXSrCvx9Iyg+iqkOaN
+         ap4gxStwa04LH392BnFNBZzl7QWh6o4noa3gC7+A=
+Received: by mail-lj1-f180.google.com with SMTP id u15so2095675ljl.3;
+        Wed, 21 Aug 2019 06:11:06 -0700 (PDT)
+X-Gm-Message-State: APjAAAUVQcJ3wZkpnRK53+r5BydQXdmRjFNUpD5kWwIXnBjHjHmeY4UL
+        XV4/oDhc4xtEBiA0W8gtFzFw6xLUcNArV3uP9YU=
+X-Google-Smtp-Source: APXvYqzNzg748L/o/0qZKaYe00jb2xN8DKKsSLoVgu+VFsvbF9k9puSj21ekEvwwAX73N4YmYdngdgwk12tAWSFHzKA=
+X-Received: by 2002:a2e:7818:: with SMTP id t24mr2602513ljc.210.1566393064499;
+ Wed, 21 Aug 2019 06:11:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6sX45UoQRIJXqkqR"
-Content-Disposition: inline
-In-Reply-To: <20190821120123.14223-1-colin.king@canonical.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20190813150827.31972-1-s.nawrocki@samsung.com>
+ <CGME20190813150852eucas1p2be4c0ab5ec2c079e3daf1af24283b27c@eucas1p2.samsung.com>
+ <20190813150827.31972-3-s.nawrocki@samsung.com> <b5359603-b337-dcd8-b025-ca7dff5f4a06@nvidia.com>
+ <CAJKOXPf597CMx=M2JmSTWe2GzBfcHFefgzSJbJ+njZGp-WfR1A@mail.gmail.com>
+ <1e428c8e-f4b5-0810-77f9-2c899c040fc7@kernel.org> <72eea1ea-2433-2f76-6265-5851554e845d@samsung.com>
+ <CAJKOXPdh9eHrAuCxHkQBvJMqEnUCeU2xwkK=9yyiJ6BuTLJ+_A@mail.gmail.com> <537999b7-b0e8-33a7-4bdc-c6952a0a5d06@samsung.com>
+In-Reply-To: <537999b7-b0e8-33a7-4bdc-c6952a0a5d06@samsung.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Wed, 21 Aug 2019 15:10:53 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPdbPg-O6zh6LXrvSRSMG8psxW6_eREe+UEH=UZNhAT=rQ@mail.gmail.com>
+Message-ID: <CAJKOXPdbPg-O6zh6LXrvSRSMG8psxW6_eREe+UEH=UZNhAT=rQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] soc: samsung: Convert exynos-chipid driver to use
+ the regmap API
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>
+Cc:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Sylwester Nawrocki <snawrocki@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, robh+dt@kernel.org,
+        vireshk@kernel.org, devicetree@vger.kernel.org, kgene@kernel.org,
+        pankaj.dubey@samsung.com,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-pm@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Wed, 21 Aug 2019 at 14:41, Sylwester Nawrocki <s.nawrocki@samsung.com> wrote:
+>
+> On 8/21/19 14:16, Krzysztof Kozlowski wrote:
+> >>> I'm also inclined to have it converted to a regular driver.  We already
+> >>> have "exynos-asv" driver matching on the chipid node (patch 3/9).
+> >>> The ASV patches will not be merged soon anyway, all this needs some more
+> >>> thought. Krzysztof, can we abandon the chipid patches for now? Your
+> >>
+> >> chipid driver is good and useful on its own. The preferred solution
+> >> IMHO would be to just revert "soc: samsung: Convert exynos-chipid
+> >> driver to use the regmap API" commit.
+> >
+> > I queued the chipid as a dependency for ASV but ASV requires the
+> > regmap. What would be left after reverting the regmap part? Simple
+> > unused printk driver? No need for such. If reverting, then let's drop
+> > entire driver and rework it offline.
+>
+> In fact there is now no dependency between the chipid and the ASV
+> driver (patch 3/9), the regmap is provided by the syscon driver/API.
+> I should have added "depends on REGMAP && MFD_SYSCON" to Kconfig.
+> Both drivers (chipid, ASV) share the registers region so the regmap
+> API seemed appropriate here.
 
---6sX45UoQRIJXqkqR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Indeed, ASV needs only the header + DT change... Then actually we do
+not need chipid driver at all. Just to print the SoC and provide sysfs
+entry? If this is the only purpose, then it should be a driver.
 
-On Wed, Aug 21, 2019 at 01:01:23PM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
->=20
-> The check for pcie->phy_count < 0 is always false because phy_count
-> is an unsigned int and can never be less than zero. Fix this by
-> assigning ret to the return from of_property_count_strings and
-> checking if this is less than zero instead.
->=20
-> Addresses-Coverity: ("Dead code")
-> Fixes: 6404441c8e13 ("PCI: tegra: Add Tegra194 PCIe support")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/pci/controller/dwc/pcie-tegra194.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+> Converting the chipid code to platform driver wouldn't make sense as
+> it wouldn't be useful early in arch/arm/mach-exynos and we can't have
+> two drivers for same device (the ASV driver matches on the chipid
+> compatible now).
 
-Good catch!
+There is no use case for arm/mach-exynos. This code was not
+resubmitted and I doubt it will be (unless now someone wants to prove
+I am wrong and sends it again :) ). The two-device case is indeed a
+problem but it is possible. Clocks are doing it with PMU driver. See
+CLK_OF_DECLARE_DRIVER(), although I do not remember whether it is
+maybe obsolete pattern (discouraged).
 
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---6sX45UoQRIJXqkqR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1dPHIACgkQ3SOs138+
-s6Ho9xAAwUKuZi8iVfSdVTIm8t3Z0hjhCUBry2XL8mKbnYiq3Bb7U6+PwonQ34xY
-EEY29C7cEjDhFWugnN1kS5unXAYdPZRu1VC6E89/rBkFOLogQcBBl4X1b/ziGEkC
-zq3J5xkmakn/8O2vxvvEFFkYmXYdBZaEIG8kIg/by6ONb5wwIv/jzdIuhDhAAVSl
-SikW0Gz2uDXiNev7cNnEFOgbGeAix9Y6w4nfAELuYn4kRLKul11avGyRf/t02FwB
-vkyW5D3iyGTe5eJ9dANXIDVxUZhk8dy04X+rbs4q6Y+O3IYOE6dJ9K/8U9v2a6WM
-U0uBDfrwsuDwOEyviarkQhaTin+51wbdx9dv7cgIaELb66pm6wq08IYKORPBe2J/
-YAQxxlzjwlcLUZ2eHv1XH4Ra5mxdK3wWwO31WHB9/gIMsQgRhVF8aywjewYesJje
-6AQcE7WvPcw3quTEiln1muXbJRDJY0zxBGDMdhB90x0n/60afHPwSNvlIzTJtQ6u
-jHbKgfw1/ay4A9TY3O8KW8AdVWZLP/5qKQF4uvjapwNRWBHKwHQ7DFJGD/aUTWrz
-EZL06MO809iUSFjS63LJo+oLhWs+g7gvzH4NSZchHJsuT86rS8qUQH8P9z2dLYlO
-/PmMNaOcASfxYT2vMskY9xKO6Dq7PV7SFNe2DKRQpsRQj4swqN8=
-=JGRC
------END PGP SIGNATURE-----
-
---6sX45UoQRIJXqkqR--
+Best regards,
+Krzysztof
