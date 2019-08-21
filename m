@@ -2,141 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EC4C97E48
-	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2019 17:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E31DF9807F
+	for <lists+linux-tegra@lfdr.de>; Wed, 21 Aug 2019 18:46:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728333AbfHUPMR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 21 Aug 2019 11:12:17 -0400
-Received: from mail-vk1-f194.google.com ([209.85.221.194]:45233 "EHLO
-        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726478AbfHUPMR (ORCPT
+        id S1728821AbfHUQqK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 21 Aug 2019 12:46:10 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36737 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726252AbfHUQqK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 21 Aug 2019 11:12:17 -0400
-Received: by mail-vk1-f194.google.com with SMTP id r13so625367vke.12
-        for <linux-tegra@vger.kernel.org>; Wed, 21 Aug 2019 08:12:16 -0700 (PDT)
+        Wed, 21 Aug 2019 12:46:10 -0400
+Received: by mail-wr1-f67.google.com with SMTP id r3so2698830wrt.3;
+        Wed, 21 Aug 2019 09:46:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hKEtoel2h/x4hDnWnhY9qfx+YUzTSEXD8xKqnIyHogA=;
-        b=yYdkVsx9q5KkA1Q/V3gWf7EJK3xA5NdhEa1zOfwWyUl3xdw0gh7cwfY52CkwuqlnnF
-         SkS3kYWPA8XhE1ABbEuTLE4yA54rzHHW7Zhgl3ZN6cI9Ek1GibUPdnGEHrp6nW/BfguK
-         8Q8f6wjQoKEgWCZHoWO05ph0nVKJ6Q15b+kRWDeJhpGxYQBQ3WVqR8AFRpi9Vofi5z0/
-         CyPguiYpGdNtHZ63Uij63fkWKkJmsnYCjZxrzDO6rOoATCO1Cneza+w7e+WRA1CoPHbP
-         4vGkIgcVH25yKKgrxqeBLrTBFDVtVuQZGJgsmHdrlp9lPtd+QKwcC51LhN+Ri6v+W+GL
-         FjeQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wLVvXyvgXB6Ocn+szDhvQ/g84MWsWYjn4vzDej1qGVo=;
+        b=SKUk6eMqTMq1/i5AqIDWbmfilcH0myvGVJaYn5H2fjL7t85w6H0SuEUBvR/QDp0caB
+         mv3oH7WMaRrQljjgkKIYwJBmuvPcgwfs9GS5iLim7qaoWIe8eLdgtPKDxgLP5JGD3c0D
+         yG1/v8X9xF9HWOWRGKOsD5cqHA4UICTIo+A4grQ4LoJkPKuv5WCmtAHs8kmM5n1yvBQm
+         +uUlGGn/IXqRiG54kYAWeuBSDOnUXtuYhkiLVnJDL/bC20KpRi8TLrk+A2MuVizLsJRm
+         MUxvgeg+fO0+LS0UxHzP/ydLCzYzC7G5BZlcefAzqC/R1Znr0W0iD6egaVdyRyc6CjOe
+         H/JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hKEtoel2h/x4hDnWnhY9qfx+YUzTSEXD8xKqnIyHogA=;
-        b=qoWY8gt3nk4JKx4UAbfG35ZuUKfbBnc81dREjPyI9DuDdH8aH+4shUD5Hk5hoh+qhY
-         S9lkzGamHfUCkmeHLXqc4eBWPV6WT7vC0zVNbr6I8br3moC/AyNa7WGthNCXZAVuewkK
-         B/8Gl7p2IzSasL9dhTC+le07kQtECxEgeoD63D7hMo3jTRYt0Btg+YA8hOsqVe6vNFM/
-         pzuqWyEO3MhqZK4rAyrLSQ2DT+I72TmQCVx0LXygv3XtVvUD6xQuD63M3P91TKR/8ZYG
-         XCHHCWr8XLLraxRqkWhFNnVP+Cf1aBbmAn63bw9HZxMDKXIMn3JQ/K+leBpK+jGRQSia
-         jwcg==
-X-Gm-Message-State: APjAAAX6h0OIRWzrOTZlDApTP/sXCl4UW86lj59xedKKJP2R+My5Lz4G
-        c4Zc05t0VIPNDGJq7IVCXaMiFWWKtkCD7gAtGbhYYuLd
-X-Google-Smtp-Source: APXvYqxtlscJ8dXQyaX0YociSYwwEReTd/3YWWYYohOpyWgHzKm0z9v54biFqCNjdZObl+yGfYnUiack1hGdImu+9bI=
-X-Received: by 2002:ac5:c4f7:: with SMTP id b23mr5310274vkl.17.1566400335753;
- Wed, 21 Aug 2019 08:12:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190808222430.28477-1-digetx@gmail.com>
-In-Reply-To: <20190808222430.28477-1-digetx@gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Wed, 21 Aug 2019 17:11:39 +0200
-Message-ID: <CAPDyKFqtAc_PK+yg4ev=-vm4-OPjhUdD2F9t+-ATJHO6y41G2w@mail.gmail.com>
-Subject: Re: [PATCH v1] Revert "mmc: sdhci-tegra: drop ->get_ro() implementation"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wLVvXyvgXB6Ocn+szDhvQ/g84MWsWYjn4vzDej1qGVo=;
+        b=WTfrl5zLrNRZG9UCd3Rp4uaJThUVBvS2yJsgda90NwvkIJ8qIwRLCpkjE7UqMb5Ilk
+         hIZYmU2n4VMMAypdagIPQgRtexdAYQCsh97UPKSaBM9mjGESGtD9f0ukFQcCr3Vlut2E
+         bAXERoq4K+bBRP6gs3HPs4NqjG/AAYnRI7ymhq19mFfUQyXVYfkb/WbO/b0uHuTDr9tk
+         CFu8E6YLanLc33LGbUi81Xw9WS+fb3EVAuwjogEjQVGOVgAj81Lh5Y5fbM4d7qDziAPB
+         slwsrn2+RanLpBrsBSVhlxG9oC0D4PNoBAZ1FiuZ+nnQYsRo8h9orTdYD7UUE0HkCuV9
+         VgvQ==
+X-Gm-Message-State: APjAAAU/4vATlLRyLcXXz90txxsUQOBqp00Dax+qYZVQXaURmmKG34tl
+        3i209J8bBZHYmrVw4Z6OFdg=
+X-Google-Smtp-Source: APXvYqxodKNIKoQwnEnC2ZcZhLe1lTiEUtStwmw0bPl3BZ3tfKUugVkE2YhWNYsG9v3IlkjXjrSn4g==
+X-Received: by 2002:a05:6000:cb:: with SMTP id q11mr41943965wrx.50.1566405968082;
+        Wed, 21 Aug 2019 09:46:08 -0700 (PDT)
+Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
+        by smtp.gmail.com with ESMTPSA id k13sm19246411wro.97.2019.08.21.09.46.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2019 09:46:06 -0700 (PDT)
+Date:   Wed, 21 Aug 2019 18:46:05 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+Cc:     =?utf-8?B?TWljaGHFgsKgTWlyb3PFgmF3?= <mirq-linux@rere.qmqm.pl>,
+        Rob Herring <robh-dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Joseph Lo <josephl@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 01/15] clk: tegra20/30: Add custom EMC clock
+ implementation
+Message-ID: <20190821164605.GA31425@ulmo>
+References: <20190811210043.20122-1-digetx@gmail.com>
+ <20190811210043.20122-2-digetx@gmail.com>
+ <20190812231258.GA31836@qmqm.qmqm.pl>
+ <8369884e-1bd7-063f-e053-5152378078e9@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="BXVAT5kNtrzKuDFl"
+Content-Disposition: inline
+In-Reply-To: <8369884e-1bd7-063f-e053-5152378078e9@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 9 Aug 2019 at 00:25, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> The WRITE_PROTECT bit is always in a "protected mode" on Tegra and
-> WP-GPIO state need to be used instead. In a case of the GPIO absence,
-> write-enable should be assumed. External SD is writable once again as
-> a result of this patch because the offending commit changed behaviour for
-> the case of a missing WP-GPIO to fall back to WRITE_PROTECT bit-checking,
-> which is incorrect for Tegra.
->
-> Cc: stable@vger.kernel.org # v5.1+
-> Fixes: e8391453e27f ("mmc: sdhci-tegra: drop ->get_ro() implementation")
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
-Applied for fixes, thanks!
+--BXVAT5kNtrzKuDFl
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kind regards
-Uffe
+On Tue, Aug 13, 2019 at 05:36:41AM +0300, Dmitry Osipenko wrote:
+> 13.08.2019 2:12, Micha=C5=82=C2=A0Miros=C5=82aw =D0=BF=D0=B8=D1=88=D0=B5=
+=D1=82:
+> > On Mon, Aug 12, 2019 at 12:00:29AM +0300, Dmitry Osipenko wrote:
+> >> A proper External Memory Controller clock rounding and parent selection
+> >> functionality is required by the EMC drivers, it is not available using
+> >> the generic clock implementation because only the Memory Controller dr=
+iver
+> >> is aware of what clock rates are actually available for a particular
+> >> device. EMC drivers will have to register a Tegra-specific CLK-API
+> >> callback which will perform rounding of a requested rate. EMC clock us=
+ers
+> >> won't be able to request EMC clock by getting -EPROBE_DEFER until EMC
+> >> driver is probed and the callback is set up.
+> > [...]
+> >> diff --git a/drivers/clk/tegra/Makefile b/drivers/clk/tegra/Makefile
+> >> index 4812e45c2214..df966ca06788 100644
+> >> --- a/drivers/clk/tegra/Makefile
+> >> +++ b/drivers/clk/tegra/Makefile
+> >> @@ -17,7 +17,9 @@ obj-y					+=3D clk-tegra-fixed.o
+> >>  obj-y					+=3D clk-tegra-super-gen4.o
+> >>  obj-$(CONFIG_TEGRA_CLK_EMC)		+=3D clk-emc.o
+> >>  obj-$(CONFIG_ARCH_TEGRA_2x_SOC)         +=3D clk-tegra20.o
+> >> +obj-$(CONFIG_ARCH_TEGRA_2x_SOC)		+=3D clk-tegra20-emc.o
+> >>  obj-$(CONFIG_ARCH_TEGRA_3x_SOC)         +=3D clk-tegra30.o
+> >> +obj-$(CONFIG_ARCH_TEGRA_3x_SOC)		+=3D clk-tegra20-emc.o
+> >>  obj-$(CONFIG_ARCH_TEGRA_114_SOC)	+=3D clk-tegra114.o
+> >>  obj-$(CONFIG_ARCH_TEGRA_124_SOC)	+=3D clk-tegra124.o
+> >>  obj-$(CONFIG_TEGRA_CLK_DFLL)		+=3D clk-tegra124-dfll-fcpu.o
+> >=20
+> > Doesn't it complain when both CONFIG_ARCH_TEGRA_2x_SOC and
+> > CONFIG_ARCH_TEGRA_3x_SOC are enabled at the same time?
+>=20
+> No, at least not with my toolchain setup. Are you getting some warning?
 
+Kbuild actually filters out duplicates to facilitate this kind of
+construct.
 
-> ---
->  drivers/mmc/host/sdhci-tegra.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-> index f4d4761cf20a..02d8f524bb9e 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -258,6 +258,16 @@ static void tegra210_sdhci_writew(struct sdhci_host *host, u16 val, int reg)
->         }
->  }
->
-> +static unsigned int tegra_sdhci_get_ro(struct sdhci_host *host)
-> +{
-> +       /*
-> +        * Write-enable shall be assumed if GPIO is missing in a board's
-> +        * device-tree because SDHCI's WRITE_PROTECT bit doesn't work on
-> +        * Tegra.
-> +        */
-> +       return mmc_gpio_get_ro(host->mmc);
-> +}
-> +
->  static bool tegra_sdhci_is_pad_and_regulator_valid(struct sdhci_host *host)
->  {
->         struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
-> @@ -1224,6 +1234,7 @@ static const struct cqhci_host_ops sdhci_tegra_cqhci_ops = {
->  };
->
->  static const struct sdhci_ops tegra_sdhci_ops = {
-> +       .get_ro     = tegra_sdhci_get_ro,
->         .read_w     = tegra_sdhci_readw,
->         .write_l    = tegra_sdhci_writel,
->         .set_clock  = tegra_sdhci_set_clock,
-> @@ -1279,6 +1290,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra30 = {
->  };
->
->  static const struct sdhci_ops tegra114_sdhci_ops = {
-> +       .get_ro     = tegra_sdhci_get_ro,
->         .read_w     = tegra_sdhci_readw,
->         .write_w    = tegra_sdhci_writew,
->         .write_l    = tegra_sdhci_writel,
-> @@ -1332,6 +1344,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra124 = {
->  };
->
->  static const struct sdhci_ops tegra210_sdhci_ops = {
-> +       .get_ro     = tegra_sdhci_get_ro,
->         .read_w     = tegra_sdhci_readw,
->         .write_w    = tegra210_sdhci_writew,
->         .write_l    = tegra_sdhci_writel,
-> @@ -1366,6 +1379,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra210 = {
->  };
->
->  static const struct sdhci_ops tegra186_sdhci_ops = {
-> +       .get_ro     = tegra_sdhci_get_ro,
->         .read_w     = tegra_sdhci_readw,
->         .write_l    = tegra_sdhci_writel,
->         .set_clock  = tegra_sdhci_set_clock,
-> --
-> 2.22.0
->
+Thierry
+
+--BXVAT5kNtrzKuDFl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1ddUcACgkQ3SOs138+
+s6E9BA//Xc4iJjeuJwcEDaXEv4kRmc52uoWzk8G3rIeI5nT1pnoejRqiJ9w+F53Q
+gAnGlW+EWJ87KTlnnFixhrgAPfdV8SiipLgzU4ZMUAgEkkzhH4Szs85AwW0tFBGy
+crYvsCqQ7i7xGA+1MotmZvOtKLQ22nvIMBR8QEF3dllDxd2w2MIXcYSgWJI6KcC+
+cVt3pUGGoHIPwV1U2qrcr0LXcazHw4CJZ18OZsm/Z8pgy91ztfSgwKmu9trvfKk+
+ipcFOaLShCDcDg3/1fkDHTXEoOLxiUA6HOnCJGTBW6jE01dqW6oX9p330cuwdw0U
+FGFTkwc23pHU86AdgSkJkqrNLLKHOtCotcTH/zeJRR8Z9yLG7VvMzVjBVOR/RPLs
+zMcJDvn1w4y2I76YBDbs6fhg13sJgmI2yzbsNyJMpSDSxoVUWIJHdhWdNcczHF7f
+o4C/gqwQd2yQzv/lVJH/4ZZ/QXymh3JCb3DnVSB2cnwxbSuLBszMgxnZWqVia3Jr
+32yumWP5a6rcW7krC2hnUpNC8ynIP9JC4yKa3fn1kng96rMFntAYuCwZ5XuZCycY
+hB0JR1K+qSB7ns8VcXaWqwookBC0wEQoKEc2PwOwAluvkp3IYX9bGNsiEw82sFEH
+/GiZeFmVA3wKVgEayu/gDsgfCcAJoFtt3zOZNmfBiX2XSfjSKzQ=
+=E+B6
+-----END PGP SIGNATURE-----
+
+--BXVAT5kNtrzKuDFl--
