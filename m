@@ -2,135 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 625C3990EE
-	for <lists+linux-tegra@lfdr.de>; Thu, 22 Aug 2019 12:34:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C2F1993BA
+	for <lists+linux-tegra@lfdr.de>; Thu, 22 Aug 2019 14:33:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387713AbfHVKeY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 22 Aug 2019 06:34:24 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:5762 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387699AbfHVKeY (ORCPT
+        id S2388615AbfHVMde (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 22 Aug 2019 08:33:34 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:46414 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388624AbfHVMde (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 22 Aug 2019 06:34:24 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d5e6faf0000>; Thu, 22 Aug 2019 03:34:23 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 22 Aug 2019 03:34:23 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 22 Aug 2019 03:34:23 -0700
-Received: from [10.24.193.88] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Aug
- 2019 10:34:21 +0000
-Subject: Re: [Patch V6 7/8] usb: gadget: Add UDC driver for tegra XUSB device
- mode controller
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
-        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <1565257046-9890-1-git-send-email-nkristam@nvidia.com>
- <1565257046-9890-8-git-send-email-nkristam@nvidia.com>
- <20190822091248.GD23873@ulmo>
-X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <f48e97e5-4ceb-7c83-de6a-4f29cf1945cf@nvidia.com>
-Date:   Thu, 22 Aug 2019 16:05:30 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Thu, 22 Aug 2019 08:33:34 -0400
+Received: by mail-lj1-f196.google.com with SMTP id f9so5340374ljc.13
+        for <linux-tegra@vger.kernel.org>; Thu, 22 Aug 2019 05:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
+        b=mSN3t/PDXoNAianC4YL28AuxFWbqe/p3ZmEq/9RzkMaS9VcrYbP+hNVrd+L2n1hpnq
+         RJHy01TvfnFh6vVzxr777SV6tHpVIe2MplhJXBUo75HYFr3TyzB1b+9+R1pfuMpVJXe6
+         X9N8MQSI1oAvnebcBPmdguV3wO6V3jMS/IHtBtwQcQDcm4AVpazizMrIy/G7YFrVZaui
+         uPwV1P4m0mItkNXNvDD0eU/I3LQ1JDCcQ5amyYSn7OxLWCwRlAWbdVrKZJ88Rk2RW5v6
+         jzZAWjWwq6vztVT9V8tArNGJf5LyKwPzHctCXVRt1UZ+gWt2XCAoQp7RS6swmCDXCHvo
+         EXTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=aWwEGZ7IKPwlD1SyN53LweuoS+rG8j2WBRgPDxMagPA=;
+        b=mBz6fsVupejq+6kjgkXtS5Xf6H3iatVBb9l4FFGopWGcEqTlWCBs61NZCkxOtYhKQc
+         9kM3pWytSsL29znevmQKC6Mfm9hkMepG1KjL8pcEpwl36ERd3ySfmDnVXua/LNKy5JsC
+         2fj/nC3cq6yReS6QC5xbx+eBqDhPRLSs45tAk0OXJbezYHkS32X0f9uXDalJRfsQ+zFt
+         YtFQQnLxlz+NYTrFk3Fcfh2eTT6bXChxXZkQzl5wP8v+n18WF7kO1OfN8D+m3+DD80/e
+         sPAaEI4GxAwZAGgz1EPA8h8ngKxgYsDXWZcZVxm/cWsrr/xKkqHIvjKUgYTPmZp7tU2u
+         qJhA==
+X-Gm-Message-State: APjAAAUXIdh0Z6VDL8+EP9KMtLo+XyiNVqmcod88+bTUwAwQHQZoLsG/
+        hbgsGVCCuuaLlA00oCSJrUl3+/8XS0iJRFyTW7M=
+X-Google-Smtp-Source: APXvYqzQsRoRn2wIpG3lSqYHuPzxhm3vD2oGq7cmc+rIuoyQi/uYwPKhKv5lsx49cFSP36sNdCD1mP/ADjI7spIEQ08=
+X-Received: by 2002:a2e:3a05:: with SMTP id h5mr22406569lja.135.1566477211782;
+ Thu, 22 Aug 2019 05:33:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190822091248.GD23873@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL109.nvidia.com (172.20.187.15) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1566470063; bh=UwwQWiEoSYjEYygq5DziID0WjJ39nuEsV4tOXdpa8zQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=rCdoBFQJnlPZmEuyVlH4/ytaw0MHhfGOcIEz+iHdSSSpT0w+fXeAIfB00TdSIU1HI
-         3zajcgb6C+gWo0x1A72e8F8swF4DYfYBzPzW1isnh0tuUA6f2NZmnZ0oMRGSDQ37R7
-         UgOBcnN2hYcESjAepRNWGPc2Q56lg6uYtPGBF7l12SW8CPnRC9S40uFxtLecJ0HBcR
-         LTrFg7+QDnhkFEeZyMMVlJlZogcrwFtd4k/BObdp47S+pLtQCXHuou6UPt4o7ind+u
-         BtHDITRQZLDzhx7X0lz13cMO0BrjAQMKC2GYif1kPviaKeAn9ntUyzP181Z8CtRb7F
-         +Wv0OyU/jmZSQ==
+Received: by 2002:ab3:6a0f:0:0:0:0:0 with HTTP; Thu, 22 Aug 2019 05:33:31
+ -0700 (PDT)
+Reply-To: eku.lawfirm@gmail.com
+From:   "Law firm(Eku and Associates)" <ezeobodo1@gmail.com>
+Date:   Thu, 22 Aug 2019 12:33:31 +0000
+Message-ID: <CAN-_bTYioKgQ_KnVX-hd5T0VzTOPkF=KFBVPT36HW7Ho9orbHQ@mail.gmail.com>
+Subject: MY $25,000,000.00 INVESTMENT PROPOSAL WITH YOU AND IN YOUR COUNTRY.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+--=20
+Dear,
+With due respect this is not spam or Scam mail, because I have
+contacted you before and there was no response from you,I apologise if
+the contents of this mail are contrary to your moral ethics, which I
+feel may be of great disturbance to your person, but please treat this
+with absolute confidentiality, believing that this email reaches you
+in good faith. My contacting you is not a mistake or a coincidence
+because God can use any person known or unknown to accomplish great
+things.
+I am a lawyer and I have an investment business proposal to offer you.
+It is not official but should be considered as legal and confidential
+business. I have a customer's deposit of $US25 million dollars ready
+to be moved for investment if you can partner with us. We are ready to
+offer you 10% of this total amount as your compensation for supporting
+the transaction to completion. If you are interested to help me please
+reply me with your full details as stated below:
+(1) Your full names:
+(2) Your address:
+(3) Your occupation:
+(4) Your mobile telephone number:
+(5) Your nationality:
+(6) Your present location:
+(7) Your age:
+So that I will provide you more details on what to do and what is
+required for successful completion.
+Note: DO NOT REPLY ME IF YOU ARE NOT INTERESTED AND WITHOUT THE ABOVE
+MENTIONED DETAILS
 
-
-On 22-08-2019 14:42, Thierry Reding wrote:
-> On Thu, Aug 08, 2019 at 03:07:25PM +0530, Nagarjuna Kristam wrote:
->> This patch adds UDC driver for tegra XUSB 3.0 device mode controller.
->> XUSB device mode controller supports SS, HS and FS modes
->>
->> Based on work by:
->>   Mark Kuo <mkuo@nvidia.com>
->>   Hui Fu <hfu@nvidia.com>
->>   Andrew Bresticker <abrestic@chromium.org>
->>
->> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
->> Acked-by: Thierry Reding <treding@nvidia.com>
->> ---
->>  drivers/usb/gadget/udc/Kconfig      |   11 +
->>  drivers/usb/gadget/udc/Makefile     |    1 +
->>  drivers/usb/gadget/udc/tegra_xudc.c | 3808 +++++++++++++++++++++++++++++++++++
->>  3 files changed, 3820 insertions(+)
->>  create mode 100644 drivers/usb/gadget/udc/tegra_xudc.c
->>
->> diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
->> index ef0259a..fe6028e 100644
->> --- a/drivers/usb/gadget/udc/Kconfig
->> +++ b/drivers/usb/gadget/udc/Kconfig
->> @@ -440,6 +440,17 @@ config USB_GADGET_XILINX
->>  	  dynamically linked module called "udc-xilinx" and force all
->>  	  gadget drivers to also be dynamically linked.
->>  
->> +config USB_TEGRA_XUDC
->> +	tristate "NVIDIA Tegra Superspeed USB 3.0 Device Controller"
->> +	depends on ARCH_TEGRA
->> +	select USB_ROLE_SWITCH
->> +	help
->> +	 Enables NVIDIA Tegra USB 3.0 device mode controller driver.
->> +
->> +	 Say "y" to link the driver statically, or "m" to build a
->> +	 dynamically linked module called "tegra_xudc" and force all
->> +	 gadget drivers to also be dynamically linked.
->> +
->>  source "drivers/usb/gadget/udc/aspeed-vhub/Kconfig"
->>  
->>  #
->> diff --git a/drivers/usb/gadget/udc/Makefile b/drivers/usb/gadget/udc/Makefile
->> index 897f648..1c55c96 100644
->> --- a/drivers/usb/gadget/udc/Makefile
->> +++ b/drivers/usb/gadget/udc/Makefile
->> @@ -24,6 +24,7 @@ obj-$(CONFIG_USB_BCM63XX_UDC)	+= bcm63xx_udc.o
->>  obj-$(CONFIG_USB_FSL_USB2)	+= fsl_usb2_udc.o
->>  fsl_usb2_udc-y			:= fsl_udc_core.o
->>  fsl_usb2_udc-$(CONFIG_ARCH_MXC)	+= fsl_mxc_udc.o
->> +obj-$(CONFIG_USB_TEGRA_XUDC)	+= tegra_xudc.o
-> 
-> Nit: I have a slight preference for tegra-xudc.o over tegra_xudc.o. We
-> use dashes rather than underscores pretty consistently on Tegra, so it
-> would be good to keep the same pattern here, unless somebody feels
-> strongly about the underscore.
-> 
-> It doesn't matter that much because module utilities treat them the same
-> way I think, so the Acked-by remains valid either way.
-> 
-> Thierry
-> 
-
-Thierry,
-Reason to keep tegra_xudc.c instead of tegra-xudc.c is to inline with local file naming.
-I will use tegra-xudc.c name in next version, to be inline with other tegra files across
-kernel.
-
-Thanks,
-Nagarjuna
+Sinc=C3=A8rement v=C3=B4tre,
+Avocat Etienne Eku Esq.(Lawfirm)
+Procureur principal. De Cabinet d=E2=80=99avocats de l=E2=80=99Afrique de l=
+=E2=80=99ouest.
+Skype:westafricalawfirm
