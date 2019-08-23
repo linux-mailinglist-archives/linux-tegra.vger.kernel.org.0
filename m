@@ -2,113 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E9709AED2
-	for <lists+linux-tegra@lfdr.de>; Fri, 23 Aug 2019 14:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52AFC9B330
+	for <lists+linux-tegra@lfdr.de>; Fri, 23 Aug 2019 17:18:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405317AbfHWMLK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 23 Aug 2019 08:11:10 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:52614 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403942AbfHWMLK (ORCPT
+        id S2405185AbfHWPSj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 23 Aug 2019 11:18:39 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:17287 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733205AbfHWPSj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 23 Aug 2019 08:11:10 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7NCA7of063660;
-        Fri, 23 Aug 2019 07:10:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1566562207;
-        bh=33v/B/ZJqA3blXO/RNp5dWHGOqZq1+rFXfXmdj5+Gds=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=UQHxIVwQKzurgl2CECBwOQG7NM1InTkeNUfGSo/z0TGdBNxqcoKLm7TPWzmreURv2
-         QDPOdOE1YT846Id7C3NGPUwpbZ01PtnlpDOo30p5Jhddm/jo1TBUJbLSuAK5dvwGkH
-         zOsfD1LRRPAdR6lP8Rx08uphXBi3hStfy8W2L+k0=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7NCA7r7088500
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 23 Aug 2019 07:10:07 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 23
- Aug 2019 07:10:07 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 23 Aug 2019 07:10:07 -0500
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with SMTP id x7NCA6x4092204;
-        Fri, 23 Aug 2019 07:10:07 -0500
-Date:   Fri, 23 Aug 2019 07:12:05 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-CC:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Andy Walls <awalls@md.metrocast.net>,
-        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Andrey Utkin <andrey.utkin@corp.bluecherry.net>,
-        Ismael Luceno <ismael@iodev.co.uk>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <devel@driverdev.osuosl.org>
-Subject: Re: [PATCH v2 5/7] media: use the BIT() macro
-Message-ID: <20190823121204.ze4m6m3dxevjpjp6@ti.com>
-References: <20190823000829.GN5027@pendragon.ideasonboard.com>
- <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
+        Fri, 23 Aug 2019 11:18:39 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d6003cf0000>; Fri, 23 Aug 2019 08:18:39 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 23 Aug 2019 08:18:37 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 23 Aug 2019 08:18:37 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 23 Aug
+ 2019 15:18:37 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 23 Aug 2019 15:18:37 +0000
+Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.38]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d6003ca0003>; Fri, 23 Aug 2019 08:18:37 -0700
+From:   Vidya Sagar <vidyas@nvidia.com>
+To:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
+Subject: [PATCH] PCI: tegra: Don't print an error on -EPROBE_DEFER
+Date:   Fri, 23 Aug 2019 20:48:32 +0530
+Message-ID: <20190823151832.14427-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1566573519; bh=klbHIqUG1MOQPk1835oiZcvUqTiR0BpWrtVZRaGnKJE=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=Z5hDrRcC2hLvacpyu+xrgxzOWhU+xST7ZMYONdndHMjtPIKxqWh1EmztmJ1iyrKYs
+         LDQO8swaFCYLBh7wO/tBM91BKLXmMnFPIGXnaTmul10lqwRpSH3KBR6iqQkoVmDBUT
+         s1nlZTjIHUedeoUs3LnU0fnijVfadJaaTvG4ue8rKB00FcOD7pk101nI68/XFkaYC9
+         vbxXG8UaF0msKy5Rm93+cianCzr0PTtKsmqwoMhRQ8GwUvMw+twgMxzkxEqXPTNkOF
+         rKQUPHOmtgGDYDdG1TNVGotuFGOrgHokzLppQGFQvMwINS0IrIuaM150q8k1WZbfS0
+         jDmq2xGzLU/CQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote on Fri [2019-Aug-23 06:47:30 -0300]:
-> As warned by cppcheck:
-> 
-> 	[drivers/media/dvb-frontends/cx24123.c:434]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
-> 	[drivers/media/pci/bt8xx/bttv-input.c:87]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
-> 	[drivers/media/pci/bt8xx/bttv-input.c:98]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
-> 			...
-> 	[drivers/media/v4l2-core/v4l2-ioctl.c:1391]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
-> 
-> There are lots of places where we're doing 1 << 31. That's bad,
-> as, depending on the architecture, this has an undefined behavior.
-> 
-> The BIT() macro is already prepared to handle this, so, let's
-> just switch all "1 << number" macros by BIT(number) at the header files
-> with has 1 << 31.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
-> 
-> v2: 
->   As suggested by Laurent:
->      - Don't touch multi-bit masks
->      - remove explicit casts
-> 
-For:
-drivers/media/platform/am437x/am437x-vpfe_regs.h
-drivers/media/platform/ti-vpe/vpe_regs.h
+APIs like devm_regulator_get() and devm_phy_get() have the potential to
+return -EPROBE_DEFER when the respective sub-systems are not ready yet.
+So avoid printing an error message as .probe() will be tried out again
+at a later point of time anyway.
 
-Reviewed-by: Benoit Parrot <bparrot@ti.com>
+Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+---
+ drivers/pci/controller/dwc/pcie-tegra194.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+index fc0dbeb31d78..c730986ed34d 100644
+--- a/drivers/pci/controller/dwc/pcie-tegra194.c
++++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+@@ -1368,9 +1368,11 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+ 
+ 	pcie->pex_ctl_supply = devm_regulator_get(dev, "vddio-pex-ctl");
+ 	if (IS_ERR(pcie->pex_ctl_supply)) {
+-		dev_err(dev, "Failed to get regulator: %ld\n",
+-			PTR_ERR(pcie->pex_ctl_supply));
+-		return PTR_ERR(pcie->pex_ctl_supply);
++		ret = PTR_ERR(pcie->pex_ctl_supply);
++		if (ret != -EPROBE_DEFER)
++			dev_err(dev, "Failed to get regulator: %ld\n",
++				PTR_ERR(pcie->pex_ctl_supply));
++		return ret;
+ 	}
+ 
+ 	pcie->core_clk = devm_clk_get(dev, "core");
+@@ -1412,7 +1414,8 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+ 		kfree(name);
+ 		if (IS_ERR(phys[i])) {
+ 			ret = PTR_ERR(phys[i]);
+-			dev_err(dev, "Failed to get PHY: %d\n", ret);
++			if (ret != -EPROBE_DEFER)
++				dev_err(dev, "Failed to get PHY: %d\n", ret);
+ 			return ret;
+ 		}
+ 	}
+-- 
+2.17.1
+
