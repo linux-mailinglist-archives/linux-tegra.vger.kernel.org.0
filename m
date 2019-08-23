@@ -2,101 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D228B9A828
-	for <lists+linux-tegra@lfdr.de>; Fri, 23 Aug 2019 09:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A370A9AA41
+	for <lists+linux-tegra@lfdr.de>; Fri, 23 Aug 2019 10:27:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387550AbfHWHEJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 23 Aug 2019 03:04:09 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:18464 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731378AbfHWHEJ (ORCPT
+        id S2390170AbfHWIZH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 23 Aug 2019 04:25:07 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45526 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730759AbfHWIZH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 23 Aug 2019 03:04:09 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d5f8fe90000>; Fri, 23 Aug 2019 00:04:09 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 23 Aug 2019 00:04:08 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 23 Aug 2019 00:04:08 -0700
-Received: from [10.24.47.72] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 23 Aug
- 2019 07:04:06 +0000
-Subject: Re: [PATCH -next] phy: tegra: Use PTR_ERR_OR_ZERO in
- tegra_p2u_probe()
-To:     YueHaibing <yuehaibing@huawei.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>
-References: <20190822063407.71148-1-yuehaibing@huawei.com>
-X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <7c060719-1df3-c0b8-2e61-5dbfdf1e4798@nvidia.com>
-Date:   Fri, 23 Aug 2019 12:34:02 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Fri, 23 Aug 2019 04:25:07 -0400
+Received: by mail-lj1-f193.google.com with SMTP id l1so8044182lji.12
+        for <linux-tegra@vger.kernel.org>; Fri, 23 Aug 2019 01:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/Glz0OwhvEKOoAb5oRJJvTSgEA9gKmwWwKievNCcJKQ=;
+        b=uZUjKOsE5/jPMneL47DnFGmzeeLAbZCzHyf6MvJo8nU7wGnh+jouYUqCLIVqYMe5JK
+         kW8iW2I59/2pVhtoCXEFyEMJqA7TVACmba4co2d2ncSiSxH0YCITDPt38CkGH3c/a4DA
+         bgZtU9G6kryKdaKj/wqLYGOBsvGxWO5gzh5Eh0nKdzBMbGKE5qXRbQntrOneSmnzm6SC
+         kE3+TVqmFKc/HO6g8S51spAGAhPNA9N4GlK05uBmXOHHzPGl2HPBd/lve+MgzO4AEM80
+         HUDc7hbrrOEhRnT7k+cjAt8iBYaVMvCbJAE6WPXGHxyn+DF/adcGp0K55CmQHUIi1CsK
+         Q/AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/Glz0OwhvEKOoAb5oRJJvTSgEA9gKmwWwKievNCcJKQ=;
+        b=dM9XeJcMo69fjxPSZ6WzG4oXLW4CdUYJ8P0yH+gG3NEBOkopyHiyXAX8sgG/G97+z1
+         +G0sEis1DbB3l/V0JKkYz6DJKl0QoQoLflKGiaokcCeL48ERHL5Ihk3JuQNLwHla/Tye
+         KRDzwzjVXuxmJkI0REYbDWYSo0nR5XvLxJ9C01EuoBgcoOihUYwCHwm0p1YMC33MrRTr
+         luQvOhANnm8VqhJqDTxu5F3PZstVAB5mB0xWtbBZQXUyvcVZPJsInbjQH7UEynqPeDf1
+         L9RRq0pvrjEDdJzEZjD9AepEV6JcJDtM536gBuIJOa/v9fkpjbnFSrhDjwYywUcD17Fq
+         aqfg==
+X-Gm-Message-State: APjAAAUdyfevakqSZyFlI4sVn86/obaRQrVrLZlO5wsW9JeqX9Vdonve
+        nAwyzLL+3JnaR94suzXyNCs5lYavgJHjv4tC88LMcQ==
+X-Google-Smtp-Source: APXvYqwuwG4xNuZjZkxSBKeWiQIyN29Ihec9ptvxODHGofHpDvPXgBtv28RnrJqmnSCq61BDiNLYZg0OQ+SbT72IHLo=
+X-Received: by 2002:a2e:781a:: with SMTP id t26mr2161179ljc.28.1566548705194;
+ Fri, 23 Aug 2019 01:25:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190822063407.71148-1-yuehaibing@huawei.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1566543849; bh=EwmZCObquR6UQVPL4m9hVlMsgpb0RyyhCOhP8j1ndas=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=GTfvztIz1tlRe4YWr0na/DfdCCrcCopD2lC9zAyI176cMtkg83rhKwgujX4e5B4Nm
-         3nIC6+7YmRj0daJYPBPy69tj2oPfT5U3+xH4v+XOaZchieDjcsQPmKq71VeIPi7A1Q
-         frlaxHgboHFTgj0KyM/Tizcv0dRcjutmaCg0jvG0sMtmxQjfNVpcUrx6gIRoCiue4t
-         pqthrIV5v90gJerkb+JyVcEAFtnVFG5CoHPDfjv2BwoPc5eT9Hf82RTyMGovVQ5JoM
-         yTlgiQoX939P/hpbLNnySoJe+QFY//JjKtI+XjY7hyucqFOpQn39q4jYcXEEwghtz7
-         ywLSjCC5dg59w==
+References: <20190808123242.5359-1-linus.walleij@linaro.org> <20190816011054.GA1041@onstation.org>
+In-Reply-To: <20190816011054.GA1041@onstation.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 23 Aug 2019 10:24:53 +0200
+Message-ID: <CACRpkdbZSJ4ggprUXaBJ07Hz=eryuy5=AmYOigTUmO9z4yahfQ@mail.gmail.com>
+Subject: Re: [PATCH 1/6 v2] gpio: Add support for hierarchical IRQ domains
+To:     Brian Masney <masneyb@onstation.org>,
+        Marc Zyngier <marc.zyngier@arm.com>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Lina Iyer <ilina@codeaurora.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
+        David Daney <david.daney@cavium.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Thierry Reding <treding@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 8/22/2019 12:04 PM, YueHaibing wrote:
-> Use PTR_ERR_OR_ZERO rather than if(IS_ERR(...)) + PTR_ERR
-> 
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->   drivers/phy/tegra/phy-tegra194-p2u.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/phy/tegra/phy-tegra194-p2u.c b/drivers/phy/tegra/phy-tegra194-p2u.c
-> index 7042bed9feaa..42394d27f4cb 100644
-> --- a/drivers/phy/tegra/phy-tegra194-p2u.c
-> +++ b/drivers/phy/tegra/phy-tegra194-p2u.c
-> @@ -92,10 +92,7 @@ static int tegra_p2u_probe(struct platform_device *pdev)
->   	phy_set_drvdata(generic_phy, phy);
->   
->   	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
-> -	if (IS_ERR(phy_provider))
-> -		return PTR_ERR(phy_provider);
-> -
-> -	return 0;
-> +	return PTR_ERR_OR_ZERO(phy_provider);
->   }
-Since PTR_ERR_OR_ZERO macro returns zero if input is valid, if some more code gets added in
-future after this, then, they might have to change this back to what it is now.
-So I ended up continuing with if(IS_ERR(...)) + PTR_ERR towards the end also.
-Having said that, I'm fine with this change as well.
+Hi Brian,
 
-Reviewed-by: Vidya Sagar <vidyas@nvidia.com>
+I tried to look into this ssbi-gpio problem...
 
->   
->   static const struct of_device_id tegra_p2u_id_table[] = {
-> 
-> 
-> 
-> 
-> 
+Paging in Marc Z as well.
 
+On Fri, Aug 16, 2019 at 3:10 AM Brian Masney <masneyb@onstation.org> wrote:
+
+> I started to convert ssbi-gpio over to this and pm8xxx_gpio_to_irq() has
+> this little snippet that's different from spmi-gpio:
+>
+>         [ fwspec mapping code ]
+>
+>         /*
+>          * Cache the IRQ since pm8xxx_gpio_get() needs this to get determine the
+>          * line level.
+>          */
+>         pin->irq = ret;
+>
+> Here's the relevant code in pm8xxx_gpio_get():
+>
+>         if (pin->mode == PM8XXX_GPIO_MODE_OUTPUT) {
+>                 ret = pin->output_value;
+>         } else if (pin->irq >= 0) {
+>                 ret = irq_get_irqchip_state(pin->irq, IRQCHIP_STATE_LINE_LEVEL, &state);
+>                 ...
+>         }
+
+It's a bit annoying that this API (irq_get_irqchip_state()) is relying on
+the global irq numbers and the internal function using irqdesc
+__irq_get_irqchip_state() is not exported.
+
+We should be encouraged to operate on IRQ descriptors rather
+than IRQ numbers when doing this kind of deep core work,
+right?
+
+> What do you think about using EXPORT_SYMBOL_GPL() for gpiochip_to_irq() so
+> that we can call it in pm8xxx_gpio_to_irq()?
+
+I would like to avoid that because people tend to abuse every
+API I expose (leasson learnt: APIs shall be narrow and deep).
+
+> Or do you have any other
+> suggestions for how we can get rid of that IRQ cache?
+
+So the issue is that moving this to the hierarchical helpers
+rids pm8xxx_gpio_to_irq() and we needed that to map this.
+
+I would rather just add a new driver API to wrap the irqchip
+API:
+
+ret = gpiochip_get_irq_state(offset, IRQCHIP_STATE_LINE_LEVEL, &state);
+
+Where int gpiochip_get_own_irq_state(int offset, ...) will figure
+out the gpio_desc of the offset and then call gpiod_to_irq()
+and then use that irq number to call irq_get_irqchip_state()
+and the goal is met.
+
+This should work I think, and expose a more precise
+API for what this driver wants.
+
+> I don't see any other issues for ssbi-gpio.
+
+That's good news!
+
+Yours,
+Linus Walleij
