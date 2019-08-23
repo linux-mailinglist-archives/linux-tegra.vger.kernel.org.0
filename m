@@ -2,85 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D95889B396
-	for <lists+linux-tegra@lfdr.de>; Fri, 23 Aug 2019 17:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C6049B59D
+	for <lists+linux-tegra@lfdr.de>; Fri, 23 Aug 2019 19:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405557AbfHWPlT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 23 Aug 2019 11:41:19 -0400
-Received: from foss.arm.com ([217.140.110.172]:36492 "EHLO foss.arm.com"
+        id S2388285AbfHWRi0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 23 Aug 2019 13:38:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39980 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726824AbfHWPlT (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 23 Aug 2019 11:41:19 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB36928;
-        Fri, 23 Aug 2019 08:41:18 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 686353F246;
-        Fri, 23 Aug 2019 08:41:17 -0700 (PDT)
-Date:   Fri, 23 Aug 2019 16:41:15 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     bhelgaas@google.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH] PCI: tegra: Don't print an error on -EPROBE_DEFER
-Message-ID: <20190823154115.GB28344@e121166-lin.cambridge.arm.com>
-References: <20190823151832.14427-1-vidyas@nvidia.com>
+        id S1726779AbfHWRi0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 23 Aug 2019 13:38:26 -0400
+Received: from localhost (unknown [104.129.198.240])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 61333206B7;
+        Fri, 23 Aug 2019 17:38:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566581905;
+        bh=BvlcKb2iuEFeIVz2EmKDKkglvLx+LDxESaVfhrFRT9g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IppX7fEUCIsfvhhXizMkUUWtCQgSbnqWOi6B7LLsE9o7EG55OCtA6j7UEmQ6SZtJW
+         laeEXHpHX5USi9maoTzMLy2TC+yGWqUIEOhtblzwOzsktfPb5D+SxOfGwhIvsoDc3B
+         rfpGLIvdh5Cx5Rl4KxxVntGAINnGUQJou1/CuZ5M=
+Date:   Fri, 23 Aug 2019 10:38:24 -0700
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 4.4 00/78] 4.4.190-stable review
+Message-ID: <20190823173824.GB1040@kroah.com>
+References: <20190822171832.012773482@linuxfoundation.org>
+ <ea35d533-4ffb-8fe0-8639-6fc5a780748e@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190823151832.14427-1-vidyas@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <ea35d533-4ffb-8fe0-8639-6fc5a780748e@nvidia.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Aug 23, 2019 at 08:48:32PM +0530, Vidya Sagar wrote:
-> APIs like devm_regulator_get() and devm_phy_get() have the potential to
-> return -EPROBE_DEFER when the respective sub-systems are not ready yet.
-> So avoid printing an error message as .probe() will be tried out again
-> at a later point of time anyway.
+On Fri, Aug 23, 2019 at 03:05:38AM +0100, Jon Hunter wrote:
 > 
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> ---
->  drivers/pci/controller/dwc/pcie-tegra194.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-
-Squashed in pci/tegra, thanks.
-
-Lorenzo
-
-> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-> index fc0dbeb31d78..c730986ed34d 100644
-> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> @@ -1368,9 +1368,11 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
->  
->  	pcie->pex_ctl_supply = devm_regulator_get(dev, "vddio-pex-ctl");
->  	if (IS_ERR(pcie->pex_ctl_supply)) {
-> -		dev_err(dev, "Failed to get regulator: %ld\n",
-> -			PTR_ERR(pcie->pex_ctl_supply));
-> -		return PTR_ERR(pcie->pex_ctl_supply);
-> +		ret = PTR_ERR(pcie->pex_ctl_supply);
-> +		if (ret != -EPROBE_DEFER)
-> +			dev_err(dev, "Failed to get regulator: %ld\n",
-> +				PTR_ERR(pcie->pex_ctl_supply));
-> +		return ret;
->  	}
->  
->  	pcie->core_clk = devm_clk_get(dev, "core");
-> @@ -1412,7 +1414,8 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
->  		kfree(name);
->  		if (IS_ERR(phys[i])) {
->  			ret = PTR_ERR(phys[i]);
-> -			dev_err(dev, "Failed to get PHY: %d\n", ret);
-> +			if (ret != -EPROBE_DEFER)
-> +				dev_err(dev, "Failed to get PHY: %d\n", ret);
->  			return ret;
->  		}
->  	}
-> -- 
-> 2.17.1
+> On 22/08/2019 18:18, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 4.4.190 release.
+> > There are 78 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> > 
+> > Responses should be made by Sat 24 Aug 2019 05:18:13 PM UTC.
+> > Anything received after that time might be too late.
+> > 
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.190-rc1.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> > and the diffstat can be found below.
+> > 
+> > thanks,
+> > 
+> > greg k-h
 > 
+> All tests for Tegra are passing ...
+> 
+> Test results for stable-v4.4:
+>     6 builds:	6 pass, 0 fail
+>     12 boots:	12 pass, 0 fail
+>     19 tests:	19 pass, 0 fail
+> 
+> Linux version:	4.4.190-rc1-gf607b8c5ce70
+> Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+>                 tegra30-cardhu-a04
+> 
+
+Thanks for testing all of these and letting me know.
+
+greg k-h
