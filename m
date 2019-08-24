@@ -2,156 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6391C9B7D3
-	for <lists+linux-tegra@lfdr.de>; Fri, 23 Aug 2019 22:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EC789BC6E
+	for <lists+linux-tegra@lfdr.de>; Sat, 24 Aug 2019 09:57:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392564AbfHWUpY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 23 Aug 2019 16:45:24 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:39822 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392116AbfHWUpX (ORCPT
+        id S1725974AbfHXH5P (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 24 Aug 2019 03:57:15 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:35528 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726076AbfHXH5M (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 23 Aug 2019 16:45:23 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 036252B2;
-        Fri, 23 Aug 2019 22:45:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1566593120;
-        bh=GXdixniZ3Ns93+fHiCSuGwQdkf5l0zSVZr1Is85+O+s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DzfersEOoRJak3zOwE9B4hNyWqYQ9PM6vtwQ8r63BzQePsDhmQHZE9MpgOLoNYabS
-         8uqAxfK6wU/GD/8KNMXy+5IuEBsBYfBSQNgkNFR3c+h13IaGBDYrpT6H/YqfMbqUlV
-         Uab3mOaL4XvidC1ef4qZOiM83EMussD1bNDUfhMI=
-Date:   Fri, 23 Aug 2019 23:45:13 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Andy Walls <awalls@md.metrocast.net>,
-        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Andrey Utkin <andrey.utkin@corp.bluecherry.net>,
-        Ismael Luceno <ismael@iodev.co.uk>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devel@driverdev.osuosl.org
-Subject: Re: [PATCH v2 5/7] media: use the BIT() macro
-Message-ID: <20190823204513.GF4791@pendragon.ideasonboard.com>
-References: <20190823000829.GN5027@pendragon.ideasonboard.com>
- <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
+        Sat, 24 Aug 2019 03:57:12 -0400
+Received: by mail-io1-f65.google.com with SMTP id b10so16477554ioj.2
+        for <linux-tegra@vger.kernel.org>; Sat, 24 Aug 2019 00:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tcd-ie.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Rt7wtYCc1s5tor1o81jIoZmh+z8hgaSPweyus4OLaDI=;
+        b=K3z+flYVSNNSWoTBFmevj6fYPEM2G+divlFtL3oFGJ/e/x/iInhDr1dHK6vOFA/Sbp
+         0UBZ0ILyiMLYwgPhEtNbPrCfbqGmZtE/iabl81cCpUXQwu/WVEpKa5tCim0w1eCIh71t
+         eInx/aknxqQIs4gIxsdejGNRIx8xP+U2vTrq8ZHY1WRqCjxz80WNyH+rIwQ2mT6JfE1B
+         QwqIwtiPieUU8kHxEfuWEcHR8GIRvzO2XbMzcLUUBoaBKhzkgm+6/ek9kkwQndKDRlwN
+         Bo6V5oJZr/cP6fVAv0g7HenkS6s1hcn7PjRTIxgVGyzPH3mpyl52vEoa/RUroG5wsa33
+         XzSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Rt7wtYCc1s5tor1o81jIoZmh+z8hgaSPweyus4OLaDI=;
+        b=aCb/HuF1zLKpL1WT6J2l8lmMltYYnqVJBAMiBLj5hMV7KA45tYoyoy6U7wGmm75kEL
+         RXfRwCupEDzPTQyLUl6r9I1Zug66YxaQ0MWtQIVcbWz/DN3WuySIVIqTQ2ac3hQAczz6
+         jneGfuZjlIGnFbZsfcdRFeOa0UUcd7Ka28b7YFp15pG9YgEy+WCc5zWWCPapvpsMV0sr
+         Z0I/JYjYkDd4+F4/e920VopXr6NAxdOn+OpFO1cgQndWB31z0k1hfJQbE/bAm6hVWgw+
+         AD15+vLPS1DjVUsltL90hhqCkPt+ll5dZJZeeb/ZKsxdn44T7kpW7HYhTnm15lMez46N
+         OEVw==
+X-Gm-Message-State: APjAAAW0DAc5h+eFfa4lTTsXVMwgQXmWXntS3rSOlmDwVA2ZRnZI1MW+
+        qaQyovOInj2QvVZktA+NP1zCw1+UGQ7WcRwZCUiXSg==
+X-Google-Smtp-Source: APXvYqwxcXr8xhaFGFkwJobfl5gf6+4v9QSf+/e/XxuJihI8hsXlCsjVuqNrS0RHDZAcIleIWvUKgloQNh3YdFkKQX8=
+X-Received: by 2002:a6b:b8c4:: with SMTP id i187mr12749931iof.102.1566633430565;
+ Sat, 24 Aug 2019 00:57:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190815110944.3579-1-murphyt7@tcd.ie> <20190815110944.3579-2-murphyt7@tcd.ie>
+ <20190820094143.GA24154@infradead.org>
+In-Reply-To: <20190820094143.GA24154@infradead.org>
+From:   Tom Murphy <murphyt7@tcd.ie>
+Date:   Sat, 24 Aug 2019 08:56:59 +0100
+Message-ID: <CALQxJussiGDzWFT1xhko6no5jZNOezWCFuJQUCr4XwH4NHri3Q@mail.gmail.com>
+Subject: Re: [PATCH V5 1/5] iommu/amd: Remove unnecessary locking from AMD
+ iommu driver
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     iommu@lists.linux-foundation.org, Heiko Stuebner <heiko@sntech.de>,
+        virtualization@lists.linux-foundation.org,
+        linux-tegra@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        linux-samsung-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Woodhouse <dwmw2@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Mauro,
+>I have to admit I don't fully understand the concurrency issues here, but =
+neither do I understand what the mutex you removed might have helped to sta=
+rt with.
 
-Thank you for the patch.
+Each range in the page tables is protected by the IO virtual address
+allocator. The iommu driver allocates an IOVA range using locks before
+it writes to a page table range. The IOVA allocator acts like a lock
+on a specific range of the page tables. So we can handle most of the
+concurrency issues in the IOVA allocator and avoid locking while
+writing to a range in the page tables.
 
-On Fri, Aug 23, 2019 at 06:47:30AM -0300, Mauro Carvalho Chehab wrote:
-> As warned by cppcheck:
-> 
-> 	[drivers/media/dvb-frontends/cx24123.c:434]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
-> 	[drivers/media/pci/bt8xx/bttv-input.c:87]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
-> 	[drivers/media/pci/bt8xx/bttv-input.c:98]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
-> 			...
-> 	[drivers/media/v4l2-core/v4l2-ioctl.c:1391]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
-> 
-> There are lots of places where we're doing 1 << 31. That's bad,
-> as, depending on the architecture, this has an undefined behavior.
-> 
-> The BIT() macro is already prepared to handle this, so, let's
-> just switch all "1 << number" macros by BIT(number) at the header files
-> with has 1 << 31.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
-> 
-> v2: 
->   As suggested by Laurent:
->      - Don't touch multi-bit masks
->      - remove explicit casts
-> 
->  drivers/media/pci/cobalt/cobalt-driver.h      |  63 +-
->  drivers/media/pci/ivtv/ivtv-irq.h             |  28 +-
->  drivers/media/pci/mantis/mantis_reg.h         | 152 ++---
->  drivers/media/pci/solo6x10/solo6x10-regs.h    | 286 ++++-----
->  .../media/platform/am437x/am437x-vpfe_regs.h  |  26 +-
->  .../media/platform/davinci/dm644x_ccdc_regs.h |  20 +-
->  .../media/platform/exynos4-is/fimc-lite-reg.h |  80 +--
->  drivers/media/platform/exynos4-is/fimc-reg.h  | 138 +++--
->  drivers/media/platform/omap3isp/ispreg.h      | 580 +++++++++---------
->  drivers/media/platform/s3c-camif/camif-regs.h | 118 ++--
->  drivers/media/platform/tegra-cec/tegra_cec.h  |  80 +--
->  drivers/media/platform/ti-vpe/vpe_regs.h      |  94 +--
->  drivers/media/platform/vsp1/vsp1_regs.h       | 224 +++----
->  drivers/media/platform/xilinx/xilinx-vip.h    |  29 +-
->  drivers/media/radio/wl128x/fmdrv_common.h     |  88 +--
->  drivers/staging/media/ipu3/ipu3-tables.h      |   4 +-
->  16 files changed, 1011 insertions(+), 999 deletions(-)
+However because we have multiple levels of pages we might have to
+allocate a middle page (a PMD) which covers more than the IOVA range
+we have allocated.
+To solve this we could use locks:
 
-[snip]
+//pseudo code
+lock_page_table()
+if (we need to allocate middle pages) {
+ //allocate the page
+ //set the PMD value
+}
+unlock_page_table()
 
-> diff --git a/drivers/media/platform/omap3isp/ispreg.h b/drivers/media/platform/omap3isp/ispreg.h
-> index 38e2b99b3f10..4c6ebc0b74d1 100644
-> --- a/drivers/media/platform/omap3isp/ispreg.h
-> +++ b/drivers/media/platform/omap3isp/ispreg.h
+but we can actually avoid having any locking by doing the following:
 
-[snip]
+//pseudo code
+if (we need to allocate middle pages) {
+ //allocate the page
+ //cmpxchg64 to set the PMD if it wasn't already set since we last checked
+ if (the PMD was set while since we last checked)
+   //free the page we just allocated
+}
 
-> @@ -1167,14 +1167,14 @@
->  #define ISPHIST_HV_INFO_MASK			0x3FFF3FFF
->  
->  #define ISPCCDC_LSC_ENABLE			1
+In this case we can end up doing a pointless page allocate and free
+but it's worth it to avoid using locks
 
-This is a bit too, it could be replaced with BIT(0).
+You can see this in the intel iommu code here:
+https://github.com/torvalds/linux/blob/9140d8bdd4c5a04abe181bb300378355d569=
+90a4/drivers/iommu/intel-iommu.c#L904
 
-> -#define ISPCCDC_LSC_BUSY			(1 << 7)
-> +#define ISPCCDC_LSC_BUSY			BIT(7)
->  #define ISPCCDC_LSC_GAIN_MODE_N_MASK		0x700
->  #define ISPCCDC_LSC_GAIN_MODE_N_SHIFT		8
->  #define ISPCCDC_LSC_GAIN_MODE_M_MASK		0x3800
->  #define ISPCCDC_LSC_GAIN_MODE_M_SHIFT		12
->  #define ISPCCDC_LSC_GAIN_FORMAT_MASK		0xE
->  #define ISPCCDC_LSC_GAIN_FORMAT_SHIFT		1
-> -#define ISPCCDC_LSC_AFTER_REFORMATTER_MASK	(1<<6)
-> +#define ISPCCDC_LSC_AFTER_REFORMATTER_MASK	BIT(6)
->  
->  #define ISPCCDC_LSC_INITIAL_X_MASK		0x3F
->  #define ISPCCDC_LSC_INITIAL_X_SHIFT		0
+>what the mutex you removed might have helped to start with.
+The mutex I removed is arguably completely useless.
 
-[snip]
+In the dma ops path we handle the IOVA allocations in the driver so we
+can be sure a certain range is protected by the IOVA allocator.
 
-With this small issue addressed,
+Because the iommu ops path doesn't handle the IOVA allocations it
+seems reasonable to lock the page tables to avoid two writers writing
+to the same range at the same time. Without the lock it's complete
+chaos and all writers can be writing to the same range at the same
+time resulting in complete garbage.
+BUT the locking doesn't actually make any real difference. Even with
+locking we still have a race condition if two writers want to write to
+the same range at the same time, the race is just whoever gets the
+lock first, we still can't be sure what the result will be. So the
+result is still garbage, just slightly more usable garbage because at
+least the range is correct for one writer.
+It just makes no sense to ever have two writers writing to the same
+range and adding a lock doesn't fix that.
+Already the Intel iommu ops path doesn't use locks for it's page table
+so this isn't a new idea I'm just doing the same for the AMD iommu
+driver
 
-For omap3isp, vsp1, xilinx, wl128x and ipu3,
+Does all that make sense?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
--- 
-Regards,
-
-Laurent Pinchart
+On Tue, 20 Aug 2019 at 10:41, Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Thu, Aug 15, 2019 at 12:09:39PM +0100, Tom Murphy wrote:
+> > We can remove the mutex lock from amd_iommu_map and amd_iommu_unmap.
+> > iommu_map doesn=E2=80=99t lock while mapping and so no two calls should=
+ touch
+> > the same iova range. The AMD driver already handles the page table page
+> > allocations without locks so we can safely remove the locks.
+>
+> I've been looking over the code and trying to understand how the
+> synchronization works.  I gues we the cmpxchg64 in free_clear_pte
+> is the important point here?  I have to admit I don't fully understand
+> the concurrency issues here, but neither do I understand what the
+> mutex you removed might have helped to start with.
