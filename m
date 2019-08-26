@@ -2,191 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 925D29CA93
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Aug 2019 09:32:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 598AB9D0A3
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Aug 2019 15:32:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730051AbfHZHcd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 26 Aug 2019 03:32:33 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:10982 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729972AbfHZHcd (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 26 Aug 2019 03:32:33 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d638b100000>; Mon, 26 Aug 2019 00:32:32 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 26 Aug 2019 00:32:31 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 26 Aug 2019 00:32:31 -0700
-Received: from HQMAIL110.nvidia.com (172.18.146.15) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Aug
- 2019 07:32:31 +0000
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by hqmail110.nvidia.com
- (172.18.146.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Aug
- 2019 07:32:30 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 26 Aug 2019 07:32:30 +0000
-Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.38]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d638b0a0000>; Mon, 26 Aug 2019 00:32:30 -0700
-From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
-        <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <kishon@ti.com>, <gustavo.pimentel@synopsys.com>,
-        <digetx@gmail.com>, <mperttunen@nvidia.com>,
-        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
-Subject: [PATCH 6/6] PCI: tegra: Add support to enable slot regulators
-Date:   Mon, 26 Aug 2019 13:01:43 +0530
-Message-ID: <20190826073143.4582-7-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190826073143.4582-1-vidyas@nvidia.com>
-References: <20190826073143.4582-1-vidyas@nvidia.com>
-X-NVConfidentiality: public
+        id S1728408AbfHZNce (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 26 Aug 2019 09:32:34 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5660 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726953AbfHZNcd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 26 Aug 2019 09:32:33 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 5EFA913FC29889333CDC;
+        Mon, 26 Aug 2019 21:32:27 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0; Mon, 26 Aug 2019
+ 21:32:20 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <digetx@gmail.com>, <mchehab@kernel.org>,
+        <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <robin.murphy@arm.com>,
+        <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <devel@driverdev.osuosl.org>, <linux-kernel@vger.kernel.org>,
+        <iommu@lists.linux-foundation.org>,
+        YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH] media: staging: tegra-vde: Disable building with COMPILE_TEST
+Date:   Mon, 26 Aug 2019 21:31:40 +0800
+Message-ID: <20190826133140.13456-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
 Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1566804752; bh=R2egLAnwrR5Kvqmt17u69HmZzQMYG/5d8VrvWFOXbpY=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=JaujQeaTdJ7Mv1xTSoHp3/21NufFQ56AfePO58wxUGs4ChOtXH3vYnIGFemJDMNq2
-         4z6r0bx18WX4ZxogQ00QMymI3PK5mDsyaTdH2zPQ6OrmTCfcugm6uyDdGl27LZevq9
-         aKHfDCfIvLFI8n4jWvnHdqro4oYtLsM90u2j9A/1zzGmnEdtLt+THxNetA6gVWXUOn
-         OAfiCPwH3MTzEQ3P5c+5jPLpE3AlUaca1YNOdsw+BcY9sxrSG23dcYy7HmX5Mwq3VT
-         nGEMU7YTb+0Y33bxPOuyesrVonfz/iwQ3CZKeIsTWhUd6ZxJHmupjOjMebWk5Izi+a
-         BiQgAABaWR3Rw==
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add support to get regulator information of 3.3V and 12V supplies of a PCIe
-slot from the respective controller's device-tree node and enable those
-supplies. This is required in platforms like p2972-0000 where the supplies
-to x16 slot owned by C5 controller need to be enabled before attempting to
-enumerate the devices.
+If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+to m will set IOMMU_IOVA to m, this fails the building of
+TEGRA_HOST1X and DRM_TEGRA which is y like this:
 
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+cdma.c:(.text+0x698): undefined reference to `__free_iova'
+
+drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/pci/controller/dwc/pcie-tegra194.c | 65 ++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 8a27b25893c9..97de2151a738 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -278,6 +278,8 @@ struct tegra_pcie_dw {
- 	u32 aspm_l0s_enter_lat;
- 
- 	struct regulator *pex_ctl_supply;
-+	struct regulator *slot_ctl_3v3;
-+	struct regulator *slot_ctl_12v;
- 
- 	unsigned int phy_count;
- 	struct phy **phys;
-@@ -1047,6 +1049,59 @@ static void tegra_pcie_downstream_dev_to_D0(struct tegra_pcie_dw *pcie)
- 	}
- }
- 
-+static void tegra_pcie_get_slot_regulators(struct tegra_pcie_dw *pcie)
-+{
-+	pcie->slot_ctl_3v3 = devm_regulator_get_optional(pcie->dev, "vpcie3v3");
-+	if (IS_ERR(pcie->slot_ctl_3v3))
-+		pcie->slot_ctl_3v3 = NULL;
-+
-+	pcie->slot_ctl_12v = devm_regulator_get_optional(pcie->dev, "vpcie12v");
-+	if (IS_ERR(pcie->slot_ctl_12v))
-+		pcie->slot_ctl_12v = NULL;
-+}
-+
-+static int tegra_pcie_enable_slot_regulators(struct tegra_pcie_dw *pcie)
-+{
-+	int ret;
-+
-+	if (pcie->slot_ctl_3v3) {
-+		ret = regulator_enable(pcie->slot_ctl_3v3);
-+		if (ret < 0) {
-+			dev_err(pcie->dev,
-+				"Failed to enable 3V3 slot supply: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	if (pcie->slot_ctl_12v) {
-+		ret = regulator_enable(pcie->slot_ctl_12v);
-+		if (ret < 0) {
-+			dev_err(pcie->dev,
-+				"Failed to enable 12V slot supply: %d\n", ret);
-+			if (pcie->slot_ctl_3v3)
-+				regulator_disable(pcie->slot_ctl_3v3);
-+			return ret;
-+		}
-+	}
-+
-+	/*
-+	 * According to PCI Express Card Electromechanical Specification
-+	 * Revision 1.1, Table-2.4, T_PVPERL (Power stable to PERST# inactive)
-+	 * should be a minimum of 100ms.
-+	 */
-+	msleep(100);
-+
-+	return 0;
-+}
-+
-+static void tegra_pcie_disable_slot_regulators(struct tegra_pcie_dw *pcie)
-+{
-+	if (pcie->slot_ctl_12v)
-+		regulator_disable(pcie->slot_ctl_12v);
-+	if (pcie->slot_ctl_3v3)
-+		regulator_disable(pcie->slot_ctl_3v3);
-+}
-+
- static int tegra_pcie_config_controller(struct tegra_pcie_dw *pcie,
- 					bool en_hw_hot_rst)
- {
-@@ -1060,6 +1115,10 @@ static int tegra_pcie_config_controller(struct tegra_pcie_dw *pcie,
- 		return ret;
- 	}
- 
-+	ret = tegra_pcie_enable_slot_regulators(pcie);
-+	if (ret < 0)
-+		goto fail_slot_reg_en;
-+
- 	ret = regulator_enable(pcie->pex_ctl_supply);
- 	if (ret < 0) {
- 		dev_err(pcie->dev, "Failed to enable regulator: %d\n", ret);
-@@ -1142,6 +1201,8 @@ static int tegra_pcie_config_controller(struct tegra_pcie_dw *pcie,
- fail_core_clk:
- 	regulator_disable(pcie->pex_ctl_supply);
- fail_reg_en:
-+	tegra_pcie_disable_slot_regulators(pcie);
-+fail_slot_reg_en:
- 	tegra_pcie_bpmp_set_ctrl_state(pcie, false);
- 
- 	return ret;
-@@ -1174,6 +1235,8 @@ static int __deinit_controller(struct tegra_pcie_dw *pcie)
- 		return ret;
- 	}
- 
-+	tegra_pcie_disable_slot_regulators(pcie);
-+
- 	ret = tegra_pcie_bpmp_set_ctrl_state(pcie, false);
- 	if (ret) {
- 		dev_err(pcie->dev, "Failed to disable controller %d: %d\n",
-@@ -1372,6 +1435,8 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	tegra_pcie_get_slot_regulators(pcie);
-+
- 	pcie->pex_ctl_supply = devm_regulator_get(dev, "vddio-pex-ctl");
- 	if (IS_ERR(pcie->pex_ctl_supply)) {
- 		dev_err(dev, "Failed to get regulator: %ld\n",
+diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+index ba49ea5..a41d30c 100644
+--- a/drivers/staging/media/tegra-vde/Kconfig
++++ b/drivers/staging/media/tegra-vde/Kconfig
+@@ -1,9 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config TEGRA_VDE
+ 	tristate "NVIDIA Tegra Video Decoder Engine driver"
+-	depends on ARCH_TEGRA || COMPILE_TEST
++	depends on ARCH_TEGRA
+ 	select DMA_SHARED_BUFFER
+-	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
++	select IOMMU_IOVA if IOMMU_SUPPORT
+ 	select SRAM
+ 	help
+ 	    Say Y here to enable support for the NVIDIA Tegra video decoder
 -- 
-2.17.1
+2.7.4
+
 
