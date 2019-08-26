@@ -2,80 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 598AB9D0A3
-	for <lists+linux-tegra@lfdr.de>; Mon, 26 Aug 2019 15:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75F9B9D28A
+	for <lists+linux-tegra@lfdr.de>; Mon, 26 Aug 2019 17:18:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728408AbfHZNce (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 26 Aug 2019 09:32:34 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5660 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726953AbfHZNcd (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 26 Aug 2019 09:32:33 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 5EFA913FC29889333CDC;
-        Mon, 26 Aug 2019 21:32:27 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0; Mon, 26 Aug 2019
- 21:32:20 +0800
-From:   YueHaibing <yuehaibing@huawei.com>
-To:     <digetx@gmail.com>, <mchehab@kernel.org>,
-        <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <robin.murphy@arm.com>,
-        <hverkuil-cisco@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <devel@driverdev.osuosl.org>, <linux-kernel@vger.kernel.org>,
-        <iommu@lists.linux-foundation.org>,
-        YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH] media: staging: tegra-vde: Disable building with COMPILE_TEST
-Date:   Mon, 26 Aug 2019 21:31:40 +0800
-Message-ID: <20190826133140.13456-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+        id S1732079AbfHZPSv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 26 Aug 2019 11:18:51 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:35648 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727850AbfHZPSv (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 26 Aug 2019 11:18:51 -0400
+Received: by mail-lf1-f66.google.com with SMTP id h27so6687299lfp.2;
+        Mon, 26 Aug 2019 08:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=50mv38tNDYl/ZA4wnFVjnzU9tnzotrbGWCLUfU9Ss9U=;
+        b=DD954qxFZhSRbJXXAWT8UGI78Qw8ddSTsJ57rK3XJ2/Wkv3WEez0EMD7YmJN/2ZyOa
+         lHwom4XrlZmbf1KZeQLf7asnloWFOOVQf5xcoWVTpcs1szbaGxrmsAO0GkI3d+aVs+tS
+         45DW701tM8vydRxSmqzFNoVGNFbONfoNF0eFihwp/hHhOgmbmtHCvxq0ShKSH9bK4uVZ
+         lWRizjWpZp076tU3UDHdesfEOgSmRxcFr2Q3vf20XLtbKjWauLGo6ia5FwENMqkF2Pnt
+         2si39G/XXBu4K0XjMggmMk0bTE/w5zakucAW0rL5geUPbRtC+zO8WmLsph6xVKz/nJqS
+         Q4Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=50mv38tNDYl/ZA4wnFVjnzU9tnzotrbGWCLUfU9Ss9U=;
+        b=BNGYeCYJITVD83+jG7mSd3INW6ztUPxQJ51tC1NLJWGBQWqUEak0FktvO9aScctb2J
+         U5lqvw8LlHafV/v9TtTUEu2qzwpndmnV0VusBLvGaBZnE63p1nHPztoLyiR+hZqdjgDz
+         Pr40QLj1jrQFLw1PVgHU6bImp1jR+z/8RfOnU8IRbHjkMWwv1xCn6qrdV6rgVUqwU11p
+         0/gX40Xk4+5NaZ7K5voDoKvJ8894PkR/ewIJD27XuzwSG0ht6uAIBcSMTBDnPV/sVFwQ
+         mMG5yROMOFdLFDC5vcB49CdW8xi9mPs+1xjsmNc+xO4aA/FlMZKGcpOY3NqFdoa6pIoQ
+         4UzA==
+X-Gm-Message-State: APjAAAX+/eJ0SHRPRGFqd4aDuS6fpBwDQt0pyhlVJ0txL2n3PxK3Gcxc
+        zCT10huGW0ylvuuEhobbxU4=
+X-Google-Smtp-Source: APXvYqxwBaKVRDZOzhOVbJvIe3ncrV9/xEPeURbvLz9/UhsnEu7vyFngUol6rQSCZMHo+7dD8ZFuQg==
+X-Received: by 2002:a19:674d:: with SMTP id e13mr11176375lfj.176.1566832729324;
+        Mon, 26 Aug 2019 08:18:49 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.34.218])
+        by smtp.googlemail.com with ESMTPSA id m74sm2356165lje.72.2019.08.26.08.18.48
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 26 Aug 2019 08:18:48 -0700 (PDT)
+Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
+ COMPILE_TEST
+To:     YueHaibing <yuehaibing@huawei.com>, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, robin.murphy@arm.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org
+References: <20190826133140.13456-1-yuehaibing@huawei.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <58a8c62c-a45e-77e4-d2cb-99f95b847a73@gmail.com>
+Date:   Mon, 26 Aug 2019 18:18:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20190826133140.13456-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
-to m will set IOMMU_IOVA to m, this fails the building of
-TEGRA_HOST1X and DRM_TEGRA which is y like this:
+Hello Yue,
 
-drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
-cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
-cdma.c:(.text+0x698): undefined reference to `__free_iova'
+26.08.2019 16:31, YueHaibing пишет:
+> If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+> to m will set IOMMU_IOVA to m, this fails the building of
+> TEGRA_HOST1X and DRM_TEGRA which is y like this:
+> 
+> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+> cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+> cdma.c:(.text+0x698): undefined reference to `__free_iova'
+> 
+> drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+> drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+> drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+> Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+> index ba49ea5..a41d30c 100644
+> --- a/drivers/staging/media/tegra-vde/Kconfig
+> +++ b/drivers/staging/media/tegra-vde/Kconfig
+> @@ -1,9 +1,9 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  config TEGRA_VDE
+>  	tristate "NVIDIA Tegra Video Decoder Engine driver"
+> -	depends on ARCH_TEGRA || COMPILE_TEST
+> +	depends on ARCH_TEGRA
+>  	select DMA_SHARED_BUFFER
+> -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+> +	select IOMMU_IOVA if IOMMU_SUPPORT
+>  	select SRAM
+>  	help
+>  	    Say Y here to enable support for the NVIDIA Tegra video decoder
+> 
 
-drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
-drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
-drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+What about this variant:
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
-Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/staging/media/tegra-vde/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+	select IOMMU_IOVA if (IOMMU_SUPPORT && !COMPILE_TEST)
 
-diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
-index ba49ea5..a41d30c 100644
---- a/drivers/staging/media/tegra-vde/Kconfig
-+++ b/drivers/staging/media/tegra-vde/Kconfig
-@@ -1,9 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0
- config TEGRA_VDE
- 	tristate "NVIDIA Tegra Video Decoder Engine driver"
--	depends on ARCH_TEGRA || COMPILE_TEST
-+	depends on ARCH_TEGRA
- 	select DMA_SHARED_BUFFER
--	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
-+	select IOMMU_IOVA if IOMMU_SUPPORT
- 	select SRAM
- 	help
- 	    Say Y here to enable support for the NVIDIA Tegra video decoder
--- 
-2.7.4
+which should fix the building and preserve compile-testing.
 
-
+It shouldn't matter at all whether IOVA is enabled or not for
+compile-testing of the driver.
