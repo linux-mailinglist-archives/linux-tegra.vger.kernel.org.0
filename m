@@ -2,140 +2,224 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7AC09E384
-	for <lists+linux-tegra@lfdr.de>; Tue, 27 Aug 2019 11:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9689C9E42E
+	for <lists+linux-tegra@lfdr.de>; Tue, 27 Aug 2019 11:29:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729895AbfH0JAz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 27 Aug 2019 05:00:55 -0400
-Received: from foss.arm.com ([217.140.110.172]:41268 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726091AbfH0JAz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 27 Aug 2019 05:00:55 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27BE9337;
-        Tue, 27 Aug 2019 02:00:54 -0700 (PDT)
-Received: from [10.1.197.61] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 46C143F246;
-        Tue, 27 Aug 2019 02:00:48 -0700 (PDT)
-Subject: Re: [PATCH 1/6 v2] gpio: Add support for hierarchical IRQ domains
-To:     Lina Iyer <ilina@codeaurora.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Brian Masney <masneyb@onstation.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
-        David Daney <david.daney@cavium.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Thierry Reding <treding@nvidia.com>
-References: <20190808123242.5359-1-linus.walleij@linaro.org>
- <20190816011054.GA1041@onstation.org>
- <CACRpkdbZSJ4ggprUXaBJ07Hz=eryuy5=AmYOigTUmO9z4yahfQ@mail.gmail.com>
- <63f2d086-eb71-4153-071e-71102fe24a14@arm.com>
- <20190826161526.GB26639@codeaurora.org> <20190826194400.67c6e99b@why>
- <20190826201400.GC26639@codeaurora.org>
-From:   Marc Zyngier <maz@kernel.org>
-Organization: Approximate
-Message-ID: <c812668e-0caf-4169-9990-9a7760adbb4e@kernel.org>
-Date:   Tue, 27 Aug 2019 10:00:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726833AbfH0J30 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 27 Aug 2019 05:29:26 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:8235 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725793AbfH0J3Z (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 27 Aug 2019 05:29:25 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d64f7f40000>; Tue, 27 Aug 2019 02:29:24 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 27 Aug 2019 02:29:22 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 27 Aug 2019 02:29:22 -0700
+Received: from HQMAIL110.nvidia.com (172.18.146.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 27 Aug
+ 2019 09:29:22 +0000
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by hqmail110.nvidia.com
+ (172.18.146.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 27 Aug
+ 2019 09:29:22 +0000
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com (104.47.32.54) by
+ HQMAIL111.nvidia.com (172.20.187.18) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 27 Aug 2019 09:29:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YzuZUZ0jzZRZaKgYCvysl4+24H0XxcgbR9m5KSllmq7CaP4wXRGP4/17iOX//k+62jT4i56HaluiWL5GHYbW9gQM0ruhnE8BbQ0DUAngkiL2RUCy8cPHFRxLc1IGNGDMqrYDO96YF0MFGMLp37/M06MsyvnHoFDREdvdsA2qYjKEOe12qmO/eik2vlAmmFtixYB+4VWqJ9N1qUkWtFPDffQEKfDlDRjlw1dD1IQwhB0D2zcv72C8d7ft8+vnZWR6C6++/ks3JMRmYJxJ0YItReks6YkbcGL8rX497lrt+Azf47TPP9iC0YRe3WVQHCfm1AqHHVMpsZrZl5iqntQL2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YRdUsNtJNiE0T3X7ALE1gMZxNXa1qEsqTeqqKuRhA1E=;
+ b=MtFjF5Wc+3dNMaYogKgKJP1I0RFb1IMs3igy/95yoZ2n4SgI7bmK1Bd877AQBb59fSFglnOIp6DZGr1ZCWM4qmGbFX5+VraAE97gfqZByknqgd05s8gofwOverJwOpsuWC06jUYWTSUkErRlX2Cyz8xiRuGYsiL20hAnH2Ef6luRUxtCra6PAKMeBEYN6PaysgabMzlkeVEP8W06JUsGh9bQxcZfhikzHhDwDbb4PyJCoosuK4mG3xQ1BHjbhjxOE5/ADRK1OxjiRrJB25HyL8HTQY73D62Y7jn2bXQ1lV2SMzQhh+1rdRfgF3DTNjWxvJCDbKsoiUV9FwOYtDb/3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from SN6PR12MB2734.namprd12.prod.outlook.com (52.135.107.25) by
+ SN6PR12MB2831.namprd12.prod.outlook.com (20.177.251.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2199.21; Tue, 27 Aug 2019 09:29:21 +0000
+Received: from SN6PR12MB2734.namprd12.prod.outlook.com
+ ([fe80::fdaf:cdfc:c0da:f84b]) by SN6PR12MB2734.namprd12.prod.outlook.com
+ ([fe80::fdaf:cdfc:c0da:f84b%7]) with mapi id 15.20.2199.021; Tue, 27 Aug 2019
+ 09:29:21 +0000
+From:   Krishna Yarlagadda <kyarlagadda@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Laxman Dewangan" <ldewangan@nvidia.com>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Shardar Mohammed" <smohammed@nvidia.com>
+Subject: RE: [PATCH 02/14] serial: tegra: add support to ignore read
+Thread-Topic: [PATCH 02/14] serial: tegra: add support to ignore read
+Thread-Index: AQHVUQEgJm8szYaGP0iCFvSf5iMeOKb41LwAgAFRxjA=
+Date:   Tue, 27 Aug 2019 09:29:21 +0000
+Message-ID: <SN6PR12MB2734D67C01A97D87D1735EDBC3A00@SN6PR12MB2734.namprd12.prod.outlook.com>
+References: <1565609303-27000-1-git-send-email-kyarlagadda@nvidia.com>
+ <1565609303-27000-3-git-send-email-kyarlagadda@nvidia.com>
+ <20190813094208.GG1137@ulmo>
+In-Reply-To: <20190813094208.GG1137@ulmo>
+Accept-Language: en-IN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=kyarlagadda@nvidia.com;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2019-08-27T09:29:17.7939215Z;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=00d1f8b6-0abb-42f9-916e-ed23295f9292;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=kyarlagadda@nvidia.com; 
+x-originating-ip: [115.114.118.135]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 12cad3fc-49a7-4525-9077-08d72ad10aaf
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:SN6PR12MB2831;
+x-ms-traffictypediagnostic: SN6PR12MB2831:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR12MB2831D9C07408C0DD9B72A2B4C3A00@SN6PR12MB2831.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 0142F22657
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(396003)(366004)(376002)(39850400004)(136003)(199004)(189003)(13464003)(486006)(86362001)(55016002)(76116006)(66476007)(66556008)(64756008)(66446008)(26005)(186003)(66946007)(229853002)(66066001)(478600001)(54906003)(81156014)(81166006)(8676002)(8936002)(102836004)(71200400001)(53546011)(7736002)(3846002)(14454004)(6116002)(305945005)(74316002)(71190400001)(25786009)(52536014)(4326008)(446003)(5660300002)(11346002)(6246003)(55236004)(107886003)(76176011)(6916009)(316002)(256004)(9686003)(2906002)(476003)(53936002)(7696005)(14444005)(6436002)(99286004)(6506007)(33656002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2831;H:SN6PR12MB2734.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nvidia.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: /Gj8G7Gk46Cy5E+Rt+rXlzdZEmby5WSyz6KATF41e5JQ1c1Bln6mBF1auluMEMFCJFwfBTlv6XKLUm5XRzD2jJweTnjJHKrEYnHzZq5sqem4TB6GsNXS4IDLR/JLSZl2eI5Q5zXrZLx5Q/h2si46hFfQGi7B6x8iB62eYx3v1WqddHnIwmEloEL+ExCP0o/5CktrjK89+35mS3ofs/c+Ga0bEWDtvKvZIjcCKzyWgj+j/n9BHFvcmp5jKchIRsgTzAykImlLgqCwf8HgALd3zwsjMXXV6sm2ztB6w3KTejGr/I1NAvKk7z0e2k/UzyZkG4b/hpigwPRyOKpPfEV1bUVQB9eidVbYyBvYTYrsFv/wJ/aqRKfEgBk37HRHvEsQcdkY7RvyXAoXuDBau/rmHhSlfgv1FdTXIut1QhNAEFg=
 MIME-Version: 1.0
-In-Reply-To: <20190826201400.GC26639@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12cad3fc-49a7-4525-9077-08d72ad10aaf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Aug 2019 09:29:21.0654
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xHykuBD4vyEZsFZBP5nBPhBuMH1THFZlaZwkcPCRiiPc+BD1EJKacx2u9ORnjkdjLsWCsP0MDrNaOicnEf4nBA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2831
+X-OriginatorOrg: Nvidia.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1566898164; bh=YRdUsNtJNiE0T3X7ALE1gMZxNXa1qEsqTeqqKuRhA1E=;
+        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
+         Thread-Index:Date:Message-ID:References:In-Reply-To:
+         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+         authentication-results:x-originating-ip:x-ms-publictraffictype:
+         x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
+         x-ms-traffictypediagnostic:x-ms-exchange-transport-forked:
+         x-microsoft-antispam-prvs:x-ms-oob-tlc-oobclassifiers:
+         x-forefront-prvs:x-forefront-antispam-report:received-spf:
+         x-ms-exchange-senderadcheck:x-microsoft-antispam-message-info:
+         MIME-Version:X-MS-Exchange-CrossTenant-Network-Message-Id:
+         X-MS-Exchange-CrossTenant-originalarrivaltime:
+         X-MS-Exchange-CrossTenant-fromentityheader:
+         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+         X-MS-Exchange-CrossTenant-userprincipalname:
+         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
+         Content-Language:Content-Type:Content-Transfer-Encoding;
+        b=gfV2hkVCiDICWcBNi22TuccdKVIYin7mVx06JCkyIeFC1QWu88pmtm485qK64T6ao
+         FF1rDTD6ErkqCFYE9yKo0ybuggN1hvTqCAr4grYINKqdpllzJX6ipHpBVURNZngDUJ
+         3PeU4OrBeearV212XGw4HuUmfLleYlPCgOn8/yFNlxVJwBFblumiFkmjuGbecTMgno
+         FbupFmKd5EucCMzbSOLwxXczleV1xaCZqgfv1jZbn7RH91RgbjRyLDwPHm+BR+4VMB
+         fNBSwEIEStUWwKHMQ3DFsupeoDuhI22QN74U8ZNCxxWFOEOGQTvzsslSb08l8xGyTd
+         CWhKUelf+sd+A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 26/08/2019 21:14, Lina Iyer wrote:
-> On Mon, Aug 26 2019 at 13:02 -0600, Marc Zyngier wrote:
->> On Mon, 26 Aug 2019 10:15:26 -0600
->> Lina Iyer <ilina@codeaurora.org> wrote:
->>
->>> On Fri, Aug 23 2019 at 03:12 -0600, Marc Zyngier wrote:
->>>> On 23/08/2019 09:24, Linus Walleij wrote:
->>>>> Hi Brian,
->>>>>
->>>>> I tried to look into this ssbi-gpio problem...
->>>>>
->>>>> Paging in Marc Z as well.
->>>>>
->>>>> On Fri, Aug 16, 2019 at 3:10 AM Brian Masney <masneyb@onstation.org> wrote:
->>>>>
->>>>>> I started to convert ssbi-gpio over to this and pm8xxx_gpio_to_irq() has
->>>>>> this little snippet that's different from spmi-gpio:
->>>>>>
->>>>>>         [ fwspec mapping code ]
->>>>>>
->>>>>>         /*
->>>>>>          * Cache the IRQ since pm8xxx_gpio_get() needs this to get determine the
->>>>>>          * line level.
->>>>>>          */
->>>>>>         pin->irq = ret;
->>>>>>
->>>>>> Here's the relevant code in pm8xxx_gpio_get():
->>>>>>
->>>>>>         if (pin->mode == PM8XXX_GPIO_MODE_OUTPUT) {
->>>>>>                 ret = pin->output_value;
->>>>>>         } else if (pin->irq >= 0) {
->>>>>>                 ret = irq_get_irqchip_state(pin->irq, IRQCHIP_STATE_LINE_LEVEL, &state);
->>>>>>                 ...
->>>>>>         }
->>>>>
->>>>> It's a bit annoying that this API (irq_get_irqchip_state()) is relying on
->>>>> the global irq numbers and the internal function using irqdesc
->>>>> __irq_get_irqchip_state() is not exported.
->>>>>
->>>>> We should be encouraged to operate on IRQ descriptors rather
->>>>> than IRQ numbers when doing this kind of deep core work,
->>>>> right?
->>>>
->>>> Certainly, I'd like to gradually move over from the IRQ number to an
->>>> irq_desc. In interrupt-heavy contexts, this ends up being quite time
->>>> consuming. I have an old patch series somewhere changing irq domains to
->>>> use irq_descs internally instead of IRQ numbers, which I should maybe
->>>> revive.
->>>>
->>>> As for __irq_get_irqchip_state, the main issue is that it doesn't
->>>> perform any locking on its own, so you'd have to either provide your
->>>> own, or wrap it with something else.
->>>>
->>> Marc, on a related note, What are your thoughts on a
->>> irq_set_irqchip_state? We are running into an issue where chip state
->>> clear is required as well as clearing out that of the parent. Do you see
->>> problems in doing that from an irqchip driver?
->>
->> [desperately trying to switch to my korg address...]
->>
->> I'm not sure I fully get the question: if this is whether it is worth
->> implementing it, it usually is a good idea if the HW supports is. But I
->> have the feeling that this isn't your question, so maybe explaining
->> your use-case would help.
->>
->> Do you mean using irq_set_irqchip_state from within an irqchip driver?
->> That'd be quite odd, as this function is usually used when something
->> *outside* of the irqchip driver needs to poke at some internal state
->> because "it knows best" (see for example what KVM does with the active
->> state).
->>
-> Yeah, I meant to say, when invoked on a parent irqchip from a child
-> irqchip.
-> 
-> In my case when GPIO is used as an interrupt. Even though the interrupt
-> is not enabled, the GPIO could cause the GIC_ISPEND to be set at GIC. We
-> were wondering if we could use the irq_set_irqchip_state to clear
-> pending state at GPIO's irqchip parent and all the way to GIC,  when the
-> GPIO is enabled as an interrupt.
+> -----Original Message-----
+> From: linux-tegra-owner@vger.kernel.org <linux-tegra-
+> owner@vger.kernel.org> On Behalf Of Thierry Reding
+> Sent: Tuesday, August 13, 2019 3:12 PM
+> To: Krishna Yarlagadda <kyarlagadda@nvidia.com>
+> Cc: gregkh@linuxfoundation.org; robh+dt@kernel.org;
+> mark.rutland@arm.com; Jonathan Hunter <jonathanh@nvidia.com>; Laxman
+> Dewangan <ldewangan@nvidia.com>; jslaby@suse.com; linux-
+> serial@vger.kernel.org; devicetree@vger.kernel.org; linux-
+> tegra@vger.kernel.org; linux-kernel@vger.kernel.org; Shardar Mohammed
+> <smohammed@nvidia.com>
+> Subject: Re: [PATCH 02/14] serial: tegra: add support to ignore read
+>=20
+> On Mon, Aug 12, 2019 at 04:58:11PM +0530, Krishna Yarlagadda wrote:
+> > From: Shardar Shariff Md <smohammed@nvidia.com>
+> >
+> > Add support to ignore read characters if CREAD flag is not set.
+> >
+> > Signed-off-by: Shardar Shariff Md <smohammed@nvidia.com>
+> > Signed-off-by: Krishna Yarlagadda <kyarlagadda@nvidia.com>
+> > ---
+> >  drivers/tty/serial/serial-tegra.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/drivers/tty/serial/serial-tegra.c
+> > b/drivers/tty/serial/serial-tegra.c
+> > index 19f4c24..93d299e 100644
+> > --- a/drivers/tty/serial/serial-tegra.c
+> > +++ b/drivers/tty/serial/serial-tegra.c
+> > @@ -542,6 +542,9 @@ static void tegra_uart_handle_rx_pio(struct
+> tegra_uart_port *tup,
+> >  		ch =3D (unsigned char) tegra_uart_read(tup, UART_RX);
+> >  		tup->uport.icount.rx++;
+> >
+> > +		if (tup->uport.ignore_status_mask & UART_LSR_DR)
+> > +			continue;
+> > +
+> >  		if (!uart_handle_sysrq_char(&tup->uport, ch) && tty)
+> >  			tty_insert_flip_char(tty, ch, flag);
+>=20
+> Is it a good idea to ignore even sysrq characters if CREAD is not set?
+> According to termios, CREAD enables the receiver, so technically if it is=
+n't set
+> you can't even receive sysrq characters. But I don't know if there are an=
+y
+> rules regarding this.
+>=20
+> Is this the same way that other drivers work?
+>=20
+> Thierry
+>=20
+Looked into few drivers and sysrq characters are not ignored. This driver d=
+oes
+not support console driver. So this might not be needed.
 
-You can of course chain the call from one level to its parent. It's a
-bit odd to have to clear a pending bit in this context, but I guess
-that's a HW-specific limitation.
-
-	M.
--- 
-Jazz is not dead, it just smells funny...
+KY
+> >  	} while (1);
+> > @@ -562,6 +565,10 @@ static void tegra_uart_copy_rx_to_tty(struct
+> tegra_uart_port *tup,
+> >  		dev_err(tup->uport.dev, "No tty port\n");
+> >  		return;
+> >  	}
+> > +
+> > +	if (tup->uport.ignore_status_mask & UART_LSR_DR)
+> > +		return;
+> > +
+> >  	dma_sync_single_for_cpu(tup->uport.dev, tup->rx_dma_buf_phys,
+> >  				TEGRA_UART_RX_DMA_BUFFER_SIZE,
+> DMA_FROM_DEVICE);
+> >  	copied =3D tty_insert_flip_string(tty, @@ -1190,6 +1197,11 @@ static
+> > void tegra_uart_set_termios(struct uart_port *u,
+> >  	tegra_uart_write(tup, tup->ier_shadow, UART_IER);
+> >  	tegra_uart_read(tup, UART_IER);
+> >
+> > +	tup->uport.ignore_status_mask =3D 0;
+> > +	/* Ignore all characters if CREAD is not set */
+> > +	if ((termios->c_cflag & CREAD) =3D=3D 0)
+> > +		tup->uport.ignore_status_mask |=3D UART_LSR_DR;
+> > +
+> >  	spin_unlock_irqrestore(&u->lock, flags);  }
+> >
+> > --
+> > 2.7.4
+> >
