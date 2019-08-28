@@ -2,151 +2,204 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D9A19FEA3
-	for <lists+linux-tegra@lfdr.de>; Wed, 28 Aug 2019 11:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5919FEAA
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Aug 2019 11:38:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726617AbfH1Jhe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 28 Aug 2019 05:37:34 -0400
-Received: from foss.arm.com ([217.140.110.172]:56340 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726340AbfH1Jhe (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 28 Aug 2019 05:37:34 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D1004337;
-        Wed, 28 Aug 2019 02:37:33 -0700 (PDT)
-Received: from localhost (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2CC133F59C;
-        Wed, 28 Aug 2019 02:37:33 -0700 (PDT)
-Date:   Wed, 28 Aug 2019 10:37:31 +0100
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Vidya Sagar <vidyas@nvidia.com>, lorenzo.pieralisi@arm.com,
-        bhelgaas@google.com, robh+dt@kernel.org, jonathanh@nvidia.com,
-        kishon@ti.com, gustavo.pimentel@synopsys.com, digetx@gmail.com,
-        mperttunen@nvidia.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH 6/6] PCI: tegra: Add support to enable slot regulators
-Message-ID: <20190828093731.GT14582@e119886-lin.cambridge.arm.com>
-References: <20190826073143.4582-1-vidyas@nvidia.com>
- <20190826073143.4582-7-vidyas@nvidia.com>
- <20190827154725.GP14582@e119886-lin.cambridge.arm.com>
- <91f8914a-22a9-8b7c-bc00-c309a21d83db@nvidia.com>
- <20190827171333.GQ14582@e119886-lin.cambridge.arm.com>
- <20190828090757.GA2917@ulmo>
+        id S1726391AbfH1JiZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 28 Aug 2019 05:38:25 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:44359 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726340AbfH1JiZ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 28 Aug 2019 05:38:25 -0400
+Received: by mail-ed1-f65.google.com with SMTP id a21so2227585edt.11;
+        Wed, 28 Aug 2019 02:38:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=flt9IxTDXpAAINorBs+AmhNQPGibX4knZjBXudoTqJ4=;
+        b=mHCK2iBPcn4RtNqJIa+r3p4rW5ZGIZOZvbTBwUB3Rmirj/XeHZinLNpDMorcZRMk1n
+         VS9CVZ6FmYUTjw9dlo5SJ5r2jpYufzwgYIFxtkiNCQ+4C7TRGeOj7jb7p2a9Klzo+HZC
+         w84j1JjGM9b0NJJ1KKKwBxQFeSw51ULZx+inQhieR6vZFbBbWfBxcAyh5pMVQzJFcgZo
+         IMbJ5AnDJDOYBEpRsXnPfkwV2ESCRS0UxYBzfwXpJhRfRAYIPJssFuY03qL33u3Vx1l4
+         g9Ny+1jNBQ8S9IuMMb3R8rRoaXS9IhA+FjWZ44n8lYeIXd1PRnzYWB46lbDq3LeX3I9F
+         2aVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=flt9IxTDXpAAINorBs+AmhNQPGibX4knZjBXudoTqJ4=;
+        b=F3cjbKQi3B7LGrNSnPrf+AjhUpeOMJiRZz1QI3JjlgmA+EzyRscqs6sq99E2WfiA/v
+         7QI5mDPgryY2XlKwIZf8Cph9Znt3eM/kE3PzrYBonvsTbetuapzYday8epDm3mx7539x
+         5lBKOSBOpJyzQRSqYdD/EBUVOKEbtnEcmG6VFPuV5pOj6AJleYBP0ft2atFBpVGLwBpf
+         EgR/mESYN4TrfyijEFekA1hKFDQtSVZvgO4BqS3/KdZ7tryhgbnjnJAb01RgFElrSEzT
+         /MwQXNIHQedkUepfu+xdgAufs9NC4985gxUHL9pboz/ooejIPNjhAbj9EezGvF+iQTSz
+         pRXg==
+X-Gm-Message-State: APjAAAXcfIjAIuv3AZWuEmGfC6Vo2NmFY9zF24tDMuoKBl7Jdk+QuVUQ
+        5Z9VMg8yFM4siEpcRFw08JPyNug+
+X-Google-Smtp-Source: APXvYqxRLGxga0d1nTuNK8TzJOX1G7Yg77gfwljepMJBzvd+Kbne+6dSBmtKBoGGAAZDPD+0b4iOMQ==
+X-Received: by 2002:a50:ea8d:: with SMTP id d13mr2949950edo.83.1566985102474;
+        Wed, 28 Aug 2019 02:38:22 -0700 (PDT)
+Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
+        by smtp.gmail.com with ESMTPSA id gs21sm303630ejb.40.2019.08.28.02.38.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2019 02:38:21 -0700 (PDT)
+Date:   Wed, 28 Aug 2019 11:38:20 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 7/9] drm: tegra: use cec_notifier_conn_(un)register
+Message-ID: <20190828093820.GE2917@ulmo>
+References: <20190814104520.6001-1-darekm@google.com>
+ <20190814104520.6001-8-darekm@google.com>
+ <f0e99db8-3329-f272-e139-a7c713f200ea@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="y2zxS2PfCDLh6JVG"
 Content-Disposition: inline
-In-Reply-To: <20190828090757.GA2917@ulmo>
-User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
+In-Reply-To: <f0e99db8-3329-f272-e139-a7c713f200ea@xs4all.nl>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Aug 28, 2019 at 11:07:57AM +0200, Thierry Reding wrote:
-> On Tue, Aug 27, 2019 at 06:13:34PM +0100, Andrew Murray wrote:
-> > On Tue, Aug 27, 2019 at 09:54:17PM +0530, Vidya Sagar wrote:
-> > > On 8/27/2019 9:17 PM, Andrew Murray wrote:
-> > > > On Mon, Aug 26, 2019 at 01:01:43PM +0530, Vidya Sagar wrote:
-> > > > > Add support to get regulator information of 3.3V and 12V supplies of a PCIe
-> > > > > slot from the respective controller's device-tree node and enable those
-> > > > > supplies. This is required in platforms like p2972-0000 where the supplies
-> > > > > to x16 slot owned by C5 controller need to be enabled before attempting to
-> > > > > enumerate the devices.
-> > > > > 
-> > > > > Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> > > > > ---
-> > > > >   drivers/pci/controller/dwc/pcie-tegra194.c | 65 ++++++++++++++++++++++
-> > > > >   1 file changed, 65 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-> > > > > index 8a27b25893c9..97de2151a738 100644
-> > > > > --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> > > > > +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> > > > > @@ -278,6 +278,8 @@ struct tegra_pcie_dw {
-> > > > >   	u32 aspm_l0s_enter_lat;
-> > > > >   	struct regulator *pex_ctl_supply;
-> > > > > +	struct regulator *slot_ctl_3v3;
-> > > > > +	struct regulator *slot_ctl_12v;
-> > > > >   	unsigned int phy_count;
-> > > > >   	struct phy **phys;
-> > > > > @@ -1047,6 +1049,59 @@ static void tegra_pcie_downstream_dev_to_D0(struct tegra_pcie_dw *pcie)
-> > > > >   	}
-> > > > >   }
-> > > > > +static void tegra_pcie_get_slot_regulators(struct tegra_pcie_dw *pcie)
-> > > > > +{
-> > > > > +	pcie->slot_ctl_3v3 = devm_regulator_get_optional(pcie->dev, "vpcie3v3");
-> > > > > +	if (IS_ERR(pcie->slot_ctl_3v3))
-> > > > > +		pcie->slot_ctl_3v3 = NULL;
-> > > > > +
-> > > > > +	pcie->slot_ctl_12v = devm_regulator_get_optional(pcie->dev, "vpcie12v");
-> > > > > +	if (IS_ERR(pcie->slot_ctl_12v))
-> > > > > +		pcie->slot_ctl_12v = NULL;
-> > > > 
-> > > > Do these need to take into consideration -EPROBE_DEFER?
-> > > Since these are devm_* APIs, isn't it taken care of automatically?
-> > 
-> > devm_regulator_get_optional can still return -EPROBE_DEFER - for times when
-> > "lookup could succeed in the future".
-> > 
-> > It's probably helpful here for your driver to distinguish between there not
-> > being a regulator specified in the DT, and there being a regulator but there
-> > is no device for it yet. For the latter case - your driver would probe but
-> > nothing would enumerate.
-> > 
-> > See pcie-rockchip-host.c for an example of where this is handled.
-> > 
-> > Of course if, for whatever reason it is unlikely you'll ever get -EPROBE_DEFER
-> > then maybe it's OK as it is.
-> 
-> Let's not assume that. We've just recently encountered a case where we
-> did not handle -EPROBE_DEFER because we had assumed too much, and that
-> turned into a bit of a hassle to fix.
-> 
-> Vidya, I think what Andrew is saying is that you need to propagate the
-> -EPROBE_DEFER error to the caller (i.e. the ->probe() callback) so that
-> the PCI controller driver can be properly added to the defer queue in
-> case the regulator isn't ready yet.
 
-Indeed.
+--y2zxS2PfCDLh6JVG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> I think what we want here is something like:
-> 
-> 	pcie->slot_ctl_3v3 = devm_regulator_get_optional(pcie->dev, "vpcie3v3");
-> 	if (IS_ERR(pcie->slot_ctl_3v3)) {
-> 		if (PTR_ERR(pcie->slot_ctl_3v3) != -ENODEV)
-> 			return PTR_ERR(pcie->slot_ctl_3v3);
-> 
-> 		pcie->slot_ctl_3v3 = NULL;
-> 	}
-> 
-> Andrew, I'm not sure the handling in rockchip_pcie_parse_host_dt() is
-> correct. It singles out -EPROBE_DEFER, which I think is the wrong way
-> around. We should be special-casing -ENODEV, because regulator_get()
-> can return a wide array of error cases, not all of which we actually
-> want to consider successes. For example we could be getting -ENOMEM,
-> which, I would argue, is something that we should propagate.
+On Wed, Aug 28, 2019 at 10:09:30AM +0200, Hans Verkuil wrote:
+> Thierry,
+>=20
+> Can you review this patch?
+>=20
+> Thanks!
+>=20
+> 	Hans
 
-Yes I completely agree, given that the regulator is optional: we only want
-to proceed if we find the regulator or if a regulator wasn't specified in the
-DT. We should fail upon any other error, in case a regulator was specified
-but the error prevented it from being returned.
+Did you want me to pick this up into the drm/tegra tree? Or do you want
+to pick it up into your tree?
 
-> I think
-> it'd be very confusing to take that as meaning "optional regulator
-> wasn't specified", because in that case the DTS file would've had the
-> regulator hooked up (we have to assume that it is needed in that case)
-> but we won't be enabling it, so it's unlikely that devices will
-> enumerate.
+We're just past the DRM subsystem deadline, so it'll have to wait until
+the next cycle if we go that way. If you're in a hurry you may want to
+pick it up yourself, in which case:
 
-Thanks,
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-Andrew Murray
+> On 8/14/19 12:45 PM, Dariusz Marcinkiewicz wrote:
+> > Use the new cec_notifier_conn_(un)register() functions to
+> > (un)register the notifier for the HDMI connector, and fill in
+> > the cec_connector_info.
+> >=20
+> > Changes since v4:
+> > 	- only create a CEC notifier for HDMI connectors
+> >=20
+> > Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> > Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > ---
+> >  drivers/gpu/drm/tegra/output.c | 28 +++++++++++++++++++++-------
+> >  1 file changed, 21 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/out=
+put.c
+> > index bdcaa4c7168cf..34373734ff689 100644
+> > --- a/drivers/gpu/drm/tegra/output.c
+> > +++ b/drivers/gpu/drm/tegra/output.c
+> > @@ -70,6 +70,11 @@ tegra_output_connector_detect(struct drm_connector *=
+connector, bool force)
+> > =20
+> >  void tegra_output_connector_destroy(struct drm_connector *connector)
+> >  {
+> > +	struct tegra_output *output =3D connector_to_output(connector);
+> > +
+> > +	if (output->cec)
+> > +		cec_notifier_conn_unregister(output->cec);
+> > +
+> >  	drm_connector_unregister(connector);
+> >  	drm_connector_cleanup(connector);
+> >  }
+> > @@ -163,18 +168,11 @@ int tegra_output_probe(struct tegra_output *outpu=
+t)
+> >  		disable_irq(output->hpd_irq);
+> >  	}
+> > =20
+> > -	output->cec =3D cec_notifier_get(output->dev);
+> > -	if (!output->cec)
+> > -		return -ENOMEM;
+> > -
+> >  	return 0;
+> >  }
+> > =20
+> >  void tegra_output_remove(struct tegra_output *output)
+> >  {
+> > -	if (output->cec)
+> > -		cec_notifier_put(output->cec);
+> > -
+> >  	if (output->hpd_gpio)
+> >  		free_irq(output->hpd_irq, output);
+> > =20
+> > @@ -184,6 +182,7 @@ void tegra_output_remove(struct tegra_output *outpu=
+t)
+> > =20
+> >  int tegra_output_init(struct drm_device *drm, struct tegra_output *out=
+put)
+> >  {
+> > +	int connector_type;
+> >  	int err;
+> > =20
+> >  	if (output->panel) {
+> > @@ -199,6 +198,21 @@ int tegra_output_init(struct drm_device *drm, stru=
+ct tegra_output *output)
+> >  	if (output->hpd_gpio)
+> >  		enable_irq(output->hpd_irq);
+> > =20
+> > +	connector_type =3D output->connector.connector_type;
+> > +	/*
+> > +	 * Create a CEC notifier for HDMI connector.
+> > +	 */
+> > +	if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> > +	    connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB) {
+> > +		struct cec_connector_info conn_info;
+> > +
+> > +		cec_fill_conn_info_from_drm(&conn_info, &output->connector);
+> > +		output->cec =3D cec_notifier_conn_register(output->dev, NULL,
+> > +							 &conn_info);
+> > +		if (!output->cec)
+> > +			return -ENOMEM;
+> > +	}
+> > +
+> >  	return 0;
+> >  }
+> > =20
+> >=20
+>=20
 
-> 
-> Thierry
+--y2zxS2PfCDLh6JVG
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1mS4wACgkQ3SOs138+
+s6Hukw/8DvWhMV7uYDCsZIDHgnNF+l4WXu+x1XIy9XFt57KVfkbBW6YyYhAos1rx
+4JSvHvWIdlB1AdTJacEqnxYynrMmfDrBNikG+0kFuUUwIeOdT+wRuOODFzGg7gZC
+OvN+cADPyEDP0XyPZjv29B5+heSJnnLV6ziIENuVQaJA3QECOyx+K1hBheCLUXjE
+fBUH9B6CpuGHvYtAqNu5i10kkL5sGIG/xjnHresWTHxrxwDHEIVBeryREjPdaYV7
+fpafk17crGKST65cyIU0Be7h6WPEzCuybE5653TI4qM71ISJvhEsPnWY4ZSHBZXk
+QWaKd8FtIuSuh6T/zkhzkfCBRAMyD3hluP2lPKOQLrw/oZqRTtyu4hyTFhxAIema
+OeQeVY7aQyawoT3bSfWvhruPZ4r0wDxXCu0j2eD3so2AgGYBz/5WadYsCoZxGOS0
+hzQayaCick670ZmDPJV/CiyzybkDN21gKpRzp/0+DXB837yCBlCK34bU76b9rd0e
+J4Gy5wy32ja6KK2TxqiHBuPKyASjadwW5dYxDH2iNnSJxWbg82z15/ZBaUpYeIvF
+mDhLxA6Cz49/iFXDsfTZcUpVf5JTADqNYYa0Yy1kBjFNXw/pwvgvp6wL0N5x20eL
+mItPhPmbflgIE0KJvBp0S0h/sgJ4dxUTjPsEVFKD2KFLn7xbYJY=
+=2whG
+-----END PGP SIGNATURE-----
+
+--y2zxS2PfCDLh6JVG--
