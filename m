@@ -2,120 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F13D79FF28
-	for <lists+linux-tegra@lfdr.de>; Wed, 28 Aug 2019 12:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7977CA0099
+	for <lists+linux-tegra@lfdr.de>; Wed, 28 Aug 2019 13:19:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbfH1KKD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 28 Aug 2019 06:10:03 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:46912 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726438AbfH1KKD (ORCPT
+        id S1726272AbfH1LTJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 28 Aug 2019 07:19:09 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:10624 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726253AbfH1LTJ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 28 Aug 2019 06:10:03 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 2392928A204
-Subject: Re: [PATCH] arm/arm64: defconfig: Update configs to use the new
- CROS_EC options
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     SoC Team <soc@kernel.org>, Gwendal Grignou <gwendal@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Guenter Roeck <groeck@chromium.org>, kernel@collabora.com,
-        Lee Jones <lee.jones@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Leonard Crestez <leonard.crestez@nxp.com>,
-        "moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES" 
-        <linux-samsung-soc@vger.kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Yannick Fertr? <yannick.fertre@st.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-References: <20190827154851.10486-1-enric.balletbo@collabora.com>
- <20190827161045.GC26807@tuxbook-pro>
- <CAK8P3a2h2gUhxcVgD5JhR1Uo4qUSuG5yp4RCrAxevNmyD4ZRTA@mail.gmail.com>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <2db6cde1-9e7f-8b1c-f2e4-80bdd2478d28@collabora.com>
-Date:   Wed, 28 Aug 2019 12:09:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Wed, 28 Aug 2019 07:19:09 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d66632e0000>; Wed, 28 Aug 2019 04:19:10 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 28 Aug 2019 04:19:08 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 28 Aug 2019 04:19:08 -0700
+Received: from HQMAIL110.nvidia.com (172.18.146.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Aug
+ 2019 11:19:07 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by hqmail110.nvidia.com
+ (172.18.146.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Aug
+ 2019 11:19:07 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 28 Aug 2019 11:19:07 +0000
+Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.65.118]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d6663290007>; Wed, 28 Aug 2019 04:19:07 -0700
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+To:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>, <kishon@ti.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Nagarjuna Kristam" <nkristam@nvidia.com>
+Subject: [PATCH] soc/tegra: fuse: Add clock error check in tegra_fuse_readl
+Date:   Wed, 28 Aug 2019 16:48:49 +0530
+Message-ID: <1566991129-13479-1-git-send-email-nkristam@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a2h2gUhxcVgD5JhR1Uo4qUSuG5yp4RCrAxevNmyD4ZRTA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1566991150; bh=XJmw8rJIYl8ASZgjnRhhbtz8wWn60Bv7q4Vqx5l9vik=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=er8Hs2X/Ea925DFQeeGgKXHWc2hQ+7tN34pibn62S9m1lEbzGT1LCNgrueNPHh0O+
+         B+InccAVUj9xf6eoT+PTZPnYbOEL7TkRAHmsKTrrEYt+vNnaQZ17S7jYGH5I1s/+TR
+         QjOf9PPzgctp5Rx/QxFTxDzW29S8eaWKz9zdyBlvrPO2r+feuTFPCjbmFWAPrs4Mxe
+         PDfIyOQ+/gwCaIVX9C092S52COr9VQ3uin3qPQlMfEputbs3ieR9J1Hwbh65FU7KWe
+         nUrkwVanq61oyfQ5GcT62MkzBZ/Subw6TWOOnImokdxCsFaxWh03XwjalkJAHNQh5E
+         YjPeJTcqZxNYQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Bjorn, Arnd,
+Tegra fuse clock handle is retrieved in tegra_fuse_probe().
+tegra_fuse_readl() is exported symbol, which can be called from drivers
+at any time. tegra_fuse_readl() enables fuse clock and reads corresponding
+fuse register offset.
 
-On 27/8/19 18:12, Arnd Bergmann wrote:
-> On Tue, Aug 27, 2019 at 6:08 PM Bjorn Andersson
-> <bjorn.andersson@linaro.org> wrote:
->>
->> On Tue 27 Aug 08:48 PDT 2019, Enric Balletbo i Serra wrote:
->>
->>> Recently we refactored the CrOS EC drivers moving part of the code from
->>> the MFD subsystem to the platform chrome subsystem. During this change
->>> we needed to rename some config options, so, update the defconfigs
->>> accordingly.
->>>
->>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->>> Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
->>> Reviewed-by: Gwendal Grignou <gwendal@chromium.org>
->>> Tested-by: Gwendal Grignou <gwendal@chromium.org>
->>
->> Can we make the entries in the generic arm64 defconfig modules?
-> 
-> Good idea.
-> 
-> Actually I would prefer to have all of them as modules for consistency,
-> if at all possible.
-> 
+Calling tegra_fuse_readl() before tegra_fuse_probe(), will cause data
+abort. Add DEFER_PROBE error check for fuse clock in tegra_fuse_readl(),
+to avoid enabling of fuse clock, before clock is available.
 
-It is very common boot Chromebooks from an USB device, the EC needs to be
-built-in in order to boot from these devices, otherwise you should use an
-initramfs. I'd like to avoid forcing people to build an initramfs just to boot
-from these devices if possible, in fact, my usual workflow is without initramfs,
-and knowing that with the default defconfig just should boot helps a lot sometimes.
+Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+---
+ drivers/soc/tegra/fuse/fuse-tegra.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Note that, it's not the case for EC subdevices, these are already build as modules.
+diff --git a/drivers/soc/tegra/fuse/fuse-tegra.c b/drivers/soc/tegra/fuse/fuse-tegra.c
+index 3eb44e6..21b39b7 100644
+--- a/drivers/soc/tegra/fuse/fuse-tegra.c
++++ b/drivers/soc/tegra/fuse/fuse-tegra.c
+@@ -186,7 +186,7 @@ u32 __init tegra_fuse_read_early(unsigned int offset)
+ 
+ int tegra_fuse_readl(unsigned long offset, u32 *value)
+ {
+-	if (!fuse->read)
++	if (!fuse->read || (PTR_ERR(fuse->clk) == -EPROBE_DEFER))
+ 		return -EPROBE_DEFER;
+ 
+ 	*value = fuse->read(fuse, offset);
+-- 
+2.7.4
 
-BTW, Lee asked if this patch should be squashed with the patches that really
-renames the config options to help bisect ability, I don't have a hard opinion
-as I don't usually run the config option between bisection steps, so please let
-me know what do you prefer and I'll respin the patches ASAP if that's the case.
-
-Thanks,
-Enric
-
->        Arnd
-> 
