@@ -2,70 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B88DA1FA6
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Aug 2019 17:49:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C68A2121
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Aug 2019 18:41:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbfH2PtH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Aug 2019 11:49:07 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:45708 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727022AbfH2PtH (ORCPT
+        id S1727344AbfH2QlW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 29 Aug 2019 12:41:22 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36892 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727115AbfH2QlW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Aug 2019 11:49:07 -0400
-Received: by mail-ed1-f68.google.com with SMTP id x19so4531610eda.12;
-        Thu, 29 Aug 2019 08:49:05 -0700 (PDT)
+        Thu, 29 Aug 2019 12:41:22 -0400
+Received: by mail-wr1-f66.google.com with SMTP id z11so4137968wrt.4;
+        Thu, 29 Aug 2019 09:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=OMFH7+qjxeCQGYMrtHVwq2Z9xuNxBOoK9zXTLfD2WVQ=;
-        b=rfOp5laI6/xjsO80X1sxdmMFx8QGuwGro3BfHKTFabWhPNW3y6spDEyUMs9jP+m6cx
-         VWLJgGzBoLMVGS0Lm3dzSyWite+/psRInRKDD1A3owUYD8DYdKqUVVYqmRvnADiSquxW
-         0AnhLJifOSFFVEE3ahY4p/Kioc1hwOPhvJNeGnbY04iGetKNRa5mC0YtlUfaqzou+xAZ
-         FgbeEQa7vWqXAlVpxyu79T/ff3v/KCWx1mhl67SAMJ6usW0VjvySueKg1AaKLK3DQMsD
-         thWNjgHYY5KHhHg7+YFfd9lg2SqoTDJFt9JZr+SbSP21BHcds0gEKCO/hKbmSsf1AaTj
-         hw8A==
+        bh=7yR+2btUdVZzugNInICo4vnQNuN1EMp975yLN+tXmcs=;
+        b=Nr51xhgt9tORYUWvBQQm95aMApchSwYclJnaXP/uN2D3PCnFROMeV96h47hEqCZtFq
+         jd2Mp/8M0EoSfJLApxXhqm7cUoLqCSUjbOCu48TbMNufS9t2Ml1/z58Lx25+PKfbjP6/
+         DtSUtMiXvQtBXJsxgNxyU2xGgSRI6WA+/wJjYWLVncs+CxNLYXP2mwhO/HekUlslp9eM
+         rng+dCtd6tZ9lwQdaQhIyMEUVZT2vPtf26jsE03Xx7+4GaH8VvIyyM49gErUvkyyhqOM
+         MoTnitGGbFgUyQXNCpqvElfqYeV+iPo2B6+BrC7Y1o8jWndezMS2efOabGZwIHbtleeX
+         OjTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=OMFH7+qjxeCQGYMrtHVwq2Z9xuNxBOoK9zXTLfD2WVQ=;
-        b=MogBmn/1vpax3j7qayfuXGKP0tqspp3E0+C1/kP+U8TViELMDfFzaGVdvHESvS2LlM
-         PHKsPYy9qHlMv2dHBcHRW3XL9mVDyLAasPibQxWUV+qr/iyFKx9XCO9z/7ShgkMBRK76
-         nW+bkkcV/PsviqFEJgSj9PibuKR6/+C2Inp8PJdcZZ/ogzf71dWPZcgZqrn/CJpQVuZQ
-         uoHVujwNC4roiAumXn600B2pouhlm1puKgKg6sQ5QfD+LuX6vZjItPeAFJKUAeIjJt4G
-         kqHwDHucDM/oxKCU7IuAjfnFGk03illifKGK6vYjnkoRuoWR7wS3C+wgaEBGBnsPQLjV
-         vhlw==
-X-Gm-Message-State: APjAAAX5ltCxNIWsINK1TizIuqTTTlfR+4Ug/6gGIbcPZv6X8CHkhi/9
-        CkbWjc6175MqfSoHLrhQgvU=
-X-Google-Smtp-Source: APXvYqwI5co88zXUDufxRjlo+vg5MbEMZisIAz99qPUitWfRikhAaOML4+k5Qz+V/aLg9T/WPdMS2g==
-X-Received: by 2002:a17:906:185b:: with SMTP id w27mr8732892eje.203.1567093745064;
-        Thu, 29 Aug 2019 08:49:05 -0700 (PDT)
+        bh=7yR+2btUdVZzugNInICo4vnQNuN1EMp975yLN+tXmcs=;
+        b=XiM85cX16KD7PYwLFy8Gel0jVSyUpwzsISXxJ/I4ypONGQfsCW5hEgsIrBWpn4O7RK
+         wOJyGDUjiubmX3xCTeoWD3qs9zqXTq0sWtKiANTIG88sMNCy6qa+H0uC5Z2QjzF93RGR
+         Z7cBYp0ZN24VY+Px6lBOB+KB5jaN9vG0xJe4RUJoFhoA5uGDfGExSc0issJ+QRySVpMZ
+         mWs5yzE58FH13RhKAR81GtkWMinYufzGTv1dzDfrgwQDUdKForiJXjpu/BjT8fdlGRtt
+         b2T1i9RU0NBPmo1NSFwqrbc+qLUXjO8Zosc7s0L6X5k9+8aSao0H5MR1fbiwjrSryXry
+         o01w==
+X-Gm-Message-State: APjAAAUVUN4yuE8iTKhpQoswL3mJ0dep89Ty4F3gz3i6gD2hsBa+yC2x
+        gn66iJijmolETbihnLbru6E=
+X-Google-Smtp-Source: APXvYqzH/Fb2rRJgC7QIBqkUDelILLM7o7FXNLzJWMFGznShGN50OrlVbmIDnTmkWuRLO1lAUsOcRA==
+X-Received: by 2002:adf:ee41:: with SMTP id w1mr12591389wro.102.1567096878914;
+        Thu, 29 Aug 2019 09:41:18 -0700 (PDT)
 Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id a22sm501256edt.88.2019.08.29.08.49.03
+        by smtp.gmail.com with ESMTPSA id s64sm6260070wmf.16.2019.08.29.09.41.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 08:49:03 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 17:49:02 +0200
+        Thu, 29 Aug 2019 09:41:17 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 18:41:15 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        YueHaibing <yuehaibing@huawei.com>, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, jonathanh@nvidia.com,
-        robin.murphy@arm.com, linux-media@vger.kernel.org,
-        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
-Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
- COMPILE_TEST
-Message-ID: <20190829154902.GC19842@ulmo>
-References: <20190826133140.13456-1-yuehaibing@huawei.com>
- <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
- <20190829124034.GA19842@ulmo>
- <b048b460-9d58-8e38-e335-f9a3fface559@gmail.com>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     lorenzo.pieralisi@arm.com, bhelgaas@google.com, robh+dt@kernel.org,
+        jonathanh@nvidia.com, andrew.murray@arm.com, kishon@ti.com,
+        gustavo.pimentel@synopsys.com, digetx@gmail.com,
+        mperttunen@nvidia.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V3 2/6] dt-bindings: PCI: tegra: Add PCIe slot supplies
+ regulator entries
+Message-ID: <20190829164115.GD19842@ulmo>
+References: <20190828172850.19871-1-vidyas@nvidia.com>
+ <20190828172850.19871-3-vidyas@nvidia.com>
+ <20190829120329.GC13187@ulmo>
+ <cd106d64-e06c-e7a2-d807-f5f080625363@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="E/DnYTRukya0zdZ1"
+        protocol="application/pgp-signature"; boundary="DiL7RhKs8rK9YGuF"
 Content-Disposition: inline
-In-Reply-To: <b048b460-9d58-8e38-e335-f9a3fface559@gmail.com>
+In-Reply-To: <cd106d64-e06c-e7a2-d807-f5f080625363@nvidia.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -73,113 +74,139 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---E/DnYTRukya0zdZ1
-Content-Type: text/plain; charset=utf-8
+--DiL7RhKs8rK9YGuF
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 29, 2019 at 04:58:22PM +0300, Dmitry Osipenko wrote:
-> 29.08.2019 15:40, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Thu, Aug 29, 2019 at 01:39:32PM +0200, Hans Verkuil wrote:
-> >> On 8/26/19 3:31 PM, YueHaibing wrote:
-> >>> If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
-> >>> to m will set IOMMU_IOVA to m, this fails the building of
-> >>> TEGRA_HOST1X and DRM_TEGRA which is y like this:
-> >>>
-> >>> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
-> >>> cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
-> >>> cdma.c:(.text+0x698): undefined reference to `__free_iova'
-> >>>
-> >>> drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
-> >>> drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
-> >>> drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
-> >>>
-> >>> Reported-by: Hulk Robot <hulkci@huawei.com>
-> >>> Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
-> >>> Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU sup=
-port")
-> >>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> >>> ---
-> >>>  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
-> >>>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/stagin=
-g/media/tegra-vde/Kconfig
-> >>> index ba49ea5..a41d30c 100644
-> >>> --- a/drivers/staging/media/tegra-vde/Kconfig
-> >>> +++ b/drivers/staging/media/tegra-vde/Kconfig
-> >>> @@ -1,9 +1,9 @@
-> >>>  # SPDX-License-Identifier: GPL-2.0
-> >>>  config TEGRA_VDE
-> >>>  	tristate "NVIDIA Tegra Video Decoder Engine driver"
-> >>> -	depends on ARCH_TEGRA || COMPILE_TEST
-> >>> +	depends on ARCH_TEGRA
-> >>
-> >> What happens if you drop this change,
-> >>
-> >>>  	select DMA_SHARED_BUFFER
-> >>> -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
-> >>> +	select IOMMU_IOVA if IOMMU_SUPPORT
-> >>
-> >> but keep this change?
-> >>
-> >> iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
-> >> work when compile testing this tegra-vde driver.
-> >>
-> >> Haven't tried it, but making sure that compile testing keep working is
-> >> really important.
->=20
-> The driver's code compilation works okay, it's the linkage stage which
-> fails during compile-testing.
->=20
-> > Yeah, that variant seems to work for me. I think it's also more correct
-> > because the IOMMU_IOVA if IOMMU_SUPPORT dependency really says that the
-> > IOVA usage is bound to IOMMU support. If IOMMU support is not enabled,
-> > then IOVA is not needed either, so the dummies will do just fine.
->=20
-> Am I understanding correctly that you're suggesting to revert [1][2] and
-> get back to the other problem?
->=20
-> [1]
-> https://lore.kernel.org/linux-media/dd547b44-7abb-371f-aeee-a82b96f824e2@=
-gmail.com/T/
-> [2] https://patchwork.ozlabs.org/patch/1136619/
->=20
-> If we want to keep compile testing, I guess the only reasonable variant
-> right now is to select IOMMU_IOVA unconditionally in all of the drivers
-> (vde, host1x, drm and etc) and then just ignore that IOVA will be
-> compiled-and-unused if IOMMU_SUPPORT=3Dn (note that IOMMU_SUPPORT=3Dy in =
-all
-> of default kernel configurations).
+On Thu, Aug 29, 2019 at 08:48:39PM +0530, Vidya Sagar wrote:
+> On 8/29/2019 5:33 PM, Thierry Reding wrote:
+> > On Wed, Aug 28, 2019 at 10:58:46PM +0530, Vidya Sagar wrote:
+> > > Add optional bindings "vpcie3v3-supply" and "vpcie12v-supply" to desc=
+ribe
+> > > regulators of a PCIe slot's supplies 3.3V and 12V provided the platfo=
+rm
+> > > is designed to have regulator controlled slot supplies.
+> > >=20
+> > > Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> > > ---
+> > > V3:
+> > > * None
+> > >=20
+> > > V2:
+> > > * None
+> > >=20
+> > >   .../devicetree/bindings/pci/nvidia,tegra194-pcie.txt      | 8 +++++=
++++
+> > >   1 file changed, 8 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pc=
+ie.txt b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
+> > > index 0ac1b867ac24..b739f92da58e 100644
+> > > --- a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
+> > > +++ b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
+> > > @@ -104,6 +104,12 @@ Optional properties:
+> > >      specified in microseconds
+> > >   - nvidia,aspm-l0s-entrance-latency-us: ASPM L0s entrance latency to=
+ be
+> > >      specified in microseconds
+> > > +- vpcie3v3-supply: A phandle to the regulator node that supplies 3.3=
+V to the slot
+> > > +  if the platform has one such slot. (Ex:- x16 slot owned by C5 cont=
+roller
+> > > +  in p2972-0000 platform).
+> > > +- vpcie12v-supply: A phandle to the regulator node that supplies 12V=
+ to the slot
+> > > +  if the platform has one such slot. (Ex:- x16 slot owned by C5 cont=
+roller
+> > > +  in p2972-0000 platform).
+> >=20
+> > There's an ongoing discussion regarding the use of optional power
+> > supplies and I'm wondering if we're not abusing this here. Why exactly
+> > are these regulators optional?
+> I made them optional because, the number and type of supplies typically d=
+epend on the
+> kind of slot the controller is owning. If it is a CEM slot, then, it need=
+s 3.3V & 12V
+> supplies and if it is an M.2 Key-E/M slot, it needs only 3.3V supply. Als=
+o, if there are
+> on-board PCIe endpoint devices, supplies may vary again from vendor to ve=
+ndor.
+> Considering all these, I made them optional instead of mandatory.
+> Also, I agree that regulator framework supplies a dummy regulator if we m=
+ake them mandatory
+> but doesn't supply one, but it does so with a warning print in the log wh=
+ich I feel is
+> an unwanted alert and to avoid that one has to supply dummy/fixed regulat=
+ors which again
+> seems an overkill when all of this can be addressed by making slot regula=
+tors optional.
 
-Agreed. I think we should just select IOMMU_IOVA unconditionally. We
-really do want IOMMU_SUPPORT always as well, but it might be nice to be
-able to switch it off for testing or so. In the cases that really matter
-we will be enabling both IOMMU_SUPPORT and IOMMU_IOVA anyway, so might
-as well select IOMMU_IOVA always. It's not terribly big and I can't
-imagine anyone wanting to run a kernel without IOMMU_SUPPORT for
-anything other than testing.
+Okay. That sounds like a good reason to make these optional indeed.
+There is no way for the PCI controller to know exactly which regulators
+will be needed. The only case where it is known is that of the regular
+PCIe slot where the 3.3 V and 12 V are mandatory. But since it isn't
+always a standard PCIe slot that the controller drives, I think optional
+is okay in this case.
 
 Thierry
 
---E/DnYTRukya0zdZ1
+> > The distinction is somewhat subtle, but the other way to look at
+> > modelling this in DT is that the supplies are in fact required, but may
+> > be connected to an always-on regulator with a fixed voltage. Or in some
+> > cases they may also be shorted to ground. In both cases the PCI
+> > controller, or rather the slot that the controller connects to, actually
+> > "requires" the supplies, it's just that we can get away without
+> > describing them because they can't be controlled anyway.
+> >=20
+> > Looking at the PCI connector pinout for PCI Express, I do see a bunch of
+> > +3.3 V and +12 V pins. To me that indicates that the 3.3 V and 12 V
+> > supplies are indeed required for PCI slots. I'm not sure about devices
+> > that are directly connected to the PCI controller, though. I'll need to
+> > go look at some schematics to get a better understanding of these.
+> >=20
+> > Bottom line: I'm wondering if we shouldn't really make these supplies
+> > mandatory and in case where we don't care either just leave them away
+> > (the regulator framework will supply a dummy regulator in that case) or
+> > hook them up to a fixed regulator if that matches the hardware design.
+> >=20
+> > Any thoughts?
+> >=20
+> > Thierry
+> >=20
+> > >   Examples:
+> > >   =3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > @@ -156,6 +162,8 @@ Tegra194:
+> > >   			  0xc2000000 0x18 0x00000000 0x18 0x00000000 0x4 0x00000000>;  /=
+* prefetchable memory (16GB) */
+> > >   		vddio-pex-ctl-supply =3D <&vdd_1v8ao>;
+> > > +		vpcie3v3-supply =3D <&vdd_3v3_pcie>;
+> > > +		vpcie12v-supply =3D <&vdd_12v_pcie>;
+> > >   		phys =3D <&p2u_hsio_2>, <&p2u_hsio_3>, <&p2u_hsio_4>,
+> > >   		       <&p2u_hsio_5>;
+> > > --=20
+> > > 2.17.1
+> > >=20
+>=20
+
+--DiL7RhKs8rK9YGuF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1n8+oACgkQ3SOs138+
-s6Hbfw//W5zV6nU1EoH+SEkePE93YLIaRnk0SQKzSBCTDuVDIXnRE3iqhCRDH/Fg
-AInyjQFdbHKGt0AWTlpijP7gaEgZDP66trt1BBrJLwaF9/PCM/cKzyY2XUjuIMxN
-rCBvh/jzRcJPb4e9mQAmyJGcrw/MnM+xn+Vk2zPpDA/Km5jQ6NoIR99HdcJ7JBxr
-sncQof6st+gMIarbZ5z9bxG9x6tjUJ6/iJREqKqufxL4TpwCtzuvdzioXSRUF3vz
-u8zGA7dysvAGjPPY/lNTQvFq+HJz8p5BaLDhYc+YH4u/OuvNU8dlnG6nqPiots9l
-yC6K9VRJR0J7q5J+sAwwMggW4nKGP3f3lnTZbewJkAilA4el4u/YabU+Wh6x+VPz
-2gDIfni/lRgJZ8+fxkAF0NQdeKE/zEyCxPngKbEwaFVkIF9JSwdaiNbKwnal5b1I
-24e1TkDHP089dfOS8C1RfUC5+G9JfwkorC1olf2SJ4GtsG12bE94viDLf/VPYPt5
-JCsRXvP8cGjwJmu6sTdxtiHYjYc+WD/uFLe6R+mJFHz7SsCbgU5KwqkBVBYEzpu7
-KBHq9GciM1tokCVdt5XO0j2Oq8X+MerHkX/jEiyFVcCovt/6aHrNgCkxOzmklo5q
-2rISJqrNQO+cw88/i8fW5i3bZpAoJoHemz4SgQdZzdxaFgVNyTg=
-=Pgi/
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1oACkACgkQ3SOs138+
+s6EGvw//aC8g/p1/uH6bQaFYayqHbvSXJkcs+qLM1pXP6sQs+Y78dkyd0bFY5d3I
+eWq7JMsg5syZh6vKYm8rYUQoOvmhKvgGJ2ICfXTe5Jj9F3pS2pK6PCcF3OpZIopk
+N9rsnpwUm/N5966NBkZyikA9iQat2EPJXSJA917kV8bAhs2uu4/xxBO2joG9GLPb
+hWD6EtgywvtYlRhpJ7irFlVjJ8VOj5j3zUi6ZpedMrtU8Bx/llbz+1bnrvyVlMjY
+HtcN2ndkRacf4nwu8/nB5GIzucOAE6jiKmwjpfv0PwV1GHkj8QggDZ6U8YEK98i3
+cYBL2iGlQw+k3dJgPl5poUrHmyHxvphHt3eEnrbOqXwe3jFtC/z4cKtc0d2h0omo
+5OQzeXZ9DNP26b2NvCkz/JCQlSGzlCp6M/MiJQu4Iu53DTAR9S2T650QG4s/hMVF
+cBujoyFuAc9rXwB+uxrkHHcHZZFNXDTawC8LQJgWIAfa5v8bhgfWKdaHbjhb0Bee
+R7fHHclqVSU2J1K6cRJ1d1daqme8VloCxg+eClg72UxXXnEPqRPP/PJS7tyX9Dzp
+uJMC4JfgRu+xShFywcXH9oif3ufSqHBnfIUiWNnKefLu5w6Y3Fg10nj5Shj0k0UL
+Jjk6JzRLE/h8QkgmNs49r3r7NkjzFfm4GZ5xBC0n/VAeVRxxW/8=
+=RTQ7
 -----END PGP SIGNATURE-----
 
---E/DnYTRukya0zdZ1--
+--DiL7RhKs8rK9YGuF--
