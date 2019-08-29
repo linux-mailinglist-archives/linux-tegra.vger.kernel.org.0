@@ -2,154 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C9DAA1A46
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Aug 2019 14:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 443A0A1C02
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Aug 2019 15:57:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727118AbfH2Mkj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Aug 2019 08:40:39 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:46179 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfH2Mkj (ORCPT
+        id S1728300AbfH2N46 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 29 Aug 2019 09:56:58 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:33524 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728239AbfH2N44 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Aug 2019 08:40:39 -0400
-Received: by mail-ed1-f65.google.com with SMTP id z51so3856942edz.13;
-        Thu, 29 Aug 2019 05:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wmJIhmpe5eh+/gW/vr2H2oqa0HY38tUTFnJyQ/g2lnw=;
-        b=BEHX6O5kpPqJazg+Y2J0VIoeG6AGVw4bHdRUQz3Gp24W7bpATqmb1cfj0SUVh8svAj
-         jiNgAROYNIATDIu9Mh2tlTxusICw/9IFN/1wKDB5WUfdvb+Vsab94ha496M/YAk/tAiR
-         YENrFGmeZ/jNzTJOv9nr4gztoyemotgelzf9AugZtZ36/RY6JSlCcJJyXO680UrNfmjf
-         PgZ+lTtcUUsC291zWbuA4EjqHWemFIe2zMX+Ata+yPcafZfq96PszMER/vtQ6ZiNuYrX
-         1DfAvqVgff1f7PcBVSCLE6C+l/bYgJ66YeekAN69XoYJgO+WzUSmqzMDKSf96bGPAgHe
-         1NLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wmJIhmpe5eh+/gW/vr2H2oqa0HY38tUTFnJyQ/g2lnw=;
-        b=TfoNJRouPvoTLkVcLcN3WPWxj4WzqAfTOLdVyseX6VX+zKK7qMNqc99Rnxk5vQSx6s
-         00Hcw0rg02i5sl5UjdtLzWn5ovXkieus8AEkpJqhfCwjsZiFxQetkgRcHvV+2ysI53kf
-         yW9RIesGZgia2eoeg9ivAqhCcQVnQ/dO0Ri5xdeEcoM7ensKfaxDESplVptvGJvq9QMx
-         A3ywpoREgc2DgtL+FJmTw/pE6E5NMoK1sFItfnpBeTbeZ7BToWQXU2iTRMzLqaeLStcf
-         bYRk3jiy9dWepEvdhbY7iukgYu5H7p+D2kbKg3MFFKgCEKaxCHW6yY/ExAOOl+qkvibD
-         EmuQ==
-X-Gm-Message-State: APjAAAVIty9vJtz5/2aibKMQwSfpEHZVro0T3n85C8VSdpmYddYZaRU2
-        Xf0LUvIektjyp7WYGJO1anM=
-X-Google-Smtp-Source: APXvYqwH9FMfs2BkjfucZGdoByxkMhDUjVy7mZQxKMVesrJgd1wU7+pYohArwwuIOgvcTiwdJw/6Vw==
-X-Received: by 2002:a17:906:c2c9:: with SMTP id ch9mr8121634ejb.167.1567082436874;
-        Thu, 29 Aug 2019 05:40:36 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id l26sm367862ejg.70.2019.08.29.05.40.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 05:40:35 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 14:40:34 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     YueHaibing <yuehaibing@huawei.com>, digetx@gmail.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        jonathanh@nvidia.com, robin.murphy@arm.com,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux-foundation.org
-Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
- COMPILE_TEST
-Message-ID: <20190829124034.GA19842@ulmo>
-References: <20190826133140.13456-1-yuehaibing@huawei.com>
- <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
+        Thu, 29 Aug 2019 09:56:56 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 4149C28D4FB
+Subject: Re: [PATCH] arm/arm64: defconfig: Update configs to use the new
+ CROS_EC options
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        SoC Team <soc@kernel.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Collabora kernel ML <kernel@collabora.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+        Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Leonard Crestez <leonard.crestez@nxp.com>,
+        "moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES" 
+        <linux-samsung-soc@vger.kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Dan iel Lezcano <daniel.lezcano@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Yannick Fertr? <yannick.fertre@st.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>
+References: <20190827154851.10486-1-enric.balletbo@collabora.com>
+ <20190827161045.GC26807@tuxbook-pro>
+ <CAK8P3a2h2gUhxcVgD5JhR1Uo4qUSuG5yp4RCrAxevNmyD4ZRTA@mail.gmail.com>
+ <2db6cde1-9e7f-8b1c-f2e4-80bdd2478d28@collabora.com>
+ <CAK8P3a3zYpgouGAibyMjDykZmy+ABnx6AD2cYpHnXq9Zsw2V=w@mail.gmail.com>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <1fe8c0df-5e2d-6b6f-2a21-025a00b86f01@collabora.com>
+Date:   Thu, 29 Aug 2019 15:56:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
-Content-Disposition: inline
-In-Reply-To: <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <CAK8P3a3zYpgouGAibyMjDykZmy+ABnx6AD2cYpHnXq9Zsw2V=w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi,
 
---2fHTh5uZTiUOsy+g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 28/8/19 14:09, Arnd Bergmann wrote:
+> On Wed, Aug 28, 2019 at 12:10 PM Enric Balletbo i Serra
+> <enric.balletbo@collabora.com> wrote:
+>> On 27/8/19 18:12, Arnd Bergmann wrote:
+>>> On Tue, Aug 27, 2019 at 6:08 PM Bjorn Andersson
+>>> <bjorn.andersson@linaro.org> wrote:
+>>>>
+>>>> On Tue 27 Aug 08:48 PDT 2019, Enric Balletbo i Serra wrote:
+>>>>
+>>>>> Recently we refactored the CrOS EC drivers moving part of the code from
+>>>>> the MFD subsystem to the platform chrome subsystem. During this change
+>>>>> we needed to rename some config options, so, update the defconfigs
+>>>>> accordingly.
+>>>>>
+>>>>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>>>>> Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+>>>>> Reviewed-by: Gwendal Grignou <gwendal@chromium.org>
+>>>>> Tested-by: Gwendal Grignou <gwendal@chromium.org>
+>>>>
+>>>> Can we make the entries in the generic arm64 defconfig modules?
+>>>
+>>> Good idea.
+>>>
+>>> Actually I would prefer to have all of them as modules for consistency,
+>>> if at all possible.
+>>>
+>>
+>> It is very common boot Chromebooks from an USB device, the EC needs to be
+>> built-in in order to boot from these devices, otherwise you should use an
+>> initramfs. I'd like to avoid forcing people to build an initramfs just to boot
+>> from these devices if possible, in fact, my usual workflow is without initramfs,
+>> and knowing that with the default defconfig just should boot helps a lot sometimes.
+>>
+>> Note that, it's not the case for EC subdevices, these are already build as modules.
+> 
+> Ok, fair enough, let's leave it built-in then.
+> 
+>> BTW, Lee asked if this patch should be squashed with the patches that really
+>> renames the config options to help bisect ability, I don't have a hard opinion
+>> as I don't usually run the config option between bisection steps, so please let
+>> me know what do you prefer and I'll respin the patches ASAP if that's the case.
+> 
+> I'm not usually worried about bisection in defconfig changes, since like you
+> say most commonly one would not run 'make defconfig' betweens the
+> bisection steps.
+> 
+> If we really care about it, we could keep a symbol like this
+> in drivers/platform/chrome/Kconfig for one release:
+> 
+> config CONFIG_MFD_CROS_EC
+>         tristate "Enable ChromeOS Embedded Controller"
+>         select CROS_EC
+>         select CHROME_PLATFORMS
+>         select CONFIG_MFD_CROS_EC_DEV
+>         help
+>            This is a transitional Kconfig option and will be removed
+>            after everyone enables the parts individually.
+> 
 
-On Thu, Aug 29, 2019 at 01:39:32PM +0200, Hans Verkuil wrote:
-> On 8/26/19 3:31 PM, YueHaibing wrote:
-> > If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
-> > to m will set IOMMU_IOVA to m, this fails the building of
-> > TEGRA_HOST1X and DRM_TEGRA which is y like this:
-> >=20
-> > drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
-> > cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
-> > cdma.c:(.text+0x698): undefined reference to `__free_iova'
-> >=20
-> > drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
-> > drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
-> > drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
-> >=20
-> > Reported-by: Hulk Robot <hulkci@huawei.com>
-> > Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
-> > Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU suppo=
-rt")
-> > Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> > ---
-> >  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/=
-media/tegra-vde/Kconfig
-> > index ba49ea5..a41d30c 100644
-> > --- a/drivers/staging/media/tegra-vde/Kconfig
-> > +++ b/drivers/staging/media/tegra-vde/Kconfig
-> > @@ -1,9 +1,9 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >  config TEGRA_VDE
-> >  	tristate "NVIDIA Tegra Video Decoder Engine driver"
-> > -	depends on ARCH_TEGRA || COMPILE_TEST
-> > +	depends on ARCH_TEGRA
->=20
-> What happens if you drop this change,
->=20
-> >  	select DMA_SHARED_BUFFER
-> > -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
-> > +	select IOMMU_IOVA if IOMMU_SUPPORT
->=20
-> but keep this change?
->=20
-> iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
-> work when compile testing this tegra-vde driver.
->=20
-> Haven't tried it, but making sure that compile testing keep working is
-> really important.
+Not sure if really makes sense do this and tbh and don't have a hard opinion, so
+I'll let the final decision to the soc/mfd maintainers. Just let me know and
+I'll respin the patches with that if you really want.
 
-Yeah, that variant seems to work for me. I think it's also more correct
-because the IOMMU_IOVA if IOMMU_SUPPORT dependency really says that the
-IOVA usage is bound to IOMMU support. If IOMMU support is not enabled,
-then IOVA is not needed either, so the dummies will do just fine.
+Thanks,
+ Enric
 
-Thierry
-
---2fHTh5uZTiUOsy+g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1nx78ACgkQ3SOs138+
-s6FjdBAAjPVTLKQa12c+8O/ecTX4Bkd37JWHnmOyfuQByXvgyFwDufWK1I19NpQh
-gunYeGFxSe36t4aIK8w27Jtr86Zo7tw8xUmNs2cZrNLZahvEx4DERmV3VeqqKv8L
-hNjLT61akI4MlN7rGpRcwbUrtL39NJW3msO/NzvnZAy8EetobwDPVkcyhG+XfQhc
-XsNXJhnvj3W5PR1+RzhL1i2UGwpc4HhLEFjHgzHcBsVgo6QixR/vSCNQ+mJPEcsz
-G5NRpG8zqh6gGUCs4Fxi2Pn6FwWqYaqyqBbSZoAydYULWMhEUsZPTiyihsOP2PxM
-V8ni2vhx6hzqlr0Sml5LfsT8eDjuKLFHacfFzg0ediSy7HI3p8hxotcdZXfJ0T9G
-q1W7wK5WDhA3FP/z9iBQRjryaTUUQtf/F1NBMvTPvIfUipxqcgYq2/SayQ12g/9l
-e36ocSD+yuI0sZNa549AVTF5hYmmbkGAcrX+vF6OB0e0tGZoPAmBvQwd7XH2MHzI
-T2r6b1S4WMlZ6XX4ko8boqXVGzO8cGybF2S3pdNnQrWQc/EiFimCLlxVFjdvR6w2
-MdzxVAYlU47MNIhMaCbOCzEW5lq6krlMSVC3vpK13RGegyM7LHp5XXrhnRk5n6yf
-Ap68NCbc9fsg3oNPcddpiHnadEVLap36FWSpLixSYuZLUevnhZc=
-=jI77
------END PGP SIGNATURE-----
-
---2fHTh5uZTiUOsy+g--
+>       Arnd
+> 
