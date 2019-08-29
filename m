@@ -2,89 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCFFDA1776
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Aug 2019 12:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59BC4A1907
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Aug 2019 13:39:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726379AbfH2K4v (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Aug 2019 06:56:51 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:38196 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfH2K4v (ORCPT
+        id S1727072AbfH2Ljj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 29 Aug 2019 07:39:39 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:48315 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727026AbfH2Lji (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Aug 2019 06:56:51 -0400
-Received: by mail-ed1-f67.google.com with SMTP id r12so3582228edo.5
-        for <linux-tegra@vger.kernel.org>; Thu, 29 Aug 2019 03:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gSZBaKB3oMwwjSK37zhZj4ARDRbprCvK1TtdCv+zEls=;
-        b=QAp1ZFX4EsN+PAu2oLbX+zJ3qE5D6oivYUEWgQ4xHkNOXKa960tEkn4JWlVdklPdpc
-         MT7iydZzSe8D2H4r93LLwiUyMyXFAYsFxx2y5sEGxyRCMk3LLyeZtNlvNfiYO4ENMxZ5
-         B8TRDirBGqBbwotVHVtlV14oR4hX412KkTjIQ9zfDkP/A3qFVwhf7+Wqs9WWj7CA7jIW
-         4EM01I93u2+7+rk690Ox/LKqhIrhE/CyeLpyJzMljAB5n2zK+E239SxTeUVdwrnlaJei
-         Snx1sTwzFGDQnQ+w95wUlIqJEZJGXgf+ItO/GL53KC5UPtUSiZ7P54BUghOQ/VRzMm+e
-         gxQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gSZBaKB3oMwwjSK37zhZj4ARDRbprCvK1TtdCv+zEls=;
-        b=GV9ScNnPx16gHCiBp/7JLD5COxRaf7S6xJZPLaVm7L5dQI7wfOCTbjTsP4MCCLF4qx
-         NSjaTfrhW7ooP8rRjEvj4TAtCjnjt7p+bZNSbHM6uievptYfVsT5evINmCbfEleWcJOk
-         kK9hI8CNzpN2xXo9NILvTFcgLmomKPyoH/ESUvBRrFnW8GQwhs3ERXKvNZTjD4aYfvSS
-         Rx5b7h9KBWG3ciywOtsrdhmiFHowYKW6C5T6zXJWYX5jlKEWyfI43cGDKgRnuHZRM3HS
-         6sOkhCOM8MAvPgRy+9JSddMJ7FUx81LCb8w1hbM8UB494miEkdcUAEuQ1GdHFrrrWVbx
-         rGqw==
-X-Gm-Message-State: APjAAAXmwMG6GZ9FSMa7QMRmKTEX9GDn+FO/aw/U1xWyVVxMo6Wq3jl+
-        BbawABBlxCV0XvC5rbjSRZo=
-X-Google-Smtp-Source: APXvYqyyJ0DJqixgafoJvXx6ACihdAkR5aY/oy/QNbRLKTgAocQei2KWIu1xe2zwS2yxfo1kMk9HHg==
-X-Received: by 2002:a17:907:2134:: with SMTP id qo20mr7592543ejb.295.1567076209866;
-        Thu, 29 Aug 2019 03:56:49 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id b18sm374854eds.68.2019.08.29.03.56.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 03:56:48 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] arm64: tegra: Hook up edp interrupt on Tegra210 SOCTHERM
-Date:   Thu, 29 Aug 2019 12:56:47 +0200
-Message-Id: <20190829105647.15212-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.22.0
+        Thu, 29 Aug 2019 07:39:38 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 3Im4iRJpeDqPe3Im8iNmv5; Thu, 29 Aug 2019 13:39:36 +0200
+Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
+ COMPILE_TEST
+To:     YueHaibing <yuehaibing@huawei.com>, digetx@gmail.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        robin.murphy@arm.com
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org
+References: <20190826133140.13456-1-yuehaibing@huawei.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
+Date:   Thu, 29 Aug 2019 13:39:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190826133140.13456-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPiBAm9/CVG2yl/RYcmSeabFSsF5/VsS8tiz/yGOIjYSnJaD/MkFj3fN12HeAtoQBMQlQLOy1rQ4hH9Pk3PGKlkkJ9Zl8plyc55GSSz4G1+ppVvvtxVa
+ cgqxOaIHdmGI6Lir3V57kld0PdyIGCK03wiHOkje13kc0gv/PhnX5+C3LrfxdHi2CMNt74bKZcw6PfwDuhW1UOnvKmy1QH8JUr++Y9Auceu48WZ6AknahDMp
+ y+nvVNlAWPrJV2LqEleB77la5ICht/YcDItL8/YHiyeJqDySBIvEVXGwJL4Xi9NZpZ9Wxt1uH4KbBobOQixOSOlTcNw+jzMsIe+bJEk17cuyRCrooBbp13+w
+ rAVl2YjzGamD7FhK930GFNdNmk8AkL+TW8oiCNcUOr/eA3es3KvvOT/pXVSQjB8VA9jwGGPoUNhHSHDpq4csgibDV9Sq8D6Biv12lEVTn+0Gyp3CGn8lifj1
+ NQ04G6sIObCBPw4TuYqOc3L6nn1zCZs6e0K9+DpBNqD0AuyfSDTX/sC8t2V3/1Ij0sv2jB60jtfqjR0cWtBhZHW6dO+mED2Z2qpLMcnRImy9u654a5b4EY9U
+ 8oU=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On 8/26/19 3:31 PM, YueHaibing wrote:
+> If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+> to m will set IOMMU_IOVA to m, this fails the building of
+> TEGRA_HOST1X and DRM_TEGRA which is y like this:
+> 
+> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+> cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+> cdma.c:(.text+0x698): undefined reference to `__free_iova'
+> 
+> drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+> drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+> drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+> Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+> index ba49ea5..a41d30c 100644
+> --- a/drivers/staging/media/tegra-vde/Kconfig
+> +++ b/drivers/staging/media/tegra-vde/Kconfig
+> @@ -1,9 +1,9 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  config TEGRA_VDE
+>  	tristate "NVIDIA Tegra Video Decoder Engine driver"
+> -	depends on ARCH_TEGRA || COMPILE_TEST
+> +	depends on ARCH_TEGRA
 
-For some reason this was never hooked up. Do it now so that over-current
-interrupts can be logged.
+What happens if you drop this change,
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra210.dtsi | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+>  	select DMA_SHARED_BUFFER
+> -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+> +	select IOMMU_IOVA if IOMMU_SUPPORT
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-index 2db208f20191..a20cd368a772 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-@@ -1458,7 +1458,9 @@
- 		reg = <0x0 0x700e2000 0x0 0x600 /* SOC_THERM reg_base */
- 			0x0 0x60006000 0x0 0x400>; /* CAR reg_base */
- 		reg-names = "soctherm-reg", "car-reg";
--		interrupts = <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupts = <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-names = "thermal", "edp";
- 		clocks = <&tegra_car TEGRA210_CLK_TSENSOR>,
- 			<&tegra_car TEGRA210_CLK_SOC_THERM>;
- 		clock-names = "tsensor", "soctherm";
--- 
-2.22.0
+but keep this change?
+
+iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
+work when compile testing this tegra-vde driver.
+
+Haven't tried it, but making sure that compile testing keep working is
+really important.
+
+Regards,
+
+	Hans
+
+>  	select SRAM
+>  	help
+>  	    Say Y here to enable support for the NVIDIA Tegra video decoder
+> 
 
