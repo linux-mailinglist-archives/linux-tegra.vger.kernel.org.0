@@ -2,69 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CFEBA1980
-	for <lists+linux-tegra@lfdr.de>; Thu, 29 Aug 2019 14:03:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C9DAA1A46
+	for <lists+linux-tegra@lfdr.de>; Thu, 29 Aug 2019 14:40:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727034AbfH2MDf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Aug 2019 08:03:35 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:41856 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfH2MDe (ORCPT
+        id S1727118AbfH2Mkj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 29 Aug 2019 08:40:39 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:46179 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725782AbfH2Mkj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Aug 2019 08:03:34 -0400
-Received: by mail-ed1-f68.google.com with SMTP id w5so3770579edl.8;
-        Thu, 29 Aug 2019 05:03:32 -0700 (PDT)
+        Thu, 29 Aug 2019 08:40:39 -0400
+Received: by mail-ed1-f65.google.com with SMTP id z51so3856942edz.13;
+        Thu, 29 Aug 2019 05:40:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=HC/6ZRZxQ7B5ep/47mrpg+acl95CprVZcHVqWh2iGp4=;
-        b=CZ5isuAnl2qiOdBcJGTg+2OxOzs4UgciMTbbX9B3oye1Xl6cDATQyhYTTK5MILsNAt
-         gjXHRCmObHw5rBRRgiZOI+/5SyCu5qVS+1G2EMnYMajc5/jRv3WTGkVqVEcfeo0JK91W
-         C+UpQlAtMWF51DpDFo5QELlcFuR/cw6Ml4g7a3hjuigOmnPvWgLP4vh91OiWBsUBMK/B
-         eqHywPSVeYt+rNPVF6K6QbZMrdwPObfoS7BwZA/5YpBiINlCdxJLzFURQ2h7NCHdYmch
-         Ulsc5Azg5406hVlTzAdAQJ0lQ2aSORDJ8x/tbrwcNdVJAC2h12p9Wi8uVrpegydkwvV5
-         iqWw==
+        bh=wmJIhmpe5eh+/gW/vr2H2oqa0HY38tUTFnJyQ/g2lnw=;
+        b=BEHX6O5kpPqJazg+Y2J0VIoeG6AGVw4bHdRUQz3Gp24W7bpATqmb1cfj0SUVh8svAj
+         jiNgAROYNIATDIu9Mh2tlTxusICw/9IFN/1wKDB5WUfdvb+Vsab94ha496M/YAk/tAiR
+         YENrFGmeZ/jNzTJOv9nr4gztoyemotgelzf9AugZtZ36/RY6JSlCcJJyXO680UrNfmjf
+         PgZ+lTtcUUsC291zWbuA4EjqHWemFIe2zMX+Ata+yPcafZfq96PszMER/vtQ6ZiNuYrX
+         1DfAvqVgff1f7PcBVSCLE6C+l/bYgJ66YeekAN69XoYJgO+WzUSmqzMDKSf96bGPAgHe
+         1NLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HC/6ZRZxQ7B5ep/47mrpg+acl95CprVZcHVqWh2iGp4=;
-        b=K+NPtEx3a7WY6hkKnmvL97oCdYj/KpS+TfXuxZb6gMmVkr0lekG3GLG7IuTjQdoq6W
-         ZCbHecnibrYxJACwrltRXVJhbw357wtekGkPAZGMjWcVb6ZtqDFDfx3v1gUAGycW9nvL
-         qhyD50C951ppfuYqc+mwF00EQ/qfAXV+WC/txCHQpxFbt23Q3YjUHM1ms1xE0FyUQPVw
-         lj3u0vf2rop/BYJIppDYZ+i8usKOhILyxCOB4mK7NdCL+CL6XL7XkTWfbU7Hsujs2ZFZ
-         ig3bDlEFaiLsoSGDiyFMlWGL16Ccnn2D9uUgba1DgKRs2AdPwjMU8/S4QlF0l63i4kZX
-         0yBw==
-X-Gm-Message-State: APjAAAUm9OUGRXjLhYbLBlfbkioG7EvQi6rp2a05OH3mDrtm7SuQLSJF
-        KXDS02MrYMREu3SlmwxGDeU=
-X-Google-Smtp-Source: APXvYqySs/VqsSqJJBCJaCpwyKBYzvRJ3QSOgddlozsP6MDDfKle9c8EoWsfW0CM/wT3Nf3CMel9+g==
-X-Received: by 2002:a50:fc12:: with SMTP id i18mr9544917edr.23.1567080212005;
-        Thu, 29 Aug 2019 05:03:32 -0700 (PDT)
+        bh=wmJIhmpe5eh+/gW/vr2H2oqa0HY38tUTFnJyQ/g2lnw=;
+        b=TfoNJRouPvoTLkVcLcN3WPWxj4WzqAfTOLdVyseX6VX+zKK7qMNqc99Rnxk5vQSx6s
+         00Hcw0rg02i5sl5UjdtLzWn5ovXkieus8AEkpJqhfCwjsZiFxQetkgRcHvV+2ysI53kf
+         yW9RIesGZgia2eoeg9ivAqhCcQVnQ/dO0Ri5xdeEcoM7ensKfaxDESplVptvGJvq9QMx
+         A3ywpoREgc2DgtL+FJmTw/pE6E5NMoK1sFItfnpBeTbeZ7BToWQXU2iTRMzLqaeLStcf
+         bYRk3jiy9dWepEvdhbY7iukgYu5H7p+D2kbKg3MFFKgCEKaxCHW6yY/ExAOOl+qkvibD
+         EmuQ==
+X-Gm-Message-State: APjAAAVIty9vJtz5/2aibKMQwSfpEHZVro0T3n85C8VSdpmYddYZaRU2
+        Xf0LUvIektjyp7WYGJO1anM=
+X-Google-Smtp-Source: APXvYqwH9FMfs2BkjfucZGdoByxkMhDUjVy7mZQxKMVesrJgd1wU7+pYohArwwuIOgvcTiwdJw/6Vw==
+X-Received: by 2002:a17:906:c2c9:: with SMTP id ch9mr8121634ejb.167.1567082436874;
+        Thu, 29 Aug 2019 05:40:36 -0700 (PDT)
 Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id j2sm355111ejj.34.2019.08.29.05.03.30
+        by smtp.gmail.com with ESMTPSA id l26sm367862ejg.70.2019.08.29.05.40.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 05:03:30 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 14:03:29 +0200
+        Thu, 29 Aug 2019 05:40:35 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 14:40:34 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     lorenzo.pieralisi@arm.com, bhelgaas@google.com, robh+dt@kernel.org,
-        jonathanh@nvidia.com, andrew.murray@arm.com, kishon@ti.com,
-        gustavo.pimentel@synopsys.com, digetx@gmail.com,
-        mperttunen@nvidia.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V3 2/6] dt-bindings: PCI: tegra: Add PCIe slot supplies
- regulator entries
-Message-ID: <20190829120329.GC13187@ulmo>
-References: <20190828172850.19871-1-vidyas@nvidia.com>
- <20190828172850.19871-3-vidyas@nvidia.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     YueHaibing <yuehaibing@huawei.com>, digetx@gmail.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        jonathanh@nvidia.com, robin.murphy@arm.com,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org
+Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
+ COMPILE_TEST
+Message-ID: <20190829124034.GA19842@ulmo>
+References: <20190826133140.13456-1-yuehaibing@huawei.com>
+ <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="4ZLFUWh1odzi/v6L"
+        protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
 Content-Disposition: inline
-In-Reply-To: <20190828172850.19871-3-vidyas@nvidia.com>
+In-Reply-To: <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -72,109 +71,85 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---4ZLFUWh1odzi/v6L
+--2fHTh5uZTiUOsy+g
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 28, 2019 at 10:58:46PM +0530, Vidya Sagar wrote:
-> Add optional bindings "vpcie3v3-supply" and "vpcie12v-supply" to describe
-> regulators of a PCIe slot's supplies 3.3V and 12V provided the platform
-> is designed to have regulator controlled slot supplies.
+On Thu, Aug 29, 2019 at 01:39:32PM +0200, Hans Verkuil wrote:
+> On 8/26/19 3:31 PM, YueHaibing wrote:
+> > If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+> > to m will set IOMMU_IOVA to m, this fails the building of
+> > TEGRA_HOST1X and DRM_TEGRA which is y like this:
+> >=20
+> > drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+> > cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+> > cdma.c:(.text+0x698): undefined reference to `__free_iova'
+> >=20
+> > drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+> > drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+> > drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+> >=20
+> > Reported-by: Hulk Robot <hulkci@huawei.com>
+> > Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+> > Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU suppo=
+rt")
+> > Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> > ---
+> >  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/=
+media/tegra-vde/Kconfig
+> > index ba49ea5..a41d30c 100644
+> > --- a/drivers/staging/media/tegra-vde/Kconfig
+> > +++ b/drivers/staging/media/tegra-vde/Kconfig
+> > @@ -1,9 +1,9 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >  config TEGRA_VDE
+> >  	tristate "NVIDIA Tegra Video Decoder Engine driver"
+> > -	depends on ARCH_TEGRA || COMPILE_TEST
+> > +	depends on ARCH_TEGRA
 >=20
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> ---
-> V3:
-> * None
+> What happens if you drop this change,
 >=20
-> V2:
-> * None
+> >  	select DMA_SHARED_BUFFER
+> > -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+> > +	select IOMMU_IOVA if IOMMU_SUPPORT
 >=20
->  .../devicetree/bindings/pci/nvidia,tegra194-pcie.txt      | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> but keep this change?
 >=20
-> diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.t=
-xt b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-> index 0ac1b867ac24..b739f92da58e 100644
-> --- a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-> +++ b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-> @@ -104,6 +104,12 @@ Optional properties:
->     specified in microseconds
->  - nvidia,aspm-l0s-entrance-latency-us: ASPM L0s entrance latency to be
->     specified in microseconds
-> +- vpcie3v3-supply: A phandle to the regulator node that supplies 3.3V to=
- the slot
-> +  if the platform has one such slot. (Ex:- x16 slot owned by C5 controll=
-er
-> +  in p2972-0000 platform).
-> +- vpcie12v-supply: A phandle to the regulator node that supplies 12V to =
-the slot
-> +  if the platform has one such slot. (Ex:- x16 slot owned by C5 controll=
-er
-> +  in p2972-0000 platform).
+> iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
+> work when compile testing this tegra-vde driver.
+>=20
+> Haven't tried it, but making sure that compile testing keep working is
+> really important.
 
-There's an ongoing discussion regarding the use of optional power
-supplies and I'm wondering if we're not abusing this here. Why exactly
-are these regulators optional?
-
-The distinction is somewhat subtle, but the other way to look at
-modelling this in DT is that the supplies are in fact required, but may
-be connected to an always-on regulator with a fixed voltage. Or in some
-cases they may also be shorted to ground. In both cases the PCI
-controller, or rather the slot that the controller connects to, actually
-"requires" the supplies, it's just that we can get away without
-describing them because they can't be controlled anyway.
-
-Looking at the PCI connector pinout for PCI Express, I do see a bunch of
-+3.3 V and +12 V pins. To me that indicates that the 3.3 V and 12 V
-supplies are indeed required for PCI slots. I'm not sure about devices
-that are directly connected to the PCI controller, though. I'll need to
-go look at some schematics to get a better understanding of these.
-
-Bottom line: I'm wondering if we shouldn't really make these supplies
-mandatory and in case where we don't care either just leave them away
-(the regulator framework will supply a dummy regulator in that case) or
-hook them up to a fixed regulator if that matches the hardware design.
-
-Any thoughts?
+Yeah, that variant seems to work for me. I think it's also more correct
+because the IOMMU_IOVA if IOMMU_SUPPORT dependency really says that the
+IOVA usage is bound to IOMMU support. If IOMMU support is not enabled,
+then IOVA is not needed either, so the dummies will do just fine.
 
 Thierry
 
-> =20
->  Examples:
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> @@ -156,6 +162,8 @@ Tegra194:
->  			  0xc2000000 0x18 0x00000000 0x18 0x00000000 0x4 0x00000000>;  /* pre=
-fetchable memory (16GB) */
-> =20
->  		vddio-pex-ctl-supply =3D <&vdd_1v8ao>;
-> +		vpcie3v3-supply =3D <&vdd_3v3_pcie>;
-> +		vpcie12v-supply =3D <&vdd_12v_pcie>;
-> =20
->  		phys =3D <&p2u_hsio_2>, <&p2u_hsio_3>, <&p2u_hsio_4>,
->  		       <&p2u_hsio_5>;
-> --=20
-> 2.17.1
->=20
-
---4ZLFUWh1odzi/v6L
+--2fHTh5uZTiUOsy+g
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1nvw4ACgkQ3SOs138+
-s6GI6w/+IG7mTCrwYZe0LN6qzkC7/2R7QVuV631kPcoyzIRoQZLYGkdNvI5EAfzF
-8NgV3IpZAIxJDeZl7slSZdXcrCF92OFxy77koBFKQncXlSc/YHKymyXx2trZLzmf
-b7+aO8xnOxaSfHCfdKPVQTndq2piK9APoyTtuVnE9mmgqEGQoEv7N4QiSMx8NabA
-q0MVvrA9l5ibiQ13lfw6QX8iT4txZ17yWQ4wcMSXOOSSnmGkxZq8kOr3OVzahIYY
-ibogwwQPEcV1Auz2TRyVdG4ZftKx21iflj+m/2sbiduh9l3p+aEuB8WIV6T2MbBk
-vXfiC+bWlOUsWpZlb+zb3zOHjte3/53YbVkrgXvdlE+66VYKK/Ok2uAnq9t9RDvT
-swdhH98bWTviSxfdvT3TXKcxX9DT1sI+4rQPqvEO5E2taflYw0VlVGklSMmZqy57
-BApIVrZoh1r0OKgVrTSr/VBkT0yVki8SyKBvH9UzKG42NDf9FNhLeg9ey5UOACZO
-A/ujEXHDjpqyTZmVlo0orYOvKB6qsaM3LS5PQD1FrIjSwFVqVWMPkGeVqZ0OE9za
-tT/v4MGRz9v7GSDTEqAYmTsVhjEzd8h2fuTsdykqxKmMlbTHohS1QVUj4MBkSwcB
-O6cGc3uLm1i5x+0980a+k7CXqmm5ooEcsRspCdi4egaGQdN1jRs=
-=CA6J
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1nx78ACgkQ3SOs138+
+s6FjdBAAjPVTLKQa12c+8O/ecTX4Bkd37JWHnmOyfuQByXvgyFwDufWK1I19NpQh
+gunYeGFxSe36t4aIK8w27Jtr86Zo7tw8xUmNs2cZrNLZahvEx4DERmV3VeqqKv8L
+hNjLT61akI4MlN7rGpRcwbUrtL39NJW3msO/NzvnZAy8EetobwDPVkcyhG+XfQhc
+XsNXJhnvj3W5PR1+RzhL1i2UGwpc4HhLEFjHgzHcBsVgo6QixR/vSCNQ+mJPEcsz
+G5NRpG8zqh6gGUCs4Fxi2Pn6FwWqYaqyqBbSZoAydYULWMhEUsZPTiyihsOP2PxM
+V8ni2vhx6hzqlr0Sml5LfsT8eDjuKLFHacfFzg0ediSy7HI3p8hxotcdZXfJ0T9G
+q1W7wK5WDhA3FP/z9iBQRjryaTUUQtf/F1NBMvTPvIfUipxqcgYq2/SayQ12g/9l
+e36ocSD+yuI0sZNa549AVTF5hYmmbkGAcrX+vF6OB0e0tGZoPAmBvQwd7XH2MHzI
+T2r6b1S4WMlZ6XX4ko8boqXVGzO8cGybF2S3pdNnQrWQc/EiFimCLlxVFjdvR6w2
+MdzxVAYlU47MNIhMaCbOCzEW5lq6krlMSVC3vpK13RGegyM7LHp5XXrhnRk5n6yf
+Ap68NCbc9fsg3oNPcddpiHnadEVLap36FWSpLixSYuZLUevnhZc=
+=jI77
 -----END PGP SIGNATURE-----
 
---4ZLFUWh1odzi/v6L--
+--2fHTh5uZTiUOsy+g--
