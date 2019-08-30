@@ -2,108 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFC74A2A16
-	for <lists+linux-tegra@lfdr.de>; Fri, 30 Aug 2019 00:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35694A30B0
+	for <lists+linux-tegra@lfdr.de>; Fri, 30 Aug 2019 09:18:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728677AbfH2WqN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 29 Aug 2019 18:46:13 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:17665 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728272AbfH2Wpo (ORCPT
+        id S1728221AbfH3HRw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 30 Aug 2019 03:17:52 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33289 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728146AbfH3HRv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 29 Aug 2019 18:45:44 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d6855970002>; Thu, 29 Aug 2019 15:45:43 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 29 Aug 2019 15:45:43 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 29 Aug 2019 15:45:43 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 29 Aug
- 2019 22:45:42 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 29 Aug 2019 22:45:43 +0000
-Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d6855960009>; Thu, 29 Aug 2019 15:45:42 -0700
-From:   Krishna Reddy <vdumpa@nvidia.com>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-        <yhsu@nvidia.com>, <snikam@nvidia.com>, <praithatha@nvidia.com>,
-        <talho@nvidia.com>, <avanbrunt@nvidia.com>, <thomasz@nvidia.com>,
-        <olof@lixom.net>, <jtukkinen@nvidia.com>, <mperttunen@nvidia.com>,
-        Krishna Reddy <vdumpa@nvidia.com>
-Subject: [PATCH 7/7] arm64: tegra: enable SMMU for SDHCI and EQOS
-Date:   Thu, 29 Aug 2019 15:47:07 -0700
-Message-ID: <1567118827-26358-8-git-send-email-vdumpa@nvidia.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1567118827-26358-1-git-send-email-vdumpa@nvidia.com>
-References: <1567118827-26358-1-git-send-email-vdumpa@nvidia.com>
-X-NVConfidentiality: public
+        Fri, 30 Aug 2019 03:17:51 -0400
+Received: by mail-wr1-f68.google.com with SMTP id u16so5895755wrr.0
+        for <linux-tegra@vger.kernel.org>; Fri, 30 Aug 2019 00:17:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FpbAWeVajE7jbJxx72Z5QEPjasF1SzZQc9KND43zWKM=;
+        b=NPaPVEvAlEP1JwwBNRmZqQu1oXjgq7Ehu6IWBk/Gm3+47TQiElN7qNOrM8NdxNJUuY
+         8DW4Wrl4pGsO/FwXlQ28jwaPDg7vIjLNOf6/dDceSHDcw6t452DKc72rkFpL5vLXJw9z
+         bxHQsUHERyRczWxhfjNaoEdhqrFm0OuM17Ek+8MIkp8+MW8aItdbwahIw5ASVWUERoje
+         SwmdYGGcXSqH9DUAZTxDfsiQXxXy7TqNKuA2PQ0SCakmDuySWzcw8FZO4n6cncx/pLlD
+         C0nd8nKnnjLOle0TdsfC5KolLs4Sn9BaEX2McZqo6rx0UpNcxTGCy7z79ZyOK6OAyP7C
+         bcgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FpbAWeVajE7jbJxx72Z5QEPjasF1SzZQc9KND43zWKM=;
+        b=AsFq4DgAbZVgvQ6qvmxy3VM5k004tkY49lgJ/5gdfgA8IJcQe3decjluJDuxQWEEtC
+         47CVnS9eSNyA00giZLOVkAeIqnlF6e9jTXMX/S/awDvBeZgn4n9WHPzGmqy2SS87KOBB
+         nC9fvN1+kUNp04Ib0wflBlamSzxn7EociZCWyueVkgsp+D6UB38PHCcQpR0vrwNFZYWA
+         Xt5qjYBdT94tCqx884ciMS33WNxQIzujKCmhjXkA6RRUfrWVR5jD9hjVzRVxsmLvFUVc
+         FJ4e5d+GeYqW4ARBzqQ632sFEu/Co7FsoGGmy0D4MTa70B/X+yE7ctONW09hHHTpHxPO
+         FKUw==
+X-Gm-Message-State: APjAAAU3PBn7AK4QfHBxnlEUu0yIKy2S1UPMAd0TWQVwgKpSYtX5/kkJ
+        M0VXLklvbBZ+Zi/EfEWTRp2uRQ==
+X-Google-Smtp-Source: APXvYqytZc9V3iUoascFuNBlkNrDdlZGsMbx4k8y04BWHaakkVhzfSq61JeOcecviPSZKeU4s3zm4w==
+X-Received: by 2002:adf:aa85:: with SMTP id h5mr4534823wrc.329.1567149469792;
+        Fri, 30 Aug 2019 00:17:49 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
+        by smtp.gmail.com with ESMTPSA id x6sm7637529wrt.63.2019.08.30.00.17.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Aug 2019 00:17:49 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Jens Axboe <axboe@kernel.dk>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        JC Kuo <jckuo@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH 0/4] regulator: add and use a helper for setting supply names
+Date:   Fri, 30 Aug 2019 09:17:36 +0200
+Message-Id: <20190830071740.4267-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1567118743; bh=xeBNZIfgNFGNt8dnsX0sRuuEx5l3Y2AYse/qIy5pyUE=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=cEiNw+pYvNoUrJy9byve2yg1OYilhdA4d+zwxslTXYe35Ui3ALaLB0ixyzJk9LS/u
-         Vz32YO4Wt0NLH29kwalHNmxqoWQHKIvKCtjBVfrI5DhfmOxh98Ooy5KXQfr/Y2raJg
-         nZQ3zMNqn46AzkNONRsftyZowZbxZI0cAIJ7Eu3VHKNv9Go27T3/Xd44JxGfYf1svE
-         1bswuaY3byV5rqNyrpHNTyoYxq0ZMD7+ctG2u9bwT4MNU8KUe2Dg3lqXQiuAvQTPk1
-         i0SgFTdCyKtiVyVgipslCS/HaUZoeDOMGQJ4A3KqK50pwBtQkYVCY6n+8v030PnoIP
-         h9u/0PRKbVbMg==
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable SMMU translations for SDHCI and EQOS transactions.
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+There are ~80 users of regulator bulk APIs that set the supply names
+in a for loop before using the bulk helpers.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index ad509bb..0496a87 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -51,6 +51,7 @@
- 			clock-names = "master_bus", "slave_bus", "rx", "tx", "ptp_ref";
- 			resets = <&bpmp TEGRA194_RESET_EQOS>;
- 			reset-names = "eqos";
-+			iommus = <&smmu TEGRA186_SID_EQOS>;
- 			status = "disabled";
- 
- 			snps,write-requests = <1>;
-@@ -381,6 +382,7 @@
- 			clock-names = "sdhci";
- 			resets = <&bpmp TEGRA194_RESET_SDMMC1>;
- 			reset-names = "sdhci";
-+			iommus = <&smmu TEGRA186_SID_SDMMC1>;
- 			nvidia,pad-autocal-pull-up-offset-3v3-timeout =
- 									<0x07>;
- 			nvidia,pad-autocal-pull-down-offset-3v3-timeout =
-@@ -403,6 +405,7 @@
- 			clock-names = "sdhci";
- 			resets = <&bpmp TEGRA194_RESET_SDMMC3>;
- 			reset-names = "sdhci";
-+			iommus = <&smmu TEGRA186_SID_SDMMC3>;
- 			nvidia,pad-autocal-pull-up-offset-1v8 = <0x00>;
- 			nvidia,pad-autocal-pull-down-offset-1v8 = <0x7a>;
- 			nvidia,pad-autocal-pull-up-offset-3v3-timeout = <0x07>;
-@@ -430,6 +433,7 @@
- 					  <&bpmp TEGRA194_CLK_PLLC4>;
- 			resets = <&bpmp TEGRA194_RESET_SDMMC4>;
- 			reset-names = "sdhci";
-+			iommus = <&smmu TEGRA186_SID_SDMMC4>;
- 			nvidia,pad-autocal-pull-up-offset-hs400 = <0x00>;
- 			nvidia,pad-autocal-pull-down-offset-hs400 = <0x00>;
- 			nvidia,pad-autocal-pull-up-offset-1v8-timeout = <0x0a>;
+This series proposes to add a helper function for setting supply names
+and uses it in a couple tegra drivers. If accepted: a coccinelle script
+should be easy to develop that would address this in other drivers.
+
+Bartosz Golaszewski (4):
+  regulator: provide regulator_bulk_set_supply_names()
+  ahci: tegra: use regulator_bulk_set_supply_names()
+  phy: tegra: use regulator_bulk_set_supply_names()
+  usb: host: xhci-tegra: use regulator_bulk_set_supply_names()
+
+ drivers/ata/ahci_tegra.c           |  6 +++---
+ drivers/phy/tegra/xusb.c           |  6 +++---
+ drivers/regulator/helpers.c        | 21 +++++++++++++++++++++
+ drivers/usb/host/xhci-tegra.c      |  5 +++--
+ include/linux/regulator/consumer.h | 12 ++++++++++++
+ 5 files changed, 42 insertions(+), 8 deletions(-)
+
 -- 
-2.1.4
+2.21.0
 
