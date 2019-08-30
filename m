@@ -2,49 +2,49 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35694A30B0
-	for <lists+linux-tegra@lfdr.de>; Fri, 30 Aug 2019 09:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A435A30B4
+	for <lists+linux-tegra@lfdr.de>; Fri, 30 Aug 2019 09:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728221AbfH3HRw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 30 Aug 2019 03:17:52 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33289 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728146AbfH3HRv (ORCPT
+        id S1728275AbfH3HRy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 30 Aug 2019 03:17:54 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:34641 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728188AbfH3HRx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 30 Aug 2019 03:17:51 -0400
-Received: by mail-wr1-f68.google.com with SMTP id u16so5895755wrr.0
-        for <linux-tegra@vger.kernel.org>; Fri, 30 Aug 2019 00:17:50 -0700 (PDT)
+        Fri, 30 Aug 2019 03:17:53 -0400
+Received: by mail-wm1-f67.google.com with SMTP id y135so3717995wmc.1
+        for <linux-tegra@vger.kernel.org>; Fri, 30 Aug 2019 00:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FpbAWeVajE7jbJxx72Z5QEPjasF1SzZQc9KND43zWKM=;
-        b=NPaPVEvAlEP1JwwBNRmZqQu1oXjgq7Ehu6IWBk/Gm3+47TQiElN7qNOrM8NdxNJUuY
-         8DW4Wrl4pGsO/FwXlQ28jwaPDg7vIjLNOf6/dDceSHDcw6t452DKc72rkFpL5vLXJw9z
-         bxHQsUHERyRczWxhfjNaoEdhqrFm0OuM17Ek+8MIkp8+MW8aItdbwahIw5ASVWUERoje
-         SwmdYGGcXSqH9DUAZTxDfsiQXxXy7TqNKuA2PQ0SCakmDuySWzcw8FZO4n6cncx/pLlD
-         C0nd8nKnnjLOle0TdsfC5KolLs4Sn9BaEX2McZqo6rx0UpNcxTGCy7z79ZyOK6OAyP7C
-         bcgA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dJ3jA3jqw74ejYTjUbB0mp9lyvRd71pqTZw+q0oRxOk=;
+        b=mTMAOFUkMew1v7pMgdQz/GR1Gl3qWQuKOinB8L2um2FtedkhA5Sfw9YH5Jxak6epjS
+         Bu7YqjySAvwlI8nM2LT39F1wsCGPgkKopI19hmcJX4md2re7H9Hfe4ipr6Y6pQoCjcjv
+         sn891n3Br8qzEM/wf8x8bZDEU0+dTrCKkIpOeLby2+tdgkykuRRweQ+QpcUe2Vv+cJjR
+         aX5+uU1DJmiUVhR7zGparDrb/a7l2oD4ZKEXYEtVjIoslsr6moNuudZmwSBxB1ntQll/
+         ic+8fKxMf5bTO0otFL+RTKwRecld9SFYZwUSNDDh3ByTy+sS27Sayf4hFdbsT6h+YO75
+         ryyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FpbAWeVajE7jbJxx72Z5QEPjasF1SzZQc9KND43zWKM=;
-        b=AsFq4DgAbZVgvQ6qvmxy3VM5k004tkY49lgJ/5gdfgA8IJcQe3decjluJDuxQWEEtC
-         47CVnS9eSNyA00giZLOVkAeIqnlF6e9jTXMX/S/awDvBeZgn4n9WHPzGmqy2SS87KOBB
-         nC9fvN1+kUNp04Ib0wflBlamSzxn7EociZCWyueVkgsp+D6UB38PHCcQpR0vrwNFZYWA
-         Xt5qjYBdT94tCqx884ciMS33WNxQIzujKCmhjXkA6RRUfrWVR5jD9hjVzRVxsmLvFUVc
-         FJ4e5d+GeYqW4ARBzqQ632sFEu/Co7FsoGGmy0D4MTa70B/X+yE7ctONW09hHHTpHxPO
-         FKUw==
-X-Gm-Message-State: APjAAAU3PBn7AK4QfHBxnlEUu0yIKy2S1UPMAd0TWQVwgKpSYtX5/kkJ
-        M0VXLklvbBZ+Zi/EfEWTRp2uRQ==
-X-Google-Smtp-Source: APXvYqytZc9V3iUoascFuNBlkNrDdlZGsMbx4k8y04BWHaakkVhzfSq61JeOcecviPSZKeU4s3zm4w==
-X-Received: by 2002:adf:aa85:: with SMTP id h5mr4534823wrc.329.1567149469792;
-        Fri, 30 Aug 2019 00:17:49 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dJ3jA3jqw74ejYTjUbB0mp9lyvRd71pqTZw+q0oRxOk=;
+        b=dNlWa55NfUcaDlJT3tpZGH3PY2QUhERjODPCxoDOOdIJH4wI5XKXU6h3TFSIPyLWbu
+         ZfqbouFSWDPgTieDA4J+84bKhV35Ucuq7fDlr9GhFP5hY6+Jgb4jrhRnCbTpo6l4WKbo
+         cxGunVKfYNN/maBXo/u9ZmDeFT2EWCWQYdKq35QM83164jxvPzmVqJ/WnnYQckTF9BR+
+         oG85QfFE2/Lw7hs/qdgNVtMPzdkDyHTF2Yx255ykiAOCsBvYZSjAn9xtVsH+CrcEp5Pt
+         1uqJqbjC1tloCIuxhcN+SPhbahx/NBOidvoEki5eDqesEf7Xa+Mz/s65JB8hYkr/08N7
+         d7wg==
+X-Gm-Message-State: APjAAAWs5ef+dH7xzkL1zgAvzK3hsP2osvynuCQWlW8N38KET/mWQgnS
+        BBKGhGjNkI2CNIwhPuZel8McnA==
+X-Google-Smtp-Source: APXvYqxemBS0LBW/mvFuTE9jbX36U7PFxqQSOkXKrtTPR0X6Ija4G2zISp42Ghiz2NTitl8E9gPQQw==
+X-Received: by 2002:a1c:1ac2:: with SMTP id a185mr16660285wma.96.1567149470963;
+        Fri, 30 Aug 2019 00:17:50 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
-        by smtp.gmail.com with ESMTPSA id x6sm7637529wrt.63.2019.08.30.00.17.48
+        by smtp.gmail.com with ESMTPSA id x6sm7637529wrt.63.2019.08.30.00.17.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2019 00:17:49 -0700 (PDT)
+        Fri, 30 Aug 2019 00:17:50 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Jens Axboe <axboe@kernel.dk>,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -58,10 +58,12 @@ To:     Jens Axboe <axboe@kernel.dk>,
 Cc:     linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 0/4] regulator: add and use a helper for setting supply names
-Date:   Fri, 30 Aug 2019 09:17:36 +0200
-Message-Id: <20190830071740.4267-1-brgl@bgdev.pl>
+Subject: [PATCH 1/4] regulator: provide regulator_bulk_set_supply_names()
+Date:   Fri, 30 Aug 2019 09:17:37 +0200
+Message-Id: <20190830071740.4267-2-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190830071740.4267-1-brgl@bgdev.pl>
+References: <20190830071740.4267-1-brgl@bgdev.pl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -71,26 +73,78 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-There are ~80 users of regulator bulk APIs that set the supply names
-in a for loop before using the bulk helpers.
+There are many regulator consumers who - before using the regulator
+bulk functions - set the supply names in regulator_bulk_data using
+a for loop.
 
-This series proposes to add a helper function for setting supply names
-and uses it in a couple tegra drivers. If accepted: a coccinelle script
-should be easy to develop that would address this in other drivers.
+Let's provide a simple helper in the consumer API that allows users
+to do the same with a single function call.
 
-Bartosz Golaszewski (4):
-  regulator: provide regulator_bulk_set_supply_names()
-  ahci: tegra: use regulator_bulk_set_supply_names()
-  phy: tegra: use regulator_bulk_set_supply_names()
-  usb: host: xhci-tegra: use regulator_bulk_set_supply_names()
-
- drivers/ata/ahci_tegra.c           |  6 +++---
- drivers/phy/tegra/xusb.c           |  6 +++---
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
  drivers/regulator/helpers.c        | 21 +++++++++++++++++++++
- drivers/usb/host/xhci-tegra.c      |  5 +++--
  include/linux/regulator/consumer.h | 12 ++++++++++++
- 5 files changed, 42 insertions(+), 8 deletions(-)
+ 2 files changed, 33 insertions(+)
 
+diff --git a/drivers/regulator/helpers.c b/drivers/regulator/helpers.c
+index 4986cc5064a1..ca3dc3f3bb29 100644
+--- a/drivers/regulator/helpers.c
++++ b/drivers/regulator/helpers.c
+@@ -860,3 +860,24 @@ int regulator_get_current_limit_regmap(struct regulator_dev *rdev)
+ 	return -EINVAL;
+ }
+ EXPORT_SYMBOL_GPL(regulator_get_current_limit_regmap);
++
++/**
++ * regulator_bulk_set_supply_names - initialize the 'supply' fields in an array
++ *                                   of regulator_bulk_data structs
++ *
++ * @consumers: array of regulator_bulk_data entries to initialize
++ * @supply_names: array of supply name strings
++ * @num_supplies: number of supply names to initialize
++ *
++ * Note: the 'consumers' array must be the size of 'num_supplies'.
++ */
++void regulator_bulk_set_supply_names(struct regulator_bulk_data *consumers,
++				     const char *const *supply_names,
++				     unsigned int num_supplies)
++{
++	unsigned int i;
++
++	for (i = 0; i < num_supplies; i++)
++		consumers[i].supply = supply_names[i];
++}
++EXPORT_SYMBOL_GPL(regulator_bulk_set_supply_names);
+diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
+index 815983419375..6d2181a76987 100644
+--- a/include/linux/regulator/consumer.h
++++ b/include/linux/regulator/consumer.h
+@@ -281,6 +281,12 @@ void devm_regulator_unregister_notifier(struct regulator *regulator,
+ void *regulator_get_drvdata(struct regulator *regulator);
+ void regulator_set_drvdata(struct regulator *regulator, void *data);
+ 
++/* misc helpers */
++
++void regulator_bulk_set_supply_names(struct regulator_bulk_data *consumers,
++				     const char *const *supply_names,
++				     unsigned int num_supplies);
++
+ #else
+ 
+ /*
+@@ -580,6 +586,12 @@ static inline int regulator_list_voltage(struct regulator *regulator, unsigned s
+ 	return -EINVAL;
+ }
+ 
++void regulator_bulk_set_supply_names(struct regulator_bulk_data *consumers,
++				     const char *const *supply_names,
++				     unsigned int num_supplies)
++{
++}
++
+ #endif
+ 
+ static inline int regulator_set_voltage_triplet(struct regulator *regulator,
 -- 
 2.21.0
 
