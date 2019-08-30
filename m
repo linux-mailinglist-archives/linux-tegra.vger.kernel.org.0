@@ -2,132 +2,165 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27F3EA3500
-	for <lists+linux-tegra@lfdr.de>; Fri, 30 Aug 2019 12:33:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F32DEA3562
+	for <lists+linux-tegra@lfdr.de>; Fri, 30 Aug 2019 13:06:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727434AbfH3Kdy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 30 Aug 2019 06:33:54 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:36835 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726969AbfH3Kdy (ORCPT
+        id S1727386AbfH3LGM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 30 Aug 2019 07:06:12 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:46487 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727323AbfH3LGM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 30 Aug 2019 06:33:54 -0400
-Received: by mail-wm1-f68.google.com with SMTP id p13so6957330wmh.1
-        for <linux-tegra@vger.kernel.org>; Fri, 30 Aug 2019 03:33:53 -0700 (PDT)
+        Fri, 30 Aug 2019 07:06:12 -0400
+Received: by mail-io1-f67.google.com with SMTP id x4so13021742iog.13
+        for <linux-tegra@vger.kernel.org>; Fri, 30 Aug 2019 04:06:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C0yXewMaVdpAFpgvKr7VWpYIGNzWI9a9Z0cETjkzrhE=;
-        b=hkqcRk/R0dfK8u5yi3RHDLXIJZKdObJVG6cORhxgj7fxKTHbSOTfqfxT/GZQheRmUn
-         14zpx4buQahkbDRiX4iPSaXrkvhcRFOqwwLvKDX1Rm4D4qVRL2cPLKrxsFoGV4pUcScI
-         qWfp5xLMf4PhR9h45F82HxHIucaa3nWXLpUdgHcrPa5RMhlppHoDW8vm5Fwz/gqk6Wx0
-         axWn3UW5SCmuqx6+eOZ2PAFphNqw7JYn7nDHcYqq6kQ0kEaf5JNU1GI9b+Qrbb1tdt9F
-         7AabJthg1thAlvo0OAWQ2+3y4H4C9G6xNjweQWkxziCtLmQrin7WGKCoemWAdr1wsx4B
-         SZrA==
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=zwNhN1p6avAlABQ0FE3RzGWqr1EKAn8Ee3Sq+b9iapM=;
+        b=Fdwy4WjscO6JMK19LicZEN8tlENGXzTGewvH5f2etd/GCjgEQx4txnK9PGiENOCFyx
+         BlSxZK9zNyKkxdyrsU61uMtLU6lPRelnTWShqWsFRR4xujDkNSB2QG85UzRPppj4iR8n
+         KEMJpDidPP3+uXyRySEdqs7VLty/sofsw0bA+NYTWUIPGvyWbm1IqZvzZVbhHYzffUqb
+         Xqjx7BqA6KG3SltCy4IrrXsEEc0FIx+320Mr3UXDu++s4k0xkPy7TgM1dklf0PGxJ0W4
+         kRHnrG7ZMO9p9VBe0lyZyFYdWCsVFJ2Qd4lm/IHa2ilgfe61Lknr0WvVcnehwnA0oPk/
+         R2+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C0yXewMaVdpAFpgvKr7VWpYIGNzWI9a9Z0cETjkzrhE=;
-        b=tLoCLMUTd+D0y5wqIaARKRSLTT3yBHzm85Sdc1x0bG+ajaAKA4U0HMdWheFC1B2Pvg
-         lPIyN1317/FKQCJH0P/UmYZvG/n5oO66Lz5CIlxAYPfLKHOjZCMA7CPD9jj/D4epHGaX
-         9ffY7us+gn/6zyc/GWU9hcvp5ZLKeagHF0AN4v9sUaij1jBSYgX9wihBAawGSz51zia+
-         kt+oNYhmeGAvNLQp+XRA1nQTaapjf7A67S6dmDF6bgRtn+hawnR56QIK/IVMSHVjdXR9
-         Y65/xxGLRScmT0satgjBUwtm9A0qV8E32Auvm68qygWN43iSfgS5KwMYqA9ObY4eERzH
-         7mIg==
-X-Gm-Message-State: APjAAAWNUqRMF2aXjQahvTSYRaoYBhVu+8ufoJVhO/HrQtAB2jHymzuo
-        Zz+skHWUXhGGDKxKss8WBqA=
-X-Google-Smtp-Source: APXvYqwM3hl9msnmYYeoJMmQk2gvmQDXNzhKsZuAjJp3cGSVdXiNC0Qo9czLErZTqIE8kGSQsRLUrg==
-X-Received: by 2002:a1c:eb0a:: with SMTP id j10mr17918823wmh.125.1567161232261;
-        Fri, 30 Aug 2019 03:33:52 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id b136sm10196862wme.18.2019.08.30.03.33.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2019 03:33:51 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     linux-firmware@kernel.org
-Cc:     Takashi Iwai <tiwai@suse.de>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH] Add symlinks for Tegra VIC firmware binaries
-Date:   Fri, 30 Aug 2019 12:33:50 +0200
-Message-Id: <20190830103350.8273-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.22.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=zwNhN1p6avAlABQ0FE3RzGWqr1EKAn8Ee3Sq+b9iapM=;
+        b=tbieVKhai+bW2U65rtuVRs456OlP1Leg+RCCdQp0tWmyoVr51yWynV1r1pfIhf/DLg
+         zEj760xE651WLZh5avgXPnj5Gv+U34aCqk4IJvAwbqd0bKdjbUMDLljCjgBPlGQ25NjX
+         2zB34USiLU/XQ/r4U7OxhHllUQT56iKZg1BPm1Uh4zfyMIwnfkTLVg84ZtXxlRsE021q
+         P3IzAUaicVd+hrl2jTm1kIWUB7XhALjGa4QYpHAS+VwGIM+waqYu0zZaDrmx1uLueyMv
+         KS/Ts4Lp7EcfzwXuaZqRV697fcyxGhlmJ7nBl8ZhjRvLodo+g6P4XSt+nUbxKeN1VHS7
+         lc7w==
+X-Gm-Message-State: APjAAAWX2Stj+eNpherDY6fuqd2RoxYP6+CGIfak26v0FEzNdctUGqO7
+        fkx4iXC/qOUIegsqtPKpEzr7TWqeykvIvy/pH7oWRg==
+X-Google-Smtp-Source: APXvYqylm4Up8RXPIhWPT+SgfZH+oQfAZKwEGG5UEhfkqY+YKNGlk/9jA5jsCoU2dyy65GqCzf8nPI9kcZgA8mxnx6A=
+X-Received: by 2002:a5d:9746:: with SMTP id c6mr16181879ioo.235.1567163171116;
+ Fri, 30 Aug 2019 04:06:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190830071740.4267-1-brgl@bgdev.pl> <20190830081550.GA25502@ulmo>
+In-Reply-To: <20190830081550.GA25502@ulmo>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Fri, 30 Aug 2019 13:06:00 +0200
+Message-ID: <CAMRc=Mdy-MX6+hsrvErioUg=38s9Hspp7+2mT7nDYbjL9uQ9uQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] regulator: add and use a helper for setting supply names
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        JC Kuo <jckuo@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-usb@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+pt., 30 sie 2019 o 10:15 Thierry Reding <thierry.reding@gmail.com> napisa=
+=C5=82(a):
+>
+> On Fri, Aug 30, 2019 at 09:17:36AM +0200, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > There are ~80 users of regulator bulk APIs that set the supply names
+> > in a for loop before using the bulk helpers.
+> >
+> > This series proposes to add a helper function for setting supply names
+> > and uses it in a couple tegra drivers. If accepted: a coccinelle script
+> > should be easy to develop that would address this in other drivers.
+> >
+> > Bartosz Golaszewski (4):
+> >   regulator: provide regulator_bulk_set_supply_names()
+> >   ahci: tegra: use regulator_bulk_set_supply_names()
+> >   phy: tegra: use regulator_bulk_set_supply_names()
+> >   usb: host: xhci-tegra: use regulator_bulk_set_supply_names()
+> >
+> >  drivers/ata/ahci_tegra.c           |  6 +++---
+> >  drivers/phy/tegra/xusb.c           |  6 +++---
+> >  drivers/regulator/helpers.c        | 21 +++++++++++++++++++++
+> >  drivers/usb/host/xhci-tegra.c      |  5 +++--
+> >  include/linux/regulator/consumer.h | 12 ++++++++++++
+> >  5 files changed, 42 insertions(+), 8 deletions(-)
+>
+> The diffstat here suggests that this isn't really helpful. Even if you
+> subtract the regulator code that adds the new helper, you actually have
+> a zero diffstat (and a positive one in one case).
+>
 
-Create additional symlinks for these firmware binaries so that the Linux
-drivers can refer to them by a more consistent name.
+You are right when it comes to LoC stats, but bloat-o-meter says it's
+quite useful when it comes to actual code size.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Takashi,
+This is what we're adding:
 
-I've noticed that the current Link: mechanism completely ignores the
-target part of the link. Was this intended to allow creating symlinks
-dynamically when copying the firmware, rather than just copying any
-existing symlinks themselves?
+$ ./scripts/bloat-o-meter drivers/regulator/helpers.o.old
+drivers/regulator/helpers.o
+add/remove: 3/0 grow/shrink: 0/0 up/down: 72/0 (72)
+Function                                     old     new   delta
+regulator_bulk_set_supply_names                -      32     +32
+__kstrtab_regulator_bulk_set_supply_names       -      32     +32
+__ksymtab_regulator_bulk_set_supply_names       -       8      +8
+Total: Before=3D4438, After=3D4510, chg +1.62%
 
-Thierry
+And this is what we're removing just from one driver:
 
- WHENCE                  | 5 +++++
- nvidia/tegra124/vic.bin | 1 +
- nvidia/tegra186/vic.bin | 1 +
- nvidia/tegra210/vic.bin | 1 +
- 4 files changed, 8 insertions(+)
- create mode 120000 nvidia/tegra124/vic.bin
- create mode 120000 nvidia/tegra186/vic.bin
- create mode 120000 nvidia/tegra210/vic.bin
+$ ./scripts/bloat-o-meter ./drivers/ata/ahci_tegra.o.old
+./drivers/ata/ahci_tegra.o
+add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-52 (-52)
+Function                                     old     new   delta
+tegra_ahci_probe                            1688    1636     -52
+Total: Before=3D3474, After=3D3422, chg -1.50%
 
-diff --git a/WHENCE b/WHENCE
-index 20eb4b8c718c..e7b8e40ab190 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -3694,8 +3694,13 @@ Licence: Redistributable. See LICENCE.nvidia for details
- Driver: tegra-vic -- NVIDIA Tegra VIC driver
- 
- File: nvidia/tegra124/vic03_ucode.bin
-+Link: nvidia/tegra124/vic.bin -> vic03_ucode.bin
-+
- File: nvidia/tegra210/vic04_ucode.bin
-+Link: nvidia/tegra210/vic.bin -> vic03_ucode.bin
-+
- File: nvidia/tegra186/vic04_ucode.bin
-+Link: nvidia/tegra186/vic.bin -> vic04_ucode.bin
- 
- Licence: Redistributable. See LICENCE.nvidia for details
- 
-diff --git a/nvidia/tegra124/vic.bin b/nvidia/tegra124/vic.bin
-new file mode 120000
-index 000000000000..968fcd4c9163
---- /dev/null
-+++ b/nvidia/tegra124/vic.bin
-@@ -0,0 +1 @@
-+vic03_ucode.bin
-\ No newline at end of file
-diff --git a/nvidia/tegra186/vic.bin b/nvidia/tegra186/vic.bin
-new file mode 120000
-index 000000000000..d785732ba125
---- /dev/null
-+++ b/nvidia/tegra186/vic.bin
-@@ -0,0 +1 @@
-+vic04_ucode.bin
-\ No newline at end of file
-diff --git a/nvidia/tegra210/vic.bin b/nvidia/tegra210/vic.bin
-new file mode 120000
-index 000000000000..d785732ba125
---- /dev/null
-+++ b/nvidia/tegra210/vic.bin
-@@ -0,0 +1 @@
-+vic04_ucode.bin
-\ No newline at end of file
--- 
-2.22.0
+> Instead, why don't we take this one step further and roll a bit more of
+> the boilerplate into the new helper, something along these lines:
+>
+>         struct regulator_bulk_data *
+>         devm_regulator_bulk_get_from_names(struct device *dev,
+>                                            const char * const *supply_nam=
+es,
+>                                            unsigned int num_supplies)
+>         {
+>                 struct regulator_bulk_data *data;
+>                 unsigned int i;
+>                 int err;
+>
+>                 data =3D devm_kcalloc(dev, num_supplies, sizeof(*data));
+>                 if (!data)
+>                         return ERR_PTR(-ENOMEM);
+>
+>                 for (i =3D 0; i < num_supplies; i++)
+>                         data[i].supply =3D supply_names[i];
+>
+>                 err =3D devm_regulator_bulk_get(dev, num_supplies, data);
+>                 if (err < 0)
+>                         return ERR_PTR(err);
+>
+>                 return data;
+>         }
+>
+> That seems to be still a very common pattern and gets rid of a lot more
+> boilerplate, so your diffstat will actually start to be negative at some
+> point.
+>
 
+This looks like a good candidate for the next step, but I'd say this
+change is still worth applying.
+
+Bart
+
+> I suppose one could add a non-managed variant for this as well, but I'm
+> counting 6 uses of regulator_bulk_get() vs. ~140 uses of the managed
+> variant, so I'm not sure it's worth it.
+>
+> Thierry
