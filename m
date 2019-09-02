@@ -2,91 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD202A5433
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Sep 2019 12:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8346A5440
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Sep 2019 12:45:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730584AbfIBKlM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 2 Sep 2019 06:41:12 -0400
-Received: from foss.arm.com ([217.140.110.172]:51862 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730233AbfIBKlL (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 2 Sep 2019 06:41:11 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 123DC28;
-        Mon,  2 Sep 2019 03:41:11 -0700 (PDT)
-Received: from localhost (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 563FF3F246;
-        Mon,  2 Sep 2019 03:41:10 -0700 (PDT)
-Date:   Mon, 2 Sep 2019 11:41:08 +0100
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     lorenzo.pieralisi@arm.com, bhelgaas@google.com, robh+dt@kernel.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, kishon@ti.com,
-        gustavo.pimentel@synopsys.com, digetx@gmail.com,
-        mperttunen@nvidia.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V3 2/6] dt-bindings: PCI: tegra: Add PCIe slot supplies
- regulator entries
-Message-ID: <20190902104108.GC9720@e119886-lin.cambridge.arm.com>
-References: <20190828172850.19871-1-vidyas@nvidia.com>
- <20190828172850.19871-3-vidyas@nvidia.com>
+        id S1730013AbfIBKpG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 2 Sep 2019 06:45:06 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:12279 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729805AbfIBKpG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Sep 2019 06:45:06 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d6cf2b30003>; Mon, 02 Sep 2019 03:45:07 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 02 Sep 2019 03:45:05 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 02 Sep 2019 03:45:05 -0700
+Received: from [10.21.132.148] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 2 Sep
+ 2019 10:45:03 +0000
+Subject: Re: [PATCH] soc/tegra: fuse: Add clock error check in
+ tegra_fuse_readl
+To:     Nagarjuna Kristam <nkristam@nvidia.com>,
+        <thierry.reding@gmail.com>, <kishon@ti.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1566991129-13479-1-git-send-email-nkristam@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <95734aa4-c7cb-17a2-fa4c-416a5a40b3e6@nvidia.com>
+Date:   Mon, 2 Sep 2019 11:45:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190828172850.19871-3-vidyas@nvidia.com>
-User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
+In-Reply-To: <1566991129-13479-1-git-send-email-nkristam@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1567421107; bh=23RK3bFsbXHJOcLJuWydUO0ViPES8WxSZ9tSvoPFM6Y=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=pO+Ye//gYChuiGk6/8Yu6IiQseGoS+tMfJ3jAmIrD4dOSfut8k8TmkIXYU/4C7ANk
+         rXszbX22n6Otx6F/nIs37wqNpxQZYsFImGwNLJcQayLzytfq9QV2+U69wyeQpqz+EL
+         eBP99eN024dLFRy/cfBp/Kjr7bXckLNq0vOKm+/HpibljJi71bE1/0cI33QTratqBb
+         piZy2Wq0QBIjAFumtOiXZsf4zwv/MIKTgk1Ji1ziu/U3kfsTrcEjm8G4oux2wP5DJi
+         uppPMAy3bVv8z3L7St+KsDm5Z/tmiazQ1QegN4geX6xcrK+EkmXflH/1ZG3JjKjC9H
+         op2el/9q1bxPA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Aug 28, 2019 at 10:58:46PM +0530, Vidya Sagar wrote:
-> Add optional bindings "vpcie3v3-supply" and "vpcie12v-supply" to describe
-> regulators of a PCIe slot's supplies 3.3V and 12V provided the platform
-> is designed to have regulator controlled slot supplies.
+
+On 28/08/2019 12:18, Nagarjuna Kristam wrote:
+> Tegra fuse clock handle is retrieved in tegra_fuse_probe().
+> tegra_fuse_readl() is exported symbol, which can be called from drivers
+> at any time. tegra_fuse_readl() enables fuse clock and reads corresponding
+> fuse register offset.
 > 
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-
-Reviewed-by: Andrew Murray <andrew.murray@arm.com>
-
+> Calling tegra_fuse_readl() before tegra_fuse_probe(), will cause data
+> abort. Add DEFER_PROBE error check for fuse clock in tegra_fuse_readl(),
+> to avoid enabling of fuse clock, before clock is available.
+> 
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
 > ---
-> V3:
-> * None
+>  drivers/soc/tegra/fuse/fuse-tegra.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> V2:
-> * None
-> 
->  .../devicetree/bindings/pci/nvidia,tegra194-pcie.txt      | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-> index 0ac1b867ac24..b739f92da58e 100644
-> --- a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-> +++ b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-> @@ -104,6 +104,12 @@ Optional properties:
->     specified in microseconds
->  - nvidia,aspm-l0s-entrance-latency-us: ASPM L0s entrance latency to be
->     specified in microseconds
-> +- vpcie3v3-supply: A phandle to the regulator node that supplies 3.3V to the slot
-> +  if the platform has one such slot. (Ex:- x16 slot owned by C5 controller
-> +  in p2972-0000 platform).
-> +- vpcie12v-supply: A phandle to the regulator node that supplies 12V to the slot
-> +  if the platform has one such slot. (Ex:- x16 slot owned by C5 controller
-> +  in p2972-0000 platform).
+> diff --git a/drivers/soc/tegra/fuse/fuse-tegra.c b/drivers/soc/tegra/fuse/fuse-tegra.c
+> index 3eb44e6..21b39b7 100644
+> --- a/drivers/soc/tegra/fuse/fuse-tegra.c
+> +++ b/drivers/soc/tegra/fuse/fuse-tegra.c
+> @@ -186,7 +186,7 @@ u32 __init tegra_fuse_read_early(unsigned int offset)
 >  
->  Examples:
->  =========
-> @@ -156,6 +162,8 @@ Tegra194:
->  			  0xc2000000 0x18 0x00000000 0x18 0x00000000 0x4 0x00000000>;  /* prefetchable memory (16GB) */
->  
->  		vddio-pex-ctl-supply = <&vdd_1v8ao>;
-> +		vpcie3v3-supply = <&vdd_3v3_pcie>;
-> +		vpcie12v-supply = <&vdd_12v_pcie>;
->  
->  		phys = <&p2u_hsio_2>, <&p2u_hsio_3>, <&p2u_hsio_4>,
->  		       <&p2u_hsio_5>;
-> -- 
-> 2.17.1
-> 
+>  int tegra_fuse_readl(unsigned long offset, u32 *value)
+>  {
+> -	if (!fuse->read)
+> +	if (!fuse->read || (PTR_ERR(fuse->clk) == -EPROBE_DEFER))
+>  		return -EPROBE_DEFER;
+
+What about the case where fuse->clk is NULL or a different error value?
+
+Jon
+
+-- 
+nvpublic
