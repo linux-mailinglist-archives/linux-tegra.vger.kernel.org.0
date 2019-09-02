@@ -2,191 +2,147 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1C52A4EE0
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Sep 2019 07:40:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 792C3A5002
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Sep 2019 09:38:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729299AbfIBFj7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 2 Sep 2019 01:39:59 -0400
-Received: from mga01.intel.com ([192.55.52.88]:14981 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726001AbfIBFj7 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 2 Sep 2019 01:39:59 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Sep 2019 22:39:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,457,1559545200"; 
-   d="gz'50?scan'50,208,50";a="186917162"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 01 Sep 2019 22:39:54 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1i4f4E-000HSP-9f; Mon, 02 Sep 2019 13:39:54 +0800
-Date:   Mon, 2 Sep 2019 13:39:28 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     kbuild-all@01.org, Jens Axboe <axboe@kernel.dk>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        JC Kuo <jckuo@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 1/4] regulator: provide regulator_bulk_set_supply_names()
-Message-ID: <201909021322.R7xZaugE%lkp@intel.com>
-References: <20190830071740.4267-2-brgl@bgdev.pl>
+        id S1729784AbfIBHiL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 2 Sep 2019 03:38:11 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:42142 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725839AbfIBHiL (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Sep 2019 03:38:11 -0400
+Received: by mail-ed1-f68.google.com with SMTP id y91so2817155ede.9;
+        Mon, 02 Sep 2019 00:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=BlUusxOrxaCgMhXu0ZvmfJnQXORRPsMrgdIIDkov7+0=;
+        b=YpALctmpSx7YjEgiI9SuGVl7dMwk/SEK5o1T0kfxhfQ5XqdN12E4NwZ4afeqD6tdg9
+         l2+WuDUpxBppRmdo4g27iv7JCGBTm0Oh+H0oeRLZYPjYOpbsWs4hcfmk8K4vt4ZuSPAL
+         yEXUSIVLjwxpPSBN9vQeBfmTTzB7G6uR87dsjLuyBS3qGG15nAJFT5Xv65L5DKghKdJl
+         zpEqeWsFx4ZrnnAAyeMpTTERCJ/8F6bOqai1AthPs2ddc4uQPV4r5aSu6Hza4BaKM6ft
+         YhXXSuZHeqwmgj9GJ/XsnXYwKoqtSUjMKDti9H5vZt+dD+Wj/n61bcnjOwyxDP+ZSnBV
+         NbQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BlUusxOrxaCgMhXu0ZvmfJnQXORRPsMrgdIIDkov7+0=;
+        b=TQh52+tWU/VHayZllD2c9lEYkfxixH30dWXHXmMIYIt/SHEOOMNxI9SDZ+i/AhNAfm
+         Oo4pD+O22BEuFC31gKJN98IB05BX5Tmy83ZesmKH4UHjyc4iiPf2JBGIWnC4aXW9BwMu
+         ZtGPoBkDAi+xMHwXQFajbJf4gMxbYPQ2nrp7yO6LoRKyEYlUTKzWCEB3/ihHVdxi038n
+         VKPrQDL9RhD0GJeFblgWrFk9+P2IuCxzc3uU7Fyw3eo9tmES3kbpV/9nqvfmpUXhOGP8
+         ZoH0QMT7AeQYe8tWzksF0pdY9OOlgyhusW8PaTsCR1FS0JaBaMrbhKDrQXyA3+Lzhhhc
+         aNUw==
+X-Gm-Message-State: APjAAAWdWtOy+H8tTR/67fJYOqXWlwJgd5sFJ+iEqtTjKAe/tR+kLzJx
+        LmZuXHt8TpqLnrGgVAXexRo+Fef0STA=
+X-Google-Smtp-Source: APXvYqwBFeYG7Dq7UMXgmFD2WxbHkj27kQRrNBFLJil5mA01IdIMDyjZ3VnT5a8rho8cIXtM7B3Xdw==
+X-Received: by 2002:a17:906:318d:: with SMTP id 13mr22669114ejy.281.1567409888769;
+        Mon, 02 Sep 2019 00:38:08 -0700 (PDT)
+Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
+        by smtp.gmail.com with ESMTPSA id i5sm2751920edf.32.2019.09.02.00.38.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2019 00:38:07 -0700 (PDT)
+Date:   Mon, 2 Sep 2019 09:38:06 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Krishna Reddy <vdumpa@nvidia.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Sachin Nikam <Snikam@nvidia.com>,
+        "Thomas Zeng (SW-TEGRA)" <thomasz@nvidia.com>,
+        Juha Tukkinen <jtukkinen@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Pritesh Raithatha <praithatha@nvidia.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Timo Alho <talho@nvidia.com>, Yu-Huan Hsu <YHsu@nvidia.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Alexander Van Brunt <avanbrunt@nvidia.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 2/7] dt-bindings: arm-smmu: Add binding for nvidia,smmu-v2
+Message-ID: <20190902073806.GA930@ulmo>
+References: <1567118827-26358-1-git-send-email-vdumpa@nvidia.com>
+ <1567118827-26358-3-git-send-email-vdumpa@nvidia.com>
+ <37034b76-7e3f-5f3c-25b2-696e25127682@arm.com>
+ <BYAPR12MB271012F225E35C1459E58D07B3BD0@BYAPR12MB2710.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="ajp7xublaoyz7646"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
 Content-Disposition: inline
-In-Reply-To: <20190830071740.4267-2-brgl@bgdev.pl>
-X-Patchwork-Hint: ignore
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <BYAPR12MB271012F225E35C1459E58D07B3BD0@BYAPR12MB2710.namprd12.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---ajp7xublaoyz7646
+--W/nzBZO5zC0uMSeA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bartosz,
+On Fri, Aug 30, 2019 at 06:12:08PM +0000, Krishna Reddy wrote:
+> >> +                        "nidia,smmu-v2"
+> >>                           "qcom,smmu-v2"
+>=20
+> >I agree with Mikko that the compatible must be at least SoC-specific, bu=
+t potentially even instance-specific (e.g. "nvidia,tegra194-gpu-smmu")
+> > depending on how many of these parallel-SMMU configurations might be hi=
+ding in current and future SoCs.
+>=20
+> I am correcting the spelling mistake pointed by Mikko.  The NVIDIA SMMUv2=
+ implementation is getting used beyond  Tegra194 SOC. =20
+> To be able to use the smmu compatible string across multiple SOC's, "nvid=
+ia,smmu-v2" compatible string is chosen.
+> Are you suggesting to make it soc specific and add another one in future?
 
-I love your patch! Yet something to improve:
+Yeah, I think that's the safest thing to do. Even if we're using the
+same implementation in future SoCs, chances are there will be some
+changes. Even if the changes are just fixes, having a SoC-specific
+compatible string will ensure we can apply workarounds only to the
+implementations that are missing the fixes.
 
-[auto build test ERROR on linus/master]
-[cannot apply to v5.3-rc6 next-20190830]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+So I think "nvidia,tegra194-smmu" is a good candidate. It uniquely
+identifies the instantiation of the IP in Tegra194. Also, if it ever
+turns out that the instantiation of the SMMU in the next Tegra
+generation is *exactly* the same (even if highly unlikely), there's
+nothing wrong with reusing the "nvidia,tegra194-smmu".
 
-url:    https://github.com/0day-ci/linux/commits/Bartosz-Golaszewski/regulator-add-and-use-a-helper-for-setting-supply-names/20190901-140224
-config: nds32-allnoconfig (attached as .config)
-compiler: nds32le-linux-gcc (GCC) 8.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        GCC_VERSION=8.1.0 make.cross ARCH=nds32 
+We've done similar things in the past, where some new IP was mostly
+compatible with old IP. Typically we still include a new compatible
+string in case any errata are discovered subsequently. It's not uncommon
+to see things like:
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
+	compatible =3D "nvidia,tegra124-xyz", "nvidia,tegra20-xyz";
 
-All errors (new ones prefixed by >>):
+Basically this means that this is the IP that was also used in Tegra20
+and the same Tegra20 driver can be used to drive this hardware on
+Tegra124. The Tegra124-specific compatible string may enable newer
+features if there's a driver that supports it.
 
-   nds32le-linux-ld: drivers/of/platform.o: in function `regulator_bulk_set_supply_names':
->> platform.c:(.text+0xe8): multiple definition of `regulator_bulk_set_supply_names'; drivers/usb/phy/of.o:of.c:(.text+0x0): first defined here
+Thierry
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+--W/nzBZO5zC0uMSeA
+Content-Type: application/pgp-signature; name="signature.asc"
 
---ajp7xublaoyz7646
-Content-Type: application/gzip
-Content-Disposition: attachment; filename=".config.gz"
-Content-Transfer-Encoding: base64
+-----BEGIN PGP SIGNATURE-----
 
-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
+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
+=+U+B
+-----END PGP SIGNATURE-----
 
---ajp7xublaoyz7646--
+--W/nzBZO5zC0uMSeA--
