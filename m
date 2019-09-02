@@ -2,76 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A329A56D7
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Sep 2019 15:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D91EA57ED
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Sep 2019 15:41:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730875AbfIBNAL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 2 Sep 2019 09:00:11 -0400
-Received: from foss.arm.com ([217.140.110.172]:53816 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730415AbfIBNAL (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 2 Sep 2019 09:00:11 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B4399337;
-        Mon,  2 Sep 2019 06:00:10 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE5DD3F246;
-        Mon,  2 Sep 2019 06:00:08 -0700 (PDT)
-Subject: Re: [PATCH 3/7] iommu/arm-smmu: Add tlb_sync implementation hook
-To:     Krishna Reddy <vdumpa@nvidia.com>
-Cc:     Sachin Nikam <Snikam@nvidia.com>,
-        "Thomas Zeng (SW-TEGRA)" <thomasz@nvidia.com>,
-        Juha Tukkinen <jtukkinen@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Pritesh Raithatha <praithatha@nvidia.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Timo Alho <talho@nvidia.com>, Yu-Huan Hsu <YHsu@nvidia.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Alexander Van Brunt <avanbrunt@nvidia.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "will.deacon@arm.com" <will.deacon@arm.com>,
-        "joro@8bytes.org" <joro@8bytes.org>
-References: <1567118827-26358-1-git-send-email-vdumpa@nvidia.com>
- <1567118827-26358-4-git-send-email-vdumpa@nvidia.com>
- <554f8de1-1638-4eb9-59ae-8e1f0d786c44@arm.com>
- <BYAPR12MB2710AF5DDCB687C7E78362E5B3BD0@BYAPR12MB2710.namprd12.prod.outlook.com>
- <BYAPR12MB271010C629D8DD7AEC0123D4B3BD0@BYAPR12MB2710.namprd12.prod.outlook.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <3d734164-51c9-3465-cddd-276093389797@arm.com>
-Date:   Mon, 2 Sep 2019 14:00:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <BYAPR12MB271010C629D8DD7AEC0123D4B3BD0@BYAPR12MB2710.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        id S1730971AbfIBNix (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 2 Sep 2019 09:38:53 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:36441 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730986AbfIBNiw (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Sep 2019 09:38:52 -0400
+Received: by mail-wm1-f67.google.com with SMTP id p13so14702839wmh.1;
+        Mon, 02 Sep 2019 06:38:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:from:subject:references
+         :in-reply-to:cc:cc:to;
+        bh=0G2XADeynFuPjiLzfSNxzmGMI3r/vAlX0cOg51TMaCc=;
+        b=X2QMol6wsBvmurUROVC/9p7obrk9iNJLwijy5r0X9UVkuhBdrhnsoNEg5NPyg+cKCo
+         f/A4FEVoLJ+bk2XzZDPLfUBKFAn1SHMuONo8agLlxR2F8o6jqJmkqHZ/2WOOY0bj0sjd
+         xghLR6HI0JVHXEQHttmTL2fhPduPG25x/srTiKnk1nVo3zHsNhnMfqNHsUtNVVxYJIkz
+         pmmMGH5w3iAMw7jP4GNC1aq1HvRCwSCvWj99zoV6mOQ3Q30vXkp0w/tIeBltK7XUIa03
+         9YHSaDFfvGNj1lnEKjdrX+3k1vCcCE+gDTFQ5Rn7ip6Fxbm4svojaTTox2MofpSjau3V
+         VoUg==
+X-Gm-Message-State: APjAAAXZ2B+K8vnCByO3irtphOn29OdzVg5RubP3o00b5tUI2AtSFPAZ
+        N2LXEO3hYVHN2lAoxB+sEw==
+X-Google-Smtp-Source: APXvYqx1e5Zkxsk3Ce3KB0Mb7arC+lP6QY5ByoQI4X1nqKl5ANCYgQFP9ZkUgXnplhcziaRlN7UGYg==
+X-Received: by 2002:a7b:c407:: with SMTP id k7mr10252310wmi.151.1567431530772;
+        Mon, 02 Sep 2019 06:38:50 -0700 (PDT)
+Received: from localhost ([212.187.182.166])
+        by smtp.gmail.com with ESMTPSA id e30sm22061341wra.48.2019.09.02.06.38.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2019 06:38:50 -0700 (PDT)
+Message-ID: <5d6d1b6a.1c69fb81.73f8d.ac61@mx.google.com>
+Date:   Mon, 02 Sep 2019 14:38:49 +0100
+From:   Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH V3 1/6] dt-bindings: PCI: tegra: Add sideband pins configuration entries
+References: <20190828172850.19871-1-vidyas@nvidia.com> <20190828172850.19871-2-vidyas@nvidia.com>
+In-Reply-To: <20190828172850.19871-2-vidyas@nvidia.com>
+Content-Type: text/plain
+Cc:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <andrew.murray@arm.com>
+CC:     <kishon@ti.com>, <gustavo.pimentel@synopsys.com>,
+        <digetx@gmail.com>, <mperttunen@nvidia.com>,
+        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
+To:     Vidya Sagar <vidyas@nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 30/08/2019 23:49, Krishna Reddy wrote:
->>> +	if (smmu->impl->tlb_sync) {
->>> +		smmu->impl->tlb_sync(smmu, page, sync, status);
+On Wed, 28 Aug 2019 22:58:45 +0530, Vidya Sagar wrote:
+> Add optional bindings "pinctrl-names" and "pinctrl-0" to describe pin
+> configuration information of a particular PCIe controller.
 > 
->> What I'd hoped is that rather than needing a hook for this, you could just override smmu_domain->tlb_ops from .init_context to wire up the alternate .sync method directly. That would save this extra level of indirection.
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> ---
+> V3:
+> * None
 > 
-> Hi Robin,  overriding tlb_ops->tlb_sync function is not enough here.
-> There are direct references to arm_smmu_tlb_sync_context(),  arm_smmu_tlb_sync_global() functions.
-> In arm-smmu.c.  we can replace these direct references with tlb_ops->tlb_sync() function except in one function arm_smmu_device_reset().
-> When arm_smmu_device_reset() gets called, domains are not initialized and tlb_ops is not available.
-> Should we add a new hook for arm_smmu_tlb_sync_global() or make this as a responsibility of impl->reset() hook as it gets
-> called at the same place?
+> V2:
+> * None
+> 
+>  .../devicetree/bindings/pci/nvidia,tegra194-pcie.txt      | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
-Ah, right, I'd forgotten about the TLB maintenance on reset. Looking 
-again, though, I think you might need to implement impl->reset anyway 
-for the sake of clearing GFSR correctly - since the value read from the 
-base instance technically may not match whatever bits might happen to be 
-set in the other instances - so I don't see any issue with just calling 
-nsmmu_tlb_sync() from there as well.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Robin.
