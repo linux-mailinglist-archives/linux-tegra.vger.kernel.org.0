@@ -2,220 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5764EA6A93
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Sep 2019 15:58:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 560B7A6BB0
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Sep 2019 16:40:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729053AbfICN60 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Sep 2019 09:58:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48088 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727107AbfICN60 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 3 Sep 2019 09:58:26 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3D99E233A1;
-        Tue,  3 Sep 2019 13:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567519104;
-        bh=AL9ilAfm2z6FaQF3vz1LCd4EHX+4bfHVacS04chIOsk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UH8LSR+PDgbTgGC6CJvjtKRuo/kmJsjofK/mAeyr28hcXvH0qxo8d8Vc/ujetoG4W
-         V3Cx1zdEay4SsPWgI7dUCVdiPXFxM+QEssShS5IwGYAf+ZLjIERwEtLMg67/Sp/dfy
-         AyG9k+kIG9XBqoEGX9WU2BE0Jnk7TDUUY43/IjY8=
-Date:   Tue, 3 Sep 2019 15:58:22 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     JC Kuo <jckuo@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] xhci: tegra: Parameterize mailbox register addresses
-Message-ID: <20190903135822.GA10466@kroah.com>
-References: <20190902082127.17963-1-jckuo@nvidia.com>
+        id S1727005AbfICOkT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Sep 2019 10:40:19 -0400
+Received: from condef-09.nifty.com ([202.248.20.74]:23179 "EHLO
+        condef-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725782AbfICOkT (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Sep 2019 10:40:19 -0400
+Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-09.nifty.com with ESMTP id x83EaCnp020746
+        for <linux-tegra@vger.kernel.org>; Tue, 3 Sep 2019 23:36:12 +0900
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x83EZwT2022252;
+        Tue, 3 Sep 2019 23:35:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x83EZwT2022252
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1567521359;
+        bh=9ktFv0qZHrNLdzrwjcOGtLvCO084ibPuQ/N0Fl+gU7A=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=pwupB7wsJBDjVzey/sEx5VW86n2PROIGMQzx4U5hbo4a2h1b5xQ3WdE1N979d6J9F
+         DR+sWBkxx1pqUQpBr95IPreqDLj+oXd5PXqzsJlDGkLnuyh+1JGmEUSG+cx/Yr6T9M
+         8XXa7wb/o+/xYDFkxQQNQRPAxmiZ7zn/zGSIl3V7eJ5e8O3p1rQ8/LHhzq1UbOgOXy
+         o8ZjOCmMkgfHGvJJ4Y4jgYQNLYt9m48u54KLC/kBtr3wn9wl2uncITqiOjZFA7vPdS
+         uANvM0rSylpeKXcguYLy5cNM41i00pNLod0U4A8YGBQQTI9B+j/wUMTHmvbdidQQnh
+         CTVSmoc3uvgjg==
+X-Nifty-SrcIP: [209.85.221.181]
+Received: by mail-vk1-f181.google.com with SMTP id q186so2377422vkb.0;
+        Tue, 03 Sep 2019 07:35:59 -0700 (PDT)
+X-Gm-Message-State: APjAAAV4FuSRzkv9Azw5gmRvFJzevb9Qz9Nf3l28VgFj+68j0aeojXOu
+        COmHAOxt1jTEGPmYzymf4qZGviU2leW3Ze8jN10=
+X-Google-Smtp-Source: APXvYqy0zd0XCOiNJxfynAjeoj6yEDocIr/Bo5zsIY6FWiw85VvyTZZTmXSZF7V1YGMIunqTucAAB2GBOylGzkFGOFU=
+X-Received: by 2002:a1f:294a:: with SMTP id p71mr10414923vkp.74.1567521358284;
+ Tue, 03 Sep 2019 07:35:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190902082127.17963-1-jckuo@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <a60fe77a1475ba960ad9fc851f1ace2196b661b8.1567436778.git.guillaume.tucker@collabora.com>
+In-Reply-To: <a60fe77a1475ba960ad9fc851f1ace2196b661b8.1567436778.git.guillaume.tucker@collabora.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 3 Sep 2019 23:35:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS5eYnsuaZ2XxCb1HXmV=QqfgPZNz_E=Ad+CZnDdLdO8A@mail.gmail.com>
+Message-ID: <CAK7LNAS5eYnsuaZ2XxCb1HXmV=QqfgPZNz_E=Ad+CZnDdLdO8A@mail.gmail.com>
+Subject: Re: [PATCH v2] merge_config.sh: ignore unwanted grep errors
+To:     Guillaume Tucker <guillaume.tucker@collabora.com>
+Cc:     Mark Brown <broonie@kernel.org>, Jon Hunter <jonathanh@nvidia.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel@collabora.com, linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Sep 02, 2019 at 04:21:27PM +0800, JC Kuo wrote:
-> Tegra194 XUSB host controller has rearranged mailbox registers. This
-> commit makes mailbox registers address a part of "soc" data so that
-> xhci-tegra driver can be used for Tegra194.
-> 
-> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+On Tue, Sep 3, 2019 at 12:19 AM Guillaume Tucker
+<guillaume.tucker@collabora.com> wrote:
+>
+> The merge_config.sh script verifies that all the config options have
+> their expected value in the resulting file and prints any issues as
+> warnings.  These checks aren't intended to be treated as errors given
+> the current implementation.  However, since "set -e" was added, if the
+> grep command to look for a config option does not find it the script
+> will then abort prematurely.
+>
+> Handle the case where the grep exit status is non-zero by setting
+> ACTUAL_VAL to an empty string to restore previous functionality.
+>
+> Fixes: cdfca821571d ("merge_config.sh: Check error codes from make")
+> Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
+> Cc: Jon Hunter <jonathanh@nvidia.com>
 > ---
->  drivers/usb/host/xhci-tegra.c | 58 +++++++++++++++++++++++++----------
->  1 file changed, 42 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-> index dafc65911fc0..247b08ca49ee 100644
-> --- a/drivers/usb/host/xhci-tegra.c
-> +++ b/drivers/usb/host/xhci-tegra.c
-> @@ -42,19 +42,18 @@
->  #define XUSB_CFG_CSB_BASE_ADDR			0x800
->  
->  /* FPCI mailbox registers */
-> -#define XUSB_CFG_ARU_MBOX_CMD			0x0e4
-> +/* XUSB_CFG_ARU_MBOX_CMD */
->  #define  MBOX_DEST_FALC				BIT(27)
->  #define  MBOX_DEST_PME				BIT(28)
->  #define  MBOX_DEST_SMI				BIT(29)
->  #define  MBOX_DEST_XHCI				BIT(30)
->  #define  MBOX_INT_EN				BIT(31)
-> -#define XUSB_CFG_ARU_MBOX_DATA_IN		0x0e8
-> +/* XUSB_CFG_ARU_MBOX_DATA_IN and XUSB_CFG_ARU_MBOX_DATA_OUT */
->  #define  CMD_DATA_SHIFT				0
->  #define  CMD_DATA_MASK				0xffffff
->  #define  CMD_TYPE_SHIFT				24
->  #define  CMD_TYPE_MASK				0xff
-> -#define XUSB_CFG_ARU_MBOX_DATA_OUT		0x0ec
-> -#define XUSB_CFG_ARU_MBOX_OWNER			0x0f0
-> +/* XUSB_CFG_ARU_MBOX_OWNER */
->  #define  MBOX_OWNER_NONE			0
->  #define  MBOX_OWNER_FW				1
->  #define  MBOX_OWNER_SW				2
-> @@ -146,6 +145,13 @@ struct tegra_xusb_phy_type {
->  	unsigned int num;
->  };
->  
-> +struct tega_xusb_mbox_regs {
-> +	unsigned int cmd;
-> +	unsigned int data_in;
-> +	unsigned int data_out;
-> +	unsigned int owner;
 
-Shouldn't these all be u8 values?
+Applied to linux-kbuild.
+Thanks.
 
-> +};
-> +
->  struct tegra_xusb_soc {
->  	const char *firmware;
->  	const char * const *supply_names;
-> @@ -160,6 +166,8 @@ struct tegra_xusb_soc {
->  		} usb2, ulpi, hsic, usb3;
->  	} ports;
->  
-> +	struct tega_xusb_mbox_regs mbox;
-> +
->  	bool scale_ss_clock;
->  	bool has_ipfs;
->  };
-> @@ -395,15 +403,15 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
->  	 * ACK/NAK messages.
->  	 */
->  	if (!(msg->cmd == MBOX_CMD_ACK || msg->cmd == MBOX_CMD_NAK)) {
-> -		value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
-> +		value = fpci_readl(tegra, tegra->soc->mbox.owner);
->  		if (value != MBOX_OWNER_NONE) {
->  			dev_err(tegra->dev, "mailbox is busy\n");
->  			return -EBUSY;
->  		}
->  
-> -		fpci_writel(tegra, MBOX_OWNER_SW, XUSB_CFG_ARU_MBOX_OWNER);
-> +		fpci_writel(tegra, MBOX_OWNER_SW, tegra->soc->mbox.owner);
->  
-> -		value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
-> +		value = fpci_readl(tegra, tegra->soc->mbox.owner);
->  		if (value != MBOX_OWNER_SW) {
->  			dev_err(tegra->dev, "failed to acquire mailbox\n");
->  			return -EBUSY;
-> @@ -413,17 +421,17 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
->  	}
->  
->  	value = tegra_xusb_mbox_pack(msg);
-> -	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_DATA_IN);
-> +	fpci_writel(tegra, value, tegra->soc->mbox.data_in);
->  
-> -	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_CMD);
-> +	value = fpci_readl(tegra, tegra->soc->mbox.cmd);
->  	value |= MBOX_INT_EN | MBOX_DEST_FALC;
-> -	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_CMD);
-> +	fpci_writel(tegra, value, tegra->soc->mbox.cmd);
->  
->  	if (wait_for_idle) {
->  		unsigned long timeout = jiffies + msecs_to_jiffies(250);
->  
->  		while (time_before(jiffies, timeout)) {
-> -			value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
-> +			value = fpci_readl(tegra, tegra->soc->mbox.owner);
->  			if (value == MBOX_OWNER_NONE)
->  				break;
->  
-> @@ -431,7 +439,7 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
->  		}
->  
->  		if (time_after(jiffies, timeout))
-> -			value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
-> +			value = fpci_readl(tegra, tegra->soc->mbox.owner);
->  
->  		if (value != MBOX_OWNER_NONE)
->  			return -ETIMEDOUT;
-> @@ -598,16 +606,16 @@ static irqreturn_t tegra_xusb_mbox_thread(int irq, void *data)
->  
->  	mutex_lock(&tegra->lock);
->  
-> -	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_DATA_OUT);
-> +	value = fpci_readl(tegra, tegra->soc->mbox.data_out);
->  	tegra_xusb_mbox_unpack(&msg, value);
->  
-> -	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_CMD);
-> +	value = fpci_readl(tegra, tegra->soc->mbox.cmd);
->  	value &= ~MBOX_DEST_SMI;
-> -	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_CMD);
-> +	fpci_writel(tegra, value, tegra->soc->mbox.cmd);
->  
->  	/* clear mailbox owner if no ACK/NAK is required */
->  	if (!tegra_xusb_mbox_cmd_requires_ack(msg.cmd))
-> -		fpci_writel(tegra, MBOX_OWNER_NONE, XUSB_CFG_ARU_MBOX_OWNER);
-> +		fpci_writel(tegra, MBOX_OWNER_NONE, tegra->soc->mbox.owner);
->  
->  	tegra_xusb_mbox_handle(tegra, &msg);
->  
-> @@ -1365,6 +1373,12 @@ static const struct tegra_xusb_soc tegra124_soc = {
->  	},
->  	.scale_ss_clock = true,
->  	.has_ipfs = true,
-> +	.mbox = {
-> +		.cmd = 0xe4,
-> +		.data_in = 0xe8,
-> +		.data_out = 0xec,
-> +		.owner = 0xf0,
-> +	},
->  };
->  MODULE_FIRMWARE("nvidia/tegra124/xusb.bin");
->  
-> @@ -1397,6 +1411,12 @@ static const struct tegra_xusb_soc tegra210_soc = {
->  	},
->  	.scale_ss_clock = false,
->  	.has_ipfs = true,
-> +	.mbox = {
-> +		.cmd = 0xe4,
-> +		.data_in = 0xe8,
-> +		.data_out = 0xec,
-> +		.owner = 0xf0,
-> +	},
->  };
->  MODULE_FIRMWARE("nvidia/tegra210/xusb.bin");
->  
-> @@ -1422,6 +1442,12 @@ static const struct tegra_xusb_soc tegra186_soc = {
->  	},
->  	.scale_ss_clock = false,
->  	.has_ipfs = false,
-> +	.mbox = {
-> +		.cmd = 0xe4,
-> +		.data_in = 0xe8,
-> +		.data_out = 0xec,
-> +		.owner = 0xf0,
-> +	},
 
-This did not change any existing functionality, is there a follow-on
-patch somewhere that takes advantage of this change to enable different
-hardware?  Otherwise this doesn't seem worth it.
 
-thanks,
+> Notes:
+>     v2: use true rather than echo as per Jon Hunter's suggestion
+>
+>  scripts/kconfig/merge_config.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
+> index d924c51d28b7..f2cc10b1d404 100755
+> --- a/scripts/kconfig/merge_config.sh
+> +++ b/scripts/kconfig/merge_config.sh
+> @@ -177,7 +177,7 @@ make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
+>  for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_CONFIG_EXP2" $TMP_FILE); do
+>
+>         REQUESTED_VAL=$(grep -w -e "$CFG" $TMP_FILE)
+> -       ACTUAL_VAL=$(grep -w -e "$CFG" "$KCONFIG_CONFIG")
+> +       ACTUAL_VAL=$(grep -w -e "$CFG" "$KCONFIG_CONFIG" || true)
+>         if [ "x$REQUESTED_VAL" != "x$ACTUAL_VAL" ] ; then
+>                 echo "Value requested for $CFG not in final .config"
+>                 echo "Requested value:  $REQUESTED_VAL"
+> --
+> 2.20.1
+>
 
-greg k-h
+
+-- 
+Best Regards
+Masahiro Yamada
