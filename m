@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EFC0A8A6B
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Sep 2019 21:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCE9FA8C25
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Sep 2019 21:29:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731408AbfIDP7Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Sep 2019 11:59:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33680 "EHLO mail.kernel.org"
+        id S1732250AbfIDQKD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Sep 2019 12:10:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36110 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732336AbfIDP7Q (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 4 Sep 2019 11:59:16 -0400
+        id S1732868AbfIDQBB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 4 Sep 2019 12:01:01 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A4F452087E;
-        Wed,  4 Sep 2019 15:59:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B3E072341C;
+        Wed,  4 Sep 2019 16:00:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567612755;
-        bh=2vjN1mTgWrVfPYXSq4C3quBd4Ijtnf7GY7w2gVNMFUw=;
+        s=default; t=1567612860;
+        bh=F5CQ1+YvvSFo1TXnBiXKLipZLDPWDY9aNPbQDEsQ2n0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tbbMZn9T9RHvcZUkqgbqABupcvdiMlGIS7BoDSsyj5BPLyWQgiB/zxO9ht5Kz4zuM
-         lhOH71qPmir3besBiebHf+/s9uIctd/z0fMvcIsmavVKatJ/QQA1XfL2lonnsZ+iRz
-         NiGnqk9YVazFNwaB2/n6CdmOm13Q9U9ZIYg5gqsA=
+        b=rGO/8ah+la9taMk6jwiEMxs3YA2GFORtg44hxnMU6+BEm2l1EdEYm6Yq6YwIfhvQ5
+         7TX0OTSVbb19hANC1oruMN4Q88kXSUOmNbut5OP7bkhaKxY+zwzuNXqCclintXDuUe
+         ShG33QjZDMnGmh40rbPNJ/cPsvBXgV54HMNx1X70=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nagarjuna Kristam <nkristam@nvidia.com>,
@@ -30,12 +30,12 @@ Cc:     Nagarjuna Kristam <nkristam@nvidia.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 64/94] usb: host: xhci-tegra: Set DMA mask correctly
-Date:   Wed,  4 Sep 2019 11:57:09 -0400
-Message-Id: <20190904155739.2816-64-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 39/52] usb: host: xhci-tegra: Set DMA mask correctly
+Date:   Wed,  4 Sep 2019 11:59:51 -0400
+Message-Id: <20190904160004.3671-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190904155739.2816-1-sashal@kernel.org>
-References: <20190904155739.2816-1-sashal@kernel.org>
+In-Reply-To: <20190904160004.3671-1-sashal@kernel.org>
+References: <20190904160004.3671-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,12 +74,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 10 insertions(+)
 
 diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 294158113d62c..77142f9bf26ae 100644
+index b1cce989bd123..fe37dacc695fc 100644
 --- a/drivers/usb/host/xhci-tegra.c
 +++ b/drivers/usb/host/xhci-tegra.c
-@@ -1217,6 +1217,16 @@ static int tegra_xusb_probe(struct platform_device *pdev)
+@@ -1148,6 +1148,16 @@ static int tegra_xusb_probe(struct platform_device *pdev)
  
- 	tegra_xusb_config(tegra, regs);
+ 	tegra_xusb_ipfs_config(tegra, regs);
  
 +	/*
 +	 * The XUSB Falcon microcontroller can only address 40 bits, so set
