@@ -2,98 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCE9FA8C25
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Sep 2019 21:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 955D4A8C84
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Sep 2019 21:30:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732250AbfIDQKD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Sep 2019 12:10:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36110 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732868AbfIDQBB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 4 Sep 2019 12:01:01 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B3E072341C;
-        Wed,  4 Sep 2019 16:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567612860;
-        bh=F5CQ1+YvvSFo1TXnBiXKLipZLDPWDY9aNPbQDEsQ2n0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rGO/8ah+la9taMk6jwiEMxs3YA2GFORtg44hxnMU6+BEm2l1EdEYm6Yq6YwIfhvQ5
-         7TX0OTSVbb19hANC1oruMN4Q88kXSUOmNbut5OP7bkhaKxY+zwzuNXqCclintXDuUe
-         ShG33QjZDMnGmh40rbPNJ/cPsvBXgV54HMNx1X70=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nagarjuna Kristam <nkristam@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 39/52] usb: host: xhci-tegra: Set DMA mask correctly
-Date:   Wed,  4 Sep 2019 11:59:51 -0400
-Message-Id: <20190904160004.3671-39-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190904160004.3671-1-sashal@kernel.org>
-References: <20190904160004.3671-1-sashal@kernel.org>
+        id S1732669AbfIDQOT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Sep 2019 12:14:19 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:52014 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732481AbfIDQOS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Sep 2019 12:14:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=1EyANVYB8OYlB3yXu3/GSCY+3MXUWjqGnAuH+zG2V+8=; b=oeJSTcdIDcOk3Y6i6oSHYnqaK
+        mbpR6uQLQflGkucJXLK1X+2eg2NvuIzkQ2cgHhhXiK+gq+r57luFLU1d+pYjzappehwqj8iyH2FRH
+        3UVBQP5H5gwc2TmttChlxUCjhqE0xghi0XAtJFdsAa7iqj1fNovs+5a+x0opvYVUoIEAo=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.co.uk>)
+        id 1i5Xun-0006R9-Ad; Wed, 04 Sep 2019 16:13:49 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id 67FED2742B45; Wed,  4 Sep 2019 17:13:48 +0100 (BST)
+Date:   Wed, 4 Sep 2019 17:13:48 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     YueHaibing <yuehaibing@huawei.com>, f.fainelli@gmail.com,
+        rjui@broadcom.com, sbranden@broadcom.com, eric@anholt.net,
+        wahrenst@gmx.net, shc_work@mail.ru, agross@kernel.org,
+        khilman@baylibre.com, matthias.bgg@gmail.com, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, avifishman70@gmail.com, tmaimon77@gmail.com,
+        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
+        benjaminfair@google.com, kgene@kernel.org,
+        Andi Shyti <andi@etezian.org>, palmer@sifive.com,
+        paul.walmsley@sifive.com, baohua@kernel.org, mripard@kernel.org,
+        wens@csie.org, ldewangan@nvidia.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, yamada.masahiro@socionext.com,
+        michal.simek@xilinx.com, bcm-kernel-feedback-list@broadcom.com,
+        linux-spi@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>,
+        linux-riscv@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH -next 25/36] spi: s3c24xx: use
+ devm_platform_ioremap_resource() to simplify code
+Message-ID: <20190904161348.GE4348@sirena.co.uk>
+References: <20190904135918.25352-1-yuehaibing@huawei.com>
+ <20190904135918.25352-26-yuehaibing@huawei.com>
+ <CAJKOXPdq4as1Oe3U+9znkvP0RA=sxUoiWVBCSbzf_wq_um2t=w@mail.gmail.com>
+ <20190904143928.GB4348@sirena.co.uk>
+ <CAJKOXPeRtbAvmR-=8Qa8ukGXt-cCj3ud_7y1Z4LgRpX3YCeumg@mail.gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="N1GIdlSm9i+YlY4t"
+Content-Disposition: inline
+In-Reply-To: <CAJKOXPeRtbAvmR-=8Qa8ukGXt-cCj3ud_7y1Z4LgRpX3YCeumg@mail.gmail.com>
+X-Cookie: Help fight continental drift.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Nagarjuna Kristam <nkristam@nvidia.com>
 
-[ Upstream commit 993cc8753453fccfe060a535bbe21fcf1001b626 ]
+--N1GIdlSm9i+YlY4t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The Falcon microcontroller that runs the XUSB firmware and which is
-responsible for exposing the XHCI interface can address only 40 bits of
-memory. Typically that's not a problem because Tegra devices don't have
-enough system memory to exceed those 40 bits.
+On Wed, Sep 04, 2019 at 05:09:45PM +0200, Krzysztof Kozlowski wrote:
+> On Wed, 4 Sep 2019 at 16:39, Mark Brown <broonie@kernel.org> wrote:
 
-However, if the ARM SMMU is enable on Tegra186 and later, the addresses
-passed to the XUSB controller can be anywhere in the 48-bit IOV address
-space of the ARM SMMU. Since the DMA/IOMMU API starts allocating from
-the top of the IOVA space, the Falcon microcontroller is not able to
-load the firmware successfully.
+> > I think it's reasonable, it's giving credit to the automated system
+> > they've got running coccinelle (which they do mention in their commit
+> > logs).  It doesn't really hurt anyone and lets people see their system
+> > is finding stuff.
 
-Fix this by setting the DMA mask to 40 bits, which will force the DMA
-API to map the buffer for the firmware to an IOVA that is addressable by
-the Falcon.
+> Running internally coccinelle is already credited with commit author.
+> The credits are coming with "From:" field.
 
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Link: https://lore.kernel.org/r/1566989697-13049-1-git-send-email-nkristam@nvidia.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/host/xhci-tegra.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I guess if other people look at the same CI and send patches as well
+then there's some use tying them all together.
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index b1cce989bd123..fe37dacc695fc 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -1148,6 +1148,16 @@ static int tegra_xusb_probe(struct platform_device *pdev)
- 
- 	tegra_xusb_ipfs_config(tegra, regs);
- 
-+	/*
-+	 * The XUSB Falcon microcontroller can only address 40 bits, so set
-+	 * the DMA mask accordingly.
-+	 */
-+	err = dma_set_mask_and_coherent(tegra->dev, DMA_BIT_MASK(40));
-+	if (err < 0) {
-+		dev_err(&pdev->dev, "failed to set DMA mask: %d\n", err);
-+		goto put_rpm;
-+	}
-+
- 	err = tegra_xusb_load_firmware(tegra);
- 	if (err < 0) {
- 		dev_err(&pdev->dev, "failed to load firmware: %d\n", err);
--- 
-2.20.1
+> Otherwise for commits I send I could use:
+>   From: krzk
+>   ...
+>   Reported-by: www.krzk.eu
+>   Signed-off-by: krzk
+> To me it is ridiculous.
 
+Sure, on the other hand it doesn't really cost anyone anything if you do
+that.
+
+> Different thing is that Reported-by is for fixing bugs or issues.
+> There is no bug here. There is no problem solved except making the
+> code smaller. That's not what is Reported-by for.
+
+That is true, this one isn't fixing any bug but then the line does get a
+bit fuzzy all round with things like warnings and coccinelle output -
+even just having the warning pop up is noise for people looking at the
+output even if there's no concrete problem.  Again I don't see it as
+something that's worth getting worked up over.
+
+--N1GIdlSm9i+YlY4t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl1v4rsACgkQJNaLcl1U
+h9ADfQf/V7pUFkik9p4ok45W4iQXJ+1Wee9ghMi2ut+nuRzX8NRSwWYnFgK3w119
+nf1YXfJsWCcs9af+DjcSoEyJWq/wegSyF/egvEd36QdqtaJJbMs/J5Kl+TEcglDA
+uRJW6F/zevMcwamDE2I6UqdQjTIa2R8QG2S9yaw36Hd2b0k38lLq2Z1knHnQNbX7
+6mFEqyt+sTaFjsBtlkgeUiTkMp36WsnTY7oRzGr/RKAd9ByHDmQKtPTuJl4eQTx6
+zzkUK0PzNpBPqNyILAt7MYr01EyZfO3gjxnRNIH8yKl+80mkhiV2Td6DJehCuNqE
+F30QD0NUhsOuqyDT26hqXFcIWtym6A==
+=GPj9
+-----END PGP SIGNATURE-----
+
+--N1GIdlSm9i+YlY4t--
