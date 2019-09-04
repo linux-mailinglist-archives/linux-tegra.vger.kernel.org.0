@@ -2,128 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 955D4A8C84
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Sep 2019 21:30:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE6B5A8DF3
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Sep 2019 21:32:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732669AbfIDQOT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Sep 2019 12:14:19 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:52014 "EHLO
+        id S1731633AbfIDRyN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Sep 2019 13:54:13 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:50758 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732481AbfIDQOS (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Sep 2019 12:14:18 -0400
+        with ESMTP id S1731505AbfIDRyN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Sep 2019 13:54:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
+        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=1EyANVYB8OYlB3yXu3/GSCY+3MXUWjqGnAuH+zG2V+8=; b=oeJSTcdIDcOk3Y6i6oSHYnqaK
-        mbpR6uQLQflGkucJXLK1X+2eg2NvuIzkQ2cgHhhXiK+gq+r57luFLU1d+pYjzappehwqj8iyH2FRH
-        3UVBQP5H5gwc2TmttChlxUCjhqE0xghi0XAtJFdsAa7iqj1fNovs+5a+x0opvYVUoIEAo=;
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+        List-Archive; bh=7ttXZOpkeg+FjvNQDWlFzQjkHjoEWkkwaMi5WFQGeEU=; b=GXaewmrgvV0n
+        SjvhmA/OrINj8bCNtWzZA1Y/+cZgPwVluH+O48DcPUjfpLLKbNOVZtbRw5mFd574JsgEnlzZNpG5c
+        DJ2RERbsDrwG1Ux4FEdb+EEGdKNFmg9xnVvxDnclSbHbI1cQxSL4ZvIz/khxSsnVRLhGZR5uJx+Vj
+        zuwHM=;
 Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
         by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <broonie@sirena.co.uk>)
-        id 1i5Xun-0006R9-Ad; Wed, 04 Sep 2019 16:13:49 +0000
+        id 1i5ZTC-0006h6-5A; Wed, 04 Sep 2019 17:53:26 +0000
 Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 67FED2742B45; Wed,  4 Sep 2019 17:13:48 +0100 (BST)
-Date:   Wed, 4 Sep 2019 17:13:48 +0100
+        id 74E7F2742CDC; Wed,  4 Sep 2019 18:53:25 +0100 (BST)
 From:   Mark Brown <broonie@kernel.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     YueHaibing <yuehaibing@huawei.com>, f.fainelli@gmail.com,
-        rjui@broadcom.com, sbranden@broadcom.com, eric@anholt.net,
-        wahrenst@gmx.net, shc_work@mail.ru, agross@kernel.org,
-        khilman@baylibre.com, matthias.bgg@gmail.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, avifishman70@gmail.com, tmaimon77@gmail.com,
-        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
-        benjaminfair@google.com, kgene@kernel.org,
-        Andi Shyti <andi@etezian.org>, palmer@sifive.com,
-        paul.walmsley@sifive.com, baohua@kernel.org, mripard@kernel.org,
-        wens@csie.org, ldewangan@nvidia.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, yamada.masahiro@socionext.com,
-        michal.simek@xilinx.com, bcm-kernel-feedback-list@broadcom.com,
-        linux-spi@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH -next 25/36] spi: s3c24xx: use
- devm_platform_ioremap_resource() to simplify code
-Message-ID: <20190904161348.GE4348@sirena.co.uk>
-References: <20190904135918.25352-1-yuehaibing@huawei.com>
- <20190904135918.25352-26-yuehaibing@huawei.com>
- <CAJKOXPdq4as1Oe3U+9znkvP0RA=sxUoiWVBCSbzf_wq_um2t=w@mail.gmail.com>
- <20190904143928.GB4348@sirena.co.uk>
- <CAJKOXPeRtbAvmR-=8Qa8ukGXt-cCj3ud_7y1Z4LgRpX3YCeumg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="N1GIdlSm9i+YlY4t"
-Content-Disposition: inline
-In-Reply-To: <CAJKOXPeRtbAvmR-=8Qa8ukGXt-cCj3ud_7y1Z4LgRpX3YCeumg@mail.gmail.com>
-X-Cookie: Help fight continental drift.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     alexios.zavras@intel.com, alsa-devel@alsa-project.org,
+        broonie@kernel.org, gregkh@linuxfoundation.org,
+        Hulk Robot <hulkci@huawei.com>, jonathanh@nvidia.com,
+        lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        perex@perex.cz, rfontana@redhat.com, tglx@linutronix.de,
+        thierry.reding@gmail.com, tiwai@suse.com, yuehaibing@huawei.com
+Subject: Applied "ASoC: tegra: use devm_platform_ioremap_resource() to simplify code" to the asoc tree
+In-Reply-To: <20190904083909.18804-1-yuehaibing@huawei.com>
+X-Patchwork-Hint: ignore
+Message-Id: <20190904175325.74E7F2742CDC@ypsilon.sirena.org.uk>
+Date:   Wed,  4 Sep 2019 18:53:25 +0100 (BST)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+The patch
 
---N1GIdlSm9i+YlY4t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+   ASoC: tegra: use devm_platform_ioremap_resource() to simplify code
 
-On Wed, Sep 04, 2019 at 05:09:45PM +0200, Krzysztof Kozlowski wrote:
-> On Wed, 4 Sep 2019 at 16:39, Mark Brown <broonie@kernel.org> wrote:
+has been applied to the asoc tree at
 
-> > I think it's reasonable, it's giving credit to the automated system
-> > they've got running coccinelle (which they do mention in their commit
-> > logs).  It doesn't really hurt anyone and lets people see their system
-> > is finding stuff.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.4
 
-> Running internally coccinelle is already credited with commit author.
-> The credits are coming with "From:" field.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
 
-I guess if other people look at the same CI and send patches as well
-then there's some use tying them all together.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> Otherwise for commits I send I could use:
->   From: krzk
->   ...
->   Reported-by: www.krzk.eu
->   Signed-off-by: krzk
-> To me it is ridiculous.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Sure, on the other hand it doesn't really cost anyone anything if you do
-that.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-> Different thing is that Reported-by is for fixing bugs or issues.
-> There is no bug here. There is no problem solved except making the
-> code smaller. That's not what is Reported-by for.
+Thanks,
+Mark
 
-That is true, this one isn't fixing any bug but then the line does get a
-bit fuzzy all round with things like warnings and coccinelle output -
-even just having the warning pop up is noise for people looking at the
-output even if there's no concrete problem.  Again I don't see it as
-something that's worth getting worked up over.
+From a813d0e8884e514e6e1b28ad3b22f7658d446b16 Mon Sep 17 00:00:00 2001
+From: YueHaibing <yuehaibing@huawei.com>
+Date: Wed, 4 Sep 2019 16:39:09 +0800
+Subject: [PATCH] ASoC: tegra: use devm_platform_ioremap_resource() to simplify
+ code
 
---N1GIdlSm9i+YlY4t
-Content-Type: application/pgp-signature; name="signature.asc"
+Use devm_platform_ioremap_resource() to simplify the code a bit.
+This is detected by coccinelle.
 
------BEGIN PGP SIGNATURE-----
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Link: https://lore.kernel.org/r/20190904083909.18804-1-yuehaibing@huawei.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/tegra/tegra30_ahub.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl1v4rsACgkQJNaLcl1U
-h9ADfQf/V7pUFkik9p4ok45W4iQXJ+1Wee9ghMi2ut+nuRzX8NRSwWYnFgK3w119
-nf1YXfJsWCcs9af+DjcSoEyJWq/wegSyF/egvEd36QdqtaJJbMs/J5Kl+TEcglDA
-uRJW6F/zevMcwamDE2I6UqdQjTIa2R8QG2S9yaw36Hd2b0k38lLq2Z1knHnQNbX7
-6mFEqyt+sTaFjsBtlkgeUiTkMp36WsnTY7oRzGr/RKAd9ByHDmQKtPTuJl4eQTx6
-zzkUK0PzNpBPqNyILAt7MYr01EyZfO3gjxnRNIH8yKl+80mkhiV2Td6DJehCuNqE
-F30QD0NUhsOuqyDT26hqXFcIWtym6A==
-=GPj9
------END PGP SIGNATURE-----
+diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
+index 952381260dc3..635eacbd28d4 100644
+--- a/sound/soc/tegra/tegra30_ahub.c
++++ b/sound/soc/tegra/tegra30_ahub.c
+@@ -511,7 +511,7 @@ static int tegra30_ahub_probe(struct platform_device *pdev)
+ 	const struct tegra30_ahub_soc_data *soc_data;
+ 	struct reset_control *rst;
+ 	int i;
+-	struct resource *res0, *res1;
++	struct resource *res0;
+ 	void __iomem *regs_apbif, *regs_ahub;
+ 	int ret = 0;
+ 
+@@ -587,8 +587,7 @@ static int tegra30_ahub_probe(struct platform_device *pdev)
+ 	}
+ 	regcache_cache_only(ahub->regmap_apbif, true);
+ 
+-	res1 = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+-	regs_ahub = devm_ioremap_resource(&pdev->dev, res1);
++	regs_ahub = devm_platform_ioremap_resource(pdev, 1);
+ 	if (IS_ERR(regs_ahub))
+ 		return PTR_ERR(regs_ahub);
+ 
+-- 
+2.20.1
 
---N1GIdlSm9i+YlY4t--
