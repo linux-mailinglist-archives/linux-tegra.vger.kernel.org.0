@@ -2,51 +2,51 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01763A888E
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Sep 2019 21:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 973B4A8896
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Sep 2019 21:22:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730116AbfIDONs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Sep 2019 10:13:48 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33242 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730016AbfIDONs (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Sep 2019 10:13:48 -0400
-Received: by mail-wr1-f65.google.com with SMTP id u16so21476502wrr.0
-        for <linux-tegra@vger.kernel.org>; Wed, 04 Sep 2019 07:13:46 -0700 (PDT)
+        id S1730599AbfIDOOY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Sep 2019 10:14:24 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:36322 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730612AbfIDOOY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Sep 2019 10:14:24 -0400
+Received: by mail-wr1-f68.google.com with SMTP id y19so21468045wrd.3
+        for <linux-tegra@vger.kernel.org>; Wed, 04 Sep 2019 07:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:openpgp:autocrypt:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=1t2a0vmNpD+krkpW5/ed7Lgd4DJQlz51QzbVC1XkalQ=;
-        b=bEqMCkG4MJtCXLxO2pyMlNR3DCoGnaHivvsTQGeBPO3CFEImwy6xB/1YVoPgogwmDg
-         mvM/HH/NGT8HeXF08WSyHJRofVnzdSuNy968qnJQPElpEG+/17X12AsJT9pGt26dKw/c
-         JnnAda3k1jDU5omG3NlXa9nGAGatHlwgq598fBVMJGke8LkjfGlcVvYtitV0VruN/vNo
-         HZWA0oA5OJLfF4p60snKhhoEPI/mrfFkL87lyidwroa7KlAkqOwCgt4meLgrnWEuudYQ
-         WqV2fwQbdqx+4CqhpITG9dVOLm8NiVz4pd62EgVAq9gRWN++PYttfKJ7PRviYt4o/rMC
-         qWsQ==
+        bh=IzWNB9ivZ/fQ2z8XW0T5fI33J0UqA0TM8uL61ZbcYJY=;
+        b=EHWSt5bqO5EcZw1Q+2tRqdWGuG5DPO2TW3pony+Xy3VJjhWA7pP76uBvtepruGRzZr
+         Y2byUBATCMXeMhtksoo2yv3JYuj8pjESoEYoaaut3uXIBnHqX7rKHuJOL8CUb4PFsAvy
+         IHM/+05kJHzx2ewRh/8Fc259CPvtM0UCInIMo9tAoJ9FFkVXfRsptE+frY/DvP9HzgWC
+         mmlHmuRLa4hFnZqt13yI+r73iwAt8f3yFjjDkXrGGR4YKOD5iEJzrwsXGNvFQZiZM0JL
+         D1xmYHQGp2Hu3offUIF5ZLO4vW/Re67ujzhn0ZHfQcTCEXszSlAOTxl7tB1AkppbUmxZ
+         FK9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=1t2a0vmNpD+krkpW5/ed7Lgd4DJQlz51QzbVC1XkalQ=;
-        b=tp2qHgaowOiP4Fh/gdSpuNLyvaS55weVNZtE9rw6Jv5Gm6QT8thsxwDaVQptpI4XMO
-         TfC8LE0LlZa5MOLJHZZKe2GvNVTPD3S1FY7voV9nGlRjWb7H/uBjIPquy0RcG6N8EUM/
-         JK0Z5rxblFoa3K8UhqfuJBgPVcez9KiV1CjPGNMDEpvZpqyiY72Mf7Ca90I3iMA5Sjgw
-         M2crR+J8FLAYQuTUdfsmrPJv5RN9kk9LyzmFjYGnnsBYTKdyUwnLg6ZcDl6cUPeBjywi
-         NwWStHW34IQGQDbeq8D1HM4AKZKL5bLFrNHIU10EvkTqElDsALnE7Tbw3R4WhWlA9tRx
-         8MLw==
-X-Gm-Message-State: APjAAAVnmIN+462Vc5gkQmeFT8VmnstLvI9YHwouE1DF/oVxbr/sBLfy
-        6JY51ZlaJ3kdDoMvXCd8DhPeoA==
-X-Google-Smtp-Source: APXvYqxbfkIv8VlJAvAeHaITYdl98dpgyZfMVFHFOHJxvJ37cTvX5hTfAph3rk2uz0iK4r0eq+pshQ==
-X-Received: by 2002:a5d:6302:: with SMTP id i2mr6205010wru.249.1567606425323;
-        Wed, 04 Sep 2019 07:13:45 -0700 (PDT)
+        bh=IzWNB9ivZ/fQ2z8XW0T5fI33J0UqA0TM8uL61ZbcYJY=;
+        b=SjY7HuG5dxuAKD2SJPIyOlMYTAjG/c63dc0iVcA3RcLxbSk9of5vy9iAAGo5RF658Z
+         ztKW/IJMJt/Lv18ARivdVZ1oDZscPyJaOlB1OZamHE9DbhM4qQfqwxt15J2o/ILJC+TE
+         VlGwXOuR8mX9lAAlHHyH2jOGQeqTt1jtTyaLWhhVfxE/RnEvnJqLi2JieBC+3drOuhSP
+         botTyE83dVlP4heeD8fw6Zdjktdgpm2l9Rol3YWVO1rTR51k4XuzCn15Dfrx/63Ijg3J
+         VD4WPmjnjhtHEe7ryBexdgwEcAWjc1/Y2QCqEUPHR04FUU2ZnfQFO00I+vghG/jhgXMQ
+         CR+w==
+X-Gm-Message-State: APjAAAUfRP+Rrmchuz9ZJCZpB3i4S97tT4ZXB7DNr5q7qG6gIFj8XWg2
+        h21M6yvYOYlJBiaHGUGQeSe5rQ==
+X-Google-Smtp-Source: APXvYqwd412+TYADIB2T8KWcQvdznVreKrPX5Wc2QP3/iEI4IkUTb7u9lNJVz++zzLVE5BEaAUwxyA==
+X-Received: by 2002:a5d:6811:: with SMTP id w17mr13456149wru.181.1567606460658;
+        Wed, 04 Sep 2019 07:14:20 -0700 (PDT)
 Received: from [10.1.2.12] (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id w8sm4362920wmc.1.2019.09.04.07.13.42
+        by smtp.gmail.com with ESMTPSA id k26sm2792181wmi.37.2019.09.04.07.14.14
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 Sep 2019 07:13:44 -0700 (PDT)
-Subject: Re: [PATCH -next 15/36] spi: meson-spicc: use
+        Wed, 04 Sep 2019 07:14:18 -0700 (PDT)
+Subject: Re: [PATCH -next 16/36] spi: spi-meson-spifc: use
  devm_platform_ioremap_resource() to simplify code
 To:     YueHaibing <yuehaibing@huawei.com>, broonie@kernel.org,
         f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com,
@@ -69,7 +69,7 @@ Cc:     linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org
 References: <20190904135918.25352-1-yuehaibing@huawei.com>
- <20190904135918.25352-16-yuehaibing@huawei.com>
+ <20190904135918.25352-17-yuehaibing@huawei.com>
 From:   Neil Armstrong <narmstrong@baylibre.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
@@ -122,12 +122,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <231852cf-274a-797c-1c01-c7264629a915@baylibre.com>
-Date:   Wed, 4 Sep 2019 16:13:41 +0200
+Message-ID: <f4afcae3-8796-2ce4-0377-918536d5bf3e@baylibre.com>
+Date:   Wed, 4 Sep 2019 16:14:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190904135918.25352-16-yuehaibing@huawei.com>
+In-Reply-To: <20190904135918.25352-17-yuehaibing@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -143,31 +143,31 @@ On 04/09/2019 15:58, YueHaibing wrote:
 > Reported-by: Hulk Robot <hulkci@huawei.com>
 > Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 > ---
->  drivers/spi/spi-meson-spicc.c | 4 +---
+>  drivers/spi/spi-meson-spifc.c | 4 +---
 >  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/drivers/spi/spi-meson-spicc.c b/drivers/spi/spi-meson-spicc.c
-> index 7fe4488..f3f1044 100644
-> --- a/drivers/spi/spi-meson-spicc.c
-> +++ b/drivers/spi/spi-meson-spicc.c
-> @@ -503,7 +503,6 @@ static int meson_spicc_probe(struct platform_device *pdev)
+> diff --git a/drivers/spi/spi-meson-spifc.c b/drivers/spi/spi-meson-spifc.c
+> index f7fe9b1..c7b0399 100644
+> --- a/drivers/spi/spi-meson-spifc.c
+> +++ b/drivers/spi/spi-meson-spifc.c
+> @@ -286,7 +286,6 @@ static int meson_spifc_probe(struct platform_device *pdev)
 >  {
 >  	struct spi_master *master;
->  	struct meson_spicc_device *spicc;
+>  	struct meson_spifc *spifc;
 > -	struct resource *res;
->  	int ret, irq, rate;
->  
->  	master = spi_alloc_master(&pdev->dev, sizeof(*spicc));
-> @@ -517,8 +516,7 @@ static int meson_spicc_probe(struct platform_device *pdev)
->  	spicc->pdev = pdev;
->  	platform_set_drvdata(pdev, spicc);
+>  	void __iomem *base;
+>  	unsigned int rate;
+>  	int ret = 0;
+> @@ -300,8 +299,7 @@ static int meson_spifc_probe(struct platform_device *pdev)
+>  	spifc = spi_master_get_devdata(master);
+>  	spifc->dev = &pdev->dev;
 >  
 > -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	spicc->base = devm_ioremap_resource(&pdev->dev, res);
-> +	spicc->base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(spicc->base)) {
->  		dev_err(&pdev->dev, "io resource mapping failed\n");
->  		ret = PTR_ERR(spicc->base);
+> -	base = devm_ioremap_resource(spifc->dev, res);
+> +	base = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(base)) {
+>  		ret = PTR_ERR(base);
+>  		goto out_err;
 > 
 
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
