@@ -2,262 +2,256 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC14A6F39
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Sep 2019 18:32:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 251F1A781E
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Sep 2019 03:43:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730872AbfICQar (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Sep 2019 12:30:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50962 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731148AbfICQ2p (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 3 Sep 2019 12:28:45 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2C06E215EA;
-        Tue,  3 Sep 2019 16:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567528124;
-        bh=IHG4kGjHjXFz0iXgac1HVtFfEUakphe120rav30eSp8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Tay8+3Gl9KIrSc71W5jAAQWzV8d0us9lrjk3uW9g9J0fis+mKc2vPwdz8Njl003BO
-         DRHCIP6GuHdrTxM6SHFArWhEuL3WrdnZSPVIC3RzGPNTArF2rzAKAskWYLklDYqjx/
-         vbWa0O3kplyQRtGYLd9WhlCn1gmpAR7IgHahUg1I=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 120/167] clk: tegra: Fix maximum audio sync clock for Tegra124/210
-Date:   Tue,  3 Sep 2019 12:24:32 -0400
-Message-Id: <20190903162519.7136-120-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190903162519.7136-1-sashal@kernel.org>
-References: <20190903162519.7136-1-sashal@kernel.org>
+        id S1726770AbfIDBnO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Sep 2019 21:43:14 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:18756 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726441AbfIDBnO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Sep 2019 21:43:14 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d6f16b30000>; Tue, 03 Sep 2019 18:43:15 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 03 Sep 2019 18:43:12 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 03 Sep 2019 18:43:12 -0700
+Received: from [10.19.108.121] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 4 Sep
+ 2019 01:43:10 +0000
+Subject: Re: [PATCH] xhci: tegra: Parameterize mailbox register addresses
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>
+References: <20190902082127.17963-1-jckuo@nvidia.com>
+ <20190903135822.GA10466@kroah.com>
+X-Nvconfidentiality: public
+From:   JC Kuo <jckuo@nvidia.com>
+Message-ID: <90794861-1fe7-b659-fd33-4fb0f2e7f929@nvidia.com>
+Date:   Wed, 4 Sep 2019 09:43:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190903135822.GA10466@kroah.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1567561395; bh=AolpN2XapqNWiHC++EK/EfhoocqnX+VHovMQXLSeQxg=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ESd4pjCGRpo1dnBUeqJ5Irvrs8KVS4uu8Qhhe4HJa9qB+ZScCzpPO8J4yeQN1ySK4
+         a4L359PnMIWv8A75AYHu0bOz0YAOW8OjE1ZtN6dT1PYYIlMO0At44QfmcsfNp8lQEy
+         QqKoiGDPjU1nhzFLFIeh21dNUTrkruOPx+OkcOT/gZW4h/r0NvYUyPCbzuhH0JGuyL
+         eB2mSuyrqNXAY0uFfqVAYFVvrtEmiRibxyp71aP2OF59a66wwmBHB/tzSVkL+Gf3Xq
+         KuIS2LjoIlsVy564ZERsCZTg97euHMOkW/nh67W/Hn4cKyBoVFJP87LLG4SUPnG3sd
+         2dhH40kRWbFqA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Jon Hunter <jonathanh@nvidia.com>
+On 9/3/19 9:58 PM, Greg KH wrote:
+> On Mon, Sep 02, 2019 at 04:21:27PM +0800, JC Kuo wrote:
+>> Tegra194 XUSB host controller has rearranged mailbox registers. This
+>> commit makes mailbox registers address a part of "soc" data so that
+>> xhci-tegra driver can be used for Tegra194.
+>>
+>> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+>> ---
+>>  drivers/usb/host/xhci-tegra.c | 58 +++++++++++++++++++++++++----------
+>>  1 file changed, 42 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+>> index dafc65911fc0..247b08ca49ee 100644
+>> --- a/drivers/usb/host/xhci-tegra.c
+>> +++ b/drivers/usb/host/xhci-tegra.c
+>> @@ -42,19 +42,18 @@
+>>  #define XUSB_CFG_CSB_BASE_ADDR			0x800
+>>  
+>>  /* FPCI mailbox registers */
+>> -#define XUSB_CFG_ARU_MBOX_CMD			0x0e4
+>> +/* XUSB_CFG_ARU_MBOX_CMD */
+>>  #define  MBOX_DEST_FALC				BIT(27)
+>>  #define  MBOX_DEST_PME				BIT(28)
+>>  #define  MBOX_DEST_SMI				BIT(29)
+>>  #define  MBOX_DEST_XHCI				BIT(30)
+>>  #define  MBOX_INT_EN				BIT(31)
+>> -#define XUSB_CFG_ARU_MBOX_DATA_IN		0x0e8
+>> +/* XUSB_CFG_ARU_MBOX_DATA_IN and XUSB_CFG_ARU_MBOX_DATA_OUT */
+>>  #define  CMD_DATA_SHIFT				0
+>>  #define  CMD_DATA_MASK				0xffffff
+>>  #define  CMD_TYPE_SHIFT				24
+>>  #define  CMD_TYPE_MASK				0xff
+>> -#define XUSB_CFG_ARU_MBOX_DATA_OUT		0x0ec
+>> -#define XUSB_CFG_ARU_MBOX_OWNER			0x0f0
+>> +/* XUSB_CFG_ARU_MBOX_OWNER */
+>>  #define  MBOX_OWNER_NONE			0
+>>  #define  MBOX_OWNER_FW				1
+>>  #define  MBOX_OWNER_SW				2
+>> @@ -146,6 +145,13 @@ struct tegra_xusb_phy_type {
+>>  	unsigned int num;
+>>  };
+>>  
+>> +struct tega_xusb_mbox_regs {
+>> +	unsigned int cmd;
+>> +	unsigned int data_in;
+>> +	unsigned int data_out;
+>> +	unsigned int owner;
+> 
+> Shouldn't these all be u8 values?
+> 
+These data members represent register offset in Tegra XUSB FPCI area. Size of
+FPCI area is 0x1000, so it is possible for future Tegra XUSB to have mailbox
+registers allocated to somewhere > 0x100.
 
-[ Upstream commit 845d782d91448e0fbca686bca2cc9f9c2a9ba3e7 ]
+>> +};
+>> +
+>>  struct tegra_xusb_soc {
+>>  	const char *firmware;
+>>  	const char * const *supply_names;
+>> @@ -160,6 +166,8 @@ struct tegra_xusb_soc {
+>>  		} usb2, ulpi, hsic, usb3;
+>>  	} ports;
+>>  
+>> +	struct tega_xusb_mbox_regs mbox;
+>> +
+>>  	bool scale_ss_clock;
+>>  	bool has_ipfs;
+>>  };
+>> @@ -395,15 +403,15 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
+>>  	 * ACK/NAK messages.
+>>  	 */
+>>  	if (!(msg->cmd == MBOX_CMD_ACK || msg->cmd == MBOX_CMD_NAK)) {
+>> -		value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
+>> +		value = fpci_readl(tegra, tegra->soc->mbox.owner);
+>>  		if (value != MBOX_OWNER_NONE) {
+>>  			dev_err(tegra->dev, "mailbox is busy\n");
+>>  			return -EBUSY;
+>>  		}
+>>  
+>> -		fpci_writel(tegra, MBOX_OWNER_SW, XUSB_CFG_ARU_MBOX_OWNER);
+>> +		fpci_writel(tegra, MBOX_OWNER_SW, tegra->soc->mbox.owner);
+>>  
+>> -		value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
+>> +		value = fpci_readl(tegra, tegra->soc->mbox.owner);
+>>  		if (value != MBOX_OWNER_SW) {
+>>  			dev_err(tegra->dev, "failed to acquire mailbox\n");
+>>  			return -EBUSY;
+>> @@ -413,17 +421,17 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
+>>  	}
+>>  
+>>  	value = tegra_xusb_mbox_pack(msg);
+>> -	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_DATA_IN);
+>> +	fpci_writel(tegra, value, tegra->soc->mbox.data_in);
+>>  
+>> -	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_CMD);
+>> +	value = fpci_readl(tegra, tegra->soc->mbox.cmd);
+>>  	value |= MBOX_INT_EN | MBOX_DEST_FALC;
+>> -	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_CMD);
+>> +	fpci_writel(tegra, value, tegra->soc->mbox.cmd);
+>>  
+>>  	if (wait_for_idle) {
+>>  		unsigned long timeout = jiffies + msecs_to_jiffies(250);
+>>  
+>>  		while (time_before(jiffies, timeout)) {
+>> -			value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
+>> +			value = fpci_readl(tegra, tegra->soc->mbox.owner);
+>>  			if (value == MBOX_OWNER_NONE)
+>>  				break;
+>>  
+>> @@ -431,7 +439,7 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
+>>  		}
+>>  
+>>  		if (time_after(jiffies, timeout))
+>> -			value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
+>> +			value = fpci_readl(tegra, tegra->soc->mbox.owner);
+>>  
+>>  		if (value != MBOX_OWNER_NONE)
+>>  			return -ETIMEDOUT;
+>> @@ -598,16 +606,16 @@ static irqreturn_t tegra_xusb_mbox_thread(int irq, void *data)
+>>  
+>>  	mutex_lock(&tegra->lock);
+>>  
+>> -	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_DATA_OUT);
+>> +	value = fpci_readl(tegra, tegra->soc->mbox.data_out);
+>>  	tegra_xusb_mbox_unpack(&msg, value);
+>>  
+>> -	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_CMD);
+>> +	value = fpci_readl(tegra, tegra->soc->mbox.cmd);
+>>  	value &= ~MBOX_DEST_SMI;
+>> -	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_CMD);
+>> +	fpci_writel(tegra, value, tegra->soc->mbox.cmd);
+>>  
+>>  	/* clear mailbox owner if no ACK/NAK is required */
+>>  	if (!tegra_xusb_mbox_cmd_requires_ack(msg.cmd))
+>> -		fpci_writel(tegra, MBOX_OWNER_NONE, XUSB_CFG_ARU_MBOX_OWNER);
+>> +		fpci_writel(tegra, MBOX_OWNER_NONE, tegra->soc->mbox.owner);
+>>  
+>>  	tegra_xusb_mbox_handle(tegra, &msg);
+>>  
+>> @@ -1365,6 +1373,12 @@ static const struct tegra_xusb_soc tegra124_soc = {
+>>  	},
+>>  	.scale_ss_clock = true,
+>>  	.has_ipfs = true,
+>> +	.mbox = {
+>> +		.cmd = 0xe4,
+>> +		.data_in = 0xe8,
+>> +		.data_out = 0xec,
+>> +		.owner = 0xf0,
+>> +	},
+>>  };
+>>  MODULE_FIRMWARE("nvidia/tegra124/xusb.bin");
+>>  
+>> @@ -1397,6 +1411,12 @@ static const struct tegra_xusb_soc tegra210_soc = {
+>>  	},
+>>  	.scale_ss_clock = false,
+>>  	.has_ipfs = true,
+>> +	.mbox = {
+>> +		.cmd = 0xe4,
+>> +		.data_in = 0xe8,
+>> +		.data_out = 0xec,
+>> +		.owner = 0xf0,
+>> +	},
+>>  };
+>>  MODULE_FIRMWARE("nvidia/tegra210/xusb.bin");
+>>  
+>> @@ -1422,6 +1442,12 @@ static const struct tegra_xusb_soc tegra186_soc = {
+>>  	},
+>>  	.scale_ss_clock = false,
+>>  	.has_ipfs = false,
+>> +	.mbox = {
+>> +		.cmd = 0xe4,
+>> +		.data_in = 0xe8,
+>> +		.data_out = 0xec,
+>> +		.owner = 0xf0,
+>> +	},
+> 
+> This did not change any existing functionality, is there a follow-on
+> patch somewhere that takes advantage of this change to enable different
+> hardware?  Otherwise this doesn't seem worth it.
+> 
+Yes, I will submit another patch to enable Tegra194 XHCI. It will make use of
+this patch to declare Tegra194 XUSB mailbox registers as:
 
-The maximum frequency supported for I2S on Tegra124 and Tegra210 is
-24.576MHz (as stated in the Tegra TK1 data sheet for Tegra124 and the
-Jetson TX1 module data sheet for Tegra210). However, the maximum I2S
-frequency is limited to 24MHz because that is the maximum frequency of
-the audio sync clock. Increase the maximum audio sync clock frequency
-to 24.576MHz for Tegra124 and Tegra210 in order to support 24.576MHz
-for I2S.
+	.mbox = {
+		.cmd = 0x68,
+		.data_in = 0x6c,
+		.data_out = 0x70,
+		.owner = 0x74,
+	},
 
-Update the tegra_clk_register_sync_source() function so that it does
-not set the initial rate for the sync clocks and use the clock init
-tables to set the initial rate instead.
+Thanks for review.
+JC
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Stephen Boyd <sboyd@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/clk/tegra/clk-audio-sync.c  | 3 +--
- drivers/clk/tegra/clk-tegra-audio.c | 7 ++-----
- drivers/clk/tegra/clk-tegra114.c    | 9 ++++++++-
- drivers/clk/tegra/clk-tegra124.c    | 9 ++++++++-
- drivers/clk/tegra/clk-tegra210.c    | 9 ++++++++-
- drivers/clk/tegra/clk-tegra30.c     | 9 ++++++++-
- drivers/clk/tegra/clk.h             | 4 ++--
- 7 files changed, 37 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/clk/tegra/clk-audio-sync.c b/drivers/clk/tegra/clk-audio-sync.c
-index 92d04ce2dee6b..53cdc0ec40f33 100644
---- a/drivers/clk/tegra/clk-audio-sync.c
-+++ b/drivers/clk/tegra/clk-audio-sync.c
-@@ -55,7 +55,7 @@ const struct clk_ops tegra_clk_sync_source_ops = {
- };
- 
- struct clk *tegra_clk_register_sync_source(const char *name,
--		unsigned long rate, unsigned long max_rate)
-+					   unsigned long max_rate)
- {
- 	struct tegra_clk_sync_source *sync;
- 	struct clk_init_data init;
-@@ -67,7 +67,6 @@ struct clk *tegra_clk_register_sync_source(const char *name,
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
--	sync->rate = rate;
- 	sync->max_rate = max_rate;
- 
- 	init.ops = &tegra_clk_sync_source_ops;
-diff --git a/drivers/clk/tegra/clk-tegra-audio.c b/drivers/clk/tegra/clk-tegra-audio.c
-index b37cae7af26da..02dd6487d855d 100644
---- a/drivers/clk/tegra/clk-tegra-audio.c
-+++ b/drivers/clk/tegra/clk-tegra-audio.c
-@@ -49,8 +49,6 @@ struct tegra_sync_source_initdata {
- #define SYNC(_name) \
- 	{\
- 		.name		= #_name,\
--		.rate		= 24000000,\
--		.max_rate	= 24000000,\
- 		.clk_id		= tegra_clk_ ## _name,\
- 	}
- 
-@@ -176,7 +174,7 @@ static void __init tegra_audio_sync_clk_init(void __iomem *clk_base,
- void __init tegra_audio_clk_init(void __iomem *clk_base,
- 			void __iomem *pmc_base, struct tegra_clk *tegra_clks,
- 			struct tegra_audio_clk_info *audio_info,
--			unsigned int num_plls)
-+			unsigned int num_plls, unsigned long sync_max_rate)
- {
- 	struct clk *clk;
- 	struct clk **dt_clk;
-@@ -221,8 +219,7 @@ void __init tegra_audio_clk_init(void __iomem *clk_base,
- 		if (!dt_clk)
- 			continue;
- 
--		clk = tegra_clk_register_sync_source(data->name,
--					data->rate, data->max_rate);
-+		clk = tegra_clk_register_sync_source(data->name, sync_max_rate);
- 		*dt_clk = clk;
- 	}
- 
-diff --git a/drivers/clk/tegra/clk-tegra114.c b/drivers/clk/tegra/clk-tegra114.c
-index 1824f014202b0..625d110913308 100644
---- a/drivers/clk/tegra/clk-tegra114.c
-+++ b/drivers/clk/tegra/clk-tegra114.c
-@@ -1190,6 +1190,13 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA114_CLK_XUSB_FALCON_SRC, TEGRA114_CLK_PLL_P, 204000000, 0 },
- 	{ TEGRA114_CLK_XUSB_HOST_SRC, TEGRA114_CLK_PLL_P, 102000000, 0 },
- 	{ TEGRA114_CLK_VDE, TEGRA114_CLK_CLK_MAX, 600000000, 0 },
-+	{ TEGRA114_CLK_SPDIF_IN_SYNC, TEGRA114_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA114_CLK_I2S0_SYNC, TEGRA114_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA114_CLK_I2S1_SYNC, TEGRA114_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA114_CLK_I2S2_SYNC, TEGRA114_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA114_CLK_I2S3_SYNC, TEGRA114_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA114_CLK_I2S4_SYNC, TEGRA114_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA114_CLK_VIMCLK_SYNC, TEGRA114_CLK_CLK_MAX, 24000000, 0 },
- 	/* must be the last entry */
- 	{ TEGRA114_CLK_CLK_MAX, TEGRA114_CLK_CLK_MAX, 0, 0 },
- };
-@@ -1362,7 +1369,7 @@ static void __init tegra114_clock_init(struct device_node *np)
- 	tegra114_periph_clk_init(clk_base, pmc_base);
- 	tegra_audio_clk_init(clk_base, pmc_base, tegra114_clks,
- 			     tegra114_audio_plls,
--			     ARRAY_SIZE(tegra114_audio_plls));
-+			     ARRAY_SIZE(tegra114_audio_plls), 24000000);
- 	tegra_pmc_clk_init(pmc_base, tegra114_clks);
- 	tegra_super_clk_gen4_init(clk_base, pmc_base, tegra114_clks,
- 					&pll_x_params);
-diff --git a/drivers/clk/tegra/clk-tegra124.c b/drivers/clk/tegra/clk-tegra124.c
-index b6cf28ca2ed29..df0018f7bf7ed 100644
---- a/drivers/clk/tegra/clk-tegra124.c
-+++ b/drivers/clk/tegra/clk-tegra124.c
-@@ -1291,6 +1291,13 @@ static struct tegra_clk_init_table common_init_table[] __initdata = {
- 	{ TEGRA124_CLK_CSITE, TEGRA124_CLK_CLK_MAX, 0, 1 },
- 	{ TEGRA124_CLK_TSENSOR, TEGRA124_CLK_CLK_M, 400000, 0 },
- 	{ TEGRA124_CLK_VIC03, TEGRA124_CLK_PLL_C3, 0, 0 },
-+	{ TEGRA124_CLK_SPDIF_IN_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA124_CLK_I2S0_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA124_CLK_I2S1_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA124_CLK_I2S2_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA124_CLK_I2S3_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA124_CLK_I2S4_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA124_CLK_VIMCLK_SYNC, TEGRA124_CLK_CLK_MAX, 24576000, 0 },
- 	/* must be the last entry */
- 	{ TEGRA124_CLK_CLK_MAX, TEGRA124_CLK_CLK_MAX, 0, 0 },
- };
-@@ -1455,7 +1462,7 @@ static void __init tegra124_132_clock_init_pre(struct device_node *np)
- 	tegra124_periph_clk_init(clk_base, pmc_base);
- 	tegra_audio_clk_init(clk_base, pmc_base, tegra124_clks,
- 			     tegra124_audio_plls,
--			     ARRAY_SIZE(tegra124_audio_plls));
-+			     ARRAY_SIZE(tegra124_audio_plls), 24576000);
- 	tegra_pmc_clk_init(pmc_base, tegra124_clks);
- 
- 	/* For Tegra124 & Tegra132, PLLD is the only source for DSIA & DSIB */
-diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
-index 4e1bc23c98655..f58480fe17674 100644
---- a/drivers/clk/tegra/clk-tegra210.c
-+++ b/drivers/clk/tegra/clk-tegra210.c
-@@ -3369,6 +3369,13 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA210_CLK_SOC_THERM, TEGRA210_CLK_PLL_P, 51000000, 0 },
- 	{ TEGRA210_CLK_CCLK_G, TEGRA210_CLK_CLK_MAX, 0, 1 },
- 	{ TEGRA210_CLK_PLL_U_OUT2, TEGRA210_CLK_CLK_MAX, 60000000, 1 },
-+	{ TEGRA210_CLK_SPDIF_IN_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA210_CLK_I2S0_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA210_CLK_I2S1_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA210_CLK_I2S2_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA210_CLK_I2S3_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA210_CLK_I2S4_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
-+	{ TEGRA210_CLK_VIMCLK_SYNC, TEGRA210_CLK_CLK_MAX, 24576000, 0 },
- 	/* This MUST be the last entry. */
- 	{ TEGRA210_CLK_CLK_MAX, TEGRA210_CLK_CLK_MAX, 0, 0 },
- };
-@@ -3562,7 +3569,7 @@ static void __init tegra210_clock_init(struct device_node *np)
- 	tegra210_periph_clk_init(clk_base, pmc_base);
- 	tegra_audio_clk_init(clk_base, pmc_base, tegra210_clks,
- 			     tegra210_audio_plls,
--			     ARRAY_SIZE(tegra210_audio_plls));
-+			     ARRAY_SIZE(tegra210_audio_plls), 24576000);
- 	tegra_pmc_clk_init(pmc_base, tegra210_clks);
- 
- 	/* For Tegra210, PLLD is the only source for DSIA & DSIB */
-diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
-index acfe661b2ae72..e0aaecd98fbff 100644
---- a/drivers/clk/tegra/clk-tegra30.c
-+++ b/drivers/clk/tegra/clk-tegra30.c
-@@ -1267,6 +1267,13 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA30_CLK_GR3D2, TEGRA30_CLK_PLL_C, 300000000, 0 },
- 	{ TEGRA30_CLK_PLL_U, TEGRA30_CLK_CLK_MAX, 480000000, 0 },
- 	{ TEGRA30_CLK_VDE, TEGRA30_CLK_CLK_MAX, 600000000, 0 },
-+	{ TEGRA30_CLK_SPDIF_IN_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA30_CLK_I2S0_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA30_CLK_I2S1_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA30_CLK_I2S2_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA30_CLK_I2S3_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA30_CLK_I2S4_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
-+	{ TEGRA30_CLK_VIMCLK_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
- 	/* must be the last entry */
- 	{ TEGRA30_CLK_CLK_MAX, TEGRA30_CLK_CLK_MAX, 0, 0 },
- };
-@@ -1344,7 +1351,7 @@ static void __init tegra30_clock_init(struct device_node *np)
- 	tegra30_periph_clk_init();
- 	tegra_audio_clk_init(clk_base, pmc_base, tegra30_clks,
- 			     tegra30_audio_plls,
--			     ARRAY_SIZE(tegra30_audio_plls));
-+			     ARRAY_SIZE(tegra30_audio_plls), 24000000);
- 	tegra_pmc_clk_init(pmc_base, tegra30_clks);
- 
- 	tegra_init_dup_clks(tegra_clk_duplicates, clks, TEGRA30_CLK_CLK_MAX);
-diff --git a/drivers/clk/tegra/clk.h b/drivers/clk/tegra/clk.h
-index d2c3a010f8e9b..09bccbb9640c4 100644
---- a/drivers/clk/tegra/clk.h
-+++ b/drivers/clk/tegra/clk.h
-@@ -41,7 +41,7 @@ extern const struct clk_ops tegra_clk_sync_source_ops;
- extern int *periph_clk_enb_refcnt;
- 
- struct clk *tegra_clk_register_sync_source(const char *name,
--		unsigned long fixed_rate, unsigned long max_rate);
-+					   unsigned long max_rate);
- 
- /**
-  * struct tegra_clk_frac_div - fractional divider clock
-@@ -796,7 +796,7 @@ void tegra_register_devclks(struct tegra_devclk *dev_clks, int num);
- void tegra_audio_clk_init(void __iomem *clk_base,
- 			void __iomem *pmc_base, struct tegra_clk *tegra_clks,
- 			struct tegra_audio_clk_info *audio_info,
--			unsigned int num_plls);
-+			unsigned int num_plls, unsigned long sync_max_rate);
- 
- void tegra_periph_clk_init(void __iomem *clk_base, void __iomem *pmc_base,
- 			struct tegra_clk *tegra_clks,
--- 
-2.20.1
-
+> thanks,
+> 
+> greg k-h
+> 
