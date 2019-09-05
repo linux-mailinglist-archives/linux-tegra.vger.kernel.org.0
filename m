@@ -2,67 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 14DB1A9A7C
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 Sep 2019 08:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39029A9AA9
+	for <lists+linux-tegra@lfdr.de>; Thu,  5 Sep 2019 08:27:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731276AbfIEGSa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 5 Sep 2019 02:18:30 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33172 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725921AbfIEGS3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 Sep 2019 02:18:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=fTcSpA3ZHXId80EpTLogSujsoZ0WrK6Tdlrkg5U4n3U=; b=CoryMkzNMX3aDlJ+m7fw27+Y5
-        k6b2VLOXAy5PZZ2GtUk7b2Gg7Z+a62WBshvp2BBEqZkvIfsJQUOhgXRJTP2cSkkiV6UMawUgMAnnM
-        BPLyvE/okmSa6W3JyrHnd206HGUFLFCYGyDbkef1/pqS6w6FaTPpzQPIgX7h+a7yf6MIqFQviJlbh
-        O9sVQPNQ3kcpV6SSsFzZkzpahtly3RGBfCYsEwP3r7TlEl9q4+GYVY/KG/YPUjMI8iHQ3Ml2GypGJ
-        JtO9RtgEejTvKcuVSYanopJTNDvcYwgteHDAFFzgUHLNtasHSA48ajt+6LHbTDqmS8+IseRBdsc3B
-        jdCV6Qw4Q==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1i5l67-0000MK-7v; Thu, 05 Sep 2019 06:18:23 +0000
-Date:   Wed, 4 Sep 2019 23:18:23 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Tom Murphy <murphyt7@tcd.ie>
-Cc:     iommu@lists.linux-foundation.org, Heiko Stuebner <heiko@sntech.de>,
-        virtualization@lists.linux-foundation.org,
-        linux-tegra@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        linux-samsung-soc@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        David Woodhouse <dwmw2@infradead.org>,
-        linux-kernel@vger.kernel.org, Kukjin Kim <kgene@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH V5 0/5] iommu/amd: Convert the AMD iommu driver to the
- dma-iommu api
-Message-ID: <20190905061823.GA813@infradead.org>
-References: <20190815110944.3579-1-murphyt7@tcd.ie>
+        id S1731510AbfIEG1D (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 5 Sep 2019 02:27:03 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:17907 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731461AbfIEG1D (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 Sep 2019 02:27:03 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d70aab70000>; Wed, 04 Sep 2019 23:27:03 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 04 Sep 2019 23:27:02 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 04 Sep 2019 23:27:02 -0700
+Received: from [10.19.108.121] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 5 Sep
+ 2019 06:27:00 +0000
+Subject: Re: [PATCH 1/8] clk: tegra: Add PLLE HW power sequencer control
+To:     Jon Hunter <jonathanh@nvidia.com>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <pdeschrijver@nvidia.com>,
+        <afrid@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <nkristam@nvidia.com>,
+        <skomatineni@nvidia.com>
+References: <20190614074652.21960-1-jckuo@nvidia.com>
+ <20190614074652.21960-2-jckuo@nvidia.com>
+ <1d215b49-73f7-8f5c-c8cb-81bf73553b19@nvidia.com>
+X-Nvconfidentiality: public
+From:   JC Kuo <jckuo@nvidia.com>
+Message-ID: <fb9517e8-e7db-613b-6922-b640c95f2a1a@nvidia.com>
+Date:   Thu, 5 Sep 2019 14:26:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190815110944.3579-1-murphyt7@tcd.ie>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <1d215b49-73f7-8f5c-c8cb-81bf73553b19@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1567664823; bh=x5cnuyRHQdEEcbA8md+H1Rut458iUH61JVC0i8TXuSs=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=SkVviJxOqC8LyRKrzg9GH+z6A45IIoy7FSH864kecC6jP3BDZrqRMAAts86V5uVYf
+         2rQ0oK9IzAH793aOJBWeTYQLGHpxJ/da491W+0/4cCrFl4tC/L9//N5xNyfBQG07Sj
+         M8lqw33lgQnpuqcRAkY1YH0Lq2kJDXOYMU9lULVQ/Xtk8X20KzzmtY2AxtW5an8sLe
+         +j16/wwjPUbHJKhapruyS+pyjlATU+DIJLwXXp/+Hot0G964D5oMXr8NSQk4TkaOj8
+         CACDG1KOF+eLYUP3YHLJZbsIdP+0+rSD6U3dkw7y+uQtsN4HkiJ6pXysrOMCaZrLxr
+         rpYqgqMRFZcGQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Dave, Joerg, Robin:
+On 7/4/19 8:16 PM, Jon Hunter wrote:
+> 
+> On 14/06/2019 08:46, JC Kuo wrote:
+>> PLLE hardware power sequencer has to be enabled after PEX/SATA
+>> UPHY PLL's sequencers are enabled.
+>>
+>> tegra210_plle_hw_sequence_start() for XUSB PADCTL driver to enable
+>> PLLE hardware sequencer at proper time.
+>>
+>> tegra210_plle_hw_sequence_is_enabled() for XUSB PADCTL driver to
+>> check whether PLLE hardware sequencer has been enabled or not.
+> 
+> I think that here to be clear about what is going on you should state
+> that you are "adding the function tegra210_plle_hw_sequence_start() ..."
+Thanks. I will amend the commit message accordingly.
+> 
+> Are these functions dependent upon clk_plle_tegra210_enable() already
+> being called? I assume that there must be some dependency between the
+> above functions and the existing plle enable function. If there is a
+> dependency, how do you ensure the existing enable is already called?
+Yes, tegra210_plle_hw_sequence_start() has to be invoked after PLLE is
+enabled/locked. Caller is in charge of calling with correct sequence.
+I will add a check in tegra210_plle_hw_sequence_start() to ensure that
+PLLE HW sequencer will not be accidentally enabled when PLLE is not
+enabled/locked yet.
 
-is there any chance we could at least pick up patches 2 and 4 ASAP
-as they are clearly fixes for current deficits, even without the
-amd conversion?
+Thanks,
+JC
