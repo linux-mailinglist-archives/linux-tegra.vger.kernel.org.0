@@ -2,105 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C300AB04C
-	for <lists+linux-tegra@lfdr.de>; Fri,  6 Sep 2019 03:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29137AB340
+	for <lists+linux-tegra@lfdr.de>; Fri,  6 Sep 2019 09:36:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388243AbfIFBnV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 5 Sep 2019 21:43:21 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:64711 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727411AbfIFBnV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 Sep 2019 21:43:21 -0400
-X-UUID: 416b913ac2624eb89f6c6c896ecff1b3-20190906
-X-UUID: 416b913ac2624eb89f6c6c896ecff1b3-20190906
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 589645460; Fri, 06 Sep 2019 09:43:13 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
- (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 6 Sep
- 2019 09:43:13 +0800
-Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 6 Sep 2019 09:43:09 +0800
-Message-ID: <1567734192.7317.68.camel@mhfsdcap03>
-Subject: Re: [Patch V8 7/8] usb: gadget: Add UDC driver for tegra XUSB
- device mode controller
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Date:   Fri, 6 Sep 2019 09:43:12 +0800
-In-Reply-To: <36447248-1ddb-ff1d-a731-de6afb445a9d@nvidia.com>
-References: <1567585440-13751-1-git-send-email-nkristam@nvidia.com>
-         <1567585440-13751-8-git-send-email-nkristam@nvidia.com>
-         <1567593053.7317.64.camel@mhfsdcap03>
-         <36447248-1ddb-ff1d-a731-de6afb445a9d@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        id S1732465AbfIFHgG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 6 Sep 2019 03:36:06 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:2407 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726936AbfIFHgG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 6 Sep 2019 03:36:06 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d720c690000>; Fri, 06 Sep 2019 00:36:09 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 06 Sep 2019 00:36:05 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 06 Sep 2019 00:36:05 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Sep
+ 2019 07:36:02 +0000
+Subject: Re: [PATCH 4.4 00/77] 4.4.191-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20190904175303.317468926@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <3210f55e-9004-9c36-4ad0-ab58436915b6@nvidia.com>
+Date:   Fri, 6 Sep 2019 08:36:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190904175303.317468926@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-SNTS-SMTP: 74304609C9695D046C28449A67793BF212AAF7C3B9AC8A92D4992BCB9FBBF8632000:8
-X-MTK:  N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1567755369; bh=ylslo3RF4lmw6Y1W7d58NPm3Mu/LhO/eJvpyFKQ/Iis=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=JPjY+VGGXiFrdHC6X+E7NcZJTCIQTQKwUuYHZqWkVPO7RfV8eYSK8XRjAfkGB93Zy
+         COzFX4tPO9RcEJLI0NFrRh5Ha1xbv6Op1nfMdqDqlDVACBcpz1jco8rEUOlmgXs7fh
+         spja4Acm8gQ4vHlPpw40A1Zp70cNMAO04JBKO5h0zdk9fKMQNIzDHltZGJgevsLJ1m
+         T971T593fExl3DcbCTSHV/hnwKE6GGEgElb7/T0VtVDs+i7K4wmq4XJvM+zeCi0tM4
+         KMCFb3EvJqLDRZFzLs9cTsbGg8CRi/2JRdEXvkz9AhQPoDBMcksfDGAyDbpxPfty1c
+         9lNp45NfnFFAg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 2019-09-05 at 09:57 +0530, Nagarjuna Kristam wrote:
+
+On 04/09/2019 18:52, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.191 release.
+> There are 77 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> On 04-09-2019 16:00, Chunfeng Yun wrote:
-> > On Wed, 2019-09-04 at 13:53 +0530, Nagarjuna Kristam wrote:
-> >> This patch adds UDC driver for tegra XUSB 3.0 device mode controller.
-> >> XUSB device mode controller supports SS, HS and FS modes
-> >>
-> >> Based on work by:
-> >>   Mark Kuo <mkuo@nvidia.com>
-> >>   Hui Fu <hfu@nvidia.com>
-> >>   Andrew Bresticker <abrestic@chromium.org>
-> >>
-> >> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> >> Acked-by: Thierry Reding <treding@nvidia.com>
-> >> ---
-> >>  drivers/usb/gadget/udc/Kconfig      |   12 +
-> >>  drivers/usb/gadget/udc/Makefile     |    1 +
-> >>  drivers/usb/gadget/udc/tegra-xudc.c | 3791 +++++++++++++++++++++++++++++++++++
-> >>  3 files changed, 3804 insertions(+)
-> >>  create mode 100644 drivers/usb/gadget/udc/tegra-xudc.c
-> >>
-> >> diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
-> >> index d354036..0fe7577 100644
-> >> --- a/drivers/usb/gadget/udc/Kconfig
-> >> +++ b/drivers/usb/gadget/udc/Kconfig
-> >> @@ -441,6 +441,18 @@ config USB_GADGET_XILINX
-> >>  	  dynamically linked module called "udc-xilinx" and force all
-> >>  	  gadget drivers to also be dynamically linked.
-> >>  
-> >> +config USB_TEGRA_XUDC
-> >> +	tristate "NVIDIA Tegra Superspeed USB 3.0 Device Controller"
-> >> +	depends on ARCH_TEGRA || COMPILE_TEST
-> >> +	depends on PHY_TEGRA_XUSB
-> >> +	select USB_CONN_GPIO
-> > To me, needn't select this driver, without it, the driver still build
-> > pass
-> > 
-> Yes compilation passes with out this. Added select for getting USB_CONN_GPIO
-> driver functionality.
-We can enable it in defconfig, think about one day use type-c to do
-dual-role switch, or other ways, will needn't select it then.
-
+> Responses should be made by Fri 06 Sep 2019 05:50:23 PM UTC.
+> Anything received after that time might be too late.
 > 
-> >> +	help
-> >> +	 Enables NVIDIA Tegra USB 3.0 device mode controller driver.
-> >> +
-> >> +	 Say "y" to link the driver statically, or "m" to build a
-> >> +	 dynamically linked module called "tegra_xudc" and force all
-> >> +	 gadget drivers to also be dynamically linked.
-> >> +
-> >>  source "drivers/usb/gadget/udc/aspeed-vhub/Kconfig"
-> >>  
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.191-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
 
+All tests are passing for Tegra ...
+
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
+
+Linux version:	4.4.191-rc1-gfab7823b08aa
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
