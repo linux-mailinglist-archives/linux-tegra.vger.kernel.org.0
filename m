@@ -2,27 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B13AAC05C
-	for <lists+linux-tegra@lfdr.de>; Fri,  6 Sep 2019 21:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD64ACA29
+	for <lists+linux-tegra@lfdr.de>; Sun,  8 Sep 2019 02:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388502AbfIFTRK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 6 Sep 2019 15:17:10 -0400
-Received: from [165.22.84.44] ([165.22.84.44]:39598 "EHLO TEST.localdomain"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387881AbfIFTRK (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 6 Sep 2019 15:17:10 -0400
-Received: from 127.0.0.1 (TEST [127.0.0.1])
-        by TEST.localdomain (Postfix) with SMTP id 2763D34C797;
-        Fri,  6 Sep 2019 18:17:11 +0000 (UTC)
-From:   128sappient@mail.ru
-Reply-To: prodawez@cuvox.de
-To:     sappient@mail.ru
-Subject: Zdravstvujte! Vas interesujut klientskie bazy dannyh?
-Message-Id: <20190906181711.2763D34C797@TEST.localdomain>
-Date:   Fri,  6 Sep 2019 18:17:11 +0000 (UTC)
+        id S1728124AbfIHA6l (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 7 Sep 2019 20:58:41 -0400
+Received: from 9.mo69.mail-out.ovh.net ([46.105.56.78]:49516 "EHLO
+        9.mo69.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728103AbfIHA6l (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 7 Sep 2019 20:58:41 -0400
+X-Greylist: delayed 4202 seconds by postgrey-1.27 at vger.kernel.org; Sat, 07 Sep 2019 20:58:40 EDT
+Received: from player728.ha.ovh.net (unknown [10.108.54.172])
+        by mo69.mail-out.ovh.net (Postfix) with ESMTP id 8225F66C1F
+        for <linux-tegra@vger.kernel.org>; Sun,  8 Sep 2019 01:39:05 +0200 (CEST)
+Received: from etezian.org (81-175-223-118.bb.dnainternet.fi [81.175.223.118])
+        (Authenticated sender: andi@etezian.org)
+        by player728.ha.ovh.net (Postfix) with ESMTPSA id 4B47C979D591;
+        Sat,  7 Sep 2019 23:38:10 +0000 (UTC)
+Date:   Sun, 8 Sep 2019 02:38:10 +0300
+From:   Andi Shyti <andi@etezian.org>
+To:     Yuehaibing <yuehaibing@huawei.com>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>, broonie@kernel.org,
+        f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com,
+        eric@anholt.net, wahrenst@gmx.net, shc_work@mail.ru,
+        agross@kernel.org, khilman@baylibre.com, matthias.bgg@gmail.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, avifishman70@gmail.com,
+        tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
+        yuenn@google.com, benjaminfair@google.com, kgene@kernel.org,
+        Andi Shyti <andi@etezian.org>, palmer@sifive.com,
+        paul.walmsley@sifive.com, baohua@kernel.org, mripard@kernel.org,
+        wens@csie.org, ldewangan@nvidia.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, yamada.masahiro@socionext.com,
+        michal.simek@xilinx.com, bcm-kernel-feedback-list@broadcom.com,
+        linux-spi@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>,
+        linux-riscv@lists.infradead.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH -next 25/36] spi: s3c24xx: use
+ devm_platform_ioremap_resource() to simplify code
+Message-ID: <20190907233810.GA15768@jack.zhora.eu>
+References: <20190904135918.25352-1-yuehaibing@huawei.com>
+ <20190904135918.25352-26-yuehaibing@huawei.com>
+ <CAJKOXPdq4as1Oe3U+9znkvP0RA=sxUoiWVBCSbzf_wq_um2t=w@mail.gmail.com>
+ <3595bac1-e426-b4f9-4e24-01e104fdfe5d@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3595bac1-e426-b4f9-4e24-01e104fdfe5d@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Ovh-Tracer-Id: 4582412622624637493
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudekvddgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Zdravstvujte! Vas interesujut klientskie bazy dannyh?
+Hi Yuehaibing,
+
+> >> Use devm_platform_ioremap_resource() to simplify the code a bit.
+> >> This is detected by coccinelle.
+> >>
+> >> Reported-by: Hulk Robot <hulkci@huawei.com>
+> > 
+> > This tag does not look real... First of all where is the report?
+> 
+> It is our internal CI robot, which is unavailable to external temporarily.
+
+Hulk Robot is not a person and not accountable for his report.
+If it is your internal CI, please write a sentence stating that
+the fix has been made using Huawei internal tools.
+
+Credit must be given to tools as well, but not accounts that will
+never answer an e-mail.
+
+Otherwise, the patch would look fine.
+
+Andi
