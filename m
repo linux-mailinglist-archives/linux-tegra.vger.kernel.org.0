@@ -2,50 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45B7FADCD5
-	for <lists+linux-tegra@lfdr.de>; Mon,  9 Sep 2019 18:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D725ADEC4
+	for <lists+linux-tegra@lfdr.de>; Mon,  9 Sep 2019 20:22:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387517AbfIIQNh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 9 Sep 2019 12:13:37 -0400
-Received: from verein.lst.de ([213.95.11.211]:52287 "EHLO verein.lst.de"
+        id S1730763AbfIISWe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 9 Sep 2019 14:22:34 -0400
+Received: from mout02.posteo.de ([185.67.36.142]:50685 "EHLO mout02.posteo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726472AbfIIQNg (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 9 Sep 2019 12:13:36 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 19DA968B02; Mon,  9 Sep 2019 18:13:32 +0200 (CEST)
-Date:   Mon, 9 Sep 2019 18:13:31 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, Ulf Hansson <ulf.hansson@linaro.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-block@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 1/3] block: Respect the device's maximum segment size
-Message-ID: <20190909161331.GA19650@lst.de>
-References: <20190909125658.30559-1-thierry.reding@gmail.com> <20190909125658.30559-2-thierry.reding@gmail.com>
+        id S1730721AbfIISWe (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 9 Sep 2019 14:22:34 -0400
+X-Greylist: delayed 458 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Sep 2019 14:22:33 EDT
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id A39942400FC
+        for <linux-tegra@vger.kernel.org>; Mon,  9 Sep 2019 20:14:53 +0200 (CEST)
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 46RxCH3tqVz9rxH;
+        Mon,  9 Sep 2019 20:14:51 +0200 (CEST)
+Date:   Mon, 9 Sep 2019 20:14:50 +0200 (CEST)
+From:   Marc Dietrich <marvin24@gmx.de>
+X-X-Sender: lucile@macbook-pro.fritz.box
+To:     Hariprasad Kelam <hariprasad.kelam@gmail.com>
+cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: nvec: make use of
+ devm_platform_ioremap_resource
+In-Reply-To: <1567935662-8006-1-git-send-email-hariprasad.kelam@gmail.com>
+Message-ID: <alpine.OSX.2.21.1909092010430.4245@macbook-pro.fritz.box>
+References: <1567935662-8006-1-git-send-email-hariprasad.kelam@gmail.com>
+User-Agent: Alpine 2.21 (OSX 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190909125658.30559-2-thierry.reding@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Sep 09, 2019 at 02:56:56PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> When enabling the DMA map merging capability for a queue, ensure that
-> the maximum segment size does not exceed the device's limit.
+Hi Hariprased,
 
-We can't do that unfortunately.  If we use the virt_boundary setting
-we do aggressive merges that there is no accounting for.  So we can't
-limit the segment size.
+On Sun, 8 Sep 2019, hariprasad@MISSING_DOMAIN wrote:
+                              ^^^^^^^^^^^^^^^^^^
+something is wrong with your git mail config...
 
-And at least for the case how devices usually do the addressing
-(page based on not sgl based) that needs the virt_boundary there isn't
-really any concept like a segment anyway.
+> From: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+>
+> fix below issue reported by coccicheck
+> drivers/staging//nvec/nvec.c:794:1-5: WARNING: Use
+> devm_platform_ioremap_resource for base
+>
+> Signed-off-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+
+Acked-by: Marc Dietrich <marvin24@gmx.de>
+
+Thanks!
+
+Marc
+
+> ---
+> drivers/staging/nvec/nvec.c | 4 +---
+> 1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> index 1cbd7b7..360ec04 100644
+> --- a/drivers/staging/nvec/nvec.c
+> +++ b/drivers/staging/nvec/nvec.c
+> @@ -767,7 +767,6 @@ static int tegra_nvec_probe(struct platform_device *pdev)
+> 	struct device *dev = &pdev->dev;
+> 	struct nvec_chip *nvec;
+> 	struct nvec_msg *msg;
+> -	struct resource *res;
+> 	void __iomem *base;
+> 	char	get_firmware_version[] = { NVEC_CNTL, GET_FIRMWARE_VERSION },
+> 		unmute_speakers[] = { NVEC_OEM0, 0x10, 0x59, 0x95 },
+> @@ -790,8 +789,7 @@ static int tegra_nvec_probe(struct platform_device *pdev)
+> 		return -ENODEV;
+> 	}
+>
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	base = devm_ioremap_resource(dev, res);
+> +	base = devm_platform_ioremap_resource(pdev, 0);
+> 	if (IS_ERR(base))
+> 		return PTR_ERR(base);
+>
+> -- 
+> 2.7.4
+>
+>
