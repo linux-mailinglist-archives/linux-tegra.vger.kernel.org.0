@@ -2,69 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED6C5ADF3B
-	for <lists+linux-tegra@lfdr.de>; Mon,  9 Sep 2019 21:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA892ADF40
+	for <lists+linux-tegra@lfdr.de>; Mon,  9 Sep 2019 21:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733230AbfIITNe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 9 Sep 2019 15:13:34 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45679 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732594AbfIITNe (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 9 Sep 2019 15:13:34 -0400
-Received: by mail-wr1-f66.google.com with SMTP id l16so15316434wrv.12;
-        Mon, 09 Sep 2019 12:13:32 -0700 (PDT)
+        id S1728836AbfIITTS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 9 Sep 2019 15:19:18 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:34534 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726814AbfIITTR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 9 Sep 2019 15:19:17 -0400
+Received: by mail-wr1-f68.google.com with SMTP id a11so5622792wrx.1;
+        Mon, 09 Sep 2019 12:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=EtjT9krkvQVip1GWh+seq/qOERbt+UkK3wD01Yg2ZFg=;
-        b=kxVr1/Hg35Cp44iNRnQUCAS08K9VFo4bedJz7CwrgJT1NaW3llESuddQl66c6Vr7WG
-         MA/ov+QQTMsAFEscBF93a1M4GRhuELlmqZvfBW+Qa+dmrV37KdFTiFafgsxwnOnPCyRS
-         u/45Y4AnffCr1c0/Wz0ch3awt8ULpekIRud6FJTurvQ7g6wHI4J9lEThBuLoMBhENKN3
-         3WEFxf/eYgGcsRoI5zM/hY7LP32SaClg28lPzlYGgyJHdR8A6vIQ5CxYn6Y5DhxAP0H0
-         hKEPvVaHq4OLGR9FkPH9TZ5vhfMpV4irMsvH7K1h4YNXuQr8apcWwUeHwVXpufOTjEx0
-         mSZQ==
+        bh=r66d4BYEgHUxOR3huNv8G+gUhZfgwceZJlB7X7E2Auw=;
+        b=IIyQMR9Z3PNc7WMmpLhX14tESPk15ABwQuTI15q0vFFQgM4JmzoAi/RLhycSkEyQKW
+         +c3keZ+xqURPEQGloh0jzRTozvYGj94eFfgsL51dtm+GY5y2s+r3dr78k/hPopa1lF0H
+         MU17MYNzkLRBIda57peHvR3hH6wgN9KxyfVWlD89tuPPHFsxXEDi/JQ1PXU2VeR531X7
+         gBQoYa2FqowVyd86rfxGpgcPs5FMlopHalmWz4B9KqAelY/1CxslNNPhg1nDGcW8w7xl
+         LWMxwPHxHnzmgwaYGy+Q3G4dfq7kNKmpB4J6ssytL91K9oPnCnNflWcJxSXGgahLzypG
+         o70g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EtjT9krkvQVip1GWh+seq/qOERbt+UkK3wD01Yg2ZFg=;
-        b=QBB9422MOc9SoiX2EbVJeukMtRT6647lpcN0wAeShdOmFsaHtiYckBoBirVTHbtSKO
-         pHyin3FRiUJ28tqQ7kiXVJA4ufvyUMC+GC9H9ZV1zNarwvOPx9S39a7jEg7eeLMtqaFx
-         aCaQavAdlo0UwoHjms3S8MDWS25encUlLeqts5sIRc3QUDWa4pacZfU9aO8Pejrjdlad
-         v32qqMXMx/ysek+i3qoQuQccei7a93JgcGzGChEZlfCoQS8uiIacfeKSGhFdF1cxuKAt
-         lVIy3rGf7YVhKsfx0xReQIXWgJxnyM9KsxCIz3WXkGCpUods0033jGO3Yz6qJHXRSrSH
-         A4YQ==
-X-Gm-Message-State: APjAAAU4Dgb/AtRXW1am/9oq5uBgv43HgQkqbzlbJRLL//dJaZioT3dM
-        AMKVrpRKw79FwBhRfOLQJ9Y=
-X-Google-Smtp-Source: APXvYqygJvOqFCAqeat55Yfx16OlTCafNbBdmOIw1pL8k21L1FX7un9aN9bQINaNsFdxxDRphGdFVw==
-X-Received: by 2002:a5d:684a:: with SMTP id o10mr14630854wrw.23.1568056411652;
-        Mon, 09 Sep 2019 12:13:31 -0700 (PDT)
+        bh=r66d4BYEgHUxOR3huNv8G+gUhZfgwceZJlB7X7E2Auw=;
+        b=Rc6HpKt1Mb/j36T+aMvNJR1xX+EGHh5ruQyOqOgS9qScBDukPDUDczOPAHeQ/4tdzE
+         wdfc98++wC7AbruMWojm7QnzOFh4uk19UOvCeGlFBAH58ednEojEBPCEEPZaFSetJLu/
+         /mLNk/Oifs0LyuHtl8sm8t0XFsGWcU/IDgWBB1Om6E3W+Gpq7plqQ9IVG7Mvt3RhTXYI
+         gdHr4SwIwmqgm6VVIR0L5y/dAYCMqGkDPA90AdRVWUYQ6k0s+dREj+JH1foKEj7RFU95
+         uFAsOOxm3VGaWaYHFjzhchPO/Zz9l1uSsMFhxaAmdFlxdv8scw4gELMk/E9z/UKsifLf
+         /jfA==
+X-Gm-Message-State: APjAAAWZ6SLB+kbDECfcqVcVtdLzEAYHxyAOGiS6Ki6yDhC7FaVyJsKt
+        WAwqrVODeXOnbyYO9RAYVodnyMWt
+X-Google-Smtp-Source: APXvYqxzb5qbwmdG9sJb6tMns3ACZ8bACZQPb/aD3Wgpte3mQ5QZNm7HEjrNYRG9ihan4YFQ48Bv7w==
+X-Received: by 2002:a5d:438c:: with SMTP id i12mr19476713wrq.238.1568056753698;
+        Mon, 09 Sep 2019 12:19:13 -0700 (PDT)
 Received: from localhost (p200300E41F12DF00021F3CFFFE37B91B.dip0.t-ipconnect.de. [2003:e4:1f12:df00:21f:3cff:fe37:b91b])
-        by smtp.gmail.com with ESMTPSA id q15sm19151235wrg.65.2019.09.09.12.13.30
+        by smtp.gmail.com with ESMTPSA id 74sm497052wma.15.2019.09.09.12.19.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2019 12:13:30 -0700 (PDT)
-Date:   Mon, 9 Sep 2019 21:13:29 +0200
+        Mon, 09 Sep 2019 12:19:12 -0700 (PDT)
+Date:   Mon, 9 Sep 2019 21:19:11 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jose Abreu <Jose.Abreu@synopsys.com>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 2/2] net: stmmac: Support enhanced addressing
- mode for DWMAC 4.10
-Message-ID: <20190909191329.GB23804@mithrandir>
-References: <20190909152546.383-1-thierry.reding@gmail.com>
- <20190909152546.383-2-thierry.reding@gmail.com>
- <BN8PR12MB3266AAC6FF4819EC25CB087BD3B70@BN8PR12MB3266.namprd12.prod.outlook.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Jens Axboe <axboe@kernel.dk>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-block@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 1/3] block: Respect the device's maximum segment size
+Message-ID: <20190909191911.GC23804@mithrandir>
+References: <20190909125658.30559-1-thierry.reding@gmail.com>
+ <20190909125658.30559-2-thierry.reding@gmail.com>
+ <20190909161331.GA19650@lst.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="H1spWtNR+x+ondvy"
+        protocol="application/pgp-signature"; boundary="/Uq4LBwYP4y1W6pO"
 Content-Disposition: inline
-In-Reply-To: <BN8PR12MB3266AAC6FF4819EC25CB087BD3B70@BN8PR12MB3266.namprd12.prod.outlook.com>
+In-Reply-To: <20190909161331.GA19650@lst.de>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -72,77 +70,64 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---H1spWtNR+x+ondvy
+--/Uq4LBwYP4y1W6pO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 09, 2019 at 04:05:52PM +0000, Jose Abreu wrote:
-> From: Thierry Reding <thierry.reding@gmail.com>
-> Date: Sep/09/2019, 16:25:46 (UTC+00:00)
+On Mon, Sep 09, 2019 at 06:13:31PM +0200, Christoph Hellwig wrote:
+> On Mon, Sep 09, 2019 at 02:56:56PM +0200, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > When enabling the DMA map merging capability for a queue, ensure that
+> > the maximum segment size does not exceed the device's limit.
 >=20
-> > @@ -79,6 +79,10 @@ static void dwmac4_dma_init_rx_chan(void __iomem *io=
-addr,
-> >  	value =3D value | (rxpbl << DMA_BUS_MODE_RPBL_SHIFT);
-> >  	writel(value, ioaddr + DMA_CHAN_RX_CONTROL(chan));
-> > =20
-> > +	if (dma_cfg->eame)
->=20
-> There is no need for this check. If EAME is not enabled then upper 32=20
-> bits will be zero.
+> We can't do that unfortunately.  If we use the virt_boundary setting
+> we do aggressive merges that there is no accounting for.  So we can't
+> limit the segment size.
 
-The idea here was to potentially guard against this register not being
-available on some revisions. Having the check here would avoid access to
-the register if the device doesn't support enhanced addressing.
+But that's kind of the point here. My understanding is that the maximum
+segment size in the device's DMA parameters defines the maximum size of
+the segment that the device can handle.
 
->=20
-> > +		writel(upper_32_bits(dma_rx_phy),
-> > +		       ioaddr + DMA_CHAN_RX_BASE_ADDR_HI(chan));
-> > +
-> >  	writel(lower_32_bits(dma_rx_phy), ioaddr + DMA_CHAN_RX_BASE_ADDR(chan=
-));
-> >  }
->=20
-> > @@ -97,6 +101,10 @@ static void dwmac4_dma_init_tx_chan(void __iomem *i=
-oaddr,
-> > =20
-> >  	writel(value, ioaddr + DMA_CHAN_TX_CONTROL(chan));
-> > =20
-> > +	if (dma_cfg->eame)
->=20
-> Same here.
->=20
-> > +		writel(upper_32_bits(dma_tx_phy),
-> > +		       ioaddr + DMA_CHAN_TX_BASE_ADDR_HI(chan));
-> > +
-> >  	writel(lower_32_bits(dma_tx_phy), ioaddr + DMA_CHAN_TX_BASE_ADDR(chan=
-));
-> >  }
->=20
-> Also, please provide a cover letter in next submission.
+In the particular case that I'm trying to fix, according to the SDHCI
+specification, these devices can handle segments that are a maximum of
+64 KiB in size. If we allow that segment size to be exceeded, the device
+will no longer be able to handle them.
 
-Alright, will do.
+> And at least for the case how devices usually do the addressing
+> (page based on not sgl based) that needs the virt_boundary there isn't
+> really any concept like a segment anyway.
+
+I do understand that aspect of it. However, devices that do the
+addressing this way, wouldn't they want to set the maximum segment size
+to something large (like UINT_MAX, which many users that don't have the
+concept of a segment already do)?
+
+If you disagree, do you have any alternative proposals other than
+reverting the offending patch? linux-next is currently broken on all
+systems where the SDHCI controller is behind an IOMMU.
 
 Thierry
 
---H1spWtNR+x+ondvy
+--/Uq4LBwYP4y1W6pO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl12pFkACgkQ3SOs138+
-s6ETZA//e0WU5Hrb5t7pZZJ4aMic/ZLKBTWhpHFIWs2viAiezlw3okqBevLUWQ9s
-UGS5OJgTsdpdSng+6PlL235LiIAAlvEMup3qwW3m4elEkxx4VrLcyH1S6AZabxZ4
-F/ntmiJHDOLMNGQknuPqZhKcqTm7Ybci7MzRfYBZnQF+GNOBG7rld2CC0kYPV9mm
-b58HEq+CdSnJE1u1531lt785PGkJVekNhr4FDP9nXTamvUcR9bHooK9C8qBf/I/U
-TXG0lOKu2R3hvSJBnoAUffDboA2+Y0jZD/oZnjmsXzGU5YYvZgqxS95vObsDVZri
-LwvDOkwG4X6tveTp74nc3gLoUScsKx4aNfYqlxmTCito8r8DGijEgVUOp7Fnhjcy
-QxQ2D/VBb7AJSMa2xi22lYU1/FhCISFJQ6D0w7eCM95G/hlIdSRzzo2o1yXOFxKb
-RvH7v7rsPDUzU8jDXtD86R5Dsea/TaFnPRM4kCQrCopXY8pQoR6YQ7xHmTp4remu
-vP6BrZAk20ApsMD4G8KhPI5n0URKadOtN+bkWJrsBGaw8HLwR6ricq84j67Whibi
-lmeDt+jCxPMCvRSHMrGnh3pha7Km7fto4QjtSq+ZJndfTuNeqxt1D68n9FNnxHGP
-V2Ck0tGw31Ui629CrHaZQgqfpQb1swosPAUuK3AnuAnImkgMfws=
-=kFia
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl12pa8ACgkQ3SOs138+
+s6HrWg//aN5PxrCWIsl0Y2QXlqhiL+PeVvdDm9nf8/CdONMVuGetb/xY/jQ7JMRx
+I3RYYhHauxPMMLUxVloENIXnfjv005SaAE2TFhQ1oLxNomS/75KC+26920kSGwHg
+zV8QHyu3uFiqdgkQLunbPs5PVQky7YTVqT/HTTl5XHkLnrsQyj+x00kayTmVjtPy
+QmqqRJZsJ0G77ewpGXJT3edhMLqkmWF5s3ql0vB+8d+KObr4msjn7bl3nvp09sNN
+n7ilt0f/qRZDWQKrVAMKMkOs9Ip8nZXPhkCVzTxST6cDrefMhDyED644IETl+HiI
+1bRB+d1nJXg4gjsAFCrGCz4WdUcYOtVQ8CQJnkX9Wt5N2Zq/Mc9/VWU++C+Fb0sU
+xkPPBOZaI9fKYe0pe9QR75iKD/bKEf8+p9gxjZV04QHW7zrsUhmEWyFmtuDwHsTa
+Hkx8LNEp8sK96ly7nG8oYVGG7kvtpXWZCxk1WRrVw6MZdKb3rmF7AlTMlO3zntTQ
+nsWYgX/SE2b17ckXWQQAlKjXeHFj2ax/E9bOzChAcsh/5DtQQXHOkKIQO6dmGNCQ
+koleIlK0eAS0xY3cH5Bt5OlrmWMwCpb8pQ5t/gudb6Gs56aMGUOnXBg5SoVmnNvD
+EJdRvM6EszKzeuQ6MNmsvwBw7+drIAHS1cmNITKBmiKWmnd+eHQ=
+=Gpqn
 -----END PGP SIGNATURE-----
 
---H1spWtNR+x+ondvy--
+--/Uq4LBwYP4y1W6pO--
