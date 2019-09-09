@@ -2,116 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9D7CAD97C
-	for <lists+linux-tegra@lfdr.de>; Mon,  9 Sep 2019 14:57:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D086ADBC8
+	for <lists+linux-tegra@lfdr.de>; Mon,  9 Sep 2019 17:08:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726317AbfIIM5J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 9 Sep 2019 08:57:09 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:55348 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727085AbfIIM5I (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 9 Sep 2019 08:57:08 -0400
-Received: by mail-wm1-f67.google.com with SMTP id g207so13723222wmg.5;
-        Mon, 09 Sep 2019 05:57:06 -0700 (PDT)
+        id S1726901AbfIIPIw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 9 Sep 2019 11:08:52 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:38281 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726311AbfIIPIw (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 9 Sep 2019 11:08:52 -0400
+Received: by mail-wm1-f65.google.com with SMTP id o184so15117415wme.3;
+        Mon, 09 Sep 2019 08:08:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wiEmvqYHezDokAQjgi5F2Bz251GFyvgk91GEKkm7bgA=;
-        b=iP8VGgpjh5evX+wubxCKl7++5k3igSiHYCGLdmun2KD+etOCUES7KuvAqQDXVKxy+h
-         h+03FoIKfMknRbS7Py+Zb+6oeKNCSmXrgLubvsUprOJYoiHXmZQM55O2NBMIEYqWjS9o
-         YXDoIVK+zo8KvP2Ee5z9vXnESWNrcwwXrS1L0D3QEaQJ5s35GZmtZYVfCQ9x1KKPOV33
-         yeam+Qb0dMIYtutaGkl+4rqyj7wPv5YMd+69WsEUSrBQJ3o3ENMyluLcIQKiL4avQ93N
-         2AsJc9LOYboUmQz+OA3LdOPvOhjqxgrw6bxAeaUPmVb8ew/B2+bYWxVLKwqybW/2Tnei
-         WFEg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=bkcaGhT4i1YczVLSYGucQECEKh6an5T4AF5+XBynpKQ=;
+        b=Iv3YgMINM8MI4r/hatRem1z/iT7ykqT8egkiqnuw52yBf+jDx6cY8WMhkxN8Nx4Gpi
+         Stb1ZTPDWwC5HNYyLx/DZkFI+zu4H9RTejkzkyxtS73PhdBwAcW9Q+0CNeXHUAyHOSsO
+         Ut3Rbv0smOf0k8b9LxG09zqfYQXff1nDYTKSQRX4+slyBkQhqTj9k9+Fen6McEfCKZr1
+         zfNmh8io4htRpFg7jsZjteNezKKkXVegLtxJBYz/nAikGdObGcKW4ESvSySY4o5H4lSz
+         4Nf2jSLC2d0VLFBlHUSLgqusntK9QOuVKQBWYZKIA+tZXqYJMbMJBSuN/Vfq88eXnJH1
+         EOSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wiEmvqYHezDokAQjgi5F2Bz251GFyvgk91GEKkm7bgA=;
-        b=cyVmiwLKqCYGpA/GN+aePCwk7g7LrPon4YKh0IYtIbtSazeemKEiLg1R6gNO7RTYFV
-         O2xB3aL3Ofdw++IUciT1c4YW8PEkJVSH26PL+fBlnzIj15CVrSfcjebHvXinlrtVkM61
-         2giPZoGm4NywtD8yqnphkHZwHiojaw6Zma3NNLqHaaACW3e3z+ngeA8+PdRFYrjqwr8Q
-         rIMe2UpSG//f4vvs2EXe5WcP69d9quy5IvuWyTWwjWkbfRYGd03pWlKnYJRvOV+vK5tF
-         CsZJUT5Cv6/rW3mCKjOOojAXShVADjBFCXWdIypYy5y5hHZbTNAiXrsLAMiGZh1RltB9
-         vsVw==
-X-Gm-Message-State: APjAAAVJMeK002gsNI9/ZME/967u2bCUbZC4ymOEFGzk1x/tXuFrqKOs
-        wVCHhxn3JYRoVaEnXs3EiyI=
-X-Google-Smtp-Source: APXvYqwLjezjywoAPHgx7CY1NFZiNpD7zOOAE5ZJ7jcWkYO7AuQCSFbS50Vhfw2LtFbQb0kXhEmj1w==
-X-Received: by 2002:a1c:4383:: with SMTP id q125mr17508299wma.122.1568033826252;
-        Mon, 09 Sep 2019 05:57:06 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=bkcaGhT4i1YczVLSYGucQECEKh6an5T4AF5+XBynpKQ=;
+        b=BkZb15p6oOMxvhkj7DWIz5B9MHo04RnpSBDxeUtqrBYGblkl0B8fAvjegh9PXLyoBl
+         MZ+jeddWg0wtVC/kwPL2CLdEX0WpxKFa3Nh/xEhx1V+wzHBhiB6U26jrk2kN3oDOjmJi
+         qB7mB/kRk9O7Eno2H6pGSh7ngfeIPA/afUTl1Ijc1rJEq5IN70zZYa6c4qpfO8arVHOB
+         y7jEfXTL+GuO7KfGns2Xhh+6UgvaRQ0Gl1Mvfgx8g3wjyasNbVBnSyRVMxGTr1Z+VY9p
+         8bmkFWgQFFHqsVYIyc0Mm1anPpkeco9BSBu6AAmqEJOvuXHn5AOjPcpqfMzz9l8S7Wic
+         4F6A==
+X-Gm-Message-State: APjAAAWKpjPFyHbQd/VHrBF0FufwvbRYxpWF8ZOaYftXQ3xLMdPOwl3J
+        QTHAeAs71Ws15xxjJezVGWrQ9Z+b
+X-Google-Smtp-Source: APXvYqzZIZfIilwh1VWSffFxyOjQ5MCeUQJyfmu51e37HvfyP8HfRgJclAH0CfxzNJsRxLXoAItULw==
+X-Received: by 2002:a1c:6a0a:: with SMTP id f10mr19220017wmc.121.1568041729853;
+        Mon, 09 Sep 2019 08:08:49 -0700 (PDT)
 Received: from localhost (p2E5BE0B8.dip0.t-ipconnect.de. [46.91.224.184])
-        by smtp.gmail.com with ESMTPSA id q15sm12601630wmb.28.2019.09.09.05.57.04
+        by smtp.gmail.com with ESMTPSA id 33sm14670646wra.41.2019.09.09.08.08.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2019 05:57:05 -0700 (PDT)
+        Mon, 09 Sep 2019 08:08:47 -0700 (PDT)
+Date:   Mon, 9 Sep 2019 17:08:46 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jens Axboe <axboe@kernel.dk>, Ulf Hansson <ulf.hansson@linaro.org>,
-        Adrian Hunter <adrian.hunter@intel.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-block@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 3/3] mmc: sdhci: Set DMA maximum segment size to 64 KiB
-Date:   Mon,  9 Sep 2019 14:56:58 +0200
-Message-Id: <20190909125658.30559-4-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190909125658.30559-1-thierry.reding@gmail.com>
-References: <20190909125658.30559-1-thierry.reding@gmail.com>
+To:     "David S . Miller" <davem@davemloft.net>
+Cc:     Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, netdev@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH net-next 2/2] net: stmmac: Support enhanced addressing
+ mode for DWMAC 4.10
+Message-ID: <20190909150846.GA27056@ulmo>
+References: <20190909123627.29928-1-thierry.reding@gmail.com>
+ <20190909123627.29928-2-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
+Content-Disposition: inline
+In-Reply-To: <20190909123627.29928-2-thierry.reding@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-DMA descriptors used with SDHCI have a 16-bit field that specifies the
-number of bytes to transfer per segment. A segment's size may therefore
-never exceed 64 KiB.
+--J2SCkAp4GZ/dPZZf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/mmc/host/sdhci.c | 5 +++++
- drivers/mmc/host/sdhci.h | 1 +
- 2 files changed, 6 insertions(+)
+On Mon, Sep 09, 2019 at 02:36:27PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> The address width of the controller can be read from hardware feature
+> registers much like on XGMAC. Add support for parsing the ADDR64 field
+> so that the DMA mask can be set accordingly.
+>=20
+> This avoids getting swiotlb involved for DMA on Tegra186 and later.
+>=20
+> Also make sure that the upper 32 bits of the DMA address are written to
+> the DMA descriptors when enhanced addressing mode is used.
+>=20
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/net/ethernet/stmicro/stmmac/dwmac4.h  |  1 +
+>  .../ethernet/stmicro/stmmac/dwmac4_descs.c    |  4 ++--
+>  .../net/ethernet/stmicro/stmmac/dwmac4_dma.c  | 20 +++++++++++++++++++
+>  .../net/ethernet/stmicro/stmmac/dwmac4_dma.h  |  1 +
+>  4 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mmc/host/sdhci.c b/drivers/mmc/host/sdhci.c
-index d814dc004bad..b59d063646bf 100644
---- a/drivers/mmc/host/sdhci.c
-+++ b/drivers/mmc/host/sdhci.c
-@@ -3555,6 +3555,10 @@ struct sdhci_host *sdhci_alloc_host(struct device *dev,
- 	 */
- 	host->adma_table_cnt = SDHCI_MAX_SEGS * 2 + 1;
- 
-+	/* ADMA supports a maximum of 64 KiB per descriptor */
-+	dev->dma_parms = &host->dma_params;
-+	dma_set_max_seg_size(dev, SZ_64K);
-+
- 	return host;
- }
- 
-@@ -4410,6 +4414,7 @@ EXPORT_SYMBOL_GPL(sdhci_remove_host);
- 
- void sdhci_free_host(struct sdhci_host *host)
- {
-+	host->mmc->parent->dma_parms = NULL;
- 	mmc_free_host(host->mmc);
- }
- 
-diff --git a/drivers/mmc/host/sdhci.h b/drivers/mmc/host/sdhci.h
-index cf3d1ed91909..b543d31bbcdb 100644
---- a/drivers/mmc/host/sdhci.h
-+++ b/drivers/mmc/host/sdhci.h
-@@ -494,6 +494,7 @@ struct sdhci_host {
- 	/* Internal data */
- 	struct mmc_host *mmc;	/* MMC structure */
- 	struct mmc_host_ops mmc_host_ops;	/* MMC host ops */
-+	struct device_dma_parameters dma_params; /* DMA parameters */
- 	u64 dma_mask;		/* custom DMA mask */
- 
- #if IS_ENABLED(CONFIG_LEDS_CLASS)
--- 
-2.23.0
+I just ran into a case where this is not enough. The problem is that the
+driver not only doesn't fill in the upper 32 bits of the DMA address in
+the descriptors, it also doesn't program the upper 32 bits of the DMA
+address of the descriptors when initializing the channels. I'll update
+the patch for that case as well.
 
+Thierry
+
+--J2SCkAp4GZ/dPZZf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl12avoACgkQ3SOs138+
+s6HKiw//TWM7ZrQDzc7XyoxuJLTo+cDwrkPcfuhx7j7KcMxyjDbUv1HqMhzxrs+Q
+iHgY3b2d3LubovfTDeEq+N1uDfFsv6T+dNQg7FVo7lFsRbEnwdt8bwQrvDsfVjCD
+e9aAPCp1tazMPiMLGvTpKyH/yLz6VECXcYNUH/bT/sp86NstNlmTatU10pyZC0sd
+JIAKcIUesQMZVwwObof1C3Y0XMuMuTnVu0PP6hVqxe19ajV++jDylqBNq1kanbHM
+GQTZoVy3ax/xwZM+RfQF6OO8bUfcDR4TRzjVEeksBCK6rMG4FLBnihHWDejN7f0N
+WwBUlNGB+y1Mpfm5Dg5lao+SyyhGFPLQyHKaemxAWRWMXQeo21A+hOXGd29wwkec
+4nwIeIj5YSLzN/xGel4+aJz8awfrAq+9ufCKPgz1zalXMbgq7uqY05jyiGzgqmEZ
+UIEj5iNCHnZcCDpzxspLGD1mtmIGC90zwdSayLvKrTjVj0wtjkuwHsg5AYe7aqxT
+ChEYn11wD088dLymiO70+r8puQR/YdHvdBNxOe2KMA4p6P/JEujUTG1IBYeH0x+H
+ii2vhX4hMJFp8T19Tqntfpt0YNhny9thbFfybokv4NyaIPG4QNWLB9ZioO1SzcO0
+yM33lw0ZFBc9pF6Fny2z9u7pyfCrFap3fSbynCZxBe9WNg/o4OM=
+=EFgV
+-----END PGP SIGNATURE-----
+
+--J2SCkAp4GZ/dPZZf--
