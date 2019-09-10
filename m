@@ -2,195 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87777AEC49
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Sep 2019 15:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47DE2AEC60
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Sep 2019 15:54:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387676AbfIJNuh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Sep 2019 09:50:37 -0400
-Received: from esa3.microchip.iphmx.com ([68.232.153.233]:38773 "EHLO
-        esa3.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726043AbfIJNug (ORCPT
+        id S1730522AbfIJNyb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Sep 2019 09:54:31 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39489 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725942AbfIJNyb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Sep 2019 09:50:36 -0400
-Received-SPF: Pass (esa3.microchip.iphmx.com: domain of
-  Claudiu.Beznea@microchip.com designates 198.175.253.82 as
-  permitted sender) identity=mailfrom;
-  client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
-  envelope-from="Claudiu.Beznea@microchip.com";
-  x-sender="Claudiu.Beznea@microchip.com";
-  x-conformance=spf_only; x-record-type="v=spf1";
-  x-record-text="v=spf1 mx a:ushub1.microchip.com
-  a:smtpout.microchip.com a:mx1.microchip.iphmx.com
-  a:mx2.microchip.iphmx.com include:servers.mcsv.net
-  include:mktomail.com include:spf.protection.outlook.com ~all"
-Received-SPF: None (esa3.microchip.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@email.microchip.com) identity=helo;
-  client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
-  envelope-from="Claudiu.Beznea@microchip.com";
-  x-sender="postmaster@email.microchip.com";
-  x-conformance=spf_only
-Authentication-Results: esa3.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: 7Qx/t+qsjV6E0Dj1xcyp25xO9F6J0eJMEgv8Rljttory/h06/GeKzflrUaMK23yk4zpcyzRSgD
- oc7X0UF5ZKXrf8PPjGuE4u5QFaEIVxR4voyfKyb3pZ+bW+1/amxVUdogsl++SEkth8xqzN7fiC
- 2cW8K4IWn+UhZN2FvlZT5ULMgk4nHeh06WVzpS/tVawEfSwvFI3NAhxNOQiiiRqT++v7ZXDv6d
- e/omb4OFyKX+MKSCiBXGp+7xlJnBhpZDZgUm66rk0ykVRhT17zotZ/yYy7Hy4kCN71Um3RINx+
- JN4=
-X-IronPort-AV: E=Sophos;i="5.64,489,1559545200"; 
-   d="scan'208";a="48512205"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Sep 2019 06:50:33 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 10 Sep 2019 06:50:27 -0700
-Received: from m18063-ThinkPad-T460p.mchp-main.com (10.10.85.251) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Tue, 10 Sep 2019 06:50:05 -0700
-From:   Claudiu Beznea <claudiu.beznea@microchip.com>
-To:     <daniel.lezcano@linaro.org>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <linux@armlinux.org.uk>, <nsekhar@ti.com>,
-        <bgolaszewski@baylibre.com>, <monstr@monstr.eu>,
-        <john@phrozen.org>, <ralf@linux-mips.org>, <paul.burton@mips.com>,
-        <jhogan@kernel.org>, <lftan@altera.com>, <tglx@linutronix.de>,
-        <vgupta@synopsys.com>, <marc.zyngier@arm.com>,
-        <patrice.chotard@st.com>, <mcoquelin.stm32@gmail.com>,
-        <alexandre.torgue@st.com>, <eric@anholt.net>, <wahrenst@gmx.net>,
-        <f.fainelli@gmail.com>, <rjui@broadcom.com>,
-        <sbranden@broadcom.com>, <bcm-kernel-feedback-list@broadcom.com>,
-        <linus.walleij@linaro.org>, <shc_work@mail.ru>, <kgene@kernel.org>,
-        <krzk@kernel.org>, <ysato@users.sourceforge.jp>,
-        <liviu.dudau@arm.com>, <sudeep.holla@arm.com>,
-        <lorenzo.pieralisi@arm.com>, <shawnguo@kernel.org>,
-        <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
-        <festevam@gmail.com>, <linux-imx@nxp.com>, <baohua@kernel.org>,
-        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <ludovic.desroches@microchip.com>, <baruch@tkos.co.il>,
-        <u.kleine-koenig@pengutronix.de>, <guoren@kernel.org>,
-        <kaloz@openwrt.org>, <khalasa@piap.pl>, <ssantosh@kernel.org>,
-        <vz@mleia.com>, <slemieux.tyco@gmail.com>, <khilman@baylibre.com>,
-        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
-        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
-        <benjaminfair@google.com>, <afaerber@suse.de>,
-        <manivannan.sadhasivam@linaro.org>, <narmstrong@baylibre.com>,
-        <agross@kernel.org>, <palmer@sifive.com>, <aou@eecs.berkeley.edu>,
-        <heiko@sntech.de>, <orsonzhai@gmail.com>, <baolin.wang@linaro.org>,
-        <zhang.lyra@gmail.com>, <maxime.ripard@bootlin.com>,
-        <wens@csie.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <linux@prisktech.co.nz>,
-        <john.stultz@linaro.org>, <sboyd@kernel.org>,
-        <matthias.bgg@gmail.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mips@vger.kernel.org>, <nios2-dev@lists.rocketboards.org>,
-        <linux-snps-arc@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        <uclinux-h8-devel@lists.sourceforge.jp>,
-        <linux-amlogic@lists.infradead.org>, <openbmc@lists.ozlabs.org>,
-        <linux-oxnas@groups.io>, <linux-arm-msm@vger.kernel.org>,
-        <linux-unisoc@lists.infradead.org>,
-        <linux-riscv@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-tegra@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        "Claudiu Beznea" <claudiu.beznea@microchip.com>
-Subject: [PATCH 7/7] clocksource/drivers/integrator-ap: parse the chosen node
-Date:   Tue, 10 Sep 2019 16:47:16 +0300
-Message-ID: <1568123236-767-8-git-send-email-claudiu.beznea@microchip.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
-References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
+        Tue, 10 Sep 2019 09:54:31 -0400
+Received: by mail-wr1-f68.google.com with SMTP id t16so20455051wra.6;
+        Tue, 10 Sep 2019 06:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8y5zl/FvVcCr/c4MWWRIXbl+ZBX3AwIpnBzmyoFPjrs=;
+        b=Mur0Z29yZ/pc6eZ3STsSP1j/AZgf6Op9pA0u8aMqXMvuNAdich/xs/ADaPqGc6/VSc
+         yp1OwSlxS3SFgTSOIVYQWOt1Woe+s/5V4joqIYXQm+RAhE006XcvH7vgMd/gq7vE4DYs
+         fQ/0I/ZIVgTYVYSvqiNycR+oWSU46YDT0yLfUMpWr78DD4qQMZmcPkJCaL9KVa3YrZ4O
+         gdq5+TF6fgkwxQPFGIOp/wvd1BYboZHw1uo6hHl7PO4JgNWqe2d+0f0wOpjGSW8Lwbdb
+         5ot9YnhQpvwHbkyvDc91jlNyXsc9Wxqt05Hzh5PJztxlMA2dAcoc/gSU+5CXAl12HG4K
+         cfKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8y5zl/FvVcCr/c4MWWRIXbl+ZBX3AwIpnBzmyoFPjrs=;
+        b=qTvFaG634Sc1dhW5ShH+mVPAYOJa066cW5ruu0+x48yBMman5HcfYJwEl9U6IFnQ0y
+         Ib9euzGkeS2dDHusGbZgYMxBCAnDVKLD8URFB80vT6Slv8HwT93VmTJF4JtqBK+DTR5K
+         9pwnT9dH/gDZCaLZDHnhvigcTjjMc8rGrR8Lve1a0BDAQFrfdODJuXv88WnvJDY5YYjL
+         COgISXNGEKy5CIYnkc95lyXXrXoxs9b3EEsopP+3HrC4cvcQo6ZIr8uAMYCyObfqzXD0
+         9WLU7t42eKJQxP3f7GhDd71gHxLOHXZdmwXw5C+dsgJKiXj3hvOlHu7cHW+7CXD4AbYY
+         AHbw==
+X-Gm-Message-State: APjAAAVyq6MkjmZ9vOII56TEH8fFjIlmoJ1Qxe7fi1s5e611l/1LbtjN
+        9rHadJxGfaGMi5/9LlJGkeE=
+X-Google-Smtp-Source: APXvYqzBZrUbstKl7F1E3GYnRZATymo9Q+Zfs02JXaH+RkkNQXTXQaSAiK7xI4bVlJgV2ZxFNu3kHw==
+X-Received: by 2002:adf:f601:: with SMTP id t1mr26555774wrp.36.1568123669918;
+        Tue, 10 Sep 2019 06:54:29 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id c74sm2811187wme.46.2019.09.10.06.54.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2019 06:54:28 -0700 (PDT)
+Date:   Tue, 10 Sep 2019 15:54:27 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Jose Abreu <Jose.Abreu@synopsys.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 1/2] net: stmmac: Only enable enhanced
+ addressing mode when needed
+Message-ID: <20190910135427.GB9897@ulmo>
+References: <20190909152546.383-1-thierry.reding@gmail.com>
+ <BN8PR12MB3266B232D3B895A4A4368191D3B70@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <20190909191127.GA23804@mithrandir>
+ <BN8PR12MB3266850280A788D41C277B08D3B60@BN8PR12MB3266.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="R3G7APHDIzY6R/pk"
+Content-Disposition: inline
+In-Reply-To: <BN8PR12MB3266850280A788D41C277B08D3B60@BN8PR12MB3266.namprd12.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-The driver currently uses aliases to know whether the timer is the
-clocksource or the clockevent. Add the /chosen/linux,clocksource and
-/chosen/linux,clockevent parsing while keeping backward compatibility.
+--R3G7APHDIzY6R/pk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
----
- drivers/clocksource/Kconfig               |  1 +
- drivers/clocksource/timer-integrator-ap.c | 21 ++++++++++++++++++++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
+On Tue, Sep 10, 2019 at 08:32:38AM +0000, Jose Abreu wrote:
+> From: Thierry Reding <thierry.reding@gmail.com>
+> Date: Sep/09/2019, 20:11:27 (UTC+00:00)
+>=20
+> > On Mon, Sep 09, 2019 at 04:07:04PM +0000, Jose Abreu wrote:
+> > > From: Thierry Reding <thierry.reding@gmail.com>
+> > > Date: Sep/09/2019, 16:25:45 (UTC+00:00)
+> > >=20
+> > > > @@ -92,6 +92,7 @@ struct stmmac_dma_cfg {
+> > > >  	int fixed_burst;
+> > > >  	int mixed_burst;
+> > > >  	bool aal;
+> > > > +	bool eame;
+> > >=20
+> > > bools should not be used in struct's, please change to int.
+> >=20
+> > Huh? Since when? "aal" right above it is also bool. Can you provide a
+> > specific rationale for why we shouldn't use bool in structs?
+>=20
+> Please see https://lkml.org/lkml/2017/11/21/384.
 
-diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-index a642c23b2fba..e1742c0abb03 100644
---- a/drivers/clocksource/Kconfig
-+++ b/drivers/clocksource/Kconfig
-@@ -240,6 +240,7 @@ config KEYSTONE_TIMER
- config INTEGRATOR_AP_TIMER
- 	bool "Integrator-ap timer driver" if COMPILE_TEST
- 	select CLKSRC_MMIO
-+	select TIMER_OF
- 	help
- 	  Enables support for the Integrator-ap timer.
- 
-diff --git a/drivers/clocksource/timer-integrator-ap.c b/drivers/clocksource/timer-integrator-ap.c
-index 8d6f814ace36..78af89e73125 100644
---- a/drivers/clocksource/timer-integrator-ap.c
-+++ b/drivers/clocksource/timer-integrator-ap.c
-@@ -14,6 +14,7 @@
- #include <linux/interrupt.h>
- #include <linux/sched_clock.h>
- 
-+#include "timer-of.h"
- #include "timer-sp.h"
- 
- static void __iomem * sched_clk_base;
-@@ -160,6 +161,12 @@ static int integrator_clockevent_init(unsigned long inrate,
- 	return 0;
- }
- 
-+static struct timer_of to[] = {
-+	{ .flags = TIMER_OF_TYPE_CS, },
-+	{ .flags = TIMER_OF_TYPE_CE, },
-+	{ /* sentinel */ }
-+};
-+
- static int __init integrator_ap_timer_init_of(struct device_node *node)
- {
- 	const char *path;
-@@ -169,6 +176,7 @@ static int __init integrator_ap_timer_init_of(struct device_node *node)
- 	struct clk *clk;
- 	unsigned long rate;
- 	struct device_node *alias_node;
-+	struct timer_of *to = node->data;
- 
- 	base = of_io_request_and_map(node, 0, "integrator-timer");
- 	if (IS_ERR(base))
-@@ -183,6 +191,17 @@ static int __init integrator_ap_timer_init_of(struct device_node *node)
- 	rate = clk_get_rate(clk);
- 	writel(0, base + TIMER_CTRL);
- 
-+	if (timer_of_is_clocksource(to))
-+		/* The primary timer lacks IRQ, use as clocksource */
-+		return integrator_clocksource_init(rate, base);
-+
-+	if (timer_of_is_clockevent(to)) {
-+		/* The secondary timer will drive the clock event */
-+		irq = irq_of_parse_and_map(node, 0);
-+		return integrator_clockevent_init(rate, base, irq);
-+	}
-+
-+	/* DT ABI compatibility below */
- 	err = of_property_read_string(of_aliases,
- 				"arm,timer-primary", &path);
- 	if (err) {
-@@ -227,4 +246,4 @@ static int __init integrator_ap_timer_init_of(struct device_node *node)
- }
- 
- TIMER_OF_DECLARE(integrator_ap_timer, "arm,integrator-timer",
--		       integrator_ap_timer_init_of, NULL);
-+		       integrator_ap_timer_init_of, to);
--- 
-2.7.4
+The context is slightly different here. stmmac_dma_cfg exists once for
+each of these ethernet devices in the system, and I would assume that in
+the vast majority of cases there's exactly one such device in the system
+so the potential size increase is very small. On the other hand, there
+are potentially very many struct sched_dl_entity, so the size impact is
+multiplied.
 
+Anyway, if you insist I'll rewrite this to use an unsigned int bitfield.
+
+Thierry
+
+--R3G7APHDIzY6R/pk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl13qxAACgkQ3SOs138+
+s6Gtlw/+PebnFYt7gpCYJwV+uclDuC52tBtJfP3xyipRbTfKpM01hAZ66jlbMHXo
+biTf5b5Xy6PBS7aIQcDWakm4J853T9n/4maQK5whR//YTCh0Gf2h+68WoB1IdnYW
+lRAYLk/knUUE6hHVG0HFKEc8WuCR+4vEOvT4K8odKqBzv0xdj2lhpvtOOisWenAz
+sf5qVUDXTGgCrB3ofBA1ZOzWaLDAA+961v1mQyLv35/Qayix1xRkI2mFHSGwlqzG
+UiQtQiPd5c56TKKk1GLjzaE/dtst0DGCpeMnAeZAw6DZPGjrfId3OmsZP2VZMUAC
+5+t9UDKDVWyS9HL2iRYAwa6YRXRBBJ1gAzaDwTf2RHSal37qU2PbgGQRtjtDJft4
+yUW+uk32XQ6qD70jFmSoO/2pA5izBeuquKtJG8HVdM+FiayuYAg8SKX541Z55+Xs
+yehBhr0A+Z9jyq07wPuKqp7rez3KH+IyDZ4eyyEbUmOqqG1ZNOG4s5c4FfwMA8Cp
++CQSQ13D2QWj54TeXVf6lyRU5Vhm2gPZHv3ahwB2s6yGc8V5E4DbNH47DoKAbzGY
+mh2gA6MhDIlNS7v4ZeVthhwmbq6dWYXz46Dlc7Y0GgvHF9MkHXmip3Aq0ndXSF36
+SMfu5YkcPIAbLpFqj2H/jA53sAPi33iyeXqkNacZUm7npf13NcU=
+=mn/8
+-----END PGP SIGNATURE-----
+
+--R3G7APHDIzY6R/pk--
