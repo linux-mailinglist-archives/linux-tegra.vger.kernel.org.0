@@ -2,168 +2,221 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BB2FAF158
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Sep 2019 21:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E529AAF6E0
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Sep 2019 09:25:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726103AbfIJTBG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Sep 2019 15:01:06 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40487 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726043AbfIJTBF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Sep 2019 15:01:05 -0400
-Received: by mail-pl1-f194.google.com with SMTP id y10so9007539pll.7;
-        Tue, 10 Sep 2019 12:01:05 -0700 (PDT)
+        id S1726930AbfIKHXv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Sep 2019 03:23:51 -0400
+Received: from mail-eopbgr1410121.outbound.protection.outlook.com ([40.107.141.121]:22461
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725616AbfIKHXu (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 11 Sep 2019 03:23:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YuvFegNqBjTU1ZadRuJzk9fSpq+bwGGh6XwHHt4agV89EQLff1ehsW2wgJEu6zzSgyCcssCEedQDV078nCyIX6uvHymYqUV+1Ea/5FSXIhhSKJZkKSQjWre7JFvMhBFRpQFSBNxC82d45aSBYGNW01aTOqUvfQBA4Aez4G2u65JLf+Zl1dQhfTBPXdvaP6vrMsutu0kqGEEcmnxI3z3vVnU4jKxDgibZvZ6sZ56umxsr5MA92NawdsCZw5tMTAc43ZWoaz60f9g3aVKhqC7eZNdwPy9D7GHAnWu2d46iUw176KnoCR9sU1fJVGYJjIt41dme1iWjBP/Rr+r58NVdOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M9rrtJxSyuFyKevYmcbOIGzqqXjWAfoKjreWjyFQlug=;
+ b=b/f6tdIWgeInV5Ail4dOBw4K2jSOKXctwUD5zL6fVU8KQHCoPOfD+5cUzwopEVn4WNkeMMnz/9ymwpMrh2R1Ef9sjuAI7XG+sFYfwQF2bgrg+vknS4gRmScwACdfJb2t7mt5XGDlxroZQfTbPcQyLT17Uk+9OLrpXgyASbso6WLqBBP+EW38YyS8UuN91Eg0kBbC+DspDd9S7UV1UQ0T6VABDMccxUY3tmuKj3ZYf7XmB0Raxu32L/IWiivGlR2D24LuXNCEa0Pq8+QkNeWD2K20/+xd9odAmF3p8e2MHBu6ppV+Gg8K0accNp3eLnIRZgWwq5t3xh0d6u1MWLOzaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7H5tszDGC6FfQhd69mW6cc7M8L7GsdmMMVOWQYCICHw=;
-        b=MtpWksnl4dcn1LAwRq+jQmfg4Dr3Se/ahaYHvIvwlmRP9Bvku/A5kwvO2Xs9IGwqrP
-         VZaw0qMXPbQpER/olFjxrzjLVtXHhGELHaop2PopibC92Rv6Dww9Q764zA+qwBRT1vbz
-         25Oe2GFFC9rbMIvRUZMaUAndWu8lrz5HbUPKasA4qWhE7lYqHCKP2qXehh2dgUFgZoQ9
-         8oLvnD8kNFDSeRUH/mEWxRQvzYJNnhjxMXGTIS3ipvZKWKTleR9lBvYDmMUoxakWQxI1
-         ZTzYVOY/Uklzp0bxtl5qYPtYdOogWChLjcgsakPuPWqvM5OqJI9Ad5MRKfp9pOIHJhvq
-         axhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=7H5tszDGC6FfQhd69mW6cc7M8L7GsdmMMVOWQYCICHw=;
-        b=aHGZ20hSkM/1L/ib0x+NJh8wbuNx94rAN8ozhR3o6s9JVhAoh2bNvInVRZk/T/nQXI
-         NrMkU+mmgRdv5PYctugm4QwwPJcnpRXZSbxA402m8PbpV9ewOAYUCtuDZLEDJtdHHltn
-         D1JSvZpnpohuBV8UhqYOyFxW8baetV4zfpX8Zyy2Gr9qQTq6lZiQqMqXvBkfyw55M/Nb
-         3ystVsMLOwn9jvSnuPG4n+H1rRlN1UDnhgdkgI+RNjfb0+i3Yiis48dLth6Wo5Oq1Kv8
-         CLVWKXR6uMR5rWkUqE9+SJ37Akcc+f09L3DXZXauwY/SzHLXKFrt/ihNdCrmJ9g2Vc9I
-         e+zg==
-X-Gm-Message-State: APjAAAX6gQv48gn+S9T2diWQ0/JlmHxAx+K97QDb89t72PO28CRu8o8z
-        aGdePEl5zAPkUjOtDUcBc2vp7kK0M6o=
-X-Google-Smtp-Source: APXvYqw+yoUzul/mIjF7vaCzUNhNWkvGJ3fFPavWyyqo3J5Tpa91ECu3J0qpDhdf3Cocgwz6r4eMcA==
-X-Received: by 2002:a17:902:581:: with SMTP id f1mr32450596plf.246.1568142064332;
-        Tue, 10 Sep 2019 12:01:04 -0700 (PDT)
-Received: from [10.67.49.31] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id k95sm404010pje.10.2019.09.10.12.01.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 10 Sep 2019 12:01:03 -0700 (PDT)
-Subject: Re: [PATCH net-next v2 2/2] net: stmmac: Support enhanced addressing
- mode for DWMAC 4.10
-To:     Jose Abreu <Jose.Abreu@synopsys.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M9rrtJxSyuFyKevYmcbOIGzqqXjWAfoKjreWjyFQlug=;
+ b=ojBdiRO65KKj0ZWPvTJsVzQx0cTTmmDEvTY1fCojePTbYLdnH6aOqSwYoZ1YUyO943wd1zUqJmygScxjWqhx1KWf4jzovAvXroRUptgbmESPY4pQ/x8bLti3PNj7cUvTMuei9dk407C2cma1EQtSU65D8gtEb+C2lqRHRGlXFNY=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB4221.jpnprd01.prod.outlook.com (20.178.140.141) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2241.18; Wed, 11 Sep 2019 07:23:44 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::7da1:bfc1:6c7f:8977]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::7da1:bfc1:6c7f:8977%7]) with mapi id 15.20.2241.018; Wed, 11 Sep 2019
+ 07:23:44 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     Christoph Hellwig <hch@lst.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
         Jon Hunter <jonathanh@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
         "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-References: <20190909152546.383-1-thierry.reding@gmail.com>
- <20190909152546.383-2-thierry.reding@gmail.com>
- <BN8PR12MB3266AAC6FF4819EC25CB087BD3B70@BN8PR12MB3266.namprd12.prod.outlook.com>
- <20190909191329.GB23804@mithrandir>
- <BN8PR12MB3266F021DFC2C61CDEC83418D3B60@BN8PR12MB3266.namprd12.prod.outlook.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
- mQGiBEjPuBIRBACW9MxSJU9fvEOCTnRNqG/13rAGsj+vJqontvoDSNxRgmafP8d3nesnqPyR
- xGlkaOSDuu09rxuW+69Y2f1TzjFuGpBk4ysWOR85O2Nx8AJ6fYGCoeTbovrNlGT1M9obSFGQ
- X3IzRnWoqlfudjTO5TKoqkbOgpYqIo5n1QbEjCCwCwCg3DOH/4ug2AUUlcIT9/l3pGvoRJ0E
- AICDzi3l7pmC5IWn2n1mvP5247urtHFs/uusE827DDj3K8Upn2vYiOFMBhGsxAk6YKV6IP0d
- ZdWX6fqkJJlu9cSDvWtO1hXeHIfQIE/xcqvlRH783KrihLcsmnBqOiS6rJDO2x1eAgC8meAX
- SAgsrBhcgGl2Rl5gh/jkeA5ykwbxA/9u1eEuL70Qzt5APJmqVXR+kWvrqdBVPoUNy/tQ8mYc
- nzJJ63ng3tHhnwHXZOu8hL4nqwlYHRa9eeglXYhBqja4ZvIvCEqSmEukfivk+DlIgVoOAJbh
- qIWgvr3SIEuR6ayY3f5j0f2ejUMYlYYnKdiHXFlF9uXm1ELrb0YX4GMHz7QnRmxvcmlhbiBG
- YWluZWxsaSA8Zi5mYWluZWxsaUBnbWFpbC5jb20+iGYEExECACYCGyMGCwkIBwMCBBUCCAME
- FgIDAQIeAQIXgAUCVF/S8QUJHlwd3wAKCRBhV5kVtWN2DvCVAJ4u4/bPF4P3jxb4qEY8I2gS
- 6hG0gACffNWlqJ2T4wSSn+3o7CCZNd7SLSC5BA0ESM+4EhAQAL/o09boR9D3Vk1Tt7+gpYr3
- WQ6hgYVON905q2ndEoA2J0dQxJNRw3snabHDDzQBAcqOvdi7YidfBVdKi0wxHhSuRBfuOppu
- pdXkb7zxuPQuSveCLqqZWRQ+Cc2QgF7SBqgznbe6Ngout5qXY5Dcagk9LqFNGhJQzUGHAsIs
- hap1f0B1PoUyUNeEInV98D8Xd/edM3mhO9nRpUXRK9Bvt4iEZUXGuVtZLT52nK6Wv2EZ1TiT
- OiqZlf1P+vxYLBx9eKmabPdm3yjalhY8yr1S1vL0gSA/C6W1o/TowdieF1rWN/MYHlkpyj9c
- Rpc281gAO0AP3V1G00YzBEdYyi0gaJbCEQnq8Vz1vDXFxHzyhgGz7umBsVKmYwZgA8DrrB0M
- oaP35wuGR3RJcaG30AnJpEDkBYHznI2apxdcuTPOHZyEilIRrBGzDwGtAhldzlBoBwE3Z3MY
- 31TOpACu1ZpNOMysZ6xiE35pWkwc0KYm4hJA5GFfmWSN6DniimW3pmdDIiw4Ifcx8b3mFrRO
- BbDIW13E51j9RjbO/nAaK9ndZ5LRO1B/8Fwat7bLzmsCiEXOJY7NNpIEpkoNoEUfCcZwmLrU
- +eOTPzaF6drw6ayewEi5yzPg3TAT6FV3oBsNg3xlwU0gPK3v6gYPX5w9+ovPZ1/qqNfOrbsE
- FRuiSVsZQ5s3AAMFD/9XjlnnVDh9GX/r/6hjmr4U9tEsM+VQXaVXqZuHKaSmojOLUCP/YVQo
- 7IiYaNssCS4FCPe4yrL4FJJfJAsbeyDykMN7wAnBcOkbZ9BPJPNCbqU6dowLOiy8AuTYQ48m
- vIyQ4Ijnb6GTrtxIUDQeOBNuQC/gyyx3nbL/lVlHbxr4tb6YkhkO6shjXhQh7nQb33FjGO4P
- WU11Nr9i/qoV8QCo12MQEo244RRA6VMud06y/E449rWZFSTwGqb0FS0seTcYNvxt8PB2izX+
- HZA8SL54j479ubxhfuoTu5nXdtFYFj5Lj5x34LKPx7MpgAmj0H7SDhpFWF2FzcC1bjiW9mjW
- HaKaX23Awt97AqQZXegbfkJwX2Y53ufq8Np3e1542lh3/mpiGSilCsaTahEGrHK+lIusl6mz
- Joil+u3k01ofvJMK0ZdzGUZ/aPMZ16LofjFA+MNxWrZFrkYmiGdv+LG45zSlZyIvzSiG2lKy
- kuVag+IijCIom78P9jRtB1q1Q5lwZp2TLAJlz92DmFwBg1hyFzwDADjZ2nrDxKUiybXIgZp9
- aU2d++ptEGCVJOfEW4qpWCCLPbOT7XBr+g/4H3qWbs3j/cDDq7LuVYIe+wchy/iXEJaQVeTC
- y5arMQorqTFWlEOgRA8OP47L9knl9i4xuR0euV6DChDrguup2aJVU4hPBBgRAgAPAhsMBQJU
- X9LxBQkeXB3fAAoJEGFXmRW1Y3YOj4UAn3nrFLPZekMeqX5aD/aq/dsbXSfyAKC45Go0YyxV
- HGuUuzv+GKZ6nsysJ7kCDQRXG8fwARAA6q/pqBi5PjHcOAUgk2/2LR5LjjesK50bCaD4JuNc
- YDhFR7Vs108diBtsho3w8WRd9viOqDrhLJTroVckkk74OY8r+3t1E0Dd4wHWHQZsAeUvOwDM
- PQMqTUBFuMi6ydzTZpFA2wBR9x6ofl8Ax+zaGBcFrRlQnhsuXLnM1uuvS39+pmzIjasZBP2H
- UPk5ifigXcpelKmj6iskP3c8QN6x6GjUSmYx+xUfs/GNVSU1XOZn61wgPDbgINJd/THGdqiO
- iJxCLuTMqlSsmh1+E1dSdfYkCb93R/0ZHvMKWlAx7MnaFgBfsG8FqNtZu3PCLfizyVYYjXbV
- WO1A23riZKqwrSJAATo5iTS65BuYxrFsFNPrf7TitM8E76BEBZk0OZBvZxMuOs6Z1qI8YKVK
- UrHVGFq3NbuPWCdRul9SX3VfOunr9Gv0GABnJ0ET+K7nspax0xqq7zgnM71QEaiaH17IFYGS
- sG34V7Wo3vyQzsk7qLf9Ajno0DhJ+VX43g8+AjxOMNVrGCt9RNXSBVpyv2AMTlWCdJ5KI6V4
- KEzWM4HJm7QlNKE6RPoBxJVbSQLPd9St3h7mxLcne4l7NK9eNgNnneT7QZL8fL//s9K8Ns1W
- t60uQNYvbhKDG7+/yLcmJgjF74XkGvxCmTA1rW2bsUriM533nG9gAOUFQjURkwI8jvMAEQEA
- AYkCaAQYEQIACQUCVxvH8AIbAgIpCRBhV5kVtWN2DsFdIAQZAQIABgUCVxvH8AAKCRCH0Jac
- RAcHBIkHD/9nmfog7X2ZXMzL9ktT++7x+W/QBrSTCTmq8PK+69+INN1ZDOrY8uz6htfTLV9+
- e2W6G8/7zIvODuHk7r+yQ585XbplgP0V5Xc8iBHdBgXbqnY5zBrcH+Q/oQ2STalEvaGHqNoD
- UGyLQ/fiKoLZTPMur57Fy1c9rTuKiSdMgnT0FPfWVDfpR2Ds0gpqWePlRuRGOoCln5GnREA/
- 2MW2rWf+CO9kbIR+66j8b4RUJqIK3dWn9xbENh/aqxfonGTCZQ2zC4sLd25DQA4w1itPo+f5
- V/SQxuhnlQkTOCdJ7b/mby/pNRz1lsLkjnXueLILj7gNjwTabZXYtL16z24qkDTI1x3g98R/
- xunb3/fQwR8FY5/zRvXJq5us/nLvIvOmVwZFkwXc+AF+LSIajqQz9XbXeIP/BDjlBNXRZNdo
- dVuSU51ENcMcilPr2EUnqEAqeczsCGpnvRCLfVQeSZr2L9N4svNhhfPOEscYhhpHTh0VPyxI
- pPBNKq+byuYPMyk3nj814NKhImK0O4gTyCK9b+gZAVvQcYAXvSouCnTZeJRrNHJFTgTgu6E0
- caxTGgc5zzQHeX67eMzrGomG3ZnIxmd1sAbgvJUDaD2GrYlulfwGWwWyTNbWRvMighVdPkSF
- 6XFgQaosWxkV0OELLy2N485YrTr2Uq64VKyxpncLh50e2RnyAJ9Za0Dx0yyp44iD1OvHtkEI
- M5kY0ACeNhCZJvZ5g4C2Lc9fcTHu8jxmEkI=
-Message-ID: <c8d419d3-6cf6-e260-a2e2-6a339c6c321b@gmail.com>
-Date:   Tue, 10 Sep 2019 12:01:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Subject: RE: [PATCH 1/3] block: Respect the device's maximum segment size
+Thread-Topic: [PATCH 1/3] block: Respect the device's maximum segment size
+Thread-Index: AQHVZw4VWMEEraTQbECBt67bhcbO/KcjhO+AgAAz34CAAG4C4IAAXlUAgAGGJkA=
+Date:   Wed, 11 Sep 2019 07:23:43 +0000
+Message-ID: <TYAPR01MB45440EA8EA26C4A476FC3847D8B10@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <20190909125658.30559-1-thierry.reding@gmail.com>
+ <20190909125658.30559-2-thierry.reding@gmail.com>
+ <20190909161331.GA19650@lst.de> <20190909191911.GC23804@mithrandir>
+ <TYAPR01MB454470364B682B9BF708E557D8B60@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+ <20190910073032.GA12537@ulmo>
+In-Reply-To: <20190910073032.GA12537@ulmo>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [150.249.235.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b06a7653-0ebd-4ac0-00ad-08d73688fa81
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB4221;
+x-ms-traffictypediagnostic: TYAPR01MB4221:
+x-microsoft-antispam-prvs: <TYAPR01MB422174ABB4F1BE9BC8AA88D1D8B10@TYAPR01MB4221.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0157DEB61B
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(376002)(396003)(136003)(366004)(39860400002)(189003)(199004)(51444003)(52314003)(5660300002)(6436002)(7696005)(66066001)(7416002)(486006)(33656002)(71190400001)(229853002)(478600001)(71200400001)(11346002)(26005)(186003)(6116002)(476003)(52536014)(6916009)(256004)(102836004)(99286004)(316002)(14454004)(25786009)(2906002)(446003)(6506007)(76176011)(54906003)(561944003)(55016002)(14444005)(6246003)(9686003)(7736002)(305945005)(66556008)(66476007)(76116006)(8676002)(8936002)(4326008)(74316002)(3846002)(64756008)(66446008)(81156014)(81166006)(53936002)(66946007)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4221;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: vE6OrYW5gNrJsj3ccOeQqs/OR3Ie/HcZG0gnJc6OEfmk3ODPjCkHa2qIcyq5xZd61lGrEPCYrt2EqYNQ42DYhGoMQVs08dhRt+6cMfrf41HbwrI5oSjrtZ5KQm0Z94RGKjC2NgdFmuq5Uo6K+tTjEq06zU7+Q2hpouEBHpBX6CZwjDhOauTQACrD/kS5wWkaEKVNZVh4cY62wkCx81OxtNnYdFAmX6jBiZYsLHxC5HoCZTM/RdBV7JyP+WbNBucDCaP4QOY4XhMBdcFLG6FsaaT3M/g0UCuHZOMRr4/IrucoZrB2pGkFW+H2MgrIKjClNG9XbF056QsCxNMGdipYPriv2GUYSWCm3cYxEZABZ1fgAH7w3NTXvSJV49lZx6QVUNDc6CFpKkcXxCJbOMd0Tw63GDTtQZydxRWNxku7zdY=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <BN8PR12MB3266F021DFC2C61CDEC83418D3B60@BN8PR12MB3266.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b06a7653-0ebd-4ac0-00ad-08d73688fa81
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2019 07:23:44.0366
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ycSu61vJlnGP3fXyOHt02a3ezgzwVkY5gGTFnR6W/33i++7v+I/hJHY2C9zZXzsK5IF3h/j0RsXdUVpHXCWAEPklV7+4KrwnGNtbXPlbeJj59CdgOlVqxfQBc74S8jHM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4221
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 9/10/19 1:35 AM, Jose Abreu wrote:
-> From: Thierry Reding <thierry.reding@gmail.com>
-> Date: Sep/09/2019, 20:13:29 (UTC+00:00)
-> 
->> On Mon, Sep 09, 2019 at 04:05:52PM +0000, Jose Abreu wrote:
->>> From: Thierry Reding <thierry.reding@gmail.com>
->>> Date: Sep/09/2019, 16:25:46 (UTC+00:00)
->>>
->>>> @@ -79,6 +79,10 @@ static void dwmac4_dma_init_rx_chan(void __iomem *ioaddr,
->>>>  	value = value | (rxpbl << DMA_BUS_MODE_RPBL_SHIFT);
->>>>  	writel(value, ioaddr + DMA_CHAN_RX_CONTROL(chan));
->>>>  
->>>> +	if (dma_cfg->eame)
->>>
->>> There is no need for this check. If EAME is not enabled then upper 32 
->>> bits will be zero.
->>
->> The idea here was to potentially guard against this register not being
->> available on some revisions. Having the check here would avoid access to
->> the register if the device doesn't support enhanced addressing.
-> 
-> I see your point but I don't think there will be any problems unless you 
-> have some strange system that doesn't handle the write accesses to 
-> unimplemented features properly ...
+Hi Thierry,
 
-Is not it then just safer to not do the write to a register that you do
-not know how the implementation is going to respond to with one of a
-target abort, timeout, decoding error, just dead lock?
+> From: Thierry Reding, Sent: Tuesday, September 10, 2019 4:31 PM
+<snip>
+> On Tue, Sep 10, 2019 at 02:03:17AM +0000, Yoshihiro Shimoda wrote:
+> > Hi Thierry,
+> >
+> > > From: Thierry Reding, Sent: Tuesday, September 10, 2019 4:19 AM
+> > >
+> > > On Mon, Sep 09, 2019 at 06:13:31PM +0200, Christoph Hellwig wrote:
+> > > > On Mon, Sep 09, 2019 at 02:56:56PM +0200, Thierry Reding wrote:
+> > > > > From: Thierry Reding <treding@nvidia.com>
+> > > > >
+> > > > > When enabling the DMA map merging capability for a queue, ensure =
+that
+> > > > > the maximum segment size does not exceed the device's limit.
+> > > >
+> > > > We can't do that unfortunately.  If we use the virt_boundary settin=
+g
+> > > > we do aggressive merges that there is no accounting for.  So we can=
+'t
+> > > > limit the segment size.
+> > >
+> > > But that's kind of the point here. My understanding is that the maxim=
+um
+> > > segment size in the device's DMA parameters defines the maximum size =
+of
+> > > the segment that the device can handle.
+> > >
+> > > In the particular case that I'm trying to fix, according to the SDHCI
+> > > specification, these devices can handle segments that are a maximum o=
+f
+> > > 64 KiB in size. If we allow that segment size to be exceeded, the dev=
+ice
+> > > will no longer be able to handle them.
+> > >
+> > > > And at least for the case how devices usually do the addressing
+> > > > (page based on not sgl based) that needs the virt_boundary there is=
+n't
+> > > > really any concept like a segment anyway.
+> > >
+> > > I do understand that aspect of it. However, devices that do the
+> > > addressing this way, wouldn't they want to set the maximum segment si=
+ze
+> > > to something large (like UINT_MAX, which many users that don't have t=
+he
+> > > concept of a segment already do)?
+> > >
+> > > If you disagree, do you have any alternative proposals other than
+> > > reverting the offending patch? linux-next is currently broken on all
+> > > systems where the SDHCI controller is behind an IOMMU.
+> >
+> > I'm sorry for causing this trouble on your environment. I have a propos=
+al to
+> > resolve this issue. The mmc_host struct will have a new caps2 flag
+> > like MMC_CAP2_MERGE_CAPABLE and add a condition into the queue.c like b=
+elow.
+> >
+> > +	if (host->caps2 & MMC_CAP2_MERGE_CAPABLE &&
+> > +	    host->max_segs < MMC_DMA_MAP_MERGE_SEGMENTS &&
+> > 	    dma_get_merge_boundary(mmc_dev(host)))
+> > 		host->can_dma_map_merge =3D 1;
+> > 	else
+> > 		host->can_dma_map_merge =3D 0;
+> >
+> > After that, all mmc controllers disable the feature as default, and if =
+a mmc
+> > controller has such capable, the host driver should set the flag.
+> > Ulf, is such a patch acceptable for v5.4-rcN? Anyway, I'll submit such =
+a patch later.
+>=20
+> I'm sure that would work, but I think that's missing the point. It's not
+> that the setup isn't capable of merging at all. It just can't deal with
+> segments that are too large.
 
-Also, would it make sense to consider adding an #ifdef
-CONFIG_PHYS_ADDR_T_64BIT plus the conditional check so that you can be
-slightly more optimal in the hot-path here?
--- 
-Florian
+IIUC, since SDHCI has a strictly 64 KiB limitation on each segment,
+the controller cannot handle the following example 1 case on the plain next=
+-20190904.
+
+For example 1:
+ - Original scatter lists are 4 segments:
+  sg[0]: .dma_address =3D 0x12340000, .length =3D 65536,
+  sg[1]: .dma_address =3D 0x12350000, .length =3D 65536,
+  sg[2]: .dma_address =3D 0x12360000, .length =3D 65536,
+  sg[3]: .dma_address =3D 0x12370000, .length =3D 65536,
+
+ - Merging the above segments will be a segment:
+  sg[0]: .dma_address =3D 0x12340000, .length =3D 262144,
+
+> While I was debugging this, I was frequently seeing cases where the SG
+> was on the order of 40 entries initially and after dma_map_sg() it was
+> reduced to just 4 or 5.
+
+If each segment size is small, it can merge them.
+
+For example 2:
+ - Original scatter lists are 4 segments:
+  sg[0]: .dma_address =3D 0x12340000, .length =3D 4096,
+  sg[1]: .dma_address =3D 0x12341000, .length =3D 4096,
+  sg[2]: .dma_address =3D 0x12342000, .length =3D 4096,
+  sg[3]: .dma_address =3D 0x12343000, .length =3D 4096,
+
+ - Merging the above segments will be a segment:
+  sg[0]: .dma_address =3D 0x12340000, .length =3D 16384,
+
+> So I think merging is still really useful if a setup supports it via an
+> IOMMU. I'm just not sure I see why we can't make the code respect what-
+> ever the maximum segment size that the driver may have configured. That
+> seems like it should allow us to get the best of both worlds.
+
+I agree about merging is useful for the case of the "example 2".
+
+By the way, I checked dma-iommu.c ,and then I found the __finalise_sg() has
+a condition "seg_mask" that is from dma_get_seg_boundary(). So, I'm guessin=
+g
+if the sdhci.c calls dma_set_seg_boundary() with 0x0000ffff, the issue disa=
+ppears.
+This is because the dma-iommu.c will not merge the segments even if the cas=
+e of
+example 1. What do you think?
+
+Best regards,
+Yoshihiro Shimoda
+
+> Thierry
