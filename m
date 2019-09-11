@@ -2,221 +2,225 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E529AAF6E0
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Sep 2019 09:25:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF8C0AF6F6
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Sep 2019 09:34:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726930AbfIKHXv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Sep 2019 03:23:51 -0400
-Received: from mail-eopbgr1410121.outbound.protection.outlook.com ([40.107.141.121]:22461
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725616AbfIKHXu (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Sep 2019 03:23:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YuvFegNqBjTU1ZadRuJzk9fSpq+bwGGh6XwHHt4agV89EQLff1ehsW2wgJEu6zzSgyCcssCEedQDV078nCyIX6uvHymYqUV+1Ea/5FSXIhhSKJZkKSQjWre7JFvMhBFRpQFSBNxC82d45aSBYGNW01aTOqUvfQBA4Aez4G2u65JLf+Zl1dQhfTBPXdvaP6vrMsutu0kqGEEcmnxI3z3vVnU4jKxDgibZvZ6sZ56umxsr5MA92NawdsCZw5tMTAc43ZWoaz60f9g3aVKhqC7eZNdwPy9D7GHAnWu2d46iUw176KnoCR9sU1fJVGYJjIt41dme1iWjBP/Rr+r58NVdOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M9rrtJxSyuFyKevYmcbOIGzqqXjWAfoKjreWjyFQlug=;
- b=b/f6tdIWgeInV5Ail4dOBw4K2jSOKXctwUD5zL6fVU8KQHCoPOfD+5cUzwopEVn4WNkeMMnz/9ymwpMrh2R1Ef9sjuAI7XG+sFYfwQF2bgrg+vknS4gRmScwACdfJb2t7mt5XGDlxroZQfTbPcQyLT17Uk+9OLrpXgyASbso6WLqBBP+EW38YyS8UuN91Eg0kBbC+DspDd9S7UV1UQ0T6VABDMccxUY3tmuKj3ZYf7XmB0Raxu32L/IWiivGlR2D24LuXNCEa0Pq8+QkNeWD2K20/+xd9odAmF3p8e2MHBu6ppV+Gg8K0accNp3eLnIRZgWwq5t3xh0d6u1MWLOzaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        id S1726842AbfIKHef (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Sep 2019 03:34:35 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:50577 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726724AbfIKHee (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 11 Sep 2019 03:34:34 -0400
+Received: by mail-wm1-f68.google.com with SMTP id c10so2158689wmc.0
+        for <linux-tegra@vger.kernel.org>; Wed, 11 Sep 2019 00:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M9rrtJxSyuFyKevYmcbOIGzqqXjWAfoKjreWjyFQlug=;
- b=ojBdiRO65KKj0ZWPvTJsVzQx0cTTmmDEvTY1fCojePTbYLdnH6aOqSwYoZ1YUyO943wd1zUqJmygScxjWqhx1KWf4jzovAvXroRUptgbmESPY4pQ/x8bLti3PNj7cUvTMuei9dk407C2cma1EQtSU65D8gtEb+C2lqRHRGlXFNY=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB4221.jpnprd01.prod.outlook.com (20.178.140.141) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2241.18; Wed, 11 Sep 2019 07:23:44 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::7da1:bfc1:6c7f:8977]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::7da1:bfc1:6c7f:8977%7]) with mapi id 15.20.2241.018; Wed, 11 Sep 2019
- 07:23:44 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     Christoph Hellwig <hch@lst.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: RE: [PATCH 1/3] block: Respect the device's maximum segment size
-Thread-Topic: [PATCH 1/3] block: Respect the device's maximum segment size
-Thread-Index: AQHVZw4VWMEEraTQbECBt67bhcbO/KcjhO+AgAAz34CAAG4C4IAAXlUAgAGGJkA=
-Date:   Wed, 11 Sep 2019 07:23:43 +0000
-Message-ID: <TYAPR01MB45440EA8EA26C4A476FC3847D8B10@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <20190909125658.30559-1-thierry.reding@gmail.com>
- <20190909125658.30559-2-thierry.reding@gmail.com>
- <20190909161331.GA19650@lst.de> <20190909191911.GC23804@mithrandir>
- <TYAPR01MB454470364B682B9BF708E557D8B60@TYAPR01MB4544.jpnprd01.prod.outlook.com>
- <20190910073032.GA12537@ulmo>
-In-Reply-To: <20190910073032.GA12537@ulmo>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [150.249.235.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b06a7653-0ebd-4ac0-00ad-08d73688fa81
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB4221;
-x-ms-traffictypediagnostic: TYAPR01MB4221:
-x-microsoft-antispam-prvs: <TYAPR01MB422174ABB4F1BE9BC8AA88D1D8B10@TYAPR01MB4221.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0157DEB61B
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(376002)(396003)(136003)(366004)(39860400002)(189003)(199004)(51444003)(52314003)(5660300002)(6436002)(7696005)(66066001)(7416002)(486006)(33656002)(71190400001)(229853002)(478600001)(71200400001)(11346002)(26005)(186003)(6116002)(476003)(52536014)(6916009)(256004)(102836004)(99286004)(316002)(14454004)(25786009)(2906002)(446003)(6506007)(76176011)(54906003)(561944003)(55016002)(14444005)(6246003)(9686003)(7736002)(305945005)(66556008)(66476007)(76116006)(8676002)(8936002)(4326008)(74316002)(3846002)(64756008)(66446008)(81156014)(81166006)(53936002)(66946007)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4221;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: vE6OrYW5gNrJsj3ccOeQqs/OR3Ie/HcZG0gnJc6OEfmk3ODPjCkHa2qIcyq5xZd61lGrEPCYrt2EqYNQ42DYhGoMQVs08dhRt+6cMfrf41HbwrI5oSjrtZ5KQm0Z94RGKjC2NgdFmuq5Uo6K+tTjEq06zU7+Q2hpouEBHpBX6CZwjDhOauTQACrD/kS5wWkaEKVNZVh4cY62wkCx81OxtNnYdFAmX6jBiZYsLHxC5HoCZTM/RdBV7JyP+WbNBucDCaP4QOY4XhMBdcFLG6FsaaT3M/g0UCuHZOMRr4/IrucoZrB2pGkFW+H2MgrIKjClNG9XbF056QsCxNMGdipYPriv2GUYSWCm3cYxEZABZ1fgAH7w3NTXvSJV49lZx6QVUNDc6CFpKkcXxCJbOMd0Tw63GDTtQZydxRWNxku7zdY=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:openpgp:autocrypt:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=ntQnlZ165aoTq9A7WDI2toA4HdgPISzpICPAyGRYlc4=;
+        b=DMMbzJxxUXHFi6Z63lgJ1y7Sb/XAkiZLWF0D1+uoabJCHSepnQp4es4L6JW2eVagzh
+         72rCnxWkdINIZffgA6FJDDv1cZsc+xCJ96gjFDGsnFT/hoLUjJPTrbgYaJd7PokhtWnH
+         OTfaJl12/d5r/1ERItxyTyhsgX31+DwTKVVyoNiRpdAo1kVz31c2aiTgxAUBVDnpjMAV
+         DjtgPgaTKqzDjK8Ac7atghJQxxGqy9uZA+Mg+e9bu/zTWhUlugNecrmiCFU/k80GDkh6
+         fuT2Iwj60ftMrfIVjjBd2usNbSjEkk428eJwTjzYtZ3c+FGD6oRv2oFmwmg93VzpK1Sh
+         ca5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=ntQnlZ165aoTq9A7WDI2toA4HdgPISzpICPAyGRYlc4=;
+        b=qiiwE6OA+XD4/P2MQ+bKJYvlPJj1SaBQsP/ePc6bRPPwsz/OVQB1EaZ4RWAIdIhaRz
+         XZQ/hW6AgIWivrFDg+vguNHL3vLJbi4o+Kexjrf15cu42BFdPml3aQQbIL52O5E898Ja
+         HbG74JS2yh9mKttPBWkuLad+0LR3Pm+dly2m5Cj4JziZGdcbAQKz4/2Ml0NtHw9Gi4mL
+         wuJq07j0z2rNlMye8VfraxBit6EtXZBmy2Y1Ld1rz9Rtac7pz7yYYNW2bBEAFTLTdv7h
+         T67Y4BAOy8dOsRtnc1A6TB8DztXyeN/l1LSizTGxuES+xr0L6Ry3vesDOrJqN7zm4tW7
+         yVtQ==
+X-Gm-Message-State: APjAAAUnWDjDkOPbDGN12RFM5kWFfOOBOM8RkCR0flyUznu1pDsGVsZN
+        9MJlbkxN1hcOKRc5lli7idPwJQ==
+X-Google-Smtp-Source: APXvYqxxDvRVKQaWLplVyw8RxLikPJkEefVhJ7vX1GPMo2oDLkeZWy4Fj5QkFLqrwRhYintC8OnwBA==
+X-Received: by 2002:a1c:ca02:: with SMTP id a2mr2835861wmg.127.1568187271380;
+        Wed, 11 Sep 2019 00:34:31 -0700 (PDT)
+Received: from [192.168.1.62] (176-150-251-154.abo.bbox.fr. [176.150.251.154])
+        by smtp.gmail.com with ESMTPSA id d193sm3518079wmd.0.2019.09.11.00.34.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 11 Sep 2019 00:34:30 -0700 (PDT)
+Subject: Re: [PATCH 4/7] dt-bindings: chosen: Add clocksource and clockevent
+ selection
+To:     Claudiu Beznea <claudiu.beznea@microchip.com>,
+        daniel.lezcano@linaro.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux@armlinux.org.uk, nsekhar@ti.com,
+        bgolaszewski@baylibre.com, monstr@monstr.eu, john@phrozen.org,
+        ralf@linux-mips.org, paul.burton@mips.com, jhogan@kernel.org,
+        lftan@altera.com, tglx@linutronix.de, vgupta@synopsys.com,
+        marc.zyngier@arm.com, patrice.chotard@st.com,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
+        eric@anholt.net, wahrenst@gmx.net, f.fainelli@gmail.com,
+        rjui@broadcom.com, sbranden@broadcom.com,
+        bcm-kernel-feedback-list@broadcom.com, linus.walleij@linaro.org,
+        shc_work@mail.ru, kgene@kernel.org, krzk@kernel.org,
+        ysato@users.sourceforge.jp, liviu.dudau@arm.com,
+        sudeep.holla@arm.com, lorenzo.pieralisi@arm.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, baohua@kernel.org,
+        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+        ludovic.desroches@microchip.com, baruch@tkos.co.il,
+        u.kleine-koenig@pengutronix.de, guoren@kernel.org,
+        kaloz@openwrt.org, khalasa@piap.pl, ssantosh@kernel.org,
+        vz@mleia.com, slemieux.tyco@gmail.com, khilman@baylibre.com,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        venture@google.com, yuenn@google.com, benjaminfair@google.com,
+        afaerber@suse.de, manivannan.sadhasivam@linaro.org,
+        agross@kernel.org, palmer@sifive.com, aou@eecs.berkeley.edu,
+        heiko@sntech.de, orsonzhai@gmail.com, baolin.wang@linaro.org,
+        zhang.lyra@gmail.com, maxime.ripard@bootlin.com, wens@csie.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux@prisktech.co.nz, john.stultz@linaro.org, sboyd@kernel.org,
+        matthias.bgg@gmail.com
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        nios2-dev@lists.rocketboards.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        uclinux-h8-devel@lists.sourceforge.jp,
+        linux-amlogic@lists.infradead.org, openbmc@lists.ozlabs.org,
+        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
+        linux-unisoc@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
+ <1568123236-767-5-git-send-email-claudiu.beznea@microchip.com>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <81da473f-54d7-2a00-61ec-9351cdfcaaf3@baylibre.com>
+Date:   Wed, 11 Sep 2019 09:34:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b06a7653-0ebd-4ac0-00ad-08d73688fa81
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2019 07:23:44.0366
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ycSu61vJlnGP3fXyOHt02a3ezgzwVkY5gGTFnR6W/33i++7v+I/hJHY2C9zZXzsK5IF3h/j0RsXdUVpHXCWAEPklV7+4KrwnGNtbXPlbeJj59CdgOlVqxfQBc74S8jHM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4221
+In-Reply-To: <1568123236-767-5-git-send-email-claudiu.beznea@microchip.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Thierry,
+Hi,
 
-> From: Thierry Reding, Sent: Tuesday, September 10, 2019 4:31 PM
-<snip>
-> On Tue, Sep 10, 2019 at 02:03:17AM +0000, Yoshihiro Shimoda wrote:
-> > Hi Thierry,
-> >
-> > > From: Thierry Reding, Sent: Tuesday, September 10, 2019 4:19 AM
-> > >
-> > > On Mon, Sep 09, 2019 at 06:13:31PM +0200, Christoph Hellwig wrote:
-> > > > On Mon, Sep 09, 2019 at 02:56:56PM +0200, Thierry Reding wrote:
-> > > > > From: Thierry Reding <treding@nvidia.com>
-> > > > >
-> > > > > When enabling the DMA map merging capability for a queue, ensure =
-that
-> > > > > the maximum segment size does not exceed the device's limit.
-> > > >
-> > > > We can't do that unfortunately.  If we use the virt_boundary settin=
-g
-> > > > we do aggressive merges that there is no accounting for.  So we can=
-'t
-> > > > limit the segment size.
-> > >
-> > > But that's kind of the point here. My understanding is that the maxim=
-um
-> > > segment size in the device's DMA parameters defines the maximum size =
-of
-> > > the segment that the device can handle.
-> > >
-> > > In the particular case that I'm trying to fix, according to the SDHCI
-> > > specification, these devices can handle segments that are a maximum o=
-f
-> > > 64 KiB in size. If we allow that segment size to be exceeded, the dev=
-ice
-> > > will no longer be able to handle them.
-> > >
-> > > > And at least for the case how devices usually do the addressing
-> > > > (page based on not sgl based) that needs the virt_boundary there is=
-n't
-> > > > really any concept like a segment anyway.
-> > >
-> > > I do understand that aspect of it. However, devices that do the
-> > > addressing this way, wouldn't they want to set the maximum segment si=
-ze
-> > > to something large (like UINT_MAX, which many users that don't have t=
-he
-> > > concept of a segment already do)?
-> > >
-> > > If you disagree, do you have any alternative proposals other than
-> > > reverting the offending patch? linux-next is currently broken on all
-> > > systems where the SDHCI controller is behind an IOMMU.
-> >
-> > I'm sorry for causing this trouble on your environment. I have a propos=
-al to
-> > resolve this issue. The mmc_host struct will have a new caps2 flag
-> > like MMC_CAP2_MERGE_CAPABLE and add a condition into the queue.c like b=
-elow.
-> >
-> > +	if (host->caps2 & MMC_CAP2_MERGE_CAPABLE &&
-> > +	    host->max_segs < MMC_DMA_MAP_MERGE_SEGMENTS &&
-> > 	    dma_get_merge_boundary(mmc_dev(host)))
-> > 		host->can_dma_map_merge =3D 1;
-> > 	else
-> > 		host->can_dma_map_merge =3D 0;
-> >
-> > After that, all mmc controllers disable the feature as default, and if =
-a mmc
-> > controller has such capable, the host driver should set the flag.
-> > Ulf, is such a patch acceptable for v5.4-rcN? Anyway, I'll submit such =
-a patch later.
->=20
-> I'm sure that would work, but I think that's missing the point. It's not
-> that the setup isn't capable of merging at all. It just can't deal with
-> segments that are too large.
+On 10/09/2019 15:47, Claudiu Beznea wrote:
+> From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> 
+> Some timer drivers may behave either as clocksource or clockevent
+> or both. Until now, in case of platforms with multiple hardware
+> resources of the same type, the drivers were chosing the first
+> registered hardware resource as clocksource/clockevent and the
+> next one as clockevent/clocksource. Other were using different
+> compatibles (one for each functionality, although its about the
+> same hardware). Add DT bindings to be able to choose the
+> functionality of a timer.
+> 
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> ---
+>  Documentation/devicetree/bindings/chosen.txt | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
+> index 45e79172a646..aad3034cdbdf 100644
+> --- a/Documentation/devicetree/bindings/chosen.txt
+> +++ b/Documentation/devicetree/bindings/chosen.txt
+> @@ -135,3 +135,23 @@ e.g.
+>  		linux,initrd-end = <0x82800000>;
+>  	};
+>  };
+> +
+> +linux,clocksource and linux,clockevent
+> +--------------------------------------
+> +
+> +Those nodes have a timer property. This property is a phandle to the timer to be
+> +chosen as the clocksource or clockevent. This is only useful when the platform
+> +has multiple identical timers and it is not possible to let linux make the
+> +correct choice.
+> +
+> +/ {
+> +	chosen {
+> +		linux,clocksource {
+> +			timer = <&timer0>;
+> +		};
+> +
+> +		linux,clockevent {
+> +			timer = <&timer1>;
+> +		};
+> +	};
+> +};
+> 
 
-IIUC, since SDHCI has a strictly 64 KiB limitation on each segment,
-the controller cannot handle the following example 1 case on the plain next=
--20190904.
+Why not in aliases ?
 
-For example 1:
- - Original scatter lists are 4 segments:
-  sg[0]: .dma_address =3D 0x12340000, .length =3D 65536,
-  sg[1]: .dma_address =3D 0x12350000, .length =3D 65536,
-  sg[2]: .dma_address =3D 0x12360000, .length =3D 65536,
-  sg[3]: .dma_address =3D 0x12370000, .length =3D 65536,
+aliases {
+    clocksource0 = &timer0;
+    clockevent0 = &timer1;
+};
 
- - Merging the above segments will be a segment:
-  sg[0]: .dma_address =3D 0x12340000, .length =3D 262144,
+since we can have multiple of each, we should not limit ourselves to 1 clkevent
+and 1 clksource.
 
-> While I was debugging this, I was frequently seeing cases where the SG
-> was on the order of 40 entries initially and after dma_map_sg() it was
-> reduced to just 4 or 5.
+In the aliases case, each driver would expose both capabilities, and the core would select
+what to enable.
 
-If each segment size is small, it can merge them.
-
-For example 2:
- - Original scatter lists are 4 segments:
-  sg[0]: .dma_address =3D 0x12340000, .length =3D 4096,
-  sg[1]: .dma_address =3D 0x12341000, .length =3D 4096,
-  sg[2]: .dma_address =3D 0x12342000, .length =3D 4096,
-  sg[3]: .dma_address =3D 0x12343000, .length =3D 4096,
-
- - Merging the above segments will be a segment:
-  sg[0]: .dma_address =3D 0x12340000, .length =3D 16384,
-
-> So I think merging is still really useful if a setup supports it via an
-> IOMMU. I'm just not sure I see why we can't make the code respect what-
-> ever the maximum segment size that the driver may have configured. That
-> seems like it should allow us to get the best of both worlds.
-
-I agree about merging is useful for the case of the "example 2".
-
-By the way, I checked dma-iommu.c ,and then I found the __finalise_sg() has
-a condition "seg_mask" that is from dma_get_seg_boundary(). So, I'm guessin=
-g
-if the sdhci.c calls dma_set_seg_boundary() with 0x0000ffff, the issue disa=
-ppears.
-This is because the dma-iommu.c will not merge the segments even if the cas=
-e of
-example 1. What do you think?
-
-Best regards,
-Yoshihiro Shimoda
-
-> Thierry
+Neil
