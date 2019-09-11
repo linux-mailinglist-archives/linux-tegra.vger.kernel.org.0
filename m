@@ -2,225 +2,159 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF8C0AF6F6
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Sep 2019 09:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4832AF8A3
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Sep 2019 11:15:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbfIKHef (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Sep 2019 03:34:35 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:50577 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726724AbfIKHee (ORCPT
+        id S1727399AbfIKJPN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Sep 2019 05:15:13 -0400
+Received: from dc2-smtprelay2.synopsys.com ([198.182.61.142]:55890 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725616AbfIKJPN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Sep 2019 03:34:34 -0400
-Received: by mail-wm1-f68.google.com with SMTP id c10so2158689wmc.0
-        for <linux-tegra@vger.kernel.org>; Wed, 11 Sep 2019 00:34:32 -0700 (PDT)
+        Wed, 11 Sep 2019 05:15:13 -0400
+Received: from mailhost.synopsys.com (dc8-mailhost1.synopsys.com [10.13.135.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id E79CEC2B5D;
+        Wed, 11 Sep 2019 09:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1568193313; bh=Z6H6Q3qCuQBuJvyVPzZfoBxJUg83zGwNuDnH9LUNepw=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=AaktmoImg36jo/ix9RKsFlV/ZCTiKz71dDQoTNYa4mHQTwpGCHfbqUvZr7HSP+uav
+         2JB3tsXIwGR5/6qpwUBsdJqx3Zff2RLiW9eMCNQMmyQQhXSqfUOR97jpejOl16hQ31
+         +VhLgz0D9HJ1lkhf98tyfGWDg+ZLCDMxLSagxE+ne1sBdMWmoNGGae7ZQ1uxc90K1G
+         io0/YwIgs5+a6M7lLMNj3MtL8/6x9DH5++QVFX+LZPj35VvyXj3094nQfJYvUA7A9F
+         LaalGvPTuH40zHcAn5DaJpHSuatLabHwlkQbo2EINk9lxnXUhhyPIAghPThkCQf+J5
+         PGFi2qzTGkd7g==
+Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
+        (using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 64B75A005A;
+        Wed, 11 Sep 2019 09:15:12 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 11 Sep 2019 02:15:11 -0700
+Received: from NAM05-BY2-obe.outbound.protection.outlook.com (10.13.134.195)
+ by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Wed, 11 Sep 2019 02:15:12 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U7UVuD0qlQGRqFj+ozg6lVVgokoR61h05ZnJVIzi57HLoyWUWQ7YT0we+Do5x3yKhjBK3vZbXwk/gqLdaVNMDOYuecOxLm0xHSR98+hhvkvSiy6340epwGpc+RoyEID9Wrbp4PBsdgMIzgghRkCjoWdZxINEgrljgK2R8iSslbgzpfY+ITL9ZAyMhj9/bKZBtaXA5EXJCN3UMd3mdj5+vrEb7lSIaq3ecCebLKPi1km6jApcjOMPhPB8f3igrmO3Mg4P5QK4HRcJGEbWwqh/zaX+9gv69ZfKcHykFcOgeLt1SqK5U5jRwXq/MLCHG7e0Iku8jC6NzgJsdd5MpQJhFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z6H6Q3qCuQBuJvyVPzZfoBxJUg83zGwNuDnH9LUNepw=;
+ b=MRyfgoy0O0xxGtPMNCnL6himI/f9jd4oZOQZ3o3w/658Dc3nSXxwW/OMeBpMo7g/55iQle0asAahCDpmn9qFJTT9yXojusd6DiTNCWBdfB2puhYJ9H/IYpvG1+cDUbRtKyMkFkr4buusSGhQ5Won3dVZ3S+8g2gf0dC72rJJfhHER5YOd2ajDXU5JZpgoF3aRJDTIm1XH6awOnxE4o1qlaoQJjBQfkQKaCjUsVFECfdOa9e/Oo3ElHADymcdc2S2CawQkdVZUdusWm36AZ+pYH213T3R40Y9V5lDj/EJrFhINrxtJWCZ4Q7z8icR6VI1WWOdw0W6at74Hpf2amQhaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:openpgp:autocrypt:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=ntQnlZ165aoTq9A7WDI2toA4HdgPISzpICPAyGRYlc4=;
-        b=DMMbzJxxUXHFi6Z63lgJ1y7Sb/XAkiZLWF0D1+uoabJCHSepnQp4es4L6JW2eVagzh
-         72rCnxWkdINIZffgA6FJDDv1cZsc+xCJ96gjFDGsnFT/hoLUjJPTrbgYaJd7PokhtWnH
-         OTfaJl12/d5r/1ERItxyTyhsgX31+DwTKVVyoNiRpdAo1kVz31c2aiTgxAUBVDnpjMAV
-         DjtgPgaTKqzDjK8Ac7atghJQxxGqy9uZA+Mg+e9bu/zTWhUlugNecrmiCFU/k80GDkh6
-         fuT2Iwj60ftMrfIVjjBd2usNbSjEkk428eJwTjzYtZ3c+FGD6oRv2oFmwmg93VzpK1Sh
-         ca5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=ntQnlZ165aoTq9A7WDI2toA4HdgPISzpICPAyGRYlc4=;
-        b=qiiwE6OA+XD4/P2MQ+bKJYvlPJj1SaBQsP/ePc6bRPPwsz/OVQB1EaZ4RWAIdIhaRz
-         XZQ/hW6AgIWivrFDg+vguNHL3vLJbi4o+Kexjrf15cu42BFdPml3aQQbIL52O5E898Ja
-         HbG74JS2yh9mKttPBWkuLad+0LR3Pm+dly2m5Cj4JziZGdcbAQKz4/2Ml0NtHw9Gi4mL
-         wuJq07j0z2rNlMye8VfraxBit6EtXZBmy2Y1Ld1rz9Rtac7pz7yYYNW2bBEAFTLTdv7h
-         T67Y4BAOy8dOsRtnc1A6TB8DztXyeN/l1LSizTGxuES+xr0L6Ry3vesDOrJqN7zm4tW7
-         yVtQ==
-X-Gm-Message-State: APjAAAUnWDjDkOPbDGN12RFM5kWFfOOBOM8RkCR0flyUznu1pDsGVsZN
-        9MJlbkxN1hcOKRc5lli7idPwJQ==
-X-Google-Smtp-Source: APXvYqxxDvRVKQaWLplVyw8RxLikPJkEefVhJ7vX1GPMo2oDLkeZWy4Fj5QkFLqrwRhYintC8OnwBA==
-X-Received: by 2002:a1c:ca02:: with SMTP id a2mr2835861wmg.127.1568187271380;
-        Wed, 11 Sep 2019 00:34:31 -0700 (PDT)
-Received: from [192.168.1.62] (176-150-251-154.abo.bbox.fr. [176.150.251.154])
-        by smtp.gmail.com with ESMTPSA id d193sm3518079wmd.0.2019.09.11.00.34.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Sep 2019 00:34:30 -0700 (PDT)
-Subject: Re: [PATCH 4/7] dt-bindings: chosen: Add clocksource and clockevent
- selection
-To:     Claudiu Beznea <claudiu.beznea@microchip.com>,
-        daniel.lezcano@linaro.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, linux@armlinux.org.uk, nsekhar@ti.com,
-        bgolaszewski@baylibre.com, monstr@monstr.eu, john@phrozen.org,
-        ralf@linux-mips.org, paul.burton@mips.com, jhogan@kernel.org,
-        lftan@altera.com, tglx@linutronix.de, vgupta@synopsys.com,
-        marc.zyngier@arm.com, patrice.chotard@st.com,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
-        eric@anholt.net, wahrenst@gmx.net, f.fainelli@gmail.com,
-        rjui@broadcom.com, sbranden@broadcom.com,
-        bcm-kernel-feedback-list@broadcom.com, linus.walleij@linaro.org,
-        shc_work@mail.ru, kgene@kernel.org, krzk@kernel.org,
-        ysato@users.sourceforge.jp, liviu.dudau@arm.com,
-        sudeep.holla@arm.com, lorenzo.pieralisi@arm.com,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, baohua@kernel.org,
-        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-        ludovic.desroches@microchip.com, baruch@tkos.co.il,
-        u.kleine-koenig@pengutronix.de, guoren@kernel.org,
-        kaloz@openwrt.org, khalasa@piap.pl, ssantosh@kernel.org,
-        vz@mleia.com, slemieux.tyco@gmail.com, khilman@baylibre.com,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        venture@google.com, yuenn@google.com, benjaminfair@google.com,
-        afaerber@suse.de, manivannan.sadhasivam@linaro.org,
-        agross@kernel.org, palmer@sifive.com, aou@eecs.berkeley.edu,
-        heiko@sntech.de, orsonzhai@gmail.com, baolin.wang@linaro.org,
-        zhang.lyra@gmail.com, maxime.ripard@bootlin.com, wens@csie.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux@prisktech.co.nz, john.stultz@linaro.org, sboyd@kernel.org,
-        matthias.bgg@gmail.com
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        nios2-dev@lists.rocketboards.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        uclinux-h8-devel@lists.sourceforge.jp,
-        linux-amlogic@lists.infradead.org, openbmc@lists.ozlabs.org,
-        linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org,
-        linux-unisoc@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
- <1568123236-767-5-git-send-email-claudiu.beznea@microchip.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <81da473f-54d7-2a00-61ec-9351cdfcaaf3@baylibre.com>
-Date:   Wed, 11 Sep 2019 09:34:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <1568123236-767-5-git-send-email-claudiu.beznea@microchip.com>
-Content-Type: text/plain; charset=utf-8
+ d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z6H6Q3qCuQBuJvyVPzZfoBxJUg83zGwNuDnH9LUNepw=;
+ b=NXxr1m0J7CfujwWJPVhlLNChF3lr6Qx4Ioj207cqLzp2Hlg9Dj35rp3ufR1xjjovj0qitH4fG4QrWE5IwBUq4gDhE+7ttDTfysRNd4dfwjkQngaJDvWWyneUWrqoZnu7S+toDBFRkTlOSTD/hChzQr0wdcXTO1ppR1OluXxoxGI=
+Received: from BN8PR12MB3266.namprd12.prod.outlook.com (20.179.67.145) by
+ BN8PR12MB3012.namprd12.prod.outlook.com (20.178.209.10) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2241.18; Wed, 11 Sep 2019 09:15:10 +0000
+Received: from BN8PR12MB3266.namprd12.prod.outlook.com
+ ([fe80::59fc:d942:487d:15b8]) by BN8PR12MB3266.namprd12.prod.outlook.com
+ ([fe80::59fc:d942:487d:15b8%7]) with mapi id 15.20.2263.015; Wed, 11 Sep 2019
+ 09:15:10 +0000
+From:   Jose Abreu <Jose.Abreu@synopsys.com>
+To:     Florian Fainelli <f.fainelli@gmail.com>,
+        Jose Abreu <Jose.Abreu@synopsys.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        "Jon Hunter" <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: RE: [PATCH net-next v2 2/2] net: stmmac: Support enhanced addressing
+ mode for DWMAC 4.10
+Thread-Topic: [PATCH net-next v2 2/2] net: stmmac: Support enhanced addressing
+ mode for DWMAC 4.10
+Thread-Index: AQHVZyLugLltb0ZW10+a6Fka6Re0xKcjgeswgAA1IoCAAN9LkIAAr46AgADsSGA=
+Date:   Wed, 11 Sep 2019 09:15:10 +0000
+Message-ID: <BN8PR12MB3266FC9B7C984F875A920D3ED3B10@BN8PR12MB3266.namprd12.prod.outlook.com>
+References: <20190909152546.383-1-thierry.reding@gmail.com>
+ <20190909152546.383-2-thierry.reding@gmail.com>
+ <BN8PR12MB3266AAC6FF4819EC25CB087BD3B70@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <20190909191329.GB23804@mithrandir>
+ <BN8PR12MB3266F021DFC2C61CDEC83418D3B60@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <c8d419d3-6cf6-e260-a2e2-6a339c6c321b@gmail.com>
+In-Reply-To: <c8d419d3-6cf6-e260-a2e2-6a339c6c321b@gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=joabreu@synopsys.com; 
+x-originating-ip: [148.69.85.38]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 43e6016a-59a8-4fa1-280b-08d736988c19
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BN8PR12MB3012;
+x-ms-traffictypediagnostic: BN8PR12MB3012:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BN8PR12MB3012B6B255516CC3F85A708ED3B10@BN8PR12MB3012.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0157DEB61B
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(346002)(366004)(39860400002)(376002)(136003)(189003)(199004)(2906002)(476003)(14454004)(5660300002)(256004)(76176011)(14444005)(71190400001)(71200400001)(110136005)(8676002)(7696005)(229853002)(54906003)(486006)(6116002)(316002)(3846002)(478600001)(55016002)(6506007)(186003)(9686003)(8936002)(6246003)(74316002)(53546011)(6436002)(7736002)(4326008)(81156014)(81166006)(66946007)(52536014)(305945005)(76116006)(25786009)(99286004)(102836004)(26005)(446003)(11346002)(53936002)(33656002)(66476007)(66556008)(64756008)(66066001)(66446008)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR12MB3012;H:BN8PR12MB3266.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: U8oPdDGs+orqN9GgC6WbLCZlvKtbAkuhiLs3OEU2WTqMu2OKwIRqq8StWjFUZob38PTO5uIBOJG8ZGj92r8rprXUkKO2XuOsoPLdJVd02i8/7kpcNHLHC/lAJY6bR3z9EDP/rwFo+CYR5eKvgUAYqkOWy8Z9/BzEEeUfJEkkzYE2wNo8qvkLM1zTLdZskuA04oLi014bEJYkrx5dhaKxoYqMj5pe7xS9e+wD7rGfuGVQerDNIiP6KpE93uDXC314kaACpBSyyxoSPWDQoqZRf4J9zC7lKJVhsmWRUYQ8yjYNOvFbJ8ByvySgZ9A2rYlHthTmlmsippvnucu2b6Ck2J3BD4qy/BtfFu1m7ixAHvDy9Gd+zED32UckDljCvg/uAnE5XkKQUAc5gOcIvPVKf29PVIq/p39IzD9a/stcqbM=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43e6016a-59a8-4fa1-280b-08d736988c19
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2019 09:15:10.7743
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Aj4CT+b37hEgNKzzupD3egUTk1/CrbFIidS+3MRbWACEOdc3RblY1AbHsMgkYl7hTPk+Vl7bnXutthvfFkflQg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3012
+X-OriginatorOrg: synopsys.com
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
-
-On 10/09/2019 15:47, Claudiu Beznea wrote:
-> From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> 
-> Some timer drivers may behave either as clocksource or clockevent
-> or both. Until now, in case of platforms with multiple hardware
-> resources of the same type, the drivers were chosing the first
-> registered hardware resource as clocksource/clockevent and the
-> next one as clockevent/clocksource. Other were using different
-> compatibles (one for each functionality, although its about the
-> same hardware). Add DT bindings to be able to choose the
-> functionality of a timer.
-> 
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
-> ---
->  Documentation/devicetree/bindings/chosen.txt | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
-> index 45e79172a646..aad3034cdbdf 100644
-> --- a/Documentation/devicetree/bindings/chosen.txt
-> +++ b/Documentation/devicetree/bindings/chosen.txt
-> @@ -135,3 +135,23 @@ e.g.
->  		linux,initrd-end = <0x82800000>;
->  	};
->  };
-> +
-> +linux,clocksource and linux,clockevent
-> +--------------------------------------
-> +
-> +Those nodes have a timer property. This property is a phandle to the timer to be
-> +chosen as the clocksource or clockevent. This is only useful when the platform
-> +has multiple identical timers and it is not possible to let linux make the
-> +correct choice.
-> +
-> +/ {
-> +	chosen {
-> +		linux,clocksource {
-> +			timer = <&timer0>;
-> +		};
-> +
-> +		linux,clockevent {
-> +			timer = <&timer1>;
-> +		};
-> +	};
-> +};
-> 
-
-Why not in aliases ?
-
-aliases {
-    clocksource0 = &timer0;
-    clockevent0 = &timer1;
-};
-
-since we can have multiple of each, we should not limit ourselves to 1 clkevent
-and 1 clksource.
-
-In the aliases case, each driver would expose both capabilities, and the core would select
-what to enable.
-
-Neil
+RnJvbTogRmxvcmlhbiBGYWluZWxsaSA8Zi5mYWluZWxsaUBnbWFpbC5jb20+DQpEYXRlOiBTZXAv
+MTAvMjAxOSwgMjA6MDE6MDEgKFVUQyswMDowMCkNCg0KPiBPbiA5LzEwLzE5IDE6MzUgQU0sIEpv
+c2UgQWJyZXUgd3JvdGU6DQo+ID4gRnJvbTogVGhpZXJyeSBSZWRpbmcgPHRoaWVycnkucmVkaW5n
+QGdtYWlsLmNvbT4NCj4gPiBEYXRlOiBTZXAvMDkvMjAxOSwgMjA6MTM6MjkgKFVUQyswMDowMCkN
+Cj4gPiANCj4gPj4gT24gTW9uLCBTZXAgMDksIDIwMTkgYXQgMDQ6MDU6NTJQTSArMDAwMCwgSm9z
+ZSBBYnJldSB3cm90ZToNCj4gPj4+IEZyb206IFRoaWVycnkgUmVkaW5nIDx0aGllcnJ5LnJlZGlu
+Z0BnbWFpbC5jb20+DQo+ID4+PiBEYXRlOiBTZXAvMDkvMjAxOSwgMTY6MjU6NDYgKFVUQyswMDow
+MCkNCj4gPj4+DQo+ID4+Pj4gQEAgLTc5LDYgKzc5LDEwIEBAIHN0YXRpYyB2b2lkIGR3bWFjNF9k
+bWFfaW5pdF9yeF9jaGFuKHZvaWQgX19pb21lbSAqaW9hZGRyLA0KPiA+Pj4+ICAJdmFsdWUgPSB2
+YWx1ZSB8IChyeHBibCA8PCBETUFfQlVTX01PREVfUlBCTF9TSElGVCk7DQo+ID4+Pj4gIAl3cml0
+ZWwodmFsdWUsIGlvYWRkciArIERNQV9DSEFOX1JYX0NPTlRST0woY2hhbikpOw0KPiA+Pj4+ICAN
+Cj4gPj4+PiArCWlmIChkbWFfY2ZnLT5lYW1lKQ0KPiA+Pj4NCj4gPj4+IFRoZXJlIGlzIG5vIG5l
+ZWQgZm9yIHRoaXMgY2hlY2suIElmIEVBTUUgaXMgbm90IGVuYWJsZWQgdGhlbiB1cHBlciAzMiAN
+Cj4gPj4+IGJpdHMgd2lsbCBiZSB6ZXJvLg0KPiA+Pg0KPiA+PiBUaGUgaWRlYSBoZXJlIHdhcyB0
+byBwb3RlbnRpYWxseSBndWFyZCBhZ2FpbnN0IHRoaXMgcmVnaXN0ZXIgbm90IGJlaW5nDQo+ID4+
+IGF2YWlsYWJsZSBvbiBzb21lIHJldmlzaW9ucy4gSGF2aW5nIHRoZSBjaGVjayBoZXJlIHdvdWxk
+IGF2b2lkIGFjY2VzcyB0bw0KPiA+PiB0aGUgcmVnaXN0ZXIgaWYgdGhlIGRldmljZSBkb2Vzbid0
+IHN1cHBvcnQgZW5oYW5jZWQgYWRkcmVzc2luZy4NCj4gPiANCj4gPiBJIHNlZSB5b3VyIHBvaW50
+IGJ1dCBJIGRvbid0IHRoaW5rIHRoZXJlIHdpbGwgYmUgYW55IHByb2JsZW1zIHVubGVzcyB5b3Ug
+DQo+ID4gaGF2ZSBzb21lIHN0cmFuZ2Ugc3lzdGVtIHRoYXQgZG9lc24ndCBoYW5kbGUgdGhlIHdy
+aXRlIGFjY2Vzc2VzIHRvIA0KPiA+IHVuaW1wbGVtZW50ZWQgZmVhdHVyZXMgcHJvcGVybHkgLi4u
+DQo+IA0KPiBJcyBub3QgaXQgdGhlbiBqdXN0IHNhZmVyIHRvIG5vdCBkbyB0aGUgd3JpdGUgdG8g
+YSByZWdpc3RlciB0aGF0IHlvdSBkbw0KPiBub3Qga25vdyBob3cgdGhlIGltcGxlbWVudGF0aW9u
+IGlzIGdvaW5nIHRvIHJlc3BvbmQgdG8gd2l0aCBvbmUgb2YgYQ0KPiB0YXJnZXQgYWJvcnQsIHRp
+bWVvdXQsIGRlY29kaW5nIGVycm9yLCBqdXN0IGRlYWQgbG9jaz8NCg0KSSBkb24ndCB0aGluayBh
+bnkgb2YgdGhlc2Ugd2lsbCBldmVyIGhhcHBlbi4gTm90aWNlIHRoYXQgdGhpcyBpcyBhbHJlYWR5
+IA0KYmVlbiBkb25lIGZvciBhIGxvbmcgdGltZSBpbiBzb21lIHJlZ2lzdGVycyB0aGF0IG1heSBu
+b3QgZXhpc3QgaW4gc29tZSANCnJhbmRvbSBIVyBjb25maWcgYW5kIHRoZXJlIGlzIGFsc28gdGhl
+IHBvaW50IHRoYXQgdGhpcyBpcyBhIHdyaXRlIA0Kb3BlcmF0aW9uIHNvIFNsYXZlIEVycm9yIHdv
+dWxkIG9ubHkgZ2V0IHRyaWdnZXJlZCBpZiB3ZSBkaWQgYSByZWFkLg0KDQo+IEFsc28sIHdvdWxk
+IGl0IG1ha2Ugc2Vuc2UgdG8gY29uc2lkZXIgYWRkaW5nIGFuICNpZmRlZg0KPiBDT05GSUdfUEhZ
+U19BRERSX1RfNjRCSVQgcGx1cyB0aGUgY29uZGl0aW9uYWwgY2hlY2sgc28gdGhhdCB5b3UgY2Fu
+IGJlDQo+IHNsaWdodGx5IG1vcmUgb3B0aW1hbCBpbiB0aGUgaG90LXBhdGggaGVyZT8NCg0KV2Vs
+bCwgdGhpcyBpcyBub3QgaG90LXBhdGguIEl0J3Mgb25seSBkb25lIGluIEhXIG9wZW4gc2VxdWVu
+Y2UuIFRoZSANCmhvdC1wYXRoIHdvdWxkIGJlIHNldF97cngvdHh9X3RhaWxfcHRyKCkgYnV0IHRo
+YXQncyAzMiBiaXRzIG9ubHkuIA0KDQotLS0NClRoYW5rcywNCkpvc2UgTWlndWVsIEFicmV1DQo=
