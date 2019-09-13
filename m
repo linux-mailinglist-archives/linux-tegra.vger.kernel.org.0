@@ -2,243 +2,154 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47AB3B19FE
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Sep 2019 10:47:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9FB8B21B2
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Sep 2019 16:18:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387835AbfIMIrD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Sep 2019 04:47:03 -0400
-Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:39290 "EHLO
-        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387581AbfIMIq6 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Sep 2019 04:46:58 -0400
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x8D8gds8001890;
-        Fri, 13 Sep 2019 04:46:53 -0400
-Received: from nam05-co1-obe.outbound.protection.outlook.com (mail-co1nam05lp2055.outbound.protection.outlook.com [104.47.48.55])
-        by mx0a-00128a01.pphosted.com with ESMTP id 2uytdfsa8m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 13 Sep 2019 04:46:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QcwrP4QnIjetMkoH5NLf0ibgB9XU8/pdiylNwS3t6rOtwBkduCCGpuk8Is56K34nb1SPkn6hIr62CBxeabWWWoGVvdRzxMbl1wb3C7tZuslc6373drm33AhmhZhm1zxKX3+Bn1sYH1SfxwgQdL6dim+cb6x2pP/KWXn0qq3FhgOKFKyGi70igoDXwMCEGI8uN/idIXAeIBq6jlFlLAy0o1Xy1hAndD0hM4P79+CqH3eX7556mNJ+cJR3UZlayCx4yO+LDRJ3u2zwFX5z9W6TQ6TXGLS4CpLqq/jZjcOKmN0MJWImEgFhHCNEiOk4uIt4iAy6ssjDSS1BXUY/faWnag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8SJm80TJlRotqx116nuGen8V9eGqdAKty0mbD7a8DOQ=;
- b=XNga6HYc2Kcgx5P195thaxhG2CSVGlOnmHVy4vYEZETvUGQbLxbtRVzIRuZB0mcz/LlkVb220hmQ45kQ2wwvcDrJK1ioVIpN8bstPT95hmI7nXBVNutKrPnw899YH+IrwSXLWJ1x1oJgjFGkHhcFadGnw/rZS9eEpE0sbTTop04o+nfYLlEKHcPYe6d2jIdaphDz+zFnM3X9ky/84TPRvrs8i0xtnHfXjrbJ8X+DOvGHoLOM4FqDuiEjV0rBoahBWC3b98hkv5gOgCaacelQ6aB9ZMtZXbEbk2R72bdmmKztnVhpZzeoe14AQSr0TKrRsJgB87Rii0c582j82kGHzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 137.71.25.57) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=analog.com;
- dmarc=bestguesspass action=none header.from=analog.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8SJm80TJlRotqx116nuGen8V9eGqdAKty0mbD7a8DOQ=;
- b=YMfbWMvCIS24KwC8FESpwzHFLIw802RdIEKduP+Iq7T/elCOnj0tBGgkvSahy5x6SCV9RHaI6M/vOh8g0hrLpa5rRYVBDOJZq9kEe2jlFrl4s3XPtUTRXlKOZKGnKhbfYh+z0SsC3ueGfOLJMWCs/dDw7yOZJUZkMBJ9wuHmiL4=
-Received: from BN6PR03CA0072.namprd03.prod.outlook.com (2603:10b6:404:4c::34)
- by MN2PR03MB4669.namprd03.prod.outlook.com (2603:10b6:208:ab::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2241.18; Fri, 13 Sep
- 2019 08:46:51 +0000
-Received: from CY1NAM02FT031.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e45::207) by BN6PR03CA0072.outlook.office365.com
- (2603:10b6:404:4c::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2263.13 via Frontend
- Transport; Fri, 13 Sep 2019 08:46:50 +0000
-Received-SPF: Pass (protection.outlook.com: domain of analog.com designates
- 137.71.25.57 as permitted sender) receiver=protection.outlook.com;
- client-ip=137.71.25.57; helo=nwd2mta2.analog.com;
-Received: from nwd2mta2.analog.com (137.71.25.57) by
- CY1NAM02FT031.mail.protection.outlook.com (10.152.75.180) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2263.17
- via Frontend Transport; Fri, 13 Sep 2019 08:46:50 +0000
-Received: from NWD2HUBCAS7.ad.analog.com (nwd2hubcas7.ad.analog.com [10.64.69.107])
-        by nwd2mta2.analog.com (8.13.8/8.13.8) with ESMTP id x8D8kjL3030753
-        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Fri, 13 Sep 2019 01:46:45 -0700
-Received: from saturn.ad.analog.com (10.48.65.123) by
- NWD2HUBCAS7.ad.analog.com (10.64.69.107) with Microsoft SMTP Server id
- 14.3.408.0; Fri, 13 Sep 2019 04:46:49 -0400
-From:   Alexandru Ardelean <alexandru.ardelean@analog.com>
-To:     <linux-spi@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <bcm-kernel-feedback-list@broadcom.com>
-CC:     <jic23@kernel.org>, <broonie@kernel.org>, <f.fainelli@gmail.com>,
-        <linus.walleij@linaro.org>, <orsonzhai@gmail.com>,
-        <baolin.wang@linaro.org>, <zhang.lyra@gmail.com>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>
-Subject: [RFC PATCH 15/15] spi: implement SW control for CS times
-Date:   Fri, 13 Sep 2019 14:45:50 +0300
-Message-ID: <20190913114550.956-16-alexandru.ardelean@analog.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190913114550.956-1-alexandru.ardelean@analog.com>
-References: <20190913114550.956-1-alexandru.ardelean@analog.com>
+        id S1727452AbfIMOSo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Sep 2019 10:18:44 -0400
+Received: from sauhun.de ([88.99.104.3]:35986 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727412AbfIMOSo (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 13 Sep 2019 10:18:44 -0400
+Received: from localhost (234.77.63.94.rev.vodafone.pt [94.63.77.234])
+        by pokefinder.org (Postfix) with ESMTPSA id AB6CA2C3115;
+        Fri, 13 Sep 2019 16:18:41 +0200 (CEST)
+Date:   Fri, 13 Sep 2019 15:18:41 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] i2c: tegra: Move suspend handling to NOIRQ phase
+Message-ID: <20190913141841.GC1022@kunai>
+References: <20190910092917.29901-1-jonathanh@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ADIRoutedOnPrem: True
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:137.71.25.57;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(346002)(396003)(136003)(39860400002)(376002)(189003)(199004)(476003)(2870700001)(70206006)(44832011)(6666004)(50226002)(356004)(336012)(316002)(47776003)(76176011)(7416002)(70586007)(8936002)(305945005)(478600001)(51416003)(186003)(48376002)(5660300002)(50466002)(1076003)(26005)(14444005)(2201001)(86362001)(7696005)(54906003)(36756003)(107886003)(126002)(486006)(4326008)(2616005)(2906002)(11346002)(446003)(110136005)(7636002)(246002)(106002)(426003)(8676002)(2101003);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR03MB4669;H:nwd2mta2.analog.com;FPR:;SPF:Pass;LANG:en;PTR:nwd2mail11.analog.com;MX:1;A:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e1bd2e00-ffbe-4a16-3d62-08d73826eb84
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(4709080)(1401327)(4618075)(2017052603328);SRVR:MN2PR03MB4669;
-X-MS-TrafficTypeDiagnostic: MN2PR03MB4669:
-X-Microsoft-Antispam-PRVS: <MN2PR03MB4669DA5A59EFFA12608DBBFBF9B30@MN2PR03MB4669.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0159AC2B97
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: MtOCtlAqxM26bNa3hsjw+2gnJn3dlX2tC865y3toh/UR92xJvEcH4zTQ3qBcIvlw51PFY6rbQmo3et2T7zrak2eQP2GTXm6MKiXnJQn4tlpXXCz1BQQajZfAj/O2Gv5phiZujog/UPXp8UYrupPM8E1UEIcHsr/RpxnwQ7PO7Tq4omIKmf9GsH/3N3Ivpz4LhkB/+o6UDTqgxPUaQCpIoSlEhlFURksYMMdL7LFZtVFx8AN+kg60kHgON2/RZNrffzjZYDOustViWlCUWcXWopu90ZIZAW/bDdQbvJOOIoQQjnrR4PyZLkNy/EpFRPXwistSZaFdrW76bkVKWGqhUziPjdKx60sFL2OFyW1FWrEUyhR+c1Ep1T+BFpYRT8c2Mb2/PdJFw3zdR6rXAPBjjY5nTQKiUIofQVGWXf3vjto=
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2019 08:46:50.6098
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1bd2e00-ffbe-4a16-3d62-08d73826eb84
-X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=eaa689b4-8f87-40e0-9c6f-7228de4d754a;Ip=[137.71.25.57];Helo=[nwd2mta2.analog.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR03MB4669
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
- definitions=2019-09-13_05:2019-09-11,2019-09-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- impostorscore=0 priorityscore=1501 suspectscore=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0 mlxscore=0
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1908290000 definitions=main-1909130083
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
+Content-Disposition: inline
+In-Reply-To: <20190910092917.29901-1-jonathanh@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This change implements CS control for setup, hold & inactive delays.
 
-The `cs_setup` delay is completely new, and can help with cases where
-asserting the CS, also brings the device out of power-sleep, where there
-needs to be a longer (than usual), before transferring data.
+--69pVuxX8awAiJ7fD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The `cs_hold` time can overlap with the `delay` (or `delay_usecs`) from an
-SPI transfer. The main difference is that `cs_hold` implies that CS will be
-de-asserted.
+On Tue, Sep 10, 2019 at 10:29:17AM +0100, Jon Hunter wrote:
+> Commit acc8abcb2a9c ("i2c: tegra: Add suspend-resume support") added
+> suspend support for the Tegra I2C driver and following this change on
+> Tegra30 the following WARNING is seen on entering suspend ...
+>=20
+>  WARNING: CPU: 2 PID: 689 at /dvs/git/dirty/git-master_l4t-upstream/kerne=
+l/drivers/i2c/i2c-core.h:54 __i2c_transfer+0x35c/0x70c
+>  i2c i2c-4: Transfer while suspended
+>  Modules linked in: brcmfmac brcmutil
+>  CPU: 2 PID: 689 Comm: rtcwake Not tainted 5.3.0-rc7-g089cf7f6ecb2 #1
+>  Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
+>  [<c0112264>] (unwind_backtrace) from [<c010ca94>] (show_stack+0x10/0x14)
+>  [<c010ca94>] (show_stack) from [<c0a77024>] (dump_stack+0xb4/0xc8)
+>  [<c0a77024>] (dump_stack) from [<c0124198>] (__warn+0xe0/0xf8)
+>  [<c0124198>] (__warn) from [<c01241f8>] (warn_slowpath_fmt+0x48/0x6c)
+>  [<c01241f8>] (warn_slowpath_fmt) from [<c06f6c40>] (__i2c_transfer+0x35c=
+/0x70c)
+>  [<c06f6c40>] (__i2c_transfer) from [<c06f7048>] (i2c_transfer+0x58/0xf4)
+>  [<c06f7048>] (i2c_transfer) from [<c06f7130>] (i2c_transfer_buffer_flags=
++0x4c/0x70)
+>  [<c06f7130>] (i2c_transfer_buffer_flags) from [<c05bee78>] (regmap_i2c_w=
+rite+0x14/0x30)
+>  [<c05bee78>] (regmap_i2c_write) from [<c05b9cac>] (_regmap_raw_write_imp=
+l+0x35c/0x868)
+>  [<c05b9cac>] (_regmap_raw_write_impl) from [<c05b984c>] (_regmap_update_=
+bits+0xe4/0xec)
+>  [<c05b984c>] (_regmap_update_bits) from [<c05bad04>] (regmap_update_bits=
+_base+0x50/0x74)
+>  [<c05bad04>] (regmap_update_bits_base) from [<c04d453c>] (regulator_disa=
+ble_regmap+0x44/0x54)
+>  [<c04d453c>] (regulator_disable_regmap) from [<c04cf9d4>] (_regulator_do=
+_disable+0xf8/0x268)
+>  [<c04cf9d4>] (_regulator_do_disable) from [<c04d1694>] (_regulator_disab=
+le+0xf4/0x19c)
+>  [<c04d1694>] (_regulator_disable) from [<c04d1770>] (regulator_disable+0=
+x34/0x64)
+>  [<c04d1770>] (regulator_disable) from [<c04d2310>] (regulator_bulk_disab=
+le+0x28/0xb4)
+>  [<c04d2310>] (regulator_bulk_disable) from [<c0495cd4>] (tegra_pcie_powe=
+r_off+0x64/0xa8)
+>  [<c0495cd4>] (tegra_pcie_power_off) from [<c0495f74>] (tegra_pcie_pm_sus=
+pend+0x25c/0x3f4)
+>  [<c0495f74>] (tegra_pcie_pm_suspend) from [<c05af48c>] (dpm_run_callback=
++0x38/0x1d4)
+>  [<c05af48c>] (dpm_run_callback) from [<c05afe30>] (__device_suspend_noir=
+q+0xc0/0x2b8)
+>  [<c05afe30>] (__device_suspend_noirq) from [<c05b1c24>] (dpm_noirq_suspe=
+nd_devices+0x100/0x37c)
+>  [<c05b1c24>] (dpm_noirq_suspend_devices) from [<c05b1ebc>] (dpm_suspend_=
+noirq+0x1c/0x48)
+>  [<c05b1ebc>] (dpm_suspend_noirq) from [<c017d2c0>] (suspend_devices_and_=
+enter+0x1d0/0xa00)
+>  [<c017d2c0>] (suspend_devices_and_enter) from [<c017dd10>] (pm_suspend+0=
+x220/0x74c)
+>  [<c017dd10>] (pm_suspend) from [<c017c2c8>] (state_store+0x6c/0xc8)
+>  [<c017c2c8>] (state_store) from [<c02ef398>] (kernfs_fop_write+0xe8/0x1c=
+4)
+>  [<c02ef398>] (kernfs_fop_write) from [<c0271e38>] (__vfs_write+0x2c/0x1c=
+4)
+>  [<c0271e38>] (__vfs_write) from [<c02748dc>] (vfs_write+0xa4/0x184)
+>  [<c02748dc>] (vfs_write) from [<c0274b7c>] (ksys_write+0x9c/0xdc)
+>  [<c0274b7c>] (ksys_write) from [<c0101000>] (ret_fast_syscall+0x0/0x54)
+>  Exception stack(0xe9f21fa8 to 0xe9f21ff0)
+>  1fa0:                   0000006c 004b2438 00000004 004b2438 00000004 000=
+00000
+>  1fc0: 0000006c 004b2438 004b1228 00000004 00000004 00000004 0049e78c 004=
+b1228
+>  1fe0: 00000004 be9809b8 b6f0bc0b b6e96206
+>=20
+> The problem is that the Tegra PCIe driver indirectly uses I2C for
+> controlling some regulators and the I2C driver is now being suspended
+> before the PCIe driver causing the PCIe suspend to fail. The Tegra PCIe
+> driver is suspended during the NOIRQ phase and this cannot be changed
+> due to other dependencies. Therefore, we also need to move the suspend
+> handling for the Tegra I2C driver to the NOIRQ phase as well.
+>=20
+> In order to move the I2C suspend handling to the NOIRQ phase we also
+> need to avoid calling pm_runtime_get/put() because per commit
+> 1e2ef05bb8cf ("PM: Limit race conditions between runtime PM and system
+> sleep (v2)") these cannot be called early in resume. The function
+> tegra_i2c_init(), called during resume, calls pm_runtime_get/put() and
+> so move these calls outside of tegra_i2c_init(), so this function can
+> be used during the NOIRQ resume phase.
+>=20
+> Fixes: acc8abcb2a9c ("i2c: tegra: Add suspend-resume support")
+>=20
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 
-The `cs_inactive` delay does not have a clear use-case yet. It has been
-implemented mostly because the `spi_set_cs_timing()` function implements
-it. To some degree, this could overlap or replace `cs_change_delay`, but
-this will require more consideration/investigation in the future.
+Applied to for-next, thanks!
 
-All these delays have been added to the `spi_controller` struct, as they
-would typically be configured by calling `spi_set_cs_timing()` after an
-`spi_setup()` call.
 
-Software-mode for CS control, implies that the `set_cs_timing()` hook has
-not been provided for the `spi_controller` object.
+--69pVuxX8awAiJ7fD
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
----
- drivers/spi/spi.c       | 50 ++++++++++++++++++++++++++++++++++++++++-
- include/linux/spi/spi.h |  5 +++++
- 2 files changed, 54 insertions(+), 1 deletion(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-index 54d00c0a26d2..acbbfee837ed 100644
---- a/drivers/spi/spi.c
-+++ b/drivers/spi/spi.c
-@@ -775,6 +775,15 @@ int spi_register_board_info(struct spi_board_info const *info, unsigned n)
- 
- static void spi_set_cs(struct spi_device *spi, bool enable)
- {
-+	bool enable1 = enable;
-+
-+	if (!spi->controller->set_cs_timing) {
-+		if (enable1)
-+			spi_delay_exec(&spi->controller->cs_setup, NULL);
-+		else
-+			spi_delay_exec(&spi->controller->cs_hold, NULL);
-+	}
-+
- 	if (spi->mode & SPI_CS_HIGH)
- 		enable = !enable;
- 
-@@ -800,6 +809,11 @@ static void spi_set_cs(struct spi_device *spi, bool enable)
- 	} else if (spi->controller->set_cs) {
- 		spi->controller->set_cs(spi, !enable);
- 	}
-+
-+	if (!spi->controller->set_cs_timing) {
-+		if (!enable1)
-+			spi_delay_exec(&spi->controller->cs_inactive, NULL);
-+	}
- }
- 
- #ifdef CONFIG_HAS_DMA
-@@ -3144,6 +3158,11 @@ int spi_setup(struct spi_device *spi)
- }
- EXPORT_SYMBOL_GPL(spi_setup);
- 
-+static inline bool _spi_delay_clock_cycles(struct spi_delay *d)
-+{
-+	return d && d->unit == SPI_DELAY_UNIT_SCK;
-+}
-+
- /**
-  * spi_set_cs_timing - configure CS setup, hold, and inactive delays
-  * @spi: the device that requires specific CS timing configuration
-@@ -3156,10 +3175,39 @@ EXPORT_SYMBOL_GPL(spi_setup);
- int spi_set_cs_timing(struct spi_device *spi, struct spi_delay *setup,
- 		      struct spi_delay *hold, struct spi_delay *inactive)
- {
-+	size_t len;
-+
- 	if (spi->controller->set_cs_timing)
- 		return spi->controller->set_cs_timing(spi, setup, hold,
- 						      inactive);
--	return -ENOTSUPP;
-+
-+	if (_spi_delay_clock_cycles(setup) ||
-+	    _spi_delay_clock_cycles(hold) ||
-+	    _spi_delay_clock_cycles(inactive)) {
-+		dev_err(&spi->dev,
-+			"Clock-cycle delays for CS not supported in SW mode\n");
-+		return -ENOTSUPP;
-+	}
-+
-+	len = sizeof(struct spi_delay);
-+
-+	/* copy delays to controller */
-+	if (setup)
-+		memcpy(&spi->controller->cs_setup, setup, len);
-+	else
-+		memset(&spi->controller->cs_setup, 0, len);
-+
-+	if (hold)
-+		memcpy(&spi->controller->cs_hold, hold, len);
-+	else
-+		memset(&spi->controller->cs_hold, 0, len);
-+
-+	if (inactive)
-+		memcpy(&spi->controller->cs_inactive, inactive, len);
-+	else
-+		memset(&spi->controller->cs_inactive, 0, len);
-+
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(spi_set_cs_timing);
- 
-diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
-index 292e752ce34a..def49a76299f 100644
---- a/include/linux/spi/spi.h
-+++ b/include/linux/spi/spi.h
-@@ -602,6 +602,11 @@ struct spi_controller {
- 	/* Optimized handlers for SPI memory-like operations. */
- 	const struct spi_controller_mem_ops *mem_ops;
- 
-+	/* CS delays */
-+	struct spi_delay	cs_setup;
-+	struct spi_delay	cs_hold;
-+	struct spi_delay	cs_inactive;
-+
- 	/* gpio chip select */
- 	int			*cs_gpios;
- 	struct gpio_desc	**cs_gpiods;
--- 
-2.20.1
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl17pUAACgkQFA3kzBSg
+KbYHuhAAlvTw4F2YkaELJucgf10FnYx+rri3f8bXFgPngE/Hm0Fa/zqFqvexSCjn
+P1dqa0GVptFu68JHSz64wbxnynZ/tTN9hcy0TxJA1Ob2Yd9zGz3UWkZMyQlYFMBE
+SoMDsGrTzoDm3Yh7ENATNJRZew0/Wr2+oe/z1IdBAYKiFh+p2bUVhVvwtHUydznT
+Q02/xe5BMPRRPZ4DY2gpO4OkttJbZz6qXFnJM5VCwLqBaUBYp6mIsmMOlOrBNc5F
+4ROfkmKhXn3fL3sRND+2P00BYVyaStHP6U7Jm7SZ+2fJncLlcF674CCMdm2r6H7C
+RB2XMAgP3YsPx/SFy0WDtMhKrHx32MUUwnJ329Vxj4xQ5GZH7lmEQKei1IOcdNdI
+AwAuBf+B68PRIdm5aL3tHWcrBklxKhwCD0XERjwl862C5/ugsuSb1UYzz/BIA/nv
+G52PYq70iD/ZBUswmkzzDd3/ehSFqyoD/XUlz5hrjRhADHJJN7Yt9y2ypPLEfsL6
+5na67Xf91L9sKRDIsI9CDD0hh6mjXdDVob993NUM0TVe/pmnmlPrneWV+kUrb1Du
+n7kVfQh6yN8+yigjA3heXBjs1WbaMSgZB9cwCpEVHFVSTCMvXVJCVtONjQfaiXyC
+aWb9EyCiNxvso6K2Y5M3M7QQU1DhrwcizvSeucNgp+B3mcqixjU=
+=ic6W
+-----END PGP SIGNATURE-----
 
+--69pVuxX8awAiJ7fD--
