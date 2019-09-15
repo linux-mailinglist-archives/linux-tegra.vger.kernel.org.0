@@ -2,117 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 240C9B2EEF
-	for <lists+linux-tegra@lfdr.de>; Sun, 15 Sep 2019 09:13:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0C70B2F89
+	for <lists+linux-tegra@lfdr.de>; Sun, 15 Sep 2019 12:22:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726376AbfIOHN3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 15 Sep 2019 03:13:29 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:36634 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725773AbfIOHN3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 15 Sep 2019 03:13:29 -0400
-Received: by mail-pl1-f196.google.com with SMTP id f19so15105649plr.3;
-        Sun, 15 Sep 2019 00:13:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=9RsUkl6MEN71BO//b46KRM887milBSbG2u+IqiX1rgM=;
-        b=NtivAAM77GDp12fbYDh716oc0G9uYsGGnDGcKfDhDvYThgJ/8sfdOvaqtV/croIwHr
-         /r+TKQW6PvyWCNK+z6shvTcxM0BJnOIQ4+SadvG/jn9vBuN32skVTgsd6jQ2I6khu+/v
-         U18L5eJ1pqnqYpimgRGOAA5L3ciY1GflwlaHE5Z2Mw/4qQ9tuZ4SlqQN58C6noEJwOy/
-         zFhsPmpe0Inp3cZmeP9uN9BygF2Zw3hoLZq5PX1zSWfbX4JOCZg+ZNH8CakevgcHR71Q
-         BLOd+BEk+Ok6pq6LHMckAc4r31AizMBvy65zk95uDwaFf01+PzFt0Rz9KoddNnRMSovt
-         Hupw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=9RsUkl6MEN71BO//b46KRM887milBSbG2u+IqiX1rgM=;
-        b=qWN34QmReFLiHBiCb8X0BfEiCxSw4o8CzlvWcJhh3NzolwYqJgUzkm6EEK4sBKhbPG
-         LkiD03i29wBwe2bEiMSV5LgS9o/Jvf3ejZthsTwubI95MIHCybtkIdsP4gyQMurqy+mt
-         wQbmQiu0u1LvrAIH58ubz/D/rG6DiLnMB94EgPwYQZWY040J63YANzczpknfXxvp5E9O
-         7OlX8KO1TFo6Szewwj/+PKWYIFL1nqNGm20/o2qVR37dNT0irlM5O57XuNa10d6KRCYm
-         4OEWhBtZAm0mubweM1tGdHNZwDnum33+mMW7H8BdHE2Q+JucmjTFx6GMo4MaPGsP+e25
-         tteg==
-X-Gm-Message-State: APjAAAW2FK3ub8ZGEDsxI+p2x8emzReUhcWJNSrgOixQUpSSbKCKoI9Y
-        p7h3leliBdzhYG77KAOhs+k=
-X-Google-Smtp-Source: APXvYqx75/bX6ZgLs/5GYKN91lU9aCoHIZOyWt9XH5ENUcWqcGQC61YP9nuIxCK/uDC1YZS4VL1NOA==
-X-Received: by 2002:a17:902:7586:: with SMTP id j6mr57986217pll.8.1568531606466;
-        Sun, 15 Sep 2019 00:13:26 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id k5sm28129193pgo.45.2019.09.15.00.13.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2019 00:13:26 -0700 (PDT)
-Date:   Sun, 15 Sep 2019 00:13:23 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tegra: switch to using devm_gpiod_get_optional
-Message-ID: <20190915071323.GA36596@dtor-ws>
+        id S1726340AbfIOKWN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 15 Sep 2019 06:22:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725892AbfIOKWM (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 15 Sep 2019 06:22:12 -0400
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 07FD220692;
+        Sun, 15 Sep 2019 10:22:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568542931;
+        bh=jQ+dE0FqCn4YmPt8H5tQ6UZBzpg1F2BEc20j8Ptglzk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Y5BbD16mnzz7OhM8IfFnS1ggxaS2GA7BFcYFp/ccokTArfJNqni/tOl8YgI7yBU1a
+         02MB/74LKXFKXF/CZtGJW3ui1b5ObbJmJeNgeAeV4H9IUbuVJb7IUfH4AHojzPQ2RJ
+         MHoECe9e7kfh2HZwSU+AzNE8mmhDT2tYuMWweIsI=
+Date:   Sun, 15 Sep 2019 11:22:05 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Alexandru Ardelean <alexandru.ardelean@analog.com>
+Cc:     <linux-spi@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <bcm-kernel-feedback-list@broadcom.com>, <broonie@kernel.org>,
+        <f.fainelli@gmail.com>, <linus.walleij@linaro.org>,
+        <orsonzhai@gmail.com>, <baolin.wang@linaro.org>,
+        <zhang.lyra@gmail.com>
+Subject: Re: [RFC PATCH 00/15] Unify SPI delays into an `struct spi_delay`
+Message-ID: <20190915112205.0007d62d@archlinux>
+In-Reply-To: <20190913114550.956-1-alexandru.ardelean@analog.com>
+References: <20190913114550.956-1-alexandru.ardelean@analog.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-We do not really need to use API that fetches GPIO data from an
-arbitrary device tree node, as we are dealing with device tree node
-assigned to the device structure. We can easily switch to
-devm_gpiod_get_optional() plus gpiod_set_consumer_name() and clean up
-the code.
+On Fri, 13 Sep 2019 14:45:35 +0300
+Alexandru Ardelean <alexandru.ardelean@analog.com> wrote:
 
-Note this is part of efforts to get rid of [devm_]gpiod_get_from_of_node
-in drivers so that gpiolib can be cleaned up.
+> Initially, I started this patchset thinking: "we need a new delay for
+> something-something" (in case someone is curios, we need a CS-hold-time for
+> the first transfer, because the CS wakes a chip from sleep-mode).
+> 
+> Then I added the delay, and felt a bit dirty-inside about adding a new one
+> (just like that), and decided to look at maybe cleaning things up a bit,
+> and a few days later, I got here.
+> 
+> Full disclaimer: this patchset is not complete. It's an RFC.
+> It's based on top of Jonathan's `iio/togreg` branch which also includes the
+> ADIS driver library changes and also includes `cs_change_delay`.
+> 
+> I'll send a V2 patchset, which just the first 4 patches, since I feel that
+> those are a bit more complete.
+> 
+> I thought about just sending the first 4 patches on-their-own, but I
+> figured that the whole series (even if not complete) serves as a better
+> explanation about the whole "why?".
+> 
+> Hopefully, this can sort-of-explain things.
+> I'll reference this RFC on the next series.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/gpu/drm/tegra/output.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+General approach looks sensible to me. Over to SPI specialists on
+whether this is a sensible bit of unification to do.
 
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index bdcaa4c7168c..b4248125b844 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -121,19 +121,15 @@ int tegra_output_probe(struct tegra_output *output)
- 		of_node_put(ddc);
- 	}
- 
--	output->hpd_gpio = devm_gpiod_get_from_of_node(output->dev,
--						       output->of_node,
--						       "nvidia,hpd-gpio", 0,
--						       GPIOD_IN,
--						       "HDMI hotplug detect");
--	if (IS_ERR(output->hpd_gpio)) {
--		if (PTR_ERR(output->hpd_gpio) != -ENOENT)
--			return PTR_ERR(output->hpd_gpio);
--
--		output->hpd_gpio = NULL;
--	}
-+	output->hpd_gpio = devm_gpiod_get_optional(output->dev,
-+						   "nvidia,hpd", GPIOD_IN);
-+	if (IS_ERR(output->hpd_gpio))
-+		return PTR_ERR(output->hpd_gpio);
- 
- 	if (output->hpd_gpio) {
-+		gpiod_set_consumer_name(output->hpd_gpio,
-+					"HDMI hotplug detect");
-+
- 		err = gpiod_to_irq(output->hpd_gpio);
- 		if (err < 0) {
- 			dev_err(output->dev, "gpiod_to_irq(): %d\n", err);
--- 
-2.23.0.237.gc6a4ce50a0-goog
+Jonathan
 
+> 
+> Thanks
+> 
+> Alexandru Ardelean (15):
+>   spi: move `cs_change_delay` backwards compat logic outside switch
+>   spi: introduce spi_delay struct as "value + unit" &  spi_delay_exec()
+>   spi: make `cs_change_delay` the first user of the `spi_delay` logic
+>   iio: imu: adis: convert cs_change_delay to spi_delay struct
+>   spi: sprd: convert transfer word delay to spi_delay struct
+>   spi: orion: use new `word_delay` field for SPI transfers
+>   spi: spidev: use new `word_delay` field for spi transfers
+>   spi: core,atmel: convert `word_delay_usecs` -> `word_delay` for
+>     spi_device
+>   spi: introduce `delay` field for `spi_transfer` + spi_transfer_exec()
+>   spi: use new `spi_transfer_delay` helper where straightforward
+>   spi: tegra114: use `spi_transfer_delay` helper
+>   spi: spi-loopback-test: use new `delay` field
+>   spi: spidev: use new `delay` field for spi transfers
+>   spi: tegra114: change format for `spi_set_cs_timing()` function
+>   spi: implement SW control for CS times
+> 
+>  drivers/iio/imu/adis.c           |  24 ++---
+>  drivers/spi/spi-atmel.c          |  29 +++++-
+>  drivers/spi/spi-bcm63xx-hsspi.c  |   3 +-
+>  drivers/spi/spi-cavium.c         |   3 +-
+>  drivers/spi/spi-fsl-dspi.c       |   3 +-
+>  drivers/spi/spi-fsl-espi.c       |   3 +-
+>  drivers/spi/spi-fsl-spi.c        |   3 +-
+>  drivers/spi/spi-loopback-test.c  |  12 ++-
+>  drivers/spi/spi-mpc512x-psc.c    |   3 +-
+>  drivers/spi/spi-mpc52xx-psc.c    |   3 +-
+>  drivers/spi/spi-omap-100k.c      |   3 +-
+>  drivers/spi/spi-orion.c          |   6 +-
+>  drivers/spi/spi-pl022.c          |  25 +++--
+>  drivers/spi/spi-sc18is602.c      |   3 +-
+>  drivers/spi/spi-sh-hspi.c        |   3 +-
+>  drivers/spi/spi-sprd.c           |  11 ++-
+>  drivers/spi/spi-tegra114.c       |  39 +++++---
+>  drivers/spi/spi-tegra20-sflash.c |   2 +-
+>  drivers/spi/spi-topcliff-pch.c   |   7 +-
+>  drivers/spi/spi-txx9.c           |   3 +-
+>  drivers/spi/spi-xcomm.c          |   3 +-
+>  drivers/spi/spi.c                | 162 +++++++++++++++++++++++++------
+>  drivers/spi/spidev.c             |   6 +-
+>  include/linux/spi/spi.h          |  65 ++++++++++---
+>  24 files changed, 293 insertions(+), 131 deletions(-)
+> 
 
--- 
-Dmitry
