@@ -2,101 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55A5EB38C5
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 12:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E2CFB3A43
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 14:25:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729640AbfIPKzK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Sep 2019 06:55:10 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:19358 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729112AbfIPKzK (ORCPT
+        id S1732519AbfIPMZO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Sep 2019 08:25:14 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:36906 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732490AbfIPMZO (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Sep 2019 06:55:10 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d7f6a130000>; Mon, 16 Sep 2019 03:55:15 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 16 Sep 2019 03:55:09 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 16 Sep 2019 03:55:09 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Sep
- 2019 10:55:09 +0000
-Received: from [10.21.132.148] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Sep
- 2019 10:55:06 +0000
-From:   Jon Hunter <jonathanh@nvidia.com>
-Subject: Re: [PATCH 4.14 00/21] 4.14.144-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190913130501.285837292@linuxfoundation.org>
-Message-ID: <c7186e08-3faa-5a4a-8c96-957592667199@nvidia.com>
-Date:   Mon, 16 Sep 2019 11:55:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Mon, 16 Sep 2019 08:25:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=UpOy94Kk05newuEYV/41V7dmlT4Lz2VFaz56TX7gBF8=; b=CiI6oTAnkt3REl35f0JoiivqZ
+        kci7oVKqLJ+95/kgphayD4VxMZREXsmIpO2lfPpBx4luYpBRmphfZHCn2s5lyfA9ZYo6NTGGfsL8q
+        y7++5JC+uTYHC4FJnWdIrl2xmDTum/rxlQPhcUNPslj9l0Lw/rHL3NUgwyQmW2RmeH7TY=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.co.uk>)
+        id 1i9q43-0004Ai-2f; Mon, 16 Sep 2019 12:25:07 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id 22DA82741A0D; Mon, 16 Sep 2019 13:25:06 +0100 (BST)
+Date:   Mon, 16 Sep 2019 13:25:06 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Alexandru Ardelean <alexandru.ardelean@analog.com>
+Cc:     linux-spi@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, jic23@kernel.org,
+        f.fainelli@gmail.com, linus.walleij@linaro.org,
+        orsonzhai@gmail.com, baolin.wang@linaro.org, zhang.lyra@gmail.com
+Subject: Re: [RFC PATCH 03/15] spi: make `cs_change_delay` the first user of
+ the `spi_delay` logic
+Message-ID: <20190916122505.GC4352@sirena.co.uk>
+References: <20190913114550.956-1-alexandru.ardelean@analog.com>
+ <20190913114550.956-4-alexandru.ardelean@analog.com>
 MIME-Version: 1.0
-In-Reply-To: <20190913130501.285837292@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1568631315; bh=XtBvUo7ErPWpwywlPIBPO8hsGed2vWoZb2aISH+/vxk=;
-        h=X-PGP-Universal:From:Subject:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Kyfsw2UiYrJb3rNsHHBCZuRrbvb7YyV/8tSyxi1IREXX8H0UD3OkMOJfkll8lWE8p
-         x1RtdoMdmTuk5JbVCexvX+8yoMQYt5dwaO/OtQpaOZi5nTgE94n4sl2dM//d8Qmyay
-         P2gToeK+q8s7+UiEY3MAzK6TvoYjoEHWUPrzJDzMLf7JAyW4lot7SMPitqOJ6QMmfm
-         KOSXlwMnCo4Z0pR54pRA0jMPBZDYfmeih8sYmYGN3dQssfYq10OookQ5gvd+2Ape1Y
-         P/eNwSND87q5DTzR52xod2/s8HKVdg1m2nofuzpvDju22Ja1oUHPCMTdnzojA+pUUy
-         GsOf7p3N/a4Ww==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="7U7nS7UhGMyosb9W"
+Content-Disposition: inline
+In-Reply-To: <20190913114550.956-4-alexandru.ardelean@analog.com>
+X-Cookie: Man and wife make one fool.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 13/09/2019 14:06, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 4.14.144 release.
-> There are 21 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Sun 15 Sep 2019 01:03:32 PM UTC.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.144-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+--7U7nS7UhGMyosb9W
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Fri, Sep 13, 2019 at 02:45:38PM +0300, Alexandru Ardelean wrote:
 
-All tests passing for Tegra ...
+> -	u16		cs_change_delay;
+> -	u8		cs_change_delay_unit;
+> +	struct spi_delay	cs_change_delay;
 
-Test results for stable-v4.14:
-    8 builds:	8 pass, 0 fail
-    16 boots:	16 pass, 0 fail
-    24 tests:	24 pass, 0 fail
+This breaks the build as there is a user of this interface.
 
-Linux version:	4.14.144-rc2-ga0bf0c3c56ab
-Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
+--7U7nS7UhGMyosb9W
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Cheers
-Jon
+-----BEGIN PGP SIGNATURE-----
 
--- 
-nvpublic
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl1/fyEACgkQJNaLcl1U
+h9AR2Af8D01ThOEZ5vESTf3rqD3pj7SjkSwmXmtdE8km6WNwCuP/WAlc6Lrgj02m
+yPoEFSxsQq97A47hALIaE3WogYwp5YTeN4rI8yeELVQItYThT8CPHYaQa8RuWtJB
+qIp3h1PlKVmOnSNPtNsW1/rfxxgeJNzX6GZf1UWDHjfkSIexZBrVWgb/YP3p3n2k
+YTyaVloShnXeUA6BXfla9Z05BHc5aCu5KBCfLyJ8uTPIeD6mIP6b3ympe6sn6+Kw
+i1zrIFYvEU/J2ZN0IaZXsKRMgMD2XRPjaDlMyygOm9hr6y2SGEyOt8ml37ISXJ4w
+bFoisz9mWYHBsC9+53nBiKsGV+OrlQ==
+=pg1e
+-----END PGP SIGNATURE-----
+
+--7U7nS7UhGMyosb9W--
