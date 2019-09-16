@@ -2,106 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CC0DB3EA3
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 18:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06D01B3F54
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 18:54:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389830AbfIPQP3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Sep 2019 12:15:29 -0400
-Received: from foss.arm.com ([217.140.110.172]:46580 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389785AbfIPQP2 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Sep 2019 12:15:28 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 31DA928;
-        Mon, 16 Sep 2019 09:15:28 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 50B6A3F67D;
-        Mon, 16 Sep 2019 09:15:27 -0700 (PDT)
-Subject: Re: [PATCH 08/11] drm/nouveau: tegra: Skip IOMMU initialization if
- already attached
+        id S1729119AbfIPQy3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Sep 2019 12:54:29 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:43906 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729089AbfIPQy3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 16 Sep 2019 12:54:29 -0400
+Received: by mail-pl1-f194.google.com with SMTP id 4so139413pld.10;
+        Mon, 16 Sep 2019 09:54:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=FYN4b+NI1YPorAIhhS+f7mmIehASw/nOGjnAcJ1aytg=;
+        b=E0J5dSUvECs/aM2rrVuk0JkvPgMq80hHCTpU3WGdUE1SSFyozYc/GLt9UFqy3rukKV
+         L8iBc7mzyDR4W0oAnIGqzC39f9zE779/fywBJsiGtwq3TplJVLHNcrv0dby3HVkDCjpT
+         84cTpfkh0fjSfWuLICSzwTmfvOEOE+OmOqeU9lTH5FVEGGKHMVpU0v5o3nepu4VVPhTb
+         1hDLqpAiHoA8+AD1fVkG/UCmYNiOGwwziPSQlecnkv/mooIPsreUzgP3q2SGBrz8YfMH
+         AgoAnU4snWw0jXQDbkzzQI4be+oCv/PlsvhYysHKUmB6FfrnBybv+GngDrY29kVzWDH2
+         GAVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FYN4b+NI1YPorAIhhS+f7mmIehASw/nOGjnAcJ1aytg=;
+        b=PtwfH0xZDINqqkZhoY/0Z98OBIHxx0L9ZiyQjmwgNeUc/EYn1P4CzMoONQB/ItH2QU
+         q5b2sc2DXg/72O3VJyo5zj3ArKYkHHzK3KfeEjKwzzXf7Je1hpR5KFGp7XjYWZvsw3qQ
+         Tuae3fAtHV7xq18t6Yf/HBAjZRPxPGUmW28eDYPTKFglML82cyhLrldXWK6xKBmMBKFX
+         mQDStPEosS9tWK6e1VP7xriKxX/6U9oi3EsTUJ+HQ+8TI5U31D9VYtNVpz7knm0hHqeg
+         Lm8YH0SXxAbfCO+F+Wcke1UvQ7ZnccX5SyieF5yJYuz8TXavV7+Nl5asd8MwonWlJ1h+
+         UhDQ==
+X-Gm-Message-State: APjAAAUfkgjnjgr6KdgdUEfa9VawpsUzis7p8vQPi0p6xO8Qu9F8LSBh
+        r/JwHYmtyxOQQa7IL4C4BjFM+Z2s
+X-Google-Smtp-Source: APXvYqyb4JOTccF6wqRiOtOK+GE+dhorpMejvX9BPOyiIDV5pMYcGVgtc2EYLuKO5XxaGzkJQJMffQ==
+X-Received: by 2002:a17:902:54f:: with SMTP id 73mr713782plf.329.1568652867960;
+        Mon, 16 Sep 2019 09:54:27 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id u65sm42787952pfu.104.2019.09.16.09.54.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Sep 2019 09:54:27 -0700 (PDT)
+Date:   Mon, 16 Sep 2019 09:54:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Ben Skeggs <bskeggs@redhat.com>, linux-tegra@vger.kernel.org,
-        nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20190916150412.10025-1-thierry.reding@gmail.com>
- <20190916150412.10025-9-thierry.reding@gmail.com>
- <156993ea-ece6-9eb5-b664-a55c631e2600@arm.com> <20190916155724.GG7488@ulmo>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <ee285d4f-e5ff-e043-35cd-1338b1bb238f@arm.com>
-Date:   Mon, 16 Sep 2019 17:15:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/tegra: switch to using devm_gpiod_get_optional
+Message-ID: <20190916165424.GD237523@dtor-ws>
+References: <20190915071323.GA36596@dtor-ws>
+ <20190916135904.GA7488@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <20190916155724.GG7488@ulmo>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190916135904.GA7488@ulmo>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 16/09/2019 16:57, Thierry Reding wrote:
-> On Mon, Sep 16, 2019 at 04:29:18PM +0100, Robin Murphy wrote:
->> Hi Thierry,
->>
->> On 16/09/2019 16:04, Thierry Reding wrote:
->>> From: Thierry Reding <treding@nvidia.com>
->>>
->>> If the GPU is already attached to an IOMMU, don't detach it and setup an
->>> explicit IOMMU domain. Since Nouveau can now properly handle the case of
->>> the DMA API being backed by an IOMMU, just continue using the DMA API.
->>>
->>> Signed-off-by: Thierry Reding <treding@nvidia.com>
->>> ---
->>>    .../drm/nouveau/nvkm/engine/device/tegra.c    | 19 +++++++------------
->>>    1 file changed, 7 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
->>> index d0d52c1d4aee..fc652aaa41c7 100644
->>> --- a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
->>> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
->>> @@ -23,10 +23,6 @@
->>>    #ifdef CONFIG_NOUVEAU_PLATFORM_DRIVER
->>>    #include "priv.h"
->>> -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
->>> -#include <asm/dma-iommu.h>
->>> -#endif
->>> -
->>>    static int
->>>    nvkm_device_tegra_power_up(struct nvkm_device_tegra *tdev)
->>>    {
->>> @@ -109,14 +105,13 @@ nvkm_device_tegra_probe_iommu(struct nvkm_device_tegra *tdev)
->>>    	unsigned long pgsize_bitmap;
->>>    	int ret;
->>> -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
->>> -	if (dev->archdata.mapping) {
->>> -		struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
->>> -
->>> -		arm_iommu_detach_device(dev);
->>> -		arm_iommu_release_mapping(mapping);
->>> -	}
->>> -#endif
->>> +	/*
->>> +	 * Skip explicit IOMMU initialization if the GPU is already attached
->>> +	 * to an IOMMU domain. This can happen if the DMA API is backed by an
->>> +	 * IOMMU.
->>> +	 */
->>> +	if (iommu_get_domain_for_dev(dev))
->>> +		return;
->>
->> Beware of "iommu.passthrough=1" - you could get a valid default domain here
->> yet still have direct/SWIOTLB DMA ops. I guess you probably want to
->> double-check the domain type as well.
+On Mon, Sep 16, 2019 at 03:59:04PM +0200, Thierry Reding wrote:
+> On Sun, Sep 15, 2019 at 12:13:23AM -0700, Dmitry Torokhov wrote:
+> > We do not really need to use API that fetches GPIO data from an
+> > arbitrary device tree node, as we are dealing with device tree node
+> > assigned to the device structure. We can easily switch to
+> > devm_gpiod_get_optional() plus gpiod_set_consumer_name() and clean up
+> > the code.
+> > 
+> > Note this is part of efforts to get rid of [devm_]gpiod_get_from_of_node
+> > in drivers so that gpiolib can be cleaned up.
+> > 
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> >  drivers/gpu/drm/tegra/output.c | 18 +++++++-----------
+> >  1 file changed, 7 insertions(+), 11 deletions(-)
 > 
-> Good point. An earlier version of this patch had an additional check for
-> IOMMU_DOMAIN_DMA, but then that failed on 32-bit ARM because there the
-> DMA API can also use IOMMU_DOMAIN_UNMANAGED type domains. Checking for
-> IOMMU_DOMAIN_IDENTIFY should be safe, though. That doesn't seem to
-> appear in arch/arm, arch/arm64 or drivers/iommu/dma-iommu.c.
+> We can't do that. There's a special case in rgb.c that sets
+> output->of_node to something different than output->dev, so we actually
+> need to pass the struct device_node * separately.
 
-Right, "domain && domain->type != IOMMU_DOMAIN_IDENTITY" should be 
-sufficient to answer "is the DMA layer managing my address space for 
-me?" unless and until some massive API change happens (which I certainly 
-don't foresee).
+Ugh, brainfart on my part. I totally read it is output->dev.of_node,
+similar to another driver I was looking at...
 
-Robin.
+Please discard, there will be another patch changing
+devm_gpiod_get_from_of_node() to devm_fwnode_gpiod_get() once Linus
+merges this new GPIO method.
+
+Thanks.
+
+-- 
+Dmitry
