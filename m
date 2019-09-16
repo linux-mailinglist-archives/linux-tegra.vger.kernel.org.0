@@ -2,90 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4528CB3D38
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 17:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D012B3DAA
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 17:29:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388906AbfIPPEm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Sep 2019 11:04:42 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:33068 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730616AbfIPPEm (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Sep 2019 11:04:42 -0400
-Received: by mail-ed1-f65.google.com with SMTP id c4so410120edl.0
-        for <linux-tegra@vger.kernel.org>; Mon, 16 Sep 2019 08:04:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RZY3aYY86vswV3DsXRQ0PWQCaaBbu+iIfN0NPOCttQA=;
-        b=QwPkkJxO9Sp92CZsWFb0EAmAZ/YLG8AwPlHC5Ehaz0vUvvSN7lJbwqtX/k8dzz5CX1
-         aXi8LAqwc9y8rB46A2LpLq7zOPtJ1X6c0EeUx7FZBH6NZKaClmWx2ruM/f1FDnPqKZuC
-         q4167pfy2r4f087ysHpkEg+dej3wbNTm8/E9vNDieNVtP2NhiND8d8DKn7ZomcgQ6lz4
-         9Cq8q//b2/HKVkG+TrNbv0sZ8oYOxSrWbrz38TLvi90fn6U4dV/LWn0OQX9nudoA8A4s
-         9Itx4M46PCAhb5YZ5tRz/j6+QFr2oGWMBMK2RIe+UgbB0VkQNMagDIJYKkwaQBHWgRXH
-         AEVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RZY3aYY86vswV3DsXRQ0PWQCaaBbu+iIfN0NPOCttQA=;
-        b=DEkmha4dmDlZkKjOnley4+EhPYyHUwNsEf+hzgPmmt7xC7Vkc34xiujDDB11jW4ueQ
-         3JcIEy9HJJCEeoIEOfm8aZXNR/TvTYh5yDVEwuM/tIeYBBtUdkoS6stgVjoL3f5VYiXo
-         h3taXbXcuSa4V4vEiozBcnjNm1ReC5Jjj6U1+pWACbgKMSEJG4rJIbkB8jNClIjchU57
-         txBUd6gs8QR9TaFE6J9dgmPhPgUzoUqVX8OypQzRotFqIr2QTeoPI/Ysn9yI1SNj2riZ
-         lejnWPNGKiH8KuT/aVAiDiA1LdT4YfYDG5VIAKdlbcETDhk3HszYqtIf4V/7arenm7JY
-         Dhug==
-X-Gm-Message-State: APjAAAWqv6OHP25u4hUpjMbZow2mZWQP9GzmhvgvQWjWDJDCYbOiMo2F
-        GJ7BiojsK9kpGxZ3k3KuM+w=
-X-Google-Smtp-Source: APXvYqzOvpQMxA7hW6uhYAlHtab0KqcMkjyMUpQkYMJ3upTMDg7cRBZjk2h4QS4jlfppgNLZ2NJP6w==
-X-Received: by 2002:a17:907:20eb:: with SMTP id rh11mr434580ejb.25.1568646280458;
-        Mon, 16 Sep 2019 08:04:40 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id 60sm7199923edg.10.2019.09.16.08.04.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2019 08:04:39 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Ben Skeggs <bskeggs@redhat.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH 11/11] arm64: tegra: Enable SMMU for GPU on Tegra186
-Date:   Mon, 16 Sep 2019 17:04:12 +0200
-Message-Id: <20190916150412.10025-12-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190916150412.10025-1-thierry.reding@gmail.com>
+        id S2389124AbfIPP3W (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Sep 2019 11:29:22 -0400
+Received: from foss.arm.com ([217.140.110.172]:46070 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727374AbfIPP3V (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 16 Sep 2019 11:29:21 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 344BE28;
+        Mon, 16 Sep 2019 08:29:21 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 470983F67D;
+        Mon, 16 Sep 2019 08:29:20 -0700 (PDT)
+Subject: Re: [PATCH 08/11] drm/nouveau: tegra: Skip IOMMU initialization if
+ already attached
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Ben Skeggs <bskeggs@redhat.com>
+Cc:     linux-tegra@vger.kernel.org, nouveau@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org
 References: <20190916150412.10025-1-thierry.reding@gmail.com>
+ <20190916150412.10025-9-thierry.reding@gmail.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <156993ea-ece6-9eb5-b664-a55c631e2600@arm.com>
+Date:   Mon, 16 Sep 2019 16:29:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190916150412.10025-9-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+Hi Thierry,
 
-The GPU has a connection to the ARM SMMU found on Tegra186, which can be
-used to support large pages. Make sure the GPU is attached to the SMMU
-to take advantage of its capabilities.
+On 16/09/2019 16:04, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> If the GPU is already attached to an IOMMU, don't detach it and setup an
+> explicit IOMMU domain. Since Nouveau can now properly handle the case of
+> the DMA API being backed by an IOMMU, just continue using the DMA API.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>   .../drm/nouveau/nvkm/engine/device/tegra.c    | 19 +++++++------------
+>   1 file changed, 7 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
+> index d0d52c1d4aee..fc652aaa41c7 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
+> @@ -23,10 +23,6 @@
+>   #ifdef CONFIG_NOUVEAU_PLATFORM_DRIVER
+>   #include "priv.h"
+>   
+> -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+> -#include <asm/dma-iommu.h>
+> -#endif
+> -
+>   static int
+>   nvkm_device_tegra_power_up(struct nvkm_device_tegra *tdev)
+>   {
+> @@ -109,14 +105,13 @@ nvkm_device_tegra_probe_iommu(struct nvkm_device_tegra *tdev)
+>   	unsigned long pgsize_bitmap;
+>   	int ret;
+>   
+> -#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+> -	if (dev->archdata.mapping) {
+> -		struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
+> -
+> -		arm_iommu_detach_device(dev);
+> -		arm_iommu_release_mapping(mapping);
+> -	}
+> -#endif
+> +	/*
+> +	 * Skip explicit IOMMU initialization if the GPU is already attached
+> +	 * to an IOMMU domain. This can happen if the DMA API is backed by an
+> +	 * IOMMU.
+> +	 */
+> +	if (iommu_get_domain_for_dev(dev))
+> +		return;
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+Beware of "iommu.passthrough=1" - you could get a valid default domain 
+here yet still have direct/SWIOTLB DMA ops. I guess you probably want to 
+double-check the domain type as well.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index 47cd831fcf44..171fd4dfa58d 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -1172,6 +1172,7 @@
- 		status = "disabled";
- 
- 		power-domains = <&bpmp TEGRA186_POWER_DOMAIN_GPU>;
-+		iommus = <&smmu TEGRA186_SID_GPU>;
- 	};
- 
- 	sysram@30000000 {
--- 
-2.23.0
+Robin.
 
+>   
+>   	if (!tdev->func->iommu_bit)
+>   		return;
+> 
