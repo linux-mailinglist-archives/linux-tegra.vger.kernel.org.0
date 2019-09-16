@@ -2,157 +2,156 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28A33B3BFB
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 15:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9552B3D1A
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 17:04:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387846AbfIPN7J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Sep 2019 09:59:09 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37971 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727989AbfIPN7J (ORCPT
+        id S1730339AbfIPPES (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Sep 2019 11:04:18 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:38678 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727598AbfIPPES (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Sep 2019 09:59:09 -0400
-Received: by mail-wm1-f65.google.com with SMTP id o184so10534185wme.3;
-        Mon, 16 Sep 2019 06:59:07 -0700 (PDT)
+        Mon, 16 Sep 2019 11:04:18 -0400
+Received: by mail-ed1-f67.google.com with SMTP id a23so373213edv.5
+        for <linux-tegra@vger.kernel.org>; Mon, 16 Sep 2019 08:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=brJuMc+rs4JR/n8EvqMjQOPBaR33yKuj/pzrCTI3Phg=;
-        b=KovzaBM2E9VwackUkkqQWE5qLgCF5tU7k+skHR0jUbAVyKJumE9H9vhn5rc+p1KBKT
-         SR93WUXmI/jHhn5Hy04NHVwXE84oAhfPiGA18xCoVgTCTmth5eHUIzYVBfe/WIo9+XXy
-         g7oLzZXGRBW9gxhvx3fvVNa5UyG9JoT37rBV/I+wZWL6V7/A4UYiiX+vdpfMmWkM3IOp
-         yXDvHKqcUVUwOHke+4OUmLOpaJ+ly1vNvfUcsCGapxhN6gv165FyM3H0Z1fesaQblcIk
-         hlueZSZ4ORiWzRf/KMrSd1GQzDhzEr0G9FH/0n8oQY71AOK2m5S5PZhs9l6HM/GPZSMX
-         Llrw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o+M6Ex0Sr9L/2wgTxcjcULg3l1xb8gfJ3JFn8p8EOQM=;
+        b=h1T2EdN8fhF2rR+N7w9uZcRVRuV59l9G2ou/lVfxTCeiPWL1dJ7oM6bjschL/m3WdO
+         l+Aijm3+T6FtKqtFWHCZJsU3A+vzUNZOhuivR4H/Gc+8EaOY23LPLkAZMnnt5GtswCrc
+         emraHZ8iXotgD3UG+CNmdZA9s1jiDdN0zx6nXQfMHjb6KlwpgQbHniK/8xoaH4Zo3EyE
+         TyQs5QRtGhjR6mf6moetGdMcsTWoPs91N08k8h6h22k4DW1YkeC6oJA+7PkBEO3VH26Q
+         sj3Iprz4aIMtXc9tiF13T0xL7zogxsTS7gwAtqgCXVoSmygl/CCDvwVW6jI6bRCrILnm
+         ANLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=brJuMc+rs4JR/n8EvqMjQOPBaR33yKuj/pzrCTI3Phg=;
-        b=pCO8ya7KFBdXJMcnCmsBFEpQ/4rVO1/MH0iW/u3ULjWHihEstS8cty/AXKsmkC6mKc
-         wt5x7TGeSu0ZlVIxWNrS3j8Uv0PAMjxTbF9TmskeBjpO0blgh2IkIb/LppA+uUJuw641
-         HOKYTuLa4UHtW5afS0LXmC48Z8Un9R73iTjZ7MpjmnVljrpmYJZF9XCDZ8ch94EWnH/P
-         zEO+Yewmb08+FPdvihtVitKRjKPsXsTPwNRL3vSxy4BB4FeRSgp5ZeUbdD0PNYSRhy/u
-         YsxntFwmk4xi4HnrACB48cG7lsb253dL6ovAupPxp8xLfo32o02mBmw2o0kfB2Zv0ek7
-         jp9g==
-X-Gm-Message-State: APjAAAWgRlhBvb4JnmoU6LYoFTH4yAeGsQzaZEkbX0Jkas+tfzdsi4VT
-        xHSnC50bvkGqRAl9IfY8y3c=
-X-Google-Smtp-Source: APXvYqxVIYp+hvzl7WxC/wxt/UcHjrMyBHPfulpQ4YAEWW+bPJY5Oeh2WlonpVR6IhQ21M26ELAOCQ==
-X-Received: by 2002:a7b:c40c:: with SMTP id k12mr587995wmi.151.1568642346427;
-        Mon, 16 Sep 2019 06:59:06 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o+M6Ex0Sr9L/2wgTxcjcULg3l1xb8gfJ3JFn8p8EOQM=;
+        b=ZAATtUT7p6kGipAeIq3FNU0d/SQ3Luh+zyIG2s84hYgOgpSCTkOJPi7x/Xass3SHvM
+         TqpUncYDBDmq+kp3d+Cgrvpul98FFQNdQC97QtL/7VqJ1+Rc57LfdsytWou1vQ43Goie
+         0zN1P64Kw/p3yLR3ZxDmjU5mjcW5dXERQmSyLGfUxkUuleKk6gjtyyN4b6/ioCGSF0M6
+         cwv7W8d0XSbJqr6bJc6o50+YFYae3YfmZoqVZjz4vqVM5YhyeBZ73ccDz9ipGQaRD1p7
+         FMaLidL/CuyPN8ud6a5urTpVMqhBZaVru5DP0aIIprQgmR/ruqodOZhaakBUTm+OZnAw
+         tcyQ==
+X-Gm-Message-State: APjAAAWScBMxjyP2rAF/0H0Nha2jONfqT2u0GufobczWrm71Rdj8dH89
+        CVIInXH5L+BZ8Y8uHdYW9xg=
+X-Google-Smtp-Source: APXvYqyGVfjb2Q/NqMoH5rWS6uX0idXDA2Hsx1dGyxITQV+1nAVGbeD+KNeBG6YGNDPh6TcL40cKew==
+X-Received: by 2002:a05:6402:13cd:: with SMTP id a13mr12171577edx.6.1568646254393;
+        Mon, 16 Sep 2019 08:04:14 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id e30sm72168031wra.48.2019.09.16.06.59.04
+        by smtp.gmail.com with ESMTPSA id q33sm7190225eda.60.2019.09.16.08.04.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2019 06:59:05 -0700 (PDT)
-Date:   Mon, 16 Sep 2019 15:59:04 +0200
+        Mon, 16 Sep 2019 08:04:13 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/tegra: switch to using devm_gpiod_get_optional
-Message-ID: <20190916135904.GA7488@ulmo>
-References: <20190915071323.GA36596@dtor-ws>
+To:     Ben Skeggs <bskeggs@redhat.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 00/11] drm/nouveau: Enable GP10B by default
+Date:   Mon, 16 Sep 2019 17:04:01 +0200
+Message-Id: <20190916150412.10025-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="YZ5djTAD1cGYuMQK"
-Content-Disposition: inline
-In-Reply-To: <20190915071323.GA36596@dtor-ws>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
---YZ5djTAD1cGYuMQK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Sun, Sep 15, 2019 at 12:13:23AM -0700, Dmitry Torokhov wrote:
-> We do not really need to use API that fetches GPIO data from an
-> arbitrary device tree node, as we are dealing with device tree node
-> assigned to the device structure. We can easily switch to
-> devm_gpiod_get_optional() plus gpiod_set_consumer_name() and clean up
-> the code.
->=20
-> Note this is part of efforts to get rid of [devm_]gpiod_get_from_of_node
-> in drivers so that gpiolib can be cleaned up.
->=20
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->  drivers/gpu/drm/tegra/output.c | 18 +++++++-----------
->  1 file changed, 7 insertions(+), 11 deletions(-)
+the GPU on Jetson TX2 (GP10B) does not work properly on all devices. Why
+exactly is not clear, but there are slight differences between the SKUs
+that were tested. It turns out that the biggest issue is that on some
+devices (e.g. the one that I have), pulsing the GPU reset twice as is
+done in the current code (once as part of the power-ungate operation and
+then again in the driver) causes the GPU to go into a bad state on some
+devices. Conditionally doing the reset in the driver only if it isn't
+already done by the power domain code fixes this issue.
 
-We can't do that. There's a special case in rgb.c that sets
-output->of_node to something different than output->dev, so we actually
-need to pass the struct device_node * separately.
+Another issue is that the clock may be running at a rate of 0 Hz. This
+is unlikely to happen because it internally actually can't run that
+slow, but explicitly setting the clock rate at probe time does seem to
+help in some cases.
+
+Patch three in this series unifies reading the WPR configuration by
+getting it from GPU register rather than reaching into the memory
+controller's register space. This is slightly better because it better
+separates the two drivers and doesn't require an update everytime the
+memory controller moves to another register aperture.
+
+Patch 4 ensures the L2 cache makes memory requests with the proper
+stream ID, which is required when the GPU is behind an IOMMU.
+
+Patch 5 changes the GP10B device initialization to use the correct copy
+engine. GP10B is a Pascal generation GPU and the way that engines are
+described changes how the copy engines are enumerated compared to
+earlier generations.
+
+Patches 6 through 9 allow Nouveau to work on Tegra GPUs if the DMA API
+is backed by an IOMMU. This is different from current assumptions
+because mappings for all buffers mapped through the DMA API will need
+to have the special IOMMU bit set in their page tables. Note that this
+technically makes it possible to support big pages on Tegra because from
+the GPU's point of view all memory is now contiguous. However, these
+patches only make sure that buffers are mapped properly and don't try to
+enable big pages. Also note that mapping through the IOMMU comes at a
+slight cost, so this may not always be desirable. However, with Tegra186
+and later it's currently not possible (from a DMA API point of view) to
+map only a subset of buffers through the IOMMU, so any such optimization
+is deferred. Furthermore, the ARM SMMU driver currently enforces the use
+of the SMMU by default, so there not much of a choice at the moment.
+
+Finally patches 10 and 11 enable the GPU on Jetson TX2 and make it use
+the SMMU. I can pick up patches 10 and 11 into the Tegra tree once the
+other patches have been merged into Nouveau.
 
 Thierry
 
->=20
-> diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/outpu=
-t.c
-> index bdcaa4c7168c..b4248125b844 100644
-> --- a/drivers/gpu/drm/tegra/output.c
-> +++ b/drivers/gpu/drm/tegra/output.c
-> @@ -121,19 +121,15 @@ int tegra_output_probe(struct tegra_output *output)
->  		of_node_put(ddc);
->  	}
-> =20
-> -	output->hpd_gpio =3D devm_gpiod_get_from_of_node(output->dev,
-> -						       output->of_node,
-> -						       "nvidia,hpd-gpio", 0,
-> -						       GPIOD_IN,
-> -						       "HDMI hotplug detect");
-> -	if (IS_ERR(output->hpd_gpio)) {
-> -		if (PTR_ERR(output->hpd_gpio) !=3D -ENOENT)
-> -			return PTR_ERR(output->hpd_gpio);
-> -
-> -		output->hpd_gpio =3D NULL;
-> -	}
-> +	output->hpd_gpio =3D devm_gpiod_get_optional(output->dev,
-> +						   "nvidia,hpd", GPIOD_IN);
-> +	if (IS_ERR(output->hpd_gpio))
-> +		return PTR_ERR(output->hpd_gpio);
-> =20
->  	if (output->hpd_gpio) {
-> +		gpiod_set_consumer_name(output->hpd_gpio,
-> +					"HDMI hotplug detect");
-> +
->  		err =3D gpiod_to_irq(output->hpd_gpio);
->  		if (err < 0) {
->  			dev_err(output->dev, "gpiod_to_irq(): %d\n", err);
-> --=20
-> 2.23.0.237.gc6a4ce50a0-goog
->=20
->=20
-> --=20
-> Dmitry
+Alexandre Courbot (1):
+  arm64: tegra: Enable GPU on Jetson TX2
 
---YZ5djTAD1cGYuMQK
-Content-Type: application/pgp-signature; name="signature.asc"
+Thierry Reding (10):
+  drm/nouveau: tegra: Avoid pulsing reset twice
+  drm/nouveau: tegra: Set clock rate if not set
+  drm/nouveau: secboot: Read WPR configuration from GPU registers
+  drm/nouveau: gp10b: Add custom L2 cache implementation
+  drm/nouveau: gp10b: Use correct copy engine
+  drm/nouveau: gk20a: Set IOMMU bit for DMA API if appropriate
+  drm/nouveau: gk20a: Implement custom MMU class
+  drm/nouveau: tegra: Skip IOMMU initialization if already attached
+  drm/nouveau: tegra: Fall back to 32-bit DMA mask without IOMMU
+  arm64: tegra: Enable SMMU for GPU on Tegra186
 
------BEGIN PGP SIGNATURE-----
+ .../boot/dts/nvidia/tegra186-p2771-0000.dts   |   4 +
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |   1 +
+ .../gpu/drm/nouveau/include/nvkm/subdev/ltc.h |   1 +
+ .../gpu/drm/nouveau/nvkm/engine/device/base.c |   4 +-
+ .../drm/nouveau/nvkm/engine/device/tegra.c    | 152 +++++++++++-------
+ .../drm/nouveau/nvkm/subdev/instmem/gk20a.c   |  35 ++--
+ .../gpu/drm/nouveau/nvkm/subdev/ltc/Kbuild    |   1 +
+ .../gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c   |  69 ++++++++
+ .../gpu/drm/nouveau/nvkm/subdev/ltc/priv.h    |   2 +
+ .../gpu/drm/nouveau/nvkm/subdev/mmu/gk20a.c   |  50 +++++-
+ .../gpu/drm/nouveau/nvkm/subdev/mmu/gk20a.h   |  44 +++++
+ .../gpu/drm/nouveau/nvkm/subdev/mmu/gm20b.c   |   6 +-
+ .../gpu/drm/nouveau/nvkm/subdev/mmu/gp10b.c   |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgk20a.c    |  22 ++-
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgm20b.c    |   4 +-
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgp10b.c    |  20 ++-
+ .../drm/nouveau/nvkm/subdev/secboot/gm200.h   |   2 +-
+ .../drm/nouveau/nvkm/subdev/secboot/gm20b.c   |  81 ++++++----
+ .../drm/nouveau/nvkm/subdev/secboot/gp10b.c   |   4 +-
+ 20 files changed, 394 insertions(+), 113 deletions(-)
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/gk20a.h
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1/lScACgkQ3SOs138+
-s6GZHg/7BvOAV6GlmzRIMTWPhSZVXASdXGoC7OG5Tj/OolqXcAtfPTXIY2EuWnU8
-4WWut1Tu2kEUxYOF220ygFHAYcq534dtEQ7tGb6aT2qo+SCs590ohhj5d0aaNP+p
-W4gaGaoWabU6e8H0fGrFRayns+k+EMp4LzwkeAyhgVAXnrWSAU/TgLTuV1BVqJx5
-/Cl4qvxRtrC4bXqqVpLTKAeu0uJ1/B/Qx8bqXmtWQO7dFVQvUyTubdhuV+qi3ah4
-FkVvjAC1y7ipfeJxAOmh6U+zZE07WU2ig9VTk9rT5C5RQk0y7+VyXmn4jleR7QtC
-3/sz688DG286/i0rdcgTTwgDPW4B6GC0jHnK7yX9QXus4GYKMW3Jb44MzpdT8njH
-HlQzxuliHLsIHpH0bOhO2KIn/PB9WoTswi0A+5BKMzRlbRRbj+i0JSY0YkshiqIx
-V6O6fzEYKGjAWmVBZjQLLotTnxPB+hPNA80w09yw6b4A+kTqyre5nUiMPlrQodB3
-4+D33AyTq0J6jVM9vra6PxVL+qoQBDbqPdoZcTC19Hu7vHVQYkM9co3lDu6X8Uzo
-NchZUvaY/3s2SK1HvkItxyeOsr0GQDqEo5wRDiayCzqiCcDcBqaYGgMuzag88CRZ
-s47dRGofk4wxJOkC0NrwWYcLdZdLWKdECBUOo9FWVJM5Pl842KE=
-=2VOz
------END PGP SIGNATURE-----
+-- 
+2.23.0
 
---YZ5djTAD1cGYuMQK--
