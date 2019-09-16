@@ -2,130 +2,151 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00AEFB355F
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 09:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD9CBB35B0
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Sep 2019 09:35:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726331AbfIPHNO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Sep 2019 03:13:14 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:65157 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729732AbfIPHNN (ORCPT
+        id S1728736AbfIPHfh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Sep 2019 03:35:37 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:8063 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725776AbfIPHfh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Sep 2019 03:13:13 -0400
-X-UUID: 1f818f2cd1ec455da55e4f37a1a78aee-20190916
-X-UUID: 1f818f2cd1ec455da55e4f37a1a78aee-20190916
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 372390825; Mon, 16 Sep 2019 15:13:01 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33DR.mediatek.inc
- (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 16 Sep
- 2019 15:12:59 +0800
-Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 16 Sep 2019 15:12:59 +0800
-Message-ID: <1568617979.7317.76.camel@mhfsdcap03>
-Subject: Re: [Patch V9 6/8] arm64: tegra: Enable xudc on Jetson TX1
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Date:   Mon, 16 Sep 2019 15:12:59 +0800
-In-Reply-To: <1568354873-24073-7-git-send-email-nkristam@nvidia.com>
-References: <1568354873-24073-1-git-send-email-nkristam@nvidia.com>
-         <1568354873-24073-7-git-send-email-nkristam@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Mon, 16 Sep 2019 03:35:37 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d7f3b4c0001>; Mon, 16 Sep 2019 00:35:40 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 16 Sep 2019 00:35:35 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 16 Sep 2019 00:35:35 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Sep
+ 2019 07:35:34 +0000
+Received: from [10.24.44.187] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Sep
+ 2019 07:35:32 +0000
+Subject: Re: [PATCH v2] dmaengine: tegra210-adma: fix transfer failure
+To:     Vinod Koul <vkoul@kernel.org>
+CC:     <jonathanh@nvidia.com>, <ldewangan@nvidia.com>,
+        <thierry.reding@gmail.com>, <dmaengine@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+References: <1562929830-29344-1-git-send-email-spujar@nvidia.com>
+ <20190808140842.GC12733@vkoul-mobl.Dlink>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <8dd8a0f5-f6a4-46e7-f9ec-8aeecb13dcee@nvidia.com>
+Date:   Mon, 16 Sep 2019 13:05:29 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20190808140842.GC12733@vkoul-mobl.Dlink>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-Product-Ver: SMEX-12.5.0.1684-8.5.1010-24914.004
-X-TM-AS-Result: No-6.260900-8.000000-10
-X-TMASE-MatchedRID: scwq2vQP8OHmLzc6AOD8DfHkpkyUphL9D+jls0cSwJNSMUnCl2ZytCiq
-        snPUKvF6nb6Z+uUpsD2j9EeGSOD5uMHmypFRLzeBfJy8LojR0khLXPA26IG0hN9RlPzeVuQQnVt
-        gvxMdrIPqUiXvyK0vLoAsU4eLkb8YsQmM31S41hxum3JC5AA1Oo1j+mrGi/PFCuSPuSVW5+7BWk
-        ElSj6UUV0SX0p6tZfVoFW8SPM0GkJNfs8n85Te8oMbH85DUZXylBlY5S+EP6fUZxEAlFPo846HM
-        5rqDwqty+X6UXAKBSEz7qcN3PQZ47SIFtlWoFdIV8SeOB1iUWenhwMcCUuGfA9pt9Vuvq9t50g1
-        BO70D8VyM5AenUwMMVrd8gRCyZfKBt93KmsktusUeH4FmTCnq7pmNLE8W69nMkY/2LNYoZQ10g7
-        fr0IQXQ==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--6.260900-8.000000
-X-TMASE-Version: SMEX-12.5.0.1684-8.5.1010-24914.004
-X-TM-SNTS-SMTP: 22076F1786B60BA1606AA38DFE81EF11B6F61B78F46793633D2B0E77A51737742000:8
-X-MTK:  N
+Content-Language: en-GB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1568619340; bh=FLc/5TVlOelxaUy+rQDBGvtj9ADWtjdIx1EDw6PtL/I=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=fepYiNwc6NuQHTDK7VYGgqwYKmkCQkZwPDOIy4cwvV9da8THfdx1SxmEC1KAF+UTv
+         hstOOLQYeZf4vOoxEPPdUxWgvPv0vPmxSGyrohFC7bX4p1RKSkZha+oeZ8nxCnD5A7
+         soOBP/vCrHHlsDi6rmFwn3A+7rRUm98ZY2aC+KGX4Hg4QmIOE4efyVuxdSxslZ3TRY
+         93s2QmCszJ7Sw8JEBluzsTYi44tFdoWDeLCK+OQFsSx8LW7i/AufoO28Ct9oiUn4Ow
+         HYBzWcVgWgBznHOZ3t42TWWRWxkCpHJ7GMbYYiPldgq+fv8K1rT64CRUIqIwt9Ljti
+         KCdPlVreZi26w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, 2019-09-13 at 11:37 +0530, Nagarjuna Kristam wrote:
-> Enable XUSB device mode driver for USB0 slot on Jetson TX1.
-> 
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> Reviewed-by: JC Kuo <jckuo@nvidia.com>
-> ---
->  arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi | 31 +++++++++++++++++++++++++-
->  1 file changed, 30 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-> index a7dc319..c1e106e 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-> @@ -1362,7 +1362,7 @@
->  				status = "okay";
->  
->  				lanes {
-> -					usb2-0 {
-> +					micro_b: usb2-0 {
->  						nvidia,function = "xusb";
->  						status = "okay";
->  					};
-> @@ -1483,6 +1483,21 @@
->  		vmmc-supply = <&vdd_3v3_sd>;
->  	};
->  
-> +	usb@700d0000 {
-> +		status = "okay";
-> +		phys = <&micro_b>;
-> +		phy-names = "usb2";
-> +		avddio-usb-supply = <&vdd_3v3_sys>;
-> +		hvdd-usb-supply = <&vdd_1v8>;
-> +		usb-role-switch;
-> +
-> +		port {
-> +			usb_role_switch: endpoint {
-> +				remote-endpoint = <&usb_b_conn_ep>;
-> +			};
-> +		};
-> +	};
-> +
->  	regulators {
->  		compatible = "simple-bus";
->  		#address-cells = <1>;
-> @@ -1641,4 +1656,18 @@
->  			linux,code = <KEY_VOLUMEUP>;
->  		};
->  	};
-> +
-> +	usb_type_b: connector {
-> +		compatible = "linux,usb-b-connector", "gpio-usb-b-connector";
-use standard compatible "usb-b-connector" instead of
-"linux,usb-b-connector"
+Sorry for the delayed reply.
 
-> +		label = "micro-USB";
-> +		type = "micro";
-> +		vbus-gpio = <&gpio TEGRA_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
-> +
-> +		port {
-> +			usb_b_conn_ep: endpoint {
-> +				remote-endpoint = <&usb_role_switch>;
-> +			};
-> +		};
-> +	};
-> +
->  };
-
-
+On 8/8/2019 7:38 PM, Vinod Koul wrote:
+> On 12-07-19, 16:40, Sameer Pujar wrote:
+>> >From Tegra186 onwards OUTSTANDING_REQUESTS field is added in channel
+>    ^^
+> please remove the leading char from the para
+Are you referring to extra char '>' here? I don't see this in my diff patch.
+>
+>> configuration register(bits 7:4) which defines the maximum number of reads
+>> from the source and writes to the destination that may be outstanding at
+>> any given point of time. This field must be programmed with a value
+>> between 1 and 8. A value of 0 will prevent any transfers from happening.
+>>
+>> Thus added 'ch_pending_req' member in chip data structure and the same is
+>> populated with maximum allowed pending requests. Since the field is not
+>> applicable to Tegra210, mentioned bit fields are unused and hence the
+>> member is initialized with 0. For Tegra186, by default program this field
+>> with the maximum permitted value of 8.
+>>
+>> Fixes: 433de642a76c ("dmaengine: tegra210-adma: add support for Tegra186/Tegra194")
+> Should this be tagged stable? Also some reviews from Tegra folks would
+> be great
+Ok, will tag this for stable.
+>> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+>> ---
+>>   drivers/dma/tegra210-adma.c | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+>> index 2805853..5ab4e3a9 100644
+>> --- a/drivers/dma/tegra210-adma.c
+>> +++ b/drivers/dma/tegra210-adma.c
+>> @@ -74,6 +74,8 @@
+>>   				    TEGRA186_ADMA_CH_FIFO_CTRL_TXSIZE(3)    | \
+>>   				    TEGRA186_ADMA_CH_FIFO_CTRL_RXSIZE(3))
+>>   
+>> +#define TEGRA186_DMA_MAX_PENDING_REQS			8
+>> +
+>>   #define ADMA_CH_REG_FIELD_VAL(val, mask, shift)	(((val) & mask) << shift)
+>>   
+>>   struct tegra_adma;
+>> @@ -85,6 +87,7 @@ struct tegra_adma;
+>>    * @ch_req_tx_shift: Register offset for AHUB transmit channel select.
+>>    * @ch_req_rx_shift: Register offset for AHUB receive channel select.
+>>    * @ch_base_offset: Register offset of DMA channel registers.
+>> + * @ch_pending_req: Outstaning DMA requests for a channel.
+>>    * @ch_fifo_ctrl: Default value for channel FIFO CTRL register.
+>>    * @ch_req_mask: Mask for Tx or Rx channel select.
+>>    * @ch_req_max: Maximum number of Tx or Rx channels available.
+>> @@ -98,6 +101,7 @@ struct tegra_adma_chip_data {
+>>   	unsigned int ch_req_tx_shift;
+>>   	unsigned int ch_req_rx_shift;
+>>   	unsigned int ch_base_offset;
+>> +	unsigned int ch_pending_req;
+>>   	unsigned int ch_fifo_ctrl;
+>>   	unsigned int ch_req_mask;
+>>   	unsigned int ch_req_max;
+>> @@ -602,6 +606,7 @@ static int tegra_adma_set_xfer_params(struct tegra_adma_chan *tdc,
+>>   			 ADMA_CH_CTRL_FLOWCTRL_EN;
+>>   	ch_regs->config |= cdata->adma_get_burst_config(burst_size);
+>>   	ch_regs->config |= ADMA_CH_CONFIG_WEIGHT_FOR_WRR(1);
+>> +	ch_regs->config |= cdata->ch_pending_req;
+> so for tegra186 this will be 0, which per above would prevent any
+> transfers?? What did i miss
+For tegra186/tegra194 this will be non-zero and for tegra210 it will be 0.
+The chip data reflects above.
+>>   	ch_regs->fifo_ctrl = cdata->ch_fifo_ctrl;
+>>   	ch_regs->tc = desc->period_len & ADMA_CH_TC_COUNT_MASK;
+>>   
+>> @@ -786,6 +791,7 @@ static const struct tegra_adma_chip_data tegra210_chip_data = {
+>>   	.ch_req_tx_shift	= 28,
+>>   	.ch_req_rx_shift	= 24,
+>>   	.ch_base_offset		= 0,
+>> +	.ch_pending_req		= 0,
+>>   	.ch_fifo_ctrl		= TEGRA210_FIFO_CTRL_DEFAULT,
+>>   	.ch_req_mask		= 0xf,
+>>   	.ch_req_max		= 10,
+>> @@ -800,6 +806,7 @@ static const struct tegra_adma_chip_data tegra186_chip_data = {
+>>   	.ch_req_tx_shift	= 27,
+>>   	.ch_req_rx_shift	= 22,
+>>   	.ch_base_offset		= 0x10000,
+>> +	.ch_pending_req		= (TEGRA186_DMA_MAX_PENDING_REQS << 4),
+>>   	.ch_fifo_ctrl		= TEGRA186_FIFO_CTRL_DEFAULT,
+>>   	.ch_req_mask		= 0x1f,
+>>   	.ch_req_max		= 20,
+>> -- 
+>> 2.7.4
