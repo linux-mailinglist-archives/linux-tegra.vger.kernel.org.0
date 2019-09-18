@@ -2,103 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 20F4AB62BC
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Sep 2019 14:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F025B649A
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Sep 2019 15:34:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730569AbfIRMGV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Sep 2019 08:06:21 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:46516 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727095AbfIRMGV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Sep 2019 08:06:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=MzATDNIERDtCE0amjUIhfbCd3EzA8xIdcEIzyZF2i9k=; b=prxV1W2pYwHHALb9Fs7LWIDl8
-        tF+1UdnsA2D/gQLvHN4ghTOTfJ5nK7E7BC5KEZR96CPDuK0wLr26L5vUwwH02Nk2oQStQ+G/KiUsV
-        KwJ7wQ0R4jwf/2XgmqZJ2S2QXq9uV4/3ONJuP0+am2UYrlzd7H8u47ZMOEfKdsbWU+/rQ=;
-Received: from ypsilon.sirena.org.uk ([2001:470:1f1d:6b5::7])
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iAYib-00053i-H9; Wed, 18 Sep 2019 12:05:57 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 940F42742927; Wed, 18 Sep 2019 13:05:56 +0100 (BST)
-Date:   Wed, 18 Sep 2019 13:05:56 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Ben Dooks <ben.dooks@codethink.co.uk>
-Cc:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        linux-tegra@vger.kernel.org, alsa-devel@alsa-project.org,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
+        id S1730033AbfIRNej (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Sep 2019 09:34:39 -0400
+Received: from mga12.intel.com ([192.55.52.136]:61836 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730330AbfIRNei (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 18 Sep 2019 09:34:38 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Sep 2019 06:34:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,520,1559545200"; 
+   d="scan'208";a="211856930"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga004.fm.intel.com with ESMTP; 18 Sep 2019 06:34:38 -0700
+Received: from pbossart-mac01.local (unknown [10.251.11.91])
+        by linux.intel.com (Postfix) with ESMTP id 947E45800D0;
+        Wed, 18 Sep 2019 06:34:36 -0700 (PDT)
+Subject: Re: [alsa-devel] [PATCH 1/8] ASoC: tegra: Add a TDM configuration
+ callback
+To:     Mark Brown <broonie@kernel.org>, Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@lists.codethink.co.uk, alsa-devel@alsa-project.org,
         Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@lists.codethink.co.uk,
         Edward Cragg <edward.cragg@codethink.co.uk>,
-        linux-tegra-owner@vger.kernel.org
-Subject: Re: [alsa-devel] [PATCH 2/8] ASoC: tegra: Allow 24bit and 32bit
- samples
-Message-ID: <20190918120553.GE2596@sirena.co.uk>
+        linux-tegra@vger.kernel.org, linux-tegra-owner@vger.kernel.org
 References: <20190917181233.534-1-ben.dooks@codethink.co.uk>
- <20190917181233.534-3-ben.dooks@codethink.co.uk>
- <077870b1-8856-9a28-dd13-f8bfb1418adb@linux.intel.com>
- <de15ea8e9d2c07a1253fd414b421efbe@codethink.co.uk>
- <20190918100828.GA2596@sirena.co.uk>
- <943c243563b4936a537b52b6c3b1fd99@codethink.co.uk>
+ <20190917181233.534-2-ben.dooks@codethink.co.uk>
+ <7b21823a-86e8-d3de-10b5-e047a5e025ef@nvidia.com>
+ <72705cbf3b70934bdf8e7a6116f420b5@codethink.co.uk>
+ <5b0044e1-b781-9fd8-b250-3d87fe3af855@nvidia.com>
+ <20190918104827.GB2596@sirena.co.uk>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Message-ID: <40d78f13-c1b9-3e2d-c144-2209a4c0d716@linux.intel.com>
+Date:   Wed, 18 Sep 2019 08:33:50 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1sNVjLsmu1MXqwQ/"
-Content-Disposition: inline
-In-Reply-To: <943c243563b4936a537b52b6c3b1fd99@codethink.co.uk>
-X-Cookie: The devil finds work for idle glands.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190918104827.GB2596@sirena.co.uk>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 9/18/19 5:48 AM, Mark Brown wrote:
+> On Wed, Sep 18, 2019 at 11:25:39AM +0100, Jon Hunter wrote:
+> 
+>> Why 2? From looking at various codecs that support dsp-a/b modes, it is
+>> more common for the f-sync to be 1 regardless of the number of slots.
+> 
+> In DSP modes only one edge really matters anyway so it's not super
+> important how long the pulse is.
 
---1sNVjLsmu1MXqwQ/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Sep 18, 2019 at 12:50:13PM +0100, Ben Dooks wrote:
-> On 2019-09-18 11:08, Mark Brown wrote:
-
-> > > Yes, will do when this series has been reviewed and modifications
-> > > done.
-
-> > I didn't look at it due to the lack of signoffs.
-
-> Thanks, although you could have just flagged this and reviewed the rest
-> anyway. I'll post a new version with signoff sorted at the end of the week
-> as I cannot get in to the office to test any changes until Friday.
-
-None of the patches I looked at had signoffs, Pierre had already told
-you about that problem and there were a bunch of other review comments
-anyway before I saw the series so it was fairly clear that a new version
-is needed anyway.  Once you've got some review you shouldn't rely on
-getting extra review explicitly since it's not generally useful to repeat
-the same review comments others have already made.
-
---1sNVjLsmu1MXqwQ/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2CHaEACgkQJNaLcl1U
-h9Bfggf+KwyoUQbzbZdW85lkbYYzjdzcUvyz+11E+e1BPqECET8U0XyV3hBp0uAT
-rcQ3ME6HGjxUDubR3fatWVg36HhkV54jmAitGld7v3zsDvEyC7KSR2a/i7OlxGmC
-KmGqqqZR4iHwvnqrjJ+A2wC7HmuA/ZePVR6XCSt+pJ0EGrO/RlD2+mvjESUWDbtH
-x37GNRGa6fMnBynxH0K4tKDNRyAtyRh3FKXYEDPC+Xi8m5kyIAmkn44BZT6n8KZq
-zLAcAnsf1j+NiwihiJJdDauU8UFbOYNzm9Cw1VikWF4GOWI6RUagZugS+ZY6Q7WF
-D1Ex0aYM7MFQF6xDCWziP3UjudCbfA==
-=GnTn
------END PGP SIGNATURE-----
-
---1sNVjLsmu1MXqwQ/--
+There are exceptions to the rule.
+In the early days of SOF, we had to provide support for amplifiers that 
+did require a pulse larger than a bit. In the SOF IPC we added an 
+'frame_pulse_width' field to pass the configuration all the way from 
+topology to the firmware and Intel SSP driver.
+The other quirk we added is the ability to control zero-padding per slot 
+instead of at the end of the frame, e.g. 1 bit of padding after 24 bits 
+when using 4 slots w/ 25 bits in a 100-bit frame.
