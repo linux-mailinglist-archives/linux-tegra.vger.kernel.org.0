@@ -2,101 +2,162 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DBB85B681E
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Sep 2019 18:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A6FB6933
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Sep 2019 19:32:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387589AbfIRQ2z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Sep 2019 12:28:55 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:16373 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387578AbfIRQ2y (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Sep 2019 12:28:54 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d825b4b0000>; Wed, 18 Sep 2019 09:28:59 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 18 Sep 2019 09:28:54 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 18 Sep 2019 09:28:54 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 18 Sep
- 2019 16:28:53 +0000
-Received: from [10.21.132.148] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 18 Sep
- 2019 16:28:51 +0000
-Subject: Re: [PATCH 5.2 00/85] 5.2.16-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190918061234.107708857@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <5492c75f-de7c-9fe7-d3f7-3af5f3b3b6ce@nvidia.com>
-Date:   Wed, 18 Sep 2019 17:28:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1731458AbfIRRcP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Sep 2019 13:32:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42352 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729042AbfIRRcP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 18 Sep 2019 13:32:15 -0400
+Received: from localhost.localdomain (unknown [194.230.155.145])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6680A208C0;
+        Wed, 18 Sep 2019 17:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568827933;
+        bh=1TixgpnrbW74TJpZIMBN4jvpzcDubcE9UumV31l30Nk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OzltOak1RI4M1f9eGUSNpFq39Ro2X4jHeAfIiXyq0c34FJmpbNaEv7Cjcemb0poM9
+         uE04q4mDU1LrkMk30mY4EX+LhD7KA8S6J8COMeBcIJZj56YzKZ7ZEf8xMUBTP+sWFK
+         ojyxY9o/4DOqaRfganDMdAi+8phtDnFnChg4e0II=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-crypto@vger.kernel.org, linux-watchdog@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v2 1/8] dt-bindings: rng: exynos4-rng: Convert Exynos PRNG bindings to json-schema
+Date:   Wed, 18 Sep 2019 19:31:34 +0200
+Message-Id: <20190918173141.4314-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20190918061234.107708857@linuxfoundation.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1568824139; bh=HkirmnflytftAuwEqDORh7tOB032Tyt4Pw7BdB70+nw=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=F5vU4NQo/sC7Uj5Y4Wvus6s3Qlz0UE3P4nLo+ZrrDFOxmXyjv9cV7QG7mjXNO+m//
-         vDlcljeZ6lvqeBXPlY6NJdN2NneKwK4OXYbUGRMGanZdfhiIPP3E32S/fGNyZBq0rz
-         tVz5A+gKsosZPugVCuK/il8hvKIMvWGWjzOUQCzgw+M1Yu0OVpQXjvMALfLFKcT2m0
-         ZtmwMiVqFksaiFY14E7weWDhky4Iu6XZlLtqoGOtQBGzi8uehctIEx8Pbwi5XpDFVs
-         NXvn7Ciy8tAAmlgzWj8xxHhsGM7VBmttSXmiBUTTpBVrXt/tkAp8Jwu7I65nDWT94S
-         /EWQ77OMe9/xw==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Convert Samsung Exynos Pseudo Random Number Generator bindings to DT
+schema format using json-schema.
 
-On 18/09/2019 07:18, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.2.16 release.
-> There are 85 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Fri 20 Sep 2019 06:09:47 AM UTC.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2.16-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.2.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-All tests are passing for Tegra ...
+---
 
-Test results for stable-v5.2:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    38 tests:	38 pass, 0 fail
+Changes since v1:
+1. Indent example with four spaces (more readable).
+---
+ .../bindings/rng/samsung,exynos4-rng.txt      | 19 ---------
+ .../bindings/rng/samsung,exynos4-rng.yaml     | 41 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 42 insertions(+), 20 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/rng/samsung,exynos4-rng.txt
+ create mode 100644 Documentation/devicetree/bindings/rng/samsung,exynos4-rng.yaml
 
-Linux version:	5.2.16-rc1-g2f63f02ef506
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Cheers
-Jon
-
+diff --git a/Documentation/devicetree/bindings/rng/samsung,exynos4-rng.txt b/Documentation/devicetree/bindings/rng/samsung,exynos4-rng.txt
+deleted file mode 100644
+index a13fbdb4bd88..000000000000
+--- a/Documentation/devicetree/bindings/rng/samsung,exynos4-rng.txt
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Exynos Pseudo Random Number Generator
+-
+-Required properties:
+-
+-- compatible  : One of:
+-                - "samsung,exynos4-rng" for Exynos4210 and Exynos4412
+-                - "samsung,exynos5250-prng" for Exynos5250+
+-- reg         : Specifies base physical address and size of the registers map.
+-- clocks      : Phandle to clock-controller plus clock-specifier pair.
+-- clock-names : "secss" as a clock name.
+-
+-Example:
+-
+-	rng@10830400 {
+-		compatible = "samsung,exynos4-rng";
+-		reg = <0x10830400 0x200>;
+-		clocks = <&clock CLK_SSS>;
+-		clock-names = "secss";
+-	};
+diff --git a/Documentation/devicetree/bindings/rng/samsung,exynos4-rng.yaml b/Documentation/devicetree/bindings/rng/samsung,exynos4-rng.yaml
+new file mode 100644
+index 000000000000..2d075d6c87b6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/rng/samsung,exynos4-rng.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/rng/samsung,exynos4-rng.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung Exynos SoC Pseudo Random Number Generator
++
++maintainers:
++  - Krzysztof Kozlowski <krzk@kernel.org>
++
++properties:
++  compatible:
++    enum:
++      - samsung,exynos4-rng                   # for Exynos4210 and Exynos4412
++      - samsung,exynos5250-prng               # for Exynos5250+
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    items:
++      - const: secss
++
++required:
++  - compatible
++  - reg
++  - clock-names
++  - clocks
++
++examples:
++  - |
++    rng@10830400 {
++        compatible = "samsung,exynos4-rng";
++        reg = <0x10830400 0x200>;
++        clocks = <&clock 255>; // CLK_SSS
++        clock-names = "secss";
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 00969a90f94c..9cec4494b9a8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14181,7 +14181,7 @@ L:	linux-crypto@vger.kernel.org
+ L:	linux-samsung-soc@vger.kernel.org
+ S:	Maintained
+ F:	drivers/crypto/exynos-rng.c
+-F:	Documentation/devicetree/bindings/rng/samsung,exynos4-rng.txt
++F:	Documentation/devicetree/bindings/rng/samsung,exynos4-rng.yaml
+ 
+ SAMSUNG EXYNOS TRUE RANDOM NUMBER GENERATOR (TRNG) DRIVER
+ M:	Łukasz Stelmach <l.stelmach@samsung.com>
 -- 
-nvpublic
+2.17.1
+
