@@ -2,82 +2,146 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 754F3B733E
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Sep 2019 08:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32178B754E
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Sep 2019 10:40:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388127AbfISGh4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Sep 2019 02:37:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35948 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388106AbfISGh4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Sep 2019 02:37:56 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0A807218AF;
-        Thu, 19 Sep 2019 06:37:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568875075;
-        bh=OvlN3rsh1jBAYSR3aCxtqlncd1DTWCc3BeDgQLZN7Eo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ka2HHjjXpe+eBXqGlWgPQesHGSzwzBWXYglKohILCqGbS4wdXbpBooYmpzCKPzspO
-         Z3VhVoePWeNxBFYLqnnb5Y5JdFjZetcQHmjLXZftG3fYvU4sCV7MY5YTnQFDU1K4xf
-         zqPoiMtsPiTjR8p4AIYrY+aSj594RwKRU+TgJEIY=
-Date:   Thu, 19 Sep 2019 08:37:53 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.2 00/85] 5.2.16-stable review
-Message-ID: <20190919063753.GE2069346@kroah.com>
-References: <20190918061234.107708857@linuxfoundation.org>
- <5492c75f-de7c-9fe7-d3f7-3af5f3b3b6ce@nvidia.com>
+        id S2387759AbfISIkJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Sep 2019 04:40:09 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:38661 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387617AbfISIkJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 19 Sep 2019 04:40:09 -0400
+Received: by mail-ed1-f66.google.com with SMTP id a23so2428443edv.5;
+        Thu, 19 Sep 2019 01:40:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=G6gxprrxxWhNaep2gy6TkOgQmUEnXSE534x9gzQ10xM=;
+        b=mFgRj5Nlqr4bPXljsKYcy6ZCY1XvPCnSsO1GMuxYyC3GfAMTblXf/a3EhcAElHiHYq
+         x8O+jB0pNrZgvE6Shik4JDsS+4QRwFRqSz3zhiRZk/QfXwDUeRZVKrzdCHrV+YGqEh26
+         EUf5WHpnuxb4ibWqE+rp4SBlL1rVeGUNTzDYzmRfRsvAXeP+39sFD+XlKJVKMKbDMGwO
+         3RHZuFtsIzopkTDCyCmTvvsfj18EAKqb1MbDDQz8e2ak2aSEVrkTUnfZp7AJSoXK0Bmq
+         EsM1iq9xWoXVpNfsRE2kc3X+sOmAVzycY/DNyQ/SYt15fsSn3VKC9THtQ8TZMSIvJXkn
+         Dw0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=G6gxprrxxWhNaep2gy6TkOgQmUEnXSE534x9gzQ10xM=;
+        b=et9gS0IOFxLj8j4KuyppJ1TpA4JgXwbSvQzU2BF3njK/p6fbcSCQmBmdMwamS9splX
+         F/xf5cKIuWdP3QzTYNB9VpyU3AjsueSU5YKChZDEbE6GMXg+POGjonjbv/S9xhPw0dje
+         8Qe8LXDvl8UHJI2+MB91cH2FX2+/801ulnngMdojNRblGnN9Rr18ZBYrqHyhmQ5N0jSS
+         GhrfGsoFFfLUiCDu0Qr/Aia5n/tCbLR25NvTXQK3moWbAjFnHKJ8V2jsz1W0w03Rfra2
+         X/CfAEHeqbM2JJ0Kd1fuJ9W2s5IcR8RosQnhhfPjIXHsG3j15pLHdE1KywHDOKB1Md6L
+         1pww==
+X-Gm-Message-State: APjAAAUhq2AJNKQdbUlqirhOSB1P7bf2qZNFjVbeFoQXG+zJQHb6/L0q
+        Vkzvfen1eDNK38xy2LtBlNVGD6x3
+X-Google-Smtp-Source: APXvYqxoR5lUv9djP6jltC8gTYY7JsELTOjRd1IWs5TPBa8JWr/cg8E3TBCq9CiBiqs74XErNO6m8g==
+X-Received: by 2002:a17:906:2ccc:: with SMTP id r12mr909850ejr.219.1568882406611;
+        Thu, 19 Sep 2019 01:40:06 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id a20sm1492487edt.95.2019.09.19.01.40.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Sep 2019 01:40:05 -0700 (PDT)
+Date:   Thu, 19 Sep 2019 10:40:03 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Patch V2] soc/tegra: fuse: Add fuse clock check in
+ tegra_fuse_readl
+Message-ID: <20190919084003.GA5041@ulmo>
+References: <1567508212-1194-1-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
 Content-Disposition: inline
-In-Reply-To: <5492c75f-de7c-9fe7-d3f7-3af5f3b3b6ce@nvidia.com>
+In-Reply-To: <1567508212-1194-1-git-send-email-nkristam@nvidia.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Sep 18, 2019 at 05:28:49PM +0100, Jon Hunter wrote:
-> 
-> On 18/09/2019 07:18, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.2.16 release.
-> > There are 85 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Fri 20 Sep 2019 06:09:47 AM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2.16-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.2.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.2:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
-> 
-> Linux version:	5.2.16-rc1-g2f63f02ef506
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
 
-Thanks for testing all of these and letting me know.
+--gKMricLos+KVdGMg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-greg k-h
+On Tue, Sep 03, 2019 at 04:26:52PM +0530, Nagarjuna Kristam wrote:
+> tegra_fuse_readl() can be called from drivers at any time. If this API is
+> called before tegra_fuse_probe(), we end up enabling clock before it is
+> registered. Add check for fuse clock in tegra_fuse_readl() and return
+> corresponding error if any.
+>=20
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> ---
+> V2:
+> 	- Added Null and other error checks for fuse->clk.
+> ---
+>  drivers/soc/tegra/fuse/fuse-tegra.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+
+Hi ARM-SoC maintainers,
+
+can you pick this up as a bugfix for v5.4-rc1? Would you prefer to pick
+it up directly or do you want a pull request for this?
+
+The patchwork link is:
+
+	http://patchwork.ozlabs.org/patch/1156928/
+
+And in that case:
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+Thanks,
+Thierry
+
+> diff --git a/drivers/soc/tegra/fuse/fuse-tegra.c b/drivers/soc/tegra/fuse=
+/fuse-tegra.c
+> index 3eb44e6..58996c6 100644
+> --- a/drivers/soc/tegra/fuse/fuse-tegra.c
+> +++ b/drivers/soc/tegra/fuse/fuse-tegra.c
+> @@ -186,9 +186,12 @@ u32 __init tegra_fuse_read_early(unsigned int offset)
+> =20
+>  int tegra_fuse_readl(unsigned long offset, u32 *value)
+>  {
+> -	if (!fuse->read)
+> +	if (!fuse->read || !fuse->clk)
+>  		return -EPROBE_DEFER;
+> =20
+> +	if (IS_ERR(fuse->clk))
+> +		return PTR_ERR(fuse->clk);
+> +
+>  	*value =3D fuse->read(fuse, offset);
+> =20
+>  	return 0;
+> --=20
+> 2.7.4
+>=20
+
+--gKMricLos+KVdGMg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2DPuAACgkQ3SOs138+
+s6GmAg/+Jhj7yV6aaQ9kxLakkr2/Th9Tz8TCfLK/J6wyD1YDS+AV8shbj0xqaJ+9
+dyfl226iOR8PVxbjjSFe0w7oiUNooDVS8HpQrrvGgMqCoZLX5eewx9krafWilYzc
+sq0ayCUteJjJ4FjygmoBkaKDyqXqosYnXMr3NMC7f6uXBBUTbQKAcO6Mg0igk1Ss
+OkV2Pa1W771tKqlWyPAQy/DLXDeKsvp/mW2DId9GZhJw8pgToZUcCNiJoL2yFPmq
+KsZBE4mxacIelukWGjYaGwufIP4r8qKSzp/99aYOM+dmhToKPGZG1XDQMNDseatM
+7yNBKguVXZatZbHy8wXseC6LZy8KhDY5xOeNhZK5Im5sff30Egs1RKMj+NAZgrNo
+Js4quAlLe0SqWf4sOC3iiPrqa1VctDKttd1mQg3rx2svu7Rg6AFD55zcNyy9R6Mm
+tMXO5wi/G8Wd776caNI9jL2vZth/29P/hs+3Wo6HZ3p+KtiaVdUIMAgG2wcK6mkQ
+r/kmk6d+nlrKL6WLNJLASmgeV6Hw3QCiOj5HWxCfhUvjA+0edcANinlxUNl20Wbe
+AVd30Pkh8ISJxO7Kls+zGfDiTqsPmNZn/+i/rlHE6BUw2Rhjze9Wl3w3qMfrV485
+EgpG8wYwsomtCX4DBdNsZaAo5UdfxyDPwXDZZIecEAstyJ67ymw=
+=W88y
+-----END PGP SIGNATURE-----
+
+--gKMricLos+KVdGMg--
