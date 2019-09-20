@@ -2,139 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E202B94C9
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Sep 2019 18:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA698B9513
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Sep 2019 18:17:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729281AbfITQBk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Sep 2019 12:01:40 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:11671 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727529AbfITQBk (ORCPT
+        id S2404141AbfITQRQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Sep 2019 12:17:16 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:37646 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403914AbfITQRP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Sep 2019 12:01:40 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d84f7e90000>; Fri, 20 Sep 2019 09:01:45 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 20 Sep 2019 09:01:39 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 20 Sep 2019 09:01:39 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 20 Sep
- 2019 16:01:39 +0000
-Received: from [10.21.132.148] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 20 Sep
- 2019 16:01:37 +0000
-Subject: Re: [PATCH 5.3 00/21] 5.3.1-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-kernel@vger.kernel.org>, <torvalds@linux-foundation.org>,
-        <akpm@linux-foundation.org>, <linux@roeck-us.net>,
-        <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190919214657.842130855@linuxfoundation.org>
- <572eca6e-47a9-c554-c6b2-bafd4c5df18b@nvidia.com>
- <20190920142432.GA601228@kroah.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <773b556a-acc2-c3e0-14e6-956a6d0b3bed@nvidia.com>
-Date:   Fri, 20 Sep 2019 17:01:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Fri, 20 Sep 2019 12:17:15 -0400
+Received: by mail-wr1-f65.google.com with SMTP id i1so7345771wro.4;
+        Fri, 20 Sep 2019 09:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=WbM1UehvjdVvJ4J2BB4Tg0AKhU90H8Oji3wdpICxaVw=;
+        b=ih6Ql7nH3XDikHvhiqHRsmC3qemJqZ2qcbpr3hagfcdUWEwSF6WxPOZ7TKJJY2KZkw
+         Ir/bZyBLXgiQCJZsjmZwNC/OQqQIHfpdMMbmbk4tv+ugqrCo39mjoAAUvS6DYynvreUQ
+         mD0MfDY0eMjlFDpTUF3H7clh8D+aVjIvvHrDQLXVlNp0GkeG1Es/GATddUzmTgmEs8W5
+         fVA79L5g3+CLQ3wTSV0TdQp3zFqzz0EOfWoMHHDsy5kWcTPhQcvs5eHIDLlMSNibAqF0
+         3Or0kbRnXpJJUBZLaHkvNDD8t+Zyf6oABkJktft/zrq1EchK7jpWBT+6zi1iIWv+ONU2
+         /kwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=WbM1UehvjdVvJ4J2BB4Tg0AKhU90H8Oji3wdpICxaVw=;
+        b=jPDs7vy4oqjWlPfMM+nn3n1gtUXfr7l5Sa7wrMf1G1BuBJyVSvTdi4KdcwWESJE2mf
+         2xZALRqMhhq91Oarjfg8epMExauv89zcqnIU3fYRcXuWA12KdpFp9Sh5h44k3MbCuKiJ
+         8h6Nt+XKMrNOa0EvoPrvjkJNy78x+8GKEa0SwjGd3BwfVm61hJlS63FJ6EsKPk5ijURN
+         zemGFKVCakD2HyuwfL7Si7t+ppi/dWLoijqiG83mPfjQ8f5CCKmO48YBbl6YY74wmwP6
+         NRlbPdKAF5a/4S271ZhXxkcvgBxe/2y1fk4SX2frI6fG9rPz+TtXXyis76/ES2Joe9Kf
+         hiFQ==
+X-Gm-Message-State: APjAAAWH7ns7/SF1dyG66ckRcXsvpa/tcEwDlQnf/p/SuTKIK0mE6hSz
+        XMz8YMKouJZXSttk/bRr3qZDpxL+
+X-Google-Smtp-Source: APXvYqyoMTkwUtjpNyX+gCAF/dbks5dD25LybGF+t+STe5yB86Th9Uefs76pdkTOCqsNUb8Ht5rORQ==
+X-Received: by 2002:adf:f44e:: with SMTP id f14mr12121321wrp.290.1568996233471;
+        Fri, 20 Sep 2019 09:17:13 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id l11sm1826386wmh.34.2019.09.20.09.17.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Sep 2019 09:17:11 -0700 (PDT)
+Date:   Fri, 20 Sep 2019 18:17:10 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] mmc: tegra: Use proper DMA mask
+Message-ID: <20190920161710.GA14499@ulmo>
+References: <20190920145317.11972-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190920142432.GA601228@kroah.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1568995305; bh=EPR13tILB3K8Yx+WgxSj+hc46Ns/lHPYAWSp7VVIJJI=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=CCA7MsxHdNMhwXukhCp4TyXgwfOTT/a9Miro5qHbLhq2Nf8Uz3EXaKHNt/ItQULwy
-         1LFJqJdei6sM5d4zidDc3lQuFuoxeLN8z3AAnsLR3Rdl7XZycFLdZ6nUQS2OnlwrMt
-         kCoFTxvhjy3lsn1IDXexckeTADH8HZFqpuhwv29Q3bBPEV6YVLAvZVKaTBHbme/0Gb
-         Rcaje/gXs5YssoOUteszu8MKBR9rDZlERZV2tdAdW6LsP8tD+KMmXazL4Gzzto6a6H
-         q7k+1Z3L4D3ANzswapSTLsm4hS5gS0sJKj3V4OQXcne/XHXh2xLMxnmilViGQdGf4+
-         zoyXAHQpAVSDQ==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ikeVEW9yuYc//A+q"
+Content-Disposition: inline
+In-Reply-To: <20190920145317.11972-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 20/09/2019 15:24, Greg Kroah-Hartman wrote:
-> On Fri, Sep 20, 2019 at 02:54:26PM +0100, Jon Hunter wrote:
->>
->> On 19/09/2019 23:03, Greg Kroah-Hartman wrote:
->>> This is the start of the stable review cycle for the 5.3.1 release.
->>> There are 21 patches in this series, all will be posted as a response
->>> to this one.  If anyone has any issues with these being applied, please
->>> let me know.
->>>
->>> Responses should be made by Sat 21 Sep 2019 09:44:25 PM UTC.
->>> Anything received after that time might be too late.
->>>
->>> The whole patch series can be found in one patch at:
->>> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.1-rc1.gz
->>> or in the git tree and branch at:
->>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
->>> and the diffstat can be found below.
->>>
->>> thanks,
->>>
->>> greg k-h
->>
->> No new regressions* for Tegra ...
->>
->> Test results for stable-v5.3:
->>     12 builds:	12 pass, 0 fail
->>     22 boots:	22 pass, 0 fail
->>     38 tests:	37 pass, 1 fail
->>
->> Linux version:	5.3.1-rc1-g0aa7f3d6baae
->> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->>                 tegra194-p2972-0000, tegra20-ventana,
->>                 tegra210-p2371-2180, tegra30-cardhu-a04
->>
->> * Note we had one regression in v5.3 for a warnings test for Tegra194
->>   causing the above test failure. This has since been fixed by the
->>   following commits [0] but given it is just a warning, I have not
->>   bothered CC'ing for stable.
->>
->> Cheers
->> Jon
->>
->> [0] https://lkml.org/lkml/2019/8/21/602
-> 
-> I'll be glad to take this in stable for 5.3.y, what is the git commit
-> id?
+--ikeVEW9yuYc//A+q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK, that would be great. The IDs are ...
+On Fri, Sep 20, 2019 at 04:53:15PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> Hi,
+>=20
+> this puts together the two patches from this thread:
+>=20
+> 	http://patchwork.ozlabs.org/patch/1146705/
+>=20
+> there hasn't been any activity there for a couple of weeks, so I thought
+> I'd just throw them together and update the second patch to work on top
+> of the first one.
+>=20
+> The goal here is to avoid the use of bounce buffers and fix IOVA space
+> issues when an IOMMU gets involved. The first patch introduces the
+> ->set_dma_mask() host operation as proposed by Adrian and the second
+> patch is just a rebase of Nicolin's Tegra SDHCI patch that uses the new
+> host operation rather than doing it as part of ->enable_dma().
+>=20
+> Thierry
+>=20
+>=20
+> Adrian Hunter (1):
+>   mmc: sdhci: Let drivers define their DMA mask
+>=20
+> Nicolin Chen (1):
+>   mmc: tegra: Implement ->set_dma_mask()
+>=20
+>  drivers/mmc/host/sdhci-tegra.c | 48 ++++++++++++++++++++--------------
+>  drivers/mmc/host/sdhci.c       | 12 +++------
+>  drivers/mmc/host/sdhci.h       |  1 +
+>  3 files changed, 33 insertions(+), 28 deletions(-)
 
-commit 763719771e84b8c8c2f53af668cdc905faa608de
-Author: Jon Hunter <jonathanh@nvidia.com>
-Date:   Wed Aug 21 16:02:40 2019 +0100
+Ugh, great. I misspelled linux-mmc@vger.kernel.org in my aliases file...
 
-    clocksource/drivers/timer-of: Do not warn on deferred probe
+Ulf, Adrian, do you want me to resend for archival purposes?
 
+Thierry
 
-commit 14e019df1e64c8b19ce8e0b3da25b6f40c8716be
-Author: Jon Hunter <jonathanh@nvidia.com>
-Date:   Wed Aug 21 16:02:41 2019 +0100
+--ikeVEW9yuYc//A+q
+Content-Type: application/pgp-signature; name="signature.asc"
 
-    clocksource/drivers: Do not warn on probe defer
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2E+4QACgkQ3SOs138+
+s6GPBBAAk7XJ/Lol5uZEzvcyyk08wiz0RTwLbRzmTL3kDd+2Ee9FyCjFpGdDnhtQ
+ytD4cErUshQ0la0jw0hYrVutGIbOA1F5LOAYflc40D6EXiMAdUYmWUWOfXEzwgQg
+rbQnsJqmBTcJ+W1g97BsBSZxRc+ou5w9MBdIaG2As7VAg9+9KjoGMfhN6u5MiGlb
+Kz9IAfzDPIyZvDnbW5323tjprroVl4fF3CFEB/k+sSivoEb50dHj6fgXNskji9Pd
+SEiTDYXNKHRCHRkmIFGwFR+V0/0sOHucvS5arAaXRRslhXzUHh0aFxrG4nPV0hSZ
+u8oW0RF9WCd7Ba+Apu6LnMMKj4zUsWyrejN6sw3A+0DbX14flLXWDA2S26YqSfBu
+kt/dloh5rfOj6YhvkHjW2tWZY7A0LlbJGYjMeJ5Qg28oLqOZVbBbFizeo1KCPmCZ
+JfPh+qTfmWAyoL9zRj7GfFXBhMUntnMAM0HWl3TIETAzjSKqNnwfM0n6NzxjC1Jq
+mWgZcBin6PIjjmiU/LOc22vbvMZWWrd5IMIL+YfPy4MdkvbMGex1Hl4IRWHHYfvA
+FpUFMQjuSklTSw5svmHmvJ9O4ZO/lbBU1vdktYT6+tx8wouTnFczfqpAGy2SNyXy
+/sTEDBJOKeB7pDl8QFTTmraThmihFgYPytelzYE5VpVlqv1ldww=
+=AdTM
+-----END PGP SIGNATURE-----
 
-> Also, thanks for testing all of these and letting me know.
-
-No problem!
-
-Cheers
-Jon
-
--- 
-nvpublic
+--ikeVEW9yuYc//A+q--
