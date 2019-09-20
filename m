@@ -2,99 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31D3FB91A3
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Sep 2019 16:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20F03B936C
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Sep 2019 16:53:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387946AbfITOYf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Sep 2019 10:24:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36880 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387938AbfITOYf (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Sep 2019 10:24:35 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 273F72080F;
-        Fri, 20 Sep 2019 14:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568989474;
-        bh=/kEOe6iIjAq0AE1gdlHbwtYLINqv36CWSrQAhIyQfJw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aH6T/cI5l18ilkRUUjq9bDjrGWFbwM6iUDIT1rY/PKyFXiN95AlnEXDDSUuRalZl2
-         FOmB4g02JDEINxGDe9cKI+rgRSeTRI/qwCqoe2fY9b/nUm/CZpHg1x9EFrWWtDHyIa
-         jrClhMudeuRqcEUsmY8+O3icEoUaSEve8rGSY+n4=
-Date:   Fri, 20 Sep 2019 16:24:32 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.3 00/21] 5.3.1-stable review
-Message-ID: <20190920142432.GA601228@kroah.com>
-References: <20190919214657.842130855@linuxfoundation.org>
- <572eca6e-47a9-c554-c6b2-bafd4c5df18b@nvidia.com>
+        id S2388934AbfITOxX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Sep 2019 10:53:23 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:52371 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388844AbfITOxX (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 20 Sep 2019 10:53:23 -0400
+Received: by mail-wm1-f67.google.com with SMTP id x2so2842018wmj.2;
+        Fri, 20 Sep 2019 07:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aNWHbevRsk4KejISaDDKrrmCAj/+nQn5NQmc8QeRKVg=;
+        b=pKXZf4pQjNJUXpkcv0Z4a7b2Ci7CW9Ur7JduJHnfCljgNSI+W++Gh5hz3zNTbaSeOI
+         f7pDQr/2H00yjJcSa/7ip9sh0U9hyBuhf2fGEZo2fRBmczPBGg70PAdNbJ1Uzp+Xw4JV
+         cVT4Qehl+RwORC8dQdYPbq1oR+/HA7rFu44zmVCCNzFFe1sB+jFYSj/hHKmft6GNrDes
+         vT8KiDu0KgpoG+lMzBfeqt9LoFoU+QifZXCJl4lUVjGmxeEohAMKZhF/OmhvrjhAEPuG
+         G3uh9zs7jmdaWA0Z8aryqgILO96LE9gsspgzTZ/FLshKcg6mtHaXrDpl1QEdkcf7ahdg
+         zt3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aNWHbevRsk4KejISaDDKrrmCAj/+nQn5NQmc8QeRKVg=;
+        b=VuCvm1JpAGpP5rB9HXMisX8rAXIDVUYHV/WdyiN15GR2jkxvgZUAraIDIw8FO+z6Tj
+         TEBa85zCC7sfFkzxe7g1RvzVIoryEP+fNPe+yy5d0e1tBHVb3fk/NU4Lv4Dnz1W412fm
+         qUbhcVaqtuAwM1W2gV/nl1qNDcSw+TbN4vUWHx+EGA8dbhMQC08s7JV9T+yLCFB7hDqz
+         hu81TxeWwD62U4QIZaNYXfiyBtsE/XoPo8FammxI4QzCt6KflJcddT5p9nZZhiMU6hea
+         zdQNJWV/HBv2wtH8e+Y27ZRPwa3UO2TOLpaUFWPQfqDtuSOGTqxnoIVYwTiiBo234QKT
+         ImGg==
+X-Gm-Message-State: APjAAAUvtGBWPd7tZEMWxeZDCwne6doIpgguYVfMkKY2hfXnV/R8ASJR
+        kbhAa8hw3gm9U3UznWiiNIE=
+X-Google-Smtp-Source: APXvYqxfYzpMhQOZ1/a8pRXC8kewdTQ3J941Z36yvEs+Q7vvIiVaB9qPj3KHz+GJw0yyce5zJeu5Bg==
+X-Received: by 2002:a7b:c4c9:: with SMTP id g9mr4157233wmk.150.1568991200760;
+        Fri, 20 Sep 2019 07:53:20 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id n2sm1538237wmc.1.2019.09.20.07.53.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Sep 2019 07:53:19 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        inux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] mmc: tegra: Use proper DMA mask
+Date:   Fri, 20 Sep 2019 16:53:15 +0200
+Message-Id: <20190920145317.11972-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <572eca6e-47a9-c554-c6b2-bafd4c5df18b@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Sep 20, 2019 at 02:54:26PM +0100, Jon Hunter wrote:
-> 
-> On 19/09/2019 23:03, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.3.1 release.
-> > There are 21 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Sat 21 Sep 2019 09:44:25 PM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.1-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> No new regressions* for Tegra ...
-> 
-> Test results for stable-v5.3:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	37 pass, 1 fail
-> 
-> Linux version:	5.3.1-rc1-g0aa7f3d6baae
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
-> 
-> * Note we had one regression in v5.3 for a warnings test for Tegra194
->   causing the above test failure. This has since been fixed by the
->   following commits [0] but given it is just a warning, I have not
->   bothered CC'ing for stable.
-> 
-> Cheers
-> Jon
-> 
-> [0] https://lkml.org/lkml/2019/8/21/602
+From: Thierry Reding <treding@nvidia.com>
 
-I'll be glad to take this in stable for 5.3.y, what is the git commit
-id?
+Hi,
 
-Also, thanks for testing all of these and letting me know.
+this puts together the two patches from this thread:
 
-greg k-h
+	http://patchwork.ozlabs.org/patch/1146705/
 
-> 
-> -- 
-> nvpublic
+there hasn't been any activity there for a couple of weeks, so I thought
+I'd just throw them together and update the second patch to work on top
+of the first one.
+
+The goal here is to avoid the use of bounce buffers and fix IOVA space
+issues when an IOMMU gets involved. The first patch introduces the
+->set_dma_mask() host operation as proposed by Adrian and the second
+patch is just a rebase of Nicolin's Tegra SDHCI patch that uses the new
+host operation rather than doing it as part of ->enable_dma().
+
+Thierry
+
+
+Adrian Hunter (1):
+  mmc: sdhci: Let drivers define their DMA mask
+
+Nicolin Chen (1):
+  mmc: tegra: Implement ->set_dma_mask()
+
+ drivers/mmc/host/sdhci-tegra.c | 48 ++++++++++++++++++++--------------
+ drivers/mmc/host/sdhci.c       | 12 +++------
+ drivers/mmc/host/sdhci.h       |  1 +
+ 3 files changed, 33 insertions(+), 28 deletions(-)
+
+-- 
+2.23.0
+
