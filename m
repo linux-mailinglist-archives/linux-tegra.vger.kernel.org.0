@@ -2,134 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 722CDB99A6
-	for <lists+linux-tegra@lfdr.de>; Sat, 21 Sep 2019 00:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D64CFB9BDD
+	for <lists+linux-tegra@lfdr.de>; Sat, 21 Sep 2019 03:35:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392053AbfITW0d (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Sep 2019 18:26:33 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:33009 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392034AbfITW0d (ORCPT
+        id S1730752AbfIUBfn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Sep 2019 21:35:43 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:33839 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730577AbfIUBfm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Sep 2019 18:26:33 -0400
-Received: by mail-lj1-f193.google.com with SMTP id a22so8559838ljd.0;
-        Fri, 20 Sep 2019 15:26:31 -0700 (PDT)
+        Fri, 20 Sep 2019 21:35:42 -0400
+Received: by mail-wm1-f66.google.com with SMTP id y135so10689000wmc.1;
+        Fri, 20 Sep 2019 18:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NCRwLUskdzV7gHTBmxNv4l39hBOLgSQ0mOSFdrxw3Z4=;
-        b=oiX3xeQ0MNmmn5mM3EZkkEJkRlIy3l6sUSK6Bc0T7crcx0ziuZGRkuXypQJh7ZEOrh
-         7ZSAWAE6uudRQPD2YI6d2gfbd90BQUiwsd7uBebVi75hQCxyMivAibyE/WPyRAS3Pzap
-         +1/MgjgILz5Wvj3+ljs2MLCY1VVW4JTbBlscBmSsoo2tggbLnFAejToXHF6qQYgwBdnt
-         HsSOSNQ+sAchY3R2WETinc0jkM0L+x8Ol6V3C4crjqeHX5o1LrZ55KEz7/4AzZu7CpZ9
-         95+C7zJOYF6wZBBqmPwuaZcdT5ykBAtX+TjGX+NHq+vj9ioJiLl2qtVxB91+3O5ulNYO
-         nzRw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=sbLPiHDoe6UMP3Ze87gNVKe6Z2eMfGIB7czVmJMuNP4=;
+        b=fQCA0U5znFXcYEro9L+Rc2dMruHMo+aP017tag97/ycu44Fu0jiar9ss2ZQgsOFnu2
+         fFf2ekLoQPzsHaL7l467AlCN0gWTdDr2n9SXk+NQHUAe//m2K9u03o639+uERrAosY3E
+         3WuMFUav/jaQSmUfsZBOokDPo4O45B2X/TOjC53P55kOaoDimRXwAeti9Qr2QhhM4/BJ
+         L/L2ASbdKEjoPsJ7MMMwTDUIqf00YnChMgs+Pf4rkT121+Z4PQOHecZ4/7BkS6YXBBm7
+         +d431lWRMnJbzOh1uQCk2zDE0Wdawc7QnvSXA4ZznlP9ZbCrNKwmpRraX/Gu8SgSPB2t
+         +MVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=NCRwLUskdzV7gHTBmxNv4l39hBOLgSQ0mOSFdrxw3Z4=;
-        b=t0NIO539kiD6RvyltvjFauIj6ssYJBFYcGJVFv4RifS6Ii77cHgM6hidIGkXIHPbQ0
-         i9DcOfHjOGOCCK/zpjuNF9ap9DQzOdfMwhHF6/yFCiSbwAyihz2894pyUIWf7ohryLP5
-         r641l4V9LsKSOg+xM7cr++PQhFRdn98boPjBVhKL5RPznXWrxSgLr6Ijr1IrT1BD5orS
-         ulfny+PznKFr5PQZj1cDxtDE/UV8tZtzKbb2l3u4+0PzXBm+OuJMb4WWWQVmCKIbWooc
-         6Yt1NA/lNp4CrdHCFnk7a8/ZkKzmT3gn4/PvBsKh0rVtPrDPBzM1NL4y4dS0eUyBR7bK
-         j+kw==
-X-Gm-Message-State: APjAAAU0Hf18QwMa8JQcplcu3ySoyYOPoNN39GqrVgbHe+t6kZqosvrs
-        uKZjmno2z9FlutJ0i/stRvo=
-X-Google-Smtp-Source: APXvYqwxm/7zrCbHka/7eCQpm/oQUiH78xadO7fAr2TpiKXlOB/a4hiVWmiEHeHIi9DYOPMS0IXkVw==
-X-Received: by 2002:a05:651c:110f:: with SMTP id d15mr10653261ljo.43.1569018390799;
-        Fri, 20 Sep 2019 15:26:30 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.45.178])
-        by smtp.googlemail.com with ESMTPSA id z30sm806218lfj.63.2019.09.20.15.26.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Sep 2019 15:26:29 -0700 (PDT)
-Subject: Re: [PATCH] media: staging: tegra-vde: Fix build error
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     YueHaibing <yuehaibing@huawei.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>
-References: <dc354ede-5963-cd7f-ee53-f3df3061d39a@gmail.com>
- <20190725024129.22664-1-yuehaibing@huawei.com>
- <dd547b44-7abb-371f-aeee-a82b96f824e2@gmail.com>
- <CAK8P3a2Lxv6Wz3jv0eeNc7mfvNzSvh37QEx51W39eUnYPsxaYw@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ed818d0c-2d5a-d9a4-e99d-43fe4eba4357@gmail.com>
-Date:   Sat, 21 Sep 2019 01:26:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=sbLPiHDoe6UMP3Ze87gNVKe6Z2eMfGIB7czVmJMuNP4=;
+        b=OQubn8rDf7WXzyMOpuaXZFLaw1+ao3eGg2xgBzQRVOwkjPTrMdMWO4fVl/s70G1Pye
+         gwg/mu+hROzjYlnqFZTeikQmJapu099u6XvDEi3FRlA2j+TDOprHY4fJhHDN8/AxzJ1Z
+         rRi70hk/I1A/p0OorhUhnXFZQNTSdZFsSvDFQ0uSbC+VE+UNljuU8DWqJXcf0Ncv1ZPv
+         6OnPxP4mr4MYpRUFJhIChPiZx2fyDMiO0b546wqpMGbXESPRuYpxsBHzlQg7rFHYhq4/
+         7jgeGMaduo2BKXzYEUjsMSf2cQ1Lf+XM4y+okeLsZrbTToLAyo8YytuEViG8+SUQcYeH
+         hKwg==
+X-Gm-Message-State: APjAAAXBFqFLIhr9ydnzyGCvH/e6kUrfcv5t3khkTS3vUgioCnTXNGVs
+        WLpZO21k5HMfIDPG32b+YHQ=
+X-Google-Smtp-Source: APXvYqwmr/uZaRoVkCAf0QgmyFCVNJsgAdof9HUvw8yZhqjdL2MKDH4x1ROx36QOoB7p3U6Xd8UkDg==
+X-Received: by 2002:a1c:e906:: with SMTP id q6mr5022203wmc.136.1569029741007;
+        Fri, 20 Sep 2019 18:35:41 -0700 (PDT)
+Received: from localhost (p200300E41F0FEE00021F3CFFFE37B91B.dip0.t-ipconnect.de. [2003:e4:1f0f:ee00:21f:3cff:fe37:b91b])
+        by smtp.gmail.com with ESMTPSA id y3sm3869203wrw.83.2019.09.20.18.35.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Sep 2019 18:35:38 -0700 (PDT)
+Date:   Sat, 21 Sep 2019 03:35:37 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, netdev@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] net: stmmac: Enhanced addressing mode for DWMAC
+ 4.10
+Message-ID: <20190921013537.GC86019@mithrandir>
+References: <20190920170036.22610-1-thierry.reding@gmail.com>
+ <fa2fafac-f193-3cef-666a-767859d41f91@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a2Lxv6Wz3jv0eeNc7mfvNzSvh37QEx51W39eUnYPsxaYw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="JgQwtEuHJzHdouWu"
+Content-Disposition: inline
+In-Reply-To: <fa2fafac-f193-3cef-666a-767859d41f91@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-20.09.2019 22:32, Arnd Bergmann пишет:
-> On Thu, Jul 25, 2019 at 2:24 PM Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> 25.07.2019 5:41, YueHaibing пишет:
->>> If IOMMU_SUPPORT is not set, and COMPILE_TEST is y,
->>> IOMMU_IOVA may be set to m. So building will fails:
->>>
->>> drivers/staging/media/tegra-vde/iommu.o: In function `tegra_vde_iommu_map':
->>> iommu.c:(.text+0x41): undefined reference to `alloc_iova'
->>> iommu.c:(.text+0x56): undefined reference to `__free_iova'
->>>
->>> Select IOMMU_IOVA while COMPILE_TEST is set to fix this.
-> 
->>> @@ -3,7 +3,7 @@ config TEGRA_VDE
->>>       tristate "NVIDIA Tegra Video Decoder Engine driver"
->>>       depends on ARCH_TEGRA || COMPILE_TEST
->>>       select DMA_SHARED_BUFFER
->>> -     select IOMMU_IOVA if IOMMU_SUPPORT
->>> +     select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
->>>       select SRAM
->>>       help
->>>           Say Y here to enable support for the NVIDIA Tegra video decoder
->>>
->>
->> This results in missing the case of compile-testing !IOMMU_IOVA for the
->> driver, but probably that's not a big deal.
->>
->> Acked-by: Dmitry Osipenko <digetx@gmail.com>
-> 
-> I don't know what happened here, but the patch from YueHaibing caused this
-> error for me, which is very much like the problem it was meant to fix:
-> 
-> drivers/gpu/host1x/dev.o: In function `host1x_probe':
-> dev.c:(.text+0x1734): undefined reference to `put_iova_domain'
-> dev.c:(.text+0x1744): undefined reference to `iova_cache_put'
-> drivers/gpu/host1x/dev.o: In function `host1x_remove':
-> dev.c:(.text+0x1894): undefined reference to `put_iova_domain'
-> dev.c:(.text+0x1898): undefined reference to `iova_cache_put'
-> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
-> cdma.c:(.text+0x5d0): undefined reference to `alloc_iova'
-> cdma.c:(.text+0x61c): undefined reference to `__free_iova'
-> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_deinit':
-> cdma.c:(.text+0x6c8): undefined reference to `free_iova'
-> drivers/gpu/host1x/job.o: In function `host1x_job_pin':
-> job.c:(.text+0x514): undefined reference to `alloc_iova'
-> job.c:(.text+0x528): undefined reference to `__free_iova'
-> drivers/gpu/host1x/job.o: In function `host1x_job_unpin':
-> job.c:(.text+0x5bc): undefined reference to `free_iova'
-> 
-> After reverthing commit 6b2265975239 ("media: staging:
-> tegra-vde: Fix build error"), I can no longer reproduce the
-> issue.
 
-There is a follow up here: https://patchwork.ozlabs.org/patch/1153176/
+--JgQwtEuHJzHdouWu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Sep 20, 2019 at 10:02:28AM -0700, Florian Fainelli wrote:
+> On 9/20/19 10:00 AM, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > The DWMAC 4.10 supports the same enhanced addressing mode as later
+> > generations. Parse this capability from the hardware feature registers
+> > and set the EAME (Enhanced Addressing Mode Enable) bit when necessary.
+>=20
+> Do you think these two patches should have companion Fixes: tag? They
+> are definitively bug fixes, but maybe you would also want those to be
+> back ported to -stable trees?
+
+I wouldn't really consider these bug fixes. They're more along the lines
+of feature additions. The driver previously didn't support EAME and that
+was fine. The fact that it never worked under specific circumstances is
+not a bug or regression, really.
+
+Thierry
+
+> > Thierry Reding (2):
+> >   net: stmmac: Only enable enhanced addressing mode when needed
+> >   net: stmmac: Support enhanced addressing mode for DWMAC 4.10
+> >=20
+> >  drivers/net/ethernet/stmicro/stmmac/dwmac4.h  |  1 +
+> >  .../ethernet/stmicro/stmmac/dwmac4_descs.c    |  4 ++--
+> >  .../net/ethernet/stmicro/stmmac/dwmac4_dma.c  | 22 +++++++++++++++++++
+> >  .../net/ethernet/stmicro/stmmac/dwmac4_dma.h  |  3 +++
+> >  .../ethernet/stmicro/stmmac/dwxgmac2_dma.c    |  5 ++++-
+> >  .../net/ethernet/stmicro/stmmac/stmmac_main.c |  6 +++++
+> >  include/linux/stmmac.h                        |  1 +
+> >  7 files changed, 39 insertions(+), 3 deletions(-)
+> >=20
+>=20
+>=20
+> --=20
+> Florian
+
+--JgQwtEuHJzHdouWu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2FfmYACgkQ3SOs138+
+s6FseQ/+KuW4pJjrgxcRnR7eVA3n7gakuqezBPcH1vTtwGh9sQlShZa1WatorptO
+SA4Y7Raxod4Ed4cSsIE8WO6e2EA3EO9cPNqAzpw+Cdf5/AzcT0X1QZ7/3h6pJJXR
+PGh3ZvdrSSskL4M389UIKLzM4Z/2AHmQBWZbhJCKGux5TQ+B2S05TWxhotjUNqC8
+r8fDMb19ECYlUA7IVSt23oQ1DqFN5vYzUpwPbCBZt3FN4v9/K5npkdLIiFL4jtZp
+O2645NSIBK3mGC+C163VHB5BUlQrcxmWTkB4Cb8RzfoJ/6zuv848+c29UQKcj0Pc
+l+dxKaYVty+GYfI2JEhmmsRI9/ZgLzhO56rQchjS4Itm3bff/RPAynuTvl9AUSpA
+naFKBab95eg7Y1tHN6+VhuGU/vHwVLocssWfvZ5F10SdpjOaKzoaz7Kqj9EwtrzU
+0jOINKrcrWYHYiPFrvfXjwSpIQugZeYAr3aFj7UASfc0drWgGK3OFqYfPHUbvLYH
+dhrj+0uiKJKMgjzA6/c23SEmKjrVnobRY5GgKBNiATywD/iVM35XN64XPtfij+GK
+7/iqK/VfxWl9e4VCWnX51YI82+uiz8fFPHKjo94lxBtuz3LWTirg7Ag/iy05Ins7
+rRcotpiMGP429kEhwCbBhEFDrpLruC5pIFO7IGYjtCQIzu3Dz/E=
+=FbkH
+-----END PGP SIGNATURE-----
+
+--JgQwtEuHJzHdouWu--
