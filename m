@@ -2,115 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12A98BAC02
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 00:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 583B6BABFE
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 00:31:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388654AbfIVWeS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 22 Sep 2019 18:34:18 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45429 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388488AbfIVWeS (ORCPT
+        id S1730360AbfIVWbi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 22 Sep 2019 18:31:38 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45263 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729612AbfIVWbh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 22 Sep 2019 18:34:18 -0400
-Received: by mail-lf1-f65.google.com with SMTP id r134so8603466lff.12;
-        Sun, 22 Sep 2019 15:34:16 -0700 (PDT)
+        Sun, 22 Sep 2019 18:31:37 -0400
+Received: by mail-pg1-f194.google.com with SMTP id 4so6818741pgm.12
+        for <linux-tegra@vger.kernel.org>; Sun, 22 Sep 2019 15:31:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4f2RiUEyYcYFcBgFz1k/UjSfnNL+xowf1XmECwoKC/g=;
-        b=jAZlux2Hoov1RqCJlqmmKxwXdFHaETUdjVWCvrTUJKfUh7+paUI6OOEL1lgtjm+JIL
-         PUo6LZEbQzjG00Tai8rqwzLIfnYE60LtT6hICVHY6Qdbn5JpZGpxmtKUvrT2oveXCa3n
-         rdGFNoK0VKKXUq9RB2uFCQOXCRfFYx1pglz0YCbZHErkS+MgcOkSMhHmfrdh5u5BRDkh
-         ujMcz7en92dWnFc2NTnAQpwAGEQOskUY9zr0qRMPoL9av0Wkp2pL+dNpgGtiE0OCIMWj
-         X8Q1NMgBYK3j5wPkeGcZ8KiJNsEtOjkOKqSCTuliZekdA98/r0T7SWueV0BdabtYQVaS
-         O1tg==
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :organization:mime-version:content-transfer-encoding;
+        bh=gKQf29wHUne7HHUcaKWuvokQuQFXQ6ewB4zZKn2Wb8A=;
+        b=rxIoHHOuPAHiex0ATA3NwAkvdUDhn398Gw9ANyEwEQTp3jFRq47IIqRBnvAarmvOhm
+         QriLpOeHJRbKP/RkxgfCl2w+6IBXY5HbuRA2eMy0Id0mVfsHM5wPdS5N0aNUs8iGnKiN
+         bAJVWrmeHu5sSKJXSS8GevJDXAOEo/5h+WfZK3XRTBjGD8eqDsKvLljnvizbcqyhEuVD
+         gyz6LEyRcl9+IzQNaBR1B5VErLFF8ThF0pRZAdN15A9DIPo80SKYRQtL8JL0rAKhq0lz
+         Va9/ySEc1rpn0TZj/JmqSUIpoPjRSIuZUZuDwV354ragUKcHae92QjjHMHt/4Wo7rKQ2
+         bWDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4f2RiUEyYcYFcBgFz1k/UjSfnNL+xowf1XmECwoKC/g=;
-        b=B7qU0rRsgPZYRztzxdN+71UKRUpQicEZZduHp/T8b+FG223Rbc4fdJskQ6kPbG8MUF
-         HMFTjxX6fgVZuVhKVF69qcb/qxxW3vaZjcNrkWrMF8x2ihx7BCBRmuhKPOBmA/Lrw2Ex
-         FKThCLNG1c9o/ob7TEaMxNoZo+vgZxEpPMgXiMNyLXQc2rChWmPkxKgxWHvciu//6hj/
-         zSq2U1a8XXFTCO6rEvvd9z6GY/7ZJSshcEezpr/Xmh8Vin3072b/4mBem6frD3rS1Rsf
-         rx4PSPUKdxhIbPZu4f6vtdxngf/uImIty2GuwUXxRlMoRXPotk20hgShibyWf1w+H6w9
-         wukg==
-X-Gm-Message-State: APjAAAUS1CM/A5FwhoAk3wC4Mu1cUprLECfwvAXEB0CUNdVmZsqOUtwC
-        W4Ku2v2LAcdnM6UYzYxbKZUWhNfz
-X-Google-Smtp-Source: APXvYqxlv/fN1SmtNQdjOMr9+/0vIXBnud7NxJw3/5p3jHE3sHP0gedjudM2e9Kj2tEoRt3WJyuCtw==
-X-Received: by 2002:a19:6455:: with SMTP id b21mr15210702lfj.167.1569188842740;
-        Sun, 22 Sep 2019 14:47:22 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-32-67.pppoe.spdop.ru. [94.29.32.67])
-        by smtp.googlemail.com with ESMTPSA id e7sm1798725lfn.12.2019.09.22.14.47.21
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 22 Sep 2019 14:47:22 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] clk: tegra: divider: Add missing check for
- enable-bit on rate's recalculation
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190723025245.27754-1-digetx@gmail.com>
-Message-ID: <4f2695ce-f683-2e4b-34b9-8937feee5e1b@gmail.com>
-Date:   Mon, 23 Sep 2019 00:47:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=gKQf29wHUne7HHUcaKWuvokQuQFXQ6ewB4zZKn2Wb8A=;
+        b=dtvC8ljjXes8CQOW8dCHi07fXToDBjRYNBAANQDJvjCmu9PqKCWvhI4mBkX144qb5q
+         axrL4ougA+CaxGvmQwsQjP5uPnIkHuwz5mKjxrLH8+9gscN3FTQZqQvyRtOAdk2L8E5z
+         MblCxXDmuOk1sNLYbX/ZLuo6mJzt+JeOHUogscUJVyl1o+KWqqk4YwlqMaXUHQaQyDb7
+         MOfj72rPvGpLJT88yBdN0AqRgDjAM8ZAvBSbTQhR4skc0hANGbYZb+0PMUJjkBkpI7o3
+         6RSaHj2O7sZH535ji2Jrcc8zP8T04jpoO6l4NivG4l4Pdvv+OwPNeZkXdlu95KN0RdNM
+         TJHw==
+X-Gm-Message-State: APjAAAVLETdU2ltB6L/MGQKchCfP2oU9H5NHEcNsz7UGpDPnu9Wr2Iyb
+        SdWx269Rnkoy1hk734T0TawXiQ==
+X-Google-Smtp-Source: APXvYqx7KKQS2DvlD5zTbylJ6r5f5totuAKe8v107VUjOM7io2MFqQ3bchgOHBIhHyy5gWEpVsWntw==
+X-Received: by 2002:a63:c09:: with SMTP id b9mr25936584pgl.245.1569191495395;
+        Sun, 22 Sep 2019 15:31:35 -0700 (PDT)
+Received: from cakuba.netronome.com (c-73-202-202-92.hsd1.ca.comcast.net. [73.202.202.92])
+        by smtp.gmail.com with ESMTPSA id x6sm10770768pfd.53.2019.09.22.15.31.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Sep 2019 15:31:35 -0700 (PDT)
+Date:   Sun, 22 Sep 2019 15:31:32 -0700
+From:   Jakub Kicinski <jakub.kicinski@netronome.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, netdev@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] net: stmmac: Fix page pool size
+Message-ID: <20190922153132.0c328fe7@cakuba.netronome.com>
+In-Reply-To: <20190920170127.22850-1-thierry.reding@gmail.com>
+References: <20190920170127.22850-1-thierry.reding@gmail.com>
+Organization: Netronome Systems, Ltd.
 MIME-Version: 1.0
-In-Reply-To: <20190723025245.27754-1-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.07.2019 5:52, Dmitry Osipenko пишет:
-> Unset "enable" bit means that divider is in bypass mode, hence it doesn't
-> have any effect in that case. Please note that there are no known bugs
-> caused by the missing check.
+On Fri, 20 Sep 2019 19:01:27 +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
+> The size of individual pages in the page pool in given by an order. The
+> order is the binary logarithm of the number of pages that make up one of
+> the pages in the pool. However, the driver currently passes the number
+> of pages rather than the order, so it ends up wasting quite a bit of
+> memory.
 > 
-> Changelog:
+> Fix this by taking the binary logarithm and passing that in the order
+> field.
 > 
-> v2: Changed the commit's description from 'Fix' to 'Add' in response to the
->     Stephen's Boyd question about the need to backport the patch into stable
->     kernels. The backporting is not really needed.
-> 
->  drivers/clk/tegra/clk-divider.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/clk/tegra/clk-divider.c b/drivers/clk/tegra/clk-divider.c
-> index e76731fb7d69..f33c19045386 100644
-> --- a/drivers/clk/tegra/clk-divider.c
-> +++ b/drivers/clk/tegra/clk-divider.c
-> @@ -40,8 +40,13 @@ static unsigned long clk_frac_div_recalc_rate(struct clk_hw *hw,
->  	int div, mul;
->  	u64 rate = parent_rate;
->  
-> -	reg = readl_relaxed(divider->reg) >> divider->shift;
-> -	div = reg & div_mask(divider);
-> +	reg = readl_relaxed(divider->reg);
-> +
-> +	if ((divider->flags & TEGRA_DIVIDER_UART) &&
-> +	    !(reg & PERIPH_CLK_UART_DIV_ENB))
-> +		return rate;
-> +
-> +	div = (reg >> divider->shift) & div_mask(divider);
->  
->  	mul = get_mul(divider);
->  	div += mul;
-> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 
-Hello Peter,
-
-ACK?
+Since this is a fix could we get a Fixes tag pointing to the commit
+which introduced the regression?
