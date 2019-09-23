@@ -2,258 +2,147 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBB63BADF3
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 08:42:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65F33BAEE9
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 10:09:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404729AbfIWGmj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Sep 2019 02:42:39 -0400
-Received: from mga17.intel.com ([192.55.52.151]:16827 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404528AbfIWGmi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Sep 2019 02:42:38 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Sep 2019 23:42:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,539,1559545200"; 
-   d="scan'208";a="200435180"
-Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.66]) ([10.237.72.66])
-  by orsmga002.jf.intel.com with ESMTP; 22 Sep 2019 23:42:36 -0700
-Subject: Re: [PATCH 2/2] mmc: tegra: Implement ->set_dma_mask()
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        linux-mmc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190920145317.11972-1-thierry.reding@gmail.com>
- <20190920145317.11972-3-thierry.reding@gmail.com>
-From:   Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
- Business Identity Code: 0357606 - 4, Domiciled in Helsinki
-Message-ID: <3532e035-d1b2-265d-1a02-37f10142eb38@intel.com>
-Date:   Mon, 23 Sep 2019 09:41:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190920145317.11972-3-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
+        id S2404239AbfIWIJc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Sep 2019 04:09:32 -0400
+Received: from smtprelay-out1.synopsys.com ([198.182.61.142]:46776 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388770AbfIWIJc (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 23 Sep 2019 04:09:32 -0400
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C1B22C015A;
+        Mon, 23 Sep 2019 08:09:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1569226172; bh=gMQoXZAjeMul1SWCVJjbqxdJZii3yeUGcjfBbcduJJ4=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=gcZV2UOPmG7KkMW7ucEPMUgRjeP5cgsCeVopWWiLJdDAxH4+ziLKOcdndbsGP7Mvy
+         iKTHMv/5ZNqgLx91OPtlMaoFpk/WXrMu77STjDstk5cMpODfb4FuVimTkx1aVQH1cA
+         pUQirFv64B6VtLIAK0zZ+/7Tvx5i47YDzeAWjVrx4O7+cEiUJbME1t2MhKW+a18H3S
+         8ERJXaevGQPrh0xeZqH1DcSNYv4vu/UR0bshvJAnkRLx0Pqg7xzieSOuLF0LTsvcSY
+         VQw5v9BtXuRpJU+Gpo+q2K1CHoRXvkRfIGxt9ZMLZyUttHilJnVERZYH4pG7iYklRO
+         9K6kG2fkSII4g==
+Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 9620AA006B;
+        Mon, 23 Sep 2019 08:09:29 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 23 Sep 2019 01:09:29 -0700
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com (10.13.134.195)
+ by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Mon, 23 Sep 2019 01:09:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B+nGZFU0Z0Sz4dIUmw30g0lnwWd+p/q37cAgRpBWGh9q3LIP8lgkKi8LKG8aCqO7rD9Uw2ebFlg8V8klMLF0aHbSTiWf8R9ut1sNqbw3Pvlw5w2AyA+7ok7/TjzO9HLWj4SKhoksUV0gNzqFsnf96Vu8IHhT2VwbwcjP4N1QvZeigxC2Ey9uf/sMufwv11dNCnaWz9ME8U6gfXcZyw6DRX0C9/ig14RY2T2SNcqxyuKkbxA9ihIcFrgis27A3jviAM3PQkSLHdECRM5jiQ3xfV3/vLBUrAUputuTqq7gUXfMV8QAwB+McoP2IuFKzrel+59Ras2PhZACY45fFCDTuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gMQoXZAjeMul1SWCVJjbqxdJZii3yeUGcjfBbcduJJ4=;
+ b=boqK2vLjpTKPipW+cDcZlqBTq/XzoSvIlP3gOceszbA20G/x+Q7j0WCCUMYDhgMyFx1+wuXcvbwR1UKondePMptUDaXmYbnYIu0m1O0Fc6pIt1FzXQV7V4usvgv3iTNKcJRKURvi71OY5Y0yRAnCXFoRtIiWPUHL13XV37GegTe1wpC9zRRu9mAOYr6z1ZFUfRTsqgOWN5D4boGncUeUgXFNUZ1f0FImtE0d6Vv+Gb/EM6BCIROfXMK7kwjeENK7Qn6+mzEGflMduc+o2XFzGBXu8Zwu9KjMPQk/6Ox0aud7t/218rfxy5jHt0CtF70WYuXXlolMrpY2CZXr1YCM9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gMQoXZAjeMul1SWCVJjbqxdJZii3yeUGcjfBbcduJJ4=;
+ b=EI/hTkvj2EB9OHZybT6+N7bpr17GQRVxi4EXhmw3IMXTTb1haumo28uHE98mjW2okwy3/vrASTs3aQ3YT3obFLrtRRcXd0TD1u3TQ+cndhZ88nCl89nLpZucyDuCmywcSkUMZwCE7AsKoTPQI9DNja1386wBY2bEM8fqQjFuE5k=
+Received: from BN8PR12MB3266.namprd12.prod.outlook.com (20.179.67.145) by
+ BN8PR12MB2963.namprd12.prod.outlook.com (20.178.208.85) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.26; Mon, 23 Sep 2019 08:09:27 +0000
+Received: from BN8PR12MB3266.namprd12.prod.outlook.com
+ ([fe80::59fc:d942:487d:15b8]) by BN8PR12MB3266.namprd12.prod.outlook.com
+ ([fe80::59fc:d942:487d:15b8%7]) with mapi id 15.20.2284.023; Mon, 23 Sep 2019
+ 08:09:27 +0000
+From:   Jose Abreu <Jose.Abreu@synopsys.com>
+To:     Jakub Kicinski <jakub.kicinski@netronome.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     "David S . Miller" <davem@davemloft.net>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: RE: [PATCH] net: stmmac: Fix page pool size
+Thread-Topic: [PATCH] net: stmmac: Fix page pool size
+Thread-Index: AQHVb9UhqaJ1MxlM1UWEgbnFElZS1ac4S00AgAChIQA=
+Date:   Mon, 23 Sep 2019 08:09:27 +0000
+Message-ID: <BN8PR12MB32664D3109952EF5303464EFD3850@BN8PR12MB3266.namprd12.prod.outlook.com>
+References: <20190920170127.22850-1-thierry.reding@gmail.com>
+ <20190922153132.0c328fe7@cakuba.netronome.com>
+In-Reply-To: <20190922153132.0c328fe7@cakuba.netronome.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=joabreu@synopsys.com; 
+x-originating-ip: [83.174.63.141]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8edac5e4-7de4-45e9-e462-08d73ffd5a76
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BN8PR12MB2963;
+x-ms-traffictypediagnostic: BN8PR12MB2963:
+x-microsoft-antispam-prvs: <BN8PR12MB2963536387BF393E8D86982DD3850@BN8PR12MB2963.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0169092318
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(39860400002)(346002)(366004)(396003)(136003)(199004)(189003)(476003)(446003)(486006)(11346002)(54906003)(33656002)(316002)(9686003)(81156014)(86362001)(81166006)(229853002)(4326008)(55016002)(4744005)(76116006)(305945005)(7416002)(8936002)(74316002)(66446008)(64756008)(66946007)(66556008)(110136005)(66476007)(25786009)(6436002)(66066001)(8676002)(5660300002)(256004)(14444005)(186003)(6506007)(6116002)(26005)(102836004)(3846002)(2906002)(6246003)(14454004)(7736002)(52536014)(478600001)(71200400001)(71190400001)(99286004)(76176011)(7696005);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR12MB2963;H:BN8PR12MB3266.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 8ZoPTu8k2RHvBtIwT/aCjdy4PkmPjD1x2rCeU77LeNguR73E/gVfkotISJL8BwVh3kYBo0jh5+UcQlUl9Yi02CNefVQ0no1CIfZsN4iVs5L9AFzMAgsdoHjQUxxiLqkGcdJF+wIlTJf2VQmkFdhp+7niw8cEo3EBajSbnYr30seFp6yjEmhsZNdFR7dZeENiFDQ4GCv1zArKZUqyZKrZz6S/KKASOrPmd5kvL1KxKgFzROZq7ozOlNwDp+EYRCXyM2Vyn5xX3wxmr9yzS8vYBEpWp6ch7BGA7U5DYwn6Arntqn5ykHJqEY0FQpeSjOGARzA+6sH1z4/zWbWrw6lbhdcYr8AunkzMNdzWrQgoCgsyP2tEAQULz/nFNgHaTPTzAq8kOndiPwwmwq3wSD/lbfVGfBSS12kk4CSqai2NsZk=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8edac5e4-7de4-45e9-e462-08d73ffd5a76
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2019 08:09:27.1152
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kqA60izWfQNeT0AxcLlVPOOE+x62+Px1nTpB3Oc0eOGfJsT9EyE8I+VxFR8gULv7AQdKPy6CCx5Zf1P65xRRLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2963
+X-OriginatorOrg: synopsys.com
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 20/09/19 5:53 PM, Thierry Reding wrote:
-> From: Nicolin Chen <nicoleotsuka@gmail.com>
-> 
-> The SDHCI controller on Tegra186 supports 40-bit addressing, which is
-> usually enough to address all of system memory. However, if the SDHCI
-> controller is behind an IOMMU, the address space can go beyond. This
-> happens on Tegra186 and later where the ARM SMMU has an input address
-> space of 48 bits. If the DMA API is backed by this ARM SMMU, the top-
-> down IOVA allocator will cause IOV addresses to be returned that the
-> SDHCI controller cannot access.
-> 
-> Unfortunately, prior to the introduction of the ->set_dma_mask() host
-> operation, the SDHCI core would set either a 64-bit DMA mask if the
-> controller claimed to support 64-bit addressing, or a 32-bit DMA mask
-> otherwise.
-> 
-> Since the full 64 bits cannot be addressed on Tegra, this had to be
-> worked around in commit 68481a7e1c84 ("mmc: tegra: Mark 64 bit dma
-> broken on Tegra186") by setting the SDHCI_QUIRK2_BROKEN_64_BIT_DMA
-> quirk, which effectively restricts the DMA mask to 32 bits.
-> 
-> One disadvantage of this is that dma_map_*() APIs will now try to use
-> the swiotlb to bounce DMA to addresses beyond of the controller's DMA
-> mask. This in turn caused degraded performance and can lead to
-> situations where the swiotlb buffer is exhausted, which in turn leads
-> to DMA transfers to fail.
-> 
-> With the recent introduction of the ->set_dma_mask() host operation,
-> this can now be properly fixed. For each generation of Tegra, the exact
-> supported DMA mask can be configured. This kills two birds with one
-> stone: it avoids the use of bounce buffers because system memory never
-> exceeds the addressable memory range of the SDHCI controllers on these
-> devices, and at the same time when an IOMMU is involved, it prevents
-> IOV addresses from being allocated beyond the addressible range of the
-> controllers.
-> 
-> Since the DMA mask is now properly handled, the 64-bit DMA quirk can be
-> removed.
-> 
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> [treding@nvidia.com: provide more background in commit message]
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+From: Jakub Kicinski <jakub.kicinski@netronome.com>
+Date: Sep/22/2019, 23:31:32 (UTC+00:00)
 
-And again with inux->mmc -> linux-mmc
+> On Fri, 20 Sep 2019 19:01:27 +0200, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > The size of individual pages in the page pool in given by an order. The
+> > order is the binary logarithm of the number of pages that make up one o=
+f
+> > the pages in the pool. However, the driver currently passes the number
+> > of pages rather than the order, so it ends up wasting quite a bit of
+> > memory.
+> >=20
+> > Fix this by taking the binary logarithm and passing that in the order
+> > field.
+> >=20
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+>=20
+> Since this is a fix could we get a Fixes tag pointing to the commit
+> which introduced the regression?
 
-Acked-by: Adrian Hunter <adrian.hunter@intel.com>
+This would be:
 
-> ---
->  drivers/mmc/host/sdhci-tegra.c | 48 ++++++++++++++++++++--------------
->  1 file changed, 28 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-> index 02d8f524bb9e..7bc950520fd9 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -4,6 +4,7 @@
->   */
->  
->  #include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
->  #include <linux/err.h>
->  #include <linux/module.h>
->  #include <linux/init.h>
-> @@ -104,6 +105,7 @@
->  
->  struct sdhci_tegra_soc_data {
->  	const struct sdhci_pltfm_data *pdata;
-> +	u64 dma_mask;
->  	u32 nvquirks;
->  	u8 min_tap_delay;
->  	u8 max_tap_delay;
-> @@ -1233,11 +1235,25 @@ static const struct cqhci_host_ops sdhci_tegra_cqhci_ops = {
->  	.update_dcmd_desc = sdhci_tegra_update_dcmd_desc,
->  };
->  
-> +static int tegra_sdhci_set_dma_mask(struct sdhci_host *host)
-> +{
-> +	struct sdhci_pltfm_host *platform = sdhci_priv(host);
-> +	struct sdhci_tegra *tegra = sdhci_pltfm_priv(platform);
-> +	const struct sdhci_tegra_soc_data *soc = tegra->soc_data;
-> +	struct device *dev = mmc_dev(host->mmc);
-> +
-> +	if (soc->dma_mask)
-> +		return dma_set_mask_and_coherent(dev, soc->dma_mask);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct sdhci_ops tegra_sdhci_ops = {
->  	.get_ro     = tegra_sdhci_get_ro,
->  	.read_w     = tegra_sdhci_readw,
->  	.write_l    = tegra_sdhci_writel,
->  	.set_clock  = tegra_sdhci_set_clock,
-> +	.set_dma_mask = tegra_sdhci_set_dma_mask,
->  	.set_bus_width = sdhci_set_bus_width,
->  	.reset      = tegra_sdhci_reset,
->  	.platform_execute_tuning = tegra_sdhci_execute_tuning,
-> @@ -1257,6 +1273,7 @@ static const struct sdhci_pltfm_data sdhci_tegra20_pdata = {
->  
->  static const struct sdhci_tegra_soc_data soc_data_tegra20 = {
->  	.pdata = &sdhci_tegra20_pdata,
-> +	.dma_mask = DMA_BIT_MASK(32),
->  	.nvquirks = NVQUIRK_FORCE_SDHCI_SPEC_200 |
->  		    NVQUIRK_ENABLE_BLOCK_GAP_DET,
->  };
-> @@ -1283,6 +1300,7 @@ static const struct sdhci_pltfm_data sdhci_tegra30_pdata = {
->  
->  static const struct sdhci_tegra_soc_data soc_data_tegra30 = {
->  	.pdata = &sdhci_tegra30_pdata,
-> +	.dma_mask = DMA_BIT_MASK(32),
->  	.nvquirks = NVQUIRK_ENABLE_SDHCI_SPEC_300 |
->  		    NVQUIRK_ENABLE_SDR50 |
->  		    NVQUIRK_ENABLE_SDR104 |
-> @@ -1295,6 +1313,7 @@ static const struct sdhci_ops tegra114_sdhci_ops = {
->  	.write_w    = tegra_sdhci_writew,
->  	.write_l    = tegra_sdhci_writel,
->  	.set_clock  = tegra_sdhci_set_clock,
-> +	.set_dma_mask = tegra_sdhci_set_dma_mask,
->  	.set_bus_width = sdhci_set_bus_width,
->  	.reset      = tegra_sdhci_reset,
->  	.platform_execute_tuning = tegra_sdhci_execute_tuning,
-> @@ -1316,6 +1335,7 @@ static const struct sdhci_pltfm_data sdhci_tegra114_pdata = {
->  
->  static const struct sdhci_tegra_soc_data soc_data_tegra114 = {
->  	.pdata = &sdhci_tegra114_pdata,
-> +	.dma_mask = DMA_BIT_MASK(32),
->  };
->  
->  static const struct sdhci_pltfm_data sdhci_tegra124_pdata = {
-> @@ -1325,22 +1345,13 @@ static const struct sdhci_pltfm_data sdhci_tegra124_pdata = {
->  		  SDHCI_QUIRK_NO_HISPD_BIT |
->  		  SDHCI_QUIRK_BROKEN_ADMA_ZEROLEN_DESC |
->  		  SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN,
-> -	.quirks2 = SDHCI_QUIRK2_PRESET_VALUE_BROKEN |
-> -		   /*
-> -		    * The TRM states that the SD/MMC controller found on
-> -		    * Tegra124 can address 34 bits (the maximum supported by
-> -		    * the Tegra memory controller), but tests show that DMA
-> -		    * to or from above 4 GiB doesn't work. This is possibly
-> -		    * caused by missing programming, though it's not obvious
-> -		    * what sequence is required. Mark 64-bit DMA broken for
-> -		    * now to fix this for existing users (e.g. Nyan boards).
-> -		    */
-> -		   SDHCI_QUIRK2_BROKEN_64_BIT_DMA,
-> +	.quirks2 = SDHCI_QUIRK2_PRESET_VALUE_BROKEN,
->  	.ops  = &tegra114_sdhci_ops,
->  };
->  
->  static const struct sdhci_tegra_soc_data soc_data_tegra124 = {
->  	.pdata = &sdhci_tegra124_pdata,
-> +	.dma_mask = DMA_BIT_MASK(34),
->  };
->  
->  static const struct sdhci_ops tegra210_sdhci_ops = {
-> @@ -1349,6 +1360,7 @@ static const struct sdhci_ops tegra210_sdhci_ops = {
->  	.write_w    = tegra210_sdhci_writew,
->  	.write_l    = tegra_sdhci_writel,
->  	.set_clock  = tegra_sdhci_set_clock,
-> +	.set_dma_mask = tegra_sdhci_set_dma_mask,
->  	.set_bus_width = sdhci_set_bus_width,
->  	.reset      = tegra_sdhci_reset,
->  	.set_uhs_signaling = tegra_sdhci_set_uhs_signaling,
-> @@ -1369,6 +1381,7 @@ static const struct sdhci_pltfm_data sdhci_tegra210_pdata = {
->  
->  static const struct sdhci_tegra_soc_data soc_data_tegra210 = {
->  	.pdata = &sdhci_tegra210_pdata,
-> +	.dma_mask = DMA_BIT_MASK(34),
->  	.nvquirks = NVQUIRK_NEEDS_PAD_CONTROL |
->  		    NVQUIRK_HAS_PADCALIB |
->  		    NVQUIRK_DIS_CARD_CLK_CONFIG_TAP |
-> @@ -1383,6 +1396,7 @@ static const struct sdhci_ops tegra186_sdhci_ops = {
->  	.read_w     = tegra_sdhci_readw,
->  	.write_l    = tegra_sdhci_writel,
->  	.set_clock  = tegra_sdhci_set_clock,
-> +	.set_dma_mask = tegra_sdhci_set_dma_mask,
->  	.set_bus_width = sdhci_set_bus_width,
->  	.reset      = tegra_sdhci_reset,
->  	.set_uhs_signaling = tegra_sdhci_set_uhs_signaling,
-> @@ -1398,20 +1412,13 @@ static const struct sdhci_pltfm_data sdhci_tegra186_pdata = {
->  		  SDHCI_QUIRK_NO_HISPD_BIT |
->  		  SDHCI_QUIRK_BROKEN_ADMA_ZEROLEN_DESC |
->  		  SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN,
-> -	.quirks2 = SDHCI_QUIRK2_PRESET_VALUE_BROKEN |
-> -		   /* SDHCI controllers on Tegra186 support 40-bit addressing.
-> -		    * IOVA addresses are 48-bit wide on Tegra186.
-> -		    * With 64-bit dma mask used for SDHCI, accesses can
-> -		    * be broken. Disable 64-bit dma, which would fall back
-> -		    * to 32-bit dma mask. Ideally 40-bit dma mask would work,
-> -		    * But it is not supported as of now.
-> -		    */
-> -		   SDHCI_QUIRK2_BROKEN_64_BIT_DMA,
-> +	.quirks2 = SDHCI_QUIRK2_PRESET_VALUE_BROKEN,
->  	.ops  = &tegra186_sdhci_ops,
->  };
->  
->  static const struct sdhci_tegra_soc_data soc_data_tegra186 = {
->  	.pdata = &sdhci_tegra186_pdata,
-> +	.dma_mask = DMA_BIT_MASK(40),
->  	.nvquirks = NVQUIRK_NEEDS_PAD_CONTROL |
->  		    NVQUIRK_HAS_PADCALIB |
->  		    NVQUIRK_DIS_CARD_CLK_CONFIG_TAP |
-> @@ -1424,6 +1431,7 @@ static const struct sdhci_tegra_soc_data soc_data_tegra186 = {
->  
->  static const struct sdhci_tegra_soc_data soc_data_tegra194 = {
->  	.pdata = &sdhci_tegra186_pdata,
-> +	.dma_mask = DMA_BIT_MASK(39),
->  	.nvquirks = NVQUIRK_NEEDS_PAD_CONTROL |
->  		    NVQUIRK_HAS_PADCALIB |
->  		    NVQUIRK_DIS_CARD_CLK_CONFIG_TAP |
-> 
+2af6106ae949 ("net: stmmac: Introducing support for Page Pool")
 
+Can you please resubmit Thierry ?
+
+---
+Thanks,
+Jose Miguel Abreu
