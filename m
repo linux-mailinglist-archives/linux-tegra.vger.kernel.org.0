@@ -2,147 +2,176 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65F33BAEE9
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 10:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C30C6BAF7A
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 10:27:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404239AbfIWIJc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Sep 2019 04:09:32 -0400
-Received: from smtprelay-out1.synopsys.com ([198.182.61.142]:46776 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388770AbfIWIJc (ORCPT
+        id S2406902AbfIWI0i (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Sep 2019 04:26:38 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8051 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406738AbfIWI0i (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Sep 2019 04:09:32 -0400
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C1B22C015A;
-        Mon, 23 Sep 2019 08:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1569226172; bh=gMQoXZAjeMul1SWCVJjbqxdJZii3yeUGcjfBbcduJJ4=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=gcZV2UOPmG7KkMW7ucEPMUgRjeP5cgsCeVopWWiLJdDAxH4+ziLKOcdndbsGP7Mvy
-         iKTHMv/5ZNqgLx91OPtlMaoFpk/WXrMu77STjDstk5cMpODfb4FuVimTkx1aVQH1cA
-         pUQirFv64B6VtLIAK0zZ+/7Tvx5i47YDzeAWjVrx4O7+cEiUJbME1t2MhKW+a18H3S
-         8ERJXaevGQPrh0xeZqH1DcSNYv4vu/UR0bshvJAnkRLx0Pqg7xzieSOuLF0LTsvcSY
-         VQw5v9BtXuRpJU+Gpo+q2K1CHoRXvkRfIGxt9ZMLZyUttHilJnVERZYH4pG7iYklRO
-         9K6kG2fkSII4g==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 9620AA006B;
-        Mon, 23 Sep 2019 08:09:29 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 23 Sep 2019 01:09:29 -0700
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com (10.13.134.195)
- by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Mon, 23 Sep 2019 01:09:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B+nGZFU0Z0Sz4dIUmw30g0lnwWd+p/q37cAgRpBWGh9q3LIP8lgkKi8LKG8aCqO7rD9Uw2ebFlg8V8klMLF0aHbSTiWf8R9ut1sNqbw3Pvlw5w2AyA+7ok7/TjzO9HLWj4SKhoksUV0gNzqFsnf96Vu8IHhT2VwbwcjP4N1QvZeigxC2Ey9uf/sMufwv11dNCnaWz9ME8U6gfXcZyw6DRX0C9/ig14RY2T2SNcqxyuKkbxA9ihIcFrgis27A3jviAM3PQkSLHdECRM5jiQ3xfV3/vLBUrAUputuTqq7gUXfMV8QAwB+McoP2IuFKzrel+59Ras2PhZACY45fFCDTuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gMQoXZAjeMul1SWCVJjbqxdJZii3yeUGcjfBbcduJJ4=;
- b=boqK2vLjpTKPipW+cDcZlqBTq/XzoSvIlP3gOceszbA20G/x+Q7j0WCCUMYDhgMyFx1+wuXcvbwR1UKondePMptUDaXmYbnYIu0m1O0Fc6pIt1FzXQV7V4usvgv3iTNKcJRKURvi71OY5Y0yRAnCXFoRtIiWPUHL13XV37GegTe1wpC9zRRu9mAOYr6z1ZFUfRTsqgOWN5D4boGncUeUgXFNUZ1f0FImtE0d6Vv+Gb/EM6BCIROfXMK7kwjeENK7Qn6+mzEGflMduc+o2XFzGBXu8Zwu9KjMPQk/6Ox0aud7t/218rfxy5jHt0CtF70WYuXXlolMrpY2CZXr1YCM9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gMQoXZAjeMul1SWCVJjbqxdJZii3yeUGcjfBbcduJJ4=;
- b=EI/hTkvj2EB9OHZybT6+N7bpr17GQRVxi4EXhmw3IMXTTb1haumo28uHE98mjW2okwy3/vrASTs3aQ3YT3obFLrtRRcXd0TD1u3TQ+cndhZ88nCl89nLpZucyDuCmywcSkUMZwCE7AsKoTPQI9DNja1386wBY2bEM8fqQjFuE5k=
-Received: from BN8PR12MB3266.namprd12.prod.outlook.com (20.179.67.145) by
- BN8PR12MB2963.namprd12.prod.outlook.com (20.178.208.85) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.26; Mon, 23 Sep 2019 08:09:27 +0000
-Received: from BN8PR12MB3266.namprd12.prod.outlook.com
- ([fe80::59fc:d942:487d:15b8]) by BN8PR12MB3266.namprd12.prod.outlook.com
- ([fe80::59fc:d942:487d:15b8%7]) with mapi id 15.20.2284.023; Mon, 23 Sep 2019
- 08:09:27 +0000
-From:   Jose Abreu <Jose.Abreu@synopsys.com>
-To:     Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     "David S . Miller" <davem@davemloft.net>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: RE: [PATCH] net: stmmac: Fix page pool size
-Thread-Topic: [PATCH] net: stmmac: Fix page pool size
-Thread-Index: AQHVb9UhqaJ1MxlM1UWEgbnFElZS1ac4S00AgAChIQA=
-Date:   Mon, 23 Sep 2019 08:09:27 +0000
-Message-ID: <BN8PR12MB32664D3109952EF5303464EFD3850@BN8PR12MB3266.namprd12.prod.outlook.com>
-References: <20190920170127.22850-1-thierry.reding@gmail.com>
- <20190922153132.0c328fe7@cakuba.netronome.com>
-In-Reply-To: <20190922153132.0c328fe7@cakuba.netronome.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=joabreu@synopsys.com; 
-x-originating-ip: [83.174.63.141]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8edac5e4-7de4-45e9-e462-08d73ffd5a76
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BN8PR12MB2963;
-x-ms-traffictypediagnostic: BN8PR12MB2963:
-x-microsoft-antispam-prvs: <BN8PR12MB2963536387BF393E8D86982DD3850@BN8PR12MB2963.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0169092318
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(39860400002)(346002)(366004)(396003)(136003)(199004)(189003)(476003)(446003)(486006)(11346002)(54906003)(33656002)(316002)(9686003)(81156014)(86362001)(81166006)(229853002)(4326008)(55016002)(4744005)(76116006)(305945005)(7416002)(8936002)(74316002)(66446008)(64756008)(66946007)(66556008)(110136005)(66476007)(25786009)(6436002)(66066001)(8676002)(5660300002)(256004)(14444005)(186003)(6506007)(6116002)(26005)(102836004)(3846002)(2906002)(6246003)(14454004)(7736002)(52536014)(478600001)(71200400001)(71190400001)(99286004)(76176011)(7696005);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR12MB2963;H:BN8PR12MB3266.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 8ZoPTu8k2RHvBtIwT/aCjdy4PkmPjD1x2rCeU77LeNguR73E/gVfkotISJL8BwVh3kYBo0jh5+UcQlUl9Yi02CNefVQ0no1CIfZsN4iVs5L9AFzMAgsdoHjQUxxiLqkGcdJF+wIlTJf2VQmkFdhp+7niw8cEo3EBajSbnYr30seFp6yjEmhsZNdFR7dZeENiFDQ4GCv1zArKZUqyZKrZz6S/KKASOrPmd5kvL1KxKgFzROZq7ozOlNwDp+EYRCXyM2Vyn5xX3wxmr9yzS8vYBEpWp6ch7BGA7U5DYwn6Arntqn5ykHJqEY0FQpeSjOGARzA+6sH1z4/zWbWrw6lbhdcYr8AunkzMNdzWrQgoCgsyP2tEAQULz/nFNgHaTPTzAq8kOndiPwwmwq3wSD/lbfVGfBSS12kk4CSqai2NsZk=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 23 Sep 2019 04:26:38 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d8881c20000>; Mon, 23 Sep 2019 01:26:42 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 23 Sep 2019 01:26:36 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 23 Sep 2019 01:26:36 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Sep
+ 2019 08:26:35 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 23 Sep 2019 08:26:35 +0000
+Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.65.118]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d8881b80002>; Mon, 23 Sep 2019 01:26:35 -0700
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: [Patch V10 0/8] Tegra XUSB gadget driver support
+Date:   Mon, 23 Sep 2019 13:55:44 +0530
+Message-ID: <1569227152-3030-1-git-send-email-nkristam@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8edac5e4-7de4-45e9-e462-08d73ffd5a76
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2019 08:09:27.1152
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kqA60izWfQNeT0AxcLlVPOOE+x62+Px1nTpB3Oc0eOGfJsT9EyE8I+VxFR8gULv7AQdKPy6CCx5Zf1P65xRRLA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2963
-X-OriginatorOrg: synopsys.com
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1569227202; bh=TQWUu3EvPEvMja19g0StMEbdSblEghIIYzuVtM1CCvs=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=gioQp35VTOkU8bF//Qv3L08/FaOc5Gf/sQYVTCKUmTwQ0qNq8Kz78LYxDqTasNjx1
+         h1TY2ztYb9IWh/Y4pE4Za6kSuMn3UCDqvZkTbqZ4v5MUlVxqEQsO/OZa9OvkwQBZ7C
+         FSlyFHQURQ7y3IAM3f8wrYmpfLdFNtTwX/v3Is7yQqEm743+gd/DugHa//r5hz1qWF
+         sYa5ohz9CYNc2OuAjZJx4h2EzW5BZjs+B9g8I2QgYdk1oYc7XMMMoHXCbVzOUowRTO
+         xdVXDIzcx7LoZOzxAthyv79dhUl2k/hmzJDUuAeA19gUIWhCx7ZLSOG4OyzSEJss+Y
+         PXDPVBTHQFl8A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Jakub Kicinski <jakub.kicinski@netronome.com>
-Date: Sep/22/2019, 23:31:32 (UTC+00:00)
+Patches 1-3 are phy driver changes to add support for device
+mode.
+Patches 4-7 are changes related to XUSB device mode
+controller driver.
+Patch 8 is to enable drivers for XUDC support in defconfig
 
-> On Fri, 20 Sep 2019 19:01:27 +0200, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > The size of individual pages in the page pool in given by an order. The
-> > order is the binary logarithm of the number of pages that make up one o=
-f
-> > the pages in the pool. However, the driver currently passes the number
-> > of pages rather than the order, so it ends up wasting quite a bit of
-> > memory.
-> >=20
-> > Fix this by taking the binary logarithm and passing that in the order
-> > field.
-> >=20
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
->=20
-> Since this is a fix could we get a Fixes tag pointing to the commit
-> which introduced the regression?
+Test Steps(USB 2.0):
+- Enable "USB Gadget precomposed configurations" in defconfig
+- Build, flash and boot Jetson TX1
+- Connect Jetson TX1 and Ubuntu device using USB A to Micro B
+  cable
+- After boot on Jetson TX1 terminal usb0 network device should be
+  enumerated
+- Assign static ip to usb0 on Jetson TX1 and corresponding net
+  device on ubuntu
+- Run ping test and transfer test(used scp) to check data transfer
+  communication
 
-This would be:
-
-2af6106ae949 ("net: stmmac: Introducing support for Page Pool")
-
-Can you please resubmit Thierry ?
-
+SS mode is verified by enabling Type A port as peripheral
 ---
-Thanks,
-Jose Miguel Abreu
+v10:
+* Patches 1,2,4,5,7,8 - No changes.
+* Patch 3 has braces added to one single line else condition.
+* Patch 6 has update on compatible string as per suggestion from Chunfeng.
+---
+v9:
+* Patches 1,2,3,4,5 - No changes.
+* Patch 6 has update on compatible string as per suggestion from Chunfeng.
+* Patch 7 has comment fixes as suggested by Chunfeng.
+* Patch 8 has CONFIG_USB_GPIO enabled as module additionally.
+---
+v8:
+* Patches 1,2,3,4,5,8 - No changes.
+* Patch 6 has update on compatible string as per change done in [1].
+* Patch 7 has issue fix, where device mode didnot got enabled after resume
+  from suspend.
+---
+v7:
+* Patches 1,2,3,4,5,6,8 - No changes.
+* Patch 7 - Comments from Balbi and Chunfun adrresed.
+  Added COMPILE_TEST in Kconfig and updated dependencies.
+---
+v6:
+* Patches 1,2,3,7,8 - No changes.
+* Patch 4,5,6 - Comments from Rob addressed, updated usb connector driver
+  compatibility string.
+---
+v5:
+* Patches 1-3 - Commit subject updated as per inputs from Thierry.
+* Patch 4 - Added reg-names used on Tegra210 in the bindings doc
+* Enabled xudc driver as module instead of part of kernel in patch 8.
+* Patched 5-8 - No changes.
+---
+v4:
+* patch 1 - no changes.
+* corrected companion device search based on inputs from Thierry in patch 2.
+* removed unneeded dev variable and corrected value read in
+  tegra210_utmi_port_reset function in patch 3.
+* dt binding doc and dtb files are corrected for alignments.
+  Replaced extcon-usb-gpio with usb role switch.
+* Added support for USB role switch instead of extcon-usb-gpio and other minor
+  comments as suggested by Chunfeng.
+* Enabled xudc driver as module instead of part of kernel in patch 8.
+---
+V3:
+* Rebased patch 1 to top of tree.
+* Fixed bug in patch 2, where xudc interrupts dont get generated if USB host
+  mode fails to probe. Moved fake port detection logic to generic xusb.c. fake
+  usb port data is updated based on soc flag need_fake_usb3_port.
+* Added extra lines whereever necessary to make code more readable in patch 3
+  and 7.
+* dt binding doc is corrected for typos and extcon references. Also added
+  details for clocks and removed xusb_ references to clock and power-domain
+  names and accordingly patch 5 is updated.
+* removed avdd-pll-utmip-supply in patch 6, as its now part of padctl driver.
+* Patch 8 has no changes.
+---
+V2:
+* Patches 1-3 are new patches in this series, which splits unified features
+  patch to speprated features and removes need of port-fake entry in DT.
+* Patch 4 is re-arragend dt-bindings patch which incorporates previous
+  patch comments to sort DT entries alphabetically, addresses name changes
+  and PM domain details added.
+* Patch 5-6 are re-arranged DT patches with major changes - sort entries
+  alphabetically, and adds clock names.
+* Patch 7 is UDC driver tegra XUSB device mode controller with major
+  changes - remove un-used module params, lockinng for device_mode flag,
+  moving un-needed info logs to debug level, making changes feature flag
+  dependent rather than SOC based macros and other error handling in probe.
+* Patch 8 has no changes.
+
+Nagarjuna Kristam (8):
+  phy: tegra: xusb: Add XUSB dual mode support on Tegra210
+  phy: tegra: xusb: Add usb3 port fake support on Tegra210
+  phy: tegra: xusb: Add vbus override support on Tegra210
+  dt-bindings: usb: Add NVIDIA Tegra XUSB device mode controller binding
+  arm64: tegra: Add xudc node for Tegra210
+  arm64: tegra: Enable xudc on Jetson TX1
+  usb: gadget: Add UDC driver for tegra XUSB device mode controller
+  arm64: defconfig: Enable tegra XUDC support
+
+ .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  |  110 +
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |   31 +-
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   19 +
+ arch/arm64/configs/defconfig                       |    2 +
+ drivers/phy/tegra/xusb-tegra210.c                  |  134 +-
+ drivers/phy/tegra/xusb.c                           |   87 +
+ drivers/phy/tegra/xusb.h                           |    4 +
+ drivers/usb/gadget/udc/Kconfig                     |   11 +
+ drivers/usb/gadget/udc/Makefile                    |    1 +
+ drivers/usb/gadget/udc/tegra-xudc.c                | 3787 ++++++++++++++++++++
+ include/linux/phy/tegra/xusb.h                     |    4 +-
+ 11 files changed, 4186 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
+ create mode 100644 drivers/usb/gadget/udc/tegra-xudc.c
+
+-- 
+2.7.4
+
