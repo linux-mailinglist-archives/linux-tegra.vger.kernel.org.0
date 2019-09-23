@@ -2,147 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 117AABB1B8
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 11:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2488BB1C8
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 11:59:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406969AbfIWJyF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Sep 2019 05:54:05 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:50181 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406222AbfIWJyF (ORCPT
+        id S2407473AbfIWJ7V (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Sep 2019 05:59:21 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:40224 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405009AbfIWJ7V (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Sep 2019 05:54:05 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 5so9147228wmg.0;
-        Mon, 23 Sep 2019 02:54:03 -0700 (PDT)
+        Mon, 23 Sep 2019 05:59:21 -0400
+Received: by mail-wm1-f65.google.com with SMTP id b24so8557448wmj.5;
+        Mon, 23 Sep 2019 02:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=D3NUSh4gFA6ywvkt5FGyz8+80/ol5tJ2yX4gabNO82A=;
-        b=Wc8S8qxg6MGJRlQbR9KQy7z1oSOJuQ3zvDTfNeUeh4qzgx51J+4j681xYFDehya9S0
-         +l6NL/xKoa33HF47AfZJlxKzDHxPHxSipuS6/AhULJ+LdYX5FmDp9JPaEpOpzUiIcf9K
-         mwB0eS7YyddlaJUNfChlHvMlLLxWS+9L9GhGFWHGJrAlmVvoLY/TMNiiOChpPlR+5X4F
-         i4iWxlIofgSKAxdaKF+2BBNW42EMkOqQhCweOqVyj/+JFQLJAphQvBhoU31d1VZhbQ+B
-         3nUQ6bPTDCrgGH6+vBrM8d2/w5mKK/Gx3XEuAO/ih1HVNRoZVpRAuoTsRrRCQi6Jqlfd
-         uMJw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pZat5lUolRKbSmxaPbyGXxDk1B7dZYPUSUq5sLmm1BQ=;
+        b=hUWQSES5Ny2aMoCeHoPOJHTls6VRirtd7g83AFcCswq6McQ4GLtm6ywiCqRvvJF8X8
+         kV6LcSvdKlYrUMSI/jFc5rrl82uenzGimh1grCiYylU+o00XZtRmirsQgdw5cJuELQd8
+         vXT7yqit1bfLPeqqB7OrKO5gLD5El39KoRsdIJJt+ZX07Z61pjYSKxOcm+6AefhGrIXN
+         fGzgELM4FVEc7XI9X4CyAiVodX60G3sTOC8GKexpCcIf7kerP3ZhWcz8QhhfG8LE0RpB
+         4I3VgwJWUmzlhJJgupK1WSHslnu4mqww8C8BYy5KxO5h+op8L6zJijngR1pR6f7+fR6t
+         2wgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=D3NUSh4gFA6ywvkt5FGyz8+80/ol5tJ2yX4gabNO82A=;
-        b=SLKwaDqd28k4wvmmM30nvhmUwlWcLuBDYQ6O8ZUl3bkkUY3MQiOEnK98+owiuIRXgX
-         jqB13erU+Bi17QdlzCIrjVnMVjEvtyF4jLGqtsNfI+HZiOMQRU3YndGRjXAMCET5pg7d
-         2C0yda4yvqoygC/IetgFKw3Xi8tI6QzBRYzriOj7JxZZTfm1zJdbhUxD5P+BxFUUuOXI
-         7rnIzJo28k12+8T53x8DnWP69KmTzgOg417M1T5oq6qbL2gbE7HMBhjB6HwCF53p2ZmR
-         LHOvL2HsxpP1gvLz/GAZoHOeLgGhuNTzp5Zdfw7ZmCU6XcrMPKlCwJpGnEJzjq7y1l7N
-         4ZqA==
-X-Gm-Message-State: APjAAAXL7rX6EzYZirHtEusxQjMOpe9Nw6S6zuuiMKDMYVtU2zAFyHK8
-        FkW9Ds6JXso1piaBLNegkMaxPHdg
-X-Google-Smtp-Source: APXvYqy7WAf6PL6leEqa+k56NuOAEH+aM7NPJmdKhDGgQtp6A0UqyRasZuB5nwVgtlcWqn3Q29EUKg==
-X-Received: by 2002:a05:600c:20e:: with SMTP id 14mr12604474wmi.73.1569232443011;
-        Mon, 23 Sep 2019 02:54:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pZat5lUolRKbSmxaPbyGXxDk1B7dZYPUSUq5sLmm1BQ=;
+        b=H+AIf8pJ+8vmp/GtrLEhpeylhywo4GFPrhDbssnPxHuO8fp667zd20hPlrM7jSTgXp
+         65kKtM4/nnCutm9D5X97M8IS6QEL4Y2/d5+jxI51vQ0LO6kH70Rt1Nf6z/t1AOvhGylp
+         or7urRehvqZPMXhtfkz44rOCo1lsIoHNRkcgOQ66gdRUi6y03phcJ+9VGqyNUkyL4wM3
+         SD1uaUiZuGiGUut2m3MQ3YAs+Ze7TO/ddkTf9iHIGLISSnEmBGl979RLpkJywIEKHONb
+         ec5Z7Mwn/7WjkDyPeipc250xYF28hhS6eztAB4rR8lIYwQngzBxiSNpnUXg+bjCqmSlx
+         LIeA==
+X-Gm-Message-State: APjAAAU+CbUQcEExnQ3VSLClP3NSX5PHtYfgqbTU0hSry7RKGFX+a/zm
+        1h3PsCy8nkAy+z/mM2SDn3s=
+X-Google-Smtp-Source: APXvYqxxCZUafviZ7h5BmtmdIFCNc6ycWGOFv3lEZWRlsrhIUMvFD8zg/JW4je9birbP9Sc/TmdMCg==
+X-Received: by 2002:a1c:7418:: with SMTP id p24mr12409366wmc.132.1569232757976;
+        Mon, 23 Sep 2019 02:59:17 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id h17sm6186285wmb.33.2019.09.23.02.54.01
+        by smtp.gmail.com with ESMTPSA id t6sm16422059wmf.8.2019.09.23.02.59.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2019 02:54:01 -0700 (PDT)
-Date:   Mon, 23 Sep 2019 11:54:00 +0200
+        Mon, 23 Sep 2019 02:59:16 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>, linux-gpio@vger.kernel.org,
+To:     "David S . Miller" <davem@davemloft.net>
+Cc:     Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Jakub Kicinski <jakub.kicinski@netronome.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, netdev@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] pinctrl: tegra: Use of_device_get_match_data()
-Message-ID: <20190923095400.GA11084@ulmo>
-References: <20190923093637.27968-1-thierry.reding@gmail.com>
+Subject: [PATCH net-next] net: stmmac: Fix page pool size
+Date:   Mon, 23 Sep 2019 11:59:15 +0200
+Message-Id: <20190923095915.11588-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="XsQoSWH+UP9D9v3l"
-Content-Disposition: inline
-In-Reply-To: <20190923093637.27968-1-thierry.reding@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
---XsQoSWH+UP9D9v3l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The size of individual pages in the page pool in given by an order. The
+order is the binary logarithm of the number of pages that make up one of
+the pages in the pool. However, the driver currently passes the number
+of pages rather than the order, so it ends up wasting quite a bit of
+memory.
 
-On Mon, Sep 23, 2019 at 11:36:37AM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> Use the of_device_get_match_data() helper instead of open-coding.
->=20
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/pinctrl/tegra/pinctrl-tegra-xusb.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+Fix this by taking the binary logarithm and passing that in the order
+field.
 
-Actually, scratch that. We can't do this because the match table is
-different for the legacy case from what the new PHY driver uses which
-calls this only for the legacy case. Instead, I'd propose the attached
-patch.
-
-Thierry
-
---- >8 ---
-=46rom 6c96f18a2608b21d178007c97337400b788c3f9e Mon Sep 17 00:00:00 2001
-=46rom: Thierry Reding <treding@nvidia.com>
-Date: Mon, 23 Sep 2019 11:47:25 +0200
-Subject: [PATCH] pinctrl: tegra: xusb: Add note about legacy status
-
-Add a comment about why the call to of_match_node() cannot be replaced
-by of_device_get_match_data(). This will hopefully prevent people from
-attempting to clean this up in the future.
-
+Fixes: 2af6106ae949 ("net: stmmac: Introducing support for Page Pool")
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/pinctrl/tegra/pinctrl-tegra-xusb.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pinctrl/tegra/pinctrl-tegra-xusb.c b/drivers/pinctrl/t=
-egra/pinctrl-tegra-xusb.c
-index 95002e3ecaff..f2fa1f76ebb7 100644
---- a/drivers/pinctrl/tegra/pinctrl-tegra-xusb.c
-+++ b/drivers/pinctrl/tegra/pinctrl-tegra-xusb.c
-@@ -885,6 +885,12 @@ int tegra_xusb_padctl_legacy_probe(struct platform_dev=
-ice *pdev)
- 	mutex_init(&padctl->lock);
- 	padctl->dev =3D &pdev->dev;
-=20
-+	/*
-+	 * Note that we can't replace this by of_device_get_match_data()
-+	 * because we need the separate matching table for this legacy code on
-+	 * Tegra124. of_device_get_match_data() would attempt to use the table
-+	 * from the updated driver and fail.
-+	 */
- 	match =3D of_match_node(tegra_xusb_padctl_of_match, pdev->dev.of_node);
- 	padctl->soc =3D match->data;
-=20
---=20
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index ecd461207dbc..f8c90dba6db8 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -1550,13 +1550,15 @@ static int alloc_dma_rx_desc_resources(struct stmmac_priv *priv)
+ 	for (queue = 0; queue < rx_count; queue++) {
+ 		struct stmmac_rx_queue *rx_q = &priv->rx_queue[queue];
+ 		struct page_pool_params pp_params = { 0 };
++		unsigned int num_pages;
+ 
+ 		rx_q->queue_index = queue;
+ 		rx_q->priv_data = priv;
+ 
+ 		pp_params.flags = PP_FLAG_DMA_MAP;
+ 		pp_params.pool_size = DMA_RX_SIZE;
+-		pp_params.order = DIV_ROUND_UP(priv->dma_buf_sz, PAGE_SIZE);
++		num_pages = DIV_ROUND_UP(priv->dma_buf_sz, PAGE_SIZE);
++		pp_params.order = ilog2(num_pages);
+ 		pp_params.nid = dev_to_node(priv->device);
+ 		pp_params.dev = priv->device;
+ 		pp_params.dma_dir = DMA_FROM_DEVICE;
+-- 
 2.23.0
 
-
---XsQoSWH+UP9D9v3l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2IljUACgkQ3SOs138+
-s6GMyhAAnMU6OG3FW7Tn+QwPqlQRsCYzbOmtI7su4dFQyVczPNKbAB6K7Qrzel0p
-eSX4LXgGvZApUklIAz5bUg3YOs6XqVsrjyrftVHqVT72ZgonRgm56eawAF1px0AF
-Kr9VtZZYP3mj866Q6RLq+l7OwfSBiHz/HzC/xrqPOx8b7Dpypyd2CSAmaD5baxjX
-gZ2d4lCxItdLyMTPzYOlgSwBlkn/uOZiLe9So/KIhcIrxJEywNmAgdyDgsk8MRvB
-wLKzDuKjleNkc88DxW0S1tvv1oGTDcmz17DICegBCHMDq1GDs4v2a0lmrVtQlytN
-YPi1RcmN+m9s/dCg54TVRf2H/fnD+r34+cSissNlXP1Fvl3RcNopq/NKOGyixHiY
-5P5Mgi8dTBSLp2UGBThawXAbhCGLqac4ebGZ451RTfS0FuW3CiFavx9uflFT9I+2
-cH9XkVSIdZhiUQShuoJIl83lcPn8llmhqkAiW3CR8/T5hlDpJCycsGAQcjR6Dtjk
-66WC4la8WrdTLbfQVlw96q6IZ1Bz+u0nJpB+yx7pGQUkUHU75w8LEHBGJKH1HMUy
-2OWk3Hdh0wZNdfyMaUPFs6USdWe+Jz6SwtkCmdDfsCgcGikeLNvjg0B3M7aECfuu
-hZ9f3/X+kpJlXRfc9TpcTx5Ez2GvPrLI0Z9JKYTY1EQZHKWQjfs=
-=/GeM
------END PGP SIGNATURE-----
-
---XsQoSWH+UP9D9v3l--
