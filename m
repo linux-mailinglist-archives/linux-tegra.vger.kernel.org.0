@@ -2,101 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E477EBB975
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 18:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF94DBB9B9
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 18:37:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388829AbfIWQUd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Sep 2019 12:20:33 -0400
-Received: from imap1.codethink.co.uk ([176.9.8.82]:51739 "EHLO
-        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389055AbfIWQUc (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Sep 2019 12:20:32 -0400
-Received: from [167.98.27.226] (helo=rainbowdash.codethink.co.uk)
-        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
-        id 1iCR4e-0001EU-IU; Mon, 23 Sep 2019 17:20:28 +0100
-Received: from ben by rainbowdash.codethink.co.uk with local (Exim 4.92.2)
-        (envelope-from <ben@rainbowdash.codethink.co.uk>)
-        id 1iCR4d-0003to-V1; Mon, 23 Sep 2019 17:20:27 +0100
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-To:     linux-tegra@vger.kernel.org, alsa-devel@alsa-project.org,
-        Jaroslav Kysela <perex@perex.cz>,
+        id S2389229AbfIWQhr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Sep 2019 12:37:47 -0400
+Received: from mga09.intel.com ([134.134.136.24]:3120 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389067AbfIWQhr (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 23 Sep 2019 12:37:47 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Sep 2019 09:37:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,541,1559545200"; 
+   d="scan'208";a="213380596"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga004.fm.intel.com with ESMTP; 23 Sep 2019 09:37:44 -0700
+Received: from aabousam-mobl1.amr.corp.intel.com (aabousam-mobl1.amr.corp.intel.com [10.251.27.167])
+        by linux.intel.com (Postfix) with ESMTP id BF8F65803E4;
+        Mon, 23 Sep 2019 09:37:43 -0700 (PDT)
+Subject: Re: [alsa-devel] [PATCH v2 2/7] ASoC: tegra: Allow 24bit and 32bit
+ samples
+To:     Ben Dooks <ben.dooks@codethink.co.uk>, linux-tegra@vger.kernel.org,
+        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
         Takashi Iwai <tiwai@suse.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
 Cc:     linux-kernel@lists.codethink.co.uk,
-        Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: [PATCH v2 7/7] ASoC: tegra: take packing settings from the audio cif_config
-Date:   Mon, 23 Sep 2019 17:20:26 +0100
-Message-Id: <20190923162026.14882-8-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190923162026.14882-1-ben.dooks@codethink.co.uk>
+        Edward Cragg <edward.cragg@codethink.co.uk>
 References: <20190923162026.14882-1-ben.dooks@codethink.co.uk>
+ <20190923162026.14882-3-ben.dooks@codethink.co.uk>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Message-ID: <ef013678-01b7-cae6-72f4-a619be428ad5@linux.intel.com>
+Date:   Mon, 23 Sep 2019 11:37:43 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190923162026.14882-3-ben.dooks@codethink.co.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-If the CIF is not configured as 16 or 8 bit, then the
-packing for 8/16 bits should not be enabled as the
-hardware only supports 8 or 16 bit packing.
 
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
----
- sound/soc/tegra/tegra30_ahub.c | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+> @@ -283,6 +294,7 @@ static int tegra30_i2s_set_tdm(struct snd_soc_dai *dai,
+>   		(1 - 1) << TEGRA30_I2S_CH_CTRL_FSYNC_WIDTH_SHIFT);
+>   	pm_runtime_put(dai->dev);
+>   
+> +	pm_runtime_put(dai->dev);
+>   	return 0;
+>   }
 
-diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
-index 58e05ceb86da..c2f2e29dd32e 100644
---- a/sound/soc/tegra/tegra30_ahub.c
-+++ b/sound/soc/tegra/tegra30_ahub.c
-@@ -96,10 +96,17 @@ int tegra30_ahub_setup_rx_fifo(enum tegra30_ahub_rxcif rxcif,
- 	      (channel * TEGRA30_AHUB_CHANNEL_CTRL_STRIDE);
- 	val = tegra30_apbif_read(reg);
- 	val &= ~(TEGRA30_AHUB_CHANNEL_CTRL_RX_THRESHOLD_MASK |
--		 TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_MASK);
--	val |= (7 << TEGRA30_AHUB_CHANNEL_CTRL_RX_THRESHOLD_SHIFT) |
--	       TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_EN |
--	       TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_16;
-+		 TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_MASK |
-+		 TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_EN);
-+	val |= (7 << TEGRA30_AHUB_CHANNEL_CTRL_RX_THRESHOLD_SHIFT);
-+	if (cif_conf->audio_bits == TEGRA30_AUDIOCIF_BITS_16 ||
-+	    cif_conf->audio_bits == TEGRA30_AUDIOCIF_BITS_8)
-+		val |= TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_EN;
-+	if (cif_conf->audio_bits == TEGRA30_AUDIOCIF_BITS_16)
-+		val |= TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_16;
-+	if (cif_conf->audio_bits == TEGRA30_AUDIOCIF_BITS_8)
-+		val |= TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_8_4;
-+
- 	tegra30_apbif_write(reg, val);
- 
- 	cif_conf->direction = TEGRA30_AUDIOCIF_DIRECTION_RX;
-@@ -203,10 +210,16 @@ int tegra30_ahub_setup_tx_fifo(enum tegra30_ahub_txcif txcif,
- 	      (channel * TEGRA30_AHUB_CHANNEL_CTRL_STRIDE);
- 	val = tegra30_apbif_read(reg);
- 	val &= ~(TEGRA30_AHUB_CHANNEL_CTRL_TX_THRESHOLD_MASK |
--		 TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_MASK);
--	val |= (7 << TEGRA30_AHUB_CHANNEL_CTRL_TX_THRESHOLD_SHIFT) |
--	       TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_EN |
--	       TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_16;
-+		 TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_MASK |
-+		 TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_EN);
-+	val |= (7 << TEGRA30_AHUB_CHANNEL_CTRL_TX_THRESHOLD_SHIFT);
-+	if (cif_conf->audio_bits == TEGRA30_AUDIOCIF_BITS_16 ||
-+	    cif_conf->audio_bits == TEGRA30_AUDIOCIF_BITS_8)
-+		val |= TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_EN;
-+	if (cif_conf->audio_bits == TEGRA30_AUDIOCIF_BITS_16)
-+		val |= TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_16;
-+	if (cif_conf->audio_bits == TEGRA30_AUDIOCIF_BITS_8)
-+		val |= TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_8_4;
- 	tegra30_apbif_write(reg, val);
- 
- 	cif_conf->direction = TEGRA30_AUDIOCIF_DIRECTION_TX;
--- 
-2.23.0
-
+git squash/merge issue here?
