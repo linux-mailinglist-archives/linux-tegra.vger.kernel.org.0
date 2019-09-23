@@ -2,137 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48EEEBBA6B
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 19:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14C95BBE2E
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Sep 2019 23:55:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437718AbfIWR15 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Sep 2019 13:27:57 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38473 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389338AbfIWR15 (ORCPT
+        id S2503188AbfIWVzk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Sep 2019 17:55:40 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:42855 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387520AbfIWVzj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Sep 2019 13:27:57 -0400
-Received: by mail-lj1-f196.google.com with SMTP id b20so9156916ljj.5;
-        Mon, 23 Sep 2019 10:27:53 -0700 (PDT)
+        Mon, 23 Sep 2019 17:55:39 -0400
+Received: by mail-ua1-f68.google.com with SMTP id r19so4860521uap.9
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Sep 2019 14:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Ynd2Huq/W1JVW4gwoa1s+Sns1ACUyaWf0IT0B4FOulY=;
-        b=uR4Tos2pgCCsXD8pWPJOv3IBomp+UsSW614q3eidHlx92imCTEi85ptduWUDMapBjc
-         a2kKOefmKPtJYpFtkrpCf+FXC0vt4qjM+GSR00hqupIN/ijRF9VhmTOGazn8K2QH5dp4
-         sqB3o2JWA1qWOl1NHgmgpHRd1OhesrCLgXBxastTwNQ+LD90n/4fv25aziWAQnlFobGU
-         8erPNpVaq7r1zraLzgVqZ4JnJpvgdkofQ6xc6UkhM4UhSOCKtvpGkllc3NmHviWMM3u1
-         aM1Bj/qqfxGVCwn0mf1awhWr0l3xjI2xp3g0N1a187VGjv/VK1G6H7sJzyPFv8PO45RQ
-         aNxQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=chLsHS+rww9VOJ+4+ZlUrIcMk6ujc1iz91pxKfVDj2o=;
+        b=GbKasonaukEyeDSvZqImXsXhF7FEcJBm73IYysk8tlqhlP6TkMQ/xuz7I2EseiYpxd
+         L/EW0QscQOPSN3Io/npZLMX9Af8DT2QImi8Hm/wEmwDltLawSzwb2T7+a6ZErr9GTn1P
+         W24s+aK00wH3V1RHTPHSAsRollbU4NJkycO1r7ZzlxT3ndyejn8k5bpPoGphIn9RlWR3
+         /RgUt0eIOXLrV1aSraWwz7jzj+DBCvlP5iY4mD5rzZY4aJt+skBkxEtVmEdWueG0a7XJ
+         QSAycBjBZPLXZXOhNfcghQY/2Mh/pP5udRMCFu3k88Moyeub3a3xQgjQcBZTxGlCHKmf
+         YVkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Ynd2Huq/W1JVW4gwoa1s+Sns1ACUyaWf0IT0B4FOulY=;
-        b=uRaYwmVkkbL5GuDDPk9T3/l1ZYgAz31RlSlc6kBAP/8PkIQB8fwshi/qLLU/yrHiKR
-         I2J1anatRIAsuZScw96mp7IOzmquOfGDn+s/q9xeJcBEHkVMUV8uKPB2Nsa73FzPwW8N
-         0dEglh+3gu3FighmFvV+OknJEE4x7rsLG2aepPSRYn30sqWOI+fGS2qfKxr5s+Y7TogN
-         J1KDn9xQkBClexHXbzrO7/QQCA9K7YptpZIjk83jPHxCAghMA2I0qtxraY3lJsMgGBQL
-         BYmzdB/ZfQc3J4z6tngdXXpc3ABAaqd5W5IU7B26unkmxFa8qkO3fYtWIfsMXjImCIN3
-         Tk8A==
-X-Gm-Message-State: APjAAAXNAlXslDtKzG3BzAZ6+2UAU/zqGPlrgLsyDGoERYVKK+4slwxj
-        je3E9frhzia7zdTwPkmGlpIgHYn3
-X-Google-Smtp-Source: APXvYqxTC9/fZLOhVSWwi3ml6goC4lcaHDI+ml5SYAhK5B9bK/99xXzQwN3pd1bpWnMfcc6dL2sBfw==
-X-Received: by 2002:a2e:b4c4:: with SMTP id r4mr302405ljm.69.1569259672854;
-        Mon, 23 Sep 2019 10:27:52 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-32-67.pppoe.spdop.ru. [94.29.32.67])
-        by smtp.googlemail.com with ESMTPSA id r5sm2338437lfc.85.2019.09.23.10.27.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 23 Sep 2019 10:27:52 -0700 (PDT)
-Subject: Re: [PATCH V7 5/7] cpufreq: Register notifiers with the PM QoS
- framework
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Rafael Wysocki <rjw@rjwysocki.net>, linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>, mka@chromium.org,
-        ulf.hansson@linaro.org, sfr@canb.auug.org.au, pavel@ucw.cz,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <5ad2624194baa2f53acc1f1e627eb7684c577a19.1562210705.git.viresh.kumar@linaro.org>
- <2c7a751a58adb4ce6f345dab9714b924504009b6.1562583394.git.viresh.kumar@linaro.org>
- <a1c503a7-6136-a405-369c-596a680183f2@gmail.com>
- <20190923135654.wcsdl5jdzxqeht3l@vireshk-mac-ubuntu>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <16bfccc5-36d5-3050-fd8d-5bce59e2d7b3@gmail.com>
-Date:   Mon, 23 Sep 2019 20:27:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=chLsHS+rww9VOJ+4+ZlUrIcMk6ujc1iz91pxKfVDj2o=;
+        b=ZSPXT0u/UF3fEqjgThaOCHQuvWjATRLVzQvvBGNMUggda/RvpvEG8bwMTD8GFjC5Ym
+         OffmrQpMOMD8BrLJTJ1r7zSAEsPzFNfH5tp/QEDbvq4uzZtV/GWl4LAYeXwKHx4I+udo
+         9TmoUOSTu3VVcfX8sONNP5WdzxICyCkhpEX7jtUSar0ZZFIVpO0p8dGVEGDUSNc7Vvgf
+         7y4qa6kW0esbCqO614xzIQgL1u3HxetcdS60TBzdrX1zN9Foa++io5fVdDRJmvXNHKKw
+         Hj6Z2K5C2ydTIjWPZunOUBgGlICpvoCqAVJJUuc/y04U0+n6CBl7xWS1GQiKB4bIU7ga
+         vMlw==
+X-Gm-Message-State: APjAAAWAuq0ner5Y2DDc77H91DIZNYCFr25vTLJ7nBqKeLv/14P8vD9l
+        4O6UWnenlIKQeI30LiblQyW8StM1lqdOoDETO621dA==
+X-Google-Smtp-Source: APXvYqz4iIXGmMQ7GQjPHlkyIOceqOjMc/9i2txQuv+z91S0r9kbY9dAZcF9aKFJmhskeZv/2NJ8LqrNj6K21Jk4KA8=
+X-Received: by 2002:ab0:d8f:: with SMTP id i15mr13181uak.15.1569275737172;
+ Mon, 23 Sep 2019 14:55:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190923135654.wcsdl5jdzxqeht3l@vireshk-mac-ubuntu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190923100810.12698-1-thierry.reding@gmail.com>
+In-Reply-To: <20190923100810.12698-1-thierry.reding@gmail.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Mon, 23 Sep 2019 23:55:01 +0200
+Message-ID: <CAPDyKForzWMVVWRNRk6dhTVt-13M11=vktBJn8Rzxk0yZtNJNA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] mmc: sdhci: Let drivers define their DMA mask
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Adrian Hunter <adrian.hunter@intel.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.09.2019 16:56, Viresh Kumar пишет:
-> On 22-09-19, 23:12, Dmitry Osipenko wrote:
->> This patch causes use-after-free on a cpufreq driver module reload. Please take a look, thanks in advance.
->>
->>
->> [   87.952369] ==================================================================
->> [   87.953259] BUG: KASAN: use-after-free in notifier_chain_register+0x4f/0x9c
->> [   87.954031] Read of size 4 at addr e6abbd0c by task modprobe/243
->>
->> [   87.954901] CPU: 1 PID: 243 Comm: modprobe Tainted: G        W
->> 5.3.0-next-20190920-00185-gf61698eab956-dirty #2408
->> [   87.956077] Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
->> [   87.956807] [<c0110aad>] (unwind_backtrace) from [<c010bb71>] (show_stack+0x11/0x14)
->> [   87.957709] [<c010bb71>] (show_stack) from [<c0d37b25>] (dump_stack+0x89/0x98)
->> [   87.958616] [<c0d37b25>] (dump_stack) from [<c02937e1>]
->> (print_address_description.constprop.0+0x3d/0x340)
->> [   87.959785] [<c02937e1>] (print_address_description.constprop.0) from [<c0293c6b>]
->> (__kasan_report+0xe3/0x12c)
->> [   87.960907] [<c0293c6b>] (__kasan_report) from [<c014988f>] (notifier_chain_register+0x4f/0x9c)
->> [   87.962001] [<c014988f>] (notifier_chain_register) from [<c01499b5>]
->> (blocking_notifier_chain_register+0x29/0x3c)
->> [   87.963180] [<c01499b5>] (blocking_notifier_chain_register) from [<c06f7ee9>]
->> (dev_pm_qos_add_notifier+0x79/0xf8)
->> [   87.964339] [<c06f7ee9>] (dev_pm_qos_add_notifier) from [<c092927d>] (cpufreq_online+0x5e1/0x8a4)
-> 
-> Hi Dmitry,
-> 
-> Unfortunately I am traveling right now and can't test this stuff, though I may
-> have found the root cause here. Can you please test the below diff for me ?
-> 
-> diff --git a/drivers/base/power/qos.c b/drivers/base/power/qos.c
-> index 6c90fd7e2ff8..9ac244ee05fe 100644
-> --- a/drivers/base/power/qos.c
-> +++ b/drivers/base/power/qos.c
-> @@ -328,6 +328,8 @@ void dev_pm_qos_constraints_destroy(struct device *dev)
->         spin_unlock_irq(&dev->power.lock);
->  
->         kfree(qos->resume_latency.notifiers);
-> +       kfree(qos->min_frequency.notifiers);
-> +       kfree(qos->max_frequency.notifiers);
->         kfree(qos);
->  
->   out:
-> 
+On Mon, 23 Sep 2019 at 12:08, Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> From: Adrian Hunter <adrian.hunter@intel.com>
+>
+> Add host operation ->set_dma_mask() so that drivers can define their own
+> DMA masks.
+>
+> Signed-off-by: Adrian Hunter <adrian.hunter@intel.com>
+> Tested-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 
-Doesn't help. The use-after-free bugs are usually caused by a missing
-NULL assignment after kfree(), like in this snippet:
+Applied for fixes and adding a stable tag, thanks!
 
-	..
-	if (!a)
-		a = kmalloc();
-	..
-	kfree(a);
-	// a = NULL    <-- missing!
-	..
+Kind regards
+Uffe
 
-I briefly looked through the code and don't see anything obviously
-wrong. The bug isn't critical since unlikely that somebody reloads
-cpufreq module for a non-development purposes, so it's not a big deal
-and can wait. Please take your time.
 
-I also want to point out that kernel crashes after second module reload,
-hence the KASAN report should be valid.
+> ---
+> Changes in v2:
+> - add Tested-by tag from Nicolin
+>
+>  drivers/mmc/host/sdhci.c | 12 ++++--------
+>  drivers/mmc/host/sdhci.h |  1 +
+>  2 files changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/mmc/host/sdhci.c b/drivers/mmc/host/sdhci.c
+> index d814dc004bad..cf38ff09bef0 100644
+> --- a/drivers/mmc/host/sdhci.c
+> +++ b/drivers/mmc/host/sdhci.c
+> @@ -3782,18 +3782,14 @@ int sdhci_setup_host(struct sdhci_host *host)
+>                 host->flags &= ~SDHCI_USE_ADMA;
+>         }
+>
+> -       /*
+> -        * It is assumed that a 64-bit capable device has set a 64-bit DMA mask
+> -        * and *must* do 64-bit DMA.  A driver has the opportunity to change
+> -        * that during the first call to ->enable_dma().  Similarly
+> -        * SDHCI_QUIRK2_BROKEN_64_BIT_DMA must be left to the drivers to
+> -        * implement.
+> -        */
+>         if (sdhci_can_64bit_dma(host))
+>                 host->flags |= SDHCI_USE_64_BIT_DMA;
+>
+>         if (host->flags & (SDHCI_USE_SDMA | SDHCI_USE_ADMA)) {
+> -               ret = sdhci_set_dma_mask(host);
+> +               if (host->ops->set_dma_mask)
+> +                       ret = host->ops->set_dma_mask(host);
+> +               else
+> +                       ret = sdhci_set_dma_mask(host);
+>
+>                 if (!ret && host->ops->enable_dma)
+>                         ret = host->ops->enable_dma(host);
+> diff --git a/drivers/mmc/host/sdhci.h b/drivers/mmc/host/sdhci.h
+> index cf3d1ed91909..61018e7fb0b6 100644
+> --- a/drivers/mmc/host/sdhci.h
+> +++ b/drivers/mmc/host/sdhci.h
+> @@ -623,6 +623,7 @@ struct sdhci_ops {
+>
+>         u32             (*irq)(struct sdhci_host *host, u32 intmask);
+>
+> +       int             (*set_dma_mask)(struct sdhci_host *host);
+>         int             (*enable_dma)(struct sdhci_host *host);
+>         unsigned int    (*get_max_clock)(struct sdhci_host *host);
+>         unsigned int    (*get_min_clock)(struct sdhci_host *host);
+> --
+> 2.23.0
+>
