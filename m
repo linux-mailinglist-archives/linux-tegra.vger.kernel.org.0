@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C171BCFFF
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Sep 2019 19:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15122BCEBF
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Sep 2019 19:00:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730146AbfIXRCS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 24 Sep 2019 13:02:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32918 "EHLO mail.kernel.org"
+        id S2410382AbfIXQr2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 24 Sep 2019 12:47:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38666 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391830AbfIXQoC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 24 Sep 2019 12:44:02 -0400
+        id S2404432AbfIXQr1 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 24 Sep 2019 12:47:27 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 836E420872;
-        Tue, 24 Sep 2019 16:44:00 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F3E1621971;
+        Tue, 24 Sep 2019 16:47:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569343441;
-        bh=QEzS84l9KQQJCNWHSl88ZGBwPCWjjxkz8jzDybGM6bc=;
+        s=default; t=1569343646;
+        bh=qoBK0hkdFsiiVxNDcmUlZav7h8iEpyyiNs7p2aJpotQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Lg4eoKIGkblfjDyFOHQipst1rzXjtu/I/QJKmc4n+isuLf68mHQYcYRUAlODCXvlT
-         8MfcsL6rTE7kTgfu/HfnfTTwelC3FqSHkXymXiioz6zhzij4uMt/xC+kqZ7ff4p6cD
-         WigQ73K+jlZMQovpkPNY5W2DHpmYE5uV4BkHBmDQ=
+        b=IClMHtgQVAq5Ol1MRWNn5R2VV5OPmZDR3wseL2JhndkcxPjFQCyx9Q+gn7Dd1lvb0
+         QS48xHyVmTaPKPbIU3sM8XClK0HmAhEV2I+saAEKtgChs/bL4Rm42Vq068H5d0TAtE
+         NbTo4I1PSCcko7tH8ak0RkEMS9zXnOHPmQlUOGtw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
@@ -31,12 +31,12 @@ Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         Sasha Levin <sashal@kernel.org>, linux-gpio@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 50/87] pinctrl: tegra: Fix write barrier placement in pmx_writel
-Date:   Tue, 24 Sep 2019 12:41:06 -0400
-Message-Id: <20190924164144.25591-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 39/70] pinctrl: tegra: Fix write barrier placement in pmx_writel
+Date:   Tue, 24 Sep 2019 12:45:18 -0400
+Message-Id: <20190924164549.27058-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190924164144.25591-1-sashal@kernel.org>
-References: <20190924164144.25591-1-sashal@kernel.org>
+In-Reply-To: <20190924164549.27058-1-sashal@kernel.org>
+References: <20190924164549.27058-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -68,7 +68,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegra/pinctrl-tegra.c
-index 186ef98e7b2b8..f1b523beec5b3 100644
+index abcfbad94f00e..849c3b34e887c 100644
 --- a/drivers/pinctrl/tegra/pinctrl-tegra.c
 +++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
 @@ -32,7 +32,9 @@ static inline u32 pmx_readl(struct tegra_pmx *pmx, u32 bank, u32 reg)
