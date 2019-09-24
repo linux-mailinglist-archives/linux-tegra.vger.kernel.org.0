@@ -2,57 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40388BD2F8
-	for <lists+linux-tegra@lfdr.de>; Tue, 24 Sep 2019 21:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF6F7BD4BD
+	for <lists+linux-tegra@lfdr.de>; Tue, 24 Sep 2019 23:59:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730923AbfIXTpN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 24 Sep 2019 15:45:13 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:55714 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726251AbfIXTpN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 24 Sep 2019 15:45:13 -0400
-Received: from localhost (231-157-167-83.reverse.alphalink.fr [83.167.157.231])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 76778153C42C5;
-        Tue, 24 Sep 2019 12:45:10 -0700 (PDT)
-Date:   Tue, 24 Sep 2019 21:45:08 +0200 (CEST)
-Message-Id: <20190924.214508.1949579574079200671.davem@davemloft.net>
-To:     thierry.reding@gmail.com
-Cc:     peppe.cavallaro@st.com, alexandre.torgue@st.com,
-        joabreu@synopsys.com, f.fainelli@gmail.com, jonathanh@nvidia.com,
-        bbiswas@nvidia.com, netdev@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] net: stmmac: Enhanced addressing mode for DWMAC
- 4.10
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20190920170036.22610-1-thierry.reding@gmail.com>
-References: <20190920170036.22610-1-thierry.reding@gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 26.2
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 24 Sep 2019 12:45:12 -0700 (PDT)
+        id S2633608AbfIXV7e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 24 Sep 2019 17:59:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60378 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387723AbfIXV7d (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 24 Sep 2019 17:59:33 -0400
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6156D217D7;
+        Tue, 24 Sep 2019 21:59:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569362372;
+        bh=7EnBQLGJXbJ0krx6sf9eAXMt0SpVcFYHvJ4Ffxc+GEI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZUjBfJ5y+ysHUqZVHvVQV6vmXEF5m5l7X/D3o8MMo6T+fnXCBe1Len91UdIVSmNm8
+         1+IgmCK2yWkyLXKdLfON0wTF2uVY6/Zj+z4CbqBQ8S1mTFhTzxJ4K+kIhlIbeitlp5
+         qXtcO6SJzhSJ74/8s14mN0YBxYms1LJJP0SwTimA=
+Received: by mail-qt1-f179.google.com with SMTP id x4so4100980qtq.8;
+        Tue, 24 Sep 2019 14:59:32 -0700 (PDT)
+X-Gm-Message-State: APjAAAUSipfNLAs0r3iY98Oq51rlrlAyRzY6XaLme2e9ZLFqmU4bXOcs
+        y3XFqQogK86HIUelflV99P3yYhl0p6JxbjmCsw==
+X-Google-Smtp-Source: APXvYqxu7lx2ORNXYuD01RyoAdK8YY//zQYn3oJnMVZaPVMMDgXcioCqkbUXveNdRfpBkQzN/4OY/SjTncH5t1k8eUk=
+X-Received: by 2002:ac8:6982:: with SMTP id o2mr5274643qtq.143.1569362371529;
+ Tue, 24 Sep 2019 14:59:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+In-Reply-To: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 24 Sep 2019 16:59:20 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+Message-ID: <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
+        <dmaengine@vger.kernel.org>, etnaviv@lists.freedesktop.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-pci@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        james.quinlan@broadcom.com, Stefan Wahren <wahrenst@gmx.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <thierry.reding@gmail.com>
-Date: Fri, 20 Sep 2019 19:00:34 +0200
+On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
+<nsaenzjulienne@suse.de> wrote:
+>
+> Hi All,
+> this series tries to address one of the issues blocking us from
+> upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
+> devices not represented in DT which sit behind a PCI bus fail to get the
+> bus' DMA addressing constraints.
+>
+> This is due to the fact that of_dma_configure() assumes it's receiving a
+> DT node representing the device being configured, as opposed to the PCIe
+> bridge node we currently pass. This causes the code to directly jump
+> into PCI's parent node when checking for 'dma-ranges' and misses
+> whatever was set there.
+>
+> To address this I create a new API in OF - inspired from Robin Murphys
+> original proposal[2] - which accepts a bus DT node as it's input in
+> order to configure a device's DMA constraints. The changes go deep into
+> of/address.c's implementation, as a device being having a DT node
+> assumption was pretty strong.
+>
+> On top of this work, I also cleaned up of_dma_configure() removing its
+> redundant arguments and creating an alternative function for the special cases
+> not applicable to either the above case or the default usage.
+>
+> IMO the resulting functions are more explicit. They will probably
+> surface some hacky usages that can be properly fixed as I show with the
+> DT fixes on the Layerscape platform.
+>
+> This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
+> on a Seattle AMD board.
 
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> The DWMAC 4.10 supports the same enhanced addressing mode as later
-> generations. Parse this capability from the hardware feature registers
-> and set the EAME (Enhanced Addressing Mode Enable) bit when necessary.
+Humm, I've been working on this issue too. Looks similar though yours
+has a lot more churn and there's some other bugs I've found.
 
-This looks like an enhancement and/or optimization rather than a bug fix.
+Can you test out this branch[1]. I don't have any h/w needing this,
+but wrote a unittest and tested with modified QEMU.
 
-Also, you're now writing to the high 32-bits unconditionally, even when
-it will always be zero because of 32-bit addressing.  That looks like
-a step backwards to me.
+Rob
 
-I'm not applying this.
+[1] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dma-masks
