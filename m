@@ -2,301 +2,175 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A499BBE4D4
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Sep 2019 20:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAA52BE74E
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Sep 2019 23:33:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439865AbfIYSnZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 25 Sep 2019 14:43:25 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36609 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2443262AbfIYSnX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 25 Sep 2019 14:43:23 -0400
-Received: by mail-pf1-f195.google.com with SMTP id y22so4162197pfr.3
-        for <linux-tegra@vger.kernel.org>; Wed, 25 Sep 2019 11:43:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=3A4s4RAXbpx36Yd7dMGiPVWfF4wDLnMwffQrqpB84M0=;
-        b=MI/R7xaYsceleFAz49M00sHxNJtNP9akqwlvZAmxoudAzKmmz7M/h984nTRYIZLyIV
-         wCrF5z9qpwpvcsI5fmQKA2msao8HOViN0LSmtdHnn7e1e8iRzS3r2b8RnmEuBtR5dxeH
-         B90dhU3GBvA301hKZajAs5Q3jo8xBeHkw0wLU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3A4s4RAXbpx36Yd7dMGiPVWfF4wDLnMwffQrqpB84M0=;
-        b=hExACz+JFwM5qSfoYTesJMGG9QmNu/AoGoIBhn3J+5Xue6lm+QeS+xKr0YPvLfRVmP
-         u/udXLA+1Z5ikAe9oPMZmrtfWw+OHTU2xKxYQX7nnOhFZpr+Gc6Q4CtLluiSA7hhn54M
-         BUmg7omMbX5Sdru9PqIkEyk8ll6tTlBACEWmn1VfdsA0sBfvCftJtfUPVQK4vp094ZLg
-         MJG/OL8PykDLp1c6oqXp8W03w7+Y+OvFKh51Wv5C/2+OMz6nsvRYVHthuhkQqztuEf3Y
-         5geBqa5UjqIe/h/nrLBTSzscsQxRUoa8IW3Vf8h/BJSR6cbrK72kzwxdPBm7J5fQDzW+
-         q2Kg==
-X-Gm-Message-State: APjAAAUkirrFYuiJTJPpFWvnmyZjhU0hRLsyOoiqfOk2VrBIKVoCKoqB
-        B0am9rYEuISKk1B8v3As/U7NdA==
-X-Google-Smtp-Source: APXvYqwW5vuL8lovJSQXdUV5+1pDcGdZZ1mTw1Iakz6inPcxVjmOF4tVz0FIAXiNfJXeeaRvnVZuKQ==
-X-Received: by 2002:aa7:9d8d:: with SMTP id f13mr11549654pfq.196.1569437000973;
-        Wed, 25 Sep 2019 11:43:20 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:75a:3f6e:21d:9374])
-        by smtp.gmail.com with ESMTPSA id y28sm6869466pfq.48.2019.09.25.11.43.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Sep 2019 11:43:20 -0700 (PDT)
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>
-Subject: [PATCH 2/2] devfreq: Rename df->previous_freq to df->cur_freq
-Date:   Wed, 25 Sep 2019 11:43:14 -0700
-Message-Id: <20190925184314.30251-2-mka@chromium.org>
-X-Mailer: git-send-email 2.23.0.444.g18eeb5a265-goog
-In-Reply-To: <20190925184314.30251-1-mka@chromium.org>
-References: <20190925184314.30251-1-mka@chromium.org>
+        id S1727165AbfIYVdi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 25 Sep 2019 17:33:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45994 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727058AbfIYVdh (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 25 Sep 2019 17:33:37 -0400
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95011222BD;
+        Wed, 25 Sep 2019 21:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569447215;
+        bh=TszXw7S5GIEzEo992EEMfz4W0WtzSxu1MBpaBhf4tmw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QlI2Sj1D5LJahPlbpQRPzC/Kfp42A3NwekR29GtyvfIPAZlvPN1zAfycydpBTfcd8
+         IvT8WVCyptqcO23hrQq7/1AbSsfzPRa68TLRQRP+hrXx+5Qsz/4M4CfEt25gMVn9on
+         EMq0EmayAeKNvnaIFqzE8CzGz5kGoSiMNjw4W64I=
+Received: by mail-qt1-f181.google.com with SMTP id m15so298885qtq.2;
+        Wed, 25 Sep 2019 14:33:35 -0700 (PDT)
+X-Gm-Message-State: APjAAAU/MDgYmsvDWUxhr0S/Q958v/NMn7J4JTGJNu6zn2KE6uwZuvLx
+        +uW755Pt4Q2Nc+sOQUjGxURuNzeHmiO1sPSfVA==
+X-Google-Smtp-Source: APXvYqy9YJ9VRUtFzrkZ+iKb5Tx5rlamJJuwaAKBRmCflwCEbYKpuVBbZPPVrEImTOCJgn8Jl5TlEwRQfbhe0HNZXOU=
+X-Received: by 2002:a0c:8a6d:: with SMTP id 42mr1647258qvu.138.1569447214653;
+ Wed, 25 Sep 2019 14:33:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de> <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+ <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de> <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
+ <43fb5fe1de317d65a4edf592f88ea150c6e3b8cc.camel@suse.de> <CAL_JsqLhx500cx3YLoC7HL1ux3bBpV+fEA2Qnk7D5RFGgiGzSw@mail.gmail.com>
+ <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
+In-Reply-To: <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 25 Sep 2019 16:33:23 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
+Message-ID: <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
+Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        devicetree@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        etnaviv@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Stefan Wahren <wahrenst@gmx.net>, james.quinlan@broadcom.com,
+        linux-pci@vger.kernel.org,
+        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
+        <dmaengine@vger.kernel.org>, xen-devel@lists.xenproject.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        freedreno <freedreno@lists.freedesktop.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The vast majority of code uses df->previous_freq to get the current
-frequency of the devfreq device, not the previous one. Rename the
-struct field to reflect this.
+On Wed, Sep 25, 2019 at 11:52 AM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> On 25/09/2019 17:16, Rob Herring wrote:
+> > On Wed, Sep 25, 2019 at 10:30 AM Nicolas Saenz Julienne
+> > <nsaenzjulienne@suse.de> wrote:
+> >>
+> >> On Wed, 2019-09-25 at 16:09 +0100, Robin Murphy wrote:
+> >>> On 25/09/2019 15:52, Nicolas Saenz Julienne wrote:
+> >>>> On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
+> >>>>> On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
+> >>>>> <nsaenzjulienne@suse.de> wrote:
+> >>>>>> Hi All,
+> >>>>>> this series tries to address one of the issues blocking us from
+> >>>>>> upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
+> >>>>>> devices not represented in DT which sit behind a PCI bus fail to get the
+> >>>>>> bus' DMA addressing constraints.
+> >>>>>>
+> >>>>>> This is due to the fact that of_dma_configure() assumes it's receiving a
+> >>>>>> DT node representing the device being configured, as opposed to the PCIe
+> >>>>>> bridge node we currently pass. This causes the code to directly jump
+> >>>>>> into PCI's parent node when checking for 'dma-ranges' and misses
+> >>>>>> whatever was set there.
+> >>>>>>
+> >>>>>> To address this I create a new API in OF - inspired from Robin Murphys
+> >>>>>> original proposal[2] - which accepts a bus DT node as it's input in
+> >>>>>> order to configure a device's DMA constraints. The changes go deep into
+> >>>>>> of/address.c's implementation, as a device being having a DT node
+> >>>>>> assumption was pretty strong.
+> >>>>>>
+> >>>>>> On top of this work, I also cleaned up of_dma_configure() removing its
+> >>>>>> redundant arguments and creating an alternative function for the special
+> >>>>>> cases
+> >>>>>> not applicable to either the above case or the default usage.
+> >>>>>>
+> >>>>>> IMO the resulting functions are more explicit. They will probably
+> >>>>>> surface some hacky usages that can be properly fixed as I show with the
+> >>>>>> DT fixes on the Layerscape platform.
+> >>>>>>
+> >>>>>> This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
+> >>>>>> on a Seattle AMD board.
+> >>>>>
+> >>>>> Humm, I've been working on this issue too. Looks similar though yours
+> >>>>> has a lot more churn and there's some other bugs I've found.
+> >>>>
+> >>>> That's good news, and yes now that I see it, some stuff on my series is
+> >>>> overly
+> >>>> complicated. Specially around of_translate_*().
+> >>>>
+> >>>> On top of that, you removed in of_dma_get_range():
+> >>>>
+> >>>> -   /*
+> >>>> -    * At least empty ranges has to be defined for parent node if
+> >>>> -    * DMA is supported
+> >>>> -    */
+> >>>> -   if (!ranges)
+> >>>> -           break;
+> >>>>
+> >>>> Which I assumed was bound to the standard and makes things easier.
+> >>>>
+> >>>>> Can you test out this branch[1]. I don't have any h/w needing this,
+> >>>>> but wrote a unittest and tested with modified QEMU.
+> >>>>
+> >>>> I reviewed everything, I did find a minor issue, see the patch attached.
+> >>>
+> >>> WRT that patch, the original intent of "force_dma" was purely to
+> >>> consider a device DMA-capable regardless of the presence of
+> >>> "dma-ranges". Expecting of_dma_configure() to do anything for a non-OF
+> >>> device has always been bogus - magic paravirt devices which appear out
+> >>> of nowhere and expect to be treated as genuine DMA masters are a
+> >>> separate problem that we haven't really approached yet.
+> >>
+> >> I agree it's clearly abusing the function. I have no problem with the behaviour
+> >> change if it's OK with you.
+>
+> Thinking about it, you could probably just remove that call from the Xen
+> DRM driver now anyway - since the dma-direct rework, we lost the ability
+> to set dma_dummy_ops by default, and NULL ops now represent what it
+> (presumably) wants.
 
-Add a comment to devfreq_update_stats() to make clear that df->cur_freq
-must only be updated after calling this function in the context of a
-frequency transition.
+Not xen_dma_ops? In any case, I'll send out a patch for the the Xen
+folks to comment on.
 
-Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
----
- drivers/devfreq/devfreq.c            | 28 ++++++++++++++++------------
- drivers/devfreq/governor_passive.c   |  6 +++---
- drivers/devfreq/governor_userspace.c |  2 +-
- drivers/devfreq/tegra20-devfreq.c    |  2 +-
- drivers/devfreq/tegra30-devfreq.c    |  2 +-
- include/linux/devfreq.h              |  4 ++--
- include/trace/events/devfreq.h       |  2 +-
- 7 files changed, 25 insertions(+), 21 deletions(-)
+> >> Robin, have you looked into supporting multiple dma-ranges? It's the next thing
+> >> we need for BCM STB's PCIe. I'll have a go at it myself if nothing is in the
+> >> works already.
+> >
+> > Multiple dma-ranges as far as configuring inbound windows should work
+> > already other than the bug when there's any parent translation. But if
+> > you mean supporting multiple DMA offsets and masks per device in the
+> > DMA API, there's nothing in the works yet.
+>
+> There's also the in-between step of making of_dma_get_range() return a
+> size based on all the dma-ranges entries rather than only the first one
+> - otherwise, something like [1] can lead to pretty unworkable default
+> masks. We implemented that when doing acpi_dma_get_range(), it's just
+> that the OF counterpart never caught up.
 
-diff --git a/drivers/devfreq/devfreq.c b/drivers/devfreq/devfreq.c
-index fb4318d59aa9..bf42130bb4ec 100644
---- a/drivers/devfreq/devfreq.c
-+++ b/drivers/devfreq/devfreq.c
-@@ -154,6 +154,10 @@ static int set_freq_table(struct devfreq *devfreq)
-  * devfreq_update_stats() - Update statistics of devfreq behavior
-  * @devfreq:	the devfreq instance
-  * @freq:	the update target frequency
-+ *
-+ * If the function is called in the context of a frequency transition
-+ * it expects df->cur_freq to contain the value *before* the transition.
-+ * The field must only be updated after calling devfreq_update_stats().
-  */
- int devfreq_update_stats(struct devfreq *devfreq, unsigned long freq)
- {
-@@ -162,11 +166,11 @@ int devfreq_update_stats(struct devfreq *devfreq, unsigned long freq)
- 
- 	cur_time = jiffies;
- 
--	/* Immediately exit if previous_freq is not initialized yet. */
--	if (!devfreq->previous_freq)
-+	/* Immediately exit if cur_freq is not initialized yet. */
-+	if (!devfreq->cur_freq)
- 		goto out;
- 
--	prev_lev = devfreq_get_freq_level(devfreq, devfreq->previous_freq);
-+	prev_lev = devfreq_get_freq_level(devfreq, devfreq->cur_freq);
- 	if (prev_lev < 0) {
- 		ret = prev_lev;
- 		goto out;
-@@ -295,7 +299,7 @@ static int devfreq_set_target(struct devfreq *devfreq, unsigned long new_freq,
- 	if (devfreq->profile->get_cur_freq)
- 		devfreq->profile->get_cur_freq(devfreq->dev.parent, &cur_freq);
- 	else
--		cur_freq = devfreq->previous_freq;
-+		cur_freq = devfreq->cur_freq;
- 
- 	freqs.old = cur_freq;
- 	freqs.new = new_freq;
-@@ -315,7 +319,7 @@ static int devfreq_set_target(struct devfreq *devfreq, unsigned long new_freq,
- 		dev_err(&devfreq->dev,
- 			"Couldn't update frequency transition information.\n");
- 
--	devfreq->previous_freq = new_freq;
-+	devfreq->cur_freq = new_freq;
- 
- 	if (devfreq->suspend_freq)
- 		devfreq->resume_freq = cur_freq;
-@@ -450,7 +454,7 @@ void devfreq_monitor_suspend(struct devfreq *devfreq)
- 		return;
- 	}
- 
--	devfreq_update_stats(devfreq, devfreq->previous_freq);
-+	devfreq_update_stats(devfreq, devfreq->cur_freq);
- 	devfreq->stop_polling = true;
- 	mutex_unlock(&devfreq->lock);
- 	cancel_delayed_work_sync(&devfreq->work);
-@@ -483,7 +487,7 @@ void devfreq_monitor_resume(struct devfreq *devfreq)
- 
- 	if (devfreq->profile->get_cur_freq &&
- 		!devfreq->profile->get_cur_freq(devfreq->dev.parent, &freq))
--		devfreq->previous_freq = freq;
-+		devfreq->cur_freq = freq;
- 
- out:
- 	mutex_unlock(&devfreq->lock);
-@@ -644,7 +648,7 @@ struct devfreq *devfreq_add_device(struct device *dev,
- 	devfreq->dev.release = devfreq_dev_release;
- 	devfreq->profile = profile;
- 	strncpy(devfreq->governor_name, governor_name, DEVFREQ_NAME_LEN);
--	devfreq->previous_freq = profile->initial_freq;
-+	devfreq->cur_freq = profile->initial_freq;
- 	devfreq->last_status.current_frequency = profile->initial_freq;
- 	devfreq->data = data;
- 	devfreq->nb.notifier_call = devfreq_notifier_call;
-@@ -1235,14 +1239,14 @@ static ssize_t cur_freq_show(struct device *dev, struct device_attribute *attr,
- 		!devfreq->profile->get_cur_freq(devfreq->dev.parent, &freq))
- 		return sprintf(buf, "%lu\n", freq);
- 
--	return sprintf(buf, "%lu\n", devfreq->previous_freq);
-+	return sprintf(buf, "%lu\n", devfreq->cur_freq);
- }
- static DEVICE_ATTR_RO(cur_freq);
- 
- static ssize_t target_freq_show(struct device *dev,
- 				struct device_attribute *attr, char *buf)
- {
--	return sprintf(buf, "%lu\n", to_devfreq(dev)->previous_freq);
-+	return sprintf(buf, "%lu\n", to_devfreq(dev)->cur_freq);
- }
- static DEVICE_ATTR_RO(target_freq);
- 
-@@ -1398,7 +1402,7 @@ static ssize_t trans_stat_show(struct device *dev,
- 	unsigned int max_state = devfreq->profile->max_state;
- 
- 	if (!devfreq->stop_polling &&
--			devfreq_update_stats(devfreq, devfreq->previous_freq))
-+			devfreq_update_stats(devfreq, devfreq->cur_freq))
- 		return 0;
- 	if (max_state == 0)
- 		return sprintf(buf, "Not Supported.\n");
-@@ -1413,7 +1417,7 @@ static ssize_t trans_stat_show(struct device *dev,
- 
- 	for (i = 0; i < max_state; i++) {
- 		if (devfreq->profile->freq_table[i]
--					== devfreq->previous_freq) {
-+					== devfreq->cur_freq) {
- 			len += sprintf(buf + len, "*");
- 		} else {
- 			len += sprintf(buf + len, " ");
-diff --git a/drivers/devfreq/governor_passive.c b/drivers/devfreq/governor_passive.c
-index 1c746b96d3db..2d818eaceb39 100644
---- a/drivers/devfreq/governor_passive.c
-+++ b/drivers/devfreq/governor_passive.c
-@@ -114,7 +114,7 @@ static int update_devfreq_passive(struct devfreq *devfreq, unsigned long freq)
- 		dev_err(&devfreq->dev,
- 			"Couldn't update frequency transition information.\n");
- 
--	devfreq->previous_freq = freq;
-+	devfreq->cur_freq = freq;
- 
- out:
- 	mutex_unlock(&devfreq->lock);
-@@ -134,11 +134,11 @@ static int devfreq_passive_notifier_call(struct notifier_block *nb,
- 
- 	switch (event) {
- 	case DEVFREQ_PRECHANGE:
--		if (parent->previous_freq > freq)
-+		if (parent->cur_freq > freq)
- 			update_devfreq_passive(devfreq, freq);
- 		break;
- 	case DEVFREQ_POSTCHANGE:
--		if (parent->previous_freq < freq)
-+		if (parent->cur_freq < freq)
- 			update_devfreq_passive(devfreq, freq);
- 		break;
- 	}
-diff --git a/drivers/devfreq/governor_userspace.c b/drivers/devfreq/governor_userspace.c
-index af94942fcf95..566b8d1f0c17 100644
---- a/drivers/devfreq/governor_userspace.c
-+++ b/drivers/devfreq/governor_userspace.c
-@@ -26,7 +26,7 @@ static int devfreq_userspace_func(struct devfreq *df, unsigned long *freq)
- 	if (data->valid)
- 		*freq = data->user_frequency;
- 	else
--		*freq = df->previous_freq; /* No user freq specified yet */
-+		*freq = df->cur_freq; /* No user freq specified yet */
- 
- 	return 0;
- }
-diff --git a/drivers/devfreq/tegra20-devfreq.c b/drivers/devfreq/tegra20-devfreq.c
-index ff82bac9ee4e..f99bd6557df5 100644
---- a/drivers/devfreq/tegra20-devfreq.c
-+++ b/drivers/devfreq/tegra20-devfreq.c
-@@ -61,7 +61,7 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
- 	return 0;
- 
- restore_min_rate:
--	clk_set_min_rate(tegra->emc_clock, devfreq->previous_freq);
-+	clk_set_min_rate(tegra->emc_clock, devfreq->cur_freq);
- 
- 	return err;
- }
-diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-index 536273a811fe..7b3bf7a0b15f 100644
---- a/drivers/devfreq/tegra30-devfreq.c
-+++ b/drivers/devfreq/tegra30-devfreq.c
-@@ -474,7 +474,7 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
- 	return 0;
- 
- restore_min_rate:
--	clk_set_min_rate(tegra->emc_clock, devfreq->previous_freq);
-+	clk_set_min_rate(tegra->emc_clock, devfreq->cur_freq);
- 
- 	return err;
- }
-diff --git a/include/linux/devfreq.h b/include/linux/devfreq.h
-index 2bae9ed3c783..21d0108df4c5 100644
---- a/include/linux/devfreq.h
-+++ b/include/linux/devfreq.h
-@@ -120,7 +120,7 @@ struct devfreq_dev_profile {
-  *		reevaluate operable frequencies. Devfreq users may use
-  *		devfreq.nb to the corresponding register notifier call chain.
-  * @work:	delayed work for load monitoring.
-- * @previous_freq:	previously configured frequency value.
-+ * @cur_freq:	the current frequency.
-  * @data:	Private data of the governor. The devfreq framework does not
-  *		touch this.
-  * @min_freq:	Limit minimum frequency requested by user (0: none)
-@@ -156,7 +156,7 @@ struct devfreq {
- 	struct notifier_block nb;
- 	struct delayed_work work;
- 
--	unsigned long previous_freq;
-+	unsigned long cur_freq;
- 	struct devfreq_dev_status last_status;
- 
- 	void *data; /* private data for governors */
-diff --git a/include/trace/events/devfreq.h b/include/trace/events/devfreq.h
-index cf5b8772175d..916cfaed5489 100644
---- a/include/trace/events/devfreq.h
-+++ b/include/trace/events/devfreq.h
-@@ -22,7 +22,7 @@ TRACE_EVENT(devfreq_monitor,
- 	),
- 
- 	TP_fast_assign(
--		__entry->freq = devfreq->previous_freq;
-+		__entry->freq = devfreq->cur_freq;
- 		__entry->busy_time = devfreq->last_status.busy_time;
- 		__entry->total_time = devfreq->last_status.total_time;
- 		__entry->polling_ms = devfreq->profile->polling_ms;
--- 
-2.23.0.444.g18eeb5a265-goog
+Right. I suppose we assume any holes in the ranges are addressable by
+the device but won't get used for other reasons (such as no memory
+there). However, to be correct, the range of the dma offset plus mask
+would need to be within the min start and max end addresses. IOW,
+while we need to round up (0xa_8000_0000 - 0x2c1c_0000) to the next
+power of 2, the 'correct' thing to do is round down.
 
+Rob
+
+> [1]
+> http://linux-arm.org/git?p=linux-rm.git;a=commitdiff;h=a2814af56b3486c2985a95540a88d8f9fa3a699f
