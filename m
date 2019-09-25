@@ -2,175 +2,188 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AAA52BE74E
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Sep 2019 23:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 086AABE869
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Sep 2019 00:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbfIYVdi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 25 Sep 2019 17:33:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45994 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727058AbfIYVdh (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 25 Sep 2019 17:33:37 -0400
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 95011222BD;
-        Wed, 25 Sep 2019 21:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569447215;
-        bh=TszXw7S5GIEzEo992EEMfz4W0WtzSxu1MBpaBhf4tmw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QlI2Sj1D5LJahPlbpQRPzC/Kfp42A3NwekR29GtyvfIPAZlvPN1zAfycydpBTfcd8
-         IvT8WVCyptqcO23hrQq7/1AbSsfzPRa68TLRQRP+hrXx+5Qsz/4M4CfEt25gMVn9on
-         EMq0EmayAeKNvnaIFqzE8CzGz5kGoSiMNjw4W64I=
-Received: by mail-qt1-f181.google.com with SMTP id m15so298885qtq.2;
-        Wed, 25 Sep 2019 14:33:35 -0700 (PDT)
-X-Gm-Message-State: APjAAAU/MDgYmsvDWUxhr0S/Q958v/NMn7J4JTGJNu6zn2KE6uwZuvLx
-        +uW755Pt4Q2Nc+sOQUjGxURuNzeHmiO1sPSfVA==
-X-Google-Smtp-Source: APXvYqy9YJ9VRUtFzrkZ+iKb5Tx5rlamJJuwaAKBRmCflwCEbYKpuVBbZPPVrEImTOCJgn8Jl5TlEwRQfbhe0HNZXOU=
-X-Received: by 2002:a0c:8a6d:: with SMTP id 42mr1647258qvu.138.1569447214653;
- Wed, 25 Sep 2019 14:33:34 -0700 (PDT)
+        id S1729574AbfIYWq1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 25 Sep 2019 18:46:27 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46774 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725804AbfIYWq0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 25 Sep 2019 18:46:26 -0400
+Received: by mail-wr1-f68.google.com with SMTP id o18so154247wrv.13;
+        Wed, 25 Sep 2019 15:46:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=CEZdOX21rmjotp8jx0GVHCSCIrQmoVSTc0h3cKmO9YI=;
+        b=mAoIXKqv8lB4MLmARHSy55VTPRFCAfx3/MA+JH4eHdRrP76KU+gHoVHQRaA4KgzPl1
+         r0yy2exr0YGZhFepeiJSlV+ypdpghONw2kbuLDwjkwQlvvIfNqoJY+rAZeofGoX2HRTC
+         szPfPDrmKIBUuEWJEvQcPUFZjmqaZEFlQ1Haf5wau32PDnZxS7qb6nsH0i9yPrOt7dzy
+         4G0ddYPFkfRrqcyQOu7ZrzEnk5fn220KuDZUuiPj/00HSbOsB4mBZSzlgQQQf+V5sgfd
+         B6BZlioYmAFPMjRInAmpXm9QKN4mjTIauSYfG36EoRNMfOcffcHmIfEJHl37WEXP133c
+         3nIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=CEZdOX21rmjotp8jx0GVHCSCIrQmoVSTc0h3cKmO9YI=;
+        b=HeweWuQjnpvmtPAI/vctbCnEefzwJz8RTigD327DEC6LhNOa7APMuwVDiGfTqVY6RT
+         mKi8y1hieIkDgBVrs0RWLDCvwzmd/q59zEofbrx6rhjNRbXs95ZQh0tNec0kqc9mttXs
+         p65Zo6Dmgqt2N9w31pmzqHwSGLbMNeYLA3tBhoCMdYIjCKawpwBt3LOVfi1l3XElzIlw
+         v+93P1o6F260yUPOE3Mwmt9XclohILxeYXuqD9iYz2SJltKEtYHubziZkoiu08mz8eS9
+         MORv9J9SQsFhmirEpQd4aXtWPIC5w1MnNPhgZYy30ZCPJri5x4AiXXnp7zoedQTIfryP
+         YrFQ==
+X-Gm-Message-State: APjAAAVne72BE646cCFProtHYetz+btNhuPXC1cf5Xcdgk16Rw9pfrOf
+        4ELq98zjg8ictAuwAxuKAgw=
+X-Google-Smtp-Source: APXvYqyZMYYmQIAhprS8+pJka6zOV+MlQMWnqkvuRIE65XzmSLqUvmqJ1+id3dbCtzsgDMYrwuTqig==
+X-Received: by 2002:a5d:6a09:: with SMTP id m9mr443268wru.12.1569451583600;
+        Wed, 25 Sep 2019 15:46:23 -0700 (PDT)
+Received: from localhost (p200300E41F0FEE00021F3CFFFE37B91B.dip0.t-ipconnect.de. [2003:e4:1f0f:ee00:21f:3cff:fe37:b91b])
+        by smtp.gmail.com with ESMTPSA id b22sm325037wmj.36.2019.09.25.15.46.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2019 15:46:21 -0700 (PDT)
+Date:   Thu, 26 Sep 2019 00:46:20 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Jose Abreu <Jose.Abreu@synopsys.com>,
+        David Miller <davem@davemloft.net>,
+        "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
+        "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
+        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "bbiswas@nvidia.com" <bbiswas@nvidia.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v3 0/2] net: stmmac: Enhanced addressing mode for DWMAC
+ 4.10
+Message-ID: <20190925224620.GA8115@mithrandir>
+References: <20190920170036.22610-1-thierry.reding@gmail.com>
+ <20190924.214508.1949579574079200671.davem@davemloft.net>
+ <BN8PR12MB3266F851B071629898BB775AD3870@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <20190925.133353.1445361137776125638.davem@davemloft.net>
+ <BN8PR12MB3266A2F1F5F3F18F3A80BFC1D3870@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <BN8PR12MB32667F9FDDB2161E9B63C1AFD3870@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <9f0e2386-c4b1-52b0-6881-e72093eb1b05@gmail.com>
 MIME-Version: 1.0
-References: <20190924181244.7159-1-nsaenzjulienne@suse.de> <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
- <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de> <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
- <43fb5fe1de317d65a4edf592f88ea150c6e3b8cc.camel@suse.de> <CAL_JsqLhx500cx3YLoC7HL1ux3bBpV+fEA2Qnk7D5RFGgiGzSw@mail.gmail.com>
- <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
-In-Reply-To: <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 25 Sep 2019 16:33:23 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
-Message-ID: <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
-Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        devicetree@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        etnaviv@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Stefan Wahren <wahrenst@gmx.net>, james.quinlan@broadcom.com,
-        linux-pci@vger.kernel.org,
-        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
-        <dmaengine@vger.kernel.org>, xen-devel@lists.xenproject.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
+Content-Disposition: inline
+In-Reply-To: <9f0e2386-c4b1-52b0-6881-e72093eb1b05@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Sep 25, 2019 at 11:52 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 25/09/2019 17:16, Rob Herring wrote:
-> > On Wed, Sep 25, 2019 at 10:30 AM Nicolas Saenz Julienne
-> > <nsaenzjulienne@suse.de> wrote:
+
+--yrj/dFKFPuw6o+aM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 25, 2019 at 10:31:13AM -0700, Florian Fainelli wrote:
+> On 9/25/19 4:46 AM, Jose Abreu wrote:
+> > From: Jose Abreu <joabreu@synopsys.com>
+> > Date: Sep/25/2019, 12:41:04 (UTC+00:00)
+> >=20
+> >> From: David Miller <davem@davemloft.net>
+> >> Date: Sep/25/2019, 12:33:53 (UTC+00:00)
 > >>
-> >> On Wed, 2019-09-25 at 16:09 +0100, Robin Murphy wrote:
-> >>> On 25/09/2019 15:52, Nicolas Saenz Julienne wrote:
-> >>>> On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
-> >>>>> On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
-> >>>>> <nsaenzjulienne@suse.de> wrote:
-> >>>>>> Hi All,
-> >>>>>> this series tries to address one of the issues blocking us from
-> >>>>>> upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
-> >>>>>> devices not represented in DT which sit behind a PCI bus fail to get the
-> >>>>>> bus' DMA addressing constraints.
-> >>>>>>
-> >>>>>> This is due to the fact that of_dma_configure() assumes it's receiving a
-> >>>>>> DT node representing the device being configured, as opposed to the PCIe
-> >>>>>> bridge node we currently pass. This causes the code to directly jump
-> >>>>>> into PCI's parent node when checking for 'dma-ranges' and misses
-> >>>>>> whatever was set there.
-> >>>>>>
-> >>>>>> To address this I create a new API in OF - inspired from Robin Murphys
-> >>>>>> original proposal[2] - which accepts a bus DT node as it's input in
-> >>>>>> order to configure a device's DMA constraints. The changes go deep into
-> >>>>>> of/address.c's implementation, as a device being having a DT node
-> >>>>>> assumption was pretty strong.
-> >>>>>>
-> >>>>>> On top of this work, I also cleaned up of_dma_configure() removing its
-> >>>>>> redundant arguments and creating an alternative function for the special
-> >>>>>> cases
-> >>>>>> not applicable to either the above case or the default usage.
-> >>>>>>
-> >>>>>> IMO the resulting functions are more explicit. They will probably
-> >>>>>> surface some hacky usages that can be properly fixed as I show with the
-> >>>>>> DT fixes on the Layerscape platform.
-> >>>>>>
-> >>>>>> This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
-> >>>>>> on a Seattle AMD board.
-> >>>>>
-> >>>>> Humm, I've been working on this issue too. Looks similar though yours
-> >>>>> has a lot more churn and there's some other bugs I've found.
-> >>>>
-> >>>> That's good news, and yes now that I see it, some stuff on my series is
-> >>>> overly
-> >>>> complicated. Specially around of_translate_*().
-> >>>>
-> >>>> On top of that, you removed in of_dma_get_range():
-> >>>>
-> >>>> -   /*
-> >>>> -    * At least empty ranges has to be defined for parent node if
-> >>>> -    * DMA is supported
-> >>>> -    */
-> >>>> -   if (!ranges)
-> >>>> -           break;
-> >>>>
-> >>>> Which I assumed was bound to the standard and makes things easier.
-> >>>>
-> >>>>> Can you test out this branch[1]. I don't have any h/w needing this,
-> >>>>> but wrote a unittest and tested with modified QEMU.
-> >>>>
-> >>>> I reviewed everything, I did find a minor issue, see the patch attached.
+> >>> From: Jose Abreu <Jose.Abreu@synopsys.com>
+> >>> Date: Wed, 25 Sep 2019 10:44:53 +0000
 > >>>
-> >>> WRT that patch, the original intent of "force_dma" was purely to
-> >>> consider a device DMA-capable regardless of the presence of
-> >>> "dma-ranges". Expecting of_dma_configure() to do anything for a non-OF
-> >>> device has always been bogus - magic paravirt devices which appear out
-> >>> of nowhere and expect to be treated as genuine DMA masters are a
-> >>> separate problem that we haven't really approached yet.
+> >>>> From: David Miller <davem@davemloft.net>
+> >>>> Date: Sep/24/2019, 20:45:08 (UTC+00:00)
+> >>>>
+> >>>>> From: Thierry Reding <thierry.reding@gmail.com>
+> >>>>> Date: Fri, 20 Sep 2019 19:00:34 +0200
+> >>>>>
+> >>>>> Also, you're now writing to the high 32-bits unconditionally, even =
+when
+> >>>>> it will always be zero because of 32-bit addressing.  That looks li=
+ke
+> >>>>> a step backwards to me.
+> >>>>
+> >>>> Don't agree. As per previous discussions and as per my IP knowledge,=
+ if=20
+> >>>> EAME is not enabled / not supported the register can still be writte=
+n.=20
+> >>>> This is not fast path and will not impact any remaining operation. C=
+an=20
+> >>>> you please explain what exactly is the concern about this ?
+> >>>>
+> >>>> Anyway, this is an important feature for performance so I hope Thier=
+ry=20
+> >>>> re-submits this once -next opens and addressing the review comments.
+> >>>
+> >>> Perhaps I misunderstand the context, isn't this code writing the
+> >>> descriptors for every packet?
 > >>
-> >> I agree it's clearly abusing the function. I have no problem with the behaviour
-> >> change if it's OK with you.
->
-> Thinking about it, you could probably just remove that call from the Xen
-> DRM driver now anyway - since the dma-direct rework, we lost the ability
-> to set dma_dummy_ops by default, and NULL ops now represent what it
-> (presumably) wants.
+> >> No, its just setting up the base address for the descriptors which is=
+=20
+> >> done in open(). The one that's in the fast path is the tail address,=
+=20
+> >> which is always the lower 32 bits.
+> >=20
+> > Oops, sorry. Indeed it's done in refill operation in function=20
+> > dwmac4_set_addr() for rx/tx which is fast path so you do have a point=
+=20
+> > that I was not seeing. Thanks for bringing this up!
+> >=20
+> > Now, the point would be:
+> > 	a) Is it faster to have an condition check in dwmac4_set_addr(), or
+> > 	b) Always write to descs the upper 32 bits. Which always exists in the=
+=20
+> > IP and is a standard write to memory.
+>=20
+> The way I would approach it (as done in bcmgenet.c) is that if the
+> platform both has CONFIG_PHYS_ADDR_T_64BIT=3Dy and supports > 32-bits
+> addresses, then you write the upper 32-bits otherwise, you do not. Given
+> you indicate that the registers are safe to write regardless, then maybe
+> just the check on CONFIG_PHYS_ADDR_T_64BIT is enough for your case. The
+> rationale in my case is that register writes to on-chip descriptors are
+> fairly expensive (~200ns per operation) and get in the hot-path.
+>=20
+> The CONFIG_PHYS_ADDR_T_64BIT check addresses both native 64-bit
+> platforms (e.g.: ARM64) and those that do support LPAE (ARM LPAE for
+> instance).
 
-Not xen_dma_ops? In any case, I'll send out a patch for the the Xen
-folks to comment on.
+I think we actually want CONFIG_DMA_ADDR_T_64BIT here because we're
+dealing with addresses returned from the DMA API here.
 
-> >> Robin, have you looked into supporting multiple dma-ranges? It's the next thing
-> >> we need for BCM STB's PCIe. I'll have a go at it myself if nothing is in the
-> >> works already.
-> >
-> > Multiple dma-ranges as far as configuring inbound windows should work
-> > already other than the bug when there's any parent translation. But if
-> > you mean supporting multiple DMA offsets and masks per device in the
-> > DMA API, there's nothing in the works yet.
->
-> There's also the in-between step of making of_dma_get_range() return a
-> size based on all the dma-ranges entries rather than only the first one
-> - otherwise, something like [1] can lead to pretty unworkable default
-> masks. We implemented that when doing acpi_dma_get_range(), it's just
-> that the OF counterpart never caught up.
+I can add an additional condition for the upper 32-bit register writes,
+something like:
 
-Right. I suppose we assume any holes in the ranges are addressable by
-the device but won't get used for other reasons (such as no memory
-there). However, to be correct, the range of the dma offset plus mask
-would need to be within the min start and max end addresses. IOW,
-while we need to round up (0xa_8000_0000 - 0x2c1c_0000) to the next
-power of 2, the 'correct' thing to do is round down.
+	if (IS_ENABLED(CONFIG_DMA_ADDR_T_64BIT) && priv->dma_cfg->eame)
+		...
 
-Rob
+The compiler should be able to eliminate that as dead code on platforms
+that don't support 64-bit DMA addresses, but the code should still be
+compiler regardless of the setting, thus increasing the compile
+coverage.
 
-> [1]
-> http://linux-arm.org/git?p=linux-rm.git;a=commitdiff;h=a2814af56b3486c2985a95540a88d8f9fa3a699f
+Thierry
+
+--yrj/dFKFPuw6o+aM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2L7jgACgkQ3SOs138+
+s6E85A//TUkBCR3yGIWSlP9JU9/6nlGvQO3HX7K6NEPTfgXEotbcKqS6AbfEBIfO
+/tZZYX4n5CzdNi7MRt80D/H5BiTbQsEGskXBWrTHxWbtRuMyjWVdjBp3wB/BFouJ
+HVcCDecT5RNz6yIWUD980FXMjviYYXjTjzTUjFCPRg0Kn+Cm1mu8RgEULQb9EzFl
+YJ1WgzK8w+Q0taHrSPh8nJRszpXaqIOSw2YJprS5RW6lnzJfUp02ejjqwzGfVgUO
+CqGu9J7auKI+aXQioPCmqRXGj2rIf9pWT4ihiq0gGyhiE5jqQTKTUsugmc4UxuDM
+xD4yz01/+zfXvAG9dn+eEWiO3l676r5J4ph38gUh9O9vwEHh3G4bA/Kbfd1Zg70e
+A6G0vGn8WbMRbOpliBkU5pHpTKng6eczGycHUBc0YuJBTHMfSYA8+uG03pIm6kbe
+rZR0N6aw54m1W7uYoU0JKm+taInOpOpFguEIfxSorKJikZw29qBWysE+8Dzw1yW2
+ufCmL4FOFuw59w3JpCKQ7Sk1laPKwacdCi8ieGOlqEds4/FM/Yl7CV3AxbV0VyLg
+fmJSRTPQ++oDh6wohqQL6UQWj6+4b1rnhwb6jJyTFR81o3t3yLYplNm5NLk9Kbi7
+1eMLurX/fO1JCJNsmix2jBqV0yO152teT0xHUb1buBwJSCasSyI=
+=+uVD
+-----END PGP SIGNATURE-----
+
+--yrj/dFKFPuw6o+aM--
