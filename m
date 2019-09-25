@@ -2,78 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB3F7BDD99
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Sep 2019 14:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69BA0BDFB5
+	for <lists+linux-tegra@lfdr.de>; Wed, 25 Sep 2019 16:12:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387524AbfIYMB1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 25 Sep 2019 08:01:27 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:34902 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730396AbfIYMB1 (ORCPT
+        id S2407149AbfIYOMm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 25 Sep 2019 10:12:42 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8537 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407032AbfIYOMm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 25 Sep 2019 08:01:27 -0400
-Received: from localhost (unknown [65.39.69.237])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id AA024154ECD62;
-        Wed, 25 Sep 2019 05:01:24 -0700 (PDT)
-Date:   Wed, 25 Sep 2019 14:01:22 +0200 (CEST)
-Message-Id: <20190925.140122.1211987325360902544.davem@davemloft.net>
-To:     Jose.Abreu@synopsys.com
-Cc:     thierry.reding@gmail.com, peppe.cavallaro@st.com,
-        alexandre.torgue@st.com, f.fainelli@gmail.com,
-        jonathanh@nvidia.com, bbiswas@nvidia.com, netdev@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] net: stmmac: Enhanced addressing mode for DWMAC
- 4.10
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <BN8PR12MB3266A2F1F5F3F18F3A80BFC1D3870@BN8PR12MB3266.namprd12.prod.outlook.com>
-References: <BN8PR12MB3266F851B071629898BB775AD3870@BN8PR12MB3266.namprd12.prod.outlook.com>
-        <20190925.133353.1445361137776125638.davem@davemloft.net>
-        <BN8PR12MB3266A2F1F5F3F18F3A80BFC1D3870@BN8PR12MB3266.namprd12.prod.outlook.com>
-X-Mailer: Mew version 6.8 on Emacs 26.2
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Wed, 25 Sep 2019 05:01:26 -0700 (PDT)
+        Wed, 25 Sep 2019 10:12:42 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d8b75df0001>; Wed, 25 Sep 2019 07:12:48 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 25 Sep 2019 07:12:41 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 25 Sep 2019 07:12:41 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 25 Sep
+ 2019 14:12:40 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 25 Sep 2019 14:12:40 +0000
+Received: from moonraker.nvidia.com (Not Verified[10.21.133.50]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d8b75d70001>; Wed, 25 Sep 2019 07:12:40 -0700
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <vidyas@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH 1/2] arm64: tegra: Fix 'active-low' warning for Jetson Xavier regulator
+Date:   Wed, 25 Sep 2019 15:12:28 +0100
+Message-ID: <20190925141229.10992-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
+MIME-Version: 1.0
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1569420768; bh=mRH9L/QunaEx9SUNNraErffS4SKINZgMoJCSGIrHlG4=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=CldZpSat9hh/byurnqkXZdAUYFwYRRp5yq6F1RtCHxeyWD8nRiPUK0TavCkyNqYlp
+         4YlqfJrz9XCpbkQZQ72PZ6oxwg2wA8PoXqJvV2vHRESKT4pmwPwqx90sTyuGndcWDN
+         CmEwg4kmg/1P+FcbQfQIPrUXtuY1Kvj9sfKP/97rtbaCL4eaHLJFM8AwhhNy7fY3vJ
+         yIAsL81a+aYOz+Gz94lWMENU1EKtJE0fIQOdlJ4z0DCivFUjDE/0hjh3U49G6MuT27
+         fVzp9T55DAin76hCjfC41iorIe+Zk+rCjw5FLHaKDIQauQZCeUk7oono0mZENm8hKd
+         +t8NEfF6LL/Zw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Jose Abreu <Jose.Abreu@synopsys.com>
-Date: Wed, 25 Sep 2019 11:41:04 +0000
+Commit 4fdbfd60a3a2 ("arm64: tegra: Add PCIe slot supply information
+in p2972-0000 platform") added regulators for the PCIe slot on the
+Jetson Xavier platform. One of these regulators has an active-low enable
+and this commit incorrectly added an active-low specifier for the GPIO
+which causes the following warning to occur on boot ...
 
-> From: David Miller <davem@davemloft.net>
-> Date: Sep/25/2019, 12:33:53 (UTC+00:00)
-> 
->> From: Jose Abreu <Jose.Abreu@synopsys.com>
->> Date: Wed, 25 Sep 2019 10:44:53 +0000
->> 
->> > From: David Miller <davem@davemloft.net>
->> > Date: Sep/24/2019, 20:45:08 (UTC+00:00)
->> > 
->> >> From: Thierry Reding <thierry.reding@gmail.com>
->> >> Date: Fri, 20 Sep 2019 19:00:34 +0200
->> >> 
->> >> Also, you're now writing to the high 32-bits unconditionally, even when
->> >> it will always be zero because of 32-bit addressing.  That looks like
->> >> a step backwards to me.
->> > 
->> > Don't agree. As per previous discussions and as per my IP knowledge, if 
->> > EAME is not enabled / not supported the register can still be written. 
->> > This is not fast path and will not impact any remaining operation. Can 
->> > you please explain what exactly is the concern about this ?
->> > 
->> > Anyway, this is an important feature for performance so I hope Thierry 
->> > re-submits this once -next opens and addressing the review comments.
->> 
->> Perhaps I misunderstand the context, isn't this code writing the
->> descriptors for every packet?
-> 
-> No, its just setting up the base address for the descriptors which is 
-> done in open(). The one that's in the fast path is the tail address, 
-> which is always the lower 32 bits.
+ WARNING KERN regulator@3 GPIO handle specifies active low - ignored
 
-Aha, ok, yes then initializing both parts unconditionally is fine.
+The fixed-regulator binding does not use the active-low flag from the
+gpio specifier and purely relies of the presence of the
+'enable-active-high' property to determine if it is active high or low
+(if this property is omitted). Fix this warning by setting the GPIO
+to active-high in the GPIO specifier. Finally, remove the
+'enable-active-low' as this is not a valid property.
+
+Fixes: 4fdbfd60a3a2 ("arm64: tegra: Add PCIe slot supply information in p2972-0000 platform")
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
+index 4c38426a6969..02909a48dfcd 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
+@@ -309,9 +309,8 @@
+ 			regulator-name = "VDD_12V";
+ 			regulator-min-microvolt = <1200000>;
+ 			regulator-max-microvolt = <1200000>;
+-			gpio = <&gpio TEGRA194_MAIN_GPIO(A, 1) GPIO_ACTIVE_LOW>;
++			gpio = <&gpio TEGRA194_MAIN_GPIO(A, 1) GPIO_ACTIVE_HIGH>;
+ 			regulator-boot-on;
+-			enable-active-low;
+ 		};
+ 	};
+ };
+-- 
+2.17.1
+
