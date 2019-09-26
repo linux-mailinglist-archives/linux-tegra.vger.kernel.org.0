@@ -2,188 +2,261 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 086AABE869
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 Sep 2019 00:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96518BEA1E
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Sep 2019 03:31:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729574AbfIYWq1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 25 Sep 2019 18:46:27 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46774 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725804AbfIYWq0 (ORCPT
+        id S2388652AbfIZBbg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 25 Sep 2019 21:31:36 -0400
+Received: from mailout4.samsung.com ([203.254.224.34]:15881 "EHLO
+        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726770AbfIZBbf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 25 Sep 2019 18:46:26 -0400
-Received: by mail-wr1-f68.google.com with SMTP id o18so154247wrv.13;
-        Wed, 25 Sep 2019 15:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=CEZdOX21rmjotp8jx0GVHCSCIrQmoVSTc0h3cKmO9YI=;
-        b=mAoIXKqv8lB4MLmARHSy55VTPRFCAfx3/MA+JH4eHdRrP76KU+gHoVHQRaA4KgzPl1
-         r0yy2exr0YGZhFepeiJSlV+ypdpghONw2kbuLDwjkwQlvvIfNqoJY+rAZeofGoX2HRTC
-         szPfPDrmKIBUuEWJEvQcPUFZjmqaZEFlQ1Haf5wau32PDnZxS7qb6nsH0i9yPrOt7dzy
-         4G0ddYPFkfRrqcyQOu7ZrzEnk5fn220KuDZUuiPj/00HSbOsB4mBZSzlgQQQf+V5sgfd
-         B6BZlioYmAFPMjRInAmpXm9QKN4mjTIauSYfG36EoRNMfOcffcHmIfEJHl37WEXP133c
-         3nIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CEZdOX21rmjotp8jx0GVHCSCIrQmoVSTc0h3cKmO9YI=;
-        b=HeweWuQjnpvmtPAI/vctbCnEefzwJz8RTigD327DEC6LhNOa7APMuwVDiGfTqVY6RT
-         mKi8y1hieIkDgBVrs0RWLDCvwzmd/q59zEofbrx6rhjNRbXs95ZQh0tNec0kqc9mttXs
-         p65Zo6Dmgqt2N9w31pmzqHwSGLbMNeYLA3tBhoCMdYIjCKawpwBt3LOVfi1l3XElzIlw
-         v+93P1o6F260yUPOE3Mwmt9XclohILxeYXuqD9iYz2SJltKEtYHubziZkoiu08mz8eS9
-         MORv9J9SQsFhmirEpQd4aXtWPIC5w1MnNPhgZYy30ZCPJri5x4AiXXnp7zoedQTIfryP
-         YrFQ==
-X-Gm-Message-State: APjAAAVne72BE646cCFProtHYetz+btNhuPXC1cf5Xcdgk16Rw9pfrOf
-        4ELq98zjg8ictAuwAxuKAgw=
-X-Google-Smtp-Source: APXvYqyZMYYmQIAhprS8+pJka6zOV+MlQMWnqkvuRIE65XzmSLqUvmqJ1+id3dbCtzsgDMYrwuTqig==
-X-Received: by 2002:a5d:6a09:: with SMTP id m9mr443268wru.12.1569451583600;
-        Wed, 25 Sep 2019 15:46:23 -0700 (PDT)
-Received: from localhost (p200300E41F0FEE00021F3CFFFE37B91B.dip0.t-ipconnect.de. [2003:e4:1f0f:ee00:21f:3cff:fe37:b91b])
-        by smtp.gmail.com with ESMTPSA id b22sm325037wmj.36.2019.09.25.15.46.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2019 15:46:21 -0700 (PDT)
-Date:   Thu, 26 Sep 2019 00:46:20 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Jose Abreu <Jose.Abreu@synopsys.com>,
-        David Miller <davem@davemloft.net>,
-        "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
-        "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "bbiswas@nvidia.com" <bbiswas@nvidia.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v3 0/2] net: stmmac: Enhanced addressing mode for DWMAC
- 4.10
-Message-ID: <20190925224620.GA8115@mithrandir>
-References: <20190920170036.22610-1-thierry.reding@gmail.com>
- <20190924.214508.1949579574079200671.davem@davemloft.net>
- <BN8PR12MB3266F851B071629898BB775AD3870@BN8PR12MB3266.namprd12.prod.outlook.com>
- <20190925.133353.1445361137776125638.davem@davemloft.net>
- <BN8PR12MB3266A2F1F5F3F18F3A80BFC1D3870@BN8PR12MB3266.namprd12.prod.outlook.com>
- <BN8PR12MB32667F9FDDB2161E9B63C1AFD3870@BN8PR12MB3266.namprd12.prod.outlook.com>
- <9f0e2386-c4b1-52b0-6881-e72093eb1b05@gmail.com>
+        Wed, 25 Sep 2019 21:31:35 -0400
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20190926013130epoutp04e333091f42636efe9cbc5a58afd961ac~H2Oka-CPQ3265332653epoutp045
+        for <linux-tegra@vger.kernel.org>; Thu, 26 Sep 2019 01:31:30 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20190926013130epoutp04e333091f42636efe9cbc5a58afd961ac~H2Oka-CPQ3265332653epoutp045
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1569461490;
+        bh=H7dIy4NLJ0Vtiyy8JGjYV3SoJNF1jlpXFN42Cx87qDc=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=RYxrHJEfxavRVL74TZhStzp1M3v/kexRPRSkVkrwVdcc3Rli0TRLydxnMlzWTggMu
+         APil17qJ3Sj+XDeku/SiEyIC8X8jyTEhLWhkqsZDHG56cyHIncbauk6cGbdL0e87Yb
+         MuuVq8blmNZkztmkX5h0/3q9dBSwwvvy3gpwOVH0=
+Received: from epsnrtp5.localdomain (unknown [182.195.42.166]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+        20190926013130epcas1p434480b7b054308c3daa91f68e59e0203~H2Oj9hRqA1545815458epcas1p4j;
+        Thu, 26 Sep 2019 01:31:30 +0000 (GMT)
+Received: from epsmges1p5.samsung.com (unknown [182.195.40.158]) by
+        epsnrtp5.localdomain (Postfix) with ESMTP id 46dy7g5MxVzMqYkc; Thu, 26 Sep
+        2019 01:31:27 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+        epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
+        B2.05.04068.AE41C8D5; Thu, 26 Sep 2019 10:31:22 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20190926013122epcas1p1dcdbefd63f655e8082d138064c09e9dd~H2OcdAG4O2486724867epcas1p1B;
+        Thu, 26 Sep 2019 01:31:22 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20190926013122epsmtrp1664d228cded2bcb996429c2f343c14fe~H2OccJ9l43098130981epsmtrp18;
+        Thu, 26 Sep 2019 01:31:22 +0000 (GMT)
+X-AuditID: b6c32a39-f5fff70000000fe4-35-5d8c14ea9a2b
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        02.41.04081.AE41C8D5; Thu, 26 Sep 2019 10:31:22 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20190926013122epsmtip1910ffa9271d525d0209975049806c252~H2OcPcUkN2250222502epsmtip1B;
+        Thu, 26 Sep 2019 01:31:22 +0000 (GMT)
+Subject: Re: [PATCH 1/2] devfreq: Rename devfreq_update_status() to
+ devfreq_update_stats() and viceversa
+To:     Matthias Kaehlcke <mka@chromium.org>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <3fb18474-b31e-bc7e-8b6a-660904a19443@samsung.com>
+Date:   Thu, 26 Sep 2019 10:36:04 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
-Content-Disposition: inline
-In-Reply-To: <9f0e2386-c4b1-52b0-6881-e72093eb1b05@gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20190925184314.30251-1-mka@chromium.org>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrMJsWRmVeSWpSXmKPExsWy7bCmge4rkZ5Yg9uL1CzOLjvIZtEyaxGL
+        xdmmN+wWl3fNYbP43HuE0aLzyyw2i0sHFjBZfN7wmNHiduMKNot9HQ+YLH7umsfiwO0xu+Ei
+        i8fOWXfZPVr23WL36G1+x+bxft9VNo++LasYPT5vkgtgj8q2yUhNTEktUkjNS85PycxLt1Xy
+        Do53jjc1MzDUNbS0MFdSyEvMTbVVcvEJ0HXLzAE6UkmhLDGnFCgUkFhcrKRvZ1OUX1qSqpCR
+        X1xiq5RakJJTYFmgV5yYW1yal66XnJ9rZWhgYGQKVJiQnfH7zGzmggV6Fc9bzjA1MB5X62Lk
+        4JAQMJGY98S6i5GLQ0hgB6NEx/+PTF2MnEDOJ0aJe689IRLfGCUWzZ3CDpIAaWjb+pUZIrGX
+        UeLuktnsEM57RombE5sYQaqEBbIkWrZOAUuICMxlkui5NxXMYRZoZpS4tHou2BI2AS2J/S9u
+        sIHY/AKKEld/PGYEOYpXwE6i4ZUASJhFQFXiUv9EsNWiAhESnx4cZgWxeQUEJU7OfMICYnMK
+        mEl83XsUbAyzgLjErSfzmSBseYnmrbPBTpUQWMYucb5tOdQPLhK/pi1kgrCFJV4d3wIVl5J4
+        2d8GZVdLrDx5hA2iuYNRYsv+C6wQCWOJ/UsnM4EcyiygKbF+lz5EWFFi5++5jBCL+STefe1h
+        hQQwr0RHmxBEibLE5Qd3odZKSixu72SbwKg0C8k7s5C8MAvJC7MQli1gZFnFKJZaUJybnlps
+        WGCKHNubGMEJWMtyB+Oxcz6HGAU4GJV4eCUiu2OFWBPLiitzDzFKcDArifDOkumKFeJNSays
+        Si3Kjy8qzUktPsRoCgzticxSosn5wOyQVxJvaGpkbGxsYWJoZmpoqCTO65HeECskkJ5Ykpqd
+        mlqQWgTTx8TBKdXAuMX4eaDcgnmVG/Lkn6nw+QU9fio0+/HJtQp/fseuyZ3CzuZxL8e9W9nu
+        euCVkNz+3YrT1pfpnZm8/rj+9B8zODgEt622++cS+FQySFzpwUOji9Ip3pue3L6sprWjfQLz
+        vFonvqL3Ub6aVxrPrxVwjbdfb2L50ddR93TEM7GWinc8XydK//s2TYmlOCPRUIu5qDgRAI8D
+        kX7WAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRmVeSWpSXmKPExsWy7bCSnO4rkZ5Yg/69PBZnlx1ks2iZtYjF
+        4mzTG3aLy7vmsFl87j3CaNH5ZRabxaUDC5gsPm94zGhxu3EFm8W+jgdMFj93zWNx4PaY3XCR
+        xWPnrLvsHi37brF79Da/Y/N4v+8qm0ffllWMHp83yQWwR3HZpKTmZJalFunbJXBl/D4zm7lg
+        gV7F85YzTA2Mx9W6GDk5JARMJNq2fmXuYuTiEBLYzSjRMr+ZFSIhKTHt4lGgBAeQLSxx+HAx
+        RM1bRomljw4wg9QIC2RJtGydwg6SEBGYzyRxad0jVhCHWaCZUWJJ338WiJZORomHy/+CtbAJ
+        aEnsf3GDDcTmF1CUuPrjMSPICl4BO4mGVwIgYRYBVYlL/RPZQWxRgQiJwztmMYLYvAKCEidn
+        PmEBsTkFzCS+7j0KNoZZQF3iz7xLzBC2uMStJ/OZIGx5ieats5knMArPQtI+C0nLLCQts5C0
+        LGBkWcUomVpQnJueW2xYYJiXWq5XnJhbXJqXrpecn7uJERyNWpo7GC8viT/EKMDBqMTDeyCs
+        O1aINbGsuDL3EKMEB7OSCO8sma5YId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rxP845FCgmkJ5ak
+        ZqemFqQWwWSZODilGhgX2ihvOSba8TUy0feUIUfqbFGOoxHeS0689l2mmfJI6qvDxUVfHZlD
+        Wa0D0k95lP1avVRFWy1O8IWX9u5L13dcNCsROVP1pnIPd+CfIiXxJ69yJ21J01mt81vsxeOL
+        V3ffY7lZus75xueHJxV4Xx+uXu+gqz7vxU7bkPfVs4sDb2g8mxGsN6dXiaU4I9FQi7moOBEA
+        z35ZUMICAAA=
+X-CMS-MailID: 20190926013122epcas1p1dcdbefd63f655e8082d138064c09e9dd
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20190925184505epcas2p3f8f4395f37df4b1fe33309393e8af4df
+References: <CGME20190925184505epcas2p3f8f4395f37df4b1fe33309393e8af4df@epcas2p3.samsung.com>
+        <20190925184314.30251-1-mka@chromium.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi,
 
---yrj/dFKFPuw6o+aM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm not sure that it is necessary. I think that it depends on
+personal opinions. There are no correct answer perfectly.
+Also, after this changes, there are no any beneficial.
+It touch the history rather than behavior improvement.
 
-On Wed, Sep 25, 2019 at 10:31:13AM -0700, Florian Fainelli wrote:
-> On 9/25/19 4:46 AM, Jose Abreu wrote:
-> > From: Jose Abreu <joabreu@synopsys.com>
-> > Date: Sep/25/2019, 12:41:04 (UTC+00:00)
-> >=20
-> >> From: David Miller <davem@davemloft.net>
-> >> Date: Sep/25/2019, 12:33:53 (UTC+00:00)
-> >>
-> >>> From: Jose Abreu <Jose.Abreu@synopsys.com>
-> >>> Date: Wed, 25 Sep 2019 10:44:53 +0000
-> >>>
-> >>>> From: David Miller <davem@davemloft.net>
-> >>>> Date: Sep/24/2019, 20:45:08 (UTC+00:00)
-> >>>>
-> >>>>> From: Thierry Reding <thierry.reding@gmail.com>
-> >>>>> Date: Fri, 20 Sep 2019 19:00:34 +0200
-> >>>>>
-> >>>>> Also, you're now writing to the high 32-bits unconditionally, even =
-when
-> >>>>> it will always be zero because of 32-bit addressing.  That looks li=
-ke
-> >>>>> a step backwards to me.
-> >>>>
-> >>>> Don't agree. As per previous discussions and as per my IP knowledge,=
- if=20
-> >>>> EAME is not enabled / not supported the register can still be writte=
-n.=20
-> >>>> This is not fast path and will not impact any remaining operation. C=
-an=20
-> >>>> you please explain what exactly is the concern about this ?
-> >>>>
-> >>>> Anyway, this is an important feature for performance so I hope Thier=
-ry=20
-> >>>> re-submits this once -next opens and addressing the review comments.
-> >>>
-> >>> Perhaps I misunderstand the context, isn't this code writing the
-> >>> descriptors for every packet?
-> >>
-> >> No, its just setting up the base address for the descriptors which is=
-=20
-> >> done in open(). The one that's in the fast path is the tail address,=
-=20
-> >> which is always the lower 32 bits.
-> >=20
-> > Oops, sorry. Indeed it's done in refill operation in function=20
-> > dwmac4_set_addr() for rx/tx which is fast path so you do have a point=
-=20
-> > that I was not seeing. Thanks for bringing this up!
-> >=20
-> > Now, the point would be:
-> > 	a) Is it faster to have an condition check in dwmac4_set_addr(), or
-> > 	b) Always write to descs the upper 32 bits. Which always exists in the=
-=20
-> > IP and is a standard write to memory.
->=20
-> The way I would approach it (as done in bcmgenet.c) is that if the
-> platform both has CONFIG_PHYS_ADDR_T_64BIT=3Dy and supports > 32-bits
-> addresses, then you write the upper 32-bits otherwise, you do not. Given
-> you indicate that the registers are safe to write regardless, then maybe
-> just the check on CONFIG_PHYS_ADDR_T_64BIT is enough for your case. The
-> rationale in my case is that register writes to on-chip descriptors are
-> fairly expensive (~200ns per operation) and get in the hot-path.
->=20
-> The CONFIG_PHYS_ADDR_T_64BIT check addresses both native 64-bit
-> platforms (e.g.: ARM64) and those that do support LPAE (ARM LPAE for
-> instance).
+On 19. 9. 26. 오전 3:43, Matthias Kaehlcke wrote:
+> devfreq has two functions with very similar names, devfreq_update_status()
+> and devfreq_update_stats(). _update_status() currently updates
+> frequency transitions statistics, while _update_stats() retrieves the
+> device 'status'. The function names are inversed with respect to what
+> the functions are actually doing, rename devfreq_update_status() to
+> devfreq_update_stats() and viceversa.
+> 
+> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+> ---
+> We could also rename the current devfreq_update_stats() to
+> devfreq_refresh_status() to make it easier to distinguish it from
+> devfreq_update_stats().
+> ---
+>  drivers/devfreq/devfreq.c                 | 12 ++++++------
+>  drivers/devfreq/governor.h                |  4 ++--
+>  drivers/devfreq/governor_passive.c        |  2 +-
+>  drivers/devfreq/governor_simpleondemand.c |  2 +-
+>  drivers/devfreq/tegra30-devfreq.c         |  2 +-
+>  5 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/devfreq/devfreq.c b/drivers/devfreq/devfreq.c
+> index 446490c9d635..fb4318d59aa9 100644
+> --- a/drivers/devfreq/devfreq.c
+> +++ b/drivers/devfreq/devfreq.c
+> @@ -151,11 +151,11 @@ static int set_freq_table(struct devfreq *devfreq)
+>  }
+>  
+>  /**
+> - * devfreq_update_status() - Update statistics of devfreq behavior
+> + * devfreq_update_stats() - Update statistics of devfreq behavior
+>   * @devfreq:	the devfreq instance
+>   * @freq:	the update target frequency
+>   */
+> -int devfreq_update_status(struct devfreq *devfreq, unsigned long freq)
+> +int devfreq_update_stats(struct devfreq *devfreq, unsigned long freq)
+>  {
+>  	int lev, prev_lev, ret = 0;
+>  	unsigned long cur_time;
+> @@ -191,7 +191,7 @@ int devfreq_update_status(struct devfreq *devfreq, unsigned long freq)
+>  	devfreq->last_stat_updated = cur_time;
+>  	return ret;
+>  }
+> -EXPORT_SYMBOL(devfreq_update_status);
+> +EXPORT_SYMBOL(devfreq_update_stats);
+>  
+>  /**
+>   * find_devfreq_governor() - find devfreq governor from name
+> @@ -311,7 +311,7 @@ static int devfreq_set_target(struct devfreq *devfreq, unsigned long new_freq,
+>  	freqs.new = new_freq;
+>  	devfreq_notify_transition(devfreq, &freqs, DEVFREQ_POSTCHANGE);
+>  
+> -	if (devfreq_update_status(devfreq, new_freq))
+> +	if (devfreq_update_stats(devfreq, new_freq))
+>  		dev_err(&devfreq->dev,
+>  			"Couldn't update frequency transition information.\n");
+>  
+> @@ -450,7 +450,7 @@ void devfreq_monitor_suspend(struct devfreq *devfreq)
+>  		return;
+>  	}
+>  
+> -	devfreq_update_status(devfreq, devfreq->previous_freq);
+> +	devfreq_update_stats(devfreq, devfreq->previous_freq);
+>  	devfreq->stop_polling = true;
+>  	mutex_unlock(&devfreq->lock);
+>  	cancel_delayed_work_sync(&devfreq->work);
+> @@ -1398,7 +1398,7 @@ static ssize_t trans_stat_show(struct device *dev,
+>  	unsigned int max_state = devfreq->profile->max_state;
+>  
+>  	if (!devfreq->stop_polling &&
+> -			devfreq_update_status(devfreq, devfreq->previous_freq))
+> +			devfreq_update_stats(devfreq, devfreq->previous_freq))
+>  		return 0;
+>  	if (max_state == 0)
+>  		return sprintf(buf, "Not Supported.\n");
+> diff --git a/drivers/devfreq/governor.h b/drivers/devfreq/governor.h
+> index bbe5ff9fcecf..e11f447be2b5 100644
+> --- a/drivers/devfreq/governor.h
+> +++ b/drivers/devfreq/governor.h
+> @@ -64,9 +64,9 @@ extern void devfreq_interval_update(struct devfreq *devfreq,
+>  extern int devfreq_add_governor(struct devfreq_governor *governor);
+>  extern int devfreq_remove_governor(struct devfreq_governor *governor);
+>  
+> -extern int devfreq_update_status(struct devfreq *devfreq, unsigned long freq);
+> +extern int devfreq_update_stats(struct devfreq *devfreq, unsigned long freq);
+>  
+> -static inline int devfreq_update_stats(struct devfreq *df)
+> +static inline int devfreq_update_status(struct devfreq *df)
+>  {
+>  	return df->profile->get_dev_status(df->dev.parent, &df->last_status);
+>  }
+> diff --git a/drivers/devfreq/governor_passive.c b/drivers/devfreq/governor_passive.c
+> index be6eeab9c814..1c746b96d3db 100644
+> --- a/drivers/devfreq/governor_passive.c
+> +++ b/drivers/devfreq/governor_passive.c
+> @@ -110,7 +110,7 @@ static int update_devfreq_passive(struct devfreq *devfreq, unsigned long freq)
+>  		goto out;
+>  
+>  	if (devfreq->profile->freq_table
+> -		&& (devfreq_update_status(devfreq, freq)))
+> +		&& (devfreq_update_stats(devfreq, freq)))
+>  		dev_err(&devfreq->dev,
+>  			"Couldn't update frequency transition information.\n");
+>  
+> diff --git a/drivers/devfreq/governor_simpleondemand.c b/drivers/devfreq/governor_simpleondemand.c
+> index 3d809f228619..2cbf26bdcfd6 100644
+> --- a/drivers/devfreq/governor_simpleondemand.c
+> +++ b/drivers/devfreq/governor_simpleondemand.c
+> @@ -25,7 +25,7 @@ static int devfreq_simple_ondemand_func(struct devfreq *df,
+>  	unsigned int dfso_downdifferential = DFSO_DOWNDIFFERENCTIAL;
+>  	struct devfreq_simple_ondemand_data *data = df->data;
+>  
+> -	err = devfreq_update_stats(df);
+> +	err = devfreq_update_status(df);
+>  	if (err)
+>  		return err;
+>  
+> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+> index a6ba75f4106d..536273a811fe 100644
+> --- a/drivers/devfreq/tegra30-devfreq.c
+> +++ b/drivers/devfreq/tegra30-devfreq.c
+> @@ -526,7 +526,7 @@ static int tegra_governor_get_target(struct devfreq *devfreq,
+>  	unsigned int i;
+>  	int err;
+>  
+> -	err = devfreq_update_stats(devfreq);
+> +	err = devfreq_update_status(devfreq);
+>  	if (err)
+>  		return err;
+>  
+> 
 
-I think we actually want CONFIG_DMA_ADDR_T_64BIT here because we're
-dealing with addresses returned from the DMA API here.
 
-I can add an additional condition for the upper 32-bit register writes,
-something like:
-
-	if (IS_ENABLED(CONFIG_DMA_ADDR_T_64BIT) && priv->dma_cfg->eame)
-		...
-
-The compiler should be able to eliminate that as dead code on platforms
-that don't support 64-bit DMA addresses, but the code should still be
-compiler regardless of the setting, thus increasing the compile
-coverage.
-
-Thierry
-
---yrj/dFKFPuw6o+aM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2L7jgACgkQ3SOs138+
-s6E85A//TUkBCR3yGIWSlP9JU9/6nlGvQO3HX7K6NEPTfgXEotbcKqS6AbfEBIfO
-/tZZYX4n5CzdNi7MRt80D/H5BiTbQsEGskXBWrTHxWbtRuMyjWVdjBp3wB/BFouJ
-HVcCDecT5RNz6yIWUD980FXMjviYYXjTjzTUjFCPRg0Kn+Cm1mu8RgEULQb9EzFl
-YJ1WgzK8w+Q0taHrSPh8nJRszpXaqIOSw2YJprS5RW6lnzJfUp02ejjqwzGfVgUO
-CqGu9J7auKI+aXQioPCmqRXGj2rIf9pWT4ihiq0gGyhiE5jqQTKTUsugmc4UxuDM
-xD4yz01/+zfXvAG9dn+eEWiO3l676r5J4ph38gUh9O9vwEHh3G4bA/Kbfd1Zg70e
-A6G0vGn8WbMRbOpliBkU5pHpTKng6eczGycHUBc0YuJBTHMfSYA8+uG03pIm6kbe
-rZR0N6aw54m1W7uYoU0JKm+taInOpOpFguEIfxSorKJikZw29qBWysE+8Dzw1yW2
-ufCmL4FOFuw59w3JpCKQ7Sk1laPKwacdCi8ieGOlqEds4/FM/Yl7CV3AxbV0VyLg
-fmJSRTPQ++oDh6wohqQL6UQWj6+4b1rnhwb6jJyTFR81o3t3yLYplNm5NLk9Kbi7
-1eMLurX/fO1JCJNsmix2jBqV0yO152teT0xHUb1buBwJSCasSyI=
-=+uVD
------END PGP SIGNATURE-----
-
---yrj/dFKFPuw6o+aM--
+-- 
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
