@@ -2,178 +2,230 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8931BEDA4
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 Sep 2019 10:43:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13C27BEDFE
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Sep 2019 11:04:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729705AbfIZIn2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 26 Sep 2019 04:43:28 -0400
-Received: from esa3.microchip.iphmx.com ([68.232.153.233]:14473 "EHLO
-        esa3.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727523AbfIZIn1 (ORCPT
+        id S1728123AbfIZJEk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 26 Sep 2019 05:04:40 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:44253 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726352AbfIZJEk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 26 Sep 2019 04:43:27 -0400
-Received-SPF: Pass (esa3.microchip.iphmx.com: domain of
-  Claudiu.Beznea@microchip.com designates 198.175.253.82 as
-  permitted sender) identity=mailfrom;
-  client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
-  envelope-from="Claudiu.Beznea@microchip.com";
-  x-sender="Claudiu.Beznea@microchip.com";
-  x-conformance=spf_only; x-record-type="v=spf1";
-  x-record-text="v=spf1 mx a:ushub1.microchip.com
-  a:smtpout.microchip.com a:mx1.microchip.iphmx.com
-  a:mx2.microchip.iphmx.com include:servers.mcsv.net
-  include:mktomail.com include:spf.protection.outlook.com ~all"
-Received-SPF: None (esa3.microchip.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@email.microchip.com) identity=helo;
-  client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
-  envelope-from="Claudiu.Beznea@microchip.com";
-  x-sender="postmaster@email.microchip.com";
-  x-conformance=spf_only
-Authentication-Results: esa3.microchip.iphmx.com; spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: bGPvAKkYtCCIgj6XsufIyAqUrQrFHrlqJehWu8yrdxg4XiZIE8HY3m74zYA4pBIl2dM7Pq+ZiJ
- LMvmeWr6vZnbyNa1dvP5oH0bFOGDI+E7wEt2XDFgNrRn/F2jWKLV/Sui2cTi/x8ankFs/PIURZ
- TCg8MTFdqbtLfps3qWHL/iIhNj31YdPJxbUvZNLKnOEScDu8lsPFT/Lo48djBzoPV70jWJWvau
- vMusOB4QRQ1oBRtYgjzGwcUplzmz3fjJ4kwuop2bnbMgjUTrRgFlSlR/yGLz4fFsqwnPjLBbN+
- /Jg=
-X-IronPort-AV: E=Sophos;i="5.64,551,1559545200"; 
-   d="scan'208";a="50637679"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 26 Sep 2019 01:43:21 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 26 Sep 2019 01:43:00 -0700
-Received: from NAM03-DM3-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5 via Frontend
- Transport; Thu, 26 Sep 2019 01:43:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LAKd7nZdlrszjrScV/mDSpWwlBQpz4OW0Dq5CkoWjMuANbBM/5HX/mvCJ1BNkwGaou60fK1luDG1SuErBCcdivcJl6U97E+tf1icsRtvuQ/c+Vr2D92oKwwatg0KqviXN2zYMA798CDsrMljh0bRj+9j1SbWoeVILlyHFAkEqx84mpvhrLkUSFLHJt4KtSrf/z7OA4pgb9SOD2xLoG0W4nM2nMGaKlqL1hWyj4ap6F9Q7eD/Dwx55GTPy9NYABjKlRNGK1h+vhv9d6jaUomv8NBO5QBvowkgirRyJRDu6PpaLkQDcirfByS9IQ6JXG+x/2GcEY46GPeFLsYudjLlxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6EWbUDqnvgUzzXQW00IRG+60rKbfAvKMDdZxX46efN0=;
- b=PMuHzwlKZ/fYZX5ADVZQMHPliV3OCxDJetV6TPNVzFVpB9wpLqxsMO4dGQNYuW20PuyJ1gi3lxhJY2T7t0XOtb60I9UIvRErFWu0AakkepzRnilU+wMxIEn7YSnUWm315jeiJ1n9jl3CaJ9iIFD9QOFvG/zkfG7//OozLJdk5UxfBrXWpS68TI21N8kiWIIiE7jSToEPXJyxoMNzYcFomFLL+dxvwKQ4CAd/GIYbuKUGFHRHwLgZbGNKfW9ygkwPtRQFbsZIhzc8QabpS3eFPJQig+U2BqU+r4p3K44MosG5VXOrEtN0H1s7i5FFbpsZO5ToS4D6o1jN0neJDEjLcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+        Thu, 26 Sep 2019 05:04:40 -0400
+Received: by mail-wr1-f67.google.com with SMTP id i18so1474907wru.11;
+        Thu, 26 Sep 2019 02:04:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6EWbUDqnvgUzzXQW00IRG+60rKbfAvKMDdZxX46efN0=;
- b=sRxHJIvVGtZ8/GEHxWp33aMPe7Q4GBN7VmF5wkFAFLTlyjSyrWQenBoVymB9ziCE1mLc20JUtKFtda5cfZmJD77buGVJQ/kmAe0jvenOIQF+StDHIvxBJI3+CHQiN/0f+r5T2RN8LBa8K6t8Z5LFY6BQYYDheLYNVw6KDBXpydM=
-Received: from MWHPR11MB1549.namprd11.prod.outlook.com (10.172.54.17) by
- MWHPR11MB1901.namprd11.prod.outlook.com (10.175.54.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.26; Thu, 26 Sep 2019 08:42:58 +0000
-Received: from MWHPR11MB1549.namprd11.prod.outlook.com
- ([fe80::1c73:1329:a07:ab9a]) by MWHPR11MB1549.namprd11.prod.outlook.com
- ([fe80::1c73:1329:a07:ab9a%12]) with mapi id 15.20.2305.017; Thu, 26 Sep 2019
- 08:42:57 +0000
-From:   <Claudiu.Beznea@microchip.com>
-To:     <daniel.lezcano@linaro.org>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <linux@armlinux.org.uk>, <nsekhar@ti.com>,
-        <bgolaszewski@baylibre.com>, <monstr@monstr.eu>,
-        <john@phrozen.org>, <ralf@linux-mips.org>, <paul.burton@mips.com>,
-        <jhogan@kernel.org>, <lftan@altera.com>, <tglx@linutronix.de>,
-        <vgupta@synopsys.com>, <marc.zyngier@arm.com>,
-        <patrice.chotard@st.com>, <mcoquelin.stm32@gmail.com>,
-        <alexandre.torgue@st.com>, <eric@anholt.net>, <wahrenst@gmx.net>,
-        <f.fainelli@gmail.com>, <rjui@broadcom.com>,
-        <sbranden@broadcom.com>, <bcm-kernel-feedback-list@broadcom.com>,
-        <linus.walleij@linaro.org>, <shc_work@mail.ru>, <kgene@kernel.org>,
-        <krzk@kernel.org>, <ysato@users.sourceforge.jp>,
-        <liviu.dudau@arm.com>, <sudeep.holla@arm.com>,
-        <lorenzo.pieralisi@arm.com>, <shawnguo@kernel.org>,
-        <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
-        <festevam@gmail.com>, <linux-imx@nxp.com>, <baohua@kernel.org>,
-        <Nicolas.Ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <Ludovic.Desroches@microchip.com>, <baruch@tkos.co.il>,
-        <u.kleine-koenig@pengutronix.de>, <guoren@kernel.org>,
-        <kaloz@openwrt.org>, <khalasa@piap.pl>, <ssantosh@kernel.org>,
-        <vz@mleia.com>, <slemieux.tyco@gmail.com>, <khilman@baylibre.com>,
-        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
-        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
-        <benjaminfair@google.com>, <afaerber@suse.de>,
-        <manivannan.sadhasivam@linaro.org>, <narmstrong@baylibre.com>,
-        <agross@kernel.org>, <palmer@sifive.com>, <aou@eecs.berkeley.edu>,
-        <heiko@sntech.de>, <orsonzhai@gmail.com>, <baolin.wang@linaro.org>,
-        <zhang.lyra@gmail.com>, <maxime.ripard@bootlin.com>,
-        <wens@csie.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <linux@prisktech.co.nz>,
-        <john.stultz@linaro.org>, <sboyd@kernel.org>,
-        <matthias.bgg@gmail.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mips@vger.kernel.org>, <nios2-dev@lists.rocketboards.org>,
-        <linux-snps-arc@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        <uclinux-h8-devel@lists.sourceforge.jp>,
-        <linux-amlogic@lists.infradead.org>, <openbmc@lists.ozlabs.org>,
-        <linux-oxnas@groups.io>, <linux-arm-msm@vger.kernel.org>,
-        <linux-unisoc@lists.infradead.org>,
-        <linux-riscv@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-tegra@vger.kernel.org>, <linux-mediatek@lists.infradead.org>
-Subject: Re: [PATCH 0/7] add support for clocksource/clockevent DT selection
-Thread-Topic: [PATCH 0/7] add support for clocksource/clockevent DT selection
-Thread-Index: AQHVc8VbrLXkUp4vH02J/Sk0g3X+4Kc9pRwA
-Date:   Thu, 26 Sep 2019 08:42:57 +0000
-Message-ID: <72edc5fd-df05-cba5-5aa7-39da1709415b@microchip.com>
-References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
- <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
-In-Reply-To: <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: MR2P264CA0113.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:500:33::29) To MWHPR11MB1549.namprd11.prod.outlook.com
- (2603:10b6:301:c::17)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190926114228283
-x-originating-ip: [94.177.32.156]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bc557067-1077-42be-6717-08d7425d8720
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MWHPR11MB1901;
-x-ms-traffictypediagnostic: MWHPR11MB1901:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR11MB19011D574DC5569C649FB82D87860@MWHPR11MB1901.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0172F0EF77
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(396003)(376002)(136003)(39860400002)(366004)(51914003)(199004)(189003)(446003)(4744005)(71200400001)(25786009)(386003)(6506007)(52116002)(229853002)(71190400001)(53546011)(6486002)(7416002)(76176011)(36756003)(7406005)(7366002)(31686004)(7336002)(14454004)(6512007)(66946007)(1191002)(561944003)(64756008)(66446008)(66476007)(7736002)(305945005)(99286004)(2501003)(5660300002)(102836004)(256004)(14444005)(66556008)(476003)(26005)(6116002)(6246003)(11346002)(486006)(86362001)(31696002)(316002)(8676002)(81166006)(81156014)(6436002)(478600001)(186003)(2171002)(3846002)(8936002)(110136005)(54906003)(2201001)(2616005)(4326008)(2906002)(66066001)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR11MB1901;H:MWHPR11MB1549.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: JsNRlFiKu2xImweAE+BluMpKIUoInHFuE2sg+dLKuGs4T9kFDOqgcHKJUCYS2gybgMXXZI5osydBUn9KNyoHWWJ6/NEaYP7KAKFfRJ0/CBzJRNVV9Mpz72YJ/dwnH04AjmMgpY41/nVVGtmUYJYTJXrEzGLfmayrGh8nNn5Sbf4qIM3pSA5H8Sl3NizOFZQjufDCOp/GxaNSWWnBaSVrEfjMjVKTtgnofFe0H1aEiy8Tt0GakCl/TvuOscqDULtqdRbtiBBDaTwX3stbA4aowKc9J1UXVNNUbKf75xSs3TjOyQ7u+YASL6mozZNWDOz84BYusPgi0naRrvDr9rr+RxZsw27ZcfUbWPxhjmHmc/eWGyOuc1UAcucjh0WBPML8WyL/9v1fZOEV2kZBxSHkZAgdTmCtqwt/9/u7k/BT0i0=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BCA8ECD1111F6948AB05E557D0B1C52E@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=MxzDBXOVQhWsN01bv+jFsQXoBf3LnvBl8+L+Gv9bicg=;
+        b=Arp3uC+oRK9kO5jHyZoJZkasVpXc4QlrjLt4EPzG4UcDuAevgnt5Ad8JEuAfDifNh1
+         J5goeFNtOb7DAf7xU7hh+K0ZZLWMnny3N0MuBW7qvp4fQBTsAixLospbCkcmSLLyeB+b
+         PLwF6M2WyflDzN1RW+g9KvAIuVKv0Bbs2gR8Ja/l3JbFQFcIUrwwDo+vtqa1KE1w1QL5
+         bwuL2aKoP9hcjSXXfrzag7iKOmaPeU3om9TnMlvjZszOnkujNN2bDS/YpZrSO1ju8U6Y
+         OG2sJA/eCp1YIdAV86d0qm5MyxWo/ziz/zm1msLoF7bOTgx9+T98wZHqz1jLPs/IWesZ
+         Ck0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=MxzDBXOVQhWsN01bv+jFsQXoBf3LnvBl8+L+Gv9bicg=;
+        b=seQtKf17LmHklSHXRU63nt+klv2sPXCj5pj8ek4ykiRYHNOwX+PrlE6Q6LQVbQPKjR
+         8pOJJ77toUiPh9JFeNtZXHxTT1AaXYmeS1jSImSBjoI6zDfw2dn4rgQQGqLjGPL8ol78
+         YPquLXp4NprnV8PVPRyC0455dDnhkZCxrhlnWQm39+SbysEm4gld+PzdTxw8EPbQeDxy
+         RJ84eNF4Vvb5Q+5rZwCdMr8SvxVAERdwQBg0kLkRE/jh8r0qNHs6UFPHSfIwk4qO+YdW
+         mg9u5mVrWxl4fRwiEEMBEwWAShg1PoP/jk6qwZ8TbpgQRN23dmv+uJldwP8F2k8L2Mne
+         k3Lw==
+X-Gm-Message-State: APjAAAXc9xlMNCVfkSurC6/FrxEGh0G6iFSw6DcxSN8MMwGI6+kPRahi
+        f2m7vWpeRGFY/u3vJej3wnpDppT+
+X-Google-Smtp-Source: APXvYqyoCHqtB58CK+5ItwbuBMjfPu1kS6bBM0yUUPWAyIepS6DHFrVUSytCbdwu/u8usyc3GihWDQ==
+X-Received: by 2002:adf:e605:: with SMTP id p5mr2116793wrm.105.1569488677714;
+        Thu, 26 Sep 2019 02:04:37 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id d28sm2586320wrb.95.2019.09.26.02.04.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Sep 2019 02:04:36 -0700 (PDT)
+Date:   Thu, 26 Sep 2019 11:04:34 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org, kishon@ti.com,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch V10 0/8] Tegra XUSB gadget driver support
+Message-ID: <20190926090434.GA3432@ulmo>
+References: <1569227152-3030-1-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc557067-1077-42be-6717-08d7425d8720
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2019 08:42:57.4048
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eE5XSWl4V1fxZGL0K/Lmn+PqH/2rvLsnNBp8C6u5rbSFictpiZGwaDBVFvOtdFPhk1KlWc6lCOOc/r1X6WP3h/tNVqI8F7Vm3oPSfeDBGRU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1901
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="uAKRQypu60I7Lcqm"
+Content-Disposition: inline
+In-Reply-To: <1569227152-3030-1-git-send-email-nkristam@nvidia.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-DQoNCk9uIDI1LjA5LjIwMTkgMjA6MTksIERhbmllbCBMZXpjYW5vIHdyb3RlOg0KPiBFeHRlcm5h
-bCBFLU1haWwNCj4gDQo+IA0KPiBIaSBDbGF1ZGl1LA0KPiANCj4gT24gMTAvMDkvMjAxOSAxNTo0
-NywgQ2xhdWRpdSBCZXpuZWEgd3JvdGU6DQo+PiBIaSwNCj4+DQo+PiBUaGlzIHNlcmllcyBhZGRz
-IHN1cHBvcnQgdG8gcGVybWl0IHRoZSBzZWxlY3Rpb24gb2YgY2xvY2tzb3VyY2UvY2xvY2tldmVu
-dA0KPj4gdmlhIERULg0KPiANCj4gVGhhbmtzIGZvciB0aGUgcHJvcG9zYWwgYW5kIHRha2luZyBj
-YXJlIG9mIG1ha2luZyBzb21lIHByb2dyZXNzIG9uIHRoaXMuDQo+IA0KPiBJIGp1c3Qgd2FudGVk
-IHRvIGxldCB5b3Uga25vdyBJJ3ZlIGJlZW4gdHJhdmVsaW5nIGJ1dCB0aGUgc2VyaWVzIGlzIGlu
-DQo+IG15IHBpcGUgYW5kIEkgZGlkIG5vdCBmb3JnZXQgaXQuIEknbGwgY29tbWVudCBpdCBuZXh0
-IHdlZWsuDQoNCkhpIERhbmllbCwNCg0KTm8gcHJvYmxlbS4gVGhhbmsgeW91IGZvciBsZXR0aW5n
-IG1lIGtub3cuDQoNCkNsYXVkaXUNCg0KPiANCj4gIC0tIERhbmllbA0KPiANCj4gDQo=
+
+--uAKRQypu60I7Lcqm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Sep 23, 2019 at 01:55:44PM +0530, Nagarjuna Kristam wrote:
+> Patches 1-3 are phy driver changes to add support for device
+> mode.
+> Patches 4-7 are changes related to XUSB device mode
+> controller driver.
+> Patch 8 is to enable drivers for XUDC support in defconfig
+>=20
+> Test Steps(USB 2.0):
+> - Enable "USB Gadget precomposed configurations" in defconfig
+> - Build, flash and boot Jetson TX1
+> - Connect Jetson TX1 and Ubuntu device using USB A to Micro B
+>   cable
+> - After boot on Jetson TX1 terminal usb0 network device should be
+>   enumerated
+> - Assign static ip to usb0 on Jetson TX1 and corresponding net
+>   device on ubuntu
+> - Run ping test and transfer test(used scp) to check data transfer
+>   communication
+>=20
+> SS mode is verified by enabling Type A port as peripheral
+> ---
+> v10:
+> * Patches 1,2,4,5,7,8 - No changes.
+> * Patch 3 has braces added to one single line else condition.
+> * Patch 6 has update on compatible string as per suggestion from Chunfeng.
+> ---
+> v9:
+> * Patches 1,2,3,4,5 - No changes.
+> * Patch 6 has update on compatible string as per suggestion from Chunfeng.
+> * Patch 7 has comment fixes as suggested by Chunfeng.
+> * Patch 8 has CONFIG_USB_GPIO enabled as module additionally.
+> ---
+> v8:
+> * Patches 1,2,3,4,5,8 - No changes.
+> * Patch 6 has update on compatible string as per change done in [1].
+> * Patch 7 has issue fix, where device mode didnot got enabled after resume
+>   from suspend.
+> ---
+> v7:
+> * Patches 1,2,3,4,5,6,8 - No changes.
+> * Patch 7 - Comments from Balbi and Chunfun adrresed.
+>   Added COMPILE_TEST in Kconfig and updated dependencies.
+> ---
+> v6:
+> * Patches 1,2,3,7,8 - No changes.
+> * Patch 4,5,6 - Comments from Rob addressed, updated usb connector driver
+>   compatibility string.
+> ---
+> v5:
+> * Patches 1-3 - Commit subject updated as per inputs from Thierry.
+> * Patch 4 - Added reg-names used on Tegra210 in the bindings doc
+> * Enabled xudc driver as module instead of part of kernel in patch 8.
+> * Patched 5-8 - No changes.
+> ---
+> v4:
+> * patch 1 - no changes.
+> * corrected companion device search based on inputs from Thierry in patch=
+ 2.
+> * removed unneeded dev variable and corrected value read in
+>   tegra210_utmi_port_reset function in patch 3.
+> * dt binding doc and dtb files are corrected for alignments.
+>   Replaced extcon-usb-gpio with usb role switch.
+> * Added support for USB role switch instead of extcon-usb-gpio and other =
+minor
+>   comments as suggested by Chunfeng.
+> * Enabled xudc driver as module instead of part of kernel in patch 8.
+> ---
+> V3:
+> * Rebased patch 1 to top of tree.
+> * Fixed bug in patch 2, where xudc interrupts dont get generated if USB h=
+ost
+>   mode fails to probe. Moved fake port detection logic to generic xusb.c.=
+ fake
+>   usb port data is updated based on soc flag need_fake_usb3_port.
+> * Added extra lines whereever necessary to make code more readable in pat=
+ch 3
+>   and 7.
+> * dt binding doc is corrected for typos and extcon references. Also added
+>   details for clocks and removed xusb_ references to clock and power-doma=
+in
+>   names and accordingly patch 5 is updated.
+> * removed avdd-pll-utmip-supply in patch 6, as its now part of padctl dri=
+ver.
+> * Patch 8 has no changes.
+> ---
+> V2:
+> * Patches 1-3 are new patches in this series, which splits unified featur=
+es
+>   patch to speprated features and removes need of port-fake entry in DT.
+> * Patch 4 is re-arragend dt-bindings patch which incorporates previous
+>   patch comments to sort DT entries alphabetically, addresses name changes
+>   and PM domain details added.
+> * Patch 5-6 are re-arranged DT patches with major changes - sort entries
+>   alphabetically, and adds clock names.
+> * Patch 7 is UDC driver tegra XUSB device mode controller with major
+>   changes - remove un-used module params, lockinng for device_mode flag,
+>   moving un-needed info logs to debug level, making changes feature flag
+>   dependent rather than SOC based macros and other error handling in prob=
+e.
+> * Patch 8 has no changes.
+>=20
+> Nagarjuna Kristam (8):
+>   phy: tegra: xusb: Add XUSB dual mode support on Tegra210
+>   phy: tegra: xusb: Add usb3 port fake support on Tegra210
+>   phy: tegra: xusb: Add vbus override support on Tegra210
+>   dt-bindings: usb: Add NVIDIA Tegra XUSB device mode controller binding
+>   arm64: tegra: Add xudc node for Tegra210
+>   arm64: tegra: Enable xudc on Jetson TX1
+>   usb: gadget: Add UDC driver for tegra XUSB device mode controller
+>   arm64: defconfig: Enable tegra XUDC support
+>=20
+>  .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  |  110 +
+>  arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |   31 +-
+>  arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   19 +
+>  arch/arm64/configs/defconfig                       |    2 +
+>  drivers/phy/tegra/xusb-tegra210.c                  |  134 +-
+>  drivers/phy/tegra/xusb.c                           |   87 +
+>  drivers/phy/tegra/xusb.h                           |    4 +
+>  drivers/usb/gadget/udc/Kconfig                     |   11 +
+>  drivers/usb/gadget/udc/Makefile                    |    1 +
+>  drivers/usb/gadget/udc/tegra-xudc.c                | 3787 ++++++++++++++=
+++++++
+>  include/linux/phy/tegra/xusb.h                     |    4 +-
+>  11 files changed, 4186 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xu=
+dc.txt
+>  create mode 100644 drivers/usb/gadget/udc/tegra-xudc.c
+
+Hi Felipe, Kishon,
+
+since the DT bindings have been acked by Rob, I plan on applying the DTS
+changes of the above once v5.4-rc1 is release. Do you have any remaining
+concerns about the UDC or PHY patches, respectively?
+
+Thierry
+
+--uAKRQypu60I7Lcqm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2Mfx8ACgkQ3SOs138+
+s6HJIxAAsf7S8QBJIk0ZSPmaCeEGHV6AE0bi7bHJecdS4ZZoyyjbsLf1YxblDgBm
+/UQrgTOJcIN82mAZNQBL+dgJK5LLiBdMFYPJPfD5R48dEWtXbmZzIAliFV9MJmJ7
+DfZXuu1tWKq2GqTJrI71AKcv6EfbWG81w/G5IZFoFhg0zDxLe4AkHct5NpnCI0On
+6vFMrxM0Z1qRkEDFP1nSCY1v/ci0Q3gEaNwvdP+H5FYwvjGBvNu501Yjj+xWj0AS
+iT8SX4OkeaN5aWbMHUNViNQP26ul04wePJXLgPYfOGLw5bvG4+cSbbUbk07IfYni
+KBPzoRwHV6r5xb1/fwE/dGrpLRrrA6RU7lKK0GBOoepBKQSIecLBR0dw6B4qSIov
+si/nSwOe3z3dWk8v3mWWjON7pI5My+Trf/oEjq3TCJRTp/OQIVrNz7WA6qcJT+TR
+hyrIweJ6w87eqtT9htRtye1S11KGphM2NklLPflSqymREjt1li5ESSJcUNuagz94
+ThXS8VQRI2ZIFpy7Vor32qdTIY0yzTwePZdRHMTg7osVj/EhucFZTTeDNdKF0UB1
+LxXGgPsOrRrSr7SewHVusPrYJ4GMVU6OmFyQOli48Hd60vlPBm7hbHJGBr6+m2S7
+g08c/clhteBDZYsMHMWTju4c2WWyd5NfxF+9CtP7msj8s8i/jg0=
+=m6Ln
+-----END PGP SIGNATURE-----
+
+--uAKRQypu60I7Lcqm--
