@@ -2,170 +2,178 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D3CCBED4C
-	for <lists+linux-tegra@lfdr.de>; Thu, 26 Sep 2019 10:22:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8931BEDA4
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Sep 2019 10:43:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725963AbfIZIWd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 26 Sep 2019 04:22:33 -0400
-Received: from smtprelay-out1.synopsys.com ([198.182.47.102]:54538 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726558AbfIZIWd (ORCPT
+        id S1729705AbfIZIn2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 26 Sep 2019 04:43:28 -0400
+Received: from esa3.microchip.iphmx.com ([68.232.153.233]:14473 "EHLO
+        esa3.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727523AbfIZIn1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 26 Sep 2019 04:22:33 -0400
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 6A575C0487;
-        Thu, 26 Sep 2019 08:22:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1569486152; bh=fIlfkGsWB7MdK0KAVV7hX2roAUc0zb0oHDHdMIvMkaM=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=iIBFxW/RXIO7caeaKPAa9ibJAIBrx0gI84Uc888rLv34OsCkP7n9nmpoj2iQ9ogJ6
-         7OcET9Tz424MwikXepRmcUSgWgvn/kaBxyPRNih7KB/dz4E0hi/jEsAExYiANS4CHR
-         R9T4sRcnuqQEpBBJtN58YvpdUjGeUyh0tNnRHGZXg4KtthMr04J6I1om/O+6TfGiQ/
-         2xPjKdSLhzQ1dkryPuqaSoCSBUshAmPlX5vqg1FP9szW43GqeVIE8r2ncgeZR7vZhW
-         3gM6tVEZ5P6XdmbHVZkIvfqAlXlcw4iPo/bRBgErc36Jgzl90IvZ1S+iX9zc/9rymZ
-         LkVy6e+SKqDbg==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id D6262A0069;
-        Thu, 26 Sep 2019 08:22:31 +0000 (UTC)
-Received: from US01WEHTC2.internal.synopsys.com (10.12.239.237) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 26 Sep 2019 01:22:27 -0700
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 26 Sep 2019 01:22:27 -0700
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (10.13.134.195)
- by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Thu, 26 Sep 2019 01:22:27 -0700
+        Thu, 26 Sep 2019 04:43:27 -0400
+Received-SPF: Pass (esa3.microchip.iphmx.com: domain of
+  Claudiu.Beznea@microchip.com designates 198.175.253.82 as
+  permitted sender) identity=mailfrom;
+  client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
+  envelope-from="Claudiu.Beznea@microchip.com";
+  x-sender="Claudiu.Beznea@microchip.com";
+  x-conformance=spf_only; x-record-type="v=spf1";
+  x-record-text="v=spf1 mx a:ushub1.microchip.com
+  a:smtpout.microchip.com a:mx1.microchip.iphmx.com
+  a:mx2.microchip.iphmx.com include:servers.mcsv.net
+  include:mktomail.com include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa3.microchip.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@email.microchip.com) identity=helo;
+  client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
+  envelope-from="Claudiu.Beznea@microchip.com";
+  x-sender="postmaster@email.microchip.com";
+  x-conformance=spf_only
+Authentication-Results: esa3.microchip.iphmx.com; spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
+IronPort-SDR: bGPvAKkYtCCIgj6XsufIyAqUrQrFHrlqJehWu8yrdxg4XiZIE8HY3m74zYA4pBIl2dM7Pq+ZiJ
+ LMvmeWr6vZnbyNa1dvP5oH0bFOGDI+E7wEt2XDFgNrRn/F2jWKLV/Sui2cTi/x8ankFs/PIURZ
+ TCg8MTFdqbtLfps3qWHL/iIhNj31YdPJxbUvZNLKnOEScDu8lsPFT/Lo48djBzoPV70jWJWvau
+ vMusOB4QRQ1oBRtYgjzGwcUplzmz3fjJ4kwuop2bnbMgjUTrRgFlSlR/yGLz4fFsqwnPjLBbN+
+ /Jg=
+X-IronPort-AV: E=Sophos;i="5.64,551,1559545200"; 
+   d="scan'208";a="50637679"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 26 Sep 2019 01:43:21 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 26 Sep 2019 01:43:00 -0700
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5 via Frontend
+ Transport; Thu, 26 Sep 2019 01:43:00 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c3RF6+DVh9rfz2wIfjHet7qATlA9RvzgDg9/5OiSlsN0a+b4URqD0E8teKBPIgmxjeUc9L2D7c8KWhEUPAf/HDGWsfDk78EkzPq/q2vTzryc2h08GnXvM6RYOL8jfiv4xdM4hnRPdCReAH4jx7q025TU+LXwMicBYRXvpo2w6680w8d+DC5Uqq2W+V3zFP9Bqt4vNbl19PMNviaoHxxd1KN5+/1r2ZFtW6BKu5e9HOLrnAPYUaOU67mjeidpKhhGLgQCXvisQKq1VNIfsUdLjEjH1Un7NVwTlUlAUUPVxe1liN0zPqD2rRhCmA3g5lsUreLB3uCcTD+X32C50Ro41A==
+ b=LAKd7nZdlrszjrScV/mDSpWwlBQpz4OW0Dq5CkoWjMuANbBM/5HX/mvCJ1BNkwGaou60fK1luDG1SuErBCcdivcJl6U97E+tf1icsRtvuQ/c+Vr2D92oKwwatg0KqviXN2zYMA798CDsrMljh0bRj+9j1SbWoeVILlyHFAkEqx84mpvhrLkUSFLHJt4KtSrf/z7OA4pgb9SOD2xLoG0W4nM2nMGaKlqL1hWyj4ap6F9Q7eD/Dwx55GTPy9NYABjKlRNGK1h+vhv9d6jaUomv8NBO5QBvowkgirRyJRDu6PpaLkQDcirfByS9IQ6JXG+x/2GcEY46GPeFLsYudjLlxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4q5AI4J4o/DM8WQpb5oI7i0pPFmYoSFXiIdc+p4lGEQ=;
- b=dcy1aYGtdKywDd/cNLduNu+RZ+grnxekU38WU1HZdrtR7UulKdZqZsdk+wTZJaTXsTZljOyL50Wa4XsTFHX292NsDZttm9QwlHD0+Rzdjoy6mxICamF9YId+1PLjcPVEubG3hEnioV7uyWnwO5LkLujlQjuOtg1qifAEgJriSu/S0T2lgOlxHyon5+jTYmVXS+vlou6RCMGp4FvB6TOs9C5YYb/2qsz+KiS1Vyhx3rmXCCFY8MG6yYII/DUTGVbqMBJOssvwUvM6XNLngD0a437VDrncq1lKCah9zIEpsXneSSiyA+xJL9j0tos97dNYqAKK7SIekn6lT9cjfyhpmg==
+ bh=6EWbUDqnvgUzzXQW00IRG+60rKbfAvKMDdZxX46efN0=;
+ b=PMuHzwlKZ/fYZX5ADVZQMHPliV3OCxDJetV6TPNVzFVpB9wpLqxsMO4dGQNYuW20PuyJ1gi3lxhJY2T7t0XOtb60I9UIvRErFWu0AakkepzRnilU+wMxIEn7YSnUWm315jeiJ1n9jl3CaJ9iIFD9QOFvG/zkfG7//OozLJdk5UxfBrXWpS68TI21N8kiWIIiE7jSToEPXJyxoMNzYcFomFLL+dxvwKQ4CAd/GIYbuKUGFHRHwLgZbGNKfW9ygkwPtRQFbsZIhzc8QabpS3eFPJQig+U2BqU+r4p3K44MosG5VXOrEtN0H1s7i5FFbpsZO5ToS4D6o1jN0neJDEjLcg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4q5AI4J4o/DM8WQpb5oI7i0pPFmYoSFXiIdc+p4lGEQ=;
- b=GZqBdCf8oXirZHIbkl90pw2qmh3tRNm/SLR6cLQYj1V3Gl2gG3zWCLeJCfHev1dQoXX/prhEbFk5B7hQPm6XgrYu/uhuf3noGfYVpWKg+XYJFkBTmmWe7p8gk5ITFCj6iwLlZYSIS9Jo8XB84CMeBjLvbh7Dr8tqS3EKwfm0MCY=
-Received: from BN8PR12MB3266.namprd12.prod.outlook.com (20.179.67.145) by
- BN8PR12MB3252.namprd12.prod.outlook.com (20.179.66.83) with Microsoft SMTP
+ bh=6EWbUDqnvgUzzXQW00IRG+60rKbfAvKMDdZxX46efN0=;
+ b=sRxHJIvVGtZ8/GEHxWp33aMPe7Q4GBN7VmF5wkFAFLTlyjSyrWQenBoVymB9ziCE1mLc20JUtKFtda5cfZmJD77buGVJQ/kmAe0jvenOIQF+StDHIvxBJI3+CHQiN/0f+r5T2RN8LBa8K6t8Z5LFY6BQYYDheLYNVw6KDBXpydM=
+Received: from MWHPR11MB1549.namprd11.prod.outlook.com (10.172.54.17) by
+ MWHPR11MB1901.namprd11.prod.outlook.com (10.175.54.12) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Thu, 26 Sep 2019 08:22:25 +0000
-Received: from BN8PR12MB3266.namprd12.prod.outlook.com
- ([fe80::59fc:d942:487d:15b8]) by BN8PR12MB3266.namprd12.prod.outlook.com
- ([fe80::59fc:d942:487d:15b8%7]) with mapi id 15.20.2305.017; Thu, 26 Sep 2019
- 08:22:25 +0000
-From:   Jose Abreu <Jose.Abreu@synopsys.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>
-CC:     Jose Abreu <Jose.Abreu@synopsys.com>,
-        David Miller <davem@davemloft.net>,
-        "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
-        "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "bbiswas@nvidia.com" <bbiswas@nvidia.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: RE: [PATCH v3 0/2] net: stmmac: Enhanced addressing mode for DWMAC
- 4.10
-Thread-Topic: [PATCH v3 0/2] net: stmmac: Enhanced addressing mode for DWMAC
- 4.10
-Thread-Index: AQHVb9UIZvUBuIRUTEGi7mSYMt4cT6c7QXkAgAD6QdCAAA7TgIAAAZPAgAAAnpCAAGGlgIAAWAsAgACgRRA=
-Date:   Thu, 26 Sep 2019 08:22:25 +0000
-Message-ID: <BN8PR12MB32669DDC64861CE11CA66474D3860@BN8PR12MB3266.namprd12.prod.outlook.com>
-References: <20190920170036.22610-1-thierry.reding@gmail.com>
- <20190924.214508.1949579574079200671.davem@davemloft.net>
- <BN8PR12MB3266F851B071629898BB775AD3870@BN8PR12MB3266.namprd12.prod.outlook.com>
- <20190925.133353.1445361137776125638.davem@davemloft.net>
- <BN8PR12MB3266A2F1F5F3F18F3A80BFC1D3870@BN8PR12MB3266.namprd12.prod.outlook.com>
- <BN8PR12MB32667F9FDDB2161E9B63C1AFD3870@BN8PR12MB3266.namprd12.prod.outlook.com>
- <9f0e2386-c4b1-52b0-6881-e72093eb1b05@gmail.com>
- <20190925224620.GA8115@mithrandir>
-In-Reply-To: <20190925224620.GA8115@mithrandir>
+ 15.20.2284.26; Thu, 26 Sep 2019 08:42:58 +0000
+Received: from MWHPR11MB1549.namprd11.prod.outlook.com
+ ([fe80::1c73:1329:a07:ab9a]) by MWHPR11MB1549.namprd11.prod.outlook.com
+ ([fe80::1c73:1329:a07:ab9a%12]) with mapi id 15.20.2305.017; Thu, 26 Sep 2019
+ 08:42:57 +0000
+From:   <Claudiu.Beznea@microchip.com>
+To:     <daniel.lezcano@linaro.org>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <linux@armlinux.org.uk>, <nsekhar@ti.com>,
+        <bgolaszewski@baylibre.com>, <monstr@monstr.eu>,
+        <john@phrozen.org>, <ralf@linux-mips.org>, <paul.burton@mips.com>,
+        <jhogan@kernel.org>, <lftan@altera.com>, <tglx@linutronix.de>,
+        <vgupta@synopsys.com>, <marc.zyngier@arm.com>,
+        <patrice.chotard@st.com>, <mcoquelin.stm32@gmail.com>,
+        <alexandre.torgue@st.com>, <eric@anholt.net>, <wahrenst@gmx.net>,
+        <f.fainelli@gmail.com>, <rjui@broadcom.com>,
+        <sbranden@broadcom.com>, <bcm-kernel-feedback-list@broadcom.com>,
+        <linus.walleij@linaro.org>, <shc_work@mail.ru>, <kgene@kernel.org>,
+        <krzk@kernel.org>, <ysato@users.sourceforge.jp>,
+        <liviu.dudau@arm.com>, <sudeep.holla@arm.com>,
+        <lorenzo.pieralisi@arm.com>, <shawnguo@kernel.org>,
+        <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+        <festevam@gmail.com>, <linux-imx@nxp.com>, <baohua@kernel.org>,
+        <Nicolas.Ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <Ludovic.Desroches@microchip.com>, <baruch@tkos.co.il>,
+        <u.kleine-koenig@pengutronix.de>, <guoren@kernel.org>,
+        <kaloz@openwrt.org>, <khalasa@piap.pl>, <ssantosh@kernel.org>,
+        <vz@mleia.com>, <slemieux.tyco@gmail.com>, <khilman@baylibre.com>,
+        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
+        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
+        <benjaminfair@google.com>, <afaerber@suse.de>,
+        <manivannan.sadhasivam@linaro.org>, <narmstrong@baylibre.com>,
+        <agross@kernel.org>, <palmer@sifive.com>, <aou@eecs.berkeley.edu>,
+        <heiko@sntech.de>, <orsonzhai@gmail.com>, <baolin.wang@linaro.org>,
+        <zhang.lyra@gmail.com>, <maxime.ripard@bootlin.com>,
+        <wens@csie.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <linux@prisktech.co.nz>,
+        <john.stultz@linaro.org>, <sboyd@kernel.org>,
+        <matthias.bgg@gmail.com>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mips@vger.kernel.org>, <nios2-dev@lists.rocketboards.org>,
+        <linux-snps-arc@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>,
+        <uclinux-h8-devel@lists.sourceforge.jp>,
+        <linux-amlogic@lists.infradead.org>, <openbmc@lists.ozlabs.org>,
+        <linux-oxnas@groups.io>, <linux-arm-msm@vger.kernel.org>,
+        <linux-unisoc@lists.infradead.org>,
+        <linux-riscv@lists.infradead.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-tegra@vger.kernel.org>, <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH 0/7] add support for clocksource/clockevent DT selection
+Thread-Topic: [PATCH 0/7] add support for clocksource/clockevent DT selection
+Thread-Index: AQHVc8VbrLXkUp4vH02J/Sk0g3X+4Kc9pRwA
+Date:   Thu, 26 Sep 2019 08:42:57 +0000
+Message-ID: <72edc5fd-df05-cba5-5aa7-39da1709415b@microchip.com>
+References: <1568123236-767-1-git-send-email-claudiu.beznea@microchip.com>
+ <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
+In-Reply-To: <c3a68a08-d134-cd28-c8af-f757628e07f1@linaro.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=joabreu@synopsys.com; 
-x-originating-ip: [83.174.63.141]
+x-clientproxiedby: MR2P264CA0113.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:500:33::29) To MWHPR11MB1549.namprd11.prod.outlook.com
+ (2603:10b6:301:c::17)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190926114228283
+x-originating-ip: [94.177.32.156]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3fe9bc3b-32ff-403b-5b59-08d7425aa9af
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:BN8PR12MB3252;
-x-ms-traffictypediagnostic: BN8PR12MB3252:
+x-ms-office365-filtering-correlation-id: bc557067-1077-42be-6717-08d7425d8720
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MWHPR11MB1901;
+x-ms-traffictypediagnostic: MWHPR11MB1901:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BN8PR12MB325247066F2A6A5585445302D3860@BN8PR12MB3252.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-microsoft-antispam-prvs: <MWHPR11MB19011D574DC5569C649FB82D87860@MWHPR11MB1901.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 0172F0EF77
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(396003)(136003)(346002)(39860400002)(366004)(199004)(189003)(25786009)(4326008)(81166006)(66066001)(8936002)(66556008)(81156014)(55016002)(52536014)(71190400001)(86362001)(110136005)(71200400001)(256004)(2906002)(186003)(102836004)(54906003)(6116002)(66446008)(3846002)(64756008)(9686003)(6506007)(66476007)(66946007)(7736002)(33656002)(74316002)(305945005)(316002)(476003)(6246003)(486006)(14454004)(478600001)(76116006)(11346002)(5660300002)(8676002)(76176011)(6436002)(7696005)(229853002)(26005)(99286004)(446003);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR12MB3252;H:BN8PR12MB3266.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: synopsys.com does not designate
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(396003)(376002)(136003)(39860400002)(366004)(51914003)(199004)(189003)(446003)(4744005)(71200400001)(25786009)(386003)(6506007)(52116002)(229853002)(71190400001)(53546011)(6486002)(7416002)(76176011)(36756003)(7406005)(7366002)(31686004)(7336002)(14454004)(6512007)(66946007)(1191002)(561944003)(64756008)(66446008)(66476007)(7736002)(305945005)(99286004)(2501003)(5660300002)(102836004)(256004)(14444005)(66556008)(476003)(26005)(6116002)(6246003)(11346002)(486006)(86362001)(31696002)(316002)(8676002)(81166006)(81156014)(6436002)(478600001)(186003)(2171002)(3846002)(8936002)(110136005)(54906003)(2201001)(2616005)(4326008)(2906002)(66066001)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR11MB1901;H:MWHPR11MB1549.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: microchip.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: jmzg0qD6rloJqyUBYcQlQISbvKydBGPpFp1NhQ+q2fRtZvEVgnM7IbLBSdPuat7f3tmx73NPiwxoUJpyXkl0g7vInWYVGMZqNE0TGzIXx1VZrJk0Z2ddWftMYCv4yVL5fMGBxlaIr1AD6RkC7oVsOZW9sVdFNReVRyOGR2Bxxl2xjlXjia+ImQRQYYtBIC5ukM0ChYxZLb/5pFzD06ZBJwjystUd1otaJjTsBT6oe9HAd+DknY8xMuk8r6XdlmCnoh60qghWQ/uVi3TU7lB6HePJbShLRGA0wXOFwW/VR2eF0FEFtLKo+Q2WruYmqaBbfK2aG1WiFcSbxkglUj/m6F0Oy0wi9kJKKcaqaybhyDHcicdOyUoB3puFC8xLWw3uXhg9t/EizY4P3OrJVLNpfgZTii4hdWDa1VHcS2nc/58=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: JsNRlFiKu2xImweAE+BluMpKIUoInHFuE2sg+dLKuGs4T9kFDOqgcHKJUCYS2gybgMXXZI5osydBUn9KNyoHWWJ6/NEaYP7KAKFfRJ0/CBzJRNVV9Mpz72YJ/dwnH04AjmMgpY41/nVVGtmUYJYTJXrEzGLfmayrGh8nNn5Sbf4qIM3pSA5H8Sl3NizOFZQjufDCOp/GxaNSWWnBaSVrEfjMjVKTtgnofFe0H1aEiy8Tt0GakCl/TvuOscqDULtqdRbtiBBDaTwX3stbA4aowKc9J1UXVNNUbKf75xSs3TjOyQ7u+YASL6mozZNWDOz84BYusPgi0naRrvDr9rr+RxZsw27ZcfUbWPxhjmHmc/eWGyOuc1UAcucjh0WBPML8WyL/9v1fZOEV2kZBxSHkZAgdTmCtqwt/9/u7k/BT0i0=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BCA8ECD1111F6948AB05E557D0B1C52E@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fe9bc3b-32ff-403b-5b59-08d7425aa9af
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2019 08:22:25.7256
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc557067-1077-42be-6717-08d7425d8720
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2019 08:42:57.4048
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: m3CsC+Xe4w62BRTUcvrl+y8HkYqKj2lUBQ2ixMCSiPdwvHASL80fS7phjN/F/iMnfOK4LV9WvoFHiS+Yg2sAAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3252
-X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-userprincipalname: eE5XSWl4V1fxZGL0K/Lmn+PqH/2rvLsnNBp8C6u5rbSFictpiZGwaDBVFvOtdFPhk1KlWc6lCOOc/r1X6WP3h/tNVqI8F7Vm3oPSfeDBGRU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1901
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <thierry.reding@gmail.com>
-Date: Sep/25/2019, 23:46:20 (UTC+00:00)
-
-> On Wed, Sep 25, 2019 at 10:31:13AM -0700, Florian Fainelli wrote:
-> > The way I would approach it (as done in bcmgenet.c) is that if the
-> > platform both has CONFIG_PHYS_ADDR_T_64BIT=3Dy and supports > 32-bits
-> > addresses, then you write the upper 32-bits otherwise, you do not. Give=
-n
-> > you indicate that the registers are safe to write regardless, then mayb=
-e
-> > just the check on CONFIG_PHYS_ADDR_T_64BIT is enough for your case. The
-> > rationale in my case is that register writes to on-chip descriptors are
-> > fairly expensive (~200ns per operation) and get in the hot-path.
-> >=20
-> > The CONFIG_PHYS_ADDR_T_64BIT check addresses both native 64-bit
-> > platforms (e.g.: ARM64) and those that do support LPAE (ARM LPAE for
-> > instance).
->=20
-> I think we actually want CONFIG_DMA_ADDR_T_64BIT here because we're
-> dealing with addresses returned from the DMA API here.
->=20
-> I can add an additional condition for the upper 32-bit register writes,
-> something like:
->=20
-> 	if (IS_ENABLED(CONFIG_DMA_ADDR_T_64BIT) && priv->dma_cfg->eame)
-> 		...
->=20
-> The compiler should be able to eliminate that as dead code on platforms
-> that don't support 64-bit DMA addresses, but the code should still be
-> compiler regardless of the setting, thus increasing the compile
-> coverage.
-
-I'm fine with this. Some notes:
-a) Do not try to enable dma_cfg->eame if CONFIG_DMA_ADDR_T_64BIT is not=20
-enabled;
-b) You can even add a likely() around priv->dma_cfg->eame check because=20
-if a given SoC supports 64 bit addressing then its highly probable that=20
-the IP will also support EAME.
-
----
-Thanks,
-Jose Miguel Abreu
+DQoNCk9uIDI1LjA5LjIwMTkgMjA6MTksIERhbmllbCBMZXpjYW5vIHdyb3RlOg0KPiBFeHRlcm5h
+bCBFLU1haWwNCj4gDQo+IA0KPiBIaSBDbGF1ZGl1LA0KPiANCj4gT24gMTAvMDkvMjAxOSAxNTo0
+NywgQ2xhdWRpdSBCZXpuZWEgd3JvdGU6DQo+PiBIaSwNCj4+DQo+PiBUaGlzIHNlcmllcyBhZGRz
+IHN1cHBvcnQgdG8gcGVybWl0IHRoZSBzZWxlY3Rpb24gb2YgY2xvY2tzb3VyY2UvY2xvY2tldmVu
+dA0KPj4gdmlhIERULg0KPiANCj4gVGhhbmtzIGZvciB0aGUgcHJvcG9zYWwgYW5kIHRha2luZyBj
+YXJlIG9mIG1ha2luZyBzb21lIHByb2dyZXNzIG9uIHRoaXMuDQo+IA0KPiBJIGp1c3Qgd2FudGVk
+IHRvIGxldCB5b3Uga25vdyBJJ3ZlIGJlZW4gdHJhdmVsaW5nIGJ1dCB0aGUgc2VyaWVzIGlzIGlu
+DQo+IG15IHBpcGUgYW5kIEkgZGlkIG5vdCBmb3JnZXQgaXQuIEknbGwgY29tbWVudCBpdCBuZXh0
+IHdlZWsuDQoNCkhpIERhbmllbCwNCg0KTm8gcHJvYmxlbS4gVGhhbmsgeW91IGZvciBsZXR0aW5n
+IG1lIGtub3cuDQoNCkNsYXVkaXUNCg0KPiANCj4gIC0tIERhbmllbA0KPiANCj4gDQo=
