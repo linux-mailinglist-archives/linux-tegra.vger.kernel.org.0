@@ -2,121 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05A68C1939
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Sep 2019 21:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6351DC1967
+	for <lists+linux-tegra@lfdr.de>; Sun, 29 Sep 2019 22:09:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729098AbfI2Txd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 29 Sep 2019 15:53:33 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46527 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728755AbfI2Txd (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 29 Sep 2019 15:53:33 -0400
-Received: by mail-lj1-f195.google.com with SMTP id d1so7211579ljl.13
-        for <linux-tegra@vger.kernel.org>; Sun, 29 Sep 2019 12:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=W7zlmLnqflzMuImuGywOpRjtBgvUKXG365Da50lzcQ4=;
-        b=YjYCKNYjwjy7YGliAeN3wHzz6op+udBja2SoSnwxOBMv+5C8nvRDy6NmzIhXL7BVTM
-         o4BtaVpXhfv2/s/30+LYa0KzZikmq4A6r8vzZEBZ5UcOhk0SXKoa8GqrC0fj+4r6h+gz
-         zXOhXfoY1Vj0BnCPY5zphcQWAPeUqOfqMFTeYxYDDLqVepL2otWytY67r5vFakA2jUqW
-         nVR4Cby3aeHg2f5LcG4zhLzXDDsnDiR5XS8C9a0RvdpjPH0c1rJxvdU0cuLdNhlxRu0d
-         y1EMlJ0SG7rN35D79UkG69w4tZl7LjVdKx35xZtjPGMK6zczV9yNPCrrC/USBiKpnK3V
-         5CgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=W7zlmLnqflzMuImuGywOpRjtBgvUKXG365Da50lzcQ4=;
-        b=Z9SHrz6UllhRb0aFsyvWCIHFFplULVBMYAvRlI6h+0Ldye3PGSI8E44TpZBdbO9Pks
-         NdH+6b2Dr6aysgrBHFzoXOK+V7Zj4tOh95N+jkysOrwshgONd7QaeuDAoxA7OBQtsZpa
-         dFQJlMAYpHk2EVXsXWV/NQt/Mj24TkN5jnhvxqNZwXjTloCWvtzCJtcsS1HHNb/J9feR
-         dLQZd9SUPXPi3AD7BniwbyX1zakf4nt6WV9BI87I2/v/5fkeiuGbzlIPHP5v0CcX6EE6
-         10Zks1gF1wWj4FEZhfxTmsCR8CR7uICOp33YDTLGMpu0E0fVTovbuAMfan5s4Jcmjzfb
-         /qpg==
-X-Gm-Message-State: APjAAAXp5sA+p3qCGKcxyruzfxYmr4/HWuQsqBRo+oXa0wh9ti765wBW
-        przc4lIhAdWWsdVYZ5FDRLc=
-X-Google-Smtp-Source: APXvYqx0NwxTwpOpvSq7LIWowUj7dA0Mp8aKj8CBHdzJ8zBzsypi+wQa6FdQQfVilTTp7Hc3fvK5IA==
-X-Received: by 2002:a2e:86d5:: with SMTP id n21mr6664854ljj.1.1569786811041;
-        Sun, 29 Sep 2019 12:53:31 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-32-67.pppoe.spdop.ru. [94.29.32.67])
-        by smtp.googlemail.com with ESMTPSA id j17sm2481949lfb.11.2019.09.29.12.53.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Sep 2019 12:53:30 -0700 (PDT)
-Subject: Re: [PATCH] drm/tegra: Fix ordering of cleanup code
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20190925112659.2048-1-thierry.reding@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b74304ef-de09-8c16-3178-b8bd439bff84@gmail.com>
-Date:   Sun, 29 Sep 2019 22:53:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20190925112659.2048-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1729333AbfI2UJi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 29 Sep 2019 16:09:38 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58202 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725948AbfI2UJi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 29 Sep 2019 16:09:38 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D0506AC67;
+        Sun, 29 Sep 2019 20:09:36 +0000 (UTC)
+From:   Mian Yousaf Kaukab <ykaukab@suse.de>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org, treding@nvidia.com,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        Mian Yousaf Kaukab <ykaukab@suse.de>
+Subject: [PATCH] arm64: tegra: only map accessible sysram
+Date:   Sun, 29 Sep 2019 22:08:51 +0200
+Message-Id: <20190929200851.14228-1-ykaukab@suse.de>
+X-Mailer: git-send-email 2.16.4
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-25.09.2019 14:26, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Commit Fixes: b9f8b09ce256 ("drm/tegra: Setup shared IOMMU domain after
-> initialization") changed the initialization order of the IOMMU related
-> bits but didn't update the cleanup path accordingly. This asymmetry can
-> cause failures during error recovery.
-> 
-> Fixes: b9f8b09ce256 ("drm/tegra: Setup shared IOMMU domain after initialization")
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/gpu/drm/tegra/drm.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> index 6fb7d74ff553..bc7cc32140f8 100644
-> --- a/drivers/gpu/drm/tegra/drm.c
-> +++ b/drivers/gpu/drm/tegra/drm.c
-> @@ -201,19 +201,19 @@ static int tegra_drm_load(struct drm_device *drm, unsigned long flags)
->  	if (tegra->hub)
->  		tegra_display_hub_cleanup(tegra->hub);
->  device:
-> -	host1x_device_exit(device);
-> -fbdev:
-> -	drm_kms_helper_poll_fini(drm);
-> -	tegra_drm_fb_free(drm);
-> -config:
-> -	drm_mode_config_cleanup(drm);
-> -
->  	if (tegra->domain) {
->  		mutex_destroy(&tegra->mm_lock);
->  		drm_mm_takedown(&tegra->mm);
->  		put_iova_domain(&tegra->carveout.domain);
->  		iova_cache_put();
->  	}
-> +
-> +	host1x_device_exit(device);
-> +fbdev:
-> +	drm_kms_helper_poll_fini(drm);
-> +	tegra_drm_fb_free(drm);
-> +config:
-> +	drm_mode_config_cleanup(drm);
->  domain:
->  	if (tegra->domain)
->  		iommu_domain_free(tegra->domain);
-> 
+Most of the SysRAM is secure and only accessible by TF-A.
+Don't map this inaccessible memory in kernel. Only map pages
+used by bpmp driver.
 
-Hello Thierry,
+Signed-off-by: Mian Yousaf Kaukab <ykaukab@suse.de>
+---
+Only tegra186 is tested. Tested on Jetson TX2.
 
-Good that you spotted this! I had a similar patch sometime ago, but my
-version had some problem and then I just forgot about it. I tried yours
-patch and didn't notice anything wrong, thanks!
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 14 +++++++-------
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 14 +++++++-------
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+index 47cd831fcf44..a861f46125fd 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+@@ -1174,23 +1174,23 @@
+ 		power-domains = <&bpmp TEGRA186_POWER_DOMAIN_GPU>;
+ 	};
+ 
+-	sysram@30000000 {
++	sysram@3004e000 {
+ 		compatible = "nvidia,tegra186-sysram", "mmio-sram";
+-		reg = <0x0 0x30000000 0x0 0x50000>;
++		reg = <0x0 0x3004e000 0x0 0x2000>;
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+-		ranges = <0 0x0 0x0 0x30000000 0x0 0x50000>;
++		ranges = <0 0x0 0x0 0x3004e000 0x0 0x2000>;
+ 
+-		cpu_bpmp_tx: shmem@4e000 {
++		cpu_bpmp_tx: shmem@e000 {
+ 			compatible = "nvidia,tegra186-bpmp-shmem";
+-			reg = <0x0 0x4e000 0x0 0x1000>;
++			reg = <0x0 0x0 0x0 0x1000>;
+ 			label = "cpu-bpmp-tx";
+ 			pool;
+ 		};
+ 
+-		cpu_bpmp_rx: shmem@4f000 {
++		cpu_bpmp_rx: shmem@f000 {
+ 			compatible = "nvidia,tegra186-bpmp-shmem";
+-			reg = <0x0 0x4f000 0x0 0x1000>;
++			reg = <0x0 0x1000 0x0 0x1000>;
+ 			label = "cpu-bpmp-rx";
+ 			pool;
+ 		};
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index 3c0cf54f0aab..98b9399d6b7f 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -1430,23 +1430,23 @@
+ 			  0x82000000 0x0  0x40000000 0x1f 0x40000000 0x0 0xc0000000>; /* non-prefetchable memory (3GB) */
+ 	};
+ 
+-	sysram@40000000 {
++	sysram@4004e000 {
+ 		compatible = "nvidia,tegra194-sysram", "mmio-sram";
+-		reg = <0x0 0x40000000 0x0 0x50000>;
++		reg = <0x0 0x4004e000 0x0 0x2000>;
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+-		ranges = <0x0 0x0 0x40000000 0x50000>;
++		ranges = <0x0 0x0 0x4004e000 0x2000>;
+ 
+-		cpu_bpmp_tx: shmem@4e000 {
++		cpu_bpmp_tx: shmem@e000 {
+ 			compatible = "nvidia,tegra194-bpmp-shmem";
+-			reg = <0x4e000 0x1000>;
++			reg = <0x0 0x1000>;
+ 			label = "cpu-bpmp-tx";
+ 			pool;
+ 		};
+ 
+-		cpu_bpmp_rx: shmem@4f000 {
++		cpu_bpmp_rx: shmem@f000 {
+ 			compatible = "nvidia,tegra194-bpmp-shmem";
+-			reg = <0x4f000 0x1000>;
++			reg = <0x1000 0x1000>;
+ 			label = "cpu-bpmp-rx";
+ 			pool;
+ 		};
+-- 
+2.16.4
+
