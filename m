@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D657C171A
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Sep 2019 19:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 395CFC1767
+	for <lists+linux-tegra@lfdr.de>; Sun, 29 Sep 2019 19:38:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730640AbfI2Rfr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 29 Sep 2019 13:35:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47974 "EHLO mail.kernel.org"
+        id S1729921AbfI2Rgh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 29 Sep 2019 13:36:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49204 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729743AbfI2Rfq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 29 Sep 2019 13:35:46 -0400
+        id S1729874AbfI2Rgf (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 29 Sep 2019 13:36:35 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4341E2196E;
-        Sun, 29 Sep 2019 17:35:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A8E621A4C;
+        Sun, 29 Sep 2019 17:36:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569778546;
-        bh=+z1/bSBIpzw/6DQYOinfkUhl+ECxEW75rghM58TcE+o=;
+        s=default; t=1569778595;
+        bh=FQnyGHniUWZ8WUPvO966/aKiYAgXuWbjg5v6j5e9C98=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yfZThi30ledzbo5pTnq1CGvVfiGn3P7uRvc1rCMGj9E0THrVAxg5yEjNJ0SjzNDpL
-         ileudGevUb/k8T8+f7P9gMJLH3YKmk2Ngzy8E4yIatHarbYN2VE2U32q/jxKeacpYJ
-         g4RuNVe4Fg/rh5JvXk09kG4ucgTqHMl17uq5cUao=
+        b=cJXYAW2RPtZD6GNWgWu63uWK6KqU5NjH1P4mynAHwJK4koaM/aTXnsjYkaEq7eVzT
+         SsGuNboTApwoUmjUximiMM0yw95euKisPXcRF1gIxuNxmBuZQ1wUPIB0BPMtE40Ev9
+         +jn3Q4JLYTyK0XXaeI32uaz2Kx0IxpWqXxSzla6s=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Sasha Levin <sashal@kernel.org>, linux-pci@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 05/23] PCI: tegra: Fix OF node reference leak
-Date:   Sun, 29 Sep 2019 13:35:15 -0400
-Message-Id: <20190929173535.9744-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 04/13] PCI: tegra: Fix OF node reference leak
+Date:   Sun, 29 Sep 2019 13:36:14 -0400
+Message-Id: <20190929173625.10003-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190929173535.9744-1-sashal@kernel.org>
-References: <20190929173535.9744-1-sashal@kernel.org>
+In-Reply-To: <20190929173625.10003-1-sashal@kernel.org>
+References: <20190929173625.10003-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -70,10 +70,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 15 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/pci/host/pci-tegra.c b/drivers/pci/host/pci-tegra.c
-index 1987fec1f126f..8efd086c57c96 100644
+index 8dfccf7332411..8e101b19c4d6f 100644
 --- a/drivers/pci/host/pci-tegra.c
 +++ b/drivers/pci/host/pci-tegra.c
-@@ -1910,14 +1910,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+@@ -1898,14 +1898,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
  		err = of_pci_get_devfn(port);
  		if (err < 0) {
  			dev_err(dev, "failed to parse address: %d\n", err);
@@ -91,7 +91,7 @@ index 1987fec1f126f..8efd086c57c96 100644
  		}
  
  		index--;
-@@ -1926,12 +1927,13 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+@@ -1914,12 +1915,13 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
  		if (err < 0) {
  			dev_err(dev, "failed to parse # of lanes: %d\n",
  				err);
@@ -107,7 +107,7 @@ index 1987fec1f126f..8efd086c57c96 100644
  		}
  
  		lanes |= value << (index << 3);
-@@ -1945,13 +1947,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+@@ -1933,13 +1935,15 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
  		lane += value;
  
  		rp = devm_kzalloc(dev, sizeof(*rp), GFP_KERNEL);
@@ -126,7 +126,7 @@ index 1987fec1f126f..8efd086c57c96 100644
  		}
  
  		INIT_LIST_HEAD(&rp->list);
-@@ -1978,6 +1982,10 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
+@@ -1966,6 +1970,10 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
  		return err;
  
  	return 0;
