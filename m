@@ -2,103 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED083C1B0D
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Sep 2019 07:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D9F1C1C21
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Sep 2019 09:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725809AbfI3Fgg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Sep 2019 01:36:36 -0400
-Received: from avon.wwwdotorg.org ([104.237.132.123]:33984 "EHLO
-        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725767AbfI3Fgg (ORCPT
+        id S1726314AbfI3HgT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Sep 2019 03:36:19 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:55237 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729215AbfI3HgT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Sep 2019 01:36:36 -0400
-X-Greylist: delayed 471 seconds by postgrey-1.27 at vger.kernel.org; Mon, 30 Sep 2019 01:36:35 EDT
-Received: from [192.168.63.111] (c-98-245-153-70.hsd1.co.comcast.net [98.245.153.70])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by avon.wwwdotorg.org (Postfix) with ESMTPSA id 4CFEF1C13B3;
-        Sun, 29 Sep 2019 23:28:44 -0600 (MDT)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.100.3 at avon.wwwdotorg.org
-Subject: Re: [PATCH] arm64: tegra: only map accessible sysram
-To:     Mian Yousaf Kaukab <ykaukab@suse.de>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        treding@nvidia.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org
-References: <20190929200851.14228-1-ykaukab@suse.de>
-From:   Stephen Warren <swarren@wwwdotorg.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=swarren@wwwdotorg.org; prefer-encrypt=mutual; keydata=
- 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 3LeU
-Message-ID: <5d2e47ec-8304-d648-9c4a-80c7c02050a9@wwwdotorg.org>
-Date:   Sun, 29 Sep 2019 23:28:43 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Mon, 30 Sep 2019 03:36:19 -0400
+Received: by mail-wm1-f68.google.com with SMTP id p7so12129470wmp.4
+        for <linux-tegra@vger.kernel.org>; Mon, 30 Sep 2019 00:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=zSXl0hb/0/FWlDKdvIWQoYRrFkhZDfZ63bko8/Gnd/U=;
+        b=p6we775OuK3uojgcpZLUvzPfSnUXN3kH/5IIG1nZ3kzKU1TaiqygZ8M5kfBKca3drR
+         C4yvDxqixTg+MriHAH8xN5Kmhj4VG46FGE6+Wiq7XVvhVITDHgI1YKPngrHYPmLinOh+
+         MTxM3jgRqD/ORUpNgS6x8MmiHLPR2JB7CAOWSfwPlI+cpJc7ecVytk95zsW8UeXKaxLy
+         ikmCOrNuiW5y1p6zs7CLq+FNflLGh43wfgpTlv2Ua/hYVbPXlQp3aEz5oHQufq8se87z
+         aqpIBkPF6v5ZxbzkhIJZIOs/HBzxKp+n0N7kBmowwtl9g8qF1gNcCmPbdDI8AtLGjkVo
+         +l4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=zSXl0hb/0/FWlDKdvIWQoYRrFkhZDfZ63bko8/Gnd/U=;
+        b=W8Cmet3hu8DOwCdFLnshEG9ECw3P+PyVeMly0AlhORNeKRTP0lnFYo2ePvVuUsPF9x
+         +pC05YRNMq7EkSuqbSiKYYgPaZO+Y/BgnqB/O2Is4FSBeWUP6GgQBwpEnB4Rezy8GjH+
+         VGjJGD9h7qUDPR0NpBJnV7ePhZU/ZZXanwXoKFbZDG92VFNglDn9rXe6JgYXBQTWe/6C
+         pF0qwLaiHa/xS/UTtne238JP8nR67sKI4PG5BZ3CCDiDf3sc5YXyiuUMo5er8+pzboVb
+         ceAo/M3IBYxniRfxCkStXxUvmNXwhxVMBqXcS8aqm81ElMl4BTSF9unp84/uhlleEuc5
+         hTsA==
+X-Gm-Message-State: APjAAAWmwFRg85N6Zg/uR53ux+2MvbfTmBVU1tMpsanxKFUxUFO6Z96+
+        UwUDfqkswIE4Q1EID48BVnQ=
+X-Google-Smtp-Source: APXvYqyONkxEzBuGkZCZMlqaRP2IxX0cXrcNbRQcYWa/VlWrQwYViA7Sm0oMKv49+YRp+oEUzmY+HQ==
+X-Received: by 2002:a7b:cf33:: with SMTP id m19mr16797761wmg.143.1569828976418;
+        Mon, 30 Sep 2019 00:36:16 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id a192sm14214162wma.1.2019.09.30.00.36.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Sep 2019 00:36:14 -0700 (PDT)
+Date:   Mon, 30 Sep 2019 09:36:13 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     Peter Geis <pgwipeout@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: Re: ci_hdrc_tegra hard locks kernel when set to dr_mode = "otg"
+Message-ID: <20190930073613.GB1518582@ulmo>
+References: <CAMdYzYqUg+zCyD6zaFLyWjbYL0t_EzYb5nHM6jTdsOu75P2hvw@mail.gmail.com>
+ <VI1PR04MB532769D934068302F58299598B830@VI1PR04MB5327.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20190929200851.14228-1-ykaukab@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="xXmbgvnjoT4axfJE"
+Content-Disposition: inline
+In-Reply-To: <VI1PR04MB532769D934068302F58299598B830@VI1PR04MB5327.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 9/29/19 2:08 PM, Mian Yousaf Kaukab wrote:
-> Most of the SysRAM is secure and only accessible by TF-A.
-> Don't map this inaccessible memory in kernel. Only map pages
-> used by bpmp driver.
 
-I don't believe this change is correct. The actual patch doesn't
-implement mapping a subset of the RAM (a software issue), but rather it
-changes the DT representation of the SYSRAM hardware. The SYSRAM
-hardware always does start at 0x30000000, even if a subset of the
-address range is dedicated to a specific purpose. If the kernel must map
-only part of the RAM, then some additional property should indicate
-this. Also, I believe it's incorrect to hard-code into the kernel's DT
-the range of addresses used by the secure monitor/OS, since this can
-vary depending on what the user actually chooses to install as the
-secure monitor/OS. Any indication of such regions should be filled in at
-runtime by some boot firmware or the secure monitor/OS itself, or
-retrieved using some runtime API rather than DT.
+--xXmbgvnjoT4axfJE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Sep 29, 2019 at 03:36:35AM +0000, Peter Chen wrote:
+> =20
+> >=20
+> > I've encountered an odd situation where the CI Dual Role driver hard lo=
+cks the
+> > kernel on the Ouya (Tegra 3).
+> > I was attempting to set up manual mode switching in the kernel, as the =
+Ouya lacks
+> > hardware support for the ID pin and no voltage output on that port.
+> > I found that the kernel was hard locking whenever I had the dr_mode =3D=
+ "otg" set in
+> > the devicetree.
+>=20
+> It seems Tegra doesn't support host mode using chipidea driver. The ci_hd=
+rc_tegra.c
+> only supports device mode. Thierry, could you confirm that?
+
+Yes, correct. I recall doing some work at the time to move host mode
+support from ehci-tegra to the ChipIdea driver, but never managed to
+make it work, unfortunately.
+
+Thierry
+
+> > No further output was seen on the console, and sysreq does not respond.
+> > It occurs both in module and builtin mode.
+> >=20
+> > I have however found a workaround.
+> > By setting the dual role usb device to:
+> > compatible =3D "nvidia,tegra30-ehci", "nvidia,tegra30-udc"; and setting=
+ the assigned
+> > phy to:
+> > dr_mode =3D "peripheral";
+> > I can achieve rudimentary live switching of roles.
+> > The device defaults to host mode, as the ehci driver enumerates first.
+> > By unbinding the tegra-ehci driver and binding the tegra-udc driver, I =
+can switch to
+> > gadget mode.
+> > The reverse also works.
+> > The PHY driver does not appear to care if it is always in peripheral mo=
+de.
+> >=20
+> > Thank you for your time,
+> > Peter Geis
+
+--xXmbgvnjoT4axfJE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2RsGsACgkQ3SOs138+
+s6Hjeg//d+VOwpr3rDscvxm85Fz85MP3IHO1914/TcWbTeVzUXhpxNIPXIpNL2vR
+GMEJRFNpqc3z3hyDH5khRLAlrmegKIDTqOcDNckBzTfYJqrfun3kCVcOUlLW5rM3
+p+RglpjHQkrswUPM/D4gNkvqh3UPaFj4HySqqCL6HNJRi2Mt9FRnzc0ODLixEp4+
+ZJi97ZwU7Z3PHe4F95B7MBb+otq8IwfGApELNiuBXSpDnispbVfVabVey5K3xGZq
+oAIz88IHrlhBHCBUyizlWa0i35sPQL2kS+cOHvqrxzKYkmuJCe/ysmC53I6upEYX
+UZlIR3h5CrmmwkC9+/8jSeJALLm+HbVnjs7l3pdrwVPcGNrtq+OI6ImvMGAebe1k
+5H42yCQgvvxYZp3/PnaSAa1PZvLCIbAn4AP+MHaDN8cYnqvAfvMZD74ITf2kcqg0
+c5V9UWGd4I6zAUWmR6uFmDEa3fAO8FYVVK0MQez86Tolwy5VT40EDOmFa3Q/ZPAP
+qnuZ3KqYLNsYYogk3nK2fEM/nfqu8zOzeYSV/Wcmdteixa2M1iMt2TBcYcOHcW4q
+Y31cDdCO79qpSsXhBMeBjnUNvr7XvteDBdOfLhmf2mr5wlfnBxgE3VlcomZMySbS
+7DU5fX70eZ7SmL8Nj18TE8sgK18+WI+w3dohGhwjkQKvdeLzbE8=
+=EXGa
+-----END PGP SIGNATURE-----
+
+--xXmbgvnjoT4axfJE--
