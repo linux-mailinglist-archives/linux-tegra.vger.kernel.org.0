@@ -2,112 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D090C22FE
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Sep 2019 16:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F3ACC2344
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Sep 2019 16:29:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731470AbfI3ORT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Sep 2019 10:17:19 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:50874 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730923AbfI3ORT (ORCPT
+        id S1731782AbfI3O3S (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Sep 2019 10:29:18 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:33793 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731686AbfI3O3S (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Sep 2019 10:17:19 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 5so13655252wmg.0;
-        Mon, 30 Sep 2019 07:17:16 -0700 (PDT)
+        Mon, 30 Sep 2019 10:29:18 -0400
+Received: by mail-lf1-f66.google.com with SMTP id r22so7224125lfm.1;
+        Mon, 30 Sep 2019 07:29:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fT3u0kO00B12KTl27/O+hzJQRozEYKlkkbEEU64XnhY=;
-        b=YSFpxI5yHDLoYYeh10IlDZt/MaBfJO2AGUzyW6NvtaBWcTdhljHrHSJ/4KOYvr7CUl
-         mzfgob7qcvwRYyzISn5K6ENc5t3CtU3eXIulQK6yGRS/8J46WGQSzTkhvdDeHk6z3Rpw
-         e/u2ebHXEP+ilaWWQOo3b4VAQdRFr/QYKdv8QeCuFnxVtzr3Jxr6/fI55YIJmllSp1Ud
-         7zmjdDZulBZgEiacObrEvaRMBDNOEOyftsQ8DNBlMv0FnJbLGCRPLJDAWz9DVlIvTXaj
-         b3Mb5o0TrZaA7W6mQws5i1DuFMus8Ie72a2HbmRYPhpc1xc1BoItqPaqcxsWUcuX7oQn
-         GOaw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/cUHoUaqss8qI6KXUvCsZN8O0fRZQEbP5/fl3QSwh1o=;
+        b=a0TGinOg0c8hiInPfRkFhKcAI/pPy0nuNaJobXF+ErQ72uXQF0IISRHdV5KIfRKiC7
+         glTMDeFvH8GoZxUb3rhz6SyfDHaoaiboEpIPcOGNUpnV3XFCSAlKJu/+HZDGetm93Q1n
+         9M6z+TW3AAe/z4CeBn5/Enmwy5Gm6qRIKGSlbdIkCA3P8uOYoXX8QPBtlH3e4pXZBMdn
+         EJrq0Mb008YwZ/t8h50HYz3DbR8exEIK0ouyE1uxF+8J3MRRiEWeyEkjJY5rGjpUlX9e
+         QV83BlJtHyG4EjL0WVvijHCD0IxkNYSqD8+4T91bZIAA5wmo1Qp6pD0PPXD6aknBflsf
+         U8+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fT3u0kO00B12KTl27/O+hzJQRozEYKlkkbEEU64XnhY=;
-        b=Y9HUPtGI1r/7JWRmyWddbtX32s9mvdheaQA2wzOczTIv2nyLUuPEH5/2MW5VeamsAF
-         app/t5n6CMm0qK5ew+58w6xJMHKyasTLgtYrBIGSu4EUfwzwmOtvT9SVqsFp9NnH5p5Y
-         eCunmjdJz7JWRtwPE0sOpSSXMTzuZbwZGR4J/zJR3CulZJ1FJ4ZzdRmdgYOxT3w56OhL
-         amjYQID8R41mfgXLkUXClL/G7E8duPc4N9dp+vKNH43m+DzZgK9bZo6/ZqPzwgLAEQzo
-         u+ziowMTT5XJ0g6t/NRRG2YJ8QvuuKq8QpXh86AeFznWPpxwO5S8Gr0iJB03p7qmaNWG
-         Kgkg==
-X-Gm-Message-State: APjAAAWXzOuKZ0X6FyDr6rg4RFh9rpd5FBhvdjOKiXl5oBumnkckoXyG
-        q1jV7mGCCI0ex6eHvSDLhOs=
-X-Google-Smtp-Source: APXvYqyOpLv95qJQ+llcAqXMVTSBYBINojPzeN7jeK5bbXTojnJSfyJH4CM7gYJhBd4cwlv1x7DsKw==
-X-Received: by 2002:a05:600c:110a:: with SMTP id b10mr16910581wma.18.1569853036041;
-        Mon, 30 Sep 2019 07:17:16 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id n8sm27354090wma.7.2019.09.30.07.17.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 07:17:14 -0700 (PDT)
-Date:   Mon, 30 Sep 2019 16:17:13 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Philippe Schenker <philippe.schenker@toradex.com>
-Cc:     "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-Subject: Re: [RESEND PATCH] ARM: dts: Add stmpe-adc DT node to Toradex T30
- modules
-Message-ID: <20190930141713.GA1943656@ulmo>
-References: <20190814105318.21902-1-philippe.schenker@toradex.com>
- <b40974742543a2e8450c097bf86c5c0d3baec977.camel@toradex.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/cUHoUaqss8qI6KXUvCsZN8O0fRZQEbP5/fl3QSwh1o=;
+        b=gEOdt+7eN4z0Ha40/HaGdsDzrbtkI2VUJHufnSBz7dXASQ0G8dr/1T58nh5xs80bC3
+         M9tfVAw0o5VlwcPz8DhMFjJtXtVbqHE0jrlAb64CCPRZpTOt8zO7K+CYF3uQOuIYK+mC
+         S9iyhePhG3NmCoZpP9miyucT474m9lUV9QFqrjdYS5K5mK3/yf58kmvxCZj6VLo/WHYX
+         zrTsvdcAMbJUioEqYjDEdrDT9hGe8yhMjzFy79+aiH6DawhJcH77stQ4Kzo/wH6yVUVt
+         oJ0+LrBLQ2nXRQdp6ZYefNgvAmKhFNh5K0u43ceH5poZiTDQBbQZ9VJsxc4OxI/Qw6bu
+         60BQ==
+X-Gm-Message-State: APjAAAV7dDyZNF6uoN3SV3b5jPJzxM8xtU/0djF/45q2YaoJLaRxuf08
+        J8Jzn6pcfhw940Q/YsbiRdzQ8M5F
+X-Google-Smtp-Source: APXvYqwFjlepUlfhs1IaHhMZu4sLyNS0YVja8fQhsmG6txfhULFCIZsY4a893MARc0PIh4ARbcSTUw==
+X-Received: by 2002:ac2:5586:: with SMTP id v6mr11431654lfg.180.1569853755403;
+        Mon, 30 Sep 2019 07:29:15 -0700 (PDT)
+Received: from [192.168.2.145] (ppp94-29-32-67.pppoe.spdop.ru. [94.29.32.67])
+        by smtp.googlemail.com with ESMTPSA id w17sm3252756lfl.43.2019.09.30.07.29.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Sep 2019 07:29:14 -0700 (PDT)
+Subject: Re: [PATCH v5 08/14] ARM: tegra: Make outer_disable() open-coded
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190929175952.22690-1-digetx@gmail.com>
+ <20190929175952.22690-9-digetx@gmail.com> <20190930080511.GE1518582@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a23edc5b-97c6-9dae-589e-b71d07069b0c@gmail.com>
+Date:   Mon, 30 Sep 2019 17:29:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uAKRQypu60I7Lcqm"
-Content-Disposition: inline
-In-Reply-To: <b40974742543a2e8450c097bf86c5c0d3baec977.camel@toradex.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20190930080511.GE1518582@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+30.09.2019 11:05, Thierry Reding пишет:
+> On Sun, Sep 29, 2019 at 08:59:46PM +0300, Dmitry Osipenko wrote:
+>> The outer_disable() of Tegra's suspend code is open-coded now since
+>> that helper produces spurious warning message about secondary CPUs being
+>> online. The secondaries are actually halted by the cpuidle driver on
+>> entering into LP2 idle-state. This fixes a storm of warnings once LP2
+>> idling state is enabled on Tegra30.
+> 
+> If the cpuidle driver halts the secondaries, shouldn't it set it offline
+> then so that outer_disable() can still work correctly?
 
---uAKRQypu60I7Lcqm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No.. how would you know what CPU's should be resumed?
 
-On Mon, Sep 30, 2019 at 11:54:59AM +0000, Philippe Schenker wrote:
-> On Wed, 2019-08-14 at 10:53 +0000, Philippe Schenker wrote:
-> > Add the stmpe-adc DT node as found on Toradex T30 modules
-> >=20
-> > Signed-off-by: Philippe Schenker <philippe.schenker@toradex.com>
->=20
-> Hi Thierry, could you please pull this patch for 5.4? Or tell me what is
-> holding it back from being pulled?
+AFAIK, the online status should be only changed by the hotplug code and
+nothing else. I don't think that it's a good idea to manually touch the
+online mask.
 
-At this point I'm only waiting for the merge to close. Before that I
-can't take any new patches.
+It looks to me that the only purpose of outer_disable() checking for the
+num_online_cpus is to prevent people from doing wrong things by
+disabling L2 in a random places in their code. Hence it should be
+absolutely fine to open code when you know what you're doing, which is
+the case here.
 
-Thierry
+We can check the rail status in tegra_sleep_cpu():
 
---uAKRQypu60I7Lcqm
-Content-Type: application/pgp-signature; name="signature.asc"
+if (trusted_foundations_registered() && outer_cache.disable) {
+	if (WARN_ON(!tegra_cpu_rail_off_ready()))
+		return -EBUSY;
 
------BEGIN PGP SIGNATURE-----
+	outer_cache.disable();
+}
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2SDmYACgkQ3SOs138+
-s6EOew/9EaFyL0YfHDuqjRoWXeAmsw0mcgPyEEz2xexpsdhl8h4YlyY+qGovRd4v
-gh/Ep8/OsiI8xyD//tgXVkLHVkdtaQ3T2VxpiogcnemJ+g50z83nKZR02rQIAJGQ
-h7ERw1WBAVUZEU/5/6nF6hRoDjpiI/K4VuP3HDiGZvWzAzY3/pr/xoP9Ho6UdYeD
-hf0Y6zwKHYHsClNKGCzC6/X0itk9sDUl8GDzCpxwySRTn1pDhCxf3fMDuaytE+lS
-HDvm8hGqxja5UAGhuypdFRZP8UEGJq6zxetwIyWl3ot13cDUdwRDuLlGaNcH1SOn
-ItwsIqfhvyN5uFI1JSFxDXw+oG24MoWK3ObwytNyHXSJ8KAjAS3Ov7O4G9d79dhb
-R7hwJ8ZA08Ur9NTmz0mThSBINhCMV3ENZKuZMIoWoiR4Zm4Az6bNbNgbjGc029Iu
-45zbqQTzHpGMwcCQhvx2+SHTUzsgAzTudmZNTJltzWKzCCINEoOj+6L8+lHCAdXm
-8VvCu1zGft4LmdP6xqA1CZ+l2MAJK8suaG9xVyZOfZx1f/2jemNGOid2AG3ck2lE
-TAJuSP+gyz1Qk/N7kIl5qifmRMWNgtt28Won7fvAvz5gqRoFSPBZt3VAC0Ib/B11
-IGvFvmgOMDxT9JGIGf/k3t1/aosY9XXt+O/boFYJFybYjoIugCE=
-=JeIS
------END PGP SIGNATURE-----
-
---uAKRQypu60I7Lcqm--
+Which is equal to the check for num_online_cpus. Does it sound good?
