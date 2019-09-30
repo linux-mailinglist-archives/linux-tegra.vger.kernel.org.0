@@ -2,67 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F3ACC2344
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Sep 2019 16:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B52DC237C
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Sep 2019 16:38:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731782AbfI3O3S (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Sep 2019 10:29:18 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:33793 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731686AbfI3O3S (ORCPT
+        id S1731190AbfI3Oix (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Sep 2019 10:38:53 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:39769 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730809AbfI3Oix (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Sep 2019 10:29:18 -0400
-Received: by mail-lf1-f66.google.com with SMTP id r22so7224125lfm.1;
-        Mon, 30 Sep 2019 07:29:16 -0700 (PDT)
+        Mon, 30 Sep 2019 10:38:53 -0400
+Received: by mail-lf1-f68.google.com with SMTP id 72so7224167lfh.6
+        for <linux-tegra@vger.kernel.org>; Mon, 30 Sep 2019 07:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/cUHoUaqss8qI6KXUvCsZN8O0fRZQEbP5/fl3QSwh1o=;
-        b=a0TGinOg0c8hiInPfRkFhKcAI/pPy0nuNaJobXF+ErQ72uXQF0IISRHdV5KIfRKiC7
-         glTMDeFvH8GoZxUb3rhz6SyfDHaoaiboEpIPcOGNUpnV3XFCSAlKJu/+HZDGetm93Q1n
-         9M6z+TW3AAe/z4CeBn5/Enmwy5Gm6qRIKGSlbdIkCA3P8uOYoXX8QPBtlH3e4pXZBMdn
-         EJrq0Mb008YwZ/t8h50HYz3DbR8exEIK0ouyE1uxF+8J3MRRiEWeyEkjJY5rGjpUlX9e
-         QV83BlJtHyG4EjL0WVvijHCD0IxkNYSqD8+4T91bZIAA5wmo1Qp6pD0PPXD6aknBflsf
-         U8+A==
+        bh=uhHrjx9junMUq7y6J3IOW1duaw0jqeUR6DZNg+Qrffc=;
+        b=j0LdItw68ehBIg/Qnd2zHAgWCfxfsP3g3MshtoM+9O6Envwi+R+xTTZel7MWCMrFIp
+         aR6GsrEbJmcMLaPmghMRnv6Mejg4Yq+aVTHK8ZsfP3hkZoLBYs2u9P3UiSGMAcLyrszJ
+         l5A94h8oq6zFUQQUp15n6IOMqNwg7fln1RGB/rSpb19mQImEtSgNYWqzXTsIALmzmboU
+         vkANDf2a+EbxwB7x/cOClM+xgbdIFou6BS9lVbXO+CQSyw6rDeQtQZ8e98OxQU1gu9Ir
+         S8nuxY/NrwDASfvGAfO3amKnTLs4rZEpjOBh5LHSw2kxzrg2ceDO781KeIcLaC9F56s5
+         tazg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=/cUHoUaqss8qI6KXUvCsZN8O0fRZQEbP5/fl3QSwh1o=;
-        b=gEOdt+7eN4z0Ha40/HaGdsDzrbtkI2VUJHufnSBz7dXASQ0G8dr/1T58nh5xs80bC3
-         M9tfVAw0o5VlwcPz8DhMFjJtXtVbqHE0jrlAb64CCPRZpTOt8zO7K+CYF3uQOuIYK+mC
-         S9iyhePhG3NmCoZpP9miyucT474m9lUV9QFqrjdYS5K5mK3/yf58kmvxCZj6VLo/WHYX
-         zrTsvdcAMbJUioEqYjDEdrDT9hGe8yhMjzFy79+aiH6DawhJcH77stQ4Kzo/wH6yVUVt
-         oJ0+LrBLQ2nXRQdp6ZYefNgvAmKhFNh5K0u43ceH5poZiTDQBbQZ9VJsxc4OxI/Qw6bu
-         60BQ==
-X-Gm-Message-State: APjAAAV7dDyZNF6uoN3SV3b5jPJzxM8xtU/0djF/45q2YaoJLaRxuf08
-        J8Jzn6pcfhw940Q/YsbiRdzQ8M5F
-X-Google-Smtp-Source: APXvYqwFjlepUlfhs1IaHhMZu4sLyNS0YVja8fQhsmG6txfhULFCIZsY4a893MARc0PIh4ARbcSTUw==
-X-Received: by 2002:ac2:5586:: with SMTP id v6mr11431654lfg.180.1569853755403;
-        Mon, 30 Sep 2019 07:29:15 -0700 (PDT)
+        bh=uhHrjx9junMUq7y6J3IOW1duaw0jqeUR6DZNg+Qrffc=;
+        b=k3BdvsI3v/udjploRC2TeiDJ8j6JDfhnmypZG/aw7SJqr3jQN1CTm8dGRW/1YH9qIf
+         K6gDIE4Yl9+RhXYsf0zBsEVVkHIFh3dWBikq/Ar89pjMmYICAF+Alj0FIZRAToq07zw6
+         FogXX9aCgqKEtP4ib5lrWCBE1YDN7O5eB6GMIeXhkvwhYAhAVKeylNskl2CJf6QzLInz
+         5l+/7IVXCtOUMKOsNuU4eXYXw4S1zhHF4IesXRAxDqYQz2+VjlzbaX5XwZDa8SgG7jC5
+         SlSLz2Eic1pSw34q+gdwBPzL+v4ZLRLE/3NojU7cp/8yo+94HfvUt3Y0ubFirA67yEu0
+         v+jg==
+X-Gm-Message-State: APjAAAXuJUdmIThItn8vnC4cTf26K0FRix+uivi0gYoTeFN3EBdyz4Ey
+        PjA2Ye+VZxTjfjhjJJDLokTTXY/v
+X-Google-Smtp-Source: APXvYqxxZZeroTccZr1LIJRdmHMjRI44cTKx2BUZC5+UjRzC6ZsHjOmjeWLv6+D53ysig9luoLLnWQ==
+X-Received: by 2002:a19:6748:: with SMTP id e8mr11960312lfj.136.1569854331096;
+        Mon, 30 Sep 2019 07:38:51 -0700 (PDT)
 Received: from [192.168.2.145] (ppp94-29-32-67.pppoe.spdop.ru. [94.29.32.67])
-        by smtp.googlemail.com with ESMTPSA id w17sm3252756lfl.43.2019.09.30.07.29.13
+        by smtp.googlemail.com with ESMTPSA id t10sm3495553ljt.68.2019.09.30.07.38.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Sep 2019 07:29:14 -0700 (PDT)
-Subject: Re: [PATCH v5 08/14] ARM: tegra: Make outer_disable() open-coded
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190929175952.22690-1-digetx@gmail.com>
- <20190929175952.22690-9-digetx@gmail.com> <20190930080511.GE1518582@ulmo>
+        Mon, 30 Sep 2019 07:38:50 -0700 (PDT)
+Subject: Re: ci_hdrc_tegra hard locks kernel when set to dr_mode = "otg"
+To:     Peter Geis <pgwipeout@gmail.com>, Peter Chen <peter.chen@nxp.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <CAMdYzYqUg+zCyD6zaFLyWjbYL0t_EzYb5nHM6jTdsOu75P2hvw@mail.gmail.com>
+ <VI1PR04MB532769D934068302F58299598B830@VI1PR04MB5327.eurprd04.prod.outlook.com>
+ <CAMdYzYoC19vOQOoyO0qGBCOTv5ofQyuuX5gEa2G+16THO8QiZw@mail.gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a23edc5b-97c6-9dae-589e-b71d07069b0c@gmail.com>
-Date:   Mon, 30 Sep 2019 17:29:13 +0300
+Message-ID: <e3588c90-b0c9-5881-bd99-b27eaefdf894@gmail.com>
+Date:   Mon, 30 Sep 2019 17:38:49 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20190930080511.GE1518582@ulmo>
+In-Reply-To: <CAMdYzYoC19vOQOoyO0qGBCOTv5ofQyuuX5gEa2G+16THO8QiZw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -71,36 +69,77 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.09.2019 11:05, Thierry Reding пишет:
-> On Sun, Sep 29, 2019 at 08:59:46PM +0300, Dmitry Osipenko wrote:
->> The outer_disable() of Tegra's suspend code is open-coded now since
->> that helper produces spurious warning message about secondary CPUs being
->> online. The secondaries are actually halted by the cpuidle driver on
->> entering into LP2 idle-state. This fixes a storm of warnings once LP2
->> idling state is enabled on Tegra30.
+30.09.2019 01:15, Peter Geis пишет:
+> Good Afternoon,
 > 
-> If the cpuidle driver halts the secondaries, shouldn't it set it offline
-> then so that outer_disable() can still work correctly?
+> So I have dug a bit further into it.
+> The tegra-udc driver defaults to host mode when set to otg.
+> If the tegra-udc driver is in host mode while plugged into another
+> host, the kernel will hard lock.
+> If the tegra-udc driver is in host mode with a device attached the
+> device enumerates correctly.
+> In this state, if you change the state to gadget, the driver goes into
+> a broken state.
+> The gadget side is in gadget mode, but the host does not enumerate the device.
+> 
+> As it stands the code path for the tegra-udc driver is broken in OTG mode.
+> Without proper extcon support we can't support dynamic switching
+> correctly anyways.
+> My hack around method of retaining the phy in peripheral mode and
+> switching drivers to change modes only works because both code paths
+> are incomplete as well, and should not be relied upon.
+> 
+> I think for the time being, the tegra-udc driver should check for
+> host, peripheral, or otg mode.
+> If it detects the device is set to otg mode, it should print an error
+> message describing the current situation and fail out.
+> 
+> If I had a device to test against with an extcon capable port, I'd try
+> some more experimenting with the chipidea drivers to see if I can get
+> it to work.
+> 
+> What do you think?
+> 
+> Dmitry,
+> Do you have any devices to experiment with this?
 
-No.. how would you know what CPU's should be resumed?
+Hello Peter,
 
-AFAIK, the online status should be only changed by the hotplug code and
-nothing else. I don't think that it's a good idea to manually touch the
-online mask.
+I had Nexus 7 v2013 that supported OTG (IIRC), unfortunately it broke
+about a year ago. I also have Nexus 7 v2012, but it doesn't support OTG
+(AFAIK). So no, I don't have hardware to test OTG.
 
-It looks to me that the only purpose of outer_disable() checking for the
-num_online_cpus is to prevent people from doing wrong things by
-disabling L2 in a random places in their code. Hence it should be
-absolutely fine to open code when you know what you're doing, which is
-the case here.
+> On Sat, Sep 28, 2019 at 11:36 PM Peter Chen <peter.chen@nxp.com> wrote:
+>>
+>>
+>>>
+>>> I've encountered an odd situation where the CI Dual Role driver hard locks the
+>>> kernel on the Ouya (Tegra 3).
+>>> I was attempting to set up manual mode switching in the kernel, as the Ouya lacks
+>>> hardware support for the ID pin and no voltage output on that port.
+>>> I found that the kernel was hard locking whenever I had the dr_mode = "otg" set in
+>>> the devicetree.
+>>
+>> It seems Tegra doesn't support host mode using chipidea driver. The ci_hdrc_tegra.c
+>> only supports device mode. Thierry, could you confirm that?
+>>
+>> Peter
+>>
+>>> No further output was seen on the console, and sysreq does not respond.
+>>> It occurs both in module and builtin mode.
+>>>
+>>> I have however found a workaround.
+>>> By setting the dual role usb device to:
+>>> compatible = "nvidia,tegra30-ehci", "nvidia,tegra30-udc"; and setting the assigned
+>>> phy to:
+>>> dr_mode = "peripheral";
+>>> I can achieve rudimentary live switching of roles.
+>>> The device defaults to host mode, as the ehci driver enumerates first.
+>>> By unbinding the tegra-ehci driver and binding the tegra-udc driver, I can switch to
+>>> gadget mode.
+>>> The reverse also works.
+>>> The PHY driver does not appear to care if it is always in peripheral mode.
+>>>
+>>> Thank you for your time,
+>>> Peter Geis
 
-We can check the rail status in tegra_sleep_cpu():
-
-if (trusted_foundations_registered() && outer_cache.disable) {
-	if (WARN_ON(!tegra_cpu_rail_off_ready()))
-		return -EBUSY;
-
-	outer_cache.disable();
-}
-
-Which is equal to the check for num_online_cpus. Does it sound good?
