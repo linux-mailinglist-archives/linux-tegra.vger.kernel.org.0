@@ -2,137 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E562AC3814
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 16:51:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 633E3C3851
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 16:58:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388925AbfJAOvS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Oct 2019 10:51:18 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:47058 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727194AbfJAOvS (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 10:51:18 -0400
-Received: by mail-wr1-f65.google.com with SMTP id o18so15867750wrv.13
-        for <linux-tegra@vger.kernel.org>; Tue, 01 Oct 2019 07:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=AgKw3mZh1KheWXtHsifk3ei4VZBMqeuEo9bov01kIDg=;
-        b=UOCdfQ8Hhwxwx33QrldZ9snajJS1qLRgonAfvw5DTk0oJ9dsSpXxeK1ggWcKKAzWbL
-         oss5V5v+j2y1oz1H8UYyTk7ntknNpWg53sutjcGfI1xKGO3WTw4SveGnzrHGPsteRyeN
-         0Cne0eJoL57D+hGrg27SqNbJ0LrmAdwc8AB/fUW09WS781kqGY8O14SxLgCYHeh4WP6Z
-         N8lF6SBHXyPMkbDmuhs2d0LWkqyCF1Y77g11JsVBM0OPcvV7pfkQJUjvnU2gOnqOquVH
-         Mcq2Lgl7OhXveH1wHSsoDTtiNrPly5upHi8yn7R1z+OGnhg7xOjUY/ndqGTe+uOubbXA
-         HqQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AgKw3mZh1KheWXtHsifk3ei4VZBMqeuEo9bov01kIDg=;
-        b=fGYNdRb+BaQFCI7B3MCjUV0ax1HjzkOFI64JjqqzsKJ28I+Yfhem5Er0JJSYND5B+K
-         N9b7w8Yaf7bwzZT01Xo5RtZM/aUI7Wju0fRQSItbS9HzMZoo14X3KZPieaJ3uWyaZdpR
-         J4wR0pQksHk4fJ0fLWcDCd0ujfJyP4itisTrXIQjIddqMe3b0mZgRJvt0HBZhxgKYeee
-         09geXC4WoCojOD6VMWcX9Uu51ZE2e4/Msce+oYqeZXED6iErvCKuhGlV3w145ETsZ9K0
-         IwpstxkPRqvu4ro6N5J5YC59JAHfxLRT6GiURyLr0ui/YsOTGze5BCTP/YMN365WRtZ1
-         R7aw==
-X-Gm-Message-State: APjAAAX1eR+dw3MXpdEw9eB7BSkooc4Qa37xqBwbEYayDa9iefbl9pAh
-        PTW89XUhVSOkD3ej5F17zgXVzjkh
-X-Google-Smtp-Source: APXvYqxhhVg0RhjvukJFMpXI+YtZEH75O+5C1iaL9+d4puCbUPJmekg3rbKn8gopBPUngIdahHRF1Q==
-X-Received: by 2002:a5d:49c3:: with SMTP id t3mr17497480wrs.151.1569941475873;
-        Tue, 01 Oct 2019 07:51:15 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id 79sm4181642wmb.7.2019.10.01.07.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 07:51:14 -0700 (PDT)
-Date:   Tue, 1 Oct 2019 16:51:13 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] arm64: tegra: Fix compatible string for EQOS on Tegra194
-Message-ID: <20191001145113.GE3566931@ulmo>
-References: <20190925113851.2691-1-thierry.reding@gmail.com>
+        id S1731937AbfJAO6X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Oct 2019 10:58:23 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:14202 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731547AbfJAO6W (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 10:58:22 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d9369960000>; Tue, 01 Oct 2019 07:58:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 01 Oct 2019 07:58:22 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 01 Oct 2019 07:58:22 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Oct
+ 2019 14:58:21 +0000
+Received: from [10.21.133.51] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Oct 2019
+ 14:58:19 +0000
+Subject: Re: [PATCH 4.19 00/63] 4.19.76-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20190929135031.382429403@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <90fc5da5-40f1-03da-785a-2c2c6ce45702@nvidia.com>
+Date:   Tue, 1 Oct 2019 15:58:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="r7U+bLA8boMOj+mD"
-Content-Disposition: inline
-In-Reply-To: <20190925113851.2691-1-thierry.reding@gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20190929135031.382429403@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1569941910; bh=OAyFu/sXs+v97VxHorpaWaVf/KV7sAEw5I17l/FRu/M=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=WXRQ0P8/xZrGiD5GUkRSOLPYyVJIJZ7SHSWXMdn8HguqgKcidbhmUDVGV5PvE6UX7
+         A2tzEIke3pmdgHFrsXMI8JpvbYt9spO+ROZo1XZlqMzZ+qrUttLSQ2WVynCkne0z0P
+         1TSLVnJ11tFNZimXvFUmzBQh0Z1vGoE3lj0X7P8X5GEV7p6c9ZQiBXq7q1E2J8C4He
+         /HThNke+YyTPnK2RYRhCDRytKkeeAH6EjBUHhsH72vRGmr7n2Xq8vVBUqMvo4cd7LW
+         MBsQuZZpdP1Ii+WSFWyhYpSA6VNWrxibnNwvTVgLoEsDmhRIJDq7dAuBgCEHpVXSbK
+         HhQ7dkHEQtHMg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---r7U+bLA8boMOj+mD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 29/09/2019 14:53, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.76 release.
+> There are 63 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Tue 01 Oct 2019 01:47:47 PM UTC.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.76-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-On Wed, Sep 25, 2019 at 01:38:51PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> The EQOS hardware block found on Tegra194 is in fact not compatible with
-> the instantiation on Tegra186. While the register programming is exactly
-> the same, one notable difference is that on Tegra194 only 39 bits out of
-> the advertised 40 bits can be used. Bit 39 enables some on-the-fly
-> swizzling of data that is counter-productive to ethernet connectivity.
->=20
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 
-It turns out that the EQOS controller is perfectly capable of addressing
-40 bits of system memory. The fact that bit 39 is special is a system-
-level detail that is better described by restricting the DMA mask using
-a dma-ranges property. Patches to do that will follow.
+All tests are passing for Tegra ...
 
-Instead I've replaced this patch with one that adds nvidia,tegra194-eqos
-in addition to the nvidia,tegra186-eqos compatible string. This follows
-the established practice of always listing the SoC-specific compatible
-string, even if the hardware is compatible with prior generations. This
-is to make sure workarounds for unforeseen bugs and incompatibilities
-can be implemented in an OS when matching on the specific compatible
-string.
+Test results for stable-v4.19:
+    12 builds:	12 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    32 tests:	32 pass, 0 fail
 
-Thierry
+Linux version:	4.19.76-g555161ee1b7a
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
->=20
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/d=
-ts/nvidia/tegra194.dtsi
-> index e590a3cebed0..49e2121f0cbf 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> @@ -40,7 +40,7 @@
->  		};
-> =20
->  		ethernet@2490000 {
-> -			compatible =3D "nvidia,tegra186-eqos",
-> +			compatible =3D "nvidia,tegra194-eqos",
->  				     "snps,dwc-qos-ethernet-4.10";
->  			reg =3D <0x02490000 0x10000>;
->  			interrupts =3D <GIC_SPI 194 IRQ_TYPE_LEVEL_HIGH>;
-> --=20
-> 2.23.0
->=20
+Cheers
+Jon
 
---r7U+bLA8boMOj+mD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2TZ+EACgkQ3SOs138+
-s6HNww/+KYtK1JnIdGOYIuBf+Hc4N8qVilZxGHuxDX15gIhjbAi3itYYa3D8zofm
-ZO8V5XPsS9gYs/zxdQyWxGmJWBuF+pFFJ0+h3zQ0lZ17Fr433k5wicliYsr05aJd
-lEvjMKGjVUuPqJdrXro2YOHJJgR+6TehFQeg8ln2Xb6N11ag+vRrGCcqpPilIFaq
-LgKpJ2ZzweZYaGhiOvFsJiXDMwVWhtBMK4aqiMKN/3uQ+75gkHas45UU9cjStBAI
-utNv2By6eiRINm2SNJ9hlldwZZ14Fff4T2hXEyNv7qfyKbzPZxYVSQXan9NfSNgd
-NLfcc1X6KoA8XfMY7ScLKjOkQ2n6kP8b5tWPFgIS/mpVd62AvF0fvmU4MBuUaRvZ
-bOGO5KfzOJWdWLTr6NKQhKdFtMLDwssz20GKwwX0t88HIPRyeYOXdOkD17v6Nfkl
-a96RvW9fEVo6/da1j3mrK+7BmcB9ACUWYRD60MUs8FuAfyxCke0UIKNCuXYKiIpA
-OTctWfN8HIkW9amdxDwzqY642ui69PdLQK0NmpxG3q7OBhqm4lA2ddwNlzTJcyJa
-aPJriGxBN+ugxhJSJYwu166g7fPPMLqvpjzo8hGO7xaQuQd9Wzjk+YDZoPO9N1vg
-bn8Z/AXg+sDk08h7mv3qG95cCqIPKBKK/aEfZ4u5cHSqXpDe+2c=
-=YYfk
------END PGP SIGNATURE-----
-
---r7U+bLA8boMOj+mD--
+-- 
+nvpublic
