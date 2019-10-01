@@ -2,110 +2,230 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3691FC3878
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 17:04:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC292C38EA
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 17:25:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726987AbfJAPER (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Oct 2019 11:04:17 -0400
-Received: from mail-wr1-f41.google.com ([209.85.221.41]:39043 "EHLO
-        mail-wr1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727185AbfJAPER (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 11:04:17 -0400
-Received: by mail-wr1-f41.google.com with SMTP id r3so15981843wrj.6;
-        Tue, 01 Oct 2019 08:04:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=82JevLXpiEtGmAc3CHys8cJux4GB+e9q7dCU4OqqwNA=;
-        b=TkwWCU1HOyaEwaiACxq0x15vbDID7pKPA8viZni877Yi7iGnxC6M3I68GDxYNM3sNz
-         PcPkG4SnLTFiLbhFVDUEDlEoZPoF4ksevciAU+w+vCaGCQwVu5E/i64j61Rpa7f9aECf
-         mb1hkU0qY0I8K/PCdkq+1Xru8Npmgh5Bd6YM3KIWI+0yHIbd5RljcJO9LyT8z+JOah3m
-         +yspFda/lKHcs6KogjdvziqrLVSEkWuWOi++6Psil4w4zWbiOcbvw+SLQV0BKPfk9NAC
-         EVK3S85mnLBTpmjt6oOrb+FE1/N8mh6x5qfHSiFkcN3DzmJHU7d1zu1vTdGkrnILJLGd
-         vRhQ==
+        id S2389581AbfJAPYe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Oct 2019 11:24:34 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:52180 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389331AbfJAPYd (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 11:24:33 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 7so3876143wme.1;
+        Tue, 01 Oct 2019 08:24:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=82JevLXpiEtGmAc3CHys8cJux4GB+e9q7dCU4OqqwNA=;
-        b=N03ndwjXFM9aKbFMb42swh72wxHGJz3vNDqSoVjqnrbMLRCgV8YJ/MsYpsZhbxs3Np
-         69ryAfhNBoLv7jDHJ6B2FaNG9wdUgdEe7iGKZMtBIsjmHCtjMCj2yK/fVSLacUqI09ay
-         /StPJ53XUSDI6meknq1rDg1KsVMJ7iRQSm+CWaqGCisXGE8BIbEmStbiux0uY4PDPwRe
-         UiL2L7H+96hjniymNp6qKK9xusTJ8nxyuKenuTBslcSwgwYfnVHkusiU5kPBEMK9AnuG
-         xsi2TCeFT/vDQlJ4dFkPBfTGYXNwpU8uxtlLb8Dt5rMEwfSbjuxyMLXgFTLsx/eetPSk
-         Q3Cw==
-X-Gm-Message-State: APjAAAUeDOiMqa8T+rymo+TEGsuI+lEaK/qRb04asitlEyYrabZvK9N1
-        jx8UtF3sE58AIpaqBkn0uRuBv/dz
-X-Google-Smtp-Source: APXvYqysmRZv4fvIeB8npqusjQa8iA0BFIqVmK9AcFOwpTbIHBre6jHhDi8o++Cu1n3PH+aBr679Lw==
-X-Received: by 2002:a5d:4ecf:: with SMTP id s15mr1386728wrv.234.1569942255091;
-        Tue, 01 Oct 2019 08:04:15 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id y13sm25466006wrg.8.2019.10.01.08.04.13
+        bh=qIz20MyIeJ4YRS3q69VVUyLU1/qqd5R6Zf74yV/b9ww=;
+        b=tMJR1DKYuJ/HYqsTxR6if2fyU/wWMRmpHG62KZ1lIyk8JSPisThK+ZTZA0bRN3kEnu
+         iJxykDLKTqLRSjAlHGp4hAzoB6bnBZmdBteJ+qDSgQhAORi7GTtM709ySi2rfGB4vEN3
+         219q4uDcK6YA5/EWxdJU9yAkaUSaKoNT3LKOLeaA6ewjk3RUsN+1TMaiAzLk/V1MUoXW
+         4PTxHFlRMJa4jw/2xO4qPBt6sAvA7L+Bze5tfvRB9I7d4YfzL8lgjmsBDZnTvqVLXWz/
+         XGFDEAGo9bugFgonAmPeD1kBcRCxZnxB4W9aG5bA/UkMWXVtsdEcBCDmbDsbneYAfHYu
+         mP9w==
+X-Gm-Message-State: APjAAAUQXk3ONav8skZU1A/Cql1LXyee9IBgA4syfHBaHommjAKmA5ya
+        mQGyO+Vw1bmJHnRTu+tZJ84=
+X-Google-Smtp-Source: APXvYqzgA01GZd24cae9Ug02bMZVgbmEoHDdIAy+uHttgtTk16j30giNWmxHikB8fPnYof+FbNzouQ==
+X-Received: by 2002:a1c:60c1:: with SMTP id u184mr4104201wmb.32.1569943469278;
+        Tue, 01 Oct 2019 08:24:29 -0700 (PDT)
+Received: from pi3 ([194.230.155.145])
+        by smtp.googlemail.com with ESMTPSA id i1sm4699293wmb.19.2019.10.01.08.24.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 08:04:13 -0700 (PDT)
-Date:   Tue, 1 Oct 2019 17:04:12 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-Cc:     jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Patch V2] soc/tegra: fuse: Add fuse clock check in
- tegra_fuse_readl
-Message-ID: <20191001150412.GG3566931@ulmo>
-References: <1567508212-1194-1-git-send-email-nkristam@nvidia.com>
+        Tue, 01 Oct 2019 08:24:28 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 17:24:22 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-crypto@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v2 2/8] dt-bindings: sram: Convert SRAM bindings to
+ json-schema
+Message-ID: <20191001152422.GA31358@pi3>
+References: <20190918173141.4314-1-krzk@kernel.org>
+ <20190918173141.4314-2-krzk@kernel.org>
+ <20191001140003.GA31344@bogus>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uc35eWnScqDcQrv5"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1567508212-1194-1-git-send-email-nkristam@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191001140003.GA31344@bogus>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, Oct 01, 2019 at 09:00:03AM -0500, Rob Herring wrote:
+> On Wed, Sep 18, 2019 at 07:31:35PM +0200, Krzysztof Kozlowski wrote:
+> > Convert generic mmio-sram bindings to DT schema format using
+> > json-schema.
+> 
+> I've been slow getting to this because I started on the same thing...
+> 
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > 
+> > ---
+> > 
+> > Changes since v1:
+> > 1. Indent example with four spaces (more readable).
+> > ---
+> >  .../devicetree/bindings/sram/sram.txt         |  80 ----------
+> >  .../devicetree/bindings/sram/sram.yaml        | 138 ++++++++++++++++++
+> >  2 files changed, 138 insertions(+), 80 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/sram/sram.txt
+> >  create mode 100644 Documentation/devicetree/bindings/sram/sram.yaml
+> 
+> > diff --git a/Documentation/devicetree/bindings/sram/sram.yaml b/Documentation/devicetree/bindings/sram/sram.yaml
+> > new file mode 100644
+> > index 000000000000..8d9d6ce494b2
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/sram/sram.yaml
+> > @@ -0,0 +1,138 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/sram/sram.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Generic on-chip SRAM
+> > +
+> > +maintainers:
+> > +  - FIXME <who@should.it.be>
+> 
+> You can put me.
 
---uc35eWnScqDcQrv5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sure.
 
-On Tue, Sep 03, 2019 at 04:26:52PM +0530, Nagarjuna Kristam wrote:
-> tegra_fuse_readl() can be called from drivers at any time. If this API is
-> called before tegra_fuse_probe(), we end up enabling clock before it is
-> registered. Add check for fuse clock in tegra_fuse_readl() and return
-> corresponding error if any.
->=20
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> ---
-> V2:
-> 	- Added Null and other error checks for fuse->clk.
-> ---
->  drivers/soc/tegra/fuse/fuse-tegra.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> > +
+> > +description: |+
+> > +  Simple IO memory regions to be managed by the genalloc API.
+> > +
+> > +  Each child of the sram node specifies a region of reserved memory. Each
+> > +  child node should use a 'reg' property to specify a specific range of
+> > +  reserved memory.
+> > +
+> > +  Following the generic-names recommended practice, node names should
+> > +  reflect the purpose of the node. Unit address (@<address>) should be
+> > +  appended to the name.
+> > +
+> > +properties:
+> > +  $nodename:
+> > +    pattern: "^sram(@.*)?"
+> > +
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - mmio-sram
+> > +          - atmel,sama5d2-securam
+> 
+> I was trying to go down the path of putting all the compatibles for 
+> various SRAM bindings here, but I ran into some issues. I need to 
+> revisit as I've forgotten the exact issue.
+> 
+> This would need to be a 'contains' if this is going to work for others.
 
-Applied to for-5.5/soc, thanks.
+OK.
 
-Thierry
+> 
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  "#address-cells":
+> > +    description: Should use the same values as the root node.
+> > +
+> > +  "#size-cells":
+> > +    description: Should use the same values as the root node.
+> 
+> I defined both of these to be 1 as 4GB of SRAM should be enough for a 
+> while. We can debate 1 or 2 cells vs. 1, but there's no reason it has to 
+> be the same as the root (unless we're failing to do address 
+> translation).
 
---uc35eWnScqDcQrv5
-Content-Type: application/pgp-signature; name="signature.asc"
+That was copied from txt version. I can adjust them to 1 although this
+is will more than simple conversion.
 
------BEGIN PGP SIGNATURE-----
+> 
+> > +
+> > +  ranges:
+> > +    description:
+> > +      Should translate from local addresses within the sram to bus addresses.
+> > +
+> > +  no-memory-wc:
+> > +    description:
+> > +      The flag indicating, that SRAM memory region has not to be remapped
+> > +      as write combining. WC is used by default.
+> > +    type: boolean
+> > +
+> > +  # TODO: additionalProperties: false
+> > +
+> > +patternProperties:
+> > +  "^([a-z]*-)?sram@[a-f0-9]$":
+> > +    type: object
+> > +    description:
+> > +      Each child of the sram node specifies a region of reserved memory.
+> > +    properties:
+> > +      reg:
+> > +        description:
+> > +          IO mem address range, relative to the SRAM range.
+> 
+> maxItems: 1
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2TauwACgkQ3SOs138+
-s6EqvQ//QmqQwmW5Ol+MmXGhVIp3l5MIWX0f5l5/D9v1a911yCzm9o9mPKjAlkJy
-RA3+8kZJhAGmxE4GFZ/3aV1V32dqrnvNkJXEgagTnQ+kXaIfr2o67DoW5q220ftV
-JT7USAUONMWTqEJrR90e+EV668kDD9ZtAcLrn40BBjM+0g0K19g+7vLXAvzuLNTb
-CONTgcahroCKIf9x2YG8aUKICAeIbz/JflbaZwLyrV+WBQ8H4mg3RHbd1MPOQIha
-sNv6HunEy9nJeP8kcHopFJfikHMNempXIpcB2mlmU/iubTvdvBFDm+POhivPuuqv
-RCvopwwzqyxN+jyjj3SolNVAVWwzCbYYI96HBMn2j3jD0+2qCGO0WA/TQVx8IMZS
-vBouimwhcWKu8HIHhTj3ZSt59bhIya9jak+1wpfmm9BgX6ifZNB4k082kB336uds
-p6TlDKZAoTHVzKmRVC6nYmSMb46OKDVdqzZP9jn2aNPZio2jIhHzQNg83MPuUofQ
-3jRXU0JifD15pnIG9zkXXM100k0HdnW+2rwzcVbEQRGsxd9YqQvV8gZWjtAQD9J/
-jvzAaF3rcFZM8iMAUaU7VTIc6dzGJlqaqVhAr6q9VuKsrQsNVQFv3j2Z//dVhM8D
-jgMlsySTFvNLZQf6K8bruE0yqY/YCG55L7JU7hJFRfdEBkmqTgs=
-=XLEa
------END PGP SIGNATURE-----
+OK
 
---uc35eWnScqDcQrv5--
+> 
+> > +
+> > +      compatible:
+> > +        $ref: /schemas/types.yaml#/definitions/string
+> > +        description:
+> > +          Should contain a vendor specific string in the form
+> > +          <vendor>,[<device>-]<usage>
+> > +
+> > +      pool:
+> > +        description:
+> > +          Indicates that the particular reserved SRAM area is addressable
+> > +          and in use by another device or devices.
+> > +        type: boolean
+> > +
+> > +      export:
+> > +        description:
+> > +          Indicates that the reserved SRAM area may be accessed outside
+> > +          of the kernel, e.g. by bootloader or userspace.
+> > +        type: boolean
+> > +
+> > +      protect-exec:
+> > +        description: |
+> > +          Same as 'pool' above but with the additional constraint that code
+> > +          will be run from the region and that the memory is maintained as
+> > +          read-only, executable during code execution. NOTE: This region must
+> > +          be page aligned on start and end in order to properly allow
+> > +          manipulation of the page attributes.
+> > +        type: boolean
+> > +
+> > +      label:
+> > +        $ref: /schemas/types.yaml#/definitions/string
+> 
+> Already has a type definition.
+
+OK
+
+Best regards,
+Krzysztof
+
