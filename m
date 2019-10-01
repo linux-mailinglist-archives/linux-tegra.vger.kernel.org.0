@@ -2,115 +2,259 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0B67C366F
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 15:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDFE0C368A
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 16:00:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388767AbfJAN4c (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Oct 2019 09:56:32 -0400
-Received: from imap1.codethink.co.uk ([176.9.8.82]:52752 "EHLO
-        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388872AbfJAN4c (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 09:56:32 -0400
-Received: from [167.98.27.226] (helo=[10.35.6.110])
-        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
-        id 1iFIdY-00037r-Lo; Tue, 01 Oct 2019 14:56:20 +0100
-Subject: Re: [PATCH v3 1/7] ASoC: tegra: add a TDM configuration callback
-To:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-kernel@lists.codethink.co.uk,
-        Edward Cragg <edward.cragg@codethink.co.uk>
-References: <20190930165130.10642-1-ben.dooks@codethink.co.uk>
- <20190930165130.10642-2-ben.dooks@codethink.co.uk>
- <1488a5a8-5c55-5643-1956-0cd9d9c90644@nvidia.com>
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <49cfe40c-039e-bcb1-08a3-510f81000e7d@codethink.co.uk>
-Date:   Tue, 1 Oct 2019 14:56:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2388527AbfJAOAH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Oct 2019 10:00:07 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:40773 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726710AbfJAOAH (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 10:00:07 -0400
+Received: by mail-ot1-f68.google.com with SMTP id y39so11610424ota.7;
+        Tue, 01 Oct 2019 07:00:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JZBM1FPFDAl5uESgEP9tPsFTn7qdNx8IBtQzRJpA2CU=;
+        b=JJ6Ba9U260hPNMjV33RcZ4y4AOaBtHnjOByo9zSyjfHN3eAatyKNOkOgmyd1ru0Sm9
+         Sh0ucXuvXH5gHibOXGHWFPbLnOMTyrqAVMT+4gthL0YteSJyxpstoaO4V9iyLtOIV4mk
+         vqs8y3GDEj61emJcbuf5VrBAYuRm+ZTKiyod7zaSjSik06RgNP9A3j8T17P47IoGyOd6
+         hg7mtUlOXdAodyFCsBiBvJ1HgXnwIQ45nshjfu+Bodd+rOJRidpOPndCoCGsjgyVobpd
+         bwR8ycm8zR0dF61jo6a2FP57u6Jg3T6gS22+G+vOhySqKsyDZ1gbdxnZ8PwUalSEfshh
+         KkmA==
+X-Gm-Message-State: APjAAAVr+PRHwQCvMAYY+PNPx5D0/RCQsKzdEgbERn2PSzCOE2hbsup5
+        HznEYzRjx+2O9BlmLHiUOw==
+X-Google-Smtp-Source: APXvYqyny3jSQCJcTq07B8NFgeh+CqrPZ/jllExOJcitfcVJnCPPhlC7KQB0zTngJlFTUtwdcVIBqg==
+X-Received: by 2002:a9d:4041:: with SMTP id o1mr4924805oti.61.1569938405253;
+        Tue, 01 Oct 2019 07:00:05 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m25sm5045457oie.39.2019.10.01.07.00.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 07:00:04 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 09:00:03 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-crypto@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v2 2/8] dt-bindings: sram: Convert SRAM bindings to
+ json-schema
+Message-ID: <20191001140003.GA31344@bogus>
+References: <20190918173141.4314-1-krzk@kernel.org>
+ <20190918173141.4314-2-krzk@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1488a5a8-5c55-5643-1956-0cd9d9c90644@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190918173141.4314-2-krzk@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 01/10/2019 14:40, Jon Hunter wrote:
-> 
-> On 30/09/2019 17:51, Ben Dooks wrote:
->> From: Edward Cragg <edward.cragg@codethink.co.uk>
->>
->> Add a callback to configure TDM settings for the Tegra30 I2S ASoC 'platform'
->> driver.
->>
->> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
->> [ben.dooks@codethink.co.uk: merge fix for power management]
->> [ben.dooks@codethink.co.uk: add review change for fsync of 1 clock]
->> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
->> ---
->>   sound/soc/tegra/tegra30_i2s.c | 33 +++++++++++++++++++++++++++++++++
->>   1 file changed, 33 insertions(+)
->>
->> diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
->> index ac6983c6bd72..7f9ef6abeae2 100644
->> --- a/sound/soc/tegra/tegra30_i2s.c
->> +++ b/sound/soc/tegra/tegra30_i2s.c
->> @@ -254,6 +254,38 @@ static int tegra30_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
->>   	return 0;
->>   }
->>   
->> +/*
->> + * Set up TDM
->> + */
->> +static int tegra30_i2s_set_tdm(struct snd_soc_dai *dai,
->> +			       unsigned int tx_mask, unsigned int rx_mask,
->> +			       int slots, int slot_width)
->> +{
->> +	struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
->> +	unsigned int mask, val;
->> +
->> +	dev_dbg(dai->dev, "%s: txmask=0x%08x rxmask=0x%08x slots=%d width=%d\n",
->> +		 __func__, tx_mask, rx_mask, slots, slot_width);
->> +
->> +	/* Set up slots and tx/rx masks */
->> +	mask = TEGRA30_I2S_SLOT_CTRL_TOTAL_SLOTS_MASK |
->> +	       TEGRA30_I2S_SLOT_CTRL_RX_SLOT_ENABLES_MASK |
->> +	       TEGRA30_I2S_SLOT_CTRL_TX_SLOT_ENABLES_MASK;
->> +
->> +	val = (tx_mask << TEGRA30_I2S_SLOT_CTRL_TX_SLOT_ENABLES_SHIFT) |
->> +	      (rx_mask << TEGRA30_I2S_SLOT_CTRL_RX_SLOT_ENABLES_SHIFT) |
->> +	      ((slots - 1) << TEGRA30_I2S_SLOT_CTRL_TOTAL_SLOTS_SHIFT);
->> +
->> +	pm_runtime_get_sync(dai->dev);
->> +	regmap_update_bits(i2s->regmap, TEGRA30_I2S_SLOT_CTRL, mask, val);
->> +	// set the fsync width to minimum of 1 clock width
-> 
-> Please make sure you are consistent with your commenting style and you
-> adhere to the kernel coding style.
-> 
-> Also, I see a lot of ...
-> 
-> ERROR: trailing whitespace
-> #197: FILE: sound/soc/tegra/tegra30_i2s.c:258:
-> + * Set up TDM^M$
-> 
-> ERROR: DOS line endings
-> #198: FILE: sound/soc/tegra/tegra30_i2s.c:259:
-> + */^M$
+On Wed, Sep 18, 2019 at 07:31:35PM +0200, Krzysztof Kozlowski wrote:
+> Convert generic mmio-sram bindings to DT schema format using
+> json-schema.
 
-I'll go and check that later.
-I did assume my colleagues had done the relevant checks themselves...
+I've been slow getting to this because I started on the same thing...
 
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> 
+> ---
+> 
+> Changes since v1:
+> 1. Indent example with four spaces (more readable).
+> ---
+>  .../devicetree/bindings/sram/sram.txt         |  80 ----------
+>  .../devicetree/bindings/sram/sram.yaml        | 138 ++++++++++++++++++
+>  2 files changed, 138 insertions(+), 80 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sram/sram.txt
+>  create mode 100644 Documentation/devicetree/bindings/sram/sram.yaml
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
+> diff --git a/Documentation/devicetree/bindings/sram/sram.yaml b/Documentation/devicetree/bindings/sram/sram.yaml
+> new file mode 100644
+> index 000000000000..8d9d6ce494b2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sram/sram.yaml
+> @@ -0,0 +1,138 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sram/sram.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Generic on-chip SRAM
+> +
+> +maintainers:
+> +  - FIXME <who@should.it.be>
 
-https://www.codethink.co.uk/privacy.html
+You can put me.
+
+> +
+> +description: |+
+> +  Simple IO memory regions to be managed by the genalloc API.
+> +
+> +  Each child of the sram node specifies a region of reserved memory. Each
+> +  child node should use a 'reg' property to specify a specific range of
+> +  reserved memory.
+> +
+> +  Following the generic-names recommended practice, node names should
+> +  reflect the purpose of the node. Unit address (@<address>) should be
+> +  appended to the name.
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^sram(@.*)?"
+> +
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - mmio-sram
+> +          - atmel,sama5d2-securam
+
+I was trying to go down the path of putting all the compatibles for 
+various SRAM bindings here, but I ran into some issues. I need to 
+revisit as I've forgotten the exact issue.
+
+This would need to be a 'contains' if this is going to work for others.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    description: Should use the same values as the root node.
+> +
+> +  "#size-cells":
+> +    description: Should use the same values as the root node.
+
+I defined both of these to be 1 as 4GB of SRAM should be enough for a 
+while. We can debate 1 or 2 cells vs. 1, but there's no reason it has to 
+be the same as the root (unless we're failing to do address 
+translation).
+
+> +
+> +  ranges:
+> +    description:
+> +      Should translate from local addresses within the sram to bus addresses.
+> +
+> +  no-memory-wc:
+> +    description:
+> +      The flag indicating, that SRAM memory region has not to be remapped
+> +      as write combining. WC is used by default.
+> +    type: boolean
+> +
+> +  # TODO: additionalProperties: false
+> +
+> +patternProperties:
+> +  "^([a-z]*-)?sram@[a-f0-9]$":
+> +    type: object
+> +    description:
+> +      Each child of the sram node specifies a region of reserved memory.
+> +    properties:
+> +      reg:
+> +        description:
+> +          IO mem address range, relative to the SRAM range.
+
+maxItems: 1
+
+> +
+> +      compatible:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        description:
+> +          Should contain a vendor specific string in the form
+> +          <vendor>,[<device>-]<usage>
+> +
+> +      pool:
+> +        description:
+> +          Indicates that the particular reserved SRAM area is addressable
+> +          and in use by another device or devices.
+> +        type: boolean
+> +
+> +      export:
+> +        description:
+> +          Indicates that the reserved SRAM area may be accessed outside
+> +          of the kernel, e.g. by bootloader or userspace.
+> +        type: boolean
+> +
+> +      protect-exec:
+> +        description: |
+> +          Same as 'pool' above but with the additional constraint that code
+> +          will be run from the region and that the memory is maintained as
+> +          read-only, executable during code execution. NOTE: This region must
+> +          be page aligned on start and end in order to properly allow
+> +          manipulation of the page attributes.
+> +        type: boolean
+> +
+> +      label:
+> +        $ref: /schemas/types.yaml#/definitions/string
+
+Already has a type definition.
+
+> +        description:
+> +          The name for the reserved partition, if omitted, the label is taken
+> +          from the node name excluding the unit address.
+> +
+> +      clocks:
+> +        description:
+> +          A list of phandle and clock specifier pair that controls the
+> +          single SRAM clock.
+> +
+> +      # TODO: additionalProperties: false
+> +
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ranges
+> +
+> +examples:
+> +  - |
+> +    sram: sram@5c000000 {
+> +        compatible = "mmio-sram";
+> +        reg = <0x5c000000 0x40000>; /* 256 KiB SRAM at address 0x5c000000 */
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges = <0 0x5c000000 0x40000>;
+> +
+> +        smp-sram@100 {
+> +            compatible = "socvendor,smp-sram";
+> +            reg = <0x100 0x50>;
+> +        };
+> +
+> +        device-sram@1000 {
+> +            reg = <0x1000 0x1000>;
+> +            pool;
+> +        };
+> +
+> +        exported@20000 {
+> +            reg = <0x20000 0x20000>;
+> +            export;
+> +        };
+> +    };
+> -- 
+> 2.17.1
+> 
