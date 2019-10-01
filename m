@@ -2,60 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF777C37E6
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 16:43:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45C2CC37EF
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 16:44:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388297AbfJAOnB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Oct 2019 10:43:01 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:54099 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727083AbfJAOnA (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 10:43:00 -0400
-Received: by mail-wm1-f68.google.com with SMTP id i16so3705831wmd.3
-        for <linux-tegra@vger.kernel.org>; Tue, 01 Oct 2019 07:42:58 -0700 (PDT)
+        id S1726665AbfJAOoQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Oct 2019 10:44:16 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38322 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726079AbfJAOoQ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 10:44:16 -0400
+Received: by mail-wr1-f66.google.com with SMTP id w12so15872887wro.5
+        for <linux-tegra@vger.kernel.org>; Tue, 01 Oct 2019 07:44:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=xaOfNL1OoZaAEZgoqD2y8IAN6v4PCX0JaZgRKFJO1HQ=;
-        b=E0gNF8L/rF2+/OEqxB7EevvyKkiZVOzrtXCSqlpesiHT48i4OB1hNnkCNBVHpA2r26
-         i9hIu92U2PzHxk7nqyTPetkju8UyyfbJD0ZV1c6ZkYkv1/aDOPdtNHPlN6EmMNUyZ4WW
-         LGpL6LwAzqIMvv9oIr4jaDg9L9383R0bg55LZGmR4uGUBFHaRqefR8udKsWer5mw9mc7
-         yzi+u2xDfi+gBQrSQ7NtcMWBD+JA5YujOY+rcAgp0NGX4jVeWpJGNwMuxKrqPzyGuFyF
-         mnSWKRqeSFh/pNpcmiJDHzCh8dpJf3rmKklSbEd3SRzfUyyPIBFFuAksnP7BRFutw+V2
-         fA+w==
+        bh=OikTbuqK6A2qTYHDLDWJoXT63eutsATdUGWY/2GQzJY=;
+        b=abMEp6vzixxcJfYcyYbYKRyEjJJRmRs/RPQS+OBV1oTZg6PVFHWb6N7pL62AIt0M+A
+         nenqJUao+vG0+vO25Y9v0OF9a5uPnTLklvc3IuOug/FIavtKD+r7nBKqK2qw4MnD/N/H
+         wtjTOw931MuW3F4lbuOblwUN1QHWZwJYReMXzlG7NorNXg9WeqxcF+n9QwUKa/Jll957
+         PRRuOwfNrB02p/3sYF3x+p8uJVBv8N6j3A5IRAbNhS9ls2nEL9oEJm6SLGsM6IW42fuM
+         Ahvo+mFz9iGCu/z553gi0g0lVWQjnSAie455OTm++K8jHP2Z3tqL6vLTC4OJa9slSRPO
+         8WNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xaOfNL1OoZaAEZgoqD2y8IAN6v4PCX0JaZgRKFJO1HQ=;
-        b=hPDQ/4ePo0xuXLxcwmHq/n9xiKdyN/yLI/9nqZrkWiWtmhRHoQys9d+Y1/zvN1I1lg
-         CVqKNa/P5uzjFtXGUFt8HJM0aKLzpUhq5Kl2sSzX2czqjuhRJohxHzHhWRqm9IzZ+P55
-         ryShdqkbCmqnKVlOWRaA+GEbQ5q+H7wo/ny/sY7PbYqEOckRS03dtG/2fIF1FMqm5UQ9
-         cH5KSBDQ0eS9jfqT6OgCMHP5HxAY2zrcy7VIIrQAfVgSTgzPKhIwKlXxaXyN6OEClP51
-         HVXVU49Otgr1lahSwm9ly9JW6RWvGGjxmg/kg/4o3QP+L0Z7v3Iaf0ckOL89SOANC1iT
-         G0kA==
-X-Gm-Message-State: APjAAAVpO1su1b74lTMNSAjnWga294cSnSjlr+XRWilo4Qx9lnOlyxX1
-        vTVyzjQ9BsIg9OTKT8Mb8VE=
-X-Google-Smtp-Source: APXvYqzqyaxiVFjSZJ6se9jVgJ+Ez033K/VSdXb3iDYvQzAyyD9+O3UxsFJLAzajau0VXwFABU7zmg==
-X-Received: by 2002:a1c:49d4:: with SMTP id w203mr3822100wma.132.1569940978003;
-        Tue, 01 Oct 2019 07:42:58 -0700 (PDT)
+        bh=OikTbuqK6A2qTYHDLDWJoXT63eutsATdUGWY/2GQzJY=;
+        b=F0ZxGhjagR+UXl4PBsd+bn41FiFmwq1OF4u3IaxCZ7KdC/Hk9yJCpiAcCunOobZQeT
+         vffvetRUZscyJL7ekfECNzhsqrm+KxkTPf32hP2ouynriNOsZBz8gAJbNqQ4de4zv4yo
+         2HqZe5wtifzryjmY8hX3cTPBkN85YeQyTzdKX60hYv/XgyLvkWO6ksRpM1YqLN2HIEX1
+         BrP6hy0WrK0OpAhY8Ue9XTE/hSsXfBdjkR64kvkhyOVqRNBD3zORp2VosEnjcn7aCGWM
+         QX1aeguNKGMPg7gaaMoc+vPJ1SnZJp0vKiwYAcnw/bGfEPJiGZN7eNw00QoCxqmCywEK
+         VIGw==
+X-Gm-Message-State: APjAAAVP11cbSIYTnX+Ia0WWnZcVB/F+PvemsyFexbkVE+T3XFY2Kl6A
+        e2Kl92bZRswq0rKK+8YedF8=
+X-Google-Smtp-Source: APXvYqw2ivYLXplUjnZIZ1ea/NWJkCSYWngeeeWH9PEqywV7J3OBAaBkyMz3gocbVVq0ZoFVVpX3Ng==
+X-Received: by 2002:a5d:4f91:: with SMTP id d17mr1240548wru.329.1569941054301;
+        Tue, 01 Oct 2019 07:44:14 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id i8sm17866280wrw.36.2019.10.01.07.42.56
+        by smtp.gmail.com with ESMTPSA id x5sm15850173wrt.75.2019.10.01.07.44.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 07:42:56 -0700 (PDT)
-Date:   Tue, 1 Oct 2019 16:42:55 +0200
+        Tue, 01 Oct 2019 07:44:13 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 16:44:12 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/3] arm64: tegra: Add unit-address for CBB on Tegra194
-Message-ID: <20191001144255.GC3566931@ulmo>
-References: <20190726101618.26896-1-thierry.reding@gmail.com>
+Subject: Re: [PATCH] arm64: tegra: Hook up edp interrupt on Tegra210 SOCTHERM
+Message-ID: <20191001144412.GD3566931@ulmo>
+References: <20190829105647.15212-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ctP54qlpMx3WjD+/"
+        protocol="application/pgp-signature"; boundary="8w3uRX/HFJGApMzv"
 Content-Disposition: inline
-In-Reply-To: <20190726101618.26896-1-thierry.reding@gmail.com>
+In-Reply-To: <20190829105647.15212-1-thierry.reding@gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -63,47 +63,44 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---ctP54qlpMx3WjD+/
+--8w3uRX/HFJGApMzv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 26, 2019 at 12:16:16PM +0200, Thierry Reding wrote:
+On Thu, Aug 29, 2019 at 12:56:47PM +0200, Thierry Reding wrote:
 > From: Thierry Reding <treding@nvidia.com>
 >=20
-> The control back-bone (CBB) starts at physical address 0, so give it a
-> unit-address to comply with standard naming practices checked for by the
-> device tree compiler.
+> For some reason this was never hooked up. Do it now so that over-current
+> interrupts can be logged.
 >=20
 > Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
->  .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 20 +++++++++----------
->  .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  2 +-
->  arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  2 +-
->  3 files changed, 12 insertions(+), 12 deletions(-)
+>  arch/arm64/boot/dts/nvidia/tegra210.dtsi | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-All three patches applied to for-5.5/arm64/dt.
+Applied to for-5.5/arm64/dt.
 
 Thierry
 
---ctP54qlpMx3WjD+/
+--8w3uRX/HFJGApMzv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2TZe8ACgkQ3SOs138+
-s6HDfA/7BP/RRUz2uNcWaO6MfcsRZcw/kM1SqLT2nzI1Afne784R7SeHGLR3U7uh
-hTFwQWaMN7lnpuN8+slIqsZLXdxZpSi2ZixYRpN1v982pqbe3ZbuyfPELvkkLtmf
-fdFF/P+aQZE1mqGywjv/7gaXUZS8mXan0Y5a6No9PIk5/7xqRyRXWdXajiFZuf4N
-w0Yg028XRx82BFIU2izhM3UUqtBIFkaEGnxr/+U4hybquf1nLfO7SdyVD52DTlH6
-Yke1X4/OOqwjvseZZtSe7hU5ViYYKMInhDHkxKw5J/lyXtlhS1mkcpInvk0oSrhn
-x+642n+BCKV8UWY9x25KWPyCjlXr+40itoS7F/3tuihhbQc4wIiejXwnJV2s3sUO
-JuJwOqHFujpEPqwyYCpzjL8hla4Xkf2YaLsyesZ6GIszoWa7I77CEky7L+2uoizZ
-9qIPnZuWooUDHOt06h1o7ONMnI3jXMIrNz234SIrZv7RQd1Kfp55xMENzwIvsUB5
-KjM/sCC2Q/3t8hw5VaF8jv6K6I0hi6If1RD9k1j4kVA33TDgbib1rkB0wcZGaB7F
-rnd63GdZIVhXGDgtjXdd+gsxIwNWN/5PZRA9/3gqWxYF2pAdyAiMZ2c9wdx+EznD
-p7Hhtx90GpA1aVClyQ2+sKf26KmFczNsfV6neMkG01R+M1TABFg=
-=1T99
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2TZjsACgkQ3SOs138+
+s6GzQhAAp0Igvn8aJSUBOB43OB1hXJ2JhVy10rLBK6HaiyTJhXvIKJ1m3yNjE/e1
+J0ab0gMK7TR9zIwqCLUHFgofCssyMmdMaS4d4/IUzMfRE0B/g35e8ysP8wWDgKRs
+wS5ISsi2sRbAyVeLCL4tQxcreF9kFEcIvQhHGWmOeAfYZ+vljDtawGnKynJ7IChz
+CSkPoSesMQMmp3xcbZY8/F/X928XyluXv4pNuka/os1b2rUeCcjMevOVZxHDLqT7
+UZh5W2HSDmweUHDbupQDmjM8mSwou+2yFVziYz0s2FLu6GNGczER1NbXrL6S6GC6
+ivUl+1Uk9pyP25oZpVVeE1LZZPddDS9qBKY9amJp7+/DILo38KR1JXGwH5e7pG5l
+E8l4vJ+Jwunx4PRHEXABe9MtBCPLUESKEUcBCVwKv2o5HYFYayJXVMVmHskcRosW
+9a7CkGM4djMO5ac0ovjziimiun5WS4LYffOv8xzzLV+jUM5tdbM0F7X/NkQHvOmT
+w4weKWLgJTebHdDi0lq7N1UxGVwZLUS9uh1MXVDPPToMimiwzrZxCMM4XfCOm0df
+sBTJOyeoo/qgOjJNlZmmH+z0oKN7gU1/VyWip9LkxbKzpIyFFkXyg8xDrA9B3SYU
+YMt+CRvU0SPTCr27sc8RccL1ZYjW25hU14fUssRwYjaWP422Ngg=
+=Fg8B
 -----END PGP SIGNATURE-----
 
---ctP54qlpMx3WjD+/--
+--8w3uRX/HFJGApMzv--
