@@ -2,142 +2,122 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F568C35E4
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 15:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0373C35E9
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 15:38:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726086AbfJANiB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Oct 2019 09:38:01 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:11602 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388067AbfJANiB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 09:38:01 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d9356ba0002>; Tue, 01 Oct 2019 06:38:02 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 01 Oct 2019 06:37:59 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 01 Oct 2019 06:37:59 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Oct
- 2019 13:37:59 +0000
-Received: from [10.21.133.51] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Oct 2019
- 13:37:57 +0000
-Subject: Re: [PATCH v3 1/7] ASoC: tegra: add a TDM configuration callback
-To:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        <linux-tegra@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-kernel@lists.codethink.co.uk>,
-        Edward Cragg <edward.cragg@codethink.co.uk>
-References: <20190930165130.10642-1-ben.dooks@codethink.co.uk>
- <20190930165130.10642-2-ben.dooks@codethink.co.uk>
- <c2a7c046-011e-437b-0f09-0853d5cf7f34@nvidia.com>
- <85bb5ec6-8928-e4ea-8ca5-3ce1afcc4324@codethink.co.uk>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <f4e68563-e059-9f86-7340-de71c59d9a90@nvidia.com>
-Date:   Tue, 1 Oct 2019 14:37:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2388613AbfJANiN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Oct 2019 09:38:13 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44879 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387990AbfJANiM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 09:38:12 -0400
+Received: by mail-wr1-f66.google.com with SMTP id z9so2442322wrl.11;
+        Tue, 01 Oct 2019 06:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=96r3CtWiSvcK9gJDc0tqchiSXL0mJ/YvvBtbDmkfaE0=;
+        b=SgD1WPZopI9T61+uSgIvK+P8Moz6ilypDWR5uZTEcSuXxgh1OVfRxm8IC4KUHqMmSX
+         hBpGb1wgoBnVtZU64ZhZhr+uvsnzRW/oNhSmvQvPcJiVn4Y+sszZSZ8iK4h2QVTZ/vD/
+         Din5OSrcToGMog98cihi9+QPhYXtbZdwZeVtyftm5g8+p0FRTR7IyBmjvhwKnugSiA9P
+         qSj65oMPYlvd5CfFm/4+9WBwPAqze/wV4n7HpSB5Kf92Y7gNEEPi1977PQ0qwg1bstoG
+         e/NcisDmyad+4UgxYGb9cCU4WroV+kg9wmeo7HYz9pCGEqNW64R7AEoAusLmSMVlDEAh
+         uImg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=96r3CtWiSvcK9gJDc0tqchiSXL0mJ/YvvBtbDmkfaE0=;
+        b=ig5y2A2iLA3S5LalM5yU4n1qZlbBUyBOyTrvGH8EyuLxwzOmQpzar/IhQi8wxY+Yjd
+         tysZ5gr6Nw1bPqEp/MgSkZJ51kX7mbOg415rNRrecXTiEhujaQNzaM1B+aCBoGIzk70k
+         XsAEgshAC0XFwX5/RnYfgTlXUjTC5BVQVyyMNmnVYJqJiYtZSGbthhjKbOYHGnwm1HmC
+         tB+jR6JKNcT38R9Kt3TA4NlaDTYqwV2V7coSgCINPLQIuGlnllMTHYSo3HbRY5hx+J/F
+         iqBT3WsjuTfz3PINuOuwN0FMlNeeeGhweuKZtdiGIjLVd5dRHQmEwnT8eYoLg/eWJP2e
+         qDHQ==
+X-Gm-Message-State: APjAAAW6ZjJFX5UJsKCkuourO5nC1tD970PJfwJaftsLi0oY3uOG5jIJ
+        SIaE0QH3mesLN+A1Y8UlGOdGhFuS
+X-Google-Smtp-Source: APXvYqx2MapoAoWxH36kAG/86QPnpHg5qum++6m/VlNMhipx4NA3i/ZbQOKuletj5kJHHrNYMRtLMg==
+X-Received: by 2002:a5d:52c5:: with SMTP id r5mr6086222wrv.160.1569937090036;
+        Tue, 01 Oct 2019 06:38:10 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id f20sm2844042wmb.6.2019.10.01.06.38.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 06:38:08 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 15:38:07 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        JC Kuo <jckuo@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH 0/3] tegra: use regulator_bulk_set_supply_names()
+Message-ID: <20191001133807.GB3563296@ulmo>
+References: <20191001132333.20146-1-brgl@bgdev.pl>
 MIME-Version: 1.0
-In-Reply-To: <85bb5ec6-8928-e4ea-8ca5-3ce1afcc4324@codethink.co.uk>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1569937082; bh=w8sCPaGezj4QD3vGOKaOTJS3/bxHZ3Lth19aUUopw8c=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=QkY2MhyIrYZXvt1QDdwN83GKd06AFc0Z67NzC4AHAH1MGOKoFxFuYPfdKxHVYMvId
-         L2bnO138mlwg7uqwniuwmtgsDorPVsUQA7jV+Lfchu2e2AR1QZoeM2lN3CX2WFzdql
-         jIurKN4jHQPkibfe1wlw2SqoYlNn37XWapacYfSH3qxWHGZrqHwAVxLFdgnEwhuD0O
-         9+c8tHDQnoTzrH63DkWnodizESf0VCHmkO2gruSWi7UgAm1dZmju2PGfap6FmfRskQ
-         gHksUpC/sFopjXGG0Sw3tR3spWd0v3v30H+o/xn0nWQsO+3Oc1/eAUMaYrnPeEIJ18
-         RQI46H4QADi+A==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rJwd6BRFiFCcLxzm"
+Content-Disposition: inline
+In-Reply-To: <20191001132333.20146-1-brgl@bgdev.pl>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 01/10/2019 12:00, Ben Dooks wrote:
-> On 30/09/2019 21:46, Jon Hunter wrote:
->>
->> On 30/09/2019 17:51, Ben Dooks wrote:
->>> From: Edward Cragg <edward.cragg@codethink.co.uk>
->>>
->>> Add a callback to configure TDM settings for the Tegra30 I2S ASoC
->>> 'platform'
->>> driver.
->>>
->>> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
->>> [ben.dooks@codethink.co.uk: merge fix for power management]
->>> [ben.dooks@codethink.co.uk: add review change for fsync of 1 clock]
->>> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
->>> ---
->>> =C2=A0 sound/soc/tegra/tegra30_i2s.c | 33 +++++++++++++++++++++++++++++=
-++++
->>> =C2=A0 1 file changed, 33 insertions(+)
->>>
->>> diff --git a/sound/soc/tegra/tegra30_i2s.c
->>> b/sound/soc/tegra/tegra30_i2s.c
->>> index ac6983c6bd72..7f9ef6abeae2 100644
->>> --- a/sound/soc/tegra/tegra30_i2s.c
->>> +++ b/sound/soc/tegra/tegra30_i2s.c
->>> @@ -254,6 +254,38 @@ static int tegra30_i2s_trigger(struct
->>> snd_pcm_substream *substream, int cmd,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>> =C2=A0 }
->>> =C2=A0 +/*
->>> + * Set up TDM
->>> + */
->>> +static int tegra30_i2s_set_tdm(struct snd_soc_dai *dai,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int tx_mask, unsigned int =
-rx_mask,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int slots, int slot_width)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 struct tegra30_i2s *i2s =3D snd_soc_dai_get_drvdata=
-(dai);
->>> +=C2=A0=C2=A0=C2=A0 unsigned int mask, val;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 dev_dbg(dai->dev, "%s: txmask=3D0x%08x rxmask=3D0x%=
-08x slots=3D%d
->>> width=3D%d\n",
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __func__, tx_mask, rx=
-_mask, slots, slot_width);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 /* Set up slots and tx/rx masks */
->>> +=C2=A0=C2=A0=C2=A0 mask =3D TEGRA30_I2S_SLOT_CTRL_TOTAL_SLOTS_MASK |
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 TEGRA30_I=
-2S_SLOT_CTRL_RX_SLOT_ENABLES_MASK |
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 TEGRA30_I=
-2S_SLOT_CTRL_TX_SLOT_ENABLES_MASK;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 val =3D (tx_mask << TEGRA30_I2S_SLOT_CTRL_TX_SLOT_E=
-NABLES_SHIFT) |
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (rx_mask << TEG=
-RA30_I2S_SLOT_CTRL_RX_SLOT_ENABLES_SHIFT) |
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((slots - 1) <<=
- TEGRA30_I2S_SLOT_CTRL_TOTAL_SLOTS_SHIFT);
->>
->> I am not sure why this keeps changing. Why not set to 1 always?
+--rJwd6BRFiFCcLxzm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 01, 2019 at 03:23:30PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 >=20
-> This is the total number of slots, not the width of the fsync
-> which has been changed to 1 below this.
+> The regulator_bulk_set_supply_names() helper was merged upstream. Use it
+> in a couple tegra drivers.
+>=20
+> Bartosz Golaszewski (3):
+>   ahci: tegra: use regulator_bulk_set_supply_names()
+>   phy: tegra: use regulator_bulk_set_supply_names()
+>   usb: host: xhci-tegra: use regulator_bulk_set_supply_names()
+>=20
+>  drivers/ata/ahci_tegra.c      | 6 +++---
+>  drivers/phy/tegra/xusb.c      | 6 +++---
+>  drivers/usb/host/xhci-tegra.c | 5 +++--
+>  3 files changed, 9 insertions(+), 8 deletions(-)
 
-Ah yes indeed. Sorry, should have waited until this morning to look at
-this! Jon
+I really don't see the point here. You've got a positive diffstat here,
+which means all that churn is without benefit.
 
---=20
-nvpublic
+Is there some subsequent work based on this that will actually improve
+things?
+
+Thierry
+
+--rJwd6BRFiFCcLxzm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2TVr8ACgkQ3SOs138+
+s6Gmxw//XyHpBaZ6nH9r5G6qR4tc5ltdQB1dqjsetQiQ3GP40BUwO9mtMUUgcfI/
+rdgUFAuLtiTH5m5XHYyCmBIWHi38bwTStJ4x0f7zg7IAfabhlRrTDPsaUSJuN+tt
+JL5RYKy9LjGIt8B3FusJWBgMMhAhmLf4vTTBqMRaK1vAd7XFqz0LAz+weUs11aZ8
+gauUBP2qZ6n+lL5ahAStY/0GC9gos1iNzgsvG6tZD3JyWQe6xwKvrroSq+s/iQUL
+V00s28QIe+zsQMl9f47mkJoAY5d55heIehG7oaYWPYsJS83yeHlW7YRi+CseyZwa
+o8ZSi3FqILEuO+yjH+h2nD8bpKltfhBwi4VUzn0sFAzz4btFkt1J0JYClKpF+Fwx
+msvSehNfgZt0JDJaQ6ACCBEVkcfCXe0pXX8BwLYW83V9gKWnklf97DKvFKmg4HMd
+/2JeVHouwG20VkQcjnYBTOpBv+08DKG0D19ZgviHnibUeTTu6mlpbCD2T6DzkLUE
+mGInzNLfgLfflCSeOusBazYQGy9DrGNhqGpnREXDY8NwZEUyA1EkHSl6BCOc6RaI
+VexLVXa11R0fNZRNJk2H2/MU9H/MWUUC+jRJQ+4X/ScGYtWjkJSe8LJ0KmgA2/5/
+gmqCqriJyFLot6c/z1kmNoSo2q2iedr7i4XKaUKrnf28LTQlRxk=
+=aSWM
+-----END PGP SIGNATURE-----
+
+--rJwd6BRFiFCcLxzm--
