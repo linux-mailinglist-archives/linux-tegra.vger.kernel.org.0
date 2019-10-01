@@ -2,101 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 633E3C3851
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 16:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3450C3876
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 17:03:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731937AbfJAO6X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Oct 2019 10:58:23 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:14202 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731547AbfJAO6W (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 10:58:22 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d9369960000>; Tue, 01 Oct 2019 07:58:30 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 01 Oct 2019 07:58:22 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 01 Oct 2019 07:58:22 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Oct
- 2019 14:58:21 +0000
-Received: from [10.21.133.51] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Oct 2019
- 14:58:19 +0000
-Subject: Re: [PATCH 4.19 00/63] 4.19.76-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20190929135031.382429403@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <90fc5da5-40f1-03da-785a-2c2c6ce45702@nvidia.com>
-Date:   Tue, 1 Oct 2019 15:58:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727051AbfJAPDo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Oct 2019 11:03:44 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:45742 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726987AbfJAPDo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 11:03:44 -0400
+Received: by mail-wr1-f65.google.com with SMTP id r5so15920455wrm.12;
+        Tue, 01 Oct 2019 08:03:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=LnJv9Xz1aZ5svAzDP+oAGykyZQCTMARwKiPEle4TB7s=;
+        b=vPPr5twopF6joIdFYeISfuwUR+5Jd0p26E1QhkSNqMOTzPJUiqZJmxF4he711wedrE
+         Pg6/6uGvs8dQ3rwMZXcW6FXWfK786aI+FSXgItDMOLcQBwxSDm852w2CvbD4UCLa61jQ
+         v0Fk5U6afbLBxRzq68mpLu0pXESFA/Wk6rh+BKwp4+xn0oBxg+dfhf/oxqA0xh0pyuhv
+         S7RKBmXvamEXopfHai9zTZwyAehNKgjhvj/B9ba5ttqCUufnfQKFVEZLHX/MrGFhnhfr
+         vh3ryA5fKO8y6oRM+hmDB9z5N5JnDaDXQTOrHQJyx/VpNBfrCFfwN50Set+DeuzFsnq/
+         xr1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=LnJv9Xz1aZ5svAzDP+oAGykyZQCTMARwKiPEle4TB7s=;
+        b=JWrT8cNCJjpq/zF3riuO+IIIGFiF8IIpQNpKKlKB44DdGGnLd4s2DjgqKd2cqVyCUi
+         9sx0cfWpyzfozpP1zev+lkTdB0fo78uWxT8ruu6J6BxNB4OCPcfRIvnimoDyW2Zmv+Bf
+         Ha3VeTSnsZsoWeEkxtQwlAfshvMZttFFdle7cZ9qhS86ccc6kHzl2C3WzfwPbPsfT/aH
+         Zz/26IkNxL9dFNG+Q5KnpunX0+XVkEh87MnZlr+GMahK13rsdCZjeYYn6Xd+q+fBt+K1
+         aYbKMpzj1QWr6RWOZ/xj+PdrkPkqZ0oEzOHnZcsij9x/j8hKdm7cr3C71ytzgOqoSQpm
+         qnuQ==
+X-Gm-Message-State: APjAAAUGObMYQKs1L+p57WdGVZfFzWMIzFVuMh7EyKAC98qbAVyzvGWs
+        /OPxqnnU8xbzCXdi4b1F6p0=
+X-Google-Smtp-Source: APXvYqw1oEe0vdPQOUkUH2yuFKxBT9oU9t31e/NLuRkthDifaWW8fXJX8Ei8WwLhXq/IQ78ZiJzpmw==
+X-Received: by 2002:adf:eccd:: with SMTP id s13mr619488wro.288.1569942222380;
+        Tue, 01 Oct 2019 08:03:42 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id r6sm3475545wmh.38.2019.10.01.08.03.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 08:03:40 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 17:03:39 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     jonathanh@nvidia.com, mark.rutland@arm.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 0/3] Jetson-TX2 USB host support
+Message-ID: <20191001150339.GF3566931@ulmo>
+References: <1568703406-20183-1-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190929135031.382429403@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1569941910; bh=OAyFu/sXs+v97VxHorpaWaVf/KV7sAEw5I17l/FRu/M=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=WXRQ0P8/xZrGiD5GUkRSOLPYyVJIJZ7SHSWXMdn8HguqgKcidbhmUDVGV5PvE6UX7
-         A2tzEIke3pmdgHFrsXMI8JpvbYt9spO+ROZo1XZlqMzZ+qrUttLSQ2WVynCkne0z0P
-         1TSLVnJ11tFNZimXvFUmzBQh0Z1vGoE3lj0X7P8X5GEV7p6c9ZQiBXq7q1E2J8C4He
-         /HThNke+YyTPnK2RYRhCDRytKkeeAH6EjBUHhsH72vRGmr7n2Xq8vVBUqMvo4cd7LW
-         MBsQuZZpdP1Ii+WSFWyhYpSA6VNWrxibnNwvTVgLoEsDmhRIJDq7dAuBgCEHpVXSbK
-         HhQ7dkHEQtHMg==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="uTRFFR9qmiCqR05s"
+Content-Disposition: inline
+In-Reply-To: <1568703406-20183-1-git-send-email-nkristam@nvidia.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 29/09/2019 14:53, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 4.19.76 release.
-> There are 63 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Tue 01 Oct 2019 01:47:47 PM UTC.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.76-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+--uTRFFR9qmiCqR05s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Sep 17, 2019 at 12:26:42PM +0530, Nagarjuna Kristam wrote:
+> This patch series enable USB host driver on Jetson-TX2 platform.
+>=20
+> Patch 1 is to enable dependent padctl driver.
+> Patch 2&3 to enable USB host driver on jetson-TX2.
+>=20
+> Nagarjuna Kristam (3):
+>   arm64: tegra: Enable padctl driver for Jetson-TX2
+>   arm64: tegra: Add SMMU for USB host on Tegra186
+>   arm64: tegra: Enable USB host on Jetson-TX2
+>=20
+>  arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 4 ++--
+>  arch/arm64/boot/dts/nvidia/tegra186.dtsi           | 1 +
+>  2 files changed, 3 insertions(+), 2 deletions(-)
 
-All tests are passing for Tegra ...
+Applied to for-5.5/arm64/dt, thanks.
 
-Test results for stable-v4.19:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    32 tests:	32 pass, 0 fail
+Thierry
 
-Linux version:	4.19.76-g555161ee1b7a
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
+--uTRFFR9qmiCqR05s
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Cheers
-Jon
+-----BEGIN PGP SIGNATURE-----
 
--- 
-nvpublic
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2TaskACgkQ3SOs138+
+s6H69g/+ITrO/1M5CH171OIE+SKbLTtgAZT9rDoqRX9cY6apjydMAYvNp5XUmEyI
+h1NBmeGpqSy+cWGU8fvXC/MjaJJIUTUMOP8ugFlN4OJnKkabKZk+iswtJVI6wK7+
+UK8sLU8fwPB1Gc7G+ablw87xycf4tYWQf+CC0vcz9vHXEujM2W/Y5yvsF3A9DWEA
+TD1z/uA6RqJw0Y7qMjRWJzPnZuqCF9KqsGueVI1wv+0s4ljBKCXtvKNnSSeKbFko
+Y8nOpTT3gQtAru4wD2pKWsIuJLELnPShS35mTvy/BjHeIPx1kuaUD74NzBkUhNB1
+jX0ERXwxKRqjfRx83dXWClJI6GVvzOr/YLVToO/3kA5Rl7E8SAG7dR+4OZIsyGON
+nWL86gdsTCgC0q2waRXz3ofrGxGPf+dM59tA5GGwkfRF1keySP1Bz1sreoi5sai/
+xqAgbIuCYXA7+HAtkOLrXwKIJMAsHmajTIOILbMExWSKY5fvGVxs0CqbWA62iY5S
+chryhIxfU1yw5pouUZ8lvNSiaWVJbYZYIoj/DMV/Le64XmdgeihlC8wszoTdTnrz
+PLd2kPhwrjRzbfC7/5TgEpkZmqvhFrAX9PzZXiLziCqgyIuy36ovQFvjx12nMV3q
+9Rn0wv134Lc6CW/d8ueZwXltLqC7r4vMtCSbwzOvB+YZ3OyXvYI=
+=znvp
+-----END PGP SIGNATURE-----
+
+--uTRFFR9qmiCqR05s--
