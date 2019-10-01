@@ -2,82 +2,128 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84FB4C3332
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 13:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25B80C3350
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 13:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732423AbfJALo2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Oct 2019 07:44:28 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:46722 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725947AbfJALo2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 07:44:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=EvWNvJMXaksJlF9wvagA6fpqLd2/rERWUg/jBbuLB0s=; b=u6Q8yJ0dimSfXH+3jCenyMK8p
-        KPk5EbEnqQJ09VOUOD1iZcpZSy0uHzSWmaqmKJ2iTA1JoOh9Z21U28o7X8J2h+cbl7vYs9sZLSUKK
-        ZfpmzWsJdgBsNP2xyY5l4vx1Rg5PpS43Zr1okUG+X9LJ546oYK8eoJaAD5uGonQkXz7f4=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iFGZk-0004b7-7u; Tue, 01 Oct 2019 11:44:16 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id A8E5A27429C0; Tue,  1 Oct 2019 12:44:15 +0100 (BST)
-Date:   Tue, 1 Oct 2019 12:44:15 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Ben Dooks <ben.dooks@codethink.co.uk>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-kernel@lists.codethink.co.uk
-Subject: Re: [PATCH v3 5/7] ASoC: tegra: set i2s_offset to 0 for tdm
-Message-ID: <20191001114415.GB4786@sirena.co.uk>
-References: <20190930165130.10642-1-ben.dooks@codethink.co.uk>
- <20190930165130.10642-6-ben.dooks@codethink.co.uk>
- <6d6ae684-dd5f-b180-9114-dafe12886d4f@nvidia.com>
+        id S1725839AbfJALsd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Oct 2019 07:48:33 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51660 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726062AbfJALsd (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 07:48:33 -0400
+Received: by mail-wm1-f68.google.com with SMTP id 7so3015755wme.1
+        for <linux-tegra@vger.kernel.org>; Tue, 01 Oct 2019 04:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B6CrRdrsEtKyU90lmh1sN2x0rTtjsQMj1DEFBb5XXtg=;
+        b=HjpPidoFe4pnFmZF/dYZhtHODIvto6KyeDN859wi3xglgE5+PqnQw0SQfISuoM9g7W
+         qbFWZ485bAVlJ7kcgKdKKBd6vbc6wk6egckzJwMrcIp6hxzLf3dcaYN1UnWCOWKXEZSd
+         vNB2iy/CvMayOPlfNsnRF+xo4/pTZQgTRsKcUspdsDci7McgnsKuGUv+ADYILRGwvmNA
+         LoIwFvDmMtZtkXxyHl0cOMs68jQM0oJhV4UWQCJJzxunt0cLA0X4X+1G2uYHS0h7p66J
+         T1/T8/A9ZF4umEWLOvuRVz7ncWEHn83h7Fhz0DrcQkbSwuDsiyG46UB43Eoi3MXNKAlc
+         Gcdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B6CrRdrsEtKyU90lmh1sN2x0rTtjsQMj1DEFBb5XXtg=;
+        b=Y+8VYlRVHZ4Qx63MwuymdVR9Q88OT0c8arIbZNn7OQGGQDYmc/g3NYQT/7gf3Lsogl
+         7MpClBdse6Z2Plwwzbs6z3nWF0F8px9eySu9qL8Yvr2X/UxyFkhKe4ozjizp9W+D/Sfl
+         +YucLe84Wh0XjiwLO0nS8omnXyagt8CwsW77Qm2zbG5LB8Q4AZeFievDVOPG2L24S9bj
+         /H9noPrNRJj3jcIvv1FFoeGjdBXiqlN5hvfMt0N4IUFvLt6rQr4qJU9T94/h5m0gbQmr
+         J+vGch6ouJZODMYeQ4YuXIVI06r2UxetI+FXfoYTv3rYXovZ3QE1Dxz/uhTYa5Fr4xnb
+         ZNcg==
+X-Gm-Message-State: APjAAAVc815TWJ7/nUTtnuDt3QFqDiJTXMV8PyfOdh2PBuqQYPnvk1nU
+        gXO97VVozV+2nLmqzZIc5x4=
+X-Google-Smtp-Source: APXvYqwejExR6A8VZNp+/3+Y9hfgJQhtwfm/JBKW9xwPgPbVnubkpt8AUt2mVwB3RUpXwLLRF0+xXg==
+X-Received: by 2002:a1c:7418:: with SMTP id p24mr3203570wmc.132.1569930511937;
+        Tue, 01 Oct 2019 04:48:31 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id t6sm4595435wmf.8.2019.10.01.04.48.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 04:48:30 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] soc/tegra: pmc: Fix crashes for hierarchical interrupts
+Date:   Tue,  1 Oct 2019 13:48:29 +0200
+Message-Id: <20191001114829.3385196-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gatW/ieO32f1wygP"
-Content-Disposition: inline
-In-Reply-To: <6d6ae684-dd5f-b180-9114-dafe12886d4f@nvidia.com>
-X-Cookie: Keep refrigerated.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
---gatW/ieO32f1wygP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Interrupts that don't have an associated wake event or GPIO wake events
+end up with an associate IRQ chip that is NULL and which causes IRQ code
+to crash. This is because we don't implicitly set the parent IRQ chip by
+allocating the interrupt at the parent. However, there really isn't a
+corresponding interrupt at the parent, so we need to work around this by
+setting the special no_irq_chip as the IRQ chip for these interrupts.
 
-On Mon, Sep 30, 2019 at 09:52:15PM +0100, Jon Hunter wrote:
+Fixes: 19906e6b1667 ("soc/tegra: pmc: Add wake event support")
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/soc/tegra/pmc.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
-> My understanding is that the difference between dsp-a and dsp-b is that
-> dsp-a has an offset of 1 and dsp-b has an offset of 0.
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index 9f9c1c677cf4..0447afa970f5 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -1899,6 +1899,20 @@ static int tegra_pmc_irq_alloc(struct irq_domain *domain, unsigned int virq,
+ 							    event->id,
+ 							    &pmc->irq, pmc);
+ 
++			/*
++			 * GPIOs don't have an equivalent interrupt in the
++			 * parent controller (GIC). However some code, such
++			 * as the one in irq_get_irqchip_state(), require a
++			 * valid IRQ chip to be set. Make sure that's the
++			 * case by passing NULL here, which will install a
++			 * dummy IRQ chip for the interrupt in the parent
++			 * domain.
++			 */
++			if (domain->parent)
++				irq_domain_set_hwirq_and_chip(domain->parent,
++							      virq, 0, NULL,
++							      NULL);
++
+ 			break;
+ 		}
+ 	}
+@@ -1908,10 +1922,22 @@ static int tegra_pmc_irq_alloc(struct irq_domain *domain, unsigned int virq,
+ 	 * dummy hardware IRQ number. This is used in the ->irq_set_type()
+ 	 * and ->irq_set_wake() callbacks to return early for these IRQs.
+ 	 */
+-	if (i == soc->num_wake_events)
++	if (i == soc->num_wake_events) {
+ 		err = irq_domain_set_hwirq_and_chip(domain, virq, ULONG_MAX,
+ 						    &pmc->irq, pmc);
+ 
++		/*
++		 * Interrupts without a wake event don't have a corresponding
++		 * interrupt in the parent controller (GIC). Pass NULL for the
++		 * chip here, which causes a dummy IRQ chip to be installed
++		 * for the interrupt in the parent domain, to make this
++		 * explicit.
++		 */
++		if (domain->parent)
++			irq_domain_set_hwirq_and_chip(domain->parent, virq, 0,
++						      NULL, NULL);
++	}
++
+ 	return err;
+ }
+ 
+-- 
+2.23.0
 
-Yes.
-
---gatW/ieO32f1wygP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2TPA4ACgkQJNaLcl1U
-h9A+Owf7BGtMUWznPui3fHwOqsLBFqxq6KDL31MqnMLunEAAFc0EbKlVFjUvi6Bq
-eGIj2OxGZ8hk8qWRiqAyVBh2RuDk2xzCBpVcz/H0pk5Lm2Uhn6O++7K2i2z+e3BC
-p7KP1hvskrS3Oidev2vyfy+xoV2MropXU61RMSSKQevM3TbYXsupYQR5kuwwXdKo
-XK2Wd9YZuk7FWJdUa7ArEdXOqdZu66SjGOMijN71vfJ2A4M+ds1+jYh5umMYjWtl
-aJbUUr+kvk6Pjxsr0kMwgei6tT1iJ79VPMBuEsSt4UUD47YMWF/oilqldjoMNT0d
-X5z6WuReKXFlijI1XcrpjFgEGVZ30w==
-=TrRV
------END PGP SIGNATURE-----
-
---gatW/ieO32f1wygP--
