@@ -2,111 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B162AC3A19
-	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 18:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D667AC3DEB
+	for <lists+linux-tegra@lfdr.de>; Tue,  1 Oct 2019 19:03:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726034AbfJAQMH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Oct 2019 12:12:07 -0400
-Received: from mail-lf1-f51.google.com ([209.85.167.51]:38734 "EHLO
-        mail-lf1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725988AbfJAQMH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 12:12:07 -0400
-Received: by mail-lf1-f51.google.com with SMTP id u28so10341161lfc.5
-        for <linux-tegra@vger.kernel.org>; Tue, 01 Oct 2019 09:12:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pbj1/EalAYVBDBs+Ko2u6dTdZXaToOG5JEA0j0UDD7Q=;
-        b=KMvSpuIOSRm9DvcNJR4MW81x+WcxqTsZIHuPvthir16pRSTYOfewAuJdvfxzzUY4j6
-         7tOMxKEnVSmzgXUp8gNPj0SptCFH3cqqzJ1Eeouc2H+h6gj7xinCTYVWuGHxbFIkSSw4
-         CK5obk2qUKUT5sP8CovVIYKWNmofe70e9LY0IB2rAgTNZuzty6dLHcDAHhCmkacdRwSe
-         RLroGWEpDQ6i8FILsmR6uC5AxAeXPdZBxytCwzjofD3r2zY1GnlR59mnW/pe1Dl5F8z2
-         iXlUXD0RRFjRZQKnYDWmJtoFS9U6e6gYDZAKhiMYfp7XLlcd8EIrPEhAPJ8uxLBZaDKw
-         widw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pbj1/EalAYVBDBs+Ko2u6dTdZXaToOG5JEA0j0UDD7Q=;
-        b=IwS5yCGMCZpFGTmrAbTe2su6TNZs/nlZ4qleF6r9EhcqlR15RmI9MkRvLvNYfo0HHd
-         bwyztkUylPPWkHGj3MUENxBl8HGWfC8z1gL0MHynCDJpWEt60HnTzjBfzqp+e0tVJnN+
-         qGCBsAk/sBrF0h0LYjs8q5qF481nsNK8TWZCzEtNFOgrb10+srL49O1YKcj5vIcyQM97
-         94d0aQEIXTgwpkqAkfzlrRqm4fQ4BJAGiJvWjxTu4J0niRZ9NLVxCjh/IMcPATZTVMin
-         LhCM3kQ0QwBmdsbcyhgC/YqU4jSBihqRYhiOms+uNnCRku6hhHN/oo4pkz807Zji6bV2
-         F7bg==
-X-Gm-Message-State: APjAAAX7dWbfYBfNiaxQkljcq/JjJTlpIOEq3sJ4GwUH76RWiIMU63HK
-        wLtNpk2dz3WCrVlAVp2I5iOpTSY9
-X-Google-Smtp-Source: APXvYqxqVbnFLDwW9ICqjyYyk5wAxy3ZiZPJqPVQgNImv0acXDvIeLgo//jeJb93DVjhzh85J5SJpA==
-X-Received: by 2002:a05:6512:6c:: with SMTP id i12mr15560886lfo.40.1569946323589;
-        Tue, 01 Oct 2019 09:12:03 -0700 (PDT)
-Received: from [192.168.2.145] (ppp94-29-32-67.pppoe.spdop.ru. [94.29.32.67])
-        by smtp.googlemail.com with ESMTPSA id c18sm5245166ljd.27.2019.10.01.09.12.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Oct 2019 09:12:02 -0700 (PDT)
-Subject: Re: ci_hdrc_tegra hard locks kernel when set to dr_mode = "otg"
-To:     Peter Geis <pgwipeout@gmail.com>
-Cc:     Peter Chen <peter.chen@nxp.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-References: <CAMdYzYqUg+zCyD6zaFLyWjbYL0t_EzYb5nHM6jTdsOu75P2hvw@mail.gmail.com>
- <VI1PR04MB532769D934068302F58299598B830@VI1PR04MB5327.eurprd04.prod.outlook.com>
- <CAMdYzYoC19vOQOoyO0qGBCOTv5ofQyuuX5gEa2G+16THO8QiZw@mail.gmail.com>
- <CAMdYzYq9ovn3JnSmRks2WHJe3haF8kGEkVpO_UShQLCkX8vgJA@mail.gmail.com>
- <33559f3b-780a-1e37-3d7c-d61357d32e43@gmail.com>
- <CAMdYzYoT6ZG0Qaj9FxgnjLhzwFmo0580F4JgSH2-o9B-Ei-ciw@mail.gmail.com>
- <7b20bd86-08a9-a4de-cb8c-a7624d7df6cb@gmail.com>
- <CAMdYzYqOWsD8ypmANJ32m0A=qYmoaWbPKNB_xRuVS34Fjo1wGA@mail.gmail.com>
- <2e3bb349-fb62-180b-5f07-402500d4e427@gmail.com>
- <CAMdYzYr3MikMF721PCZmAhFxrmJHt6ZtmYruF_i8tbhpkGPq2g@mail.gmail.com>
- <9f9939ba-e28b-74f6-a852-8a76ce9a6b42@gmail.com>
- <f61aea11-47b5-ec00-9e4f-3938b0e78694@gmail.com>
- <CAMdYzYr7irO-qLKws2cFZm6y1iuBj7RQRmUA4Zzx7vO-QoEKVw@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <980e7e6e-97e4-4b44-f273-677cbd777cf7@gmail.com>
-Date:   Tue, 1 Oct 2019 19:12:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1727929AbfJARDf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 1 Oct 2019 13:03:35 -0400
+Received: from imap1.codethink.co.uk ([176.9.8.82]:49608 "EHLO
+        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727908AbfJARDe (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 13:03:34 -0400
+Received: from [167.98.27.226] (helo=[10.35.6.110])
+        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
+        id 1iFLYX-0005ws-HS; Tue, 01 Oct 2019 18:03:21 +0100
+Subject: Re: [PATCH v3 1/7] ASoC: tegra: add a TDM configuration callback
+To:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-kernel@lists.codethink.co.uk,
+        Edward Cragg <edward.cragg@codethink.co.uk>
+References: <20190930165130.10642-1-ben.dooks@codethink.co.uk>
+ <20190930165130.10642-2-ben.dooks@codethink.co.uk>
+ <1488a5a8-5c55-5643-1956-0cd9d9c90644@nvidia.com>
+From:   Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+Message-ID: <7f9cc620-b3d0-c417-724d-3198055aca82@codethink.co.uk>
+Date:   Tue, 1 Oct 2019 18:03:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAMdYzYr7irO-qLKws2cFZm6y1iuBj7RQRmUA4Zzx7vO-QoEKVw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1488a5a8-5c55-5643-1956-0cd9d9c90644@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-01.10.2019 15:49, Peter Geis пишет:
-> On Mon, Sep 30, 2019 at 5:27 PM Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> 30.09.2019 23:55, Dmitry Osipenko пишет:
->>> 30.09.2019 23:05, Peter Geis пишет:
->>>> Good Afternoon,
->>>>
->>>> I have prepped the patch for the tegra-udc driver to fail out in host
->>>> mode and load as a peripheral in otg mode.
->>
->> Just to be clear, this part is good to me. Although, doesn't CI driver
->> operates by default in a peripheral mode when drm_mode=otg?
->>
-> The code sets OTG mode in the case of mode is unknown.
-> Based off the code path and behavior on my devices, I'm pretty sure it
-> defaults to host unless something intervenes in the process, such as
-> extcon.
-
-Okay! It definitely defaults to the peripheral mode in my case, sounds
-like sensing is working for the OTG mode in yours case.
-
-> I'll see if I can get host mode working, as I'd really like to see
-> your Tegra30 cpufreq drivers land.
+On 01/10/2019 14:40, Jon Hunter wrote:
 > 
+> On 30/09/2019 17:51, Ben Dooks wrote:
+>> From: Edward Cragg <edward.cragg@codethink.co.uk>
+>>
+>> Add a callback to configure TDM settings for the Tegra30 I2S ASoC 'platform'
+>> driver.
+>>
+>> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
+>> [ben.dooks@codethink.co.uk: merge fix for power management]
+>> [ben.dooks@codethink.co.uk: add review change for fsync of 1 clock]
+>> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+>> ---
+>>   sound/soc/tegra/tegra30_i2s.c | 33 +++++++++++++++++++++++++++++++++
+>>   1 file changed, 33 insertions(+)
+>>
+>> diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
+>> index ac6983c6bd72..7f9ef6abeae2 100644
+>> --- a/sound/soc/tegra/tegra30_i2s.c
+>> +++ b/sound/soc/tegra/tegra30_i2s.c
+>> @@ -254,6 +254,38 @@ static int tegra30_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
+>>   	return 0;
+>>   }
+>>   
+>> +/*
+>> + * Set up TDM
+>> + */
+>> +static int tegra30_i2s_set_tdm(struct snd_soc_dai *dai,
+>> +			       unsigned int tx_mask, unsigned int rx_mask,
+>> +			       int slots, int slot_width)
+>> +{
+>> +	struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
+>> +	unsigned int mask, val;
+>> +
+>> +	dev_dbg(dai->dev, "%s: txmask=0x%08x rxmask=0x%08x slots=%d width=%d\n",
+>> +		 __func__, tx_mask, rx_mask, slots, slot_width);
+>> +
+>> +	/* Set up slots and tx/rx masks */
+>> +	mask = TEGRA30_I2S_SLOT_CTRL_TOTAL_SLOTS_MASK |
+>> +	       TEGRA30_I2S_SLOT_CTRL_RX_SLOT_ENABLES_MASK |
+>> +	       TEGRA30_I2S_SLOT_CTRL_TX_SLOT_ENABLES_MASK;
+>> +
+>> +	val = (tx_mask << TEGRA30_I2S_SLOT_CTRL_TX_SLOT_ENABLES_SHIFT) |
+>> +	      (rx_mask << TEGRA30_I2S_SLOT_CTRL_RX_SLOT_ENABLES_SHIFT) |
+>> +	      ((slots - 1) << TEGRA30_I2S_SLOT_CTRL_TOTAL_SLOTS_SHIFT);
+>> +
+>> +	pm_runtime_get_sync(dai->dev);
+>> +	regmap_update_bits(i2s->regmap, TEGRA30_I2S_SLOT_CTRL, mask, val);
+>> +	// set the fsync width to minimum of 1 clock width
+> 
+> Please make sure you are consistent with your commenting style and you
+> adhere to the kernel coding style.
+> 
+> Also, I see a lot of ...
+> 
+> ERROR: trailing whitespace
+> #197: FILE: sound/soc/tegra/tegra30_i2s.c:258:
+> + * Set up TDM^M$
+> 
+> ERROR: DOS line endings
+> #198: FILE: sound/soc/tegra/tegra30_i2s.c:259:
+> + */^M$
 
-Please let us know if you'll have any progress, I'll also try to look at
-it sometime soon.
+ok, for me I am getting:
 
-It will be very nice if all of the pending patches could get into next
-release. You could also help with that by testing the patches, usually
-it helps to get some more attention from maintainers.
+> $ ./scripts/checkpatch.pl ./patches/0001-ASoC-tegra-add-a-TDM-configuration-callback.patch 
+> WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+> #6: 
+> Add a callback to configure TDM settings for the Tegra30 I2S ASoC 'platform'
+> 
+> total: 0 errors, 1 warnings, 45 lines checked
+> 
+> NOTE: For some of the reported defects, checkpatch may be able to
+>       mechanically convert to the typical style using --fix or --fix-inplace.
+
+I don't see any warnings about the line-endings
+
+I will remove the comment about the function, it is fairly self explanatory.
+
+
+
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
+
+https://www.codethink.co.uk/privacy.html
