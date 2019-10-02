@@ -2,55 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F739C8B8E
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 16:43:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 679ECC8BA2
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 16:45:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725951AbfJBOnX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Oct 2019 10:43:23 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44291 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725935AbfJBOnW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 10:43:22 -0400
-Received: by mail-wr1-f67.google.com with SMTP id z9so6852033wrl.11;
-        Wed, 02 Oct 2019 07:43:21 -0700 (PDT)
+        id S1725766AbfJBOpH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Oct 2019 10:45:07 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44576 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726016AbfJBOpH (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 10:45:07 -0400
+Received: by mail-wr1-f68.google.com with SMTP id z9so6859221wrl.11;
+        Wed, 02 Oct 2019 07:45:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=y9l/1MkRoZLCyZNPXaR5fzwvTbuyIzYA20JLtWuhYR4=;
-        b=ahoJ80fONPxwQPqvbuQRAba40syj0YJFK3SbqTxd0FOzhs1n3WTvNd/gHQ+2WK5WwB
-         8joqipXveUGBgePR1RwHR0oQyDAumewRmSMStvhyCHPeo154CNqZfGQNlbNlRng2QJqd
-         1/Sq8GNJ1DjcLifpHWbCC9LoK5U3UkvdIWHPFx0cqJ+ENvPHkYPr2FdpaZ8jxuJta3TT
-         dplkNk0AsL/tc33KBJbKUSlnYppX878WQXUvnhdB+TRmr5R3dtc5Ewc0TH4h7V1SXTly
-         GiNnbbCc+BKzzqk9PTo/Pqf5dzWcpNDBA1GUkzQZDTXOXXUzBjnlrTaQctjSdE6meWfJ
-         JbDw==
+        bh=JbsRywd3P/upMxkLRZ+GFc95MVXDV5IdJYCkY7YwM5k=;
+        b=K67F4O8mvksJgs8CKjINB40T6yZz2pqJ2M0n0u7I7JBKk4uK1a2a2j+a1xH4wF3bhc
+         v86uuK6X8lyNLl7dpzdnaPZtH0IPZR+T/8b6M9BeKV90InNKkaoBosAOKj0R1uLlhcpm
+         YokltHXTozZ/7vtbydA2yhBHNxRmFTjRQb99emSIjrhNEr/60vh2ZR1InPwWtRb9qRgB
+         GECZJKeZbeg6krrwR2WYG8nGlevKKRxzEBroQSfwhBnnHP09XPoiIkrvJ7pyZFm4Sxcs
+         /APzXGSG2+hLEHzF4ykuryR7UoJYfTZ1a5pN+DC0jBhsX4zzHo3Qa8+xsFdaFzvy0qaD
+         ZsiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=y9l/1MkRoZLCyZNPXaR5fzwvTbuyIzYA20JLtWuhYR4=;
-        b=UIHX/qLK5s52vBAq1L96RTmfJilds1VFNEWvaiCVppi4zLOn6qtnJ4cmYZjb72c9+z
-         zun/k9GlBVIM50W/c7y7n0zS4XlScmCrow1dpSpeoA1MQ0dEEQ6f2VrwTDIu3RSthlLe
-         zIStAcc9gTHOssPfALuZYqYqaidYe0pvVSRnsZLW1401WkHPnL7UW7tZTAVROMBxyQi0
-         tqvRjQIAvqJIxCqjo/eexRrbn7yj1BcZoqSpTPjJc+cXFWfWNvVEfaEZpHarplmdp8GJ
-         q+LXO0MuoxYj02LNkPdr7sVp0V2FJZXVWz4eE4mBSPd8iDICTCAXMajh9XxvzH73bGnp
-         3h8Q==
-X-Gm-Message-State: APjAAAVKAuUfd0by9Hg2x+Fwhj2mqqSMOxL5aD+m3vkxazknSZx87Q+V
-        UCbxEomHvmovLQcmy/xqrtWT0j2d
-X-Google-Smtp-Source: APXvYqyETp8FIXhzzDrv+mhfzHhU0D9h3bcpLQ9oRbkEYPG7JvxLk5RVWx/ooYmku2+exI6oXsHTnA==
-X-Received: by 2002:a5d:4dd0:: with SMTP id f16mr2905889wru.85.1570027400467;
-        Wed, 02 Oct 2019 07:43:20 -0700 (PDT)
+        bh=JbsRywd3P/upMxkLRZ+GFc95MVXDV5IdJYCkY7YwM5k=;
+        b=p7L4ONcHjALgO/sMQRDGW5LZM/niHLlLZN4kUzix9xZD8V3nB4Qdz2CemKP35yNTKM
+         79BP7uNtAfEh+K8GLHWQxpvgfSEW3Kap1g4uiXL1tWqM3IzXhagPeyTTZIRDwiC5Nzzm
+         jTPQC9opIamxb3VOZiqprMm8SdmGwNg4RU6PHPFqOoEMmvGKKE3FEXiAbTidQn5Ywvh6
+         dVteZVgaBlGz+RU/heRC10XBbvUbNpW8YMj+SO3yqk+uvdmBkVCD9+yrzSdcwUxY3NrV
+         8LEEMYQ7CwdCKVki9L7mPTc3xsTliCEfqgHj1v34b6HGUDAbd07BpuqGDm2YIWa01Gn7
+         eh4A==
+X-Gm-Message-State: APjAAAXvssJGDokR2WmdE17aZZGeeV672548N4fanPoV02P+WKDcVqqd
+        Bc3/fs4i2OIrYv0FjbRot9U=
+X-Google-Smtp-Source: APXvYqwdf0RXaNcaclHySoqLP0mzJAMyQKq+lPl9FcAe2vZADHpAdFD7qeATRax5B8IXKddJkMTjXQ==
+X-Received: by 2002:adf:fa05:: with SMTP id m5mr2889072wrr.70.1570027504922;
+        Wed, 02 Oct 2019 07:45:04 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id z125sm10251381wme.37.2019.10.02.07.43.19
+        by smtp.gmail.com with ESMTPSA id z4sm15984346wrh.93.2019.10.02.07.45.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2019 07:43:19 -0700 (PDT)
+        Wed, 02 Oct 2019 07:45:03 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] mfd: max77620: Do not allocate IRQs upfront
-Date:   Wed,  2 Oct 2019 16:43:18 +0200
-Message-Id: <20191002144318.140365-1-thierry.reding@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, linux-gpio@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 1/2] gpio: tegra186: Implement system suspend/resume support
+Date:   Wed,  2 Oct 2019 16:45:01 +0200
+Message-Id: <20191002144502.156393-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,52 +63,98 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-regmap_add_irq_chip() will try to allocate all of the IRQ descriptors
-upfront if passed a non-zero irq_base parameter. However, the intention
-is to allocate IRQ descriptors on an as-needed basis if possible. Pass 0
-instead of -1 to fix that use-case.
+Backup GPIO control registers on suspend and restore them on resume to
+ensure that the GPIOs' configuration remains the same across suspend and
+resume.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/mfd/max77620.c       | 5 ++---
- include/linux/mfd/max77620.h | 1 -
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpio/gpio-tegra186.c | 51 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/drivers/mfd/max77620.c b/drivers/mfd/max77620.c
-index a851ff473a44..c7ed5c353553 100644
---- a/drivers/mfd/max77620.c
-+++ b/drivers/mfd/max77620.c
-@@ -507,7 +507,6 @@ static int max77620_probe(struct i2c_client *client,
+diff --git a/drivers/gpio/gpio-tegra186.c b/drivers/gpio/gpio-tegra186.c
+index a9058fda187e..3ded6ba2f997 100644
+--- a/drivers/gpio/gpio-tegra186.c
++++ b/drivers/gpio/gpio-tegra186.c
+@@ -64,6 +64,12 @@ struct tegra_gpio {
+ 	const struct tegra_gpio_soc *soc;
  
- 	i2c_set_clientdata(client, chip);
- 	chip->dev = &client->dev;
--	chip->irq_base = -1;
- 	chip->chip_irq = client->irq;
- 	chip->chip_id = (enum max77620_chip_id)id->driver_data;
+ 	void __iomem *base;
++
++	struct tegra_gpio_context {
++		u32 value;
++		u32 control;
++		u32 config;
++	} *context;
+ };
  
-@@ -545,8 +544,8 @@ static int max77620_probe(struct i2c_client *client,
+ static const struct tegra_gpio_port *
+@@ -455,6 +461,11 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
+ 	for (i = 0; i < gpio->soc->num_ports; i++)
+ 		gpio->gpio.ngpio += gpio->soc->ports[i].pins;
  
- 	max77620_top_irq_chip.irq_drv_data = chip;
- 	ret = devm_regmap_add_irq_chip(chip->dev, chip->rmap, client->irq,
--				       IRQF_ONESHOT | IRQF_SHARED,
--				       chip->irq_base, &max77620_top_irq_chip,
-+				       IRQF_ONESHOT | IRQF_SHARED, 0,
-+				       &max77620_top_irq_chip,
- 				       &chip->top_irq_data);
- 	if (ret < 0) {
- 		dev_err(chip->dev, "Failed to add regmap irq: %d\n", ret);
-diff --git a/include/linux/mfd/max77620.h b/include/linux/mfd/max77620.h
-index 12ba157cb83f..f552ef5b1100 100644
---- a/include/linux/mfd/max77620.h
-+++ b/include/linux/mfd/max77620.h
-@@ -329,7 +329,6 @@ struct max77620_chip {
- 	struct regmap *rmap;
++	gpio->context = devm_kmalloc_array(gpio->gpio.parent, gpio->gpio.ngpio,
++					   sizeof(*gpio->context), GFP_KERNEL);
++	if (!gpio->context)
++		return -ENOMEM;
++
+ 	names = devm_kcalloc(gpio->gpio.parent, gpio->gpio.ngpio,
+ 			     sizeof(*names), GFP_KERNEL);
+ 	if (!names)
+@@ -526,6 +537,45 @@ static int tegra186_gpio_remove(struct platform_device *pdev)
+ 	return 0;
+ }
  
- 	int chip_irq;
--	int irq_base;
- 
- 	/* chip id */
- 	enum max77620_chip_id chip_id;
++static int tegra186_gpio_suspend(struct device *dev)
++{
++	struct tegra_gpio *gpio = dev_get_drvdata(dev);
++	unsigned int i;
++
++	for (i = 0; i < gpio->gpio.ngpio; i++) {
++		struct tegra_gpio_context *context = &gpio->context[i];
++		void __iomem *base = tegra186_gpio_get_base(gpio, i);
++
++		context->config = readl(base + TEGRA186_GPIO_ENABLE_CONFIG);
++		context->control = readl(base + TEGRA186_GPIO_OUTPUT_CONTROL);
++		context->value = readl(base + TEGRA186_GPIO_OUTPUT_VALUE);
++	}
++
++	return 0;
++}
++
++static int tegra186_gpio_resume(struct device *dev)
++{
++	struct tegra_gpio *gpio = dev_get_drvdata(dev);
++	unsigned int i;
++
++	for (i = 0; i < gpio->gpio.ngpio; i++) {
++		struct tegra_gpio_context *context = &gpio->context[i];
++		void __iomem *base = tegra186_gpio_get_base(gpio, i);
++
++		writel(context->value, base + TEGRA186_GPIO_OUTPUT_VALUE);
++		writel(context->control, base + TEGRA186_GPIO_OUTPUT_CONTROL);
++		writel(context->config, base + TEGRA186_GPIO_ENABLE_CONFIG);
++	}
++
++	return 0;
++}
++
++static const struct dev_pm_ops tegra186_gpio_pm = {
++	.suspend_late = tegra186_gpio_suspend,
++	.resume_early = tegra186_gpio_resume,
++};
++
+ #define TEGRA186_MAIN_GPIO_PORT(port, base, count, controller)	\
+ 	[TEGRA186_MAIN_GPIO_PORT_##port] = {			\
+ 		.name = #port,					\
+@@ -680,6 +730,7 @@ static struct platform_driver tegra186_gpio_driver = {
+ 	.driver = {
+ 		.name = "tegra186-gpio",
+ 		.of_match_table = tegra186_gpio_of_match,
++		.pm = &tegra186_gpio_pm,
+ 	},
+ 	.probe = tegra186_gpio_probe,
+ 	.remove = tegra186_gpio_remove,
 -- 
 2.23.0
 
