@@ -2,156 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 57917C8DBC
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 18:07:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 510D0C8E74
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 18:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729212AbfJBQHI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Oct 2019 12:07:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36258 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729190AbfJBQHH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 2 Oct 2019 12:07:07 -0400
-Received: from localhost.localdomain (unknown [194.230.155.145])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B1851222BE;
-        Wed,  2 Oct 2019 16:06:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570032426;
-        bh=mQPcQHUPwO41tj6eZFL6xjysxPvRcXAHP637dM6rPBA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xqXgGJ9vZy7bk8yuGyGyCZ7HwYOrs+sZX0ScjPpHW2skiKsRVVRbzRGyQcfqtu4D8
-         sDlbVfZP8EPCOarDCvgd/OoIf7Cf8wm0Dk0jsfDjrCD4nx9pQtHbxNAKOrgy5zMzDi
-         vbSyChOYqADcyyWF+Gryao3inEuvv8/IJSvZMhXw=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Sudeep Holla <sudeep.holla@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, etnaviv@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-rpi-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v2 3/3] ARM: dts: exynos: Rename power domain nodes to "power-domain" in Exynos4
-Date:   Wed,  2 Oct 2019 18:06:32 +0200
-Message-Id: <20191002160632.11140-3-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191002160632.11140-1-krzk@kernel.org>
-References: <20191002160632.11140-1-krzk@kernel.org>
+        id S1726152AbfJBQeJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Oct 2019 12:34:09 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:36964 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725893AbfJBQeJ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 12:34:09 -0400
+Received: by mail-lj1-f193.google.com with SMTP id l21so17836281lje.4
+        for <linux-tegra@vger.kernel.org>; Wed, 02 Oct 2019 09:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=QzSTJow8oMcZhowrs8RzzW947+x0J4wR10y7RPJeLgk=;
+        b=tVK8dnzSHHz+RDj3zzBo4PRVTuiYBgPnhEO740JILqTvzHecoMdGVLbJ4oZL8roXPX
+         0eAnJzLqp+UjFlBqpmnchctAcTD+dmT8ByYkHTCbmIt4SfwKmBxx5zN7+wYIJxnj1KQN
+         TiJ9amOzVFZQtezW9up1kGR9QB0Zaa/Lnb1EwcUiVYfx8pHMB/xqYTADhXIIdAFSTkEv
+         edhmyeEvMH88bjlsoCJcxGbSIOasw6p07CyeX22FG9CqjhKJrzMIEeD6VZqNUaUXtBO4
+         488uUB+KZ1LkZei7Wq22SulSv+aRAE1dRNbn4RgiNuDqe6e+SianmgOmw6p+16v+Zexd
+         06Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QzSTJow8oMcZhowrs8RzzW947+x0J4wR10y7RPJeLgk=;
+        b=TZ6g4YMMrjswTz4fG8Qt9LlOkikFT0NrHJhu3FWYYZ4aGiQsJeBkg26hePsebrjELw
+         LboG8w1e647Dbz/kKkehfVU+TVIVheQ5sWC/rQqqJ0ftdKx2h9QvbdzKLBZD4NNIquyv
+         1sSxjregSnbjvejYwaNR77S1WPD6DumozWN2SAhBhHS/Btaz7IC8dns1OBfMQTIUaE2u
+         sSxkJ3t2zI5FneQSTXjcj8UeFh13PAnYS85DhaLT4eg9UR16g/0uaCdYHHXFkNMbMEjs
+         G/yIV3EgKQoPCRhEn3t9WKVrHS8x1cZEvMzVJgTH6qx+q7FA2VI2fss6a5uVMzUg+gq7
+         oGmw==
+X-Gm-Message-State: APjAAAW8Kwr6Ua2b7pFGUfN9viI3XK/1tloFLhi8aMeT5LtQnPBMboQC
+        pEwcaAVK12l2tORPGdImnFaWltOV
+X-Google-Smtp-Source: APXvYqzR9j401TQO4mxZaANnjeP+8Kc+91lzqBFq2tlQpYsQhhcc5VIwdS8aIyAYrgPHTG/eHbFqfA==
+X-Received: by 2002:a2e:2e13:: with SMTP id u19mr3125578lju.112.1570034047123;
+        Wed, 02 Oct 2019 09:34:07 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.34.231])
+        by smtp.googlemail.com with ESMTPSA id c15sm835454lja.99.2019.10.02.09.34.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Oct 2019 09:34:06 -0700 (PDT)
+Subject: Re: [PATCH 4/5] usb: chipidea: tegra: add the tegra specific bits
+To:     Peter Geis <pgwipeout@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Peter Chen <peter.chen@nxp.com>, linux-tegra@vger.kernel.org
+References: <20191002014153.29831-1-pgwipeout@gmail.com>
+ <20191002014153.29831-5-pgwipeout@gmail.com> <20191002112631.GN3716706@ulmo>
+ <CAMdYzYpXdVPXSJ7w5eRhOkgmg_cfyj+Yr_agbimn__zfMBsDCw@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d044c06c-4e63-26f1-195f-88213b099b47@gmail.com>
+Date:   Wed, 2 Oct 2019 19:34:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <CAMdYzYpXdVPXSJ7w5eRhOkgmg_cfyj+Yr_agbimn__zfMBsDCw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The device node name should reflect generic class of a device so rename
-power domain nodes to "power-domain".  No functional change.
+02.10.2019 15:07, Peter Geis пишет:
+> On Wed, Oct 2, 2019 at 7:26 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+>>
+>> On Tue, Oct 01, 2019 at 09:41:52PM -0400, Peter Geis wrote:
+>>> As Tegra requires special handlers for resets and dma alignment, add
+>>> those functions to a header.
+>>>
+>>> Signed-off-by: Peter Geis <pgwipeout@gmail.com>
+>>> ---
+>>>  drivers/usb/chipidea/tegra.h | 159 +++++++++++++++++++++++++++++++++++
+>>>  1 file changed, 159 insertions(+)
+>>>  create mode 100644 drivers/usb/chipidea/tegra.h
+>>
+>> Can't you move these into the ci_hdrc_tegra.c file? It's kind of odd to
+>> have large functions like this implemented in a header.
+>>
+>> Thierry
+> 
+> I put this into a header since the chipidea host driver uses it
+> exclusively and it doesn't export most of its functions.
+> The other ways involved significant changes to the host driver or
+> duplicating a lot of functionality in the tegra-udc driver.
+> Neither method seemed good to me, and I couldn't figure out a better
+> way to do it.
+> 
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- arch/arm/boot/dts/exynos4.dtsi    | 14 +++++++-------
- arch/arm/boot/dts/exynos4210.dtsi |  2 +-
- arch/arm/boot/dts/exynos4412.dtsi |  2 +-
- 3 files changed, 9 insertions(+), 9 deletions(-)
+Looks like you could add hooks for [un]map_urb_for_dma() and port_reset() to the
+ci_hdrc_platform_data.
 
-diff --git a/arch/arm/boot/dts/exynos4.dtsi b/arch/arm/boot/dts/exynos4.dtsi
-index 433f109d97ca..d2779a790ce3 100644
---- a/arch/arm/boot/dts/exynos4.dtsi
-+++ b/arch/arm/boot/dts/exynos4.dtsi
-@@ -111,28 +111,28 @@
- 			syscon = <&pmu_system_controller>;
- 		};
- 
--		pd_mfc: mfc-power-domain@10023c40 {
-+		pd_mfc: power-domain@10023c40 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C40 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "MFC";
- 		};
- 
--		pd_g3d: g3d-power-domain@10023c60 {
-+		pd_g3d: power-domain@10023c60 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C60 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "G3D";
- 		};
- 
--		pd_lcd0: lcd0-power-domain@10023c80 {
-+		pd_lcd0: power-domain@10023c80 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C80 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "LCD0";
- 		};
- 
--		pd_tv: tv-power-domain@10023c20 {
-+		pd_tv: power-domain@10023c20 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C20 0x20>;
- 			#power-domain-cells = <0>;
-@@ -140,21 +140,21 @@
- 			label = "TV";
- 		};
- 
--		pd_cam: cam-power-domain@10023c00 {
-+		pd_cam: power-domain@10023c00 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C00 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "CAM";
- 		};
- 
--		pd_gps: gps-power-domain@10023ce0 {
-+		pd_gps: power-domain@10023ce0 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023CE0 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "GPS";
- 		};
- 
--		pd_gps_alive: gps-alive-power-domain@10023d00 {
-+		pd_gps_alive: power-domain@10023d00 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023D00 0x20>;
- 			#power-domain-cells = <0>;
-diff --git a/arch/arm/boot/dts/exynos4210.dtsi b/arch/arm/boot/dts/exynos4210.dtsi
-index f220716239db..ff9a3fb21a85 100644
---- a/arch/arm/boot/dts/exynos4210.dtsi
-+++ b/arch/arm/boot/dts/exynos4210.dtsi
-@@ -90,7 +90,7 @@
- 			};
- 		};
- 
--		pd_lcd1: lcd1-power-domain@10023ca0 {
-+		pd_lcd1: power-domain@10023ca0 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023CA0 0x20>;
- 			#power-domain-cells = <0>;
-diff --git a/arch/arm/boot/dts/exynos4412.dtsi b/arch/arm/boot/dts/exynos4412.dtsi
-index d20db2dfe8e2..1c40bd56ce00 100644
---- a/arch/arm/boot/dts/exynos4412.dtsi
-+++ b/arch/arm/boot/dts/exynos4412.dtsi
-@@ -206,7 +206,7 @@
- 			};
- 		};
- 
--		pd_isp: isp-power-domain@10023ca0 {
-+		pd_isp: power-domain@10023ca0 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023CA0 0x20>;
- 			#power-domain-cells = <0>;
--- 
-2.17.1
+Then it could be:
 
+...
+ci_ehci_hc_driver.map_urb_for_dma = ci->platdata->map_urb_for_dma;
+ci_ehci_hc_driver.unmap_urb_for_dma = ci->platdata->unmap_urb_for_dma;
+...
+if (ci->platdata->port_reset &&
+    typeReq == SetPortFeature && wValue == USB_PORT_FEAT_RESET) {
+	spin_unlock_irqrestore(&ehci->lock, flags);
+	return ci->platdata->port_reset(ehci, status_reg);
+}
+
+and in tegra_udc_probe():
+
+/* setup and register ChipIdea HDRC device */
+...
+udc->data.map_urb_for_dma = tegra_map_urb_for_dma;
+udc->data.unmap_urb_for_dma = tegra_unmap_urb_for_dma;
+udc->data.port_reset = tegra_ehci_internal_port_reset;
