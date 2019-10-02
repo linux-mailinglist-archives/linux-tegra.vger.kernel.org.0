@@ -2,128 +2,88 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECF87C45A8
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 03:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B9E5C4903
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 10:01:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729718AbfJBBmH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 1 Oct 2019 21:42:07 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:41137 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729695AbfJBBmH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 21:42:07 -0400
-Received: by mail-qt1-f195.google.com with SMTP id d16so3679301qtq.8
-        for <linux-tegra@vger.kernel.org>; Tue, 01 Oct 2019 18:42:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=WFVI5vnRYJNZHJ41fHYSfC0RgxUT1KNcfu7smrWxT4w=;
-        b=GC9bXgMp5PBogmH7XVR3ImkRAnpW3ifmgc3aqJhUoNtRx8tZO+e4j4OoHP8EaKfhk0
-         OHIP+nDUDb2WMCwrEtJMkAP/YtUWY6X3nPpaup1quNcK8TkHYGZZ5vi9evguMpQhxUMx
-         RjUhfvpLa2FPn0BoBR/G2Qbesh241Z2VZfn66ZmoKc+7SegWTMPMRTE9lXqg00CuwBBr
-         T2nJAwLp9yssTnEr7RvTolpA45ORjC5zaoBV9hKwm+K4JZUtQEC0xUSUU6gEFzjs5UN+
-         W3S1KamxcO3++bwHND6l3H1FckCGtIGl2eiwZ60EtH8MeFVDHDviezc83gnKMP+yzBy5
-         GlDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=WFVI5vnRYJNZHJ41fHYSfC0RgxUT1KNcfu7smrWxT4w=;
-        b=MdzuRz25Hah9VGvtWTlWR6/swhBH80q0My09+n1c/MH2aF68tHhDpW/cSz9Xh2HVdC
-         iNPscJcjkp7lgx9iEux24sDVzlEksBXgjt3Qu2WUR7SemkkommjQNAihbA7WI5nUCsYh
-         n7FZKRnwfr+HXG1FcJd0n5CHmmXon1R10iJPVaYO8o8SZ4aiVgnOAkTjwwp7hPbPk3lu
-         h49F2GS8fwWdoy5VLMBOZtYXpKkvYrigWiKynazrpPE/aNQ1oS834CXiBWIkuey9UP7P
-         DyGJbYwXwd/HEXmPjUps8+wN6hCKaXas3nY4VQUvJSIz5uaGPzjiYlxe4QFvjjpNMh6h
-         CKOA==
-X-Gm-Message-State: APjAAAVM1pq9z1myArFENeqLXt4VIyW1MGGdqjdPUdQS4kOdEh3WDNHA
-        Nc7u2HQod5tJubwJ3HSnL/thVYpA2ftWJA==
-X-Google-Smtp-Source: APXvYqx7inc3QbA8Md7rjk4klsnEMo0mehfLpRg5lOh3LkkKiV9ILewdhKrxJyrImQH9cyrJcBnXOA==
-X-Received: by 2002:a0c:e60b:: with SMTP id z11mr925936qvm.53.1569980526358;
-        Tue, 01 Oct 2019 18:42:06 -0700 (PDT)
-Received: from master-laptop.pgwipeout.duckdns.org ([2601:153:900:a52:cd3f:2362:443a:b8eb])
-        by smtp.gmail.com with ESMTPSA id o52sm12212033qtf.56.2019.10.01.18.42.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 18:42:06 -0700 (PDT)
-From:   Peter Geis <pgwipeout@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Peter Chen <peter.chen@nxp.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-tegra@vger.kernel.org
-Subject: [PATCH 5/5] usb: chipidea: tegra: enable tegra-udc host mode
-Date:   Tue,  1 Oct 2019 21:41:53 -0400
-Message-Id: <20191002014153.29831-6-pgwipeout@gmail.com>
+        id S1726918AbfJBIBK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Oct 2019 04:01:10 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:10645 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725799AbfJBIBK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 04:01:10 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d94594d0001>; Wed, 02 Oct 2019 01:01:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 02 Oct 2019 01:01:09 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 02 Oct 2019 01:01:09 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 2 Oct
+ 2019 08:01:09 +0000
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 2 Oct
+ 2019 08:01:08 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 2 Oct 2019 08:01:08 +0000
+Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.102]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d9459420001>; Wed, 02 Oct 2019 01:01:08 -0700
+From:   JC Kuo <jckuo@nvidia.com>
+To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <nkristam@nvidia.com>, <skomatineni@nvidia.com>,
+        JC Kuo <jckuo@nvidia.com>
+Subject: [PATCH 0/6] Add Tegra194 XUSB host and pad controller support
+Date:   Wed, 2 Oct 2019 16:00:45 +0800
+Message-ID: <20191002080051.11142-1-jckuo@nvidia.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191002014153.29831-1-pgwipeout@gmail.com>
-References: <20191002014153.29831-1-pgwipeout@gmail.com>
+X-NVConfidentiality: public
+MIME-Version: 1.0
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1570003277; bh=GPsfBTidovLb2EyOvodPKq1ls7/+8VJte+CoYWlCP9U=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=f/kfJ2Z4WLBQvca2iLEg7VNTHZcvk3N00+I2egWM6rdpbMhms9ec+3VchiWvsbIys
+         iYu6pOqLeue1kmDUDttxTIzmTn7VEkYkf6tM4KQRwADdol0nAkwdTVF5crXhVDYeq6
+         pOqwP7uunoMkPx5O73iLLW0lhypMtJ1cKFElbOCulEY3pOmtvVdBraoMQ2jJ2iC26Z
+         AUMRhvJ2vWepYymNAKoOG1Qe35wM9xde306TTkHj2QCZENN1/ei/foj1GkQPg2//tA
+         gMAm9UHI/iHB5ksQNvaIkm4SgtI7Iv7sLiIQK1RUnwzK272yQ9Y83JetgyedtoELw1
+         ATGBvSpgwkRlw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add the functions to the chipidea host driver to enable tegra specific
-dma alignment and reset handlers.
+Hi,
 
-Signed-off-by: Peter Geis <pgwipeout@gmail.com>
----
- drivers/usb/chipidea/ci_hdrc_tegra.c |  7 +++++++
- drivers/usb/chipidea/host.c          | 13 +++++++++++++
- 2 files changed, 20 insertions(+)
+This series introduces support for Tegra194 XUSB host and pad 
+controller. Tegra194 XUSB host and pad controller are highly
+similar to the controllers found on Tegra186. Therefore, we
+decided to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
 
-diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
-index 29415c3a2f48..2f7d542d2273 100644
---- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-+++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-@@ -118,6 +118,13 @@ static int tegra_udc_probe(struct platform_device *pdev)
- 	udc->data.usb_phy = udc->phy;
- 	udc->data.capoffset = DEF_CAPOFFSET;
- 
-+	/* check the double reset flag */
-+	if (of_property_read_bool(pdev->dev.of_node,
-+				"nvidia,needs-double-reset")) {
-+		dev_dbg(&pdev->dev, "setting double reset flag\n");
-+		udc->data.flags |= CI_HDRC_TEGRA_DOUBLE_RESET;
-+	}
-+
- 	udc->dev = ci_hdrc_add_device(&pdev->dev, pdev->resource,
- 				      pdev->num_resources, &udc->data);
- 	if (IS_ERR(udc->dev)) {
-diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
-index b45ceb91c735..e95b7cb8c54d 100644
---- a/drivers/usb/chipidea/host.c
-+++ b/drivers/usb/chipidea/host.c
-@@ -20,6 +20,7 @@
- #include "ci.h"
- #include "bits.h"
- #include "host.h"
-+#include "tegra.h"
- 
- static struct hc_driver __read_mostly ci_ehci_hc_driver;
- static int (*orig_bus_suspend)(struct usb_hcd *hcd);
-@@ -275,6 +276,13 @@ static int ci_ehci_hub_control(
- 		goto done;
- 	}
- 
-+	/* For Tegra USB1 port we need to issue Port Reset twice internally */
-+	if (ci->platdata->flags & CI_HDRC_TEGRA_DOUBLE_RESET &&
-+	(typeReq == SetPortFeature && wValue == USB_PORT_FEAT_RESET)) {
-+		spin_unlock_irqrestore(&ehci->lock, flags);
-+		return tegra_ehci_internal_port_reset(ehci, status_reg);
-+	}
-+
- 	/*
- 	 * After resume has finished, it needs do some post resume
- 	 * operation for some SoCs.
-@@ -364,6 +372,11 @@ int ci_hdrc_host_init(struct ci_hdrc *ci)
- 	rdrv->name	= "host";
- 	ci->roles[CI_ROLE_HOST] = rdrv;
- 
-+	if (ci->platdata->flags & CI_HDRC_TEGRA_HOST) {
-+		ci_ehci_hc_driver.map_urb_for_dma = tegra_ehci_map_urb_for_dma;
-+		ci_ehci_hc_driver.unmap_urb_for_dma = tegra_ehci_unmap_urb_for_dma;
-+	}
-+
- 	return 0;
- }
- 
+JC Kuo (6):
+  xhci: tegra: Parameterize mailbox register addresses
+  usb: host: xhci-tegra: Add Tegra194 XHCI support
+  phy: tegra: xusb: Add Tegra194 support
+  dt-bindings: phy: tegra: Add Tegra194 support
+  arm64: tegra: Add XUSB and pad controller on Tegra194
+  arm64: tegra: Enable XUSB host in P2972-0000 board
+
+ .../phy/nvidia,tegra124-xusb-padctl.txt       |  16 +++
+ .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |  31 ++++-
+ .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  59 ++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 130 ++++++++++++++++++
+ drivers/phy/tegra/Makefile                    |   1 +
+ drivers/phy/tegra/xusb-tegra186.c             |  77 +++++++++++
+ drivers/phy/tegra/xusb.c                      |  13 ++
+ drivers/phy/tegra/xusb.h                      |   4 +
+ drivers/usb/host/xhci-tegra.c                 |  88 +++++++++---
+ 9 files changed, 402 insertions(+), 17 deletions(-)
+
 -- 
 2.17.1
 
