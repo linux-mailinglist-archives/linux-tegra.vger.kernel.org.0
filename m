@@ -2,212 +2,309 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BD61C8C18
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 16:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1B27C8CDD
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 17:29:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727697AbfJBOxJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Oct 2019 10:53:09 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37336 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726137AbfJBOxJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 10:53:09 -0400
-Received: by mail-wm1-f67.google.com with SMTP id f22so7321022wmc.2;
-        Wed, 02 Oct 2019 07:53:07 -0700 (PDT)
+        id S1727756AbfJBP1u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Oct 2019 11:27:50 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:45245 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726710AbfJBP1u (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 11:27:50 -0400
+Received: by mail-lj1-f195.google.com with SMTP id q64so17555312ljb.12;
+        Wed, 02 Oct 2019 08:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uOeMC9QJIgmJhWdw1hsRV5m6zhZBnDGlsT9nxsYcYJk=;
-        b=pMgw2egXlzrLRfNFrUyfhT7jsxzZI7o8OKtq+Q/3dJOl0qS5MV5jmngfJa/rJDFDXc
-         QcgASrbA43oudaxaVpB0qHwu+vcRkpPc2nlp/0Bt/5B8Vp44sGp8s0N8R6nT8Z05w5R7
-         EZZD1VYXezqauOjFptj2v5oebfwdvUqCB90x+OiuXb/Z972gf5Si3auCpJkCz6IjoA1K
-         9is/+aVTnr9qHNIguhVJOMXutU7dFjHeUTEtQN/GqKYklQIxDBUftOVJ2TwZZvvBx/U+
-         +5KbyjkZ1LQvGWEnMHdjE4DXwHKiE0AA0rbM+veIMJT2s5JMQ4IwJoCVU+zP74G4G1h6
-         v0TQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=+XkppJh76zQG+z7eHKGe6Lr4cdpRntCx0CAPy1aKT+o=;
+        b=USgJeNCBFzPWJL/hQ3Vc4ReNbEWrli2P+F+WwjERjspXI2L2TWYRsOiHFFUHxL7BDG
+         zbpVRQb1uhBJ6g+l+XaTP5fXmepaNKoGt4xVxhc2ge9jmjiIzUfY/IfZ1W+NT8+zRLPV
+         9HkdecKIDXcJaRKTFz0We4WRAWj5kwLa0+MTC9vdK1V2uXN/x4E2+y0I6Rm/Ivw7Vvvl
+         Bdnp7NZi9kbuIDkqHj1McmvzF7YUS9kYjxK0mEZ6c5BDUrMa7ol1SIBnZ5VyCXB5bmAJ
+         v3REbZn4o6wmVD6WQHllWbFTv+Ul/ObtXD76zSaRbzEwkuiSBZBT6435SY2qer2+VTlx
+         6TZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uOeMC9QJIgmJhWdw1hsRV5m6zhZBnDGlsT9nxsYcYJk=;
-        b=VmGt9WhJAmx3IzNrWVsOdQkSNZOfRPLByzd+9el31I2FZJArYz56QSvY9YmcdEPXZW
-         xTDg1WQQWIh7+KhmhyvjI3Vs5IkNIrJijc3gg2FDGMUxGPSGKITVLelInbT04VkXfK0c
-         7ujvIXFntS4hrn4/KDS+4mK3rfvYRJbgNmFje6pDUv7RMzdnznOI1aSblQIoa4+JBcdg
-         0N1yHvY3VrqxMwWOwS99WlkFw9VKV1MOZG7SJKgk4k8EEIeoAFANiFrp95i1Gfm/kRp/
-         ssOeGNibQkm5lemErfGGauBjacA4bbpnzW1X4/j++9L6DPmgzC4XI0r0KAezMIzb3XkO
-         VZ/A==
-X-Gm-Message-State: APjAAAXwZa0XgqHh2Fr1gWb13fT0fQFXmdeo8UcOHMRRHT+xB0LSD1GB
-        Hkd5JhEBl+lRHaBVUVv4Brc=
-X-Google-Smtp-Source: APXvYqwrriSwRm56050U2yAevLz1JguR/SlQ20I3rFbvPtrmoOEXZWSMK+qhly90EExj1lAw85bXTg==
-X-Received: by 2002:a1c:6a03:: with SMTP id f3mr3137029wmc.167.1570027986301;
-        Wed, 02 Oct 2019 07:53:06 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id d4sm20998554wrq.22.2019.10.02.07.53.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2019 07:53:04 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     "David S . Miller" <davem@davemloft.net>
-Cc:     Jose Abreu <joabreu@synopsys.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, netdev@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH net-next v4 2/2] net: stmmac: Support enhanced addressing mode for DWMAC 4.10
-Date:   Wed,  2 Oct 2019 16:52:58 +0200
-Message-Id: <20191002145258.178745-3-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191002145258.178745-1-thierry.reding@gmail.com>
-References: <20191002145258.178745-1-thierry.reding@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+XkppJh76zQG+z7eHKGe6Lr4cdpRntCx0CAPy1aKT+o=;
+        b=fA5pKi634bAMBmRSwy6lK/pfWNqeWiapc+4LHhMyBWCVicPK5ERSwBVHsTJ/MHAANA
+         RzLg3/mlyakkfSLpfJ0le/SLjmawyKFc5RDawlObndDjOq8Flx9Qx73/cMV0o05Vl0E3
+         Lyp3mJsnpS5iPmjAOMlyrcddBeDzR3heEt5UiTbVdSCAU1XGg5bB3tN4MIWqf++8k896
+         9N9NEMurM/SWxissGvJZXOQaTawzs2jqmrv9OH4F4tYBdY2JyXP89QYJfCijsx2OqUq3
+         pcLM8Vgu7WpVitUsr5S0AMGP5swbxYBm73+GkekFHjJ7WpFz16ukrREftlkF2k5A/mtd
+         gCoA==
+X-Gm-Message-State: APjAAAWpH8fokZaUYxFc4gmazSlnopoQs9icyXeAejaiVIm0hytpZAcX
+        Z6nPCwDIpzWAYzYbpeR7rULp4xlE
+X-Google-Smtp-Source: APXvYqzmoB9nbALd/RFjqZlRIZbc7MHa/7A/ZgwUC7tO94MzSmt1z1gS1hiMfRbQ+wTs3gc1k4u7DA==
+X-Received: by 2002:a2e:8084:: with SMTP id i4mr2942331ljg.119.1570030066891;
+        Wed, 02 Oct 2019 08:27:46 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.34.231])
+        by smtp.googlemail.com with ESMTPSA id v1sm4707924lfe.34.2019.10.02.08.27.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Oct 2019 08:27:46 -0700 (PDT)
+Subject: Re: [PATCH v6 18/19] PM / devfreq: tegra30: Support variable polling
+ interval
+To:     Chanwoo Choi <cw00.choi@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190811212315.12689-1-digetx@gmail.com>
+ <CGME20190811212509epcas4p20ec245213cedfcc066f7b0032b912a39@epcas4p2.samsung.com>
+ <20190811212315.12689-19-digetx@gmail.com>
+ <721c4dd0-d667-f83d-64b5-74e4b58a7a1c@samsung.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a800b077-3d01-78d8-2fb4-bec82c796b45@gmail.com>
+Date:   Wed, 2 Oct 2019 18:27:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <721c4dd0-d667-f83d-64b5-74e4b58a7a1c@samsung.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+02.10.2019 03:18, Chanwoo Choi пишет:
+> Hi,
+> 
+> On 19. 8. 12. 오전 6:23, Dmitry Osipenko wrote:
+>> The ACTMON governor is interrupt-driven and currently hardware's polling
+>> interval is fixed to 16ms in the driver. Devfreq supports variable polling
+>> interval by the generic governors, let's re-use the generic interface for
+>> changing of the polling interval. Now the polling interval can be changed
+>> dynamically via /sys/class/devfreq/devfreq0/polling_interval.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/devfreq/tegra30-devfreq.c | 71 ++++++++++++++++++++++---------
+>>  1 file changed, 50 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+>> index 8adc0ff48b45..e30314bd571a 100644
+>> --- a/drivers/devfreq/tegra30-devfreq.c
+>> +++ b/drivers/devfreq/tegra30-devfreq.c
+>> @@ -12,6 +12,7 @@
+>>  #include <linux/interrupt.h>
+>>  #include <linux/io.h>
+>>  #include <linux/irq.h>
+>> +#include <linux/jiffies.h>
+>>  #include <linux/module.h>
+>>  #include <linux/of_device.h>
+>>  #include <linux/platform_device.h>
+>> @@ -236,7 +237,7 @@ tegra_actmon_dev_avg_dependency_freq(struct tegra_devfreq *tegra,
+>>  				     struct tegra_devfreq_device *dev)
+>>  {
+>>  	return dev->config->avg_dependency_threshold /
+>> -		ACTMON_SAMPLING_PERIOD;
+>> +		tegra->devfreq->profile->polling_ms;
+>>  }
+>>  
+>>  static unsigned long
+>> @@ -314,8 +315,8 @@ static void tegra_actmon_get_lower_upper(struct tegra_devfreq *tegra,
+>>  	 */
+>>  	*upper = tegra_actmon_account_cpu_freq(tegra, dev, *upper);
+>>  
+>> -	*lower *= ACTMON_SAMPLING_PERIOD;
+>> -	*upper *= ACTMON_SAMPLING_PERIOD;
+>> +	*lower *= tegra->devfreq->profile->polling_ms;
+>> +	*upper *= tegra->devfreq->profile->polling_ms;
+>>  }
+>>  
+>>  static void tegra_devfreq_update_avg_wmark(struct tegra_devfreq *tegra,
+>> @@ -341,8 +342,8 @@ static void tegra_devfreq_update_avg_wmark(struct tegra_devfreq *tegra,
+>>  	 * result, but this one is probably the least churning, although
+>>  	 * it may look a bit convoluted.
+>>  	 */
+>> -	if (freq * ACTMON_SAMPLING_PERIOD > upper)
+>> -		upper = freq * ACTMON_SAMPLING_PERIOD;
+>> +	if (freq * tegra->devfreq->profile->polling_ms > upper)
+>> +		upper = freq * tegra->devfreq->profile->polling_ms;
+>>  
+>>  	/*
+>>  	 * We want to get interrupts when MCCPU client crosses the
+>> @@ -420,7 +421,7 @@ static void actmon_isr_device(struct tegra_devfreq *tegra,
+>>  	avg_count = device_readl(dev, ACTMON_DEV_AVG_COUNT);
+>>  	dev_ctrl = device_readl(dev, ACTMON_DEV_CTRL);
+>>  
+>> -	dev->avg_freq = avg_count / ACTMON_SAMPLING_PERIOD;
+>> +	dev->avg_freq = avg_count / tegra->devfreq->profile->polling_ms;
+>>  
+>>  	avg_intr_mask = ACTMON_DEV_INTR_AVG_BELOW_WMARK |
+>>  			ACTMON_DEV_INTR_AVG_ABOVE_WMARK;
+>> @@ -499,7 +500,7 @@ static unsigned long actmon_update_target(struct tegra_devfreq *tegra,
+>>  	 * outdated.
+>>  	 */
+>>  	avg_count = device_readl(dev, ACTMON_DEV_AVG_COUNT);
+>> -	avg_freq = avg_count / ACTMON_SAMPLING_PERIOD;
+>> +	avg_freq = avg_count / tegra->devfreq->profile->polling_ms;
+>>  
+>>  	old_upper = tegra_actmon_upper_freq(tegra, dev->avg_freq);
+>>  	new_upper = tegra_actmon_upper_freq(tegra, avg_freq);
+>> @@ -675,7 +676,7 @@ static int tegra_actmon_cpu_notify_cb(struct notifier_block *nb,
+>>  	 * here for too long, otherwise CPUFreq's core will complain with a
+>>  	 * warning splat.
+>>  	 */
+>> -	delay = msecs_to_jiffies(ACTMON_SAMPLING_PERIOD);
+>> +	delay = msecs_to_jiffies(tegra->devfreq->profile->polling_ms);
+>>  	schedule_delayed_work(&tegra->cpufreq_update_work, delay);
+>>  
+>>  	return NOTIFY_OK;
+>> @@ -690,7 +691,7 @@ static void tegra_actmon_configure_device(struct tegra_devfreq *tegra,
+>>  	dev->boost_freq = 0;
+>>  
+>>  	dev->avg_freq = clk_get_rate(tegra->emc_clock) / KHZ;
+>> -	device_writel(dev, dev->avg_freq * ACTMON_SAMPLING_PERIOD,
+>> +	device_writel(dev, dev->avg_freq * tegra->devfreq->profile->polling_ms,
+>>  		      ACTMON_DEV_INIT_AVG);
+>>  
+>>  	tegra_devfreq_update_avg_wmark(tegra, dev, dev->avg_freq);
+>> @@ -725,7 +726,14 @@ static int tegra_actmon_start(struct tegra_devfreq *tegra)
+>>  	unsigned int i;
+>>  	int err;
+>>  
+>> -	actmon_writel(tegra, ACTMON_SAMPLING_PERIOD - 1,
+>> +	if (!tegra->devfreq->stop_polling)
+> 
+> I don't prefer to change the 'stop_polling' on each device driver direclty
+> without devfreq interface. Don't access it directly.
 
-The address width of the controller can be read from hardware feature
-registers much like on XGMAC. Add support for parsing the ADDR64 field
-so that the DMA mask can be set accordingly.
+Hmm.. okay. Please see more comments below.
 
-This avoids getting swiotlb involved for DMA on Tegra186 and later.
+>> +		return 0;
+>> +
+>> +	tegra->devfreq->previous_freq = clk_get_rate(tegra->emc_clock) / KHZ;
+>> +	tegra->devfreq->last_stat_updated = jiffies;
+>> +	tegra->devfreq->stop_polling = false;
+> 
+> ditto.
+> 
+>> +
+>> +	actmon_writel(tegra, tegra->devfreq->profile->polling_ms - 1,
+>>  		      ACTMON_GLB_PERIOD_CTRL);
+>>  
+>>  	/*
+>> @@ -776,6 +784,11 @@ static void tegra_actmon_stop(struct tegra_devfreq *tegra)
+>>  {
+>>  	unsigned int i;
+>>  
+>> +	if (tegra->devfreq->stop_polling)
+> 
+> ditto.
+> 
+>> +		return;
+>> +
+>> +	mutex_unlock(&tegra->devfreq->lock);
+>> +
+>>  	disable_irq(tegra->irq);
+>>  
+>>  	cpufreq_unregister_notifier(&tegra->cpu_rate_change_nb,
+>> @@ -783,10 +796,16 @@ static void tegra_actmon_stop(struct tegra_devfreq *tegra)
+>>  
+>>  	cancel_delayed_work_sync(&tegra->cpufreq_update_work);
+>>  
+>> +	mutex_lock(&tegra->devfreq->lock);
+>> +
+>>  	for (i = 0; i < ARRAY_SIZE(tegra->devices); i++)
+>>  		tegra_actmon_stop_device(&tegra->devices[i]);
+>>  
+>>  	clk_notifier_unregister(tegra->emc_clock, &tegra->clk_rate_change_nb);
+>> +
+>> +	devfreq_update_status(tegra->devfreq, tegra->devfreq->previous_freq);
+>> +
+>> +	tegra->devfreq->stop_polling = true;
+> 
+> ditto.
+> 
+>>  }
+>>  
+>>  static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
+>> @@ -846,7 +865,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
+>>  	stat->busy_time *= 100 / BUS_SATURATION_RATIO;
+>>  
+>>  	/* Number of cycles in a sampling period */
+>> -	stat->total_time = cur_freq * ACTMON_SAMPLING_PERIOD;
+>> +	stat->total_time = cur_freq * tegra->devfreq->profile->polling_ms;
+>>  
+>>  	stat->busy_time = min(stat->busy_time, stat->total_time);
+>>  
+>> @@ -854,7 +873,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
+>>  }
+>>  
+>>  static struct devfreq_dev_profile tegra_devfreq_profile = {
+>> -	.polling_ms	= 0,
+>> +	.polling_ms	= ACTMON_SAMPLING_PERIOD,
+>>  	.target		= tegra_devfreq_target,
+>>  	.get_dev_status	= tegra_devfreq_get_dev_status,
+>>  };
+>> @@ -895,8 +914,11 @@ static int tegra_governor_event_handler(struct devfreq *devfreq,
+>>  					unsigned int event, void *data)
+>>  {
+>>  	struct tegra_devfreq *tegra = dev_get_drvdata(devfreq->dev.parent);
+>> +	unsigned int new_delay, *delay_ptr = data;
+>>  	int ret = 0;
+>>  
+>> +	mutex_lock(&devfreq->lock);
+>> +
+>>  	/*
+>>  	 * Couple device with the governor early as it is needed at
+>>  	 * the moment of governor's start (used by ISR).
+>> @@ -905,26 +927,33 @@ static int tegra_governor_event_handler(struct devfreq *devfreq,
+>>  
+>>  	switch (event) {
+>>  	case DEVFREQ_GOV_START:
+>> -		devfreq_monitor_start(devfreq);
+>> +		devfreq->stop_polling = true;
+> 
+> It is not proper to initialize the 'stop_polling' on device driver directly.
+> 
+>> +		/* fall through */
+>> +	case DEVFREQ_GOV_RESUME:
+>>  		ret = tegra_actmon_start(tegra);
+>>  		break;
+>>  
+>>  	case DEVFREQ_GOV_STOP:
+>> -		tegra_actmon_stop(tegra);
+>> -		devfreq_monitor_stop(devfreq);
+> 
+> Why do you remove them?
 
-Also make sure that the upper 32 bits of the DMA address are written to
-the DMA descriptors when enhanced addressing mode is used. Similarily,
-for each channel, the upper 32 bits of the DMA descriptor ring's base
-address also need to be programmed to make sure the correct memory can
-be fetched when the DMA descriptor ring is located beyond the 32-bit
-boundary.
+Becasue DEVFREQ_GOV_STOP and DEVFREQ_GOV_SUSPEND are doing the same now:
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v4:
-- only write upper 32 bits when necessary
+	case DEVFREQ_GOV_STOP:
+		/* fall through */
+	case DEVFREQ_GOV_SUSPEND:
+		tegra_actmon_stop(tegra);
+		break;
 
-Changes in v3:
-- unconditionally write upper 32 bits
+>> -		break;
+>> -
+>> +		/* fall through */
+>>  	case DEVFREQ_GOV_SUSPEND:
+>>  		tegra_actmon_stop(tegra);
+>> -		devfreq_monitor_suspend(devfreq);
+> 
+> Why do you remove it?
 
-Changes in v2:
-- also program the upper 32 bits of the DMA descriptor base address for
-  each channel
+a) it takes the same mutex devfreq->lock as tegra_governor_event_handler()
+b) the devfreq's manual polling isn't needed for this driver and thus
+devfreq->work is unwanted
+c) this patch makes tegra_actmon_stop() to replicate what
+devfreq_monitor_suspend() does
 
- drivers/net/ethernet/stmicro/stmmac/dwmac4.h  |  1 +
- .../ethernet/stmicro/stmmac/dwmac4_descs.c    |  4 +--
- .../net/ethernet/stmicro/stmmac/dwmac4_dma.c  | 28 +++++++++++++++++++
- .../net/ethernet/stmicro/stmmac/dwmac4_dma.h  |  3 ++
- 4 files changed, 34 insertions(+), 2 deletions(-)
+It looks like it will be better to add new generic events for the
+governors, like DEVFREQ_GOV_START/STOP_POLLING. Then this driver will be
+able to customize start/stop of the polling, while software governors
+will utilize some new default helpers that will start/stop the polling
+work. What do you think?
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4.h b/drivers/net/ethernet/stmicro/stmmac/dwmac4.h
-index 89a3420eba42..2fe45fa3c482 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4.h
-@@ -205,6 +205,7 @@ enum power_event {
- #define GMAC_HW_HASH_TB_SZ		GENMASK(25, 24)
- #define GMAC_HW_FEAT_AVSEL		BIT(20)
- #define GMAC_HW_TSOEN			BIT(18)
-+#define GMAC_HW_ADDR64			GENMASK(15, 14)
- #define GMAC_HW_TXFIFOSIZE		GENMASK(10, 6)
- #define GMAC_HW_RXFIFOSIZE		GENMASK(4, 0)
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c
-index 15eb1abba91d..707ab5eba8da 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c
-@@ -431,8 +431,8 @@ static void dwmac4_get_addr(struct dma_desc *p, unsigned int *addr)
- 
- static void dwmac4_set_addr(struct dma_desc *p, dma_addr_t addr)
- {
--	p->des0 = cpu_to_le32(addr);
--	p->des1 = 0;
-+	p->des0 = cpu_to_le32(lower_32_bits(addr));
-+	p->des1 = cpu_to_le32(upper_32_bits(addr));
- }
- 
- static void dwmac4_clear(struct dma_desc *p)
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c
-index 68c157979b94..229059cef949 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c
-@@ -79,6 +79,10 @@ static void dwmac4_dma_init_rx_chan(void __iomem *ioaddr,
- 	value = value | (rxpbl << DMA_BUS_MODE_RPBL_SHIFT);
- 	writel(value, ioaddr + DMA_CHAN_RX_CONTROL(chan));
- 
-+	if (IS_ENABLED(CONFIG_ARCH_DMA_ADDR_T_64BIT) && likely(dma_cfg->eame))
-+		writel(upper_32_bits(dma_rx_phy),
-+		       ioaddr + DMA_CHAN_RX_BASE_ADDR_HI(chan));
-+
- 	writel(lower_32_bits(dma_rx_phy), ioaddr + DMA_CHAN_RX_BASE_ADDR(chan));
- }
- 
-@@ -97,6 +101,10 @@ static void dwmac4_dma_init_tx_chan(void __iomem *ioaddr,
- 
- 	writel(value, ioaddr + DMA_CHAN_TX_CONTROL(chan));
- 
-+	if (IS_ENABLED(CONFIG_ARCH_DMA_ADDR_T_64BIT) && likely(dma_cfg->eame))
-+		writel(upper_32_bits(dma_tx_phy),
-+		       ioaddr + DMA_CHAN_TX_BASE_ADDR_HI(chan));
-+
- 	writel(lower_32_bits(dma_tx_phy), ioaddr + DMA_CHAN_TX_BASE_ADDR(chan));
- }
- 
-@@ -132,6 +140,9 @@ static void dwmac4_dma_init(void __iomem *ioaddr,
- 	if (dma_cfg->aal)
- 		value |= DMA_SYS_BUS_AAL;
- 
-+	if (dma_cfg->eame)
-+		value |= DMA_SYS_BUS_EAME;
-+
- 	writel(value, ioaddr + DMA_SYS_BUS_MODE);
- }
- 
-@@ -356,6 +367,23 @@ static void dwmac4_get_hw_feature(void __iomem *ioaddr,
- 	dma_cap->hash_tb_sz = (hw_cap & GMAC_HW_HASH_TB_SZ) >> 24;
- 	dma_cap->av = (hw_cap & GMAC_HW_FEAT_AVSEL) >> 20;
- 	dma_cap->tsoen = (hw_cap & GMAC_HW_TSOEN) >> 18;
-+
-+	dma_cap->addr64 = (hw_cap & GMAC_HW_ADDR64) >> 14;
-+	switch (dma_cap->addr64) {
-+	case 0:
-+		dma_cap->addr64 = 32;
-+		break;
-+	case 1:
-+		dma_cap->addr64 = 40;
-+		break;
-+	case 2:
-+		dma_cap->addr64 = 48;
-+		break;
-+	default:
-+		dma_cap->addr64 = 32;
-+		break;
-+	}
-+
- 	/* RX and TX FIFO sizes are encoded as log2(n / 128). Undo that by
- 	 * shifting and store the sizes in bytes.
- 	 */
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h b/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h
-index b66da0237d2a..5299fa1001a3 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h
-@@ -65,6 +65,7 @@
- #define DMA_SYS_BUS_MB			BIT(14)
- #define DMA_AXI_1KBBE			BIT(13)
- #define DMA_SYS_BUS_AAL			BIT(12)
-+#define DMA_SYS_BUS_EAME		BIT(11)
- #define DMA_AXI_BLEN256			BIT(7)
- #define DMA_AXI_BLEN128			BIT(6)
- #define DMA_AXI_BLEN64			BIT(5)
-@@ -91,7 +92,9 @@
- #define DMA_CHAN_CONTROL(x)		DMA_CHANX_BASE_ADDR(x)
- #define DMA_CHAN_TX_CONTROL(x)		(DMA_CHANX_BASE_ADDR(x) + 0x4)
- #define DMA_CHAN_RX_CONTROL(x)		(DMA_CHANX_BASE_ADDR(x) + 0x8)
-+#define DMA_CHAN_TX_BASE_ADDR_HI(x)	(DMA_CHANX_BASE_ADDR(x) + 0x10)
- #define DMA_CHAN_TX_BASE_ADDR(x)	(DMA_CHANX_BASE_ADDR(x) + 0x14)
-+#define DMA_CHAN_RX_BASE_ADDR_HI(x)	(DMA_CHANX_BASE_ADDR(x) + 0x18)
- #define DMA_CHAN_RX_BASE_ADDR(x)	(DMA_CHANX_BASE_ADDR(x) + 0x1c)
- #define DMA_CHAN_TX_END_ADDR(x)		(DMA_CHANX_BASE_ADDR(x) + 0x20)
- #define DMA_CHAN_RX_END_ADDR(x)		(DMA_CHANX_BASE_ADDR(x) + 0x28)
--- 
-2.23.0
-
+[snip]
