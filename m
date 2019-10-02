@@ -2,86 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63557C90D3
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 20:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26F85C90FF
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 20:40:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728852AbfJBS2L (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Oct 2019 14:28:11 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:43682 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726076AbfJBS2L (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 14:28:11 -0400
-Received: by mail-pg1-f196.google.com with SMTP id v27so12326847pgk.10;
-        Wed, 02 Oct 2019 11:28:10 -0700 (PDT)
+        id S1726669AbfJBSkf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Oct 2019 14:40:35 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:42018 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726076AbfJBSke (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 14:40:34 -0400
+Received: by mail-lf1-f68.google.com with SMTP id c195so13506419lfg.9;
+        Wed, 02 Oct 2019 11:40:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=izcdKMTlTPXdg1rZpK9PkNPTeAL5ACc5p0aT6ECn+3o=;
-        b=nr6ZKcXN/729CI5YvKkqVc0Bz2wyp7AqMiNJbnneIbJ2S8a6/RpgT+vQxveooa1g8o
-         Tzstjrebdj0ch6CBEQIhLHedt+Meqh8poQODSN2lg0OykjXXZCvv3ItaPXFO7ZImXqcW
-         RuKmutNc32nfhTfdTSE+Gn+FP0hyvVehIb12ZNHr5rdWDezRIrhU/4qCY2koq02vv9hS
-         0JYsKwzPEkKLeHC0o1yMLr4lNeC7nIidqjJQlgZ17X3hwG7uMGUGlb0FYDKstybAoxSN
-         PuzGKEISFL71Mt9LOzHTLH19Bi/ikZqtSvsTTAUBs/9/pSrhf3mQrJw/Bi+Y2mWPIur/
-         yzHQ==
+        bh=6GUBRUP2u2eKGVvnndVg7wTQG7sJk53iR61t2d44YcI=;
+        b=lNeHOOGLE0unDDY+mIojdHHkRAgF2Acc5f1ze7p0GnVLn4jH/D53ZrPRvBxDDLZTpi
+         iq8LFoDLXnFYeStL3YJhfEpKHMfcw6//ml1KkhHZ/yN37Wl49uZM+BT4m4uuLMfZSny/
+         63WYYByTRvU5/T3lAe3N98B5sxA8Hn3LLCw4jaLc3EfuVFCmJPYLFMdVV3OBdR74PzOK
+         FZy2SUAzQW/a0rzkS6tWmyF8cYRthlRfFjZBAhp6EZmFVdIf1aClZ02I/r/v4ClWOJxt
+         opOMonWvQT216Xe8hLsNzR6TuCK/oKbPxgN+N7WaUCBq4Sk7BvOm63GTlxXx3z1kSlIb
+         oegQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=izcdKMTlTPXdg1rZpK9PkNPTeAL5ACc5p0aT6ECn+3o=;
-        b=pmsHGoI1ePqZE8TLIu0Dey8pVqh1NIIj/A8bMidf6zGs1MH2FE1AqnpVY91B+3CLt4
-         8BheWaKNwiIe64AuVFIJOqTmRF+wchCvko/tc6ceKJuIY8xNxd18XG4w7zxqtj7bOmQM
-         23z+BEWQzE3U6Kc5/wR3Ro7gBJr/RNPvTtzVCBwWjkobkxurHdBt8LgZEXKKObj/ijfp
-         V1Z9ByZuI2uY3INWNDsKubaNPWcLw4eDL/a8pIDp789JIRi43c9zAMNUZiMvu13fc4ug
-         oD3vwMBWsm5OejBjBXsSYU+mE8l75Yv7FuI+nl6TSMi5293fIXUyqTuPChzLR1LiXXB7
-         3y7Q==
-X-Gm-Message-State: APjAAAWttjPq1lnPKLQ3CMBX0r/izgeFIFB8DCBRwvf1KTLBlY3nuQVw
-        rLq29wRs+YQEyzQLoW9cqqNMYGeN
-X-Google-Smtp-Source: APXvYqwrs3FB89RH0+kgXBF3ejwmYPZLTgHaLNuUiXE1AjcShSZR76+3xPYW28RCBcE0p63294782w==
-X-Received: by 2002:a17:90a:c214:: with SMTP id e20mr5758828pjt.81.1570040889544;
-        Wed, 02 Oct 2019 11:28:09 -0700 (PDT)
-Received: from [10.69.78.41] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id b14sm162486pfi.95.2019.10.02.11.28.07
+        bh=6GUBRUP2u2eKGVvnndVg7wTQG7sJk53iR61t2d44YcI=;
+        b=aBv+2GxfHeh3l7IvgvY+Bv6LAUuZPJOHY+yaw4nfJIGYr9IsYijcToJscbzG0+qer5
+         GR3YpClV7lKEGpWuSNqKgnZqi9smumCt/+8Eu8rd2lfby++xRWI1m8WphqRzf4zWFw5C
+         uuko6AstzE5LyHrsnVC6UQwGcmbmayQb1FRQzOeZxt01sK9/utAk722eSsQ0UlTgHCWY
+         lRcmzwh2WPluPtxfxXkdOX2DGnmT3FWqbTpzuSGXwHkfqj/VFBnrqS9IW0ySisjJPkSA
+         8Kka3elEjo4AN3+pZwoevZgomJmsTaAHJYk+Et94a+8LQ+mk0nsV1mcVaNB2zdPZEtQK
+         WMIg==
+X-Gm-Message-State: APjAAAVRdGApcEOFvaNEVZtQz6I7WCaiRpYMtcEDOwcmkTSMssXHk9HL
+        PuRs61vcvVDD8MLkxslWZSxueomU
+X-Google-Smtp-Source: APXvYqyF2yRcP2R0J2Y13RXkfZU+qwpGXDiZXZcE/geIai0x1MyoZbx/8bL75SzG0GITskdNxpT+dw==
+X-Received: by 2002:ac2:59c2:: with SMTP id x2mr2925012lfn.125.1570041631341;
+        Wed, 02 Oct 2019 11:40:31 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.34.231])
+        by smtp.googlemail.com with ESMTPSA id q26sm4809189lfd.53.2019.10.02.11.40.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Oct 2019 11:28:08 -0700 (PDT)
-Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org,
-        Matthias Brugger <mbrugger@suse.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        etnaviv@lists.freedesktop.org,
-        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
-        <dmaengine@vger.kernel.org>, Stefan Wahren <wahrenst@gmx.net>,
-        james.quinlan@broadcom.com, linux-pci@vger.kernel.org,
-        linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
- <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
- <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
- <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
- <43fb5fe1de317d65a4edf592f88ea150c6e3b8cc.camel@suse.de>
- <CAL_JsqLhx500cx3YLoC7HL1ux3bBpV+fEA2Qnk7D5RFGgiGzSw@mail.gmail.com>
- <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
- <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
- <307b988d0c67fb1c42166eca12742bcfda09d92d.camel@suse.de>
- <c27a51e1-1adf-ae6a-dc67-ae76222a1163@arm.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <fbae48ca-fbd4-e32b-e874-92b5bba5df4d@gmail.com>
-Date:   Wed, 2 Oct 2019 11:28:06 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        Wed, 02 Oct 2019 11:40:30 -0700 (PDT)
+Subject: Re: [PATCH v6 10/19] PM / devfreq: tegra30: Reduce unnecessary
+ interrupts activity
+To:     Chanwoo Choi <cw00.choi@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190811212315.12689-1-digetx@gmail.com>
+ <CGME20190811212533epcas4p3e4968a3397caaf8682a56105cd061cad@epcas4p3.samsung.com>
+ <20190811212315.12689-11-digetx@gmail.com>
+ <b67a7878-fa74-df89-9a62-556b9300b5a5@samsung.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <5d5bce05-1eab-7635-b684-b833b0cf00ce@gmail.com>
+Date:   Wed, 2 Oct 2019 21:40:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <c27a51e1-1adf-ae6a-dc67-ae76222a1163@arm.com>
+In-Reply-To: <b67a7878-fa74-df89-9a62-556b9300b5a5@samsung.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -90,64 +74,84 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-
-On 9/26/2019 4:20 AM, Robin Murphy wrote:
-> On 2019-09-26 11:44 am, Nicolas Saenz Julienne wrote:
->>>>>> Robin, have you looked into supporting multiple dma-ranges? It's the
->>>>>> next thing
->>>>>> we need for BCM STB's PCIe. I'll have a go at it myself if nothing
->>>>>> is in
->>>>>> the
->>>>>> works already.
->>>>>
->>>>> Multiple dma-ranges as far as configuring inbound windows should work
->>>>> already other than the bug when there's any parent translation. But if
->>>>> you mean supporting multiple DMA offsets and masks per device in the
->>>>> DMA API, there's nothing in the works yet.
->>
->> Sorry, I meant supporting multiple DMA offsets[1]. I think I could
->> still make
->> it with a single DMA mask though.
+02.10.2019 02:35, Chanwoo Choi пишет:
+> Hi,
 > 
-> The main problem for supporting that case in general is the disgusting
-> carving up of the physical memory map you may have to do to guarantee
-> that a single buffer allocation cannot ever span two windows with
-> different offsets. I don't think we ever reached a conclusion on whether
-> that was even achievable in practice.
+> On 19. 8. 12. 오전 6:23, Dmitry Osipenko wrote:
+>> There are cases where unnecessary ACTMON interrupts could be avoided,
+>> like when one memory client device requests higher clock rate than the
+>> other or when clock rate is manually limited using sysfs devfreq
+>> parameters. These cases could be avoided by tuning upper watermark or
+>> disabling hardware events when min/max boosting thresholds are reached.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/devfreq/tegra30-devfreq.c | 87 ++++++++++++++++++++++++++++---
+>>  1 file changed, 80 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+>> index 43d50b4366dd..a2623de56d20 100644
+>> --- a/drivers/devfreq/tegra30-devfreq.c
+>> +++ b/drivers/devfreq/tegra30-devfreq.c
+>> @@ -312,7 +312,8 @@ static void tegra_actmon_get_lower_upper(struct tegra_devfreq *tegra,
+>>  }
+>>  
+>>  static void tegra_devfreq_update_avg_wmark(struct tegra_devfreq *tegra,
+>> -					   struct tegra_devfreq_device *dev)
+>> +					   struct tegra_devfreq_device *dev,
+>> +					   unsigned long freq)
+>>  {
+>>  	unsigned long avg_dependency_freq, lower, upper;
+>>  
+>> @@ -320,6 +321,22 @@ static void tegra_devfreq_update_avg_wmark(struct tegra_devfreq *tegra,
+>>  
+>>  	avg_dependency_freq = tegra_actmon_dev_avg_dependency_freq(tegra, dev);
+>>  
+>> +	/*
+>> +	 * If cumulative EMC frequency selection (MCALL / min_freq) is
+>> +	 * higher than the device's, then there is no need to set upper
+>> +	 * watermark to a lower value because it will result in unnecessary
+>> +	 * upper interrupts.
+>> +	 *
+>> +	 * Note that average watermarks are also updated after EMC
+>> +	 * clock rate change, hence if clock rate goes down, then the
+>> +	 * watermarks will be set in accordance to the new rate after
+>> +	 * changing the rate. There are other ways to achieve the same
+>> +	 * result, but this one is probably the least churning, although
+>> +	 * it may look a bit convoluted.
+>> +	 */
+>> +	if (freq * ACTMON_SAMPLING_PERIOD > upper)
+>> +		upper = freq * ACTMON_SAMPLING_PERIOD;
+>> +
+>>  	/*
+>>  	 * We want to get interrupts when MCCPU client crosses the
+>>  	 * dependency threshold in order to take into / out of account
+>> @@ -361,7 +378,18 @@ static void tegra_devfreq_update_wmark(struct tegra_devfreq *tegra,
+>>  	tegra_actmon_get_lower_upper(tegra, dev, freq - 1, &lower, &upper);
+>>  
+>>  	delta = do_percent(upper - lower, dev->config->boost_up_threshold);
+>> -	device_writel(dev, lower + delta, ACTMON_DEV_UPPER_WMARK);
+> 
+> 
+> Also, this patch edits the added codes on front patch.
+> This code was added on patch5 and then delete it on this patch.
+> If it is not necessary, you can remove it on patch5 by refactoring.
+> 
+>> +
+>> +	/*
+>> +	 * The memory events count could go a bit higher than the maximum
+>> +	 * defined by the OPPs, hence make the upper watermark infinitely
+>> +	 * high to avoid unnecessary upper interrupts in that case.
+>> +	 */
+>> +	if (freq == tegra->max_freq)
+>> +		upper = ULONG_MAX;
+>> +	else
+>> +		upper = lower + delta;
+>> +
+>> +	device_writel(dev, upper, ACTMON_DEV_UPPER_WMARK);
+> 
+> I think that the changes of tegra_devfreq_update_avg_wmark() on this patch
+> can be merged to patch5.
 
-It is with the Broadcom STB SoCs which have between 1 and 3 memory
-controllers depending on the SoC, and multiple dma-ranges cells for PCIe
-as a consequence.
-
-Each memory controller has a different physical address aperture in the
-CPU's physical address map (e.g.: MEMC0 is 0x0 - 0x3fff_ffff, MEMC1
-0x4000_0000 - 0x7ffff_ffff and MEMC2 0x8000_0000 - 0xbfff_ffff, not
-counting the extension regions above 4GB), and while the CPU is
-scheduled and arbitrated the same way across all memory controllers
-(thus making it virtually UMA, almost) having a buffer span two memory
-controllers would be problematic because the memory controllers do not
-know how to guarantee the transaction ordering and buffer data
-consistency in both DRAM itself and for other memory controller clients,
-like PCIe.
-
-We historically had to reserve the last 4KB of each memory controller to
-avoid problematic controllers like EHCI to prefetch beyond the end of a
-memory controller's populated memory and that also incidentally takes
-care of never having a buffer cross a controller boundary. Either you
-can allocate the entire buffer on a given memory controller, or you
-cannot allocate memory at all on that zone/region and another one must
-be found (or there is no more memory and there is a genuine OOM).
-
-The way we reserve memory right now is based on the first patch
-submitted by Jim:
-
-https://lore.kernel.org/patchwork/patch/988469/
-
-whereby we read the memory node's "reg" property and we map the physical
-addresses to the memory controller configuration read from the specific
-registers in the CPU's Bus Interface Unit (where the memory controller
-apertures are architecturally defined) and then we use that to call
-memblock_reserve() (not part of that patch, it should be though).
--- 
-Florian
+Okay, I'll revisit these parts of tegra_devfreq_update_avg_wmark() and will move them to
+patch5 if there won't be any major obstacles.
