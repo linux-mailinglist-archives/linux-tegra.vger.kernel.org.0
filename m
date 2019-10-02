@@ -2,252 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E3ACC4B21
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 12:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68C36C4B4F
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 12:23:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727739AbfJBKLI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Oct 2019 06:11:08 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:37684 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727409AbfJBKLI (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 06:11:08 -0400
-Received: by mail-wm1-f68.google.com with SMTP id f22so6332734wmc.2;
-        Wed, 02 Oct 2019 03:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=M4UUQ+aEuggjcZX2H/YTgUQiAaMcYcQjkAJllVSG030=;
-        b=ZitNU5uTOmbFx7v1UniRtun/Yc0QcBGI4ZlhH3ocFzm2Om4WZMqgez9edaLqGUy/wZ
-         rXiJ1jD3b7gHCDTCXk3TXmkrKJhU4j3sa2jPEedqRsn1o5bY/zHIWUqGZHr9nSc0/sQI
-         c1W47Ymmq81Ry9D+Ea2cYb39cuOAloJhWV6xHC5X004coWH6LBa5st2w0s89USKtV4IB
-         +YgQqVuehCMt0t/GUIZvYZdBDCHFG/Ld/Z/9BGfdQ/U+PwdclygOEBe1+8J7x+flBgfv
-         BDDjyolCPBP4sAbj21AMZkcRYLOR0UTkSfplMiljla9I4Tu9+eSfGjpBJVCm6AJjIUEx
-         iMoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=M4UUQ+aEuggjcZX2H/YTgUQiAaMcYcQjkAJllVSG030=;
-        b=Yl1NuhtJlPxIk5PpqSD2xuxHz1f1VDUa1GnMVEQteWsBZFDqHIN0KOtoT3DyGsxjiE
-         HU/yS7+Hhn5B46rzRFvFvgxUMlCpQTu61WioRofCA82Nhb1/4blcvEU2ZbMTwc5Mc42T
-         qkkVy0B5VaLKgdlQ/InNBYOWKgNpKFAVXhI176PC1f20BuYXJZ1l4QFTidsSdvz+cy9t
-         FqsO9aiGWN3o8lJZCO9bybRetIZ0CWKWAx28wHFesHrGtsu8Dl2HwT92YKtQLnGjwH/m
-         /f7uTAMLs+oD95TVuHL5zhxa/L0cfAkJk7T2vg8bKw5RdiUDGGK2XOsIZnNFWRPTxEG1
-         4XIQ==
-X-Gm-Message-State: APjAAAUPMEi0ZnosgP7KUctOLsq5b8xfIjlr52zORjFxOn078mDqjz6p
-        U+cIopKlo8QJqmMRDeVcWW4=
-X-Google-Smtp-Source: APXvYqzqtvIJ5BH8JA2ViQyMstGCjhKX2rgAAsWWNSo4aGPTtquUMKlxj2BQl2aPvnloImVstqW7lw==
-X-Received: by 2002:a7b:cd11:: with SMTP id f17mr2181454wmj.12.1570011064811;
-        Wed, 02 Oct 2019 03:11:04 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id b22sm4964600wmj.36.2019.10.02.03.11.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2019 03:11:03 -0700 (PDT)
-Date:   Wed, 2 Oct 2019 12:11:02 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     JC Kuo <jckuo@nvidia.com>
-Cc:     gregkh@linuxfoundation.org, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        nkristam@nvidia.com, skomatineni@nvidia.com
-Subject: Re: [PATCH 5/6] arm64: tegra: Add XUSB and pad controller on Tegra194
-Message-ID: <20191002101102.GG3716706@ulmo>
-References: <20191002080051.11142-1-jckuo@nvidia.com>
- <20191002080051.11142-6-jckuo@nvidia.com>
+        id S1726411AbfJBKXx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Oct 2019 06:23:53 -0400
+Received: from mail-eopbgr00139.outbound.protection.outlook.com ([40.107.0.139]:7161
+        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726128AbfJBKXx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 2 Oct 2019 06:23:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=exT9tyCLyVdWgWZlwZjptF9Y+GgIZ++KB2fpyD0vEwMC58q6c886cAPBfNAS7Rmnpo6b8lfmNaVplA1beUK1EN5zbsmSxcK27UjMqV91RzqhIp4w34OVeACOQNDcTAoMS5VclMRNZUbBbhtOqWdOgdJKAsItUEq/VFrv0G38Q4cXPAYnPGEN22jzVgwvQNHT37Zr02URRTU4KeqKnpCNiZA+AoScnbxOKk9ax4M8bzQ2SPe6tKoJkxiGFFJ2fd06Ph+Mop6M1SjSYufOp+iCoK7w/S+HiuCGw+AH7oztyuZK/2XHzxJZ6KHwn5/sDdnqeLUgY6EnLdWoerJRQ/Jqsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i6ZQ83+A7Mmm95Dvysl2xOE7jcCYBP45e0UNhynw+wY=;
+ b=O8KhEqNmI/gxnYpmJjH94SXQM0i1cpICpcuiP/cgZdW+w9sIEiV6Ejw0Nl1OZagUg2P2dNVgJeThb6T9qwFIWxGMK/rY841TzpY5pdCkf8k12Tyt9mBYv/DnJcR5QWPgBl8u6Vx0CCyddJE72Hk0ogmWgSKduHgySCUNrB7yZLiV91D0ln8JubwTA8xt1+6PIeVoOe8cJXVLJ2I3ITq4GM2rUo4VngVgDmEgYFmXhwEdwSubANGQ2RM98DrmtVsdXQ5jKf5R/irHUi7HdCe2KCOXZ+vB8rjPKox8sXUIgj+Bdu+J4IGPkMM5G3324K0Pdc8+ldBH7K28qfDzPtf6Yg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=toradex.com; dmarc=pass action=none header.from=toradex.com;
+ dkim=pass header.d=toradex.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i6ZQ83+A7Mmm95Dvysl2xOE7jcCYBP45e0UNhynw+wY=;
+ b=XnBiiw3NoGma4ds81QjBuB1pUXA6sAeHalHle6IPVk1+GOMiv7WEH9Yjs4LRHTf+r5GR88SwFfWo6jlTunZeokzcT8H/baIGxrUUItNWrT7McWQy49J3puAolLxg/S7lUYQBUXCZhhe7CMr+0iHNRxDm0yZmoyHuIpXjAymhboo=
+Received: from VI1PR0502MB3965.eurprd05.prod.outlook.com (52.134.19.20) by
+ VI1PR0502MB4096.eurprd05.prod.outlook.com (52.134.19.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2305.20; Wed, 2 Oct 2019 10:23:48 +0000
+Received: from VI1PR0502MB3965.eurprd05.prod.outlook.com
+ ([fe80::f427:26bb:85cf:abad]) by VI1PR0502MB3965.eurprd05.prod.outlook.com
+ ([fe80::f427:26bb:85cf:abad%7]) with mapi id 15.20.2305.017; Wed, 2 Oct 2019
+ 10:23:48 +0000
+From:   Philippe Schenker <philippe.schenker@toradex.com>
+To:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>
+CC:     "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>
+Subject: Re: [RESEND PATCH] ARM: dts: Add stmpe-adc DT node to Toradex T30
+ modules
+Thread-Topic: [RESEND PATCH] ARM: dts: Add stmpe-adc DT node to Toradex T30
+ modules
+Thread-Index: AQHVUo6HlKoSMlWVHkKJ8B1IIQyZPadGJbOAgAFMJAA=
+Date:   Wed, 2 Oct 2019 10:23:48 +0000
+Message-ID: <bb7d6d2309ba9ad781b65e7eecb2cc61c0b91e3e.camel@toradex.com>
+References: <20190814105318.21902-1-philippe.schenker@toradex.com>
+         <20191001143501.GA3566931@ulmo>
+In-Reply-To: <20191001143501.GA3566931@ulmo>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=philippe.schenker@toradex.com; 
+x-originating-ip: [46.140.72.82]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f63f4f24-1a75-4d77-5b29-08d747229d30
+x-ms-traffictypediagnostic: VI1PR0502MB4096:
+x-microsoft-antispam-prvs: <VI1PR0502MB409623A983726AFD7598049FF49C0@VI1PR0502MB4096.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
+x-forefront-prvs: 0178184651
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(366004)(396003)(39840400004)(346002)(376002)(189003)(199004)(6512007)(6116002)(3846002)(26005)(256004)(6916009)(6486002)(54906003)(76176011)(66446008)(64756008)(76116006)(102836004)(66946007)(66476007)(66556008)(91956017)(2351001)(66066001)(86362001)(6246003)(2906002)(305945005)(7736002)(6506007)(2501003)(1361003)(25786009)(186003)(8676002)(4326008)(81156014)(71190400001)(5660300002)(71200400001)(6436002)(36756003)(478600001)(476003)(446003)(14454004)(11346002)(99286004)(2616005)(316002)(44832011)(8936002)(486006)(118296001)(229853002)(5640700003)(4744005)(81166006);DIR:OUT;SFP:1102;SCL:1;SRVR:VI1PR0502MB4096;H:VI1PR0502MB3965.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: toradex.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZNG+vKMzWYlRl7fmiTunosAbbmmBl/5StiDScjd5qOD4OF3wRILGyMzyCJWZmsEE0ADFZWGp1wy9ArR2mfHYe/NgSI1g3ozpQgJqQ2CkLW8fEvaGngzMQPasICYs9Ezrxt7r1dg5K3t+VL7+OoSJKEkN8o4JPxmt26GU3K2IQrE1CsgHlSXWZAslBzeW2YP0hJdB+aWsJYJg10D7Co7iETF7bUc1BEbLTgUmLhOWFPRaIchGyh4CqJlzD5G+g5B1aobC8tBPjfE4S0Rg/HeLIvYf9dFrPzgL0HFcqSULqKaTj93gUOvumZuOPaQ0uR3YytpTAGyOMlM64LyytbGT/EGOHCN5hNzAEBX1oXiWkZlzaWUE6ZOQoSzGwNezpm00fUdFjAeOY/IlCwuR9D6OXNxUcKYGaDjeX4WtzwmseBY=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <78943F9AA902334689BC841379E01580@eurprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kadn00tgSopKmJ1H"
-Content-Disposition: inline
-In-Reply-To: <20191002080051.11142-6-jckuo@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+X-OriginatorOrg: toradex.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f63f4f24-1a75-4d77-5b29-08d747229d30
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2019 10:23:48.6877
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uHsSJvlRFjOccuQtYl9Os3ZgjFILuj/GfsUIyikhVfBXxttgjR4dmBN8MkznVUklnYtg0TI3SjqTJBMqo8TcFf+Y1qGIAa0K1otXKuMQqY0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0502MB4096
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
---kadn00tgSopKmJ1H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 02, 2019 at 04:00:50PM +0800, JC Kuo wrote:
-> Adds the XUSB pad and XUSB controllers on Tegra194.
->=20
-> Signed-off-by: JC Kuo <jckuo@nvidia.com>
-> ---
->  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 130 +++++++++++++++++++++++
->  1 file changed, 130 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/d=
-ts/nvidia/tegra194.dtsi
-> index 3c0cf54f0aab..4d3371d3a407 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> @@ -1599,4 +1599,134 @@
->  		interrupt-parent =3D <&gic>;
->  		always-on;
->  	};
-> +
-> +	xusb_padctl: padctl@3520000 {
-
-I also noticed that this is outside of the /cbb bus node. It really
-belongs inside /cbb. Same for the XHCI controller node.
-
-Thierry
-
-> +		compatible =3D "nvidia,tegra194-xusb-padctl";
-> +		reg =3D <0x0 0x03520000 0x0 0x1000>,
-> +			<0x0 0x03540000 0x0 0x1000>;
-> +		reg-names =3D "padctl", "ao";
-> +
-> +		resets =3D <&bpmp TEGRA194_RESET_XUSB_PADCTL>;
-> +		reset-names =3D "padctl";
-> +
-> +		status =3D "disabled";
-> +
-> +		pads {
-> +			usb2 {
-> +				clocks =3D <&bpmp TEGRA194_CLK_USB2_TRK>;
-> +				clock-names =3D "trk";
-> +
-> +				lanes {
-> +					usb2-0 {
-> +						nvidia,function =3D "xusb";
-> +						status =3D "disabled";
-> +						#phy-cells =3D <0>;
-> +					};
-> +					usb2-1 {
-> +						nvidia,function =3D "xusb";
-> +						status =3D "disabled";
-> +						#phy-cells =3D <0>;
-> +					};
-> +					usb2-2 {
-> +						nvidia,function =3D "xusb";
-> +						status =3D "disabled";
-> +						#phy-cells =3D <0>;
-> +					};
-> +					usb2-3 {
-> +						nvidia,function =3D "xusb";
-> +						status =3D "disabled";
-> +						#phy-cells =3D <0>;
-> +					};
-> +				};
-> +			};
-> +			usb3 {
-> +				lanes {
-> +					usb3-0 {
-> +						nvidia,function =3D "xusb";
-> +						status =3D "disabled";
-> +						#phy-cells =3D <0>;
-> +					};
-> +					usb3-1 {
-> +						nvidia,function =3D "xusb";
-> +						status =3D "disabled";
-> +						#phy-cells =3D <0>;
-> +					};
-> +					usb3-2 {
-> +						nvidia,function =3D "xusb";
-> +						status =3D "disabled";
-> +						#phy-cells =3D <0>;
-> +					};
-> +					usb3-3 {
-> +						nvidia,function =3D "xusb";
-> +						status =3D "disabled";
-> +						#phy-cells =3D <0>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		ports {
-> +			usb2-0 {
-> +				status =3D "disabled";
-> +			};
-> +			usb2-1 {
-> +				status =3D "disabled";
-> +			};
-> +			usb2-2 {
-> +				status =3D "disabled";
-> +			};
-> +			usb2-3 {
-> +				status =3D "disabled";
-> +			};
-> +			usb3-0 {
-> +				status =3D "disabled";
-> +			};
-> +			usb3-1 {
-> +				status =3D "disabled";
-> +			};
-> +			usb3-2 {
-> +				status =3D "disabled";
-> +			};
-> +			usb3-3 {
-> +				status =3D "disabled";
-> +			};
-> +		};
-> +	};
-> +
-> +	tegra_xhci: xhci@3610000 {
-> +		compatible =3D "nvidia,tegra194-xusb";
-> +		reg =3D <0x0 0x03610000 0x0 0x40000>,
-> +			<0x0 0x03600000 0x0 0x10000>;
-> +		reg-names =3D "hcd", "fpci";
-> +
-> +		interrupts =3D <GIC_SPI 163 IRQ_TYPE_LEVEL_HIGH>,
-> +				<GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH>,
-> +				<GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +		clocks =3D <&bpmp TEGRA194_CLK_XUSB_CORE_MUX>,
-> +			<&bpmp TEGRA194_CLK_XUSB_CORE_HOST>,
-> +			<&bpmp TEGRA194_CLK_XUSB_CORE_SS>,
-> +			<&bpmp TEGRA194_CLK_XUSB_FALCON>,
-> +			<&bpmp TEGRA194_CLK_XUSB_FALCON_HOST>,
-> +			<&bpmp TEGRA194_CLK_XUSB_FALCON_SS>,
-> +			<&bpmp TEGRA194_CLK_XUSB_FS>,
-> +			<&bpmp TEGRA194_CLK_XUSB_FS_HOST>,
-> +			<&bpmp TEGRA194_CLK_XUSB_SS>,
-> +			<&bpmp TEGRA194_CLK_XUSB_SS_SUPERSPEED>,
-> +			<&bpmp TEGRA194_CLK_UTMIPLL>,
-> +			<&bpmp TEGRA194_CLK_CLK_M>,
-> +			<&bpmp TEGRA194_CLK_PLLE>;
-> +		clock-names =3D "xusb_hs_src", "xusb_host",
-> +			"xusb_core_superspeed_clk", "xusb_falcon_src",
-> +			"xusb_falcon_host_clk", "xusb_falcon_superspeed_clk",
-> +			"xusb_fs_src", "xusb_fs_host_clk", "xusb_ss_src",
-> +			"xusb_ss", "pll_u_480m", "clk_m", "pll_e";
-> +
-> +		power-domains =3D <&bpmp TEGRA194_POWER_DOMAIN_XUSBC>,
-> +				<&bpmp TEGRA194_POWER_DOMAIN_XUSBA>;
-> +		power-domain-names =3D "xusb_host", "xusb_ss";
-> +
-> +		nvidia,xusb-padctl =3D <&xusb_padctl>;
-> +		status =3D "disabled";
-> +	};
->  };
-> --=20
-> 2.17.1
->=20
-
---kadn00tgSopKmJ1H
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2Ud7YACgkQ3SOs138+
-s6Fc4g//doxqb6jUWGiWBzZ1ER+mEG+TxHEsnsZJ/r1205w9wyN+WLLEKkrDVwKN
-yaB/7/4TlwCg8HEs6pDMwn4puU8kiRoMLQM6jekI4NtExurKLV9JhkAnA0l7J+nJ
-bKDeewgv04CqzYIeGg+NeveI8nheTlbg2qFXrQxbjZHqUYouRBUJhaUB9yH+8+qo
-Mg6phXNr6e63bqy8lE0cNDi3QFNKn1tRdYJ/1/Cmd+UiZzFy2JJr6Df0ca9xIU/8
-zHpvUO5Gft4lof1wbTgRuJT93O/Tpul431noSIA2FJbUWfWdMeHoq9iO0RsQ2jrW
-9BKWV966H2mFyt4RZtRehlcE9T4R8z7VkV63hrCK39ggLywmARIgUdYXtl9bjn1K
-/OCbCPsthITfuXBCOhrfeNCysrCHwOA5VeAtISI0xnCPAogAdTplmpWPJY9XZDz1
-XkzE0UZG59YF5x1+JRwbamJ0WP28NUXemhD3MX5fbWwBRcK3B5roTnQHxyYcyCOS
-/DVknEU893JRCqi70kB67zZu2nGICC6peiTdJZMHovaXQHOi/2YK7F/qRli3DCkd
-aakqavcDQt1AGgEry9wg0NEyBG9ltPIZThnUCTveu+9oBtMGutRBsNNu8kT6bIww
-4+7VyitnJWyw0lFGu7C4n8+Y0pWqeTxI++yOnuosM+q0wz2g7LM=
-=l7N3
------END PGP SIGNATURE-----
-
---kadn00tgSopKmJ1H--
+T24gVHVlLCAyMDE5LTEwLTAxIGF0IDE2OjM1ICswMjAwLCBUaGllcnJ5IFJlZGluZyB3cm90ZToN
+Cj4gT24gV2VkLCBBdWcgMTQsIDIwMTkgYXQgMTA6NTM6MzhBTSArMDAwMCwgUGhpbGlwcGUgU2No
+ZW5rZXIgd3JvdGU6DQo+ID4gQWRkIHRoZSBzdG1wZS1hZGMgRFQgbm9kZSBhcyBmb3VuZCBvbiBU
+b3JhZGV4IFQzMCBtb2R1bGVzDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogUGhpbGlwcGUgU2No
+ZW5rZXIgPHBoaWxpcHBlLnNjaGVua2VyQHRvcmFkZXguY29tPg0KPiA+IA0KPiA+IC0tLQ0KPiA+
+IA0KPiA+ICBhcmNoL2FybS9ib290L2R0cy90ZWdyYTMwLWFwYWxpcy12MS4xLmR0c2kgfCAyMiAr
+KysrKysrKysrKysrKy0tLS0tDQo+ID4gLS0tDQo+ID4gIGFyY2gvYXJtL2Jvb3QvZHRzL3RlZ3Jh
+MzAtYXBhbGlzLmR0c2kgICAgICB8IDIyICsrKysrKysrKysrKysrLS0tLS0NCj4gPiAtLS0NCj4g
+PiAgYXJjaC9hcm0vYm9vdC9kdHMvdGVncmEzMC1jb2xpYnJpLmR0c2kgICAgIHwgMjIgKysrKysr
+KysrKysrKystLS0tLQ0KPiA+IC0tLQ0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDQyIGluc2VydGlv
+bnMoKyksIDI0IGRlbGV0aW9ucygtKQ0KPiANCj4gQXBwbGllZCB0byBmb3ItNS41L2FybS9kdCAs
+IHRoYW5rcy4NCj4gDQo+IFRoaWVycnkNCg0KVGhhbmsgeW91IHZlcnkgbXVjaCENCg0KUGhpbGlw
+cGUNCg==
