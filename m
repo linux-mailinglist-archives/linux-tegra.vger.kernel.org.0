@@ -2,44 +2,45 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E176C45A5
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 03:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13983C45A6
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 03:42:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729630AbfJBBmF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S1729638AbfJBBmF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Tue, 1 Oct 2019 21:42:05 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:36371 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727782AbfJBBmF (ORCPT
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:37285 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729617AbfJBBmF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>); Tue, 1 Oct 2019 21:42:05 -0400
-Received: by mail-qt1-f195.google.com with SMTP id o12so24310767qtf.3
+Received: by mail-qt1-f194.google.com with SMTP id l3so24289278qtr.4
         for <linux-tegra@vger.kernel.org>; Tue, 01 Oct 2019 18:42:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=xit24kqcKOsHmHtuflSHWZ7nJpkGllTJJ3cdJK9yAI0=;
-        b=U++yVZAnOvkQ5/PJZnYthLb4oO/9xi3Ch/Gs8mOeuywU6Nr90e7ilIC2jH4quqdDyA
-         wjr7GsoJvlUy3SS08E76WddRjn3Q5TfHS4wy6PGUpx4X5bsOtIRazlcJGJuMGNscIe+r
-         qegorLgPGtWPCSE2TGZBV9s/jkDSDQHzRdu4hfm1tilfkRiQMRLQPX4gD+wWTAcs00jr
-         0lX3psk7aRzQnkwZC/E1XJXOSCRlEMOGiDAjktLhJUdF5XLzCB7meQ+LuDkpAHdrX4Bj
-         BH2g/JI7/VhlsKADVorVSRUwyhmDlgE2X3jbEppc38wxL45dvMz5zSjGQFulairwxMkk
-         QhSQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=/wAqReNHT4npRUh/HHTCRIhgNxDxaBuQ/+Ij9+QrHS8=;
+        b=autmk5aJlUlb/SYUyrtpA10uhayB5HQB0Vj+rLOCC18mGr0Hj7FJ+JUBq9gHqOpIQB
+         7ae0wjmPlZYRyIYeOF1Uj430SZeNZi2BCRBblPgIj0PtCWsn9br3sR+zO3n4GcS3XfYt
+         eJb5tUGmFvE6kcUxwUz5WoZnqbUZY/2IqFYs32TWwgApaAIHxLC+xGGYOim9cLRmEqpG
+         9HQ4RslrfKOhgqo9vE60NPDKnODGhIPz6ZVV7TfwW67JmUrtm3r8gB+ZXAxteIe6gd3n
+         TJR5/v7Rjh+yKcqy0ZPEnRrMg0RjTloIhxdWpnLv4WRCIu8P55kj7XjGSsberUOrsmKo
+         e0vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=xit24kqcKOsHmHtuflSHWZ7nJpkGllTJJ3cdJK9yAI0=;
-        b=dQFMvETSbIRvdUsH5lJkul9Bc0SLWiu7c9mIi0jBZkFTalMxeSvSS1ZqL9otZ6y3nT
-         ZjfpN/AvzMY8h7Xhj6calHvvmlvWRbwgZJ1u2POsW/xsUeTjyKUN9CtYvbnoSp+Rly7T
-         N8WysysANNO0PLC9Zz0zHqATVtYCxmXiEw9QUn+GYlolZsNydbQ+I6FIH2436kbep+mr
-         jNRsoARmzayQFwUV3pJtrQWUSj5zIinNA0c0yifWRdEDt/u2ZzHWThB2QZ6ydkc2+vAQ
-         MnIVF5QPGpD8dPsh6ngC6vhNtBbl3NP3UF12HoHutWRkcIA9U6BThGEFHXZdEjYFYWkU
-         Q1Ww==
-X-Gm-Message-State: APjAAAWioczASLJZsq6aEmA9H+B5sbU37TEGuHbfqICxeMoE0uHMp1cI
-        2J2Z4YRYn3XipcSmTs7XJLM=
-X-Google-Smtp-Source: APXvYqxqnJbX56XlMuuvBfIf6Y887TKUk+S1MxoJlxASQ61DANWMm+ymY+N1EXtfuYesifp1Qk1Pdg==
-X-Received: by 2002:a0c:9369:: with SMTP id e38mr927888qve.25.1569980523698;
-        Tue, 01 Oct 2019 18:42:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=/wAqReNHT4npRUh/HHTCRIhgNxDxaBuQ/+Ij9+QrHS8=;
+        b=VdAe7XsfXGKi3xPm5JzUaewIIT3j2g4/DVNUfrCD9ABnj4XO9c0n3vlOOx6Z21tcf8
+         LBV1Kn/sEVT5igQKuz2yfMyW3si7AB1WZGQn69WZCKT0OjRxqcOlf09P0Zxh0T+IDIzO
+         QPOqgUDav6K8FAXvEavQdnMqAcdzg5/TuLqkaVRAxEcY/WXyOx3LFIm90yUCfB7cv1Mj
+         XHVK9zJlIaHOuVrOXA+z/2waZUCyLyaX2MiVT/VMxPd3CoDS1DxGOeux97eGtdsjG9dn
+         OaaJPxwh5hbqcZrlqaFfaywhix7YqBxDygRsF/KN0FJKxX47hfGHdLNL2d/h8ZNMm6qN
+         EpyQ==
+X-Gm-Message-State: APjAAAXA2qqt+C8dCCqCJ5Tirq2xhnToz1YRMp9yxA5+GOVMwqLCns1o
+        D+M+6tw1f4pczeGDA3JEVWY=
+X-Google-Smtp-Source: APXvYqzEPV1tBf7vntsGNDGi5yhr4gnc5YtFYEZ6dRAatb+2A2YmAPIK2x2WmZ8pXkrggQmCk/QcIg==
+X-Received: by 2002:a05:6214:801:: with SMTP id df1mr963591qvb.54.1569980524225;
+        Tue, 01 Oct 2019 18:42:04 -0700 (PDT)
 Received: from master-laptop.pgwipeout.duckdns.org ([2601:153:900:a52:cd3f:2362:443a:b8eb])
-        by smtp.gmail.com with ESMTPSA id o52sm12212033qtf.56.2019.10.01.18.42.02
+        by smtp.gmail.com with ESMTPSA id o52sm12212033qtf.56.2019.10.01.18.42.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 01 Oct 2019 18:42:03 -0700 (PDT)
 From:   Peter Geis <pgwipeout@gmail.com>
@@ -47,43 +48,41 @@ To:     Dmitry Osipenko <digetx@gmail.com>,
         Peter Chen <peter.chen@nxp.com>,
         Thierry Reding <thierry.reding@gmail.com>
 Cc:     linux-tegra@vger.kernel.org
-Subject: [RFC] [PATCH 0/5] enable tegra-udc host mode
-Date:   Tue,  1 Oct 2019 21:41:48 -0400
-Message-Id: <20191002014153.29831-1-pgwipeout@gmail.com>
+Subject: [PATCH 1/5] usb: chipidea: tegra: add tegra specific flags for host mode
+Date:   Tue,  1 Oct 2019 21:41:49 -0400
+Message-Id: <20191002014153.29831-2-pgwipeout@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191002014153.29831-1-pgwipeout@gmail.com>
+References: <20191002014153.29831-1-pgwipeout@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch set enables the tegra-udc driver to take the place of
-tegra-ehci as the usb host driver.
-It fixes up some checks in the tegra-udc driver.
-It pulls the tegra specific bits from the tegra-ehci driver.
+Tegra controllers require special handlers for aligned dma, as generic
+helpers do not exist yet. Add a flag to set for Tegra devices to permit
+these handlers.
+Also, some Tegra controllers require a double reset, set from the device
+tree. Add a flag for this as well.
 
-It would be better to have generic helpers in the dma core that can
-handle alignment, instead of using tegra specific helpers, but that is
-well above my skillset.
+Signed-off-by: Peter Geis <pgwipeout@gmail.com>
+---
+ include/linux/usb/chipidea.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I haven't checked OTG functionality, mostly because I don't have any
-devices with working OTG yet.
-
-Please review and submit feedback.
-
-Peter Geis (5):
-  usb: chipidea: tegra: add tegra specific flags for host mode
-  usb: chipidea: tegra: clean up tegra_udc flag code
-  usb: chipidea: tegra: add dr_mode checking to tegra-udc
-  usb: chipidea: tegra: add the tegra specific bits
-  usb: chipidea: tegra: enable tegra-udc host mode
-
- drivers/usb/chipidea/ci_hdrc_tegra.c |  53 ++++++---
- drivers/usb/chipidea/host.c          |  13 +++
- drivers/usb/chipidea/tegra.h         | 159 +++++++++++++++++++++++++++
- include/linux/usb/chipidea.h         |   2 +
- 4 files changed, 209 insertions(+), 18 deletions(-)
- create mode 100644 drivers/usb/chipidea/tegra.h
-
+diff --git a/include/linux/usb/chipidea.h b/include/linux/usb/chipidea.h
+index edd89b7c8f18..88cc13fe582f 100644
+--- a/include/linux/usb/chipidea.h
++++ b/include/linux/usb/chipidea.h
+@@ -62,6 +62,8 @@ struct ci_hdrc_platform_data {
+ #define CI_HDRC_REQUIRES_ALIGNED_DMA	BIT(13)
+ #define CI_HDRC_IMX_IS_HSIC		BIT(14)
+ #define CI_HDRC_PMQOS			BIT(15)
++#define CI_HDRC_TEGRA_HOST		BIT(16)
++#define CI_HDRC_TEGRA_DOUBLE_RESET	BIT(17)
+ 	enum usb_dr_mode	dr_mode;
+ #define CI_HDRC_CONTROLLER_RESET_EVENT		0
+ #define CI_HDRC_CONTROLLER_STOPPED_EVENT	1
 -- 
 2.17.1
 
