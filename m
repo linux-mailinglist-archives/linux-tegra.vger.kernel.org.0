@@ -2,66 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DFAE8C86EB
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 13:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECE7AC86FF
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 13:09:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbfJBLFC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Oct 2019 07:05:02 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:50322 "EHLO
+        id S1726830AbfJBLJS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Oct 2019 07:09:18 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:50874 "EHLO
         mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725917AbfJBLFC (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 07:05:02 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 5so6727362wmg.0;
-        Wed, 02 Oct 2019 04:04:58 -0700 (PDT)
+        with ESMTP id S1725991AbfJBLJS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 07:09:18 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 5so6741196wmg.0
+        for <linux-tegra@vger.kernel.org>; Wed, 02 Oct 2019 04:09:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=hzHiNYwEiQMY1fQfolaX55jjgo9qLlhwuZiwsuSVSjk=;
-        b=lb/xNqmMYB8GiTdRbmVtRVwbbWCvqiKM9Bq2DlqnOdT1yV1ZXIvHy5DSfXhT2ySOZU
-         NxxIgsgOtdtaPUF07kwEHY1+QhH7+HLjQ4OeOFLDcpNECezGowa/TOrIOF/9v4ZAbkwZ
-         dGNTIVnypie+aL36RZk/i38s6HKQCq6UAL5H6cJFPOpMCEND/KQ3as+7ScOcm0oyL9hO
-         i7kbRFJpyamg3ZMTpOPAVeBvz/63SuOZPJeF5n5XhQ6ANijKQhSk/r9dROmQAq6z3Gsi
-         CD+c9NhM1NIyfqQbbT+ccf/KVYAcATPK8PyjbD3Yloe5H0prWLuBNTRb+2MOep0hYxUG
-         FD5w==
+        bh=jgjMsC7beB8zo8v1aQO1WszGxosYgUMZyGMZlQt0X2s=;
+        b=a0tBJV9aMhV4TOpNnff91qpWUbuiJ1FJLfDus5Wb4wVvD0dbwx65FV26qN7bBn/A84
+         F0dT1cNbyZ+uqpbUzK1ZNn4f0/x7biw1H6+eEl0M0yLHWDcYWvDuiCjP9ni9OaKpaDZ3
+         qRxG1nbEFl6BXa3sMe5KR1+sr3cjcdUvRg++aGx10F1C7vGVVLan8fUbGkFux4jA5cTE
+         SE8aPByT+1pDqFQ1FqkPH1+V3a+rdtKpmRtJeDlJzaA71dh9gTUDAS8IX84+MuIom6E9
+         V3nIUfDNB6a7wmegzhz3mrUB3X4sJRGpyaganIg4KgrMJ97klYWpZ42XZOWi5nConPja
+         ysQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hzHiNYwEiQMY1fQfolaX55jjgo9qLlhwuZiwsuSVSjk=;
-        b=TQhD6tN5ytnUk4SeUExfPVLT87MNwHKe46YWLKN4g8ND6zdIZpLv75yo/ktZ1BTvzw
-         jsCwA5vIEEZj1c/70f5h0Slf2ZxD9PMTBsfvkHY3Jo+jRCVeZdxaTbsNRqFNzXgDEe6U
-         O7qzSm9dBWNFS6kD3c4g+vzRcthInZgz8Q+N1SoajLzEcEQOsNmB2enTDnDIniMkf9+c
-         5GyZwiBUDzlHTFj3Juxp8+iI89yjhxEIxO87ktyS8MsnIwGkz0OLMDIivBmh/e5XsrRL
-         XGYElcQKqbDhIYfo6LeG8KhB6AObkF/OOSiapXXDPGF1vf3IrEsf7JV+cQ64lo+/NyNL
-         UJ/w==
-X-Gm-Message-State: APjAAAWVj/WXEl24YqytH3wi9zSZsodcEotg+O/hzK7mdbijcDEcbYya
-        ZmEE68sz9s1IouWOhEEAL90=
-X-Google-Smtp-Source: APXvYqxK+eN/tu6LMT3Jp958TgJOonu+QZb5u78vyMwFWSzhIw3yjXT0Lr1eTKTtPaYMkuG3AXtkkg==
-X-Received: by 2002:a1c:9c52:: with SMTP id f79mr2386773wme.89.1570014297525;
-        Wed, 02 Oct 2019 04:04:57 -0700 (PDT)
+        bh=jgjMsC7beB8zo8v1aQO1WszGxosYgUMZyGMZlQt0X2s=;
+        b=fDKe33f01ek4a3CQ7NtGOz5lz7qNDB0/HvwvE8oFdHjCoKO3MNXTDX06C+3T1pPkdN
+         0aNZphEkkjeaE+KvZR7UxZeGUsadhvY9tR6EG4o++0RYrp4egitg5SnPBWPWV7hZJq+3
+         +cHfvUYJBHANFSuch8fTvPMH00wmtZH2DvHQKPHYtmgcqY2/1vDVrymw3lyJJht87Sno
+         o9diW9rGj+6gP+UdreUNzSVxpsCE1fCrDjJ4nZCJuoCnpuIMFpD77c3mJ1kdBwgA2D3S
+         dOHiw+MVSiP1d9VPLffIp/R5zfZzc66BFgDGFxE0qTUZCz3HyiJRaHlXYk+nLmcF0rUT
+         oqOA==
+X-Gm-Message-State: APjAAAUIs0p9iWziFnUk1UvVsioNq8nNKtiUoGjEwxJY7aDRDGugA3uw
+        QUMlOQXvYVzQKrjHbh1Dv8w=
+X-Google-Smtp-Source: APXvYqwZBlp9R/2yB52jvb+2UUbUrXni8zclxLYt4JX/cVOh8e4e1ldzz17CloXFqcg0c9PtEyZwew==
+X-Received: by 2002:a1c:c1cc:: with SMTP id r195mr2557255wmf.50.1570014556611;
+        Wed, 02 Oct 2019 04:09:16 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id q15sm41028596wrg.65.2019.10.02.04.04.55
+        by smtp.gmail.com with ESMTPSA id e9sm8184242wme.3.2019.10.02.04.09.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2019 04:04:55 -0700 (PDT)
-Date:   Wed, 2 Oct 2019 13:04:54 +0200
+        Wed, 02 Oct 2019 04:09:15 -0700 (PDT)
+Date:   Wed, 2 Oct 2019 13:09:14 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Stephen Warren <swarren@wwwdotorg.org>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH 1/4] clk: tegra: Enable fuse clock on Tegra124
-Message-ID: <20191002110454.GJ3716706@ulmo>
-References: <20191001211346.104400-1-swarren@wwwdotorg.org>
+To:     Peter Geis <pgwipeout@gmail.com>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Peter Chen <peter.chen@nxp.com>, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 3/5] usb: chipidea: tegra: add dr_mode checking to
+ tegra-udc
+Message-ID: <20191002110914.GK3716706@ulmo>
+References: <20191002014153.29831-1-pgwipeout@gmail.com>
+ <20191002014153.29831-4-pgwipeout@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="rmUrFcWP4LYae1gV"
+        protocol="application/pgp-signature"; boundary="bgLLobvf7eP6VP5c"
 Content-Disposition: inline
-In-Reply-To: <20191001211346.104400-1-swarren@wwwdotorg.org>
+In-Reply-To: <20191002014153.29831-4-pgwipeout@gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -69,107 +66,98 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---rmUrFcWP4LYae1gV
+--bgLLobvf7eP6VP5c
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 01, 2019 at 03:13:43PM -0600, Stephen Warren wrote:
-> From: Stephen Warren <swarren@nvidia.com>
+On Tue, Oct 01, 2019 at 09:41:51PM -0400, Peter Geis wrote:
+> As the tegra-udc driver does not yet support all modes, add dr_mode
+> checking capability.
+> Warn about invalid configurations and explicitly assign dr_mode before
+> handing off to the chipidea core driver.
 >=20
-> For a little over a year, U-Boot has configured the flow controller to
-> perform automatic RAM re-repair on off->on power transitions of the CPU
-> rail1]. This is mandatory for correct operation of Tegra124. However, RAM
-> re-repair relies on certain clocks, which the kernel must enable and
-> leave running. The fuse clock is one of those clocks. Enable this clock
-> so that LP1 power mode (system suspend) operates correctly.
->=20
-> [1] 3cc7942a4ae5 ARM: tegra: implement RAM repair
->=20
-> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Stephen Warren <swarren@nvidia.com>
+> Signed-off-by: Peter Geis <pgwipeout@gmail.com>
 > ---
->  drivers/clk/tegra/clk-tegra124.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/usb/chipidea/ci_hdrc_tegra.c | 24 +++++++++++++++++++++++-
+>  1 file changed, 23 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/clk/tegra/clk-tegra124.c b/drivers/clk/tegra/clk-teg=
-ra124.c
-> index 0224fdc4766f..f53f6315c646 100644
-> --- a/drivers/clk/tegra/clk-tegra124.c
-> +++ b/drivers/clk/tegra/clk-tegra124.c
-> @@ -1291,6 +1291,7 @@ static struct tegra_clk_init_table common_init_tabl=
-e[] __initdata =3D {
+> diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/=
+ci_hdrc_tegra.c
+> index 0c9911d44ee5..29415c3a2f48 100644
+> --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
+> +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+> @@ -25,7 +25,7 @@ struct tegra_udc_soc_info {
 >  };
 > =20
->  static struct tegra_clk_init_table tegra124_init_table[] __initdata =3D {
-> +	{ TEGRA124_CLK_FUSE, -1, 0, 1 },
+>  static const struct tegra_udc_soc_info tegra_udc_soc_info =3D {
+> -	.flags =3D CI_HDRC_REQUIRES_ALIGNED_DMA,
+> +	.flags =3D CI_HDRC_REQUIRES_ALIGNED_DMA | CI_HDRC_TEGRA_HOST,
 
-I think the correct way to do this these days is to mark the clock as
-CRITICAL. Not sure if there's an easy way to do that given that the
-clock init table doesn't allow storing flags.
-
-Do you have any good ideas on how to achieve this with the critical flag
-instead of forcing the refcount to 1?
-
-Perhaps something like the below would work?
+This seems to be not at all related to the rest of this patch. Also, I
+think this patch makes sense standalone, so it may be worth sending it
+out separately, perhaps marked for integration into stable branches if
+you think it worth it.
 
 Thierry
 
---- >8 ---
-diff --git a/drivers/clk/tegra/clk-tegra124.c b/drivers/clk/tegra/clk-tegra=
-124.c
-index 0224fdc4766f..bba12d8308d3 100644
---- a/drivers/clk/tegra/clk-tegra124.c
-+++ b/drivers/clk/tegra/clk-tegra124.c
-@@ -838,7 +838,7 @@ static struct tegra_clk tegra124_clks[tegra_clk_max] __=
-initdata =3D {
- 	[tegra_clk_spdif_out] =3D { .dt_id =3D TEGRA124_CLK_SPDIF_OUT, .present =
-=3D true },
- 	[tegra_clk_vi_9] =3D { .dt_id =3D TEGRA124_CLK_VI, .present =3D true },
- 	[tegra_clk_vi_sensor_8] =3D { .dt_id =3D TEGRA124_CLK_VI_SENSOR, .present=
- =3D true },
--	[tegra_clk_fuse] =3D { .dt_id =3D TEGRA124_CLK_FUSE, .present =3D true },
-+	[tegra_clk_fuse] =3D { .dt_id =3D TEGRA124_CLK_FUSE, .present =3D false },
- 	[tegra_clk_fuse_burn] =3D { .dt_id =3D TEGRA124_CLK_FUSE_BURN, .present =
-=3D true },
- 	[tegra_clk_clk_32k] =3D { .dt_id =3D TEGRA124_CLK_CLK_32K, .present =3D t=
-rue },
- 	[tegra_clk_clk_m] =3D { .dt_id =3D TEGRA124_CLK_CLK_M, .present =3D true =
-},
-@@ -1033,6 +1033,12 @@ static __init void tegra124_periph_clk_init(void __i=
-omem *clk_base,
- 	clk_register_clkdev(clk, "cml1", NULL);
- 	clks[TEGRA124_CLK_CML1] =3D clk;
-=20
-+	clk =3D tegra_clk_register_periph_gate("fuse", "clk_m",
-+					     TEGRA_PERIPH_ON_APB, clk_base,
-+					     CLK_IS_CRITICAL, 39,
-+					     periph_clk_enb_refcnt);
-+	clks[TEGRA124_CLK_FUSE] =3D clk;
-+
- 	tegra_periph_clk_init(clk_base, pmc_base, tegra124_clks, &pll_p_params);
- }
-=20
+>  };
+> =20
+>  static const struct of_device_id tegra_udc_of_match[] =3D {
+> @@ -63,6 +63,28 @@ static int tegra_udc_probe(struct platform_device *pde=
+v)
+>  		return -EINVAL;
+>  	}
+> =20
+> +	/* check the dual mode and warn about bad configurations */
+> +	switch (usb_get_dr_mode(&pdev->dev)) {
+> +	case USB_DR_MODE_HOST:
+> +		dev_dbg(&pdev->dev, "dr_mode is set to host\n");
+> +		udc->data.dr_mode =3D USB_DR_MODE_HOST;
+> +		break;
+> +
+> +	case USB_DR_MODE_UNKNOWN:
+> +		dev_warn(&pdev->dev, "dr_mode is unset or unknown, setting host mode\n=
+");
+> +		udc->data.dr_mode =3D USB_DR_MODE_HOST;
+> +		break;
+> +
+> +	case USB_DR_MODE_PERIPHERAL:
+> +		dev_dbg(&pdev->dev, "dr_mode is set to peripheral\n");
+> +		udc->data.dr_mode =3D USB_DR_MODE_PERIPHERAL;
+> +		break;
+> +
+> +	case USB_DR_MODE_OTG:
+> +		dev_err(&pdev->dev, "dr_mode is otg, tegra-udc does not support otg at=
+ this time\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	udc->phy =3D devm_usb_get_phy_by_phandle(&pdev->dev, "nvidia,phy", 0);
+>  	if (IS_ERR(udc->phy)) {
+>  		err =3D PTR_ERR(udc->phy);
+> --=20
+> 2.17.1
+>=20
 
---rmUrFcWP4LYae1gV
+--bgLLobvf7eP6VP5c
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2UhFMACgkQ3SOs138+
-s6FlZQ//cKIMvXQriD1VmW+HASRz/xjiUiEIAO7HKSifQ3AGz8Cefz3bltXfJgnl
-PMWqX+UpxTMkUYNLqCl5bRwUQruyhnxVmeHDIlairmkEGAhrWvZpqgiQdrAoZzmp
-/ruHc2e/hBWNUXEGHia9eeD5zwUNtUmI/XQQAXmoLSTTv38OooQWIp8ff/i3hwLh
-921GSaoLo4QQmlzpU+VoUAlvBAbBZzL6a7/2QT6/CDP7g47PJfeD8xoQH+kuGHPn
-B6ZWxqMq7CteI7SfdWRpF/frmaCV5bxQQ9w3+bwLxDl+CxXKV2AA/GjYt9In2M0Q
-kqrCMM+77y+K4VL5Nz3BA46Z8TUK+5jLmrhYMpA3e5PrxeTEWKb+q+XDa1OnKNPK
-mIfFYv97pPeKnBi5nOIy8AemssitWpbHBskVrRG42LjyQ5cknUvrNcCByOgW/6LC
-UT1RvXZbukY0X2B0ePTiyMGRh5IVqiuUC6QqvBMP4WncDnKncKKcA1N8In22DaFZ
-61uJdMIXMurMkDR3IfR4ZKUvKFHeojGmzBzO5lQyWOua11S1yJcfwoIqhRW4JPEy
-nySi33yc0t9Nm6AhXeArW1r1fnrujO2+9aqEaMtiYnnym6kQhs8RfaQ0eke92KAJ
-QroNOG0WObaFbkOv0MW7RB1DAxgcPeMrWWRysiEaZ4rYFho+MgE=
-=hRxp
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2UhVoACgkQ3SOs138+
+s6FRkg/+M3PtQVSXqs3vu9Yxv8y2AvO8ugBD2J/NDZhzKx8qV9Q4JMjn9nNmTONe
+Y56uXwjdfG1FF4ChkXGlH61EGCM5iTT4rFdq5Bq6iFY4TUDU4K+drWPAaKRWOL+P
+lbquD16LQaDAhfVDIvncbj4QM1cP2hy3urDxpZD/Yl+7ssPj+Pab3atNjz8Xo9Hr
+s98z2YC27gtgYekE41dH46YClbHTpVA1wTV4jrmyx7ZSILwhrTLO7peYaRkArJJn
+Y8koUfClszb/n3Y2TJEsnYr28bfQ91jxrqjAGj+aNkZo2gj3mX9vxvXjb/NPkwkQ
+4Nr8Je8+CsfqVHYtAuqRgl5jjb6Ioj63OwA7QN6GC/TITzfmEr9UbxyYUzdASRXa
+Gg92JL4wHpKOJO/Q85L/tKiLadgrqJF2ECAFcuUsXCie3nQt5AHIemkWcO0I8gan
+VEvTwTU2VQ0D1yvnLqhr1LVyMtO4uDkBq0i/WHc+TG7GiMfLYvYz70t/GKcV7q8i
+b9taQr71Pq52t+zJGFS2L55SMfaAxloyrlRW0ClL7d0A+M7+qQsaC9njByH7EKNs
+h0Gnpakb7TCGD0nViQhuaxSr5spAoIEUO9pYDCamRrCqlkBCFY2pa7/R6oSzeBkb
+Lp3x2z1TVxGb023GIJiiYnynX31w1PJH4a5Wbo9+rrzb7qJJgCg=
+=Unek
 -----END PGP SIGNATURE-----
 
---rmUrFcWP4LYae1gV--
+--bgLLobvf7eP6VP5c--
