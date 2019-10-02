@@ -2,187 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CC27C4913
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 10:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2E63C4A40
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 11:09:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727426AbfJBIB3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Oct 2019 04:01:29 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:10682 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725799AbfJBIBV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 04:01:21 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d9459580000>; Wed, 02 Oct 2019 01:01:28 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 02 Oct 2019 01:01:20 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 02 Oct 2019 01:01:20 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 2 Oct
- 2019 08:01:19 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 2 Oct 2019 08:01:19 +0000
-Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.102]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d94594d0002>; Wed, 02 Oct 2019 01:01:19 -0700
-From:   JC Kuo <jckuo@nvidia.com>
-To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <nkristam@nvidia.com>, <skomatineni@nvidia.com>,
-        JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH 6/6] arm64: tegra: Enable XUSB host in P2972-0000 board
-Date:   Wed, 2 Oct 2019 16:00:51 +0800
-Message-ID: <20191002080051.11142-7-jckuo@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191002080051.11142-1-jckuo@nvidia.com>
-References: <20191002080051.11142-1-jckuo@nvidia.com>
-X-NVConfidentiality: public
+        id S1725908AbfJBJJj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Oct 2019 05:09:39 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:44385 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726443AbfJBJJi (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 05:09:38 -0400
+Received: by mail-io1-f66.google.com with SMTP id w12so27076013iol.11
+        for <linux-tegra@vger.kernel.org>; Wed, 02 Oct 2019 02:09:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=hlThU/0+3HTSxVJIpbAfEl3+62sbcU01NeSU7eG4LqY=;
+        b=IV1QR0NXPUhoMOjxwHh18ibizuWPQ+4/OYrnffr2ZXKuvvWAf9gmljv0v7HkbZEiVt
+         zARhx2Xi6V3Nma7orMBFSNGs/EK8tnXF2zJKtrGR34m4X9Sia9oZtwTdZ9YW68LPKN7a
+         sxBQJcC+4R6XsKKVlRNkM/0/FBQ7Y/7hFIrNmvYAlvyHYVprDoSwhQ4lMamuwfcnCAU6
+         Fx1R6ch3q3XUxYYCKd5KWw5MceInpGHhV7byF+XrHXmBPIDopaGbx75hbB8VUd8ACpkp
+         lgy4b+MOUeirAgVbku/LVB97akEMZURhy8bCooqQyQNd8UKbUVBLCisXuU4kzgw7Z/r0
+         nIpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=hlThU/0+3HTSxVJIpbAfEl3+62sbcU01NeSU7eG4LqY=;
+        b=JFjoA92l+5AS2bagOkokf4+VNuWfmvvhoTbA4jeNV9S39vigt/YrULNckJa1A0ykm2
+         zurzVKfgFngaIR7PF4pXcXNojzvJpk4eJxR0FA3zKzQr1fhjwmkYBTX0bEWexNDt19xZ
+         HPP1SEvDCpdCfjPFhGbZ8H9b3aMUNga262kzi8IwLtQ9Qo0i5Dh+eca/EeM5659Wc0sx
+         OkekrR9CMBeLSsqKojqQhtrOJq0FepVHu8s3FR4r3s5RbXvALMNHjXVPikmKehLMxLYs
+         CoyomfdKzOciwSGTfs0gT1FXpJ4k7dx33zrZkKqegWkKufGjg2yci2On6uLtUwvlNyGC
+         Ff8g==
+X-Gm-Message-State: APjAAAWuZBKDt57MV6FbZzNzN07ggmKxLWZu0y9blRqSUQUI/i5+OPHy
+        sgEpy/RySEY7C5Z9I/j/oI7pfS/dPJ325YfIePgBkg==
+X-Google-Smtp-Source: APXvYqzIoyvaXbrjboO82pq9HbUiv4XbYQZhJ+E6TRlLc9GG+m0ukGOgfxcjEGQG58Y44wkqcLgO7h1hPaR44lh3y9I=
+X-Received: by 2002:a02:b156:: with SMTP id s22mr2834772jah.102.1570007375665;
+ Wed, 02 Oct 2019 02:09:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570003288; bh=7Wr462CNMrBZwRFD/hmtPzlGUAQEiAjeeNJdOTv7RIE=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=V9ZPzZpiz5nUeOKseXLEXnpwMOWlAuSj/HJl9Sxn2OseJAMxa7ZDKbPdNykJf7xKi
-         w7SVJIpFpVrq1MKX6nCUY5V9t5KuDpZISAxjrPm4o1iY2pG3HSQN1XDjdbo4IpJrjE
-         Wr44SiNbdGnZ6NtB+jJtPCuh1j2xL6+p0OJ37Tf8KILU9l9B0EHibO96/MO52u/aAl
-         f21UVT/q87asY3X4IjB0XkvdVxhsQlE1o7qZK/S12PoskwixmlEq2HCsWI8pv4chLT
-         xoP5n3QujeILa2UAWcngnCVcAh/1OcOq7sGrmLlsTdiHx/+oA33EkVhNSNQFb+6eFl
-         QQCNSWqs/GbtQ==
+References: <20191001132333.20146-1-brgl@bgdev.pl> <20191001133807.GB3563296@ulmo>
+In-Reply-To: <20191001133807.GB3563296@ulmo>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Wed, 2 Oct 2019 11:09:24 +0200
+Message-ID: <CAMRc=Me5tC2pFc56oWrcdLqu3YULYWPFXLXLW6uciZ5OPO7_Ug@mail.gmail.com>
+Subject: Re: [PATCH 0/3] tegra: use regulator_bulk_set_supply_names()
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        JC Kuo <jckuo@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-usb@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This commit enables XUSB host and pad controller in Tegra194
-P2972-0000 board.
+wt., 1 pa=C5=BA 2019 o 15:38 Thierry Reding <thierry.reding@gmail.com> napi=
+sa=C5=82(a):
+>
+> On Tue, Oct 01, 2019 at 03:23:30PM +0200, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > The regulator_bulk_set_supply_names() helper was merged upstream. Use i=
+t
+> > in a couple tegra drivers.
+> >
+> > Bartosz Golaszewski (3):
+> >   ahci: tegra: use regulator_bulk_set_supply_names()
+> >   phy: tegra: use regulator_bulk_set_supply_names()
+> >   usb: host: xhci-tegra: use regulator_bulk_set_supply_names()
+> >
+> >  drivers/ata/ahci_tegra.c      | 6 +++---
+> >  drivers/phy/tegra/xusb.c      | 6 +++---
+> >  drivers/usb/host/xhci-tegra.c | 5 +++--
+> >  3 files changed, 9 insertions(+), 8 deletions(-)
+>
+> I really don't see the point here. You've got a positive diffstat here,
+> which means all that churn is without benefit.
+>
 
-Signed-off-by: JC Kuo <jckuo@nvidia.com>
----
- .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 31 +++++++++-
- .../boot/dts/nvidia/tegra194-p2972-0000.dts   | 59 +++++++++++++++++++
- 2 files changed, 89 insertions(+), 1 deletion(-)
+A hand-coded for loop is replaced with a single function call. The
+actual generated code is smaller - I posted bloat-o-meter results last
+time. The only reason the number of lines of code doesn't really
+change is because the line is broken due to the function and argument
+names being too long.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-index 4c38426a6969..cb236edc6a0d 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-@@ -229,7 +229,7 @@
- 						regulator-max-microvolt = <3300000>;
- 					};
- 
--					ldo5 {
-+					vdd_usb_3v3: ldo5 {
- 						regulator-name = "VDD_USB_3V3";
- 						regulator-min-microvolt = <3300000>;
- 						regulator-max-microvolt = <3300000>;
-@@ -313,5 +313,34 @@
- 			regulator-boot-on;
- 			enable-active-low;
- 		};
-+
-+		vdd_5v_sata: regulator@4 {
-+			compatible = "regulator-fixed";
-+			reg = <4>;
-+
-+			regulator-name = "vdd-5v-sata";
-+			regulator-min-microvolt = <5000000>;
-+			regulator-max-microvolt = <5000000>;
-+			gpio = <&gpio TEGRA194_MAIN_GPIO(Z, 1) GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
-+	padctl@3520000 {
-+		avdd-usb-supply = <&vdd_usb_3v3>;
-+		vclamp-usb-supply = <&vdd_1v8ao>;
-+		ports {
-+			usb2-1 {
-+				vbus-supply = <&vdd_5v0_sys>;
-+			};
-+			usb2-3 {
-+				vbus-supply = <&vdd_5v_sata>;
-+			};
-+			usb3-0 {
-+				vbus-supply = <&vdd_5v0_sys>;
-+			};
-+			usb3-3 {
-+				vbus-supply = <&vdd_5v0_sys>;
-+			};
-+		};
- 	};
- };
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index d47cd8c4dd24..410221927dfa 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -222,4 +222,63 @@
- 			};
- 		};
- 	};
-+
-+	padctl@3520000 {
-+		status = "okay";
-+
-+		pads {
-+			usb2 {
-+				lanes {
-+					usb2-1 {
-+						status = "okay";
-+					};
-+					usb2-2 {
-+						status = "okay";
-+					};
-+					usb2-3 {
-+						status = "okay";
-+					};
-+				};
-+			};
-+			usb3 {
-+				lanes {
-+					usb3-0 {
-+						status = "okay";
-+					};
-+					usb3-3 {
-+						status = "okay";
-+					};
-+				};
-+			};
-+		};
-+
-+		ports {
-+			usb2-1 {
-+				mode = "host";
-+				status = "okay";
-+			};
-+			usb2-3 {
-+				mode = "host";
-+				status = "okay";
-+			};
-+			usb3-0 {
-+				nvidia,usb2-companion = <1>;
-+				status = "okay";
-+			};
-+			usb3-3 {
-+				nvidia,usb2-companion = <3>;
-+				nvidia,disable-gen2;
-+				status = "okay";
-+			};
-+		};
-+	};
-+
-+	tegra_xhci: xhci@3610000 {
-+		status = "okay";
-+		phys =	<&{/padctl@3520000/pads/usb2/lanes/usb2-1}>,
-+			<&{/padctl@3520000/pads/usb2/lanes/usb2-3}>,
-+			<&{/padctl@3520000/pads/usb3/lanes/usb3-0}>,
-+			<&{/padctl@3520000/pads/usb3/lanes/usb3-3}>;
-+		phy-names = "usb2-1", "usb2-3", "usb3-0", "usb3-3";
-+	};
- };
--- 
-2.17.1
+> Is there some subsequent work based on this that will actually improve
+> things?
 
+I'd argue that replacing a common operation that's reimplemented
+explicitly by hand in many places with a helper function is already an
+improvement. Consolidation is almost always good.
+
+That being said, I like your idea about the regulator_get_from_names
+helper, but it will take more time as we have to cover optional
+multiple regulators as well. In other words: it's on my TODO list, but
+in the meantime there's no harm in using this since Mark decided to
+make it a part of the regulator API anyway.
+
+Bart
