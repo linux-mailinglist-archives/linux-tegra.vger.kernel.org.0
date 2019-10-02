@@ -2,60 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FD3EC8BA4
-	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 16:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D404C8C13
+	for <lists+linux-tegra@lfdr.de>; Wed,  2 Oct 2019 16:53:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728356AbfJBOpK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 2 Oct 2019 10:45:10 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53236 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726016AbfJBOpJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 10:45:09 -0400
-Received: by mail-wm1-f68.google.com with SMTP id r19so7530136wmh.2;
-        Wed, 02 Oct 2019 07:45:07 -0700 (PDT)
+        id S1726373AbfJBOxD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 2 Oct 2019 10:53:03 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:40509 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726137AbfJBOxD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 2 Oct 2019 10:53:03 -0400
+Received: by mail-wr1-f67.google.com with SMTP id l3so20012255wru.7;
+        Wed, 02 Oct 2019 07:53:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=33+LNued2O1kb6c8Fio+3tVQ9P1T0jN1Kwbi3apCkkM=;
-        b=DvA2xbyQQOPj7gKLPCyWb0KkqNqUYwjoMSoYfR6rrzrPwFwVbqy69kEnS+dbKNfYP4
-         E0sUPgCRafbcIXlERDRF5Nn1OcoyKPFZ7dE4mDrVFk4/xF4320WMl2dxEF3nZc341bg9
-         VnmlNxxlSoIzMB9OULODpqCt3TAOcc+CweiDqegII7PUHup8ZWARiEwZhB1CEBlhDJqg
-         FsuTSu1mNQCRQAbuds0qjOt425szUgpDTt7XDmNKSF1NT68474ndY30UMQVHOq34iSKz
-         p+tgPX7FWfoy69FHD78TvYXKYPxky/caSWUBLRZ+1GMD4ML0k+mz+RBI8e6HoBzmdeHy
-         hupg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o23+/YYDG+Ee+Qyr+92wFjfClhStyHjFn2X5WQR18MQ=;
+        b=p7FbiuEr/6KYe6o5t0uYYu2oOszZw3U6UaipfErabCO4Mk4HoqAYfUr/Aw8kURcqo8
+         aUBKYIUORkIOl7Gf19j0guczJvBUNXxRnZqSvnWX6hAw+7Glocbe4zN7X0jSTVUZ4aXJ
+         AqXa6BUeykDdpl9drjp8mJP0lyCvSPLjjMnZJl1+FlAH0jjdZR2Lha3upICWkoXzW9rL
+         cKr483ckbk85ZUxfgi/fbA1XgAF2zfZB1ulmiDPwdGZxdZkxvCPoHpg+HP5HhO8RUUcW
+         YF7Tq3v/AfdVvPBdTZGnsH/r8XvEDNBhpN4GGcrCB+ZA5PunACxof9sPobgWIcqZya+A
+         1VQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=33+LNued2O1kb6c8Fio+3tVQ9P1T0jN1Kwbi3apCkkM=;
-        b=ISvmplMyikT/yRCEQva0cBf6r9sHCdj8ZjU8ll8EtaaLSeEoux+aDaDK+hb6QsNMDl
-         sBMGfiOyrg95TEnWSqKN+rtNpKriStHXpC3hQk5p7no3dLiBJudUZAUC41h8bcc3mVhx
-         JqZKdR0Gfnb0a2RZjFVn8yNWwD1HtPb+V9j0snRubRc/sUvjKpiAoxiHUIhYndbl99Vd
-         kVlSJWW7ji+LC7XacOm4+ux1nHChsDv+VXpGQosIRtoEbjb++HPHUr4/THKiXnR2sULX
-         s1A3AJ0gHMKNUQPrnnVf8ctVqZaYNrmfSXgfhd35bYfF4bZ8tbjUlF1j4gK7p3gIebdL
-         pApA==
-X-Gm-Message-State: APjAAAXNWfEeeVhvdbV0vK5rk0EbCZqKeHqb+pWMscguPZ7iJ438l9wT
-        zqTwvv7AbsYRysWVBIgf+EOZZbs0
-X-Google-Smtp-Source: APXvYqyZcQFGl0EpoAvXwx3anDUBcjjDjyZkSUj2bQ6Ll6TIHNIPM6eK0g2P22HxE959CNgs2JQA3g==
-X-Received: by 2002:a1c:c5c3:: with SMTP id v186mr3136572wmf.125.1570027506875;
-        Wed, 02 Oct 2019 07:45:06 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o23+/YYDG+Ee+Qyr+92wFjfClhStyHjFn2X5WQR18MQ=;
+        b=in1nwVEay+tCvZrvFrmKW8OKRn2yUhlhWoo0Qsn1G/9A6hF6UEzBx7rtgtJ75KZnHs
+         kmufKF9+mGwwES0y6WOpMk298jZtbK0hszv2Jvb840qD6tVpoDktz7qS2vGFSwCN28DK
+         h2ttq3Z/nA8BsaGKvx3nlgADNFf02nEpjZ8pNsN1vfuDljQySIa0++GKrixfgWU6nBqi
+         DDQJ6+2cNp5kIDubKuUXJVGqfY/yXmqEpLc+ZWcMAtC8WqJGdBEo/lSqF8l7lwKu3l+Z
+         2SJ6EnytllbvvTypgh9L1dr4B68ZFN+OELtX8QcVrJw3rhB8oUFrdx1x7jruae0q47Qm
+         uGiQ==
+X-Gm-Message-State: APjAAAWWocLCNZepn07GJWqZyvoCg+htbiEwNFvtFVVfi0sijo3Gjwi9
+        43ZjJ8eY122mh5RspVWPS2U=
+X-Google-Smtp-Source: APXvYqzezIkpoenxsuvp6FSTFMFoGl/rwDreLXMCTo33EVvYDZznWrxPr/56cJXb4sioCTHnLkyABg==
+X-Received: by 2002:a5d:4f0b:: with SMTP id c11mr3069557wru.63.1570027981072;
+        Wed, 02 Oct 2019 07:53:01 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id w18sm7736051wmc.9.2019.10.02.07.45.05
+        by smtp.gmail.com with ESMTPSA id f143sm13685946wme.40.2019.10.02.07.52.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2019 07:45:05 -0700 (PDT)
+        Wed, 02 Oct 2019 07:52:59 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>, linux-gpio@vger.kernel.org,
+To:     "David S . Miller" <davem@davemloft.net>
+Cc:     Jose Abreu <joabreu@synopsys.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Bitan Biswas <bbiswas@nvidia.com>, netdev@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH v5 2/2] gpio: tegra186: Implement wake event support
-Date:   Wed,  2 Oct 2019 16:45:02 +0200
-Message-Id: <20191002144502.156393-2-thierry.reding@gmail.com>
+Subject: [PATCH net-next v4 0/2] net: stmmac: Enhanced addressing mode for DWMAC 4.10
+Date:   Wed,  2 Oct 2019 16:52:56 +0200
+Message-Id: <20191002145258.178745-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191002144502.156393-1-thierry.reding@gmail.com>
-References: <20191002144502.156393-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -65,240 +66,25 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The GPIO controller doesn't have any controls to enable the system to
-wake up from low power states based on activity on GPIO pins. An extra
-hardware block that is part of the power management controller (PMC)
-contains these controls. In order for the GPIO controller to be able
-to cooperate with the PMC, obtain a reference to the PMC's IRQ domain
-and make it a parent to the GPIO controller's IRQ domain. This way the
-PMC gets an opportunity to program the additional registers required
-to enable wakeup sources on suspend.
+The DWMAC 4.10 supports the same enhanced addressing mode as later
+generations. Parse this capability from the hardware feature registers
+and set the EAME (Enhanced Addressing Mode Enable) bit when necessary.
 
-Based on additional work by Bitan Biswas <bbiswas@nvidia.com>.
+Thierry
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v5:
-- rebase on top of new hierarchical IRQ domain support
+Thierry Reding (2):
+  net: stmmac: Only enable enhanced addressing mode when needed
+  net: stmmac: Support enhanced addressing mode for DWMAC 4.10
 
-Changes in v4:
-- implement gpio_irq_chip.to_fwspec() instead of gpio_chip.to_irq()
-- initialize missing irq_domain_ops.free()
+ drivers/net/ethernet/stmicro/stmmac/dwmac4.h  |  1 +
+ .../ethernet/stmicro/stmmac/dwmac4_descs.c    |  4 +--
+ .../net/ethernet/stmicro/stmmac/dwmac4_dma.c  | 28 +++++++++++++++++++
+ .../net/ethernet/stmicro/stmmac/dwmac4_dma.h  |  3 ++
+ .../ethernet/stmicro/stmmac/dwxgmac2_dma.c    |  5 +++-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |  7 +++++
+ include/linux/stmmac.h                        |  1 +
+ 7 files changed, 46 insertions(+), 3 deletions(-)
 
-Changes in v3:
-- use irq_create_fwspec_mapping() instead of irq_domain_alloc_irqs()
-- initialize tegra_gpio_soc.instance field on Tegra186
-
-Changes in v2:
-- don't use wakeup-parent property but look up PMC by compatible
-
- drivers/gpio/Kconfig         |  1 +
- drivers/gpio/gpio-tegra186.c | 97 +++++++++++++++++++++++++++++-------
- 2 files changed, 80 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index 38e096e6925f..1d1c79795db2 100644
---- a/drivers/gpio/Kconfig
-+++ b/drivers/gpio/Kconfig
-@@ -531,6 +531,7 @@ config GPIO_TEGRA186
- 	depends on ARCH_TEGRA_186_SOC || COMPILE_TEST
- 	depends on OF_GPIO
- 	select GPIOLIB_IRQCHIP
-+	select IRQ_DOMAIN_HIERARCHY
- 	help
- 	  Say yes here to support GPIO pins on NVIDIA Tegra186 SoCs.
- 
-diff --git a/drivers/gpio/gpio-tegra186.c b/drivers/gpio/gpio-tegra186.c
-index 3ded6ba2f997..bf1968b77a7b 100644
---- a/drivers/gpio/gpio-tegra186.c
-+++ b/drivers/gpio/gpio-tegra186.c
-@@ -53,6 +53,7 @@ struct tegra_gpio_soc {
- 	const struct tegra_gpio_port *ports;
- 	unsigned int num_ports;
- 	const char *name;
-+	unsigned int instance;
- };
- 
- struct tegra_gpio {
-@@ -333,7 +334,7 @@ static int tegra186_irq_set_type(struct irq_data *data, unsigned int type)
- 	else
- 		irq_set_handler_locked(data, handle_edge_irq);
- 
--	return 0;
-+	return irq_chip_set_type_parent(data, type);
- }
- 
- static void tegra186_gpio_irq(struct irq_desc *desc)
-@@ -373,39 +374,80 @@ static void tegra186_gpio_irq(struct irq_desc *desc)
- 	chained_irq_exit(chip, desc);
- }
- 
--static int tegra186_gpio_irq_domain_xlate(struct irq_domain *domain,
--					  struct device_node *np,
--					  const u32 *spec, unsigned int size,
--					  unsigned long *hwirq,
--					  unsigned int *type)
-+static int tegra186_gpio_irq_domain_translate(struct irq_domain *domain,
-+					      struct irq_fwspec *fwspec,
-+					      unsigned long *hwirq,
-+					      unsigned int *type)
- {
- 	struct tegra_gpio *gpio = gpiochip_get_data(domain->host_data);
- 	unsigned int port, pin, i, offset = 0;
- 
--	if (size < 2)
-+	if (WARN_ON(gpio->gpio.of_gpio_n_cells < 2))
-+		return -EINVAL;
-+
-+	if (WARN_ON(fwspec->param_count < gpio->gpio.of_gpio_n_cells))
- 		return -EINVAL;
- 
--	port = spec[0] / 8;
--	pin = spec[0] % 8;
-+	port = fwspec->param[0] / 8;
-+	pin = fwspec->param[0] % 8;
- 
--	if (port >= gpio->soc->num_ports) {
--		dev_err(gpio->gpio.parent, "invalid port number: %u\n", port);
-+	if (port >= gpio->soc->num_ports)
- 		return -EINVAL;
--	}
- 
- 	for (i = 0; i < port; i++)
- 		offset += gpio->soc->ports[i].pins;
- 
--	*type = spec[1] & IRQ_TYPE_SENSE_MASK;
-+	*type = fwspec->param[1] & IRQ_TYPE_SENSE_MASK;
- 	*hwirq = offset + pin;
- 
- 	return 0;
- }
- 
--static const struct irq_domain_ops tegra186_gpio_irq_domain_ops = {
--	.map = gpiochip_irq_map,
--	.unmap = gpiochip_irq_unmap,
--	.xlate = tegra186_gpio_irq_domain_xlate,
-+static void tegra186_gpio_populate_parent_fwspec(struct gpio_chip *chip,
-+						 struct irq_fwspec *fwspec,
-+						 unsigned int parent_hwirq,
-+						 unsigned int parent_type)
-+{
-+	struct tegra_gpio *gpio = gpiochip_get_data(chip);
-+
-+	fwspec->param_count = 3;
-+	fwspec->param[0] = gpio->soc->instance;
-+	fwspec->param[1] = parent_hwirq;
-+	fwspec->param[2] = parent_type;
-+}
-+
-+static int tegra186_gpio_child_to_parent_hwirq(struct gpio_chip *chip,
-+					       unsigned int hwirq,
-+					       unsigned int type,
-+					       unsigned int *parent_hwirq,
-+					       unsigned int *parent_type)
-+{
-+	*parent_hwirq = chip->irq.child_offset_to_irq(chip, hwirq);
-+	*parent_type = type;
-+
-+	return 0;
-+}
-+
-+static unsigned int tegra186_gpio_child_offset_to_irq(struct gpio_chip *chip,
-+						      unsigned int offset)
-+{
-+	struct tegra_gpio *gpio = gpiochip_get_data(chip);
-+	unsigned int i;
-+
-+	for (i = 0; i < gpio->soc->num_ports; i++) {
-+		if (offset < gpio->soc->ports[i].pins)
-+			break;
-+
-+		offset -= gpio->soc->ports[i].pins;
-+	}
-+
-+	return offset + i * 8;
-+}
-+
-+static const struct of_device_id tegra186_pmc_of_match[] = {
-+	{ .compatible = "nvidia,tegra186-pmc" },
-+	{ .compatible = "nvidia,tegra194-pmc" },
-+	{ /* sentinel */ }
- };
- 
- static int tegra186_gpio_probe(struct platform_device *pdev)
-@@ -413,6 +455,7 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
- 	unsigned int i, j, offset;
- 	struct gpio_irq_chip *irq;
- 	struct tegra_gpio *gpio;
-+	struct device_node *np;
- 	struct resource *res;
- 	char **names;
- 	int err;
-@@ -498,10 +541,15 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
- 	gpio->intc.irq_mask = tegra186_irq_mask;
- 	gpio->intc.irq_unmask = tegra186_irq_unmask;
- 	gpio->intc.irq_set_type = tegra186_irq_set_type;
-+	gpio->intc.irq_set_wake = irq_chip_set_wake_parent;
- 
- 	irq = &gpio->gpio.irq;
- 	irq->chip = &gpio->intc;
--	irq->domain_ops = &tegra186_gpio_irq_domain_ops;
-+	irq->fwnode = of_node_to_fwnode(pdev->dev.of_node);
-+	irq->child_to_parent_hwirq = tegra186_gpio_child_to_parent_hwirq;
-+	irq->populate_parent_fwspec = tegra186_gpio_populate_parent_fwspec;
-+	irq->child_offset_to_irq = tegra186_gpio_child_offset_to_irq;
-+	irq->child_irq_domain_ops.translate = tegra186_gpio_irq_domain_translate;
- 	irq->handler = handle_simple_irq;
- 	irq->default_type = IRQ_TYPE_NONE;
- 	irq->parent_handler = tegra186_gpio_irq;
-@@ -509,6 +557,15 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
- 	irq->num_parents = gpio->num_irq;
- 	irq->parents = gpio->irq;
- 
-+	np = of_find_matching_node(NULL, tegra186_pmc_of_match);
-+	if (np) {
-+		irq->parent_domain = irq_find_host(np);
-+		of_node_put(np);
-+
-+		if (!irq->parent_domain)
-+			return -EPROBE_DEFER;
-+	}
-+
- 	irq->map = devm_kcalloc(&pdev->dev, gpio->gpio.ngpio,
- 				sizeof(*irq->map), GFP_KERNEL);
- 	if (!irq->map)
-@@ -614,6 +671,7 @@ static const struct tegra_gpio_soc tegra186_main_soc = {
- 	.num_ports = ARRAY_SIZE(tegra186_main_ports),
- 	.ports = tegra186_main_ports,
- 	.name = "tegra186-gpio",
-+	.instance = 0,
- };
- 
- #define TEGRA186_AON_GPIO_PORT(port, base, count, controller)	\
-@@ -639,6 +697,7 @@ static const struct tegra_gpio_soc tegra186_aon_soc = {
- 	.num_ports = ARRAY_SIZE(tegra186_aon_ports),
- 	.ports = tegra186_aon_ports,
- 	.name = "tegra186-gpio-aon",
-+	.instance = 1,
- };
- 
- #define TEGRA194_MAIN_GPIO_PORT(port, base, count, controller)	\
-@@ -684,6 +743,7 @@ static const struct tegra_gpio_soc tegra194_main_soc = {
- 	.num_ports = ARRAY_SIZE(tegra194_main_ports),
- 	.ports = tegra194_main_ports,
- 	.name = "tegra194-gpio",
-+	.instance = 0,
- };
- 
- #define TEGRA194_AON_GPIO_PORT(port, base, count, controller)	\
-@@ -706,6 +766,7 @@ static const struct tegra_gpio_soc tegra194_aon_soc = {
- 	.num_ports = ARRAY_SIZE(tegra194_aon_ports),
- 	.ports = tegra194_aon_ports,
- 	.name = "tegra194-gpio-aon",
-+	.instance = 1,
- };
- 
- static const struct of_device_id tegra186_gpio_of_match[] = {
 -- 
 2.23.0
 
