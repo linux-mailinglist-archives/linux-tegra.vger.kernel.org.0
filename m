@@ -2,140 +2,170 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5337CC9D3F
-	for <lists+linux-tegra@lfdr.de>; Thu,  3 Oct 2019 13:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9666BC9DE7
+	for <lists+linux-tegra@lfdr.de>; Thu,  3 Oct 2019 13:59:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730037AbfJCL2B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 3 Oct 2019 07:28:01 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:40714 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729891AbfJCL2B (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Oct 2019 07:28:01 -0400
-Received: by mail-lf1-f65.google.com with SMTP id d17so1536604lfa.7;
-        Thu, 03 Oct 2019 04:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DX8a7Wlt/Jyh2iSwaP1Iud+IQGHxDyI7SdlcgZ9JV7Y=;
-        b=pfqPTuJmFynvCqEI3kn+T5pWyCZffPTOYirFNHFp0FbLKRR+DK3QmmtLKlMpDrUPPd
-         xDHTetajrPgm4b4CMV68RYsM8qSAC49VSKGhj1fydy3VhTMYDaVVOBfLgAg3wuEA6gfZ
-         K0UD09GaX5UFcOr2cWAmRqirvAgq2N2mVTtby678jD4Hp9E8bSshqX2zEnBoIfL/bdPg
-         xPV2gDDNbCOE8FVjwq/1rhKsa5fsGsbL/Vb9JQ0H4xtvy3oEX1d/cKvHUv0NF2SAUZiZ
-         j4SvyvLd/8+fve1rVEtIW5nvsZesjmZi9KeYZdSRLx3nn6z0tnm1O7H+ElwoA+C/se4l
-         4cUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DX8a7Wlt/Jyh2iSwaP1Iud+IQGHxDyI7SdlcgZ9JV7Y=;
-        b=OZOGJ6jnAlTHGR7pKVofjxt+K6rHuta0yrKgWAol/rAp3VhDFzvxjoQjHjkwjEO9DO
-         K8uhq6Vsi787TuiaTLubqP/mE9/a2O4EYSEBHLRv3b41I+LEjmie6V0qw7bbUTdDcbAl
-         k/tlNpzUw2mU/6R6GXfbZeNSdmFaShr2N3r0q76FTjH7QPbCy5s5XaYJKoXzb62s5nr9
-         PSNY9AHv17z+nxCNocFM5YPIgfXXH97MUKmTgrKw5lhPocTozaznqSIj1YlLvsZmG/bG
-         7/2lgExbhluAEbt2/WgeYa3DeWl8TqZw9nVRcMck1gzNxc9ECS6mxp9yrRpk7ruildqC
-         yGew==
-X-Gm-Message-State: APjAAAVib4MBsGzB5Q9jFCtDV9FJDAqg4CUocoLmHRHf4NXfy0WmES5q
-        to4XtxpQayRNrIcZ3orNtO4=
-X-Google-Smtp-Source: APXvYqxCzTx3UVy7LuF2MGP2yfgdzHfJL60X+llcTt9cRqi0W6LnmbkFaXU0eI545HYjmvDNlGYALQ==
-X-Received: by 2002:ac2:43b8:: with SMTP id t24mr3801098lfl.24.1570102079035;
-        Thu, 03 Oct 2019 04:27:59 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.34.231])
-        by smtp.googlemail.com with ESMTPSA id q19sm466598ljj.73.2019.10.03.04.27.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Oct 2019 04:27:58 -0700 (PDT)
-Subject: Re: [PATCH 2/4] ARM: tegra: Enable PLLP bypass during Tegra124 LP1
-To:     Stephen Warren <swarren@wwwdotorg.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>
-Cc:     Stephen Boyd <sboyd@kernel.org>, linux-tegra@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20191001211346.104400-1-swarren@wwwdotorg.org>
- <20191001211346.104400-2-swarren@wwwdotorg.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <437f030b-9e20-43e5-42ce-f98430d2149b@gmail.com>
-Date:   Thu, 3 Oct 2019 14:27:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1728302AbfJCL7k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 3 Oct 2019 07:59:40 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:9753 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725907AbfJCL7k (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Oct 2019 07:59:40 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d95e2ab0000>; Thu, 03 Oct 2019 04:59:39 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 03 Oct 2019 04:59:39 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 03 Oct 2019 04:59:39 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Oct
+ 2019 11:59:38 +0000
+Received: from [10.19.66.63] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Oct 2019
+ 11:59:36 +0000
+Subject: Re: [PATCH 1/2] gpio: tegra186: Implement system suspend/resume
+ support
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+CC:     Jon Hunter <jonathanh@nvidia.com>, <linux-gpio@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+References: <20191002144502.156393-1-thierry.reding@gmail.com>
+From:   Bitan Biswas <bbiswas@nvidia.com>
+Message-ID: <30cf4ef7-f2d1-23f3-7018-5288b77e95c4@nvidia.com>
+Date:   Thu, 3 Oct 2019 04:59:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191001211346.104400-2-swarren@wwwdotorg.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191002144502.156393-1-thierry.reding@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1570103979; bh=nqtCwdzQnXKEVOqZ/EAHpxphtPtwle73zrzE2XDDni0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=BiC8As3pExfSPH9cQj7t3B7i/Cuv5D1oSZIUfT+InVj/waLHJ9+8wjie0CvJa87tG
+         4+o6dog4gCQDHrif/qSAEM18mR8t5cVgApP7Zw3E6uO8n/HSTqUHTCO217optdTcpK
+         rBqkNl8g0mKKoe3zGpkKSS1YY8mb3xyt1fjrdkB13H7pdQqDE6RUGsVtWdGHRU6shj
+         SjVU91aIS/aU4eX2edd4KbLKGLsxW00sVyMynIOA5FkW2oDcs1T7FBhhe6166rF0TP
+         lWmItls9337B2g3ygNFAUw9v81ZNKHQZ7eYFNOpauC2C50M99eKLYGfIe5C+Jr9JUX
+         qSRMmovS/TZJQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-02.10.2019 00:13, Stephen Warren пишет:
-> From: Stephen Warren <swarren@nvidia.com>
+On 10/2/19 7:45 AM, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> For a little over a year, U-Boot has configured the flow controller to
-> perform automatic RAM re-repair on off->on power transitions of the CPU
-> rail1]. This is mandatory for correct operation of Tegra124. However, RAM
-> re-repair relies on certain clocks, which the kernel must enable and
-> leave running. PLLP is one of those clocks. This clock is shut down
-> during LP1 in order to save power. Enable bypass (which I believe routes
-> osc_div_clk, essentially the crystal clock, to the PLL output) so that
-> this clock signal toggles even though the PLL is not active. This is
-> required so that LP1 power mode (system suspend) operates correctly.
+> Backup GPIO control registers on suspend and restore them on resume to
+> ensure that the GPIOs' configuration remains the same across suspend and
+> resume.
 > 
-> The bypass configuration must then be undone when resuming from LP1, so
-> that all peripheral clocks run at the expected rate. Without this, many
-> peripherals won't work correctly; for example, the UART baud rate would
-> be incorrect.
-> 
-> NVIDIA's downstream kernel code only does this if not compiled for
-> Tegra30, so the added code is made conditional upon the chip ID. NVIDIA's
-> downstream code makes this change conditional upon the active CPU
-> cluster. The upstream kernel currently doesn't support cluster switching,
-> so this patch doesn't test the active CPU cluster ID.
-> 
-> [1] 3cc7942a4ae5 ARM: tegra: implement RAM repair
-> 
-> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Stephen Warren <swarren@nvidia.com>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
->  arch/arm/mach-tegra/sleep-tegra30.S | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>   drivers/gpio/gpio-tegra186.c | 51 ++++++++++++++++++++++++++++++++++++
+>   1 file changed, 51 insertions(+)
 > 
-> diff --git a/arch/arm/mach-tegra/sleep-tegra30.S b/arch/arm/mach-tegra/sleep-tegra30.S
-> index b408fa56eb89..6922dd8d3e2d 100644
-> --- a/arch/arm/mach-tegra/sleep-tegra30.S
-> +++ b/arch/arm/mach-tegra/sleep-tegra30.S
-> @@ -370,6 +370,14 @@ _pll_m_c_x_done:
->  	pll_locked r1, r0, CLK_RESET_PLLC_BASE
->  	pll_locked r1, r0, CLK_RESET_PLLX_BASE
->  
-> +	tegra_get_soc_id TEGRA_APB_MISC_BASE, r1
-> +	cmp	r1, #TEGRA30
-> +	beq	1f
-
-What about T114, or does it need enabled PLLP as well?
-
-> +	ldr	r1, [r0, #CLK_RESET_PLLP_BASE]
-> +	bic	r1, r1, #(1<<31)	@ disable PllP bypass
-> +	str	r1, [r0, #CLK_RESET_PLLP_BASE]
-> +1:
+> diff --git a/drivers/gpio/gpio-tegra186.c b/drivers/gpio/gpio-tegra186.c
+> index a9058fda187e..3ded6ba2f997 100644
+> --- a/drivers/gpio/gpio-tegra186.c
+> +++ b/drivers/gpio/gpio-tegra186.c
+> @@ -64,6 +64,12 @@ struct tegra_gpio {
+>   	const struct tegra_gpio_soc *soc;
+>   
+>   	void __iomem *base;
 > +
->  	mov32	r7, TEGRA_TMRUS_BASE
->  	ldr	r1, [r7]
->  	add	r1, r1, #LOCK_DELAY
-> @@ -630,7 +638,10 @@ tegra30_switch_cpu_to_clk32k:
->  	str	r0, [r4, #PMC_PLLP_WB0_OVERRIDE]
->  
->  	/* disable PLLP, PLLA, PLLC and PLLX */
-> +	tegra_get_soc_id TEGRA_APB_MISC_BASE, r1
-> +	cmp	r1, #TEGRA30
->  	ldr	r0, [r5, #CLK_RESET_PLLP_BASE]
-> +	orrne	r0, r0, #(1 << 31)	@ enable PllP bypass on fast cluster
->  	bic	r0, r0, #(1 << 30)
->  	str	r0, [r5, #CLK_RESET_PLLP_BASE]
->  	ldr	r0, [r5, #CLK_RESET_PLLA_BASE]
+> +	struct tegra_gpio_context {
+> +		u32 value;
+> +		u32 control;
+> +		u32 config;
+> +	} *context;
+>   };
+>   
+>   static const struct tegra_gpio_port *
+> @@ -455,6 +461,11 @@ static int tegra186_gpio_probe(struct platform_device *pdev)
+>   	for (i = 0; i < gpio->soc->num_ports; i++)
+>   		gpio->gpio.ngpio += gpio->soc->ports[i].pins;
+>   
+> +	gpio->context = devm_kmalloc_array(gpio->gpio.parent, gpio->gpio.ngpio,
+> +					   sizeof(*gpio->context), GFP_KERNEL);
+> +	if (!gpio->context)
+> +		return -ENOMEM;
+> +
+>   	names = devm_kcalloc(gpio->gpio.parent, gpio->gpio.ngpio,
+>   			     sizeof(*names), GFP_KERNEL);
+>   	if (!names)
+> @@ -526,6 +537,45 @@ static int tegra186_gpio_remove(struct platform_device *pdev)
+>   	return 0;
+>   }
+>   
+> +static int tegra186_gpio_suspend(struct device *dev)
+> +{
+> +	struct tegra_gpio *gpio = dev_get_drvdata(dev);
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < gpio->gpio.ngpio; i++) {
+> +		struct tegra_gpio_context *context = &gpio->context[i];
+> +		void __iomem *base = tegra186_gpio_get_base(gpio, i);
+> +
+> +		context->config = readl(base + TEGRA186_GPIO_ENABLE_CONFIG);
+> +		context->control = readl(base + TEGRA186_GPIO_OUTPUT_CONTROL);
+> +		context->value = readl(base + TEGRA186_GPIO_OUTPUT_VALUE);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int tegra186_gpio_resume(struct device *dev)
+> +{
+> +	struct tegra_gpio *gpio = dev_get_drvdata(dev);
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < gpio->gpio.ngpio; i++) {
+> +		struct tegra_gpio_context *context = &gpio->context[i];
+> +		void __iomem *base = tegra186_gpio_get_base(gpio, i);
+> +
+> +		writel(context->value, base + TEGRA186_GPIO_OUTPUT_VALUE);
+> +		writel(context->control, base + TEGRA186_GPIO_OUTPUT_CONTROL);
+> +		writel(context->config, base + TEGRA186_GPIO_ENABLE_CONFIG);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops tegra186_gpio_pm = {
+> +	.suspend_late = tegra186_gpio_suspend,
+> +	.resume_early = tegra186_gpio_resume,
+> +};
+> +
+>   #define TEGRA186_MAIN_GPIO_PORT(port, base, count, controller)	\
+>   	[TEGRA186_MAIN_GPIO_PORT_##port] = {			\
+>   		.name = #port,					\
+> @@ -680,6 +730,7 @@ static struct platform_driver tegra186_gpio_driver = {
+>   	.driver = {
+>   		.name = "tegra186-gpio",
+>   		.of_match_table = tegra186_gpio_of_match,
+> +		.pm = &tegra186_gpio_pm,
+>   	},
+>   	.probe = tegra186_gpio_probe,
+>   	.remove = tegra186_gpio_remove,
 > 
+
+I see jetson Xavier RTC wakeup test fail with this patch. It no longer 
+reaches the UART shell after suspend exit. Jetson-TX2 works fine with 
+this patch. There seems to be some hang on Xavier.
+
+
+-regards,
+  Bitan
+
+
 
