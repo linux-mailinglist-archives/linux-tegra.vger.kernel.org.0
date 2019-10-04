@@ -2,82 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9698CB075
-	for <lists+linux-tegra@lfdr.de>; Thu,  3 Oct 2019 22:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF29CB295
+	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 02:00:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731653AbfJCUuk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 3 Oct 2019 16:50:40 -0400
-Received: from avon.wwwdotorg.org ([104.237.132.123]:50500 "EHLO
-        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726669AbfJCUuk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Oct 2019 16:50:40 -0400
-Received: from swarren-lx1.nvidia.com (unknown [216.228.112.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by avon.wwwdotorg.org (Postfix) with ESMTPSA id 3AF0A1C10A8;
-        Thu,  3 Oct 2019 14:50:39 -0600 (MDT)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.100.3 at avon.wwwdotorg.org
-From:   Stephen Warren <swarren@wwwdotorg.org>
+        id S1732285AbfJDAAW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 3 Oct 2019 20:00:22 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:39849 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732203AbfJDAAW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 3 Oct 2019 20:00:22 -0400
+Received: by mail-qt1-f195.google.com with SMTP id n7so6180563qtb.6
+        for <linux-tegra@vger.kernel.org>; Thu, 03 Oct 2019 17:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DKtZv54n4MZzkkLVmGwj++RGlAv7GhrmXetpsGQZicA=;
+        b=Y+YkQPiSn2EAQX82bP5XhjQIUiuk7g2GNOF8Bo1/3WEleTt81okdNoX43mhyydQKkL
+         S9hlPy45zxfhO0CqrB6yYR9xHsjtaQw+dX5WS9OQiooKBfdeoeVWzQ6Mv9EzQNI0gC6Y
+         OuTg7FpnAZ4T0cOH2cUYTYH3q2PPzrildyP4CiaFtv2OAB32nZNhe4dOsdq+BgL/RPVC
+         TiZhzpSQv5C5oNl4UusrOuhncoBgSgKpYusUoO6oWcxMnwv8KlvZ4UvA5m7XBVZlu52k
+         4RK6P5YhlU8SrADL+7n1h6vwZs5knDb/WC27yLAcs5d3IJ3GDvSdmfCp6kwWnTfyobUd
+         CshA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DKtZv54n4MZzkkLVmGwj++RGlAv7GhrmXetpsGQZicA=;
+        b=PPf1t9gsPKs08k3yb9pQDB9pI3bJmghTW0vvCvGf5mxbao/b2N8PbDqzwd/fxFGKh8
+         +fDekDxueDE7/4OC/EOkWyaaUgvK2V+URKLm9oqLhNg1VzqtgeoBf6n2SMjeKSI/JpFr
+         A+ATsES8iK/W3JwPHaajS6YBKjJ5w6TXKJJ9rcM6eGP+sWQr/yf6muveqNNuXWH1bop5
+         M9A1un7fhfxIpUJiLkOSf/LO8EIjwzrTBgQzYkCXEPPqmslaGg20iRMVylnvctMwXi7q
+         lzmfK5QNB0YNODmrofKxGR3kPQoSzCnnzpRX37WSVOb708pov/oPx9Fpv5t4juGgGMvd
+         YEPw==
+X-Gm-Message-State: APjAAAV3h4WIfJHB88q1Ju/tSjHsipBNdCDPe1YnLJTYS/A7xnNAVcwk
+        sYXWzv0e7NcnpfrscteiJjE=
+X-Google-Smtp-Source: APXvYqzI9zw6UszA5S/VMtruaHb1KM6RdNGQ2JEGAXDZA6slStvh9OO5kn5ZwrsGw7StENrWMC9TDA==
+X-Received: by 2002:a0c:e0ca:: with SMTP id x10mr10936119qvk.155.1570147220939;
+        Thu, 03 Oct 2019 17:00:20 -0700 (PDT)
+Received: from master-laptop.pgwipeout.duckdns.org ([2601:153:900:a52:985:aeca:d5d1:6523])
+        by smtp.gmail.com with ESMTPSA id c8sm2248848qko.102.2019.10.03.17.00.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2019 17:00:20 -0700 (PDT)
+From:   Peter Geis <pgwipeout@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: [PATCH V3 4/4] ARM: tegra: use clk_m CPU on Tegra124 LP1 resume
-Date:   Thu,  3 Oct 2019 14:50:33 -0600
-Message-Id: <20191003205033.98381-4-swarren@wwwdotorg.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191003205033.98381-1-swarren@wwwdotorg.org>
-References: <20191003205033.98381-1-swarren@wwwdotorg.org>
+        Dmitry Osipenko <digetx@gmail.com>
+Cc:     linux-tegra@vger.kernel.org
+Subject: [PATCH] arm: tegra: enable pinctrl_single by default
+Date:   Thu,  3 Oct 2019 20:00:17 -0400
+Message-Id: <20191004000017.31656-1-pgwipeout@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-NVConfidentiality: public
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Stephen Warren <swarren@nvidia.com>
+Enable PINCTRL_SINGLE by default, this is required to enable
+GENERIC_PINCTRL.
+This prevents tegra_defconfig build from failing with the following
+error:
+drivers/soc/tegra/pmc.c:1753:3: error: ‘const struct pinconf_ops’ has no member named ‘is_generic’
+  .is_generic = true,
 
-Configure the clock controller to set an alternate clock for the CPU when
-it receives an IRQ during LP1 (system suspend). Specifically, use clk_m
-(the crystal) rather than clk_s (a 32KHz clock). Such an IRQ will be the
-LP1 wake event. This reduces the amount of time taken to resume from LP1.
-
-NVIDIA's downstream kernel executes this code on both Tegra30 and
-Tegra124, so it appears OK to make this change unconditionally.
-
-Signed-off-by: Stephen Warren <swarren@nvidia.com>
+Signed-off-by: Peter Geis <pgwipeout@gmail.com>
 ---
-v3: No change.
-v2: No change.
----
- arch/arm/mach-tegra/sleep-tegra30.S | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ arch/arm/configs/tegra_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/mach-tegra/sleep-tegra30.S b/arch/arm/mach-tegra/sleep-tegra30.S
-index 6191f9456288..ba5e9c07d1b6 100644
---- a/arch/arm/mach-tegra/sleep-tegra30.S
-+++ b/arch/arm/mach-tegra/sleep-tegra30.S
-@@ -670,8 +670,12 @@ tegra30_switch_cpu_to_clk32k:
- 	pll_iddq_entry r1, r5, CLK_RESET_PLLX_MISC3, CLK_RESET_PLLX_MISC3_IDDQ
- _no_pll_in_iddq:
- 
--	/* switch to CLKS */
--	mov	r0, #0	/* brust policy = 32KHz */
-+	/*
-+	 * Switch to clk_s (32KHz); bits 28:31=0
-+	 * Enable burst on CPU IRQ; bit 24=1
-+	 * Set IRQ burst clock source to clk_m; bits 10:8=0
-+	 */
-+	mov	r0, #(1 << 24)
- 	str	r0, [r5, #CLK_RESET_SCLK_BURST]
- 
- 	ret	lr
+diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
+index 9a2f11a780a8..c9e6d0f8917b 100644
+--- a/arch/arm/configs/tegra_defconfig
++++ b/arch/arm/configs/tegra_defconfig
+@@ -130,6 +130,7 @@ CONFIG_SPI=y
+ CONFIG_SPI_TEGRA114=y
+ CONFIG_SPI_TEGRA20_SFLASH=y
+ CONFIG_SPI_TEGRA20_SLINK=y
++CONFIG_PINCTRL_SINGLE=y
+ CONFIG_PINCTRL_AS3722=y
+ CONFIG_PINCTRL_PALMAS=y
+ CONFIG_GPIO_SYSFS=y
 -- 
-2.23.0
+2.17.1
 
