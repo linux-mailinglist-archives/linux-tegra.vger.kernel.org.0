@@ -2,82 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED681CB581
-	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 09:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5843ACB5E1
+	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 10:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387550AbfJDHzR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Oct 2019 03:55:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40750 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387511AbfJDHzR (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 4 Oct 2019 03:55:17 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1E254207FF;
-        Fri,  4 Oct 2019 07:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570175716;
-        bh=UuvG8lDsrw06dYiW7ZD+MvegXchW0FHoee1VIf8wfYk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=x5rYE/IvQu08H5jhQTfrJ3PCHyxaJAeDG+Q//6w/o6O5q/d7rwXKl2G3uYoiKqULi
-         K4CtXrntuB/hPkXtQiJU614XJEHl75D0wZkruFhzRZ0iFRILo3IAuHb95CmZRZ9vwA
-         EtFSrvkIS8MSnHHDSgWSZeFnqkYqUljStmakTtWo=
-Date:   Fri, 4 Oct 2019 09:55:14 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.3 000/344] 5.3.4-stable review
-Message-ID: <20191004075514.GB10406@kroah.com>
-References: <20191003154540.062170222@linuxfoundation.org>
- <fe3f55e2-9252-786d-0541-7dd253ffc438@nvidia.com>
+        id S1730532AbfJDITt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 4 Oct 2019 04:19:49 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:9848 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726525AbfJDITt (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 04:19:49 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d9700a40001>; Fri, 04 Oct 2019 01:19:48 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 04 Oct 2019 01:19:48 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 04 Oct 2019 01:19:48 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 4 Oct
+ 2019 08:19:48 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 4 Oct 2019 08:19:48 +0000
+Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.105]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d9700a20000>; Fri, 04 Oct 2019 01:19:47 -0700
+From:   JC Kuo <jckuo@nvidia.com>
+To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <nkristam@nvidia.com>, <skomatineni@nvidia.com>,
+        JC Kuo <jckuo@nvidia.com>
+Subject: [PATCH v2 0/7] add Tegra194 XUSB host and pad controller support
+Date:   Fri, 4 Oct 2019 16:19:34 +0800
+Message-ID: <20191004081941.4831-1-jckuo@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fe3f55e2-9252-786d-0541-7dd253ffc438@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1570177189; bh=coXi3f049m0PjHU3PpzdwtPVvzz4NE0VaXGGgGXwTo8=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=kcABtJm1BVK1qYkcQXp9dPPTVKPFIUJK707vMjr97PfRNSAdWRFW0pyK5nrE6weqx
+         smxZjh4VwbHLrS1iYs4es9x/0lMMk+YlfpZFMbGe5hbyZDL1sIARGarmsooE5V6Ob5
+         YW/r+olDPRCSttDjz5ex/IB84zyTeiiDxrSU2pQnm4pcQ0I5HpJrBcU6/uHwhI9kck
+         kAVYrQUCaEkSlSnzUKiwfJXsBD1iZFaaHVnzNKXeQmmcN9l79SeLRXLAmEgpDc3Aq6
+         jUsUSIzdFJxmpFxWha2qrgdgA0kyprv22GkdN4jlixQRAUGxHTOpWRAoWDGNe6znBN
+         numEbk8ugb4Og==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Oct 04, 2019 at 08:38:48AM +0100, Jon Hunter wrote:
-> 
-> On 03/10/2019 16:49, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.3.4 release.
-> > There are 344 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Sat 05 Oct 2019 03:37:47 PM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.4-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.3:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
-> 
-> Linux version:	5.3.4-rc1-gc9adc631ac5f
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
+Hi,
 
-Wonderful, thanks for testing all of these and letting me know.
+This series introduces support for Tegra194 XUSB host and pad
+controller. Tegra194 XUSB host and pad controller are highly
+similar to the controllers found on Tegra186. Therefore, it's
+possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
 
-greg k-h
+JC Kuo (7):
+  xhci: tegra: Parameterize mailbox register addresses
+  usb: host: xhci-tegra: Add Tegra194 XHCI support
+  phy: tegra: xusb: Protect Tegra186 soc with config
+  phy: tegra: xusb: Add Tegra194 support
+  dt-bindings: phy: tegra: Add Tegra194 support
+  arm64: tegra: Add XUSB and pad controller on Tegra194
+  arm64: tegra: Enable XUSB host in P2972-0000 board
+
+ .../phy/nvidia,tegra124-xusb-padctl.txt       |  16 ++
+ .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |  36 ++++-
+ .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  62 ++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 139 +++++++++++++++++
+ drivers/phy/tegra/Makefile                    |   1 +
+ drivers/phy/tegra/xusb-tegra186.c             | 144 +++++++++++++-----
+ drivers/phy/tegra/xusb.c                      |   7 +
+ drivers/phy/tegra/xusb.h                      |   6 +
+ drivers/usb/host/xhci-tegra.c                 |  88 +++++++++--
+ 9 files changed, 448 insertions(+), 51 deletions(-)
+
+-- 
+2.17.1
+
