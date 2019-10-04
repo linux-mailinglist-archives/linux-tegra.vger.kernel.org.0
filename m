@@ -2,287 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 85382CC137
-	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 19:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AC66CC4BC
+	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 23:21:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729291AbfJDRDy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Oct 2019 13:03:54 -0400
-Received: from imap1.codethink.co.uk ([176.9.8.82]:37718 "EHLO
-        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbfJDRDy (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 13:03:54 -0400
-Received: from [167.98.27.226] (helo=[10.35.6.110])
-        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
-        id 1iGQzU-0000ZT-46; Fri, 04 Oct 2019 18:03:40 +0100
-Subject: Re: [PATCH v3 6/7] ASoC: tegra: config fifos on hw_param changes
-To:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-kernel@lists.codethink.co.uk
-References: <20190930165130.10642-1-ben.dooks@codethink.co.uk>
- <20190930165130.10642-7-ben.dooks@codethink.co.uk>
- <3a65d828-8430-9739-7973-10e0df360767@nvidia.com>
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <faed4e1f-0e67-88b1-e276-80a8a5cd4b3e@codethink.co.uk>
-Date:   Fri, 4 Oct 2019 18:03:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1730378AbfJDVV1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 4 Oct 2019 17:21:27 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:37340 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730131AbfJDVV1 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 17:21:27 -0400
+Received: by mail-lf1-f68.google.com with SMTP id w67so5434109lff.4
+        for <linux-tegra@vger.kernel.org>; Fri, 04 Oct 2019 14:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OEr/bFV3Od5HcrZnG2EJ9f+c1Io5H/tUIvwwsgn09DA=;
+        b=QFNuvKWQbPlZmPs9n2F0eVA+YgD9EtctMySi94fMISEpBd80YJi6m2xw+a5hYnDZ4y
+         68FiPlqsMB5vjrVd1JwRpX1DC/OlyexaxS25+syv1cSY4RNBGTkVFEA4oJzycyqZdFMC
+         zdOgogn0guvw65iq5yALaQK44zYKvRDt71GOa2s86ejeJIy8mWidB0HsEEy94lPFbnD/
+         lmG1v0xS0tbG6XYQK97IBrVdiPxBGtewjO0KK1fL8ldyUnjnkcOT0L1b+y6d1PyFzh4M
+         mGSAVl8AwBwYLoUngJ5yzOD4nT7w7z18MoVxsuQxdICDc4GI4Guebj4xAZGe59TDM1zv
+         qtAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OEr/bFV3Od5HcrZnG2EJ9f+c1Io5H/tUIvwwsgn09DA=;
+        b=dWkOeS8+RIbtKN12JFMU6FiCDM/OLLqcTeg0p+OkZlREo/VvuRVU5G/6DblsyBzugZ
+         F9iUeeMHXCXya3w7a1D23fkMugja7RLq/mCw3E2zvD+Z72QD2Hg2DvBF3aa2Y22ihwiE
+         PUZmHpGNK15oP53cI7cMSnvWuWi5oNEX9oHasI7GYcbCTLfZeNqpzJNvfYX6vWKDoFQw
+         FEZCAIlMHOTBBmw60UDjlUsyYSeatpZSVrVcpc9YQYgXwN6GhHaWIEJ6NncvBh7wmAzJ
+         H9sQ48ixXGAfo/Q2UDnYd+dNa8VoakLuELlDt5OiPRRIXrN28LwCu06zLTbOSNO9SGE3
+         dPQQ==
+X-Gm-Message-State: APjAAAUwOjJ5peGhs629v4SAnpFIjQk8G5cJt5XU24DrOatzVGRtBa83
+        5MwbTQCr1PeiT6XHXNkr7fKNXeCJcLjT6t5Obp9vkA==
+X-Google-Smtp-Source: APXvYqw+7NMo8aDH8DPzxiviMSnHa6mPSv9NqIb9V8RGcxmjGuTqusV7aNOLUiisggfdETKdZxyD1mGc38XQIKfs0V0=
+X-Received: by 2002:a05:6512:25b:: with SMTP id b27mr10395220lfo.60.1570224085049;
+ Fri, 04 Oct 2019 14:21:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3a65d828-8430-9739-7973-10e0df360767@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20190923093637.27968-1-thierry.reding@gmail.com> <20190923095400.GA11084@ulmo>
+In-Reply-To: <20190923095400.GA11084@ulmo>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 4 Oct 2019 23:21:12 +0200
+Message-ID: <CACRpkdYFsSPtnx4a0uA3poK-7L_oh2mSkqPheug4hR7K3JO1jQ@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: tegra: Use of_device_get_match_data()
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 30/09/2019 22:08, Jon Hunter wrote:
-> 
-> On 30/09/2019 17:51, Ben Dooks wrote:
->> If the hw_params uses a different bit or channel count, then we
->> need to change both the I2S unit's CIF configuration as well as
->> the APBIF one.
->>
->> To allow changing the APBIF, add a call to reconfigure the RX or
->> TX FIFO without changing the DMA or allocation, and get the I2S
->> driver to call it once the hw params have been calculate.
->>
->> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
->> ---
->>   sound/soc/tegra/tegra30_ahub.c | 114 ++++++++++++++++++---------------
->>   sound/soc/tegra/tegra30_ahub.h |   5 ++
->>   sound/soc/tegra/tegra30_i2s.c  |   2 +
->>   3 files changed, 69 insertions(+), 52 deletions(-)
->>
->> diff --git a/sound/soc/tegra/tegra30_ahub.c b/sound/soc/tegra/tegra30_ahub.c
->> index 952381260dc3..58e05ceb86da 100644
->> --- a/sound/soc/tegra/tegra30_ahub.c
->> +++ b/sound/soc/tegra/tegra30_ahub.c
->> @@ -84,12 +84,40 @@ static int tegra30_ahub_runtime_resume(struct device *dev)
->>   	return 0;
->>   }
->>   
->> +int tegra30_ahub_setup_rx_fifo(enum tegra30_ahub_rxcif rxcif,
->> +			       struct tegra30_ahub_cif_conf *cif_conf)
->> +{
->> +	int channel = rxcif - TEGRA30_AHUB_RXCIF_APBIF_RX0;
->> +	u32 reg, val;
->> +
->> +	pm_runtime_get_sync(ahub->dev);
->> +
->> +	reg = TEGRA30_AHUB_CHANNEL_CTRL +
->> +	      (channel * TEGRA30_AHUB_CHANNEL_CTRL_STRIDE);
->> +	val = tegra30_apbif_read(reg);
->> +	val &= ~(TEGRA30_AHUB_CHANNEL_CTRL_RX_THRESHOLD_MASK |
->> +		 TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_MASK);
->> +	val |= (7 << TEGRA30_AHUB_CHANNEL_CTRL_RX_THRESHOLD_SHIFT) |
->> +	       TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_EN |
->> +	       TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_16;
->> +	tegra30_apbif_write(reg, val);
->> +
->> +	cif_conf->direction = TEGRA30_AUDIOCIF_DIRECTION_RX;
->> +
->> +	reg = TEGRA30_AHUB_CIF_RX_CTRL +
->> +	      (channel * TEGRA30_AHUB_CIF_RX_CTRL_STRIDE);
->> +	ahub->soc_data->set_audio_cif(ahub->regmap_apbif, reg, cif_conf);
->> +
->> +	pm_runtime_put(ahub->dev);
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(tegra30_ahub_setup_rx_fifo);
->> +
->>   int tegra30_ahub_allocate_rx_fifo(enum tegra30_ahub_rxcif *rxcif,
->>   				  char *dmachan, int dmachan_len,
->>   				  dma_addr_t *fiforeg)
->>   {
->>   	int channel;
->> -	u32 reg, val;
->>   	struct tegra30_ahub_cif_conf cif_conf;
->>   
->>   	channel = find_first_zero_bit(ahub->rx_usage,
->> @@ -104,37 +132,14 @@ int tegra30_ahub_allocate_rx_fifo(enum tegra30_ahub_rxcif *rxcif,
->>   	*fiforeg = ahub->apbif_addr + TEGRA30_AHUB_CHANNEL_RXFIFO +
->>   		   (channel * TEGRA30_AHUB_CHANNEL_RXFIFO_STRIDE);
->>   
->> -	pm_runtime_get_sync(ahub->dev);
->> +	memset(&cif_conf, 0, sizeof(cif_conf));
->>   
->> -	reg = TEGRA30_AHUB_CHANNEL_CTRL +
->> -	      (channel * TEGRA30_AHUB_CHANNEL_CTRL_STRIDE);
->> -	val = tegra30_apbif_read(reg);
->> -	val &= ~(TEGRA30_AHUB_CHANNEL_CTRL_RX_THRESHOLD_MASK |
->> -		 TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_MASK);
->> -	val |= (7 << TEGRA30_AHUB_CHANNEL_CTRL_RX_THRESHOLD_SHIFT) |
->> -	       TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_EN |
->> -	       TEGRA30_AHUB_CHANNEL_CTRL_RX_PACK_16;
->> -	tegra30_apbif_write(reg, val);
->> -
->> -	cif_conf.threshold = 0;
->>   	cif_conf.audio_channels = 2;
->>   	cif_conf.client_channels = 2;
->>   	cif_conf.audio_bits = TEGRA30_AUDIOCIF_BITS_16;
->>   	cif_conf.client_bits = TEGRA30_AUDIOCIF_BITS_16;
->> -	cif_conf.expand = 0;
->> -	cif_conf.stereo_conv = 0;
->> -	cif_conf.replicate = 0;
->> -	cif_conf.direction = TEGRA30_AUDIOCIF_DIRECTION_RX;
->> -	cif_conf.truncate = 0;
->> -	cif_conf.mono_conv = 0;
->> -
->> -	reg = TEGRA30_AHUB_CIF_RX_CTRL +
->> -	      (channel * TEGRA30_AHUB_CIF_RX_CTRL_STRIDE);
->> -	ahub->soc_data->set_audio_cif(ahub->regmap_apbif, reg, &cif_conf);
->> -
->> -	pm_runtime_put(ahub->dev);
->>   
->> -	return 0;
->> +	return tegra30_ahub_setup_rx_fifo(*rxcif, &cif_conf);
-> 
-> It seems a bit odd, that you still configure some of the cif_conf
-> members and then call tegra30_ahub_setup_rx_fifo() here. Why not just
-> allocate it and then move all the programming to
-> tegra30_ahub_setup_rx_fifo()?
+On Mon, Sep 23, 2019 at 11:54 AM Thierry Reding
+<thierry.reding@gmail.com> wrote:
 
-I was trying to keep the behaviour the same, IIRC the original is first
-called before the format information is known.
+> Actually, scratch that. We can't do this because the match table is
+> different for the legacy case from what the new PHY driver uses which
+> calls this only for the legacy case. Instead, I'd propose the attached
+> patch.
 
->>   }
->>   EXPORT_SYMBOL_GPL(tegra30_ahub_allocate_rx_fifo);
->>   
->> @@ -186,12 +191,40 @@ int tegra30_ahub_free_rx_fifo(enum tegra30_ahub_rxcif rxcif)
->>   }
->>   EXPORT_SYMBOL_GPL(tegra30_ahub_free_rx_fifo);
->>   
->> +int tegra30_ahub_setup_tx_fifo(enum tegra30_ahub_txcif txcif,
->> +			       struct tegra30_ahub_cif_conf *cif_conf)
->> +{
->> +	int channel = txcif - TEGRA30_AHUB_TXCIF_APBIF_TX0;
->> +	u32 reg, val;
->> +
->> +	pm_runtime_get_sync(ahub->dev);
->> +
->> +	reg = TEGRA30_AHUB_CHANNEL_CTRL +
->> +	      (channel * TEGRA30_AHUB_CHANNEL_CTRL_STRIDE);
->> +	val = tegra30_apbif_read(reg);
->> +	val &= ~(TEGRA30_AHUB_CHANNEL_CTRL_TX_THRESHOLD_MASK |
->> +		 TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_MASK);
->> +	val |= (7 << TEGRA30_AHUB_CHANNEL_CTRL_TX_THRESHOLD_SHIFT) |
->> +	       TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_EN |
->> +	       TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_16;
->> +	tegra30_apbif_write(reg, val);
->> +
->> +	cif_conf->direction = TEGRA30_AUDIOCIF_DIRECTION_TX;
->> +
->> +	reg = TEGRA30_AHUB_CIF_TX_CTRL +
->> +	      (channel * TEGRA30_AHUB_CIF_TX_CTRL_STRIDE);
->> +	ahub->soc_data->set_audio_cif(ahub->regmap_apbif, reg, cif_conf);
->> +
->> +	pm_runtime_put(ahub->dev);
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(tegra30_ahub_setup_tx_fifo);
->> +
->>   int tegra30_ahub_allocate_tx_fifo(enum tegra30_ahub_txcif *txcif,
->>   				  char *dmachan, int dmachan_len,
->>   				  dma_addr_t *fiforeg)
->>   {
->>   	int channel;
->> -	u32 reg, val;
->>   	struct tegra30_ahub_cif_conf cif_conf;
->>   
->>   	channel = find_first_zero_bit(ahub->tx_usage,
->> @@ -206,37 +239,14 @@ int tegra30_ahub_allocate_tx_fifo(enum tegra30_ahub_txcif *txcif,
->>   	*fiforeg = ahub->apbif_addr + TEGRA30_AHUB_CHANNEL_TXFIFO +
->>   		   (channel * TEGRA30_AHUB_CHANNEL_TXFIFO_STRIDE);
->>   
->> -	pm_runtime_get_sync(ahub->dev);
->> -
->> -	reg = TEGRA30_AHUB_CHANNEL_CTRL +
->> -	      (channel * TEGRA30_AHUB_CHANNEL_CTRL_STRIDE);
->> -	val = tegra30_apbif_read(reg);
->> -	val &= ~(TEGRA30_AHUB_CHANNEL_CTRL_TX_THRESHOLD_MASK |
->> -		 TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_MASK);
->> -	val |= (7 << TEGRA30_AHUB_CHANNEL_CTRL_TX_THRESHOLD_SHIFT) |
->> -	       TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_EN |
->> -	       TEGRA30_AHUB_CHANNEL_CTRL_TX_PACK_16;
->> -	tegra30_apbif_write(reg, val);
->> -
->> -	cif_conf.threshold = 0;
->> +	memset(&cif_conf, 0, sizeof(cif_conf));
->>   	cif_conf.audio_channels = 2;
->>   	cif_conf.client_channels = 2;
->>   	cif_conf.audio_bits = TEGRA30_AUDIOCIF_BITS_16;
->>   	cif_conf.client_bits = TEGRA30_AUDIOCIF_BITS_16;
->> -	cif_conf.expand = 0;
->> -	cif_conf.stereo_conv = 0;
->> -	cif_conf.replicate = 0;
->>   	cif_conf.direction = TEGRA30_AUDIOCIF_DIRECTION_TX;
->> -	cif_conf.truncate = 0;
->> -	cif_conf.mono_conv = 0;
->> -
->> -	reg = TEGRA30_AHUB_CIF_TX_CTRL +
->> -	      (channel * TEGRA30_AHUB_CIF_TX_CTRL_STRIDE);
->> -	ahub->soc_data->set_audio_cif(ahub->regmap_apbif, reg, &cif_conf);
->>   
->> -	pm_runtime_put(ahub->dev);
->> -
->> -	return 0;
->> +	return tegra30_ahub_setup_tx_fifo(*txcif, &cif_conf);
->>   }
->>   EXPORT_SYMBOL_GPL(tegra30_ahub_allocate_tx_fifo);
->>   
->> diff --git a/sound/soc/tegra/tegra30_ahub.h b/sound/soc/tegra/tegra30_ahub.h
->> index 6889c5f23d02..26120aee64b3 100644
->> --- a/sound/soc/tegra/tegra30_ahub.h
->> +++ b/sound/soc/tegra/tegra30_ahub.h
->> @@ -490,6 +490,11 @@ void tegra30_ahub_set_cif(struct regmap *regmap, unsigned int reg,
->>   void tegra124_ahub_set_cif(struct regmap *regmap, unsigned int reg,
->>   			   struct tegra30_ahub_cif_conf *conf);
->>   
->> +extern int tegra30_ahub_setup_tx_fifo(enum tegra30_ahub_txcif txcif,
->> +				      struct tegra30_ahub_cif_conf *cif_conf);
->> +extern int tegra30_ahub_setup_rx_fifo(enum tegra30_ahub_rxcif,
->> +				      struct tegra30_ahub_cif_conf *cif_conf);
->> +
->>   struct tegra30_ahub_soc_data {
->>   	u32 mod_list_mask;
->>   	void (*set_audio_cif)(struct regmap *regmap,
->> diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
->> index a03692b0afc3..19ac49df6cc8 100644
->> --- a/sound/soc/tegra/tegra30_i2s.c
->> +++ b/sound/soc/tegra/tegra30_i2s.c
->> @@ -202,9 +202,11 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
->>   
->>   	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
->>   		cif_conf.direction = TEGRA30_AUDIOCIF_DIRECTION_RX;
-> 
-> You set the direction here and then set it again in
-> tegra30_ahub_setup_tx_fifo(). It only needs to be done once.
+OK I applied that instead.
 
-ok, will fix that.
-
->> +		tegra30_ahub_setup_tx_fifo(i2s->playback_fifo_cif, &cif_conf);
->>   		reg = TEGRA30_I2S_CIF_RX_CTRL;
->>   	} else {
->>   		cif_conf.direction = TEGRA30_AUDIOCIF_DIRECTION_TX;
->> +		tegra30_ahub_setup_rx_fifo(i2s->capture_fifo_cif, &cif_conf);
->>   		reg = TEGRA30_I2S_CIF_TX_CTRL;
->>   	}
->>   
->>
-> 
-> Cheers
-> Jon
-> 
-
-
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
-
-https://www.codethink.co.uk/privacy.html
+Yours,
+Linus Walleij
