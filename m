@@ -2,30 +2,30 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69918CC0BB
-	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 18:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA2FECC0D5
+	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 18:30:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388549AbfJDQ3j (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Oct 2019 12:29:39 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:14657 "EHLO
+        id S1730502AbfJDQaD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 4 Oct 2019 12:30:03 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:14612 "EHLO
         hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731526AbfJDQ3j (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 12:29:39 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d9773710000>; Fri, 04 Oct 2019 09:29:37 -0700
+        with ESMTP id S1726978AbfJDQ3N (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 12:29:13 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d9773590000>; Fri, 04 Oct 2019 09:29:13 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 04 Oct 2019 09:29:36 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 04 Oct 2019 09:29:12 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 04 Oct 2019 09:29:36 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 4 Oct
- 2019 16:29:36 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 4 Oct 2019 16:29:36 +0000
+        by hqpgpgate101.nvidia.com on Fri, 04 Oct 2019 09:29:12 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 4 Oct
+ 2019 16:29:12 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 4 Oct 2019 16:29:12 +0000
 Received: from jckuo-lt.nvidia.com (Not Verified[10.19.101.223]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d9773680000>; Fri, 04 Oct 2019 09:29:34 -0700
+        id <B5d9773560000>; Fri, 04 Oct 2019 09:29:12 -0700
 From:   JC Kuo <jckuo@nvidia.com>
 To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
         <jonathanh@nvidia.com>
@@ -33,178 +33,87 @@ CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <nkristam@nvidia.com>, <skomatineni@nvidia.com>,
         JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH v3 7/7] arm64: tegra: Enable XUSB host in P2972-0000 board
-Date:   Sat, 5 Oct 2019 00:29:06 +0800
-Message-ID: <20191004162906.4818-8-jckuo@nvidia.com>
+Subject: [PATCH v3 0/7] add Tegra194 XUSB host and pad controller support
+Date:   Sat, 5 Oct 2019 00:28:59 +0800
+Message-ID: <20191004162906.4818-1-jckuo@nvidia.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191004162906.4818-1-jckuo@nvidia.com>
-References: <20191004162906.4818-1-jckuo@nvidia.com>
 X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570206577; bh=6BG4OlYKtCKIJ3gJVhnqd/SjEaS+UOhl1AFVKs7S4U0=;
+        t=1570206553; bh=prAoC2jXEEciuUkvcJ1IVyBjgWVH3m3veacPBoIaLpw=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=JE2AsgypRfe5SMrxbXiQAzx2mRKhIUnYNeujc42syGMvr4ycD2c6mt08FVGqWmRdB
-         87TQSnyGpjV0CWeI1HUHAjoP/kyOKyzRjUmDveiOrLHgJZpv913Z+4tk4hkDv++OLF
-         h5T6Db1vVpoAmltvADOu1nhgYIyzO8x8Grn8yfZF0x9RDE+YdjiEInqNDiddnQ8bHX
-         14q1Ae1M+ASkH4wKsPe93BkJk1ngGhvxtESgaKJ5tfETEL6YHjlguoqLd6Gsq3mHCn
-         hFtN5thrlCEF4TvdlNjV2444Gj7aymzYbrWepErP5JctySx3hGXVsnWcM6hoDCdXq7
-         Zhdt0qEvtAbmA==
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=F2bPtDirhoSE8dcOf6l02VgYGUGwuSW3rr8cz11GeZ7AcM2cMDtZnEVwruTDX/hvn
+         SThq9D/PwkUW5Foy/dp3C4L8ynWjEd8aqK3oRoCuUortv6ToH1Wd9HAjm1J4Hvjo3J
+         4wK6l/uF4vEG06ohCAttkbFrvJh88bvnOjD0lKh/u4Onl+jlE++PRykCKd0Sgqy4Sf
+         Q4rYX53Aln3x1hYTW+B0N5KidOvdYPSQXicrVqPoQB5zJ9IHgvbOW7YTQB5u8CIxZn
+         EhLIPS0C/aSYwpvdYlo0twBNieVVSF7M7pM2LVqksvh+0i8ViUeXpC6YxeE4uCUcP3
+         4236EZJQYDr9Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This commit enables XUSB host and pad controller in Tegra194
-P2972-0000 board.
+Hi,
 
-Signed-off-by: JC Kuo <jckuo@nvidia.com>
----
-Changes in v3: none
-Changes in v2:
-- use capitalization of regulator names
-- fix gpio property of VDD_5V_SATA regulator
+This series introduces support for Tegra194 XUSB host and pad
+controller. Tegra194 XUSB host and pad controller are highly
+similar to the controllers found on Tegra186. Therefore, it's
+possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
 
- .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 36 ++++++++++-
- .../boot/dts/nvidia/tegra194-p2972-0000.dts   | 62 +++++++++++++++++++
- 2 files changed, 97 insertions(+), 1 deletion(-)
+Changelog:
+v3:
+  add change log to cover latter
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-index 4c38426a6969..e7d5e8a30f93 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-@@ -66,6 +66,29 @@
- 			vmmc-supply = <&vdd_emmc_3v3>;
- 		};
- 
-+		padctl@3520000 {
-+			avdd-usb-supply = <&vdd_usb_3v3>;
-+			vclamp-usb-supply = <&vdd_1v8ao>;
-+
-+			ports {
-+				usb2-1 {
-+					vbus-supply = <&vdd_5v0_sys>;
-+				};
-+
-+				usb2-3 {
-+					vbus-supply = <&vdd_5v_sata>;
-+				};
-+
-+				usb3-0 {
-+					vbus-supply = <&vdd_5v0_sys>;
-+				};
-+
-+				usb3-3 {
-+					vbus-supply = <&vdd_5v0_sys>;
-+				};
-+			};
-+		};
-+
- 		rtc@c2a0000 {
- 			status = "okay";
- 		};
-@@ -229,7 +252,7 @@
- 						regulator-max-microvolt = <3300000>;
- 					};
- 
--					ldo5 {
-+					vdd_usb_3v3: ldo5 {
- 						regulator-name = "VDD_USB_3V3";
- 						regulator-min-microvolt = <3300000>;
- 						regulator-max-microvolt = <3300000>;
-@@ -313,5 +336,16 @@
- 			regulator-boot-on;
- 			enable-active-low;
- 		};
-+
-+		vdd_5v_sata: regulator@4 {
-+			compatible = "regulator-fixed";
-+			reg = <4>;
-+
-+			regulator-name = "VDD_5V_SATA";
-+			regulator-min-microvolt = <5000000>;
-+			regulator-max-microvolt = <5000000>;
-+			gpio = <&gpio TEGRA194_MAIN_GPIO(Z, 1) GPIO_ACTIVE_HIGH>;
-+			enable-active-high;
-+		};
- 	};
- };
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index d47cd8c4dd24..b60eef64c487 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -62,6 +62,68 @@
- 							 GPIO_ACTIVE_LOW>;
- 			};
- 		};
-+		padctl@3520000 {
-+			status = "okay";
-+
-+			pads {
-+				usb2 {
-+					lanes {
-+						usb2-1 {
-+							status = "okay";
-+						};
-+
-+						usb2-3 {
-+							status = "okay";
-+						};
-+					};
-+				};
-+
-+				usb3 {
-+					lanes {
-+						usb3-0 {
-+							status = "okay";
-+						};
-+
-+						usb3-3 {
-+							status = "okay";
-+						};
-+					};
-+				};
-+			};
-+
-+			ports {
-+				usb2-1 {
-+					mode = "host";
-+					status = "okay";
-+				};
-+
-+				usb2-3 {
-+					mode = "host";
-+					status = "okay";
-+				};
-+
-+				usb3-0 {
-+					nvidia,usb2-companion = <1>;
-+					status = "okay";
-+				};
-+
-+				usb3-3 {
-+					nvidia,usb2-companion = <3>;
-+					nvidia,disable-gen2;
-+					status = "okay";
-+				};
-+			};
-+		};
-+
-+		usb@3610000 {
-+			status = "okay";
-+
-+			phys =	<&{/cbb/padctl@3520000/pads/usb2/lanes/usb2-1}>,
-+				<&{/cbb/padctl@3520000/pads/usb2/lanes/usb2-3}>,
-+				<&{/cbb/padctl@3520000/pads/usb3/lanes/usb3-0}>,
-+				<&{/cbb/padctl@3520000/pads/usb3/lanes/usb3-3}>;
-+			phy-names = "usb2-1", "usb2-3", "usb3-0", "usb3-3";
-+		};
- 	};
- 
- 	pcie@14100000 {
+v2:
+  xhci: tegra: Parameterize mailbox register addresses
+   - no change
+
+  usb: host: xhci-tegra: Add Tegra194 XHCI support
+   - no change
+
+  phy: tegra: xusb: Protect Tegra186 soc with config
+   - new patch to protect Tegra186 soc data with config
+
+  phy: tegra: xusb: Add Tegra194 support
+   - removed unnecessary #if/#endif pairs
+   - introduce new soc->supports_gen2 flag which indicate whether or not
+     a soc supports USB 3.1 Gen 2 speed
+
+  dt-bindings: phy: tegra: Add Tegra194 support
+   - fix a typo
+
+  arm64: tegra: Add XUSB and pad controller on Tegra194
+   - renamed xhci@3610000 with usb@3610000
+   - moved padctl@3520000 and usb@3610000 inside /cbb
+   - cleaned up "clocks" property of usb@3610000 node
+   - added blanks lines to visually separate blocks
+
+  arm64: tegra: Enable XUSB host in P2972-0000 board
+   - use capitalization of regulator names
+   - fix gpio property of VDD_5V_SATA regulator
+
+JC Kuo (7):
+  xhci: tegra: Parameterize mailbox register addresses
+  usb: host: xhci-tegra: Add Tegra194 XHCI support
+  phy: tegra: xusb: Protect Tegra186 soc with config
+  phy: tegra: xusb: Add Tegra194 support
+  dt-bindings: phy: tegra: Add Tegra194 support
+  arm64: tegra: Add XUSB and pad controller on Tegra194
+  arm64: tegra: Enable XUSB host in P2972-0000 board
+
+ .../phy/nvidia,tegra124-xusb-padctl.txt       |  16 ++
+ .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |  36 ++++-
+ .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  62 ++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 139 +++++++++++++++++
+ drivers/phy/tegra/Makefile                    |   1 +
+ drivers/phy/tegra/xusb-tegra186.c             | 144 +++++++++++++-----
+ drivers/phy/tegra/xusb.c                      |   7 +
+ drivers/phy/tegra/xusb.h                      |   6 +
+ drivers/usb/host/xhci-tegra.c                 |  88 +++++++++--
+ 9 files changed, 448 insertions(+), 51 deletions(-)
+
 -- 
 2.17.1
 
