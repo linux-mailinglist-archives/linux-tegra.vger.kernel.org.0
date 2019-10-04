@@ -2,119 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AFC0CC033
-	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 18:08:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 716B9CC03C
+	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 18:08:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390235AbfJDQHn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Oct 2019 12:07:43 -0400
-Received: from avon.wwwdotorg.org ([104.237.132.123]:53430 "EHLO
-        avon.wwwdotorg.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389910AbfJDQHn (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 12:07:43 -0400
-Received: from [10.20.204.51] (unknown [216.228.112.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by avon.wwwdotorg.org (Postfix) with ESMTPSA id 79E431C0728;
-        Fri,  4 Oct 2019 10:07:41 -0600 (MDT)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.100.3 at avon.wwwdotorg.org
-Subject: Re: [PATCH 1/4] clk: tegra: Enable fuse clock on Tegra124
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20191001211346.104400-1-swarren@wwwdotorg.org>
- <20191002110454.GJ3716706@ulmo>
- <6a48d716-2312-4623-f47a-a53ac2ece83c@wwwdotorg.org>
- <20191004121812.GB227112@ulmo>
-From:   Stephen Warren <swarren@wwwdotorg.org>
-Message-ID: <0fa7829b-ec05-8b57-138e-694155385d26@wwwdotorg.org>
-Date:   Fri, 4 Oct 2019 10:07:39 -0600
+        id S2390182AbfJDQIp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 4 Oct 2019 12:08:45 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:16297 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389835AbfJDQIp (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 12:08:45 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d976e950000>; Fri, 04 Oct 2019 09:08:53 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 04 Oct 2019 09:08:44 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 04 Oct 2019 09:08:44 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 4 Oct
+ 2019 16:08:44 +0000
+Received: from [10.19.101.223] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 4 Oct 2019
+ 16:08:41 +0000
+Subject: Re: [PATCH v2 0/7] add Tegra194 XUSB host and pad controller support
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <nkristam@nvidia.com>, <skomatineni@nvidia.com>
+References: <20191004081941.4831-1-jckuo@nvidia.com>
+ <20191004122322.GB422178@kroah.com>
+X-Nvconfidentiality: public
+From:   JC Kuo <jckuo@nvidia.com>
+Message-ID: <1a52dc83-3342-0cbf-c345-5c7be9602fd4@nvidia.com>
+Date:   Sat, 5 Oct 2019 00:08:39 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191004121812.GB227112@ulmo>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20191004122322.GB422178@kroah.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1570205333; bh=Fp5l3Rnhu/ep2kIL29WMWx8dC8CilaUaeX7BmNyBlrI=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=fV0+GFJ5kuxCS8QagayZv6eOGl2Wj7+zcazsktGNzZofxX/jdy37mx3SsdoWDDBt9
+         BwOiSxcrjObHNSxwQgLZoJgMd7G0i036mT/xoeldnSTJ4EiJk9Peq/h0hrKHPELNZf
+         tRQ8YashKCI1ErwW+CYsgNXoNElqK7Bvwy9npuwld0b/MI2f8+YO8Cf4chBKGjshaw
+         Ok3KxVdFx94VAxYL+wYPxBuBTNRpfXZQzscAZWRHfKx4gUUD3JAW4kCw12vX+Q03BO
+         aJuEpjJpjmg2/lZLAHTK2m04oELbT9X1uRlGUSwAGEN5V5NlbsEpucj52Gyl3BH85g
+         5H53DKu8XcPDA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 10/4/19 6:18 AM, Thierry Reding wrote:
-> On Wed, Oct 02, 2019 at 02:59:03PM -0600, Stephen Warren wrote:
->> On 10/2/19 5:04 AM, Thierry Reding wrote:
->>> On Tue, Oct 01, 2019 at 03:13:43PM -0600, Stephen Warren wrote:
->>>> From: Stephen Warren <swarren@nvidia.com>
->>>>
->>>> For a little over a year, U-Boot has configured the flow controller to
->>>> perform automatic RAM re-repair on off->on power transitions of the CPU
->>>> rail1]. This is mandatory for correct operation of Tegra124. However, RAM
->>>> re-repair relies on certain clocks, which the kernel must enable and
->>>> leave running. The fuse clock is one of those clocks. Enable this clock
->>>> so that LP1 power mode (system suspend) operates correctly.
->>>>
->>>> [1] 3cc7942a4ae5 ARM: tegra: implement RAM repair
->>>>
->>>> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
->>>> Cc: stable@vger.kernel.org
->>>> Signed-off-by: Stephen Warren <swarren@nvidia.com>
->>>> ---
->>>>    drivers/clk/tegra/clk-tegra124.c | 1 +
->>>>    1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/drivers/clk/tegra/clk-tegra124.c b/drivers/clk/tegra/clk-tegra124.c
->>>> index 0224fdc4766f..f53f6315c646 100644
->>>> --- a/drivers/clk/tegra/clk-tegra124.c
->>>> +++ b/drivers/clk/tegra/clk-tegra124.c
->>>> @@ -1291,6 +1291,7 @@ static struct tegra_clk_init_table common_init_table[] __initdata = {
->>>>    };
->>>>    static struct tegra_clk_init_table tegra124_init_table[] __initdata = {
->>>> +	{ TEGRA124_CLK_FUSE, -1, 0, 1 },
->>>
->>> I think the correct way to do this these days is to mark the clock as
->>> CRITICAL. Not sure if there's an easy way to do that given that the
->>> clock init table doesn't allow storing flags.
->>>
->>> Do you have any good ideas on how to achieve this with the critical flag
->>> instead of forcing the refcount to 1?
->>>
->>> Perhaps something like the below would work?
->>> ...
+On 10/4/19 8:23 PM, Greg KH wrote:
+> On Fri, Oct 04, 2019 at 04:19:34PM +0800, JC Kuo wrote:
+>> Hi,
 >>
->> The following works for me; does this seem like a reasonable approach? It
->> does set the critical flag for all SoCs, including any that don't require
->> RAM re-repair. I'm not sure which do; I know it's more than just Tegra124,
->> but I'm not sure how far back/forward the requirement goes.
+>> This series introduces support for Tegra194 XUSB host and pad
+>> controller. Tegra194 XUSB host and pad controller are highly
+>> similar to the controllers found on Tegra186. Therefore, it's
+>> possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
 >>
->>> diff --git a/drivers/clk/tegra/clk-tegra-periph.c b/drivers/clk/tegra/clk-tegra-periph.c
->>> index 1ed85f120a1b..76dd91eebd13 100644
->>> --- a/drivers/clk/tegra/clk-tegra-periph.c
->>> +++ b/drivers/clk/tegra/clk-tegra-periph.c
->>> @@ -785,7 +785,7 @@ static struct tegra_periph_init_data gate_clks[] = {
->>>          GATE("ahbdma", "hclk", 33, 0, tegra_clk_ahbdma, 0),
->>>          GATE("apbdma", "pclk", 34, 0, tegra_clk_apbdma, 0),
->>>          GATE("kbc", "clk_32k", 36, TEGRA_PERIPH_ON_APB | TEGRA_PERIPH_NO_RESET, tegra_clk_kbc, 0),
->>> -       GATE("fuse", "clk_m", 39, TEGRA_PERIPH_ON_APB, tegra_clk_fuse, 0),
->>> +       GATE("fuse", "clk_m", 39, TEGRA_PERIPH_ON_APB, tegra_clk_fuse, CLK_IS_CRITICAL),
->>>          GATE("fuse_burn", "clk_m", 39, TEGRA_PERIPH_ON_APB, tegra_clk_fuse_burn, 0),
->>>          GATE("kfuse", "clk_m", 40, TEGRA_PERIPH_ON_APB, tegra_clk_kfuse, 0),
->>>          GATE("apbif", "clk_m", 107, TEGRA_PERIPH_ON_APB, tegra_clk_apbif, 0),
+>> JC Kuo (7):
+>>   xhci: tegra: Parameterize mailbox register addresses
+>>   usb: host: xhci-tegra: Add Tegra194 XHCI support
+>>   phy: tegra: xusb: Protect Tegra186 soc with config
+>>   phy: tegra: xusb: Add Tegra194 support
+>>   dt-bindings: phy: tegra: Add Tegra194 support
+>>   arm64: tegra: Add XUSB and pad controller on Tegra194
+>>   arm64: tegra: Enable XUSB host in P2972-0000 board
 > 
-> It's probably fine to do this. The patch I proposed would've restricted
-> the change to just Tegra124. But if we need this on other generations, I
-> don't think the extra complexity is justified, especially since I can't
-> imagine that the FUSE clock remaining always on would consume a lot of
-> extra power.
+> What changed from v1?  You need to put that somewhere, usually in the
+> patches themselves, below the --- line.
+> 
+> Or at the very least, in the cover letter.
+> 
+> Given that I can't find it anywhere here, I'll expect a v3 with that
+> information to be sent soon :(
+> 
+For the first two patches, v2 is identical to v1, sorry that I didn't describe
+in patches. For the patches 3 to 7, the individual patch has "Changes in v2:"
+session to describe.
+I will submit v3 with patch 1 and 2 updated.
 
-T114/T124/T132/T210 all require it. T20/T30 I'm not sure since the TRM 
-doesn't mention RAM repair, but that could just be missing 
-documentation. I think it was introduced in T114 though. The T186 and 
-T194s TRM mention RAM repair, but so much changed in those SoCs I'm not 
-certain if it works in the same way and hence relies on fuse clock; 
-probably though.
+Thanks for the guidance,
+JC
+
