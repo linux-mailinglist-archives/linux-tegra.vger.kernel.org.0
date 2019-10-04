@@ -2,98 +2,234 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 716B9CC03C
-	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 18:08:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFBA2CC0CC
+	for <lists+linux-tegra@lfdr.de>; Fri,  4 Oct 2019 18:30:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390182AbfJDQIp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Oct 2019 12:08:45 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:16297 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389835AbfJDQIp (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 12:08:45 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d976e950000>; Fri, 04 Oct 2019 09:08:53 -0700
+        id S1729486AbfJDQ3S (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 4 Oct 2019 12:29:18 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:14621 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728346AbfJDQ3R (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 12:29:17 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d97735b0000>; Fri, 04 Oct 2019 09:29:15 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 04 Oct 2019 09:08:44 -0700
+  Fri, 04 Oct 2019 09:29:15 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 04 Oct 2019 09:08:44 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+        by hqpgpgate101.nvidia.com on Fri, 04 Oct 2019 09:29:15 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 4 Oct
- 2019 16:08:44 +0000
-Received: from [10.19.101.223] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 4 Oct 2019
- 16:08:41 +0000
-Subject: Re: [PATCH v2 0/7] add Tegra194 XUSB host and pad controller support
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <nkristam@nvidia.com>, <skomatineni@nvidia.com>
-References: <20191004081941.4831-1-jckuo@nvidia.com>
- <20191004122322.GB422178@kroah.com>
-X-Nvconfidentiality: public
+ 2019 16:29:15 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 4 Oct 2019 16:29:15 +0000
+Received: from jckuo-lt.nvidia.com (Not Verified[10.19.101.223]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5d9773580000>; Fri, 04 Oct 2019 09:29:15 -0700
 From:   JC Kuo <jckuo@nvidia.com>
-Message-ID: <1a52dc83-3342-0cbf-c345-5c7be9602fd4@nvidia.com>
-Date:   Sat, 5 Oct 2019 00:08:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <nkristam@nvidia.com>, <skomatineni@nvidia.com>,
+        JC Kuo <jckuo@nvidia.com>
+Subject: [PATCH v3 1/7] xhci: tegra: Parameterize mailbox register addresses
+Date:   Sat, 5 Oct 2019 00:29:00 +0800
+Message-ID: <20191004162906.4818-2-jckuo@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191004162906.4818-1-jckuo@nvidia.com>
+References: <20191004162906.4818-1-jckuo@nvidia.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20191004122322.GB422178@kroah.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570205333; bh=Fp5l3Rnhu/ep2kIL29WMWx8dC8CilaUaeX7BmNyBlrI=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=fV0+GFJ5kuxCS8QagayZv6eOGl2Wj7+zcazsktGNzZofxX/jdy37mx3SsdoWDDBt9
-         BwOiSxcrjObHNSxwQgLZoJgMd7G0i036mT/xoeldnSTJ4EiJk9Peq/h0hrKHPELNZf
-         tRQ8YashKCI1ErwW+CYsgNXoNElqK7Bvwy9npuwld0b/MI2f8+YO8Cf4chBKGjshaw
-         Ok3KxVdFx94VAxYL+wYPxBuBTNRpfXZQzscAZWRHfKx4gUUD3JAW4kCw12vX+Q03BO
-         aJuEpjJpjmg2/lZLAHTK2m04oELbT9X1uRlGUSwAGEN5V5NlbsEpucj52Gyl3BH85g
-         5H53DKu8XcPDA==
+        t=1570206556; bh=3J5CM+iShX9HnmBqSs2UYEG11DDpBrM4rxQ1znZIh+U=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
+         Content-Type;
+        b=eUmy4fi2HQpgNm1FqexzzEpBX7cSNQTYIqoHrS09MWnawU8l3FPd0maATha4pVAZp
+         OhKBlj1YCKKXj7+9EVM++3C4L/QSV+52nMnWIseVLbJZ5QqSiA/+vMc/dIo0BRCioj
+         adAUNLOHOImt+3ss6BB+6n8Gd4EkbVhzoC+TT02GcAdmB5TtFwn+jLOZu4gDA8PY3N
+         PbSKY/W5tmk8HQ4TKTyW/dxbeo5fS0NiBnNf53SdgmkWTPJzxsB7v6WwzeRnucOCMb
+         ioReypJVw8IjuTv8JWSqzCw06/6O5uggVp8gM1iQmypqP059olQzn1uoW2yf/r9fqk
+         B847JLa4+RBkg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 10/4/19 8:23 PM, Greg KH wrote:
-> On Fri, Oct 04, 2019 at 04:19:34PM +0800, JC Kuo wrote:
->> Hi,
->>
->> This series introduces support for Tegra194 XUSB host and pad
->> controller. Tegra194 XUSB host and pad controller are highly
->> similar to the controllers found on Tegra186. Therefore, it's
->> possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
->>
->> JC Kuo (7):
->>   xhci: tegra: Parameterize mailbox register addresses
->>   usb: host: xhci-tegra: Add Tegra194 XHCI support
->>   phy: tegra: xusb: Protect Tegra186 soc with config
->>   phy: tegra: xusb: Add Tegra194 support
->>   dt-bindings: phy: tegra: Add Tegra194 support
->>   arm64: tegra: Add XUSB and pad controller on Tegra194
->>   arm64: tegra: Enable XUSB host in P2972-0000 board
-> 
-> What changed from v1?  You need to put that somewhere, usually in the
-> patches themselves, below the --- line.
-> 
-> Or at the very least, in the cover letter.
-> 
-> Given that I can't find it anywhere here, I'll expect a v3 with that
-> information to be sent soon :(
-> 
-For the first two patches, v2 is identical to v1, sorry that I didn't describe
-in patches. For the patches 3 to 7, the individual patch has "Changes in v2:"
-session to describe.
-I will submit v3 with patch 1 and 2 updated.
+Tegra194 XUSB host controller has rearranged mailbox registers. This
+commit makes mailbox registers address a part of "soc" data so that
+xhci-tegra driver can be used for Tegra194.
 
-Thanks for the guidance,
-JC
+Signed-off-by: JC Kuo <jckuo@nvidia.com>
+---
+Changes in v3: none
+Changes in v2: none
+
+ drivers/usb/host/xhci-tegra.c | 58 +++++++++++++++++++++++++----------
+ 1 file changed, 42 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+index 2ff7c911fbd0..add6b8fb40e1 100644
+--- a/drivers/usb/host/xhci-tegra.c
++++ b/drivers/usb/host/xhci-tegra.c
+@@ -42,19 +42,18 @@
+ #define XUSB_CFG_CSB_BASE_ADDR			0x800
+ 
+ /* FPCI mailbox registers */
+-#define XUSB_CFG_ARU_MBOX_CMD			0x0e4
++/* XUSB_CFG_ARU_MBOX_CMD */
+ #define  MBOX_DEST_FALC				BIT(27)
+ #define  MBOX_DEST_PME				BIT(28)
+ #define  MBOX_DEST_SMI				BIT(29)
+ #define  MBOX_DEST_XHCI				BIT(30)
+ #define  MBOX_INT_EN				BIT(31)
+-#define XUSB_CFG_ARU_MBOX_DATA_IN		0x0e8
++/* XUSB_CFG_ARU_MBOX_DATA_IN and XUSB_CFG_ARU_MBOX_DATA_OUT */
+ #define  CMD_DATA_SHIFT				0
+ #define  CMD_DATA_MASK				0xffffff
+ #define  CMD_TYPE_SHIFT				24
+ #define  CMD_TYPE_MASK				0xff
+-#define XUSB_CFG_ARU_MBOX_DATA_OUT		0x0ec
+-#define XUSB_CFG_ARU_MBOX_OWNER			0x0f0
++/* XUSB_CFG_ARU_MBOX_OWNER */
+ #define  MBOX_OWNER_NONE			0
+ #define  MBOX_OWNER_FW				1
+ #define  MBOX_OWNER_SW				2
+@@ -146,6 +145,13 @@ struct tegra_xusb_phy_type {
+ 	unsigned int num;
+ };
+ 
++struct tega_xusb_mbox_regs {
++	u16 cmd;
++	u16 data_in;
++	u16 data_out;
++	u16 owner;
++};
++
+ struct tegra_xusb_soc {
+ 	const char *firmware;
+ 	const char * const *supply_names;
+@@ -160,6 +166,8 @@ struct tegra_xusb_soc {
+ 		} usb2, ulpi, hsic, usb3;
+ 	} ports;
+ 
++	struct tega_xusb_mbox_regs mbox;
++
+ 	bool scale_ss_clock;
+ 	bool has_ipfs;
+ };
+@@ -395,15 +403,15 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
+ 	 * ACK/NAK messages.
+ 	 */
+ 	if (!(msg->cmd == MBOX_CMD_ACK || msg->cmd == MBOX_CMD_NAK)) {
+-		value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
++		value = fpci_readl(tegra, tegra->soc->mbox.owner);
+ 		if (value != MBOX_OWNER_NONE) {
+ 			dev_err(tegra->dev, "mailbox is busy\n");
+ 			return -EBUSY;
+ 		}
+ 
+-		fpci_writel(tegra, MBOX_OWNER_SW, XUSB_CFG_ARU_MBOX_OWNER);
++		fpci_writel(tegra, MBOX_OWNER_SW, tegra->soc->mbox.owner);
+ 
+-		value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
++		value = fpci_readl(tegra, tegra->soc->mbox.owner);
+ 		if (value != MBOX_OWNER_SW) {
+ 			dev_err(tegra->dev, "failed to acquire mailbox\n");
+ 			return -EBUSY;
+@@ -413,17 +421,17 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
+ 	}
+ 
+ 	value = tegra_xusb_mbox_pack(msg);
+-	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_DATA_IN);
++	fpci_writel(tegra, value, tegra->soc->mbox.data_in);
+ 
+-	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_CMD);
++	value = fpci_readl(tegra, tegra->soc->mbox.cmd);
+ 	value |= MBOX_INT_EN | MBOX_DEST_FALC;
+-	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_CMD);
++	fpci_writel(tegra, value, tegra->soc->mbox.cmd);
+ 
+ 	if (wait_for_idle) {
+ 		unsigned long timeout = jiffies + msecs_to_jiffies(250);
+ 
+ 		while (time_before(jiffies, timeout)) {
+-			value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
++			value = fpci_readl(tegra, tegra->soc->mbox.owner);
+ 			if (value == MBOX_OWNER_NONE)
+ 				break;
+ 
+@@ -431,7 +439,7 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
+ 		}
+ 
+ 		if (time_after(jiffies, timeout))
+-			value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
++			value = fpci_readl(tegra, tegra->soc->mbox.owner);
+ 
+ 		if (value != MBOX_OWNER_NONE)
+ 			return -ETIMEDOUT;
+@@ -598,16 +606,16 @@ static irqreturn_t tegra_xusb_mbox_thread(int irq, void *data)
+ 
+ 	mutex_lock(&tegra->lock);
+ 
+-	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_DATA_OUT);
++	value = fpci_readl(tegra, tegra->soc->mbox.data_out);
+ 	tegra_xusb_mbox_unpack(&msg, value);
+ 
+-	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_CMD);
++	value = fpci_readl(tegra, tegra->soc->mbox.cmd);
+ 	value &= ~MBOX_DEST_SMI;
+-	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_CMD);
++	fpci_writel(tegra, value, tegra->soc->mbox.cmd);
+ 
+ 	/* clear mailbox owner if no ACK/NAK is required */
+ 	if (!tegra_xusb_mbox_cmd_requires_ack(msg.cmd))
+-		fpci_writel(tegra, MBOX_OWNER_NONE, XUSB_CFG_ARU_MBOX_OWNER);
++		fpci_writel(tegra, MBOX_OWNER_NONE, tegra->soc->mbox.owner);
+ 
+ 	tegra_xusb_mbox_handle(tegra, &msg);
+ 
+@@ -1375,6 +1383,12 @@ static const struct tegra_xusb_soc tegra124_soc = {
+ 	},
+ 	.scale_ss_clock = true,
+ 	.has_ipfs = true,
++	.mbox = {
++		.cmd = 0xe4,
++		.data_in = 0xe8,
++		.data_out = 0xec,
++		.owner = 0xf0,
++	},
+ };
+ MODULE_FIRMWARE("nvidia/tegra124/xusb.bin");
+ 
+@@ -1407,6 +1421,12 @@ static const struct tegra_xusb_soc tegra210_soc = {
+ 	},
+ 	.scale_ss_clock = false,
+ 	.has_ipfs = true,
++	.mbox = {
++		.cmd = 0xe4,
++		.data_in = 0xe8,
++		.data_out = 0xec,
++		.owner = 0xf0,
++	},
+ };
+ MODULE_FIRMWARE("nvidia/tegra210/xusb.bin");
+ 
+@@ -1432,6 +1452,12 @@ static const struct tegra_xusb_soc tegra186_soc = {
+ 	},
+ 	.scale_ss_clock = false,
+ 	.has_ipfs = false,
++	.mbox = {
++		.cmd = 0xe4,
++		.data_in = 0xe8,
++		.data_out = 0xec,
++		.owner = 0xf0,
++	},
+ };
+ 
+ static const struct of_device_id tegra_xusb_of_match[] = {
+-- 
+2.17.1
 
