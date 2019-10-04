@@ -2,56 +2,46 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DE62CC5A1
-	for <lists+linux-tegra@lfdr.de>; Sat,  5 Oct 2019 00:09:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4213CC601
+	for <lists+linux-tegra@lfdr.de>; Sat,  5 Oct 2019 00:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728356AbfJDWJB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Oct 2019 18:09:01 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:35822 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726780AbfJDWJB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 18:09:01 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m7so7977296lji.2
-        for <linux-tegra@vger.kernel.org>; Fri, 04 Oct 2019 15:09:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tAj7MQdx50kEc0+X5+2MwUaKPLSTG2cEZ8HO6UD6NTA=;
-        b=LaunXps7setgfv12bPb7u/522sS3EJu9brrGYaLjqwldvoXOVfObovRiNdeBdEgaNP
-         AvsOMHx9vRaCxnCUDgzEAN5UY0/+rPrZGGOR8NiTgVRP7bK2EEYH4pJujE96lQqZyPsH
-         62lonu4kE1U4aaWX2Kw4JTjrx7irr+8prYZLlbBPHlcu8ONjiBppsL3gKx43niRRbFu+
-         WY02NrIybPPrL9ejBQArZP3Clb9rpC3HPuzIWrgEKrB2OTw+SFEccjlMUPuaqkvm7vY3
-         ES/EIy5SU+gsV+cab4vuey8Y+DAQyJvsX+xT17IS2+HTSw4/2oIrN+z3KzTWDmoJCR7E
-         N1Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tAj7MQdx50kEc0+X5+2MwUaKPLSTG2cEZ8HO6UD6NTA=;
-        b=VKG9rkmGlVbiFClB0pDJraNJAwHSwSR1dwWgL4KGWKGjMpyrYZ3vcdsknZSzAKzZUg
-         63T3TT/9E6N13FwrT3T3EgL2opQQuNJtrz9mVPeSJ80tKiiDEgznI+vsnD3XF9KlRrmY
-         m/aQGj6UVQsIiNtJXcwjtU+a0F4KmAo8que0zM4BiTEt1R0uND8D5WQlxeGPTxHC6jOs
-         jP6v4HViZm6LdZu6+ZhCHOUKkhSnlRsibAwgi8pN1o2iUbG6rapQ0aKKHLISoOFo6r0l
-         UL6SZy+JpAlgHkBYHOZ0TXz869sum8DCIwXljcDINSfskbzFoOEB9SOFsFxysI7Jk3W3
-         wHdQ==
-X-Gm-Message-State: APjAAAXIPnU5YKwPFRH7Nk8YOhsQZVOC9x1Y0dvhNAQF+hJoxNSVdMeK
-        QbyOkIfSsQ2m0eijZBcfai3/OMxbCrSkYHf6xyQz6g==
-X-Google-Smtp-Source: APXvYqwuOIeC2PgF+bigEG3Yfy2MUgdFFb0LjdLL0D9GpGW9ZmSNG41JoqWGUAlylgVxu39NTQVfs+64EBHMxiQoL4g=
-X-Received: by 2002:a2e:9094:: with SMTP id l20mr11203574ljg.35.1570226939521;
- Fri, 04 Oct 2019 15:08:59 -0700 (PDT)
+        id S1728475AbfJDWn5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 4 Oct 2019 18:43:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48608 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728023AbfJDWn5 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 4 Oct 2019 18:43:57 -0400
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 479B820873
+        for <linux-tegra@vger.kernel.org>; Fri,  4 Oct 2019 22:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570229037;
+        bh=9DltmXaeb5wm6mzgPJs+9U3WuF+V/fGhPq4TCIrvKYI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=qUTp6aECF0kxmRPTF8nbqMmvVxbOAJBTVGHhjWQBCRReOsEo7DV7QE+edI/jqbPRs
+         mC29jfDfLV02j0diw02R1TgUeCv7UpUHUphf/bKwpT30v+J7A9JBntARPD/bP2Wdf6
+         aDizU9ZKjO7lhvL146BNU6YDyRQibHq2uw2MHsfg=
+Received: by mail-qt1-f182.google.com with SMTP id c21so10699519qtj.12
+        for <linux-tegra@vger.kernel.org>; Fri, 04 Oct 2019 15:43:57 -0700 (PDT)
+X-Gm-Message-State: APjAAAXdapKkWtb236VvLsclOxNx4fPGMDbBbB0mxSdBac/6Yy04a4MS
+        XOpdOYmImgEWG45SclC1XAmS0FbAtPWlfPEnQyQ=
+X-Google-Smtp-Source: APXvYqw4+DrQ20h4g03YSf2zB17R4oqkn2iEaJNdabjnNRBld0xMzzHt1hLL/XY5RKnjrX0hRE8LHq48yOhnpDCzLPM=
+X-Received: by 2002:a0c:8828:: with SMTP id 37mr16864264qvl.44.1570229036432;
+ Fri, 04 Oct 2019 15:43:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191002144502.156393-1-thierry.reding@gmail.com> <20191002144502.156393-2-thierry.reding@gmail.com>
-In-Reply-To: <20191002144502.156393-2-thierry.reding@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 5 Oct 2019 00:08:47 +0200
-Message-ID: <CACRpkdaiEJCPBnyAZf0VqbkxsvUoYHLgkEZ7HM71tr2ZoPHa=Q@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] gpio: tegra186: Implement wake event support
+References: <20190930111907.1575496-1-thierry.reding@gmail.com>
+In-Reply-To: <20190930111907.1575496-1-thierry.reding@gmail.com>
+From:   Josh Boyer <jwboyer@kernel.org>
+Date:   Fri, 4 Oct 2019 18:43:45 -0400
+X-Gmail-Original-Message-ID: <CA+5PVA7YufwXi7rSNa2P4y_8z2bryS4wEg-GBeD3=5Gom-t=Hw@mail.gmail.com>
+Message-ID: <CA+5PVA7YufwXi7rSNa2P4y_8z2bryS4wEg-GBeD3=5Gom-t=Hw@mail.gmail.com>
+Subject: Re: [PATCH] nvidia: Add XUSB firmware for Tegra194
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Bitan Biswas <bbiswas@nvidia.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+Cc:     Linux Firmware <linux-firmware@kernel.org>,
+        WK Tsai <wtsai@nvidia.com>, Jui Chang Kuo <jckuo@nvidia.com>,
+        Nagarjuna Kristam <nkristam@nvidia.com>,
         linux-tegra@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
@@ -59,31 +49,20 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Oct 2, 2019 at 4:45 PM Thierry Reding <thierry.reding@gmail.com> wrote:
-
+On Mon, Sep 30, 2019 at 7:19 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
 > From: Thierry Reding <treding@nvidia.com>
 >
-> The GPIO controller doesn't have any controls to enable the system to
-> wake up from low power states based on activity on GPIO pins. An extra
-> hardware block that is part of the power management controller (PMC)
-> contains these controls. In order for the GPIO controller to be able
-> to cooperate with the PMC, obtain a reference to the PMC's IRQ domain
-> and make it a parent to the GPIO controller's IRQ domain. This way the
-> PMC gets an opportunity to program the additional registers required
-> to enable wakeup sources on suspend.
->
-> Based on additional work by Bitan Biswas <bbiswas@nvidia.com>.
+> Add a firmware file for the XUSB controller found on Tegra194. This is
+> version 60.06 of the Tegra194 XUSB firmware.
 >
 > Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
-> Changes in v5:
-> - rebase on top of new hierarchical IRQ domain support
+>  WHENCE                   |   3 +++
+>  nvidia/tegra194/xusb.bin | Bin 0 -> 124928 bytes
+>  2 files changed, 3 insertions(+)
+>  create mode 100644 nvidia/tegra194/xusb.bin
 
-Patch applied!
+Applied and pushed out.
 
-Also a special thanks for standing out to my sometimes flimsy
-and handwavy engineering, and I'm happy we landed this the
-way I imagined it. Sort of.
-
-Yours,
-Linus Walleij
+josh
