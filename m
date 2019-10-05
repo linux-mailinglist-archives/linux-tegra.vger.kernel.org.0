@@ -2,66 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D61D3CC602
-	for <lists+linux-tegra@lfdr.de>; Sat,  5 Oct 2019 00:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 869F4CC6FF
+	for <lists+linux-tegra@lfdr.de>; Sat,  5 Oct 2019 02:47:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728172AbfJDWoj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Oct 2019 18:44:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48910 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728023AbfJDWoj (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 4 Oct 2019 18:44:39 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 99C38222C0
-        for <linux-tegra@vger.kernel.org>; Fri,  4 Oct 2019 22:44:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570229078;
-        bh=nZAHy2llIPMTGmsJ6yxJNu4iVcywsInR04NMtwk50v4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=J6dorogGYPDlq/nF5TVR9lIOfEuTgqAqswSj6mosMSGYY6DTG7FHKjaFeKYN27cQo
-         hzeOKqhCJeYTpW2c66cSseT5+g0Xpg+I6JlDWbaTzz4MXKMDD1703aYJdBPFAWcTW7
-         +zYT9VqHMb9TOm9TqLyhRxDjhes4ttxr3DV4K3z8=
-Received: by mail-qk1-f178.google.com with SMTP id u186so7330219qkc.5
-        for <linux-tegra@vger.kernel.org>; Fri, 04 Oct 2019 15:44:38 -0700 (PDT)
-X-Gm-Message-State: APjAAAWaGS0DqN0LIQF6bqvhO3HGkzc91sZHStwX6dgPfjid0ag8KV0X
-        bR5OwMUsWYaPMXMpPyj/1SQIHUO9gc6NGxelMvM=
-X-Google-Smtp-Source: APXvYqzYv5TKxTpZnudfn97cZqR9CvJAzOXQaePcEsi8P0PSbY3gyurHP2++YA0TCRQBz8PVqWA/c6YITHcodQ1/jv0=
-X-Received: by 2002:a37:5943:: with SMTP id n64mr12117101qkb.95.1570229077752;
- Fri, 04 Oct 2019 15:44:37 -0700 (PDT)
+        id S1731345AbfJEAr5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 4 Oct 2019 20:47:57 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:39559 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727647AbfJEAr5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 20:47:57 -0400
+Received: by mail-io1-f66.google.com with SMTP id a1so17324732ioc.6
+        for <linux-tegra@vger.kernel.org>; Fri, 04 Oct 2019 17:47:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=x+IoKZuyvZuAwFvSpJp2RWuarSICEwd0PgAz8wsBcBQ=;
+        b=fLFOPlaJO/N1nPx128z+NdkKj4hwZV0ZPc+n4S1r9KlO4IN2uIVa5mfWu0MVKAf3wg
+         AUmeaalQDFVQ2TFW35+EAXpu6BCg1GuDXjKOONxRqcYZRt+jYaSdIm4eOctwDWd6CSXr
+         k8Auin0LlVVq7SoocizqhBdLhbha3tvpzgo6KbXPbbjaXjTqBCje0nxUZuV1pK7zUaFS
+         YeezwLpTN1JHmxEiScy14i7eudAnbOrJApeW8p680rQKe74nNbYJ5/F27fN8o5/3VjhK
+         n4+0vaBbxV10FcWcHC32hzRzMm+RWgJ2WzthwK9urWMdYwe8J4xmgWCZ8PNQVEo85Xjf
+         0X/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=x+IoKZuyvZuAwFvSpJp2RWuarSICEwd0PgAz8wsBcBQ=;
+        b=DV+iLzV+Z8RHyYkYRlCdDxK4/84/6LmsraAogHyImSldtRzLUU1sYjSyIR8p+C7hBq
+         mBt83cI1bSCSfCshj3/D6EbdrYp9NnTo1+vzPybVAUYxDQ/Dikdv7gzAiT0AiZifRtKf
+         yhpD5wg0sLxcrTXJnUd9n6LBxR8VzunSf5NWtMexbG+97TBRV2C2QQ3gHTn3/EZx+vWK
+         TClL9OtskZRKy060G83/hw7ASaNdntaHGt9IKWs9/60AY5s4pkBj6NRmMYbPNKToypKd
+         xUpcL5aKSBDX3CBUlr3nuSTUFewiKADsJvHIabC8OHnWBygrD2+7fshlkIXaZ5angSG2
+         8rRQ==
+X-Gm-Message-State: APjAAAVLSVDPDJcv72+6TfZYiLrrOmK1jy1ljVI9huIlwITXJhV3DBND
+        3Kj2uhYVuUEIopH8uv2zGraTjLMu1Y68gp/GubI=
+X-Google-Smtp-Source: APXvYqx6Lc2fBIOpzxV3kMfobX5C+aNQqyxKwTfT/NZ+CLfYUEnmWDaAAlwPns9cXca3CJ7jREz47s7Q+Cvs95vxwqM=
+X-Received: by 2002:a92:6507:: with SMTP id z7mr17406636ilb.191.1570236475468;
+ Fri, 04 Oct 2019 17:47:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190930112307.1576028-1-thierry.reding@gmail.com>
-In-Reply-To: <20190930112307.1576028-1-thierry.reding@gmail.com>
-From:   Josh Boyer <jwboyer@kernel.org>
-Date:   Fri, 4 Oct 2019 18:44:26 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA78mbBs20hrvaniAZEtpK6iCt6n5bnshWW0YBC0CcQTsw@mail.gmail.com>
-Message-ID: <CA+5PVA78mbBs20hrvaniAZEtpK6iCt6n5bnshWW0YBC0CcQTsw@mail.gmail.com>
-Subject: Re: [PATCH] nvidia: Update Tegra210 XUSB firmware to v50.24
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Linux Firmware <linux-firmware@kernel.org>,
-        WK Tsai <wtsai@nvidia.com>, Jui Chang Kuo <jckuo@nvidia.com>,
-        Nagarjuna Kristam <nkristam@nvidia.com>,
-        linux-tegra@vger.kernel.org
+Received: by 2002:a92:b697:0:0:0:0:0 with HTTP; Fri, 4 Oct 2019 17:47:55 -0700 (PDT)
+Reply-To: jufffirti@gmail.com
+From:   "Mr. Juff Firti" <mribrahibuba101@gmail.com>
+Date:   Sat, 5 Oct 2019 02:47:55 +0200
+Message-ID: <CAEwfRg-K-nVwhTvhuJUOaEf_Hta6_icA+H5ZrP6QJJ50YsMF1A@mail.gmail.com>
+Subject: Hi
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Sep 30, 2019 at 7:23 AM Thierry Reding <thierry.reding@gmail.com> wrote:
->
-> From: Thierry Reding <treding@nvidia.com>
->
-> This version of the Tegra210 XUSB firmware contains a number of fixes to
-> improve compatibility with various devices.
->
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  WHENCE                   |   2 +-
->  nvidia/tegra210/xusb.bin | Bin 132608 -> 124416 bytes
->  2 files changed, 1 insertion(+), 1 deletion(-)
-
-Applied and pushed out.
-
-josh
+Have you heared from the bank about the transfer of the fund?
