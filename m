@@ -2,55 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 869F4CC6FF
-	for <lists+linux-tegra@lfdr.de>; Sat,  5 Oct 2019 02:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76231CCABC
+	for <lists+linux-tegra@lfdr.de>; Sat,  5 Oct 2019 17:12:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731345AbfJEAr5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 4 Oct 2019 20:47:57 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:39559 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727647AbfJEAr5 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 4 Oct 2019 20:47:57 -0400
-Received: by mail-io1-f66.google.com with SMTP id a1so17324732ioc.6
-        for <linux-tegra@vger.kernel.org>; Fri, 04 Oct 2019 17:47:55 -0700 (PDT)
+        id S1727167AbfJEPMU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 5 Oct 2019 11:12:20 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:36178 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725826AbfJEPMT (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 5 Oct 2019 11:12:19 -0400
+Received: by mail-qk1-f194.google.com with SMTP id y189so8697685qkc.3;
+        Sat, 05 Oct 2019 08:12:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=x+IoKZuyvZuAwFvSpJp2RWuarSICEwd0PgAz8wsBcBQ=;
-        b=fLFOPlaJO/N1nPx128z+NdkKj4hwZV0ZPc+n4S1r9KlO4IN2uIVa5mfWu0MVKAf3wg
-         AUmeaalQDFVQ2TFW35+EAXpu6BCg1GuDXjKOONxRqcYZRt+jYaSdIm4eOctwDWd6CSXr
-         k8Auin0LlVVq7SoocizqhBdLhbha3tvpzgo6KbXPbbjaXjTqBCje0nxUZuV1pK7zUaFS
-         YeezwLpTN1JHmxEiScy14i7eudAnbOrJApeW8p680rQKe74nNbYJ5/F27fN8o5/3VjhK
-         n4+0vaBbxV10FcWcHC32hzRzMm+RWgJ2WzthwK9urWMdYwe8J4xmgWCZ8PNQVEo85Xjf
-         0X/Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZkU1nwMPxx3l5vRolVMN1HMMcU6424u8M+B1Z8ZKR6U=;
+        b=iZao3rZRmHTqHn5Thi4VJZ6EAlJ5X02uBmJ6cKTQGIDNOlLA4xvNWilW83PzgGyY2R
+         jXXPeqrdKWCzz5Kb/Yyw5G+H1XrnPSXIJad+YC1iKj3iLiMUmDta7q0XMXFtalZYvDfD
+         ijuKvLZwffbZnrJnKypSbJe+Y+sme967HvQRH/kFtZqYRbc3Kq+lpcVi/SHrs71/ylh1
+         f6CBhz2t9w+JsjDssXuDPtWm+fBYYtnLV/gz3sWNDPo94Nw0LiGzVxeLZBZt3QXYgBsL
+         oXuPpc9nLHqXkZs3jo+ZZSPyiMJ+zAUPnjFeE5z2+NFRV/4NeZgjQlA5+3x6OMGdh/7L
+         4n4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=x+IoKZuyvZuAwFvSpJp2RWuarSICEwd0PgAz8wsBcBQ=;
-        b=DV+iLzV+Z8RHyYkYRlCdDxK4/84/6LmsraAogHyImSldtRzLUU1sYjSyIR8p+C7hBq
-         mBt83cI1bSCSfCshj3/D6EbdrYp9NnTo1+vzPybVAUYxDQ/Dikdv7gzAiT0AiZifRtKf
-         yhpD5wg0sLxcrTXJnUd9n6LBxR8VzunSf5NWtMexbG+97TBRV2C2QQ3gHTn3/EZx+vWK
-         TClL9OtskZRKy060G83/hw7ASaNdntaHGt9IKWs9/60AY5s4pkBj6NRmMYbPNKToypKd
-         xUpcL5aKSBDX3CBUlr3nuSTUFewiKADsJvHIabC8OHnWBygrD2+7fshlkIXaZ5angSG2
-         8rRQ==
-X-Gm-Message-State: APjAAAVLSVDPDJcv72+6TfZYiLrrOmK1jy1ljVI9huIlwITXJhV3DBND
-        3Kj2uhYVuUEIopH8uv2zGraTjLMu1Y68gp/GubI=
-X-Google-Smtp-Source: APXvYqx6Lc2fBIOpzxV3kMfobX5C+aNQqyxKwTfT/NZ+CLfYUEnmWDaAAlwPns9cXca3CJ7jREz47s7Q+Cvs95vxwqM=
-X-Received: by 2002:a92:6507:: with SMTP id z7mr17406636ilb.191.1570236475468;
- Fri, 04 Oct 2019 17:47:55 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZkU1nwMPxx3l5vRolVMN1HMMcU6424u8M+B1Z8ZKR6U=;
+        b=iekf9lcyqJas4Av90pwEK9lXbNkmcMYf20LUo5wMKemPvhBkTg9zG/IaaGbxUIMyKj
+         h6UDIzK5H0HqS0jKZIEHbVdm9s0uDA1nvXyz6VKTS5UjDxUjt2YC5SqQf1FH5pHAzyF3
+         YVFhTYP6AWY52DPGfwsruatQaZUuvWD8pOXlGmSy6r/FxvjmspYYTl/AbRBzVduiaQi4
+         YTOZJCzd9cZQn2yb2w0iEarsWTzKLtlb67VjOVNx6paiXGg6AKpy+uD2AmwA2A00Y3Dz
+         6RAyVFeTC40VJ7+5f2MoZtnhZQEtWP/61LgucW9sKLy5vsJ5JSFAsyh+Yrj1AElm23eS
+         gApA==
+X-Gm-Message-State: APjAAAUhjyvuT3fsH560s6Gvq65QuMKVvtu5bwdf+Ai/EeuvAOxQpeBG
+        J+6MivMZzPh4Zx0vPxxT0j6Gw+6btFiGIoT5gU0=
+X-Google-Smtp-Source: APXvYqyhv+e5AhbFRavmdvZfXY0A8BgW4saHVRfI5klCI+EE5RQk0Y0f/rXvq450pt3BhGKDa+9pvifA5oeMNvhL2nY=
+X-Received: by 2002:a37:515:: with SMTP id 21mr15535656qkf.87.1570288338452;
+ Sat, 05 Oct 2019 08:12:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a92:b697:0:0:0:0:0 with HTTP; Fri, 4 Oct 2019 17:47:55 -0700 (PDT)
-Reply-To: jufffirti@gmail.com
-From:   "Mr. Juff Firti" <mribrahibuba101@gmail.com>
-Date:   Sat, 5 Oct 2019 02:47:55 +0200
-Message-ID: <CAEwfRg-K-nVwhTvhuJUOaEf_Hta6_icA+H5ZrP6QJJ50YsMF1A@mail.gmail.com>
-Subject: Hi
-To:     undisclosed-recipients:;
+References: <20190730172340.14037-1-digetx@gmail.com> <20190730172340.14037-3-digetx@gmail.com>
+In-Reply-To: <20190730172340.14037-3-digetx@gmail.com>
+From:   Peter Geis <pgwipeout@gmail.com>
+Date:   Sat, 5 Oct 2019 11:12:07 -0400
+Message-ID: <CAMdYzYq8YvzOnLnTbt5-=cBC8BGXN1pZnpPmcHyitGRs467zfg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] ARM: tegra: Use WFE for power-gating on Tegra30
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Have you heared from the bank about the transfer of the fund?
+The Ouya (tegra30) hard locks when the emc clock drops below 400mhz.
+Discovered while testing the devfreq and emc drivers.
+This patch resolves that issue.
+
+Tested-by: Peter Geis <pgwipeout@gmail.com>
+
+On Tue, Jul 30, 2019 at 2:10 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> Turned out that WFI doesn't work reliably on Tegra30 as a trigger for
+> the power-gating, it causes CPU hang under some circumstances like having
+> memory controller running of PLLP. The TRM doc states that WFI should be
+> used for the Big-Little "Cluster Switch", while WFE for the power-gating.
+> Hence let's use the WFE for CPU0 power-gating, like it is done for the
+> power-gating of a secondary cores. This fixes CPU hang after entering LP2
+> with memory running off PLLP.
+>
+> Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  arch/arm/mach-tegra/sleep-tegra30.S |  4 +++-
+>  drivers/soc/tegra/flowctrl.c        | 19 +++++++++++++++++--
+>  2 files changed, 20 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/arm/mach-tegra/sleep-tegra30.S b/arch/arm/mach-tegra/sleep-tegra30.S
+> index 6c28395d8c75..17f7a2a6a494 100644
+> --- a/arch/arm/mach-tegra/sleep-tegra30.S
+> +++ b/arch/arm/mach-tegra/sleep-tegra30.S
+> @@ -683,10 +683,12 @@ tegra30_enter_sleep:
+>         dsb
+>         ldr     r0, [r6, r2] /* memory barrier */
+>
+> +       cmp     r10, #TEGRA30
+>  halted:
+>         isb
+>         dsb
+> -       wfi     /* CPU should be power gated here */
+> +       wfine   /* CPU should be power gated here */
+> +       wfeeq
+>
+>         /* !!!FIXME!!! Implement halt failure handler */
+>         b       halted
+> diff --git a/drivers/soc/tegra/flowctrl.c b/drivers/soc/tegra/flowctrl.c
+> index b6bdeef33db1..eb96a3086d6d 100644
+> --- a/drivers/soc/tegra/flowctrl.c
+> +++ b/drivers/soc/tegra/flowctrl.c
+> @@ -91,8 +91,23 @@ void flowctrl_cpu_suspend_enter(unsigned int cpuid)
+>                 reg &= ~TEGRA30_FLOW_CTRL_CSR_WFE_BITMAP;
+>                 /* clear wfi bitmap */
+>                 reg &= ~TEGRA30_FLOW_CTRL_CSR_WFI_BITMAP;
+> -               /* pwr gating on wfi */
+> -               reg |= TEGRA30_FLOW_CTRL_CSR_WFI_CPU0 << cpuid;
+> +
+> +               if (tegra_get_chip_id() == TEGRA30) {
+> +                       /*
+> +                        * The wfi doesn't work well on Tegra30 because
+> +                        * CPU hangs under some odd circumstances after
+> +                        * power-gating (like memory running off PLLP),
+> +                        * hence use wfe that is working perfectly fine.
+> +                        * Note that Tegra30 TRM doc clearly stands that
+> +                        * wfi should be used for the "Cluster Switching",
+> +                        * while wfe for the power-gating, just like it
+> +                        * is done on Tegra20.
+> +                        */
+> +                       reg |= TEGRA20_FLOW_CTRL_CSR_WFE_CPU0 << cpuid;
+> +               } else {
+> +                       /* pwr gating on wfi */
+> +                       reg |= TEGRA30_FLOW_CTRL_CSR_WFI_CPU0 << cpuid;
+> +               }
+>                 break;
+>         }
+>         reg |= FLOW_CTRL_CSR_INTR_FLAG;                 /* clear intr flag */
+> --
+> 2.22.0
+>
