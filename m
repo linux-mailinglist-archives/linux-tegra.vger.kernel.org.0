@@ -2,111 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74C57CCBF9
-	for <lists+linux-tegra@lfdr.de>; Sat,  5 Oct 2019 20:21:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AED3FCD064
+	for <lists+linux-tegra@lfdr.de>; Sun,  6 Oct 2019 12:32:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387669AbfJESVf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 5 Oct 2019 14:21:35 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:9268 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387555AbfJESVf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 5 Oct 2019 14:21:35 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d98df2f0000>; Sat, 05 Oct 2019 11:21:35 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sat, 05 Oct 2019 11:21:34 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sat, 05 Oct 2019 11:21:34 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 5 Oct
- 2019 18:21:34 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sat, 5 Oct 2019 18:21:34 +0000
-Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.38]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d98df2b0000>; Sat, 05 Oct 2019 11:21:33 -0700
-From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
-        <treding@nvidia.com>, <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>,
-        <sagar.tv@gmail.com>
-Subject: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
-Date:   Sat, 5 Oct 2019 23:51:29 +0530
-Message-ID: <20191005182129.32538-1-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+        id S1726377AbfJFKcJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 6 Oct 2019 06:32:09 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3205 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726271AbfJFKcJ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 6 Oct 2019 06:32:09 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 692D91EFCA547C100FC8;
+        Sun,  6 Oct 2019 18:32:07 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
+ 18:31:58 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>,
+        <joel@jms.id.au>, <andrew@aj.id.au>, <nicolas.ferre@microchip.com>,
+        <ludovic.desroches@microchip.com>, <computersforpeace@gmail.com>,
+        <gregory.0xf0@gmail.com>, <f.fainelli@gmail.com>,
+        <bcm-kernel-feedback-list@broadcom.com>,
+        <linus.walleij@linaro.org>, <baruch@tkos.co.il>,
+        <paul@crapouillou.net>, <vz@mleia.com>, <slemieux.tyco@gmail.com>,
+        <khilman@baylibre.com>, <eddie.huang@mediatek.com>,
+        <sean.wang@mediatek.com>, <matthias.bgg@gmail.com>,
+        <patrice.chotard@st.com>, <mcoquelin.stm32@gmail.com>,
+        <alexandre.torgue@st.com>, <mripard@kernel.org>, <wens@csie.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux@prisktech.co.nz>, <michal.simek@xilinx.com>
+CC:     <linux-rtc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-tegra@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH -next 00/34] rtc: use devm_platform_ioremap_resource() to simplify code
+Date:   Sun, 6 Oct 2019 18:29:19 +0800
+Message-ID: <20191006102953.57536-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
 Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570299695; bh=KZvdcY41xUr0IbeaiPRcqIp1ePfnzzAvpzq/58pzYwk=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=SRnu9m139fzGGmLABcowiM8bgkImvA2u96/YT7B3OizRMCvJkCweZ4Lecw8CGL6t5
-         aaXByxBCDos+2RI7dPUAan5L+pK4yleg7y2n8aQtmBuuyxw6PVsEGmsBexhlSt/oJN
-         KDnqCo4oKJmBUcWGMxx41aDReCb+wlc5z3dyvixKak4YETz6FYczRUHhELooXRZqjs
-         rQF9hMcmEGmkFK/lpKjRkMYN0iyQCUfQ/aYtPii3SxuoEGbSrkEj+gygOht61/DAgL
-         pMNnEQPLQm6NN068KWjceuI5IOvMuyPSk7pG9DJ9rsQg9g+eh+v9qGkFe1DF6CiOc0
-         lXYeq0eegOgzg==
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Adds a 60 seconds timeout to consider CRS (Configuration request Retry
-Status) from a downstream device when Vendor ID read is attempted by
-an upstream device. This helps to work with devices that return CRS
-during system resume. This also makes pci_device_is_present() consistent
-with the probe path where 60 seconds timeout is already being used.
+devm_platform_ioremap_resource() internally have platform_get_resource()
+and devm_ioremap_resource() in it. So instead of calling them separately
+use devm_platform_ioremap_resource() directly.
 
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
----
- drivers/pci/pci.c   | 3 ++-
- drivers/pci/pci.h   | 2 ++
- drivers/pci/probe.c | 2 +-
- 3 files changed, 5 insertions(+), 2 deletions(-)
+YueHaibing (34):
+  rtc: asm9260: use devm_platform_ioremap_resource() to simplify code
+  rtc: rtc-aspeed: use devm_platform_ioremap_resource() to simplify code
+  rtc: brcmstb-waketimer: use devm_platform_ioremap_resource() to
+    simplify code
+  rtc: at91sam9: use devm_platform_ioremap_resource() to simplify code
+  rtc: cadence: use devm_platform_ioremap_resource() to simplify code
+  rtc: coh901331: use devm_platform_ioremap_resource() to simplify code
+  rtc: davinci: use devm_platform_ioremap_resource() to simplify code
+  rtc: digicolor: use devm_platform_ioremap_resource() to simplify code
+  rtc: ds1216: use devm_platform_ioremap_resource() to simplify code
+  rtc: ds1511: use devm_platform_ioremap_resource() to simplify code
+  rtc: ds1553: use devm_platform_ioremap_resource() to simplify code
+  rtc: ep93xx: use devm_platform_ioremap_resource() to simplify code
+  rtc: jz4740: use devm_platform_ioremap_resource() to simplify code
+  rtc: lpc24xx: use devm_platform_ioremap_resource() to simplify code
+  rtc: lpc32xx: use devm_platform_ioremap_resource() to simplify code
+  rtc: meson: use devm_platform_ioremap_resource() to simplify code
+  rtc: mt7622: use devm_platform_ioremap_resource() to simplify code
+  rtc: mv: use devm_platform_ioremap_resource() to simplify code
+  rtc: omap: use devm_platform_ioremap_resource() to simplify code
+  rtc: pic32: use devm_platform_ioremap_resource() to simplify code
+  rtc: rtd119x: use devm_platform_ioremap_resource() to simplify code
+  rtc: s3c: use devm_platform_ioremap_resource() to simplify code
+  rtc: sa1100: use devm_platform_ioremap_resource() to simplify code
+  rtc: spear: use devm_platform_ioremap_resource() to simplify code
+  rtc: stk17ta8: use devm_platform_ioremap_resource() to simplify code
+  rtc: ds1286: use devm_platform_ioremap_resource() to simplify code
+  rtc: st-lpc: use devm_platform_ioremap_resource() to simplify code
+  rtc: stm32: use devm_platform_ioremap_resource() to simplify code
+  rtc: sunxi: use devm_platform_ioremap_resource() to simplify code
+  rtc: tegra: use devm_platform_ioremap_resource() to simplify code
+  rtc: tx4939: use devm_platform_ioremap_resource() to simplify code
+  rtc: vt8500: use devm_platform_ioremap_resource() to simplify code
+  rtc: xgene: use devm_platform_ioremap_resource() to simplify code
+  rtc: zynqmp: use devm_platform_ioremap_resource() to simplify code
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 95dc78ebdded..3ab9f6d3c8a6 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -5905,7 +5905,8 @@ bool pci_device_is_present(struct pci_dev *pdev)
- 
- 	if (pci_dev_is_disconnected(pdev))
- 		return false;
--	return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v, 0);
-+	return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v,
-+					  PCI_CRS_TIMEOUT);
- }
- EXPORT_SYMBOL_GPL(pci_device_is_present);
- 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 3f6947ee3324..aa25c5fdc6a5 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -4,6 +4,8 @@
- 
- #include <linux/pci.h>
- 
-+#define PCI_CRS_TIMEOUT		(60 * 1000)	/* 60 sec*/
-+
- #define PCI_FIND_CAP_TTL	48
- 
- #define PCI_VSEC_ID_INTEL_TBT	0x1234	/* Thunderbolt */
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 7c5d68b807ef..6e44a03283c8 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -2258,7 +2258,7 @@ static struct pci_dev *pci_scan_device(struct pci_bus *bus, int devfn)
- 	struct pci_dev *dev;
- 	u32 l;
- 
--	if (!pci_bus_read_dev_vendor_id(bus, devfn, &l, 60*1000))
-+	if (!pci_bus_read_dev_vendor_id(bus, devfn, &l, PCI_CRS_TIMEOUT))
- 		return NULL;
- 
- 	dev = pci_alloc_dev(bus);
+ drivers/rtc/rtc-asm9260.c           | 4 +---
+ drivers/rtc/rtc-aspeed.c            | 4 +---
+ drivers/rtc/rtc-at91sam9.c          | 4 +---
+ drivers/rtc/rtc-brcmstb-waketimer.c | 4 +---
+ drivers/rtc/rtc-cadence.c           | 4 +---
+ drivers/rtc/rtc-coh901331.c         | 4 +---
+ drivers/rtc/rtc-davinci.c           | 4 +---
+ drivers/rtc/rtc-digicolor.c         | 4 +---
+ drivers/rtc/rtc-ds1216.c            | 4 +---
+ drivers/rtc/rtc-ds1286.c            | 4 +---
+ drivers/rtc/rtc-ds1511.c            | 4 +---
+ drivers/rtc/rtc-ds1553.c            | 4 +---
+ drivers/rtc/rtc-ep93xx.c            | 4 +---
+ drivers/rtc/rtc-jz4740.c            | 4 +---
+ drivers/rtc/rtc-lpc24xx.c           | 4 +---
+ drivers/rtc/rtc-lpc32xx.c           | 4 +---
+ drivers/rtc/rtc-meson.c             | 4 +---
+ drivers/rtc/rtc-mt7622.c            | 4 +---
+ drivers/rtc/rtc-mv.c                | 4 +---
+ drivers/rtc/rtc-omap.c              | 4 +---
+ drivers/rtc/rtc-pic32.c             | 4 +---
+ drivers/rtc/rtc-rtd119x.c           | 4 +---
+ drivers/rtc/rtc-s3c.c               | 4 +---
+ drivers/rtc/rtc-sa1100.c            | 4 +---
+ drivers/rtc/rtc-spear.c             | 4 +---
+ drivers/rtc/rtc-st-lpc.c            | 4 +---
+ drivers/rtc/rtc-stk17ta8.c          | 4 +---
+ drivers/rtc/rtc-stm32.c             | 4 +---
+ drivers/rtc/rtc-sunxi.c             | 4 +---
+ drivers/rtc/rtc-tegra.c             | 4 +---
+ drivers/rtc/rtc-tx4939.c            | 4 +---
+ drivers/rtc/rtc-vt8500.c            | 4 +---
+ drivers/rtc/rtc-xgene.c             | 4 +---
+ drivers/rtc/rtc-zynqmp.c            | 5 +----
+ 34 files changed, 34 insertions(+), 103 deletions(-)
+
 -- 
-2.17.1
+2.7.4
+
 
