@@ -2,89 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8307CD0F1
-	for <lists+linux-tegra@lfdr.de>; Sun,  6 Oct 2019 12:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA7CBCD2FD
+	for <lists+linux-tegra@lfdr.de>; Sun,  6 Oct 2019 17:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727281AbfJFKeN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 6 Oct 2019 06:34:13 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:45234 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727264AbfJFKeN (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 6 Oct 2019 06:34:13 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 1EA89D08BB2E59D6385F;
-        Sun,  6 Oct 2019 18:34:09 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
- 18:34:03 +0800
-From:   YueHaibing <yuehaibing@huawei.com>
-To:     <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>,
-        <joel@jms.id.au>, <andrew@aj.id.au>, <nicolas.ferre@microchip.com>,
-        <ludovic.desroches@microchip.com>, <computersforpeace@gmail.com>,
-        <gregory.0xf0@gmail.com>, <f.fainelli@gmail.com>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        <linus.walleij@linaro.org>, <baruch@tkos.co.il>,
-        <paul@crapouillou.net>, <vz@mleia.com>, <slemieux.tyco@gmail.com>,
-        <khilman@baylibre.com>, <eddie.huang@mediatek.com>,
-        <sean.wang@mediatek.com>, <matthias.bgg@gmail.com>,
-        <patrice.chotard@st.com>, <mcoquelin.stm32@gmail.com>,
-        <alexandre.torgue@st.com>, <mripard@kernel.org>, <wens@csie.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <linux@prisktech.co.nz>, <michal.simek@xilinx.com>
-CC:     <linux-rtc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-tegra@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH -next 34/34] rtc: zynqmp: use devm_platform_ioremap_resource() to simplify code
-Date:   Sun, 6 Oct 2019 18:29:53 +0800
-Message-ID: <20191006102953.57536-35-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
-In-Reply-To: <20191006102953.57536-1-yuehaibing@huawei.com>
-References: <20191006102953.57536-1-yuehaibing@huawei.com>
+        id S1726514AbfJFPrm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 6 Oct 2019 11:47:42 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55716 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725905AbfJFPrm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 6 Oct 2019 11:47:42 -0400
+Received: by mail-wm1-f65.google.com with SMTP id a6so10044625wma.5;
+        Sun, 06 Oct 2019 08:47:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SBpRb6qd+48zQK5uPLn0YvEluIoUY9o3FhFhGA6TXtY=;
+        b=Z37+ICp7Y2QDT49t+AdNnVTJVt76pPZFd6B69eHRoUoNZlsdtFkBCYnSdEyhWhNbuK
+         XyETKrUDNSnLU0N40QS4exLwpNzCn3/7e6RprNKgM+Qgr2l5BRucGBLAeRfUBtKOQMJ/
+         5E9krxQL8OOHlalnke9FA7tibZzAe6GFB/E4Tjd1T8SsglrBwPlPGPzr8Yl+7Mdbg35j
+         IFXYmMzgkgcDjGXuUelcoGSjezWAQjoj/QavICNDeyyyRPhrYYOc89Nr353qflFxSsn4
+         1BvgZwAEXST7N03PUH5ali/fZNJcdatPFLpTHv6qfPMQra3BvYtNieDoXbXlpO+z1NTI
+         sjXw==
+X-Gm-Message-State: APjAAAUxUmMz14TPUm0Zi7j50psy10b7VPGg5JHEvkXkDaeqENUPDqXP
+        tPZ/Wxzu3jmyhFXsDcYOxAA=
+X-Google-Smtp-Source: APXvYqwiD5w33vuIYv9624AWG0k3vsCYtE8uO59mkpTJi1G/TZQDv7OS1UJvxH3zuwZ0w6XxIwuUIQ==
+X-Received: by 2002:a1c:9988:: with SMTP id b130mr18139392wme.164.1570376858781;
+        Sun, 06 Oct 2019 08:47:38 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.145])
+        by smtp.googlemail.com with ESMTPSA id o22sm31539882wra.96.2019.10.06.08.47.36
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 06 Oct 2019 08:47:38 -0700 (PDT)
+Date:   Sun, 6 Oct 2019 17:47:34 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Sudeep Holla <sudeep.holla@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, etnaviv@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 3/3] ARM: dts: exynos: Rename power domain nodes to
+ "power-domain" in Exynos4
+Message-ID: <20191006154734.GA29365@kozik-lap>
+References: <20191002160632.11140-1-krzk@kernel.org>
+ <20191002160632.11140-3-krzk@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191002160632.11140-3-krzk@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Use devm_platform_ioremap_resource() to simplify the code a bit.
-This is detected by coccinelle.
+On Wed, Oct 02, 2019 at 06:06:32PM +0200, Krzysztof Kozlowski wrote:
+> The device node name should reflect generic class of a device so rename
+> power domain nodes to "power-domain".  No functional change.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  arch/arm/boot/dts/exynos4.dtsi    | 14 +++++++-------
+>  arch/arm/boot/dts/exynos4210.dtsi |  2 +-
+>  arch/arm/boot/dts/exynos4412.dtsi |  2 +-
+>  3 files changed, 9 insertions(+), 9 deletions(-)
 
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/rtc/rtc-zynqmp.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Applied.
 
-diff --git a/drivers/rtc/rtc-zynqmp.c b/drivers/rtc/rtc-zynqmp.c
-index 2c76275..55646e0 100644
---- a/drivers/rtc/rtc-zynqmp.c
-+++ b/drivers/rtc/rtc-zynqmp.c
-@@ -195,7 +195,6 @@ static irqreturn_t xlnx_rtc_interrupt(int irq, void *id)
- static int xlnx_rtc_probe(struct platform_device *pdev)
- {
- 	struct xlnx_rtc_dev *xrtcdev;
--	struct resource *res;
- 	int ret;
- 
- 	xrtcdev = devm_kzalloc(&pdev->dev, sizeof(*xrtcdev), GFP_KERNEL);
-@@ -211,9 +210,7 @@ static int xlnx_rtc_probe(struct platform_device *pdev)
- 	xrtcdev->rtc->ops = &xlnx_rtc_ops;
- 	xrtcdev->rtc->range_max = U32_MAX;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--
--	xrtcdev->reg_base = devm_ioremap_resource(&pdev->dev, res);
-+	xrtcdev->reg_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(xrtcdev->reg_base))
- 		return PTR_ERR(xrtcdev->reg_base);
- 
--- 
-2.7.4
-
-
+Best regards,
+Krzysztof
