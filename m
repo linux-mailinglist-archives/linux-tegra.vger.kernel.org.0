@@ -2,140 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FCDBCDED4
-	for <lists+linux-tegra@lfdr.de>; Mon,  7 Oct 2019 12:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3F39CDFD1
+	for <lists+linux-tegra@lfdr.de>; Mon,  7 Oct 2019 13:03:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727376AbfJGKKs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Oct 2019 06:10:48 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:53273 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbfJGKKs (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Oct 2019 06:10:48 -0400
-Received: from localhost (aclermont-ferrand-651-1-259-53.w86-207.abo.wanadoo.fr [86.207.98.53])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 57274240012;
-        Mon,  7 Oct 2019 10:10:37 +0000 (UTC)
-Date:   Mon, 7 Oct 2019 12:10:37 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     a.zummo@towertech.it, joel@jms.id.au, andrew@aj.id.au,
-        nicolas.ferre@microchip.com, ludovic.desroches@microchip.com,
-        computersforpeace@gmail.com, gregory.0xf0@gmail.com,
-        f.fainelli@gmail.com, bcm-kernel-feedback-list@broadcom.com,
-        linus.walleij@linaro.org, baruch@tkos.co.il, paul@crapouillou.net,
-        vz@mleia.com, slemieux.tyco@gmail.com, khilman@baylibre.com,
-        eddie.huang@mediatek.com, sean.wang@mediatek.com,
-        matthias.bgg@gmail.com, patrice.chotard@st.com,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
-        mripard@kernel.org, wens@csie.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux@prisktech.co.nz,
-        michal.simek@xilinx.com, linux-rtc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH -next 00/34] rtc: use devm_platform_ioremap_resource() to
- simplify code
-Message-ID: <20191007101037.GE4254@piout.net>
-References: <20191006102953.57536-1-yuehaibing@huawei.com>
+        id S1727496AbfJGLDP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Oct 2019 07:03:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44870 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727317AbfJGLDO (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 7 Oct 2019 07:03:14 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9F0A4206BB;
+        Mon,  7 Oct 2019 11:03:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570446194;
+        bh=VDBJ4s2BZaKphj3RNMld+/VgIar3sIhB0/Ql1nq99ys=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xVEmyDOU6lbwHpoqzNTAWCRu/nc4m0xpnDXn5bJnROx1XOCO7yl1BrWzg+4JP9viy
+         AASXTopzobJ0XHc/IyKtsdm1eomZjMc2IAaAyKGoZhSrKRLFpMgPlA0lwKO3TJpuv7
+         kPSUsy0QLUxxm1rriVZO5QODDivsbRjvOSlBEgFo=
+Date:   Mon, 7 Oct 2019 13:03:11 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     JC Kuo <jckuo@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        nkristam@nvidia.com, skomatineni@nvidia.com
+Subject: Re: [PATCH v3 0/7] add Tegra194 XUSB host and pad controller support
+Message-ID: <20191007110311.GA614644@kroah.com>
+References: <20191004162906.4818-1-jckuo@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191006102953.57536-1-yuehaibing@huawei.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191004162906.4818-1-jckuo@nvidia.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 06/10/2019 18:29:19+0800, YueHaibing wrote:
-> devm_platform_ioremap_resource() internally have platform_get_resource()
-> and devm_ioremap_resource() in it. So instead of calling them separately
-> use devm_platform_ioremap_resource() directly.
+On Sat, Oct 05, 2019 at 12:28:59AM +0800, JC Kuo wrote:
+> Hi,
 > 
-> YueHaibing (34):
->   rtc: asm9260: use devm_platform_ioremap_resource() to simplify code
->   rtc: rtc-aspeed: use devm_platform_ioremap_resource() to simplify code
->   rtc: brcmstb-waketimer: use devm_platform_ioremap_resource() to
->     simplify code
->   rtc: at91sam9: use devm_platform_ioremap_resource() to simplify code
->   rtc: cadence: use devm_platform_ioremap_resource() to simplify code
->   rtc: coh901331: use devm_platform_ioremap_resource() to simplify code
->   rtc: davinci: use devm_platform_ioremap_resource() to simplify code
->   rtc: digicolor: use devm_platform_ioremap_resource() to simplify code
->   rtc: ds1216: use devm_platform_ioremap_resource() to simplify code
->   rtc: ds1511: use devm_platform_ioremap_resource() to simplify code
->   rtc: ds1553: use devm_platform_ioremap_resource() to simplify code
->   rtc: ep93xx: use devm_platform_ioremap_resource() to simplify code
->   rtc: jz4740: use devm_platform_ioremap_resource() to simplify code
->   rtc: lpc24xx: use devm_platform_ioremap_resource() to simplify code
->   rtc: lpc32xx: use devm_platform_ioremap_resource() to simplify code
->   rtc: meson: use devm_platform_ioremap_resource() to simplify code
->   rtc: mt7622: use devm_platform_ioremap_resource() to simplify code
->   rtc: mv: use devm_platform_ioremap_resource() to simplify code
->   rtc: omap: use devm_platform_ioremap_resource() to simplify code
->   rtc: pic32: use devm_platform_ioremap_resource() to simplify code
->   rtc: rtd119x: use devm_platform_ioremap_resource() to simplify code
->   rtc: s3c: use devm_platform_ioremap_resource() to simplify code
->   rtc: sa1100: use devm_platform_ioremap_resource() to simplify code
->   rtc: spear: use devm_platform_ioremap_resource() to simplify code
->   rtc: stk17ta8: use devm_platform_ioremap_resource() to simplify code
->   rtc: ds1286: use devm_platform_ioremap_resource() to simplify code
->   rtc: st-lpc: use devm_platform_ioremap_resource() to simplify code
->   rtc: stm32: use devm_platform_ioremap_resource() to simplify code
->   rtc: sunxi: use devm_platform_ioremap_resource() to simplify code
->   rtc: tegra: use devm_platform_ioremap_resource() to simplify code
->   rtc: tx4939: use devm_platform_ioremap_resource() to simplify code
->   rtc: vt8500: use devm_platform_ioremap_resource() to simplify code
->   rtc: xgene: use devm_platform_ioremap_resource() to simplify code
->   rtc: zynqmp: use devm_platform_ioremap_resource() to simplify code
-> 
->  drivers/rtc/rtc-asm9260.c           | 4 +---
->  drivers/rtc/rtc-aspeed.c            | 4 +---
->  drivers/rtc/rtc-at91sam9.c          | 4 +---
->  drivers/rtc/rtc-brcmstb-waketimer.c | 4 +---
->  drivers/rtc/rtc-cadence.c           | 4 +---
->  drivers/rtc/rtc-coh901331.c         | 4 +---
->  drivers/rtc/rtc-davinci.c           | 4 +---
->  drivers/rtc/rtc-digicolor.c         | 4 +---
->  drivers/rtc/rtc-ds1216.c            | 4 +---
->  drivers/rtc/rtc-ds1286.c            | 4 +---
->  drivers/rtc/rtc-ds1511.c            | 4 +---
->  drivers/rtc/rtc-ds1553.c            | 4 +---
->  drivers/rtc/rtc-ep93xx.c            | 4 +---
->  drivers/rtc/rtc-jz4740.c            | 4 +---
->  drivers/rtc/rtc-lpc24xx.c           | 4 +---
->  drivers/rtc/rtc-lpc32xx.c           | 4 +---
->  drivers/rtc/rtc-meson.c             | 4 +---
->  drivers/rtc/rtc-mt7622.c            | 4 +---
->  drivers/rtc/rtc-mv.c                | 4 +---
->  drivers/rtc/rtc-omap.c              | 4 +---
->  drivers/rtc/rtc-pic32.c             | 4 +---
->  drivers/rtc/rtc-rtd119x.c           | 4 +---
->  drivers/rtc/rtc-s3c.c               | 4 +---
->  drivers/rtc/rtc-sa1100.c            | 4 +---
->  drivers/rtc/rtc-spear.c             | 4 +---
->  drivers/rtc/rtc-st-lpc.c            | 4 +---
->  drivers/rtc/rtc-stk17ta8.c          | 4 +---
->  drivers/rtc/rtc-stm32.c             | 4 +---
->  drivers/rtc/rtc-sunxi.c             | 4 +---
->  drivers/rtc/rtc-tegra.c             | 4 +---
->  drivers/rtc/rtc-tx4939.c            | 4 +---
->  drivers/rtc/rtc-vt8500.c            | 4 +---
->  drivers/rtc/rtc-xgene.c             | 4 +---
->  drivers/rtc/rtc-zynqmp.c            | 5 +----
->  34 files changed, 34 insertions(+), 103 deletions(-)
-> 
+> This series introduces support for Tegra194 XUSB host and pad
+> controller. Tegra194 XUSB host and pad controller are highly
+> similar to the controllers found on Tegra186. Therefore, it's
+> possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
 
-I've quashed and applied.
+I've taken patches 1 and 2 through my USB tree.  If you want/need me to
+take the others, please get acks from those maintainers on them so I can
+do so.
 
-> -- 
-> 2.7.4
-> 
-> 
+thanks,
 
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+greg k-h
