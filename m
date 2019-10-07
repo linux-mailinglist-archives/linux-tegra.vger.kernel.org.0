@@ -2,94 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD24ACDCE8
-	for <lists+linux-tegra@lfdr.de>; Mon,  7 Oct 2019 10:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3B4ACDEB4
+	for <lists+linux-tegra@lfdr.de>; Mon,  7 Oct 2019 12:07:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbfJGIL4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 7 Oct 2019 04:11:56 -0400
-Received: from mail-ed1-f52.google.com ([209.85.208.52]:42441 "EHLO
-        mail-ed1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726889AbfJGILz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Oct 2019 04:11:55 -0400
-Received: by mail-ed1-f52.google.com with SMTP id y91so11495166ede.9;
-        Mon, 07 Oct 2019 01:11:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Snb3N5jBGTny2lV0Bq/REXN2i4LAg5y7Btj+sL3kJn0=;
-        b=HEvhTPA4qHs6T6/sy02D9eFAWTzmDfB1jFt6FEPxhKdwdpkhD5vUgLzsZIbLRgCc4I
-         pumDtrj/jmWtRdW6odENJeG1Cx3wmA+i9u4iQJZ8XJ9e7OvGTao9Zt/9uT2x8v9KhTBX
-         GoonaqKZ0wwJNP/7FgGclw99BGLVTml8BghWh/4LfbK1OdbOkLaDONpARLP2XAnP+1J2
-         KegtuO92RZ4QpZYFaJpP2JzkrDIpWqxfu11BhGiRNwhXGUEOxO05+efOM51oFMq9hbvN
-         DD0I7hbl411Yxk19E30UcCNdathUK4ZqpQKo0v6eZaac1q0rspVu5iiJaCJaCwZKIhZZ
-         j0ew==
-X-Gm-Message-State: APjAAAWsl6iy3KT4kPJsASwWYorNnE8eEIVhVbR93JZn/1Vsb4JmQ3pl
-        b7Ctogek6KuAUEvE3KPvcspHqnHIOfM=
-X-Google-Smtp-Source: APXvYqwKEy92PmoUYu5LIOejZ5tSC1KCR6qRXx8Fh4kR45McOjqJCicxqtG76cszVJU4WmE9Clca0A==
-X-Received: by 2002:aa7:c614:: with SMTP id h20mr27114269edq.209.1570435911803;
-        Mon, 07 Oct 2019 01:11:51 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id g9sm1745327ejj.51.2019.10.07.01.11.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Oct 2019 01:11:50 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id q9so14042546wrm.8;
-        Mon, 07 Oct 2019 01:11:49 -0700 (PDT)
-X-Received: by 2002:adf:fe8b:: with SMTP id l11mr16979718wrr.23.1570435909394;
- Mon, 07 Oct 2019 01:11:49 -0700 (PDT)
+        id S1727355AbfJGKHj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 7 Oct 2019 06:07:39 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:18109 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbfJGKHj (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 7 Oct 2019 06:07:39 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d9b0e730000>; Mon, 07 Oct 2019 03:07:47 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 07 Oct 2019 03:07:38 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 07 Oct 2019 03:07:38 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 7 Oct
+ 2019 10:07:37 +0000
+Received: from [10.21.133.51] (172.20.13.39) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 7 Oct 2019
+ 10:07:34 +0000
+Subject: Re: [PATCH 4.4 00/36] 4.4.196-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191006171038.266461022@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <89329840-8544-1d75-eb4e-fa2d1099ce9b@nvidia.com>
+Date:   Mon, 7 Oct 2019 11:07:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20191006102953.57536-1-yuehaibing@huawei.com> <20191006102953.57536-30-yuehaibing@huawei.com>
-In-Reply-To: <20191006102953.57536-30-yuehaibing@huawei.com>
-From:   Chen-Yu Tsai <wens@csie.org>
-Date:   Mon, 7 Oct 2019 16:11:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64hUaddO-29=ZP53HDrrOUKqfa52Qk9Q2dGf_RkfwZfyA@mail.gmail.com>
-Message-ID: <CAGb2v64hUaddO-29=ZP53HDrrOUKqfa52Qk9Q2dGf_RkfwZfyA@mail.gmail.com>
-Subject: Re: [PATCH -next 29/34] rtc: sunxi: use devm_platform_ioremap_resource()
- to simplify code
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        joel@jms.id.au, andrew@aj.id.au,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        ludovic.desroches@microchip.com,
-        Brian Norris <computersforpeace@gmail.com>,
-        gregory.0xf0@gmail.com, Florian Fainelli <f.fainelli@gmail.com>,
-        "open list:BROADCOM BCM281XX..." 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Baruch Siach <baruch@tkos.co.il>, paul@crapouillou.net,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Kevin Hilman <khilman@baylibre.com>, eddie.huang@mediatek.com,
-        Sean Wang <sean.wang@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        jonathanh@nvidia.com, Tony Prisk <linux@prisktech.co.nz>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-rtc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed@lists.ozlabs.org,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC..." 
-        <linux-mediatek@lists.infradead.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191006171038.266461022@linuxfoundation.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1570442867; bh=mjfY1cnI00RZpqM/gScLlfdGNqe//fkcYTRSNXlWNBA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=rS897L+S3LKMekfX8Ocns6ryyjODQovyphlz1RHG0EUzV/h2jc4XtWX6dFKPQCgaL
+         7qo3/j68r5EKsmRBJt2vvCSZKMzgqQ5bc8BBa6mPz13PPJSUVnc1BuSt3eCq0p6WYs
+         5ZbznTvholquOBij2Txecz+RElWa6Uu0OC8u+0w6ocnkbbmslMGIuV0c1hBa9U/52I
+         3um55p1kI4kLtJmrfukxtsAMWguJuCpS18pystRT6whFjH5l/NvaahoO7WjWfSAimb
+         j0FGfPFPa4wmaqeUKTe6mfuqWUFJT1qY3TGLRZ98vT3KtxlWCxl/xkbjPf/ZE2Lf2N
+         E8Xk1eDZu4d5w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Oct 6, 2019 at 6:39 PM YueHaibing <yuehaibing@huawei.com> wrote:
->
-> Use devm_platform_ioremap_resource() to simplify the code a bit.
-> This is detected by coccinelle.
->
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+On 06/10/2019 18:18, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.196 release.
+> There are 36 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Tue 08 Oct 2019 05:07:10 PM UTC.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.196-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
+
+All tests are passing for Tegra ...
+
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
+
+Linux version:	4.4.196-rc1-g2082eedffaaa
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
