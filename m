@@ -2,129 +2,130 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4C93CFDA4
-	for <lists+linux-tegra@lfdr.de>; Tue,  8 Oct 2019 17:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78B25D0197
+	for <lists+linux-tegra@lfdr.de>; Tue,  8 Oct 2019 21:55:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726349AbfJHP3i (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 8 Oct 2019 11:29:38 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:33512 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726291AbfJHP3e (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Oct 2019 11:29:34 -0400
-Received: by mail-lf1-f68.google.com with SMTP id y127so12331147lfc.0
-        for <linux-tegra@vger.kernel.org>; Tue, 08 Oct 2019 08:29:34 -0700 (PDT)
+        id S1730731AbfJHTzZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 8 Oct 2019 15:55:25 -0400
+Received: from mail-ed1-f49.google.com ([209.85.208.49]:41938 "EHLO
+        mail-ed1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730916AbfJHTzZ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Oct 2019 15:55:25 -0400
+Received: by mail-ed1-f49.google.com with SMTP id f20so16822332edv.8
+        for <linux-tegra@vger.kernel.org>; Tue, 08 Oct 2019 12:55:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EoX9RU7OCgSyJHiOI8NfYUW65KmpDnDk4jkS5zSGB9s=;
-        b=g+atH4RR+l46NAMJ3DqRlKJUAMis6AcCZ1tJMS5RVuFp5DTe94KtqVXhvq9mtoNqco
-         6ChZ/TEBoMsReXuVJrQG41hqDlh7+g28w8vcLD3EhvpkbNdTRYWjezUmKp73knV0U7TR
-         js+OEI0AHB3DBYLFsB/WBYudQAiJzum63PeU0Wb2wpIqkR4C44nZ2y3hx6vmliOKKA2d
-         G3jKLJY63PMGYTyXHygSqe0J28VwCH3gzM7qWFYDKAwh2WAczejyCGWsoQrN+Vbn9PEZ
-         wsTn7IFPikBI82v1ka6TTu0rx1T+NZ2UKPF1Iwod7izBSeVtIHh8YUu4LSFh9+c1yDLN
-         HX+w==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
+        b=aMQQgi7dIXVBnmVMSSMCLgb3oXTzeafbZdgWl2Y7dgh9d3yilS1+9yTnvWoS7+GzUk
+         LWbTYKnbDzuBJ3/U6U4a0Txwis4unkVKDohWYyBjnKYrTLghN7laSYeGp1/FcmznDyEO
+         GS9pgiMN+uT0qCjbihaa5wuvtHOM98vqOW8UVjJ7Cv+EprgLSNS8LJdhrjnJyNqQEN56
+         5sfOyU15h4kpoOXNgzNljIz5N8IZnpl4XHLYJYLCwvTOpHMRDfM3ywlgrk+4Qs+isMtv
+         bwWMXB9P8rpPXCaQx70qpw2S2sG0Q07XznOIe3PPQ9uFVdh7+iWMtRM+rtyrWFblwrYM
+         wXZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EoX9RU7OCgSyJHiOI8NfYUW65KmpDnDk4jkS5zSGB9s=;
-        b=E4+acSEU05bTa72+RnrJf6u7whyCy68jsu8JaAFDwZYNkKBesEtaf1Km+Y9fv/wrEY
-         4DA108ZJDxC36zkuxFFDqWtPBuoSW4cOR4AvvJnqgSDFLScTBCLWuCrLHgUieFUg7S3A
-         u4y6usG6k2p7aWT3AW7jQ0ql3gcvJJ5oFPEGlqt7E4H/44PojhsZS6/817N2O7hiOd4x
-         QGyRBS+2WaV00BdmGpo+qSJwopfhteTsRzg1HyBzDXjtcBt6bQxE+7MYsJvj1hQpuzcN
-         9oIse9HGlF+rKOJOvsNEoLDvw9mrbBunpori80xU4Kt+iQmhB3CRDS/mYb3Qz8tTeGWw
-         856Q==
-X-Gm-Message-State: APjAAAUyazUep8mgu/SfNQsIfvQhXHCLYjR+p1zBNtNHRleUwfopT7ZT
-        pokSJuKJOL5xifLrhAk4TRo=
-X-Google-Smtp-Source: APXvYqwv1K851gyM8g3svkjPhroLjas4RSV8Eg6gjfULB12mo5/kTVn0KV7uCHyj3I5OYwKZr12wKA==
-X-Received: by 2002:ac2:5a19:: with SMTP id q25mr11525365lfn.178.1570548573599;
-        Tue, 08 Oct 2019 08:29:33 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.34.231])
-        by smtp.googlemail.com with ESMTPSA id j5sm3745231lfj.77.2019.10.08.08.29.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2019 08:29:32 -0700 (PDT)
-Subject: Re: [PATCH v4 3/7] ASoC: tegra: i2s: Add support for more than 2
- channels
-To:     Ben Dooks <ben.dooks@codethink.co.uk>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@lists.codethink.co.uk,
-        Edward Cragg <edward.cragg@codethink.co.uk>
-References: <20191007153136.4920-1-ben.dooks@codethink.co.uk>
- <20191007153136.4920-4-ben.dooks@codethink.co.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <cfd308bd-290a-f72f-6876-d94151c09843@gmail.com>
-Date:   Tue, 8 Oct 2019 18:29:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
+        b=eCHKmtsjB/MYnFGU8iujwwH7Z4dwIesg/BulNKcCO9jpaen/M6YSoHzltbdeVsuMLs
+         0Gb8DrrP/deP18YtRn01zJXpgoLTe+uNhzH3IZA6eRvRp8jUud4QiP/wzMQgDWNUDneb
+         rCnyyDBGmXspkEk4xvV3jW/eXhuWZ7kWAfG/myiMGF1KLeRvKp2OmjSo/MwQV6eYMhMo
+         KGJDKXhzRob727M8rCWQgWzGovqDWjEss0XE0x+WdENsKQskp6UUJh3T8uoXX5ZqJoBv
+         8gfLntnw3AzSreIDxaAoMUiWfu3dAUIItsRJ4HFTFx525+qIyKUPj1naiYHPlBs33WPm
+         qApg==
+X-Gm-Message-State: APjAAAWZh3LqVFLksIAd0BXK340gkmSVyIo+ZS+WxTlJ1k606m00rSDQ
+        OEgFVlXrTBNubSw21PtV7zXBeLSXwj+H8PGcRT4=
+X-Google-Smtp-Source: APXvYqxaZfvXk0/G1PfPN40JEbEfue6b7v2Lk/SQWmnUxoxmnZyxXwpPNC4UPIh9mJw4kQ9atMHeHG1Orcb22TWXOSk=
+X-Received: by 2002:a50:c306:: with SMTP id a6mr36339639edb.108.1570564517490;
+ Tue, 08 Oct 2019 12:55:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191007153136.4920-4-ben.dooks@codethink.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a17:906:cc89:0:0:0:0 with HTTP; Tue, 8 Oct 2019 12:55:16
+ -0700 (PDT)
+Reply-To: moneygram.1820@outlook.fr
+From:   MONEY GRAM <currency1000000@gmail.com>
+Date:   Tue, 8 Oct 2019 20:55:16 +0100
+Message-ID: <CAPqfnSEO==O6BEtBbcMMZfh3qcY4Bz0qndhCqbcLqZx4DCs44A@mail.gmail.com>
+Subject: HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE M.T.C.N:78393135
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello Ben,
+HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE
+M.T.C.N:78393135
 
-07.10.2019 18:31, Ben Dooks пишет:
-> From: Edward Cragg <edward.cragg@codethink.co.uk>
-> 
-> The CIF configuration and clock setting is currently hard coded for 2
-> channels. Since the hardware is capable of supporting 1-8 channels add
-> support for reading the channel count from the supplied parameters to
-> allow for better TDM support. It seems the original implementation of this
-> driver was fixed at 2 channels for simplicity, and not implementing TDM.
-> 
-> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
-> [ben.dooks@codethink.co.uk: added is_tdm and channel nr check]
-> [ben.dooks@codethink.co.uk: merge edge control into set-format]
-> [ben.dooks@codethink.co.uk: removed is_tdm and moved edge to hw_params]
-> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
-> ---
->  sound/soc/tegra/tegra30_i2s.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
-> 
-> diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-> index 063f34c882af..7382f7949bf4 100644
-> --- a/sound/soc/tegra/tegra30_i2s.c
-> +++ b/sound/soc/tegra/tegra30_i2s.c
-> @@ -67,6 +67,7 @@ static int tegra30_i2s_set_fmt(struct snd_soc_dai *dai,
->  {
->  	struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
->  	unsigned int mask = 0, val = 0;
-> +	unsigned int ch_mask, ch_val = 0;
->  
->  	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
->  	case SND_SOC_DAIFMT_NB_NF:
-> @@ -75,6 +76,7 @@ static int tegra30_i2s_set_fmt(struct snd_soc_dai *dai,
->  		return -EINVAL;
->  	}
->  
-> +	ch_mask = TEGRA30_I2S_CH_CTRL_EGDE_CTRL_MASK;
->  	mask |= TEGRA30_I2S_CTRL_MASTER_ENABLE;
->  	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
->  	case SND_SOC_DAIFMT_CBS_CFS:
-> @@ -90,10 +92,12 @@ static int tegra30_i2s_set_fmt(struct snd_soc_dai *dai,
->  		TEGRA30_I2S_CTRL_LRCK_MASK;
->  	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
->  	case SND_SOC_DAIFMT_DSP_A:
-> +		ch_val = TEGRA30_I2S_CH_CTRL_EGDE_CTRL_NEG_EDGE;
->  		val |= TEGRA30_I2S_CTRL_FRAME_FORMAT_FSYNC;
->  		val |= TEGRA30_I2S_CTRL_LRCK_L_LOW;
->  		break;
->  	case SND_SOC_DAIFMT_DSP_B:
-> +		ch_val = TEGRA30_I2S_CH_CTRL_EGDE_CTRL_NEG_EDGE;
+Attn: Beneficiary,
 
-Downstream code sets DSP_B to POS_EDGE, looks like you have a typo here.
-Or does DSP_B happen to work with the NEG_EDGE?
+This is to inform you that the America Embassy office was instructed
+to transfer your fund $980,000.00 U.S Dollars compensating all the
+SCAM VICTIMS and your email was found as one of the VICTIMS. by
+America security leading team and America representative officers so
+between today the 8th of October till 1ST Of December 2019 you will
+be receiving MONEY GRAM the sum of $6,000 dollars per day. However be informed
+that we have already sent the $6,000 dollars this morning to avoid
+cancellation of your payment, remain the total sum of $980,000.00.
 
-[snip]
+You have only six hours to call this office upon the receipt of this
+email the maximum amount you will be receiving per a day starting from
+today's $6,000 and the Money Transfer Control Number of today is
+below.
+
+NOTE; The sent $6,000 is on hold because of the instruction from IMF
+office, they asked us to place it on hold by requesting the (Clean
+Bill Record Certificate) which will cost you $25 in order to fulfill
+all the necessary obligation to avoid any hitches while sending you
+the payment through MONEY GRAM money transfer, the necessary
+obligation I mean here is to obtain the (Clean Bill Record
+Certificate)
+
+Below is the information of today track it in our
+
+websitehttps://moneygarm.com/asp/orderStatus.asp?country=global
+to see is available to pick up by the receiver, but if we didn't here
+from you soon we'll pickup it up from line for security reason to
+avoid hackers stealing the money online.
+
+Money Transfer Control Number M.T.C.N)::78393135
+SENDERS FIRST NAME: John
+SENDERS LAST NAME: Chun
+SENDERS COUNTRY...BENIN REPUBLIC
+TEXT QUESTION: A
+ANSWER: B
+AMOUNT: $6,000
+
+We need the below details from you, to enable us place the payment to
+your name and transfer the fund to you.
+
+(Full Receivers name)...................
+(You're Country)................................
+(Address)......................................
+(Phone NuMBER-...............................
+(You're Age)............................
+(OCCUPATION)..REAL ESTATE..................
+(A Copy of Your ID CARD).SEE ATTACHMENTS.............
+
+HOWEVER YOU HAVE TO PAY $25 FOR THE (Clean Bill Record Certificate)
+AND THAT IS ALL YOU HAVE TO DO ASAP.
+
+The payment will be sending to below information, such as:
+
+Receiver.............. ALAN UDE
+Country................Benin Republic
+Amount: ....................$25
+Question: .....................A
+Answer:................... B
+Sender...............Name:
+MTCN :..............
+
+According to the instruction and order we received from IMF the their
+requested $25 must be made directly to the above info's.
+
+Furthermore you are advised to call us as the instruction was passed
+that within 6hours without hearing from you, Count your payment
+canceled. Number to call is below listed manager director office of
+release order:
+DR.ALAN UDE
+Director MONEY GRAM-Benin
