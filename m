@@ -2,120 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88AB0CF829
-	for <lists+linux-tegra@lfdr.de>; Tue,  8 Oct 2019 13:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4C93CFDA4
+	for <lists+linux-tegra@lfdr.de>; Tue,  8 Oct 2019 17:30:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730316AbfJHL3M (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 8 Oct 2019 07:29:12 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45641 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730249AbfJHL3M (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Oct 2019 07:29:12 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r5so18902167wrm.12;
-        Tue, 08 Oct 2019 04:29:10 -0700 (PDT)
+        id S1726349AbfJHP3i (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 8 Oct 2019 11:29:38 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33512 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726291AbfJHP3e (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Oct 2019 11:29:34 -0400
+Received: by mail-lf1-f68.google.com with SMTP id y127so12331147lfc.0
+        for <linux-tegra@vger.kernel.org>; Tue, 08 Oct 2019 08:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=FYmSEb4UkFBwKb8YV3FOeq6yilH8AXXad/DLPAhG4DI=;
-        b=tEeiaX7Me1T5znQaAg+ubwUI0vyc8Zhm1RjV5QaasUhzCH7mpsLT9TdXrRLlndmrBy
-         9RHa82qNm8Z4BChHyMO4a1xGthdxMHsOyhGGzZ7pTvwqU+7Ym1YoivrurbPIQa6OgqII
-         KGwRa/dbvofp/UQ7IwH9WC+wq4VhIaGzl8ez39hfi1WDhYyms/dh8HbWcuccGmzK/cFx
-         fy7IcIVsurt7yk0XrmiR9v1WtfNAL7w58nKFHfsWUCPjmRPrgd0RD98wjUYEbwc+EBxf
-         GBGTyeaI2ExDYMGQ0tzbCGYyyLFe5sKirM45R6aBwUpFWLVALeunS9JMqEIaSaoAlwc8
-         tD3A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=EoX9RU7OCgSyJHiOI8NfYUW65KmpDnDk4jkS5zSGB9s=;
+        b=g+atH4RR+l46NAMJ3DqRlKJUAMis6AcCZ1tJMS5RVuFp5DTe94KtqVXhvq9mtoNqco
+         6ChZ/TEBoMsReXuVJrQG41hqDlh7+g28w8vcLD3EhvpkbNdTRYWjezUmKp73knV0U7TR
+         js+OEI0AHB3DBYLFsB/WBYudQAiJzum63PeU0Wb2wpIqkR4C44nZ2y3hx6vmliOKKA2d
+         G3jKLJY63PMGYTyXHygSqe0J28VwCH3gzM7qWFYDKAwh2WAczejyCGWsoQrN+Vbn9PEZ
+         wsTn7IFPikBI82v1ka6TTu0rx1T+NZ2UKPF1Iwod7izBSeVtIHh8YUu4LSFh9+c1yDLN
+         HX+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FYmSEb4UkFBwKb8YV3FOeq6yilH8AXXad/DLPAhG4DI=;
-        b=qoZ4sEne627nlcUxRg67VoqcM/8Mcz6gc1CSLwRGzh02lp8cTa1OSTiIE9pvN5WHDR
-         i5XaKt9fgt084I+Artw2FhKJjSgOX4qDp06JHOIKl/OivEjyk/7O6MHj+BfGi8NdyxJ8
-         xcmuRoOFPH1XUek4ZrXTJoLQUQ4OBkW4NAgqECMICR1WurWdP8aKHHmW7ZenrCfquiF+
-         yVQLpDYw42xO7d5g7aFWGto1FHYaG/rngOiLm7Ym+MGzHoBfPzI5jMauwaUx1On21bWQ
-         gcF+UY4yds8HbV50c+3kAp7SADZWev6idptVLq3OPYpeRCZNNxFEJVM9galCQAvJbghb
-         2glg==
-X-Gm-Message-State: APjAAAWw5Sao+5VGbgpOWleiw5kz6+OYYvN7T2p6NyKWz/+cJBnsJI0l
-        /f47kE1uibKMkDcbOdAKvmQ=
-X-Google-Smtp-Source: APXvYqwDi0ge0lsN7GXz3MGF8+juCAMiP5g/2tiWKI2mruB19jSzvAi1nOuWd7Kf7c7AMppkHec4Kw==
-X-Received: by 2002:adf:cc8a:: with SMTP id p10mr26060310wrj.321.1570534149735;
-        Tue, 08 Oct 2019 04:29:09 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id y186sm6213868wmd.26.2019.10.08.04.29.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2019 04:29:08 -0700 (PDT)
-Date:   Tue, 8 Oct 2019 13:29:07 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     JC Kuo <jckuo@nvidia.com>, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        nkristam@nvidia.com, skomatineni@nvidia.com
-Subject: Re: [PATCH v3 0/7] add Tegra194 XUSB host and pad controller support
-Message-ID: <20191008112907.GC228118@ulmo>
-References: <20191004162906.4818-1-jckuo@nvidia.com>
- <20191007110311.GA614644@kroah.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EoX9RU7OCgSyJHiOI8NfYUW65KmpDnDk4jkS5zSGB9s=;
+        b=E4+acSEU05bTa72+RnrJf6u7whyCy68jsu8JaAFDwZYNkKBesEtaf1Km+Y9fv/wrEY
+         4DA108ZJDxC36zkuxFFDqWtPBuoSW4cOR4AvvJnqgSDFLScTBCLWuCrLHgUieFUg7S3A
+         u4y6usG6k2p7aWT3AW7jQ0ql3gcvJJ5oFPEGlqt7E4H/44PojhsZS6/817N2O7hiOd4x
+         QGyRBS+2WaV00BdmGpo+qSJwopfhteTsRzg1HyBzDXjtcBt6bQxE+7MYsJvj1hQpuzcN
+         9oIse9HGlF+rKOJOvsNEoLDvw9mrbBunpori80xU4Kt+iQmhB3CRDS/mYb3Qz8tTeGWw
+         856Q==
+X-Gm-Message-State: APjAAAUyazUep8mgu/SfNQsIfvQhXHCLYjR+p1zBNtNHRleUwfopT7ZT
+        pokSJuKJOL5xifLrhAk4TRo=
+X-Google-Smtp-Source: APXvYqwv1K851gyM8g3svkjPhroLjas4RSV8Eg6gjfULB12mo5/kTVn0KV7uCHyj3I5OYwKZr12wKA==
+X-Received: by 2002:ac2:5a19:: with SMTP id q25mr11525365lfn.178.1570548573599;
+        Tue, 08 Oct 2019 08:29:33 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.34.231])
+        by smtp.googlemail.com with ESMTPSA id j5sm3745231lfj.77.2019.10.08.08.29.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2019 08:29:32 -0700 (PDT)
+Subject: Re: [PATCH v4 3/7] ASoC: tegra: i2s: Add support for more than 2
+ channels
+To:     Ben Dooks <ben.dooks@codethink.co.uk>, linux-tegra@vger.kernel.org,
+        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@lists.codethink.co.uk,
+        Edward Cragg <edward.cragg@codethink.co.uk>
+References: <20191007153136.4920-1-ben.dooks@codethink.co.uk>
+ <20191007153136.4920-4-ben.dooks@codethink.co.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <cfd308bd-290a-f72f-6876-d94151c09843@gmail.com>
+Date:   Tue, 8 Oct 2019 18:29:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="GPJrCs/72TxItFYR"
-Content-Disposition: inline
-In-Reply-To: <20191007110311.GA614644@kroah.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191007153136.4920-4-ben.dooks@codethink.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hello Ben,
 
---GPJrCs/72TxItFYR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+07.10.2019 18:31, Ben Dooks пишет:
+> From: Edward Cragg <edward.cragg@codethink.co.uk>
+> 
+> The CIF configuration and clock setting is currently hard coded for 2
+> channels. Since the hardware is capable of supporting 1-8 channels add
+> support for reading the channel count from the supplied parameters to
+> allow for better TDM support. It seems the original implementation of this
+> driver was fixed at 2 channels for simplicity, and not implementing TDM.
+> 
+> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
+> [ben.dooks@codethink.co.uk: added is_tdm and channel nr check]
+> [ben.dooks@codethink.co.uk: merge edge control into set-format]
+> [ben.dooks@codethink.co.uk: removed is_tdm and moved edge to hw_params]
+> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+> ---
+>  sound/soc/tegra/tegra30_i2s.c | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
+> index 063f34c882af..7382f7949bf4 100644
+> --- a/sound/soc/tegra/tegra30_i2s.c
+> +++ b/sound/soc/tegra/tegra30_i2s.c
+> @@ -67,6 +67,7 @@ static int tegra30_i2s_set_fmt(struct snd_soc_dai *dai,
+>  {
+>  	struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
+>  	unsigned int mask = 0, val = 0;
+> +	unsigned int ch_mask, ch_val = 0;
+>  
+>  	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
+>  	case SND_SOC_DAIFMT_NB_NF:
+> @@ -75,6 +76,7 @@ static int tegra30_i2s_set_fmt(struct snd_soc_dai *dai,
+>  		return -EINVAL;
+>  	}
+>  
+> +	ch_mask = TEGRA30_I2S_CH_CTRL_EGDE_CTRL_MASK;
+>  	mask |= TEGRA30_I2S_CTRL_MASTER_ENABLE;
+>  	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
+>  	case SND_SOC_DAIFMT_CBS_CFS:
+> @@ -90,10 +92,12 @@ static int tegra30_i2s_set_fmt(struct snd_soc_dai *dai,
+>  		TEGRA30_I2S_CTRL_LRCK_MASK;
+>  	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+>  	case SND_SOC_DAIFMT_DSP_A:
+> +		ch_val = TEGRA30_I2S_CH_CTRL_EGDE_CTRL_NEG_EDGE;
+>  		val |= TEGRA30_I2S_CTRL_FRAME_FORMAT_FSYNC;
+>  		val |= TEGRA30_I2S_CTRL_LRCK_L_LOW;
+>  		break;
+>  	case SND_SOC_DAIFMT_DSP_B:
+> +		ch_val = TEGRA30_I2S_CH_CTRL_EGDE_CTRL_NEG_EDGE;
 
-On Mon, Oct 07, 2019 at 01:03:11PM +0200, Greg KH wrote:
-> On Sat, Oct 05, 2019 at 12:28:59AM +0800, JC Kuo wrote:
-> > Hi,
-> >=20
-> > This series introduces support for Tegra194 XUSB host and pad
-> > controller. Tegra194 XUSB host and pad controller are highly
-> > similar to the controllers found on Tegra186. Therefore, it's
-> > possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
->=20
-> I've taken patches 1 and 2 through my USB tree.  If you want/need me to
-> take the others, please get acks from those maintainers on them so I can
-> do so.
+Downstream code sets DSP_B to POS_EDGE, looks like you have a typo here.
+Or does DSP_B happen to work with the NEG_EDGE?
 
-I can pick up patches 6 and 7 into the Tegra tree. There are a few
-patches in there already that conflict with the DT changes in this
-series and those will be easier to resolve in the Tegra tree.
-
-JC, I noticed that you didn't Cc Kishon as the PHY subsystem maintainer.
-Please resend the series with Kishon added in the To: line to make sure
-he sees them and can apply or ack them.
-
-Given that Greg's already applied patches 1 and 2, maybe leave them out
-of the series.
-
-Thierry
-
---GPJrCs/72TxItFYR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2ccwIACgkQ3SOs138+
-s6EHqhAAtp/qnbVEMpUPdQ4QZrf6zUalRDl5LzyC8TQdSl+FMfbcFe9thXOQNkKN
-w69TNE00wHz9llCeHLB7cXYKnXZkRjxjJg+0JRt5ULV6ijZH+vRG1ICs/FG5KPxZ
-RFODotu9nCMcbFmszhYTHP5TtvVObWylAhjQ8lBBWFRutILCsaYwY2qA5cd+JAAW
-itNCCKSIAhqksYpL0hmfFr28bUoMZ4fh51Lnie/RP0lHV6HHa1LPYXJQ10lx9x2u
-E+BanUgNYaNTpgnoZgQUsc0kjnrU8+watMHZGNAT2qOOtm71Xs1iOxkLR28z35Jm
-L8oTrS9DZAoob0ewxpWPH8dJMwrF8yxp+8Pp+C8NG0KpHpdiOM7woEq6VXEHaY+d
-6sfngywiY6YvY/dH18hH6Ds0tPWCaEwzDBdEenZAm2+H35cz4mFKBR/mxy2EkZJq
-cgRBJVLrKgG84Bnujfq8hNXkrGp3I3KCk+ENeq4tC+EpgDc3i1He7mS1G9ppSdxD
-lEMfnZqBD9Rj4zAQPoAVtkMdXGi93LL2YPIMZhEGbyl07ZejfsC+jomAXhmWpk+8
-r+3zZj10fXH7xGsdRAHIzra36DYVe8hsYJrMtyIr4yiDgebpDr5Ofvc0jdWq/eRU
-kxbyY8RANaFfs+vH7hIoB1ta6y0X+0SXeixsk+PuzqYfvDq6fV8=
-=mEdr
------END PGP SIGNATURE-----
-
---GPJrCs/72TxItFYR--
+[snip]
