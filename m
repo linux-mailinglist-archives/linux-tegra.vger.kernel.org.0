@@ -2,108 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 552A3D0458
-	for <lists+linux-tegra@lfdr.de>; Wed,  9 Oct 2019 01:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07613D0578
+	for <lists+linux-tegra@lfdr.de>; Wed,  9 Oct 2019 04:23:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729910AbfJHXqN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 8 Oct 2019 19:46:13 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:45675 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729279AbfJHXqN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Oct 2019 19:46:13 -0400
-Received: by mail-io1-f68.google.com with SMTP id c25so801039iot.12
-        for <linux-tegra@vger.kernel.org>; Tue, 08 Oct 2019 16:46:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=SPl3L4+4Zy9QlJN3K7IuqOc2JedlA0ldY7i+AP0Siqo=;
-        b=I+N5hkvPCF8K1LY460NnH3Bs+ppv36e7pHAAko5cPGtVK7Q1xpMFtMk1sbwX3EL9Ae
-         UX5ufwjfjE2WsQxxVvaJrkkGtrrD1A1swJroeZ6oWYFiFUD/gbGKkY6710T0F0X5S5Xo
-         BF95rAFQKdDZy+9dBrgr05QKn2VguSytZtPaHPhpxauj1vAvK0o8UX1wBJzBZa1yl7EV
-         jLHoqHF7Hse1l/Ohr1dGC6ATYWRzE6EftbRk42hoGB79bBRXmsmPeyS2gmRpO97jk05b
-         X+CS58w6j5DGF3spjHV4AncNibrgaK8A9wTUdRqszmiSN3PwPwqQA/IsTfJ60gtOiuUB
-         4Xrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=SPl3L4+4Zy9QlJN3K7IuqOc2JedlA0ldY7i+AP0Siqo=;
-        b=N/0+CUv2C4JV+APazctJnIDJJoKSTv8ZYgshlsfYzZ+frAUh/DOAKrcP+Bwy9cxRgl
-         8t2OcaWOelyV4HU1nQz5j49imfqFvU8JOiw6sJBpm1kdTOSXxHXm1QFXyiquMlIlnipz
-         gjaDLjdkDfMMDctlF6OM53GpWEHYqJ2HLOkzSQIOzuSvqjzi48Vtza+lmsyob80xzYL0
-         oAR7H2/dh6hzpqiXcRrdWzurc5HgeOPxmNzx3wrWaOkelgFMytqjkCDoaoGrAGchSJmf
-         qMYrkfszm73wx2VDdvWqfJlZCB6HGYVJX49uj9K3ci+jsDh1FdXoAHOPcHaqXZAJlv0r
-         0rQg==
-X-Gm-Message-State: APjAAAVOer8Ko6pv0wbkKseZaTT/gwIpQ94Eoi9JYMyw92U9an7S+Qie
-        zWNqPd+gou9Tlv1z2kbDR+PbXg==
-X-Google-Smtp-Source: APXvYqz97nlCIt/+/P4PPfxa3nO+CVIeqE66+NVgtpZhnKj/IpAG2fhUxvCWOIqX/CoRt6DSjpBBFw==
-X-Received: by 2002:a92:d084:: with SMTP id h4mr287013ilh.223.1570578372595;
-        Tue, 08 Oct 2019 16:46:12 -0700 (PDT)
-Received: from localhost ([64.62.168.194])
-        by smtp.gmail.com with ESMTPSA id m11sm250603ioq.5.2019.10.08.16.46.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2019 16:46:12 -0700 (PDT)
-Date:   Tue, 8 Oct 2019 16:46:06 -0700 (PDT)
-From:   Paul Walmsley <paul.walmsley@sifive.com>
-X-X-Sender: paulw@viisi.sifive.com
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-tegra@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-riscv@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v3 1/2] dt-bindings: pwm: Convert PWM bindings to
- json-schema
-In-Reply-To: <20191002164047.14499-1-krzk@kernel.org>
-Message-ID: <alpine.DEB.2.21.9999.1910081643220.11044@viisi.sifive.com>
-References: <20191002164047.14499-1-krzk@kernel.org>
-User-Agent: Alpine 2.21.9999 (DEB 301 2018-08-15)
+        id S1729721AbfJICXS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 8 Oct 2019 22:23:18 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:9155 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726257AbfJICXS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Oct 2019 22:23:18 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d9d44990000>; Tue, 08 Oct 2019 19:23:21 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 08 Oct 2019 19:23:17 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 08 Oct 2019 19:23:17 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Oct
+ 2019 02:23:16 +0000
+Received: from [10.19.101.249] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Oct 2019
+ 02:23:13 +0000
+Subject: Re: [PATCH v3 0/7] add Tegra194 XUSB host and pad controller support
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+CC:     <jonathanh@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <nkristam@nvidia.com>,
+        <skomatineni@nvidia.com>
+References: <20191004162906.4818-1-jckuo@nvidia.com>
+ <20191007110311.GA614644@kroah.com> <20191008112907.GC228118@ulmo>
+From:   JC Kuo <jckuo@nvidia.com>
+Message-ID: <454e29a6-bf31-c75c-0f29-abd18a4ae071@nvidia.com>
+Date:   Wed, 9 Oct 2019 10:23:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20191008112907.GC228118@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1570587801; bh=vnyW6vcYjvIgUWxen6TD2VOhh0h48/42kmnZQsDavJA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ez12gg+le8K5PmWmR8YWC3VmIeWSmk35/9k5fY9ASesDIKMbncNvPGPoJEGRfdthe
+         1/H2cq2Mngi83sb65hai4L+ksuGs2YwIpJa4Pq4dfIA5cx9/Zw85jEPP+eXCZt/E/v
+         jAPV8AmzoBggSvN8Ub9LcHQ29KqawE9sv02x8gRR4MvgOl/1En7C/q/fk+v9tTby3/
+         8oFnp6Qh7Yqs9yLtExGoulqFTTqOaBuf7OP2rqPhOZjgE5ZbYVm1oLN9Tn07NuLM24
+         fwKF2yVodh4R4fDfeYZQpIAU825y7+UXL2bHyHl62k2mHWmOlzYEXO81EdZLPrf9Bs
+         /4bzHxzCp+8HA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, 2 Oct 2019, Krzysztof Kozlowski wrote:
-
-> Convert generic PWM bindings to DT schema format using json-schema.  The
-> consumer bindings are split to separate file.
+On 10/8/19 7:29 PM, Thierry Reding wrote:
+> On Mon, Oct 07, 2019 at 01:03:11PM +0200, Greg KH wrote:
+>> On Sat, Oct 05, 2019 at 12:28:59AM +0800, JC Kuo wrote:
+>>> Hi,
+>>>
+>>> This series introduces support for Tegra194 XUSB host and pad
+>>> controller. Tegra194 XUSB host and pad controller are highly
+>>> similar to the controllers found on Tegra186. Therefore, it's
+>>> possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
+>>
+>> I've taken patches 1 and 2 through my USB tree.  If you want/need me to
+>> take the others, please get acks from those maintainers on them so I can
+>> do so.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> I can pick up patches 6 and 7 into the Tegra tree. There are a few
+> patches in there already that conflict with the DT changes in this
+> series and those will be easier to resolve in the Tegra tree.
 > 
-> ---
+> JC, I noticed that you didn't Cc Kishon as the PHY subsystem maintainer.
+> Please resend the series with Kishon added in the To: line to make sure
+> he sees them and can apply or ack them.
 > 
-
-[ ... ]
-
-> diff --git a/Documentation/devicetree/bindings/pwm/pwm-sifive.txt b/Documentation/devicetree/bindings/pwm/pwm-sifive.txt
-> index 36447e3c9378..3d1dd7b06efc 100644
-> --- a/Documentation/devicetree/bindings/pwm/pwm-sifive.txt
-> +++ b/Documentation/devicetree/bindings/pwm/pwm-sifive.txt
-> @@ -17,7 +17,7 @@ Required properties:
->    Please refer to sifive-blocks-ip-versioning.txt for details.
->  - reg: physical base address and length of the controller's registers
->  - clocks: Should contain a clock identifier for the PWM's parent clock.
-> -- #pwm-cells: Should be 3. See pwm.txt in this directory
-> +- #pwm-cells: Should be 3. See pwm.yaml in this directory
->    for a description of the cell format.
->  - interrupts: one interrupt per PWM channel
-
-For the SiFive PWM driver documentation:
-
-Acked-by: Paul Walmsley <paul.walmsley@sifive.com>
-
-
-- Paul
+> Given that Greg's already applied patches 1 and 2, maybe leave them out
+> of the series.
+Thanks Thierry. I will send v4 accordingly.
+> 
+> Thierry
+> 
