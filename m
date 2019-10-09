@@ -2,131 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1BE0D07CF
-	for <lists+linux-tegra@lfdr.de>; Wed,  9 Oct 2019 09:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D19A3D0830
+	for <lists+linux-tegra@lfdr.de>; Wed,  9 Oct 2019 09:23:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725903AbfJIHHZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 9 Oct 2019 03:07:25 -0400
-Received: from hera.iit.uni-miskolc.hu ([193.6.5.4]:34756 "EHLO
-        hera.iit.uni-miskolc.hu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725776AbfJIHHY (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Oct 2019 03:07:24 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by hera.iit.uni-miskolc.hu (Postfix) with ESMTP id D7BDE1F83;
-        Wed,  9 Oct 2019 08:19:30 +0200 (CEST)
-X-Virus-Scanned: Kamavis at iit.uni-miskolc.hu
-Received: from hera.iit.uni-miskolc.hu ([127.0.0.1])
-        by localhost (hera.iit.uni-miskolc.hu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id NUBQPBRn3Pgm; Wed,  9 Oct 2019 08:19:22 +0200 (CEST)
-Received: from titan.hitronhub.home (unknown [IPv6:2a02:8109:a180:54c:226:9eff:fe30:2af8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: szucst@iit.uni-miskolc.hu)
-        by hera.iit.uni-miskolc.hu (Postfix) with ESMTPSA id C03BA1F84;
-        Wed,  9 Oct 2019 08:19:16 +0200 (CEST)
-From:   =?UTF-8?q?Tam=C3=A1s=20Sz=C5=B1cs?= <tszucs@protonmail.ch>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        id S1725848AbfJIHXh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 9 Oct 2019 03:23:37 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:18166 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725440AbfJIHXg (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Oct 2019 03:23:36 -0400
+X-UUID: 5d3df0523a0f41da83eacb9d5041331b-20191009
+X-UUID: 5d3df0523a0f41da83eacb9d5041331b-20191009
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1959411265; Wed, 09 Oct 2019 15:23:28 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 9 Oct 2019 15:23:23 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 9 Oct 2019 15:23:22 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+CC:     Thierry Reding <treding@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Tam=C3=A1s=20Sz=C5=B1cs?= <tszucs@protonmail.ch>
-Subject: [PATCH] arm64: tegra: enable PWM fan on Jetson Nano
-Date:   Wed,  9 Oct 2019 08:18:55 +0200
-Message-Id: <20191009061855.4415-1-tszucs@protonmail.ch>
-X-Mailer: git-send-email 2.20.1
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>
+Subject: [PATCH v2] phy: tegra: xusb: remove unused variable
+Date:   Wed, 9 Oct 2019 15:23:09 +0800
+Message-ID: <1570605789-5352-1-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-SNTS-SMTP: D8D0E1454E0F109BF23A8F7C510BBF7B068E2C21E0924A0A2A54C96B63F1F33D2000:8
+X-MTK:  N
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable PWM fan and extend CPU thermal zones for monitoring and fan control.
-This will trigger the PWM fan on J15 and cool down the system if necessary.
+The local variable @priv is set but not used, can be removed
 
-Signed-off-by: Tamás Szűcs <tszucs@protonmail.ch>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
 ---
- .../boot/dts/nvidia/tegra210-p3450-0000.dts   | 64 +++++++++++++++++++
- 1 file changed, 64 insertions(+)
+v2: add Acked-by: Thierry
+---
+ drivers/phy/tegra/xusb-tegra210.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index 9d17ec707bce..43c3613e7217 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -552,6 +552,70 @@
- 		};
- 	};
+diff --git a/drivers/phy/tegra/xusb-tegra210.c b/drivers/phy/tegra/xusb-tegra210.c
+index 0c0df6897a3b..bc71c897298a 100644
+--- a/drivers/phy/tegra/xusb-tegra210.c
++++ b/drivers/phy/tegra/xusb-tegra210.c
+@@ -1225,13 +1225,10 @@ static int tegra210_hsic_phy_power_on(struct phy *phy)
+ 	struct tegra_xusb_hsic_lane *hsic = to_hsic_lane(lane);
+ 	struct tegra_xusb_hsic_pad *pad = to_hsic_pad(lane->pad);
+ 	struct tegra_xusb_padctl *padctl = lane->pad->padctl;
+-	struct tegra210_xusb_padctl *priv;
+ 	unsigned int index = lane->index;
+ 	u32 value;
+ 	int err;
  
-+	fan: fan {
-+		compatible = "pwm-fan";
-+		pwms = <&pwm 3 45334>;
-+
-+		cooling-levels = <0 64 128 255>;
-+		#cooling-cells = <2>;
-+	};
-+
-+	thermal-zones {
-+		cpu {
-+			polling-delay = <0>;
-+			polling-delay-passive = <500>;
-+			status = "okay";
-+
-+			trips {
-+				cpu_trip_critical: critical {
-+					temperature = <96500>;
-+					hysteresis = <0>;
-+					type = "critical";
-+				};
-+
-+				cpu_trip_hot: hot {
-+					temperature = <70000>;
-+					hysteresis = <2000>;
-+					type = "hot";
-+				};
-+
-+				cpu_trip_active: active {
-+					temperature = <50000>;
-+					hysteresis = <2000>;
-+					type = "active";
-+				};
-+
-+				cpu_trip_passive: passive {
-+					temperature = <30000>;
-+					hysteresis = <2000>;
-+					type = "passive";
-+				};
-+			};
-+
-+			cooling-maps {
-+				cpu-critical {
-+					cooling-device = <&fan 3 3>;
-+					trip = <&cpu_trip_critical>;
-+				};
-+
-+				cpu-hot {
-+					cooling-device = <&fan 2 2>;
-+					trip = <&cpu_trip_hot>;
-+				};
-+
-+				cpu-active {
-+					cooling-device = <&fan 1 1>;
-+					trip = <&cpu_trip_active>;
-+				};
-+
-+				cpu-passive {
-+					cooling-device = <&fan 0 0>;
-+					trip = <&cpu_trip_passive>;
-+				};
-+			};
-+		};
-+	};
-+
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
+-	priv = to_tegra210_xusb_padctl(padctl);
+-
+ 	err = regulator_enable(pad->supply);
+ 	if (err)
+ 		return err;
 -- 
-2.20.1
+2.23.0
 
