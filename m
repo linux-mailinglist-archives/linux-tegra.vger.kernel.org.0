@@ -2,209 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 358C3D05A4
-	for <lists+linux-tegra@lfdr.de>; Wed,  9 Oct 2019 04:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1BE0D07CF
+	for <lists+linux-tegra@lfdr.de>; Wed,  9 Oct 2019 09:07:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730336AbfJICoH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 8 Oct 2019 22:44:07 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:9161 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730314AbfJICoG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 8 Oct 2019 22:44:06 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d9d49760000>; Tue, 08 Oct 2019 19:44:06 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 08 Oct 2019 19:44:05 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 08 Oct 2019 19:44:05 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Oct
- 2019 02:44:05 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 9 Oct 2019 02:44:05 +0000
-Received: from jckuo-lt.nvidia.com (Not Verified[10.19.101.249]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d9d49730009>; Tue, 08 Oct 2019 19:44:04 -0700
-From:   JC Kuo <jckuo@nvidia.com>
-To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <kishon@ti.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <nkristam@nvidia.com>, JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH v4 5/5] arm64: tegra: Enable XUSB host in P2972-0000 board
-Date:   Wed, 9 Oct 2019 10:43:43 +0800
-Message-ID: <20191009024343.30218-6-jckuo@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191009024343.30218-1-jckuo@nvidia.com>
-References: <20191009024343.30218-1-jckuo@nvidia.com>
-X-NVConfidentiality: public
+        id S1725903AbfJIHHZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 9 Oct 2019 03:07:25 -0400
+Received: from hera.iit.uni-miskolc.hu ([193.6.5.4]:34756 "EHLO
+        hera.iit.uni-miskolc.hu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725776AbfJIHHY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Oct 2019 03:07:24 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by hera.iit.uni-miskolc.hu (Postfix) with ESMTP id D7BDE1F83;
+        Wed,  9 Oct 2019 08:19:30 +0200 (CEST)
+X-Virus-Scanned: Kamavis at iit.uni-miskolc.hu
+Received: from hera.iit.uni-miskolc.hu ([127.0.0.1])
+        by localhost (hera.iit.uni-miskolc.hu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id NUBQPBRn3Pgm; Wed,  9 Oct 2019 08:19:22 +0200 (CEST)
+Received: from titan.hitronhub.home (unknown [IPv6:2a02:8109:a180:54c:226:9eff:fe30:2af8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: szucst@iit.uni-miskolc.hu)
+        by hera.iit.uni-miskolc.hu (Postfix) with ESMTPSA id C03BA1F84;
+        Wed,  9 Oct 2019 08:19:16 +0200 (CEST)
+From:   =?UTF-8?q?Tam=C3=A1s=20Sz=C5=B1cs?= <tszucs@protonmail.ch>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Tam=C3=A1s=20Sz=C5=B1cs?= <tszucs@protonmail.ch>
+Subject: [PATCH] arm64: tegra: enable PWM fan on Jetson Nano
+Date:   Wed,  9 Oct 2019 08:18:55 +0200
+Message-Id: <20191009061855.4415-1-tszucs@protonmail.ch>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570589046; bh=kTsf7sroztlFU/WoIr8VZwOOWFzOV3Kid4dRXTVjZ4I=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=MEZOOrXeOmV/9xhDlP5QVwsvFovjvVRPt00phORF9fdDU3zRK5uNZ4FUiUwOgmey7
-         xsoEGUS1ATgppySZMWVgpAhNQldx3/vCgnEOWmqsnlGjL2ODvkgT41w9gjPGxhTb+p
-         k8hxOHUJhIZ6sNOFTGTBb0PTE7++RnGMeDk5pgL81o+uTYx3eyqtlS5GpKwkNESixQ
-         tgAF5uktzI9/Amxa1uVt0pPj1cIlsUPOqSSSB59YJ+eyCQ89MQhoHU1mA7/nEM+dXL
-         lFaCbvqphyOwvyuEBiNd8afnxbgq+vBNFl0FK/7gRMv2Vd/J7qoZipkvtVWEe5IzYi
-         XJ5rnC9Ea8S7A==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This commit enables XUSB host and pad controller in Tegra194
-P2972-0000 board.
+Enable PWM fan and extend CPU thermal zones for monitoring and fan control.
+This will trigger the PWM fan on J15 and cool down the system if necessary.
 
-Signed-off-by: JC Kuo <jckuo@nvidia.com>
+Signed-off-by: Tamás Szűcs <tszucs@protonmail.ch>
 ---
-Changes in v4: none
-Changes in v3: none
-Changes in v2:
-- use capitalization of regulator names
-- fix gpio property of VDD_5V_SATA regulator
+ .../boot/dts/nvidia/tegra210-p3450-0000.dts   | 64 +++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
- .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 36 ++++++++++-
- .../boot/dts/nvidia/tegra194-p2972-0000.dts   | 62 +++++++++++++++++++
- 2 files changed, 97 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-index 4c38426a6969..e7d5e8a30f93 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-@@ -66,6 +66,29 @@
- 			vmmc-supply = <&vdd_emmc_3v3>;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+index 9d17ec707bce..43c3613e7217 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+@@ -552,6 +552,70 @@
  		};
- 
-+		padctl@3520000 {
-+			avdd-usb-supply = <&vdd_usb_3v3>;
-+			vclamp-usb-supply = <&vdd_1v8ao>;
-+
-+			ports {
-+				usb2-1 {
-+					vbus-supply = <&vdd_5v0_sys>;
-+				};
-+
-+				usb2-3 {
-+					vbus-supply = <&vdd_5v_sata>;
-+				};
-+
-+				usb3-0 {
-+					vbus-supply = <&vdd_5v0_sys>;
-+				};
-+
-+				usb3-3 {
-+					vbus-supply = <&vdd_5v0_sys>;
-+				};
-+			};
-+		};
-+
- 		rtc@c2a0000 {
- 			status = "okay";
- 		};
-@@ -229,7 +252,7 @@
- 						regulator-max-microvolt = <3300000>;
- 					};
- 
--					ldo5 {
-+					vdd_usb_3v3: ldo5 {
- 						regulator-name = "VDD_USB_3V3";
- 						regulator-min-microvolt = <3300000>;
- 						regulator-max-microvolt = <3300000>;
-@@ -313,5 +336,16 @@
- 			regulator-boot-on;
- 			enable-active-low;
- 		};
-+
-+		vdd_5v_sata: regulator@4 {
-+			compatible = "regulator-fixed";
-+			reg = <4>;
-+
-+			regulator-name = "VDD_5V_SATA";
-+			regulator-min-microvolt = <5000000>;
-+			regulator-max-microvolt = <5000000>;
-+			gpio = <&gpio TEGRA194_MAIN_GPIO(Z, 1) GPIO_ACTIVE_HIGH>;
-+			enable-active-high;
-+		};
- 	};
- };
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index d47cd8c4dd24..b60eef64c487 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -62,6 +62,68 @@
- 							 GPIO_ACTIVE_LOW>;
- 			};
- 		};
-+		padctl@3520000 {
-+			status = "okay";
-+
-+			pads {
-+				usb2 {
-+					lanes {
-+						usb2-1 {
-+							status = "okay";
-+						};
-+
-+						usb2-3 {
-+							status = "okay";
-+						};
-+					};
-+				};
-+
-+				usb3 {
-+					lanes {
-+						usb3-0 {
-+							status = "okay";
-+						};
-+
-+						usb3-3 {
-+							status = "okay";
-+						};
-+					};
-+				};
-+			};
-+
-+			ports {
-+				usb2-1 {
-+					mode = "host";
-+					status = "okay";
-+				};
-+
-+				usb2-3 {
-+					mode = "host";
-+					status = "okay";
-+				};
-+
-+				usb3-0 {
-+					nvidia,usb2-companion = <1>;
-+					status = "okay";
-+				};
-+
-+				usb3-3 {
-+					nvidia,usb2-companion = <3>;
-+					nvidia,disable-gen2;
-+					status = "okay";
-+				};
-+			};
-+		};
-+
-+		usb@3610000 {
-+			status = "okay";
-+
-+			phys =	<&{/cbb/padctl@3520000/pads/usb2/lanes/usb2-1}>,
-+				<&{/cbb/padctl@3520000/pads/usb2/lanes/usb2-3}>,
-+				<&{/cbb/padctl@3520000/pads/usb3/lanes/usb3-0}>,
-+				<&{/cbb/padctl@3520000/pads/usb3/lanes/usb3-3}>;
-+			phy-names = "usb2-1", "usb2-3", "usb3-0", "usb3-3";
-+		};
  	};
  
- 	pcie@14100000 {
++	fan: fan {
++		compatible = "pwm-fan";
++		pwms = <&pwm 3 45334>;
++
++		cooling-levels = <0 64 128 255>;
++		#cooling-cells = <2>;
++	};
++
++	thermal-zones {
++		cpu {
++			polling-delay = <0>;
++			polling-delay-passive = <500>;
++			status = "okay";
++
++			trips {
++				cpu_trip_critical: critical {
++					temperature = <96500>;
++					hysteresis = <0>;
++					type = "critical";
++				};
++
++				cpu_trip_hot: hot {
++					temperature = <70000>;
++					hysteresis = <2000>;
++					type = "hot";
++				};
++
++				cpu_trip_active: active {
++					temperature = <50000>;
++					hysteresis = <2000>;
++					type = "active";
++				};
++
++				cpu_trip_passive: passive {
++					temperature = <30000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
++			};
++
++			cooling-maps {
++				cpu-critical {
++					cooling-device = <&fan 3 3>;
++					trip = <&cpu_trip_critical>;
++				};
++
++				cpu-hot {
++					cooling-device = <&fan 2 2>;
++					trip = <&cpu_trip_hot>;
++				};
++
++				cpu-active {
++					cooling-device = <&fan 1 1>;
++					trip = <&cpu_trip_active>;
++				};
++
++				cpu-passive {
++					cooling-device = <&fan 0 0>;
++					trip = <&cpu_trip_passive>;
++				};
++			};
++		};
++	};
++
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
 -- 
-2.17.1
+2.20.1
 
