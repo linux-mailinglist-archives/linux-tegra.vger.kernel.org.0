@@ -2,75 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8AE8D1CE3
-	for <lists+linux-tegra@lfdr.de>; Thu, 10 Oct 2019 01:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3E0ED2AD3
+	for <lists+linux-tegra@lfdr.de>; Thu, 10 Oct 2019 15:17:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731155AbfJIXjE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 9 Oct 2019 19:39:04 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:39090 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730955AbfJIXjD (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 9 Oct 2019 19:39:03 -0400
-Received: by mail-ot1-f65.google.com with SMTP id s22so3264356otr.6;
-        Wed, 09 Oct 2019 16:39:01 -0700 (PDT)
+        id S2388328AbfJJNRq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 10 Oct 2019 09:17:46 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:45829 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388318AbfJJNRp (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 10 Oct 2019 09:17:45 -0400
+Received: by mail-ot1-f67.google.com with SMTP id 41so4799864oti.12
+        for <linux-tegra@vger.kernel.org>; Thu, 10 Oct 2019 06:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ub-ac-id.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
+        b=kbDD0ETnfb+9T5ky4afnuU19WL5B3TgSTtrvr8/78l52RfSJ/bD7cjcm8C45XsJ4wr
+         kY8zUv/ms1sLDr56E/0rqAcpldgbTirzVsO1TqrlTRt5AL5IhxusLfWbWkCQZqSDApog
+         xVZixZPZF5pv+wD9wYHHFszyBuRJ0Z0/71+2E/SGgHwnMzv66/86w9uplcX1z0grTv9p
+         1TYZ7MtIagYr+hnMPgyspL8CH18dkY1RexU6NSgr6L6/lGHi7jHNMmmGOoiBuh2azqNd
+         aWHFVXbx5cxjkbX5kJe7PAp4IU2wf06fogqa+YoO9ylF7jna+POCU+xNsHXT6R2wFQg9
+         YqYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xfaJ6Ijz25Td45/swhL0HWSOcUtcHLc6emBFBS8WyOw=;
-        b=OEY6TANIdUuhE+RSC6Pbsxp3LQyjYHeMha53H6E33t5DbUx7+wFgwi3COa7rK7J5lq
-         I5UIVXy1HuNywPM3YFBTLJ2FfGEHlyXex3ac2Vs5bVS4/aXaBN9My6mdQSRogcOPJIIV
-         vohOSnGmS/xnoAb/aFp8WmzPKjAMSGy0QXMnkOP9KkWd8EPM0nbZoQsb2ck/Q59aQRIm
-         ch2uUBAUd3Zrq5lfWvXH4KEOy/cwwlErzi4AsJsWf96BPoF4O/aBZm1q05ahHlQsQWon
-         dFpIrOwDGb7kqVk1Y+Hm0/GwfiobtgJsco3tj8ICNG2pLEcHBVusq2YTgSFNXSdpZbjd
-         2pHQ==
-X-Gm-Message-State: APjAAAU0TX5zJY4YM8OS6uQlS50oz8BU8IMSqP0k2blqw1mMmNDFDSja
-        t5waIJ7RvcMMuGoPoy/KhapJ6mQ=
-X-Google-Smtp-Source: APXvYqzIQcdECP7sHtBSpJHI+jFCabS62ZfygcOXBQjYhZ9NsnTSnmOMd1i74eKBtoiTh3FE9+h9lA==
-X-Received: by 2002:a9d:620a:: with SMTP id g10mr5343743otj.318.1570664341395;
-        Wed, 09 Oct 2019 16:39:01 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id b5sm1149915oia.20.2019.10.09.16.39.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2019 16:39:00 -0700 (PDT)
-Date:   Wed, 9 Oct 2019 18:39:00 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     JC Kuo <jckuo@nvidia.com>
-Cc:     gregkh@linuxfoundation.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, kishon@ti.com, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, nkristam@nvidia.com
-Subject: Re: [PATCH v4 3/5] dt-bindings: phy: tegra: Add Tegra194 support
-Message-ID: <20191009233900.GA9109@bogus>
-References: <20191009024343.30218-1-jckuo@nvidia.com>
- <20191009024343.30218-4-jckuo@nvidia.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
+        b=dFYwMDUpNKo7mU0N2/TIxl8sz5gqrTAKYLW17EnvD/6tqAfDxaUWQkb/yOLNkf+JYS
+         Eq1FrIUgqFJCIQaoIYEZvHNZsNz7EVu+w1WBU1kaaQ7mka2QEuxuNCkmVpZu7mHpqwk1
+         +3WHWbvr+CFDNafa+Smi54hBrvBlcbuxNTDz1vDwR3ejvtG9ptJWZk6cc76kYPIGqLdR
+         rreVIZiXg8TkfcuWvLkGqjproAnwMbEHU9/o/EjcfbClssTIm7de7eMOX6byvvoJdIs1
+         Bi8dJXW8N5BU7Ft0bGH6vm6Ogm5hQYUi9IXgUHnY3e5I+wA8KQxzoRUNzkQNZWYEVMBm
+         +5DQ==
+X-Gm-Message-State: APjAAAUnozZdfOpcM9mHH8ljfLIYHDE+kra1eaDlJ51s28sauK4Y1Fgw
+        HXwqr3RkhQHnEAQ3gQ7tddIea7Ct74gHii7+sIUt
+X-Google-Smtp-Source: APXvYqwe5B6z/3dUuNDQtQ0n2oQYOsdY3HQR3dkIin1gqVhu0NNteov05tKzv4DhJBBR4bjK2RG7Phnj6WUHoBrkRYc=
+X-Received: by 2002:a05:6830:1103:: with SMTP id w3mr7909437otq.312.1570713462861;
+ Thu, 10 Oct 2019 06:17:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191009024343.30218-4-jckuo@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a4a:3346:0:0:0:0:0 with HTTP; Thu, 10 Oct 2019 06:17:41
+ -0700 (PDT)
+Reply-To: sunrisefundingltd50@gmail.com
+From:   Valentina Yurina <v_yurina@ub.ac.id>
+Date:   Thu, 10 Oct 2019 14:17:41 +0100
+Message-ID: <CAKoEkvu4vc5Yn9-hzxQ5dYmUL=oO69=GSP0FC7O+CGz9Jni8+Q@mail.gmail.com>
+Subject: Apply For Financial investment at a lower rate 2%
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Oct 09, 2019 at 10:43:41AM +0800, JC Kuo wrote:
-> Extend the bindings to cover the set of features found in Tegra194.
-> Note that, technically, there are four more supplies connected to the
-> XUSB pad controller (DVDD_PEX, DVDD_PEX_PLL, HVDD_PEX and HVDD_PEX_PLL)
-> , but the power sequencing requirements of Tegra194 require these to be
-> under the control of the PMIC.
-> 
-> Tegra194 XUSB PADCTL supports up to USB 3.1 Gen 2 speed, however, it is
-> possible for some platforms have long signal trace that could not
-> provide sufficient electrical environment for Gen 2 speed. To deal with
-> this, a new device node property "nvidia,disable-gen2" was added to
-> Tegra194 that be used to specifically disable Gen 2 speed for a
-> particular USB 3.0 port so that the port can be limited to Gen 1 speed
-> and avoid the instability.
+-- 
+Hello,
 
-I suspect this may be a common issue and we should have a common 
-property. Typically, this kind of property is in the controller though 
-and supports multiple speed limits. See PCI bindings for inspiration.
+We are private lenders based in UK.
 
-Rob
+Do you need a loan (credit) as soon as possible. Are you in search of
+money to solve your personal needs or finance your business venture,
+then get Your desired loan today! Consult us at Sunrise Funding Ltd.
+
+* We offer personal loan & huge capital loan at 2% interest rate to
+the general public both locally and internationally.
+* Credit amount range from $5,000.00 -- $500,000.00 and above.
+* Special $10,000,000.00 Loan offer for huge project also available.
+* Loan period of 6 months -- 10 years.
+* Loan is granted 24 hours after approval and accredited, directly in
+hand or bank account.
+
+Please note that you are advised to contact us for more details via
+the following e-mail address below;
+
+EMAIL : sunrisefundingltd50@gmail.com
+FIRM : Sunrise Funding Ltd UK.
