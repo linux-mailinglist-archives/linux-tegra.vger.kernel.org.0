@@ -2,149 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 429CDD316F
-	for <lists+linux-tegra@lfdr.de>; Thu, 10 Oct 2019 21:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29B59D3353
+	for <lists+linux-tegra@lfdr.de>; Thu, 10 Oct 2019 23:23:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726017AbfJJTd7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 10 Oct 2019 15:33:59 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:46639 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725867AbfJJTd7 (ORCPT
+        id S1727206AbfJJVXt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 10 Oct 2019 17:23:49 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:36811 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725867AbfJJVXs (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 10 Oct 2019 15:33:59 -0400
-Received: by mail-oi1-f193.google.com with SMTP id k25so5928668oiw.13;
-        Thu, 10 Oct 2019 12:33:58 -0700 (PDT)
+        Thu, 10 Oct 2019 17:23:48 -0400
+Received: by mail-ot1-f68.google.com with SMTP id 67so6196697oto.3;
+        Thu, 10 Oct 2019 14:23:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7ET4N4h1mz+QXnjZEYhffwJ+S0rSM6M0DCW5sXhGLr4=;
-        b=q27Wk4WXPi8qpC5UNFYVxQ294oPik1VDg4Q+UG2rdvWy81v8wv6VAgwbHa9zTCv8Cp
-         9U0K6oDCJy06/Laa4NdgTahqPQ8qcW1th0UQrsfuqXFBi/GeikSKYMuxCUNvb6p9MqAv
-         o8h1XrrtkdGsH9kvhHWDmOunE+qeqLbCCey2Zd1xp0r4Bk5LZX8fLE9J6KXmUfqEvHHz
-         6Xo19KpDOMblQeHv/S8wgnbugcYaO4gwU6Ih95JplnYH8oR0DmfgwJR4Zdau5u+isfWF
-         ELIPxpGnUWff9p3MeZhRgEkxWNyV9LRKCf94BNBhCHpABBYsO+k59WGBc0g7FbjDZaks
-         +fRg==
-X-Gm-Message-State: APjAAAUE2H+aiOqSID4/0QzXOpUJoBu4yWBR1GTVS/harTRIVtK/Czq/
-        rES1gWF/ID1C0AWZJL7Csg==
-X-Google-Smtp-Source: APXvYqyuT5yi9lOX+HY+jMDUqyMXIegTNgwLUO2uJeseCSix9lpmMgQ5/3duA7qI2l/FDDlVpw2grA==
-X-Received: by 2002:aca:36d5:: with SMTP id d204mr8794400oia.51.1570736038102;
-        Thu, 10 Oct 2019 12:33:58 -0700 (PDT)
+        bh=8fsaLFcYDAROH9HBoKC5Vafqp1MCH4HA/pJSglSZ4co=;
+        b=bKjELxGNAZN7UBGTFrZEAnN7TuoetlHlelmVWf9GsyR5amJTLlVS5UmG4om4QBlfoc
+         uZ7XzRvahamKbuTFPmhWzLU7vIPRpfFPqStqvLBY1D3CmnMztcUhcx7I+QUlJU8I+k2D
+         EMAUiHjg0tfdNM9GuQq1c/HawnH9s/2bOYZ8q2gJ++E0fBI/QpKIJ/2aFwhkkUel1kXG
+         V2O2TJLIhHwjwmm4czN8yNjLFoPXpIB3hFE81KHMTYstsW9Es6cLx1+CaN8Hr41uSP7T
+         O5/5AdyHOn+2540VlVk+KBQHidUyrcYKPAosq9dnhgi9B8aK9GxYZZQucHtX8EHHPUl9
+         7NVg==
+X-Gm-Message-State: APjAAAWE4pp2C/Gyu/UbUgqwLHAdIXjVNL2ivp/Z3RmJEaQ78dy6yT2e
+        nFhOVvTEcgLL7otfuWRw4w==
+X-Google-Smtp-Source: APXvYqyIyxVe/QML8xBJW19srjEWY1fzMm01BIPfEyxogOHEBtnRrO0q0z3M7piA63qkH2laitZG7g==
+X-Received: by 2002:a05:6830:13d8:: with SMTP id e24mr9348918otq.42.1570742627232;
+        Thu, 10 Oct 2019 14:23:47 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n186sm2042419oih.58.2019.10.10.12.33.57
+        by smtp.gmail.com with ESMTPSA id v132sm2027358oif.34.2019.10.10.14.23.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2019 12:33:57 -0700 (PDT)
-Date:   Thu, 10 Oct 2019 14:33:56 -0500
+        Thu, 10 Oct 2019 14:23:46 -0700 (PDT)
+Date:   Thu, 10 Oct 2019 16:23:46 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>, Kukjin Kim <kgene@kernel.org>,
-        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
+Cc:     Mark Rutland <mark.rutland@arm.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 02/10] dt-bindings: sram: Convert Samsung Exynos
- SYSRAM bindings to json-schema
-Message-ID: <20191010193356.GA9975@bogus>
-References: <20191002164316.14905-1-krzk@kernel.org>
- <20191002164316.14905-2-krzk@kernel.org>
+        linux-samsung-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-crypto@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2 4/8] dt-bindings: memory-controllers: Convert Samsung
+ Exynos SROM bindings to json-schema
+Message-ID: <20191010212346.GA7896@bogus>
+References: <20190918173141.4314-1-krzk@kernel.org>
+ <20190918173141.4314-4-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191002164316.14905-2-krzk@kernel.org>
+In-Reply-To: <20190918173141.4314-4-krzk@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Oct 02, 2019 at 06:43:08PM +0200, Krzysztof Kozlowski wrote:
-> Convert Samsung Exynos SYSRAM bindings to DT schema format using
-> json-schema.
+On Wed, 18 Sep 2019 19:31:37 +0200, Krzysztof Kozlowski wrote:
+> Convert Samsung Exynos SROM controller bindings to DT schema format
+> using json-schema.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 > 
 > ---
 > 
-> Changes since v2:
-> 1. Use sram as name of node in example.
-> 
 > Changes since v1:
-> 1. Indent example with four spaces (more readable).
+> 1. Indent example with four spaces (more readable),
+> 2. Split examples into two,
+> 3. Fix pattern for subnode name,
+> 4. Remove checks for #address-cells-ranges-#size-cells,
+> 5. Add "additionalProperties" so the wrongly named subnodes would be
+>    matched.
 > ---
->  .../devicetree/bindings/sram/samsung-sram.txt | 38 ------------
->  .../bindings/sram/samsung-sram.yaml           | 58 +++++++++++++++++++
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 59 insertions(+), 39 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sram/samsung-sram.txt
->  create mode 100644 Documentation/devicetree/bindings/sram/samsung-sram.yaml
+>  .../memory-controllers/exynos-srom.txt        |  79 -----------
+>  .../memory-controllers/exynos-srom.yaml       | 128 ++++++++++++++++++
+>  2 files changed, 128 insertions(+), 79 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/exynos-srom.txt
+>  create mode 100644 Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
+> 
 
+Applied, thanks.
 
-> diff --git a/Documentation/devicetree/bindings/sram/samsung-sram.yaml b/Documentation/devicetree/bindings/sram/samsung-sram.yaml
-> new file mode 100644
-> index 000000000000..3e77c434ecca
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sram/samsung-sram.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sram/samsung-sram.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Samsung Exynos SoC SYSRAM for SMP bringup
-> +
-> +maintainers:
-> +  - Krzysztof Kozlowski <krzk@kernel.org>
-> +
-> +description: |+
-> +  Samsung SMP-capable Exynos SoCs use part of the SYSRAM for the bringup
-> +  of the secondary cores. Once the core gets powered up it executes the
-> +  code that is residing at some specific location of the SYSRAM.
-> +
-> +  Therefore reserved section sub-nodes have to be added to the mmio-sram
-> +  declaration. These nodes are of two types depending upon secure or
-> +  non-secure execution environment.
-> +
-> +allOf:
-> +  - $ref: "sram.yaml#"
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^sysram(@.*)?"
-
-As you are renaming all the node names, this will no longer work. If you 
-change it to 'sram', that's going to match others, but would still work 
-as long as the child node names are unique to Samsung. If you change 
-them to '*-sram' then, you'd have to come up with something else. That 
-probably means using 'compatible' strings. At that point, it's kind of 
-silly to just be validating what your are using to select the schema. It 
-may be better to just add the compatible strings into sram.yaml if 
-that's the only difference.
-
-> +
-> +patternProperties:
-> +  "^([a-z]*-)?sysram@[a-f0-9]$":
-> +    type: object
-> +
-> +    properties:
-> +      compatible:
-> +        description:
-> +          Depending upon boot mode
-> +        enum:
-> +          - samsung,exynos4210-sysram                 # for Secure SYSRAM
-> +          - samsung,exynos4210-sysram-ns              # for Non-secure SYSRAM
-> +
+Rob
