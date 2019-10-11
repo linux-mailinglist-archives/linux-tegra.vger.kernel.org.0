@@ -2,103 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70EFBD3B41
-	for <lists+linux-tegra@lfdr.de>; Fri, 11 Oct 2019 10:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91912D3B53
+	for <lists+linux-tegra@lfdr.de>; Fri, 11 Oct 2019 10:37:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726551AbfJKIfE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 11 Oct 2019 04:35:04 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:4298 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726397AbfJKIfE (ORCPT
+        id S1727211AbfJKIhw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 11 Oct 2019 04:37:52 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:15100 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726397AbfJKIhv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 11 Oct 2019 04:35:04 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5da03ebb0000>; Fri, 11 Oct 2019 01:35:07 -0700
+        Fri, 11 Oct 2019 04:37:51 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5da03f600000>; Fri, 11 Oct 2019 01:37:53 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 11 Oct 2019 01:35:03 -0700
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 11 Oct 2019 01:37:51 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 11 Oct 2019 01:35:03 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
+        by hqpgpgate102.nvidia.com on Fri, 11 Oct 2019 01:37:51 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Oct
- 2019 08:35:03 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 11 Oct 2019 08:35:03 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.21.133.51]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5da03eb60001>; Fri, 11 Oct 2019 01:35:03 -0700
+ 2019 08:37:50 +0000
+Received: from [10.21.133.51] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Oct
+ 2019 08:37:50 +0000
+Subject: Re: Kernel panic 5.4.0-rc1-next-20191004
+To:     =?UTF-8?Q?Milan_Bu=c5=a1ka?= <milan.buska@gmail.com>,
+        <linux-tegra@vger.kernel.org>
+References: <CAFCWPP+SHYrN7=oz64DTTNtRU6hv3=gM=WjO3Sn-32HMe5g2+A@mail.gmail.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Jassi Brar <jassisinghbrar@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] mailbox: tegra: Fix superfluous IRQ error message
-Date:   Fri, 11 Oct 2019 09:34:59 +0100
-Message-ID: <20191011083459.11551-1-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+Message-ID: <21d7393e-6fba-d23e-3e0e-610503ea8fab@nvidia.com>
+Date:   Fri, 11 Oct 2019 09:37:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CAFCWPP+SHYrN7=oz64DTTNtRU6hv3=gM=WjO3Sn-32HMe5g2+A@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570782907; bh=uduV90yZCZOVYnuJjhT4IRL+/1ynquThjrPfX23FAWk=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=Ce3U5tmiHnuM/llBKs2xBAhzGod5yJQAxo1HoOAUtGb5EYCfNdcNcmy5+t8IFilTj
-         Uh8rIkKTJmfwJCTGae2xVJpAami5cX+1UkYJGFLFNEoW3NtUlfjXw39XXLpfnOb6IV
-         Slc8poAudWP5sFdt+c1cYhkzJVjMKESnb5SemM3s0VhoMseOhI2co5XPjOgMMLH14J
-         U8z0LhfiWKU5w6mP2ql7sQmtbGw9+n2ZImHwXC7Mtdx/iu1E7MdHiNLCoDpMKuFT0i
-         ysr5iWxBYnj1wnkyi8TNaZrdSYGYzxOANJGPHbRJRYNXnFufALZRZlyILDzRTWmEvL
-         TWChwkLcOwQCA==
+        t=1570783073; bh=MyO68ZDS7MjQiDgES19dvjPBf48eSOAG1d7AHyqh3CU=;
+        h=X-PGP-Universal:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=JNILrDs5xFD/7+wPN2PlEhvEGCnGq03mjkW4r+ohoANGHshFuHH2N87HWTb7xhOaO
+         Za+jq19Iq+biYGoJj8nhewdu/fy5K0a62oVCyYuNh1FDewmep8jND3Jkp2di8Lbyeo
+         9lCyLRXFredt6oT97NmIery5BLNUEsukKZDOAQvcEbtR0tWj8VNoYiDrb/7mKgxmjy
+         SXIGdnnaF0k/MXSvqZxIeQLBQkJyjycp57GIjpziLcKOoxW8Hfe/C1BtTuuH7Xdd9j
+         pzSI0rM0GyfQTHvVdwxw9ZLRbM/fGOjRNlMYYqaERAs+kv9DyMOO6+4A84Jn2KxSxe
+         2rqE096Cu+l4g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Commit 7723f4c5ecdb ("driver core: platform: Add an error message to
-platform_get_irq*()") added an error message to avoid drivers having
-to print an error message when IRQ lookup fails. However, there are
-some cases where IRQs are optional and so new optional versions of
-the platform_get_irq*() APIs have been added for these cases.
 
-The IRQs for Tegra HSP module are optional because not all instances
-of the module have the doorbell and all of the shared interrupts.
-Hence, since the above commit was applied the following error messages
-are now seen on Tegra194 ...
+On 10/10/2019 16:35, Milan Bu=C5=A1ka wrote:
+> Hello.
+>=20
+> Kernel compilation for testing on Jetson TX2 Developer Kit
+> resulted in a Kernel panic error.
+> I did the compilation while running the 5.4.0-rc1-next-20191004
+> kernel, which I had previously compiled on the NVIDIA kernel
+> I did the compilation directly on the device (without the cross compilati=
+on)
 
- ERR KERN tegra-hsp c150000.hsp: IRQ doorbell not found
- ERR KERN tegra-hsp c150000.hsp: IRQ shared0 not found
+Any chance you could try to bisect this? I understand it is a bit of a
+pain because you need to run the compile every time, but if this is
+failing 100% with this version it would be good to see if it could be
+bisected.
 
-The Tegra HSP driver deliberately does not fail if these are not found
-and so fix the above errors by updating the Tegra HSP driver to use
-the platform_get_irq_byname_optional() API.
+Cheers
+Jon
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- drivers/mailbox/tegra-hsp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
-index 4c5ba35d48d4..834b35dc3b13 100644
---- a/drivers/mailbox/tegra-hsp.c
-+++ b/drivers/mailbox/tegra-hsp.c
-@@ -657,7 +657,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
- 	hsp->num_db = (value >> HSP_nDB_SHIFT) & HSP_nINT_MASK;
- 	hsp->num_si = (value >> HSP_nSI_SHIFT) & HSP_nINT_MASK;
- 
--	err = platform_get_irq_byname(pdev, "doorbell");
-+	err = platform_get_irq_byname_optional(pdev, "doorbell");
- 	if (err >= 0)
- 		hsp->doorbell_irq = err;
- 
-@@ -677,7 +677,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
- 			if (!name)
- 				return -ENOMEM;
- 
--			err = platform_get_irq_byname(pdev, name);
-+			err = platform_get_irq_byname_optional(pdev, name);
- 			if (err >= 0) {
- 				hsp->shared_irqs[i] = err;
- 				count++;
--- 
-2.17.1
-
+--=20
+nvpublic
