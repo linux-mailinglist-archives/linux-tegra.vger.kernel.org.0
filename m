@@ -2,144 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07E42D3A60
-	for <lists+linux-tegra@lfdr.de>; Fri, 11 Oct 2019 09:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72B98D3B34
+	for <lists+linux-tegra@lfdr.de>; Fri, 11 Oct 2019 10:33:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727068AbfJKHxA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 11 Oct 2019 03:53:00 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34314 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726461AbfJKHxA (ORCPT
+        id S1726458AbfJKIdX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 11 Oct 2019 04:33:23 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:14884 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbfJKIdX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 11 Oct 2019 03:53:00 -0400
-Received: by mail-wr1-f65.google.com with SMTP id j11so10751250wrp.1;
-        Fri, 11 Oct 2019 00:52:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EwPBmMRYQqmwwMpYc8okL9s1LKq8P2O4QBbeYixrVK4=;
-        b=qmkuo+/I5tcKNbqICKPzw0l/7zJCIDaKZaulAYOf9ZEbUzrdks5JkVy6rmiQn2cWLY
-         /ocsncebfHiZx50AXFtfNs5VCCSoSC5cZvJJ4uMMwPHVziip0zHPmD4d6AgmlsUV3R3z
-         Im3wAue2hHzmrR+j9TlSCppd32ip8lYCtQqnueca3untVi5kw72qgDjPdo5U/XGYV+jK
-         8Utxp0KN23BbGWjscMsY/bsE62pDXRpZtiWYir9RBIhEB4NllcL5xWc7ek9HOgtzrX5W
-         PlGQ1KcXxa+8/wyOAQYDtSSyOKaogPm7lHFxIkmLPoBNxb8KS4FLZgHE01hz16cA7km5
-         aRDA==
-X-Gm-Message-State: APjAAAXRi957Q64y22Rz6xuhwY4gOgixODOLlZxHCZrHOinhQztQ02Mt
-        dEMeoIMGXtq6XGXvGzfE8sU=
-X-Google-Smtp-Source: APXvYqxUy16ah5vufdoPXO9FppUIVRbpWBWt1wAegLgSI9eN5KbSUDFilIoDI6Bb75H+vXTIy2Z4Rg==
-X-Received: by 2002:a5d:6949:: with SMTP id r9mr8819898wrw.106.1570780376664;
-        Fri, 11 Oct 2019 00:52:56 -0700 (PDT)
-Received: from pi3 ([194.230.155.145])
-        by smtp.googlemail.com with ESMTPSA id b22sm7040031wmj.36.2019.10.11.00.52.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2019 00:52:55 -0700 (PDT)
-Date:   Fri, 11 Oct 2019 09:52:53 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>, Kukjin Kim <kgene@kernel.org>,
-        =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 02/10] dt-bindings: sram: Convert Samsung Exynos
- SYSRAM bindings to json-schema
-Message-ID: <20191011075253.GA7998@pi3>
-References: <20191002164316.14905-1-krzk@kernel.org>
- <20191002164316.14905-2-krzk@kernel.org>
- <20191010193356.GA9975@bogus>
+        Fri, 11 Oct 2019 04:33:23 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5da03e540000>; Fri, 11 Oct 2019 01:33:24 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 11 Oct 2019 01:33:22 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 11 Oct 2019 01:33:22 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Oct
+ 2019 08:33:22 +0000
+Received: from [10.21.133.51] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Oct
+ 2019 08:33:20 +0000
+Subject: Re: [PATCH 4.14 00/61] 4.14.149-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191010083449.500442342@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <fa909a7c-70d3-c1e9-45a0-584b2c8d0732@nvidia.com>
+Date:   Fri, 11 Oct 2019 09:33:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191010193356.GA9975@bogus>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191010083449.500442342@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1570782804; bh=BK4Vx06gW4Dt0bUV1MaP4NBOPEX3gOTzi8e/W6roW0c=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=LYPoWSg7Eydj9Lq3CIjDV0qbws38QkK1vLbvoZMys25abHRix/qHFH7aPpN4nI1EW
+         s1Nko0NknXm6G/t0z/LbxRQSF/3pSoZ04By9si7gPMSPG1nTcG7GLnJVldNUAlUu+/
+         EgxBNMvttvYE4YnGwRFwxoPTT6ag9jW3Ww6+4+cjJWTIpWeZ10irIcnXQPutTRhYWr
+         I//Yf6GSfJo/zqy8G9GnnB3+N3A5qu/UvGyaHrquziVo8uoH5KjKER7mNn06yt6OjV
+         4WtUkGj5ECfDGkYwf9cOeAaWWrgUbTf6T0Vl+RITbCSvl22882dhFu+R6ZKxe/5zDK
+         Uaell/eHZZ8Ew==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Oct 10, 2019 at 02:33:56PM -0500, Rob Herring wrote:
-> On Wed, Oct 02, 2019 at 06:43:08PM +0200, Krzysztof Kozlowski wrote:
-> > Convert Samsung Exynos SYSRAM bindings to DT schema format using
-> > json-schema.
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > 
-> > ---
-> > 
-> > Changes since v2:
-> > 1. Use sram as name of node in example.
-> > 
-> > Changes since v1:
-> > 1. Indent example with four spaces (more readable).
-> > ---
-> >  .../devicetree/bindings/sram/samsung-sram.txt | 38 ------------
-> >  .../bindings/sram/samsung-sram.yaml           | 58 +++++++++++++++++++
-> >  MAINTAINERS                                   |  2 +-
-> >  3 files changed, 59 insertions(+), 39 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/sram/samsung-sram.txt
-> >  create mode 100644 Documentation/devicetree/bindings/sram/samsung-sram.yaml
+
+On 10/10/2019 09:36, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.14.149 release.
+> There are 61 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
+> Responses should be made by Sat 12 Oct 2019 08:29:51 AM UTC.
+> Anything received after that time might be too late.
 > 
-> > diff --git a/Documentation/devicetree/bindings/sram/samsung-sram.yaml b/Documentation/devicetree/bindings/sram/samsung-sram.yaml
-> > new file mode 100644
-> > index 000000000000..3e77c434ecca
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/sram/samsung-sram.yaml
-> > @@ -0,0 +1,58 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/sram/samsung-sram.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Samsung Exynos SoC SYSRAM for SMP bringup
-> > +
-> > +maintainers:
-> > +  - Krzysztof Kozlowski <krzk@kernel.org>
-> > +
-> > +description: |+
-> > +  Samsung SMP-capable Exynos SoCs use part of the SYSRAM for the bringup
-> > +  of the secondary cores. Once the core gets powered up it executes the
-> > +  code that is residing at some specific location of the SYSRAM.
-> > +
-> > +  Therefore reserved section sub-nodes have to be added to the mmio-sram
-> > +  declaration. These nodes are of two types depending upon secure or
-> > +  non-secure execution environment.
-> > +
-> > +allOf:
-> > +  - $ref: "sram.yaml#"
-> > +
-> > +properties:
-> > +  $nodename:
-> > +    pattern: "^sysram(@.*)?"
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.149-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
+> and the diffstat can be found below.
 > 
-> As you are renaming all the node names, this will no longer work. If you 
-> change it to 'sram', that's going to match others, but would still work 
-> as long as the child node names are unique to Samsung. If you change 
-> them to '*-sram' then, you'd have to come up with something else. That 
-> probably means using 'compatible' strings. At that point, it's kind of 
-> silly to just be validating what your are using to select the schema. It 
-> may be better to just add the compatible strings into sram.yaml if 
-> that's the only difference.
-
-You're right. I'll move them to sram.yaml and maybe add also example.
+> thanks,
+> 
+> greg k-h
 
 
-Best regards,
-Krzysztof
+All tests passing for Tegra ...
 
+Test results for stable-v4.14:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    24 tests:	24 pass, 0 fail
+
+Linux version:	4.14.149-rc1-g8952ae7352b2
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
