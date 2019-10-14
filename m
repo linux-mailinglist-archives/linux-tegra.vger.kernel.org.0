@@ -2,66 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08C50D63A0
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 15:18:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1BF3D6411
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 15:25:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731747AbfJNNR6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Oct 2019 09:17:58 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35966 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729858AbfJNNR5 (ORCPT
+        id S1730532AbfJNNZD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Oct 2019 09:25:03 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38157 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725989AbfJNNZD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Oct 2019 09:17:57 -0400
-Received: by mail-wm1-f68.google.com with SMTP id m18so16743931wmc.1;
-        Mon, 14 Oct 2019 06:17:55 -0700 (PDT)
+        Mon, 14 Oct 2019 09:25:03 -0400
+Received: by mail-wr1-f66.google.com with SMTP id y18so10278217wrn.5;
+        Mon, 14 Oct 2019 06:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=BSVT6/rt9caDK62gYBDnDh5e/nv1bV+8wumCRGej6zY=;
-        b=aQ/G0g8I6kNE8fOdXRgLPoYpiISVXLPukBvLP5vPS8vSrLcmsHWiNNMQtV/3bhkTFl
-         jf6g+PvsSBsxkUNfmsoYQskfdcnAzOxC5l02hDDCRmYFVHRvHe6V9tXRXlFnr7+U8NVW
-         2KR7qk6ywYdpxdSSVF/CHRStr/94Kx0CbP8qdxWDyuGglwq6tl4RLRkIeAhqCSuTo+an
-         U/M/5D21bKkeZv9eBoNJqSK/H8CkP3TNw9SD2M+twxTyohpJJdId7DLQ1Zvy8IQB6Yng
-         cXClxAK6st/hvyfVY4SiA3hgdw60yF4iPilbjiUhkIqcw6WDCD5st5oC2qL/6ctOMF+0
-         JduA==
+        bh=p4wRNeAmQeU6KF/xY7xB28T1cCU8tNpyHOvvEk8pe7I=;
+        b=PQcd8id1m/X3CX6HW9q3xr0dhRdQBjo3+5VnjmitGWkbKtadhjdWiFJvt+IuiuulMC
+         UHbaYSqhn8z89mcljHyzd7tCHp6ehFVnu91kuqYPvUjOwIJqIoCtuXaI1hhUU9I3CtiQ
+         kkPKBeoXAdCmJkqXytRdpvs+NW8HE7z5APA7y6bY0DgZTRBy35E9R9NOOI89FuJXm91V
+         f/ckB6cO4qfMX2auZB2G4GyveOuSs6AgEB+9brNQquZQTUxULIVQ2ahADRsJSOkcy5OW
+         5y8LCvMlJxMgNm29S3ic6pQBvi10eWOkaIRD8mq6RAhTB9sbklKDN4SXsbWaUgBgEDyj
+         FApw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BSVT6/rt9caDK62gYBDnDh5e/nv1bV+8wumCRGej6zY=;
-        b=A1msMrrtntF1Z/66ApEQGmY8UN7W6hbxK2D8ZIwf2aCS/BRVIEhW3ATmu1n+7jRcIN
-         7anctX8z74th2gx8ca4VdEgZIzgoKeZtlkEAqcI19rybDGkAVjhA0StcGtt+Qr/I9Iie
-         5CTxKEnuvRBf8C0nuD/ISpmXB93Zja4kcT25ad6graqkEogoC07O02mA2cM1XkyVn93t
-         JqSrinJs68vASRk7tMC50KZqkq+JlkZZh9Q25qaSwfOBkDHBvGIbMv/QJaeQIoT3MxC/
-         AuOR4D1B1qYRgS/5RYZBnXj+O3uO5JofUmqVoJE59x+ANWkKTkwwr5AgXOyfAilGiE8j
-         TF6w==
-X-Gm-Message-State: APjAAAWBQczd5/6x1yloGSbJ0XSeep1eWy1nDBRIy/A5sEQuAIVrhEzV
-        6qOXcGY1+0wNSfKLu6KbPuE=
-X-Google-Smtp-Source: APXvYqwtnutp4lo0pHwlyN5XuihN3EaRu+UPIJGENSCr6Sqg5W1GxgswhnEWZN1nfVIEg3eltKAKgw==
-X-Received: by 2002:a05:600c:2212:: with SMTP id z18mr1827206wml.154.1571059074747;
-        Mon, 14 Oct 2019 06:17:54 -0700 (PDT)
+        bh=p4wRNeAmQeU6KF/xY7xB28T1cCU8tNpyHOvvEk8pe7I=;
+        b=EhqlA8dcKsVn858ZEVVCDXryQA7Io1FoMm97fDCuwRbmx1bYJcuv4eVNwHy7szd1gm
+         K/tsFFcZuLQPFOvDnENJiqrg7gPbHTmsA8V/DjBdyw02cswpc4JxJBsu8KnUSvNGtUnx
+         q+jSOX1BSD90COYgOpVljURQtohmxGNuxDmGsIyH5FQoD0SCCjSdS8u2bNhD8z055UBt
+         XenlikRoKEf/2gQGawZLrTs37jiM/gLgdMU1HMP5gXUlIxk5u2BHuB9E05Oh4XPa/TW5
+         5Si+y/Z8YxuiFTGR/L4rAd9Ly1U4cEMup8/GK1Eec7ctaUSs6vOaNdRWxYnuigVICjBS
+         a8Jg==
+X-Gm-Message-State: APjAAAXR+sTuzS6KSsMROWoLQ1T10CyHfW1XX3W0GO5DggTEq0KQoLsC
+        vH1tTCte4gcYc92DRlbS+ig=
+X-Google-Smtp-Source: APXvYqxhLow/vhAk2PV0yH8RlRMyKlPByDDvUHrnnrW9Uu9G7yAN5sItRGV4yUn3aQAoLn3tYhEiUQ==
+X-Received: by 2002:adf:ee82:: with SMTP id b2mr25470991wro.285.1571059500709;
+        Mon, 14 Oct 2019 06:25:00 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id c21sm13316525wmb.46.2019.10.14.06.17.53
+        by smtp.gmail.com with ESMTPSA id y19sm16868350wmi.13.2019.10.14.06.24.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 06:17:53 -0700 (PDT)
-Date:   Mon, 14 Oct 2019 15:17:52 +0200
+        Mon, 14 Oct 2019 06:24:59 -0700 (PDT)
+Date:   Mon, 14 Oct 2019 15:24:58 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     JC Kuo <jckuo@nvidia.com>, gregkh@linuxfoundation.org,
-        jonathanh@nvidia.com, kishon@ti.com, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, nkristam@nvidia.com
-Subject: Re: [PATCH v4 3/5] dt-bindings: phy: tegra: Add Tegra194 support
-Message-ID: <20191014131752.GF422231@ulmo>
-References: <20191009024343.30218-1-jckuo@nvidia.com>
- <20191009024343.30218-4-jckuo@nvidia.com>
- <20191009233900.GA9109@bogus>
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] mailbox: tegra: Fix superfluous IRQ error message
+Message-ID: <20191014132458.GG422231@ulmo>
+References: <20191011083459.11551-1-jonathanh@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="l+goss899txtYvYf"
+        protocol="application/pgp-signature"; boundary="lHGcFxmlz1yfXmOs"
 Content-Disposition: inline
-In-Reply-To: <20191009233900.GA9109@bogus>
+In-Reply-To: <20191011083459.11551-1-jonathanh@nvidia.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -69,60 +66,67 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---l+goss899txtYvYf
+--lHGcFxmlz1yfXmOs
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 09, 2019 at 06:39:00PM -0500, Rob Herring wrote:
-> On Wed, Oct 09, 2019 at 10:43:41AM +0800, JC Kuo wrote:
-> > Extend the bindings to cover the set of features found in Tegra194.
-> > Note that, technically, there are four more supplies connected to the
-> > XUSB pad controller (DVDD_PEX, DVDD_PEX_PLL, HVDD_PEX and HVDD_PEX_PLL)
-> > , but the power sequencing requirements of Tegra194 require these to be
-> > under the control of the PMIC.
-> >=20
-> > Tegra194 XUSB PADCTL supports up to USB 3.1 Gen 2 speed, however, it is
-> > possible for some platforms have long signal trace that could not
-> > provide sufficient electrical environment for Gen 2 speed. To deal with
-> > this, a new device node property "nvidia,disable-gen2" was added to
-> > Tegra194 that be used to specifically disable Gen 2 speed for a
-> > particular USB 3.0 port so that the port can be limited to Gen 1 speed
-> > and avoid the instability.
+On Fri, Oct 11, 2019 at 09:34:59AM +0100, Jon Hunter wrote:
+> Commit 7723f4c5ecdb ("driver core: platform: Add an error message to
+> platform_get_irq*()") added an error message to avoid drivers having
+> to print an error message when IRQ lookup fails. However, there are
+> some cases where IRQs are optional and so new optional versions of
+> the platform_get_irq*() APIs have been added for these cases.
 >=20
-> I suspect this may be a common issue and we should have a common=20
-> property. Typically, this kind of property is in the controller though=20
-> and supports multiple speed limits. See PCI bindings for inspiration.
+> The IRQs for Tegra HSP module are optional because not all instances
+> of the module have the doorbell and all of the shared interrupts.
+> Hence, since the above commit was applied the following error messages
+> are now seen on Tegra194 ...
+>=20
+>  ERR KERN tegra-hsp c150000.hsp: IRQ doorbell not found
+>  ERR KERN tegra-hsp c150000.hsp: IRQ shared0 not found
+>=20
+> The Tegra HSP driver deliberately does not fail if these are not found
+> and so fix the above errors by updating the Tegra HSP driver to use
+> the platform_get_irq_byname_optional() API.
+>=20
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> ---
+>  drivers/mailbox/tegra-hsp.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Given that support for gen 2 speeds is dependent on signal trace length,
-it doesn't really make sense to restrict the whole controller to a given
-speed if only the signal trace for a single port exceeds the limit for
-which gen 2 would work.
+Perhaps Greg should pick up this patch because he's carrying the patch
+that adds the platform_get_irq_byname_optional() patch for v5.5.
 
-Also, the USB PHYs are in a different hardware block than the USB
-controller, so this really is a property of the PHY block, not the USB
-controller.
+Greg, would you prefer a copy of this in your mailbox, or does the
+following patchwork link suffice:
+
+	http://patchwork.ozlabs.org/patch/1175012/
+
+Either way, this patch:
+
+Acked-by: Thierry Reding <treding@nvidia.com>
 
 Thierry
 
---l+goss899txtYvYf
+--lHGcFxmlz1yfXmOs
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2kdYAACgkQ3SOs138+
-s6HMkQ/6A3Fj9ZJJsdJnHLfvMDhmqc/ZtjXEf75kGFK8o5zyYn7mMEiIX7UJwn0v
-u17ZP3AEz0nPbMpQ6VFkAH/JijR1m4P2vtl4/sxEpqWUpllPgb7cmK2ZefL8Wa5/
-+tha3SoS//h5XjI/lwVfaxnzJyE7owSaumpZG5NzR5fk4UWcUOzmZXAQSedOKppX
-3Jh5+pMwNenrbzvqxt0w1Lv0L3KMRH8rZN/r4m2WXNKqc/Zsb+zGAyF9uXylNd33
-Q29CpQvAJZwuyPj1NGsSJqwo/rl65QiHmXqwJh8azlUL9LBpGurYtox1kytVbtrY
-zxBxtLPuCabG5EvEPlGv0yv0no4kMvnZu1qCG10veWGkOGq7XHGyG8jdyBJDhBgt
-Ahin5YDmVrfG1c5balwzNgE5ZMNOF074JgcL2MZN0ac5NKky2yFPSvdBxJvGLt90
-etu2wctrjXOUmUj4Lr8mOh3QTD/mVHecHRfCWpSaaasDlQPj9g3NvCxvut8RWHDH
-z9irlyyUI5ahytdR1bxhq3UsuDDT3W6rRrVuwjo3Rw37NYwaa4M7ppB4Zqv8rUkz
-BGM9UTk+K39ZBBYYcHxdAJ1x5EChqh2WzAC/nGiwVd2hbgqj1I2zpZMSALBTUtlg
-fno5aAC10Un6nevQlxAJ/yBxynSbGEhBWt1yVXKzdHSJhB6VKz0=
-=+5Sz
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2kdyoACgkQ3SOs138+
+s6HehxAAgC4Sj44wpLRlcNKL7bVIgUtRtc6C5Wu++Zsj+4UDw82vgYCVrFU+dAgy
+tApzwfpUXsP9xnkhU2QxCXs+bLDJTa9amAFXDU4FyPTVZBKYk7SB7YgO6h5EvPC2
+kmiRIPFaGj79Ufmn6ZP31RlYt0r+VOPdd0ihsKXWuItYlFTrbQMdQpfQuRuveZUD
+UCn2RUu9CLFVkNb9HimfFDoSVo+/RiPrzFptzYBAtLw6uePdwj9cS4NoHUp6Q82R
++Emvumx0gkYE8bbsNEZce+hU1jQncjk8JXWLLdFRVDPOGlAA6V+SZd9awIlfKizX
+InAtf9AkyPAALGbPJzrg4VmJxzOqlZK1f2ESJSlrUy0q6WFy6yh/6cuDTa7+eMbP
+F/Z3KNyelVIB08JEmxvaeHLemX51QDaf34LKrshkMJXg+jh5xRHFyDrlWAm0zZpy
+4917C1XKHHQXNcfuW5LVYvNF10gOpuTWYaLSCeCG4E7xZqvl2Ry1NVHmRYr7WPnH
+tt5RmPxyJHDB0EgbLIiVcXh2QKTx6aXQOknFzR3Lb9uyzq2EBT7EwpR24qoJnr5Q
+9EN62+A6eSVMuy8t6cAD2Ssn5AWPBu7zcBmZfBPNqqvoEIBgqhwbwkKadq1UMD7d
+WWzI2TH4xWAqcd8GdmuZg51EsQIcR2N1zKCQphH1ZvveAMUDYqI=
+=Kp6p
 -----END PGP SIGNATURE-----
 
---l+goss899txtYvYf--
+--lHGcFxmlz1yfXmOs--
