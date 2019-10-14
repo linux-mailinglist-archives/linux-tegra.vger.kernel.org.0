@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D762D62FF
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 14:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02538D6301
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 14:51:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731429AbfJNMvG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Oct 2019 08:51:06 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42263 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731029AbfJNMvG (ORCPT
+        id S1731425AbfJNMvI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Oct 2019 08:51:08 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46336 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731029AbfJNMvI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Oct 2019 08:51:06 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n14so19555496wrw.9
-        for <linux-tegra@vger.kernel.org>; Mon, 14 Oct 2019 05:51:05 -0700 (PDT)
+        Mon, 14 Oct 2019 08:51:08 -0400
+Received: by mail-wr1-f66.google.com with SMTP id o18so19546550wrv.13
+        for <linux-tegra@vger.kernel.org>; Mon, 14 Oct 2019 05:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hANW8n51/2TerGmbLCgZv/CuSuRXQd643gepZFK9hnc=;
-        b=FH9GU5LIfYrvKMM0VQueVtxsk2INkBq+qpUi/rO8dShCffTYMsqbyIsBc0RZYEFlQa
-         S2PL1z4hHISnNlRIeTHqfdHwzlR2DLrKWQ4CjBiqrSinZ+jHc0DTXjSjFKYQe2kYxA6b
-         UAgfZHe6cKBwp3ZoketphiL8GAL6MrZgOWOPE+lrOa3gYgw1MSli3+czinyu9UE+tdiI
-         Lm6xyR1KCsKAphTiq78PcI5DKXCdn7ImtaRiq5Na4yJOenpszLme6hcCq0ftlh4FdgWP
-         gYNRHFn1ZwwcE6JtneCyAhE2YcSBqT9Yk5+yuywj5PYO8nsUBi2pU7ZKupMHBzxAwZjn
-         ey4A==
+        bh=u6qXD9rn/OIy+Nv0WvvLjXj4OfQZfi5fmj38Q+4+iVI=;
+        b=FmdjeQnyIcA69WMoPZKySboMFynXrM36qbqu913EAvyYOjBAnTnyNyYyCH7nDBCelC
+         hftfthY/SOB5KOggPuk+SFkQvcxPuvRnQE13sde1PO0VAZLQQcQiwEFt4PBRw0nVoG53
+         tZrFqhe9mvXc3RyFGtktUIdFJ2LqTlvSnxwBeB5f2KOGihpjJQbKiN1q9RzsHzAXV7s+
+         KAlzlQSW32DQUZECKvO5NgLR2T2fJ1b3cGSDG5OVb5hResG00vVxjMHWWMvQWWXXjC3T
+         NH7PF4LMvO0AwLomX320ZH/0RNnK3fev9VuqpiqBvZxyglrdynAscQp8UEvO0ACehJ9v
+         DcOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hANW8n51/2TerGmbLCgZv/CuSuRXQd643gepZFK9hnc=;
-        b=G9VK+uWAlA6ltqrDUyYz09PQFxhheiHY0c0IzPwOX1uQFADeuKDWw04qe2+eesEsJV
-         7vMoR4Kb8DlCYDWfMbwIpegQGZlPG+hQ26nGhu69G8Dle6pTcXPdp8OwWyMPIaHtf9VA
-         aLSccYaDcKr83Pg1VopGEFRfZziC3l/wHY3TE2+bJqDGMKUDlTDiH/1KIXLORZG9ywI3
-         61cXBsHdIlJuDlD013tH4yQWgB/M/CrjbG9TQcaMoyd4twUkru0w1CX01jRzhFa3QwUa
-         iH0ZCz8Q0wjq4QfHA6H7OZxOn1Ukfu6jIQD3NKnMGrQUnDDLb61jPSxZhxIVdsH8iILc
-         jlcA==
-X-Gm-Message-State: APjAAAXXNgrJFSlZIyfmxqY3oMvh3dWBnQ0U20BEXGyNl9qUKwWho334
-        oqygIXfOjbIGLEEKFYxdMo0=
-X-Google-Smtp-Source: APXvYqybmot/4ZJNgw6ylAiNa+i9nfpB1OEZUQ+aZJOVklE7DDa43GuKJsTwPpS6ZdV8c+Sq1irO7Q==
-X-Received: by 2002:adf:e705:: with SMTP id c5mr24803233wrm.375.1571057464290;
-        Mon, 14 Oct 2019 05:51:04 -0700 (PDT)
+        bh=u6qXD9rn/OIy+Nv0WvvLjXj4OfQZfi5fmj38Q+4+iVI=;
+        b=bBL29cmStT6ZQAM2WxhYhUewJu9+I5EDzaCSiAwnLZsvZrHYNSityx54lFbBs6ajub
+         aooLof9fOjGm9QXZtj61f5wInqt8PZj74bQZme+Q/vJEVOEhqYhQ0mnPxOP/ToQYNuPR
+         0H8b0XVxWnomSx0rnPnVvqbcnn+cpUv//9FVl/904YpTSkpAAXpD2Z+3cY2NkZeVIC1K
+         6YB7aK5oTj0RYcmNNaoJzhiOTC0/6Hi9mydZP2ZrJLmhXWyA3RXo9Jb495jWksZl/FSY
+         +ra0bTzHlyO2Tnaooagun+2TsmGh0mOQwDZ1OOMTkbFYciqNyPkuWCxMoq6fvCUuVjQn
+         hWiw==
+X-Gm-Message-State: APjAAAXE15O7WZaz8+frTy8rBSrMTQ1qHxSiYO1wjCXG+J6rrGeq26B8
+        mI54mysSD6VbvOJ+QXtWP+g=
+X-Google-Smtp-Source: APXvYqymrU0rKN/GipYYJ9TGISsRaOYzVUz0m6AnXs9Fgc/t+zqFjgMgQcdHtPBjQDSRGhmrzFxnfw==
+X-Received: by 2002:a5d:460a:: with SMTP id t10mr26759965wrq.13.1571057466179;
+        Mon, 14 Oct 2019 05:51:06 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id n18sm15138096wmi.20.2019.10.14.05.51.02
+        by smtp.gmail.com with ESMTPSA id z125sm20917675wme.37.2019.10.14.05.51.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 05:51:03 -0700 (PDT)
+        Mon, 14 Oct 2019 05:51:05 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 06/14] drm/tegra: Use DRM_DEBUG_DRIVER for driver messages
-Date:   Mon, 14 Oct 2019 14:50:41 +0200
-Message-Id: <20191014125049.425101-7-thierry.reding@gmail.com>
+Subject: [PATCH 07/14] drm/tegra: vic: Skip stream ID programming without IOMMU
+Date:   Mon, 14 Oct 2019 14:50:42 +0200
+Message-Id: <20191014125049.425101-8-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191014125049.425101-1-thierry.reding@gmail.com>
 References: <20191014125049.425101-1-thierry.reding@gmail.com>
@@ -63,33 +63,46 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The driver-specific messages should use the DRM_UT_DRIVER category so
-that they can be properly filtered.
+If VIC is not behind an IOMMU, don't touch any of the registers related
+to stream ID programming.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/drm.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/tegra/vic.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index bc7cc32140f8..498d22a65616 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -163,10 +163,10 @@ static int tegra_drm_load(struct drm_device *drm, unsigned long flags)
- 		drm_mm_init(&tegra->mm, gem_start, gem_end - gem_start + 1);
- 		mutex_init(&tegra->mm_lock);
+diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+index 8d98b0cfc47b..748798f2cdc8 100644
+--- a/drivers/gpu/drm/tegra/vic.c
++++ b/drivers/gpu/drm/tegra/vic.c
+@@ -97,6 +97,9 @@ static int vic_runtime_suspend(struct device *dev)
  
--		DRM_DEBUG("IOMMU apertures:\n");
--		DRM_DEBUG("  GEM: %#llx-%#llx\n", gem_start, gem_end);
--		DRM_DEBUG("  Carveout: %#llx-%#llx\n", carveout_start,
--			  carveout_end);
-+		DRM_DEBUG_DRIVER("IOMMU apertures:\n");
-+		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
-+		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
-+				 carveout_end);
- 	}
+ static int vic_boot(struct vic *vic)
+ {
++#ifdef CONFIG_IOMMU_API
++	struct iommu_fwspec *spec = dev_iommu_fwspec_get(vic->dev);
++#endif
+ 	u32 fce_ucode_size, fce_bin_data_offset;
+ 	void *hdr;
+ 	int err = 0;
+@@ -105,15 +108,14 @@ static int vic_boot(struct vic *vic)
+ 		return 0;
  
- 	if (tegra->hub) {
+ #ifdef CONFIG_IOMMU_API
+-	if (vic->config->supports_sid) {
+-		struct iommu_fwspec *spec = dev_iommu_fwspec_get(vic->dev);
++	if (vic->config->supports_sid && spec) {
+ 		u32 value;
+ 
+ 		value = TRANSCFG_ATT(1, TRANSCFG_SID_FALCON) |
+ 			TRANSCFG_ATT(0, TRANSCFG_SID_HW);
+ 		vic_writel(vic, value, VIC_TFBIF_TRANSCFG);
+ 
+-		if (spec && spec->num_ids > 0) {
++		if (spec->num_ids > 0) {
+ 			value = spec->ids[0] & 0xffff;
+ 
+ 			vic_writel(vic, value, VIC_THI_STREAMID0);
 -- 
 2.23.0
 
