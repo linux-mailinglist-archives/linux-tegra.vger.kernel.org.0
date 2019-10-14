@@ -2,56 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0CE1D62F5
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 14:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 308C3D62F6
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 14:50:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731092AbfJNMuy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Oct 2019 08:50:54 -0400
-Received: from mail-wm1-f53.google.com ([209.85.128.53]:55753 "EHLO
-        mail-wm1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731035AbfJNMux (ORCPT
+        id S1731002AbfJNMuz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Oct 2019 08:50:55 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:32851 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731035AbfJNMuz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Oct 2019 08:50:53 -0400
-Received: by mail-wm1-f53.google.com with SMTP id a6so17127119wma.5
-        for <linux-tegra@vger.kernel.org>; Mon, 14 Oct 2019 05:50:52 -0700 (PDT)
+        Mon, 14 Oct 2019 08:50:55 -0400
+Received: by mail-wr1-f66.google.com with SMTP id b9so19627415wrs.0
+        for <linux-tegra@vger.kernel.org>; Mon, 14 Oct 2019 05:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GgdWGOJECNveIsaNtl+AyHGRoV+8tWMLO9eybpPm16w=;
-        b=PHpvE6d0ajOD2Um5j6df0769ekrMEuYnuTcINS3aTy533i4MU4InV2PCxLk9kTiVw1
-         4OPElqvhOzUi+dYLcqtdprl/joliAs/TRqOb+lYjGVjEv6uSk//b0sM9oClnwjnwyGps
-         SqU9lagnsIn2zfoSqyqmvwP0aOSfukjRTC7jd1ych2r3hKiJFjHi0G1AUP4rD1Ao+KM7
-         6WGygZuN9/s6/qHmLPZLuBTYVy6IGcAq0RQ60AF3pme0XOiR0OaSr/cdC76P7n7q3lLG
-         noVkj0HYhJdMG3gKe2cISONO3uQP+PjJ9/oafYEC7Kub0Eeo51OeFTK8cws3Mi5fpJtD
-         gQlA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=U877RE9c/tuFkeDa8v12pt9kVRahnNgSg6kH2NT2zSs=;
+        b=K97DT+yhhip/zZqEwHem79zj/NHw61NIZ+WziLtr+XxhQm1OkuQ8Ibea0bKc9JWxKI
+         tq/Buap1GcrVaM/kLNKwmAJY45Bp9flBI7Ydq5cYH+ai6FkYDCK9/MoEIPGNly5eOlZ4
+         wOMuYsyAjDh4uIJXfkYISBt/0yo09cxQNs2lYrLq9g2CJEjnT6wGNFoBe2ZUygzbylmP
+         xfCwk6jALMbNAtlDwwWLQIQIfbtRQ1jm+0cja+O7RX+jZFkly2F1A2Ju1kh0HZ4s/t5i
+         rZBImKJLH919yYKcMHxRQpWm8dby0J509aWZLuk47zwZcFVfxwgHZ3BTfB3Zdgtc29sa
+         mrFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GgdWGOJECNveIsaNtl+AyHGRoV+8tWMLO9eybpPm16w=;
-        b=UabhRWB9wi5ZSrD289f7VDJS7McZ7r+h8vEBnuYyr7WxkkkSlfPDBy4phsEH/BwXPn
-         8uU+gYB0TVnlHo91YVmlpUV+vaEQXetqGVBINv5QXIQLlozEipkBf3QkL2KdD7A0Ihrl
-         EvOwcQxW1vzGIHKJNuG6yav6DT6cWBVKH4AzpadmYnuFO/r+JZJxHY7CBEvJg6mbktCO
-         StbL69MBotuWCBRHcb+01BSGoOlACly+Sl2mFX9PAbBcPlN9MH72lTYMY2RlwajupOpO
-         6VDhWYLjpAvyFAyomX/gjXu8sO00w2fwq7Up6SrnTGvydA6xPPejqn8p0AqEb0n0MGG0
-         8U5w==
-X-Gm-Message-State: APjAAAWVq8bdxm8FOjqRLCtCp4uMm+B0SfiC8tMcvfOYjQBYGHmZIx6l
-        MB3nGmY5nRHbvv68Dm3HQWjFcEzp
-X-Google-Smtp-Source: APXvYqxWtXcBjxk3th2tVx8wtmCQ0UYIsKyvBM0qSL2J6dcXMRSGsrHUJ0VF50xtg3lnR/z27H95lA==
-X-Received: by 2002:a05:600c:34b:: with SMTP id u11mr14412599wmd.172.1571057451484;
-        Mon, 14 Oct 2019 05:50:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=U877RE9c/tuFkeDa8v12pt9kVRahnNgSg6kH2NT2zSs=;
+        b=NKApu7BjiJS+i1L5KuiqBA6++JNz0HTOoa7SjWgbGSt+IvQc8j1IU2Z7T2d7ZYs03z
+         yZdqtnsUpOb7XOeMid0591f/I7+t2y3eik+YWX1KGEuVKY4zukbj4TpLucncfXDEqv+d
+         igoeo8GSokB6bJl/ihKICVwOZKSnzxkQwk0k3JP6JEcKspLqyoKVvHvIvt0fHNjRwQQQ
+         5IZOgRVFmAqSpXcTj53CpvzBioX63IJDcH333Wnn1aZ4ZTPuJ21PbnN7/vHvVkzh5S2e
+         qzBqedl/XGJORUrUKBPr9ZBpJMcwbqQX6T9VUBKEZt74Z+zvQP+Lx3jXdwaGfGFmojws
+         UvNg==
+X-Gm-Message-State: APjAAAUSyElbKo4S2txLmWVzT6GgX6ReeBaMy1srwZiEu/GvgEROduRj
+        /NFCQU/3Gv2ZgdKD+UcpS2k=
+X-Google-Smtp-Source: APXvYqwfjKsVR1no+BarpMeGzjtK/HnAt0suBKZXNFZWdLRdCg0+nhRxmDXpRahIEnbM95s89flPsQ==
+X-Received: by 2002:a5d:4ed2:: with SMTP id s18mr24739914wrv.52.1571057453478;
+        Mon, 14 Oct 2019 05:50:53 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id s1sm26157158wrg.80.2019.10.14.05.50.50
+        by smtp.gmail.com with ESMTPSA id f9sm21850054wre.74.2019.10.14.05.50.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 05:50:50 -0700 (PDT)
+        Mon, 14 Oct 2019 05:50:52 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 00/14] drm/tegra: Miscellaneous cleanups
-Date:   Mon, 14 Oct 2019 14:50:35 +0200
-Message-Id: <20191014125049.425101-1-thierry.reding@gmail.com>
+Subject: [PATCH 01/14] gpu: host1x: Do not limit DMA segment size
+Date:   Mon, 14 Oct 2019 14:50:36 +0200
+Message-Id: <20191014125049.425101-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191014125049.425101-1-thierry.reding@gmail.com>
+References: <20191014125049.425101-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -61,48 +63,27 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Some cleanups and minor improvements, nothing exciting here. However,
-these prepare the way for some larger rework that will convert explicit
-IOMMU API usage to the DMA API, which optionally can be backed by an
-IOMMU.
+None of the host1x clients have any limitations on the DMA segment size,
+so don't pretend that they do.
 
-Thierry
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/host1x/bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thierry Reding (14):
-  gpu: host1x: Do not limit DMA segment size
-  gpu: host1x: Remove gratuitous blank line
-  gpu: host1x: Explicitly initialize host1x_info structures
-  gpu: host1x: Request channels for clients, not devices
-  drm/tegra: Inherit device DMA parameters from host1x
-  drm/tegra: Use DRM_DEBUG_DRIVER for driver messages
-  drm/tegra: vic: Skip stream ID programming without IOMMU
-  drm/tegra: vic: Inherit DMA mask from host1x
-  drm/tegra: vic: Use common IOMMU attach/detach code
-  drm/tegra: Move IOMMU group into host1x client
-  drm/tegra: gem: Rename paddr -> iova
-  drm/tegra: gem: Use dma_get_sgtable()
-  drm/tegra: gem: Always map SG tables for DMA-BUFs
-  drm/tegra: gem: Use sg_alloc_table_from_pages()
-
- drivers/gpu/drm/tegra/dc.c   | 24 +++++++++++------
- drivers/gpu/drm/tegra/dc.h   |  2 --
- drivers/gpu/drm/tegra/drm.c  | 30 ++++++++++-----------
- drivers/gpu/drm/tegra/drm.h  |  6 ++---
- drivers/gpu/drm/tegra/fb.c   |  4 +--
- drivers/gpu/drm/tegra/gem.c  | 37 +++++++++++---------------
- drivers/gpu/drm/tegra/gem.h  |  2 +-
- drivers/gpu/drm/tegra/gr2d.c | 12 ++++-----
- drivers/gpu/drm/tegra/gr3d.c | 12 ++++-----
- drivers/gpu/drm/tegra/hub.c  |  2 +-
- drivers/gpu/drm/tegra/vic.c  | 51 ++++++++++++++++++++----------------
- drivers/gpu/host1x/bus.c     |  2 +-
- drivers/gpu/host1x/channel.c | 13 ++++-----
- drivers/gpu/host1x/channel.h |  1 +
- drivers/gpu/host1x/dev.c     | 12 +++++++++
- drivers/gpu/host1x/intr.c    |  1 -
- include/linux/host1x.h       |  4 ++-
- 17 files changed, 114 insertions(+), 101 deletions(-)
-
+diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+index 742aa9ff21b8..2c8559ff3481 100644
+--- a/drivers/gpu/host1x/bus.c
++++ b/drivers/gpu/host1x/bus.c
+@@ -445,7 +445,7 @@ static int host1x_device_add(struct host1x *host1x,
+ 	of_dma_configure(&device->dev, host1x->dev->of_node, true);
+ 
+ 	device->dev.dma_parms = &device->dma_parms;
+-	dma_set_max_seg_size(&device->dev, SZ_4M);
++	dma_set_max_seg_size(&device->dev, UINT_MAX);
+ 
+ 	err = host1x_device_parse_dt(device, driver);
+ 	if (err < 0) {
 -- 
 2.23.0
 
