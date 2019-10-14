@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C1B4D62FB
+	by mail.lfdr.de (Postfix) with ESMTP id F09D0D62FC
 	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 14:51:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731418AbfJNMvC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Oct 2019 08:51:02 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:36576 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731029AbfJNMvC (ORCPT
+        id S1731422AbfJNMvD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Oct 2019 08:51:03 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:33169 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731415AbfJNMvD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Oct 2019 08:51:02 -0400
-Received: by mail-wr1-f68.google.com with SMTP id y19so19619238wrd.3
-        for <linux-tegra@vger.kernel.org>; Mon, 14 Oct 2019 05:50:58 -0700 (PDT)
+        Mon, 14 Oct 2019 08:51:03 -0400
+Received: by mail-wm1-f65.google.com with SMTP id r17so14435062wme.0
+        for <linux-tegra@vger.kernel.org>; Mon, 14 Oct 2019 05:51:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rq1ZF1nsTPYlmvvsNxuE1omhCQpXv2Uc5EavmJCLVho=;
-        b=roXeX3ZabUr/G5JLWSmiWtysvCekVmBgZnQSLwfNQbFZqAEaNWu58tWzTqYhBbXEpT
-         xRsReujN/yxxI+N0AeMSh8rZ6OuN4RnNjyQgiWFP7ngOh8o1XJUH2Ma70CqFtA39oYyw
-         bxrzDuSvZUdHCUbV/WBzyaaQck4UNiOCs5qqVPPJlptHX1DQCDbXrbgSqPrdw56vMh6B
-         KvPOfm4c4RUk5FT7RL45hRBsUEoAnnKachEDbkk7HN+9pdiYg5Pk/8VcpevlSKfJNy1o
-         acyPEUAAY6nGWoZwoQdq9GExxQC9XfYd6rqTY/WtOs9EsAJBrkZmiMMIucCx0BPR2vgJ
-         VHcA==
+        bh=xXohOh2PNnJ9mf9YhRZwip9mBy/jBn3bFjciUpmeUw4=;
+        b=KPpOwIQJCJ/ifOquBzI/rkkIhBfyPSn3Xrf5co8hRO4y6AhugJc5FSEci2erN/IVsX
+         YmtK/lOh1oJdzNY4r8SJyTs+Z68b/uXeX6RA3958EWxYqb8jr0d6a/a6wUsgfTJWxb+H
+         nCjvRoQxT2YzHt195lsXp+/sI+LQySt1kBX420UXTGz8fowz7BX3++U4GnhJl/lJjCj7
+         TpPrsWMR349iXic1FEwtrTK1h7w0opSi1PVdFoZtRR2bqbb2WY33xk9mGK7cYP3Jvt1s
+         CtKLE1rhPzv+PbGqVbENyqhz4AXLP5bl3jYF9+6X0qQVkAUcnVbKLpTspwG/zetvCs6L
+         WzwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rq1ZF1nsTPYlmvvsNxuE1omhCQpXv2Uc5EavmJCLVho=;
-        b=dWBJrt992k9rPMMEwYuI1BOgMRAYHJLda9RscZXkoDMrIkt/QGydu7NZWd7oQxLvd5
-         nB3D8DqeLnz6syCzqClBaN0Y9n8Bu5Cz/xGHiiIEO9at6IHbTqL7r766wFqK3R+vOP4u
-         fnqhUjORXy6OGo/8Ezu6kn0F6LUhmfrwWnvxgccLso1UGCUOP9D++0UeSG7utrOpJEiS
-         N7kv0U/2SOqATTqFFRrG5Vs93R51IaNeRrB2lycyDQZSxEWmds1Nk0vbsqxG4gU/bjy9
-         Bg91Spv6XPx5TrZ/4hh4spZI4EZ0pEWkjeqWbrGIqhC4lBjVHa4aDRz4YgTGVEI6VZOy
-         NBFQ==
-X-Gm-Message-State: APjAAAXUzjZPVibfE3osnryaoX+Z5aWxT6wT7WqBIQ7eiyDBRkeF4T6s
-        rsWJTVSQYwwN/t2qxFBcA4ec4Uc+
-X-Google-Smtp-Source: APXvYqyu8+tLAbFH3kbSjwHQedeUmmjLCm8Od7hF49MjagwlGdOGH44d2h92tCDjtljnP8K7vWmZDA==
-X-Received: by 2002:adf:8296:: with SMTP id 22mr24599649wrc.255.1571057457725;
-        Mon, 14 Oct 2019 05:50:57 -0700 (PDT)
+        bh=xXohOh2PNnJ9mf9YhRZwip9mBy/jBn3bFjciUpmeUw4=;
+        b=NCor9mQ2TS1KT5yPrZX765OwqRgKW2a6gHXMlg4tHl0vAUbQ/qHwhZET2kOYT7DNYi
+         vbN/5VXQisWbcqnTpHyeDDClO3mXkN7p9+J/yOwXw7so4jfB73NF9ThSw9GbZ0FjdCgU
+         1V+fuqWpQiSp8x65MlpeKMTW9OUi7KR/rGrWnXJga54+7jrfEb47jM8KZ0BaedTdJW7B
+         cLufp/Sh9sXZ2jFfHyP6iJ9HjGKUNtUFW/GeFQNZKLTaBYOoncAg/JFHVGhsEaWpRQR/
+         VsK8v8Lyws3PsKfkcQ+NOrX8u/o1YnFQwLrkInYHNQGj+A0bpB30CI7gvN2wvyfQ8B9G
+         q5cw==
+X-Gm-Message-State: APjAAAVCYdjrXkW8TDODKyTu9jpbadaw3mDPwXbnsPKcabWvXDXzyoIp
+        QpED8yedKDZ346pNIxjeW+E5J6x0
+X-Google-Smtp-Source: APXvYqzTwE5O9n8rJ9WGhkeHV5xRAZeMlsQ8CheFaxYiNfkPbL/58F5cNEHWnAoT0s/oSzkIM0NdxQ==
+X-Received: by 2002:a1c:444:: with SMTP id 65mr15464247wme.84.1571057460214;
+        Mon, 14 Oct 2019 05:51:00 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id y19sm16741436wmi.13.2019.10.14.05.50.56
+        by smtp.gmail.com with ESMTPSA id z142sm28384710wmc.24.2019.10.14.05.50.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 05:50:56 -0700 (PDT)
+        Mon, 14 Oct 2019 05:50:59 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 03/14] gpu: host1x: Explicitly initialize host1x_info structures
-Date:   Mon, 14 Oct 2019 14:50:38 +0200
-Message-Id: <20191014125049.425101-4-thierry.reding@gmail.com>
+Subject: [PATCH 04/14] gpu: host1x: Request channels for clients, not devices
+Date:   Mon, 14 Oct 2019 14:50:39 +0200
+Message-Id: <20191014125049.425101-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191014125049.425101-1-thierry.reding@gmail.com>
 References: <20191014125049.425101-1-thierry.reding@gmail.com>
@@ -63,59 +63,127 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-It's technically not required to explicitly initialize the fields that
-will be zero by default, but it's easier to read these structures if
-they are all initialized uniformly.
+A struct device doesn't carry much information that a channel might be
+interested in, but the client very much does. Request channels for the
+clients rather than their parent devices and store a pointer to them
+in order to have that information available when needed.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/host1x/dev.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/tegra/gr2d.c |  2 +-
+ drivers/gpu/drm/tegra/gr3d.c |  2 +-
+ drivers/gpu/drm/tegra/vic.c  |  2 +-
+ drivers/gpu/host1x/channel.c | 13 +++++++------
+ drivers/gpu/host1x/channel.h |  1 +
+ include/linux/host1x.h       |  2 +-
+ 6 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index 5a3f797240d4..e8ab4d0c5091 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -77,6 +77,9 @@ static const struct host1x_info host1x01_info = {
- 	.init = host1x01_init,
- 	.sync_offset = 0x3000,
- 	.dma_mask = DMA_BIT_MASK(32),
-+	.has_hypervisor = false,
-+	.num_sid_entries = 0,
-+	.sid_table = NULL,
- };
+diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
+index 641299cc85b8..3cbb4a029c41 100644
+--- a/drivers/gpu/drm/tegra/gr2d.c
++++ b/drivers/gpu/drm/tegra/gr2d.c
+@@ -40,7 +40,7 @@ static int gr2d_init(struct host1x_client *client)
+ 	struct gr2d *gr2d = to_gr2d(drm);
+ 	int err;
  
- static const struct host1x_info host1x02_info = {
-@@ -87,6 +90,9 @@ static const struct host1x_info host1x02_info = {
- 	.init = host1x02_init,
- 	.sync_offset = 0x3000,
- 	.dma_mask = DMA_BIT_MASK(32),
-+	.has_hypervisor = false,
-+	.num_sid_entries = 0,
-+	.sid_table = NULL,
- };
+-	gr2d->channel = host1x_channel_request(client->dev);
++	gr2d->channel = host1x_channel_request(client);
+ 	if (!gr2d->channel)
+ 		return -ENOMEM;
  
- static const struct host1x_info host1x04_info = {
-@@ -97,6 +103,9 @@ static const struct host1x_info host1x04_info = {
- 	.init = host1x04_init,
- 	.sync_offset = 0x2100,
- 	.dma_mask = DMA_BIT_MASK(34),
-+	.has_hypervisor = false,
-+	.num_sid_entries = 0,
-+	.sid_table = NULL,
- };
+diff --git a/drivers/gpu/drm/tegra/gr3d.c b/drivers/gpu/drm/tegra/gr3d.c
+index 8b9a35b1cbb3..87a386134cc4 100644
+--- a/drivers/gpu/drm/tegra/gr3d.c
++++ b/drivers/gpu/drm/tegra/gr3d.c
+@@ -49,7 +49,7 @@ static int gr3d_init(struct host1x_client *client)
+ 	struct gr3d *gr3d = to_gr3d(drm);
+ 	int err;
  
- static const struct host1x_info host1x05_info = {
-@@ -107,6 +116,9 @@ static const struct host1x_info host1x05_info = {
- 	.init = host1x05_init,
- 	.sync_offset = 0x2100,
- 	.dma_mask = DMA_BIT_MASK(34),
-+	.has_hypervisor = false,
-+	.num_sid_entries = 0,
-+	.sid_table = NULL,
- };
+-	gr3d->channel = host1x_channel_request(client->dev);
++	gr3d->channel = host1x_channel_request(client);
+ 	if (!gr3d->channel)
+ 		return -ENOMEM;
  
- static const struct host1x_sid_entry tegra186_sid_table[] = {
+diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+index cd0399fd8c63..c97a61c877af 100644
+--- a/drivers/gpu/drm/tegra/vic.c
++++ b/drivers/gpu/drm/tegra/vic.c
+@@ -198,7 +198,7 @@ static int vic_init(struct host1x_client *client)
+ 		vic->domain = tegra->domain;
+ 	}
+ 
+-	vic->channel = host1x_channel_request(client->dev);
++	vic->channel = host1x_channel_request(client);
+ 	if (!vic->channel) {
+ 		err = -ENOMEM;
+ 		goto detach;
+diff --git a/drivers/gpu/host1x/channel.c b/drivers/gpu/host1x/channel.c
+index 1436295aa450..4cd212bb570d 100644
+--- a/drivers/gpu/host1x/channel.c
++++ b/drivers/gpu/host1x/channel.c
+@@ -115,14 +115,14 @@ static struct host1x_channel *acquire_unused_channel(struct host1x *host)
+ 
+ /**
+  * host1x_channel_request() - Allocate a channel
+- * @device: Host1x unit this channel will be used to send commands to
++ * @client: Host1x client this channel will be used to send commands to
+  *
+- * Allocates a new host1x channel for @device. May return NULL if CDMA
++ * Allocates a new host1x channel for @client. May return NULL if CDMA
+  * initialization fails.
+  */
+-struct host1x_channel *host1x_channel_request(struct device *dev)
++struct host1x_channel *host1x_channel_request(struct host1x_client *client)
+ {
+-	struct host1x *host = dev_get_drvdata(dev->parent);
++	struct host1x *host = dev_get_drvdata(client->dev->parent);
+ 	struct host1x_channel_list *chlist = &host->channel_list;
+ 	struct host1x_channel *channel;
+ 	int err;
+@@ -133,7 +133,8 @@ struct host1x_channel *host1x_channel_request(struct device *dev)
+ 
+ 	kref_init(&channel->refcount);
+ 	mutex_init(&channel->submitlock);
+-	channel->dev = dev;
++	channel->client = client;
++	channel->dev = client->dev;
+ 
+ 	err = host1x_hw_channel_init(host, channel, channel->id);
+ 	if (err < 0)
+@@ -148,7 +149,7 @@ struct host1x_channel *host1x_channel_request(struct device *dev)
+ fail:
+ 	clear_bit(channel->id, chlist->allocated_channels);
+ 
+-	dev_err(dev, "failed to initialize channel\n");
++	dev_err(client->dev, "failed to initialize channel\n");
+ 
+ 	return NULL;
+ }
+diff --git a/drivers/gpu/host1x/channel.h b/drivers/gpu/host1x/channel.h
+index 4fd694834f74..39044ff6c3aa 100644
+--- a/drivers/gpu/host1x/channel.h
++++ b/drivers/gpu/host1x/channel.h
+@@ -26,6 +26,7 @@ struct host1x_channel {
+ 	unsigned int id;
+ 	struct mutex submitlock;
+ 	void __iomem *regs;
++	struct host1x_client *client;
+ 	struct device *dev;
+ 	struct host1x_cdma cdma;
+ };
+diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+index e6eea45e1154..4396cd566a33 100644
+--- a/include/linux/host1x.h
++++ b/include/linux/host1x.h
+@@ -158,7 +158,7 @@ u32 host1x_syncpt_base_id(struct host1x_syncpt_base *base);
+ struct host1x_channel;
+ struct host1x_job;
+ 
+-struct host1x_channel *host1x_channel_request(struct device *dev);
++struct host1x_channel *host1x_channel_request(struct host1x_client *client);
+ struct host1x_channel *host1x_channel_get(struct host1x_channel *channel);
+ void host1x_channel_put(struct host1x_channel *channel);
+ int host1x_job_submit(struct host1x_job *job);
 -- 
 2.23.0
 
