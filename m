@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19F36D6303
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 14:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FAD1D6305
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 14:51:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731432AbfJNMvK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Oct 2019 08:51:10 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37127 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731029AbfJNMvK (ORCPT
+        id S1731431AbfJNMvN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Oct 2019 08:51:13 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53443 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731029AbfJNMvM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Oct 2019 08:51:10 -0400
-Received: by mail-wm1-f65.google.com with SMTP id f22so16631206wmc.2
-        for <linux-tegra@vger.kernel.org>; Mon, 14 Oct 2019 05:51:08 -0700 (PDT)
+        Mon, 14 Oct 2019 08:51:12 -0400
+Received: by mail-wm1-f68.google.com with SMTP id i16so17146965wmd.3
+        for <linux-tegra@vger.kernel.org>; Mon, 14 Oct 2019 05:51:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FwBg+ebSJP5mRjr900RF+E/RqOvjOLM24+kI7t4VvUg=;
-        b=DOlLanNaCmwuTEm1kbAzhv1PC8LkEv4wn3LmSmiRgU3vG4Zq6lTTq3lyOHwRdqjBTc
-         cJKq6Q+3ujIHy9JzOxO9uocKYFPbl3Qjr3mowd4Xd5ArqjQOj4KWpEzp1AZD6OpieOVz
-         /teKSxf4EUaDQqHGV7XcG8d6oC1CHCUlXZtKRni9c/6S8tlm/T65HnODIvS3hF/hNWUy
-         bs0U5xLavIhEF0B9SUJq+Q4Di9V3SmjB/BfazUpyM5D2tZRduplXBsAGrLFoWyD1Kcii
-         IEOMTliZ+HpghdKrlwru4q2t2jEKiAFt57B41S1GL0679eNejylsL2Ht1DKfYYs8rSkX
-         9xLw==
+        bh=B5fuJB7QmtV9h7aBVewhTK71Ks0pgNS4kdo609/xFbo=;
+        b=uD7vU7d6OrpaUKwtuchmc0iH50x9zTlPXy7BcOJu4sWXI/SQQ2woE6sEm/DEqC7p1n
+         t5RF6Jo+hCWPcJVl5l8AhEWEcVivkgdqVVEgZl1TPZtN2Kx/S4HwH+tkhkBRiTDZxPyo
+         VYa2q0F7wCEf3x4dgzkS2OLKnCm22IAZEqDJEZNO+3Yp35cLQQwGwJGDk03BmvH3MKXi
+         tuXsqzpUDTXvjtqu7+i3CkiuEV084bh/2vQxvncSjNbE0v+Pc1mwcPAyhhxY+zWcSod1
+         syAETGIUdShjefqAwdh5yi085uQ/gOMEIyVZiu+dn1vJIkF8VN+cLxY1fdsa+4Fwokub
+         5FgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FwBg+ebSJP5mRjr900RF+E/RqOvjOLM24+kI7t4VvUg=;
-        b=VraF3Ng8fP5asZr71cHdtiM6DyWyGtvkQk9j8aVxKQcFcaQs1rLM6ItxwlzZ+4D+ec
-         +fa+29WaM0abgxWQeGeIY96z3xTJJluA+9790hmtbE71Lb3aYhhxv8zql4uN3EBHvtiK
-         IZdYwKI9BPWVdt14wAXYYddlT2OhjdkNoGg5Zpwa1LhOAEAdQoy9q6wKuYq0cCv3nlDd
-         LAgLhi0e8w/VYMA5a06TYJXBxneXfO08eh6Lf/2gml60GyJKBymqTFGDeQfVfdwiKE5D
-         TU11nEY6BEa7gD24eGcuhzWzEmZpZSmszgocKTB5BXd7Zv76dVMnsurxHjyDIbwRhBzP
-         dP2g==
-X-Gm-Message-State: APjAAAVTW3vLuuM93K3xfl6Fv8HVymVaUvOHh9W0nkKym1RbVyJjWFWz
-        YFmQTDAWClGoGR7A2nWplyo=
-X-Google-Smtp-Source: APXvYqzXG6B2Rb+gy/AW++lSmQzs70JeEvfgo03vNOj77BcGg0/KS5QnmwfcvAVFWiTYXiMXWp9RYw==
-X-Received: by 2002:a1c:f011:: with SMTP id a17mr14486354wmb.18.1571057468225;
-        Mon, 14 Oct 2019 05:51:08 -0700 (PDT)
+        bh=B5fuJB7QmtV9h7aBVewhTK71Ks0pgNS4kdo609/xFbo=;
+        b=NVXjSiUAVYZGEr1+YFXs17O7PGpDdhjePzCVhdzxkAnIEEP6fCKPrT0kg302OdYHdD
+         hlA0xU4OS4how2DXyDCWWrifKGyntygdRc3H2n+ZQWA4v6sJVfY891fYPe2/EpDos5Hw
+         bASLxn6V3JuRXJ9OW+E2Glhn0xPO7QwCWvcuLBeDDv3Q/1How0KUDPru/FwwaWN8wfO7
+         ybDEwlrl0iPoNyCo5pyYpTfgNldOc9OBfcUt6aT4GdFCywJjq+F7jANze9qkZAnpNXr2
+         UI3LrceQpIMnknDA6p9eduthNlhBc5gtQHNcyQTo5/aBUCMOT0jWCzDk2VtLSGebFjM1
+         cBxw==
+X-Gm-Message-State: APjAAAVSOyFbWA5okP6oVoZvnZJaAFXb8Ojrjj/r7FoGiGcP3OC/qxOV
+        PY1H3Dc774DaLij/DDulcw4=
+X-Google-Smtp-Source: APXvYqxCDvHffZXht1XHuIbS0QlRApgWVwhVUWF+hNratzEVbOVK6iZZnoRmz0hhM8KUZR4o03xguA==
+X-Received: by 2002:a1c:1dc9:: with SMTP id d192mr15685966wmd.51.1571057470705;
+        Mon, 14 Oct 2019 05:51:10 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id x5sm23902742wrt.75.2019.10.14.05.51.07
+        by smtp.gmail.com with ESMTPSA id a192sm16440048wma.1.2019.10.14.05.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 05:51:07 -0700 (PDT)
+        Mon, 14 Oct 2019 05:51:09 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 08/14] drm/tegra: vic: Inherit DMA mask from host1x
-Date:   Mon, 14 Oct 2019 14:50:43 +0200
-Message-Id: <20191014125049.425101-9-thierry.reding@gmail.com>
+Subject: [PATCH 09/14] drm/tegra: vic: Use common IOMMU attach/detach code
+Date:   Mon, 14 Oct 2019 14:50:44 +0200
+Message-Id: <20191014125049.425101-10-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191014125049.425101-1-thierry.reding@gmail.com>
 References: <20191014125049.425101-1-thierry.reding@gmail.com>
@@ -63,32 +63,84 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-VIC, just like all other host1x clients, has the same addressing range
-as its parent host1x device. Inherit the DMA mask to reflect that.
+Reuse common code to attach to or detach from an IOMMU domain.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/vic.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/tegra/vic.c | 27 ++++++++-------------------
+ 1 file changed, 8 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index 748798f2cdc8..d60e479cde92 100644
+index d60e479cde92..e4b17c7ce708 100644
 --- a/drivers/gpu/drm/tegra/vic.c
 +++ b/drivers/gpu/drm/tegra/vic.c
-@@ -385,6 +385,13 @@ static int vic_probe(struct platform_device *pdev)
- 	struct vic *vic;
+@@ -34,7 +34,7 @@ struct vic {
+ 	void __iomem *regs;
+ 	struct tegra_drm_client client;
+ 	struct host1x_channel *channel;
+-	struct iommu_domain *domain;
++	struct iommu_group *group;
+ 	struct device *dev;
+ 	struct clk *clk;
+ 	struct reset_control *rst;
+@@ -183,21 +183,16 @@ static const struct falcon_ops vic_falcon_ops = {
+ static int vic_init(struct host1x_client *client)
+ {
+ 	struct tegra_drm_client *drm = host1x_to_drm_client(client);
+-	struct iommu_group *group = iommu_group_get(client->dev);
+ 	struct drm_device *dev = dev_get_drvdata(client->parent);
+ 	struct tegra_drm *tegra = dev->dev_private;
+ 	struct vic *vic = to_vic(drm);
  	int err;
  
-+	/* inherit DMA mask from host1x parent */
-+	err = dma_coerce_mask_and_coherent(dev, *dev->parent->dma_mask);
-+	if (err < 0) {
-+		dev_err(&pdev->dev, "failed to set DMA mask: %d\n", err);
+-	if (group && tegra->domain) {
+-		err = iommu_attach_group(tegra->domain, group);
+-		if (err < 0) {
+-			dev_err(vic->dev, "failed to attach to domain: %d\n",
+-				err);
+-			return err;
+-		}
+-
+-		vic->domain = tegra->domain;
++	vic->group = host1x_client_iommu_attach(client, false);
++	if (IS_ERR(vic->group)) {
++		err = PTR_ERR(vic->group);
++		dev_err(vic->dev, "failed to attach to domain: %d\n", err);
 +		return err;
-+	}
-+
- 	vic = devm_kzalloc(dev, sizeof(*vic), GFP_KERNEL);
- 	if (!vic)
- 		return -ENOMEM;
+ 	}
+ 
+ 	vic->channel = host1x_channel_request(client);
+@@ -229,8 +224,7 @@ static int vic_init(struct host1x_client *client)
+ free_channel:
+ 	host1x_channel_put(vic->channel);
+ detach:
+-	if (group && tegra->domain)
+-		iommu_detach_group(tegra->domain, group);
++	host1x_client_iommu_detach(client, vic->group);
+ 
+ 	return err;
+ }
+@@ -238,7 +232,6 @@ static int vic_init(struct host1x_client *client)
+ static int vic_exit(struct host1x_client *client)
+ {
+ 	struct tegra_drm_client *drm = host1x_to_drm_client(client);
+-	struct iommu_group *group = iommu_group_get(client->dev);
+ 	struct drm_device *dev = dev_get_drvdata(client->parent);
+ 	struct tegra_drm *tegra = dev->dev_private;
+ 	struct vic *vic = to_vic(drm);
+@@ -253,11 +246,7 @@ static int vic_exit(struct host1x_client *client)
+ 
+ 	host1x_syncpt_free(client->syncpts[0]);
+ 	host1x_channel_put(vic->channel);
+-
+-	if (vic->domain) {
+-		iommu_detach_group(vic->domain, group);
+-		vic->domain = NULL;
+-	}
++	host1x_client_iommu_detach(client, vic->group);
+ 
+ 	return 0;
+ }
 -- 
 2.23.0
 
