@@ -2,125 +2,80 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F026D6076
-	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 12:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7348AD60F7
+	for <lists+linux-tegra@lfdr.de>; Mon, 14 Oct 2019 13:09:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731486AbfJNKp0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 14 Oct 2019 06:45:26 -0400
-Received: from foss.arm.com ([217.140.110.172]:40298 "EHLO foss.arm.com"
+        id S1731772AbfJNLJb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 14 Oct 2019 07:09:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34026 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731305AbfJNKp0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 14 Oct 2019 06:45:26 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42078337;
-        Mon, 14 Oct 2019 03:45:25 -0700 (PDT)
-Received: from localhost (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD6B33F718;
-        Mon, 14 Oct 2019 03:45:24 -0700 (PDT)
-Date:   Mon, 14 Oct 2019 11:45:23 +0100
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     bhelgaas@google.com, lorenzo.pieralisi@arm.com, treding@nvidia.com,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
-Message-ID: <20191014104522.GR42880@e119886-lin.cambridge.arm.com>
-References: <20191005182129.32538-1-vidyas@nvidia.com>
+        id S1731686AbfJNLJb (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 14 Oct 2019 07:09:31 -0400
+Received: from dragon (li937-157.members.linode.com [45.56.119.157])
+        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 912D420650;
+        Mon, 14 Oct 2019 11:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571051370;
+        bh=IGUjFKwdFvBuHDUBTTMUkHOqWN+qrspmIFd3EP+r5D0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=u6lV4BvTYW8QqsNve4UmSk9Z5IRL6ls+Ne+fUJeDqE/2kdCy6p2B3zszdb8a3CGfJ
+         zIUWNfhvJGX46ZQKGt0ADXS2mmtAPaMYHIMnAOQtJjH2drVoNnJIyH6+M8bbZA9fir
+         CCH+HHdvDRmqPLE15mDMW7UZttO+u5rVp++pF3JE=
+Date:   Mon, 14 Oct 2019 19:09:12 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        frowand.list@gmail.com, linux-arm-kernel@lists.infradead.org,
+        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        Li Yang <leoyang.li@nxp.com>, mbrugger@suse.com,
+        robin.murphy@arm.com, f.fainelli@gmail.com,
+        james.quinlan@broadcom.com, wahrenst@gmx.net,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH 07/11] dts: arm64: layerscape: add dma-ranges property to
+ qoric-mc node
+Message-ID: <20191014110911.GL12262@dragon>
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+ <20190924181244.7159-8-nsaenzjulienne@suse.de>
+ <20191014082847.GH12262@dragon>
+ <f6262e61f858c6f50164416f4ea816e203c0704f.camel@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191005182129.32538-1-vidyas@nvidia.com>
-User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
+In-Reply-To: <f6262e61f858c6f50164416f4ea816e203c0704f.camel@suse.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat, Oct 05, 2019 at 11:51:29PM +0530, Vidya Sagar wrote:
-> Adds a 60 seconds timeout to consider CRS (Configuration request Retry
-> Status) from a downstream device when Vendor ID read is attempted by
-> an upstream device. This helps to work with devices that return CRS
-> during system resume. This also makes pci_device_is_present() consistent
-> with the probe path where 60 seconds timeout is already being used.
-
-This looks like a good idea.
-
+On Mon, Oct 14, 2019 at 12:00:25PM +0200, Nicolas Saenz Julienne wrote:
+> On Mon, 2019-10-14 at 16:28 +0800, Shawn Guo wrote:
+> > On Tue, Sep 24, 2019 at 08:12:38PM +0200, Nicolas Saenz Julienne wrote:
+> > > qoriq-mc's dpmacs DMA configuration is inherited from their parent node,
+> > > which acts a bus in this regard. So far it maked all devices as
+> > > dma-coherent but no dma-ranges recommendation is made.
+> > > 
+> > > The truth is that the underlying interconnect has DMA constraints, so
+> > > add an empty dma-ranges in qoriq-mc's node in order for DT's DMA
+> > > configuration code to get the DMA constraints from it.
+> > > 
+> > > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> > 
+> > Updated subject prefix as 'arm64: dts: ...', and applied the patch.
 > 
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> ---
->  drivers/pci/pci.c   | 3 ++-
->  drivers/pci/pci.h   | 2 ++
->  drivers/pci/probe.c | 2 +-
->  3 files changed, 5 insertions(+), 2 deletions(-)
+> Hi Shawn,
+> these two patches are no longer needed. This series has been superseded by this
+> patch[1] 951d48855d ('of: Make of_dma_get_range() work on bus nodes', available
+> in linux-next) which fixed the issue directly in OF code.
 > 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 95dc78ebdded..3ab9f6d3c8a6 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -5905,7 +5905,8 @@ bool pci_device_is_present(struct pci_dev *pdev)
->  
->  	if (pci_dev_is_disconnected(pdev))
->  		return false;
-> -	return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v, 0);
-> +	return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v,
-> +					  PCI_CRS_TIMEOUT);
->  }
->  EXPORT_SYMBOL_GPL(pci_device_is_present);
->  
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index 3f6947ee3324..aa25c5fdc6a5 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -4,6 +4,8 @@
->  
->  #include <linux/pci.h>
->  
-> +#define PCI_CRS_TIMEOUT		(60 * 1000)	/* 60 sec*/
-> +
+> Sorry for the noise.
 
-This has the same value as PCIE_RESET_READY_POLL_MS defined in pci.c, when
-I look at how PCIE_RESET_READY_POLL_MS is used, it seems that we have two
-nearly identical ways to handle the same thing.
+Okay, thanks for letting me know.  Dropped them.
 
-pci_dev_wait - this seems to be specifically used for handling SV CRS when
-reading the vendor ID.
-
-pci_dev_wait - this seems to be used after FLR, AF_FLR, bus reset and D3-D0,
-in all the use-cases the timeout is 60 seconds. This function waits for
-the function to return a non-CRS completion - however it doesn't rely on
-the SV value of 0x0001.
-
-What is the reason that pci_dev_wait polls on PCI_COMMAND instead of a SV
-CRS value? (Is this a hack to gain some CPU time on RC's without SV? I.e.
-rather than the hardware retrying, it just gives up allowing us to retry).
-
-Is there any reason why these two functions can be combined?
-
->  #define PCI_FIND_CAP_TTL	48
->  
->  #define PCI_VSEC_ID_INTEL_TBT	0x1234	/* Thunderbolt */
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 7c5d68b807ef..6e44a03283c8 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -2258,7 +2258,7 @@ static struct pci_dev *pci_scan_device(struct pci_bus *bus, int devfn)
->  	struct pci_dev *dev;
->  	u32 l;
->  
-> -	if (!pci_bus_read_dev_vendor_id(bus, devfn, &l, 60*1000))
-> +	if (!pci_bus_read_dev_vendor_id(bus, devfn, &l, PCI_CRS_TIMEOUT))
-
-Should you also fix up acpiphp_add_context in drivers/pci/hotplug/acpiphp_glue.c
-to use PCI_CRS_TIMEOUT?
-
-Thanks,
-
-Andrew Murray
-
->  		return NULL;
->  
->  	dev = pci_alloc_dev(bus);
-> -- 
-> 2.17.1
-> 
+Shawn
