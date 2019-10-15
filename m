@@ -2,211 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B82D8D746E
-	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 13:12:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 526FDD7510
+	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 13:34:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731955AbfJOLMu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 15 Oct 2019 07:12:50 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:50892 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731912AbfJOLMm (ORCPT
+        id S1727307AbfJOLeI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 15 Oct 2019 07:34:08 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:7657 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725820AbfJOLeI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 15 Oct 2019 07:12:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
-        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=M6mHFyVv5DErkBnDBiyt4o35Oc+T3BrvGXuI6UA9xVI=; b=EHw2Mb5QY4K8
-        d0Uq/rhCXW9ytKqEMWjyvVYGiMN+mePiHBXNp9w/K8XgfpN++rBlLac3Tv8iSAKBJU9+Qj/YGeXrL
-        KFhs1i5MVoiSXi8LyYhuM9zPOUFTwup3Q+apL8NngPWluZ7XW9sOOe319s9lpjIz5Ba4jjsZU/hqj
-        MWraU=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iKKkf-00022v-5v; Tue, 15 Oct 2019 11:12:29 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 9F7E527419E4; Tue, 15 Oct 2019 12:12:28 +0100 (BST)
-From:   Mark Brown <broonie@kernel.org>
-To:     Alexandru Ardelean <alexandru.ardelean@analog.com>
-Cc:     baolin.wang@linaro.org, bcm-kernel-feedback-list@broadcom.com,
-        broonie@kernel.org, f.fainelli@gmail.com, jic23@kernel.org,
-        linus.walleij@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>, orsonzhai@gmail.com,
-        zhang.lyra@gmail.com
-Subject: Applied "spi: introduce spi_delay struct as "value + unit" & spi_delay_exec()" to the spi tree
-In-Reply-To: <20190926105147.7839-3-alexandru.ardelean@analog.com>
-X-Patchwork-Hint: ignore
-Message-Id: <20191015111228.9F7E527419E4@ypsilon.sirena.org.uk>
-Date:   Tue, 15 Oct 2019 12:12:28 +0100 (BST)
+        Tue, 15 Oct 2019 07:34:08 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5da5aeb20001>; Tue, 15 Oct 2019 04:34:10 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 15 Oct 2019 04:34:07 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 15 Oct 2019 04:34:07 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 15 Oct
+ 2019 11:34:07 +0000
+Received: from [10.25.73.96] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 15 Oct
+ 2019 11:34:04 +0000
+Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
+To:     Sinan Kaya <okaya@kernel.org>, Thierry Reding <treding@nvidia.com>
+CC:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <jonathanh@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        <linux-pci@vger.kernel.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20191005182129.32538-1-vidyas@nvidia.com>
+ <20191014082023.GA232162@ulmo>
+ <ce411d27-5b92-8dae-fccd-73c63aa30f1c@kernel.org>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <ddb0b314-7f8b-0714-773d-41c3b95288a9@nvidia.com>
+Date:   Tue, 15 Oct 2019 17:04:01 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <ce411d27-5b92-8dae-fccd-73c63aa30f1c@kernel.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1571139250; bh=iwsDtx3+GNyN2w0DfxgOYG10Z+MrLtZqM7mMZN2kvL0=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=GWIPN1kZgWp3/n2/3W4+DRxz66ix3AkB5ZOmsinexGx2kEDT/jftWEwNCg3GqzgQX
+         8k9x7njr6eWRgY1KPQ8Uu45u0A0axO1NUKQg6yN6yVQnPYTY0jATxcDZnQmyR+6gXW
+         w1Ri61lzlj6dwnMoUgRmtvOX1ZjmGlE52FvCbbjQcKo/16l5Xqi72F2P6cTTPLZh0A
+         40YatgilAPQqhtxJVMcHXOb3ppS5z7KUyon62Y71d8anq2YO4jsaZJimTtBCV7JGey
+         YvZOkhYschznnrDZG5NUKS77ktrDlVXZh70ZNsFnNhc5FTOGDdvCfSyXWQYd6vRlvV
+         hJvPdQae0dOuQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The patch
+On 10/15/2019 1:51 AM, Sinan Kaya wrote:
+> On 10/14/2019 1:20 AM, Thierry Reding wrote:
+>> I think this makes sense, so:
+>>
+>> Reviewed-by: Thierry Reding <treding@nvidia.com>
+>>
+>> However, it looks like Sinan has researched this extensively in the past
+>> and gave a presentation on this at Plumbers in 2017:
+>>
+>> 	https://blog.linuxplumbersconf.org/2017/ocw/system/presentations/4732/original/crs.pdf
+>>
+>> Adding Sinan to see if he has any concerns about this, since resume time
+>> is explicitly mentioned in the above slides.
+> 
+> 
+> Thanks for including me. Let me catch up here.
+> 
+> pci_dev_wait() is supposed to handle this case via pci_pm_reset().
+> 
+> /**
+>   * pci_pm_reset - Put device into PCI_D3 and back into PCI_D0.
+>   * @dev: Device to reset.
+>   * @probe: If set, only check if the device can be reset this way.
+>   */
+> 
+> Do you know if your execution path hits this function? We might have
+> missed a use case.
+> 
+Nope. It doesn't.
+Following is the stack dump showing how pci_update_current_state() is called in resume() path.
+And pci_device_is_present() is called from inside pci_update_current_state() API.
+My understanding is that pci_device_is_present() is the API we hit first in the resume() path
+for any PCIe device.
 
-   spi: introduce spi_delay struct as "value + unit" & spi_delay_exec()
+[   36.380726] Call trace:
+[   36.383270]  dump_backtrace+0x0/0x158
+[   36.386802]  show_stack+0x14/0x20
+[   36.389749]  dump_stack+0xb0/0xf8
+[   36.393451]  pci_update_current_state+0x58/0xe0
+[   36.398178]  pci_power_up+0x60/0x70
+[   36.401672]  pci_pm_resume_noirq+0x6c/0x130
+[   36.405669]  dpm_run_callback.isra.16+0x20/0x70
+[   36.410248]  device_resume_noirq+0x120/0x238
+[   36.414364]  async_resume_noirq+0x24/0x58
+[   36.418364]  async_run_entry_fn+0x40/0x148
+[   36.422418]  process_one_work+0x1e8/0x360
+[   36.426525]  worker_thread+0x40/0x488
+[   36.430201]  kthread+0x118/0x120
+[   36.433843]  ret_from_fork+0x10/0x1c
 
-has been applied to the spi tree at
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Also, I don't see pci_pm_reset() getting called in resume() path at all.
 
 Thanks,
-Mark
-
-From b2c98153f45fc17b9fcb241000f2d131ddea6030 Mon Sep 17 00:00:00 2001
-From: Alexandru Ardelean <alexandru.ardelean@analog.com>
-Date: Thu, 26 Sep 2019 13:51:30 +0300
-Subject: [PATCH] spi: introduce spi_delay struct as "value + unit" &
- spi_delay_exec()
-
-There are plenty of delays that have been introduced in SPI core. Most of
-them are in micro-seconds, some need to be in nano-seconds, and some in
-clock-cycles.
-
-For some of these delays (related to transfers & CS timing) it may make
-sense to have a `spi_delay` struct that abstracts these a bit.
-
-The important element of these delays [for unification] seems to be the
-`unit` of the delay.
-It looks like micro-seconds is good enough for most people, but every-once
-in a while, some delays seem to require other units of measurement.
-
-This change adds the `spi_delay` struct & a `spi_delay_exec()` function
-that processes a `spi_delay` object/struct to execute the delay.
-It's a copy of the `cs_change_delay` mechanism, but without the default
-for 10 uS.
-
-The clock-cycle delay unit is a bit special, as it needs to be bound to an
-`spi_transfer` object to execute.
-
-Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
-Link: https://lore.kernel.org/r/20190926105147.7839-3-alexandru.ardelean@analog.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- drivers/spi/spi.c       | 51 +++++++++++++++++++++++++++++++++++++++++
- include/linux/spi/spi.h | 18 ++++++++++++---
- 2 files changed, 66 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-index 7ba981cdb86b..7499a4efbaba 100644
---- a/drivers/spi/spi.c
-+++ b/drivers/spi/spi.c
-@@ -1106,6 +1106,57 @@ static void _spi_transfer_delay_ns(u32 ns)
- 	}
- }
- 
-+static int _spi_delay_to_ns(struct spi_delay *_delay, struct spi_transfer *xfer)
-+{
-+	u32 delay = _delay->value;
-+	u32 unit = _delay->unit;
-+	u32 hz;
-+
-+	if (!delay)
-+		return 0;
-+
-+	switch (unit) {
-+	case SPI_DELAY_UNIT_USECS:
-+		delay *= 1000;
-+		break;
-+	case SPI_DELAY_UNIT_NSECS: /* nothing to do here */
-+		break;
-+	case SPI_DELAY_UNIT_SCK:
-+		/* clock cycles need to be obtained from spi_transfer */
-+		if (!xfer)
-+			return -EINVAL;
-+		/* if there is no effective speed know, then approximate
-+		 * by underestimating with half the requested hz
-+		 */
-+		hz = xfer->effective_speed_hz ?: xfer->speed_hz / 2;
-+		if (!hz)
-+			return -EINVAL;
-+		delay *= DIV_ROUND_UP(1000000000, hz);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return delay;
-+}
-+
-+int spi_delay_exec(struct spi_delay *_delay, struct spi_transfer *xfer)
-+{
-+	int delay;
-+
-+	if (!_delay)
-+		return -EINVAL;
-+
-+	delay = _spi_delay_to_ns(_delay, xfer);
-+	if (delay < 0)
-+		return delay;
-+
-+	_spi_transfer_delay_ns(delay);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(spi_delay_exec);
-+
- static void _spi_transfer_cs_change_delay(struct spi_message *msg,
- 					  struct spi_transfer *xfer)
- {
-diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
-index 27f6b046cf92..8f643de3197b 100644
---- a/include/linux/spi/spi.h
-+++ b/include/linux/spi/spi.h
-@@ -90,6 +90,21 @@ void spi_statistics_add_transfer_stats(struct spi_statistics *stats,
- #define SPI_STATISTICS_INCREMENT_FIELD(stats, field)	\
- 	SPI_STATISTICS_ADD_TO_FIELD(stats, field, 1)
- 
-+/**
-+ * struct spi_delay - SPI delay information
-+ * @value: Value for the delay
-+ * @unit: Unit for the delay
-+ */
-+struct spi_delay {
-+#define SPI_DELAY_UNIT_USECS	0
-+#define SPI_DELAY_UNIT_NSECS	1
-+#define SPI_DELAY_UNIT_SCK	2
-+	u16	value;
-+	u8	unit;
-+};
-+
-+extern int spi_delay_exec(struct spi_delay *_delay, struct spi_transfer *xfer);
-+
- /**
-  * struct spi_device - Controller side proxy for an SPI slave device
-  * @dev: Driver model representation of the device.
-@@ -887,9 +902,6 @@ struct spi_transfer {
- 	u16		delay_usecs;
- 	u16		cs_change_delay;
- 	u8		cs_change_delay_unit;
--#define SPI_DELAY_UNIT_USECS	0
--#define SPI_DELAY_UNIT_NSECS	1
--#define SPI_DELAY_UNIT_SCK	2
- 	u32		speed_hz;
- 	u16		word_delay;
- 
--- 
-2.20.1
-
+Vidya Sagar
