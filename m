@@ -2,47 +2,49 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BEC63D75BA
-	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 14:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF3AD763A
+	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 14:15:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729782AbfJOMDk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 15 Oct 2019 08:03:40 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:9373 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726540AbfJOMDk (ORCPT
+        id S1726144AbfJOMPB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 15 Oct 2019 08:15:01 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:9562 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726092AbfJOMPB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 15 Oct 2019 08:03:40 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5da5b59d0000>; Tue, 15 Oct 2019 05:03:41 -0700
+        Tue, 15 Oct 2019 08:15:01 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5da5b8490000>; Tue, 15 Oct 2019 05:15:05 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 15 Oct 2019 05:03:38 -0700
+  Tue, 15 Oct 2019 05:14:54 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 15 Oct 2019 05:03:38 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 15 Oct
- 2019 12:03:38 +0000
+        by hqpgpgate101.nvidia.com on Tue, 15 Oct 2019 05:14:54 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 15 Oct
+ 2019 12:14:53 +0000
 Received: from [10.25.73.96] (10.124.1.5) by DRHQMAIL107.nvidia.com
  (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 15 Oct
- 2019 12:03:35 +0000
+ 2019 12:14:50 +0000
 Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
-To:     Thierry Reding <treding@nvidia.com>, Sinan Kaya <okaya@kernel.org>
+To:     Sinan Kaya <okaya@kernel.org>, Thierry Reding <treding@nvidia.com>
 CC:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
         <jonathanh@nvidia.com>, <linux-tegra@vger.kernel.org>,
         <linux-pci@vger.kernel.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
 References: <20191005182129.32538-1-vidyas@nvidia.com>
  <20191014082023.GA232162@ulmo>
  <ce411d27-5b92-8dae-fccd-73c63aa30f1c@kernel.org>
  <20191015093053.GA5778@ulmo>
+ <4953b718-8818-575e-2ec1-8197e6b32593@kernel.org>
 X-Nvconfidentiality: public
 From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <5b08ab4a-2f87-386b-596c-677435074f62@nvidia.com>
-Date:   Tue, 15 Oct 2019 17:33:32 +0530
+Message-ID: <85267afb-c08e-5625-d3ee-bd32af9ecb12@nvidia.com>
+Date:   Tue, 15 Oct 2019 17:44:47 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191015093053.GA5778@ulmo>
+In-Reply-To: <4953b718-8818-575e-2ec1-8197e6b32593@kernel.org>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
@@ -50,72 +52,63 @@ Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1571141021; bh=zrxGILwH8edZQFrszX8zgAxohqM234pR/AYFTIizvdI=;
+        t=1571141705; bh=uK5nIirjWo7QOhWfaYL0ARhpVoeb0jjD0jO12CScz8M=;
         h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
          Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
          X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=A/h9IgjUYq51mmtyxG9+WwPovhKoK5lfhQzvb/ICe1b+bPPH71VXQ+bH0n6jOHvo4
-         vLxl0ADBkjWQ25CVX/5a2m9CtbaW5HtG09qkIpJWYwrh/ifB8PHSwDZQfJevcHFR/Q
-         Gt5TP6pjMVXnyNid7/SHSOniMOdwB0ITBHX42/nWa7F9dh5wCaOLZi/zPl9b5/wi7M
-         Ug47fjMFZ2tRJwM9lQs2uFkEAfAl6xgGKQ9XfHlFxIDIx+wAY5URYpRCoq4bE5QHAX
-         8zZagn6Vpa2BXh4xdTEVEEZZWAjeAMW7ohUPMVH9TCSE5gzsDoUJp4eOHZAD0Sm5mL
-         9ZtDDLdpmQswg==
+        b=f2gpZPRqjOH5H53aSr/AW+dWzystnBn5v/Mb7mQ0wupMkRQRcYmhE8dDsWnzdAlRv
+         vAHBhYiXVwAqafQVJUFtcqKpPm+MOmIi+nvU+FPjWxwRCneW3WalKRrsATrHkeWRQ3
+         vndCoQ9XHg1TatX0mALcslT3lVtaOSoRBbmYIBNDVYpcJgt8ZFJwkAk967jTrRcwxu
+         5hgIlbebu3KOWlvuMFYrky2GMhtzslLAPqhzhhaMBrTP4InbfyjsIA55h8S+Qm4Zz4
+         NLhDcMeG+WzarGNOuyKpdCbgG+ZymwE/AYDXpzBgHuiDMvIoNYNNxo1KvksfcvSSld
+         Oz93zSw6GJ09g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 10/15/2019 3:00 PM, Thierry Reding wrote:
-> On Mon, Oct 14, 2019 at 01:21:31PM -0700, Sinan Kaya wrote:
->> On 10/14/2019 1:20 AM, Thierry Reding wrote:
->>> I think this makes sense, so:
->>>
->>> Reviewed-by: Thierry Reding <treding@nvidia.com>
->>>
->>> However, it looks like Sinan has researched this extensively in the past
->>> and gave a presentation on this at Plumbers in 2017:
->>>
->>> 	https://blog.linuxplumbersconf.org/2017/ocw/system/presentations/4732/original/crs.pdf
->>>
->>> Adding Sinan to see if he has any concerns about this, since resume time
->>> is explicitly mentioned in the above slides.
->>
->>
->> Thanks for including me. Let me catch up here.
->>
->> pci_dev_wait() is supposed to handle this case via pci_pm_reset().
->>
->> /**
->>   * pci_pm_reset - Put device into PCI_D3 and back into PCI_D0.
->>   * @dev: Device to reset.
->>   * @probe: If set, only check if the device can be reset this way.
->>   */
->>
->> Do you know if your execution path hits this function? We might have
->> missed a use case.
->>
+On 10/15/2019 4:40 PM, Sinan Kaya wrote:
+> +Rafael
 > 
-> I see only a couple of callers of pci_device_is_present() in the tree,
-> this being from next-20191015:
+> On 10/15/2019 2:30 AM, Thierry Reding wrote:
+>> Vidya, can you clarify for which device you're seeing the issues? Sounds
+>> like adding a call to pci_pm_reset() (via pci_reset_function()) at some
+>> point.
+>>
+>> Sinan, it looks as if pci_pm_reset() (or any of its callers) is not used
+>> very widely. Is that just because most drivers haven't had a need for it
+>> yet? Or am I missing some core functionality that calls this for every
+>> device anyway?
 > 
-> 	$ git grep -n pci_device_is_present
-> 	drivers/net/ethernet/broadcom/tg3.c:9070:       if (!pci_device_is_present(tp->pdev))drivers/net/ethernet/broadcom/tg3.c:11785:      if (pci_device_is_present(tp->pdev)) {
-> 	drivers/net/ethernet/intel/igb/igb_main.c:8838: if (!pci_device_is_present(pdev))
-> 	drivers/nvme/host/pci.c:2866:   if (!pci_device_is_present(pdev)) {
-> 	drivers/pci/hotplug/acpiphp_glue.c:650:         alive = pci_device_is_present(dev);
-> 	drivers/pci/pci.c:935:      !pci_device_is_present(dev)) {
-> 	drivers/pci/pci.c:5902:bool pci_device_is_present(struct pci_dev *pdev)
-> 	drivers/pci/pci.c:5910:EXPORT_SYMBOL_GPL(pci_device_is_present);
-> 	drivers/thunderbolt/nhi.c:939:  if (!pci_device_is_present(pdev)) {
-> 	include/linux/pci.h:1206:bool pci_device_is_present(struct pci_dev *pdev);
+> pci_pm_reset() is there as an alternative reset path. We are not
+> supposed to call this function. Sorry for giving you wrong direction
+> here. pci_reset_function() should call it only if there is no other
+> suitable reset function is found.
 > 
-I think the important one is the following which is called from inside
-pci_update_current_state() function.
+> I think the PCI core should be putting the device back D0 state as one
+> of the first actions before enumerating. Wake up could be a combination
+> of ACPI and/or PCI wake up depending on where your device sits in the
+> topology.
+Yup. It is indeed doing it as part of pci_power_up() in pci.c file.
+But, what is confusing to me is the order of the calls.
+pci_power_up() has following calls in the same order.
+	pci_raw_set_power_state(dev, PCI_D0);
+	pci_update_current_state(dev, PCI_D0);
+But, pci_raw_set_power_state() is accessing config space without calling
+pci_device_is_present() whereas pci_update_current_state() which is called
+later in the flow is calling pci_device_is_present()...!
 
-drivers/pci/pci.c:935:      !pci_device_is_present(dev)) {
-
-I've put a dump_stack() to see how this is called and following is the trace
+> 
+> On the other hand, wake up code doesn't perform the CRS wait. CRS
+> wait is deferred until the first vendor id read in pci_scan_device().
+> I see that it already waits for 60 seconds.
+> 
+> Going back to the patch...
+> 
+> I think we need to find the path that actually needs this sleep and
+> put pci_dev_wait() there.
+Following is the path in resume() flow.
 [   36.380726] Call trace:
 [   36.383270]  dump_backtrace+0x0/0x158
 [   36.386802]  show_stack+0x14/0x20
@@ -132,23 +125,19 @@ I've put a dump_stack() to see how this is called and following is the trace
 [   36.430201]  kthread+0x118/0x120
 [   36.433843]  ret_from_fork+0x10/0x1c
 
-
-> The NVME driver has the call in the ->remove() callback, so I don't
-> think it's relevant here. Both TG3 and IGB ethernet drivers seem to call
-> this during resume and so does Thunderbolt.
 > 
-> Vidya, can you clarify for which device you're seeing the issues? Sounds
-> like adding a call to pci_pm_reset() (via pci_reset_function()) at some
-> point.
-With 0 sec wait, I see issue with Intel 750 NVMe card. As I mentioned above,
-it is called from the PCI-PM subsystem which is where the timeout is required.
-
+> +++ b/drivers/pci/pci.c
+> @@ -5905,7 +5905,8 @@ bool pci_device_is_present(struct pci_dev *pdev)
 > 
-> Sinan, it looks as if pci_pm_reset() (or any of its callers) is not used
-> very widely. Is that just because most drivers haven't had a need for it
-> yet? Or am I missing some core functionality that calls this for every
-> device anyway?
+>   	if (pci_dev_is_disconnected(pdev))
+>   		return false;
+> -	return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v, 0);
+> +	return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v,
+> +					  PCI_CRS_TIMEOUT);
+>   }
 > 
-> Thierry
+> pci_device_is_present() is a too low-level function and it may not
+> be allowed to sleep. It uses 0 as timeout value.
+> 
 > 
 
