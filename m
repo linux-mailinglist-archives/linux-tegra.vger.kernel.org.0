@@ -2,58 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3918D7B7B
-	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 18:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16302D7B7E
+	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 18:29:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727614AbfJOQ3z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 15 Oct 2019 12:29:55 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:52267 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbfJOQ3z (ORCPT
+        id S1726491AbfJOQ35 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 15 Oct 2019 12:29:57 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36684 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727651AbfJOQ35 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 15 Oct 2019 12:29:55 -0400
-Received: by mail-wm1-f66.google.com with SMTP id r19so21578764wmh.2
-        for <linux-tegra@vger.kernel.org>; Tue, 15 Oct 2019 09:29:53 -0700 (PDT)
+        Tue, 15 Oct 2019 12:29:57 -0400
+Received: by mail-wr1-f66.google.com with SMTP id y19so24673178wrd.3
+        for <linux-tegra@vger.kernel.org>; Tue, 15 Oct 2019 09:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8EjDBNijVRoZjfqMLlXDaOnDwnymZTKSpRUqb0jAneU=;
-        b=e4QJXQ4+hWtGPr3XXRL/OH8/hcXhMLaLfbqe37lsaMUbNRHvJMGGZp4XqiMur9ZIIc
-         JuCMN1+nF/9t76VBmQ+bJFDSWppF2nOw7LSqfJHA9DEsVgtNBbmcgJpX21co1+0bzS7U
-         ZDTmR1lzUv9uuaFF4QThMXFdM66UiBcnmiF11V9n7305SH7gf0aI5yrqgt3T8h/6Hs5m
-         rb6AzpQ9daKybqWNfHD7m65mrL/RLjzbaZRoKmHGvth2WUrVbieH1uBum2ttR+uAANMh
-         /M1hRnoNbhQiSVPrP+GTWO/Cl9Pg6LvKp9UDmIYDWpuJbB9qQf84cAByW1s9aYp4JZQm
-         zfSA==
+        bh=JvkdWrZIuVB4wEQZQVs5mAArtaBmF1bFpmfJLPYELHc=;
+        b=c9iAWGuv1XKyHTA7scMFN2stJQ00qiFgIav/YIaYpT/gsyQUB45XlCLD/GVMFPFjaL
+         1N636dgDqAWWFtQQuyx3UguhBhZ8LpG1khVGnZwJA4tc1R0lf37t+ajkrIdT4ugOzpaR
+         VyfWCEdLwm/s0C2YSocndvVNe4El3u/AnW8iUSzz91jeVT8NhZe83063/1WNAo6jr6Jc
+         uJl2ZYGBJq1DRyxkyijvc9qyGCs9XGzOx44DqruBqaN4ZO1yLf8ZR7925pneGyqAw+vm
+         lRmjy7vWfxVGSSxnaKDcL9vznyjC2U0NqHVxx4jIKnw4w5+llBb3/V4s3CU0r68rNQou
+         mcZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8EjDBNijVRoZjfqMLlXDaOnDwnymZTKSpRUqb0jAneU=;
-        b=LwTBGiU0jzwQcviVqali2pF++z+TCWLjFm36IzgjHCucAQUG/Cm5Qkcui0surGOJvV
-         DTvUXhCP1LnRQF47DXi8XbLx/ehHHxnFAA/U5aBRh47WFmcdJfglqDnt9ubAw5lHLDLF
-         4pwGWh701Hjja3JEWaqiZQYe2m2ar6AV06/zA69lG5qthPCaAnpX8Va4AGyOGsdTjkP5
-         nRFZfyQj06Go9GB3jxaUkAi8zy974Nr+RNo+ZlUhC0fVNJQdeHlNy6mrrphb0skCUolm
-         oaVGNEW/4NuMG87BzIbUK60vaQW/aS+nCCbiJ8uFheC9E455BonncRPt4YTxLWsO9XcJ
-         FJNg==
-X-Gm-Message-State: APjAAAXPwGpDXw8J1RG1S/AbfNV5oW+0mKoPXlITt6dfRlizCptsp+Pk
-        +dxeWR0sGK3GY1r6SkAB9OQ=
-X-Google-Smtp-Source: APXvYqziuZ6APvE5dI6UfqFlO5qrIoevHEqZUCi0rk13IQn0bCyF6RN2yeZd4Q+L34CkWrYJ3uVxGQ==
-X-Received: by 2002:a7b:cd83:: with SMTP id y3mr21928223wmj.150.1571156992846;
-        Tue, 15 Oct 2019 09:29:52 -0700 (PDT)
+        bh=JvkdWrZIuVB4wEQZQVs5mAArtaBmF1bFpmfJLPYELHc=;
+        b=q4viVZR3nVfrBrtRkKJTXCRc7BYkoqMiAoDujzTNmEi3EDyRMldbxIBlG2tNazvfsE
+         b9yajrXNDOIuGBEfde7QZnsEhqPhTY6DSKj980CzVHP2OnwurcBpuUUhUEjjxmBdh01x
+         a7A7ztCPq9Ifr9fz/S2kHbkg5Cuif4MYE+WO6NSNIqKeqgQAXrHiafq9uQQpbkIZnFWw
+         KRWxMw3yKcsAEdlRnbi9biWqGeBB1eVkH1nQl4+QeWkfHCqtO0rSJpVvOfEzhse42vBg
+         BpqrdIsawvwfAu769Eo5BoW0dckdFdVC+kLY8HAKAdhNR/mdgteKzHGzF0lRH6T9Dx/X
+         0A6A==
+X-Gm-Message-State: APjAAAVPLuD1G2QRU7RUzXQY7sEssRU3xrwj63Ome0+ExTO5oKXBJljB
+        mH0pzJhyZG3bjJvcxLM/cZs=
+X-Google-Smtp-Source: APXvYqxoxfeOmJ+UjotH/Ka0LqpXHcSy2mQ+oNsgtxdm/eawKd9g2S88Wjj+MkFv0YlMhAQ9t9zt4A==
+X-Received: by 2002:adf:dcc6:: with SMTP id x6mr31056334wrm.81.1571156994875;
+        Tue, 15 Oct 2019 09:29:54 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id t123sm37314754wma.40.2019.10.15.09.29.51
+        by smtp.gmail.com with ESMTPSA id s9sm24373148wme.36.2019.10.15.09.29.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 09:29:51 -0700 (PDT)
+        Tue, 15 Oct 2019 09:29:53 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         linux-arm-kernel@lists.infradead.org,
         iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org
-Subject: [RFC 2/3] memory: tegra186: Register as memory controller
-Date:   Tue, 15 Oct 2019 18:29:44 +0200
-Message-Id: <20191015162945.1203736-3-thierry.reding@gmail.com>
+Subject: [RFC 3/3] iommu: arm-smmu: Get reference to memory controller
+Date:   Tue, 15 Oct 2019 18:29:45 +0200
+Message-Id: <20191015162945.1203736-4-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191015162945.1203736-1-thierry.reding@gmail.com>
 References: <20191015162945.1203736-1-thierry.reding@gmail.com>
@@ -66,55 +66,64 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Registering as memory controller allows other drivers to obtain a
-reference to it. This is mostly useful as a way of ordering probe
-between devices depending on one another.
+Use the memory controller framework to obtain a reference to the memory
+controller to which the SMMU will make memory requests. This allows the
+two drivers to properly order their probes so that the memory controller
+can be programmed first.
+
+An example where this is required is Tegra186 where the stream IDs need
+to be associated with memory clients before memory requests are emitted
+with the correct stream ID.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/memory/tegra/tegra186.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/iommu/arm-smmu.c | 12 ++++++++++++
+ drivers/iommu/arm-smmu.h |  2 ++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/memory/tegra/tegra186.c b/drivers/memory/tegra/tegra186.c
-index 441213a35930..e94e960a79f4 100644
---- a/drivers/memory/tegra/tegra186.c
-+++ b/drivers/memory/tegra/tegra186.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/io.h>
-+#include <linux/memory-controller.h>
- #include <linux/module.h>
- #include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
-@@ -11,6 +12,7 @@
- #include <dt-bindings/memory/tegra186-mc.h>
- 
- struct tegra_mc {
-+	struct memory_controller base;
- 	struct device *dev;
- 	void __iomem *regs;
- };
-@@ -548,7 +550,7 @@ static int tegra186_mc_probe(struct platform_device *pdev)
- 	if (IS_ERR(mc->regs))
- 		return PTR_ERR(mc->regs);
- 
--	mc->dev = &pdev->dev;
-+	mc->base.dev = &pdev->dev;
- 
- 	for (i = 0; i < ARRAY_SIZE(tegra186_mc_clients); i++) {
- 		const struct tegra_mc_client *client = &tegra186_mc_clients[i];
-@@ -571,6 +573,10 @@ static int tegra186_mc_probe(struct platform_device *pdev)
- 			client->name, override, security);
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index b18aac4c105e..8dd214244926 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -2015,6 +2015,18 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
  	}
+ 	smmu->dev = dev;
  
-+	err = memory_controller_register(&mc->base);
-+	if (err < 0)
-+		return err;
++	smmu->mc = memory_controller_get(dev, NULL);
++	if (IS_ERR(smmu->mc)) {
++		err = PTR_ERR(smmu->mc);
 +
- 	platform_set_drvdata(pdev, mc);
++		if (err != -ENODEV) {
++			dev_err(dev, "failed to get memory controller: %d\n", err);
++			return err;
++		}
++
++		smmu->mc = NULL;
++	}
++
+ 	if (dev->of_node)
+ 		err = arm_smmu_device_dt_probe(pdev, smmu);
+ 	else
+diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
+index b19b6cae9b5e..40b6d42eb3ab 100644
+--- a/drivers/iommu/arm-smmu.h
++++ b/drivers/iommu/arm-smmu.h
+@@ -17,6 +17,7 @@
+ #include <linux/io-64-nonatomic-hi-lo.h>
+ #include <linux/io-pgtable.h>
+ #include <linux/iommu.h>
++#include <linux/memory-controller.h>
+ #include <linux/mutex.h>
+ #include <linux/spinlock.h>
+ #include <linux/types.h>
+@@ -224,6 +225,7 @@ enum arm_smmu_implementation {
  
- 	return err;
+ struct arm_smmu_device {
+ 	struct device			*dev;
++	struct memory_controller	*mc;
+ 
+ 	void __iomem			*base;
+ 	unsigned int			numpage;
 -- 
 2.23.0
 
