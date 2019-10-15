@@ -2,90 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A0A6D7CAD
-	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 19:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F1CD7E79
+	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 20:09:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388570AbfJORCB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 15 Oct 2019 13:02:01 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:40181 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388553AbfJORCA (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 15 Oct 2019 13:02:00 -0400
-Received: by mail-lf1-f68.google.com with SMTP id d17so15077526lfa.7;
-        Tue, 15 Oct 2019 10:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0lHQRX/0nej0WuuBggHgivhPJMPJeSRnbCLnwWmZEkg=;
-        b=I0uSfxw7E6O85wleD5CO8/aLWXAEpIhpGNZ4IdvldsuHrbgDFfGSzoJek714RHNVNA
-         qDeHjnKxKWfm60TcwVnlqhLaxutweNOskPuxwG2FlJAzGZ+0PylA4s7xK98x/tbWKIc3
-         LULTwzyrdRbP/r5yZiL27fEAlNzeObyJsOvDiXpKXsUom/ZmAgar/JG0hTairjr+NBU0
-         ZfnFnSfqHsfYKws1oGO7TWpo/iz6zFKCP3v4bBQZ3OTEk+y4YckpL4DsifNEWRwjLKrP
-         JyP9DCSrTX5Dp/l4dnotzvm1sqMuAqTgLhGqMl0hY3TJuLtfTJv+mAuVMOaQF0tOMXEp
-         bZvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0lHQRX/0nej0WuuBggHgivhPJMPJeSRnbCLnwWmZEkg=;
-        b=m5dCwSqGXfvb/7KqdOqQsDTHu6/l21wIbNg9z6F+qa7w3ioC1PP9iwNlA5SnGWbd0B
-         mxo1u0W8UXUFFB34b4za+v7bnYHpBy4WHcWAKQkYDZrSezPLAM8F32lt1jTuMpT5MI+R
-         18QuoigwiRKzeRgUHCD6f0YtjDOucCVZZAOVVE+J0pSByvwwcrIj9O4xuXY5H8XDhgtQ
-         py8YVB2/Tp5YWXOjnRLnwuXXlPMW7crIQ1m2Y1R21OcrzDQWu7hjw2p6M/G1cm0UQJH9
-         1v0+gjtAdLq24YNFB7fXdB3DTM12LvEFJhaoUxLkFdy0d7AUIQ3knYnuB/OxD2vHkr1f
-         hSeQ==
-X-Gm-Message-State: APjAAAWrSNAJZg2j3yyxvFp1tvxvXVhKPaSuS9aSgmHV5eRB1I5/inDl
-        Q1xYRWsB2sIGxzaTQ18tC/s=
-X-Google-Smtp-Source: APXvYqznpEti9qfmzCeGOL24bxtmbcLEOCVrfTdn3PE4L4pNOoxytWOTRLVSglovOOV/v40G2x1D0w==
-X-Received: by 2002:a19:6f0e:: with SMTP id k14mr22038282lfc.79.1571158918342;
-        Tue, 15 Oct 2019 10:01:58 -0700 (PDT)
-Received: from localhost.localdomain ([94.29.10.250])
-        by smtp.gmail.com with ESMTPSA id t6sm5144992ljd.102.2019.10.15.10.01.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 10:01:57 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v6 18/18] ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
-Date:   Tue, 15 Oct 2019 20:00:15 +0300
-Message-Id: <20191015170015.1135-19-digetx@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191015170015.1135-1-digetx@gmail.com>
-References: <20191015170015.1135-1-digetx@gmail.com>
+        id S2389080AbfJOSIy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 15 Oct 2019 14:08:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40134 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725820AbfJOSIy (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 15 Oct 2019 14:08:54 -0400
+Received: from localhost (unknown [38.98.37.135])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2210920659;
+        Tue, 15 Oct 2019 18:08:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571162933;
+        bh=72Jhf2gCfLKMsgroJ+dspsUWbLqIIaKdSi3E4kfQTHg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NxpiRKvyPENu5nqLqiiuFfvP8HewQgS0FRdSFH07T5l3FMQbOQO44QHVHBgUFam0F
+         eXDUI/uT1ldmjFXmLTQEiewhqryQ4Ac5n4vAV3hlsaHuBZOZnyuDDJRKQN+Wqkhlgx
+         swd+tFNGfcfgwhilnMLjyfPZwq0ztzgXzUO+HuSs=
+Date:   Tue, 15 Oct 2019 19:58:20 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Nagarjuna Kristam <nkristam@nvidia.com>, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch V10 0/8] Tegra XUSB gadget driver support
+Message-ID: <20191015175820.GC1072965@kroah.com>
+References: <1569227152-3030-1-git-send-email-nkristam@nvidia.com>
+ <20191014100257.GB419598@ulmo>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191014100257.GB419598@ulmo>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Tegra CPU Idle driver was moved out into driver/cpuidle/ directory and
-it is now a proper platform driver.
+On Mon, Oct 14, 2019 at 12:02:57PM +0200, Thierry Reding wrote:
+> On Mon, Sep 23, 2019 at 01:55:44PM +0530, Nagarjuna Kristam wrote:
+> > Patches 1-3 are phy driver changes to add support for device
+> > mode.
+> > Patches 4-7 are changes related to XUSB device mode
+> > controller driver.
+> > Patch 8 is to enable drivers for XUDC support in defconfig
+> > 
+> > Test Steps(USB 2.0):
+> > - Enable "USB Gadget precomposed configurations" in defconfig
+> > - Build, flash and boot Jetson TX1
+> > - Connect Jetson TX1 and Ubuntu device using USB A to Micro B
+> >   cable
+> > - After boot on Jetson TX1 terminal usb0 network device should be
+> >   enumerated
+> > - Assign static ip to usb0 on Jetson TX1 and corresponding net
+> >   device on ubuntu
+> > - Run ping test and transfer test(used scp) to check data transfer
+> >   communication
+> 
+> Hi Felipe, Kishon, Greg,
+> 
+> Patches 1-3 provide new API that is required by patch 7, so I think
+> patches 1, 2, 3, 4 and 7 should probably all go through a single tree to
+> avoid having to model the dependencies using stable branches.
+> 
+> Kishon, patches 1-3 have gone through several rounds of review already,
+> but do you have any remaining concerns on them? If not, it'd be great if
+> you could ack them. Felipe and Greg could then pick them up along with
+> patches 4 and 7 into the USB tree.
+> 
+> Felipe, Greg, does that sound like a reasonable plan?
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/tegra_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Fine with me.
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 8f5c6a5b444c..9a2f11a780a8 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -25,6 +25,7 @@ CONFIG_CPU_FREQ=y
- CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND=y
- CONFIG_CPUFREQ_DT=y
- CONFIG_CPU_IDLE=y
-+CONFIG_ARM_TEGRA_CPUIDLE=y
- CONFIG_VFP=y
- CONFIG_NEON=y
- CONFIG_TRUSTED_FOUNDATIONS=y
--- 
-2.23.0
+> I should also mention that while waiting for review, Nagarjuna has been
+> able to extend support for the XUDC driver to Tegra186 but has so far
+> been holding back on sending them out so as to not needlessly hold up
+> progress on this series. However, given the interdependencies, I've come
+> to think that it may be preferable to merge everything in one go instead
+> of revisiting this in a couple of weeks.
+> 
+> If you guys prefer, Nagarjuna could send out v11 of the series and
+> integrate Tegra186 support.
 
+That's also fine.
+
+thanks,
+
+greg k-h
