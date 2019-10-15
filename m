@@ -2,142 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BF3AD763A
-	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 14:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A50AD77A1
+	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 15:45:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbfJOMPB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 15 Oct 2019 08:15:01 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:9562 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726092AbfJOMPB (ORCPT
+        id S1732140AbfJONpw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 15 Oct 2019 09:45:52 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43916 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728880AbfJONpw (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 15 Oct 2019 08:15:01 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5da5b8490000>; Tue, 15 Oct 2019 05:15:05 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 15 Oct 2019 05:14:54 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 15 Oct 2019 05:14:54 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 15 Oct
- 2019 12:14:53 +0000
-Received: from [10.25.73.96] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 15 Oct
- 2019 12:14:50 +0000
-Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
-To:     Sinan Kaya <okaya@kernel.org>, Thierry Reding <treding@nvidia.com>
-CC:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
-        <jonathanh@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <linux-pci@vger.kernel.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-References: <20191005182129.32538-1-vidyas@nvidia.com>
- <20191014082023.GA232162@ulmo>
- <ce411d27-5b92-8dae-fccd-73c63aa30f1c@kernel.org>
- <20191015093053.GA5778@ulmo>
- <4953b718-8818-575e-2ec1-8197e6b32593@kernel.org>
-X-Nvconfidentiality: public
-From:   Vidya Sagar <vidyas@nvidia.com>
-Message-ID: <85267afb-c08e-5625-d3ee-bd32af9ecb12@nvidia.com>
-Date:   Tue, 15 Oct 2019 17:44:47 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Tue, 15 Oct 2019 09:45:52 -0400
+Received: by mail-lj1-f194.google.com with SMTP id n14so20296002ljj.10;
+        Tue, 15 Oct 2019 06:45:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XhBJozkHE/xedpBrZ0VCd5Q5zH6PXHTbsKH5oegYHnQ=;
+        b=bnNiPZHWndkW6jXXwA3cbLqWpwLIc5FZqIHyNeFd1K8SfL0US0DoBSGO8+LByTR/8a
+         uuUPtym+3M0sirpu0GPLRbmG4olfMmVVhgsdCa/jSPC2AQya1FHmp2bFaF2BVfI60QSp
+         IwigxDJhtvFyV6E5pJW6qu0covk8D5NwhkOhWXyq9gSufBBOibPvY9TCfIOBczQmqBkF
+         bEd88lQfgPGs6f4akbTkXlMgPP6M/ZUYI/M1bqiia2X6YLCfNMtjKMypDgWExF4tkZd7
+         73M7NRIFgLREwM2WCOx7usgaCh7eGt49tuxnbAMoY1D1a0tqrYF5d5dSNPUH+ILJHaE2
+         jlLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XhBJozkHE/xedpBrZ0VCd5Q5zH6PXHTbsKH5oegYHnQ=;
+        b=dBjjt1kXxJcCRIqau5BW38sxtS0jWkNIJ3tuThf5TY1GDtOOxkcHTF//XvNSdt00t4
+         6IAZBiFhVCqa334kV1sPJzALlA+E0FV2h3ZnsMIx0ZILqyh7bngJguuzuiNUM+T4tQBA
+         cNH4/KYmWO+OlEUIIHDK0ugB1vrV92nrKmmtbdZLRiPT/fKUhhxq2a/e3OuAV/LcZFmJ
+         3V8oCzFBJzj2Mx19fPVMpLMcWwmc5e6WzTt3fSgWyFob6bT5NcgXtfZVaJOUD+f38zey
+         detO3TQP4vIHMUV9l6jHFRauEp0hSYkTLBS55IoHi8zDlC1xya4zkwpjvwL6VpZAwL0n
+         lJMQ==
+X-Gm-Message-State: APjAAAWoleCAlUumUuKYjN+mUh2dNyRBieeOmJXp42oaucUVBdb3p6Y4
+        LvyoyfYXl5w9pkiCbCGNkO1YGTrR
+X-Google-Smtp-Source: APXvYqxDA51lkLWNTaf8bBq//P4W4VfYR0u+eBP4O+satZqN4rgC0XPhHwULT0gp3lRytqRDKtnXSw==
+X-Received: by 2002:a2e:8593:: with SMTP id b19mr22488107lji.34.1571147148483;
+        Tue, 15 Oct 2019 06:45:48 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.10.250])
+        by smtp.googlemail.com with ESMTPSA id c3sm4909990lfi.32.2019.10.15.06.45.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Oct 2019 06:45:47 -0700 (PDT)
+Subject: Re: [PATCH V7 5/7] cpufreq: Register notifiers with the PM QoS
+ framework
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Rafael Wysocki <rjw@rjwysocki.net>, linux-pm@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>, mka@chromium.org,
+        ulf.hansson@linaro.org, sfr@canb.auug.org.au, pavel@ucw.cz,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <5ad2624194baa2f53acc1f1e627eb7684c577a19.1562210705.git.viresh.kumar@linaro.org>
+ <2c7a751a58adb4ce6f345dab9714b924504009b6.1562583394.git.viresh.kumar@linaro.org>
+ <a1c503a7-6136-a405-369c-596a680183f2@gmail.com>
+ <20191015114637.pcdbs2ctxl4xoxdo@vireshk-i7>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0d0b050a-4d79-2e65-5d71-dfd662310e1f@gmail.com>
+Date:   Tue, 15 Oct 2019 16:45:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <4953b718-8818-575e-2ec1-8197e6b32593@kernel.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+In-Reply-To: <20191015114637.pcdbs2ctxl4xoxdo@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1571141705; bh=uK5nIirjWo7QOhWfaYL0ARhpVoeb0jjD0jO12CScz8M=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=f2gpZPRqjOH5H53aSr/AW+dWzystnBn5v/Mb7mQ0wupMkRQRcYmhE8dDsWnzdAlRv
-         vAHBhYiXVwAqafQVJUFtcqKpPm+MOmIi+nvU+FPjWxwRCneW3WalKRrsATrHkeWRQ3
-         vndCoQ9XHg1TatX0mALcslT3lVtaOSoRBbmYIBNDVYpcJgt8ZFJwkAk967jTrRcwxu
-         5hgIlbebu3KOWlvuMFYrky2GMhtzslLAPqhzhhaMBrTP4InbfyjsIA55h8S+Qm4Zz4
-         NLhDcMeG+WzarGNOuyKpdCbgG+ZymwE/AYDXpzBgHuiDMvIoNYNNxo1KvksfcvSSld
-         Oz93zSw6GJ09g==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 10/15/2019 4:40 PM, Sinan Kaya wrote:
-> +Rafael
-> 
-> On 10/15/2019 2:30 AM, Thierry Reding wrote:
->> Vidya, can you clarify for which device you're seeing the issues? Sounds
->> like adding a call to pci_pm_reset() (via pci_reset_function()) at some
->> point.
+15.10.2019 14:46, Viresh Kumar пишет:
+> On 22-09-19, 23:12, Dmitry Osipenko wrote:
+>> Hello Viresh,
 >>
->> Sinan, it looks as if pci_pm_reset() (or any of its callers) is not used
->> very widely. Is that just because most drivers haven't had a need for it
->> yet? Or am I missing some core functionality that calls this for every
->> device anyway?
+>> This patch causes use-after-free on a cpufreq driver module reload. Please take a look, thanks in advance.
+>>
+>>
+>> [   87.952369] ==================================================================
+>> [   87.953259] BUG: KASAN: use-after-free in notifier_chain_register+0x4f/0x9c
+>> [   87.954031] Read of size 4 at addr e6abbd0c by task modprobe/243
+>>
+>> [   87.954901] CPU: 1 PID: 243 Comm: modprobe Tainted: G        W
+>> 5.3.0-next-20190920-00185-gf61698eab956-dirty #2408
+>> [   87.956077] Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
+>> [   87.956807] [<c0110aad>] (unwind_backtrace) from [<c010bb71>] (show_stack+0x11/0x14)
+>> [   87.957709] [<c010bb71>] (show_stack) from [<c0d37b25>] (dump_stack+0x89/0x98)
+>> [   87.958616] [<c0d37b25>] (dump_stack) from [<c02937e1>]
+>> (print_address_description.constprop.0+0x3d/0x340)
+>> [   87.959785] [<c02937e1>] (print_address_description.constprop.0) from [<c0293c6b>]
+>> (__kasan_report+0xe3/0x12c)
+>> [   87.960907] [<c0293c6b>] (__kasan_report) from [<c014988f>] (notifier_chain_register+0x4f/0x9c)
+>> [   87.962001] [<c014988f>] (notifier_chain_register) from [<c01499b5>]
+>> (blocking_notifier_chain_register+0x29/0x3c)
+>> [   87.963180] [<c01499b5>] (blocking_notifier_chain_register) from [<c06f7ee9>]
+>> (dev_pm_qos_add_notifier+0x79/0xf8)
+>> [   87.964339] [<c06f7ee9>] (dev_pm_qos_add_notifier) from [<c092927d>] (cpufreq_online+0x5e1/0x8a4)
+>> [   87.965351] [<c092927d>] (cpufreq_online) from [<c09295c9>] (cpufreq_add_dev+0x79/0x80)
+>> [   87.966247] [<c09295c9>] (cpufreq_add_dev) from [<c06eb9d3>] (subsys_interface_register+0xc3/0x100)
+>> [   87.967297] [<c06eb9d3>] (subsys_interface_register) from [<c0926e53>]
+>> (cpufreq_register_driver+0x13b/0x1ec)
+>> [   87.968476] [<c0926e53>] (cpufreq_register_driver) from [<bf800435>]
+>> (tegra20_cpufreq_probe+0x165/0x1a8 [tegra20_cpufreq])
 > 
-> pci_pm_reset() is there as an alternative reset path. We are not
-> supposed to call this function. Sorry for giving you wrong direction
-> here. pci_reset_function() should call it only if there is no other
-> suitable reset function is found.
+> Hi Dmitry,
 > 
-> I think the PCI core should be putting the device back D0 state as one
-> of the first actions before enumerating. Wake up could be a combination
-> of ACPI and/or PCI wake up depending on where your device sits in the
-> topology.
-Yup. It is indeed doing it as part of pci_power_up() in pci.c file.
-But, what is confusing to me is the order of the calls.
-pci_power_up() has following calls in the same order.
-	pci_raw_set_power_state(dev, PCI_D0);
-	pci_update_current_state(dev, PCI_D0);
-But, pci_raw_set_power_state() is accessing config space without calling
-pci_device_is_present() whereas pci_update_current_state() which is called
-later in the flow is calling pci_device_is_present()...!
+> Thanks for the bug report and I was finally able to reproduce it at my end and
+> this was quite an interesting debugging exercise :)
+> 
+> When a cpufreq driver gets registered, we register with the subsys interface and
+> it calls cpufreq_add_dev() for each CPU, starting from CPU0. And so the QoS
+> notifiers get added to the first CPU of the policy, i.e. CPU0 in common cases.
+> 
+> When the cpufreq driver gets unregistered, we unregister with the subsys
+> interface and it calls cpufreq_remove_dev() for each CPU, starting from CPU0
+> (should have been in reverse order I feel). We remove the QoS notifier only when
+> cpufreq_remove_dev() gets called for the last CPU of the policy, lets call it
+> CPUx. Now this has a different notifier list as compared to CPU0.
+> 
+> In short, we are adding the cpufreq notifiers to CPU0 and removing them from
+> CPUx. When we try to add it again by inserting the module for second time, we
+> find a node in the notifier list which is already freed but still in the list as
+> we removed it from CPUx's list (which doesn't do anything as the node wasn't
+> there in the first place).
+> 
+> @Rafael: How do you see we solve this problem ? Here are the options I could
+> think of:
+> 
+> - Update subsys layer to reverse the order of devices while unregistering (this
+>   will fix the current problem, but we will still have corner cases hanging
+>   around, like if the CPU0 is hotplugged out, etc).
+> 
+> - Update QoS framework with the knowledge of related CPUs, this has been pending
+>   until now from my side. And this is the thing we really need to do. Eventually
+>   we shall have only a single notifier list for all CPUs of a policy, at least
+>   for MIN/MAX frequencies.
+> 
+> - ??
+> 
 
-> 
-> On the other hand, wake up code doesn't perform the CRS wait. CRS
-> wait is deferred until the first vendor id read in pci_scan_device().
-> I see that it already waits for 60 seconds.
-> 
-> Going back to the patch...
-> 
-> I think we need to find the path that actually needs this sleep and
-> put pci_dev_wait() there.
-Following is the path in resume() flow.
-[   36.380726] Call trace:
-[   36.383270]  dump_backtrace+0x0/0x158
-[   36.386802]  show_stack+0x14/0x20
-[   36.389749]  dump_stack+0xb0/0xf8
-[   36.393451]  pci_update_current_state+0x58/0xe0
-[   36.398178]  pci_power_up+0x60/0x70
-[   36.401672]  pci_pm_resume_noirq+0x6c/0x130
-[   36.405669]  dpm_run_callback.isra.16+0x20/0x70
-[   36.410248]  device_resume_noirq+0x120/0x238
-[   36.414364]  async_resume_noirq+0x24/0x58
-[   36.418364]  async_run_entry_fn+0x40/0x148
-[   36.422418]  process_one_work+0x1e8/0x360
-[   36.426525]  worker_thread+0x40/0x488
-[   36.430201]  kthread+0x118/0x120
-[   36.433843]  ret_from_fork+0x10/0x1c
-
-> 
-> +++ b/drivers/pci/pci.c
-> @@ -5905,7 +5905,8 @@ bool pci_device_is_present(struct pci_dev *pdev)
-> 
->   	if (pci_dev_is_disconnected(pdev))
->   		return false;
-> -	return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v, 0);
-> +	return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v,
-> +					  PCI_CRS_TIMEOUT);
->   }
-> 
-> pci_device_is_present() is a too low-level function and it may not
-> be allowed to sleep. It uses 0 as timeout value.
-> 
-> 
-
+Viresh, thank you very much! Looking forward to a fix :)
