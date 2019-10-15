@@ -2,97 +2,143 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 09F1CD7E79
-	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 20:09:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25FD9D81E1
+	for <lists+linux-tegra@lfdr.de>; Tue, 15 Oct 2019 23:18:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389080AbfJOSIy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 15 Oct 2019 14:08:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40134 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725820AbfJOSIy (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 15 Oct 2019 14:08:54 -0400
-Received: from localhost (unknown [38.98.37.135])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2210920659;
-        Tue, 15 Oct 2019 18:08:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571162933;
-        bh=72Jhf2gCfLKMsgroJ+dspsUWbLqIIaKdSi3E4kfQTHg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NxpiRKvyPENu5nqLqiiuFfvP8HewQgS0FRdSFH07T5l3FMQbOQO44QHVHBgUFam0F
-         eXDUI/uT1ldmjFXmLTQEiewhqryQ4Ac5n4vAV3hlsaHuBZOZnyuDDJRKQN+Wqkhlgx
-         swd+tFNGfcfgwhilnMLjyfPZwq0ztzgXzUO+HuSs=
-Date:   Tue, 15 Oct 2019 19:58:20 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Nagarjuna Kristam <nkristam@nvidia.com>, jonathanh@nvidia.com,
-        mark.rutland@arm.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch V10 0/8] Tegra XUSB gadget driver support
-Message-ID: <20191015175820.GC1072965@kroah.com>
-References: <1569227152-3030-1-git-send-email-nkristam@nvidia.com>
- <20191014100257.GB419598@ulmo>
+        id S1728230AbfJOVRC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 15 Oct 2019 17:17:02 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:34948 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727361AbfJOVRB (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 15 Oct 2019 17:17:01 -0400
+Received: by mail-lj1-f195.google.com with SMTP id m7so21761335lji.2;
+        Tue, 15 Oct 2019 14:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7/8G6U48Saagok81vx6tBZq+7O01KyGuxiVxl9Xdy+s=;
+        b=nIX8bl/BB4/kLyip7LSWiCaJVov9k/r/c2gj2AsdkxncNMrPESmD62j5dNkEB3sjWw
+         wD3NTGOc7zQ1Ju3wUTIUCiDSqcR2UQYZOM3Ngx8FUCW8utsUwIQDpakUTa+9TarIla6Q
+         Mf7yJhhorTN/QXNAFrMq24RAADJAcwnCf5ECmEoc0ErGsy+4wFs9ACxz5en+0B3fQWBJ
+         2ujpC8zwwL7ODdseRYSaT8IFYi7EfvWybHiM94E1H7KXppEZL/SIgP7fmKEoKlbBgxWQ
+         lVP4heJ57hL3dp4XalsEX/LSF9onJaC8VnlVN5QEjaMBVeAuTR8tKc3JPRxaVbNm0u+t
+         4HQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7/8G6U48Saagok81vx6tBZq+7O01KyGuxiVxl9Xdy+s=;
+        b=lwxOlTiDSEWBP9RrCjISeo2sWHrPd+8R4K5HStzp/CBbSZ81iOGe3txfV8tvxGoP2r
+         aUr3r1I3/TOoM8QI+pPGl6rMX04vURDW27VEqkfHJd483XNrYPpHYsONxUnYlJvYr2oO
+         ldSk2hnKUfg47RmUkHMHWMaTnEt1BJ0ba6xCyfPhoBU3PdhPYenos7LCL4i/S6yYuTtE
+         1LALEf47/UrAYMoTUJyEX5GkKpT/P1Cqg1D9uWBqhlKJv8Di/PJ8AlUEgp9x5o5zIFOF
+         IFZrIo1EX7iyGclzda1HD9qJ3faTnlU6GH7UxjC8jgf+ZeS81aIux5Emckd1/lTYVz1b
+         5gGw==
+X-Gm-Message-State: APjAAAVlq8WbUMWgjtDCxvsMfcqO9buY/LlSYR29c6C9PUvKdpuv4kEX
+        K3PAe8s+L/zK1W7+aXAR9MQ=
+X-Google-Smtp-Source: APXvYqxI3SLztQQZtcgy/vwel0XPYAtj8jsU4xiIJwgQ29avdG8sssZx6XfheaG1MtoocxBpaBtexQ==
+X-Received: by 2002:a2e:b049:: with SMTP id d9mr18609707ljl.121.1571174218878;
+        Tue, 15 Oct 2019 14:16:58 -0700 (PDT)
+Received: from localhost.localdomain ([94.29.10.250])
+        by smtp.gmail.com with ESMTPSA id t16sm5269186ljj.29.2019.10.15.14.16.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2019 14:16:58 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 00/17] NVIDIA Tegra20 CPUFreq driver major update
+Date:   Wed, 16 Oct 2019 00:16:01 +0300
+Message-Id: <20191015211618.20758-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191014100257.GB419598@ulmo>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 12:02:57PM +0200, Thierry Reding wrote:
-> On Mon, Sep 23, 2019 at 01:55:44PM +0530, Nagarjuna Kristam wrote:
-> > Patches 1-3 are phy driver changes to add support for device
-> > mode.
-> > Patches 4-7 are changes related to XUSB device mode
-> > controller driver.
-> > Patch 8 is to enable drivers for XUDC support in defconfig
-> > 
-> > Test Steps(USB 2.0):
-> > - Enable "USB Gadget precomposed configurations" in defconfig
-> > - Build, flash and boot Jetson TX1
-> > - Connect Jetson TX1 and Ubuntu device using USB A to Micro B
-> >   cable
-> > - After boot on Jetson TX1 terminal usb0 network device should be
-> >   enumerated
-> > - Assign static ip to usb0 on Jetson TX1 and corresponding net
-> >   device on ubuntu
-> > - Run ping test and transfer test(used scp) to check data transfer
-> >   communication
-> 
-> Hi Felipe, Kishon, Greg,
-> 
-> Patches 1-3 provide new API that is required by patch 7, so I think
-> patches 1, 2, 3, 4 and 7 should probably all go through a single tree to
-> avoid having to model the dependencies using stable branches.
-> 
-> Kishon, patches 1-3 have gone through several rounds of review already,
-> but do you have any remaining concerns on them? If not, it'd be great if
-> you could ack them. Felipe and Greg could then pick them up along with
-> patches 4 and 7 into the USB tree.
-> 
-> Felipe, Greg, does that sound like a reasonable plan?
+Hello,
 
-Fine with me.
+This series moves intermediate-clk handling from tegra20-cpufreq into
+tegra-clk driver, this allows us to switch to generic cpufreq-dt driver
+which brings voltage scaling, per-hardware OPPs and Tegra30 support out
+of the box. All boards need to adopt CPU OPPs in their device-trees in
+order to get cpufreq support. This series adds OPPs only to selective
+boards because there is assumption in a current device-trees that CPU
+voltage is set for 1GHz freq and this won't work for those CPUs that
+can go over 1GHz and thus require voltage regulators to be set up for
+voltage scaling support (CC'ed Marcel for Toradex boards). We could
+probably add delete-node for OPPs over 1GHz if there are not actively
+maintained boards.
 
-> I should also mention that while waiting for review, Nagarjuna has been
-> able to extend support for the XUDC driver to Tegra186 but has so far
-> been holding back on sending them out so as to not needlessly hold up
-> progress on this series. However, given the interdependencies, I've come
-> to think that it may be preferable to merge everything in one go instead
-> of revisiting this in a couple of weeks.
-> 
-> If you guys prefer, Nagarjuna could send out v11 of the series and
-> integrate Tegra186 support.
+NOTE: the voltage scaling functionality depends on a reviewed and yet
+unapplied series [0].
 
-That's also fine.
+[0] https://lkml.org/lkml/2019/7/25/892
 
-thanks,
+Dmitry Osipenko (17):
+  clk: tegra: Add custom CCLK implementation
+  clk: tegra: pll: Add pre/post rate-change hooks
+  clk: tegra: cclk: Add helpers for handling PLLX rate changes
+  clk: tegra20: Support custom CCLK implementation
+  clk: tegra30: Support custom CCLK implementation
+  dt-bindings: cpufreq: Add binding for NVIDIA Tegra20/30
+  cpufreq: tegra20: Use generic cpufreq-dt driver (Tegra30 supported
+    now)
+  ARM: tegra: Remove tegra20-cpufreq platform device creation
+  ARM: dts: tegra20: Add CPU clock
+  ARM: dts: tegra30: Add CPU clock
+  ARM: dts: tegra20: Add CPU Operating Performance Points
+  ARM: dts: tegra30: Add CPU Operating Performance Points
+  ARM: dts: tegra20: paz00: Set up voltage regulators for DVFS
+  ARM: dts: tegra20: paz00: Add CPU Operating Performance Points
+  ARM: dts: tegra20: trimslice: Add CPU Operating Performance Points
+  ARM: dts: tegra30: beaver: Set up voltage regulators for DVFS
+  ARM: dts: tegra30: beaver: Add CPU Operating Performance Points
 
-greg k-h
+ .../cpufreq/nvidia,tegra20-cpufreq.txt        |   56 +
+ .../boot/dts/tegra20-cpu-opp-microvolt.dtsi   |  201 +++
+ arch/arm/boot/dts/tegra20-cpu-opp.dtsi        |  302 +++++
+ arch/arm/boot/dts/tegra20-paz00.dts           |   41 +-
+ arch/arm/boot/dts/tegra20-trimslice.dts       |   11 +
+ arch/arm/boot/dts/tegra20.dtsi                |    2 +
+ arch/arm/boot/dts/tegra30-beaver.dts          |   40 +-
+ .../boot/dts/tegra30-cpu-opp-microvolt.dtsi   |  801 +++++++++++
+ arch/arm/boot/dts/tegra30-cpu-opp.dtsi        | 1202 +++++++++++++++++
+ arch/arm/boot/dts/tegra30.dtsi                |    4 +
+ arch/arm/mach-tegra/tegra.c                   |    4 -
+ drivers/clk/tegra/Makefile                    |    1 +
+ drivers/clk/tegra/clk-pll.c                   |   12 +-
+ drivers/clk/tegra/clk-tegra-super-cclk.c      |  165 +++
+ drivers/clk/tegra/clk-tegra20.c               |    6 +-
+ drivers/clk/tegra/clk-tegra30.c               |    6 +-
+ drivers/clk/tegra/clk.h                       |   12 +
+ drivers/cpufreq/Kconfig.arm                   |    4 +-
+ drivers/cpufreq/cpufreq-dt-platdev.c          |    2 +
+ drivers/cpufreq/tegra20-cpufreq.c             |  236 +---
+ 20 files changed, 2902 insertions(+), 206 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/cpufreq/nvidia,tegra20-cpufreq.txt
+ create mode 100644 arch/arm/boot/dts/tegra20-cpu-opp-microvolt.dtsi
+ create mode 100644 arch/arm/boot/dts/tegra20-cpu-opp.dtsi
+ create mode 100644 arch/arm/boot/dts/tegra30-cpu-opp-microvolt.dtsi
+ create mode 100644 arch/arm/boot/dts/tegra30-cpu-opp.dtsi
+ create mode 100644 drivers/clk/tegra/clk-tegra-super-cclk.c
+
+-- 
+2.23.0
+
