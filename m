@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F778D9034
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Oct 2019 13:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7988FD9036
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Oct 2019 13:59:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387868AbfJPL72 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Oct 2019 07:59:28 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38755 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387750AbfJPL72 (ORCPT
+        id S2387750AbfJPL7b (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Oct 2019 07:59:31 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44895 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387542AbfJPL7b (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Oct 2019 07:59:28 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 3so2456305wmi.3
-        for <linux-tegra@vger.kernel.org>; Wed, 16 Oct 2019 04:59:26 -0700 (PDT)
+        Wed, 16 Oct 2019 07:59:31 -0400
+Received: by mail-wr1-f66.google.com with SMTP id z9so27714762wrl.11
+        for <linux-tegra@vger.kernel.org>; Wed, 16 Oct 2019 04:59:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p+D4uhaelqukiSJFoBgIs3xWgRBrX60LgMxJcjnSOSs=;
-        b=IduVgptCmf9YNqd92wwi+BS/zpgwmOt6fcGIZEREbguHJtPnhJ/KnNdHjfeGD59X9D
-         OOzS1SxkJ1msvOeOpNPnsWRPUC4UdjAlLjD2bGDWOQ7bUVqLQ33Fz+oeZASpxbdHl0AT
-         h/esgCVOmkMXKfgZd7qsmvOweR7PytYO9QRlbP/1xIaacXUS9FK4/0vQ3UloOm04vfEY
-         aj3fOcXbWaJCgkKlDJNFl5EBnSh+ZdCbZxjr8TvenA8liebjGFxGTKdX94prPwo16ekW
-         C70AC4ut/fWewmOD1NAZnr4Wudnj+m585Wkdm7eX4DgQsENfec/SaZ5ZE+WaUByLOq3z
-         1PDQ==
+        bh=sr5q6M2jOIU2LxcjQEl+EMaoQz+pYAa3JclmoBIauaA=;
+        b=Eek/35c/FXb736GvriLmgMSAJrXCaTuP17r8Bv4fBTDv/Tn8jznNpavTSlOjQJu6wW
+         KVeby24UVWedU5Dbu0Zfft7ueOSEKKlRmWRi6YoNkz3vyc3jZkTg507SRx8mWr/t32ug
+         bCE2XkRNRKiPrnzAnga1CIlKO1htroXuk+L1BGLaqFotRos1pCxvp0vUuICWnlk82ahm
+         JphBJXg7pIvDbfXgKKFc51awzA3k+6/I9M7kbPDEK41Y/KjKbJ7UyvBmFKcoNL95YTLl
+         jEWHKVZE9JZxQNagmjrCLOXIgcPdSb9LAeIuimEk0A3MZkuneCF3jHOeZp0S6E7HR6D9
+         DtHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p+D4uhaelqukiSJFoBgIs3xWgRBrX60LgMxJcjnSOSs=;
-        b=GGnTkUHGcCXnk8FAi5YsqJkEVdUpyheFWzfX34hopxJSz1P3ui5EbrpoDdq+NxazWW
-         fj7xPfcyIxs+iwSKfmvBgK+PdcmGRl/kcWnKAnZ9XYaVRWvdBOkKzynU5on5Gp5R4EC3
-         uQGkA4+zRzR1LQ+h8WhKTHRERZP3MCsUvrX4X1wdri9wQCXv5bYE+KPMDtShJB+BKgJJ
-         geB8xeCfofK0lbOnTYhoHNR/jqulKxtDvsohxsY2dUsZcaCh/+b53mlnTWpJN23/OK8v
-         YPQqXEu4KHR1n/nnCR03tBVG7xGvuoDDJFfq1V5TA4EqdpJGNAHLYmrVzCs5Kv1PO7kI
-         dY3Q==
-X-Gm-Message-State: APjAAAV/C3jseWMjtlRf7Kmh4bpts2MW09lJgaLaEKq5y871OO7TTN+S
-        UrYOU0094y8RkPXPqMl4EWpONT4e
-X-Google-Smtp-Source: APXvYqzRUGxDcp7LWWmdWGph1uiXiblMz981jNsxK16gU4VflPBXtPUaX7qhH81GVn+j+daDV2zUjw==
-X-Received: by 2002:a7b:c775:: with SMTP id x21mr3253109wmk.52.1571227165283;
-        Wed, 16 Oct 2019 04:59:25 -0700 (PDT)
+        bh=sr5q6M2jOIU2LxcjQEl+EMaoQz+pYAa3JclmoBIauaA=;
+        b=X8nU8l+XstgTaDvB6AeuUfTdY9XQgpMMpHDBrfI6qHy+6mK+oyLWFe74UKmiPy/IYo
+         aWuOIMhpZ878wn2u2dPayOfZcjx3WEcGQSojvBWZzaq0FPrs0aZKKm+Tg6H0qAnLWMrz
+         QwG7/teHuEq1/GD7uHNoYoNmzylQcKfy/keGqirnAoc9pIJEXW/XIsEDjz5RneIbRRf8
+         SjpJfWXO7ioO35syKJQ5yiE6u9v99UohwtibRchbGkNXXotyXpGHrmE5fNY7DU2eKNBK
+         8sQStoDk0Z66eXDjCnxAum8rMogEQ9pY5DWYGuPIfaE1mw1BXi8S5LaDDweRiAdoqxwu
+         RSqg==
+X-Gm-Message-State: APjAAAUcY8qpXsXyn/krCDJu/YQajVKJMMf+GGgFMHkmcOPXyOjAz6HL
+        VcsztnHHmhAzlKH5vmnkUXg=
+X-Google-Smtp-Source: APXvYqzFWS+3266aH3QC9tv7zg+aQn2NoOPHkWbzQGmDzHQAajTSJav+x414Gvke3feCLIWpvsHDdw==
+X-Received: by 2002:a5d:50c9:: with SMTP id f9mr2303818wrt.36.1571227167716;
+        Wed, 16 Oct 2019 04:59:27 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id f143sm3892448wme.40.2019.10.16.04.59.24
+        by smtp.gmail.com with ESMTPSA id u2sm2400820wml.44.2019.10.16.04.59.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2019 04:59:24 -0700 (PDT)
+        Wed, 16 Oct 2019 04:59:26 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 4/8] gpu: host1x: Set DMA mask based on IOMMU setup
-Date:   Wed, 16 Oct 2019 13:59:12 +0200
-Message-Id: <20191016115916.1769133-4-thierry.reding@gmail.com>
+Subject: [PATCH 5/8] drm/tegra: Remove memory allocation from Falcon library
+Date:   Wed, 16 Oct 2019 13:59:13 +0200
+Message-Id: <20191016115916.1769133-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191016115916.1769133-1-thierry.reding@gmail.com>
 References: <20191016115916.1769133-1-thierry.reding@gmail.com>
@@ -63,370 +63,290 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-If the Tegra DRM clients are backed by an IOMMU, push buffers are likely
-to be allocated beyond the 32-bit boundary if sufficient system memory
-is available. This is problematic on earlier generations of Tegra where
-host1x supports a maximum of 32 address bits for the GATHER opcode. More
-recent versions of Tegra (Tegra186 and later) have a wide variant of the
-GATHER opcode, which allows addressing up to 64 bits of memory.
-
-If host1x itself is behind an IOMMU as well this doesn't matter because
-the IOMMU's input address space is restricted to 32 bits on generations
-without support for wide GATHER opcodes.
-
-However, if host1x is not behind an IOMMU, it won't be able to process
-push buffers beyond the 32-bit boundary on Tegra generations that don't
-support wide GATHER opcodes. Restrict the DMA mask to 32 bits on these
-generations prevents buffers from being allocated from beyond the 32-bit
-boundary.
+Having to provide allocator hooks to the Falcon library is somewhat
+cumbersome and it doesn't give the users of the library a lot of
+flexibility to deal with allocations. Instead, remove the notion of
+Falcon "operations" and let drivers deal with the memory allocations
+themselves.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/host1x/dev.c | 214 ++++++++++++++++++++++++---------------
- drivers/gpu/host1x/dev.h |   1 +
- 2 files changed, 136 insertions(+), 79 deletions(-)
+ drivers/gpu/drm/tegra/falcon.c | 50 ++-----------------
+ drivers/gpu/drm/tegra/falcon.h | 11 ----
+ drivers/gpu/drm/tegra/vic.c    | 91 ++++++++++++++++++++++++----------
+ 3 files changed, 68 insertions(+), 84 deletions(-)
 
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index 18b6fc5e5b2e..a86478508c91 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -73,6 +73,7 @@ static const struct host1x_info host1x01_info = {
- 	.init = host1x01_init,
- 	.sync_offset = 0x3000,
- 	.dma_mask = DMA_BIT_MASK(32),
-+	.has_wide_gather = false,
- 	.has_hypervisor = false,
- 	.num_sid_entries = 0,
- 	.sid_table = NULL,
-@@ -86,6 +87,7 @@ static const struct host1x_info host1x02_info = {
- 	.init = host1x02_init,
- 	.sync_offset = 0x3000,
- 	.dma_mask = DMA_BIT_MASK(32),
-+	.has_wide_gather = false,
- 	.has_hypervisor = false,
- 	.num_sid_entries = 0,
- 	.sid_table = NULL,
-@@ -99,6 +101,7 @@ static const struct host1x_info host1x04_info = {
- 	.init = host1x04_init,
- 	.sync_offset = 0x2100,
- 	.dma_mask = DMA_BIT_MASK(34),
-+	.has_wide_gather = false,
- 	.has_hypervisor = false,
- 	.num_sid_entries = 0,
- 	.sid_table = NULL,
-@@ -112,6 +115,7 @@ static const struct host1x_info host1x05_info = {
- 	.init = host1x05_init,
- 	.sync_offset = 0x2100,
- 	.dma_mask = DMA_BIT_MASK(34),
-+	.has_wide_gather = false,
- 	.has_hypervisor = false,
- 	.num_sid_entries = 0,
- 	.sid_table = NULL,
-@@ -134,6 +138,7 @@ static const struct host1x_info host1x06_info = {
- 	.init = host1x06_init,
- 	.sync_offset = 0x0,
- 	.dma_mask = DMA_BIT_MASK(40),
-+	.has_wide_gather = true,
- 	.has_hypervisor = true,
- 	.num_sid_entries = ARRAY_SIZE(tegra186_sid_table),
- 	.sid_table = tegra186_sid_table,
-@@ -156,6 +161,7 @@ static const struct host1x_info host1x07_info = {
- 	.init = host1x07_init,
- 	.sync_offset = 0x0,
- 	.dma_mask = DMA_BIT_MASK(40),
-+	.has_wide_gather = true,
- 	.has_hypervisor = true,
- 	.num_sid_entries = ARRAY_SIZE(tegra194_sid_table),
- 	.sid_table = tegra194_sid_table,
-@@ -186,6 +192,117 @@ static void host1x_setup_sid_table(struct host1x *host)
- 	}
+diff --git a/drivers/gpu/drm/tegra/falcon.c b/drivers/gpu/drm/tegra/falcon.c
+index f49ad36e24db..a5b25e4ecbd2 100644
+--- a/drivers/gpu/drm/tegra/falcon.c
++++ b/drivers/gpu/drm/tegra/falcon.c
+@@ -59,26 +59,11 @@ static void falcon_copy_firmware_image(struct falcon *falcon,
+ 				       const struct firmware *firmware)
+ {
+ 	u32 *firmware_vaddr = falcon->firmware.vaddr;
+-	dma_addr_t daddr;
+ 	size_t i;
+-	int err;
+ 
+ 	/* copy the whole thing taking into account endianness */
+ 	for (i = 0; i < firmware->size / sizeof(u32); i++)
+ 		firmware_vaddr[i] = le32_to_cpu(((u32 *)firmware->data)[i]);
+-
+-	/* ensure that caches are flushed and falcon can see the firmware */
+-	daddr = dma_map_single(falcon->dev, firmware_vaddr,
+-			       falcon->firmware.size, DMA_TO_DEVICE);
+-	err = dma_mapping_error(falcon->dev, daddr);
+-	if (err) {
+-		dev_err(falcon->dev, "failed to map firmware: %d\n", err);
+-		return;
+-	}
+-	dma_sync_single_for_device(falcon->dev, daddr,
+-				   falcon->firmware.size, DMA_TO_DEVICE);
+-	dma_unmap_single(falcon->dev, daddr, falcon->firmware.size,
+-			 DMA_TO_DEVICE);
  }
  
-+static struct iommu_domain *host1x_iommu_attach(struct host1x *host)
-+{
-+	struct iommu_domain *domain = iommu_get_domain_for_dev(host->dev);
-+	int err;
-+
-+	/*
-+	 * If the host1x firewall is enabled, there's no need to enable IOMMU
-+	 * support. Similarly, if host1x is already attached to an IOMMU (via
-+	 * the DMA API), don't try to attach again.
-+	 */
-+	if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL) || domain)
-+		return domain;
-+
-+	host->group = iommu_group_get(host->dev);
-+	if (host->group) {
-+		struct iommu_domain_geometry *geometry;
-+		dma_addr_t start, end;
-+		unsigned long order;
-+
-+		err = iova_cache_get();
-+		if (err < 0)
-+			goto put_group;
-+
-+		host->domain = iommu_domain_alloc(&platform_bus_type);
-+		if (!host->domain) {
-+			err = -ENOMEM;
-+			goto put_cache;
-+		}
-+
-+		err = iommu_attach_group(host->domain, host->group);
-+		if (err) {
-+			if (err == -ENODEV)
-+				err = 0;
-+
-+			goto free_domain;
-+		}
-+
-+		geometry = &host->domain->geometry;
-+		start = geometry->aperture_start & host->info->dma_mask;
-+		end = geometry->aperture_end & host->info->dma_mask;
-+
-+		order = __ffs(host->domain->pgsize_bitmap);
-+		init_iova_domain(&host->iova, 1UL << order, start >> order);
-+		host->iova_end = end;
-+
-+		domain = host->domain;
-+	}
-+
-+	return domain;
-+
-+free_domain:
-+	iommu_domain_free(host->domain);
-+	host->domain = NULL;
-+put_cache:
-+	iova_cache_put();
-+put_group:
-+	iommu_group_put(host->group);
-+	host->group = NULL;
-+
-+	return ERR_PTR(err);
-+}
-+
-+static int host1x_iommu_init(struct host1x *host)
-+{
-+	u64 mask = host->info->dma_mask;
-+	struct iommu_domain *domain;
-+	int err;
-+
-+	domain = host1x_iommu_attach(host);
-+	if (IS_ERR(domain)) {
-+		err = PTR_ERR(domain);
-+		dev_err(host->dev, "failed to attach to IOMMU: %d\n", err);
-+		return err;
-+	}
-+
-+	/*
-+	 * If we're not behind an IOMMU make sure we don't get push buffers
-+	 * that are allocated outside of the range addressable by the GATHER
-+	 * opcode.
-+	 *
-+	 * Newer generations of Tegra (Tegra186 and later) support a wide
-+	 * variant of the GATHER opcode that allows addressing more bits.
-+	 */
-+	if (!domain && !host->info->has_wide_gather)
-+		mask = DMA_BIT_MASK(32);
-+
-+	err = dma_coerce_mask_and_coherent(host->dev, mask);
-+	if (err < 0) {
-+		dev_err(host->dev, "failed to set DMA mask: %d\n", err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static void host1x_iommu_exit(struct host1x *host)
-+{
-+	if (host->domain) {
-+		put_iova_domain(&host->iova);
-+		iommu_detach_group(host->domain, host->group);
-+
-+		iommu_domain_free(host->domain);
-+		host->domain = NULL;
-+
-+		iova_cache_put();
-+
-+		iommu_group_put(host->group);
-+		host->group = NULL;
-+	}
-+}
-+
- static int host1x_probe(struct platform_device *pdev)
- {
- 	struct host1x *host;
-@@ -245,8 +362,6 @@ static int host1x_probe(struct platform_device *pdev)
- 			return PTR_ERR(host->hv_regs);
- 	}
- 
--	dma_set_mask_and_coherent(host->dev, host->info->dma_mask);
--
- 	if (host->info->init) {
- 		err = host->info->init(host);
- 		if (err)
-@@ -270,82 +385,41 @@ static int host1x_probe(struct platform_device *pdev)
- 		return err;
- 	}
- 
--	if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
--		goto skip_iommu;
--
--	if (iommu_get_domain_for_dev(&pdev->dev))
--		goto skip_iommu;
--
--	host->group = iommu_group_get(&pdev->dev);
--	if (host->group) {
--		struct iommu_domain_geometry *geometry;
--		u64 mask = dma_get_mask(host->dev);
--		dma_addr_t start, end;
--		unsigned long order;
--
--		err = iova_cache_get();
--		if (err < 0)
--			goto put_group;
--
--		host->domain = iommu_domain_alloc(&platform_bus_type);
--		if (!host->domain) {
--			err = -ENOMEM;
--			goto put_cache;
--		}
--
--		err = iommu_attach_group(host->domain, host->group);
--		if (err) {
--			if (err == -ENODEV) {
--				iommu_domain_free(host->domain);
--				host->domain = NULL;
--				iova_cache_put();
--				iommu_group_put(host->group);
--				host->group = NULL;
--				goto skip_iommu;
--			}
--
--			goto fail_free_domain;
--		}
--
--		geometry = &host->domain->geometry;
--		start = geometry->aperture_start & mask;
--		end = geometry->aperture_end & mask;
--
--		order = __ffs(host->domain->pgsize_bitmap);
--		init_iova_domain(&host->iova, 1UL << order, start >> order);
--		host->iova_end = end;
-+	err = host1x_iommu_init(host);
-+	if (err < 0) {
-+		dev_err(&pdev->dev, "failed to setup IOMMU: %d\n", err);
-+		return err;
- 	}
- 
--skip_iommu:
- 	err = host1x_channel_list_init(&host->channel_list,
- 				       host->info->nb_channels);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to initialize channel list\n");
--		goto fail_detach_device;
-+		goto iommu_exit;
- 	}
- 
- 	err = clk_prepare_enable(host->clk);
- 	if (err < 0) {
- 		dev_err(&pdev->dev, "failed to enable clock\n");
--		goto fail_free_channels;
-+		goto free_channels;
- 	}
- 
- 	err = reset_control_deassert(host->rst);
- 	if (err < 0) {
- 		dev_err(&pdev->dev, "failed to deassert reset: %d\n", err);
--		goto fail_unprepare_disable;
-+		goto unprepare_disable;
- 	}
- 
- 	err = host1x_syncpt_init(host);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to initialize syncpts\n");
--		goto fail_reset_assert;
-+		goto reset_assert;
- 	}
- 
- 	err = host1x_intr_init(host, syncpt_irq);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to initialize interrupts\n");
--		goto fail_deinit_syncpt;
-+		goto deinit_syncpt;
- 	}
- 
- 	host1x_debug_init(host);
-@@ -355,33 +429,22 @@ static int host1x_probe(struct platform_device *pdev)
- 
- 	err = host1x_register(host);
+ static int falcon_parse_firmware_image(struct falcon *falcon)
+@@ -125,6 +110,8 @@ int falcon_read_firmware(struct falcon *falcon, const char *name)
  	if (err < 0)
--		goto fail_deinit_intr;
-+		goto deinit_intr;
+ 		return err;
+ 
++	falcon->firmware.size = falcon->firmware.firmware->size;
++
+ 	return 0;
+ }
+ 
+@@ -133,16 +120,6 @@ int falcon_load_firmware(struct falcon *falcon)
+ 	const struct firmware *firmware = falcon->firmware.firmware;
+ 	int err;
+ 
+-	falcon->firmware.size = firmware->size;
+-
+-	/* allocate iova space for the firmware */
+-	falcon->firmware.vaddr = falcon->ops->alloc(falcon, firmware->size,
+-						    &falcon->firmware.paddr);
+-	if (IS_ERR(falcon->firmware.vaddr)) {
+-		dev_err(falcon->dev, "DMA memory mapping failed\n");
+-		return PTR_ERR(falcon->firmware.vaddr);
+-	}
+-
+ 	/* copy firmware image into local area. this also ensures endianness */
+ 	falcon_copy_firmware_image(falcon, firmware);
+ 
+@@ -150,27 +127,17 @@ int falcon_load_firmware(struct falcon *falcon)
+ 	err = falcon_parse_firmware_image(falcon);
+ 	if (err < 0) {
+ 		dev_err(falcon->dev, "failed to parse firmware image\n");
+-		goto err_setup_firmware_image;
++		return err;
+ 	}
+ 
+ 	release_firmware(firmware);
+ 	falcon->firmware.firmware = NULL;
  
  	return 0;
+-
+-err_setup_firmware_image:
+-	falcon->ops->free(falcon, falcon->firmware.size,
+-			  falcon->firmware.paddr, falcon->firmware.vaddr);
+-
+-	return err;
+ }
  
--fail_deinit_intr:
-+deinit_intr:
- 	host1x_intr_deinit(host);
--fail_deinit_syncpt:
-+deinit_syncpt:
- 	host1x_syncpt_deinit(host);
--fail_reset_assert:
-+reset_assert:
- 	reset_control_assert(host->rst);
--fail_unprepare_disable:
-+unprepare_disable:
- 	clk_disable_unprepare(host->clk);
--fail_free_channels:
-+free_channels:
- 	host1x_channel_list_free(&host->channel_list);
--fail_detach_device:
--	if (host->group && host->domain) {
--		put_iova_domain(&host->iova);
--		iommu_detach_group(host->domain, host->group);
+ int falcon_init(struct falcon *falcon)
+ {
+-	/* check mandatory ops */
+-	if (!falcon->ops || !falcon->ops->alloc || !falcon->ops->free)
+-		return -EINVAL;
+-
+ 	falcon->firmware.vaddr = NULL;
+ 
+ 	return 0;
+@@ -178,17 +145,8 @@ int falcon_init(struct falcon *falcon)
+ 
+ void falcon_exit(struct falcon *falcon)
+ {
+-	if (falcon->firmware.firmware) {
++	if (falcon->firmware.firmware)
+ 		release_firmware(falcon->firmware.firmware);
+-		falcon->firmware.firmware = NULL;
 -	}
--fail_free_domain:
--	if (host->domain)
--		iommu_domain_free(host->domain);
--put_cache:
--	if (host->group)
--		iova_cache_put();
--put_group:
--	iommu_group_put(host->group);
-+iommu_exit:
-+	host1x_iommu_exit(host);
+-
+-	if (falcon->firmware.vaddr) {
+-		falcon->ops->free(falcon, falcon->firmware.size,
+-				  falcon->firmware.paddr,
+-				  falcon->firmware.vaddr);
+-		falcon->firmware.vaddr = NULL;
+-	}
+ }
  
+ int falcon_boot(struct falcon *falcon)
+diff --git a/drivers/gpu/drm/tegra/falcon.h b/drivers/gpu/drm/tegra/falcon.h
+index 3d1243217410..92491a1e90df 100644
+--- a/drivers/gpu/drm/tegra/falcon.h
++++ b/drivers/gpu/drm/tegra/falcon.h
+@@ -74,15 +74,6 @@ struct falcon_fw_os_header_v1 {
+ 	u32 data_size;
+ };
+ 
+-struct falcon;
+-
+-struct falcon_ops {
+-	void *(*alloc)(struct falcon *falcon, size_t size,
+-		       dma_addr_t *paddr);
+-	void (*free)(struct falcon *falcon, size_t size,
+-		     dma_addr_t paddr, void *vaddr);
+-};
+-
+ struct falcon_firmware_section {
+ 	unsigned long offset;
+ 	size_t size;
+@@ -107,8 +98,6 @@ struct falcon {
+ 	/* Set by falcon client */
+ 	struct device *dev;
+ 	void __iomem *regs;
+-	const struct falcon_ops *ops;
+-	void *data;
+ 
+ 	struct falcon_firmware firmware;
+ };
+diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+index d34b1ada422c..c61d8ffcb4b8 100644
+--- a/drivers/gpu/drm/tegra/vic.c
++++ b/drivers/gpu/drm/tegra/vic.c
+@@ -158,27 +158,6 @@ static int vic_boot(struct vic *vic)
+ 	return 0;
+ }
+ 
+-static void *vic_falcon_alloc(struct falcon *falcon, size_t size,
+-			      dma_addr_t *iova)
+-{
+-	struct tegra_drm *tegra = falcon->data;
+-
+-	return tegra_drm_alloc(tegra, size, iova);
+-}
+-
+-static void vic_falcon_free(struct falcon *falcon, size_t size,
+-			    dma_addr_t iova, void *va)
+-{
+-	struct tegra_drm *tegra = falcon->data;
+-
+-	return tegra_drm_free(tegra, size, va, iova);
+-}
+-
+-static const struct falcon_ops vic_falcon_ops = {
+-	.alloc = vic_falcon_alloc,
+-	.free = vic_falcon_free
+-};
+-
+ static int vic_init(struct host1x_client *client)
+ {
+ 	struct tegra_drm_client *drm = host1x_to_drm_client(client);
+@@ -246,6 +225,15 @@ static int vic_exit(struct host1x_client *client)
+ 	host1x_channel_put(vic->channel);
+ 	host1x_client_iommu_detach(client);
+ 
++	if (client->group)
++		tegra_drm_free(tegra, vic->falcon.firmware.size,
++			       vic->falcon.firmware.vaddr,
++			       vic->falcon.firmware.paddr);
++	else
++		dma_free_coherent(vic->dev, vic->falcon.firmware.size,
++				  vic->falcon.firmware.vaddr,
++				  vic->falcon.firmware.paddr);
++
+ 	return 0;
+ }
+ 
+@@ -256,25 +244,75 @@ static const struct host1x_client_ops vic_client_ops = {
+ 
+ static int vic_load_firmware(struct vic *vic)
+ {
++	struct host1x_client *client = &vic->client.base;
++	struct tegra_drm *tegra = vic->client.drm;
++	dma_addr_t phys;
++	size_t size;
++	void *virt;
+ 	int err;
+ 
+-	if (vic->falcon.data)
++	if (vic->falcon.firmware.vaddr)
+ 		return 0;
+ 
+-	vic->falcon.data = vic->client.drm;
+-
+ 	err = falcon_read_firmware(&vic->falcon, vic->config->firmware);
+ 	if (err < 0)
+-		goto cleanup;
++		return err;
++
++	size = vic->falcon.firmware.size;
++
++	if (!client->group) {
++		virt = dma_alloc_coherent(vic->dev, size, &phys, GFP_KERNEL);
++
++		err = dma_mapping_error(vic->dev, phys);
++		if (err < 0)
++			return err;
++	} else {
++		virt = tegra_drm_alloc(tegra, size, &phys);
++	}
++
++	vic->falcon.firmware.vaddr = virt;
++	vic->falcon.firmware.paddr = phys;
+ 
+ 	err = falcon_load_firmware(&vic->falcon);
+ 	if (err < 0)
+ 		goto cleanup;
+ 
++	/*
++	 * In this case we have received an IOVA from the shared domain, so we
++	 * need to make sure to get the physical address so that the DMA API
++	 * knows what memory pages to flush the cache for.
++	 */
++	if (client->group) {
++		phys = dma_map_single(vic->dev, virt, size, DMA_TO_DEVICE);
++
++		err = dma_mapping_error(vic->dev, phys);
++		if (err < 0)
++			goto cleanup;
++
++		/*
++		 * If the DMA API mapped this through a bounce buffer, the
++		 * dma_sync_single_for_device() call below will not be able
++		 * to flush the caches for the right memory pages. Output a
++		 * big warning in that case so that the DMA mask can be set
++		 * properly and the bounce buffer avoided.
++		 */
++		WARN(phys != vic->falcon.firmware.paddr,
++		     "check DMA mask setting for %s\n", dev_name(vic->dev));
++	}
++
++	dma_sync_single_for_device(vic->dev, phys, size, DMA_TO_DEVICE);
++
++	if (client->group)
++		dma_unmap_single(vic->dev, phys, size, DMA_TO_DEVICE);
++
+ 	return 0;
+ 
+ cleanup:
+-	vic->falcon.data = NULL;
++	if (!client->group)
++		dma_free_coherent(vic->dev, size, virt, phys);
++	else
++		tegra_drm_free(tegra, size, virt, phys);
++
  	return err;
  }
-@@ -395,14 +458,7 @@ static int host1x_remove(struct platform_device *pdev)
- 	host1x_syncpt_deinit(host);
- 	reset_control_assert(host->rst);
- 	clk_disable_unprepare(host->clk);
--
--	if (host->domain) {
--		put_iova_domain(&host->iova);
--		iommu_detach_group(host->domain, host->group);
--		iommu_domain_free(host->domain);
--		iova_cache_put();
--		iommu_group_put(host->group);
--	}
-+	host1x_iommu_exit(host);
  
- 	return 0;
- }
-diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
-index ff56f5e23a02..e2f1e0583b1b 100644
---- a/drivers/gpu/host1x/dev.h
-+++ b/drivers/gpu/host1x/dev.h
-@@ -97,6 +97,7 @@ struct host1x_info {
- 	int (*init)(struct host1x *host1x); /* initialize per SoC ops */
- 	unsigned int sync_offset; /* offset of syncpoint registers */
- 	u64 dma_mask; /* mask of addressable memory */
-+	bool has_wide_gather; /* supports GATHER_W opcode */
- 	bool has_hypervisor; /* has hypervisor registers */
- 	unsigned int num_sid_entries;
- 	const struct host1x_sid_entry *sid_table;
+@@ -415,7 +453,6 @@ static int vic_probe(struct platform_device *pdev)
+ 
+ 	vic->falcon.dev = dev;
+ 	vic->falcon.regs = vic->regs;
+-	vic->falcon.ops = &vic_falcon_ops;
+ 
+ 	err = falcon_init(&vic->falcon);
+ 	if (err < 0)
 -- 
 2.23.0
 
