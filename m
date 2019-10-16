@@ -2,135 +2,187 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63FFAD9902
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Oct 2019 20:19:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94E7CD99E7
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Oct 2019 21:21:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403941AbfJPSTo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Oct 2019 14:19:44 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:34063 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732498AbfJPSTn (ORCPT
+        id S2436636AbfJPTVh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Oct 2019 15:21:37 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:3226 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403782AbfJPTVh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Oct 2019 14:19:43 -0400
-Received: by mail-lj1-f194.google.com with SMTP id j19so25048057lja.1;
-        Wed, 16 Oct 2019 11:19:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=wPowFu6H3nOXwpA2SAGf8+Ty4xoSESLjQljnj6+VTvY=;
-        b=PRiX8SNuyKlCxJxEtvTHgnt3YZN5FzALlfYjrf3LzguNTrX6Hx1Bc6k3/r7hM84h60
-         swXGAi7Wefb/K+/7reCOQ313MhBK/vYVjvJjbVPWC4nVvcVu7/+E+KO5sbgSnI9hZvoN
-         CxSYNmtOJ4b0zTRj9j0Cx/dM66UBF3O5+BhnwXNePiUk+Q77zSovIU8q2L+h+oJrI3hb
-         rhj9lGNCpUYmfWXLPZXW/ppFQg4B/rIWR/hNU+C7+hwcDOcZfIHvzquehGGG2zKH7BDC
-         CDxhmzjrZn86xruVmB5e9JAg3Poz1R4ukjgcZ4aAoWJcNTc0z+F2J5Ky2z14dyol0Koz
-         ppbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=wPowFu6H3nOXwpA2SAGf8+Ty4xoSESLjQljnj6+VTvY=;
-        b=FUWvTUIJLC6RnnJCj74Furh0UozixeocIB3I1VstObuzs8oPQQfyda/74nLuctj46Q
-         vepFQmQi46pPW4wi+owFmtXUwTfAQSvtoW8BRKYreoOvWsVi1gAPn9uisF5WS9YbnNSM
-         yfE96u9z8O6ykyPFKDOqXpKKlyzOH67hMwYG9+rdi9YB54NbWXXkLQr1L2rY7cbIiImO
-         Bjm8i3xDpgauGw6ntGiaAWWe4oI7UG+k7JMbgVuHZtSPWPmR7t3HPo9Ys6R5YkhTWwzp
-         uPw+r+A8EQOqqExSMQ19vZmg/SA2ez+H0K2Ht9YqUxOI77sI5hqju4DHfVyJGSnKLeAf
-         8uXQ==
-X-Gm-Message-State: APjAAAWOqD6VX/JQmB9WPd9ZXs52AiS8RDgVpD7NA2xwS8Kfx1b7iHSU
-        LaPcLAnQn5uXs+/2CkpPe7bL8tq4
-X-Google-Smtp-Source: APXvYqxoJ/NW8A7QBs/GSZGE2wRbJU36T6N4cFKKZYlqR1WkN283xHFFSDChw09XU4/z7SP1mxVjfA==
-X-Received: by 2002:a2e:9e85:: with SMTP id f5mr23834443ljk.235.1571249980609;
-        Wed, 16 Oct 2019 11:19:40 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id x25sm6846332ljb.60.2019.10.16.11.19.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2019 11:19:39 -0700 (PDT)
-Subject: Re: [PATCH v1 07/17] cpufreq: tegra20: Use generic cpufreq-dt driver
- (Tegra30 supported now)
-To:     Peter Geis <pgwipeout@gmail.com>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        Wed, 16 Oct 2019 15:21:37 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5da76dc50000>; Wed, 16 Oct 2019 12:21:41 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 16 Oct 2019 12:21:36 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 16 Oct 2019 12:21:36 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 16 Oct
+ 2019 19:21:36 +0000
+Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by
+ DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Wed, 16 Oct 2019 19:21:35 +0000
+Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
+        id 9AE2542807; Wed, 16 Oct 2019 22:21:33 +0300 (EEST)
+Date:   Wed, 16 Oct 2019 22:21:33 +0300
+From:   Peter De Schrijver <pdeschrijver@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191015211618.20758-1-digetx@gmail.com>
- <20191015211618.20758-8-digetx@gmail.com>
- <20191016051802.rrxv56vtvxfm6qqe@vireshk-i7>
- <13a9ebd6-8dce-0217-d306-defb8eb6fb96@gmail.com>
- <CAMdYzYoasuEobJLC4RLW_5WCNGnaKtTth0xKov0tUQuDhkX3EA@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b4eca03d-f86c-8e07-e04a-612e02820bd0@gmail.com>
-Date:   Wed, 16 Oct 2019 21:19:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 00/18] Consolidate and improve NVIDIA Tegra CPUIDLE
+ driver(s)
+Message-ID: <20191016192133.GB26038@pdeschrijver-desktop.Nvidia.com>
+References: <20191015170015.1135-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMdYzYoasuEobJLC4RLW_5WCNGnaKtTth0xKov0tUQuDhkX3EA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20191015170015.1135-1-digetx@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1571253701; bh=nroN3FHoFwV3XA6q1YkfsgkTextLKDHjNycGp27ezdc=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
+        b=rAGYy4mB0DojFGY14D9t5hauU3YDyjKaDWJhazpYwapaylHOMWi9QJXublk3LJA2O
+         mVVV+r0Nq5wtadsbN1yC5THHsPkRxV35P/1gPPkEIEPBOajMwjafab7MIb4yzvq7CK
+         jzO2SzAWmwc5A+siqUD9bwWi5vFAyksQzsIQqveEFNBY8R3/g6+VYn2MbGHxR1sZ0l
+         55Tp5fjEsm4JXY9dyaXXsVGONqefshME6VNEKE7aJtww7vBcV6hg3LbJA49bg+qf5f
+         yHFE9vIT1X92IxipB6xxW8M1yZxMP93Ih8okg1l5odob8/z+SOI/qGlDLUXb8zJk98
+         H4FzTWA6TrQwA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.10.2019 17:58, Peter Geis пишет:
-> On Wed, Oct 16, 2019 at 9:29 AM Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> 16.10.2019 08:18, Viresh Kumar пишет:
->>> On 16-10-19, 00:16, Dmitry Osipenko wrote:
->>>> Re-parenting to intermediate clock is supported now by the clock driver
->>>> and thus there is no need in a customized CPUFreq driver, all that code
->>>> is common for both Tegra20 and Tegra30. The available CPU freqs are now
->>>> specified in device-tree in a form of OPPs, all users should update their
->>>> device-trees.
->>>>
->>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>> ---
->>>>  drivers/cpufreq/Kconfig.arm          |   4 +-
->>>>  drivers/cpufreq/cpufreq-dt-platdev.c |   2 +
->>>>  drivers/cpufreq/tegra20-cpufreq.c    | 236 ++++++---------------------
->>>>  3 files changed, 55 insertions(+), 187 deletions(-)
->>>>
->>>> diff --git a/drivers/cpufreq/Kconfig.arm b/drivers/cpufreq/Kconfig.arm
->>>> index a905796f7f85..2118c45d0acd 100644
->>>> --- a/drivers/cpufreq/Kconfig.arm
->>>> +++ b/drivers/cpufreq/Kconfig.arm
->>>> @@ -301,8 +301,8 @@ config ARM_TANGO_CPUFREQ
->>>>      default y
->>>>
->>>>  config ARM_TEGRA20_CPUFREQ
->>>> -    tristate "Tegra20 CPUFreq support"
->>>> -    depends on ARCH_TEGRA
->>>> +    bool "Tegra20 CPUFreq support"
->>>
->>> Google is currently working on the GKI (generic kernel image) project where they
->>> want to use a single kernel image with modules for all kind of android devices.
->>> And for that they need all such drivers to be built as module. Since this is
->>> already an module, I would ask you to keep it as is instead of moving it to bool
->>> here. Else some google guy will switch it back as module later on.
->>>
->>> LGTM otherwise. Nice work. Thanks.
->>>
->>
->> Okay, I'll keep the modularity in v2.
->>
->> Although, tegra20-cpufreq isn't a driver anymore because now it merely
->> prepares OPP table for the cpufreq-dt driver, which is really a one-shot
->> action that is enough to do during boot and thus modularity is a bit
->> redundant here.
+On Tue, Oct 15, 2019 at 07:59:57PM +0300, Dmitry Osipenko wrote:
+> Hello,
 > 
-> I doubt Google will care much, since Android has moved on to aarch64.
-> Do they even support arm32 any more?
+> This series does the following:
+> 
+>   1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
+>      into common drivers/cpuidle/ directory.
+> 
+>   2. Enables CPU cluster power-down idling state on Tegra30.
+> 
+> In the end there is a quite nice clean up of the Tegra CPUIDLE drivers
+> and of the Tegra's arch code in general. Please review, thanks!
+> 
+> Changelog:
+> 
+> v6: - Addressed request from Thierry Reding to change the way patches are
+>       organized by making changes in a more incremental manner.
+> 
+>     - tegra_sleep_cpu() now checks for the secondary CPUs to be offline
+>       in the "Make outer_disable() open-coded" patch.
+> 
+> v5: - Rebased on a recent linux-next, fixed one minor conflict in Kconfig.
+> 
+>     - Improved commit's message of the "Support CPU cluster power-down state
+>       on Tegra30" patch.
+> 
+>     - The "Support CPU cluster power-down state on Tegra30" patch is also
+>       got split and now there is additional "Make outer_disable() open-coded"
+>       patch.
+> 
+>     - Made minor cosmetic changes to the "Introduce unified driver for
+>       NVIDIA Tegra SoCs" patch by improving error message and renaming
+>       one variable.
+> 
+> v4: - Fixed compilation with !CONFIG_CACHE_L2X0 (and tested that it still
+>       works).
+> 
+>     - Replaced ktime_compare() with ktime_before() in the new driver,
+>       for consistency.
+> 
+> v3: - Addressed review comments that were made by Jon Hunter to v2 by
+>       splitting patches into smaller (and simpler) chunks, better
+>       documenting changes in the commit messages and using proper error
+>       codes in the code.
+> 
+>       Warnings are replaced with a useful error messages in the code of
+>       "Introduce unified driver for NVIDIA Tegra SoCs" patch.
+> 
+>       Secondary CPUs parking timeout increased to 100ms because I found
+>       that it actually may happen to take more than 1ms if CPU is running
+>       on a *very* low frequency.
+> 
+>       Added diagnostic messages that are reporting Flow Controller state
+>       when CPU parking fails.
+> 
+>       Further polished cpuidle driver's code.
+> 
+>       The coupled state entering is now aborted if there is a pending SGI
+>       (Software Generated Interrupt) because it will be lost after GIC's
+>       power-cycling. Like it was done by the old Tegra20 CPUIDLE driver.
+> 
+> v2: - Added patches to enable the new cpuidle driver in the defconfigs:
+> 
+>         ARM: multi_v7_defconfig: Enable Tegra cpuidle driver
+>         ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
+> 
+>     - Dropped patches that removed CPUIDLE_FLAG_TIMER_STOP from the idling
+>       states because that flag actually doesn't have any negative effects,
+>       but still is correct for the case of a local CPU timer on older Tegra
+>       SoCs:
+> 
+>         cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP from Tegra114/124 idle-state
+>         cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP from all states
+> 
+>     - The "Add unified driver for NVIDIA Tegra SoCs" patch got more polish.
+>       Tegra30 and Terga114 states are now squashed into a single common C7
+>       state (following Parker TRM terminology, see 17.2.2.2 Power Management
+>       States), more comments added, etc minor changes.
 
-Yes, I don't think there is a real need to care about Google. They won't
-use pure upstream and won't care about older hardware any ways.
+It would be useful to switch the power state terminology to the one used
+for later chips:
+
+LP0 becomes SC7
+LP1 becomes C1
+LP2 becomes CC7
+
+Meaning of these states is as follows
+
+C is a core state:
+
+C1 clock gating
+C2 not defined
+C3 not defined
+C4 not defined
+C5 not defined
+C6 not defined for ARM cores
+C7 power-gating
+
+CC is a CPU cluster C state:
+
+CC1 cluster clock gated
+CC2 not defined
+CC3 fmax@Vmin: not used prior to Tegra186
+CC4: cluster retention: no longer supported
+CC5: not defined
+CC6: cluster power gating
+CC7: cluster rail gating
+
+SC is a System C state:
+
+SC1: not defined
+SC2: not defined
+SC3: not defined
+SC4: not defined
+SC5: not defined
+SC6: not defined
+SC7: VDD_SOC off
+
+Cheers,
+
+Peter.
