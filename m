@@ -2,53 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A600FD9390
-	for <lists+linux-tegra@lfdr.de>; Wed, 16 Oct 2019 16:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14153D9491
+	for <lists+linux-tegra@lfdr.de>; Wed, 16 Oct 2019 16:58:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393945AbfJPOUH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 16 Oct 2019 10:20:07 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:40846 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393943AbfJPOUH (ORCPT
+        id S2404438AbfJPO6j (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 16 Oct 2019 10:58:39 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:40578 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404364AbfJPO6j (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 16 Oct 2019 10:20:07 -0400
-Received: by mail-lf1-f68.google.com with SMTP id f23so2142479lfk.7;
-        Wed, 16 Oct 2019 07:20:04 -0700 (PDT)
+        Wed, 16 Oct 2019 10:58:39 -0400
+Received: by mail-qt1-f196.google.com with SMTP id m61so36529606qte.7;
+        Wed, 16 Oct 2019 07:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+5GVeXUsNTKRD7nI80WxY7NGPp8wxmIdfIuqXlentqk=;
-        b=sBh6QYKgOgCu4gMfkvOftsEMGSteOjetdyaAI1OsXKNFyHllDHwkEPyOP/YI7MzDFS
-         i9XUsdtl5lJ2avwDtXmahDALdD6jKGKFn76Bl0AfISFgvTYxidpJMRZIEDoAbx0g8mTW
-         6cqNbqTHEG/7635IgoQyzRdRWE3zhdGK2q2iLO6oPrfEt+7lfjK9OQxWLYIdMRDpB09t
-         uQU3Wj3VfXAuotv/V54LRQMtvNlve9U8l7aHgTXJN3H1/uWKtJTtpmrLHXZC4soU7mpP
-         f2YPytDFjxsDqa6v2I/dMSppH05wrW2i5H7piRr35zKdyKP9yBR2/d7/oyhiuBQugmYE
-         2e8Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1SJ9O1hv6AGRPvGN3YJyHukSgaXaII1XJ7m1yidoToE=;
+        b=fD6M65eaSsiiQNdv+FkaHIcl/CY2CbF2BBQGlxCIVAHC+8eW/DIziv6P+VfZMyy5yt
+         zdn+v6yIdpx4/DGpQuM3s/mIhjIdnYEPt2zcSrFShEvSqABOdVbDVFGwUzN3mJF8D2o0
+         6z6uMmP37hGBg7pPN+QSz2RGuw14Dro3zJchGztbWHHeR7QaTljkm6rSF271GPRc4bui
+         YYAtQUfMdxMrYSI5kUla6Qzirqc/xX+lmlbyXFdl7z50lvV56b+hH9dnJH8PO2kiu0Mv
+         +68X7j8WFHDZhCIA3ftg8j+DI7BthBEdUVqFv6gc1a9rb+tK/l5HJZesE9LeKw9e2KAC
+         9mHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+5GVeXUsNTKRD7nI80WxY7NGPp8wxmIdfIuqXlentqk=;
-        b=aZpddXhm4o8f3KejeYTsulOKZouOj1UN3zyNUmsgmSqmHF1Yey7lTl8m12AsUWiZgm
-         R5Zv2ouGd1NKUb0jinnIh8WqGv/2xWq/pWWrCpjRx19fuNZoPL5Vjt601+BXdHnvfqaF
-         4l6qvKTtpcFvwJ5+NvxVj1XRsNxSiwGMHUvj6LYi29bsKubCjxF10qnGsPKXsulYgvcZ
-         VFRcWMm//4sMlRS6WRAW6iUjZ3SK9pldgmd50sRtV4yOdTaH+jf5anU8ZLvzyZnsv4xY
-         Dj7UszM93LZvJfBwmHea5kvcZHC5JtMMOc7/MAquYAEKbKoNj1Y/sB2YmfPqaJgvurTP
-         Ai6g==
-X-Gm-Message-State: APjAAAUXZy2Tf3piUZKA3CRx+ofaDMOj9nKvHHQX0M624bSEihaMiQp6
-        +uFj+j6hoGZYgPbpabSTqcYd6W8t
-X-Google-Smtp-Source: APXvYqycvQtQ48h3Trd2F44847GlKWuh2TeLS/AO5nfxSjr3wgNCA7+XnvoMdGiGkUg6rDTL3w9aYQ==
-X-Received: by 2002:ac2:4650:: with SMTP id s16mr1212030lfo.32.1571235603749;
-        Wed, 16 Oct 2019 07:20:03 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id c21sm6429120lff.61.2019.10.16.07.20.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2019 07:20:03 -0700 (PDT)
-Subject: Re: [PATCH v1 00/17] NVIDIA Tegra20 CPUFreq driver major update
-To:     Thierry Reding <thierry.reding@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1SJ9O1hv6AGRPvGN3YJyHukSgaXaII1XJ7m1yidoToE=;
+        b=cQrkg0CUIUDYrn6UiF+ElHkAA2GSXm/vN1JViB2Dzx+CCe8LkPAbx9rhFBs5fcb33v
+         usDI6gU4yenfBY6G6s/XoqfeCgZseV5/Gpu2ti1c0DhztqpKEsHXO2F5bGPoxusObvsK
+         N+EZSO74zgLZbUC8yAhAb+Kv0JU3dIiTTnhfeq8eaD4cIVfEQ0xLj+G7VUO8a32zcbQg
+         442W0fdme0T8Emght1NHFYlY2y2wKVCmCkZ+4R5HEPG+FMLHET8Jzrhmgq34d4hmrLjC
+         Unlr++9AapxgKiZ4VCjB+hAfhfy4ht8+CTQjuiHtvkGUodomrXzHKY/IwR5vnPdkLJ2j
+         gyaA==
+X-Gm-Message-State: APjAAAUcYfctuBL5pZl1Zb7bOsZA0ug4PrjZv5znugR7JorSpK5NAD1J
+        yqj1uHfDWT7PVqt39P7sL76bu82aihWuaIPvo78=
+X-Google-Smtp-Source: APXvYqx16lcsihvARp7EDwvguspXt7bEHTmoYkAFZTfAKC+muGfv2rqx07fp6W1V3Z9DrBXH+0vfcKUeTpnkAC5s86o=
+X-Received: by 2002:a0c:c684:: with SMTP id d4mr23370254qvj.148.1571237917418;
+ Wed, 16 Oct 2019 07:58:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191015211618.20758-1-digetx@gmail.com> <20191015211618.20758-8-digetx@gmail.com>
+ <20191016051802.rrxv56vtvxfm6qqe@vireshk-i7> <13a9ebd6-8dce-0217-d306-defb8eb6fb96@gmail.com>
+In-Reply-To: <13a9ebd6-8dce-0217-d306-defb8eb6fb96@gmail.com>
+From:   Peter Geis <pgwipeout@gmail.com>
+Date:   Wed, 16 Oct 2019 10:58:25 -0400
+Message-ID: <CAMdYzYoasuEobJLC4RLW_5WCNGnaKtTth0xKov0tUQuDhkX3EA@mail.gmail.com>
+Subject: Re: [PATCH v1 07/17] cpufreq: tegra20: Use generic cpufreq-dt driver
+ (Tegra30 supported now)
+To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>,
         Prashant Gaikwad <pgaikwad@nvidia.com>,
@@ -56,65 +60,71 @@ Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
         Nicolas Chauvet <kwizart@gmail.com>,
         Marcel Ziswiler <marcel.ziswiler@toradex.com>,
         linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
         devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20191015211618.20758-1-digetx@gmail.com>
- <20191016052716.yipztnpg7bcuzhfn@vireshk-i7>
- <8cf055a3-57fd-c275-9e74-a9fb5d284866@gmail.com>
- <20191016140121.GA1862769@ulmo>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d0cf9fca-eb95-1986-4c2d-ae3cded324b0@gmail.com>
-Date:   Wed, 16 Oct 2019 17:20:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20191016140121.GA1862769@ulmo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-16.10.2019 17:01, Thierry Reding пишет:
-> On Wed, Oct 16, 2019 at 04:16:27PM +0300, Dmitry Osipenko wrote:
->> 16.10.2019 08:27, Viresh Kumar пишет:
->>> On 16-10-19, 00:16, Dmitry Osipenko wrote:
->>>> Hello,
->>>>
->>>> This series moves intermediate-clk handling from tegra20-cpufreq into
->>>> tegra-clk driver, this allows us to switch to generic cpufreq-dt driver
->>>> which brings voltage scaling, per-hardware OPPs and Tegra30 support out
->>>> of the box. All boards need to adopt CPU OPPs in their device-trees in
->>>> order to get cpufreq support. This series adds OPPs only to selective
->>>> boards because there is assumption in a current device-trees that CPU
->>>> voltage is set for 1GHz freq and this won't work for those CPUs that
->>>> can go over 1GHz and thus require voltage regulators to be set up for
->>>> voltage scaling support (CC'ed Marcel for Toradex boards). We could
->>>> probably add delete-node for OPPs over 1GHz if there are not actively
->>>> maintained boards.
->>>
->>> How do you want to get these patches merged ? Can I just pick the cpufreq bits
->>> alone ?
->>>
->>
->> The cpufreq bits strictly depend on the clk patches and the regulators
->> coupler/balancer series. Hence all patches in this series should collect
->> acks from relevant maintainers and then Thierry will pick up the
->> patchsets in a correct order via tegra tree, at least that's my vision.
->>
->> Thierry, are you okay with that approach?
-> 
-> Works for me. I already have a set of clock patches that I'd like to
-> merge via the Tegra tree because of a runtime dependency, so it'd be
-> easy to apply these on top of that.
+On Wed, Oct 16, 2019 at 9:29 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 16.10.2019 08:18, Viresh Kumar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On 16-10-19, 00:16, Dmitry Osipenko wrote:
+> >> Re-parenting to intermediate clock is supported now by the clock drive=
+r
+> >> and thus there is no need in a customized CPUFreq driver, all that cod=
+e
+> >> is common for both Tegra20 and Tegra30. The available CPU freqs are no=
+w
+> >> specified in device-tree in a form of OPPs, all users should update th=
+eir
+> >> device-trees.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  drivers/cpufreq/Kconfig.arm          |   4 +-
+> >>  drivers/cpufreq/cpufreq-dt-platdev.c |   2 +
+> >>  drivers/cpufreq/tegra20-cpufreq.c    | 236 ++++++--------------------=
+-
+> >>  3 files changed, 55 insertions(+), 187 deletions(-)
+> >>
+> >> diff --git a/drivers/cpufreq/Kconfig.arm b/drivers/cpufreq/Kconfig.arm
+> >> index a905796f7f85..2118c45d0acd 100644
+> >> --- a/drivers/cpufreq/Kconfig.arm
+> >> +++ b/drivers/cpufreq/Kconfig.arm
+> >> @@ -301,8 +301,8 @@ config ARM_TANGO_CPUFREQ
+> >>      default y
+> >>
+> >>  config ARM_TEGRA20_CPUFREQ
+> >> -    tristate "Tegra20 CPUFreq support"
+> >> -    depends on ARCH_TEGRA
+> >> +    bool "Tegra20 CPUFreq support"
+> >
+> > Google is currently working on the GKI (generic kernel image) project w=
+here they
+> > want to use a single kernel image with modules for all kind of android =
+devices.
+> > And for that they need all such drivers to be built as module. Since th=
+is is
+> > already an module, I would ask you to keep it as is instead of moving i=
+t to bool
+> > here. Else some google guy will switch it back as module later on.
+> >
+> > LGTM otherwise. Nice work. Thanks.
+> >
+>
+> Okay, I'll keep the modularity in v2.
+>
+> Although, tegra20-cpufreq isn't a driver anymore because now it merely
+> prepares OPP table for the cpufreq-dt driver, which is really a one-shot
+> action that is enough to do during boot and thus modularity is a bit
+> redundant here.
 
-Awesome, thank you very much!
-
-Viresh, then only acks to the patches related to cpufreq driver are
-needed from you for this series.
+I doubt Google will care much, since Android has moved on to aarch64.
+Do they even support arm32 any more?
