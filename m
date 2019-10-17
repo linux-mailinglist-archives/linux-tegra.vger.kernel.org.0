@@ -2,121 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E37BBDA6B8
-	for <lists+linux-tegra@lfdr.de>; Thu, 17 Oct 2019 09:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB8E4DAAC4
+	for <lists+linux-tegra@lfdr.de>; Thu, 17 Oct 2019 13:04:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438562AbfJQHs5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 17 Oct 2019 03:48:57 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:2810 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390846AbfJQHs5 (ORCPT
+        id S1730498AbfJQLEd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 17 Oct 2019 07:04:33 -0400
+Received: from imap1.codethink.co.uk ([176.9.8.82]:52588 "EHLO
+        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728464AbfJQLEd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 17 Oct 2019 03:48:57 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5da81ceb0000>; Thu, 17 Oct 2019 00:48:59 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 17 Oct 2019 00:48:56 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 17 Oct 2019 00:48:56 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 17 Oct
- 2019 07:48:56 +0000
-Received: from [10.19.108.113] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 17 Oct
- 2019 07:48:54 +0000
-Subject: Re: [PATCH v4 3/5] dt-bindings: phy: tegra: Add Tegra194 support
-To:     Rob Herring <robh@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        <linux-tegra@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        Nagarjuna Kristam <nkristam@nvidia.com>
-References: <20191009024343.30218-1-jckuo@nvidia.com>
- <20191009024343.30218-4-jckuo@nvidia.com> <20191009233900.GA9109@bogus>
- <20191014131752.GF422231@ulmo>
- <CAL_Jsq+aKxfAir3skanfqmM+nFFzXPFL4eMa-+pq1kH-90YTbg@mail.gmail.com>
-X-Nvconfidentiality: public
-From:   JC Kuo <jckuo@nvidia.com>
-Message-ID: <57692050-8284-a31f-71fd-7441823f3f2b@nvidia.com>
-Date:   Thu, 17 Oct 2019 15:48:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 17 Oct 2019 07:04:33 -0400
+Received: from [167.98.27.226] (helo=rainbowdash.codethink.co.uk)
+        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
+        id 1iL3a1-0002ch-AQ; Thu, 17 Oct 2019 12:04:29 +0100
+Received: from ben by rainbowdash.codethink.co.uk with local (Exim 4.92.2)
+        (envelope-from <ben@rainbowdash.codethink.co.uk>)
+        id 1iL3a0-0008AW-Ld; Thu, 17 Oct 2019 12:04:28 +0100
+From:   "Ben Dooks (Codethink)" <ben.dooks@codethink.co.uk>
+To:     linux-kernel@lists.codethink.co.uk
+Cc:     "Ben Dooks (Codethink)" <ben.dooks@codethink.co.uk>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] gpu: host1x: make 'host1x_cdma_wait_pushbuffer_space' static
+Date:   Thu, 17 Oct 2019 12:04:27 +0100
+Message-Id: <20191017110427.31354-1-ben.dooks@codethink.co.uk>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+aKxfAir3skanfqmM+nFFzXPFL4eMa-+pq1kH-90YTbg@mail.gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1571298539; bh=nIXBLya6bRUIuxRwlDLEPxSLP7joKF8reE7kSpNLl38=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=J0MP7wHYBCEfKBTs/ScBeIQ6GbtrNcqNyFlZAKn1s0n0c4EYsbdJuRD+0MGi4n//F
-         n9Osq2q7nMlc4FRJYZOTtgBCcnuipPXlXdLDPnwGzkuKogfOzKfb+y6so98Qxgkc0d
-         5BmEmxhdK/uCsV4LlzDWi/KvUFvkzNQwBXdoiQob/QyMc/mJJTv5zzpSVo9kqfFuRU
-         f8x0bsOkvM/8uBop1OCJwRSXu16r5aoN0bYR3YrIUeW0q6NkLdgNGkyd//MTZWXTWC
-         C/q4ANzzGy1cYWUQJT1j7OrmYEpOzgKcA6FC+axwM5svcij8jEIZJhNe3bnaZEimuj
-         qZ5PFweU7V7AQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Thierry, Hi Rob, Hi Kishon,
-Please let me know your thoughts of the below implementation.
+The host1x_cdma_wait_pushbuffer_space function is not declared
+or directly called from outside the file it is in, so make it
+static.
 
-1. Add a "bool disable_gen2" to "phy->attrs" structure.
-2. In _of_phy_get() of phy-core.c to add the follow to parse a generic property.
+Fixes the following sparse warnign:
+drivers/gpu/host1x/cdma.c:235:5: warning: symbol 'host1x_cdma_wait_pushbuffer_space' was not declared. Should it be static?
 
-	phy->attrs.disable_gen2 = of_property_read_bool(args.np,
-							"usb-disable-gen2");
-3. In individual phy driver, to add SOC/PHY specific programming accordingly.
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+---
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org
+---
+ drivers/gpu/host1x/cdma.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Thanks,
-JC
+diff --git a/drivers/gpu/host1x/cdma.c b/drivers/gpu/host1x/cdma.c
+index 48c84c48299c..e8d3fda91d8a 100644
+--- a/drivers/gpu/host1x/cdma.c
++++ b/drivers/gpu/host1x/cdma.c
+@@ -232,9 +232,9 @@ unsigned int host1x_cdma_wait_locked(struct host1x_cdma *cdma,
+  *
+  * Must be called with the cdma lock held.
+  */
+-int host1x_cdma_wait_pushbuffer_space(struct host1x *host1x,
+-				      struct host1x_cdma *cdma,
+-				      unsigned int needed)
++static int host1x_cdma_wait_pushbuffer_space(struct host1x *host1x,
++					     struct host1x_cdma *cdma,
++					     unsigned int needed)
+ {
+ 	while (true) {
+ 		struct push_buffer *pb = &cdma->push_buffer;
+-- 
+2.23.0
 
-On 10/14/19 9:40 PM, Rob Herring wrote:
-> On Mon, Oct 14, 2019 at 8:17 AM Thierry Reding <thierry.reding@gmail.com> wrote:
->>
->> On Wed, Oct 09, 2019 at 06:39:00PM -0500, Rob Herring wrote:
->>> On Wed, Oct 09, 2019 at 10:43:41AM +0800, JC Kuo wrote:
->>>> Extend the bindings to cover the set of features found in Tegra194.
->>>> Note that, technically, there are four more supplies connected to the
->>>> XUSB pad controller (DVDD_PEX, DVDD_PEX_PLL, HVDD_PEX and HVDD_PEX_PLL)
->>>> , but the power sequencing requirements of Tegra194 require these to be
->>>> under the control of the PMIC.
->>>>
->>>> Tegra194 XUSB PADCTL supports up to USB 3.1 Gen 2 speed, however, it is
->>>> possible for some platforms have long signal trace that could not
->>>> provide sufficient electrical environment for Gen 2 speed. To deal with
->>>> this, a new device node property "nvidia,disable-gen2" was added to
->>>> Tegra194 that be used to specifically disable Gen 2 speed for a
->>>> particular USB 3.0 port so that the port can be limited to Gen 1 speed
->>>> and avoid the instability.
->>>
->>> I suspect this may be a common issue and we should have a common
->>> property. Typically, this kind of property is in the controller though
->>> and supports multiple speed limits. See PCI bindings for inspiration.
->>
->> Given that support for gen 2 speeds is dependent on signal trace length,
->> it doesn't really make sense to restrict the whole controller to a given
->> speed if only the signal trace for a single port exceeds the limit for
->> which gen 2 would work.
->>
->> Also, the USB PHYs are in a different hardware block than the USB
->> controller, so this really is a property of the PHY block, not the USB
->> controller.
-> 
-> Okay, but still should be common for USB PHYs IMO.
-> 
-> Rob
-> 
