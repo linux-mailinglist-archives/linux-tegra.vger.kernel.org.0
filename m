@@ -2,83 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A200DC23A
-	for <lists+linux-tegra@lfdr.de>; Fri, 18 Oct 2019 12:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D648DC39B
+	for <lists+linux-tegra@lfdr.de>; Fri, 18 Oct 2019 13:05:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2633266AbfJRKMn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 18 Oct 2019 06:12:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51424 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2633218AbfJRKMm (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 18 Oct 2019 06:12:42 -0400
-Received: from localhost (unknown [209.136.236.94])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6B23D222C3;
-        Fri, 18 Oct 2019 10:12:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571393561;
-        bh=15Uz10pfRzT/PuTPEJ8kDH4R9b5B2WikPZM+ia3KwdA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p6+yn5QsqVxDNfFgac3MNethqiWP89iNgNPkhVxfQ+5ok/MlF1Cha3r/hRYtWpmXk
-         7WtlBQdwcE+Jl1qK9GuMT0KdcsbbFveywGocYUlILBa5MVYWDyYbocZKywuZUcZ4rD
-         RrW75om6ip+1wg0Df2KK9Cok1bA3sL3RixQGtzbA=
-Date:   Fri, 18 Oct 2019 03:12:39 -0700
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.3 000/112] 5.3.7-stable review
-Message-ID: <20191018101239.GA1172118@kroah.com>
-References: <20191016214844.038848564@linuxfoundation.org>
- <ef7c7e93-909c-890f-868b-44c93f6f7616@nvidia.com>
+        id S2408458AbfJRLFW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 18 Oct 2019 07:05:22 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:38014 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727653AbfJRLFW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 18 Oct 2019 07:05:22 -0400
+Received: by mail-lf1-f65.google.com with SMTP id q28so1120002lfa.5
+        for <linux-tegra@vger.kernel.org>; Fri, 18 Oct 2019 04:05:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1Cn1hU5yCQ6xCe+ib7juhWIPuz2TbnyYwQLFnP7/FrE=;
+        b=uFvxikpwj0BfMnSMrfrpscUXZtvf3lZAVCwfcvTLR8I2RgM43KRZ81TAIIEstqBXiM
+         sFViuhGSc07KyRVpATVY2KZjc1N7dAb9NZDlq85pgcvc03huskAxyUD1UVbw1IlEbJ6B
+         vLc2b6xTsZ/GdmG7aaANosTxvWBIWH43mqvxEtqjQYAGZCBMRhfIJsDsDL0w3cBwj6rC
+         6vO0tH5PDAjBtgdBrzrZC98hBeZratEi8uHAx0dEg2gRefgOCBh+bzEEvupzvF2SuG6q
+         Bid6bKU7z3e2WHHFkBG/oHYklh/ABqeVooVxYcG+EwzSS2WhTtcFnENOmb+4px799AKW
+         U+4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1Cn1hU5yCQ6xCe+ib7juhWIPuz2TbnyYwQLFnP7/FrE=;
+        b=sihTZTid5f8+9lVz1znDXbJ/hMs0u9VY03g2bm4sP6GlCqrqxBwdSiYXlXMo0pfpH/
+         waTBEKKivP96/m0GCL6h2Zzm7dbsVeKeNUmvTfhsHjmY1qbdmfXfHizmObr2n2mVxeZ0
+         jTKQySQJFWY4ITg2OjuEhDa+0XiuuEF+bbwbxvdJVeffJIXra5ZHgM7DMtXTuPix1aoz
+         V2p8UMln+qXckNQ1fbp7mAbvd4TDpROo7ZXrQ6Kjd/fRdkcmvU7f3UV8L1ydM49HS6Cg
+         Qb4AHT5IVnZheLaUDdTHEPUtW+ud5q3TpgTFVDGjNWywL9c6AGLrCQvZoT8y6nXnrbuU
+         GArw==
+X-Gm-Message-State: APjAAAVdqlScLBIoeymCqAOKmN+NkB4BfDQd8XcjQcISRsBL/zeHIdFb
+        4YSRRr4eXchKzTMutu/X6A4=
+X-Google-Smtp-Source: APXvYqzVpdRJAYbdEU1nQWgzPyhExNcqFHwC05v2PtU2LxoNPX7L1BbH614yQC4uFDjd+cpsjQ6qKA==
+X-Received: by 2002:a19:22d3:: with SMTP id i202mr5636924lfi.69.1571396718903;
+        Fri, 18 Oct 2019 04:05:18 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.10.250])
+        by smtp.googlemail.com with ESMTPSA id i17sm3227263lfj.35.2019.10.18.04.05.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Oct 2019 04:05:18 -0700 (PDT)
+Subject: Re: [PATCH 10/14] drm/tegra: Move IOMMU group into host1x client
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20191014125049.425101-1-thierry.reding@gmail.com>
+ <20191014125049.425101-11-thierry.reding@gmail.com>
+ <ef11047c-3235-1b8b-d1b0-80d368099e05@gmail.com>
+Message-ID: <f65853be-6a65-3c78-e832-df650bf10a55@gmail.com>
+Date:   Fri, 18 Oct 2019 14:05:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef7c7e93-909c-890f-868b-44c93f6f7616@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <ef11047c-3235-1b8b-d1b0-80d368099e05@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Oct 18, 2019 at 09:01:50AM +0100, Jon Hunter wrote:
+16.10.2019 18:33, Dmitry Osipenko пишет:
+> 14.10.2019 15:50, Thierry Reding пишет:
+>> From: Thierry Reding <treding@nvidia.com>
+>>
+>> Handling of the IOMMU group attachment is common to all clients, so move
+>> the group into the client to simplify code.
+>>
+>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+>> ---
+>>  drivers/gpu/drm/tegra/dc.c   |  9 ++++-----
+>>  drivers/gpu/drm/tegra/dc.h   |  2 --
+>>  drivers/gpu/drm/tegra/drm.c  | 22 +++++++++++-----------
+>>  drivers/gpu/drm/tegra/drm.h  |  6 ++----
+>>  drivers/gpu/drm/tegra/gr2d.c | 10 ++++------
+>>  drivers/gpu/drm/tegra/gr3d.c | 10 ++++------
+>>  drivers/gpu/drm/tegra/vic.c  | 10 ++++------
+>>  include/linux/host1x.h       |  2 ++
+>>  8 files changed, 31 insertions(+), 40 deletions(-)
 > 
-> On 16/10/2019 22:49, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.3.7 release.
-> > There are 112 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Fri 18 Oct 2019 09:43:41 PM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.7-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
+> Hello Thierry,
 > 
-> All tests passing for Tegra ...
+> Is there any chance that you could pick up these patches [0] and rebase
+> yours series on top of them?
 > 
-> Test results for stable-v5.3:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
-> 
-> Linux version:	5.3.7-rc1-gcbb18cd3e478
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
+> [0] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=115608
 > 
 
-Wonderful, thanks for testing all of these and letting me know.
-
-greg k-h
+I want to clarify that the reason of my request is that "Fix 2d and 3d
+clients detaching from IOMMU domain" patch won't be backportable if I'll
+rebase my patches on top this series and it looks to me that it won't be
+the least to fix the bug.
