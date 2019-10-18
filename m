@@ -2,81 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 842ADDC074
-	for <lists+linux-tegra@lfdr.de>; Fri, 18 Oct 2019 11:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76428DC145
+	for <lists+linux-tegra@lfdr.de>; Fri, 18 Oct 2019 11:39:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442269AbfJRJBx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 18 Oct 2019 05:01:53 -0400
-Received: from [217.140.110.172] ([217.140.110.172]:58982 "EHLO foss.arm.com"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S2442255AbfJRJBx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 18 Oct 2019 05:01:53 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1096492;
-        Fri, 18 Oct 2019 02:01:33 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E39F53F718;
-        Fri, 18 Oct 2019 02:01:31 -0700 (PDT)
-Date:   Fri, 18 Oct 2019 10:01:27 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     bhelgaas@google.com, robh+dt@kernel.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, andrew.murray@arm.com,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH 1/2] PCI: tegra: Fix CLKREQ dependency programming
-Message-ID: <20191018090127.GA25918@e121166-lin.cambridge.arm.com>
-References: <20191005164212.3646-1-vidyas@nvidia.com>
+        id S2442329AbfJRJje (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 18 Oct 2019 05:39:34 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:16379 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2442324AbfJRJje (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 18 Oct 2019 05:39:34 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5da9885a0000>; Fri, 18 Oct 2019 02:39:38 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 18 Oct 2019 02:39:33 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 18 Oct 2019 02:39:33 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 18 Oct
+ 2019 09:39:33 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 18 Oct
+ 2019 09:39:32 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 18 Oct 2019 09:39:33 +0000
+Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.66.147]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5da988510004>; Fri, 18 Oct 2019 02:39:32 -0700
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Nagarjuna Kristam" <nkristam@nvidia.com>
+Subject: [Patch V11 06/11] arm64: tegra: Add xudc node for Tegra210
+Date:   Fri, 18 Oct 2019 15:08:11 +0530
+Message-ID: <1571391496-20834-7-git-send-email-nkristam@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1571391496-20834-1-git-send-email-nkristam@nvidia.com>
+References: <1571391496-20834-1-git-send-email-nkristam@nvidia.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191005164212.3646-1-vidyas@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1571391578; bh=1tMUsE3OT61IYaJdDcLekzZboADZS9A8V/3nv5zZDAM=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
+         Content-Type;
+        b=cFFAAgb6vyOMbn6ID+jXAiqlj9MeSO7wuMSUIpBpEc5o7vXRSb9ygzsi3ltPNRgF6
+         gFy98di/cbGaSJt+mTnkX7gPOqCMScXzGMGPZ6FWwrA6PUofLZXLTBv+x9I4iLqT76
+         AvrWDDJb6ysfxiAu5m0vcDT4pmMo3a+1vGoXN0aLGjVl36VCXDYGGKI38k+4pgzZH0
+         arRDO7Rw4Cs9YX9IIZ8J71nWb9d/HK8MO/83p1hG+ShQT1pwZ8b61admYe9kyTslte
+         L/AGjqF/DqGBesWRlARsoClzXMQY8VwDCoOvudnhTS4azeRd1NkyKbwniGBHs/JmZV
+         jHV91gOqBTqrw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat, Oct 05, 2019 at 10:12:11PM +0530, Vidya Sagar wrote:
-> Corrects the programming to provide REFCLK to the downstream device
-> when there is no CLKREQ sideband signal routing present from root port
-> to the endpont.
-> 
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> ---
->  drivers/pci/controller/dwc/pcie-tegra194.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+Tegra210 has one XUSB device mode controller, which can be operated
+HS and SS modes. Add DT support for XUSB device mode controller.
 
-Applied to pci/tegra, thanks.
+Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+Reviewed-by: JC Kuo <jckuo@nvidia.com>
+---
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Lorenzo
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+index d21cf27..2e094ec 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+@@ -1203,6 +1203,25 @@
+ 		status = "disabled";
+ 	};
+ 
++	usb@700d0000 {
++		compatible = "nvidia,tegra210-xudc";
++		reg = <0x0 0x700d0000 0x0 0x8000>,
++		      <0x0 0x700d8000 0x0 0x1000>,
++		      <0x0 0x700d9000 0x0 0x1000>;
++		reg-names = "base", "fpci", "ipfs";
++		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
++			 <&tegra_car TEGRA210_CLK_XUSB_SS>,
++			 <&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
++			 <&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
++			 <&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
++		clock-names = "dev", "ss", "ss_src", "hs_src", "fs_src";
++		power-domains = <&pd_xusbdev>, <&pd_xusbss>;
++		power-domain-names = "dev", "ss";
++		nvidia,xusb-padctl = <&padctl>;
++		status = "disabled";
++	};
++
+ 	mipi: mipi@700e3000 {
+ 		compatible = "nvidia,tegra210-mipi";
+ 		reg = <0x0 0x700e3000 0x0 0x100>;
+-- 
+2.7.4
 
-> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-> index f89f5acee72d..cbe95f0ea0ca 100644
-> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> @@ -40,8 +40,6 @@
->  #define APPL_PINMUX_CLKREQ_OVERRIDE		BIT(3)
->  #define APPL_PINMUX_CLK_OUTPUT_IN_OVERRIDE_EN	BIT(4)
->  #define APPL_PINMUX_CLK_OUTPUT_IN_OVERRIDE	BIT(5)
-> -#define APPL_PINMUX_CLKREQ_OUT_OVRD_EN		BIT(9)
-> -#define APPL_PINMUX_CLKREQ_OUT_OVRD		BIT(10)
->  
->  #define APPL_CTRL				0x4
->  #define APPL_CTRL_SYS_PRE_DET_STATE		BIT(6)
-> @@ -1193,8 +1191,8 @@ static int tegra_pcie_config_controller(struct tegra_pcie_dw *pcie,
->  
->  	if (!pcie->supports_clkreq) {
->  		val = appl_readl(pcie, APPL_PINMUX);
-> -		val |= APPL_PINMUX_CLKREQ_OUT_OVRD_EN;
-> -		val |= APPL_PINMUX_CLKREQ_OUT_OVRD;
-> +		val |= APPL_PINMUX_CLKREQ_OVERRIDE_EN;
-> +		val &= ~APPL_PINMUX_CLKREQ_OVERRIDE;
->  		appl_writel(pcie, val, APPL_PINMUX);
->  	}
->  
-> -- 
-> 2.17.1
-> 
