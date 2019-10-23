@@ -2,151 +2,257 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35B00E0EA8
-	for <lists+linux-tegra@lfdr.de>; Wed, 23 Oct 2019 01:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C02DE134E
+	for <lists+linux-tegra@lfdr.de>; Wed, 23 Oct 2019 09:42:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389836AbfJVXtB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 22 Oct 2019 19:49:01 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:13400 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389812AbfJVXs5 (ORCPT
+        id S2389998AbfJWHmQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 23 Oct 2019 03:42:16 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:40159 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727574AbfJWHmP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 22 Oct 2019 19:48:57 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5daf956e0000>; Tue, 22 Oct 2019 16:49:02 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 22 Oct 2019 16:48:56 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 22 Oct 2019 16:48:56 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 22 Oct
- 2019 23:48:56 +0000
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.36.57) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Tue, 22 Oct 2019 23:48:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P/i5kEYw48pPVIElu1zgU8gcROQIcLk3LE7zxUtoEtSIhDJ6M3FPOpPUDNiTZqm1Vi9VDDK9F4yv5ugZQMF7hr/BdW0zbLWSiucz/j5mgVB44GR26qjF1SlAySj0WYpjXYyNgZWa+jbjgSmDBz2zVUxvLLwoQLUYcoFLbc4J9zj6goNpbSddNCKnONohQk1eVHyAQWNCHpQ295nn2F0IIb7OPRrk0dhPVCcPj/nbOKWULpWng38rTxnXxXfN540N3PgpJcsGMifbyDq2cdKMksyjEhs2Gz0lfMjn5Pd6JvMW3jzp4m+TUrF/C7NWnmKaMnRvBfIZ0YYsVg3Leg17YQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hh7MXofScYhBwjHA1E2Rr/9tALzMhSRaxjzSxLclQ4s=;
- b=QfNmE2k3QtO/sJbDMywj5mGgaPSHRpaVPXliRGae2bv72a+FDk1MRHD4mcWSs/0DYPmRqDJRSLcNb3dn1cFmeHthIvQEycEaCAbwgbdj5oyWcmrW0GkNx9G6UwOaiVEvxbB4UCzTqSAVvLDWprR4BtXsgR/rZeZ/T41RfwBjOPT5tN9Yx+TO34H033W32CoBNJSL2QOBVPz+Glj184prMHGKeGRPceGU4iFK+O/Xg6k+io6Ui2zuS2ZQ0UItHMKDwg6t846mV3vQwaCUrI2UojjGa5b/BROy3lEiY1IF2BskQwwwrhJHP1V0P0mMPzdDHjqd4D7qGqb8rqu3q2EHHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BYAPR12MB2710.namprd12.prod.outlook.com (20.177.124.11) by
- BYAPR12MB2856.namprd12.prod.outlook.com (20.179.93.29) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.28; Tue, 22 Oct 2019 23:48:55 +0000
-Received: from BYAPR12MB2710.namprd12.prod.outlook.com
- ([fe80::c0fa:c019:dd8e:dd40]) by BYAPR12MB2710.namprd12.prod.outlook.com
- ([fe80::c0fa:c019:dd8e:dd40%6]) with mapi id 15.20.2347.029; Tue, 22 Oct 2019
- 23:48:55 +0000
-From:   Krishna Reddy <vdumpa@nvidia.com>
-To:     Robin Murphy <robin.murphy@arm.com>,
-        "will@kernel.org" <will@kernel.org>
-CC:     "joro@8bytes.org" <joro@8bytes.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        "Yu-Huan Hsu" <YHsu@nvidia.com>, Sachin Nikam <Snikam@nvidia.com>,
-        Pritesh Raithatha <praithatha@nvidia.com>,
-        Timo Alho <talho@nvidia.com>,
-        Alexander Van Brunt <avanbrunt@nvidia.com>,
-        "thomasz@nvidia.com" <thomasz@nvidia.com>,
-        "olof@lixom.net" <olof@lixom.net>,
-        Juha Tukkinen <jtukkinen@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Nicolin Chen <nicolinc@nvidia.com>
-Subject: RE: [PATCH v3 0/7] Nvidia Arm SMMUv2 Implementation
-Thread-Topic: [PATCH v3 0/7] Nvidia Arm SMMUv2 Implementation
-Thread-Index: AQHVhgwr2/1seTuEaUyC0D9/Qf1q8adm9sOAgABg1jA=
-Date:   Tue, 22 Oct 2019 23:48:55 +0000
-Message-ID: <BYAPR12MB2710879535971E290E8B25D3B3680@BYAPR12MB2710.namprd12.prod.outlook.com>
-References: <1571441492-21919-1-git-send-email-vdumpa@nvidia.com>
- <6d9e6425-fa69-9b76-b477-1fe50c459ca5@arm.com>
-In-Reply-To: <6d9e6425-fa69-9b76-b477-1fe50c459ca5@arm.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2019-10-22T23:48:52.8304322Z;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=2963f581-b925-41a1-8109-ed18d39e57e8;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vdumpa@nvidia.com; 
-x-originating-ip: [216.228.112.22]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1005c41b-ffcf-4272-7641-08d7574a667a
-x-ms-traffictypediagnostic: BYAPR12MB2856:|BYAPR12MB2856:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB28563C77B9A8FAD795B84917B3680@BYAPR12MB2856.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-forefront-prvs: 01986AE76B
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(376002)(39860400002)(346002)(396003)(136003)(189003)(199004)(76116006)(86362001)(25786009)(6246003)(6436002)(4744005)(229853002)(107886003)(55016002)(52536014)(4326008)(66066001)(64756008)(54906003)(66446008)(66556008)(66946007)(66476007)(33656002)(9686003)(11346002)(476003)(7696005)(8676002)(186003)(6506007)(71200400001)(74316002)(5660300002)(486006)(71190400001)(446003)(305945005)(81166006)(81156014)(102836004)(478600001)(26005)(256004)(8936002)(6116002)(2906002)(2501003)(3846002)(14454004)(316002)(7736002)(76176011)(99286004)(110136005);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR12MB2856;H:BYAPR12MB2710.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nvidia.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3f6s9SPPqph/UZ7Lx2+MRvotk/0sckXSYrhNvMobFSAvMFKnzWqzv3Hjl93sqIPhC1k2mLTKgCs06TUzoiqk0bVf216/dYhGWz5BG6mEssHeIbcJ/lTyGHLyjm7x8jm+ABcyMmt7QFRPb1Aw3Jhf3ZYIKVhKvpkqgwXv8rN1EFWdyCxniqH4uD7Rfd8NxV0Ks6bjp6GVXKXedecjAAZOqt8NWAzjb94HExlIrCNMzq5gSBvh6yNAFXXiYiXv2hseNn/I6DA+3SV33zaUieXBdFFrygTHHgKJ6jj3hvcPYOtdzeCGJCQS/GcdG+/BaW586pekfsMPsc7xDQ6sxIbIFDyRU8LsxPrFiKiV64tXTdTCLKYJcksRygp37GzgMmy2A80tKVCCF2uR88KB1VpRK4S6kz2LxO4YUkZ8dvJ7Vrd4ggKmugvjste7BeEEf/ti
+        Wed, 23 Oct 2019 03:42:15 -0400
+Received: by mail-ed1-f67.google.com with SMTP id p59so6564501edp.7;
+        Wed, 23 Oct 2019 00:42:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=AU7J2BQRMw024ECt6R6ioM/TtE1t9QijD3q41c7WeI8=;
+        b=J0A04rAQ25wa9kb8usBO7oxZNV5Izo77b9WaKzwoCLQFRsZdCaRS+cg6Q6x9kmlfU1
+         xwis1Nx1coQ4CzYU24QAMwcnRQ8I15h6TgHMr7FW4i3+l7qkRuGzR1vwkjnb4fmOsVIs
+         N8Y+cIEcI1r5T6fKoXxFgBXmncFqW18ycTJjyhhMZnEczcz72qkD0eTLJWKJn9ndOB+H
+         FzbbjlTnuKw5+t6BxEvfN1D2sXe+MxaMyoJZp/NbsncB8vBY2tNfjejOuTSuFGPkw293
+         nJRIG+9dTPnTW90XEeS1igrscTvb4XZPuPFwe+JbtMs9becH1uredSDGVmydmA1ITFgT
+         oLjA==
+X-Gm-Message-State: APjAAAVp+/p/G3By1BjgqXzx9oaYAF+RMozMydktyHKSGVPf6KkOvqdU
+        OdInZaFFxxVVVuw9tB1e3S4=
+X-Google-Smtp-Source: APXvYqyIo0zrvOx1lKVcqkD7eMOgL0LqCI6jG9oIM1xe4DZRN0Cttzr0r+JRNnfhx/l37emgBXu7/g==
+X-Received: by 2002:a17:906:1c48:: with SMTP id l8mr16067535ejg.203.1571816531653;
+        Wed, 23 Oct 2019 00:42:11 -0700 (PDT)
+Received: from pi3 ([194.230.155.217])
+        by smtp.googlemail.com with ESMTPSA id v8sm836300edi.49.2019.10.23.00.42.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2019 00:42:10 -0700 (PDT)
+Date:   Wed, 23 Oct 2019 09:42:06 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Sudeep Holla <sudeep.holla@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, etnaviv@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: power: Convert Generic Power Domain
+ bindings to json-schema
+Message-ID: <20191023074206.GA10189@pi3>
+References: <20191002160632.11140-1-krzk@kernel.org>
+ <20191011150339.GA16245@bogus>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1005c41b-ffcf-4272-7641-08d7574a667a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2019 23:48:55.3573
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AdK44H9I2DwMtfaoWTLZ6nAKu7UhfyztEEBJYk7aGtI2Ny0uUudihfHiikgkabZEHwwvSohvf6T89t4UIO5m1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2856
-X-OriginatorOrg: Nvidia.com
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1571788142; bh=hh7MXofScYhBwjHA1E2Rr/9tALzMhSRaxjzSxLclQ4s=;
-        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
-         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
-         Thread-Index:Date:Message-ID:References:In-Reply-To:
-         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
-         authentication-results:x-originating-ip:x-ms-publictraffictype:
-         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
-         x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
-         x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
-         x-forefront-antispam-report:received-spf:
-         x-ms-exchange-senderadcheck:x-microsoft-antispam:
-         x-microsoft-antispam-message-info:MIME-Version:
-         X-MS-Exchange-CrossTenant-Network-Message-Id:
-         X-MS-Exchange-CrossTenant-originalarrivaltime:
-         X-MS-Exchange-CrossTenant-fromentityheader:
-         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-         X-MS-Exchange-CrossTenant-userprincipalname:
-         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
-         Content-Language:Content-Type:Content-Transfer-Encoding;
-        b=JuyFt6ousahItj4lJXzCbpeM1/og4cXzKIGryozbYvks1k2aWV9vxmpPO4RDjixzc
-         TKgKfJ/+q/GxgdMr8Ln9+QBDBzwgSSuwPWh2ZNBsmep3VyMSJwYsvfMWxCPY7TkiPW
-         hHl23rs5jd9hUgAY5q9X1A8bskIr29kAzvCfmgm2RGqHqALu4pAtW0wM5ENwm0pbg0
-         613g2Jbx3WCpWwxjJHHkVhaJcD8O92lsfZuDp5Una/bwyxbjwrE2MWFPrcPVPjCajm
-         COg+YGU/fHcmJ9TtyRD5FGotUwd8+D8rNuiB+UP/l68rjnfQIzpSzPeC/X+AxU6IMi
-         ho6XcFoEqH3Bg==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191011150339.GA16245@bogus>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-SGkgUm9iaW4sDQo+PkFwb2xvZ2llcyBmb3IgY3Jvc3NlZCB3aXJlcywgYnV0IEkgaGFkIGEgc2Vy
-aWVzIGdldHRpbmcgcmlkIG9mIGFybV9zbW11X2ZsdXNoX29wcyB3aGljaCB3YXMgYWxzbyBtZWFu
-dCB0byBlbmQgdXAgbWFraW5nIHRoaW5ncyBhIGJpdCBlYXNpZXIgZm9yIHlvdToNCg0KSSB3YXMg
-bG9va2luZyB0byByZWJhc2Ugb24gdG9wIG9mIHlvdXIgY2hhbmdlcyBmaXJzdC4gIFRoZW4gSSBy
-ZWFkIFdpbGwncyByZXBseSB0aGF0IHNhaWQgeW91ciB3b3JrIGlzIHF1ZXVlZCBmb3IgNS41LiAN
-CkxldCBtZSBrbm93IGlmIHRoZXNlIHBhdGNoZXMgbmVlZCB0byByZWJhc2VkIG9uIHRvcCBvZiBp
-b21tdS9kZXZlbCBvciBhIGRpZmZlcmVudCBicmFuY2guIEkgY2FuIHJlc2VuZCB0aGUgcGF0Y2gg
-c2V0IG9uIHRvcCBvZiBuZWNlc3NhcnkgYnJhbmNoLg0KDQotS1INCg==
+On Fri, Oct 11, 2019 at 10:03:39AM -0500, Rob Herring wrote:
+> On Wed, Oct 02, 2019 at 06:06:30PM +0200, Krzysztof Kozlowski wrote:
+> > Convert Generic Power Domain bindings to DT schema format using
+> > json-schema.  The consumer bindings are split to separate file.
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > 
+> > ---
+> > 
+> > Changes since v1:
+> > 1. Select all nodes for consumers,
+> > 2. Remove from consumers duplicated properties with dt-schema,
+> > 3. Fix power domain pattern,
+> > 4. Remove unneeded types.
+> > ---
+> >  .../devicetree/bindings/arm/arm,scmi.txt      |   2 +-
+> >  .../devicetree/bindings/arm/arm,scpi.txt      |   2 +-
+> >  .../bindings/arm/freescale/fsl,scu.txt        |   2 +-
+> >  .../bindings/clock/clk-exynos-audss.txt       |   2 +-
+> >  .../bindings/clock/exynos5433-clock.txt       |   4 +-
+> >  .../bindings/clock/renesas,cpg-mssr.txt       |   2 +-
+> >  .../clock/renesas,r8a7778-cpg-clocks.txt      |   2 +-
+> >  .../clock/renesas,r8a7779-cpg-clocks.txt      |   2 +-
+> >  .../clock/renesas,rcar-gen2-cpg-clocks.txt    |   2 +-
+> >  .../bindings/clock/renesas,rz-cpg-clocks.txt  |   2 +-
+> >  .../bindings/clock/ti/davinci/psc.txt         |   2 +-
+> >  .../bindings/display/etnaviv/etnaviv-drm.txt  |   2 +-
+> >  .../devicetree/bindings/display/msm/dpu.txt   |   2 +-
+> >  .../devicetree/bindings/display/msm/mdp5.txt  |   2 +-
+> >  .../devicetree/bindings/dsp/fsl,dsp.yaml      |   2 +-
+> >  .../firmware/nvidia,tegra186-bpmp.txt         |   2 +-
+> >  .../bindings/media/imx7-mipi-csi2.txt         |   3 +-
+> >  .../bindings/media/mediatek-jpeg-decoder.txt  |   3 +-
+> >  .../bindings/media/mediatek-mdp.txt           |   3 +-
+> >  .../bindings/opp/qcom-nvmem-cpufreq.txt       |   2 +-
+> >  .../devicetree/bindings/pci/pci-keystone.txt  |   2 +-
+> >  .../bindings/phy/ti,phy-am654-serdes.txt      |   2 +-
+> >  .../bindings/power/amlogic,meson-gx-pwrc.txt  |   2 +-
+> >  .../devicetree/bindings/power/fsl,imx-gpc.txt |   2 +-
+> >  .../bindings/power/fsl,imx-gpcv2.txt          |   2 +-
+> >  .../power/power-domain-consumers.yaml         | 105 +++++++++
+> >  .../bindings/power/power-domain.yaml          | 134 ++++++++++++
+> >  .../bindings/power/power_domain.txt           | 205 ------------------
+> >  .../devicetree/bindings/power/qcom,rpmpd.txt  |   2 +-
+> >  .../bindings/power/renesas,rcar-sysc.txt      |   2 +-
+> >  .../bindings/power/renesas,sysc-rmobile.txt   |   2 +-
+> >  .../bindings/power/xlnx,zynqmp-genpd.txt      |   2 +-
+> >  .../bindings/soc/bcm/brcm,bcm2835-pm.txt      |   2 +-
+> >  .../bindings/soc/mediatek/scpsys.txt          |   2 +-
+> >  .../bindings/soc/ti/sci-pm-domain.txt         |   2 +-
+> >  .../bindings/usb/nvidia,tegra124-xusb.txt     |   4 +-
+> >  MAINTAINERS                                   |   2 +-
+> >  37 files changed, 278 insertions(+), 241 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/power/power-domain-consumers.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/power/power-domain.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/power/power_domain.txt
+> 
+> 
+> > diff --git a/Documentation/devicetree/bindings/power/power-domain-consumers.yaml b/Documentation/devicetree/bindings/power/power-domain-consumers.yaml
+> > new file mode 100644
+> > index 000000000000..f65078e1260e
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/power/power-domain-consumers.yaml
+> > @@ -0,0 +1,105 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/power/power-domain-consumers.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: PM domain consumers
+> > +
+> > +maintainers:
+> > +  - Rafael J. Wysocki <rjw@rjwysocki.net>
+> > +  - Kevin Hilman <khilman@kernel.org>
+> > +  - Ulf Hansson <ulf.hansson@linaro.org>
+> > +
+> > +description: |+
+> > +  See power-domain.yaml
+> > +
+> > +select: true
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/power-domain/power-domain-consumer.yaml
+> 
+> I don't like this split. We should move the contents of this file to the 
+> above file.
+> 
+> I checked the authorship of the relevant lines and they are all except 
+> for a small number of lines from Linaro authors (Viresh and Ulf). I have 
+> permission from Linaro to dual license Linaro authored bindings, so it's 
+> not a problem to move this. I can do that and you can just drop this file.
+
+Sure, what to do with the references to power-domain consumers part? I
+could leave the text file and do not update the references for
+consumers (like I did in last PWM bindings patch, v4).
+
+
+Best regards,
+Krzysztof
+
+> 
+> > +
+> > +properties:
+> > +  required-opps:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      This contains phandle to an OPP node in another device's OPP table.
+> > +      It may contain an array of phandles, where each phandle points to an OPP
+> > +      of a different device. It should not contain multiple phandles to the OPP
+> > +      nodes in the same OPP table. This specifies the minimum required OPP
+> > +      of the device(s), whose OPP's phandle is present in this property,
+> > +      for the functioning of the current device at the current OPP (where this
+> > +      property is present).
+> > +
+> > +examples:
+> > +  - |
+> > +    leaky-device@12350000 {
+> > +      compatible = "foo,i-leak-current";
+> > +      reg = <0x12350000 0x1000>;
+> > +      power-domains = <&power 0>;
+> > +      power-domain-names = "io";
+> > +    };
+> > +
+> > +    leaky-device@12351000 {
+> > +      compatible = "foo,i-leak-current";
+> > +      reg = <0x12351000 0x1000>;
+> > +      power-domains = <&power 0>, <&power 1> ;
+> > +      power-domain-names = "io", "clk";
+> > +    };
+> > +
+> > +    // The first example above defines a typical PM domain consumer device, which is
+> > +    // located inside a PM domain with index 0 of a power controller represented by a
+> > +    // node with the label "power".
+> > +    // In the second example the consumer device are partitioned across two PM domains,
+> > +    // the first with index 0 and the second with index 1, of a power controller that
+> > +    // is represented by a node with the label "power".
+> > +
+> > +  - |
+> > +    // Example with  OPP table for domain provider that provides two domains:
+> > +
+> > +    domain0_opp_table: opp-table0 {
+> > +      compatible = "operating-points-v2";
+> > +
+> > +      domain0_opp_0: opp-1000000000 {
+> > +        opp-hz = /bits/ 64 <1000000000>;
+> > +        opp-microvolt = <975000 970000 985000>;
+> > +      };
+> > +      domain0_opp_1: opp-1100000000 {
+> > +        opp-hz = /bits/ 64 <1100000000>;
+> > +        opp-microvolt = <1000000 980000 1010000>;
+> > +      };
+> > +    };
+> > +
+> > +    domain1_opp_table: opp-table1 {
+> > +      compatible = "operating-points-v2";
+> > +
+> > +      domain1_opp_0: opp-1200000000 {
+> > +        opp-hz = /bits/ 64 <1200000000>;
+> > +        opp-microvolt = <975000 970000 985000>;
+> > +      };
+> > +      domain1_opp_1: opp-1300000000 {
+> > +        opp-hz = /bits/ 64 <1300000000>;
+> > +        opp-microvolt = <1000000 980000 1010000>;
+> > +      };
+> > +    };
+> > +
+> > +    power: power-controller@12340000 {
+> > +      compatible = "foo,power-controller";
+> > +      reg = <0x12340000 0x1000>;
+> > +      #power-domain-cells = <1>;
+> > +      operating-points-v2 = <&domain0_opp_table>, <&domain1_opp_table>;
+> > +    };
+> > +
+> > +    leaky-device0@12350000 {
+> > +      compatible = "foo,i-leak-current";
+> > +      reg = <0x12350000 0x1000>;
+> > +      power-domains = <&power 0>;
+> > +      required-opps = <&domain0_opp_0>;
+> > +    };
+> > +
+> > +    leaky-device1@12350000 {
+> > +      compatible = "foo,i-leak-current";
+> > +      reg = <0x12350000 0x1000>;
+> > +      power-domains = <&power 1>;
+> > +      required-opps = <&domain1_opp_1>;
+> > +    };
