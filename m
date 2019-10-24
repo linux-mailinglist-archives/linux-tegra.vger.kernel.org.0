@@ -2,98 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB59AE345C
-	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 15:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 118D6E34AD
+	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 15:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502563AbfJXNfT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Oct 2019 09:35:19 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:46298 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502516AbfJXNfT (ORCPT
+        id S1729969AbfJXNsF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Oct 2019 09:48:05 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33929 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727498AbfJXNsF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 09:35:19 -0400
-Received: by mail-lf1-f65.google.com with SMTP id t8so19160597lfc.13;
-        Thu, 24 Oct 2019 06:35:16 -0700 (PDT)
+        Thu, 24 Oct 2019 09:48:05 -0400
+Received: by mail-wr1-f68.google.com with SMTP id t16so21038153wrr.1;
+        Thu, 24 Oct 2019 06:48:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FbgSAKuKivrD7KWCdkROt8M8bJsyR6G6H0hxiq2O7bk=;
-        b=VE/cvgYHp6gvvcOXN1zR/dYQvbhcECqSyiTlHl7nLxyvhGUKom/dSx4G4GzZ04FDns
-         7pwG3mD0oWht3y2FvM71zTDpODrY7yySgxc/54I+TJnN/ell2D8I/xFEDSXMU9D9peC5
-         8KZwkIlmdFQExFpiR7pEOuukXh+40S5XUXSDbiGCS0pZIyQUXL5LemXxSzMvU+6G11T3
-         dzc+bFVR/zt6ZCaPlgIhA79/U+rRt400ptD3Ox5jPYhUZBRQuowsgSORr9cdVljjK01a
-         TZV+mdwR7jbVY2vGsfKwlp7j+5DwwQyK8ihjtVMSt3EQJ047cRY6Eh4V1v5vOfFWQza5
-         U9yQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=EZ0gauJbDLm6nT++pFl8IpdBYl9f3/pCB6BsG6ZimpU=;
+        b=IEj0umb7V/DNnn74s4u91JW4cJLZwnBTLzrk3vURlFx/ucbL1ugoCEj0hdXqyZ5tAe
+         R33iEMU2BnKysT7s/Fqw1e2/we0KMBz+Du+kN+s4PNkxc88QUSyPTkWGlNsFvboBH+M9
+         7lINu6cB7BNmLb9hi2WVXeMZ3fwB689CC1B6vkngaUusziM3wqIgH+bY4DngvULcRYZS
+         mHqE2G/wvVmWJeq5wAV9ytt9ONhwJvTItVr3Ghf9yhnAr5+nnp2Q/VnE1pQDoYY5s4MR
+         WWz7EQ/SZVYGEDnyXX0YMIyVoOHku9nVa9kS2Z6U2R5K3UnLjVAKwtziY5YfhyZSWJAL
+         oISw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FbgSAKuKivrD7KWCdkROt8M8bJsyR6G6H0hxiq2O7bk=;
-        b=UOHInqeD6qGJ58Ok4nAm/sKiT2f8dFHWEZaHUyMEcO/1abMACHVhq7LuYUstUv7jtM
-         kkTYK85DVR+wfyvS9v3IYCAedi8jM2pF152WYpoCCuuyCclr2g7Zy4Fkup3/9ep8SNge
-         7WgNVmGfAQIq89z3RPHUVEOFeRBeaAZ1IJoCgYiTp9YOv4SNz/NqMySm+RYbUpLph35P
-         bq6inILmDjIQHauMw3fe+515LAAvg8idOftGRNDmdbzyxeDu1U7LYnODAd5d7MzvHSEH
-         gcRtFXAF6W52Ct89X6/GVY3BsWlNxBcvQgO+PnX6Y7bhwUN5KT7Ami2YgmlhfEbZOx50
-         +j/g==
-X-Gm-Message-State: APjAAAWHaGSXB7I61bi5eeO+g5tk01CbkhsLwHnTkfFPcKB4iuguG8Dh
-        SOXnK7nAhrAJTK7IRkuFr/l4UMkD
-X-Google-Smtp-Source: APXvYqxCvQZdvyAvyjHYR+MpDh+LS9bfFYAbqrYzDsS0aWHkIORftxUxo45a+NeXjvZM3uXh8pwr5A==
-X-Received: by 2002:a19:f813:: with SMTP id a19mr11362936lff.33.1571924115321;
-        Thu, 24 Oct 2019 06:35:15 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id 90sm8577433ljc.0.2019.10.24.06.35.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2019 06:35:14 -0700 (PDT)
-Subject: Re: [PATCH v1 1/3] gpu: host1x: Remove implicit IOMMU backing on
- client's registration
-To:     Thierry Reding <thierry.reding@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=EZ0gauJbDLm6nT++pFl8IpdBYl9f3/pCB6BsG6ZimpU=;
+        b=Fcb7CiGNpFAIxLBIgd0LqPkn9B0UBYJvxj7gqwCQnXItVwAZuAnSLoXdzivOVKXpXA
+         8DCV98GG8HPGSLOKXmaH6/37rXg8REUQ0wxa+I2z9wUOZfJkmLkyf7tiVb5sJMbTxI+H
+         1p+V006Z3IiSwYhWw3LtwIu+85s1sZK67BJIchxLpd/MyZOmVsoNdtcyDjM68g+gt98V
+         z6NbQtLdoHV9s9ZCKYhsxkzwUOCai1LYbi+cNK7YO2zDD2DN50GrTqNN+spp9tvkaIDL
+         03hWZE72/gjQoH1srgCJC+O09xIrjDorrcbD/L5X9J7EhXMzb9nWiMhMmGbntvp+x32P
+         MghQ==
+X-Gm-Message-State: APjAAAWFsDQ51w1FF25IgWls7DFDXbiH6cizfwbRAbY/oQbQm0IyO+h5
+        EAWJay7JO/OngRFwPolRuo8=
+X-Google-Smtp-Source: APXvYqwkpODXAwasjgKLcXY1OWtr0pF5zM9bczif2plmipl0NDD3sP2jDlEomkFXqJnFmDE1VZZEJA==
+X-Received: by 2002:adf:dbd2:: with SMTP id e18mr4017887wrj.268.1571924882363;
+        Thu, 24 Oct 2019 06:48:02 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id v81sm1532612wmg.4.2019.10.24.06.47.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2019 06:47:57 -0700 (PDT)
+Date:   Thu, 24 Oct 2019 15:47:56 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] gpu: host1x: Remove implicit IOMMU backing on
+ client's registration
+Message-ID: <20191024134756.GC2924027@ulmo>
 References: <20190623173743.24088-1-digetx@gmail.com>
  <20191024115016.GA2924027@ulmo>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <55ab29ad-da9b-c178-4480-dc6edb09b3e4@gmail.com>
-Date:   Thu, 24 Oct 2019 16:35:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ <55ab29ad-da9b-c178-4480-dc6edb09b3e4@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191024115016.GA2924027@ulmo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="oJ71EGRlYNjSvfq7"
+Content-Disposition: inline
+In-Reply-To: <55ab29ad-da9b-c178-4480-dc6edb09b3e4@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-24.10.2019 14:50, Thierry Reding пишет:
-> On Sun, Jun 23, 2019 at 08:37:41PM +0300, Dmitry Osipenko wrote:
->> On ARM32 we don't want any of the clients device to be backed by the
->> implicit domain, simply because we can't afford such a waste on older
->> Tegra SoCs that have very few domains available in total. The recent IOMMU
->> support addition for the Video Decoder hardware uncovered the problem
->> that an unfortunate drivers probe order results in the DRM driver probe
->> failure if CONFIG_ARM_DMA_USE_IOMMU=y due to a shortage of IOMMU domains
->> caused by the implicit backing. The host1x_client_register() is a common
->> function that is invoked by all of the relevant DRM drivers during theirs
->> probe and hence it is convenient to remove the implicit backing there,
->> resolving the problem.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/gpu/host1x/bus.c | 19 +++++++++++++++++++
->>  1 file changed, 19 insertions(+)
-> 
-> I don't really want to do this in a central place like this. If we
-> really do need this, why can't we do it in the individual drivers?
 
-Why do you want to duplicate the same action for each driver instead of
-doing it in a single common place?
+--oJ71EGRlYNjSvfq7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> we already call host1x_client_iommu_attach() from all the drivers and
-> that detaches from the IOMMU as well. So I'm not sure I understand why
-> this is needed.
+On Thu, Oct 24, 2019 at 04:35:13PM +0300, Dmitry Osipenko wrote:
+> 24.10.2019 14:50, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Sun, Jun 23, 2019 at 08:37:41PM +0300, Dmitry Osipenko wrote:
+> >> On ARM32 we don't want any of the clients device to be backed by the
+> >> implicit domain, simply because we can't afford such a waste on older
+> >> Tegra SoCs that have very few domains available in total. The recent I=
+OMMU
+> >> support addition for the Video Decoder hardware uncovered the problem
+> >> that an unfortunate drivers probe order results in the DRM driver probe
+> >> failure if CONFIG_ARM_DMA_USE_IOMMU=3Dy due to a shortage of IOMMU dom=
+ains
+> >> caused by the implicit backing. The host1x_client_register() is a comm=
+on
+> >> function that is invoked by all of the relevant DRM drivers during the=
+irs
+> >> probe and hence it is convenient to remove the implicit backing there,
+> >> resolving the problem.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  drivers/gpu/host1x/bus.c | 19 +++++++++++++++++++
+> >>  1 file changed, 19 insertions(+)
+> >=20
+> > I don't really want to do this in a central place like this. If we
+> > really do need this, why can't we do it in the individual drivers?
+>=20
+> Why do you want to duplicate the same action for each driver instead of
+> doing it in a single common place?
 
-Wish you could ask that couple months ago. I'll try to refresh the details.
+I don't mind doing it in a common place in particular, I just don't want
+to do this within the host1x bus infrastructure. This is really a policy
+decision that should be up to drivers. Consider the case where we had a
+different host1x driver (for V4L2 for example) that would actually want
+to use the DMA API. In that case we may want to detach in the DRM driver
+but not the V4L2 driver.
+
+Thierry
+
+--oJ71EGRlYNjSvfq7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2xq4kACgkQ3SOs138+
+s6FNag//dCQTLu7oPNT3zc3b6EaUkms9Hy4DuTeMGzeKtu+qZRIc8UeavqaUk+1h
+XydJK/GxuftWAPot/ZAPPeczZe5hWM7621VwYhCnArmwZkCmcxgiUDNy2hjgmtmZ
+K7PjUUhwLHAvckWHxwfaYy8Fd2m+nK2ALvppph7FNsAxfZrZ28KjEGIFx96mGwdv
+/uoZt6jlhjvmEk0C5xRI8CGjZSCUy3/HO8j1oTLiE21ErxreCqAUZNXCKC6otQad
+5NsRhzYIQA+SUiFx9a/OcvN9weYTk+9T1+6zm6zwxY1lWdMbsqztu8Ucm8Mt6OYC
+20wB2GhKJjEZJrcXGf58CfHrsc8Iv5HzB2ozwVQAZjj3GptZZyTA0xNiJYin5Qso
+9bTMICJqwwn2XLjKW/4+mqdZtd1/2fbJ3MOqYAwkCPC5PH/97NNN5RpcrQCYzvPF
+XCBUuYA86v4T6o1j0NeooKfPFUiPjIfHbyPigPs9Eb5BzMtcxqh3F3VTVZ0tpcZ0
+jl9ZbFNUQs690Zwc6MLTXePx58TwWU3GqHR+zcCEgn+1y7sTiZ9ePzDHuKGN8pnC
+xpaur5WtxLu28PS2Q6Uu4o+TD1Ey/Ifc1JJlmyoEzHHsdgOfNPIWPs3MYAZS+Nro
+IK8LIOje6av2v2hf1Jelpm/PbtIYOLFV2iFgDxofZy/bEoG0Xfg=
+=FCO/
+-----END PGP SIGNATURE-----
+
+--oJ71EGRlYNjSvfq7--
