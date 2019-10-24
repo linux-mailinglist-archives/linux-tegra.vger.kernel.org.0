@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2B80E38BC
-	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 18:46:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71900E38BE
+	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 18:46:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405923AbfJXQqr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Oct 2019 12:46:47 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:55711 "EHLO
+        id S2406203AbfJXQqt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Oct 2019 12:46:49 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:35175 "EHLO
         mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405516AbfJXQqr (ORCPT
+        with ESMTP id S2405516AbfJXQqt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 12:46:47 -0400
-Received: by mail-wm1-f67.google.com with SMTP id g24so3594769wmh.5
-        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 09:46:45 -0700 (PDT)
+        Thu, 24 Oct 2019 12:46:49 -0400
+Received: by mail-wm1-f67.google.com with SMTP id v6so3289570wmj.0
+        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 09:46:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xnrmAgjd57yL7bQcusoIEkE1OASAQ02Qykb8fz3n31M=;
-        b=MZvBicSw9zipfnsTLsDJjAQ+KeqkoZ0fMDPFBlaj+HgXTCOnugmEXur/eBCIIsyCw4
-         /ts6A+LhkwqzykJWglYVjSj5RdrSg8WHX4ubiqyi7sxQPuMLxHVQSx/PiNAs/15Epflp
-         nBJkwpsjNeDFSXmsCScMgWHRM4VwPTk096pjfwn5dr55yLDwPJUio3oNDXy3DQ8Vqe7n
-         RyegAq2wyWdH40gOFovFJlVPjxC+cOjHsa0TkUf6m8yVMUb+u2bYGmP9rap5bC1awJOY
-         hJXf63FZVrHHE3L1WZbo2cgOSdi+sECp5G6OLOLmcsUArsCuS6RoDgdMEJ+cKq2j0kg2
-         wozQ==
+        bh=WKBeVLYREt15Gh3e8xz+0QmQJOGSqeYITYZf2RyLHbw=;
+        b=jZ2DuCClUsbZPw3pnaQmSqX6quDGwK0rbHR2dyP+ivScy3u9menmlTQrg/XNJ61hpQ
+         4kTYwAU4P7hYSd6GtYT7mzJwDNdPvRjY6An4A/OKgORv58TbJPuXID1vH0QqBJchVDSh
+         HJ98PncdOlYPs2kvMXShX8AaQxA7jF5TEXlYranGf6Q/k4e7QPTlIc6P8pT+zTnGFSt/
+         PG9lgH+oiSrjta0+Pki+OyHPeumM5JQs8mysW+V3So9QbVee3/PcRtwuIH0zr7+K/9iV
+         yrfQoQ9FlGjdLGboB4bME4um5KSIiSDOUlYJSV4C7X5WBN4g7wXALMgKMmjPwv1hudzs
+         63Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xnrmAgjd57yL7bQcusoIEkE1OASAQ02Qykb8fz3n31M=;
-        b=MsrwqdJ1bMk5XKXg/ZUbYTu21YTNUkPmlQX4TLLpk/9Vf687byg0XZDJuze9w2wtRR
-         wQFmoaT/5N0kLuA8Fjul4OROdGwIl/vts+OthSrJ5eQvbUOyBnQ87LnP9ENDskQlgmqh
-         I0r9MD4EtOH4u+8bCkeiA8Ptj5rn27oUbPZOOcjm1ijTsSVaESSGTaRuar9a2SxHU0mc
-         WMTB+V+Oxt/T0JAYGXxj86GVCepV2hXbKLZrlk4zOAkF0EJOyf3dJ3Fpe4nT6PbfDKMW
-         KytNjcM/4aByYKgQX8yzqK+KyV1gqCvCoMFcWUC+qN84df8TCqZdw8XYHDvipFfLza/n
-         8aSw==
-X-Gm-Message-State: APjAAAX3bpsZxNhreMXoniWmSfrbkrSuNEBVpZze5Jtm5jfVkPXeAVl6
-        WezIRfH9hxJNahUNSiTdNZaJJWJl
-X-Google-Smtp-Source: APXvYqxZAXDPe/3JAnophhlvR/u4XCDRfpFhlc7VbOFvIhyKwORNTsCUZIjGYdNT3RJd3uUhy+9foQ==
-X-Received: by 2002:a1c:9d07:: with SMTP id g7mr5813102wme.53.1571935604846;
-        Thu, 24 Oct 2019 09:46:44 -0700 (PDT)
+        bh=WKBeVLYREt15Gh3e8xz+0QmQJOGSqeYITYZf2RyLHbw=;
+        b=eSbbSiE82+svAKKpQoEC3Jo+48U4/UhxoWSxAi8dsUiD0loj4RZwliQEudRRVmMauK
+         OdOpY/Wb9SxDZtzwwIph4PTUf9s836HKFXs06Y71KfCZ8eRbwDZ94HmtsGhrtvtB6ukb
+         cc/6N/GfASwIlOhZfFcOzfW+xjyfvsjri2loVEseT5+FeE3/0IrimRDMizI1VBOgfD7B
+         1tyVRbD9vJocSpMz7kOLwrLXC3FzUKaJoD1IHQqxB+my7FH8sMdffQzGL6q7VXZ/33MK
+         mH1X7IgG5PrDeXpHusymGbiHTA5hw7w5M8DwZVSDpvbgXvPu2J30s0dUFZW5CbUfaSAv
+         mFuw==
+X-Gm-Message-State: APjAAAURfkOSGUkPRCnLVBdPZPLxHZqn9eosgtLnmHfYehuYcEYLIn6M
+        GLvO4Mg0ae62Vd+nlElwcA4=
+X-Google-Smtp-Source: APXvYqwRIWbOX1eE2QfXOf7xYJVmFGbmcJHphMcAF60WHywqSwZivxQL4msANSJjxLCMUVoAPPhUlw==
+X-Received: by 2002:a7b:cc01:: with SMTP id f1mr6132288wmh.113.1571935607081;
+        Thu, 24 Oct 2019 09:46:47 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id d202sm2793119wmd.47.2019.10.24.09.46.43
+        by smtp.gmail.com with ESMTPSA id c8sm2522429wml.44.2019.10.24.09.46.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 09:46:43 -0700 (PDT)
+        Thu, 24 Oct 2019 09:46:45 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 30/32] drm/tegra: sor: Avoid timeouts on unplug events
-Date:   Thu, 24 Oct 2019 18:45:32 +0200
-Message-Id: <20191024164534.132764-31-thierry.reding@gmail.com>
+Subject: [PATCH 31/32] drm/tegra: sor: Extract common audio enabling code
+Date:   Thu, 24 Oct 2019 18:45:33 +0200
+Message-Id: <20191024164534.132764-32-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191024164534.132764-1-thierry.reding@gmail.com>
 References: <20191024164534.132764-1-thierry.reding@gmail.com>
@@ -63,40 +63,77 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-When the SOR is disabled in DP mode as part of an unplug event, do not
-attempt to power the DP link down. Powering down the link requires the
-DPAUX to transmit AUX messages which only works if there's a connected
-sink.
+The code to enable audio support is split into two parts, one being
+generic for the SOR and another part that is specific whether the SOR is
+in HDMI mode or in DP mode. Split out the common part in preparation for
+reusing the code in DP mode.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/sor.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tegra/sor.c | 43 +++++++++++++++++++++----------------
+ 1 file changed, 25 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 63831c37ad35..b81e6d39aa32 100644
+index b81e6d39aa32..478c001f4453 100644
 --- a/drivers/gpu/drm/tegra/sor.c
 +++ b/drivers/gpu/drm/tegra/sor.c
-@@ -2663,9 +2663,16 @@ static void tegra_sor_dp_disable(struct drm_encoder *encoder)
- 	if (output->panel)
- 		drm_panel_disable(output->panel);
+@@ -2002,6 +2002,30 @@ static void tegra_sor_audio_unprepare(struct tegra_sor *sor)
+ 	tegra_sor_writel(sor, 0, SOR_INT_ENABLE);
+ }
  
--	err = drm_dp_link_power_down(sor->aux, &sor->link);
--	if (err < 0)
--		dev_err(sor->dev, "failed to power down link: %d\n", err);
-+	/*
-+	 * Do not attempt to power down a DP link if we're not connected since
-+	 * the AUX transactions would just be timing out.
-+	 */
-+	if (output->connector.status != connector_status_disconnected) {
-+		err = drm_dp_link_power_down(sor->aux, &sor->link);
-+		if (err < 0)
-+			dev_err(sor->dev, "failed to power down link: %d\n",
-+				err);
-+	}
++static void tegra_sor_audio_enable(struct tegra_sor *sor)
++{
++	u32 value;
++
++	value = tegra_sor_readl(sor, SOR_AUDIO_CNTRL);
++
++	/* select HDA audio input */
++	value &= ~SOR_AUDIO_CNTRL_SOURCE_SELECT(SOURCE_SELECT_MASK);
++	value |= SOR_AUDIO_CNTRL_SOURCE_SELECT(SOURCE_SELECT_HDA);
++
++	/* inject null samples */
++	if (sor->format.channels != 2)
++		value &= ~SOR_AUDIO_CNTRL_INJECT_NULLSMPL;
++	else
++		value |= SOR_AUDIO_CNTRL_INJECT_NULLSMPL;
++
++	value |= SOR_AUDIO_CNTRL_AFIFO_FLUSH;
++
++	tegra_sor_writel(sor, value, SOR_AUDIO_CNTRL);
++
++	/* enable advertising HBR capability */
++	tegra_sor_writel(sor, SOR_AUDIO_SPARE_HBR_ENABLE, SOR_AUDIO_SPARE);
++}
++
+ static int tegra_sor_hdmi_enable_audio_infoframe(struct tegra_sor *sor)
+ {
+ 	u8 buffer[HDMI_INFOFRAME_SIZE(AUDIO)];
+@@ -2037,24 +2061,7 @@ static void tegra_sor_hdmi_audio_enable(struct tegra_sor *sor)
+ {
+ 	u32 value;
  
- 	err = tegra_sor_detach(sor);
- 	if (err < 0)
+-	value = tegra_sor_readl(sor, SOR_AUDIO_CNTRL);
+-
+-	/* select HDA audio input */
+-	value &= ~SOR_AUDIO_CNTRL_SOURCE_SELECT(SOURCE_SELECT_MASK);
+-	value |= SOR_AUDIO_CNTRL_SOURCE_SELECT(SOURCE_SELECT_HDA);
+-
+-	/* inject null samples */
+-	if (sor->format.channels != 2)
+-		value &= ~SOR_AUDIO_CNTRL_INJECT_NULLSMPL;
+-	else
+-		value |= SOR_AUDIO_CNTRL_INJECT_NULLSMPL;
+-
+-	value |= SOR_AUDIO_CNTRL_AFIFO_FLUSH;
+-
+-	tegra_sor_writel(sor, value, SOR_AUDIO_CNTRL);
+-
+-	/* enable advertising HBR capability */
+-	tegra_sor_writel(sor, SOR_AUDIO_SPARE_HBR_ENABLE, SOR_AUDIO_SPARE);
++	tegra_sor_audio_enable(sor);
+ 
+ 	tegra_sor_writel(sor, 0, SOR_HDMI_ACR_CTRL);
+ 
 -- 
 2.23.0
 
