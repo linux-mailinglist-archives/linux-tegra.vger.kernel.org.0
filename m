@@ -2,111 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C12EE38BF
-	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 18:46:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28D3BE3960
+	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 19:09:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407633AbfJXQqw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Oct 2019 12:46:52 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:39757 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405516AbfJXQqv (ORCPT
+        id S2436893AbfJXRJ2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Oct 2019 13:09:28 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45196 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2410207AbfJXRJ2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 12:46:51 -0400
-Received: by mail-wr1-f68.google.com with SMTP id a11so10778626wra.6
-        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 09:46:50 -0700 (PDT)
+        Thu, 24 Oct 2019 13:09:28 -0400
+Received: by mail-lj1-f193.google.com with SMTP id q64so25829587ljb.12;
+        Thu, 24 Oct 2019 10:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=oFcPP2oqutBVyEiEACLaC7jQyoj9cZb8X5+nPOqCh7o=;
-        b=TZjKFmQbkbNHnXanxjcWtAgpeaF8KGP7cYtEIFz+T1fl6RXPpBGDum4oB9w0sCVmAd
-         4ml40spo8rbDQA04LDO7W2onpmI/Ng2S2DgO+f318AVyFfwpOMsENcL0rN1NgeqOfglB
-         8C5dBKm24qwSsxrNCUhcYzycUGR8D0CpJaICkexJTkTFNaDYgyJRgq7xSZki7ghncePh
-         Ngh6Jr64kkJOrRdAbhTJqsYJ/RCWWFD/sAPpSvBQjcdF+isQ716wcoifti2j8mbNFyME
-         FrBgw30ns3N/3/ylqoIhYZzhj/V/zPgTv9if8RhJQZTaYFjPU6+i4eq5ie+MABjHQxqq
-         Zebw==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=IrAfe5w1HnK8l8FuW+hQKQUlkFSvckC54yQUeXG//ko=;
+        b=mWbjhBCkHaL5glMlAQhj6Agacp7Li+u9if1i1Ymo2qjHZ1lHG0TLeYiSC97M/nRPK1
+         Ad0R9qrXYKIE6zV1TcIBK6d9UtUT23ChFMh1uXvkVmiOVh+ukKHzfqd9bdHItfSID9zp
+         X044GzJxWSpeVpQ8tT9dk7DRx6V/FBx6lF1HqtlZJe7X7D1saoe/5HFlvLT217poA8ns
+         6skq943P1cTy+77942FQ8aBUiWYVacMA24Tn8E+YN7x6pNZABQ0Uwks5AW7Ezwtp+Y3o
+         85GpDedISXW8N/FKjQOdMcGN+r4jQaswCPUeV9UUOumjOnhDiy8Zkj2hVDZxE9oLGH6W
+         M/Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=oFcPP2oqutBVyEiEACLaC7jQyoj9cZb8X5+nPOqCh7o=;
-        b=Z+y8HmHBgUXHGGr3RzKozz3oE9b+iCba1GENX7jGirF/ElfzArlAW+eGdxL/xyo/Zk
-         w2RajkyUinvDJbRjp6tj3Ou9CYsd0/vjWk2ovEMmTPiL2d0se09bMM6xXGE3MLyOhV+c
-         yOJ8PjCYCS425uF+lYxJ/S61j/t3+35fiypfDi2IafzFF1c4lxb3JMHCW9adKOw6T1vE
-         G5nwDlxEOiXOoRdwvZbOZanc/XZ6tLHpoP1tcIprMFQjw+Z2UQPUdFpZeRKPXYL/oRme
-         I4KsWC7/EltICYIRLLn/Fs87rR+PByqyNOKp+szBqzWsnuJyCODR5JOEN5jQ0wZUiH1n
-         RhcQ==
-X-Gm-Message-State: APjAAAWx8mLpvIkapfTVTnhZP34qzbK1W/hx0wjaY0nNgLl4OCn/l88c
-        Bc/qMa+E2U7P+kYG2Vi/Qx8=
-X-Google-Smtp-Source: APXvYqw1/hZX5WMs4ab63v5HQMWmYw5vlnLln0CGWngX/3ACyBOT0yDMD2mOwJBPkaMVnEh2VWRDBQ==
-X-Received: by 2002:a5d:6246:: with SMTP id m6mr4947510wrv.262.1571935609360;
-        Thu, 24 Oct 2019 09:46:49 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id 1sm8265435wrr.16.2019.10.24.09.46.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 09:46:48 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=IrAfe5w1HnK8l8FuW+hQKQUlkFSvckC54yQUeXG//ko=;
+        b=Zr3PRk6S0lqpC3yZLULkkkiGhNEIJxUjlV0OZ0Kz0QuN54aN1t64l49BC42bKIJgSx
+         JJx7H7cyKbgdMBTmlbRP2v4uzcBc+WJtw+fc3fp5j+OkfGDYrgIBMt8n2n/59FsfYKXc
+         oqrumyaxkxjXs2cvlp3zfG0s7Or9EgnROGP7K9QzCJCfqK51Kp1z+vtE2iXUwoMsNeZ9
+         l1Kd5/uyss/YAuEdDnmHsWdd7zydJHyv/QsIis67Dp7uog3LIclgFFcmZuC7bY+FY1En
+         oX+ZGY8qPx8AXDoMLSgwQWi4Ls9BARJI/deBVlYFtop/QoX5YhuC35VYeuTiTy/sxqN3
+         Rwuw==
+X-Gm-Message-State: APjAAAWskwBJH1YsjWAkb/AvmkZYtle1WuV6zXzL8DP0GyxopBVpA/dQ
+        aoJfbhyfAan0JgKr1IEH3npJW8vN
+X-Google-Smtp-Source: APXvYqxSkIhVMx2JQ4ozADmzdOXgHT9YOY73BRvR0bq+4cNTs8tWmZwy3WI9LUw0lgPggYogDS0wbg==
+X-Received: by 2002:a2e:4e12:: with SMTP id c18mr27544082ljb.51.1571936965362;
+        Thu, 24 Oct 2019 10:09:25 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
+        by smtp.googlemail.com with ESMTPSA id n25sm10143389ljc.107.2019.10.24.10.09.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Oct 2019 10:09:24 -0700 (PDT)
+Subject: Re: [PATCH v1 1/3] gpu: host1x: Remove implicit IOMMU backing on
+ client's registration
+From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 32/32] drm/tegra: sor: Introduce audio enable/disable callbacks
-Date:   Thu, 24 Oct 2019 18:45:34 +0200
-Message-Id: <20191024164534.132764-33-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191024164534.132764-1-thierry.reding@gmail.com>
-References: <20191024164534.132764-1-thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190623173743.24088-1-digetx@gmail.com>
+ <20191024115016.GA2924027@ulmo>
+ <55ab29ad-da9b-c178-4480-dc6edb09b3e4@gmail.com>
+Message-ID: <b8a9fc65-3d2f-8461-e0de-83cbb45fea49@gmail.com>
+Date:   Thu, 24 Oct 2019 20:09:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <55ab29ad-da9b-c178-4480-dc6edb09b3e4@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+24.10.2019 16:35, Dmitry Osipenko пишет:
+> 24.10.2019 14:50, Thierry Reding пишет:
+>> On Sun, Jun 23, 2019 at 08:37:41PM +0300, Dmitry Osipenko wrote:
+>>> On ARM32 we don't want any of the clients device to be backed by the
+>>> implicit domain, simply because we can't afford such a waste on older
+>>> Tegra SoCs that have very few domains available in total. The recent IOMMU
+>>> support addition for the Video Decoder hardware uncovered the problem
+>>> that an unfortunate drivers probe order results in the DRM driver probe
+>>> failure if CONFIG_ARM_DMA_USE_IOMMU=y due to a shortage of IOMMU domains
+>>> caused by the implicit backing. The host1x_client_register() is a common
+>>> function that is invoked by all of the relevant DRM drivers during theirs
+>>> probe and hence it is convenient to remove the implicit backing there,
+>>> resolving the problem.
+>>>
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> ---
+>>>  drivers/gpu/host1x/bus.c | 19 +++++++++++++++++++
+>>>  1 file changed, 19 insertions(+)
+>>
+>> I don't really want to do this in a central place like this. If we
+>> really do need this, why can't we do it in the individual drivers?
+> 
+> Why do you want to duplicate the same action for each driver instead of
+> doing it in a single common place?
+> 
+>> we already call host1x_client_iommu_attach() from all the drivers and
+>> that detaches from the IOMMU as well. So I'm not sure I understand why
+>> this is needed.
+> 
+> Wish you could ask that couple months ago. I'll try to refresh the details.
+> 
 
-In order to support different modes (DP in addition to HDMI), split out
-the audio setup/teardown into callbacks.
+In kernel's boot order:
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/tegra/sor.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+1) Host1x is attached to exclusive implicit domain
+2) Host1x is detached from the implicit domain and attached to explicit
+3) Both DC's fail to attach to implicit domain because DMA-mapping code
+doesn't take into account multiple devices in the same group.
+4) GR2D is attached to exclusive implicit domain
+5) GR3D is attached to exclusive implicit domain
+6) VDE is attached to exclusive implicit domain
+7) VDE is detached from the implicit domain and attached to explicit
+8) DC client is trying to attach to DRM domain in
+host1x_client_iommu_attach() and that fails because tegra-smmu code
+allocates ASID in tegra_smmu_attach_dev()->tegra_smmu_as_prepare() (i.e.
+on IOMMU group's attaching) and all ASIDs are already busy.
 
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 478c001f4453..615cb319fa8b 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -398,6 +398,8 @@ struct tegra_sor_ops {
- 	const char *name;
- 	int (*probe)(struct tegra_sor *sor);
- 	int (*remove)(struct tegra_sor *sor);
-+	void (*audio_enable)(struct tegra_sor *sor);
-+	void (*audio_disable)(struct tegra_sor *sor);
- };
- 
- struct tegra_sor {
-@@ -3008,6 +3010,8 @@ static const struct tegra_sor_ops tegra_sor_hdmi_ops = {
- 	.name = "HDMI",
- 	.probe = tegra_sor_hdmi_probe,
- 	.remove = tegra_sor_hdmi_remove,
-+	.audio_enable = tegra_sor_hdmi_audio_enable,
-+	.audio_disable = tegra_sor_hdmi_audio_disable,
- };
- 
- static int tegra_sor_dp_probe(struct tegra_sor *sor)
-@@ -3616,9 +3620,11 @@ static irqreturn_t tegra_sor_irq(int irq, void *data)
- 
- 			tegra_hda_parse_format(format, &sor->format);
- 
--			tegra_sor_hdmi_audio_enable(sor);
-+			if (sor->ops->audio_enable)
-+				sor->ops->audio_enable(sor);
- 		} else {
--			tegra_sor_hdmi_audio_disable(sor);
-+			if (sor->ops->audio_disable)
-+				sor->ops->audio_disable(sor);
- 		}
- 	}
- 
--- 
-2.23.0
-
+Hence if DRM sub-device drivers are detaching from the implicit domain
+on probe, then the problem is getting worked around because there are
+available ASIDs at the time of host1x clients initialization.
