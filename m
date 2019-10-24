@@ -2,94 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D5FE3BF5
-	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 21:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B0BE3DFA
+	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 23:10:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726151AbfJXTS5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Oct 2019 15:18:57 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:60758 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725996AbfJXTS5 (ORCPT
+        id S1728857AbfJXVKy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Oct 2019 17:10:54 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42710 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727838AbfJXVKy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 15:18:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=BtJMMk6Glc0b1Itx4YaAQIjSgo1CwyjXyRamYqhUmsQ=; b=bycttnTQ+TdOU+tEejpM8m/RK
-        4tlaV6tIT8NO4/RMWoF6LXyxRWx1juXQl9yiy2kOYuhC02m5XWgi3TiAuAlMNi7knR94JH4/o03DD
-        gQrnPN/GjO8/Z0k8t8iCMMEMTZa5dRU0p5lvP6lZ/VmW390rxgucZPAD+Z5qJUxGRY94A=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iNidC-0003yV-SQ; Thu, 24 Oct 2019 19:18:46 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 5383C274293C; Thu, 24 Oct 2019 20:18:46 +0100 (BST)
-Date:   Thu, 24 Oct 2019 20:18:46 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Ben Dooks <ben.dooks@codethink.co.uk>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-kernel@lists.codethink.co.uk,
-        Edward Cragg <edward.cragg@codethink.co.uk>
-Subject: Re: [PATCH v5 3/7] ASoC: tegra: i2s: Add support for more than 2
- channels
-Message-ID: <20191024191846.GJ46373@sirena.co.uk>
-References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <20191018154833.7560-4-ben.dooks@codethink.co.uk>
- <2eef499e-d9d4-732a-ddd6-8d307d8cb08d@nvidia.com>
+        Thu, 24 Oct 2019 17:10:54 -0400
+Received: by mail-lj1-f193.google.com with SMTP id a21so193018ljh.9
+        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 14:10:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=16Ta175oqbnUMTD4O3/CWW9VGngBsZ+cneUn7RAxpRQ=;
+        b=SIrXt0kXvhlShAHoeckeqV0exC0jKVcan9jUbkvgxim87CjFer1UV0sYBKTag9rckf
+         jnbnhLj+g8SzSzwU5ZWDV91cpSjH8ZNqcf0tlMJv7k5mhD3agINvrvW3SktOnBFa+aC8
+         iTgAOmkNjsbtj+ptJ6e5oDYGxpSpkX4oE1IbjRQHbY0MDdcOkA+7dlKHfdzeCxHjp48K
+         87KTCFoMox9a4yL+VyBON2x33CAWrRdMhURn9J8lj1Cl7BQbEGZ1praany4v0J2hVEe4
+         NRzVQPwdcZT+RPHwr1hnBrNQAwCMkVryTMDBSXZu6kiqZXnOOwbHGqh9fJI0GSeUB6b8
+         s2tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=16Ta175oqbnUMTD4O3/CWW9VGngBsZ+cneUn7RAxpRQ=;
+        b=ErAzGbXSPzXyT/m/mZ8PYdVFau+eU3Grsq2xnzWAxhAFrRrD16kYfUMjrl/AViMxAq
+         4ce67CO9TY26KcsDJLKnzs6e62/uQciC8HG3owGl0ObvUyzOngjhnpfBAP8Al/K1Lcqp
+         bH2PJDxDEMWcMVGia63zKohgFfYR1ehQGSHzOdtbWjeqYxfoqY4dAdzLkI5Pi4dYOoLV
+         HEvsXYpKCbhlRsKBLyz0OxKeDRdI5pQFKb8JuGLX1gJQP8HilO1M9rdfdw3zZqfjqZiP
+         4Gi9sS+qU9PaPfYA8Ne9Un993eaeMYC5v/c4MVWj2xkeXAkRx/1FOM/aof3Kk8uLRX1b
+         IOOQ==
+X-Gm-Message-State: APjAAAUSdsq5V89s2t/cmnO2y6tZ1+Ra1TgVixkn8FGRUyoyS7E2XPqz
+        uwLnoGPjcmjmO93iLB7hL4VOIbxQ
+X-Google-Smtp-Source: APXvYqwoatQlYxF+uFontTC3REB5T52VXPsFP21rjlbIkZ1UY8vmhkmDG3n0zjAIqRhNFZk4vpBNUQ==
+X-Received: by 2002:a2e:2bc7:: with SMTP id r68mr4132733ljr.27.1571951451641;
+        Thu, 24 Oct 2019 14:10:51 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
+        by smtp.googlemail.com with ESMTPSA id g12sm1123334ljj.73.2019.10.24.14.10.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Oct 2019 14:10:50 -0700 (PDT)
+Subject: Re: [PATCH v2] drm/tegra: Do not use ->load() and ->unload()
+ callbacks
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org
+References: <20191024173137.290420-1-thierry.reding@gmail.com>
+ <20191024181539.GA31268@qmqm.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <553f12c4-b1f4-b48c-45e4-c4280936d1e4@gmail.com>
+Date:   Fri, 25 Oct 2019 00:10:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="J2uG6jHjFLimDtBY"
-Content-Disposition: inline
-In-Reply-To: <2eef499e-d9d4-732a-ddd6-8d307d8cb08d@nvidia.com>
-X-Cookie: Filmed before a live audience.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191024181539.GA31268@qmqm.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+24.10.2019 21:15, Michał Mirosław пишет:
+> On Thu, Oct 24, 2019 at 07:31:37PM +0200, Thierry Reding wrote:
+>> From: Thierry Reding <treding@nvidia.com>
+>>
+>> The ->load() and ->unload() drivers are midlayers and should be avoided
+>> in modern drivers. Fix this by moving the code into the driver ->probe()
+>> and ->remove() implementations, respectively.
+>>
+>> v2: kick out conflicting framebuffers before initializing fbdev
+>>
+>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+>> ---
+>> Michał, Dmitry,
+>>
+>> do you guys have a way of testing that the removal of the conflicting
+>> framebuffer actually works?
+> [...]
+> 
+> I might be able to check during the weekend. Is this patch alone enough
+> for v5.3?
 
---J2uG6jHjFLimDtBY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I don't think it will apply cleanly on top of 5.3, but should work with
+linux-next or by cherry-picking 9d5a54987265.
 
-On Thu, Oct 24, 2019 at 05:12:21PM +0100, Jon Hunter wrote:
-> On 18/10/2019 16:48, Ben Dooks wrote:
-
-> > @@ -90,10 +92,12 @@ static int tegra30_i2s_set_fmt(struct snd_soc_dai *dai,
-> >  		TEGRA30_I2S_CTRL_LRCK_MASK;
-> >  	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-> >  	case SND_SOC_DAIFMT_DSP_A:
-> > +		ch_val = TEGRA30_I2S_CH_CTRL_EGDE_CTRL_NEG_EDGE;
-
-> Sorry, I just saw the feedback on the previous iteration. I don't think
-> we want to set the polarity but based upon the format that is passed ...
-
-The polarity should be set based on the the inversion flags in the
-format, normally both DSP modes trigger on the rising edge of the LRCLK.
-The difference is if there's a delay before the first data bit or not.
-
---J2uG6jHjFLimDtBY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2x+RUACgkQJNaLcl1U
-h9BG7Af/aTUi+TadPqNOylY+6X2Spzqs0gV+LMh/W0yvVf0aL57cGaJ10dMwmwbC
-as56JKIZ89JWzfQHg5fBEXQswb9q12ExaVYNdnIjc/XEx9QnSGHD0Wse7J/lCnbD
-FjluXJ9sUFuoRH7yayraajy6bnT2b4EQHB2xkzlYib6rsrqR51Xgrs4MH64MpA59
-cCMHuxP12rACbUm5atFzeCgt6TvESWJ0pD++r9Ht/vVGyArSMjjt7HZdOFNSDGwc
-1TAOqK6xdPvEqt5LJxXyw+1QCPZT8KFJ3He2g7lax4tuW+czSPfsgPxTEEDIRO2u
-FZr56e49pYtzzeN6lG9U8XnkqsF89A==
-=xWHD
------END PGP SIGNATURE-----
-
---J2uG6jHjFLimDtBY--
+Regarding the testing, I never used simple-fb on Tegra before and it's
+not working for me now. Hopefully it will work for you, Michał.
