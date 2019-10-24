@@ -2,512 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C38BBE3633
-	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 17:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 207CAE36FA
+	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 17:47:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407409AbfJXPKi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Oct 2019 11:10:38 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44481 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407327AbfJXPKi (ORCPT
+        id S2409744AbfJXPr3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Oct 2019 11:47:29 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:37715 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2409737AbfJXPr3 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 11:10:38 -0400
-Received: by mail-wr1-f65.google.com with SMTP id z11so3134449wro.11
-        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 08:10:35 -0700 (PDT)
+        Thu, 24 Oct 2019 11:47:29 -0400
+Received: by mail-lf1-f68.google.com with SMTP id g21so18441949lfh.4;
+        Thu, 24 Oct 2019 08:47:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iPfY7+I+U87jKu1umZ2Dx/+dKwkQ7iiI6IZAa/Ykx5g=;
-        b=dSA7/5LafziFlZey3oi471xxaFLvKP4ziT26/aBvSEtXW4ih+hKbS2kftc2G84zNHD
-         0634QcYwLRB+VXiyFXThK+v9nNwdhLeyny93W6cpEWTyBu/cTDZDoaVXWpu0SBo9ATLo
-         3nbeK93cgpZqeAEGJf0wpRbgDi3fKs/JaAGeigB/KNVd/H99w9WdkhWKGXgMdNMtgOA6
-         j/eC/MYqvubvgMOqcjtv7e+h7bKtOJt+uxmwhW82YCHCvXM9NZ6sD0HSSJe2AHtVgKzt
-         SK3om9Xwe7BOPIPaWhZGIYfvdLJHnVL7HKMmwhunv9z50QamRaCGrik9SSccBrDzTnxs
-         714g==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2qiRK2XQalplNatOBEb/KYFsHIwExwL6yRbMFGJE3wM=;
+        b=fp/GEoFFGvXB/1uU3XVE6/qPgMOp1c+s2UYjIaj9rVB5/+YiGGPoaBbIY0AvWTvK0s
+         KvmvNbx5a5psLlghFzyt7e4CSzJFE02uEszaZwuR9EBkQZOQQ/ktlTZhv9jzaoqdqdj+
+         4eqenbSvlB9pfGba1leXkpu4923GjSy/7A/dMFi01FOkguYldlslhVTNjAsSRrjMI6jv
+         YMobzrpvhtVT4O5c9Y+3z6x3kgv3seBxgftm141ImaYvjPs9QHLIY7EQlO6LjParXCeh
+         nE5FCptY2WpylnDn2ZhVKeeniH+Cuf2V0mog7PmmVqbpZ+LRCraF7U+qxgSUgA7EYCT1
+         iyDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=iPfY7+I+U87jKu1umZ2Dx/+dKwkQ7iiI6IZAa/Ykx5g=;
-        b=eYh0QaJy8EN8h52AtD1f3uNs1hksmrqIieR0NOaKMfT4mj/EtUyKo5gc7OaAm9JwuS
-         O56FAyy4alyAi7vgWqY69mRDmVhxcl/4LhD2Xv4uSjQVcEHHhxlg3KAdY5oltPQB1YCU
-         iRZCPIzdza/Z5NMsalSdgV7s++vjJ82Ydt9PlMjjjWXLQvQfzPwjycKNgpxoZlx+szgT
-         vFZHzinQ44K/88oL6A7SVjtsGv+d0rCnX4ueXkwY7Vm6/q0Ev783lQf3DZqyak8IUN2t
-         UrNZLl7/lvZeb+FOxGmpgKrFa7iroI2So2jOhR6ExPMQremRZMpiPtKvn7F/coNlXkPa
-         YaOA==
-X-Gm-Message-State: APjAAAURL4VAyQ7draDuu0cveJ2Zu+E7FJGdpAMA+MgGJmbypVAlAPDG
-        UJd7YXtkmolNiaIlOR3V/O96c11r
-X-Google-Smtp-Source: APXvYqy3ti6fKjinmfxVVVC1NFvAWKDRCmy8auH9CrDoTdU85AEtBnR6TlmrRK9aTClm/B/uI11Z5w==
-X-Received: by 2002:adf:db42:: with SMTP id f2mr4648487wrj.287.1571929834021;
-        Thu, 24 Oct 2019 08:10:34 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id r15sm2729660wme.0.2019.10.24.08.10.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 08:10:32 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
+        bh=2qiRK2XQalplNatOBEb/KYFsHIwExwL6yRbMFGJE3wM=;
+        b=rKsdedFtfhyO6HeknrAQot3EfoPZLZ39eww2xHznbCcPXyYRseN30mGoM5niVHxhwY
+         LUZaWgWlfM2qLrXyDeC/kV4M0jGoJBCdm6XaEim8NE3FfQn1zfHwbpFO5efLqO1RV+eG
+         Od9iCKMGdE7l0VKw4xS9AQ0lg4RRUu6LLNAkYLwxC6Ykmw74W4OxGRHmKRy1WGa9HauE
+         Fn5MTA7R171V8NWR45ZiHmxCEFtYC/rEMprnxUC/g99qKBpUaVth8Ut8Yr8C4SWRDw2u
+         vf3QQ9Lu1IOlN1zWifDVunU1fb2JWWPFmw2eDaG8pZyWzQ6d/6fNqSko+6JG4N0OSWWQ
+         kTtg==
+X-Gm-Message-State: APjAAAVQDogyTvhzf/a/Y8Mc4ohlOFDxy6vFCAg5MHtoFry5QWk21jte
+        N6vVGTb5Msc+vyjyhBpYojmGyO0z
+X-Google-Smtp-Source: APXvYqyLj/h0C/Xq91dKgaHmn/NP+f3iD/DCfdE8bWiVd/Pzmn8Y696mKlFDH4cYp54f3eUTb6dqVA==
+X-Received: by 2002:ac2:46e3:: with SMTP id q3mr26813910lfo.147.1571932046130;
+        Thu, 24 Oct 2019 08:47:26 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
+        by smtp.googlemail.com with ESMTPSA id n25sm10017898ljc.107.2019.10.24.08.47.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Oct 2019 08:47:25 -0700 (PDT)
+Subject: Re: [PATCH v1 2/3] drm/tegra: Fix 2d and 3d clients detaching from
+ IOMMU domain
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH] drm/tegra: Do not use ->load() and ->unload() callbacks
-Date:   Thu, 24 Oct 2019 17:10:30 +0200
-Message-Id: <20191024151030.3822283-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190623173743.24088-1-digetx@gmail.com>
+ <20190623173743.24088-2-digetx@gmail.com> <20191024115804.GB2924027@ulmo>
+ <45926d95-3e7a-c56b-402a-2b2c6475c5db@gmail.com>
+ <20191024135018.GD2924027@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <38a67df0-2ede-e7fe-8eca-6c4491cdcc7b@gmail.com>
+Date:   Thu, 24 Oct 2019 18:47:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <20191024135018.GD2924027@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+24.10.2019 16:50, Thierry Reding пишет:
+> On Thu, Oct 24, 2019 at 04:28:41PM +0300, Dmitry Osipenko wrote:
+>> 24.10.2019 14:58, Thierry Reding пишет:
+>>> On Sun, Jun 23, 2019 at 08:37:42PM +0300, Dmitry Osipenko wrote:
+>>>> This should should fire up on the DRM's driver module re-loader because
+>>>> there won't be enough available domains on older Tegra SoCs.
+>>>>
+>>>> Cc: stable <stable@vger.kernel.org>
+>>>> Fixes: 0c407de5ed1a ("drm/tegra: Refactor IOMMU attach/detach")
+>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>>> ---
+>>>>  drivers/gpu/drm/tegra/dc.c   | 4 ++--
+>>>>  drivers/gpu/drm/tegra/drm.c  | 9 ++++++---
+>>>>  drivers/gpu/drm/tegra/drm.h  | 3 ++-
+>>>>  drivers/gpu/drm/tegra/gr2d.c | 4 ++--
+>>>>  drivers/gpu/drm/tegra/gr3d.c | 4 ++--
+>>>>  5 files changed, 14 insertions(+), 10 deletions(-)
+>>>
+>>> I think I understand what this is trying to do, but the commit message
+>>> does not help at all. So what's really going on here is that we need to
+>>> detach the device from the group regardless of whether we're sharing the
+>>> group or not, just like we attach groups to the shared domain whether
+>>> they share the same group or not.
+>>
+>> Yes, the commit's message could be improved.
+>>
+>>> But in that case, I wonder if it's even worth splitting groups the way
+>>> we are right now. Wouldn't it be better to just put all the devices into
+>>> the same group and be done with it?
+>>>
+>>> The current code gives me headaches every time I read it, so if we can
+>>> just make it so that all the devices under the DRM device share the same
+>>> group, this would become a lot easier to deal with. I'm not really
+>>> convinced that it makes much sense to keep them on separate domains,
+>>> especially given the constraints on the number of domains available on
+>>> earlier Tegra devices.
+>>>
+>>> Note that sharing a group will also make it much easier for these to use
+>>> the DMA API if it is backed by an IOMMU.
+>>
+>> Probably I'm blanking on everything about IOMMU now.. could you please
+>> remind me what "IOMMU group" is?
+>>
+>> Isn't it that each IOMMU group relates to the HW ID (SWGROUP)? But then
+>> each display controller has its own SWGROUP.. and thus that sharing just
+>> doesn't make any sense, hm.
+> 
+> IOMMU groups are not directly related to SWGROUPs. But by default the
+> IOMMU framework will share a domain between members of the same IOMMU
+> group.
 
-The ->load() and ->unload() drivers are midlayers and should be avoided
-in modern drivers. Fix this by moving the code into the driver ->probe()
-and ->remove() implementations, respectively.
+Ah, I re-figured out that again. The memory controller drivers are
+defining a single "IOMMU group" for both of the display controllers.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+> Seems like that's really what we want here, so that when we do
+> use the DMA API, all the devices part of the DRM device get attached to
+> the same IOMMU domain, yet if we don't want to use the DMA API we only
+> need to detach the one group from the backing.
+
+Yes, it should be okay to put all DRM devices into the same group, like
+it is done now for the displays. It also should resolve problem with the
+domains shortage on T30 since now there are maximum 3 domains in use:
+host1x, drm and vde.
+
+I actually just checked that the original problem still exists
+and this change solves it as well:
+
 ---
- drivers/gpu/drm/tegra/drm.c | 386 +++++++++++++++++-------------------
- 1 file changed, 186 insertions(+), 200 deletions(-)
-
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 3012f13bab97..bd7a00272965 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -82,202 +82,6 @@ tegra_drm_mode_config_helpers = {
- 	.atomic_commit_tail = tegra_atomic_commit_tail,
+diff --git a/drivers/memory/tegra/tegra30.c b/drivers/memory/tegra/tegra30.c
+index 5a0f6e0a1643..e71096498436 100644
+--- a/drivers/memory/tegra/tegra30.c
++++ b/drivers/memory/tegra/tegra30.c
+@@ -1021,6 +1021,9 @@ static const struct tegra_smmu_swgroup
+tegra30_swgroups[] = {
+ static const unsigned int tegra30_group_display[] = {
+ 	TEGRA_SWGROUP_DC,
+ 	TEGRA_SWGROUP_DCB,
++	TEGRA_SWGROUP_G2,
++	TEGRA_SWGROUP_NV,
++	TEGRA_SWGROUP_NV2,
  };
- 
--static int tegra_drm_load(struct drm_device *drm, unsigned long flags)
--{
--	struct host1x_device *device = to_host1x_device(drm->dev);
--	struct iommu_domain *domain;
--	struct tegra_drm *tegra;
--	int err;
--
--	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
--	if (!tegra)
--		return -ENOMEM;
--
--	/*
--	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
--	 * likely to be allocated beyond the 32-bit boundary if sufficient
--	 * system memory is available. This is problematic on earlier Tegra
--	 * generations where host1x supports a maximum of 32 address bits in
--	 * the GATHER opcode. In this case, unless host1x is behind an IOMMU
--	 * as well it won't be able to process buffers allocated beyond the
--	 * 32-bit boundary.
--	 *
--	 * The DMA API will use bounce buffers in this case, so that could
--	 * perhaps still be made to work, even if less efficient, but there
--	 * is another catch: in order to perform cache maintenance on pages
--	 * allocated for discontiguous buffers we need to map and unmap the
--	 * SG table representing these buffers. This is fine for something
--	 * small like a push buffer, but it exhausts the bounce buffer pool
--	 * (typically on the order of a few MiB) for framebuffers (many MiB
--	 * for any modern resolution).
--	 *
--	 * Work around this by making sure that Tegra DRM clients only use
--	 * an IOMMU if the parent host1x also uses an IOMMU.
--	 *
--	 * Note that there's still a small gap here that we don't cover: if
--	 * the DMA API is backed by an IOMMU there's no way to control which
--	 * device is attached to an IOMMU and which isn't, except via wiring
--	 * up the device tree appropriately. This is considered an problem
--	 * of integration, so care must be taken for the DT to be consistent.
--	 */
--	domain = iommu_get_domain_for_dev(drm->dev->parent);
--
--	if (domain && iommu_present(&platform_bus_type)) {
--		tegra->domain = iommu_domain_alloc(&platform_bus_type);
--		if (!tegra->domain) {
--			err = -ENOMEM;
--			goto free;
--		}
--
--		err = iova_cache_get();
--		if (err < 0)
--			goto domain;
--	}
--
--	mutex_init(&tegra->clients_lock);
--	INIT_LIST_HEAD(&tegra->clients);
--
--	drm->dev_private = tegra;
--	tegra->drm = drm;
--
--	drm_mode_config_init(drm);
--
--	drm->mode_config.min_width = 0;
--	drm->mode_config.min_height = 0;
--
--	drm->mode_config.max_width = 4096;
--	drm->mode_config.max_height = 4096;
--
--	drm->mode_config.allow_fb_modifiers = true;
--
--	drm->mode_config.normalize_zpos = true;
--
--	drm->mode_config.funcs = &tegra_drm_mode_config_funcs;
--	drm->mode_config.helper_private = &tegra_drm_mode_config_helpers;
--
--	err = tegra_drm_fb_prepare(drm);
--	if (err < 0)
--		goto config;
--
--	drm_kms_helper_poll_init(drm);
--
--	err = host1x_device_init(device);
--	if (err < 0)
--		goto fbdev;
--
--	if (tegra->group) {
--		u64 carveout_start, carveout_end, gem_start, gem_end;
--		u64 dma_mask = dma_get_mask(&device->dev);
--		dma_addr_t start, end;
--		unsigned long order;
--
--		start = tegra->domain->geometry.aperture_start & dma_mask;
--		end = tegra->domain->geometry.aperture_end & dma_mask;
--
--		gem_start = start;
--		gem_end = end - CARVEOUT_SZ;
--		carveout_start = gem_end + 1;
--		carveout_end = end;
--
--		order = __ffs(tegra->domain->pgsize_bitmap);
--		init_iova_domain(&tegra->carveout.domain, 1UL << order,
--				 carveout_start >> order);
--
--		tegra->carveout.shift = iova_shift(&tegra->carveout.domain);
--		tegra->carveout.limit = carveout_end >> tegra->carveout.shift;
--
--		drm_mm_init(&tegra->mm, gem_start, gem_end - gem_start + 1);
--		mutex_init(&tegra->mm_lock);
--
--		DRM_DEBUG_DRIVER("IOMMU apertures:\n");
--		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
--		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
--				 carveout_end);
--	} else if (tegra->domain) {
--		iommu_domain_free(tegra->domain);
--		tegra->domain = NULL;
--		iova_cache_put();
--	}
--
--	if (tegra->hub) {
--		err = tegra_display_hub_prepare(tegra->hub);
--		if (err < 0)
--			goto device;
--	}
--
--	/*
--	 * We don't use the drm_irq_install() helpers provided by the DRM
--	 * core, so we need to set this manually in order to allow the
--	 * DRM_IOCTL_WAIT_VBLANK to operate correctly.
--	 */
--	drm->irq_enabled = true;
--
--	/* syncpoints are used for full 32-bit hardware VBLANK counters */
--	drm->max_vblank_count = 0xffffffff;
--
--	err = drm_vblank_init(drm, drm->mode_config.num_crtc);
--	if (err < 0)
--		goto hub;
--
--	drm_mode_config_reset(drm);
--
--	err = tegra_drm_fb_init(drm);
--	if (err < 0)
--		goto hub;
--
--	return 0;
--
--hub:
--	if (tegra->hub)
--		tegra_display_hub_cleanup(tegra->hub);
--device:
--	if (tegra->domain) {
--		mutex_destroy(&tegra->mm_lock);
--		drm_mm_takedown(&tegra->mm);
--		put_iova_domain(&tegra->carveout.domain);
--		iova_cache_put();
--	}
--
--	host1x_device_exit(device);
--fbdev:
--	drm_kms_helper_poll_fini(drm);
--	tegra_drm_fb_free(drm);
--config:
--	drm_mode_config_cleanup(drm);
--domain:
--	if (tegra->domain)
--		iommu_domain_free(tegra->domain);
--free:
--	kfree(tegra);
--	return err;
--}
--
--static void tegra_drm_unload(struct drm_device *drm)
--{
--	struct host1x_device *device = to_host1x_device(drm->dev);
--	struct tegra_drm *tegra = drm->dev_private;
--	int err;
--
--	drm_kms_helper_poll_fini(drm);
--	tegra_drm_fb_exit(drm);
--	drm_atomic_helper_shutdown(drm);
--	drm_mode_config_cleanup(drm);
--
--	err = host1x_device_exit(device);
--	if (err < 0)
--		return;
--
--	if (tegra->domain) {
--		mutex_destroy(&tegra->mm_lock);
--		drm_mm_takedown(&tegra->mm);
--		put_iova_domain(&tegra->carveout.domain);
--		iova_cache_put();
--		iommu_domain_free(tegra->domain);
--	}
--
--	kfree(tegra);
--}
--
- static int tegra_drm_open(struct drm_device *drm, struct drm_file *filp)
- {
- 	struct tegra_drm_file *fpriv;
-@@ -1046,8 +850,6 @@ static int tegra_debugfs_init(struct drm_minor *minor)
- static struct drm_driver tegra_drm_driver = {
- 	.driver_features = DRIVER_MODESET | DRIVER_GEM |
- 			   DRIVER_ATOMIC | DRIVER_RENDER,
--	.load = tegra_drm_load,
--	.unload = tegra_drm_unload,
- 	.open = tegra_drm_open,
- 	.postclose = tegra_drm_postclose,
- 	.lastclose = drm_fb_helper_lastclose,
-@@ -1231,6 +1033,8 @@ void tegra_drm_free(struct tegra_drm *tegra, size_t size, void *virt,
- static int host1x_drm_probe(struct host1x_device *dev)
- {
- 	struct drm_driver *driver = &tegra_drm_driver;
-+	struct iommu_domain *domain;
-+	struct tegra_drm *tegra;
- 	struct drm_device *drm;
- 	int err;
- 
-@@ -1238,18 +1042,179 @@ static int host1x_drm_probe(struct host1x_device *dev)
- 	if (IS_ERR(drm))
- 		return PTR_ERR(drm);
- 
-+	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
-+	if (!tegra) {
-+		err = -ENOMEM;
-+		goto put;
-+	}
-+
-+	/*
-+	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
-+	 * likely to be allocated beyond the 32-bit boundary if sufficient
-+	 * system memory is available. This is problematic on earlier Tegra
-+	 * generations where host1x supports a maximum of 32 address bits in
-+	 * the GATHER opcode. In this case, unless host1x is behind an IOMMU
-+	 * as well it won't be able to process buffers allocated beyond the
-+	 * 32-bit boundary.
-+	 *
-+	 * The DMA API will use bounce buffers in this case, so that could
-+	 * perhaps still be made to work, even if less efficient, but there
-+	 * is another catch: in order to perform cache maintenance on pages
-+	 * allocated for discontiguous buffers we need to map and unmap the
-+	 * SG table representing these buffers. This is fine for something
-+	 * small like a push buffer, but it exhausts the bounce buffer pool
-+	 * (typically on the order of a few MiB) for framebuffers (many MiB
-+	 * for any modern resolution).
-+	 *
-+	 * Work around this by making sure that Tegra DRM clients only use
-+	 * an IOMMU if the parent host1x also uses an IOMMU.
-+	 *
-+	 * Note that there's still a small gap here that we don't cover: if
-+	 * the DMA API is backed by an IOMMU there's no way to control which
-+	 * device is attached to an IOMMU and which isn't, except via wiring
-+	 * up the device tree appropriately. This is considered an problem
-+	 * of integration, so care must be taken for the DT to be consistent.
-+	 */
-+	domain = iommu_get_domain_for_dev(drm->dev->parent);
-+
-+	if (domain && iommu_present(&platform_bus_type)) {
-+		tegra->domain = iommu_domain_alloc(&platform_bus_type);
-+		if (!tegra->domain) {
-+			err = -ENOMEM;
-+			goto free;
-+		}
-+
-+		err = iova_cache_get();
-+		if (err < 0)
-+			goto domain;
-+	}
-+
-+	mutex_init(&tegra->clients_lock);
-+	INIT_LIST_HEAD(&tegra->clients);
-+
- 	dev_set_drvdata(&dev->dev, drm);
-+	drm->dev_private = tegra;
-+	tegra->drm = drm;
-+
-+	drm_mode_config_init(drm);
-+
-+	drm->mode_config.min_width = 0;
-+	drm->mode_config.min_height = 0;
-+
-+	drm->mode_config.max_width = 4096;
-+	drm->mode_config.max_height = 4096;
-+
-+	drm->mode_config.allow_fb_modifiers = true;
-+
-+	drm->mode_config.normalize_zpos = true;
-+
-+	drm->mode_config.funcs = &tegra_drm_mode_config_funcs;
-+	drm->mode_config.helper_private = &tegra_drm_mode_config_helpers;
-+
-+	err = tegra_drm_fb_prepare(drm);
-+	if (err < 0)
-+		goto config;
-+
-+	drm_kms_helper_poll_init(drm);
-+
-+	err = host1x_device_init(dev);
-+	if (err < 0)
-+		goto fbdev;
-+
-+	if (tegra->group) {
-+		u64 carveout_start, carveout_end, gem_start, gem_end;
-+		u64 dma_mask = dma_get_mask(&dev->dev);
-+		dma_addr_t start, end;
-+		unsigned long order;
-+
-+		start = tegra->domain->geometry.aperture_start & dma_mask;
-+		end = tegra->domain->geometry.aperture_end & dma_mask;
-+
-+		gem_start = start;
-+		gem_end = end - CARVEOUT_SZ;
-+		carveout_start = gem_end + 1;
-+		carveout_end = end;
-+
-+		order = __ffs(tegra->domain->pgsize_bitmap);
-+		init_iova_domain(&tegra->carveout.domain, 1UL << order,
-+				 carveout_start >> order);
-+
-+		tegra->carveout.shift = iova_shift(&tegra->carveout.domain);
-+		tegra->carveout.limit = carveout_end >> tegra->carveout.shift;
-+
-+		drm_mm_init(&tegra->mm, gem_start, gem_end - gem_start + 1);
-+		mutex_init(&tegra->mm_lock);
-+
-+		DRM_DEBUG_DRIVER("IOMMU apertures:\n");
-+		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
-+		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
-+				 carveout_end);
-+	} else if (tegra->domain) {
-+		iommu_domain_free(tegra->domain);
-+		tegra->domain = NULL;
-+		iova_cache_put();
-+	}
-+
-+	if (tegra->hub) {
-+		err = tegra_display_hub_prepare(tegra->hub);
-+		if (err < 0)
-+			goto device;
-+	}
-+
-+	/*
-+	 * We don't use the drm_irq_install() helpers provided by the DRM
-+	 * core, so we need to set this manually in order to allow the
-+	 * DRM_IOCTL_WAIT_VBLANK to operate correctly.
-+	 */
-+	drm->irq_enabled = true;
-+
-+	/* syncpoints are used for full 32-bit hardware VBLANK counters */
-+	drm->max_vblank_count = 0xffffffff;
-+
-+	err = drm_vblank_init(drm, drm->mode_config.num_crtc);
-+	if (err < 0)
-+		goto hub;
-+
-+	drm_mode_config_reset(drm);
-+
-+	err = tegra_drm_fb_init(drm);
-+	if (err < 0)
-+		goto hub;
- 
- 	err = drm_fb_helper_remove_conflicting_framebuffers(NULL, "tegradrmfb", false);
- 	if (err < 0)
--		goto put;
-+		goto fb;
- 
- 	err = drm_dev_register(drm, 0);
- 	if (err < 0)
--		goto put;
-+		goto fb;
- 
- 	return 0;
- 
-+fb:
-+	tegra_drm_fb_exit(drm);
-+hub:
-+	if (tegra->hub)
-+		tegra_display_hub_cleanup(tegra->hub);
-+device:
-+	if (tegra->domain) {
-+		mutex_destroy(&tegra->mm_lock);
-+		drm_mm_takedown(&tegra->mm);
-+		put_iova_domain(&tegra->carveout.domain);
-+		iova_cache_put();
-+	}
-+
-+	host1x_device_exit(dev);
-+fbdev:
-+	drm_kms_helper_poll_fini(drm);
-+	tegra_drm_fb_free(drm);
-+config:
-+	drm_mode_config_cleanup(drm);
-+domain:
-+	if (tegra->domain)
-+		iommu_domain_free(tegra->domain);
-+free:
-+	kfree(tegra);
- put:
- 	drm_dev_put(drm);
- 	return err;
-@@ -1258,8 +1223,29 @@ static int host1x_drm_probe(struct host1x_device *dev)
- static int host1x_drm_remove(struct host1x_device *dev)
- {
- 	struct drm_device *drm = dev_get_drvdata(&dev->dev);
-+	struct tegra_drm *tegra = drm->dev_private;
-+	int err;
- 
- 	drm_dev_unregister(drm);
-+
-+	drm_kms_helper_poll_fini(drm);
-+	tegra_drm_fb_exit(drm);
-+	drm_atomic_helper_shutdown(drm);
-+	drm_mode_config_cleanup(drm);
-+
-+	err = host1x_device_exit(dev);
-+	if (err < 0)
-+		dev_err(&dev->dev, "host1x device cleanup failed: %d\n", err);
-+
-+	if (tegra->domain) {
-+		mutex_destroy(&tegra->mm_lock);
-+		drm_mm_takedown(&tegra->mm);
-+		put_iova_domain(&tegra->carveout.domain);
-+		iova_cache_put();
-+		iommu_domain_free(tegra->domain);
-+	}
-+
-+	kfree(tegra);
- 	drm_dev_put(drm);
- 
- 	return 0;
--- 
-2.23.0
 
+ static const struct tegra_smmu_group_soc tegra30_groups[] = {
+---
+
+Please let me know whether you're going to make a patch or if I should
+do it.
