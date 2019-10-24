@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 186B0E3887
-	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 18:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB7EE3888
+	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 18:45:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439722AbfJXQpz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Oct 2019 12:45:55 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40594 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436846AbfJXQpz (ORCPT
+        id S2439729AbfJXQp5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Oct 2019 12:45:57 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37478 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436846AbfJXQp5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 12:45:55 -0400
-Received: by mail-wr1-f66.google.com with SMTP id o28so26845577wro.7
-        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 09:45:53 -0700 (PDT)
+        Thu, 24 Oct 2019 12:45:57 -0400
+Received: by mail-wm1-f66.google.com with SMTP id q130so3102052wme.2
+        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 09:45:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=W2ba8i6cmLNAVuw9Ax+u8c8Mx7vEOPzpNImQ2Ltx3BU=;
-        b=k9WJb44yg/elITsDxYJnXcTvdo6WewwN3UuPJc9iOB1Licvzg4FbMNxOVLzfqVPrd7
-         6YtBLIAosFZE9WAiGJjfPBSOmPvx90IUBe8vXAkcKYfr723hw03CxvIJpDpiaJrdKhF7
-         K3OAZ2AAof+X8sSSQw+DWZW+7DXT1bum7c9psxevh/w7z35KPtifFHGTQ5dbv+1lg+B0
-         0SMn1BPvKS5Tw1Hf/Yh+SQMs8iB1N2Pa34oFf1qW6kWhWg0H4bRN+7tohthu/c1qEb5u
-         hOgIyB4a4rgoQ8AbjXDezwqmmzZwp8j6h3KbMDu9P20SV8qJ/HBYHPNe5dFNl1Q9TrJS
-         CGXA==
+        bh=N9SI3/7KEnup2lABZq6qRUS5Tek0bF2ZiqM4PxAGcko=;
+        b=FEtaRflDCATBZy8YPHJkPoNZVI+yjg+9VjgnqxeMFx6vAZhLUk8mRG8xCoG+d3rNp1
+         f3VMurZmZPX8x88uMccNkkdt6pmaLN1eDL8FfFsIKr8DcxrZw/0QPQd2xWbgI3Pgg66N
+         D+sZPN7nZA64gJoym+9feP7BEeKm+DdQDlO7HcArGQyY+jIyh0sMJVOI2hYACucjYbsp
+         jghzqa5oel8g7x9wtl5T6fGvdKoUTHU4BpguPWO+txD+e8RFQdEX4mQJ17+xOVJm9Dkq
+         IEX6OPGy9W7qHXurNA3NALVI/QjVSq0IhXeIx/3+5fGiyNbo4lu+WQ0GeB4NSX1D3P93
+         INYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=W2ba8i6cmLNAVuw9Ax+u8c8Mx7vEOPzpNImQ2Ltx3BU=;
-        b=fwTG+dgg8VJhwmfIQsRd5mOE4bTT011dqY0PzmXwC2kWXeTZtYBJml62P69I4sJOrG
-         5ev44Z9ZlN38cgdIhWd5P6NQnfRZwXdsJBmS35s7A4DeuiO+fnAPl4w0IKR+Yi1KwKwN
-         68OkJv9WhWeNerlmNwp/MsShnCZHPUXUgBsTUeP9V0dvfb2/spN0FLMVS5VA5lv5gZ9E
-         OJlPK3BVugvN0ylnm5ttTwdFM7i+gMWmytWfAhHcea1hoqdeqW19jznjfGdvF29h71QF
-         gw0YVGAe7koiW5LlplybzMMFGauh84/1/iLRdzk5ClZBpJ0H0sbvCD5dxqel0q7QnRa2
-         Z2lQ==
-X-Gm-Message-State: APjAAAUjMs0xNpaBoW6E/Yk/j1i/uNyFKrvVXYZ3iCxl3xqN02swg0pI
-        WSfwWOPXxQ+tzeSQGs2eSDw=
-X-Google-Smtp-Source: APXvYqzxAAu40HRGwD/211/4A721vw1pPY68bX60qRMq+Gu+zzY6cblRT/v/7RfYzdUkACAccI9Myw==
-X-Received: by 2002:a5d:49cf:: with SMTP id t15mr4691068wrs.63.1571935553087;
-        Thu, 24 Oct 2019 09:45:53 -0700 (PDT)
+        bh=N9SI3/7KEnup2lABZq6qRUS5Tek0bF2ZiqM4PxAGcko=;
+        b=Z6NoGNqjRjNQRuUXuPs/qxkmppfg6j99BezdqE7c9H76awtm5d3yk0U5MHjBnkL1Dr
+         g3GCIV7einASaWpPvtzl0DVT44b22zHa1u2uAsOn20RPgG8FfE0MkqHD2xNFJ0vfYnZH
+         1Q4Aln6XzfgIZrz9fqTmmrO0zGbrxHPlnuO/TjN8wCl7UK+Dc3htQOTr+x8YD3JCHCJT
+         bSYIobWFI2B4aBF/YrxApzN3phEEyykKHVZz93+o964JuNfC5tuLi9Zfq0B0Su9yGNTu
+         im0nDBFkItaEwPHu7p+/8TFHqs3pA3BIZkHj9c2ZADndfTpsbHOKo8Rwf501SVrUtHXC
+         k0sQ==
+X-Gm-Message-State: APjAAAU/8lHxt+7msLlrHQLe5BbiqEvxJ8x7kiuKu4ebyLx95BdV6dHk
+        WzZopkjTITnJmqBrUSoSQdw=
+X-Google-Smtp-Source: APXvYqyv4rA+Hp2xsAFcvJ/wzAlNSBiHkV23Ji4mYrcVhZFeenfluQxWhoiaUWPwAAuh8N2LBeogSg==
+X-Received: by 2002:a1c:4d14:: with SMTP id o20mr5975598wmh.7.1571935555583;
+        Thu, 24 Oct 2019 09:45:55 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id n1sm31200223wrg.67.2019.10.24.09.45.51
+        by smtp.gmail.com with ESMTPSA id p17sm22595775wrn.4.2019.10.24.09.45.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 09:45:51 -0700 (PDT)
+        Thu, 24 Oct 2019 09:45:54 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 07/32] drm/tegra: dp: Read TPS3 capability from sink
-Date:   Thu, 24 Oct 2019 18:45:09 +0200
-Message-Id: <20191024164534.132764-8-thierry.reding@gmail.com>
+Subject: [PATCH 08/32] drm/tegra: dp: Read channel coding capability from sink
+Date:   Thu, 24 Oct 2019 18:45:10 +0200
+Message-Id: <20191024164534.132764-9-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191024164534.132764-1-thierry.reding@gmail.com>
 References: <20191024164534.132764-1-thierry.reding@gmail.com>
@@ -63,8 +63,8 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The TPS3 capability can be exposed by DP 1.2 and later sinks if they
-support the alternative training pattern for channel equalization.
+Parse from the sink capabilities whether or not it supports ANSI 8B/10B
+channel coding as specified in ANSI X3.230-1994, clause 11.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
@@ -73,51 +73,51 @@ Signed-off-by: Thierry Reding <treding@nvidia.com>
  2 files changed, 10 insertions(+)
 
 diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
-index 97fc0225483f..e22ebab677b9 100644
+index e22ebab677b9..0bd87cff4575 100644
 --- a/drivers/gpu/drm/tegra/dp.c
 +++ b/drivers/gpu/drm/tegra/dp.c
-@@ -11,6 +11,7 @@
- static void drm_dp_link_caps_reset(struct drm_dp_link_caps *caps)
- {
+@@ -13,6 +13,7 @@ static void drm_dp_link_caps_reset(struct drm_dp_link_caps *caps)
  	caps->enhanced_framing = false;
-+	caps->tps3_supported = false;
+ 	caps->tps3_supported = false;
  	caps->fast_training = false;
++	caps->channel_coding = false;
  }
  
-@@ -18,6 +19,7 @@ void drm_dp_link_caps_copy(struct drm_dp_link_caps *dest,
- 			   const struct drm_dp_link_caps *src)
- {
+ void drm_dp_link_caps_copy(struct drm_dp_link_caps *dest,
+@@ -21,6 +22,7 @@ void drm_dp_link_caps_copy(struct drm_dp_link_caps *dest,
  	dest->enhanced_framing = src->enhanced_framing;
-+	dest->tps3_supported = src->tps3_supported;
+ 	dest->tps3_supported = src->tps3_supported;
  	dest->fast_training = src->fast_training;
++	dest->channel_coding = src->channel_coding;
  }
  
-@@ -63,6 +65,7 @@ int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link)
- 	link->max_lanes = drm_dp_max_lane_count(dpcd);
- 
+ static void drm_dp_link_reset(struct drm_dp_link *link)
+@@ -67,6 +69,7 @@ int drm_dp_link_probe(struct drm_dp_aux *aux, struct drm_dp_link *link)
  	link->caps.enhanced_framing = drm_dp_enhanced_frame_cap(dpcd);
-+	link->caps.tps3_supported = drm_dp_tps3_supported(dpcd);
+ 	link->caps.tps3_supported = drm_dp_tps3_supported(dpcd);
  	link->caps.fast_training = drm_dp_fast_training_cap(dpcd);
++	link->caps.channel_coding = drm_dp_channel_coding_supported(dpcd);
  
  	link->rate = link->max_rate;
+ 	link->lanes = link->max_lanes;
 diff --git a/drivers/gpu/drm/tegra/dp.h b/drivers/gpu/drm/tegra/dp.h
-index d6ae477bab5c..999078812943 100644
+index 999078812943..984dac21568e 100644
 --- a/drivers/gpu/drm/tegra/dp.h
 +++ b/drivers/gpu/drm/tegra/dp.h
-@@ -22,6 +22,13 @@ struct drm_dp_link_caps {
+@@ -35,6 +35,13 @@ struct drm_dp_link_caps {
+ 	 * AUX CH handshake not required for link training
  	 */
- 	bool enhanced_framing;
- 
-+	/**
-+	 * tps3_supported:
-+	 *
-+	 * training pattern sequence 3 supported for equalization
-+	 */
-+	bool tps3_supported;
+ 	bool fast_training;
 +
- 	/**
- 	 * @fast_training:
- 	 *
++	/**
++	 * @channel_coding:
++	 *
++	 * ANSI 8B/10B channel coding capability
++	 */
++	bool channel_coding;
+ };
+ 
+ void drm_dp_link_caps_copy(struct drm_dp_link_caps *dest,
 -- 
 2.23.0
 
