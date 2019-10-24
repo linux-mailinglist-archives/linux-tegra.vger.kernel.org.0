@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68282E3892
+	by mail.lfdr.de (Postfix) with ESMTP id D6407E3893
 	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 18:46:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439895AbfJXQqI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S2436846AbfJXQqI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Thu, 24 Oct 2019 12:46:08 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51959 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436846AbfJXQqH (ORCPT
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39996 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439894AbfJXQqI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 12:46:07 -0400
-Received: by mail-wm1-f66.google.com with SMTP id q70so3613339wme.1
-        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 09:46:04 -0700 (PDT)
+        Thu, 24 Oct 2019 12:46:08 -0400
+Received: by mail-wm1-f68.google.com with SMTP id w9so2096100wmm.5
+        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 09:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6VLoJyLaTalvPJTjL4ZURLjR521ZUnRyrnLxHevvRaM=;
-        b=ehcQLQC5E+gvhhTIBrAdm6Wp2/fRl3wMgXLryA6knIosKQs1Na6Bt/uu5kXL7Z6iiW
-         mVWQqcBO99ZsOdf9dgdA77VZli/eOXxbVcSEogQlhRkgXuUpfAEMWBQZqSj9gvOdxTLC
-         qyvrexZMfLD8VSwaEFzMwNuRnhvCV8eFaaVi0/9SIBNXzEvXSjmh0gn+uLDIfGSoRQDD
-         lP0CAyiXbUkAVsoDdzN92q1JYA71izNNQuOgtGtJyG+vZVB9Wj3GyQBToXHkM5m6PJm3
-         WhasXUy+NPrhNnivV1XTd695MMrSTusHzVwrsmvABp6DIxiUSa4TYYXfbbVA4sCGzcqi
-         pVdg==
+        bh=v7sIBy+NeFxNLTjK62J325/VvVdEVUMB1reiPu3pIc8=;
+        b=h2AkK8Fk42hDKnysvCBeOGI1jEnFs/G/r+XJcTwS4ymT5ODIFNyQGWEPknw1kx6V1i
+         QvibakSkAbdHHpT/L0egKH5XsGcX3ntr5VS6QASDLiVIMdWCu/qyhl3VPTjyxxWlZeqC
+         cOq9PCsJoRIxzwcVaEr8zdDrUnLtzWVS6j8cwzry2JAghgu4Mqv195T3aqMefkZXmqOq
+         tuXucWEQY6Bu+nxz1OKB7RiMKmlmG1QvfI2QQgnC41DDD0SnD0WyaFqc99T0fe/TVlVR
+         GmwRL/ZxJxF70qpNaXSAIoTzag4cTjaKdDo3vvHKZp5iXkdpMtg0l5JksOTvwQi8KN8s
+         sTNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6VLoJyLaTalvPJTjL4ZURLjR521ZUnRyrnLxHevvRaM=;
-        b=MBTUsE4lRPOMNF+YX1dhzUy3Hx1Vsl4z00ccpButF5d3hBHcy7+IbeL2gcf5PADNT2
-         j+WqAsV4VEjXjF850auyfbJev+k9oLV3XtsBkho/YZrZRADvOwxddxgg/iOIUiyvzdWs
-         hBMwDgKmPHgdqijRNgAHYvRKjuAeQkQGdb/hiWRr7Er49Vjef8jOZcf/LEPO2qak84hd
-         /r9nYuXFzVj3/e1a2XqSoxazFZrrt2i7g/ojuhW2T3E9cU8RnYuFjJ1WvYTI4hEfagqX
-         qEyqo5i5WJmrW3hTQck2kjwqvDwwniryMAuVuWfJotar9JGcA+VdAO8f2YEPyVFM6rnt
-         NvbA==
-X-Gm-Message-State: APjAAAV0MMGKjplRh9GDlYjdx9Xa7VCaWUEuT3LU60RUNixT17zOJ+rr
-        VHzNvtRpti0ueaD6pclwmYVRMzMm
-X-Google-Smtp-Source: APXvYqxCTYIc2lo6yAMdPgmEf2fXBJegbWiE+vuDuM6/LyEQ4pIB1jN8pr9bOLLxm3tv/4q5/MdPUQ==
-X-Received: by 2002:a05:600c:294b:: with SMTP id n11mr5546291wmd.70.1571935563958;
-        Thu, 24 Oct 2019 09:46:03 -0700 (PDT)
+        bh=v7sIBy+NeFxNLTjK62J325/VvVdEVUMB1reiPu3pIc8=;
+        b=Q+cyDTNd0XFFzXw6qo8Em/hoDiG2gEZQN2mW9MOQ/DfXCY6VWgRNyCv//0KVPLtjGf
+         BPnyDC6wczc4JYSNLeXnTmRO77YPJn9XADgvW07C9S3jqKVS0fDKaHtA6ph52HGdzYny
+         WeZdnkLcSvRfQkVmOmxdWq7YBjl2oUs2xpqiTm8I5PIWwTVBm2agdUotPaGM3fXfQcvj
+         XOCYP385+3WLRd+gDHGWkpG8m+dS+tZIja+diyggmap89U+ZDS48Th4oyCmMFBq7SnB0
+         fAyrcMDnrIS1lK6ZZ9MAfN4jfP4SjBwLM6moJBokefJ0qrSsLJoQ7/VRO+j6qBnkULTv
+         P+jA==
+X-Gm-Message-State: APjAAAXXlYCpb07MI+jKoFsuyEDaRgeSNeFCMaabS6NG6rT9nVJbV7jU
+        cMCPzUgoTSZX434I4LxRfqx+Fx6J
+X-Google-Smtp-Source: APXvYqzNMQfQSe21eo66v5s9QJVWKaQWzPmmQo+HbPGXpXR1lqS8E7bqjTx+spu0jHtb5iCHVx5TQQ==
+X-Received: by 2002:a1c:41c1:: with SMTP id o184mr6063460wma.81.1571935565957;
+        Thu, 24 Oct 2019 09:46:05 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id h205sm3542137wmf.35.2019.10.24.09.46.02
+        by smtp.gmail.com with ESMTPSA id r3sm42193380wre.29.2019.10.24.09.46.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 09:46:03 -0700 (PDT)
+        Thu, 24 Oct 2019 09:46:05 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 12/32] drm/tegra: dp: Set channel coding on link configuration
-Date:   Thu, 24 Oct 2019 18:45:14 +0200
-Message-Id: <20191024164534.132764-13-thierry.reding@gmail.com>
+Subject: [PATCH 13/32] drm/tegra: dp: Enable alternate scrambler reset when supported
+Date:   Thu, 24 Oct 2019 18:45:15 +0200
+Message-Id: <20191024164534.132764-14-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191024164534.132764-1-thierry.reding@gmail.com>
 References: <20191024164534.132764-1-thierry.reding@gmail.com>
@@ -63,39 +63,28 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Make use of ANSI 8B/10B channel coding if the DisplayPort sink supports
+If the sink is eDP and supports the alternate scrambler reset, enable
 it.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/dp.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tegra/dp.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
-index 757a0256592f..ca287b50fad8 100644
+index ca287b50fad8..638081b568f4 100644
 --- a/drivers/gpu/drm/tegra/dp.c
 +++ b/drivers/gpu/drm/tegra/dp.c
-@@ -203,7 +203,7 @@ int drm_dp_link_power_down(struct drm_dp_aux *aux, struct drm_dp_link *link)
-  */
- int drm_dp_link_configure(struct drm_dp_aux *aux, struct drm_dp_link *link)
- {
--	u8 values[2];
-+	u8 values[2], value;
- 	int err;
- 
- 	values[0] = drm_dp_link_rate_to_bw_code(link->rate);
-@@ -216,5 +216,14 @@ int drm_dp_link_configure(struct drm_dp_aux *aux, struct drm_dp_link *link)
+@@ -225,5 +225,12 @@ int drm_dp_link_configure(struct drm_dp_aux *aux, struct drm_dp_link *link)
  	if (err < 0)
  		return err;
  
-+	if (link->caps.channel_coding)
-+		value = DP_SET_ANSI_8B10B;
-+	else
-+		value = 0;
-+
-+	err = drm_dp_dpcd_writeb(aux, DP_MAIN_LINK_CHANNEL_CODING_SET, value);
-+	if (err < 0)
-+		return err;
++	if (link->caps.alternate_scrambler_reset) {
++		err = drm_dp_dpcd_writeb(aux, DP_EDP_CONFIGURATION_SET,
++					 DP_ALTERNATE_SCRAMBLER_RESET_ENABLE);
++		if (err < 0)
++			return err;
++	}
 +
  	return 0;
  }
