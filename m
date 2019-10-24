@@ -2,179 +2,512 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26480E360F
-	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 16:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C38BBE3633
+	for <lists+linux-tegra@lfdr.de>; Thu, 24 Oct 2019 17:10:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409469AbfJXO57 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Oct 2019 10:57:59 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:58169 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407327AbfJXO56 (ORCPT
+        id S2407409AbfJXPKi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Oct 2019 11:10:38 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:44481 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407327AbfJXPKi (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 10:57:58 -0400
-X-Originating-IP: 92.137.17.54
-Received: from localhost (alyon-657-1-975-54.w92-137.abo.wanadoo.fr [92.137.17.54])
-        (Authenticated sender: gregory.clement@bootlin.com)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 2EB3E1BF20B;
-        Thu, 24 Oct 2019 14:57:53 +0000 (UTC)
-From:   Gregory CLEMENT <gregory.clement@bootlin.com>
-To:     Jon Hunter <jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>,
-        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        stable@vger.kernel.org, linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH] spi: Fix SPI_CS_HIGH setting when using native and GPIO CS
-In-Reply-To: <dfabf9eb-4f81-91e5-55dc-caea0cdabd2d@nvidia.com>
-References: <20191018152929.3287-1-gregory.clement@bootlin.com> <dfabf9eb-4f81-91e5-55dc-caea0cdabd2d@nvidia.com>
-Date:   Thu, 24 Oct 2019 16:57:52 +0200
-Message-ID: <87zhhqp4wf.fsf@FE-laptop>
+        Thu, 24 Oct 2019 11:10:38 -0400
+Received: by mail-wr1-f65.google.com with SMTP id z11so3134449wro.11
+        for <linux-tegra@vger.kernel.org>; Thu, 24 Oct 2019 08:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iPfY7+I+U87jKu1umZ2Dx/+dKwkQ7iiI6IZAa/Ykx5g=;
+        b=dSA7/5LafziFlZey3oi471xxaFLvKP4ziT26/aBvSEtXW4ih+hKbS2kftc2G84zNHD
+         0634QcYwLRB+VXiyFXThK+v9nNwdhLeyny93W6cpEWTyBu/cTDZDoaVXWpu0SBo9ATLo
+         3nbeK93cgpZqeAEGJf0wpRbgDi3fKs/JaAGeigB/KNVd/H99w9WdkhWKGXgMdNMtgOA6
+         j/eC/MYqvubvgMOqcjtv7e+h7bKtOJt+uxmwhW82YCHCvXM9NZ6sD0HSSJe2AHtVgKzt
+         SK3om9Xwe7BOPIPaWhZGIYfvdLJHnVL7HKMmwhunv9z50QamRaCGrik9SSccBrDzTnxs
+         714g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iPfY7+I+U87jKu1umZ2Dx/+dKwkQ7iiI6IZAa/Ykx5g=;
+        b=eYh0QaJy8EN8h52AtD1f3uNs1hksmrqIieR0NOaKMfT4mj/EtUyKo5gc7OaAm9JwuS
+         O56FAyy4alyAi7vgWqY69mRDmVhxcl/4LhD2Xv4uSjQVcEHHhxlg3KAdY5oltPQB1YCU
+         iRZCPIzdza/Z5NMsalSdgV7s++vjJ82Ydt9PlMjjjWXLQvQfzPwjycKNgpxoZlx+szgT
+         vFZHzinQ44K/88oL6A7SVjtsGv+d0rCnX4ueXkwY7Vm6/q0Ev783lQf3DZqyak8IUN2t
+         UrNZLl7/lvZeb+FOxGmpgKrFa7iroI2So2jOhR6ExPMQremRZMpiPtKvn7F/coNlXkPa
+         YaOA==
+X-Gm-Message-State: APjAAAURL4VAyQ7draDuu0cveJ2Zu+E7FJGdpAMA+MgGJmbypVAlAPDG
+        UJd7YXtkmolNiaIlOR3V/O96c11r
+X-Google-Smtp-Source: APXvYqy3ti6fKjinmfxVVVC1NFvAWKDRCmy8auH9CrDoTdU85AEtBnR6TlmrRK9aTClm/B/uI11Z5w==
+X-Received: by 2002:adf:db42:: with SMTP id f2mr4648487wrj.287.1571929834021;
+        Thu, 24 Oct 2019 08:10:34 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id r15sm2729660wme.0.2019.10.24.08.10.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2019 08:10:32 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH] drm/tegra: Do not use ->load() and ->unload() callbacks
+Date:   Thu, 24 Oct 2019 17:10:30 +0200
+Message-Id: <20191024151030.3822283-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello Jon,
+From: Thierry Reding <treding@nvidia.com>
 
-> On 18/10/2019 16:29, Gregory CLEMENT wrote:
->> When improving the CS GPIO support at core level, the SPI_CS_HIGH
->> has been enabled for all the CS lines used for a given SPI controller.
->> 
->> However, the SPI framework allows to have on the same controller native
->> CS and GPIO CS. The native CS may not support the SPI_CS_HIGH, so they
->> should not be setup automatically.
->> 
->> With this patch the setting is done only for the CS that will use a
->> GPIO as CS
->> 
->> Fixes: f3186dd87669 ("spi: Optionally use GPIO descriptors for CS GPIOs")
->> Cc: <stable@vger.kernel.org>
->> Signed-off-by: Gregory CLEMENT <gregory.clement@bootlin.com>
->> ---
->>  drivers/spi/spi.c | 18 +++++++++---------
->>  1 file changed, 9 insertions(+), 9 deletions(-)
->> 
->> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
->> index 5414a10afd65..1b68acc28c8f 100644
->> --- a/drivers/spi/spi.c
->> +++ b/drivers/spi/spi.c
->> @@ -1880,15 +1880,7 @@ static int of_spi_parse_dt(struct spi_controller *ctlr, struct spi_device *spi,
->>  		spi->mode |= SPI_3WIRE;
->>  	if (of_property_read_bool(nc, "spi-lsb-first"))
->>  		spi->mode |= SPI_LSB_FIRST;
->> -
->> -	/*
->> -	 * For descriptors associated with the device, polarity inversion is
->> -	 * handled in the gpiolib, so all chip selects are "active high" in
->> -	 * the logical sense, the gpiolib will invert the line if need be.
->> -	 */
->> -	if (ctlr->use_gpio_descriptors)
->> -		spi->mode |= SPI_CS_HIGH;
->> -	else if (of_property_read_bool(nc, "spi-cs-high"))
->> +	if (of_property_read_bool(nc, "spi-cs-high"))
->>  		spi->mode |= SPI_CS_HIGH;
->>  
->>  	/* Device DUAL/QUAD mode */
->> @@ -1952,6 +1944,14 @@ static int of_spi_parse_dt(struct spi_controller *ctlr, struct spi_device *spi,
->>  	}
->>  	spi->chip_select = value;
->>  
->> +	/*
->> +	 * For descriptors associated with the device, polarity inversion is
->> +	 * handled in the gpiolib, so all gpio chip selects are "active high"
->> +	 * in the logical sense, the gpiolib will invert the line if need be.
->> +	 */
->> +	if ((ctlr->use_gpio_descriptors) && ctlr->cs_gpiods[spi->chip_select])
->> +		spi->mode |= SPI_CS_HIGH;
->> +
->
-> This patch is causing a boot regression on one of our Tegra boards. 
-> Bisect is pointing to this commit and reverting on top of today's -next
-> fixes the problem. 
->
-> This patch is causing the following NULL pointer crash which I assume is
-> because we have not checked if 'ctlr->cs_gpiods' is valid before
-> dereferencing ...
+The ->load() and ->unload() drivers are midlayers and should be avoided
+in modern drivers. Fix this by moving the code into the driver ->probe()
+and ->remove() implementations, respectively.
 
-I've just submitted a fixe for it
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/drm.c | 386 +++++++++++++++++-------------------
+ 1 file changed, 186 insertions(+), 200 deletions(-)
 
-https://patchwork.kernel.org/patch/11209839/
-
-
-Thanks,
-
-Gregory
-
->
-> [    2.083593] Unable to handle kernel NULL pointer dereference at virtual address 00000000
-> [    2.091800] pgd = (ptrval)
-> [    2.094513] [00000000] *pgd=00000000
-> [    2.098122] Internal error: Oops: 5 [#1] PREEMPT SMP ARM
-> [    2.103436] Modules linked in:
-> [    2.106501] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.4.0-rc4-next-20191024-00013-gdda3f5db0962 #402
-> [    2.115808] Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
-> [    2.122084] PC is at spi_register_controller+0x870/0xac0
-> [    2.127409] LR is at of_find_property+0x44/0x4c
-> [    2.131943] pc : [<c0629b98>]    lr : [<c078b068>]    psr: 20000013
-> [    2.138210] sp : ee8cdda8  ip : 00000000  fp : 00000000
-> [    2.143436] r10: eefe88e8  r9 : 00000001  r8 : eefe8898
-> [    2.148662] r7 : ee2dac00  r6 : c0d2019c  r5 : c0d20190  r4 : ee2d8800
-> [    2.155190] r3 : 00000000  r2 : 00000000  r1 : ffffffff  r0 : 00000001
-> [    2.161719] Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-> [    2.168857] Control: 10c5387d  Table: 8000406a  DAC: 00000051
-> [    2.174604] Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
-> [    2.180613] Stack: (0xee8cdda8 to 0xee8ce000)
-> [    2.184976] dda0:                   00000000 00000044 c0629e0c 00000000 c1004e48 c0d202c8
-> [    2.193161] ddc0: 00000000 d20df1b4 c0628544 ee2d2040 ee2d8800 eea6c010 eea6c010 40000000
-> [    2.201344] dde0: 00000000 00000055 c0f8cd14 c0629e1c ee2d8800 ee2d8bc0 eea6c010 eea6c000
-> [    2.209528] de00: 40000000 c062db18 eea6b500 ee2d8bc0 eea6c010 00000000 c10807d4 00000000
-> [    2.217710] de20: c10807d4 00000000 00000000 c05b1050 c1110834 eea6c010 c1110838 c05af028
-> [    2.225893] de40: eea6c010 c10807d4 c10807d4 c1004e48 00000000 c0f0058c c0f71854 c05af2b8
-> [    2.234077] de60: c0f71854 c078be00 c0b91164 eea6c010 00000000 c10807d4 c1004e48 00000000
-> [    2.242259] de80: c0f0058c c0f71854 c0f8cd14 c05af568 00000000 c10807d4 eea6c010 c05af5f0
-> [    2.250442] dea0: 00000000 c10807d4 c05af570 c05ad39c c0f0058c ee90ea5c eea651b4 d20df1b4
-> [    2.258626] dec0: c1077590 c10807d4 ee2d2580 c1077590 00000000 c05ae390 c0d20a60 c10c73a0
-> [    2.266809] dee0: ffffe000 c10807d4 c10c73a0 ffffe000 c0f3b368 c05b0144 c1004e48 c10c73a0
-> [    2.274992] df00: ffffe000 c010306c 0000011e c01454b4 c0de9d70 c0d32c00 00000000 00000006
-> [    2.283175] df20: 00000006 c0cbf1b0 00000000 c1004e48 c0cd2680 c0cbf224 00000000 efffcc21
-> [    2.291358] df40: efffcc45 d20df1b4 00000000 c10d4e00 c10d4e00 d20df1b4 c10d4e00 c10d4e00
-> [    2.299541] df60: 00000007 c0f71834 0000011e c0f01040 00000006 00000006 00000000 c0f0058c
-> [    2.307723] df80: c0aad7c4 00000000 c0aad7c4 00000000 00000000 00000000 00000000 00000000
-> [    2.315906] dfa0: 00000000 c0aad7cc 00000000 c01010e8 00000000 00000000 00000000 00000000
-> [    2.324088] dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [    2.332271] dfe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
-> [    2.340463] [<c0629b98>] (spi_register_controller) from [<c0629e1c>] (devm_spi_register_controller+0x34/0x6c)
-> [    2.350389] [<c0629e1c>] (devm_spi_register_controller) from [<c062db18>] (tegra_spi_probe+0x33c/0x448)
-> [    2.359794] [<c062db18>] (tegra_spi_probe) from [<c05b1050>] (platform_drv_probe+0x48/0x98)
-> [    2.368155] [<c05b1050>] (platform_drv_probe) from [<c05af028>] (really_probe+0x234/0x34c)
-> [    2.376427] [<c05af028>] (really_probe) from [<c05af2b8>] (driver_probe_device+0x60/0x168)
-> [    2.384699] [<c05af2b8>] (driver_probe_device) from [<c05af568>] (device_driver_attach+0x58/0x60)
-> [    2.393578] [<c05af568>] (device_driver_attach) from [<c05af5f0>] (__driver_attach+0x80/0xbc)
-> [    2.402108] [<c05af5f0>] (__driver_attach) from [<c05ad39c>] (bus_for_each_dev+0x74/0xb4)
-> [    2.410292] [<c05ad39c>] (bus_for_each_dev) from [<c05ae390>] (bus_add_driver+0x164/0x1e8)
-> [    2.418563] [<c05ae390>] (bus_add_driver) from [<c05b0144>] (driver_register+0x7c/0x114)
-> [    2.426663] [<c05b0144>] (driver_register) from [<c010306c>] (do_one_initcall+0x54/0x2a8)
-> [    2.434851] [<c010306c>] (do_one_initcall) from [<c0f01040>] (kernel_init_freeable+0x14c/0x1e8)
-> [    2.443560] [<c0f01040>] (kernel_init_freeable) from [<c0aad7cc>] (kernel_init+0x8/0x10c)
-> [    2.451747] [<c0aad7cc>] (kernel_init) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
-> [    2.459318] Exception stack(0xee8cdfb0 to 0xee8cdff8)
-> [    2.464374] dfa0:                                     00000000 00000000 00000000 00000000
-> [    2.472557] dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [    2.480740] dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> [    2.487362] Code: e3520000 0a000006 e59422f8 e6ef3073 (e7923103) 
-> [    2.493510] ---[ end trace c189900877242550 ]---
->
-> Cheers
-> Jon
->
-> -- 
-> nvpublic
-
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 3012f13bab97..bd7a00272965 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -82,202 +82,6 @@ tegra_drm_mode_config_helpers = {
+ 	.atomic_commit_tail = tegra_atomic_commit_tail,
+ };
+ 
+-static int tegra_drm_load(struct drm_device *drm, unsigned long flags)
+-{
+-	struct host1x_device *device = to_host1x_device(drm->dev);
+-	struct iommu_domain *domain;
+-	struct tegra_drm *tegra;
+-	int err;
+-
+-	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
+-	if (!tegra)
+-		return -ENOMEM;
+-
+-	/*
+-	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
+-	 * likely to be allocated beyond the 32-bit boundary if sufficient
+-	 * system memory is available. This is problematic on earlier Tegra
+-	 * generations where host1x supports a maximum of 32 address bits in
+-	 * the GATHER opcode. In this case, unless host1x is behind an IOMMU
+-	 * as well it won't be able to process buffers allocated beyond the
+-	 * 32-bit boundary.
+-	 *
+-	 * The DMA API will use bounce buffers in this case, so that could
+-	 * perhaps still be made to work, even if less efficient, but there
+-	 * is another catch: in order to perform cache maintenance on pages
+-	 * allocated for discontiguous buffers we need to map and unmap the
+-	 * SG table representing these buffers. This is fine for something
+-	 * small like a push buffer, but it exhausts the bounce buffer pool
+-	 * (typically on the order of a few MiB) for framebuffers (many MiB
+-	 * for any modern resolution).
+-	 *
+-	 * Work around this by making sure that Tegra DRM clients only use
+-	 * an IOMMU if the parent host1x also uses an IOMMU.
+-	 *
+-	 * Note that there's still a small gap here that we don't cover: if
+-	 * the DMA API is backed by an IOMMU there's no way to control which
+-	 * device is attached to an IOMMU and which isn't, except via wiring
+-	 * up the device tree appropriately. This is considered an problem
+-	 * of integration, so care must be taken for the DT to be consistent.
+-	 */
+-	domain = iommu_get_domain_for_dev(drm->dev->parent);
+-
+-	if (domain && iommu_present(&platform_bus_type)) {
+-		tegra->domain = iommu_domain_alloc(&platform_bus_type);
+-		if (!tegra->domain) {
+-			err = -ENOMEM;
+-			goto free;
+-		}
+-
+-		err = iova_cache_get();
+-		if (err < 0)
+-			goto domain;
+-	}
+-
+-	mutex_init(&tegra->clients_lock);
+-	INIT_LIST_HEAD(&tegra->clients);
+-
+-	drm->dev_private = tegra;
+-	tegra->drm = drm;
+-
+-	drm_mode_config_init(drm);
+-
+-	drm->mode_config.min_width = 0;
+-	drm->mode_config.min_height = 0;
+-
+-	drm->mode_config.max_width = 4096;
+-	drm->mode_config.max_height = 4096;
+-
+-	drm->mode_config.allow_fb_modifiers = true;
+-
+-	drm->mode_config.normalize_zpos = true;
+-
+-	drm->mode_config.funcs = &tegra_drm_mode_config_funcs;
+-	drm->mode_config.helper_private = &tegra_drm_mode_config_helpers;
+-
+-	err = tegra_drm_fb_prepare(drm);
+-	if (err < 0)
+-		goto config;
+-
+-	drm_kms_helper_poll_init(drm);
+-
+-	err = host1x_device_init(device);
+-	if (err < 0)
+-		goto fbdev;
+-
+-	if (tegra->group) {
+-		u64 carveout_start, carveout_end, gem_start, gem_end;
+-		u64 dma_mask = dma_get_mask(&device->dev);
+-		dma_addr_t start, end;
+-		unsigned long order;
+-
+-		start = tegra->domain->geometry.aperture_start & dma_mask;
+-		end = tegra->domain->geometry.aperture_end & dma_mask;
+-
+-		gem_start = start;
+-		gem_end = end - CARVEOUT_SZ;
+-		carveout_start = gem_end + 1;
+-		carveout_end = end;
+-
+-		order = __ffs(tegra->domain->pgsize_bitmap);
+-		init_iova_domain(&tegra->carveout.domain, 1UL << order,
+-				 carveout_start >> order);
+-
+-		tegra->carveout.shift = iova_shift(&tegra->carveout.domain);
+-		tegra->carveout.limit = carveout_end >> tegra->carveout.shift;
+-
+-		drm_mm_init(&tegra->mm, gem_start, gem_end - gem_start + 1);
+-		mutex_init(&tegra->mm_lock);
+-
+-		DRM_DEBUG_DRIVER("IOMMU apertures:\n");
+-		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
+-		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
+-				 carveout_end);
+-	} else if (tegra->domain) {
+-		iommu_domain_free(tegra->domain);
+-		tegra->domain = NULL;
+-		iova_cache_put();
+-	}
+-
+-	if (tegra->hub) {
+-		err = tegra_display_hub_prepare(tegra->hub);
+-		if (err < 0)
+-			goto device;
+-	}
+-
+-	/*
+-	 * We don't use the drm_irq_install() helpers provided by the DRM
+-	 * core, so we need to set this manually in order to allow the
+-	 * DRM_IOCTL_WAIT_VBLANK to operate correctly.
+-	 */
+-	drm->irq_enabled = true;
+-
+-	/* syncpoints are used for full 32-bit hardware VBLANK counters */
+-	drm->max_vblank_count = 0xffffffff;
+-
+-	err = drm_vblank_init(drm, drm->mode_config.num_crtc);
+-	if (err < 0)
+-		goto hub;
+-
+-	drm_mode_config_reset(drm);
+-
+-	err = tegra_drm_fb_init(drm);
+-	if (err < 0)
+-		goto hub;
+-
+-	return 0;
+-
+-hub:
+-	if (tegra->hub)
+-		tegra_display_hub_cleanup(tegra->hub);
+-device:
+-	if (tegra->domain) {
+-		mutex_destroy(&tegra->mm_lock);
+-		drm_mm_takedown(&tegra->mm);
+-		put_iova_domain(&tegra->carveout.domain);
+-		iova_cache_put();
+-	}
+-
+-	host1x_device_exit(device);
+-fbdev:
+-	drm_kms_helper_poll_fini(drm);
+-	tegra_drm_fb_free(drm);
+-config:
+-	drm_mode_config_cleanup(drm);
+-domain:
+-	if (tegra->domain)
+-		iommu_domain_free(tegra->domain);
+-free:
+-	kfree(tegra);
+-	return err;
+-}
+-
+-static void tegra_drm_unload(struct drm_device *drm)
+-{
+-	struct host1x_device *device = to_host1x_device(drm->dev);
+-	struct tegra_drm *tegra = drm->dev_private;
+-	int err;
+-
+-	drm_kms_helper_poll_fini(drm);
+-	tegra_drm_fb_exit(drm);
+-	drm_atomic_helper_shutdown(drm);
+-	drm_mode_config_cleanup(drm);
+-
+-	err = host1x_device_exit(device);
+-	if (err < 0)
+-		return;
+-
+-	if (tegra->domain) {
+-		mutex_destroy(&tegra->mm_lock);
+-		drm_mm_takedown(&tegra->mm);
+-		put_iova_domain(&tegra->carveout.domain);
+-		iova_cache_put();
+-		iommu_domain_free(tegra->domain);
+-	}
+-
+-	kfree(tegra);
+-}
+-
+ static int tegra_drm_open(struct drm_device *drm, struct drm_file *filp)
+ {
+ 	struct tegra_drm_file *fpriv;
+@@ -1046,8 +850,6 @@ static int tegra_debugfs_init(struct drm_minor *minor)
+ static struct drm_driver tegra_drm_driver = {
+ 	.driver_features = DRIVER_MODESET | DRIVER_GEM |
+ 			   DRIVER_ATOMIC | DRIVER_RENDER,
+-	.load = tegra_drm_load,
+-	.unload = tegra_drm_unload,
+ 	.open = tegra_drm_open,
+ 	.postclose = tegra_drm_postclose,
+ 	.lastclose = drm_fb_helper_lastclose,
+@@ -1231,6 +1033,8 @@ void tegra_drm_free(struct tegra_drm *tegra, size_t size, void *virt,
+ static int host1x_drm_probe(struct host1x_device *dev)
+ {
+ 	struct drm_driver *driver = &tegra_drm_driver;
++	struct iommu_domain *domain;
++	struct tegra_drm *tegra;
+ 	struct drm_device *drm;
+ 	int err;
+ 
+@@ -1238,18 +1042,179 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 	if (IS_ERR(drm))
+ 		return PTR_ERR(drm);
+ 
++	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
++	if (!tegra) {
++		err = -ENOMEM;
++		goto put;
++	}
++
++	/*
++	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
++	 * likely to be allocated beyond the 32-bit boundary if sufficient
++	 * system memory is available. This is problematic on earlier Tegra
++	 * generations where host1x supports a maximum of 32 address bits in
++	 * the GATHER opcode. In this case, unless host1x is behind an IOMMU
++	 * as well it won't be able to process buffers allocated beyond the
++	 * 32-bit boundary.
++	 *
++	 * The DMA API will use bounce buffers in this case, so that could
++	 * perhaps still be made to work, even if less efficient, but there
++	 * is another catch: in order to perform cache maintenance on pages
++	 * allocated for discontiguous buffers we need to map and unmap the
++	 * SG table representing these buffers. This is fine for something
++	 * small like a push buffer, but it exhausts the bounce buffer pool
++	 * (typically on the order of a few MiB) for framebuffers (many MiB
++	 * for any modern resolution).
++	 *
++	 * Work around this by making sure that Tegra DRM clients only use
++	 * an IOMMU if the parent host1x also uses an IOMMU.
++	 *
++	 * Note that there's still a small gap here that we don't cover: if
++	 * the DMA API is backed by an IOMMU there's no way to control which
++	 * device is attached to an IOMMU and which isn't, except via wiring
++	 * up the device tree appropriately. This is considered an problem
++	 * of integration, so care must be taken for the DT to be consistent.
++	 */
++	domain = iommu_get_domain_for_dev(drm->dev->parent);
++
++	if (domain && iommu_present(&platform_bus_type)) {
++		tegra->domain = iommu_domain_alloc(&platform_bus_type);
++		if (!tegra->domain) {
++			err = -ENOMEM;
++			goto free;
++		}
++
++		err = iova_cache_get();
++		if (err < 0)
++			goto domain;
++	}
++
++	mutex_init(&tegra->clients_lock);
++	INIT_LIST_HEAD(&tegra->clients);
++
+ 	dev_set_drvdata(&dev->dev, drm);
++	drm->dev_private = tegra;
++	tegra->drm = drm;
++
++	drm_mode_config_init(drm);
++
++	drm->mode_config.min_width = 0;
++	drm->mode_config.min_height = 0;
++
++	drm->mode_config.max_width = 4096;
++	drm->mode_config.max_height = 4096;
++
++	drm->mode_config.allow_fb_modifiers = true;
++
++	drm->mode_config.normalize_zpos = true;
++
++	drm->mode_config.funcs = &tegra_drm_mode_config_funcs;
++	drm->mode_config.helper_private = &tegra_drm_mode_config_helpers;
++
++	err = tegra_drm_fb_prepare(drm);
++	if (err < 0)
++		goto config;
++
++	drm_kms_helper_poll_init(drm);
++
++	err = host1x_device_init(dev);
++	if (err < 0)
++		goto fbdev;
++
++	if (tegra->group) {
++		u64 carveout_start, carveout_end, gem_start, gem_end;
++		u64 dma_mask = dma_get_mask(&dev->dev);
++		dma_addr_t start, end;
++		unsigned long order;
++
++		start = tegra->domain->geometry.aperture_start & dma_mask;
++		end = tegra->domain->geometry.aperture_end & dma_mask;
++
++		gem_start = start;
++		gem_end = end - CARVEOUT_SZ;
++		carveout_start = gem_end + 1;
++		carveout_end = end;
++
++		order = __ffs(tegra->domain->pgsize_bitmap);
++		init_iova_domain(&tegra->carveout.domain, 1UL << order,
++				 carveout_start >> order);
++
++		tegra->carveout.shift = iova_shift(&tegra->carveout.domain);
++		tegra->carveout.limit = carveout_end >> tegra->carveout.shift;
++
++		drm_mm_init(&tegra->mm, gem_start, gem_end - gem_start + 1);
++		mutex_init(&tegra->mm_lock);
++
++		DRM_DEBUG_DRIVER("IOMMU apertures:\n");
++		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
++		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
++				 carveout_end);
++	} else if (tegra->domain) {
++		iommu_domain_free(tegra->domain);
++		tegra->domain = NULL;
++		iova_cache_put();
++	}
++
++	if (tegra->hub) {
++		err = tegra_display_hub_prepare(tegra->hub);
++		if (err < 0)
++			goto device;
++	}
++
++	/*
++	 * We don't use the drm_irq_install() helpers provided by the DRM
++	 * core, so we need to set this manually in order to allow the
++	 * DRM_IOCTL_WAIT_VBLANK to operate correctly.
++	 */
++	drm->irq_enabled = true;
++
++	/* syncpoints are used for full 32-bit hardware VBLANK counters */
++	drm->max_vblank_count = 0xffffffff;
++
++	err = drm_vblank_init(drm, drm->mode_config.num_crtc);
++	if (err < 0)
++		goto hub;
++
++	drm_mode_config_reset(drm);
++
++	err = tegra_drm_fb_init(drm);
++	if (err < 0)
++		goto hub;
+ 
+ 	err = drm_fb_helper_remove_conflicting_framebuffers(NULL, "tegradrmfb", false);
+ 	if (err < 0)
+-		goto put;
++		goto fb;
+ 
+ 	err = drm_dev_register(drm, 0);
+ 	if (err < 0)
+-		goto put;
++		goto fb;
+ 
+ 	return 0;
+ 
++fb:
++	tegra_drm_fb_exit(drm);
++hub:
++	if (tegra->hub)
++		tegra_display_hub_cleanup(tegra->hub);
++device:
++	if (tegra->domain) {
++		mutex_destroy(&tegra->mm_lock);
++		drm_mm_takedown(&tegra->mm);
++		put_iova_domain(&tegra->carveout.domain);
++		iova_cache_put();
++	}
++
++	host1x_device_exit(dev);
++fbdev:
++	drm_kms_helper_poll_fini(drm);
++	tegra_drm_fb_free(drm);
++config:
++	drm_mode_config_cleanup(drm);
++domain:
++	if (tegra->domain)
++		iommu_domain_free(tegra->domain);
++free:
++	kfree(tegra);
+ put:
+ 	drm_dev_put(drm);
+ 	return err;
+@@ -1258,8 +1223,29 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ static int host1x_drm_remove(struct host1x_device *dev)
+ {
+ 	struct drm_device *drm = dev_get_drvdata(&dev->dev);
++	struct tegra_drm *tegra = drm->dev_private;
++	int err;
+ 
+ 	drm_dev_unregister(drm);
++
++	drm_kms_helper_poll_fini(drm);
++	tegra_drm_fb_exit(drm);
++	drm_atomic_helper_shutdown(drm);
++	drm_mode_config_cleanup(drm);
++
++	err = host1x_device_exit(dev);
++	if (err < 0)
++		dev_err(&dev->dev, "host1x device cleanup failed: %d\n", err);
++
++	if (tegra->domain) {
++		mutex_destroy(&tegra->mm_lock);
++		drm_mm_takedown(&tegra->mm);
++		put_iova_domain(&tegra->carveout.domain);
++		iova_cache_put();
++		iommu_domain_free(tegra->domain);
++	}
++
++	kfree(tegra);
+ 	drm_dev_put(drm);
+ 
+ 	return 0;
 -- 
-Gregory Clement, Bootlin
-Embedded Linux and Kernel engineering
-http://bootlin.com
+2.23.0
+
