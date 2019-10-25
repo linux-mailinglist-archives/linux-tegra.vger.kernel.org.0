@@ -2,287 +2,169 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7548E4A54
-	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 13:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82468E4A9D
+	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 13:58:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393379AbfJYLsg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 25 Oct 2019 07:48:36 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44052 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392295AbfJYLsg (ORCPT
+        id S2502472AbfJYL6h (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 25 Oct 2019 07:58:37 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:15731 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393497AbfJYL6f (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 25 Oct 2019 07:48:36 -0400
-Received: by mail-wr1-f68.google.com with SMTP id z11so1960253wro.11;
-        Fri, 25 Oct 2019 04:48:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=7KuIQnbIH4eq0Z4v/apv5JM8TWS/D1JK9tx+WpcCKAM=;
-        b=W10TQeY0jW+b+JrTIIoMgYV+a/owrKIH2DQTSOKx1U8JVOTY51axV1HLvJqQ/1DPM4
-         4nTYpJrswhM9MVre4SrpXcC96LZm9melG/5QKtU6WqczYHI70Q1IchideUjmht8S5iZN
-         LQE+TFiBlo8s4exZAB4b9X3cTeniYClPZt6TjeOOwfkvhomCvcUuB4loDdULG01EZImA
-         m1DS4GGeZJWU1DB567yLPNiUQ827wrFoLKpXgAtqAyQYboxlj6MDCv0UxGcyq8WSf+Ze
-         UjNLdXiGZJsvGcTiul5f2UbJKhVQA84qh1xvxADPsH96Q7UiCiMu8TX2rdkO/etHfkke
-         eAdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7KuIQnbIH4eq0Z4v/apv5JM8TWS/D1JK9tx+WpcCKAM=;
-        b=ASA5oMkF7IDwJwyRu38+WsIyuW3P2KjcnVZAsEZNQW505Q33Ezaxj4EIjkxeNz+99v
-         wURnXTes3URagbkU7Qs4zdiSRYZB4vef2bSOQX79WVBtADRGHEVZ4lmLebH3RgC6jYBy
-         LGUtmkzQO1pUbhDExKLYKJqzhQE9gPjM4m/NUJwWN8hFiDA6bWgjLj9/9npxccDKFD9u
-         +WXFO0Rjvhg6NN0g80UHm1BZgJZ5vyYsXRtftcnHLkI1Ij3hnhA3mNKWOZlzFkv+4H3m
-         kmto+fnfxacw8cWemAnKKIyWsKe5SUHDCu2+Zex5Cplaihif4b4MF/dwK5UhNIwwGzvm
-         HO7A==
-X-Gm-Message-State: APjAAAXtmOF5XZAb0mBL84xGv835EA42roU5UHQkI65G80dkOjYC0b8y
-        NPUvY56zEpt6vmFVoBhDzD4bDML8
-X-Google-Smtp-Source: APXvYqx3bwpdPsPNU0UWpoz70XuATqb8VIQGZcJMIgD9tkoeQORGnFcDLKDnuIK7tD63949d+19pjg==
-X-Received: by 2002:a5d:6203:: with SMTP id y3mr2687709wru.142.1572004112435;
-        Fri, 25 Oct 2019 04:48:32 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id w9sm2111485wrt.85.2019.10.25.04.48.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2019 04:48:29 -0700 (PDT)
-Date:   Fri, 25 Oct 2019 13:48:28 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] drm/tegra: Fix 2d and 3d clients detaching from
- IOMMU domain
-Message-ID: <20191025114828.GA937752@ulmo>
-References: <45926d95-3e7a-c56b-402a-2b2c6475c5db@gmail.com>
- <20191024135018.GD2924027@ulmo>
- <38a67df0-2ede-e7fe-8eca-6c4491cdcc7b@gmail.com>
- <20191024155620.GG2924027@ulmo>
- <bfc6c17d-f2df-32d0-67d6-2f763c81d7fc@gmail.com>
- <7f7ecf90-531c-69ae-9011-684666ed8743@gmail.com>
- <ef2ccc90-be93-3cfb-6b8b-2a406dd8d362@gmail.com>
- <026bbeb0-1539-2b62-a447-60c1bc041f5a@gmail.com>
- <20191024172813.GA281291@ulmo>
- <a3be52ac-6cb2-81f8-f1f5-1d6440cdbfba@gmail.com>
+        Fri, 25 Oct 2019 07:58:35 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5db2e36e0000>; Fri, 25 Oct 2019 04:58:38 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 25 Oct 2019 04:58:34 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 25 Oct 2019 04:58:34 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 25 Oct
+ 2019 11:58:33 +0000
+Received: from [10.25.74.2] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 25 Oct
+ 2019 11:58:30 +0000
+Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
+From:   Vidya Sagar <vidyas@nvidia.com>
+To:     Sinan Kaya <okaya@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC:     Thierry Reding <treding@nvidia.com>, <bhelgaas@google.com>,
+        <lorenzo.pieralisi@arm.com>, <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20191005182129.32538-1-vidyas@nvidia.com>
+ <20191014082023.GA232162@ulmo>
+ <ce411d27-5b92-8dae-fccd-73c63aa30f1c@kernel.org>
+ <20191015093053.GA5778@ulmo>
+ <4953b718-8818-575e-2ec1-8197e6b32593@kernel.org>
+ <85267afb-c08e-5625-d3ee-bd32af9ecb12@nvidia.com>
+ <afa16546-e63d-6eba-8be0-8e52339cd100@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <aed391af-f54c-c25e-43b9-ed9db01bd3cf@nvidia.com>
+Date:   Fri, 25 Oct 2019 17:28:27 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="cWoXeonUoKmBZSoM"
-Content-Disposition: inline
-In-Reply-To: <a3be52ac-6cb2-81f8-f1f5-1d6440cdbfba@gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <afa16546-e63d-6eba-8be0-8e52339cd100@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572004718; bh=IlDlcHct4/oq8rGYrubP5GYHoA3BlKdtsEE8gkKZRKM=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=dTQQnRakehi+GYBdyocVxDceZSLOHqx+7sxO60bvM5oKUwEXoe/LtN4WnIG0WrAq+
+         +EDeRDl6kZcdSz68bjNxXX7u/6Y9dR+HWDLAdkSTctU9PIyCElN0FeEHN0qDEHst9G
+         1i18y5+89LpohtpbhVvYi4kBwzOH72GDQlkzQIqEJ6Inc+OleG7eXznuj1UNhic5YQ
+         CiwBmbYJSpojGeF7me93YvxDWHd7g6vilrzLClKd/kYUCxgYBaCRh7FFYl7ddvny35
+         hOU+sAdkSOlB9UoE3MI0/k1rSzvewknkpo8ELxq/+lpVWV5rszpxSRhNIb5iQDV1RP
+         ckpS1njanB9og==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 10/21/2019 11:13 AM, Vidya Sagar wrote:
 
---cWoXeonUoKmBZSoM
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Sinan / Rafael,
+Apologies for the ping again.
+Do you guys have any further comments on this?
 
-On Thu, Oct 24, 2019 at 09:46:58PM +0300, Dmitry Osipenko wrote:
-> 24.10.2019 20:28, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Thu, Oct 24, 2019 at 07:31:19PM +0300, Dmitry Osipenko wrote:
-> >> 24.10.2019 19:21, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>> 24.10.2019 19:09, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>>> 24.10.2019 18:57, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>>>> 24.10.2019 18:56, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>>>>> On Thu, Oct 24, 2019 at 06:47:23PM +0300, Dmitry Osipenko wrote:
-> >>>>>>> 24.10.2019 16:50, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>>>>>>> On Thu, Oct 24, 2019 at 04:28:41PM +0300, Dmitry Osipenko wrote:
-> >>>>>>>>> 24.10.2019 14:58, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>>>>>>>>> On Sun, Jun 23, 2019 at 08:37:42PM +0300, Dmitry Osipenko wrot=
-e:
-> >>>>>>>>>>> This should should fire up on the DRM's driver module re-load=
-er because
-> >>>>>>>>>>> there won't be enough available domains on older Tegra SoCs.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Cc: stable <stable@vger.kernel.org>
-> >>>>>>>>>>> Fixes: 0c407de5ed1a ("drm/tegra: Refactor IOMMU attach/detach=
-")
-> >>>>>>>>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >>>>>>>>>>> ---
-> >>>>>>>>>>>  drivers/gpu/drm/tegra/dc.c   | 4 ++--
-> >>>>>>>>>>>  drivers/gpu/drm/tegra/drm.c  | 9 ++++++---
-> >>>>>>>>>>>  drivers/gpu/drm/tegra/drm.h  | 3 ++-
-> >>>>>>>>>>>  drivers/gpu/drm/tegra/gr2d.c | 4 ++--
-> >>>>>>>>>>>  drivers/gpu/drm/tegra/gr3d.c | 4 ++--
-> >>>>>>>>>>>  5 files changed, 14 insertions(+), 10 deletions(-)
-> >>>>>>>>>>
-> >>>>>>>>>> I think I understand what this is trying to do, but the commit=
- message
-> >>>>>>>>>> does not help at all. So what's really going on here is that w=
-e need to
-> >>>>>>>>>> detach the device from the group regardless of whether we're s=
-haring the
-> >>>>>>>>>> group or not, just like we attach groups to the shared domain =
-whether
-> >>>>>>>>>> they share the same group or not.
-> >>>>>>>>>
-> >>>>>>>>> Yes, the commit's message could be improved.
-> >>>>>>>>>
-> >>>>>>>>>> But in that case, I wonder if it's even worth splitting groups=
- the way
-> >>>>>>>>>> we are right now. Wouldn't it be better to just put all the de=
-vices into
-> >>>>>>>>>> the same group and be done with it?
-> >>>>>>>>>>
-> >>>>>>>>>> The current code gives me headaches every time I read it, so i=
-f we can
-> >>>>>>>>>> just make it so that all the devices under the DRM device shar=
-e the same
-> >>>>>>>>>> group, this would become a lot easier to deal with. I'm not re=
-ally
-> >>>>>>>>>> convinced that it makes much sense to keep them on separate do=
-mains,
-> >>>>>>>>>> especially given the constraints on the number of domains avai=
-lable on
-> >>>>>>>>>> earlier Tegra devices.
-> >>>>>>>>>>
-> >>>>>>>>>> Note that sharing a group will also make it much easier for th=
-ese to use
-> >>>>>>>>>> the DMA API if it is backed by an IOMMU.
-> >>>>>>>>>
-> >>>>>>>>> Probably I'm blanking on everything about IOMMU now.. could you=
- please
-> >>>>>>>>> remind me what "IOMMU group" is?
-> >>>>>>>>>
-> >>>>>>>>> Isn't it that each IOMMU group relates to the HW ID (SWGROUP)? =
-But then
-> >>>>>>>>> each display controller has its own SWGROUP.. and thus that sha=
-ring just
-> >>>>>>>>> doesn't make any sense, hm.
-> >>>>>>>>
-> >>>>>>>> IOMMU groups are not directly related to SWGROUPs. But by defaul=
-t the
-> >>>>>>>> IOMMU framework will share a domain between members of the same =
-IOMMU
-> >>>>>>>> group.
-> >>>>>>>
-> >>>>>>> Ah, I re-figured out that again. The memory controller drivers are
-> >>>>>>> defining a single "IOMMU group" for both of the display controlle=
-rs.
-> >>>>>>>
-> >>>>>>>> Seems like that's really what we want here, so that when we do
-> >>>>>>>> use the DMA API, all the devices part of the DRM device get atta=
-ched to
-> >>>>>>>> the same IOMMU domain, yet if we don't want to use the DMA API w=
-e only
-> >>>>>>>> need to detach the one group from the backing.
-> >>>>>>>
-> >>>>>>> Yes, it should be okay to put all DRM devices into the same group=
-, like
-> >>>>>>> it is done now for the displays. It also should resolve problem w=
-ith the
-> >>>>>>> domains shortage on T30 since now there are maximum 3 domains in =
-use:
-> >>>>>>> host1x, drm and vde.
-> >>>>>>>
-> >>>>>>> I actually just checked that the original problem still exists
-> >>>>>>> and this change solves it as well:
-> >>>>>>>
-> >>>>>>> ---
-> >>>>>>> diff --git a/drivers/memory/tegra/tegra30.c b/drivers/memory/tegr=
-a/tegra30.c
-> >>>>>>> index 5a0f6e0a1643..e71096498436 100644
-> >>>>>>> --- a/drivers/memory/tegra/tegra30.c
-> >>>>>>> +++ b/drivers/memory/tegra/tegra30.c
-> >>>>>>> @@ -1021,6 +1021,9 @@ static const struct tegra_smmu_swgroup
-> >>>>>>> tegra30_swgroups[] =3D {
-> >>>>>>>  static const unsigned int tegra30_group_display[] =3D {
-> >>>>>>>  	TEGRA_SWGROUP_DC,
-> >>>>>>>  	TEGRA_SWGROUP_DCB,
-> >>>>>>> +	TEGRA_SWGROUP_G2,
-> >>>>>>> +	TEGRA_SWGROUP_NV,
-> >>>>>>> +	TEGRA_SWGROUP_NV2,
-> >>>>>>>  };
-> >>>>>>>
-> >>>>>>>  static const struct tegra_smmu_group_soc tegra30_groups[] =3D {
-> >>>>>>> ---
-> >>>>>>>
-> >>>>>>> Please let me know whether you're going to make a patch or if I s=
-hould
-> >>>>>>> do it.
-> >>>>>>
-> >>>>>> I've been testing with a similar change and couldn't find any
-> >>>>>> regressions. I've also made the same modifications for Tegra114 and
-> >>>>>> Tegra124.
-> >>>>>>
-> >>>>>> Are you saying that none of these patches are needed anymore? Or d=
-o we
-> >>>>>> still need a patch to fix detaching? I'm thinking that maybe we can
-> >>>>>> drastrically simplify the detachment now by dropping the shared
-> >>>>>> parameter altogether.
-> >>>>>>
-> >>>>>> Let me draft a patch and send out the whole set for testing.
-> >>>>>
-> >>>>> Seems it's still not ideal because I noticed this in KMSG:
-> >>>>>
-> >>>>> [    0.703185] Failed to attached device 54200000.dc to IOMMU_mappi=
-ng
-> >>>>> [    0.710404] Failed to attached device 54240000.dc to IOMMU_mappi=
-ng
-> >>>>> [    0.719347] Failed to attached device 54140000.gr2d to IOMMU_map=
-ping
-> >>>>> [    0.719569] Failed to attached device 54180000.gr3d to IOMMU_map=
-ping
-> >>>>>
-> >>>>> which comes from the implicit IOMMU backing.
-> >>>>
-> >>>> And the error comes from here:
-> >>>>
-> >>>> https://elixir.bootlin.com/linux/v5.4-rc2/source/drivers/iommu/iommu=
-=2Ec#L1655
-> >>>
-> >>> So the detaching still should be needed, but at the moment the ARM32
-> >>> DMA-mapping code is simply not suitable for the case of having multip=
-le
-> >>> devices in the same group. I'm wondering whether there are any real
-> >>> users for the implicit IOMMU backing on ARM32 at all :/
-> >>>
-> >>
-> >> Apparently the "Failed to attached device 54200000.dc" was always in t=
-he
-> >> log (I rarely testing the default multi-platform config), it's just the
-> >> message is a pr_warn that I wasn't paying attention because it is
-> >> colored like pr_info in dmesg :)
-> >=20
-> > Yeah, so the above isn't a complete solution. In order to actually use
-> > the DMA API backed by an IOMMU, some additional patches are needed. I
-> > have all of those in a local tree and I've already sent out a couple of
-> > them. It's taking a while because they all need to be applied in small
-> > iterations to make sure things don't break midway.
+-Vidya Sagar
+
+> On 10/15/2019 5:44 PM, Vidya Sagar wrote:
 >=20
-> I'd like to have an immediate interim solution.
+> Hi Sinan / Rafael,
+> Do you have any further comments on this patch?
+>=20
+> - Vidya Sagar
+>=20
+>> On 10/15/2019 4:40 PM, Sinan Kaya wrote:
+>>> +Rafael
+>>>
+>>> On 10/15/2019 2:30 AM, Thierry Reding wrote:
+>>>> Vidya, can you clarify for which device you're seeing the issues? Soun=
+ds
+>>>> like adding a call to pci_pm_reset() (via pci_reset_function()) at som=
+e
+>>>> point.
+>>>>
+>>>> Sinan, it looks as if pci_pm_reset() (or any of its callers) is not us=
+ed
+>>>> very widely. Is that just because most drivers haven't had a need for =
+it
+>>>> yet? Or am I missing some core functionality that calls this for every
+>>>> device anyway?
+>>>
+>>> pci_pm_reset() is there as an alternative reset path. We are not
+>>> supposed to call this function. Sorry for giving you wrong direction
+>>> here. pci_reset_function() should call it only if there is no other
+>>> suitable reset function is found.
+>>>
+>>> I think the PCI core should be putting the device back D0 state as one
+>>> of the first actions before enumerating. Wake up could be a combination
+>>> of ACPI and/or PCI wake up depending on where your device sits in the
+>>> topology.
+>> Yup. It is indeed doing it as part of pci_power_up() in pci.c file.
+>> But, what is confusing to me is the order of the calls.
+>> pci_power_up() has following calls in the same order.
+>> =A0=A0=A0=A0=A0pci_raw_set_power_state(dev, PCI_D0);
+>> =A0=A0=A0=A0=A0pci_update_current_state(dev, PCI_D0);
+>> But, pci_raw_set_power_state() is accessing config space without calling
+>> pci_device_is_present() whereas pci_update_current_state() which is call=
+ed
+>> later in the flow is calling pci_device_is_present()...!
+>>
+>>>
+>>> On the other hand, wake up code doesn't perform the CRS wait. CRS
+>>> wait is deferred until the first vendor id read in pci_scan_device().
+>>> I see that it already waits for 60 seconds.
+>>>
+>>> Going back to the patch...
+>>>
+>>> I think we need to find the path that actually needs this sleep and
+>>> put pci_dev_wait() there.
+>> Following is the path in resume() flow.
+>> [=A0=A0 36.380726] Call trace:
+>> [=A0=A0 36.383270]=A0 dump_backtrace+0x0/0x158
+>> [=A0=A0 36.386802]=A0 show_stack+0x14/0x20
+>> [=A0=A0 36.389749]=A0 dump_stack+0xb0/0xf8
+>> [=A0=A0 36.393451]=A0 pci_update_current_state+0x58/0xe0
+>> [=A0=A0 36.398178]=A0 pci_power_up+0x60/0x70
+>> [=A0=A0 36.401672]=A0 pci_pm_resume_noirq+0x6c/0x130
+>> [=A0=A0 36.405669]=A0 dpm_run_callback.isra.16+0x20/0x70
+>> [=A0=A0 36.410248]=A0 device_resume_noirq+0x120/0x238
+>> [=A0=A0 36.414364]=A0 async_resume_noirq+0x24/0x58
+>> [=A0=A0 36.418364]=A0 async_run_entry_fn+0x40/0x148
+>> [=A0=A0 36.422418]=A0 process_one_work+0x1e8/0x360
+>> [=A0=A0 36.426525]=A0 worker_thread+0x40/0x488
+>> [=A0=A0 36.430201]=A0 kthread+0x118/0x120
+>> [=A0=A0 36.433843]=A0 ret_from_fork+0x10/0x1c
+>>
+>>>
+>>> +++ b/drivers/pci/pci.c
+>>> @@ -5905,7 +5905,8 @@ bool pci_device_is_present(struct pci_dev *pdev)
+>>>
+>>> =A0=A0=A0=A0=A0 if (pci_dev_is_disconnected(pdev))
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 return false;
+>>> -=A0=A0=A0 return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v=
+, 0);
+>>> +=A0=A0=A0 return pci_bus_read_dev_vendor_id(pdev->bus, pdev->devfn, &v=
+,
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 PCI_CR=
+S_TIMEOUT);
+>>> =A0 }
+>>>
+>>> pci_device_is_present() is a too low-level function and it may not
+>>> be allowed to sleep. It uses 0 as timeout value.
+>>>
+>>>
+>>
+>=20
 
-To clarify: when I said "isn't a complete solution", what I meant is
-that it's not a complete solution to make the implicit IOMMU backing
-work with the DMA API. That's what I've got a patch set ready for.
-
-But you said earlier that this change (i.e. putting all DRM devices into
-the same IOMMU group) fixes the issue that you were seeing, right? So
-that would be an immediate, interim solution, wouldn't it?
-
-Thierry
-
---cWoXeonUoKmBZSoM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2y4QkACgkQ3SOs138+
-s6HJSBAAvXwKxredsBq8uCRcCehd17p3T85zGWNY9dQC5p+tspr7FG072UXNOb9h
-z3R/c9qeZHjHfcNzQ8uyBJ8HDRNfaWLKO8ARKtW8vPUvxIEXLNdjxRm3ZldC8gOj
-Q+67NAwijWQJa5LTQ5qXa8jWOMPkUInWMRbfEN4ZDEpcB0s9wPm78qvSMs/JoO6C
-8VcnzPeJ8wNR9V2hogjHF3VrPpIhCgAs2ZWDLaqH9r74dEGBtHwEuhdH8HJ80wRf
-VOTou8HQkpbI7TmQhy4O/uWLzC3pKZTPcIXODLyVtynb0vC/klVNJQwd92jnwLPF
-22Q3chvSUBPb3r+8Lhu7fiby4KvsRGjEDYtkSqca/T73pcjN/ItYdxY/xM6JggYf
-6UZJydgGtPW1PA0Iep+2aM9leY1XAdTuYy2pj1g0xeqtReNW/0GDzimF4SCIo7Nx
-iPsyd57BuxaPWsgICor/aOdqeNCd9+Of4FZOKWfKsFHG8RW0RcrxwCufbmjG4wla
-mqnt0loUKhMjHPWgZ1T4qIankC6qvo3o8GvvX60EuujrB/go2abDFBeDrfbeNNIL
-t988IRl82yDUH9xTtDfk+i7Jqqcxa8ABgzN4Yy/sYPuEMDwNII1KnuhdeVBQ76DA
-URSSzQLAMYAIxXEpLaH9E/n33swIBP0hzkqXlPbLGNzdOxkBOFQ=
-=EoTj
------END PGP SIGNATURE-----
-
---cWoXeonUoKmBZSoM--
