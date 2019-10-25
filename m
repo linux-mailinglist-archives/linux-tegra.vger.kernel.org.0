@@ -2,126 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD994E3EF8
-	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 00:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C05BE41A4
+	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 04:40:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730772AbfJXWSD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Oct 2019 18:18:03 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:36583 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730812AbfJXWR7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 18:17:59 -0400
-Received: by mail-lf1-f65.google.com with SMTP id u16so20423259lfq.3;
-        Thu, 24 Oct 2019 15:17:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SRZiQeucNCGBdlqwTzaIYE1CEk27ias9lFSKqU/IIKA=;
-        b=uHHM44aNEYLJJSFeNN2LlFdNV8YVJN9NHQlXwaQT/IaV7a0m94/bLaBIqRiNdZEzaG
-         EtEbkh6KBT1RczvbjjYpzXtjqE1yj/5qDp0zXLmrAkS8cs5JzIeJkacM7UJkisaFQlGI
-         bUDau8ubRT28Cdg9O/mNm/U/Y/8Z82dC26aSYPIXP9wWKlpoV2CAsp4ofMsqsMaHwzUC
-         DO3j+rkQACBCJSY4FJrWaIv9vRWdwgQMpiZrmp1L6R3dZUXYwpshZCXDCFdQg+xqyYhA
-         OOKw+QbN1PDozRWwrA4ISYZMdPXFsvXaOYm5wUM09BvkbiojW0uD+f7NBG5i4sOqTJ3m
-         akAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SRZiQeucNCGBdlqwTzaIYE1CEk27ias9lFSKqU/IIKA=;
-        b=iz4utn+oX7F/wbwjlG+letCmU9S8PF9Rw1RD9xZ1GWHNxDtIy8bQ7SLHtQxLSCn18y
-         YzIccrK3jXV3dR0ClVgFDB34WHnfKiSAGDUO4p1r+jcrNsQiZPCkAo+Y1rBBrVThrfKD
-         AwweSdan7IlBVDfQlZ3y++u82B+EdbztLutA/YnUlyvRm2TmnoEN/qHkus0heaGdJKi/
-         yAcWZiqM4nOqma6LbhP2OemzghIyLRVpGFK4H0Z5TQuqpjjWr43iweKR9wP2uncUWT0p
-         Qpp56SCiWxewr9lHGcYH5+MUk4Iw6Ypse/6eriW2qc0hrNwhl9OczV0nuAKlEvvRL5m7
-         7HOA==
-X-Gm-Message-State: APjAAAWVvPGZLcph0OciloVQv3GfAzmX4u8I9gg1MSCUVuCgZaSY8v4p
-        xgvH05lxDOgs9mJwDpX4U84=
-X-Google-Smtp-Source: APXvYqwZ82ySmk2BMPumPLP/kcKQAnUR5TxNVS4XlEzxyTJb6KeVq3x+/jSGnWqc0xQbCSfpt6YQGg==
-X-Received: by 2002:a19:640c:: with SMTP id y12mr328182lfb.78.1571955476117;
-        Thu, 24 Oct 2019 15:17:56 -0700 (PDT)
-Received: from localhost.localdomain (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.gmail.com with ESMTPSA id i6sm11338765lfo.83.2019.10.24.15.17.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 15:17:55 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        id S2390299AbfJYCkO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 24 Oct 2019 22:40:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44932 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390205AbfJYCkO (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 24 Oct 2019 22:40:14 -0400
+Received: from dragon (li937-157.members.linode.com [45.56.119.157])
+        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 588EA2166E;
+        Fri, 25 Oct 2019 02:40:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571971213;
+        bh=VuIkAO3ugvVIrk34pCVzm5VFvJRsMK+QkxTA75X9r+0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ly9foHepoYGj/bMScIwLR5+FQLcHMIn88pQaij8yEXfm4+MVhQKaK9tMUjKufAEQB
+         qKGc5v3xKBChLV1GxJcePyu+4YnqN0OsQMQ3MRxBUSvYUNqmO/MsDjr9SH5GOXrllj
+         Q9/YERVB/J0pjX6qcEBkoOdn1XCcju4fnXo1cJEM=
+Date:   Fri, 25 Oct 2019 10:39:53 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 17/17] ARM: dts: tegra30: cardhu-a04: Add CPU Operating Performance Points
-Date:   Fri, 25 Oct 2019 01:14:16 +0300
-Message-Id: <20191024221416.14197-18-digetx@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191024221416.14197-1-digetx@gmail.com>
-References: <20191024221416.14197-1-digetx@gmail.com>
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v3 06/10] ARM: dts: imx: Rename "iram" node to "sram"
+Message-ID: <20191025023951.GB30015@dragon>
+References: <20191002164316.14905-1-krzk@kernel.org>
+ <20191002164316.14905-6-krzk@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191002164316.14905-6-krzk@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Utilize common Tegra30 CPU OPP table. CPU DVFS is available now on
-cardhu-a04.
+On Wed, Oct 02, 2019 at 06:43:12PM +0200, Krzysztof Kozlowski wrote:
+> The device node name should reflect generic class of a device so rename
+> the "iram" node to "sram".  This will be also in sync with upcoming DT
+> schema.  No functional change.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra30-cardhu-a04.dts | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/arch/arm/boot/dts/tegra30-cardhu-a04.dts b/arch/arm/boot/dts/tegra30-cardhu-a04.dts
-index 0d71925d4f0b..9234988624ec 100644
---- a/arch/arm/boot/dts/tegra30-cardhu-a04.dts
-+++ b/arch/arm/boot/dts/tegra30-cardhu-a04.dts
-@@ -2,6 +2,8 @@
- /dts-v1/;
- 
- #include "tegra30-cardhu.dtsi"
-+#include "tegra30-cpu-opp.dtsi"
-+#include "tegra30-cpu-opp-microvolt.dtsi"
- 
- /* This dts file support the cardhu A04 and later versions of board */
- 
-@@ -127,4 +129,26 @@
- 			nvidia,tegra-core-regulator;
- 		};
- 	};
-+
-+	cpus {
-+		cpu0: cpu@0 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+
-+		cpu@1 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+
-+		cpu@2 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+
-+		cpu@3 {
-+			cpu-supply = <&vddctrl_reg>;
-+			operating-points-v2 = <&cpu0_opp_table>;
-+		};
-+	};
- };
--- 
-2.23.0
-
+Applied, thanks.
