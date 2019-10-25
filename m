@@ -2,33 +2,33 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 480C9E4841
-	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 12:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E207AE4849
+	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 12:12:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409126AbfJYKMZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 25 Oct 2019 06:12:25 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:37764 "EHLO
+        id S2409097AbfJYKMf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 25 Oct 2019 06:12:35 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:37692 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409104AbfJYKMZ (ORCPT
+        with ESMTP id S2409030AbfJYKMW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 25 Oct 2019 06:12:25 -0400
+        Fri, 25 Oct 2019 06:12:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
         Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
         List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=nPstqSGlbrqx9rYBxlCzkyHpfiX9qsJrrzCx1t+x+fQ=; b=g9hOXz0JaZXi
-        R7Se6725Vm54BB16CFopqpneImGrV5To2pAHWXRkhj0ZzEHJKpkn436dd+bWX2V3RWz3oHyQ7JRJA
-        GzAfi6Akr4R3QwcnEle3aCjXqaVDcbcWB3cJaokq14A6Pk0s2ufy62ZmOQynR/grtHfa89GHIeW5o
-        evBq8=;
+        List-Archive; bh=7NwsnqzTmlpXTMNzpJuhJXGYZrRLtMwZ9G4NwDJVgKg=; b=VOaLj/m8JzMU
+        He6hxhaxX7ufTxZF0MrIYn8Dw4SSeg37g9GMobbbg4iUG2Jl5ph+tq4gUK8JbsrM+mRjx+S8WMOZ9
+        2V0IoG2JfLJObxL+OEw3diaPfQAuw0AQHoqBYixA5MYMaVx1mlw4HE/F4C5jONfe9g359aspOxOoZ
+        qCWUA=;
 Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
         by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <broonie@sirena.co.uk>)
-        id 1iNwZo-0006du-Ez; Fri, 25 Oct 2019 10:12:12 +0000
+        id 1iNwZp-0006e8-C9; Fri, 25 Oct 2019 10:12:13 +0000
 Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id E42082743293; Fri, 25 Oct 2019 11:12:11 +0100 (BST)
+        id C8B002743267; Fri, 25 Oct 2019 11:12:12 +0100 (BST)
 From:   Mark Brown <broonie@kernel.org>
 To:     Edward Cragg <edward.cragg@codethink.co.uk>
 Cc:     alsa-devel@alsa-project.org, Ben Dooks <ben.dooks@codethink.co.uk>,
@@ -38,11 +38,11 @@ Cc:     alsa-devel@alsa-project.org, Ben Dooks <ben.dooks@codethink.co.uk>,
         linux-kernel@lists.codethink.co.uk, linux-tegra@vger.kernel.org,
         Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
         Thierry Reding <thierry.reding@gmail.com>
-Subject: Applied "ASoC: tegra: add a TDM configuration callback" to the asoc tree
-In-Reply-To: <20191018154833.7560-2-ben.dooks@codethink.co.uk>
+Subject: Applied "ASoC: tegra: Allow 24bit and 32bit samples" to the asoc tree
+In-Reply-To: <20191018154833.7560-3-ben.dooks@codethink.co.uk>
 X-Patchwork-Hint: ignore
-Message-Id: <20191025101211.E42082743293@ypsilon.sirena.org.uk>
-Date:   Fri, 25 Oct 2019 11:12:11 +0100 (BST)
+Message-Id: <20191025101212.C8B002743267@ypsilon.sirena.org.uk>
+Date:   Fri, 25 Oct 2019 11:12:12 +0100 (BST)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -50,7 +50,7 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 The patch
 
-   ASoC: tegra: add a TDM configuration callback
+   ASoC: tegra: Allow 24bit and 32bit samples
 
 has been applied to the asoc tree at
 
@@ -75,72 +75,92 @@ to this mail.
 Thanks,
 Mark
 
-From 07932563686a6c51b26266c8572901c46fd1cd55 Mon Sep 17 00:00:00 2001
+From f3ee99087c8ca0ecfdd549ef5a94f557c42d5428 Mon Sep 17 00:00:00 2001
 From: Edward Cragg <edward.cragg@codethink.co.uk>
-Date: Fri, 18 Oct 2019 16:48:27 +0100
-Subject: [PATCH] ASoC: tegra: add a TDM configuration callback
+Date: Fri, 18 Oct 2019 16:48:28 +0100
+Subject: [PATCH] ASoC: tegra: Allow 24bit and 32bit samples
 
-Add a callback to configure TDM settings for the Tegra30 I2S ASoC 'platform'
-driver.
+The tegra3 audio can support 24 and 32 bit sample sizes so add the
+option to the tegra30_i2s_hw_params to configure the S24_LE or S32_LE
+formats when requested.
 
 Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
-[ben.dooks@codethink.co.uk: merge fix for power management]
-[ben.dooks@codethink.co.uk: add review change for fsync of 1 clock]
+[ben.dooks@codethink.co.uk: fixup merge of 24 and 32bit]
+[ben.dooks@codethink.co.uk: add pm calls around ytdm config]
+[ben.dooks@codethink.co.uk: drop debug printing to dev_dbg]
 Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
 Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-Link: https://lore.kernel.org/r/20191018154833.7560-2-ben.dooks@codethink.co.uk
+Link: https://lore.kernel.org/r/20191018154833.7560-3-ben.dooks@codethink.co.uk
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- sound/soc/tegra/tegra30_i2s.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ sound/soc/tegra/tegra30_i2s.c | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
 diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-index 48a09c9d60be..8f8924060d9d 100644
+index e6d548fa980b..48a09c9d60be 100644
 --- a/sound/soc/tegra/tegra30_i2s.c
 +++ b/sound/soc/tegra/tegra30_i2s.c
-@@ -265,6 +265,34 @@ static int tegra30_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
- 	return 0;
- }
- 
-+static int tegra30_i2s_set_tdm(struct snd_soc_dai *dai,
-+			       unsigned int tx_mask, unsigned int rx_mask,
-+			       int slots, int slot_width)
-+{
-+	struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
-+	unsigned int mask, val;
-+
-+	dev_dbg(dai->dev, "%s: txmask=0x%08x rxmask=0x%08x slots=%d width=%d\n",
-+		 __func__, tx_mask, rx_mask, slots, slot_width);
-+
-+	mask = TEGRA30_I2S_SLOT_CTRL_TOTAL_SLOTS_MASK |
-+	       TEGRA30_I2S_SLOT_CTRL_RX_SLOT_ENABLES_MASK |
-+	       TEGRA30_I2S_SLOT_CTRL_TX_SLOT_ENABLES_MASK;
-+
-+	val = (tx_mask << TEGRA30_I2S_SLOT_CTRL_TX_SLOT_ENABLES_SHIFT) |
-+	      (rx_mask << TEGRA30_I2S_SLOT_CTRL_RX_SLOT_ENABLES_SHIFT) |
-+	      ((slots - 1) << TEGRA30_I2S_SLOT_CTRL_TOTAL_SLOTS_SHIFT);
-+
-+	pm_runtime_get_sync(dai->dev);
-+	regmap_update_bits(i2s->regmap, TEGRA30_I2S_SLOT_CTRL, mask, val);
-+	/* set the fsync width to minimum of 1 clock width */
-+	regmap_update_bits(i2s->regmap, TEGRA30_I2S_CH_CTRL,
-+			   TEGRA30_I2S_CH_CTRL_FSYNC_WIDTH_MASK, 0x0);
-+	pm_runtime_put(dai->dev);
-+
-+	return 0;
-+}
-+
- static int tegra30_i2s_probe(struct snd_soc_dai *dai)
- {
+@@ -127,7 +127,7 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
+ 	struct device *dev = dai->dev;
  	struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
-@@ -279,6 +307,7 @@ static const struct snd_soc_dai_ops tegra30_i2s_dai_ops = {
- 	.set_fmt	= tegra30_i2s_set_fmt,
- 	.hw_params	= tegra30_i2s_hw_params,
- 	.trigger	= tegra30_i2s_trigger,
-+	.set_tdm_slot	= tegra30_i2s_set_tdm,
- };
+ 	unsigned int mask, val, reg;
+-	int ret, sample_size, srate, i2sclock, bitcnt;
++	int ret, sample_size, srate, i2sclock, bitcnt, audio_bits;
+ 	struct tegra30_ahub_cif_conf cif_conf;
  
- static const struct snd_soc_dai_driver tegra30_i2s_dai_template = {
+ 	if (params_channels(params) != 2)
+@@ -137,8 +137,19 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
+ 	switch (params_format(params)) {
+ 	case SNDRV_PCM_FORMAT_S16_LE:
+ 		val = TEGRA30_I2S_CTRL_BIT_SIZE_16;
++		audio_bits = TEGRA30_AUDIOCIF_BITS_16;
+ 		sample_size = 16;
+ 		break;
++	case SNDRV_PCM_FORMAT_S24_LE:
++		val = TEGRA30_I2S_CTRL_BIT_SIZE_24;
++		audio_bits = TEGRA30_AUDIOCIF_BITS_24;
++		sample_size = 24;
++		break;
++	case SNDRV_PCM_FORMAT_S32_LE:
++		val = TEGRA30_I2S_CTRL_BIT_SIZE_32;
++		audio_bits = TEGRA30_AUDIOCIF_BITS_32;
++		sample_size = 32;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -170,8 +181,8 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
+ 	cif_conf.threshold = 0;
+ 	cif_conf.audio_channels = 2;
+ 	cif_conf.client_channels = 2;
+-	cif_conf.audio_bits = TEGRA30_AUDIOCIF_BITS_16;
+-	cif_conf.client_bits = TEGRA30_AUDIOCIF_BITS_16;
++	cif_conf.audio_bits = audio_bits;
++	cif_conf.client_bits = audio_bits;
+ 	cif_conf.expand = 0;
+ 	cif_conf.stereo_conv = 0;
+ 	cif_conf.replicate = 0;
+@@ -277,14 +288,18 @@ static const struct snd_soc_dai_driver tegra30_i2s_dai_template = {
+ 		.channels_min = 2,
+ 		.channels_max = 2,
+ 		.rates = SNDRV_PCM_RATE_8000_96000,
+-		.formats = SNDRV_PCM_FMTBIT_S16_LE,
++		.formats = SNDRV_PCM_FMTBIT_S32_LE |
++			   SNDRV_PCM_FMTBIT_S24_LE |
++			   SNDRV_PCM_FMTBIT_S16_LE,
+ 	},
+ 	.capture = {
+ 		.stream_name = "Capture",
+ 		.channels_min = 2,
+ 		.channels_max = 2,
+ 		.rates = SNDRV_PCM_RATE_8000_96000,
+-		.formats = SNDRV_PCM_FMTBIT_S16_LE,
++		.formats = SNDRV_PCM_FMTBIT_S32_LE |
++			   SNDRV_PCM_FMTBIT_S24_LE |
++			   SNDRV_PCM_FMTBIT_S16_LE,
+ 	},
+ 	.ops = &tegra30_i2s_dai_ops,
+ 	.symmetric_rates = 1,
 -- 
 2.20.1
 
