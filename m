@@ -2,165 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E207AE4849
-	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 12:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7F60E4910
+	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 12:59:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409097AbfJYKMf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 25 Oct 2019 06:12:35 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:37692 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409030AbfJYKMW (ORCPT
+        id S2407236AbfJYK7N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 25 Oct 2019 06:59:13 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:37113 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407262AbfJYK7N (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 25 Oct 2019 06:12:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
-        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=7NwsnqzTmlpXTMNzpJuhJXGYZrRLtMwZ9G4NwDJVgKg=; b=VOaLj/m8JzMU
-        He6hxhaxX7ufTxZF0MrIYn8Dw4SSeg37g9GMobbbg4iUG2Jl5ph+tq4gUK8JbsrM+mRjx+S8WMOZ9
-        2V0IoG2JfLJObxL+OEw3diaPfQAuw0AQHoqBYixA5MYMaVx1mlw4HE/F4C5jONfe9g359aspOxOoZ
-        qCWUA=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iNwZp-0006e8-C9; Fri, 25 Oct 2019 10:12:13 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id C8B002743267; Fri, 25 Oct 2019 11:12:12 +0100 (BST)
-From:   Mark Brown <broonie@kernel.org>
-To:     Edward Cragg <edward.cragg@codethink.co.uk>
-Cc:     alsa-devel@alsa-project.org, Ben Dooks <ben.dooks@codethink.co.uk>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        linux-kernel@lists.codethink.co.uk, linux-tegra@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: Applied "ASoC: tegra: Allow 24bit and 32bit samples" to the asoc tree
-In-Reply-To: <20191018154833.7560-3-ben.dooks@codethink.co.uk>
-X-Patchwork-Hint: ignore
-Message-Id: <20191025101212.C8B002743267@ypsilon.sirena.org.uk>
-Date:   Fri, 25 Oct 2019 11:12:12 +0100 (BST)
+        Fri, 25 Oct 2019 06:59:13 -0400
+Received: by mail-wm1-f65.google.com with SMTP id q130so1563524wme.2
+        for <linux-tegra@vger.kernel.org>; Fri, 25 Oct 2019 03:59:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GyL5Yf1R+cNJwmYuxDq7TkPQMREhF8qQy7ku3jf9B7s=;
+        b=YXq9UBizjmUlrlmCmaBtR4aBR2vOCNJUE32EaKNUrjilCrKYoqrcizmzE7ThxN2DM8
+         mrecvTFx2/vXjjLtGuWB6eh929oJxlkcqIgtRURb6Q5L3pJVbCAdSw53zeiLmDjtbtio
+         ssFbnkrJiHQ0JjuIncUsX621DHmjAF8g7/e6KMlByN+qOQBnsq11Kg/X+lsMurE2IGLD
+         OmqrRdlL8NrfbjiOn3jDqBv14KyA7grd5piEM5+sQmakgZ9IkhK81fvWG883buCSFoKj
+         /qhATk9LuE4ki1tLjYkQAs/F5PIvHdSVmu4PTrQHIyFzu/uiBPd6hI33Y42cr9CNMYVX
+         A02w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GyL5Yf1R+cNJwmYuxDq7TkPQMREhF8qQy7ku3jf9B7s=;
+        b=VVNvxiBTb2Qh9DBZNSR/AzoJI1aS95EdQpDOY+uZaZ3OD9pZ6KUYE3V0Pd9PQ7nSQX
+         pf0aCZHNexsWjOSfwqn3qSKjWDTXBnmPX9uJr2/hn9+jR9pRDZiR6XoqBixqb/kdQN9n
+         k1jnERwZtcLOddafxd59n8BCkTphayzsTnMHxsDxynGuGWrl6BAYYyv+xgWg1fzLvSwh
+         yEMdWnEWuELDw3UxL+hfpsRUpts8KU1hDDVuXHCoyvK3Mb+ULBt79ejoAlGPWqUl2RLG
+         8LZYQa8selA9hIkDW8T7GvCL0IOaKffsiZgpznFSe0JVrp7+GHZ+78U83cPnhit/XyzN
+         RrhQ==
+X-Gm-Message-State: APjAAAWcKn82YW2oVA2EdyOwFSCWOwBShr24mqnfi6Fx7iLxf5EEND5K
+        1saBjHTiugieavMcO3SG8sY=
+X-Google-Smtp-Source: APXvYqz7QHlyIMNln+5Vh6sc8APNGhxYcSgrbpYu/pGasbAX4Vs0D8oRgXimLyZhsxdPdAhKKI3s/A==
+X-Received: by 2002:a1c:234c:: with SMTP id j73mr3126153wmj.51.1572001150582;
+        Fri, 25 Oct 2019 03:59:10 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id v128sm2443048wmb.14.2019.10.25.03.59.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2019 03:59:08 -0700 (PDT)
+Date:   Fri, 25 Oct 2019 12:59:06 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2] drm/tegra: Do not use ->load() and ->unload()
+ callbacks
+Message-ID: <20191025105906.GA928835@ulmo>
+References: <20191024173137.290420-1-thierry.reding@gmail.com>
+ <20191024181539.GA31268@qmqm.qmqm.pl>
+ <553f12c4-b1f4-b48c-45e4-c4280936d1e4@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
+Content-Disposition: inline
+In-Reply-To: <553f12c4-b1f4-b48c-45e4-c4280936d1e4@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The patch
 
-   ASoC: tegra: Allow 24bit and 32bit samples
+--ibTvN161/egqYuK8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-has been applied to the asoc tree at
+On Fri, Oct 25, 2019 at 12:10:49AM +0300, Dmitry Osipenko wrote:
+> 24.10.2019 21:15, Micha=C5=82 Miros=C5=82aw =D0=BF=D0=B8=D1=88=D0=B5=D1=
+=82:
+> > On Thu, Oct 24, 2019 at 07:31:37PM +0200, Thierry Reding wrote:
+> >> From: Thierry Reding <treding@nvidia.com>
+> >>
+> >> The ->load() and ->unload() drivers are midlayers and should be avoided
+> >> in modern drivers. Fix this by moving the code into the driver ->probe=
+()
+> >> and ->remove() implementations, respectively.
+> >>
+> >> v2: kick out conflicting framebuffers before initializing fbdev
+> >>
+> >> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> >> ---
+> >> Micha=C5=82, Dmitry,
+> >>
+> >> do you guys have a way of testing that the removal of the conflicting
+> >> framebuffer actually works?
+> > [...]
+> >=20
+> > I might be able to check during the weekend. Is this patch alone enough
+> > for v5.3?
+>=20
+> I don't think it will apply cleanly on top of 5.3, but should work with
+> linux-next or by cherry-picking 9d5a54987265.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.5
+I just noticed that I based this version on top of a local branch that
+will cause conflicts if you apply this to either 5.3 or linux-next. I'll
+resend this later rebased onto drm/tegra/for-next, so it should apply
+cleanly on at least linux-next. drm/tegra/for-next also contains this:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+commit 051172e8c1ceef8749f19faacc1d3bef65d20d8d
+Author: Thierry Reding <treding@nvidia.com>
+Date:   Wed Sep 25 13:26:59 2019 +0200
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+    drm/tegra: Fix ordering of cleanup code
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+    Commit Fixes: b9f8b09ce256 ("drm/tegra: Setup shared IOMMU domain after
+    initialization") changed the initialization order of the IOMMU related
+    bits but didn't update the cleanup path accordingly. This asymmetry can
+    cause failures during error recovery.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+    Fixes: b9f8b09ce256 ("drm/tegra: Setup shared IOMMU domain after initia=
+lization")
+    Signed-off-by: Thierry Reding <treding@nvidia.com>
+    Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+    Tested-by: Dmitry Osipenko <digetx@gmail.com>
 
-Thanks,
-Mark
+which will conflict with the ->load() and ->unload() removal patch.
 
-From f3ee99087c8ca0ecfdd549ef5a94f557c42d5428 Mon Sep 17 00:00:00 2001
-From: Edward Cragg <edward.cragg@codethink.co.uk>
-Date: Fri, 18 Oct 2019 16:48:28 +0100
-Subject: [PATCH] ASoC: tegra: Allow 24bit and 32bit samples
+If for some reason you can't use linux-next, it shouldn't be terribly
+complicated to backport this to v5.3, though.
 
-The tegra3 audio can support 24 and 32 bit sample sizes so add the
-option to the tegra30_i2s_hw_params to configure the S24_LE or S32_LE
-formats when requested.
+Thierry
 
-Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
-[ben.dooks@codethink.co.uk: fixup merge of 24 and 32bit]
-[ben.dooks@codethink.co.uk: add pm calls around ytdm config]
-[ben.dooks@codethink.co.uk: drop debug printing to dev_dbg]
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-Link: https://lore.kernel.org/r/20191018154833.7560-3-ben.dooks@codethink.co.uk
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/tegra/tegra30_i2s.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+--ibTvN161/egqYuK8
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-index e6d548fa980b..48a09c9d60be 100644
---- a/sound/soc/tegra/tegra30_i2s.c
-+++ b/sound/soc/tegra/tegra30_i2s.c
-@@ -127,7 +127,7 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
- 	struct device *dev = dai->dev;
- 	struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
- 	unsigned int mask, val, reg;
--	int ret, sample_size, srate, i2sclock, bitcnt;
-+	int ret, sample_size, srate, i2sclock, bitcnt, audio_bits;
- 	struct tegra30_ahub_cif_conf cif_conf;
- 
- 	if (params_channels(params) != 2)
-@@ -137,8 +137,19 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
- 	switch (params_format(params)) {
- 	case SNDRV_PCM_FORMAT_S16_LE:
- 		val = TEGRA30_I2S_CTRL_BIT_SIZE_16;
-+		audio_bits = TEGRA30_AUDIOCIF_BITS_16;
- 		sample_size = 16;
- 		break;
-+	case SNDRV_PCM_FORMAT_S24_LE:
-+		val = TEGRA30_I2S_CTRL_BIT_SIZE_24;
-+		audio_bits = TEGRA30_AUDIOCIF_BITS_24;
-+		sample_size = 24;
-+		break;
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		val = TEGRA30_I2S_CTRL_BIT_SIZE_32;
-+		audio_bits = TEGRA30_AUDIOCIF_BITS_32;
-+		sample_size = 32;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -170,8 +181,8 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
- 	cif_conf.threshold = 0;
- 	cif_conf.audio_channels = 2;
- 	cif_conf.client_channels = 2;
--	cif_conf.audio_bits = TEGRA30_AUDIOCIF_BITS_16;
--	cif_conf.client_bits = TEGRA30_AUDIOCIF_BITS_16;
-+	cif_conf.audio_bits = audio_bits;
-+	cif_conf.client_bits = audio_bits;
- 	cif_conf.expand = 0;
- 	cif_conf.stereo_conv = 0;
- 	cif_conf.replicate = 0;
-@@ -277,14 +288,18 @@ static const struct snd_soc_dai_driver tegra30_i2s_dai_template = {
- 		.channels_min = 2,
- 		.channels_max = 2,
- 		.rates = SNDRV_PCM_RATE_8000_96000,
--		.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+		.formats = SNDRV_PCM_FMTBIT_S32_LE |
-+			   SNDRV_PCM_FMTBIT_S24_LE |
-+			   SNDRV_PCM_FMTBIT_S16_LE,
- 	},
- 	.capture = {
- 		.stream_name = "Capture",
- 		.channels_min = 2,
- 		.channels_max = 2,
- 		.rates = SNDRV_PCM_RATE_8000_96000,
--		.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+		.formats = SNDRV_PCM_FMTBIT_S32_LE |
-+			   SNDRV_PCM_FMTBIT_S24_LE |
-+			   SNDRV_PCM_FMTBIT_S16_LE,
- 	},
- 	.ops = &tegra30_i2s_dai_ops,
- 	.symmetric_rates = 1,
--- 
-2.20.1
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2y1XcACgkQ3SOs138+
+s6GUUw/+JX4T/+S+Np6c8xtia3ypDnqM/9eryUpqn+hyZ634Kk5VwjduevZoaLR/
+KmOKEIA0xD9+ZFylmKsb/sFdgbmkCBx6rlNJhZq5uleGjnNi+6Ybokl4KAtGbzST
+u2xGRWNfv/yGy7mmx720nZVPcFpWaXNDCUqlDUVBE1UvIL6LlMKLzLCEdZn7tr8Z
+zetlXNd41+l2Me19xAUIZrl3pPEslM0JjvR9i2oEduHTUkITK1+QudFZhDYRJwcm
+a9ZEV0qabJpp8AZBLn7cPkyhNPLl2vasuCFIAHBW5+7gtjX3bgtTq5hO5bD8zaKs
+3K5G8ZNUHitZcWetD4O298tJqLgrzLSOVuUcCIigsgzmE16VHoxNu9w4kzFBVHwn
+BPbcd6qvf6nJeuwagRZ6u2V8jJlFPnzv8RZcRT8DW/R9yAtcEYOItm2LkN1OAtiG
+UXaCCccYgl17fhuvdzpS3MCQjSEw7wA3kwbuPWaVUXGSvVZsVrzXwZdN7Q4hfwMV
+q/N+Dtn4s6Xv7ia3/cxETW7KVYdEFVPSN2Be6hN5olcnQnjvos8OJII9H4ivGk9+
+KhxZYv0LBL7S6yZeoQTZmTpUOTVnEG5a0mVf4UG3QPGwe2kkschynjjQ101IG/v6
+9/0ylUXbXeV04bfvliLASaHIwbJ6K6+rTrwjXNq0zSqtcIFVlh4=
+=Esw+
+-----END PGP SIGNATURE-----
+
+--ibTvN161/egqYuK8--
