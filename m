@@ -2,128 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FBAEE4465
-	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 09:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 718BBE44D7
+	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 09:48:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389667AbfJYH3B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 25 Oct 2019 03:29:01 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:12073 "EHLO
+        id S2437278AbfJYHsS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 25 Oct 2019 03:48:18 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:13036 "EHLO
         hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725775AbfJYH3B (ORCPT
+        with ESMTP id S1727275AbfJYHsS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 25 Oct 2019 03:29:01 -0400
+        Fri, 25 Oct 2019 03:48:18 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5db2a4450000>; Fri, 25 Oct 2019 00:29:09 -0700
+        id <B5db2a8ca0000>; Fri, 25 Oct 2019 00:48:26 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 25 Oct 2019 00:29:00 -0700
+  Fri, 25 Oct 2019 00:48:17 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 25 Oct 2019 00:29:00 -0700
+        by hqpgpgate101.nvidia.com on Fri, 25 Oct 2019 00:48:17 -0700
 Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
  (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 25 Oct
- 2019 07:29:00 +0000
-Received: from [10.21.133.51] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ 2019 07:48:17 +0000
+Received: from [10.21.133.51] (172.20.13.39) by DRHQMAIL107.nvidia.com
  (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 25 Oct
- 2019 07:28:59 +0000
-To:     Trond Myklebust <trondmy@hammerspace.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+ 2019 07:48:15 +0000
+Subject: Re: [PATCH v5 3/7] ASoC: tegra: i2s: Add support for more than 2
+ channels
+To:     Mark Brown <broonie@kernel.org>
+CC:     Ben Dooks <ben.dooks@codethink.co.uk>,
+        <linux-tegra@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        <linux-kernel@lists.codethink.co.uk>,
+        "Edward Cragg" <edward.cragg@codethink.co.uk>
+References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
+ <20191018154833.7560-4-ben.dooks@codethink.co.uk>
+ <2eef499e-d9d4-732a-ddd6-8d307d8cb08d@nvidia.com>
+ <20191024191846.GJ46373@sirena.co.uk>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Subject: [REGRESSION v5.3] SUNRPC: Replace the queue timer with a delayed work
- function (7e0a0e38fcfe)
-Message-ID: <271ff39f-1f44-b201-6274-85f1085bfc16@nvidia.com>
-Date:   Fri, 25 Oct 2019 08:28:57 +0100
+Message-ID: <549a97c6-ff73-abe0-7c2b-7f29f975e259@nvidia.com>
+Date:   Fri, 25 Oct 2019 08:48:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+In-Reply-To: <20191024191846.GJ46373@sirena.co.uk>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1571988549; bh=oA1xY6WGO+YbrmP0Bs3pvIsu3O7VlCxPiPqvKf8AA3A=;
-        h=X-PGP-Universal:To:From:Subject:Message-ID:Date:User-Agent:
-         MIME-Version:X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Language:Content-Transfer-Encoding;
-        b=ehnPVjuYCX8OWxsuuALJqjRf9gfryALS5XTI0uWyavaixJ4klOrGajRRy692X4YrO
-         EtOOAzq7fNhanOpw8+0dNLRVeXjQS7QsfYXl9q1x+QDTzrTLkjz75BbaKC54aCDva2
-         ey04zQ8VtJJrLFLDMGCbo03Vp0xlbTUKCiPSUj8IRY79+rlzq6WGx4JWHPbjBTeiee
-         FTdZZVOSBNvwwb6vvc9QD1bBRsd5yuFl9XQGlOvWSMeCcM7GEMO9ArFvnB5IrV/Seh
-         kligc3+ZGZH5S/6nNTjBJz9IYuKdU+xaU4acOwif2/datDMR81ckNX6XijDNnLO8+q
-         /Cp4srDWGWJYA==
+        t=1571989706; bh=woREg5ZGPYnyjcnXQe0LrTdl/bxEh/wloZDheV0D1f0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=lAP1Sj08gBAXtiugJ6WTIE8CLP4n9lYXObLhwkh/u+CjgIrSBYhHBKRuNSNHk7I0d
+         hyVYa8Vs26OvXdEpn9lVMA7ywtL0EFGnsn8K7LxrmUr50YpVfbhbzTZbg3VcS5Oj8z
+         ubr/WnheSJ0i8UPEU75nrsnBdlVCXss827oaornGWrgwpdo/egbyv7aF2FNS8s6URF
+         voGrdxAS1kRj1h+suyrRhlIDkOBz/YLSD4JfPdl28NpD9Rj/bE3PYJ3gt2CF77D8ZG
+         7FOkKalxBTqfKmV7OsyjoruqEckbo6/iPQApRQsOjd0/5FHGrBYxT1ptD2jufF99/h
+         HtEF7LGoCxSEQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Trond,
 
-Similar to the change 431235818bc3 ("SUNRPC: Declare RPC timers as
-TIMER_DEFERRABLE") I have been tracking down another suspend/NFS related
-issue where again I am seeing random delays exiting suspend. The delays
-can be up to a couple minutes in the worst case and this is causing a
-suspend test we have to fail. For example, with this change I see ...
+On 24/10/2019 20:18, Mark Brown wrote:
+> On Thu, Oct 24, 2019 at 05:12:21PM +0100, Jon Hunter wrote:
+>> On 18/10/2019 16:48, Ben Dooks wrote:
+> 
+>>> @@ -90,10 +92,12 @@ static int tegra30_i2s_set_fmt(struct snd_soc_dai *dai,
+>>>  		TEGRA30_I2S_CTRL_LRCK_MASK;
+>>>  	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+>>>  	case SND_SOC_DAIFMT_DSP_A:
+>>> +		ch_val = TEGRA30_I2S_CH_CTRL_EGDE_CTRL_NEG_EDGE;
+> 
+>> Sorry, I just saw the feedback on the previous iteration. I don't think
+>> we want to set the polarity but based upon the format that is passed ...
+> 
+> The polarity should be set based on the the inversion flags in the
+> format, normally both DSP modes trigger on the rising edge of the LRCLK.
+> The difference is if there's a delay before the first data bit or not.
 
-[  130.599520] PM: suspend entry (deep)
-
-[  130.607267] Filesystems sync: 0.000 seconds
-
-[  130.615800] Freezing user space processes ... (elapsed 0.001 seconds) done.
-
-[  130.628247] OOM killer disabled.
-
-[  130.635382] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-
-[  130.648052] printk: Suspending console(s) (use no_console_suspend to debug)
-
-[  130.686015] Disabling non-boot CPUs ...
-
-[  130.689568] IRQ 17: no longer affine to CPU2
-
-[  130.693435] Entering suspend state LP1
-
-[  130.693489] Enabling non-boot CPUs ...
-
-[  130.697108] CPU1 is up
-
-[  130.700602] CPU2 is up
-
-[  130.704338] CPU3 is up
-
-[  130.781259] mmc1: queuing unknown CIS tuple 0x80 (50 bytes)
-
-[  130.789742] mmc1: queuing unknown CIS tuple 0x80 (7 bytes)
-
-[  130.792793] mmc1: queuing unknown CIS tuple 0x80 (7 bytes)
-
-[  130.820913] mmc1: queuing unknown CIS tuple 0x02 (1 bytes)
-
-[  131.345569] OOM killer enabled.
-
-[  131.352643] Restarting tasks ... done.
-
-[  131.365480] PM: suspend exit
-
-[  134.524261] asix 1-1:1.0 eth0: link up, 100Mbps, full-duplex, lpa 0xCDE1
-
-[  243.745788] nfs: server 192.168.99.1 not responding, still trying
-
-[  243.745811] nfs: server 192.168.99.1 not responding, still trying
-
-[  243.767939] nfs: server 192.168.99.1 not responding, still trying
-
-[  243.778233] nfs: server 192.168.99.1 OK
-
-[  243.787058] nfs: server 192.168.99.1 OK
-
-[  243.787542] nfs: server 192.168.99.1 OK
-
-
-Running a git bisect I was able to track it down to the commit referenced
-in the $subject. Reverting this on top of the current mainline fixes the
-problem and I no longer see these long delays.
+Yes. Sorry I realise my email was not clear and when I meant format, I
+was referring to the bits in the format mask part of the format. In the
+example, I shared we use the inversion bits for the determining the
+polarity. There was an old version of one of our drivers where we had
+done this incorrectly.
 
 Cheers
 Jon
