@@ -2,69 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C05BE41A4
-	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 04:40:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FBAEE4465
+	for <lists+linux-tegra@lfdr.de>; Fri, 25 Oct 2019 09:29:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390299AbfJYCkO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 24 Oct 2019 22:40:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44932 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390205AbfJYCkO (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 24 Oct 2019 22:40:14 -0400
-Received: from dragon (li937-157.members.linode.com [45.56.119.157])
-        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 588EA2166E;
-        Fri, 25 Oct 2019 02:40:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571971213;
-        bh=VuIkAO3ugvVIrk34pCVzm5VFvJRsMK+QkxTA75X9r+0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ly9foHepoYGj/bMScIwLR5+FQLcHMIn88pQaij8yEXfm4+MVhQKaK9tMUjKufAEQB
-         qKGc5v3xKBChLV1GxJcePyu+4YnqN0OsQMQ3MRxBUSvYUNqmO/MsDjr9SH5GOXrllj
-         Q9/YERVB/J0pjX6qcEBkoOdn1XCcju4fnXo1cJEM=
-Date:   Fri, 25 Oct 2019 10:39:53 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 06/10] ARM: dts: imx: Rename "iram" node to "sram"
-Message-ID: <20191025023951.GB30015@dragon>
-References: <20191002164316.14905-1-krzk@kernel.org>
- <20191002164316.14905-6-krzk@kernel.org>
+        id S2389667AbfJYH3B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 25 Oct 2019 03:29:01 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:12073 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbfJYH3B (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 25 Oct 2019 03:29:01 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5db2a4450000>; Fri, 25 Oct 2019 00:29:09 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 25 Oct 2019 00:29:00 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 25 Oct 2019 00:29:00 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 25 Oct
+ 2019 07:29:00 +0000
+Received: from [10.21.133.51] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 25 Oct
+ 2019 07:28:59 +0000
+To:     Trond Myklebust <trondmy@hammerspace.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Subject: [REGRESSION v5.3] SUNRPC: Replace the queue timer with a delayed work
+ function (7e0a0e38fcfe)
+Message-ID: <271ff39f-1f44-b201-6274-85f1085bfc16@nvidia.com>
+Date:   Fri, 25 Oct 2019 08:28:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191002164316.14905-6-krzk@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1571988549; bh=oA1xY6WGO+YbrmP0Bs3pvIsu3O7VlCxPiPqvKf8AA3A=;
+        h=X-PGP-Universal:To:From:Subject:Message-ID:Date:User-Agent:
+         MIME-Version:X-Originating-IP:X-ClientProxiedBy:Content-Type:
+         Content-Language:Content-Transfer-Encoding;
+        b=ehnPVjuYCX8OWxsuuALJqjRf9gfryALS5XTI0uWyavaixJ4klOrGajRRy692X4YrO
+         EtOOAzq7fNhanOpw8+0dNLRVeXjQS7QsfYXl9q1x+QDTzrTLkjz75BbaKC54aCDva2
+         ey04zQ8VtJJrLFLDMGCbo03Vp0xlbTUKCiPSUj8IRY79+rlzq6WGx4JWHPbjBTeiee
+         FTdZZVOSBNvwwb6vvc9QD1bBRsd5yuFl9XQGlOvWSMeCcM7GEMO9ArFvnB5IrV/Seh
+         kligc3+ZGZH5S/6nNTjBJz9IYuKdU+xaU4acOwif2/datDMR81ckNX6XijDNnLO8+q
+         /Cp4srDWGWJYA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Oct 02, 2019 at 06:43:12PM +0200, Krzysztof Kozlowski wrote:
-> The device node name should reflect generic class of a device so rename
-> the "iram" node to "sram".  This will be also in sync with upcoming DT
-> schema.  No functional change.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Hi Trond,
 
-Applied, thanks.
+Similar to the change 431235818bc3 ("SUNRPC: Declare RPC timers as
+TIMER_DEFERRABLE") I have been tracking down another suspend/NFS related
+issue where again I am seeing random delays exiting suspend. The delays
+can be up to a couple minutes in the worst case and this is causing a
+suspend test we have to fail. For example, with this change I see ...
+
+[  130.599520] PM: suspend entry (deep)
+
+[  130.607267] Filesystems sync: 0.000 seconds
+
+[  130.615800] Freezing user space processes ... (elapsed 0.001 seconds) done.
+
+[  130.628247] OOM killer disabled.
+
+[  130.635382] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+
+[  130.648052] printk: Suspending console(s) (use no_console_suspend to debug)
+
+[  130.686015] Disabling non-boot CPUs ...
+
+[  130.689568] IRQ 17: no longer affine to CPU2
+
+[  130.693435] Entering suspend state LP1
+
+[  130.693489] Enabling non-boot CPUs ...
+
+[  130.697108] CPU1 is up
+
+[  130.700602] CPU2 is up
+
+[  130.704338] CPU3 is up
+
+[  130.781259] mmc1: queuing unknown CIS tuple 0x80 (50 bytes)
+
+[  130.789742] mmc1: queuing unknown CIS tuple 0x80 (7 bytes)
+
+[  130.792793] mmc1: queuing unknown CIS tuple 0x80 (7 bytes)
+
+[  130.820913] mmc1: queuing unknown CIS tuple 0x02 (1 bytes)
+
+[  131.345569] OOM killer enabled.
+
+[  131.352643] Restarting tasks ... done.
+
+[  131.365480] PM: suspend exit
+
+[  134.524261] asix 1-1:1.0 eth0: link up, 100Mbps, full-duplex, lpa 0xCDE1
+
+[  243.745788] nfs: server 192.168.99.1 not responding, still trying
+
+[  243.745811] nfs: server 192.168.99.1 not responding, still trying
+
+[  243.767939] nfs: server 192.168.99.1 not responding, still trying
+
+[  243.778233] nfs: server 192.168.99.1 OK
+
+[  243.787058] nfs: server 192.168.99.1 OK
+
+[  243.787542] nfs: server 192.168.99.1 OK
+
+
+Running a git bisect I was able to track it down to the commit referenced
+in the $subject. Reverting this on top of the current mainline fixes the
+problem and I no longer see these long delays.
+
+Cheers
+Jon
+
+-- 
+nvpublic
