@@ -2,57 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B88E7183
-	for <lists+linux-tegra@lfdr.de>; Mon, 28 Oct 2019 13:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC607E7185
+	for <lists+linux-tegra@lfdr.de>; Mon, 28 Oct 2019 13:37:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389120AbfJ1Mhr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 28 Oct 2019 08:37:47 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:45644 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389093AbfJ1Mhr (ORCPT
+        id S1727848AbfJ1Mht (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 28 Oct 2019 08:37:49 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:45648 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727275AbfJ1Mht (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 28 Oct 2019 08:37:47 -0400
-Received: by mail-wr1-f68.google.com with SMTP id q13so9675300wrs.12
-        for <linux-tegra@vger.kernel.org>; Mon, 28 Oct 2019 05:37:45 -0700 (PDT)
+        Mon, 28 Oct 2019 08:37:49 -0400
+Received: by mail-wr1-f66.google.com with SMTP id q13so9675386wrs.12
+        for <linux-tegra@vger.kernel.org>; Mon, 28 Oct 2019 05:37:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BVtc7jw7WhTJ+/y+/52Upjepj6jdz/+oV1yVXbshAuY=;
-        b=giEOBhaqNlgnVww+O/bQbZJ5tR7V5vKEqHYMfYjDfp3lBZD5vgzQoR4i+gZSzuldP0
-         46lcvslmmwqEH8368q87YMedF5xn17EVoPQYrma78FNaViBxWgB4yxM72anAVst7fQo2
-         bxL1jxoRRYEpchccgU75GP4ad8STlzJ+0c/tvgnKxC48tiECZ8Air3L0E3VmChraHU6h
-         HgexJiXJVRFDJYJ3FVNsPdAX45L3InQkNLzvVlBnznEbCEQuUYBybto0U+rHE+pJ1yAN
-         EKwFU+wyNkUu8KzJ5ivx13pH281WwuWsPZGg1LAhghoNsWBd5QdmC9/QCjendF3wWZ7/
-         rK8w==
+        bh=2ymWEbRHSElzNbuDgsTAxIt0SPIxRdOmiGeksusZlhM=;
+        b=icu0V3tx03OmBkcca8Z6qPTM+g+WBsmLC62jDZV98LF03Gh01rH58bOG9foikmkKUz
+         6MT5u/4sIeF8UY/fLTarKdv0J2nV8CdFkarPd4Mq4rtFdkD67aaturmImUrpQcVIxOKo
+         lExGlkiVqVKa2/SyBpt+W0lnl/HAN57+hft002CSldIT4+gKBKVDyt/OkUR5ZFXbJZS8
+         TaWqp+YlmflzVLR6jyXldqxhFlJFvJgxHMos+wQ5Q7RUTFp++jDBiQVrvQMTpahI+L/b
+         +pxdNszHt/cf9ovJ6/x2vqvIl6KfBgVM4jHospbUtbIhTZEh9P887pbmjcAfg3P98mVB
+         O/Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BVtc7jw7WhTJ+/y+/52Upjepj6jdz/+oV1yVXbshAuY=;
-        b=cHmD9LBLoctvqGM83pyAAniqpZIqan0xt6g2IW0sVnaD1XddIPqvIfNksKWpKwJjVL
-         ocKtmv6JkxMEqD6OLwUiHC21ou52+ESKjfk1GdU3boAov8gWU4xn3vGX5gcwc2xJ94wN
-         6aPD/suKUSNDWHq44tqWW30m20btbNjD2AIYFUld9YjwyJikEypWDvME/x5xP6B81rL0
-         X92NzUDh6TslQpYOIe576D5EpvKGblxRTzWWhav9v8oh1yOYRSFU6ONBzo7+ByElPpoq
-         XSw8k9I1OlLtIAon8a44K3ap6lPbs3opeS1TBY6NWk4S29sX+zYPYZDAuc0fo5WRSWL3
-         KiXQ==
-X-Gm-Message-State: APjAAAUR+SAaygzPWYnlKrYRs43brmwoD3ja0GkRTSSP1Ai6wu6tIHJX
-        EuieLOLk7oAy2ApPcXtWoJ6Dm0iU
-X-Google-Smtp-Source: APXvYqwbzd9LkRkDaiccU0sZZrjK1OVg8h6TPjnG6yblTCKSWqDwhT/AY+z45vrsTMW/AYBOKQ3sJw==
-X-Received: by 2002:a5d:4a81:: with SMTP id o1mr14642779wrq.225.1572266264388;
-        Mon, 28 Oct 2019 05:37:44 -0700 (PDT)
+        bh=2ymWEbRHSElzNbuDgsTAxIt0SPIxRdOmiGeksusZlhM=;
+        b=sZuQXYB9+4qogzh2qzTFfM5cR3OSuqRD/2qWesxLxwp6BxK5F0ER4lhqthTrRvlxgX
+         EeXL58OIdTD0Wjg0rGXiJmNr2ZCuqHFZc9BqWjLYeH30idF6GaCEBia8RGhRLka21pKN
+         +4c5w7It9oYX+b7U2deiAAOgmfZY+JAS2keeEwibC37QMa/RIPuKgnJTlWARfvo7ydY6
+         hRhwnGN+4clagRvW1DCDc/oo02WpyX9NYz+lnD9CYxka+yoqmyxiWg9Q5Cu2Y60Rhyx9
+         xozfunrEeZ6qtf6iwpJC9cJQo3SE9pj4806cZ5zJZoCfGVNJQ6HYW5gpPsus+vy5yFXm
+         ccrA==
+X-Gm-Message-State: APjAAAU8IWE7ltgFPgcp/Cngz1N6dop33pKINybKQUJZUVJrQ55r4Uwh
+        oEI3s0Fj33j07JuBncZmwRU=
+X-Google-Smtp-Source: APXvYqz04kjsxEAcAdJD5HKV9ccsMeQdCvjWpQurQhV2rNL5tLBaD5O6xZzys65f9IqRDbRp1DOhLw==
+X-Received: by 2002:adf:fec3:: with SMTP id q3mr14812954wrs.343.1572266266222;
+        Mon, 28 Oct 2019 05:37:46 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id t185sm15254147wmf.45.2019.10.28.05.37.43
+        by smtp.gmail.com with ESMTPSA id s10sm13109089wrr.5.2019.10.28.05.37.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2019 05:37:43 -0700 (PDT)
+        Mon, 28 Oct 2019 05:37:45 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Sachin Nikam <snikam@nvidia.com>,
         Puneet Saxena <puneets@nvidia.com>,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 11/12] drm/tegra: Support DMA API for display controllers
-Date:   Mon, 28 Oct 2019 13:37:17 +0100
-Message-Id: <20191028123718.3890217-12-thierry.reding@gmail.com>
+Subject: [PATCH 12/12] drm/tegra: Optionally attach clients to the IOMMU
+Date:   Mon, 28 Oct 2019 13:37:18 +0100
+Message-Id: <20191028123718.3890217-13-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191028123718.3890217-1-thierry.reding@gmail.com>
 References: <20191028123718.3890217-1-thierry.reding@gmail.com>
@@ -65,254 +65,169 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-If a display controller is not attached to an explicit IOMMU domain,
-which usually means that it's connected to an IOMMU domain controlled by
-the DMA API, make sure to map the framebuffer to the display controller
-address space. This allows us to transparently handle setups where the
-display controller is attached to an IOMMU or setups where it isn't. It
-also allows the driver to work with a DMA API that is backed by an
-IOMMU.
+If a client is already attached to an IOMMU domain that is not the
+shared domain, don't try to attach it again. This allows using the
+IOMMU-backed DMA API.
+
+Since the IOMMU-backed DMA API is now supported and there's no way
+to detach from it on 64-bit ARM, don't bother to detach from it on
+32-bit ARM either.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/dc.c    |   8 ++-
- drivers/gpu/drm/tegra/hub.c   |   6 +-
- drivers/gpu/drm/tegra/plane.c | 104 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/tegra/plane.h |   8 +++
- 4 files changed, 120 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/tegra/drm.c | 66 +++++++++++++++++++++++++++----------
+ drivers/gpu/drm/tegra/drm.h |  1 +
+ 2 files changed, 49 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 36c36b295ab1..5b1f9ff97576 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -715,9 +715,7 @@ static void tegra_plane_atomic_update(struct drm_plane *plane,
- 	window.swap = state->swap;
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index efc8a27b9e6a..56e5e7a5c108 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -20,10 +20,6 @@
+ #include <drm/drm_prime.h>
+ #include <drm/drm_vblank.h>
  
- 	for (i = 0; i < fb->format->num_planes; i++) {
--		struct tegra_bo *bo = tegra_fb_get_plane(fb, i);
+-#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+-#include <asm/dma-iommu.h>
+-#endif
 -
--		window.base[i] = bo->iova + fb->offsets[i];
-+		window.base[i] = state->iova[i] + fb->offsets[i];
+ #include "drm.h"
+ #include "gem.h"
  
- 		/*
- 		 * Tegra uses a shared stride for UV planes. Framebuffers are
-@@ -732,6 +730,8 @@ static void tegra_plane_atomic_update(struct drm_plane *plane,
- }
+@@ -908,30 +904,27 @@ int tegra_drm_unregister_client(struct tegra_drm *tegra,
  
- static const struct drm_plane_helper_funcs tegra_plane_helper_funcs = {
-+	.prepare_fb = tegra_plane_prepare_fb,
-+	.cleanup_fb = tegra_plane_cleanup_fb,
- 	.atomic_check = tegra_plane_atomic_check,
- 	.atomic_disable = tegra_plane_atomic_disable,
- 	.atomic_update = tegra_plane_atomic_update,
-@@ -914,6 +914,8 @@ static void tegra_cursor_atomic_disable(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs tegra_cursor_plane_helper_funcs = {
-+	.prepare_fb = tegra_plane_prepare_fb,
-+	.cleanup_fb = tegra_plane_cleanup_fb,
- 	.atomic_check = tegra_cursor_atomic_check,
- 	.atomic_update = tegra_cursor_atomic_update,
- 	.atomic_disable = tegra_cursor_atomic_disable,
-diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
-index 104115e42190..2b4082d0bc9e 100644
---- a/drivers/gpu/drm/tegra/hub.c
-+++ b/drivers/gpu/drm/tegra/hub.c
-@@ -413,7 +413,6 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
- 	unsigned int zpos = plane->state->normalized_zpos;
- 	struct drm_framebuffer *fb = plane->state->fb;
- 	struct tegra_plane *p = to_tegra_plane(plane);
--	struct tegra_bo *bo;
- 	dma_addr_t base;
- 	u32 value;
- 
-@@ -456,8 +455,7 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
- 	/* disable compression */
- 	tegra_plane_writel(p, 0, DC_WINBUF_CDE_CONTROL);
- 
--	bo = tegra_fb_get_plane(fb, 0);
--	base = bo->iova;
-+	base = state->iova[0] + fb->offsets[0];
- 
- 	tegra_plane_writel(p, state->format, DC_WIN_COLOR_DEPTH);
- 	tegra_plane_writel(p, 0, DC_WIN_PRECOMP_WGRP_PARAMS);
-@@ -521,6 +519,8 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs tegra_shared_plane_helper_funcs = {
-+	.prepare_fb = tegra_plane_prepare_fb,
-+	.cleanup_fb = tegra_plane_cleanup_fb,
- 	.atomic_check = tegra_shared_plane_atomic_check,
- 	.atomic_update = tegra_shared_plane_atomic_update,
- 	.atomic_disable = tegra_shared_plane_atomic_disable,
-diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
-index 6bab71d6e81d..163b590be224 100644
---- a/drivers/gpu/drm/tegra/plane.c
-+++ b/drivers/gpu/drm/tegra/plane.c
-@@ -6,6 +6,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
- 
- #include "dc.h"
-@@ -23,6 +24,7 @@ static void tegra_plane_reset(struct drm_plane *plane)
+ int host1x_client_iommu_attach(struct host1x_client *client)
  {
- 	struct tegra_plane *p = to_tegra_plane(plane);
- 	struct tegra_plane_state *state;
-+	unsigned int i;
++	struct iommu_domain *domain = iommu_get_domain_for_dev(client->dev);
+ 	struct drm_device *drm = dev_get_drvdata(client->parent);
+ 	struct tegra_drm *tegra = drm->dev_private;
+ 	struct iommu_group *group = NULL;
+ 	int err;
  
- 	if (plane->state)
- 		__drm_atomic_helper_plane_destroy_state(plane->state);
-@@ -36,6 +38,9 @@ static void tegra_plane_reset(struct drm_plane *plane)
- 		plane->state->plane = plane;
- 		plane->state->zpos = p->index;
- 		plane->state->normalized_zpos = p->index;
+-	if (tegra->domain) {
+-		struct iommu_domain *domain;
++	/*
++	 * If the host1x client is already attached to an IOMMU domain that is
++	 * not the shared IOMMU domain, don't try to attach it to a different
++	 * domain. This allows using the IOMMU-backed DMA API.
++	 */
++	if (domain && domain != tegra->domain)
++		return 0;
+ 
++	if (tegra->domain) {
+ 		group = iommu_group_get(client->dev);
+ 		if (!group) {
+ 			dev_err(client->dev, "failed to get IOMMU group\n");
+ 			return -ENODEV;
+ 		}
+ 
+-#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+-		if (client->dev->archdata.mapping) {
+-			struct dma_iommu_mapping *mapping =
+-				to_dma_iommu_mapping(client->dev);
+-			arm_iommu_detach_device(client->dev);
+-			arm_iommu_release_mapping(mapping);
+-		}
+-#endif
+-
+-		domain = iommu_get_domain_for_dev(client->dev);
+ 		if (domain != tegra->domain) {
+ 			err = iommu_attach_group(tegra->domain, group);
+ 			if (err < 0) {
+@@ -939,6 +932,8 @@ int host1x_client_iommu_attach(struct host1x_client *client)
+ 				return err;
+ 			}
+ 		}
 +
-+		for (i = 0; i < 3; i++)
-+			state->iova[i] = DMA_MAPPING_ERROR;
++		tegra->use_explicit_iommu = true;
+ 	}
+ 
+ 	client->group = group;
+@@ -963,6 +958,7 @@ void host1x_client_iommu_detach(struct host1x_client *client)
+ 			iommu_detach_group(tegra->domain, client->group);
+ 
+ 		iommu_group_put(client->group);
++		client->group = NULL;
  	}
  }
  
-@@ -60,6 +65,11 @@ tegra_plane_atomic_duplicate_state(struct drm_plane *plane)
- 	for (i = 0; i < 2; i++)
- 		copy->blending[i] = state->blending[i];
- 
-+	for (i = 0; i < 3; i++) {
-+		copy->iova[i] = DMA_MAPPING_ERROR;
-+		copy->sgt[i] = NULL;
-+	}
-+
- 	return &copy->base;
- }
- 
-@@ -95,6 +105,100 @@ const struct drm_plane_funcs tegra_plane_funcs = {
- 	.format_mod_supported = tegra_plane_format_mod_supported,
- };
- 
-+static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
-+{
-+	unsigned int i;
-+	int err;
-+
-+	for (i = 0; i < state->base.fb->format->num_planes; i++) {
-+		struct tegra_bo *bo = tegra_fb_get_plane(state->base.fb, i);
-+
-+		if (!dc->client.group) {
-+			struct sg_table *sgt;
-+
-+			sgt = host1x_bo_pin(dc->dev, &bo->base, NULL);
-+			if (IS_ERR(sgt)) {
-+				err = PTR_ERR(sgt);
-+				goto unpin;
-+			}
-+
-+			err = dma_map_sg(dc->dev, sgt->sgl, sgt->nents,
-+					 DMA_TO_DEVICE);
-+			if (err == 0) {
-+				err = -ENOMEM;
-+				goto unpin;
-+			}
-+
-+			state->iova[i] = sg_dma_address(sgt->sgl);
-+			state->sgt[i] = sgt;
-+		} else {
-+			state->iova[i] = bo->iova;
-+		}
-+	}
-+
-+	return 0;
-+
-+unpin:
-+	dev_err(dc->dev, "failed to map plane %u: %d\n", i, err);
-+
-+	while (i--) {
-+		struct tegra_bo *bo = tegra_fb_get_plane(state->base.fb, i);
-+		struct sg_table *sgt = state->sgt[i];
-+
-+		dma_unmap_sg(dc->dev, sgt->sgl, sgt->nents, DMA_TO_DEVICE);
-+		host1x_bo_unpin(dc->dev, &bo->base, sgt);
-+
-+		state->iova[i] = DMA_MAPPING_ERROR;
-+		state->sgt[i] = NULL;
-+	}
-+
-+	return err;
-+}
-+
-+static void tegra_dc_unpin(struct tegra_dc *dc, struct tegra_plane_state *state)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < state->base.fb->format->num_planes; i++) {
-+		struct tegra_bo *bo = tegra_fb_get_plane(state->base.fb, i);
-+
-+		if (!dc->client.group) {
-+			struct sg_table *sgt = state->sgt[i];
-+
-+			if (sgt) {
-+				dma_unmap_sg(dc->dev, sgt->sgl, sgt->nents,
-+					     DMA_TO_DEVICE);
-+				host1x_bo_unpin(dc->dev, &bo->base, sgt);
-+			}
-+		}
-+
-+		state->iova[i] = DMA_MAPPING_ERROR;
-+		state->sgt[i] = NULL;
-+	}
-+}
-+
-+int tegra_plane_prepare_fb(struct drm_plane *plane,
-+			   struct drm_plane_state *state)
-+{
-+	struct tegra_dc *dc = to_tegra_dc(state->crtc);
-+
-+	if (!state->fb)
-+		return 0;
-+
-+	drm_gem_fb_prepare_fb(plane, state);
-+
-+	return tegra_dc_pin(dc, to_tegra_plane_state(state));
-+}
-+
-+void tegra_plane_cleanup_fb(struct drm_plane *plane,
-+			    struct drm_plane_state *state)
-+{
-+	struct tegra_dc *dc = to_tegra_dc(state->crtc);
-+
-+	if (dc)
-+		tegra_dc_unpin(dc, to_tegra_plane_state(state));
-+}
-+
- int tegra_plane_state_add(struct tegra_plane *plane,
- 			  struct drm_plane_state *state)
+@@ -1046,6 +1042,7 @@ void tegra_drm_free(struct tegra_drm *tegra, size_t size, void *virt,
+ static int host1x_drm_probe(struct host1x_device *dev)
  {
-diff --git a/drivers/gpu/drm/tegra/plane.h b/drivers/gpu/drm/tegra/plane.h
-index 510c394e6d9a..a158a915109a 100644
---- a/drivers/gpu/drm/tegra/plane.h
-+++ b/drivers/gpu/drm/tegra/plane.h
-@@ -39,6 +39,9 @@ struct tegra_plane_legacy_blending_state {
- struct tegra_plane_state {
- 	struct drm_plane_state base;
+ 	struct drm_driver *driver = &tegra_drm_driver;
++	struct iommu_domain *domain;
+ 	struct tegra_drm *tegra;
+ 	struct drm_device *drm;
+ 	int err;
+@@ -1060,7 +1057,36 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 		goto put;
+ 	}
  
-+	struct sg_table *sgt[3];
-+	dma_addr_t iova[3];
+-	if (iommu_present(&platform_bus_type)) {
++	/*
++	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
++	 * likely to be allocated beyond the 32-bit boundary if sufficient
++	 * system memory is available. This is problematic on earlier Tegra
++	 * generations where host1x supports a maximum of 32 address bits in
++	 * the GATHER opcode. In this case, unless host1x is behind an IOMMU
++	 * as well it won't be able to process buffers allocated beyond the
++	 * 32-bit boundary.
++	 *
++	 * The DMA API will use bounce buffers in this case, so that could
++	 * perhaps still be made to work, even if less efficient, but there
++	 * is another catch: in order to perform cache maintenance on pages
++	 * allocated for discontiguous buffers we need to map and unmap the
++	 * SG table representing these buffers. This is fine for something
++	 * small like a push buffer, but it exhausts the bounce buffer pool
++	 * (typically on the order of a few MiB) for framebuffers (many MiB
++	 * for any modern resolution).
++	 *
++	 * Work around this by making sure that Tegra DRM clients only use
++	 * an IOMMU if the parent host1x also uses an IOMMU.
++	 *
++	 * Note that there's still a small gap here that we don't cover: if
++	 * the DMA API is backed by an IOMMU there's no way to control which
++	 * device is attached to an IOMMU and which isn't, except via wiring
++	 * up the device tree appropriately. This is considered an problem
++	 * of integration, so care must be taken for the DT to be consistent.
++	 */
++	domain = iommu_get_domain_for_dev(drm->dev->parent);
 +
- 	struct tegra_bo_tiling tiling;
- 	u32 format;
- 	u32 swap;
-@@ -61,6 +64,11 @@ to_tegra_plane_state(struct drm_plane_state *state)
++	if (domain && iommu_present(&platform_bus_type)) {
+ 		tegra->domain = iommu_domain_alloc(&platform_bus_type);
+ 		if (!tegra->domain) {
+ 			err = -ENOMEM;
+@@ -1104,7 +1130,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 	if (err < 0)
+ 		goto fbdev;
  
- extern const struct drm_plane_funcs tegra_plane_funcs;
+-	if (tegra->domain) {
++	if (tegra->use_explicit_iommu) {
+ 		u64 carveout_start, carveout_end, gem_start, gem_end;
+ 		u64 dma_mask = dma_get_mask(&dev->dev);
+ 		dma_addr_t start, end;
+@@ -1132,6 +1158,10 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
+ 		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
+ 				 carveout_end);
++	} else if (tegra->domain) {
++		iommu_domain_free(tegra->domain);
++		tegra->domain = NULL;
++		iova_cache_put();
+ 	}
  
-+int tegra_plane_prepare_fb(struct drm_plane *plane,
-+			   struct drm_plane_state *state);
-+void tegra_plane_cleanup_fb(struct drm_plane *plane,
-+			    struct drm_plane_state *state);
-+
- int tegra_plane_state_add(struct tegra_plane *plane,
- 			  struct drm_plane_state *state);
+ 	if (tegra->hub) {
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index 28f2820a7371..d941553f7a3d 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -36,6 +36,7 @@ struct tegra_drm {
+ 	struct drm_device *drm;
+ 
+ 	struct iommu_domain *domain;
++	bool use_explicit_iommu;
+ 	struct mutex mm_lock;
+ 	struct drm_mm mm;
  
 -- 
 2.23.0
