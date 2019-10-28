@@ -2,93 +2,451 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B8E2E5D91
-	for <lists+linux-tegra@lfdr.de>; Sat, 26 Oct 2019 15:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE0C3E711F
+	for <lists+linux-tegra@lfdr.de>; Mon, 28 Oct 2019 13:16:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726350AbfJZN7e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 26 Oct 2019 09:59:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57682 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726256AbfJZN7e (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 26 Oct 2019 09:59:34 -0400
-Received: from [192.168.1.74] (75-58-59-55.lightspeed.rlghnc.sbcglobal.net [75.58.59.55])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 63243214DA;
-        Sat, 26 Oct 2019 13:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572098373;
-        bh=2092hUManuELIoPthm7V2zGy49LHaePQUOfeSdT5QdM=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=PeHNzb/ZKNXk8y3Fqvhtf7b2J2LmDIVvrGkzLDojWKOtM4FZ5owkrJVsEcq1TYTPT
-         AG0/ufkMTsMQlrWkJNFffgPfq5ZWGnYgo4JuO9PJr7mljToQ6BkGeDDHsMLFFTbuUU
-         KRRReHJ9e+K4a0LSob49an3FifZjsKUNW3ODPg+k=
-Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
-To:     Vidya Sagar <vidyas@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Thierry Reding <treding@nvidia.com>, bhelgaas@google.com,
-        lorenzo.pieralisi@arm.com, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-References: <20191005182129.32538-1-vidyas@nvidia.com>
- <20191014082023.GA232162@ulmo>
- <ce411d27-5b92-8dae-fccd-73c63aa30f1c@kernel.org>
- <20191015093053.GA5778@ulmo>
- <4953b718-8818-575e-2ec1-8197e6b32593@kernel.org>
- <85267afb-c08e-5625-d3ee-bd32af9ecb12@nvidia.com>
- <afa16546-e63d-6eba-8be0-8e52339cd100@nvidia.com>
- <aed391af-f54c-c25e-43b9-ed9db01bd3cf@nvidia.com>
-From:   Sinan Kaya <okaya@kernel.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=okaya@kernel.org; keydata=
- mQENBFrnOrUBCADGOL0kF21B6ogpOkuYvz6bUjO7NU99PKhXx1MfK/AzK+SFgxJF7dMluoF6
- uT47bU7zb7HqACH6itTgSSiJeSoq86jYoq5s4JOyaj0/18Hf3/YBah7AOuwk6LtV3EftQIhw
- 9vXqCnBwP/nID6PQ685zl3vH68yzF6FVNwbDagxUz/gMiQh7scHvVCjiqkJ+qu/36JgtTYYw
- 8lGWRcto6gr0eTF8Wd8f81wspmUHGsFdN/xPsZPKMw6/on9oOj3AidcR3P9EdLY4qQyjvcNC
- V9cL9b5I/Ud9ghPwW4QkM7uhYqQDyh3SwgEFudc+/RsDuxjVlg9CFnGhS0nPXR89SaQZABEB
- AAG0HVNpbmFuIEtheWEgPG9rYXlhQGtlcm5lbC5vcmc+iQFOBBMBCAA4FiEEYdOlMSE+a7/c
- ckrQvGF4I+4LAFcFAlztcAoCGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQvGF4I+4L
- AFfidAf/VKHInxep0Z96iYkIq42432HTZUrxNzG9IWk4HN7c3vTJKv2W+b9pgvBF1SmkyQSy
- 8SJ3Zd98CO6FOHA1FigFyZahVsme+T0GsS3/OF1kjrtMktoREr8t0rK0yKpCTYVdlkHadxmR
- Qs5xLzW1RqKlrNigKHI2yhgpMwrpzS+67F1biT41227sqFzW9urEl/jqGJXaB6GV+SRKSHN+
- ubWXgE1NkmfAMeyJPKojNT7ReL6eh3BNB/Xh1vQJew+AE50EP7o36UXghoUktnx6cTkge0ZS
- qgxuhN33cCOU36pWQhPqVSlLTZQJVxuCmlaHbYWvye7bBOhmiuNKhOzb3FcgT7kBDQRa5zq1
- AQgAyRq/7JZKOyB8wRx6fHE0nb31P75kCnL3oE+smKW/sOcIQDV3C7mZKLf472MWB1xdr4Tm
- eXeL/wT0QHapLn5M5wWghC80YvjjdolHnlq9QlYVtvl1ocAC28y43tKJfklhHiwMNDJfdZbw
- 9lQ2h+7nccFWASNUu9cqZOABLvJcgLnfdDpnSzOye09VVlKr3NHgRyRZa7me/oFJCxrJlKAl
- 2hllRLt0yV08o7i14+qmvxI2EKLX9zJfJ2rGWLTVe3EJBnCsQPDzAUVYSnTtqELu2AGzvDiM
- gatRaosnzhvvEK+kCuXuCuZlRWP7pWSHqFFuYq596RRG5hNGLbmVFZrCxQARAQABiQEfBBgB
- CAAJBQJa5zq1AhsMAAoJELxheCPuCwBX2UYH/2kkMC4mImvoClrmcMsNGijcZHdDlz8NFfCI
- gSb3NHkarnA7uAg8KJuaHUwBMk3kBhv2BGPLcmAknzBIehbZ284W7u3DT9o1Y5g+LDyx8RIi
- e7pnMcC+bE2IJExCVf2p3PB1tDBBdLEYJoyFz/XpdDjZ8aVls/pIyrq+mqo5LuuhWfZzPPec
- 9EiM2eXpJw+Rz+vKjSt1YIhg46YbdZrDM2FGrt9ve3YaM5H0lzJgq/JQPKFdbd5MB0X37Qc+
- 2m/A9u9SFnOovA42DgXUyC2cSbIJdPWOK9PnzfXqF3sX9Aol2eLUmQuLpThJtq5EHu6FzJ7Y
- L+s0nPaNMKwv/Xhhm6Y=
-Message-ID: <4424cd45-e441-0d8d-548e-5c025f48bb03@kernel.org>
-Date:   Sat, 26 Oct 2019 09:59:30 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727463AbfJ1MQQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 28 Oct 2019 08:16:16 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46011 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727379AbfJ1MQQ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 28 Oct 2019 08:16:16 -0400
+Received: by mail-wr1-f66.google.com with SMTP id q13so9600722wrs.12
+        for <linux-tegra@vger.kernel.org>; Mon, 28 Oct 2019 05:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b/kC/c/+jpPvPm4fakZE+3Cs7m4qDkO3hV1/TkneMto=;
+        b=DDl8MTvFgPTH3GpHzff4IdxqllEII5hqbUK94F5EQ34dsUKD4CheQ257QF4AUoLBCN
+         G/sJaQ7tBHcTxfW+yBipP71K2XXTE29WCHXYiy/oV8xSDf1vHte3ps75j9MTDsQmWt6h
+         llW7Pw1qWCSQpqlbxlD4/33+LqpnomMVuxDTQUkWYM7xAw7YNxi0hubQgUMMoTwxPAmL
+         W5vwm/KCUECvKTjzgNkfhAIL0RkV2QL/XtZo6UM1BlYy0jZ16QMT2imcu61tcvTet1s9
+         nreD1JIdAra78jdAM5wF+bKugvFBQ9Ap44EJjEOamVLgleb9OEFM9CEP6AlE9s+/6eOS
+         sZHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b/kC/c/+jpPvPm4fakZE+3Cs7m4qDkO3hV1/TkneMto=;
+        b=M8oZCXwVuuJ4M677Q+RthAdWHkkVl3Rt9fcu41BQyjIxRGYu5NfvEuXJhzH/5BSEVh
+         OxE4EDageqVjyHX7VzX1kRaYp9u99krLu4aTOx2/LcnRCZoJXVvjVuPzWhLRd6Zgoetr
+         8pA36nGX0UEsOBnds66y69ycPIFxKLzFS2Zlfiy14zwN1LW5QbgZByGnavUBoWnJGyKi
+         jJwlxrDT85FIlRwyrFspEY2nz+5Vwr8FhiU0bCSiWs09U8yBQQiHdol/PJQgDQwbTMOh
+         llmDDVk3D0vGXxZ3OwdMMrymvJU5GX36IKq+6xCf/fmhcy3M6HE+UjzJWv1pPGUSoglh
+         jLdQ==
+X-Gm-Message-State: APjAAAVxSkm3cf+8MzvBkVnPn7v42LuDzCgY28dZtHG49k7vf5CCZkVH
+        5RPHCpjDsZ2UROOWHMC661w=
+X-Google-Smtp-Source: APXvYqyVN8X7sN+vnE5DeEXaRPsQV1pyiiwi4mIEI3cLN30LNGtjcGyzQcq/tLTgDfQ1Frb1E+xzMA==
+X-Received: by 2002:a5d:4142:: with SMTP id c2mr14096771wrq.208.1572264972785;
+        Mon, 28 Oct 2019 05:16:12 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id k1sm10383511wru.10.2019.10.28.05.16.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2019 05:16:11 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v3] drm/tegra: Do not use ->load() and ->unload() callbacks
+Date:   Mon, 28 Oct 2019 13:16:10 +0100
+Message-Id: <20191028121610.3889207-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <aed391af-f54c-c25e-43b9-ed9db01bd3cf@nvidia.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 10/25/2019 7:58 AM, Vidya Sagar wrote:
-> On 10/21/2019 11:13 AM, Vidya Sagar wrote:
-> 
-> Hi Sinan / Rafael,
-> Apologies for the ping again.
-> Do you guys have any further comments on this?
-> 
-> -Vidya Sagar
+From: Thierry Reding <treding@nvidia.com>
 
-I think you'll need some attention from Bjorn here to see the complete
-picture.
+The ->load() and ->unload() drivers are midlayers and should be avoided
+in modern drivers. Fix this by moving the code into the driver ->probe()
+and ->remove() implementations, respectively.
 
-As I said, changing pci_device_is_present() is not right. This needs to
-be done at one level higher.
+v2: kick out conflicting framebuffers before initializing fbdev
+v3: rebase onto drm/tegra/for-next
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/drm.c | 321 +++++++++++++++++-------------------
+ 1 file changed, 154 insertions(+), 167 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index b74362cb63eb..7480f575188d 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -86,168 +86,6 @@ tegra_drm_mode_config_helpers = {
+ 	.atomic_commit_tail = tegra_atomic_commit_tail,
+ };
+ 
+-static int tegra_drm_load(struct drm_device *drm, unsigned long flags)
+-{
+-	struct host1x_device *device = to_host1x_device(drm->dev);
+-	struct tegra_drm *tegra;
+-	int err;
+-
+-	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
+-	if (!tegra)
+-		return -ENOMEM;
+-
+-	if (iommu_present(&platform_bus_type)) {
+-		tegra->domain = iommu_domain_alloc(&platform_bus_type);
+-		if (!tegra->domain) {
+-			err = -ENOMEM;
+-			goto free;
+-		}
+-
+-		err = iova_cache_get();
+-		if (err < 0)
+-			goto domain;
+-	}
+-
+-	mutex_init(&tegra->clients_lock);
+-	INIT_LIST_HEAD(&tegra->clients);
+-
+-	drm->dev_private = tegra;
+-	tegra->drm = drm;
+-
+-	drm_mode_config_init(drm);
+-
+-	drm->mode_config.min_width = 0;
+-	drm->mode_config.min_height = 0;
+-
+-	drm->mode_config.max_width = 4096;
+-	drm->mode_config.max_height = 4096;
+-
+-	drm->mode_config.allow_fb_modifiers = true;
+-
+-	drm->mode_config.normalize_zpos = true;
+-
+-	drm->mode_config.funcs = &tegra_drm_mode_config_funcs;
+-	drm->mode_config.helper_private = &tegra_drm_mode_config_helpers;
+-
+-	err = tegra_drm_fb_prepare(drm);
+-	if (err < 0)
+-		goto config;
+-
+-	drm_kms_helper_poll_init(drm);
+-
+-	err = host1x_device_init(device);
+-	if (err < 0)
+-		goto fbdev;
+-
+-	if (tegra->domain) {
+-		u64 carveout_start, carveout_end, gem_start, gem_end;
+-		u64 dma_mask = dma_get_mask(&device->dev);
+-		dma_addr_t start, end;
+-		unsigned long order;
+-
+-		start = tegra->domain->geometry.aperture_start & dma_mask;
+-		end = tegra->domain->geometry.aperture_end & dma_mask;
+-
+-		gem_start = start;
+-		gem_end = end - CARVEOUT_SZ;
+-		carveout_start = gem_end + 1;
+-		carveout_end = end;
+-
+-		order = __ffs(tegra->domain->pgsize_bitmap);
+-		init_iova_domain(&tegra->carveout.domain, 1UL << order,
+-				 carveout_start >> order);
+-
+-		tegra->carveout.shift = iova_shift(&tegra->carveout.domain);
+-		tegra->carveout.limit = carveout_end >> tegra->carveout.shift;
+-
+-		drm_mm_init(&tegra->mm, gem_start, gem_end - gem_start + 1);
+-		mutex_init(&tegra->mm_lock);
+-
+-		DRM_DEBUG_DRIVER("IOMMU apertures:\n");
+-		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
+-		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
+-				 carveout_end);
+-	}
+-
+-	if (tegra->hub) {
+-		err = tegra_display_hub_prepare(tegra->hub);
+-		if (err < 0)
+-			goto device;
+-	}
+-
+-	/*
+-	 * We don't use the drm_irq_install() helpers provided by the DRM
+-	 * core, so we need to set this manually in order to allow the
+-	 * DRM_IOCTL_WAIT_VBLANK to operate correctly.
+-	 */
+-	drm->irq_enabled = true;
+-
+-	/* syncpoints are used for full 32-bit hardware VBLANK counters */
+-	drm->max_vblank_count = 0xffffffff;
+-
+-	err = drm_vblank_init(drm, drm->mode_config.num_crtc);
+-	if (err < 0)
+-		goto hub;
+-
+-	drm_mode_config_reset(drm);
+-
+-	err = tegra_drm_fb_init(drm);
+-	if (err < 0)
+-		goto hub;
+-
+-	return 0;
+-
+-hub:
+-	if (tegra->hub)
+-		tegra_display_hub_cleanup(tegra->hub);
+-device:
+-	if (tegra->domain) {
+-		mutex_destroy(&tegra->mm_lock);
+-		drm_mm_takedown(&tegra->mm);
+-		put_iova_domain(&tegra->carveout.domain);
+-		iova_cache_put();
+-	}
+-
+-	host1x_device_exit(device);
+-fbdev:
+-	drm_kms_helper_poll_fini(drm);
+-	tegra_drm_fb_free(drm);
+-config:
+-	drm_mode_config_cleanup(drm);
+-domain:
+-	if (tegra->domain)
+-		iommu_domain_free(tegra->domain);
+-free:
+-	kfree(tegra);
+-	return err;
+-}
+-
+-static void tegra_drm_unload(struct drm_device *drm)
+-{
+-	struct host1x_device *device = to_host1x_device(drm->dev);
+-	struct tegra_drm *tegra = drm->dev_private;
+-	int err;
+-
+-	drm_kms_helper_poll_fini(drm);
+-	tegra_drm_fb_exit(drm);
+-	drm_atomic_helper_shutdown(drm);
+-	drm_mode_config_cleanup(drm);
+-
+-	err = host1x_device_exit(device);
+-	if (err < 0)
+-		return;
+-
+-	if (tegra->domain) {
+-		mutex_destroy(&tegra->mm_lock);
+-		drm_mm_takedown(&tegra->mm);
+-		put_iova_domain(&tegra->carveout.domain);
+-		iova_cache_put();
+-		iommu_domain_free(tegra->domain);
+-	}
+-
+-	kfree(tegra);
+-}
+-
+ static int tegra_drm_open(struct drm_device *drm, struct drm_file *filp)
+ {
+ 	struct tegra_drm_file *fpriv;
+@@ -1014,8 +852,6 @@ static int tegra_debugfs_init(struct drm_minor *minor)
+ static struct drm_driver tegra_drm_driver = {
+ 	.driver_features = DRIVER_MODESET | DRIVER_GEM |
+ 			   DRIVER_ATOMIC | DRIVER_RENDER,
+-	.load = tegra_drm_load,
+-	.unload = tegra_drm_unload,
+ 	.open = tegra_drm_open,
+ 	.postclose = tegra_drm_postclose,
+ 	.lastclose = drm_fb_helper_lastclose,
+@@ -1202,6 +1038,7 @@ void tegra_drm_free(struct tegra_drm *tegra, size_t size, void *virt,
+ static int host1x_drm_probe(struct host1x_device *dev)
+ {
+ 	struct drm_driver *driver = &tegra_drm_driver;
++	struct tegra_drm *tegra;
+ 	struct drm_device *drm;
+ 	int err;
+ 
+@@ -1209,18 +1046,147 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ 	if (IS_ERR(drm))
+ 		return PTR_ERR(drm);
+ 
++	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
++	if (!tegra) {
++		err = -ENOMEM;
++		goto put;
++	}
++
++	if (iommu_present(&platform_bus_type)) {
++		tegra->domain = iommu_domain_alloc(&platform_bus_type);
++		if (!tegra->domain) {
++			err = -ENOMEM;
++			goto free;
++		}
++
++		err = iova_cache_get();
++		if (err < 0)
++			goto domain;
++	}
++
++	mutex_init(&tegra->clients_lock);
++	INIT_LIST_HEAD(&tegra->clients);
++
+ 	dev_set_drvdata(&dev->dev, drm);
++	drm->dev_private = tegra;
++	tegra->drm = drm;
++
++	drm_mode_config_init(drm);
++
++	drm->mode_config.min_width = 0;
++	drm->mode_config.min_height = 0;
++
++	drm->mode_config.max_width = 4096;
++	drm->mode_config.max_height = 4096;
++
++	drm->mode_config.allow_fb_modifiers = true;
++
++	drm->mode_config.normalize_zpos = true;
+ 
+-	err = drm_fb_helper_remove_conflicting_framebuffers(NULL, "tegradrmfb", false);
++	drm->mode_config.funcs = &tegra_drm_mode_config_funcs;
++	drm->mode_config.helper_private = &tegra_drm_mode_config_helpers;
++
++	err = tegra_drm_fb_prepare(drm);
+ 	if (err < 0)
+-		goto put;
++		goto config;
++
++	drm_kms_helper_poll_init(drm);
++
++	err = host1x_device_init(dev);
++	if (err < 0)
++		goto fbdev;
++
++	if (tegra->domain) {
++		u64 carveout_start, carveout_end, gem_start, gem_end;
++		u64 dma_mask = dma_get_mask(&dev->dev);
++		dma_addr_t start, end;
++		unsigned long order;
++
++		start = tegra->domain->geometry.aperture_start & dma_mask;
++		end = tegra->domain->geometry.aperture_end & dma_mask;
++
++		gem_start = start;
++		gem_end = end - CARVEOUT_SZ;
++		carveout_start = gem_end + 1;
++		carveout_end = end;
++
++		order = __ffs(tegra->domain->pgsize_bitmap);
++		init_iova_domain(&tegra->carveout.domain, 1UL << order,
++				 carveout_start >> order);
++
++		tegra->carveout.shift = iova_shift(&tegra->carveout.domain);
++		tegra->carveout.limit = carveout_end >> tegra->carveout.shift;
++
++		drm_mm_init(&tegra->mm, gem_start, gem_end - gem_start + 1);
++		mutex_init(&tegra->mm_lock);
++
++		DRM_DEBUG_DRIVER("IOMMU apertures:\n");
++		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
++		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
++				 carveout_end);
++	}
++
++	if (tegra->hub) {
++		err = tegra_display_hub_prepare(tegra->hub);
++		if (err < 0)
++			goto device;
++	}
++
++	/*
++	 * We don't use the drm_irq_install() helpers provided by the DRM
++	 * core, so we need to set this manually in order to allow the
++	 * DRM_IOCTL_WAIT_VBLANK to operate correctly.
++	 */
++	drm->irq_enabled = true;
++
++	/* syncpoints are used for full 32-bit hardware VBLANK counters */
++	drm->max_vblank_count = 0xffffffff;
++
++	err = drm_vblank_init(drm, drm->mode_config.num_crtc);
++	if (err < 0)
++		goto hub;
++
++	drm_mode_config_reset(drm);
++
++	err = drm_fb_helper_remove_conflicting_framebuffers(NULL, "tegradrmfb",
++							    false);
++	if (err < 0)
++		goto hub;
++
++	err = tegra_drm_fb_init(drm);
++	if (err < 0)
++		goto hub;
+ 
+ 	err = drm_dev_register(drm, 0);
+ 	if (err < 0)
+-		goto put;
++		goto fb;
+ 
+ 	return 0;
+ 
++fb:
++	tegra_drm_fb_exit(drm);
++hub:
++	if (tegra->hub)
++		tegra_display_hub_cleanup(tegra->hub);
++device:
++	if (tegra->domain) {
++		mutex_destroy(&tegra->mm_lock);
++		drm_mm_takedown(&tegra->mm);
++		put_iova_domain(&tegra->carveout.domain);
++		iova_cache_put();
++	}
++
++	host1x_device_exit(dev);
++fbdev:
++	drm_kms_helper_poll_fini(drm);
++	tegra_drm_fb_free(drm);
++config:
++	drm_mode_config_cleanup(drm);
++domain:
++	if (tegra->domain)
++		iommu_domain_free(tegra->domain);
++free:
++	kfree(tegra);
+ put:
+ 	drm_dev_put(drm);
+ 	return err;
+@@ -1229,8 +1195,29 @@ static int host1x_drm_probe(struct host1x_device *dev)
+ static int host1x_drm_remove(struct host1x_device *dev)
+ {
+ 	struct drm_device *drm = dev_get_drvdata(&dev->dev);
++	struct tegra_drm *tegra = drm->dev_private;
++	int err;
+ 
+ 	drm_dev_unregister(drm);
++
++	drm_kms_helper_poll_fini(drm);
++	tegra_drm_fb_exit(drm);
++	drm_atomic_helper_shutdown(drm);
++	drm_mode_config_cleanup(drm);
++
++	err = host1x_device_exit(dev);
++	if (err < 0)
++		dev_err(&dev->dev, "host1x device cleanup failed: %d\n", err);
++
++	if (tegra->domain) {
++		mutex_destroy(&tegra->mm_lock);
++		drm_mm_takedown(&tegra->mm);
++		put_iova_domain(&tegra->carveout.domain);
++		iova_cache_put();
++		iommu_domain_free(tegra->domain);
++	}
++
++	kfree(tegra);
+ 	drm_dev_put(drm);
+ 
+ 	return 0;
+-- 
+2.23.0
+
