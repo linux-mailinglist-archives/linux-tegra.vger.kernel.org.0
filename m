@@ -2,168 +2,237 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10DEEE71FE
-	for <lists+linux-tegra@lfdr.de>; Mon, 28 Oct 2019 13:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8346BE7340
+	for <lists+linux-tegra@lfdr.de>; Mon, 28 Oct 2019 15:04:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727581AbfJ1Mod (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 28 Oct 2019 08:44:33 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:61811 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389260AbfJ1MnC (ORCPT
+        id S1729027AbfJ1OEs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 28 Oct 2019 10:04:48 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:18864 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729004AbfJ1OEs (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 28 Oct 2019 08:43:02 -0400
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20191028124300epoutp01134704451e153c31778ecc75e63e9165~R0CADZLMu1694516945epoutp01p
-        for <linux-tegra@vger.kernel.org>; Mon, 28 Oct 2019 12:43:00 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20191028124300epoutp01134704451e153c31778ecc75e63e9165~R0CADZLMu1694516945epoutp01p
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1572266580;
-        bh=vEAQRf/wh565Rw7rBpYNNdZRxUwK7S8rj9InQtZqQqs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gVrCVE3AzSuEkA+8Wl0qy8spIHMxXDNISB7PpGNPJ1ruTNoJXoaJ+oWcFsBFoYw0E
-         mHQWC7qXt4gz42lGVb4vQMdP5rENWQaTsiRMbRf/PryN9m86f562I/d4+JZAVxmURc
-         SQWyGnG45cVO6YN7RfYhnOavELcZ03J7d9gx/NVc=
-Received: from epsmges5p2new.samsung.com (unknown [182.195.42.74]) by
-        epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-        20191028124259epcas5p2177e882f82bc55bbb79adfafb8479beb~R0B_g_NtK0456504565epcas5p2g;
-        Mon, 28 Oct 2019 12:42:59 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-        epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        34.F1.48302.352E6BD5; Mon, 28 Oct 2019 21:42:59 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-        20191028124258epcas5p17861f4fdb40385a184fc397f45c898a5~R0B93U1UM3227132271epcas5p1W;
-        Mon, 28 Oct 2019 12:42:58 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20191028124258epsmtrp14b635cca4841f1ace78daa7a9aabdf62~R0B92kGhc1231112311epsmtrp15;
-        Mon, 28 Oct 2019 12:42:58 +0000 (GMT)
-X-AuditID: b6c32a4a-33fff7000001bcae-58-5db6e253847e
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        42.0A.24756.252E6BD5; Mon, 28 Oct 2019 21:42:58 +0900 (KST)
-Received: from ubuntu.sa.corp.samsungelectronics.net (unknown
-        [107.108.83.125]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20191028124256epsmtip2f768a74d043118782800f048892c4c13~R0B8Y8WqL1066510665epsmtip2r;
-        Mon, 28 Oct 2019 12:42:56 +0000 (GMT)
-From:   Anvesh Salveru <anvesh.s@samsung.com>
-To:     linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Cc:     pankaj.dubey@samsung.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, Anvesh Salveru <anvesh.s@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH 2/2] arm64: tegra: Add support for ZRX-DC phy property
-Date:   Mon, 28 Oct 2019 18:12:20 +0530
-Message-Id: <1572266540-17626-3-git-send-email-anvesh.s@samsung.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1572266540-17626-1-git-send-email-anvesh.s@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFIsWRmVeSWpSXmKPExsWy7bCmhm7wo22xBl1XOCzO7lrIajH/yDlW
-        i5ZZi1gsLu+aw2Zxdt5xNovOL7PYLJZev8hksWjrF3aL1r1H2C1+7prH4sDlsWbeGkaPnbPu
-        sntsWtXJ5tHb/I7No2/LKkaPz5vkAtiiuGxSUnMyy1KL9O0SuDIO/drBWDBXsuLP/BeMDYw7
-        RboYOTkkBEwkvs58xNjFyMUhJLCbUaL7SRMzhPOJUeLa6x/sEM43RolnvxcwwbQ0LDvLBpHY
-        yygx/eBvqKoWJokl1/8yglSxCWhL/Dy6lx3EFhEok5jVdAVsCbPAPkaJKTPOgSWEBdwkjve8
-        ZQWxWQRUJT70bWcDsXkFXCR2bb/LArFOTuLmuU5mEJtTwFWie+sjFpBBEgI72CT+959lhChy
-        kVj88jUrhC0s8er4FnYIW0riZX8blJ0v0Xt3KZRdIzHlbgdUr73EgStzgIZyAF2nKbF+lz5I
-        mFmAT6L39xMmkLCEAK9ER5sQhKkk0TazGqJRQmLx/JvMELaHROufTdBwmMEo0fXmKvMERtlZ
-        CEMXMDKuYpRMLSjOTU8tNi0wykst1ytOzC0uzUvXS87P3cQIThFaXjsYl53zOcQowMGoxMM7
-        4fK2WCHWxLLiytxDjBIczEoivBfPAIV4UxIrq1KL8uOLSnNSiw8xSnOwKInzTmK9GiMkkJ5Y
-        kpqdmlqQWgSTZeLglGpgVHx68OrGR5EiynccGJSDyl8Y/i64lKU90c3qn4xYusO3+3ccBWa/
-        Cl53oqY16PK8X1kXz4vmPGqJrfWYy3c9Vu7uwYW5wYHLsj+y+ljOKv259vae4AAGm23Sv/Mu
-        7Axx33et+vHVF5N2nty6YPFLfi/fLatMF2S2+Wds6ZAKycx7kxZu8dhHXImlOCPRUIu5qDgR
-        AD7CnfYNAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJLMWRmVeSWpSXmKPExsWy7bCSvG7Qo22xBnf/iluc3bWQ1WL+kXOs
-        Fi2zFrFYXN41h83i7LzjbBadX2axWSy9fpHJYtHWL+wWrXuPsFv83DWPxYHLY828NYweO2fd
-        ZffYtKqTzaO3+R2bR9+WVYwenzfJBbBFcdmkpOZklqUW6dslcGUc+rWDsWCuZMWf+S8YGxh3
-        inQxcnJICJhINCw7y9bFyMUhJLCbUWLLrzMsEAkJiS97v7JB2MISK/89Z4coamKSWPN6HStI
-        gk1AW+Ln0b3sILaIQJXEgY4+FpAiZoEjjBI/br0A6xYWcJM43vMWrIFFQFXiQ992sDivgIvE
-        ru13obbJSdw818kMYnMKuEp0b30EFhcCqmn6+4p5AiPfAkaGVYySqQXFuem5xYYFhnmp5XrF
-        ibnFpXnpesn5uZsYwQGqpbmD8fKS+EOMAhyMSjy8L65uixViTSwrrsw9xCjBwawkwnvxDFCI
-        NyWxsiq1KD++qDQntfgQozQHi5I479O8Y5FCAumJJanZqakFqUUwWSYOTqkGxvaU/g3Rf6Xt
-        Gy7tStB7ezp3zuQ7YVKvrpc/XLD0ZefXuIPuqcJr/HU0mE//6H787/V+J41DPZ8OlT8s8/58
-        SHyb0g6niZ7veO3/S8lObS/4fflMwrfL5ZYbNzQZSMuKCdyeecGn29p1l39/yFPVN76XWdyl
-        +sq8FQ9xlbyZosG93udKziMWKyWW4oxEQy3mouJEANVhKEpMAgAA
-X-CMS-MailID: 20191028124258epcas5p17861f4fdb40385a184fc397f45c898a5
-X-Msg-Generator: CA
+        Mon, 28 Oct 2019 10:04:48 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5db6f5830000>; Mon, 28 Oct 2019 07:04:51 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 28 Oct 2019 07:04:46 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 28 Oct 2019 07:04:46 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 28 Oct
+ 2019 14:04:45 +0000
+Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by
+ DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Mon, 28 Oct 2019 14:04:45 +0000
+Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
+        id 20A04428E8; Mon, 28 Oct 2019 16:04:43 +0200 (EET)
+Date:   Mon, 28 Oct 2019 16:04:43 +0200
+From:   Peter De Schrijver <pdeschrijver@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 00/18] Consolidate and improve NVIDIA Tegra CPUIDLE
+ driver(s)
+Message-ID: <20191028140443.GA27141@pdeschrijver-desktop.Nvidia.com>
+References: <20191015170015.1135-1-digetx@gmail.com>
+ <20191016192133.GB26038@pdeschrijver-desktop.Nvidia.com>
+ <72636eb3-5354-eea3-3a51-4975a04186b2@gmail.com>
+ <53ee8bd3-5c53-f0aa-175c-7fa3024d0af5@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20191028124258epcas5p17861f4fdb40385a184fc397f45c898a5
-References: <1572266540-17626-1-git-send-email-anvesh.s@samsung.com>
-        <CGME20191028124258epcas5p17861f4fdb40385a184fc397f45c898a5@epcas5p1.samsung.com>
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <53ee8bd3-5c53-f0aa-175c-7fa3024d0af5@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572271491; bh=BKPmAnY9n1mE6rVCR5MnqH72B3WVFqsR0H5/VfK49Og=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:Content-Type:Content-Disposition:
+         Content-Transfer-Encoding:In-Reply-To:X-NVConfidentiality:
+         User-Agent:X-Originating-IP:X-ClientProxiedBy;
+        b=drTZtsIs9MN367Mai6PDSm05XrnqtIs43nFgY7VlUf765bcnoofWelcgbWBOS9brP
+         F6qku8w82qT5s6XzQxbfWaY+UV1qGzzSaYuSCW44G90GtgQEmkZHBlGJDv6eGLUdFo
+         /wXtcEjohJcBtw/mIEPt6NuXkYtbK4VtWTILwi8RlmGsstcb3Ee+WoeJm0AEwEtOvS
+         sef5jz/iqU+FFG2CBhKX7V1fufkbZj/HbD1HgzbAweDtM8tj3hhFKCVPr4vuhaZBSw
+         NOOqQFsn8bWNgltcJ2j6nSeII820hBBbPTC+U08kjDF+zwl5Jq4IKOkRZ7OwOugz6o
+         D8UtfpK9AVwBQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-DesignWare controller driver provides the support to handle the PHYs which
-are compliant to ZRX-DC specification based on "snps,phy-zrxdc-compliant"
-DT property. So, add "snps,phy-zrxdc-compliant" property in tegra pcie
-controller DT nodes.
+On Wed, Oct 16, 2019 at 11:14:07PM +0300, Dmitry Osipenko wrote:
+> 16.10.2019 22:47, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > 16.10.2019 22:21, Peter De Schrijver =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> On Tue, Oct 15, 2019 at 07:59:57PM +0300, Dmitry Osipenko wrote:
+> >>> Hello,
+> >>>
+> >>> This series does the following:
+> >>>
+> >>>   1. Unifies Tegra20/30/114 drivers into a single driver and moves it=
+ out
+> >>>      into common drivers/cpuidle/ directory.
+> >>>
+> >>>   2. Enables CPU cluster power-down idling state on Tegra30.
+> >>>
+> >>> In the end there is a quite nice clean up of the Tegra CPUIDLE driver=
+s
+> >>> and of the Tegra's arch code in general. Please review, thanks!
+> >>>
+> >>> Changelog:
+> >>>
+> >>> v6: - Addressed request from Thierry Reding to change the way patches=
+ are
+> >>>       organized by making changes in a more incremental manner.
+> >>>
+> >>>     - tegra_sleep_cpu() now checks for the secondary CPUs to be offli=
+ne
+> >>>       in the "Make outer_disable() open-coded" patch.
+> >>>
+> >>> v5: - Rebased on a recent linux-next, fixed one minor conflict in Kco=
+nfig.
+> >>>
+> >>>     - Improved commit's message of the "Support CPU cluster power-dow=
+n state
+> >>>       on Tegra30" patch.
+> >>>
+> >>>     - The "Support CPU cluster power-down state on Tegra30" patch is =
+also
+> >>>       got split and now there is additional "Make outer_disable() ope=
+n-coded"
+> >>>       patch.
+> >>>
+> >>>     - Made minor cosmetic changes to the "Introduce unified driver fo=
+r
+> >>>       NVIDIA Tegra SoCs" patch by improving error message and renamin=
+g
+> >>>       one variable.
+> >>>
+> >>> v4: - Fixed compilation with !CONFIG_CACHE_L2X0 (and tested that it s=
+till
+> >>>       works).
+> >>>
+> >>>     - Replaced ktime_compare() with ktime_before() in the new driver,
+> >>>       for consistency.
+> >>>
+> >>> v3: - Addressed review comments that were made by Jon Hunter to v2 by
+> >>>       splitting patches into smaller (and simpler) chunks, better
+> >>>       documenting changes in the commit messages and using proper err=
+or
+> >>>       codes in the code.
+> >>>
+> >>>       Warnings are replaced with a useful error messages in the code =
+of
+> >>>       "Introduce unified driver for NVIDIA Tegra SoCs" patch.
+> >>>
+> >>>       Secondary CPUs parking timeout increased to 100ms because I fou=
+nd
+> >>>       that it actually may happen to take more than 1ms if CPU is run=
+ning
+> >>>       on a *very* low frequency.
+> >>>
+> >>>       Added diagnostic messages that are reporting Flow Controller st=
+ate
+> >>>       when CPU parking fails.
+> >>>
+> >>>       Further polished cpuidle driver's code.
+> >>>
+> >>>       The coupled state entering is now aborted if there is a pending=
+ SGI
+> >>>       (Software Generated Interrupt) because it will be lost after GI=
+C's
+> >>>       power-cycling. Like it was done by the old Tegra20 CPUIDLE driv=
+er.
+> >>>
+> >>> v2: - Added patches to enable the new cpuidle driver in the defconfig=
+s:
+> >>>
+> >>>         ARM: multi_v7_defconfig: Enable Tegra cpuidle driver
+> >>>         ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
+> >>>
+> >>>     - Dropped patches that removed CPUIDLE_FLAG_TIMER_STOP from the i=
+dling
+> >>>       states because that flag actually doesn't have any negative eff=
+ects,
+> >>>       but still is correct for the case of a local CPU timer on older=
+ Tegra
+> >>>       SoCs:
+> >>>
+> >>>         cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP from Tegra114/=
+124 idle-state
+> >>>         cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP from all state=
+s
+> >>>
+> >>>     - The "Add unified driver for NVIDIA Tegra SoCs" patch got more p=
+olish.
+> >>>       Tegra30 and Terga114 states are now squashed into a single comm=
+on C7
+> >>>       state (following Parker TRM terminology, see 17.2.2.2 Power Man=
+agement
+> >>>       States), more comments added, etc minor changes.
+> >>
+> >> It would be useful to switch the power state terminology to the one us=
+ed
+> >> for later chips:
+> >>
+> >> LP0 becomes SC7
+> >> LP1 becomes C1
+> >> LP2 becomes CC7
+> >>
+> >> Meaning of these states is as follows
+> >>
+> >> C is a core state:
+> >>
+> >> C1 clock gating
+> >> C2 not defined
+> >> C3 not defined
+> >> C4 not defined
+> >> C5 not defined
+> >> C6 not defined for ARM cores
+> >> C7 power-gating
+> >>
+> >> CC is a CPU cluster C state:
+> >>
+> >> CC1 cluster clock gated
+> >> CC2 not defined
+> >> CC3 fmax@Vmin: not used prior to Tegra186
+> >> CC4: cluster retention: no longer supported
+> >> CC5: not defined
+> >> CC6: cluster power gating
+> >> CC7: cluster rail gating
+> >>
+> >> SC is a System C state:
+> >>
+> >> SC1: not defined
+> >> SC2: not defined
+> >> SC3: not defined
+> >> SC4: not defined
+> >> SC5: not defined
+> >> SC6: not defined
+> >> SC7: VDD_SOC off
+> >=20
+> > Hello Peter,
+> >=20
+> > But new "drivers/cpuidle/cpuidle-tegra.c" uses exactly that terminology=
+,
+> > please see "cpuidle: Refactor and move NVIDIA Tegra20 driver into
+> > drivers/cpuidle/" and further patches. Am I missing something? Or do yo=
+u
+> > want the renaming to be a separate patch?
+> >=20
+>=20
+> Or maybe you're suggesting to change the names everywhere and not only
+> in the cpuidle driver? Please clarify :)
 
-CC: Rob Herring <robh+dt@kernel.org>
-CC: Mark Rutland <mark.rutland@arm.com>
-Signed-off-by: Anvesh Salveru <anvesh.s@samsung.com>
-Signed-off-by: Pankaj Dubey <pankaj.dubey@samsung.com>
----
-Depends on the following patch:
-https://patchwork.kernel.org/patch/11215241/
-https://patchwork.kernel.org/patch/11215239/
+At least some of the variable and function names still say lp2?
 
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 3c0cf54f0aab..bf2dbf84c8c9 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1194,6 +1194,7 @@
- 		ranges = <0x81000000 0x0  0x30100000 0x0  0x30100000 0x0 0x00100000   /* downstream I/O (1MB) */
- 			  0xc2000000 0x12 0x00000000 0x12 0x00000000 0x0 0x30000000   /* prefetchable memory (768MB) */
- 			  0x82000000 0x0  0x40000000 0x12 0x30000000 0x0 0x10000000>; /* non-prefetchable memory (256MB) */
-+		snps,phy-zrxdc-compliant;
- 	};
- 
- 	pcie@14120000 {
-@@ -1240,6 +1241,7 @@
- 		ranges = <0x81000000 0x0  0x32100000 0x0  0x32100000 0x0 0x00100000   /* downstream I/O (1MB) */
- 			  0xc2000000 0x12 0x40000000 0x12 0x40000000 0x0 0x30000000   /* prefetchable memory (768MB) */
- 			  0x82000000 0x0  0x40000000 0x12 0x70000000 0x0 0x10000000>; /* non-prefetchable memory (256MB) */
-+		snps,phy-zrxdc-compliant;
- 	};
- 
- 	pcie@14140000 {
-@@ -1286,6 +1288,7 @@
- 		ranges = <0x81000000 0x0  0x34100000 0x0  0x34100000 0x0 0x00100000   /* downstream I/O (1MB) */
- 			  0xc2000000 0x12 0x80000000 0x12 0x80000000 0x0 0x30000000   /* prefetchable memory (768MB) */
- 			  0x82000000 0x0  0x40000000 0x12 0xb0000000 0x0 0x10000000>; /* non-prefetchable memory (256MB) */
-+		snps,phy-zrxdc-compliant;
- 	};
- 
- 	pcie@14160000 {
-@@ -1332,6 +1335,7 @@
- 		ranges = <0x81000000 0x0  0x36100000 0x0  0x36100000 0x0 0x00100000   /* downstream I/O (1MB) */
- 			  0xc2000000 0x14 0x00000000 0x14 0x00000000 0x3 0x40000000   /* prefetchable memory (13GB) */
- 			  0x82000000 0x0  0x40000000 0x17 0x40000000 0x0 0xc0000000>; /* non-prefetchable memory (3GB) */
-+		snps,phy-zrxdc-compliant;
- 	};
- 
- 	pcie@14180000 {
-@@ -1378,6 +1382,7 @@
- 		ranges = <0x81000000 0x0  0x38100000 0x0  0x38100000 0x0 0x00100000   /* downstream I/O (1MB) */
- 			  0xc2000000 0x18 0x00000000 0x18 0x00000000 0x3 0x40000000   /* prefetchable memory (13GB) */
- 			  0x82000000 0x0  0x40000000 0x1b 0x40000000 0x0 0xc0000000>; /* non-prefetchable memory (3GB) */
-+		snps,phy-zrxdc-compliant;
- 	};
- 
- 	pcie@141a0000 {
-@@ -1428,6 +1433,7 @@
- 		ranges = <0x81000000 0x0  0x3a100000 0x0  0x3a100000 0x0 0x00100000   /* downstream I/O (1MB) */
- 			  0xc2000000 0x1c 0x00000000 0x1c 0x00000000 0x3 0x40000000   /* prefetchable memory (13GB) */
- 			  0x82000000 0x0  0x40000000 0x1f 0x40000000 0x0 0xc0000000>; /* non-prefetchable memory (3GB) */
-+		snps,phy-zrxdc-compliant;
- 	};
- 
- 	sysram@40000000 {
--- 
-2.17.1
-
+Peter.
