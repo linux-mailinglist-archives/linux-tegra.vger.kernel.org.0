@@ -2,140 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B98D1E7434
-	for <lists+linux-tegra@lfdr.de>; Mon, 28 Oct 2019 15:58:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71F69E7B44
+	for <lists+linux-tegra@lfdr.de>; Mon, 28 Oct 2019 22:20:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390502AbfJ1O5K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 28 Oct 2019 10:57:10 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:16617 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390461AbfJ1O5K (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 28 Oct 2019 10:57:10 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5db701cd0001>; Mon, 28 Oct 2019 07:57:17 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 28 Oct 2019 07:57:09 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 28 Oct 2019 07:57:09 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 28 Oct
- 2019 14:57:08 +0000
-Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by
- DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Mon, 28 Oct 2019 14:57:08 +0000
-Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
-        id C8DA543032; Mon, 28 Oct 2019 16:57:06 +0200 (EET)
-Date:   Mon, 28 Oct 2019 16:57:06 +0200
-From:   Peter De Schrijver <pdeschrijver@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
+        id S1729455AbfJ1VUk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 28 Oct 2019 17:20:40 -0400
+Received: from mout.web.de ([212.227.17.11]:52529 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729265AbfJ1VUj (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 28 Oct 2019 17:20:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1572297628;
+        bh=poxB/p5zs/9n07uoBnW2zlk5izmjFo4sTfzHC0tbfpE=;
+        h=X-UI-Sender-Class:To:From:Subject:Cc:Date;
+        b=jd5drsSekp35cF+bbRI/lf/CPfqIKmXrn+qaFVkZUczB+rgo1imHxJHUarffVCPsr
+         aGVOr/p4wKe2p/ylvdy1DRXEoCXG+dJwEbFUNO7t1i0FY5D3SbaNU3YyOoVpsRLF9T
+         LUxOfUDCnoHVxWR4ffP/3k6w+5gDmGNhvYKT/Ens=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([2.244.155.234]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MZDKy-1ihpFX3myS-00L09k; Mon, 28
+ Oct 2019 22:20:28 +0100
+To:     linux-tegra@vger.kernel.org, JC Kuo <jckuo@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        "Nicolas Chauvet" <kwizart@gmail.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 01/17] clk: tegra: Add custom CCLK implementation
-Message-ID: <20191028145706.GF27141@pdeschrijver-desktop.Nvidia.com>
-References: <20191015211618.20758-1-digetx@gmail.com>
- <20191015211618.20758-2-digetx@gmail.com>
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Thierry Reding <treding@nvidia.com>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Subject: phy: tegra: xusb: Complete exception handling in five probe functions
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org, Kangjie Lu <kjlu@umn.edu>,
+        Navid Emamdoost <emamd001@umn.edu>,
+        Stephen McCamant <smccaman@umn.edu>
+Message-ID: <fe6868a4-01f5-2832-9081-7643be0ab4a1@web.de>
+Date:   Mon, 28 Oct 2019 22:20:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191015211618.20758-2-digetx@gmail.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572274637; bh=a3iQGGwz0Ivg7sfs0KItL4POFuee26IhkUhjou3eb4M=;
-        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
-         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
-        b=ltTYQgdfMjWQKG2jN1sK+ylYqIivDrD90MVQgPlGFVpj2Sp27DCwSzppeJbib+j0j
-         CLEn+3hwOL3Fvb3JPx5nmrIeLBJuGCOGjdGnF196NJippTqXGkyD45hQ3XydK2WOZ5
-         w3afkvcQ2jUpA188B3DIQoik5OX2/feYlEqZdf68hVJ0iu4IbVBq4t+pArmqjBeCxH
-         UctsgV6EGdwyyuaaQJSo4clSL9PAzOHwIW16j96+H21FqJGnv4J8JcSDkmNQO4zH+n
-         toCpLsBLEgVUD3to458/C7zcPfhcz9Xu/xwUfqsIYqWMlPkP1Vsn27NJTdzaVxmVAV
-         Rbi+wn2KM9YWg==
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Provags-ID: V03:K1:S14+J9lKlHu42+pPg/HC0yE9/6IapDQzOcIDWN8D67/1jfWkINK
+ LEsmnRt5D9OBjYyZKXJBaVVRXqZBGLGWpfJs30HLXFRIwJe4v5n6oDrtMiUG3L82PXPG0aS
+ H2tm+fMonuZU29vARXkN4DiiVi1lgJfImNe4xQIbihs6Kypl3eE8rha75mtclLGTMPdaSXP
+ QsqFi425Oqfd88fZrcPgw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IlZ/wnhgbXo=:pPC2Qf58DvaZErslc/Zsn2
+ IwVBWlwcyO+lbaIOAZjEwni+Yx4kHU0Pbz9XKckUgoKokCNESN9mzf/5fmlw9VGU94CZgzKRY
+ WNWpZz1Ruygpy6inWHlRYZHLjAvilb/ElZuHd2kEkJ8lcg7AWfJCUKsxyZs/SgOZ1vPaxAF9e
+ +F+uh82k4nAMvWu7JDRVp/EZc80ueGarXq+Xed5IWIVBkKy7FCNHGmZFaYZiQ/df8MeMyBrXk
+ 1N4Uiztq76SMPrZpksMijrOo2wFU1OlRIs/KwB1N2hGS7ASzKBgscTPVY1b2BMiy8z0/7fTUX
+ aviEloHnmLXZLSO5its5adWQ4whfMsDZodQApJ2PKwoYepRp6GoPWePYWb2fLyVH13wUdx5Du
+ 9sh7oZJV7FjAOCFQca/+o0rjbLzC65etx5i1xc/CewAqlSYsxjRVGGEg+WfM5Pfb4fxGOgPvX
+ T98laYh83Y+tLCu8zI60oMAX7NXevnQy9qdYq2nc8Np/09m7wYAOgjYo55YVkQs2s/tHJMFkS
+ lC1fWUs6mJ6tEiJJRH8hADYmxmJXdh8+PWh03FWYbtemlMC7XU8boMHyrFh9wVjfogHOnAiAa
+ CLpTEMTbrEqLiRrKPKqZEI2NXmDh1JYyQpLc5x7XBHXfGbMK5P77Vn40va9gboxYNGCshljgY
+ SfJoav7F6tY9rEpwYzOSrBoOvKlGDoLsjFkAZkMmbG1s1oKYwsPV+0ox9B9WjVbs3w6BALMmN
+ uEoxhUd2qn/ZY9olfR2MLGKI78tT+voBErpyzCvfWxfF3MX1V8zdzdWXs1s++93/x8cyy94oO
+ 0Tgx1XmefMqj/cs6QRLLsoFKcxFPSjz4nYWguDlq6vDiEd1Tmag3UPIxcFcpgSy1HjWtHxhnR
+ LN7wGcyf5YzwUyxbtg2qLEBclvD+WvUYDo56FOrK9X4zqqOx5H66imUEuWOQVk5FnwYsRzqIt
+ 4ADoD9Uci4Fw+svQRTvDSvMOd1yByW0TcTsvnsTaJVmDJLlfML98mhrnGh4a0lwoDPGxpMLx5
+ VC0OduHbrD3/r22bG5z5dikyxmb4xsUcdu5YEKaY0VKpGgb4/jwbnAy2BXErLKlYK67buo+GH
+ hChMUhtnPkyMODZgXEYJbWSfH2Sa6/Bk82xe9NaaxI0pEboNN2D25NUJdB2FICAmNYuB3d8JV
+ r81DCaba/kSdi63IYLOkeBRnDCOfrduqbBJ+LWTSRfxS1BPH9FKDLwUxpl2Gie/a5ixRR11ms
+ XnX1Av/28iEPhKlOLJByqCdEskAPvu/dRnFt3c5dx97m6baDRx41pOPcUG4o=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 12:16:02AM +0300, Dmitry Osipenko wrote:
-> CCLK stands for "CPU Clock", CPU core is running off CCLK. CCLK supports
-> multiple parents and it has internal clock divider which uses clock
-> skipping technique, meaning that CPU's voltage should correspond to the
-> parent clock rate and not CCLK. PLLX is the main CCLK parent that provides
-> clock rates above 1GHz and it has special property such that the CCLK's
-> internal divider is set into bypass mode when PLLX is set as a parent for
-> CCLK.
-> 
-> This patch forks generic Super Clock into CCLK implementation which takes
-> into account all CCLK specifics. The proper CCLK implementation is needed
-> by the upcoming Tegra20 CPUFreq driver update that will allow to utilize
-> the generic cpufreq-dt driver by moving intermediate clock handling into
-> the clock driver. Note that technically this all could be squashed into
-> clk-super, but result will be messier.
-> 
-> Note that currently all CCLKLP bits are left in the clk-super.c and only
-> CCLKG is supported by clk-tegra-super-cclk. It shouldn't be difficult
-> to move the CCLKLP bits, but CCLKLP is not used by anything in kernel
-> and thus better not to touch it for now.
+Hello,
 
-..
+I have taken another look also at the implementations of five probe functions.
+I have got the impression then that the exception handling is incomplete so far
+at these source code places.
+https://elixir.bootlin.com/linux/v5.4-rc2/source/drivers/phy/tegra/xusb-tegra124.c#L608
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/phy/tegra/xusb-tegra124.c?id=8005803a2ca0af49f36f6e9329b5ecda3df27347#n608
 
-> +	super->reg = reg;
-> +	super->lock = lock;
-> +	super->width = 4;
-> +	super->flags = clk_super_flags;
-> +	super->frac_div.reg = reg + 4;
-> +	super->frac_div.shift = 16;
-> +	super->frac_div.width = 8;
-> +	super->frac_div.frac_width = 1;
-> +	super->frac_div.lock = lock;
-> +	super->frac_div.flags = TEGRA_DIVIDER_SUPER;
-> +	super->div_ops = &tegra_clk_frac_div_ops;
-> +
+How do you think about to move kfree() calls to other jump targets
+according to the Linux coding style?
 
-This is not right. The super clock divider is not a divider, it's a
-pulse skipper.
-
-> +	/* Data in .init is copied by clk_register(), so stack variable OK */
-> +	super->hw.init = &init;
-> +
-> +	clk = clk_register(NULL, &super->hw);
-> +	if (IS_ERR(clk))
-> +		kfree(super);
-> +
-> +	return clk;
-> +}
-> diff --git a/drivers/clk/tegra/clk.h b/drivers/clk/tegra/clk.h
-> index f81c10654aa9..095595a5b8a8 100644
-> --- a/drivers/clk/tegra/clk.h
-> +++ b/drivers/clk/tegra/clk.h
-> @@ -699,6 +699,10 @@ struct clk *tegra_clk_register_super_clk(const char *name,
->  		const char * const *parent_names, u8 num_parents,
->  		unsigned long flags, void __iomem *reg, u8 clk_super_flags,
->  		spinlock_t *lock);
-> +struct clk *tegra_clk_register_super_cclk(const char *name,
-> +		const char * const *parent_names, u8 num_parents,
-> +		unsigned long flags, void __iomem *reg, u8 clk_super_flags,
-> +		spinlock_t *lock);
->  
->  /**
->   * struct tegra_sdmmc_mux - switch divider with Low Jitter inputs for SDMMC
-> -- 
-> 2.23.0
-> 
+Regards,
+Markus
