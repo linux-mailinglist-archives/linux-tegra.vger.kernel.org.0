@@ -2,233 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC607E7185
-	for <lists+linux-tegra@lfdr.de>; Mon, 28 Oct 2019 13:37:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7B8DE71AC
+	for <lists+linux-tegra@lfdr.de>; Mon, 28 Oct 2019 13:42:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727848AbfJ1Mht (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 28 Oct 2019 08:37:49 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45648 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727275AbfJ1Mht (ORCPT
+        id S2389196AbfJ1Mml (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 28 Oct 2019 08:42:41 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:61750 "EHLO
+        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389189AbfJ1Mml (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 28 Oct 2019 08:37:49 -0400
-Received: by mail-wr1-f66.google.com with SMTP id q13so9675386wrs.12
-        for <linux-tegra@vger.kernel.org>; Mon, 28 Oct 2019 05:37:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2ymWEbRHSElzNbuDgsTAxIt0SPIxRdOmiGeksusZlhM=;
-        b=icu0V3tx03OmBkcca8Z6qPTM+g+WBsmLC62jDZV98LF03Gh01rH58bOG9foikmkKUz
-         6MT5u/4sIeF8UY/fLTarKdv0J2nV8CdFkarPd4Mq4rtFdkD67aaturmImUrpQcVIxOKo
-         lExGlkiVqVKa2/SyBpt+W0lnl/HAN57+hft002CSldIT4+gKBKVDyt/OkUR5ZFXbJZS8
-         TaWqp+YlmflzVLR6jyXldqxhFlJFvJgxHMos+wQ5Q7RUTFp++jDBiQVrvQMTpahI+L/b
-         +pxdNszHt/cf9ovJ6/x2vqvIl6KfBgVM4jHospbUtbIhTZEh9P887pbmjcAfg3P98mVB
-         O/Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2ymWEbRHSElzNbuDgsTAxIt0SPIxRdOmiGeksusZlhM=;
-        b=sZuQXYB9+4qogzh2qzTFfM5cR3OSuqRD/2qWesxLxwp6BxK5F0ER4lhqthTrRvlxgX
-         EeXL58OIdTD0Wjg0rGXiJmNr2ZCuqHFZc9BqWjLYeH30idF6GaCEBia8RGhRLka21pKN
-         +4c5w7It9oYX+b7U2deiAAOgmfZY+JAS2keeEwibC37QMa/RIPuKgnJTlWARfvo7ydY6
-         hRhwnGN+4clagRvW1DCDc/oo02WpyX9NYz+lnD9CYxka+yoqmyxiWg9Q5Cu2Y60Rhyx9
-         xozfunrEeZ6qtf6iwpJC9cJQo3SE9pj4806cZ5zJZoCfGVNJQ6HYW5gpPsus+vy5yFXm
-         ccrA==
-X-Gm-Message-State: APjAAAU8IWE7ltgFPgcp/Cngz1N6dop33pKINybKQUJZUVJrQ55r4Uwh
-        oEI3s0Fj33j07JuBncZmwRU=
-X-Google-Smtp-Source: APXvYqz04kjsxEAcAdJD5HKV9ccsMeQdCvjWpQurQhV2rNL5tLBaD5O6xZzys65f9IqRDbRp1DOhLw==
-X-Received: by 2002:adf:fec3:: with SMTP id q3mr14812954wrs.343.1572266266222;
-        Mon, 28 Oct 2019 05:37:46 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id s10sm13109089wrr.5.2019.10.28.05.37.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2019 05:37:45 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Sachin Nikam <snikam@nvidia.com>,
-        Puneet Saxena <puneets@nvidia.com>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 12/12] drm/tegra: Optionally attach clients to the IOMMU
-Date:   Mon, 28 Oct 2019 13:37:18 +0100
-Message-Id: <20191028123718.3890217-13-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191028123718.3890217-1-thierry.reding@gmail.com>
-References: <20191028123718.3890217-1-thierry.reding@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 28 Oct 2019 08:42:41 -0400
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20191028124239epoutp01dea780b73559e9afa48fcde87789b3da~R0Br8V-iI1694516945epoutp01h
+        for <linux-tegra@vger.kernel.org>; Mon, 28 Oct 2019 12:42:39 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20191028124239epoutp01dea780b73559e9afa48fcde87789b3da~R0Br8V-iI1694516945epoutp01h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1572266559;
+        bh=HiuklP0cYH3jIvujolcAfEAhpwjfw+PqhX1kaOGJoFE=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=cIMk0XHUdzsA9aRaijkUMmrR//RkvQQo8RJQULsJ08zZFkUHkDF7wofFWoNm5nEJy
+         IeZuATC01O7CpnsYY39Us8s4jNyZJwZCt78XEeGqlB+VlO7NCgfhaQ2nRCkNijnhIM
+         ucqp0ZgodgmbLg7U9PnCF6BhES5wZuuog+yKL5bI=
+Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
+        epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+        20191028124238epcas5p38ba9fff1728d661c230ec319ca46cc0e~R0BrP_r_r1784817848epcas5p3U;
+        Mon, 28 Oct 2019 12:42:38 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        37.7F.20245.E32E6BD5; Mon, 28 Oct 2019 21:42:38 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+        20191028124238epcas5p451c77e6f4b37e4db69c87f839bd25574~R0Bq2QFnG0725707257epcas5p4h;
+        Mon, 28 Oct 2019 12:42:38 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20191028124238epsmtrp249e1c59749d9de0b4acbd9f8d3bfe704~R0Bq1kGyA2925729257epsmtrp2Z;
+        Mon, 28 Oct 2019 12:42:38 +0000 (GMT)
+X-AuditID: b6c32a4b-fa1ff70000014f15-34-5db6e23eb4b1
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        80.0A.24756.D32E6BD5; Mon, 28 Oct 2019 21:42:37 +0900 (KST)
+Received: from ubuntu.sa.corp.samsungelectronics.net (unknown
+        [107.108.83.125]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20191028124236epsmtip2ca97c20a4519b88e7a6b1d9e1a9dc300~R0BpnL7YO0999809998epsmtip2l;
+        Mon, 28 Oct 2019 12:42:36 +0000 (GMT)
+From:   Anvesh Salveru <anvesh.s@samsung.com>
+To:     linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Cc:     pankaj.dubey@samsung.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, Anvesh Salveru <anvesh.s@samsung.com>
+Subject: [PATCH 0/2] Add support for ZRX-DC phy property
+Date:   Mon, 28 Oct 2019 18:12:18 +0530
+Message-Id: <1572266540-17626-1-git-send-email-anvesh.s@samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRmVeSWpSXmKPExsWy7bCmuq7do22xBk3nZS3O7lrIajH/yDlW
+        i5ZZi1gsLu+aw2Zxdt5xNovOL7PYLBZt/cJu8XPXPBYHDo+ds+6ye/Q2v2Pz6NuyitHj8ya5
+        AJYoLpuU1JzMstQifbsErozTV7ewFvxlqVj2ezJbA2MPSxcjJ4eEgInEg1l3gWwuDiGB3YwS
+        aw/cZIZwPjFKrGpogXK+MUpc67/DCNOyZ95KVojEXkaJHz0HoapamCSOb2sAq2IT0Jb4eXQv
+        O4gtIlAmMavpClicWaBUomv+RDYQW1jAQmL9gnYwm0VAVaKhbRYTiM0r4CKx/t52VohtchI3
+        z3UyQ9h/WSW+zEmCsF0k7l6fBxUXlnh1fAs7hC0l8fndXjYIO1+i9+5SqHiNxJS7HVAf2Esc
+        uDIH6GkOoHs0Jdbv0oc4jU+i9/cTJpCwhACvREebEISpJNE2sxqiUUJi8fybUEs9JO6d3sgG
+        UiIkECtx+A/3BEaZWQgjFzAyrmKUTC0ozk1PLTYtMM5LLdcrTswtLs1L10vOz93ECI5tLe8d
+        jJvO+RxiFOBgVOLhnXB5W6wQa2JZcWXuIUYJDmYlEd6LZ4BCvCmJlVWpRfnxRaU5qcWHGKU5
+        WJTEeSexXo0REkhPLEnNTk0tSC2CyTJxcEo1MFbtyPm4hClrRc1SSWt/q/D7Cs+M895OvyoQ
+        t/PzoolVi59EHpet3dx0sWrarTPdTRs85cI+rdpxMm3lH4tEldzC5sK6E76FBVu/isTF5i3w
+        l2Nvrjnmceh38O8F73tsRK4t5dRMfH1OMzFu5hpPKfbrP2skTq6249HS3uF/2/DAytYTXmf2
+        H1diKc5INNRiLipOBADSj04G6QIAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmluLIzCtJLcpLzFFi42LZdlhJXtfu0bZYg0eCFmd3LWS1mH/kHKtF
+        y6xFLBaXd81hszg77zibReeXWWwWi7Z+Ybf4uWseiwOHx85Zd9k9epvfsXn0bVnF6PF5k1wA
+        SxSXTUpqTmZZapG+XQJXxumrW1gL/rJULPs9ma2BsYeli5GTQ0LARGLPvJWsXYxcHEICuxkl
+        1v16zwaRkJD4svcrlC0ssfLfc3aIoiYmiZYf/8ESbALaEj+P7mUHsUUEqiQOdPSBTWUWqJS4
+        3vGQCcQWFrCQWL+gHayeRUBVoqFtFlicV8BFYv297awQC+Qkbp7rZJ7AyLOAkWEVo2RqQXFu
+        em6xYYFhXmq5XnFibnFpXrpecn7uJkZwEGlp7mC8vCT+EKMAB6MSD++Lq9tihVgTy4orcw8x
+        SnAwK4nwXjwDFOJNSaysSi3Kjy8qzUktPsQozcGiJM77NO9YpJBAemJJanZqakFqEUyWiYNT
+        qoFxmpLplm+7PIsUo72a5/Y25DQf1HpV7ZG9uCR90l3j2qWO8QzqWe1bJJeJVJoZRi9kntTl
+        cbb3YEnSWftQ1432mfYOAiu3ePLnsvPkq/0pdU171xrdJLwzu2Ceicj2NVl1TbKXl8zUu/5u
+        5q1TcwLs1PuVeJwad//PaHvs2XJmneraxV8UfiuxFGckGmoxFxUnAgAmgzw/HgIAAA==
+X-CMS-MailID: 20191028124238epcas5p451c77e6f4b37e4db69c87f839bd25574
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20191028124238epcas5p451c77e6f4b37e4db69c87f839bd25574
+References: <CGME20191028124238epcas5p451c77e6f4b37e4db69c87f839bd25574@epcas5p4.samsung.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+DesignWare controller driver provides the support to handle the PHYs which
+are compliant to ZRX-DC specification based on "snps,phy-zrxdc-compliant"
+DT property. So, add "snps,phy-zrxdc-compliant" property in tegra pcie
+controller DT nodes and remove platform specific code from platform driver.
 
-If a client is already attached to an IOMMU domain that is not the
-shared domain, don't try to attach it again. This allows using the
-IOMMU-backed DMA API.
+Anvesh Salveru (2):
+  PCI: tegra: Remove support for ZRX-DC compliant PHY from platform
+    driver
+  arm64: tegra: Add support for ZRX-DC phy property
 
-Since the IOMMU-backed DMA API is now supported and there's no way
-to detach from it on 64-bit ARM, don't bother to detach from it on
-32-bit ARM either.
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi   | 6 ++++++
+ drivers/pci/controller/dwc/pcie-tegra194.c | 4 ----
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/tegra/drm.c | 66 +++++++++++++++++++++++++++----------
- drivers/gpu/drm/tegra/drm.h |  1 +
- 2 files changed, 49 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index efc8a27b9e6a..56e5e7a5c108 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -20,10 +20,6 @@
- #include <drm/drm_prime.h>
- #include <drm/drm_vblank.h>
- 
--#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
--#include <asm/dma-iommu.h>
--#endif
--
- #include "drm.h"
- #include "gem.h"
- 
-@@ -908,30 +904,27 @@ int tegra_drm_unregister_client(struct tegra_drm *tegra,
- 
- int host1x_client_iommu_attach(struct host1x_client *client)
- {
-+	struct iommu_domain *domain = iommu_get_domain_for_dev(client->dev);
- 	struct drm_device *drm = dev_get_drvdata(client->parent);
- 	struct tegra_drm *tegra = drm->dev_private;
- 	struct iommu_group *group = NULL;
- 	int err;
- 
--	if (tegra->domain) {
--		struct iommu_domain *domain;
-+	/*
-+	 * If the host1x client is already attached to an IOMMU domain that is
-+	 * not the shared IOMMU domain, don't try to attach it to a different
-+	 * domain. This allows using the IOMMU-backed DMA API.
-+	 */
-+	if (domain && domain != tegra->domain)
-+		return 0;
- 
-+	if (tegra->domain) {
- 		group = iommu_group_get(client->dev);
- 		if (!group) {
- 			dev_err(client->dev, "failed to get IOMMU group\n");
- 			return -ENODEV;
- 		}
- 
--#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
--		if (client->dev->archdata.mapping) {
--			struct dma_iommu_mapping *mapping =
--				to_dma_iommu_mapping(client->dev);
--			arm_iommu_detach_device(client->dev);
--			arm_iommu_release_mapping(mapping);
--		}
--#endif
--
--		domain = iommu_get_domain_for_dev(client->dev);
- 		if (domain != tegra->domain) {
- 			err = iommu_attach_group(tegra->domain, group);
- 			if (err < 0) {
-@@ -939,6 +932,8 @@ int host1x_client_iommu_attach(struct host1x_client *client)
- 				return err;
- 			}
- 		}
-+
-+		tegra->use_explicit_iommu = true;
- 	}
- 
- 	client->group = group;
-@@ -963,6 +958,7 @@ void host1x_client_iommu_detach(struct host1x_client *client)
- 			iommu_detach_group(tegra->domain, client->group);
- 
- 		iommu_group_put(client->group);
-+		client->group = NULL;
- 	}
- }
- 
-@@ -1046,6 +1042,7 @@ void tegra_drm_free(struct tegra_drm *tegra, size_t size, void *virt,
- static int host1x_drm_probe(struct host1x_device *dev)
- {
- 	struct drm_driver *driver = &tegra_drm_driver;
-+	struct iommu_domain *domain;
- 	struct tegra_drm *tegra;
- 	struct drm_device *drm;
- 	int err;
-@@ -1060,7 +1057,36 @@ static int host1x_drm_probe(struct host1x_device *dev)
- 		goto put;
- 	}
- 
--	if (iommu_present(&platform_bus_type)) {
-+	/*
-+	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
-+	 * likely to be allocated beyond the 32-bit boundary if sufficient
-+	 * system memory is available. This is problematic on earlier Tegra
-+	 * generations where host1x supports a maximum of 32 address bits in
-+	 * the GATHER opcode. In this case, unless host1x is behind an IOMMU
-+	 * as well it won't be able to process buffers allocated beyond the
-+	 * 32-bit boundary.
-+	 *
-+	 * The DMA API will use bounce buffers in this case, so that could
-+	 * perhaps still be made to work, even if less efficient, but there
-+	 * is another catch: in order to perform cache maintenance on pages
-+	 * allocated for discontiguous buffers we need to map and unmap the
-+	 * SG table representing these buffers. This is fine for something
-+	 * small like a push buffer, but it exhausts the bounce buffer pool
-+	 * (typically on the order of a few MiB) for framebuffers (many MiB
-+	 * for any modern resolution).
-+	 *
-+	 * Work around this by making sure that Tegra DRM clients only use
-+	 * an IOMMU if the parent host1x also uses an IOMMU.
-+	 *
-+	 * Note that there's still a small gap here that we don't cover: if
-+	 * the DMA API is backed by an IOMMU there's no way to control which
-+	 * device is attached to an IOMMU and which isn't, except via wiring
-+	 * up the device tree appropriately. This is considered an problem
-+	 * of integration, so care must be taken for the DT to be consistent.
-+	 */
-+	domain = iommu_get_domain_for_dev(drm->dev->parent);
-+
-+	if (domain && iommu_present(&platform_bus_type)) {
- 		tegra->domain = iommu_domain_alloc(&platform_bus_type);
- 		if (!tegra->domain) {
- 			err = -ENOMEM;
-@@ -1104,7 +1130,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
- 	if (err < 0)
- 		goto fbdev;
- 
--	if (tegra->domain) {
-+	if (tegra->use_explicit_iommu) {
- 		u64 carveout_start, carveout_end, gem_start, gem_end;
- 		u64 dma_mask = dma_get_mask(&dev->dev);
- 		dma_addr_t start, end;
-@@ -1132,6 +1158,10 @@ static int host1x_drm_probe(struct host1x_device *dev)
- 		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
- 		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
- 				 carveout_end);
-+	} else if (tegra->domain) {
-+		iommu_domain_free(tegra->domain);
-+		tegra->domain = NULL;
-+		iova_cache_put();
- 	}
- 
- 	if (tegra->hub) {
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index 28f2820a7371..d941553f7a3d 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -36,6 +36,7 @@ struct tegra_drm {
- 	struct drm_device *drm;
- 
- 	struct iommu_domain *domain;
-+	bool use_explicit_iommu;
- 	struct mutex mm_lock;
- 	struct drm_mm mm;
- 
 -- 
-2.23.0
+2.17.1
 
