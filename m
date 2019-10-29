@@ -2,66 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DCBEE8935
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05012E8943
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:19:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388138AbfJ2NRS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Oct 2019 09:17:18 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35912 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732534AbfJ2NRS (ORCPT
+        id S2388234AbfJ2NTU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Oct 2019 09:19:20 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:34685 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388119AbfJ2NTU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Oct 2019 09:17:18 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c22so2384208wmd.1;
-        Tue, 29 Oct 2019 06:17:16 -0700 (PDT)
+        Tue, 29 Oct 2019 09:19:20 -0400
+Received: by mail-wm1-f68.google.com with SMTP id v3so1979497wmh.1;
+        Tue, 29 Oct 2019 06:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=CuEYBnVldm0xxstpEXocoTVVeQepXqnFEfpZ5yvIc74=;
-        b=uCnj9IQKetzW2xxLmfz0mvOzpJ3P5znjnoemHD+FPkbR+UlNxHkda98IAlQeivOb1T
-         IjlL//t09B6J3vkIpfDg4RAfo3f6Tf96rQWMKHkhCvBmp3+0IxC/fFADUYbzpWBEL9Ij
-         7oL9RPhK6Hsyj8FZ3Ix566bxM57jffiBQQ2A9S5Bu4t2AG8WWp1rWqMXQiPYHs6RnqtN
-         JwooYazXMZZKWsnRKojFbpyiaa1DXkYxpEG+0zhWfd8Z9uqObNRLKh3cSkNZtmx/VmuS
-         mGrqrxUA7Tzj+ecr61BiiFKwlWLLBvZJ3aI9NALpTOL0isuiRI857rlBArWuJ8mrBUjb
-         vxGA==
+        bh=kdxUMNyvrqmNDL+Yjr/LEjpSdNLrL+LPXt7veHoTwW4=;
+        b=b3wSn23Z4i+0IrRlbFOcNoWAIP/x9vHeXOi8LxwEGCEA/ONEmNtnfL7pRIn2SkrKvr
+         7mg2RR9IVPf7mxxXUsz27+YUEs/jiL9mroJN2miG+VYnEzEr/5nlO32gkKu1+r+okF7w
+         nWJpkzZtTHi+K768tIS1ObSpSTU7Okmcp7/J3JoryOgg/degccm9PWwWlWBtmL9Blhsg
+         8ZT6E1GF1Zpp4XNLDjD8rnJqlr6a068cnIhw8iAZfTeeWNaISiJs/voLdFBpZZtd56cR
+         Pju3LuYMwo3XqjoaBus4UgTyaVadHgUU69C/zYsjwiZ8Cr1az95HK4N8AuPS2Lr3GCwo
+         JIHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CuEYBnVldm0xxstpEXocoTVVeQepXqnFEfpZ5yvIc74=;
-        b=oZ6FBmV52JWefAj26YdykJZ0iH8nIXpH4oz+6sbR56O24/rP1TSr9y7Fzo4HD1o6op
-         3BZ8eLZLHWuSa3RFPAbvmCgLYgqKKui7SQoDAzSo93lyuCgzDIZ+jYzLzAbh+Vl0w74C
-         o/WMeNls/UmpuqWKk1cHm/AWtk8XgQSkCYOGhE+Qv3kgVrQP2cieyT46C9tclv3C8SrZ
-         05pCHSYZ6iuNmV+8rhCOnNzi2fv4Cofq7tSif8z53kXGr/ooVdK9LcCbsz3p4f1yuPax
-         VTTWpaOPDvkhZ2jcJ6Pjd1oM2sf9RcnClCwuGmryBhXW/qaFPDByg5aTeeaCRvgim20K
-         0ajw==
-X-Gm-Message-State: APjAAAVz8ck5RQWSmfeNF8YHs3l0D2beklLmiQUDdMcCpR9eAzIV1dQp
-        sBIEN2BxRy8Pv/6xpzdWqcg=
-X-Google-Smtp-Source: APXvYqyQqKMqEj+7UPIGpfNmaSyAprcDG1EIjtAC+9qSZHNrW+TO51/52vOD74YphF5VSCHTy5IHQA==
-X-Received: by 2002:a1c:f60d:: with SMTP id w13mr4421382wmc.150.1572355036046;
-        Tue, 29 Oct 2019 06:17:16 -0700 (PDT)
+        bh=kdxUMNyvrqmNDL+Yjr/LEjpSdNLrL+LPXt7veHoTwW4=;
+        b=uR06uwASJruwRdivIeREkQnDq/NH8lu8K3sp+BpuIr9NPqp9H5sxzPrxJGIlpAMucZ
+         f9vIKJZOkeWD/fjkyQ0krHwvepq8HBMBgAbSGLbGkcir/rJ9YLysU7tuY49W2xK3T4Jg
+         MLszml8xECSw70SsAXsQXszncs+qStFd25Iys0uNzkDxpuvlknhLYT3yJStLyLm+hRdC
+         crDKR9nBJqHvbuLcDQ7fNbl4GQLdowxRxmExLDxTROizfUuTGPWzrnxGYRniUOI90BFy
+         CZPvHceN8Hrnukldt52CxITlPBnjaHksqAdsdwqHEokRfQKbRnboqtEikk8oRvYSuCfD
+         SLIA==
+X-Gm-Message-State: APjAAAVbKwYq1aEVfT8RrqcRdSZ2SoKVOLfn11sj8RCdDjUMk9hn8Nox
+        zsaNnc9yhyB/kptxhttYB4btGX5A
+X-Google-Smtp-Source: APXvYqxZTORaJEUXE+fRevzkoDHJ0mmVXxjMng546tuGAb05XITEMi0ysWfNJUsxW/dkz4mBlx57Iw==
+X-Received: by 2002:a1c:a90f:: with SMTP id s15mr4115278wme.100.1572355157476;
+        Tue, 29 Oct 2019 06:19:17 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id t133sm3067226wmb.1.2019.10.29.06.17.14
+        by smtp.gmail.com with ESMTPSA id 200sm3330915wme.32.2019.10.29.06.19.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 06:17:15 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 14:17:14 +0100
+        Tue, 29 Oct 2019 06:19:16 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 14:19:15 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] clk: tegra20/30: Optimize PLLX configuration restoring
-Message-ID: <20191029131714.GD508460@ulmo>
-References: <20190922215203.32103-1-digetx@gmail.com>
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 09/18] clk: tegra: Add missing stubs for the case of
+ !CONFIG_PM_SLEEP
+Message-ID: <20191029131915.GE508460@ulmo>
+References: <20191015170015.1135-1-digetx@gmail.com>
+ <20191015170015.1135-10-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="C1iGAkRnbeBonpVg"
+        protocol="application/pgp-signature"; boundary="Rgf3q3z9SdmXC6oT"
 Content-Disposition: inline
-In-Reply-To: <20190922215203.32103-1-digetx@gmail.com>
+In-Reply-To: <20191015170015.1135-10-digetx@gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -69,44 +71,43 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---C1iGAkRnbeBonpVg
+--Rgf3q3z9SdmXC6oT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 23, 2019 at 12:52:03AM +0300, Dmitry Osipenko wrote:
-> There is no need to re-configure PLLX if its configuration in unchanged
-> on return from suspend / cpuidle, this saves 300us if PLLX is already
-> enabled (common case for cpuidle).
+On Tue, Oct 15, 2019 at 08:00:06PM +0300, Dmitry Osipenko wrote:
+> The new CPUIDLE driver uses the Tegra's CLK API and that driver won't
+> strictly depend on CONFIG_PM_SLEEP, hence add the required stubs in
+> order to allow compiling of the new driver with the CONFIG_PM_SLEEP=3Dn.
 >=20
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/clk/tegra/clk-tegra20.c | 25 ++++++++++++++++---------
->  drivers/clk/tegra/clk-tegra30.c | 25 ++++++++++++++++---------
->  2 files changed, 32 insertions(+), 18 deletions(-)
+>  include/linux/clk/tegra.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 
 Applied to for-5.5/clk, thanks.
 
 Thierry
 
---C1iGAkRnbeBonpVg
+--Rgf3q3z9SdmXC6oT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24O9kACgkQ3SOs138+
-s6GMDw/9GSfkmhdfZL9cfuprPRnzlzsiv7vNiAunAYdVGTo+4P1Z2dPgJLS0dvpp
-ZIHYnGem1kSVNGMMG460niQbkyXSB4+xLrCVdIjyVHX13uEMOWItkB1bLKBR/8qQ
-vTCCMfmJaOeir4eVpNTh3+5H2CKN8lkv4IT+YqCEsAhDZjVSLLcHf4a663WZkrHP
-MFpYJCyp5/lSE1XiQfPb3FVPuLl/cU2vFquqO1zarkE4g5PnzQEmZpSUfCHM92+c
-3RakZe+tsuAVOusNC38q4Hec4MTOgSu9aK+u9yjfuHokyDlo1UKoouruRZ6PvMm1
-IfR/6zIJWUhDv9bQfID70rJuhHzI9VntNl8stLbcb//aPJk7xeySDKEeZkGw1MQQ
-I6cxgareAOir2XcSqXxuDTRx2bsBgRj7FYODXvUaQjEL5mZ8p7hOLvmrn31ZM/Q0
-sx1hZ/0lJTZd4qg+nUffxojUETrVTCOSc2K2r7dl8J1o2XJ2kxswePLBSHTimFq2
-4uQEtYycToltWXl8c/Xjls87NDsypY7NAmY3Zc/8AKcUhNqfpTxiVqJ0V72y4Ic4
-+i3bxOLUE6Tp9FBHbFLs4hEGJIw+gfc/JrthBFMsd2/vJzjcApOQLPIPaAiqf4a2
-LSYvYetgeLoIU5SufwYnLKAOSVgj/O+AqEhdC/+rW6SS+RZhK7Y=
-=wjdE
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24PFIACgkQ3SOs138+
+s6GpQA/+ObhDGFKfUw2kmzmVofglBZKfac9iUKEOtJRjpACY1HQzbddmh7XDV0kz
+x3ZpXS/64v2SYFT1MEDg+P0HIE9VEMhn0gTuht4eH6koVffOmKQW0mMcnmNXA0vT
+Xz4DSqpdEa+1povmLaifTj6FAGsuT2FQXuK+eWA0UFkW3407KhhazMuwuJvlQ77J
+0bq78zIdwRH33kP6MgZvTF94dggX02TsRt8x3FQxGjo6lxan5qe18h06/sTUGW4j
+QvshCliwMiCaSskcQCULJYuRX9f54Iu6HkcmqURzP1LohAM4o7NnFboxKorGQAbY
+76j6WB6i7O5isg5Ng0wV3YH/xHTuptMzX12iniF3BqwYWXab2J2qyNQ7ipnFlDvY
+Y9m2caM4cPfILsUozrjvQqGWOkg8EujGzDhEOkqwGI1zj2rE0QzSTZbYFLYNp2ka
+jHVMR+TN2Q4pwBTOPmJ4r2hPoy9KvTTEfLMU6T931lPPjNSKONvlr0oNz7fxVE2H
+1adqcQRShR6hM1UzuFA3J9mjP8bqYFPYRIMVazpM6nQMwHTDSq9j/IIHp7LpFuVr
+uDxLZYmA+mP7Sbo2eBAK3qwrR2Hgnyv4+tyLquKGuns+1mdP2B3+Nkw8Xrpf8b5c
+RRWen5QU639f+YV7G6qxSxhljZri59qMYqGoQojtUZxIvMdNtyo=
+=lnmo
 -----END PGP SIGNATURE-----
 
---C1iGAkRnbeBonpVg--
+--Rgf3q3z9SdmXC6oT--
