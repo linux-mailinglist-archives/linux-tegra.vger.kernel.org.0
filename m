@@ -2,91 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E840E896B
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:25:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A11FCE8981
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:29:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725776AbfJ2NZk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Oct 2019 09:25:40 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:33482 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730112AbfJ2NZk (ORCPT
+        id S2388464AbfJ2N3v (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Oct 2019 09:29:51 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:55219 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726858AbfJ2N3v (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Oct 2019 09:25:40 -0400
-Received: by mail-lj1-f193.google.com with SMTP id t5so7435358ljk.0
-        for <linux-tegra@vger.kernel.org>; Tue, 29 Oct 2019 06:25:39 -0700 (PDT)
+        Tue, 29 Oct 2019 09:29:51 -0400
+Received: by mail-wm1-f68.google.com with SMTP id g7so2571472wmk.4;
+        Tue, 29 Oct 2019 06:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AyfFRUgpmb5UhgMMjiLBLZD3oIeC+XtwnmlqyRHc/Y8=;
-        b=OgcQTSAcq4bN15zVhRZChpXBcD6wEgatgAcV99KqX5EDhZSiD/n0oLwnR1uXmsd4r6
-         iQ85/aohIAluwG/AZg0SS6tO/TmTq6A8q2OaR2gh5zbPZMSUcDlxwwaaSt6fFKYJfQnV
-         CBdE+ZGUgYayg3bdQSzP3qQf3VUfI0f1eRUc3TLRBFrqN7IDG1D6N+QoNKReY0bVXY1V
-         IjpGgOHuufw8ZQ3NSBj1Z+1ilkfmdaQs+EpBOdKR30HIn+qd9IBS45WQEy5vp0bd+5Tx
-         pKJw5UDRpSuYfaQmZE6gNSz9/Iw4pxDmGjYyBKRG3lOzqCJCqrgmtlTyfQOJqWRsrS+3
-         famA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZyrQT++JHzLcRfuKcgHsyUe0SmNfdkUBvT+LupMK3wE=;
+        b=ldhtE7i195ivrWivpGZUMMDIfoQ6Ye6gbJsIq43K18miEvSx5uYCNouD8x5utAhviE
+         5aR3r0L0D58JT2r4fiiw4YBWG1tZ6bb4qVp4JeRr2Ci9c4OKXFq21Uc5DyRpXRqCjBKV
+         Too8aJeQMF3MGc1W7oVhq9Y6xfsAPk7V9lhpq0lR7V9eI0C773R/cEcb/J8CeCVwOS+R
+         5iMZZMxcLynllufl/Pyu3lmBEuEgUCT/m2opoie5nDt2qSHF/X2lMl1xSfEmMRZ9G9ct
+         JWN5itJhL16pMGZpHPORERxRbBZFBfmWD5Os9nFU3teFsWflsTVxjd3cM8fCoH2NNOMe
+         +Wrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=AyfFRUgpmb5UhgMMjiLBLZD3oIeC+XtwnmlqyRHc/Y8=;
-        b=lQyuiNSdzw4PkCJDdFskX+Coam2b7fJhNjWF4gaxoHcJNiGHX1crbq49zKbbnSFUDU
-         51Pj53xyyceTuFOEQIz9WQzv0w/P3NUYeRowtytUiIkvvPis2uxw5LYwD98TELLZBKfy
-         b50VNYwhkZrUGzDYdCmFxJ1TVbbxe+dXKvj3Nmo4tU+q01IQLn7h135tlVOVPCXHivFM
-         inGJidfBUiiFvzXo/m8N1JUTOAo4Ph/R+rQM4SYsRK9T3XAD9denPCATM3q0+6dzSSgm
-         D6XCqnNhNHbU1uvNoYYysROYNZzoV0AOTcpGjyjofVGp8M9x1umEsaprKmclYwRLg4QS
-         en4w==
-X-Gm-Message-State: APjAAAUYbYH30LS/A1sKaQr4o6ltnnAvTmu9OyJ2jhyOqDhFwybXuRSS
-        0S4yPefzsBtAbyyiJlXC66lG5ta4
-X-Google-Smtp-Source: APXvYqwpQGy2/Kr5nCilq6slM0IZVduc2g7YFgBUjtBEJSZb+IPOIdn2e1U2KwiDhwDFIY0LcHLyYQ==
-X-Received: by 2002:a05:651c:10e:: with SMTP id a14mr2659527ljb.177.1572355538010;
-        Tue, 29 Oct 2019 06:25:38 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id v203sm8442282lfa.25.2019.10.29.06.25.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Oct 2019 06:25:37 -0700 (PDT)
-Subject: Re: [PATCH v3] drm/tegra: Do not use ->load() and ->unload()
- callbacks
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20191028121610.3889207-1-thierry.reding@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <28aaf3c5-2e23-c947-9dd9-31571b5d5f1b@gmail.com>
-Date:   Tue, 29 Oct 2019 16:25:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZyrQT++JHzLcRfuKcgHsyUe0SmNfdkUBvT+LupMK3wE=;
+        b=KVbG5GeTE+ivt1WXg7RzYpLEVY7S0gTk+aH0W0FFi2wEm0+lEglntvrBCL+8+d/+qs
+         blxG9+MNOlaV9MlA1q1mhMcoeCj57+sfL62okiZ4WSwACTKE8QZnCDfUnbH3hT3+MTM9
+         DJcLIp7efLSJGq2bx5atdAiOGcxqj7M3EOk/nuK82baXoeqL3wBtLnKq1gNjixiCgY0j
+         qWiGieQcqWZRSg5LXoidGXl9rlqurEI1SdnLiLBY3PfbziUyudE/gC1IEaoYS0hVrgt7
+         sOqpkD9k7Tnh9Nxjx6cgjOZROzR/MJoclYfZJGoDNb1NGOVUESXdWMsgHmdJDxCt+Dsn
+         DfIw==
+X-Gm-Message-State: APjAAAVKb41d6ti/PlN0Z2ohWF4HSYPQ+uzGezFlCoJ8FKLg7mcPN0td
+        iltjawRhtxou2JlLXUrVDbY=
+X-Google-Smtp-Source: APXvYqxVOR2/ernxtfHe/O0saeRgpwaX6roQc9/VnbXSJO0ROt+1HZfqwRfBD/S0aVS9NS8im21nVg==
+X-Received: by 2002:a05:600c:2317:: with SMTP id 23mr4044683wmo.140.1572355789192;
+        Tue, 29 Oct 2019 06:29:49 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id p21sm2489874wmc.25.2019.10.29.06.29.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2019 06:29:47 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 14:29:46 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ARM: dts: tegra124: nyan-big: Add timings for RAM
+ codes 4 and 6
+Message-ID: <20191029132946.GF508460@ulmo>
+References: <20190723033744.4219-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191028121610.3889207-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="1Y7d0dPL928TPQbc"
+Content-Disposition: inline
+In-Reply-To: <20190723033744.4219-1-digetx@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-28.10.2019 15:16, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> The ->load() and ->unload() drivers are midlayers and should be avoided
-> in modern drivers. Fix this by moving the code into the driver ->probe()
-> and ->remove() implementations, respectively.
-> 
-> v2: kick out conflicting framebuffers before initializing fbdev
-> v3: rebase onto drm/tegra/for-next
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+
+--1Y7d0dPL928TPQbc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jul 23, 2019 at 06:37:44AM +0300, Dmitry Osipenko wrote:
+> Add timings for RAM codes 4 and 6 and a timing for 528mHz of RAM code 1,
+> which was missed due to the clock driver bug that is fixed now in all of
+> stable kernels.
+>=20
+> Tested-by: Steev Klimaszewski <steev@kali.org>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/gpu/drm/tegra/drm.c | 321 +++++++++++++++++-------------------
->  1 file changed, 154 insertions(+), 167 deletions(-)
+>=20
+> Changelog:
+>=20
+> v2: Improved commit's message a tad.
+>=20
+>  arch/arm/boot/dts/tegra124-nyan-big-emc.dtsi | 7917 ++++++++++++++----
+>  1 file changed, 6272 insertions(+), 1645 deletions(-)
 
-Hello Thierry,
+Applied to for-5.5/arm/dt, thanks.
 
-I tried a bit harder and managed to get simple-framebuffer working, the
-bootloader's FB handover works fine for me before and after this patch.
-Thanks!
+Thierry
 
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
+--1Y7d0dPL928TPQbc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24PsgACgkQ3SOs138+
+s6HRhRAApan8ZzBX81Q/qwmDIQQNXoQw7XUsmTuuTdWXo4RjmCsIDH7oOjzG4r/4
+QMujhT5FlJECfZOKffZJv2X19jz24TzCHdEmJP5bR8A95KaDZEp3KoT278etnzee
+a05vW1hBf42mEvI6d5z48+i4k1uzhaBVeBTGN3GwaCbmskpc8efztRYJDvAONWfD
+P81N2uBarekZlLTkvY9VNVdE0C3DfyGaAPUlzyiPZHYcPFVYLEKU1dsB1UcZRiE6
+fdn62simDa1zZEAlIAN+Oh06Cp106UwUq4ktALQR/p8NyJTPQpByNwldSoXutB5P
+gzMyFYUdq5j7Xd2GE1dozlkB3+OnSvUzC6OlNVAs1in2V4xOVj3CBUFy924U9Xo5
+MKTkes0FJMsQUEP3WiLHBhp8oTJWxt6REJtEXIQBLVFjIyYfqHPKCx+dx/u08r9x
+RNMVlyVM+lTR/POTX5QW3/GMnqwv4f7KMUntN+A3+fpwiJFzPspLQZJ2ZUM1akcA
+siUMc9C21YSw4tJ+z6tGHZBvY8mGzFBIr0PPFhhvDFTxRO30YTfTPybgtNAHzmdz
+4O22fcpzcTuDYloX9sRQ3lQhJD8TkS12d8jDRIE2SbT/AcIkDH8FEoeHRZAhOiE1
+BG8Qwb4dahKDaKDoMYpq2YmiXDGZ1nFJP5UuNMvXmBxqt1dU3t4=
+=ZqeM
+-----END PGP SIGNATURE-----
+
+--1Y7d0dPL928TPQbc--
