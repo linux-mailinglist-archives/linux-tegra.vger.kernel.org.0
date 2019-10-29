@@ -2,112 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05012E8943
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:19:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EB27E894C
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:20:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388234AbfJ2NTU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Oct 2019 09:19:20 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:34685 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388119AbfJ2NTU (ORCPT
+        id S2388234AbfJ2NUl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Oct 2019 09:20:41 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36384 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728735AbfJ2NUk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Oct 2019 09:19:20 -0400
-Received: by mail-wm1-f68.google.com with SMTP id v3so1979497wmh.1;
-        Tue, 29 Oct 2019 06:19:18 -0700 (PDT)
+        Tue, 29 Oct 2019 09:20:40 -0400
+Received: by mail-lf1-f67.google.com with SMTP id u16so10506793lfq.3;
+        Tue, 29 Oct 2019 06:20:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kdxUMNyvrqmNDL+Yjr/LEjpSdNLrL+LPXt7veHoTwW4=;
-        b=b3wSn23Z4i+0IrRlbFOcNoWAIP/x9vHeXOi8LxwEGCEA/ONEmNtnfL7pRIn2SkrKvr
-         7mg2RR9IVPf7mxxXUsz27+YUEs/jiL9mroJN2miG+VYnEzEr/5nlO32gkKu1+r+okF7w
-         nWJpkzZtTHi+K768tIS1ObSpSTU7Okmcp7/J3JoryOgg/degccm9PWwWlWBtmL9Blhsg
-         8ZT6E1GF1Zpp4XNLDjD8rnJqlr6a068cnIhw8iAZfTeeWNaISiJs/voLdFBpZZtd56cR
-         Pju3LuYMwo3XqjoaBus4UgTyaVadHgUU69C/zYsjwiZ8Cr1az95HK4N8AuPS2Lr3GCwo
-         JIHA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Ycp40O6pq7oAPfIa/Ey3geraavSMokBe/2ZuTNhAq48=;
+        b=GBYMwvi1AAjVv9WA8DE6sfQWAApsDUxppNZiU7BA4qAHmdpjh5eHmqHjIJVGeTQyMu
+         sBYua5PI1jpbKW7gk6C2b1wzabgczcqqFkCXuMku9iAQP+ds9AUw9nfcxZuepeB0DiR6
+         GM9/+5c+iTjz8/SXStWWPTsMJGvECmp91y78oZjKibNH/gWYMOx1n5aRucp44RmkGDZb
+         bkSWSyKfXKlniDQ62h+SJQuhEsKBOeLvu9iGjpKsrZWOLX7VKv9H9C2UasGFFqhNasMK
+         aUBHEJHzcKPM4yZ3kcZD6j4WK4BBNMXxYRNtumlCz8+Nx/D8CQjyGludgJCo/knj/XBv
+         OHgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kdxUMNyvrqmNDL+Yjr/LEjpSdNLrL+LPXt7veHoTwW4=;
-        b=uR06uwASJruwRdivIeREkQnDq/NH8lu8K3sp+BpuIr9NPqp9H5sxzPrxJGIlpAMucZ
-         f9vIKJZOkeWD/fjkyQ0krHwvepq8HBMBgAbSGLbGkcir/rJ9YLysU7tuY49W2xK3T4Jg
-         MLszml8xECSw70SsAXsQXszncs+qStFd25Iys0uNzkDxpuvlknhLYT3yJStLyLm+hRdC
-         crDKR9nBJqHvbuLcDQ7fNbl4GQLdowxRxmExLDxTROizfUuTGPWzrnxGYRniUOI90BFy
-         CZPvHceN8Hrnukldt52CxITlPBnjaHksqAdsdwqHEokRfQKbRnboqtEikk8oRvYSuCfD
-         SLIA==
-X-Gm-Message-State: APjAAAVbKwYq1aEVfT8RrqcRdSZ2SoKVOLfn11sj8RCdDjUMk9hn8Nox
-        zsaNnc9yhyB/kptxhttYB4btGX5A
-X-Google-Smtp-Source: APXvYqxZTORaJEUXE+fRevzkoDHJ0mmVXxjMng546tuGAb05XITEMi0ysWfNJUsxW/dkz4mBlx57Iw==
-X-Received: by 2002:a1c:a90f:: with SMTP id s15mr4115278wme.100.1572355157476;
-        Tue, 29 Oct 2019 06:19:17 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id 200sm3330915wme.32.2019.10.29.06.19.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 06:19:16 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 14:19:15 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 09/18] clk: tegra: Add missing stubs for the case of
- !CONFIG_PM_SLEEP
-Message-ID: <20191029131915.GE508460@ulmo>
-References: <20191015170015.1135-1-digetx@gmail.com>
- <20191015170015.1135-10-digetx@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ycp40O6pq7oAPfIa/Ey3geraavSMokBe/2ZuTNhAq48=;
+        b=CBUphTg8BRZYKgfumnA37/VPQJu3S7MSQsz6x6hPH6+APFA+zxNm5AyDoq5SiHPUef
+         uCNh6E5lF8tZzuwh+IjKSNQOIVUTtuQTOFeNwddDXGBw4hP1Vj2FqL/awg0ouC1Lcsn0
+         zH7MfRG0RebDblyIdiI7d4oDmxcwWKVVpfc4S8UsXh7HHYPs31iWh0y2t7UqyeofaRvO
+         vk5+JUHVJ13tNLFcY7Yp/gouE3SaEPSX4qGO5EGsje++YQma+orM6iSw7XNhMVL91YfR
+         x7wuIApVnWV99NGPB/IDQa0u+nAFnxypO9rgqCZyVca5f4AkqZrREGXUKS/NRt1RDQE0
+         jYYg==
+X-Gm-Message-State: APjAAAWtweVNyHmkswBOGzyt9uqnPrxUdAr6jjKg3M/a6fYW0C2Z06PV
+        ct9LUIwGjTELZC7UR3/SARaewrjw
+X-Google-Smtp-Source: APXvYqw2jGg9y5zxjv7afcepJps1o1UY+IMIRxfhjR3+8ctUUYRocgcNcnwvmYQhdSSlRIHBtKMlgw==
+X-Received: by 2002:a19:cc07:: with SMTP id c7mr2512443lfg.107.1572355238190;
+        Tue, 29 Oct 2019 06:20:38 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
+        by smtp.googlemail.com with ESMTPSA id w20sm9203418lff.46.2019.10.29.06.20.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Oct 2019 06:20:37 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] clk: tegra: divider: Support enable-bit for Super
+ clocks
+To:     Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190723025245.27754-1-digetx@gmail.com>
+ <20190723025245.27754-2-digetx@gmail.com>
+ <20191028144157.GD27141@pdeschrijver-desktop.Nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <74ee0e7f-c257-8fdf-bf3f-eefab3281dfa@gmail.com>
+Date:   Tue, 29 Oct 2019 16:20:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Rgf3q3z9SdmXC6oT"
-Content-Disposition: inline
-In-Reply-To: <20191015170015.1135-10-digetx@gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191028144157.GD27141@pdeschrijver-desktop.Nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+28.10.2019 17:41, Peter De Schrijver пишет:
+> On Tue, Jul 23, 2019 at 05:52:45AM +0300, Dmitry Osipenko wrote:
+>> All Super clocks have a divider that has the enable bit.
+>>
+> 
+> This is broken to begin with. The only clock of this type in upstream is SCLK
+> I think. However, this clock is not a normal divider, it's a skipper, so
+> the normal divider logic doesn't work for it. In practice this clock is
+> only used when scaling SCLK, which is not (yet) done in the upstream
+> kernel due to the complex DVFS relationship between sclk, hclk and pclk.
+> A driver for it can be found here:
+> https://nv-tegra.nvidia.com/gitweb/?p=linux-4.9.git;a=blob;f=drivers/clk/tegra/clk-skipper.c;h=f5da4f6ca44fe194c87f66be70c708e9791db74d;hb=eb8dd21affa2be45fc29be8c082194ac4032393a
+> As you can see in that tree, we eventually splitted sclk into three
+> clocks:
+> 
+> sclk_mux (controls SCLK_BURST_POLICY register)
+> sclk (controls SOURCE_SYS register which is like a normal peripheral
+> clock but without the mux)
+> sclk_skipper (controls SCLK_DIVIDER)
 
---Rgf3q3z9SdmXC6oT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 15, 2019 at 08:00:06PM +0300, Dmitry Osipenko wrote:
-> The new CPUIDLE driver uses the Tegra's CLK API and that driver won't
-> strictly depend on CONFIG_PM_SLEEP, hence add the required stubs in
-> order to allow compiling of the new driver with the CONFIG_PM_SLEEP=3Dn.
->=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  include/linux/clk/tegra.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-
-Applied to for-5.5/clk, thanks.
-
-Thierry
-
---Rgf3q3z9SdmXC6oT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24PFIACgkQ3SOs138+
-s6GpQA/+ObhDGFKfUw2kmzmVofglBZKfac9iUKEOtJRjpACY1HQzbddmh7XDV0kz
-x3ZpXS/64v2SYFT1MEDg+P0HIE9VEMhn0gTuht4eH6koVffOmKQW0mMcnmNXA0vT
-Xz4DSqpdEa+1povmLaifTj6FAGsuT2FQXuK+eWA0UFkW3407KhhazMuwuJvlQ77J
-0bq78zIdwRH33kP6MgZvTF94dggX02TsRt8x3FQxGjo6lxan5qe18h06/sTUGW4j
-QvshCliwMiCaSskcQCULJYuRX9f54Iu6HkcmqURzP1LohAM4o7NnFboxKorGQAbY
-76j6WB6i7O5isg5Ng0wV3YH/xHTuptMzX12iniF3BqwYWXab2J2qyNQ7ipnFlDvY
-Y9m2caM4cPfILsUozrjvQqGWOkg8EujGzDhEOkqwGI1zj2rE0QzSTZbYFLYNp2ka
-jHVMR+TN2Q4pwBTOPmJ4r2hPoy9KvTTEfLMU6T931lPPjNSKONvlr0oNz7fxVE2H
-1adqcQRShR6hM1UzuFA3J9mjP8bqYFPYRIMVazpM6nQMwHTDSq9j/IIHp7LpFuVr
-uDxLZYmA+mP7Sbo2eBAK3qwrR2Hgnyv4+tyLquKGuns+1mdP2B3+Nkw8Xrpf8b5c
-RRWen5QU639f+YV7G6qxSxhljZri59qMYqGoQojtUZxIvMdNtyo=
-=lnmo
------END PGP SIGNATURE-----
-
---Rgf3q3z9SdmXC6oT--
+I'll drop this patch, thanks again for the clarification.
