@@ -2,102 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B4C1E88B9
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 13:50:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F27EE8901
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:02:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387859AbfJ2Mu1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Oct 2019 08:50:27 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:35572 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729253AbfJ2Mu1 (ORCPT
+        id S2388119AbfJ2NC2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Oct 2019 09:02:28 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50206 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728735AbfJ2NC2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Oct 2019 08:50:27 -0400
-Received: by mail-lj1-f196.google.com with SMTP id m7so15136936lji.2;
-        Tue, 29 Oct 2019 05:50:25 -0700 (PDT)
+        Tue, 29 Oct 2019 09:02:28 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 11so2508394wmk.0;
+        Tue, 29 Oct 2019 06:02:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=H+1+E1Mkw61uNWs7GIpUIl/WGmE8S7qBe+e6s/cPqZw=;
-        b=ari5oMPXp859DXdO+xnn+iL7LJAYqB1R/5IEpRjP0GyPrkUR+OXWZeDWb0mwdybwQZ
-         1odHGNN7BvobQHpJnR/IOu2q09pKaCtoa3r7g6V38Lag8Dzi5V6d83LYNyLYlN3Xl8wl
-         1PlZX8Fu5WOWKaLTTIb/AF0iuNGZDQRLLA2tuEAM7THXX+59A58mzGy6HARPryO0QIQ+
-         FmcbzYCktyZdZx6CPUou2NWAb5CwBRxwPl654n2QBzlgoaVi2BxJ2AbBGcR7ogkN0lfj
-         lT+g5wVHsWxBbCQJHqEjYgKE7GkZLyiLDjdgwiIGLFmfjeqQGYSQjLsAObdGlESu5zyJ
-         RlIg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=LSZ29qPy9/FInL47JLj2nFrRE+ZbLKgI3ciLkri+AgU=;
+        b=n9ChqQ+peMYMIs1zHPamOQMIEEGUE2OYBnNREJKqLmJbBwpVVt74QagiVoQEf+LhT4
+         yEx5epph6xu/DntWAI7QxyfiRlmv2uehBxKdYvXbres5RuX+pAEP77jJt0qCu1XvYZ/a
+         OJPUcYCEBib4Ayc7MTgGQWs/89F4OSdD8+UoU05dNz8YDzd3TLfppfLVSxinfukOgnot
+         0x4F6Wvwj9TF5mrJ2G9YGjcdiG3wHl5XYGrZtBGBHwtXcrl0dOPosMD/wCETdCB+4M07
+         +oQgRG19V52o41pbm9spoUJKzThvSvWIBsjPnN13cmHCl9UnlGXkY/9nu1FH5dY6lyXG
+         oDUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=H+1+E1Mkw61uNWs7GIpUIl/WGmE8S7qBe+e6s/cPqZw=;
-        b=ZHZ5nAfLdKKrVUF83Xfk0BMSqp5u4+sHXpDswrH2JJI81817gvyPxTk8VD+xj651oV
-         BJkICXmGlNRbXGP3UUJ5dOFBz3+IPmBSeT1SmcYXX51Sp5/osn2j6CVkaYFNzrkdBjmz
-         cqc+H5bDePFOXlzFUZoyDDZCWel3g3iyiSs7nDMEilYkNjevGLXLRfezVGMujJkv50tu
-         RLYyeJP5bpoBY49iSVBvRxzlxLejZTBI1yxPcjNUgb8HqfjO25MYGkXKI3m52dIlAJhU
-         LtBrCjBTG4RY3jhmtC1XHIb8tObxSpzBBJuCnfDU80u6Qz7CekdzVKTrbd4PjWtvE6yA
-         Jk+g==
-X-Gm-Message-State: APjAAAWkYnO9oAUrEy43Z4z8G/vEdmqxydL3iWKUAt4U2emsGA8qgrAl
-        g43W47ZOAGImk2VXhkm8ssjVmiE6
-X-Google-Smtp-Source: APXvYqwT5xHzW80AdFTkNUJFyTUogFJ15bZtdQv5kxzSKhGfDa1Ig7x39l929QbapLvn7aSlJFZ3DQ==
-X-Received: by 2002:a2e:8604:: with SMTP id a4mr2623578lji.89.1572353424838;
-        Tue, 29 Oct 2019 05:50:24 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id q27sm6080287lfn.96.2019.10.29.05.50.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Oct 2019 05:50:23 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] clk: tegra: divider: Add missing check for
- enable-bit on rate's recalculation
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Peter De Schrijver <pdeschrijver@nvidia.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=LSZ29qPy9/FInL47JLj2nFrRE+ZbLKgI3ciLkri+AgU=;
+        b=TtckWOUI72ob0IvV6HdBAz4p9T329vcUuugc1etLmCd5Gq9MTsBJm7PDmecH0gm9GQ
+         wkmS4FyP1sXfByvbl5q0sGWoULZUfTZ+zAYszxf2R2rPAoCvR0klowWBjX9xVicqBwWN
+         FppZV6s6vlO2dZ9y0mHzac8hzhX/PIqaRo+Q06EWfBT1023tbu9ULlhR8+5A4YXU7Kfu
+         WjyNGKzG+vvEe6An+oOKL3L1AeS2CupPBhxzJ9YhYuvAjbkdMMwvGea23ZvJm7baQkpD
+         MyP46L5IP9OqfH+FeNgnJhSHR8hzC34EX7w6wfx4BWMG/zRgCjAOGTt1Am/BIWltutYm
+         Mz2g==
+X-Gm-Message-State: APjAAAU/MmQu3lZ2mnhoeB856DFTWjIx+fqUAyRhb5/e5v9/wuI8ecyP
+        u1WnIyHDoN+jbDQVZkl7hyAQNMh7
+X-Google-Smtp-Source: APXvYqy8XyQuID1iVThumXHAcfcDfb8IpLnVVC4oC9y9sgQjSAOLWr4VFYd+cQY1Ox/Cda8CTWcgSQ==
+X-Received: by 2002:a7b:cc06:: with SMTP id f6mr3940805wmh.158.1572354145536;
+        Tue, 29 Oct 2019 06:02:25 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id u1sm20356221wru.90.2019.10.29.06.02.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2019 06:02:24 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 14:02:22 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190723025245.27754-1-digetx@gmail.com>
- <20191028142753.GC27141@pdeschrijver-desktop.Nvidia.com>
- <62c375bd-09ae-e09f-6ca2-c1395eebc5fa@gmail.com>
-Message-ID: <1dfd0270-b8d7-da22-46dd-7efc907d5655@gmail.com>
-Date:   Tue, 29 Oct 2019 15:50:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+Subject: Re: [PATCH v2 0/3] Support regulators coupling on NVIDIA Tegra20/30
+Message-ID: <20191029130222.GA508460@ulmo>
+References: <20190725151832.9802-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <62c375bd-09ae-e09f-6ca2-c1395eebc5fa@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="1yeeQ81UyVL57Vl7"
+Content-Disposition: inline
+In-Reply-To: <20190725151832.9802-1-digetx@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-29.10.2019 03:14, Dmitry Osipenko пишет:
-> 28.10.2019 17:27, Peter De Schrijver пишет:
->> On Tue, Jul 23, 2019 at 05:52:44AM +0300, Dmitry Osipenko wrote:
->>> Unset "enable" bit means that divider is in bypass mode, hence it doesn't
->>> have any effect in that case. Please note that there are no known bugs
->>> caused by the missing check.
->>>
->>
->> Technically this is not quite true, but for the purposes of CCF you can
->> treat it that way. This bits defines if the value in the lower 16 bits
->> of the divider register is used to configure the divider or if the
->> contents of the UART DLM/DLL registers is used. So the divider isn't
->> actually bypassed, it's just configured differently.
->> In practice this bit is only set when the divider is non-zero when doing
->> set rate. So the extra test isn't strictly needed as long as the sw
->> running before the kernel also ensures the bit is only set when the
->> divider is non-zero.
->>
->> Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
-> 
-> Thank you for the clarification. I hope that bootloader doesn't enable
-> the divider because it looks like standard 8250 driver won't be ready
-> for that. But serial-tegra driver seems should be good.
 
-Actually, it should be good because I missed that UART clocks are
-per-initialized in the clk driver init table.
+--1yeeQ81UyVL57Vl7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'll update commit's message and send a new version of this patch.
+On Thu, Jul 25, 2019 at 06:18:29PM +0300, Dmitry Osipenko wrote:
+> Hello,
+>=20
+> The voltage regulators need to be coupled on NVIDIA Tegra20 and Tegra30
+> SoCs in order to provide voltage scaling functionality in a generic way.
+> All necessary regulator-core patches that added support for the regulators
+> coupling are already have been merge into mainline kernel. This series
+> adds customized voltage couplers for Tegra20/30 SoCs, paving the way for
+> a refined CPUFreq driver that will utilize voltage scaling and other neat
+> features. This is a resend of a leftover patches from a previous series
+> [1] that was partially applied by Mark Brown. Please review, thanks in
+> advance!
+>=20
+> [1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=3D115626
+>=20
+> Changelog:
+>=20
+> v2: - Some days ago OPP framework got a change that makes CPU regulator
+>       to be enabled at the time of CPUFreq's driver initializing OPPs.
+>       In a result the CPU's voltage is dropped to a minimum value on
+>       CPUFreq's setting up because there are no consumers at the time
+>       of regulator's enabling, thus CPU is getting into a big trouble.
+>       This problem is now resolved in the couplers code by assuming
+>       that min_uV=3Dcurrent_uV for CPU's regulator if it doesn't have
+>       any active consumers.
+>=20
+> Dmitry Osipenko (3):
+>   dt-bindings: regulator: Document regulators coupling of NVIDIA
+>     Tegra20/30 SoCs
+>   soc/tegra: regulators: Add regulators coupler for Tegra20
+>   soc/tegra: regulators: Add regulators coupler for Tegra30
+
+All three patches applied, thanks.
+
+Thierry
+
+--1yeeQ81UyVL57Vl7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24OFwACgkQ3SOs138+
+s6EL6hAAmsRFT55RAhQ6AhkSpGk/FCoDTu+zuHf3m3lS91LuGmYCkvxyKiCgkTBf
+ZzEgbaqOlM7FdaW++Au+vGooywMUwgsDyBw6rzSPTiz54Vt3YxEcs1HukLf9almB
+IvmO9AoRf6ifH6wZLNbYLrzsdpOxjgKJMxmOn2XZh6hyPS03Olp/T+m3DhXNUAz6
+B7LUK2DheI14aQ1OPs9RP6SnN+g/tXdO9k5tGuqqI/OXkUdTqNN1l/uIWcKhYoYK
+0Wi3wdp50qsuAOxAWuqX7miWV/eewLO2XM+uB7Xe0ooqspCbK5iiQC+pp+EF08u0
+7IuF5kb7arW5yeAbnMfvCiOWFY5bqk5VrRgeUWjOGfkh6ZcqzOT3PLaC/jlCMCvB
+u47/l/XN2YQFjHooZT8GngezSDwBkTHBSbJr2xz8gxGnMWnIaKo2sVR+Xps0TT1W
+UXFQLorJd608gPu4+5unZDJKf9EhgSDr4umndO6YgNQd2WH5A+I+OQPHdDbpYdML
+baZC33pLnN/rjm9alKzOird/NUlLJ6boFc4p2nscQs4barX9geQqOol2i02PfETv
+NxQvf+simgk5WazA7aogM9oKFckaYlXIQ8VRS2a7YyL0lW7bdAZEbD4Bdz982gDb
+nGtTq+SYRfsFhZFxN504UGy8lbYcU+szGcys81vBHXpDYgDcYf8=
+=F8yu
+-----END PGP SIGNATURE-----
+
+--1yeeQ81UyVL57Vl7--
