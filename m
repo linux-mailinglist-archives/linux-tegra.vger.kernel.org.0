@@ -2,97 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E141DE86C4
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 12:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4C1E88B9
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 13:50:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726166AbfJ2LZu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Oct 2019 07:25:50 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53980 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725839AbfJ2LZu (ORCPT
+        id S2387859AbfJ2Mu1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Oct 2019 08:50:27 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:35572 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729253AbfJ2Mu1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Oct 2019 07:25:50 -0400
-Received: by mail-wm1-f65.google.com with SMTP id n7so2148662wmc.3
-        for <linux-tegra@vger.kernel.org>; Tue, 29 Oct 2019 04:25:48 -0700 (PDT)
+        Tue, 29 Oct 2019 08:50:27 -0400
+Received: by mail-lj1-f196.google.com with SMTP id m7so15136936lji.2;
+        Tue, 29 Oct 2019 05:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mrl82oas7BWS4T527v273KEJtxNbYP7ZsIwucxyh6us=;
-        b=dItonYua+Hq/bWXRWfnyxzkm/F2n9oXMRJ+jBopDHRR0Xj2YXGUWryQw+ExjhXKijy
-         A9dhQbuHtAT8p6MKEDAMr1aQ7jeh95q1Lfd9XCcqidv7HYmlT02AovoeWKxg+GxwQFDa
-         W59jwB1U90picqVhHHsIk+/qrIg7PVo7JjO3zYNTWk7PkFry6I7JeXm2mn+/ZoWxpCu3
-         tbUkFUZUa2A+pHT4Fy+NMQqs2EX5NIuduNZr6C9zIHJJcbBqxQJPjBGEejt0or1C85cO
-         vmg8gyfmxxJ35mmWEtmYM7aVvw57w3tuBIt0d5jQo/0/TORO83Je7e6dmuvcPiwW5ZF2
-         UNbw==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=H+1+E1Mkw61uNWs7GIpUIl/WGmE8S7qBe+e6s/cPqZw=;
+        b=ari5oMPXp859DXdO+xnn+iL7LJAYqB1R/5IEpRjP0GyPrkUR+OXWZeDWb0mwdybwQZ
+         1odHGNN7BvobQHpJnR/IOu2q09pKaCtoa3r7g6V38Lag8Dzi5V6d83LYNyLYlN3Xl8wl
+         1PlZX8Fu5WOWKaLTTIb/AF0iuNGZDQRLLA2tuEAM7THXX+59A58mzGy6HARPryO0QIQ+
+         FmcbzYCktyZdZx6CPUou2NWAb5CwBRxwPl654n2QBzlgoaVi2BxJ2AbBGcR7ogkN0lfj
+         lT+g5wVHsWxBbCQJHqEjYgKE7GkZLyiLDjdgwiIGLFmfjeqQGYSQjLsAObdGlESu5zyJ
+         RlIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Mrl82oas7BWS4T527v273KEJtxNbYP7ZsIwucxyh6us=;
-        b=PVvZBhHBJqMJ9Pfy8zl/ZB126ryNOAafVS8Y7m6jnXWyIenuudI2AxCJq7UO6BwkUy
-         yWFYI2FLi19l5FjNdlk8U0lxmpM9Kpd/uTFxZa3ia5SF5JErE80hiusNEQhdk5TtbPg7
-         AXxPS0YJs6RHpnqWSjxSeY0cU5hsuVOuvu2WdGKtAWb6uvkSPgGorKVbRzY+CjgjEuQS
-         fvGXDSRdloYCEWFriPpMbHbbkKRAD1IC6RPflKosS4IHl+7YJuKF6ZlVb7WcNS+jQXy1
-         qJBB4UkFNN7gJ/HF1kLAx3OBNtXt1PKz37eg7k3oQY2CBCTo4/fNynfmmB1DKnteXtC6
-         +h8g==
-X-Gm-Message-State: APjAAAUovSiz3L7vgummPQN1i2c1PVJjj/pAhRVzKhv2w+Vuj+3N42Ri
-        +uBwCAc51pY9T3I47+GtFmU=
-X-Google-Smtp-Source: APXvYqyfWzYDq+gw74EZ63vGbz2y9bMnkXQA5qPnP4h0K+ci9P8ZIITlYzv6p2Q62PiTjdL2cxplGg==
-X-Received: by 2002:a7b:c762:: with SMTP id x2mr3769405wmk.174.1572348347794;
-        Tue, 29 Oct 2019 04:25:47 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id t1sm18081623wrn.81.2019.10.29.04.25.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 04:25:46 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        William Cohen <giantklein@gmail.com>
-Subject: [PATCH] arm64: tegra: Add PMU on Tegra210
-Date:   Tue, 29 Oct 2019 12:25:45 +0100
-Message-Id: <20191029112545.378365-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        bh=H+1+E1Mkw61uNWs7GIpUIl/WGmE8S7qBe+e6s/cPqZw=;
+        b=ZHZ5nAfLdKKrVUF83Xfk0BMSqp5u4+sHXpDswrH2JJI81817gvyPxTk8VD+xj651oV
+         BJkICXmGlNRbXGP3UUJ5dOFBz3+IPmBSeT1SmcYXX51Sp5/osn2j6CVkaYFNzrkdBjmz
+         cqc+H5bDePFOXlzFUZoyDDZCWel3g3iyiSs7nDMEilYkNjevGLXLRfezVGMujJkv50tu
+         RLYyeJP5bpoBY49iSVBvRxzlxLejZTBI1yxPcjNUgb8HqfjO25MYGkXKI3m52dIlAJhU
+         LtBrCjBTG4RY3jhmtC1XHIb8tObxSpzBBJuCnfDU80u6Qz7CekdzVKTrbd4PjWtvE6yA
+         Jk+g==
+X-Gm-Message-State: APjAAAWkYnO9oAUrEy43Z4z8G/vEdmqxydL3iWKUAt4U2emsGA8qgrAl
+        g43W47ZOAGImk2VXhkm8ssjVmiE6
+X-Google-Smtp-Source: APXvYqwT5xHzW80AdFTkNUJFyTUogFJ15bZtdQv5kxzSKhGfDa1Ig7x39l929QbapLvn7aSlJFZ3DQ==
+X-Received: by 2002:a2e:8604:: with SMTP id a4mr2623578lji.89.1572353424838;
+        Tue, 29 Oct 2019 05:50:24 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
+        by smtp.googlemail.com with ESMTPSA id q27sm6080287lfn.96.2019.10.29.05.50.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Oct 2019 05:50:23 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] clk: tegra: divider: Add missing check for
+ enable-bit on rate's recalculation
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190723025245.27754-1-digetx@gmail.com>
+ <20191028142753.GC27141@pdeschrijver-desktop.Nvidia.com>
+ <62c375bd-09ae-e09f-6ca2-c1395eebc5fa@gmail.com>
+Message-ID: <1dfd0270-b8d7-da22-46dd-7efc907d5655@gmail.com>
+Date:   Tue, 29 Oct 2019 15:50:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <62c375bd-09ae-e09f-6ca2-c1395eebc5fa@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+29.10.2019 03:14, Dmitry Osipenko пишет:
+> 28.10.2019 17:27, Peter De Schrijver пишет:
+>> On Tue, Jul 23, 2019 at 05:52:44AM +0300, Dmitry Osipenko wrote:
+>>> Unset "enable" bit means that divider is in bypass mode, hence it doesn't
+>>> have any effect in that case. Please note that there are no known bugs
+>>> caused by the missing check.
+>>>
+>>
+>> Technically this is not quite true, but for the purposes of CCF you can
+>> treat it that way. This bits defines if the value in the lower 16 bits
+>> of the divider register is used to configure the divider or if the
+>> contents of the UART DLM/DLL registers is used. So the divider isn't
+>> actually bypassed, it's just configured differently.
+>> In practice this bit is only set when the divider is non-zero when doing
+>> set rate. So the extra test isn't strictly needed as long as the sw
+>> running before the kernel also ensures the bit is only set when the
+>> divider is non-zero.
+>>
+>> Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
+> 
+> Thank you for the clarification. I hope that bootloader doesn't enable
+> the divider because it looks like standard 8250 driver won't be ready
+> for that. But serial-tegra driver seems should be good.
 
-The NVIDIA Tegra210 contains an ARM PMU v3 that can be used to gather
-statistics about the processors and their memory system. Add a device
-tree node so that this functionality can be exposed.
+Actually, it should be good because I missed that UART clocks are
+per-initialized in the clk driver init table.
 
-Reported-by: William Cohen <giantklein@gmail.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra210.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-index aac7f3efee16..7832a3ea79c8 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-@@ -1439,6 +1439,16 @@
- 		};
- 	};
- 
-+	pmu {
-+		compatible = "arm,armv8-pmuv3";
-+		interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-affinity = <&{/cpus/cpu@0} &{/cpus/cpu@1}
-+				      &{/cpus/cpu@2} &{/cpus/cpu@3}>;
-+	};
-+
- 	timer {
- 		compatible = "arm,armv8-timer";
- 		interrupts = <GIC_PPI 13
--- 
-2.23.0
-
+I'll update commit's message and send a new version of this patch.
