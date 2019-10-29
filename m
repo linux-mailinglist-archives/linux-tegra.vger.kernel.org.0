@@ -2,64 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AEFBE89AA
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FEF5E8A03
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:52:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388762AbfJ2Nh3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Oct 2019 09:37:29 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42637 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388602AbfJ2Nh3 (ORCPT
+        id S2388802AbfJ2NwC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Oct 2019 09:52:02 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55123 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388453AbfJ2NwC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Oct 2019 09:37:29 -0400
-Received: by mail-wr1-f67.google.com with SMTP id a15so1406808wrf.9;
-        Tue, 29 Oct 2019 06:37:27 -0700 (PDT)
+        Tue, 29 Oct 2019 09:52:02 -0400
+Received: by mail-wm1-f65.google.com with SMTP id g7so2654126wmk.4;
+        Tue, 29 Oct 2019 06:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=9Vxx/pceeFOx76wAgdF24A70HB2cNZVkRe22Ux9K8qM=;
-        b=hqJnQc1dzsFea4EpFfSVqlv/087Az26HhDBVvz+Pq0YQfh1FKXjH81aU5iamuEaJiI
-         HgCuyNu94ewaw0ad9g89pq60HljuvA/kdvOrmNqFoejUulpmgyGoVrtDjEGT5WSLDYuN
-         M1Ji8fEH8eVTa6mm44zZAhCO+0cxmDaBOie+Nd5XHsP5B30WISaPT3URXQau5a+iWfRY
-         2qY6bbL6YCRM9XdJp1NbWVTrWmChxCA6xnW06rCn88slHoGOUyFoEo0L/2HvGGgvshJg
-         5okKs3OY1XO4U2t3/vnfhGAK6+xAHfwe2QgtX/iBX/11dB8JQhDOwdSST+xstSzTZwdy
-         bu3g==
+        bh=DZGYQwf14hKZet/V1q9ny5mdIhjZ2BWooRO8zX5IoAs=;
+        b=hyfI2BbhCltIGCnc3C05WqwgQbthE0YNyda/cizpRg3IC4zO8xcHM3pQFop6RtlhUC
+         r5JzxnVoq4XEdf65KfxoTnOkPIsIWvbvjWUDpPmy+cYGRQiwKve2oKvuMHtIHnyYAhd7
+         HLhGQURzkQYt/4eUU5SgSYp7g5sAFY0UKVx+mT8hslb5YdHeqWJBHPoW0l/Yd7gtSVwT
+         gmnunxZIoEZ4muf5QI8kaycNU4UEy6LAHXItxErbUN3Q8eu0TBucVw9Q7S5Wa+fdwEJq
+         ZpK2EaYqaZZ4tfZR4IMGQwjDDP9mNLkLFdDFaWtv7XyBpCoGcLYiY1x8jJSe9fi3wkZo
+         L9lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9Vxx/pceeFOx76wAgdF24A70HB2cNZVkRe22Ux9K8qM=;
-        b=DlDU36qGx9aMIeAdqFG40IkPw7vmjcGcaFcAWGr+VkvUntAkZUprWSRoP5k4vXQv6J
-         cOJ9k+laBZMp4f0osvrO7S9hz//Q97+s6Lle14Hf4MKT9x6MKcBFEeaPM72jZZAJpcV6
-         M90ExgWS4mBcB2qN+m5LegbrCf0DTbjVEiFcuji4xa/RtguhN3a9jeLIUkRj8RnxUYvP
-         6LObAWh+tq3sWh49kGHu/aISNpA8D3gMeIvbKPrNiALk/+fXgWLv2jA6quqrbvrsVWTO
-         //olWynvAnj71l3cQcegzGLLCmv7j4I3xzE+PVKmVic4tEeqJYnrSbToEvn9G4WAZps9
-         86Tw==
-X-Gm-Message-State: APjAAAX9k6JVoBvVY7KwztzAvLKMZ8BrO5KB1bUSkX9seL33Rn0x0we7
-        MlXQC6F+bD4v/1ivu8p7WF9ylgra
-X-Google-Smtp-Source: APXvYqwAdzt7M7NZSS92aYMR+vT9nuB6XmH/vlRK1etClbrg2KBk60IFSDvqRKiKEMOGjY+L8YEzMw==
-X-Received: by 2002:adf:fc10:: with SMTP id i16mr19039491wrr.157.1572356246914;
-        Tue, 29 Oct 2019 06:37:26 -0700 (PDT)
+        bh=DZGYQwf14hKZet/V1q9ny5mdIhjZ2BWooRO8zX5IoAs=;
+        b=c7xeHyqf8v17AHe/Q9zGzQsIjSKz0uFq/silvIb1IcZzTL167EyUE1i9yhY+BsMjEs
+         i9gOVUqyroaSwVtRGCpQXj9EhH268GZvMLFGzniVoKTiw+fQ7bzwW5P+RwVZnsysbIBz
+         xZnVSfSesE3JR3+sPljfINciBiLwpC4oj5iO0LbK7bg2pRkWCNU96+hIeH3er44ZV6lT
+         rt/vtJGYFlovmprf3f49ahpCDY5C6HoR2rZA8kDrux0D/gAV7/5rfWdL9lpM/WJwLUtj
+         vDX8fIAiIsjWQNhZ6N8+a4t+oDXc4QdrNkwjJyTnrrg9p24osyE8vvwFeSmA9rc2fHM5
+         yf6w==
+X-Gm-Message-State: APjAAAUHEGE2UVzOD4GlY6ukvzuTFIRbaD3j6RMDtwc9ZnRIgqYiT1K4
+        rFoyXUT42ORL+9T6LGr7W1o=
+X-Google-Smtp-Source: APXvYqwwqob0oWcxcAV1a0Vd0fsoT8ZMQdgJlXVrrU+CJ35YiKg7XpAUbXeHfBKeszvuKk0Y7T+kHA==
+X-Received: by 2002:a1c:650b:: with SMTP id z11mr4184746wmb.149.1572357115633;
+        Tue, 29 Oct 2019 06:51:55 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id p21sm2508458wmc.25.2019.10.29.06.37.25
+        by smtp.gmail.com with ESMTPSA id k3sm14278833wro.77.2019.10.29.06.51.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 06:37:25 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 14:37:24 +0100
+        Tue, 29 Oct 2019 06:51:53 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 14:51:52 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Joseph Lo <josephl@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] soc/tegra: pmc: Remove unnecessary memory barrier
-Message-ID: <20191029133724.GI508460@ulmo>
-References: <20190926191755.27131-1-digetx@gmail.com>
- <20190926191755.27131-2-digetx@gmail.com>
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 00/15] memory: tegra: Introduce Tegra30 EMC driver
+Message-ID: <20191029135152.GJ508460@ulmo>
+References: <20190811210043.20122-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="BWWlCdgt6QLN7tv3"
+        protocol="application/pgp-signature"; boundary="8tZVdKiiYitVG083"
 Content-Disposition: inline
-In-Reply-To: <20190926191755.27131-2-digetx@gmail.com>
+In-Reply-To: <20190811210043.20122-1-digetx@gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -67,64 +72,227 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---BWWlCdgt6QLN7tv3
+--8tZVdKiiYitVG083
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 26, 2019 at 10:17:55PM +0300, Dmitry Osipenko wrote:
-> The removed barrier isn't needed because writes/reads are strictly ordered
-> and even if PMC had separate ports for writes, it wouldn't matter since
-> the hardware logic takes into effect after triggering CPU's power-gating
-> and at that point all CPU accesses are guaranteed to be completed. That
-> barrier was copied from the old arch/ code during transition to the soc/
-> PMC driver and even that the code structure was different back then, the
-> barrier didn't have a real useful purpose from the start. Lastly, the
-> tegra_pmc_writel() naturally inserts wmb() because it uses writel(),
-> and thus this change doesn't actually make any difference in terms of
-> interacting with hardware. Hence let's remove the barrier to clean up
-> code a tad.
+On Mon, Aug 12, 2019 at 12:00:28AM +0300, Dmitry Osipenko wrote:
+> Hello,
 >=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
+> This series introduces driver for the External Memory Controller (EMC)
+> found on Tegra30 chips, it controls the external DRAM on the board. The
+> purpose of this driver is to program memory timing for external memory on
+> the EMC clock rate change. The driver was tested using the ACTMON devfreq
+> driver that performs memory frequency scaling based on memory-usage load.
 >=20
 > Changelog:
 >=20
-> v5: Extended the commit's message.
+> v10: - Addressed review comments that were made by Rob Herring to v9 by
+>        dropping unnecessary reg descriptions, specifying valid ranges and
+>        using boolean type where appropriate in the device-tree patches.
 >=20
-> v4: No changes.
+> v9: - Fixed memory corruption bug that was uncovered after introducing
+>       some extra optimizations to the devfreq driver that allows CPU
+>       to stay longer in the LP2 cpuidle state. The corruption is caused by
+>       a very late AUTO-REFRESH re-enabling due to a possible schedule on
+>       waiting for clk-change completion, the re-enabling is now a part of
+>       "EMC exec-after-clkchange" hardware sequence.
 >=20
-> v3: No changes.
+>     - Added "type: object" to T124 MC YAML, that was missed in v8 by acci=
+dent.
 >=20
-> v2: New patch that was added after Jon's Hunter pointing that it's better
->     not to change the barrier's placement in the code. In fact the barrier
->     is not needed at all.
+> v8: - Added two new patches:
 >=20
->  drivers/soc/tegra/pmc.c | 2 --
->  1 file changed, 2 deletions(-)
+>         memory: tegra20-emc: Increase handshake timeout
+>         memory: tegra20-emc: wait_for_completion_timeout() doesn't return=
+ error
+>=20
+>       Turned out that memory-clk handshake may take much more time under
+>       some circumstances. The second patch is a minor cleanup. The same
+>       changes are also applied to the Terga30 EMC driver addition-patch.
+>=20
+>       The pattern-properties of YAML bindings gained "type: object", for
+>       consistency.
+>=20
+> v7: - Addressed review comments that were made by Rob Herring to v6 by
+>       removing old Terga30 Memory Controller binding once it's converted
+>       to YAML, by using explicit patterns for the sub-nodes and specifying
+>       min/max clock rates in the YAML.
+>=20
+>     - Two patches that were added in v6 are removed from the series:
+>=20
+>         clk: tegra20: emc: Add tegra20_clk_emc_on_pllp()
+>         ARM: tegra30: cpuidle: Don't enter LP2 on CPU0 when EMC runs off =
+PLLP
+>=20
+>       Because the problem with the PLLP is resolved now, turned out it was
+>       a bug in the CPU-suspend code.
+>=20
+>     - The "Introduce Tegra30 EMC driver" patch got a fix for the "Same Fr=
+eq"
+>       bit typo, it's a bit 27 and not 16.
+>=20
+> v6: - Tegra124 Memory Controller binding factored out into standalone
+>       binding because it requires to specify MC_EMEM_ARB_MISC1 for EMEM
+>       programming, which is not required for Tegra30. This makes the
+>       upstream MC registers specification to match downstream exactly,
+>       easing porting of boards memory timings configuration to upstream.
+>=20
+>     - Tegra30/124 Memory Controller binding converted to YAML.
+>=20
+>     - Tegra30 External Memory Controller binding now is in YAML format.
+>=20
+>     - Added workaround for hanging during LP2 when EMC runs off PLLP on
+>       Tegra30 in this new patches:
+>=20
+>         clk: tegra20: emc: Add tegra20_clk_emc_on_pllp()
+>         ARM: tegra30: cpuidle: Don't enter LP2 on CPU0 when EMC runs off =
+PLLP
+>=20
+>     - Added info message to the Tegra20/30 EMC drivers, telling about
+>       RAM code and a number of available timings:
+>=20
+>         memory: tegra20-emc: Print a brief info message about the timings
+>=20
+> v5: - Addressed review comments that were made by Thierry Reding to v4 by
+>       adding appropriate copyrights to the source code headers and making
+>       Tegra30 EMC driver to use common Tegra20 CLK API directly instead
+>       of having a dummy-proxy functions specifically for Tegra30.
+>=20
+>     - Addressed review comments that were made by Stephen Boyd to v4 by
+>       rewording commit message of the "Add custom EMC clock implementatio=
+n"
+>       patch and adding clarifying comment (to that patch as well) which
+>       tells why EMC is a critical clock.
+>=20
+>     - Added suspend-resume to Tegra30 EMC driver to error out if EMC driv=
+er
+>       is in a "bad state" as it will likely cause a hang on entering susp=
+end.
+>=20
+>     - Dropped patch "tegra20-emc: Replace clk_get_sys with devm_clk_get"
+>       because the replaced clocks are actually should be removed altogeth=
+er
+>       in the "Drop setting EMC rate to max on probe" patch and that was
+>       missed by an accident.
+>=20
+>     - Added "tegra20-emc: Pre-configure debug register" patch which ensur=
+es
+>       that inappropriate HW debug features are disabled at a probe time.
+>       The same change is also made in the "Introduce Tegra30 EMC driver"
+>       patch.
+>=20
+>     - Added ACKs to the patches from Peter De Schrijver that he gave to v4
+>       since all of the v5 changes are actually very minor.
+>=20
+> v4: - Addressed review comments that were made by Peter De Schrijver to v3
+>       by adding fence_udelay() after writes in the "Add custom EMC clock
+>       implementation" patch.
+>=20
+>     - Added two new minor patches:
+>=20
+>         memory: tegra: Ensure timing control debug features are disabled
+>         memory: tegra: Consolidate registers definition into one place
+>=20
+>       The first one is needed to ensure that EMC driver will work
+>       properly regardless of hardware configuration left after boot.
+>       The second patch is just a minor code cleanup.
+>=20
+>     - The "Introduce Tegra30 EMC driver" got also few very minor changes.
+>       Now every possible error case is handled, nothing is ignored.
+>       The EMC_DBG register is explicitly initialized during probe to be
+>       on the safe side.
+>=20
+> v3: - Addressed review comments that were made by Stephen Boyd to v2 by
+>       adding explicit typing for the callback variable, by including
+>       "clk-provider.h" directly in the code and by dropping __clk_lookup
+>       usage where possible.
+>=20
+>     - Added more patches into this series:
+>=20
+>         memory: tegra20-emc: Drop setting EMC rate to max on probe
+>         memory: tegra20-emc: Adapt for clock driver changes
+>         memory: tegra20-emc: Include io.h instead of iopoll.h
+>         memory: tegra20-emc: Replace clk_get_sys with devm_clk_get
+>=20
+>       Initially I was going to include these patches into other patchset,
+>       but changed my mind after rearranging things a tad. The "Adapt for
+>       clock driver changes" patch is directly related to the clock changes
+>       done in the first patch of this series, the rest are minor cleanups
+>       that are fine to include here as well.
+>=20
+>     - Added some more words to the commit message of "Add binding for NVI=
+DIA
+>       Tegra30 External Memory Controller" patch, clarifying why common DDR
+>       timing device-tree form isn't suitable for Tegra30.
+>=20
+>     - The Tegra30 EMC driver now explicitly selects the registers access
+>       mode (EMC_DBG mux), not relying on the setting left from bootloader.
+>=20
+> v2: - Added support for changing MC clock diver configuration based on
+>       Memory Controller (MC) configuration which is part of the memory
+>       timing.
+>=20
+>     - Merged the "Add custom EMC clock implementation" patch into this
+>       series because the "Introduce Tegra30 EMC driver" patch directly
+>       depends on it. Please note that Tegra20 EMC driver will need to be
+>       adapted for the clock changes as well, I'll send out the Tegra20
+>       patches after this series will be applied because of some other
+>       dependencies (devfreq) and because the temporary breakage won't
+>       be critical (driver will just error out on probe).
+>=20
+>     - EMC driver now performs MC configuration validation by checking
+>       that the number of MC / EMC timings matches and that the timings
+>       rate is the same.
+>=20
+>     - EMC driver now supports timings that want to change the MC clock
+>       configuration.
+>=20
+>     - Other minor prettifying changes of the code.
+>=20
+> Dmitry Osipenko (15):
+>   clk: tegra20/30: Add custom EMC clock implementation
+>   memory: tegra20-emc: Drop setting EMC rate to max on probe
+>   memory: tegra20-emc: Adapt for clock driver changes
+>   memory: tegra20-emc: Include io.h instead of iopoll.h
+>   memory: tegra20-emc: Pre-configure debug register
+>   memory: tegra20-emc: Print a brief info message about the timings
+>   memory: tegra20-emc: Increase handshake timeout
+>   memory: tegra20-emc: wait_for_completion_timeout() doesn't return
+>     error
+>   dt-bindings: memory: tegra30: Convert to Tegra124 YAML
+>   dt-bindings: memory: Add binding for NVIDIA Tegra30 Memory Controller
+>   dt-bindings: memory: Add binding for NVIDIA Tegra30 External Memory
+>     Controller
+>   memory: tegra: Introduce Tegra30 EMC driver
+>   memory: tegra: Ensure timing control debug features are disabled
+>   memory: tegra: Consolidate registers definition into common header
+>   ARM: dts: tegra30: Add External Memory Controller node
 
-Applied to for-5.5/soc, thanks.
+Applied these to for-5.5/clk, for-5.5/dt-bindings, for-5.5/memory and
+for-5.5/arm/dt, thanks.
 
 Thierry
 
---BWWlCdgt6QLN7tv3
+--8tZVdKiiYitVG083
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24QJQACgkQ3SOs138+
-s6HNfxAAhvdZb9TVwUyihU77Cp2yuc6tebSSK5Yl0IrOtTn4JKTl8uuFtEK7O3QQ
-6MdTr9Ofp7fEtaaVYrO7rLt5u4tAq4l4Ft+bt740yREhbL8Il4dMIsgcFDghLNN4
-GACFzwZzf7GwWGQtU3Sea8LiKDVpw8L+yyh6HMERXojFBQLby2Duww3qEWiXOoVd
-qMRLaxshIiRk6EhAzIdvSYGOF5KTFClZPbsmaoIovEn7eQy6OgeMSz2OjicFTD8x
-9OI0eCxlFGZEdYFe9UXoMzEREPg3b4rX06II+jdxC1cRCylm9GO89TcOxnPLYHK8
-hlmjmhsSDwumUbURl08rKtW/GMLhY6QEjq+mpJpouGryusRX5M+0fmUN6A/yWn1j
-GD7ZEO8D/TNM2uVEQoh7oGKYCrG6KIC9eXIb4F4UlxlusvRUB1gOO8sNUmc2pMUF
-RLZ7fp2h+KJyPOSW7ozAoVF+KFv5+u3C13PzusAqw3OW+LNFrSKUVob5fXRwaJQG
-vH06w6+uAhkfSKgnNlc/LyW3xvnDMNrcpjCUGVsD5ORbutLk4l55fhvO+84lgar1
-UKyf4VdH6du1HFeemXWipknjnQTTUjjMLNsJmBdZF6CqhydBbjwlZmx1gIjuf2tP
-qNqZXljihEpqdomc1/O7mlsdRQAfVvhcNUTestjRCGDgy1Syjgo=
-=UCFl
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24Q/YACgkQ3SOs138+
+s6FSng/9GvNX2ESlUyo+ZW9xuN96/Lggg7Wh/rONstjJj8PeURp4Wyg9R+m01i9S
+OKJaGKFDEcOOFC/cChD/plozuId2HBEXoVnwjExRF0MWabOWfNmFc2qp87Gq8Ucu
+KGZOhHcXluq+bffxPAlKlHb0DbuPEPLDf6KXhRa77FC+8N3SwCZ/KMMtkLVqLW4F
+X6t86MyVU35CoidXfzx+Y9tPbenuOJBEREFkFE/0AsveLJUd1Q1j287zR/wGdupZ
+WKzH2PScDnjHSS+XRv+25mij0RN4nbHjT+1oUW6XAyf2L/PzaatT5qibcFpm1KAn
+hZDQbBwt5b+wwuy7O1nSBxkAH2yv6kkq4Ll0K+potQeI7GqBtXD2wmNoXTMiklzM
+SsxJpDS9orJmdH5BZDwX+g1DUHhm3WWunYR0bafrRCvxPRjGuOQ8T9SzH9rL6vuR
+7Dty/TzBURBktNoVxdIzVWqmiIj9QVSH9Aze9ghGrHMaPVI3+P5jVRjSPJPlSHpX
+cXEqLla2Xh+BhXjc+yNVYmpQvOTv1U0XcBUSWmEZycV1v4PYj6UAPqCYAw2xAKCz
+UPeHl6MVG+cAVtWuDkPpHYccyGx99fR83okiqOGhlGkCjW4xX0YoOVMal4DqYrxx
+wMKew82EmDMHh/7J1wJ81SojwUCYB0OC941Y3FlBCsIsTCGQoV8=
+=zmek
 -----END PGP SIGNATURE-----
 
---BWWlCdgt6QLN7tv3--
+--8tZVdKiiYitVG083--
