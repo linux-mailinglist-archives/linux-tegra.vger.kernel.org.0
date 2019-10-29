@@ -2,68 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E148EE8918
-	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DCBEE8935
+	for <lists+linux-tegra@lfdr.de>; Tue, 29 Oct 2019 14:17:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732534AbfJ2NNP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 29 Oct 2019 09:13:15 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42538 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728735AbfJ2NNP (ORCPT
+        id S2388138AbfJ2NRS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 29 Oct 2019 09:17:18 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:35912 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732534AbfJ2NRS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 29 Oct 2019 09:13:15 -0400
-Received: by mail-wr1-f67.google.com with SMTP id a15so1313814wrf.9;
-        Tue, 29 Oct 2019 06:13:12 -0700 (PDT)
+        Tue, 29 Oct 2019 09:17:18 -0400
+Received: by mail-wm1-f65.google.com with SMTP id c22so2384208wmd.1;
+        Tue, 29 Oct 2019 06:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=W8PkCFVnCorrtSWGdVFof9XL+RN29yxwr92wnMWMfsg=;
-        b=hqGegw9tshvWHtIQow/p3XWzfwDpwhTwKtAo2Rb6OCl2QBqJbIL0+RMefu+L25Iwei
-         5COpMsatmSas6msShGrgSd6fpGg88UIxtJsXZiaUZ/7ie8V1ULHV9vfbtE4vBK6mvOUZ
-         PEyIyyEFqVODpZfbqPpBY5WCHZ1uiayo9KypO1Kpi/GxsIqy7WTFYC+CawqmN0ILhFJ7
-         kY7opCE36nNS/lae6b0xb8PGXJWo0ouUYyaoCV+2+dUoa3312RePliskFLh+8KZS1l1X
-         DPMN030Rrt4fIw6TmYUkmrjvnF7gFQFI+lniAP03n6qz544kZF74GQwg00fTwqdI9nrW
-         sxLg==
+        bh=CuEYBnVldm0xxstpEXocoTVVeQepXqnFEfpZ5yvIc74=;
+        b=uCnj9IQKetzW2xxLmfz0mvOzpJ3P5znjnoemHD+FPkbR+UlNxHkda98IAlQeivOb1T
+         IjlL//t09B6J3vkIpfDg4RAfo3f6Tf96rQWMKHkhCvBmp3+0IxC/fFADUYbzpWBEL9Ij
+         7oL9RPhK6Hsyj8FZ3Ix566bxM57jffiBQQ2A9S5Bu4t2AG8WWp1rWqMXQiPYHs6RnqtN
+         JwooYazXMZZKWsnRKojFbpyiaa1DXkYxpEG+0zhWfd8Z9uqObNRLKh3cSkNZtmx/VmuS
+         mGrqrxUA7Tzj+ecr61BiiFKwlWLLBvZJ3aI9NALpTOL0isuiRI857rlBArWuJ8mrBUjb
+         vxGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=W8PkCFVnCorrtSWGdVFof9XL+RN29yxwr92wnMWMfsg=;
-        b=Z+cylLJWEvO+xVfhTHLsV5R51A+JCH2JnQekCMbNRTwMiqyWjRPHSymi9RKFpexBuW
-         /7aNhLtzG/gAqFOa67FRJVzSalPXl5ZEJio28hG9xlgEj3w/d4DrLeJ7m3b/r4JeoUYE
-         TlKFS+hTv9pZlzP11zUq3ozjLPwCMxunfXUBePEW4CNVEDYLVWHKU8nTcbu5JNBezQab
-         G3knvFcdn8J+f8g3k9KRonPbiRMiYLx9ExZlA7A9Cj5BtDR3hg3cGP0MQRi5xZObiQKZ
-         gLtTf3reMqV9PPl08+ZxSou29+jjwHlFX3tUhJQD1hMkGmpQBtz6BKS3E5oRz6uxplMB
-         WYew==
-X-Gm-Message-State: APjAAAW7LmBpdmH+A5fYvw5H3N6FrT/N3pDSQ+PyZaHUCmuwZ8XA0ipS
-        W5gWrZgBB4YuPyCrAEPcjAE=
-X-Google-Smtp-Source: APXvYqwTYDiXBly9gOa7PpLH0awe6adhtTX0gOKn67cC5MFmVPVqN4qC0h11nJmzD8pzD22UlVkv4A==
-X-Received: by 2002:a5d:69c8:: with SMTP id s8mr19946146wrw.167.1572354792114;
-        Tue, 29 Oct 2019 06:13:12 -0700 (PDT)
+        bh=CuEYBnVldm0xxstpEXocoTVVeQepXqnFEfpZ5yvIc74=;
+        b=oZ6FBmV52JWefAj26YdykJZ0iH8nIXpH4oz+6sbR56O24/rP1TSr9y7Fzo4HD1o6op
+         3BZ8eLZLHWuSa3RFPAbvmCgLYgqKKui7SQoDAzSo93lyuCgzDIZ+jYzLzAbh+Vl0w74C
+         o/WMeNls/UmpuqWKk1cHm/AWtk8XgQSkCYOGhE+Qv3kgVrQP2cieyT46C9tclv3C8SrZ
+         05pCHSYZ6iuNmV+8rhCOnNzi2fv4Cofq7tSif8z53kXGr/ooVdK9LcCbsz3p4f1yuPax
+         VTTWpaOPDvkhZ2jcJ6Pjd1oM2sf9RcnClCwuGmryBhXW/qaFPDByg5aTeeaCRvgim20K
+         0ajw==
+X-Gm-Message-State: APjAAAVz8ck5RQWSmfeNF8YHs3l0D2beklLmiQUDdMcCpR9eAzIV1dQp
+        sBIEN2BxRy8Pv/6xpzdWqcg=
+X-Google-Smtp-Source: APXvYqyQqKMqEj+7UPIGpfNmaSyAprcDG1EIjtAC+9qSZHNrW+TO51/52vOD74YphF5VSCHTy5IHQA==
+X-Received: by 2002:a1c:f60d:: with SMTP id w13mr4421382wmc.150.1572355036046;
+        Tue, 29 Oct 2019 06:17:16 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id d20sm1153173wra.4.2019.10.29.06.13.10
+        by smtp.gmail.com with ESMTPSA id t133sm3067226wmb.1.2019.10.29.06.17.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 06:13:10 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 14:13:09 +0100
+        Tue, 29 Oct 2019 06:17:15 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 14:17:14 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ARM: dts: tegra30: Connect SMMU with Video Decoder
- Engine
-Message-ID: <20191029131309.GC508460@ulmo>
-References: <20190623170730.5095-1-digetx@gmail.com>
- <20190623170730.5095-2-digetx@gmail.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] clk: tegra20/30: Optimize PLLX configuration restoring
+Message-ID: <20191029131714.GD508460@ulmo>
+References: <20190922215203.32103-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="DSayHWYpDlRfCAAQ"
+        protocol="application/pgp-signature"; boundary="C1iGAkRnbeBonpVg"
 Content-Disposition: inline
-In-Reply-To: <20190623170730.5095-2-digetx@gmail.com>
+In-Reply-To: <20190922215203.32103-1-digetx@gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -71,44 +69,44 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---DSayHWYpDlRfCAAQ
+--C1iGAkRnbeBonpVg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 23, 2019 at 08:07:24PM +0300, Dmitry Osipenko wrote:
-> Enable IOMMU support for the video decoder.
+On Mon, Sep 23, 2019 at 12:52:03AM +0300, Dmitry Osipenko wrote:
+> There is no need to re-configure PLLX if its configuration in unchanged
+> on return from suspend / cpuidle, this saves 300us if PLLX is already
+> enabled (common case for cpuidle).
 >=20
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->=20
-> No changes since v1.
->=20
->  arch/arm/boot/dts/tegra30.dtsi | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/clk/tegra/clk-tegra20.c | 25 ++++++++++++++++---------
+>  drivers/clk/tegra/clk-tegra30.c | 25 ++++++++++++++++---------
+>  2 files changed, 32 insertions(+), 18 deletions(-)
 
-Applied to for-5.5/arm/dt, thanks.
+Applied to for-5.5/clk, thanks.
 
 Thierry
 
---DSayHWYpDlRfCAAQ
+--C1iGAkRnbeBonpVg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24OuUACgkQ3SOs138+
-s6FG0xAAgMsJHddh5VUJbI4i15//MpJSJLnwPjTUM0SfXsxqqMQwzkgqGe+AydBq
-IoFAAUvBVOxqMjXw0B5/Thy4tMSqd1VM7gdoY6yMWLD5GUnTH+7Ce5IUGl+5bHif
-G0Zl9ehYm2LkDEDTKEeYJ81O60iZtHR7IFdCnpwSD52dmxwnKk072UbpBB4XDW+A
-K7yseW78aKMPQ6YmuR1q/iA9a6pPoqDifZl+QCPDxP21wq9OHC3K1OJqJCT+B67f
-5B4fCugTTNCTsrHplkty95KBJfwDsrZd/nYA7FZJldeYgRTyIKIHQU6fv9dwDn5C
-cYRlp6RPITn0NGSrVanvfPAwk3rorQSfXPbw/At8CRttqkOzp2VOWB2PP3cOvtok
-1+SudogUvehLHoiPNKCKR1proc5WYYDaRgZyHmMDxzw6PxF62K9/qM0WhgeVvFoG
-TW3aaGq8783udERsm8KeKZDKeFk6MHC0Jam+5nCG/aB5cwqLyEivAx09VpddfsrY
-/znhxLFRQZGnbrnqD8+rKk0QMTN0XV3TQ1YP3SeQv6hFt67elWqWEzTcQyqW6Tno
-Voa3YOX6NdOVefo/JbaskkUMyWUvhQsV311+u2gfkq7Ba+K1ATjFVzGpYz+mywQc
-uxwNWBVJJO6BFaGcraonpnQCMx7Sq8dBqncQXAPfL4JAY1HvJhs=
-=Qfvc
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl24O9kACgkQ3SOs138+
+s6GMDw/9GSfkmhdfZL9cfuprPRnzlzsiv7vNiAunAYdVGTo+4P1Z2dPgJLS0dvpp
+ZIHYnGem1kSVNGMMG460niQbkyXSB4+xLrCVdIjyVHX13uEMOWItkB1bLKBR/8qQ
+vTCCMfmJaOeir4eVpNTh3+5H2CKN8lkv4IT+YqCEsAhDZjVSLLcHf4a663WZkrHP
+MFpYJCyp5/lSE1XiQfPb3FVPuLl/cU2vFquqO1zarkE4g5PnzQEmZpSUfCHM92+c
+3RakZe+tsuAVOusNC38q4Hec4MTOgSu9aK+u9yjfuHokyDlo1UKoouruRZ6PvMm1
+IfR/6zIJWUhDv9bQfID70rJuhHzI9VntNl8stLbcb//aPJk7xeySDKEeZkGw1MQQ
+I6cxgareAOir2XcSqXxuDTRx2bsBgRj7FYODXvUaQjEL5mZ8p7hOLvmrn31ZM/Q0
+sx1hZ/0lJTZd4qg+nUffxojUETrVTCOSc2K2r7dl8J1o2XJ2kxswePLBSHTimFq2
+4uQEtYycToltWXl8c/Xjls87NDsypY7NAmY3Zc/8AKcUhNqfpTxiVqJ0V72y4Ic4
++i3bxOLUE6Tp9FBHbFLs4hEGJIw+gfc/JrthBFMsd2/vJzjcApOQLPIPaAiqf4a2
+LSYvYetgeLoIU5SufwYnLKAOSVgj/O+AqEhdC/+rW6SS+RZhK7Y=
+=wjdE
 -----END PGP SIGNATURE-----
 
---DSayHWYpDlRfCAAQ--
+--C1iGAkRnbeBonpVg--
