@@ -2,107 +2,108 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 960A3EA5D6
-	for <lists+linux-tegra@lfdr.de>; Wed, 30 Oct 2019 22:59:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E028EA621
+	for <lists+linux-tegra@lfdr.de>; Wed, 30 Oct 2019 23:26:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727166AbfJ3V7B (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 30 Oct 2019 17:59:01 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40179 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727127AbfJ3V7B (ORCPT
+        id S1726538AbfJ3W0Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 30 Oct 2019 18:26:16 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43847 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726501AbfJ3W0Q (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 30 Oct 2019 17:59:01 -0400
-Received: by mail-lj1-f195.google.com with SMTP id u22so4388351lji.7;
-        Wed, 30 Oct 2019 14:58:59 -0700 (PDT)
+        Wed, 30 Oct 2019 18:26:16 -0400
+Received: by mail-lj1-f194.google.com with SMTP id s4so4434703ljj.10;
+        Wed, 30 Oct 2019 15:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=3PTvruMyJudl8KIl7cB1h1Hs9ux7BvolUSo2ebbahMc=;
-        b=J/kASAQNnXbwLD/iXj8zuYKLlj+95pio3K1ygpMtBqiXjVyW1pjEmsqb0pBe+6z8or
-         23WZPac7j+FVjwj82qUV4YlgnPXmQzwcjtce4sGqHpWDI021jGHvYRFFWBr8+aBv7vaI
-         /Cp/M9QpBwlNhIsDXEVKlOyv6nAugClAQ8TvjoJFnXGd4aj8NoWzrNznQ6w2qTt0aFBT
-         mHpO6G6/3xVEFwaJ/7CUPd6F9JTcipXYdNho5Z+CNEGgmMLiXMaXPax5oAgsdHLdkNZM
-         E78J8+HWybh+USRxKpPs5vLDYk6qYHk/t6QyNvFdUlia7SWhdcCi7SjSO9mHB0IgR32k
-         tEAg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ghyKzMOt9noacqcW8gijvIBX51lIWlQ2FC12YmCxtvQ=;
+        b=P8p3TGCy8MV1WlfFblsWQyXzqgtkUuF8eoQE8T02IWdtjfi22N4gyn720vMo//QKEQ
+         w5kXkpijc3XFD1OQpXnmtxZqQa0kdFqv7Dm0mm1q4wmGYLrwp3V5PEHOTrv/auteZs19
+         fSTD87LuiG0fsjhKpRTC+xcBPKKDoXP9XjuAny8X+1R/aXVir8oBfViVnv01uv94yWcO
+         yx8d2JeqK9utaXL+rSBrE01+y1oxUJ2Mm+zK1DEAOmVvr7Vtzw4h0DvtGNa7ETzEbIJZ
+         gNcb5+BTIwFA+OsVB2qwv7pqduJv0ZvTxyxvP5G8x9/JB1y9JScpVSrnOtRz2hJzXkD8
+         rUWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3PTvruMyJudl8KIl7cB1h1Hs9ux7BvolUSo2ebbahMc=;
-        b=jFsfNwYqttmcpIJHRr+yIxjna8lt7XJe7JlX/QF3gUXEb6YXrHHVOq0h/wGciy2K7e
-         CYEoRPJfL3SZGUfpxyB9lM+XjtJ92121D+OhBJZuEeMSrobAllkr21IGDsUDNaDgF8jj
-         IbPKXb8NBTvNoGUJE6YgToEfLnI4Yc3rdsEsjhtFiquNagl7DIaYNT/LpAnaGaEHTtiT
-         KSc5tIJwsCbGLm1ehkD0SBJ6PPDJ3y4mgpYI7n29JfdsQtfgqCxT9N7ct9Lxxpa89W+l
-         Knq8h14mBiCKY612K7S4MfWhJcmNnnpkmZysms5JafLEMwqmU4qp4D0fCf4+2MYppExU
-         L0qg==
-X-Gm-Message-State: APjAAAVaSNligRA1ayg6cjlOyCzfvR+d0n5TVVZjheXmZhIcDtjXFzbD
-        6Gy/szTVmI+pU8ciwEXNL9M=
-X-Google-Smtp-Source: APXvYqyqTI9sAZowqVntg9lV7gOzQ/W2frzM85pFu9EjT/g3St3eAIDRSJrFSyusJ2E6OFXKSHXcFQ==
-X-Received: by 2002:a2e:6c0b:: with SMTP id h11mr1334976ljc.76.1572472738672;
-        Wed, 30 Oct 2019 14:58:58 -0700 (PDT)
-Received: from localhost.localdomain (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.gmail.com with ESMTPSA id 9sm429988ljf.21.2019.10.30.14.58.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2019 14:58:58 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ghyKzMOt9noacqcW8gijvIBX51lIWlQ2FC12YmCxtvQ=;
+        b=qO5yiVGh/W6RC3giileWFs9dr8b8nL8olbC5TgNhQu4PcvjjxDWSiqAy/BILoW0Y35
+         avcdcnmByyaQbzoSC/Obc23wFQnXnFSUpDmMS6kamb+YGLMLBi1C7gdNfXry70w8URRS
+         +S7AiFtuvzeDfYOFuHBT4uW1Y7Ta+F7XBc9HIIqG0FhmWcbrmnvIfEVAyGivyqR6+xVv
+         hUxLFZm7JD8CRtor1vYQbD/n3ehvjIHM+voVfwmkDz9iXFbGS8ngWE7GfexlJ1GHKNf8
+         3ztfT0JNtSImqB13MMN3gQCnYnuoQGW7xN7gWhg8m01kG1gGn4GzzrEAKCpGbT2xu43N
+         pZpg==
+X-Gm-Message-State: APjAAAULExtgXV9J594wbNYoc6Ay1EWnwZgDUgW9TlzZ9NiEFS+/42d2
+        eM93N5Ld2SC9mjp3izBnu9g6k34I
+X-Google-Smtp-Source: APXvYqxKePoldR1zNVEQWFMsbOhcscgsBBrkafCI669vkMg6MuihGz3TFUtR0jB78Klpzab6EvBjiw==
+X-Received: by 2002:a2e:3919:: with SMTP id g25mr1392037lja.232.1572474373677;
+        Wed, 30 Oct 2019 15:26:13 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
+        by smtp.googlemail.com with ESMTPSA id y189sm1010882lfc.9.2019.10.30.15.26.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Oct 2019 15:26:12 -0700 (PDT)
+Subject: Re: [PATCH -next] gpu: host1x: Fix compile test failure
+To:     YueHaibing <yuehaibing@huawei.com>, thierry.reding@gmail.com,
+        mperttunen@nvidia.com, arnd@arndb.de, seanpaul@chromium.org
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] clk: tegra20/30: Explicitly set parent clock for Video Decoder
-Date:   Thu, 31 Oct 2019 00:58:27 +0300
-Message-Id: <20191030215827.15533-2-digetx@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191030215827.15533-1-digetx@gmail.com>
-References: <20191030215827.15533-1-digetx@gmail.com>
+References: <20191030135458.27960-1-yuehaibing@huawei.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <283304d6-bf23-8107-29b6-9f3e7dda943c@gmail.com>
+Date:   Thu, 31 Oct 2019 01:26:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <20191030135458.27960-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The VDE parent won't be changed automatically to PLLC if bootloader
-didn't do that for us, hence let's explicitly set the parent for
-consistency.
+30.10.2019 16:54, YueHaibing пишет:
+> If IOMMU_SUPPORT is not set, but IOMMU_IOVA is m and
+> COMPILE_TEST is y, building fails:
+> 
+> drivers/gpu/host1x/dev.o: In function `host1x_remove':
+> dev.c:(.text+0x624): undefined reference to `put_iova_domain'
+> dev.c:(.text+0x624): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `put_iova_domain'
+> dev.c:(.text+0x62c): undefined reference to `iova_cache_put'
+> dev.c:(.text+0x62c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iova_cache_put'
+> 
+> Select IOMMU_IOVA while COMPILE_TEST is set to fix this.
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 52499a6ad2ae ("gpu: host1x: select IOMMU_IOVA")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/gpu/host1x/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
+> index cf987a3..354232d 100644
+> --- a/drivers/gpu/host1x/Kconfig
+> +++ b/drivers/gpu/host1x/Kconfig
+> @@ -2,7 +2,7 @@
+>  config TEGRA_HOST1X
+>  	tristate "NVIDIA Tegra host1x driver"
+>  	depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
+> -	select IOMMU_IOVA if IOMMU_SUPPORT
+> +	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+>  	help
+>  	  Driver for the NVIDIA Tegra host1x hardware.
+>  
+> 
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/clk/tegra/clk-tegra20.c | 2 +-
- drivers/clk/tegra/clk-tegra30.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+It should be better to unconditionally select IOMMU_IOVA here.
 
-diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegra20.c
-index 0d6441621989..abc6a2bc828a 100644
---- a/drivers/clk/tegra/clk-tegra20.c
-+++ b/drivers/clk/tegra/clk-tegra20.c
-@@ -1051,7 +1051,7 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA20_CLK_HOST1X, TEGRA20_CLK_PLL_C, 150000000, 0 },
- 	{ TEGRA20_CLK_GR2D, TEGRA20_CLK_PLL_C, 300000000, 0 },
- 	{ TEGRA20_CLK_GR3D, TEGRA20_CLK_PLL_C, 300000000, 0 },
--	{ TEGRA20_CLK_VDE, TEGRA20_CLK_CLK_MAX, 300000000, 0 },
-+	{ TEGRA20_CLK_VDE, TEGRA20_CLK_PLL_C, 300000000, 0 },
- 	/* must be the last entry */
- 	{ TEGRA20_CLK_CLK_MAX, TEGRA20_CLK_CLK_MAX, 0, 0 },
- };
-diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
-index 8146cc49ca3b..43b94175ff33 100644
---- a/drivers/clk/tegra/clk-tegra30.c
-+++ b/drivers/clk/tegra/clk-tegra30.c
-@@ -1258,7 +1258,7 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA30_CLK_GR3D, TEGRA30_CLK_PLL_C, 300000000, 0 },
- 	{ TEGRA30_CLK_GR3D2, TEGRA30_CLK_PLL_C, 300000000, 0 },
- 	{ TEGRA30_CLK_PLL_U, TEGRA30_CLK_CLK_MAX, 480000000, 0 },
--	{ TEGRA30_CLK_VDE, TEGRA30_CLK_CLK_MAX, 600000000, 0 },
-+	{ TEGRA30_CLK_VDE, TEGRA30_CLK_PLL_C, 600000000, 0 },
- 	{ TEGRA30_CLK_SPDIF_IN_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
- 	{ TEGRA30_CLK_I2S0_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
- 	{ TEGRA30_CLK_I2S1_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
--- 
-2.23.0
+The same could be done for drivers/staging/media/tegra-vde/ and
+drivers/gpu/host1x/, please see [1].
 
+[1] https://lore.kernel.org/linux-iommu/20190829154902.GC19842@ulmo/
