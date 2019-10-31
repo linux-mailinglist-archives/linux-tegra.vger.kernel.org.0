@@ -2,117 +2,185 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 136B5EA809
-	for <lists+linux-tegra@lfdr.de>; Thu, 31 Oct 2019 01:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F202EA9EE
+	for <lists+linux-tegra@lfdr.de>; Thu, 31 Oct 2019 05:39:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbfJaAHl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 30 Oct 2019 20:07:41 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:10960 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727917AbfJaAHb (ORCPT
+        id S1726400AbfJaEj0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 31 Oct 2019 00:39:26 -0400
+Received: from mailout4.samsung.com ([203.254.224.34]:63814 "EHLO
+        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726312AbfJaEjZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 30 Oct 2019 20:07:31 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dba25c90007>; Wed, 30 Oct 2019 17:07:38 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 30 Oct 2019 17:07:31 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 30 Oct 2019 17:07:31 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 31 Oct
- 2019 00:07:30 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 31 Oct 2019 00:07:30 +0000
-Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5dba25c20002>; Wed, 30 Oct 2019 17:07:30 -0700
-From:   Krishna Reddy <vdumpa@nvidia.com>
-CC:     <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-        <yhsu@nvidia.com>, <snikam@nvidia.com>, <praithatha@nvidia.com>,
-        <talho@nvidia.com>, <avanbrunt@nvidia.com>, <bbiswas@nvidia.com>,
-        <olof@lixom.net>, <jtukkinen@nvidia.com>, <mperttunen@nvidia.com>,
-        <nicolinc@nvidia.com>, Krishna Reddy <vdumpa@nvidia.com>
-Subject: [PATCH v4 6/6] arm64: tegra: enable SMMU for SDHCI and EQOS on T194
-Date:   Wed, 30 Oct 2019 17:07:17 -0700
-Message-ID: <1572480437-28449-7-git-send-email-vdumpa@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1572480437-28449-1-git-send-email-vdumpa@nvidia.com>
-References: <1572480437-28449-1-git-send-email-vdumpa@nvidia.com>
-X-NVConfidentiality: public
+        Thu, 31 Oct 2019 00:39:25 -0400
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20191031043920epoutp040311a29392ed0a763274b5a42fd52246~SoXjmh6s10491304913epoutp04Z
+        for <linux-tegra@vger.kernel.org>; Thu, 31 Oct 2019 04:39:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20191031043920epoutp040311a29392ed0a763274b5a42fd52246~SoXjmh6s10491304913epoutp04Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1572496760;
+        bh=7D/E2evKGNTOcwIHpd5yyFb70AgXZ30JTIlKfDQrge8=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=aSuVD/U6h57H05IughONWjI9XknSleNU3LT7d+qIbNzdEmedBrY6BfIAT5SOBxJki
+         YvU0td666CiblK6GZfwOB2J0xpegeBmlysfr1RTF5rVThNcDQK9t2oH6l3B8PeTdGK
+         jXJuMoeV+9ZQ1fHK1UEuAPqeRbh840ae76WMPf0c=
+Received: from epsnrtp5.localdomain (unknown [182.195.42.166]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+        20191031043920epcas1p460f22d8962c47eea8b1ecfc9b1d40697~SoXjKeG2C2856328563epcas1p4f;
+        Thu, 31 Oct 2019 04:39:20 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.152]) by
+        epsnrtp5.localdomain (Postfix) with ESMTP id 473XfF4pYSzMqYkc; Thu, 31 Oct
+        2019 04:39:17 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        57.D3.04144.5756ABD5; Thu, 31 Oct 2019 13:39:17 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+        20191031043917epcas1p3775b7eae1e78c3c71ffa3b466d15d3af~SoXghQswe2202222022epcas1p3q;
+        Thu, 31 Oct 2019 04:39:17 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20191031043917epsmtrp1f837205a237fc04b5e66a3bc8aa2bf84~SoXggehZU2301423014epsmtrp1W;
+        Thu, 31 Oct 2019 04:39:17 +0000 (GMT)
+X-AuditID: b6c32a35-2dfff70000001030-6f-5dba657540d9
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        96.B4.24756.5756ABD5; Thu, 31 Oct 2019 13:39:17 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20191031043916epsmtip14c38954253779d0b380cb603882bfeb7~SoXgJ9CQ_1042710427epsmtip1B;
+        Thu, 31 Oct 2019 04:39:16 +0000 (GMT)
+Subject: Re: [PATCH v7 06/19] PM / devfreq: tegra30: Use kHz units uniformly
+ in the code
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Peter Geis <pgwipeout@gmail.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <a8ce6d98-26aa-b6eb-56ea-4bf960fc533d@samsung.com>
+Date:   Thu, 31 Oct 2019 13:44:48 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572480458; bh=MK4nKTkYCuTB0cE4lZiJ4iSmYMFPWVXgkdIW4z/bGKU=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=J97qCCEI/5GSsCKgjW1SrkBRK6+puk0f0RnQTI4wYEPoAAkw+QPxo3nEZC1Lrz8Wb
-         ELSxpkkCGctzRlB9rO3D/THY3VIZkQvxmFAGf5VVHUcsKN7LWSXRUXaGXZDv2RnJqp
-         lMZFp6kmF5MRxBOVilEPRT2Qq+ZSSBgWknqG3TeJvqHc9yAYPdSx/92peDwcwj6EO7
-         FX5gfVydE5d2iDNDsrUYxiMZfjUZoeNecMDB4pf1vnAseKTl98MfPm8yg99jOqhpqG
-         /YP4aDrgjDbTAcgV/jTLGbyGpG3bBwEZZ4Oey1M9vI1PjiiZYzKWTaN5/kaDKqLXLz
-         +skv8fyqmbzIg==
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20191029220019.26773-7-digetx@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0gUURjl7szOjNLatGp9SQ+b3pa5k61NodG7BSOW6kcJYsPusCvui51d
+        SeuHbWGbpRkF1WhWWmpWZGLlbtaSFhFSWVZEIRRKtRXay9Aia8cp8t/5vu+ce75z76Uw7WUi
+        gcp1eAS3g7cxRDR+tX1uSrJXCGbrfEdnc+c/9yBuj1SNc/d9H0muK1hJcF9LbyNu3zeJ4F7u
+        qie4+28yuaFgFc6VXXxMLI82tHSfQYaA1E0aSnf3EYay5gZk+No0xajOyku3CrxZcCcKDpPT
+        nOuwZDCZm3JW5ejTdGwyu4RbzCQ6eLuQwaxeb0xem2uLLMUk5vM2b6Rl5EWRSVmW7nZ6PUKi
+        1Sl6MhjBZba5lrgWiLxd9DosC0xO+1JWp1uojxC35VnPNUi460Ls9kdt/WQR6hhbgqIooBfB
+        cMkddQmKprR0C4IK3y1SKb4gqL1UhCvFdwRDvp5IQY1IHkt2Wa2lbyC4WzVf4fQj6Hz7ViUP
+        YuksqGz9PCKOo6tVcPHONUweYPRWaA+cHyERdBKE3j0nZDyWngZPB3uQjDX0Mmgta1DLGKdn
+        Qu9AKyYbx9NboGOAVyjj4N7xXlzGUXQaVIWvk8rxE+BF70mVgqfC7isVmLwD0HtJ+HaiF1MC
+        rIbTPpUSPxbe320mFZwA4YPFf/EOOHfvNqFo/QiaQ51qZZAKobOHVfI5GD0XLgVTlPY0CPw8
+        gRTfGOgbOKBWrDTgL9YqlOnQ9ar7r+1EqNm7jyhHjDQqjTQqgTQqgfTf7BTCG9B4wSXaLYLI
+        utjRb92ERr5rkr4FHXmwvg3RFGLGaMrzA9laNZ8vFtjbEFAYE6f5nh5pacx8QaHgdua4vTZB
+        bEP6yF0fwhLiTc7I53d4clj9wtTUVG4Rm6ZnWWaCZkXd2WwtbeE9Qp4guAT3P52KikooQpvr
+        TdX1j3Z+iK/45Mha9+vY1JvDSeFG9+Qnepd/0pqwRXfV2K/Zn2t9UfujkDzQFIotWBsVNzDc
+        7o8vzdxQadYGM01D8z5gVMyMYHFj1+CsUEx4MDRLXTFnfuNNf+HWldbl5LqA8cqa4o19NUfq
+        Dj3Y8Pvh9ZSa189KO175O8v1RQwuWnk2CXOL/B/bEjroxAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLIsWRmVeSWpSXmKPExsWy7bCSnG5p6q5Yg72zWSxWf3zMaNEyaxGL
+        xdmmN+wWl3fNYbP43HuE0aLzyyw2i9uNK9gszj7ztvi5ax6LRd/aS2wOXB477i5h9Ng56y67
+        R2/zOzaPvi2rGD0+b5ILYI3isklJzcksSy3St0vgyli5ahZLwRrhiouH3rM3MJ7m72Lk4JAQ
+        MJG4NCu3i5GLQ0hgN6PE1WO3WboYOYHikhLTLh5lhqgRljh8uBgkLCTwllHiwhFBEFtYIEpi
+        zp6PLCC9IgJLmCTOflnODJJgFoiU6Jm7hQ1i6FZGicNXl7CDJNgEtCT2v7jBBmLzCyhKXP3x
+        mBHE5hWwk9jTt4oVxGYRUJV48nUP2CBRgQiJ59tvQNUISpyc+QTsOE4BM4l5L3ezQyxTl/gz
+        7xLUYnGJW0/mM0HY8hLNW2czT2AUnoWkfRaSlllIWmYhaVnAyLKKUTK1oDg3PbfYsMAwL7Vc
+        rzgxt7g0L10vOT93EyM40rQ0dzBeXhJ/iFGAg1GJh3dC2c5YIdbEsuLK3EOMEhzMSiK832yA
+        QrwpiZVVqUX58UWlOanFhxilOViUxHmf5h2LFBJITyxJzU5NLUgtgskycXBKNTAa2K6xZXsa
+        p1YySeldhwBry/xWe0lDgbdKXOy3lv6622nmlL37w6l/otbT17wMiYh8cq7uJp+fWdWzkw4L
+        5FW3GHodZTshu/BHjQyH/p/a8Otql09xvZTVjDDomVMgKzRtFsMHKyF1CWYeUQnDK09+L9aP
+        jqnQkHj6feJqpg8T2wwvpOru/a/EUpyRaKjFXFScCABE8DEZsAIAAA==
+X-CMS-MailID: 20191031043917epcas1p3775b7eae1e78c3c71ffa3b466d15d3af
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20191029220734epcas1p42b635ee1c85a9480cecbaf7a1a41db25
+References: <20191029220019.26773-1-digetx@gmail.com>
+        <CGME20191029220734epcas1p42b635ee1c85a9480cecbaf7a1a41db25@epcas1p4.samsung.com>
+        <20191029220019.26773-7-digetx@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable SMMU translations for SDHCI and EQOS transactions on T194.
+On 19. 10. 30. 오전 7:00, Dmitry Osipenko wrote:
+> Part of the code uses Hz units and the other kHz, let's switch to kHz
+> everywhere for consistency. A small benefit from this change (besides
+> code's cleanup) is that now powertop utility correctly displays devfreq's
+> stats, for some reason it expects them to be in kHz.
+> 
+> Tested-by: Peter Geis <pgwipeout@gmail.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/devfreq/tegra30-devfreq.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+> index 1d22f5239cd5..06c5376a7201 100644
+> --- a/drivers/devfreq/tegra30-devfreq.c
+> +++ b/drivers/devfreq/tegra30-devfreq.c
+> @@ -448,7 +448,7 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
+>  	rate = dev_pm_opp_get_freq(opp);
+>  	dev_pm_opp_put(opp);
+>  
+> -	err = clk_set_min_rate(tegra->emc_clock, rate);
+> +	err = clk_set_min_rate(tegra->emc_clock, rate * KHZ);
+>  	if (err)
+>  		return err;
+>  
+> @@ -477,7 +477,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
+>  	stat->private_data = tegra;
+>  
+>  	/* The below are to be used by the other governors */
+> -	stat->current_frequency = cur_freq * KHZ;
+> +	stat->current_frequency = cur_freq;
+>  
+>  	actmon_dev = &tegra->devices[MCALL];
+>  
+> @@ -527,7 +527,7 @@ static int tegra_governor_get_target(struct devfreq *devfreq,
+>  		target_freq = max(target_freq, dev->target_freq);
+>  	}
+>  
+> -	*freq = target_freq * KHZ;
+> +	*freq = target_freq;
+>  
+>  	return 0;
+>  }
+> @@ -663,7 +663,7 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  			goto remove_opps;
+>  		}
+>  
+> -		err = dev_pm_opp_add(&pdev->dev, rate, 0);
+> +		err = dev_pm_opp_add(&pdev->dev, rate / KHZ, 0);
+>  		if (err) {
+>  			dev_err(&pdev->dev, "Failed to add OPP: %d\n", err);
+>  			goto remove_opps;
+> @@ -686,7 +686,8 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  		goto unreg_notifier;
+>  	}
+>  
+> -	tegra_devfreq_profile.initial_freq = clk_get_rate(tegra->emc_clock);
+> +	tegra_devfreq_profile.initial_freq = tegra->cur_freq;
+> +
+>  	devfreq = devfreq_add_device(&pdev->dev, &tegra_devfreq_profile,
+>  				     "tegra_actmon", NULL);
+>  	if (IS_ERR(devfreq)) {
+> 
 
-Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
+Reviewed-by: Chanwoo Choi <cw00.choi@samsung.com>
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 6f81e90..bf8ed7a 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -3,6 +3,7 @@
- #include <dt-bindings/gpio/tegra194-gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/mailbox/tegra186-hsp.h>
-+#include <dt-bindings/memory/tegra186-mc.h>
- #include <dt-bindings/pinctrl/pinctrl-tegra.h>
- #include <dt-bindings/power/tegra194-powergate.h>
- #include <dt-bindings/reset/tegra194-reset.h>
-@@ -51,6 +52,7 @@
- 			clock-names = "master_bus", "slave_bus", "rx", "tx", "ptp_ref";
- 			resets = <&bpmp TEGRA194_RESET_EQOS>;
- 			reset-names = "eqos";
-+			iommus = <&smmu TEGRA186_SID_EQOS>;
- 			status = "disabled";
- 
- 			snps,write-requests = <1>;
-@@ -413,6 +415,7 @@
- 			clock-names = "sdhci";
- 			resets = <&bpmp TEGRA194_RESET_SDMMC1>;
- 			reset-names = "sdhci";
-+			iommus = <&smmu TEGRA186_SID_SDMMC1>;
- 			nvidia,pad-autocal-pull-up-offset-3v3-timeout =
- 									<0x07>;
- 			nvidia,pad-autocal-pull-down-offset-3v3-timeout =
-@@ -435,6 +438,7 @@
- 			clock-names = "sdhci";
- 			resets = <&bpmp TEGRA194_RESET_SDMMC3>;
- 			reset-names = "sdhci";
-+			iommus = <&smmu TEGRA186_SID_SDMMC3>;
- 			nvidia,pad-autocal-pull-up-offset-1v8 = <0x00>;
- 			nvidia,pad-autocal-pull-down-offset-1v8 = <0x7a>;
- 			nvidia,pad-autocal-pull-up-offset-3v3-timeout = <0x07>;
-@@ -462,6 +466,7 @@
- 					  <&bpmp TEGRA194_CLK_PLLC4>;
- 			resets = <&bpmp TEGRA194_RESET_SDMMC4>;
- 			reset-names = "sdhci";
-+			iommus = <&smmu TEGRA186_SID_SDMMC4>;
- 			nvidia,pad-autocal-pull-up-offset-hs400 = <0x00>;
- 			nvidia,pad-autocal-pull-down-offset-hs400 = <0x00>;
- 			nvidia,pad-autocal-pull-up-offset-1v8-timeout = <0x0a>;
 -- 
-2.7.4
-
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
