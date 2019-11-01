@@ -2,155 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CC63EBE85
-	for <lists+linux-tegra@lfdr.de>; Fri,  1 Nov 2019 08:40:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8914EC0BF
+	for <lists+linux-tegra@lfdr.de>; Fri,  1 Nov 2019 10:48:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725787AbfKAHkS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 1 Nov 2019 03:40:18 -0400
-Received: from mailout3.samsung.com ([203.254.224.33]:35698 "EHLO
-        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729889AbfKAHkS (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 Nov 2019 03:40:18 -0400
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20191101074012epoutp038b57aeae6900fb7a14f1d2b4cf6ddf09~S_ewtwbnx1637216372epoutp03b
-        for <linux-tegra@vger.kernel.org>; Fri,  1 Nov 2019 07:40:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20191101074012epoutp038b57aeae6900fb7a14f1d2b4cf6ddf09~S_ewtwbnx1637216372epoutp03b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1572594012;
-        bh=FfrdmjGOwmokPiYT/n5Vgvnle4bdpTM1mCEMhI9JHKI=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=Qx/I6aL0YuJ/nTGvZg3eVGsbOxLzb/QJSuPKRX4iXT2/GTtl2+1l0FKTEql3suvhh
-         pTMltrz70TXeSrJ6pyCwPINycFFqkhkALuUGVAUk/D9bdxeu5F4k4P6Mv3VSxD/KKN
-         OXtMLGGsnnzSFIU+YQpIhW7FizXRHEIGUGBUXRTw=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20191101074011epcas1p17256087238c0314607abe70eb64a71e7~S_ev4LJ042542625426epcas1p1_;
-        Fri,  1 Nov 2019 07:40:11 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.155]) by
-        epsnrtp4.localdomain (Postfix) with ESMTP id 474DcV59SNzMqYkh; Fri,  1 Nov
-        2019 07:40:10 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
-        epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        8D.64.04135.A51EBBD5; Fri,  1 Nov 2019 16:40:10 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-        20191101074009epcas1p3c721e4a90fca071f8722f4586fc8b48c~S_ethhmEB0908309083epcas1p3q;
-        Fri,  1 Nov 2019 07:40:09 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20191101074009epsmtrp2643ef028aef5af36bb6b2e9cfcbbe24a~S_etgqmNj2501525015epsmtrp2G;
-        Fri,  1 Nov 2019 07:40:09 +0000 (GMT)
-X-AuditID: b6c32a36-c51679c000001027-dd-5dbbe15a8438
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        BD.9C.24756.951EBBD5; Fri,  1 Nov 2019 16:40:09 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20191101074009epsmtip1bc1fca3bdbfd369bcccbd23006c86cdd~S_etT5_JF1431514315epsmtip1T;
-        Fri,  1 Nov 2019 07:40:09 +0000 (GMT)
-Subject: Re: [PATCH v7 18/19] PM / devfreq: tegra30: Tune up MCCPU
- boost-down coefficient
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Peter Geis <pgwipeout@gmail.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        id S1726663AbfKAJsE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 1 Nov 2019 05:48:04 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36062 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbfKAJsD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 Nov 2019 05:48:03 -0400
+Received: by mail-wr1-f65.google.com with SMTP id w18so9107831wrt.3;
+        Fri, 01 Nov 2019 02:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=02u0JCDvZz83pKWtYtOAXWDlO3Ej+qpSEXuPMKs9XyM=;
+        b=nIOPCqlj2m/kVj4iNA+bPyHgR8Bmxc3qmY6JwztFf+lf6V/yYL9urctl0qI6/XMVo3
+         SUpf3ubuFRBytmEhA8/b6/ttk6ShfoSRqBsBeEiRNyoX+IQdd7bnOZJ9azk0a8L9vwO8
+         w5AroBCmyXYNO15WXCqnuoRUQEbMrLp359MVYueuILzaGVqGRjQnOY31wtAZzqt545TD
+         UdCoTjEOHB2of+aUQN4tdCjRFaqkv9RZ2uvwuuXGZF7h/Nf5tN8eWrsofGGTMva4Ii/s
+         TSDkWPd8+L2m2q9QEKNiYJIk0Srm3tmFgE5x4O3d8Y5/GOdsmaeUmXVzH5b2WL+0CiqE
+         HCtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=02u0JCDvZz83pKWtYtOAXWDlO3Ej+qpSEXuPMKs9XyM=;
+        b=RD0pJ+lg8pcJKGL5dLtZZHqvZQM6L5W6lF1z+kqPuvhn3rulPsMzFAcrOpNmDaAe7+
+         wRBqa96aF+NjeTBiU0XqthDW1Yx6gtBXLDizcPPx3xrKrh1nrTnzfSbW8rOf5glGAtFZ
+         O+pIjHVY8RJJZemuP0fdudUjq6K6JgbdTAiPyAOG2UhJPM/vf5jmdxOS0aELGIABKsOO
+         hcoo2pjx7hAYgwilONwwPNlTCDqS9h4esuWUBMBq8Go2ABgYou1Yby9t15fbdz7vcwYh
+         amXG+AQPqXywmWWVR6M0aZGpPE5LT95WWl7iJ/yhkNLqqVMUaPfcRcqKBQOhluqx3gDc
+         nhQg==
+X-Gm-Message-State: APjAAAX0nLTMopPibWUjc4BumoJSZwqxKrzmRDDsIdVLL+qQeNE4MNaz
+        d1mW6LhUiMfm0KzE3p5X9NU=
+X-Google-Smtp-Source: APXvYqzMGFNs60pO4TBAqpwZQfZ6McYiT1yTswyweoMaYL4uonk5KQhKhABfkBJJP7CmS7jZiIXqzA==
+X-Received: by 2002:a5d:4b82:: with SMTP id b2mr5129271wrt.335.1572601681474;
+        Fri, 01 Nov 2019 02:48:01 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id b186sm6199897wmb.21.2019.11.01.02.47.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2019 02:47:59 -0700 (PDT)
+Date:   Fri, 1 Nov 2019 10:47:57 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Yuehaibing <yuehaibing@huawei.com>
+Cc:     Dmitry Osipenko <digetx@gmail.com>, mperttunen@nvidia.com,
+        arnd@arndb.de, seanpaul@chromium.org,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <99a90972-2170-ebcb-7bff-cd9ba8b0b0d1@samsung.com>
-Date:   Fri, 1 Nov 2019 16:45:40 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.9.0
+Subject: Re: [PATCH -next] gpu: host1x: Fix compile test failure
+Message-ID: <20191101094757.GA1167505@ulmo>
+References: <20191030135458.27960-1-yuehaibing@huawei.com>
+ <283304d6-bf23-8107-29b6-9f3e7dda943c@gmail.com>
+ <cb0a976a-0148-d554-15ff-5f4059eccd37@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20191029220019.26773-19-digetx@gmail.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEJsWRmVeSWpSXmKPExsWy7bCmvm7Uw92xBlsuaFms/viY0aJl1iIW
-        i7NNb9gtLu+aw2bxufcIo0Xnl1lsFrcbV7BZnH3mbfFz1zwWi761l9gcuDx23F3C6LFz1l12
-        j97md2wefVtWMXp83iQXwBqVbZORmpiSWqSQmpecn5KZl26r5B0c7xxvamZgqGtoaWGupJCX
-        mJtqq+TiE6DrlpkDdJSSQlliTilQKCCxuFhJ386mKL+0JFUhI7+4xFYptSAlp8CyQK84Mbe4
-        NC9dLzk/18rQwMDIFKgwITtj652vTAVLeCr+tLaxNjD+5exi5OSQEDCRWL28ia2LkYtDSGAH
-        o8Tj+U+YIZxPQM7vC6wQzjdGiR0bZjPCtNyfNJ8dIrGXUeLlrq+MEM57RokN/xpYQaqEBaIl
-        Xh+7BjZYRGARk8Tao9uZQRLMApESh3euZgKx2QS0JPa/uMEGYvMLKEpc/fEYaBIHB6+AncST
-        E/4gYRYBFYlfc9ewgYRFBSIkTn9NBAnzCghKnJz5hAXE5hQwl3ix9BArxHRxiVtP5jNB2PIS
-        zVtng70jIdDOLnH9RBMLyBwJAReJSR8KIJ4Rlnh1fAs7hC0l8fndXjYIu1pi5ckjbBC9HYwS
-        W/ZfYIVIGEvsXzqZCWQOs4CmxPpd+hBhRYmdv+cyQuzlk3j3tYcVYhWvREebEESJssTlB3eZ
-        IGxJicXtnWwTGJVmIflmFpIPZiH5YBbCsgWMLKsYxVILinPTU4sNC4yQI3sTIzi9apntYFx0
-        zucQowAHoxIP74yu3bFCrIllxZW5hxglOJiVRHi3rwMK8aYkVlalFuXHF5XmpBYfYjQFhvVE
-        ZinR5Hxg6s8riTc0NTI2NrYwMTQzNTRUEud1XL40VkggPbEkNTs1tSC1CKaPiYNTqoFxjWfu
-        6+DC2+qXo/6ezLjyvfX83ncW9TfuXln4fnts9uGaKfUCS7aefv2k6rTYmw296kpvKrR+7p1V
-        7r2L/5IVh/zErdrhZ0UdFspyKWSt+HPcMvNWuFrBqynSS/uzK+9Xf187n7n5/OOGqQGved7r
-        x8l0vLBhUEkXD59V7aEfen37q5vC/PrrlFiKMxINtZiLihMBnxNzrsUDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsWy7bCSnG7kw92xBlf6OS1Wf3zMaNEyaxGL
-        xdmmN+wWl3fNYbP43HuE0aLzyyw2i9uNK9gszj7ztvi5ax6LRd/aS2wOXB477i5h9Ng56y67
-        R2/zOzaPvi2rGD0+b5ILYI3isklJzcksSy3St0vgyth65ytTwRKeij+tbawNjH85uxg5OSQE
-        TCTuT5rP3sXIxSEksJtR4sjKB2wQCUmJaRePMncxcgDZwhKHDxdD1LxllLiybRorSI2wQLTE
-        xidtYM0iAkuYJM5+Wc4MkmAWiJTombuFDaJjG6NEw46JTCAJNgEtif0vboBt4BdQlLj64zEj
-        yAZeATuJJyf8QcIsAioSv+auASsRFYiQeL79BiOIzSsgKHFy5hMWEJtTwFzixdJDrBC71CX+
-        zLsEtVdc4taT+UwQtrxE89bZzBMYhWchaZ+FpGUWkpZZSFoWMLKsYpRMLSjOTc8tNiwwzEst
-        1ytOzC0uzUvXS87P3cQIjjUtzR2Ml5fEH2IU4GBU4uGd0bU7Vog1say4MvcQowQHs5II7/Z1
-        QCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8T/OORQoJpCeWpGanphakFsFkmTg4pRoY/b8IWb/r
-        t/7mPs151p/KzwqFBuKOGjscGy/wLdxcMLHuwOm702q39X2V+3oxYtdlm/92jK5Opm+rhC7v
-        WcazPSTg7vSCRUL+e849npnXbFOg0+FvlLj1vvn11ufOx7JWawUs5ZmVo8ptHLv1ZgdD44qp
-        Ngcnv5b6mb2GU6kk1XHyRKYioZB0JZbijERDLeai4kQA0V0hbbECAAA=
-X-CMS-MailID: 20191101074009epcas1p3c721e4a90fca071f8722f4586fc8b48c
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20191029220656epcas2p4b19cb854054ebce6132c7111f52cada4
-References: <20191029220019.26773-1-digetx@gmail.com>
-        <CGME20191029220656epcas2p4b19cb854054ebce6132c7111f52cada4@epcas2p4.samsung.com>
-        <20191029220019.26773-19-digetx@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
+Content-Disposition: inline
+In-Reply-To: <cb0a976a-0148-d554-15ff-5f4059eccd37@huawei.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 19. 10. 30. 오전 7:00, Dmitry Osipenko wrote:
-> MCCPU boosts up very aggressively by 800% and boosts down very mildly by
-> 10%. This doesn't work well when system is idling because the very slow
-> de-boosting results in lots of consecutive-down interrupts, in result
-> memory stays clocked high and CPU doesn't enter deepest idling state
-> instead of keeping memory at lowest freq and having CPU cluster turned
-> off. A more faster de-boosting fixes the case of idling system and doesn't
-> affect the case of an active system.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/devfreq/tegra30-devfreq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index d0dd42856e5b..9a21a29198ee 100644
-> --- a/drivers/devfreq/tegra30-devfreq.c
-> +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -123,7 +123,7 @@ static const struct tegra_devfreq_device_config actmon_device_configs[] = {
->  		.offset = 0x200,
->  		.irq_mask = 1 << 25,
->  		.boost_up_coeff = 800,
-> -		.boost_down_coeff = 90,
-> +		.boost_down_coeff = 40,
->  		.boost_up_threshold = 27,
->  		.boost_down_threshold = 10,
->  		.avg_dependency_threshold = 50000,
-> 
 
-Reviewed-by: Chanwoo Choi <cw00.choi@samsung.com>
+--OXfL5xGRrasGEqWY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-IMO, I think that it is not good to change the threshold value
-on device driver directly when some requirement happen.
-Instead, better to get the threshold value from device-tree file.
+On Thu, Oct 31, 2019 at 09:33:38PM +0800, Yuehaibing wrote:
+> On 2019/10/31 6:26, Dmitry Osipenko wrote:
+> > 30.10.2019 16:54, YueHaibing =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> If IOMMU_SUPPORT is not set, but IOMMU_IOVA is m and
+> >> COMPILE_TEST is y, building fails:
+> >>
+> >> drivers/gpu/host1x/dev.o: In function `host1x_remove':
+> >> dev.c:(.text+0x624): undefined reference to `put_iova_domain'
+> >> dev.c:(.text+0x624): relocation truncated to fit: R_AARCH64_CALL26 aga=
+inst undefined symbol `put_iova_domain'
+> >> dev.c:(.text+0x62c): undefined reference to `iova_cache_put'
+> >> dev.c:(.text+0x62c): relocation truncated to fit: R_AARCH64_CALL26 aga=
+inst undefined symbol `iova_cache_put'
+> >>
+> >> Select IOMMU_IOVA while COMPILE_TEST is set to fix this.
+> >>
+> >> Reported-by: Hulk Robot <hulkci@huawei.com>
+> >> Fixes: 52499a6ad2ae ("gpu: host1x: select IOMMU_IOVA")
+> >> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> >> ---
+> >>  drivers/gpu/host1x/Kconfig | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
+> >> index cf987a3..354232d 100644
+> >> --- a/drivers/gpu/host1x/Kconfig
+> >> +++ b/drivers/gpu/host1x/Kconfig
+> >> @@ -2,7 +2,7 @@
+> >>  config TEGRA_HOST1X
+> >>  	tristate "NVIDIA Tegra host1x driver"
+> >>  	depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
+> >> -	select IOMMU_IOVA if IOMMU_SUPPORT
+> >> +	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+> >>  	help
+> >>  	  Driver for the NVIDIA Tegra host1x hardware.
+> >> =20
+> >>
+> >=20
+> > It should be better to unconditionally select IOMMU_IOVA here.
+> >=20
+> > The same could be done for drivers/staging/media/tegra-vde/ and
+> > drivers/gpu/host1x/, please see [1].
+>=20
+> Yep, I will repost, thanks!
 
+No need to resend, I already have patches for that.
 
--- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
- 
+Thierry
+
+--OXfL5xGRrasGEqWY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl27/0oACgkQ3SOs138+
+s6EWPA//dBzkncU7+5Fx+wB0ll6n1Xc1ZFAP926QU2qICk9o6Uk+E/Nzua7dQFoe
+ges3kWygaLZqdKbc2x84wRq8hu3FcFy33oE1ThrQBlJ7fSzhwuNYlz4fsFxRw6bJ
+yE5vL412omLWlJuDntsxueODPjHO4KW3F/yBA2TM0WlpSYDzKPlnFSf6uw3ypQqf
+SQkzPW+vJF2G1lboBg+vBqS6XN78wuThsHN6v+CAe+POAimqz/xAvijKqFQPLN+w
+gSM/BlIpTFDRr2HnrKZG6rMxZFabPwxhTFeiM6zBMqhE63O2j5kPQ3LmbVRl/Otk
+8zOX9VebV5AMjY+C/U43yGJ3UfkK8qmJjBZkD4HKDvuQxbkFxVkg4/whuBuRtEgr
+JYkJy0k4PrhiUcvhqCOIX42VUeUsHRq2yC0yV4x2ORxXZjxlOvKSTj/2COdcMQml
+R+Jz0e6odOetH2x4zAzYR4Mw6foZGwnsssnefVhuos7BVErYkIdhWWLy2kxL9JZW
+XzprLVUg+TrRXgO3PUamO5aHg1fqKERl4I0MrlG1uCFBBVNUWzSL6nV8QgPlo0CS
+HPaHYM9lOTwh0+dPTfQW5hdHeyo8hpfHNJu0li78bK9QZcP6qelqeL3r5IPEfBcv
+RXQtNzxBUZVu147WKiiemWA3/VM/QrY7ZYTGMA9TDBu16BzMEZc=
+=327H
+-----END PGP SIGNATURE-----
+
+--OXfL5xGRrasGEqWY--
