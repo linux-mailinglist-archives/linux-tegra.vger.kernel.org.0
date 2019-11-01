@@ -2,72 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF9B4EC398
-	for <lists+linux-tegra@lfdr.de>; Fri,  1 Nov 2019 14:22:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB29CEC414
+	for <lists+linux-tegra@lfdr.de>; Fri,  1 Nov 2019 14:55:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbfKANW2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 1 Nov 2019 09:22:28 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45935 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726780AbfKANW1 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 Nov 2019 09:22:27 -0400
-Received: by mail-lj1-f194.google.com with SMTP id q64so10191247ljb.12;
-        Fri, 01 Nov 2019 06:22:25 -0700 (PDT)
+        id S1727412AbfKANzR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 1 Nov 2019 09:55:17 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:45863 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726622AbfKANzR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 Nov 2019 09:55:17 -0400
+Received: by mail-lf1-f67.google.com with SMTP id v8so7256374lfa.12;
+        Fri, 01 Nov 2019 06:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=BxLuKMZeBlVEfxN/A5Vfu9gCXIr8p72x+ZY3unGqehk=;
-        b=MSMO14DH6Z1a0eTruGrePh2yxhOOYdC3mv/l+VHLxl/E0Ub3012lpAoCuMOWFNx5Gs
-         DNideGmtLK7TGQVSv9CVsaKUEncGH6TmWjSciHa4QTBpBi5JyQI4dh5Puw6x4Io8e0NW
-         tbk+rk4GdB4C7wVJLivNAahZJkAngdEY5R69tH6+rWsYTVXTcVy7d6ab4iJu/K9nvmeP
-         RLhRIjnVlNTijyRPDGvWR5jmQtNDWOCFA0BaJAEvRaUSPQwry90dy/M+9Hwalej2zFS/
-         b9w3Qq7Y+I2c5Yl3swluJKY+gqoF53z4aHZ4BjFvHKKiDA2xr0EpaYRgikkmzCMVcXob
-         YEyw==
+        bh=wJ8DQqrB7pmMixz1CBZ98UUR7nSyCCIA+w4JRokeNfw=;
+        b=dPNCs6gwULwiAgvgo1hFPCmr4o9xEPz1Uh26uX9jrW/wv5d8TMG2nWb3R+umzvPgG3
+         1eRVaHUKi4kA/5Wa+zpKREr1J+/cRnXN2nW7XBCrGpB0uNCqm6sGt48QGR0OjZG3C6Ls
+         oapboPTCNWYNC595FVNCaq0mOo2/89IIhHURNupJ6aq0W65kYnQv9Ap4dNkT2jxUgYav
+         u5bquz3iufKpFexRBYqjWbsrXOTMsXe5k8uoUPA+SeG+AgJd8L0dB7mDUvw4nhkQK89c
+         AnnRUZ9LaJaymQYT7YwA9Kl7fVp1lJD6yoKY79xgA4QFA2fAJNkMmBQ3PBDKT5460mCV
+         purA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=BxLuKMZeBlVEfxN/A5Vfu9gCXIr8p72x+ZY3unGqehk=;
-        b=fdYusMLDzFvqMEJVVL5+VNX72KG7U+bvr+eux28XJt5jKtgeHI1Dzw8l/iAvCKoRXj
-         CaWfJKHijdzcnVIcM+pkxkY6VykKjWw1ycsQPOQVhcq2FzzIkoWcA6qwxFNmwNymQ/as
-         TY6klA9aA3KKPX5rTqUSzj7KmdZm37jZi5qhpSTwWKa3ZvigO1yrYJhQ+bQKtvk+3sey
-         r+6/P0/YE1i1wJGFdJlEgOHWR1wGuu5PcVrHML4x14K26qwgknZOdXgljEsx6GbRYBAR
-         7wumzPwGXZgTXGxg06x/m3g9dhakMAv0CQgdPjMrjMx/poF4vGthpeiQwMnMf4NEUWTs
-         CRdQ==
-X-Gm-Message-State: APjAAAUEDhKXFsIKun+BZsUMHUMIyjy0vFcDL2foju70l3Cn84Im5jcZ
-        0v7YQ/Uk3g9GRQbgpzXJyAobBthq
-X-Google-Smtp-Source: APXvYqzoXtTpyz8779l4Pan7YKFr+WghIOshLrJXjqxgJt3oJslriavZUkF4t4kZyFY8lJdkfh7WNA==
-X-Received: by 2002:a2e:b5b7:: with SMTP id f23mr8267156ljn.236.1572614544555;
-        Fri, 01 Nov 2019 06:22:24 -0700 (PDT)
+        bh=wJ8DQqrB7pmMixz1CBZ98UUR7nSyCCIA+w4JRokeNfw=;
+        b=f7vNWXUnNU7IEtQIicCV3OEXbu7Oit90c5R55wpCc53fNutq2ISX5WyaIVb2DArpqO
+         NANpeKlYBIa/uWqveNhbkQ+XkWvlvZcNSEBRzHQ4Wn+43BC+xxyitoOmHGkX4qdxheAv
+         Vuxx1hyTiOpIL5/YrfrA02Hxj6uC51wYX3aKSSn+ADLm5b313i6+0vLjaDZPYREOhBqB
+         uBdsuzlECPEduGEmOhALk6eMA0hhiViDUjmmvPy12N5G7nqDfMztbsfBruW13zsq/jnN
+         S4TBw3uEOZCwJsqVKVeFHLIOyAnp9VhPApNeq6UVx5R/VIzO/GInYiBKuhc3l73jUpZp
+         YsFg==
+X-Gm-Message-State: APjAAAXIVNqJniPmKswI3agr3XCd9/uLn9ry4GK3kZ4w9Asg/qdb6drL
+        bL7DE8nM0sgGEdn8sl3R1HeDPUeB
+X-Google-Smtp-Source: APXvYqzpMAx8ZksmsiB4hgGKaRJEpJ02QnO6e9wZTNVaiHrTKuIIig3w16p76kcDKa826MF9dMBf/Q==
+X-Received: by 2002:a19:6d19:: with SMTP id i25mr7418381lfc.178.1572616514188;
+        Fri, 01 Nov 2019 06:55:14 -0700 (PDT)
 Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id r1sm2512815ljk.83.2019.11.01.06.22.22
+        by smtp.googlemail.com with ESMTPSA id b67sm6101429ljf.5.2019.11.01.06.55.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Nov 2019 06:22:23 -0700 (PDT)
-Subject: Re: [PATCH v6 00/18] Consolidate and improve NVIDIA Tegra CPUIDLE
- driver(s)
-To:     Peter De Schrijver <pdeschrijver@nvidia.com>
+        Fri, 01 Nov 2019 06:55:13 -0700 (PDT)
+Subject: Re: [PATCH v7 17/19] PM / devfreq: tegra30: Support variable polling
+ interval
+To:     Chanwoo Choi <cw00.choi@samsung.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191015170015.1135-1-digetx@gmail.com>
- <20191016192133.GB26038@pdeschrijver-desktop.Nvidia.com>
- <72636eb3-5354-eea3-3a51-4975a04186b2@gmail.com>
- <53ee8bd3-5c53-f0aa-175c-7fa3024d0af5@gmail.com>
- <20191028140443.GA27141@pdeschrijver-desktop.Nvidia.com>
- <40de641f-c38e-51ee-ae27-c5db468c45b5@gmail.com>
- <20191101123359.GG27141@pdeschrijver-desktop.Nvidia.com>
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Peter Geis <pgwipeout@gmail.com>, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191029220019.26773-1-digetx@gmail.com>
+ <CGME20191029220636epcas2p279bee6ee40d9253cdfbcf5d6da6b3a14@epcas2p2.samsung.com>
+ <20191029220019.26773-18-digetx@gmail.com>
+ <00ddcbd5-262b-2130-6242-b1ec364825f3@samsung.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a72463cd-cc16-691c-3c82-54ebb618ec32@gmail.com>
-Date:   Fri, 1 Nov 2019 16:22:17 +0300
+Message-ID: <a60d5949-a980-306a-e65a-6017b40a7321@gmail.com>
+Date:   Fri, 1 Nov 2019 16:55:12 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191101123359.GG27141@pdeschrijver-desktop.Nvidia.com>
+In-Reply-To: <00ddcbd5-262b-2130-6242-b1ec364825f3@samsung.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -76,89 +74,128 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-01.11.2019 15:33, Peter De Schrijver пишет:
-> On Tue, Oct 29, 2019 at 03:47:56AM +0300, Dmitry Osipenko wrote:
-> ..
-> 
->>>>>> It would be useful to switch the power state terminology to the one used
->>>>>> for later chips:
->>>>>>
->>>>>> LP0 becomes SC7
->>>>>> LP1 becomes C1
->>>>>> LP2 becomes CC7
->>>>>>
->>>>>> Meaning of these states is as follows
->>>>>>
->>>>>> C is a core state:
->>>>>>
->>>>>> C1 clock gating
->>>>>> C2 not defined
->>>>>> C3 not defined
->>>>>> C4 not defined
->>>>>> C5 not defined
->>>>>> C6 not defined for ARM cores
->>>>>> C7 power-gating
->>>>>>
->>>>>> CC is a CPU cluster C state:
->>>>>>
->>>>>> CC1 cluster clock gated
->>>>>> CC2 not defined
->>>>>> CC3 fmax@Vmin: not used prior to Tegra186
->>>>>> CC4: cluster retention: no longer supported
->>>>>> CC5: not defined
->>>>>> CC6: cluster power gating
->>>>>> CC7: cluster rail gating
->>>>>>
->>>>>> SC is a System C state:
->>>>>>
->>>>>> SC1: not defined
->>>>>> SC2: not defined
->>>>>> SC3: not defined
->>>>>> SC4: not defined
->>>>>> SC5: not defined
->>>>>> SC6: not defined
->>>>>> SC7: VDD_SOC off
->>>>>
->>>>> Hello Peter,
->>>>>
->>>>> But new "drivers/cpuidle/cpuidle-tegra.c" uses exactly that terminology,
->>>>> please see "cpuidle: Refactor and move NVIDIA Tegra20 driver into
->>>>> drivers/cpuidle/" and further patches. Am I missing something? Or do you
->>>>> want the renaming to be a separate patch?
->>>>>
->>>>
->>>> Or maybe you're suggesting to change the names everywhere and not only
->>>> in the cpuidle driver? Please clarify :)
->>>
->>> At least some of the variable and function names still say lp2?
+01.11.2019 10:41, Chanwoo Choi пишет:
+> On 19. 10. 30. 오전 7:00, Dmitry Osipenko wrote:
+>> The ACTMON governor is interrupt-driven and currently hardware's polling
+>> interval is fixed to 16ms in the driver. Devfreq supports variable polling
+>> interval by the generic governors, let's re-use the generic interface for
+>> changing of the polling interval. Now the polling interval can be changed
+>> dynamically via /sys/class/devfreq/devfreq0/polling_interval.
 >>
->> The cpuidle driver uses LP2 terminology for everything that comes from
->> the external arch / firmware includes. But it says CC6 for everything
->> that is internal to the driver. So yes, there is a bit of new/old
->> terminology mixing in the code.
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/devfreq/tegra30-devfreq.c | 35 ++++++++++++++++++++++++-------
+>>  1 file changed, 28 insertions(+), 7 deletions(-)
 >>
->> The arch code / PMC driver / TF firmware are all saying LP2. The LP2
->> naming is also a part of the device-tree binding.
->>
->> It will be a lot of mess to rename the mach-tegra/pm.c code. I guess
->> eventually it could be moved to drivers/soc/, so maybe it will be better
->> to postpone the renaming until then?
+>> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+>> index b745a973c35a..d0dd42856e5b 100644
+>> --- a/drivers/devfreq/tegra30-devfreq.c
+>> +++ b/drivers/devfreq/tegra30-devfreq.c
+>> @@ -218,7 +218,7 @@ static void tegra_devfreq_update_avg_wmark(struct tegra_devfreq *tegra,
+>>  {
+>>  	u32 avg = dev->avg_count;
+>>  	u32 avg_band_freq = tegra->max_freq * ACTMON_DEFAULT_AVG_BAND / KHZ;
+>> -	u32 band = avg_band_freq * ACTMON_SAMPLING_PERIOD;
+>> +	u32 band = avg_band_freq * tegra->devfreq->profile->polling_ms;
+>>  
+>>  	device_writel(dev, avg + band, ACTMON_DEV_AVG_UPPER_WMARK);
+>>  
+>> @@ -229,7 +229,7 @@ static void tegra_devfreq_update_avg_wmark(struct tegra_devfreq *tegra,
+>>  static void tegra_devfreq_update_wmark(struct tegra_devfreq *tegra,
+>>  				       struct tegra_devfreq_device *dev)
+>>  {
+>> -	u32 val = tegra->cur_freq * ACTMON_SAMPLING_PERIOD;
+>> +	u32 val = tegra->cur_freq * tegra->devfreq->profile->polling_ms;
+>>  
+>>  	device_writel(dev, do_percent(val, dev->config->boost_up_threshold),
+>>  		      ACTMON_DEV_UPPER_WMARK);
+>> @@ -308,7 +308,7 @@ static unsigned long actmon_device_target_freq(struct tegra_devfreq *tegra,
+>>  	unsigned int avg_sustain_coef;
+>>  	unsigned long target_freq;
+>>  
+>> -	target_freq = dev->avg_count / ACTMON_SAMPLING_PERIOD;
+>> +	target_freq = dev->avg_count / tegra->devfreq->profile->polling_ms;
+>>  	avg_sustain_coef = 100 * 100 / dev->config->boost_up_threshold;
+>>  	target_freq = do_percent(target_freq, avg_sustain_coef);
+>>  	target_freq += dev->boost_freq;
+>> @@ -465,7 +465,7 @@ static void tegra_actmon_configure_device(struct tegra_devfreq *tegra,
+>>  
+>>  	dev->target_freq = tegra->cur_freq;
+>>  
+>> -	dev->avg_count = tegra->cur_freq * ACTMON_SAMPLING_PERIOD;
+>> +	dev->avg_count = tegra->cur_freq * tegra->devfreq->profile->polling_ms;
+>>  	device_writel(dev, dev->avg_count, ACTMON_DEV_INIT_AVG);
+>>  
+>>  	tegra_devfreq_update_avg_wmark(tegra, dev);
+>> @@ -506,7 +506,11 @@ static int tegra_actmon_start(struct tegra_devfreq *tegra)
+>>  	unsigned int i;
+>>  	int err;
+>>  
+>> -	actmon_writel(tegra, ACTMON_SAMPLING_PERIOD - 1,
+>> +	if (!tegra->devfreq->profile->polling_ms ||
+>> +	    tegra->devfreq->stop_polling)
 > 
-> Or maybe add a comment somewhere indicating:
+> I think that the access of 'devfreq->stop_polling' is not good
+> on governor. It is possible to alter with DEVFREQ_GOV_START/STOP/SUSPEND/RESUME
+> notification.
+
+Could you please clarify what you're meaning by "alter with notification"?
+
+Do you mean to have the start/stop state tracking done by the
+tegra30-devfreq driver itself?
+
+>> +		return 0;> +
+>> +	actmon_writel(tegra, tegra->devfreq->profile->polling_ms - 1,
+>>  		      ACTMON_GLB_PERIOD_CTRL);
+>>  
+>>  	/*
+>> @@ -554,6 +558,10 @@ static int tegra_actmon_start(struct tegra_devfreq *tegra)
+>>  
+>>  static void tegra_actmon_stop(struct tegra_devfreq *tegra)
+>>  {
+>> +	if (!tegra->devfreq->profile->polling_ms ||
+>> +	    tegra->devfreq->stop_polling)
 > 
-> LP2 = CC6
-> LP1 = C1
-> LP0 = SC7
+> ditto.
 > 
-> TF predates the new naming, so that may make some sense.
+>> +		return;
+>> +
+>>  	disable_irq(tegra->irq);
+>>  
+>>  	cpufreq_unregister_notifier(&tegra->cpu_rate_change_nb,
+>> @@ -623,7 +631,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
+>>  	stat->busy_time *= 100 / BUS_SATURATION_RATIO;
+>>  
+>>  	/* Number of cycles in a sampling period */
+>> -	stat->total_time = ACTMON_SAMPLING_PERIOD * cur_freq;
+>> +	stat->total_time = tegra->devfreq->profile->polling_ms * cur_freq;
+>>  
+>>  	stat->busy_time = min(stat->busy_time, stat->total_time);
+>>  
+>> @@ -631,7 +639,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
+>>  }
+>>  
+>>  static struct devfreq_dev_profile tegra_devfreq_profile = {
+>> -	.polling_ms	= 0,
+>> +	.polling_ms	= ACTMON_SAMPLING_PERIOD,
+>>  	.target		= tegra_devfreq_target,
+>>  	.get_dev_status	= tegra_devfreq_get_dev_status,
+>>  };
+>> @@ -671,6 +679,7 @@ static int tegra_governor_event_handler(struct devfreq *devfreq,
+>>  					unsigned int event, void *data)
+>>  {
+>>  	struct tegra_devfreq *tegra = dev_get_drvdata(devfreq->dev.parent);
+>> +	unsigned int *new_delay = data;
+>>  	int ret = 0;
+>>  
+>>  	/*
+>> @@ -690,6 +699,17 @@ static int tegra_governor_event_handler(struct devfreq *devfreq,
+>>  		devfreq_monitor_stop(devfreq);
+>>  		break;
+>>  
+>> +	case DEVFREQ_GOV_INTERVAL:
+>> +		if (*new_delay > 256) {
+> 
+> Need to add the comment why the maximum delay is under 256 ms.
 
-Today it should make more sense just to add an explicit comment to the
-cpuidle driver that clarifies the new naming (IMHO). I'll prepare v7
-with that change.
-
-Maybe later on, once more code will be consolidated in
-drivers/soc/tegra/, it will become useful to duplicate the clarification
-there as well.
-
-Please let me know if you disagree or think that something better could
-be done.
+Okay, will add comment in v8. The 256ms max is the hardware's capability.
