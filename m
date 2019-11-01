@@ -2,65 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8914EC0BF
-	for <lists+linux-tegra@lfdr.de>; Fri,  1 Nov 2019 10:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79BE8EC0CA
+	for <lists+linux-tegra@lfdr.de>; Fri,  1 Nov 2019 10:50:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726663AbfKAJsE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 1 Nov 2019 05:48:04 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:36062 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbfKAJsD (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 Nov 2019 05:48:03 -0400
-Received: by mail-wr1-f65.google.com with SMTP id w18so9107831wrt.3;
-        Fri, 01 Nov 2019 02:48:02 -0700 (PDT)
+        id S1727793AbfKAJuN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 1 Nov 2019 05:50:13 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42702 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726957AbfKAJuN (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 1 Nov 2019 05:50:13 -0400
+Received: by mail-wr1-f66.google.com with SMTP id a15so9079263wrf.9;
+        Fri, 01 Nov 2019 02:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=02u0JCDvZz83pKWtYtOAXWDlO3Ej+qpSEXuPMKs9XyM=;
-        b=nIOPCqlj2m/kVj4iNA+bPyHgR8Bmxc3qmY6JwztFf+lf6V/yYL9urctl0qI6/XMVo3
-         SUpf3ubuFRBytmEhA8/b6/ttk6ShfoSRqBsBeEiRNyoX+IQdd7bnOZJ9azk0a8L9vwO8
-         w5AroBCmyXYNO15WXCqnuoRUQEbMrLp359MVYueuILzaGVqGRjQnOY31wtAZzqt545TD
-         UdCoTjEOHB2of+aUQN4tdCjRFaqkv9RZ2uvwuuXGZF7h/Nf5tN8eWrsofGGTMva4Ii/s
-         TSDkWPd8+L2m2q9QEKNiYJIk0Srm3tmFgE5x4O3d8Y5/GOdsmaeUmXVzH5b2WL+0CiqE
-         HCtA==
+        bh=zYnFFUu/yRKOCTeyRORXYMNFN+XI69i8FjjNc/RJUws=;
+        b=PYuZS4nNyDdvjg4Ecjx/3hPCOKoauW6EfoMWScbZ1HlB5XGz5m6Hj3Du+SbfzURmqi
+         MTRMO/mMOzvlLrsB6mWKF1wHPybc0CbMaC+J8P8kawz/+xwYJJflGkmszxfNk2XnjNdP
+         2dbSUOfLYyhvxSaJPpbO2aAJ2uWVWsjIe/YkgAsESVXWo8PSFZkkedVZXBz8FtCDNLIg
+         b9V7r2MD3zdWKs6FQ5n+9B4EM+7tw7YOWbTwojPvex3/b7bBYxBE2WVu8TC8vJaeb5WE
+         xrQuaFCkYRHZSESr69iUOLZ5sSi4PPStRBHCwFMZbxC+dQi+DtpOGPFAxZ8ZtL1mrruI
+         Z3Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=02u0JCDvZz83pKWtYtOAXWDlO3Ej+qpSEXuPMKs9XyM=;
-        b=RD0pJ+lg8pcJKGL5dLtZZHqvZQM6L5W6lF1z+kqPuvhn3rulPsMzFAcrOpNmDaAe7+
-         wRBqa96aF+NjeTBiU0XqthDW1Yx6gtBXLDizcPPx3xrKrh1nrTnzfSbW8rOf5glGAtFZ
-         O+pIjHVY8RJJZemuP0fdudUjq6K6JgbdTAiPyAOG2UhJPM/vf5jmdxOS0aELGIABKsOO
-         hcoo2pjx7hAYgwilONwwPNlTCDqS9h4esuWUBMBq8Go2ABgYou1Yby9t15fbdz7vcwYh
-         amXG+AQPqXywmWWVR6M0aZGpPE5LT95WWl7iJ/yhkNLqqVMUaPfcRcqKBQOhluqx3gDc
-         nhQg==
-X-Gm-Message-State: APjAAAX0nLTMopPibWUjc4BumoJSZwqxKrzmRDDsIdVLL+qQeNE4MNaz
-        d1mW6LhUiMfm0KzE3p5X9NU=
-X-Google-Smtp-Source: APXvYqzMGFNs60pO4TBAqpwZQfZ6McYiT1yTswyweoMaYL4uonk5KQhKhABfkBJJP7CmS7jZiIXqzA==
-X-Received: by 2002:a5d:4b82:: with SMTP id b2mr5129271wrt.335.1572601681474;
-        Fri, 01 Nov 2019 02:48:01 -0700 (PDT)
+        bh=zYnFFUu/yRKOCTeyRORXYMNFN+XI69i8FjjNc/RJUws=;
+        b=TjwFrfgnzlkHwcWzD6MamavPu89BeThvaCmjZeyHijFNgJBJmJktHcK0PxWQXDkesl
+         ZoclclL1GxNpvQctL3S82kfp62UgJDMPKCdm9sqiGqHNGBI9c699XIAn27A0ogRuNFQn
+         T5R2j1AUs6zuEURvQj8/n0nnd5CCKxXGDFu+7JdXCAa60NXpgbrDopOcYunmFXYTqDMZ
+         tYWt3/Nje+TjkXN6qEwok8Ah6tJaWLGVDGepQU2iwjRot+ssB2luB2dCFlQAOh2gJM5L
+         B/Rk+wC39WA0SVwhoKippQfU5L+Gw4R7ip4pZbVlQYjKlmXXhTMPbcp8KifLTvS2Kii8
+         TQEg==
+X-Gm-Message-State: APjAAAVPVhZHsxCgs1+7z6ICm44p/vAXSv+UMWoroHa/I1bmbTVF3DYK
+        mhWjkE1VQxtAEE6jux8NkaU=
+X-Google-Smtp-Source: APXvYqwodVDJz0hKCBc4Cmn9OUpC5RGzuKKGRx9FqsNyzqMOfMwuJTjL7+To/u/BEv+k7Jar9A3iLg==
+X-Received: by 2002:adf:f048:: with SMTP id t8mr6179803wro.237.1572601810817;
+        Fri, 01 Nov 2019 02:50:10 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id b186sm6199897wmb.21.2019.11.01.02.47.59
+        by smtp.gmail.com with ESMTPSA id r13sm12172283wra.74.2019.11.01.02.50.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2019 02:47:59 -0700 (PDT)
-Date:   Fri, 1 Nov 2019 10:47:57 +0100
+        Fri, 01 Nov 2019 02:50:09 -0700 (PDT)
+Date:   Fri, 1 Nov 2019 10:50:08 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Yuehaibing <yuehaibing@huawei.com>
-Cc:     Dmitry Osipenko <digetx@gmail.com>, mperttunen@nvidia.com,
-        arnd@arndb.de, seanpaul@chromium.org,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        mturquette@baylibre.com, sboyd@kernel.org, treding@nvidia.com,
+        jonathanh@nvidia.com, skomatineni@nvidia.com, digetx@gmail.com,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] gpu: host1x: Fix compile test failure
-Message-ID: <20191101094757.GA1167505@ulmo>
-References: <20191030135458.27960-1-yuehaibing@huawei.com>
- <283304d6-bf23-8107-29b6-9f3e7dda943c@gmail.com>
- <cb0a976a-0148-d554-15ff-5f4059eccd37@huawei.com>
+Subject: Re: [PATCH -next] clk: tegra: Fix build error without CONFIG_PM_SLEEP
+Message-ID: <20191101095008.GB1167505@ulmo>
+References: <20191030125650.36776-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
+        protocol="application/pgp-signature"; boundary="E39vaYmALEf/7YXx"
 Content-Disposition: inline
-In-Reply-To: <cb0a976a-0148-d554-15ff-5f4059eccd37@huawei.com>
+In-Reply-To: <20191030125650.36776-1-yuehaibing@huawei.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -68,78 +67,57 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---OXfL5xGRrasGEqWY
-Content-Type: text/plain; charset=utf-8
+--E39vaYmALEf/7YXx
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 31, 2019 at 09:33:38PM +0800, Yuehaibing wrote:
-> On 2019/10/31 6:26, Dmitry Osipenko wrote:
-> > 30.10.2019 16:54, YueHaibing =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >> If IOMMU_SUPPORT is not set, but IOMMU_IOVA is m and
-> >> COMPILE_TEST is y, building fails:
-> >>
-> >> drivers/gpu/host1x/dev.o: In function `host1x_remove':
-> >> dev.c:(.text+0x624): undefined reference to `put_iova_domain'
-> >> dev.c:(.text+0x624): relocation truncated to fit: R_AARCH64_CALL26 aga=
-inst undefined symbol `put_iova_domain'
-> >> dev.c:(.text+0x62c): undefined reference to `iova_cache_put'
-> >> dev.c:(.text+0x62c): relocation truncated to fit: R_AARCH64_CALL26 aga=
-inst undefined symbol `iova_cache_put'
-> >>
-> >> Select IOMMU_IOVA while COMPILE_TEST is set to fix this.
-> >>
-> >> Reported-by: Hulk Robot <hulkci@huawei.com>
-> >> Fixes: 52499a6ad2ae ("gpu: host1x: select IOMMU_IOVA")
-> >> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> >> ---
-> >>  drivers/gpu/host1x/Kconfig | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
-> >> index cf987a3..354232d 100644
-> >> --- a/drivers/gpu/host1x/Kconfig
-> >> +++ b/drivers/gpu/host1x/Kconfig
-> >> @@ -2,7 +2,7 @@
-> >>  config TEGRA_HOST1X
-> >>  	tristate "NVIDIA Tegra host1x driver"
-> >>  	depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
-> >> -	select IOMMU_IOVA if IOMMU_SUPPORT
-> >> +	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
-> >>  	help
-> >>  	  Driver for the NVIDIA Tegra host1x hardware.
-> >> =20
-> >>
-> >=20
-> > It should be better to unconditionally select IOMMU_IOVA here.
-> >=20
-> > The same could be done for drivers/staging/media/tegra-vde/ and
-> > drivers/gpu/host1x/, please see [1].
+On Wed, Oct 30, 2019 at 08:56:50PM +0800, YueHaibing wrote:
+> If CONFIG_PM_SLEEP is n, build fails:
 >=20
-> Yep, I will repost, thanks!
+> drivers/clk/tegra/clk-tegra210.c:3426:13: error:
+>  tegra210_clk_suspend undeclared here (not in a function); did you mean t=
+egra_clk_ndspeed?
+>   .suspend =3D tegra210_clk_suspend,
+>              ^~~~~~~~~~~~~~~~~~~~
+>              tegra_clk_ndspeed
+> drivers/clk/tegra/clk-tegra210.c:3427:12: error:
+>  tegra210_clk_resume undeclared here (not in a function); did you mean te=
+gra210_clk_suspend?
+>   .resume =3D tegra210_clk_resume,
+>=20
+> Use ifdef to guard this.
+>=20
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 27d10d548c04 ("clk: tegra: Add suspend and resume support on Tegra=
+210")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/clk/tegra/clk-tegra210.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-No need to resend, I already have patches for that.
+Applied to for-5.5/clk, thanks.
 
 Thierry
 
---OXfL5xGRrasGEqWY
+--E39vaYmALEf/7YXx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl27/0oACgkQ3SOs138+
-s6EWPA//dBzkncU7+5Fx+wB0ll6n1Xc1ZFAP926QU2qICk9o6Uk+E/Nzua7dQFoe
-ges3kWygaLZqdKbc2x84wRq8hu3FcFy33oE1ThrQBlJ7fSzhwuNYlz4fsFxRw6bJ
-yE5vL412omLWlJuDntsxueODPjHO4KW3F/yBA2TM0WlpSYDzKPlnFSf6uw3ypQqf
-SQkzPW+vJF2G1lboBg+vBqS6XN78wuThsHN6v+CAe+POAimqz/xAvijKqFQPLN+w
-gSM/BlIpTFDRr2HnrKZG6rMxZFabPwxhTFeiM6zBMqhE63O2j5kPQ3LmbVRl/Otk
-8zOX9VebV5AMjY+C/U43yGJ3UfkK8qmJjBZkD4HKDvuQxbkFxVkg4/whuBuRtEgr
-JYkJy0k4PrhiUcvhqCOIX42VUeUsHRq2yC0yV4x2ORxXZjxlOvKSTj/2COdcMQml
-R+Jz0e6odOetH2x4zAzYR4Mw6foZGwnsssnefVhuos7BVErYkIdhWWLy2kxL9JZW
-XzprLVUg+TrRXgO3PUamO5aHg1fqKERl4I0MrlG1uCFBBVNUWzSL6nV8QgPlo0CS
-HPaHYM9lOTwh0+dPTfQW5hdHeyo8hpfHNJu0li78bK9QZcP6qelqeL3r5IPEfBcv
-RXQtNzxBUZVu147WKiiemWA3/VM/QrY7ZYTGMA9TDBu16BzMEZc=
-=327H
+iQIyBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl27/9AACgkQ3SOs138+
+s6HHBA/49ZPYvqC1AKre9jJzUfxicONkluYmQwjpNsbuJn44O6tNsj4YK+eiDbBc
+jKoCC81MV+Z1IgKUWNjMgcV8GtD4huXCpuoBbnNrKkWQsyk4ZHp3O1HPkM+hqPDJ
+ypjG89Nohev4Nig6gFzFM735nFSC45VvL0MYz/Q/wHqmtDXpaoZ/kFm7QEJWchlm
+p2VGxJOonjG3+ClxEAiFPL2tt6E/uM7IChPCUo/XxcG4pnmAJ+g5dABeVD0R+CyT
++INdCpJMwOWJWWe5LN1TMEX1zuhhntxYDmhl4STl3fQ9ItEDqENlKTjXqw1RNzes
+/Cvq7KPrYv/cfu2EDivbXHll60oxKIscML4rgTTbDBg/Rg7uYG3GudYnj95cSjt5
+hP3ZjK1VG4hnl3g2tyu/5AdKjqAV8S1W26oAAiUi0w6ktZQch1iynlJ8/C+udwci
+r4v7d4RaTjQ2LMz5cQMGrIj7arc1cPOcny4CIcSn/cfvJFz1TANT/c2pxf60CUiA
+jIc0g7XjI7ErTYJFFR4zzHB7sp4Wf/Prw+z+im70ZKVt9aDBSZHNC1Ugc1NXeLLy
+m8JV+YwKiHV9ZVRHMmYq2C7qk0n34TS50EcFo6goU4Ezc9qGPmCBhBM2HJ9Vog8N
+sAwZ0t0zDBY0mmj8xW+1MykeqbgSk+BTyk5kx/KhaY+cLPYSkQ==
+=XFPw
 -----END PGP SIGNATURE-----
 
---OXfL5xGRrasGEqWY--
+--E39vaYmALEf/7YXx--
