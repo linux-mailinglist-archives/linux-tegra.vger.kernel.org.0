@@ -2,57 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1469ED00C
-	for <lists+linux-tegra@lfdr.de>; Sat,  2 Nov 2019 18:56:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23428ED00D
+	for <lists+linux-tegra@lfdr.de>; Sat,  2 Nov 2019 18:56:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbfKBR4n (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 2 Nov 2019 13:56:43 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35731 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726675AbfKBR4m (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 2 Nov 2019 13:56:42 -0400
-Received: by mail-wr1-f66.google.com with SMTP id l10so12742810wrb.2
-        for <linux-tegra@vger.kernel.org>; Sat, 02 Nov 2019 10:56:40 -0700 (PDT)
+        id S1726687AbfKBR4o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 2 Nov 2019 13:56:44 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:35733 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726675AbfKBR4o (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 2 Nov 2019 13:56:44 -0400
+Received: by mail-wr1-f65.google.com with SMTP id l10so12742933wrb.2
+        for <linux-tegra@vger.kernel.org>; Sat, 02 Nov 2019 10:56:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fg11aERMXXKX34QNhVirF3sCeunB+ZROwt3Ey5G2HSM=;
-        b=FLzW9d6erDn/RwVAHdSRCc0yMFte8vZTNq4lvLhX1e1ADj0W+CfFPce59eATPP+3Vc
-         qBsxWMNzdGFuTwDSHnnh/yDzJibGf3nSDiLQxSDFHXIq4KiOJ3YiTk2VqxaPKNmb4S0N
-         vAy8qzOCL7u+OFNtt+y4liudUD+D3QS0IGnM9J11M2EaoakBxKRAadXaE7i5R7uriwmT
-         d6WObeUbfe2SDQfqsAc2GgCwI4HqoklFhtxTnQqsBeJQvrxJ0ztJ8RBHH9ZLzRl+R0vh
-         kVCf5beLLR9S82ZtcXLgbuB+azDyuhrIdmevUyjGqMC3Rft+SJaRVrUEQEntcTq5oUPI
-         tEMQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=i7MoedW7dYIqdxbz/1+3cfjIQ5/QgAvq64b2nX4h9Is=;
+        b=PBk/3eobuNc6BJ0Ju4MArus3AqqUABkAqnOepK32TX0MsTxcMzsoHqlIVHBVEzvLCI
+         8SZ8ROh6sJtXTKpxO0B4M/eaLig2OEzfYpX0R9Z4OWKWTYhIHN4asp/qVhGzIl27Aq9h
+         0XOd0JTV4VwYJf1k8lhb52FNfPoZj1g7oMLRJ6BzK9o3j7z+DvTCDJinEk2P8moOchQq
+         Jedsv5tlbwJynGGYR+ItUTyJEeWgyeoOBlGmQRWD2IkmHqtmiFnZc3xXcEeZgA3ZYqcz
+         b4s9wUskjXOkMSg/XXpG+MY8Xa5auIMl+MSpOg8E8aRhmLEXTMb0wsA/hLx4QKPc2d8z
+         184Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fg11aERMXXKX34QNhVirF3sCeunB+ZROwt3Ey5G2HSM=;
-        b=kf6vfdN8sLAD8F+TxAfop61EEDhA9wv5K9gMc24CLbTHWhrhyfABVjUM1jmVSAEsXT
-         dnt+WMKke7poFv9xCyuxErJRE38Iwmb2oAZkbh1Ak0qKh1AOUEeW8+M8gW7yj3lsnol0
-         655QoOQaDb6A8bTrlpIERYyrC7HGvL1o1hlC4AkXams+WTQFt4XFNuZ7hJpQ3S9f/g0e
-         YS3q6VyvZSvsCOQMpybDeGRzHKDE8lvlpGYXGJUKAs1SJdLCEYZEaGweS8bZx2OJ7oUF
-         mA0uA5uL2Kl8Km0czQTsCEg74CkdUPmCZ1UurxJSyJ1kWdA2CbkK01ZGjZbUQcoqQnAq
-         mOvg==
-X-Gm-Message-State: APjAAAUE9dBKwHAbxyNHSd9Kie4UG6avp9PtHeSBksR8fhOumCSE8Jss
-        U/n4xAt5/wTeSzafMzkpV/jyIgxn
-X-Google-Smtp-Source: APXvYqw6k2ZjTC5NJXhWRF/IpJtNW8Ee625GVll8Tb68kyZ4MZEqLCHCXpiEBakP2egHmjfskc68qA==
-X-Received: by 2002:a5d:5222:: with SMTP id i2mr15880369wra.271.1572717400076;
-        Sat, 02 Nov 2019 10:56:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=i7MoedW7dYIqdxbz/1+3cfjIQ5/QgAvq64b2nX4h9Is=;
+        b=TW8ohDLQwqqNPzVu4u65qOTWQ/ECWOpHbUvCpVQq+d1s43dbaiYGpK5cIpAKs/ZSkc
+         +OWjkOHlJqeKgKHiMFJcxyyEL9sm8hCxwlDVzFKHAK1Aed3i34FnjMdW2PmXOneUHXTj
+         im+L2YIfR4hr0AGOJ6thb8LP6GV1+p7kT8PYeBF/Z0Wt5+5sara8FpS7+CIVOS5TUR3Q
+         j1X1zwU3hXJuKSpEPa+HqEFFSWMUZftaBuH2EI19tXmk9ydneYjq7BZmOu9zzC701tbE
+         JYIvAKeSkYhtrSjHhbQ/wnjxwjCLW2ZkClcU4pcHrUU5J3pZqQOgGmwTW7ftEp5WkMh6
+         nVMA==
+X-Gm-Message-State: APjAAAV2WGRevHzjWRHwNHRTRj2+aIqcTUsEl//Z2oJb9meJ26RfoL0x
+        ycUqlu2UlAG9V2JPaK092Do=
+X-Google-Smtp-Source: APXvYqzJtlGVHlwL0v5kEn5rmK2IZ758Txlqib/YVhvasyLC3bmKjUtvK7n7igjNDNR9GVej52q1oA==
+X-Received: by 2002:adf:f452:: with SMTP id f18mr16970783wrp.264.1572717402606;
+        Sat, 02 Nov 2019 10:56:42 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id x8sm4879225wrm.7.2019.11.02.10.56.38
+        by smtp.gmail.com with ESMTPSA id d11sm13660495wrf.80.2019.11.02.10.56.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Nov 2019 10:56:38 -0700 (PDT)
+        Sat, 02 Nov 2019 10:56:41 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Ben Skeggs <bskeggs@redhat.com>, Joerg Roedel <joro@8bytes.org>
 Cc:     Ben Dooks <ben.dooks@codethink.co.uk>,
         Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org,
         dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 0/9] drm/nouveau: Various fixes for GP10B
-Date:   Sat,  2 Nov 2019 18:56:28 +0100
-Message-Id: <20191102175637.3065-1-thierry.reding@gmail.com>
+Subject: [PATCH v2 1/9] iommu: Document iommu_fwspec::flags field
+Date:   Sat,  2 Nov 2019 18:56:29 +0100
+Message-Id: <20191102175637.3065-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191102175637.3065-1-thierry.reding@gmail.com>
+References: <20191102175637.3065-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -62,61 +64,27 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Hi Ben,
+When this field was added in commit 5702ee24182f ("ACPI/IORT: Check ATS
+capability in root complex nodes"), the kerneldoc comment wasn't updated
+at the same time.
 
-here's a revised subset of the patches I had sent out a couple of weeks
-ago. I've reworked the BAR2 accesses in the way that you had suggested,
-which at least for GP10B turned out to be fairly trivial to do. I have
-not looked in detail at this for GV11B yet, but a cursory look showed
-that BAR2 is accessed in more places, so the equivalent for GV11B might
-be a bit more involved.
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ include/linux/iommu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Other than that, not a lot has changed since then. I've added a couple
-of precursory patches to add IOMMU helper dummies for the case where
-IOMMU is disabled (as suggested by Ben Dooks).
-
-Joerg, it'd be great if you could give an Acked-by on those two patches
-so that Ben can pick them both up into the Nouveau tree. Alternatively I
-can put them both into a stable branch and send a pull request to both
-of you. Or yet another alternative would be for Joerg to apply them now
-and Ben to wait for v5.5-rc1 until he picks up the rest. All of those
-work for me.
-
-Thierry
-
-Thierry Reding (9):
-  iommu: Document iommu_fwspec::flags field
-  iommu: Add dummy dev_iommu_fwspec_get() helper
-  drm/nouveau: fault: Add support for GP10B
-  drm/nouveau: tegra: Do not try to disable PCI device
-  drm/nouveau: tegra: Avoid pulsing reset twice
-  drm/nouveau: tegra: Set clock rate if not set
-  drm/nouveau: secboot: Read WPR configuration from GPU registers
-  drm/nouveau: gp10b: Add custom L2 cache implementation
-  drm/nouveau: gp10b: Use correct copy engine
-
- .../drm/nouveau/include/nvkm/subdev/fault.h   |  1 +
- .../gpu/drm/nouveau/include/nvkm/subdev/ltc.h |  1 +
- drivers/gpu/drm/nouveau/nouveau_drm.c         |  3 +-
- .../gpu/drm/nouveau/nvkm/engine/device/base.c |  6 +-
- .../drm/nouveau/nvkm/engine/device/tegra.c    | 24 ++++--
- .../gpu/drm/nouveau/nvkm/subdev/fault/Kbuild  |  1 +
- .../gpu/drm/nouveau/nvkm/subdev/fault/base.c  |  2 +-
- .../gpu/drm/nouveau/nvkm/subdev/fault/gp100.c | 17 ++--
- .../gpu/drm/nouveau/nvkm/subdev/fault/gp10b.c | 53 ++++++++++++
- .../gpu/drm/nouveau/nvkm/subdev/fault/gv100.c |  1 +
- .../gpu/drm/nouveau/nvkm/subdev/fault/priv.h  | 10 +++
- .../gpu/drm/nouveau/nvkm/subdev/ltc/Kbuild    |  1 +
- .../gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c   | 65 +++++++++++++++
- .../gpu/drm/nouveau/nvkm/subdev/ltc/priv.h    |  2 +
- .../drm/nouveau/nvkm/subdev/secboot/gm200.h   |  2 +-
- .../drm/nouveau/nvkm/subdev/secboot/gm20b.c   | 81 ++++++++++++-------
- .../drm/nouveau/nvkm/subdev/secboot/gp10b.c   |  4 +-
- include/linux/iommu.h                         | 46 ++++++-----
- 18 files changed, 249 insertions(+), 71 deletions(-)
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/fault/gp10b.c
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c
-
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index e28e80dea141..7bf038b371b8 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -570,6 +570,7 @@ struct iommu_group *fsl_mc_device_group(struct device *dev);
+  * @ops: ops for this device's IOMMU
+  * @iommu_fwnode: firmware handle for this device's IOMMU
+  * @iommu_priv: IOMMU driver private data for this device
++ * @flags: IOMMU flags associated with this device
+  * @num_ids: number of associated device IDs
+  * @ids: IDs which this device may present to the IOMMU
+  */
 -- 
 2.23.0
 
