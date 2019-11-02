@@ -2,92 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50F82ED01F
-	for <lists+linux-tegra@lfdr.de>; Sat,  2 Nov 2019 18:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7995BED041
+	for <lists+linux-tegra@lfdr.de>; Sat,  2 Nov 2019 19:40:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726841AbfKBR5D (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 2 Nov 2019 13:57:03 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55104 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726554AbfKBR5C (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 2 Nov 2019 13:57:02 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c12so7993123wml.4
-        for <linux-tegra@vger.kernel.org>; Sat, 02 Nov 2019 10:57:01 -0700 (PDT)
+        id S1726574AbfKBSj7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 2 Nov 2019 14:39:59 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:33427 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726396AbfKBSj7 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 2 Nov 2019 14:39:59 -0400
+Received: by mail-il1-f194.google.com with SMTP id m5so2257045ilq.0;
+        Sat, 02 Nov 2019 11:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hRybqVavQHo4kc2uAW1DufA56ffoS4VWZ8W5YOU7UtQ=;
-        b=kGdAlsC0kEb4EWVcirGKrl+8N8G7z11eyL+N++FGbwwSzSoE6ZcKMLbYcO8O5MdHOg
-         /IO8dqfY6v0T5HTtAWyebqsKBaTGXbhc9QsdM8p72pWjQu+b7J+v8R1PZIHMiVh0nFjI
-         uM1nErfIpv1RyrpdMMbnwoT1L7pfUI3/Gv0yONmxOc32v6QGgAj+wsOU3sPZggGQdUtv
-         0gBO1OXVkMZiZPD4RnAsf8+xvDExix3v/FbSNTLdzkj6GsKNigJ/txIoV4KYIw/N11wB
-         GFd5SNI+R06IQtGoyrul/YY6ihqwEkhOwNXA1P/S8jcoculMy2EX307WJrYSmpcc0FW/
-         PKeA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=l2fsnuICpf2pNNr/nY6h2uctFmb9QvtxpW7xlEFudDU=;
+        b=dkTpji8Cw4WXyrJP4yYJWQQFrK95lJn5Eu5PUGSLFhUZIQojew3wght6UOl/vrWlHR
+         hDYSp/nv8EbyUmnPNkGgjPz9KmH7rlzw2AwrLlVDfiv36BvMXsacDE1p1OiRQViygjzY
+         cnaSMggydoJvuAEtgFQg9Fu2huPvulr2qOWI/F2FRPU1EFEdC1WBECpn9RvR5ljxahE1
+         lavNq+SHWrlIXsRlNNrI4yERoYjLxyarlanoGVYNbnWbvXLgCE0HmBvfUbQ+mKbYxMlQ
+         aaaRI3iJZYQev4krI7RV41ID82tPnUd0PastOp9ANFy+lGsLvDqz9ZfKr8p1o6Ip/CAm
+         6RgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hRybqVavQHo4kc2uAW1DufA56ffoS4VWZ8W5YOU7UtQ=;
-        b=I3iSol+0fYCo1kBskZZHftCkyM+Akk0KJqM1APdVQrv4DjtIFt1wHCTxLHUrsJHJEE
-         H0cqS89PSGHhfXUY8Ms+hqklRU0irjOPCSxgEkELN7QBsflgraKGgytFFzzHjpkJokPZ
-         y6g0XxW4aB3KLtOM1iPYzd6hbJ7l96IU2jD7FFPhXhffjeD0kWMhnhOxcwyscsdrmfjE
-         k6tatwWYzO9YdlvH25gB2JxSKWJDFeSt6G5y7DTj/1n6TfyVm6jxm4l2tTm9Q29PRYsV
-         8f5djWVItFF1UkbVbztA9WhsKHB1uRbQWqZrw9hRHQBe0Bd47s0Z35l+3HEQMBvoiVBw
-         CxCg==
-X-Gm-Message-State: APjAAAXHPhUtFOUrdfDd2QoYR9P3gf1qGgKYtM9nDO7HWC7oV5ZQUUWh
-        e6nj7iyN4Ku59NyGPej+0nE=
-X-Google-Smtp-Source: APXvYqylSa5xQza6BCuat0c+VFhWosAfc/mcoFK3Z3DTN66n2gfL4tq3KX7mnuNq/rdbV9NYuPbAcw==
-X-Received: by 2002:a1c:7ec2:: with SMTP id z185mr15811883wmc.79.1572717420566;
-        Sat, 02 Nov 2019 10:57:00 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id b3sm6918849wmh.17.2019.11.02.10.56.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Nov 2019 10:56:59 -0700 (PDT)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Ben Skeggs <bskeggs@redhat.com>, Joerg Roedel <joro@8bytes.org>
-Cc:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 9/9] drm/nouveau: gp10b: Use correct copy engine
-Date:   Sat,  2 Nov 2019 18:56:37 +0100
-Message-Id: <20191102175637.3065-10-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191102175637.3065-1-thierry.reding@gmail.com>
-References: <20191102175637.3065-1-thierry.reding@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l2fsnuICpf2pNNr/nY6h2uctFmb9QvtxpW7xlEFudDU=;
+        b=i/tlB5orwqzOJlrPgpbhxzF1s4x4sf4KJUms//2AI47UgYVkFOo399WKzv7eYyh19V
+         F51GTo0gtGwZ0faXd95AQQY4FjbJkPXEweC4EEfiyZScFZIKNhy064HrLvG5DVyNbtJ6
+         cBWjiSBEbcQSpEv1nlh2El1ZOz9OqU2RFMEmtluuObNdxyXMLWxZB7eJfuxKxJ+S6A2M
+         JjzmaNwAYE5ZyIkNJfBtJS0wzhCokMulxPwFLWwgHj4bOFVZovSLrIyZ7za6q6e4jWga
+         Sk7IffL8VBoUCfHJi/wNpc8K7R9M31T3sBu4EqEGXvU7T6Nu/Pbod2x3qOS+97Si+pR1
+         QioQ==
+X-Gm-Message-State: APjAAAUNfzTrCdWvLE0WBYkhiOPzexwZiiPmDuPW5LeNw8xSWd8A1JYK
+        zVs0txXj2MAacUaV8uzJopnrTCuUTh0Cmc0bN4k=
+X-Google-Smtp-Source: APXvYqybbgLfcpLhrNmNbOgUk0sLsrbyBRobbpwCyWFxgd+8u2bZU+AJBu46b12talFHHzNQvJf7fVQ2MdkmJngC0kw=
+X-Received: by 2002:a92:108f:: with SMTP id 15mr20341398ilq.250.1572719996909;
+ Sat, 02 Nov 2019 11:39:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191102172606.26934-1-pbrobinson@gmail.com> <20191102174345.GB3862867@ulmo>
+In-Reply-To: <20191102174345.GB3862867@ulmo>
+From:   Peter Robinson <pbrobinson@gmail.com>
+Date:   Sat, 2 Nov 2019 18:39:45 +0000
+Message-ID: <CALeDE9PChT-A6JP6kZVmgSs9mHQtqUw0EPCGjQ-VK0arBjGBgg@mail.gmail.com>
+Subject: Re: [PATCH] usb: host: xhci-tegra: set MODULE_FIRMWARE for tegra186
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Sat, Nov 2, 2019 at 5:43 PM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Sat, Nov 02, 2019 at 05:26:06PM +0000, Peter Robinson wrote:
+> > Set the MODULE_FIRMWARE for tegra186, it's registered for 124/210 and
+> > ensures the firmware is available at the appropriate time such as in
+> > the initrd, else if the firmware is unavailable the driver fails with
+> > the following errors:
+>
+> So the MODULE_FIRMWARE macro alone does not ensure that the firmware is
+> in the correct location, right? Rather, it's the tools that construct
+> the initial ramdisk that make use of the information added by the
+> MODULE_FIRMWARE macro to determine whether or not the firmware needs to
+> be included in the initial ramdisk or not.
 
-gp10b uses the new engine enumeration mechanism introduced in the Pascal
-architecture. As a result, the copy engine, which used to be at index 2
-for prior Tegra GPU instantiations, has now moved to index 0. Fix up the
-index and also use the gp100 variant of the copy engine class because on
-gp10b the PASCAL_DMA_COPY_B class is not supported.
+It works for tegra124 and tegra210, the patches for tegra194 have it
+as well, I have no idea why it was left out for the tegra186. On
+Fedora the 124/210 firmwares get pulled into the initrd when the
+xhci_tegra and deps do but the 186 doesn't, if you "rmmod xhci_tegra;
+modprobe xhci_tegra" once booted it works fine.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-index 231ec0073af3..eba450e689b2 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-@@ -2387,7 +2387,7 @@ nv13b_chipset = {
- 	.pmu = gm20b_pmu_new,
- 	.timer = gk20a_timer_new,
- 	.top = gk104_top_new,
--	.ce[2] = gp102_ce_new,
-+	.ce[0] = gp100_ce_new,
- 	.dma = gf119_dma_new,
- 	.fifo = gp10b_fifo_new,
- 	.gr = gp10b_gr_new,
--- 
-2.23.0
-
+> > tegra-xusb 3530000.usb: Direct firmware load for nvidia/tegra186/xusb.bin failed with error -2
+> > tegra-xusb 3530000.usb: failed to request firmware: -2
+> > tegra-xusb 3530000.usb: failed to load firmware: -2
+> > tegra-xusb: probe of 3530000.usb failed with error -2
+> >
+> > Fixes: 5f9be5f3f899 ("usb: host: xhci-tegra: Add Tegra186 XUSB support")
+> > Fixes: 488a04d4bb2f ("arm64: tegra: Enable XUSB host controller on Jetson TX2")
+> > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> > ---
+> >  drivers/usb/host/xhci-tegra.c | 1 +
+> >  1 file changed, 1 insertion(+)
+>
+> The commit message is slightly misleading, but I guess it's ultimately
+> correct if you run standard tools to generate the initial ramdisk, so:
+>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+>
+> > diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+> > index 2ff7c911fbd0..d25aba8fa219 100644
+> > --- a/drivers/usb/host/xhci-tegra.c
+> > +++ b/drivers/usb/host/xhci-tegra.c
+> > @@ -1433,6 +1433,7 @@ static const struct tegra_xusb_soc tegra186_soc = {
+> >       .scale_ss_clock = false,
+> >       .has_ipfs = false,
+> >  };
+> > +MODULE_FIRMWARE("nvidia/tegra186/xusb.bin");
+> >
+> >  static const struct of_device_id tegra_xusb_of_match[] = {
+> >       { .compatible = "nvidia,tegra124-xusb", .data = &tegra124_soc },
+> > --
+> > 2.23.0
+> >
