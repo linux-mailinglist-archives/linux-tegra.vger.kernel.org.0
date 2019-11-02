@@ -2,56 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B3FEECF43
-	for <lists+linux-tegra@lfdr.de>; Sat,  2 Nov 2019 15:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63B11ECF44
+	for <lists+linux-tegra@lfdr.de>; Sat,  2 Nov 2019 15:45:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726757AbfKBOpi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 2 Nov 2019 10:45:38 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:38705 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726437AbfKBOpi (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 2 Nov 2019 10:45:38 -0400
-Received: by mail-wr1-f66.google.com with SMTP id v9so12460967wrq.5
-        for <linux-tegra@vger.kernel.org>; Sat, 02 Nov 2019 07:45:37 -0700 (PDT)
+        id S1726762AbfKBOpl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 2 Nov 2019 10:45:41 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40267 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726437AbfKBOpk (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 2 Nov 2019 10:45:40 -0400
+Received: by mail-wm1-f66.google.com with SMTP id f3so674699wmc.5
+        for <linux-tegra@vger.kernel.org>; Sat, 02 Nov 2019 07:45:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+sFGkSU5hfvo4D8WEpa51VLxLij3Lp+HaowAkrxp1ro=;
-        b=rl29Ph4qud6uyCcyXTxYAu/hiB9okEPNBlYsJrBkrZpE4RemCfNUNC2TRp4DTDNF0R
-         4SWVQrp9+/SiGnkifwdpBxUg069WHmcsZAuWdI1Zpf7Nhl31OydBCbyWb1wCbQ94IMZJ
-         NhTlxOUe/CajwtmurKcXSd19KQPkr/lPMjMMBZ8y4RByQBoeOLml/SqzXEWXhTjt2KwI
-         AxP6K7fmWU4vxVeQy6rkbpyplc15xB5lQBAEHGph1yYssxgrYJGAcGdhTFXXl89tUivg
-         nhJFLQrMdv6eudwSyH89jSYc1GasVSpyDr6rqGAKxsrBWEsqBkP6Bx67mZ1NppDZtaQx
-         ISEA==
+        bh=aZU4q2obXFsRyJfy0ffm0WGcG8q+ibuTKe+aCmk4/9k=;
+        b=MYSCk3QmjSgxx5m4Lh4r5lWzRYYGIxEkDyLzFcLFUCLeHMOAoMTh7YnUWKxJx5bt36
+         my6Y4Sf5wIdSZ7ZVyENfw2aetED2NHychdtQc34wVv4ILXVeNd5f5G0CwTGDHqZtmJu8
+         mA8r4nZL7Ty9GA7AL2BCyhSkq+i3ywME1sz3VBu9iA7nGhlJPpcD6QnjDEsTFWBXVDAj
+         MlUEqlqwJtvnLJpH4WQSGLaZniXPDbiIvlXNIlTQqU4d9B5P2BVpuv9bvCGWpaKKl7rh
+         bpIM5aXq6iR6+rRV5P2u3TFpopMD0DU1PkjpQoc18jzu/o/fEm3pGCpeG/BQALjtKkoT
+         420g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+sFGkSU5hfvo4D8WEpa51VLxLij3Lp+HaowAkrxp1ro=;
-        b=k+kSvH5IDK1ZN+XauQRGkrdmIZ/eucZ+RDEy+k9c0pLmB3MazpeqaoiGtGWZ7g3rGu
-         NmhVXDwqcAtfKrWeg3e/+79OGImSSzzeZbiitOcGU6a5QOo2AX7AlLejWEFZwJBSE+tP
-         WQXeqTJQeRmk0DLW1pipLumcTESm/QxfDxI1N99JzFhhmJyEhjiPWdEwrOl9gLF07oyv
-         ROtsjypNtp7m0CLsbdiKLOv1cy2+ERDQI1pu+0w0kJ0WivopVLva+JyA3sZYSpaDzaeM
-         msOwNITL/UpZDwow3+9xVTexuRRJ7WAq7+O0xfCgyCW3nYpcMm/nxK4X8mo7Z3+skXs5
-         Zs7Q==
-X-Gm-Message-State: APjAAAU/ZkoCauSmRrVs4dfCjOyttkPQFFjN12SogFgc/ehTXJU4NHft
-        JOKzBggqb+mR3p0on1UWtLs=
-X-Google-Smtp-Source: APXvYqzhvJd1Y2aYHcUDzBlX0wsJzxhkHNrrh9rVamnR23xGELdkN01ebONy5VyHPUZ8Oe5RRmM85Q==
-X-Received: by 2002:a5d:4dd2:: with SMTP id f18mr14880467wru.4.1572705936521;
-        Sat, 02 Nov 2019 07:45:36 -0700 (PDT)
+        bh=aZU4q2obXFsRyJfy0ffm0WGcG8q+ibuTKe+aCmk4/9k=;
+        b=GGUCVNWSTNHASke7+tpdK8H9buy4ZShGQBDMU/5Xqq5c3l/PFw71EB5TIFoe/Y8xZh
+         yA9q1SIdDQrC1qNN9jEsJaefBKqYQ7Tt6WKSBrwmy9+2sPMRyvZc1yaNj4FQh3hgfd2K
+         NB3sW0HKJiTOvvHuxGiL6XEKgJ2sSHFJqE9voFUxN5AJ8g8wifFYJRlDtpj6mtp0ccST
+         8c5ZNORbs8RlxUws2eIh5XblwMLvd0XTG3DdkKax44lFlxUanhLqUgS1J3XfMAkrsPK8
+         JicH2zt1b84F3meDvaLoAlKTQP+G9vl1LKyKPrWnVfCTkYLS1x78CKk22jqo+G6M7SUm
+         wuSg==
+X-Gm-Message-State: APjAAAWkVMVneBftRXvZn5P868xSIZyZ20HHmCdxTKRkFXGQ0FQPuv0v
+        EqEk1KUjTnRMSX4on6SWGig=
+X-Google-Smtp-Source: APXvYqzviHdmwnXlqVv/c5rayoBS97WZKnWEiaBfjsiSytB6ry7JNYPvCwgv39fEIxQaCgffsb4EVA==
+X-Received: by 2002:a1c:96c9:: with SMTP id y192mr15973392wmd.8.1572705938541;
+        Sat, 02 Nov 2019 07:45:38 -0700 (PDT)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id j22sm15143980wrd.41.2019.11.02.07.45.35
+        by smtp.gmail.com with ESMTPSA id i3sm10704851wrw.69.2019.11.02.07.45.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Nov 2019 07:45:35 -0700 (PDT)
+        Sat, 02 Nov 2019 07:45:37 -0700 (PDT)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 7/8] ARM: tegra: Default configuration changes for v5.5-rc1
-Date:   Sat,  2 Nov 2019 15:45:20 +0100
-Message-Id: <20191102144521.3863321-7-thierry.reding@gmail.com>
+Subject: [GIT PULL 8/8] arm64: tegra: Device tree changes for v5.5-rc1
+Date:   Sat,  2 Nov 2019 15:45:21 +0100
+Message-Id: <20191102144521.3863321-8-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191102144521.3863321-1-thierry.reding@gmail.com>
 References: <20191102144521.3863321-1-thierry.reding@gmail.com>
@@ -70,25 +70,73 @@ The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.5-arm-defconfig
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.5-arm64-dt
 
-for you to fetch changes up to 480bb31f4286d838fc0eebcfd813dd83236406e7:
+for you to fetch changes up to 47b4e129155fd1e721462fa23d128940c93b5b7b:
 
-  ARM: tegra: Enable Tegra VDE driver in tegra_defconfig (2019-10-29 14:10:35 +0100)
+  arm64: tegra: Add Jetson Nano SC7 timings (2019-10-29 20:30:09 +0100)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-ARM: tegra: Default configuration changes for v5.5-rc1
+arm64: tegra: Device tree changes for v5.5-rc1
 
-Enables the Tegra VDE driver by default. This is currently in staging
-but can be used with existing userspace to do hardware-accelerated video
-decoding of H.264 streams.
+Adds support for DP and XUSB on various boards, enables SMMU support for
+more devices and fixes a couple of DTC warnings and inconsistencies that
+are reported at runtime.
+
+These changes along with some of the driver changes in other branches
+allow suspend/resume support on Tegra210 devices (e.g. Jetson TX1 and
+Jetson Nano).
 
 ----------------------------------------------------------------
-Dmitry Osipenko (1):
-      ARM: tegra: Enable Tegra VDE driver in tegra_defconfig
+Jon Hunter (2):
+      arm64: tegra: Fix 'active-low' warning for Jetson TX1 regulator
+      arm64: tegra: Fix 'active-low' warning for Jetson Xavier regulator
 
- arch/arm/configs/tegra_defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+Nagarjuna Kristam (3):
+      arm64: tegra: Enable XUSB pad controller on Jetson TX2
+      arm64: tegra: Enable SMMU for XUSB host on Tegra186
+      arm64: tegra: Enable XUSB host controller on Jetson TX2
+
+Sowjanya Komatineni (3):
+      arm64: tegra: Enable wake from deep sleep on RTC alarm
+      arm64: tegra: Add Jetson TX1 SC7 timings
+      arm64: tegra: Add Jetson Nano SC7 timings
+
+Thierry Reding (18):
+      dt-bindings: clock: tegra: Rename SOR0_LVDS to SOR0_OUT
+      Merge branch 'for-5.5/dt-bindings'
+      arm64: tegra: Add CPU and cache topology for Tegra194
+      arm64: tegra: Add unit-address for CBB on Tegra194
+      arm64: tegra: Add unit-address for ACONNECT on Tegra194
+      arm64: tegra: Fix base address for SOR1 on Tegra194
+      arm64: tegra: Hook up edp interrupt on Tegra210 SOCTHERM
+      arm64: tegra: Fix compatible string for EQOS on Tegra194
+      arm64: tegra: Add ethernet alias on Jetson AGX Xavier
+      arm64: tegra: Enable SMMU for VIC on Tegra186
+      arm64: tegra: Add SOR0_OUT clock on Tegra210
+      arm64: tegra: Enable DP support on Jetson Nano
+      arm64: tegra: Fix compatible for SOR1
+      arm64: tegra: Enable DP support on Jetson TX2
+      arm64: tegra: p2888: Rename regulators for consistency
+      arm64: tegra: Enable DisplayPort on Jetson AGX Xavier
+      arm64: tegra: Add blank lines for better readability
+      arm64: tegra: Add PMU on Tegra210
+
+Vidya Sagar (1):
+      arm64: tegra: Assume no CLKREQ presence by default
+
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts |  12 +-
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi           |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi     |  36 ++---
+ arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts |  33 +++-
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           | 171 ++++++++++++++++++---
+ arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi     |   7 +
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |   2 +-
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |  35 +++++
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |  25 ++-
+ include/dt-bindings/clock/tegra124-car-common.h    |   3 +-
+ include/dt-bindings/clock/tegra210-car.h           |   3 +-
+ 11 files changed, 278 insertions(+), 53 deletions(-)
