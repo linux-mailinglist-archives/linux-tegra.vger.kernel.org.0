@@ -2,248 +2,358 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22347ED1CE
-	for <lists+linux-tegra@lfdr.de>; Sun,  3 Nov 2019 06:18:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F6DDED335
+	for <lists+linux-tegra@lfdr.de>; Sun,  3 Nov 2019 12:54:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfKCFS0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 3 Nov 2019 01:18:26 -0400
-Received: from mga06.intel.com ([134.134.136.31]:14691 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726354AbfKCFS0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 3 Nov 2019 01:18:26 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Nov 2019 22:18:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,262,1569308400"; 
-   d="gz'50?scan'50,208,50";a="204879316"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 02 Nov 2019 22:18:15 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1iR8HG-000FL4-Sk; Sun, 03 Nov 2019 13:18:14 +0800
-Date:   Sun, 3 Nov 2019 13:17:35 +0800
-From:   kbuild test robot <lkp@intel.com>
+        id S1727380AbfKCLyW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 3 Nov 2019 06:54:22 -0500
+Received: from mail-wr1-f46.google.com ([209.85.221.46]:34591 "EHLO
+        mail-wr1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726998AbfKCLyW (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 3 Nov 2019 06:54:22 -0500
+Received: by mail-wr1-f46.google.com with SMTP id e6so12114566wrw.1;
+        Sun, 03 Nov 2019 03:54:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WDfC/vDHvSuKvbVsHEI3wh5xMkfZfhaT91vGl0BNB7I=;
+        b=l7XCMU7/nEoBrkPkmAshueVY1kgWBBr7ScCMSkRMyHqadH3fDXVFcQQNZHUU1a82y6
+         s3twOTBkT7rxBdNwrLlvJS6Jq9qJZhJtYiF5U540oN0UX8gCPKhTfmVJDpbP+4u7C2yq
+         YZNipefSERaKyaI5VPLTskkdgWnQauIKEFbGq/tPf4BotTbSBaWiOJCr7nRibPVdL1h8
+         LR//uE3AT5phf1x1uaAnvAabErF1DFyM9bb03kBmVdNcnSJ//LlKaakM/GYjvlUrKaiB
+         aQFzk6SUkKXV3tdbXkjSVvCGgYLNaWhqmgao9CiD8Mp5joUZXRkXnqu/StKh+5OLmdiX
+         LO/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WDfC/vDHvSuKvbVsHEI3wh5xMkfZfhaT91vGl0BNB7I=;
+        b=mMCQALyRLwr+YzZgPmJk8ok7Pf0PXSD7nqVzA0OIBg1UzGq5+rX5Tv++ZqmcoLDVrE
+         6kiP51W5HRDvliq4ccBln8mL8TthvJCnR62Fsfh+zb5+LbpknzzhC6mgrCYbR8yOznN6
+         rzFpg8iwau6Ch0XaPmt584Si5bCN+GfTc18fAsBvegyNE8JX67V66cexfHYcMF3uUoNW
+         GQNjRMgk8JzpwKs2yGSB0se3OBlbDlKMXv5p2DhvemtR3pJNaspEMXjobIFHaU8uRB3q
+         l++7oOIJ3ANXWLhr04YRMcewFuF34wkoSffvxZadbmgamsT8o0nFfXiuiJPxn/CKlCr8
+         Y9/Q==
+X-Gm-Message-State: APjAAAXwlDQgfgvfctS+LI2wlx23UsmGg/pJRMyt/e5IRVdSwnjjUuET
+        qkSvD9vgIYEkNlm7U3Ev9Sk=
+X-Google-Smtp-Source: APXvYqzxamlU5K1hJ74n4rwlw8ExJEtpNzJVTB2v9fOuBccqGKeuc+2iwSAwN2QYJUnRpvWlb6spSQ==
+X-Received: by 2002:a5d:414a:: with SMTP id c10mr1614164wrq.100.1572782058182;
+        Sun, 03 Nov 2019 03:54:18 -0800 (PST)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id t13sm7121987wrr.88.2019.11.03.03.54.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Nov 2019 03:54:16 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     kbuild-all@lists.01.org, Ben Skeggs <bskeggs@redhat.com>,
-        Joerg Roedel <joro@8bytes.org>, linux-tegra@vger.kernel.org,
-        nouveau@lists.freedesktop.org,
-        Ben Dooks <ben.dooks@codethink.co.uk>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/9] iommu: Add dummy dev_iommu_fwspec_get() helper
-Message-ID: <201911031315.h9zYrrxK%lkp@intel.com>
-References: <20191102175637.3065-3-thierry.reding@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh+dt@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 1/2] dt-bindings: memory: Add Tegra194 memory client IDs
+Date:   Sun,  3 Nov 2019 12:54:14 +0100
+Message-Id: <20191103115415.6532-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="7xzakjsbxri3ohka"
-Content-Disposition: inline
-In-Reply-To: <20191102175637.3065-3-thierry.reding@gmail.com>
-X-Patchwork-Hint: ignore
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
---7xzakjsbxri3ohka
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Define the IDs for the memory clients found on Tegra194. These IDs will
+be used in device tree to describe the connections of each device to the
+memory controller.
 
-Hi Thierry,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v5.4-rc5 next-20191031]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
-
-url:    https://github.com/0day-ci/linux/commits/Thierry-Reding/drm-nouveau-Various-fixes-for-GP10B/20191103-125101
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 56cfd2507d3e720f4b1dbf9513e00680516a0826
-config: i386-tinyconfig (attached as .config)
-compiler: gcc-7 (Debian 7.4.0-14) 7.4.0
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=i386 
-
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/kernel/pci-dma.c:4:0:
->> include/linux/iommu.h:615:8: error: redefinition of 'struct iommu_fwspec'
-    struct iommu_fwspec {};
-           ^~~~~~~~~~~~
-   In file included from include/linux/dma-mapping.h:7:0,
-                    from include/linux/dma-direct.h:5,
-                    from arch/x86/kernel/pci-dma.c:2:
-   include/linux/device.h:43:8: note: originally defined here
-    struct iommu_fwspec;
-           ^~~~~~~~~~~~
-
-vim +615 include/linux/iommu.h
-
-4a77a6cf6d9bf9 Joerg Roedel    2008-11-26  612  
-39d4ebb9592504 Joerg Roedel    2011-09-06  613  struct iommu_ops {};
-d72e31c9374627 Alex Williamson 2012-05-30  614  struct iommu_group {};
-57f98d2f61e191 Robin Murphy    2016-09-13 @615  struct iommu_fwspec {};
-b0119e870837dc Joerg Roedel    2017-02-01  616  struct iommu_device {};
-4e32348ba5269a Jacob Pan       2019-06-03  617  struct iommu_fault_param {};
-a7d20dc19d9ea7 Will Deacon     2019-07-02  618  struct iommu_iotlb_gather {};
-4a77a6cf6d9bf9 Joerg Roedel    2008-11-26  619  
-
-:::::: The code at line 615 was first introduced by commit
-:::::: 57f98d2f61e191ef9d06863c9ce3f8621f3671ef iommu: Introduce iommu_fwspec
-
-:::::: TO: Robin Murphy <robin.murphy@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
-
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+ include/dt-bindings/memory/tegra194-mc.h | 269 +++++++++++++++++++++++
+ 1 file changed, 269 insertions(+)
 
---7xzakjsbxri3ohka
-Content-Type: application/gzip
-Content-Disposition: attachment; filename=".config.gz"
-Content-Transfer-Encoding: base64
+diff --git a/include/dt-bindings/memory/tegra194-mc.h b/include/dt-bindings/memory/tegra194-mc.h
+index 5370f0df07d5..eed48b746bc9 100644
+--- a/include/dt-bindings/memory/tegra194-mc.h
++++ b/include/dt-bindings/memory/tegra194-mc.h
+@@ -138,4 +138,273 @@
+ #define TEGRA194_SID_VI_VM3		0x63
+ #define TEGRA194_SID_RCE_SERVER		0x64
+ 
++/*
++ * memory client IDs
++ */
++
++/* Misses from System Memory Management Unit (SMMU) Page Table Cache (PTC) */
++#define TEGRA194_MEMORY_CLIENT_PTCR 0x00
++/* MSS internal memqual MIU7 read clients */
++#define TEGRA194_MEMORY_CLIENT_MIU7R 0x01
++/* MSS internal memqual MIU7 write clients */
++#define TEGRA194_MEMORY_CLIENT_MIU7W 0x02
++/* High-definition audio (HDA) read clients */
++#define TEGRA194_MEMORY_CLIENT_HDAR 0x15
++/* Host channel data read clients */
++#define TEGRA194_MEMORY_CLIENT_HOST1XDMAR 0x16
++#define TEGRA194_MEMORY_CLIENT_NVENCSRD 0x1c
++/* SATA read clients */
++#define TEGRA194_MEMORY_CLIENT_SATAR 0x1f
++/* Reads from Cortex-A9 4 CPU cores via the L2 cache */
++#define TEGRA194_MEMORY_CLIENT_MPCORER 0x27
++#define TEGRA194_MEMORY_CLIENT_NVENCSWR 0x2b
++/* High-definition audio (HDA) write clients */
++#define TEGRA194_MEMORY_CLIENT_HDAW 0x35
++/* Writes from Cortex-A9 4 CPU cores via the L2 cache */
++#define TEGRA194_MEMORY_CLIENT_MPCOREW 0x39
++/* SATA write clients */
++#define TEGRA194_MEMORY_CLIENT_SATAW 0x3d
++/* ISP read client for Crossbar A */
++#define TEGRA194_MEMORY_CLIENT_ISPRA 0x44
++/* ISP read client 1 for Crossbar A */
++#define TEGRA194_MEMORY_CLIENT_ISPFALR 0x45
++/* ISP Write client for Crossbar A */
++#define TEGRA194_MEMORY_CLIENT_ISPWA 0x46
++/* ISP Write client Crossbar B */
++#define TEGRA194_MEMORY_CLIENT_ISPWB 0x47
++/* XUSB_HOST read clients */
++#define TEGRA194_MEMORY_CLIENT_XUSB_HOSTR 0x4a
++/* XUSB_HOST write clients */
++#define TEGRA194_MEMORY_CLIENT_XUSB_HOSTW 0x4b
++/* XUSB read clients */
++#define TEGRA194_MEMORY_CLIENT_XUSB_DEVR 0x4c
++/* XUSB_DEV write clients */
++#define TEGRA194_MEMORY_CLIENT_XUSB_DEVW 0x4d
++/* sdmmca memory read client */
++#define TEGRA194_MEMORY_CLIENT_SDMMCRA 0x60
++/* sdmmc memory read client */
++#define TEGRA194_MEMORY_CLIENT_SDMMCR 0x62
++/* sdmmcd memory read client */
++#define TEGRA194_MEMORY_CLIENT_SDMMCRAB 0x63
++/* sdmmca memory write client */
++#define TEGRA194_MEMORY_CLIENT_SDMMCWA 0x64
++/* sdmmc memory write client */
++#define TEGRA194_MEMORY_CLIENT_SDMMCW 0x66
++/* sdmmcd memory write client */
++#define TEGRA194_MEMORY_CLIENT_SDMMCWAB 0x67
++#define TEGRA194_MEMORY_CLIENT_VICSRD 0x6c
++#define TEGRA194_MEMORY_CLIENT_VICSWR 0x6d
++/* VI Write client */
++#define TEGRA194_MEMORY_CLIENT_VIW 0x72
++#define TEGRA194_MEMORY_CLIENT_NVDECSRD 0x78
++#define TEGRA194_MEMORY_CLIENT_NVDECSWR 0x79
++/* Audio Processing (APE) engine read clients */
++#define TEGRA194_MEMORY_CLIENT_APER 0x7a
++/* Audio Processing (APE) engine write clients */
++#define TEGRA194_MEMORY_CLIENT_APEW 0x7b
++#define TEGRA194_MEMORY_CLIENT_NVJPGSRD 0x7e
++#define TEGRA194_MEMORY_CLIENT_NVJPGSWR 0x7f
++/* AXI AP and DFD-AUX0/1 read clients Both share the same interface on the on MSS */
++#define TEGRA194_MEMORY_CLIENT_AXIAPR 0x82
++/* AXI AP and DFD-AUX0/1 write clients Both sahre the same interface on MSS */
++#define TEGRA194_MEMORY_CLIENT_AXIAPW 0x83
++/* ETR read clients */
++#define TEGRA194_MEMORY_CLIENT_ETRR 0x84
++/* ETR write clients */
++#define TEGRA194_MEMORY_CLIENT_ETRW 0x85
++/* AXI Switch read client */
++#define TEGRA194_MEMORY_CLIENT_AXISR 0x8c
++/* AXI Switch write client */
++#define TEGRA194_MEMORY_CLIENT_AXISW 0x8d
++/* EQOS read client */
++#define TEGRA194_MEMORY_CLIENT_EQOSR 0x8e
++/* EQOS write client */
++#define TEGRA194_MEMORY_CLIENT_EQOSW 0x8f
++/* UFSHC read client */
++#define TEGRA194_MEMORY_CLIENT_UFSHCR 0x90
++/* UFSHC write client */
++#define TEGRA194_MEMORY_CLIENT_UFSHCW 0x91
++/* NVDISPLAY read client */
++#define TEGRA194_MEMORY_CLIENT_NVDISPLAYR 0x92
++/* BPMP read client */
++#define TEGRA194_MEMORY_CLIENT_BPMPR 0x93
++/* BPMP write client */
++#define TEGRA194_MEMORY_CLIENT_BPMPW 0x94
++/* BPMPDMA read client */
++#define TEGRA194_MEMORY_CLIENT_BPMPDMAR 0x95
++/* BPMPDMA write client */
++#define TEGRA194_MEMORY_CLIENT_BPMPDMAW 0x96
++/* AON read client */
++#define TEGRA194_MEMORY_CLIENT_AONR 0x97
++/* AON write client */
++#define TEGRA194_MEMORY_CLIENT_AONW 0x98
++/* AONDMA read client */
++#define TEGRA194_MEMORY_CLIENT_AONDMAR 0x99
++/* AONDMA write client */
++#define TEGRA194_MEMORY_CLIENT_AONDMAW 0x9a
++/* SCE read client */
++#define TEGRA194_MEMORY_CLIENT_SCER 0x9b
++/* SCE write client */
++#define TEGRA194_MEMORY_CLIENT_SCEW 0x9c
++/* SCEDMA read client */
++#define TEGRA194_MEMORY_CLIENT_SCEDMAR 0x9d
++/* SCEDMA write client */
++#define TEGRA194_MEMORY_CLIENT_SCEDMAW 0x9e
++/* APEDMA read client */
++#define TEGRA194_MEMORY_CLIENT_APEDMAR 0x9f
++/* APEDMA write client */
++#define TEGRA194_MEMORY_CLIENT_APEDMAW 0xa0
++/* NVDISPLAY read client instance 2 */
++#define TEGRA194_MEMORY_CLIENT_NVDISPLAYR1 0xa1
++#define TEGRA194_MEMORY_CLIENT_VICSRD1 0xa2
++#define TEGRA194_MEMORY_CLIENT_NVDECSRD1 0xa3
++/* MSS internal memqual MIU0 read clients */
++#define TEGRA194_MEMORY_CLIENT_MIU0R 0xa6
++/* MSS internal memqual MIU0 write clients */
++#define TEGRA194_MEMORY_CLIENT_MIU0W 0xa7
++/* MSS internal memqual MIU1 read clients */
++#define TEGRA194_MEMORY_CLIENT_MIU1R 0xa8
++/* MSS internal memqual MIU1 write clients */
++#define TEGRA194_MEMORY_CLIENT_MIU1W 0xa9
++/* MSS internal memqual MIU2 read clients */
++#define TEGRA194_MEMORY_CLIENT_MIU2R 0xae
++/* MSS internal memqual MIU2 write clients */
++#define TEGRA194_MEMORY_CLIENT_MIU2W 0xaf
++/* MSS internal memqual MIU3 read clients */
++#define TEGRA194_MEMORY_CLIENT_MIU3R 0xb0
++/* MSS internal memqual MIU3 write clients */
++#define TEGRA194_MEMORY_CLIENT_MIU3W 0xb1
++/* MSS internal memqual MIU4 read clients */
++#define TEGRA194_MEMORY_CLIENT_MIU4R 0xb2
++/* MSS internal memqual MIU4 write clients */
++#define TEGRA194_MEMORY_CLIENT_MIU4W 0xb3
++#define TEGRA194_MEMORY_CLIENT_DPMUR 0xb4
++#define TEGRA194_MEMORY_CLIENT_DPMUW 0xb5
++#define TEGRA194_MEMORY_CLIENT_NVL0R 0xb6
++#define TEGRA194_MEMORY_CLIENT_NVL0W 0xb7
++#define TEGRA194_MEMORY_CLIENT_NVL1R 0xb8
++#define TEGRA194_MEMORY_CLIENT_NVL1W 0xb9
++#define TEGRA194_MEMORY_CLIENT_NVL2R 0xba
++#define TEGRA194_MEMORY_CLIENT_NVL2W 0xbb
++/* VI FLACON read clients */
++#define TEGRA194_MEMORY_CLIENT_VIFALR 0xbc
++/* VIFAL write clients */
++#define TEGRA194_MEMORY_CLIENT_VIFALW 0xbd
++/* DLA0ARDA read clients */
++#define TEGRA194_MEMORY_CLIENT_DLA0RDA 0xbe
++/* DLA0 Falcon read clients */
++#define TEGRA194_MEMORY_CLIENT_DLA0FALRDB 0xbf
++/* DLA0 write clients */
++#define TEGRA194_MEMORY_CLIENT_DLA0WRA 0xc0
++/* DLA0 write clients */
++#define TEGRA194_MEMORY_CLIENT_DLA0FALWRB 0xc1
++/* DLA1ARDA read clients */
++#define TEGRA194_MEMORY_CLIENT_DLA1RDA 0xc2
++/* DLA1 Falcon read clients */
++#define TEGRA194_MEMORY_CLIENT_DLA1FALRDB 0xc3
++/* DLA1 write clients */
++#define TEGRA194_MEMORY_CLIENT_DLA1WRA 0xc4
++/* DLA1 write clients */
++#define TEGRA194_MEMORY_CLIENT_DLA1FALWRB 0xc5
++/* PVA0RDA read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA0RDA 0xc6
++/* PVA0RDB read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA0RDB 0xc7
++/* PVA0RDC read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA0RDC 0xc8
++/* PVA0WRA write clients */
++#define TEGRA194_MEMORY_CLIENT_PVA0WRA 0xc9
++/* PVA0WRB write clients */
++#define TEGRA194_MEMORY_CLIENT_PVA0WRB 0xca
++/* PVA0WRC write clients */
++#define TEGRA194_MEMORY_CLIENT_PVA0WRC 0xcb
++/* PVA1RDA read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA1RDA 0xcc
++/* PVA1RDB read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA1RDB 0xcd
++/* PVA1RDC read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA1RDC 0xce
++/* PVA1WRA write clients */
++#define TEGRA194_MEMORY_CLIENT_PVA1WRA 0xcf
++/* PVA1WRB write clients */
++#define TEGRA194_MEMORY_CLIENT_PVA1WRB 0xd0
++/* PVA1WRC write clients */
++#define TEGRA194_MEMORY_CLIENT_PVA1WRC 0xd1
++/* RCE read client */
++#define TEGRA194_MEMORY_CLIENT_RCER 0xd2
++/* RCE write client */
++#define TEGRA194_MEMORY_CLIENT_RCEW 0xd3
++/* RCEDMA read client */
++#define TEGRA194_MEMORY_CLIENT_RCEDMAR 0xd4
++/* RCEDMA write client */
++#define TEGRA194_MEMORY_CLIENT_RCEDMAW 0xd5
++#define TEGRA194_MEMORY_CLIENT_NVENC1SRD 0xd6
++#define TEGRA194_MEMORY_CLIENT_NVENC1SWR 0xd7
++/* PCIE0 read clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE0R 0xd8
++/* PCIE0 write clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE0W 0xd9
++/* PCIE1 read clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE1R 0xda
++/* PCIE1 write clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE1W 0xdb
++/* PCIE2 read clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE2AR 0xdc
++/* PCIE2 write clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE2AW 0xdd
++/* PCIE3 read clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE3R 0xde
++/* PCIE3 write clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE3W 0xdf
++/* PCIE4 read clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE4R 0xe0
++/* PCIE4 write clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE4W 0xe1
++/* PCIE5 read clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE5R 0xe2
++/* PCIE5 write clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE5W 0xe3
++/* ISP read client 1 for Crossbar A */
++#define TEGRA194_MEMORY_CLIENT_ISPFALW 0xe4
++#define TEGRA194_MEMORY_CLIENT_NVL3R 0xe5
++#define TEGRA194_MEMORY_CLIENT_NVL3W 0xe6
++#define TEGRA194_MEMORY_CLIENT_NVL4R 0xe7
++#define TEGRA194_MEMORY_CLIENT_NVL4W 0xe8
++/* DLA0ARDA1 read clients */
++#define TEGRA194_MEMORY_CLIENT_DLA0RDA1 0xe9
++/* DLA1ARDA1 read clients */
++#define TEGRA194_MEMORY_CLIENT_DLA1RDA1 0xea
++/* PVA0RDA1 read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA0RDA1 0xeb
++/* PVA0RDB1 read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA0RDB1 0xec
++/* PVA1RDA1 read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA1RDA1 0xed
++/* PVA1RDB1 read clients */
++#define TEGRA194_MEMORY_CLIENT_PVA1RDB1 0xee
++/* PCIE5r1 read clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE5R1 0xef
++#define TEGRA194_MEMORY_CLIENT_NVENCSRD1 0xf0
++#define TEGRA194_MEMORY_CLIENT_NVENC1SRD1 0xf1
++/* ISP read client for Crossbar A */
++#define TEGRA194_MEMORY_CLIENT_ISPRA1 0xf2
++/* PCIE0 read clients */
++#define TEGRA194_MEMORY_CLIENT_PCIE0R1 0xf3
++#define TEGRA194_MEMORY_CLIENT_NVL0RHP 0xf4
++#define TEGRA194_MEMORY_CLIENT_NVL1RHP 0xf5
++#define TEGRA194_MEMORY_CLIENT_NVL2RHP 0xf6
++#define TEGRA194_MEMORY_CLIENT_NVL3RHP 0xf7
++#define TEGRA194_MEMORY_CLIENT_NVL4RHP 0xf8
++#define TEGRA194_MEMORY_CLIENT_NVDEC1SRD 0xf9
++#define TEGRA194_MEMORY_CLIENT_NVDEC1SRD1 0xfa
++#define TEGRA194_MEMORY_CLIENT_NVDEC1SWR 0xfb
++/* MSS internal memqual MIU5 read clients */
++#define TEGRA194_MEMORY_CLIENT_MIU5R 0xfc
++/* MSS internal memqual MIU5 write clients */
++#define TEGRA194_MEMORY_CLIENT_MIU5W 0xfd
++/* MSS internal memqual MIU6 read clients */
++#define TEGRA194_MEMORY_CLIENT_MIU6R 0xfe
++/* MSS internal memqual MIU6 write clients */
++#define TEGRA194_MEMORY_CLIENT_MIU6W 0xff
++
+ #endif
+-- 
+2.23.0
 
-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
-zdEIqnJn6AjVTo+tExwo/AC2vYUhDWgAAA==
-
---7xzakjsbxri3ohka--
