@@ -2,92 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC9FCED6D6
-	for <lists+linux-tegra@lfdr.de>; Mon,  4 Nov 2019 02:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3669AED703
+	for <lists+linux-tegra@lfdr.de>; Mon,  4 Nov 2019 02:38:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728237AbfKDBRQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 3 Nov 2019 20:17:16 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5253 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728102AbfKDBRQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 3 Nov 2019 20:17:16 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id AEC5BAC7CFCEE8B8AB48;
-        Mon,  4 Nov 2019 09:17:12 +0800 (CST)
-Received: from [127.0.0.1] (10.133.213.239) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.439.0; Mon, 4 Nov 2019
- 09:17:11 +0800
-Subject: Re: [PATCH -next 01/30] pinctrl: pxa25x: use
- devm_platform_ioremap_resource() to simplify code
-To:     Linus Walleij <linus.walleij@linaro.org>
-References: <20191017122640.22976-1-yuehaibing@huawei.com>
- <20191017122640.22976-2-yuehaibing@huawei.com>
- <CACRpkdb8D_zxHfzY=+ramnNjXVsN9MMO8Q-3=iZFLS2A_ZDQuw@mail.gmail.com>
-CC:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Jesper Nilsson <jesper.nilsson@axis.com>,
-        Lars Persson <lars.persson@axis.com>,
-        "Ludovic Desroches" <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Baruch Siach <baruch@tkos.co.il>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@axis.com>, <linux-oxnas@groups.io>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        MSM <linux-arm-msm@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, "Vladimir Zapolskiy" <vz@mleia.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Andy Gross <agross@kernel.org>
-From:   Yuehaibing <yuehaibing@huawei.com>
-Message-ID: <c8b14d9b-253b-47a1-641f-e89d2cc79686@huawei.com>
-Date:   Mon, 4 Nov 2019 09:17:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.2.0
+        id S1728871AbfKDBiH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 3 Nov 2019 20:38:07 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43123 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728288AbfKDBiH (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 3 Nov 2019 20:38:07 -0500
+Received: by mail-lj1-f194.google.com with SMTP id y23so4855609ljh.10
+        for <linux-tegra@vger.kernel.org>; Sun, 03 Nov 2019 17:38:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=lixom-net.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=i647Q9NPLFm34sW7oYvZoFHC+Yy43qYER+sibvHRJso=;
+        b=JWXSa3MyVXWpe/WcxH0bVKxOnzVohai45paLGphAyXjr+SBJ91aAR8wWocp/RYS8tk
+         2YRv2Vnsl4z2qu7+CpzKu15Nlyx4+sHQXvkLA8/YdcMs0n+SmVpi+hBvexE86X4ALcOp
+         tulte1kIG9egxuD+BdeTGZ3mWflG1+6ymtSfuiGUaodwQG5pSQdnxj+tNZLfdx9QigD4
+         tFHHrMGuc9CdNuzrY11NAty38CAXbzCsK1bg1bpw2aWAjNrEgniZXGfbPVzzTKEJxucd
+         mJWzQQ64z9Y13jsUISJljmQGy5zKd392HL0CFIC+gpZaNxc0Vb84DHPPtH/rGt/wiEe9
+         9yaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=i647Q9NPLFm34sW7oYvZoFHC+Yy43qYER+sibvHRJso=;
+        b=nUPqBAENYiBONGljgT/4tXceEe7K3rovC991iexTlwmU9cCo2WJ8h9pYRfRAAQ95MK
+         FKu2IAnIHcaWRvX+UWRj/cXMVpYnFsZm65AH06rwKZKgVYPZvBhdahwRWEo9nxdO12Ae
+         5OQxKq2owdJ36GFi6oSAcnjVyzaucCclNfC6yZGTe0YiOhqGKc2woW4ldbkEgX/g9fc9
+         MmTW5SREsTK2hTbIAhyVtoQC9ElqNy+WF0GstGMuONf50p2Qi8Y7c2uigLn4wg8SqjFl
+         8sQKlJARJBjbBkSJQUfMAGuceihhMmR72YlKpCUbVDLcCs39bWJCi8Gn60BrsIX/eyqt
+         sjhQ==
+X-Gm-Message-State: APjAAAXXZs9Y7EJ0p/F6QjOzeWnkhKun/3CrupfrhV/qinAcH30nLeGC
+        IioXWVTIpxBJsTPINqJfqTv1AQ==
+X-Google-Smtp-Source: APXvYqykbpP5eQGEXUMZmmiA0tqpyBW/fPm07hUEAWdMesGBV0yZUlzMN5L4qLEV7Fgx62t4tnbJcQ==
+X-Received: by 2002:a2e:858d:: with SMTP id b13mr14965413lji.71.1572831485199;
+        Sun, 03 Nov 2019 17:38:05 -0800 (PST)
+Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
+        by smtp.gmail.com with ESMTPSA id 4sm6195236ljv.87.2019.11.03.17.38.03
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 03 Nov 2019 17:38:04 -0800 (PST)
+Date:   Sun, 3 Nov 2019 17:33:15 -0800
+From:   Olof Johansson <olof@lixom.net>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     arm@kernel.org, Jon Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [GIT PULL 3/8] memory: tegra: Changes for v5.5-rc1
+Message-ID: <20191104013315.isc5ktgxgnnqlvrg@localhost>
+References: <20191102144521.3863321-1-thierry.reding@gmail.com>
+ <20191102144521.3863321-3-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdb8D_zxHfzY=+ramnNjXVsN9MMO8Q-3=iZFLS2A_ZDQuw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191102144521.3863321-3-thierry.reding@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2019/11/4 8:18, Linus Walleij wrote:
-> On Thu, Oct 17, 2019 at 2:48 PM YueHaibing <yuehaibing@huawei.com> wrote:
+On Sat, Nov 02, 2019 at 03:45:16PM +0100, Thierry Reding wrote:
+> Hi ARM SoC maintainers,
 > 
->> Use devm_platform_ioremap_resource() to simplify the code a bit.
->> This is detected by coccinelle.
->>
->> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
 > 
-> These are too many patches changing too little.
-> One patch should be one technical step.
+>   Linux 5.4-rc1 (2019-09-30 10:35:40 -0700)
 > 
-> I'd say squash them all into one big patch and resend.
+> are available in the Git repository at:
 > 
-> You can collect the ACKs you received, but don't put
-> too many people on CC, they will be annoyed.
+>   git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.5-memory
+> 
+> for you to fetch changes up to 8b04225c4464422f185e62c2cedfb9e234423814:
+> 
+>   memory: tegra: Consolidate registers definition into common header (2019-11-01 10:57:37 +0100)
 
-Ok, will do that, thanks!
+Hi, sitting on this one for a few days to make sure the shared contents lands
+in the clk tree unmodified.
 
-> 
-> Yours,
-> Linus Walleij
-> 
-> .
-> 
 
+-Olof
