@@ -2,375 +2,169 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CE9DED7CF
-	for <lists+linux-tegra@lfdr.de>; Mon,  4 Nov 2019 03:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D22DEDB3D
+	for <lists+linux-tegra@lfdr.de>; Mon,  4 Nov 2019 10:06:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729119AbfKDCrw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 3 Nov 2019 21:47:52 -0500
-Received: from mailout1.samsung.com ([203.254.224.24]:58088 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729110AbfKDCrw (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 3 Nov 2019 21:47:52 -0500
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20191104024749epoutp01fec1433472345a6707a66d8f2aa1a4bd~T1bU5dLPB3149731497epoutp01g
-        for <linux-tegra@vger.kernel.org>; Mon,  4 Nov 2019 02:47:49 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20191104024749epoutp01fec1433472345a6707a66d8f2aa1a4bd~T1bU5dLPB3149731497epoutp01g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1572835669;
-        bh=fYWSpwZlP/iNujNTQaMLhVz9/NfQQW5rG5wTrPipJ4Q=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=C0adjasr1yRDTZy8PDr7lEfhQ1Pj5Oy89jrY6hXYvCv8V0SXhq0wD7dbXQtMpJaUl
-         McUCHSZh/KvMAZSjNBg6+frcDy7K7diG7+3D/HwrZQprxG3A/qvTJ4davSM3CTrV3F
-         vY4IlK5N9Ubbh7D+EQP2MlR0BsNPC4Eo90JmUc9w=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-        epcas1p4.samsung.com (KnoxPortal) with ESMTP id
-        20191104024748epcas1p414476f13b7f75e36d7a2f8812b3b8cbe~T1bUZ-omn1426114261epcas1p4k;
-        Mon,  4 Nov 2019 02:47:48 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.40.157]) by
-        epsnrtp3.localdomain (Postfix) with ESMTP id 475xzk2TQWzMqYkd; Mon,  4 Nov
-        2019 02:47:46 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
-        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        FF.86.04144.1519FBD5; Mon,  4 Nov 2019 11:47:45 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20191104024744epcas1p2c15fcfdbe0e55acba5052756a70f36bc~T1bQw-6Sw0527505275epcas1p2n;
-        Mon,  4 Nov 2019 02:47:44 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20191104024744epsmtrp194a130b2de9da90128fe44c272a9f2b7~T1bQwL7i92402124021epsmtrp13;
-        Mon,  4 Nov 2019 02:47:44 +0000 (GMT)
-X-AuditID: b6c32a35-2dfff70000001030-22-5dbf9151c023
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        88.10.24756.0519FBD5; Mon,  4 Nov 2019 11:47:44 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20191104024744epsmtip2095fbd7ecfc64cce8757cc1d9f0f8254~T1bQhonhl0046000460epsmtip2b;
-        Mon,  4 Nov 2019 02:47:44 +0000 (GMT)
-Subject: Re: [PATCH v8 16/18] PM / devfreq: tegra30: Support variable
- polling interval
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
+        id S1728132AbfKDJGb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 4 Nov 2019 04:06:31 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55066 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727138AbfKDJGb (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 4 Nov 2019 04:06:31 -0500
+Received: by mail-wm1-f66.google.com with SMTP id z26so2511006wmi.4;
+        Mon, 04 Nov 2019 01:06:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=TD7tNQy8In3WtYaivMEp2jopxv7QdppSYUH47F9bodc=;
+        b=DmWlgq28+2z9hGN0BqRcDMQ9UCJrZwoX5bhB3QKaz/+o+JZuWjkVzhPS+QtHwbOLRa
+         M8Obrc+pGuBOuIJ5xmL+MmZiW5gyCmiBiIZ22SiJBQHV9RdYxlB4YosYQdQFMiVpTons
+         szvOwyTjkhNV982gddPPvPE5JU38+q+EdtyfcD6uO8cGvqANKgbklYlhJVI0uaPCPel7
+         VQ/CHQYXrns+Du3e3Q4ZNFB0bkHfd6SzmyFotEfDppcMHvhzekJ+xDRfTWi5p2NKAyYX
+         ExbfOyvgcKBY7GYSD6yqJVm1d4rKWXYFEiELJCYUmawMUEk4mGYs/B0BX+1CBtChc5wc
+         brxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TD7tNQy8In3WtYaivMEp2jopxv7QdppSYUH47F9bodc=;
+        b=tbYVLf7wzVg+oqAeFKz8LTn8nvp54mf9XebmlnNso24oP3kMrnjtE4DTiNB8ufRKIp
+         KKha7J8fc1PTlZvJQ/D/r52qaD++N01SHevgdnOLf9m+RBxB8+JR580uBcbSVcC+gm6f
+         EiK+j8da7QfA/JlxQ/Pl2O9koOLOBIcWU4a/Qq/DNY38Ll+dNDpOxGNAxXHOHIqrg+Td
+         HZ1WqC+yvjaEElcr/BmG7POxYqebhxaUWEnntIlkvxi0jWjG5gA23C/DFwHVwvt7/K7s
+         Qc3RIJQc40Myhok9J0WqsIFledXfyrMM9WvT7lKrt0pKDW1Bvwc6pdQDhxnV85UmRCeq
+         Lrxg==
+X-Gm-Message-State: APjAAAV/4SS/82Yo9jOF5LQR2nAFsiOIxfIQglEqTaFONSlE3n1qQ7/L
+        REf+qKJlkPwxA1YP5J21aH8=
+X-Google-Smtp-Source: APXvYqw7HMg5ZTvtsYVqLsSZU2fvtxaOyuR685kZNf3je6OZ+elcjkn4OfGWL37ji9WTGwwwJbWlOw==
+X-Received: by 2002:a1c:1f4b:: with SMTP id f72mr20378099wmf.22.1572858387152;
+        Mon, 04 Nov 2019 01:06:27 -0800 (PST)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id j14sm20510761wrj.35.2019.11.04.01.06.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2019 01:06:25 -0800 (PST)
+Date:   Mon, 4 Nov 2019 10:06:24 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Peter Robinson <pbrobinson@gmail.com>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <e3967b07-b53f-0d9c-8f1b-bad238c4ef68@samsung.com>
-Date:   Mon, 4 Nov 2019 11:53:23 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.9.0
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] usb: host: xhci-tegra: set MODULE_FIRMWARE for tegra186
+Message-ID: <20191104090624.GB985882@ulmo>
+References: <20191102172606.26934-1-pbrobinson@gmail.com>
+ <20191102174345.GB3862867@ulmo>
+ <CALeDE9PChT-A6JP6kZVmgSs9mHQtqUw0EPCGjQ-VK0arBjGBgg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191103204130.2172-17-digetx@gmail.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TeUiTcRjH+W2vv71Ws7fZ8Tio1msUGebe5uy1NDosRmkZUZRk9uJe3HAX
-        e6dlp6VYSnaghK2ysEYeRFRLVLLVFEw7MMWIYp1idtBl647a9hb53+e5n+/vIKWKK1hJGi0O
-        3m7hTDQeQTS2zYiNXXXYk6n+1kiyDR+eI7bYWUOwt/e8kbG9LccxO1TejtjST07Mfn7RhdiH
-        u2sxe3tgOfutpZpgD5zrwQtG6pp8Z5Cu2emT6cqL3mKds+Qq1h1w1yPd0MVJ6TgjN8nAc3re
-        ruIt2Va90ZKTTC9fnbU4S5ugZmKZRHYOrbJwZj6ZTklNj11qNAXWo1X5nCkv4ErnBIGOm59k
-        t+Y5eJXBKjiSad6mN9kSbbMEzizkWXJmZVvNcxm1erY2kLgp1/Coo1dq6162paFwkChEHUll
-        KJwEKh6u/3yGy9AIUkE1IegqvSYTjY8IbtZXhYnGZwSXrhYRZYgMlXR5p4n+VgS/Oo5IReMd
-        gt+1r4lg30hqHRz/0RYKjKX6JdDaXhwKSKn10NbcIAkypmLAM3gfB3k0NQX6vj5HQZZT86HO
-        /R4HpxHUVHh/Li2I4wI9b/o5MWMMdB7tD3UMpxKg4lWjROw+AR70n/zLk6Ho8rHQCkBVyODF
-        QDUWNaeA5/4lJHIkvOpwy0RWwsuDJX95G9R1tmOxeB8Ct6c7TAxowOOqkAQXklIz4HxLnOie
-        As0/TiBxcAS89e8PEw9LDvtKFGJKNPQ+8UlEjoLTe0vxIUQ7h8lxDpPgHCbB+X/YKUTUo/G8
-        TTDn8AJjY4Zf9kUUerkx2iZUeSfViygS0aPkg+GeTEUYly8UmL0ISCk9Vn63qjVTIddzBVt5
-        uzXLnmfiBS/SBs76sFQ5Ltsa+AcWRxajna3RaNh4JkHLMPQE+cKzrkwFlcM5+Fyet/H2f3US
-        MlxZiKqMqP5ob9rQvDFRhwxxS4TWtSuMGv9AoiHme93Ogh3lrv33bnm8GYuwa8FApTFq58GF
-        q0f/SnNVdONa/RrltE0RS/Nf1vw+pZ94w1Lkd6tnYv/jlNQvG+NxwgUw9Gzd7tpQ0+Wb2zdq
-        l7ozomQlL3nKGanNF4pV0dPjlvgmfVlFE4KBY2KkdoH7A+bym3TPAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGIsWRmVeSWpSXmKPExsWy7bCSvG7AxP2xBl8Palis/viY0aJl1iIW
-        i7NNb9gtLu+aw2bxufcIo0Xnl1lsFt+en2K0uN24gs3i7DNvi5+75rFY9K29xObA7bHj7hJG
-        j52z7rJ79Da/Y/OY1baPzaNvyypGj8+b5ALYorhsUlJzMstSi/TtErgy7h2/zFxwwatidcML
-        lgbG4zZdjBwcEgImEqcOqXUxcnIICexmlDjV4QNiSwhISky7eJQZokRY4vDh4i5GLqCSt4wS
-        feuusILUCAtESCy+f5cVJCEi8IxJYuHenUwgCWaBSImeuVvYIDq2MEo0HHvJDpJgE9CS2P/i
-        BhuIzS+gKHH1x2NGEJtXwE5i5ZYPbCDbWARUJD6s9QUJiwIteL79BlSJoMTJmU9YQGxOATOJ
-        ya+2Qe1Sl/gz7xIzhC0ucevJfKi4vETz1tnMExiFZyFpn4WkZRaSlllIWhYwsqxilEwtKM5N
-        zy02LDDMSy3XK07MLS7NS9dLzs/dxAiOPS3NHYyXl8QfYhTgYFTi4X3BuT9WiDWxrLgy9xCj
-        BAezkgjvxRl7Y4V4UxIrq1KL8uOLSnNSiw8xSnOwKInzPs07FikkkJ5YkpqdmlqQWgSTZeLg
-        lGpgtM3aIrht04fJU3UKp3gcDZsXHKmkLmV9+DNjwoVkCQ81s5j0N4c/aOtffu0TWyjLdjS3
-        9uZse9aJOkcnn3Flqc5RDp9YMCG+Nzahx99P9Nnz8Cmfunj5c7P3O5y4tIJvznyuO7/j13Db
-        /nq0nvtX777Xn/9tEN3zS2Bz0MbfbD7JehYz+o57KbEUZyQaajEXFScCAHJDtJG5AgAA
-X-CMS-MailID: 20191104024744epcas1p2c15fcfdbe0e55acba5052756a70f36bc
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20191103204245epcas4p48f5ab2a36b3728439799adb41fed6a24
-References: <20191103204130.2172-1-digetx@gmail.com>
-        <CGME20191103204245epcas4p48f5ab2a36b3728439799adb41fed6a24@epcas4p4.samsung.com>
-        <20191103204130.2172-17-digetx@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="98e8jtXdkpgskNou"
+Content-Disposition: inline
+In-Reply-To: <CALeDE9PChT-A6JP6kZVmgSs9mHQtqUw0EPCGjQ-VK0arBjGBgg@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 19. 11. 4. 오전 5:41, Dmitry Osipenko wrote:
-> The ACTMON governor is interrupt-driven and currently hardware's polling
-> interval is fixed to 16ms in the driver. Devfreq supports variable polling
-> interval by the generic governors, let's re-use the generic interface for
-> changing of the polling interval. Now the polling interval can be changed
-> dynamically via /sys/class/devfreq/devfreq0/polling_interval.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/devfreq/tegra30-devfreq.c | 83 +++++++++++++++++++++++--------
->  1 file changed, 61 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index 852bde6249c7..9c645e83ef8b 100644
-> --- a/drivers/devfreq/tegra30-devfreq.c
-> +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -96,9 +96,10 @@ struct tegra_devfreq_device_config {
->  	unsigned int	boost_down_threshold;
->  
->  	/*
-> -	 * Threshold of activity (cycles) below which the CPU frequency isn't
-> -	 * to be taken into account. This is to avoid increasing the EMC
-> -	 * frequency when the CPU is very busy but not accessing the bus often.
-> +	 * Threshold of activity (cycles translated to kHz) below which the
-> +	 * CPU frequency isn't to be taken into account. This is to avoid
-> +	 * increasing the EMC frequency when the CPU is very busy but not
-> +	 * accessing the bus often.
->  	 */
->  	u32		avg_dependency_threshold;
->  };
-> @@ -126,7 +127,7 @@ static const struct tegra_devfreq_device_config actmon_device_configs[] = {
->  		.boost_down_coeff = 90,
->  		.boost_up_threshold = 27,
->  		.boost_down_threshold = 10,
-> -		.avg_dependency_threshold = 50000,
-> +		.avg_dependency_threshold = 5 * KHZ,
 
-nitpick.
-Actually, this change is not related to this patch.
-Even if it is trivial, it is not proper.
+--98e8jtXdkpgskNou
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->  	},
->  };
->  
-> @@ -208,9 +209,16 @@ static void device_writel(struct tegra_devfreq_device *dev, u32 val,
->  	writel_relaxed(val, dev->regs + offset);
->  }
->  
-> -static unsigned long do_percent(unsigned long val, unsigned int pct)
-> +static unsigned long do_percent(unsigned long long val, unsigned int pct)
->  {
-> -	return val * pct / 100;
-> +	val = val * pct;
-> +	do_div(val, 100);
-> +
-> +	/*
-> +	 * High freq + high boosting percent + large polling interval are
-> +	 * resulting in integer overflow when watermarks are calculated.
-> +	 */
-> +	return min_t(u64, val, U32_MAX);
->  }
->  
->  static void tegra_devfreq_update_avg_wmark(struct tegra_devfreq *tegra,
-> @@ -218,8 +226,9 @@ static void tegra_devfreq_update_avg_wmark(struct tegra_devfreq *tegra,
->  {
->  	u32 avg = dev->avg_count;
->  	u32 avg_band_freq = tegra->max_freq * ACTMON_DEFAULT_AVG_BAND / KHZ;
-> -	u32 band = avg_band_freq * ACTMON_SAMPLING_PERIOD;
-> +	u32 band = avg_band_freq * tegra->devfreq->profile->polling_ms;
->  
-> +	avg = min(dev->avg_count, U32_MAX - band);
->  	device_writel(dev, avg + band, ACTMON_DEV_AVG_UPPER_WMARK);
->  
->  	avg = max(dev->avg_count, band);
-> @@ -229,7 +238,7 @@ static void tegra_devfreq_update_avg_wmark(struct tegra_devfreq *tegra,
->  static void tegra_devfreq_update_wmark(struct tegra_devfreq *tegra,
->  				       struct tegra_devfreq_device *dev)
->  {
-> -	u32 val = tegra->cur_freq * ACTMON_SAMPLING_PERIOD;
-> +	u32 val = tegra->cur_freq * tegra->devfreq->profile->polling_ms;
->  
->  	device_writel(dev, do_percent(val, dev->config->boost_up_threshold),
->  		      ACTMON_DEV_UPPER_WMARK);
-> @@ -308,10 +317,9 @@ static unsigned long actmon_device_target_freq(struct tegra_devfreq *tegra,
->  	unsigned int avg_sustain_coef;
->  	unsigned long target_freq;
->  
-> -	target_freq = dev->avg_count / ACTMON_SAMPLING_PERIOD;
-> +	target_freq = dev->avg_count / tegra->devfreq->profile->polling_ms;
->  	avg_sustain_coef = 100 * 100 / dev->config->boost_up_threshold;
->  	target_freq = do_percent(target_freq, avg_sustain_coef);
-> -	target_freq += dev->boost_freq;
->  
->  	return target_freq;
->  }
-> @@ -322,15 +330,18 @@ static void actmon_update_target(struct tegra_devfreq *tegra,
->  	unsigned long cpu_freq = 0;
->  	unsigned long static_cpu_emc_freq = 0;
->  
-> -	if (dev->config->avg_dependency_threshold) {
-> +	dev->target_freq = actmon_device_target_freq(tegra, dev);
-> +
-> +	if (dev->config->avg_dependency_threshold &&
-> +	    dev->config->avg_dependency_threshold <= dev->target_freq) {
+On Sat, Nov 02, 2019 at 06:39:45PM +0000, Peter Robinson wrote:
+> On Sat, Nov 2, 2019 at 5:43 PM Thierry Reding <thierry.reding@gmail.com> =
+wrote:
+> >
+> > On Sat, Nov 02, 2019 at 05:26:06PM +0000, Peter Robinson wrote:
+> > > Set the MODULE_FIRMWARE for tegra186, it's registered for 124/210 and
+> > > ensures the firmware is available at the appropriate time such as in
+> > > the initrd, else if the firmware is unavailable the driver fails with
+> > > the following errors:
+> >
+> > So the MODULE_FIRMWARE macro alone does not ensure that the firmware is
+> > in the correct location, right? Rather, it's the tools that construct
+> > the initial ramdisk that make use of the information added by the
+> > MODULE_FIRMWARE macro to determine whether or not the firmware needs to
+> > be included in the initial ramdisk or not.
+>=20
+> It works for tegra124 and tegra210, the patches for tegra194 have it
+> as well, I have no idea why it was left out for the tegra186. On
+> Fedora the 124/210 firmwares get pulled into the initrd when the
+> xhci_tegra and deps do but the 186 doesn't, if you "rmmod xhci_tegra;
+> modprobe xhci_tegra" once booted it works fine.
 
-This changes are related to polling interval change at the run time?
-This patch touched the 'avg_dependency_threshold'. It is related to the 
-dynamic change of polling interval?
+Sorry if I wasn't being clear. I'm not debating the correctness of the
+patch, it obviously was just left out and probably not noticed because
+nobody that tested this either wasn't building this into the kernel or
+manually added the firmware to the initial ramdisk.
 
->  		cpu_freq = cpufreq_quick_get(0);
->  		static_cpu_emc_freq = actmon_cpu_to_emc_rate(tegra, cpu_freq);
-> -	}
->  
-> -	dev->target_freq = actmon_device_target_freq(tegra, dev);
-> -
-> -	if (dev->avg_count >= dev->config->avg_dependency_threshold)
-> +		dev->target_freq += dev->boost_freq;
->  		dev->target_freq = max(dev->target_freq, static_cpu_emc_freq);
-> +	} else {
-> +		dev->target_freq += dev->boost_freq;
-> +	}
+I was just trying to point out that merely adding MODULE_FIRMWARE does
+not cause the firmware to be installed in the initial ramdisk. You still
+need some tool looking at the information added by MODULE_FIRMWARE and
+then copying the corresponding image to the initial ramdisk at its
+creation.
 
-ditto. This changes are related to polling interval change at the run time?
+Thierry
 
->  }
->  
->  static irqreturn_t actmon_thread_isr(int irq, void *data)
-> @@ -396,15 +407,16 @@ static unsigned long
->  tegra_actmon_cpufreq_contribution(struct tegra_devfreq *tegra,
->  				  unsigned int cpu_freq)
->  {
-> +	struct tegra_devfreq_device *dev = &tegra->devices[MCCPU];
->  	unsigned long static_cpu_emc_freq, dev_freq;
->  
-> +	dev_freq = actmon_device_target_freq(tegra, dev);
-> +
->  	/* check whether CPU's freq is taken into account at all */
-> -	if (tegra->devices[MCCPU].avg_count <
-> -	    tegra->devices[MCCPU].config->avg_dependency_threshold)
-> +	if (dev_freq < dev->config->avg_dependency_threshold)
+> > > tegra-xusb 3530000.usb: Direct firmware load for nvidia/tegra186/xusb=
+=2Ebin failed with error -2
+> > > tegra-xusb 3530000.usb: failed to request firmware: -2
+> > > tegra-xusb 3530000.usb: failed to load firmware: -2
+> > > tegra-xusb: probe of 3530000.usb failed with error -2
+> > >
+> > > Fixes: 5f9be5f3f899 ("usb: host: xhci-tegra: Add Tegra186 XUSB suppor=
+t")
+> > > Fixes: 488a04d4bb2f ("arm64: tegra: Enable XUSB host controller on Je=
+tson TX2")
+> > > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+> > > ---
+> > >  drivers/usb/host/xhci-tegra.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> >
+> > The commit message is slightly misleading, but I guess it's ultimately
+> > correct if you run standard tools to generate the initial ramdisk, so:
+> >
+> > Acked-by: Thierry Reding <treding@nvidia.com>
+> >
+> > > diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-te=
+gra.c
+> > > index 2ff7c911fbd0..d25aba8fa219 100644
+> > > --- a/drivers/usb/host/xhci-tegra.c
+> > > +++ b/drivers/usb/host/xhci-tegra.c
+> > > @@ -1433,6 +1433,7 @@ static const struct tegra_xusb_soc tegra186_soc=
+ =3D {
+> > >       .scale_ss_clock =3D false,
+> > >       .has_ipfs =3D false,
+> > >  };
+> > > +MODULE_FIRMWARE("nvidia/tegra186/xusb.bin");
+> > >
+> > >  static const struct of_device_id tegra_xusb_of_match[] =3D {
+> > >       { .compatible =3D "nvidia,tegra124-xusb", .data =3D &tegra124_s=
+oc },
+> > > --
+> > > 2.23.0
+> > >
 
-ditto.
+--98e8jtXdkpgskNou
+Content-Type: application/pgp-signature; name="signature.asc"
 
->  		return 0;
->  
->  	static_cpu_emc_freq = actmon_cpu_to_emc_rate(tegra, cpu_freq);
-> -	dev_freq = actmon_device_target_freq(tegra, &tegra->devices[MCCPU]);
->  
->  	if (dev_freq >= static_cpu_emc_freq)
->  		return 0;
-> @@ -465,7 +477,7 @@ static void tegra_actmon_configure_device(struct tegra_devfreq *tegra,
->  
->  	dev->target_freq = tegra->cur_freq;
->  
-> -	dev->avg_count = tegra->cur_freq * ACTMON_SAMPLING_PERIOD;
-> +	dev->avg_count = tegra->cur_freq * tegra->devfreq->profile->polling_ms;
->  	device_writel(dev, dev->avg_count, ACTMON_DEV_INIT_AVG);
->  
->  	tegra_devfreq_update_avg_wmark(tegra, dev);
-> @@ -506,7 +518,10 @@ static int tegra_actmon_start(struct tegra_devfreq *tegra)
->  	unsigned int i;
->  	int err;
->  
-> -	actmon_writel(tegra, ACTMON_SAMPLING_PERIOD - 1,
-> +	if (!tegra->devfreq->profile->polling_ms || tegra->cur_freq)
-> +		return 0;
-> +
-> +	actmon_writel(tegra, tegra->devfreq->profile->polling_ms - 1,
->  		      ACTMON_GLB_PERIOD_CTRL);
->  
->  	/*
-> @@ -551,11 +566,16 @@ static int tegra_actmon_start(struct tegra_devfreq *tegra)
->  
->  	clk_notifier_unregister(tegra->emc_clock, &tegra->clk_rate_change_nb);
->  
-> +	tegra->cur_freq = 0;
-> +
->  	return err;
->  }
->  
->  static void tegra_actmon_stop(struct tegra_devfreq *tegra)
->  {
-> +	if (!tegra->devfreq->profile->polling_ms || !tegra->cur_freq)
-> +		return;
-> +
->  	disable_irq(tegra->irq);
->  
->  	cpufreq_unregister_notifier(&tegra->cpu_rate_change_nb,
-> @@ -566,6 +586,8 @@ static void tegra_actmon_stop(struct tegra_devfreq *tegra)
->  	tegra_actmon_stop_devices(tegra);
->  
->  	clk_notifier_unregister(tegra->emc_clock, &tegra->clk_rate_change_nb);
-> +
-> +	tegra->cur_freq = 0;
->  }
->  
->  static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
-> @@ -625,7 +647,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
->  	stat->busy_time *= 100 / BUS_SATURATION_RATIO;
->  
->  	/* Number of cycles in a sampling period */
-> -	stat->total_time = ACTMON_SAMPLING_PERIOD * cur_freq;
-> +	stat->total_time = tegra->devfreq->profile->polling_ms * cur_freq;
->  
->  	stat->busy_time = min(stat->busy_time, stat->total_time);
->  
-> @@ -633,7 +655,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
->  }
->  
->  static struct devfreq_dev_profile tegra_devfreq_profile = {
-> -	.polling_ms	= 0,
-> +	.polling_ms	= ACTMON_SAMPLING_PERIOD,
->  	.target		= tegra_devfreq_target,
->  	.get_dev_status	= tegra_devfreq_get_dev_status,
->  };
-> @@ -673,6 +695,7 @@ static int tegra_governor_event_handler(struct devfreq *devfreq,
->  					unsigned int event, void *data)
->  {
->  	struct tegra_devfreq *tegra = dev_get_drvdata(devfreq->dev.parent);
-> +	unsigned int *new_delay = data;
->  	int ret = 0;
->  
->  	/*
-> @@ -692,6 +715,21 @@ static int tegra_governor_event_handler(struct devfreq *devfreq,
->  		devfreq_monitor_stop(devfreq);
->  		break;
->  
-> +	case DEVFREQ_GOV_INTERVAL:
-> +		/*
-> +		 * ACTMON hardware supports up to 256 milliseconds for the
-> +		 * sampling period.
-> +		 */
-> +		if (*new_delay > 256) {
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +
-> +		tegra_actmon_stop(tegra);
-> +		devfreq_interval_update(devfreq, new_delay);
-> +		ret = tegra_actmon_start(tegra);
-> +		break;
-> +
->  	case DEVFREQ_GOV_SUSPEND:
->  		tegra_actmon_stop(tegra);
->  		devfreq_monitor_suspend(devfreq);
-> @@ -711,6 +749,7 @@ static struct devfreq_governor tegra_devfreq_governor = {
->  	.get_target_freq = tegra_governor_get_target,
->  	.event_handler = tegra_governor_event_handler,
->  	.immutable = true,
-> +	.interrupt_driven = true,
->  };
->  
->  static int tegra_devfreq_probe(struct platform_device *pdev)
-> 
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2/6hAACgkQ3SOs138+
+s6HO3A/+JXAaQX8ZmFN95tT/lMk9GclrdJLy7az1obsaaGZ6cEPGtkf2XAR3tnMX
+CYvC8FrhSqluiGoyTZZEFyXFVG3AgGVGPg5crv6IpQscA8O2v9J65B+2gewsaBo8
+ysf+gMspMQvCyxF6qhErVYn5doBaFt0yD+rcCESACe4rB5cTL3IIJ1KmTw3FC2ol
+05rqepc/tjbIh2wRp8ASTyPkRDoTCycWdkqr9AupGHQffONZh0UsbcEUgW8Kqsea
+on99iepcN5oc3pJbEtVyYniR205woOh2MhPfNHhHFDxGJOpIc6vswpLZ1f5XCeuB
+SFpMZzvvp0y+Thr14ZHXeZirDDHuOlYppP4jPZgKLq61PHjq7EFgYLRUFUkCMa0c
+kw0pMZGIHUAy5gKC9PFnKm7nwtuBWoBdK7AomZsfaF1U3DrORSY++IFWKP6SJGqb
+bEUb6M8A/vUDAF5zDeIh0zo3dVrlis/G8cAf1CfhduYq8uDKygIaEpY7tWzvz0ZR
+ozsy45vi4a4RKpNlTkHkq/9U2Yuk7K46oiZeoGV3fL1hya19BE6uSGMs6ZIoK0MA
+r1xCPp5ClPuv0c4STG6Ng7iXy2kCWBfmQH+gbxTvRp15g8BcnexXhYWwEWiSilPH
+DQyJJb7127lbIXMKRv140RRw3do9+YwoJ1/Db3G5loxLksbTK1g=
+=Pqdx
+-----END PGP SIGNATURE-----
 
--- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+--98e8jtXdkpgskNou--
