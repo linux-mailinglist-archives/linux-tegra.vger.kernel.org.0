@@ -2,101 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C6D2ED4CA
-	for <lists+linux-tegra@lfdr.de>; Sun,  3 Nov 2019 21:42:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 244FCED696
+	for <lists+linux-tegra@lfdr.de>; Mon,  4 Nov 2019 01:18:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728409AbfKCUmX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 3 Nov 2019 15:42:23 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:34434 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728391AbfKCUmV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 3 Nov 2019 15:42:21 -0500
-Received: by mail-lf1-f67.google.com with SMTP id f5so10709757lfp.1;
-        Sun, 03 Nov 2019 12:42:20 -0800 (PST)
+        id S1728645AbfKDASq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 3 Nov 2019 19:18:46 -0500
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:33669 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728467AbfKDASp (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 3 Nov 2019 19:18:45 -0500
+Received: by mail-ua1-f65.google.com with SMTP id c16so4438077uan.0
+        for <linux-tegra@vger.kernel.org>; Sun, 03 Nov 2019 16:18:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dCIWMfP1VPP4Mlo+oAntsMXZNvH354k2VUOlKxxlyNs=;
-        b=SHgenitc+d9TdYTmb88OgDRLuQtlqrC6wH3ynKx7AeKywzEdeWR4I+PGGvgj8+dTU7
-         tXuRUkvN1ISdlKCNpj/wTID2PztAUvezADwqts9qFNlZR5KczHzCso/NYvKK9Zv+17Yq
-         FjQVvyxt8Ru41OLgDzvi9SjhKAkq4HO2JHsNPaCnfZ2xTJLq2z74BK91hmsIEQ2uzHN7
-         F9zCGQRfgaTyBakFIPzBEZpOVQfxOKfJ06qineOL7yHFwCV/c0ArsF5sXxkWg0JfB598
-         pWRaSan57e5veSuBMDpO2jO5puvxcV2ltCoHGdMacbQPTQsmyuQDSYOCzWzpZTCmj2Dp
-         z5CA==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+5L2eq9DWTqYID3ithkG+AoL6nhEs7tI6RGB4Dd8Zf4=;
+        b=oAlES9Uid7iSYZ2y6NPfHWjyad0j5hCqs5prmtdgJ2mK997WAVlxzJG3ynZVmC7nVi
+         mB54L2mfLf/Ymo2mr37VdY7P/VmPPDIkSj6dVPXoVoUbv4/bi0abmhjwnmb/FELUCiFe
+         WUmE0cxKBRBV/GLK0T6OlpT++peIpQTvzfheDW+VYHwnVh2WMPfAGGv0Jll4lQ9KmdAX
+         KUTaR0YLzT9+mGViBviY1QVrl63MXjbWJ1L7dXjYhxykfLjDCnezbRw37cjm6t8NlKrx
+         vUEPiPlqJXQVEvz5N1BTYEZa2S6mllw04JXsrNQAwnirXTN3hH91Hd5eJcmUXVJGR71Z
+         pSrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dCIWMfP1VPP4Mlo+oAntsMXZNvH354k2VUOlKxxlyNs=;
-        b=C/1+NA3B5tTn3RTCUjkXQLX12HnJneS5SeSGotmjAXaqeFa/BVqe2ahBNQoPKnBIWT
-         ICAya9YL6AimFvvgnbHSMaMB7OfZUVx9+WwzghQUtFc4T8ejF/b28jmxEfYOQgmSbpP8
-         XjBVpAWytdWSPCXb+hI8ydOS7mK+SKgfW8KzR37B4O2WNZLpxMU79WWDt1Xq8Gf0oLFv
-         5d4twEKjL7EARhQbfbjv26cdgN7i7BT3nefhiUVR8fhzx/e3E3mbGzzYSj3jRmdb998B
-         ksWY5rAn531Re894Fwc0k34tgcriUmKkKOgSlwkEPMjMio9R2bykURJSP7hSXLfXbObg
-         AACg==
-X-Gm-Message-State: APjAAAXnhD9h3k9Vrw6WcsI9EYJaJF3WcDGTb+qDrnr6RfDYYdKG0fwE
-        9tjSJZyuDoXvpG7y38kKCfs=
-X-Google-Smtp-Source: APXvYqzB8P/6NLtNYQ+iWrNg9Oh+f76HhBrbbedQnN9RqSpF7XVcRjpTWtO5x2d737RhkKXvQbbKkA==
-X-Received: by 2002:ac2:5295:: with SMTP id q21mr13904642lfm.93.1572813739765;
-        Sun, 03 Nov 2019 12:42:19 -0800 (PST)
-Received: from localhost.localdomain (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.gmail.com with ESMTPSA id e22sm7099853ljg.73.2019.11.03.12.42.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Nov 2019 12:42:19 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v8 18/18] PM / devfreq: tegra20/30: Add Dmitry as a maintainer
-Date:   Sun,  3 Nov 2019 23:41:30 +0300
-Message-Id: <20191103204130.2172-19-digetx@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191103204130.2172-1-digetx@gmail.com>
-References: <20191103204130.2172-1-digetx@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+5L2eq9DWTqYID3ithkG+AoL6nhEs7tI6RGB4Dd8Zf4=;
+        b=AoLGZiVF0WPiA4/6NE2MSMjJFp/cgIBarIp6rdZeOnPHMmiPKiQiKqfLZfC4NA9FEm
+         eUjkzDNgkxXDs1AP2Zx9eBn4jjZBF+VbeyyYxh3quVcWUBR1HKzUXfVw8kmrD0Q93kUr
+         37O3GZDeEBd9XpPiGTTOrdED21dGwk3cxbdeJxYkDyg0K+IebbgaI2iQ6bOHnNudepYz
+         em9uMfKP0mFbqNsH8FkAlvzGrOKXQgKyXOPi4TWo6l0oMxZnSuL1H4yhQ6DjdDUMusZ3
+         eYF71UfOIBS1KTgqccCdkm9/aYb0iJzAV6MxE3pTWeJCF2mikBAssQxdB16fwdL7fs5m
+         uBUg==
+X-Gm-Message-State: APjAAAXgBQ0rLOOAjUXybapcKkH/hfgiwqSA2TE2j+CElEH/SYfwARRf
+        +wdGH3TJ4o3Mj39RRh35EjGgN9KSgIz4t/Qc5WUfHg==
+X-Google-Smtp-Source: APXvYqxaDMOhPupmDshbsu4K1ddLDJNFp+Loev7XOmTsYtFTpgq7W/3FH8VrI3bEONc6DjxIfdtklet+o4Mib1wkwhc=
+X-Received: by 2002:ab0:70a9:: with SMTP id q9mr4518172ual.84.1572826722501;
+ Sun, 03 Nov 2019 16:18:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191017122640.22976-1-yuehaibing@huawei.com> <20191017122640.22976-2-yuehaibing@huawei.com>
+In-Reply-To: <20191017122640.22976-2-yuehaibing@huawei.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 4 Nov 2019 01:18:31 +0100
+Message-ID: <CACRpkdb8D_zxHfzY=+ramnNjXVsN9MMO8Q-3=iZFLS2A_ZDQuw@mail.gmail.com>
+Subject: Re: [PATCH -next 01/30] pinctrl: pxa25x: use devm_platform_ioremap_resource()
+ to simplify code
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Jesper Nilsson <jesper.nilsson@axis.com>,
+        Lars Persson <lars.persson@axis.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Baruch Siach <baruch@tkos.co.il>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@axis.com, linux-oxnas@groups.io,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        MSM <linux-arm-msm@vger.kernel.org>, linux-tegra@vger.kernel.org,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Andy Gross <agross@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
-want to help keep them working and evolving in the future.
+On Thu, Oct 17, 2019 at 2:48 PM YueHaibing <yuehaibing@huawei.com> wrote:
 
-Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> Use devm_platform_ioremap_resource() to simplify the code a bit.
+> This is detected by coccinelle.
+>
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9f69d01da3a6..4b9679988514 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10632,6 +10632,15 @@ F:	include/linux/memblock.h
- F:	mm/memblock.c
- F:	Documentation/core-api/boot-time-mm.rst
- 
-+MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
-+M:	Dmitry Osipenko <digetx@gmail.com>
-+L:	linux-pm@vger.kernel.org
-+L:	linux-tegra@vger.kernel.org
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mzx/devfreq.git
-+S:	Maintained
-+F:	drivers/devfreq/tegra20-devfreq.c
-+F:	drivers/devfreq/tegra30-devfreq.c
-+
- MEMORY MANAGEMENT
- L:	linux-mm@kvack.org
- W:	http://www.linux-mm.org
--- 
-2.23.0
+These are too many patches changing too little.
+One patch should be one technical step.
 
+I'd say squash them all into one big patch and resend.
+
+You can collect the ACKs you received, but don't put
+too many people on CC, they will be annoyed.
+
+Yours,
+Linus Walleij
