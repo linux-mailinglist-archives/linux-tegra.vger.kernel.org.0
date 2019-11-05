@@ -2,121 +2,141 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B8B5EFE8B
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 14:29:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CA54F0621
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 20:38:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389218AbfKEN3g (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 Nov 2019 08:29:36 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:45522 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389214AbfKEN3g (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Nov 2019 08:29:36 -0500
-Received: by mail-lf1-f68.google.com with SMTP id v8so15086694lfa.12;
-        Tue, 05 Nov 2019 05:29:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZOTg6g7hCuvtXnBHLuvcs7p7udu+4fyfYleTU75B/EM=;
-        b=p5Xj5ezgsgFtifssHjdEwSuNEJ/GCbehuE5g+iH1oYuhg7XMTeFgXrwV+Ek8E5Q0DS
-         fl0zAfWEA94oiTi2JTJneBAiFOf1rhPK//qsATHTyDX+BgAKS84L1hnCVkjcYHD2gyvq
-         MKraJGRUChWYOmE6Dkvzkc123NQ/EVuly2Qv2YIoYJeDT3QOhm9vDg5HZpOgJBmEiixK
-         4pNSBn1eoGXwqZ/D2cr1JkPThDvWDQUUw1uuvL3wRih70+/Wc/gUGQWRwcDEbbqRO79O
-         8iMjrlPHVdbkk7+spFGJUSbTgK75cAWDPUHjUlN9e8graqJWZXa+yXI5HvqH12bj7IMO
-         FI2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZOTg6g7hCuvtXnBHLuvcs7p7udu+4fyfYleTU75B/EM=;
-        b=oVJSbkoYc7JoW6DGLyoyaFTpzD1Uub/xwqlUIyRwpD/hsyBWPeCw7jee0kQfqevjYG
-         Fa5lYLIP9n00QDFNfdru6OubzdWaLgLbgLKFgLpKRA6tLT4MZd5QnDUoYixItyKFC5zI
-         ltO66NajzZByQ8yYov3mE4YI88JJnNzMc129STVtrgxPTKN7GYROT5KmVkuPqsVLZ/1x
-         1m3KmrcRfF7fP0c816kBPttN4zZe85ImyGgktnqkcWSI1r4MEVIz1uOSivhH6/yeSTO5
-         O1egMYotLDYJEoxe7nEn6kKoS0ncL7AszGVsDDLFvsTiHahK7YQvoYFrulpmoJLQJPH0
-         7+xQ==
-X-Gm-Message-State: APjAAAXw9VUGG/5k8kV9dVHGbY5CWL85lQXvESFTMopIaI2lBSQFY9+6
-        bp38h3JQd0MDfjkaaxPPR2Q3rIiV
-X-Google-Smtp-Source: APXvYqznZXKXH8nF2dSdhtB4hX0nZfuUp2RVCTfMvSd7yo4ZS00SQT3DtwBWwYiNxDgib34c5ZpYZA==
-X-Received: by 2002:a19:6d12:: with SMTP id i18mr21011786lfc.153.1572960573592;
-        Tue, 05 Nov 2019 05:29:33 -0800 (PST)
-Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id j23sm8037113lji.41.2019.11.05.05.29.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Nov 2019 05:29:32 -0800 (PST)
-Subject: Re: [PATCH v9 19/19] PM / devfreq: tegra20/30: Add Dmitry as a
- maintainer
-To:     Chanwoo Choi <cw00.choi@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191104215617.25544-1-digetx@gmail.com>
- <CGME20191104221855epcas4p3761ca7e09ffa66b686be8b5a840ea383@epcas4p3.samsung.com>
- <20191104215617.25544-20-digetx@gmail.com>
- <0e7db72b-37ff-a36e-11fe-727ed43c26a6@samsung.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9bd7bfc0-508f-e7fb-d985-d32f2d9a88d8@gmail.com>
-Date:   Tue, 5 Nov 2019 16:29:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <0e7db72b-37ff-a36e-11fe-727ed43c26a6@samsung.com>
-Content-Type: text/plain; charset=utf-8
+        id S2390782AbfKETiB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 Nov 2019 14:38:01 -0500
+Received: from mail-eopbgr720133.outbound.protection.outlook.com ([40.107.72.133]:2209
+        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2390873AbfKETiB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 5 Nov 2019 14:38:01 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y4VYHn8p1It7Hk8ES9cIkbQ2hDLv2UM9dpALbesv/HfcV7L8Q3iUUDDfQrbOMAk0kRhWWm2iC8wriQwW82I7XrtjmCTlCIKEkSbVcnEX+yKzTllo1BEGVTJFLTdv1TqsiSRPrDH+aicCoQqQk5B/pT31G87MSILbp5HIZ2/7izyK29KaxnRId7Bu92z0dED+eJ9WqzyKAfVpLTu34KsqqwUPVl56dWiSAVgscRBObKYxQBIEHDhfBnSGGmG+06Pae7uZcUoOA+mtZ4krCGtqY42qpvqyfmoVhZjNkBJnCnJZ7nyQHaxYfGxHbYBde9sGCKBDYz4pXQM+uiv0HRKfeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=InJeiLUtrrksI7puw3zP8VDwYzSVtFqfSfIR4BOiOKg=;
+ b=M9he2Rjd3GE0JOMDJ3lut2XwgnCWjDdYW7toeSLDDPhgs6YCE+LZC03ctNKqqRVxmE5aW501MYFrBS/5XKytHdAApVEu67IR5/Vg4Hm7XH9JhyzQP3ryrdb0n/GFOI0kmVkKuzL/5jtyu0xTZVs01Y3OiAwNcKy1sJy1crJtbtqIKlM8eW+iyhF43tYPSqGu98azMRjO+W8nwfB636CjXwLmyIkmHICGaFTjyy+NjfQrlTaRjLf+BogxANHyBXVUY4O5uxjahacoVH/V628s07ckKBQe19S4nwTALxf5bDRX19tYrm2bWNQbKJZQGfDDuK6r+ysTHEc2cU8qaYZ9oQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hammerspace.com; dmarc=pass action=none
+ header.from=hammerspace.com; dkim=pass header.d=hammerspace.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hammerspace.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=InJeiLUtrrksI7puw3zP8VDwYzSVtFqfSfIR4BOiOKg=;
+ b=Ossg6M3KPx/9Ex3YzQqr41qUbjindjpW0vcdmiDrbOq59zNryqEo/EG+nw+mU9VwX/Q0wtoaBJjiofGM6tYDAORzpuYk39er0UiMw/V1PSRwZPpnMwubT8nf/xkXq9fmiWFLIGlcji6VCRfTuIJQbmOOqAHWjylGOpBGgm65HAo=
+Received: from DM5PR1301MB2108.namprd13.prod.outlook.com (10.174.186.34) by
+ DM5PR1301MB2075.namprd13.prod.outlook.com (10.174.185.155) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2430.13; Tue, 5 Nov 2019 19:37:49 +0000
+Received: from DM5PR1301MB2108.namprd13.prod.outlook.com
+ ([fe80::4c0b:3977:6b2d:6a8c]) by DM5PR1301MB2108.namprd13.prod.outlook.com
+ ([fe80::4c0b:3977:6b2d:6a8c%3]) with mapi id 15.20.2430.020; Tue, 5 Nov 2019
+ 19:37:49 +0000
+From:   Trond Myklebust <trondmy@hammerspace.com>
+To:     "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: Re: [REGRESSION v5.3] SUNRPC: Replace the queue timer with a delayed
+ work function (7e0a0e38fcfe)
+Thread-Topic: [REGRESSION v5.3] SUNRPC: Replace the queue timer with a delayed
+ work function (7e0a0e38fcfe)
+Thread-Index: AQHViwXgaq3NPyyvUUylBSSg67ZqQKd8jB6AgAB+1oA=
+Date:   Tue, 5 Nov 2019 19:37:48 +0000
+Message-ID: <6fb130dce8b75c487ed68ec623e1f6a64c78fafb.camel@hammerspace.com>
+References: <271ff39f-1f44-b201-6274-85f1085bfc16@nvidia.com>
+         <329228f8-e194-a021-9226-69a9b6a403ce@nvidia.com>
+In-Reply-To: <329228f8-e194-a021-9226-69a9b6a403ce@nvidia.com>
+Accept-Language: en-US, en-GB
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=trondmy@hammerspace.com; 
+x-originating-ip: [50.36.163.249]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 96e68bc8-5396-4410-0161-08d76227a3ff
+x-ms-traffictypediagnostic: DM5PR1301MB2075:
+x-microsoft-antispam-prvs: <DM5PR1301MB20754C26DF8A3E68D5A043E9B87E0@DM5PR1301MB2075.namprd13.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1107;
+x-forefront-prvs: 0212BDE3BE
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(366004)(39840400004)(346002)(376002)(396003)(189003)(199004)(81156014)(2906002)(2616005)(110136005)(3846002)(99286004)(186003)(7736002)(316002)(25786009)(53546011)(6506007)(66556008)(14444005)(6246003)(81166006)(102836004)(91956017)(66946007)(76176011)(8936002)(66476007)(66446008)(71200400001)(76116006)(64756008)(71190400001)(305945005)(6116002)(8676002)(11346002)(446003)(86362001)(2501003)(256004)(6436002)(14454004)(486006)(5660300002)(118296001)(229853002)(6486002)(6512007)(36756003)(66066001)(476003)(26005)(478600001)(2201001);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR1301MB2075;H:DM5PR1301MB2108.namprd13.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: hammerspace.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3apWC4OD+x6R/DzvteuHuq4R+d5TlM34kgLoBy9zkJhnOvS4T6U+ejwTWhX6G5i9Hb3kjHbqvxdG3dWA2wWOabKnqKXMQUtXG4BfkKVi/lnoaaXgs+6+O4PozsO0IoWl0b5w84dkriXO6WrqIyRvyxfSp8dNZl93X9BlvqZLTg6e7ORzvC7Z77TdBQnnY/6cqnh/ncK91+U/sQpLcWR8Ougs/jVzNATwtgjrlq1mCxysaiAEYG6HGK1M/S2JBxJh1E77l36eYe8z50hsPvvyegdEG+fCUNLkzjfo67SzyjXD7f6f02K3qYIX+C+2bbEkCBCJ0jtpVBTNRGI6atgxm9iy5x4HeEDoa4JwMTpnx/WFFFPh6q9L4qn3eQhjAZDui5MkPmw+pTaQP9WPqbfnZHCskLADWZ+A0v+AvvIjQUbwHe5V3u69rBDIf6N738aw
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <27B40EEB8361884EA6D568E60B592EBA@namprd13.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: hammerspace.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96e68bc8-5396-4410-0161-08d76227a3ff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2019 19:37:49.0389
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d4fed5c-3a70-46fe-9430-ece41741f59e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JEhJonRTMyc7SiqMiTfwYCRQcq6tL19GobEFkYmNItLH1XFpkWHVWoJkn3f1YbVLJzLlOrwvzIIJNBgGjv1GbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1301MB2075
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-05.11.2019 07:07, Chanwoo Choi пишет:
-> On 19. 11. 5. 오전 6:56, Dmitry Osipenko wrote:
->> I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
->> want to help keep them working and evolving in the future.
->>
->> Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  MAINTAINERS | 9 +++++++++
->>  1 file changed, 9 insertions(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 9f69d01da3a6..4b9679988514 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -10632,6 +10632,15 @@ F:	include/linux/memblock.h
->>  F:	mm/memblock.c
->>  F:	Documentation/core-api/boot-time-mm.rst
->>  
->> +MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
->> +M:	Dmitry Osipenko <digetx@gmail.com>
->> +L:	linux-pm@vger.kernel.org
->> +L:	linux-tegra@vger.kernel.org
->> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mzx/devfreq.git
->> +S:	Maintained
->> +F:	drivers/devfreq/tegra20-devfreq.c
->> +F:	drivers/devfreq/tegra30-devfreq.c
->> +
->>  MEMORY MANAGEMENT
->>  L:	linux-mm@kvack.org
->>  W:	https://protect2.fireeye.com/url?k=9d0ba644-c09508de-9d0a2d0b-0cc47a336fae-300ed90f1ba3077c&u=http://www.linux-mm.org/
->>
-> 
-> Looks good to me. 
-> 
-> But, the merge conflict might be occurred.
-> After getting the review from Myungjoo,
-> you better to send this patch separately
-> based on the latest MAINTAINERS file.
-> 
-> Thanks for your all efforts.
-
-Okay, I'll wait for the rest of patches to land and then re-send this
-patch separately. Thank you very much for the reviews.
+T24gVHVlLCAyMDE5LTExLTA1IGF0IDEyOjAzICswMDAwLCBKb24gSHVudGVyIHdyb3RlOg0KPiBI
+aSBUcm9uZCwNCj4gDQo+IEFueSBmZWVkYmFjayBvbiB0aGlzPw0KDQpTZWUgdGhlIHBhdGNoIEkg
+c2VudCB0aGlzIG1vcm5pbmcuIEkgYmVsaWV2ZSB0aGF0IG91Z2h0IHRvIGZpeCB0aGUNCnByb2Js
+ZW0uDQpTb3JyeSBhYm91dCB0aGUgcmVncmVzc2lvbi4gQXMgeW91IHNhdyBmcm9tIHRoZSBvcmln
+aW5hbCBwYXRjaCwgaXQNCnByZWRhdGVzIHlvdXIgZmlyc3QgYnVnIHJlcG9ydCwgYW5kIHdoZW4g
+SSBxdWV1ZWQgaXQgdXAgZm9yIHN1Ym1pc3Npb24sDQpJIG1pc3NlZCB0aGF0IGl0IHdhcyBjb3B5
+aW5nIHRoZSAiZGVmZXJyYWJsZSIgc3RhdHVzIHRoYXQgY2F1c2VkIHRoYXQNCmZpcnN0IGJ1Zy4N
+Cg0KQ2hlZXJzDQogIFRyb25kDQoNCj4gDQo+IEpvbg0KPiANCj4gT24gMjUvMTAvMjAxOSAwODoy
+OCwgSm9uIEh1bnRlciB3cm90ZToNCj4gPiBIaSBUcm9uZCwNCj4gPiANCj4gPiBTaW1pbGFyIHRv
+IHRoZSBjaGFuZ2UgNDMxMjM1ODE4YmMzICgiU1VOUlBDOiBEZWNsYXJlIFJQQyB0aW1lcnMgYXMN
+Cj4gPiBUSU1FUl9ERUZFUlJBQkxFIikgSSBoYXZlIGJlZW4gdHJhY2tpbmcgZG93biBhbm90aGVy
+IHN1c3BlbmQvTkZTDQo+ID4gcmVsYXRlZA0KPiA+IGlzc3VlIHdoZXJlIGFnYWluIEkgYW0gc2Vl
+aW5nIHJhbmRvbSBkZWxheXMgZXhpdGluZyBzdXNwZW5kLiBUaGUNCj4gPiBkZWxheXMNCj4gPiBj
+YW4gYmUgdXAgdG8gYSBjb3VwbGUgbWludXRlcyBpbiB0aGUgd29yc3QgY2FzZSBhbmQgdGhpcyBp
+cyBjYXVzaW5nDQo+ID4gYQ0KPiA+IHN1c3BlbmQgdGVzdCB3ZSBoYXZlIHRvIGZhaWwuIEZvciBl
+eGFtcGxlLCB3aXRoIHRoaXMgY2hhbmdlIEkgc2VlDQo+ID4gLi4uDQo+ID4gDQo+ID4gWyAgMTMw
+LjU5OTUyMF0gUE06IHN1c3BlbmQgZW50cnkgKGRlZXApDQo+ID4gDQo+ID4gWyAgMTMwLjYwNzI2
+N10gRmlsZXN5c3RlbXMgc3luYzogMC4wMDAgc2Vjb25kcw0KPiA+IA0KPiA+IFsgIDEzMC42MTU4
+MDBdIEZyZWV6aW5nIHVzZXIgc3BhY2UgcHJvY2Vzc2VzIC4uLiAoZWxhcHNlZCAwLjAwMQ0KPiA+
+IHNlY29uZHMpIGRvbmUuDQo+ID4gDQo+ID4gWyAgMTMwLjYyODI0N10gT09NIGtpbGxlciBkaXNh
+YmxlZC4NCj4gPiANCj4gPiBbICAxMzAuNjM1MzgyXSBGcmVlemluZyByZW1haW5pbmcgZnJlZXph
+YmxlIHRhc2tzIC4uLiAoZWxhcHNlZA0KPiA+IDAuMDAxIHNlY29uZHMpIGRvbmUuDQo+ID4gDQo+
+ID4gWyAgMTMwLjY0ODA1Ml0gcHJpbnRrOiBTdXNwZW5kaW5nIGNvbnNvbGUocykgKHVzZQ0KPiA+
+IG5vX2NvbnNvbGVfc3VzcGVuZCB0byBkZWJ1ZykNCj4gPiANCj4gPiBbICAxMzAuNjg2MDE1XSBE
+aXNhYmxpbmcgbm9uLWJvb3QgQ1BVcyAuLi4NCj4gPiANCj4gPiBbICAxMzAuNjg5NTY4XSBJUlEg
+MTc6IG5vIGxvbmdlciBhZmZpbmUgdG8gQ1BVMg0KPiA+IA0KPiA+IFsgIDEzMC42OTM0MzVdIEVu
+dGVyaW5nIHN1c3BlbmQgc3RhdGUgTFAxDQo+ID4gDQo+ID4gWyAgMTMwLjY5MzQ4OV0gRW5hYmxp
+bmcgbm9uLWJvb3QgQ1BVcyAuLi4NCj4gPiANCj4gPiBbICAxMzAuNjk3MTA4XSBDUFUxIGlzIHVw
+DQo+ID4gDQo+ID4gWyAgMTMwLjcwMDYwMl0gQ1BVMiBpcyB1cA0KPiA+IA0KPiA+IFsgIDEzMC43
+MDQzMzhdIENQVTMgaXMgdXANCj4gPiANCj4gPiBbICAxMzAuNzgxMjU5XSBtbWMxOiBxdWV1aW5n
+IHVua25vd24gQ0lTIHR1cGxlIDB4ODAgKDUwIGJ5dGVzKQ0KPiA+IA0KPiA+IFsgIDEzMC43ODk3
+NDJdIG1tYzE6IHF1ZXVpbmcgdW5rbm93biBDSVMgdHVwbGUgMHg4MCAoNyBieXRlcykNCj4gPiAN
+Cj4gPiBbICAxMzAuNzkyNzkzXSBtbWMxOiBxdWV1aW5nIHVua25vd24gQ0lTIHR1cGxlIDB4ODAg
+KDcgYnl0ZXMpDQo+ID4gDQo+ID4gWyAgMTMwLjgyMDkxM10gbW1jMTogcXVldWluZyB1bmtub3du
+IENJUyB0dXBsZSAweDAyICgxIGJ5dGVzKQ0KPiA+IA0KPiA+IFsgIDEzMS4zNDU1NjldIE9PTSBr
+aWxsZXIgZW5hYmxlZC4NCj4gPiANCj4gPiBbICAxMzEuMzUyNjQzXSBSZXN0YXJ0aW5nIHRhc2tz
+IC4uLiBkb25lLg0KPiA+IA0KPiA+IFsgIDEzMS4zNjU0ODBdIFBNOiBzdXNwZW5kIGV4aXQNCj4g
+PiANCj4gPiBbICAxMzQuNTI0MjYxXSBhc2l4IDEtMToxLjAgZXRoMDogbGluayB1cCwgMTAwTWJw
+cywgZnVsbC1kdXBsZXgsDQo+ID4gbHBhIDB4Q0RFMQ0KPiA+IA0KPiA+IFsgIDI0My43NDU3ODhd
+IG5mczogc2VydmVyIDE5Mi4xNjguOTkuMSBub3QgcmVzcG9uZGluZywgc3RpbGwNCj4gPiB0cnlp
+bmcNCj4gPiANCj4gPiBbICAyNDMuNzQ1ODExXSBuZnM6IHNlcnZlciAxOTIuMTY4Ljk5LjEgbm90
+IHJlc3BvbmRpbmcsIHN0aWxsDQo+ID4gdHJ5aW5nDQo+ID4gDQo+ID4gWyAgMjQzLjc2NzkzOV0g
+bmZzOiBzZXJ2ZXIgMTkyLjE2OC45OS4xIG5vdCByZXNwb25kaW5nLCBzdGlsbA0KPiA+IHRyeWlu
+Zw0KPiA+IA0KPiA+IFsgIDI0My43NzgyMzNdIG5mczogc2VydmVyIDE5Mi4xNjguOTkuMSBPSw0K
+PiA+IA0KPiA+IFsgIDI0My43ODcwNThdIG5mczogc2VydmVyIDE5Mi4xNjguOTkuMSBPSw0KPiA+
+IA0KPiA+IFsgIDI0My43ODc1NDJdIG5mczogc2VydmVyIDE5Mi4xNjguOTkuMSBPSw0KPiA+IA0K
+PiA+IA0KPiA+IFJ1bm5pbmcgYSBnaXQgYmlzZWN0IEkgd2FzIGFibGUgdG8gdHJhY2sgaXQgZG93
+biB0byB0aGUgY29tbWl0DQo+ID4gcmVmZXJlbmNlZA0KPiA+IGluIHRoZSAkc3ViamVjdC4gUmV2
+ZXJ0aW5nIHRoaXMgb24gdG9wIG9mIHRoZSBjdXJyZW50IG1haW5saW5lDQo+ID4gZml4ZXMgdGhl
+DQo+ID4gcHJvYmxlbSBhbmQgSSBubyBsb25nZXIgc2VlIHRoZXNlIGxvbmcgZGVsYXlzLg0KPiA+
+IA0KPiA+IENoZWVycw0KPiA+IEpvbg0KPiA+IA0KLS0gDQpUcm9uZCBNeWtsZWJ1c3QNCkxpbnV4
+IE5GUyBjbGllbnQgbWFpbnRhaW5lciwgSGFtbWVyc3BhY2UNCnRyb25kLm15a2xlYnVzdEBoYW1t
+ZXJzcGFjZS5jb20NCg0KDQo=
