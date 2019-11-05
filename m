@@ -2,138 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 85C9AEFCE7
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 13:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD477EFDD0
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 13:59:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730922AbfKEMDy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 Nov 2019 07:03:54 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:9260 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730816AbfKEMDy (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Nov 2019 07:03:54 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dc1652d0000>; Tue, 05 Nov 2019 04:03:57 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 05 Nov 2019 04:03:53 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 05 Nov 2019 04:03:53 -0800
-Received: from [10.26.11.93] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 5 Nov
- 2019 12:03:51 +0000
-Subject: Re: [REGRESSION v5.3] SUNRPC: Replace the queue timer with a delayed
- work function (7e0a0e38fcfe)
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Trond Myklebust <trondmy@hammerspace.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <271ff39f-1f44-b201-6274-85f1085bfc16@nvidia.com>
-Message-ID: <329228f8-e194-a021-9226-69a9b6a403ce@nvidia.com>
-Date:   Tue, 5 Nov 2019 12:03:49 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2388753AbfKEM7w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 Nov 2019 07:59:52 -0500
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:60046 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388678AbfKEM7v (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Nov 2019 07:59:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=iFTVrYBWldjdkzW4JZSdAbgJD9mchpp3GHteGBcrZ8A=; b=rM8HUP7vSr369xXLxxXEq8irU
+        6fYZedFYbcmsD4l6CFVXW6O2OuPWWY2G5S43+xBj28YCuydxJHW9C+7j+97g0dclDqeaqhiB2BRMw
+        Neyk4Rv0vCqD3SisQlkqp1TapRCHQMYCdZZY5b+8a0nlxFMV1vmflyeR5jy0Mier7hLjk=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.co.uk>)
+        id 1iRyR0-0006ao-Nv; Tue, 05 Nov 2019 12:59:46 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id D1134274301E; Tue,  5 Nov 2019 12:59:45 +0000 (GMT)
+From:   Mark Brown <broonie@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>
+Subject: [PATCH] drm/tegra: Fix regulator_get_optional() misuse
+Date:   Tue,  5 Nov 2019 12:59:42 +0000
+Message-Id: <20191105125943.34729-1-broonie@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <271ff39f-1f44-b201-6274-85f1085bfc16@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572955438; bh=AZfLvetcKty1RUMhPBJVPXae796yrRpZVsA3ANb7qc8=;
-        h=X-PGP-Universal:Subject:From:To:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=XEUxt89iA1MfpqxryeY4mRpRa3HkNbFowEirE7A5fqMaiaYH/nhEk6TJwxjaUsZLO
-         z0HHLfyzA9vsznwdyZQTPcAchJ6L3sv2axAvUD3DGV3h5GG+qyumIJM/ReQHQ88LM5
-         rkLntd2V+Fz99XbD8iNXkdzpQyFYK2ikhgq1Yn9M/6LWZEkkiOZKZM7to/uuTGSJoo
-         3zrTQS6H+tw5HTxpT18rkMl/f2RgmB4/nEdh78nVwoFKVXBWaFMMcieq8dMCEL0mHq
-         rd4k/KzpCwsXmpvjA1MUsbbh/h11EKDeF5p3BY5sUTeiadahsUzDSMOv+17vOIYycC
-         BAHZwcoY4FaJQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Trond,
+The tegra driver requests a supply using regulator_get_optional()
+but both the name of the supply and the usage pattern suggest that it is
+being used for the main power for the device and is not at all optional
+for the device for function, there is no meaningful handling for absent
+supplies.  Such regulators should use the vanilla regulator_get()
+interface, it will ensure that even if a supply is not described in the
+system integration one will be provided in software.
 
-Any feedback on this?
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/gpu/drm/tegra/dpaux.c | 32 ++++++++++++--------------------
+ 1 file changed, 12 insertions(+), 20 deletions(-)
 
-Jon
-
-On 25/10/2019 08:28, Jon Hunter wrote:
-> Hi Trond,
-> 
-> Similar to the change 431235818bc3 ("SUNRPC: Declare RPC timers as
-> TIMER_DEFERRABLE") I have been tracking down another suspend/NFS related
-> issue where again I am seeing random delays exiting suspend. The delays
-> can be up to a couple minutes in the worst case and this is causing a
-> suspend test we have to fail. For example, with this change I see ...
-> 
-> [  130.599520] PM: suspend entry (deep)
-> 
-> [  130.607267] Filesystems sync: 0.000 seconds
-> 
-> [  130.615800] Freezing user space processes ... (elapsed 0.001 seconds) done.
-> 
-> [  130.628247] OOM killer disabled.
-> 
-> [  130.635382] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-> 
-> [  130.648052] printk: Suspending console(s) (use no_console_suspend to debug)
-> 
-> [  130.686015] Disabling non-boot CPUs ...
-> 
-> [  130.689568] IRQ 17: no longer affine to CPU2
-> 
-> [  130.693435] Entering suspend state LP1
-> 
-> [  130.693489] Enabling non-boot CPUs ...
-> 
-> [  130.697108] CPU1 is up
-> 
-> [  130.700602] CPU2 is up
-> 
-> [  130.704338] CPU3 is up
-> 
-> [  130.781259] mmc1: queuing unknown CIS tuple 0x80 (50 bytes)
-> 
-> [  130.789742] mmc1: queuing unknown CIS tuple 0x80 (7 bytes)
-> 
-> [  130.792793] mmc1: queuing unknown CIS tuple 0x80 (7 bytes)
-> 
-> [  130.820913] mmc1: queuing unknown CIS tuple 0x02 (1 bytes)
-> 
-> [  131.345569] OOM killer enabled.
-> 
-> [  131.352643] Restarting tasks ... done.
-> 
-> [  131.365480] PM: suspend exit
-> 
-> [  134.524261] asix 1-1:1.0 eth0: link up, 100Mbps, full-duplex, lpa 0xCDE1
-> 
-> [  243.745788] nfs: server 192.168.99.1 not responding, still trying
-> 
-> [  243.745811] nfs: server 192.168.99.1 not responding, still trying
-> 
-> [  243.767939] nfs: server 192.168.99.1 not responding, still trying
-> 
-> [  243.778233] nfs: server 192.168.99.1 OK
-> 
-> [  243.787058] nfs: server 192.168.99.1 OK
-> 
-> [  243.787542] nfs: server 192.168.99.1 OK
-> 
-> 
-> Running a git bisect I was able to track it down to the commit referenced
-> in the $subject. Reverting this on top of the current mainline fixes the
-> problem and I no longer see these long delays.
-> 
-> Cheers
-> Jon
-> 
-
+diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
+index 622cdf1ad246..38686f56ea2f 100644
+--- a/drivers/gpu/drm/tegra/dpaux.c
++++ b/drivers/gpu/drm/tegra/dpaux.c
+@@ -505,18 +505,14 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
+-	dpaux->vdd = devm_regulator_get_optional(&pdev->dev, "vdd");
++	dpaux->vdd = devm_regulator_get(&pdev->dev, "vdd");
+ 	if (IS_ERR(dpaux->vdd)) {
+-		if (PTR_ERR(dpaux->vdd) != -ENODEV) {
+-			if (PTR_ERR(dpaux->vdd) != -EPROBE_DEFER)
+-				dev_err(&pdev->dev,
+-					"failed to get VDD supply: %ld\n",
+-					PTR_ERR(dpaux->vdd));
+-
+-			return PTR_ERR(dpaux->vdd);
+-		}
++		if (PTR_ERR(dpaux->vdd) != -EPROBE_DEFER)
++			dev_err(&pdev->dev,
++				"failed to get VDD supply: %ld\n",
++				PTR_ERR(dpaux->vdd));
+ 
+-		dpaux->vdd = NULL;
++		return PTR_ERR(dpaux->vdd);
+ 	}
+ 
+ 	platform_set_drvdata(pdev, dpaux);
+@@ -731,11 +727,9 @@ int drm_dp_aux_attach(struct drm_dp_aux *aux, struct tegra_output *output)
+ 	if (output->panel) {
+ 		enum drm_connector_status status;
+ 
+-		if (dpaux->vdd) {
+-			err = regulator_enable(dpaux->vdd);
+-			if (err < 0)
+-				return err;
+-		}
++		err = regulator_enable(dpaux->vdd);
++		if (err < 0)
++			return err;
+ 
+ 		timeout = jiffies + msecs_to_jiffies(250);
+ 
+@@ -767,11 +761,9 @@ int drm_dp_aux_detach(struct drm_dp_aux *aux)
+ 	if (dpaux->output->panel) {
+ 		enum drm_connector_status status;
+ 
+-		if (dpaux->vdd) {
+-			err = regulator_disable(dpaux->vdd);
+-			if (err < 0)
+-				return err;
+-		}
++		err = regulator_disable(dpaux->vdd);
++		if (err < 0)
++			return err;
+ 
+ 		timeout = jiffies + msecs_to_jiffies(250);
+ 
 -- 
-nvpublic
+2.20.1
+
