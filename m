@@ -2,61 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6945EEF4AB
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 06:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A2C3EFB54
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 11:33:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725806AbfKEFHk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 Nov 2019 00:07:40 -0500
-Received: from smtprelay0091.hostedemail.com ([216.40.44.91]:53634 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725385AbfKEFHk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 5 Nov 2019 00:07:40 -0500
-X-Greylist: delayed 463 seconds by postgrey-1.27 at vger.kernel.org; Tue, 05 Nov 2019 00:07:40 EST
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave04.hostedemail.com (Postfix) with ESMTP id A880D1801A5E2
-        for <linux-tegra@vger.kernel.org>; Tue,  5 Nov 2019 04:59:57 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 412FF1801A991;
-        Tue,  5 Nov 2019 04:59:56 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::::::,RULES_HIT:41:152:355:379:599:968:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1537:1567:1593:1594:1711:1714:1730:1747:1777:1792:2393:2553:2559:2562:3138:3139:3140:3141:3142:3622:3867:3872:3874:4043:4321:5007:7903:10004:10400:10848:11232:11658:11914:12297:12740:12895:13069:13311:13357:13894:14659:21080:21451:21627:21939:30012:30054:30090:30091,0,RBL:47.151.135.224:@perches.com:.lbl8.mailshell.net-62.8.0.100 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:25,LUA_SUMMARY:none
-X-HE-Tag: tiger32_90babfc2ae605
-X-Filterd-Recvd-Size: 1412
-Received: from XPS-9350.home (unknown [47.151.135.224])
-        (Authenticated sender: joe@perches.com)
-        by omf07.hostedemail.com (Postfix) with ESMTPA;
-        Tue,  5 Nov 2019 04:59:54 +0000 (UTC)
-Message-ID: <4df246124153bcece639fdd026c4eee629b4bb7a.camel@perches.com>
-Subject: Re: [PATCH 0/3] drm/tegra: Remove space after parenthesis
-From:   Joe Perches <joe@perches.com>
-To:     =?UTF-8?Q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        Jamal Shareef <jamal.k.shareef@gmail.com>
-Cc:     outreachy-kernel@googlegroups.com, thierry.reding@gmail.com,
-        airlied@linux.ie, daniel@ffwll.ch, jonathanh@nvidia.com,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        id S2388790AbfKEKcs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 Nov 2019 05:32:48 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:41150 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388197AbfKEKc3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Nov 2019 05:32:29 -0500
+Received: by mail-lj1-f193.google.com with SMTP id m9so21152707ljh.8;
+        Tue, 05 Nov 2019 02:32:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SWK7CmtDOwfIKHnYFex+RYaQFNRKO4DynQcps+PBeiI=;
+        b=VlfWhKmurDjB713J372aYN1n+G0s7jc7UBAPEI66/HLWoR40H+jlorYkG1Lgx0VhKQ
+         WDM7pe6lakjC5Hv9Ovmpbs995hduIPEOzoDYfT+Vjg9VQjs5x/NBUIa33Wq7V+q+ZGSi
+         yJvHPWBL8uBuebyOQML3YI8H4VR7gM1RWQzjExMcwEQjFfFcRGvwdf5aIXdlMm5RKZTf
+         nCrPryZ+xwQSyFu4qaSCMbX7pAZEaU0GVk0XOj+fK8ijlLnEVNGfeT3v2VWvsBGtO/0B
+         FE4L/bUdVGtC7m2fJ93flhWM9zBwCeHYU067Q0xlipsvViNXbytW+GQKLo+V+z1U/E9M
+         QD/A==
+X-Gm-Message-State: APjAAAUWwZBQqzAFe+SnadIkVRgzBHw50gHML/EqriOGTpADwgfRGxee
+        CzEOf0Witln6xilFq0jSktg=
+X-Google-Smtp-Source: APXvYqxNFy+PODpiOaCWYsmMSRxOPQyAQX+ysX3uJq4o7gYTBHKqILDOlOjn3voEwwi1/VoXJvQFRg==
+X-Received: by 2002:a2e:2c19:: with SMTP id s25mr6898561ljs.26.1572949947281;
+        Tue, 05 Nov 2019 02:32:27 -0800 (PST)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id 9sm8154722ljf.21.2019.11.05.02.32.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 02:32:26 -0800 (PST)
+Date:   Tue, 5 Nov 2019 12:32:17 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Date:   Mon, 04 Nov 2019 20:59:43 -0800
-In-Reply-To: <20191105045337.GB1764@qmqm.qmqm.pl>
-References: <cover.1572920482.git.jamal.k.shareef@gmail.com>
-         <20191105045337.GB1764@qmqm.qmqm.pl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.1-2 
+Subject: [PATCH 43/62] gpio: gpio-tegra186: Use new GPIO_LINE_DIRECTION
+Message-ID: <b0c39b6da0969e3fe860b939d161d481d843e55a.1572945959.git.matti.vaittinen@fi.rohmeurope.com>
+References: <cover.1572945959.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1572945959.git.matti.vaittinen@fi.rohmeurope.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 2019-11-05 at 05:53 +0100, Michał Mirosław wrote:
-> On Mon, Nov 04, 2019 at 06:23:19PM -0800, Jamal Shareef wrote:
-> > This patchset removes spaces after left open parenthesis.
-> > Issue found by checkpatch.
-> 
-> I'd say that those spaces make code easier to look at, so it would
-> be better to teach checkpatch to ignore cases like these.
+It's hard for occasional GPIO code reader/writer to know if values 0/1
+equal to IN or OUT. Use defined GPIO_LINE_DIRECTION_IN and
+GPIO_LINE_DIRECTION_OUT to help them out.
 
-Good luck with that.
+Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+---
+ drivers/gpio/gpio-tegra186.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpio/gpio-tegra186.c b/drivers/gpio/gpio-tegra186.c
+index a9058fda187e..e0598d58b81b 100644
+--- a/drivers/gpio/gpio-tegra186.c
++++ b/drivers/gpio/gpio-tegra186.c
+@@ -110,9 +110,9 @@ static int tegra186_gpio_get_direction(struct gpio_chip *chip,
+ 
+ 	value = readl(base + TEGRA186_GPIO_ENABLE_CONFIG);
+ 	if (value & TEGRA186_GPIO_ENABLE_CONFIG_OUT)
+-		return 0;
++		return GPIO_LINE_DIRECTION_OUT;
+ 
+-	return 1;
++	return GPIO_LINE_DIRECTION_IN;
+ }
+ 
+ static int tegra186_gpio_direction_input(struct gpio_chip *chip,
+-- 
+2.21.0
 
 
+-- 
+Matti Vaittinen, Linux device drivers
+ROHM Semiconductors, Finland SWDC
+Kiviharjunlenkki 1E
+90220 OULU
+FINLAND
+
+~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
+Simon says - in Latin please.
+~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
+Thanks to Simon Glass for the translation =] 
