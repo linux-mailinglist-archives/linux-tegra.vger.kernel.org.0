@@ -2,101 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CAD4EEF0A
-	for <lists+linux-tegra@lfdr.de>; Mon,  4 Nov 2019 23:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 816D1EF35E
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 03:23:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389040AbfKDWSt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 4 Nov 2019 17:18:49 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:41710 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388656AbfKDWBT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 4 Nov 2019 17:01:19 -0500
-Received: by mail-lj1-f193.google.com with SMTP id m9so19370475ljh.8;
-        Mon, 04 Nov 2019 14:01:18 -0800 (PST)
+        id S1729428AbfKECX0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 4 Nov 2019 21:23:26 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42134 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728987AbfKECX0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 4 Nov 2019 21:23:26 -0500
+Received: by mail-pf1-f193.google.com with SMTP id s5so5734975pfh.9;
+        Mon, 04 Nov 2019 18:23:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dCIWMfP1VPP4Mlo+oAntsMXZNvH354k2VUOlKxxlyNs=;
-        b=bmQHksK9yY/V7YYJfquoSqTBqSgpAi//o6+WDsa3ucjYlxs+iNJWJ7OHB0XXaR0cEa
-         dhXpt53x/EYthqGDGcO3lR2zGgETSrXqagLvoaIhT0rYSVO258GU1iax/zlXdOqQtySP
-         yhJ+AA8NOD35r/1pb718wVQFHiZZd2fkmzuO9WPC5KE92kDdeFJ8EWSC48mLCncLHfXr
-         gQ4b4UPO2zlWujKmHtSv/gZW86CNGBGSRsVBHtmwDq4/8QXhVeM4e/4dx7pOwOvVdK0D
-         7L1bD0W0beAiufHgC7bmg+2WXhBe9Hw8mEcIX0KjSHx2C+QT/cDb0letMEDREZ/hxecJ
-         Du/g==
+        h=from:to:cc:subject:date:message-id;
+        bh=LsXcsm2GHHqu1Vt0Snl+ykY6IrvFVgDaD/4d0g8GINY=;
+        b=ffDI3R2T1dHvht2x5jtqWsQFPVQsa8dQxv0de3i0FqfFCz9qe722OVOayADpggb0zp
+         cRcKLc3irCZdLVoVDFEmdcNxyw4waGj+55YVeG67+KOdIMOhh4bhzdxDHTcoQOjwfP0V
+         YnrCZu8mtIy3zPDBHIgvEilMjHmF4OSLwa5d7ScG+3jPOiEyTpgj/5Vv1Jsue9YY1F8s
+         BQqnovAb2IzvEnfV5BKKR/+rbu4F2D+RJQ6DgWQ6lcAC3+4R1L0hy6qkrQxuQu5bVq/R
+         m0pf3MYwuHf03Ix8nOZnH2Pd1wswSjXT2vbSMKBbbMMLL0HHaPS+7haIAuV5ox2UE7Ye
+         s/Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dCIWMfP1VPP4Mlo+oAntsMXZNvH354k2VUOlKxxlyNs=;
-        b=BYoTb3ampLmdy8Hg/O27KEm0jCjT0qpW0wPDB+Pg0GHZLTYJ63vR4e9vUGsHnufeCv
-         frHKn9ib6XcoeYTLz6oYtgjOz5Dka9064opb/7OiSLaK3re/yY6PmC69GgZ/o68XQNS4
-         a7gnYjEDAJWHr6861J/HmutnSRGxUivF1azffFBcvHPze/GbhUaD1JMndZ9TFXJHrQuk
-         YusylAAACRxJLzzt/tVPpfg5tEqnsUKgpulvSmNDUvJnaxAdfhkPHX0Pygf74HENDwxv
-         ux/0FNauKy3zkVa3D0/IDryX1skdp3x0es4F/cV0jCMtPyRcRib3Ogith5JoYBjSjwDk
-         6a6g==
-X-Gm-Message-State: APjAAAUjvocm2zm5kf6tdeETNLdDVp/TcpQs2PHV2g6l9lrQTFRLCipQ
-        stOti6zvSctAjOe33HyrhHwts6J6
-X-Google-Smtp-Source: APXvYqxU61urBbJtIU7aswhY0D++VEJxl14uOim843ou0VrRJtc9pL22FdchXaHRBq4EWetYaQqeFw==
-X-Received: by 2002:a2e:6a10:: with SMTP id f16mr302864ljc.100.1572904877652;
-        Mon, 04 Nov 2019 14:01:17 -0800 (PST)
-Received: from localhost.localdomain (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.gmail.com with ESMTPSA id g3sm7454669ljj.59.2019.11.04.14.01.16
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=LsXcsm2GHHqu1Vt0Snl+ykY6IrvFVgDaD/4d0g8GINY=;
+        b=QkDlEHel/wRIhDLDodYbu1rOGWgE5tlTpE+PKrH5v+Id7DyjqncRrjeUk3TZN/DZSk
+         RUftLKqyoBr0qJvRILFclAEvIKQq+HB1SLeNLSctfn/VEiXGjAW3jSbMR4phz91I6tBF
+         DTKnm7J/zmw2YW7PHjsgUgi7p2gQjD4byiDXNttDyT9VsBPFbLJWWdVuVNo90S6n+WUu
+         A6g8apTWV6MAYfLeLge55yoS9X6I3BIV+2FACIOtUqSVcg1a2rigCeb105IjXQ9sxV8a
+         P4CWC8sZXi5kRHz30UTkxsfITSnDNhmY9nd/i0m9IptqUoFQESDZVgHbXWRYpzOkWbkx
+         Vkvw==
+X-Gm-Message-State: APjAAAXIpAszWPvLlitFNsIm7sY5K1EzS8XY0mF1JeiOtN2yP/4xrRtp
+        cubw/w0q0JIdO+EfW+Qh5j8=
+X-Google-Smtp-Source: APXvYqweZZE4NYDUt6+1uB6wHOE5HaTdK/3N36YwRyrmUabnLKxDDxU8a6uzOAi5vimdNvr33VNVOg==
+X-Received: by 2002:a65:5a06:: with SMTP id y6mr34196253pgs.9.1572920605692;
+        Mon, 04 Nov 2019 18:23:25 -0800 (PST)
+Received: from jamal-desktop (97-126-66-56.tukw.qwest.net. [97.126.66.56])
+        by smtp.gmail.com with ESMTPSA id w10sm16031382pjq.3.2019.11.04.18.23.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2019 14:01:17 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v9 19/19] PM / devfreq: tegra20/30: Add Dmitry as a maintainer
-Date:   Tue,  5 Nov 2019 00:56:17 +0300
-Message-Id: <20191104215617.25544-20-digetx@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191104215617.25544-1-digetx@gmail.com>
-References: <20191104215617.25544-1-digetx@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 04 Nov 2019 18:23:25 -0800 (PST)
+From:   Jamal Shareef <jamal.k.shareef@gmail.com>
+To:     outreachy-kernel@googlegroups.com
+Cc:     thierry.reding@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+        jonathanh@nvidia.com, dri-devel@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jamal Shareef <jamal.k.shareef@gmail.com>
+Subject: [PATCH 0/3] drm/tegra: Remove space after parenthesis
+Date:   Mon,  4 Nov 2019 18:23:19 -0800
+Message-Id: <cover.1572920482.git.jamal.k.shareef@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
-want to help keep them working and evolving in the future.
+This patchset removes spaces after left open parenthesis.
+Issue found by checkpatch.
 
-Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Jamal Shareef (3):
+  drm/tegra: dc: Remove space after parenthesis
+  drm/tegra: dsi: Remove space in open parenthesis
+  drm/tegra: gr3d: Remove space after parenthesis
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9f69d01da3a6..4b9679988514 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10632,6 +10632,15 @@ F:	include/linux/memblock.h
- F:	mm/memblock.c
- F:	Documentation/core-api/boot-time-mm.rst
- 
-+MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
-+M:	Dmitry Osipenko <digetx@gmail.com>
-+L:	linux-pm@vger.kernel.org
-+L:	linux-tegra@vger.kernel.org
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mzx/devfreq.git
-+S:	Maintained
-+F:	drivers/devfreq/tegra20-devfreq.c
-+F:	drivers/devfreq/tegra30-devfreq.c
-+
- MEMORY MANAGEMENT
- L:	linux-mm@kvack.org
- W:	http://www.linux-mm.org
+ drivers/gpu/drm/tegra/dc.h   |  40 ++++++------
+ drivers/gpu/drm/tegra/dsi.c  |  60 +++++++++---------
+ drivers/gpu/drm/tegra/gr3d.c | 120 +++++++++++++++++------------------
+ 3 files changed, 110 insertions(+), 110 deletions(-)
+
 -- 
-2.23.0
+2.17.1
 
