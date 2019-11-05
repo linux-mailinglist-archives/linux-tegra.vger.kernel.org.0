@@ -2,104 +2,75 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DA8BEFBE1
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 11:55:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1CD8EFCC5
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 12:58:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730715AbfKEKzt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 Nov 2019 05:55:49 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:61976 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726867AbfKEKzt (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Nov 2019 05:55:49 -0500
-Received: from 79.184.254.83.ipv4.supernova.orange.pl (79.184.254.83) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
- id 30ed470343694d0c; Tue, 5 Nov 2019 11:55:45 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Vidya Sagar <vidyas@nvidia.com>, Sinan Kaya <okaya@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com,
-        Andrew Murray <andrew.murray@arm.com>,
-        Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
-Date:   Tue, 05 Nov 2019 11:55:45 +0100
-Message-ID: <11429373.7ySiFsEkgL@kreacher>
-In-Reply-To: <20191104173904.GA122794@google.com>
-References: <20191104173904.GA122794@google.com>
+        id S1730821AbfKEL6S (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 Nov 2019 06:58:18 -0500
+Received: from imap1.codethink.co.uk ([176.9.8.82]:45884 "EHLO
+        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726594AbfKEL6S (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Nov 2019 06:58:18 -0500
+Received: from [167.98.27.226] (helo=[10.35.5.173])
+        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
+        id 1iRxTL-0003s9-I6; Tue, 05 Nov 2019 11:58:07 +0000
+Subject: Re: [PATCH v4 3/7] ASoC: tegra: i2s: Add support for more than 2
+ channels
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-tegra@vger.kernel.org, alsa-devel@alsa-project.org,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-kernel@lists.codethink.co.uk,
+        Edward Cragg <edward.cragg@codethink.co.uk>
+References: <20191007153136.4920-1-ben.dooks@codethink.co.uk>
+ <20191007153136.4920-4-ben.dooks@codethink.co.uk>
+ <cfd308bd-290a-f72f-6876-d94151c09843@gmail.com>
+ <16910e8d-4745-4e55-0436-9b3200876037@codethink.co.uk>
+ <1e43701b-3627-ba6d-ee19-020e25af3ef1@gmail.com>
+ <d03a8fa0-3c62-1e32-9ca6-06d1996da11b@nvidia.com>
+From:   Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+Message-ID: <5d069991-f5c3-ae14-da9c-9b20555be4f6@codethink.co.uk>
+Date:   Tue, 5 Nov 2019 11:58:06 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <d03a8fa0-3c62-1e32-9ca6-06d1996da11b@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Monday, November 4, 2019 6:39:04 PM CET Bjorn Helgaas wrote:
-> [+cc Andrew, Lukas]
+On 24/10/2019 17:11, Jon Hunter wrote:
 > 
-> On Tue, Oct 15, 2019 at 05:44:47PM +0530, Vidya Sagar wrote:
-> > On 10/15/2019 4:40 PM, Sinan Kaya wrote:
-> > > ...
-> > > I think the PCI core should be putting the device back D0 state as one
-> > > of the first actions before enumerating. Wake up could be a combination
-> > > of ACPI and/or PCI wake up depending on where your device sits in the
-> > > topology.
-> >
-> > Yup. It is indeed doing it as part of pci_power_up() in pci.c file.
-> > But, what is confusing to me is the order of the calls.
-> > pci_power_up() has following calls in the same order.
-> > 	pci_raw_set_power_state(dev, PCI_D0);
-> > 	pci_update_current_state(dev, PCI_D0);
-> > But, pci_raw_set_power_state() is accessing config space without calling
-> > pci_device_is_present() whereas pci_update_current_state() which is called
-> > later in the flow is calling pci_device_is_present()...!
+> On 17/10/2019 18:38, Dmitry Osipenko wrote:
+>> 17.10.2019 19:23, Ben Dooks пишет:
+>>> On 08/10/2019 16:29, Dmitry Osipenko wrote:
+>>>> Hello Ben,
+>> Take a look here for example:
+>>
+>> https://nv-tegra.nvidia.com/gitweb/?p=linux-3.10.git;a=commit;h=49834eef9d51a6eff950e0f52ddc5343d960652e
 > 
-> A device should always respond to config reads unless it is in D3cold
-> or it is initializing after a reset.  IIUC you're doing a resume, not
-> a reset, so I think your device must be coming out of D3cold.  That's
-> typically done via ACPI, and I think we are missing some kind of delay
-> before our first config access:
+> That version of the driver is known to be buggy/incorrect. I don't think
+> we want to do that. We want to set the polarity based upon the format
+> passed and not the mode ...
 > 
->   pci_power_up
->     platform_pci_set_power_state(PCI_D0)    # eg, ACPI
->     pci_raw_set_power_state
->       pci_read_config_word(PCI_PM_CTRL)     # <-- first config access
->       pci_write_config_word(PCI_PM_CTRL)
->       pci_read_config_word(PCI_PM_CTRL)
->     pci_update_current_state
->       if (... || !pci_device_is_present())
-> 
-> Mika is working on some delays for the transition out of D3cold [1].
-> He's more concerned with a secondary bus behind a bridge, so I don't
-> think his patch addresses this case, but he's certainly familiar with
-> this area.
-> 
-> Huh, I'm really confused about this, too.  I don't
-> understand how resume ever works without any delay between
-> platform_pci_power_manageable() and the config reads in
-> pci_raw_set_power_state().  I must be missing something.
+> https://nv-tegra.nvidia.com/gitweb/?p=linux-nvidia.git;a=blob;f=sound/soc/tegra-alt/tegra210_i2s_alt.c;h=24cf3b55326f687aded22b91182df41c5ae188ac;hb=703aa948d2c92b87fd84f367f43a07778ed098b5#l333
 
-There is a delay in the runtime_d3cold case, see __pci_start_power_transition().
+Ok, thanks.
 
-But overall platform_pci_power_manageable() only checks whether or not the
-platform firmware can change the power state of the device.  If it can, it
-is expected to take care of any necessary delays while doing that (because
-there may be delays required by this particular instance of the platform
-firmware, beyond what is mandated by the PCI spec, or there may not be any
-need to wait at all).  If the platform firmware becomes responsible for
-setting the device's power state, there is not reason why it should not be
-responsible for the delay part too.
-
-In any case, I'm not sure how useful it is to add delays for everyone in the
-cases in which a specific system needs a delay because of its own PM
-implementation limitations.  It may be better to quirk such systems explicitly
-as long as there are not too many quirks in there, or we'll end up adding more
-and more *implicit* quirks in the form of general delays.
-
-Cheers!
+PS the security certificate on that site is still invalid :/
 
 
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
 
+https://www.codethink.co.uk/privacy.html
