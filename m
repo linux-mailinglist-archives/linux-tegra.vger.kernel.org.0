@@ -2,145 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E67D3EFBBC
-	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 11:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DA8BEFBE1
+	for <lists+linux-tegra@lfdr.de>; Tue,  5 Nov 2019 11:55:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388474AbfKEKug (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 5 Nov 2019 05:50:36 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:7599 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730715AbfKEKuf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Nov 2019 05:50:35 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dc154010001>; Tue, 05 Nov 2019 02:50:41 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 05 Nov 2019 02:50:34 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 05 Nov 2019 02:50:34 -0800
-Received: from [10.26.11.93] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 5 Nov
- 2019 10:50:31 +0000
-Subject: Re: [PATCH V3] PCI: tegra: Enable Relaxed Ordering only for Tegra20 &
- Tegra30
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Vidya Sagar <vidyas@nvidia.com>, <bhelgaas@google.com>,
-        <treding@nvidia.com>, <swarren@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
-References: <20190704150428.4035-1-vidyas@nvidia.com>
- <20190704160948.GA28058@e121166-lin.cambridge.arm.com>
- <310ce6f7-9379-9857-ac7c-53118b80966b@nvidia.com>
- <20190705093859.GA17491@e121166-lin.cambridge.arm.com>
- <c3168cfd-69f5-b51b-6ec6-c64d447efe13@nvidia.com>
-Message-ID: <8456f10d-6ff6-f3f4-54ff-aca2e90a0c0b@nvidia.com>
-Date:   Tue, 5 Nov 2019 10:50:28 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1730715AbfKEKzt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 5 Nov 2019 05:55:49 -0500
+Received: from cloudserver094114.home.pl ([79.96.170.134]:61976 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726867AbfKEKzt (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 5 Nov 2019 05:55:49 -0500
+Received: from 79.184.254.83.ipv4.supernova.orange.pl (79.184.254.83) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
+ id 30ed470343694d0c; Tue, 5 Nov 2019 11:55:45 +0100
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Vidya Sagar <vidyas@nvidia.com>, Sinan Kaya <okaya@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com,
+        Andrew Murray <andrew.murray@arm.com>,
+        Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
+Date:   Tue, 05 Nov 2019 11:55:45 +0100
+Message-ID: <11429373.7ySiFsEkgL@kreacher>
+In-Reply-To: <20191104173904.GA122794@google.com>
+References: <20191104173904.GA122794@google.com>
 MIME-Version: 1.0
-In-Reply-To: <c3168cfd-69f5-b51b-6ec6-c64d447efe13@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572951041; bh=Dnf+vlSNus+u9dyNKVgzdsUdsrWyiG7YB8a63UUpXss=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=XLUeNN+Ga6NaVfzlC50/n3DLf+146IUjbN+zV2VhXl/W4pkpqUSQjB4oCZg/H8mbz
-         ka0A2ydXqEbHeWfbAVOD9mz+IfWxEwoZQCt7wZww/JLIXa+1/EVtkmlh2zzvlzsfLp
-         yh0bgLfkxUbtpIIIUyrJol0w3mDy8xU5rLtSEe0qePrOkYkgvXUB4/19AslFTj3zqd
-         mlHvVIEf28Y6Iy8WNnD5V79K0hrsf9ncPdKxqfv9pSo8zmLion4gfYvYFmlfpO8XDo
-         f0iXxz2/fGbfSKNuCl95SCjJY6eCL8PcdHdZg1a4Pi7kMDmhBP77f/mQvOboq9m9G4
-         rpzsreutg7ubQ==
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Lorenzo,
-
-On 09/07/2019 12:02, Jon Hunter wrote:
-> On 05/07/2019 10:38, Lorenzo Pieralisi wrote:
->> [+Greg]
->>
->> On Fri, Jul 05, 2019 at 09:57:25AM +0100, Jon Hunter wrote:
->>> Hi Lorenzo,
->>>
->>> On 04/07/2019 17:09, Lorenzo Pieralisi wrote:
->>>> On Thu, Jul 04, 2019 at 08:34:28PM +0530, Vidya Sagar wrote:
->>>>> Currently Relaxed Ordering bit in the configuration space is enabled for
->>>>> all PCIe devices as the quirk uses PCI_ANY_ID for both Vendor-ID and
->>>>> Device-ID, but, as per the Technical Reference Manual of Tegra20 which is
->>>>> available at https://developer.nvidia.com/embedded/downloads#?search=tegra%202
->>>>> in Sec 34.1, it is mentioned that Relexed Ordering bit needs to be enabled in
->>>>> its root ports to avoid deadlock in hardware. The same is applicable for
->>>>> Tegra30 as well though it is not explicitly mentioned in Tegra30 TRM document,
->>>>> but the same must not be extended to root ports of other Tegra SoCs or
->>>>> other hosts as the same issue doesn't exist there.
->>>>>
->>>>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
->>>>
->>>> You forgot Thierry's ACK, I added it back but next time pay more
->>>> attention please.
->>>>
->>>> You should link the versions through eg git send-email
->>>> --in-reply-to=Message-Id so that it is easier to follow.
->>>>
->>>>> ---
->>>>> V3:
->>>>> * Modified commit message to make it more precise and explicit
->>>>>
->>>>> V2:
->>>>> * Modified commit message to include reference to Tegra20 TRM document.
->>>>>
->>>>>  drivers/pci/controller/pci-tegra.c | 7 +++++--
->>>>>  1 file changed, 5 insertions(+), 2 deletions(-)
->>>>
->>>> I applied it to pci/tegra after rewriting the whole commit log and
->>>> adding a Fixes: tag that you or someone at Nvidia will follow up;
->>>> I will check.
->>>
->>> I had a chat with Vidya last night to understand the issue, so now I
->>> have a good understanding of the problem this has caused, which is very
->>> unfortunate indeed!
->>>
->>> Vidya mentioned that you would like us to get this backported to stable
->>> branches. Please correct me if I am wrong here. We can certainly do
->>> that, but I do have concerns about doing so, for non-Tegra devices
->>> inparticularly, given that this has been around for sometime now. Hence,
->>> I was wondering if we should leave this soak in the mainline for at
->>> least a kernel release cycle before doing so. I really don't want to
->>> break stable for anyone. What are your thoughts on this?
->>
->> I looped in Greg to pick his brain, since it is unclear how we should
->> apply the stable kernel rules on this specific patch. Basically, this
->> technically is not a bug, it is just bad code that forces a feature on
->> ALL kernels that compile the PCI Tegra Controller driver in the kernel.
->> I would really really want to have this patch applied to all stable
->> kernels but first as you said it is better to apply it to mainline and
->> check it does not cause any issues on any other arch/platform then
->> we can think about backporting it to stable kernels.
->>
->> I am not happy to force Relaxed Ordering on any PCIe device on
->> any platform/arch compiling PCI Tegra controller in, so somehow
->> we must rectify this situation, this is gross as I said before.
+On Monday, November 4, 2019 6:39:04 PM CET Bjorn Helgaas wrote:
+> [+cc Andrew, Lukas]
 > 
-> Yes understood. Let's plan to sync up on this once v5.3 is out and see
-> how the land lies. We have an internal issue filed to track this and so
-> we should not forget!
+> On Tue, Oct 15, 2019 at 05:44:47PM +0530, Vidya Sagar wrote:
+> > On 10/15/2019 4:40 PM, Sinan Kaya wrote:
+> > > ...
+> > > I think the PCI core should be putting the device back D0 state as one
+> > > of the first actions before enumerating. Wake up could be a combination
+> > > of ACPI and/or PCI wake up depending on where your device sits in the
+> > > topology.
+> >
+> > Yup. It is indeed doing it as part of pci_power_up() in pci.c file.
+> > But, what is confusing to me is the order of the calls.
+> > pci_power_up() has following calls in the same order.
+> > 	pci_raw_set_power_state(dev, PCI_D0);
+> > 	pci_update_current_state(dev, PCI_D0);
+> > But, pci_raw_set_power_state() is accessing config space without calling
+> > pci_device_is_present() whereas pci_update_current_state() which is called
+> > later in the flow is calling pci_device_is_present()...!
+> 
+> A device should always respond to config reads unless it is in D3cold
+> or it is initializing after a reset.  IIUC you're doing a resume, not
+> a reset, so I think your device must be coming out of D3cold.  That's
+> typically done via ACPI, and I think we are missing some kind of delay
+> before our first config access:
+> 
+>   pci_power_up
+>     platform_pci_set_power_state(PCI_D0)    # eg, ACPI
+>     pci_raw_set_power_state
+>       pci_read_config_word(PCI_PM_CTRL)     # <-- first config access
+>       pci_write_config_word(PCI_PM_CTRL)
+>       pci_read_config_word(PCI_PM_CTRL)
+>     pci_update_current_state
+>       if (... || !pci_device_is_present())
+> 
+> Mika is working on some delays for the transition out of D3cold [1].
+> He's more concerned with a secondary bus behind a bridge, so I don't
+> think his patch addresses this case, but he's certainly familiar with
+> this area.
+> 
+> Huh, I'm really confused about this, too.  I don't
+> understand how resume ever works without any delay between
+> platform_pci_power_manageable() and the config reads in
+> pci_raw_set_power_state().  I must be missing something.
 
-Please let us know if your preference it still to push this back to
-stable. I assume that there has been no fallout from this change.
+There is a delay in the runtime_d3cold case, see __pci_start_power_transition().
 
-Cheers
-Jon
+But overall platform_pci_power_manageable() only checks whether or not the
+platform firmware can change the power state of the device.  If it can, it
+is expected to take care of any necessary delays while doing that (because
+there may be delays required by this particular instance of the platform
+firmware, beyond what is mandated by the PCI spec, or there may not be any
+need to wait at all).  If the platform firmware becomes responsible for
+setting the device's power state, there is not reason why it should not be
+responsible for the delay part too.
 
--- 
-nvpublic
+In any case, I'm not sure how useful it is to add delays for everyone in the
+cases in which a specific system needs a delay because of its own PM
+implementation limitations.  It may be better to quirk such systems explicitly
+as long as there are not too many quirks in there, or we'll end up adding more
+and more *implicit* quirks in the form of general delays.
+
+Cheers!
+
+
+
