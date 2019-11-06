@@ -2,106 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92090F1E2D
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 Nov 2019 20:03:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A99DF225E
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 Nov 2019 00:10:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727376AbfKFTDr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Nov 2019 14:03:47 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:34009 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732001AbfKFTDq (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Nov 2019 14:03:46 -0500
-Received: by mail-lf1-f66.google.com with SMTP id f5so18899535lfp.1
-        for <linux-tegra@vger.kernel.org>; Wed, 06 Nov 2019 11:03:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Pn/Xyc+VP1qLB2kROo+T7K/pZXqgwpJ8ZY7Udz7Bct8=;
-        b=tvjrD+GuPLFteMTpIQhagDorD0WEAPUldV9N54QN0VY3PePaEKbvaBOgMcyEiXmGcM
-         KiOXwCNTcsZTpFnwcKeMGyXL5U2BPgGCLSI7WNjipuCwN6qt1MmcebI6+pKxp345s45J
-         EqEAjm275h91aIA0jT9MYBnhFbVOmsdQjZI2/4lcgvsNxkyTiTC6XVW4VvbcaGK2Jjug
-         zaL8lyNDLSi+Lgkcdpc52ZCBT+e5pGQX2AJmN3XI5W0uf3rdVz8uQjfj+ddD191L2CgM
-         siM346D7kBpB8t7IxrBbQ2PZEJbcea/vsh5tdMoAN68aUnQj0NW3kiQuIB55zRONsOuw
-         XQXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Pn/Xyc+VP1qLB2kROo+T7K/pZXqgwpJ8ZY7Udz7Bct8=;
-        b=MP7hVOtXWVZ8wIicSjAPrCwfXkpW75jESsT4Vvnp//zmprUV0DuA/gFJbZSEVjySvZ
-         B3C0G8OCeahaQxkwEzk4D4o4cHsPwKJnV/Uzc+rHwKutdHdPseyOhzLm9Io2N7BX9FxN
-         54WEX8TVdOFQFR4EhJZy/GOWSvCQ26ig0s4K6cTed8NBriBmUgNGxQ3MHKP6Vp+Oz41D
-         sz7Al7f7yVjiXLHt++gKrmGuSa2eh0cvWvN5o/RWKEs1nfwY3PSuFG0ncpLpYWYqwZUY
-         4YBSyza3E+NsSxgsPrziQ5WtxVNDa5zP6mpyX6ZbQN1uCvWTw8grLhzAGqs/HXT2r+ky
-         E3nA==
-X-Gm-Message-State: APjAAAWZwTScBXVfPIDabjUjHb9RSGysgm2X4SnK6TFyRgCqEdJUnLpL
-        yDSjJ+/hEWSoIZDOMeirAzst3pKg
-X-Google-Smtp-Source: APXvYqxx76kyyqv9MAyZOlnI92ISQp0FEyliv0SEiGJqd7HjkN+lvLTdZYRsB3EM8NPvit0XqIxHyw==
-X-Received: by 2002:a05:6512:146:: with SMTP id m6mr24703657lfo.98.1573067023655;
-        Wed, 06 Nov 2019 11:03:43 -0800 (PST)
-Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id r12sm19073279lfp.63.2019.11.06.11.03.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2019 11:03:42 -0800 (PST)
-Subject: Re: [PATCH v1 2/3] soc/tegra: fuse: Warn if straps and not ready
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org
-References: <20191103131023.17342-1-digetx@gmail.com>
- <20191103131023.17342-3-digetx@gmail.com>
-Message-ID: <6e5ea5a7-139a-19e4-5085-cfa5978995d0@gmail.com>
-Date:   Wed, 6 Nov 2019 22:03:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1727876AbfKFXKH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 Nov 2019 18:10:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34466 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727228AbfKFXKH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 6 Nov 2019 18:10:07 -0500
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F2CD820869;
+        Wed,  6 Nov 2019 23:10:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573081806;
+        bh=phPqrB8jdcQhMXpI7PNcLtByNjzRwAfdzJcKYVWr13E=;
+        h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+        b=Ujuxe6X1kCsRkxtdQYgSWiR0mYrSc9nQP1ygJUr45CCctRkVEX2Jf9Wnp4kkOvTVm
+         GBOqu/HNFeA6cJMT7QS6PMnl2OKfLo3pUAUZ0MAZ1yEG1+KPhxkjhqPb0cTze2UIjW
+         qce2kBf6A/GX0fvsfQmdvN+ylBBREGi5gRasWjRE=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20191103131023.17342-3-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1565984527-5272-8-git-send-email-skomatineni@nvidia.com>
+References: <1565984527-5272-1-git-send-email-skomatineni@nvidia.com> <1565984527-5272-8-git-send-email-skomatineni@nvidia.com>
+Subject: Re: [PATCH v9 07/22] clk: Add API to get index of the clock parent
+From:   Stephen Boyd <sboyd@kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>, jason@lakedaemon.net,
+        jonathanh@nvidia.com, linus.walleij@linaro.org,
+        marc.zyngier@arm.com, mark.rutland@arm.com, stefan@agner.ch,
+        tglx@linutronix.de, thierry.reding@gmail.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
+        skomatineni@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mperttunen@nvidia.com,
+        spatra@nvidia.com, robh+dt@kernel.org, digetx@gmail.com,
+        devicetree@vger.kernel.org, rjw@rjwysocki.net,
+        viresh.kumar@linaro.org, linux-pm@vger.kernel.org
+User-Agent: alot/0.8.1
+Date:   Wed, 06 Nov 2019 15:10:05 -0800
+Message-Id: <20191106231005.F2CD820869@mail.kernel.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.11.2019 16:10, Dmitry Osipenko пишет:
-> Now both Chip ID and HW straps are becoming available at the same time,
-> thus we could simply check the availability of the ID in order to check
-> the availability of the straps. We couldn't check straps for 0x0 because
-> it could be a correct value.
-> 
-> This change didn't uncover any problems, but anyways it is nicer to have
-> straps verified for consistency with the Chip ID verification.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/soc/tegra/fuse/tegra-apbmisc.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/soc/tegra/fuse/tegra-apbmisc.c b/drivers/soc/tegra/fuse/tegra-apbmisc.c
-> index 54aeea1b4500..f580b3116bea 100644
-> --- a/drivers/soc/tegra/fuse/tegra-apbmisc.c
-> +++ b/drivers/soc/tegra/fuse/tegra-apbmisc.c
-> @@ -27,7 +27,7 @@ static u32 chipid;
->  
->  u32 tegra_read_chipid(void)
->  {
-> -	WARN(!chipid, "Tegra Chip ID not yet available\n");
-> +	WARN(!chipid, "Tegra ABP MISC not yet available\n");
->  
->  	return chipid;
->  }
-> @@ -39,6 +39,8 @@ u8 tegra_get_chip_id(void)
->  
->  u32 tegra_read_straps(void)
->  {
-> +	WARN(!chipid, "Tegra ABP MISC not yet available\n");
-> +
->  	return strapping;
->  }
->  
-> 
+Quoting Sowjanya Komatineni (2019-08-16 12:41:52)
+> This patch adds an API clk_hw_get_parent_index to get index of the
+> clock parent to use during the clock restore operations on system
+> resume.
 
-Darn autocorrection. I'll fix the commit's title in v2.
+Is there a reason we can't save the clk hw index at suspend time by
+reading the hardware to understand the current parent? The parent index
+typically doesn't matter unless we're trying to communicate something
+from the framework to the provider driver. Put another way, I would
+think the provider driver can figure out the index itself without having
+to go through the framework to do so.
+
+>=20
+> Reviewed-by: Thierry Reding <treding@nvidia.com>
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index cbcc333aec84..12ad0e9b8591 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -1645,6 +1645,23 @@ static int clk_fetch_parent_index(struct clk_core =
+*core,
+>         return i;
+>  }
+> =20
+> +/**
+> + * clk_hw_get_parent_index - return the index of parent clock
+> + * @hw: clk_hw associated with the clk being consumed
+> + * @parent_hw: clk_hw associated with the parent of clk
+> + *
+> + * Fetches and returns the index of parent clock.
+> + * If hw or parent_hw is NULL, returns -EINVAL.
+> + */
+> +int clk_hw_get_parent_index(struct clk_hw *hw, struct clk_hw *parent_hw)
+> +{
+> +       if (!hw || !parent_hw)
+> +               return -EINVAL;
+
+The caller should be ashamed if they call this with NULL arguments.
+I'd prefer we skip this check and we get an oops.
+
+> +
+> +       return clk_fetch_parent_index(hw->core, parent_hw->core);
+> +}
+> +EXPORT_SYMBOL_GPL(clk_hw_get_parent_index);
+> +
+>  /*
+>   * Update the orphan status of @core and all its children.
+>   */
