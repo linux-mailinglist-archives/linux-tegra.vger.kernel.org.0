@@ -2,206 +2,126 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31C60F1717
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 Nov 2019 14:29:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29568F1A8E
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Nov 2019 16:58:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728716AbfKFN31 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Nov 2019 08:29:27 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:43871 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731882AbfKFN3M (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Nov 2019 08:29:12 -0500
-Received: by mail-pl1-f193.google.com with SMTP id a18so10283097plm.10
-        for <linux-tegra@vger.kernel.org>; Wed, 06 Nov 2019 05:29:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to:references;
-        bh=7255+C81bgkCi8NGM8c0LBC3vCxrIbGTPf3ioqLcyWY=;
-        b=ddcOjiSextgQgzgcfT/whbaOfy/nCfGeGuEGl2N4Ki0Atdupm/umvsICnXhHuZ6QLj
-         QzlPsgnzZAGelJxDBlasD3SISnQudVbzb+ryGfqUla8rmjEwGfrkONCrDYJjzSZwjTvx
-         VPA0r9ABhIY3CAcJNS+bzaA6YRsL2bA8v1BpF7JkjGr/vgXnIwTa3zBudYVkdNjE+DMn
-         27jMaw5vTbktUbz2qUA9wlQBsEnJunmiF4N5wSkOA+P7I7e8eGsEqYGe7ZkpbNBgpTSi
-         +djdpFzIeFkzs3/6Mn5IethZC30s7HajAi9qTK1482fMaI92qN+OPBA554jkYSPgLPkO
-         mH0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to:references;
-        bh=7255+C81bgkCi8NGM8c0LBC3vCxrIbGTPf3ioqLcyWY=;
-        b=DC5WAtLPCKrBFNj4YGJKbbF9gmkliC1F7ugXK3zECM64WGRiOuuVsJ+ndLp24l/cZ8
-         jTzi6LW6g7SS6sSRrWXpcAFnJW2vbuLa7ii2yPFGEJcPD+FBfFz8abfbVY4S7hccnn9A
-         7XSW04/654mitcDthzLCLHTusxHYJxltUMOwBkXbWDWORVq7NwJKefjPcSrg9Rl+7DJa
-         wacqg/cjbjKn6EyQGM7VKvb4h7uqqXpnQHm9P7tuBjsNuw09uiZXB4F/FeqthIlD7Qh+
-         Rds6RjHQwrASyAr7/u/wpiaTgZ1cywP6kCJqFbK0NjBaRXFzDEIlSP2FM4mXIIIkaQUm
-         sxPQ==
-X-Gm-Message-State: APjAAAXNrWpJFRZuEMETzUmlZiKbL8t1k8Nuocm7H0eTM4dlU+NguVBU
-        ptl5Ykr41acGJpCI4oVg2PtO6Q==
-X-Google-Smtp-Source: APXvYqyeNXgF7biG1nwiqCenHBeFxFsORJqDAJyTpsd6aDgQGfxwcYqK4YoW8uZnbSSjDUTalwVjNg==
-X-Received: by 2002:a17:902:7207:: with SMTP id ba7mr2659118plb.172.1573046951646;
-        Wed, 06 Nov 2019 05:29:11 -0800 (PST)
-Received: from localhost ([49.248.202.230])
-        by smtp.gmail.com with ESMTPSA id l24sm22658774pff.151.2019.11.06.05.29.10
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 06 Nov 2019 05:29:11 -0800 (PST)
-From:   Amit Kucheria <amit.kucheria@linaro.org>
-To:     linux-kernel@vger.kernel.org, edubezval@gmail.com,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Guillaume La Roque <glaroque@baylibre.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Javi Merino <javi.merino@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jun Nie <jun.nie@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 09/11] thermal: tegra: Appease the kernel-doc deity
-Date:   Wed,  6 Nov 2019 18:58:25 +0530
-Message-Id: <4cba46c100cb504a52e52062bdf4e4a4e9427b99.1573046440.git.amit.kucheria@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1573046440.git.amit.kucheria@linaro.org>
-References: <cover.1573046440.git.amit.kucheria@linaro.org>
-In-Reply-To: <cover.1573046440.git.amit.kucheria@linaro.org>
-References: <cover.1573046440.git.amit.kucheria@linaro.org>
+        id S1728530AbfKFP6a (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 Nov 2019 10:58:30 -0500
+Received: from foss.arm.com ([217.140.110.172]:42182 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727275AbfKFP6a (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 6 Nov 2019 10:58:30 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C04BA46A;
+        Wed,  6 Nov 2019 07:58:29 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 511073F71A;
+        Wed,  6 Nov 2019 07:58:28 -0800 (PST)
+Date:   Wed, 6 Nov 2019 15:58:23 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vidya Sagar <vidyas@nvidia.com>, bhelgaas@google.com,
+        treding@nvidia.com, swarren@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH V3] PCI: tegra: Enable Relaxed Ordering only for Tegra20
+ & Tegra30
+Message-ID: <20191106155823.GA23381@e121166-lin.cambridge.arm.com>
+References: <20190704150428.4035-1-vidyas@nvidia.com>
+ <20190704160948.GA28058@e121166-lin.cambridge.arm.com>
+ <310ce6f7-9379-9857-ac7c-53118b80966b@nvidia.com>
+ <20190705093859.GA17491@e121166-lin.cambridge.arm.com>
+ <c3168cfd-69f5-b51b-6ec6-c64d447efe13@nvidia.com>
+ <8456f10d-6ff6-f3f4-54ff-aca2e90a0c0b@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8456f10d-6ff6-f3f4-54ff-aca2e90a0c0b@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Fix up the following warning when compiled with make W=1:
+On Tue, Nov 05, 2019 at 10:50:28AM +0000, Jon Hunter wrote:
+> Hi Lorenzo,
+> 
+> On 09/07/2019 12:02, Jon Hunter wrote:
+> > On 05/07/2019 10:38, Lorenzo Pieralisi wrote:
+> >> [+Greg]
+> >>
+> >> On Fri, Jul 05, 2019 at 09:57:25AM +0100, Jon Hunter wrote:
+> >>> Hi Lorenzo,
+> >>>
+> >>> On 04/07/2019 17:09, Lorenzo Pieralisi wrote:
+> >>>> On Thu, Jul 04, 2019 at 08:34:28PM +0530, Vidya Sagar wrote:
+> >>>>> Currently Relaxed Ordering bit in the configuration space is enabled for
+> >>>>> all PCIe devices as the quirk uses PCI_ANY_ID for both Vendor-ID and
+> >>>>> Device-ID, but, as per the Technical Reference Manual of Tegra20 which is
+> >>>>> available at https://developer.nvidia.com/embedded/downloads#?search=tegra%202
+> >>>>> in Sec 34.1, it is mentioned that Relexed Ordering bit needs to be enabled in
+> >>>>> its root ports to avoid deadlock in hardware. The same is applicable for
+> >>>>> Tegra30 as well though it is not explicitly mentioned in Tegra30 TRM document,
+> >>>>> but the same must not be extended to root ports of other Tegra SoCs or
+> >>>>> other hosts as the same issue doesn't exist there.
+> >>>>>
+> >>>>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> >>>>
+> >>>> You forgot Thierry's ACK, I added it back but next time pay more
+> >>>> attention please.
+> >>>>
+> >>>> You should link the versions through eg git send-email
+> >>>> --in-reply-to=Message-Id so that it is easier to follow.
+> >>>>
+> >>>>> ---
+> >>>>> V3:
+> >>>>> * Modified commit message to make it more precise and explicit
+> >>>>>
+> >>>>> V2:
+> >>>>> * Modified commit message to include reference to Tegra20 TRM document.
+> >>>>>
+> >>>>>  drivers/pci/controller/pci-tegra.c | 7 +++++--
+> >>>>>  1 file changed, 5 insertions(+), 2 deletions(-)
+> >>>>
+> >>>> I applied it to pci/tegra after rewriting the whole commit log and
+> >>>> adding a Fixes: tag that you or someone at Nvidia will follow up;
+> >>>> I will check.
+> >>>
+> >>> I had a chat with Vidya last night to understand the issue, so now I
+> >>> have a good understanding of the problem this has caused, which is very
+> >>> unfortunate indeed!
+> >>>
+> >>> Vidya mentioned that you would like us to get this backported to stable
+> >>> branches. Please correct me if I am wrong here. We can certainly do
+> >>> that, but I do have concerns about doing so, for non-Tegra devices
+> >>> inparticularly, given that this has been around for sometime now. Hence,
+> >>> I was wondering if we should leave this soak in the mainline for at
+> >>> least a kernel release cycle before doing so. I really don't want to
+> >>> break stable for anyone. What are your thoughts on this?
+> >>
+> >> I looped in Greg to pick his brain, since it is unclear how we should
+> >> apply the stable kernel rules on this specific patch. Basically, this
+> >> technically is not a bug, it is just bad code that forces a feature on
+> >> ALL kernels that compile the PCI Tegra Controller driver in the kernel.
+> >> I would really really want to have this patch applied to all stable
+> >> kernels but first as you said it is better to apply it to mainline and
+> >> check it does not cause any issues on any other arch/platform then
+> >> we can think about backporting it to stable kernels.
+> >>
+> >> I am not happy to force Relaxed Ordering on any PCIe device on
+> >> any platform/arch compiling PCI Tegra controller in, so somehow
+> >> we must rectify this situation, this is gross as I said before.
+> > 
+> > Yes understood. Let's plan to sync up on this once v5.3 is out and see
+> > how the land lies. We have an internal issue filed to track this and so
+> > we should not forget!
+> 
+> Please let us know if your preference it still to push this back to
+> stable. I assume that there has been no fallout from this change.
 
-linux.git/drivers/thermal/tegra/soctherm.c:369: warning: Function parameter or member 'value' not described in 'ccroc_writel'
-linux.git/drivers/thermal/tegra/soctherm.c:369: warning: Excess function parameter 'v' description in 'ccroc_writel'
-linux.git/drivers/thermal/tegra/soctherm.c:447: warning: Function parameter or member 'dev' not described in 'enforce_temp_range'
-linux.git/drivers/thermal/tegra/soctherm.c:772: warning: Function parameter or member 'sg' not described in 'tegra_soctherm_set_hwtrips'
-linux.git/drivers/thermal/tegra/soctherm.c:772: warning: Function parameter or member 'tz' not described in 'tegra_soctherm_set_hwtrips'
-linux.git/drivers/thermal/tegra/soctherm.c:944: warning: Function parameter or member 'ts' not described in 'soctherm_oc_intr_enable'
-linux.git/drivers/thermal/tegra/soctherm.c:1167: warning: Function parameter or member 'data' not described in 'soctherm_oc_irq_disable'
-linux.git/drivers/thermal/tegra/soctherm.c:1167: warning: Excess function parameter 'irq_data' description in 'soctherm_oc_irq_disable'
-linux.git/drivers/thermal/tegra/soctherm.c:1224: warning: Function parameter or member 'ctrlr' not described in 'soctherm_irq_domain_xlate_twocell'
-linux.git/drivers/thermal/tegra/soctherm.c:1686: warning: Function parameter or member 'pdev' not described in 'soctherm_init_hw_throt_cdev'
-linux.git/drivers/thermal/tegra/soctherm.c:1764: warning: Function parameter or member 'ts' not described in 'throttlectl_cpu_level_cfg'
-linux.git/drivers/thermal/tegra/soctherm.c:1812: warning: Function parameter or member 'ts' not described in 'throttlectl_cpu_level_select'
-linux.git/drivers/thermal/tegra/soctherm.c:1855: warning: Function parameter or member 'ts' not described in 'throttlectl_cpu_mn'
-linux.git/drivers/thermal/tegra/soctherm.c:1886: warning: Function parameter or member 'ts' not described in 'throttlectl_gpu_level_select'
-linux.git/drivers/thermal/tegra/soctherm.c:1928: warning: Function parameter or member 'ts' not described in 'soctherm_throttle_program'
+No fallout reported to the best of my knowledge, yes we should go ahead
+and push it to stable kernels, thanks for the reminder.
 
-Signed-off-by: Amit Kucheria <amit.kucheria@linaro.org>
----
- drivers/thermal/tegra/soctherm.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/thermal/tegra/soctherm.c b/drivers/thermal/tegra/soctherm.c
-index 5acaad3a594f3..66e0639da4bf2 100644
---- a/drivers/thermal/tegra/soctherm.c
-+++ b/drivers/thermal/tegra/soctherm.c
-@@ -360,7 +360,7 @@ static struct soctherm_oc_irq_chip_data soc_irq_cdata;
- /**
-  * ccroc_writel() - writes a value to a CCROC register
-  * @ts: pointer to a struct tegra_soctherm
-- * @v: the value to write
-+ * @value: the value to write
-  * @reg: the register offset
-  *
-  * Writes @v to @reg.  No return value.
-@@ -435,6 +435,7 @@ static int tegra_thermctl_get_temp(void *data, int *out_temp)
- 
- /**
-  * enforce_temp_range() - check and enforce temperature range [min, max]
-+ * @dev: struct device * of the SOC_THERM instance
-  * @trip_temp: the trip temperature to check
-  *
-  * Checks and enforces the permitted temperature range that SOC_THERM
-@@ -747,6 +748,8 @@ static int get_hot_temp(struct thermal_zone_device *tz, int *trip, int *temp)
- /**
-  * tegra_soctherm_set_hwtrips() - set HW trip point from DT data
-  * @dev: struct device * of the SOC_THERM instance
-+ * @sg: pointer to the sensor group to set the thermtrip temperature for
-+ * @tz: struct thermal_zone_device *
-  *
-  * Configure the SOC_THERM HW trip points, setting "THERMTRIP"
-  * "THROTTLE" trip points , using "thermtrips", "critical" or "hot"
-@@ -931,6 +934,7 @@ static irqreturn_t soctherm_thermal_isr_thread(int irq, void *dev_id)
- 
- /**
-  * soctherm_oc_intr_enable() - Enables the soctherm over-current interrupt
-+ * @ts:		pointer to a struct tegra_soctherm
-  * @alarm:		The soctherm throttle id
-  * @enable:		Flag indicating enable the soctherm over-current
-  *			interrupt or disable it
-@@ -1156,7 +1160,7 @@ static void soctherm_oc_irq_enable(struct irq_data *data)
- 
- /**
-  * soctherm_oc_irq_disable() - Disables overcurrent interrupt requests
-- * @irq_data:	The interrupt request information
-+ * @data:	The interrupt request information
-  *
-  * Clears the interrupt request enable bit of the overcurrent
-  * interrupt request chip data.
-@@ -1206,6 +1210,7 @@ static int soctherm_oc_irq_map(struct irq_domain *h, unsigned int virq,
- /**
-  * soctherm_irq_domain_xlate_twocell() - xlate for soctherm interrupts
-  * @d:      Interrupt request domain
-+ * @ctrlr:      Controller device tree node
-  * @intspec:    Array of u32s from DTs "interrupt" property
-  * @intsize:    Number of values inside the intspec array
-  * @out_hwirq:  HW IRQ value associated with this interrupt
-@@ -1681,6 +1686,7 @@ static int soctherm_throt_cfg_parse(struct device *dev,
- /**
-  * soctherm_init_hw_throt_cdev() - Parse the HW throttle configurations
-  * and register them as cooling devices.
-+ * @pdev: Pointer to platform_device struct
-  */
- static void soctherm_init_hw_throt_cdev(struct platform_device *pdev)
- {
-@@ -1751,6 +1757,7 @@ static void soctherm_init_hw_throt_cdev(struct platform_device *pdev)
- 
- /**
-  * throttlectl_cpu_level_cfg() - programs CCROC NV_THERM level config
-+ * @ts: pointer to a struct tegra_soctherm
-  * @level: describing the level LOW/MED/HIGH of throttling
-  *
-  * It's necessary to set up the CPU-local CCROC NV_THERM instance with
-@@ -1798,6 +1805,7 @@ static void throttlectl_cpu_level_cfg(struct tegra_soctherm *ts, int level)
- 
- /**
-  * throttlectl_cpu_level_select() - program CPU pulse skipper config
-+ * @ts: pointer to a struct tegra_soctherm
-  * @throt: the LIGHT/HEAVY of throttle event id
-  *
-  * Pulse skippers are used to throttle clock frequencies.  This
-@@ -1841,6 +1849,7 @@ static void throttlectl_cpu_level_select(struct tegra_soctherm *ts,
- 
- /**
-  * throttlectl_cpu_mn() - program CPU pulse skipper configuration
-+ * @ts: pointer to a struct tegra_soctherm
-  * @throt: the LIGHT/HEAVY of throttle event id
-  *
-  * Pulse skippers are used to throttle clock frequencies.  This
-@@ -1874,6 +1883,7 @@ static void throttlectl_cpu_mn(struct tegra_soctherm *ts,
- 
- /**
-  * throttlectl_gpu_level_select() - selects throttling level for GPU
-+ * @ts: pointer to a struct tegra_soctherm
-  * @throt: the LIGHT/HEAVY of throttle event id
-  *
-  * This function programs soctherm's interface to GK20a NV_THERM to select
-@@ -1918,6 +1928,7 @@ static int soctherm_oc_cfg_program(struct tegra_soctherm *ts,
- 
- /**
-  * soctherm_throttle_program() - programs pulse skippers' configuration
-+ * @ts: pointer to a struct tegra_soctherm
-  * @throt: the LIGHT/HEAVY of the throttle event id.
-  *
-  * Pulse skippers are used to throttle clock frequencies.
--- 
-2.17.1
-
+Cheers,
+Lorenzo
