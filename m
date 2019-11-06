@@ -2,82 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F50AF1450
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 Nov 2019 11:49:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6039F14C3
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Nov 2019 12:15:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729553AbfKFKth (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Nov 2019 05:49:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41718 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726656AbfKFKth (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 Nov 2019 05:49:37 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7BC97217F5;
-        Wed,  6 Nov 2019 10:49:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573037375;
-        bh=wzHfT5hKFfwxSi6NWsmb2i+jJfdPqcVnD9L0KI+55EM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WJyn23cCMmFIxVSWo14cpMn9tRVmEZYGBQip5vOhIPagQlV06UoriVgVrO7a1s5/3
-         hWpavV3Nl9UPOgpuXmI0LG/h5d/kmAUkeZyzbpdGYSkQSQyFATZ6WKTk3VdGOUroGo
-         Ns8kksx+9Cd/gu21RKhzdslkOb2MZ0R92cGwP1yw=
-Date:   Wed, 6 Nov 2019 11:49:32 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        id S1726101AbfKFLPF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 Nov 2019 06:15:05 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:18234 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725890AbfKFLPF (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Nov 2019 06:15:05 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc2ab3b0000>; Wed, 06 Nov 2019 03:15:07 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 06 Nov 2019 03:15:05 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 06 Nov 2019 03:15:05 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 6 Nov
+ 2019 11:15:03 +0000
+Subject: Re: [PATCH] SUNRPC: Avoid RPC delays when exiting suspend
+To:     Trond Myklebust <trondmy@gmail.com>
+CC:     <linux-nfs@vger.kernel.org>,
         linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.3 000/163] 5.3.9-stable review
-Message-ID: <20191106104932.GD2982490@kroah.com>
-References: <20191104212140.046021995@linuxfoundation.org>
- <a9c51735-86c7-9e77-707b-74628a99f76b@nvidia.com>
+References: <329228f8-e194-a021-9226-69a9b6a403ce@nvidia.com>
+ <20191105142133.28741-1-trond.myklebust@hammerspace.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <3f536791-dbd1-cc9a-c88a-ddc26dd57c00@nvidia.com>
+Date:   Wed, 6 Nov 2019 11:15:01 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a9c51735-86c7-9e77-707b-74628a99f76b@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191105142133.28741-1-trond.myklebust@hammerspace.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1573038907; bh=aU4BFCTKtdYxbt1HsDsxLzOmT9xxsqov2Vc3M/YNja4=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=NjjXEVo6X7SZi8UgPF1ysH7veK4bLdMkCGKvKjya1AZ/Qu+oHZ8D1VgpHh0b81pgo
+         qu7JJGSaq47Y5NToVVDC0zZbWQwEJzmLCd6yuJLEUsgJ0MKcO+IjCU0yLbGKkxWLSs
+         Hv3zdCNuTcaGee/FmvF2ZIHmkAribiv0AUEjnrXmIo3tlhPF0d10OFErrCW2oqOVKG
+         Z7W7o3LkmdYwyhjB7Iian/Gr32u+Drsim9VxlDKPbcorSQICZFAR9T2fcLcEXq69Fr
+         9I5hUSdF4dxnQ4+/t0uVRb6/JuVKqtS2sGkl/nxgFBEmFBzoH42nDaX6IkLuSX8AJM
+         83vHncpJEdzgA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Nov 05, 2019 at 11:41:15PM +0000, Jon Hunter wrote:
-> 
-> On 04/11/2019 21:43, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.3.9 release.
-> > There are 163 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Wed 06 Nov 2019 09:14:04 PM UTC.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.9-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests for Tegra are passing ...
-> 
-> Test results for stable-v5.3:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
-> 
-> Linux version:	5.3.9-rc1-g75c9913bbf6e
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
 
-Thanks for testing all of these and letting me know.
+On 05/11/2019 14:21, Trond Myklebust wrote:
+> Jon Hunter: "I have been tracking down another suspend/NFS related
+> issue where again I am seeing random delays exiting suspend. The delays
+> can be up to a couple minutes in the worst case and this is causing a
+> suspend test we have to fail."
+> 
+> Change the use of a deferrable work to a standard delayed one.
+> 
+> Reported-by: Jon Hunter <jonathanh@nvidia.com>
+> Fixes: 7e0a0e38fcfea ("SUNRPC: Replace the queue timer with a delayed work function")
+> Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
+> ---
+>  net/sunrpc/sched.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/net/sunrpc/sched.c b/net/sunrpc/sched.c
+> index 360afe153193..987c4b1f0b17 100644
+> --- a/net/sunrpc/sched.c
+> +++ b/net/sunrpc/sched.c
+> @@ -260,7 +260,7 @@ static void __rpc_init_priority_wait_queue(struct rpc_wait_queue *queue, const c
+>  	rpc_reset_waitqueue_priority(queue);
+>  	queue->qlen = 0;
+>  	queue->timer_list.expires = 0;
+> -	INIT_DEFERRABLE_WORK(&queue->timer_list.dwork, __rpc_queue_timer_fn);
+> +	INIT_DELAYED_WORK(&queue->timer_list.dwork, __rpc_queue_timer_fn);
+>  	INIT_LIST_HEAD(&queue->timer_list.list);
+>  	rpc_assign_waitqueue_name(queue, qname);
+>  }
 
-greg k-h
+Thanks!
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Cheers
+Jon
+
+-- 
+nvpublic
