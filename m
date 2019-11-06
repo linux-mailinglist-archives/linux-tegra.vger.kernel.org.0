@@ -2,119 +2,155 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59B2EF1AE9
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 Nov 2019 17:14:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E53E3F1B7C
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Nov 2019 17:41:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727149AbfKFQOX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Nov 2019 11:14:23 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41592 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727028AbfKFQOW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Nov 2019 11:14:22 -0500
-Received: by mail-lj1-f195.google.com with SMTP id m9so26742980ljh.8;
-        Wed, 06 Nov 2019 08:14:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=joKxQnkkxdO9mIVqa3qEcUbcrPGnQ4/2u0RIGvRgsOI=;
-        b=G+22pKwm/joj3iUM7PGkAdPREe4aRd+JfRQvZD+HMveozzNCtXelXOGzp4Yej/8AKy
-         p1RyM3lDrg3KrYe01xM1rw1lvB6XkjWUZq47qWbWSng56STBjj7Oh5x/AwDbtq0CiCr/
-         qDVdl4K52sIYT2fRymMBzGFpU6PTilEEHDUEfUAC7xQtlggVCSJaggWi5dy+RzpCOtFk
-         AwBCzSOqSpEThP3Fgi8jX+QZAgpQq0VUjjMeyRWRIkFbEfKyXu9B+gyrD4LDyWHbiXSA
-         +lS23RYWVhaRYBbSHumcsNlkAbZPUQ5ZEmEBYlSMGQlWuvf9sBySYY3+dcpEuy5ol5c3
-         h+qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=joKxQnkkxdO9mIVqa3qEcUbcrPGnQ4/2u0RIGvRgsOI=;
-        b=HMEJL5LOUGNfgp7b+bg1TQh1dTPTYfKPvsl9derjmI1Zql1fLqpqOH/b+nFeyO8x8M
-         aok6iK3F4kDS6Z8Ii5eNmp5NsTEMw6egMIp1eJCaDqQOw5R0zJ3axaW8oSDwpE1jbf2t
-         Qy0kr1kAJ10+uEqklkg/7IIl8LtivSDS5c4WSy0gTp3EglF4sno6kWVls2Kwqt4kG94f
-         vVgi6fjAgfP+hMB1/LQ0vzycsICAg1LnyOmfBMaPCaJQf9tS2TG91R/d6Fc2cs6hKkK8
-         WwVH8u45Tp0w5FNbIDQCzM7tyS00RIE4DFPxY6zYiDnCx1lKy8rR2bmZZ0ei2VouoYkn
-         hLaw==
-X-Gm-Message-State: APjAAAWo3oYJwFJi/BdL4lNRbqLRWbc01WYgTXi7CQCtX6wWRASt3iGG
-        vJRGAKHDfbnw84cuBRGwCkBuqm7M
-X-Google-Smtp-Source: APXvYqxa+cMB8x0PS4pozyT+BWnwQGDkScDO2lOp/wH3K8e16yCmWHjP/WZlpQ4+fXFwlFoucLZrQw==
-X-Received: by 2002:a2e:7202:: with SMTP id n2mr2347739ljc.194.1573056858717;
-        Wed, 06 Nov 2019 08:14:18 -0800 (PST)
-Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id l21sm976916lfc.62.2019.11.06.08.14.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2019 08:14:17 -0800 (PST)
-Subject: Re: [PATCH v9 19/19] PM / devfreq: tegra20/30: Add Dmitry as a
- maintainer
-To:     Chanwoo Choi <cw00.choi@samsung.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191104215617.25544-1-digetx@gmail.com>
- <CGME20191104221855epcas4p3761ca7e09ffa66b686be8b5a840ea383@epcas4p3.samsung.com>
- <20191104215617.25544-20-digetx@gmail.com>
- <0e7db72b-37ff-a36e-11fe-727ed43c26a6@samsung.com>
- <9bd7bfc0-508f-e7fb-d985-d32f2d9a88d8@gmail.com>
- <da10a370-de1d-67c9-a916-cdc1a31c0a96@samsung.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <698d5cf8-7c73-edee-e963-581bdf8ca088@gmail.com>
-Date:   Wed, 6 Nov 2019 19:14:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1727746AbfKFQlw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 Nov 2019 11:41:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48812 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727285AbfKFQlw (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 6 Nov 2019 11:41:52 -0500
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E45892087E;
+        Wed,  6 Nov 2019 16:41:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573058511;
+        bh=jQwOhTG9AiSFb4Z6+UeBpDvC86RGByjQu5fty6XUdyM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=I5K1NYNzikHDXgKFNN+cMrr9y9hB54GdRboHVHwfylaYJF9f9XDbCr+U2nstKHOB/
+         KZ84kFmAThwL3D1VVOo1nSjP76FTvabSM9zOM0L4bChuVPlCyp8cWRj6XPbbX7HXBG
+         plMBSIiEJGCU7pzSM10uHMiGU94RNIZRtJZp+OUM=
+Date:   Wed, 6 Nov 2019 10:41:48 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     Vidya Sagar <vidyas@nvidia.com>, Sinan Kaya <okaya@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com,
+        Andrew Murray <andrew.murray@arm.com>,
+        Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
+Message-ID: <20191106164148.GA62969@google.com>
 MIME-Version: 1.0
-In-Reply-To: <da10a370-de1d-67c9-a916-cdc1a31c0a96@samsung.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <11429373.7ySiFsEkgL@kreacher>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-06.11.2019 04:24, Chanwoo Choi пишет:
-> Hi Dmitry,
+On Tue, Nov 05, 2019 at 11:55:45AM +0100, Rafael J. Wysocki wrote:
+> On Monday, November 4, 2019 6:39:04 PM CET Bjorn Helgaas wrote:
+> > [+cc Andrew, Lukas]
+> > 
+> > On Tue, Oct 15, 2019 at 05:44:47PM +0530, Vidya Sagar wrote:
+> > > On 10/15/2019 4:40 PM, Sinan Kaya wrote:
+> > > > ...
+> > > > I think the PCI core should be putting the device back D0 state as one
+> > > > of the first actions before enumerating. Wake up could be a combination
+> > > > of ACPI and/or PCI wake up depending on where your device sits in the
+> > > > topology.
+> > >
+> > > Yup. It is indeed doing it as part of pci_power_up() in pci.c file.
+> > > But, what is confusing to me is the order of the calls.
+> > > pci_power_up() has following calls in the same order.
+> > > 	pci_raw_set_power_state(dev, PCI_D0);
+> > > 	pci_update_current_state(dev, PCI_D0);
+> > > But, pci_raw_set_power_state() is accessing config space without calling
+> > > pci_device_is_present() whereas pci_update_current_state() which is called
+> > > later in the flow is calling pci_device_is_present()...!
+> > 
+> > A device should always respond to config reads unless it is in D3cold
+> > or it is initializing after a reset.  IIUC you're doing a resume, not
+> > a reset, so I think your device must be coming out of D3cold.  That's
+> > typically done via ACPI, and I think we are missing some kind of delay
+> > before our first config access:
+> > 
+> >   pci_power_up
+> >     platform_pci_set_power_state(PCI_D0)    # eg, ACPI
+> >     pci_raw_set_power_state
+> >       pci_read_config_word(PCI_PM_CTRL)     # <-- first config access
+> >       pci_write_config_word(PCI_PM_CTRL)
+> >       pci_read_config_word(PCI_PM_CTRL)
+> >     pci_update_current_state
+> >       if (... || !pci_device_is_present())
+> > 
+> > Mika is working on some delays for the transition out of D3cold [1].
+> > He's more concerned with a secondary bus behind a bridge, so I don't
+> > think his patch addresses this case, but he's certainly familiar with
+> > this area.
+> > 
+> > Huh, I'm really confused about this, too.  I don't
+> > understand how resume ever works without any delay between
+> > platform_pci_power_manageable() and the config reads in
+> > pci_raw_set_power_state().  I must be missing something.
 > 
-> On 19. 11. 5. 오후 10:29, Dmitry Osipenko wrote:
->> 05.11.2019 07:07, Chanwoo Choi пишет:
->>> On 19. 11. 5. 오전 6:56, Dmitry Osipenko wrote:
->>>> I was contributing to the NVIDIA Tegra20+ devfreq drivers recently and
->>>> want to help keep them working and evolving in the future.
->>>>
->>>> Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
->>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>> ---
->>>>  MAINTAINERS | 9 +++++++++
->>>>  1 file changed, 9 insertions(+)
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index 9f69d01da3a6..4b9679988514 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -10632,6 +10632,15 @@ F:	include/linux/memblock.h
->>>>  F:	mm/memblock.c
->>>>  F:	Documentation/core-api/boot-time-mm.rst
->>>>  
->>>> +MEMORY FREQUENCY SCALING DRIVERS FOR NVIDIA TEGRA
->>>> +M:	Dmitry Osipenko <digetx@gmail.com>
->>>> +L:	linux-pm@vger.kernel.org
->>>> +L:	linux-tegra@vger.kernel.org
->>>> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mzx/devfreq.git
-> 
-> From now, I'll help and review the devfreq patches as maintainer
-> and the devfreq git information is changed[1]. You should change 
-> the git info as following:
-> [1] https://lkml.org/lkml/2019/11/5/39
-> 
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git
-> 
-> Also, I add my acked-by tag.
-> Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
+> There is a delay in the runtime_d3cold case, see
+> __pci_start_power_transition().
 
-Thanks, I'll update this patch.
+I see the delay in __pci_start_power_transition(), but I don't see how
+it's relevant.  It's only called by pci_set_power_state(), and while
+many drivers call pci_set_power_state() from legacy .resume() methods,
+the pci_pm_resume_noirq() path where Vidya is seeing problems doesn't
+use it.
+
+> But overall platform_pci_power_manageable() only checks whether or
+> not the platform firmware can change the power state of the device.
+> If it can, it is expected to take care of any necessary delays while
+> doing that (because there may be delays required by this particular
+> instance of the platform firmware, beyond what is mandated by the
+> PCI spec, or there may not be any need to wait at all). ...
+
+That sounds like a reasonable argument for why firmware should be
+responsible for this delay, but I don't think that's very clear in the
+ACPI spec, so I wouldn't be surprised if it got missed.
+
+Based on Vidya's backtrace, I think the resume path with problems is
+this:
+
+  pci_pm_resume_noirq
+    pci_pm_default_resume_early
+      pci_power_up
+        if (platform_pci_power_manageable(dev))
+          platform_pci_set_power_state(dev, PCI_D0)  # <-- FW delay here?
+        pci_raw_set_power_state
+        pci_update_current_state
+          pci_device_is_present        # <-- config read returns CRS
+
+So I think your suggestion is that Vidya's firmware should be doing
+the delay inside platform_pci_set_power_state()?
+
+Vidya, you typically work on Tegra, so I assume this is on an arm64
+system?  Does it have ACPI?  Do you have access to the firmware
+developers to ask about who they expect to do the delays?
+
+> In any case, I'm not sure how useful it is to add delays for
+> everyone in the cases in which a specific system needs a delay
+> because of its own PM implementation limitations.  It may be better
+> to quirk such systems explicitly as long as there are not too many
+> quirks in there, or we'll end up adding more and more *implicit*
+> quirks in the form of general delays.
+
+I agree, a general delay doesn't sound good.  Are you thinking
+something like this?
+
+  void pci_power_up(struct pci_dev *dev)
+  {
+    if (platform_pci_power_manageable(dev)) {
+      platform_pci_set_power_state(dev, PCI_D0);
+      if (dev->XXX)
+        msleep(dev->XXX);
+    }
+    ...
+
+We already have dev->d3_delay and d3cold_delay, so it's getting a bit
+messy to keep them all straight.
+
+Bjorn
