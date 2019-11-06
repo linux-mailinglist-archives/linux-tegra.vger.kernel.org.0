@@ -2,155 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E53E3F1B7C
-	for <lists+linux-tegra@lfdr.de>; Wed,  6 Nov 2019 17:41:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92090F1E2D
+	for <lists+linux-tegra@lfdr.de>; Wed,  6 Nov 2019 20:03:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727746AbfKFQlw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Nov 2019 11:41:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48812 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727285AbfKFQlw (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 6 Nov 2019 11:41:52 -0500
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E45892087E;
-        Wed,  6 Nov 2019 16:41:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573058511;
-        bh=jQwOhTG9AiSFb4Z6+UeBpDvC86RGByjQu5fty6XUdyM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=I5K1NYNzikHDXgKFNN+cMrr9y9hB54GdRboHVHwfylaYJF9f9XDbCr+U2nstKHOB/
-         KZ84kFmAThwL3D1VVOo1nSjP76FTvabSM9zOM0L4bChuVPlCyp8cWRj6XPbbX7HXBG
-         plMBSIiEJGCU7pzSM10uHMiGU94RNIZRtJZp+OUM=
-Date:   Wed, 6 Nov 2019 10:41:48 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Vidya Sagar <vidyas@nvidia.com>, Sinan Kaya <okaya@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com,
-        Andrew Murray <andrew.murray@arm.com>,
-        Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
-Message-ID: <20191106164148.GA62969@google.com>
+        id S1727376AbfKFTDr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 Nov 2019 14:03:47 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:34009 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732001AbfKFTDq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Nov 2019 14:03:46 -0500
+Received: by mail-lf1-f66.google.com with SMTP id f5so18899535lfp.1
+        for <linux-tegra@vger.kernel.org>; Wed, 06 Nov 2019 11:03:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Pn/Xyc+VP1qLB2kROo+T7K/pZXqgwpJ8ZY7Udz7Bct8=;
+        b=tvjrD+GuPLFteMTpIQhagDorD0WEAPUldV9N54QN0VY3PePaEKbvaBOgMcyEiXmGcM
+         KiOXwCNTcsZTpFnwcKeMGyXL5U2BPgGCLSI7WNjipuCwN6qt1MmcebI6+pKxp345s45J
+         EqEAjm275h91aIA0jT9MYBnhFbVOmsdQjZI2/4lcgvsNxkyTiTC6XVW4VvbcaGK2Jjug
+         zaL8lyNDLSi+Lgkcdpc52ZCBT+e5pGQX2AJmN3XI5W0uf3rdVz8uQjfj+ddD191L2CgM
+         siM346D7kBpB8t7IxrBbQ2PZEJbcea/vsh5tdMoAN68aUnQj0NW3kiQuIB55zRONsOuw
+         XQXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Pn/Xyc+VP1qLB2kROo+T7K/pZXqgwpJ8ZY7Udz7Bct8=;
+        b=MP7hVOtXWVZ8wIicSjAPrCwfXkpW75jESsT4Vvnp//zmprUV0DuA/gFJbZSEVjySvZ
+         B3C0G8OCeahaQxkwEzk4D4o4cHsPwKJnV/Uzc+rHwKutdHdPseyOhzLm9Io2N7BX9FxN
+         54WEX8TVdOFQFR4EhJZy/GOWSvCQ26ig0s4K6cTed8NBriBmUgNGxQ3MHKP6Vp+Oz41D
+         sz7Al7f7yVjiXLHt++gKrmGuSa2eh0cvWvN5o/RWKEs1nfwY3PSuFG0ncpLpYWYqwZUY
+         4YBSyza3E+NsSxgsPrziQ5WtxVNDa5zP6mpyX6ZbQN1uCvWTw8grLhzAGqs/HXT2r+ky
+         E3nA==
+X-Gm-Message-State: APjAAAWZwTScBXVfPIDabjUjHb9RSGysgm2X4SnK6TFyRgCqEdJUnLpL
+        yDSjJ+/hEWSoIZDOMeirAzst3pKg
+X-Google-Smtp-Source: APXvYqxx76kyyqv9MAyZOlnI92ISQp0FEyliv0SEiGJqd7HjkN+lvLTdZYRsB3EM8NPvit0XqIxHyw==
+X-Received: by 2002:a05:6512:146:: with SMTP id m6mr24703657lfo.98.1573067023655;
+        Wed, 06 Nov 2019 11:03:43 -0800 (PST)
+Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
+        by smtp.googlemail.com with ESMTPSA id r12sm19073279lfp.63.2019.11.06.11.03.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Nov 2019 11:03:42 -0800 (PST)
+Subject: Re: [PATCH v1 2/3] soc/tegra: fuse: Warn if straps and not ready
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org
+References: <20191103131023.17342-1-digetx@gmail.com>
+ <20191103131023.17342-3-digetx@gmail.com>
+Message-ID: <6e5ea5a7-139a-19e4-5085-cfa5978995d0@gmail.com>
+Date:   Wed, 6 Nov 2019 22:03:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <11429373.7ySiFsEkgL@kreacher>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191103131023.17342-3-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Nov 05, 2019 at 11:55:45AM +0100, Rafael J. Wysocki wrote:
-> On Monday, November 4, 2019 6:39:04 PM CET Bjorn Helgaas wrote:
-> > [+cc Andrew, Lukas]
-> > 
-> > On Tue, Oct 15, 2019 at 05:44:47PM +0530, Vidya Sagar wrote:
-> > > On 10/15/2019 4:40 PM, Sinan Kaya wrote:
-> > > > ...
-> > > > I think the PCI core should be putting the device back D0 state as one
-> > > > of the first actions before enumerating. Wake up could be a combination
-> > > > of ACPI and/or PCI wake up depending on where your device sits in the
-> > > > topology.
-> > >
-> > > Yup. It is indeed doing it as part of pci_power_up() in pci.c file.
-> > > But, what is confusing to me is the order of the calls.
-> > > pci_power_up() has following calls in the same order.
-> > > 	pci_raw_set_power_state(dev, PCI_D0);
-> > > 	pci_update_current_state(dev, PCI_D0);
-> > > But, pci_raw_set_power_state() is accessing config space without calling
-> > > pci_device_is_present() whereas pci_update_current_state() which is called
-> > > later in the flow is calling pci_device_is_present()...!
-> > 
-> > A device should always respond to config reads unless it is in D3cold
-> > or it is initializing after a reset.  IIUC you're doing a resume, not
-> > a reset, so I think your device must be coming out of D3cold.  That's
-> > typically done via ACPI, and I think we are missing some kind of delay
-> > before our first config access:
-> > 
-> >   pci_power_up
-> >     platform_pci_set_power_state(PCI_D0)    # eg, ACPI
-> >     pci_raw_set_power_state
-> >       pci_read_config_word(PCI_PM_CTRL)     # <-- first config access
-> >       pci_write_config_word(PCI_PM_CTRL)
-> >       pci_read_config_word(PCI_PM_CTRL)
-> >     pci_update_current_state
-> >       if (... || !pci_device_is_present())
-> > 
-> > Mika is working on some delays for the transition out of D3cold [1].
-> > He's more concerned with a secondary bus behind a bridge, so I don't
-> > think his patch addresses this case, but he's certainly familiar with
-> > this area.
-> > 
-> > Huh, I'm really confused about this, too.  I don't
-> > understand how resume ever works without any delay between
-> > platform_pci_power_manageable() and the config reads in
-> > pci_raw_set_power_state().  I must be missing something.
+03.11.2019 16:10, Dmitry Osipenko пишет:
+> Now both Chip ID and HW straps are becoming available at the same time,
+> thus we could simply check the availability of the ID in order to check
+> the availability of the straps. We couldn't check straps for 0x0 because
+> it could be a correct value.
 > 
-> There is a delay in the runtime_d3cold case, see
-> __pci_start_power_transition().
+> This change didn't uncover any problems, but anyways it is nicer to have
+> straps verified for consistency with the Chip ID verification.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/soc/tegra/fuse/tegra-apbmisc.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/soc/tegra/fuse/tegra-apbmisc.c b/drivers/soc/tegra/fuse/tegra-apbmisc.c
+> index 54aeea1b4500..f580b3116bea 100644
+> --- a/drivers/soc/tegra/fuse/tegra-apbmisc.c
+> +++ b/drivers/soc/tegra/fuse/tegra-apbmisc.c
+> @@ -27,7 +27,7 @@ static u32 chipid;
+>  
+>  u32 tegra_read_chipid(void)
+>  {
+> -	WARN(!chipid, "Tegra Chip ID not yet available\n");
+> +	WARN(!chipid, "Tegra ABP MISC not yet available\n");
+>  
+>  	return chipid;
+>  }
+> @@ -39,6 +39,8 @@ u8 tegra_get_chip_id(void)
+>  
+>  u32 tegra_read_straps(void)
+>  {
+> +	WARN(!chipid, "Tegra ABP MISC not yet available\n");
+> +
+>  	return strapping;
+>  }
+>  
+> 
 
-I see the delay in __pci_start_power_transition(), but I don't see how
-it's relevant.  It's only called by pci_set_power_state(), and while
-many drivers call pci_set_power_state() from legacy .resume() methods,
-the pci_pm_resume_noirq() path where Vidya is seeing problems doesn't
-use it.
-
-> But overall platform_pci_power_manageable() only checks whether or
-> not the platform firmware can change the power state of the device.
-> If it can, it is expected to take care of any necessary delays while
-> doing that (because there may be delays required by this particular
-> instance of the platform firmware, beyond what is mandated by the
-> PCI spec, or there may not be any need to wait at all). ...
-
-That sounds like a reasonable argument for why firmware should be
-responsible for this delay, but I don't think that's very clear in the
-ACPI spec, so I wouldn't be surprised if it got missed.
-
-Based on Vidya's backtrace, I think the resume path with problems is
-this:
-
-  pci_pm_resume_noirq
-    pci_pm_default_resume_early
-      pci_power_up
-        if (platform_pci_power_manageable(dev))
-          platform_pci_set_power_state(dev, PCI_D0)  # <-- FW delay here?
-        pci_raw_set_power_state
-        pci_update_current_state
-          pci_device_is_present        # <-- config read returns CRS
-
-So I think your suggestion is that Vidya's firmware should be doing
-the delay inside platform_pci_set_power_state()?
-
-Vidya, you typically work on Tegra, so I assume this is on an arm64
-system?  Does it have ACPI?  Do you have access to the firmware
-developers to ask about who they expect to do the delays?
-
-> In any case, I'm not sure how useful it is to add delays for
-> everyone in the cases in which a specific system needs a delay
-> because of its own PM implementation limitations.  It may be better
-> to quirk such systems explicitly as long as there are not too many
-> quirks in there, or we'll end up adding more and more *implicit*
-> quirks in the form of general delays.
-
-I agree, a general delay doesn't sound good.  Are you thinking
-something like this?
-
-  void pci_power_up(struct pci_dev *dev)
-  {
-    if (platform_pci_power_manageable(dev)) {
-      platform_pci_set_power_state(dev, PCI_D0);
-      if (dev->XXX)
-        msleep(dev->XXX);
-    }
-    ...
-
-We already have dev->d3_delay and d3cold_delay, so it's getting a bit
-messy to keep them all straight.
-
-Bjorn
+Darn autocorrection. I'll fix the commit's title in v2.
