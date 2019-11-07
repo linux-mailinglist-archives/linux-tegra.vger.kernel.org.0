@@ -2,99 +2,211 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EAD59F23A2
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 Nov 2019 01:54:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84D5DF2541
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 Nov 2019 03:22:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732746AbfKGAyJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Nov 2019 19:54:09 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:35186 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727393AbfKGAyJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Nov 2019 19:54:09 -0500
-Received: by mail-lf1-f66.google.com with SMTP id y6so183501lfj.2;
-        Wed, 06 Nov 2019 16:54:07 -0800 (PST)
+        id S1728589AbfKGCWH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 6 Nov 2019 21:22:07 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:40882 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727328AbfKGCWG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Nov 2019 21:22:06 -0500
+Received: by mail-pl1-f193.google.com with SMTP id e3so369638plt.7
+        for <linux-tegra@vger.kernel.org>; Wed, 06 Nov 2019 18:22:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WQhkDsKZrkd8TdxE2xc3dtoaBDRq8YTpJQNlzZYmMQw=;
-        b=GCq9q+Few97eqD4meVi9vr6WXF86OJWKPepBpJq2bST6zm532Bf+rW18Vv/GFWldBQ
-         x23hBWeI563PFN4/5Jz8qPQEa7utPzvJcVfne9cywHFgiRbhiYZJWpeupr4BpH86JubU
-         tX6S2yzfsKyboUJ5rfZpHNXbbRxr8ieGiQUMtHL4XtmJybGmuj4YuoDzwXQNWH7BBdMO
-         x39BGyk4Ap/TzrRuGrm8j+VR+7mO6B+u4Daz2AkfGT5LHRE+/7DJN2V3zyPppfE3rpgH
-         ++qtEMpxzSEfkUZUDvS9SMIO/FXadF6FirpIEV8EvaA2quWfJKFpSa+6APIpswftHG0V
-         sfiA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=DIp/SX1Z8Vaima5J/yA/Iy5SFkLkyKf1IKBaqaMEzpk=;
+        b=gfFkjdgCNoH1Yql730ZP0mX2NpK3GxLSr7kDXBXlYPkeN5ms9244qH0a7b3N74Muuo
+         H042USeH7s6weqzHVIBoDC8GD6rSVkaNmI9E1O6EUxK2Os/DoDanxQ/iS7upLvqw66Pp
+         tdi4F71Svv7GX14pxx/yTiLIt4nnhWr4q1jAOwrgHMBQa4KiRsK+SW6atJdwSWQSft0u
+         aBYRZqCkAu55Z+GhvWqcYCHkY/08ND0EGqsn6A0lNLHVtr6xc54/aMqNLYOUsTBm31b4
+         +q5VVvdNZjwgdrHEhrq/lj7TVO8dxQtgC62DytHGYq1ezyemZ+UYjfmcDzhxOZ3SWLDP
+         TBQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WQhkDsKZrkd8TdxE2xc3dtoaBDRq8YTpJQNlzZYmMQw=;
-        b=TLdh/gNVKij56gmGcXENtWxZ+1GRIhP4yf9xY1xoTD4H2sStJlkBlUqBz4JWNEWflj
-         6shdtvkmwxlBX+WsxriXf9scKWZqDDCMKi+xJ80hf7XvPweR6nVfjIbfsmbGm0jD8hox
-         l29nDgPY7//Rq/qFyuXkAw8UMwXhgPJCRJoNQhkhcey6BrpOHJt+HnXe8tEXZmAoUnbs
-         IKUpWfcnuJfyRTeWf+WdEzOzOowE26RFmi8zrkPb6vZ2sVh175cZPUhEXwujje8uymqV
-         ogpn2J7jZi+Nl4RMskm5JmBiT9fVfvRfQ8CEEP9t9eu9BGdQinJb07QVM9QWWlhpjWH/
-         88fg==
-X-Gm-Message-State: APjAAAWOuEhrXjRb5wjvLpo7hR8nG8/hdDbvHFeDexQqOMBdv8MeptC1
-        SIo2LctMpM9zlGEAfJU+1ivsIP4x
-X-Google-Smtp-Source: APXvYqwSDxsXmzI4SWeAa6XTM1UPrLMKJFFjcYjACzxgTxJr0xgjPyPe8Ycsw9Y3hBHkx1n12bZAOA==
-X-Received: by 2002:a19:820e:: with SMTP id e14mr210299lfd.29.1573088046030;
-        Wed, 06 Nov 2019 16:54:06 -0800 (PST)
-Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id f25sm198094lfm.26.2019.11.06.16.54.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2019 16:54:04 -0800 (PST)
-Subject: Re: [PATCH v9 07/22] clk: Add API to get index of the clock parent
-To:     Stephen Boyd <sboyd@kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        jason@lakedaemon.net, jonathanh@nvidia.com,
-        linus.walleij@linaro.org, marc.zyngier@arm.com,
-        mark.rutland@arm.com, stefan@agner.ch, tglx@linutronix.de,
-        thierry.reding@gmail.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        jckuo@nvidia.com, josephl@nvidia.com, talho@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mperttunen@nvidia.com, spatra@nvidia.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, rjw@rjwysocki.net,
-        viresh.kumar@linaro.org, linux-pm@vger.kernel.org
-References: <1565984527-5272-1-git-send-email-skomatineni@nvidia.com>
- <1565984527-5272-8-git-send-email-skomatineni@nvidia.com>
- <20191106231005.F2CD820869@mail.kernel.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <fcc43ccb-8c6e-d518-4c70-503501706ffd@gmail.com>
-Date:   Thu, 7 Nov 2019 03:54:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DIp/SX1Z8Vaima5J/yA/Iy5SFkLkyKf1IKBaqaMEzpk=;
+        b=nW43KzpLke7AjRtBHSE8qSrdBrW0hsblmCHyBuBVzaQBN5gl+DuY5gTtRPVvsrwV5n
+         04ebMsus2KEfFMpqX+rRpg/y6WrvNN2o4R59fcWvsSMeFvSOCF0TGVACE/WBv+6CeHQE
+         Qg33Qnxcc0+yhaLFP6IMRHq1THmc73SMtrWOgl8GlOg0Fa6ly+dOTzC8s2g+djvo/dWZ
+         BOfjdjKKmgkoYkPVojEu81Wbro1TJKircv2nasAvXc8I/vzTiDiZx9h7eb5cTCsIkqJU
+         /L1l1RFfGPbIXpjtetjitfXe0OTf2W3Ejn3vRfU/Za6lyURaVbJVh5+dNx5EQ38B01kK
+         ZbFA==
+X-Gm-Message-State: APjAAAWmt+3tspupzzphdC9DYsZUq2CK28fgkejuVnmKrLtC40x+lxB8
+        isbGxPwyvoeea3/GMOY89lpz2g==
+X-Google-Smtp-Source: APXvYqzfI4aa9+Zx8nFGMtjOp35qwnm4zr094alij32VCxc/5YBzZFWIPoj1W8L2/RE7U5XVcmQaEQ==
+X-Received: by 2002:a17:902:59ca:: with SMTP id d10mr996735plj.237.1573093325672;
+        Wed, 06 Nov 2019 18:22:05 -0800 (PST)
+Received: from localhost ([122.171.110.253])
+        by smtp.gmail.com with ESMTPSA id z18sm409225pgv.90.2019.11.06.18.22.04
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 06 Nov 2019 18:22:04 -0800 (PST)
+Date:   Thu, 7 Nov 2019 07:52:01 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Amit Kucheria <amit.kucheria@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, edubezval@gmail.com,
+        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Guillaume La Roque <glaroque@baylibre.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Javi Merino <javi.merino@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jun Nie <jun.nie@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 09/11] thermal: tegra: Appease the kernel-doc deity
+Message-ID: <20191107022201.emiylbnnqahfqrl5@vireshk-i7>
+References: <cover.1573046440.git.amit.kucheria@linaro.org>
+ <4cba46c100cb504a52e52062bdf4e4a4e9427b99.1573046440.git.amit.kucheria@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191106231005.F2CD820869@mail.kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4cba46c100cb504a52e52062bdf4e4a4e9427b99.1573046440.git.amit.kucheria@linaro.org>
+User-Agent: NeoMutt/20180716-391-311a52
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-07.11.2019 02:10, Stephen Boyd пишет:
-> Quoting Sowjanya Komatineni (2019-08-16 12:41:52)
->> This patch adds an API clk_hw_get_parent_index to get index of the
->> clock parent to use during the clock restore operations on system
->> resume.
+On 06-11-19, 18:58, Amit Kucheria wrote:
+> Fix up the following warning when compiled with make W=1:
+> 
+> linux.git/drivers/thermal/tegra/soctherm.c:369: warning: Function parameter or member 'value' not described in 'ccroc_writel'
+> linux.git/drivers/thermal/tegra/soctherm.c:369: warning: Excess function parameter 'v' description in 'ccroc_writel'
+> linux.git/drivers/thermal/tegra/soctherm.c:447: warning: Function parameter or member 'dev' not described in 'enforce_temp_range'
+> linux.git/drivers/thermal/tegra/soctherm.c:772: warning: Function parameter or member 'sg' not described in 'tegra_soctherm_set_hwtrips'
+> linux.git/drivers/thermal/tegra/soctherm.c:772: warning: Function parameter or member 'tz' not described in 'tegra_soctherm_set_hwtrips'
+> linux.git/drivers/thermal/tegra/soctherm.c:944: warning: Function parameter or member 'ts' not described in 'soctherm_oc_intr_enable'
+> linux.git/drivers/thermal/tegra/soctherm.c:1167: warning: Function parameter or member 'data' not described in 'soctherm_oc_irq_disable'
+> linux.git/drivers/thermal/tegra/soctherm.c:1167: warning: Excess function parameter 'irq_data' description in 'soctherm_oc_irq_disable'
+> linux.git/drivers/thermal/tegra/soctherm.c:1224: warning: Function parameter or member 'ctrlr' not described in 'soctherm_irq_domain_xlate_twocell'
+> linux.git/drivers/thermal/tegra/soctherm.c:1686: warning: Function parameter or member 'pdev' not described in 'soctherm_init_hw_throt_cdev'
+> linux.git/drivers/thermal/tegra/soctherm.c:1764: warning: Function parameter or member 'ts' not described in 'throttlectl_cpu_level_cfg'
+> linux.git/drivers/thermal/tegra/soctherm.c:1812: warning: Function parameter or member 'ts' not described in 'throttlectl_cpu_level_select'
+> linux.git/drivers/thermal/tegra/soctherm.c:1855: warning: Function parameter or member 'ts' not described in 'throttlectl_cpu_mn'
+> linux.git/drivers/thermal/tegra/soctherm.c:1886: warning: Function parameter or member 'ts' not described in 'throttlectl_gpu_level_select'
+> linux.git/drivers/thermal/tegra/soctherm.c:1928: warning: Function parameter or member 'ts' not described in 'soctherm_throttle_program'
+> 
+> Signed-off-by: Amit Kucheria <amit.kucheria@linaro.org>
+> ---
+>  drivers/thermal/tegra/soctherm.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/thermal/tegra/soctherm.c b/drivers/thermal/tegra/soctherm.c
+> index 5acaad3a594f3..66e0639da4bf2 100644
+> --- a/drivers/thermal/tegra/soctherm.c
+> +++ b/drivers/thermal/tegra/soctherm.c
+> @@ -360,7 +360,7 @@ static struct soctherm_oc_irq_chip_data soc_irq_cdata;
+>  /**
+>   * ccroc_writel() - writes a value to a CCROC register
+>   * @ts: pointer to a struct tegra_soctherm
+> - * @v: the value to write
+> + * @value: the value to write
+>   * @reg: the register offset
+>   *
+>   * Writes @v to @reg.  No return value.
+> @@ -435,6 +435,7 @@ static int tegra_thermctl_get_temp(void *data, int *out_temp)
 >  
-> Is there a reason we can't save the clk hw index at suspend time by
-> reading the hardware to understand the current parent? The parent index
-> typically doesn't matter unless we're trying to communicate something
-> from the framework to the provider driver. Put another way, I would
-> think the provider driver can figure out the index itself without having
-> to go through the framework to do so.
+>  /**
+>   * enforce_temp_range() - check and enforce temperature range [min, max]
+> + * @dev: struct device * of the SOC_THERM instance
+>   * @trip_temp: the trip temperature to check
+>   *
+>   * Checks and enforces the permitted temperature range that SOC_THERM
+> @@ -747,6 +748,8 @@ static int get_hot_temp(struct thermal_zone_device *tz, int *trip, int *temp)
+>  /**
+>   * tegra_soctherm_set_hwtrips() - set HW trip point from DT data
+>   * @dev: struct device * of the SOC_THERM instance
+> + * @sg: pointer to the sensor group to set the thermtrip temperature for
+> + * @tz: struct thermal_zone_device *
+>   *
+>   * Configure the SOC_THERM HW trip points, setting "THERMTRIP"
+>   * "THROTTLE" trip points , using "thermtrips", "critical" or "hot"
+> @@ -931,6 +934,7 @@ static irqreturn_t soctherm_thermal_isr_thread(int irq, void *dev_id)
+>  
+>  /**
+>   * soctherm_oc_intr_enable() - Enables the soctherm over-current interrupt
+> + * @ts:		pointer to a struct tegra_soctherm
+>   * @alarm:		The soctherm throttle id
+>   * @enable:		Flag indicating enable the soctherm over-current
+>   *			interrupt or disable it
+> @@ -1156,7 +1160,7 @@ static void soctherm_oc_irq_enable(struct irq_data *data)
+>  
+>  /**
+>   * soctherm_oc_irq_disable() - Disables overcurrent interrupt requests
+> - * @irq_data:	The interrupt request information
+> + * @data:	The interrupt request information
+>   *
+>   * Clears the interrupt request enable bit of the overcurrent
+>   * interrupt request chip data.
+> @@ -1206,6 +1210,7 @@ static int soctherm_oc_irq_map(struct irq_domain *h, unsigned int virq,
+>  /**
+>   * soctherm_irq_domain_xlate_twocell() - xlate for soctherm interrupts
+>   * @d:      Interrupt request domain
+> + * @ctrlr:      Controller device tree node
+>   * @intspec:    Array of u32s from DTs "interrupt" property
+>   * @intsize:    Number of values inside the intspec array
+>   * @out_hwirq:  HW IRQ value associated with this interrupt
+> @@ -1681,6 +1686,7 @@ static int soctherm_throt_cfg_parse(struct device *dev,
+>  /**
+>   * soctherm_init_hw_throt_cdev() - Parse the HW throttle configurations
+>   * and register them as cooling devices.
+> + * @pdev: Pointer to platform_device struct
+>   */
+>  static void soctherm_init_hw_throt_cdev(struct platform_device *pdev)
+>  {
+> @@ -1751,6 +1757,7 @@ static void soctherm_init_hw_throt_cdev(struct platform_device *pdev)
+>  
+>  /**
+>   * throttlectl_cpu_level_cfg() - programs CCROC NV_THERM level config
+> + * @ts: pointer to a struct tegra_soctherm
+>   * @level: describing the level LOW/MED/HIGH of throttling
+>   *
+>   * It's necessary to set up the CPU-local CCROC NV_THERM instance with
+> @@ -1798,6 +1805,7 @@ static void throttlectl_cpu_level_cfg(struct tegra_soctherm *ts, int level)
+>  
+>  /**
+>   * throttlectl_cpu_level_select() - program CPU pulse skipper config
+> + * @ts: pointer to a struct tegra_soctherm
+>   * @throt: the LIGHT/HEAVY of throttle event id
+>   *
+>   * Pulse skippers are used to throttle clock frequencies.  This
+> @@ -1841,6 +1849,7 @@ static void throttlectl_cpu_level_select(struct tegra_soctherm *ts,
+>  
+>  /**
+>   * throttlectl_cpu_mn() - program CPU pulse skipper configuration
+> + * @ts: pointer to a struct tegra_soctherm
+>   * @throt: the LIGHT/HEAVY of throttle event id
+>   *
+>   * Pulse skippers are used to throttle clock frequencies.  This
+> @@ -1874,6 +1883,7 @@ static void throttlectl_cpu_mn(struct tegra_soctherm *ts,
+>  
+>  /**
+>   * throttlectl_gpu_level_select() - selects throttling level for GPU
+> + * @ts: pointer to a struct tegra_soctherm
+>   * @throt: the LIGHT/HEAVY of throttle event id
+>   *
+>   * This function programs soctherm's interface to GK20a NV_THERM to select
+> @@ -1918,6 +1928,7 @@ static int soctherm_oc_cfg_program(struct tegra_soctherm *ts,
+>  
+>  /**
+>   * soctherm_throttle_program() - programs pulse skippers' configuration
+> + * @ts: pointer to a struct tegra_soctherm
+>   * @throt: the LIGHT/HEAVY of the throttle event id.
+>   *
+>   * Pulse skippers are used to throttle clock frequencies.
 
-Isn't it a bit wasteful to duplicate information about the parent within
-a provider if framework already has that info? The whole point of this
-new API is to allow providers to avoid that unnecessary duplication.
+Reviewed-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Please note that clk_hw_get_parent_index is getting used only at the
-resume time and not at suspend.
-
-[snip]
+-- 
+viresh
