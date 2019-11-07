@@ -2,211 +2,258 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84D5DF2541
-	for <lists+linux-tegra@lfdr.de>; Thu,  7 Nov 2019 03:22:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 982A7F2C69
+	for <lists+linux-tegra@lfdr.de>; Thu,  7 Nov 2019 11:32:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728589AbfKGCWH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 6 Nov 2019 21:22:07 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:40882 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727328AbfKGCWG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 6 Nov 2019 21:22:06 -0500
-Received: by mail-pl1-f193.google.com with SMTP id e3so369638plt.7
-        for <linux-tegra@vger.kernel.org>; Wed, 06 Nov 2019 18:22:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=DIp/SX1Z8Vaima5J/yA/Iy5SFkLkyKf1IKBaqaMEzpk=;
-        b=gfFkjdgCNoH1Yql730ZP0mX2NpK3GxLSr7kDXBXlYPkeN5ms9244qH0a7b3N74Muuo
-         H042USeH7s6weqzHVIBoDC8GD6rSVkaNmI9E1O6EUxK2Os/DoDanxQ/iS7upLvqw66Pp
-         tdi4F71Svv7GX14pxx/yTiLIt4nnhWr4q1jAOwrgHMBQa4KiRsK+SW6atJdwSWQSft0u
-         aBYRZqCkAu55Z+GhvWqcYCHkY/08ND0EGqsn6A0lNLHVtr6xc54/aMqNLYOUsTBm31b4
-         +q5VVvdNZjwgdrHEhrq/lj7TVO8dxQtgC62DytHGYq1ezyemZ+UYjfmcDzhxOZ3SWLDP
-         TBQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DIp/SX1Z8Vaima5J/yA/Iy5SFkLkyKf1IKBaqaMEzpk=;
-        b=nW43KzpLke7AjRtBHSE8qSrdBrW0hsblmCHyBuBVzaQBN5gl+DuY5gTtRPVvsrwV5n
-         04ebMsus2KEfFMpqX+rRpg/y6WrvNN2o4R59fcWvsSMeFvSOCF0TGVACE/WBv+6CeHQE
-         Qg33Qnxcc0+yhaLFP6IMRHq1THmc73SMtrWOgl8GlOg0Fa6ly+dOTzC8s2g+djvo/dWZ
-         BOfjdjKKmgkoYkPVojEu81Wbro1TJKircv2nasAvXc8I/vzTiDiZx9h7eb5cTCsIkqJU
-         /L1l1RFfGPbIXpjtetjitfXe0OTf2W3Ejn3vRfU/Za6lyURaVbJVh5+dNx5EQ38B01kK
-         ZbFA==
-X-Gm-Message-State: APjAAAWmt+3tspupzzphdC9DYsZUq2CK28fgkejuVnmKrLtC40x+lxB8
-        isbGxPwyvoeea3/GMOY89lpz2g==
-X-Google-Smtp-Source: APXvYqzfI4aa9+Zx8nFGMtjOp35qwnm4zr094alij32VCxc/5YBzZFWIPoj1W8L2/RE7U5XVcmQaEQ==
-X-Received: by 2002:a17:902:59ca:: with SMTP id d10mr996735plj.237.1573093325672;
-        Wed, 06 Nov 2019 18:22:05 -0800 (PST)
-Received: from localhost ([122.171.110.253])
-        by smtp.gmail.com with ESMTPSA id z18sm409225pgv.90.2019.11.06.18.22.04
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 06 Nov 2019 18:22:04 -0800 (PST)
-Date:   Thu, 7 Nov 2019 07:52:01 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Amit Kucheria <amit.kucheria@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, edubezval@gmail.com,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Guillaume La Roque <glaroque@baylibre.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Javi Merino <javi.merino@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jun Nie <jun.nie@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 09/11] thermal: tegra: Appease the kernel-doc deity
-Message-ID: <20191107022201.emiylbnnqahfqrl5@vireshk-i7>
-References: <cover.1573046440.git.amit.kucheria@linaro.org>
- <4cba46c100cb504a52e52062bdf4e4a4e9427b99.1573046440.git.amit.kucheria@linaro.org>
+        id S2388485AbfKGKcY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 7 Nov 2019 05:32:24 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:15568 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387796AbfKGKcY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 7 Nov 2019 05:32:24 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc3f27a0000>; Thu, 07 Nov 2019 02:31:22 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 07 Nov 2019 02:32:22 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 07 Nov 2019 02:32:22 -0800
+Received: from [10.26.11.187] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 7 Nov
+ 2019 10:32:18 +0000
+Subject: Re: [PATCH v4 2/2] gpio: Add xgs-iproc driver
+To:     Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>, <rjui@broadcom.com>,
+        <sbranden@broadcom.com>, <bcm-kernel-feedback-list@broadcom.com>
+CC:     <linux-gpio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191024202703.8017-1-chris.packham@alliedtelesis.co.nz>
+ <20191024202703.8017-3-chris.packham@alliedtelesis.co.nz>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <a2d82f20-a559-c3b9-f7b1-0e488b75f7e6@nvidia.com>
+Date:   Thu, 7 Nov 2019 10:32:17 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4cba46c100cb504a52e52062bdf4e4a4e9427b99.1573046440.git.amit.kucheria@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20191024202703.8017-3-chris.packham@alliedtelesis.co.nz>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1573122682; bh=vlL4FFSlaCHxygpXvqXKdAedbg7/9JjZ1VuXUKB8qfk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=mBe+dGi/qz/+XmLSgjEIzPi7Og1wAUH/XpvopBVOPmTg5gh5D4dYoMvfz8Jx4VO0V
+         guHbznWjjesTmS7pG121QnpKssxnqiAAKHzIBb0BR5yETCZCbHwbNToTxJ7WwMwJQS
+         0ulnXw/Ov0riCTDiL2b2ei/2JlrXcicxsxvtQINsdfWVO+ZW64+IakoFivdtpUzgKR
+         Ul5QCCi7cOOMKI8RtTB+qZEBcriRNZdU/2CKhD8TB/O3vRbgIQ2DgzqO+goLV7E9DY
+         YiDWUBr0RdaqSqr+TCK8xdoXlSYa/Pp70rWx9uogtsNgFp3eZsrnrtNGO3aEgXhFFO
+         U9uElbUOrbHhg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 06-11-19, 18:58, Amit Kucheria wrote:
-> Fix up the following warning when compiled with make W=1:
-> 
-> linux.git/drivers/thermal/tegra/soctherm.c:369: warning: Function parameter or member 'value' not described in 'ccroc_writel'
-> linux.git/drivers/thermal/tegra/soctherm.c:369: warning: Excess function parameter 'v' description in 'ccroc_writel'
-> linux.git/drivers/thermal/tegra/soctherm.c:447: warning: Function parameter or member 'dev' not described in 'enforce_temp_range'
-> linux.git/drivers/thermal/tegra/soctherm.c:772: warning: Function parameter or member 'sg' not described in 'tegra_soctherm_set_hwtrips'
-> linux.git/drivers/thermal/tegra/soctherm.c:772: warning: Function parameter or member 'tz' not described in 'tegra_soctherm_set_hwtrips'
-> linux.git/drivers/thermal/tegra/soctherm.c:944: warning: Function parameter or member 'ts' not described in 'soctherm_oc_intr_enable'
-> linux.git/drivers/thermal/tegra/soctherm.c:1167: warning: Function parameter or member 'data' not described in 'soctherm_oc_irq_disable'
-> linux.git/drivers/thermal/tegra/soctherm.c:1167: warning: Excess function parameter 'irq_data' description in 'soctherm_oc_irq_disable'
-> linux.git/drivers/thermal/tegra/soctherm.c:1224: warning: Function parameter or member 'ctrlr' not described in 'soctherm_irq_domain_xlate_twocell'
-> linux.git/drivers/thermal/tegra/soctherm.c:1686: warning: Function parameter or member 'pdev' not described in 'soctherm_init_hw_throt_cdev'
-> linux.git/drivers/thermal/tegra/soctherm.c:1764: warning: Function parameter or member 'ts' not described in 'throttlectl_cpu_level_cfg'
-> linux.git/drivers/thermal/tegra/soctherm.c:1812: warning: Function parameter or member 'ts' not described in 'throttlectl_cpu_level_select'
-> linux.git/drivers/thermal/tegra/soctherm.c:1855: warning: Function parameter or member 'ts' not described in 'throttlectl_cpu_mn'
-> linux.git/drivers/thermal/tegra/soctherm.c:1886: warning: Function parameter or member 'ts' not described in 'throttlectl_gpu_level_select'
-> linux.git/drivers/thermal/tegra/soctherm.c:1928: warning: Function parameter or member 'ts' not described in 'soctherm_throttle_program'
-> 
-> Signed-off-by: Amit Kucheria <amit.kucheria@linaro.org>
-> ---
->  drivers/thermal/tegra/soctherm.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/thermal/tegra/soctherm.c b/drivers/thermal/tegra/soctherm.c
-> index 5acaad3a594f3..66e0639da4bf2 100644
-> --- a/drivers/thermal/tegra/soctherm.c
-> +++ b/drivers/thermal/tegra/soctherm.c
-> @@ -360,7 +360,7 @@ static struct soctherm_oc_irq_chip_data soc_irq_cdata;
->  /**
->   * ccroc_writel() - writes a value to a CCROC register
->   * @ts: pointer to a struct tegra_soctherm
-> - * @v: the value to write
-> + * @value: the value to write
->   * @reg: the register offset
->   *
->   * Writes @v to @reg.  No return value.
-> @@ -435,6 +435,7 @@ static int tegra_thermctl_get_temp(void *data, int *out_temp)
->  
->  /**
->   * enforce_temp_range() - check and enforce temperature range [min, max]
-> + * @dev: struct device * of the SOC_THERM instance
->   * @trip_temp: the trip temperature to check
->   *
->   * Checks and enforces the permitted temperature range that SOC_THERM
-> @@ -747,6 +748,8 @@ static int get_hot_temp(struct thermal_zone_device *tz, int *trip, int *temp)
->  /**
->   * tegra_soctherm_set_hwtrips() - set HW trip point from DT data
->   * @dev: struct device * of the SOC_THERM instance
-> + * @sg: pointer to the sensor group to set the thermtrip temperature for
-> + * @tz: struct thermal_zone_device *
->   *
->   * Configure the SOC_THERM HW trip points, setting "THERMTRIP"
->   * "THROTTLE" trip points , using "thermtrips", "critical" or "hot"
-> @@ -931,6 +934,7 @@ static irqreturn_t soctherm_thermal_isr_thread(int irq, void *dev_id)
->  
->  /**
->   * soctherm_oc_intr_enable() - Enables the soctherm over-current interrupt
-> + * @ts:		pointer to a struct tegra_soctherm
->   * @alarm:		The soctherm throttle id
->   * @enable:		Flag indicating enable the soctherm over-current
->   *			interrupt or disable it
-> @@ -1156,7 +1160,7 @@ static void soctherm_oc_irq_enable(struct irq_data *data)
->  
->  /**
->   * soctherm_oc_irq_disable() - Disables overcurrent interrupt requests
-> - * @irq_data:	The interrupt request information
-> + * @data:	The interrupt request information
->   *
->   * Clears the interrupt request enable bit of the overcurrent
->   * interrupt request chip data.
-> @@ -1206,6 +1210,7 @@ static int soctherm_oc_irq_map(struct irq_domain *h, unsigned int virq,
->  /**
->   * soctherm_irq_domain_xlate_twocell() - xlate for soctherm interrupts
->   * @d:      Interrupt request domain
-> + * @ctrlr:      Controller device tree node
->   * @intspec:    Array of u32s from DTs "interrupt" property
->   * @intsize:    Number of values inside the intspec array
->   * @out_hwirq:  HW IRQ value associated with this interrupt
-> @@ -1681,6 +1686,7 @@ static int soctherm_throt_cfg_parse(struct device *dev,
->  /**
->   * soctherm_init_hw_throt_cdev() - Parse the HW throttle configurations
->   * and register them as cooling devices.
-> + * @pdev: Pointer to platform_device struct
->   */
->  static void soctherm_init_hw_throt_cdev(struct platform_device *pdev)
->  {
-> @@ -1751,6 +1757,7 @@ static void soctherm_init_hw_throt_cdev(struct platform_device *pdev)
->  
->  /**
->   * throttlectl_cpu_level_cfg() - programs CCROC NV_THERM level config
-> + * @ts: pointer to a struct tegra_soctherm
->   * @level: describing the level LOW/MED/HIGH of throttling
->   *
->   * It's necessary to set up the CPU-local CCROC NV_THERM instance with
-> @@ -1798,6 +1805,7 @@ static void throttlectl_cpu_level_cfg(struct tegra_soctherm *ts, int level)
->  
->  /**
->   * throttlectl_cpu_level_select() - program CPU pulse skipper config
-> + * @ts: pointer to a struct tegra_soctherm
->   * @throt: the LIGHT/HEAVY of throttle event id
->   *
->   * Pulse skippers are used to throttle clock frequencies.  This
-> @@ -1841,6 +1849,7 @@ static void throttlectl_cpu_level_select(struct tegra_soctherm *ts,
->  
->  /**
->   * throttlectl_cpu_mn() - program CPU pulse skipper configuration
-> + * @ts: pointer to a struct tegra_soctherm
->   * @throt: the LIGHT/HEAVY of throttle event id
->   *
->   * Pulse skippers are used to throttle clock frequencies.  This
-> @@ -1874,6 +1883,7 @@ static void throttlectl_cpu_mn(struct tegra_soctherm *ts,
->  
->  /**
->   * throttlectl_gpu_level_select() - selects throttling level for GPU
-> + * @ts: pointer to a struct tegra_soctherm
->   * @throt: the LIGHT/HEAVY of throttle event id
->   *
->   * This function programs soctherm's interface to GK20a NV_THERM to select
-> @@ -1918,6 +1928,7 @@ static int soctherm_oc_cfg_program(struct tegra_soctherm *ts,
->  
->  /**
->   * soctherm_throttle_program() - programs pulse skippers' configuration
-> + * @ts: pointer to a struct tegra_soctherm
->   * @throt: the LIGHT/HEAVY of the throttle event id.
->   *
->   * Pulse skippers are used to throttle clock frequencies.
 
-Reviewed-by: Viresh Kumar <viresh.kumar@linaro.org>
+On 24/10/2019 21:27, Chris Packham wrote:
+> This driver supports the Chip Common A GPIO controller present on a
+> number of Broadcom switch ASICs with integrated SoCs. The controller is
+> similar to the pinctrl-nsp-gpio and pinctrl-iproc-gpio blocks but
+> different enough that a separate driver is required.
+> 
+> This has been ported from Broadcom's XLDK 5.0.3 retaining only the CCA
+> support (pinctrl-iproc-gpio covers CCB).
+> 
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> ---
+> 
+> Notes:
+>     Changes in v4:
+>     - rename the config option to GPIO_BCM_XGS_IPROC and place alphabetically
+>     - sort #includes alphabetically
+>     
+>     Changes in v3:
+>     - prefix local #defines with 'IPROC'
+>     - use {readl,writel}_relaxed
+>     - remove unnecessary headers
+>     - actually use spinlock to guard hardware accesses
+>     
+>     Changes in v2:
+>     - use more of the generic infrastructure for gpio chips
+>     - handling the root interrupt is still done manually due to sharing with uart0.
+> 
+>  drivers/gpio/Kconfig          |   9 +
+>  drivers/gpio/Makefile         |   1 +
+>  drivers/gpio/gpio-xgs-iproc.c | 321 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 331 insertions(+)
+>  create mode 100644 drivers/gpio/gpio-xgs-iproc.c
+> 
+> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> index 38e096e6925f..04396787fbb0 100644
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -147,6 +147,15 @@ config GPIO_BCM_KONA
+>  	help
+>  	  Turn on GPIO support for Broadcom "Kona" chips.
+>  
+> +config GPIO_BCM_XGS_IPROC
+> +	tristate "BRCM XGS iProc GPIO support"
+> +	depends on OF_GPIO && (ARCH_BCM_IPROC || COMPILE_TEST)
+> +	select GPIO_GENERIC
+> +	select GPIOLIB_IRQCHIP
+> +	default ARCH_BCM_IPROC
+> +	help
+> +	  Say yes here to enable GPIO support for Broadcom XGS iProc SoCs.
+> +
+>  config GPIO_BRCMSTB
+>  	tristate "BRCMSTB GPIO support"
+>  	default y if (ARCH_BRCMSTB || BMIPS_GENERIC)
+> diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
+> index d2fd19c15bae..8725d158a964 100644
+> --- a/drivers/gpio/Makefile
+> +++ b/drivers/gpio/Makefile
+> @@ -34,6 +34,7 @@ obj-$(CONFIG_GPIO_ARIZONA)		+= gpio-arizona.o
+>  obj-$(CONFIG_GPIO_ASPEED)		+= gpio-aspeed.o
+>  obj-$(CONFIG_GPIO_ATH79)		+= gpio-ath79.o
+>  obj-$(CONFIG_GPIO_BCM_KONA)		+= gpio-bcm-kona.o
+> +obj-$(CONFIG_GPIO_BCM_XGS_IPROC)	+= gpio-xgs-iproc.o
+>  obj-$(CONFIG_GPIO_BD70528)		+= gpio-bd70528.o
+>  obj-$(CONFIG_GPIO_BD9571MWV)		+= gpio-bd9571mwv.o
+>  obj-$(CONFIG_GPIO_BRCMSTB)		+= gpio-brcmstb.o
+> diff --git a/drivers/gpio/gpio-xgs-iproc.c b/drivers/gpio/gpio-xgs-iproc.c
+> new file mode 100644
+> index 000000000000..a3fdd95cc9e6
+> --- /dev/null
+> +++ b/drivers/gpio/gpio-xgs-iproc.c
+
+...
+
+> +static const struct of_device_id bcm_iproc_gpio_of_match[] __initconst = {
+> +	{ .compatible = "brcm,iproc-gpio-cca" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, bcm_iproc_gpio_of_match);
+
+This patch is generating the following warning when built as a module ...
+
+MODPOST vmlinux.o
+WARNING: vmlinux.o(.data+0x834d0): Section mismatch in reference from the variable bcm_iproc_gpio_driver to the variable .init.rodata:bcm_iproc_gpio_of_match
+The variable bcm_iproc_gpio_driver references
+the variable __initconst bcm_iproc_gpio_of_match
+If the reference is valid then annotate the
+variable with __init* or __refdata (see linux/init.h) or name the variable:
+*_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
+
+
+This then leads to the following crash on boot ...
+
+[   13.586799] ------------[ cut here ]------------
+
+[   13.591406] Ignoring spurious kernel translation fault at virtual address ffff80001139a990
+
+[   13.599659] WARNING: CPU: 0 PID: 5 at /home/jonathanh/workdir/tegra/mlt-linux_next/kernel/arch/arm64/mm/fault.c:302 __do_kernel_fault+0xd0/0x128
+
+[   13.612582] Modules linked in: ina3221(+) ip_tables x_tables ipv6 nf_defrag_ipv6
+
+[   13.619966] CPU: 0 PID: 5 Comm: kworker/0:0 Tainted: G S                5.4.0-rc1-00031-g6a41b6c5fc20 #11
+
+[   13.629509] Hardware name: NVIDIA Jetson TX2 Developer Kit (DT)
+
+[   13.635416] Workqueue: events deferred_probe_work_func
+
+[   13.640540] pstate: 40000085 (nZcv daIf -PAN -UAO)
+
+[   13.645318] pc : __do_kernel_fault+0xd0/0x128
+
+[   13.649663] lr : __do_kernel_fault+0xd0/0x128
+
+[   13.654006] sp : ffff800010073a10
+
+[   13.657308] x29: ffff800010073a10 x28: ffff0001f5ccb700 
+
+[   13.662605] x27: ffff0001f7185730 x26: ffff8000117aff28 
+
+[   13.667901] x25: 0000000000000000 x24: 0000000000000025 
+
+[   13.673198] x23: 0000000060000085 x22: ffff80001139a990 
+
+[   13.678495] x21: ffff800010073a80 x20: 0000000000000025 
+
+[   13.683792] x19: 0000000096000007 x18: ffffffffffffffff 
+
+[   13.689089] x17: 0000000000000000 x16: 0000000000000000 
+
+[   13.694386] x15: ffff8000117998c8 x14: 3131303030386666 
+
+[   13.699681] x13: 6666207373657264 x12: 6461206c61757472 
+
+[   13.704978] x11: 697620746120746c x10: 756166206e6f6974 
+
+[   13.710274] x9 : 616c736e61727420 x8 : 6c656e72656b2073 
+
+[   13.715570] x7 : 0000000000000160 x6 : ffff0001f717c180 
+
+[   13.720867] x5 : 0000000000000001 x4 : ffff0001f717c180 
+
+[   13.726162] x3 : 0000000000000006 x2 : 0000000000000007 
+
+[   13.731458] x1 : aa4a2528bb290a00 x0 : 0000000000000000 
+
+[   13.736756] Call trace:
+
+[   13.739194]  __do_kernel_fault+0xd0/0x128
+
+[   13.743192]  do_translation_fault+0x40/0x70
+
+[   13.747363]  do_mem_abort+0x3c/0x98
+
+[   13.750839]  el1_da+0x20/0x94
+
+[   13.753799]  __of_match_node+0x40/0x88
+
+[   13.757535]  of_match_node+0x3c/0x60
+
+[   13.761099]  of_match_device+0x18/0x28
+
+[   13.764837]  platform_match+0x4c/0xd0
+
+[   13.768488]  __device_attach_driver+0x34/0xc0
+
+[   13.772832]  bus_for_each_drv+0x70/0xc8
+
+[   13.776655]  __device_attach+0xdc/0x140
+
+[   13.780479]  device_initial_probe+0x10/0x18
+
+[   13.784649]  bus_probe_device+0x94/0xa0
+
+[   13.788471]  deferred_probe_work_func+0x6c/0xa0
+
+[   13.792990]  process_one_work+0x1c8/0x358
+
+[   13.796986]  worker_thread+0x48/0x460
+
+[   13.800637]  kthread+0xf0/0x120
+
+[   13.803767]  ret_from_fork+0x10/0x1c
+
+[   13.807331] ---[ end trace ce728f2656bbae67 ]---
+
+
+I think we need to drop the __initconst from the match table.
+
+I will send a patch.
+
+Cheers
+Jon
 
 -- 
-viresh
+nvpublic
