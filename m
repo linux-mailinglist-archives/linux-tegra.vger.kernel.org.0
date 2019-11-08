@@ -2,138 +2,126 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA2D3F4FE5
-	for <lists+linux-tegra@lfdr.de>; Fri,  8 Nov 2019 16:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB079F5086
+	for <lists+linux-tegra@lfdr.de>; Fri,  8 Nov 2019 17:04:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726129AbfKHPhY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 8 Nov 2019 10:37:24 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:37679 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726036AbfKHPhY (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 8 Nov 2019 10:37:24 -0500
-Received: by mail-wr1-f68.google.com with SMTP id t1so7555817wrv.4;
-        Fri, 08 Nov 2019 07:37:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zNRVMI5c64DIG9dO1ZAUvic71PHcwBHzn7HAnMaKCXM=;
-        b=K5v6w5QJxVvJXtQb3oxMYRaIOs9fVA4Ns5S2BVB2Kjg9SLSaN98Nu12vgXEBfLJQuy
-         ig1gDRdXyEXWtFve7nFod26k+96VkufujXAID5240QzNOIcoaMX/tC72Ks3HvsmKiLGt
-         2IiOHBI8KheknKLWi2Ps87Yaxkj79aQ065o73xHD+rKaG/mK1VGc36bqMf/Z7Yssm2eY
-         aSHI4bKbDne8eM01nYJTtB+SCfP/c4p6MYkiZuFDng46ImQtoFP/32K1ovtHsDufRsif
-         yww/N7+EUTBU7INvBeXJ2bQjxt/8HZxIvm7B7wRZupFAZXxLRXpFfpNAjmnY2DaU1iox
-         MJKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zNRVMI5c64DIG9dO1ZAUvic71PHcwBHzn7HAnMaKCXM=;
-        b=HiZtLyr7dt1f8h2daSJygB7FcBx16ZvNwJfXzEzjLu8JDDb9xVVHdEZcWvoGFAS+vU
-         lO/N22AsfTn9jHdBSS1dihmv/L6nPCBtmmbYiElsiPWUDh5VJmaWx+psjPwGpN1fLXlt
-         8yBfg8eKybJH81tJoY26pHOcEzQSmSs0ksGXM47CJ2av6dg1n8+o4aP5r+HnxDMuPMyT
-         qhcFWC53QzKf5dSOGl7xajWiYpXO5/yodThGNv7hVrHfdrm5iLNDLCtro9/Lph97ozxF
-         LlfLqD84Bg7opN0HTwgb7xLgkfAW3ARsEnzQ1MvHhp1S3hpDtZOSYJogeOV5+UVczfr8
-         TxqQ==
-X-Gm-Message-State: APjAAAUtliZmDXYKBFaNDNCu0X7Us2rfFSU7I4PZDNF2E9bejho7rugC
-        17VlQEhSm/Zxw3KYFKNbEmw=
-X-Google-Smtp-Source: APXvYqwUn293JDxKiGB6AqkYr9f4GobNYRLLfQyY9AL2KPslvHnP2tiV8O/IrhIUnA6Cb3AFzZBWNg==
-X-Received: by 2002:adf:f4c9:: with SMTP id h9mr8478984wrp.354.1573227441918;
-        Fri, 08 Nov 2019 07:37:21 -0800 (PST)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id j10sm732972wrx.30.2019.11.08.07.37.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2019 07:37:20 -0800 (PST)
-From:   Thierry Reding <thierry.reding@gmail.com>
+        id S1727390AbfKHQEi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 8 Nov 2019 11:04:38 -0500
+Received: from foss.arm.com ([217.140.110.172]:46016 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726152AbfKHQEi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 8 Nov 2019 11:04:38 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 43E1546A;
+        Fri,  8 Nov 2019 08:04:37 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 90C443F71A;
+        Fri,  8 Nov 2019 08:04:36 -0800 (PST)
+Date:   Fri, 8 Nov 2019 16:04:34 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: [PATCH] arm64: tegra: Disable secondary CPUs on Tegra194
-Date:   Fri,  8 Nov 2019 16:37:19 +0100
-Message-Id: <20191108153719.3166002-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
+Subject: Re: [PATCH] arm64: tegra: Disable secondary CPUs on Tegra194
+Message-ID: <20191108160434.GI11465@lakrids.cambridge.arm.com>
+References: <20191108153719.3166002-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191108153719.3166002-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Fri, Nov 08, 2019 at 04:37:19PM +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> According to ePAPR, CPUs that are quiescent should have the "status"
+> property of the corresponding device tree node set to "disabled". Since
+> all but the boot CPU are in a quiescent state on boot, mark all
+> secondary CPUs as "disabled".
 
-According to ePAPR, CPUs that are quiescent should have the "status"
-property of the corresponding device tree node set to "disabled". Since
-all but the boot CPU are in a quiescent state on boot, mark all
-secondary CPUs as "disabled".
+I think it might be best to leave this as-is, as we haven't done this
+for other dts, and the OS doesn't actually require or consume this
+regardless.
 
-Note that this does not have an impact on SMP. Linux will still be able
-to boot these secondary CPUs like before.
+Adding this to all the Dts seems like unnecessary churn, and we can fix
+the DT spec instead.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+Thanks,
+Mark.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 59485976db64..ea165b2998f9 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1661,6 +1661,7 @@
- 			compatible = "nvidia,tegra194-carmel";
- 			device_type = "cpu";
- 			reg = <0x001>;
-+			status = "disabled";
- 			enable-method = "psci";
- 			i-cache-size = <131072>;
- 			i-cache-line-size = <64>;
-@@ -1675,6 +1676,7 @@
- 			compatible = "nvidia,tegra194-carmel";
- 			device_type = "cpu";
- 			reg = <0x100>;
-+			status = "disabled";
- 			enable-method = "psci";
- 			i-cache-size = <131072>;
- 			i-cache-line-size = <64>;
-@@ -1689,6 +1691,7 @@
- 			compatible = "nvidia,tegra194-carmel";
- 			device_type = "cpu";
- 			reg = <0x101>;
-+			status = "disabled";
- 			enable-method = "psci";
- 			i-cache-size = <131072>;
- 			i-cache-line-size = <64>;
-@@ -1703,6 +1706,7 @@
- 			compatible = "nvidia,tegra194-carmel";
- 			device_type = "cpu";
- 			reg = <0x200>;
-+			status = "disabled";
- 			enable-method = "psci";
- 			i-cache-size = <131072>;
- 			i-cache-line-size = <64>;
-@@ -1717,6 +1721,7 @@
- 			compatible = "nvidia,tegra194-carmel";
- 			device_type = "cpu";
- 			reg = <0x201>;
-+			status = "disabled";
- 			enable-method = "psci";
- 			i-cache-size = <131072>;
- 			i-cache-line-size = <64>;
-@@ -1731,6 +1736,7 @@
- 			compatible = "nvidia,tegra194-carmel";
- 			device_type = "cpu";
- 			reg = <0x300>;
-+			status = "disabled";
- 			enable-method = "psci";
- 			i-cache-size = <131072>;
- 			i-cache-line-size = <64>;
-@@ -1745,6 +1751,7 @@
- 			compatible = "nvidia,tegra194-carmel";
- 			device_type = "cpu";
- 			reg = <0x301>;
-+			status = "disabled";
- 			enable-method = "psci";
- 			i-cache-size = <131072>;
- 			i-cache-line-size = <64>;
--- 
-2.23.0
-
+> 
+> Note that this does not have an impact on SMP. Linux will still be able
+> to boot these secondary CPUs like before.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  arch/arm64/boot/dts/nvidia/tegra194.dtsi | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> index 59485976db64..ea165b2998f9 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+> @@ -1661,6 +1661,7 @@
+>  			compatible = "nvidia,tegra194-carmel";
+>  			device_type = "cpu";
+>  			reg = <0x001>;
+> +			status = "disabled";
+>  			enable-method = "psci";
+>  			i-cache-size = <131072>;
+>  			i-cache-line-size = <64>;
+> @@ -1675,6 +1676,7 @@
+>  			compatible = "nvidia,tegra194-carmel";
+>  			device_type = "cpu";
+>  			reg = <0x100>;
+> +			status = "disabled";
+>  			enable-method = "psci";
+>  			i-cache-size = <131072>;
+>  			i-cache-line-size = <64>;
+> @@ -1689,6 +1691,7 @@
+>  			compatible = "nvidia,tegra194-carmel";
+>  			device_type = "cpu";
+>  			reg = <0x101>;
+> +			status = "disabled";
+>  			enable-method = "psci";
+>  			i-cache-size = <131072>;
+>  			i-cache-line-size = <64>;
+> @@ -1703,6 +1706,7 @@
+>  			compatible = "nvidia,tegra194-carmel";
+>  			device_type = "cpu";
+>  			reg = <0x200>;
+> +			status = "disabled";
+>  			enable-method = "psci";
+>  			i-cache-size = <131072>;
+>  			i-cache-line-size = <64>;
+> @@ -1717,6 +1721,7 @@
+>  			compatible = "nvidia,tegra194-carmel";
+>  			device_type = "cpu";
+>  			reg = <0x201>;
+> +			status = "disabled";
+>  			enable-method = "psci";
+>  			i-cache-size = <131072>;
+>  			i-cache-line-size = <64>;
+> @@ -1731,6 +1736,7 @@
+>  			compatible = "nvidia,tegra194-carmel";
+>  			device_type = "cpu";
+>  			reg = <0x300>;
+> +			status = "disabled";
+>  			enable-method = "psci";
+>  			i-cache-size = <131072>;
+>  			i-cache-line-size = <64>;
+> @@ -1745,6 +1751,7 @@
+>  			compatible = "nvidia,tegra194-carmel";
+>  			device_type = "cpu";
+>  			reg = <0x301>;
+> +			status = "disabled";
+>  			enable-method = "psci";
+>  			i-cache-size = <131072>;
+>  			i-cache-line-size = <64>;
+> -- 
+> 2.23.0
+> 
