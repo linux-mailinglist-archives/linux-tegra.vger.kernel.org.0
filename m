@@ -2,54 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49136F4FDF
-	for <lists+linux-tegra@lfdr.de>; Fri,  8 Nov 2019 16:36:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA2D3F4FE5
+	for <lists+linux-tegra@lfdr.de>; Fri,  8 Nov 2019 16:37:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbfKHPgp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 8 Nov 2019 10:36:45 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:51401 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbfKHPgp (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 8 Nov 2019 10:36:45 -0500
-Received: by mail-wm1-f67.google.com with SMTP id q70so6635390wme.1
-        for <linux-tegra@vger.kernel.org>; Fri, 08 Nov 2019 07:36:44 -0800 (PST)
+        id S1726129AbfKHPhY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 8 Nov 2019 10:37:24 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:37679 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbfKHPhY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 8 Nov 2019 10:37:24 -0500
+Received: by mail-wr1-f68.google.com with SMTP id t1so7555817wrv.4;
+        Fri, 08 Nov 2019 07:37:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=lCO8uSNpFMAvShY/DXN+FCc8qcnOaFbyEnfZvHLmgXI=;
-        b=HHGBENAkOUkTjVvv2cb7I54L4i8/FPGJXWV/KdfUvP9cQY1omWx7uWTevnbN4ao4Wj
-         DAquhhEwBxTsWLNGbCmk8+6fficIBhTAW9DJ9KQXxRhFcA5js7MeGIs0F57tGiZ/yKJ0
-         u8mDwksQdpJtGI7bkdtTkuRV2XrmxvoWoWiI3hYItQoCnpShrGUB9eufTg9FgBIqfqgZ
-         6mc7I/Y7UdLOdvkXerfuSw0KV/aAHcNVTzXre5iCRbsigPcHgjI6aRKeK7e7gfSzcLJd
-         ffRxh4mJZuJBkeMf+oFeNEhOAQi8JucCgQ8RBVh66DA6SE4kFsAphZ30WCPAo3fji76a
-         Ypzg==
+        bh=zNRVMI5c64DIG9dO1ZAUvic71PHcwBHzn7HAnMaKCXM=;
+        b=K5v6w5QJxVvJXtQb3oxMYRaIOs9fVA4Ns5S2BVB2Kjg9SLSaN98Nu12vgXEBfLJQuy
+         ig1gDRdXyEXWtFve7nFod26k+96VkufujXAID5240QzNOIcoaMX/tC72Ks3HvsmKiLGt
+         2IiOHBI8KheknKLWi2Ps87Yaxkj79aQ065o73xHD+rKaG/mK1VGc36bqMf/Z7Yssm2eY
+         aSHI4bKbDne8eM01nYJTtB+SCfP/c4p6MYkiZuFDng46ImQtoFP/32K1ovtHsDufRsif
+         yww/N7+EUTBU7INvBeXJ2bQjxt/8HZxIvm7B7wRZupFAZXxLRXpFfpNAjmnY2DaU1iox
+         MJKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=lCO8uSNpFMAvShY/DXN+FCc8qcnOaFbyEnfZvHLmgXI=;
-        b=hf9mwz/0l/5+hB8E0iM6F61BzL633iauT5WGe0XlsczYzNuChJKDQIBbp9F37eykGt
-         avyD4/m+H8W7DHqgdzcl7xSiJKsCMQsbBOkkB7kWAdtECVXIYqyTiQN218fSCXJMnuW/
-         ltGkCPT4Ql1cTUemTqszlRpUAe3Vr0rvv/0mKodeTqs2oXGMOI3ue69IbYgZavaCRJ9m
-         P1r0uKefqV2jHBDZDitD8hpfCSgh2vDWrCdIihzgiOVfs2YLFEmBdL7+WOraWGdvKZbK
-         TNvvhTK2ztB1AHpfrbT2cxZKJAQgfXTJw6Ihe4g/US4TfrKs6YcCJdHff23ngmAIbK6+
-         ZCPQ==
-X-Gm-Message-State: APjAAAVxa+baFxKv6iHUHDeng3YZ07smgMFrFBPjVuOzUTptMFlJMvmh
-        5q0lsgy9QDLEAB7dVh+BfB8=
-X-Google-Smtp-Source: APXvYqwVEhSG9WAbhnBIf7SUZw8geyz8+fmpY7cV8jPGj9vAYyoQvLhomjx8Z6EfjuzarCHfDK569w==
-X-Received: by 2002:a05:600c:299:: with SMTP id 25mr9222824wmk.50.1573227403259;
-        Fri, 08 Nov 2019 07:36:43 -0800 (PST)
+        bh=zNRVMI5c64DIG9dO1ZAUvic71PHcwBHzn7HAnMaKCXM=;
+        b=HiZtLyr7dt1f8h2daSJygB7FcBx16ZvNwJfXzEzjLu8JDDb9xVVHdEZcWvoGFAS+vU
+         lO/N22AsfTn9jHdBSS1dihmv/L6nPCBtmmbYiElsiPWUDh5VJmaWx+psjPwGpN1fLXlt
+         8yBfg8eKybJH81tJoY26pHOcEzQSmSs0ksGXM47CJ2av6dg1n8+o4aP5r+HnxDMuPMyT
+         qhcFWC53QzKf5dSOGl7xajWiYpXO5/yodThGNv7hVrHfdrm5iLNDLCtro9/Lph97ozxF
+         LlfLqD84Bg7opN0HTwgb7xLgkfAW3ARsEnzQ1MvHhp1S3hpDtZOSYJogeOV5+UVczfr8
+         TxqQ==
+X-Gm-Message-State: APjAAAUtliZmDXYKBFaNDNCu0X7Us2rfFSU7I4PZDNF2E9bejho7rugC
+        17VlQEhSm/Zxw3KYFKNbEmw=
+X-Google-Smtp-Source: APXvYqwUn293JDxKiGB6AqkYr9f4GobNYRLLfQyY9AL2KPslvHnP2tiV8O/IrhIUnA6Cb3AFzZBWNg==
+X-Received: by 2002:adf:f4c9:: with SMTP id h9mr8478984wrp.354.1573227441918;
+        Fri, 08 Nov 2019 07:37:21 -0800 (PST)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id m9sm5901157wro.66.2019.11.08.07.36.41
+        by smtp.gmail.com with ESMTPSA id j10sm732972wrx.30.2019.11.08.07.37.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2019 07:36:41 -0800 (PST)
+        Fri, 08 Nov 2019 07:37:20 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH] arm64: tegra: Redefine force recovery key on Jetson AGX Xavier
-Date:   Fri,  8 Nov 2019 16:36:40 +0100
-Message-Id: <20191108153640.3163376-1-thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH] arm64: tegra: Disable secondary CPUs on Tegra194
+Date:   Fri,  8 Nov 2019 16:37:19 +0100
+Message-Id: <20191108153719.3166002-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -60,32 +61,79 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The current BTN_1 code associated with the force-recovery key is not a
-valid code for EV_KEY type input devices. This causes errors in the
-libinput debug-events command.
+According to ePAPR, CPUs that are quiescent should have the "status"
+property of the corresponding device tree node set to "disabled". Since
+all but the boot CPU are in a quiescent state on boot, mark all
+secondary CPUs as "disabled".
 
-There is no system level action that maps to the force-recovery key on
-Jetson AGX Xavier, so assign it the KEY_SLEEP action, which at least
-makes it do something marginally useful.
+Note that this does not have an impact on SMP. Linux will still be able
+to boot these secondary CPUs like before.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index 353a6a22196d..985e7d84f161 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -152,7 +152,7 @@
- 			gpios = <&gpio TEGRA194_MAIN_GPIO(G, 0)
- 				       GPIO_ACTIVE_LOW>;
- 			linux,input-type = <EV_KEY>;
--			linux,code = <BTN_1>;
-+			linux,code = <KEY_SLEEP>;
- 			debounce-interval = <10>;
- 		};
- 
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index 59485976db64..ea165b2998f9 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -1661,6 +1661,7 @@
+ 			compatible = "nvidia,tegra194-carmel";
+ 			device_type = "cpu";
+ 			reg = <0x001>;
++			status = "disabled";
+ 			enable-method = "psci";
+ 			i-cache-size = <131072>;
+ 			i-cache-line-size = <64>;
+@@ -1675,6 +1676,7 @@
+ 			compatible = "nvidia,tegra194-carmel";
+ 			device_type = "cpu";
+ 			reg = <0x100>;
++			status = "disabled";
+ 			enable-method = "psci";
+ 			i-cache-size = <131072>;
+ 			i-cache-line-size = <64>;
+@@ -1689,6 +1691,7 @@
+ 			compatible = "nvidia,tegra194-carmel";
+ 			device_type = "cpu";
+ 			reg = <0x101>;
++			status = "disabled";
+ 			enable-method = "psci";
+ 			i-cache-size = <131072>;
+ 			i-cache-line-size = <64>;
+@@ -1703,6 +1706,7 @@
+ 			compatible = "nvidia,tegra194-carmel";
+ 			device_type = "cpu";
+ 			reg = <0x200>;
++			status = "disabled";
+ 			enable-method = "psci";
+ 			i-cache-size = <131072>;
+ 			i-cache-line-size = <64>;
+@@ -1717,6 +1721,7 @@
+ 			compatible = "nvidia,tegra194-carmel";
+ 			device_type = "cpu";
+ 			reg = <0x201>;
++			status = "disabled";
+ 			enable-method = "psci";
+ 			i-cache-size = <131072>;
+ 			i-cache-line-size = <64>;
+@@ -1731,6 +1736,7 @@
+ 			compatible = "nvidia,tegra194-carmel";
+ 			device_type = "cpu";
+ 			reg = <0x300>;
++			status = "disabled";
+ 			enable-method = "psci";
+ 			i-cache-size = <131072>;
+ 			i-cache-line-size = <64>;
+@@ -1745,6 +1751,7 @@
+ 			compatible = "nvidia,tegra194-carmel";
+ 			device_type = "cpu";
+ 			reg = <0x301>;
++			status = "disabled";
+ 			enable-method = "psci";
+ 			i-cache-size = <131072>;
+ 			i-cache-line-size = <64>;
 -- 
 2.23.0
 
