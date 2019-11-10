@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4113DF629F
-	for <lists+linux-tegra@lfdr.de>; Sun, 10 Nov 2019 03:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 642ABF6443
+	for <lists+linux-tegra@lfdr.de>; Sun, 10 Nov 2019 03:58:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728525AbfKJCoR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 9 Nov 2019 21:44:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43446 "EHLO mail.kernel.org"
+        id S1728223AbfKJC6o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 9 Nov 2019 21:58:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47240 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728520AbfKJCoQ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:44:16 -0500
+        id S1729330AbfKJC4r (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:56:47 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 952A8222C4;
-        Sun, 10 Nov 2019 02:44:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C7DE122480;
+        Sun, 10 Nov 2019 02:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573353856;
-        bh=/3FHlrPbUfoEx5bggvBQp3kcC9rdCI47yRWd8XnLZ5s=;
+        s=default; t=1573354070;
+        bh=SJgM5lnoSsKMqTXorMM97fCNVXFdbc3dHn/7MZUJn+0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rs2gtX2WNIdwgSzgAicM1noHp7Hquuh7HpoWGasbLb00UExouNkNg63DpzoxXWWZl
-         ZsqwAwGjVxgeP4t4z07AHcIIyEjyGSMKKn9/rXNKoRyyKiRdHctsFG+copq07PZjgn
-         HFIFuKAqrwifEIRuI7l0KmQH7iUASrIqpNcjehJw=
+        b=nJrVOJdzGvIsoP7h7bYu2jureSRVjVluaSF1b30b2rcZtlIQiJQm0UXOUtOCvmwFH
+         zD5+J9AEnMZdBeLvxoPGdQ500T7HK6WbYLczma7E+yaS6f/id3LuRTFM2GBhG/9bk1
+         +EX8qhYcfQaeGWoNsz+ubKT26YQAdG8EE+t7uM4U=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Marcel Ziswiler <marcel.ziswiler@toradex.com>,
         Thierry Reding <treding@nvidia.com>,
         Sasha Levin <sashal@kernel.org>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 141/191] ARM: tegra: colibri_t30: fix mcp2515 can controller interrupt polarity
-Date:   Sat,  9 Nov 2019 21:39:23 -0500
-Message-Id: <20191110024013.29782-141-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 073/109] ARM: dts: tegra30: fix xcvr-setup-use-fuses
+Date:   Sat,  9 Nov 2019 21:45:05 -0500
+Message-Id: <20191110024541.31567-73-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191110024013.29782-1-sashal@kernel.org>
-References: <20191110024013.29782-1-sashal@kernel.org>
+In-Reply-To: <20191110024541.31567-1-sashal@kernel.org>
+References: <20191110024541.31567-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -46,32 +46,48 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 
-[ Upstream commit 503fcd8464fb6cd18073e97dec59b933930655d6 ]
+[ Upstream commit 564706f65cda3de52b09e51feb423a43940fe661 ]
 
-Fix the MCP2515 SPI CAN controller interrupt polarity which according
-to its datasheet defaults to low-active aka falling edge.
+There was a dot instead of a comma. Fix this.
 
 Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm/boot/dts/tegra30-colibri-eval-v3.dts | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/tegra30.dtsi | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts b/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts
-index 16e1f387aa6db..a0c550e26738f 100644
---- a/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts
-+++ b/arch/arm/boot/dts/tegra30-colibri-eval-v3.dts
-@@ -79,7 +79,8 @@
- 			reg = <0>;
- 			clocks = <&clk16m>;
- 			interrupt-parent = <&gpio>;
--			interrupts = <TEGRA_GPIO(S, 0) IRQ_TYPE_EDGE_RISING>;
-+			/* CAN_INT */
-+			interrupts = <TEGRA_GPIO(S, 0) IRQ_TYPE_EDGE_FALLING>;
- 			spi-max-frequency = <10000000>;
- 		};
- 		spidev0: spi@1 {
+diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
+index c3e9f1e847db8..cb5b76e958131 100644
+--- a/arch/arm/boot/dts/tegra30.dtsi
++++ b/arch/arm/boot/dts/tegra30.dtsi
+@@ -840,7 +840,7 @@
+ 		nvidia,elastic-limit = <16>;
+ 		nvidia,term-range-adj = <6>;
+ 		nvidia,xcvr-setup = <51>;
+-		nvidia.xcvr-setup-use-fuses;
++		nvidia,xcvr-setup-use-fuses;
+ 		nvidia,xcvr-lsfslew = <1>;
+ 		nvidia,xcvr-lsrslew = <1>;
+ 		nvidia,xcvr-hsslew = <32>;
+@@ -877,7 +877,7 @@
+ 		nvidia,elastic-limit = <16>;
+ 		nvidia,term-range-adj = <6>;
+ 		nvidia,xcvr-setup = <51>;
+-		nvidia.xcvr-setup-use-fuses;
++		nvidia,xcvr-setup-use-fuses;
+ 		nvidia,xcvr-lsfslew = <2>;
+ 		nvidia,xcvr-lsrslew = <2>;
+ 		nvidia,xcvr-hsslew = <32>;
+@@ -913,7 +913,7 @@
+ 		nvidia,elastic-limit = <16>;
+ 		nvidia,term-range-adj = <6>;
+ 		nvidia,xcvr-setup = <51>;
+-		nvidia.xcvr-setup-use-fuses;
++		nvidia,xcvr-setup-use-fuses;
+ 		nvidia,xcvr-lsfslew = <2>;
+ 		nvidia,xcvr-lsrslew = <2>;
+ 		nvidia,xcvr-hsslew = <32>;
 -- 
 2.20.1
 
