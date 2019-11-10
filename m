@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43CFAF65DA
-	for <lists+linux-tegra@lfdr.de>; Sun, 10 Nov 2019 04:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 940CCF647A
+	for <lists+linux-tegra@lfdr.de>; Sun, 10 Nov 2019 04:00:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbfKJDKB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 9 Nov 2019 22:10:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43498 "EHLO mail.kernel.org"
+        id S1728947AbfKJDAA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 9 Nov 2019 22:00:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47196 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728528AbfKJCoS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:44:18 -0500
+        id S1729269AbfKJC4r (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:56:47 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B908C21D7F;
-        Sun, 10 Nov 2019 02:44:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1459D22488;
+        Sun, 10 Nov 2019 02:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573353857;
-        bh=7O0a6f7OAljtZm3g5vT7cbtIr3K62GbeufgrYTkBfgc=;
+        s=default; t=1573354072;
+        bh=aMaEl/Y4i82mrDr4/b3sW0Sxvu7MJqdXskOmPynBcZM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nO1Uxd33YQ/JxXjRxk8UgVpSYQT2sBdCE3zyzV54oZDUuGEQMGEFQ//w1ybBrwbuY
-         VL8cWZj9vd436AJED96mdc4pFQ5LCTJgFi7As43p11fWMaw4HrnXSEpEFFmjGV5Olp
-         KfCylIr2zZoUsvoVDfo6Oi8E71ztNqLdf0dk+6iQ=
+        b=K2n78BeKF9pJzwP+O/Wt2VfE2tDz6F1X0OrNKHCDFiFJzlk1zxi0/GfOUIJzZZaXG
+         cbAIxjWfali0LXn6LFLsZEW+wGBhjaSmWZ6jWLehaqxuzMsIsgmK67IgLSH5K6DJ1J
+         HreiBGSpZFboIP0e9v+F+LUIfWOmmcn8+enG+gFY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Marc Dietrich <marvin24@gmx.de>,
@@ -30,12 +30,12 @@ Cc:     Marc Dietrich <marvin24@gmx.de>,
         Thierry Reding <treding@nvidia.com>,
         Sasha Levin <sashal@kernel.org>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 142/191] ARM: dts: paz00: fix wakeup gpio keycode
-Date:   Sat,  9 Nov 2019 21:39:24 -0500
-Message-Id: <20191110024013.29782-142-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 075/109] ARM: dts: paz00: fix wakeup gpio keycode
+Date:   Sat,  9 Nov 2019 21:45:07 -0500
+Message-Id: <20191110024541.31567-75-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191110024013.29782-1-sashal@kernel.org>
-References: <20191110024013.29782-1-sashal@kernel.org>
+In-Reply-To: <20191110024541.31567-1-sashal@kernel.org>
+References: <20191110024541.31567-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,7 +62,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/arch/arm/boot/dts/tegra20-paz00.dts b/arch/arm/boot/dts/tegra20-paz00.dts
-index ef245291924f0..4f9b4a889febe 100644
+index 30436969adc0e..1b8db91277b1c 100644
 --- a/arch/arm/boot/dts/tegra20-paz00.dts
 +++ b/arch/arm/boot/dts/tegra20-paz00.dts
 @@ -524,10 +524,10 @@
