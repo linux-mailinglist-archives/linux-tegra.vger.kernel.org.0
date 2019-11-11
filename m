@@ -2,154 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB153F76D8
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 Nov 2019 15:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C856F7790
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 Nov 2019 16:22:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbfKKOpQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 Nov 2019 09:45:16 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:33463 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726871AbfKKOpP (ORCPT
+        id S1726871AbfKKPW6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 Nov 2019 10:22:58 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:6056 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726811AbfKKPW6 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 11 Nov 2019 09:45:15 -0500
-Received: by mail-wm1-f66.google.com with SMTP id a17so64575wmb.0;
-        Mon, 11 Nov 2019 06:45:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=A19SM0cDblvtBWIiJtrkwG3Fu+AIASBpJHeBYd+bEMY=;
-        b=MVUEU1jwYtOodyfwL4ulWivSpubxE9ETBUXbZQ1xJ0gsZeTKpIQPtnXLlyeX2lSpxp
-         4aZPXIGQRpMsfKJo/AOCdpoc2AUpaxHSXVEJDv9J+LpmyKY0iPHNA1MwR+Gh23n2/sTN
-         fDmq+jCBPDFEelGGjOzolXjyoNZ5JnZDWw1SacKdanUc9vvN5yQb8pPiY5idyh4RjpSZ
-         odNTV2eq2Rhv8dV4040JlMMA1FRQDU6hm/TqoJKWdrt1I+162kVBGiY+FTnDKJtqiKDm
-         SISy5GCWJEKEw4fkl9on8I+zIkeNrCW1sjxkBqeljyCXKHu2aNGenQmvBROH4Ad409od
-         vYbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=A19SM0cDblvtBWIiJtrkwG3Fu+AIASBpJHeBYd+bEMY=;
-        b=l3mGHcoKpaESJD5/XxQFyimtay3joss53EofA/YTuL4pqVtWlxUWAJSmiRxZUYnDCy
-         dP92/dyBA+6GjYigCxoUAf3RUWhpSbiKsYmU2v2qasJH8WLpUg9TK1lBVVuwNTv4lDJG
-         7+JwgwZB9UHywdk5GbB2CzxGQwPEsNduqsddTAg1WpbY86VIF1kuiFNDZwGKqNhgsbRI
-         FIHyBpRkRk+Gkxg8OOQZr7yn0HcqeM9GUBsfeJO98F53OQVeS2RESkMpZMxpE2QrZ3Gh
-         HqHk2AASoFsME4w1rKZtDRyIbO663IOjYEj5MoI7nnDatJ14DYbEPn8VbaROvcABuA8H
-         5cSQ==
-X-Gm-Message-State: APjAAAXAngITB1BfjjrFQfs5ViwVeA63NiHlLggpVgK3vht39uvgvhAH
-        fpnUEr91T69Hwe5R/VWQMAM=
-X-Google-Smtp-Source: APXvYqyDO4jDXn8b0JGO4z6V7FzQwDHeCl2q6iIQ7inMkbKj8m3/j+dEYkOUBzhdEWc5rCzLyng17Q==
-X-Received: by 2002:a1c:a9cb:: with SMTP id s194mr22153596wme.92.1573483512561;
-        Mon, 11 Nov 2019 06:45:12 -0800 (PST)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id n17sm15089414wrp.40.2019.11.11.06.45.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 06:45:11 -0800 (PST)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [GIT PULL v2 2/2] clk: tegra: Changes for v5.5-rc1
-Date:   Mon, 11 Nov 2019 15:45:07 +0100
-Message-Id: <20191111144507.4027979-2-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191111144507.4027979-1-thierry.reding@gmail.com>
-References: <20191111144507.4027979-1-thierry.reding@gmail.com>
+        Mon, 11 Nov 2019 10:22:58 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc97c990001>; Mon, 11 Nov 2019 07:22:01 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 11 Nov 2019 07:22:57 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 11 Nov 2019 07:22:57 -0800
+Received: from [10.25.73.138] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 11 Nov
+ 2019 15:22:54 +0000
+Subject: Re: stable request: PCI: tegra: Enable Relaxed Ordering only for
+ Tegra20 & Tegra30
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <stable@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "Manikanta Maddireddy" <mmaddireddy@nvidia.com>,
+        Krishna Thota <kthota@nvidia.com>
+References: <11251eb0-5675-9d3d-d15f-c346781e2bff@nvidia.com>
+ <20191111130908.GA448544@kroah.com>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <9d7871e7-f8aa-1ed5-dc2e-37ba6f218a2f@nvidia.com>
+Date:   Mon, 11 Nov 2019 20:52:52 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191111130908.GA448544@kroah.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1573485721; bh=Q0hJxpT8ME+2ChVEvdoL+0cMYVU3SOtTXqeea8xAa/c=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=nKAMj4XIv9Ta6fIncEUC9THgFumb/LEtxhKiwfO2+mOxMos49B83Hcwf/ZXVAygkD
+         wU+9RVBkZXqnWVZ11KIGtqM+ChN5DDo8TxJsjILOt5tbCwJc+G4rztFAVhHtDIhmj/
+         LC9Fw7Gp5CNDA9X5fAiRtozBW1KDs5J1PtQhhR00Y/EhLmc5FwgaDSyAjnWlhzIXGp
+         AOkCEmsyqryH29MJj135km2ELsxeedRaL2Q1bL2W/DpY+HZvX+W9nC1mwk+tfNNeTk
+         Ob360vIFbcQdX8vKE0HBerh+UY2cEGGmPn71LisjK5gGrlEtc4EUouqYNvM286hKmb
+         ohej/WDo+se+w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Michael, Stephen,
+On 11/11/2019 6:39 PM, Greg Kroah-Hartman wrote:
+> On Mon, Nov 11, 2019 at 06:24:53PM +0530, Vidya Sagar wrote:
+>> Hi Greg,
+>> We noticed that the Tegra PCIe host controller driver enabled
+>> "Relaxed Ordering" bit in the PCIe configuration space for "all"
+>> devices erroneously. We pushed a fix for this through the
+>> commit: 7be142caabc4780b13a522c485abc806de5c4114 and it has been
+>> soaking in main line for the last four months.
+>> Based on the discussion we had @ http://patchwork.ozlabs.org/patch/1127604/
+>> we would now like to push it to the following stable kernels
+>> 4.19                  : Applies cleanly
+>> 3.16, 4.4, 4.9 & 4.14 : Following equivalent patch needs to be used as the
+>>                          file was at drivers/pci/host/pci-tegra.c earlier
+>>                          (and moved to drivers/pci/controller/pci-tegra.c starting 4.19)
+> 
+> All now queued up (except for 3.16, that's Ben's tree, he will get to it
+> soon.)
+> 
+> thanks,
+> 
+> greg k-h
+> 
 
-The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
+Thanks a lot Greg.
 
-  Linux 5.4-rc1 (2019-09-30 10:35:40 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.5-clk-v2
-
-for you to fetch changes up to 07b293c5b01483f3c65372e72e62a2ee559ce1cf:
-
-  clk: tegra: Fix build error without CONFIG_PM_SLEEP (2019-11-11 14:53:05 +0100)
-
-This updated pull request contains changes needed for the updated API to
-retrieve a clock's parent's index as well as additional Acked-bys from
-Stephen.
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-clk: tegra: Changes for v5.5-rc1
-
-The bulk of these changes implement suspend/resume support for Tegra210.
-In addition, some of the SOR clocks on earlier Tegra generations are
-reimplemented to more closely match the implementation on later chips,
-which in turn makes it possible to handle HDMI and DP support in a more
-unified way.
-
-----------------------------------------------------------------
-Dmitry Osipenko (3):
-      clk: tegra: Add Tegra20/30 EMC clock implementation
-      clk: tegra: Optimize PLLX restore on Tegra20/30
-      clk: tegra: Add missing stubs for the case of !CONFIG_PM_SLEEP
-
-Sowjanya Komatineni (12):
-      clk: Add API to get index of the clock parent
-      clk: tegra: divider: Save and restore divider rate
-      clk: tegra: pllout: Save and restore pllout context
-      clk: tegra: pll: Save and restore pll context
-      clk: tegra: Support for OSC context save and restore
-      clk: tegra: periph: Add restore_context support
-      clk: tegra: clk-super: Fix to enable PLLP branches to CPU
-      clk: tegra: clk-super: Add restore-context support
-      clk: tegra: clk-dfll: Add suspend and resume support
-      clk: tegra: Use fence_udelay() during PLLU init
-      clk: tegra: Share clk and rst register defines with Tegra clock driver
-      clk: tegra: Add suspend and resume support on Tegra210
-
-Thierry Reding (8):
-      dt-bindings: clock: tegra: Rename SOR0_LVDS to SOR0_OUT
-      Merge branch 'for-5.5/clk-core' into for-5.5/clk
-      Merge branch 'for-5.5/dt-bindings' into for-5.5/clk
-      clk: tegra: Remove last remains of TEGRA210_CLK_SOR1_SRC
-      clk: tegra: Move SOR0 implementation to Tegra124
-      clk: tegra: Rename sor0_lvds to sor0_out
-      clk: tegra: Reimplement SOR clock on Tegra124
-      clk: tegra: Reimplement SOR clocks on Tegra210
-
-YueHaibing (1):
-      clk: tegra: Fix build error without CONFIG_PM_SLEEP
-
- drivers/clk/clk.c                               |  18 ++
- drivers/clk/tegra/Makefile                      |   2 +
- drivers/clk/tegra/clk-dfll.c                    |  56 +++++
- drivers/clk/tegra/clk-dfll.h                    |   2 +
- drivers/clk/tegra/clk-divider.c                 |  11 +
- drivers/clk/tegra/clk-id.h                      |   4 +-
- drivers/clk/tegra/clk-periph.c                  |  21 ++
- drivers/clk/tegra/clk-pll-out.c                 |   9 +
- drivers/clk/tegra/clk-pll.c                     |  86 ++++---
- drivers/clk/tegra/clk-sdmmc-mux.c               |  16 ++
- drivers/clk/tegra/clk-super.c                   |  41 ++++
- drivers/clk/tegra/clk-tegra-fixed.c             |  15 ++
- drivers/clk/tegra/clk-tegra-periph.c            |   8 -
- drivers/clk/tegra/clk-tegra-super-gen4.c        |   7 +-
- drivers/clk/tegra/clk-tegra124-dfll-fcpu.c      |   1 +
- drivers/clk/tegra/clk-tegra124.c                |  55 ++++-
- drivers/clk/tegra/clk-tegra20-emc.c             | 293 ++++++++++++++++++++++++
- drivers/clk/tegra/clk-tegra20.c                 |  80 +++----
- drivers/clk/tegra/clk-tegra210.c                | 181 ++++++++++++---
- drivers/clk/tegra/clk-tegra30.c                 |  63 +++--
- drivers/clk/tegra/clk.c                         | 112 +++++----
- drivers/clk/tegra/clk.h                         |  70 ++++++
- include/dt-bindings/clock/tegra124-car-common.h |   3 +-
- include/dt-bindings/clock/tegra210-car.h        |   6 +-
- include/linux/clk-provider.h                    |   1 +
- include/linux/clk/tegra.h                       |  24 ++
- 26 files changed, 997 insertions(+), 188 deletions(-)
- create mode 100644 drivers/clk/tegra/clk-tegra20-emc.c
+- Vidya Sagar
