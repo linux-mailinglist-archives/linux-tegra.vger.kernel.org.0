@@ -2,63 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11FF3F8201
-	for <lists+linux-tegra@lfdr.de>; Mon, 11 Nov 2019 22:17:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C19EF8231
+	for <lists+linux-tegra@lfdr.de>; Mon, 11 Nov 2019 22:27:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727535AbfKKVQo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 11 Nov 2019 16:16:44 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:33406 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727480AbfKKVQn (ORCPT
+        id S1727064AbfKKV1o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 11 Nov 2019 16:27:44 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42648 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726910AbfKKV1o (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 11 Nov 2019 16:16:43 -0500
-Received: by mail-lj1-f194.google.com with SMTP id t5so15393939ljk.0;
-        Mon, 11 Nov 2019 13:16:41 -0800 (PST)
+        Mon, 11 Nov 2019 16:27:44 -0500
+Received: by mail-lj1-f196.google.com with SMTP id n5so15376659ljc.9
+        for <linux-tegra@vger.kernel.org>; Mon, 11 Nov 2019 13:27:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HzU4Em/jAGZPIDjIbLxQtLRkI9MSE1QrI5BazFDeU+g=;
-        b=LIpkEbMUel9UPxujxayC9reONTyWYPFNh9mFHg5noiWUpH9n12BAfoh5mTxv8JMXGG
-         gISRHA+W8XBKj0QuO2FIkHB3jJviaMUPJ/0U8yLq7Wl3Vhla5OncNfdbccfyBK6pIjkC
-         Tx1j/n/nW2+58p9Oyl94Z87qoAyYKARClWM9LQimFPhSiKbW0jNUMquNZD7CMmtMfDyl
-         LwMpsyLqmVgQNL7kh1Aa+jDerymGKrf6rShbF5p1ybe16F5Rq77za2hMpvF65AlCszLm
-         JEPc1/EayKYIVvHWt5VzgxI31FMhkXy8Yu+dVy/+oLWO0Sg6dMX8qa+dGbWZFwIGVtkb
-         ZvuA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PyjzvAELG180plYQUJsk9bpjonlPk5sspSm2azOzUbU=;
+        b=Jx2OLpHQJgZRH0sJ95mqIF3cmEZbiK8fBRVkG5ye5R3r7bj4KmZtdtRdn+xlTbfx8C
+         2/JjQlkYHVAh8s9NGIQ3yvx4YW8HqmGvRAgnrE9yFvgeDRSIxy+6lW9QyW8muB6eu/JN
+         6Dfstx6vvgY6rKl0rgeuGiQO9F3UOo7Bif3EzFJsaKA3Q7y83Mk89hXLYHJcBnDt9yd+
+         OEuH/T/UiCstzfUuKKk9+lqXyJdSF/yiTO2UzcTrOCUpeKHhoCGys+B/Cm9DgiPs/GgB
+         K1KrbrnbFZDhxMeJXNSFp0/rXHfNHygXEFj4jUMrcUDhCsO6pBdZuDLrS5QWOs2x0y0t
+         HE0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HzU4Em/jAGZPIDjIbLxQtLRkI9MSE1QrI5BazFDeU+g=;
-        b=V5Y+HkG5m35N366C3Yl279Z9NqHnVDpPzy7mgGSL91/7WHZtru/QLqoxuOIL6Zp926
-         OkL5vGI7f+aDHAcUyjwfyLHUaF+spCNfCX6/LHR8Gsvo4m+ap+7sxLAXiMRSPIppzo9t
-         HEE89DyD3KZVYdeEhjXL/NfsQbdSuKnHq+NINIhRQe0QxVy84VIASvicdDRgnMIQpvAO
-         VVWopmrJ1YBZ0sm67qN/komzbPFh+ppr82cTUpb3sv3Zs/fMwwlCevaMK+xp9N47akU3
-         0ES22d3UGL6+omwUdp8x1Hsnow1AG2YWlpOhYSFP2YJD5hCB68WSWNkgnLU2d3U7NxQ5
-         ePxQ==
-X-Gm-Message-State: APjAAAWbzQG6ckDncr8ekwaenaj5RdSZwsk2J3emePhxYgO6nWfPBgg/
-        acTHI1cOoATYK+MFwqtfPM0=
-X-Google-Smtp-Source: APXvYqxHXuW0ui2OCx/3DMvtAgxaM0zGFqKl5bAN8SNMT3vs9cWXLqGG9IBn1FShX5OC31J9C7xJvA==
-X-Received: by 2002:a2e:9a12:: with SMTP id o18mr17625625lji.191.1573507001338;
-        Mon, 11 Nov 2019 13:16:41 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PyjzvAELG180plYQUJsk9bpjonlPk5sspSm2azOzUbU=;
+        b=RXxYkY+wolw/JFLdv7BEcbd4w5GPf5bO13uTmLLNiRDW4VY60VS3PV96Oyeu2fjBgI
+         gVRmaXvznFeliO08/dpgwJ1XTGi92PS6nIUVmk2TvDno4KwTofVRLu2Z7w2aNLvM+flE
+         Nrit2cn3Xsta+miznrtIeIGYbXM4wsIY0iN/7AMzk1io25Vazy/mJFKDpL8hEetBf/t2
+         w7dBk7I/VVGxCBldNB+fUBFLcrMk4rRijc7RVj3acyhdPh6lHI+Pvtc5PE3i8gKOyc+F
+         mibuJdN+HBDO8PnzbXwukz2Un22Tsn7Nf0JCKCeDb5/QlQCNJjzxEV+2MHIh2/8m6hFy
+         KjPg==
+X-Gm-Message-State: APjAAAWbmjsEuXwiCCAnanGqJA540jQC2JbgRcbcro2Td1PQmsVAm1rz
+        OVACw5kHAtoAxx6m6DMm9aU=
+X-Google-Smtp-Source: APXvYqy6GHd3Xwsx5nQOIHtkusU7sETLoqJnz7URQi9sLY+cbYIPubU3cqFhyznF1GACKvxXYBJROQ==
+X-Received: by 2002:a2e:9a08:: with SMTP id o8mr18356983lji.214.1573507662480;
+        Mon, 11 Nov 2019 13:27:42 -0800 (PST)
 Received: from localhost.localdomain (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.gmail.com with ESMTPSA id n19sm7913150lfl.85.2019.11.11.13.16.40
+        by smtp.gmail.com with ESMTPSA id k25sm7344008ljg.22.2019.11.11.13.27.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 13:16:40 -0800 (PST)
+        Mon, 11 Nov 2019 13:27:41 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v7 17/17] ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
-Date:   Tue, 12 Nov 2019 00:15:56 +0300
-Message-Id: <20191111211556.20723-18-digetx@gmail.com>
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org
+Subject: [PATCH v2 0/3] Minor cleanup of tegra-apbmisc.c
+Date:   Tue, 12 Nov 2019 00:26:34 +0300
+Message-Id: <20191111212637.22648-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191111211556.20723-1-digetx@gmail.com>
-References: <20191111211556.20723-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -66,26 +60,25 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Tegra CPU Idle driver was moved out into driver/cpuidle/ directory and
-it is now a proper platform driver.
+Hello,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/tegra_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+There are couple things could be improved in tegra-apbmisc.c and this
+patchset addresses them. Please note that the fallback for older device
+trees was broken for T124 since 2015, so it is also a minor change.
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index a27592d3b1fa..aa94369bdd0f 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -25,6 +25,7 @@ CONFIG_CPU_FREQ=y
- CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND=y
- CONFIG_CPUFREQ_DT=y
- CONFIG_CPU_IDLE=y
-+CONFIG_ARM_TEGRA_CPUIDLE=y
- CONFIG_VFP=y
- CONFIG_NEON=y
- CONFIG_TRUSTED_FOUNDATIONS=y
+Changelog:
+
+v2: - Corrected commit's title of the "Warn if straps are not ready" patch.
+
+Dmitry Osipenko (3):
+  soc/tegra: fuse: Cache values of straps and Chip ID registers
+  soc/tegra: fuse: Warn if straps are not ready
+  soc/tegra: fuse: Correct straps' address for older Tegra124 device
+    trees
+
+ drivers/soc/tegra/fuse/tegra-apbmisc.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
+
 -- 
 2.23.0
 
