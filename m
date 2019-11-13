@@ -2,338 +2,176 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53AF2FAF8D
-	for <lists+linux-tegra@lfdr.de>; Wed, 13 Nov 2019 12:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FA16FB16F
+	for <lists+linux-tegra@lfdr.de>; Wed, 13 Nov 2019 14:36:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727865AbfKMLUs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 13 Nov 2019 06:20:48 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:6646 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727860AbfKMLUs (ORCPT
+        id S1727210AbfKMNgv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 13 Nov 2019 08:36:51 -0500
+Received: from esa1.microchip.iphmx.com ([68.232.147.91]:22999 "EHLO
+        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726186AbfKMNgv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 13 Nov 2019 06:20:48 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dcbe6d60000>; Wed, 13 Nov 2019 03:19:50 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 13 Nov 2019 03:20:46 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 13 Nov 2019 03:20:46 -0800
-Received: from localhost (10.124.1.5) by HQMAIL107.nvidia.com (172.20.187.13)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 13 Nov 2019 11:20:45
- +0000
-Date:   Wed, 13 Nov 2019 12:20:43 +0100
-From:   Thierry Reding <treding@nvidia.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-CC:     Vidya Sagar <vidyas@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Sinan Kaya <okaya@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        <jonathanh@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <linux-pci@vger.kernel.org>, <kthota@nvidia.com>,
-        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>,
-        Andrew Murray <andrew.murray@arm.com>,
-        Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH] PCI: Add CRS timeout for pci_device_is_present()
-Message-ID: <20191113112043.GA329424@ulmo>
-References: <5bb62272-6a9f-f4e3-540a-360ff5a8a0f7@nvidia.com>
- <20191112185844.GA191944@google.com>
+        Wed, 13 Nov 2019 08:36:51 -0500
+Received-SPF: Pass (esa1.microchip.iphmx.com: domain of
+  Ludovic.Desroches@microchip.com designates 198.175.253.82 as
+  permitted sender) identity=mailfrom;
+  client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
+  envelope-from="Ludovic.Desroches@microchip.com";
+  x-sender="Ludovic.Desroches@microchip.com";
+  x-conformance=spf_only; x-record-type="v=spf1";
+  x-record-text="v=spf1 mx a:ushub1.microchip.com
+  a:smtpout.microchip.com a:mx1.microchip.iphmx.com
+  a:mx2.microchip.iphmx.com include:servers.mcsv.net
+  include:mktomail.com include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa1.microchip.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@email.microchip.com) identity=helo;
+  client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
+  envelope-from="Ludovic.Desroches@microchip.com";
+  x-sender="postmaster@email.microchip.com";
+  x-conformance=spf_only
+Authentication-Results: esa1.microchip.iphmx.com; spf=Pass smtp.mailfrom=Ludovic.Desroches@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
+IronPort-SDR: iVXAs6rwQfsywuSktJa+/3r+IXq1XmHx6IEtakVd9e/nqRkeniyLTCzFHg4lHSV83lfta6f1aR
+ WLV1hc5v4ZxftGhQRIR75RBOmGzqHvHxwlunG6DjVGZo7/qWsdflZDdmr27Iio70sK2lYAor3I
+ gFk98WQ2bRFD3POfj4+yRD2imkmoCcuKbOxEb+M3q35JhEiM9hO8RBJc+PpEbreROXwLp0+okm
+ aFYW4QgLqnrXRBmWMTz1KvMDXTf7MapbUNRPuhk1LHjm3D5HQxmQmraQ1SD1yAe7Sj3iKXlHGQ
+ eZE=
+X-IronPort-AV: E=Sophos;i="5.68,300,1569308400"; 
+   d="scan'208";a="58228531"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Nov 2019 06:35:13 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 13 Nov 2019 06:35:13 -0700
+Received: from NAM05-DM3-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5 via Frontend
+ Transport; Wed, 13 Nov 2019 06:35:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Uc63qNC8pNtV5XMgg4QeKtgYixa0NKpuiuTgUE7vquN4yGQtZ0TYhab1VIW54vpNCxDcuqQTmpOUJkex4NBY312CgPqZYfaZweu6VgNM6/BiRP67zwLaqINo6Vp7ahux31mgYj2wXpWB3fl6Je3UrVbeJEwOcl5uUXqjTB2jmfqszSVIHiB/YoX793Oy80PKZ19cZCAYkWFpjHpZuQEo6yXkBgzwvLD+/7WrHjASuOKSBIXWaLqzpM9WBi3L/QZFFrAtEsqouuWEhsca8x0VBdvQRS8F60k14lUW5ESS9PIKWQUINXzaKepDSj3UOyvIoiD82daOxYJ85Suga1wY1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=44y6lIFSw3GfoHrWMrvldRM/LtwQqfl3UWmHIMlhBMQ=;
+ b=kGnWr44alPuPWUkGEsWeH/qA1Kn4V63vAhNODSt3yKErBPIj8h8oSw4GWviZrs9+IZ59sqPImoEffYeTQht89BlELfdnoF6E8ofA2ojrSl+0/MT2EJ7HGIN2YyJpMJVKj4ZGZ5GP3e23NlDzRlYcphaXSN3gytQwGHhBjBz/yKSZ/9/VLJr9pmF5O8B5d6bi849GfWdS5v73VNAaZp2CynbJ7IYgt+D+6jOw4HbfQ48TOChVkaEapZSLvxJSqtAUpAet21jmP8knrEcf9MG8wGpKBO9yIIuZuPxVth2E7cPKndxsXuxHGb9O8Yr51yzb14Wjp8XFVdzV9X+ROhyPEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=44y6lIFSw3GfoHrWMrvldRM/LtwQqfl3UWmHIMlhBMQ=;
+ b=TYWqB1tVF9R+AtHZsgcnSE9/Ms8+NXnEYgNk4kxlH9ORnACggpvTH+jYLR4YxNdGg/ZmUqOFqsGlTGj/guYkm/dPBLQyuxUmGel8XcK/pp6JdsJf75TDRHSB4SyRs4WUsdxY+VROoU4WBsmgEUgmbpV6M8ldxN6M54aY9VNasDY=
+Received: from BY5PR11MB3895.namprd11.prod.outlook.com (10.255.162.149) by
+ BY5PR11MB4338.namprd11.prod.outlook.com (52.132.254.203) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2430.20; Wed, 13 Nov 2019 13:35:11 +0000
+Received: from BY5PR11MB3895.namprd11.prod.outlook.com
+ ([fe80::ac5c:4f74:3892:4787]) by BY5PR11MB3895.namprd11.prod.outlook.com
+ ([fe80::ac5c:4f74:3892:4787%7]) with mapi id 15.20.2430.027; Wed, 13 Nov 2019
+ 13:35:10 +0000
+From:   <Ludovic.Desroches@microchip.com>
+To:     <peter.ujfalusi@ti.com>
+CC:     <agross@kernel.org>, <wsa+renesas@sang-engineering.com>,
+        <ldewangan@nvidia.com>, <vkoul@kernel.org>,
+        <linux-i2c@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>, <digetx@gmail.com>,
+        <linux-tegra@vger.kernel.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <Nicolas.Ferre@microchip.com>,
+        <alexandre.belloni@bootlin.com>, <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH 1/4] i2c: at91: Use dma_request_chan() directly for
+ channel request
+Thread-Topic: [PATCH 1/4] i2c: at91: Use dma_request_chan() directly for
+ channel request
+Thread-Index: AQHVmgPE20YkN2IBi0WfRMb9U65SKqeJGkAA
+Date:   Wed, 13 Nov 2019 13:35:10 +0000
+Message-ID: <20191113133458.co7ygdb2wsjvdsbl@M43218.corp.atmel.com>
+References: <20191113092235.30440-1-peter.ujfalusi@ti.com>
+ <20191113092235.30440-2-peter.ujfalusi@ti.com>
+In-Reply-To: <20191113092235.30440-2-peter.ujfalusi@ti.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: PR1PR01CA0024.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102::37) To BY5PR11MB3895.namprd11.prod.outlook.com
+ (2603:10b6:a03:18e::21)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [213.41.198.74]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7fac4da1-ee9b-4838-19d3-08d7683e4e3e
+x-ms-traffictypediagnostic: BY5PR11MB4338:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR11MB4338C8971E99B089C39A9351EF760@BY5PR11MB4338.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:281;
+x-forefront-prvs: 0220D4B98D
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(346002)(376002)(396003)(136003)(39860400002)(189003)(199004)(25786009)(9686003)(71200400001)(102836004)(71190400001)(52116002)(66066001)(478600001)(76176011)(81156014)(4326008)(256004)(14444005)(11346002)(476003)(64756008)(446003)(8676002)(66476007)(26005)(486006)(6512007)(5660300002)(186003)(14454004)(6246003)(8936002)(66946007)(7416002)(66556008)(66446008)(3846002)(6116002)(316002)(7736002)(54906003)(229853002)(86362001)(99286004)(2906002)(6486002)(6916009)(6506007)(386003)(81166006)(6436002)(1076003)(305945005);DIR:OUT;SFP:1101;SCL:1;SRVR:BY5PR11MB4338;H:BY5PR11MB3895.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: microchip.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Cx5jQH+Mxj4JFGNvq7/Am3vy5FpZy1wtExRBHc6wPUObhNmsHnCGiiG/B6GX3LtMxD7cJrntTKZHQHOs6/cAlq+QQEEZTxv1/DPoqZc0aAEhyq7/vq0uT0C2kCiAOxklVXIXT74OJPTaB7MhAoWAdGhEXLGZK+DOXwpRBkOfyDeRHyVjwy7YI8zmu9ljwkqHKFDdq/TTZDq0+EbC9j+N2X2Zz42qhXdBge1BrvkG/V1WHIMK/EI3CfQNa5YCMwUcqssMR5cGPRjeYPUASuI3INkS7fFWJ8Pdbj2VkcqGLtjLTLwrAWP6gP8NB8b3zvkyQrcr7PInf5X4i0+x7SmFQZJWdPfmVhmlDY9y+bUqagz3XA459GyqoB7V8hCenfrf7Mo2i/9hYYwMR56feBpVI3qqCsld7r8ccKD/iQD/n3UYpcSeq2+VmspSbJWTYPQ/
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <EFF23070F9667B4CB36A78FFEEEBA31D@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20191112185844.GA191944@google.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.12.2 (2019-09-21)
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
-Content-Disposition: inline
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1573643991; bh=K4pB/ZH7f4AoezLjo5KiXqXgLXXi2COkHxZeaGMvmUg=;
-        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
-         MIME-Version:In-Reply-To:X-NVConfidentiality:User-Agent:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:
-         Content-Disposition;
-        b=IazSrojt7+FFR7mA9mtLZB9AAmSDvsi6z6ZfR364B0fh+DVbWF1PSYQcG2cBUYtSs
-         25HodzhD61J6uP8nOVJa82YYvOUERv9tWSNaMHEBnlaawgIxCAgQwdCprt8vzl7cs1
-         wcEf9+CrxSy9F2cMZ4B3qs3WKt3Sbnv6nnHzfaFOjH3OWSWHov5OovGoGduQPv+8TI
-         NU7z8l/8EcsnlJp23KiQECPdnRsP86qmYcQkaoupEDbLsYQPE2DhPGMbk8outtMdVS
-         HBJI6hobp3+mipIZPCcrWkHYwbU6vy4p1lcOA+egbZ4zXliYLNj+SM4SqJg/zzDrAQ
-         PvLhr+3h46ikg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fac4da1-ee9b-4838-19d3-08d7683e4e3e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2019 13:35:10.7787
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: miNit12MhHMT5xljRNHbnXe680cqgszrQ2dtlPNKJ32e+O89e5sNfzVggvm47oxKpN9wgLJxgs1U0WF4DpvGuyJAb/bwd5y1UcwkzNVwi4Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4338
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---PEIAKu/WMn1b1Hv9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Nov 13, 2019 at 11:22:32AM +0200, Peter Ujfalusi wrote:
+>=20
+> dma_request_slave_channel_reason() is:
+> #define dma_request_slave_channel_reason(dev, name) \
+> 	dma_request_chan(dev, name)
+>=20
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Acked-by: Ludovic Desroches <ludovic.desroches@microchip.com>=20
 
-On Tue, Nov 12, 2019 at 12:58:44PM -0600, Bjorn Helgaas wrote:
-> On Tue, Nov 12, 2019 at 11:29:55PM +0530, Vidya Sagar wrote:
-> > On 11/12/2019 7:51 PM, Bjorn Helgaas wrote:
-> > > On Tue, Nov 12, 2019 at 01:59:23PM +0100, Thierry Reding wrote:
-> > > > On Mon, Nov 11, 2019 at 04:32:35PM -0600, Bjorn Helgaas wrote:
-> > > > > On Mon, Nov 11, 2019 at 11:31:18AM +0530, Vidya Sagar wrote:
-> > > > > > On 11/6/2019 10:11 PM, Bjorn Helgaas wrote:
-> > > > >=20
-> > > > > > > Based on Vidya's backtrace, I think the resume path with prob=
-lems
-> > > > > > > is this:
-> > > > > > >=20
-> > > > > > >     pci_pm_resume_noirq
-> > > > > > >       pci_pm_default_resume_early
-> > > > > > >         pci_power_up
-> > > > > > >           if (platform_pci_power_manageable(dev))
-> > > > > > >             platform_pci_set_power_state(dev, PCI_D0)  # <-- =
-FW delay here?
-> > > > > > >           pci_raw_set_power_state
-> > > > > > >           pci_update_current_state
-> > > > > > >             pci_device_is_present        # <-- config read re=
-turns CRS
-> > > > > > >=20
-> > > > > > > So I think your suggestion is that Vidya's firmware should be
-> > > > > > > doing the delay inside platform_pci_set_power_state()?
-> > > > > > >=20
-> > > > > > > Vidya, you typically work on Tegra, so I assume this is on an
-> > > > > > > arm64 system?  Does it have ACPI?  Do you have access to the
-> > > > > > > firmware developers to ask about who they expect to do the de=
-lays?
-> > > > > >=20
-> > > > > > Yes. This is on arm64 (Tegra) and we don't have any ACPI or any
-> > > > > > other firmware for that matter. PCIe is brought up directly in =
-the
-> > > > > > kernel.
-> > > > >=20
-> > > > > I assume that your device is coming out of D3cold because apparen=
-tly
-> > > > > you're seeing a CRS status from the config read when
-> > > > > pci_update_current_state() calls pci_device_is_present().  CRS st=
-atus
-> > > > > should only happen after reset or power-on from D3cold, and you'r=
-e not
-> > > > > doing a reset.
-> > > > >=20
-> > > > > I'm pretty sure platform_pci_power_manageable() returns false on
-> > > > > your system (can you confirm that?) because the only scenarios wi=
-th
-> > > > > platform power management are MID (Intel platform) and ACPI (whic=
-h you
-> > > > > don't have).
-> > > > >=20
-> > > > > Maybe you have some other platform-specific mechanism that contro=
-ls
-> > > > > power to PCI devices, and it's not integrated into the
-> > > > > platform_pci_*() framework?
-> > > >=20
-> > > > My understanding after reading the PCIe specification is that CRS i=
-s a
-> > > > mechanism that allows an endpoint to signal that it isn't ready yet=
- for
-> > > > operation after reset or power-on from D3cold. There's nothing in t=
-here
-> > > > that's platform specific. This is really only for specific endpoint=
-s.
-> > > >=20
-> > > > I don't see how adding platform specific PM code would help in this
-> > > > case. At a platform level we don't know if users are going to plug =
-in a
-> > > > PCI endpoint that needs a long delay before it's ready after reset =
-and/
-> > > > or exit from D3cold.
-> > >=20
-> > > Right, see below.
-> > >=20
-> > > > I do understand that perhaps pci_device_is_present() is perhaps not=
- the
-> > > > best place to do complex CRS handling, but if a mechanism is clearly
-> > > > described in the specification, isn't it something that should be d=
-ealt
-> > > > with in the core? That way we don't have to quirk this for every de=
-vice
-> > > > and platform.
-> > >=20
-> > > Definitely; we don't want quirks for endpoints (unless they're
-> > > actually broken) or for platforms (unless there's a platform hardware
-> > > or firmware defect).
-> > >=20
-> > > There's no question that we need to delay and handle CRS after
-> > > power-on from D3cold.  I'm trying to get at the point that PCI itself
-> > > doesn't tell us how to do that power-on.  The mechanisms defined by
-> > > PCI rely on config space, which is only accessible in D0-D3hot, not
-> > > D3cold.  Power-on from D3cold can only happen via ACPI methods or
-> > > other platform-specific mechanisms, and the current design abstracts
-> > > those via platform_pci_set_power_state().  This is partly based on
-> > > Rafael's response in [1].
-> > >=20
-> > > > The PCIe specification says that:
-> > > >=20
-> > > > 	Software that intends to take advantage of this mechanism must
-> > > > 	ensure that the first access made to a device following a valid
-> > > > 	reset condition is a Configuration Read Request accessing both
-> > > > 	bytes of the Vendor ID field in the device's Configuration Space
-> > > > 	header.
-> > > >=20
-> > > > So doesn't that mean that pci_device_is_present() is already much t=
-oo
-> > > > late because we've potentially made other configuration read reques=
-ts in
-> > > > the meantime?
-> > > >=20
-> > > > Wouldn't it make more sense to push the CRS handling up a bit? The
-> > > > existing pci_power_up() function seems like it would be a good plac=
-e.
-> > > > For example, adding code to deal with CRS right after the platform =
-PCI
-> > > > PM calls but before pci_raw_set_power_state() seems like it would f=
-it
-> > > > the restrictions given in the above quote from the specification.
-> > >=20
-> > > Yep, I think that's the right point.  I'm trying to figure out how to
-> > > integrate it.  Rafael suggests that delays may be platform-specific
-> > > and should be in platform_pci_set_power_state(), but the CRS handling
-> > > itself isn't platform-specific and maybe could be higher up.
-> > >=20
-> > > I'm fishing to see if Tegra has some kind of power control for
-> > > endpoints that is not related to the platform_pci_*() framework.  How
-> > > did the endpoint get put in D3cold in the first place?  I assume
-> > > something in the suspend path did that?  Maybe this happens when we
-> > > suspend the Tegra RC itself, e.g., tegra_pcie_pm_suspend()?
-> > >=20
-> > >    tegra_pcie_pm_suspend
-> > >      tegra_pcie_phy_power_off
-> > >      tegra_pcie_power_off
-> > >=20
-> > >    tegra_pcie_pm_resume
-> > >      tegra_pcie_power_on
-> > >      tegra_pcie_phy_power_on
-> > >=20
-> > > If a path like tegra_pcie_pm_resume() is causing the D3cold -> D0
-> > > transition for the endpoint, I don't think we want to do CRS handling
-> > > there because that path shouldn't be touching the endpoint.  But maybe
-> > > it should be doing the delays required by PCIe r5.0, sec 6.6.1, before
-> > > any config accesses are issued to devices.
-> >
-> > Here, I'm exercising suspend-to-RAM sequence and the PCIe endpoint of
-> > concern is Intel 750 NVMe drive.
-> > PCIe host controller driver already has 100ms of delay as per the spec,
+Thanks
+> ---
+>  drivers/i2c/busses/i2c-at91-master.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> To make this more concrete, where specifically is this delay?
->=20
-> > but this particular device is taking 1023ms to get ready to respond to
-> > configuration space requests (till that time, it responds with
-> > configuration request retry statuses)
-> > I've put a dump_stack () to see the path resume sequence takes and here=
- it is
-> >=20
-> >  Call trace:
-> >   dump_backtrace+0x0/0x158
-> >   show_stack+0x14/0x20
-> >   dump_stack+0xb0/0xf4
-> >   pci_bus_generic_read_dev_vendor_id+0x19c/0x1a0
-> >   pci_bus_read_dev_vendor_id+0x48/0x70
-> >   pci_update_current_state+0x68/0xd8
-> >   pci_power_up+0x40/0x50
-> >   pci_pm_resume_noirq+0x7c/0x138
-> >   dpm_run_callback.isra.16+0x20/0x70
-> >   device_resume_noirq+0x120/0x238
-> >   async_resume_noirq+0x24/0x58
-> >   async_run_entry_fn+0x40/0x148
-> >   process_one_work+0x1e8/0x360
-> >   worker_thread+0x40/0x488
-> >   kthread+0x118/0x120
-> >   ret_from_fork+0x10/0x1c
-> >  pci 0005:01:00.0: ready after 1023ms
-> >=20
-> > Spec also mentions the following
-> >     Unless Readiness Notifications mechanisms are used (see Section
-> >     6.23), the Root Complex and/or system software must allow at
-> >     least 1.0 s after a Conventional Reset of a device, before it
-> >     may determine that a device which fails to return a Successful
-> >     Completion status for a valid Configuration Request is a broken
-> >     device. This period is independent of how quickly Link training
-> >     completes.
-> >=20
-> > My understanding is that this 1sec waiting is supposed to be done by
-> > the PCIe sub-system and not the host controller driver.
->=20
-> That doesn't say we must wait 1s; it only says we can't decide the
-> device is broken before 1s.  But regardless, I agree that the CRS
-> handling doesn't belong in the driver for either the endpoint or the
-> PCIe host controller.
->=20
-> My question is whether this wait should be connected somehow with
-> platform_pci_set_power_state().  It sounds like the tegra host
-> controller driver already does the platform-specific delays, and I'm
-> not sure it's reasonable for platform_pci_set_power_state() to do the
-> CRS polling.  Maybe something like this?  I'd really like to get
-> Rafael's thinking here.
->=20
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index e7982af9a5d8..052fa316c917 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -964,9 +964,14 @@ void pci_refresh_power_state(struct pci_dev *dev)
->   */
->  void pci_power_up(struct pci_dev *dev)
->  {
-> +	pci_power_state_t prev_state =3D dev->current_state;
-> +
->  	if (platform_pci_power_manageable(dev))
->  		platform_pci_set_power_state(dev, PCI_D0);
+> diff --git a/drivers/i2c/busses/i2c-at91-master.c b/drivers/i2c/busses/i2=
+c-at91-master.c
+> index 6e0b554dcd4e..7a862e00b475 100644
+> --- a/drivers/i2c/busses/i2c-at91-master.c
+> +++ b/drivers/i2c/busses/i2c-at91-master.c
+> @@ -758,14 +758,14 @@ static int at91_twi_configure_dma(struct at91_twi_d=
+ev *dev, u32 phy_addr)
+>  	slave_config.dst_maxburst =3D 1;
+>  	slave_config.device_fc =3D false;
 > =20
-> +	if (prev_state =3D=3D PCI_D3cold)
-> +		pci_dev_wait(dev, "D3cold->D0", PCIE_RESET_READY_POLL_MS);
-
-Is there any reason in particular why you chose to call pci_dev_wait()?
-It seems to me like that's a little broader than pci_bus_wait_crs(). The
-latter is static in drivers/pci/probe.c so we'd need to change that in
-order to use it from drivers/pci/pci.c, but it sounds like the more
-explicit thing to do.
-
-Thierry
-
-> +
->  	pci_raw_set_power_state(dev, PCI_D0);
->  	pci_update_current_state(dev, PCI_D0);
->  }
+> -	dma->chan_tx =3D dma_request_slave_channel_reason(dev->dev, "tx");
+> +	dma->chan_tx =3D dma_request_chan(dev->dev, "tx");
+>  	if (IS_ERR(dma->chan_tx)) {
+>  		ret =3D PTR_ERR(dma->chan_tx);
+>  		dma->chan_tx =3D NULL;
+>  		goto error;
+>  	}
+> =20
+> -	dma->chan_rx =3D dma_request_slave_channel_reason(dev->dev, "rx");
+> +	dma->chan_rx =3D dma_request_chan(dev->dev, "rx");
+>  	if (IS_ERR(dma->chan_rx)) {
+>  		ret =3D PTR_ERR(dma->chan_rx);
+>  		dma->chan_rx =3D NULL;
+> --=20
+> Peter
 >=20
-> > FWIW, this particular device is taking a little more time than 1 sec
-> > (i.e. 1023 ms) I'm now wondering why is it that the CRS has a
-> > timeout of 60 secs than just 1 sec?
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 >=20
-> pci_bus_wait_crs() does an exponential backoff, i.e., it does reads
-> after 0ms, 2ms, 4ms, 8ms, ..., 512ms, 1024ms, so we don't know
-> *exactly* when the device became ready.  All we know is that it
-> became ready somewhere between 512ms and 1024ms.
 >=20
-> But 821cdad5c46c ("PCI: Wait up to 60 seconds for device to become
-> ready after FLR") does suggest that the Intel 750 NVMe may require
-> more than 1s.  I think the 60s timeout is just a convenient large
-> number and I'm not sure it's derived from anything in the spec.
->=20
-> > > [1] https://lore.kernel.org/r/11429373.7ySiFsEkgL@kreacher
->=20
-
---PEIAKu/WMn1b1Hv9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3L5wcACgkQ3SOs138+
-s6FFrg/+NewY1gsg5uIAw79JiHGJTc/EdQqN8gDwVwlKA6fn39nJ8k1QpFDTrz4Q
-cFOGRLAUrg7zbctchToWKsKtJqOXgvxP7FLTfFiJX5iSgSpGYk7wdu8vHgEJklD2
-nXkE/gWiLM5TVZnF3+aLP7D1P+IYaku3Wh9wHRJ2xSyhwp0Wi2KOuXsWOLOBnNTG
-XsdVliIWpplaIBhk6GwtI7XxgHlhInHnGeJO4pieqhzFUO+wh5ke/yiwOIWJagoH
-WBbE5fq4Q5cz/T5biPBtmS38IpVy81IT6oh72f/rjO/jRQFEvdC4jJWW4TKmnuRM
-CdDziIR4td2NBDBp++Iqc95xvGd+VrD7y0BvVMezjUMbmkABoRmQaRSyri/7SK9O
-ZE9+Bhk6jo+CBdKjor56V0ghBbJ2qvE5abrGtG8eHU1Ma4cdIyAFgCqk3B2X6k38
-MwT/Ws6fLhJ6zNzElrEQkG/ouTCTVPeUQM3uGbLtvxGl0MAkepEsAZ48Ws7ESTJh
-VjnlBZt+jdq70JbSTGs7DdGvsY5IHdoOAXUMdbyiWif2woX1iK5/aMLRkoRwELgL
-ZmVYnj+/nm0edZGqATsNIJkxthRUg3PHjhy5Azp6dyEhRTqHUPsRRGHxO/q5i4Ad
-oDG7jZPo7vvH00zhceCKhJeqkXVzBzXMAGHIqwfuqa9zrLlXDDc=
-=PwQl
------END PGP SIGNATURE-----
-
---PEIAKu/WMn1b1Hv9--
