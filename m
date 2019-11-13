@@ -2,119 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 745EBFB4E6
-	for <lists+linux-tegra@lfdr.de>; Wed, 13 Nov 2019 17:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3B66FB625
+	for <lists+linux-tegra@lfdr.de>; Wed, 13 Nov 2019 18:16:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726098AbfKMQWo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 13 Nov 2019 11:22:44 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:36780 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728305AbfKMQWo (ORCPT
+        id S1728410AbfKMRQw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 13 Nov 2019 12:16:52 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:41954 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728409AbfKMRQv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 13 Nov 2019 11:22:44 -0500
-Received: by mail-lj1-f195.google.com with SMTP id k15so3271940lja.3;
-        Wed, 13 Nov 2019 08:22:42 -0800 (PST)
+        Wed, 13 Nov 2019 12:16:51 -0500
+Received: by mail-lf1-f67.google.com with SMTP id j14so2587079lfb.8
+        for <linux-tegra@vger.kernel.org>; Wed, 13 Nov 2019 09:16:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/NPT2VbqBD/1/3nxqwL+OAW0hVteVP5bc9nbYT9sEWw=;
-        b=TCUiQT7JDPjm9ZDg0Vzu38IlPaZ5tO/stIvb/xwZ0XpUs93vCiPqU8zUC/HnYM3vr6
-         v52ml+3tmPsBYOP+DTmBc558lXk2sHLf9NsAxejdS46A0QCD9jlNB+aL4eMyQOi57Xwl
-         SIakmAC6pclJPomWXqIInEmRx/lk2tTkrYe1cCZFZwU2FVPWz/CWbz++PFBYfSLH1ML/
-         M2X9j8owFamvUc2idjYI1eGjX5q5/B1BlDxCrCLdW2lFwkevIwESTUdicWwKJqLk/Ixj
-         dINXdaGcMyHePZe7lEbya/rouptapaeKveZvag/tRzxVnluBGYfxjXWSueTBDmHnmG7t
-         EUUQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Tbmpc8I08dUNbz0TweIhlLBpMYWo1Ddtf0bugPdpg4o=;
+        b=GpRaz3WzKyv4b6el90Iz4gY68k6ZMkDSEh2Hm5M0XVO2GvGiQXYLuOeRblysRbV95O
+         /o9QxM7Dr9VjPZHJbmlPD+v+xOjqiSGlLuBd177bF9Y5icVTpiZRrTKok3ZZTQ/wDtBz
+         OD0/VdGCoCIgoImm/TAEY+RuYIVJBGoif7u3rV8vKwf2bmxMkH46wFW8r/B8lLgHUY/j
+         AYfLYXuLFlbVDpa/kxWt9gdsZixvnBRgFarHNgasLVY1VE/8+aqZM1tiw/DA61fKvNnp
+         rwq1i9Eyg15IRctXukzSqaoYhr16QJbzTuSfXkLs7LUDp3Zvi+TCTQ1gaTePQTg2eWA7
+         0sHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/NPT2VbqBD/1/3nxqwL+OAW0hVteVP5bc9nbYT9sEWw=;
-        b=NdWEUnKFdPdBXa0iklUiNUSw2SvTww7VZSLJuhK2hQ1zKUO5gRCOev1Oye7NIflk4r
-         YT3Ny+8LFhFdrJiASzJKJwVfo9qf1rj9Wf4DrG9qLMUfsWVMmb75GUWhS2mOcXaR6JhW
-         3r/CNLLPwiVhnZHa5gI8mLXt7GBQheAAtWEA599awV5GrLBwZwqYNcpqhyHa/njzbDF3
-         JG+UasoouZ93kcjEl+mlcg+pnqapwRoAV0X2rnmJisth5J50QPgfHnHVsl7zldr2+Ha0
-         C0QQgIxRcXQbVxxr4DruGiYDrdqpU/QZoJ4PdxevYkF5K2ZTnNsNFJnlGKX5L5MrEZKe
-         FDQA==
-X-Gm-Message-State: APjAAAXayz7Fdx7ihvwoh+4W3Zl3BVD4D+ioqdqHZyXT/8hM3l19tyFW
-        FjSrd5t3FBZeoRU2H95JxfqDwEcv
-X-Google-Smtp-Source: APXvYqzyck+QscJgPGHJHezhAv7xscVf5jyjQo+FEHbpQ0mvtZpFzoFgG83d9v4QvhOqJnbbV8YZxA==
-X-Received: by 2002:a2e:9bc9:: with SMTP id w9mr3335411ljj.35.1573662161438;
-        Wed, 13 Nov 2019 08:22:41 -0800 (PST)
-Received: from [192.168.2.145] (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.googlemail.com with ESMTPSA id x23sm1275538lfe.8.2019.11.13.08.22.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Nov 2019 08:22:40 -0800 (PST)
-Subject: Re: [PATCH v1] clk: tegra: clk-dfll: Fix to remove
- pm_runtime_irq_safe
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, sboyd@kernel.org,
-        mturquette@baylibre.com, pgaikwad@nvidia.com
-Cc:     pdeschrijver@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1573575426-31314-1-git-send-email-skomatineni@nvidia.com>
- <1573575426-31314-2-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <353b9aef-3bcc-65d2-a942-91d6710b89ca@gmail.com>
-Date:   Wed, 13 Nov 2019 19:22:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Tbmpc8I08dUNbz0TweIhlLBpMYWo1Ddtf0bugPdpg4o=;
+        b=lf7rgkuIYQCgsTiz/cfSP1ZeRD6SOEC9lhXM+x3k/CrZIusgJesV0DQrVacu7oHNOX
+         ueo3B9s5SyBbupBAOcx8in+lDU0mlu7F5118yqKKXloqNbpo0HhD3G8Cu/xZV2EDA7XB
+         zfHBkdM6qy79OVuPGX36IN1HYkan+VacZVVAWF/z8EPE3Wf6HtGMxcuHTGqo5Uqe25Dl
+         M2oGTgvSuNx+WL+rfgTSuEaG0Z6ERTBX3XC/1uFq3H5VJcxDgdeL7MHWEJ/WMv9WM0Sv
+         f+J2pMYwncJz/QinEYv+svViECZpQLmwSGGBbYAjXWtVHn+Rw46TJm1knuhYvgxD0FxT
+         8jFQ==
+X-Gm-Message-State: APjAAAWThyJrU0s+EWBItRToiO68l36lQNUnFx6wSpAyPQznRa+GOIde
+        R4CQmpqTeeqwUceu9ZFzApPdkfk6AtW9Dc1EeyEfBQ==
+X-Google-Smtp-Source: APXvYqzIPzbgpPUyvUtrneet0HOhaTTyNY9TeCNaIXTIuQ/Kcp/SiKtz7hsji0MJix60noP5lG6p8beaOSZpn4+OlKA=
+X-Received: by 2002:ac2:4a8f:: with SMTP id l15mr3446808lfp.5.1573665408550;
+ Wed, 13 Nov 2019 09:16:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1573575426-31314-2-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20191113094256.1108-1-peter.ujfalusi@ti.com> <20191113094256.1108-6-peter.ujfalusi@ti.com>
+In-Reply-To: <20191113094256.1108-6-peter.ujfalusi@ti.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 13 Nov 2019 18:16:37 +0100
+Message-ID: <CACRpkdZ=xM2GYTDDLKoFwwdqp09-UDOyqogDW5pLvg4QaZXR6Q@mail.gmail.com>
+Subject: Re: [PATCH 5/9] spi: pl022: Use dma_request_chan() directly for
+ channel request
+To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
+Cc:     Mark Brown <broonie@kernel.org>, radu_nicolae.pirea@upb.ro,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andi Shyti <andi@etezian.org>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-12.11.2019 19:17, Sowjanya Komatineni пишет:
-> pm_runtime_irq_safe is not needed as interrupts are allowed during
-> suspend and resume. This was added mistakenly during dfll suspend
-> and resume support patch.
-> 
-> This patch includes fix to remove pm_runtime_irq_safe.
-> 
-> Also updated description of dfll_suspend argument.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  drivers/clk/tegra/clk-dfll.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/clk/tegra/clk-dfll.c b/drivers/clk/tegra/clk-dfll.c
-> index c051d92c2bbf..cfbaa90c7adb 100644
-> --- a/drivers/clk/tegra/clk-dfll.c
-> +++ b/drivers/clk/tegra/clk-dfll.c
-> @@ -1487,7 +1487,6 @@ static int dfll_init(struct tegra_dfll *td)
->  	td->last_unrounded_rate = 0;
->  
->  	pm_runtime_enable(td->dev);
-> -	pm_runtime_irq_safe(td->dev);
->  	pm_runtime_get_sync(td->dev);
->  
->  	dfll_set_mode(td, DFLL_DISABLED);
-> @@ -1516,7 +1515,7 @@ static int dfll_init(struct tegra_dfll *td)
->  
->  /**
->   * tegra_dfll_suspend - check DFLL is disabled
-> - * @dev: DFLL device *
-> + * @dev: DFLL instance
->   *
->   * DFLL clock should be disabled by the CPUFreq driver. So, make
->   * sure it is disabled and disable all clocks needed by the DFLL.
-> 
+On Wed, Nov 13, 2019 at 10:42 AM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
 
-Hello Sowjanya,
+> dma_request_slave_channel_reason() is:
+> #define dma_request_slave_channel_reason(dev, name) \
+>         dma_request_chan(dev, name)
+>
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
 
-It should be better to have the commit's title saying something more
-generic like "Clean up code" or to have two separate patches because
-this patch does two things that are unrelated to each other in
-accordance to the title and this is a bit confusing at first glance.
-Although, that's not a big deal for a trivial patch like this and it
-should be fine as is (IMO). Please take into account in the future
-patches that both commit's title and description should be accurate.
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Yours,
+Linus Walleij
