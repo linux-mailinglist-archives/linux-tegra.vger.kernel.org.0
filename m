@@ -2,87 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 947E2FE2B3
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 Nov 2019 17:27:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC627FE329
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 Nov 2019 17:47:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727423AbfKOQ1t (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 Nov 2019 11:27:49 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:33120 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727528AbfKOQ1t (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 Nov 2019 11:27:49 -0500
-Received: by mail-lj1-f194.google.com with SMTP id t5so11343143ljk.0
-        for <linux-tegra@vger.kernel.org>; Fri, 15 Nov 2019 08:27:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bWy5C8R4LY42mpU2jOgPAcUIDFARxOc5CXnNQDPrt8o=;
-        b=KfZgja04z0j0mpaZ86xhK+ZPcPHY3TpHl2vfL837X7KisO64NIlIaa5uEVmPk+YXty
-         pTpbESpCOHQoTsBUPNERS0uQ/QNxjnpLfy7z2gRWRKgA2IK5x2daOSGiEFc5c3XFnDUH
-         buc25L36UI0ql1F56SwKH+MRp7dBr/NNxpeU+TYjUY8542oOlpA+/HbyYrPVRgijGeNK
-         6VPPCH2ljtEE2hQykN0B9BudW6kZpKew8oi/GFmI7oatSGHp1hC7xZt0mMwyKA+oyf99
-         tunSw7/iyC/My7mPhkGN6v/3l6QcIuobpmKzmYtATbGSOzJu4Is4WsGQXt/L8dvDFL9w
-         aM/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bWy5C8R4LY42mpU2jOgPAcUIDFARxOc5CXnNQDPrt8o=;
-        b=XRl5h00jdIUCwKn68qrv1VxQ3FgWmujM7Kqe0KmSVFAvpU98g9Gy8LRqfDE/nba8VT
-         VG19G7JmAGdG4VQNzwcjMvCMRPZIWgIUZGy87dx4E3qB4B95c6tdBwKKw87F0a7GTTem
-         dG4r0UPOSqJT1HAVPcHcQsRbHECIAoloInRpH0BFQemueebxncO6OAViekdKD9zQvqBr
-         pAHiCQqO+uIadRWmUZBB70JmQS1ezPm+BfOWCK/3bTODQHTP0tZFqlGRGLpWVRCBtvdr
-         YXntDLwU32MCeiAPccCQHcrehkiWf8x36DQGUtQ2KPNXZqK/nHzdHnn6PAEGMFZggOuO
-         TMiA==
-X-Gm-Message-State: APjAAAXXEjcnL1rJRnrwt/dYdBTygUCTPjj4qheTH7pOX7ofqigWBfda
-        RwC47QTDXtpOtmXRcWozGPc=
-X-Google-Smtp-Source: APXvYqyGQq6q9gxQRnMJ0jH2bKNPjlGXly1g0xbSJOZrVKKs3xFgyfQSIFqSxmOUagnQ9S06DFI8uw==
-X-Received: by 2002:a2e:9b4b:: with SMTP id o11mr12041877ljj.252.1573835267228;
-        Fri, 15 Nov 2019 08:27:47 -0800 (PST)
-Received: from localhost.localdomain (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
-        by smtp.gmail.com with ESMTPSA id f5sm4056130ljn.24.2019.11.15.08.27.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Nov 2019 08:27:46 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org
-Subject: [PATCH v1] memory: tegra30-emc: Fix panic on suspend
-Date:   Fri, 15 Nov 2019 19:26:42 +0300
-Message-Id: <20191115162642.11397-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        id S1727678AbfKOQrt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 Nov 2019 11:47:49 -0500
+Received: from mail.hgs.gob.ec ([190.214.19.83]:60800 "HELO mail.hgs.gob.ec"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with SMTP
+        id S1727644AbfKOQrt (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 15 Nov 2019 11:47:49 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hgs.gob.ec (Postfix) with ESMTP id A13DCA145DE;
+        Thu, 14 Nov 2019 16:07:55 -0500 (-05)
+Received: from mail.hgs.gob.ec ([127.0.0.1])
+        by localhost (mail.hgs.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id YcTTXpjQNwTu; Thu, 14 Nov 2019 16:07:55 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hgs.gob.ec (Postfix) with ESMTP id 5B61CA16845;
+        Thu, 14 Nov 2019 16:07:17 -0500 (-05)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.hgs.gob.ec 5B61CA16845
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hgs.gob.ec;
+        s=DD120D66-D63F-11E9-9729-9452E74E1CB4; t=1573765637;
+        bh=oYeOwTtTK4mcRNNK0JGL7ZOgP8mm7StpJG1pujYq4Z0=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=SSsrsmP8VLDu6fNezoNy1A3vgwMdjv3r3I9vGJZJuxeLB3Z1cGyXvLp2zw1iJAJa4
+         TPUdFNigz6KRZfe9FVok/999WNS7pOfuYYx8MMbpnq4/PiukWdBhwibITHpIJEmpPN
+         hQfGELZLEw01B4ew8LRpBFP+GlpHvLM8xuIJCMfmKKTs1lWcZlz0tFUiquoE5bqYF2
+         PnfwmvNsAjjhLp5Xvf1QnMWaoJ2tzRE+Sud+IlMgs3W4AGtgmo7tO9hVlvb9/Q0Qqv
+         zrLXZti0+xfoh3ANlLMHTi5QumkPQBZVSB7KvZuqf3RExWB0v8W8A8HhkqVTzpHOpA
+         s2AvzlH7p7iPg==
+X-Virus-Scanned: amavisd-new at hgs.gob.ec
+Received: from mail.hgs.gob.ec ([127.0.0.1])
+        by localhost (mail.hgs.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id JetuDvaPGWWK; Thu, 14 Nov 2019 16:07:17 -0500 (-05)
+Received: from [10.32.142.65] (unknown [105.4.7.6])
+        by mail.hgs.gob.ec (Postfix) with ESMTPSA id 5616AA16BC8;
+        Thu, 14 Nov 2019 16:06:28 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000=2E000_Euro?=
+To:     Recipients <dietetica@hgs.gob.ec>
+From:   ''Charles jackson'' <dietetica@hgs.gob.ec>
+Date:   Thu, 14 Nov 2019 23:06:20 +0200
+Reply-To: charlesjacksonjr001@gmail.com
+Message-Id: <20191114210629.5616AA16BC8@mail.hgs.gob.ec>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Trying to suspend driver results in a crash if timings aren't available in
-device-tree.
+Lieber Freund,
 
-Reported-by: Jon Hunter <jonathanh@nvidia.com>
-Fixes: e34212c75a68 ("memory: tegra: Introduce Tegra30 EMC driver")
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/memory/tegra/tegra30-emc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ich bin Herr Charles W Jackson, North Carolina, Vereinigte Staaten von Amer=
+ika, der Mega-Gewinner von 344 Millionen US-Dollar. Beim Mega-Millions-Jack=
+pot spende ich an 5 zuf&auml;llige Personen. Wenn Sie diese E-Mail erhalten=
+, wurde Ihre E-Mail zu einem Spinball, den ich am h&auml;ufigsten verteilt =
+habe von meinem Verm&ouml;gen an eine Reihe von Wohlt&auml;tigkeitsorganisa=
+tionen. Ich habe mich freiwillig entschlossen, Ihnen als einer der ausgew&a=
+uml;hlten 5 einen Betrag von &euro; 2.000.000,00 zu spenden, um meine Gewin=
+ne zu &uuml;berpr&uuml;fen.
+Dies ist Ihr Spendencode: [CJ530342019]
 
-diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
-index 6929980bf907..0b6a5e451ea3 100644
---- a/drivers/memory/tegra/tegra30-emc.c
-+++ b/drivers/memory/tegra/tegra30-emc.c
-@@ -1093,7 +1093,7 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	if (of_get_child_count(pdev->dev.of_node) == 0) {
- 		dev_info(&pdev->dev,
- 			 "device-tree node doesn't have memory timings\n");
--		return 0;
-+		return -ENODEV;
- 	}
- 
- 	np = of_parse_phandle(pdev->dev.of_node, "nvidia,memory-controller", 0);
--- 
-2.23.0
+www.youtube.com/watch?v=3DBSr8myiLPMQ
 
+Antworten Sie auf diese E-Mail mit dem SPENDER-CODE: =
+
+
+charlesjacksonjr001@gmail.com
+
+Ich hoffe, Sie und Ihre Familie gl&uuml;cklich zu machen
+
+Sch&ouml;ne Gr&uuml;&szlig;e
+Mr. Charles Jackson
