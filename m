@@ -2,46 +2,50 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADB9FFDDAC
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 Nov 2019 13:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00DE5FDDA4
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 Nov 2019 13:26:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727726AbfKOMZT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 Nov 2019 07:25:19 -0500
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:33046 "EHLO
+        id S1727337AbfKOMZ2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 Nov 2019 07:25:28 -0500
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:33402 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727587AbfKOMZS (ORCPT
+        with ESMTP id S1727767AbfKOMZ1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 Nov 2019 07:25:18 -0500
+        Fri, 15 Nov 2019 07:25:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
         Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
         List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=Re2hQTtNAD8CYEK6W+NpLcveT//8Obo4//e0YXTuxTc=; b=jFUZ7q7H99n3
-        xPQxQwwN0FSWoZ4uDzb52Mb2epbh5Dk1Pu4v30mUzg4m2Tg2ytDV1g9i9KMQcFA0tV4ikY96WpUep
-        tX7rbioDKzEJGCoLKywvVyc3NG+AnZxUhoiVokGz3Dua7cWzwUduasdtTK+DBdmn6tpeLNEJwsC0S
-        jakRc=;
+        List-Archive; bh=fWOoEWrncpp1tBUkmKh+q/SzDQz68gyKjX3HADQBBAg=; b=wZ6Hnf8RqUCF
+        vNEOfIUKj482smxvOpBKHA71fxQ/5J+thkYLPYLJ2tJVQ1O/WXEpt13+0ZJnK+zb7TcJIBcxsa85m
+        Ya3fGE+4hP86h/Ky2aG1zR7Jqas3fz6gh064GpzPFZZX46fYzyko4AF7T0wc5m00IZGz8X/GyAe8Z
+        LiOf8=;
 Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
         by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <broonie@sirena.co.uk>)
-        id 1iVaf4-0000Lk-F0; Fri, 15 Nov 2019 12:25:14 +0000
+        id 1iVaf5-0000Ls-4F; Fri, 15 Nov 2019 12:25:15 +0000
 Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id EF8D427415A7; Fri, 15 Nov 2019 12:25:13 +0000 (GMT)
+        id 9A80B27415A7; Fri, 15 Nov 2019 12:25:14 +0000 (GMT)
 From:   Mark Brown <broonie@kernel.org>
-To:     Chuhong Yuan <hslester96@gmail.com>
-Cc:     "Cc:"@sirena.co.uk, "Cc:"@sirena.co.uk,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: Applied "spi: tegra20-slink: add missed clk_unprepare" to the spi tree
-In-Reply-To: <20191115083122.12278-1-hslester96@gmail.com>
+To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
+Cc:     agross@kernel.org, alexandre.belloni@bootlin.com, andi@etezian.org,
+        bjorn.andersson@linaro.org, broonie@kernel.org,
+        jonathanh@nvidia.com, Jon Hunter <jonathanh@nvidia.com>,
+        kgene@kernel.org, krzk@kernel.org, ldewangan@nvidia.com,
+        linus.walleij@linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>, radu_nicolae.pirea@upb.ro,
+        s.hauer@pengutronix.de, shawnguo@kernel.org,
+        thierry.reding@gmail.com, vkoul@kernel.org
+Subject: Applied "spi: tegra114: Use dma_request_chan() directly for channel request" to the spi tree
+In-Reply-To: <20191113094256.1108-9-peter.ujfalusi@ti.com>
 X-Patchwork-Hint: ignore
-Message-Id: <20191115122513.EF8D427415A7@ypsilon.sirena.org.uk>
-Date:   Fri, 15 Nov 2019 12:25:13 +0000 (GMT)
+Message-Id: <20191115122514.9A80B27415A7@ypsilon.sirena.org.uk>
+Date:   Fri, 15 Nov 2019 12:25:14 +0000 (GMT)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
@@ -49,7 +53,7 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 The patch
 
-   spi: tegra20-slink: add missed clk_unprepare
+   spi: tegra114: Use dma_request_chan() directly for channel request
 
 has been applied to the spi tree at
 
@@ -74,51 +78,38 @@ to this mail.
 Thanks,
 Mark
 
-From 04358e40ba96d687c0811c21d9dede73f5244a98 Mon Sep 17 00:00:00 2001
-From: Chuhong Yuan <hslester96@gmail.com>
-Date: Fri, 15 Nov 2019 16:31:22 +0800
-Subject: [PATCH] spi: tegra20-slink: add missed clk_unprepare
+From 4c973b98cdd3b413216fdb9655a420737c46a4cb Mon Sep 17 00:00:00 2001
+From: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Date: Wed, 13 Nov 2019 11:42:55 +0200
+Subject: [PATCH] spi: tegra114: Use dma_request_chan() directly for channel
+ request
 
-The driver misses calling clk_unprepare in probe failure and remove.
-Add the calls to fix it.
+dma_request_slave_channel_reason() is:
+#define dma_request_slave_channel_reason(dev, name) \
+	dma_request_chan(dev, name)
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
-Link: https://lore.kernel.org/r/20191115083122.12278-1-hslester96@gmail.com
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Link: https://lore.kernel.org/r/20191113094256.1108-9-peter.ujfalusi@ti.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/spi/spi-tegra20-slink.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/spi/spi-tegra114.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
-index 51573f41ed12..7f4d932dade7 100644
---- a/drivers/spi/spi-tegra20-slink.c
-+++ b/drivers/spi/spi-tegra20-slink.c
-@@ -1072,7 +1072,7 @@ static int tegra_slink_probe(struct platform_device *pdev)
- 	ret = clk_enable(tspi->clk);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Clock enable failed %d\n", ret);
--		goto exit_free_master;
-+		goto exit_clk_unprepare;
- 	}
+diff --git a/drivers/spi/spi-tegra114.c b/drivers/spi/spi-tegra114.c
+index e6a450d9b4f0..fc40ab146c86 100644
+--- a/drivers/spi/spi-tegra114.c
++++ b/drivers/spi/spi-tegra114.c
+@@ -666,8 +666,7 @@ static int tegra_spi_init_dma_param(struct tegra_spi_data *tspi,
+ 	dma_addr_t dma_phys;
+ 	int ret;
  
- 	spi_irq = platform_get_irq(pdev, 0);
-@@ -1145,6 +1145,8 @@ static int tegra_slink_probe(struct platform_device *pdev)
- 	free_irq(spi_irq, tspi);
- exit_clk_disable:
- 	clk_disable(tspi->clk);
-+exit_clk_unprepare:
-+	clk_unprepare(tspi->clk);
- exit_free_master:
- 	spi_master_put(master);
- 	return ret;
-@@ -1158,6 +1160,7 @@ static int tegra_slink_remove(struct platform_device *pdev)
- 	free_irq(tspi->irq, tspi);
- 
- 	clk_disable(tspi->clk);
-+	clk_unprepare(tspi->clk);
- 
- 	if (tspi->tx_dma_chan)
- 		tegra_slink_deinit_dma_param(tspi, false);
+-	dma_chan = dma_request_slave_channel_reason(tspi->dev,
+-					dma_to_memory ? "rx" : "tx");
++	dma_chan = dma_request_chan(tspi->dev, dma_to_memory ? "rx" : "tx");
+ 	if (IS_ERR(dma_chan)) {
+ 		ret = PTR_ERR(dma_chan);
+ 		if (ret != -EPROBE_DEFER)
 -- 
 2.20.1
 
