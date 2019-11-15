@@ -2,81 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32F0BFE0DB
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 Nov 2019 16:07:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 947E2FE2B3
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 Nov 2019 17:27:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727417AbfKOPHv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 Nov 2019 10:07:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60496 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727406AbfKOPHv (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 Nov 2019 10:07:51 -0500
-Received: from localhost (unknown [122.147.212.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3EA5B20733;
-        Fri, 15 Nov 2019 15:07:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573830470;
-        bh=dhRhLDp9apleuZIXJcFzFMzceLE0xCrAf72x4cu0ydw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iWDnWDOz3fjMlWruHlQfjdC3mulEkmevVQmShncwUNsYiYKW9eBeSzuYNPHeizZ25
-         bnRAtkIhfBhmHqiyiozIDSEe7ANd/tCmnTAsDKNzu7dem2o+UYZ+cgQQHOV2t+0aoK
-         D+2i3biFeZCG7RcCOAZ0SbeVq5yNhzY5yBRk2NPc=
-Date:   Fri, 15 Nov 2019 23:07:47 +0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 4.9 00/31] 4.9.202-stable review
-Message-ID: <20191115150747.GA375474@kroah.com>
-References: <20191115062009.813108457@linuxfoundation.org>
- <be8b3704-c780-ceaf-7775-3d1f21db6224@nvidia.com>
+        id S1727423AbfKOQ1t (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 15 Nov 2019 11:27:49 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:33120 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727528AbfKOQ1t (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 15 Nov 2019 11:27:49 -0500
+Received: by mail-lj1-f194.google.com with SMTP id t5so11343143ljk.0
+        for <linux-tegra@vger.kernel.org>; Fri, 15 Nov 2019 08:27:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bWy5C8R4LY42mpU2jOgPAcUIDFARxOc5CXnNQDPrt8o=;
+        b=KfZgja04z0j0mpaZ86xhK+ZPcPHY3TpHl2vfL837X7KisO64NIlIaa5uEVmPk+YXty
+         pTpbESpCOHQoTsBUPNERS0uQ/QNxjnpLfy7z2gRWRKgA2IK5x2daOSGiEFc5c3XFnDUH
+         buc25L36UI0ql1F56SwKH+MRp7dBr/NNxpeU+TYjUY8542oOlpA+/HbyYrPVRgijGeNK
+         6VPPCH2ljtEE2hQykN0B9BudW6kZpKew8oi/GFmI7oatSGHp1hC7xZt0mMwyKA+oyf99
+         tunSw7/iyC/My7mPhkGN6v/3l6QcIuobpmKzmYtATbGSOzJu4Is4WsGQXt/L8dvDFL9w
+         aM/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bWy5C8R4LY42mpU2jOgPAcUIDFARxOc5CXnNQDPrt8o=;
+        b=XRl5h00jdIUCwKn68qrv1VxQ3FgWmujM7Kqe0KmSVFAvpU98g9Gy8LRqfDE/nba8VT
+         VG19G7JmAGdG4VQNzwcjMvCMRPZIWgIUZGy87dx4E3qB4B95c6tdBwKKw87F0a7GTTem
+         dG4r0UPOSqJT1HAVPcHcQsRbHECIAoloInRpH0BFQemueebxncO6OAViekdKD9zQvqBr
+         pAHiCQqO+uIadRWmUZBB70JmQS1ezPm+BfOWCK/3bTODQHTP0tZFqlGRGLpWVRCBtvdr
+         YXntDLwU32MCeiAPccCQHcrehkiWf8x36DQGUtQ2KPNXZqK/nHzdHnn6PAEGMFZggOuO
+         TMiA==
+X-Gm-Message-State: APjAAAXXEjcnL1rJRnrwt/dYdBTygUCTPjj4qheTH7pOX7ofqigWBfda
+        RwC47QTDXtpOtmXRcWozGPc=
+X-Google-Smtp-Source: APXvYqyGQq6q9gxQRnMJ0jH2bKNPjlGXly1g0xbSJOZrVKKs3xFgyfQSIFqSxmOUagnQ9S06DFI8uw==
+X-Received: by 2002:a2e:9b4b:: with SMTP id o11mr12041877ljj.252.1573835267228;
+        Fri, 15 Nov 2019 08:27:47 -0800 (PST)
+Received: from localhost.localdomain (94-29-10-250.dynamic.spd-mgts.ru. [94.29.10.250])
+        by smtp.gmail.com with ESMTPSA id f5sm4056130ljn.24.2019.11.15.08.27.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Nov 2019 08:27:46 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org
+Subject: [PATCH v1] memory: tegra30-emc: Fix panic on suspend
+Date:   Fri, 15 Nov 2019 19:26:42 +0300
+Message-Id: <20191115162642.11397-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <be8b3704-c780-ceaf-7775-3d1f21db6224@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 01:50:56PM +0000, Jon Hunter wrote:
-> 
-> On 15/11/2019 06:20, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 4.9.202 release.
-> > There are 31 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Sun, 17 Nov 2019 06:18:35 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.9.202-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.9.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v4.9:
->     8 builds:	8 pass, 0 fail
->     16 boots:	16 pass, 0 fail
->     24 tests:	24 pass, 0 fail
-> 
-> Linux version:	4.9.202-rc1-gd7f83e4f45e8
-> Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
+Trying to suspend driver results in a crash if timings aren't available in
+device-tree.
 
-Thanks for testing both of these and letting me know.
+Reported-by: Jon Hunter <jonathanh@nvidia.com>
+Fixes: e34212c75a68 ("memory: tegra: Introduce Tegra30 EMC driver")
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/memory/tegra/tegra30-emc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
+index 6929980bf907..0b6a5e451ea3 100644
+--- a/drivers/memory/tegra/tegra30-emc.c
++++ b/drivers/memory/tegra/tegra30-emc.c
+@@ -1093,7 +1093,7 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	if (of_get_child_count(pdev->dev.of_node) == 0) {
+ 		dev_info(&pdev->dev,
+ 			 "device-tree node doesn't have memory timings\n");
+-		return 0;
++		return -ENODEV;
+ 	}
+ 
+ 	np = of_parse_phandle(pdev->dev.of_node, "nvidia,memory-controller", 0);
+-- 
+2.23.0
+
