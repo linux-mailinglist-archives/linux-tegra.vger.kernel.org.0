@@ -2,123 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A4E13FDD8F
-	for <lists+linux-tegra@lfdr.de>; Fri, 15 Nov 2019 13:26:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FF69FDDFB
+	for <lists+linux-tegra@lfdr.de>; Fri, 15 Nov 2019 13:35:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727344AbfKOMZo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 15 Nov 2019 07:25:44 -0500
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:33624 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727814AbfKOMZd (ORCPT
+        id S1727544AbfKOMfK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Fri, 15 Nov 2019 07:35:10 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:38854 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727496AbfKOMfK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 15 Nov 2019 07:25:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
-        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=h4iKmlZQEvf/Y5vua4D6c1vrSreviezqclNuVw4zeSI=; b=kNcFn1yiULFt
-        yzot5ErCt1/PLuAjts3Y0vS25ToJUXu21W+rMrb+wfqkUmUyIcQURcehrUlLD6oPpDo5PuyOyRmKs
-        CPsWOjTgthONIz8qfS43Fb9ySr615rzUDF14U7fdUSGW3l+mw0k+MpwxUuu12APDDIwCeazuHCTQe
-        vtcM8=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iVaf7-0000Me-Kh; Fri, 15 Nov 2019 12:25:17 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 11B732741609; Fri, 15 Nov 2019 12:25:16 +0000 (GMT)
-From:   Mark Brown <broonie@kernel.org>
-To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
-Cc:     agross@kernel.org, alexandre.belloni@bootlin.com, andi@etezian.org,
-        bjorn.andersson@linaro.org, broonie@kernel.org,
-        jonathanh@nvidia.com, kgene@kernel.org, krzk@kernel.org,
-        ldewangan@nvidia.com, linus.walleij@linaro.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        radu_nicolae.pirea@upb.ro, s.hauer@pengutronix.de,
-        shawnguo@kernel.org, thierry.reding@gmail.com, vkoul@kernel.org
-Subject: Applied "spi: at91-usart: Use dma_request_chan() directly for channel request" to the spi tree
-In-Reply-To: <20191113094256.1108-2-peter.ujfalusi@ti.com>
-X-Patchwork-Hint: ignore
-Message-Id: <20191115122517.11B732741609@ypsilon.sirena.org.uk>
-Date:   Fri, 15 Nov 2019 12:25:16 +0000 (GMT)
+        Fri, 15 Nov 2019 07:35:10 -0500
+Received: by mail-ot1-f67.google.com with SMTP id z25so7888900oti.5;
+        Fri, 15 Nov 2019 04:35:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=weseOzPMtZu2Zkh9G1J+5ddsMGjRBKSp1rgb8MnewWI=;
+        b=Y8gMEmARIyyPz+5yibhUCCzAPO8+umg05BceZRw1lhRNI3WYVX4DoF1CpYG3mIO79c
+         6spRqeeWPCv3nLKnZjfHWVKFCbI1V/1QkpKj7r+cQ1ywtGsD9Bhe6QC5rfYqoSoVb3h3
+         rsdGDLWMsjl58Zxwl3Nn4DNWBvAnQxQMxfpcVp0NV1EOiMTlI850NHBR3C+6jh0oWYDF
+         ezTQikj6OS1Sv+fYoYPvY0cYAjc6W3Rjlzk1HphvRjRBDNy7CAc35HGRlfr2YFa8UNr0
+         9avmZa0xoj+HQgi+UFCOy+1xkRxjHQlgZ69gjNNYrulWLFSQgjFQ4uLo9/h1BqI+H6+p
+         Q2nQ==
+X-Gm-Message-State: APjAAAVEGi2hyVQP1mXyBRULe4XhdpBdwmTMgmazAmkhvw4+RZq2abJ2
+        EhilzH4vCKDUF7YNzV1fbsIxU/WVhISlQhPzARc=
+X-Google-Smtp-Source: APXvYqxQbOJhyQwpGQWBZF1hmsyHYrJBcMAR+hAoTdODxyYX/u2VKxAy7/eJUh/M6a4TbETYPv02VjN0xr9BlR4aCVA=
+X-Received: by 2002:a9d:5511:: with SMTP id l17mr2945702oth.145.1573821307279;
+ Fri, 15 Nov 2019 04:35:07 -0800 (PST)
+MIME-Version: 1.0
+References: <20191103013645.9856-3-afaerber@suse.de> <20191111045609.7026-1-afaerber@suse.de>
+ <20191111052741.GB3176397@kroah.com> <586fa37c-6292-aca4-fa7c-73064858afaf@suse.de>
+ <20191111064040.GA3502217@kroah.com> <a88442df-dc6b-07e5-8dee-9e308bdda450@suse.de>
+ <20191112052347.GA1197504@kroah.com> <20191112072926.isjxfa4ci6akhx56@pengutronix.de>
+ <aff81b8e-f041-73a5-6a95-d308fa07842c@suse.de> <c8572f70-5550-8cee-4381-fd7de7ae5af0@baylibre.com>
+ <CAMuHMdWOWWQoJh5=07VMRhtrFR_Gc_qNhjTV4tCsvwvMn0kYfA@mail.gmail.com> <a0a6d71f-4fb7-51ce-fe33-74f9e588b791@suse.de>
+In-Reply-To: <a0a6d71f-4fb7-51ce-fe33-74f9e588b791@suse.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 15 Nov 2019 13:34:55 +0100
+Message-ID: <CAMuHMdU7EYHWRAR+s3ee4Wy6+6_MZON5xARszO7TDXZGyw8d5w@mail.gmail.com>
+Subject: Re: Sense of soc bus? (was: [PATCH] base: soc: Export
+ soc_device_to_device() helper)
+To:     =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-realtek-soc@lists.infradead.org,
+        Tony Lindgren <tony@atomide.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        boot-architecture@lists.linaro.org,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+        "open list:TI ETHERNET SWITCH DRIVER (CPSW)" 
+        <linux-omap@vger.kernel.org>,
+        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Hartley Sweeten <hsweeten@visionengravers.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The patch
+Hi Andreas,
 
-   spi: at91-usart: Use dma_request_chan() directly for channel request
+On Fri, Nov 15, 2019 at 1:01 PM Andreas Färber <afaerber@suse.de> wrote:
+> Am 15.11.19 um 09:58 schrieb Geert Uytterhoeven:
+> > On Fri, Nov 15, 2019 at 9:52 AM Neil Armstrong <narmstrong@baylibre.com> wrote:
+> >> On 12/11/2019 11:47, Andreas Färber wrote:
+> >>> For example, RTD1295 will support LSADC only from revision B00
+> >>> on (and it's not the first time I'm seeing such things in the industry).
+> >>> So if a user complains, it will be helpful to see that information.
+> >>>
+> >>> Referencing your Amlogic review, with all due respect for its authors,
+> >>> the common framework here just lets that information evaporate into the
+> >>> deeps of sysfs.
+> >>
+> >> Hopefully we never had the case where needed to use the soc info in drivers,
+> >> but now we have one and having such infrastructure already in-place will help.
+> >>
+> >> Renesas platforms makes a extensive usage of the soc info infrastructure to
+> >> figure out plenty of HW parameters at runtime and lower their DT changes.
+> >
+> > We do our best to use it solely for detecting quirks in early SoC revisions.
+>
+> Got a pointer? I fail to immediately understand how sysfs would help
+> drivers (as opposed to userspace) detect quirks: Parsing strings back
+> doesn't sound efficient, and I don't see you exporting any custom APIs
+> in drivers/soc/renesas/renesas-soc.c?
 
-has been applied to the spi tree at
+We use soc_device_match(), inside kernel drivers.
+Exposure through sysfs is a side-effect of using soc_device_register(),
+and welcomed, as it allows the user to find out quickly which SoC and
+revision is being used.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.5
+FTR, lshw (Ubuntu 18.04 has v2.18, which does seem to be the latest
+upstream version) does not parse /sys/devices/soc0/.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+Gr{oetje,eeting}s,
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+                        Geert
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From cef76e5ace759848e78323a14df0dcd66b8de13d Mon Sep 17 00:00:00 2001
-From: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Date: Wed, 13 Nov 2019 11:42:48 +0200
-Subject: [PATCH] spi: at91-usart: Use dma_request_chan() directly for channel
- request
-
-dma_request_slave_channel_reason() is:
-#define dma_request_slave_channel_reason(dev, name) \
-	dma_request_chan(dev, name)
-
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
-Link: https://lore.kernel.org/r/20191113094256.1108-2-peter.ujfalusi@ti.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- drivers/spi/spi-at91-usart.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/spi/spi-at91-usart.c b/drivers/spi/spi-at91-usart.c
-index a40bb2ef89dc..88033422a42a 100644
---- a/drivers/spi/spi-at91-usart.c
-+++ b/drivers/spi/spi-at91-usart.c
-@@ -132,7 +132,7 @@ static int at91_usart_spi_configure_dma(struct spi_controller *ctlr,
- 	dma_cap_zero(mask);
- 	dma_cap_set(DMA_SLAVE, mask);
- 
--	ctlr->dma_tx = dma_request_slave_channel_reason(dev, "tx");
-+	ctlr->dma_tx = dma_request_chan(dev, "tx");
- 	if (IS_ERR_OR_NULL(ctlr->dma_tx)) {
- 		if (IS_ERR(ctlr->dma_tx)) {
- 			err = PTR_ERR(ctlr->dma_tx);
-@@ -145,7 +145,7 @@ static int at91_usart_spi_configure_dma(struct spi_controller *ctlr,
- 		goto at91_usart_spi_error_clear;
- 	}
- 
--	ctlr->dma_rx = dma_request_slave_channel_reason(dev, "rx");
-+	ctlr->dma_rx = dma_request_chan(dev, "rx");
- 	if (IS_ERR_OR_NULL(ctlr->dma_rx)) {
- 		if (IS_ERR(ctlr->dma_rx)) {
- 			err = PTR_ERR(ctlr->dma_rx);
 -- 
-2.20.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
