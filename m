@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF918FF17E
-	for <lists+linux-tegra@lfdr.de>; Sat, 16 Nov 2019 17:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 835D8FF054
+	for <lists+linux-tegra@lfdr.de>; Sat, 16 Nov 2019 17:04:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729979AbfKPPsR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 16 Nov 2019 10:48:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55136 "EHLO mail.kernel.org"
+        id S1730790AbfKPQEq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 16 Nov 2019 11:04:46 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60300 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729967AbfKPPsM (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 16 Nov 2019 10:48:12 -0500
+        id S1730787AbfKPPve (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 16 Nov 2019 10:51:34 -0500
 Received: from sasha-vm.mshome.net (unknown [50.234.116.4])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BD19320815;
-        Sat, 16 Nov 2019 15:48:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B51E62186D;
+        Sat, 16 Nov 2019 15:51:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573919292;
-        bh=AEKuXHxzOlWw1jjhUhJvnxQdyfazbBauDavrgiai+r0=;
+        s=default; t=1573919494;
+        bh=Jq7yV1cMB4AnFU+bp4wsDh/McG2TBw5lyeKLoiGpng0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l3PLFyjpRSafXWmJ9lZ2xfuAXxs9AkGdDZTuv3B8VtUHCUGd0GwL0BpMo4xIYqrTX
-         OPvj+3Ai94HWiSUnlzVpCT7Y8OF+7KUhFmZekQdcg3fx+mrgiQ1B5Vi+HVvQGvAN2Z
-         aL1ptYBCi3mkdnXrLJWdzRIcbcWCQlk2VMbP58Iw=
+        b=W7whCTcT6dPaxj3zFK5K1+vYvqgY7SEKMdoAm9BT6927kpm+iy6pCAkSQlr2XHVMA
+         +binbkRs5H95g/tm4/A3iC4a0G2r75JSnOv7lE3NiSK9w2xEQzmkuaxwjO6mEqC0Md
+         M8jZrVtq7BiPUUBfmJTqIzpCz3UMqumNzl6vnrF0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Marcel Ziswiler <marcel.ziswiler@toradex.com>,
         Jon Hunter <jonathanh@nvidia.com>,
         Mark Brown <broonie@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 038/150] ASoC: tegra_sgtl5000: fix device_node refcounting
-Date:   Sat, 16 Nov 2019 10:45:36 -0500
-Message-Id: <20191116154729.9573-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 22/99] ASoC: tegra_sgtl5000: fix device_node refcounting
+Date:   Sat, 16 Nov 2019 10:49:45 -0500
+Message-Id: <20191116155103.10971-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191116154729.9573-1-sashal@kernel.org>
-References: <20191116154729.9573-1-sashal@kernel.org>
+In-Reply-To: <20191116155103.10971-1-sashal@kernel.org>
+References: <20191116155103.10971-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,10 +63,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/tegra/tegra_sgtl5000.c b/sound/soc/tegra/tegra_sgtl5000.c
-index 45a4aa9d2a479..901457da25ec3 100644
+index 1e76869dd4880..863e04809a6b8 100644
 --- a/sound/soc/tegra/tegra_sgtl5000.c
 +++ b/sound/soc/tegra/tegra_sgtl5000.c
-@@ -149,14 +149,14 @@ static int tegra_sgtl5000_driver_probe(struct platform_device *pdev)
+@@ -152,14 +152,14 @@ static int tegra_sgtl5000_driver_probe(struct platform_device *pdev)
  		dev_err(&pdev->dev,
  			"Property 'nvidia,i2s-controller' missing/invalid\n");
  		ret = -EINVAL;
@@ -83,7 +83,7 @@ index 45a4aa9d2a479..901457da25ec3 100644
  
  	ret = snd_soc_register_card(card);
  	if (ret) {
-@@ -169,6 +169,13 @@ static int tegra_sgtl5000_driver_probe(struct platform_device *pdev)
+@@ -172,6 +172,13 @@ static int tegra_sgtl5000_driver_probe(struct platform_device *pdev)
  
  err_fini_utils:
  	tegra_asoc_utils_fini(&machine->util_data);
@@ -97,7 +97,7 @@ index 45a4aa9d2a479..901457da25ec3 100644
  err:
  	return ret;
  }
-@@ -183,6 +190,12 @@ static int tegra_sgtl5000_driver_remove(struct platform_device *pdev)
+@@ -186,6 +193,12 @@ static int tegra_sgtl5000_driver_remove(struct platform_device *pdev)
  
  	tegra_asoc_utils_fini(&machine->util_data);
  
