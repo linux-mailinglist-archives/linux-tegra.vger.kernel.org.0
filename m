@@ -2,56 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7C95100274
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 11:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E38C4100275
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 11:35:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726511AbfKRKfr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Nov 2019 05:35:47 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42315 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726460AbfKRKfr (ORCPT
+        id S1726460AbfKRKfs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Nov 2019 05:35:48 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37381 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726490AbfKRKfs (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Nov 2019 05:35:47 -0500
-Received: by mail-wr1-f66.google.com with SMTP id a15so18786314wrf.9
-        for <linux-tegra@vger.kernel.org>; Mon, 18 Nov 2019 02:35:45 -0800 (PST)
+        Mon, 18 Nov 2019 05:35:48 -0500
+Received: by mail-wr1-f67.google.com with SMTP id t1so18787156wrv.4
+        for <linux-tegra@vger.kernel.org>; Mon, 18 Nov 2019 02:35:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3Arjdx6BTpMTXW8TBPIMgVl/if98l4HWaSeTJB2xI84=;
-        b=f75GY31PtMmJgvDguzoF4VK6ST8pAAK0xk3f9DA3aDZdXaJo5Xrfz6H3LsBxTe7BB0
-         +LoY31LmGLiju3cNkrgcvtILIQKpHKJprdwTFnEgX27ZpBk4NLFZ9QF/QiEsNayDInbw
-         8Hh1QJCDt8Vm16vqG96MiNYaY2pwyibvPXejk=
+        bh=YpxWMRcpbAZ8vRO0hhGeBAkizcjjb+EwGPq78LSGoIc=;
+        b=JjYHPvN4fgfI7MF2pubeKuD+GYtD7BlbPRDIfYCkJ91CYZjGSX/+8DgwlDnPfkaXue
+         6rRUxbjmyP4SYql5CzSTzlnPpS+reeUlWHSv1S63Wr5WTyDtWwKjPYLsOnGa8riu29zV
+         4M8YnhhCfzJBXW7beNGhAMpJ2dNrzaWuwdBck=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3Arjdx6BTpMTXW8TBPIMgVl/if98l4HWaSeTJB2xI84=;
-        b=plRZIow/STfb30UsrSaXCmf+L27v5o23jAt2JAIQwXPHrr3QOARt46zhOm/M0ULr+D
-         kQGoeDJTP/7hI4AbSYRJh5NNL0AuryQEIVbM2U6aPMQlKomZpNKiFCEOG5tRSq5rCVM9
-         vI6nCvHoCPcPC3MgKhvWpVehf8OguLFgLI9/B30umt1OuE/H7V6BZc5pBw6tiKOlIq/N
-         kNeGalG7QvUkxqccz1zYoWUG/Q4WjP++mEXN5jGUi9pKqbvSgcwA8yGecqlh0LYBQT3k
-         CycTem3t4jfWRtkX/HF05Jz477TvXA3G0+quAdeH6l1ssp0bFSUElurnuWoLKcO41RUh
-         ac9g==
-X-Gm-Message-State: APjAAAVAmMBcXcsfRkGxKXT72MB+aDbKrf+Mfo8fFKzsmFheUUDjF/Pa
-        O48rj1Dqda3/OBmWy5cuq67++A==
-X-Google-Smtp-Source: APXvYqxAhg5UoK72Hz48l8L66JhO/0fHPUY5LU+H0eGRu5iwK50dJnV4oyV3aD5Rj/uoUemtS9YXcA==
-X-Received: by 2002:a5d:6706:: with SMTP id o6mr8573693wru.54.1574073345093;
-        Mon, 18 Nov 2019 02:35:45 -0800 (PST)
+        bh=YpxWMRcpbAZ8vRO0hhGeBAkizcjjb+EwGPq78LSGoIc=;
+        b=ErzZQAHJcywJ0FvN+KINENaKbw1icm1wQHlcJaqK7qAHER0Mix/hNvEDl4ePdEI61r
+         JqWJOmGqP2XmHVhdP99RNSsOFG8g+Ghfq1cxEuy3+OlRdPHfen2b2GpYXkqmzhkdY+51
+         8Ywn6qWutFsbbHgV8V4raPifvoGruwCKj3UGiS5ZV8BYfzChqYTZzHShNmhxpXVCFoI6
+         B5Jo0DDtJMX8+6SEHFgbOlnyfbHF7es+fK0/K0J1qparQFv4m7UUby/7FELmbPyStrbM
+         aT0jzIrDKnbfLJLWvyhwMMRNET6w+qMJLI3EnyvdTYpxRP07zNNzDFoRqJqgW1hN6UG5
+         o2hA==
+X-Gm-Message-State: APjAAAXkkWv8+N5Urg7W8EpEuvtaNkRnP+3L1BI0uUp1xJf59/s6UAcU
+        VY6iPXC8hVIGvVE0p+wTAHhSrQ==
+X-Google-Smtp-Source: APXvYqyOGusOciBfG2OBXh6PKwLGp9NKfOVa9T1VHeuE1aaABFM0YzolACCslDVyf3lAWPh08o1InA==
+X-Received: by 2002:a5d:670a:: with SMTP id o10mr20215754wru.312.1574073346158;
+        Mon, 18 Nov 2019 02:35:46 -0800 (PST)
 Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id j2sm22749200wrt.61.2019.11.18.02.35.43
+        by smtp.gmail.com with ESMTPSA id j2sm22749200wrt.61.2019.11.18.02.35.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2019 02:35:44 -0800 (PST)
+        Mon, 18 Nov 2019 02:35:45 -0800 (PST)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>
 Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         Daniel Vetter <daniel.vetter@ffwll.ch>,
         Daniel Vetter <daniel.vetter@intel.com>,
         Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         linux-tegra@vger.kernel.org
-Subject: [PATCH 01/15] drm/tegra: Map cmdbuf once for reloc processing
-Date:   Mon, 18 Nov 2019 11:35:22 +0100
-Message-Id: <20191118103536.17675-2-daniel.vetter@ffwll.ch>
+Subject: [PATCH 02/15] drm/tegra: Delete host1x_bo_ops->k(un)map
+Date:   Mon, 18 Nov 2019 11:35:23 +0100
+Message-Id: <20191118103536.17675-3-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191118103536.17675-1-daniel.vetter@ffwll.ch>
 References: <20191118103536.17675-1-daniel.vetter@ffwll.ch>
@@ -62,77 +63,100 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-A few reasons to drop kmap:
+It doesn't have any callers anymore.
 
-- For native objects all we do is look at obj->vaddr anyway, so might
-  as well not call functions for every page.
-
-- Reloc-processing on dma-buf is ... questionable.
-
-- Plus most dma-buf that bother kernel cpu mmaps give you at least
-  vmap, much less kmaps. And all the ones relevant for arm-soc are
-  again doing a obj->vaddr game anyway, there's no real kmap going on
-  on arm it seems.
-
-Plus this seems to be the only real in-tree user of dma_buf_kmap, and
-I'd like to get rid of that.
+Aside: The ->mmap/munmap hooks have a bit a confusing name, they don't
+do userspace mmaps, but a kernel vmap. I think most places use vmap
+for this, except ttm, which uses kmap for vmap for added confusion.
+mmap seems entirely for userspace mappings set up through mmap(2)
+syscall.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
 Cc: linux-tegra@vger.kernel.org
 ---
- drivers/gpu/host1x/job.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/tegra/gem.c | 28 ----------------------------
+ include/linux/host1x.h      | 13 -------------
+ 2 files changed, 41 deletions(-)
 
-diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
-index 25ca54de8fc5..60b2fedd0061 100644
---- a/drivers/gpu/host1x/job.c
-+++ b/drivers/gpu/host1x/job.c
-@@ -244,8 +244,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 
- static int do_relocs(struct host1x_job *job, struct host1x_job_gather *g)
- {
--	u32 last_page = ~0;
--	void *cmdbuf_page_addr = NULL;
-+	void *cmdbuf_addr = NULL;
- 	struct host1x_bo *cmdbuf = g->bo;
- 	unsigned int i;
- 
-@@ -267,28 +266,22 @@ static int do_relocs(struct host1x_job *job, struct host1x_job_gather *g)
- 			goto patch_reloc;
- 		}
- 
--		if (last_page != reloc->cmdbuf.offset >> PAGE_SHIFT) {
--			if (cmdbuf_page_addr)
--				host1x_bo_kunmap(cmdbuf, last_page,
--						 cmdbuf_page_addr);
-+		if (!cmdbuf_addr) {
-+			cmdbuf_addr = host1x_bo_mmap(cmdbuf);
- 
--			cmdbuf_page_addr = host1x_bo_kmap(cmdbuf,
--					reloc->cmdbuf.offset >> PAGE_SHIFT);
--			last_page = reloc->cmdbuf.offset >> PAGE_SHIFT;
--
--			if (unlikely(!cmdbuf_page_addr)) {
-+			if (unlikely(!cmdbuf_addr)) {
- 				pr_err("Could not map cmdbuf for relocation\n");
- 				return -ENOMEM;
- 			}
- 		}
- 
--		target = cmdbuf_page_addr + (reloc->cmdbuf.offset & ~PAGE_MASK);
-+		target = cmdbuf_addr + reloc->cmdbuf.offset;
- patch_reloc:
- 		*target = reloc_addr;
- 	}
- 
--	if (cmdbuf_page_addr)
--		host1x_bo_kunmap(cmdbuf, last_page, cmdbuf_page_addr);
-+	if (cmdbuf_addr)
-+		host1x_bo_munmap(cmdbuf, cmdbuf_addr);
- 
- 	return 0;
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index 746dae32c484..662cb7c87ef5 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -103,32 +103,6 @@ static void tegra_bo_munmap(struct host1x_bo *bo, void *addr)
+ 		vunmap(addr);
  }
+ 
+-static void *tegra_bo_kmap(struct host1x_bo *bo, unsigned int page)
+-{
+-	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
+-
+-	if (obj->vaddr)
+-		return obj->vaddr + page * PAGE_SIZE;
+-	else if (obj->gem.import_attach)
+-		return dma_buf_kmap(obj->gem.import_attach->dmabuf, page);
+-	else
+-		return vmap(obj->pages + page, 1, VM_MAP,
+-			    pgprot_writecombine(PAGE_KERNEL));
+-}
+-
+-static void tegra_bo_kunmap(struct host1x_bo *bo, unsigned int page,
+-			    void *addr)
+-{
+-	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
+-
+-	if (obj->vaddr)
+-		return;
+-	else if (obj->gem.import_attach)
+-		dma_buf_kunmap(obj->gem.import_attach->dmabuf, page, addr);
+-	else
+-		vunmap(addr);
+-}
+-
+ static struct host1x_bo *tegra_bo_get(struct host1x_bo *bo)
+ {
+ 	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
+@@ -145,8 +119,6 @@ static const struct host1x_bo_ops tegra_bo_ops = {
+ 	.unpin = tegra_bo_unpin,
+ 	.mmap = tegra_bo_mmap,
+ 	.munmap = tegra_bo_munmap,
+-	.kmap = tegra_bo_kmap,
+-	.kunmap = tegra_bo_kunmap,
+ };
+ 
+ static int tegra_bo_iommu_map(struct tegra_drm *tegra, struct tegra_bo *bo)
+diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+index 6f8d772591ba..6edeb9228c4e 100644
+--- a/include/linux/host1x.h
++++ b/include/linux/host1x.h
+@@ -72,8 +72,6 @@ struct host1x_bo_ops {
+ 	void (*unpin)(struct device *dev, struct sg_table *sgt);
+ 	void *(*mmap)(struct host1x_bo *bo);
+ 	void (*munmap)(struct host1x_bo *bo, void *addr);
+-	void *(*kmap)(struct host1x_bo *bo, unsigned int pagenum);
+-	void (*kunmap)(struct host1x_bo *bo, unsigned int pagenum, void *addr);
+ };
+ 
+ struct host1x_bo {
+@@ -119,17 +117,6 @@ static inline void host1x_bo_munmap(struct host1x_bo *bo, void *addr)
+ 	bo->ops->munmap(bo, addr);
+ }
+ 
+-static inline void *host1x_bo_kmap(struct host1x_bo *bo, unsigned int pagenum)
+-{
+-	return bo->ops->kmap(bo, pagenum);
+-}
+-
+-static inline void host1x_bo_kunmap(struct host1x_bo *bo,
+-				    unsigned int pagenum, void *addr)
+-{
+-	bo->ops->kunmap(bo, pagenum, addr);
+-}
+-
+ /*
+  * host1x syncpoints
+  */
 -- 
 2.24.0
 
