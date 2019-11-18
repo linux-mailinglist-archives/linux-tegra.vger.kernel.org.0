@@ -2,94 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 441C71008C2
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 16:55:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A89A010092B
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 17:25:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727364AbfKRPzq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Nov 2019 10:55:46 -0500
-Received: from muru.com ([72.249.23.125]:42722 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727109AbfKRPzq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Nov 2019 10:55:46 -0500
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id AC87E80BF;
-        Mon, 18 Nov 2019 15:56:19 +0000 (UTC)
-Date:   Mon, 18 Nov 2019 07:55:39 -0800
-From:   Tony Lindgren <tony@atomide.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-realtek-soc@lists.infradead.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
+        id S1726322AbfKRQZt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Nov 2019 11:25:49 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:38821 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726216AbfKRQZt (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 18 Nov 2019 11:25:49 -0500
+Received: by mail-lf1-f68.google.com with SMTP id q28so14337009lfa.5
+        for <linux-tegra@vger.kernel.org>; Mon, 18 Nov 2019 08:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DwZQCrcyzqNURPHxyJNs+XQEHUkYuNYLuJ0RNSVriyM=;
+        b=szf0+AfA5N/crDYTX8FpYVJ6wn/O532a8ELrqi1siGzwg2I14rg9IpPrkKUlIzzKTJ
+         SQt8TYCVkMBtEzQTVCRnb7nxTf+voRKr3Wc4d4S7GvM7g3wtYpbKZtqUCY/CK0nVPxE2
+         +1hPC4soCaqU/XSIDKxJfmE/5kT0GURMvYjCp9mT5y5QVC0YNB6f4uCaWX5OqmLwQA9/
+         d68s14n4/ZiSi5BwSqUlRo2wIA15+KrVc/vG2EXSKwVn/cT3v/D+8Msv4QDD5aSUF3VR
+         rfPtVyImSsNwIk86rMW2BihHOVzVSJi9hxEdmwwx3JrTJ0Kw1YTfBfJ6U7Jd26SYRFcy
+         f2Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DwZQCrcyzqNURPHxyJNs+XQEHUkYuNYLuJ0RNSVriyM=;
+        b=PYlgA6su1fNqrdf/SXORnc6rh1NplDcbxQQmSl+dzvifHlfy37LBoSMpwq30wn0phH
+         u6GmjHqArAsufmDPMLqP7LVuiGDk2ex2iFVE55W+3pm7Knz1at2wvlxr0f1B+qetXh5L
+         s7jYdjyFENO2cIs0z7fQHGDTC685obOIZILgyQZ2pJEJpCElxsz/noonakcGoyyQSSVt
+         mq2RRtdiNeEJQOaF92U8aZDC7Oh1YQg7+sDRSgarZQkKp0TAgGKS4aS5iQlH9T1OiM0j
+         iJ/MVkEr1Cxq++Ii/D0W/XOpJZjjZhtPZDUxJqeVxK3oegRXtMkO0r9ExsWLVj53lPuw
+         qpJA==
+X-Gm-Message-State: APjAAAW9LtQGwAlG2EiiQ7V2y06Hp0p6+Gv+bBVwQl40LWcD9bJnUsPu
+        U6caKThMZIHQErhR4rKQvXd+3bKl
+X-Google-Smtp-Source: APXvYqyHVASOTyx0eRxqX3vdXYATU3qG4g1jOd3RtcuYENU64+s2wIATwJBvQ5JkxtSJ5VECGgfIcw==
+X-Received: by 2002:a19:790c:: with SMTP id u12mr166606lfc.183.1574094347079;
+        Mon, 18 Nov 2019 08:25:47 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.gmail.com with ESMTPSA id d24sm8582872ljg.73.2019.11.18.08.25.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2019 08:25:46 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        boot-architecture@lists.linaro.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        "open list:TI ETHERNET SWITCH DRIVER (CPSW)" 
-        <linux-omap@vger.kernel.org>,
-        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hartley Sweeten <hsweeten@visionengravers.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: Sense of soc bus? (was: [PATCH] base: soc: Export
- soc_device_to_device() helper)
-Message-ID: <20191118155539.GB35479@atomide.com>
-References: <586fa37c-6292-aca4-fa7c-73064858afaf@suse.de>
- <20191111064040.GA3502217@kroah.com>
- <a88442df-dc6b-07e5-8dee-9e308bdda450@suse.de>
- <20191112052347.GA1197504@kroah.com>
- <20191112072926.isjxfa4ci6akhx56@pengutronix.de>
- <aff81b8e-f041-73a5-6a95-d308fa07842c@suse.de>
- <c8572f70-5550-8cee-4381-fd7de7ae5af0@baylibre.com>
- <CAMuHMdWOWWQoJh5=07VMRhtrFR_Gc_qNhjTV4tCsvwvMn0kYfA@mail.gmail.com>
- <a0a6d71f-4fb7-51ce-fe33-74f9e588b791@suse.de>
- <CAMuHMdU7EYHWRAR+s3ee4Wy6+6_MZON5xARszO7TDXZGyw8d5w@mail.gmail.com>
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Cc:     linux-tegra@vger.kernel.org
+Subject: [PATCH v3 0/4] Minor cleanup of tegra-apbmisc.c
+Date:   Mon, 18 Nov 2019 19:24:56 +0300
+Message-Id: <20191118162500.6651-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdU7EYHWRAR+s3ee4Wy6+6_MZON5xARszO7TDXZGyw8d5w@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-* Geert Uytterhoeven <geert@linux-m68k.org> [191115 15:51]:
-> On Fri, Nov 15, 2019 at 1:01 PM Andreas Färber <afaerber@suse.de> wrote:
-> > Am 15.11.19 um 09:58 schrieb Geert Uytterhoeven:
-> > > We do our best to use it solely for detecting quirks in early SoC revisions.
-> >
-> > Got a pointer? I fail to immediately understand how sysfs would help
-> > drivers (as opposed to userspace) detect quirks: Parsing strings back
-> > doesn't sound efficient, and I don't see you exporting any custom APIs
-> > in drivers/soc/renesas/renesas-soc.c?
-> 
-> We use soc_device_match(), inside kernel drivers.
-> Exposure through sysfs is a side-effect of using soc_device_register(),
-> and welcomed, as it allows the user to find out quickly which SoC and
-> revision is being used.
+Hello,
 
-For the omap variants too, we've so far gotten away with early SoC
-detection for platform code, and then use soc_device_match() in few
-cases for drivers at probe time if needed.
+There are couple things could be improved in tegra-apbmisc.c and this
+patchset addresses them. Please note that the fallback for older device
+trees was broken for T124 since 2015, so it is also a minor change.
 
-Regards,
+Changelog:
 
-Tony
+v3: - Michał Mirosław suggested to unmap APB MISC registers after they
+      are not needed anymore. There is now a new patch which does that,
+      see patch "Unmap registers once they are not needed anymore".
+
+v2: - Corrected commit's title of the "Warn if straps are not ready" patch.
+
+Dmitry Osipenko (4):
+  soc/tegra: fuse: Cache values of straps and Chip ID registers
+  soc/tegra: fuse: Warn if straps are not ready
+  soc/tegra: fuse: Correct straps' address for older Tegra124 device
+    trees
+  soc/tegra: fuse: Unmap registers once they are not needed anymore
+
+ drivers/soc/tegra/fuse/tegra-apbmisc.c | 33 +++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
+
+-- 
+2.23.0
+
