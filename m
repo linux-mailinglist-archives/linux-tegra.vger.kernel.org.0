@@ -2,108 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F643FFE97
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 07:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BC861001B0
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 10:50:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726551AbfKRGfp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Nov 2019 01:35:45 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:9070 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726347AbfKRGfp (ORCPT
+        id S1726539AbfKRJt5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Nov 2019 04:49:57 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:5828 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726488AbfKRJt5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Nov 2019 01:35:45 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd23bc10000>; Sun, 17 Nov 2019 22:35:45 -0800
+        Mon, 18 Nov 2019 04:49:57 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dd269420000>; Mon, 18 Nov 2019 01:49:54 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sun, 17 Nov 2019 22:35:44 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 18 Nov 2019 01:49:57 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sun, 17 Nov 2019 22:35:44 -0800
-Received: from [10.25.74.243] (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Mon, 18 Nov 2019 01:49:57 -0800
+Received: from [10.26.11.241] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 Nov
- 2019 06:35:41 +0000
-Subject: Re: stable request: PCI: tegra: Enable Relaxed Ordering only for
- Tegra20 & Tegra30
-From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <ben@decadent.org.uk>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <stable@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Krishna Thota <kthota@nvidia.com>
-References: <11251eb0-5675-9d3d-d15f-c346781e2bff@nvidia.com>
- <20191111130908.GA448544@kroah.com>
- <9d7871e7-f8aa-1ed5-dc2e-37ba6f218a2f@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <cd787fce-3675-a2d1-90a7-5fa0c4b3f946@nvidia.com>
-Date:   Mon, 18 Nov 2019 12:05:38 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ 2019 09:49:54 +0000
+Subject: Re: [PATCH] usb: host: xhci-tegra: Correct phy enable sequence
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Nagarjuna Kristam <nkristam@nvidia.com>,
+        <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, Jui Chang Kuo <jckuo@nvidia.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <1572859470-7823-1-git-send-email-nkristam@nvidia.com>
+ <20191107153231.GC2580600@ulmo>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <e36b8dad-768b-bc2e-6aba-1ee96fd9deeb@nvidia.com>
+Date:   Mon, 18 Nov 2019 09:49:52 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <9d7871e7-f8aa-1ed5-dc2e-37ba6f218a2f@nvidia.com>
+In-Reply-To: <20191107153231.GC2580600@ulmo>
 X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574058945; bh=yC9YmO9iY4x6XOFtTJ1ck/A/zBa81wN0ty/ofzhcMCM=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+        t=1574070594; bh=UwwI8VP046uCwejur/7YzcQ8zuZ+qEr0E6VrEQyZXJ0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=axtTL5tsvJLPbOAKbEFM+B0x9aKxiX3a2ex4f6BuWA9YNl8oCYsQPkP8SSb/YEQWK
-         K9RpKpETTjz7V26J6Gxj4vgvPnx+YmjzUxZyY/goJMZgeqHzbFladMyUaPXnKmdnUt
-         cFoP2WeelsXE2Cw/S+AIOEyA/j4xH34TFpSn6qWHJByNT5xXxV8Nsr8euwW/7se97e
-         eAm7TMhKK9phU3z5RVUz/n4Cp2C//akydgZ7dr1JLWxhTcHX/1hApYjm4aYNmg4Kg9
-         hfSTEk6cVMG9j0ebOXvRV3Zd0OhoEJruC4EThgaSIeN2hyetKhEx6/wEQhCFkaiyv9
-         YxJcyM5xcR1KQ==
+        b=pvK9CeOd2HI8undkM4dPDMwLbNWC3+Z7jrFCPBIDkaeeOL1MRQTglpJt5/hbzZ6qU
+         nj9ekZmj5AV8bFaU7rWO002f6zQpNQ68iC1g309/lhYc5P/rhFh9enyZu+FpanRsZY
+         S4vQnm9mzwVaAodNEqg78BpptvHd3B/mciu8KaaB8UZflOU6NS4NLFPcch15zIAW+b
+         Eogm66BWjT/ylKSUGBTdOWcqHSm/kzYoN7mw03nZZBsQILbnFw94E/NFkyI9bJi2bv
+         Xm6dQTCEpPpz3MmRFIBaDfuO1k/M6Dv0AC+2eQ26t97uCmu1GGXztSz8fG5+OICc6h
+         d19VGkgKQsUNQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 11/11/2019 8:52 PM, Vidya Sagar wrote:
-> On 11/11/2019 6:39 PM, Greg Kroah-Hartman wrote:
->> On Mon, Nov 11, 2019 at 06:24:53PM +0530, Vidya Sagar wrote:
->>> Hi Greg,
->>> We noticed that the Tegra PCIe host controller driver enabled
->>> "Relaxed Ordering" bit in the PCIe configuration space for "all"
->>> devices erroneously. We pushed a fix for this through the
->>> commit: 7be142caabc4780b13a522c485abc806de5c4114 and it has been
->>> soaking in main line for the last four months.
->>> Based on the discussion we had @ http://patchwork.ozlabs.org/patch/1127=
-604/
->>> we would now like to push it to the following stable kernels
->>> 4.19=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : Applies cleanly
->>> 3.16, 4.4, 4.9 & 4.14 : Following equivalent patch needs to be used as =
-the
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- file was at drivers/pci/host/pci-tegra.c earlier
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (and moved to drivers/pci/controller/pci-tegra.c starting 4.19)
->>
->> All now queued up (except for 3.16, that's Ben's tree, he will get to it
->> soon.)
->>
-Hi Ben,
-Could you please queue this up for 3.16 as well?
+Hi Greg,
 
-- Vidya Sagar
-
->> thanks,
+On 07/11/2019 15:32, Thierry Reding wrote:
+> On Mon, Nov 04, 2019 at 02:54:30PM +0530, Nagarjuna Kristam wrote:
+>> XUSB phy needs to be enabled before un-powergating the power partitions.
+>> However in the current sequence, it happens opposite. Correct the phy
+>> enable and powergating partition sequence to avoid any boot hangs.
 >>
->> greg k-h
->>
->=20
-> Thanks a lot Greg.
->=20
-> - Vidya Sagar
+>> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+>> Signed-off-by: Jui Chang Kuo <jckuo@nvidia.com>
+>> ---
+>>  drivers/usb/host/xhci-tegra.c | 25 +++++++++++++------------
+>>  1 file changed, 13 insertions(+), 12 deletions(-)
+> 
+> Acked-by: Thierry Reding <treding@nvidia.com>
 
+Let me know if you can pick this one up? This is fixing a boot
+regression on Tegra210.
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Cheers
+Jon
+
+-- 
+nvpublic
