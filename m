@@ -2,187 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6767100A26
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 18:23:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADAF6100C7E
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 21:05:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726314AbfKRRXS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Nov 2019 12:23:18 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:19132 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726068AbfKRRXS (ORCPT
+        id S1726712AbfKRUFc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Nov 2019 15:05:32 -0500
+Received: from mail-lj1-f170.google.com ([209.85.208.170]:46022 "EHLO
+        mail-lj1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726250AbfKRUFc (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Nov 2019 12:23:18 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd2d3870000>; Mon, 18 Nov 2019 09:23:19 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 18 Nov 2019 09:23:16 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 18 Nov 2019 09:23:16 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 Nov
- 2019 17:23:16 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 18 Nov 2019 17:23:16 +0000
-Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.48]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5dd2d3800001>; Mon, 18 Nov 2019 09:23:15 -0800
-From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
-        <rjw@rjwysocki.net>, <okaya@kernel.org>, <treding@nvidia.com>,
-        <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>,
-        <sagar.tv@gmail.com>
-Subject: [PATCH] PCI: Introduce pci_dev_wait() in pci_power_up() API
-Date:   Mon, 18 Nov 2019 22:53:10 +0530
-Message-ID: <20191118172310.21373-1-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+        Mon, 18 Nov 2019 15:05:32 -0500
+Received: by mail-lj1-f170.google.com with SMTP id n21so20392550ljg.12;
+        Mon, 18 Nov 2019 12:05:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+lYduyo7vPgxp45RLwsY0ZnQLiYVsuFTry8aLXbx4kM=;
+        b=APzSWzS1AWv0t0oARIksAL9UGz8A49gKk4636qenUrw+Td8W04Iz2y8qkPl3AHCr6m
+         l/Y7ReHNWM+fX2S6YoWckzLWIag7992BEYqUq4Gn7ppw4+46i/FfNOopAHsAijIGhjKR
+         tD7SA9PLTVi2s4wgrPZldc+6eFwRb93c5lbw3Ix93bgb7lhuXJ0PlExD9gV/yxANzVju
+         ztDiniGHZn5D2BJ4iYP8hDynklw+eD4ahvr9rBJ6wzY3kA2s+pBf2hpwaxyTKPUB/KNS
+         oCMyalrSMkpWiyay05T2MnJa3wwN2B5WySinWwolMDf4wTAKiDFgGzlR2428ByxDD+/O
+         jcJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+lYduyo7vPgxp45RLwsY0ZnQLiYVsuFTry8aLXbx4kM=;
+        b=AMrUuEqRyNQAn3dbqdRGGtTItKb5Fqwy8rXr3WzjZenWV+UtT10zk+EnoQkLWpjxBW
+         qUGdlehbMOQYlf1cITyuSyeOjDbZt0W26wxL5tjvnHfkl5VyTsQmRQj6JsmEJ00GFDHk
+         wpbo9+lDmAOlKtVBa77VW9e+iKzxr1RSCtnv7SGjfxQy93HGeFzTowEHaDlgDlgAo2or
+         uSmCKuMPkLnhAjPjaAqPLQ1AE+uGSRg6grlGSAqDVYTO1xOp+mXfGojAFjdI3/SdDhY/
+         uoA1F7RKuq7rirncpEBEBzDHSjWzp8uKaih9+Y81U/cAL6oUzILxSilKxhypXJEljdjC
+         BcJA==
+X-Gm-Message-State: APjAAAWPyEXjNhCZbod6A2BIvO7BmfM+DT0+MYhBcSc9JjBVzIr01DRJ
+        v7ngAjC3ipwZPWfQOhAxjck=
+X-Google-Smtp-Source: APXvYqxptZWcgvS7sdySo1sH5FxDJRVUucG9P8wDoJrg5exzZstUPyRLwr6nfSCBfGL7tbiFLrJUzA==
+X-Received: by 2002:a2e:574d:: with SMTP id r13mr934150ljd.10.1574107529313;
+        Mon, 18 Nov 2019 12:05:29 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.gmail.com with ESMTPSA id j23sm9166942lji.41.2019.11.18.12.05.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2019 12:05:28 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v1 00/29] Introduce memory interconnect for NVIDIA Tegra SoCs
+Date:   Mon, 18 Nov 2019 23:02:18 +0300
+Message-Id: <20191118200247.3567-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574097799; bh=ihVUQNLjAssKv4H0szqfWuePCcLyIfiH0WLfc8zuPF0=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=ec/zw4B96PqTRoIxhe6UjyI64N+kMv5g1uPV2Em/24ri1HxT4DDrvSJCdm3qpuWiv
-         nPEIz3E9RJne7IBZQv4aXYzeco4Y7rYlqluvXC4zFjUdsfOY+WQdmFDzilBtJJ+Kqg
-         aM7OYTk3jJ4JaS0Jv0gufE/ltxoLfXXPPT6Y25tkNg1xz3bRTRJbqdlhz1KFtLLqL5
-         v/wnA5u0nXnfc5IhWs/eLRgvrrV1N4M9fOQd8UuT2UHp+PVWBXGnSdAF85dDngQstu
-         nt397Ad90/jzE2avvZZHUMhhAfsbgA6d4N+qqzEeA8X4AqoiOGJrMzkrYMfbg/Ry2t
-         kr2NVdPlZ6tdw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add pci_dev_wait() in pci_power_up() before accessing the configuration
-space of a device for the first time in the system resume sequence.
-This is  to accommodate devices (Ex:- Intel 750 NVMe) that respond with CRS
-status while they get ready for configuration space access and before they
-finally start responding with proper values. It also refactors code to move
-pci_dev_wait() ahead of pci_power_up() to avoid build error.
+Hello,
 
-Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
----
- drivers/pci/pci.c | 89 +++++++++++++++++++++++++----------------------
- 1 file changed, 48 insertions(+), 41 deletions(-)
+This series brings initial support for memory interconnect to Tegra20,
+Terga30 and Tegra124 SoCs. The interconnect provides are quite generic
+and should be suitable for all Tegra SoCs, but currently upstream kernel
+has EMC/MC drivers only for those three generations of Tegra SoCs.
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 599b2fc99234..7672b9a44bac 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1020,6 +1020,47 @@ void pci_wakeup_bus(struct pci_bus *bus)
- 		pci_walk_bus(bus, pci_wakeup, NULL);
- }
- 
-+static int pci_dev_wait(struct pci_dev *dev, char *reset_type, int timeout)
-+{
-+	int delay = 1;
-+	u32 id;
-+
-+	/*
-+	 * After reset, the device should not silently discard config
-+	 * requests, but it may still indicate that it needs more time by
-+	 * responding to them with CRS completions.  The Root Port will
-+	 * generally synthesize ~0 data to complete the read (except when
-+	 * CRS SV is enabled and the read was for the Vendor ID; in that
-+	 * case it synthesizes 0x0001 data).
-+	 *
-+	 * Wait for the device to return a non-CRS completion.  Read the
-+	 * Command register instead of Vendor ID so we don't have to
-+	 * contend with the CRS SV value.
-+	 */
-+	pci_read_config_dword(dev, PCI_COMMAND, &id);
-+	while (id == ~0) {
-+		if (delay > timeout) {
-+			pci_warn(dev, "not ready %dms after %s; giving up\n",
-+				 delay - 1, reset_type);
-+			return -ENOTTY;
-+		}
-+
-+		if (delay > 1000)
-+			pci_info(dev, "not ready %dms after %s; waiting\n",
-+				 delay - 1, reset_type);
-+
-+		msleep(delay);
-+		delay *= 2;
-+		pci_read_config_dword(dev, PCI_COMMAND, &id);
-+	}
-+
-+	if (delay > 1000)
-+		pci_info(dev, "ready %dms after %s\n", delay - 1,
-+			 reset_type);
-+
-+	return 0;
-+}
-+
- /**
-  * pci_power_up - Put the given device into D0
-  * @dev: PCI device to power up
-@@ -1045,6 +1086,13 @@ int pci_power_up(struct pci_dev *dev)
- 		pci_wakeup_bus(dev->subordinate);
- 	}
- 
-+	/*
-+	 * Wait for those devices (Ex: Intel 750 NVMe) that are not ready yet
-+	 * and responding with CRS statuses for the configuration space
-+	 * requests.
-+	 */
-+	pci_dev_wait(dev, "Switch to D0", PCIE_RESET_READY_POLL_MS);
-+
- 	return pci_raw_set_power_state(dev, PCI_D0);
- }
- 
-@@ -4420,47 +4468,6 @@ int pci_wait_for_pending_transaction(struct pci_dev *dev)
- }
- EXPORT_SYMBOL(pci_wait_for_pending_transaction);
- 
--static int pci_dev_wait(struct pci_dev *dev, char *reset_type, int timeout)
--{
--	int delay = 1;
--	u32 id;
--
--	/*
--	 * After reset, the device should not silently discard config
--	 * requests, but it may still indicate that it needs more time by
--	 * responding to them with CRS completions.  The Root Port will
--	 * generally synthesize ~0 data to complete the read (except when
--	 * CRS SV is enabled and the read was for the Vendor ID; in that
--	 * case it synthesizes 0x0001 data).
--	 *
--	 * Wait for the device to return a non-CRS completion.  Read the
--	 * Command register instead of Vendor ID so we don't have to
--	 * contend with the CRS SV value.
--	 */
--	pci_read_config_dword(dev, PCI_COMMAND, &id);
--	while (id == ~0) {
--		if (delay > timeout) {
--			pci_warn(dev, "not ready %dms after %s; giving up\n",
--				 delay - 1, reset_type);
--			return -ENOTTY;
--		}
--
--		if (delay > 1000)
--			pci_info(dev, "not ready %dms after %s; waiting\n",
--				 delay - 1, reset_type);
--
--		msleep(delay);
--		delay *= 2;
--		pci_read_config_dword(dev, PCI_COMMAND, &id);
--	}
--
--	if (delay > 1000)
--		pci_info(dev, "ready %dms after %s\n", delay - 1,
--			 reset_type);
--
--	return 0;
--}
--
- /**
-  * pcie_has_flr - check if a device supports function level resets
-  * @dev: device to check
+For the start only display controllers are getting interconnect API
+support, others could be supported later on. The display controllers
+have the biggest demand for interconnect API right now because dynamic
+memory frequency scaling can't be done safely without taking into account
+bandwidth requirement from the displays.
+
+Dmitry Osipenko (29):
+  dt-bindings: memory: tegra20: mc: Document new interconnect property
+  dt-bindings: memory: tegra20: emc: Document new interconnect property
+  dt-bindings: memory: tegra30: mc: Document new interconnect property
+  dt-bindings: memory: tegra30: emc: Document new interconnect property
+  dt-bindings: memory: tegra124: mc: Document new interconnect property
+  dt-bindings: memory: tegra124: emc: Document new interconnect property
+  dt-bindings: host1x: Document new interconnect properties
+  dt-bindings: interconnect: tegra: Add initial IDs
+  ARM: tegra: Add interconnect properties to Tegra20 device-tree
+  ARM: tegra: Add interconnect properties to Tegra30 device-tree
+  ARM: tegra: Add interconnect properties to Tegra124 device-tree
+  interconnect: Add memory interconnection providers for NVIDIA Tegra
+    SoCs
+  memory: tegra: Register as interconnect provider
+  memory: tegra: Add interconnect nodes for Terga20 display controllers
+  memory: tegra: Add interconnect nodes for Terga30 display controllers
+  memory: tegra: Add interconnect nodes for Terga124 display controllers
+  memory: tegra20-emc: Use devm_platform_ioremap_resource
+  memory: tegra20-emc: Continue probing if timings/IRQ are missing in
+    device-tree
+  memory: tegra20-emc: Register as interconnect provider
+  memory: tegra30-emc: Continue probing if timings are missing in
+    device-tree
+  memory: tegra30-emc: Register as interconnect provider
+  memory: tegra124-emc: Use devm_platform_ioremap_resource
+  memory: tegra124-emc: Register as interconnect provider
+  drm/tegra: dc: Use devm_platform_ioremap_resource
+  drm/tegra: dc: Release PM and RGB output when client's registration
+    fails
+  drm/tegra: dc: Support memory bandwidth management
+  ARM: tegra: Enable interconnect API in tegra_defconfig
+  ARM: multi_v7_defconfig: Enable NVIDIA Tegra interconnect providers
+  MAINTAINERS: Add maintainers for NVIDIA Tegra interconnect drivers
+
+ .../display/tegra/nvidia,tegra20-host1x.txt   |  67 +++++
+ .../nvidia,tegra124-emc.txt                   |   3 +
+ .../nvidia,tegra124-mc.yaml                   |   5 +
+ .../memory-controllers/nvidia,tegra20-emc.txt |   4 +
+ .../memory-controllers/nvidia,tegra20-mc.txt  |   4 +
+ .../nvidia,tegra30-emc.yaml                   |   6 +
+ .../memory-controllers/nvidia,tegra30-mc.yaml |   5 +
+ MAINTAINERS                                   |   9 +
+ arch/arm/boot/dts/tegra124.dtsi               |  10 +
+ arch/arm/boot/dts/tegra20.dtsi                |  11 +-
+ arch/arm/boot/dts/tegra30.dtsi                |  12 +-
+ arch/arm/configs/multi_v7_defconfig           |   2 +
+ arch/arm/configs/tegra_defconfig              |   2 +
+ drivers/gpu/drm/tegra/dc.c                    | 252 +++++++++++++++++-
+ drivers/gpu/drm/tegra/dc.h                    |   8 +
+ drivers/gpu/drm/tegra/drm.c                   |  18 ++
+ drivers/gpu/drm/tegra/plane.c                 |   1 +
+ drivers/gpu/drm/tegra/plane.h                 |   4 +-
+ drivers/interconnect/Kconfig                  |   1 +
+ drivers/interconnect/Makefile                 |   1 +
+ drivers/interconnect/tegra/Kconfig            |   6 +
+ drivers/interconnect/tegra/Makefile           |   4 +
+ drivers/interconnect/tegra/tegra-icc-emc.c    | 138 ++++++++++
+ drivers/interconnect/tegra/tegra-icc-mc.c     | 130 +++++++++
+ drivers/memory/tegra/mc.c                     |   4 +
+ drivers/memory/tegra/tegra124-emc.c           |  28 +-
+ drivers/memory/tegra/tegra124.c               |  16 ++
+ drivers/memory/tegra/tegra20-emc.c            |  91 ++++---
+ drivers/memory/tegra/tegra20.c                |  14 +
+ drivers/memory/tegra/tegra30-emc.c            |  34 ++-
+ drivers/memory/tegra/tegra30.c                |  14 +
+ include/dt-bindings/interconnect/tegra-icc.h  |  11 +
+ include/soc/tegra/mc.h                        |  26 ++
+ 33 files changed, 883 insertions(+), 58 deletions(-)
+ create mode 100644 drivers/interconnect/tegra/Kconfig
+ create mode 100644 drivers/interconnect/tegra/Makefile
+ create mode 100644 drivers/interconnect/tegra/tegra-icc-emc.c
+ create mode 100644 drivers/interconnect/tegra/tegra-icc-mc.c
+ create mode 100644 include/dt-bindings/interconnect/tegra-icc.h
+
 -- 
-2.17.1
+2.23.0
 
