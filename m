@@ -2,59 +2,61 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB87BFFE89
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 07:33:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5891DFFE8A
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 07:33:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726347AbfKRGdz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S1726302AbfKRGdz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Mon, 18 Nov 2019 01:33:55 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51382 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726302AbfKRGdy (ORCPT
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52744 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726331AbfKRGdz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Nov 2019 01:33:54 -0500
-Received: by mail-wm1-f66.google.com with SMTP id q70so16041089wme.1
-        for <linux-tegra@vger.kernel.org>; Sun, 17 Nov 2019 22:33:52 -0800 (PST)
+        Mon, 18 Nov 2019 01:33:55 -0500
+Received: by mail-wm1-f65.google.com with SMTP id l1so16037549wme.2
+        for <linux-tegra@vger.kernel.org>; Sun, 17 Nov 2019 22:33:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=35YhNlP7XHyfbfIvRXQyE3MF+iWQvCIj1yQe5xoyT64=;
-        b=c2yTCxlbyF9DKXPnbPuU6cgd0OJ8C78edMT/pWyZZl4QZgMUPyKeWr1nSGiXLRGK6c
-         j3ufxqINSzDaFiFJEceuV+cpj7obJfm127FT1A8ZlgTXPEPOtmX0ioREvwFFxc9+CFsF
-         juIvhvwMlLa0H7W6z2vUcCdBHEXQFv3sOdj/7+S/ZX3X8jCzMBIcmoD+/EDdw/i9MV7a
-         oWAHrz8yFiT1zVC14JQJ3aOtXJntmX/AqjgnnvkcHWfC+ZWoZYym+rjPY4K4oPLAiAIN
-         XY3Q9sSKhiiyo+/G2H6U+Vx3EO/izO9HnpPyCATLGfefJrzeQri2y3lzdQXr1jRhNQvx
-         U43w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=XNC2rG8gGXEQf4LCM3KTSpNqUdh+je7EpE8ph64yiAs=;
+        b=M8Zk4T+WOvGqLEmQ6/7hg18700RiB8I81KMmKpualEHu3kjd+ah3Qr0mYSvqGkoVGK
+         wG/kxfQzjLZfcNED0eE89lzRlY1BCSQApYUEGP+mzqmrCBCeqHsrUyao5C1Ek92MFOBf
+         dzGYUBu/3KKIng8wz/PjGHq81GqTkKACEYUXZYBqLcHyaR4N0TkiAMJLIOUdulBrweoi
+         chqIKqULMipBAoeF5I1WkikYtQSY9vOHycwpXvsnJXBDeD+L0U+Gfaiv1ZidLTjOFGXT
+         mhEgcFzP3UAMkVprAZgbIyTKuzK+cQ2VzWc30dD/IEgTcFm7uJkrbw9n4Vyf3f1MXFbM
+         Qxbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=35YhNlP7XHyfbfIvRXQyE3MF+iWQvCIj1yQe5xoyT64=;
-        b=HqigKZrWcbKPcsD7kF4grQzRadgB343qHkNZfAisQQaQ+zFfoXGOUCvlqyr8Kax2JP
-         O+FL5kotfPrIsDI7DpTX2kJjwqETYtBPZX21U0WGfdiInusodKInFDhoGlsdhPG8nP+E
-         n+ES+2u8Rq4sFDMHhIiRiIur1zzgxmWsRFwDwZWQPEDaNSn11GY7/oEKKlVlby8i/2Cy
-         HEMR1rE4n+YYCyYQiIjNpVdDGa+TG+LoH6QUlJZcXXlf+xZlXclBztDykBsXq0iuL7V8
-         OxP04ybz6592efnxRFxZfmFl2Qv8lwXC0zsw+WvxwaHL4X2+TUGKKWHCWlJjB55/sBYl
-         SQhQ==
-X-Gm-Message-State: APjAAAXeHFicEB9CJxr/qPBlAeceihzx/G6Jk0lKnqo581dV1kEmbOtl
-        7lvhYLP6BJ7e8+43M8DKMJk=
-X-Google-Smtp-Source: APXvYqwQCJiG/puUxtO0L3NAyS183k5IgtY2GxGRDkNl1D0ypWzfjRbCF2l6U06y9KFst7XBvfONsg==
-X-Received: by 2002:a1c:984b:: with SMTP id a72mr28162457wme.78.1574058831216;
-        Sun, 17 Nov 2019 22:33:51 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=XNC2rG8gGXEQf4LCM3KTSpNqUdh+je7EpE8ph64yiAs=;
+        b=qKX9ywbxZLjI9Yo+YLsQR6xk/S/BKBf8TZU3bWLQbuBAiBXyZqYoJkU4zIpEOyyNI3
+         j1T9ntgYzDOesRPhBURCW0KEzUQT/Rvd/VLxF2vc/ODNwnwdJDwQuivarXoSxRy678bH
+         t1qH1yeWkilBhGeh0CgxGsUoxpe9vF3c2H4+74o4D3ZsP8zI1KY/eGoeulvWwtzuUn1j
+         WoUE0A1C/T8ToI2/N6CWr+1GuB4pRAT6KCxxUqV5nCWDls3RuCzaK2eGFzzzSUXqmAF/
+         4VWfICR/d7W6AJrNKYnc57+k9+qsPJcEDFEsg7a5/Csi22rQMZQXE+JCtr9465hpwvRD
+         MxRg==
+X-Gm-Message-State: APjAAAXMH+rXnReU2vnRL0isgXrcUVeKIVYNlcBEKbNtnLTDTstxLla+
+        72LudBgL7v3dENW4g5OCtc8=
+X-Google-Smtp-Source: APXvYqwdGY+HNOq7NFjKGy5aoM5P3FBocaP00aMYBlygoQxnmvWhJNhcpioHF7oyQmiGbnNyXw4KJw==
+X-Received: by 2002:a7b:ce86:: with SMTP id q6mr26488418wmj.20.1574058833107;
+        Sun, 17 Nov 2019 22:33:53 -0800 (PST)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id 5sm18143862wmk.48.2019.11.17.22.33.49
+        by smtp.gmail.com with ESMTPSA id a26sm10976908wmm.14.2019.11.17.22.33.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Nov 2019 22:33:50 -0800 (PST)
+        Sun, 17 Nov 2019 22:33:52 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Jon Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Vidya Sagar <vidyas@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 1/3] soc/tegra: pmc: Use lower-case for hexadecimal literals
-Date:   Mon, 18 Nov 2019 07:33:46 +0100
-Message-Id: <20191118063348.1816857-1-thierry.reding@gmail.com>
+Subject: [PATCH 2/3] soc/tegra: pmc: Add missing IRQ callbacks on Tegra194
+Date:   Mon, 18 Nov 2019 07:33:47 +0100
+Message-Id: <20191118063348.1816857-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191118063348.1816857-1-thierry.reding@gmail.com>
+References: <20191118063348.1816857-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -64,26 +66,28 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The remainder of the file uses lower-case for hexadecimal literals, so
-change the only odd-one-out occurrence for consistency.
+Reuse the IRQ callbacks from Tegra186 on Tegra194. This fixes failures
+to request interrupts on Tegra194 due to the missing callbacks.
 
+Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
+Fixes: aba19827fced ("soc/tegra: pmc: Support wake events on more Tegra SoCs")
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/soc/tegra/pmc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/soc/tegra/pmc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 4e51248634f8..927eeecd34e5 100644
+index 927eeecd34e5..32b3e8d9155f 100644
 --- a/drivers/soc/tegra/pmc.c
 +++ b/drivers/soc/tegra/pmc.c
-@@ -2805,7 +2805,7 @@ static const struct tegra_pmc_regs tegra186_pmc_regs = {
- 	.dpd2_status = 0x80,
- 	.rst_status = 0x70,
- 	.rst_source_shift = 0x2,
--	.rst_source_mask = 0x3C,
-+	.rst_source_mask = 0x3c,
- 	.rst_level_shift = 0x0,
- 	.rst_level_mask = 0x3,
+@@ -2947,6 +2947,8 @@ static const struct tegra_pmc_soc tegra194_pmc_soc = {
+ 	.regs = &tegra186_pmc_regs,
+ 	.init = NULL,
+ 	.setup_irq_polarity = tegra186_pmc_setup_irq_polarity,
++	.irq_set_wake = tegra186_pmc_irq_set_wake,
++	.irq_set_type = tegra186_pmc_irq_set_type,
+ 	.num_wake_events = ARRAY_SIZE(tegra194_wake_events),
+ 	.wake_events = tegra194_wake_events,
  };
 -- 
 2.23.0
