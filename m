@@ -2,94 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98E5D100415
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 12:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B58A100425
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 12:30:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726518AbfKRL1o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Nov 2019 06:27:44 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:5079 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726464AbfKRL1o (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Nov 2019 06:27:44 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd280300000>; Mon, 18 Nov 2019 03:27:44 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 18 Nov 2019 03:27:43 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 18 Nov 2019 03:27:43 -0800
-Received: from [10.26.11.241] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 Nov
- 2019 11:27:42 +0000
-Subject: Re: [PATCH v1] memory: tegra30-emc: Fix panic on suspend
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>
-References: <20191115162642.11397-1-digetx@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <e94db40c-9084-231a-385b-8f49762c8889@nvidia.com>
-Date:   Mon, 18 Nov 2019 11:27:39 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726647AbfKRLai (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Nov 2019 06:30:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42606 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726464AbfKRLai (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 18 Nov 2019 06:30:38 -0500
+Received: from localhost (unknown [89.205.134.48])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 010B32067D;
+        Mon, 18 Nov 2019 11:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574076637;
+        bh=H3i+gHw8E0S3hgkR052bIbfInTjMeL3lLEtWgGswTJY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BeskiS2+wbvC30svjRjA09BJCC5UY49TsjtkH3qtA1mGB57nFLtn0vl0u8pkDDrpX
+         098BjahemcRJ9hsZrNasjSyBMiFKx9lJT+PrCzxtl5Vi4fpe73uc0mAteVd5f6s6Ck
+         Y1H4hFLgFbHAGybYDQVGdrfDgCSLgo5FPeq/FtFA=
+Date:   Mon, 18 Nov 2019 12:30:34 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Nagarjuna Kristam <nkristam@nvidia.com>,
+        linux-usb@vger.kernel.org, Jui Chang Kuo <jckuo@nvidia.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH] usb: host: xhci-tegra: Correct phy enable sequence
+Message-ID: <20191118113034.GF156486@kroah.com>
+References: <1572859470-7823-1-git-send-email-nkristam@nvidia.com>
+ <20191107153231.GC2580600@ulmo>
+ <e36b8dad-768b-bc2e-6aba-1ee96fd9deeb@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20191115162642.11397-1-digetx@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574076464; bh=9e6kluJK5G79AaxwH0IyKVSI7xgRBhP3aqlRH4nONZA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=UmOKxvoaHb3PAInUsTTY962NAA3N9+YszpHOIMbOLQm9t0U1HHOkj05FgfX5VyDgW
-         U7anhuccYghk9lVv7nC7rL1a6ILWu1nHJzRkf9CcULXxDHdgoOnGghZQsbt4fAKL1/
-         kY+A4FdoreH4YOqHdau30WAhQMSzf6Yv/x25PluBi3jLTamwRZMe+ecr7QVHn2X3AN
-         wiBKsxl3sqJIbcdZg+zD2tb1kBbwxnvwmUZetNGgYrHoRdeLIg3BGd/tD1Rh8jphVo
-         Pzzy2F/y+ImJo/Hnwg1ieRS7efjhln8frt4EnlN+B10LnQy3W6V7+LSBkLzPXF0XsX
-         meqmFC6V/LmBw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e36b8dad-768b-bc2e-6aba-1ee96fd9deeb@nvidia.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 15/11/2019 16:26, Dmitry Osipenko wrote:
-> Trying to suspend driver results in a crash if timings aren't available in
-> device-tree.
+On Mon, Nov 18, 2019 at 09:49:52AM +0000, Jon Hunter wrote:
+> Hi Greg,
 > 
-> Reported-by: Jon Hunter <jonathanh@nvidia.com>
-> Fixes: e34212c75a68 ("memory: tegra: Introduce Tegra30 EMC driver")
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/memory/tegra/tegra30-emc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On 07/11/2019 15:32, Thierry Reding wrote:
+> > On Mon, Nov 04, 2019 at 02:54:30PM +0530, Nagarjuna Kristam wrote:
+> >> XUSB phy needs to be enabled before un-powergating the power partitions.
+> >> However in the current sequence, it happens opposite. Correct the phy
+> >> enable and powergating partition sequence to avoid any boot hangs.
+> >>
+> >> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> >> Signed-off-by: Jui Chang Kuo <jckuo@nvidia.com>
+> >> ---
+> >>  drivers/usb/host/xhci-tegra.c | 25 +++++++++++++------------
+> >>  1 file changed, 13 insertions(+), 12 deletions(-)
+> > 
+> > Acked-by: Thierry Reding <treding@nvidia.com>
 > 
-> diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
-> index 6929980bf907..0b6a5e451ea3 100644
-> --- a/drivers/memory/tegra/tegra30-emc.c
-> +++ b/drivers/memory/tegra/tegra30-emc.c
-> @@ -1093,7 +1093,7 @@ static int tegra_emc_probe(struct platform_device *pdev)
->  	if (of_get_child_count(pdev->dev.of_node) == 0) {
->  		dev_info(&pdev->dev,
->  			 "device-tree node doesn't have memory timings\n");
-> -		return 0;
-> +		return -ENODEV;
->  	}
->  
->  	np = of_parse_phandle(pdev->dev.of_node, "nvidia,memory-controller", 0);
+> Let me know if you can pick this one up? This is fixing a boot
+> regression on Tegra210.
 > 
+> Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
-Thanks for the fix!
+Will do so now, sorry for the delay.
 
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-
-Jon
-
--- 
-nvpublic
+greg k-h
