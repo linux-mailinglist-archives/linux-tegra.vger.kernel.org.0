@@ -2,67 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C616E10045F
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 12:39:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1589E1004B9
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 12:50:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbfKRLjC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Nov 2019 06:39:02 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:7136 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726490AbfKRLjC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Nov 2019 06:39:02 -0500
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 011D0E533B7CE34D698E;
-        Mon, 18 Nov 2019 19:39:00 +0800 (CST)
-Received: from huawei.com (10.90.53.225) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.439.0; Mon, 18 Nov 2019
- 19:38:50 +0800
-From:   zhengbin <zhengbin13@huawei.com>
-To:     <treding@nvidia.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-        <jonathanh@nvidia.com>, <dri-devel@lists.freedesktop.org>,
-        <linux-tegra@vger.kernel.org>
-CC:     <zhengbin13@huawei.com>
-Subject: [PATCH 2/2] drm/tegra: Use PTR_ERR_OR_ZERO() to simplify code in tegra_gem_create
-Date:   Mon, 18 Nov 2019 19:46:12 +0800
-Message-ID: <1574077572-59152-3-git-send-email-zhengbin13@huawei.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1574077572-59152-1-git-send-email-zhengbin13@huawei.com>
-References: <1574077572-59152-1-git-send-email-zhengbin13@huawei.com>
+        id S1727056AbfKRLuj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Nov 2019 06:50:39 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:7570 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726552AbfKRLui (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 18 Nov 2019 06:50:38 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dd2858b0000>; Mon, 18 Nov 2019 03:50:35 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 18 Nov 2019 03:50:38 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 18 Nov 2019 03:50:38 -0800
+Received: from [10.26.11.241] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 Nov
+ 2019 11:50:36 +0000
+Subject: Re: [PATCH 1/3] soc/tegra: pmc: Use lower-case for hexadecimal
+ literals
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20191118063348.1816857-1-thierry.reding@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <823d83ea-43fe-ff95-dac4-13d0175cfc18@nvidia.com>
+Date:   Mon, 18 Nov 2019 11:50:34 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.225]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20191118063348.1816857-1-thierry.reding@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574077835; bh=fW4OBLsb3fhl18/LrFjJiXznAlL7+PUeaFu8tV8alv0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=NsNgGvVO4fkgb1rkQ7Yz6Jo1PMf1y0dW//+EdBV3Mva5GcrcU2UeT6h1K4jeDhCBV
+         r3uA3Gk4+xxSSMnfwlgPYbnnAUGBaKULCNAlvp9OGUyHXpGbW9vx3fs7nXkAI2ZKDf
+         j05s4kXWTeoV+jT2WD4N81nLdMoIAZnjuQadf+YW6cwjsi9+H3waXJEiyCC5RaX9or
+         DRTHXwM7gY8AZhSe+0lKg7ewFbaTdACLugHISekDnEWZ4W0n3gzuCe5Y9xhePHPcN2
+         DojBAV5mpI3s9KW+0cI4dG06o/0ItrfDe171vXmaVCwEPR5elJOXFwipZjmlVHB5oj
+         sayPCJlyDS4NQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Fixes coccicheck warning:
 
-drivers/gpu/drm/tegra/drm.c:350:1-3: WARNING: PTR_ERR_OR_ZERO can be used
+On 18/11/2019 06:33, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> The remainder of the file uses lower-case for hexadecimal literals, so
+> change the only odd-one-out occurrence for consistency.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/soc/tegra/pmc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+> index 4e51248634f8..927eeecd34e5 100644
+> --- a/drivers/soc/tegra/pmc.c
+> +++ b/drivers/soc/tegra/pmc.c
+> @@ -2805,7 +2805,7 @@ static const struct tegra_pmc_regs tegra186_pmc_regs = {
+>  	.dpd2_status = 0x80,
+>  	.rst_status = 0x70,
+>  	.rst_source_shift = 0x2,
+> -	.rst_source_mask = 0x3C,
+> +	.rst_source_mask = 0x3c,
+>  	.rst_level_shift = 0x0,
+>  	.rst_level_mask = 0x3,
+>  };
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: zhengbin <zhengbin13@huawei.com>
----
- drivers/gpu/drm/tegra/drm.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 56e5e7a..8b6a1f7d 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -347,10 +347,7 @@ static int tegra_gem_create(struct drm_device *drm, void *data,
+Cheers!
+Jon
 
- 	bo = tegra_bo_create_with_handle(file, drm, args->size, args->flags,
- 					 &args->handle);
--	if (IS_ERR(bo))
--		return PTR_ERR(bo);
--
--	return 0;
-+	return PTR_ERR_OR_ZERO(bo);
- }
-
- static int tegra_gem_mmap(struct drm_device *drm, void *data,
---
-2.7.4
-
+-- 
+nvpublic
