@@ -2,63 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 887E1100668
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 14:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5A821006BA
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 14:44:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726961AbfKRNYB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Nov 2019 08:24:01 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:40652 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726284AbfKRNYB (ORCPT
+        id S1726631AbfKRNoz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Nov 2019 08:44:55 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36157 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726490AbfKRNoz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Nov 2019 08:24:01 -0500
-Received: by mail-wr1-f67.google.com with SMTP id q15so6656442wrw.7
-        for <linux-tegra@vger.kernel.org>; Mon, 18 Nov 2019 05:24:00 -0800 (PST)
+        Mon, 18 Nov 2019 08:44:55 -0500
+Received: by mail-wr1-f65.google.com with SMTP id r10so19556515wrx.3
+        for <linux-tegra@vger.kernel.org>; Mon, 18 Nov 2019 05:44:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=2+oThujBvfTQ1HHMZe0kADM+M8gUvebDa4eh+e7Lnqs=;
-        b=sJaT2KEehNTiHjFieCJzDp/BvOFMujl/mfXgyF6MZPTgiB3OuZ3iqG723MLvdVZXBr
-         VDtOPfzcXfqGOHYCdnWzC8lotS+Bhi4IHetCt5pYCtN3Rq+2h5w4RO9+ONKNDdYq4quX
-         S4QvnIykhOZD8t/1gwqcRf14XWlG4y/Y8pecFjtmdIg53jINX4PBWvQ1R/mdf6qRWRvC
-         /KlKoaCJh9p7Qs7lUAPGxsHBY8dWX1D/47xminyUjusn91SuyG9/XmJyFb24roe86AV/
-         NBft9XrHE5RZm/XrmYIB0Qg3tHDabCAyyfqtu4Iz580CVLG9ecLJc6Wb065D/WvpEIK2
-         iNUg==
+        bh=cBlN/1h/n1C4xNknMXrlM2nqMCgsNCA9mbBICWETfGM=;
+        b=EWAmkELza9qd3e3j0aP6pG2OW/RVmw+HtC00qQ1eegqSqJx16UiSrn6bLdKgdKiWI0
+         3n5yapOKj/03zOZ1RzRysZIWRFqNikWLYJCvoIuKgEPuJmamx+3CC1eCOEeBoT2alRW+
+         KdlN5+ntn9+EUPjAIumZgp7P1f5YcfixT2o/YseLrPHjUyjHWIwZimHJ2RNzGapWJHxM
+         ifUHBQnoiM6b8NJol/wVzZXsJTgnJ6bAAA9im+QDecFxhv7pg57IjyRYnFhtieEvf8Ii
+         EqM8/Y0bNU3xjECHHTozaRzkZgfz1uJ5bV9QQOOs/3k8FHgjozUoKi0F2IV8I1INc2rl
+         ESzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2+oThujBvfTQ1HHMZe0kADM+M8gUvebDa4eh+e7Lnqs=;
-        b=Tk9BJobj2wOUWuZtJR2um+XMgklf3PS8gHmBK4UvhdU5nMwGYF6qv9ZxpZAGm6D/NJ
-         kr9gJDOEkzExzqXUjyP+NXroBezlPh5AwmPDl21q/3yuiIyJKlQXyi3zLBpz1MZaiLRl
-         C2kwdFkJe1lrRchWJzbM/oL6372wpAkYwPvhUh6SULXehfgZD6SQzb54goXe7WxOdHRu
-         ZPSDY6Llziaq8xS5NXOCbP6Pi6D4TV1kESGV7XoJ0IOO6BoNFkD9Q9AvfqEDBvi4vX0A
-         Ki62XyF138omEEr/UcQNTR5RnlkYmX3wpcgQZgUZSwWMzBXP6VVwNQKxLUnFXspsC8h4
-         PSjg==
-X-Gm-Message-State: APjAAAWhKMHqL2SnIq0EvX92Ud0J7OiIP3crHXaGCmFluZIC8DEj9qER
-        qewvi5jSFoYMs9F7sY95kyg=
-X-Google-Smtp-Source: APXvYqxneYQYNTdLLRfiG4+4rOyHceDXAy++0/66oG+zWkA+g6tzBXSeQJkywQCBNP+wasSE2f1Mhg==
-X-Received: by 2002:adf:ab41:: with SMTP id r1mr32232759wrc.281.1574083439269;
-        Mon, 18 Nov 2019 05:23:59 -0800 (PST)
+        bh=cBlN/1h/n1C4xNknMXrlM2nqMCgsNCA9mbBICWETfGM=;
+        b=Kg9FInOZbJ19pSLndogpSde7k/cFWGdQVp1kKQVkj/ok/CVahyvfPXpjEQnbkTWO2q
+         +GxEEtPycfvcrQ/Yx7RHBO1aWHvaOZo9fnUE+NR3MdGFNFUlxQ4U6byqheEp1Ps99gky
+         2WsQYWKlzVjzRBwm5xMuaxyhXwC2zB1bJNVHcTixYrHhGrA9indDVhOzRpB+cV3HQ18J
+         Q2FJp8eHIsFBFmixShsilocBgBwkVzetcsNzxfxpPIkd3FgGOHiigJrW5dTBiLDGShV9
+         3ToZVJVwTPA0anPz8cfhMSGh9G8Dnu4JCYhsy8r4/brQNCO/Whjbdzk2OdnhQg66eWEg
+         Id/A==
+X-Gm-Message-State: APjAAAVnLvCAMP0jW5ueMi4PDIWCMjWZFGFZnY2sQoHKEy0giibf7kFN
+        Z2jdwGB19SpA7N8NHMO6KFrF+zhAv7U=
+X-Google-Smtp-Source: APXvYqwnquK2v+isw4M56+bea/AVu3mBorW0nFKpuC8zSvWHbMuT7jp415D/N7cw1/hnGLGOKvAp+w==
+X-Received: by 2002:a5d:6550:: with SMTP id z16mr29840482wrv.66.1574084692261;
+        Mon, 18 Nov 2019 05:44:52 -0800 (PST)
 Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id h140sm21933957wme.22.2019.11.18.05.23.58
+        by smtp.gmail.com with ESMTPSA id x8sm22918316wrm.7.2019.11.18.05.44.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2019 05:23:58 -0800 (PST)
-Date:   Mon, 18 Nov 2019 14:23:57 +0100
+        Mon, 18 Nov 2019 05:44:50 -0800 (PST)
+Date:   Mon, 18 Nov 2019 14:44:49 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     zhengbin <zhengbin13@huawei.com>
-Cc:     treding@nvidia.com, airlied@linux.ie, daniel@ffwll.ch,
-        jonathanh@nvidia.com, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 0/2] drm/tegra: Use PTR_ERR_OR_ZERO() to simplify code
-Message-ID: <20191118132357.GC2246533@ulmo>
-References: <1574077572-59152-1-git-send-email-zhengbin13@huawei.com>
+To:     Ben Skeggs <bskeggs@redhat.com>, Joerg Roedel <joro@8bytes.org>
+Cc:     Ben Dooks <ben.dooks@codethink.co.uk>,
+        Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] drm/nouveau: Various fixes for GP10B
+Message-ID: <20191118134449.GG2246533@ulmo>
+References: <20191102175637.3065-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zCKi3GIZzVBPywwA"
+        protocol="application/pgp-signature"; boundary="FwyhczKCDPOVeYh6"
 Content-Disposition: inline
-In-Reply-To: <1574077572-59152-1-git-send-email-zhengbin13@huawei.com>
+In-Reply-To: <20191102175637.3065-1-thierry.reding@gmail.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -66,44 +66,60 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---zCKi3GIZzVBPywwA
+--FwyhczKCDPOVeYh6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 18, 2019 at 07:46:10PM +0800, zhengbin wrote:
-> zhengbin (2):
->   drm/tegra: Use PTR_ERR_OR_ZERO() to simplify code in
->     tegra_bo_dumb_create
->   drm/tegra: Use PTR_ERR_OR_ZERO() to simplify code in tegra_gem_create
+On Sat, Nov 02, 2019 at 06:56:28PM +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 >=20
->  drivers/gpu/drm/tegra/drm.c | 5 +----
->  drivers/gpu/drm/tegra/gem.c | 5 +----
->  2 files changed, 2 insertions(+), 8 deletions(-)
+> Hi Ben,
+>=20
+> here's a revised subset of the patches I had sent out a couple of weeks
+> ago. I've reworked the BAR2 accesses in the way that you had suggested,
+> which at least for GP10B turned out to be fairly trivial to do. I have
+> not looked in detail at this for GV11B yet, but a cursory look showed
+> that BAR2 is accessed in more places, so the equivalent for GV11B might
+> be a bit more involved.
+>=20
+> Other than that, not a lot has changed since then. I've added a couple
+> of precursory patches to add IOMMU helper dummies for the case where
+> IOMMU is disabled (as suggested by Ben Dooks).
+>=20
+> Joerg, it'd be great if you could give an Acked-by on those two patches
+> so that Ben can pick them both up into the Nouveau tree. Alternatively I
+> can put them both into a stable branch and send a pull request to both
+> of you. Or yet another alternative would be for Joerg to apply them now
+> and Ben to wait for v5.5-rc1 until he picks up the rest. All of those
+> work for me.
 
-As I explained in response to the same patches sent for other drivers
-already, I don't think this has any merit.
+Hi Joerg, Ben,
+
+do you guys have any further comments on this series? I've got an
+updated patch to silence the warning that the kbuild robot flagged, so
+if there are no other comments I can send a final v3 of the series.
 
 Thierry
 
---zCKi3GIZzVBPywwA
+--FwyhczKCDPOVeYh6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3Sm20ACgkQ3SOs138+
-s6Evdg//QOlrbxFxraVGzdTmFWlFsmJ6OwQSOGxufr2gbH2Cpk9BOiAhspTui/RH
-GQYR2dUFFihpoXrC3PUVAASsg05R6cinxYDRps838ekBdHd3hSP/jtNpnYJ7+A0n
-7nf4+j43HPLQ1PfHGx4UQzyzuorNLy6q3JrUNDaumU6EO9yQYW1i6z6pbaEY74/I
-tcFm5eU2iSY9yeIMJcYdOHrzpiKF7w4Nq5sy5iY1t949VMj3dJv101gHSoK2cZ5D
-3iw2aYg5rhsOmflfWlktmwyT1eCYINB6NveSvWKRKo/0cHq2xg6jlJJMBnG4dioa
-nmksq2eQwXLrktKjvlQ2Bz8E5Sj4SDyHIFWERYqdWoPOPhuNiawrUgY67C6PDl9L
-Qm91wBibK+ih9hHvZ9NHmBJofU01p77PFN4MDF/j9im7hvfSYfqwN7f+C3hhnq2z
-NU0DYyRG1TLpHNLItF7LVEJ+1NYFsoafDKuogNaQV66CSMEZ33vZkLHTaoKcKZrE
-0XRGISUHCf5Uw6NKTbIml+l8/YlBoHU+MaOTuBOs1NPFKko3bN3ZIHyR6TNh2gg9
-Veb6pq1LRp/ZqcgqmcnC3AOmTIG5F37kNtE0f8YXdt5jrvdq8UrHlVsS4DD6rEtq
-MkT7umxMr/xTulGBLXPHiHCPQ836zY9oCUkbLNlDZdx1W93YTKk=
-=4hdT
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3SoFEACgkQ3SOs138+
+s6H1sw//TEml9ZrPUemKFYIMfOWf6dFC1MUTYzGiajNIxv4J/7FqdNnBqUm6RT1o
+uROgL3iqP7fAoEHg5hVhwzRzxAH/bC75nfn9PD+yiPpVOwhqfY3OTwYXyEj3wBld
+G+2TQb5RTHd1HAv14IKsw33fyTMM/P22GGkcRfOuzhu3Q6U1hJCBc7zG3VQWSSN6
+u8bWNlYl0VZ8KcDlQJpYgT6QYOFYmagQGNkCRgeAgDUUKRE7rQ8vVZ6BOjtYv+SY
+5nTKNujyFp1Yoagp3pv23OcyIVWPg6BKd48rb/uq+QqcsDwTXwqTUOlAfhZhyIwn
+CVBDmqpuQL5BJPopvAzVFP/UKZZ0ChE7kuhAPFIOkCO6RVKpKE+1Zvqgb3QXUU4q
+5U7U8hrmwPBRSEhAmTYApzDAx7rqSKIWTm5k82Nm1WfzgyqNb+NubwOwkyRr0u7Y
+RobfXOEjbUCV5F6IejMN/pnufJs6CDPRTlz09roZ32kn5u+ibJyV0Nsa9L1sIwFm
+yJESD3B8y1BA2NCllBwu6semP74zJ5h90Kp4/xvLX/poS+VcY3Owfs7GeO8bDijl
+IwV+qD3RYSlGJmxq2ILPa/fuxxMbIsXLudNeZAtC1zmO28x6aUwYvpyDdgvEEu+P
+G9k1PiUNR9g/gbTv78dAmw62CrEQoss84ESlY5A+pbjAgQh0bLg=
+=74Sg
 -----END PGP SIGNATURE-----
 
---zCKi3GIZzVBPywwA--
+--FwyhczKCDPOVeYh6--
