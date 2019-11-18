@@ -2,105 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D66F100247
-	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 11:21:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7C95100274
+	for <lists+linux-tegra@lfdr.de>; Mon, 18 Nov 2019 11:35:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbfKRKVv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 18 Nov 2019 05:21:51 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:1686 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726541AbfKRKVv (ORCPT
+        id S1726511AbfKRKfr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 18 Nov 2019 05:35:47 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42315 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726460AbfKRKfr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 18 Nov 2019 05:21:51 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd270bf0000>; Mon, 18 Nov 2019 02:21:51 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 18 Nov 2019 02:21:50 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 18 Nov 2019 02:21:50 -0800
-Received: from [10.26.11.241] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 Nov
- 2019 10:21:49 +0000
-Subject: Re: [PATCH] SUNRPC: Avoid RPC delays when exiting suspend
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Trond Myklebust <trondmy@gmail.com>
-CC:     <linux-nfs@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <329228f8-e194-a021-9226-69a9b6a403ce@nvidia.com>
- <20191105142133.28741-1-trond.myklebust@hammerspace.com>
- <3f536791-dbd1-cc9a-c88a-ddc26dd57c00@nvidia.com>
-Message-ID: <2e0bdb35-a033-55e4-464e-97f3fbb2090c@nvidia.com>
-Date:   Mon, 18 Nov 2019 10:21:46 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Mon, 18 Nov 2019 05:35:47 -0500
+Received: by mail-wr1-f66.google.com with SMTP id a15so18786314wrf.9
+        for <linux-tegra@vger.kernel.org>; Mon, 18 Nov 2019 02:35:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=3Arjdx6BTpMTXW8TBPIMgVl/if98l4HWaSeTJB2xI84=;
+        b=f75GY31PtMmJgvDguzoF4VK6ST8pAAK0xk3f9DA3aDZdXaJo5Xrfz6H3LsBxTe7BB0
+         +LoY31LmGLiju3cNkrgcvtILIQKpHKJprdwTFnEgX27ZpBk4NLFZ9QF/QiEsNayDInbw
+         8Hh1QJCDt8Vm16vqG96MiNYaY2pwyibvPXejk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=3Arjdx6BTpMTXW8TBPIMgVl/if98l4HWaSeTJB2xI84=;
+        b=plRZIow/STfb30UsrSaXCmf+L27v5o23jAt2JAIQwXPHrr3QOARt46zhOm/M0ULr+D
+         kQGoeDJTP/7hI4AbSYRJh5NNL0AuryQEIVbM2U6aPMQlKomZpNKiFCEOG5tRSq5rCVM9
+         vI6nCvHoCPcPC3MgKhvWpVehf8OguLFgLI9/B30umt1OuE/H7V6BZc5pBw6tiKOlIq/N
+         kNeGalG7QvUkxqccz1zYoWUG/Q4WjP++mEXN5jGUi9pKqbvSgcwA8yGecqlh0LYBQT3k
+         CycTem3t4jfWRtkX/HF05Jz477TvXA3G0+quAdeH6l1ssp0bFSUElurnuWoLKcO41RUh
+         ac9g==
+X-Gm-Message-State: APjAAAVAmMBcXcsfRkGxKXT72MB+aDbKrf+Mfo8fFKzsmFheUUDjF/Pa
+        O48rj1Dqda3/OBmWy5cuq67++A==
+X-Google-Smtp-Source: APXvYqxAhg5UoK72Hz48l8L66JhO/0fHPUY5LU+H0eGRu5iwK50dJnV4oyV3aD5Rj/uoUemtS9YXcA==
+X-Received: by 2002:a5d:6706:: with SMTP id o6mr8573693wru.54.1574073345093;
+        Mon, 18 Nov 2019 02:35:45 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id j2sm22749200wrt.61.2019.11.18.02.35.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2019 02:35:44 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH 01/15] drm/tegra: Map cmdbuf once for reloc processing
+Date:   Mon, 18 Nov 2019 11:35:22 +0100
+Message-Id: <20191118103536.17675-2-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191118103536.17675-1-daniel.vetter@ffwll.ch>
+References: <20191118103536.17675-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <3f536791-dbd1-cc9a-c88a-ddc26dd57c00@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574072511; bh=mlJ+00JNu6t9wqpwYKUVITU7CEF2Q12woYSyqRytaFc=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=EVBcB8wXkWvgcsv1Osh1ZQq4yh1TJNHkRlYBWHR8JG3bOA47s2Kj7OUXUFn5FdqVX
-         KWzhPq2slFXotno/7MckEQ0cNo5sOEI/8l+B68HDz2h4Ky2Oi/MybaCu0bl0P37FN8
-         rp6ag8EcPvnqlDTw2x1mLho0AgJPIC7IO1QsbsdX/Di+8uP51IdkXzYA29H/7mRSf9
-         Ei5kZQ3qY5xKAxmUt4mKCUVst4Yfs7YcYP9DrJgwuLTZhAhQUmg1caZuXX/X8TNM/a
-         4InzCM0WTBzHlhQR77gPCO7MaSgR2Whb7PX8ncYAotNuWXOeU66JobJDvscIT8So0k
-         XvIXn2AqZL3Cg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Trond,
+A few reasons to drop kmap:
 
-On 06/11/2019 11:15, Jon Hunter wrote:
-> 
-> On 05/11/2019 14:21, Trond Myklebust wrote:
->> Jon Hunter: "I have been tracking down another suspend/NFS related
->> issue where again I am seeing random delays exiting suspend. The delays
->> can be up to a couple minutes in the worst case and this is causing a
->> suspend test we have to fail."
->>
->> Change the use of a deferrable work to a standard delayed one.
->>
->> Reported-by: Jon Hunter <jonathanh@nvidia.com>
->> Fixes: 7e0a0e38fcfea ("SUNRPC: Replace the queue timer with a delayed work function")
->> Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
->> ---
->>  net/sunrpc/sched.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/net/sunrpc/sched.c b/net/sunrpc/sched.c
->> index 360afe153193..987c4b1f0b17 100644
->> --- a/net/sunrpc/sched.c
->> +++ b/net/sunrpc/sched.c
->> @@ -260,7 +260,7 @@ static void __rpc_init_priority_wait_queue(struct rpc_wait_queue *queue, const c
->>  	rpc_reset_waitqueue_priority(queue);
->>  	queue->qlen = 0;
->>  	queue->timer_list.expires = 0;
->> -	INIT_DEFERRABLE_WORK(&queue->timer_list.dwork, __rpc_queue_timer_fn);
->> +	INIT_DELAYED_WORK(&queue->timer_list.dwork, __rpc_queue_timer_fn);
->>  	INIT_LIST_HEAD(&queue->timer_list.list);
->>  	rpc_assign_waitqueue_name(queue, qname);
->>  }
-> 
-> Thanks!
-> 
-> Tested-by: Jon Hunter <jonathanh@nvidia.com>
+- For native objects all we do is look at obj->vaddr anyway, so might
+  as well not call functions for every page.
 
-I see this is now applied in -next, but I am seeing the failures on
-mainline. Any chance we could still get this into v5.4?
+- Reloc-processing on dma-buf is ... questionable.
 
-Cheers
-Jon
+- Plus most dma-buf that bother kernel cpu mmaps give you at least
+  vmap, much less kmaps. And all the ones relevant for arm-soc are
+  again doing a obj->vaddr game anyway, there's no real kmap going on
+  on arm it seems.
 
+Plus this seems to be the only real in-tree user of dma_buf_kmap, and
+I'd like to get rid of that.
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: linux-tegra@vger.kernel.org
+---
+ drivers/gpu/host1x/job.c | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
+index 25ca54de8fc5..60b2fedd0061 100644
+--- a/drivers/gpu/host1x/job.c
++++ b/drivers/gpu/host1x/job.c
+@@ -244,8 +244,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 
+ static int do_relocs(struct host1x_job *job, struct host1x_job_gather *g)
+ {
+-	u32 last_page = ~0;
+-	void *cmdbuf_page_addr = NULL;
++	void *cmdbuf_addr = NULL;
+ 	struct host1x_bo *cmdbuf = g->bo;
+ 	unsigned int i;
+ 
+@@ -267,28 +266,22 @@ static int do_relocs(struct host1x_job *job, struct host1x_job_gather *g)
+ 			goto patch_reloc;
+ 		}
+ 
+-		if (last_page != reloc->cmdbuf.offset >> PAGE_SHIFT) {
+-			if (cmdbuf_page_addr)
+-				host1x_bo_kunmap(cmdbuf, last_page,
+-						 cmdbuf_page_addr);
++		if (!cmdbuf_addr) {
++			cmdbuf_addr = host1x_bo_mmap(cmdbuf);
+ 
+-			cmdbuf_page_addr = host1x_bo_kmap(cmdbuf,
+-					reloc->cmdbuf.offset >> PAGE_SHIFT);
+-			last_page = reloc->cmdbuf.offset >> PAGE_SHIFT;
+-
+-			if (unlikely(!cmdbuf_page_addr)) {
++			if (unlikely(!cmdbuf_addr)) {
+ 				pr_err("Could not map cmdbuf for relocation\n");
+ 				return -ENOMEM;
+ 			}
+ 		}
+ 
+-		target = cmdbuf_page_addr + (reloc->cmdbuf.offset & ~PAGE_MASK);
++		target = cmdbuf_addr + reloc->cmdbuf.offset;
+ patch_reloc:
+ 		*target = reloc_addr;
+ 	}
+ 
+-	if (cmdbuf_page_addr)
+-		host1x_bo_kunmap(cmdbuf, last_page, cmdbuf_page_addr);
++	if (cmdbuf_addr)
++		host1x_bo_munmap(cmdbuf, cmdbuf_addr);
+ 
+ 	return 0;
+ }
 -- 
-nvpublic
+2.24.0
+
