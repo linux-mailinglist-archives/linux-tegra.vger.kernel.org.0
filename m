@@ -2,95 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C41681028CE
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Nov 2019 17:00:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 083251029E2
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Nov 2019 17:56:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728428AbfKSQA1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Nov 2019 11:00:27 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:46179 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727509AbfKSQA0 (ORCPT
+        id S1728445AbfKSQ4N (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Nov 2019 11:56:13 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:37318 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728320AbfKSQ4N (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Nov 2019 11:00:26 -0500
-Received: by mail-oi1-f195.google.com with SMTP id n14so19350085oie.13;
-        Tue, 19 Nov 2019 08:00:23 -0800 (PST)
+        Tue, 19 Nov 2019 11:56:13 -0500
+Received: by mail-lf1-f65.google.com with SMTP id b20so17691489lfp.4;
+        Tue, 19 Nov 2019 08:56:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=giMwmMYCTfwG4t/m7GcZ9wpvpN8uV7OEh8vHMV0l5S0=;
+        b=rmUv4RO88MDLOtSHN6/ZZBmKiLjFBYSKFwhCyvhX3/1sXT3xESgFLG8mDpW2oWH9Fl
+         /MfigHIV5FK4dGGKcQlfHlByQhnj00/6hvQcYo1wWB7dBUD8eHQMeEwxOEoWmnnVKGSc
+         nQJSsYZDKVtWGVfuvbXM6B+41ei9mpONcrBi+fugiqwLgu1MUPi8oAKsectEI8YLv/dI
+         kAW37irsEiTAX/lnlI1WTqe4rYtLERlsK4V7V4XtpddzJUX+adAdAvABrH3WAwMjq+6k
+         hYJw8Ib3vdKZeQ0RAnz05RAoR7kawTZB6A7zVCgmKR+MzDnAxlanLh+6Q//2fwcmgLZ9
+         djdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lOp09REXBJlIhxRQLG3yF3pkOzVMqVXKGYr5zOkYKTU=;
-        b=tvirj1n2/8raLM1mnIsqp2gtwTG5uKIyP1xLwQY0vY3qjRyRnMTQn215elCAXasSfy
-         WSyp8Uwl85PcYNgWjZwZCCdkqTskSJ7Rg1xm3satC2WKj3DCWtIcVjDP0SHl9JfadCE7
-         iQzb2KSMDGkLqXoZ4QACKQLtKY3Q7Mxtk0GCW53GI6ZE3T4ApWiG6V6gSuFNhNyUc/Zb
-         0a/IjQe5z6lDgHz8T0LrFt3P57rYJKyytp5fk+au0tF9Mz2CIDBpgZN0BPu/OZv7iZxX
-         Rt8K5H761gL0OeumSjzBiNg5XjPK7ROO/j9j68puMeduawUwkVi0Ii3t4994/lK3JRSY
-         QfEg==
-X-Gm-Message-State: APjAAAU8JKYPSL1ZgPixnZpQwmt6hecZN3aEXOBQkZEKuEurNgWD71f2
-        JpBl0Ntpex8oGGzdJhPHeyLiWU3wsUy5mfxGH/g=
-X-Google-Smtp-Source: APXvYqyFjVcr3DV/kDkPHFaPjGoNOAPUlx3qgBTMVdhzS/Ov2hib4acxOvn1dSc2R4bN1wN/M0QqvauTflblBxgZCm8=
-X-Received: by 2002:aca:fc92:: with SMTP id a140mr4573964oii.153.1574179223502;
- Tue, 19 Nov 2019 08:00:23 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=giMwmMYCTfwG4t/m7GcZ9wpvpN8uV7OEh8vHMV0l5S0=;
+        b=jol/VHYGBFkRRoojYyTzz3/VhRXRO5Ot73HB0yCrhL4CQY9vDJWoK3tx8JLp72BCg+
+         xB/0PZ51r3k/5zdPNl93LTRY01g3r2QQ/bEzXU4Qi27Mmm99KOzdN1TNBC7Rx3j21soV
+         OUYfjdfCsZ9+uHbwv0mNl/NTRQ8RcDv93PzLn+HfnviX2uB6Ah+dJF/Zw43H5fDfLK44
+         nbGWRUgKtZrLeRO7feYc1Y4MgEkyakrl0j/DokErMJZrik73E26XEs1HZ8YqxavJuD5j
+         Fr52ykj85IqUfeyF64UgjBPsbNS7TjnPb1crVRV8dBVwW/xLzWRzUpMBgUwVWIYsJglk
+         FPrw==
+X-Gm-Message-State: APjAAAXCJS3BwVwbv9/vUBGfWv2hYK46JB4TLaBBkT1S9pjEeU6elJSn
+        YyQZc0z+ZxHAzKySpbVr+88w4anL
+X-Google-Smtp-Source: APXvYqzthkVZ1hMtk0VsW3K9xsqiauD6RdH04NOkFmKx3D6tdSccWVopfg3OX5PNStxfi+4MYkk1mw==
+X-Received: by 2002:ac2:5967:: with SMTP id h7mr4671524lfp.119.1574182570172;
+        Tue, 19 Nov 2019 08:56:10 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id y5sm10749907lfg.5.2019.11.19.08.56.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Nov 2019 08:56:09 -0800 (PST)
+Subject: Re: [PATCH v1 08/29] dt-bindings: interconnect: tegra: Add initial
+ IDs
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+References: <20191118200247.3567-1-digetx@gmail.com>
+ <20191118200247.3567-9-digetx@gmail.com> <20191119062535.GC2462695@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <8cff3af3-42c7-3312-5f98-cd5eb98b7b7a@gmail.com>
+Date:   Tue, 19 Nov 2019 19:56:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191119144315.11261-1-krzk@kernel.org>
-In-Reply-To: <20191119144315.11261-1-krzk@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 19 Nov 2019 17:00:05 +0100
-Message-ID: <CAMuHMdUnn8uYyQ+D=6rp1+R1sE_W-SS1t+EuNHm=vWaKQ9Z6tQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: power: Fix path to power-domain.txt bindings
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        etnaviv@lists.freedesktop.org,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        freedreno@lists.freedesktop.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191119062535.GC2462695@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Krzysztof,
+19.11.2019 09:25, Thierry Reding пишет:
+> On Mon, Nov 18, 2019 at 11:02:26PM +0300, Dmitry Osipenko wrote:
+>> Define interconnect IDs for memory controller (MC), external memory
+>> controller (EMC), external memory (EMEM) and memory clients of display
+>> controllers (DC).
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  include/dt-bindings/interconnect/tegra-icc.h | 11 +++++++++++
+>>  1 file changed, 11 insertions(+)
+>>  create mode 100644 include/dt-bindings/interconnect/tegra-icc.h
 
-On Tue, Nov 19, 2019 at 3:43 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> With split of power domain controller bindings to power-domain.yaml, the
-> consumer part was renamed to power-domain.txt.  Update the references in
-> other bindings.
->
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Fixes: abb4805e343a ("dt-bindings: power: Convert Samsung Exynos Power Domain bindings to json-schema")
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Thanks for your patch!
+Hello Thierry,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> There was a bit of discussion regarding this for a recent patch that I
+> was working on, see:
+> 
+> 	http://patchwork.ozlabs.org/project/linux-tegra/list/?series=140318
 
->  .../bindings/clock/renesas,rcar-gen2-cpg-clocks.txt           | 2 +-
+Thank you very much for the link.
 
-Please note this file is no longer present in next.
-But robh/for-next still has it.
+> I'd rather not use an additional set of definitions for this. The memory
+> controller already has a set of native IDs for memory clients that I
+> think we can reuse for this.
 
-Gr{oetje,eeting}s,
+I missed that it's fine to have multiple ICC connections defined
+per-path, at quick glance looks like indeed it should be fine to re-use
+MC IDs.
 
-                        Geert
+> I've only added these client IDs for Tegra194 because that's where we
+> need it to actually describe a specific hardware quirk, but I can come
+> up with the equivalent for older chips as well.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Older Tegra SoCs have hardware units connected to MC through AHB bus,
+like USB for example. These units do not have MC client IDs and there is
+no MC ID defined for the AHB bus either, but probably it won't be a
+problem to define IDs for them if will be necessary.
