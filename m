@@ -2,98 +2,90 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C79601021D2
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Nov 2019 11:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBB7110239E
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Nov 2019 12:52:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726000AbfKSKQz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Nov 2019 05:16:55 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:12002 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725798AbfKSKQz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Nov 2019 05:16:55 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd3c1190000>; Tue, 19 Nov 2019 02:16:57 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 19 Nov 2019 02:16:54 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 19 Nov 2019 02:16:54 -0800
-Received: from [10.21.132.143] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Nov
- 2019 10:16:51 +0000
-Subject: Re: [PATCH 5.3 00/48] 5.3.12-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20191119050946.745015350@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <a573d737-773b-1f94-d06f-b1d340b416ce@nvidia.com>
-Date:   Tue, 19 Nov 2019 10:16:46 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726548AbfKSLw1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Nov 2019 06:52:27 -0500
+Received: from mga06.intel.com ([134.134.136.31]:54547 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726265AbfKSLw1 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 19 Nov 2019 06:52:27 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2019 03:52:26 -0800
+X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; 
+   d="scan'208";a="200327269"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2019 03:52:22 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        zhengbin <zhengbin13@huawei.com>,
+        Julia Lawall <julia.lawall@lip6.fr>
+Cc:     airlied@linux.ie, dri-devel@lists.freedesktop.org,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        treding@nvidia.com, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 0/2] drm/tegra: Use PTR_ERR_OR_ZERO() to simplify code
+In-Reply-To: <87wobwxf95.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <1574077572-59152-1-git-send-email-zhengbin13@huawei.com> <20191118132357.GC2246533@ulmo> <87wobwxf95.fsf@intel.com>
+Date:   Tue, 19 Nov 2019 13:52:19 +0200
+Message-ID: <87tv70xevg.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20191119050946.745015350@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574158617; bh=1efwVq9Q3t1oWH6RuKo5WTYSNhsT3VKL1rGqZZq2qJQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=EyQlMaKn6iIsXHJ3qAyjJGAnIzrNjTexYVKcSFT184GZegIuzwLT0c3wflPyx7caH
-         vzFhqbLvsKVvV5EmNFXqDje958fBoA6gRkl+ufWZGNEm/eEbgIZdEohDor0Lk1LDey
-         SLd70bGyk26pyTcWNN2EIdl87ZTUOArfaBt6iq+UouqIzZUVHCV7SKTmZsnMJCAlcg
-         gfiEGuHzHNZ3Qj6b4AKKyr831kajB+DG5msZfthFSHN1jx24JZOwFfDrDx1LCC/IwZ
-         MhTCtxo9EORWYpuBtzF9sUtwK9tFHQOJOoKYeIa7v1ex81DtT2fqyxOQ9Kd1KQ38ow
-         9DjIF+lto7NIQ==
+Content-Type: text/plain
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, 19 Nov 2019, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Mon, 18 Nov 2019, Thierry Reding <thierry.reding@gmail.com> wrote:
+>> On Mon, Nov 18, 2019 at 07:46:10PM +0800, zhengbin wrote:
+>>> zhengbin (2):
+>>>   drm/tegra: Use PTR_ERR_OR_ZERO() to simplify code in
+>>>     tegra_bo_dumb_create
+>>>   drm/tegra: Use PTR_ERR_OR_ZERO() to simplify code in tegra_gem_create
+>>> 
+>>>  drivers/gpu/drm/tegra/drm.c | 5 +----
+>>>  drivers/gpu/drm/tegra/gem.c | 5 +----
+>>>  2 files changed, 2 insertions(+), 8 deletions(-)
+>>
+>> As I explained in response to the same patches sent for other drivers
+>> already, I don't think this has any merit.
+>
+> I agree completely.
+>
+> Apparently there's a coccicheck flagging constructs like this; perhaps
+> that should be addressed. Julia?
+>
+> Things like:
+>
+> drivers/gpu/drm/tegra/gem.c:457:1-3: WARNING: PTR_ERR_OR_ZERO can be used
+>
+> leading to:
+>
+>  -	if (IS_ERR(bo))
+>  -		return PTR_ERR(bo);
+>  -
+>  -	return 0;
+>  +	return PTR_ERR_OR_ZERO(bo);
+>
+> I think we have consensus the error path and the happy day scenarios
+> should remain distinct. Moreover, I find PTR_ERR_OR_ZERO() causes me to
+> pause for a moment while the original is a crystal clear immediately.
 
-On 19/11/2019 05:19, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.3.12 release.
-> There are 48 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Thu, 21 Nov 2019 05:02:35 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.12-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+Re consensus, [1][2] and probably more. Per an email search, this pops
+up for the same stuff over and over again. Can we please just remove the
+cocci check?
 
-All tests are passing for Tegra ...
+BR,
+Jani.
 
-Test results for stable-v5.3:
-    12 builds:	12 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    38 tests:	38 pass, 0 fail
 
-Linux version:	5.3.12-rc1-g9ebab9194d83
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Cheers
-Jon
+[1] http://mid.mail-archive.com/daade52d-0dfc-9365-b17c-02e7e785afad@ti.com
+[2] http://mid.mail-archive.com/20191118130022.GM4345@gilmour.lan
 
 -- 
-nvpublic
+Jani Nikula, Intel Open Source Graphics Center
