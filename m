@@ -2,195 +2,187 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB5F6102EEB
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Nov 2019 23:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0CEF102FB1
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Nov 2019 00:06:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727262AbfKSWOc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Nov 2019 17:14:32 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:6791 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726346AbfKSWOc (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Nov 2019 17:14:32 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd469430000>; Tue, 19 Nov 2019 14:14:27 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 19 Nov 2019 14:14:30 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 19 Nov 2019 14:14:30 -0800
-Received: from [10.2.175.254] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Nov
- 2019 22:14:28 +0000
-Subject: Re: [PATCH v1 06/17] soc: pmc: Add blink output clock registration to
- Tegra PMC
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <mperttunen@nvidia.com>,
-        <gregkh@linuxfoundation.org>, <sboyd@kernel.org>,
-        <tglx@linutronix.de>, <robh+dt@kernel.org>, <mark.rutland@arm.com>
-CC:     <allison@lohutok.net>, <pdeschrijver@nvidia.com>,
-        <pgaikwad@nvidia.com>, <mturquette@baylibre.com>,
-        <horms+renesas@verge.net.au>, <Jisheng.Zhang@synaptics.com>,
-        <krzk@kernel.org>, <arnd@arndb.de>, <spujar@nvidia.com>,
-        <josephl@nvidia.com>, <vidyas@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1574146234-3871-1-git-send-email-skomatineni@nvidia.com>
- <1574146234-3871-7-git-send-email-skomatineni@nvidia.com>
- <95f3e928-3e08-abbd-5617-d3570a592c06@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <87dca259-1f3f-6e74-db45-411ed84afba7@nvidia.com>
-Date:   Tue, 19 Nov 2019 14:13:48 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726539AbfKSXGI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Nov 2019 18:06:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53254 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726025AbfKSXGI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 19 Nov 2019 18:06:08 -0500
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8A079222A9;
+        Tue, 19 Nov 2019 23:06:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574204767;
+        bh=0ZxGb8IeKR+ASCSkRVfCYGuXWMT9Mc8Uuj/B9b3d9lg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=PQ934EHXGMFRgp8m9W0Px+nDpIn4ZUBmTVSLvvefYsoNdLB+7St2IuRSB1qYhiqXk
+         QNieOk+53cXP73XxjsURZNRQp+zIRKGTBTYNBVKPramSsiCSPlrPWO/9d/oq6YpVMz
+         rFvw18VhpxnayeRyk6rRyQrV4rNSIoTEYKU0gRdM=
+Date:   Tue, 19 Nov 2019 17:06:03 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Vidya Sagar <vidyas@nvidia.com>
+Cc:     lorenzo.pieralisi@arm.com, rjw@rjwysocki.net, okaya@kernel.org,
+        treding@nvidia.com, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH] PCI: Introduce pci_dev_wait() in pci_power_up() API
+Message-ID: <20191119230603.GA239092@google.com>
 MIME-Version: 1.0
-In-Reply-To: <95f3e928-3e08-abbd-5617-d3570a592c06@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574201667; bh=zfnrwuF7fwDfmzMCOkWaY3fHjm2PBHMW5dwbrnuC3m4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=WvTUAjIZl7UIF6EoPZroqn8VeKqtzlqK80UriHzo6JoKow1rqIx4y6SBOxx6tkoA/
-         urtL5ZcxvztrQ799D+xyIwLflxL9TrWEYtIeFmf/k+AqQvRIxw0QiQEix5iHm0OKL2
-         Ydu1RIZFuP1IM5VRP/gmGtqD8j/uYodaT3A7dWLUV1bXce5LfWrYStd8QRUAaS2Cuk
-         lft8HBO86sFJqjrvltFcya+0DHFqeGdSbRR4a9vos8Ak5Vw6sWng16Eh17SG88WOwD
-         BF7GGrGYW4okdCfz5+UjkrjsoBbBwh7tSuIgmkJPpXjpxC9/iOkkLhE1IoZCs8NaL9
-         8ay23xXwM9rwA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191118172310.21373-1-vidyas@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Nov 18, 2019 at 10:53:10PM +0530, Vidya Sagar wrote:
+> Add pci_dev_wait() in pci_power_up() before accessing the configuration
+> space of a device for the first time in the system resume sequence.
+> This is  to accommodate devices (Ex:- Intel 750 NVMe) that respond with CRS
+> status while they get ready for configuration space access and before they
+> finally start responding with proper values. It also refactors code to move
+> pci_dev_wait() ahead of pci_power_up() to avoid build error.
 
-On 11/19/19 11:34 AM, Dmitry Osipenko wrote:
-> 19.11.2019 09:50, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> Tegra PMC has blink control to output 32 Khz clock out to Tegra
->> blink pin. Blink pad DPD state and enable controls are part of
->> Tegra PMC register space.
->>
->> Currently Tegra clock driver registers blink control by passing
->> PMC address and register offset to clk_register_gate which performs
->> direct PMC access during clk_ops and with this when PMC is in secure
->> mode, any access from non-secure world does not go through.
->>
->> This patch adds blink control registration to the Tegra PMC driver
->> using PMC specific clock gate operations that use tegra_pmc_readl
->> and tegra_pmc_writel to support both secure mode and non-secure
->> mode PMC register access.
->>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   drivers/soc/tegra/pmc.c | 42 +++++++++++++++++++++++++++++++++++++++++=
-+
->>   1 file changed, 42 insertions(+)
->>
->> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
->> index 790a6619ba32..095e89c7fa3f 100644
->> --- a/drivers/soc/tegra/pmc.c
->> +++ b/drivers/soc/tegra/pmc.c
->> @@ -61,12 +61,15 @@
->>   #define  PMC_CNTRL_SYSCLK_OE		BIT(11) /* system clock enable */
->>   #define  PMC_CNTRL_SYSCLK_POLARITY	BIT(10) /* sys clk polarity */
->>   #define  PMC_CNTRL_PWRREQ_POLARITY	BIT(8)
->> +#define  PMC_CNTRL_BLINK_EN		BIT(7)
->>   #define  PMC_CNTRL_MAIN_RST		BIT(4)
->>  =20
->>   #define PMC_WAKE_MASK			0x0c
->>   #define PMC_WAKE_LEVEL			0x10
->>   #define PMC_WAKE_STATUS			0x14
->>   #define PMC_SW_WAKE_STATUS		0x18
->> +#define PMC_DPD_PADS_ORIDE		0x1c
->> +#define  PMC_DPD_PADS_ORIDE_BLINK	BIT(20)
->>  =20
->>   #define DPD_SAMPLE			0x020
->>   #define  DPD_SAMPLE_ENABLE		BIT(0)
->> @@ -79,6 +82,7 @@
->>  =20
->>   #define PWRGATE_STATUS			0x38
->>  =20
->> +#define TEGRA210_PMC_BLINK_TIMER	0x40
->>   #define PMC_IMPL_E_33V_PWR		0x40
->>  =20
->>   #define PMC_PWR_DET			0x48
->> @@ -247,6 +251,9 @@ static struct pmc_clk_init_data tegra_pmc_clks_data[=
-] =3D {
->>   	PMC_CLK(3, 22, 18, 0, 0),
->>   };
->>  =20
->> +static struct pmc_clk_gate blink_override;
->> +static struct pmc_clk_gate blink;
->> +
->>   struct tegra_powergate {
->>   	struct generic_pm_domain genpd;
->>   	struct tegra_pmc *pmc;
->> @@ -359,6 +366,7 @@ struct tegra_pmc_soc {
->>  =20
->>   	struct pmc_clk_init_data *pmc_clks_data;
->>   	unsigned int num_pmc_clks;
->> +	bool has_blink_output;
->>   };
->>  =20
->>   static const char * const tegra186_reset_sources[] =3D {
->> @@ -2530,6 +2538,9 @@ static void tegra_pmc_clock_register(struct tegra_=
-pmc *pmc,
->>   	/* each pmc clock output has a mux and a gate */
->>   	num_clks =3D pmc->soc->num_pmc_clks * 2;
->>  =20
->> +	if (pmc->soc->has_blink_output)
->> +		num_clks +=3D 1;
->> +
->>   	if (!num_clks)
->>   		return;
->>  =20
->> @@ -2604,6 +2615,30 @@ static void tegra_pmc_clock_register(struct tegra=
-_pmc *pmc,
->>   		}
->>   	}
->>  =20
->> +	if (pmc->soc->has_blink_output) {
->> +		tegra_pmc_writel(pmc, 0x0, TEGRA210_PMC_BLINK_TIMER);
->> +		clkgate =3D tegra_pmc_clk_gate_register("blink_override",
->> +						      "clk_32k",
->> +						      0, &blink_override,
->> +					      PMC_DPD_PADS_ORIDE,
->> +						      PMC_DPD_PADS_ORIDE_BLINK,
->> +						      NULL);
->> +		if (IS_ERR(clkgate))
->> +			goto free_clks;
->> +
->> +		clkgate =3D tegra_pmc_clk_gate_register("blink",
->> +						      "blink_override",
->> +						      0, &blink,
->> +						      PMC_CNTRL,
->> +						      PMC_CNTRL_BLINK_EN,
->> +						      NULL);
->> +		if (IS_ERR(clkgate))
->> +			goto free_clks;
->> +
->> +		clk_data->clks[TEGRA_PMC_CLK_BLINK] =3D clkgate;
->> +		clk_register_clkdev(clkgate, "blink", NULL);
-> Tegra20 has pmc->soc->num_pmc_clks =3D 0 and thus num_clks =3D 1, while
-> TEGRA_PMC_CLK_BLINK =3D 6.
->
-> BTW, Tegra30 doesn't boot. I'll try again v2.
->
-> Please fix it all in v2. Compile-test all patches and make at least a
-> boot-test where possible.
->
-> [snip]
+Would you mind splitting this into:
 
-looks like blink output should be enabled during boot for Tegra20 and=20
-Tegra30 platforms.
+  1) Move the pci_dev_wait() definition (no functional change)
+  2) Add the call to pci_dev_wait() from pci_power_up()
 
-Will add init state for blink output in V2. Will compile for old Tegra's=20
-as well and will try boot-test.
+Then the important change will stand out instead of being buried in
+the middle of a big diff that mostly doesn't do anything.
 
+I'm getting uneasy with our use of PCI_COMMAND instead of
+PCI_VENDOR_ID.  If we're going to enable CRS SV, it seems like we
+ought to use it in the way the spec suggests, i.e., by reading the
+Vendor ID.  But that's something for a future patch, not *this* patch.
+
+> Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
+> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+> ---
+>  drivers/pci/pci.c | 89 +++++++++++++++++++++++++----------------------
+>  1 file changed, 48 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 599b2fc99234..7672b9a44bac 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -1020,6 +1020,47 @@ void pci_wakeup_bus(struct pci_bus *bus)
+>  		pci_walk_bus(bus, pci_wakeup, NULL);
+>  }
+>  
+> +static int pci_dev_wait(struct pci_dev *dev, char *reset_type, int timeout)
+> +{
+> +	int delay = 1;
+> +	u32 id;
+> +
+> +	/*
+> +	 * After reset, the device should not silently discard config
+> +	 * requests, but it may still indicate that it needs more time by
+> +	 * responding to them with CRS completions.  The Root Port will
+> +	 * generally synthesize ~0 data to complete the read (except when
+> +	 * CRS SV is enabled and the read was for the Vendor ID; in that
+> +	 * case it synthesizes 0x0001 data).
+> +	 *
+> +	 * Wait for the device to return a non-CRS completion.  Read the
+> +	 * Command register instead of Vendor ID so we don't have to
+> +	 * contend with the CRS SV value.
+> +	 */
+> +	pci_read_config_dword(dev, PCI_COMMAND, &id);
+> +	while (id == ~0) {
+> +		if (delay > timeout) {
+> +			pci_warn(dev, "not ready %dms after %s; giving up\n",
+> +				 delay - 1, reset_type);
+> +			return -ENOTTY;
+> +		}
+> +
+> +		if (delay > 1000)
+> +			pci_info(dev, "not ready %dms after %s; waiting\n",
+> +				 delay - 1, reset_type);
+> +
+> +		msleep(delay);
+> +		delay *= 2;
+> +		pci_read_config_dword(dev, PCI_COMMAND, &id);
+> +	}
+> +
+> +	if (delay > 1000)
+> +		pci_info(dev, "ready %dms after %s\n", delay - 1,
+> +			 reset_type);
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * pci_power_up - Put the given device into D0
+>   * @dev: PCI device to power up
+> @@ -1045,6 +1086,13 @@ int pci_power_up(struct pci_dev *dev)
+>  		pci_wakeup_bus(dev->subordinate);
+>  	}
+>  
+> +	/*
+> +	 * Wait for those devices (Ex: Intel 750 NVMe) that are not ready yet
+> +	 * and responding with CRS statuses for the configuration space
+> +	 * requests.
+> +	 */
+> +	pci_dev_wait(dev, "Switch to D0", PCIE_RESET_READY_POLL_MS);
+> +
+>  	return pci_raw_set_power_state(dev, PCI_D0);
+>  }
+>  
+> @@ -4420,47 +4468,6 @@ int pci_wait_for_pending_transaction(struct pci_dev *dev)
+>  }
+>  EXPORT_SYMBOL(pci_wait_for_pending_transaction);
+>  
+> -static int pci_dev_wait(struct pci_dev *dev, char *reset_type, int timeout)
+> -{
+> -	int delay = 1;
+> -	u32 id;
+> -
+> -	/*
+> -	 * After reset, the device should not silently discard config
+> -	 * requests, but it may still indicate that it needs more time by
+> -	 * responding to them with CRS completions.  The Root Port will
+> -	 * generally synthesize ~0 data to complete the read (except when
+> -	 * CRS SV is enabled and the read was for the Vendor ID; in that
+> -	 * case it synthesizes 0x0001 data).
+> -	 *
+> -	 * Wait for the device to return a non-CRS completion.  Read the
+> -	 * Command register instead of Vendor ID so we don't have to
+> -	 * contend with the CRS SV value.
+> -	 */
+> -	pci_read_config_dword(dev, PCI_COMMAND, &id);
+> -	while (id == ~0) {
+> -		if (delay > timeout) {
+> -			pci_warn(dev, "not ready %dms after %s; giving up\n",
+> -				 delay - 1, reset_type);
+> -			return -ENOTTY;
+> -		}
+> -
+> -		if (delay > 1000)
+> -			pci_info(dev, "not ready %dms after %s; waiting\n",
+> -				 delay - 1, reset_type);
+> -
+> -		msleep(delay);
+> -		delay *= 2;
+> -		pci_read_config_dword(dev, PCI_COMMAND, &id);
+> -	}
+> -
+> -	if (delay > 1000)
+> -		pci_info(dev, "ready %dms after %s\n", delay - 1,
+> -			 reset_type);
+> -
+> -	return 0;
+> -}
+> -
+>  /**
+>   * pcie_has_flr - check if a device supports function level resets
+>   * @dev: device to check
+> -- 
+> 2.17.1
+> 
