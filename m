@@ -2,93 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F143D1019B4
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Nov 2019 07:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C79601021D2
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Nov 2019 11:17:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727938AbfKSGvV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Nov 2019 01:51:21 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:14361 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727926AbfKSGvV (ORCPT
+        id S1726000AbfKSKQz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Nov 2019 05:16:55 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:12002 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725798AbfKSKQz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Nov 2019 01:51:21 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd390e50000>; Mon, 18 Nov 2019 22:51:17 -0800
+        Tue, 19 Nov 2019 05:16:55 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dd3c1190000>; Tue, 19 Nov 2019 02:16:57 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 18 Nov 2019 22:51:20 -0800
+  Tue, 19 Nov 2019 02:16:54 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 18 Nov 2019 22:51:20 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Nov
- 2019 06:51:19 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 19 Nov 2019 06:51:19 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.175.254]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5dd390e60000>; Mon, 18 Nov 2019 22:51:19 -0800
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <digetx@gmail.com>,
-        <mperttunen@nvidia.com>, <gregkh@linuxfoundation.org>,
-        <sboyd@kernel.org>, <tglx@linutronix.de>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>
-CC:     <allison@lohutok.net>, <pdeschrijver@nvidia.com>,
-        <pgaikwad@nvidia.com>, <mturquette@baylibre.com>,
-        <horms+renesas@verge.net.au>, <Jisheng.Zhang@synaptics.com>,
-        <krzk@kernel.org>, <arnd@arndb.de>, <spujar@nvidia.com>,
-        <josephl@nvidia.com>, <vidyas@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        by hqpgpgate101.nvidia.com on Tue, 19 Nov 2019 02:16:54 -0800
+Received: from [10.21.132.143] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Nov
+ 2019 10:16:51 +0000
+Subject: Re: [PATCH 5.3 00/48] 5.3.12-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 17/17] ASoC: nau8825: change Tegra clk_out_2 provider from tegra_car to pmc
-Date:   Mon, 18 Nov 2019 22:50:34 -0800
-Message-ID: <1574146234-3871-18-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1574146234-3871-1-git-send-email-skomatineni@nvidia.com>
-References: <1574146234-3871-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191119050946.745015350@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <a573d737-773b-1f94-d06f-b1d340b416ce@nvidia.com>
+Date:   Tue, 19 Nov 2019 10:16:46 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20191119050946.745015350@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574146277; bh=qTvAji4nlSTfeFg4MTzoqwXKbO75ceIOy1l+c/njykQ=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=XSLyLdvjW2mBOG+rtLmBReEZEyHFu74qYEfUx/86ZVr4Z7mxoCqah+0ytTnGOHT9P
-         NzK4wssJlVWpWFB7z6OZx+jnhNc4J7OBdvSU3j8txYXtlGlBCb0K8AuQoI2Ty9PgZp
-         hfT2aWqNJDCkdXahGVafypYOyy9g4Ds9f3fJyaFxSICM0zIplcL3At6N0wIbY03EsR
-         I5+y/AmWggulqlU6Qv0LAdKI4df/0mzAOrPtjNDNYAas8zekqMIpYRrjhApo9/XtCa
-         6En1WflKGJ6cDuoCx0oKL7GM/r+QndchWXoLuhBLOR1r5JWlb+LYS/cLb+2E1YlsgS
-         PwSQOI5XhhiBw==
+        t=1574158617; bh=1efwVq9Q3t1oWH6RuKo5WTYSNhsT3VKL1rGqZZq2qJQ=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=EyQlMaKn6iIsXHJ3qAyjJGAnIzrNjTexYVKcSFT184GZegIuzwLT0c3wflPyx7caH
+         vzFhqbLvsKVvV5EmNFXqDje958fBoA6gRkl+ufWZGNEm/eEbgIZdEohDor0Lk1LDey
+         SLd70bGyk26pyTcWNN2EIdl87ZTUOArfaBt6iq+UouqIzZUVHCV7SKTmZsnMJCAlcg
+         gfiEGuHzHNZ3Qj6b4AKKyr831kajB+DG5msZfthFSHN1jx24JZOwFfDrDx1LCC/IwZ
+         MhTCtxo9EORWYpuBtzF9sUtwK9tFHQOJOoKYeIa7v1ex81DtT2fqyxOQ9Kd1KQ38ow
+         9DjIF+lto7NIQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Tegra clk_out_1, clk_out_2, and clk_out_3 are part of PMC block and pmc is
-the provider for these clocks.
 
-Update bindings document to use pmc as clock provider for clk_out_2 and
-change id to pmc clock id.
+On 19/11/2019 05:19, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.3.12 release.
+> There are 48 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Thu, 21 Nov 2019 05:02:35 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.12-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- Documentation/devicetree/bindings/sound/nau8825.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All tests are passing for Tegra ...
 
-diff --git a/Documentation/devicetree/bindings/sound/nau8825.txt b/Documentation/devicetree/bindings/sound/nau8825.txt
-index d16d96839bcb..487eb9574ee2 100644
---- a/Documentation/devicetree/bindings/sound/nau8825.txt
-+++ b/Documentation/devicetree/bindings/sound/nau8825.txt
-@@ -101,5 +101,5 @@ Example:
-       nuvoton,crosstalk-enable;
- 
-       clock-names = "mclk";
--      clocks = <&tegra_car TEGRA210_CLK_CLK_OUT_2>;
-+      clocks = <&pmc TEGRA_PMC_CLK_OUT_2>;
-   };
+Test results for stable-v5.3:
+    12 builds:	12 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    38 tests:	38 pass, 0 fail
+
+Linux version:	5.3.12-rc1-g9ebab9194d83
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers
+Jon
+
 -- 
-2.7.4
-
+nvpublic
