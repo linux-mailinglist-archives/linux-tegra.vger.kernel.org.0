@@ -2,111 +2,95 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E80910289F
-	for <lists+linux-tegra@lfdr.de>; Tue, 19 Nov 2019 16:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C41681028CE
+	for <lists+linux-tegra@lfdr.de>; Tue, 19 Nov 2019 17:00:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728088AbfKSPtB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 19 Nov 2019 10:49:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53088 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727937AbfKSPtB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 19 Nov 2019 10:49:01 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 82D99222AB;
-        Tue, 19 Nov 2019 15:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574178540;
-        bh=juNhTd9haTmYXvVnfVW3uB/ECZSFWaFuh0zX+uFUGI8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RnBPqm1DjMPWZyaH6FlQ2+QgeUNTh+ntwzcsX9xq+LGyZkvF6abTeWQ+t8DFw+R/m
-         22HASuWc2qgzAdzOkmgWXaU/H3FkcYJw0ztsrnVjcgHwdiH+slpNlumUG5nDuDQGnq
-         cUK4aaEiabxBqsK6/X4/xRHXZLSODQfKuOkokJrY=
-Date:   Tue, 19 Nov 2019 16:48:57 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 4.19 000/422] 4.19.85-stable review
-Message-ID: <20191119154857.GC1982025@kroah.com>
-References: <20191119051400.261610025@linuxfoundation.org>
- <20468dbc-5b88-f86e-9d5d-5edca4e4be2b@nvidia.com>
- <20191119122417.GA1913916@kroah.com>
- <20191119123003.GA1948960@kroah.com>
- <5598bd6b-c08e-d6e2-c5c3-70b53c95298e@nvidia.com>
+        id S1728428AbfKSQA1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 19 Nov 2019 11:00:27 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:46179 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727509AbfKSQA0 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 19 Nov 2019 11:00:26 -0500
+Received: by mail-oi1-f195.google.com with SMTP id n14so19350085oie.13;
+        Tue, 19 Nov 2019 08:00:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lOp09REXBJlIhxRQLG3yF3pkOzVMqVXKGYr5zOkYKTU=;
+        b=tvirj1n2/8raLM1mnIsqp2gtwTG5uKIyP1xLwQY0vY3qjRyRnMTQn215elCAXasSfy
+         WSyp8Uwl85PcYNgWjZwZCCdkqTskSJ7Rg1xm3satC2WKj3DCWtIcVjDP0SHl9JfadCE7
+         iQzb2KSMDGkLqXoZ4QACKQLtKY3Q7Mxtk0GCW53GI6ZE3T4ApWiG6V6gSuFNhNyUc/Zb
+         0a/IjQe5z6lDgHz8T0LrFt3P57rYJKyytp5fk+au0tF9Mz2CIDBpgZN0BPu/OZv7iZxX
+         Rt8K5H761gL0OeumSjzBiNg5XjPK7ROO/j9j68puMeduawUwkVi0Ii3t4994/lK3JRSY
+         QfEg==
+X-Gm-Message-State: APjAAAU8JKYPSL1ZgPixnZpQwmt6hecZN3aEXOBQkZEKuEurNgWD71f2
+        JpBl0Ntpex8oGGzdJhPHeyLiWU3wsUy5mfxGH/g=
+X-Google-Smtp-Source: APXvYqyFjVcr3DV/kDkPHFaPjGoNOAPUlx3qgBTMVdhzS/Ov2hib4acxOvn1dSc2R4bN1wN/M0QqvauTflblBxgZCm8=
+X-Received: by 2002:aca:fc92:: with SMTP id a140mr4573964oii.153.1574179223502;
+ Tue, 19 Nov 2019 08:00:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5598bd6b-c08e-d6e2-c5c3-70b53c95298e@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+References: <20191119144315.11261-1-krzk@kernel.org>
+In-Reply-To: <20191119144315.11261-1-krzk@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 19 Nov 2019 17:00:05 +0100
+Message-ID: <CAMuHMdUnn8uYyQ+D=6rp1+R1sE_W-SS1t+EuNHm=vWaKQ9Z6tQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: power: Fix path to power-domain.txt bindings
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        etnaviv@lists.freedesktop.org,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        freedreno@lists.freedesktop.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Nov 19, 2019 at 03:07:30PM +0000, Jon Hunter wrote:
-> 
-> On 19/11/2019 12:30, Greg Kroah-Hartman wrote:
-> > On Tue, Nov 19, 2019 at 01:24:17PM +0100, Greg Kroah-Hartman wrote:
-> >> On Tue, Nov 19, 2019 at 09:18:03AM +0000, Jon Hunter wrote:
-> >>>
-> >>> On 19/11/2019 05:13, Greg Kroah-Hartman wrote:
-> >>>> This is the start of the stable review cycle for the 4.19.85 release.
-> >>>> There are 422 patches in this series, all will be posted as a response
-> >>>> to this one.  If anyone has any issues with these being applied, please
-> >>>> let me know.
-> >>>>
-> >>>> Responses should be made by Thu, 21 Nov 2019 05:02:35 +0000.
-> >>>> Anything received after that time might be too late.
-> >>>>
-> >>>> The whole patch series can be found in one patch at:
-> >>>> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.85-rc1.gz
-> >>>> or in the git tree and branch at:
-> >>>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
-> >>>> and the diffstat can be found below.
-> >>>>
-> >>>> thanks,
-> >>>>
-> >>>> greg k-h
-> >>>>
-> >>>> -------------
-> >>>
-> >>> ...
-> >>>
-> >>>> Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> >>>>     ARM: dts: meson8b: odroidc1: enable the SAR ADC
-> >>>
-> >>> This commit is generating the following compilation error for ARM ...
-> >>>
-> >>> arch/arm/boot/dts/meson8b-odroidc1.dtb: ERROR (phandle_references): /soc/cbus@c1100000/adc@8680: Reference to non-existent node or label "vcc_1v8"
-> >>>
-> >>> ERROR: Input tree has errors, aborting (use -f to force output)
-> >>> scripts/Makefile.lib:293: recipe for target 'arch/arm/boot/dts/meson8b-odroidc1.dtb' failed
-> >>> make[1]: *** [arch/arm/boot/dts/meson8b-odroidc1.dtb] Error 2
-> >>> arch/arm/Makefile:348: recipe for target 'dtbs' failed
-> >>> make: *** [dtbs] Error 2
-> >>
-> >> Thanks, will go remove that patch.
-> > 
-> > -rc2 is out with that patch removed.
-> 
-> All tests for Tegra are passing ...
-> 
-> Test results for stable-v4.19:
->     12 builds:	12 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     32 tests:	32 pass, 0 fail
-> 
-> Linux version:	4.19.85-rc2-gaf1bb7db3102
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
-> 
+Hi Krzysztof,
 
-Great, thanks for testing this and 4.14.
+On Tue, Nov 19, 2019 at 3:43 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> With split of power domain controller bindings to power-domain.yaml, the
+> consumer part was renamed to power-domain.txt.  Update the references in
+> other bindings.
+>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Fixes: abb4805e343a ("dt-bindings: power: Convert Samsung Exynos Power Domain bindings to json-schema")
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-greg k-h
+Thanks for your patch!
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+>  .../bindings/clock/renesas,rcar-gen2-cpg-clocks.txt           | 2 +-
+
+Please note this file is no longer present in next.
+But robh/for-next still has it.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
