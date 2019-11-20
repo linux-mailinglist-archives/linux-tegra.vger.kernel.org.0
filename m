@@ -2,114 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FD5F1035E3
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Nov 2019 09:17:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF00103BF3
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Nov 2019 14:39:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727816AbfKTIRf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 Nov 2019 03:17:35 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38906 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726038AbfKTIRf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 Nov 2019 03:17:35 -0500
-Received: from [IPv6:2a00:5f00:102:0:3cf0:90ff:fe97:bc05] (unknown [IPv6:2a00:5f00:102:0:3cf0:90ff:fe97:bc05])
+        id S1731089AbfKTNjD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 Nov 2019 08:39:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46550 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728317AbfKTNjD (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 20 Nov 2019 08:39:03 -0500
+Received: from localhost.localdomain (unknown [118.189.143.39])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        (Authenticated sender: gtucker)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F3E37291278;
-        Wed, 20 Nov 2019 08:17:31 +0000 (GMT)
-Subject: Re: clk/clk-next bisection: boot on tegra124-nyan-big
-To:     Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <treding@nvidia.com>
-Cc:     tomeu.vizoso@collabora.com, mgalka@collabora.com,
-        broonie@kernel.org, matthew.hart@linaro.org, khilman@baylibre.com,
-        enric.balletbo@collabora.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        linux-tegra@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org
-References: <5dd4ce40.1c69fb81.548f8.e723@mx.google.com>
-From:   Guillaume Tucker <guillaume.tucker@collabora.com>
-Message-ID: <53eda2aa-35d0-8776-e2cb-b6c4e8c1ff7f@collabora.com>
-Date:   Wed, 20 Nov 2019 08:17:28 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <5dd4ce40.1c69fb81.548f8.e723@mx.google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        by mail.kernel.org (Postfix) with ESMTPSA id 20045224FC;
+        Wed, 20 Nov 2019 13:39:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574257142;
+        bh=k/mv4PS0TLJKwjt0TZMF7T/0k8AV9H/Q16jTqG7uIuY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Rabewv/y32lMIGOLe4tNDHM38aoxfLCz6lEKA9krmxp1i7buorqMVPsyKrOo1GC1n
+         NScw+IWF/K1O1L7Az40t5TzLAgzlyPC7uh+fotuimBAMHSnuqHsTZAUpNj2kSPkrbH
+         gJQOEQls2mHu88UXqrVw5qIWyrHCA7zgpyWkILOc=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Marc Dietrich <marvin24@gmx.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: [PATCH] staging: nvec: Fix Kconfig indentation
+Date:   Wed, 20 Nov 2019 21:38:58 +0800
+Message-Id: <20191120133858.13369-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 20/11/2019 05:25, kernelci.org bot wrote:
-> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-> * This automated bisection report was sent to you on the basis  *
-> * that you may be involved with the breaking commit it has      *
-> * found.  No manual investigation has been done to verify it,   *
-> * and the root cause of the problem may be somewhere else.      *
-> *                                                               *
-> * If you do send a fix, please include this trailer:            *
-> *   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
-> *                                                               *
-> * Hope this helps!                                              *
-> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-> 
-> clk/clk-next bisection: boot on tegra124-nyan-big
-> 
-> Summary:
->   Start:      cd89054e321a Merge branch 'clk-init-leak' into clk-next
->   Details:    https://kernelci.org/boot/id/5dd486b059b514415acf54bd
->   Plain log:  https://storage.kernelci.org//clk/clk-next/clk-fixes-for-linus-196-gcd89054e321a/arm/tegra_defconfig/gcc-8/lab-collabora/boot-tegra124-nyan-big.txt
->   HTML log:   https://storage.kernelci.org//clk/clk-next/clk-fixes-for-linus-196-gcd89054e321a/arm/tegra_defconfig/gcc-8/lab-collabora/boot-tegra124-nyan-big.html
->   Result:     25175c806a68 clk: tegra: Reimplement SOR clock on Tegra124
-> 
-> Checks:
->   revert:     PASS
->   verify:     PASS
-> 
-> Parameters:
->   Tree:       clk
->   URL:        https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
->   Branch:     clk-next
->   Target:     tegra124-nyan-big
->   CPU arch:   arm
->   Lab:        lab-collabora
->   Compiler:   gcc-8
->   Config:     tegra_defconfig
->   Test suite: boot
-> 
-> Breaking commit found:
-> 
-> -------------------------------------------------------------------------------
-> commit 25175c806a6841149abe46168e0af12593141612
-> Author: Thierry Reding <treding@nvidia.com>
-> Date:   Thu Jul 25 18:19:00 2019 +0200
-> 
->     clk: tegra: Reimplement SOR clock on Tegra124
->     
->     In order to allow the display driver to deal uniformly with all SOR
->     generations, implement the SOR clocks in a way that is compatible with
->     Tegra186 and later.
->     
->     Acked-by: Stephen Boyd <sboyd@kernel.org>
->     Signed-off-by: Thierry Reding <treding@nvidia.com>
+Adjust indentation from spaces to tab (+optional two spaces) as in
+coding style with command like:
+	$ sed -e 's/^        /\t/' -i */Kconfig
 
-There was already a bisection last Thursday which found this
-commit, and Thierry explained that it works in linux-next thanks
-to other patches.  I guess those patches are not going to be
-cherry-picked onto the clk-next branch, so this will keep failing
-until it's rebased.  Is that right?
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ drivers/staging/nvec/Kconfig | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-If so, I can turn off bisections on clk-next for now.  We need to
-have a way in KernelCI to tell that a commit has been fixed to
-cope with this kind of situation in general.
+diff --git a/drivers/staging/nvec/Kconfig b/drivers/staging/nvec/Kconfig
+index 5c12cacf75e1..9fa98c16f1d9 100644
+--- a/drivers/staging/nvec/Kconfig
++++ b/drivers/staging/nvec/Kconfig
+@@ -8,7 +8,7 @@ config MFD_NVEC
+ 	    controller.
+ 
+ 	    To compile this driver as a module, say M here: the module will be
+-            called mfd-nvec
++	    called mfd-nvec
+ 
+ config KEYBOARD_NVEC
+ 	tristate "Keyboard on nVidia compliant EC"
+@@ -18,7 +18,7 @@ config KEYBOARD_NVEC
+ 	  a nVidia compliant embedded controller.
+ 
+ 	  To compile this driver as a module, say M here: the module will be
+-          called keyboard-nvec
++	  called keyboard-nvec
+ 
+ config SERIO_NVEC_PS2
+ 	tristate "PS2 on nVidia EC"
+@@ -28,7 +28,7 @@ config SERIO_NVEC_PS2
+ 	  to a nVidia compliant embedded controller.
+ 
+ 	  To compile this driver as a module, say M here: the module will be
+-          called serio-nvec-ps2
++	  called serio-nvec-ps2
+ 
+ 
+ config NVEC_POWER
+@@ -39,7 +39,7 @@ config NVEC_POWER
+ 	  nVidia compliant embedded controllers.
+ 
+ 	  To compile this driver as a module, say M here: the module will be
+-          called nvec-power
++	  called nvec-power
+ 
+ 
+ config NVEC_PAZ00
+@@ -50,5 +50,5 @@ config NVEC_PAZ00
+ 	  devices, e.g. Toshbia AC100 and Dynabooks AZ netbooks.
+ 
+ 	  To compile this driver as a module, say M here: the module will be
+-          called nvec-paz00
++	  called nvec-paz00
+ 
+-- 
+2.17.1
 
-Thanks,
-Guillaume
