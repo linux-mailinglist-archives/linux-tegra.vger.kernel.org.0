@@ -2,216 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BBCA1033D9
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Nov 2019 06:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5146710342F
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Nov 2019 07:11:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726220AbfKTFZY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 Nov 2019 00:25:24 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:36891 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725554AbfKTFZX (ORCPT
+        id S1726685AbfKTGLZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 Nov 2019 01:11:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53020 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726044AbfKTGLZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 Nov 2019 00:25:23 -0500
-Received: by mail-wm1-f68.google.com with SMTP id b17so6366417wmj.2
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Nov 2019 21:25:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from:cc;
-        bh=v+uBk5IEyaYZ7IF/b+w4lvOtghz7YVivbgrg50na0fw=;
-        b=ov0DGKKWFfs9XQfFjYgGbG8mvNWdUX0PZJC5FicSFBTO+iQBnzhDBYDf0xfmRuuOBr
-         NH2BkVXbo2lWyCvfeEiGRw02G5cV770g6ATNSrTxDBSrdPpvQp1L85Uz7nT/qQxJW5IT
-         xyhtRNPhTqG8zfeU/BCM0G3v0+A3UXpnfHUmdcSugqJ3k5LAmAsa9Q+SgcQAhGHjZ04L
-         EbhorRGcgpqvPHItV7Lsd4FN0lJdIMnjiMPgjXAUFeed0SxhsrEJJfJXJ2TCmg3Slhn4
-         ehgDN3mBkccZSvgglZnOre1cpxyoKkowLiR/7oCYcHl1Nj25tfUFuuA2Q2ODmhNAgSg0
-         5LnQ==
+        Wed, 20 Nov 2019 01:11:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574230283;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=MHQgPT52W5BFw9nmU9WAz3e2f1ymk2wUifEnHSUCrRo=;
+        b=cqJthc/cAZvlw4A+hnUZ/B5dBP/LPyCeWgW3CGr2rQ32cVRzEQD9bRll2bGlZ3Is6gat5A
+        300lL10vSRyjg/JzaTqKokrR5UMqQfOBjr/bUTpUPMahA2/mBadolwWfur/z9kwu1DMA7d
+        E8ljE3IIYJSPyT792M4dyrtWcdfdz0A=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-j1jKTiahPlOe4bgYQusOtg-1; Wed, 20 Nov 2019 01:11:22 -0500
+Received: by mail-ot1-f72.google.com with SMTP id m15so13389109otq.8
+        for <linux-tegra@vger.kernel.org>; Tue, 19 Nov 2019 22:11:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from:cc;
-        bh=v+uBk5IEyaYZ7IF/b+w4lvOtghz7YVivbgrg50na0fw=;
-        b=Ell9Y6dYk9BiCyaDUatWQkmM8vxnQRl/kR0YakmuAN0IZ4GUptTBUg4l7yaw0genCp
-         995s4YMio+NMM7jzPyrKMv3De/u6pPxYmPQU42O65LeGoJZ7Tbq9zDi6TedzEuiuMqBi
-         puqjQ9Vz4EDo8ZGr9xmPKrWJP86NuFlsaUBUjZcjIcFQMA8AwVpyJ3MZw6ONLb2t71Fn
-         ZU+IxFEHkD4bfVu99/EYpTp1fynVKI7P8dSwqMnQNbs5irkV0nMWCBwxiP33hYasEXZU
-         hcQjmORwhWsQ3PyQDZxmkSq46Z8GUtTAa6veqzC7xMB+04l2nd75dQ8Bfj3UVJFZZXKL
-         hLKQ==
-X-Gm-Message-State: APjAAAXuKyqa0YizR/LfeeAC5dpWstYABr9gKBIu2iyQN6005e59lcxQ
-        /qT5opW4+M56yleZtDIHotBXRA==
-X-Google-Smtp-Source: APXvYqwhgSeFCVt1Z3whNFWM5gl6+qPpSEDUXk3HkahrF6XUVFw/zq5QHpMA127VV0d2Ihak5OT+CQ==
-X-Received: by 2002:a1c:1fca:: with SMTP id f193mr894882wmf.173.1574227520777;
-        Tue, 19 Nov 2019 21:25:20 -0800 (PST)
-Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
-        by smtp.gmail.com with ESMTPSA id q15sm29863955wrs.91.2019.11.19.21.25.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2019 21:25:20 -0800 (PST)
-Message-ID: <5dd4ce40.1c69fb81.548f8.e723@mx.google.com>
-Date:   Tue, 19 Nov 2019 21:25:20 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dpJGfZx3Cj0lDz0Nl34BnLGPHmNtsdaIhy7QBlSYdNA=;
+        b=JlIkNaEOz7Y7f/KN2tBu7aIHWYqrUDsCg9E7drOEdXF/WIwowV+GB4Dnhh++7ZEib+
+         T40Ka7QGcnUHKjYb85KLCj1W/Nq3lxqzGBJAKAVvIpXz7bknkOw3Mk53HVhQxEIue81V
+         BbcDlE1LEif6ximzibabJ5XJkODBcxcw12RkqA7u15LVbpnAMS9po4pNhZXyc/pEU4mj
+         69a1PiudhvJheooUZ/ecqkbpwmrfu7b9/h2nLOh3bLpH+c/EiHbzJHBQedXgsE4B13PJ
+         m1pV/fbYx/s1DgGKWl4cZLJGr9hNIk5xvEP5R8qazWMIamdrWoMedezEau8aD2Ht/7HU
+         ZT9A==
+X-Gm-Message-State: APjAAAWVt0nvAbGuD2wXlIpo0u5DgeE1+vhfvpD/V1fnDaABqxSLZuBI
+        xzRtAYe4sJGY6PTx5xU6nyR4lw5gth35zwqFJ/9tCagGezJya7Mp8AgPLJF/fzgdSvlUXwBVu8d
+        XKrkyeRf5v/FwLDIC5+a0tGUMY4AiNTg1Cl6YiR4=
+X-Received: by 2002:aca:55d3:: with SMTP id j202mr1325399oib.152.1574230281886;
+        Tue, 19 Nov 2019 22:11:21 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyq+wH+KgxAVK0czEL+ebk7GljLn6+LLUP630iCkchv5lxYAyJQL9dIazj41yNNSbugAaDCvWwJ12nCjy+zSd0=
+X-Received: by 2002:aca:55d3:: with SMTP id j202mr1325389oib.152.1574230281642;
+ Tue, 19 Nov 2019 22:11:21 -0800 (PST)
 MIME-Version: 1.0
+References: <20191102175637.3065-1-thierry.reding@gmail.com> <20191118134449.GG2246533@ulmo>
+In-Reply-To: <20191118134449.GG2246533@ulmo>
+From:   Ben Skeggs <bskeggs@redhat.com>
+Date:   Wed, 20 Nov 2019 16:11:10 +1000
+Message-ID: <CABDvA==b3g0S1i1xG_Ycjs15LbGUAgKmrLm6pqf+QFdv_qQk9A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] drm/nouveau: Various fixes for GP10B
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Joerg Roedel <joro@8bytes.org>,
+        Ben Dooks <ben.dooks@codethink.co.uk>,
+        Lyude Paul <lyude@redhat.com>,
+        nouveau <nouveau@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-tegra@vger.kernel.org
+X-MC-Unique: j1jKTiahPlOe4bgYQusOtg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Lab-Name: lab-collabora
-X-Kernelci-Branch: clk-next
-X-Kernelci-Tree: clk
-X-Kernelci-Report-Type: bisect
-X-Kernelci-Kernel: clk-fixes-for-linus-196-gcd89054e321a
-Subject: clk/clk-next bisection: boot on tegra124-nyan-big
-To:     tomeu.vizoso@collabora.com, Stephen Boyd <sboyd@kernel.org>,
-        guillaume.tucker@collabora.com, mgalka@collabora.com,
-        Thierry Reding <treding@nvidia.com>, broonie@kernel.org,
-        matthew.hart@linaro.org, khilman@baylibre.com,
-        enric.balletbo@collabora.com
-From:   "kernelci.org bot" <bot@kernelci.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        linux-tegra@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-clk@vger.kernel.org
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-* This automated bisection report was sent to you on the basis  *
-* that you may be involved with the breaking commit it has      *
-* found.  No manual investigation has been done to verify it,   *
-* and the root cause of the problem may be somewhere else.      *
-*                                                               *
-* If you do send a fix, please include this trailer:            *
-*   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
-*                                                               *
-* Hope this helps!                                              *
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+On Mon, Nov 18, 2019 at 11:45 PM Thierry Reding
+<thierry.reding@gmail.com> wrote:
+>
+> On Sat, Nov 02, 2019 at 06:56:28PM +0100, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >
+> > Hi Ben,
+> >
+> > here's a revised subset of the patches I had sent out a couple of weeks
+> > ago. I've reworked the BAR2 accesses in the way that you had suggested,
+> > which at least for GP10B turned out to be fairly trivial to do. I have
+> > not looked in detail at this for GV11B yet, but a cursory look showed
+> > that BAR2 is accessed in more places, so the equivalent for GV11B might
+> > be a bit more involved.
+> >
+> > Other than that, not a lot has changed since then. I've added a couple
+> > of precursory patches to add IOMMU helper dummies for the case where
+> > IOMMU is disabled (as suggested by Ben Dooks).
+> >
+> > Joerg, it'd be great if you could give an Acked-by on those two patches
+> > so that Ben can pick them both up into the Nouveau tree. Alternatively =
+I
+> > can put them both into a stable branch and send a pull request to both
+> > of you. Or yet another alternative would be for Joerg to apply them now
+> > and Ben to wait for v5.5-rc1 until he picks up the rest. All of those
+> > work for me.
+>
+> Hi Joerg, Ben,
+>
+> do you guys have any further comments on this series? I've got an
+> updated patch to silence the warning that the kbuild robot flagged, so
+> if there are no other comments I can send a final v3 of the series.
+I'm on leave at the moment.  But the nouveau fixes look fine to me and
+I'm happy to pick them up once you send a v3, and allow Jeorg to apply
+the rest through his tree.
 
-clk/clk-next bisection: boot on tegra124-nyan-big
+Thanks,
+Ben.
 
-Summary:
-  Start:      cd89054e321a Merge branch 'clk-init-leak' into clk-next
-  Details:    https://kernelci.org/boot/id/5dd486b059b514415acf54bd
-  Plain log:  https://storage.kernelci.org//clk/clk-next/clk-fixes-for-linu=
-s-196-gcd89054e321a/arm/tegra_defconfig/gcc-8/lab-collabora/boot-tegra124-n=
-yan-big.txt
-  HTML log:   https://storage.kernelci.org//clk/clk-next/clk-fixes-for-linu=
-s-196-gcd89054e321a/arm/tegra_defconfig/gcc-8/lab-collabora/boot-tegra124-n=
-yan-big.html
-  Result:     25175c806a68 clk: tegra: Reimplement SOR clock on Tegra124
+>
+> Thierry
 
-Checks:
-  revert:     PASS
-  verify:     PASS
-
-Parameters:
-  Tree:       clk
-  URL:        https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
-  Branch:     clk-next
-  Target:     tegra124-nyan-big
-  CPU arch:   arm
-  Lab:        lab-collabora
-  Compiler:   gcc-8
-  Config:     tegra_defconfig
-  Test suite: boot
-
-Breaking commit found:
-
----------------------------------------------------------------------------=
-----
-commit 25175c806a6841149abe46168e0af12593141612
-Author: Thierry Reding <treding@nvidia.com>
-Date:   Thu Jul 25 18:19:00 2019 +0200
-
-    clk: tegra: Reimplement SOR clock on Tegra124
-    =
-
-    In order to allow the display driver to deal uniformly with all SOR
-    generations, implement the SOR clocks in a way that is compatible with
-    Tegra186 and later.
-    =
-
-    Acked-by: Stephen Boyd <sboyd@kernel.org>
-    Signed-off-by: Thierry Reding <treding@nvidia.com>
-
-diff --git a/drivers/clk/tegra/clk-tegra124.c b/drivers/clk/tegra/clk-tegra=
-124.c
-index 7d231529c3a5..b3110d5b5a6c 100644
---- a/drivers/clk/tegra/clk-tegra124.c
-+++ b/drivers/clk/tegra/clk-tegra124.c
-@@ -1005,20 +1005,24 @@ static struct tegra_devclk devclks[] __initdata =3D=
- {
- 	{ .con_id =3D "hda2hdmi", .dt_id =3D TEGRA124_CLK_HDA2HDMI },
- };
- =
-
--static const char *mux_pllp_pllm_plld_plla_pllc_plld2_clkm[] =3D {
--	"pll_p", "pll_m", "pll_d_out0", "pll_a_out0", "pll_c",
--	"pll_d2_out0", "clk_m"
-+static const char * const sor0_parents[] =3D {
-+	"pll_p_out0", "pll_m_out0", "pll_d_out0", "pll_a_out0", "pll_c_out0",
-+	"pll_d2_out0", "clk_m",
- };
--#define mux_pllp_pllm_plld_plla_pllc_plld2_clkm_idx NULL
- =
-
--static const char *mux_clkm_plldp_sor0out[] =3D {
--	"clk_m", "pll_dp", "sor0_out",
-+static const char * const sor0_out_parents[] =3D {
-+	"clk_m", "sor0_pad_clkout",
- };
--#define mux_clkm_plldp_sor0out_idx NULL
- =
-
- static struct tegra_periph_init_data tegra124_periph[] =3D {
--	MUX8_NOGATE_LOCK("sor0_out", mux_pllp_pllm_plld_plla_pllc_plld2_clkm, CLK=
-_SOURCE_SOR0, tegra_clk_sor0_out, &sor0_lock),
--	NODIV("sor0", mux_clkm_plldp_sor0out, CLK_SOURCE_SOR0, 14, 3, 182, 0, teg=
-ra_clk_sor0, &sor0_lock),
-+	TEGRA_INIT_DATA_TABLE("sor0", NULL, NULL, sor0_parents,
-+			      CLK_SOURCE_SOR0, 29, 0x7, 0, 0, 0, 0,
-+			      0, 182, 0, tegra_clk_sor0, NULL, 0,
-+			      &sor0_lock),
-+	TEGRA_INIT_DATA_TABLE("sor0_out", NULL, NULL, sor0_out_parents,
-+			      CLK_SOURCE_SOR0, 14, 0x1, 0, 0, 0, 0,
-+			      0, 0, TEGRA_PERIPH_NO_GATE, tegra_clk_sor0_out,
-+			      NULL, 0, &sor0_lock),
- };
- =
-
- static struct clk **clks;
----------------------------------------------------------------------------=
-----
-
-
-Git bisection log:
-
----------------------------------------------------------------------------=
-----
-git bisect start
-# good: [dafbb1e6473788cb3068eaeddc58f9d88e9c7a62] Merge branch 'clk-ti' in=
-to clk-next
-git bisect good dafbb1e6473788cb3068eaeddc58f9d88e9c7a62
-# bad: [cd89054e321a893073de7bb50f48b524a4ff675b] Merge branch 'clk-init-le=
-ak' into clk-next
-git bisect bad cd89054e321a893073de7bb50f48b524a4ff675b
-# bad: [097064b841b74b137a7672e8daccd1384574ec9c] Merge tag 'tegra-for-5.5-=
-clk-v2' of git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux into c=
-lk-tegra
-git bisect bad 097064b841b74b137a7672e8daccd1384574ec9c
-# bad: [bc0b3a60fe19610d649a62879dd318d133ed10c0] clk: tegra: pll: Save and=
- restore pll context
-git bisect bad bc0b3a60fe19610d649a62879dd318d133ed10c0
-# good: [991a051ea5f15266903f52acb5832a596dd3da51] clk: tegra: Remove last =
-remains of TEGRA210_CLK_SOR1_SRC
-git bisect good 991a051ea5f15266903f52acb5832a596dd3da51
-# bad: [25175c806a6841149abe46168e0af12593141612] clk: tegra: Reimplement S=
-OR clock on Tegra124
-git bisect bad 25175c806a6841149abe46168e0af12593141612
-# good: [da8d1a3555406275650b366460c6235f1696bf8b] clk: tegra: Rename sor0_=
-lvds to sor0_out
-git bisect good da8d1a3555406275650b366460c6235f1696bf8b
-# first bad commit: [25175c806a6841149abe46168e0af12593141612] clk: tegra: =
-Reimplement SOR clock on Tegra124
----------------------------------------------------------------------------=
-----
