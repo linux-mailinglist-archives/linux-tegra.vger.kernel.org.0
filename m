@@ -2,112 +2,114 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5146710342F
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Nov 2019 07:11:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FD5F1035E3
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Nov 2019 09:17:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726685AbfKTGLZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 Nov 2019 01:11:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53020 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726044AbfKTGLZ (ORCPT
+        id S1727816AbfKTIRf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 Nov 2019 03:17:35 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38906 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726038AbfKTIRf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 Nov 2019 01:11:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1574230283;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MHQgPT52W5BFw9nmU9WAz3e2f1ymk2wUifEnHSUCrRo=;
-        b=cqJthc/cAZvlw4A+hnUZ/B5dBP/LPyCeWgW3CGr2rQ32cVRzEQD9bRll2bGlZ3Is6gat5A
-        300lL10vSRyjg/JzaTqKokrR5UMqQfOBjr/bUTpUPMahA2/mBadolwWfur/z9kwu1DMA7d
-        E8ljE3IIYJSPyT792M4dyrtWcdfdz0A=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-j1jKTiahPlOe4bgYQusOtg-1; Wed, 20 Nov 2019 01:11:22 -0500
-Received: by mail-ot1-f72.google.com with SMTP id m15so13389109otq.8
-        for <linux-tegra@vger.kernel.org>; Tue, 19 Nov 2019 22:11:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dpJGfZx3Cj0lDz0Nl34BnLGPHmNtsdaIhy7QBlSYdNA=;
-        b=JlIkNaEOz7Y7f/KN2tBu7aIHWYqrUDsCg9E7drOEdXF/WIwowV+GB4Dnhh++7ZEib+
-         T40Ka7QGcnUHKjYb85KLCj1W/Nq3lxqzGBJAKAVvIpXz7bknkOw3Mk53HVhQxEIue81V
-         BbcDlE1LEif6ximzibabJ5XJkODBcxcw12RkqA7u15LVbpnAMS9po4pNhZXyc/pEU4mj
-         69a1PiudhvJheooUZ/ecqkbpwmrfu7b9/h2nLOh3bLpH+c/EiHbzJHBQedXgsE4B13PJ
-         m1pV/fbYx/s1DgGKWl4cZLJGr9hNIk5xvEP5R8qazWMIamdrWoMedezEau8aD2Ht/7HU
-         ZT9A==
-X-Gm-Message-State: APjAAAWVt0nvAbGuD2wXlIpo0u5DgeE1+vhfvpD/V1fnDaABqxSLZuBI
-        xzRtAYe4sJGY6PTx5xU6nyR4lw5gth35zwqFJ/9tCagGezJya7Mp8AgPLJF/fzgdSvlUXwBVu8d
-        XKrkyeRf5v/FwLDIC5+a0tGUMY4AiNTg1Cl6YiR4=
-X-Received: by 2002:aca:55d3:: with SMTP id j202mr1325399oib.152.1574230281886;
-        Tue, 19 Nov 2019 22:11:21 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyq+wH+KgxAVK0czEL+ebk7GljLn6+LLUP630iCkchv5lxYAyJQL9dIazj41yNNSbugAaDCvWwJ12nCjy+zSd0=
-X-Received: by 2002:aca:55d3:: with SMTP id j202mr1325389oib.152.1574230281642;
- Tue, 19 Nov 2019 22:11:21 -0800 (PST)
+        Wed, 20 Nov 2019 03:17:35 -0500
+Received: from [IPv6:2a00:5f00:102:0:3cf0:90ff:fe97:bc05] (unknown [IPv6:2a00:5f00:102:0:3cf0:90ff:fe97:bc05])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: gtucker)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F3E37291278;
+        Wed, 20 Nov 2019 08:17:31 +0000 (GMT)
+Subject: Re: clk/clk-next bisection: boot on tegra124-nyan-big
+To:     Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <treding@nvidia.com>
+Cc:     tomeu.vizoso@collabora.com, mgalka@collabora.com,
+        broonie@kernel.org, matthew.hart@linaro.org, khilman@baylibre.com,
+        enric.balletbo@collabora.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-tegra@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org
+References: <5dd4ce40.1c69fb81.548f8.e723@mx.google.com>
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+Message-ID: <53eda2aa-35d0-8776-e2cb-b6c4e8c1ff7f@collabora.com>
+Date:   Wed, 20 Nov 2019 08:17:28 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191102175637.3065-1-thierry.reding@gmail.com> <20191118134449.GG2246533@ulmo>
-In-Reply-To: <20191118134449.GG2246533@ulmo>
-From:   Ben Skeggs <bskeggs@redhat.com>
-Date:   Wed, 20 Nov 2019 16:11:10 +1000
-Message-ID: <CABDvA==b3g0S1i1xG_Ycjs15LbGUAgKmrLm6pqf+QFdv_qQk9A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/9] drm/nouveau: Various fixes for GP10B
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Joerg Roedel <joro@8bytes.org>,
-        Ben Dooks <ben.dooks@codethink.co.uk>,
-        Lyude Paul <lyude@redhat.com>,
-        nouveau <nouveau@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-tegra@vger.kernel.org
-X-MC-Unique: j1jKTiahPlOe4bgYQusOtg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <5dd4ce40.1c69fb81.548f8.e723@mx.google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Nov 18, 2019 at 11:45 PM Thierry Reding
-<thierry.reding@gmail.com> wrote:
->
-> On Sat, Nov 02, 2019 at 06:56:28PM +0100, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >
-> > Hi Ben,
-> >
-> > here's a revised subset of the patches I had sent out a couple of weeks
-> > ago. I've reworked the BAR2 accesses in the way that you had suggested,
-> > which at least for GP10B turned out to be fairly trivial to do. I have
-> > not looked in detail at this for GV11B yet, but a cursory look showed
-> > that BAR2 is accessed in more places, so the equivalent for GV11B might
-> > be a bit more involved.
-> >
-> > Other than that, not a lot has changed since then. I've added a couple
-> > of precursory patches to add IOMMU helper dummies for the case where
-> > IOMMU is disabled (as suggested by Ben Dooks).
-> >
-> > Joerg, it'd be great if you could give an Acked-by on those two patches
-> > so that Ben can pick them both up into the Nouveau tree. Alternatively =
-I
-> > can put them both into a stable branch and send a pull request to both
-> > of you. Or yet another alternative would be for Joerg to apply them now
-> > and Ben to wait for v5.5-rc1 until he picks up the rest. All of those
-> > work for me.
->
-> Hi Joerg, Ben,
->
-> do you guys have any further comments on this series? I've got an
-> updated patch to silence the warning that the kbuild robot flagged, so
-> if there are no other comments I can send a final v3 of the series.
-I'm on leave at the moment.  But the nouveau fixes look fine to me and
-I'm happy to pick them up once you send a v3, and allow Jeorg to apply
-the rest through his tree.
+On 20/11/2019 05:25, kernelci.org bot wrote:
+> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+> * This automated bisection report was sent to you on the basis  *
+> * that you may be involved with the breaking commit it has      *
+> * found.  No manual investigation has been done to verify it,   *
+> * and the root cause of the problem may be somewhere else.      *
+> *                                                               *
+> * If you do send a fix, please include this trailer:            *
+> *   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
+> *                                                               *
+> * Hope this helps!                                              *
+> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+> 
+> clk/clk-next bisection: boot on tegra124-nyan-big
+> 
+> Summary:
+>   Start:      cd89054e321a Merge branch 'clk-init-leak' into clk-next
+>   Details:    https://kernelci.org/boot/id/5dd486b059b514415acf54bd
+>   Plain log:  https://storage.kernelci.org//clk/clk-next/clk-fixes-for-linus-196-gcd89054e321a/arm/tegra_defconfig/gcc-8/lab-collabora/boot-tegra124-nyan-big.txt
+>   HTML log:   https://storage.kernelci.org//clk/clk-next/clk-fixes-for-linus-196-gcd89054e321a/arm/tegra_defconfig/gcc-8/lab-collabora/boot-tegra124-nyan-big.html
+>   Result:     25175c806a68 clk: tegra: Reimplement SOR clock on Tegra124
+> 
+> Checks:
+>   revert:     PASS
+>   verify:     PASS
+> 
+> Parameters:
+>   Tree:       clk
+>   URL:        https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
+>   Branch:     clk-next
+>   Target:     tegra124-nyan-big
+>   CPU arch:   arm
+>   Lab:        lab-collabora
+>   Compiler:   gcc-8
+>   Config:     tegra_defconfig
+>   Test suite: boot
+> 
+> Breaking commit found:
+> 
+> -------------------------------------------------------------------------------
+> commit 25175c806a6841149abe46168e0af12593141612
+> Author: Thierry Reding <treding@nvidia.com>
+> Date:   Thu Jul 25 18:19:00 2019 +0200
+> 
+>     clk: tegra: Reimplement SOR clock on Tegra124
+>     
+>     In order to allow the display driver to deal uniformly with all SOR
+>     generations, implement the SOR clocks in a way that is compatible with
+>     Tegra186 and later.
+>     
+>     Acked-by: Stephen Boyd <sboyd@kernel.org>
+>     Signed-off-by: Thierry Reding <treding@nvidia.com>
+
+There was already a bisection last Thursday which found this
+commit, and Thierry explained that it works in linux-next thanks
+to other patches.  I guess those patches are not going to be
+cherry-picked onto the clk-next branch, so this will keep failing
+until it's rebased.  Is that right?
+
+If so, I can turn off bisections on clk-next for now.  We need to
+have a way in KernelCI to tell that a commit has been fixed to
+cope with this kind of situation in general.
 
 Thanks,
-Ben.
-
->
-> Thierry
-
+Guillaume
