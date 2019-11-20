@@ -2,94 +2,216 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2BBA1033A4
-	for <lists+linux-tegra@lfdr.de>; Wed, 20 Nov 2019 06:17:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BBCA1033D9
+	for <lists+linux-tegra@lfdr.de>; Wed, 20 Nov 2019 06:25:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726220AbfKTFR6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 20 Nov 2019 00:17:58 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:6353 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725554AbfKTFR6 (ORCPT
+        id S1726220AbfKTFZY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 20 Nov 2019 00:25:24 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:36891 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725554AbfKTFZX (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 20 Nov 2019 00:17:58 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd4cc820000>; Tue, 19 Nov 2019 21:17:54 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 19 Nov 2019 21:17:57 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 19 Nov 2019 21:17:57 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 Nov
- 2019 05:17:57 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 20 Nov 2019 05:17:56 +0000
-Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.48]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5dd4cc810004>; Tue, 19 Nov 2019 21:17:56 -0800
-From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
-        <rjw@rjwysocki.net>, <okaya@kernel.org>, <treding@nvidia.com>,
-        <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>,
-        <sagar.tv@gmail.com>
-Subject: [PATCH V2 2/2] PCI: Introduce pci_dev_wait() in pci_power_up() API
-Date:   Wed, 20 Nov 2019 10:47:43 +0530
-Message-ID: <20191120051743.23124-2-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191120051743.23124-1-vidyas@nvidia.com>
-References: <20191118172310.21373-1-vidyas@nvidia.com>
- <20191120051743.23124-1-vidyas@nvidia.com>
-X-NVConfidentiality: public
+        Wed, 20 Nov 2019 00:25:23 -0500
+Received: by mail-wm1-f68.google.com with SMTP id b17so6366417wmj.2
+        for <linux-tegra@vger.kernel.org>; Tue, 19 Nov 2019 21:25:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from:cc;
+        bh=v+uBk5IEyaYZ7IF/b+w4lvOtghz7YVivbgrg50na0fw=;
+        b=ov0DGKKWFfs9XQfFjYgGbG8mvNWdUX0PZJC5FicSFBTO+iQBnzhDBYDf0xfmRuuOBr
+         NH2BkVXbo2lWyCvfeEiGRw02G5cV770g6ATNSrTxDBSrdPpvQp1L85Uz7nT/qQxJW5IT
+         xyhtRNPhTqG8zfeU/BCM0G3v0+A3UXpnfHUmdcSugqJ3k5LAmAsa9Q+SgcQAhGHjZ04L
+         EbhorRGcgpqvPHItV7Lsd4FN0lJdIMnjiMPgjXAUFeed0SxhsrEJJfJXJ2TCmg3Slhn4
+         ehgDN3mBkccZSvgglZnOre1cpxyoKkowLiR/7oCYcHl1Nj25tfUFuuA2Q2ODmhNAgSg0
+         5LnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from:cc;
+        bh=v+uBk5IEyaYZ7IF/b+w4lvOtghz7YVivbgrg50na0fw=;
+        b=Ell9Y6dYk9BiCyaDUatWQkmM8vxnQRl/kR0YakmuAN0IZ4GUptTBUg4l7yaw0genCp
+         995s4YMio+NMM7jzPyrKMv3De/u6pPxYmPQU42O65LeGoJZ7Tbq9zDi6TedzEuiuMqBi
+         puqjQ9Vz4EDo8ZGr9xmPKrWJP86NuFlsaUBUjZcjIcFQMA8AwVpyJ3MZw6ONLb2t71Fn
+         ZU+IxFEHkD4bfVu99/EYpTp1fynVKI7P8dSwqMnQNbs5irkV0nMWCBwxiP33hYasEXZU
+         hcQjmORwhWsQ3PyQDZxmkSq46Z8GUtTAa6veqzC7xMB+04l2nd75dQ8Bfj3UVJFZZXKL
+         hLKQ==
+X-Gm-Message-State: APjAAAXuKyqa0YizR/LfeeAC5dpWstYABr9gKBIu2iyQN6005e59lcxQ
+        /qT5opW4+M56yleZtDIHotBXRA==
+X-Google-Smtp-Source: APXvYqwhgSeFCVt1Z3whNFWM5gl6+qPpSEDUXk3HkahrF6XUVFw/zq5QHpMA127VV0d2Ihak5OT+CQ==
+X-Received: by 2002:a1c:1fca:: with SMTP id f193mr894882wmf.173.1574227520777;
+        Tue, 19 Nov 2019 21:25:20 -0800 (PST)
+Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
+        by smtp.gmail.com with ESMTPSA id q15sm29863955wrs.91.2019.11.19.21.25.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Nov 2019 21:25:20 -0800 (PST)
+Message-ID: <5dd4ce40.1c69fb81.548f8.e723@mx.google.com>
+Date:   Tue, 19 Nov 2019 21:25:20 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574227074; bh=0wB/nq3VkyKa32HWHP+nZIKV9ao/aUf1HNrbYgl7VYc=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=FWkBHOsjI4/YJ9QiesHR5D/j8E9/+3O4qTRJdwWE7DR4B09EA8IGj8PG7TnfhKf8D
-         yOZgaC/VKdPe8myEPBCR2v8xHPDCxPRfls4KIL/GTsbipHdIMfjj3miKz1r1o0T3XJ
-         m3anV1gY8M1eDvSgEtU/fSNpfG5Kb1vMpGeTQOp7D8Jw7FbJtJxsNdOipRH7D716HM
-         Q0paVk0SfOi6Mn+mww7LnLkFBfniTccSg0hI7fYqzYKqCmInRroOcqN5pAlOEfd87n
-         og7k+lb4UV+grrGmaJWwKkNxBXJ4JE2uNyOILbun18LEd0Oohz7uRRyHMt+WrkGHpK
-         3gzuxDjXPxxSQ==
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Lab-Name: lab-collabora
+X-Kernelci-Branch: clk-next
+X-Kernelci-Tree: clk
+X-Kernelci-Report-Type: bisect
+X-Kernelci-Kernel: clk-fixes-for-linus-196-gcd89054e321a
+Subject: clk/clk-next bisection: boot on tegra124-nyan-big
+To:     tomeu.vizoso@collabora.com, Stephen Boyd <sboyd@kernel.org>,
+        guillaume.tucker@collabora.com, mgalka@collabora.com,
+        Thierry Reding <treding@nvidia.com>, broonie@kernel.org,
+        matthew.hart@linaro.org, khilman@baylibre.com,
+        enric.balletbo@collabora.com
+From:   "kernelci.org bot" <bot@kernelci.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-tegra@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add pci_dev_wait() in pci_power_up() before accessing the configuration
-space of a device for the first time in the system resume sequence.
-This is  to accommodate devices (Ex:- Intel 750 NVMe) that respond with CRS
-status while they get ready for configuration space access and before they
-finally start responding with proper values.
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+* This automated bisection report was sent to you on the basis  *
+* that you may be involved with the breaking commit it has      *
+* found.  No manual investigation has been done to verify it,   *
+* and the root cause of the problem may be somewhere else.      *
+*                                                               *
+* If you do send a fix, please include this trailer:            *
+*   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
+*                                                               *
+* Hope this helps!                                              *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
----
- drivers/pci/pci.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+clk/clk-next bisection: boot on tegra124-nyan-big
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 71b45ce73bf6..7672b9a44bac 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1086,6 +1086,13 @@ int pci_power_up(struct pci_dev *dev)
- 		pci_wakeup_bus(dev->subordinate);
- 	}
- 
-+	/*
-+	 * Wait for those devices (Ex: Intel 750 NVMe) that are not ready yet
-+	 * and responding with CRS statuses for the configuration space
-+	 * requests.
-+	 */
-+	pci_dev_wait(dev, "Switch to D0", PCIE_RESET_READY_POLL_MS);
-+
- 	return pci_raw_set_power_state(dev, PCI_D0);
- }
- 
--- 
-2.17.1
+Summary:
+  Start:      cd89054e321a Merge branch 'clk-init-leak' into clk-next
+  Details:    https://kernelci.org/boot/id/5dd486b059b514415acf54bd
+  Plain log:  https://storage.kernelci.org//clk/clk-next/clk-fixes-for-linu=
+s-196-gcd89054e321a/arm/tegra_defconfig/gcc-8/lab-collabora/boot-tegra124-n=
+yan-big.txt
+  HTML log:   https://storage.kernelci.org//clk/clk-next/clk-fixes-for-linu=
+s-196-gcd89054e321a/arm/tegra_defconfig/gcc-8/lab-collabora/boot-tegra124-n=
+yan-big.html
+  Result:     25175c806a68 clk: tegra: Reimplement SOR clock on Tegra124
 
+Checks:
+  revert:     PASS
+  verify:     PASS
+
+Parameters:
+  Tree:       clk
+  URL:        https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git
+  Branch:     clk-next
+  Target:     tegra124-nyan-big
+  CPU arch:   arm
+  Lab:        lab-collabora
+  Compiler:   gcc-8
+  Config:     tegra_defconfig
+  Test suite: boot
+
+Breaking commit found:
+
+---------------------------------------------------------------------------=
+----
+commit 25175c806a6841149abe46168e0af12593141612
+Author: Thierry Reding <treding@nvidia.com>
+Date:   Thu Jul 25 18:19:00 2019 +0200
+
+    clk: tegra: Reimplement SOR clock on Tegra124
+    =
+
+    In order to allow the display driver to deal uniformly with all SOR
+    generations, implement the SOR clocks in a way that is compatible with
+    Tegra186 and later.
+    =
+
+    Acked-by: Stephen Boyd <sboyd@kernel.org>
+    Signed-off-by: Thierry Reding <treding@nvidia.com>
+
+diff --git a/drivers/clk/tegra/clk-tegra124.c b/drivers/clk/tegra/clk-tegra=
+124.c
+index 7d231529c3a5..b3110d5b5a6c 100644
+--- a/drivers/clk/tegra/clk-tegra124.c
++++ b/drivers/clk/tegra/clk-tegra124.c
+@@ -1005,20 +1005,24 @@ static struct tegra_devclk devclks[] __initdata =3D=
+ {
+ 	{ .con_id =3D "hda2hdmi", .dt_id =3D TEGRA124_CLK_HDA2HDMI },
+ };
+ =
+
+-static const char *mux_pllp_pllm_plld_plla_pllc_plld2_clkm[] =3D {
+-	"pll_p", "pll_m", "pll_d_out0", "pll_a_out0", "pll_c",
+-	"pll_d2_out0", "clk_m"
++static const char * const sor0_parents[] =3D {
++	"pll_p_out0", "pll_m_out0", "pll_d_out0", "pll_a_out0", "pll_c_out0",
++	"pll_d2_out0", "clk_m",
+ };
+-#define mux_pllp_pllm_plld_plla_pllc_plld2_clkm_idx NULL
+ =
+
+-static const char *mux_clkm_plldp_sor0out[] =3D {
+-	"clk_m", "pll_dp", "sor0_out",
++static const char * const sor0_out_parents[] =3D {
++	"clk_m", "sor0_pad_clkout",
+ };
+-#define mux_clkm_plldp_sor0out_idx NULL
+ =
+
+ static struct tegra_periph_init_data tegra124_periph[] =3D {
+-	MUX8_NOGATE_LOCK("sor0_out", mux_pllp_pllm_plld_plla_pllc_plld2_clkm, CLK=
+_SOURCE_SOR0, tegra_clk_sor0_out, &sor0_lock),
+-	NODIV("sor0", mux_clkm_plldp_sor0out, CLK_SOURCE_SOR0, 14, 3, 182, 0, teg=
+ra_clk_sor0, &sor0_lock),
++	TEGRA_INIT_DATA_TABLE("sor0", NULL, NULL, sor0_parents,
++			      CLK_SOURCE_SOR0, 29, 0x7, 0, 0, 0, 0,
++			      0, 182, 0, tegra_clk_sor0, NULL, 0,
++			      &sor0_lock),
++	TEGRA_INIT_DATA_TABLE("sor0_out", NULL, NULL, sor0_out_parents,
++			      CLK_SOURCE_SOR0, 14, 0x1, 0, 0, 0, 0,
++			      0, 0, TEGRA_PERIPH_NO_GATE, tegra_clk_sor0_out,
++			      NULL, 0, &sor0_lock),
+ };
+ =
+
+ static struct clk **clks;
+---------------------------------------------------------------------------=
+----
+
+
+Git bisection log:
+
+---------------------------------------------------------------------------=
+----
+git bisect start
+# good: [dafbb1e6473788cb3068eaeddc58f9d88e9c7a62] Merge branch 'clk-ti' in=
+to clk-next
+git bisect good dafbb1e6473788cb3068eaeddc58f9d88e9c7a62
+# bad: [cd89054e321a893073de7bb50f48b524a4ff675b] Merge branch 'clk-init-le=
+ak' into clk-next
+git bisect bad cd89054e321a893073de7bb50f48b524a4ff675b
+# bad: [097064b841b74b137a7672e8daccd1384574ec9c] Merge tag 'tegra-for-5.5-=
+clk-v2' of git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux into c=
+lk-tegra
+git bisect bad 097064b841b74b137a7672e8daccd1384574ec9c
+# bad: [bc0b3a60fe19610d649a62879dd318d133ed10c0] clk: tegra: pll: Save and=
+ restore pll context
+git bisect bad bc0b3a60fe19610d649a62879dd318d133ed10c0
+# good: [991a051ea5f15266903f52acb5832a596dd3da51] clk: tegra: Remove last =
+remains of TEGRA210_CLK_SOR1_SRC
+git bisect good 991a051ea5f15266903f52acb5832a596dd3da51
+# bad: [25175c806a6841149abe46168e0af12593141612] clk: tegra: Reimplement S=
+OR clock on Tegra124
+git bisect bad 25175c806a6841149abe46168e0af12593141612
+# good: [da8d1a3555406275650b366460c6235f1696bf8b] clk: tegra: Rename sor0_=
+lvds to sor0_out
+git bisect good da8d1a3555406275650b366460c6235f1696bf8b
+# first bad commit: [25175c806a6841149abe46168e0af12593141612] clk: tegra: =
+Reimplement SOR clock on Tegra124
+---------------------------------------------------------------------------=
+----
