@@ -2,105 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5AF3107344
-	for <lists+linux-tegra@lfdr.de>; Fri, 22 Nov 2019 14:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97038107351
+	for <lists+linux-tegra@lfdr.de>; Fri, 22 Nov 2019 14:36:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbfKVNcV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 22 Nov 2019 08:32:21 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:40399 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726747AbfKVNcV (ORCPT
+        id S1726633AbfKVNgB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 22 Nov 2019 08:36:01 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:4311 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbfKVNgB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 22 Nov 2019 08:32:21 -0500
-Received: by mail-wm1-f66.google.com with SMTP id y5so7601549wmi.5
-        for <linux-tegra@vger.kernel.org>; Fri, 22 Nov 2019 05:32:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fLc+8UZIrOjxIlKtj3ViX/Mxfy7rIiqc1Aolj5mZjSM=;
-        b=MDgXNhgFJTUyc5hy6zVkXIsPZ6nPbljYAh6J2wprgL4oNy1rfOcaR8qlzGZ9654Smo
-         b7hAB2H0K2DlUIOo0h6QBMSu7wnnvVnzMEmoGF0qtszph4e+vgJAF73hmZuEPeVFy5lq
-         ey5OEpZygatO2VsprlQiuI5IcdNfLTsYmrqITxGcM37y1p8JLljUSzr/oczE/AWhXfti
-         dK/sD6IZdQuPilb3qtUUepwtF8UfjzjH6vM1AeTiQFSRH0qJ1I/13MaUdIoYWvu/tE0/
-         1d8q7xAqJY9ldhdE6mmZ59gT4V8kXo2RNEEZN1arvP3qjKA4GwWlEgT+c3JK3++M0dgi
-         FzSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fLc+8UZIrOjxIlKtj3ViX/Mxfy7rIiqc1Aolj5mZjSM=;
-        b=ShzmjoJL8E5+leF2KSlE5SQE3amF8a6rhdEJZy/1V4vFricnylbnZKCEGJCNNHDfvC
-         rflQ+DdzEZTybF8imNBRpaaKkHfI8o7pHYIX4cWY53t+BxVqD30/ORaqbv52Ji1PbKhX
-         p8uwSFfEmDWwva4tjU9dAjUMXMvDlvAITBjkCXYV4hHw9ojVfqkwvoGAr37yvK1NF3j6
-         c0nWsebKlZ4t0JR5cZGej+CV6l+6TIQPL991WrGpsQzj7ccOr9xiS/toFQstOMHo2EKI
-         zw2Eg4eej3RRCSRY1OJtnqBSl9uddS5fXDfCAnoujHBSKJp9ZLao3iXgcGj8MBnJbPA6
-         uRWw==
-X-Gm-Message-State: APjAAAXdqcx0oL/0im1j2HwNeeDocxinomuEZHfz6CUmHjybGMDCwMeQ
-        wxwMS/FiTcpj1A1fHLsUL28=
-X-Google-Smtp-Source: APXvYqw7EzG1dmzCC/E0peG0Q0bjhlAz872FZKROW4UandWN2wzHU/cN7/FPsdIjj7SmglvkzLgAHw==
-X-Received: by 2002:a05:600c:305:: with SMTP id q5mr10801711wmd.167.1574429537788;
-        Fri, 22 Nov 2019 05:32:17 -0800 (PST)
-Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id t13sm1908018wrp.36.2019.11.22.05.32.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2019 05:32:16 -0800 (PST)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH] drm/tegra: vic: Export module device table
-Date:   Fri, 22 Nov 2019 14:32:15 +0100
-Message-Id: <20191122133215.1317039-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        Fri, 22 Nov 2019 08:36:01 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dd7e43c0000>; Fri, 22 Nov 2019 05:35:56 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 22 Nov 2019 05:36:00 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 22 Nov 2019 05:36:00 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 22 Nov
+ 2019 13:35:58 +0000
+Subject: Re: [PATCH 4.4 000/159] 4.4.203-stable review
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191122100704.194776704@linuxfoundation.org>
+ <f0f505ae-5113-1abd-d4f7-0c3535c83de4@nvidia.com>
+Message-ID: <9e2a0022-f01d-2db4-8ea2-cffb0b038df1@nvidia.com>
+Date:   Fri, 22 Nov 2019 13:35:56 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <f0f505ae-5113-1abd-d4f7-0c3535c83de4@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574429756; bh=5S7fgW2SwsVDbF2iFWilv7AEr4njY1lCaViplEfn3QE=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ALwikzKhQv06gc5qHkjMiHaRP2VWZhZzquT/9wgc70hGcEZb9vWiCpsx0vNDT9Hwd
+         Th9TSITSOpYjNHnxzYdxbt59W0dgPjJCXw8kljX0I6XdSJI/SXDTdXj63dJ022Yh30
+         pzQ0n0HlK69bC2u8tGo+yj2Fux0PtLNLE/+ASxR2McHTQMiQci3xc49FeFIqoaHDwR
+         OdlDIbjohOyYmvFCQAUySkZurtrIcEPhFLukL+SUHAMSzp1sSnkZKeaFVm0Nq+MWG9
+         s0+e0nBGU8/zkS+prSMxaqnKwwbr4+kP0fLGEKOAKX537NAqTP8M5deIAKCbdL9qbf
+         z6dWYcBTZpzyg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-Export the module device table to ensure the VIC compatible strings are
-listed in the module's aliases table. This in turn causes the driver to
-be automatically loaded on boot if VIC is the only enabled subdevice of
-the logical host1x DRM device.
+On 22/11/2019 13:14, Jon Hunter wrote:
+> 
+> On 22/11/2019 10:26, Greg Kroah-Hartman wrote:
+>> This is the start of the stable review cycle for the 4.4.203 release.
+>> There are 159 patches in this series, all will be posted as a response
+>> to this one.  If anyone has any issues with these being applied, please
+>> let me know.
+>>
+>> Responses should be made by Sun, 24 Nov 2019 09:59:19 +0000.
+>> Anything received after that time might be too late.
+>>
+>> The whole patch series can be found in one patch at:
+>> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.203-rc1.gz
+>> or in the git tree and branch at:
+>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+>> and the diffstat can be found below.
+>>
+>> thanks,
+>>
+>> greg k-h
+>>
+>> -------------
+>> Pseudo-Shortlog of commits:
+> 
+> ...
+> 
+>> Marek Szyprowski <m.szyprowski@samsung.com>
+>>     ARM: dts: exynos: Disable pull control for S5M8767 PMIC
+> 
+> The above commit is causing the following build error for ARM ...
+> 
+> Error: /dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/boot/dts/exynos5250-arndale.dts:560.22-23 syntax error
+> FATAL ERROR: Unable to parse input tree
+> scripts/Makefile.lib:293: recipe for target 'arch/arm/boot/dts/exynos5250-arndale.dtb' failed
+> make[2]: *** [arch/arm/boot/dts/exynos5250-arndale.dtb] Error 1
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/tegra/vic.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+FYI ... after reverting the above all the tests are passing for Tegra.
 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index 9444ba183990..c4d82b8b3065 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -386,13 +386,14 @@ static const struct vic_config vic_t194_config = {
- 	.supports_sid = true,
- };
- 
--static const struct of_device_id vic_match[] = {
-+static const struct of_device_id tegra_vic_of_match[] = {
- 	{ .compatible = "nvidia,tegra124-vic", .data = &vic_t124_config },
- 	{ .compatible = "nvidia,tegra210-vic", .data = &vic_t210_config },
- 	{ .compatible = "nvidia,tegra186-vic", .data = &vic_t186_config },
- 	{ .compatible = "nvidia,tegra194-vic", .data = &vic_t194_config },
- 	{ },
- };
-+MODULE_DEVICE_TABLE(of, tegra_vic_of_match);
- 
- static int vic_probe(struct platform_device *pdev)
- {
-@@ -516,7 +517,7 @@ static const struct dev_pm_ops vic_pm_ops = {
- struct platform_driver tegra_vic_driver = {
- 	.driver = {
- 		.name = "tegra-vic",
--		.of_match_table = vic_match,
-+		.of_match_table = tegra_vic_of_match,
- 		.pm = &vic_pm_ops
- 	},
- 	.probe = vic_probe,
+Jon
+
 -- 
-2.23.0
-
+nvpublic
