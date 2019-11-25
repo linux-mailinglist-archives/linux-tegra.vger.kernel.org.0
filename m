@@ -2,254 +2,129 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 688F7108DFE
-	for <lists+linux-tegra@lfdr.de>; Mon, 25 Nov 2019 13:32:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C39B108EC8
+	for <lists+linux-tegra@lfdr.de>; Mon, 25 Nov 2019 14:23:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727709AbfKYMch (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 Nov 2019 07:32:37 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:39826 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727687AbfKYMch (ORCPT
+        id S1727393AbfKYNXE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 Nov 2019 08:23:04 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:18029 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725924AbfKYNXD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 Nov 2019 07:32:37 -0500
-Received: by mail-wm1-f66.google.com with SMTP id t26so15760470wmi.4;
-        Mon, 25 Nov 2019 04:32:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AINif2l3EZIoo9A9eiwFeniJKiJMmJbQiKcEichJ514=;
-        b=AB5LSoPIVt5slL3oECQCvtOPKlXnYr8FPvNSfyMHFecCgtJlEWX00pYo+MREV0ZXdN
-         q6DHYmoserduv9SV/CLQbTqaGjWyWvfpzKEL7vQAErIzVRmXPyMwFmKdOkava6/YD510
-         0ruZZ6xpw+P7kSwpxspnFV9s1SBV4aBcb7IpNkQs70hWkNCV39EDDK3iezlbIUm78wuQ
-         uOqyy9pfInUEz1p1PfsD2kEJ12aLhjprTsV29QPpOZ65mct4/lmnkciq8kb4ntBmyM3H
-         d/HnJol8e8CJXx5yGmyII4IJMQ7x2F+gDwDpyf2o34ZKd3h3unjRG0hQ3UXT9X2p4c2s
-         KW0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AINif2l3EZIoo9A9eiwFeniJKiJMmJbQiKcEichJ514=;
-        b=pf1trgM02MpLfAwQbc/pxqiwW8GjsbkPloI+OzMrOo7w9nSllUG6pz/KbGnnh39Usm
-         882/vYyoIc+U5GwVva06ojAOxIiFIuJenIsBgz9EkoB929HdHCtO87XCGpfoQIhXtuqS
-         pWvVE2+ve4FGN3Rq1+BRpXAySvENUndjv8nVK5CGwlb/S0kfcR6gnw+bkUFbcOUnKVXQ
-         aYmNHBAHmeAyG7ubH6Dz/Cr3z3QPyrzMcD1ZaZm+Gp8fVb15NP/Xa4/yFgCza+yx4oxP
-         Kn60qUMpBfnNZMFEx/GAc9y1vCphso6uW731upkXNnp7Og0p+5vF0RMgIVXvKcDh8fKP
-         RRQw==
-X-Gm-Message-State: APjAAAVLo+o4yuMg2o4JqZhA3iuyPyAt7M4yPBr0u4gV865JgLMQ2Ryh
-        xsVJKky22AylR1sCCcmb8AQ=
-X-Google-Smtp-Source: APXvYqw7oa3Rh0iApOSk9HQ/fJAfHhedAyf/EQQIA3QAe81vPknondb0wR8C5qGpHhPLXmYmQIXq1Q==
-X-Received: by 2002:a05:600c:54c:: with SMTP id k12mr14853240wmc.124.1574685152888;
-        Mon, 25 Nov 2019 04:32:32 -0800 (PST)
-Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id u18sm10450346wrp.14.2019.11.25.04.32.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2019 04:32:31 -0800 (PST)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
-        Nagarjuna Kristam <nkristam@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 10/10] usb: host: xhci-tegra: Implement basic ELPG support
-Date:   Mon, 25 Nov 2019 13:32:10 +0100
-Message-Id: <20191125123210.1564323-11-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191125123210.1564323-1-thierry.reding@gmail.com>
-References: <20191125123210.1564323-1-thierry.reding@gmail.com>
+        Mon, 25 Nov 2019 08:23:03 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ddbd5b80002>; Mon, 25 Nov 2019 05:23:05 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 25 Nov 2019 05:23:03 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 25 Nov 2019 05:23:03 -0800
+Received: from [10.26.11.207] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 Nov
+ 2019 13:23:00 +0000
+Subject: Re: [PATCH 4.4 000/159] 4.4.203-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Guenter Roeck <linux@roeck-us.net>, <linux-kernel@vger.kernel.org>,
+        <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191122100704.194776704@linuxfoundation.org>
+ <f0f505ae-5113-1abd-d4f7-0c3535c83de4@nvidia.com>
+ <20191122133931.GA2033651@kroah.com> <20191122134131.GA2050590@kroah.com>
+ <20191122134627.GB2050590@kroah.com>
+ <9f976044-2dbc-6c19-11e7-210cd7ab35ea@nvidia.com>
+ <a5d68f07-5f9a-2809-404d-bcd8ca593d70@roeck-us.net>
+ <7edc9531-347e-9ac7-2583-5efb49acffdb@nvidia.com>
+ <20191125094116.GA2340170@kroah.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <a6830303-ff96-f7df-b504-ab226aefddca@nvidia.com>
+Date:   Mon, 25 Nov 2019 13:22:58 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191125094116.GA2340170@kroah.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574688185; bh=ELEhJCED7O3rcEfoP5yQSLU/i/5KHSCPYZ+weYv2TVU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=CEwL8xFxSp9SAYST4MfQQfALoxCNqdJCxuNuVeadANm/gBk65Q6aqlyBmLncAB7h4
+         DdzcV2ACeQKkcpj9GfVW9wz07X0BxledyA+QcUV8wYyAQpf2KIt8LLD/97VD7m3BbN
+         9NcmSC9Vd7YW1yCRlGVVI8qamxrXH/3/KU50c0FcldmIrJ3yocWvCU2ETnMUOc+56/
+         gzm4Sk5vtCDa0Vcid41KBWf7ZkXXQ6qNSNVUv+fSY9YzD1k6GW+gl8yWtapR4tXmj6
+         RCWLDm+kUH4P+9CZBnXVV4mz3zwm9Oc7DA5Zq3ddyzQ4c0gzDtWHGJcqff4ReQ35DP
+         Kbo25R1VQ1U9g==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-This implements basic engine-level powergate support which allows the
-XUSB controller to be put into a low power mode on system sleep and get
-it out of that low power mode again on resume.
+On 25/11/2019 09:41, Greg Kroah-Hartman wrote:
+> On Sun, Nov 24, 2019 at 08:31:46PM +0000, Jon Hunter wrote:
+>>
+>> On 23/11/2019 15:46, Guenter Roeck wrote:
+>>> On 11/22/19 6:48 AM, Jon Hunter wrote:
+>>>
+>>> [ ... ]
+>>>
+>>>> Error: arch/arm/boot/dts/omap5-board-common.dtsi:636.1-6 Label or path
+>>>> dwc3 not found
+>>>> FATAL ERROR: Syntax error parsing input tree
+>>>> scripts/Makefile.lib:293: recipe for target
+>>>> 'arch/arm/boot/dts/omap5-igep0050.dtb' failed
+>>>> make[1]: *** [arch/arm/boot/dts/omap5-igep0050.dtb] Error 1
+>>>> arch/arm/Makefile:338: recipe for target 'dtbs' failed
+>>>> make: *** [dtbs] Error 2
+>>>>
+>>>>
+>>>> This is caused by the following commit ...
+>>>>
+>>>> commit d0abc07b3d752cbe2a8d315f662c53c772caed0f
+>>>> Author: H. Nikolaus Schaller <hns@goldelico.com>
+>>>> Date:=C2=A0=C2=A0 Fri Sep 28 17:54:00 2018 +0200
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 ARM: dts: omap5: enable OTG role for DWC3 con=
+troller
+>>>>
+>>>
+>>> On top of the breakage caused by this patch, I would also argue
+>>> that it is not a bug fix and should not have been included
+>>> in the first place.
+>>>
+>>> The dwc3 label was added with commit 4c387984618fe ("ARM: dts: omap5:
+>>> Add l4 interconnect hierarchy and ti-sysc data"). Given the size of
+>>> that patch, I highly doubt that a backport to 4.4 would work.
+>=20
+> Good catch, I have now dropped both of these patches and pushed out a
+> -rc3
+>=20
+>> FYI ... I am still seeing a build failure because of this with -rc2 ...
+>=20
+> Can you see if -rc3 is also giving you problems?
 
-Based on work by JC Kuo <jckuo@nvidia.com>.
+Better, but I appear to be seeing some random suspend failures with this
+now on one board. I will try to bisect this.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/usb/host/xhci-tegra.c | 137 ++++++++++++++++++++++++++++++++--
- 1 file changed, 129 insertions(+), 8 deletions(-)
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	18 pass, 1 fail
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index cd3afec408ea..d0e30927a73f 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -1451,6 +1451,45 @@ static int tegra_xusb_remove(struct platform_device *pdev)
- }
- 
- #ifdef CONFIG_PM_SLEEP
-+static bool xhci_hub_ports_suspended(struct xhci_hub *hub)
-+{
-+	struct device *dev = hub->hcd->self.controller;
-+	bool status = true;
-+	unsigned int i;
-+	u32 value;
-+
-+	for (i = 0; i < hub->num_ports; i++) {
-+		value = readl(hub->ports[i]->addr);
-+		if ((value & PORT_PE) == 0)
-+			continue;
-+
-+		if ((value & PORT_PLS_MASK) != XDEV_U3) {
-+			dev_info(dev, "%u-%u isn't suspended: %#010x\n",
-+				 hub->hcd->self.busnum, i + 1, value);
-+			status = false;
-+		}
-+	}
-+
-+	return status;
-+}
-+
-+static int tegra_xusb_check_ports(struct tegra_xusb *tegra)
-+{
-+	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
-+	unsigned long flags;
-+	int err = 0;
-+
-+	spin_lock_irqsave(&xhci->lock, flags);
-+
-+	if (!xhci_hub_ports_suspended(&xhci->usb2_rhub) ||
-+	    !xhci_hub_ports_suspended(&xhci->usb3_rhub))
-+		err = -EBUSY;
-+
-+	spin_unlock_irqrestore(&xhci->lock, flags);
-+
-+	return err;
-+}
-+
- static void tegra_xusb_save_context(struct tegra_xusb *tegra)
- {
- 	const struct tegra_xusb_context_soc *soc = tegra->soc->context;
-@@ -1485,31 +1524,113 @@ static void tegra_xusb_restore_context(struct tegra_xusb *tegra)
- 	}
- }
- 
--static int tegra_xusb_suspend(struct device *dev)
-+static int tegra_xusb_enter_elpg(struct tegra_xusb *tegra, bool wakeup)
- {
--	struct tegra_xusb *tegra = dev_get_drvdata(dev);
- 	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
--	bool wakeup = device_may_wakeup(dev);
-+	u32 value;
- 	int err;
- 
--	/* TODO: Powergate controller across suspend/resume. */
-+	err = tegra_xusb_check_ports(tegra);
-+	if (err < 0) {
-+		dev_err(tegra->dev, "not all ports suspended: %d\n", err);
-+		return err;
-+	}
-+
- 	err = xhci_suspend(xhci, wakeup);
--	if (err < 0)
-+	if (err < 0) {
-+		dev_err(tegra->dev, "failed to suspend XHCI: %d\n", err);
- 		return err;
-+	}
- 
- 	tegra_xusb_save_context(tegra);
-+	tegra_xusb_phy_disable(tegra);
-+	tegra_xusb_clk_disable(tegra);
- 
- 	return 0;
- }
- 
--static int tegra_xusb_resume(struct device *dev)
-+static int tegra_xusb_exit_elpg(struct tegra_xusb *tegra, bool wakeup)
- {
--	struct tegra_xusb *tegra = dev_get_drvdata(dev);
- 	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
-+	u32 value;
-+	int err;
- 
-+	err = tegra_xusb_clk_enable(tegra);
-+	if (err < 0) {
-+		dev_err(tegra->dev, "failed to enable clocks: %d\n", err);
-+		return err;
-+	}
-+
-+	err = tegra_xusb_phy_enable(tegra);
-+	if (err < 0) {
-+		dev_err(tegra->dev, "failed to enable PHYs: %d\n", err);
-+		goto disable_clk;
-+	}
-+
-+	tegra_xusb_config(tegra);
- 	tegra_xusb_restore_context(tegra);
- 
--	return xhci_resume(xhci, false);
-+	err = tegra_xusb_load_firmware(tegra);
-+	if (err < 0) {
-+		dev_err(tegra->dev, "failed to load firmware: %d\n", err);
-+		goto disable_phy;
-+	}
-+
-+	err = __tegra_xusb_enable_firmware_messages(tegra);
-+	if (err < 0) {
-+		dev_err(tegra->dev, "failed to enable messages: %d\n", err);
-+		goto disable_phy;
-+	}
-+
-+	err = xhci_resume(xhci, true);
-+	if (err < 0) {
-+		dev_err(tegra->dev, "failed to resume XHCI: %d\n", err);
-+		goto disable_phy;
-+	}
-+
-+	return 0;
-+
-+disable_phy:
-+	tegra_xusb_phy_disable(tegra);
-+disable_clk:
-+	tegra_xusb_clk_disable(tegra);
-+	return err;
-+}
-+
-+static int tegra_xusb_suspend(struct device *dev)
-+{
-+	struct tegra_xusb *tegra = dev_get_drvdata(dev);
-+	bool wakeup = device_may_wakeup(dev);
-+	int err;
-+
-+	synchronize_irq(tegra->mbox_irq);
-+
-+	mutex_lock(&tegra->lock);
-+
-+	err = tegra_xusb_enter_elpg(tegra, wakeup);
-+	if (err < 0)
-+		goto unlock;
-+
-+unlock:
-+	mutex_unlock(&tegra->lock);
-+	return err;
-+}
-+
-+static int tegra_xusb_resume(struct device *dev)
-+{
-+	struct tegra_xusb *tegra = dev_get_drvdata(dev);
-+	bool wakeup = device_may_wakeup(dev);
-+	int err;
-+
-+	mutex_lock(&tegra->lock);
-+
-+	err = tegra_xusb_exit_elpg(tegra, wakeup);
-+	if (err < 0)
-+		goto unlock;
-+
-+unlock:
-+	mutex_unlock(&tegra->lock);
-+	return err;
- }
- #endif
- 
--- 
-2.23.0
+Linux version:	4.4.203-rc3-g2576206c30b5
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
 
+Cheers
+Jon
+
+--=20
+nvpublic
