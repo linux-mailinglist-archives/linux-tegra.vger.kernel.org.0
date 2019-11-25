@@ -2,116 +2,182 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED038109184
-	for <lists+linux-tegra@lfdr.de>; Mon, 25 Nov 2019 17:03:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A22991092B0
+	for <lists+linux-tegra@lfdr.de>; Mon, 25 Nov 2019 18:22:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728770AbfKYQDI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 Nov 2019 11:03:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59996 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728454AbfKYQDI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 Nov 2019 11:03:08 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AA2BE20679;
-        Mon, 25 Nov 2019 16:03:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574697787;
-        bh=e3RNFqhlVMx635UZaLAUa7sMCUwMhdEuTtITXZcy+Oo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TsM0djEnEoyX5dZb1FmnjwOvHPYHxxkSfO1ovNoVA6chyzWg/bEsnvS/Fu6m6kQ9R
-         udN2BUsakoeDuy8JD4dcCQaXTjx/dY6v079nCsyiXe5jViU5tfhZmggMX/IT8meZ2z
-         XKevHITcgd9J9IW8CSKafwoJR6/Mnu7AbpMuWfok=
-Date:   Mon, 25 Nov 2019 17:03:05 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        shuah@kernel.org, patches@kernelci.org,
-        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
-        stable@vger.kernel.org, linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 4.4 000/159] 4.4.203-stable review
-Message-ID: <20191125160305.GD2683321@kroah.com>
-References: <20191122100704.194776704@linuxfoundation.org>
- <f0f505ae-5113-1abd-d4f7-0c3535c83de4@nvidia.com>
- <20191122133931.GA2033651@kroah.com>
- <20191122134131.GA2050590@kroah.com>
- <20191122134627.GB2050590@kroah.com>
- <9f976044-2dbc-6c19-11e7-210cd7ab35ea@nvidia.com>
- <a5d68f07-5f9a-2809-404d-bcd8ca593d70@roeck-us.net>
- <7edc9531-347e-9ac7-2583-5efb49acffdb@nvidia.com>
- <20191125094116.GA2340170@kroah.com>
- <a6830303-ff96-f7df-b504-ab226aefddca@nvidia.com>
+        id S1728981AbfKYRW2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 Nov 2019 12:22:28 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39177 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727508AbfKYRW2 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 25 Nov 2019 12:22:28 -0500
+Received: by mail-lj1-f195.google.com with SMTP id e10so7674548ljj.6
+        for <linux-tegra@vger.kernel.org>; Mon, 25 Nov 2019 09:22:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qowBNgaS/cG3o3F9j5AsS7/c0rWS5qJJ/Vo+sJ+Tscg=;
+        b=G24mMKMYtAaa38fkEKFBamsoFa1mqjTOOcuJD6J8rydd9ZSTW9SCUypcs3WZ/j5d1+
+         iNMA6eYVSZ7K/idgUktQt6QOgO0qzbD1Zyd310kMr4CwxBV2fKMKDg9FzthsuJu4sRh+
+         Nos+OBegfPNFutrSpKAauvXx4V8ynCnuzFUGDaP52Hza4O4okUA6FHtAbp+Sl/DfcZe/
+         Szc+Ftd3A6WZD6bQ+4ibwJed4dT6BTQo4Cc/VaHeq8BO6O39xiHgfRVl06RTA18hM9Li
+         gXwjcaA8yw0n+/xh1zaUYnB03n7TCYubPb/HGMAddcjjagwLwNBro1P9fZJUSWsyyEYi
+         Hb9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qowBNgaS/cG3o3F9j5AsS7/c0rWS5qJJ/Vo+sJ+Tscg=;
+        b=gkJLKD4tX9P2HpZbUnj6iZCMtihfh8Tvd/E2Jg5zDxdbRSyXJALv2lRjtZwl0WSM35
+         ykl/cZVzVbHyXVP0DL+ephCKEPHdL/+OQKoYzxh/rvNKszroOXHnfHfOs8/jbWDTwJO8
+         OHU0ieYae3rPHXQWtbNncHdcQGjOzUPaatk5BKVV98CV/H+uWwAnvUNZqWkCIXWCghKT
+         pxd2MbJZPMSoEbUyHxOXb/cnVLt+sQkQZuMfne1cf7iR9yjUXshMh+LUfZzY4PlTeJ0p
+         rKH0VATC5Av+jx1NNhvTkwih4nSXgSnsxLNB4xLipgiXuKRdLnJcLBNBsWC9fnJM61Mx
+         MUkg==
+X-Gm-Message-State: APjAAAXXliPOkM8UqLgpzjYIzuVQCg19NUl3L5Jox/hTP7BJ577CkK1s
+        Yyoetdul4tX62RmlWERp7Bs=
+X-Google-Smtp-Source: APXvYqw0fYwsRdy4FHHLcYbxlAlM2QvVT0BkyTH2WfULzDXRA8VBboYRRHY0XILX9SwO35N8BewoSg==
+X-Received: by 2002:a2e:85d5:: with SMTP id h21mr23125341ljj.243.1574702545877;
+        Mon, 25 Nov 2019 09:22:25 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id t17sm4265309ljc.88.2019.11.25.09.22.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Nov 2019 09:22:24 -0800 (PST)
+Subject: Re: [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit samples
+To:     Ben Dooks <ben.dooks@codethink.co.uk>, linux-tegra@vger.kernel.org,
+        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@lists.codethink.co.uk,
+        Edward Cragg <edward.cragg@codethink.co.uk>
+References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
+ <20191018154833.7560-3-ben.dooks@codethink.co.uk>
+ <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
+ <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
+Date:   Mon, 25 Nov 2019 20:22:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a6830303-ff96-f7df-b504-ab226aefddca@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Nov 25, 2019 at 01:22:58PM +0000, Jon Hunter wrote:
+25.11.2019 13:37, Ben Dooks пишет:
+> On 23/11/2019 21:09, Dmitry Osipenko wrote:
+>> 18.10.2019 18:48, Ben Dooks пишет:
+>>> From: Edward Cragg <edward.cragg@codethink.co.uk>
+>>>
+>>> The tegra3 audio can support 24 and 32 bit sample sizes so add the
+>>> option to the tegra30_i2s_hw_params to configure the S24_LE or S32_LE
+>>> formats when requested.
+>>>
+>>> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
+>>> [ben.dooks@codethink.co.uk: fixup merge of 24 and 32bit]
+>>> [ben.dooks@codethink.co.uk: add pm calls around ytdm config]
+>>> [ben.dooks@codethink.co.uk: drop debug printing to dev_dbg]
+>>> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+>>> ---
+>>> squash 5aeca5a055fd ASoC: tegra: i2s: pm_runtime_get_sync() is needed
+>>> in tdm code
+>>>
+>>> ASoC: tegra: i2s: pm_runtime_get_sync() is needed in tdm code
+>>> ---
+>>>   sound/soc/tegra/tegra30_i2s.c | 25 ++++++++++++++++++++-----
+>>>   1 file changed, 20 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/sound/soc/tegra/tegra30_i2s.c
+>>> b/sound/soc/tegra/tegra30_i2s.c
+>>> index 73f0dddeaef3..063f34c882af 100644
+>>> --- a/sound/soc/tegra/tegra30_i2s.c
+>>> +++ b/sound/soc/tegra/tegra30_i2s.c
+>>> @@ -127,7 +127,7 @@ static int tegra30_i2s_hw_params(struct
+>>> snd_pcm_substream *substream,
+>>>       struct device *dev = dai->dev;
+>>>       struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
+>>>       unsigned int mask, val, reg;
+>>> -    int ret, sample_size, srate, i2sclock, bitcnt;
+>>> +    int ret, sample_size, srate, i2sclock, bitcnt, audio_bits;
+>>>       struct tegra30_ahub_cif_conf cif_conf;
+>>>         if (params_channels(params) != 2)
+>>> @@ -137,8 +137,19 @@ static int tegra30_i2s_hw_params(struct
+>>> snd_pcm_substream *substream,
+>>>       switch (params_format(params)) {
+>>>       case SNDRV_PCM_FORMAT_S16_LE:
+>>>           val = TEGRA30_I2S_CTRL_BIT_SIZE_16;
+>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_16;
+>>>           sample_size = 16;
+>>>           break;
+>>> +    case SNDRV_PCM_FORMAT_S24_LE:
+>>> +        val = TEGRA30_I2S_CTRL_BIT_SIZE_24;
+>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_24;
+>>> +        sample_size = 24;
+>>> +        break;
+>>> +    case SNDRV_PCM_FORMAT_S32_LE:
+>>> +        val = TEGRA30_I2S_CTRL_BIT_SIZE_32;
+>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_32;
+>>> +        sample_size = 32;
+>>> +        break;
+>>>       default:
+>>>           return -EINVAL;
+>>>       }
+>>> @@ -170,8 +181,8 @@ static int tegra30_i2s_hw_params(struct
+>>> snd_pcm_substream *substream,
+>>>       cif_conf.threshold = 0;
+>>>       cif_conf.audio_channels = 2;
+>>>       cif_conf.client_channels = 2;
+>>> -    cif_conf.audio_bits = TEGRA30_AUDIOCIF_BITS_16;
+>>> -    cif_conf.client_bits = TEGRA30_AUDIOCIF_BITS_16;
+>>> +    cif_conf.audio_bits = audio_bits;
+>>> +    cif_conf.client_bits = audio_bits;
+>>>       cif_conf.expand = 0;
+>>>       cif_conf.stereo_conv = 0;
+>>>       cif_conf.replicate = 0;
+>>> @@ -306,14 +317,18 @@ static const struct snd_soc_dai_driver
+>>> tegra30_i2s_dai_template = {
+>>>           .channels_min = 2,
+>>>           .channels_max = 2,
+>>>           .rates = SNDRV_PCM_RATE_8000_96000,
+>>> -        .formats = SNDRV_PCM_FMTBIT_S16_LE,
+>>> +        .formats = SNDRV_PCM_FMTBIT_S32_LE |
+>>> +               SNDRV_PCM_FMTBIT_S24_LE |
+>>> +               SNDRV_PCM_FMTBIT_S16_LE,
+>>>       },
+>>>       .capture = {
+>>>           .stream_name = "Capture",
+>>>           .channels_min = 2,
+>>>           .channels_max = 2,
+>>>           .rates = SNDRV_PCM_RATE_8000_96000,
+>>> -        .formats = SNDRV_PCM_FMTBIT_S16_LE,
+>>> +        .formats = SNDRV_PCM_FMTBIT_S32_LE |
+>>> +               SNDRV_PCM_FMTBIT_S24_LE |
+>>> +               SNDRV_PCM_FMTBIT_S16_LE,
+>>>       },
+>>>       .ops = &tegra30_i2s_dai_ops,
+>>>       .symmetric_rates = 1,
+>>>
+>>
+>> Hello,
+>>
+>> This patch breaks audio on Tegra30. I don't see errors anywhere, but
+>> there is no audio and reverting this patch helps. Please fix it.
 > 
-> On 25/11/2019 09:41, Greg Kroah-Hartman wrote:
-> > On Sun, Nov 24, 2019 at 08:31:46PM +0000, Jon Hunter wrote:
-> >>
-> >> On 23/11/2019 15:46, Guenter Roeck wrote:
-> >>> On 11/22/19 6:48 AM, Jon Hunter wrote:
-> >>>
-> >>> [ ... ]
-> >>>
-> >>>> Error: arch/arm/boot/dts/omap5-board-common.dtsi:636.1-6 Label or path
-> >>>> dwc3 not found
-> >>>> FATAL ERROR: Syntax error parsing input tree
-> >>>> scripts/Makefile.lib:293: recipe for target
-> >>>> 'arch/arm/boot/dts/omap5-igep0050.dtb' failed
-> >>>> make[1]: *** [arch/arm/boot/dts/omap5-igep0050.dtb] Error 1
-> >>>> arch/arm/Makefile:338: recipe for target 'dtbs' failed
-> >>>> make: *** [dtbs] Error 2
-> >>>>
-> >>>>
-> >>>> This is caused by the following commit ...
-> >>>>
-> >>>> commit d0abc07b3d752cbe2a8d315f662c53c772caed0f
-> >>>> Author: H. Nikolaus Schaller <hns@goldelico.com>
-> >>>> Date:�� Fri Sep 28 17:54:00 2018 +0200
-> >>>>
-> >>>> ���� ARM: dts: omap5: enable OTG role for DWC3 controller
-> >>>>
-> >>>
-> >>> On top of the breakage caused by this patch, I would also argue
-> >>> that it is not a bug fix and should not have been included
-> >>> in the first place.
-> >>>
-> >>> The dwc3 label was added with commit 4c387984618fe ("ARM: dts: omap5:
-> >>> Add l4 interconnect hierarchy and ti-sysc data"). Given the size of
-> >>> that patch, I highly doubt that a backport to 4.4 would work.
-> > 
-> > Good catch, I have now dropped both of these patches and pushed out a
-> > -rc3
-> > 
-> >> FYI ... I am still seeing a build failure because of this with -rc2 ...
-> > 
-> > Can you see if -rc3 is also giving you problems?
-> 
-> Better, but I appear to be seeing some random suspend failures with this
-> now on one board. I will try to bisect this.
-> 
-> Test results for stable-v4.4:
->     6 builds:	6 pass, 0 fail
->     12 boots:	12 pass, 0 fail
->     19 tests:	18 pass, 1 fail
-> 
-> Linux version:	4.4.203-rc3-g2576206c30b5
-> Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
->                 tegra30-cardhu-a04
+> What is the failure mode? I can try and take a look at this some time
+> this week, but I am not sure if I have any boards with an actual useful
+> audio output?
 
-Odd.  If you find anything interesting, please let me know.
-
-thanks for testing,
-
-greg k-h
+The failure mode is that there no sound. I also noticed that video
+playback stutters a lot if movie file has audio track, seems something
+times out during of the audio playback. For now I don't have any more info.
