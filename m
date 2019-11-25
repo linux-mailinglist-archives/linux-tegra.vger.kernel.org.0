@@ -2,97 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 463F0108B11
-	for <lists+linux-tegra@lfdr.de>; Mon, 25 Nov 2019 10:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D116B108B39
+	for <lists+linux-tegra@lfdr.de>; Mon, 25 Nov 2019 10:56:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727298AbfKYJlT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 Nov 2019 04:41:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44866 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727261AbfKYJlT (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 Nov 2019 04:41:19 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 75E61207FD;
-        Mon, 25 Nov 2019 09:41:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574674878;
-        bh=+Y6FIMc4+xqo5D5vbmeoa59aQM+tiG4yrw3isimy21M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RdZ/Ar69kyQ4p7MLxhA2LWC/rkl+WJhM0vwykksYnDs8Mf+E1RCYSNzCma8THvDOF
-         LWrRk4mMf07uylhXs1X60LCbztuv8Qzq9B7rei6FCUQEtD8qauGpuU4gXlUiNKPs78
-         gL28Gwxp4rxEgUuDXS1LwRzkc5EkMRIuNPV2yAXI=
-Date:   Mon, 25 Nov 2019 10:41:16 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        shuah@kernel.org, patches@kernelci.org,
-        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
-        stable@vger.kernel.org, linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 4.4 000/159] 4.4.203-stable review
-Message-ID: <20191125094116.GA2340170@kroah.com>
-References: <20191122100704.194776704@linuxfoundation.org>
- <f0f505ae-5113-1abd-d4f7-0c3535c83de4@nvidia.com>
- <20191122133931.GA2033651@kroah.com>
- <20191122134131.GA2050590@kroah.com>
- <20191122134627.GB2050590@kroah.com>
- <9f976044-2dbc-6c19-11e7-210cd7ab35ea@nvidia.com>
- <a5d68f07-5f9a-2809-404d-bcd8ca593d70@roeck-us.net>
- <7edc9531-347e-9ac7-2583-5efb49acffdb@nvidia.com>
+        id S1727215AbfKYJ4e (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 Nov 2019 04:56:34 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37544 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727133AbfKYJ4d (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 25 Nov 2019 04:56:33 -0500
+Received: by mail-wr1-f66.google.com with SMTP id t1so17124142wrv.4
+        for <linux-tegra@vger.kernel.org>; Mon, 25 Nov 2019 01:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mQLXL4wEvCHiGZx1WE499NjfF/ywAujK0jr8uEANUhc=;
+        b=C2KaDLiFnlOYsWP3jS8XknzxzkuuBZxi9r3cHIV+ylP0OxOLzS8e+bYjxtNS7ODOlo
+         RE9RB1cDEI4wPLl537d/Q6XHkyN14me1kHnTZMS04AEjfIWS8n3+YXkQs1kiI3Ugsioj
+         Jaoy02TQnSYhVgnchkhrrpwsrVj9NVUpjSefI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mQLXL4wEvCHiGZx1WE499NjfF/ywAujK0jr8uEANUhc=;
+        b=asdHSUg7LYAxNYy0EIk5WwjhfiKgKkhpVK84NUstMwjj7FxY3OPASR+Ok/JTcEfmtI
+         MltsaYKG+3M9A+x01p9l7kIeRQup8hJ9smyQ2Xb77KRpcygBNy6Q4JBvJ0JXJWUr/hAu
+         Ej2s5ppiNNcW2FqZdZnOYm7TRT0ri7EOyKcEOEWKxwQQr7ex2kwCdk1TUBIXEikMncZD
+         jfnBlvbXbiV2YdSqOOV8iFc+IkJjJyTAEYG9b9gJe/YDuWZblIsq8RJ9ZiuEG7HRXyl2
+         UtNXTW6sil6tcl+EG9EfyMNvYz9NfaDt2ZqwMOmC1JlySketUUUkRMucMgMeFck4DOK+
+         KcbA==
+X-Gm-Message-State: APjAAAWS0t4G1nO7vRhoRWmXNwTmNHqX0ETNfu2kF/gn110MHsWg3nkL
+        dGk3/5eGF6UnlYNGLFQxZVTOtA==
+X-Google-Smtp-Source: APXvYqxT2jc/vj80jYZH5pCOS2C3bSf/Y0E/TFujPDmPYxHwgfOnnJiIxnMWRiZ/oSAW6UMxuNP5Uw==
+X-Received: by 2002:adf:f18e:: with SMTP id h14mr31979916wro.348.1574675792033;
+        Mon, 25 Nov 2019 01:56:32 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id y15sm9349438wrh.94.2019.11.25.01.56.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Nov 2019 01:56:30 -0800 (PST)
+Date:   Mon, 25 Nov 2019 10:56:29 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH] drm/tegra: vic: Export module device table
+Message-ID: <20191125095629.GK29965@phenom.ffwll.local>
+References: <20191122133215.1317039-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7edc9531-347e-9ac7-2583-5efb49acffdb@nvidia.com>
+In-Reply-To: <20191122133215.1317039-1-thierry.reding@gmail.com>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Nov 24, 2019 at 08:31:46PM +0000, Jon Hunter wrote:
+On Fri, Nov 22, 2019 at 02:32:15PM +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> On 23/11/2019 15:46, Guenter Roeck wrote:
-> > On 11/22/19 6:48 AM, Jon Hunter wrote:
-> > 
-> > [ ... ]
-> > 
-> >> Error: arch/arm/boot/dts/omap5-board-common.dtsi:636.1-6 Label or path
-> >> dwc3 not found
-> >> FATAL ERROR: Syntax error parsing input tree
-> >> scripts/Makefile.lib:293: recipe for target
-> >> 'arch/arm/boot/dts/omap5-igep0050.dtb' failed
-> >> make[1]: *** [arch/arm/boot/dts/omap5-igep0050.dtb] Error 1
-> >> arch/arm/Makefile:338: recipe for target 'dtbs' failed
-> >> make: *** [dtbs] Error 2
-> >>
-> >>
-> >> This is caused by the following commit ...
-> >>
-> >> commit d0abc07b3d752cbe2a8d315f662c53c772caed0f
-> >> Author: H. Nikolaus Schaller <hns@goldelico.com>
-> >> Date:   Fri Sep 28 17:54:00 2018 +0200
-> >>
-> >>      ARM: dts: omap5: enable OTG role for DWC3 controller
-> >>
-> > 
-> > On top of the breakage caused by this patch, I would also argue
-> > that it is not a bug fix and should not have been included
-> > in the first place.
-> > 
-> > The dwc3 label was added with commit 4c387984618fe ("ARM: dts: omap5:
-> > Add l4 interconnect hierarchy and ti-sysc data"). Given the size of
-> > that patch, I highly doubt that a backport to 4.4 would work.
+> Export the module device table to ensure the VIC compatible strings are
+> listed in the module's aliases table. This in turn causes the driver to
+> be automatically loaded on boot if VIC is the only enabled subdevice of
+> the logical host1x DRM device.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 
-Good catch, I have now dropped both of these patches and pushed out a
--rc3
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> FYI ... I am still seeing a build failure because of this with -rc2 ...
+I noticed that the drm subdev driver also lacks the matches. How does that
+work? Just by getting loaded when any of the subdev drivers match?
+-Daniel
 
-Can you see if -rc3 is also giving you problems?
+> ---
+>  drivers/gpu/drm/tegra/vic.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+> index 9444ba183990..c4d82b8b3065 100644
+> --- a/drivers/gpu/drm/tegra/vic.c
+> +++ b/drivers/gpu/drm/tegra/vic.c
+> @@ -386,13 +386,14 @@ static const struct vic_config vic_t194_config = {
+>  	.supports_sid = true,
+>  };
+>  
+> -static const struct of_device_id vic_match[] = {
+> +static const struct of_device_id tegra_vic_of_match[] = {
+>  	{ .compatible = "nvidia,tegra124-vic", .data = &vic_t124_config },
+>  	{ .compatible = "nvidia,tegra210-vic", .data = &vic_t210_config },
+>  	{ .compatible = "nvidia,tegra186-vic", .data = &vic_t186_config },
+>  	{ .compatible = "nvidia,tegra194-vic", .data = &vic_t194_config },
+>  	{ },
+>  };
+> +MODULE_DEVICE_TABLE(of, tegra_vic_of_match);
+>  
+>  static int vic_probe(struct platform_device *pdev)
+>  {
+> @@ -516,7 +517,7 @@ static const struct dev_pm_ops vic_pm_ops = {
+>  struct platform_driver tegra_vic_driver = {
+>  	.driver = {
+>  		.name = "tegra-vic",
+> -		.of_match_table = vic_match,
+> +		.of_match_table = tegra_vic_of_match,
+>  		.pm = &vic_pm_ops
+>  	},
+>  	.probe = vic_probe,
+> -- 
+> 2.23.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-thanks,
-
-greg k-h
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
