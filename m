@@ -2,42 +2,44 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34E0910A159
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 Nov 2019 16:41:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5992410A4EE
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 Nov 2019 20:56:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728599AbfKZPld (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 26 Nov 2019 10:41:33 -0500
-Received: from mga18.intel.com ([134.134.136.126]:48316 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725972AbfKZPld (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 26 Nov 2019 10:41:33 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2019 07:41:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,246,1571727600"; 
-   d="scan'208";a="202753867"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
-  by orsmga008.jf.intel.com with ESMTP; 26 Nov 2019 07:41:30 -0800
-Subject: Re: [PATCH 10/10] usb: host: xhci-tegra: Implement basic ELPG support
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
-        Nagarjuna Kristam <nkristam@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20191125123210.1564323-1-thierry.reding@gmail.com>
- <20191125123210.1564323-11-thierry.reding@gmail.com>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-ID: <ceee6a21-c46f-c63f-d38f-78daf7a72969@linux.intel.com>
-Date:   Tue, 26 Nov 2019 17:43:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727282AbfKZT4A (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 26 Nov 2019 14:56:00 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57126 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbfKZT4A (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 26 Nov 2019 14:56:00 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: gtucker)
+        with ESMTPSA id AA72C283CEA
+Subject: Re: clk/clk-next bisection: boot on tegra124-nyan-big
+To:     Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <treding@nvidia.com>
+Cc:     tomeu.vizoso@collabora.com, mgalka@collabora.com,
+        broonie@kernel.org, matthew.hart@linaro.org, khilman@baylibre.com,
+        enric.balletbo@collabora.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        linux-tegra@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk@vger.kernel.org
+References: <5dd4ce40.1c69fb81.548f8.e723@mx.google.com>
+ <53eda2aa-35d0-8776-e2cb-b6c4e8c1ff7f@collabora.com>
+ <20191122170141.4B9BF2068F@mail.kernel.org>
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+Message-ID: <2e734116-55da-c799-58b4-14e8c02deece@collabora.com>
+Date:   Tue, 26 Nov 2019 19:55:54 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191125123210.1564323-11-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191122170141.4B9BF2068F@mail.kernel.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -45,199 +47,39 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 25.11.2019 14.32, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
+On 22/11/2019 17:01, Stephen Boyd wrote:
+> Quoting Guillaume Tucker (2019-11-20 00:17:28)
+>> On 20/11/2019 05:25, kernelci.org bot wrote:
+>>> Author: Thierry Reding <treding@nvidia.com>
+>>> Date:   Thu Jul 25 18:19:00 2019 +0200
+>>>
+>>>     clk: tegra: Reimplement SOR clock on Tegra124
+>>>     
+>>>     In order to allow the display driver to deal uniformly with all SOR
+>>>     generations, implement the SOR clocks in a way that is compatible with
+>>>     Tegra186 and later.
+>>>     
+>>>     Acked-by: Stephen Boyd <sboyd@kernel.org>
+>>>     Signed-off-by: Thierry Reding <treding@nvidia.com>
+>>
+>> There was already a bisection last Thursday which found this
+>> commit, and Thierry explained that it works in linux-next thanks
+>> to other patches.  I guess those patches are not going to be
+>> cherry-picked onto the clk-next branch, so this will keep failing
+>> until it's rebased.  Is that right?
+>>
+>> If so, I can turn off bisections on clk-next for now.  We need to
+>> have a way in KernelCI to tell that a commit has been fixed to
+>> cope with this kind of situation in general.
+>>
 > 
-> This implements basic engine-level powergate support which allows the
-> XUSB controller to be put into a low power mode on system sleep and get
-> it out of that low power mode again on resume.
-> 
-> Based on work by JC Kuo <jckuo@nvidia.com>.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->   drivers/usb/host/xhci-tegra.c | 137 ++++++++++++++++++++++++++++++++--
->   1 file changed, 129 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-> index cd3afec408ea..d0e30927a73f 100644
-> --- a/drivers/usb/host/xhci-tegra.c
-> +++ b/drivers/usb/host/xhci-tegra.c
-> @@ -1451,6 +1451,45 @@ static int tegra_xusb_remove(struct platform_device *pdev)
->   }
->   
->   #ifdef CONFIG_PM_SLEEP
-> +static bool xhci_hub_ports_suspended(struct xhci_hub *hub)
-> +{
-> +	struct device *dev = hub->hcd->self.controller;
-> +	bool status = true;
-> +	unsigned int i;
-> +	u32 value;
-> +
-> +	for (i = 0; i < hub->num_ports; i++) {
-> +		value = readl(hub->ports[i]->addr);
-> +		if ((value & PORT_PE) == 0)
-> +			continue;
-> +
-> +		if ((value & PORT_PLS_MASK) != XDEV_U3) {
-> +			dev_info(dev, "%u-%u isn't suspended: %#010x\n",
-> +				 hub->hcd->self.busnum, i + 1, value);
-> +			status = false;
-> +		}
-> +	}
-> +
-> +	return status;
-> +}
-> +
-> +static int tegra_xusb_check_ports(struct tegra_xusb *tegra)
-> +{
-> +	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
-> +	unsigned long flags;
-> +	int err = 0;
-> +
-> +	spin_lock_irqsave(&xhci->lock, flags);
-> +
-> +	if (!xhci_hub_ports_suspended(&xhci->usb2_rhub) ||
-> +	    !xhci_hub_ports_suspended(&xhci->usb3_rhub))
-> +		err = -EBUSY;
-> +
-> +	spin_unlock_irqrestore(&xhci->lock, flags);
-> +
-> +	return err;
-> +}
-> +
->   static void tegra_xusb_save_context(struct tegra_xusb *tegra)
->   {
->   	const struct tegra_xusb_context_soc *soc = tegra->soc->context;
-> @@ -1485,31 +1524,113 @@ static void tegra_xusb_restore_context(struct tegra_xusb *tegra)
->   	}
->   }
->   
-> -static int tegra_xusb_suspend(struct device *dev)
-> +static int tegra_xusb_enter_elpg(struct tegra_xusb *tegra, bool wakeup)
->   {
-> -	struct tegra_xusb *tegra = dev_get_drvdata(dev);
->   	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
-> -	bool wakeup = device_may_wakeup(dev);
-> +	u32 value;
->   	int err;
->   
-> -	/* TODO: Powergate controller across suspend/resume. */
-> +	err = tegra_xusb_check_ports(tegra);
-> +	if (err < 0) {
-> +		dev_err(tegra->dev, "not all ports suspended: %d\n", err);
-> +		return err;
-> +	}
-> +
->   	err = xhci_suspend(xhci, wakeup);
-> -	if (err < 0)
-> +	if (err < 0) {
-> +		dev_err(tegra->dev, "failed to suspend XHCI: %d\n", err);
->   		return err;
-> +	}
->   
->   	tegra_xusb_save_context(tegra);
-> +	tegra_xusb_phy_disable(tegra);
-> +	tegra_xusb_clk_disable(tegra);
->   
->   	return 0;
->   }
->   
-> -static int tegra_xusb_resume(struct device *dev)
-> +static int tegra_xusb_exit_elpg(struct tegra_xusb *tegra, bool wakeup)
->   {
-> -	struct tegra_xusb *tegra = dev_get_drvdata(dev);
->   	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
-> +	u32 value;
-> +	int err;
->   
-> +	err = tegra_xusb_clk_enable(tegra);
-> +	if (err < 0) {
-> +		dev_err(tegra->dev, "failed to enable clocks: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = tegra_xusb_phy_enable(tegra);
-> +	if (err < 0) {
-> +		dev_err(tegra->dev, "failed to enable PHYs: %d\n", err);
-> +		goto disable_clk;
-> +	}
-> +
-> +	tegra_xusb_config(tegra);
->   	tegra_xusb_restore_context(tegra);
->   
-> -	return xhci_resume(xhci, false);
-> +	err = tegra_xusb_load_firmware(tegra);
-> +	if (err < 0) {
-> +		dev_err(tegra->dev, "failed to load firmware: %d\n", err);
-> +		goto disable_phy;
-> +	}
-> +
-> +	err = __tegra_xusb_enable_firmware_messages(tegra);
-> +	if (err < 0) {
-> +		dev_err(tegra->dev, "failed to enable messages: %d\n", err);
-> +		goto disable_phy;
-> +	}
-> +
-> +	err = xhci_resume(xhci, true);
-> +	if (err < 0) {
-> +		dev_err(tegra->dev, "failed to resume XHCI: %d\n", err);
-> +		goto disable_phy;
-> +	}
-> +
-> +	return 0;
-> +
-> +disable_phy:
-> +	tegra_xusb_phy_disable(tegra);
-> +disable_clk:
-> +	tegra_xusb_clk_disable(tegra);
-> +	return err;
-> +}
-> +
-> +static int tegra_xusb_suspend(struct device *dev)
-> +{
-> +	struct tegra_xusb *tegra = dev_get_drvdata(dev);
-> +	bool wakeup = device_may_wakeup(dev);
-> +	int err;
-> +
-> +	synchronize_irq(tegra->mbox_irq);
-> +
-> +	mutex_lock(&tegra->lock);
-> +
-> +	err = tegra_xusb_enter_elpg(tegra, wakeup);
-> +	if (err < 0)
-> +		goto unlock;
+> I guess so. It's disappointing that a bisection hole was introduced
+> though. I can possibly merge something onto clk-next from the Tegra tree
+> to make this go away but the bisection hole will always exist. Or we can
+> all wait a week and not care about this problem anymore.
 
-Is there some code missing here, or just preparing for some future feature?
+Yes, let's just wait.  I'll check next week that the issue is
+gone in the test reports and re-enable bisection accordingly.
 
-> +
-> +unlock:
-> +	mutex_unlock(&tegra->lock);
-> +	return err;
-> +}
-> +
-> +static int tegra_xusb_resume(struct device *dev)
-> +{
-> +	struct tegra_xusb *tegra = dev_get_drvdata(dev);
-> +	bool wakeup = device_may_wakeup(dev);
-> +	int err;
-> +
-> +	mutex_lock(&tegra->lock);
-> +
-> +	err = tegra_xusb_exit_elpg(tegra, wakeup);
-> +	if (err < 0)
-> +		goto unlock;
-> +
-> +unlock:
-> +	mutex_unlock(&tegra->lock);
-> +	return err;
->   }
->   #endif
->   
+Guillaume
 
-Whole series looks good to me otherwise.
-
-Let me know if you want me to take this as is, or if you are planning on making a second version
-
-Thanks
-Mathias
