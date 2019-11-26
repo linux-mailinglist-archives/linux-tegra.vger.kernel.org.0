@@ -2,100 +2,175 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5578A1097E5
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 Nov 2019 03:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF9F109847
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 Nov 2019 05:20:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727139AbfKZCuc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 Nov 2019 21:50:32 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:15900 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725946AbfKZCuc (ORCPT
+        id S1727188AbfKZEUR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 25 Nov 2019 23:20:17 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:1377 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726947AbfKZEUR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 Nov 2019 21:50:32 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ddc92fb0000>; Mon, 25 Nov 2019 18:50:35 -0800
+        Mon, 25 Nov 2019 23:20:17 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ddca8010001>; Mon, 25 Nov 2019 20:20:17 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 25 Nov 2019 18:50:31 -0800
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 25 Nov 2019 20:20:15 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 25 Nov 2019 18:50:31 -0800
-Received: from [10.19.108.118] (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate102.nvidia.com on Mon, 25 Nov 2019 20:20:15 -0800
+Received: from [10.24.193.46] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 26 Nov
- 2019 02:50:30 +0000
-Subject: Re: [PATCH 01/10] usb: host: xhci-tegra: Fix "tega" -> "tegra" typo
+ 2019 04:20:12 +0000
+Subject: Re: [PATCH v4 3/5] dt-bindings: phy: tegra: Add Tegra194 support
 To:     Thierry Reding <thierry.reding@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Jon Hunter <jonathanh@nvidia.com>,
-        Nagarjuna Kristam <nkristam@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        <linux-usb@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-References: <20191125123210.1564323-1-thierry.reding@gmail.com>
- <20191125123210.1564323-2-thierry.reding@gmail.com>
+        JC Kuo <jckuo@nvidia.com>, "Rob Herring" <robh@kernel.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        <linux-tegra@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+References: <20191009024343.30218-1-jckuo@nvidia.com>
+ <20191009024343.30218-4-jckuo@nvidia.com> <20191009233900.GA9109@bogus>
+ <20191014131752.GF422231@ulmo>
+ <CAL_Jsq+aKxfAir3skanfqmM+nFFzXPFL4eMa-+pq1kH-90YTbg@mail.gmail.com>
+ <57692050-8284-a31f-71fd-7441823f3f2b@nvidia.com>
+ <20191017120128.GE3122066@ulmo>
 X-Nvconfidentiality: public
-From:   JC Kuo <jckuo@nvidia.com>
-Message-ID: <d5fcfb0c-7c2f-7d1c-b7e7-20977d60f062@nvidia.com>
-Date:   Tue, 26 Nov 2019 10:50:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+Message-ID: <0fd1f30c-5155-e1df-69b9-a49271b7cbce@nvidia.com>
+Date:   Tue, 26 Nov 2019 09:51:57 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191125123210.1564323-2-thierry.reding@gmail.com>
+In-Reply-To: <20191017120128.GE3122066@ulmo>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574736635; bh=1H+dEd1NafKkz8/NDNK4+pWjOWEcyCrUNoNf0H+F4FU=;
+        t=1574742017; bh=z3EDY6Eao4JzaFtK6U1s4QYBS3tl1Z7pp75azK3pO0o=;
         h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
          Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
          X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=EXzB2l7ddoOb3O6rWpRg53hOCr32QJ5dVlZ9kaiJdzIIkSoJQsv2HbzK2928k5SKW
-         RBVKOuQUUypOufwWKMD9xfVkW90CqY+E7ohEQV19DS8/j7ZFx0g1vj3A0WQSphk7MD
-         Pge5TFL88Bswhz5XjzAeruKQpKdOOVrmogW3GeQZgVpvTKAQvTbCt3YTCsNGoFGoxM
-         Haqdn/rE1nIVILBRdiAoR5mUCiSdMROaqygDpA0kT0aktvWuEQEQSDx5JkrlTX8FOl
-         2yZQeRbZQ8dfGc2LhtCVu/zbln1rQIwPIf1hx3p8+jPjANuLV4YBM7CGhM2gIMbbMi
-         bRvcRru6cj10g==
+        b=GhNKSt0c59jg+kLa61P4Y7fUmS5B6/57P69x4BbS3s3kr9ya+cgppsDi9gAODDoOM
+         CHe9bpxybhbX5WkOTH1zyXv455rh2nUDr1mBks7ZMTsXoZjc5MyfZm05DW5RAqacQX
+         zDvMrj6WnkiaQj63jDEMcfeSaUph5eAu0mH4BAjoK/2kiMkLK7ey1Zr8lS8tybxXtI
+         33RfTA9tQ5cEBvZU4qyb5Dt2v7MWl7ow4luF8uqK2i+BRAv/RsF7r2nN779yZYuXa1
+         Mm9i5l7ltO05tkpPW7zAGM9wkSVR5qOr46u53lpEL7nihLrxSmdrXZBgKhNRKnx2mi
+         m+l2KPQXG1Y+Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Reviewed-by: JC Kuo <jckuo@nvidia.com>
 
-On 11/25/19 8:32 PM, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
+
+On 17-10-2019 17:31, Thierry Reding wrote:
+> On Thu, Oct 17, 2019 at 03:48:52PM +0800, JC Kuo wrote:
+>> Hi Thierry, Hi Rob, Hi Kishon,
+>> Please let me know your thoughts of the below implementation.
+>>
+>> 1. Add a "bool disable_gen2" to "phy->attrs" structure.
+>> 2. In _of_phy_get() of phy-core.c to add the follow to parse a generic property.
+>>
+>> 	phy->attrs.disable_gen2 = of_property_read_bool(args.np,
+>> 							"usb-disable-gen2");
 > 
-> The tegra_xusb_mbox_regs structure was misspelled tega_xusb_mbox_regs.
-> Fortunately this was done consistently so it didn't cause any issues.
+> Regarding this, I'm not sure how Rob imagined the generic properties to
+> work. Perhaps he was thinking about something like the max-link-speed
+> property found in the PCI bindings.
 > 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/usb/host/xhci-tegra.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> We could have something like this:
 > 
-> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-> index bf9065438320..aa1c4e5fd750 100644
-> --- a/drivers/usb/host/xhci-tegra.c
-> +++ b/drivers/usb/host/xhci-tegra.c
-> @@ -145,7 +145,7 @@ struct tegra_xusb_phy_type {
->  	unsigned int num;
->  };
->  
-> -struct tega_xusb_mbox_regs {
-> +struct tegra_xusb_mbox_regs {
->  	u16 cmd;
->  	u16 data_in;
->  	u16 data_out;
-> @@ -166,7 +166,7 @@ struct tegra_xusb_soc {
->  		} usb2, ulpi, hsic, usb3;
->  	} ports;
->  
-> -	struct tega_xusb_mbox_regs mbox;
-> +	struct tegra_xusb_mbox_regs mbox;
->  
->  	bool scale_ss_clock;
->  	bool has_ipfs;
+>   - max-link-speed:
+>       If present this property specifies the USB generation supported on
+>       the PHY/port. Must be:
+>         1: for USB 3.1 Gen 1 (a.k.a. USB 3.0)
+>         2: for USB 3.1 Gen 2
 > 
+> I'm not sure if we need to consider anything prior to USB 3.0. I suppose
+> we could do a similar mapping to what I proposed for the PHY ->set_mode
+> callback:
+> 
+>   - max-link-speed:
+>       If present this property specifies the USB generation supported on
+>       the PHY/port. Must be:
+>         0x0100: for USB 1.0 (Low-Speed)
+>         0x0101: for USB 1.1 (Full-Speed)
+>         0x0200: for USB 2.0 (Hi-Speed)
+>         0x0300: for USB 3.0 (SuperSpeed) (a.k.a. USB 3.1 Gen 1)
+>         0x0301: for USB 3.1 (SuperSpeed 10 Gbit/s) (a.k.a. USB 3.1 Gen 2)
+>         0x0302: for USB 3.2 (SuperSpeed 20 Gbit/s) (a.k.a. USB 3.2 Gen 2 x 2)
+>         ...
+> 
+> Or those could just be sequentially enumerated, like in the above
+> example.
+> 
+> Rob, any thoughts?
+> 
+> Thierry
+> 
+
+"Documentation/devicetree/bindings/usb/generic.txt" file already has dt-property named
+maximum-speed, which fulfills current requirement. So to disable gen2 feature simply
+add below entry to corresponding usb3 port entry.
+		padctl@3520000 {
+			status = "okay";
+
+			ports {
+				usb3-3 {
+					maximum-speed = "super-speed";
+				};
+		};
+
+Read the property using API usb_get_maximum_speed.
+
+Thanks,
+Nagarjuna
+>> 3. In individual phy driver, to add SOC/PHY specific programming accordingly.
+>>
+>> Thanks,
+>> JC
+>>
+>> On 10/14/19 9:40 PM, Rob Herring wrote:
+>>> On Mon, Oct 14, 2019 at 8:17 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+>>>>
+>>>> On Wed, Oct 09, 2019 at 06:39:00PM -0500, Rob Herring wrote:
+>>>>> On Wed, Oct 09, 2019 at 10:43:41AM +0800, JC Kuo wrote:
+>>>>>> Extend the bindings to cover the set of features found in Tegra194.
+>>>>>> Note that, technically, there are four more supplies connected to the
+>>>>>> XUSB pad controller (DVDD_PEX, DVDD_PEX_PLL, HVDD_PEX and HVDD_PEX_PLL)
+>>>>>> , but the power sequencing requirements of Tegra194 require these to be
+>>>>>> under the control of the PMIC.
+>>>>>>
+>>>>>> Tegra194 XUSB PADCTL supports up to USB 3.1 Gen 2 speed, however, it is
+>>>>>> possible for some platforms have long signal trace that could not
+>>>>>> provide sufficient electrical environment for Gen 2 speed. To deal with
+>>>>>> this, a new device node property "nvidia,disable-gen2" was added to
+>>>>>> Tegra194 that be used to specifically disable Gen 2 speed for a
+>>>>>> particular USB 3.0 port so that the port can be limited to Gen 1 speed
+>>>>>> and avoid the instability.
+>>>>>
+>>>>> I suspect this may be a common issue and we should have a common
+>>>>> property. Typically, this kind of property is in the controller though
+>>>>> and supports multiple speed limits. See PCI bindings for inspiration.
+>>>>
+>>>> Given that support for gen 2 speeds is dependent on signal trace length,
+>>>> it doesn't really make sense to restrict the whole controller to a given
+>>>> speed if only the signal trace for a single port exceeds the limit for
+>>>> which gen 2 would work.
+>>>>
+>>>> Also, the USB PHYs are in a different hardware block than the USB
+>>>> controller, so this really is a property of the PHY block, not the USB
+>>>> controller.
+>>>
+>>> Okay, but still should be common for USB PHYs IMO.
+>>>
+>>> Rob
+>>>
