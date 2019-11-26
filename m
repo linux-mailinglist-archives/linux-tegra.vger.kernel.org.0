@@ -2,175 +2,242 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BF9F109847
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 Nov 2019 05:20:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34E0910A159
+	for <lists+linux-tegra@lfdr.de>; Tue, 26 Nov 2019 16:41:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727188AbfKZEUR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 25 Nov 2019 23:20:17 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:1377 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726947AbfKZEUR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 25 Nov 2019 23:20:17 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ddca8010001>; Mon, 25 Nov 2019 20:20:17 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 25 Nov 2019 20:20:15 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 25 Nov 2019 20:20:15 -0800
-Received: from [10.24.193.46] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 26 Nov
- 2019 04:20:12 +0000
-Subject: Re: [PATCH v4 3/5] dt-bindings: phy: tegra: Add Tegra194 support
+        id S1728599AbfKZPld (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 26 Nov 2019 10:41:33 -0500
+Received: from mga18.intel.com ([134.134.136.126]:48316 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725972AbfKZPld (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 26 Nov 2019 10:41:33 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2019 07:41:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,246,1571727600"; 
+   d="scan'208";a="202753867"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga008.jf.intel.com with ESMTP; 26 Nov 2019 07:41:30 -0800
+Subject: Re: [PATCH 10/10] usb: host: xhci-tegra: Implement basic ELPG support
 To:     Thierry Reding <thierry.reding@gmail.com>,
-        JC Kuo <jckuo@nvidia.com>, "Rob Herring" <robh@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        <linux-tegra@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20191009024343.30218-1-jckuo@nvidia.com>
- <20191009024343.30218-4-jckuo@nvidia.com> <20191009233900.GA9109@bogus>
- <20191014131752.GF422231@ulmo>
- <CAL_Jsq+aKxfAir3skanfqmM+nFFzXPFL4eMa-+pq1kH-90YTbg@mail.gmail.com>
- <57692050-8284-a31f-71fd-7441823f3f2b@nvidia.com>
- <20191017120128.GE3122066@ulmo>
-X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <0fd1f30c-5155-e1df-69b9-a49271b7cbce@nvidia.com>
-Date:   Tue, 26 Nov 2019 09:51:57 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
+        Nagarjuna Kristam <nkristam@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20191125123210.1564323-1-thierry.reding@gmail.com>
+ <20191125123210.1564323-11-thierry.reding@gmail.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <ceee6a21-c46f-c63f-d38f-78daf7a72969@linux.intel.com>
+Date:   Tue, 26 Nov 2019 17:43:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191017120128.GE3122066@ulmo>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
+In-Reply-To: <20191125123210.1564323-11-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574742017; bh=z3EDY6Eao4JzaFtK6U1s4QYBS3tl1Z7pp75azK3pO0o=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=GhNKSt0c59jg+kLa61P4Y7fUmS5B6/57P69x4BbS3s3kr9ya+cgppsDi9gAODDoOM
-         CHe9bpxybhbX5WkOTH1zyXv455rh2nUDr1mBks7ZMTsXoZjc5MyfZm05DW5RAqacQX
-         zDvMrj6WnkiaQj63jDEMcfeSaUph5eAu0mH4BAjoK/2kiMkLK7ey1Zr8lS8tybxXtI
-         33RfTA9tQ5cEBvZU4qyb5Dt2v7MWl7ow4luF8uqK2i+BRAv/RsF7r2nN779yZYuXa1
-         Mm9i5l7ltO05tkpPW7zAGM9wkSVR5qOr46u53lpEL7nihLrxSmdrXZBgKhNRKnx2mi
-         m+l2KPQXG1Y+Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 25.11.2019 14.32, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> This implements basic engine-level powergate support which allows the
+> XUSB controller to be put into a low power mode on system sleep and get
+> it out of that low power mode again on resume.
+> 
+> Based on work by JC Kuo <jckuo@nvidia.com>.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>   drivers/usb/host/xhci-tegra.c | 137 ++++++++++++++++++++++++++++++++--
+>   1 file changed, 129 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+> index cd3afec408ea..d0e30927a73f 100644
+> --- a/drivers/usb/host/xhci-tegra.c
+> +++ b/drivers/usb/host/xhci-tegra.c
+> @@ -1451,6 +1451,45 @@ static int tegra_xusb_remove(struct platform_device *pdev)
+>   }
+>   
+>   #ifdef CONFIG_PM_SLEEP
+> +static bool xhci_hub_ports_suspended(struct xhci_hub *hub)
+> +{
+> +	struct device *dev = hub->hcd->self.controller;
+> +	bool status = true;
+> +	unsigned int i;
+> +	u32 value;
+> +
+> +	for (i = 0; i < hub->num_ports; i++) {
+> +		value = readl(hub->ports[i]->addr);
+> +		if ((value & PORT_PE) == 0)
+> +			continue;
+> +
+> +		if ((value & PORT_PLS_MASK) != XDEV_U3) {
+> +			dev_info(dev, "%u-%u isn't suspended: %#010x\n",
+> +				 hub->hcd->self.busnum, i + 1, value);
+> +			status = false;
+> +		}
+> +	}
+> +
+> +	return status;
+> +}
+> +
+> +static int tegra_xusb_check_ports(struct tegra_xusb *tegra)
+> +{
+> +	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
+> +	unsigned long flags;
+> +	int err = 0;
+> +
+> +	spin_lock_irqsave(&xhci->lock, flags);
+> +
+> +	if (!xhci_hub_ports_suspended(&xhci->usb2_rhub) ||
+> +	    !xhci_hub_ports_suspended(&xhci->usb3_rhub))
+> +		err = -EBUSY;
+> +
+> +	spin_unlock_irqrestore(&xhci->lock, flags);
+> +
+> +	return err;
+> +}
+> +
+>   static void tegra_xusb_save_context(struct tegra_xusb *tegra)
+>   {
+>   	const struct tegra_xusb_context_soc *soc = tegra->soc->context;
+> @@ -1485,31 +1524,113 @@ static void tegra_xusb_restore_context(struct tegra_xusb *tegra)
+>   	}
+>   }
+>   
+> -static int tegra_xusb_suspend(struct device *dev)
+> +static int tegra_xusb_enter_elpg(struct tegra_xusb *tegra, bool wakeup)
+>   {
+> -	struct tegra_xusb *tegra = dev_get_drvdata(dev);
+>   	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
+> -	bool wakeup = device_may_wakeup(dev);
+> +	u32 value;
+>   	int err;
+>   
+> -	/* TODO: Powergate controller across suspend/resume. */
+> +	err = tegra_xusb_check_ports(tegra);
+> +	if (err < 0) {
+> +		dev_err(tegra->dev, "not all ports suspended: %d\n", err);
+> +		return err;
+> +	}
+> +
+>   	err = xhci_suspend(xhci, wakeup);
+> -	if (err < 0)
+> +	if (err < 0) {
+> +		dev_err(tegra->dev, "failed to suspend XHCI: %d\n", err);
+>   		return err;
+> +	}
+>   
+>   	tegra_xusb_save_context(tegra);
+> +	tegra_xusb_phy_disable(tegra);
+> +	tegra_xusb_clk_disable(tegra);
+>   
+>   	return 0;
+>   }
+>   
+> -static int tegra_xusb_resume(struct device *dev)
+> +static int tegra_xusb_exit_elpg(struct tegra_xusb *tegra, bool wakeup)
+>   {
+> -	struct tegra_xusb *tegra = dev_get_drvdata(dev);
+>   	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
+> +	u32 value;
+> +	int err;
+>   
+> +	err = tegra_xusb_clk_enable(tegra);
+> +	if (err < 0) {
+> +		dev_err(tegra->dev, "failed to enable clocks: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	err = tegra_xusb_phy_enable(tegra);
+> +	if (err < 0) {
+> +		dev_err(tegra->dev, "failed to enable PHYs: %d\n", err);
+> +		goto disable_clk;
+> +	}
+> +
+> +	tegra_xusb_config(tegra);
+>   	tegra_xusb_restore_context(tegra);
+>   
+> -	return xhci_resume(xhci, false);
+> +	err = tegra_xusb_load_firmware(tegra);
+> +	if (err < 0) {
+> +		dev_err(tegra->dev, "failed to load firmware: %d\n", err);
+> +		goto disable_phy;
+> +	}
+> +
+> +	err = __tegra_xusb_enable_firmware_messages(tegra);
+> +	if (err < 0) {
+> +		dev_err(tegra->dev, "failed to enable messages: %d\n", err);
+> +		goto disable_phy;
+> +	}
+> +
+> +	err = xhci_resume(xhci, true);
+> +	if (err < 0) {
+> +		dev_err(tegra->dev, "failed to resume XHCI: %d\n", err);
+> +		goto disable_phy;
+> +	}
+> +
+> +	return 0;
+> +
+> +disable_phy:
+> +	tegra_xusb_phy_disable(tegra);
+> +disable_clk:
+> +	tegra_xusb_clk_disable(tegra);
+> +	return err;
+> +}
+> +
+> +static int tegra_xusb_suspend(struct device *dev)
+> +{
+> +	struct tegra_xusb *tegra = dev_get_drvdata(dev);
+> +	bool wakeup = device_may_wakeup(dev);
+> +	int err;
+> +
+> +	synchronize_irq(tegra->mbox_irq);
+> +
+> +	mutex_lock(&tegra->lock);
+> +
+> +	err = tegra_xusb_enter_elpg(tegra, wakeup);
+> +	if (err < 0)
+> +		goto unlock;
 
+Is there some code missing here, or just preparing for some future feature?
 
-On 17-10-2019 17:31, Thierry Reding wrote:
-> On Thu, Oct 17, 2019 at 03:48:52PM +0800, JC Kuo wrote:
->> Hi Thierry, Hi Rob, Hi Kishon,
->> Please let me know your thoughts of the below implementation.
->>
->> 1. Add a "bool disable_gen2" to "phy->attrs" structure.
->> 2. In _of_phy_get() of phy-core.c to add the follow to parse a generic property.
->>
->> 	phy->attrs.disable_gen2 = of_property_read_bool(args.np,
->> 							"usb-disable-gen2");
-> 
-> Regarding this, I'm not sure how Rob imagined the generic properties to
-> work. Perhaps he was thinking about something like the max-link-speed
-> property found in the PCI bindings.
-> 
-> We could have something like this:
-> 
->   - max-link-speed:
->       If present this property specifies the USB generation supported on
->       the PHY/port. Must be:
->         1: for USB 3.1 Gen 1 (a.k.a. USB 3.0)
->         2: for USB 3.1 Gen 2
-> 
-> I'm not sure if we need to consider anything prior to USB 3.0. I suppose
-> we could do a similar mapping to what I proposed for the PHY ->set_mode
-> callback:
-> 
->   - max-link-speed:
->       If present this property specifies the USB generation supported on
->       the PHY/port. Must be:
->         0x0100: for USB 1.0 (Low-Speed)
->         0x0101: for USB 1.1 (Full-Speed)
->         0x0200: for USB 2.0 (Hi-Speed)
->         0x0300: for USB 3.0 (SuperSpeed) (a.k.a. USB 3.1 Gen 1)
->         0x0301: for USB 3.1 (SuperSpeed 10 Gbit/s) (a.k.a. USB 3.1 Gen 2)
->         0x0302: for USB 3.2 (SuperSpeed 20 Gbit/s) (a.k.a. USB 3.2 Gen 2 x 2)
->         ...
-> 
-> Or those could just be sequentially enumerated, like in the above
-> example.
-> 
-> Rob, any thoughts?
-> 
-> Thierry
-> 
+> +
+> +unlock:
+> +	mutex_unlock(&tegra->lock);
+> +	return err;
+> +}
+> +
+> +static int tegra_xusb_resume(struct device *dev)
+> +{
+> +	struct tegra_xusb *tegra = dev_get_drvdata(dev);
+> +	bool wakeup = device_may_wakeup(dev);
+> +	int err;
+> +
+> +	mutex_lock(&tegra->lock);
+> +
+> +	err = tegra_xusb_exit_elpg(tegra, wakeup);
+> +	if (err < 0)
+> +		goto unlock;
+> +
+> +unlock:
+> +	mutex_unlock(&tegra->lock);
+> +	return err;
+>   }
+>   #endif
+>   
 
-"Documentation/devicetree/bindings/usb/generic.txt" file already has dt-property named
-maximum-speed, which fulfills current requirement. So to disable gen2 feature simply
-add below entry to corresponding usb3 port entry.
-		padctl@3520000 {
-			status = "okay";
+Whole series looks good to me otherwise.
 
-			ports {
-				usb3-3 {
-					maximum-speed = "super-speed";
-				};
-		};
+Let me know if you want me to take this as is, or if you are planning on making a second version
 
-Read the property using API usb_get_maximum_speed.
-
-Thanks,
-Nagarjuna
->> 3. In individual phy driver, to add SOC/PHY specific programming accordingly.
->>
->> Thanks,
->> JC
->>
->> On 10/14/19 9:40 PM, Rob Herring wrote:
->>> On Mon, Oct 14, 2019 at 8:17 AM Thierry Reding <thierry.reding@gmail.com> wrote:
->>>>
->>>> On Wed, Oct 09, 2019 at 06:39:00PM -0500, Rob Herring wrote:
->>>>> On Wed, Oct 09, 2019 at 10:43:41AM +0800, JC Kuo wrote:
->>>>>> Extend the bindings to cover the set of features found in Tegra194.
->>>>>> Note that, technically, there are four more supplies connected to the
->>>>>> XUSB pad controller (DVDD_PEX, DVDD_PEX_PLL, HVDD_PEX and HVDD_PEX_PLL)
->>>>>> , but the power sequencing requirements of Tegra194 require these to be
->>>>>> under the control of the PMIC.
->>>>>>
->>>>>> Tegra194 XUSB PADCTL supports up to USB 3.1 Gen 2 speed, however, it is
->>>>>> possible for some platforms have long signal trace that could not
->>>>>> provide sufficient electrical environment for Gen 2 speed. To deal with
->>>>>> this, a new device node property "nvidia,disable-gen2" was added to
->>>>>> Tegra194 that be used to specifically disable Gen 2 speed for a
->>>>>> particular USB 3.0 port so that the port can be limited to Gen 1 speed
->>>>>> and avoid the instability.
->>>>>
->>>>> I suspect this may be a common issue and we should have a common
->>>>> property. Typically, this kind of property is in the controller though
->>>>> and supports multiple speed limits. See PCI bindings for inspiration.
->>>>
->>>> Given that support for gen 2 speeds is dependent on signal trace length,
->>>> it doesn't really make sense to restrict the whole controller to a given
->>>> speed if only the signal trace for a single port exceeds the limit for
->>>> which gen 2 would work.
->>>>
->>>> Also, the USB PHYs are in a different hardware block than the USB
->>>> controller, so this really is a property of the PHY block, not the USB
->>>> controller.
->>>
->>> Okay, but still should be common for USB PHYs IMO.
->>>
->>> Rob
->>>
+Thanks
+Mathias
