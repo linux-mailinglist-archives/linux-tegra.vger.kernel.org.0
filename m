@@ -2,170 +2,233 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35F0710A614
-	for <lists+linux-tegra@lfdr.de>; Tue, 26 Nov 2019 22:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85BC210A990
+	for <lists+linux-tegra@lfdr.de>; Wed, 27 Nov 2019 05:59:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726970AbfKZVhX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 26 Nov 2019 16:37:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58726 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726036AbfKZVhX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 26 Nov 2019 16:37:23 -0500
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E0B0120835;
-        Tue, 26 Nov 2019 21:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574804242;
-        bh=NiCNn3FuYjr3n6WG4QyUZzhp+ax9LgPmgNljIGhEErI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=drZqipwPeS+niJFsQ0qSF6WD0LHQSIqKXEeHnUMsVLnVc7MNuISEmOaQH+sDLt2g/
-         zMyTvJUM46sxgLF7lkaIhja1ULdda7AL64iLWUwrXiH0nczywhEf6oFTFeuLNA5HY6
-         hlclqFVo9MpY/gYtPhZbpczXork0in44N12KPgbI=
-Date:   Tue, 26 Nov 2019 15:37:18 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     lorenzo.pieralisi@arm.com, robh+dt@kernel.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        andrew.murray@arm.com, kishon@ti.com,
-        gustavo.pimentel@synopsys.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH 3/6] PCI: tegra: Add support for PCIe endpoint mode in
- Tegra194
-Message-ID: <20191126213718.GA185422@google.com>
+        id S1727219AbfK0E7m (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 26 Nov 2019 23:59:42 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:11633 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727213AbfK0E7l (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 26 Nov 2019 23:59:41 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dde02b60000>; Tue, 26 Nov 2019 20:59:34 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 26 Nov 2019 20:59:40 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 26 Nov 2019 20:59:40 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 27 Nov
+ 2019 04:59:39 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 27 Nov 2019 04:59:40 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.169.149]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5dde02ba0000>; Tue, 26 Nov 2019 20:59:39 -0800
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <digetx@gmail.com>,
+        <mperttunen@nvidia.com>, <gregkh@linuxfoundation.org>,
+        <sboyd@kernel.org>, <tglx@linutronix.de>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>
+CC:     <allison@lohutok.net>, <pdeschrijver@nvidia.com>,
+        <pgaikwad@nvidia.com>, <mturquette@baylibre.com>,
+        <horms+renesas@verge.net.au>, <Jisheng.Zhang@synaptics.com>,
+        <krzk@kernel.org>, <arnd@arndb.de>, <spujar@nvidia.com>,
+        <josephl@nvidia.com>, <vidyas@nvidia.com>,
+        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
+        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 04/11] soc: pmc: Add blink output clock registration to Tegra PMC
+Date:   Tue, 26 Nov 2019 20:59:26 -0800
+Message-ID: <1574830773-14892-5-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1574830773-14892-1-git-send-email-skomatineni@nvidia.com>
+References: <1574830773-14892-1-git-send-email-skomatineni@nvidia.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191122104505.8986-4-vidyas@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574830774; bh=TfKgyWZTASSf3asbrgZ64d0Y0naAlv7IzlVo3FtKWEM=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
+         Content-Type;
+        b=Lb+W6WYMF26WIM0HfNJOjz23PMLCgISnBYndOMRaV38YqVb+ZSzS7CRiWKnldY1zA
+         SxPLIYSCmPTHh0hhcmAM78vSlr/kCd0Cxpc2WgDu7Sfn3V9RKu3148YYFbQF34l4X/
+         MoKP4Qt8r01BE6+R5a33Fw32uPOHMYkNd33I2ldqucEdxbNMmb/ERCnpaV8jnsnEC2
+         y+nmxXsdJju/12NCr7v/vNy9dpz1Ezyewxm3fi/tn2ExT39tGwJ2+DMH5EM+44XWMX
+         4s6GI1A4AZvNbhZgYHhzSgvNxAoiYeP3Mj/2ra+A6wj+oyZz9pGUu7FHqthnbhyhpa
+         vi/ItFvk74NkQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Nov 22, 2019 at 04:15:02PM +0530, Vidya Sagar wrote:
-> Add support for the endpoint mode of Synopsys DesignWare core based
-> dual mode PCIe controllers present in Tegra194 SoC.
+Tegra PMC has blink control to output 32 Khz clock out to Tegra
+blink pin. Blink pad DPD state and enable controls are part of
+Tegra PMC register space.
 
-> +static irqreturn_t tegra_pcie_ep_irq_handler(struct tegra_pcie_dw *pcie)
-> +{
-> +	struct dw_pcie_ep *ep = &pcie->pci.ep;
-> +	u32 val, tmp;
-> +
-> +	val = appl_readl(pcie, APPL_INTR_STATUS_L0);
-> +	if (val & APPL_INTR_STATUS_L0_LINK_STATE_INT) {
-> +		val = appl_readl(pcie, APPL_INTR_STATUS_L1_0_0);
-> +		appl_writel(pcie, val, APPL_INTR_STATUS_L1_0_0);
-> +		if (val & APPL_INTR_STATUS_L1_0_0_HOT_RESET_DONE) {
-> +			/* clear any stale PEX_RST interrupt */
-> +			if (!kfifo_put(&pcie->event_fifo, EP_HOT_RST_DONE)) {
-> +				dev_err(pcie->dev, "EVENT FIFO is full\n");
-> +				return IRQ_HANDLED;
-> +			}
-> +			wake_up(&pcie->wq);
-> +		}
-> +		if (val & APPL_INTR_STATUS_L1_0_0_RDLH_LINK_UP_CHGED) {
-> +			tmp = appl_readl(pcie, APPL_LINK_STATUS);
-> +			if (tmp & APPL_LINK_STATUS_RDLH_LINK_UP) {
-> +				dev_info(pcie->dev, "Link is up with Host\n");
-> +				dw_pcie_ep_linkup(ep);
-> +			}
-> +		}
-> +	} else if (val & APPL_INTR_STATUS_L0_PCI_CMD_EN_INT) {
+Currently Tegra clock driver registers blink control by passing
+PMC address and register offset to clk_register_gate which performs
+direct PMC access during clk_ops and with this when PMC is in secure
+mode, any access from non-secure world does not go through.
 
-Is it really the case that only one of
-APPL_INTR_STATUS_L0_LINK_STATE_INT and
-APPL_INTR_STATUS_L0_PCI_CMD_EN_INT can be set?
+This patch adds blink control registration to the Tegra PMC driver
+using PMC specific clock gate operations that use tegra_pmc_readl
+and tegra_pmc_writel to support both secure mode and non-secure
+mode PMC register access.
 
-If it's possible that both could be set, maybe this should be
-something like this?
+Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+---
+ drivers/soc/tegra/pmc.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-  int spurious = 1;
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index a353f6d0a832..1cfb7797dbd5 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -61,12 +61,15 @@
+ #define  PMC_CNTRL_SYSCLK_OE		BIT(11) /* system clock enable */
+ #define  PMC_CNTRL_SYSCLK_POLARITY	BIT(10) /* sys clk polarity */
+ #define  PMC_CNTRL_PWRREQ_POLARITY	BIT(8)
++#define  PMC_CNTRL_BLINK_EN		BIT(7)
+ #define  PMC_CNTRL_MAIN_RST		BIT(4)
+ 
+ #define PMC_WAKE_MASK			0x0c
+ #define PMC_WAKE_LEVEL			0x10
+ #define PMC_WAKE_STATUS			0x14
+ #define PMC_SW_WAKE_STATUS		0x18
++#define PMC_DPD_PADS_ORIDE		0x1c
++#define  PMC_DPD_PADS_ORIDE_BLINK	BIT(20)
+ 
+ #define DPD_SAMPLE			0x020
+ #define  DPD_SAMPLE_ENABLE		BIT(0)
+@@ -79,6 +82,7 @@
+ 
+ #define PWRGATE_STATUS			0x38
+ 
++#define TEGRA210_PMC_BLINK_TIMER	0x40
+ #define PMC_IMPL_E_33V_PWR		0x40
+ 
+ #define PMC_PWR_DET			0x48
+@@ -347,6 +351,8 @@ struct tegra_pmc_soc {
+ 
+ 	struct pmc_clk_init_data *pmc_clks_data;
+ 	unsigned int num_pmc_clks;
++	bool has_blink_output;
++	bool blink_init_state;
+ };
+ 
+ static const char * const tegra186_reset_sources[] = {
+@@ -2396,6 +2402,9 @@ static void tegra_pmc_clock_register(struct tegra_pmc *pmc,
+ 	/* each pmc clock output has a mux and a gate */
+ 	num_clks = pmc->soc->num_pmc_clks * 2;
+ 
++	if (pmc->soc->has_blink_output)
++		num_clks += 1;
++
+ 	if (!num_clks)
+ 		return;
+ 
+@@ -2468,6 +2477,34 @@ static void tegra_pmc_clock_register(struct tegra_pmc *pmc,
+ 		}
+ 	}
+ 
++	if (pmc->soc->has_blink_output) {
++		tegra_pmc_writel(pmc, 0x0, TEGRA210_PMC_BLINK_TIMER);
++		clk = tegra_pmc_clk_gate_register("blink_override",
++						  "clk_32k", 0,
++						  PMC_DPD_PADS_ORIDE,
++						  PMC_DPD_PADS_ORIDE_BLINK);
++		if (IS_ERR(clk))
++			goto free_clks;
++
++		clk = tegra_pmc_clk_gate_register("blink",
++						  "blink_override", 0,
++						  PMC_CNTRL,
++						  PMC_CNTRL_BLINK_EN);
++		if (IS_ERR(clk))
++			goto free_clks;
++
++		clk_data->clks[TEGRA_PMC_CLK_BLINK] = clk;
++		clk_register_clkdev(clk, "blink", NULL);
++
++		if (pmc->soc->blink_init_state) {
++			if (clk_prepare_enable(clk)) {
++				pr_err("%s: Failed to enable %s\n", __func__,
++				       __clk_get_name(clk));
++				WARN_ON(1);
++			}
++		}
++	}
++
+ 	of_clk_add_provider(np, of_clk_src_onecell_get, clk_data);
+ 
+ 	return;
+@@ -2740,6 +2777,8 @@ static const struct tegra_pmc_soc tegra20_pmc_soc = {
+ 	.num_reset_levels = 0,
+ 	.pmc_clks_data = NULL,
+ 	.num_pmc_clks = 0,
++	.has_blink_output = true,
++	.blink_init_state = true,
+ };
+ 
+ static const char * const tegra30_powergates[] = {
+@@ -2789,6 +2828,8 @@ static const struct tegra_pmc_soc tegra30_pmc_soc = {
+ 	.num_reset_levels = 0,
+ 	.pmc_clks_data = tegra_pmc_clks_data,
+ 	.num_pmc_clks = ARRAY_SIZE(tegra_pmc_clks_data),
++	.has_blink_output = true,
++	.blink_init_state = true,
+ };
+ 
+ static const char * const tegra114_powergates[] = {
+@@ -2842,6 +2883,8 @@ static const struct tegra_pmc_soc tegra114_pmc_soc = {
+ 	.num_reset_levels = 0,
+ 	.pmc_clks_data = tegra_pmc_clks_data,
+ 	.num_pmc_clks = ARRAY_SIZE(tegra_pmc_clks_data),
++	.has_blink_output = true,
++	.blink_init_state = false,
+ };
+ 
+ static const char * const tegra124_powergates[] = {
+@@ -2955,6 +2998,8 @@ static const struct tegra_pmc_soc tegra124_pmc_soc = {
+ 	.num_reset_levels = 0,
+ 	.pmc_clks_data = tegra_pmc_clks_data,
+ 	.num_pmc_clks = ARRAY_SIZE(tegra_pmc_clks_data),
++	.has_blink_output = true,
++	.blink_init_state = false,
+ };
+ 
+ static const char * const tegra210_powergates[] = {
+@@ -3071,6 +3116,8 @@ static const struct tegra_pmc_soc tegra210_pmc_soc = {
+ 	.wake_events = tegra210_wake_events,
+ 	.pmc_clks_data = tegra_pmc_clks_data,
+ 	.num_pmc_clks = ARRAY_SIZE(tegra_pmc_clks_data),
++	.has_blink_output = true,
++	.blink_init_state = false,
+ };
+ 
+ #define TEGRA186_IO_PAD_TABLE(_pad)					     \
+@@ -3202,6 +3249,7 @@ static const struct tegra_pmc_soc tegra186_pmc_soc = {
+ 	.wake_events = tegra186_wake_events,
+ 	.pmc_clks_data = NULL,
+ 	.num_pmc_clks = 0,
++	.has_blink_output = false,
+ };
+ 
+ static const struct tegra_io_pad_soc tegra194_io_pads[] = {
+@@ -3321,6 +3369,7 @@ static const struct tegra_pmc_soc tegra194_pmc_soc = {
+ 	.wake_events = tegra194_wake_events,
+ 	.pmc_clks_data = NULL,
+ 	.num_pmc_clks = 0,
++	.has_blink_output = false,
+ };
+ 
+ static const struct of_device_id tegra_pmc_match[] = {
+-- 
+2.7.4
 
-  if (val & APPL_INTR_STATUS_L0_LINK_STATE_INT) {
-    ...
-    spurious = 0;
-  }
-  if (val & APPL_INTR_STATUS_L0_PCI_CMD_EN_INT) {
-    ...
-    spurious = 0;
-  }
-
-  if (spurious) {
-    dev_warn(...)
-  }
-
-> +		val = appl_readl(pcie, APPL_INTR_STATUS_L1_15);
-> +		appl_writel(pcie, val, APPL_INTR_STATUS_L1_15);
-> +		if (val & APPL_INTR_STATUS_L1_15_CFG_BME_CHGED) {
-> +			if (!kfifo_put(&pcie->event_fifo, EP_BME_CHANGE)) {
-> +				dev_err(pcie->dev, "EVENT FIFO is full\n");
-> +				return IRQ_HANDLED;
-> +			}
-> +			wake_up(&pcie->wq);
-> +		}
-> +	} else {
-> +		dev_warn(pcie->dev, "Random interrupt (STATUS = 0x%08X)\n",
-> +			 val);
-> +		appl_writel(pcie, val, APPL_INTR_STATUS_L0);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-
-> +static int tegra_pcie_ep_work_thread(void *p)
-> +{
-> +	struct tegra_pcie_dw *pcie = (struct tegra_pcie_dw *)p;
-> +	u32 event;
-> +
-> +	while (true) {
-> +		wait_event_interruptible(pcie->wq,
-> +					 !kfifo_is_empty(&pcie->event_fifo));
-> +
-> +		if (kthread_should_stop())
-> +			break;
-> +
-> +		if (!kfifo_get(&pcie->event_fifo, &event)) {
-> +			dev_warn(pcie->dev, "EVENT FIFO is empty\n");
-> +			continue;
-> +		}
-> +
-> +		switch (event) {
-> +		case EP_PEX_RST_DEASSERT:
-> +			dev_info(pcie->dev, "EVENT: EP_PEX_RST_DEASSERT\n");
-> +			pex_ep_event_pex_rst_deassert(pcie);
-> +			break;
-> +
-> +		case EP_PEX_RST_ASSERT:
-> +			dev_info(pcie->dev, "EVENT: EP_PEX_RST_ASSERT\n");
-> +			pex_ep_event_pex_rst_assert(pcie);
-> +			break;
-> +
-> +		case EP_HOT_RST_DONE:
-> +			dev_info(pcie->dev, "EVENT: EP_HOT_RST_DONE\n");
-> +			pex_ep_event_hot_rst_done(pcie);
-> +			break;
-> +
-> +		case EP_BME_CHANGE:
-> +			dev_info(pcie->dev, "EVENT: EP_BME_CHANGE\n");
-> +			pex_ep_event_bme_change(pcie);
-> +			break;
-> +
-> +		case EP_EVENT_EXIT:
-> +			dev_info(pcie->dev, "EVENT: EP_EVENT_EXIT\n");
-> +			return 0;
-> +
-> +		default:
-> +			dev_warn(pcie->dev, "Invalid PCIe EP event\n");
-
-Maybe include the invalid event value in the message?
-
-> +			break;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
