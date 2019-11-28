@@ -2,55 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AFA110CBDC
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 Nov 2019 16:37:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A0CA10CBDD
+	for <lists+linux-tegra@lfdr.de>; Thu, 28 Nov 2019 16:37:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726730AbfK1Ph5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S1726692AbfK1Ph5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Thu, 28 Nov 2019 10:37:57 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46068 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726692AbfK1Ph5 (ORCPT
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43550 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726729AbfK1Ph5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Thu, 28 Nov 2019 10:37:57 -0500
-Received: by mail-wr1-f65.google.com with SMTP id j42so5815143wrj.12
-        for <linux-tegra@vger.kernel.org>; Thu, 28 Nov 2019 07:37:53 -0800 (PST)
+Received: by mail-wr1-f66.google.com with SMTP id n1so31686532wra.10
+        for <linux-tegra@vger.kernel.org>; Thu, 28 Nov 2019 07:37:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=e3Cc2//Jedy29iR0NuLCg+mBJ8hMbnZaK6sR0m6EGNQ=;
-        b=RyG9SEIHXQokDPgRMb6Ai6MV7qEqx+HTV6eSrAom/gBWkIthW++azf4Z8u38FcJtPV
-         OBInrLDESevAmWoYj+DyRQ/AeDQL+zEAkkUxQybxeczbP2kLmtq1ywsup/QzS7bG7N0v
-         ByRETWp/bxEky5PmjWQx2TyvSt8MLmp140oRLYjQU85EfFMdtvdjAyAKcKyWZ1hUN5To
-         ug/cFueZ9KYE1BFmMmXnun1B4RaC3wraprTL5v7BuhHkEM4Pj+XXATYC2FbpI66QLoOM
-         PY8kMz0lVFSai3b0Az2Xcjr6HrM6s7Bz3jXKCGHzlGK9LIvXXlgPC+oavPcfudb1kQfP
-         +blA==
+        bh=qux6awnp95L6xNm3T6+oYkp3AFsi3QUxGHXoIt7wf6k=;
+        b=Ul+EHQu58/zzBjdgiA+xRnMIB1WtzSPokN6O7LS3eVKpgAmKdsOgwROqSQ8Odk+Y1v
+         EZ9bvAfT0jIAF5Wr+BM9P2GIilzGyjYx1hK1Ap7p/lV2NdHCj4ksCLEaichMm+Gur5Wc
+         pQKx+DVEaasZjKHzLa37KgAfc0gHWdWLfhr8CRp8qtqesSmsR7aIq6XZr7001WyRj7Mt
+         1o/qWhbABVisu1a3q1P3duIUCIr4gTNm6KoY1k4EKGf7oGDXDfLL08YyDsnPmCfOmFjO
+         pkZm09G/E4C2MfPbnIgEA5nF+TKegW1+WwygiIRQikRL3p0N3F9h3Uy8CLnJyWcHizU8
+         PcrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=e3Cc2//Jedy29iR0NuLCg+mBJ8hMbnZaK6sR0m6EGNQ=;
-        b=fsZzT664MgmgvCTE1RjoKXIpO/jx+70N/6JS0CDTAV/ztJG561zNkht6c30//xPfHX
-         LE2rQLS6liYJf1xL1Nzw/VROYHwQTkso5Om6hmLh27zX7KI/JlUE2yXEXqOw14dVlmKe
-         DrcLqsn5m6OHHxQas0/j58UPjwE00jtD4lI51uYy7PrOo0NARmGeixHsciPl7+UnEjrz
-         crVOIRUJptvMOfU5zzmdEBJ9nYvERL4sXj6Y4Y4h9QihwWI5hq8qRFDSCYYL170lcjHs
-         MiR8EJWZUOmmBu8LMXTduAitUKNIXpUt0P8cu8C4e53A7mxuk5fw2roSTrFWAzZI0DuT
-         pIZA==
-X-Gm-Message-State: APjAAAWDafL66eStyZ8qKyXs9GKeYMKjEGwN1lSzPVmr3zZRMuBBpHqq
-        zq2aXJCLoUxTFtOvT4ix09U=
-X-Google-Smtp-Source: APXvYqznLbmloFE8Kzv2U0a0B5MP/NJG2iQfE289tpiPsFMKGQ9gKYgSUMDx8bFN9WzZ44BhSG8VNg==
-X-Received: by 2002:a5d:4d4a:: with SMTP id a10mr41209977wru.220.1574955473108;
-        Thu, 28 Nov 2019 07:37:53 -0800 (PST)
+        bh=qux6awnp95L6xNm3T6+oYkp3AFsi3QUxGHXoIt7wf6k=;
+        b=CSTX9lg8jxOqlBXSEHecHOI3O+g6/B0SiT3jwPVCwSbtAXUpzqXpFVPhtehfH5SsjK
+         j9ArMf3vrkeb0pnsD4kDnsweRUjy/Np9/8gZeBWDU4IjdbXsbZtRg975Rd97DOYB1OSJ
+         gfR51J+Dl1WL4SL60KVLHfpQpZpSH38fu+RzR+FCuWrf+SCVa/WdFIKmaw+SqjkC7W3T
+         zW2AXvUC/N0WBxew6PJLqqEN1pZmvXF7m81stDJPO4ekVVrXzf8X15wPWGuEzWscelP3
+         5YcufrUmsTKgOZps2Km/L1Q8lhXVzug6brXsVVQ7P6AvVDgaU/64yQu6AHgZIInvMHu7
+         HyhA==
+X-Gm-Message-State: APjAAAULpJy/MTaE/AdAiAvPE1tbfpp2opC7BCB4FHSo94lOIzBNgjnq
+        +TQbPoug+JikQSNVPdkxKUk=
+X-Google-Smtp-Source: APXvYqwCi2enm9WVk9Vzi9jS5O75DRxVjDMjX+CMd235U8su11RkDUEiTHNvcQkSgYM6QnmzreDmfg==
+X-Received: by 2002:a5d:5487:: with SMTP id h7mr8000464wrv.396.1574955475125;
+        Thu, 28 Nov 2019 07:37:55 -0800 (PST)
 Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id a184sm1541637wmf.29.2019.11.28.07.37.51
+        by smtp.gmail.com with ESMTPSA id d14sm10958907wru.9.2019.11.28.07.37.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Nov 2019 07:37:52 -0800 (PST)
+        Thu, 28 Nov 2019 07:37:54 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH 5/9] drm/tegra: sor: Implement system suspend/resume
-Date:   Thu, 28 Nov 2019 16:37:37 +0100
-Message-Id: <20191128153741.2380419-6-thierry.reding@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH 6/9] drm/tegra: vic: Export module device table
+Date:   Thu, 28 Nov 2019 16:37:38 +0100
+Message-Id: <20191128153741.2380419-7-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191128153741.2380419-1-thierry.reding@gmail.com>
 References: <20191128153741.2380419-1-thierry.reding@gmail.com>
@@ -63,68 +64,46 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Upon system suspend, make sure the +5V HDMI regulator is disabled. This
-avoids potentially leaking current to the HDMI connector. This also
-makes sure that upon resume the regulator is enabled again, which in
-some cases is necessary to properly restore the state of the supply on
-resume.
+Export the module device table to ensure the VIC compatible strings are
+listed in the module's aliases table. This in turn causes the driver to
+be automatically loaded on boot if VIC is the only enabled subdevice of
+the logical host1x DRM device.
 
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/sor.c | 24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/tegra/vic.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 615cb319fa8b..2200f4cd397a 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3912,8 +3912,7 @@ static int tegra_sor_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--#ifdef CONFIG_PM
--static int tegra_sor_suspend(struct device *dev)
-+static int tegra_sor_runtime_suspend(struct device *dev)
- {
- 	struct tegra_sor *sor = dev_get_drvdata(dev);
- 	int err;
-@@ -3935,7 +3934,7 @@ static int tegra_sor_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int tegra_sor_resume(struct device *dev)
-+static int tegra_sor_runtime_resume(struct device *dev)
- {
- 	struct tegra_sor *sor = dev_get_drvdata(dev);
- 	int err;
-@@ -3967,10 +3966,25 @@ static int tegra_sor_resume(struct device *dev)
- 
- 	return 0;
- }
--#endif
-+
-+static int tegra_sor_suspend(struct device *dev)
-+{
-+	struct tegra_sor *sor = dev_get_drvdata(dev);
-+
-+	return regulator_disable(sor->hdmi_supply);
-+}
-+
-+static int tegra_sor_resume(struct device *dev)
-+{
-+	struct tegra_sor *sor = dev_get_drvdata(dev);
-+
-+	return regulator_enable(sor->hdmi_supply);
-+}
- 
- static const struct dev_pm_ops tegra_sor_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra_sor_suspend, tegra_sor_resume, NULL)
-+	SET_RUNTIME_PM_OPS(tegra_sor_runtime_suspend, tegra_sor_runtime_resume,
-+			   NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(tegra_sor_suspend, tegra_sor_resume)
+diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+index 9444ba183990..c4d82b8b3065 100644
+--- a/drivers/gpu/drm/tegra/vic.c
++++ b/drivers/gpu/drm/tegra/vic.c
+@@ -386,13 +386,14 @@ static const struct vic_config vic_t194_config = {
+ 	.supports_sid = true,
  };
  
- struct platform_driver tegra_sor_driver = {
+-static const struct of_device_id vic_match[] = {
++static const struct of_device_id tegra_vic_of_match[] = {
+ 	{ .compatible = "nvidia,tegra124-vic", .data = &vic_t124_config },
+ 	{ .compatible = "nvidia,tegra210-vic", .data = &vic_t210_config },
+ 	{ .compatible = "nvidia,tegra186-vic", .data = &vic_t186_config },
+ 	{ .compatible = "nvidia,tegra194-vic", .data = &vic_t194_config },
+ 	{ },
+ };
++MODULE_DEVICE_TABLE(of, tegra_vic_of_match);
+ 
+ static int vic_probe(struct platform_device *pdev)
+ {
+@@ -516,7 +517,7 @@ static const struct dev_pm_ops vic_pm_ops = {
+ struct platform_driver tegra_vic_driver = {
+ 	.driver = {
+ 		.name = "tegra-vic",
+-		.of_match_table = vic_match,
++		.of_match_table = tegra_vic_of_match,
+ 		.pm = &vic_pm_ops
+ 	},
+ 	.probe = vic_probe,
 -- 
 2.23.0
 
