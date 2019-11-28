@@ -2,192 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4020B10CF0F
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 Nov 2019 21:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E7B810CFA6
+	for <lists+linux-tegra@lfdr.de>; Thu, 28 Nov 2019 23:04:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726681AbfK1UGK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 28 Nov 2019 15:06:10 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:43172 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726545AbfK1UGK (ORCPT
+        id S1726582AbfK1WEB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 28 Nov 2019 17:04:01 -0500
+Received: from cloudserver094114.home.pl ([79.96.170.134]:42308 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726565AbfK1WEB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 28 Nov 2019 15:06:10 -0500
-Received: by mail-lf1-f65.google.com with SMTP id l14so20854177lfh.10;
-        Thu, 28 Nov 2019 12:06:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FjNGi4sGPAMOwSu//4rjJ+SnF7x7q5U9m2ivWbacmrs=;
-        b=prlw5sTfXskWdLGt1n1eJ5Y/HudXYVV3XQf//ICFu7YD/09HJLyK1Gt/eUqntGMq7j
-         MZxGrohvVH6Dt8zQSBdM82OBOsRclo678gkPc3GJTckx4aDYNkip2t+71xebU5f2nFFl
-         cRMUsgK0E73k/jnILquqQdmjxai2nVLnwLBA4v9fcLobpDuuQr3LVRgjJ/EPJRHZFWXF
-         jPYHvfhYr+VY1Z2o46InkqOw6/0HhGbhM5sncUxKEJGXgXyjGllKB/qXS0/NE1JeZX91
-         ADno3NmCgdKAKvCIXk9O2THtzM6650KH/LaL8O0n+gx+E4ocM+OlAOLPkN38n+r4qfB5
-         JUxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FjNGi4sGPAMOwSu//4rjJ+SnF7x7q5U9m2ivWbacmrs=;
-        b=NsBPPyg0ZdcgXsioX+aFa5mzGCt3xY4vd/E6FMeI94h79QRHRkzBnRw/JkhFe9ACYH
-         rxW4BXl+H9Q+EdU8YLuXqRVMou/uB5J8Q8jtIwdAl3iSuaFV9GiaIe5u5tHstJ92y3pE
-         71uZqKCtA73oipqQZxsPadrMRUpTAB5hdEFKPXawl8pKremOXlinTYF8bJyNmmZXQFT/
-         dU9n5ZKkQU+JQiswfZADKhYBiSEIDEowYj20/U2cl+qzj/WIq4CQ9u06i6ddQWvNfnyV
-         D8w8vNnpwyQb2sbmiMUrtBci2sVo2DuBqJ9Dr8e7f56AfBQZqoXQBVfZ2ks/WNMhGwEe
-         dOpg==
-X-Gm-Message-State: APjAAAUSYUcf2WOGS+QgiBOM/X1FsmefLdNve0H7nGpqZJHvYbWkPk88
-        /PqX5WUjeaRYTUfyHPebwXMprzXq
-X-Google-Smtp-Source: APXvYqzgPP9GLzInH7+s9jf2E5EQByrAmOEH9D4KiMZ3l/KM0WdjxySOJ/KXRCdKijAKz7DotGJUKQ==
-X-Received: by 2002:a19:6a15:: with SMTP id u21mr30911327lfu.31.1574971567031;
-        Thu, 28 Nov 2019 12:06:07 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id n30sm10178631lfi.54.2019.11.28.12.06.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Nov 2019 12:06:06 -0800 (PST)
-Subject: Re: [PATCH v1 08/29] dt-bindings: interconnect: tegra: Add initial
- IDs
+        Thu, 28 Nov 2019 17:04:01 -0500
+Received: from 79.184.255.242.ipv4.supernova.orange.pl (79.184.255.242) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.320)
+ id dd3d826d98d8bcc6; Thu, 28 Nov 2019 23:03:58 +0100
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <20191118200247.3567-1-digetx@gmail.com>
- <20191118200247.3567-9-digetx@gmail.com> <20191119062535.GC2462695@ulmo>
- <8cff3af3-42c7-3312-5f98-cd5eb98b7b7a@gmail.com>
- <f0f36176-8070-08a6-a61f-77221d916f04@gmail.com>
- <20191125113218.GK1409040@ulmo>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a3c16696-8ecf-ac7f-4f8a-2dd3221e5334@gmail.com>
-Date:   Thu, 28 Nov 2019 23:06:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 1/2] PM / runtime: Allow drivers to override runtime PM behaviour on sleep
+Date:   Thu, 28 Nov 2019 23:03:57 +0100
+Message-ID: <2310325.iNVD75376c@kreacher>
+In-Reply-To: <20191128163623.GA2382107@ulmo>
+References: <20191128160314.2381249-1-thierry.reding@gmail.com> <CAJZ5v0haOB1vc8aKk11RR-OnfLHChcqa+z7QkeKyN66s6xM3OA@mail.gmail.com> <20191128163623.GA2382107@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <20191125113218.GK1409040@ulmo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-25.11.2019 14:32, Thierry Reding пишет:
-> On Thu, Nov 21, 2019 at 08:14:35PM +0300, Dmitry Osipenko wrote:
->> 19.11.2019 19:56, Dmitry Osipenko пишет:
->>> 19.11.2019 09:25, Thierry Reding пишет:
->>>> On Mon, Nov 18, 2019 at 11:02:26PM +0300, Dmitry Osipenko wrote:
->>>>> Define interconnect IDs for memory controller (MC), external memory
->>>>> controller (EMC), external memory (EMEM) and memory clients of display
->>>>> controllers (DC).
->>>>>
->>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>>> ---
->>>>>  include/dt-bindings/interconnect/tegra-icc.h | 11 +++++++++++
->>>>>  1 file changed, 11 insertions(+)
->>>>>  create mode 100644 include/dt-bindings/interconnect/tegra-icc.h
->>>
->>>
->>> Hello Thierry,
->>>
->>>> There was a bit of discussion regarding this for a recent patch that I
->>>> was working on, see:
->>>>
->>>> 	http://patchwork.ozlabs.org/project/linux-tegra/list/?series=140318
->>>
->>> Thank you very much for the link.
->>>
->>>> I'd rather not use an additional set of definitions for this. The memory
->>>> controller already has a set of native IDs for memory clients that I
->>>> think we can reuse for this.
->>>
->>> I missed that it's fine to have multiple ICC connections defined
->>> per-path, at quick glance looks like indeed it should be fine to re-use
->>> MC IDs.
->>
->> Well, it is not quite correct to have multiple connections per-path.
->>
->> Please take look at interconnect's binding and core.c:
->>
->>   1. there should be one src->dst connection per-path
->>   2. each connection should comprise of one source and one destination nodes
->>
->>>> I've only added these client IDs for Tegra194 because that's where we
->>>> need it to actually describe a specific hardware quirk, but I can come
->>>> up with the equivalent for older chips as well.
->>>
->>> Older Tegra SoCs have hardware units connected to MC through AHB bus,
->>> like USB for example. These units do not have MC client IDs and there is
->>> no MC ID defined for the AHB bus either, but probably it won't be a
->>> problem to define IDs for them if will be necessary.
->>>
->>
->> Since interconnect binding requires to define both source and
->> destination nodes for the path, then MC IDs are not enough in order to
->> define interconnect path because these IDs represent only the source
->> nodes. Destination node should be either EMC or EMEM.
+On Thursday, November 28, 2019 5:50:26 PM CET Thierry Reding wrote:
 > 
-> This doesn't really map well to Tegra. The source of the path is always
-> the device and the destination is always the memory controller. We also
-> can have multiple paths between a device and the memory controller. The
-> typical case is to have at least a read and a write path, but there are
-> a number of devices that have multiple read and/or multiple write paths
-> to the memory controller.
+> --0F1p//8PRICkK4MW
+> Content-Type: text/plain; charset=us-ascii
+> Content-Disposition: inline
+> Content-Transfer-Encoding: quoted-printable
 > 
-> Or perhaps I'm looking at this the wrong way, and what we really ought
-> to describe is the paths with MC sitting in the middle. So it'd be
-> something like:
+> On Thu, Nov 28, 2019 at 05:14:51PM +0100, Rafael J. Wysocki wrote:
+> > On Thu, Nov 28, 2019 at 5:03 PM Thierry Reding <thierry.reding@gmail.com>=
+>  wrote:
+> > >
+> > > From: Thierry Reding <treding@nvidia.com>
+> > >
+> > > Currently the driver PM core will automatically acquire a runtime PM
+> > > reference for devices before system sleep is entered. This is needed
+> > > to avoid potential issues related to devices' parents getting put to
+> > > runtime suspend at the wrong time and causing problems with their
+> > > children.
+> >=20
+> > Not only for that.
+> >=20
+> > > In some cases drivers are carefully written to avoid such issues and
+> > > the default behaviour can be changed to allow runtime PM to operate
+> > > regularly during system sleep.
+> >=20
+> > But this change breaks quite a few assumptions in the core too, so no,
+> > it can't be made.
 > 
-> 	MC ID --- source ---> MC --- destination ---> EMC
+> Anything in particular that I can look at? I'm not seeing any issues
+> when I test this, which could of course mean that I'm just getting
+> lucky.
 
-Yes, this should be correct.
+There are races and such that you may never hit during casual testing.
 
-> for write paths and:
+> One thing that irritated me is that I think this used to work. I do
+> recall testing suspend/resume a few years ago and devices would get
+> properly runtime suspended/resumed.
+
+Not true at all.
+
+The PM core has always taken PM-runtime references on all devices pretty much
+since when PM-runtime was introduced.
+
+> I did some digging but couldn't
+> find anything that would have had an impact on this.
 > 
-> 	EMC --- source ---> MC --- destination ---> MC ID
+> Given that this is completely opt-in feature, why are you categorically
+> NAK'ing this?
 
-Both write and read paths have the same direction in terms of
-interconnect API. The source node requests bandwidth from the
-destination node, where source is memory client and destination is EMC/EMEM.
+The general problem is that if any device has been touched by system-wide
+suspend code, it should not be subject to PM-runtime any more until the
+subsequent system-wide resume is able to undo whatever the suspend did.
 
-> for read paths. I have no idea what would be a good connection ID for
-> EMC, since I don't think MC really differentiates at that level. Perhaps
-> #interconnect-cells = <0> for EMC would be appropriate.
+Moreover, if a device is runtime-suspended, the system-wide suspend code
+may mishandle it, in general.  That's why PM-runtime suspend is not allowed
+during system-wide transitions at all.  And it has always been like that.
 
-It should be fine to define ICC ID for EMC that doesn't overlap with the
-memory client IDs, say #1000.
+For a specific platform you may be able to overcome these limitations if
+you are careful enough, but certainly they are there in general and surely
+you cannot prevent people from using your opt-in just because they think
+that they know what they are doing.
 
-> This would make the bindings look more like this, taking a random sample
-> from the above series:
-> 
-> 	ethernet@2490000 {
-> 		...
-> 		interconnects = <&emc &mc TEGRA194_MEMORY_CLIENT_EQOSR>,
-> 				<&mc TEGRA194_MEMORY_CLIENT_EQOSW &emc>;
-> 		interconnect-names = "dma-mem", "dma-mem";
-> 		...
-> 	};
-> 
-> In words, the above would mean that for the ethernet device there is one
-> path (a read slave interface) where data flows from the EMC through the
-> MC to the device with memory client ID TEGRA194_MEMORY_CLIENT_EQOSR. The
-> second path (a write slave interface) describes data flowing from the
-> device (with memory client ID TEGRA194_MEMORY_CLIENT_EQOSW) through the
-> MC and towards the EMC.
-> 
-> Irrespective of the above, I think we definitely need to keep separate
-> IDs for read and write paths because each of them have separate controls
-> for arbitration and latency allowance. So each of those may need to be
-> separately configurable.
-> 
-> Does that make sense?
+> Is there some other alternative that I can look into?
 
-I'll try to update this series to use ICC-path per display plane and see
-how it goes.
+First of all, ensure that the dpm_list ordering is what it should be on the
+system/platform in question.  That can be done with the help of device links.
 
-In general, looks like should be fine to have ICC paths defined per
-memory client.
+In addition, make sure that the devices needed to suspend other devices are
+suspended in the noirq phase of system-wide suspend and resumed in the
+noirq phase of system-wide resume.  Or at least all of the other devices
+need to be suspended before them and resumed after them.
+
+These two things should allow you to cover the vast majority of cases if
+not all of them without messing up with the rules.
+
+Thanks!
+
+
+
