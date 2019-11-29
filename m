@@ -2,61 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A82910DA89
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 Nov 2019 21:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36DA110DA92
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Nov 2019 21:27:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727051AbfK2UUb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 Nov 2019 15:20:31 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46408 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727040AbfK2UUb (ORCPT
+        id S1726970AbfK2U1k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 Nov 2019 15:27:40 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:40209 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727060AbfK2U1j (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 Nov 2019 15:20:31 -0500
-Received: by mail-wr1-f66.google.com with SMTP id z7so33120548wrl.13
-        for <linux-tegra@vger.kernel.org>; Fri, 29 Nov 2019 12:20:28 -0800 (PST)
+        Fri, 29 Nov 2019 15:27:39 -0500
+Received: by mail-wm1-f67.google.com with SMTP id y5so16380823wmi.5
+        for <linux-tegra@vger.kernel.org>; Fri, 29 Nov 2019 12:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=BIHVMnDRHpjNCml4jPqzFB2OK7pWSwmT1STSuuYBBOA=;
-        b=Yf/fzOsEtnQ4lytsvdu6jt8L5RaJ4DB3sjXD78cLgnwgTz+PMSjSW3ZbkFOu2198WU
-         8WZoG6uCJJGGIQ1WK2C9pP7gs6eEvcQFlna4kKe3WM2mvFPT7icuJcHoFTzbHl0/dRf7
-         YWp2vL1kHTk4wpavOOGZm2oXxI0sX+ikLmKoc=
+        bh=dAr/eDqhv9Ud8ZSYN/AId0Oghe+xqTiZDWWez4ZYfgo=;
+        b=H06JGztG7aul8sMAoUmAu5eic+Qlir+slRE61mGgNT2j9HvOw/o+Pc3VlmshBrxLZd
+         V9Wef3xMJ2JwVpMFzQQYHcloZvfTnVGlZceDaRKqBMPVoCbBozXhKWJgr+3D7+W0kW6e
+         CwOLcPzMBenSjLDMlW4K9P2BnhshbyDy/CC9o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BIHVMnDRHpjNCml4jPqzFB2OK7pWSwmT1STSuuYBBOA=;
-        b=KNHFjGK++Ztg/q0/RTTcq1y3YIrGygnosETc/YsTYTrNBdQrXyIab9l/fYPDrUF3d3
-         +roq4moBbdANQOTIBADx9aQZhOUvxkb67ed2sc21siq8KO/doBqWQ4s49IiUKNcGXgHh
-         yzANkixqz3Svc0oH3jQmxfgVilcWg0UP952jDR7j67kwt+rrcI24MEG8JPcbFDhkONt1
-         MWB5V1dshNyh1aL0x4pTLMLLKLWJc6TmJvuf6dxFrN9JEiV0ldTjbLUTXrM4TtSLOp5+
-         Zv1AWO31yWOIhQwwbtIxLV7gk4LbouCnKeiIRUs6+kQKlezxSBh5ylXGnDBOKRvfwjJB
-         /OtA==
-X-Gm-Message-State: APjAAAUgKaPiqBcFgvNZeP6wgiJ1MVeXwh0uxxA4fji1mw2G/p5Ew2Ob
-        pBa7iIVWb5r3sT0m07ocoIr6qw==
-X-Google-Smtp-Source: APXvYqypcE2kphJ2D8dT23PtHoWK3EIq4PxqV55QJ80/nOA0PYQh5/NUYCsptfkzh4Vqsq9Z5Blkyg==
-X-Received: by 2002:a5d:43c7:: with SMTP id v7mr3756645wrr.32.1575058828153;
-        Fri, 29 Nov 2019 12:20:28 -0800 (PST)
+        bh=dAr/eDqhv9Ud8ZSYN/AId0Oghe+xqTiZDWWez4ZYfgo=;
+        b=YhLm/27bYXwG8DOJG3bZ524s31wITBfPs8OkODE/yYTGDXJsi4ZQg7JBS7CN2E+tDL
+         mkpSmnsBpXSTTVa9ZhnHgK87Kdpi9W4gUPWpkJBXVc0l/EoWueGDd0VBz5A3tsydnP0/
+         ypPIKIMAwZ9nBnWDXUqyfM5vxj6lrDiXX5tKNclBFBiz6SPBw7NQ/TlR33ArqGZ2jDNU
+         tpcQpABpgChxEH8M7ZMoH1bmBstb8J0cFznDK0ZXOVImnfEci5x5fbJOkuynow74aJ+q
+         MRZam2F1h0QpVPG7iBWxfHAkmm73R63/Xdbgp9ACuXFs/aGVC7B4oOTpyOTSxlM5LbCX
+         740A==
+X-Gm-Message-State: APjAAAV3gXfDK1JwaJY23HkDRYD2aSe3NuZJYq+CNggSAdM86TCsEcbl
+        mzjNkdqaWDqbYMkqAQbDV8rmLg==
+X-Google-Smtp-Source: APXvYqzizH66FbKznJhCk3/6chUJ5dXYdcQrM2jvQCv0FSVbQD0zf7OntdNn3VnLrWmeWdG7wOps3g==
+X-Received: by 2002:a1c:2e0f:: with SMTP id u15mr16546880wmu.47.1575059257153;
+        Fri, 29 Nov 2019 12:27:37 -0800 (PST)
 Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id c193sm15263460wma.8.2019.11.29.12.20.26
+        by smtp.gmail.com with ESMTPSA id a184sm5669596wmf.29.2019.11.29.12.27.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Nov 2019 12:20:26 -0800 (PST)
-Date:   Fri, 29 Nov 2019 21:20:25 +0100
+        Fri, 29 Nov 2019 12:27:35 -0800 (PST)
+Date:   Fri, 29 Nov 2019 21:27:34 +0100
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 8/9] drm/tegra: dpaux: Add missing runtime PM references
-Message-ID: <20191129202025.GT624164@phenom.ffwll.local>
-References: <20191128153741.2380419-1-thierry.reding@gmail.com>
- <20191128153741.2380419-9-thierry.reding@gmail.com>
- <20191129092319.GD624164@phenom.ffwll.local>
- <20191129104412.GD2771912@ulmo>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH 1/2] PM / runtime: Allow drivers to override runtime PM
+ behaviour on sleep
+Message-ID: <20191129202734.GU624164@phenom.ffwll.local>
+References: <20191128160314.2381249-1-thierry.reding@gmail.com>
+ <20191128163623.GA2382107@ulmo>
+ <2310325.iNVD75376c@kreacher>
+ <4149037.GOuMSCS4uT@kreacher>
+ <20191129094303.GB2770902@ulmo>
+ <CAJZ5v0hhMSmLBr+M5CxCrfrcJHH2DzYkRFJBVyBymP0xs35Yzw@mail.gmail.com>
+ <20191129120719.GF2771912@ulmo>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191129104412.GD2771912@ulmo>
+In-Reply-To: <20191129120719.GF2771912@ulmo>
 X-Operating-System: Linux phenom 5.3.0-2-amd64 
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
@@ -64,127 +75,158 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Nov 29, 2019 at 11:44:12AM +0100, Thierry Reding wrote:
-> On Fri, Nov 29, 2019 at 10:23:19AM +0100, Daniel Vetter wrote:
-> > On Thu, Nov 28, 2019 at 04:37:40PM +0100, Thierry Reding wrote:
-> > > From: Thierry Reding <treding@nvidia.com>
-> > > 
-> > > Ensure that a runtime PM reference is acquired each time the DPAUX
-> > > registers are accessed. Otherwise the code may end up running without
-> > > the controller being powered, out-of-reset or clocked in some corner
-> > > cases, resulting in a crash.
-> > > 
-> > > Signed-off-by: Thierry Reding <treding@nvidia.com>
+On Fri, Nov 29, 2019 at 01:07:19PM +0100, Thierry Reding wrote:
+> On Fri, Nov 29, 2019 at 11:22:08AM +0100, Rafael J. Wysocki wrote:
+> > On Fri, Nov 29, 2019 at 11:08 AM Thierry Reding
+> > <thierry.reding@gmail.com> wrote:
+> > >
+> > > On Thu, Nov 28, 2019 at 11:20:01PM +0100, Rafael J. Wysocki wrote:
+> > > > On Thursday, November 28, 2019 11:03:57 PM CET Rafael J. Wysocki wrote:
+> > > > > On Thursday, November 28, 2019 5:50:26 PM CET Thierry Reding wrote:
+> > > > > >
+> > > > > > --0F1p//8PRICkK4MW
+> > > > > > Content-Type: text/plain; charset=us-ascii
+> > > > > > Content-Disposition: inline
+> > > > > > Content-Transfer-Encoding: quoted-printable
+> > > > > >
+> > > > > > On Thu, Nov 28, 2019 at 05:14:51PM +0100, Rafael J. Wysocki wrote:
+> > > > > > > On Thu, Nov 28, 2019 at 5:03 PM Thierry Reding <thierry.reding@gmail.com>=
+> > > > > >  wrote:
+> > > > > > > >
+> > > > > > > > From: Thierry Reding <treding@nvidia.com>
+> > > > > > > >
+> > > > > > > > Currently the driver PM core will automatically acquire a runtime PM
+> > > > > > > > reference for devices before system sleep is entered. This is needed
+> > > > > > > > to avoid potential issues related to devices' parents getting put to
+> > > > > > > > runtime suspend at the wrong time and causing problems with their
+> > > > > > > > children.
+> > > > > > >=20
+> > > > > > > Not only for that.
+> > > > > > >=20
+> > > > > > > > In some cases drivers are carefully written to avoid such issues and
+> > > > > > > > the default behaviour can be changed to allow runtime PM to operate
+> > > > > > > > regularly during system sleep.
+> > > > > > >=20
+> > > > > > > But this change breaks quite a few assumptions in the core too, so no,
+> > > > > > > it can't be made.
+> > > > > >
+> > > > > > Anything in particular that I can look at? I'm not seeing any issues
+> > > > > > when I test this, which could of course mean that I'm just getting
+> > > > > > lucky.
+> > > > >
+> > > > > There are races and such that you may never hit during casual testing.
+> > > > >
+> > > > > > One thing that irritated me is that I think this used to work. I do
+> > > > > > recall testing suspend/resume a few years ago and devices would get
+> > > > > > properly runtime suspended/resumed.
+> > > > >
+> > > > > Not true at all.
+> > > > >
+> > > > > The PM core has always taken PM-runtime references on all devices pretty much
+> > > > > since when PM-runtime was introduced.
+> > > > >
+> > > > > > I did some digging but couldn't
+> > > > > > find anything that would have had an impact on this.
+> > > > > >
+> > > > > > Given that this is completely opt-in feature, why are you categorically
+> > > > > > NAK'ing this?
+> > > > >
+> > > > > The general problem is that if any device has been touched by system-wide
+> > > > > suspend code, it should not be subject to PM-runtime any more until the
+> > > > > subsequent system-wide resume is able to undo whatever the suspend did.
+> > > > >
+> > > > > Moreover, if a device is runtime-suspended, the system-wide suspend code
+> > > > > may mishandle it, in general.  That's why PM-runtime suspend is not allowed
+> > > > > during system-wide transitions at all.  And it has always been like that.
+> > > > >
+> > > > > For a specific platform you may be able to overcome these limitations if
+> > > > > you are careful enough, but certainly they are there in general and surely
+> > > > > you cannot prevent people from using your opt-in just because they think
+> > > > > that they know what they are doing.
+> > > >
+> > > > BTW, what if user space prevents PM-runtime from suspending devices by writing
+> > > > "on" to their "control" files?
+> > > >
+> > > > System-wide suspend is (of course) still expected to work in that case, so how
+> > > > exactly would you overcome that?
+> > >
+> > > I suppose one way to overcome that would be to make it an error to write
+> > > "on" to the "control" files for these devices.
 > > 
-> > On patches 4,5,7 in this series Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Seeing suggestions like this in messages from seasoned kernel
+> > developers is seriously disappointing. :-/
 > > 
-> > On this one here I'm very confused.
+> > > Currently doing this is likely going to break display support on Tegra,
+> > > so this would be a good idea in this case anyway.
 > > 
-> > - Why do you drop the runtime pm between enable and disable? Is that just
-> >   how the hw works, i.e. the pad config stays, just the registers go away?
+> > PM-runtime has always allowed user space to prevent devices from being
+> > suspended and it seems that this has not been taken into account by
+> > Tegra display support developers at all.
+> > 
+> > > Again, I could avoid all of these issues by avoiding runtime PM in this driver,
+> > 
+> > I don't quite see the connection here.
+> > 
+> > Preventing a device from suspending should never be a functional
+> > problem.  It may be an energy-efficiency problem, but that's something
+> > for user space to consider before writing "on" to a device's control
+> > file.
 > 
-> Now you've made me doubt this. I don't think the pad configuration stays
-> across runtime suspend/resume, so you're right, this shouldn't work.
-> I'll need to go retest this one specifically.
+> That's really a question of how you define suspension. In the case of
+> display drivers we have the somewhat unfortunate situation that in most
+> SoCs the display "device" is actually represented by a collection of
+> different devices. On Tegra specifically, for example, you have a couple
+> of display controllers, then some "encoders" that take pixel streams
+> from the display controllers and encode them into some wire format like
+> LVDS, HDMI, DSI or DP.
 > 
-> I had added these runtime PM references to ensure the device was
-> properly configured at resume from suspend, but there ended up being an
-> additional issue with the I2C driver that relies on this, so perhaps
-> this may not be necessary in the end.
+> Prohibiting suspension of any of the individual devices causes problems
+> because it effectively makes the whole composite display device not
+> suspendable. Doing so in turn usually means that you can't change the
+> display configuration anymore because devices need to be powered up and
+> down in order to change the configuration.
 > 
-> > - I'm not seeing any locking between the different users (dp aux and
-> >   pinctrl). We might want to change drm_dp_aux->hw_mutex to a pointer to
-> >   make this easier (but I'm not super fond of that pattern from i2c).
+> I consider powering up and down the devices a form of suspension. Hence
+> it seemed natural to implement using runtime PM.
 > 
-> There should be no need to lock here. DP AUX transfers will only be used
-> between drm_dp_aux_enable() and drm_dp_aux_disable().
+> It sounds to me like userspace preventing runtime PM is problematic in
+> most scenarios that involve composite devices because it makes all of
+> the interactions between the devices a bit complicated.
 
-So dp aux vs. dp aux aside (that's the next point below), there's
-guaranteed no one else can get at that pinctrl mux? Since the other
-setting is labelled I2C I assumed there's an i2c controller hanging of it,
-exposed to userspace, and userspace might probe that whenever it feels
-like (similar to the issue below). But I don't know your hw, nor do I
-really know pinctrl. Just looked a bit strange.
+Yeah with the DT model of how a SoC works, all these tiny little devices
+are essentially implementation details that userspace really shouldn't
+ever care about, much less change anything with them.
 
-Cheers, Daniel
+If userspace doesn't want the gpu to auto-suspend, then there's the
+overall gpu device that it can set that on, and I guess doing that should
+not break a decently written driver. For all the others insisting that
+userspace can be stupid essentially means we get to hand roll large chunks
+of runtime pm in drivers, which feels rather pointless. We have a lot of
+that home-grown runtime pm for subcomponents in i915, and I very much
+understand why the DT folks wanted to standardize all that with lots of
+little explicit devices.
 
+Maybe the mistake was simply allowing these to be visible to userspace.
+-Daniel
 
-> > - Your drm_dp_aux_enable/disable needs to be moved into the ->transfer
-> >   callback, otherwise the various userspace interface (dp aux, but also
-> >   i2c on top of that) won't work. Some pre/post_transfer functions like
-> >   i2c has might be useful for stuff like this.
+> > > but I would end up reimplementing some of the same concepts. I'd
+> > > rather use something that's supported by the PM core and that might be
+> > > useful to other drivers than reinvent the wheel.
+> > 
+> > Which doesn't have to be by using PM-runtime suspend for the handling
+> > of system-wide suspend, at least in my view.
 > 
-> I suppose it would be possible for someone to attempt to use those
-> userspace interfaces outside of drm_dp_aux_enable()/drm_dp_aux_disable()
-> and then the locking would be required.
-> 
-> I'll look into that.
+> Well, runtime PM is very convenient for this, though. It would allow the
+> same code paths to be used in all cases.
 > 
 > Thierry
-> 
-> > 
-> > Cheers, Daniel
-> > 
-> > > ---
-> > >  drivers/gpu/drm/tegra/dpaux.c | 16 ++++++++++++++--
-> > >  1 file changed, 14 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
-> > > index 622cdf1ad246..4b2b86aed1a5 100644
-> > > --- a/drivers/gpu/drm/tegra/dpaux.c
-> > > +++ b/drivers/gpu/drm/tegra/dpaux.c
-> > > @@ -434,8 +434,13 @@ static int tegra_dpaux_set_mux(struct pinctrl_dev *pinctrl,
-> > >  			       unsigned int function, unsigned int group)
-> > >  {
-> > >  	struct tegra_dpaux *dpaux = pinctrl_dev_get_drvdata(pinctrl);
-> > > +	int err;
-> > > +
-> > > +	pm_runtime_get_sync(dpaux->dev);
-> > > +	err = tegra_dpaux_pad_config(dpaux, function);
-> > > +	pm_runtime_put(dpaux->dev);
-> > >  
-> > > -	return tegra_dpaux_pad_config(dpaux, function);
-> > > +	return err;
-> > >  }
-> > >  
-> > >  static const struct pinmux_ops tegra_dpaux_pinmux_ops = {
-> > > @@ -809,15 +814,22 @@ enum drm_connector_status drm_dp_aux_detect(struct drm_dp_aux *aux)
-> > >  int drm_dp_aux_enable(struct drm_dp_aux *aux)
-> > >  {
-> > >  	struct tegra_dpaux *dpaux = to_dpaux(aux);
-> > > +	int err;
-> > > +
-> > > +	pm_runtime_get_sync(dpaux->dev);
-> > > +	err = tegra_dpaux_pad_config(dpaux, DPAUX_PADCTL_FUNC_AUX);
-> > > +	pm_runtime_put(dpaux->dev);
-> > >  
-> > > -	return tegra_dpaux_pad_config(dpaux, DPAUX_PADCTL_FUNC_AUX);
-> > > +	return err;
-> > >  }
-> > >  
-> > >  int drm_dp_aux_disable(struct drm_dp_aux *aux)
-> > >  {
-> > >  	struct tegra_dpaux *dpaux = to_dpaux(aux);
-> > >  
-> > > +	pm_runtime_get_sync(dpaux->dev);
-> > >  	tegra_dpaux_pad_power_down(dpaux);
-> > > +	pm_runtime_put(dpaux->dev);
-> > >  
-> > >  	return 0;
-> > >  }
-> > > -- 
-> > > 2.23.0
-> > > 
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
 
+
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 
 -- 
