@@ -2,207 +2,157 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5F8710D3BA
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 Nov 2019 11:15:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A47310D3E0
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Nov 2019 11:22:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbfK2KPm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 Nov 2019 05:15:42 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50698 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725892AbfK2KPm (ORCPT
+        id S1726215AbfK2KWV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 Nov 2019 05:22:21 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:39556 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbfK2KWV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 Nov 2019 05:15:42 -0500
-Received: by mail-wm1-f66.google.com with SMTP id l17so13609223wmh.0
-        for <linux-tegra@vger.kernel.org>; Fri, 29 Nov 2019 02:15:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=qNZ9kkRzGPvYazTCgMrPpHWIp9WiIZSwgT+T2AdzT9s=;
-        b=DhI+zQZ3zBxKvstaxNnpHag2RriklL6o63vNP3mKk94Q1M77KVj4KqfON7D3wi4R/f
-         TMmXH+oMFZUVfzm1EYEqPftxHDyQNxfh05QhLOoDmMW3oA7ZE2NKXnv/9LeBcrVcUHoW
-         BtH+ok4Ll8NCAiD8/qan2q2LlCtDNULeIkUqV7DZXOOLvrGqvhutqB336f46vhYB075L
-         cVJ31gPPWyxkZd0JZnq+ckEUsdUnXbxgoCILL2zjEY1TfgcuZ/YQU7CG7Qr5Txk/xQit
-         enia/s47W1skh5kKlN6CAnV5XU4psfs4XpdYBVgfCvWRBvDE0WP7aDiqhP+mBLIruJZI
-         EHCA==
+        Fri, 29 Nov 2019 05:22:21 -0500
+Received: by mail-ot1-f68.google.com with SMTP id 77so3229542oty.6;
+        Fri, 29 Nov 2019 02:22:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qNZ9kkRzGPvYazTCgMrPpHWIp9WiIZSwgT+T2AdzT9s=;
-        b=IvOiBrhoORBBLFugH/5Z5+E+ktYFIpToAqjo0l7+lehI444VvvfJEcsDWPdkgxEIeQ
-         6BSPrX6Q9XAUqriRfAAAUpuZFlxHdAKy6vuRI4KY6qU+qTR14F7coOb4BfrTytZOEhZI
-         +TKCdZ9JvgJkYsQwoqddkBM9CxG+ykIB0Fu3h0MWUvOrZuwLIIyp1NiuGsI1R961ObQr
-         hbA+PcnsA1xH/f9QJ2eeyLVhK3iys+TJDQmn/hR6PgxIlUPLRVjrpVsQ8SFrRNklb6eE
-         rY2K/y++/8o3deO5iE+ujPVt8FEnzxaNMFhGvprmakXw6z2yTxdV1qW636b8pBpzIOlQ
-         38gw==
-X-Gm-Message-State: APjAAAW/hYIJwHvFWgqmLhBXyK2AIECKFCA4jiLgxif6TRwZaRhKKPf3
-        Oac408l4WLyO6q/2Zwtu8xU=
-X-Google-Smtp-Source: APXvYqz0TrSWYcSoJWlCAwZ3SvYC5it+2xuja+EIXWWyonuqwtq1PnoWSzxAoa9+qM5S0FmXw3d+hQ==
-X-Received: by 2002:a1c:e915:: with SMTP id q21mr14102365wmc.164.1575022539142;
-        Fri, 29 Nov 2019 02:15:39 -0800 (PST)
-Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id c2sm9446856wrp.46.2019.11.29.02.15.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Nov 2019 02:15:38 -0800 (PST)
-Date:   Fri, 29 Nov 2019 11:15:37 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/9] drm/tegra: gem: Properly pin imported buffers
-Message-ID: <20191129101537.GB2771912@ulmo>
-References: <20191128153741.2380419-1-thierry.reding@gmail.com>
- <20191128153741.2380419-3-thierry.reding@gmail.com>
- <20191129091038.GB624164@phenom.ffwll.local>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eEPlDHDfElQzlynpKZC50UQTVyZXxcMCTJJAXbl0YjM=;
+        b=ibEoeExm/DLGYnasShOMLZjjx77Cpq043Nw+lU6pRYn16gZokvl5dwm7M7YLNl4JKE
+         cfCpBzR4KCBTzoEtb1dB2jlz0UYPv8SOcdnn9grtQExak5e9/zLSGjNfZtJwOp25X+Zj
+         gFkENGkAw/VrIuDbCzrIY9vmkXawwR53s0uXQu+dbrapn3mlSh9CiN0sK2OniTiGYHRO
+         6zHokLV0Z/WjsUqyRW046svYq9vlQHm6CFYl/CSIdO5oynqdmsuZ3kiFW1Iht1QZvAbB
+         xJUiM/phEFGk24hHMR+ddAX24QnvhkBsDmN75y3rO7bPkieipt+LHQRWt3hWSgn+QWfQ
+         OyFw==
+X-Gm-Message-State: APjAAAVNTdTYiZ4VBXEgjIPwpo/jynwOeqMNOSCz98Fn4mC8FFScKFD0
+        JnZaDy+D09UpheaYvBYpV/7acvhVS0CboaTb1UU=
+X-Google-Smtp-Source: APXvYqw7RBvYpcakVysZLAP41IqtSt4qsgKCCm673X7BR+/eo9R0SNTc+yaEL5eXa173X8qQUyqqQhef8r7FnE09AWA=
+X-Received: by 2002:a9d:7483:: with SMTP id t3mr10774090otk.262.1575022939737;
+ Fri, 29 Nov 2019 02:22:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Hf61M2y+wYpnELGG"
-Content-Disposition: inline
-In-Reply-To: <20191129091038.GB624164@phenom.ffwll.local>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+References: <20191128160314.2381249-1-thierry.reding@gmail.com>
+ <20191128163623.GA2382107@ulmo> <2310325.iNVD75376c@kreacher>
+ <4149037.GOuMSCS4uT@kreacher> <20191129094303.GB2770902@ulmo>
+In-Reply-To: <20191129094303.GB2770902@ulmo>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 29 Nov 2019 11:22:08 +0100
+Message-ID: <CAJZ5v0hhMSmLBr+M5CxCrfrcJHH2DzYkRFJBVyBymP0xs35Yzw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] PM / runtime: Allow drivers to override runtime PM
+ behaviour on sleep
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Fri, Nov 29, 2019 at 11:08 AM Thierry Reding
+<thierry.reding@gmail.com> wrote:
+>
+> On Thu, Nov 28, 2019 at 11:20:01PM +0100, Rafael J. Wysocki wrote:
+> > On Thursday, November 28, 2019 11:03:57 PM CET Rafael J. Wysocki wrote:
+> > > On Thursday, November 28, 2019 5:50:26 PM CET Thierry Reding wrote:
+> > > >
+> > > > --0F1p//8PRICkK4MW
+> > > > Content-Type: text/plain; charset=us-ascii
+> > > > Content-Disposition: inline
+> > > > Content-Transfer-Encoding: quoted-printable
+> > > >
+> > > > On Thu, Nov 28, 2019 at 05:14:51PM +0100, Rafael J. Wysocki wrote:
+> > > > > On Thu, Nov 28, 2019 at 5:03 PM Thierry Reding <thierry.reding@gmail.com>=
+> > > >  wrote:
+> > > > > >
+> > > > > > From: Thierry Reding <treding@nvidia.com>
+> > > > > >
+> > > > > > Currently the driver PM core will automatically acquire a runtime PM
+> > > > > > reference for devices before system sleep is entered. This is needed
+> > > > > > to avoid potential issues related to devices' parents getting put to
+> > > > > > runtime suspend at the wrong time and causing problems with their
+> > > > > > children.
+> > > > >=20
+> > > > > Not only for that.
+> > > > >=20
+> > > > > > In some cases drivers are carefully written to avoid such issues and
+> > > > > > the default behaviour can be changed to allow runtime PM to operate
+> > > > > > regularly during system sleep.
+> > > > >=20
+> > > > > But this change breaks quite a few assumptions in the core too, so no,
+> > > > > it can't be made.
+> > > >
+> > > > Anything in particular that I can look at? I'm not seeing any issues
+> > > > when I test this, which could of course mean that I'm just getting
+> > > > lucky.
+> > >
+> > > There are races and such that you may never hit during casual testing.
+> > >
+> > > > One thing that irritated me is that I think this used to work. I do
+> > > > recall testing suspend/resume a few years ago and devices would get
+> > > > properly runtime suspended/resumed.
+> > >
+> > > Not true at all.
+> > >
+> > > The PM core has always taken PM-runtime references on all devices pretty much
+> > > since when PM-runtime was introduced.
+> > >
+> > > > I did some digging but couldn't
+> > > > find anything that would have had an impact on this.
+> > > >
+> > > > Given that this is completely opt-in feature, why are you categorically
+> > > > NAK'ing this?
+> > >
+> > > The general problem is that if any device has been touched by system-wide
+> > > suspend code, it should not be subject to PM-runtime any more until the
+> > > subsequent system-wide resume is able to undo whatever the suspend did.
+> > >
+> > > Moreover, if a device is runtime-suspended, the system-wide suspend code
+> > > may mishandle it, in general.  That's why PM-runtime suspend is not allowed
+> > > during system-wide transitions at all.  And it has always been like that.
+> > >
+> > > For a specific platform you may be able to overcome these limitations if
+> > > you are careful enough, but certainly they are there in general and surely
+> > > you cannot prevent people from using your opt-in just because they think
+> > > that they know what they are doing.
+> >
+> > BTW, what if user space prevents PM-runtime from suspending devices by writing
+> > "on" to their "control" files?
+> >
+> > System-wide suspend is (of course) still expected to work in that case, so how
+> > exactly would you overcome that?
+>
+> I suppose one way to overcome that would be to make it an error to write
+> "on" to the "control" files for these devices.
 
---Hf61M2y+wYpnELGG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Seeing suggestions like this in messages from seasoned kernel
+developers is seriously disappointing. :-/
 
-On Fri, Nov 29, 2019 at 10:10:38AM +0100, Daniel Vetter wrote:
-> On Thu, Nov 28, 2019 at 04:37:34PM +0100, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Buffers that are imported from a DMA-BUF don't have pages allocated with
-> > them. At the same time an SG table for them can't be derived using the
-> > DMA API helpers because the necessary information doesn't exist. However
-> > there's already an SG table that was created during import, so this can
-> > simply be duplicated.
-> >=20
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  drivers/gpu/drm/tegra/gem.c | 43 +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 43 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-> > index 746dae32c484..6dfad56eee2b 100644
-> > --- a/drivers/gpu/drm/tegra/gem.c
-> > +++ b/drivers/gpu/drm/tegra/gem.c
-> > @@ -27,6 +27,29 @@ static void tegra_bo_put(struct host1x_bo *bo)
-> >  	drm_gem_object_put_unlocked(&obj->gem);
-> >  }
-> > =20
-> > +/* XXX move this into lib/scatterlist.c? */
-> > +static int sg_alloc_table_from_sg(struct sg_table *sgt, struct scatter=
-list *sg,
-> > +				  unsigned int nents, gfp_t gfp_mask)
-> > +{
-> > +	struct scatterlist *dst;
-> > +	unsigned int i;
-> > +	int err;
-> > +
-> > +	err =3D sg_alloc_table(sgt, nents, gfp_mask);
-> > +	if (err < 0)
-> > +		return err;
-> > +
-> > +	dst =3D sgt->sgl;
-> > +
-> > +	for (i =3D 0; i < nents; i++) {
-> > +		sg_set_page(dst, sg_page(sg), sg->length, 0);
-> > +		dst =3D sg_next(dst);
-> > +		sg =3D sg_next(sg);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static struct sg_table *tegra_bo_pin(struct device *dev, struct host1x=
-_bo *bo,
-> >  				     dma_addr_t *phys)
-> >  {
-> > @@ -52,11 +75,31 @@ static struct sg_table *tegra_bo_pin(struct device =
-*dev, struct host1x_bo *bo,
-> >  		return ERR_PTR(-ENOMEM);
-> > =20
-> >  	if (obj->pages) {
-> > +		/*
-> > +		 * If the buffer object was allocated from the explicit IOMMU
-> > +		 * API code paths, construct an SG table from the pages.
-> > +		 */
-> >  		err =3D sg_alloc_table_from_pages(sgt, obj->pages, obj->num_pages,
-> >  						0, obj->gem.size, GFP_KERNEL);
-> >  		if (err < 0)
-> >  			goto free;
-> > +	} else if (obj->sgt) {
-> > +		/*
-> > +		 * If the buffer object already has an SG table but no pages
-> > +		 * were allocated for it, it means the buffer was imported and
-> > +		 * the SG table needs to be copied to avoid overwriting any
-> > +		 * other potential users of the original SG table.
-> > +		 */
-> > +		err =3D sg_alloc_table_from_sg(sgt, obj->sgt->sgl, obj->sgt->nents,
-> > +					     GFP_KERNEL);
->=20
-> Why duplicate this instead of just handing out obj->sgt, and then in unpin
-> making sure you don't release it? You could also only map/unmap the
-> dma_buf here in your pin/unpin, but that's a pile of work plus the mapping
-> is cached anyway so won't change a thing.
+> Currently doing this is likely going to break display support on Tegra,
+> so this would be a good idea in this case anyway.
 
-The problem with just handing out obj->sgt is that these buffers may be
-used by several of the host1x engines in the same job. This means that
-they may end up getting dma_map()'ed by multiple devices. dma_map_*()
-stores the DMA addresses for the buffer in the SG entries, so subsequent
-calls would effectively overwrite the earlier mappings, so we need a new
-SG table for each device.
+PM-runtime has always allowed user space to prevent devices from being
+suspended and it seems that this has not been taken into account by
+Tegra display support developers at all.
 
-Thierry
+> Again, I could avoid all of these issues by avoiding runtime PM in this driver,
 
-> -Daniel
->=20
-> > +		if (err < 0)
-> > +			goto free;
-> >  	} else {
-> > +		/*
-> > +		 * If the buffer object had no pages allocated and if it was
-> > +		 * not imported, it had to be allocated with the DMA API, so
-> > +		 * the DMA API helper can be used.
-> > +		 */
-> >  		err =3D dma_get_sgtable(dev, sgt, obj->vaddr, obj->iova,
-> >  				      obj->gem.size);
-> >  		if (err < 0)
-> > --=20
-> > 2.23.0
-> >=20
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-> --=20
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+I don't quite see the connection here.
 
---Hf61M2y+wYpnELGG
-Content-Type: application/pgp-signature; name="signature.asc"
+Preventing a device from suspending should never be a functional
+problem.  It may be an energy-efficiency problem, but that's something
+for user space to consider before writing "on" to a device's control
+file.
 
------BEGIN PGP SIGNATURE-----
+> but I would end up reimplementing some of the same concepts. I'd
+> rather use something that's supported by the PM core and that might be
+> useful to other drivers than reinvent the wheel.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3g78kACgkQ3SOs138+
-s6HpxQ//VggJhmt9na98LluPjrj45QRtkZxHUX2ZpVqpVQqOq9Aja2GeCNj6HKB/
-NgiW37V+QJwVlLeEgOhWyJb49JQ48wHZJl2sW8JbXsiRlTiQXEJJtdzxPVaBHX8d
-vgiqi4jCRIOpm9McO3MrnRZJKBonCxND0fkMUZ5zUPcoByjrdO21q4lnzt8H/7K5
-ET+SniGMFGK3MZhYj2Rpd7MaDz7Ydi/SwZV+Y19qH/j8hB2aPGXInlZ8Bd+KTBfD
-dQ3qz3aSOF/5IHKdLcrNoN6iq9YXFOmzAWCp3HoizspaSqZQE3qnGmyS0g+QUKpf
-n2VngQOj3jGymh4aQ+X0EPACI5d0JnNG4edWJ8QxCdnbCahkPavZPlD52T4gGPI3
-vsP7yAp62BZi3wV6kPjGSiniwSOZbdsOaXDtrgP/Ato67qdTzc8t8KxocEWhJ25R
-AAziXEnCpMx7g3XRnoyr28UUH+RZBtFjmaGbb/EOOs96RrlSs9LIZ/wH+3AkMH+l
-4BFxmpPQB7DpGZ/2BvzRm5cnOPFgqzdwZ3ljS9MNQzkUQMxG3CDI6yonq5FWNLUI
-LHumo2QLjVrwtqXJb4ns/Au4/ifwxqOKkrrJCjlGoyBzZYogVM9IzDSp9Vkl6KK6
-FHXK84wbO6grpXUOMLQSSNKqCx7JPjS3LxLpxdNIhoK4ej7YQd4=
-=pzBO
------END PGP SIGNATURE-----
-
---Hf61M2y+wYpnELGG--
+Which doesn't have to be by using PM-runtime suspend for the handling
+of system-wide suspend, at least in my view.
