@@ -2,109 +2,111 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B46610CFB8
-	for <lists+linux-tegra@lfdr.de>; Thu, 28 Nov 2019 23:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F4B10D2B9
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Nov 2019 09:52:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726612AbfK1WUF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 28 Nov 2019 17:20:05 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:54885 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726569AbfK1WUF (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 28 Nov 2019 17:20:05 -0500
-Received: from 79.184.255.242.ipv4.supernova.orange.pl (79.184.255.242) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.320)
- id eea6408bb1d4e6fd; Thu, 28 Nov 2019 23:20:02 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
+        id S1726684AbfK2Iws (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 Nov 2019 03:52:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54688 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725892AbfK2Iws (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 29 Nov 2019 03:52:48 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A70E42176D;
+        Fri, 29 Nov 2019 08:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575017567;
+        bh=PX5BOsY1t2LE1GKS1BFa2C+qSO4HIf/3oOnA3u9RllU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dEXP+TGPjnmV0zfirNbscTw9yQOVQ556jBOAwx9UF/fm32e85yYW6BSh25kKex65F
+         RKHQaG2rIjB656odNy6c1entOldgDatI1o7Xs5TUxfYFaNPn4izo0WJPtobP34SzOy
+         HE3/Rq95TBTu0nq+8YBAZ6ZKDIWWrrvDiS2BhHM0=
+Date:   Fri, 29 Nov 2019 09:52:45 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
         linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 1/2] PM / runtime: Allow drivers to override runtime PM behaviour on sleep
-Date:   Thu, 28 Nov 2019 23:20:01 +0100
-Message-ID: <4149037.GOuMSCS4uT@kreacher>
-In-Reply-To: <2310325.iNVD75376c@kreacher>
-References: <20191128160314.2381249-1-thierry.reding@gmail.com> <20191128163623.GA2382107@ulmo> <2310325.iNVD75376c@kreacher>
+Subject: Re: [PATCH 5.4 00/66] 5.4.1-stable review
+Message-ID: <20191129085245.GC3584430@kroah.com>
+References: <20191127202632.536277063@linuxfoundation.org>
+ <772b6606-f65c-371f-ec74-e78aba55f798@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <772b6606-f65c-371f-ec74-e78aba55f798@nvidia.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thursday, November 28, 2019 11:03:57 PM CET Rafael J. Wysocki wrote:
-> On Thursday, November 28, 2019 5:50:26 PM CET Thierry Reding wrote:
+On Thu, Nov 28, 2019 at 10:42:00AM +0000, Jon Hunter wrote:
+> 
+> On 27/11/2019 20:31, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 5.4.1 release.
+> > There are 66 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
 > > 
-> > --0F1p//8PRICkK4MW
-> > Content-Type: text/plain; charset=us-ascii
-> > Content-Disposition: inline
-> > Content-Transfer-Encoding: quoted-printable
+> > Responses should be made by Fri, 29 Nov 2019 20:18:09 +0000.
+> > Anything received after that time might be too late.
 > > 
-> > On Thu, Nov 28, 2019 at 05:14:51PM +0100, Rafael J. Wysocki wrote:
-> > > On Thu, Nov 28, 2019 at 5:03 PM Thierry Reding <thierry.reding@gmail.com>=
-> >  wrote:
-> > > >
-> > > > From: Thierry Reding <treding@nvidia.com>
-> > > >
-> > > > Currently the driver PM core will automatically acquire a runtime PM
-> > > > reference for devices before system sleep is entered. This is needed
-> > > > to avoid potential issues related to devices' parents getting put to
-> > > > runtime suspend at the wrong time and causing problems with their
-> > > > children.
-> > >=20
-> > > Not only for that.
-> > >=20
-> > > > In some cases drivers are carefully written to avoid such issues and
-> > > > the default behaviour can be changed to allow runtime PM to operate
-> > > > regularly during system sleep.
-> > >=20
-> > > But this change breaks quite a few assumptions in the core too, so no,
-> > > it can't be made.
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.1-rc1.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> > and the diffstat can be found below.
 > > 
-> > Anything in particular that I can look at? I'm not seeing any issues
-> > when I test this, which could of course mean that I'm just getting
-> > lucky.
-> 
-> There are races and such that you may never hit during casual testing.
-> 
-> > One thing that irritated me is that I think this used to work. I do
-> > recall testing suspend/resume a few years ago and devices would get
-> > properly runtime suspended/resumed.
-> 
-> Not true at all.
-> 
-> The PM core has always taken PM-runtime references on all devices pretty much
-> since when PM-runtime was introduced.
-> 
-> > I did some digging but couldn't
-> > find anything that would have had an impact on this.
+> > thanks,
 > > 
-> > Given that this is completely opt-in feature, why are you categorically
-> > NAK'ing this?
+> > greg k-h
+> > 
+> > -------------
 > 
-> The general problem is that if any device has been touched by system-wide
-> suspend code, it should not be subject to PM-runtime any more until the
-> subsequent system-wide resume is able to undo whatever the suspend did.
+> Here are the test results for Tegra ...
 > 
-> Moreover, if a device is runtime-suspended, the system-wide suspend code
-> may mishandle it, in general.  That's why PM-runtime suspend is not allowed
-> during system-wide transitions at all.  And it has always been like that.
+> Test results for stable-v5.4:
+>     13 builds:	13 pass, 0 fail
+>     22 boots:	22 pass, 0 fail
+>     38 tests:	37 pass, 1 fail
 > 
-> For a specific platform you may be able to overcome these limitations if
-> you are careful enough, but certainly they are there in general and surely
-> you cannot prevent people from using your opt-in just because they think
-> that they know what they are doing.
+> Linux version:	5.4.1-rc1-gd6453d6b0c57
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra30-cardhu-a04
+> 
+> We are seeing 1 failure for Tegra194, but this is not a new failure this
+> is present in v5.4 and it is a kernel warnings failure that has been
+> fixed for v5.5 by the following commits.
+> 
+> This one has been merged for v5.5 ...
+> 
+> commit c745da8d4320c49e54662c0a8f7cb6b8204f44c4
+> Author: Jon Hunter <jonathanh@nvidia.com>
+> Date:   Fri Oct 11 09:34:59 2019 +0100
+> 
+>     mailbox: tegra: Fix superfluous IRQ error message
+> 
+> This one has not been merged for v5.5 yet ...
 
-BTW, what if user space prevents PM-runtime from suspending devices by writing
-"on" to their "control" files?
+I'll queue that up next.
 
-System-wide suspend is (of course) still expected to work in that case, so how
-exactly would you overcome that?
+> commit d440538e5f219900a9fc9d96fd10727b4d2b3c48
+> Author: Jon Hunter <jonathanh@nvidia.com>
+> Date:   Wed Sep 25 15:12:28 2019 +0100
+> 
+>     arm64: tegra: Fix 'active-low' warning for Jetson Xavier regulator
+> 
+> If you like I can let you know once the above is merged so we can merge
+> for linux-5.4.y.
 
+Please do, that would be great.
 
+thanks for testing all of these and letting me know.
 
+greg k-h
