@@ -2,234 +2,176 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36DA110DA92
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 Nov 2019 21:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED8E710DB85
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Nov 2019 23:49:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726970AbfK2U1k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 Nov 2019 15:27:40 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40209 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727060AbfK2U1j (ORCPT
+        id S1727196AbfK2WtY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 Nov 2019 17:49:24 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42180 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727116AbfK2WtY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 Nov 2019 15:27:39 -0500
-Received: by mail-wm1-f67.google.com with SMTP id y5so16380823wmi.5
-        for <linux-tegra@vger.kernel.org>; Fri, 29 Nov 2019 12:27:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dAr/eDqhv9Ud8ZSYN/AId0Oghe+xqTiZDWWez4ZYfgo=;
-        b=H06JGztG7aul8sMAoUmAu5eic+Qlir+slRE61mGgNT2j9HvOw/o+Pc3VlmshBrxLZd
-         V9Wef3xMJ2JwVpMFzQQYHcloZvfTnVGlZceDaRKqBMPVoCbBozXhKWJgr+3D7+W0kW6e
-         CwOLcPzMBenSjLDMlW4K9P2BnhshbyDy/CC9o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dAr/eDqhv9Ud8ZSYN/AId0Oghe+xqTiZDWWez4ZYfgo=;
-        b=YhLm/27bYXwG8DOJG3bZ524s31wITBfPs8OkODE/yYTGDXJsi4ZQg7JBS7CN2E+tDL
-         mkpSmnsBpXSTTVa9ZhnHgK87Kdpi9W4gUPWpkJBXVc0l/EoWueGDd0VBz5A3tsydnP0/
-         ypPIKIMAwZ9nBnWDXUqyfM5vxj6lrDiXX5tKNclBFBiz6SPBw7NQ/TlR33ArqGZ2jDNU
-         tpcQpABpgChxEH8M7ZMoH1bmBstb8J0cFznDK0ZXOVImnfEci5x5fbJOkuynow74aJ+q
-         MRZam2F1h0QpVPG7iBWxfHAkmm73R63/Xdbgp9ACuXFs/aGVC7B4oOTpyOTSxlM5LbCX
-         740A==
-X-Gm-Message-State: APjAAAV3gXfDK1JwaJY23HkDRYD2aSe3NuZJYq+CNggSAdM86TCsEcbl
-        mzjNkdqaWDqbYMkqAQbDV8rmLg==
-X-Google-Smtp-Source: APXvYqzizH66FbKznJhCk3/6chUJ5dXYdcQrM2jvQCv0FSVbQD0zf7OntdNn3VnLrWmeWdG7wOps3g==
-X-Received: by 2002:a1c:2e0f:: with SMTP id u15mr16546880wmu.47.1575059257153;
-        Fri, 29 Nov 2019 12:27:37 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id a184sm5669596wmf.29.2019.11.29.12.27.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Nov 2019 12:27:35 -0800 (PST)
-Date:   Fri, 29 Nov 2019 21:27:34 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH 1/2] PM / runtime: Allow drivers to override runtime PM
- behaviour on sleep
-Message-ID: <20191129202734.GU624164@phenom.ffwll.local>
-References: <20191128160314.2381249-1-thierry.reding@gmail.com>
- <20191128163623.GA2382107@ulmo>
- <2310325.iNVD75376c@kreacher>
- <4149037.GOuMSCS4uT@kreacher>
- <20191129094303.GB2770902@ulmo>
- <CAJZ5v0hhMSmLBr+M5CxCrfrcJHH2DzYkRFJBVyBymP0xs35Yzw@mail.gmail.com>
- <20191129120719.GF2771912@ulmo>
+        Fri, 29 Nov 2019 17:49:24 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 277DE28A5AE
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Collabora Kernel ML <kernel@collabora.com>, groeck@chromium.org,
+        bleung@chromium.org, dtor@chromium.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Joel Stanley <joel@jms.id.au>,
+        Leonard Crestez <leonard.crestez@nxp.com>,
+        linux-samsung-soc@vger.kernel.org, Olof Johansson <olof@lixom.net>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        linux-tegra@vger.kernel.org,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Anson Huang <Anson.Huang@nxp.com>
+Subject: [RESEND PATCH] arm/arm64: defconfig: Update configs to use the new CROS_EC options
+Date:   Fri, 29 Nov 2019 23:49:12 +0100
+Message-Id: <20191129224912.32087-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191129120719.GF2771912@ulmo>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Nov 29, 2019 at 01:07:19PM +0100, Thierry Reding wrote:
-> On Fri, Nov 29, 2019 at 11:22:08AM +0100, Rafael J. Wysocki wrote:
-> > On Fri, Nov 29, 2019 at 11:08 AM Thierry Reding
-> > <thierry.reding@gmail.com> wrote:
-> > >
-> > > On Thu, Nov 28, 2019 at 11:20:01PM +0100, Rafael J. Wysocki wrote:
-> > > > On Thursday, November 28, 2019 11:03:57 PM CET Rafael J. Wysocki wrote:
-> > > > > On Thursday, November 28, 2019 5:50:26 PM CET Thierry Reding wrote:
-> > > > > >
-> > > > > > --0F1p//8PRICkK4MW
-> > > > > > Content-Type: text/plain; charset=us-ascii
-> > > > > > Content-Disposition: inline
-> > > > > > Content-Transfer-Encoding: quoted-printable
-> > > > > >
-> > > > > > On Thu, Nov 28, 2019 at 05:14:51PM +0100, Rafael J. Wysocki wrote:
-> > > > > > > On Thu, Nov 28, 2019 at 5:03 PM Thierry Reding <thierry.reding@gmail.com>=
-> > > > > >  wrote:
-> > > > > > > >
-> > > > > > > > From: Thierry Reding <treding@nvidia.com>
-> > > > > > > >
-> > > > > > > > Currently the driver PM core will automatically acquire a runtime PM
-> > > > > > > > reference for devices before system sleep is entered. This is needed
-> > > > > > > > to avoid potential issues related to devices' parents getting put to
-> > > > > > > > runtime suspend at the wrong time and causing problems with their
-> > > > > > > > children.
-> > > > > > >=20
-> > > > > > > Not only for that.
-> > > > > > >=20
-> > > > > > > > In some cases drivers are carefully written to avoid such issues and
-> > > > > > > > the default behaviour can be changed to allow runtime PM to operate
-> > > > > > > > regularly during system sleep.
-> > > > > > >=20
-> > > > > > > But this change breaks quite a few assumptions in the core too, so no,
-> > > > > > > it can't be made.
-> > > > > >
-> > > > > > Anything in particular that I can look at? I'm not seeing any issues
-> > > > > > when I test this, which could of course mean that I'm just getting
-> > > > > > lucky.
-> > > > >
-> > > > > There are races and such that you may never hit during casual testing.
-> > > > >
-> > > > > > One thing that irritated me is that I think this used to work. I do
-> > > > > > recall testing suspend/resume a few years ago and devices would get
-> > > > > > properly runtime suspended/resumed.
-> > > > >
-> > > > > Not true at all.
-> > > > >
-> > > > > The PM core has always taken PM-runtime references on all devices pretty much
-> > > > > since when PM-runtime was introduced.
-> > > > >
-> > > > > > I did some digging but couldn't
-> > > > > > find anything that would have had an impact on this.
-> > > > > >
-> > > > > > Given that this is completely opt-in feature, why are you categorically
-> > > > > > NAK'ing this?
-> > > > >
-> > > > > The general problem is that if any device has been touched by system-wide
-> > > > > suspend code, it should not be subject to PM-runtime any more until the
-> > > > > subsequent system-wide resume is able to undo whatever the suspend did.
-> > > > >
-> > > > > Moreover, if a device is runtime-suspended, the system-wide suspend code
-> > > > > may mishandle it, in general.  That's why PM-runtime suspend is not allowed
-> > > > > during system-wide transitions at all.  And it has always been like that.
-> > > > >
-> > > > > For a specific platform you may be able to overcome these limitations if
-> > > > > you are careful enough, but certainly they are there in general and surely
-> > > > > you cannot prevent people from using your opt-in just because they think
-> > > > > that they know what they are doing.
-> > > >
-> > > > BTW, what if user space prevents PM-runtime from suspending devices by writing
-> > > > "on" to their "control" files?
-> > > >
-> > > > System-wide suspend is (of course) still expected to work in that case, so how
-> > > > exactly would you overcome that?
-> > >
-> > > I suppose one way to overcome that would be to make it an error to write
-> > > "on" to the "control" files for these devices.
-> > 
-> > Seeing suggestions like this in messages from seasoned kernel
-> > developers is seriously disappointing. :-/
-> > 
-> > > Currently doing this is likely going to break display support on Tegra,
-> > > so this would be a good idea in this case anyway.
-> > 
-> > PM-runtime has always allowed user space to prevent devices from being
-> > suspended and it seems that this has not been taken into account by
-> > Tegra display support developers at all.
-> > 
-> > > Again, I could avoid all of these issues by avoiding runtime PM in this driver,
-> > 
-> > I don't quite see the connection here.
-> > 
-> > Preventing a device from suspending should never be a functional
-> > problem.  It may be an energy-efficiency problem, but that's something
-> > for user space to consider before writing "on" to a device's control
-> > file.
-> 
-> That's really a question of how you define suspension. In the case of
-> display drivers we have the somewhat unfortunate situation that in most
-> SoCs the display "device" is actually represented by a collection of
-> different devices. On Tegra specifically, for example, you have a couple
-> of display controllers, then some "encoders" that take pixel streams
-> from the display controllers and encode them into some wire format like
-> LVDS, HDMI, DSI or DP.
-> 
-> Prohibiting suspension of any of the individual devices causes problems
-> because it effectively makes the whole composite display device not
-> suspendable. Doing so in turn usually means that you can't change the
-> display configuration anymore because devices need to be powered up and
-> down in order to change the configuration.
-> 
-> I consider powering up and down the devices a form of suspension. Hence
-> it seemed natural to implement using runtime PM.
-> 
-> It sounds to me like userspace preventing runtime PM is problematic in
-> most scenarios that involve composite devices because it makes all of
-> the interactions between the devices a bit complicated.
+Recently we refactored the CrOS EC drivers moving part of the code from
+the MFD subsystem to the platform chrome subsystem. During this change
+we needed to rename some config options, so, update the defconfigs
+accordingly.
 
-Yeah with the DT model of how a SoC works, all these tiny little devices
-are essentially implementation details that userspace really shouldn't
-ever care about, much less change anything with them.
+Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+Reviewed-by: Gwendal Grignou <gwendal@chromium.org>
+Tested-by: Gwendal Grignou <gwendal@chromium.org>
+Acked-by: Lee Jones <lee.jones@linaro.org>
+---
 
-If userspace doesn't want the gpu to auto-suspend, then there's the
-overall gpu device that it can set that on, and I guess doing that should
-not break a decently written driver. For all the others insisting that
-userspace can be stupid essentially means we get to hand roll large chunks
-of runtime pm in drivers, which feels rather pointless. We have a lot of
-that home-grown runtime pm for subcomponents in i915, and I very much
-understand why the DT folks wanted to standardize all that with lots of
-little explicit devices.
+ arch/arm/configs/exynos_defconfig   | 6 +++++-
+ arch/arm/configs/multi_v7_defconfig | 6 ++++--
+ arch/arm/configs/pxa_defconfig      | 4 +++-
+ arch/arm/configs/tegra_defconfig    | 2 +-
+ arch/arm64/configs/defconfig        | 6 ++++--
+ 5 files changed, 17 insertions(+), 7 deletions(-)
 
-Maybe the mistake was simply allowing these to be visible to userspace.
--Daniel
-
-> > > but I would end up reimplementing some of the same concepts. I'd
-> > > rather use something that's supported by the PM core and that might be
-> > > useful to other drivers than reinvent the wheel.
-> > 
-> > Which doesn't have to be by using PM-runtime suspend for the handling
-> > of system-wide suspend, at least in my view.
-> 
-> Well, runtime PM is very convenient for this, though. It would allow the
-> same code paths to be used in all cases.
-> 
-> Thierry
-
-
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
+diff --git a/arch/arm/configs/exynos_defconfig b/arch/arm/configs/exynos_defconfig
+index 08db1c83eb2d..e09bb7642272 100644
+--- a/arch/arm/configs/exynos_defconfig
++++ b/arch/arm/configs/exynos_defconfig
+@@ -157,7 +157,11 @@ CONFIG_CPU_THERMAL=y
+ CONFIG_THERMAL_EMULATION=y
+ CONFIG_WATCHDOG=y
+ CONFIG_S3C2410_WATCHDOG=y
+-CONFIG_MFD_CROS_EC=y
++CONFIG_MFD_CROS_EC_DEV=y
++CONFIG_CHROME_PLATFORMS=y
++CONFIG_CROS_EC=y
++CONFIG_CROS_EC_I2C=y
++CONFIG_CROS_EC_SPI=y
+ CONFIG_MFD_MAX14577=y
+ CONFIG_MFD_MAX77686=y
+ CONFIG_MFD_MAX77693=y
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index e4c8def9a0a5..fd9a3ba3a88f 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -525,10 +525,12 @@ CONFIG_MFD_BCM590XX=y
+ CONFIG_MFD_AC100=y
+ CONFIG_MFD_AXP20X_I2C=y
+ CONFIG_MFD_AXP20X_RSB=y
+-CONFIG_MFD_CROS_EC=m
++CONFIG_MFD_CROS_EC_DEV=m
++CONFIG_CHROME_PLATFORMS=y
++CONFIG_CROS_EC=m
+ CONFIG_CROS_EC_I2C=m
+ CONFIG_CROS_EC_SPI=m
+-CONFIG_MFD_CROS_EC_CHARDEV=m
++CONFIG_CROS_EC_CHARDEV=m
+ CONFIG_MFD_DA9063=m
+ CONFIG_MFD_MAX14577=y
+ CONFIG_MFD_MAX77686=y
+diff --git a/arch/arm/configs/pxa_defconfig b/arch/arm/configs/pxa_defconfig
+index b817c57f05f1..f1b084ace88d 100644
+--- a/arch/arm/configs/pxa_defconfig
++++ b/arch/arm/configs/pxa_defconfig
+@@ -393,7 +393,9 @@ CONFIG_SA1100_WATCHDOG=m
+ CONFIG_MFD_AS3711=y
+ CONFIG_MFD_BCM590XX=m
+ CONFIG_MFD_AXP20X=y
+-CONFIG_MFD_CROS_EC=m
++CONFIG_MFD_CROS_EC_DEV=m
++CONFIG_CHROME_PLATFORMS=y
++CONFIG_CROS_EC=m
+ CONFIG_CROS_EC_I2C=m
+ CONFIG_CROS_EC_SPI=m
+ CONFIG_MFD_ASIC3=y
+diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
+index 8f5c6a5b444c..061037012335 100644
+--- a/arch/arm/configs/tegra_defconfig
++++ b/arch/arm/configs/tegra_defconfig
+@@ -147,7 +147,7 @@ CONFIG_SENSORS_LM95245=y
+ CONFIG_WATCHDOG=y
+ CONFIG_TEGRA_WATCHDOG=y
+ CONFIG_MFD_AS3722=y
+-CONFIG_MFD_CROS_EC=y
++CONFIG_MFD_CROS_EC_DEV=y
+ CONFIG_MFD_MAX8907=y
+ CONFIG_MFD_STMPE=y
+ CONFIG_MFD_PALMAS=y
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index c9a867ac32d4..952d4b915430 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -466,8 +466,7 @@ CONFIG_MFD_ALTERA_SYSMGR=y
+ CONFIG_MFD_BD9571MWV=y
+ CONFIG_MFD_AXP20X_I2C=y
+ CONFIG_MFD_AXP20X_RSB=y
+-CONFIG_MFD_CROS_EC=y
+-CONFIG_MFD_CROS_EC_CHARDEV=m
++CONFIG_MFD_CROS_EC_DEV=y
+ CONFIG_MFD_EXYNOS_LPASS=m
+ CONFIG_MFD_HI6421_PMIC=y
+ CONFIG_MFD_HI655X_PMIC=y
+@@ -683,8 +682,11 @@ CONFIG_VIRTIO_BALLOON=y
+ CONFIG_VIRTIO_MMIO=y
+ CONFIG_XEN_GNTDEV=y
+ CONFIG_XEN_GRANT_DEV_ALLOC=y
++CONFIG_CHROME_PLATFORMS=y
++CONFIG_CROS_EC=y
+ CONFIG_CROS_EC_I2C=y
+ CONFIG_CROS_EC_SPI=y
++CONFIG_CROS_EC_CHARDEV=m
+ CONFIG_COMMON_CLK_RK808=y
+ CONFIG_COMMON_CLK_SCPI=y
+ CONFIG_COMMON_CLK_CS2000_CP=y
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.20.1
+
