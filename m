@@ -2,299 +2,147 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9616C10D3AE
-	for <lists+linux-tegra@lfdr.de>; Fri, 29 Nov 2019 11:09:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 215A210D3B5
+	for <lists+linux-tegra@lfdr.de>; Fri, 29 Nov 2019 11:13:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726741AbfK2KJj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 29 Nov 2019 05:09:39 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:46051 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725892AbfK2KJi (ORCPT
+        id S1726604AbfK2KNA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 29 Nov 2019 05:13:00 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36632 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726360AbfK2KNA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 29 Nov 2019 05:09:38 -0500
-Received: by mail-ot1-f65.google.com with SMTP id r24so24409770otk.12;
-        Fri, 29 Nov 2019 02:09:37 -0800 (PST)
+        Fri, 29 Nov 2019 05:13:00 -0500
+Received: by mail-wm1-f66.google.com with SMTP id p17so8487792wma.1
+        for <linux-tegra@vger.kernel.org>; Fri, 29 Nov 2019 02:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=oa7MiYiAk5GrxWDt6PpZGpH2IjwbXlZEtryLiXI8D8E=;
+        b=fsAUQ8Y0riz0EYLZhYjBnfBnCGqaXg+wiYPsPKoaTQkcQr8HnDt5/7jSLH2UQF7ZKO
+         COqhqgavG6Bn7frGTCGPkY362hbvcCgVT68Se8P60CgUsT49rvFfjzoAvzUGqkEUOJG0
+         GeRNe53KrZmesqHkE4tX+lN0miAcI12TGw25RMhBQb+khjxJdpXCxRTc57OmWTcDkVsS
+         g/0TG1QnkziLJVRZkIiVZKCAQpRVrVzmkXX8H2GSY8JTmv65Yp/nxZ/G7TnNptaEboQ+
+         BKk4XYTe8yG2L1a8mcK/AHiUoJI3nd2yB3jmw8g6EPqBEAdkdzdHFTPsV1NE/UOeN6yq
+         vNiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gNyUDcz45IQkbN6FN8vsNmcKtbsR7kxWExYLkWcp/ec=;
-        b=Q0LelyAJDPmr27tcNtsk+vDKvACG1YS6Coa+tGiAxJzezggy/i9TZS9mHeJ6jE1/nY
-         Yjx4QmE3rEtx873gd9mLz8Ey28c3WjTEnMpe+w8fk1zE3LBVsmq9GW7u+CeA3ez+7sX7
-         XEh0yclxoxA3kBTfZTYJMhJLYERFWP7p1HEqAAOJrmgwwhJgDk4uDZtTSxHF+CTsBKBZ
-         AoYDYEbHZR45K0c/lXAp7Fmeky8Pe77WYJA0VJv4SUamAaCVZWb5aXwCeBth8Ul8EEwV
-         LqnkZtUhEgluXmi5LxbrAUJX5HM4q3s5ucaJGfIqMb0+enyTX4toxoFCTQAd1l/zghMk
-         V2NQ==
-X-Gm-Message-State: APjAAAXBe9vZ5WcLXL8VNEtVvVq7oul0T5Qeu3kGMZI1RQpjopWQeVen
-        hSe5ltIUqLluX1eYeanB8TYiyi4imkn9q3bQ+Ec=
-X-Google-Smtp-Source: APXvYqykEHpKyENTwhQ7DE5ySMHUSzenpLhFvqoJReYxgjhi2o4LpzP4qxKQIk6LnSWoah24b8GzvsTaZ2JX/fm/EcM=
-X-Received: by 2002:a9d:6955:: with SMTP id p21mr6559810oto.189.1575022177252;
- Fri, 29 Nov 2019 02:09:37 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oa7MiYiAk5GrxWDt6PpZGpH2IjwbXlZEtryLiXI8D8E=;
+        b=J3p6ZrUVVoKpS9ZaAwdoAW3FegpU2Fid29k6qHL6xeMIG5c+UtA0KsbAEG2tiC7m1a
+         FXM8u7nb1/K8Txj3TiG+e+wxOHdPKv5Jud8VHrUy4UHvrE2S9CMbKy/BVhxKMqfxOjJM
+         oZUWbmACKbec7HASHgthkxXHr7Y0+vmodjHyCP72fLFH+BzztmevNVHHhsKANf+llSto
+         tg5CIHh4ZXQYS4MgbSSdWAvnzbweBbGeBVnrjj8iV/Y8tmxCLaBIDpF5Yd2p2PHwBRtA
+         btuZNvmGKV+QQVR+nEjFlB7uC0J9zIHib9FNU624BqU2VbQSHhy4m5XTgKBHTBvlQ7H/
+         SNQQ==
+X-Gm-Message-State: APjAAAUwejTJixRaAgXRtItHASKnMHKXcM5N6yM5ZBOahqUAeO+pncwd
+        Qli0Fbve+HDDSERUrBK1+pc=
+X-Google-Smtp-Source: APXvYqxJzGJerIqg15/1EiUFWI6AzJxxWKBtqCrQsjszXmOjTkkY7pPk99+aVSYcHG0HDrmdqv/4eA==
+X-Received: by 2002:a1c:f705:: with SMTP id v5mr13087966wmh.82.1575022378007;
+        Fri, 29 Nov 2019 02:12:58 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+        by smtp.gmail.com with ESMTPSA id d9sm25232647wrj.10.2019.11.29.02.12.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Nov 2019 02:12:56 -0800 (PST)
+Date:   Fri, 29 Nov 2019 11:12:55 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/9] drm/tegra: hub: Remove bogus connection mutex check
+Message-ID: <20191129101255.GA2771912@ulmo>
+References: <20191128153741.2380419-1-thierry.reding@gmail.com>
+ <20191128153741.2380419-2-thierry.reding@gmail.com>
+ <20191129090643.GA624164@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20191128160314.2381249-1-thierry.reding@gmail.com>
- <CAJZ5v0haOB1vc8aKk11RR-OnfLHChcqa+z7QkeKyN66s6xM3OA@mail.gmail.com>
- <20191128163623.GA2382107@ulmo> <2310325.iNVD75376c@kreacher> <20191129093357.GA2770902@ulmo>
-In-Reply-To: <20191129093357.GA2770902@ulmo>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 29 Nov 2019 11:09:26 +0100
-Message-ID: <CAJZ5v0j56xrmiO6bvs3W-_pY0HjGhSUEbZYzjZHfm6gA-k605g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] PM / runtime: Allow drivers to override runtime PM
- behaviour on sleep
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ncSAzJYg3Aa9+CRW"
+Content-Disposition: inline
+In-Reply-To: <20191129090643.GA624164@phenom.ffwll.local>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Nov 29, 2019 at 10:34 AM Thierry Reding
-<thierry.reding@gmail.com> wrote:
->
-> On Thu, Nov 28, 2019 at 11:03:57PM +0100, Rafael J. Wysocki wrote:
-> > On Thursday, November 28, 2019 5:50:26 PM CET Thierry Reding wrote:
-> > >
-> > > --0F1p//8PRICkK4MW
-> > > Content-Type: text/plain; charset=us-ascii
-> > > Content-Disposition: inline
-> > > Content-Transfer-Encoding: quoted-printable
-> > >
-> > > On Thu, Nov 28, 2019 at 05:14:51PM +0100, Rafael J. Wysocki wrote:
-> > > > On Thu, Nov 28, 2019 at 5:03 PM Thierry Reding <thierry.reding@gmail.com>=
-> > >  wrote:
-> > > > >
-> > > > > From: Thierry Reding <treding@nvidia.com>
-> > > > >
-> > > > > Currently the driver PM core will automatically acquire a runtime PM
-> > > > > reference for devices before system sleep is entered. This is needed
-> > > > > to avoid potential issues related to devices' parents getting put to
-> > > > > runtime suspend at the wrong time and causing problems with their
-> > > > > children.
-> > > >=20
-> > > > Not only for that.
-> > > >=20
-> > > > > In some cases drivers are carefully written to avoid such issues and
-> > > > > the default behaviour can be changed to allow runtime PM to operate
-> > > > > regularly during system sleep.
-> > > >=20
-> > > > But this change breaks quite a few assumptions in the core too, so no,
-> > > > it can't be made.
-> > >
-> > > Anything in particular that I can look at? I'm not seeing any issues
-> > > when I test this, which could of course mean that I'm just getting
-> > > lucky.
-> >
-> > There are races and such that you may never hit during casual testing.
-> >
-> > > One thing that irritated me is that I think this used to work. I do
-> > > recall testing suspend/resume a few years ago and devices would get
-> > > properly runtime suspended/resumed.
-> >
-> > Not true at all.
-> >
-> > The PM core has always taken PM-runtime references on all devices pretty much
-> > since when PM-runtime was introduced.
->
-> You're right. I was finally able to find a toolchain that I could build
-> an old version of the kernel with. I tested system suspend/resume on the
-> v4.8 release, which is the first one that had the runtime PM changes as
-> well as the subsystem suspend/resume support wired up, and I can't see
-> the runtime PM callbacks invoked during system suspend/resume.
->
-> So I must be misremembering, or I'm confusing it with some other tests I
-> was running at the time.
->
-> > > I did some digging but couldn't
-> > > find anything that would have had an impact on this.
-> > >
-> > > Given that this is completely opt-in feature, why are you categorically
-> > > NAK'ing this?
-> >
-> > The general problem is that if any device has been touched by system-wide
-> > suspend code, it should not be subject to PM-runtime any more until the
-> > subsequent system-wide resume is able to undo whatever the suspend did.
-> >
-> > Moreover, if a device is runtime-suspended, the system-wide suspend code
-> > may mishandle it, in general.  That's why PM-runtime suspend is not allowed
-> > during system-wide transitions at all.  And it has always been like that.
->
-> For this particular use-case the above should all be irrelevant. None of
-> the drivers involved here do anything special at system suspend, because
-> runtime suspend already puts the devices into the lowest possible power
-> state. Basically when these devices are put into runtime suspend, they
-> are completely turned off. The only exception is for things like HDMI
-> where the +5V pin remains powered, so that hotplug detection will work.
->
-> The runtime PM state of the devices involved is managed by the subsystem
-> system suspend/resume helpers in DRM/KMS. Basically those helpers turn
-> off all the devices in the composite device, which ultimately results in
-> their last runtime PM reference being released. So for system suspend
-> and resume, these devices aren't touched, other than maybe for the PM
-> core's internal book-keeping.
 
-OK, so you actually want system-wide PM to work like PM-runtime on the
-platform in question, but there are substantial differences.
+--ncSAzJYg3Aa9+CRW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-First, PM-runtime suspend can be effectively disabled by user space
-and system-wide suspend is always expected to work.
+On Fri, Nov 29, 2019 at 10:06:43AM +0100, Daniel Vetter wrote:
+> On Thu, Nov 28, 2019 at 04:37:33PM +0100, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > I have no recollection why that check is there, but it seems to trigger
+> > all the time, so remove it. Everything works fine without.
+> >=20
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> >  drivers/gpu/drm/tegra/hub.c | 3 ---
+> >  1 file changed, 3 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+> > index 6aca0fd5a8e5..e56c0f7d3a13 100644
+> > --- a/drivers/gpu/drm/tegra/hub.c
+> > +++ b/drivers/gpu/drm/tegra/hub.c
+> > @@ -615,11 +615,8 @@ static struct tegra_display_hub_state *
+> >  tegra_display_hub_get_state(struct tegra_display_hub *hub,
+> >  			    struct drm_atomic_state *state)
+> >  {
+> > -	struct drm_device *drm =3D dev_get_drvdata(hub->client.parent);
+> >  	struct drm_private_state *priv;
+> > =20
+> > -	WARN_ON(!drm_modeset_is_locked(&drm->mode_config.connection_mutex));
+>=20
+> I suspect copypasta from the mst private state stuff, which relied on this
+> lock to protect it. Except your code never bothered to grab that lock (or
+> any other) so was technically broken until we added generic locking in
+>=20
+> commit b962a12050a387e4bbf3a48745afe1d29d396b0d
+> Author: Rob Clark <robdclark@gmail.com>
+> Date:   Mon Oct 22 14:31:22 2018 +0200
+>=20
+>     drm/atomic: integrate modeset lock with private objects
+>=20
+> Hence this is now ok to drop, originally it wasnt.
+>=20
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Second, if system wakeup devices are involved, their handling during
-system-wide suspend depends on the return value of device_may_wakeup()
-which depends on what user space does, whereas PM-runtime assumes
-device wakeup to be always enabled.
+Great, thanks for pointing that out. I'll update the commit message with
+that explanation.
 
-> > For a specific platform you may be able to overcome these limitations if
-> > you are careful enough, but certainly they are there in general and surely
-> > you cannot prevent people from using your opt-in just because they think
-> > that they know what they are doing.
->
-> That's true. But the same thing is true for pretty much all other APIs.
-> People obviously have to make sure they know what they're doing, just
-> like they have to with any other API.
->
-> I suppose the documentation for this new function is currently lacking a
-> bit. Perhaps adding a big warning to this and listing the common
-> pitfalls would help people make the right call about whether or not they
-> can use this.
+> Aside: You're single-thread all your atomic updates on the hub->lock,
+> which might not be what you want. At least updates to separate crtc should
+> go through in parallel. Usual way to fix this is to add a
+> tegra_crtc_state->hub_changed that your earlier code sets, and then you
+> walk the crtc states in the atomic commit (only those, not all, otherwise
+> you just rebuild that global lock again), and then only grab the hub state
+> when you need to update something.
 
-And then *somebody* would have to chase a ton of subtle issues
-resulting from that.  No, thanks, but no thanks.
+I'm confused. Where do you see hub->lock? Did you mean wgrp->lock?
 
-> > > Is there some other alternative that I can look into?
-> >
-> > First of all, ensure that the dpm_list ordering is what it should be on the
-> > system/platform in question.  That can be done with the help of device links.
->
-> I don't think we have device links for everything, but the deferred
-> probe code should take care of ordering the dpm_list correctly because
-> we do handle deferred probe properly in all cases.
->
-> Also, the dpm_list ordering isn't very critical in this case. If the
-> devices are allowed to runtime suspend during system sleep, the
-> subsystem sleep helper will put them into runtime suspend at the correct
-> time. This is propagated all the way through the display pipeline and
-> that order is ensured by the subsystem helpers.
+Thierry
 
-You are still not saying what happens if user space doesn't allow
-PM-runtime to suspend the devices (by writing "on" to their "control"
-files).
+--ncSAzJYg3Aa9+CRW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > In addition, make sure that the devices needed to suspend other devices are
-> > suspended in the noirq phase of system-wide suspend and resumed in the
-> > noirq phase of system-wide resume.  Or at least all of the other devices
-> > need to be suspended before them and resumed after them.
->
-> We're fine on this front as well. We have run into such issues in the
-> past, but I don't think there are any such issue left at the moment. I
-> do have one pending fix for I2C suspend/resume which fixes an issue
-> where some pinmuxing changes needed to get the HDMI DDC channel to work
-> were not getting applied during resume.
->
-> That I2C issue is related to this, I think. What I'm seeing is that when
-> the system goes to sleep, the pinmux looses its programming at a
-> hardware level, but the I2C driver doesn't know about it because it does
-> not get runtime suspended.
+-----BEGIN PGP SIGNATURE-----
 
-Well, no, that's not the reason.  The real reason is that the handling
-of that device during system-wide suspend does not follow the rules
-followed by PM-runtime for it.
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3g7ycACgkQ3SOs138+
+s6GOuQ/9HuycDIjBfg0rCdiRffTMfRaOWBHBnpkbzza9RvHQklg7RTWpqLMSe/iS
+gkgagWGI5SQDygWi+WQK9hGJsR7iKv6GzZ62Bsza+TWKN10mYB6bUtjsLKGTIAYu
+NRTs045Oa5xi0KKWfGnvFv2/gVM89TnjiJ+wf6CGQM5LHNkA4DfNokfyeIEFsw0p
+xNAja97cocFh2I8ba9zDoXAJUGqgjhttqlfpgiQ3Bu02QpfDW46YjkWOBYF/6zmI
+RbgAviKyrfxOAjEGfZBoHzWpOXMgq5Hz1TEQctznmhQy7MYEbPEFe7mPGFOPmOpU
+ZG423NHBxG0tfz+SE2dME2nSQ9d8bywl2Gf9wPpyENAXvmlxUtTCFuZe340zKBN9
+xz+tZWSvMS20qY0SuBjoT2D0r8P+pL6yxkram4FPBcTZc9TZxD1tmSuK8JR+iBws
+2u7U2gt2IZwx4f2AOzoXL3akdKDlDNnRD1YRiQCtHEp37gZODYWWIjtU3n+UjPco
+QTeAY54uzteREIYZbKtkPCezbPenQSFk70x1+8w6DSDNazHCGn5vuwAk/OxLWpnA
+W4Qg27ytBi6ZoPO0F7amgz/rqrJTpq9zvJMU1wDaq+YoYfFlwzpFYkh1i3JKgFQR
+kl7iOTfFGTVTxFMCI1yHU+NzAXNWcP5yRSmFpSFpqdZ5f2msSuM=
+=wr9b
+-----END PGP SIGNATURE-----
 
-Switching system-wide PM over to PM-runtime to address that is not
-going to work, because PM-runtime is not mandatory and system-wide PM
-is.
-
-> At runtime suspend it would switch the pinmux
-> state to "idle" which would then match the system suspend state. Upon
-> runtime resume it sets the "default" pinmux state, which will then
-> restore the register programming.
-
-So this logic needs to be implemented in the system-wide suspend flow as well.
-
-> In the current case where runtime suspend/resume is prohibited during
-
-Runtime suspend is, runtime resume isn't until the "late" suspend phase.
-
-> system sleep, upon resume the I2C driver will assume that the pinmux
-> state is still "default" and it won't reapply the state (it's actually
-> the pinmux subsystem that makes this decision) and causes HDMI DDC
-> transactions to time out.
-
-So this is a bug in the system-wide suspend/resume flow that needs to
-be addressed, but not by switching it over to PM-runtime.
-
-> One simple fix for that is to use pm_runtime_force_suspend() and
-> pm_runtime_force_resume() as system suspend/resume callbacks to make
-> sure the I2C controller is runtime suspended/resumed during system
-> sleep.
->
-> Note that forcing runtime suspend/resume this way is suboptimal in the
-> DRM/KMS case because the suspend/resume happens disconnected from the
-> subsystem suspend/resume callbacks, which is not desired as that breaks
-> some of the assumptions in those callbacks.
-
-So there needs to be another way.
-
-Have you looked at DPM_FLAG_SMART_SUSPEND?
-
-> > These two things should allow you to cover the vast majority of cases if
-> > not all of them without messing up with the rules.
->
-> One alternative that I had thought about was to just ditch the runtime
-> PM callbacks for this. However, there's one corner case where this may
-> break. On early Tegra generations, the two display controllers are
-> "coupled" in that the second one doesn't work if the first one is
-> disabled. We describe that using a device link from the second to the
-> first controller. This causes the first controller to be automatically
-> be runtime resumed when the second controller is used. This only works
-> via runtime PM, so if I don't use runtime PM I'd have to add special
-> handling for that case.
-
-Runtime resume during system-wide suspend and resume is basically fine
-unless you try to do it in the "late" suspend phase or later, but that
-limitation is kind of artificial.  [I was talking about that at the
-LPC this year.]  It basically cannot be carried out in the part of
-system-wide suspend after the core regards the device and its parent
-etc as "suspended", but the definition of that may be adjusted IMO.
-
-And using PM-runtime resume during system-wide resume may be fine too,
-basically (as long as the ordering of that is not lead to any kind of
-loop dependencies).
-
-On the other hand, there is *zero* need for runtime suspend during
-system-wide transitions and it is known problematic.
-
-> Actually, there's another problem as well. Most of these devices use
-> generic PM domains to power on/off the SoC partitions that they're in.
-> If I side-step runtime PM, then I'd have to somehow find a way to
-> explicitly control the PM domains.
-
-That's a problem with genpd, I'd say.
-
-> Another alternative would be to have a kind of hybrid approach where I
-> leave runtime PM calls in the drivers, but disconnect the runtime PM
-> callback implementations from that. That would at least fix the issue
-> with the generic PM domains.
->
-> However, it would not fix the problem with coupled display controllers
-> because empty runtime PM callbacks wouldn't actually power up the first
-> display controller when it is needed by the second controller. I would
-> have to add infrastructure that basically duplicates some of runtime PM
-> to fix that.
->
-> So the bottom line is that runtime PM is still the best solution for
-> this problem. It works really nice and is very consistent.
->
-> Do you think adding better documentation to this new flag and the
-> accessors would help remove your concerns about this?
-
-No, it wouldn't.
-
-Also your arguments are mostly about PM-runtime resume, which is a
-different story.
+--ncSAzJYg3Aa9+CRW--
