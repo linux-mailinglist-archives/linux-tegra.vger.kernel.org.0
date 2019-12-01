@@ -2,21 +2,22 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0D6010E1BB
-	for <lists+linux-tegra@lfdr.de>; Sun,  1 Dec 2019 12:43:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8E3F10E1A6
+	for <lists+linux-tegra@lfdr.de>; Sun,  1 Dec 2019 12:38:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726195AbfLALnz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 1 Dec 2019 06:43:55 -0500
-Received: from asavdk3.altibox.net ([109.247.116.14]:46284 "EHLO
+        id S1726173AbfLALiy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 1 Dec 2019 06:38:54 -0500
+Received: from asavdk3.altibox.net ([109.247.116.14]:45972 "EHLO
         asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726186AbfLALnz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 1 Dec 2019 06:43:55 -0500
+        with ESMTP id S1725993AbfLALiy (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 1 Dec 2019 06:38:54 -0500
+X-Greylist: delayed 380 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 06:38:52 EST
 Received: from ravnborg.org (unknown [158.248.194.18])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id E99F22003B;
-        Sun,  1 Dec 2019 12:32:22 +0100 (CET)
-Date:   Sun, 1 Dec 2019 12:32:21 +0100
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 28D822003D;
+        Sun,  1 Dec 2019 12:32:48 +0100 (CET)
+Date:   Sun, 1 Dec 2019 12:32:46 +0100
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>
@@ -57,20 +58,20 @@ Cc:     Alexios Zavras <alexios.zavras@intel.com>,
         Stefan Agner <stefan@agner.ch>,
         Thomas Gleixner <tglx@linutronix.de>,
         Vincent Abriou <vincent.abriou@st.com>
-Subject: Re: [PATCH v1 02/16] drm/exynos: fix opencoded use of drm_panel_*
-Message-ID: <20191201113221.GB8753@ravnborg.org>
+Subject: Re: [PATCH v1 03/16] drm/exynos: fix opencoded use of drm_panel_*
+Message-ID: <20191201113246.GC8753@ravnborg.org>
 References: <20190804201637.1240-1-sam@ravnborg.org>
- <20190804201637.1240-3-sam@ravnborg.org>
+ <20190804201637.1240-4-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190804201637.1240-3-sam@ravnborg.org>
+In-Reply-To: <20190804201637.1240-4-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
         a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
         a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
-        a=hD80L64hAAAA:8 a=VwQbUJbxAAAA:8 a=JfrnYn6hAAAA:8 a=DKRLh2KxCiw4lqZK9CoA:9
+        a=hD80L64hAAAA:8 a=VwQbUJbxAAAA:8 a=JfrnYn6hAAAA:8 a=XXxF64UjzUu2oWhWWqkA:9
         a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=AjGcO6oz07-iQ99wixmX:22
         a=1CNFftbPRP8L7MoqJWF3:22
 Sender: linux-tegra-owner@vger.kernel.org
@@ -78,18 +79,14 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Aug 04, 2019 at 10:16:23PM +0200, Sam Ravnborg wrote:
-> drm_panel_attach() will check if there is a controller
-> already attached - drop the check in the driver.
+On Sun, Aug 04, 2019 at 10:16:24PM +0200, Sam Ravnborg wrote:
+> Call via drm_panel_get_modes().
 > 
-> Use drm_panel_get_modes() so the driver no longer uses the function
-> pointer.
 
 Applied to drm-misc-next.
 
-	Sam
+        Sam
 
-> 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Inki Dae <inki.dae@samsung.com>
 > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
@@ -100,28 +97,19 @@ Applied to drm-misc-next.
 > Cc: linux-arm-kernel@lists.infradead.org
 > Cc: linux-samsung-soc@vger.kernel.org
 > ---
->  drivers/gpu/drm/exynos/exynos_drm_dpi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/exynos/exynos_drm_dsi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> index 3cebb19ec1c4..5479ff71cbc6 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> @@ -43,7 +43,7 @@ exynos_dpi_detect(struct drm_connector *connector, bool force)
->  {
->  	struct exynos_dpi *ctx = connector_to_dpi(connector);
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> index 6926cee91b36..36b02b456d9c 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> @@ -1460,7 +1460,7 @@ static int exynos_dsi_get_modes(struct drm_connector *connector)
+>  	struct exynos_dsi *dsi = connector_to_dsi(connector);
 >  
-> -	if (ctx->panel && !ctx->panel->connector)
-> +	if (ctx->panel)
->  		drm_panel_attach(ctx->panel, &ctx->connector);
->  
->  	return connector_status_connected;
-> @@ -85,7 +85,7 @@ static int exynos_dpi_get_modes(struct drm_connector *connector)
->  	}
->  
->  	if (ctx->panel)
-> -		return ctx->panel->funcs->get_modes(ctx->panel);
-> +		return drm_panel_get_modes(ctx->panel);
+>  	if (dsi->panel)
+> -		return dsi->panel->funcs->get_modes(dsi->panel);
+> +		return drm_panel_get_modes(dsi->panel);
 >  
 >  	return 0;
 >  }
