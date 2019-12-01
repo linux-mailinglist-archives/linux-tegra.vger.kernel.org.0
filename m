@@ -2,21 +2,21 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A000C10E1AA
+	by mail.lfdr.de (Postfix) with ESMTP id 304E910E1A9
 	for <lists+linux-tegra@lfdr.de>; Sun,  1 Dec 2019 12:38:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726256AbfLALiz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        id S1726195AbfLALiz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
         Sun, 1 Dec 2019 06:38:55 -0500
-Received: from asavdk3.altibox.net ([109.247.116.14]:46002 "EHLO
+Received: from asavdk3.altibox.net ([109.247.116.14]:45996 "EHLO
         asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbfLALiz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 1 Dec 2019 06:38:55 -0500
+        with ESMTP id S1726138AbfLALiy (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 1 Dec 2019 06:38:54 -0500
 Received: from ravnborg.org (unknown [158.248.194.18])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id 4862A20040;
-        Sun,  1 Dec 2019 12:33:08 +0100 (CET)
-Date:   Sun, 1 Dec 2019 12:33:07 +0100
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 5FD8C20034;
+        Sun,  1 Dec 2019 12:33:24 +0100 (CET)
+Date:   Sun, 1 Dec 2019 12:33:23 +0100
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>
@@ -57,57 +57,53 @@ Cc:     Alexios Zavras <alexios.zavras@intel.com>,
         Stefan Agner <stefan@agner.ch>,
         Thomas Gleixner <tglx@linutronix.de>,
         Vincent Abriou <vincent.abriou@st.com>
-Subject: Re: [PATCH v1 06/16] drm/msm: fix opencoded use of drm_panel_*
-Message-ID: <20191201113307.GD8753@ravnborg.org>
+Subject: Re: [PATCH v1 09/16] drm/tegra: fix opencoded use of drm_panel_*
+Message-ID: <20191201113323.GE8753@ravnborg.org>
 References: <20190804201637.1240-1-sam@ravnborg.org>
- <20190804201637.1240-7-sam@ravnborg.org>
+ <20190804201637.1240-10-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190804201637.1240-7-sam@ravnborg.org>
+In-Reply-To: <20190804201637.1240-10-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
         a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
         a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
-        a=QyXUC8HyAAAA:8 a=3jHMjg6xAAAA:8 a=ZTmiYS-oAAAA:8 a=L-wgLTOa4tQtTzOwMPYA:9
-        a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=_Ilv_KrDiT527o6t6YB_:22
-        a=Bgfdu2smNuKfk3vLOmSO:22
+        a=pGLkceISAAAA:8 a=Ikd4Dj_1AAAA:8 a=VwQbUJbxAAAA:8 a=1aT4lBfQcbWOAA5cYXYA:9
+        a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=AjGcO6oz07-iQ99wixmX:22
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Aug 04, 2019 at 10:16:27PM +0200, Sam Ravnborg wrote:
-> Use the function drm_panel_get_modes().
-> 
+On Sun, Aug 04, 2019 at 10:16:30PM +0200, Sam Ravnborg wrote:
+> Use the drm_panel_get_modes function.
 
 Applied to drm-misc-next.
 
         Sam
-
+> 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Alexios Zavras <alexios.zavras@intel.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Allison Randal <allison@lohutok.net>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Enrico Weigelt <info@metux.net>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: linux-tegra@vger.kernel.org
 > ---
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c | 2 +-
+>  drivers/gpu/drm/tegra/output.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
-> index ecef4f5b9f26..0e21252fd1d6 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
-> @@ -55,7 +55,7 @@ static int mdp4_lvds_connector_get_modes(struct drm_connector *connector)
->  	if (panel) {
->  		drm_panel_attach(panel, connector);
->  
-> -		ret = panel->funcs->get_modes(panel);
-> +		ret = drm_panel_get_modes(panel);
->  
->  		drm_panel_detach(panel);
+> diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+> index 274cb955e2e1..52b8396ec2dc 100644
+> --- a/drivers/gpu/drm/tegra/output.c
+> +++ b/drivers/gpu/drm/tegra/output.c
+> @@ -23,7 +23,7 @@ int tegra_output_connector_get_modes(struct drm_connector *connector)
+>  	 * ignore any other means of obtaining a mode.
+>  	 */
+>  	if (output->panel) {
+> -		err = output->panel->funcs->get_modes(output->panel);
+> +		err = drm_panel_get_modes(output->panel);
+>  		if (err > 0)
+>  			return err;
 >  	}
 > -- 
 > 2.20.1
