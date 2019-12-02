@@ -2,174 +2,293 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DA4A10EC11
-	for <lists+linux-tegra@lfdr.de>; Mon,  2 Dec 2019 16:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7FA910EC20
+	for <lists+linux-tegra@lfdr.de>; Mon,  2 Dec 2019 16:15:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727413AbfLBPIO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 2 Dec 2019 10:08:14 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46693 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727401AbfLBPIO (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Dec 2019 10:08:14 -0500
-Received: by mail-wr1-f68.google.com with SMTP id z7so41251551wrl.13
-        for <linux-tegra@vger.kernel.org>; Mon, 02 Dec 2019 07:08:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=gYOCCjZTbeC8RCJP/PsDR1y6a+nLRgHIwvI+k14PymE=;
-        b=NB7hAVN+C/Hx4AGsWeOT9uX2qbM2LJXcorxOWhPFNAlKbkbZloiDwW63PnzfkzlHWY
-         X3cDipl4i2KXzXWOOPcxz7ya4ruy8T0caFtluSbv6ZEj9KotT93DzPqei9RcHSs1qwqb
-         IO0MAGVgilzN+ALUp8zK2ZnPgTThUsz8Xos63cSWxkNN586y8DjlLsfZqfNGlh6YgCQe
-         0DhvdBWalJbK0e29wqF4GpROSObgmGk+5feO+sleOjdgvSoqNh3oZSvNlzmvUTyhFTt0
-         oWxlCtZJ1/XRXPvD2zMVfw3hb30FDWJrA+pD8RwTFacGVzbUR7TUR9OYZD5C0i0f5m5s
-         o9Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gYOCCjZTbeC8RCJP/PsDR1y6a+nLRgHIwvI+k14PymE=;
-        b=KtwEbX8bHNVPqwsGcfQaumEE3mmhgKIA0ZFcLvj9oYv1dpf/YKsjyLf06f+8AhRRPk
-         giLtp62C+86nfoumaOkDx8GdKTTxiXfvlJZntDFbVqQ4ztmz77snRPMBmv5rQeTZVwub
-         knE3qIIscedW8KgmpOwcxXV/sLWmwdmlcSGGIka6fToGo2+faUFXM6yXarYJ9OoGqxaz
-         sHDqZEsU2p15b40kBSsCUp6PzmP9naWxqN4fHlJJeCTdKff/TMHEQ/taO2CYs4GIJDlK
-         +N8YxrTIhNWqjGJCOyqnFem06+NfAGO8CFdcVizE4hYHWRQcjN5EbX7lnqlQbxK3qBNR
-         AS3A==
-X-Gm-Message-State: APjAAAX3AijY8q1MvxF1yI2zDZXLa46XrTm+IZf7XtITSUQ0Ty+Kz5me
-        7lKD3FI1FykPPqdz0HbldbY=
-X-Google-Smtp-Source: APXvYqy1xjzNwQKH98/eXjHIKuumKkDX6yjpjtH2hlgSOswKnG9D4Xql0biaYWYH3UFKgEsYnydp3A==
-X-Received: by 2002:adf:ffc5:: with SMTP id x5mr30434304wrs.92.1575299291338;
-        Mon, 02 Dec 2019 07:08:11 -0800 (PST)
-Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id d20sm40627696wra.4.2019.12.02.07.08.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2019 07:08:10 -0800 (PST)
-Date:   Mon, 2 Dec 2019 16:08:03 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/9] drm/tegra: hub: Remove bogus connection mutex check
-Message-ID: <20191202150803.GC56608@ulmo>
-References: <20191128153741.2380419-1-thierry.reding@gmail.com>
- <20191128153741.2380419-2-thierry.reding@gmail.com>
- <20191129090643.GA624164@phenom.ffwll.local>
- <20191129101255.GA2771912@ulmo>
- <20191129190309.GM624164@phenom.ffwll.local>
+        id S1727459AbfLBPPN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 2 Dec 2019 10:15:13 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:32858 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727401AbfLBPPM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Dec 2019 10:15:12 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E11D309;
+        Mon,  2 Dec 2019 16:15:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1575299709;
+        bh=mFGJOpuePLZrsr7Ed2VYhGQqc4JmFTNL3aKD7BB6RME=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=U1xYwtDbAaxhE1hTGuuq+kUzf8of1Su/SFJ/5CD+ND1NhkYzdxvGPjMQnU9DDAlsK
+         xdKO2BSloawGiChK9+z+QPTq8dFBSFS9xOMecLTyobVUVAW0hmzdJDacL6+LgL0s9n
+         PmQDet0FgRvYJiviJwNNw81lV6KlvpHYKc6AuNZc=
+Date:   Mon, 2 Dec 2019 17:15:02 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sean Paul <sean@poorly.run>
+Cc:     Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Allison Randal <allison@lohutok.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Enrico Weigelt <info@metux.net>,
+        Fabio Estevam <festevam@gmail.com>,
+        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Marek Vasut <marex@denx.de>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vincent Abriou <vincent.abriou@st.com>
+Subject: Re: [PATCH v1 14/16] drm/panel: call prepare/enable only once
+Message-ID: <20191202151502.GA18532@pendragon.ideasonboard.com>
+References: <20190804201637.1240-1-sam@ravnborg.org>
+ <20190804201637.1240-15-sam@ravnborg.org>
+ <20190805170120.GZ104440@art_vandelay>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="nmemrqcdn5VTmUEE"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191129190309.GM624164@phenom.ffwll.local>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20190805170120.GZ104440@art_vandelay>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Sean,
 
---nmemrqcdn5VTmUEE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Aug 05, 2019 at 01:01:20PM -0400, Sean Paul wrote:
+> On Sun, Aug 04, 2019 at 10:16:35PM +0200, Sam Ravnborg wrote:
+> > Many panel drivers duplicate logic to prevent prepare to be called
+> > for a panel that is already prepared.
+> > Likewise for enable.
+> > 
+> > Implement this logic in drm_panel so the individual drivers
+> > no longer needs this.
+> > A panel is considered prepared/enabled only if the prepare/enable call
+> > succeeds.
+> > For disable/unprepare it is unconditionally considered
+> > disabled/unprepared.
+> 
+> Hi Sam,
+> I did a similar thing a few years ago [1]. IIRC it was well received and just
+> needed some nits cleaned up. Unfortunately I lost interest^W^W switched to other
+> things and dropped it. So thanks for picking this back up!
+> 
+> Fast forward to today, I still think it's a good idea but I want to make sure
+> this won't negatively interact with the self refresh helpers. With the helpers
+> in place, it's possible to call disable consecutively (ie: once to enter self
+> refresh and again to actually shut down). I did a quick pass and it looks like
+> this patch might break that behavior, so you might want to take that into
+> account.
 
-On Fri, Nov 29, 2019 at 08:03:09PM +0100, Daniel Vetter wrote:
-> On Fri, Nov 29, 2019 at 11:12:55AM +0100, Thierry Reding wrote:
-> > On Fri, Nov 29, 2019 at 10:06:43AM +0100, Daniel Vetter wrote:
-> > > On Thu, Nov 28, 2019 at 04:37:33PM +0100, Thierry Reding wrote:
-> > > > From: Thierry Reding <treding@nvidia.com>
-> > > >=20
-> > > > I have no recollection why that check is there, but it seems to tri=
-gger
-> > > > all the time, so remove it. Everything works fine without.
-> > > >=20
-> > > > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > > > ---
-> > > >  drivers/gpu/drm/tegra/hub.c | 3 ---
-> > > >  1 file changed, 3 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hu=
-b.c
-> > > > index 6aca0fd5a8e5..e56c0f7d3a13 100644
-> > > > --- a/drivers/gpu/drm/tegra/hub.c
-> > > > +++ b/drivers/gpu/drm/tegra/hub.c
-> > > > @@ -615,11 +615,8 @@ static struct tegra_display_hub_state *
-> > > >  tegra_display_hub_get_state(struct tegra_display_hub *hub,
-> > > >  			    struct drm_atomic_state *state)
-> > > >  {
-> > > > -	struct drm_device *drm =3D dev_get_drvdata(hub->client.parent);
-> > > >  	struct drm_private_state *priv;
-> > > > =20
-> > > > -	WARN_ON(!drm_modeset_is_locked(&drm->mode_config.connection_mutex=
-));
-> > >=20
-> > > I suspect copypasta from the mst private state stuff, which relied on=
- this
-> > > lock to protect it. Except your code never bothered to grab that lock=
- (or
-> > > any other) so was technically broken until we added generic locking in
-> > >=20
-> > > commit b962a12050a387e4bbf3a48745afe1d29d396b0d
-> > > Author: Rob Clark <robdclark@gmail.com>
-> > > Date:   Mon Oct 22 14:31:22 2018 +0200
-> > >=20
-> > >     drm/atomic: integrate modeset lock with private objects
-> > >=20
-> > > Hence this is now ok to drop, originally it wasnt.
-> > >=20
-> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >=20
-> > Great, thanks for pointing that out. I'll update the commit message with
-> > that explanation.
-> >=20
-> > > Aside: You're single-thread all your atomic updates on the hub->lock,
-> > > which might not be what you want. At least updates to separate crtc s=
-hould
-> > > go through in parallel. Usual way to fix this is to add a
-> > > tegra_crtc_state->hub_changed that your earlier code sets, and then y=
-ou
-> > > walk the crtc states in the atomic commit (only those, not all, other=
-wise
-> > > you just rebuild that global lock again), and then only grab the hub =
-state
-> > > when you need to update something.
-> >=20
-> > I'm confused. Where do you see hub->lock? Did you mean wgrp->lock?
->=20
-> struct tegra_display_hub->base.lock I have no idea what wgrp->lock is
-> protecting - the functions seem to be only called from driver load/cleanup
-> code, and that is single-threaded. If I'm not missing anything then
-> wgrp->lock does nothing for you.
+Is this semantics documented somewhere ? The documentation of the panel
+disable operation is pretty terse, and we need to explicitly state who
+of the caller and callee needs to track the state.
 
-This is currently single-threaded, but the idea was to make window group
-assignment more dynamic. I currently always enable window groups because
-there's no good place to dynamically do that. Once I figure that out the
-lock would become necessary, so I'd prefer to leave it in place as sort
-of a reminder that I need to actually worry about the locking.
+> [1]- https://patchwork.freedesktop.org/series/30712/
+> 
+> > This allows calls to prepare/enable again, even if there were
+> > some issue disabling a regulator or similar during disable/unprepare.
+> > 
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+> > Cc: Sean Paul <sean@poorly.run>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > ---
+> >  drivers/gpu/drm/drm_panel.c | 66 ++++++++++++++++++++++++++++++-------
+> >  include/drm/drm_panel.h     | 21 ++++++++++++
+> >  2 files changed, 75 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> > index da19d5b4a2f4..0853764040de 100644
+> > --- a/drivers/gpu/drm/drm_panel.c
+> > +++ b/drivers/gpu/drm/drm_panel.c
+> > @@ -66,10 +66,21 @@ EXPORT_SYMBOL(drm_panel_init);
+> >   */
+> >  int drm_panel_prepare(struct drm_panel *panel)
+> >  {
+> > -	if (panel && panel->funcs && panel->funcs->prepare)
+> > -		return panel->funcs->prepare(panel);
+> > +	int ret = -ENOSYS;
+> >  
+> > -	return panel ? -ENOSYS : -EINVAL;
+> > +	if (!panel)
+> > +		return -EINVAL;
+> > +
+> > +	if (panel->prepared)
+> > +		return 0;
+> > +
+> > +	if (panel->funcs && panel->funcs->prepare)
+> > +		ret = panel->funcs->prepare(panel);
+> > +
+> > +	if (ret >= 0)
+> > +		panel->prepared = true;
+> > +
+> > +	return ret;
+> >  }
+> >  EXPORT_SYMBOL(drm_panel_prepare);
+> >  
+> > @@ -85,10 +96,21 @@ EXPORT_SYMBOL(drm_panel_prepare);
+> >   */
+> >  int drm_panel_enable(struct drm_panel *panel)
+> >  {
+> > -	if (panel && panel->funcs && panel->funcs->enable)
+> > -		return panel->funcs->enable(panel);
+> > +	int ret = -ENOSYS;
+> >  
+> > -	return panel ? -ENOSYS : -EINVAL;
+> > +	if (!panel)
+> > +		return -EINVAL;
+> > +
+> > +	if (panel->enabled)
+> > +		return 0;
+> > +
+> > +	if (panel->funcs && panel->funcs->enable)
+> > +		ret = panel->funcs->enable(panel);
+> > +
+> > +	if (ret >= 0)
+> > +		panel->enabled = true;
+> > +
+> > +	return ret;
+> >  }
+> >  EXPORT_SYMBOL(drm_panel_enable);
+> >  
+> > @@ -104,10 +126,20 @@ EXPORT_SYMBOL(drm_panel_enable);
+> >   */
+> >  int drm_panel_disable(struct drm_panel *panel)
+> >  {
+> > -	if (panel && panel->funcs && panel->funcs->disable)
+> > -		return panel->funcs->disable(panel);
+> > +	int ret = -ENOSYS;
+> >  
+> > -	return panel ? -ENOSYS : -EINVAL;
+> > +	if (!panel)
+> > +		return -EINVAL;
+> > +
+> > +	if (!panel->enabled)
+> > +		return 0;
+> > +
+> > +	if (panel->funcs && panel->funcs->disable)
+> > +		ret = panel->funcs->disable(panel);
+> > +
+> > +	panel->enabled = false;
+> > +
+> > +	return ret;
+> >  }
+> >  EXPORT_SYMBOL(drm_panel_disable);
+> >  
+> > @@ -124,10 +156,20 @@ EXPORT_SYMBOL(drm_panel_disable);
+> >   */
+> >  int drm_panel_unprepare(struct drm_panel *panel)
+> >  {
+> > -	if (panel && panel->funcs && panel->funcs->unprepare)
+> > -		return panel->funcs->unprepare(panel);
+> > +	int ret = -ENOSYS;
+> >  
+> > -	return panel ? -ENOSYS : -EINVAL;
+> > +	if (!panel)
+> > +		return -EINVAL;
+> > +
+> > +	if (!panel->prepared)
+> > +		return 0;
+> > +
+> > +	if (panel->funcs && panel->funcs->unprepare)
+> > +		ret = panel->funcs->unprepare(panel);
+> > +
+> > +	panel->prepared = false;
+> > +
+> > +	return ret;
+> >  }
+> >  EXPORT_SYMBOL(drm_panel_unprepare);
+> >  
+> > diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+> > index 624bd15ecfab..7493500fc9bd 100644
+> > --- a/include/drm/drm_panel.h
+> > +++ b/include/drm/drm_panel.h
+> > @@ -65,6 +65,9 @@ struct drm_panel_funcs {
+> >  	 * @prepare:
+> >  	 *
+> >  	 * Turn on panel and perform set up.
+> > +	 * When the panel is successfully prepared the prepare() function
+> > +	 * will not be called again until the panel has been unprepared.
+> > +	 *
+> >  	 */
+> >  	int (*prepare)(struct drm_panel *panel);
+> >  
+> > @@ -72,6 +75,8 @@ struct drm_panel_funcs {
+> >  	 * @enable:
+> >  	 *
+> >  	 * Enable panel (turn on back light, etc.).
+> > +	 * When the panel is successfully enabled the enable() function
+> > +	 * will not be called again until the panel has been disabled.
+> >  	 */
+> >  	int (*enable)(struct drm_panel *panel);
+> >  
+> > @@ -79,6 +84,7 @@ struct drm_panel_funcs {
+> >  	 * @disable:
+> >  	 *
+> >  	 * Disable panel (turn off back light, etc.).
+> > +	 * If the panel is already disabled the disable() function is not called.
+> >  	 */
+> >  	int (*disable)(struct drm_panel *panel);
+> >  
+> > @@ -86,6 +92,7 @@ struct drm_panel_funcs {
+> >  	 * @unprepare:
+> >  	 *
+> >  	 * Turn off panel.
+> > +	 * If the panel is already unprepared the unprepare() function is not called.
+> >  	 */
+> >  	int (*unprepare)(struct drm_panel *panel);
+> >  
+> > @@ -145,6 +152,20 @@ struct drm_panel {
+> >  	 * Panel entry in registry.
+> >  	 */
+> >  	struct list_head list;
+> > +
+> > +	/**
+> > +	 * @prepared:
+> > +	 *
+> > +	 * Set to true when the panel is successfully prepared.
+> > +	 */
+> > +	bool prepared;
+> > +
+> > +	/**
+> > +	 * @enabled:
+> > +	 *
+> > +	 * Set to true when the panel is successfully enabled.
+> > +	 */
+> > +	bool enabled;
+> >  };
+> >  
+> >  void drm_panel_init(struct drm_panel *panel);
 
-I'll have to look into the hub->base.lock, I don't recall exactly what I
-thought at the time and it seems like I didn't leave enough comments in
-the code to quickly refresh my memory...
+-- 
+Regards,
 
-Thierry
-
---nmemrqcdn5VTmUEE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3lKNMACgkQ3SOs138+
-s6FUlg/9EG3gGQHB60WdlsMwy/3sLY+y+bAHWukbojNWuh805OuIrfTGqJhNDGaI
-VBhdBe2lhy8squHXdt3N3rfs89r4bY7UzCO2eExlo2EP7NBSsM5DjIyWv4Bs0mWe
-YXheIVwWgfIR/xhQr3U7eF7aHA8v8j8eYgtv4DKw0oMPLCCSqT0MoDlN2D43jj9g
-QQ8i+Z73OrmCw7WRkvTeh4FgpM2aimjBb82IbD5LXHVxR1dttsqsipbWqq+xP79A
-oU8gXfRdaTJYlxwiCc1X2koH9Rlvels5IT0XcdEn3TYVENQ1ZZkkNZKesFD95DUb
-HhtrJCk/Q4TSqhLW5wZNMkrtz5FzwDlaMM0WFaGjBd0r/xpWeyaq7Q/NrU0ESEhx
-zz0rYCbFj3sv10GY7X+VS46K4gv7+fa+2GK8zMdojzijsb2wURCPYB6v7oTzXm89
-fLBfdr3yiTwJ1L+iQZsSqi7h0eWyaSc83EPZb3zOyKxRqfHWY9qBgzZWodq9HLDV
-F1xsk8mUF8ztcNfhdCL2DdNbL+3oqBESU2dYVibH6HD2rP/PAYjWYwDOBMqWVGd2
-aFZg2CIVJFJ9YLU9Fr4ywern6o5UBDjaZoaXRkQa+QIS3icVWBBNmoEc5Hg7cq7d
-NnB592aZtpUA0VW+S2plaa4mDJu1+/G+Nb/TDUr5n2ocXNzfqoM=
-=QTRN
------END PGP SIGNATURE-----
-
---nmemrqcdn5VTmUEE--
+Laurent Pinchart
