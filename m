@@ -2,51 +2,51 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A68EA10FE8A
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 14:20:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A208310FEA8
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 14:23:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726074AbfLCNUi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Dec 2019 08:20:38 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:38990 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbfLCNUi (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 08:20:38 -0500
-Received: by mail-lj1-f193.google.com with SMTP id e10so3772391ljj.6
-        for <linux-tegra@vger.kernel.org>; Tue, 03 Dec 2019 05:20:37 -0800 (PST)
+        id S1726516AbfLCNXP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Dec 2019 08:23:15 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:41341 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726505AbfLCNXD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 08:23:03 -0500
+Received: by mail-lf1-f66.google.com with SMTP id m30so2918285lfp.8
+        for <linux-tegra@vger.kernel.org>; Tue, 03 Dec 2019 05:23:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dM7DxIKsuRuWaeq1kSkAx5tZP4LQ1yRPP8TIc6mxOpk=;
-        b=ZrU6IFrNs/v9Z2rJ1KSkzGUV8fZWcRdhMKoXG6DN0M3+iAn1ApiRmE3ZgJ94Uo+9wZ
-         DzuzeCNox0Z3xZRWRhWq9NS7Kq69iqJ360qMic+xi3WSoWvVfcJIHPlubUEr1YqjPC6n
-         SXn0dfovwrRDvRAR6nMb9zlsIw6BuH674zeFIB8i/F1/gIumJJ3bD7wOLIyyAD+Ch5OE
-         m/5UDp46mghUjs7ZT/ryJZOV8cAlXyc2Lu2UOO2gh5yc7puCj66NVcdtTPnHrWtBY2u6
-         W3zW+ts6HbCNkFX+sFqM/OCNNJVzIuEg+uhrXbWD/7147S61i6ovPikcw7eFS0ik9JEC
-         sNog==
+        bh=lefF5BM/gcR+So8Ygs7RCzWIIBhGl0bonM5D7lIAz2M=;
+        b=ZwcHFup3L1FGPGk2xtvdRZFPmqpjl+1VvQLCjzq0rimrVIVqaG32x7PCDfBwRBdhIo
+         wfFVMCzt/nwBpmmu726MfJIBszKsNjFvMWKcURMFeYoJFnyFPvGbWfNUAkjmA0arprAH
+         xxbwDWIJo9nDwD2K3RFDnub+OayDe800qVEItuex48rNok6smlLWT62Pp3P8wxG/YbWQ
+         q5dde7mJTd61eoUyIeQ0PMpdo8DxM6TZOnmuYEYlu4eIbFMQ/aYRNjWF4Qj24lP7V1JO
+         X4rGteLiKCtTpowk5xUuEB1HkwUeJ5Mr5SgOtJornUUaf2Dz/nR/O6sc39dTBk+hVW6X
+         1kmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dM7DxIKsuRuWaeq1kSkAx5tZP4LQ1yRPP8TIc6mxOpk=;
-        b=q+ohRZqDnGelF7tJ8ik1oh/XBeD4tVDWYr1fDqUWCd9lzXB+S42fILt+Naos4LWQv7
-         dt4ZbL9r2064xq58ogj2dhjjfQZ0R3JcV3Zuf5iw0/WGDMOvYXuAnbPgbr4txCh3FVF7
-         iNZo72BDSfu+YeWS0NvRD4uFaxt91L8v4VuvMKKfi8GPu9OQp4XRrHI4W7/gH0bsouxR
-         U1nrxoZNvg5iSlXQTMm4BIY9gFV8x36fujR4ApU/SCbiOJ8nd8HeVRhiNNlh/+cNQbeO
-         1l7JhwEXHzpNvW+I67HMEeNtxxFk9zG6xgM5vklEovG6oo65L1WA+7f+m+Vo4wrFnv8p
-         aggA==
-X-Gm-Message-State: APjAAAW7l+lDmGtdK2MDPlYMNR/y5WfyS1gkAP2+FW5lG7D85nJqQ/ib
-        Fao3gvZUw2uxbk71MrCBl92cwufMxYDUIKsQThIcQg==
-X-Google-Smtp-Source: APXvYqzTzhKdgwJ8WJIcY2A5WR+ez0+zwm8p5MUMtgC+M9HuNmXbczoLdnQOw0NdPlAjvpjtAI7gsHbZmOicQtBst1Q=
-X-Received: by 2002:a2e:8045:: with SMTP id p5mr2556134ljg.251.1575379236563;
- Tue, 03 Dec 2019 05:20:36 -0800 (PST)
+        bh=lefF5BM/gcR+So8Ygs7RCzWIIBhGl0bonM5D7lIAz2M=;
+        b=gEy294dfs/5dYs9Ukfy2akTZHVazvvJmAicpG0QnuNqRIwPzt08LXNwAdDyGbR9UhB
+         L5LspAmVzMyWY9Q0QzGRyhPypFvZE+bpEfRyRl5iHLYcqiY8KIi+1RmNMJ5dOqBPcZKp
+         8lm4wk1M3AVPNMnNTXD5fe033V/ToRsAo+kO0fqoDqo3wZ1L/6qkKYKKTQZi6j/4RnF0
+         k/WZIa290SWZzxlwGIP1to0rFM3/4G0wWtzW0uQHAj25naPKaTnk3tur5iKp8PaOYLOe
+         jGNSNw4MXldpyIqNVR6UQ01zjpxFl7OgALQyUqATXdl8tQEeMO080ttcmRpld5XJkP13
+         4TcQ==
+X-Gm-Message-State: APjAAAXWQvdnZ9OojcVyoLNHBLl38oiNPQrIRxlntJhoDbMYAszFQ0vE
+        VCyG9xraHXvjW+iLPBcTk7KH5KvJ1MKoWUDORbndew==
+X-Google-Smtp-Source: APXvYqx22ebZnmuYdNzG9TrFSZg4isgk95/zsKEGLemAt431mQBCED4F4+fJ5lhPiKhrPXI40LsyMbi9cYOMTmUUeRQ=
+X-Received: by 2002:ac2:5083:: with SMTP id f3mr1970416lfm.135.1575379381560;
+ Tue, 03 Dec 2019 05:23:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20191202193230.21310-1-sam@ravnborg.org> <20191202193230.21310-27-sam@ravnborg.org>
-In-Reply-To: <20191202193230.21310-27-sam@ravnborg.org>
+References: <20191202193230.21310-1-sam@ravnborg.org> <20191202193230.21310-5-sam@ravnborg.org>
+In-Reply-To: <20191202193230.21310-5-sam@ravnborg.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 3 Dec 2019 14:20:25 +0100
-Message-ID: <CACRpkdZcLeJuOiPPa81qj17ifi3T0YxPq0zPP0oqNv-8pvzeKg@mail.gmail.com>
-Subject: Re: [PATCH v1 26/26] drm/panel: tpo-tpg110: use drm_panel backlight support
+Date:   Tue, 3 Dec 2019 14:22:50 +0100
+Message-ID: <CACRpkdYT8u2Liq60xtTWeLc2q-R16XWtE1YstGp2WTgM2Cc6CA@mail.gmail.com>
+Subject: Re: [PATCH v1 04/26] drm: get drm_bridge_panel connector via helper
 To:     Sam Ravnborg <sam@ravnborg.org>
 Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -73,7 +73,10 @@ Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Purism Kernel Team <kernel@puri.sm>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Eric Anholt <eric@anholt.net>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -82,15 +85,29 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 On Mon, Dec 2, 2019 at 8:33 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 
-> Use the backlight support in drm_panel to simplify the driver
+> The drm_connector created by drm_panel_bridge was accessed
+> via drm_panel.connector.
+> Avoid the detour around drm_panel by providing a simple get method.
+> This avoids direct access to the connector field in drm_panel in
+> the two users.
+>
+> Update pl111 and tve200 to use the new helper.
 >
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> Cc: Eric Anholt <eric@anholt.net>
 > Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 
+With the little issues found by Laurent fixed:
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Thanks for cleaning all of this up!
-
+Yours,
 Linus Walleij
