@@ -2,89 +2,187 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9DF910F40D
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 01:42:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 667DD10F7BF
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 07:25:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbfLCAm0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 2 Dec 2019 19:42:26 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:45808 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726741AbfLCAmX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 2 Dec 2019 19:42:23 -0500
-Received: by mail-lj1-f193.google.com with SMTP id d20so1623172ljc.12;
-        Mon, 02 Dec 2019 16:42:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=imnnqxS4XYlJpcakyQfZSF6VXI+HvHKYNPt5DnEHnHw=;
-        b=KQSRPXn4dUWHiByc6z92JVtNZBcewSoNB63v8EpDiJLOctxI+DrD4FdetkFcXfOqNu
-         W4440cv7tgGsPwweeDbXinwiJiBZyE5MTWhDcDoegUFWVyz5SERh6Zp6QygmHO5Yswi5
-         jEMBlze9I21XWX02tseSd+Jg11a5y+9e1o8JwzbI34EVw84oQ4z3UsiXKhXGKVAN5ZQf
-         5mJxI3mATgM/547yGymzdiY/kEm3lbk9suW4asOLeIldUA8mlWjcQZrWb4PDdpMAAv+G
-         u4tEGfnPrGG3Ej1pfFHWoDDV5/kACvdwjrtV7FB2v5MZk/H7TerauQg2b9O07jT0Lav8
-         O+7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=imnnqxS4XYlJpcakyQfZSF6VXI+HvHKYNPt5DnEHnHw=;
-        b=M5jmkthkhDhKXsO6qQkqghnGrzXV5cyqA5DcCwpen2ADjlHtFLO6wvobfwCWNmyMLt
-         qf2Odn4qYmw6itBG/12FiLUuhRyTKE/n7yZ+pdClxkccQs7HpKnVw0w9gJC8uqqP8U7O
-         WdB3xRm1oycr7qtHV2ZpXeWD5WalxxTaOBPbusjpFJVlQzg7dUua2vx39z3ABF+09kvt
-         wpnsf3mzr8cUaAzJxkuSILmdxs6nPUWxYr6PJU1BPWDzGdx4V7gw2yjZmtNuiqP4HF8g
-         bN6YX0Xup+LcMjxgDiNnA2FmUuprH5N+LWtCG3sFu9aZ4u6aUROcC8evn6OLcQFt+lEM
-         rxdw==
-X-Gm-Message-State: APjAAAU90JTbxHcWjr0kTnikGr6UUK/dxnfhrIlRJDw/bBocDhTPZ519
-        hZXQTYYQHEzOz1Dm2HFfNaE=
-X-Google-Smtp-Source: APXvYqzA09wneGnM2Dv67ipc7OMdiZxhpUzqRw2d2tkvqoGdbSFHXer3A6mNASQuRYt6d7rMT6d9SA==
-X-Received: by 2002:a2e:89c6:: with SMTP id c6mr892313ljk.113.1575333741038;
-        Mon, 02 Dec 2019 16:42:21 -0800 (PST)
-Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id y21sm456384ljm.25.2019.12.02.16.42.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2019 16:42:20 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v8 19/19] ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
-Date:   Tue,  3 Dec 2019 03:41:16 +0300
-Message-Id: <20191203004116.11771-20-digetx@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191203004116.11771-1-digetx@gmail.com>
-References: <20191203004116.11771-1-digetx@gmail.com>
+        id S1727093AbfLCGZK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Dec 2019 01:25:10 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56278 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727044AbfLCGZK (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 01:25:10 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED8F8309;
+        Tue,  3 Dec 2019 07:25:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1575354306;
+        bh=xMhIy5HaiSKkNSrpN5V89DDzQfYcJU5ugOWimrHaPOs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=h6qBeI/WhmgWblAgjLQFXmZpvICtdJ7ang5ZAu5QF/RWsHFhxgfKLrUQgLiN0ZySP
+         te8cQY0l0xw5SKujiIaFAPliBjJuQRSuy8VjWqLPVlmREWdKpCygHfjb38yR1iYlaQ
+         x2aoQRv36caeBrjXBdi/fF336MdBMzwTFlpaN1nk=
+Date:   Tue, 3 Dec 2019 08:24:59 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     dri-devel@lists.freedesktop.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Abhinav Kumar <abhinavk@codeaurora.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Jitao Shi <jitao.shi@mediatek.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v1 01/26] drm/drm_panel: no error when no callback
+Message-ID: <20191203062459.GA4730@pendragon.ideasonboard.com>
+References: <20191202193230.21310-1-sam@ravnborg.org>
+ <20191202193230.21310-2-sam@ravnborg.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191202193230.21310-2-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Tegra CPU Idle driver was moved out into driver/cpuidle/ directory and
-it is now a proper platform driver.
+Hi Sam,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/tegra_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Thank you for the patch.
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index a27592d3b1fa..aa94369bdd0f 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -25,6 +25,7 @@ CONFIG_CPU_FREQ=y
- CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND=y
- CONFIG_CPUFREQ_DT=y
- CONFIG_CPU_IDLE=y
-+CONFIG_ARM_TEGRA_CPUIDLE=y
- CONFIG_VFP=y
- CONFIG_NEON=y
- CONFIG_TRUSTED_FOUNDATIONS=y
+On Mon, Dec 02, 2019 at 08:32:05PM +0100, Sam Ravnborg wrote:
+> The callbacks in drm_panel_funcs are optional, so do not
+> return an error just because no callback is assigned.
+
+Unless I'm mistaken the callbacks are not documented as optional. Should
+this be fixed too ?
+
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>  drivers/gpu/drm/drm_panel.c | 35 +++++++++++++++++++++++++----------
+>  1 file changed, 25 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index ed7985c0535a..2d59cdd05e50 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -151,10 +151,13 @@ EXPORT_SYMBOL(drm_panel_detach);
+>   */
+>  int drm_panel_prepare(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->prepare)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->prepare)
+>  		return panel->funcs->prepare(panel);
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_panel_prepare);
+>  
+> @@ -171,10 +174,13 @@ EXPORT_SYMBOL(drm_panel_prepare);
+>   */
+>  int drm_panel_unprepare(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->unprepare)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->unprepare)
+>  		return panel->funcs->unprepare(panel);
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_panel_unprepare);
+>  
+> @@ -190,10 +196,13 @@ EXPORT_SYMBOL(drm_panel_unprepare);
+>   */
+>  int drm_panel_enable(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->enable)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->enable)
+>  		return panel->funcs->enable(panel);
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_panel_enable);
+>  
+> @@ -209,10 +218,13 @@ EXPORT_SYMBOL(drm_panel_enable);
+>   */
+>  int drm_panel_disable(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->disable)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->disable)
+>  		return panel->funcs->disable(panel);
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_panel_disable);
+>  
+> @@ -228,10 +240,13 @@ EXPORT_SYMBOL(drm_panel_disable);
+>   */
+>  int drm_panel_get_modes(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->get_modes)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->get_modes)
+>  		return panel->funcs->get_modes(panel);
+
+Should get_modes() be optional ? As far as I can tell all the panel
+drivers in drivers/gpu/drm/panel/ implement it, and I'm not sure to see
+how a panel could be usable if it can't return its mode.
+
+On the other hand you return 0 if the callback isn't implemented, which
+doesn't mean success here, so I suppose that's fine, but I don't think
+we should document .get_modes() as being optional.
+
+With these issues addressed (if they need to be),
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_panel_get_modes);
+>  
+
 -- 
-2.24.0
+Regards,
 
+Laurent Pinchart
