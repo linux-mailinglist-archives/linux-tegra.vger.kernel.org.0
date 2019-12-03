@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B57F1101FC
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 17:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E77DD1101FD
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 17:19:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726505AbfLCQT0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Dec 2019 11:19:26 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:34581 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726139AbfLCQT0 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 11:19:26 -0500
-Received: by mail-wm1-f68.google.com with SMTP id f4so2720681wmj.1
-        for <linux-tegra@vger.kernel.org>; Tue, 03 Dec 2019 08:19:25 -0800 (PST)
+        id S1726553AbfLCQT2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Dec 2019 11:19:28 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:37305 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726139AbfLCQT2 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 11:19:28 -0500
+Received: by mail-wr1-f65.google.com with SMTP id w15so4425742wru.4
+        for <linux-tegra@vger.kernel.org>; Tue, 03 Dec 2019 08:19:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ukbAySjSNMI0S+s3PZZPFOl6pszLEQLlgBTJCxk93hE=;
-        b=p8AImqUvKPe7RcRTdaqBUPvOw2AwuTZBJifHfoT71eipePQVF3elFSVEDEDXXAxN8/
-         lDYaDj555Vo2HTypIdFGy+G6zgIKRTJ4SNPgqNIhbEhWqgIZ9cgh/i8AEWy2C1W0mQJ9
-         HRjmripn4yKt2iy9qUQ/67kL7m4Ia4TD6SndkgnxupanzaXqDQKppe6c82C8Sl7OffJk
-         7jMKDcchpMUqcCY+etP2sS+R6ZFB+T7mMkgjXwTm9DmEA8J+UShOa3wMr3WmKvCaQIi4
-         gKP5dd4ORA6mdc3TuZAp0kgiQ+G73ZQpiXCAJg8I6i18wD+6lKtdcfviGLW0p3JJisW2
-         YGnA==
+        bh=pvQehkVTnZhXOtbF2Az2asg2sLoVMRuQyXqH7URMAHM=;
+        b=Mrhr+/Wn9ZoXUAeQh0b/8qtNuL4ue3b/8nabr8jiNHIXLbo3hN56imCCyjJOfDdzab
+         IdiNTZEbydnQGfTNkmNJiRIyzZTxNiHICvxxdFq1i150uGN6O3ykVwVIBfEyneDxUQJ3
+         WIiTKS1oVmcY2dms0mmP9oeDNk32JgdtgjkE0ia75P/RpIalqMjUHzPuBmtNyNRRWP4a
+         2ZF4p0+bMrSbzS2hM0jJxe35/kpTM8NEnnvj69tsr4BzpmDHNYPFE/YG5MV7WeEhb4Fk
+         EGwc7Hx0XPciwFIYbT+cMt9uAhXkEKLDBJglbKNQa5HFD11oKRJ0pgpCbCLl1UxzxXOM
+         cSpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ukbAySjSNMI0S+s3PZZPFOl6pszLEQLlgBTJCxk93hE=;
-        b=JaW9gjH6MBdlA+AiIPMKT0IdPwKFTm6refEOISONu6kcsSTO/joXgqW9MAivJuh+yy
-         UAxRll/2BY6+71bXT5xvtqyBlgqvtIEofFEayCDICo7LqFU2YEdq8XwDxkQmuWMGW6e4
-         zSIxRCdCBmcxHB7YDwDjbkXxVjg36WL886uGtvBz1V4B/pTjlppKrQNydnKsl/YLTMPm
-         znRfh2JqgCB//jJjMDqOdvXbPAnYyjrOS6r0KlnfcTCbyvJl1pp3QXVUxZ5qwYBSKSk8
-         vyU4Ur1sgB6BBLcxZBhPXSvBwT5yd7RFTtKk9mRMQIxK2bsSZum1Xz8s4XYSEefLontn
-         0wDQ==
-X-Gm-Message-State: APjAAAUtgvammnXYrGm1cEcUFhVaPE6tTz+zPedI7ch+xcgcTTSsEHNG
-        IrLIbWpxl0L7ChVHDYhWzYw=
-X-Google-Smtp-Source: APXvYqzjma23PNGKsrRHGJ52wpi75A2EWA8HJoQhYk9dTPg/yLs/spOEQa0hVHdrIR9GSKVKKEQGJg==
-X-Received: by 2002:a1c:4b0d:: with SMTP id y13mr28421590wma.134.1575389964363;
-        Tue, 03 Dec 2019 08:19:24 -0800 (PST)
+        bh=pvQehkVTnZhXOtbF2Az2asg2sLoVMRuQyXqH7URMAHM=;
+        b=SWF5xSAA6ArumLh24pCQsGCH6gVLMGtFe0w0wCix+sgcVdH6TxFH4V4NI2OYRhirxA
+         a+mweDYxw8B5SgwBFNNzAbJ4DYQTZr9uvo4dt0xPR0ybg5n9t80ZGeQ9YfoZJQdHtN3F
+         yOLBbJQuWv7dfDAyZotTRemaoa0K0xLVFTUMaEzdmb+yxWCLxyPGrXHzYWyxY6SWZyw8
+         +OvdCgYmkQHu79zcCfJkAdQGFCnZeeC4ZEO9YhsVeWwpeUfxyRfHMs6Dw5N2iBjnOS58
+         CXnTKWFk0vKMfKJkGJx+1INKIReTgXPzmW45xq9CO9uA3q5IIF1RFg/R68sMxooqpRLU
+         gYLA==
+X-Gm-Message-State: APjAAAXIbBldEd+x8wCTjPuB4x6rNXzvxVEsuRdq7lPH5FKL9cVJrYar
+        Nq4LmZu+LYdJu0Bxg6/+2+I=
+X-Google-Smtp-Source: APXvYqy+DcGAlAhe1ldzMVwN7qNiMU9+r376sbkbfD9Fshi4/avfLvvX5mcOke2PpX86Q3t2S3JqHg==
+X-Received: by 2002:adf:814c:: with SMTP id 70mr5814983wrm.157.1575389966593;
+        Tue, 03 Dec 2019 08:19:26 -0800 (PST)
 Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id d186sm3725722wmf.7.2019.12.03.08.19.23
+        by smtp.gmail.com with ESMTPSA id k13sm2901194wrx.59.2019.12.03.08.19.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2019 08:19:23 -0800 (PST)
+        Tue, 03 Dec 2019 08:19:25 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
         linux-tegra@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH v2 4/9] drm/tegra: Use proper IOVA address for cursor image
-Date:   Tue,  3 Dec 2019 17:19:09 +0100
-Message-Id: <20191203161914.1312555-4-thierry.reding@gmail.com>
+Subject: [PATCH v2 5/9] drm/tegra: sor: Implement system suspend/resume
+Date:   Tue,  3 Dec 2019 17:19:10 +0100
+Message-Id: <20191203161914.1312555-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191203161914.1312555-1-thierry.reding@gmail.com>
 References: <20191203161914.1312555-1-thierry.reding@gmail.com>
@@ -63,70 +63,69 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The IOVA address for the cursor is the result of mapping the buffer
-object for the given display controller. Make sure to use the proper
-IOVA address as stored in the cursor's plane state.
+Upon system suspend, make sure the +5V HDMI regulator is disabled. This
+avoids potentially leaking current to the HDMI connector. This also
+makes sure that upon resume the regulator is enabled again, which in
+some cases is necessary to properly restore the state of the supply on
+resume.
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/dc.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/tegra/sor.c | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index d03b33c3b114..0a5f86b61fda 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -847,16 +847,15 @@ static int tegra_cursor_atomic_check(struct drm_plane *plane,
- static void tegra_cursor_atomic_update(struct drm_plane *plane,
- 				       struct drm_plane_state *old_state)
- {
--	struct tegra_bo *bo = tegra_fb_get_plane(plane->state->fb, 0);
-+	struct tegra_plane_state *state = to_tegra_plane_state(plane->state);
- 	struct tegra_dc *dc = to_tegra_dc(plane->state->crtc);
--	struct drm_plane_state *state = plane->state;
- 	u32 value = CURSOR_CLIP_DISPLAY;
- 
- 	/* rien ne va plus */
- 	if (!plane->state->crtc || !plane->state->fb)
- 		return;
- 
--	switch (state->crtc_w) {
-+	switch (plane->state->crtc_w) {
- 	case 32:
- 		value |= CURSOR_SIZE_32x32;
- 		break;
-@@ -874,16 +873,16 @@ static void tegra_cursor_atomic_update(struct drm_plane *plane,
- 		break;
- 
- 	default:
--		WARN(1, "cursor size %ux%u not supported\n", state->crtc_w,
--		     state->crtc_h);
-+		WARN(1, "cursor size %ux%u not supported\n",
-+		     plane->state->crtc_w, plane->state->crtc_h);
- 		return;
- 	}
- 
--	value |= (bo->iova >> 10) & 0x3fffff;
-+	value |= (state->iova[0] >> 10) & 0x3fffff;
- 	tegra_dc_writel(dc, value, DC_DISP_CURSOR_START_ADDR);
- 
- #ifdef CONFIG_ARCH_DMA_ADDR_T_64BIT
--	value = (bo->iova >> 32) & 0x3;
-+	value = (state->iova[0] >> 32) & 0x3;
- 	tegra_dc_writel(dc, value, DC_DISP_CURSOR_START_ADDR_HI);
- #endif
- 
-@@ -902,7 +901,8 @@ static void tegra_cursor_atomic_update(struct drm_plane *plane,
- 	tegra_dc_writel(dc, value, DC_DISP_BLEND_CURSOR_CONTROL);
- 
- 	/* position the cursor */
--	value = (state->crtc_y & 0x3fff) << 16 | (state->crtc_x & 0x3fff);
-+	value = (plane->state->crtc_y & 0x3fff) << 16 |
-+		(plane->state->crtc_x & 0x3fff);
- 	tegra_dc_writel(dc, value, DC_DISP_CURSOR_POSITION);
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 615cb319fa8b..2200f4cd397a 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -3912,8 +3912,7 @@ static int tegra_sor_remove(struct platform_device *pdev)
+ 	return 0;
  }
  
+-#ifdef CONFIG_PM
+-static int tegra_sor_suspend(struct device *dev)
++static int tegra_sor_runtime_suspend(struct device *dev)
+ {
+ 	struct tegra_sor *sor = dev_get_drvdata(dev);
+ 	int err;
+@@ -3935,7 +3934,7 @@ static int tegra_sor_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int tegra_sor_resume(struct device *dev)
++static int tegra_sor_runtime_resume(struct device *dev)
+ {
+ 	struct tegra_sor *sor = dev_get_drvdata(dev);
+ 	int err;
+@@ -3967,10 +3966,25 @@ static int tegra_sor_resume(struct device *dev)
+ 
+ 	return 0;
+ }
+-#endif
++
++static int tegra_sor_suspend(struct device *dev)
++{
++	struct tegra_sor *sor = dev_get_drvdata(dev);
++
++	return regulator_disable(sor->hdmi_supply);
++}
++
++static int tegra_sor_resume(struct device *dev)
++{
++	struct tegra_sor *sor = dev_get_drvdata(dev);
++
++	return regulator_enable(sor->hdmi_supply);
++}
+ 
+ static const struct dev_pm_ops tegra_sor_pm_ops = {
+-	SET_RUNTIME_PM_OPS(tegra_sor_suspend, tegra_sor_resume, NULL)
++	SET_RUNTIME_PM_OPS(tegra_sor_runtime_suspend, tegra_sor_runtime_resume,
++			   NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(tegra_sor_suspend, tegra_sor_resume)
+ };
+ 
+ struct platform_driver tegra_sor_driver = {
 -- 
 2.23.0
 
