@@ -2,193 +2,227 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B6F61103C4
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 18:42:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C637111B54
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 23:07:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726847AbfLCRmf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Dec 2019 12:42:35 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33157 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726224AbfLCRmf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 12:42:35 -0500
-Received: by mail-wr1-f67.google.com with SMTP id b6so4853890wrq.0;
-        Tue, 03 Dec 2019 09:42:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=qE5r3nti027mzy0pKgrnKXkE1RSc8kUqTOaORXIdEtE=;
-        b=a40wQB7Mk7pBuIEzPBChXZl1yBZvbIVXlaeGoAaiJcl8DZczFfOnjnbH4qGRZ0lPoT
-         sRb08dAvwJLNEP5eDKxT0YBpPq2HtoE0w0BQ5jV2bXhdv76SufUrjfF1rhgxyZLThrsp
-         S9blKgXZiiYIkiuBLkMhYny1XboAMLEmBjUeD8rHJy+FiM+s8XPJ0IopkA6ylmfT1Szl
-         nwXDM1qbCCzKRRN1vUDI9Ac8ntundjbrtPnLX/IosvRrhRvDfkqzMorv7i/w36fh/01e
-         CeBmgwklnmeK9BfhSLVbKd+L0W/hQdVrkFJUhf0AWeQCw5G5psDNjeZ/3d/P7bsqKm4N
-         6Ogg==
+        id S1727537AbfLCWHa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Dec 2019 17:07:30 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:36823 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727516AbfLCWHa (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 17:07:30 -0500
+Received: by mail-oi1-f196.google.com with SMTP id c16so4915401oic.3;
+        Tue, 03 Dec 2019 14:07:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qE5r3nti027mzy0pKgrnKXkE1RSc8kUqTOaORXIdEtE=;
-        b=d3SppsbxuINEqJKZoW2zbGSKdkicLcv/C58vSdD7lHbfIzPOFq2I2GaQ8MMpasU9JM
-         0/8iKf1q9TTrBQmneSVI6Lsf3opUwbp9AY/fP6nX+bELhIW8YPJC3fLzUKzoQE+SZjYD
-         y4ABX2KUgiEwXd+24GLpKubBitPIvSfDlMaoi2XN8mxmZFbmRJ7CsSoBIMm+mEs8wpWb
-         YJGofW2qj0dYGX7ZFa8UJbOXnBsXuUj06Tg/udIUeQVENNo+pE8oA/PUupTwtrfdXY4U
-         fUJ4TwMh3lZ6tIWw52eP/Gcac3QN7pIwMg+hA5sdI2B1VM+T2JyICX5Pk5VCC61uMTW8
-         2/ag==
-X-Gm-Message-State: APjAAAU8oyk/ZqkwTmVRTWTvaTwt9fonJHV7Ai781SLje1YYnRZOg3H0
-        IaAFPgO1vPWgrvTHTaF8OLg=
-X-Google-Smtp-Source: APXvYqyirRyu04jqDg3x30rmhKDhkCSn+pJlYnYt6qaMKeOuedWuhIFZA6+FPRXQ60evaeNBBoHQdg==
-X-Received: by 2002:adf:d4ca:: with SMTP id w10mr6193149wrk.53.1575394951675;
-        Tue, 03 Dec 2019 09:42:31 -0800 (PST)
-Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id x7sm4411960wrq.41.2019.12.03.09.42.30
+        bh=BwKTMzYHU8KC/723XteTIPp1IXDMUZwn/2LYWS85bsY=;
+        b=ZvPydDWc8UpJafzDEiijaM71pD4rREwsbhpBiOmA72j5GXB8EwphdPHWXrfqcoISAo
+         I+sj1SXsyAo3AeCXy1b5LwI9AF/C3Tzz8bWXQcg2P0EWATnvmfBac30zkqj9HG+ACyWq
+         Qi9WvBcAeJpuVzJbSVRReoZxVF7LzWWrPNS6cpmoKh6GxjQVnVE+06gB20aJskv1Fkk5
+         InwN0Mk9QKNtEYU6SVnuYLq4mjsWxrbuF1IbpIfjt2a7PbBDNxFRLirKAa/gGjxWBP9j
+         SHOLzQlbBOEncYdX187Wr+Tf4n1lm6CN6QyeVljIDDV75uPNsR4RPHhSWYNSA4ZtMZxc
+         Im5w==
+X-Gm-Message-State: APjAAAUPb154d1wS5mIn8GI9vUQQRh9sNWyfPXXLtBkxlbOMz5EW6Qsd
+        PHo8IDHlFNw6NabGTilT2w==
+X-Google-Smtp-Source: APXvYqxahROn5+cYweochttTrXtRy81KujPWooahfcQ7HtSD3QLFajv2JM+bmDVevohuS4iZJ3j+zA==
+X-Received: by 2002:a54:4f8e:: with SMTP id g14mr185570oiy.144.1575410848747;
+        Tue, 03 Dec 2019 14:07:28 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m7sm96146otl.20.2019.12.03.14.07.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2019 09:42:30 -0800 (PST)
-Date:   Tue, 3 Dec 2019 18:42:29 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Sumit Gupta <sumitg@nvidia.com>
-Cc:     rjw@rjwysocki.net, viresh.kumar@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, jonathanh@nvidia.com,
-        talho@nvidia.com, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, bbasu@nvidia.com,
-        mperttunen@nvidia.com
-Subject: Re: [TEGRA194_CPUFREQ Patch 1/3] firmware: tegra: adding function to
- get BPMP data
-Message-ID: <20191203174229.GA1721849@ulmo>
-References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
+        Tue, 03 Dec 2019 14:07:27 -0800 (PST)
+Date:   Tue, 3 Dec 2019 16:07:27 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, tglx@linutronix.de, mark.rutland@arm.com,
+        allison@lohutok.net, pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        mturquette@baylibre.com, horms+renesas@verge.net.au,
+        Jisheng.Zhang@synaptics.com, krzk@kernel.org, arnd@arndb.de,
+        spujar@nvidia.com, josephl@nvidia.com, vidyas@nvidia.com,
+        daniel.lezcano@linaro.org, mmaddireddy@nvidia.com,
+        markz@nvidia.com, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 11/17] dt-bindings: clock: tegra: Remove pmc clock ids
+ from clock dt-bindings
+Message-ID: <20191203220727.GA22716@bogus>
+References: <1574146234-3871-1-git-send-email-skomatineni@nvidia.com>
+ <1574146234-3871-12-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <1574146234-3871-12-git-send-email-skomatineni@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Nov 18, 2019 at 10:50:28PM -0800, Sowjanya Komatineni wrote:
+> clk_out_1, clk_out_2, clk_out_3, blink are part of Tegra pmc clocks.
+> 
+> This patch removes ids for these clocks from Tegra clock dt-bindings.
 
---jRHKVT23PllUwdXP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Your commit message should answer why, not what.
 
-On Tue, Dec 03, 2019 at 11:02:26PM +0530, Sumit Gupta wrote:
-> Adding new function of_tegra_bpmp_get() to get BPMP data.
-> This function can be used by other drivers like cpufreq to
-> get BPMP data without adding any property in respective
-> drivers DT node.
+This is not a backwards compatible change if any of these IDs are used. 
 
-What's wrong with adding the property in the DT node? We already do that
-for Tegra186's CPU frequency driver, so it makes sense to continue that
-for Tegra194.
-
-Thierry
-
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 > ---
->  drivers/firmware/tegra/bpmp.c | 38 ++++++++++++++++++++++++++++++++++++++
->  include/soc/tegra/bpmp.h      |  5 +++++
->  2 files changed, 43 insertions(+)
->=20
-> diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
-> index 6741fcd..9c3d7f1 100644
-> --- a/drivers/firmware/tegra/bpmp.c
-> +++ b/drivers/firmware/tegra/bpmp.c
-> @@ -38,6 +38,44 @@ channel_to_ops(struct tegra_bpmp_channel *channel)
->  	return bpmp->soc->ops;
->  }
-> =20
-> +struct tegra_bpmp *of_tegra_bpmp_get(void)
-> +{
-> +	struct platform_device *pdev;
-> +	struct device_node *bpmp_dev;
-> +	struct tegra_bpmp *bpmp;
-> +
-> +	/* Check for bpmp device status in DT */
-> +	bpmp_dev =3D of_find_compatible_node(NULL, NULL, "nvidia,tegra186-bpmp"=
-);
-> +	if (!bpmp_dev) {
-> +		bpmp =3D ERR_PTR(-ENODEV);
-> +		goto err_out;
-> +	}
-> +	if (!of_device_is_available(bpmp_dev)) {
-> +		bpmp =3D ERR_PTR(-ENODEV);
-> +		goto err_put;
-> +	}
-> +
-> +	pdev =3D of_find_device_by_node(bpmp_dev);
-> +	if (!pdev) {
-> +		bpmp =3D ERR_PTR(-ENODEV);
-> +		goto err_put;
-> +	}
-> +
-> +	bpmp =3D platform_get_drvdata(pdev);
-> +	if (!bpmp) {
-> +		bpmp =3D ERR_PTR(-EPROBE_DEFER);
-> +		put_device(&pdev->dev);
-> +		goto err_put;
-> +	}
-> +
-> +	return bpmp;
-> +err_put:
-> +	of_node_put(bpmp_dev);
-> +err_out:
-> +	return bpmp;
-> +}
-> +EXPORT_SYMBOL_GPL(of_tegra_bpmp_get);
-> +
->  struct tegra_bpmp *tegra_bpmp_get(struct device *dev)
->  {
->  	struct platform_device *pdev;
-> diff --git a/include/soc/tegra/bpmp.h b/include/soc/tegra/bpmp.h
-> index f2604e9..21402d9 100644
-> --- a/include/soc/tegra/bpmp.h
-> +++ b/include/soc/tegra/bpmp.h
-> @@ -107,6 +107,7 @@ struct tegra_bpmp_message {
->  };
-> =20
->  #if IS_ENABLED(CONFIG_TEGRA_BPMP)
-> +struct tegra_bpmp *of_tegra_bpmp_get(void);
->  struct tegra_bpmp *tegra_bpmp_get(struct device *dev);
->  void tegra_bpmp_put(struct tegra_bpmp *bpmp);
->  int tegra_bpmp_transfer_atomic(struct tegra_bpmp *bpmp,
-> @@ -122,6 +123,10 @@ void tegra_bpmp_free_mrq(struct tegra_bpmp *bpmp, un=
-signed int mrq,
->  			 void *data);
->  bool tegra_bpmp_mrq_is_supported(struct tegra_bpmp *bpmp, unsigned int m=
-rq);
->  #else
-> +static inline struct tegra_bpmp *of_tegra_bpmp_get(void)
-> +{
-> +	return ERR_PTR(-ENOTSUPP);
-> +}
->  static inline struct tegra_bpmp *tegra_bpmp_get(struct device *dev)
->  {
->  	return ERR_PTR(-ENOTSUPP);
-> --=20
+>  include/dt-bindings/clock/tegra114-car.h        | 14 +++++++-------
+>  include/dt-bindings/clock/tegra124-car-common.h | 14 +++++++-------
+>  include/dt-bindings/clock/tegra20-car.h         |  2 +-
+>  include/dt-bindings/clock/tegra210-car.h        | 14 +++++++-------
+>  include/dt-bindings/clock/tegra30-car.h         | 14 +++++++-------
+>  5 files changed, 29 insertions(+), 29 deletions(-)
+> 
+> diff --git a/include/dt-bindings/clock/tegra114-car.h b/include/dt-bindings/clock/tegra114-car.h
+> index bb5c2c999c05..9175cd0571b5 100644
+> --- a/include/dt-bindings/clock/tegra114-car.h
+> +++ b/include/dt-bindings/clock/tegra114-car.h
+> @@ -270,10 +270,10 @@
+>  #define TEGRA114_CLK_AUDIO3 242
+>  #define TEGRA114_CLK_AUDIO4 243
+>  #define TEGRA114_CLK_SPDIF 244
+> -#define TEGRA114_CLK_CLK_OUT_1 245
+> -#define TEGRA114_CLK_CLK_OUT_2 246
+> -#define TEGRA114_CLK_CLK_OUT_3 247
+> -#define TEGRA114_CLK_BLINK 248
+> +/* 245 */
+> +/* 246 */
+> +/* 247 */
+> +/* 248 */
+>  /* 249 */
+>  /* 250 */
+>  /* 251 */
+> @@ -333,9 +333,9 @@
+>  #define TEGRA114_CLK_AUDIO3_MUX 303
+>  #define TEGRA114_CLK_AUDIO4_MUX 304
+>  #define TEGRA114_CLK_SPDIF_MUX 305
+> -#define TEGRA114_CLK_CLK_OUT_1_MUX 306
+> -#define TEGRA114_CLK_CLK_OUT_2_MUX 307
+> -#define TEGRA114_CLK_CLK_OUT_3_MUX 308
+> +/* 306 */
+> +/* 307 */
+> +/* 308 */
+>  #define TEGRA114_CLK_DSIA_MUX 309
+>  #define TEGRA114_CLK_DSIB_MUX 310
+>  #define TEGRA114_CLK_XUSB_SS_DIV2 311
+> diff --git a/include/dt-bindings/clock/tegra124-car-common.h b/include/dt-bindings/clock/tegra124-car-common.h
+> index 0c4f5be0a742..90a0c5e7eb5f 100644
+> --- a/include/dt-bindings/clock/tegra124-car-common.h
+> +++ b/include/dt-bindings/clock/tegra124-car-common.h
+> @@ -269,10 +269,10 @@
+>  #define TEGRA124_CLK_AUDIO3 242
+>  #define TEGRA124_CLK_AUDIO4 243
+>  #define TEGRA124_CLK_SPDIF 244
+> -#define TEGRA124_CLK_CLK_OUT_1 245
+> -#define TEGRA124_CLK_CLK_OUT_2 246
+> -#define TEGRA124_CLK_CLK_OUT_3 247
+> -#define TEGRA124_CLK_BLINK 248
+> +/* 245 */
+> +/* 246 */
+> +/* 247 */
+> +/* 248 */
+>  /* 249 */
+>  /* 250 */
+>  /* 251 */
+> @@ -332,9 +332,9 @@
+>  #define TEGRA124_CLK_AUDIO3_MUX 303
+>  #define TEGRA124_CLK_AUDIO4_MUX 304
+>  #define TEGRA124_CLK_SPDIF_MUX 305
+> -#define TEGRA124_CLK_CLK_OUT_1_MUX 306
+> -#define TEGRA124_CLK_CLK_OUT_2_MUX 307
+> -#define TEGRA124_CLK_CLK_OUT_3_MUX 308
+> +/* 306 */
+> +/* 307 */
+> +/* 308 */
+>  /* 309 */
+>  /* 310 */
+>  #define TEGRA124_CLK_SOR0_LVDS 311 /* deprecated */
+> diff --git a/include/dt-bindings/clock/tegra20-car.h b/include/dt-bindings/clock/tegra20-car.h
+> index b21a0eb32921..fe541f627965 100644
+> --- a/include/dt-bindings/clock/tegra20-car.h
+> +++ b/include/dt-bindings/clock/tegra20-car.h
+> @@ -131,7 +131,7 @@
+>  #define TEGRA20_CLK_CCLK 108
+>  #define TEGRA20_CLK_HCLK 109
+>  #define TEGRA20_CLK_PCLK 110
+> -#define TEGRA20_CLK_BLINK 111
+> +/* 111 */
+>  #define TEGRA20_CLK_PLL_A 112
+>  #define TEGRA20_CLK_PLL_A_OUT0 113
+>  #define TEGRA20_CLK_PLL_C 114
+> diff --git a/include/dt-bindings/clock/tegra210-car.h b/include/dt-bindings/clock/tegra210-car.h
+> index 44f60623f99b..a3d8d3e75728 100644
+> --- a/include/dt-bindings/clock/tegra210-car.h
+> +++ b/include/dt-bindings/clock/tegra210-car.h
+> @@ -304,10 +304,10 @@
+>  #define TEGRA210_CLK_AUDIO3 274
+>  #define TEGRA210_CLK_AUDIO4 275
+>  #define TEGRA210_CLK_SPDIF 276
+> -#define TEGRA210_CLK_CLK_OUT_1 277
+> -#define TEGRA210_CLK_CLK_OUT_2 278
+> -#define TEGRA210_CLK_CLK_OUT_3 279
+> -#define TEGRA210_CLK_BLINK 280
+> +/* 277 */
+> +/* 278 */
+> +/* 279 */
+> +/* 280 */
+>  #define TEGRA210_CLK_SOR0_LVDS 281 /* deprecated */
+>  #define TEGRA210_CLK_SOR0_OUT 281
+>  #define TEGRA210_CLK_SOR1_OUT 282
+> @@ -386,9 +386,9 @@
+>  #define TEGRA210_CLK_AUDIO3_MUX 353
+>  #define TEGRA210_CLK_AUDIO4_MUX 354
+>  #define TEGRA210_CLK_SPDIF_MUX 355
+> -#define TEGRA210_CLK_CLK_OUT_1_MUX 356
+> -#define TEGRA210_CLK_CLK_OUT_2_MUX 357
+> -#define TEGRA210_CLK_CLK_OUT_3_MUX 358
+> +/* 356 */
+> +/* 357 */
+> +/* 358 */
+>  #define TEGRA210_CLK_DSIA_MUX 359
+>  #define TEGRA210_CLK_DSIB_MUX 360
+>  /* 361 */
+> diff --git a/include/dt-bindings/clock/tegra30-car.h b/include/dt-bindings/clock/tegra30-car.h
+> index 3c90f1535551..20ef2462d9e1 100644
+> --- a/include/dt-bindings/clock/tegra30-car.h
+> +++ b/include/dt-bindings/clock/tegra30-car.h
+> @@ -230,11 +230,11 @@
+>  #define TEGRA30_CLK_AUDIO3 204
+>  #define TEGRA30_CLK_AUDIO4 205
+>  #define TEGRA30_CLK_SPDIF 206
+> -#define TEGRA30_CLK_CLK_OUT_1 207 /* (extern1) */
+> -#define TEGRA30_CLK_CLK_OUT_2 208 /* (extern2) */
+> -#define TEGRA30_CLK_CLK_OUT_3 209 /* (extern3) */
+> +/* 207 */
+> +/* 208 */
+> +/* 209 */
+>  #define TEGRA30_CLK_SCLK 210
+> -#define TEGRA30_CLK_BLINK 211
+> +/* 211 */
+>  #define TEGRA30_CLK_CCLK_G 212
+>  #define TEGRA30_CLK_CCLK_LP 213
+>  #define TEGRA30_CLK_TWD 214
+> @@ -260,9 +260,9 @@
+>  /* 297 */
+>  /* 298 */
+>  /* 299 */
+> -#define TEGRA30_CLK_CLK_OUT_1_MUX 300
+> -#define TEGRA30_CLK_CLK_OUT_2_MUX 301
+> -#define TEGRA30_CLK_CLK_OUT_3_MUX 302
+> +/* 300 */
+> +/* 301 */
+> +/* 302 */
+>  #define TEGRA30_CLK_AUDIO0_MUX 303
+>  #define TEGRA30_CLK_AUDIO1_MUX 304
+>  #define TEGRA30_CLK_AUDIO2_MUX 305
+> -- 
 > 2.7.4
->=20
-
---jRHKVT23PllUwdXP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3mnoEACgkQ3SOs138+
-s6GpwBAAvaZJp87NoF1TROjbDypFZ2E7Oov0yzlV1zJak8mF3KIV0tKaCHoXheWI
-rcQZm8VFfh/Gqxw63Yk1Gn9nA1KJoqaIUY1On3cMHvY2wtVF7Wh/tFI+5JNXsCIi
-H9et1e5q/J9LaFHxcdNsEeYaocswM31Zy+rNIhT1bpLzvTZObIzbQp5v5eao8U6i
-VUdAUsr5XSj0vcN51HVz6CHFMpQsocQV1AsACAMUny+ajHL/FTmJYa5jvXvhqgpX
-yH593XBFitXrqAhWj3kR6okHC2U9UAd2S9ZXsu15xawQNymTi2mdqnaoeohRajFj
-z9GF5CxNbNCNOBMxvzAkF08s8dQCA/vsSkxQ518Z3BK+dPxu7Leho9yVeNs9muy/
-7fOU5sc+gIBuBB0V/fwP2xiPbvoe/wozI2LtbmDa6akd5rwxYLi3ogJOKtS1QRhN
-JHaTZ08hjuRiL64s8EAfz1VsQYF0MwkfomCfXKMoTCu+8mVXkcMuZcaotXul/Mck
-LMYlsKbCwgLpM4NrNW++q1nTewTXmQpzrLN762Ae23ud7ARns1mwaaGa6UvfxIhE
-cxZVU66dHXKEIdGsA6uSByRKUS8/1le4Iy6zRAu7O88XAbxSydYOm45/ovZTEzAz
-jAymOGgaP0NBMXICJoBLt3/Z0WwBmSAZ/Vir1cbs2jsup+XvzaE=
-=c7iN
------END PGP SIGNATURE-----
-
---jRHKVT23PllUwdXP--
+> 
