@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0C8C110203
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 17:19:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65909110204
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 17:19:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbfLCQTf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Dec 2019 11:19:35 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37323 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726139AbfLCQTf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 11:19:35 -0500
-Received: by mail-wr1-f66.google.com with SMTP id w15so4426159wru.4
-        for <linux-tegra@vger.kernel.org>; Tue, 03 Dec 2019 08:19:33 -0800 (PST)
+        id S1726628AbfLCQTh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Dec 2019 11:19:37 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:55000 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726139AbfLCQTg (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 11:19:36 -0500
+Received: by mail-wm1-f67.google.com with SMTP id b11so3536919wmj.4
+        for <linux-tegra@vger.kernel.org>; Tue, 03 Dec 2019 08:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9ZUbS0TeYBzQ9xk9jMtykFneTa+bnz9xud3h/IgQhWg=;
-        b=eN5IzUQCemF0bgf3FTV4edwXbi6ykbiMEJouleU81zoKuGgtGnVQLIKdjE6tEhRorq
-         rInLv03umG3yQQHl1hiEEn0XyXvu6qwyF9IhnG8Js7Dj+dOTxir8buiq+YjlmBtrOZ1T
-         uWXnRYPjvJYmAV9/UPpB3/P4ehCmkfhOVUbV1JK18P7ACMMH2HtYpxBT8uCpdccOiFdc
-         5wd5HHR6BnP9yGXBfADW9dBbzzL5ctgWGcPsGKu8odsuuMk49/Ok3EXsQUdMzo1Ml55X
-         me5sY71lOEJiGjgQ0dU91sIXl743A/0sfOoHYRv+FPYrbXXf11Kue3L/ehZRy6ccyC36
-         9oMw==
+        bh=8PwWQma+5Pqkctg0DzIuMrwRQe9FFZs9mcoeMD+RaeE=;
+        b=nJrGvRP1wJU1oSWsRp5EnoobaFJ9zhQsNutzeCuPChjvEsRJdyhqa6k27WUpU7Ngeq
+         oipxqLhPj2//BPhuh2AJWL+zxS9rIQ2e34yD4gvHjS47boCH3c1Kr7xAfp/dYM35Ig9l
+         lPCFFSXnzoZz7TtHoGpiHixngXtc7171HVpuOLaZ28CwzMFitI1Ckxwz+QLipCnaHR0y
+         qOwtofLBcgmENMSFPYqgRpARIGsPzG+wrpjvkk3SZNQFyc4o1cWs8SGbUQhYMdJITL+1
+         KgJ6cXYgVTtwbgTIgeyT871H2iP+ECFMdkm7AMHE4tHOmnUC5gk6oPB99Ae8h8pRbR/e
+         mtrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9ZUbS0TeYBzQ9xk9jMtykFneTa+bnz9xud3h/IgQhWg=;
-        b=Qok52EKHVknDBkL4OQ054Lq4pRcNZqwQAGqJ7n+R7nWLtdv3MXyxG4lsLgNZHqAUs0
-         sP7mOLejucF8wx3lfp6Y3vcIDyoUG36wgE3f+wRJYZSwnfggVvrSwdZxxkpWPVyvODrX
-         xBloiQHUXzXdiwmvR7J9k6H9o8F+QDox2J6WTC8qqOXldlnrDZ9abYuFFbscAt7wMh/G
-         89osxlrkivYhFCTi3KPbqs1MdIvKAJ/EWC3pfQNKewF/xt8PxrYkKQWXSjYKSi1tlzqa
-         Kcerp1I/CUATXXADW06cNgnRq8qUl0KNxqwFk4M0G+M2MgYaCazCKYYFAJpkr6Qpwigm
-         NTAA==
-X-Gm-Message-State: APjAAAWWTun2ol1wO6txCjLi6MzuxPXlg3dOfUINuQ2B7HNFUzAEcr3M
-        2qFq6VBk9Tb8yEBUw0UE9fU=
-X-Google-Smtp-Source: APXvYqzWo0gREb/Y/VCXKo/0ClOxouv66LLO/irvpmA8yTiFb7RYnplsoFlnrS0PpVvJEFD65Slbsg==
-X-Received: by 2002:a5d:630c:: with SMTP id i12mr5980329wru.350.1575389972842;
-        Tue, 03 Dec 2019 08:19:32 -0800 (PST)
+        bh=8PwWQma+5Pqkctg0DzIuMrwRQe9FFZs9mcoeMD+RaeE=;
+        b=r3dijfnK0ejBfUvb5nHKQiWF30HE1SxMftlxvW2lmT3YYCUvCe7qLDOHc3K2U4S9Bh
+         VpIgW9NmeRulywkEXtZ7e86CMwogcM6uzhdoAaysBW+vKQFZINB2MlT8SFjSGxsOxnJx
+         uGbvCsXLG5/KD4SDWIZaIGNPDL1ELR72CHeh+KvnXRRvw4DTOeYeU3DOxPm6OBU/LnO+
+         FOpXb3afIZ+3PH31waAoaTnleHmEO8cNgF5Vf2SOL+cV0ZS+UIDMkEAeMOUiWZDWe2jc
+         7l0VO2rXasFpLLpySKv3s8tg2mVqd7BEbAR7pIrU649bWBSS7dCSQ5ArPMDkVwi0Bh+Q
+         sH8g==
+X-Gm-Message-State: APjAAAX5DFT3z1P6wbAjdOwS0gyT/rqtGgHN9yOmNn5wcdbaowtQMEyU
+        /8j8ShAqguUTV6Uq651JKrs=
+X-Google-Smtp-Source: APXvYqxOisZqSvaS/kGDwfMGxj2Ecv3XXSg0r7See1EWGq29HYu3V+oJdlDy2Gj75UilxKxpChqpdQ==
+X-Received: by 2002:a1c:6207:: with SMTP id w7mr28616534wmb.16.1575389974756;
+        Tue, 03 Dec 2019 08:19:34 -0800 (PST)
 Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id b67sm3523453wmc.38.2019.12.03.08.19.31
+        by smtp.gmail.com with ESMTPSA id x11sm4401057wre.68.2019.12.03.08.19.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2019 08:19:32 -0800 (PST)
+        Tue, 03 Dec 2019 08:19:34 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
 Cc:     Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH v2 8/9] drm/tegra: sor: Make the +5V HDMI supply optional
-Date:   Tue,  3 Dec 2019 17:19:13 +0100
-Message-Id: <20191203161914.1312555-8-thierry.reding@gmail.com>
+        linux-tegra@vger.kernel.org
+Subject: [PATCH v2 9/9] drm/tegra: Run hub cleanup on ->remove()
+Date:   Tue,  3 Dec 2019 17:19:14 +0100
+Message-Id: <20191203161914.1312555-9-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191203161914.1312555-1-thierry.reding@gmail.com>
 References: <20191203161914.1312555-1-thierry.reding@gmail.com>
@@ -63,54 +63,30 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The SOR supports multiple display modes, but only when driving an HDMI
-monitor does it make sense to control the +5V power supply. eDP and DP
-don't need this, so make it optional.
+The call to tegra_display_hub_cleanup() that takes care of disabling the
+window groups is missing from the driver's ->remove() callback. Call it
+to make sure the runtime PM reference counts for the display controllers
+are balanced.
 
-This fixes a crash observed during system suspend/resume.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/sor.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tegra/drm.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 2200f4cd397a..a68d3b36b972 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3970,15 +3970,29 @@ static int tegra_sor_runtime_resume(struct device *dev)
- static int tegra_sor_suspend(struct device *dev)
- {
- 	struct tegra_sor *sor = dev_get_drvdata(dev);
-+	int err;
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 7a16b51eaa2d..f455ce71e85d 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1241,6 +1241,9 @@ static int host1x_drm_remove(struct host1x_device *dev)
+ 	drm_atomic_helper_shutdown(drm);
+ 	drm_mode_config_cleanup(drm);
+ 
++	if (tegra->hub)
++		tegra_display_hub_cleanup(tegra->hub);
 +
-+	if (sor->hdmi_supply) {
-+		err = regulator_disable(sor->hdmi_supply);
-+		if (err < 0)
-+			return err;
-+	}
- 
--	return regulator_disable(sor->hdmi_supply);
-+	return 0;
- }
- 
- static int tegra_sor_resume(struct device *dev)
- {
- 	struct tegra_sor *sor = dev_get_drvdata(dev);
-+	int err;
-+
-+	if (sor->hdmi_supply) {
-+		err = regulator_enable(sor->hdmi_supply);
-+		if (err < 0)
-+			return err;
-+	}
- 
--	return regulator_enable(sor->hdmi_supply);
-+	return 0;
- }
- 
- static const struct dev_pm_ops tegra_sor_pm_ops = {
+ 	err = host1x_device_exit(dev);
+ 	if (err < 0)
+ 		dev_err(&dev->dev, "host1x device cleanup failed: %d\n", err);
 -- 
 2.23.0
 
