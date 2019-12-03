@@ -2,27 +2,27 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02A8A111B8E
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 23:19:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44076112041
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 00:27:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727578AbfLCWTT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Dec 2019 17:19:19 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:12841 "EHLO
+        id S1726482AbfLCX1v (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Dec 2019 18:27:51 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16586 "EHLO
         hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727480AbfLCWTT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 17:19:19 -0500
+        with ESMTP id S1726144AbfLCX1v (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 18:27:51 -0500
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5de6df570000>; Tue, 03 Dec 2019 14:19:03 -0800
+        id <B5de6ef660000>; Tue, 03 Dec 2019 15:27:34 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 03 Dec 2019 14:19:17 -0800
+  Tue, 03 Dec 2019 15:27:49 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 03 Dec 2019 14:19:17 -0800
+        by hqpgpgate101.nvidia.com on Tue, 03 Dec 2019 15:27:49 -0800
 Received: from [10.2.160.125] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Dec
- 2019 22:19:15 +0000
-Subject: Re: [PATCH v1 03/17] dt-bindings: soc: tegra-pmc: Add Tegra PMC clock
- ids
+ 2019 23:27:47 +0000
+Subject: Re: [PATCH v1 15/17] dt-bindings: tegra186-pmc: Add Tegra PMC clock
+ bindings
 To:     Rob Herring <robh@kernel.org>
 CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
         <digetx@gmail.com>, <mperttunen@nvidia.com>,
@@ -38,15 +38,15 @@ CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
         <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 References: <1574146234-3871-1-git-send-email-skomatineni@nvidia.com>
- <1574146234-3871-4-git-send-email-skomatineni@nvidia.com>
- <20191203220850.GB22716@bogus>
+ <1574146234-3871-16-git-send-email-skomatineni@nvidia.com>
+ <20191203221137.GC22716@bogus>
 From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <50f7db27-a1bd-6e2a-0994-82740b4ef6cb@nvidia.com>
-Date:   Tue, 3 Dec 2019 14:19:37 -0800
+Message-ID: <5445c579-4a85-ca36-69c9-7fe86dbf1fa9@nvidia.com>
+Date:   Tue, 3 Dec 2019 15:28:09 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20191203220850.GB22716@bogus>
+In-Reply-To: <20191203221137.GC22716@bogus>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -54,60 +54,106 @@ Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1575411543; bh=0IKNAVktirUsylXHSyz6GuS3zjLJXwqxN2fIYWCdxn0=;
+        t=1575415654; bh=vfVKzdkXztCZYuLAwJxHEwseHcXT4COainOIa886LgM=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
          Content-Language;
-        b=c5bT86/Lv5nwl2ZV/7cNK6nZUqNWH+hTofWP+zr42J7cZxRwZaDohpOZXOBESZgSZ
-         +iLN7mElqBL1NvU1sgN23Aq1PeloHw+ehrQoNT1lXidQxMXxT4Mm9896JWpAyNEsuu
-         fUdZ22RXQLrky3mP2Cgpcq4q5chC3D9ijEh/ejsStO59IbUVIFUGGT530na4AhjcMM
-         nxB3rMtqFIGmshurtdKOIJfCD7mee0YVo4D6ansUoakxTdeY2TVLVRfN/2L2sbAx1/
-         XH2UfVAUFzdMn2z6TZMmQtOaO2DIgjSunkFOv/rmZwnJRWzkTNzRcJRk2dsqXgVTLz
-         q26YdTfOyF5ew==
+        b=FPFsJSgr2Xl5lXJiwp7y1kI1MbZpwU1cAbH96ysURG+n0SHopySY23mHtinpTJtFY
+         m0ezg6GXZlHqMZFN9l2kGU1AEfslA76swmaNFrQyvBZMa4vSxLCDJ2R+oSLffxhK47
+         hq1HRC+K1eVnbYC6gT+b87qkds0w8AS/uBYUMocpTVALujVMKsFFcKxN/hGbo7WYdM
+         gLk+erJmzs0gbfpbmGQ1Lr/1vwMlyLmMotm69g6n6hkSbi7Ve5wEW4s/H3RfEDzXAW
+         IIe90r+SdLqcaagrCdTDx6RZMb7vg+u8sd5dwcxHN95/Me59xUbDt9I57mIb7fJZpV
+         FJqa7SmdFmLsg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 12/3/19 2:08 PM, Rob Herring wrote:
-> On Mon, Nov 18, 2019 at 10:50:20PM -0800, Sowjanya Komatineni wrote:
->> Tegra PMC has clk_out_1, clk_out_2, clk_out_3 clocks and each of
->> these clocks has mux and a gate as a part of PMC controller.
->>
->> This patch adds ids for each of these PMC clock mux and gates to
->> use with the devicetree.
+On 12/3/19 2:11 PM, Rob Herring wrote:
+> On Mon, Nov 18, 2019 at 10:50:32PM -0800, Sowjanya Komatineni wrote:
+>> Document clock bindings for pmc clocks clk_out_1, clk_out_2 and clk_out_3.
+>> These clocks are part of Tegra PMC block and pmc node is the provider for
+>> these clocks.
 >>
 >> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 >> ---
->>   include/dt-bindings/soc/tegra-pmc.h | 16 ++++++++++++++++
->>   1 file changed, 16 insertions(+)
->>   create mode 100644 include/dt-bindings/soc/tegra-pmc.h
-> This should be part of the binding patch.
-ok, will combine in v3
->> diff --git a/include/dt-bindings/soc/tegra-pmc.h b/include/dt-bindings/soc/tegra-pmc.h
->> new file mode 100644
->> index 000000000000..fa1ccfc2514b
->> --- /dev/null
->> +++ b/include/dt-bindings/soc/tegra-pmc.h
->> @@ -0,0 +1,16 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) 2019-2020, NVIDIA CORPORATION.  All rights reserved.
->> + */
+>>   .../bindings/arm/tegra/nvidia,tegra186-pmc.txt     | 44 ++++++++++++++++++++++
+>>   1 file changed, 44 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.txt b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.txt
+>> index 2d89cdc39eb0..4576de92e4cc 100644
+>> --- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.txt
+>> +++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.txt
+>> @@ -12,6 +12,10 @@ Required properties:
+>>     - "aotag"
+>>     - "scratch"
+>>     - "misc" (Only for Tegra194)
+>> +- #clock-cells : Should be 1 for Tegra30 and higher.
+>> +  In clock consumers, this cell represents the PMC clock ID.
+>> +  The assignments may be found in header file
+>> +  <dt-bindings/soc/tegra-pmc.h>.
+> Kind of strange the header is shared, but the binding doc is not.
+
+v2 has this patch removed. Tegra186 does not have pmc clocks. They were 
+accidentally added in v1 and this is fixed in v2.
+
+>
+>>   
+>>   Optional properties:
+>>   - nvidia,invert-interrupt: If present, inverts the PMU interrupt signal.
+>> @@ -130,3 +134,43 @@ Pinctrl client example:
+>>   		pinctrl-1 = <&hdmi_on>;
+>>   		pinctrl-names = "hdmi-on", "hdmi-off";
+>>   	};
 >> +
->> +#ifndef _DT_BINDINGS_SOC_TEGRA_PMC_H
->> +#define _DT_BINDINGS_SOC_TEGRA_PMC_H
+>> +== Clock Control ==
 >> +
->> +#define TEGRA_PMC_CLK_OUT_1_MUX		0
->> +#define TEGRA_PMC_CLK_OUT_1		1
->> +#define TEGRA_PMC_CLK_OUT_2_MUX		2
->> +#define TEGRA_PMC_CLK_OUT_2		3
->> +#define TEGRA_PMC_CLK_OUT_3_MUX		4
->> +#define TEGRA_PMC_CLK_OUT_3		5
+>> +Tegra PMC has 3 clocks clk_1, clk_2 and clk_3. Each of these clocks has
+>> +source selection and enable/disable gate.
+>> +Parent/source for these clocks can be either of clk_m, clk_m_div2, clk_m_div4,
+>> +or extern clock from Tegra CAR module.
 >> +
->> +#endif	/* _DT_BINDINGS_SOC_TEGRA_PMC_H */
+>> +Clock configuration example:
+>> +	pmc: pmc@7000e400 {
+>> +		compatible = "nvidia,tegra186-pmc";
+>> +		reg = <0 0x0c360000 0 0x10000>,
+>> +		      <0 0x0c370000 0 0x10000>,
+>> +		      <0 0x0c380000 0 0x10000>,
+>> +		      <0 0x0c390000 0 0x10000>;
+>> +		reg-names = "pmc", "wake", "aotag", "scratch";
+>> +		...
+>> +		#clock-cells = <1>;
+>> +		...
+> Once converted to schema, the examples have to compile and this won't.
+> They also have to be complete enough to pass validation checks.
+ok, will go thru and run the validation checks.
+>> +	};
+>> +
+>> +Clock consumer example:
+>> +	host1x@50000000 {
+>> +		...
+>> +		vi@54080000 {
+>> +		...
+>> +		assigned-clocks = <&pmc TEGRA_PMC_CLK_OUT_3_MUX>;
+>> +		assigned-clock-parents = <&tegra_car TEGRA210_CLK_EXTERN3>;
+> Indentation is wrong.
+>
+>> +		};
+>> +		...
+>> +	};
+>> +	...
+>> +	i2c@7000c500 {
+>> +		cam_sensor {
+>> +		...
+>> +		clocks = <&pmc TEGRA_PMC_CLK_OUT_3>;
+>> +		clock-names = "mclk";
+> Same here.
+>
+>> +		...
+>> +		};
+>> +	};
 >> -- 
 >> 2.7.4
 >>
