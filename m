@@ -2,686 +2,193 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EED0110396
-	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 18:34:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B6F61103C4
+	for <lists+linux-tegra@lfdr.de>; Tue,  3 Dec 2019 18:42:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726484AbfLCReW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Dec 2019 12:34:22 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50819 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfLCReW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 12:34:22 -0500
-Received: by mail-wm1-f66.google.com with SMTP id p9so3863021wmg.0
-        for <linux-tegra@vger.kernel.org>; Tue, 03 Dec 2019 09:34:19 -0800 (PST)
+        id S1726847AbfLCRmf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Dec 2019 12:42:35 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33157 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726224AbfLCRmf (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 12:42:35 -0500
+Received: by mail-wr1-f67.google.com with SMTP id b6so4853890wrq.0;
+        Tue, 03 Dec 2019 09:42:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Mmti7+lb3B1QqKFB5gL02swgqEP2BvkdnO/sOrxLnzc=;
-        b=BdTxth7w2SEUoYVH8rvdiOzAWvRNbn3m5l2LTgNSwDc1bDGHz1Gp2rmKHiTP85OEuR
-         3I/DuzvRbZkF+vpgs5C6UoNpv5EvYhk4h+ShEX2RimWD3rh7u8X2t85OjYWhARhE9ZTP
-         RRe6vcfKbbckeVJgaOOfVNeNQCMYz7jNjx+EQ=
+        bh=qE5r3nti027mzy0pKgrnKXkE1RSc8kUqTOaORXIdEtE=;
+        b=a40wQB7Mk7pBuIEzPBChXZl1yBZvbIVXlaeGoAaiJcl8DZczFfOnjnbH4qGRZ0lPoT
+         sRb08dAvwJLNEP5eDKxT0YBpPq2HtoE0w0BQ5jV2bXhdv76SufUrjfF1rhgxyZLThrsp
+         S9blKgXZiiYIkiuBLkMhYny1XboAMLEmBjUeD8rHJy+FiM+s8XPJ0IopkA6ylmfT1Szl
+         nwXDM1qbCCzKRRN1vUDI9Ac8ntundjbrtPnLX/IosvRrhRvDfkqzMorv7i/w36fh/01e
+         CeBmgwklnmeK9BfhSLVbKd+L0W/hQdVrkFJUhf0AWeQCw5G5psDNjeZ/3d/P7bsqKm4N
+         6Ogg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Mmti7+lb3B1QqKFB5gL02swgqEP2BvkdnO/sOrxLnzc=;
-        b=baayqFXcqfXHg9vSxbtSxmkPENBeapYbI6G0RVvT3Gk6Ec1XjdJqYsZH9ZavWmXScq
-         YYgwI/PCSfjIpuX7NFxunpaWgnB1QuPd+U4gV/wDnr3XfHPU9KkAVj864L8nW+IN3Eza
-         MJXaZlXzUQIO790uY1ASuITVDcv7xVDfENfzOJ52SqyUQgWHUJ5E0bDZyyqMpuMHHM3M
-         pSCWdNTJ7ws3dKFCOBycd0d0zQbRP6ohzvIXwRUG8Mjwb6Nm85OpnuLAA3tU4K3pvu+v
-         KrNylqpgeKW4FRGLNQR5OEzQHGpz/cqbhi+bOBytI2Lp9ux+B6IEl25WM2oYRqc/e6Gb
-         JFmQ==
-X-Gm-Message-State: APjAAAV+yuQ+bLAz0/MYDW/NeWON+BOZPRZ7zh/6KhCrTXsJQ3QxlJyQ
-        AzXXVwNWNW68Fkg6ezM9AVz65Jao/w0=
-X-Google-Smtp-Source: APXvYqzPrS18Ysw+WFRZ+rPItgsE/gMdRwzx5qlhdyXqR5+Z3URga83qmpJia61GA5/0Dou6sc9h0A==
-X-Received: by 2002:a1c:a901:: with SMTP id s1mr9094482wme.138.1575394458333;
-        Tue, 03 Dec 2019 09:34:18 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id t13sm3854997wmt.23.2019.12.03.09.34.17
+        bh=qE5r3nti027mzy0pKgrnKXkE1RSc8kUqTOaORXIdEtE=;
+        b=d3SppsbxuINEqJKZoW2zbGSKdkicLcv/C58vSdD7lHbfIzPOFq2I2GaQ8MMpasU9JM
+         0/8iKf1q9TTrBQmneSVI6Lsf3opUwbp9AY/fP6nX+bELhIW8YPJC3fLzUKzoQE+SZjYD
+         y4ABX2KUgiEwXd+24GLpKubBitPIvSfDlMaoi2XN8mxmZFbmRJ7CsSoBIMm+mEs8wpWb
+         YJGofW2qj0dYGX7ZFa8UJbOXnBsXuUj06Tg/udIUeQVENNo+pE8oA/PUupTwtrfdXY4U
+         fUJ4TwMh3lZ6tIWw52eP/Gcac3QN7pIwMg+hA5sdI2B1VM+T2JyICX5Pk5VCC61uMTW8
+         2/ag==
+X-Gm-Message-State: APjAAAU8oyk/ZqkwTmVRTWTvaTwt9fonJHV7Ai781SLje1YYnRZOg3H0
+        IaAFPgO1vPWgrvTHTaF8OLg=
+X-Google-Smtp-Source: APXvYqyirRyu04jqDg3x30rmhKDhkCSn+pJlYnYt6qaMKeOuedWuhIFZA6+FPRXQ60evaeNBBoHQdg==
+X-Received: by 2002:adf:d4ca:: with SMTP id w10mr6193149wrk.53.1575394951675;
+        Tue, 03 Dec 2019 09:42:31 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+        by smtp.gmail.com with ESMTPSA id x7sm4411960wrq.41.2019.12.03.09.42.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2019 09:34:17 -0800 (PST)
-Date:   Tue, 3 Dec 2019 18:34:15 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/tegra: Implement correct DMA-BUF semantics
-Message-ID: <20191203173415.GL624164@phenom.ffwll.local>
-References: <20191203163203.1486837-1-thierry.reding@gmail.com>
- <20191203163203.1486837-3-thierry.reding@gmail.com>
- <20191203173308.GK624164@phenom.ffwll.local>
+        Tue, 03 Dec 2019 09:42:30 -0800 (PST)
+Date:   Tue, 3 Dec 2019 18:42:29 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Sumit Gupta <sumitg@nvidia.com>
+Cc:     rjw@rjwysocki.net, viresh.kumar@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, jonathanh@nvidia.com,
+        talho@nvidia.com, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, bbasu@nvidia.com,
+        mperttunen@nvidia.com
+Subject: Re: [TEGRA194_CPUFREQ Patch 1/3] firmware: tegra: adding function to
+ get BPMP data
+Message-ID: <20191203174229.GA1721849@ulmo>
+References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
 Content-Disposition: inline
-In-Reply-To: <20191203173308.GK624164@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
+In-Reply-To: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Dec 03, 2019 at 06:33:08PM +0100, Daniel Vetter wrote:
-> On Tue, Dec 03, 2019 at 05:32:03PM +0100, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> > 
-> > DMA-BUF requires that each device that accesses a DMA-BUF attaches to it
-> > separately. To do so the host1x_bo_pin() and host1x_bo_unpin() functions
-> > need to be reimplemented so that they can return a mapping, which either
-> > represents an attachment or a map of the driver's own GEM object.
-> > 
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> 
-> I didn't check the full details, but this looks like it's doing things as
-> intended.
-> 
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-I forgot to add: I guess this could conflict with the cleanup I pushed
-into drm-misc-next for 5.6. If that's the case either put these there too,
-or wait until drm-misc-next has landed in drm-next before merging them to
-some tegra tree.
--Daniel
+--jRHKVT23PllUwdXP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Cheers, Daniel
-> 
-> > ---
-> >  drivers/gpu/drm/tegra/gem.c   | 131 +++++++++++++++++++++-------------
-> >  drivers/gpu/drm/tegra/plane.c |  47 ++++--------
-> >  drivers/gpu/drm/tegra/plane.h |   2 +-
-> >  drivers/gpu/host1x/job.c      | 127 ++++++++++++--------------------
-> >  drivers/gpu/host1x/job.h      |   6 +-
-> >  include/linux/host1x.h        |  32 ++++++---
-> >  6 files changed, 162 insertions(+), 183 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-> > index 1237df157e05..c085499067ed 100644
-> > --- a/drivers/gpu/drm/tegra/gem.c
-> > +++ b/drivers/gpu/drm/tegra/gem.c
-> > @@ -27,71 +27,77 @@ static void tegra_bo_put(struct host1x_bo *bo)
-> >  	drm_gem_object_put_unlocked(&obj->gem);
-> >  }
-> >  
-> > -/* XXX move this into lib/scatterlist.c? */
-> > -static int sg_alloc_table_from_sg(struct sg_table *sgt, struct scatterlist *sg,
-> > -				  unsigned int nents, gfp_t gfp_mask)
-> > +static struct host1x_bo_mapping *
-> > +tegra_bo_pin(struct device *dev, struct host1x_bo *bo,
-> > +	     enum dma_data_direction direction)
-> >  {
-> > -	struct scatterlist *dst;
-> > -	unsigned int i;
-> > +	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
-> > +	struct drm_gem_object *gem = &obj->gem;
-> > +	struct host1x_bo_mapping *map;
-> >  	int err;
-> >  
-> > -	err = sg_alloc_table(sgt, nents, gfp_mask);
-> > -	if (err < 0)
-> > -		return err;
-> > -
-> > -	dst = sgt->sgl;
-> > +	map = kzalloc(sizeof(*map), GFP_KERNEL);
-> > +	if (!map)
-> > +		return ERR_PTR(-ENOMEM);
-> >  
-> > -	for (i = 0; i < nents; i++) {
-> > -		sg_set_page(dst, sg_page(sg), sg->length, 0);
-> > -		dst = sg_next(dst);
-> > -		sg = sg_next(sg);
-> > -	}
-> > -
-> > -	return 0;
-> > -}
-> > -
-> > -static struct sg_table *tegra_bo_pin(struct device *dev, struct host1x_bo *bo,
-> > -				     dma_addr_t *phys)
-> > -{
-> > -	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
-> > -	struct sg_table *sgt;
-> > -	int err;
-> > +	map->direction = direction;
-> > +	map->dev = dev;
-> > +	map->bo = bo;
-> >  
-> >  	/*
-> >  	 * If we've manually mapped the buffer object through the IOMMU, make
-> >  	 * sure to return the IOVA address of our mapping.
-> >  	 */
-> > -	if (phys && obj->mm) {
-> > -		*phys = obj->iova;
-> > -		return NULL;
-> > +	if (obj->mm) {
-> > +		map->phys = obj->iova;
-> > +		return map;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Imported buffers need special treatment to satisfy the semantics of
-> > +	 * DMA-BUF.
-> > +	 */
-> > +	if (gem->import_attach) {
-> > +		struct dma_buf *buf = gem->import_attach->dmabuf;
-> > +
-> > +		map->attach = dma_buf_attach(buf, dev);
-> > +		if (IS_ERR(map->attach)) {
-> > +			err = PTR_ERR(map->attach);
-> > +			goto free;
-> > +		}
-> > +
-> > +		map->sgt = dma_buf_map_attachment(map->attach, direction);
-> > +		if (IS_ERR(map->sgt)) {
-> > +			dma_buf_detach(buf, map->attach);
-> > +			err = PTR_ERR(map->sgt);
-> > +			goto free;
-> > +		}
-> > +
-> > +		map->chunks = sgt_dma_count_chunks(map->sgt);
-> > +		map->phys = sg_dma_address(map->sgt->sgl);
-> > +		map->size = gem->size;
-> > +
-> > +		return map;
-> >  	}
-> >  
-> >  	/*
-> >  	 * If we don't have a mapping for this buffer yet, return an SG table
-> >  	 * so that host1x can do the mapping for us via the DMA API.
-> >  	 */
-> > -	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-> > -	if (!sgt)
-> > -		return ERR_PTR(-ENOMEM);
-> > +	map->sgt = kzalloc(sizeof(*map->sgt), GFP_KERNEL);
-> > +	if (!map->sgt) {
-> > +		err = -ENOMEM;
-> > +		goto free;
-> > +	}
-> >  
-> >  	if (obj->pages) {
-> >  		/*
-> >  		 * If the buffer object was allocated from the explicit IOMMU
-> >  		 * API code paths, construct an SG table from the pages.
-> >  		 */
-> > -		err = sg_alloc_table_from_pages(sgt, obj->pages, obj->num_pages,
-> > -						0, obj->gem.size, GFP_KERNEL);
-> > -		if (err < 0)
-> > -			goto free;
-> > -	} else if (obj->sgt) {
-> > -		/*
-> > -		 * If the buffer object already has an SG table but no pages
-> > -		 * were allocated for it, it means the buffer was imported and
-> > -		 * the SG table needs to be copied to avoid overwriting any
-> > -		 * other potential users of the original SG table.
-> > -		 */
-> > -		err = sg_alloc_table_from_sg(sgt, obj->sgt->sgl, obj->sgt->nents,
-> > -					     GFP_KERNEL);
-> > +		err = sg_alloc_table_from_pages(map->sgt, obj->pages,
-> > +						obj->num_pages, 0,
-> > +						obj->gem.size, GFP_KERNEL);
-> >  		if (err < 0)
-> >  			goto free;
-> >  	} else {
-> > @@ -100,25 +106,48 @@ static struct sg_table *tegra_bo_pin(struct device *dev, struct host1x_bo *bo,
-> >  		 * not imported, it had to be allocated with the DMA API, so
-> >  		 * the DMA API helper can be used.
-> >  		 */
-> > -		err = dma_get_sgtable(dev, sgt, obj->vaddr, obj->iova,
-> > +		err = dma_get_sgtable(dev, map->sgt, obj->vaddr, obj->iova,
-> >  				      obj->gem.size);
-> >  		if (err < 0)
-> >  			goto free;
-> >  	}
-> >  
-> > -	return sgt;
-> > +	err = dma_map_sg(dev, map->sgt->sgl, map->sgt->nents, direction);
-> > +	if (!err) {
-> > +		err = -ENOMEM;
-> > +		goto free_sgt;
-> > +	}
-> > +
-> > +	map->phys = sg_dma_address(map->sgt->sgl);
-> > +	map->size = gem->size;
-> > +	map->chunks = err;
-> > +
-> > +	return map;
-> >  
-> > +free_sgt:
-> > +	sg_free_table(map->sgt);
-> >  free:
-> > -	kfree(sgt);
-> > +	kfree(map->sgt);
-> > +	kfree(map);
-> >  	return ERR_PTR(err);
-> >  }
-> >  
-> > -static void tegra_bo_unpin(struct device *dev, struct sg_table *sgt)
-> > +static void tegra_bo_unpin(struct host1x_bo_mapping *map)
-> >  {
-> > -	if (sgt) {
-> > -		sg_free_table(sgt);
-> > -		kfree(sgt);
-> > +	if (!map)
-> > +		return;
-> > +
-> > +	if (map->attach) {
-> > +		dma_buf_unmap_attachment(map->attach, map->sgt, map->direction);
-> > +		dma_buf_detach(map->attach->dmabuf, map->attach);
-> > +	} else {
-> > +		dma_unmap_sg(map->dev, map->sgt->sgl, map->sgt->nents,
-> > +			     map->direction);
-> > +		sg_free_table(map->sgt);
-> > +		kfree(map->sgt);
-> >  	}
-> > +
-> > +	kfree(map);
-> >  }
-> >  
-> >  static void *tegra_bo_mmap(struct host1x_bo *bo)
-> > diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
-> > index cadcdd9ea427..28cf668026da 100644
-> > --- a/drivers/gpu/drm/tegra/plane.c
-> > +++ b/drivers/gpu/drm/tegra/plane.c
-> > @@ -67,7 +67,7 @@ tegra_plane_atomic_duplicate_state(struct drm_plane *plane)
-> >  
-> >  	for (i = 0; i < 3; i++) {
-> >  		copy->iova[i] = DMA_MAPPING_ERROR;
-> > -		copy->sgt[i] = NULL;
-> > +		copy->map[i] = NULL;
-> >  	}
-> >  
-> >  	return &copy->base;
-> > @@ -114,18 +114,11 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
-> >  		struct tegra_bo *bo = tegra_fb_get_plane(state->base.fb, i);
-> >  
-> >  		if (!dc->client.group) {
-> > -			struct sg_table *sgt;
-> > +			struct host1x_bo_mapping *map;
-> >  
-> > -			sgt = host1x_bo_pin(dc->dev, &bo->base, NULL);
-> > -			if (IS_ERR(sgt)) {
-> > -				err = PTR_ERR(sgt);
-> > -				goto unpin;
-> > -			}
-> > -
-> > -			err = dma_map_sg(dc->dev, sgt->sgl, sgt->nents,
-> > -					 DMA_TO_DEVICE);
-> > -			if (err == 0) {
-> > -				err = -ENOMEM;
-> > +			map = host1x_bo_pin(dc->dev, &bo->base, DMA_TO_DEVICE);
-> > +			if (IS_ERR(map)) {
-> > +				err = PTR_ERR(map);
-> >  				goto unpin;
-> >  			}
-> >  
-> > @@ -135,13 +128,13 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
-> >  			 * map its SG table to a single contiguous chunk of
-> >  			 * I/O virtual memory.
-> >  			 */
-> > -			if (err > 1) {
-> > +			if (map->chunks > 1) {
-> >  				err = -EINVAL;
-> >  				goto unpin;
-> >  			}
-> >  
-> > -			state->iova[i] = sg_dma_address(sgt->sgl);
-> > -			state->sgt[i] = sgt;
-> > +			state->iova[i] = map->phys;
-> > +			state->map[i] = map;
-> >  		} else {
-> >  			state->iova[i] = bo->iova;
-> >  		}
-> > @@ -153,14 +146,9 @@ static int tegra_dc_pin(struct tegra_dc *dc, struct tegra_plane_state *state)
-> >  	dev_err(dc->dev, "failed to map plane %u: %d\n", i, err);
-> >  
-> >  	while (i--) {
-> > -		struct tegra_bo *bo = tegra_fb_get_plane(state->base.fb, i);
-> > -		struct sg_table *sgt = state->sgt[i];
-> > -
-> > -		dma_unmap_sg(dc->dev, sgt->sgl, sgt->nents, DMA_TO_DEVICE);
-> > -		host1x_bo_unpin(dc->dev, &bo->base, sgt);
-> > -
-> > +		host1x_bo_unpin(state->map[i]);
-> >  		state->iova[i] = DMA_MAPPING_ERROR;
-> > -		state->sgt[i] = NULL;
-> > +		state->map[i] = NULL;
-> >  	}
-> >  
-> >  	return err;
-> > @@ -171,20 +159,11 @@ static void tegra_dc_unpin(struct tegra_dc *dc, struct tegra_plane_state *state)
-> >  	unsigned int i;
-> >  
-> >  	for (i = 0; i < state->base.fb->format->num_planes; i++) {
-> > -		struct tegra_bo *bo = tegra_fb_get_plane(state->base.fb, i);
-> > -
-> > -		if (!dc->client.group) {
-> > -			struct sg_table *sgt = state->sgt[i];
-> > -
-> > -			if (sgt) {
-> > -				dma_unmap_sg(dc->dev, sgt->sgl, sgt->nents,
-> > -					     DMA_TO_DEVICE);
-> > -				host1x_bo_unpin(dc->dev, &bo->base, sgt);
-> > -			}
-> > -		}
-> > +		if (!dc->client.group)
-> > +			host1x_bo_unpin(state->map[i]);
-> >  
-> >  		state->iova[i] = DMA_MAPPING_ERROR;
-> > -		state->sgt[i] = NULL;
-> > +		state->map[i] = NULL;
-> >  	}
-> >  }
-> >  
-> > diff --git a/drivers/gpu/drm/tegra/plane.h b/drivers/gpu/drm/tegra/plane.h
-> > index a158a915109a..08df1ba1f567 100644
-> > --- a/drivers/gpu/drm/tegra/plane.h
-> > +++ b/drivers/gpu/drm/tegra/plane.h
-> > @@ -39,7 +39,7 @@ struct tegra_plane_legacy_blending_state {
-> >  struct tegra_plane_state {
-> >  	struct drm_plane_state base;
-> >  
-> > -	struct sg_table *sgt[3];
-> > +	struct host1x_bo_mapping *map[3];
-> >  	dma_addr_t iova[3];
-> >  
-> >  	struct tegra_bo_tiling tiling;
-> > diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
-> > index 60b2fedd0061..88e445553df3 100644
-> > --- a/drivers/gpu/host1x/job.c
-> > +++ b/drivers/gpu/host1x/job.c
-> > @@ -99,6 +99,7 @@ EXPORT_SYMBOL(host1x_job_add_gather);
-> >  
-> >  static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
-> >  {
-> > +	unsigned long mask = HOST1X_RELOC_READ | HOST1X_RELOC_WRITE;
-> >  	struct host1x_client *client = job->client;
-> >  	struct device *dev = client->dev;
-> >  	unsigned int i;
-> > @@ -108,8 +109,8 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
-> >  
-> >  	for (i = 0; i < job->num_relocs; i++) {
-> >  		struct host1x_reloc *reloc = &job->relocs[i];
-> > -		dma_addr_t phys_addr, *phys;
-> > -		struct sg_table *sgt;
-> > +		enum dma_data_direction direction;
-> > +		struct host1x_bo_mapping *map;
-> >  
-> >  		reloc->target.bo = host1x_bo_get(reloc->target.bo);
-> >  		if (!reloc->target.bo) {
-> > @@ -117,63 +118,40 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
-> >  			goto unpin;
-> >  		}
-> >  
-> > -		if (client->group)
-> > -			phys = &phys_addr;
-> > -		else
-> > -			phys = NULL;
-> > -
-> > -		sgt = host1x_bo_pin(dev, reloc->target.bo, phys);
-> > -		if (IS_ERR(sgt)) {
-> > -			err = PTR_ERR(sgt);
-> > -			goto unpin;
-> > -		}
-> > -
-> > -		if (sgt) {
-> > -			unsigned long mask = HOST1X_RELOC_READ |
-> > -					     HOST1X_RELOC_WRITE;
-> > -			enum dma_data_direction dir;
-> > -
-> > -			switch (reloc->flags & mask) {
-> > -			case HOST1X_RELOC_READ:
-> > -				dir = DMA_TO_DEVICE;
-> > -				break;
-> > -
-> > -			case HOST1X_RELOC_WRITE:
-> > -				dir = DMA_FROM_DEVICE;
-> > -				break;
-> > +		switch (reloc->flags & mask) {
-> > +		case HOST1X_RELOC_READ:
-> > +			direction = DMA_TO_DEVICE;
-> > +			break;
-> >  
-> > -			case HOST1X_RELOC_READ | HOST1X_RELOC_WRITE:
-> > -				dir = DMA_BIDIRECTIONAL;
-> > -				break;
-> > +		case HOST1X_RELOC_WRITE:
-> > +			direction = DMA_FROM_DEVICE;
-> > +			break;
-> >  
-> > -			default:
-> > -				err = -EINVAL;
-> > -				goto unpin;
-> > -			}
-> > +		case HOST1X_RELOC_READ | HOST1X_RELOC_WRITE:
-> > +			direction = DMA_BIDIRECTIONAL;
-> > +			break;
-> >  
-> > -			err = dma_map_sg(dev, sgt->sgl, sgt->nents, dir);
-> > -			if (!err) {
-> > -				err = -ENOMEM;
-> > -				goto unpin;
-> > -			}
-> > +		default:
-> > +			err = -EINVAL;
-> > +			goto unpin;
-> > +		}
-> >  
-> > -			job->unpins[job->num_unpins].dev = dev;
-> > -			job->unpins[job->num_unpins].dir = dir;
-> > -			phys_addr = sg_dma_address(sgt->sgl);
-> > +		map = host1x_bo_pin(dev, reloc->target.bo, direction);
-> > +		if (IS_ERR(map)) {
-> > +			err = PTR_ERR(map);
-> > +			goto unpin;
-> >  		}
-> >  
-> > -		job->addr_phys[job->num_unpins] = phys_addr;
-> > -		job->unpins[job->num_unpins].bo = reloc->target.bo;
-> > -		job->unpins[job->num_unpins].sgt = sgt;
-> > +		job->addr_phys[job->num_unpins] = map->phys;
-> > +		job->unpins[job->num_unpins].map = map;
-> >  		job->num_unpins++;
-> >  	}
-> >  
-> >  	for (i = 0; i < job->num_gathers; i++) {
-> >  		struct host1x_job_gather *g = &job->gathers[i];
-> > +		struct host1x_bo_mapping *map;
-> >  		size_t gather_size = 0;
-> >  		struct scatterlist *sg;
-> > -		struct sg_table *sgt;
-> > -		dma_addr_t phys_addr;
-> >  		unsigned long shift;
-> >  		struct iova *alloc;
-> >  		unsigned int j;
-> > @@ -184,15 +162,16 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
-> >  			goto unpin;
-> >  		}
-> >  
-> > -		sgt = host1x_bo_pin(host->dev, g->bo, NULL);
-> > -		if (IS_ERR(sgt)) {
-> > -			err = PTR_ERR(sgt);
-> > +		map = host1x_bo_pin(host->dev, g->bo, DMA_TO_DEVICE);
-> > +		if (IS_ERR(map)) {
-> > +			err = PTR_ERR(map);
-> >  			goto unpin;
-> >  		}
-> >  
-> >  		if (!IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL) && host->domain) {
-> > -			for_each_sg(sgt->sgl, sg, sgt->nents, j)
-> > +			for_each_sg(map->sgt->sgl, sg, map->sgt->nents, j)
-> >  				gather_size += sg->length;
-> > +
-> >  			gather_size = iova_align(&host->iova, gather_size);
-> >  
-> >  			shift = iova_shift(&host->iova);
-> > @@ -204,35 +183,24 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
-> >  			}
-> >  
-> >  			err = iommu_map_sg(host->domain,
-> > -					iova_dma_addr(&host->iova, alloc),
-> > -					sgt->sgl, sgt->nents, IOMMU_READ);
-> > +					   iova_dma_addr(&host->iova, alloc),
-> > +					   map->sgt->sgl, map->sgt->nents,
-> > +					   IOMMU_READ);
-> >  			if (err == 0) {
-> >  				__free_iova(&host->iova, alloc);
-> >  				err = -EINVAL;
-> >  				goto unpin;
-> >  			}
-> >  
-> > -			job->unpins[job->num_unpins].size = gather_size;
-> > -			phys_addr = iova_dma_addr(&host->iova, alloc);
-> > -		} else {
-> > -			err = dma_map_sg(host->dev, sgt->sgl, sgt->nents,
-> > -					 DMA_TO_DEVICE);
-> > -			if (!err) {
-> > -				err = -ENOMEM;
-> > -				goto unpin;
-> > -			}
-> > -
-> > -			job->unpins[job->num_unpins].dev = host->dev;
-> > -			phys_addr = sg_dma_address(sgt->sgl);
-> > +			map->phys = iova_dma_addr(&host->iova, alloc);
-> > +			map->size = gather_size;
-> >  		}
-> >  
-> > -		job->addr_phys[job->num_unpins] = phys_addr;
-> > -		job->gather_addr_phys[i] = phys_addr;
-> > -
-> > -		job->unpins[job->num_unpins].dir = DMA_TO_DEVICE;
-> > -		job->unpins[job->num_unpins].bo = g->bo;
-> > -		job->unpins[job->num_unpins].sgt = sgt;
-> > +		job->addr_phys[job->num_unpins] = map->phys;
-> > +		job->unpins[job->num_unpins].map = map;
-> >  		job->num_unpins++;
-> > +
-> > +		job->gather_addr_phys[i] = map->phys;
-> >  	}
-> >  
-> >  	return 0;
-> > @@ -608,24 +576,19 @@ void host1x_job_unpin(struct host1x_job *job)
-> >  	unsigned int i;
-> >  
-> >  	for (i = 0; i < job->num_unpins; i++) {
-> > -		struct host1x_job_unpin_data *unpin = &job->unpins[i];
-> > -		struct device *dev = unpin->dev ?: host->dev;
-> > -		struct sg_table *sgt = unpin->sgt;
-> > +		struct host1x_bo_mapping *map = job->unpins[i].map;
-> > +		struct host1x_bo *bo = map->bo;
-> >  
-> >  		if (!IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL) &&
-> > -		    unpin->size && host->domain) {
-> > +		    map->size && host->domain) {
-> >  			iommu_unmap(host->domain, job->addr_phys[i],
-> > -				    unpin->size);
-> > +				    map->size);
-> >  			free_iova(&host->iova,
-> > -				iova_pfn(&host->iova, job->addr_phys[i]));
-> > +				  iova_pfn(&host->iova, job->addr_phys[i]));
-> >  		}
-> >  
-> > -		if (unpin->dev && sgt)
-> > -			dma_unmap_sg(unpin->dev, sgt->sgl, sgt->nents,
-> > -				     unpin->dir);
-> > -
-> > -		host1x_bo_unpin(dev, unpin->bo, sgt);
-> > -		host1x_bo_put(unpin->bo);
-> > +		host1x_bo_unpin(map);
-> > +		host1x_bo_put(bo);
-> >  	}
-> >  
-> >  	job->num_unpins = 0;
-> > diff --git a/drivers/gpu/host1x/job.h b/drivers/gpu/host1x/job.h
-> > index 94bc2e4ae241..c28eebb8ce14 100644
-> > --- a/drivers/gpu/host1x/job.h
-> > +++ b/drivers/gpu/host1x/job.h
-> > @@ -19,11 +19,7 @@ struct host1x_job_gather {
-> >  };
-> >  
-> >  struct host1x_job_unpin_data {
-> > -	struct host1x_bo *bo;
-> > -	struct sg_table *sgt;
-> > -	struct device *dev;
-> > -	size_t size;
-> > -	enum dma_data_direction dir;
-> > +	struct host1x_bo_mapping *map;
-> >  };
-> >  
-> >  /*
-> > diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-> > index 0254ebcdc0a7..f1e6fad19289 100644
-> > --- a/include/linux/host1x.h
-> > +++ b/include/linux/host1x.h
-> > @@ -7,6 +7,7 @@
-> >  #define __LINUX_HOST1X_H
-> >  
-> >  #include <linux/device.h>
-> > +#include <linux/dma-direction.h>
-> >  #include <linux/types.h>
-> >  
-> >  enum host1x_class {
-> > @@ -72,12 +73,24 @@ struct host1x_client {
-> >  struct host1x_bo;
-> >  struct sg_table;
-> >  
-> > +struct host1x_bo_mapping {
-> > +	struct dma_buf_attachment *attach;
-> > +	enum dma_data_direction direction;
-> > +	struct host1x_bo *bo;
-> > +	struct sg_table *sgt;
-> > +	unsigned int chunks;
-> > +	struct device *dev;
-> > +	dma_addr_t phys;
-> > +	size_t size;
-> > +};
-> > +
-> >  struct host1x_bo_ops {
-> >  	struct host1x_bo *(*get)(struct host1x_bo *bo);
-> >  	void (*put)(struct host1x_bo *bo);
-> > -	struct sg_table *(*pin)(struct device *dev, struct host1x_bo *bo,
-> > -				dma_addr_t *phys);
-> > -	void (*unpin)(struct device *dev, struct sg_table *sgt);
-> > +	struct host1x_bo_mapping *(*pin)(struct device *dev,
-> > +					 struct host1x_bo *bo,
-> > +					 enum dma_data_direction dir);
-> > +	void (*unpin)(struct host1x_bo_mapping *map);
-> >  	void *(*mmap)(struct host1x_bo *bo);
-> >  	void (*munmap)(struct host1x_bo *bo, void *addr);
-> >  };
-> > @@ -102,17 +115,16 @@ static inline void host1x_bo_put(struct host1x_bo *bo)
-> >  	bo->ops->put(bo);
-> >  }
-> >  
-> > -static inline struct sg_table *host1x_bo_pin(struct device *dev,
-> > -					     struct host1x_bo *bo,
-> > -					     dma_addr_t *phys)
-> > +static inline struct host1x_bo_mapping *
-> > +host1x_bo_pin(struct device *dev, struct host1x_bo *bo,
-> > +	      enum dma_data_direction dir)
-> >  {
-> > -	return bo->ops->pin(dev, bo, phys);
-> > +	return bo->ops->pin(dev, bo, dir);
-> >  }
-> >  
-> > -static inline void host1x_bo_unpin(struct device *dev, struct host1x_bo *bo,
-> > -				   struct sg_table *sgt)
-> > +static inline void host1x_bo_unpin(struct host1x_bo_mapping *map)
-> >  {
-> > -	bo->ops->unpin(dev, sgt);
-> > +	map->bo->ops->unpin(map);
-> >  }
-> >  
-> >  static inline void *host1x_bo_mmap(struct host1x_bo *bo)
-> > -- 
-> > 2.23.0
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+On Tue, Dec 03, 2019 at 11:02:26PM +0530, Sumit Gupta wrote:
+> Adding new function of_tegra_bpmp_get() to get BPMP data.
+> This function can be used by other drivers like cpufreq to
+> get BPMP data without adding any property in respective
+> drivers DT node.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+What's wrong with adding the property in the DT node? We already do that
+for Tegra186's CPU frequency driver, so it makes sense to continue that
+for Tegra194.
+
+Thierry
+
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> ---
+>  drivers/firmware/tegra/bpmp.c | 38 ++++++++++++++++++++++++++++++++++++++
+>  include/soc/tegra/bpmp.h      |  5 +++++
+>  2 files changed, 43 insertions(+)
+>=20
+> diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
+> index 6741fcd..9c3d7f1 100644
+> --- a/drivers/firmware/tegra/bpmp.c
+> +++ b/drivers/firmware/tegra/bpmp.c
+> @@ -38,6 +38,44 @@ channel_to_ops(struct tegra_bpmp_channel *channel)
+>  	return bpmp->soc->ops;
+>  }
+> =20
+> +struct tegra_bpmp *of_tegra_bpmp_get(void)
+> +{
+> +	struct platform_device *pdev;
+> +	struct device_node *bpmp_dev;
+> +	struct tegra_bpmp *bpmp;
+> +
+> +	/* Check for bpmp device status in DT */
+> +	bpmp_dev =3D of_find_compatible_node(NULL, NULL, "nvidia,tegra186-bpmp"=
+);
+> +	if (!bpmp_dev) {
+> +		bpmp =3D ERR_PTR(-ENODEV);
+> +		goto err_out;
+> +	}
+> +	if (!of_device_is_available(bpmp_dev)) {
+> +		bpmp =3D ERR_PTR(-ENODEV);
+> +		goto err_put;
+> +	}
+> +
+> +	pdev =3D of_find_device_by_node(bpmp_dev);
+> +	if (!pdev) {
+> +		bpmp =3D ERR_PTR(-ENODEV);
+> +		goto err_put;
+> +	}
+> +
+> +	bpmp =3D platform_get_drvdata(pdev);
+> +	if (!bpmp) {
+> +		bpmp =3D ERR_PTR(-EPROBE_DEFER);
+> +		put_device(&pdev->dev);
+> +		goto err_put;
+> +	}
+> +
+> +	return bpmp;
+> +err_put:
+> +	of_node_put(bpmp_dev);
+> +err_out:
+> +	return bpmp;
+> +}
+> +EXPORT_SYMBOL_GPL(of_tegra_bpmp_get);
+> +
+>  struct tegra_bpmp *tegra_bpmp_get(struct device *dev)
+>  {
+>  	struct platform_device *pdev;
+> diff --git a/include/soc/tegra/bpmp.h b/include/soc/tegra/bpmp.h
+> index f2604e9..21402d9 100644
+> --- a/include/soc/tegra/bpmp.h
+> +++ b/include/soc/tegra/bpmp.h
+> @@ -107,6 +107,7 @@ struct tegra_bpmp_message {
+>  };
+> =20
+>  #if IS_ENABLED(CONFIG_TEGRA_BPMP)
+> +struct tegra_bpmp *of_tegra_bpmp_get(void);
+>  struct tegra_bpmp *tegra_bpmp_get(struct device *dev);
+>  void tegra_bpmp_put(struct tegra_bpmp *bpmp);
+>  int tegra_bpmp_transfer_atomic(struct tegra_bpmp *bpmp,
+> @@ -122,6 +123,10 @@ void tegra_bpmp_free_mrq(struct tegra_bpmp *bpmp, un=
+signed int mrq,
+>  			 void *data);
+>  bool tegra_bpmp_mrq_is_supported(struct tegra_bpmp *bpmp, unsigned int m=
+rq);
+>  #else
+> +static inline struct tegra_bpmp *of_tegra_bpmp_get(void)
+> +{
+> +	return ERR_PTR(-ENOTSUPP);
+> +}
+>  static inline struct tegra_bpmp *tegra_bpmp_get(struct device *dev)
+>  {
+>  	return ERR_PTR(-ENOTSUPP);
+> --=20
+> 2.7.4
+>=20
+
+--jRHKVT23PllUwdXP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3mnoEACgkQ3SOs138+
+s6GpwBAAvaZJp87NoF1TROjbDypFZ2E7Oov0yzlV1zJak8mF3KIV0tKaCHoXheWI
+rcQZm8VFfh/Gqxw63Yk1Gn9nA1KJoqaIUY1On3cMHvY2wtVF7Wh/tFI+5JNXsCIi
+H9et1e5q/J9LaFHxcdNsEeYaocswM31Zy+rNIhT1bpLzvTZObIzbQp5v5eao8U6i
+VUdAUsr5XSj0vcN51HVz6CHFMpQsocQV1AsACAMUny+ajHL/FTmJYa5jvXvhqgpX
+yH593XBFitXrqAhWj3kR6okHC2U9UAd2S9ZXsu15xawQNymTi2mdqnaoeohRajFj
+z9GF5CxNbNCNOBMxvzAkF08s8dQCA/vsSkxQ518Z3BK+dPxu7Leho9yVeNs9muy/
+7fOU5sc+gIBuBB0V/fwP2xiPbvoe/wozI2LtbmDa6akd5rwxYLi3ogJOKtS1QRhN
+JHaTZ08hjuRiL64s8EAfz1VsQYF0MwkfomCfXKMoTCu+8mVXkcMuZcaotXul/Mck
+LMYlsKbCwgLpM4NrNW++q1nTewTXmQpzrLN762Ae23ud7ARns1mwaaGa6UvfxIhE
+cxZVU66dHXKEIdGsA6uSByRKUS8/1le4Iy6zRAu7O88XAbxSydYOm45/ovZTEzAz
+jAymOGgaP0NBMXICJoBLt3/Z0WwBmSAZ/Vir1cbs2jsup+XvzaE=
+=c7iN
+-----END PGP SIGNATURE-----
+
+--jRHKVT23PllUwdXP--
