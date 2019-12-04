@@ -2,99 +2,76 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E75B1128DC
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 11:07:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA547112933
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 11:21:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727273AbfLDKG7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Dec 2019 05:06:59 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13458 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727009AbfLDKG7 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 05:06:59 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5de7853e0002>; Wed, 04 Dec 2019 02:06:54 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 04 Dec 2019 02:06:58 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 04 Dec 2019 02:06:58 -0800
-Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 4 Dec
- 2019 10:06:56 +0000
-Subject: Re: [PATCH 5.3 000/135] 5.3.15-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20191203213005.828543156@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <a733eda6-3320-7541-1acd-0da811f345c4@nvidia.com>
-Date:   Wed, 4 Dec 2019 10:06:54 +0000
+        id S1727446AbfLDKVn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Dec 2019 05:21:43 -0500
+Received: from mail.kapsi.fi ([91.232.154.25]:38167 "EHLO mail.kapsi.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726899AbfLDKVn (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 4 Dec 2019 05:21:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=lXkM2TiakZNWEer24NnBU2s4hqmdaq894N1amWO3xwU=; b=rlYVOhaHmSwAOLiBcI9DwOvenr
+        gX8xA9bN6W8vbD13Q9Q3z4CiCKVYK8IqzXgRiflrhDM0CBRJRVZQKfkYaMLkCRgQh2FIvLqDFAL0Y
+        6KKx5oZKzKuQDR8G5YdcU3LAJWI6CjHI2fbpfKaDoPh+6z7B3ulwVIVpCzXul1u1RCjiaN6RkHt0T
+        OP+svFIIBKcgAggm+wW19khbF6hdcQyC25UOynrd7rVPZA4UcGNRBstE1bMeibgDRJ5gsjljRCOsN
+        TXxKFMtheZpM18pQeBZ+9hf7xOpG2dRM+THKOMQ7t9Y3UOXZqetqM52D+ojk+JL8P8NoDF6NODW2a
+        Cci6wq/Q==;
+Received: from [193.209.96.43] (helo=[10.21.26.179])
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1icRmk-0001Ce-NM; Wed, 04 Dec 2019 12:21:30 +0200
+Subject: Re: [TEGRA194_CPUFREQ Patch 1/3] firmware: tegra: adding function to
+ get BPMP data
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Sumit Gupta <sumitg@nvidia.com>, rjw@rjwysocki.net,
+        catalin.marinas@arm.com, will@kernel.org, jonathanh@nvidia.com,
+        talho@nvidia.com, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, bbasu@nvidia.com,
+        mperttunen@nvidia.com
+References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
+ <20191203174229.GA1721849@ulmo>
+ <9404232d-84ce-a117-89dd-f2d8de80993e@kapsi.fi>
+ <20191204091703.d32to5omdm3eynon@vireshk-i7>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <cdb685a4-4d00-4635-df12-c67a6faa81e2@kapsi.fi>
+Date:   Wed, 4 Dec 2019 12:21:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191203213005.828543156@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191204091703.d32to5omdm3eynon@vireshk-i7>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1575454014; bh=rnPR8U9XeJLdCyOba3N21J4rZNuPYEnZ6X79buUkGlc=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=eLDlVHj2ta3ksqVsb65UuY0V+X9RzdPOuSF2mfqFPk/WVYe5MmtvBbCks392yoKX7
-         v6/MG9ZNEL2IpQHXMZOCXMbE6VE32geCCbOeL601kkyZFuCAM9oGr8ds3eA8Osv5JX
-         7+jOAc2fpqOFe1K0GJQE3/BX1mUbIJAoCpKu153XHxbD5u0qoIE9dW14fIfeXjfmZu
-         unEky/pjqE4CfriDKO55LI4cQjpLqUg08uR2JXdvZIBi9ujnjhugvvglvUo8l+9uKy
-         JuNQE6sbU3pm9T7XypKRioGwAd7yyQaw3Szhte+UbMv/c8upHlu904z9RGXRQvEthW
-         w25fVK9LuUVpA==
+X-SA-Exim-Connect-IP: 193.209.96.43
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Ah, it seems I was mistaken here. Thanks for the information.
 
-On 03/12/2019 22:34, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.3.15 release.
-> There are 135 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
+Thanks,
+Mikko
+
+On 4.12.2019 11.17, Viresh Kumar wrote:
+> On 04-12-19, 10:45, Mikko Perttunen wrote:
+>> Now, my original patchset (which this series is based on) did add
+>> nvidia,bpmp properties on the CPU DT nodes itself and query BPMP based on
+>> that. A change is still required for that since tegra_bpmp_get() currently
+>> takes a 'struct device *' which we don't have for a CPU DT node.
 > 
-> Responses should be made by Thu, 05 Dec 2019 21:20:36 +0000.
-> Anything received after that time might be too late.
+> I may be missing the context, but the CPUs always have a struct device
+> * for them, which we get via a call to get_cpu_device(cpu), isn't ?
 > 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.15-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
-> 
-> -------------
-
-All tests are passing for Tegra ...
-
-Test results for stable-v5.3:
-    13 builds:	13 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    38 tests:	38 pass, 0 fail
-
-Linux version:	5.3.15-rc1-g682bd5084c78
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Cheers
-Jon
-
--- 
-nvpublic
