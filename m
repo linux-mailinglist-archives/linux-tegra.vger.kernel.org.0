@@ -2,158 +2,164 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44076112041
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 00:27:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1B6411207C
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 01:02:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbfLCX1v (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 3 Dec 2019 18:27:51 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16586 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbfLCX1v (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 18:27:51 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5de6ef660000>; Tue, 03 Dec 2019 15:27:34 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 03 Dec 2019 15:27:49 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 03 Dec 2019 15:27:49 -0800
-Received: from [10.2.160.125] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Dec
- 2019 23:27:47 +0000
-Subject: Re: [PATCH v1 15/17] dt-bindings: tegra186-pmc: Add Tegra PMC clock
- bindings
-To:     Rob Herring <robh@kernel.org>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <digetx@gmail.com>, <mperttunen@nvidia.com>,
-        <gregkh@linuxfoundation.org>, <sboyd@kernel.org>,
-        <tglx@linutronix.de>, <mark.rutland@arm.com>,
-        <allison@lohutok.net>, <pdeschrijver@nvidia.com>,
-        <pgaikwad@nvidia.com>, <mturquette@baylibre.com>,
-        <horms+renesas@verge.net.au>, <Jisheng.Zhang@synaptics.com>,
-        <krzk@kernel.org>, <arnd@arndb.de>, <spujar@nvidia.com>,
-        <josephl@nvidia.com>, <vidyas@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1574146234-3871-1-git-send-email-skomatineni@nvidia.com>
- <1574146234-3871-16-git-send-email-skomatineni@nvidia.com>
- <20191203221137.GC22716@bogus>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <5445c579-4a85-ca36-69c9-7fe86dbf1fa9@nvidia.com>
-Date:   Tue, 3 Dec 2019 15:28:09 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726057AbfLDACY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 3 Dec 2019 19:02:24 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:46873 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725997AbfLDACY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 3 Dec 2019 19:02:24 -0500
+Received: by mail-ot1-f68.google.com with SMTP id g18so4654683otj.13;
+        Tue, 03 Dec 2019 16:02:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=loDjeEqvdAPDUJ1PtnrAtrQds3vuyfNIYlvIHMVmJeQ=;
+        b=un4I3yMj/WElUB4CFI0sbd9AiA2PDtsP9MCrtetbGJTVf5WyHir/8xt2VeImOKhGXN
+         U+LKerQmKENJeTRRgq5boNLBfdJ4694Okg183MiME2pQBTHOKUMxVaqIm4Suxo51CUOn
+         ib0HOfN+/TijFZ7Fway52OH7Y9+ODic72QeaDmlhdShCgH9gBefe2SUKPkQ1VZqEpBHQ
+         9kldEkVxjAZWbS3lQ9Eyfa4dHX3CJvJYS3nGishCxTSFMw6JN+sfOS5NpDiv7OVFmq0k
+         NfGWVdkfTNSo6of9f6CF8fWaYPvLto6Q+9nMeJaP9nko49TrH+KN9ZfbGXrZrnOpg2jr
+         UNlQ==
+X-Gm-Message-State: APjAAAXwD181Y3NzjJSr/8V4Iu13yBg6/9+uQv8odXwHYIcNukDB50B5
+        hU3Dd0QBcD3TdJ6J2QYyAoJbUMKOQThQ4NWCUGPPvbtt
+X-Google-Smtp-Source: APXvYqxS4uMWC9P7L0sz4VxaxXH7oxpwEkU3BDelyKz/0EUVqosU0WUezzrL1HjJUi5ff+Iyrcnqmc1/R1xSN+u25j8=
+X-Received: by 2002:a05:6830:95:: with SMTP id a21mr440242oto.167.1575417742980;
+ Tue, 03 Dec 2019 16:02:22 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191203221137.GC22716@bogus>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1575415654; bh=vfVKzdkXztCZYuLAwJxHEwseHcXT4COainOIa886LgM=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=FPFsJSgr2Xl5lXJiwp7y1kI1MbZpwU1cAbH96ysURG+n0SHopySY23mHtinpTJtFY
-         m0ezg6GXZlHqMZFN9l2kGU1AEfslA76swmaNFrQyvBZMa4vSxLCDJ2R+oSLffxhK47
-         hq1HRC+K1eVnbYC6gT+b87qkds0w8AS/uBYUMocpTVALujVMKsFFcKxN/hGbo7WYdM
-         gLk+erJmzs0gbfpbmGQ1Lr/1vwMlyLmMotm69g6n6hkSbi7Ve5wEW4s/H3RfEDzXAW
-         IIe90r+SdLqcaagrCdTDx6RZMb7vg+u8sd5dwcxHN95/Me59xUbDt9I57mIb7fJZpV
-         FJqa7SmdFmLsg==
+References: <20191128160314.2381249-1-thierry.reding@gmail.com>
+ <20191128163623.GA2382107@ulmo> <2310325.iNVD75376c@kreacher>
+ <4149037.GOuMSCS4uT@kreacher> <20191129094303.GB2770902@ulmo>
+ <CAJZ5v0hhMSmLBr+M5CxCrfrcJHH2DzYkRFJBVyBymP0xs35Yzw@mail.gmail.com> <20191129120719.GF2771912@ulmo>
+In-Reply-To: <20191129120719.GF2771912@ulmo>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 4 Dec 2019 01:02:11 +0100
+Message-ID: <CAJZ5v0hAQ5g72NRxa_xykqVuWsetCb=u9qoTgmF4kHcEzhiVZQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] PM / runtime: Allow drivers to override runtime PM
+ behaviour on sleep
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 12/3/19 2:11 PM, Rob Herring wrote:
-> On Mon, Nov 18, 2019 at 10:50:32PM -0800, Sowjanya Komatineni wrote:
->> Document clock bindings for pmc clocks clk_out_1, clk_out_2 and clk_out_3.
->> These clocks are part of Tegra PMC block and pmc node is the provider for
->> these clocks.
->>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   .../bindings/arm/tegra/nvidia,tegra186-pmc.txt     | 44 ++++++++++++++++++++++
->>   1 file changed, 44 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.txt b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.txt
->> index 2d89cdc39eb0..4576de92e4cc 100644
->> --- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.txt
->> +++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.txt
->> @@ -12,6 +12,10 @@ Required properties:
->>     - "aotag"
->>     - "scratch"
->>     - "misc" (Only for Tegra194)
->> +- #clock-cells : Should be 1 for Tegra30 and higher.
->> +  In clock consumers, this cell represents the PMC clock ID.
->> +  The assignments may be found in header file
->> +  <dt-bindings/soc/tegra-pmc.h>.
-> Kind of strange the header is shared, but the binding doc is not.
-
-v2 has this patch removed. Tegra186 does not have pmc clocks. They were 
-accidentally added in v1 and this is fixed in v2.
-
+On Fri, Nov 29, 2019 at 1:07 PM Thierry Reding <thierry.reding@gmail.com> wrote:
 >
->>   
->>   Optional properties:
->>   - nvidia,invert-interrupt: If present, inverts the PMU interrupt signal.
->> @@ -130,3 +134,43 @@ Pinctrl client example:
->>   		pinctrl-1 = <&hdmi_on>;
->>   		pinctrl-names = "hdmi-on", "hdmi-off";
->>   	};
->> +
->> +== Clock Control ==
->> +
->> +Tegra PMC has 3 clocks clk_1, clk_2 and clk_3. Each of these clocks has
->> +source selection and enable/disable gate.
->> +Parent/source for these clocks can be either of clk_m, clk_m_div2, clk_m_div4,
->> +or extern clock from Tegra CAR module.
->> +
->> +Clock configuration example:
->> +	pmc: pmc@7000e400 {
->> +		compatible = "nvidia,tegra186-pmc";
->> +		reg = <0 0x0c360000 0 0x10000>,
->> +		      <0 0x0c370000 0 0x10000>,
->> +		      <0 0x0c380000 0 0x10000>,
->> +		      <0 0x0c390000 0 0x10000>;
->> +		reg-names = "pmc", "wake", "aotag", "scratch";
->> +		...
->> +		#clock-cells = <1>;
->> +		...
-> Once converted to schema, the examples have to compile and this won't.
-> They also have to be complete enough to pass validation checks.
-ok, will go thru and run the validation checks.
->> +	};
->> +
->> +Clock consumer example:
->> +	host1x@50000000 {
->> +		...
->> +		vi@54080000 {
->> +		...
->> +		assigned-clocks = <&pmc TEGRA_PMC_CLK_OUT_3_MUX>;
->> +		assigned-clock-parents = <&tegra_car TEGRA210_CLK_EXTERN3>;
-> Indentation is wrong.
+> On Fri, Nov 29, 2019 at 11:22:08AM +0100, Rafael J. Wysocki wrote:
+> >
+
+[cut]
+
+Sorry for the delay.
+
+First off, let me note that I have seen your most recent patches and
+thanks for taking the feedback into account, much appreciated!
+
+Nevertheless, I feel that I need to address the below, because it is
+really important.
+
+> > Preventing a device from suspending should never be a functional
+> > problem.  It may be an energy-efficiency problem, but that's something
+> > for user space to consider before writing "on" to a device's control
+> > file.
 >
->> +		};
->> +		...
->> +	};
->> +	...
->> +	i2c@7000c500 {
->> +		cam_sensor {
->> +		...
->> +		clocks = <&pmc TEGRA_PMC_CLK_OUT_3>;
->> +		clock-names = "mclk";
-> Same here.
+> That's really a question of how you define suspension.
+
+In general, yes.
+
+However, if you talk about PM-runtime, there are definitions of
+"suspended" and "active" in there already.  Namely, in the PM-runtime
+context, "suspended" means "may not be accessible to software" whereas
+"active" means "software can access it".
+
+> In the case of
+> display drivers we have the somewhat unfortunate situation that in most
+> SoCs the display "device" is actually represented by a collection of
+> different devices. On Tegra specifically, for example, you have a couple
+> of display controllers, then some "encoders" that take pixel streams
+> from the display controllers and encode them into some wire format like
+> LVDS, HDMI, DSI or DP.
 >
->> +		...
->> +		};
->> +	};
->> -- 
->> 2.7.4
->>
+> Prohibiting suspension of any of the individual devices causes problems
+> because it effectively makes the whole composite display device not
+> suspendable.
+
+For PM-runtime, that shouldn't be a problem at all.
+
+PM-runtime is all about (possibly) saving energy by powering down
+devices that are not in use.  In particular, It is not about powering
+down any devices on demand for any reason other than idleness.
+Therefore in PM-runtime a situation in which a given device cannot be
+suspended at all is regarded as normal, even though that may not be
+desirable for energy-efficiency reasons.  It just means that the
+device is in use by somebody all the time.  Moreover, PM-runtime is
+designed to make it possible to resume devices at any time (as long as
+the hardware works as expected), as soon as they are needed, modulo
+some possible delays.  Actually, that's the purpose of a significant
+part of the PM-runtime framework.
+
+Accordingly, device drivers may refuse to suspend devices, but
+refusing to resume a device is not expected by PM-runtime.
+
+If writing "on" to the "control" file of a device does not cause it to
+be resumed (if suspended) and to stay in the "active" meta-state until
+"auto" is written to that file, you cannot really claim that
+PM-runtime is working correctly on your system.
+
+> Doing so in turn usually means that you can't change the
+> display configuration anymore because devices need to be powered up and
+> down in order to change the configuration.
+>
+> I consider powering up and down the devices a form of suspension. Hence
+> it seemed natural to implement using runtime PM.
+
+Unfortunately, that's not the case.
+
+The purpose of PM-runtime is to allow idle devices to be put into
+power states in which it may not be safe to access them and to make
+them go back into the "accessible and responsive" state whenever
+software wants/needs to access them in a coordinated fashion.  IOW, it
+kind of is a counterpart of CPU idle time management.
+
+> It sounds to me like userspace preventing runtime PM is problematic in
+> most scenarios that involve composite devices because it makes all of
+> the interactions between the devices a bit complicated.
+
+Even so, that's how it works.
+
+User space can expect to be able to block runtime suspend of devices
+at any level of device hierarchy, at least for diagnostics if nothing
+else, end the kernel is responsible for ensuring that.
+
+> > > but I would end up reimplementing some of the same concepts. I'd
+> > > rather use something that's supported by the PM core and that might be
+> > > useful to other drivers than reinvent the wheel.
+> >
+> > Which doesn't have to be by using PM-runtime suspend for the handling
+> > of system-wide suspend, at least in my view.
+>
+> Well, runtime PM is very convenient for this, though. It would allow the
+> same code paths to be used in all cases.
+
+The same low-level power-up and power-down code can be used in all
+cases, but PM-runtime is not low-level enough.  It is also
+opportunistic, so if you need to power down a device for reasons other
+than "natural" idleness, PM-runtime is not the right tool for that
+task.
+
+Of course, PM-runtime callbacks can invoke the low-level power-up and
+power-down code, but as you said there are reasons for powering down
+devices not just because they happen to be idle.  System-wide suspend
+is one of them.
