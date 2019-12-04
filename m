@@ -2,98 +2,183 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98657112296
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 06:40:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22DD8112420
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 09:05:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726053AbfLDFkr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Dec 2019 00:40:47 -0500
-Received: from mail-pl1-f172.google.com ([209.85.214.172]:41563 "EHLO
-        mail-pl1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725994AbfLDFkr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 00:40:47 -0500
-Received: by mail-pl1-f172.google.com with SMTP id bd4so2675440plb.8
-        for <linux-tegra@vger.kernel.org>; Tue, 03 Dec 2019 21:40:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=/nlaIN9YqTeVvOEvOaqRQ1YaBEeRTTUID5rlgxCfwdo=;
-        b=N6+eEjjOXNURHW7+/eOmwTJmKlUtN5Qio3JCf2wYAxAHhpfA7j0ofmB0X/H9nUGjo5
-         TjexCAQ6QRPCkhaW9R2l7OYDfhx+7HYGQJIJc4slotpuLNOGy601afmwwarinuAVupmy
-         DI2SqMagEVpIV1q7JRUeYCDsdqPbuylq1dBKArtS6sSPCHPEvfFdvZX5cQ9ZnkwtdIEv
-         13qX5PcwnTttpBuNmZ5S/fgjnH+8yDy/OHO+ewfkeBJXaJMsv0Tq8OWlMwVcg23S/yD0
-         qB+Ac/XAdASZpLHOeQggAnRdt78Sz7FYLnS9ZBWrFTh0/XgB5iAO75B8rb5n0XNfgBDC
-         rVaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/nlaIN9YqTeVvOEvOaqRQ1YaBEeRTTUID5rlgxCfwdo=;
-        b=C3svm4fU28ErNE8O8yYD1I8K2v1hfGUeRI0+j68y9k4F2ynKYZzDVpLBhLgVhKKgAh
-         yQGCdL0Ed+YaYKSNfvCi02yoYgPFeZvgZmQpvW2JV5joOMhL0HxjWT1TZfKOhrRlGy4a
-         VR8hSU+XOqaXvItwTP0WRwWfpvj64nLfm7yudMhPAok4Fb2NgpK7n5iwlNo+/Rnr/ugz
-         7tqM0Nfgih8icx1IF1LVWtGrbPR96YBAuEMoGNIiy2eRnCdZTAMAjASWLktl3+shpak1
-         j++fG/g47HCm6qMYznc2NMZrAABx37u316IHho2lBgbWVGVqdNU0I6gmHAwH7tmvvMOQ
-         +Pig==
-X-Gm-Message-State: APjAAAWBpW520A6G1RiuiDnQVqsiHiLNEQEvrVLB0nOGZlZwotLi6n2+
-        QVktVww8QWhZClD7L0rS5kugew==
-X-Google-Smtp-Source: APXvYqxZVKhH0TJuFE6+Z7bfpOYjA3Ow1d6WgjnXTPJIsZJlzXz8bQ9KYyuieRvJBl6AiMxxv823Kg==
-X-Received: by 2002:a17:90b:8cf:: with SMTP id ds15mr1477376pjb.134.1575438045902;
-        Tue, 03 Dec 2019 21:40:45 -0800 (PST)
-Received: from localhost ([122.171.112.123])
-        by smtp.gmail.com with ESMTPSA id x11sm5811790pfn.53.2019.12.03.21.40.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 03 Dec 2019 21:40:45 -0800 (PST)
-Date:   Wed, 4 Dec 2019 11:10:43 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Sumit Gupta <sumitg@nvidia.com>
-Cc:     rjw@rjwysocki.net, catalin.marinas@arm.com, will@kernel.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, talho@nvidia.com,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bbasu@nvidia.com, mperttunen@nvidia.com
-Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
-Message-ID: <20191204054043.o4ff7pnqec3fwdgu@vireshk-i7>
-References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
- <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
+        id S1727119AbfLDIFn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Dec 2019 03:05:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52874 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725951AbfLDIFn (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 4 Dec 2019 03:05:43 -0500
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1CB2F20640;
+        Wed,  4 Dec 2019 08:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575446741;
+        bh=4Hw9lWp6MYS1roMlvPfnLEYA+bo3DC0x2fFPmKaOglE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uEtCVoaJMD09CukTvWhpr/nzDplQfjsDB5w2UaNVVWgDqza0H6Hj4ABJvg9t8ESLw
+         wS0IqF2JWtyueuaBHYQ6v+E9IDoVDHfBlYOva15UOKiltZqM3UDsxN2PJ4FyZiCqlJ
+         uHxe4taqacBg7dEZj+qNssQ2EXeHaxU/JRMI+uk8=
+Date:   Wed, 4 Dec 2019 09:05:39 +0100
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     dri-devel@lists.freedesktop.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Abhinav Kumar <abhinavk@codeaurora.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Jitao Shi <jitao.shi@mediatek.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v1 07/26] drm/panel: remove get_timings
+Message-ID: <20191204080539.z2ovccj4kjsrpttm@gilmour.lan>
+References: <20191202193230.21310-1-sam@ravnborg.org>
+ <20191202193230.21310-8-sam@ravnborg.org>
+ <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
+ <20191203083935.GB30687@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="zbo7byqykz6hibco"
 Content-Disposition: inline
-In-Reply-To: <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20191203083935.GB30687@ravnborg.org>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Sumit,
 
-On 03-12-19, 23:02, Sumit Gupta wrote:
-> Add support for CPU frequency scaling on Tegra194. The frequency
-> of each core can be adjusted by writing a clock divisor value to
-> an MSR on the core. The range of valid divisors is queried from
-> the BPMP.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/cpufreq/Kconfig.arm        |   6 +
->  drivers/cpufreq/Makefile           |   1 +
->  drivers/cpufreq/tegra194-cpufreq.c | 423 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 430 insertions(+)
->  create mode 100644 drivers/cpufreq/tegra194-cpufreq.c
+--zbo7byqykz6hibco
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Overall these are the things that you are doing here in the driver:
+On Tue, Dec 03, 2019 at 09:39:36AM +0100, Sam Ravnborg wrote:
+> On Tue, Dec 03, 2019 at 08:46:59AM +0100, Maxime Ripard wrote:
+> > Hi,
+> >
+> > On Mon, Dec 02, 2019 at 08:32:11PM +0100, Sam Ravnborg wrote:
+> > > There was no users - so remove it.
+> > > The callback was implemented in two drivers - deleted.
+> > >
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: David Airlie <airlied@linux.ie>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > ---
+> > >  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c | 18 ------------------
+> > >  drivers/gpu/drm/panel/panel-simple.c        | 18 ------------------
+> > >  include/drm/drm_panel.h                     |  9 ---------
+> > >  3 files changed, 45 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> > > index b878930b17e4..3bcba64235c4 100644
+> > > --- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> > > +++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> > > @@ -217,30 +217,12 @@ static int seiko_panel_get_modes(struct drm_panel *panel,
+> > >  	return seiko_panel_get_fixed_modes(p, connector);
+> > >  }
+> > >
+> > > -static int seiko_panel_get_timings(struct drm_panel *panel,
+> > > -				    unsigned int num_timings,
+> > > -				    struct display_timing *timings)
+> > > -{
+> > > -	struct seiko_panel *p = to_seiko_panel(panel);
+> > > -	unsigned int i;
+> > > -
+> > > -	if (p->desc->num_timings < num_timings)
+> > > -		num_timings = p->desc->num_timings;
+> > > -
+> > > -	if (timings)
+> > > -		for (i = 0; i < num_timings; i++)
+> > > -			timings[i] = p->desc->timings[i];
+> > > -
+> > > -	return p->desc->num_timings;
+> > > -}
+> > > -
+> > >  static const struct drm_panel_funcs seiko_panel_funcs = {
+> > >  	.disable = seiko_panel_disable,
+> > >  	.unprepare = seiko_panel_unprepare,
+> > >  	.prepare = seiko_panel_prepare,
+> > >  	.enable = seiko_panel_enable,
+> > >  	.get_modes = seiko_panel_get_modes,
+> > > -	.get_timings = seiko_panel_get_timings,
+> > >  };
+> >
+> > If anything, I think we should grow the usage of timings and / or make
+> > it usable by everyone.
+> >
+> > Using only the mode as we do currently has a bunch of shortcomings as
+> > almost no encoder will be able to provide the typical pixel clock, and
+> > that situation leads to multiple things:
+> >
+> >   - If someone working on one encoder wants to upstream a panel they
+> >     have tested, chances are this will not be the typical pixel clock
+> >     / timings being used but rather the one that will match what that
+> >     SoC is capable of. Trouble comes when a second user comes in with
+> >     a different encoder and different capabilities, and then we have a
+> >     maintainance fight over which timing is the true timing (with a
+> >     significant chance that none of them are).
+> >
+> >   - If we can't match the pixel clock, we currently have no easy way
+> >     to make the usual measures of reducing / growing the porches and
+> >     blankings areas to match the pixel clock we can provide, since we
+> >     don't have an easy way to get the tolerance on those timings for a
+> >     given panel. There's some ad hoc solutions on some drivers (I
+> >     think vc4 has that?) to ignore the panel and just play around with
+> >     the timings, but I think this should be generalised.
+> >
+> > Timings solves the first case since we have the operating range now
+> > and not a single set of timings, and it solves the second since we can
+> > use that range to take those measures instead of taking a shot in the
+> > dark.
+> >
+> > I appreciate that it's pretty far from where we are today, but
+> > removing the get_timings means that all the timings already defined in
+> > the panel drivers are becoming useless too, and that eventually it
+> > will get removed.
+>
+> Thanks for this nice explanation. I will drop the patch,
+> and add an entry to my TODO list to look closer at this later.
+> There are things to improve in this area.
+>
+> So the conclusion is more work rather than removing code :-)
 
-- open coded clk_{get|set}_rate(), why can't you implement a clock
-  driver for the CPU and use the clk framework? You may not need the
-  (hacky) work-queue usage then probably.
+Yeah, unfortunately.. :)
 
-- populating cpufreq table, you can probably add OPPs instead using
-  the same mechanism
+Maxime
 
-- And then you can reuse the cpufreq-dt driver for your platform as
-  well, as is the case for few other tegra platforms.
+--zbo7byqykz6hibco
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-viresh
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXedo0wAKCRDj7w1vZxhR
+xfd0AP9Vt4GkG6OTb63xkfVRNr+vESfQY3qRIc1RQUyo98hYNAD/VlGCgKCQh5F4
+erCNwUBYU5DZjrI9H+0p1o4neRRPMQM=
+=tp+8
+-----END PGP SIGNATURE-----
+
+--zbo7byqykz6hibco--
