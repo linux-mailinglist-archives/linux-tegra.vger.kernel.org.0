@@ -2,1093 +2,566 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BF31112C59
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 14:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EA94112CC8
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 14:39:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727714AbfLDNLS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Dec 2019 08:11:18 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56438 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726215AbfLDNLS (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 08:11:18 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 889B12E5;
-        Wed,  4 Dec 2019 14:11:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575465069;
-        bh=Mf9w+P7BYj5heY2fTF3CwGf+2+dMzi+yqZ9BmY1UtAI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mlWzolgmOnXaQJfgX4ZMl/DsFk+tsvEA1VofvNjJv4A4DJdwlEixlJupAVppOpkaB
-         AsI+S4Hp9SrdgxFAkh7USGR46LABFO+kPhPtgDEBdENy6RJnpRuRdfcpvIhM2BpdLJ
-         mh4VNU/d/bRMSVHyg2HWOeIlPqfNdwrvxhYrQaP0=
-Date:   Wed, 4 Dec 2019 15:11:02 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Guido =?utf-8?Q?G=C3=BCnther?= <guido.gunther@puri.sm>
-Cc:     Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Abhinav Kumar <abhinavk@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Jitao Shi <jitao.shi@mediatek.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Purism Kernel Team <kernel@puri.sm>,
-        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Stefan Mavrodiev <stefan@olimex.com>,
-        Robert Chiras <robert.chiras@nxp.com>
-Subject: Re: [PATCH v1 05/26] drm/panel: add drm_connector argument to
- get_modes()
-Message-ID: <20191204131102.GA4852@pendragon.ideasonboard.com>
-References: <20191202193230.21310-1-sam@ravnborg.org>
- <20191202193230.21310-6-sam@ravnborg.org>
- <20191204120804.GC18094@bogon.m.sigxcpu.org>
+        id S1727703AbfLDNjY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Dec 2019 08:39:24 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:45392 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727530AbfLDNjY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 08:39:24 -0500
+Received: by mail-lf1-f66.google.com with SMTP id 203so6119865lfa.12;
+        Wed, 04 Dec 2019 05:39:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=S9tbWpEDvH3jkRFkGwC8aPnTNR6fsY39Cbyyt9rbgoI=;
+        b=h6qov3/XKL84xKOrBePPVQqqBofp8f2hd628fLHFyNDAJkHJr/SoPltlypCjCGDz5y
+         CIW9XIvZX6V7DmBXXn1NmEBnS2MSQG5CcF81aJlQqw6PRE/dsXdL/SBaFskSwQBpxYke
+         PwQv7aB4ULQiHKEae+o988dhMn9e339JZDUEJJJOMVxbgQ3/JrCZFlYAlu4abFOewgRH
+         NHADhMT/b04xdWZzXiPacKz8Ua9jJqJ8lHmCCwNSGsVb7dsRiBkPtkMxA8/uNkJg8cQL
+         TeUJStiUVKSTiawUAYjmohYQ1Qk35IUkjha7IIxsy+tcBB1XAOzLmMtZxLQx2wkOY1aF
+         lFcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=S9tbWpEDvH3jkRFkGwC8aPnTNR6fsY39Cbyyt9rbgoI=;
+        b=N4yGoqU9qWuH+CGjUAx5huxFEBuYyevJgA5FZrkqtwgGsVMjOhSEG1s6NN/GrkIm4n
+         mEGSHBGcD8jgb6wVvOgYHjZ5xUziJWMFOUEJ1xeQpniEvOjclwKETnul6vb1LHsm1MCN
+         ZJc6VSqICsxk5KlSdKXgiGHLYi4tuvqmjhW7nEH0cn94CJJjPePu84z9IneTRlP/bJIe
+         rY4Lel3GEqVP/kaQhWQSemNttmmNRDQPXB5eCDatkNE7w7U9XZK0CFek5qQ1vMfZKNrC
+         /YzPM/gV2NK2h8513v6m/w4Nm46QKeg+lRx30LrLA6PwXGIWK7gNzEDxJljxePzxa/g+
+         Nh4A==
+X-Gm-Message-State: APjAAAVtGDV9WO4ktyHHireOkelXxWo+UOYWPKAjNewCkJxsZYhOKTzP
+        52Zexapwq13nJudK3VkYqt89+XiM
+X-Google-Smtp-Source: APXvYqyo09lzKa9mf/p6BeETV90uX8OTCRUiSfqh2TQnhxGmZJxBMkSeh1LP9n2t9b1WfZ3bkhEJKA==
+X-Received: by 2002:a19:8104:: with SMTP id c4mr2077729lfd.191.1575466759756;
+        Wed, 04 Dec 2019 05:39:19 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id 145sm3146217ljj.69.2019.12.04.05.39.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Dec 2019 05:39:18 -0800 (PST)
+Subject: Re: [PATCH v2 02/11] soc: tegra: Add Tegra PMC clock registrations
+ into PMC driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, tglx@linutronix.de, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Cc:     allison@lohutok.net, pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        mturquette@baylibre.com, horms+renesas@verge.net.au,
+        Jisheng.Zhang@synaptics.com, krzk@kernel.org, arnd@arndb.de,
+        spujar@nvidia.com, josephl@nvidia.com, vidyas@nvidia.com,
+        daniel.lezcano@linaro.org, mmaddireddy@nvidia.com,
+        markz@nvidia.com, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1574830773-14892-1-git-send-email-skomatineni@nvidia.com>
+ <1574830773-14892-3-git-send-email-skomatineni@nvidia.com>
+ <749de44c-ec59-3cab-c02e-7b8fcb1fb9f4@gmail.com>
+ <3d1492a1-f2a5-2d56-5341-a28fcb73fe64@nvidia.com>
+ <484cb1bb-4fb2-9e71-87be-2bd5bd5b2348@gmail.com>
+ <e4ee58aa-c421-ea4b-a37b-574fc987c7c1@nvidia.com>
+ <e5da42b8-bf21-4b57-8ae6-37ce6ca4210c@gmail.com>
+ <bb4853a1-83d7-273d-50df-324570c4a4b8@nvidia.com>
+ <bd979864-b3e8-02b1-e0b0-869ddfa8ac67@nvidia.com>
+ <41508376-f30b-3761-47bf-c9c87db997dc@nvidia.com>
+ <348e9382-9978-0c01-1493-4226c1cd70a3@nvidia.com>
+ <74ff9e90-0969-bf53-444c-d643d342d0cb@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f9d85789-b847-ef88-dbd0-2883a45ed9c3@gmail.com>
+Date:   Wed, 4 Dec 2019 16:39:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
+In-Reply-To: <74ff9e90-0969-bf53-444c-d643d342d0cb@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191204120804.GC18094@bogon.m.sigxcpu.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Guido,
-
-On Wed, Dec 04, 2019 at 01:08:04PM +0100, Guido Günther wrote:
-> On Mon, Dec 02, 2019 at 08:32:09PM +0100, Sam Ravnborg wrote:
-> > Today the bridge creates the drm_connector, but that is planned
-> > to be moved to the display drivers.
+03.12.2019 19:45, Sowjanya Komatineni пишет:
 > 
-> Do you have a reference for that move at hand?
+> On 12/2/19 4:07 PM, Sowjanya Komatineni wrote:
+>>
+>> On 12/2/19 3:14 PM, Sowjanya Komatineni wrote:
+>>>
+>>> On 12/2/19 3:10 PM, Sowjanya Komatineni wrote:
+>>>>
+>>>> On 12/2/19 2:58 PM, Sowjanya Komatineni wrote:
+>>>>>
+>>>>> On 12/2/19 1:50 PM, Dmitry Osipenko wrote:
+>>>>>> 02.12.2019 23:09, Sowjanya Komatineni пишет:
+>>>>>>> On 11/28/19 5:25 AM, Dmitry Osipenko wrote:
+>>>>>>>> 28.11.2019 01:57, Sowjanya Komatineni пишет:
+>>>>>>>>> On 11/27/19 7:14 AM, Dmitry Osipenko wrote:
+>>>>>>>>>> 27.11.2019 07:59, Sowjanya Komatineni пишет:
+>>>>>>>>>>> Tegra210 and prior Tegra PMC has clk_out_1, clk_out_2,
+>>>>>>>>>>> clk_out_3 with
+>>>>>>>>>>> mux and gate for each of these clocks.
+>>>>>>>>>>>
+>>>>>>>>>>> Currently these PMC clocks are registered by Tegra clock
+>>>>>>>>>>> driver using
+>>>>>>>>>>> clk_register_mux and clk_register_gate by passing PMC base
+>>>>>>>>>>> address
+>>>>>>>>>>> and register offsets and PMC programming for these clocks
+>>>>>>>>>>> happens
+>>>>>>>>>>> through direct PMC access by the clock driver.
+>>>>>>>>>>>
+>>>>>>>>>>> With this, when PMC is in secure mode any direct PMC access
+>>>>>>>>>>> from the
+>>>>>>>>>>> non-secure world does not go through and these clocks will
+>>>>>>>>>>> not be
+>>>>>>>>>>> functional.
+>>>>>>>>>>>
+>>>>>>>>>>> This patch adds these clocks registration with PMC as a clock
+>>>>>>>>>>> provider
+>>>>>>>>>>> for these clocks. clk_ops callback implementations for these
+>>>>>>>>>>> clocks
+>>>>>>>>>>> uses tegra_pmc_readl and tegra_pmc_writel which supports PMC
+>>>>>>>>>>> programming
+>>>>>>>>>>> in secure mode and non-secure mode.
+>>>>>>>>>>>
+>>>>>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>>>>>>>> ---
+>>>>>>>>>>>     drivers/soc/tegra/pmc.c | 330
+>>>>>>>>>>> ++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>>>>>>>>     1 file changed, 330 insertions(+)
+>>>>>>>>>>>
+>>>>>>>>>>> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+>>>>>>>>>>> index ea0e11a09c12..a353f6d0a832 100644
+>>>>>>>>>>> --- a/drivers/soc/tegra/pmc.c
+>>>>>>>>>>> +++ b/drivers/soc/tegra/pmc.c
+>>>>>>>>>>> @@ -13,6 +13,9 @@
+>>>>>>>>>>>       #include <linux/arm-smccc.h>
+>>>>>>>>>>>     #include <linux/clk.h>
+>>>>>>>>>>> +#include <linux/clk-provider.h>
+>>>>>>>>>>> +#include <linux/clkdev.h>
+>>>>>>>>>>> +#include <linux/clk/clk-conf.h>
+>>>>>>>>>>>     #include <linux/clk/tegra.h>
+>>>>>>>>>>>     #include <linux/debugfs.h>
+>>>>>>>>>>>     #include <linux/delay.h>
+>>>>>>>>>>> @@ -48,6 +51,7 @@
+>>>>>>>>>>>     #include <dt-bindings/pinctrl/pinctrl-tegra-io-pad.h>
+>>>>>>>>>>>     #include <dt-bindings/gpio/tegra186-gpio.h>
+>>>>>>>>>>>     #include <dt-bindings/gpio/tegra194-gpio.h>
+>>>>>>>>>>> +#include <dt-bindings/soc/tegra-pmc.h>
+>>>>>>>>>>>       #define PMC_CNTRL            0x0
+>>>>>>>>>>>     #define  PMC_CNTRL_INTR_POLARITY    BIT(17) /* inverts INTR
+>>>>>>>>>>> polarity */
+>>>>>>>>>>> @@ -100,6 +104,7 @@
+>>>>>>>>>>>     #define PMC_WAKE2_STATUS        0x168
+>>>>>>>>>>>     #define PMC_SW_WAKE2_STATUS        0x16c
+>>>>>>>>>>>     +#define PMC_CLK_OUT_CNTRL        0x1a8
+>>>>>>>>>>>     #define PMC_SENSOR_CTRL            0x1b0
+>>>>>>>>>>>     #define  PMC_SENSOR_CTRL_SCRATCH_WRITE BIT(2)
+>>>>>>>>>>>     #define  PMC_SENSOR_CTRL_ENABLE_RST BIT(1)
+>>>>>>>>>>> @@ -155,6 +160,91 @@
+>>>>>>>>>>>     #define  TEGRA_SMC_PMC_READ    0xaa
+>>>>>>>>>>>     #define  TEGRA_SMC_PMC_WRITE    0xbb
+>>>>>>>>>>>     +struct pmc_clk_mux {
+>>>>>>>>>>> +    struct clk_hw    hw;
+>>>>>>>>>>> +    unsigned long    offs;
+>>>>>>>>>>> +    u32        mask;
+>>>>>>>>>>> +    u32        shift;
+>>>>>>>>>>> +};
+>>>>>>>>>>> +
+>>>>>>>>>>> +#define to_pmc_clk_mux(_hw) container_of(_hw, struct
+>>>>>>>>>>> pmc_clk_mux, hw)
+>>>>>>>>>>> +
+>>>>>>>>>>> +struct pmc_clk_gate {
+>>>>>>>>>>> +    struct clk_hw    hw;
+>>>>>>>>>>> +    unsigned long    offs;
+>>>>>>>>>>> +    u32        shift;
+>>>>>>>>>>> +};
+>>>>>>>>>>> +
+>>>>>>>>>>> +#define to_pmc_clk_gate(_hw) container_of(_hw, struct
+>>>>>>>>>>> pmc_clk_gate, hw)
+>>>>>>>>>>> +
+>>>>>>>>>>> +struct pmc_clk_init_data {
+>>>>>>>>>>> +    char *mux_name;
+>>>>>>>>>>> +    char *gate_name;
+>>>>>>>>>>> +    const char **parents;
+>>>>>>>>>>> +    int num_parents;
+>>>>>>>>>>> +    int mux_id;
+>>>>>>>>>>> +    int gate_id;
+>>>>>>>>>>> +    char *dev_name;
+>>>>>>>>>>> +    u8 mux_shift;
+>>>>>>>>>>> +    u8 gate_shift;
+>>>>>>>>>>> +    u8 init_parent_index;
+>>>>>>>>>>> +    int init_state;
+>>>>>>>>>>> +};
+>>>>>>>>>>> +
+>>>>>>>>>>> +static const char *clk_out1_parents[] = { "clk_m",
+>>>>>>>>>>> "clk_m_div2",
+>>>>>>>>>>> +    "clk_m_div4", "extern1",
+>>>>>>>>>>> +};
+>>>>>>>>>>> +
+>>>>>>>>>>> +static const char *clk_out2_parents[] = { "clk_m",
+>>>>>>>>>>> "clk_m_div2",
+>>>>>>>>>>> +    "clk_m_div4", "extern2",
+>>>>>>>>>>> +};
+>>>>>>>>>>> +
+>>>>>>>>>>> +static const char *clk_out3_parents[] = { "clk_m",
+>>>>>>>>>>> "clk_m_div2",
+>>>>>>>>>>> +    "clk_m_div4", "extern3",
+>>>>>>>>>>> +};
+>>>>>>>>>>> +
+>>>>>>>>>>> +static struct pmc_clk_init_data tegra_pmc_clks_data[] = {
+>>>>>>>>>>> +    {
+>>>>>>>>>>> +        .mux_name = "clk_out_1_mux",
+>>>>>>>>>>> +        .gate_name = "clk_out_1",
+>>>>>>>>>>> +        .parents = clk_out1_parents,
+>>>>>>>>>>> +        .num_parents = ARRAY_SIZE(clk_out1_parents),
+>>>>>>>>>>> +        .mux_id = TEGRA_PMC_CLK_OUT_1_MUX,
+>>>>>>>>>>> +        .gate_id = TEGRA_PMC_CLK_OUT_1,
+>>>>>>>>>>> +        .dev_name = "extern1",
+>>>>>>>>>>> +        .mux_shift = 6,
+>>>>>>>>>>> +        .gate_shift = 2,
+>>>>>>>>>>> +        .init_parent_index = 3,
+>>>>>>>>>>> +        .init_state = 1,
+>>>>>>>>>>> +    },
+>>>>>>>>>>> +    {
+>>>>>>>>>>> +        .mux_name = "clk_out_2_mux",
+>>>>>>>>>>> +        .gate_name = "clk_out_2",
+>>>>>>>>>>> +        .parents = clk_out2_parents,
+>>>>>>>>>>> +        .num_parents = ARRAY_SIZE(clk_out2_parents),
+>>>>>>>>>>> +        .mux_id = TEGRA_PMC_CLK_OUT_2_MUX,
+>>>>>>>>>>> +        .gate_id = TEGRA_PMC_CLK_OUT_2,
+>>>>>>>>>>> +        .dev_name = "extern2",
+>>>>>>>>>>> +        .mux_shift = 14,
+>>>>>>>>>>> +        .gate_shift = 10,
+>>>>>>>>>>> +        .init_parent_index = 0,
+>>>>>>>>>>> +        .init_state = 0,
+>>>>>>>>>>> +    },
+>>>>>>>>>>> +    {
+>>>>>>>>>>> +        .mux_name = "clk_out_3_mux",
+>>>>>>>>>>> +        .gate_name = "clk_out_3",
+>>>>>>>>>>> +        .parents = clk_out3_parents,
+>>>>>>>>>>> +        .num_parents = ARRAY_SIZE(clk_out3_parents),
+>>>>>>>>>>> +        .mux_id = TEGRA_PMC_CLK_OUT_3_MUX,
+>>>>>>>>>>> +        .gate_id = TEGRA_PMC_CLK_OUT_3,
+>>>>>>>>>>> +        .dev_name = "extern3",
+>>>>>>>>>>> +        .mux_shift = 22,
+>>>>>>>>>>> +        .gate_shift = 18,
+>>>>>>>>>>> +        .init_parent_index = 0,
+>>>>>>>>>>> +        .init_state = 0,
+>>>>>>>>>>> +    },
+>>>>>>>>>>> +};
+>>>>>>>>>>> +
+>>>>>>>>>>>     struct tegra_powergate {
+>>>>>>>>>>>         struct generic_pm_domain genpd;
+>>>>>>>>>>>         struct tegra_pmc *pmc;
+>>>>>>>>>>> @@ -254,6 +344,9 @@ struct tegra_pmc_soc {
+>>>>>>>>>>>          */
+>>>>>>>>>>>         const struct tegra_wake_event *wake_events;
+>>>>>>>>>>>         unsigned int num_wake_events;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    struct pmc_clk_init_data *pmc_clks_data;
+>>>>>>>>>>> +    unsigned int num_pmc_clks;
+>>>>>>>>>>>     };
+>>>>>>>>>>>       static const char * const tegra186_reset_sources[] = {
+>>>>>>>>>>> @@ -2163,6 +2256,228 @@ static int
+>>>>>>>>>>> tegra_pmc_clk_notify_cb(struct
+>>>>>>>>>>> notifier_block *nb,
+>>>>>>>>>>>         return NOTIFY_OK;
+>>>>>>>>>>>     }
+>>>>>>>>>>>     +static void pmc_clk_fence_udelay(u32 offset)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    tegra_pmc_readl(pmc, offset);
+>>>>>>>>>>> +    /* pmc clk propagation delay 2 us */
+>>>>>>>>>>> +    udelay(2);
+>>>>>>>>>>> +}
+>>>>>>>>>>> +
+>>>>>>>>>>> +static u8 pmc_clk_mux_get_parent(struct clk_hw *hw)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    struct pmc_clk_mux *mux = to_pmc_clk_mux(hw);
+>>>>>>>>>>> +    int num_parents = clk_hw_get_num_parents(hw);
+>>>>>>>>>>> +    u32 val;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    val = tegra_pmc_readl(pmc, mux->offs) >> mux->shift;
+>>>>>>>>>>> +    val &= mux->mask;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    if (val >= num_parents)
+>>>>>>>>>>> +        return -EINVAL;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    return val;
+>>>>>>>>>>> +}
+>>>>>>>>>>> +
+>>>>>>>>>>> +static int pmc_clk_mux_set_parent(struct clk_hw *hw, u8 index)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    struct pmc_clk_mux *mux = to_pmc_clk_mux(hw);
+>>>>>>>>>>> +    u32 val;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    val = tegra_pmc_readl(pmc, mux->offs);
+>>>>>>>>>>> +    val &= ~(mux->mask << mux->shift);
+>>>>>>>>>>> +    val |= index << mux->shift;
+>>>>>>>>>>> +    tegra_pmc_writel(pmc, val, mux->offs);
+>>>>>>>>>>> +    pmc_clk_fence_udelay(mux->offs);
+>>>>>>>>>>> +
+>>>>>>>>>>> +    return 0;
+>>>>>>>>>>> +}
+>>>>>>>>>>> +
+>>>>>>>>>>> +static const struct clk_ops pmc_clk_mux_ops = {
+>>>>>>>>>>> +    .get_parent = pmc_clk_mux_get_parent,
+>>>>>>>>>>> +    .set_parent = pmc_clk_mux_set_parent,
+>>>>>>>>>>> +    .determine_rate = __clk_mux_determine_rate,
+>>>>>>>>>>> +};
+>>>>>>>>>>> +
+>>>>>>>>>>> +static struct clk *
+>>>>>>>>>>> +tegra_pmc_clk_mux_register(const char *name, const char * const
+>>>>>>>>>>> *parent_names,
+>>>>>>>>>>> +               int num_parents, unsigned long flags,
+>>>>>>>>>>> +               unsigned long offset, u32 shift, u32 mask)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    struct clk_init_data init;
+>>>>>>>>>>> +    struct pmc_clk_mux *mux;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    mux = kzalloc(sizeof(*mux), GFP_KERNEL);
+>>>>>>>>>>> +    if (!mux)
+>>>>>>>>>>> +        return ERR_PTR(-ENOMEM);
+>>>>>>>>>>> +
+>>>>>>>>>>> +    init.name = name;
+>>>>>>>>>>> +    init.ops = &pmc_clk_mux_ops;
+>>>>>>>>>>> +    init.parent_names = parent_names;
+>>>>>>>>>>> +    init.num_parents = num_parents;
+>>>>>>>>>>> +    init.flags = flags;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    mux->hw.init = &init;
+>>>>>>>>>>> +    mux->offs = offset;
+>>>>>>>>>>> +    mux->mask = mask;
+>>>>>>>>>>> +    mux->shift = shift;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    return clk_register(NULL, &mux->hw);
+>>>>>>>>>>> +}
+>>>>>>>>>>> +
+>>>>>>>>>>> +static int pmc_clk_is_enabled(struct clk_hw *hw)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    struct pmc_clk_gate *gate = to_pmc_clk_gate(hw);
+>>>>>>>>>>> +
+>>>>>>>>>>> +    return tegra_pmc_readl(pmc, gate->offs) &
+>>>>>>>>>>> BIT(gate->shift) ? 1
+>>>>>>>>>>> : 0;
+>>>>>>>>>>> +}
+>>>>>>>>>>> +
+>>>>>>>>>>> +static void pmc_clk_set_state(struct clk_hw *hw, int state)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    struct pmc_clk_gate *gate = to_pmc_clk_gate(hw);
+>>>>>>>>>>> +    u32 val;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    val = tegra_pmc_readl(pmc, gate->offs);
+>>>>>>>>>>> +    val = state ? (val | BIT(gate->shift)) : (val &
+>>>>>>>>>>> ~BIT(gate->shift));
+>>>>>>>>>>> +    tegra_pmc_writel(pmc, val, gate->offs);
+>>>>>>>>>>> +    pmc_clk_fence_udelay(gate->offs);
+>>>>>>>>>>> +}
+>>>>>>>>>>> +
+>>>>>>>>>>> +static int pmc_clk_enable(struct clk_hw *hw)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    pmc_clk_set_state(hw, 1);
+>>>>>>>>>>> +
+>>>>>>>>>>> +    return 0;
+>>>>>>>>>>> +}
+>>>>>>>>>>> +
+>>>>>>>>>>> +static void pmc_clk_disable(struct clk_hw *hw)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    pmc_clk_set_state(hw, 0);
+>>>>>>>>>>> +}
+>>>>>>>>>>> +
+>>>>>>>>>>> +static const struct clk_ops pmc_clk_gate_ops = {
+>>>>>>>>>>> +    .is_enabled = pmc_clk_is_enabled,
+>>>>>>>>>>> +    .enable = pmc_clk_enable,
+>>>>>>>>>>> +    .disable = pmc_clk_disable,
+>>>>>>>>>>> +};
+>>>>>>>>>>> +
+>>>>>>>>>>> +static struct clk *
+>>>>>>>>>>> +tegra_pmc_clk_gate_register(const char *name, const char
+>>>>>>>>>>> *parent_name,
+>>>>>>>>>>> +                unsigned long flags, unsigned long offset,
+>>>>>>>>>>> +                u32 shift)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    struct clk_init_data init;
+>>>>>>>>>>> +    struct pmc_clk_gate *gate;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    gate = kzalloc(sizeof(*gate), GFP_KERNEL);
+>>>>>>>>>>> +    if (!gate)
+>>>>>>>>>>> +        return ERR_PTR(-ENOMEM);
+>>>>>>>>>>> +
+>>>>>>>>>>> +    init.name = name;
+>>>>>>>>>>> +    init.ops = &pmc_clk_gate_ops;
+>>>>>>>>>>> +    init.parent_names = &parent_name;
+>>>>>>>>>>> +    init.num_parents = 1;
+>>>>>>>>>>> +    init.flags = flags;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    gate->hw.init = &init;
+>>>>>>>>>>> +    gate->offs = offset;
+>>>>>>>>>>> +    gate->shift = shift;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    return clk_register(NULL, &gate->hw);
+>>>>>>>>>>> +}
+>>>>>>>>>>> +
+>>>>>>>>>>> +static void tegra_pmc_clock_register(struct tegra_pmc *pmc,
+>>>>>>>>>>> +                     struct device_node *np)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    struct clk *clkmux, *clk, *parent;
+>>>>>>>>>>> +    struct clk_onecell_data *clk_data;
+>>>>>>>>>>> +    unsigned int num_clks;
+>>>>>>>>>>> +    int i, ret;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    /* each pmc clock output has a mux and a gate */
+>>>>>>>>>>> +    num_clks = pmc->soc->num_pmc_clks * 2;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    if (!num_clks)
+>>>>>>>>>>> +        return;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    clk_data = kmalloc(sizeof(*clk_data), GFP_KERNEL);
+>>>>>>>>>>> +    if (!clk_data)
+>>>>>>>>>>> +        return;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    clk_data->clks = kcalloc(TEGRA_PMC_CLK_MAX,
+>>>>>>>>>>> sizeof(*clk_data->clks),
+>>>>>>>>>>> +                 GFP_KERNEL);
+>>>>>>>>>>> +    if (!clk_data->clks)
+>>>>>>>>>>> +        goto free_clkdata;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    clk_data->clk_num = num_clks;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    for (i = 0; i < pmc->soc->num_pmc_clks; i++) {
+>>>>>>>>>>> +        struct pmc_clk_init_data *data;
+>>>>>>>>>>> +
+>>>>>>>>>>> +        data = pmc->soc->pmc_clks_data + i;
+>>>>>>>>>>> +
+>>>>>>>>>>> +        clkmux = tegra_pmc_clk_mux_register(data->mux_name,
+>>>>>>>>>>> +                            data->parents,
+>>>>>>>>>>> + data->num_parents,
+>>>>>>>>>>> + CLK_SET_RATE_NO_REPARENT |
+>>>>>>>>>>> + CLK_SET_RATE_PARENT,
+>>>>>>>>>>> +                            PMC_CLK_OUT_CNTRL,
+>>>>>>>>>>> +                            data->mux_shift, 3);
+>>>>>>>>>>> +        if (IS_ERR(clkmux))
+>>>>>>>>>>> +            goto free_clks;
+>>>>>>>>>>> +
+>>>>>>>>>>> +        clk_data->clks[data->mux_id] = clkmux;
+>>>>>>>>>>> +
+>>>>>>>>>>> +        clk = tegra_pmc_clk_gate_register(data->gate_name,
+>>>>>>>>>>> +                          data->mux_name,
+>>>>>>>>>>> +                          CLK_SET_RATE_PARENT,
+>>>>>>>>>>> +                          PMC_CLK_OUT_CNTRL,
+>>>>>>>>>>> +                          data->gate_shift);
+>>>>>>>>>>> +        if (IS_ERR(clk))
+>>>>>>>>>>> +            goto free_clks;
+>>>>>>>>>>> +
+>>>>>>>>>>> +        clk_data->clks[data->gate_id] = clk;
+>>>>>>>>>>> +
+>>>>>>>>>>> +        ret = clk_set_parent(clk, clkmux);
+>>>>>>>>>>> +        if (ret < 0) {
+>>>>>>>>>>> +            pr_err("failed to set parent of %s to %s\n",
+>>>>>>>>>>> +                   __func__, __clk_get_name(clk),
+>>>>>>>>>>> +                   __clk_get_name(clkmux));
+>>>>>>>>>>> +        }
+>>>>>>>>>>> +
+>>>>>>>>>>> +        clk_register_clkdev(clk, data->dev_name,
+>>>>>>>>>>> data->gate_name);
+>>>>>>>>>>> +
+>>>>>>>>>>> +        /* configure initial clock parent and state */
+>>>>>>>>>>> +        parent = clk_get_sys(data->gate_name,
+>>>>>>>>>>> + data->parents[data->init_parent_index]);
+>>>>>> Couldn't the default parent be defined using "assigned clock" in a
+>>>>>> device-tree? Please see "Assigned clock parents and rates" in the
+>>>>>> doc.
+>>>>>>
+>>>>>> https://www.kernel.org/doc/Documentation/devicetree/bindings/clock/clock-bindings.txt
+>>>>>>
+>>>>>>
+>>>>>> Then you could simply use of_clk_set_defaults(pmc->dev->of_node,
+>>>>>> true).
+>>>>>
+>>>>> Yes, of_clk_add_provider() does of_clk_set_defaults which sets
+>>>>> based on assigned parents and clock rates.
+>>>>>
+>>>>> This need device tree to specify assigned clock parent properties.
+>>>>> Will update device tree and remove init parent from the driver.
+>>>>>
+>>>> assigned-clock properties should be set in consumer node of these
+>>>> clocks and currently these clocks are not used yet.
+>>>>
+>>>> So will just remove init parent from driver and when these clocks
+>>>> are used device tree can be updated in corresponding consumer node
+>>>> with these properties.
+>>>>
+>>> How about default ON/OFF init state for the clocks? I see
+>>> assigned-clock properties for parent and rate only.
+>>>
+>>> But based on existing clock-tegra-pmc driver, I see clk_out_1 is
+>>> default enabled with extern1 parent for T30 thru T210 platforms.
+>>>
+>>> Peter/Thierry, What was the reason we enable clk_out_1 right from the
+>>> clock registration?
+>>>
+>> clk_out_1 is for audio and its not required to be enabled during the
+>> boot and audio driver can enable/disable it.
+>>
+>> same with blink 32khz which is used for WIFI. WIFI driver can
+>> enable/disable during power up/down sequence and technically as per
+>> design we dont need to have it always on right from the boot.
+>>
+>> So can remove out clocks init states from driver once thierry also
+>> agree on this.
+>>
+> Hi Dmitry,
+> 
+> Looking at audio driver, it doesn't take care of mclk which is from
+> clk_out_1 and expects mclk to be always on.
+> 
+> So probably we should have this init state enables in pmc driver for
+> 32Khz and clk_out's to not break existing functionality.
 
-https://patchwork.kernel.org/cover/10805353/
+Hello Sowjanya,
 
-Not something that will be enforced right away, but I think it will
-simplify display controller drivers, so I'll advocate switching to that
-model.
+IIUC, it's a bug in the device-trees and sound's MCLK actually should be
+set to CLK_OUT_1 of PMC instead of CaR's EXTPERIPH1. If that's the case,
+then the device-trees need to be fixed.
 
-> > To facilitate this, update drm_panel_funcs.get_modes() to
-> > take drm_connector as an argument.
-> > All panel drivers implementing get_modes() are updated.
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Jagan Teki <jagan@amarulasolutions.com>
-> > Cc: Stefan Mavrodiev <stefan@olimex.com>
-> > Cc: Robert Chiras <robert.chiras@nxp.com>
-> > Cc: "Guido Günther" <agx@sigxcpu.org>
-> > Cc: Purism Kernel Team <kernel@puri.sm>
-> > ---
-> >  drivers/gpu/drm/drm_panel.c                   |  2 +-
-> >  drivers/gpu/drm/panel/panel-arm-versatile.c   |  4 +--
-> >  .../drm/panel/panel-feiyang-fy07024di26a30d.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-ilitek-ili9322.c  |  5 ++--
-> >  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c |  8 +++---
-> >  drivers/gpu/drm/panel/panel-innolux-p079zca.c | 13 +++++----
-> >  .../gpu/drm/panel/panel-jdi-lt070me05000.c    |  9 ++++---
-> >  .../drm/panel/panel-kingdisplay-kd097d04.c    | 11 ++++----
-> >  drivers/gpu/drm/panel/panel-lg-lb035q02.c     |  4 +--
-> >  drivers/gpu/drm/panel/panel-lg-lg4573.c       |  8 +++---
-> >  drivers/gpu/drm/panel/panel-lvds.c            |  4 +--
-> >  drivers/gpu/drm/panel/panel-nec-nl8048hl11.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-novatek-nt39016.c |  4 +--
-> >  .../drm/panel/panel-olimex-lcd-olinuxino.c    |  4 +--
-> >  .../gpu/drm/panel/panel-orisetech-otm8009a.c  |  9 ++++---
-> >  .../drm/panel/panel-osd-osd101t2587-53ts.c    |  9 ++++---
-> >  .../drm/panel/panel-panasonic-vvx10f034n00.c  |  9 ++++---
-> >  .../drm/panel/panel-raspberrypi-touchscreen.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-raydium-rm67191.c |  6 ++---
-> >  drivers/gpu/drm/panel/panel-raydium-rm68200.c |  9 ++++---
-> >  .../drm/panel/panel-rocktech-jh057n00900.c    |  9 ++++---
-> >  drivers/gpu/drm/panel/panel-ronbo-rb070d30.c  | 10 +++----
-> >  drivers/gpu/drm/panel/panel-samsung-ld9040.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-samsung-s6d16d0.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c |  4 +--
-> >  .../gpu/drm/panel/panel-samsung-s6e63j0x03.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-samsung-s6e63m0.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c   |  9 ++++---
-> >  .../gpu/drm/panel/panel-sharp-lq101r1sx01.c   |  9 ++++---
-> >  .../gpu/drm/panel/panel-sharp-ls037v7dw01.c   |  4 +--
-> >  .../gpu/drm/panel/panel-sharp-ls043t1le01.c   |  9 ++++---
-> >  drivers/gpu/drm/panel/panel-simple.c          | 27 ++++++++++---------
-> >  drivers/gpu/drm/panel/panel-sitronix-st7701.c |  9 ++++---
-> >  .../gpu/drm/panel/panel-sitronix-st7789v.c    |  8 +++---
-> >  drivers/gpu/drm/panel/panel-sony-acx565akm.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-tpo-td028ttec1.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-tpo-td043mtea1.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-tpo-tpg110.c      |  4 +--
-> >  drivers/gpu/drm/panel/panel-truly-nt35597.c   |  4 +--
-> >  include/drm/drm_panel.h                       |  3 ++-
-> >  41 files changed, 141 insertions(+), 130 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> > index 35609c90e467..9927e28d93e6 100644
-> > --- a/drivers/gpu/drm/drm_panel.c
-> > +++ b/drivers/gpu/drm/drm_panel.c
-> > @@ -252,7 +252,7 @@ int drm_panel_get_modes(struct drm_panel *panel)
-> >  		return -EINVAL;
-> >  
-> >  	if (panel->funcs && panel->funcs->get_modes)
-> > -		return panel->funcs->get_modes(panel);
-> > +		return panel->funcs->get_modes(panel, panel->connector);
-> >  
-> >  	return 0;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/gpu/drm/panel/panel-arm-versatile.c
-> > index a0574dc03e16..41aa91f60979 100644
-> > --- a/drivers/gpu/drm/panel/panel-arm-versatile.c
-> > +++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
-> > @@ -260,9 +260,9 @@ static int versatile_panel_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int versatile_panel_get_modes(struct drm_panel *panel)
-> > +static int versatile_panel_get_modes(struct drm_panel *panel,
-> > +				     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct versatile_panel *vpanel = to_versatile_panel(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-> > index 98f184b81187..37d6b7390954 100644
-> > --- a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-> > +++ b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-> > @@ -162,9 +162,9 @@ static const struct drm_display_mode feiyang_default_mode = {
-> >  	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-> >  };
-> >  
-> > -static int feiyang_get_modes(struct drm_panel *panel)
-> > +static int feiyang_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct feiyang *ctx = panel_to_feiyang(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-> > index 24955bec1958..8fd4c0521841 100644
-> > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-> > @@ -641,9 +641,9 @@ static const struct drm_display_mode itu_r_bt_656_720_mode = {
-> >  	.flags = 0,
-> >  };
-> >  
-> > -static int ili9322_get_modes(struct drm_panel *panel)
-> > +static int ili9322_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct ili9322 *ili = panel_to_ili9322(panel);
-> >  	struct drm_display_mode *mode;
-> >  	struct drm_display_info *info;
-> > @@ -655,7 +655,6 @@ static int ili9322_get_modes(struct drm_panel *panel)
-> >  		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE;
-> >  	else
-> >  		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE;
-> > -
-> >  	if (ili->conf->de_active_high)
-> >  		info->bus_flags |= DRM_BUS_FLAG_DE_HIGH;
-> >  	else
-> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> > index e8789e460a16..1c67a668d6bf 100644
-> > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> > @@ -387,9 +387,9 @@ static const struct drm_display_mode bananapi_default_mode = {
-> >  	.vtotal		= 1280 + 10 + 10 + 20,
-> >  };
-> >  
-> > -static int ili9881c_get_modes(struct drm_panel *panel)
-> > +static int ili9881c_get_modes(struct drm_panel *panel,
-> > +			      struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct ili9881c *ctx = panel_to_ili9881c(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -407,8 +407,8 @@ static int ili9881c_get_modes(struct drm_panel *panel)
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> >  	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 62;
-> > -	panel->connector->display_info.height_mm = 110;
-> > +	connector->display_info.width_mm = 62;
-> > +	connector->display_info.height_mm = 110;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-innolux-p079zca.c b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-> > index 83df1ac4211f..facf1bab2532 100644
-> > --- a/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-> > +++ b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-> > @@ -403,7 +403,8 @@ static const struct panel_desc innolux_p097pfg_panel_desc = {
-> >  	.sleep_mode_delay = 100, /* T15 */
-> >  };
-> >  
-> > -static int innolux_panel_get_modes(struct drm_panel *panel)
-> > +static int innolux_panel_get_modes(struct drm_panel *panel,
-> > +				   struct drm_connector *connector)
-> >  {
-> >  	struct innolux_panel *innolux = to_innolux_panel(panel);
-> >  	const struct drm_display_mode *m = innolux->desc->mode;
-> > @@ -418,13 +419,11 @@ static int innolux_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm =
-> > -			innolux->desc->size.width;
-> > -	panel->connector->display_info.height_mm =
-> > -			innolux->desc->size.height;
-> > -	panel->connector->display_info.bpc = innolux->desc->bpc;
-> > +	connector->display_info.width_mm = innolux->desc->size.width;
-> > +	connector->display_info.height_mm = innolux->desc->size.height;
-> > +	connector->display_info.bpc = innolux->desc->bpc;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-> > index 56364a93f0b8..e6b650a64fdb 100644
-> > --- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-> > +++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-> > @@ -300,7 +300,8 @@ static const struct drm_display_mode default_mode = {
-> >  		.flags = 0,
-> >  };
-> >  
-> > -static int jdi_panel_get_modes(struct drm_panel *panel)
-> > +static int jdi_panel_get_modes(struct drm_panel *panel,
-> > +			       struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  	struct jdi_panel *jdi = to_jdi_panel(panel);
-> > @@ -316,10 +317,10 @@ static int jdi_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 95;
-> > -	panel->connector->display_info.height_mm = 151;
-> > +	connector->display_info.width_mm = 95;
-> > +	connector->display_info.height_mm = 151;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-> > index 45f96556ec8c..e6f53d56daf9 100644
-> > --- a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-> > +++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-> > @@ -333,7 +333,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int kingdisplay_panel_get_modes(struct drm_panel *panel)
-> > +static int kingdisplay_panel_get_modes(struct drm_panel *panel,
-> > +				       struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -347,11 +348,11 @@ static int kingdisplay_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 147;
-> > -	panel->connector->display_info.height_mm = 196;
-> > -	panel->connector->display_info.bpc = 8;
-> > +	connector->display_info.width_mm = 147;
-> > +	connector->display_info.height_mm = 196;
-> > +	connector->display_info.bpc = 8;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-lg-lb035q02.c b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-> > index 7a1385e834f0..7a3bd4d80c79 100644
-> > --- a/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-> > +++ b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-> > @@ -141,9 +141,9 @@ static const struct drm_display_mode lb035q02_mode = {
-> >  	.height_mm = 53,
-> >  };
-> >  
-> > -static int lb035q02_get_modes(struct drm_panel *panel)
-> > +static int lb035q02_get_modes(struct drm_panel *panel,
-> > +			      struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &lb035q02_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-lg-lg4573.c b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-> > index db4865a4c2b9..fc6572b4e2f9 100644
-> > --- a/drivers/gpu/drm/panel/panel-lg-lg4573.c
-> > +++ b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-> > @@ -209,9 +209,9 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int lg4573_get_modes(struct drm_panel *panel)
-> > +static int lg4573_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > @@ -227,8 +227,8 @@ static int lg4573_get_modes(struct drm_panel *panel)
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> >  	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 61;
-> > -	panel->connector->display_info.height_mm = 103;
-> > +	connector->display_info.width_mm = 61;
-> > +	connector->display_info.height_mm = 103;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
-> > index 2405f26e5d31..f6d58a60e514 100644
-> > --- a/drivers/gpu/drm/panel/panel-lvds.c
-> > +++ b/drivers/gpu/drm/panel/panel-lvds.c
-> > @@ -106,10 +106,10 @@ static int panel_lvds_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int panel_lvds_get_modes(struct drm_panel *panel)
-> > +static int panel_lvds_get_modes(struct drm_panel *panel,
-> > +				struct drm_connector *connector)
-> >  {
-> >  	struct panel_lvds *lvds = to_panel_lvds(panel);
-> > -	struct drm_connector *connector = lvds->panel.connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_create(lvds->panel.drm);
-> > diff --git a/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c b/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c
-> > index fd593532ab23..a6ccdb09aace 100644
-> > --- a/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c
-> > +++ b/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c
-> > @@ -123,9 +123,9 @@ static const struct drm_display_mode nl8048_mode = {
-> >  	.height_mm = 53,
-> >  };
-> >  
-> > -static int nl8048_get_modes(struct drm_panel *panel)
-> > +static int nl8048_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &nl8048_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-> > index 60ccedce530c..91ea49c05611 100644
-> > --- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-> > +++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-> > @@ -206,11 +206,11 @@ static int nt39016_disable(struct drm_panel *drm_panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int nt39016_get_modes(struct drm_panel *drm_panel)
-> > +static int nt39016_get_modes(struct drm_panel *drm_panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> >  	struct nt39016 *panel = to_nt39016(drm_panel);
-> >  	const struct nt39016_panel_info *panel_info = panel->panel_info;
-> > -	struct drm_connector *connector = drm_panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(drm_panel->drm, &panel_info->display_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c b/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
-> > index 8738ef1b66dc..2b7e0dfebc5e 100644
-> > --- a/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
-> > +++ b/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
-> > @@ -141,10 +141,10 @@ static int lcd_olinuxino_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int lcd_olinuxino_get_modes(struct drm_panel *panel)
-> > +static int lcd_olinuxino_get_modes(struct drm_panel *panel,
-> > +				   struct drm_connector *connector)
-> >  {
-> >  	struct lcd_olinuxino *lcd = to_lcd_olinuxino(panel);
-> > -	struct drm_connector *connector = lcd->panel.connector;
-> >  	struct lcd_olinuxino_info *lcd_info = &lcd->eeprom.info;
-> >  	struct drm_device *drm = lcd->panel.drm;
-> >  	struct lcd_olinuxino_mode *lcd_mode;
-> > diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> > index bf1f928b215f..4e1606c79072 100644
-> > --- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> > +++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> > @@ -349,7 +349,8 @@ static int otm8009a_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int otm8009a_get_modes(struct drm_panel *panel)
-> > +static int otm8009a_get_modes(struct drm_panel *panel,
-> > +			      struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -364,10 +365,10 @@ static int otm8009a_get_modes(struct drm_panel *panel)
-> >  	drm_mode_set_name(mode);
-> >  
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = mode->width_mm;
-> > -	panel->connector->display_info.height_mm = mode->height_mm;
-> > +	connector->display_info.width_mm = mode->width_mm;
-> > +	connector->display_info.height_mm = mode->height_mm;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-> > index 2b40913899d8..b3e010288c10 100644
-> > --- a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-> > +++ b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-> > @@ -112,7 +112,8 @@ static const struct drm_display_mode default_mode_osd101t2587 = {
-> >  	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> >  };
-> >  
-> > -static int osd101t2587_panel_get_modes(struct drm_panel *panel)
-> > +static int osd101t2587_panel_get_modes(struct drm_panel *panel,
-> > +				       struct drm_connector *connector)
-> >  {
-> >  	struct osd101t2587_panel *osd101t2587 = ti_osd_panel(panel);
-> >  	struct drm_display_mode *mode;
-> > @@ -128,10 +129,10 @@ static int osd101t2587_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 217;
-> > -	panel->connector->display_info.height_mm = 136;
-> > +	connector->display_info.width_mm = 217;
-> > +	connector->display_info.height_mm = 136;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-> > index 664605071d34..19a6eb4637c8 100644
-> > --- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-> > +++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-> > @@ -166,7 +166,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int wuxga_nt_panel_get_modes(struct drm_panel *panel)
-> > +static int wuxga_nt_panel_get_modes(struct drm_panel *panel,
-> > +				    struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -180,10 +181,10 @@ static int wuxga_nt_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 217;
-> > -	panel->connector->display_info.height_mm = 136;
-> > +	connector->display_info.width_mm = 217;
-> > +	connector->display_info.height_mm = 136;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> > index 09824e92fc78..732b7111395e 100644
-> > --- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> > +++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> > @@ -311,9 +311,9 @@ static int rpi_touchscreen_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int rpi_touchscreen_get_modes(struct drm_panel *panel)
-> > +static int rpi_touchscreen_get_modes(struct drm_panel *panel,
-> > +				     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_device *drm = panel->drm;
-> >  	unsigned int i, num = 0;
-> >  	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> > diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67191.c b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-> > index fd67fc6185c4..123bb68cfcb7 100644
-> > --- a/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-> > +++ b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-> > @@ -436,9 +436,9 @@ static int rad_panel_disable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int rad_panel_get_modes(struct drm_panel *panel)
-> > +static int rad_panel_get_modes(struct drm_panel *panel,
-> > +			       struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > @@ -451,7 +451,7 @@ static int rad_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> >  	connector->display_info.width_mm = mode->width_mm;
-> >  	connector->display_info.height_mm = mode->height_mm;
-> > diff --git a/drivers/gpu/drm/panel/panel-raydium-rm68200.c b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-> > index 994e855721f4..66fa975308ec 100644
-> > --- a/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-> > +++ b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-> > @@ -335,7 +335,8 @@ static int rm68200_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int rm68200_get_modes(struct drm_panel *panel)
-> > +static int rm68200_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -350,10 +351,10 @@ static int rm68200_get_modes(struct drm_panel *panel)
-> >  	drm_mode_set_name(mode);
-> >  
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = mode->width_mm;
-> > -	panel->connector->display_info.height_mm = mode->height_mm;
-> > +	connector->display_info.width_mm = mode->width_mm;
-> > +	connector->display_info.height_mm = mode->height_mm;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c b/drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
-> > index 31234b79d3b1..b2d61cab3cad 100644
-> > --- a/drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
-> > +++ b/drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
-> > @@ -230,7 +230,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.height_mm   = 130,
-> >  };
-> >  
-> > -static int jh057n_get_modes(struct drm_panel *panel)
-> > +static int jh057n_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> >  	struct jh057n *ctx = panel_to_jh057n(panel);
-> >  	struct drm_display_mode *mode;
-> > @@ -246,9 +247,9 @@ static int jh057n_get_modes(struct drm_panel *panel)
-> >  	drm_mode_set_name(mode);
-> >  
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> > -	panel->connector->display_info.width_mm = mode->width_mm;
-> > -	panel->connector->display_info.height_mm = mode->height_mm;
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	connector->display_info.width_mm = mode->width_mm;
-> > +	connector->display_info.height_mm = mode->height_mm;
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> > index 170a5cda21b9..57a462ce221e 100644
-> > --- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> > +++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> > @@ -120,9 +120,9 @@ static const struct drm_display_mode default_mode = {
-> >  	.height_mm	= 85,
-> >  };
-> >  
-> > -static int rb070d30_panel_get_modes(struct drm_panel *panel)
-> > +static int rb070d30_panel_get_modes(struct drm_panel *panel,
-> > +				    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct rb070d30_panel *ctx = panel_to_rb070d30_panel(panel);
-> >  	struct drm_display_mode *mode;
-> >  	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> > @@ -140,9 +140,9 @@ static int rb070d30_panel_get_modes(struct drm_panel *panel)
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> >  	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.bpc = 8;
-> > -	panel->connector->display_info.width_mm = mode->width_mm;
-> > -	panel->connector->display_info.height_mm = mode->height_mm;
-> > +	connector->display_info.bpc = 8;
-> > +	connector->display_info.width_mm = mode->width_mm;
-> > +	connector->display_info.height_mm = mode->height_mm;
-> >  	drm_display_info_set_bus_formats(&connector->display_info,
-> >  					 &bus_format, 1);
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-ld9040.c b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > index 250809ba37c7..3c52f15f7a1c 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > @@ -261,9 +261,9 @@ static int ld9040_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int ld9040_get_modes(struct drm_panel *panel)
-> > +static int ld9040_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct ld9040 *ctx = panel_to_ld9040(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> > index e3a0397e953e..71939ab757b1 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> > @@ -143,9 +143,9 @@ static int s6d16d0_disable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int s6d16d0_get_modes(struct drm_panel *panel)
-> > +static int s6d16d0_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &samsung_s6d16d0_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-> > index 938ab72c5540..8e0236ba6145 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-> > @@ -645,9 +645,9 @@ static const struct s6e3ha2_panel_desc samsung_s6e3hf2 = {
-> >  	.type = HF2_TYPE,
-> >  };
-> >  
-> > -static int s6e3ha2_get_modes(struct drm_panel *panel)
-> > +static int s6e3ha2_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct s6e3ha2 *ctx = container_of(panel, struct s6e3ha2, panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-> > index a60635e9226d..c939d5bde4f0 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-> > @@ -400,9 +400,9 @@ static int s6e63j0x03_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int s6e63j0x03_get_modes(struct drm_panel *panel)
-> > +static int s6e63j0x03_get_modes(struct drm_panel *panel,
-> > +				struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-> > index ba01af0b14fd..1d099092e754 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-> > @@ -362,9 +362,9 @@ static int s6e63m0_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int s6e63m0_get_modes(struct drm_panel *panel)
-> > +static int s6e63m0_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-> > index dbced6501204..8a028d2bd0d6 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-> > @@ -920,9 +920,9 @@ static int s6e8aa0_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int s6e8aa0_get_modes(struct drm_panel *panel)
-> > +static int s6e8aa0_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct s6e8aa0 *ctx = panel_to_s6e8aa0(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-> > index b3619ba443bd..b878930b17e4 100644
-> > --- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-> > +++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-> > @@ -56,9 +56,9 @@ static inline struct seiko_panel *to_seiko_panel(struct drm_panel *panel)
-> >  	return container_of(panel, struct seiko_panel, base);
-> >  }
-> >  
-> > -static int seiko_panel_get_fixed_modes(struct seiko_panel *panel)
-> > +static int seiko_panel_get_fixed_modes(struct seiko_panel *panel,
-> > +				       struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->base.connector;
-> >  	struct drm_device *drm = panel->base.drm;
-> >  	struct drm_display_mode *mode;
-> >  	unsigned int i, num = 0;
-> > @@ -208,12 +208,13 @@ static int seiko_panel_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int seiko_panel_get_modes(struct drm_panel *panel)
-> > +static int seiko_panel_get_modes(struct drm_panel *panel,
-> > +				 struct drm_connector *connector)
-> >  {
-> >  	struct seiko_panel *p = to_seiko_panel(panel);
-> >  
-> >  	/* add hard-coded panel modes */
-> > -	return seiko_panel_get_fixed_modes(p);
-> > +	return seiko_panel_get_fixed_modes(p, connector);
-> >  }
-> >  
-> >  static int seiko_panel_get_timings(struct drm_panel *panel,
-> > diff --git a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-> > index 5e136c3ba185..e797b700661a 100644
-> > --- a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-> > +++ b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-> > @@ -278,7 +278,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int sharp_panel_get_modes(struct drm_panel *panel)
-> > +static int sharp_panel_get_modes(struct drm_panel *panel,
-> > +				 struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -292,10 +293,10 @@ static int sharp_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 217;
-> > -	panel->connector->display_info.height_mm = 136;
-> > +	connector->display_info.width_mm = 217;
-> > +	connector->display_info.height_mm = 136;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-> > index eeab7998c7de..7103a945f0e8 100644
-> > --- a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-> > +++ b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-> > @@ -100,9 +100,9 @@ static const struct drm_display_mode ls037v7dw01_mode = {
-> >  	.height_mm = 75,
-> >  };
-> >  
-> > -static int ls037v7dw01_get_modes(struct drm_panel *panel)
-> > +static int ls037v7dw01_get_modes(struct drm_panel *panel,
-> > +				 struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &ls037v7dw01_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-> > index b963ba4ab589..85ae6cffdbfb 100644
-> > --- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-> > +++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-> > @@ -210,7 +210,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int sharp_nt_panel_get_modes(struct drm_panel *panel)
-> > +static int sharp_nt_panel_get_modes(struct drm_panel *panel,
-> > +				    struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -224,10 +225,10 @@ static int sharp_nt_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 54;
-> > -	panel->connector->display_info.height_mm = 95;
-> > +	connector->display_info.width_mm = 54;
-> > +	connector->display_info.height_mm = 95;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> > index a5df6d6dd455..d6299fe6d276 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -117,9 +117,9 @@ static inline struct panel_simple *to_panel_simple(struct drm_panel *panel)
-> >  	return container_of(panel, struct panel_simple, base);
-> >  }
-> >  
-> > -static unsigned int panel_simple_get_timings_modes(struct panel_simple *panel)
-> > +static unsigned int panel_simple_get_timings_modes(struct panel_simple *panel,
-> > +						   struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->base.connector;
-> >  	struct drm_device *drm = panel->base.drm;
-> >  	struct drm_display_mode *mode;
-> >  	unsigned int i, num = 0;
-> > @@ -150,9 +150,9 @@ static unsigned int panel_simple_get_timings_modes(struct panel_simple *panel)
-> >  	return num;
-> >  }
-> >  
-> > -static unsigned int panel_simple_get_display_modes(struct panel_simple *panel)
-> > +static unsigned int panel_simple_get_display_modes(struct panel_simple *panel,
-> > +						   struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->base.connector;
-> >  	struct drm_device *drm = panel->base.drm;
-> >  	struct drm_display_mode *mode;
-> >  	unsigned int i, num = 0;
-> > @@ -181,9 +181,9 @@ static unsigned int panel_simple_get_display_modes(struct panel_simple *panel)
-> >  	return num;
-> >  }
-> >  
-> > -static int panel_simple_get_non_edid_modes(struct panel_simple *panel)
-> > +static int panel_simple_get_non_edid_modes(struct panel_simple *panel,
-> > +					   struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->base.connector;
-> >  	struct drm_device *drm = panel->base.drm;
-> >  	struct drm_display_mode *mode;
-> >  	bool has_override = panel->override_mode.type;
-> > @@ -204,7 +204,7 @@ static int panel_simple_get_non_edid_modes(struct panel_simple *panel)
-> >  
-> >  	/* Only add timings if override was not there or failed to validate */
-> >  	if (num == 0 && panel->desc->num_timings)
-> > -		num = panel_simple_get_timings_modes(panel);
-> > +		num = panel_simple_get_timings_modes(panel, connector);
-> >  
-> >  	/*
-> >  	 * Only add fixed modes if timings/override added no mode.
-> > @@ -214,7 +214,7 @@ static int panel_simple_get_non_edid_modes(struct panel_simple *panel)
-> >  	 */
-> >  	WARN_ON(panel->desc->num_timings && panel->desc->num_modes);
-> >  	if (num == 0)
-> > -		num = panel_simple_get_display_modes(panel);
-> > +		num = panel_simple_get_display_modes(panel, connector);
-> >  
-> >  	connector->display_info.bpc = panel->desc->bpc;
-> >  	connector->display_info.width_mm = panel->desc->size.width;
-> > @@ -304,23 +304,24 @@ static int panel_simple_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int panel_simple_get_modes(struct drm_panel *panel)
-> > +static int panel_simple_get_modes(struct drm_panel *panel,
-> > +				  struct drm_connector *connector)
-> >  {
-> >  	struct panel_simple *p = to_panel_simple(panel);
-> >  	int num = 0;
-> >  
-> >  	/* probe EDID if a DDC bus is available */
-> >  	if (p->ddc) {
-> > -		struct edid *edid = drm_get_edid(panel->connector, p->ddc);
-> > -		drm_connector_update_edid_property(panel->connector, edid);
-> > +		struct edid *edid = drm_get_edid(connector, p->ddc);
-> > +		drm_connector_update_edid_property(connector, edid);
-> >  		if (edid) {
-> > -			num += drm_add_edid_modes(panel->connector, edid);
-> > +			num += drm_add_edid_modes(connector, edid);
-> >  			kfree(edid);
-> >  		}
-> >  	}
-> >  
-> >  	/* add hard-coded panel modes */
-> > -	num += panel_simple_get_non_edid_modes(p);
-> > +	num += panel_simple_get_non_edid_modes(p, connector);
-> >  
-> >  	return num;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> > index ee3f23f45755..3ed3b1d6d82d 100644
-> > --- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> > +++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> > @@ -264,7 +264,8 @@ static int st7701_unprepare(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int st7701_get_modes(struct drm_panel *panel)
-> > +static int st7701_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> >  	struct st7701 *st7701 = panel_to_st7701(panel);
-> >  	const struct drm_display_mode *desc_mode = st7701->desc->mode;
-> > @@ -280,10 +281,10 @@ static int st7701_get_modes(struct drm_panel *panel)
-> >  	}
-> >  
-> >  	drm_mode_set_name(mode);
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = desc_mode->width_mm;
-> > -	panel->connector->display_info.height_mm = desc_mode->height_mm;
-> > +	connector->display_info.width_mm = desc_mode->width_mm;
-> > +	connector->display_info.height_mm = desc_mode->height_mm;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> > index 108a85bb6667..836b01331505 100644
-> > --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> > +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> > @@ -170,9 +170,9 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int st7789v_get_modes(struct drm_panel *panel)
-> > +static int st7789v_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > @@ -188,8 +188,8 @@ static int st7789v_get_modes(struct drm_panel *panel)
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> >  	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 61;
-> > -	panel->connector->display_info.height_mm = 103;
-> > +	connector->display_info.width_mm = 61;
-> > +	connector->display_info.height_mm = 103;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-> > index d6387d8f88a3..841dc73c443d 100644
-> > --- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-> > +++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-> > @@ -521,9 +521,9 @@ static const struct drm_display_mode acx565akm_mode = {
-> >  	.height_mm = 46,
-> >  };
-> >  
-> > -static int acx565akm_get_modes(struct drm_panel *panel)
-> > +static int acx565akm_get_modes(struct drm_panel *panel,
-> > +			       struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &acx565akm_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c b/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
-> > index c44d6a65c0aa..5230176bd8e6 100644
-> > --- a/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
-> > +++ b/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
-> > @@ -287,9 +287,9 @@ static const struct drm_display_mode td028ttec1_mode = {
-> >  	.height_mm = 58,
-> >  };
-> >  
-> > -static int td028ttec1_get_modes(struct drm_panel *panel)
-> > +static int td028ttec1_get_modes(struct drm_panel *panel,
-> > +				struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &td028ttec1_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
-> > index 621b65feec07..716f8ed1cc45 100644
-> > --- a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
-> > +++ b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
-> > @@ -346,9 +346,9 @@ static const struct drm_display_mode td043mtea1_mode = {
-> >  	.height_mm = 56,
-> >  };
-> >  
-> > -static int td043mtea1_get_modes(struct drm_panel *panel)
-> > +static int td043mtea1_get_modes(struct drm_panel *panel,
-> > +				struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &td043mtea1_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-> > index 1a5418ae2ccf..e74cd9d418cf 100644
-> > --- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-> > +++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-> > @@ -384,9 +384,9 @@ static int tpg110_enable(struct drm_panel *panel)
-> >   * presents the mode that is configured for the system under use,
-> >   * and which is detected by reading the registers of the display.
-> >   */
-> > -static int tpg110_get_modes(struct drm_panel *panel)
-> > +static int tpg110_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct tpg110 *tpg = to_tpg110(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-truly-nt35597.c b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-> > index 0feea2456e14..012ca62bf30e 100644
-> > --- a/drivers/gpu/drm/panel/panel-truly-nt35597.c
-> > +++ b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-> > @@ -454,9 +454,9 @@ static int truly_nt35597_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int truly_nt35597_get_modes(struct drm_panel *panel)
-> > +static int truly_nt35597_get_modes(struct drm_panel *panel,
-> > +				   struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct truly_nt35597 *ctx = panel_to_ctx(panel);
-> >  	struct drm_display_mode *mode;
-> >  	const struct nt35597_config *config;
-> > diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> > index d30c98567384..a5f7199807f2 100644
-> > --- a/include/drm/drm_panel.h
-> > +++ b/include/drm/drm_panel.h
-> > @@ -100,7 +100,8 @@ struct drm_panel_funcs {
-> >  	 * Add modes to the connector that the panel is attached to and
-> >  	 * return the number of modes added.
-> >  	 */
-> > -	int (*get_modes)(struct drm_panel *panel);
-> > +	int (*get_modes)(struct drm_panel *panel,
-> > +			 struct drm_connector *connector);
-> >  
-> >  	/**
-> >  	 * @get_timings:
+> Regarding using assigned-clock properties for init parent and removing
+> init parent from driver, it also needs consumer node in device tree to
+> be updated to specify assigned-clock properties for default/init parent.
+> 
+> This breaks device tree ABI as prior Tegra210 supports audio driver.
 
--- 
-Regards,
+So it's the sound node which should have had the assigned clocks in
+device-tree in order to define route for the audio MCLK clock from CaR
+to PMC.
 
-Laurent Pinchart
+Given that the audio clocks configuration is the same for all of the
+currently supported boards, I think it will be better to remove the
+entire audio clocks initialization from the clk drivers and move it all
+to the audio driver. It could be something like this:
+
+int tegra_asoc_utils_init(struct tegra_asoc_utils_data *data,
+			  struct device *dev)
+{
+	...
+
+	if (!of_find_property(dev->of_node, "assigned-clock-parents", NULL) &&
+	    tegra_get_chip_id() > TEGRA20) {
+		clk_extern1 = clk_get(dev, "extern1");
+		...
+		clk_set_parent(clk_extern1, clk_pll_a_out0);
+		...
+		clk_put(data->clk_cdev1);
+
+		data->clk_cdev1 = clk_out_1;
+	}
+	...
+
+So now the old device-trees will cointinue to work and new could have
+the assigned-clocks and set MCLK to CLK_OUT_1.
+
+[snip]
