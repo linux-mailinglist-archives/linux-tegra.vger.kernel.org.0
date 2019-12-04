@@ -2,209 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6988B112D1E
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 14:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 392D8112DCD
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 15:53:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727911AbfLDN73 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Dec 2019 08:59:29 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:33364 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727838AbfLDN73 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 08:59:29 -0500
-Received: by mail-lf1-f68.google.com with SMTP id n25so6260955lfl.0;
-        Wed, 04 Dec 2019 05:59:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8zHhqf7R6W4VbEhK1Fh6EJVqgzLfv6MucTwQijoUla4=;
-        b=u25w6ZjtBuftoUXGN+MQuIu1d46T6/KHTNrMtyvHVxXJxRP7x9pv303uGL/dIlrASk
-         eoptMCAfnCZnhRA3sWpYTjniGobb1ABtfR29mxPNJZRBk9x5zlgzFQBm8CnB5GSFNTNI
-         YDovwdYxZzWedDtsinctosqJGgXGI6G4Yry+H3Wk9DGUqsJdxCLUjx79U9C5pjqpv3fF
-         PDalB5S6CcW9Rc7AtgEE8MkvfCNnpjbfAI1VpuDxNpWWPic9K8ThOxs0/yanGnPoVFzB
-         YGlB48uBOJLR6pGO1Hw8sJzx9OdkFe8vreCcRV+B092zRYa+bUKw0dUppBwHgl3waiD6
-         vgFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8zHhqf7R6W4VbEhK1Fh6EJVqgzLfv6MucTwQijoUla4=;
-        b=PtyIMCMoFz4fIa+vmyp1C71Sabmwxw7YO6xtl7jol9h5VkVt/41o8fSZU5WINsLXEP
-         7HD3QGN2yeOV49mznUFdT8RfPZh29bZ03+XvElAbXZReOShP4/yoGENTpAU/hKOgvkJd
-         B0OKoqbmPSy4VWH+9R27w7XJIwxi4vfPcm0zYZ+cb8Pf7pROArbw1l+F3vv2XQksZL6m
-         yBDl2CrmRYoen2xqIxB6hjfsD7MT7ssFHeA7PrRcYEfsnC32IM9SGzDnnMmCsBsByPmb
-         D43JdY9gVaOgdqlKKWZtUHhoq/ez81/j3JGlZZ9PnZ7ollar9q1dwpwK3X3DOpRIIvx1
-         8WrQ==
-X-Gm-Message-State: APjAAAVHWy6PYYnAz8Kr9VEm1h4Kh6EWF/KiO8zeOo9CEUnpCWgG985r
-        ZcL6zs5LCD2SgmQ1zrVY+Jc=
-X-Google-Smtp-Source: APXvYqy85kPBJwLxdxCzYJ15kSt0dID8nFQF26japTZRpeRsDnFxO4T5/D/z9IZj52UxSN1iJcQxUg==
-X-Received: by 2002:ac2:4884:: with SMTP id x4mr2153525lfc.92.1575467966393;
-        Wed, 04 Dec 2019 05:59:26 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id l28sm3317173lfk.21.2019.12.04.05.59.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Dec 2019 05:59:25 -0800 (PST)
-Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
-To:     Sumit Gupta <sumitg@nvidia.com>, rjw@rjwysocki.net,
-        viresh.kumar@linaro.org, catalin.marinas@arm.com, will@kernel.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, talho@nvidia.com,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     bbasu@nvidia.com, mperttunen@nvidia.com
-References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
- <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9f7521aa-4f9a-6dc2-60e0-2f9916656748@gmail.com>
-Date:   Wed, 4 Dec 2019 16:59:25 +0300
+        id S1727961AbfLDOxa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Dec 2019 09:53:30 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10230 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727889AbfLDOx3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 09:53:29 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5de7c8640000>; Wed, 04 Dec 2019 06:53:25 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 04 Dec 2019 06:53:28 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 04 Dec 2019 06:53:28 -0800
+Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 4 Dec
+ 2019 14:53:26 +0000
+Subject: Re: [PATCH 4.19 000/321] 4.19.88-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-kernel@vger.kernel.org>, <torvalds@linux-foundation.org>,
+        <akpm@linux-foundation.org>, <linux@roeck-us.net>,
+        <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191203223427.103571230@linuxfoundation.org>
+ <79c636e7-145b-3062-04a3-f03c78d51318@nvidia.com>
+ <20191204112936.GA3565947@kroah.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <4f1552b1-ff6b-7342-b66e-04685aacf6ea@nvidia.com>
+Date:   Wed, 4 Dec 2019 14:53:24 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191204112936.GA3565947@kroah.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1575471205; bh=pKQ4dcP1Vhq7519pIbBUF5wIUt54ljjOZI1JZjZzBpA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=kqxgzo71shZdTNaZbvnM0+x+fnWmZn5TbLgZO1InYj3brllXzFQSUnuPIRZDrYrQb
+         Ir4YqZ+lriKcvLrmTHS5r0HvlE1stBlo+zJ6n/85rvO4BFmXYKPEZWycKM8AO4JBFm
+         hJq63SlU0MYQXNYYSr4IFuh6yUnrStunXbGmfh9es7tvJ68tyJETKU4iH2Ok0qi1hm
+         rHKiLghwuPoK9OWyOzAMsu8DNdsAfpIX7q+Bi9MJf/ZcK91h931nq+2ktvQQtsbmjY
+         a19FJaax48W4TxHmzx8k14t7H+4iZXSc+u/x3ozuEt95dgOosw9siqXFMyNhscpXQE
+         VXlbfU2wD1YYw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.12.2019 20:32, Sumit Gupta пишет:
-> Add support for CPU frequency scaling on Tegra194. The frequency
-> of each core can be adjusted by writing a clock divisor value to
-> an MSR on the core. The range of valid divisors is queried from
-> the BPMP.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/cpufreq/Kconfig.arm        |   6 +
->  drivers/cpufreq/Makefile           |   1 +
->  drivers/cpufreq/tegra194-cpufreq.c | 423 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 430 insertions(+)
->  create mode 100644 drivers/cpufreq/tegra194-cpufreq.c
-> 
-> diff --git a/drivers/cpufreq/Kconfig.arm b/drivers/cpufreq/Kconfig.arm
-> index a905796..4bcd47c 100644
-> --- a/drivers/cpufreq/Kconfig.arm
-> +++ b/drivers/cpufreq/Kconfig.arm
-> @@ -320,6 +320,12 @@ config ARM_TEGRA186_CPUFREQ
->  	help
->  	  This adds the CPUFreq driver support for Tegra186 SOCs.
->  
-> +config ARM_TEGRA194_CPUFREQ
-> +	tristate "Tegra194 CPUFreq support"
-> +	depends on ARCH_TEGRA && TEGRA_BPMP
-> +	help
-> +	  This adds CPU frequency driver support for Tegra194 SOCs.
-> +
->  config ARM_TI_CPUFREQ
->  	bool "Texas Instruments CPUFreq support"
->  	depends on ARCH_OMAP2PLUS
-> diff --git a/drivers/cpufreq/Makefile b/drivers/cpufreq/Makefile
-> index 9a9f5cc..433d492 100644
-> --- a/drivers/cpufreq/Makefile
-> +++ b/drivers/cpufreq/Makefile
-> @@ -85,6 +85,7 @@ obj-$(CONFIG_ARM_TANGO_CPUFREQ)		+= tango-cpufreq.o
->  obj-$(CONFIG_ARM_TEGRA20_CPUFREQ)	+= tegra20-cpufreq.o
->  obj-$(CONFIG_ARM_TEGRA124_CPUFREQ)	+= tegra124-cpufreq.o
->  obj-$(CONFIG_ARM_TEGRA186_CPUFREQ)	+= tegra186-cpufreq.o
-> +obj-$(CONFIG_ARM_TEGRA194_CPUFREQ)	+= tegra194-cpufreq.o
->  obj-$(CONFIG_ARM_TI_CPUFREQ)		+= ti-cpufreq.o
->  obj-$(CONFIG_ARM_VEXPRESS_SPC_CPUFREQ)	+= vexpress-spc-cpufreq.o
->  
-> diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
-> new file mode 100644
-> index 0000000..9df12f4
-> --- /dev/null
-> +++ b/drivers/cpufreq/tegra194-cpufreq.c
-> @@ -0,0 +1,423 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved
-> + */
-> +
-> +#include <linux/cpu.h>
-> +#include <linux/cpufreq.h>
-> +#include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +
-> +#include <asm/smp_plat.h>
-> +
-> +#include <soc/tegra/bpmp.h>
-> +#include <soc/tegra/bpmp-abi.h>
-> +
-> +#define KHZ                     1000
-> +#define REF_CLK_MHZ             408 /* 408 MHz */
-> +#define US_DELAY                2000
-> +#define US_DELAY_MIN            2
-> +#define CPUFREQ_TBL_STEP_HZ     (50 * KHZ * KHZ)
-> +#define MAX_CNT                 ~0U
-> +
-> +/* cpufreq transisition latency */
-> +#define TEGRA_CPUFREQ_TRANSITION_LATENCY (300 * 1000) /* unit in nanoseconds */
-> +
-> +enum cluster {
-> +	CLUSTER0,
-> +	CLUSTER1,
-> +	CLUSTER2,
-> +	CLUSTER3,
-> +	MAX_CLUSTERS,
-> +};
-> +
-> +struct tegra194_cpufreq_data {
-> +	void __iomem *regs;
-> +	size_t num_clusters;
-> +	struct cpufreq_frequency_table **tables;
-> +};
-> +
-> +static DEFINE_MUTEX(cpufreq_lock);
-> +
-> +struct tegra_cpu_ctr {
-> +	u32 cpu;
-> +	u32 delay;
-> +	u32 coreclk_cnt, last_coreclk_cnt;
-> +	u32 refclk_cnt, last_refclk_cnt;
-> +};
-> +
-> +static struct workqueue_struct *read_counters_wq;
-> +struct read_counters_work {
-> +	struct work_struct work;
-> +	struct tegra_cpu_ctr c;
-> +};
-> +
-> +static enum cluster get_cpu_cluster(u8 cpu)
-> +{
-> +	return MPIDR_AFFINITY_LEVEL(cpu_logical_map(cpu), 1);
-> +}
-> +
-> +/*
-> + * Read per-core Read-only system register NVFREQ_FEEDBACK_EL1.
-> + * The register provides frequency feedback information to
-> + * determine the average actual frequency a core has run at over
-> + * a period of time.
-> + *	[31:0] PLLP counter: Counts at fixed frequency (408 MHz)
-> + *	[63:32] Core clock counter: counts on every core clock cycle
-> + *			where the core is architecturally clocking
-> + */
-> +static u64 read_freq_feedback(void)
-> +{
-> +	u64 val = 0;
-> +
-> +	asm volatile("mrs %0, s3_0_c15_c0_5" : "=r" (val) : );
-> +
-> +	return val;
-> +}
-> +
-> +u16 map_freq_to_ndiv(struct mrq_cpu_ndiv_limits_response *nltbl, u32 freq)
-> +{
-> +	return DIV_ROUND_UP(freq * nltbl->pdiv * nltbl->mdiv,
-> +			    nltbl->ref_clk_hz / KHZ);
-> +}
 
-This function isn't used anywhere.
+On 04/12/2019 11:29, Greg Kroah-Hartman wrote:
+> On Wed, Dec 04, 2019 at 09:45:31AM +0000, Jon Hunter wrote:
+>>
+>> On 03/12/2019 22:31, Greg Kroah-Hartman wrote:
+>>> This is the start of the stable review cycle for the 4.19.88 release.
+>>> There are 321 patches in this series, all will be posted as a response
+>>> to this one.  If anyone has any issues with these being applied, please
+>>> let me know.
+>>>
+>>> Responses should be made by Thu, 05 Dec 2019 22:30:32 +0000.
+>>> Anything received after that time might be too late.
+>>>
+>>> The whole patch series can be found in one patch at:
+>>> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.88-rc1.gz
+>>> or in the git tree and branch at:
+>>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+>>> and the diffstat can be found below.
+>>>
+>>> thanks,
+>>>
+>>> greg k-h
+>>>
+>>> -------------
+>>> Pseudo-Shortlog of commits:
+>>
+>> ...
+>>
+>>> Ding Tao <miyatsu@qq.com>
+>>>     arm64: dts: marvell: armada-37xx: Enable emmc on espressobin
+>>
+>> The above commit is causing the following build failure for ARM64 ...
+>>
+>>   DTC     arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb
+>> arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: ERROR
+>> (phandle_references): /soc/internal-regs@d0000000/sdhci@d0000: Reference
+>> to non-existent node or label "sdio_pins"
+>>
+>> arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: ERROR
+>> (phandle_references): /soc/internal-regs@d0000000/sdhci@d8000: Reference
+>> to non-existent node or label "mmc_pins"
+> 
+> Thanks for letting me know, I'll go drop this one and push out a -rc2
+> with that removed.
+
+
+Great! All tests now passing for Tegra ...
+
+Test results for stable-v4.19:
+    13 builds:	13 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    32 tests:	32 pass, 0 fail
+
+Linux version:	4.19.88-rc2-gba731ec12c66
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
