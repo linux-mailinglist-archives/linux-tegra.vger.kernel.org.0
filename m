@@ -2,125 +2,103 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 392D8112DCD
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 15:53:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F670112E2F
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 16:22:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727961AbfLDOxa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Dec 2019 09:53:30 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10230 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727889AbfLDOx3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 09:53:29 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5de7c8640000>; Wed, 04 Dec 2019 06:53:25 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 04 Dec 2019 06:53:28 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 04 Dec 2019 06:53:28 -0800
-Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 4 Dec
- 2019 14:53:26 +0000
-Subject: Re: [PATCH 4.19 000/321] 4.19.88-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-kernel@vger.kernel.org>, <torvalds@linux-foundation.org>,
-        <akpm@linux-foundation.org>, <linux@roeck-us.net>,
-        <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20191203223427.103571230@linuxfoundation.org>
- <79c636e7-145b-3062-04a3-f03c78d51318@nvidia.com>
- <20191204112936.GA3565947@kroah.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <4f1552b1-ff6b-7342-b66e-04685aacf6ea@nvidia.com>
-Date:   Wed, 4 Dec 2019 14:53:24 +0000
+        id S1728137AbfLDPWY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Dec 2019 10:22:24 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:38133 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727828AbfLDPWY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 10:22:24 -0500
+Received: by mail-lj1-f196.google.com with SMTP id k8so8566196ljh.5;
+        Wed, 04 Dec 2019 07:22:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WXE7XkNkgq5Ryc0BGF4vj9reI7uFX8qbQNcWUJ9ADaM=;
+        b=Dt448IQC2i0MNywuhrWBQNwAfVB6y4dypqdsH8rJGV+Q0SX59JzVMydSBS5SHecLFp
+         Ye248dKB6j2KXx8qgkQm3TwsZvIpmuQxYly/o+n3mCZlWwQGs68yz1X97ZWuP1++3TeM
+         XWv+ozQzT3uGiyi96IAI4XVc/oZ/b28zpIqBuillI2UI8o8wv2fdszK8sW82Miau8GDW
+         9wXeKdYste/uAwf9QIztwYcQb3AnEgWzMjkUpFX9f8rTKPdJC5nKn9gamMvK4YQP6cki
+         le6rArl7NhyJT0nU5GfyNXwraQaH0vrrBIpYnR+OOgMyZeiiUrA3SsqQS9JA84bvg9B5
+         1YQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WXE7XkNkgq5Ryc0BGF4vj9reI7uFX8qbQNcWUJ9ADaM=;
+        b=IZQqB+zZ51O5nIXN6wGRfBuVRqAtrKOobXM2yrM+46I0smMBst+SmaodWZLfe8wY/h
+         yx0d89e8TXSC7YW3aZZNMnR2oec/5f4n3LURyRKxlBAoJ3iW0rGmzKttxkKOMH2SivYB
+         E90kPpMLQ+CDt5BGoHEhgiR0hiKte7AQ0FTWqFgrjD8qfhaLDnMUsCPd6hR8Sc6yUG1/
+         FW0ouon0kCMn1UczQ+cBppYIPTgtrzorrTo2pPtqPEwvDrq/mcAR0wrVaCi6BN+8zIsA
+         Yd7fkrmADaxSZUtoE5a5odWkGBjE1Abjd9zgRp1wqcKzbmRA1brOutyUf8APvBwyiD/Z
+         +NGg==
+X-Gm-Message-State: APjAAAUMUDuizf0H1kRkbQJSV1b0YFHPOSn4p8jiX0gIDXolnF6lLI+7
+        vktwR82TLrxBGPXv1dMDSFSXhD5d
+X-Google-Smtp-Source: APXvYqz3fKbBicJVvkmjihgLoVHT6+C2GHcFXQ6wv1iu18C+Hc2xtjyoHdsZN0PNeriXbCu/IO5Fng==
+X-Received: by 2002:a2e:90c6:: with SMTP id o6mr2363361ljg.93.1575472941563;
+        Wed, 04 Dec 2019 07:22:21 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id a24sm3289856ljp.97.2019.12.04.07.22.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Dec 2019 07:22:20 -0800 (PST)
+Subject: Re: [PATCH 2/2] drm/tegra: Do not implement runtime PM
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+References: <20191203162733.1436800-1-thierry.reding@gmail.com>
+ <20191203162733.1436800-2-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <3d2b4fed-d2e6-bb4a-c94b-d493ba836661@gmail.com>
+Date:   Wed, 4 Dec 2019 18:22:19 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191204112936.GA3565947@kroah.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191203162733.1436800-2-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1575471205; bh=pKQ4dcP1Vhq7519pIbBUF5wIUt54ljjOZI1JZjZzBpA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=kqxgzo71shZdTNaZbvnM0+x+fnWmZn5TbLgZO1InYj3brllXzFQSUnuPIRZDrYrQb
-         Ir4YqZ+lriKcvLrmTHS5r0HvlE1stBlo+zJ6n/85rvO4BFmXYKPEZWycKM8AO4JBFm
-         hJq63SlU0MYQXNYYSr4IFuh6yUnrStunXbGmfh9es7tvJ68tyJETKU4iH2Ok0qi1hm
-         rHKiLghwuPoK9OWyOzAMsu8DNdsAfpIX7q+Bi9MJf/ZcK91h931nq+2ktvQQtsbmjY
-         a19FJaax48W4TxHmzx8k14t7H+4iZXSc+u/x3ozuEt95dgOosw9siqXFMyNhscpXQE
-         VXlbfU2wD1YYw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 04/12/2019 11:29, Greg Kroah-Hartman wrote:
-> On Wed, Dec 04, 2019 at 09:45:31AM +0000, Jon Hunter wrote:
->>
->> On 03/12/2019 22:31, Greg Kroah-Hartman wrote:
->>> This is the start of the stable review cycle for the 4.19.88 release.
->>> There are 321 patches in this series, all will be posted as a response
->>> to this one.  If anyone has any issues with these being applied, please
->>> let me know.
->>>
->>> Responses should be made by Thu, 05 Dec 2019 22:30:32 +0000.
->>> Anything received after that time might be too late.
->>>
->>> The whole patch series can be found in one patch at:
->>> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.88-rc1.gz
->>> or in the git tree and branch at:
->>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
->>> and the diffstat can be found below.
->>>
->>> thanks,
->>>
->>> greg k-h
->>>
->>> -------------
->>> Pseudo-Shortlog of commits:
->>
->> ...
->>
->>> Ding Tao <miyatsu@qq.com>
->>>     arm64: dts: marvell: armada-37xx: Enable emmc on espressobin
->>
->> The above commit is causing the following build failure for ARM64 ...
->>
->>   DTC     arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb
->> arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: ERROR
->> (phandle_references): /soc/internal-regs@d0000000/sdhci@d0000: Reference
->> to non-existent node or label "sdio_pins"
->>
->> arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: ERROR
->> (phandle_references): /soc/internal-regs@d0000000/sdhci@d8000: Reference
->> to non-existent node or label "mmc_pins"
+03.12.2019 19:27, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> Thanks for letting me know, I'll go drop this one and push out a -rc2
-> with that removed.
+> The Tegra DRM driver heavily relies on the implementations for runtime
+> suspend/resume to be called at specific times. Unfortunately, there are
+> some cases where that doesn't work. One example is if the user disables
+> runtime PM for a given subdevice. Another example is that the PM core
+> acquires a reference to runtime PM during system sleep, effectively
+> preventing devices from going into low power modes. This is intentional
+> to avoid nasty race conditions, but it also causes system sleep to not
+> function properly on all Tegra systems.
+> 
+> Fix this by not implementing runtime PM at all. Instead, a minimal,
+> reference-counted suspend/resume infrastructure is added to the host1x
+> bus. This has the benefit that it can be used regardless of the system
+> power state (or any transitions we might be in), or whether or not the
+> user allows runtime PM.
+> 
+> Atomic modesetting guarantees that these functions will end up being
+> called at the right point in time, so the pitfalls for the more generic
+> runtime PM do not apply here.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
 
+Couldn't we just use pm_runtime_force_suspend/resume whenever it is
+necessary to enforce the suspend/resume?
 
-Great! All tests now passing for Tegra ...
+I briefly looked through the previous discussion and don't see why the
+forced suspend/resume isn't suitable. Please excuse me if I'm missing
+the point.
 
-Test results for stable-v4.19:
-    13 builds:	13 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    32 tests:	32 pass, 0 fail
-
-Linux version:	4.19.88-rc2-gba731ec12c66
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Cheers
-Jon
-
--- 
-nvpublic
+Why planes/outputs need to care about resuming DC controller at all?
+Doesn't DRM core take care of enabling DC for us by enabling CRTC before
+planes/outputs are enabled?
