@@ -2,109 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FE101130A6
-	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 18:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8023211357D
+	for <lists+linux-tegra@lfdr.de>; Wed,  4 Dec 2019 20:11:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728054AbfLDRSW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Dec 2019 12:18:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56974 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726934AbfLDRSW (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 4 Dec 2019 12:18:22 -0500
-Received: from localhost (unknown [217.68.49.72])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 66F622064B;
-        Wed,  4 Dec 2019 17:18:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575479901;
-        bh=dEMb+VVPBIAIGBDAsgEQgpSLLBrYItHfqL/OySsZkUY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Pd8pH20A4x0UvWGanCmL8j9siUgnP4y1cfNyzvC8sVhQCMxjjJdFhGhKyFYlKz38L
-         V1ajbW5UVPDikPnHSJ/jnznxynaiedRX6zyIvn2BFNdAjKt7s0wdFjJrR1bNMVidwA
-         YcoWsPNqL99BOYnwlfuY5746jnr6MMMpYHWLzcAk=
-Date:   Wed, 4 Dec 2019 18:18:19 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 4.19 000/321] 4.19.88-stable review
-Message-ID: <20191204171819.GC3627415@kroah.com>
-References: <20191203223427.103571230@linuxfoundation.org>
- <79c636e7-145b-3062-04a3-f03c78d51318@nvidia.com>
- <20191204112936.GA3565947@kroah.com>
- <4f1552b1-ff6b-7342-b66e-04685aacf6ea@nvidia.com>
+        id S1728900AbfLDTL4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 4 Dec 2019 14:11:56 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:40020 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728114AbfLDTLz (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 14:11:55 -0500
+Received: by mail-lf1-f68.google.com with SMTP id y5so435106lfy.7
+        for <linux-tegra@vger.kernel.org>; Wed, 04 Dec 2019 11:11:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=JYuqMASZpiTe5nuiGY93MH6O0/HdXIaFU15wVqM7e9k=;
+        b=D1JWQWqNFljOCLqlZW2gu9wWPuOlND9c9MnAhvPP3jVIFgam6A39PXzihi8Qt4VTqm
+         hTeuKHG81pakLfV7aqlfciEBXe+6dAcFC8VoTOmzBMXQs/LtT/J3CJwxuSifLa3oaw+x
+         pB3w9G5bQQWuxY8rARr8pNP8mqx+REMLTQ+8QSU5OtyJPolDrG7f2VHVoMmZpJ5aG9I6
+         OnufAoPZpyhc860plE3xH0M5g/Ew/zpoaAadgonQOFHgE3vP2J6CGrJdCdMk7d4V68x+
+         K+SeACmxrIwenNfvHI0oz0jqBnp0UEuj/J2BvDtntY6E0WSAzJVwxeadvdC19gmlzq71
+         pj+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=JYuqMASZpiTe5nuiGY93MH6O0/HdXIaFU15wVqM7e9k=;
+        b=SzZsc2Zj3u+giOFS4BexT5Rl+ioiryuINZjtE/870fweOCQ8G6/la+sXL6GRwrSADO
+         LyYItM9pk3QS2qT4fzvvH6Ltqo1LjPjWJJaY1ZjeZpiXfIrtcrIQRucL4YBdQN4lonzP
+         ohhZAiXOcmOOQkOGu2h1B7Ep36YVMwpAdogbZSLcJo8q7c/AmpgPFaXWIPL0ewq4MDKD
+         QSjyBHe4ixC0dQ6JvaPYUHZq9NkbeSYpLDDjZlUtUC6VH3zlXTVfQtO0oWwX47XMpVPD
+         zMXWDEksOLks2tuMIL+4MffVY7jpkkHRh3oCUPydkMfkXAEwP3b7Grd3+f1MXS1Fu4vK
+         fQtg==
+X-Gm-Message-State: APjAAAUjuWhatHK1hglmrbJs9U4eVKQZSFOzywdecjV2YncsCP/CTdnm
+        TZRF3H8hcYjXltO8z4hNDdfmulZGpzMi0CVDo23nmA==
+X-Google-Smtp-Source: APXvYqw9yp5+BS+JOuXjIZQucnuG7GqzCi20RPTauPFIxq2vEXvlXKZihUVuZuEM4l35uFfuGxig6bYiTWk4oeHdWjg=
+X-Received: by 2002:a19:5057:: with SMTP id z23mr3018046lfj.132.1575486713192;
+ Wed, 04 Dec 2019 11:11:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4f1552b1-ff6b-7342-b66e-04685aacf6ea@nvidia.com>
+References: <20191203223427.103571230@linuxfoundation.org> <79c636e7-145b-3062-04a3-f03c78d51318@nvidia.com>
+ <20191204112936.GA3565947@kroah.com>
+In-Reply-To: <20191204112936.GA3565947@kroah.com>
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Thu, 5 Dec 2019 00:41:41 +0530
+Message-ID: <CA+G9fYtba3Hhd7QikcWSEjYK0mwGBNuaXctnO5f1COsRP7qkSw@mail.gmail.com>
+Subject: Re: [PATCH 4.19 000/321] 4.19.88-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Shuah Khan <shuah@kernel.org>, patches@kernelci.org,
+        Ben Hutchings <ben.hutchings@codethink.co.uk>,
+        lkft-triage@lists.linaro.org,
+        linux- stable <stable@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Dec 04, 2019 at 02:53:24PM +0000, Jon Hunter wrote:
-> 
-> On 04/12/2019 11:29, Greg Kroah-Hartman wrote:
-> > On Wed, Dec 04, 2019 at 09:45:31AM +0000, Jon Hunter wrote:
-> >>
-> >> On 03/12/2019 22:31, Greg Kroah-Hartman wrote:
-> >>> This is the start of the stable review cycle for the 4.19.88 release.
-> >>> There are 321 patches in this series, all will be posted as a response
-> >>> to this one.  If anyone has any issues with these being applied, please
-> >>> let me know.
-> >>>
-> >>> Responses should be made by Thu, 05 Dec 2019 22:30:32 +0000.
-> >>> Anything received after that time might be too late.
-> >>>
-> >>> The whole patch series can be found in one patch at:
-> >>> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.88-rc1.gz
-> >>> or in the git tree and branch at:
-> >>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
-> >>> and the diffstat can be found below.
-> >>>
-> >>> thanks,
-> >>>
-> >>> greg k-h
-> >>>
-> >>> -------------
-> >>> Pseudo-Shortlog of commits:
-> >>
-> >> ...
-> >>
-> >>> Ding Tao <miyatsu@qq.com>
-> >>>     arm64: dts: marvell: armada-37xx: Enable emmc on espressobin
-> >>
-> >> The above commit is causing the following build failure for ARM64 ...
-> >>
-> >>   DTC     arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb
-> >> arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: ERROR
-> >> (phandle_references): /soc/internal-regs@d0000000/sdhci@d0000: Reference
-> >> to non-existent node or label "sdio_pins"
-> >>
-> >> arch/arm64/boot/dts/marvell/armada-3720-espressobin.dtb: ERROR
-> >> (phandle_references): /soc/internal-regs@d0000000/sdhci@d8000: Reference
-> >> to non-existent node or label "mmc_pins"
-> > 
-> > Thanks for letting me know, I'll go drop this one and push out a -rc2
-> > with that removed.
-> 
-> 
-> Great! All tests now passing for Tegra ...
-> 
-> Test results for stable-v4.19:
->     13 builds:	13 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     32 tests:	32 pass, 0 fail
-> 
-> Linux version:	4.19.88-rc2-gba731ec12c66
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
+> Thanks for letting me know, I'll go drop this one and push out a -rc2
+> with that removed.
 
-Wonderful, thanks for testing all of these and letting me know.
+Results from Linaro=E2=80=99s test farm.
+No regressions on arm64, arm, x86_64, and i386.
 
-greg k-h
+Summary
+------------------------------------------------------------------------
+
+kernel: 4.19.88-rc2
+git repo: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stab=
+le-rc.git
+git branch: linux-4.19.y
+git commit: ba731ec12c667db0f1f85e4bfe11387587feb243
+git describe: v4.19.87-322-gba731ec12c66
+Test details: https://qa-reports.linaro.org/lkft/linux-stable-rc-4.19-oe/bu=
+ild/v4.19.87-322-gba731ec12c66
+
+
+No regressions (compared to build v4.19.87)
+
+No fixes (compared to build v4.19.87)
+
+Ran 21276 total tests in the following environments and test suites.
+
+Environments
+--------------
+- dragonboard-410c - arm64
+- hi6220-hikey - arm64
+- i386
+- juno-r2 - arm64
+- qemu_arm64
+- qemu_i386
+- qemu_x86_64
+- x15 - arm
+- x86_64
+
+Test Suites
+-----------
+* build
+* kvm-unit-tests
+* libhugetlbfs
+* linux-log-parser
+* ltp-containers-tests
+* ltp-commands-tests
+* ltp-dio-tests
+* ltp-io-tests
+* ltp-ipc-tests
+* ltp-math-tests
+* ltp-sched-tests
+* ltp-cap_bounds-tests
+* ltp-cpuhotplug-tests
+* ltp-fcntl-locktests-tests
+* ltp-filecaps-tests
+* ltp-fs_bind-tests
+* ltp-fs_perms_simple-tests
+* ltp-fsx-tests
+* ltp-nptl-tests
+* ltp-pty-tests
+* ltp-securebits-tests
+* perf
+* v4l2-compliance
+
+--=20
+Linaro LKFT
+https://lkft.linaro.org
