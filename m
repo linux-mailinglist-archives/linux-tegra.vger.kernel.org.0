@@ -2,102 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1710D113A15
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 Dec 2019 03:51:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 021CC113C02
+	for <lists+linux-tegra@lfdr.de>; Thu,  5 Dec 2019 07:59:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728470AbfLECv3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 4 Dec 2019 21:51:29 -0500
-Received: from mail-pg1-f169.google.com ([209.85.215.169]:34753 "EHLO
-        mail-pg1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728459AbfLECv3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 4 Dec 2019 21:51:29 -0500
-Received: by mail-pg1-f169.google.com with SMTP id r11so867325pgf.1
-        for <linux-tegra@vger.kernel.org>; Wed, 04 Dec 2019 18:51:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=YXOwxN1kP+K4jqhxg2yhpfqPO6sP7d2qL2AC9K9utQ4=;
-        b=qjq9QecI/wOJmuVH8+2KuOKZd77fkfhSNfn75KhTqEhICZ1dJqZObyHA6YA6REPVQI
-         qUmsq/SmFCy9XPAFYfIXDM60S+OakybcZPUjZwNhLBKA/7paGXMi9QCzMMNKwIcy84KA
-         qrUzznkALn//5SzE7Y0GRlKUOBJLtRKsJ+exXKT4ZeCTjv8MzL3d1bJ0gFGpG2AVAWW8
-         VSnlqKn3T7sw0ROo3Ch5kfswp5/6Wg/11JgpwIPSKHj2Cle8tT7pYIc3jUCsQQNHRp50
-         wcr4hxUQOifunSOuS23mTqe6Ex44OF3flMKDSiwqg0UF5UA0JxQVvbhHThGa8VT2rXIp
-         whyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=YXOwxN1kP+K4jqhxg2yhpfqPO6sP7d2qL2AC9K9utQ4=;
-        b=Cn9kPdDTik0F+r/+2dKBP82njEiMTOxgdrtZUkAq9cUQBWbtPlAno2KnRXcx1wuQ0c
-         cjqcilRHeErnlb8ULFXg/uf99IgCJ9h2XxQGx6HGcM/0IANHUMiS6Ue7s6ysrya3994V
-         su2U9/Uzbf3BQjeBzF2AvZs2su1pB+FOytSVV+imS7x/zMhu4Vapo/5yu3YYAM7MInxN
-         u14u9XxPoMt6Kd/hvJGVa1aw17oskI9Gt5kYrDnyhwAk7pjxvVxRki86ep3yoPP/9QDu
-         mScZSnDQ7efbTIcufYK7MC+V6ypPKP9LxO7lfgeFNRaIHZQHcAObLO4xALMcAyYnPHZB
-         hSZQ==
-X-Gm-Message-State: APjAAAWTgOwfUlRj/8J85NqnvFCbzTMHuExCVKxcC8d99ahWN1vDBAsW
-        uTsDqB/TLqMYebIf5PQMLA8Isw6DU/A=
-X-Google-Smtp-Source: APXvYqyiIzUgOpbu5JKLdnKDPxQgFqCYX1OfETQq1MaukN74rbD9OAIBcUgXHGPceCG2ufABoZTxow==
-X-Received: by 2002:a63:fc5d:: with SMTP id r29mr7055870pgk.282.1575514288156;
-        Wed, 04 Dec 2019 18:51:28 -0800 (PST)
-Received: from localhost ([122.171.112.123])
-        by smtp.gmail.com with ESMTPSA id o31sm6605986pgb.56.2019.12.04.18.51.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 Dec 2019 18:51:27 -0800 (PST)
-Date:   Thu, 5 Dec 2019 08:21:25 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     sumitg <sumitg@nvidia.com>, rjw@rjwysocki.net,
-        catalin.marinas@arm.com, will@kernel.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, talho@nvidia.com, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, bbasu@nvidia.com,
-        mperttunen@nvidia.com
-Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
-Message-ID: <20191205025125.imxnao2qwyons5zl@vireshk-i7>
-References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
- <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
- <20191204054043.o4ff7pnqec3fwdgu@vireshk-i7>
- <7347caa6-43a3-f761-de83-481b45f7b22a@nvidia.com>
- <20191204112749.jkwlyteal4hfvnhb@vireshk-i7>
- <0b634341-ea2b-e9cd-4986-dc9a01c839bb@gmail.com>
+        id S1725905AbfLEG7O (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 5 Dec 2019 01:59:14 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8950 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725880AbfLEG7O (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 Dec 2019 01:59:14 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5de8aac50000>; Wed, 04 Dec 2019 22:59:17 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 04 Dec 2019 22:59:13 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 04 Dec 2019 22:59:13 -0800
+Received: from [10.26.11.205] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 5 Dec
+ 2019 06:59:10 +0000
+Subject: Re: [PATCH 4.4 00/92] 4.4.206-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191204174327.215426506@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <3faa827e-eb8b-ef26-0392-0fbb1cd589b2@nvidia.com>
+Date:   Thu, 5 Dec 2019 06:59:07 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0b634341-ea2b-e9cd-4986-dc9a01c839bb@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20191204174327.215426506@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1575529157; bh=ZX192Uyt24fnPEqsVv7TYZEmGjW8ChTs/SJylwWFttU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=V7T9IEYErW1YLAzF6zPs0yW6vyt4cdgr3/KR9wTseO1dYvHCocFScd8tHpL4hQ7xp
+         nw9SOHWwvwkUYp3wz79e/9X+5uSW2sCdYg9XBj+jZNnNNC/sIpLzMkjls/9VLv1cUI
+         QdlTZR7Nku7kMi8Tz//eXfS6zXtUF5ZhSYhuu8tdArtonjitWeZejGBJ7xZYKM2Mvn
+         DsCovCyzxMFf1iOT2vjclASt/Xdhfh2rAbBC4Z1g5QQFEzSBuK74zh30hV8FMjXrbA
+         4B3t2KJMzQb/cLoKTQ6Tlc/bWUgZ4frONxzSh81AtSdpDc+76VP8S+b1x+Z8SjA6Oc
+         /dJGAlT9GXH1Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 04-12-19, 16:57, Dmitry Osipenko wrote:
-> 04.12.2019 14:27, Viresh Kumar пишет:
-> > On 04-12-19, 16:25, sumitg wrote:
-> >> In T194, CCPLEX doesn't have access to set clocks and the
-> >>
-> >> clk_{get|set}_rate() functions set clocks by hook to BPMP R5.
-> >>
-> >> CPU freq can be directly set by CCPLEX using MSR(NVFREQ_REQ_EL1).
-> >>
-> >> As DVFS run's on BPMP, another MSR (NVFREQ_FEEDBACK_EL1) is
-> >>
-> >> used to read the counters and calculate "actual" cpu freq at CCPLEX.
-> >>
-> >> So, "cpuinfo_cur_freq" node gives the actual cpu frequency and not
-> >>
-> >> given by node "scaling_cur_freq".
-> > 
-> > Right, but why can't this be hidden in the CPU's clk driver instead,
-> > so cpufreq driver can just do clk_get_rate() and clk_set_rate() ?
-> 
-> What about to make use of dev_pm_opp_register_set_opp_helper()?
 
-It has a different purpose where we have to play with different
-regulators. And that won't help with clk_get_rate() anyway.
+On 04/12/2019 17:49, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.4.206 release.
+> There are 92 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Fri, 06 Dec 2019 17:42:37 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.4.206-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
+> 
+> -------------
+
+
+All tests are passing for Tegra ...
+
+Test results for stable-v4.4:
+    6 builds:	6 pass, 0 fail
+    12 boots:	12 pass, 0 fail
+    19 tests:	19 pass, 0 fail
+
+Linux version:	4.4.206-rc1-g4fd2af91bc35
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra30-cardhu-a04
+
+Cheers
+Jon
 
 -- 
-viresh
+nvpublic
