@@ -2,281 +2,212 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD808114265
-	for <lists+linux-tegra@lfdr.de>; Thu,  5 Dec 2019 15:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B001114B14
+	for <lists+linux-tegra@lfdr.de>; Fri,  6 Dec 2019 03:50:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729240AbfLEOPV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 5 Dec 2019 09:15:21 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:41073 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729109AbfLEOPU (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 Dec 2019 09:15:20 -0500
-Received: by mail-lf1-f65.google.com with SMTP id m30so2596425lfp.8;
-        Thu, 05 Dec 2019 06:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Wzep174WCTcC1ylDAnxlMqZM1R1EhRXQds7swrstswI=;
-        b=eKN1cSEh0kd1WE7WXm3PmvW+zXtWnPq+tMxGojEk6pDa+uT8NehzL6Jehm6RSKxU1D
-         bJeruxzSsmoe4Zob+mCQbqLTadh4qBX2dDbdxDuUs9ifbwFV+wRo8U7Wes22mvsKEChd
-         dMwRAc+IKgdWva1j7jYXPnerw2g7qlnjDXgK3SWU8f1p5H62F/M1y1xs1Snqpy1IiIcQ
-         7dSbBkZ6+SWcdImMUnu7i+vHdrYobbJzFIipc4veha56Jh7qWCbS4iyAoN//BKJGdRZx
-         5Q7qqqDE0jDbrJu6f2WQkDgO1+n+FkiA1mq4F2xBSOL3nLbTLwvupluWaAWlpiAFrdoT
-         6JZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Wzep174WCTcC1ylDAnxlMqZM1R1EhRXQds7swrstswI=;
-        b=D0l9av1K38I5lumEcD+0D8orrhvLEV/Bvf33jykxmI7EmEUfGIb9rX/1WIWxVa010o
-         aNx0qJct3lK7BXNu1t/iJTd6Br4ckzkFm+g4geXRPVsK0shQhrMXXpvWos0DVxwv/Qa8
-         ftExbsnKzj2cBI+2OW6PB8XjlD2aHIWBOFtY4YxsiogNobygz+PzG2PfY6UM9kCr4Ia9
-         rA74/YkCjl2O/3pMtoKwlhToJeJBVIedTa67ikMEdk2WjeyR9/RlWcFZpw1Af4cXqf5a
-         +FdCCYJuwEdCVneDxVkW48NrEL1DZ/n2qD2nDqwmACRh6AszJGMhsK3YAWs0Ig0Qby2o
-         zHVg==
-X-Gm-Message-State: APjAAAVNbpOgamBSHp8qaQaPNMOGJ+si4Td9e6B2oD412NLcJGkdSDVm
-        Z5yq3r73puAJujgcZDiFB14=
-X-Google-Smtp-Source: APXvYqxDsjhSKWK+uSVzdnXGuwNFxGT3Omee51LOWQUVpNA82oYyAbz8BSHfqBLZ/hseHq/ttcy9vg==
-X-Received: by 2002:a19:c84:: with SMTP id 126mr5414925lfm.5.1575555317304;
-        Thu, 05 Dec 2019 06:15:17 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id s22sm5158466ljm.41.2019.12.05.06.15.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Dec 2019 06:15:16 -0800 (PST)
-Subject: Re: [TEGRA194_CPUFREQ Patch 2/3] cpufreq: Add Tegra194 cpufreq driver
-To:     Sumit Gupta <sumitg@nvidia.com>, rjw@rjwysocki.net,
-        viresh.kumar@linaro.org, catalin.marinas@arm.com, will@kernel.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, talho@nvidia.com,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     bbasu@nvidia.com, mperttunen@nvidia.com
-References: <1575394348-17649-1-git-send-email-sumitg@nvidia.com>
- <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9b9eb84d-2d9a-8dbd-cbe6-1595ed1e7f4e@gmail.com>
-Date:   Thu, 5 Dec 2019 17:15:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726492AbfLFCtD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 5 Dec 2019 21:49:03 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14396 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726233AbfLFCtD (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 5 Dec 2019 21:49:03 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5de9c1970000>; Thu, 05 Dec 2019 18:48:55 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 05 Dec 2019 18:48:59 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 05 Dec 2019 18:48:59 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Dec
+ 2019 02:48:59 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Dec
+ 2019 02:48:58 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 6 Dec 2019 02:48:58 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.163.171]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5de9c1990000>; Thu, 05 Dec 2019 18:48:58 -0800
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <digetx@gmail.com>,
+        <mperttunen@nvidia.com>, <gregkh@linuxfoundation.org>,
+        <sboyd@kernel.org>, <tglx@linutronix.de>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>
+CC:     <allison@lohutok.net>, <pdeschrijver@nvidia.com>,
+        <pgaikwad@nvidia.com>, <mturquette@baylibre.com>,
+        <horms+renesas@verge.net.au>, <Jisheng.Zhang@synaptics.com>,
+        <krzk@kernel.org>, <arnd@arndb.de>, <spujar@nvidia.com>,
+        <josephl@nvidia.com>, <vidyas@nvidia.com>,
+        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
+        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
+        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+        <alexios.zavras@intel.com>, <alsa-devel@alsa-project.org>
+Subject: [PATCH v3 00/15] Move PMC clocks into Tegra PMC driver
+Date:   Thu, 5 Dec 2019 18:48:40 -0800
+Message-ID: <1575600535-26877-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <1575394348-17649-2-git-send-email-sumitg@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1575600535; bh=0yY6O5GHk7xgeOMvI4k8qGNpUWrzvrDV5dKwrtLp/f4=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=p5fDX/1MwveGhBRGiUlIbddYp8Ctk6ez5ooV/2pkOm633fsIn3zDiZ7j1UbHqdAdG
+         Rv/7MxrOAbLMBRFBmpJ+fi/Ib6CB5IKhmUAlvtEm04SwIgmIzk9zDBTNcEDVxaDfjq
+         jW5e1b/0nj8Wf2K9Ej2UJl1g/V8+VJvRCHFViRK8wSObItVITQcwRJtVshOhrOdXNR
+         YmbH9aw9OtUIGc2gcEwngQX1INW4gt6/Zg+fDdRpxKtDXzJrlNwfcZysxh/CVUEEkd
+         TgXaA2tgf/UtKZTZyfZcIhWVO7OOa2fZKvrRuLvkpv3eZcmBoquiJ27La1DxNwQtFh
+         bzEqI7udvTKpw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.12.2019 20:32, Sumit Gupta пишет:
-> Add support for CPU frequency scaling on Tegra194. The frequency
-> of each core can be adjusted by writing a clock divisor value to
-> an MSR on the core. The range of valid divisors is queried from
-> the BPMP.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/cpufreq/Kconfig.arm        |   6 +
->  drivers/cpufreq/Makefile           |   1 +
->  drivers/cpufreq/tegra194-cpufreq.c | 423 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 430 insertions(+)
->  create mode 100644 drivers/cpufreq/tegra194-cpufreq.c
-> 
-> diff --git a/drivers/cpufreq/Kconfig.arm b/drivers/cpufreq/Kconfig.arm
-> index a905796..4bcd47c 100644
-> --- a/drivers/cpufreq/Kconfig.arm
-> +++ b/drivers/cpufreq/Kconfig.arm
-> @@ -320,6 +320,12 @@ config ARM_TEGRA186_CPUFREQ
->  	help
->  	  This adds the CPUFreq driver support for Tegra186 SOCs.
->  
-> +config ARM_TEGRA194_CPUFREQ
-> +	tristate "Tegra194 CPUFreq support"
-> +	depends on ARCH_TEGRA && TEGRA_BPMP
-> +	help
-> +	  This adds CPU frequency driver support for Tegra194 SOCs.
-> +
->  config ARM_TI_CPUFREQ
->  	bool "Texas Instruments CPUFreq support"
->  	depends on ARCH_OMAP2PLUS
-> diff --git a/drivers/cpufreq/Makefile b/drivers/cpufreq/Makefile
-> index 9a9f5cc..433d492 100644
-> --- a/drivers/cpufreq/Makefile
-> +++ b/drivers/cpufreq/Makefile
-> @@ -85,6 +85,7 @@ obj-$(CONFIG_ARM_TANGO_CPUFREQ)		+= tango-cpufreq.o
->  obj-$(CONFIG_ARM_TEGRA20_CPUFREQ)	+= tegra20-cpufreq.o
->  obj-$(CONFIG_ARM_TEGRA124_CPUFREQ)	+= tegra124-cpufreq.o
->  obj-$(CONFIG_ARM_TEGRA186_CPUFREQ)	+= tegra186-cpufreq.o
-> +obj-$(CONFIG_ARM_TEGRA194_CPUFREQ)	+= tegra194-cpufreq.o
->  obj-$(CONFIG_ARM_TI_CPUFREQ)		+= ti-cpufreq.o
->  obj-$(CONFIG_ARM_VEXPRESS_SPC_CPUFREQ)	+= vexpress-spc-cpufreq.o
->  
-> diff --git a/drivers/cpufreq/tegra194-cpufreq.c b/drivers/cpufreq/tegra194-cpufreq.c
-> new file mode 100644
-> index 0000000..9df12f4
-> --- /dev/null
-> +++ b/drivers/cpufreq/tegra194-cpufreq.c
-> @@ -0,0 +1,423 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved
-> + */
-> +
-> +#include <linux/cpu.h>
-> +#include <linux/cpufreq.h>
-> +#include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +
-> +#include <asm/smp_plat.h>
-> +
-> +#include <soc/tegra/bpmp.h>
-> +#include <soc/tegra/bpmp-abi.h>
-> +
-> +#define KHZ                     1000
-> +#define REF_CLK_MHZ             408 /* 408 MHz */
-> +#define US_DELAY                2000
-> +#define US_DELAY_MIN            2
-> +#define CPUFREQ_TBL_STEP_HZ     (50 * KHZ * KHZ)
-> +#define MAX_CNT                 ~0U
-> +
-> +/* cpufreq transisition latency */
-> +#define TEGRA_CPUFREQ_TRANSITION_LATENCY (300 * 1000) /* unit in nanoseconds */
-> +
-> +enum cluster {
-> +	CLUSTER0,
-> +	CLUSTER1,
-> +	CLUSTER2,
-> +	CLUSTER3,
-> +	MAX_CLUSTERS,
-> +};
-> +
-> +struct tegra194_cpufreq_data {
-> +	void __iomem *regs;
-> +	size_t num_clusters;
-> +	struct cpufreq_frequency_table **tables;
-> +};
-> +
-> +static DEFINE_MUTEX(cpufreq_lock);
-> +
-> +struct tegra_cpu_ctr {
-> +	u32 cpu;
-> +	u32 delay;
-> +	u32 coreclk_cnt, last_coreclk_cnt;
-> +	u32 refclk_cnt, last_refclk_cnt;
-> +};
-> +
-> +static struct workqueue_struct *read_counters_wq;
-> +struct read_counters_work {
-> +	struct work_struct work;
-> +	struct tegra_cpu_ctr c;
-> +};
-> +
-> +static enum cluster get_cpu_cluster(u8 cpu)
-> +{
-> +	return MPIDR_AFFINITY_LEVEL(cpu_logical_map(cpu), 1);
-> +}
-> +
-> +/*
-> + * Read per-core Read-only system register NVFREQ_FEEDBACK_EL1.
-> + * The register provides frequency feedback information to
-> + * determine the average actual frequency a core has run at over
-> + * a period of time.
-> + *	[31:0] PLLP counter: Counts at fixed frequency (408 MHz)
-> + *	[63:32] Core clock counter: counts on every core clock cycle
-> + *			where the core is architecturally clocking
-> + */
-> +static u64 read_freq_feedback(void)
-> +{
-> +	u64 val = 0;
-> +
-> +	asm volatile("mrs %0, s3_0_c15_c0_5" : "=r" (val) : );
-> +
-> +	return val;
-> +}
-> +
-> +u16 map_freq_to_ndiv(struct mrq_cpu_ndiv_limits_response *nltbl, u32 freq)
-> +{
-> +	return DIV_ROUND_UP(freq * nltbl->pdiv * nltbl->mdiv,
-> +			    nltbl->ref_clk_hz / KHZ);
-> +}
-> +
-> +static inline u32 map_ndiv_to_freq(struct mrq_cpu_ndiv_limits_response
-> +				   *nltbl, u16 ndiv)
-> +{
-> +	return nltbl->ref_clk_hz / KHZ * ndiv / (nltbl->pdiv * nltbl->mdiv);
-> +}
-> +
-> +static void tegra_read_counters(struct work_struct *work)
-> +{
-> +	struct read_counters_work *read_counters_work;
-> +	struct tegra_cpu_ctr *c;
-> +	u64 val;
-> +
-> +	/*
-> +	 * ref_clk_counter(32 bit counter) runs on constant clk,
-> +	 * pll_p(408MHz).
-> +	 * It will take = 2 ^ 32 / 408 MHz to overflow ref clk counter
-> +	 *              = 10526880 usec = 10.527 sec to overflow
-> +	 *
-> +	 * Like wise core_clk_counter(32 bit counter) runs on core clock.
-> +	 * It's synchronized to crab_clk (cpu_crab_clk) which runs at
-> +	 * freq of cluster. Assuming max cluster clock ~2000MHz,
-> +	 * It will take = 2 ^ 32 / 2000 MHz to overflow core clk counter
-> +	 *              = ~2.147 sec to overflow
-> +	 */
-> +	read_counters_work = container_of(work, struct read_counters_work,
-> +					  work);
-> +	c = &read_counters_work->c;
-> +
-> +	val = read_freq_feedback();
-> +	c->last_refclk_cnt = lower_32_bits(val);
-> +	c->last_coreclk_cnt = upper_32_bits(val);
-> +	udelay(c->delay);
-> +	val = read_freq_feedback();
-> +	c->refclk_cnt = lower_32_bits(val);
-> +	c->coreclk_cnt = upper_32_bits(val);
-> +}
-> +
-> +/*
-> + * Return instantaneous cpu speed
-> + * Instantaneous freq is calculated as -
-> + * -Takes sample on every query of getting the freq.
-> + *	- Read core and ref clock counters;
-> + *	- Delay for X us
-> + *	- Read above cycle counters again
-> + *	- Calculates freq by subtracting current and previous counters
-> + *	  divided by the delay time or eqv. of ref_clk_counter in delta time
-> + *	- Return Kcycles/second, freq in KHz
-> + *
-> + *	delta time period = x sec
-> + *			  = delta ref_clk_counter / (408 * 10^6) sec
-> + *	freq in Hz = cycles/sec
-> + *		   = (delta cycles / x sec
-> + *		   = (delta cycles * 408 * 10^6) / delta ref_clk_counter
-> + *	in KHz	   = (delta cycles * 408 * 10^3) / delta ref_clk_counter
-> + *
-> + * @cpu - logical cpu whose freq to be updated
-> + * Returns freq in KHz on success, 0 if cpu is offline
-> + */
-> +static unsigned int tegra194_get_speed_common(u32 cpu, u32 delay)
-> +{
-> +	struct read_counters_work read_counters_work;
-> +	struct tegra_cpu_ctr c;
-> +	u32 delta_refcnt;
-> +	u32 delta_ccnt;
-> +	u32 rate_mhz;
-> +
-> +	read_counters_work.c.cpu = cpu;
-> +	read_counters_work.c.delay = delay;
-> +	INIT_WORK_ONSTACK(&read_counters_work.work, tegra_read_counters);
-> +	queue_work_on(cpu, read_counters_wq, &read_counters_work.work);
-> +	flush_work(&read_counters_work.work);
+Tegra PMC has clk_out_1, clk_out_2, clk_out_3 and blink controls which
+are currently registered by Tegra clock driver using clk_regiser_mux and
+clk_register_gate which performs direct Tegra PMC register access.
 
-What will happen if CPU is offline?
+When Tegra PMC is in secure mode, any access from non-secure world will
+not go through.
+
+This patch series adds these Tegra PMC clocks and blink controls to Tegra
+PMC driver with PMC as clock provider and removed them from Tegra clock
+driver. This also adds PMC specific clock id's to use in device tree and
+removed clock ids of PMC clock from Tegra clock driver.
+
+clk_out_1 is dedicated for audio mclk and current ASoC driver does not
+setting extern1 as parent for clk_out_1 and enabling clk_out_1 and
+currently this is taken care by Tegra clock driver during clock inits
+and there is no need to enable this during clock init.
+
+So, this series also includes patch that updates ASoC driver to take
+care of configuring parent of mclk and enabling mclk using both extern1
+and clk_out_1 and updates all device trees to use clk_out_1 from pmc as
+mclk incase if device tree don't specify assigned-clock-parents.
+
+This series also includes a patch for mclk fallback to use extern1
+when retrieving mclk fails with new device tree which uses pmc provider
+to have this backward compatible of new DT with old kernels.
+
+This series also includes a patch to remove clock ids for these clocks
+from clock dt-binding as these clocks are not used in any of the existing
+device tree except in tegra210-smaug.dts and this series includes a patch
+to update clock provider from tegra_car to pmc in tegra210-smaug.dts for
+clk_out_2.
+
+[v3]:	Changes between v2 and v3 are
+	- Removes set parent of clk_out_1_mux to extern1 and enabling
+	  extern1 from the clock driver.
+	- Doesn't enable clk_out_1 and blink by default in pmc driver
+	- Updates ASoC driver to take care of audio mclk parent
+	  configuration incase if device tree don't specify assigned
+	  clock parent properties and enables mclk using both clk_out_1
+	  and extern1.
+	- updates all device trees using extern1 as mclk in sound node
+	  to use clk_out_1 from pmc.
+	- patch for YAML format pmc dt-binding
+	- Includes v2 feedback
+
+[v2]:	Changes between v1 and v2 are
+	- v2 includes patches for adding clk_out_1, clk_out_2, clk_out_3,
+	  blink controls to Tegra PMC driver and removing clk-tegra-pmc.
+	- feedback related to pmc clocks in Tegra PMC driver from v1
+	- Removed patches for WB0 PLLM overrides and PLLE IDDQ PMC programming
+	  by the clock driver using helper functions from Tegra PMC.
+
+ 	  Note:
+	  To use helper functions from PMC driver, PMC early init need to
+	  happen prior to using helper functions and these helper functions are
+	  for PLLM Override and PLLE IDDQ programming in PMC during PLLM/PLLE
+	  clock registration which happen in clock_init prior to Tegra PMC
+	  probe.
+	  Moving PLLM/PLLE clocks registration to happen after Tegra PMC
+	  impacts other clocks EMC, MC and corresponding tegra_emc_init and
+	  tegra_mc_init.
+	  This implementation of configuring PMC registers thru helper
+	  functions in clock driver needs proper changes across PMC, Clock,
+	  EMC and MC inits to have it work across all Tegra platforms.
+
+	  Currently PLLM Override is not enabled in the bootloader so proper
+	  patches for this fix will be taken care separately.
+
+[v1]:	v1 includes patches for below fixes.
+	- adding clk_out_1, clk_out_2, clk_out_3, blink controls to Tegra PMC
+	  driver and removing clk-tegra-pmc.
+	- updated clock provider from tegra_car to pmc in the device tree
+	  tegra210-smaug.dts that uses clk_out_2.
+	- Added helper functions in PMC driver for WB0 PLLM overrides and PLLE
+	  IDDQ programming to use by clock driver and updated clock driver to
+	  use these helper functions and removed direct PMC access from clock
+	  driver and all pmc base address references in clock driver.
+
+
+Sowjanya Komatineni (15):
+  dt-bindings: soc: tegra-pmc: Add Tegra PMC clock bindings
+  dt-bindings: tegra: Convert Tegra PMC bindings to YAML
+  soc: tegra: Add Tegra PMC clock registrations into PMC driver
+  dt-bindings: soc: tegra-pmc: Add id for Tegra PMC blink control
+  soc: pmc: Add blink output clock registration to Tegra PMC
+  clk: tegra: Remove tegra_pmc_clk_init along with clk ids
+  dt-bindings: clock: tegra: Remove pmc clock ids from clock dt-bindings
+  ASoC: tegra: Add audio mclk control through clk_out_1 and extern1
+  ASoC: tegra: Add fallback for audio mclk
+  clk: tegra: Remove extern1 and cdev1 from clocks inittable
+  ARM: dts: tegra: Add clock-cells property to pmc
+  arm64: tegra: Add clock-cells property to Tegra PMC node
+  ARM: tegra: Update sound node clocks in device tree
+  arm64: tegra: smaug: Change clk_out_2 provider to pmc
+  ASoC: nau8825: change Tegra clk_out_2 provider from tegra_car to pmc
+
+ .../bindings/arm/tegra/nvidia,tegra20-pmc.txt      |  45 ++-
+ .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml     | 291 ++++++++++++++++++
+ .../devicetree/bindings/sound/nau8825.txt          |   2 +-
+ arch/arm/boot/dts/tegra114-dalmore.dts             |   7 +-
+ arch/arm/boot/dts/tegra114.dtsi                    |   4 +-
+ arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi        |   7 +-
+ arch/arm/boot/dts/tegra124-apalis.dtsi             |   7 +-
+ arch/arm/boot/dts/tegra124-jetson-tk1.dts          |   7 +-
+ arch/arm/boot/dts/tegra124-nyan.dtsi               |   7 +-
+ arch/arm/boot/dts/tegra124-venice2.dts             |   7 +-
+ arch/arm/boot/dts/tegra124.dtsi                    |   4 +-
+ arch/arm/boot/dts/tegra20.dtsi                     |   4 +-
+ arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi         |   7 +-
+ arch/arm/boot/dts/tegra30-apalis.dtsi              |   7 +-
+ arch/arm/boot/dts/tegra30-beaver.dts               |   7 +-
+ arch/arm/boot/dts/tegra30-cardhu.dtsi              |   7 +-
+ arch/arm/boot/dts/tegra30-colibri.dtsi             |   7 +-
+ arch/arm/boot/dts/tegra30.dtsi                     |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra132.dtsi           |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts      |   2 +-
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   2 +
+ drivers/clk/tegra/Makefile                         |   1 -
+ drivers/clk/tegra/clk-id.h                         |   7 -
+ drivers/clk/tegra/clk-tegra-pmc.c                  | 122 --------
+ drivers/clk/tegra/clk-tegra114.c                   |  12 -
+ drivers/clk/tegra/clk-tegra124.c                   |  28 +-
+ drivers/clk/tegra/clk-tegra20.c                    |   5 -
+ drivers/clk/tegra/clk-tegra210.c                   |  12 -
+ drivers/clk/tegra/clk-tegra30.c                    |  13 -
+ drivers/clk/tegra/clk.h                            |   1 -
+ drivers/soc/tegra/pmc.c                            | 340 +++++++++++++++++++++
+ include/dt-bindings/clock/tegra114-car.h           |  14 +-
+ include/dt-bindings/clock/tegra124-car-common.h    |  14 +-
+ include/dt-bindings/clock/tegra20-car.h            |   2 +-
+ include/dt-bindings/clock/tegra210-car.h           |  14 +-
+ include/dt-bindings/clock/tegra30-car.h            |  14 +-
+ include/dt-bindings/soc/tegra-pmc.h                |  19 ++
+ sound/soc/tegra/tegra_asoc_utils.c                 |  76 ++++-
+ sound/soc/tegra/tegra_asoc_utils.h                 |   1 +
+ 39 files changed, 890 insertions(+), 244 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
+ delete mode 100644 drivers/clk/tegra/clk-tegra-pmc.c
+ create mode 100644 include/dt-bindings/soc/tegra-pmc.h
+
+-- 
+2.7.4
+
