@@ -2,85 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4760115107
-	for <lists+linux-tegra@lfdr.de>; Fri,  6 Dec 2019 14:33:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D81F1151E7
+	for <lists+linux-tegra@lfdr.de>; Fri,  6 Dec 2019 15:06:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726234AbfLFNdz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 6 Dec 2019 08:33:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43770 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726195AbfLFNdz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 6 Dec 2019 08:33:55 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0D54820659;
-        Fri,  6 Dec 2019 13:33:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575639234;
-        bh=62/Dz9Csmb625T/U9P3Z1SOj/It+aVp4rBDIvvTjDk0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IaEQqhUF4SjWqp1KNDzYquIq0cpbzZ3HmWQV9boeAekZl84HEUIaWllsQd3e9IWBB
-         UHScWty+WI8qAVrPRa4s7ctyUlhjUVn/SZ1Jqwo46Tif+lyijcOEK1eVbN3Yi+3qrk
-         eWrl6Orj11HKDhCEDIhpaYeix3JJW21JP+9PIAx4=
-Date:   Fri, 6 Dec 2019 14:33:51 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     stable@vger.kernel.org, linux-tegra <linux-tegra@vger.kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: stable request: 5.4.y: arm64: tegra: Fix 'active-low' warning
- for Jetson
-Message-ID: <20191206133351.GA2466@kroah.com>
-References: <16724779-0514-ca92-58b2-95f4e244c6f7@nvidia.com>
- <20191206125334.GA1361962@kroah.com>
- <ee190492-5af8-7ef1-5524-4f260d64094d@nvidia.com>
+        id S1726245AbfLFOG6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 6 Dec 2019 09:06:58 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43899 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726195AbfLFOG5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 6 Dec 2019 09:06:57 -0500
+Received: by mail-wr1-f65.google.com with SMTP id d16so7852846wre.10;
+        Fri, 06 Dec 2019 06:06:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4wX7YZhl6Ff/TTsQn22noU9DFT307Fj94r/I2C42B5M=;
+        b=s5BlYqtux58eV5lRL4Uq2IgtCuQDGFX6K4yYEX0RLhOvM3Ev+yyjmjvhEzSc4m6u5W
+         jb4uvcXUSxel+xjdiYswRfRC8BGStqpcpfwwzDk4yDSocO+kMqxosulqaHzNql5g5Igw
+         iebSpEnPO6xxnv1I0k7+3fhwhuTwTax9VTxhIZ0mZ8nFdpYfve4AYmnuyO+1hALiCK4N
+         MVSQ+zILy5pB8h7E7FmQuPcUbEaWj5Ljo+3174S4ewX24BofvINu/1hAyt7Ff8ZwgQOx
+         YnEh+9aQXMLhA2Fj8DYQiQrzfJueHslv/mnmqWO/V8W0UnTLQMuV1n5EEmXTZeGKIqQf
+         DB8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4wX7YZhl6Ff/TTsQn22noU9DFT307Fj94r/I2C42B5M=;
+        b=sgkvquldmbZpDGwv3AhqlKOwqGZ0zpf92q6UKb4n4whMRCe3nKXSlv9TsvkHGaWymN
+         E/O1gPNjMb82vaPj7JS+WE28dzdqR9pYXxZwBUVyYhyTcc575yQqc8x2z2/PrsYtrh92
+         ct6AQIKapG4yMc6NlLR+z/ZILKMCbCxtcMC8LCEfZcPKrwfHpJxs+LYZf+DUNpCU+Dzd
+         rzghl92N0EXtbu6dvWBV5O9E0yqHMf48tTBnkMNBOP4R9Vrnc5bJ3us8UxhCgxOSBdeA
+         JOAwMl88IyQtpjW7WC+zu5CW6NWAUQDQuU+KQaLENMqOCWx96B1hgFzvgdBzni07j1BF
+         Sqyw==
+X-Gm-Message-State: APjAAAXLEfoSWnR2sSh4lrwdMyW3m+QGC4WgvcrwGfRWeF4Tifod+MKg
+        POJChT0tgnFbU4/qegOlWNQ=
+X-Google-Smtp-Source: APXvYqwnTTJ2tyrORPrY6W2zm5gkzKjRRH1E///pg1euVt9Ly9T6rXuscLFZOBZEjE9nXQ866fBg6w==
+X-Received: by 2002:adf:fe12:: with SMTP id n18mr15443671wrr.158.1575641215691;
+        Fri, 06 Dec 2019 06:06:55 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+        by smtp.gmail.com with ESMTPSA id s10sm16299299wrw.12.2019.12.06.06.06.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Dec 2019 06:06:54 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
+        Nagarjuna Kristam <nkristam@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v2 00/10] usb: host: xhci-tegra: Implement basic ELPG support
+Date:   Fri,  6 Dec 2019 15:06:43 +0100
+Message-Id: <20191206140653.2085561-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ee190492-5af8-7ef1-5524-4f260d64094d@nvidia.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Dec 06, 2019 at 01:16:15PM +0000, Jon Hunter wrote:
-> 
-> On 06/12/2019 12:53, Greg Kroah-Hartman wrote:
-> > On Fri, Dec 06, 2019 at 10:55:17AM +0000, Jon Hunter wrote:
-> >> Hi Greg,
-> >>
-> >> Please can you include the following device-tree fixes for 5.4.y that
-> >> are triggering some warnings on a couple of our Jetson platforms. This
-> >> is currently causing one of our kernel warnings tests to fail. Both of
-> >> these have now been merged into the mainline for v5.5-rc1.
-> >>
-> >> commit d440538e5f219900a9fc9d96fd10727b4d2b3c48
-> >> Author: Jon Hunter <jonathanh@nvidia.com>
-> >> Date:   Wed Sep 25 15:12:28 2019 +0100
-> >>
-> >>     arm64: tegra: Fix 'active-low' warning for Jetson Xavier regulator
-> >>
-> >> commit 1e5e929c009559bd7e898ac8e17a5d01037cb057
-> >> Author: Jon Hunter <jonathanh@nvidia.com>
-> >> Date:   Wed Sep 25 15:12:29 2019 +0100
-> >>
-> >>     arm64: tegra: Fix 'active-low' warning for Jetson TX1 regulator
-> >>
-> >> Thanks
-> >> Jon
-> > 
-> > Now queued up, thanks.
-> 
-> Thanks. BTW were you also able to queue the following? This is another
-> one that is needed for 5.4.y.
-> 
-> commit c745da8d4320c49e54662c0a8f7cb6b8204f44c4
-> Author: Jon Hunter <jonathanh@nvidia.com>
-> Date:   Fri Oct 11 09:34:59 2019 +0100
-> 
->     mailbox: tegra: Fix superfluous IRQ error message
+From: Thierry Reding <treding@nvidia.com>
 
-Now queued up, for some reason I thought I had done this already, sorry
-about that.
+Hi,
 
-greg k-h
+this series of patches is an attempt to split up JC's large patch adding
+ELPG support into more manageable chunks. The original patch can be
+found here:
+
+        http://patchwork.ozlabs.org/patch/1115804/
+
+That patch was part of a larger series that also added a couple more
+features to more aggressively save power. This series is more limited in
+scope and at the same time tries to address most of the comments that
+were voiced during review of JC's original posting.
+
+Note that this series is primarily targetted at getting system suspend
+and resume to work properly on Jetson TX2 and later, now that we can
+actually resume from system sleep on these systems. The code should also
+work on Tegra210 and earlier, though Tegra210 is still missing a bit of
+the very low-level plumbing to make the system resume properly from
+sleep.
+
+I've verified that after this I can successfully use the XHCI on Jetson
+TX2 after a system suspend/resume cycle.
+
+Note that I've claimed ownership of these patches because they differ
+from JC's patches significantly in many areas and are also a bit
+crippled compared to JC's original in terms of features. I've credited
+JC in the commit message, but didn't want him to get any blame from me
+potentially messing this up.
+
+JC, if you think this is still in line with what you had in mind, let me
+know and I'll restore your authorship.
+
+Changes in v2:
+- add Reviewed-by from JC on the one patch that is not originally his
+- remove some useless gotos as pointed out by Mathias
+
+Thierry
+
+Thierry Reding (10):
+  usb: host: xhci-tegra: Fix "tega" -> "tegra" typo
+  usb: host: xhci-tegra: Separate firmware request and load
+  usb: host: xhci-tegra: Avoid a fixed duration sleep
+  usb: host: xhci-tegra: Use CNR as firmware ready indicator
+  usb: host: xhci-tegra: Extract firmware enable helper
+  usb: host: xhci-tegra: Reuse stored register base address
+  usb: host: xhci-tegra: Enable runtime PM as late as possible
+  usb: host: xhci-tegra: Add support for XUSB context save/restore
+  usb: host: xhci-tegra: Add XUSB controller context
+  usb: host: xhci-tegra: Implement basic ELPG support
+
+ drivers/usb/host/xhci-tegra.c | 439 +++++++++++++++++++++++++++++-----
+ 1 file changed, 380 insertions(+), 59 deletions(-)
+
+-- 
+2.23.0
+
