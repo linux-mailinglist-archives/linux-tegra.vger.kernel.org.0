@@ -2,68 +2,91 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 018A01156D0
-	for <lists+linux-tegra@lfdr.de>; Fri,  6 Dec 2019 18:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A657115779
+	for <lists+linux-tegra@lfdr.de>; Fri,  6 Dec 2019 19:58:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726325AbfLFR4E (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 6 Dec 2019 12:56:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39630 "EHLO mail.kernel.org"
+        id S1726332AbfLFS6K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 6 Dec 2019 13:58:10 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:51602 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726312AbfLFR4E (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 6 Dec 2019 12:56:04 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4995D24673;
-        Fri,  6 Dec 2019 17:56:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575654963;
-        bh=IeiSscRuUwpcU/kAIShm5XFn2jzqzIym266sdGO0B4g=;
+        id S1726321AbfLFS6J (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 6 Dec 2019 13:58:09 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 47V1xd4KSvz3c;
+        Fri,  6 Dec 2019 19:55:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1575658536; bh=ezWxskmwxI8C/8lBttgiFOBWumB5XqgQX2Lyv35wtXs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GmWSJ3MeKrcW2bpYd6s3Ygl7u9mly6QPM3f4XROY8jlw4AVcf4PmijRTXrcumjVn3
-         lYNzDhug0GFgHPE8J11h8F8zat7IitFCbX2TfpLPciTwbO6D9osmqSTSQ5vdyqrizD
-         BXBh5PJqF4gMwHdVJGCDW9WIFSL/aLciWzy/S340=
-Date:   Fri, 6 Dec 2019 18:56:00 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
+        b=qVvSJYj9YFwdhcAJDhCbE27sYYMUvgdTONxp+WWKd+z5M7iiAI5MehkQT3K2RazLO
+         Fd9fJReH4fmO4JIbPH7vvAG5OF2f+k2n+Ld1c3N3PX5ld+hkdoJQ2IFzQMJIwLVZc3
+         677oFRZnpUv7WC+skB2A72eXwr/NiceO2d59iHAuZSWyiZ9j4ZIfNR224I4LEuylT/
+         OgQXR2R6mep2NizcYogzTvDzpSM7LavHwjNn8x1geUwhPTgKNZ4p0HkFQKk3rbFUkn
+         D2t6f0Opeh7KPGs9oDBi617XDzVFR99l7Pg+gcwf5VVg4jPbwVWPMzXiXjjzcViHtW
+         OGnWhmW29zmJQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.101.4 at mail
+Date:   Fri, 6 Dec 2019 19:58:00 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
 To:     Sowjanya Komatineni <skomatineni@nvidia.com>
 Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
-        mperttunen@nvidia.com, sboyd@kernel.org, tglx@linutronix.de,
-        robh+dt@kernel.org, mark.rutland@arm.com, allison@lohutok.net,
-        pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
-        mturquette@baylibre.com, horms+renesas@verge.net.au,
-        Jisheng.Zhang@synaptics.com, krzk@kernel.org, arnd@arndb.de,
-        spujar@nvidia.com, josephl@nvidia.com, vidyas@nvidia.com,
-        daniel.lezcano@linaro.org, mmaddireddy@nvidia.com,
-        markz@nvidia.com, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
-        broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-        alexios.zavras@intel.com, alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 09/15] ASoC: tegra: Add fallback for audio mclk
-Message-ID: <20191206175600.GB186026@kroah.com>
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, tglx@linutronix.de, robh-dt@kernel.org,
+        mark.rutland@arm.com, allison@lohutok.net, pdeschrijver@nvidia.com,
+        pgaikwad@nvidia.com, mturquette@baylibre.com,
+        horms-renesas@verge.net.au, Jisheng.Zhang@synaptics.com,
+        krzk@kernel.org, arnd@arndb.de, spujar@nvidia.com,
+        josephl@nvidia.com, vidyas@nvidia.com, daniel.lezcano@linaro.org,
+        mmaddireddy@nvidia.com, markz@nvidia.com,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+        tiwai@suse.com, alexios.zavras@intel.com,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH v3 01/15] dt-bindings: soc: tegra-pmc: Add Tegra PMC
+ clock bindings
+Message-ID: <20191206185800.GB20259@qmqm.qmqm.pl>
 References: <1575600535-26877-1-git-send-email-skomatineni@nvidia.com>
- <1575600535-26877-10-git-send-email-skomatineni@nvidia.com>
- <e94e56bc-2b4c-5d95-002a-073c9272537d@nvidia.com>
+ <1575600535-26877-2-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-2
 Content-Disposition: inline
-In-Reply-To: <e94e56bc-2b4c-5d95-002a-073c9272537d@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1575600535-26877-2-git-send-email-skomatineni@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Dec 06, 2019 at 09:49:49AM -0800, Sowjanya Komatineni wrote:
-> Thanks Greg.
-> 
-> Sorry, Will send this patch separately (out of this series) with stable tag
-> to get this applied to stable kernels once review is done for this series.
+On Thu, Dec 05, 2019 at 06:48:41PM -0800, Sowjanya Komatineni wrote:
+> Tegra PMC has clk_out_1, clk_out_2, clk_out_3 clocks and each of
+> these clocks has mux and a gate as a part of PMC controller.
+[...]
+> --- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.txt
+> +++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.txt
+[...]
+> +Clock consumer example:
+> +	host1x@50000000 {
+> +		...
+> +		vi@54080000 {
+> +			...
+> +			assigned-clocks = <&pmc TEGRA_PMC_CLK_OUT_3_MUX>;
+> +			assigned-clock-parents = <&tegra_car TEGRA210_CLK_EXTERN3>;
+> +		};
+> +		...
+> +	};
+> +	...
+> +	i2c@7000c500 {
+> +		cam_sensor {
+> +			...
+> +			clocks = <&pmc TEGRA_PMC_CLK_OUT_3>;
+> +			clock-names = "mclk";
+> +			...
+> +		};
+> +	};
 
-Why not just properly add the tag in the original patch when it gets
-merged?  That's how everyone else does it :)
+The assigned-clocks should be in the cam_sensor node, unless vi device
+also uses the clock.
 
-This isn't new, it's been happening this way for 12+ years now...
-
-thanks,
-
-greg k-h
+Best Regards,
+Micha³ Miros³aw
