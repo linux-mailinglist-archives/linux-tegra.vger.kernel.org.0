@@ -2,68 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7C26115FC8
-	for <lists+linux-tegra@lfdr.de>; Sat,  7 Dec 2019 23:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F83C115FD8
+	for <lists+linux-tegra@lfdr.de>; Sun,  8 Dec 2019 00:25:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726883AbfLGW4S (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 7 Dec 2019 17:56:18 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:36062 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726421AbfLGW4S (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 7 Dec 2019 17:56:18 -0500
-Received: by mail-lj1-f196.google.com with SMTP id r19so11527750ljg.3;
-        Sat, 07 Dec 2019 14:56:16 -0800 (PST)
+        id S1726566AbfLGXY6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 7 Dec 2019 18:24:58 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:41031 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726421AbfLGXY6 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 7 Dec 2019 18:24:58 -0500
+Received: by mail-lj1-f194.google.com with SMTP id h23so11525956ljc.8;
+        Sat, 07 Dec 2019 15:24:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IsnSBoN+fwOzxmivDinxRwK3zClWTRv2W0eL1VAkO8E=;
-        b=Tln8Umty/zgE4Rgx8ztur2ltZw5xsfva86tnrDpps5QQQLESxqv6/28VZRQGHzHbDp
-         bsKpgpLbxgT22t1ra/Mm42ZunSpJKmdHPbQsRzmiky9fONgCohCtB7J4IIvwuTUWDpPu
-         zPLw8SuVZ7u/X8ujMumkZixpqdUx8oRdvgO9CpVMW2s8xQJEJSKVgPt0AUyjofoolPXv
-         UzyJq/gXg1ij00bo30XBVMIkOc+jLcoEG0QBeWUUoQY6gDrp0zTKUzDpDUVjbw28HpvJ
-         8NYQC5LaJIZ+i/2zUBBDPfzoDFXuLw1ATAogAHnzf9MVfETVORcAVYUQDCY4F1cC64Ey
-         Y2sw==
+        bh=UYYclqI+qbEWxgjHzSQw1mRE8Z+HNZO1kpO5Dr5T5Zo=;
+        b=m2e3DVoJEoIDL+VUAjilEa45HADkdtPQ5yqtDXIeKD7IyMxe7/l2p2UTMdO/G5ZSMh
+         JV36MAs5NUacLjejDjRHiL0axTSr/l8rtQHgIJuPKBq+XXvn/lUFY5RhMhWjemyBinTW
+         Fj0+9DwxlchlD2NRJ9WShFXNHXwrm1QW+DbAIx0sBwT7H4QM/slfpRGTbL79Oa7+bnFC
+         T/DkK5f9SCOVtQa4cm87GQ1blSqIogDXcGdoZtTh6c2eQzNKdG0Q/fiKwH4qsx1BaPpH
+         3bbQlJ3G8WFeqPWU8uCcaksknWRyWBhapQjk/AfaQbxsfrbtluK4FDXqq8BOK9nYQKrZ
+         aI3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=IsnSBoN+fwOzxmivDinxRwK3zClWTRv2W0eL1VAkO8E=;
-        b=M0/d5h+DmBS844W53hdJ/vDl3lfTxhnDVoPT3D3KnepSN+zpW64+1Ha4QHyrl3W7R9
-         qJpsm1n9lbgwvz3wIYkpveRc2RPRSQZCSp738wX0LsYH96K3E2IjagQHZt6+ZZntShKx
-         ZwzK8V40Ahqp7tHEPQCfEOesY10i3DQiHTNLLbShBaWfBQ+cJBfBfOf7IzPanuD737x/
-         AlNfbgqWgfzsunyajoZPTwfpq4IG1kINLRiVUOaEOW/90enD2zEycK1m6iPcSGzkROww
-         CMVRw6WpwrFtnL/KyHa2YLKFGjN6MKwrHFLMpncTuJJcx5kaFYX0NKLz+UYxWnqGAqmI
-         NtTA==
-X-Gm-Message-State: APjAAAWq4h9i1SBQEr+8b+l4Buhdsq9DvGOy2fEUAAnVS2mLrYbWV7WI
-        53dJRBomCwpfik/oolp0jm2hIXBz
-X-Google-Smtp-Source: APXvYqzmKKCtKd4Mdn7tovgKMDuVANKbiOT7PKAcz4fygzKh9FwMQN/eJXX+uOz01aPZceDmBUvw1w==
-X-Received: by 2002:a2e:3609:: with SMTP id d9mr5794277lja.188.1575759375612;
-        Sat, 07 Dec 2019 14:56:15 -0800 (PST)
+        bh=UYYclqI+qbEWxgjHzSQw1mRE8Z+HNZO1kpO5Dr5T5Zo=;
+        b=ec4Em6JOUMXFYV8EyVZPQHFgZDMVhTaQcSrY60MHFHDp0+4+QoL+L6TqftdEoTM6o6
+         Fc4IbjLlWcdVGz3I3P9jqgPHYXq5L11MJw+5x6Zv5p2gXmWL/Jw+YAdLNLQ1KadXmgG3
+         OcoaByTUKJpoLX913bL8AwP0R9THQJcGqXU3gAUeIA3XlK038kh8xB+VV/NOckEp0M69
+         d85zKHBQBZAjhEjPGGuFmaUsYXbTVjFD7Lopnkj4zi8LswZyik/s4ZXKdQD/23pua7Yc
+         JhXxXvCceC3y5oqvfPkp9UYFo8WV3zOUIZShMxWz5wTOdBPXEoUJNIWs1XMV37GRM/WY
+         6jzw==
+X-Gm-Message-State: APjAAAUHLnzjcVTzVzkSabT5zsCpf4AXfsOx/vrXw5LXCF+hpH6EHV8v
+        elt7qHJ++xu3vQSpyuRmRAI=
+X-Google-Smtp-Source: APXvYqyhVxrvLXBCuvNVTxG/3XJJJA+cgc3K90h56oHZ1wvKmB/jS+aOEEXAQQRzF0rA1zwaXQqVmA==
+X-Received: by 2002:a2e:9bd9:: with SMTP id w25mr10729689ljj.212.1575761095167;
+        Sat, 07 Dec 2019 15:24:55 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id e14sm10014105ljj.36.2019.12.07.14.56.14
+        by smtp.googlemail.com with ESMTPSA id p26sm8604243lfh.64.2019.12.07.15.24.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Dec 2019 14:56:15 -0800 (PST)
-Subject: Re: [PATCH v8 00/19] Consolidate and improve NVIDIA Tegra CPUIDLE
- driver(s)
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191203004116.11771-1-digetx@gmail.com>
- <20191207215216.GA9561@qmqm.qmqm.pl>
+        Sat, 07 Dec 2019 15:24:54 -0800 (PST)
+Subject: Re: [PATCH v3 06/15] clk: tegra: Remove tegra_pmc_clk_init along with
+ clk ids
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, tglx@linutronix.de, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Cc:     allison@lohutok.net, pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        mturquette@baylibre.com, horms+renesas@verge.net.au,
+        Jisheng.Zhang@synaptics.com, krzk@kernel.org, arnd@arndb.de,
+        spujar@nvidia.com, josephl@nvidia.com, vidyas@nvidia.com,
+        daniel.lezcano@linaro.org, mmaddireddy@nvidia.com,
+        markz@nvidia.com, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
+        broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+        alexios.zavras@intel.com, alsa-devel@alsa-project.org
+References: <1575600535-26877-1-git-send-email-skomatineni@nvidia.com>
+ <1575600535-26877-7-git-send-email-skomatineni@nvidia.com>
+ <3880aa15-c47a-5ab2-dd39-e8a47f6a3d6a@gmail.com>
+ <e342a6e7-f213-53b4-1388-23cf61cf6fbb@gmail.com>
+ <5938df22-2474-3950-fc33-3e19cbf3da9c@gmail.com>
+ <c81ccd45-781e-0fce-4f20-65281b8c6119@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0b3a861d-e5e8-ddca-ac60-0a3c61a9d9dc@gmail.com>
-Date:   Sun, 8 Dec 2019 01:56:14 +0300
+Message-ID: <f8188f0d-ec7e-7d4a-f977-16273b594838@gmail.com>
+Date:   Sun, 8 Dec 2019 02:24:52 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191207215216.GA9561@qmqm.qmqm.pl>
+In-Reply-To: <c81ccd45-781e-0fce-4f20-65281b8c6119@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -72,33 +83,57 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-08.12.2019 00:52, Michał Mirosław пишет:
-> On Tue, Dec 03, 2019 at 03:40:57AM +0300, Dmitry Osipenko wrote:
->> Hello,
->>
->> This series does the following:
->>
->>   1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
->>      into common drivers/cpuidle/ directory.
->>
->>   2. Enables CPU cluster power-down idling state on Tegra30.
->>
->> In the end there is a quite nice clean up of the Tegra CPUIDLE drivers
->> and of the Tegra's arch code in general. Please review, thanks!
+07.12.2019 22:35, Sowjanya Komatineni пишет:
 > 
-> I did a quick smoke test for this series on top of Linus' master:
->  - rebuilding with the patches applied, CONFIG_ARM_TEGRA_CPUIDLE=n - works
->  - building with CONFIG_ARM_TEGRA_CPUIDLE=y - doesn't boot
+> On 12/7/19 7:04 AM, Dmitry Osipenko wrote:
+>> 07.12.2019 17:43, Dmitry Osipenko пишет:
+>>> 07.12.2019 17:33, Dmitry Osipenko пишет:
+>>>> 06.12.2019 05:48, Sowjanya Komatineni пишет:
+>>>>> Current Tegra clock driver registers PMC clocks clk_out_1, clk_out_2,
+>>>>> clk_out_3 and blink output in tegra_pmc_init() which does direct Tegra
+>>>>> PMC access during clk_ops and these PMC register read and write access
+>>>>> will not happen when PMC is in secure mode.
+>>>>>
+>>>>> Any direct PMC register access from non-secure world will not go
+>>>>> through and all the PMC clocks and blink control are done in Tegra PMC
+>>>>> driver with PMC as clock provider.
+>>>>>
+>>>>> This patch removes tegra_pmc_clk_init along with corresponding clk ids
+>>>>> from Tegra clock driver.
+>>>>>
+>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>> ---
+>>>> [snip]
+>>>>
+>>>>> @@ -1230,9 +1222,6 @@ static struct tegra_clk_init_table
+>>>>> init_table[] __initdata = {
+>>>>>       { TEGRA30_CLK_PLL_A, TEGRA30_CLK_CLK_MAX, 564480000, 1 },
+>>>>>       { TEGRA30_CLK_PLL_A_OUT0, TEGRA30_CLK_CLK_MAX, 11289600, 1 },
+>>>>>       { TEGRA30_CLK_EXTERN1, TEGRA30_CLK_PLL_A_OUT0, 0, 1 },
+>>>> Perhaps these clocks do not need to be always-enabled?
+>>>>
+>>>> [snip]
+>>>>
+>>> Also, EXTERN1 parent configuration should be moved to the audio
+>>> driver/device-tree as well.
+>> Ah, I missed that it's done in the patch #10.
+> Yes its done in Patch#10
+>>
+>>> Maybe it even makes sense to move the whole configuration, including
+>>> PLLA. I don't see why clk driver need to do something for the audio
+>>> driver.
 > 
-> The hang is somewhere early in the boot process, before simplefb can
-> take the console and show any logs. If I get BOOTFB to work again I might
-> be able to get some more info.
+> Current ASoC driver already takes care of PLLA rate and enables.
+> 
+> So PLLA init can be removed from clock driver too. I didn't went through
+> complete audio driver to be confident to remove this.
+> 
+> But PLLA is needed for i2s clock also and currently I2S driver takes
+> care of only I2S clock rate using PLLA as parent set by clock driver and
+> clock driver enables PLLA earlier to have it ready by the time both I2S
+> driver and ASoC driver .
+I2S could use assigned-clocks, but probably it's not really necessary
+and predefined configuration in the clk driver is good enough.
 
-Thank you very much for trying these patches!
-
-Could you please try to make ARM_TEGRA_CPUIDLE "tristate" in the Kconfig
-and compile it as a loadable module? That way you'll get framebuffer
-shown before the hang happens.
-
-Does LP2 suspend/resume work for you? There should be
-"nvidia,suspend-mode = <2>" in the PMC's node of device-tree.
+At least PLLA doesn't need to be always-enabled since audio drivers
+enable it when necessary.
