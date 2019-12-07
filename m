@@ -2,149 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F75F115ED0
-	for <lists+linux-tegra@lfdr.de>; Sat,  7 Dec 2019 22:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F12BC115ED7
+	for <lists+linux-tegra@lfdr.de>; Sat,  7 Dec 2019 22:52:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726661AbfLGVgp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 7 Dec 2019 16:36:45 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17051 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726418AbfLGVgp (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 7 Dec 2019 16:36:45 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dec1b650000>; Sat, 07 Dec 2019 13:36:39 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sat, 07 Dec 2019 13:36:44 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sat, 07 Dec 2019 13:36:44 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 7 Dec
- 2019 21:36:41 +0000
-Received: from [10.2.171.190] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 7 Dec 2019
- 21:36:39 +0000
-Subject: Re: [PATCH v3 03/15] soc: tegra: Add Tegra PMC clock registrations
- into PMC driver
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <mperttunen@nvidia.com>,
-        <gregkh@linuxfoundation.org>, <sboyd@kernel.org>,
-        <tglx@linutronix.de>, <robh+dt@kernel.org>, <mark.rutland@arm.com>
-CC:     <allison@lohutok.net>, <pdeschrijver@nvidia.com>,
-        <pgaikwad@nvidia.com>, <mturquette@baylibre.com>,
-        <horms+renesas@verge.net.au>, <Jisheng.Zhang@synaptics.com>,
-        <krzk@kernel.org>, <arnd@arndb.de>, <spujar@nvidia.com>,
-        <josephl@nvidia.com>, <vidyas@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
-        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
-        <alexios.zavras@intel.com>, <alsa-devel@alsa-project.org>
-References: <1575600535-26877-1-git-send-email-skomatineni@nvidia.com>
- <1575600535-26877-4-git-send-email-skomatineni@nvidia.com>
- <7cf4ff77-2f33-4ee5-0e09-5aa6aef3e8be@gmail.com>
- <ad3a6743-4b36-fa25-9cc7-72803038ecc5@gmail.com>
- <dc7a057a-0bed-0e6f-0987-edcfec47f867@gmail.com>
- <288a1701-def6-d628-26bc-a305f817bdb1@gmail.com>
- <78644d45-2ae3-121f-99fc-0a46f205907d@nvidia.com>
-Message-ID: <b35916e1-c6ee-52ca-9111-5ae109437b6e@nvidia.com>
-Date:   Sat, 7 Dec 2019 13:36:39 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726378AbfLGVwW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 7 Dec 2019 16:52:22 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:15804 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725847AbfLGVwW (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 7 Dec 2019 16:52:22 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 47VjmD01Rsz89;
+        Sat,  7 Dec 2019 22:49:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1575755388; bh=4v0wpT6dtqU/uUD/0zE8+Yea3Nw5xFqroZs3stOp/QI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TNFH8TRJtUGxCh1QAlDTVjWSaKM0m6227wf5QVKMl/dWZ6HLZrMYz8jFYeawxz5He
+         s1mHbWRkuit43M/boUbRaLnKFzF39geVnq7zIjnnEQJXZANvomqJmiVkID/dtgvxHI
+         /rOG+uhgdhV2iRWG4zNGK6uqCpflF5KIpHhBeLD9zRghbvDuVnfKo1n7tYj0WsQB9y
+         pqL7lunTqjmw9MX7spO987RcHfvom08bGkmb/w00/q7a8n2fAl4HDHHkqB7iGbc6+g
+         jjNWcmGIw6Vr3+3BD4+TOx7wHRGqo+yohQM6Zob3iYNvVEAQ2/A98YEto3UEP6V0bi
+         pBky2P/UYirHQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.101.4 at mail
+Date:   Sat, 7 Dec 2019 22:52:16 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 00/19] Consolidate and improve NVIDIA Tegra CPUIDLE
+ driver(s)
+Message-ID: <20191207215216.GA9561@qmqm.qmqm.pl>
+References: <20191203004116.11771-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <78644d45-2ae3-121f-99fc-0a46f205907d@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1575754599; bh=cnd0L8QMxX0KA6A+dNMO1BMHMk2Pp5YayeRWdRICX20=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=RGkgLXTgzk1pPP+qKWMNtWsV++9Y6kgHYj4+nsAPcsgyRf6FIwWYz5K/P/5B/v4FY
-         SaLwq3W4D4AInw3Zv5tLe6nnixjQakvd31kE63qDyD+YLkLsKeiW3hu2TIImEZ01SC
-         z7d2VA1AmmmuGQfHO8JTMC89xQS2LnjxKlHBsEKPoMUmgOwNj6ZcXjlObajS5a9HQT
-         rCzo0Jd4Cu+6i2pv43bkW02L0cEy04OMf18+6qw98WvJHexQFLHQrOrK2RyI8Y3mQK
-         1tRNQrdkR/vlo2xcY7rnTTJHTvmrAwpJUUXrMXtchypM2qOdCrNYQL8V7I44LHZJuo
-         7aXsj+9AleNWw==
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191203004116.11771-1-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, Dec 03, 2019 at 03:40:57AM +0300, Dmitry Osipenko wrote:
+> Hello,
+> 
+> This series does the following:
+> 
+>   1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
+>      into common drivers/cpuidle/ directory.
+> 
+>   2. Enables CPU cluster power-down idling state on Tegra30.
+> 
+> In the end there is a quite nice clean up of the Tegra CPUIDLE drivers
+> and of the Tegra's arch code in general. Please review, thanks!
 
-On 12/7/19 11:59 AM, Sowjanya Komatineni wrote:
->
-> On 12/7/19 8:00 AM, Dmitry Osipenko wrote:
->> 07.12.2019 18:53, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> 07.12.2019 18:47, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>> 07.12.2019 17:28, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>> 06.12.2019 05:48, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>> Tegra210 and prior Tegra PMC has clk_out_1, clk_out_2, clk_out_3=20
->>>>>> with
->>>>>> mux and gate for each of these clocks.
->>>>>>
->>>>>> Currently these PMC clocks are registered by Tegra clock driver=20
->>>>>> using
->>>>>> clk_register_mux and clk_register_gate by passing PMC base address
->>>>>> and register offsets and PMC programming for these clocks happens
->>>>>> through direct PMC access by the clock driver.
->>>>>>
->>>>>> With this, when PMC is in secure mode any direct PMC access from the
->>>>>> non-secure world does not go through and these clocks will not be
->>>>>> functional.
->>>>>>
->>>>>> This patch adds these clocks registration with PMC as a clock=20
->>>>>> provider
->>>>>> for these clocks. clk_ops callback implementations for these clocks
->>>>>> uses tegra_pmc_readl and tegra_pmc_writel which supports PMC=20
->>>>>> programming
->>>>>> in secure mode and non-secure mode.
->>>>>>
->>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>>>> ---
->>>> [snip]
->>>>
->>>>>> +
->>>>>> +static const struct clk_ops pmc_clk_gate_ops =3D {
->>>>>> +=C2=A0=C2=A0=C2=A0 .is_enabled =3D pmc_clk_is_enabled,
->>>>>> +=C2=A0=C2=A0=C2=A0 .enable =3D pmc_clk_enable,
->>>>>> +=C2=A0=C2=A0=C2=A0 .disable =3D pmc_clk_disable,
->>>>>> +};
->>>>> What's the benefit of separating GATE from the MUX?
->>>>>
->>>>> I think it could be a single clock.
->>>> According to TRM:
->>>>
->>>> 1. GATE and MUX are separate entities.
->>>>
->>>> 2. GATE is the parent of MUX (see PMC's CLK_OUT paths diagram in TRM).
->>>>
->>>> 3. PMC doesn't gate EXTPERIPH clock but could "force-enable" it,=20
->>>> correct?
+I did a quick smoke test for this series on top of Linus' master:
+ - rebuilding with the patches applied, CONFIG_ARM_TEGRA_CPUIDLE=n - works
+ - building with CONFIG_ARM_TEGRA_CPUIDLE=y - doesn't boot
 
-Was following existing clk-tegra-pmc as I am not sure of reason for=20
-having these clocks registered as separate mux and gate clocks.
+The hang is somewhere early in the boot process, before simplefb can
+take the console and show any logs. If I get BOOTFB to work again I might
+be able to get some more info.
 
-Yes, PMC clocks can be registered as single clock and can use clk_ops=20
-for set/get parent and enable/disable.
-
-enable/disable of PMC clocks is for force-enable to force the clock to=20
-run regardless of ACCEPT_REQ or INVERT_REQ.
-
->>> 4. clk_m_div2/4 are internal PMC OSC dividers and thus these clocks
->>> should belong to PMC.
->> Also, it should be "osc" and not "clk_m".
->
-> I followed the same parents as it were in existing clk-tegra-pmc driver.
->
-> Yeah they are wrong and they should be from osc and not clk_m.
->
-> Will fix in next version.
->
+Best Regards,
+Micha³ Miros³aw
