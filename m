@@ -2,131 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B2AF1163A9
-	for <lists+linux-tegra@lfdr.de>; Sun,  8 Dec 2019 20:55:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C658116481
+	for <lists+linux-tegra@lfdr.de>; Mon,  9 Dec 2019 01:40:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbfLHTzx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 8 Dec 2019 14:55:53 -0500
-Received: from hera.iit.uni-miskolc.hu ([193.6.5.4]:49590 "EHLO
-        hera.iit.uni-miskolc.hu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726508AbfLHTzx (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 8 Dec 2019 14:55:53 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by hera.iit.uni-miskolc.hu (Postfix) with ESMTP id 12FB8103E;
-        Sun,  8 Dec 2019 20:55:44 +0100 (CET)
-X-Virus-Scanned: Kamavis at iit.uni-miskolc.hu
-Received: from hera.iit.uni-miskolc.hu ([127.0.0.1])
-        by localhost (hera.iit.uni-miskolc.hu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id B7utCY0bbWQP; Sun,  8 Dec 2019 20:55:37 +0100 (CET)
-Received: from titan.hitronhub.home (unknown [IPv6:2a02:8109:a180:2298:b908:b45b:fbaf:424e])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: szucst@iit.uni-miskolc.hu)
-        by hera.iit.uni-miskolc.hu (Postfix) with ESMTPSA id EB5E4102C;
-        Sun,  8 Dec 2019 20:55:36 +0100 (CET)
-From:   =?UTF-8?q?Tam=C3=A1s=20Sz=C5=B1cs?= <tszucs@protonmail.ch>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Tam=C3=A1s=20Sz=C5=B1cs?= <tszucs@protonmail.ch>
-Subject: [PATCH v2] arm64: tegra: Enable PWM fan on Jetson Nano
-Date:   Sun,  8 Dec 2019 20:55:31 +0100
-Message-Id: <20191208195531.11745-1-tszucs@protonmail.ch>
-X-Mailer: git-send-email 2.20.1
+        id S1726669AbfLIAka (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 8 Dec 2019 19:40:30 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:33727 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726654AbfLIAk3 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 8 Dec 2019 19:40:29 -0500
+Received: by mail-lf1-f66.google.com with SMTP id n25so9332210lfl.0
+        for <linux-tegra@vger.kernel.org>; Sun, 08 Dec 2019 16:40:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=JWPPzGUxy600qT3nVozIqBBAbKVQhABD8sIYsMTNlAc=;
+        b=oZoWY69BswrCKsIbIgt79QuxqjgV24TAFehsdHtK/O/44oR4w7iHbDnriwmKn6V6i8
+         4hRgcToqBe5J7UZAa91Ex+dEzfTImi9fvT2begHeqSgAjnU+0u4zqr8fpFqyRcysQTF8
+         9uQOzKpyCQWxRrpFGFoiTHGXz708xf4zn6FPD1/BQ1vL2IQHsDa/gCZ1MiS0kro/PBw1
+         H4nGh72H8tXTVcJz2X/8T0NxqL6KEKns7wRVXfConjjHlOVFtd5J9ca6KNjMa8EsNqey
+         lgzN+arsKGbUTQejmNKBmFD04dxfQicbA3ntwUqXQGzyr6QF78qn8yCNBAoNzQEq95p6
+         D9qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JWPPzGUxy600qT3nVozIqBBAbKVQhABD8sIYsMTNlAc=;
+        b=nL0oml/bbStpYoKJWVDZKbt6o2AgGtO23YfMLlETbu6+X8jc9nepewTi8l1lPk/9W1
+         lO58rHZy2rw8e93RzXnHFd6MoaPzuxWrHWuGG02Z3zGzCpoGP0jja0l1tDuitgtYdS8o
+         NdyYwF8jxYdVibKsv/fYFxIBt7Qjp0NWkhObNj8A/4uyX4+isIPVOl2zbfRhHeCRFahW
+         UPOPMbwioIwFuhIE7D5C4LZP5Sc83cq7DBgEO/d2Vz0LzCWnri4thqnlvWhfccY4j2Hh
+         ppg+uu/sFA/GZho+F5I7Bsfkq5u7ZLIBJbIUlsUpvzhzQSn0sSErmY5oXuJwVMjfovVZ
+         /OUg==
+X-Gm-Message-State: APjAAAX38lFyvNnLwpQkXComu31r7VfUFSXvw1DjVtUZqgBSybQXjx+f
+        MImGs7vRhebsFogVy4pe+jg=
+X-Google-Smtp-Source: APXvYqyxhVDpkaN4A/YvGquWaQ+iAcunN55sePH4puGOEmcRK9wgaVR7jQJEul9WvNyGs5ucC7t0iw==
+X-Received: by 2002:ac2:5a43:: with SMTP id r3mr14235618lfn.150.1575852027918;
+        Sun, 08 Dec 2019 16:40:27 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id m21sm42743lfh.53.2019.12.08.16.40.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Dec 2019 16:40:26 -0800 (PST)
+Subject: Re: [PATCH v2 5/9] drm/tegra: sor: Implement system suspend/resume
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        dri-devel@lists.freedesktop.org
+References: <20191203161914.1312555-1-thierry.reding@gmail.com>
+ <20191203161914.1312555-5-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <8b789b1c-c44e-f169-d0ca-fff333608c28@gmail.com>
+Date:   Mon, 9 Dec 2019 03:40:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20191203161914.1312555-5-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable PWM fan and extend CPU thermal zones for monitoring and fan control.
-This will trigger the PWM fan on J15 and cool down the system if necessary.
+03.12.2019 19:19, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Upon system suspend, make sure the +5V HDMI regulator is disabled. This
+> avoids potentially leaking current to the HDMI connector. This also
+> makes sure that upon resume the regulator is enabled again, which in
+> some cases is necessary to properly restore the state of the supply on
+> resume.
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/gpu/drm/tegra/sor.c | 24 +++++++++++++++++++-----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> index 615cb319fa8b..2200f4cd397a 100644
+> --- a/drivers/gpu/drm/tegra/sor.c
+> +++ b/drivers/gpu/drm/tegra/sor.c
+> @@ -3912,8 +3912,7 @@ static int tegra_sor_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> -#ifdef CONFIG_PM
+> -static int tegra_sor_suspend(struct device *dev)
+> +static int tegra_sor_runtime_suspend(struct device *dev)
+>  {
+>  	struct tegra_sor *sor = dev_get_drvdata(dev);
+>  	int err;
+> @@ -3935,7 +3934,7 @@ static int tegra_sor_suspend(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -static int tegra_sor_resume(struct device *dev)
+> +static int tegra_sor_runtime_resume(struct device *dev)
+>  {
+>  	struct tegra_sor *sor = dev_get_drvdata(dev);
+>  	int err;
+> @@ -3967,10 +3966,25 @@ static int tegra_sor_resume(struct device *dev)
+>  
+>  	return 0;
+>  }
+> -#endif
+> +
+> +static int tegra_sor_suspend(struct device *dev)
+> +{
+> +	struct tegra_sor *sor = dev_get_drvdata(dev);
+> +
+> +	return regulator_disable(sor->hdmi_supply);
+> +}
+> +
+> +static int tegra_sor_resume(struct device *dev)
+> +{
+> +	struct tegra_sor *sor = dev_get_drvdata(dev);
+> +
+> +	return regulator_enable(sor->hdmi_supply);
+> +}
 
-Signed-off-by: Tamás Szűcs <tszucs@protonmail.ch>
----
-Changes in v2:
-- clean up redundant lines
+These functions should be annotated with __maybe_unused attribute.
 
- .../boot/dts/nvidia/tegra210-p3450-0000.dts   | 60 +++++++++++++++++++
- 1 file changed, 60 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index 90381d52ac54..f2a138b14e36 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -573,6 +573,66 @@
- 		};
- 	};
- 
-+	fan: fan {
-+		compatible = "pwm-fan";
-+		pwms = <&pwm 3 45334>;
-+
-+		cooling-levels = <0 64 128 255>;
-+		#cooling-cells = <2>;
-+	};
-+
-+	thermal-zones {
-+		cpu {
-+			trips {
-+				cpu_trip_critical: critical {
-+					temperature = <96500>;
-+					hysteresis = <0>;
-+					type = "critical";
-+				};
-+
-+				cpu_trip_hot: hot {
-+					temperature = <70000>;
-+					hysteresis = <2000>;
-+					type = "hot";
-+				};
-+
-+				cpu_trip_active: active {
-+					temperature = <50000>;
-+					hysteresis = <2000>;
-+					type = "active";
-+				};
-+
-+				cpu_trip_passive: passive {
-+					temperature = <30000>;
-+					hysteresis = <2000>;
-+					type = "passive";
-+				};
-+			};
-+
-+			cooling-maps {
-+				cpu-critical {
-+					cooling-device = <&fan 3 3>;
-+					trip = <&cpu_trip_critical>;
-+				};
-+
-+				cpu-hot {
-+					cooling-device = <&fan 2 2>;
-+					trip = <&cpu_trip_hot>;
-+				};
-+
-+				cpu-active {
-+					cooling-device = <&fan 1 1>;
-+					trip = <&cpu_trip_active>;
-+				};
-+
-+				cpu-passive {
-+					cooling-device = <&fan 0 0>;
-+					trip = <&cpu_trip_passive>;
-+				};
-+			};
-+		};
-+	};
-+
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--- 
-2.20.1
+>  static const struct dev_pm_ops tegra_sor_pm_ops = {
+> -	SET_RUNTIME_PM_OPS(tegra_sor_suspend, tegra_sor_resume, NULL)
+> +	SET_RUNTIME_PM_OPS(tegra_sor_runtime_suspend, tegra_sor_runtime_resume,
+> +			   NULL)
+> +	SET_SYSTEM_SLEEP_PM_OPS(tegra_sor_suspend, tegra_sor_resume)
+>  };
+>  
+>  struct platform_driver tegra_sor_driver = {
+> 
 
