@@ -2,199 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DE16119094
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 20:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A17C2119121
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 20:55:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbfLJT2Y (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Dec 2019 14:28:24 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40752 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726018AbfLJT2Y (ORCPT
+        id S1726930AbfLJTzG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Dec 2019 14:55:06 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:43471 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726903AbfLJTzD (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Dec 2019 14:28:24 -0500
-Received: by mail-lj1-f195.google.com with SMTP id s22so21204036ljs.7;
-        Tue, 10 Dec 2019 11:28:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:newsgroups:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KzrNKcEOiU1kNGyhfhhVTJTy6mwRVVvr+Rcn9qUurw8=;
-        b=QNz7LqTYmVb9Aun7hEf0jLOYMlUfOiJuHQCLY3kkVkHM+T2cbdU3feFVwNjxfXYTx5
-         6dX859cw10yoxlm375M6kKNRDA9uLd7wNnFtS4T8lQntSzd4PHol+m/6MpAzsAcdl8r3
-         PoAAMrtynBsYvr4Mim7TnoL3Rh5i4MbCW/mXDpv++/UK0O8ojl2cYu1yYmWB0TG5z22R
-         1IX3wuDmLuBYGM3/B5FKAVcK6edYkjGgMGrPXcMOwySXPzMaX3WLhwFKoCXgoVpJbqas
-         ic5l6MR2VHaXdqKIwHDLHhkaLMdhlhqr9UPbISdjXyyiOjE4mGzE619pZ5FPG9eLD+Wb
-         Tfyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:newsgroups:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=KzrNKcEOiU1kNGyhfhhVTJTy6mwRVVvr+Rcn9qUurw8=;
-        b=VXVYyeflU13aLWEqUyrZ8bYqMxjvmjGdnq0KTdOGngFPn93kCydoSCca4IdexwNR6O
-         +vhd8MLb/PsMnC67z+ijzczpeo7o3aS4mhWios78r2VhttjZUBIvKUPlKb3pjO3Qn/z+
-         F2YzrAsHPkhi2MtKmCRvJXlgq5RBk7rIc5XB7YO0cT9F3gUXpziO+h3MX0+yxGMNr3sb
-         Kho2en5yOiJZB/PT1GG0hjbDsEGqivdrcLZsPoMfCahbtgqZjC0VTR/Tz9quCagVmfop
-         JNi4iaqSvwtrollODf7uLEfgm8DBWahlvnZlReybWuN22049W3k2j51F7TyUVDdVZ/g6
-         5uCg==
-X-Gm-Message-State: APjAAAVtduYfGcha7ztMqsiRNo80wg/lXprj0cYzYNObjaNoGcqzkRwA
-        1BVZbQjWZhb/o1cc5qiXxpcBRVrU
-X-Google-Smtp-Source: APXvYqyGNckK5y5s9f8Jo3dSVgNxZdC7RHTTL3IKb5a7ys0PqCMlBLRFvvJWSZCZJGsvb+557NSYEA==
-X-Received: by 2002:a2e:91c1:: with SMTP id u1mr21608748ljg.181.1576006101841;
-        Tue, 10 Dec 2019 11:28:21 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id c9sm2302940ljd.28.2019.12.10.11.28.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2019 11:28:21 -0800 (PST)
-Subject: Re: [PATCH] ARM: tegra: Fix restoration of PLLM when exiting suspend
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        stable@vger.kernel.org
-Newsgroups: gmane.linux.kernel.stable,gmane.linux.ports.arm.kernel,gmane.linux.ports.tegra
-References: <20191210103708.7023-1-jonathanh@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1f2a4f23-5be5-aa7e-6eb4-2aeb4058481d@gmail.com>
-Date:   Tue, 10 Dec 2019 22:28:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Tue, 10 Dec 2019 14:55:03 -0500
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1MBmDy-1iSdZE09bI-00CCMA; Tue, 10 Dec 2019 20:53:44 +0100
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Ben Zhang <benzh@chromium.org>,
+        Curtis Malainey <cujomalainey@chromium.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Jie Yang <yang.jie@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        KaiChieh Chuang <kaichieh.chuang@mediatek.com>,
+        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH] ASoC: rt5677: add SPI_MASTER dependency
+Date:   Tue, 10 Dec 2019 20:52:26 +0100
+Message-Id: <20191210195333.648018-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-In-Reply-To: <20191210103708.7023-1-jonathanh@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:FRkHOOKgb97GU78DRa4WO6ybtXkwJBdydEWXHFH0XK6ebufL9xV
+ 1EnlNmOIxy2m4DJZpwOSZDYe6VdSkLHIYTkUdRCdxb96bn4+i9aM5HDbv8Y7m7upSqX0g+4
+ aZ7pxvErgtXqj88QUP5vZlUGYWZsThHweb+iyAH57kzxC10soq23IhgctvcW1mAt5mudX0M
+ ofu4B2dzMSXFkyVJqr7fA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aRxDfmwkuqQ=:Q5kIO/JyMKhASOEVpBGr79
+ mltKx8dNXZy5JN2a10gY5qm3kf02KQ8QYkK/4v3cAdAbmccyzL4DXyE+PKfOKw6YenitwI12c
+ 8YbdnsOQ8CJRf8p4rEWHGUvRObVYsyum+gwXLcv7ROZGJT3/G/YCUikha20/xZ/QOXlfAzyia
+ 7c+O9S7Q5eND46EM3BY8MWxHHnw6vvaouoJcBvalhn6utMA4Xdyu6sQ8klBKG/OgtzUIK/5f5
+ dgV1/mPcAfVkiDLHIOYY33Pv7BbxGikgB3SDFPgfExtJQj9YatmVAE8kJpv7eYxwqZEW9xR2U
+ wUG2rEBAkKiD8Wfob5x3p4BZ7vIWifgoOi5pHHimENGsOT+B3UybUI5RUND6zaquO3rBi8evu
+ rYtEPAxqZ5pKX8o/t6h14iPnoO/9+X619xrMLQmZMHVYg1lXfFU/da7NavX81GHaMC7DXR8lW
+ yVoDxUCfei6PWs8RaBl7o7ewBIyGnUE4uocUG3rbI/SlP78kYT6tpS4PtTKHZQMiv7NbGvII1
+ 8/SzVaX+qN+X55J8eYxyg/eCefYiWim8pCMOjrJPOTeNSnV6RCH3iEeHZS48oGJvCIvexLTjY
+ tVeasw/P6N94yIWtOgt5S1yqSEgIg0TJvze3ZruHI+ks3QwRINk3gVegkpgUvEBcd4IxFI2yl
+ QDOUbechDBC9C1VkFW5voYcKksms6yCQrIFWzOrWWLxhO5Ahg3fDkwe272NzdQXH0pRQrq9nC
+ OehoDnS0YYCsMz/8ALLgfgBpT9+mK0KV3838L/HVcBGhGfNBCXig+a9eqoEyQQ6SqIU83x0IQ
+ C6Kx99oKCbEHzZkvBlwpEoLaMYnbY5DOCCrIY1KjWrOLqhhrYUQFyfH0Lmn7+kt/a+MbIJtvw
+ QFiozHF88wZ3H1Nwewdw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello Jon,
+When CONFIG_SPI is disabled, the newly added code for the DSP
+firmware loading fails to link:
 
-10.12.2019 13:37, Jon Hunter пишет:
-> The suspend entry and exit code for 32-bit Tegra devices assumes that
-> the PLLM (which is used to provide the clock for external memory)
-> is always enabled on entry to suspend. Hence, the current code always
-> disables the PLLM on entry to suspend and re-enables the PLLM on exit
-> from suspend.
-> 
-> Since the introduction of the Tegra124 EMC driver by commit 73a7f0a90641
-> ("memory: tegra: Add EMC (external memory controller) driver"), which is
-> used to scale the EMC frequency, PLLM may not be the current clock
-> source for the EMC on entry to suspend and hence may not be enabled.
-> Always enabling the PLLM on exit from suspend can cause the actual
-> status on the PLL to be different from that reported by the common clock
-> framework.
-> 
-> On kernels prior to v4.5, the code to set the rate of the PLLM had a
-> test to verify if the PLL was enabled and if the PLL was enabled,
-> setting the rate would fail. Since commit 267b62a96951
-> ("clk: tegra: pll: Update PLLM handling") the test to see if PLLM is
-> enabled was removed.
-> 
-> With these earlier kernels, if the PLLM is disabled on entering suspend
-> and the EMC driver attempts to set the parent of the EMC clock to the
-> PLLM on exiting suspend, then the set rate for the PLLM will fail and in
-> turn cause the resume to fail.
-> 
-> We should not be re-enabling the PLLM on resume from suspend unless it
-> was enabled on entry to suspend. Therefore, fix this by saving the state
-> of PLLM on entry to suspend and only re-enable it, if it was already
-> enabled.
-> 
-> Fixes: 73a7f0a90641 ("memory: tegra: Add EMC (external memory controller) driver")
-> Cc: stable@vger.kernel.org
-> 
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
->  arch/arm/mach-tegra/sleep-tegra30.S | 33 +++++++++++++++++++++++------
->  1 file changed, 27 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/arm/mach-tegra/sleep-tegra30.S b/arch/arm/mach-tegra/sleep-tegra30.S
-> index 3341a12bbb9c..c2f0793a424f 100644
-> --- a/arch/arm/mach-tegra/sleep-tegra30.S
-> +++ b/arch/arm/mach-tegra/sleep-tegra30.S
-> @@ -337,26 +337,42 @@ ENTRY(tegra30_lp1_reset)
->  	add	r1, r1, #2
->  	wait_until r1, r7, r3
->  
-> -	/* enable PLLM via PMC */
-> +	/* restore PLLM state */
->  	mov32	r2, TEGRA_PMC_BASE
-> +	adr	r7, tegra_pllm_status
-> +	ldr	r1, [r7]
-> +	cmp	r2, #(1 << 12)
-> +	bne	_skip_pllm
-> +
->  	ldr	r1, [r2, #PMC_PLLP_WB0_OVERRIDE]
->  	orr	r1, r1, #(1 << 12)
->  	str	r1, [r2, #PMC_PLLP_WB0_OVERRIDE]
->  
->  	pll_enable r1, r0, CLK_RESET_PLLM_BASE, 0
-> +	pll_locked r1, r0, CLK_RESET_PLLM_BASE
-> +
-> +_skip_pllm:
->  	pll_enable r1, r0, CLK_RESET_PLLC_BASE, 0
->  	pll_enable r1, r0, CLK_RESET_PLLX_BASE, 0
->  
->  	b	_pll_m_c_x_done
->  
->  _no_pll_iddq_exit:
-> -	/* enable PLLM via PMC */
-> +	/* restore PLLM state */
->  	mov32	r2, TEGRA_PMC_BASE
-> +	adr	r7, tegra_pllm_status
-> +	ldr	r1, [r7]
-> +	cmp	r2, #(1 << 12)
-> +	bne	_skip_pllm_no_iddq
-> +
->  	ldr	r1, [r2, #PMC_PLLP_WB0_OVERRIDE]
->  	orr	r1, r1, #(1 << 12)
->  	str	r1, [r2, #PMC_PLLP_WB0_OVERRIDE]
->  
->  	pll_enable r1, r0, CLK_RESET_PLLM_BASE, CLK_RESET_PLLM_MISC
-> +	pll_locked r1, r0, CLK_RESET_PLLM_BASE
-> +
-> +_skip_pllm_no_iddq:
->  	pll_enable r1, r0, CLK_RESET_PLLC_BASE, CLK_RESET_PLLC_MISC
->  	pll_enable r1, r0, CLK_RESET_PLLX_BASE, CLK_RESET_PLLX_MISC
->  
-> @@ -364,7 +380,6 @@ _pll_m_c_x_done:
->  	pll_enable r1, r0, CLK_RESET_PLLP_BASE, CLK_RESET_PLLP_MISC
->  	pll_enable r1, r0, CLK_RESET_PLLA_BASE, CLK_RESET_PLLA_MISC
->  
-> -	pll_locked r1, r0, CLK_RESET_PLLM_BASE
->  	pll_locked r1, r0, CLK_RESET_PLLP_BASE
->  	pll_locked r1, r0, CLK_RESET_PLLA_BASE
->  	pll_locked r1, r0, CLK_RESET_PLLC_BASE
-> @@ -526,6 +541,8 @@ __no_dual_emc_chanl:
->  ENDPROC(tegra30_lp1_reset)
->  
->  	.align	L1_CACHE_SHIFT
-> +tegra_pllm_status:
-> +	.word	0
->  tegra30_sdram_pad_address:
->  	.word	TEGRA_EMC_BASE + EMC_CFG				@0x0
->  	.word	TEGRA_EMC_BASE + EMC_ZCAL_INTERVAL			@0x4
-> @@ -624,10 +641,14 @@ tegra30_switch_cpu_to_clk32k:
->  	add	r1, r1, #2
->  	wait_until r1, r7, r9
+ERROR: "rt5677_spi_hotword_detected" [sound/soc/codecs/snd-soc-rt5677.ko] undefined!
+ERROR: "rt5677_spi_write" [sound/soc/codecs/snd-soc-rt5677.ko] undefined!
 
+Add a dependency to prevent this configuration.
 
-> -	/* disable PLLM via PMC in LP1 */
-> +	/* disable PLLM, if enabled, via PMC in LP1 */
-> +	adr	r1, tegra_pllm_status
->  	ldr	r0, [r4, #PMC_PLLP_WB0_OVERRIDE]
-> -	bic	r0, r0, #(1 << 12)
-> -	str	r0, [r4, #PMC_PLLP_WB0_OVERRIDE]
-> +	and	r2, r0, #(1 << 12)
-> +	str     r2, [r1]
-> +	cmp	r2, #(1 << 12)
-> +	biceq	r0, r0, #(1 << 12)
-> +	streq	r0, [r4, #PMC_PLLP_WB0_OVERRIDE]
->  
->  	/* disable PLLP, PLLA, PLLC and PLLX */
->  	ldr	r0, [r5, #CLK_RESET_PLLP_BASE]
+Note: the does not work with the DT probing, as there is no binding
+for the SPI half of the driver, but nothing seems to be using that
+with the mainline kernel anyway.
 
-PLLM's enable-status could be defined either by PMC or CaR. Thus at
-first you need to check whether PMC overrides CaR's enable and then
-judge the enable state based on PMC or CaR state respectively.
+Fixes: 461c623270e4 ("ASoC: rt5677: Load firmware via SPI using delayed work")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ sound/soc/codecs/Kconfig       | 1 +
+ sound/soc/intel/boards/Kconfig | 1 +
+ sound/soc/mediatek/Kconfig     | 2 +-
+ sound/soc/tegra/Kconfig        | 2 +-
+ 4 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 71b7286d14f2..8e9c461a84f8 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -1047,6 +1047,7 @@ config SND_SOC_RT5670
+ 
+ config SND_SOC_RT5677
+ 	tristate
++	depends on SPI_MASTER
+ 	select REGMAP_I2C
+ 	select REGMAP_IRQ
+ 
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index ef20316e83d1..da7f9111f3d3 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -34,6 +34,7 @@ if SND_SOC_INTEL_HASWELL || SND_SOC_SOF_BROADWELL
+ config SND_SOC_INTEL_BDW_RT5677_MACH
+ 	tristate "Broadwell with RT5677 codec"
+ 	depends on I2C
++	depends on SPI_MASTER
+ 	depends on I2C_DESIGNWARE_PLATFORM || COMPILE_TEST
+ 	depends on GPIOLIB || COMPILE_TEST
+ 	depends on X86_INTEL_LPSS || COMPILE_TEST
+diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
+index a656d2014127..4699787c93ed 100644
+--- a/sound/soc/mediatek/Kconfig
++++ b/sound/soc/mediatek/Kconfig
+@@ -97,7 +97,7 @@ config SND_SOC_MT8173_RT5650_RT5514
+ 
+ config SND_SOC_MT8173_RT5650_RT5676
+ 	tristate "ASoC Audio driver for MT8173 with RT5650 RT5676 codecs"
+-	depends on SND_SOC_MT8173 && I2C
++	depends on SND_SOC_MT8173 && I2C && SPI_MASTER
+ 	select SND_SOC_RT5645
+ 	select SND_SOC_RT5677
+ 	select SND_SOC_HDMI_CODEC
+diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
+index addadc827b91..df36e84c0116 100644
+--- a/sound/soc/tegra/Kconfig
++++ b/sound/soc/tegra/Kconfig
+@@ -122,7 +122,7 @@ config SND_SOC_TEGRA_MAX98090
+ 
+ config SND_SOC_TEGRA_RT5677
+ 	tristate "SoC Audio support for Tegra boards using a RT5677 codec"
+-	depends on SND_SOC_TEGRA && I2C && GPIOLIB
++	depends on SND_SOC_TEGRA && I2C && GPIOLIB && SPI_MASTER
+ 	select SND_SOC_RT5677
+ 	help
+ 	  Say Y or M here if you want to add support for SoC audio on Tegra
+-- 
+2.20.0
+
