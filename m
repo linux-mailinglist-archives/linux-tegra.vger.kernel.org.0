@@ -2,212 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E0A4118AE9
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 15:32:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EAFB118AEC
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 15:32:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727500AbfLJOcU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Dec 2019 09:32:20 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:34515 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727272AbfLJOcU (ORCPT
+        id S1727359AbfLJOcp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Dec 2019 09:32:45 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18586 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727272AbfLJOcp (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Dec 2019 09:32:20 -0500
-Received: by mail-lj1-f196.google.com with SMTP id m6so20161342ljc.1;
-        Tue, 10 Dec 2019 06:32:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NtQLIixJvWLdOmT9WjBNSoTnwbz5rbhUufNkRo6kvMI=;
-        b=arH933MRe09aXDaXrf09Pixv4TtIu/KOyaICoCwJEjVF+jnr4jWbZNkD20PhNLy4bl
-         pyJWbh+mnbPUqUpRGtOocGeS+riWJaJvsi+TnMPrHUa9tl+Qna40PAmFw6DHyPxhwbBO
-         3RZSHOZLDzlMAWhajHBz0TwDjoMbEVGIvo3oa3wLSQKK2yQYK6CIFUzBpf5DJE4DRpI0
-         FO63VmtDLOJfsE6K0iynemMw+wqZzn533VYmd6FM1WBwtWSSTNKNnBiM4vTd7u2UxJdB
-         NfxALL3qe3MpOC5bkjM8Ky0pIbaZXxIaC0sdVljy9mA4ysKYPWcexSy6a/81kHiAsf+y
-         gtIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=NtQLIixJvWLdOmT9WjBNSoTnwbz5rbhUufNkRo6kvMI=;
-        b=nCfTU+amy8EgI1XM1gfJRFREsbj1ziHbS0vslTI+HRWAYAlkToVJBCVVihZ0FQVMkP
-         SeB2xKm4EAHz47qmFCgwPY8Vh53FUUq2DpXzo8KAGN3BPPx7B26A9/8h4O1nx/KAGtRR
-         N1PiUqbfFVYGNvtG127ERPbpI3W0o80QDHAWVpUygjYm2SmZ2VWsGfsZJGPG0HtuzjwJ
-         lp3ZLlGqDTw6yAkMLqXp5y6+F7b0rg4EW7OrLUTVntgheiwNIyFXx8LdbP0PIS8XYTo6
-         /Htg8gwkj46bjrpdsF4vDu2z3JW98nsMffNuvvtY3ZKjubDsDsJeEmi7tTX/2PdKmQH1
-         Tb8A==
-X-Gm-Message-State: APjAAAXgBEA0oj8x7uGme3DfyEt9p4CDMV0oUBP3XNo/L1YoY4oBooq3
-        uhecBjzVRqxl+/LxL608HruEgfie
-X-Google-Smtp-Source: APXvYqx8TeNe2BV8pHNQaaDHPaPYKKw7a50n8BOjI/SGqtlX0JK4+XeQcN4XjcJY6Uw6VLffz7JKEQ==
-X-Received: by 2002:a2e:93c9:: with SMTP id p9mr14285548ljh.136.1575988337287;
-        Tue, 10 Dec 2019 06:32:17 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id m15sm2010376ljg.4.2019.12.10.06.32.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2019 06:32:16 -0800 (PST)
-Subject: Re: [PATCH v1] sdhci: tegra: Add workaround for Broadcom WiFi
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>, linux-mmc@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191210014011.21987-1-digetx@gmail.com>
- <20191210125208.GD2703785@ulmo>
- <61b7a865-6a6f-5edf-7463-cfdd6b20f687@gmail.com>
-Message-ID: <bc0ebcd6-082a-7b2f-0dc7-c1dc04db12b0@gmail.com>
-Date:   Tue, 10 Dec 2019 17:32:15 +0300
+        Tue, 10 Dec 2019 09:32:45 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5defac770000>; Tue, 10 Dec 2019 06:32:23 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 10 Dec 2019 06:32:43 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 10 Dec 2019 06:32:43 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 14:32:43 +0000
+Received: from [10.21.133.51] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 14:32:42 +0000
+Subject: Re: [PATCH] ARM: tegra: Fix restoration of PLLM when exiting suspend
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-tegra@vger.kernel.org>, <stable@vger.kernel.org>
+References: <20191210103708.7023-1-jonathanh@nvidia.com>
+ <20191210120909.GA2703785@ulmo>
+ <8bf12fcd-02c7-4dc0-90e6-30009ab9f8e7@nvidia.com>
+Message-ID: <cd2aaa4a-c0de-a6e7-ca93-06901f5bb142@nvidia.com>
+Date:   Tue, 10 Dec 2019 14:32:40 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <61b7a865-6a6f-5edf-7463-cfdd6b20f687@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <8bf12fcd-02c7-4dc0-90e6-30009ab9f8e7@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1575988343; bh=ZztB0uubCfN04mux0kLM32BK0EExqmJdekMbzYpGL5k=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=f9z8iPkOuQGIaU36MLSWe9RWM89Az+FxjeKt6bQE/cYWtlEcwAiLZpFRXKVf1pCax
+         3MtLfTmFIb85auowc5ldNI8DRxthz4aGeGWmeuQDcVbPCQIPgoqjiXoHuAZXCm9qtr
+         HA3yzhqoU38BSO++X3M0WuJszlrR3+jQLNqLLwAuoKDJcLhgHC43BqiXHbOfq1kHO5
+         PdW2ts87OFs+shtB17tpJsJxF5yhT557OEV3nMNHMR3ccyOVTiPy7/2chzKwVoA0HF
+         J8BOcadPqclAH7VmMOD3IQaZqxOjez32/KTwFnU1ycQ05SMtdT+zAWJAisXYv25x5I
+         /k6e7vWRI76qQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-10.12.2019 17:15, Dmitry Osipenko пишет:
-> 10.12.2019 15:52, Thierry Reding пишет:
->> On Tue, Dec 10, 2019 at 04:40:11AM +0300, Dmitry Osipenko wrote:
->>> All Tegra20 boards that have embedded Broadcom WiFi SDIO chip are affected
->>> by a problem where WiFi chip reports CCCR v1.10, while it should v1.20.
->>> In a result high-speed mode isn't enabled for the WiFi card and this
->>> results in a malfunctioning SDIO communication.
+
+
+On 10/12/2019 14:29, Jon Hunter wrote:
+> 
+> On 10/12/2019 12:09, Thierry Reding wrote:
+>> On Tue, Dec 10, 2019 at 10:37:08AM +0000, Jon Hunter wrote:
+>>> The suspend entry and exit code for 32-bit Tegra devices assumes that
+>>> the PLLM (which is used to provide the clock for external memory)
+>>> is always enabled on entry to suspend. Hence, the current code always
+>>> disables the PLLM on entry to suspend and re-enables the PLLM on exit
+>>> from suspend.
 >>>
->>>  brcmfmac: brcmf_sdio_readframes: read 304 bytes from channel 1 failed: -84
->>>  brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame, send NAK
+>>> Since the introduction of the Tegra124 EMC driver by commit 73a7f0a90641
+>>> ("memory: tegra: Add EMC (external memory controller) driver"), which is
+>>> used to scale the EMC frequency, PLLM may not be the current clock
+>>> source for the EMC on entry to suspend and hence may not be enabled.
+>>> Always enabling the PLLM on exit from suspend can cause the actual
+>>> status on the PLL to be different from that reported by the common clock
+>>> framework.
 >>>
->>> Downstream kernels are overriding card's CCCR info in SDHCI driver to fix
->>> the problem, let's do the same in upstream.
+>>> On kernels prior to v4.5, the code to set the rate of the PLLM had a
+>>> test to verify if the PLL was enabled and if the PLL was enabled,
+>>> setting the rate would fail. Since commit 267b62a96951
+>>> ("clk: tegra: pll: Update PLLM handling") the test to see if PLLM is
+>>> enabled was removed.
 >>>
->>> The change is inspired by omap_hsmmc_init_card() of OMAP's HSMMC driver,
->>> which overrides card's info for the TI wl1251 WiFi.
+>>> With these earlier kernels, if the PLLM is disabled on entering suspend
+>>> and the EMC driver attempts to set the parent of the EMC clock to the
+>>> PLLM on exiting suspend, then the set rate for the PLLM will fail and in
+>>> turn cause the resume to fail.
 >>>
->>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> We should not be re-enabling the PLLM on resume from suspend unless it
+>>> was enabled on entry to suspend. Therefore, fix this by saving the state
+>>> of PLLM on entry to suspend and only re-enable it, if it was already
+>>> enabled.
+>>>
+>>> Fixes: 73a7f0a90641 ("memory: tegra: Add EMC (external memory controller) driver")
+>>> Cc: stable@vger.kernel.org
+>>>
+>>> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 >>> ---
->>>  drivers/mmc/host/sdhci-tegra.c | 28 ++++++++++++++++++++++++++++
->>>  1 file changed, 28 insertions(+)
+>>>  arch/arm/mach-tegra/sleep-tegra30.S | 33 +++++++++++++++++++++++------
+>>>  1 file changed, 27 insertions(+), 6 deletions(-)
 >>
->> This seems like the wrong place to do this. If this is specific to this
->> WiFi SDIO chip this should be handled at the SDIO card or function
->> level. It seems like the SDIO infrastructure doesn't currently allow
->> this because the OF nodes are attached to the card after
->> mmc_sdio_init_card(), whereas it seems like the quirk is already needed
->> during mmc_sdio_init_card().
->>
->> That said, I think we could have some common code that's executed as
->> part of mmc_attach_sdio() (and before mmc_sdio_init_card()).
->>
->> Actually, it looks like we already have something like that.
->> mmc_sdio_init_card() calls mmc_fixup_device() with sdio_fixup_methods
->> after doing some very basic initialization. Do you know if things start
->> to go wrong before or after that point? It might be worth looking at
->> that SDIO fixup array and add something that would override the CCCR
->> support. That would fix things in a more generic way rather than
->> requiring every host controller driver to duplicate this quirk.
+>> Looks good to me. If I understand correctly we really only need this on
+>> v4.4 and earlier because the issue doesn't happen on later kernels
+>> because of that PLLM handling update change that you mentioned, right?
 > 
-> Hello Thierry,
-> 
-> Thank you very much for the suggestion, looks like indeed it is possible
-> to make workaround in a generic way.
-> 
-> Ulf / Adrian, will something like this be acceptable:
-> 
-> diff --git a/drivers/mmc/core/card.h b/drivers/mmc/core/card.h
-> index 7bd392d55cfa..a6001f210b9e 100644
-> --- a/drivers/mmc/core/card.h
-> +++ b/drivers/mmc/core/card.h
-> @@ -150,6 +150,12 @@ static inline void __maybe_unused
-> add_limit_rate_quirk(struct mmc_card *card,
->  	card->quirk_max_rate = data;
->  }
-> 
-> +static inline void __maybe_unused add_high_speed_quirk(struct mmc_card
-> *card,
-> +						       int data)
-> +{
-> +	card->cccr.high_speed = data;
-> +}
-> +
->  /*
->   * Quirk add/remove for MMC products.
->   */
-> diff --git a/drivers/mmc/core/quirks.h b/drivers/mmc/core/quirks.h
-> index 3dba15bccce2..a824c0caa7fb 100644
-> --- a/drivers/mmc/core/quirks.h
-> +++ b/drivers/mmc/core/quirks.h
-> @@ -142,6 +142,9 @@ static const struct mmc_fixup sdio_fixup_methods[] = {
->  	SDIO_FIXUP(SDIO_VENDOR_ID_MARVELL, SDIO_DEVICE_ID_MARVELL_8887WLAN,
->  		   add_limit_rate_quirk, 150000000),
-> 
-> +	SDIO_FIXUP(SDIO_VENDOR_ID_BROADCOM, SDIO_DEVICE_ID_BROADCOM_4329,
-> +		   add_high_speed_quirk, 1),
-> +
->  	END_FIXUP
->  };
-> 
-> [snip]
+> Yes.
 
-On second thought, perhaps it's not very universal to change card's CCCR
-and this should be a better variant:
+However, although we don't see any failures so far on mainline, it is
+possible for the CCF status for PLLM to be incorrect following suspend.
 
-diff --git a/drivers/mmc/core/card.h b/drivers/mmc/core/card.h
-index 7bd392d55cfa..b5e44fcda7fb 100644
---- a/drivers/mmc/core/card.h
-+++ b/drivers/mmc/core/card.h
-@@ -222,4 +222,9 @@ static inline int mmc_card_broken_hpi(const struct
-mmc_card *c)
- 	return c->quirks & MMC_QUIRK_BROKEN_HPI;
- }
+Jon
 
-+static inline int mmc_card_need_high_speed_toggle(const struct mmc_card *c)
-+{
-+	return c->quirks & MMC_QUIRK_HIGH_SPEED_CARD;
-+}
-+
- #endif
-diff --git a/drivers/mmc/core/quirks.h b/drivers/mmc/core/quirks.h
-index 3dba15bccce2..c9af62a1d44b 100644
---- a/drivers/mmc/core/quirks.h
-+++ b/drivers/mmc/core/quirks.h
-@@ -142,6 +142,9 @@ static const struct mmc_fixup sdio_fixup_methods[] = {
- 	SDIO_FIXUP(SDIO_VENDOR_ID_MARVELL, SDIO_DEVICE_ID_MARVELL_8887WLAN,
- 		   add_limit_rate_quirk, 150000000),
-
-+	SDIO_FIXUP(SDIO_VENDOR_ID_BROADCOM, SDIO_DEVICE_ID_BROADCOM_4329,
-+		   add_quirk, MMC_QUIRK_HIGH_SPEED_CARD),
-+
- 	END_FIXUP
- };
-
-diff --git a/drivers/mmc/core/sdio.c b/drivers/mmc/core/sdio.c
-index ebb387aa5158..ac12c7631ec5 100644
---- a/drivers/mmc/core/sdio.c
-+++ b/drivers/mmc/core/sdio.c
-@@ -323,7 +323,7 @@ static int mmc_sdio_switch_hs(struct mmc_card *card,
-int enable)
- 	if (!(card->host->caps & MMC_CAP_SD_HIGHSPEED))
- 		return 0;
-
--	if (!card->cccr.high_speed)
-+	if (!mmc_card_need_high_speed_toggle(card) && !card->cccr.high_speed)
- 		return 0;
-
- 	ret = mmc_io_rw_direct(card, 0, 0, SDIO_CCCR_SPEED, 0, &speed);
-diff --git a/include/linux/mmc/card.h b/include/linux/mmc/card.h
-index cf3780a6ccc4..06f697e6d002 100644
---- a/include/linux/mmc/card.h
-+++ b/include/linux/mmc/card.h
-@@ -269,6 +269,7 @@ struct mmc_card {
- #define MMC_QUIRK_BROKEN_IRQ_POLLING	(1<<11)	/* Polling SDIO_CCCR_INTx
-could create a fake interrupt */
- #define MMC_QUIRK_TRIM_BROKEN	(1<<12)		/* Skip trim */
- #define MMC_QUIRK_BROKEN_HPI	(1<<13)		/* Disable broken HPI support */
-+#define MMC_QUIRK_HIGH_SPEED_CARD	(1<<14)	/* Card is high-speed capable */
-
- 	bool			reenable_cmdq;	/* Re-enable Command Queue */
-
+-- 
+nvpublic
