@@ -2,222 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A294117E89
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 04:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 273A211801B
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 07:05:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbfLJDuf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 9 Dec 2019 22:50:35 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7373 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726619AbfLJDuf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 9 Dec 2019 22:50:35 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5def16040000>; Mon, 09 Dec 2019 19:50:28 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 09 Dec 2019 19:50:34 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 09 Dec 2019 19:50:34 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
- 2019 03:50:33 +0000
-Received: from [10.24.193.46] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
- 2019 03:50:30 +0000
-Subject: Re: [PATCH 03/18] phy: tegra: xusb: Add usb-role-switch support
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
-        <robh+dt@kernel.org>, <kishon@ti.com>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1575629421-7039-1-git-send-email-nkristam@nvidia.com>
- <1575629421-7039-4-git-send-email-nkristam@nvidia.com>
- <20191206145445.GD2085684@ulmo>
-X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <9ce40f6c-e742-79f0-ee99-517571c46bc3@nvidia.com>
-Date:   Tue, 10 Dec 2019 09:22:23 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726085AbfLJGFS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Dec 2019 01:05:18 -0500
+Received: from 60-251-196-230.HINET-IP.hinet.net ([60.251.196.230]:60554 "EHLO
+        ironport.ite.com.tw" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725942AbfLJGFS (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 10 Dec 2019 01:05:18 -0500
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+  by ironport.ite.com.tw with ESMTP; 10 Dec 2019 14:05:16 +0800
+Received: from csbcas.internal.ite.com.tw (csbcas1.internal.ite.com.tw [192.168.65.46])
+        by mse.ite.com.tw with ESMTP id xBA65Cwi017541;
+        Tue, 10 Dec 2019 14:05:12 +0800 (GMT-8)
+        (envelope-from allen.chen@ite.com.tw)
+Received: from allen-VirtualBox.internal.ite.com.tw (192.168.70.14) by
+ csbcas1.internal.ite.com.tw (192.168.65.45) with Microsoft SMTP Server (TLS)
+ id 14.3.352.0; Tue, 10 Dec 2019 14:05:12 +0800
+From:   allen <allen.chen@ite.com.tw>
+CC:     Allen Chen <allen.chen@ite.com.tw>,
+        Pi-Hsun Shih <pihsun@chromium.org>,
+        Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Icenowy Zheng <icenowy@aosc.io>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:DRM DRIVERS FOR NVIDIA TEGRA" 
+        <linux-tegra@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>
+Subject: [PATCH v5 0/4] IT6505 cover letter
+Date:   Tue, 10 Dec 2019 13:53:38 +0800
+Message-ID: <1575957299-12977-1-git-send-email-allen.chen@ite.com.tw>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <20191206145445.GD2085684@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1575949828; bh=aIFYXzL74CPu1pOPMHd8motPMl3uNcZkSE0kei/OXaE=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ZQVxtU4Mh0l2o2B8MfVPxBw8aF1y6zRSLnWEkqN6KX5J9iB+2eR4fdcF2SW7O1o7c
-         pmr9ZarKPuitlQ6MaKsgaRA0p949nstsW1za16xvtp8Av5qH+kb0kq2zokfdJe9in1
-         hma/T05tg9T+1/ZqJ8WewV7I6lwD1+Ol0LkwpwsAt5zICIKN97lVFUwb79/LKtlAYp
-         J+MyIm+/Lx7ow9OkP+0GsMp+f0z4/3sYJuvCRmIcLL/v5mTYKsX0xsWnV2mNCTkaog
-         zHMbwqJGYWWEQsCLziqvkebPduYJLDHAh/LCRG1GjWFT0RwqYg9EQxBqy6Y59rOJG8
-         Q7lnJr9hZMq0w==
+Content-Type: text/plain
+X-Originating-IP: [192.168.70.14]
+X-MAIL: mse.ite.com.tw xBA65Cwi017541
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+The IT6505 is a high-performance DisplayPort 1.1a transmitter, fully compliant
+with DisplayPort 1.1a, HDCP 1.3 specifications. The IT6505 supports color depth
+of up to 36 bits (12 bits/color) and ensures robust transmission of high-quality
+uncompressed video content, along with uncompressed and compressed digital audio
+content.
 
+This series contains document bindings, revert commit, add vendor prefix,
+Kconfig to control the function enable or not.
 
-On 06-12-2019 20:24, Thierry Reding wrote:
-> On Fri, Dec 06, 2019 at 04:20:06PM +0530, Nagarjuna Kristam wrote:
->> If usb-role-switch property is present in USB 2 port, register
->> usb-role-switch to receive usb role changes.
->>
->> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
->> ---
->>  drivers/phy/tegra/Kconfig |  1 +
->>  drivers/phy/tegra/xusb.c  | 40 ++++++++++++++++++++++++++++++++++++++++
->>  drivers/phy/tegra/xusb.h  |  3 +++
->>  3 files changed, 44 insertions(+)
->>
->> diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
->> index f9817c3..df07c4d 100644
->> --- a/drivers/phy/tegra/Kconfig
->> +++ b/drivers/phy/tegra/Kconfig
->> @@ -2,6 +2,7 @@
->>  config PHY_TEGRA_XUSB
->>  	tristate "NVIDIA Tegra XUSB pad controller driver"
->>  	depends on ARCH_TEGRA
->> +	select USB_CONN_GPIO
->>  	help
->>  	  Choose this option if you have an NVIDIA Tegra SoC.
->>  
->> diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
->> index f98ec39..da60a63 100644
->> --- a/drivers/phy/tegra/xusb.c
->> +++ b/drivers/phy/tegra/xusb.c
->> @@ -523,6 +523,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
->>  	port->dev.type = &tegra_xusb_port_type;
->>  	port->dev.of_node = of_node_get(np);
->>  	port->dev.parent = padctl->dev;
->> +	port->dev.driver = padctl->dev->driver;
->>  
->>  	err = dev_set_name(&port->dev, "%s-%u", name, index);
->>  	if (err < 0)
->> @@ -532,6 +533,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
->>  	if (err < 0)
->>  		goto unregister;
->>  
->> +	dev_set_drvdata(&port->dev, port);
-> You never seem to use dev_get_drvdata() to get at this. Also, you can
-> get at it via container_of(), so this is only marginally useful to begin
-> with.
-> 
-Its actually used in API tegra_xusb_role_sw_set, but thats in patch 0004.
-Will move this line to 0004 patch to align with the usage.
+Allen Chen (1):
+  WIP: drm/bridge: add it6505 driver
 
->>  	return 0;
->>  
->>  unregister:
->> @@ -541,6 +543,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
->>  
->>  static void tegra_xusb_port_unregister(struct tegra_xusb_port *port)
->>  {
->> +	usb_role_switch_unregister(port->usb_role_sw);
->>  	device_unregister(&port->dev);
->>  }
->>  
->> @@ -551,11 +554,39 @@ static const char *const modes[] = {
->>  	[USB_DR_MODE_OTG] = "otg",
->>  };
->>  
->> +static int tegra_xusb_role_sw_set(struct device *dev, enum usb_role role)
->> +{
->> +	dev_dbg(dev, "%s calling notifier for role is %d\n", __func__, role);
->> +
->> +	return 0;
->> +}
->> +
->> +static int tegra_xusb_setup_usb_role_switch(struct tegra_xusb_port *port)
->> +{
->> +	int err = 0;
->> +	struct usb_role_switch_desc role_sx_desc = {
->> +					.set = tegra_xusb_role_sw_set,
->> +					.fwnode = dev_fwnode(&port->dev),
->> +						   };
->> +
->> +	port->usb_role_sw = usb_role_switch_register(&port->dev,
->> +						&role_sx_desc);
->> +	if (IS_ERR(port->usb_role_sw)) {
->> +		err = PTR_ERR(port->usb_role_sw);
->> +		if (err != EPROBE_DEFER)
->> +			dev_err(&port->dev, "Failed to register USB role SW: %d",
->> +				err);
->> +	}
->> +
->> +	return err;
->> +}
->> +
->>  static int tegra_xusb_usb2_port_parse_dt(struct tegra_xusb_usb2_port *usb2)
->>  {
->>  	struct tegra_xusb_port *port = &usb2->base;
->>  	struct device_node *np = port->dev.of_node;
->>  	const char *mode;
->> +	int err;
->>  
->>  	usb2->internal = of_property_read_bool(np, "nvidia,internal");
->>  
->> @@ -572,6 +603,15 @@ static int tegra_xusb_usb2_port_parse_dt(struct tegra_xusb_usb2_port *usb2)
->>  		usb2->mode = USB_DR_MODE_HOST;
->>  	}
->>  
->> +	if (of_property_read_bool(np, "usb-role-switch")) {
->> +		/* populate connector entry */
->> +		of_platform_populate(np, NULL, NULL, &port->dev);
-> I think we want to clean this up on failure, don't we? Otherwise we
-> might end up trying to register the same platform device multiple times.
-> Also, do we want to depopulate when the port is removed again?
-> 
-> Have you tried unloading and loading the driver to see if that works?
-> 
-> Thierry
-> 
-platform needs to be depopulate on error/remove and will add corresponding code.
-padctl driver can be unloaded after unloading all dependent drivers. re-loading
-caused failure of usb role switch due to missing depopulate. Will update changes
-to consider the same.
+allen (3):
+  dt-bindings: Add vendor prefix for ITE Tech. Inc.
+  Revert "drm/tegra: Move drm_dp_link helpers to Tegra DRM"
+  WIP: dt-bindings: Add binding for IT6505.
 
-Thanks,
-Nagarjuna
->> +
->> +		err = tegra_xusb_setup_usb_role_switch(port);
->> +		if (err < 0)
->> +			return err;
->> +	}
->> +
->>  	usb2->supply = devm_regulator_get(&port->dev, "vbus");
->>  	return PTR_ERR_OR_ZERO(usb2->supply);
->>  }
->> diff --git a/drivers/phy/tegra/xusb.h b/drivers/phy/tegra/xusb.h
->> index da94fcc..9f27899 100644
->> --- a/drivers/phy/tegra/xusb.h
->> +++ b/drivers/phy/tegra/xusb.h
->> @@ -12,6 +12,7 @@
->>  #include <linux/workqueue.h>
->>  
->>  #include <linux/usb/otg.h>
->> +#include <linux/usb/role.h>
->>  
->>  /* legacy entry points for backwards-compatibility */
->>  int tegra_xusb_padctl_legacy_probe(struct platform_device *pdev);
->> @@ -266,6 +267,8 @@ struct tegra_xusb_port {
->>  	struct list_head list;
->>  	struct device dev;
->>  
->> +	struct usb_role_switch *usb_role_sw;
->> +
->>  	const struct tegra_xusb_port_ops *ops;
->>  };
->>  
->> -- 
->> 2.7.4
->>
+ .../bindings/display/bridge/ite,it6505.yaml        |   99 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+ drivers/gpu/drm/bridge/Kconfig                     |    7 +
+ drivers/gpu/drm/bridge/Makefile                    |    1 +
+ drivers/gpu/drm/bridge/ite-it6505.c                | 2753 ++++++++++++++++++++
+ drivers/gpu/drm/drm_dp_helper.c                    |  128 +
+ drivers/gpu/drm/tegra/Makefile                     |    1 -
+ drivers/gpu/drm/tegra/dp.c                         |  876 -------
+ drivers/gpu/drm/tegra/dp.h                         |  177 --
+ drivers/gpu/drm/tegra/dpaux.c                      |    1 -
+ drivers/gpu/drm/tegra/sor.c                        |    1 -
+ include/drm/drm_dp_helper.h                        |   16 +
+ 12 files changed, 3006 insertions(+), 1056 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+ create mode 100644 drivers/gpu/drm/bridge/ite-it6505.c
+ delete mode 100644 drivers/gpu/drm/tegra/dp.c
+ delete mode 100644 drivers/gpu/drm/tegra/dp.h
+
+-- 
+1.9.1
+
