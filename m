@@ -2,35 +2,36 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0318D1196A2
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 22:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F347A119549
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 22:20:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727566AbfLJV2L (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Dec 2019 16:28:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60326 "EHLO mail.kernel.org"
+        id S1727306AbfLJVTp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Dec 2019 16:19:45 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36158 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727835AbfLJVK1 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:10:27 -0500
+        id S1728559AbfLJVMX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 10 Dec 2019 16:12:23 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CFC95246A8;
-        Tue, 10 Dec 2019 21:10:25 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9B9DB246AA;
+        Tue, 10 Dec 2019 21:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576012226;
-        bh=GOXWFvh7GoXw9UjuaXvqLHGd8pSf1Cch+DSQANsyhzk=;
+        s=default; t=1576012342;
+        bh=IeNIQDPcwkickLJ2DTiLL8BG+ZNio8sQfsfdhilggbg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wd4a7PhbH/7lS7uioVYJKiwPhSyx4KhkQm1CVuIYG1MDsyLqb9mdCwEtAxyFbQhND
-         6+cTCdzfl2tHfAyLskBmlmu8haeUeXrfzDU8WMsINfu3owFFDmVyPeHcBOSjEMALqu
-         wQlMVchVV3xj3TQ9Qj/Isv1xNlwayTjHZ6q5opTA=
+        b=ItQSSk9jFpbz/E0FHEHmXkGvivCgXdBXsNINdkmGAchGxrtRVSSb2GQ4LnC/OFKdz
+         Y9xaidAG3xKF72x2T0hPCa+jSD8u6xe9heFznxNMDBOzsO4ssoilBcxTFskGrStMYu
+         71zU/9JIXyqC+xHbol8R9mUZ/+u6qyUnMKXjrGAU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thierry Reding <treding@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 176/350] gpu: host1x: Allocate gather copy for host1x
-Date:   Tue, 10 Dec 2019 16:04:41 -0500
-Message-Id: <20191210210735.9077-137-sashal@kernel.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 273/350] mailbox: tegra: Fix superfluous IRQ error message
+Date:   Tue, 10 Dec 2019 16:06:18 -0500
+Message-Id: <20191210210735.9077-234-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -43,73 +44,59 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+From: Jon Hunter <jonathanh@nvidia.com>
 
-[ Upstream commit b78e70c04c149299bd210759d7c7af7c86b89ca8 ]
+[ Upstream commit c745da8d4320c49e54662c0a8f7cb6b8204f44c4 ]
 
-Currently when the gather buffers are copied, they are copied to a
-buffer that is allocated for the host1x client that wants to execute the
-command streams in the buffers. However, the gather buffers will be read
-by the host1x device, which causes SMMU faults if the DMA API is backed
-by an IOMMU.
+Commit 7723f4c5ecdb ("driver core: platform: Add an error message to
+platform_get_irq*()") added an error message to avoid drivers having
+to print an error message when IRQ lookup fails. However, there are
+some cases where IRQs are optional and so new optional versions of
+the platform_get_irq*() APIs have been added for these cases.
 
-Fix this by allocating the gather buffer copy for the host1x device,
-which makes sure that it will be mapped into the host1x's IOVA space if
-the DMA API is backed by an IOMMU.
+The IRQs for Tegra HSP module are optional because not all instances
+of the module have the doorbell and all of the shared interrupts.
+Hence, since the above commit was applied the following error messages
+are now seen on Tegra194 ...
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+ ERR KERN tegra-hsp c150000.hsp: IRQ doorbell not found
+ ERR KERN tegra-hsp c150000.hsp: IRQ shared0 not found
+
+The Tegra HSP driver deliberately does not fail if these are not found
+and so fix the above errors by updating the Tegra HSP driver to use
+the platform_get_irq_byname_optional() API.
+
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+Link: https://lore.kernel.org/r/20191011083459.11551-1-jonathanh@nvidia.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/host1x/job.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/mailbox/tegra-hsp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
-index eaa5c3352c134..22559670faeef 100644
---- a/drivers/gpu/host1x/job.c
-+++ b/drivers/gpu/host1x/job.c
-@@ -436,7 +436,8 @@ static int validate(struct host1x_firewall *fw, struct host1x_job_gather *g)
- 	return err;
- }
+diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+index 4c5ba35d48d43..834b35dc3b137 100644
+--- a/drivers/mailbox/tegra-hsp.c
++++ b/drivers/mailbox/tegra-hsp.c
+@@ -657,7 +657,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
+ 	hsp->num_db = (value >> HSP_nDB_SHIFT) & HSP_nINT_MASK;
+ 	hsp->num_si = (value >> HSP_nSI_SHIFT) & HSP_nINT_MASK;
  
--static inline int copy_gathers(struct host1x_job *job, struct device *dev)
-+static inline int copy_gathers(struct device *host, struct host1x_job *job,
-+			       struct device *dev)
- {
- 	struct host1x_firewall fw;
- 	size_t size = 0;
-@@ -459,12 +460,12 @@ static inline int copy_gathers(struct host1x_job *job, struct device *dev)
- 	 * Try a non-blocking allocation from a higher priority pools first,
- 	 * as awaiting for the allocation here is a major performance hit.
- 	 */
--	job->gather_copy_mapped = dma_alloc_wc(dev, size, &job->gather_copy,
-+	job->gather_copy_mapped = dma_alloc_wc(host, size, &job->gather_copy,
- 					       GFP_NOWAIT);
+-	err = platform_get_irq_byname(pdev, "doorbell");
++	err = platform_get_irq_byname_optional(pdev, "doorbell");
+ 	if (err >= 0)
+ 		hsp->doorbell_irq = err;
  
- 	/* the higher priority allocation failed, try the generic-blocking */
- 	if (!job->gather_copy_mapped)
--		job->gather_copy_mapped = dma_alloc_wc(dev, size,
-+		job->gather_copy_mapped = dma_alloc_wc(host, size,
- 						       &job->gather_copy,
- 						       GFP_KERNEL);
- 	if (!job->gather_copy_mapped)
-@@ -512,7 +513,7 @@ int host1x_job_pin(struct host1x_job *job, struct device *dev)
- 		goto out;
+@@ -677,7 +677,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
+ 			if (!name)
+ 				return -ENOMEM;
  
- 	if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL)) {
--		err = copy_gathers(job, dev);
-+		err = copy_gathers(host->dev, job, dev);
- 		if (err)
- 			goto out;
- 	}
-@@ -573,7 +574,7 @@ void host1x_job_unpin(struct host1x_job *job)
- 	job->num_unpins = 0;
- 
- 	if (job->gather_copy_size)
--		dma_free_wc(job->channel->dev, job->gather_copy_size,
-+		dma_free_wc(host->dev, job->gather_copy_size,
- 			    job->gather_copy_mapped, job->gather_copy);
- }
- EXPORT_SYMBOL(host1x_job_unpin);
+-			err = platform_get_irq_byname(pdev, name);
++			err = platform_get_irq_byname_optional(pdev, name);
+ 			if (err >= 0) {
+ 				hsp->shared_irqs[i] = err;
+ 				count++;
 -- 
 2.20.1
 
