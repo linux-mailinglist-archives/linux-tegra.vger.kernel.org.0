@@ -2,113 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28768119259
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 21:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FB191196CD
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 22:29:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726959AbfLJUnR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Dec 2019 15:43:17 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:47761 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726619AbfLJUnQ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Dec 2019 15:43:16 -0500
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MN5W9-1iOcuK2SST-00J1lI; Tue, 10 Dec 2019 21:43:05 +0100
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: tegra: mark PM functions as __maybe_unused
-Date:   Tue, 10 Dec 2019 21:42:58 +0100
-Message-Id: <20191210204304.3313845-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
+        id S1727728AbfLJV3Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Dec 2019 16:29:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59850 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728075AbfLJVKO (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 10 Dec 2019 16:10:14 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7F3BE246AF;
+        Tue, 10 Dec 2019 21:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576012214;
+        bh=9DuhPQ8azOh7FR3hAsKZOg1/CZehSj6kpfTGsmmOFM8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=R6Q37TjxS/Rl96xQsYpisviQwEOpgRl0czFecIAUc0QTKu1CIj597btHb+NmdCGY8
+         jjk6SFMsMlz6jahz1LLCI2iDcJqn1YLj+5QbGjJOP5l7ryctkATR6jdt/xbVB7812v
+         kD4D92WyrURyeMnCnX7dHQp0LNK8Aa3hn5cGP9+M=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Thierry Reding <treding@nvidia.com>,
+        Sasha Levin <sashal@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 165/350] drm/tegra: sor: Use correct SOR index on Tegra210
+Date:   Tue, 10 Dec 2019 16:04:30 -0500
+Message-Id: <20191210210735.9077-126-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
+References: <20191210210735.9077-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LvIe3xUHuuPDkbK+6q+8yJiA9Fy+DJa+D4MMErBdioZQrBVJcRJ
- /rAyfxdAFGSUIfY2w+bfOOmxTJ7cn/ZVyDxsk34zfivVZ6VWKHgBZMtEnQfy2OTIyyMEwt7
- pm+yq9MSGrCMELZwoY1TsYYCLBGdoOQ5Erufm0z/Wf4eJjcJ3n+6CsaOtG2V4FYZgHDKRnJ
- 8bN9DfRMprmBQHpb1GB6A==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:B3T4ErrlCQQ=:fAyd3pJFXjEWurdJz4jTJw
- i7zZc9uIsQCe132lVtnZYbmUiBShLxoRn5JL9YRvY/kuU3lINEphRy1njgLNOLPbEcKblK7tp
- wLOIf4PcwpEPKhAnrFtdys2kOsmZmUA3A48EJ2URYCsMzkht7G+0G6tH78avnowXfnZXB1vcQ
- 1jlw3Utl8kowESwtErS1J7O1+jWSGILXsbmXKfqtr0ReSBEy84DS2JYd4OUFUMLY0ACCB598s
- M4PS9Mk26Oy4j3CmQiPlz3HckwQQ4cH0NUfbN/MN/EaDC6Ye5A/UJfk/DidNPVMo77PDI9+ZJ
- bvaC0BSGXhVpLcs5HqgZsH3DQ37WEdrF7UWd9ySPA8TkFKXZ4yLQ2jPo8hCSlv4qZvDSeSnF8
- bTMz9c9Ri4rcNwIu8kqSHEIhv6ZqHaWhiM7b0s74PpccfJbSBJz7YKIgZtJIGNkKFQkAAz4Kq
- Z5ChDMLQEZE59B1/k8eHBJS+C5kGbbNtOckpABk0VXKUHNidUOnFZ37ZMYXjNZKMDWm2bfw08
- zgja4ZUoV4sgIcK14fjGozvu/8KdNSY9fqG8PAlkdor9/m0SPNrWMUP+HKlfYA+caeXBC8BzE
- SKuwvwB0UzES7RHoT6508f+z0BxdLf2jPtW1zoLlOdUMLf8ip6OxDtqV+RUfbh8PhOddzKPmN
- kX+BdwlnNGJOZVMuF9I/zD7ln/rOTfS4Mq23KVM/Y+KioLcoG/Ugp1ggjO3ILrrZLWXKW89hX
- dXwxaxlrSfjsDmStlTr4pkfifZPIa/E/dwsYXA0NJ7eDDW81dNqqFa7ra5swQMaHeLT8Z30vu
- jBr9JBHwh14CNW7zRfofiA9JzSWBCnJQZXayd6hAMzHsoE/2uOPTsX8DkkicnWid9a4UcWWX7
- 2CZcNXlHLOw4+x1VsI0Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Without CONFIG_PM, some functions cause harmless warnings:
+From: Thierry Reding <treding@nvidia.com>
 
-drivers/gpu/drm/tegra/sor.c:3984:12: error: 'tegra_sor_resume' defined but not used [-Werror=unused-function]
- static int tegra_sor_resume(struct device *dev)
-            ^~~~~~~~~~~~~~~~
-drivers/gpu/drm/tegra/sor.c:3970:12: error: 'tegra_sor_suspend' defined but not used [-Werror=unused-function]
- static int tegra_sor_suspend(struct device *dev)
-            ^~~~~~~~~~~~~~~~~
+[ Upstream commit 24e64f86da40e68c5f58af08796110f147b12193 ]
 
-Mark these as __maybe_unused so the compiler can drop them
-silently.
+The device tree bindings for the Tegra210 SOR don't require the
+controller instance to be defined, since the instance can be derived
+from the compatible string. The index is never used on Tegra210, so we
+got away with it not getting set. However, subsequent patches will
+change that, so make sure the proper index is used.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/tegra/sor.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/tegra/sor.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index a68d3b36b972..69b9ebee7486 100644
+index e1669ada0a405..75e65d9536d54 100644
 --- a/drivers/gpu/drm/tegra/sor.c
 +++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3912,7 +3912,7 @@ static int tegra_sor_remove(struct platform_device *pdev)
- 	return 0;
- }
+@@ -3200,6 +3200,11 @@ static int tegra_sor_parse_dt(struct tegra_sor *sor)
+ 		 * earlier
+ 		 */
+ 		sor->pad = TEGRA_IO_PAD_HDMI_DP0 + sor->index;
++	} else {
++		if (sor->soc->supports_edp)
++			sor->index = 0;
++		else
++			sor->index = 1;
+ 	}
  
--static int tegra_sor_runtime_suspend(struct device *dev)
-+static int __maybe_unused tegra_sor_runtime_suspend(struct device *dev)
- {
- 	struct tegra_sor *sor = dev_get_drvdata(dev);
- 	int err;
-@@ -3934,7 +3934,7 @@ static int tegra_sor_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int tegra_sor_runtime_resume(struct device *dev)
-+static int __maybe_unused tegra_sor_runtime_resume(struct device *dev)
- {
- 	struct tegra_sor *sor = dev_get_drvdata(dev);
- 	int err;
-@@ -3967,7 +3967,7 @@ static int tegra_sor_runtime_resume(struct device *dev)
- 	return 0;
- }
- 
--static int tegra_sor_suspend(struct device *dev)
-+static int __maybe_unused tegra_sor_suspend(struct device *dev)
- {
- 	struct tegra_sor *sor = dev_get_drvdata(dev);
- 	int err;
-@@ -3981,7 +3981,7 @@ static int tegra_sor_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int tegra_sor_resume(struct device *dev)
-+static int __maybe_unused tegra_sor_resume(struct device *dev)
- {
- 	struct tegra_sor *sor = dev_get_drvdata(dev);
- 	int err;
+ 	err = of_property_read_u32_array(np, "nvidia,xbar-cfg", xbar_cfg, 5);
 -- 
-2.20.0
+2.20.1
 
