@@ -2,149 +2,222 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C344B117DCE
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 03:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A294117E89
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 04:50:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbfLJCfx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 9 Dec 2019 21:35:53 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:41322 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726509AbfLJCfw (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 9 Dec 2019 21:35:52 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 47X3yP62Tzz5Y;
-        Tue, 10 Dec 2019 03:33:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1575945198; bh=28ZRq1FI2/sd4GBSEA17lEwHQUUzefEXEY1pCiKIzfA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=neQUnqb8yNbGKLEtkX5q3ZEZQq6YSwQBVg61WDjvqiehVlijufpRomrZTn9LGIo5n
-         0XIDUwy/mP8019WfJT4YL2X7N7zJlGKpBk88KfOiWmyTuA2rlOK55NAZOpN0MxaZex
-         06Y3OLlSEr4JDVTUomCd0LlcmGeUEfEVC+3+Ec8Z2D7yKovFZaPcrU0UFP7ijexRiS
-         1S7SPa8RZ/a7GpRZ4EPehhP2cZHc0DbxfE3KBtuh5cWBGfNhH8+sPlcHSNn13XL2UU
-         JHgcN/wK3LIQVsg/1Uq17zup8DiLwUNFUfqx2MhrBrTNhmbGWSXa/vuKkYUqiU1Eg5
-         TNEciPiEE6t8Q==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.101.4 at mail
-Date:   Tue, 10 Dec 2019 03:35:49 +0100
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 00/19] Consolidate and improve NVIDIA Tegra CPUIDLE
- driver(s)
-Message-ID: <20191210023549.GA15246@qmqm.qmqm.pl>
-References: <20191203004116.11771-1-digetx@gmail.com>
- <20191207215216.GA9561@qmqm.qmqm.pl>
- <0b3a861d-e5e8-ddca-ac60-0a3c61a9d9dc@gmail.com>
- <20191209160420.GA24097@qmqm.qmqm.pl>
- <323f5f70-5249-e75a-98cc-7fdca2d375c2@gmail.com>
+        id S1726682AbfLJDuf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 9 Dec 2019 22:50:35 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7373 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726619AbfLJDuf (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 9 Dec 2019 22:50:35 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5def16040000>; Mon, 09 Dec 2019 19:50:28 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 09 Dec 2019 19:50:34 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 09 Dec 2019 19:50:34 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 03:50:33 +0000
+Received: from [10.24.193.46] (172.20.13.39) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 03:50:30 +0000
+Subject: Re: [PATCH 03/18] phy: tegra: xusb: Add usb-role-switch support
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
+        <robh+dt@kernel.org>, <kishon@ti.com>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1575629421-7039-1-git-send-email-nkristam@nvidia.com>
+ <1575629421-7039-4-git-send-email-nkristam@nvidia.com>
+ <20191206145445.GD2085684@ulmo>
+X-Nvconfidentiality: public
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+Message-ID: <9ce40f6c-e742-79f0-ee99-517571c46bc3@nvidia.com>
+Date:   Tue, 10 Dec 2019 09:22:23 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <323f5f70-5249-e75a-98cc-7fdca2d375c2@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191206145445.GD2085684@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1575949828; bh=aIFYXzL74CPu1pOPMHd8motPMl3uNcZkSE0kei/OXaE=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ZQVxtU4Mh0l2o2B8MfVPxBw8aF1y6zRSLnWEkqN6KX5J9iB+2eR4fdcF2SW7O1o7c
+         pmr9ZarKPuitlQ6MaKsgaRA0p949nstsW1za16xvtp8Av5qH+kb0kq2zokfdJe9in1
+         hma/T05tg9T+1/ZqJ8WewV7I6lwD1+Ol0LkwpwsAt5zICIKN97lVFUwb79/LKtlAYp
+         J+MyIm+/Lx7ow9OkP+0GsMp+f0z4/3sYJuvCRmIcLL/v5mTYKsX0xsWnV2mNCTkaog
+         zHMbwqJGYWWEQsCLziqvkebPduYJLDHAh/LCRG1GjWFT0RwqYg9EQxBqy6Y59rOJG8
+         Q7lnJr9hZMq0w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 12:22:18AM +0300, Dmitry Osipenko wrote:
-> 09.12.2019 19:04, Michał Mirosław пишет:
-> > On Sun, Dec 08, 2019 at 01:56:14AM +0300, Dmitry Osipenko wrote:
-> >> 08.12.2019 00:52, Michał Mirosław пишет:
-> >>> On Tue, Dec 03, 2019 at 03:40:57AM +0300, Dmitry Osipenko wrote:
-> >>>> Hello,
-> >>>>
-> >>>> This series does the following:
-> >>>>
-> >>>>   1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
-> >>>>      into common drivers/cpuidle/ directory.
-> >>>>
-> >>>>   2. Enables CPU cluster power-down idling state on Tegra30.
-> >>>>
-> >>>> In the end there is a quite nice clean up of the Tegra CPUIDLE drivers
-> >>>> and of the Tegra's arch code in general. Please review, thanks!
-> >>>
-> >>> I did a quick smoke test for this series on top of Linus' master:
-> >>>  - rebuilding with the patches applied, CONFIG_ARM_TEGRA_CPUIDLE=n - works
-> >>>  - building with CONFIG_ARM_TEGRA_CPUIDLE=y - doesn't boot
-> >>>
-> >>> The hang is somewhere early in the boot process, before simplefb can
-> >>> take the console and show any logs. If I get BOOTFB to work again I might
-> >>> be able to get some more info.
-> >>
-> >> Thank you very much for trying these patches!
-> >>
-> >> Could you please try to make ARM_TEGRA_CPUIDLE "tristate" in the Kconfig
-> >> and compile it as a loadable module? That way you'll get framebuffer
-> >> shown before the hang happens.
-> >>
-> >> Does LP2 suspend/resume work for you? There should be
-> >> "nvidia,suspend-mode = <2>" in the PMC's node of device-tree.
-> > 
-> > Not at the moment. I also tried suspend-mode = <1> and <0>, but it
-> > made no difference.
-> 
-> If LP2 doesn't work, then it explains why you're getting the hang.
-> 
-> Are you using TF300T for the testing? I'm recalling that LP2 worked for
-> you sometime ago on TF300T, maybe some offending change was introduced
-> since then. Could you please try to do the git bisection or at least
-> find out what is the last good kernel version?
-> 
-> I rebased this series on a recent linux-next and you could find the
-> rebased patches here [1].
-> 
-> [1] https://github.com/grate-driver/linux/commits/master
-> 
-> With [1] you should be able to remove "nvidia,suspend-mode" property
-> from the device-tree to get cpuidle working with the disabled CC6 state
-> (LP2). Could you please check that at least disabled CC6 works for you?
 
-I tested suspend with your tree merged, but CONFIG_TEGRA_CPUIDLE=n. LP2
-seems to work [1]. The same tree with CONFIG_TEGRA_CPUIDLE=y doesn't
-boot. I'll try comparing DTs, but other than that I'm blocked on BOOTFB now.
 
-Best Regards,
-Michał Mirosław
+On 06-12-2019 20:24, Thierry Reding wrote:
+> On Fri, Dec 06, 2019 at 04:20:06PM +0530, Nagarjuna Kristam wrote:
+>> If usb-role-switch property is present in USB 2 port, register
+>> usb-role-switch to receive usb role changes.
+>>
+>> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+>> ---
+>>  drivers/phy/tegra/Kconfig |  1 +
+>>  drivers/phy/tegra/xusb.c  | 40 ++++++++++++++++++++++++++++++++++++++++
+>>  drivers/phy/tegra/xusb.h  |  3 +++
+>>  3 files changed, 44 insertions(+)
+>>
+>> diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
+>> index f9817c3..df07c4d 100644
+>> --- a/drivers/phy/tegra/Kconfig
+>> +++ b/drivers/phy/tegra/Kconfig
+>> @@ -2,6 +2,7 @@
+>>  config PHY_TEGRA_XUSB
+>>  	tristate "NVIDIA Tegra XUSB pad controller driver"
+>>  	depends on ARCH_TEGRA
+>> +	select USB_CONN_GPIO
+>>  	help
+>>  	  Choose this option if you have an NVIDIA Tegra SoC.
+>>  
+>> diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
+>> index f98ec39..da60a63 100644
+>> --- a/drivers/phy/tegra/xusb.c
+>> +++ b/drivers/phy/tegra/xusb.c
+>> @@ -523,6 +523,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
+>>  	port->dev.type = &tegra_xusb_port_type;
+>>  	port->dev.of_node = of_node_get(np);
+>>  	port->dev.parent = padctl->dev;
+>> +	port->dev.driver = padctl->dev->driver;
+>>  
+>>  	err = dev_set_name(&port->dev, "%s-%u", name, index);
+>>  	if (err < 0)
+>> @@ -532,6 +533,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
+>>  	if (err < 0)
+>>  		goto unregister;
+>>  
+>> +	dev_set_drvdata(&port->dev, port);
+> You never seem to use dev_get_drvdata() to get at this. Also, you can
+> get at it via container_of(), so this is only marginally useful to begin
+> with.
+> 
+Its actually used in API tegra_xusb_role_sw_set, but thats in patch 0004.
+Will move this line to 0004 patch to align with the usage.
 
-[1] rtcwake -s 3 -d /dev/rtc0 -v -m mem
+>>  	return 0;
+>>  
+>>  unregister:
+>> @@ -541,6 +543,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
+>>  
+>>  static void tegra_xusb_port_unregister(struct tegra_xusb_port *port)
+>>  {
+>> +	usb_role_switch_unregister(port->usb_role_sw);
+>>  	device_unregister(&port->dev);
+>>  }
+>>  
+>> @@ -551,11 +554,39 @@ static const char *const modes[] = {
+>>  	[USB_DR_MODE_OTG] = "otg",
+>>  };
+>>  
+>> +static int tegra_xusb_role_sw_set(struct device *dev, enum usb_role role)
+>> +{
+>> +	dev_dbg(dev, "%s calling notifier for role is %d\n", __func__, role);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int tegra_xusb_setup_usb_role_switch(struct tegra_xusb_port *port)
+>> +{
+>> +	int err = 0;
+>> +	struct usb_role_switch_desc role_sx_desc = {
+>> +					.set = tegra_xusb_role_sw_set,
+>> +					.fwnode = dev_fwnode(&port->dev),
+>> +						   };
+>> +
+>> +	port->usb_role_sw = usb_role_switch_register(&port->dev,
+>> +						&role_sx_desc);
+>> +	if (IS_ERR(port->usb_role_sw)) {
+>> +		err = PTR_ERR(port->usb_role_sw);
+>> +		if (err != EPROBE_DEFER)
+>> +			dev_err(&port->dev, "Failed to register USB role SW: %d",
+>> +				err);
+>> +	}
+>> +
+>> +	return err;
+>> +}
+>> +
+>>  static int tegra_xusb_usb2_port_parse_dt(struct tegra_xusb_usb2_port *usb2)
+>>  {
+>>  	struct tegra_xusb_port *port = &usb2->base;
+>>  	struct device_node *np = port->dev.of_node;
+>>  	const char *mode;
+>> +	int err;
+>>  
+>>  	usb2->internal = of_property_read_bool(np, "nvidia,internal");
+>>  
+>> @@ -572,6 +603,15 @@ static int tegra_xusb_usb2_port_parse_dt(struct tegra_xusb_usb2_port *usb2)
+>>  		usb2->mode = USB_DR_MODE_HOST;
+>>  	}
+>>  
+>> +	if (of_property_read_bool(np, "usb-role-switch")) {
+>> +		/* populate connector entry */
+>> +		of_platform_populate(np, NULL, NULL, &port->dev);
+> I think we want to clean this up on failure, don't we? Otherwise we
+> might end up trying to register the same platform device multiple times.
+> Also, do we want to depopulate when the port is removed again?
+> 
+> Have you tried unloading and loading the driver to see if that works?
+> 
+> Thierry
+> 
+platform needs to be depopulate on error/remove and will add corresponding code.
+padctl driver can be unloaded after unloading all dependent drivers. re-loading
+caused failure of usb role switch due to missing depopulate. Will update changes
+to consider the same.
 
-(...)
-[ 2710.157919] PM: suspend entry (deep)
-[ 2710.161205] Filesystems sync: 0.000 seconds
-[ 2710.176677] Freezing user space processes ... (elapsed 0.001 seconds) done.
-[ 2710.178342] OOM killer disabled.
-[ 2710.178527] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-[ 2710.347871] Disabling non-boot CPUs ...
-[ 2710.349160] IRQ 18: no longer affine to CPU1
-[ 2710.352499] IRQ 19: no longer affine to CPU2
-[ 2710.370059] IRQ 20: no longer affine to CPU3
-[ 2710.371284] Entering suspend state LP2
-[ 2710.371556] Enabling non-boot CPUs ...
-[ 2710.373157] CPU1 is up
-[ 2710.374598] CPU2 is up
-[ 2710.375996] CPU3 is up
-[ 2710.462876] OOM killer enabled.
-[ 2710.463018] Restarting tasks ...
-[ 2710.463880] tegra-devfreq 6000c800.actmon: Failed to get emc clock
-[ 2710.464509] done.
-[ 2710.552824] asus-ec 1-0015: model         : ASUS-TF201-PAD
-[ 2710.558345] asus-ec 1-0015: FW version    : PAD-EC20T-0216
-[ 2710.562942] asus-ec 1-0015: Config format : ECFG-0001
-[ 2710.567651] asus-ec 1-0015: HW version    : TF201-PAD-SKU1
-[ 2710.572488] asus-ec 1-0015: EC FW behaviour: susb on when system wakeup
-[ 2710.769796] atkbd serio1: no of_node; not parsing pinctrl DT
-[ 2710.835629] asus-ec 5-0019: model         : ASUS-TF201-DOCK
-[ 2710.838686] asus-ec 5-0019: FW version    : DOCK-EC20N-0207
-[ 2710.841865] asus-ec 5-0019: Config format : ECFG-0001
-[ 2710.844271] asus-ec 5-0019: HW version    : PCBA-SKU-2
-[ 2710.847950] asus-ec 5-0019: EC FW behaviour: susb on when receive ec_req
-[ 2711.040935] PM: suspend exit
-
+Thanks,
+Nagarjuna
+>> +
+>> +		err = tegra_xusb_setup_usb_role_switch(port);
+>> +		if (err < 0)
+>> +			return err;
+>> +	}
+>> +
+>>  	usb2->supply = devm_regulator_get(&port->dev, "vbus");
+>>  	return PTR_ERR_OR_ZERO(usb2->supply);
+>>  }
+>> diff --git a/drivers/phy/tegra/xusb.h b/drivers/phy/tegra/xusb.h
+>> index da94fcc..9f27899 100644
+>> --- a/drivers/phy/tegra/xusb.h
+>> +++ b/drivers/phy/tegra/xusb.h
+>> @@ -12,6 +12,7 @@
+>>  #include <linux/workqueue.h>
+>>  
+>>  #include <linux/usb/otg.h>
+>> +#include <linux/usb/role.h>
+>>  
+>>  /* legacy entry points for backwards-compatibility */
+>>  int tegra_xusb_padctl_legacy_probe(struct platform_device *pdev);
+>> @@ -266,6 +267,8 @@ struct tegra_xusb_port {
+>>  	struct list_head list;
+>>  	struct device dev;
+>>  
+>> +	struct usb_role_switch *usb_role_sw;
+>> +
+>>  	const struct tegra_xusb_port_ops *ops;
+>>  };
+>>  
+>> -- 
+>> 2.7.4
+>>
