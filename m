@@ -2,36 +2,36 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F347A119549
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 22:20:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0BA81194C8
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 22:18:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727306AbfLJVTp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Dec 2019 16:19:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36158 "EHLO mail.kernel.org"
+        id S1729109AbfLJVMt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Dec 2019 16:12:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37900 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728559AbfLJVMX (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:12:23 -0500
+        id S1729103AbfLJVMs (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 10 Dec 2019 16:12:48 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9B9DB246AA;
-        Tue, 10 Dec 2019 21:12:21 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0733321D7D;
+        Tue, 10 Dec 2019 21:12:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576012342;
-        bh=IeNIQDPcwkickLJ2DTiLL8BG+ZNio8sQfsfdhilggbg=;
+        s=default; t=1576012367;
+        bh=6ZrutHCfZULgWK9SE9TNvRak3OhPphztuTeNSWShhDs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ItQSSk9jFpbz/E0FHEHmXkGvivCgXdBXsNINdkmGAchGxrtRVSSb2GQ4LnC/OFKdz
-         Y9xaidAG3xKF72x2T0hPCa+jSD8u6xe9heFznxNMDBOzsO4ssoilBcxTFskGrStMYu
-         71zU/9JIXyqC+xHbol8R9mUZ/+u6qyUnMKXjrGAU=
+        b=0KbGam5OJsS+KXI8h/v6GW75D13gKPEShJFH8VQiSV6iSt7ieyqIHPZ4PN8paqTPV
+         xRoiqys+Sxwof8UxAO5SQhuLXKSu/Xjhz79BPNm+Y7y/pVDUSqurtWIC0YsyPV780d
+         GFLDEfjxV8MhG1TWeP7mWpag1yAv1iz2FIvgGXu4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 273/350] mailbox: tegra: Fix superfluous IRQ error message
-Date:   Tue, 10 Dec 2019 16:06:18 -0500
-Message-Id: <20191210210735.9077-234-sashal@kernel.org>
+Cc:     Chuhong Yuan <hslester96@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-spi@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 294/350] spi: tegra20-slink: add missed clk_unprepare
+Date:   Tue, 10 Dec 2019 16:06:39 -0500
+Message-Id: <20191210210735.9077-255-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -44,59 +44,51 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Jon Hunter <jonathanh@nvidia.com>
+From: Chuhong Yuan <hslester96@gmail.com>
 
-[ Upstream commit c745da8d4320c49e54662c0a8f7cb6b8204f44c4 ]
+[ Upstream commit 04358e40ba96d687c0811c21d9dede73f5244a98 ]
 
-Commit 7723f4c5ecdb ("driver core: platform: Add an error message to
-platform_get_irq*()") added an error message to avoid drivers having
-to print an error message when IRQ lookup fails. However, there are
-some cases where IRQs are optional and so new optional versions of
-the platform_get_irq*() APIs have been added for these cases.
+The driver misses calling clk_unprepare in probe failure and remove.
+Add the calls to fix it.
 
-The IRQs for Tegra HSP module are optional because not all instances
-of the module have the doorbell and all of the shared interrupts.
-Hence, since the above commit was applied the following error messages
-are now seen on Tegra194 ...
-
- ERR KERN tegra-hsp c150000.hsp: IRQ doorbell not found
- ERR KERN tegra-hsp c150000.hsp: IRQ shared0 not found
-
-The Tegra HSP driver deliberately does not fail if these are not found
-and so fix the above errors by updating the Tegra HSP driver to use
-the platform_get_irq_byname_optional() API.
-
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
-Link: https://lore.kernel.org/r/20191011083459.11551-1-jonathanh@nvidia.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+Link: https://lore.kernel.org/r/20191115083122.12278-1-hslester96@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/mailbox/tegra-hsp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/spi/spi-tegra20-slink.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
-index 4c5ba35d48d43..834b35dc3b137 100644
---- a/drivers/mailbox/tegra-hsp.c
-+++ b/drivers/mailbox/tegra-hsp.c
-@@ -657,7 +657,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
- 	hsp->num_db = (value >> HSP_nDB_SHIFT) & HSP_nINT_MASK;
- 	hsp->num_si = (value >> HSP_nSI_SHIFT) & HSP_nINT_MASK;
+diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
+index 111fffc91435c..374a2a32edcd3 100644
+--- a/drivers/spi/spi-tegra20-slink.c
++++ b/drivers/spi/spi-tegra20-slink.c
+@@ -1073,7 +1073,7 @@ static int tegra_slink_probe(struct platform_device *pdev)
+ 	ret = clk_enable(tspi->clk);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "Clock enable failed %d\n", ret);
+-		goto exit_free_master;
++		goto exit_clk_unprepare;
+ 	}
  
--	err = platform_get_irq_byname(pdev, "doorbell");
-+	err = platform_get_irq_byname_optional(pdev, "doorbell");
- 	if (err >= 0)
- 		hsp->doorbell_irq = err;
+ 	spi_irq = platform_get_irq(pdev, 0);
+@@ -1146,6 +1146,8 @@ static int tegra_slink_probe(struct platform_device *pdev)
+ 	free_irq(spi_irq, tspi);
+ exit_clk_disable:
+ 	clk_disable(tspi->clk);
++exit_clk_unprepare:
++	clk_unprepare(tspi->clk);
+ exit_free_master:
+ 	spi_master_put(master);
+ 	return ret;
+@@ -1159,6 +1161,7 @@ static int tegra_slink_remove(struct platform_device *pdev)
+ 	free_irq(tspi->irq, tspi);
  
-@@ -677,7 +677,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
- 			if (!name)
- 				return -ENOMEM;
+ 	clk_disable(tspi->clk);
++	clk_unprepare(tspi->clk);
  
--			err = platform_get_irq_byname(pdev, name);
-+			err = platform_get_irq_byname_optional(pdev, name);
- 			if (err >= 0) {
- 				hsp->shared_irqs[i] = err;
- 				count++;
+ 	if (tspi->tx_dma_chan)
+ 		tegra_slink_deinit_dma_param(tspi, false);
 -- 
 2.20.1
 
