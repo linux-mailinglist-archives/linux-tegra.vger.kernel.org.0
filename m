@@ -2,226 +2,222 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F669118D6F
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 17:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93675118E39
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 17:53:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727455AbfLJQVv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Dec 2019 11:21:51 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:42525 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727436AbfLJQVu (ORCPT
+        id S1727558AbfLJQx5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Dec 2019 11:53:57 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17990 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727506AbfLJQx4 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Dec 2019 11:21:50 -0500
-Received: by mail-lj1-f196.google.com with SMTP id e28so20556026ljo.9;
-        Tue, 10 Dec 2019 08:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XgcYNjdeceF7X7AAaXp087bGaoicu0qayGBfhAoZSuY=;
-        b=M+NWGQaG4WvOcvo7NTjSzVAeian+2Cqts+FSRlPWVphWlAIOZEvswaSHsPDvt6xHL2
-         IpTGWy5nPQYiMH8MSr3PeEz3TPy0uUWJoKOtZNExqHA6lreqksC5PuVknPdQA/0M++MM
-         aiGUc9KX7Z3xRnpfCleJOgC7KMgUb94GlsFP8gGut8lzUljsHy8v2nFBkWd1b103bKCL
-         bZCumfLO5KcEIp7qKf36KPZ+G5VQvZQ4rjNrFy2Vj4/1hsCzNshI6QsALa1ae5+7QxyG
-         WSDbw+/ADxijndmi1BgJWnOCjjfnGoO/ywJWUHLm8P/lRu7iyqVSC/YjB/VlfGWe2uNi
-         OnMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XgcYNjdeceF7X7AAaXp087bGaoicu0qayGBfhAoZSuY=;
-        b=e4lKpnl3fKPzaJsnNDQLfr/M5Jlq6a01bfjqmQpkn2jXFpoey9h5xijqlEh3i8//rJ
-         uBplkkNp3qDnxPiqYN4TVsS5RLjLAHZhTVS6qdlrByc53a0lZnm6qxTcwDpUylfynV9Z
-         vAx6zmseOeDlk3SC0z6kC4QvMg7fkH1gtstMSKGTxRrD7cStVsepZ8Bwurq64kgtVI2t
-         bp1QVnWKHrajGJ4xxis2cn9pCsONcRrnRzJujo3NiM4AdiLQg13Xz3MIZ+EeK4rkZqBi
-         4w/BBX/F7osFqiAvzlfwdNBEiKcUqdiqBJyQIHtH2XAABwv8EDr+xaTOJHWlwN3S+pI6
-         0Tng==
-X-Gm-Message-State: APjAAAXl57Tb3QJUkXWcrwnOv9t5NDwhcMWahQ7+Lrw1wD/Ytwil4M9I
-        rkwsUZEytegX0swOob2qzg2gAaC6
-X-Google-Smtp-Source: APXvYqzvOUj0ESgJzD0IjA0pBkpl8IH4Z8YUTYFaqXS49+4MF9RMlX3/Y+Ykc0hsV23tBK6rV395Bg==
-X-Received: by 2002:a2e:b010:: with SMTP id y16mr21513013ljk.238.1575994907336;
-        Tue, 10 Dec 2019 08:21:47 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id l23sm1809068lfh.74.2019.12.10.08.21.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2019 08:21:46 -0800 (PST)
-Subject: Re: [PATCH v8 00/19] Consolidate and improve NVIDIA Tegra CPUIDLE
- driver(s)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191203004116.11771-1-digetx@gmail.com>
- <20191207215216.GA9561@qmqm.qmqm.pl>
- <0b3a861d-e5e8-ddca-ac60-0a3c61a9d9dc@gmail.com>
- <20191209160420.GA24097@qmqm.qmqm.pl>
- <323f5f70-5249-e75a-98cc-7fdca2d375c2@gmail.com>
- <20191210023549.GA15246@qmqm.qmqm.pl>
- <205cd87d-6957-9457-4ed5-31c534ae0846@gmail.com>
-Message-ID: <5de4eb77-276d-e1af-993b-5cdf52e93856@gmail.com>
-Date:   Tue, 10 Dec 2019 19:21:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Tue, 10 Dec 2019 11:53:56 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5defcd9d0000>; Tue, 10 Dec 2019 08:53:49 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 10 Dec 2019 08:53:55 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 10 Dec 2019 08:53:55 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 16:53:54 +0000
+Received: from [10.2.174.71] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 10 Dec
+ 2019 16:53:48 +0000
+Subject: Re: [PATCH v3 03/15] soc: tegra: Add Tegra PMC clock registrations
+ into PMC driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <mperttunen@nvidia.com>,
+        <gregkh@linuxfoundation.org>, <sboyd@kernel.org>,
+        <tglx@linutronix.de>, <robh+dt@kernel.org>, <mark.rutland@arm.com>
+CC:     <allison@lohutok.net>, <pdeschrijver@nvidia.com>,
+        <pgaikwad@nvidia.com>, <mturquette@baylibre.com>,
+        <horms+renesas@verge.net.au>, <Jisheng.Zhang@synaptics.com>,
+        <krzk@kernel.org>, <arnd@arndb.de>, <spujar@nvidia.com>,
+        <josephl@nvidia.com>, <vidyas@nvidia.com>,
+        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
+        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
+        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+        <alexios.zavras@intel.com>, <alsa-devel@alsa-project.org>
+References: <1575600535-26877-1-git-send-email-skomatineni@nvidia.com>
+ <1575600535-26877-4-git-send-email-skomatineni@nvidia.com>
+ <7cf4ff77-2f33-4ee5-0e09-5aa6aef3e8be@gmail.com>
+ <ad3a6743-4b36-fa25-9cc7-72803038ecc5@gmail.com>
+ <dc7a057a-0bed-0e6f-0987-edcfec47f867@gmail.com>
+ <288a1701-def6-d628-26bc-a305f817bdb1@gmail.com>
+ <78644d45-2ae3-121f-99fc-0a46f205907d@nvidia.com>
+ <b35916e1-c6ee-52ca-9111-5ae109437b6e@nvidia.com>
+ <ccb715cc-c927-ea91-a26e-24d6eeeeef1a@gmail.com>
+ <ee1d39d4-9a57-da9b-fce6-8130dac1d2fd@nvidia.com>
+ <49da77dc-b346-68eb-9ef8-42cfb3221489@nvidia.com>
+Message-ID: <3f1c9325-3017-62be-1e3b-82fd28540fdf@nvidia.com>
+Date:   Tue, 10 Dec 2019 08:53:42 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <205cd87d-6957-9457-4ed5-31c534ae0846@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <49da77dc-b346-68eb-9ef8-42cfb3221489@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1575996829; bh=P6bZ47+d9lwCkq4g9cIZNuOKkvDSN8175FzlvhnDGDg=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=OJRjUJQbzgVX/yX7NaLjwXjWxc3o12pbk8ynv0gSzsXWShXrAMFUvUKu/SLuGMO1H
+         QFG7ge1zXMGuEHUwph3Ic1kDxI7C1GPNtKLnkAes8BE7Wh5CSF+GKYXX7ieG1ZCLoO
+         4j6E13Fkk0JxiiY4QJm69xXieC6QchA3+Jhao5caitl4Z3K71TjxuYowF43fvTxVC7
+         pVUClt7n4o5Nb5os4upp7m5fFnwlqsPRFvDDGlqrPvNIhfwqv59QYcXV5JyWiWwGFs
+         FWtwxYmQ8bFI1NAPMzWk2LvoQcgWO2nPi6sIy+qkVTrrCsxPEPf78EQd5PZtElpbNw
+         Iy26venGTs6mA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-10.12.2019 19:02, Dmitry Osipenko пишет:
-> 10.12.2019 05:35, Michał Mirosław пишет:
->> On Tue, Dec 10, 2019 at 12:22:18AM +0300, Dmitry Osipenko wrote:
->>> 09.12.2019 19:04, Michał Mirosław пишет:
->>>> On Sun, Dec 08, 2019 at 01:56:14AM +0300, Dmitry Osipenko wrote:
->>>>> 08.12.2019 00:52, Michał Mirosław пишет:
->>>>>> On Tue, Dec 03, 2019 at 03:40:57AM +0300, Dmitry Osipenko wrote:
->>>>>>> Hello,
->>>>>>>
->>>>>>> This series does the following:
->>>>>>>
->>>>>>>   1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
->>>>>>>      into common drivers/cpuidle/ directory.
->>>>>>>
->>>>>>>   2. Enables CPU cluster power-down idling state on Tegra30.
->>>>>>>
->>>>>>> In the end there is a quite nice clean up of the Tegra CPUIDLE drivers
->>>>>>> and of the Tegra's arch code in general. Please review, thanks!
->>>>>>
->>>>>> I did a quick smoke test for this series on top of Linus' master:
->>>>>>  - rebuilding with the patches applied, CONFIG_ARM_TEGRA_CPUIDLE=n - works
->>>>>>  - building with CONFIG_ARM_TEGRA_CPUIDLE=y - doesn't boot
->>>>>>
->>>>>> The hang is somewhere early in the boot process, before simplefb can
->>>>>> take the console and show any logs. If I get BOOTFB to work again I might
->>>>>> be able to get some more info.
->>>>>
->>>>> Thank you very much for trying these patches!
->>>>>
->>>>> Could you please try to make ARM_TEGRA_CPUIDLE "tristate" in the Kconfig
->>>>> and compile it as a loadable module? That way you'll get framebuffer
->>>>> shown before the hang happens.
->>>>>
->>>>> Does LP2 suspend/resume work for you? There should be
->>>>> "nvidia,suspend-mode = <2>" in the PMC's node of device-tree.
->>>>
->>>> Not at the moment. I also tried suspend-mode = <1> and <0>, but it
->>>> made no difference.
->>>
->>> If LP2 doesn't work, then it explains why you're getting the hang.
->>>
->>> Are you using TF300T for the testing? I'm recalling that LP2 worked for
->>> you sometime ago on TF300T, maybe some offending change was introduced
->>> since then. Could you please try to do the git bisection or at least
->>> find out what is the last good kernel version?
->>>
->>> I rebased this series on a recent linux-next and you could find the
->>> rebased patches here [1].
->>>
->>> [1] https://github.com/grate-driver/linux/commits/master
->>>
->>> With [1] you should be able to remove "nvidia,suspend-mode" property
->>> from the device-tree to get cpuidle working with the disabled CC6 state
->>> (LP2). Could you please check that at least disabled CC6 works for you?
->>
->> I tested suspend with your tree merged, but CONFIG_TEGRA_CPUIDLE=n. LP2
->> seems to work [1]. The same tree with CONFIG_TEGRA_CPUIDLE=y doesn't
->> boot. I'll try comparing DTs, but other than that I'm blocked on BOOTFB now.
-> 
-> That's an interesting result.
-> 
->> [1] rtcwake -s 3 -d /dev/rtc0 -v -m mem
->>
->> (...)
->> [ 2710.157919] PM: suspend entry (deep)
->> [ 2710.161205] Filesystems sync: 0.000 seconds
->> [ 2710.176677] Freezing user space processes ... (elapsed 0.001 seconds) done.
->> [ 2710.178342] OOM killer disabled.
->> [ 2710.178527] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
->> [ 2710.347871] Disabling non-boot CPUs ...
->> [ 2710.349160] IRQ 18: no longer affine to CPU1
->> [ 2710.352499] IRQ 19: no longer affine to CPU2
->> [ 2710.370059] IRQ 20: no longer affine to CPU3
->> [ 2710.371284] Entering suspend state LP2
->> [ 2710.371556] Enabling non-boot CPUs ...
->> [ 2710.373157] CPU1 is up
->> [ 2710.374598] CPU2 is up
->> [ 2710.375996] CPU3 is up
->> [ 2710.462876] OOM killer enabled.
->> [ 2710.463018] Restarting tasks ...
->> [ 2710.463880] tegra-devfreq 6000c800.actmon: Failed to get emc clock
->> [ 2710.464509] done.
->> [ 2710.552824] asus-ec 1-0015: model         : ASUS-TF201-PAD
->> [ 2710.558345] asus-ec 1-0015: FW version    : PAD-EC20T-0216
->> [ 2710.562942] asus-ec 1-0015: Config format : ECFG-0001
->> [ 2710.567651] asus-ec 1-0015: HW version    : TF201-PAD-SKU1
->> [ 2710.572488] asus-ec 1-0015: EC FW behaviour: susb on when system wakeup
->> [ 2710.769796] atkbd serio1: no of_node; not parsing pinctrl DT
->> [ 2710.835629] asus-ec 5-0019: model         : ASUS-TF201-DOCK
->> [ 2710.838686] asus-ec 5-0019: FW version    : DOCK-EC20N-0207
->> [ 2710.841865] asus-ec 5-0019: Config format : ECFG-0001
->> [ 2710.844271] asus-ec 5-0019: HW version    : PCBA-SKU-2
->> [ 2710.847950] asus-ec 5-0019: EC FW behaviour: susb on when receive ec_req
->> [ 2711.040935] PM: suspend exit
->>
-> 
-> Could you please try this change on top of recent grate-linux (it should
-> allow display to light up before the hang):
-> 
-> diff --git a/drivers/cpuidle/cpuidle-tegra.c
-> b/drivers/cpuidle/cpuidle-tegra.c
-> index db9ccba5a74c..21317b4e16c1 100644
-> --- a/drivers/cpuidle/cpuidle-tegra.c
-> +++ b/drivers/cpuidle/cpuidle-tegra.c
-> @@ -22,6 +22,7 @@
->  #include <linux/ktime.h>
->  #include <linux/platform_device.h>
->  #include <linux/types.h>
-> +#include <linux/workqueue.h>
-> 
->  #include <linux/clk/tegra.h>
->  #include <linux/firmware/trusted_foundations.h>
-> @@ -332,7 +333,7 @@ static void tegra_cpuidle_setup_tegra114_c7_state(void)
->  	s->exit_latency = 500;
->  }
-> 
-> -static int tegra_cpuidle_probe(struct platform_device *pdev)
-> +static void tegra_cpuidle_probe_work(struct work_struct *work)
->  {
->  	/* LP2 could be disabled in device-tree */
->  	if (tegra_pmc_get_suspend_mode() < TEGRA_SUSPEND_LP2)
-> @@ -372,10 +373,18 @@ static int tegra_cpuidle_probe(struct
-> platform_device *pdev)
->  		break;
-> 
->  	default:
-> -		return -EINVAL;
-> +		return;
->  	}
-> 
-> -	return cpuidle_register(&tegra_idle_driver, cpu_possible_mask);
-> +	cpuidle_register(&tegra_idle_driver, cpu_possible_mask);
-> +}
-> +
-> +static DECLARE_DELAYED_WORK(delayed_probe, tegra_cpuidle_probe_work);
-> +
-> +static int tegra_cpuidle_probe(struct platform_device *pdev)
-> +{
-> +	schedule_delayed_work(&delayed_probe, 5 * HZ);
-> +	return 0;
->  }
-> 
->  static struct platform_driver tegra_cpuidle_driver = {
-> 
 
-Also, do you have CONFIG_ARM_TEGRA20_CPUFREQ=y? Please try to disable it
-if it's enabled and if you enabled CPU OPPs in the device-tree.
+On 12/9/19 3:03 PM, Sowjanya Komatineni wrote:
+>
+> On 12/9/19 12:46 PM, Sowjanya Komatineni wrote:
+>>
+>> On 12/9/19 12:12 PM, Dmitry Osipenko wrote:
+>>> 08.12.2019 00:36, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> On 12/7/19 11:59 AM, Sowjanya Komatineni wrote:
+>>>>> On 12/7/19 8:00 AM, Dmitry Osipenko wrote:
+>>>>>> 07.12.2019 18:53, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>>> 07.12.2019 18:47, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>>>> 07.12.2019 17:28, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>>>>> 06.12.2019 05:48, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=
+=82:
+>>>>>>>>>> Tegra210 and prior Tegra PMC has clk_out_1, clk_out_2, clk_out_3
+>>>>>>>>>> with
+>>>>>>>>>> mux and gate for each of these clocks.
+>>>>>>>>>>
+>>>>>>>>>> Currently these PMC clocks are registered by Tegra clock driver
+>>>>>>>>>> using
+>>>>>>>>>> clk_register_mux and clk_register_gate by passing PMC base=20
+>>>>>>>>>> address
+>>>>>>>>>> and register offsets and PMC programming for these clocks=20
+>>>>>>>>>> happens
+>>>>>>>>>> through direct PMC access by the clock driver.
+>>>>>>>>>>
+>>>>>>>>>> With this, when PMC is in secure mode any direct PMC access=20
+>>>>>>>>>> from the
+>>>>>>>>>> non-secure world does not go through and these clocks will=20
+>>>>>>>>>> not be
+>>>>>>>>>> functional.
+>>>>>>>>>>
+>>>>>>>>>> This patch adds these clocks registration with PMC as a clock
+>>>>>>>>>> provider
+>>>>>>>>>> for these clocks. clk_ops callback implementations for these=20
+>>>>>>>>>> clocks
+>>>>>>>>>> uses tegra_pmc_readl and tegra_pmc_writel which supports PMC
+>>>>>>>>>> programming
+>>>>>>>>>> in secure mode and non-secure mode.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>>>>>>> ---
+>>>>>>>> [snip]
+>>>>>>>>
+>>>>>>>>>> +
+>>>>>>>>>> +static const struct clk_ops pmc_clk_gate_ops =3D {
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .is_enabled =3D pmc_clk_is_enabled,
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .enable =3D pmc_clk_enable,
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .disable =3D pmc_clk_disable,
+>>>>>>>>>> +};
+>>>>>>>>> What's the benefit of separating GATE from the MUX?
+>>>>>>>>>
+>>>>>>>>> I think it could be a single clock.
+>>>>>>>> According to TRM:
+>>>>>>>>
+>>>>>>>> 1. GATE and MUX are separate entities.
+>>>>>>>>
+>>>>>>>> 2. GATE is the parent of MUX (see PMC's CLK_OUT paths diagram=20
+>>>>>>>> in TRM).
+>>>>>>>>
+>>>>>>>> 3. PMC doesn't gate EXTPERIPH clock but could "force-enable" it,
+>>>>>>>> correct?
+>>>> Was following existing clk-tegra-pmc as I am not sure of reason for
+>>>> having these clocks registered as separate mux and gate clocks.
+>>>>
+>>>> Yes, PMC clocks can be registered as single clock and can use clk_ops
+>>>> for set/get parent and enable/disable.
+>>>>
+>>>> enable/disable of PMC clocks is for force-enable to force the clock to
+>>>> run regardless of ACCEPT_REQ or INVERT_REQ.
+>>>>
+>>>>>>> 4. clk_m_div2/4 are internal PMC OSC dividers and thus these clocks
+>>>>>>> should belong to PMC.
+>>>>>> Also, it should be "osc" and not "clk_m".
+>>>>> I followed the same parents as it were in existing clk-tegra-pmc=20
+>>>>> driver.
+>>>>>
+>>>>> Yeah they are wrong and they should be from osc and not clk_m.
+>>>>>
+>>>>> Will fix in next version.
+>>>>>
+> Reg clk_m_div2/3, they are dividers at OSC pad and not really internal=20
+> to PMC block.
+>
+> current clock driver creates clk_m_div clocks which should actually be=20
+> osc_div2/osc_div4 clocks with osc as parent.
+>
+> There are no clk_m_div2 and clk_m_div4 from clk_m
+>
+> Will fix this in next version.
+>
+>>> Could you please describe the full EXTPERIPH clock topology and how the
+>>> pinmux configuration is related to it all?
+>>>
+>>> What is internal to the Tegra chip and what are the external outputs?
+>>>
+>>> Is it possible to bypass PMC on T30+ for the EXTPERIPH clocks?
+>>
+>> PMC CLK1/2/3 possible sources are OSC_DIV1, OSC_DIV2, OSC_DIV4,=20
+>> EXTPERIPH from CAR.
+>>
+>> OSC_DIV1/2/4 are with internal dividers at the OSC Pads
+>>
+>> EXTPERIPH is from CAR and it has reset and enable controls along with=20
+>> clock source selections to choose one of the PLLA_OUT0, CLK_S,=20
+>> PLLP_OUT0, CLK_M, PLLE_OUT0
+>>
+>> So, PMC CLK1/2/4 possible parents are OSC_DIV1, OSC_DIV2, OSC_DIV4,=20
+>> EXTERN.
+>>
+>>
+>> CLK1/2/3 also has Pinmux to route EXTPERIPH output on to these pins.
+>>
+>>
+>> When EXTERN output clock is selected for these PMC clocks thru=20
+>> CLKx_SRC_SEL, output clock is from driver by EXTPERIPH from CAR via=20
+>> Pinmux logic or driven as per CLKx_SRC_SEL bypassing pinmux based on=20
+>> CLKx_ACCEPT_REQ bit.
+>>
+>>
+>> PMC Clock control register has bit CLKx_ACCEPT_REQ
+>> When CLKx_ACCEPT_REQ =3D 0, output clock driver is from by EXTPERIPH=20
+>> through the pinmux
+>> When CLKx_ACCEPT_REQ =3D 1, output clock is based on CLKx_SRC_SEL bits=20
+>> (OSC_DIV1/2/4 and EXTPERIPH clock bypassing the pinmux)
+>>
+>> FORCE_EN bit in PMC CLock control register forces the clock to run=20
+>> regardless of this.
+
+PMC clock gate is based on the state of CLKx_ACCEPT_REQ and FORCE_EN=20
+like explained above.
+
+CLKx_ACCEPT_REQ is 0 default and FORCE_EN acts as gate to enable/disable=20
+EXTPERIPH clock output to PMC CLK_OUT_1/2/3.
+
+So I believe we need to register as MUX and Gate rather than as a single=20
+clock. Please confirm.
+
