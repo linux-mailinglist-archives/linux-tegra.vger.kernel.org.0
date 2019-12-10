@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BD84119B58
-	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 23:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 879DB119DCB
+	for <lists+linux-tegra@lfdr.de>; Tue, 10 Dec 2019 23:40:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728648AbfLJWHA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Dec 2019 17:07:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36644 "EHLO mail.kernel.org"
+        id S1729267AbfLJWkX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 10 Dec 2019 17:40:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52474 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728099AbfLJWFP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Dec 2019 17:05:15 -0500
+        id S1728890AbfLJWcI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 10 Dec 2019 17:32:08 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7234F22B48;
-        Tue, 10 Dec 2019 22:05:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D1E17206EC;
+        Tue, 10 Dec 2019 22:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576015515;
-        bh=Q0wmUm+3R2a+IoIcSL+4zMJjYUuCZd2P9Hr4iKj1240=;
+        s=default; t=1576017127;
+        bh=+d/EPeAnK08Y492IrzqNRX5zak9fQNfVoHVoWmvBVg4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=v3onYcMq4/FJiPDvQuyanddbMzppURtmTRfLLABZYT2yBKMbJmSP9jaOl1V2YxD++
-         gss7MVcg+/rQTkKEUOues8sO8frN73JqEnQZoYaVqevbaJsxXpHIN2o+JVNMDaIaQK
-         dMAptaiiXMB39Az0NoFeIczAQmVqVvam5gRoyjLY=
+        b=sBBPdFYuKPEbO8L3m/j4x7wSGy3lABomuDYjWmVxHVJ3RRKci4QASG+sAGQ/Jm2N+
+         U3Up7r3isbHqliyRfHbHzZXmCU6fAYHEhsKot57B4NWuohSmrrRNNlLTpyK7LK0jEV
+         Y1GghDKixHpVcYucYqo6IcS0cUd717yBSkE3AsaI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Chuhong Yuan <hslester96@gmail.com>,
         Mark Brown <broonie@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-spi@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 112/130] spi: tegra20-slink: add missed clk_unprepare
-Date:   Tue, 10 Dec 2019 17:02:43 -0500
-Message-Id: <20191210220301.13262-112-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 77/91] spi: tegra20-slink: add missed clk_unprepare
+Date:   Tue, 10 Dec 2019 17:30:21 -0500
+Message-Id: <20191210223035.14270-77-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
-References: <20191210220301.13262-1-sashal@kernel.org>
+In-Reply-To: <20191210223035.14270-1-sashal@kernel.org>
+References: <20191210223035.14270-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -60,7 +60,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
-index 9831c1106945e..62b074b167a9a 100644
+index af2880d0c1126..cf2a329fd8958 100644
 --- a/drivers/spi/spi-tegra20-slink.c
 +++ b/drivers/spi/spi-tegra20-slink.c
 @@ -1078,7 +1078,7 @@ static int tegra_slink_probe(struct platform_device *pdev)
