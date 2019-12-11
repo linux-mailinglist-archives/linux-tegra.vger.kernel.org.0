@@ -2,263 +2,148 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41C1111A057
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 02:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5466411A5A8
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 09:12:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727075AbfLKBGz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 10 Dec 2019 20:06:55 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:11823 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726364AbfLKBGz (ORCPT
+        id S1728008AbfLKIMg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Dec 2019 03:12:36 -0500
+Received: from mail-ua1-f66.google.com ([209.85.222.66]:33223 "EHLO
+        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726845AbfLKIMg (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 10 Dec 2019 20:06:55 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5df041170002>; Tue, 10 Dec 2019 17:06:31 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 10 Dec 2019 17:06:52 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 10 Dec 2019 17:06:52 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Dec
- 2019 01:06:52 +0000
-Received: from [10.2.169.141] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Dec
- 2019 01:06:50 +0000
-Subject: Re: [PATCH v3 03/15] soc: tegra: Add Tegra PMC clock registrations
- into PMC driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <mperttunen@nvidia.com>,
-        <sboyd@kernel.org>, <pdeschrijver@nvidia.com>
-CC:     <gregkh@linuxfoundation.org>, <tglx@linutronix.de>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <allison@lohutok.net>, <pgaikwad@nvidia.com>,
-        <mturquette@baylibre.com>, <horms+renesas@verge.net.au>,
-        <Jisheng.Zhang@synaptics.com>, <krzk@kernel.org>, <arnd@arndb.de>,
-        <spujar@nvidia.com>, <josephl@nvidia.com>, <vidyas@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
-        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
-        <alexios.zavras@intel.com>, <alsa-devel@alsa-project.org>
-References: <1575600535-26877-1-git-send-email-skomatineni@nvidia.com>
- <1575600535-26877-4-git-send-email-skomatineni@nvidia.com>
- <7cf4ff77-2f33-4ee5-0e09-5aa6aef3e8be@gmail.com>
- <ad3a6743-4b36-fa25-9cc7-72803038ecc5@gmail.com>
- <dc7a057a-0bed-0e6f-0987-edcfec47f867@gmail.com>
- <288a1701-def6-d628-26bc-a305f817bdb1@gmail.com>
- <78644d45-2ae3-121f-99fc-0a46f205907d@nvidia.com>
- <b35916e1-c6ee-52ca-9111-5ae109437b6e@nvidia.com>
- <ccb715cc-c927-ea91-a26e-24d6eeeeef1a@gmail.com>
- <ee1d39d4-9a57-da9b-fce6-8130dac1d2fd@nvidia.com>
- <49da77dc-b346-68eb-9ef8-42cfb3221489@nvidia.com>
- <3f1c9325-3017-62be-1e3b-82fd28540fdf@nvidia.com>
- <6fcbff3d-8695-7cd0-60de-6eb523b6964c@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <8eb792ad-cded-05cc-93fc-763be7ee66aa@nvidia.com>
-Date:   Tue, 10 Dec 2019 17:06:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Wed, 11 Dec 2019 03:12:36 -0500
+Received: by mail-ua1-f66.google.com with SMTP id v19so7676083uap.0
+        for <linux-tegra@vger.kernel.org>; Wed, 11 Dec 2019 00:12:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GtKVKDZi0VP0KMRK8Y+gNO3Imp+CGwWjCF0fDrTXDao=;
+        b=bX56WYwtKBMtTK5pNvlI5AtcGpRDzQRovMOrFy3YeM2uxlvX6JCydED9c4Un6GulSX
+         TkNKvo8jeVSC7el9iO5u7RXWEVuAnZ7tZ7+cU0zywqzRSZlLCaPse0K7Op3Qfb9j845r
+         ZR2i0SYA3DRgCbtD7U1ur8Jdu6SM4T9fdMCzacALTG0ULoR4ikfKm1VsNEyChnWmhWIX
+         pnD2RRxNLWc8jSys7JsYVpdi52ciREyzlJiJqvCrOn/OZNGhHTsxKG0d/PcbeVeEG83+
+         Wxz/1pP50t5rL9diWjdXncfue+HhjuJXYxL0fi4xJ6iuCrqykfwCSS8uTnko7Dd9Zjl/
+         rcHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GtKVKDZi0VP0KMRK8Y+gNO3Imp+CGwWjCF0fDrTXDao=;
+        b=kfP7sAKSrBUcTFQViZQt3+q3mjpOe/Tyrm0M7peZGXXjakFEtEaeYtI62Yw06xai5Q
+         pih1YCsjW0WpNboiRMcTiafQwreOndNNO/EeIV3bq27UZNb+JPk6X9yzGUWQ5N64thEo
+         NeQ5w6HiYBkEI8ZY2qjtlZ0AQxHTFEYBfwtLim2WjfIrO6dGcruXy/VIHkCDQuRUSziJ
+         NWmqVxQIkFxBYHidm089afbQi6qGUsZH3Yu+01SwiUOb+FU5J1fsmguK2pQm+PJ+ogic
+         kdikJmhaklfPi4D15qrixDcXMriitoClr9p19Tsu+zSxkl2rAOBNGFDedgRtbYKw9LBn
+         sP2Q==
+X-Gm-Message-State: APjAAAXgOcAw8aivq15s2NTmdTIVb0Ny2tZvf5Ngd3eTJwCDdU8Bi+0x
+        iZKxIZGzyL9mjKuyX7Wa2qqofWwT+hWKWx4J0k2hUg==
+X-Google-Smtp-Source: APXvYqwfkNjUyB25iTUQMolGQ75pWlGE1AA8Foce2npbbSq1gGxdbvJgtoyGR9ofkrupXXwWj4q55/MChMTBsq0UKtM=
+X-Received: by 2002:ab0:5510:: with SMTP id t16mr1773149uaa.15.1576051955460;
+ Wed, 11 Dec 2019 00:12:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6fcbff3d-8695-7cd0-60de-6eb523b6964c@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576026391; bh=tYrI6IQg3SkN0rN33mQ0QUBNNOo7FnAQjj4K8vwA3bs=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=Q5L8y5B0e77IvBea9SU6pHvl5tHVsPoaafVRjMLcq6GRLmnY7k66+RbJY0zBWt9Ct
-         TdyXaBcmDhVOkfL5zl3Ph5reiIs8r/G6Xw1CbhZYTLVEr50DZW4y5K/naEO82b89+3
-         F0Zei5pODxesWqv37l30y0EF4WV2r109RrStaM8Uq1yNzAHiC1rZE9m0XlTZYgTROt
-         wFtpO8njEhRU2NfpH0pwLHdYjENGvKlTAHL25/IAIXhKd2Yp09TCOKNT0VCnAd53zB
-         8CM8th71TfOKhXCvJS0vrtYL79Hqs7RGMEx4wSnxTM+o/e61xNy/j1PT+BaKJREVb/
-         lo+mJfllO8tew==
+References: <20191210014011.21987-1-digetx@gmail.com>
+In-Reply-To: <20191210014011.21987-1-digetx@gmail.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 11 Dec 2019 09:11:59 +0100
+Message-ID: <CAPDyKFpMe09PNQqinvvidF+wfASx2nuvgf7=Hx5+cGni8pdcRA@mail.gmail.com>
+Subject: Re: [PATCH v1] sdhci: tegra: Add workaround for Broadcom WiFi
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 12/10/19 9:41 AM, Dmitry Osipenko wrote:
-> 10.12.2019 19:53, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> On 12/9/19 3:03 PM, Sowjanya Komatineni wrote:
->>> On 12/9/19 12:46 PM, Sowjanya Komatineni wrote:
->>>> On 12/9/19 12:12 PM, Dmitry Osipenko wrote:
->>>>> 08.12.2019 00:36, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>> On 12/7/19 11:59 AM, Sowjanya Komatineni wrote:
->>>>>>> On 12/7/19 8:00 AM, Dmitry Osipenko wrote:
->>>>>>>> 07.12.2019 18:53, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>>>>> 07.12.2019 18:47, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>>>>>> 07.12.2019 17:28, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82=
-:
->>>>>>>>>>> 06.12.2019 05:48, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=
-=D1=82:
->>>>>>>>>>>> Tegra210 and prior Tegra PMC has clk_out_1, clk_out_2, clk_out=
-_3
->>>>>>>>>>>> with
->>>>>>>>>>>> mux and gate for each of these clocks.
->>>>>>>>>>>>
->>>>>>>>>>>> Currently these PMC clocks are registered by Tegra clock drive=
-r
->>>>>>>>>>>> using
->>>>>>>>>>>> clk_register_mux and clk_register_gate by passing PMC base
->>>>>>>>>>>> address
->>>>>>>>>>>> and register offsets and PMC programming for these clocks
->>>>>>>>>>>> happens
->>>>>>>>>>>> through direct PMC access by the clock driver.
->>>>>>>>>>>>
->>>>>>>>>>>> With this, when PMC is in secure mode any direct PMC access
->>>>>>>>>>>> from the
->>>>>>>>>>>> non-secure world does not go through and these clocks will
->>>>>>>>>>>> not be
->>>>>>>>>>>> functional.
->>>>>>>>>>>>
->>>>>>>>>>>> This patch adds these clocks registration with PMC as a clock
->>>>>>>>>>>> provider
->>>>>>>>>>>> for these clocks. clk_ops callback implementations for these
->>>>>>>>>>>> clocks
->>>>>>>>>>>> uses tegra_pmc_readl and tegra_pmc_writel which supports PMC
->>>>>>>>>>>> programming
->>>>>>>>>>>> in secure mode and non-secure mode.
->>>>>>>>>>>>
->>>>>>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>>>>>>>>>> ---
->>>>>>>>>> [snip]
->>>>>>>>>>
->>>>>>>>>>>> +
->>>>>>>>>>>> +static const struct clk_ops pmc_clk_gate_ops =3D {
->>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .is_enabled =3D pmc_clk_is_enabled,
->>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .enable =3D pmc_clk_enable,
->>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .disable =3D pmc_clk_disable,
->>>>>>>>>>>> +};
->>>>>>>>>>> What's the benefit of separating GATE from the MUX?
->>>>>>>>>>>
->>>>>>>>>>> I think it could be a single clock.
->>>>>>>>>> According to TRM:
->>>>>>>>>>
->>>>>>>>>> 1. GATE and MUX are separate entities.
->>>>>>>>>>
->>>>>>>>>> 2. GATE is the parent of MUX (see PMC's CLK_OUT paths diagram
->>>>>>>>>> in TRM).
->>>>>>>>>>
->>>>>>>>>> 3. PMC doesn't gate EXTPERIPH clock but could "force-enable" it,
->>>>>>>>>> correct?
->>>>>> Was following existing clk-tegra-pmc as I am not sure of reason for
->>>>>> having these clocks registered as separate mux and gate clocks.
->>>>>>
->>>>>> Yes, PMC clocks can be registered as single clock and can use clk_op=
-s
->>>>>> for set/get parent and enable/disable.
->>>>>>
->>>>>> enable/disable of PMC clocks is for force-enable to force the clock =
-to
->>>>>> run regardless of ACCEPT_REQ or INVERT_REQ.
->>>>>>
->>>>>>>>> 4. clk_m_div2/4 are internal PMC OSC dividers and thus these cloc=
-ks
->>>>>>>>> should belong to PMC.
->>>>>>>> Also, it should be "osc" and not "clk_m".
->>>>>>> I followed the same parents as it were in existing clk-tegra-pmc
->>>>>>> driver.
->>>>>>>
->>>>>>> Yeah they are wrong and they should be from osc and not clk_m.
->>>>>>>
->>>>>>> Will fix in next version.
->>>>>>>
->>> Reg clk_m_div2/3, they are dividers at OSC pad and not really internal
->>> to PMC block.
->>>
->>> current clock driver creates clk_m_div clocks which should actually be
->>> osc_div2/osc_div4 clocks with osc as parent.
->>>
->>> There are no clk_m_div2 and clk_m_div4 from clk_m
->>>
->>> Will fix this in next version.
->>>
->>>>> Could you please describe the full EXTPERIPH clock topology and how t=
-he
->>>>> pinmux configuration is related to it all?
->>>>>
->>>>> What is internal to the Tegra chip and what are the external outputs?
->>>>>
->>>>> Is it possible to bypass PMC on T30+ for the EXTPERIPH clocks?
->>>> PMC CLK1/2/3 possible sources are OSC_DIV1, OSC_DIV2, OSC_DIV4,
->>>> EXTPERIPH from CAR.
->>>>
->>>> OSC_DIV1/2/4 are with internal dividers at the OSC Pads
->>>>
->>>> EXTPERIPH is from CAR and it has reset and enable controls along with
->>>> clock source selections to choose one of the PLLA_OUT0, CLK_S,
->>>> PLLP_OUT0, CLK_M, PLLE_OUT0
->>>>
->>>> So, PMC CLK1/2/4 possible parents are OSC_DIV1, OSC_DIV2, OSC_DIV4,
->>>> EXTERN.
->>>>
->>>>
->>>> CLK1/2/3 also has Pinmux to route EXTPERIPH output on to these pins.
->>>>
->>>>
->>>> When EXTERN output clock is selected for these PMC clocks thru
->>>> CLKx_SRC_SEL, output clock is from driver by EXTPERIPH from CAR via
->>>> Pinmux logic or driven as per CLKx_SRC_SEL bypassing pinmux based on
->>>> CLKx_ACCEPT_REQ bit.
->>>>
->>>>
->>>> PMC Clock control register has bit CLKx_ACCEPT_REQ
->>>> When CLKx_ACCEPT_REQ =3D 0, output clock driver is from by EXTPERIPH
->>>> through the pinmux
->>>> When CLKx_ACCEPT_REQ =3D 1, output clock is based on CLKx_SRC_SEL bits
->>>> (OSC_DIV1/2/4 and EXTPERIPH clock bypassing the pinmux)
->>>>
->>>> FORCE_EN bit in PMC CLock control register forces the clock to run
->>>> regardless of this.
->> PMC clock gate is based on the state of CLKx_ACCEPT_REQ and FORCE_EN
->> like explained above.
->>
->> CLKx_ACCEPT_REQ is 0 default and FORCE_EN acts as gate to enable/disable
->> EXTPERIPH clock output to PMC CLK_OUT_1/2/3.
-> [and to enable OSC as well]
+On Tue, 10 Dec 2019 at 02:40, Dmitry Osipenko <digetx@gmail.com> wrote:
 >
->> So I believe we need to register as MUX and Gate rather than as a single
->> clock. Please confirm.
-> 1. The force-enabling is applied to both OSC and EXTERN sources of
-> PMC_CLK_OUT_x by PMC at once.
+> All Tegra20 boards that have embedded Broadcom WiFi SDIO chip are affected
+> by a problem where WiFi chip reports CCCR v1.10, while it should v1.20.
+> In a result high-speed mode isn't enabled for the WiFi card and this
+> results in a malfunctioning SDIO communication.
+
+Does that also mean SDIO_SPEED_SHS bit is set when reading SDIO_CCCR_SPEED?
+
 >
-> 2. Both of PMC's force-enabling and OSC/EXTERN selection is internal to P=
-MC.
+>  brcmfmac: brcmf_sdio_readframes: read 304 bytes from channel 1 failed: -84
+>  brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame, send NAK
 >
-> Should be better to define it as a single "pmc_clk_out_x". I don't see
-> any good reasons for differentiating PMC's Gate from the MUX, it's a
-> single hardware unit from a point of view of the rest of the system.
+> Downstream kernels are overriding card's CCCR info in SDHCI driver to fix
+> the problem, let's do the same in upstream.
 >
-> Peter, do you have any objections?
+> The change is inspired by omap_hsmmc_init_card() of OMAP's HSMMC driver,
+> which overrides card's info for the TI wl1251 WiFi.
 
-We added fallback option for audio mclk and also added check for=20
-assigned-clock-parents dt property in audio driver and if its not then=20
-we do parent init configuration in audio driver.
+This is a temporary solution and should be replaced by doing the DT
+parsing during
 
-Current clock driver creates 2 separate clocks clk_out_1_mux and=20
-clk_out_1 for each pmc clock in clock driver and uses extern1 as parent=20
-to clk_out_1_mux and clk_out_1_mux is parent to clk_out_1.
+So, yes, let's see if we can use a card quirk instead. That's the first option.
 
-With change of registering each pmc clock as a single clock, when we do=20
-parent init assignment in audio driver when assigned-clock-properties=20
-are not used in DT (as we removed parent inits for extern and clk_outs=20
-from clock driver), we should still try to get clock based on=20
-clk_out_1_mux as parent assignment of extern1 is for clk_out_1_mux as=20
-per existing clock tree.
+A second option is simply to parse the DT subnode for a new DT
+property during mmc_sdio_init_card(). Along the lines of what we do
+for the broken-hpi DT binding for eMMC.
 
-clk_out_1_mux clock retrieve will fail with this change of single clock=20
-when any new platform device tree doesn't specify assigned-clock-parents=20
-properties and tegra_asoc_utils_init fails.
+Kind regards
+Uffe
 
-With single clock, extern1 is the parent for clk_out_1 and with separate=20
-clocks for mux and gate, extern1 is the parent for clk_out_1_mux.
-
+>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/mmc/host/sdhci-tegra.c | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>
+> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+> index 7bc950520fd9..2ad87da98f2c 100644
+> --- a/drivers/mmc/host/sdhci-tegra.c
+> +++ b/drivers/mmc/host/sdhci-tegra.c
+> @@ -1501,6 +1501,32 @@ static int sdhci_tegra_add_host(struct sdhci_host *host)
+>         return ret;
+>  }
+>
+> +static void sdhci_tegra_init_card(struct mmc_host *mmc, struct mmc_card *card)
+> +{
+> +       if (card->type == MMC_TYPE_SDIO) {
+> +               struct device_node *np = mmc_dev(mmc)->of_node;
+> +
+> +               np = of_get_compatible_child(np, "brcm,bcm4329-fmac");
+> +               if (np) {
+> +                       dev_info(mmc_dev(mmc), "found bcm4329\n");
+> +
+> +                       /*
+> +                        * All Tegra20 boards that have embedded BCM4329
+> +                        * chip need to enable high speed for SDIO, otherwise
+> +                        * further communication with the card doesn't work
+> +                        * well.
+> +                        *
+> +                        * Later BCM43xx chips do not need this workaround,
+> +                        * but there is no good way to differentiate chip's
+> +                        * version at this stage and it doesn't cause any
+> +                        * harm for the later chips.
+> +                        */
+> +                       card->cccr.high_speed = 1;
+> +                       of_node_put(np);
+> +               }
+> +       }
+> +}
+> +
+>  static int sdhci_tegra_probe(struct platform_device *pdev)
+>  {
+>         const struct of_device_id *match;
+> @@ -1545,6 +1571,8 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
+>                 host->mmc_host_ops.execute_tuning =
+>                                 tegra_sdhci_execute_hw_tuning;
+>
+> +       host->mmc_host_ops.init_card = sdhci_tegra_init_card;
+> +
+>         rc = mmc_of_parse(host->mmc);
+>         if (rc)
+>                 goto err_parse_dt;
+> --
+> 2.24.0
+>
