@@ -2,119 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9764811B7BD
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 17:10:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DB7111B7D9
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 17:10:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731132AbfLKQJ0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Dec 2019 11:09:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33070 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731053AbfLKPMH (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:12:07 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 83FBA24671;
-        Wed, 11 Dec 2019 15:12:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576077127;
-        bh=fxbntyBqEKHsMYyHubFDmIaQLZIboAKHGpoYtKjsg4I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cnBjh5EKotostD4mbSRdaxvgKHyrHUK6RKL0fLz5Xg70hm9CuQNIC96Kqb43kNAxP
-         i+carD6SYClJ9L/DdVqANqsUg895eVp71fUHcXMVbeFgnJwzY0o1fTzmtWyERyPoUZ
-         ++7bfrsWklPbbnu3T3ugF8yObAiuBrNQ8kp1qWao=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thierry Reding <treding@nvidia.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Sasha Levin <sashal@kernel.org>,
-        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 015/134] iommu/tegra-smmu: Fix page tables in > 4 GiB memory
-Date:   Wed, 11 Dec 2019 10:09:51 -0500
-Message-Id: <20191211151150.19073-15-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191211151150.19073-1-sashal@kernel.org>
-References: <20191211151150.19073-1-sashal@kernel.org>
+        id S1731143AbfLKQKp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Dec 2019 11:10:45 -0500
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:35393 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732156AbfLKQKp (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 11 Dec 2019 11:10:45 -0500
+Received: by mail-vs1-f67.google.com with SMTP id x123so16147139vsc.2
+        for <linux-tegra@vger.kernel.org>; Wed, 11 Dec 2019 08:10:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kgF0VJwJaoby2Qr1LSoRI08yHtezON+G5eeh4fnIRrc=;
+        b=gqHvsIBLULpFt1CrV8JQNqmX+fJCOrherZuDNq0bjRctmMIPjDngGtH2kiqRyFYVpa
+         a45jXETMo1DSdvdVMYg5zLfMwnTO6hvomPKQ7ut/aIWHf84ifkMVmZFFitbuJOVm6qQP
+         ldrWFZYCHZoFoP1c6DqUVvPLIIL5uUzKLaLxP3lU5/eiIgXnNohVLz9h83Dvofb33ibB
+         ZaSy7BOTxvNUwe60poj3bGD29/xkZudsxk4a1OhMIjAuoLK6JT2Z2vmzNLfD7qOG3sWI
+         DnSKfmJ/kda2KPyQaIgd3ruNWrfxVHxbOFSAmoZ9il9SujzqQCGcRs2miQd6/nq5Mdi1
+         RxDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kgF0VJwJaoby2Qr1LSoRI08yHtezON+G5eeh4fnIRrc=;
+        b=XpwRDfuekX72tACHCI2N7aRrk1vlzYMfZLEvvsyuoNme+syy9Mg+kuqkJjkjFp5aMP
+         jnMMyewu8wG9S9aDc83YK79fybwEwzNhKS0M5Rv/mibVs3fyzXY7oP1YcXwtdahLRYxx
+         sycxdJXaULOBIamsxyVN0XSJhabMugWGAmOLl6K6d/7Ch2pLeH7nfAzK7dpiMfWir0OB
+         TxdfyHk4vcKXoIIfSxPmwsm3/U1BUyRzMtz7NsgHiESSTCL0oO46zLBCtz4XLc6oxlIt
+         WVOAl6twTARHupAhSvKKL2WYvAdiRhvkdSlDOSxmtIvSC9ejAD1LUAkSOV2CUM97P4uB
+         YL/Q==
+X-Gm-Message-State: APjAAAVqL1qu5gh7lmd4Yl1en+T0EgHuRswsYvdtfBHv8oY3S5NIcDRK
+        cZwLEwjvylbdPNq2CNT3+dtfbMW/nuKTxjcgFMi21A==
+X-Google-Smtp-Source: APXvYqySYRxzOot5/V8md6qQBaCXP7aPmRYFmPocUh6OqZlEtGxOuxcN2QT47MGnRi7aJ+1JdLEpLYg4vmI9+M9lRR4=
+X-Received: by 2002:a05:6102:5d1:: with SMTP id v17mr3128024vsf.200.1576080643886;
+ Wed, 11 Dec 2019 08:10:43 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20191210014011.21987-1-digetx@gmail.com> <CAPDyKFpMe09PNQqinvvidF+wfASx2nuvgf7=Hx5+cGni8pdcRA@mail.gmail.com>
+ <28045442-6a1c-1e0b-0dfe-c36fa9de149a@gmail.com>
+In-Reply-To: <28045442-6a1c-1e0b-0dfe-c36fa9de149a@gmail.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 11 Dec 2019 17:10:07 +0100
+Message-ID: <CAPDyKFpWO_McZEoefX1T=SE=RYm_GU3S+LgYZrgJY_SJgv7egA@mail.gmail.com>
+Subject: Re: [PATCH v1] sdhci: tegra: Add workaround for Broadcom WiFi
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Wed, 11 Dec 2019 at 16:46, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> Hello Ulf,
+>
+> 11.12.2019 11:11, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Tue, 10 Dec 2019 at 02:40, Dmitry Osipenko <digetx@gmail.com> wrote:
+> >>
+> >> All Tegra20 boards that have embedded Broadcom WiFi SDIO chip are affe=
+cted
+> >> by a problem where WiFi chip reports CCCR v1.10, while it should v1.20=
+.
+> >> In a result high-speed mode isn't enabled for the WiFi card and this
+> >> results in a malfunctioning SDIO communication.
+> >
+> > Does that also mean SDIO_SPEED_SHS bit is set when reading SDIO_CCCR_SP=
+EED?
+>
+> Yes, the SDIO_SPEED_SHS bit is set.
+>
+> >>  brcmfmac: brcmf_sdio_readframes: read 304 bytes from channel 1 failed=
+: -84
+> >>  brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame, send NAK
+> >>
+> >> Downstream kernels are overriding card's CCCR info in SDHCI driver to =
+fix
+> >> the problem, let's do the same in upstream.
+> >>
+> >> The change is inspired by omap_hsmmc_init_card() of OMAP's HSMMC drive=
+r,
+> >> which overrides card's info for the TI wl1251 WiFi.
+> >
+> > This is a temporary solution and should be replaced by doing the DT
+> > parsing during
+> >
+> > So, yes, let's see if we can use a card quirk instead. That's the first=
+ option.
+> >
+> > A second option is simply to parse the DT subnode for a new DT
+> > property during mmc_sdio_init_card(). Along the lines of what we do
+> > for the broken-hpi DT binding for eMMC.
+>
+> Let's try the first option. My understanding is that the problem affects
+> only the specific model of the WiFi chip and it's not a board-specific
+> problem. I'll add Broadcom driver people to CC for the next version of
+> the patch, maybe they'll have something to say.
 
-[ Upstream commit 96d3ab802e4930a29a33934373157d6dff1b2c7e ]
+Okay, sounds reasonable. By looking at your latest attempt for a fix,
+I have two minor nitpicks, otherwise it looks good.
 
-Page tables that reside in physical memory beyond the 4 GiB boundary are
-currently not working properly. The reason is that when the physical
-address for page directory entries is read, it gets truncated at 32 bits
-and can cause crashes when passing that address to the DMA API.
+The nitpicks:
+I suggest to rename MMC_QUIRK_HIGH_SPEED_CARD to MMC_QUIRK_HIGH_SPEED
+and mmc_card_need_high_speed_toggle() to mmc_card_quirk_hs().
 
-Fix this by first casting the PDE value to a dma_addr_t and then using
-the page frame number mask for the SMMU instance to mask out the invalid
-bits, which are typically used for mapping attributes, etc.
-
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/iommu/tegra-smmu.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 7293fc3f796d6..dd486233e2828 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -159,9 +159,9 @@ static bool smmu_dma_addr_valid(struct tegra_smmu *smmu, dma_addr_t addr)
- 	return (addr & smmu->pfn_mask) == addr;
- }
- 
--static dma_addr_t smmu_pde_to_dma(u32 pde)
-+static dma_addr_t smmu_pde_to_dma(struct tegra_smmu *smmu, u32 pde)
- {
--	return pde << 12;
-+	return (dma_addr_t)(pde & smmu->pfn_mask) << 12;
- }
- 
- static void smmu_flush_ptc_all(struct tegra_smmu *smmu)
-@@ -549,6 +549,7 @@ static u32 *tegra_smmu_pte_lookup(struct tegra_smmu_as *as, unsigned long iova,
- 				  dma_addr_t *dmap)
- {
- 	unsigned int pd_index = iova_pd_index(iova);
-+	struct tegra_smmu *smmu = as->smmu;
- 	struct page *pt_page;
- 	u32 *pd;
- 
-@@ -557,7 +558,7 @@ static u32 *tegra_smmu_pte_lookup(struct tegra_smmu_as *as, unsigned long iova,
- 		return NULL;
- 
- 	pd = page_address(as->pd);
--	*dmap = smmu_pde_to_dma(pd[pd_index]);
-+	*dmap = smmu_pde_to_dma(smmu, pd[pd_index]);
- 
- 	return tegra_smmu_pte_offset(pt_page, iova);
- }
-@@ -599,7 +600,7 @@ static u32 *as_get_pte(struct tegra_smmu_as *as, dma_addr_t iova,
- 	} else {
- 		u32 *pd = page_address(as->pd);
- 
--		*dmap = smmu_pde_to_dma(pd[pde]);
-+		*dmap = smmu_pde_to_dma(smmu, pd[pde]);
- 	}
- 
- 	return tegra_smmu_pte_offset(as->pts[pde], iova);
-@@ -624,7 +625,7 @@ static void tegra_smmu_pte_put_use(struct tegra_smmu_as *as, unsigned long iova)
- 	if (--as->count[pde] == 0) {
- 		struct tegra_smmu *smmu = as->smmu;
- 		u32 *pd = page_address(as->pd);
--		dma_addr_t pte_dma = smmu_pde_to_dma(pd[pde]);
-+		dma_addr_t pte_dma = smmu_pde_to_dma(smmu, pd[pde]);
- 
- 		tegra_smmu_set_pde(as, iova, 0);
- 
--- 
-2.20.1
-
+Kind regards
+Uffe
