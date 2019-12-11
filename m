@@ -2,121 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8F8511AF0F
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 16:10:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EA1411B45B
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 16:47:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730784AbfLKPKh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Dec 2019 10:10:37 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:15745 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730487AbfLKPKg (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:10:36 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5df106e40000>; Wed, 11 Dec 2019 07:10:28 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 11 Dec 2019 07:10:34 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 11 Dec 2019 07:10:34 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Dec
- 2019 15:10:31 +0000
-Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by
- DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Wed, 11 Dec 2019 15:10:30 +0000
-Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
-        id 66AC6447B2; Wed, 11 Dec 2019 17:10:28 +0200 (EET)
-Date:   Wed, 11 Dec 2019 17:10:28 +0200
-From:   Peter De Schrijver <pdeschrijver@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-CC:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mperttunen@nvidia.com>, <sboyd@kernel.org>,
-        <gregkh@linuxfoundation.org>, <tglx@linutronix.de>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <allison@lohutok.net>, <pgaikwad@nvidia.com>,
-        <mturquette@baylibre.com>, <horms+renesas@verge.net.au>,
-        <Jisheng.Zhang@synaptics.com>, <krzk@kernel.org>, <arnd@arndb.de>,
-        <spujar@nvidia.com>, <josephl@nvidia.com>, <vidyas@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
-        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
-        <alexios.zavras@intel.com>, <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v3 03/15] soc: tegra: Add Tegra PMC clock registrations
- into PMC driver
-Message-ID: <20191211151028.GZ28289@pdeschrijver-desktop.Nvidia.com>
-References: <ad3a6743-4b36-fa25-9cc7-72803038ecc5@gmail.com>
- <dc7a057a-0bed-0e6f-0987-edcfec47f867@gmail.com>
- <288a1701-def6-d628-26bc-a305f817bdb1@gmail.com>
- <78644d45-2ae3-121f-99fc-0a46f205907d@nvidia.com>
- <b35916e1-c6ee-52ca-9111-5ae109437b6e@nvidia.com>
- <ccb715cc-c927-ea91-a26e-24d6eeeeef1a@gmail.com>
- <ee1d39d4-9a57-da9b-fce6-8130dac1d2fd@nvidia.com>
- <49da77dc-b346-68eb-9ef8-42cfb3221489@nvidia.com>
- <3f1c9325-3017-62be-1e3b-82fd28540fdf@nvidia.com>
- <6fcbff3d-8695-7cd0-60de-6eb523b6964c@gmail.com>
+        id S1733182AbfLKP0x (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Dec 2019 10:26:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60306 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732720AbfLKP0w (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 11 Dec 2019 10:26:52 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 748F422B48;
+        Wed, 11 Dec 2019 15:26:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576078012;
+        bh=dAvEyrdOLPuy69abLBwLiuLHza6QgT3/miqzjjbp3oE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=oCZkrgaf1vwUj/GKrLsb+40dLV+61nOZT58IpjYT08qD8qmDOwCMym1Dhhv9y1R2U
+         Ee8b9q/KD2hxd6f8yjZo7X6lSt7ZPmXDMuqgonULtrhoYkI5hA+DXfMQAWJh2Bbxrg
+         hy5BS4hSJ6NDpBCFl9D2aAlGgIc6xZNDryMRoZmU=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Thierry Reding <treding@nvidia.com>,
+        Joerg Roedel <jroedel@suse.de>,
+        Sasha Levin <sashal@kernel.org>,
+        iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 07/79] iommu/tegra-smmu: Fix page tables in > 4 GiB memory
+Date:   Wed, 11 Dec 2019 10:25:31 -0500
+Message-Id: <20191211152643.23056-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191211152643.23056-1-sashal@kernel.org>
+References: <20191211152643.23056-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <6fcbff3d-8695-7cd0-60de-6eb523b6964c@gmail.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576077028; bh=VvDMrUYT7taYzbMa3m3Y5QwG5+rFZtiGCZ+lwUnZ+H4=;
-        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
-         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
-        b=Lm5F6nqi5lm9oF3AFvMVlJyM+vsVmkKVxMC3aCEATgZO2h7/YDOmlhxTh16jJsYJc
-         RiTDpkOAGndf7f5g1VHhTGp0uN0v291Ea9MpN52Vs9fo5PtJEB6Zx5z61K91j3ytjq
-         mff6ObVy21nYWvLr+C7tSIvriqp0/PQ0hSigNsBE/FlJGH+QmpZXlRv7KroBogN+1w
-         Cz7mjfNTukwY2nltQx3atJPxUyEKwDEJnOP/0N6zXKUqC2iRiQJTV8QETKFJ8qqemu
-         yrIV5TJcqcqdsN6mPTX3i85m8T+/UOb2TOeAfLfE+x5CnmT8RyiTFIDmSn7YykhuIu
-         1ZWP3M73v2MFg==
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 08:41:56PM +0300, Dmitry Osipenko wrote:
+From: Thierry Reding <treding@nvidia.com>
 
-..
+[ Upstream commit 96d3ab802e4930a29a33934373157d6dff1b2c7e ]
 
-> >
-> > PMC clock gate is based on the state of CLKx_ACCEPT_REQ and FORCE_EN
-> > like explained above.
-> >
-> > CLKx_ACCEPT_REQ is 0 default and FORCE_EN acts as gate to enable/disable
-> > EXTPERIPH clock output to PMC CLK_OUT_1/2/3.
-> 
-> [and to enable OSC as well]
-> 
-> > So I believe we need to register as MUX and Gate rather than as a single
-> > clock. Please confirm.
-> 
-> 1. The force-enabling is applied to both OSC and EXTERN sources of
-> PMC_CLK_OUT_x by PMC at once.
-> 
-> 2. Both of PMC's force-enabling and OSC/EXTERN selection is internal to PMC.
-> 
-> Should be better to define it as a single "pmc_clk_out_x". I don't see
-> any good reasons for differentiating PMC's Gate from the MUX, it's a
-> single hardware unit from a point of view of the rest of the system.
-> 
-> Peter, do you have any objections?
+Page tables that reside in physical memory beyond the 4 GiB boundary are
+currently not working properly. The reason is that when the physical
+address for page directory entries is read, it gets truncated at 32 bits
+and can cause crashes when passing that address to the DMA API.
 
-The reason to have separate gate and mux clocks, is to preserve compatibility
-with existing users.
-Otherwise the current users would need to figure out if there's a
-single clock or 2 clocks to configure. I don't think adding that code in
-each user is worth it only to have a sligthly nicer modelling of the
-hardware.
+Fix this by first casting the PDE value to a dma_addr_t and then using
+the page frame number mask for the SMMU instance to mask out the invalid
+bits, which are typically used for mapping attributes, etc.
 
-Cheers,
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/iommu/tegra-smmu.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Peter.
+diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+index 121d3cb7ddd1d..fa0ecb5e63809 100644
+--- a/drivers/iommu/tegra-smmu.c
++++ b/drivers/iommu/tegra-smmu.c
+@@ -164,9 +164,9 @@ static bool smmu_dma_addr_valid(struct tegra_smmu *smmu, dma_addr_t addr)
+ 	return (addr & smmu->pfn_mask) == addr;
+ }
+ 
+-static dma_addr_t smmu_pde_to_dma(u32 pde)
++static dma_addr_t smmu_pde_to_dma(struct tegra_smmu *smmu, u32 pde)
+ {
+-	return pde << 12;
++	return (dma_addr_t)(pde & smmu->pfn_mask) << 12;
+ }
+ 
+ static void smmu_flush_ptc_all(struct tegra_smmu *smmu)
+@@ -551,6 +551,7 @@ static u32 *tegra_smmu_pte_lookup(struct tegra_smmu_as *as, unsigned long iova,
+ 				  dma_addr_t *dmap)
+ {
+ 	unsigned int pd_index = iova_pd_index(iova);
++	struct tegra_smmu *smmu = as->smmu;
+ 	struct page *pt_page;
+ 	u32 *pd;
+ 
+@@ -559,7 +560,7 @@ static u32 *tegra_smmu_pte_lookup(struct tegra_smmu_as *as, unsigned long iova,
+ 		return NULL;
+ 
+ 	pd = page_address(as->pd);
+-	*dmap = smmu_pde_to_dma(pd[pd_index]);
++	*dmap = smmu_pde_to_dma(smmu, pd[pd_index]);
+ 
+ 	return tegra_smmu_pte_offset(pt_page, iova);
+ }
+@@ -601,7 +602,7 @@ static u32 *as_get_pte(struct tegra_smmu_as *as, dma_addr_t iova,
+ 	} else {
+ 		u32 *pd = page_address(as->pd);
+ 
+-		*dmap = smmu_pde_to_dma(pd[pde]);
++		*dmap = smmu_pde_to_dma(smmu, pd[pde]);
+ 	}
+ 
+ 	return tegra_smmu_pte_offset(as->pts[pde], iova);
+@@ -626,7 +627,7 @@ static void tegra_smmu_pte_put_use(struct tegra_smmu_as *as, unsigned long iova)
+ 	if (--as->count[pde] == 0) {
+ 		struct tegra_smmu *smmu = as->smmu;
+ 		u32 *pd = page_address(as->pd);
+-		dma_addr_t pte_dma = smmu_pde_to_dma(pd[pde]);
++		dma_addr_t pte_dma = smmu_pde_to_dma(smmu, pd[pde]);
+ 
+ 		tegra_smmu_set_pde(as, iova, 0);
+ 
+-- 
+2.20.1
+
