@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E5211B33C
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 16:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFC0A11B32E
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 16:41:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388083AbfLKPfS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Dec 2019 10:35:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44028 "EHLO mail.kernel.org"
+        id S2388467AbfLKPlL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Dec 2019 10:41:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48658 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388055AbfLKPfP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:35:15 -0500
+        id S2388358AbfLKPiS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 11 Dec 2019 10:38:18 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6C05924687;
-        Wed, 11 Dec 2019 15:35:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8A5C2222C4;
+        Wed, 11 Dec 2019 15:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576078515;
+        s=default; t=1576078698;
         bh=fW7kFxv3HidorxygJ1mFCfCniAqwY8GjxNIzsLGC5+w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=H4SuOr0jIMDov1Hv/noXx2GMTc5WmuZS2e137sFpAErQiHb0tond9t1FZ4WMmA9zG
-         rifu9UiYmmOgpm5ok3o0H74YYd303hSkWpTZjmPnS3KCillbIFS8kcYgV3cXRCQGyE
-         2FNhcNp5la7GXta6gHBgsqn2BgU8arEd0hv7RnF8=
+        b=oGiEZNi/ez90ZQ9pTBFAzKq7jRuPpbk/OGqoZd9kZDjpWYSKvOim/6BfFAtMSfXV3
+         D2VyS5r/cn5l83QZ28hBVKzmCMsarpd+izEUkkwoNLEkc3H/f8C41v/3RHuNxkJvA8
+         Lj1qUpqlo/Dr/HyNIColoXCzTTM3PeyZ/cSg8lHw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Thierry Reding <treding@nvidia.com>,
         Joerg Roedel <jroedel@suse.de>,
         Sasha Levin <sashal@kernel.org>,
         iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 04/42] iommu/tegra-smmu: Fix page tables in > 4 GiB memory
-Date:   Wed, 11 Dec 2019 10:34:32 -0500
-Message-Id: <20191211153510.23861-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 04/37] iommu/tegra-smmu: Fix page tables in > 4 GiB memory
+Date:   Wed, 11 Dec 2019 10:37:40 -0500
+Message-Id: <20191211153813.24126-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191211153510.23861-1-sashal@kernel.org>
-References: <20191211153510.23861-1-sashal@kernel.org>
+In-Reply-To: <20191211153813.24126-1-sashal@kernel.org>
+References: <20191211153813.24126-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
