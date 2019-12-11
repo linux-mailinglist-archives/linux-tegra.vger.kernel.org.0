@@ -2,148 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5466411A5A8
-	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 09:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBD7411A63C
+	for <lists+linux-tegra@lfdr.de>; Wed, 11 Dec 2019 09:50:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728008AbfLKIMg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Dec 2019 03:12:36 -0500
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:33223 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726845AbfLKIMg (ORCPT
+        id S1726988AbfLKIuV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Dec 2019 03:50:21 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14016 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725973AbfLKIuU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Dec 2019 03:12:36 -0500
-Received: by mail-ua1-f66.google.com with SMTP id v19so7676083uap.0
-        for <linux-tegra@vger.kernel.org>; Wed, 11 Dec 2019 00:12:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GtKVKDZi0VP0KMRK8Y+gNO3Imp+CGwWjCF0fDrTXDao=;
-        b=bX56WYwtKBMtTK5pNvlI5AtcGpRDzQRovMOrFy3YeM2uxlvX6JCydED9c4Un6GulSX
-         TkNKvo8jeVSC7el9iO5u7RXWEVuAnZ7tZ7+cU0zywqzRSZlLCaPse0K7Op3Qfb9j845r
-         ZR2i0SYA3DRgCbtD7U1ur8Jdu6SM4T9fdMCzacALTG0ULoR4ikfKm1VsNEyChnWmhWIX
-         pnD2RRxNLWc8jSys7JsYVpdi52ciREyzlJiJqvCrOn/OZNGhHTsxKG0d/PcbeVeEG83+
-         Wxz/1pP50t5rL9diWjdXncfue+HhjuJXYxL0fi4xJ6iuCrqykfwCSS8uTnko7Dd9Zjl/
-         rcHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GtKVKDZi0VP0KMRK8Y+gNO3Imp+CGwWjCF0fDrTXDao=;
-        b=kfP7sAKSrBUcTFQViZQt3+q3mjpOe/Tyrm0M7peZGXXjakFEtEaeYtI62Yw06xai5Q
-         pih1YCsjW0WpNboiRMcTiafQwreOndNNO/EeIV3bq27UZNb+JPk6X9yzGUWQ5N64thEo
-         NeQ5w6HiYBkEI8ZY2qjtlZ0AQxHTFEYBfwtLim2WjfIrO6dGcruXy/VIHkCDQuRUSziJ
-         NWmqVxQIkFxBYHidm089afbQi6qGUsZH3Yu+01SwiUOb+FU5J1fsmguK2pQm+PJ+ogic
-         kdikJmhaklfPi4D15qrixDcXMriitoClr9p19Tsu+zSxkl2rAOBNGFDedgRtbYKw9LBn
-         sP2Q==
-X-Gm-Message-State: APjAAAXgOcAw8aivq15s2NTmdTIVb0Ny2tZvf5Ngd3eTJwCDdU8Bi+0x
-        iZKxIZGzyL9mjKuyX7Wa2qqofWwT+hWKWx4J0k2hUg==
-X-Google-Smtp-Source: APXvYqwfkNjUyB25iTUQMolGQ75pWlGE1AA8Foce2npbbSq1gGxdbvJgtoyGR9ofkrupXXwWj4q55/MChMTBsq0UKtM=
-X-Received: by 2002:ab0:5510:: with SMTP id t16mr1773149uaa.15.1576051955460;
- Wed, 11 Dec 2019 00:12:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20191210014011.21987-1-digetx@gmail.com>
-In-Reply-To: <20191210014011.21987-1-digetx@gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Wed, 11 Dec 2019 09:11:59 +0100
-Message-ID: <CAPDyKFpMe09PNQqinvvidF+wfASx2nuvgf7=Hx5+cGni8pdcRA@mail.gmail.com>
-Subject: Re: [PATCH v1] sdhci: tegra: Add workaround for Broadcom WiFi
+        Wed, 11 Dec 2019 03:50:20 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df0adc50003>; Wed, 11 Dec 2019 00:50:13 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 11 Dec 2019 00:50:19 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 11 Dec 2019 00:50:19 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Dec
+ 2019 08:50:19 +0000
+Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by
+ DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Wed, 11 Dec 2019 08:50:19 +0000
+Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
+        id F060C42797; Wed, 11 Dec 2019 10:50:16 +0200 (EET)
+Date:   Wed, 11 Dec 2019 10:50:16 +0200
+From:   Peter De Schrijver <pdeschrijver@nvidia.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+CC:     Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-tegra@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: Re: [PATCH] ARM: tegra: Fix restoration of PLLM when exiting suspend
+Message-ID: <20191211085016.GW28289@pdeschrijver-desktop.Nvidia.com>
+References: <20191210103708.7023-1-jonathanh@nvidia.com>
+ <1f2a4f23-5be5-aa7e-6eb4-2aeb4058481d@gmail.com>
+ <1fe9cd2d-50a2-aae5-95fa-0329acce4c4c@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1fe9cd2d-50a2-aae5-95fa-0329acce4c4c@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576054213; bh=aT59Us6r+RXBi41ZhK23q+Ubu168i/DTG0ueCLa67nU=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:Content-Type:Content-Disposition:
+         Content-Transfer-Encoding:In-Reply-To:X-NVConfidentiality:
+         User-Agent:X-Originating-IP:X-ClientProxiedBy;
+        b=bBKdljop3uOxvjy/o3pqji1i6rxEkmO8s/acQe1DjLRXVnEhD93410sOvuVOsKaY0
+         JenibI3MMdIaGFllcLUf34f4bfqA2730HOi4P39ho0opyk9kJWGx60qiUsvFVUSgjZ
+         BIvwwiH7VZPw4IizzuwrjcILMwvSfRTe6Xb5ROTaDI/aLQxkBYqCHwlOoyNIZIymlA
+         dz98J/HTvcx2VvUtTnSrormWY/66UDpO6/OElOHSMfL8x271y8ax+p64aprcgMliTT
+         uk7bPKfvF84yf/d/RHrqp5kLErqM0H3BYuACr17jRIYPrMt+4t1hIinCddp/u9MxpF
+         aMC9nl8Gbf2xA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 10 Dec 2019 at 02:40, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> All Tegra20 boards that have embedded Broadcom WiFi SDIO chip are affected
-> by a problem where WiFi chip reports CCCR v1.10, while it should v1.20.
-> In a result high-speed mode isn't enabled for the WiFi card and this
-> results in a malfunctioning SDIO communication.
+On Tue, Dec 10, 2019 at 11:29:42PM +0300, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>=20
+>=20
+> 10.12.2019 22:28, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > Hello Jon,
+> >
+> > PLLM's enable-status could be defined either by PMC or CaR. Thus at
+> > first you need to check whether PMC overrides CaR's enable and then
+> > judge the enable state based on PMC or CaR state respectively.
+> >
+>=20
+> Actually, now I think that it doesn't make sense to check PMC WB0 state
+> at all. IIUC, PLLM's state of the WB0 register defines whether Boot ROM
+> should enable PLLM on resume from suspend. Thus it will be correct to
+> check only the CaR's enable-state of PLLM.
+>=20
+> I'm not sure what's the idea of WB0 overriding, maybe to resume faster.
+> Peter, could you please clarify that?
 
-Does that also mean SDIO_SPEED_SHS bit is set when reading SDIO_CCCR_SPEED?
+I don't know why these overriding bits exist. The code for them was in
+the downstream driver so I implemented the same in the upstream driver
+:)
 
->
->  brcmfmac: brcmf_sdio_readframes: read 304 bytes from channel 1 failed: -84
->  brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame, send NAK
->
-> Downstream kernels are overriding card's CCCR info in SDHCI driver to fix
-> the problem, let's do the same in upstream.
->
-> The change is inspired by omap_hsmmc_init_card() of OMAP's HSMMC driver,
-> which overrides card's info for the TI wl1251 WiFi.
+Peter.
 
-This is a temporary solution and should be replaced by doing the DT
-parsing during
-
-So, yes, let's see if we can use a card quirk instead. That's the first option.
-
-A second option is simply to parse the DT subnode for a new DT
-property during mmc_sdio_init_card(). Along the lines of what we do
-for the broken-hpi DT binding for eMMC.
-
-Kind regards
-Uffe
-
->
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/mmc/host/sdhci-tegra.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
->
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-> index 7bc950520fd9..2ad87da98f2c 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -1501,6 +1501,32 @@ static int sdhci_tegra_add_host(struct sdhci_host *host)
->         return ret;
->  }
->
-> +static void sdhci_tegra_init_card(struct mmc_host *mmc, struct mmc_card *card)
-> +{
-> +       if (card->type == MMC_TYPE_SDIO) {
-> +               struct device_node *np = mmc_dev(mmc)->of_node;
-> +
-> +               np = of_get_compatible_child(np, "brcm,bcm4329-fmac");
-> +               if (np) {
-> +                       dev_info(mmc_dev(mmc), "found bcm4329\n");
-> +
-> +                       /*
-> +                        * All Tegra20 boards that have embedded BCM4329
-> +                        * chip need to enable high speed for SDIO, otherwise
-> +                        * further communication with the card doesn't work
-> +                        * well.
-> +                        *
-> +                        * Later BCM43xx chips do not need this workaround,
-> +                        * but there is no good way to differentiate chip's
-> +                        * version at this stage and it doesn't cause any
-> +                        * harm for the later chips.
-> +                        */
-> +                       card->cccr.high_speed = 1;
-> +                       of_node_put(np);
-> +               }
-> +       }
-> +}
-> +
->  static int sdhci_tegra_probe(struct platform_device *pdev)
->  {
->         const struct of_device_id *match;
-> @@ -1545,6 +1571,8 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
->                 host->mmc_host_ops.execute_tuning =
->                                 tegra_sdhci_execute_hw_tuning;
->
-> +       host->mmc_host_ops.init_card = sdhci_tegra_init_card;
-> +
->         rc = mmc_of_parse(host->mmc);
->         if (rc)
->                 goto err_parse_dt;
-> --
-> 2.24.0
->
