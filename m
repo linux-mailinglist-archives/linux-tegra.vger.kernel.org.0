@@ -2,109 +2,267 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB54911D2A7
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 17:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE82F11D400
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 18:31:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729875AbfLLQs1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Dec 2019 11:48:27 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:41137 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729874AbfLLQs1 (ORCPT
+        id S1730061AbfLLRbm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Dec 2019 12:31:42 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35891 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730162AbfLLRbm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Dec 2019 11:48:27 -0500
-Received: by mail-oi1-f193.google.com with SMTP id i1so24871oie.8;
-        Thu, 12 Dec 2019 08:48:26 -0800 (PST)
+        Thu, 12 Dec 2019 12:31:42 -0500
+Received: by mail-lj1-f195.google.com with SMTP id r19so3195609ljg.3;
+        Thu, 12 Dec 2019 09:31:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oGsvTQEy/RBQXjMjGG41MqumsiVigoFMqEdJYu2rJvg=;
+        b=RmMDPPQjFnDduo/ja4oiNR9uvy57bclI0nxhkskq+2ymRGCioVhrJuYAknL7NmPbBV
+         geHAdpqc9EQNG2WKBCC+4v0hNwB/tcpQWJy6Oy2+Jnoim+yJCc+ABmgz90+cSNPZrHh/
+         06iywjOQVcI+RkOyn7/N20/PhkXpN89TSdauu3cTnNrdDh6o3PFwJYtrGedYtI3zySmm
+         nob7ljG3jqjUBJYH4cK2j2595Zyv/Mr1ETY6HuF/XlcuDyfNH9KUg+dmoX6l2ApWmgI1
+         zpCGd4woLTjxDSY8d5XVwP+ZHuTfvSl94GQEWVIpxJH5np7gHead3D2444XYvVi4fKy2
+         TmLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wjt4lItRqFacWsQt7v1P7M8uY8SdNlW1FI4JcWAB9cg=;
-        b=W25SuvyzASkf1N/Nqhj4V8tCx8oys9boPdvQC3lJVdqlqCggoLAOCkLx0qzemhIhVG
-         AM6Y0OJLUHK2Gr5FG0MFwXj+Sfh/fjVjPWQOWEeuNtaRh98FZSwwTVFDhGNuOiGhMhur
-         puUj1UNTPga0I+ygiqzEGpPD9ohsF2HSZR/Dyw3gUlx41PvCjDonndUN7UJuiQrPAFAj
-         wgpKtcRWel1VMrc8dDuTvi3hAYTps/UCByOhexLy7q+iNkxJfruc6VFxski2nAPcFp0v
-         upv30g6UPfTCJdHSqS9d5Pr5agv+5kqCE4xdxbWxOeR3Qt5hR7UQCe/2OOOYUDbx2C4x
-         4MeA==
-X-Gm-Message-State: APjAAAWCkHeXFjt0juM7tKnJTCaSVaZOwFf55uXdLNmcz5gC9bB55JyU
-        CTsRv2sFqoRBfva10siu3p3593FE93Scs1RyMkA=
-X-Google-Smtp-Source: APXvYqzhLuqtxFrHpTXnVzGWfbF0p1GWuNhl8OxvrrmXH4N5/NFgSppxHw5/WLukxvz2bdzYziU7WSw55RG2N9rHWPQ=
-X-Received: by 2002:a05:6808:b38:: with SMTP id t24mr5721539oij.110.1576169306476;
- Thu, 12 Dec 2019 08:48:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20191209130336.2257506-1-thierry.reding@gmail.com>
- <20191209130336.2257506-2-thierry.reding@gmail.com> <CAPDyKFp6cnpn4yFaEBDPBdHc1siQvJbmwedbhRNCdDBVAc2qUA@mail.gmail.com>
- <20191212123352.GA3322354@ulmo> <CAPDyKFodOjta0JnEEMrC0j5=XeB-wLjTNvPFtmDtUBZBMTJvQg@mail.gmail.com>
-In-Reply-To: <CAPDyKFodOjta0JnEEMrC0j5=XeB-wLjTNvPFtmDtUBZBMTJvQg@mail.gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 12 Dec 2019 17:48:15 +0100
-Message-ID: <CAJZ5v0hA6mz7r93_HVpfP-=72wARf9=NN1jNG3KHtzM_+oT9LA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/tegra: Do not implement runtime PM
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oGsvTQEy/RBQXjMjGG41MqumsiVigoFMqEdJYu2rJvg=;
+        b=ZWec56Qn9iZ1a9nQkdP1XLlBzMLUCkAg6YOlbuhEJ5p8ugv8RJLh673QwOmLwBFb9H
+         qPhcIDB4hSZhCN5eG5pw1rC4zl4UvugsSf61X1U3tG+AyfTTs4E5rds1HzP3ioItBm1m
+         qBZLBe66ViNdB6gRxfk0iQUP/Q6Kxh7u3ZwfQnNhq+KZ0A+nn/Jt3BppPkbjK16KMmoB
+         DgAPxu4ZLj0J/QNWDFpGAyp5jIA6LapfvecuhkFTcXtgYEMvir50Q+ONY3jY9fOdIArW
+         X6iVEWk5pxXn5lqTN3yQGnR36hY05SrM/PHcmONzYbLGcfkEDhvjwcAms9mhxxrCoxIm
+         1S5A==
+X-Gm-Message-State: APjAAAVnwuFmbI3RPJnfYycFEevbGRG59tBQWiIVWeh9OElCNHhFLPMO
+        HTCZttowyUFHaR09dzwjsUdvmJRL
+X-Google-Smtp-Source: APXvYqyIm3f+OC3laK1GIKYGmlQgfSWLC3opWbyHkD84OxuNLtZqK0SvUeCm12YnfXoUCUNbdORHww==
+X-Received: by 2002:a2e:7a1a:: with SMTP id v26mr6631586ljc.76.1576171898711;
+        Thu, 12 Dec 2019 09:31:38 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id u20sm3333264lju.34.2019.12.12.09.31.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Dec 2019 09:31:37 -0800 (PST)
+Subject: Re: [PATCH v1] sdhci: tegra: Add workaround for Broadcom WiFi
 To:     Ulf Hansson <ulf.hansson@linaro.org>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20191210014011.21987-1-digetx@gmail.com>
+ <CAPDyKFpMe09PNQqinvvidF+wfASx2nuvgf7=Hx5+cGni8pdcRA@mail.gmail.com>
+ <28045442-6a1c-1e0b-0dfe-c36fa9de149a@gmail.com>
+ <CAPDyKFpWO_McZEoefX1T=SE=RYm_GU3S+LgYZrgJY_SJgv7egA@mail.gmail.com>
+ <44f99e56-468e-c3f9-3785-73c2cf8ba118@gmail.com>
+ <d4933cb1-d2c1-8055-e0f4-f6fcbe9973bc@gmail.com>
+ <CAPDyKFq26Wcd9f3VJ1afxv9TVDJQu4wi+yLS-4Pi1bYnFLyWsg@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <2495b666-58d1-2aab-d4db-240691cf5884@gmail.com>
+Date:   Thu, 12 Dec 2019 20:31:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAPDyKFq26Wcd9f3VJ1afxv9TVDJQu4wi+yLS-4Pi1bYnFLyWsg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 2:32 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
->
-> On Thu, 12 Dec 2019 at 13:33, Thierry Reding <thierry.reding@gmail.com> wrote:
-> >
-> > On Thu, Dec 12, 2019 at 09:52:22AM +0100, Ulf Hansson wrote:
-> > > On Mon, 9 Dec 2019 at 14:03, Thierry Reding <thierry.reding@gmail.com> wrote:
-> > > >
-> > > > From: Thierry Reding <treding@nvidia.com>
-> > > >
-> > > > The Tegra DRM driver heavily relies on the implementations for runtime
-> > > > suspend/resume to be called at specific times. Unfortunately, there are
-> > > > some cases where that doesn't work. One example is if the user disables
-> > > > runtime PM for a given subdevice. Another example is that the PM core
-> > > > acquires a reference to runtime PM during system sleep, effectively
-> > > > preventing devices from going into low power modes. This is intentional
-> > > > to avoid nasty race conditions, but it also causes system sleep to not
-> > > > function properly on all Tegra systems.
-> > >
-> > > Are the problems you refer to above, solely for system suspend/resume?
-> >
-> > No, this patch also fixes potential issues with regular operation of the
-> > display driver. The problem is that parts of the driver rely on being
-> > able to shut down the hardware during runtime operations, such as
-> > disabling an output. Under some circumstances part of this shutdown will
-> > imply a reset and, at least on some platforms, we rely on that reset to
-> > put the device into a known good state.
-> >
-> > So if a user decides to prevent the device from runtime suspending, we
-> > can potentially run into a situation where we can't properly set a
-> > display mode at runtime since we weren't allowed to reset the device.
->
-> Thanks for clarifying!
->
-> We have very similar issues for SDIO functional drivers (WiFi
-> drivers). Typically, at some point there needs to be a guarantee that
-> the power has been cut in between a "put" and "get", as to be able to
-> re-program a FW.
->
-> My worry in regards to this, is that we may reinvent the wheel over
-> and over again, just because runtime PM today isn't a good fit.
->
-> In principle, if you could, somehow forbid user-space from preventing
-> the device from being runtime suspended, that would do the trick,
-> wouldn't it?
+12.12.2019 18:07, Ulf Hansson пишет:
+> On Thu, 12 Dec 2019 at 15:23, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> 11.12.2019 19:29, Dmitry Osipenko пишет:
+>>> 11.12.2019 19:10, Ulf Hansson пишет:
+>>>> On Wed, 11 Dec 2019 at 16:46, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>>
+>>>>> Hello Ulf,
+>>>>>
+>>>>> 11.12.2019 11:11, Ulf Hansson пишет:
+>>>>>> On Tue, 10 Dec 2019 at 02:40, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>>>>
+>>>>>>> All Tegra20 boards that have embedded Broadcom WiFi SDIO chip are affected
+>>>>>>> by a problem where WiFi chip reports CCCR v1.10, while it should v1.20.
+>>>>>>> In a result high-speed mode isn't enabled for the WiFi card and this
+>>>>>>> results in a malfunctioning SDIO communication.
+>>>>>>
+>>>>>> Does that also mean SDIO_SPEED_SHS bit is set when reading SDIO_CCCR_SPEED?
+>>>>>
+>>>>> Yes, the SDIO_SPEED_SHS bit is set.
+>>>>>
+>>>>>>>  brcmfmac: brcmf_sdio_readframes: read 304 bytes from channel 1 failed: -84
+>>>>>>>  brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame, send NAK
+>>>>>>>
+>>>>>>> Downstream kernels are overriding card's CCCR info in SDHCI driver to fix
+>>>>>>> the problem, let's do the same in upstream.
+>>>>>>>
+>>>>>>> The change is inspired by omap_hsmmc_init_card() of OMAP's HSMMC driver,
+>>>>>>> which overrides card's info for the TI wl1251 WiFi.
+>>>>>>
+>>>>>> This is a temporary solution and should be replaced by doing the DT
+>>>>>> parsing during
+>>>>>>
+>>>>>> So, yes, let's see if we can use a card quirk instead. That's the first option.
+>>>>>>
+>>>>>> A second option is simply to parse the DT subnode for a new DT
+>>>>>> property during mmc_sdio_init_card(). Along the lines of what we do
+>>>>>> for the broken-hpi DT binding for eMMC.
+>>>>>
+>>>>> Let's try the first option. My understanding is that the problem affects
+>>>>> only the specific model of the WiFi chip and it's not a board-specific
+>>>>> problem. I'll add Broadcom driver people to CC for the next version of
+>>>>> the patch, maybe they'll have something to say.
+>>>>
+>>>> Okay, sounds reasonable. By looking at your latest attempt for a fix,
+>>>> I have two minor nitpicks, otherwise it looks good.
+>>>>
+>>>> The nitpicks:
+>>>> I suggest to rename MMC_QUIRK_HIGH_SPEED_CARD to MMC_QUIRK_HIGH_SPEED
+>>>> and mmc_card_need_high_speed_toggle() to mmc_card_quirk_hs().
+>>>
+>>> I'll take it into account, thanks.
+>>
+>> Looks like I managed to figure out what's really going on:
+>>
+>>   1. The BCM4329 doc clearly states that High Speed is supported, see
+>> page 49 (Section 11: WLAN Interfaces, SDIO v1.2)
+>>
+>> https://www.cypress.com/file/298626/download
+>>
+>>   2. I googled for performance results of the BCM4329 SDIO WiFi and came
+>> to a conclusion that ~40 Mbit/s is a realistic maximum of the WiFi-data
+>> throughput for NVIDIA Tegra20 boards due to antenna configuration
+>> limitations and whatever.
+> 
+> Okay.
+> 
+>>
+>>   3. The Tegra's SDHCI clock is pre-configured to 48MHz at the time of
+>> kernel's boot-up.
+>>
+>>   4. IIUC, the maximum clock rate for the legacy SD signaling mode is
+>> ~25MHz and that is more than enough for a 4-lane SDIO data-bus that
+>> allows up to 100 Mbit/s for the WiFi which is capped to 40 Mbit/s anyways.
+> 
+> Yes, I see.
+> 
+>>
+>>   5. Apparently MMC core doesn't limit the clock rate for the Normal
+>> Speed cards.
+> 
+> It should, else it's a bug (I would be really surprised if that's the
+> case, but who knows).
+> 
+>>
+>>
+>> So, I added "max-frequency = <25000000>;" to the SDHCI node of the
+>> board's device-tree and ta-da! WiFi works absolutely fine without the
+>> quirk! Thus the SDIO card quirk isn't really needed and I'm dropping it
+>> for now.
+>>
+>> Ulf, do you know if it's a bug or a feature of the MMC core that it
+>> doesn't limit clock rate for the Normal Speed cards?
+> 
+> It should limit the speed, else it's a bug. Can you perhaps check what
+> the requested clock rate is via some debug prints in the host ops
+> ->set_ios()? And also what the real rate becomes after dividers.
+> 
+> If it's not a bug in the core, I suspect that there may be generic
+> problem dealing with initialization frequencies for sdhci-tegra.
+> 
+> For example, mmc_rescan_try_freq() tries to initialize the SDIO card
+> at 400KHz, then 300, then 200 then 100 (in that order, and note
+> *KHz*). When a frequency is successful, initialization continues and
+> later on the clock rate should be increased to 25MHz, for legacy speed
+> mode.
 
-Treating pm_runtime_suspend() and pm_runtime_resume() as the low-level
-device power off and power on routines for the given platform is a
-mistake.  It has always been a mistake and I'm not going to accept
-changes trying to make it look like it isn't a mistake.
+I made the following change:
 
-If any generic power off and power on helpers for DT-based platforms
-are needed, add them and make PM-runtime use them.  That should be
-straightforward enough.
+diff --git a/drivers/mmc/core/sdio.c b/drivers/mmc/core/sdio.c
+index ebb387aa5158..d37b61223290 100644
+--- a/drivers/mmc/core/sdio.c
++++ b/drivers/mmc/core/sdio.c
+@@ -372,12 +372,16 @@ static unsigned mmc_sdio_get_max_clock(struct
+mmc_card *card)
+                 * mandatory.
+                 */
+                max_dtr = 50000000;
++               dev_err(mmc_dev(card->host), "fixed max_dtr %u\n", max_dtr);
+        } else {
+                max_dtr = card->cis.max_dtr;
++               dev_err(mmc_dev(card->host), "card max_dtr %u\n", max_dtr);
+        }
 
-Thanks!
+-       if (card->type == MMC_TYPE_SD_COMBO)
++       if (card->type == MMC_TYPE_SD_COMBO) {
+                max_dtr = min(max_dtr, mmc_sd_get_max_clock(card));
++               dev_err(mmc_dev(card->host), "combo max_dtr %u\n", max_dtr);
++       }
+
+        return max_dtr;
+ }
+diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+index 7bc950520fd9..3833be5ceeb5 100644
+--- a/drivers/mmc/host/sdhci-tegra.c
++++ b/drivers/mmc/host/sdhci-tegra.c
+@@ -730,6 +730,8 @@ static void tegra_sdhci_set_clock(struct sdhci_host
+*host, unsigned int clock)
+        struct sdhci_tegra *tegra_host = sdhci_pltfm_priv(pltfm_host);
+        unsigned long host_clk;
+
++       dev_err(mmc_dev(host->mmc), "%s %u\n", __func__, clock);
++
+        if (!clock)
+                return sdhci_set_clock(host, clock);
+---
+
+and got the following log:
+
+ sdhci-pltfm: SDHCI platform and OF driver helper
+ sdhci-tegra c8000000.sdhci: allocated mmc-pwrseq
+ mmc0: Missing autocal timeout 3v3-pad drvs
+ mmc0: Missing autocal timeout 3v3-pad drvs
+ mmc0: Missing autocal timeout 1v8-pad drvs
+ mmc0: Missing autocal timeout 1v8-pad drvs
+ mmc0: Invalid maximum block size, assuming 512 bytes
+ sdhci-tegra c8000000.sdhci: tegra_sdhci_set_clock 0
+ sdhci-tegra c8000000.sdhci: tegra_sdhci_set_clock 843750
+ mmc0: SDHCI controller on c8000000.sdhci [c8000000.sdhci] using ADMA
+ mmc0: queuing unknown CIS tuple 0x80 (50 bytes)
+ mmc0: queuing unknown CIS tuple 0x80 (7 bytes)
+ mmc0: queuing unknown CIS tuple 0x80 (7 bytes)
+ mmc0: queuing unknown CIS tuple 0x02 (1 bytes)
+ sdhci-tegra c8000000.sdhci: card max_dtr 50000000
+ sdhci-tegra c8000000.sdhci: tegra_sdhci_set_clock 50000000
+ mmc0: new SDIO card at address 0001
+ brcmfmac: brcmf_fw_alloc_request: using brcm/brcmfmac4329-sdio for chip
+BCM4329/32
+ ...
+
+which tells that MMC core doesn't limit Normal Speed, assuming that card
+reports an adequate max_dtr value.
+
+The following MMC core change works:
+
+diff --git a/drivers/mmc/core/sdio.c b/drivers/mmc/core/sdio.c
+index ebb387aa5158..da1e28892831 100644
+--- a/drivers/mmc/core/sdio.c
++++ b/drivers/mmc/core/sdio.c
+@@ -373,7 +373,7 @@ static unsigned mmc_sdio_get_max_clock(struct
+mmc_card *card)
+                 */
+                max_dtr = 50000000;
+        } else {
+-               max_dtr = card->cis.max_dtr;
++               max_dtr = min(card->cis.max_dtr, 25000000u);
+        }
+
+        if (card->type == MMC_TYPE_SD_COMBO)
+
