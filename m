@@ -2,116 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2674711C25F
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 02:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21E1411C291
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 02:44:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727544AbfLLBki (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Dec 2019 20:40:38 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33620 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727558AbfLLBkh (ORCPT
+        id S1727555AbfLLBn5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 11 Dec 2019 20:43:57 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:38950 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727509AbfLLBn5 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Dec 2019 20:40:37 -0500
-Received: by mail-pf1-f195.google.com with SMTP id y206so247719pfb.0;
-        Wed, 11 Dec 2019 17:40:37 -0800 (PST)
+        Wed, 11 Dec 2019 20:43:57 -0500
+Received: by mail-lf1-f66.google.com with SMTP id y1so372656lfb.6;
+        Wed, 11 Dec 2019 17:43:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:subject:to:cc:references:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=dwmsUJYMt5xrrap+rvfe8cg+cZO6d3WRlJ1DUVNQLrA=;
-        b=NDaEK2LvN7DRpEq/EzAJxx1bUoOsY72Sig4eLwIO2jiAOe8xMnz1uwP2DoApqOSc1G
-         S5lmmqXRbprDAe16ci3b3jRVE1q7LsZOIB0AuPlBdfQ8lq72Rd+CXkGkt8s4iNqG1WL4
-         +7KRlNImlczrjqIq3Xw1bEVipkgHKnN8+40d6QzA2u24faAaw1HrVUFhzMWG8fYXmued
-         cSCKN7+ku0zzQ3P10y62Y2tK1BFkzbk02FtlaUGQvtHPHzzatMlboiRlNKofgGKcPTaK
-         TdAAscL5oCymKMSpXGSvePUPeB1EEuVdkj0rm2bGth72Zg+8HSvf9CMJhcThzJKdPJfg
-         udhA==
+        bh=k3MT7+L3kNReQ0aWj6ky2KsiTx1YfA3d7iiuzNpuvhM=;
+        b=Ulz7/dF+kPJTSCqiGltQdo8sS30X4xoZfoyGQsNApxOE66T6t3UCN8p/TfQqzO7qIZ
+         HWe/sNp2OzuTk3l+8gt3Arx2UpV/BGQmlswxT7spwdqu3zrkTxSpJYvphoZEZxmyIxop
+         LaDSPwDjiveJJBVrVJPTbv36fxKUrO93aCoD4t3zk2ohI5ja5Pof0Fp0q7lcJGNNFyA8
+         m2RbiNhh3jGnlgHqh9uD5MnEe00FJ1NKOHfZYqjK43UaGSqoQHv9htySiVVCVDYacxDX
+         r+fdQBd6Ra6aNPeK73GIeT9VGPANBF1/Dtd1hOiekU6ZE2rewxuEK9ungY4D2QtbaSY/
+         a65g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:subject:to:cc:references:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=dwmsUJYMt5xrrap+rvfe8cg+cZO6d3WRlJ1DUVNQLrA=;
-        b=ZVjgDfI2bVKT9ruRw3wn/REAwZwsD1kEIK75FhrWff/ZMD8XbNCiKhYndWr79IreVS
-         GKm/HUnqdSzqMpn8dhc2sIFRXVMXF9XD8gyeI04Y9olPcVLThoEkVO/YKliV5Sw3QeKi
-         E36Dy8p9uOLdUI/EDBfYwBSbRPhy/68Tw36ZlD7yh1oSTOzGx8J4vDNGJM+ln8JPBuNb
-         5PE34xUqiOuGxlVGSBHOFhfCfhnug/lMOm5PKjrqn4mOVrZFTG6I8RnXNs9O6vxlfEwF
-         RmcA8WAIHwernzzRs+Xz0VX6izVId1Hv5q8sfDuzR9d1u+VasSNCN5PWm4APkScFQuwe
-         oqxQ==
-X-Gm-Message-State: APjAAAV1wdLEpnTvP0n8zNLSC+ZPFBDrZxLaoSMI3rHq75loOpdpxeBn
-        F9gQEysT0sXvrVEHsh9bzh7mXKxW
-X-Google-Smtp-Source: APXvYqzDjWjamdpFJ43MLw86QvYZg6zyr+221X4XxbjOUtxe47fIrUtZtPONGIm3NJWAfXS+h2UmbA==
-X-Received: by 2002:aa7:9145:: with SMTP id 5mr7172058pfi.74.1576114836495;
-        Wed, 11 Dec 2019 17:40:36 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id i16sm4449070pfo.12.2019.12.11.17.40.35
+        bh=k3MT7+L3kNReQ0aWj6ky2KsiTx1YfA3d7iiuzNpuvhM=;
+        b=LiYExBzxUgbA5dw4dJQ8G5Atzb+zuVxOHHxVBk9Cacr8rWEYVLSo+2bKmKLriqKMSq
+         9nNuGTaPc7dv2O3nNZeOx6Mj+NESJGUeHB6HmuFgs7bi6nG+2BJmn2GbaeTyj+zFEf9B
+         uXR9AeM90QXpwnbJ49XxgQYJTIEJiv6ohi2CEthsyKj2j2Wg4vNtKZJJycqKA3+aQ3J8
+         YBW0/Z1ej14EVJOibshC/0YCczWsSLOkRL/ax5mrS6sNPwp0hICBfCBbRYUUT1+uheUs
+         1+OViGsu7O0gvh5ZLqBj+VneBx6vU4xxS+I8Fu25cA3npE26/J6X8NutcXk4tYIpAUnA
+         mqnQ==
+X-Gm-Message-State: APjAAAXtEcoqvgdgjW+OIerjwFn1BQhqAILrYPH/mIi++LEB+yXLiCNm
+        YpLqtnXQzYNYG/ylP6J+6H0=
+X-Google-Smtp-Source: APXvYqz7aTD5v1Yosyuc0A6maHQLW08mG0PaBCEDjujtH7miw7vNqCc+VqmwSEbFKuQSiaGRS/LpQQ==
+X-Received: by 2002:ac2:4436:: with SMTP id w22mr4140344lfl.185.1576115035025;
+        Wed, 11 Dec 2019 17:43:55 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id i4sm2327370lji.0.2019.12.11.17.43.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2019 17:40:35 -0800 (PST)
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH 4.19 000/243] 4.19.89-stable review
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Cc:     torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        shuah@kernel.org, patches@kernelci.org,
-        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
-        stable@vger.kernel.org, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20191211150339.185439726@linuxfoundation.org>
- <7b43a504-160f-e793-99b2-bcb79d331b6a@nvidia.com>
-Message-ID: <8de7c018-32c7-f46e-4c43-ea3a70378a14@roeck-us.net>
-Date:   Wed, 11 Dec 2019 17:40:34 -0800
+        Wed, 11 Dec 2019 17:43:54 -0800 (PST)
+Subject: Re: [PATCH v3 03/15] soc: tegra: Add Tegra PMC clock registrations
+ into PMC driver
+To:     Peter De Schrijver <pdeschrijver@nvidia.com>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        mperttunen@nvidia.com, sboyd@kernel.org,
+        gregkh@linuxfoundation.org, tglx@linutronix.de, robh+dt@kernel.org,
+        mark.rutland@arm.com, allison@lohutok.net, pgaikwad@nvidia.com,
+        mturquette@baylibre.com, horms+renesas@verge.net.au,
+        Jisheng.Zhang@synaptics.com, krzk@kernel.org, arnd@arndb.de,
+        spujar@nvidia.com, josephl@nvidia.com, vidyas@nvidia.com,
+        daniel.lezcano@linaro.org, mmaddireddy@nvidia.com,
+        markz@nvidia.com, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
+        broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+        alexios.zavras@intel.com, alsa-devel@alsa-project.org
+References: <ad3a6743-4b36-fa25-9cc7-72803038ecc5@gmail.com>
+ <dc7a057a-0bed-0e6f-0987-edcfec47f867@gmail.com>
+ <288a1701-def6-d628-26bc-a305f817bdb1@gmail.com>
+ <78644d45-2ae3-121f-99fc-0a46f205907d@nvidia.com>
+ <b35916e1-c6ee-52ca-9111-5ae109437b6e@nvidia.com>
+ <ccb715cc-c927-ea91-a26e-24d6eeeeef1a@gmail.com>
+ <ee1d39d4-9a57-da9b-fce6-8130dac1d2fd@nvidia.com>
+ <49da77dc-b346-68eb-9ef8-42cfb3221489@nvidia.com>
+ <3f1c9325-3017-62be-1e3b-82fd28540fdf@nvidia.com>
+ <6fcbff3d-8695-7cd0-60de-6eb523b6964c@gmail.com>
+ <20191211151028.GZ28289@pdeschrijver-desktop.Nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0930a710-174b-859b-294c-e9f81f6a3b5e@gmail.com>
+Date:   Thu, 12 Dec 2019 04:43:53 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <7b43a504-160f-e793-99b2-bcb79d331b6a@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191211151028.GZ28289@pdeschrijver-desktop.Nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 12/11/19 1:36 PM, Jon Hunter wrote:
+11.12.2019 18:10, Peter De Schrijver пишет:
+> On Tue, Dec 10, 2019 at 08:41:56PM +0300, Dmitry Osipenko wrote:
 > 
-> On 11/12/2019 15:02, Greg Kroah-Hartman wrote:
->> This is the start of the stable review cycle for the 4.19.89 release.
->> There are 243 patches in this series, all will be posted as a response
->> to this one.  If anyone has any issues with these being applied, please
->> let me know.
->>
->> Responses should be made by Fri, 13 Dec 2019 14:56:06 +0000.
->> Anything received after that time might be too late.
->>
->> The whole patch series can be found in one patch at:
->> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.89-rc1.gz
->> or in the git tree and branch at:
->> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
->> and the diffstat can be found below.
->>
->> thanks,
->>
->> greg k-h
->>
->> -------------
->> Pseudo-Shortlog of commits:
+> ..
 > 
-> ...
+>>>
+>>> PMC clock gate is based on the state of CLKx_ACCEPT_REQ and FORCE_EN
+>>> like explained above.
+>>>
+>>> CLKx_ACCEPT_REQ is 0 default and FORCE_EN acts as gate to enable/disable
+>>> EXTPERIPH clock output to PMC CLK_OUT_1/2/3.
+>>
+>> [and to enable OSC as well]
+>>
+>>> So I believe we need to register as MUX and Gate rather than as a single
+>>> clock. Please confirm.
+>>
+>> 1. The force-enabling is applied to both OSC and EXTERN sources of
+>> PMC_CLK_OUT_x by PMC at once.
+>>
+>> 2. Both of PMC's force-enabling and OSC/EXTERN selection is internal to PMC.
+>>
+>> Should be better to define it as a single "pmc_clk_out_x". I don't see
+>> any good reasons for differentiating PMC's Gate from the MUX, it's a
+>> single hardware unit from a point of view of the rest of the system.
+>>
+>> Peter, do you have any objections?
 > 
->> Linus Walleij <linus.walleij@linaro.org>
->>      gpio: OF: Parse MMC-specific CD and WP properties
-> 
-> The above change is causing intermittent failures on Tegra30 eMMC.
-> Reverting this change on top of the 4.19.89-rc1 fixes the problem.
-> 
+> The reason to have separate gate and mux clocks, is to preserve compatibility
+> with existing users.
+> Otherwise the current users would need to figure out if there's a
+> single clock or 2 clocks to configure. I don't think adding that code in
+> each user is worth it only to have a sligthly nicer modelling of the
+> hardware.
 
-Thanks for tracking that down. I see boot failures for arm:vexpress-a9
-when trying to boot from mmc.
-
-I dimly recall that this was a problem before. Ah yes ... commit 89a5e15bcba8
-("gpio/mmc/of: Respect polarity in the device tree") fixes the above commit.
-Can you give it a try ?
-
-[ One may wonder though why this was back-ported in the first place. ]
-
-Thanks,
-Guenter
+Could you please clarify what do you mean by the "existing users"?
+AFAIK, nothing in kernel uses mux clocks.
