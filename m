@@ -2,84 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE00F11C924
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 10:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6EC911CC11
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 12:19:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728373AbfLLJae (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Dec 2019 04:30:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58474 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728369AbfLLJae (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Dec 2019 04:30:34 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 73EE722527;
-        Thu, 12 Dec 2019 09:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576143033;
-        bh=s0qY9t/hlZ/5iI+Wf7uj7AnfVTDo45ZB/RFGbHlgG0g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YzfwQnf/tu5r2OsL8h3kxP2ZboSoKmurhHpHjejIc/a9/7WeoICjPty4fjyIEnFze
-         Xar3yCj36ZNclUTbaEvWaSc8HOjT4+cxDpi1mDB8M/0uvy0vBrYFpgc+RDFmeXLq7D
-         Zw2j7j2ZB2/wmwgLOiVYQVXiN16nZQ5A5oDov3qI=
-Date:   Thu, 12 Dec 2019 10:30:31 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.3 000/105] 5.3.16-stable review
-Message-ID: <20191212093031.GB1378792@kroah.com>
-References: <20191211150221.153659747@linuxfoundation.org>
- <f753b0b9-dbed-c4f9-f530-a57c88b08634@nvidia.com>
+        id S1728860AbfLLLTf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Dec 2019 06:19:35 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52327 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728722AbfLLLTf (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 12 Dec 2019 06:19:35 -0500
+Received: by mail-wm1-f65.google.com with SMTP id p9so1940515wmc.2
+        for <linux-tegra@vger.kernel.org>; Thu, 12 Dec 2019 03:19:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YvzqdcYxA2Ih2nOFsGjLKz4QF8pvHLdubZ66hDHBrao=;
+        b=cVBfRO8mU1WGThZ2ndtOWSZqkIkx1um8Amx/yPLyePvs8UMXsL7fTGyLx0YxVzjh+U
+         2nPg1yBkUnuCj/bJ0jzh2DT5Ay6KKumycuUvbkarnP2ScDpOgOdS8EbwJXfVCgEcy5a2
+         2RfJVlCmNTNYWfI0L3AN0tYNw2ucbnwZ8MpPFzvyZMoIVrh+oYLSxaThMyGHa8Extldl
+         W/Jc+ex4gYM/Xvv1BAMG62Vv6mK4dF3OU7IfXsZxPg2ivD3lNicz2OnoMe0lYSNkZkCi
+         rOSkKN8kpxLSCnB0rWzXsxDp25sGZ1lWOVhB6UHnfSF/vOXAl8/BOHER5By9MkWCe4NP
+         WUiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YvzqdcYxA2Ih2nOFsGjLKz4QF8pvHLdubZ66hDHBrao=;
+        b=sSKwM8/KYmVpFE6BhVWLBVZFB8rMyKHQFNukkDZPmUawc/auM7HTMF11/lFyA5dO5M
+         M3LRga9tv83bV3ai5ggQaYV4o+dnFhOVJnf/8oeiPrZ049ALN1Qj/TG5S9gzdq+C1CRe
+         j8C5+rHSMHZtfOBdO6aRD2TNmoIXMzfPNi2V490Tpxenw+O9SjSeUsO6923jsOkoEHNl
+         fMD0PQEf5yuKQoW+gFIzngytupz8u+TNoOZLLh/NFqS0bFn1M8zdM0Q5YDv0qV3YHDpS
+         lrpyXlqSNKpuH0XqX2sS0vy3sWaAAys3kCgb8TNx3kidnuQ1uFSJEiLIxOyh4s4Y1jWC
+         3u7A==
+X-Gm-Message-State: APjAAAXMQ2OHdcV1ZsZbI9RsOEl5AnTUpGKvcWXEPbPS7dvdNj07EbLn
+        zlUmj8YAXQOQKtaZVSEfooM=
+X-Google-Smtp-Source: APXvYqy3ADNkXi49Zs+iSOmxIDNi2tv5viAIj0F9iFvK64Elr5OIsXB08Wmm9n783/JaACLFnDVNEg==
+X-Received: by 2002:a1c:5451:: with SMTP id p17mr5775813wmi.57.1576149572891;
+        Thu, 12 Dec 2019 03:19:32 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+        by smtp.gmail.com with ESMTPSA id 2sm5727134wrq.31.2019.12.12.03.19.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Dec 2019 03:19:32 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, alsa-devel@alsa-project.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH] ALSA: hda/tegra: Remove unused "bus" variable
+Date:   Thu, 12 Dec 2019 12:19:30 +0100
+Message-Id: <20191212111930.3076101-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f753b0b9-dbed-c4f9-f530-a57c88b08634@nvidia.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 09:13:06PM +0000, Jon Hunter wrote:
-> 
-> On 11/12/2019 15:04, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.3.16 release.
-> > There are 105 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Fri, 13 Dec 2019 14:56:06 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.16-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> > -------------
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.3:
->     13 builds:	13 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
-> 
-> Linux version:	5.3.16-rc1-g0b6bd9e91738
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
-> 
+From: Thierry Reding <treding@nvidia.com>
 
-Thanks for testing these and letting me know.
+After commit f36da9406e66 ("ALSA: hda: Support PCM sync_stop"), the
+local "bus" variable is no longer used. Remove it.
 
-greg k-h
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ sound/pci/hda/hda_tegra.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
+index fc2e0a294bc1..269f242fcbfd 100644
+--- a/sound/pci/hda/hda_tegra.c
++++ b/sound/pci/hda/hda_tegra.c
+@@ -166,7 +166,6 @@ static int __maybe_unused hda_tegra_runtime_suspend(struct device *dev)
+ 	struct snd_card *card = dev_get_drvdata(dev);
+ 	struct azx *chip = card->private_data;
+ 	struct hda_tegra *hda = container_of(chip, struct hda_tegra, chip);
+-	struct hdac_bus *bus = azx_bus(chip);
+ 
+ 	if (chip && chip->running) {
+ 		azx_stop_chip(chip);
+-- 
+2.23.0
+
