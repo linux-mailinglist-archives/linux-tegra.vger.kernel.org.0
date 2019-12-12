@@ -2,344 +2,1444 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2CFF11C473
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 04:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 262B711C887
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 09:53:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727627AbfLLDyG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 11 Dec 2019 22:54:06 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:11444 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726823AbfLLDyG (ORCPT
+        id S1728261AbfLLIxE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Dec 2019 03:53:04 -0500
+Received: from mail-ua1-f67.google.com ([209.85.222.67]:37560 "EHLO
+        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728295AbfLLIxE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 11 Dec 2019 22:54:06 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5df1b9c50000>; Wed, 11 Dec 2019 19:53:41 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 11 Dec 2019 19:54:03 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 11 Dec 2019 19:54:03 -0800
-Received: from [10.2.169.141] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Dec
- 2019 03:54:01 +0000
-Subject: Re: [PATCH v3 03/15] soc: tegra: Add Tegra PMC clock registrations
- into PMC driver
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <mperttunen@nvidia.com>,
-        <sboyd@kernel.org>, <pdeschrijver@nvidia.com>
-CC:     <gregkh@linuxfoundation.org>, <tglx@linutronix.de>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <allison@lohutok.net>, <pgaikwad@nvidia.com>,
-        <mturquette@baylibre.com>, <horms+renesas@verge.net.au>,
-        <Jisheng.Zhang@synaptics.com>, <krzk@kernel.org>, <arnd@arndb.de>,
-        <spujar@nvidia.com>, <josephl@nvidia.com>, <vidyas@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
-        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
-        <alexios.zavras@intel.com>, <alsa-devel@alsa-project.org>
-References: <1575600535-26877-1-git-send-email-skomatineni@nvidia.com>
- <1575600535-26877-4-git-send-email-skomatineni@nvidia.com>
- <7cf4ff77-2f33-4ee5-0e09-5aa6aef3e8be@gmail.com>
- <ad3a6743-4b36-fa25-9cc7-72803038ecc5@gmail.com>
- <dc7a057a-0bed-0e6f-0987-edcfec47f867@gmail.com>
- <288a1701-def6-d628-26bc-a305f817bdb1@gmail.com>
- <78644d45-2ae3-121f-99fc-0a46f205907d@nvidia.com>
- <b35916e1-c6ee-52ca-9111-5ae109437b6e@nvidia.com>
- <ccb715cc-c927-ea91-a26e-24d6eeeeef1a@gmail.com>
- <ee1d39d4-9a57-da9b-fce6-8130dac1d2fd@nvidia.com>
- <49da77dc-b346-68eb-9ef8-42cfb3221489@nvidia.com>
- <3f1c9325-3017-62be-1e3b-82fd28540fdf@nvidia.com>
- <6fcbff3d-8695-7cd0-60de-6eb523b6964c@gmail.com>
- <8eb792ad-cded-05cc-93fc-763be7ee66aa@nvidia.com>
- <bb966cf2-50f6-6729-7644-54d71d55bbcb@nvidia.com>
- <02109d70-2747-c246-5401-69a2d5c84771@gmail.com>
- <01bf40ae-393d-3cb1-9ba2-acdd10385cb8@nvidia.com>
-Message-ID: <56b7d160-6156-59e5-66ec-712d64e1927a@nvidia.com>
-Date:   Wed, 11 Dec 2019 19:54:01 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Thu, 12 Dec 2019 03:53:04 -0500
+Received: by mail-ua1-f67.google.com with SMTP id f9so563179ual.4
+        for <linux-tegra@vger.kernel.org>; Thu, 12 Dec 2019 00:53:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3a62UYygT8+4/fD+PsLvQRa/xclp6x5aQzy2GwnpSXA=;
+        b=qfhN+Nmgc/C97yolt8nsJs7/rtatn/JFi2EiKpz20Eo42tDUj/0HWgxUZHqAkIMnb9
+         YwlX6iVvaoQtQvHZ4CbqUMOGjQOEvfmh9XOR9Ob2G4GXScSXO7SizndIE2m1XUTO3psB
+         UrMDUsOrusw7OqgJArGL/8PHTsyk41GTM+ooSzOJFdXUSbbL3GcdlzubZ4mHxctyI9bf
+         sC5PkVnmUWISn12aDDaGn0m78qq5YL51UWOqlJ9vL1fp01DuWpVS6FefJQgHsUtG+U4o
+         jXr4EAZeJ0y2xO8JbtsobMwj+APmvK33kHZo9YHSB7ZSbr9adOcaM+7FQqLqqARLOhsi
+         RfRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3a62UYygT8+4/fD+PsLvQRa/xclp6x5aQzy2GwnpSXA=;
+        b=S1yEqOb9oEMW60JzDOinnMOHTCRv1EQdx892TOJQ/WXzbGy4DzVhDbZbbsUHgtYVjT
+         O3/G7rlC7pdlceu0o1KrVHFS0DSKcwUSZi9IScWZBajTEZgy5KaRkc1fMV5v0BKpmblK
+         wH/hrbKwvchgwWxCAQNQdDLI5sAFWh9b5bg0C7QHDsKVbPtCoyZnnhyzw9TQ2zZHg23k
+         vFth4AkfQGHqsRYjJVJ2l5QLfnm7nRNNFzP8JaadbY0cvxU6C5pX8gFmTzxKI+c21/p4
+         Blqv0pDAtlTetKbYGT7G3pw2zEXNLwMmjD4LUd0rkcUmNwVywO2FFfGovipsvdN6ypJO
+         4RIQ==
+X-Gm-Message-State: APjAAAWhz3VFyMjfCkqWuW7i4QV0w54heemTzrHNyPLZRHDAU9ix3a02
+        apG5fXe4cxxbMbqHZItBNZyHmLMohtpCqEslTyLYdw==
+X-Google-Smtp-Source: APXvYqzqXTBIVyPJ8SkMGM+56zINzc8+vOC7PwYniVxH1f9WJYg1gRWB4rJYrS/QtASafdg7I7J6pCfWqI2xZ5eKYAU=
+X-Received: by 2002:ab0:6894:: with SMTP id t20mr7359627uar.100.1576140780018;
+ Thu, 12 Dec 2019 00:53:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <01bf40ae-393d-3cb1-9ba2-acdd10385cb8@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576122821; bh=EAfd8OVfC8impgQKa6Ho3QK7N9AXhjYp3gaYSI1A+KU=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=FJ2MXVgM3xNwxi1MKdgjhWCFSiSDkqzq3zX4pJvpDVef34AERpY8MYRHe+wSOIQU2
-         ZEEhNTVcczny7/3Jspw2yPoAahDBxrrSpxC9Sh6lodoxQ2u73l9lIk2+lX99D0nu1A
-         7wR/GxwbIzwwitqPsK8u7Na0+RhHJejc2JyoI1WChiQu3r8dfCA59CkMY2wARs+78a
-         zNs7EXxgI9tzayNJxuEU22nAV2neVBNauXYSprmAgJMhQWV3gqnN7oEJpfL598YJid
-         Zxxc2uSVLA7uPheFH/BMPspL0QxWfTeK9Rc9L2BjATzP0A9un0qZtvD25puvHIFADr
-         il/Fn/vP1vJIQ==
+References: <20191209130336.2257506-1-thierry.reding@gmail.com> <20191209130336.2257506-2-thierry.reding@gmail.com>
+In-Reply-To: <20191209130336.2257506-2-thierry.reding@gmail.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 12 Dec 2019 09:52:22 +0100
+Message-ID: <CAPDyKFp6cnpn4yFaEBDPBdHc1siQvJbmwedbhRNCdDBVAc2qUA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/tegra: Do not implement runtime PM
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 12/11/19 7:45 PM, Sowjanya Komatineni wrote:
+On Mon, 9 Dec 2019 at 14:03, Thierry Reding <thierry.reding@gmail.com> wrote:
 >
-> On 12/11/19 5:39 PM, Dmitry Osipenko wrote:
->> 11.12.2019 21:50, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> On 12/10/19 5:06 PM, Sowjanya Komatineni wrote:
->>>> On 12/10/19 9:41 AM, Dmitry Osipenko wrote:
->>>>> 10.12.2019 19:53, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>> On 12/9/19 3:03 PM, Sowjanya Komatineni wrote:
->>>>>>> On 12/9/19 12:46 PM, Sowjanya Komatineni wrote:
->>>>>>>> On 12/9/19 12:12 PM, Dmitry Osipenko wrote:
->>>>>>>>> 08.12.2019 00:36, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=
-=82:
->>>>>>>>>> On 12/7/19 11:59 AM, Sowjanya Komatineni wrote:
->>>>>>>>>>> On 12/7/19 8:00 AM, Dmitry Osipenko wrote:
->>>>>>>>>>>> 07.12.2019 18:53, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=
-=82:
->>>>>>>>>>>>> 07.12.2019 18:47, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=
-=82:
->>>>>>>>>>>>>> 07.12.2019 17:28, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=
-=D1=82:
->>>>>>>>>>>>>>> 06.12.2019 05:48, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=
-=B5=D1=82:
->>>>>>>>>>>>>>>> Tegra210 and prior Tegra PMC has clk_out_1, clk_out_2,
->>>>>>>>>>>>>>>> clk_out_3
->>>>>>>>>>>>>>>> with
->>>>>>>>>>>>>>>> mux and gate for each of these clocks.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> Currently these PMC clocks are registered by Tegra clock
->>>>>>>>>>>>>>>> driver
->>>>>>>>>>>>>>>> using
->>>>>>>>>>>>>>>> clk_register_mux and clk_register_gate by passing PMC base
->>>>>>>>>>>>>>>> address
->>>>>>>>>>>>>>>> and register offsets and PMC programming for these clocks
->>>>>>>>>>>>>>>> happens
->>>>>>>>>>>>>>>> through direct PMC access by the clock driver.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> With this, when PMC is in secure mode any direct PMC=20
->>>>>>>>>>>>>>>> access
->>>>>>>>>>>>>>>> from the
->>>>>>>>>>>>>>>> non-secure world does not go through and these clocks will
->>>>>>>>>>>>>>>> not be
->>>>>>>>>>>>>>>> functional.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> This patch adds these clocks registration with PMC as a=20
->>>>>>>>>>>>>>>> clock
->>>>>>>>>>>>>>>> provider
->>>>>>>>>>>>>>>> for these clocks. clk_ops callback implementations for=20
->>>>>>>>>>>>>>>> these
->>>>>>>>>>>>>>>> clocks
->>>>>>>>>>>>>>>> uses tegra_pmc_readl and tegra_pmc_writel which=20
->>>>>>>>>>>>>>>> supports PMC
->>>>>>>>>>>>>>>> programming
->>>>>>>>>>>>>>>> in secure mode and non-secure mode.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> Signed-off-by: Sowjanya Komatineni=20
->>>>>>>>>>>>>>>> <skomatineni@nvidia.com>
->>>>>>>>>>>>>>>> ---
->>>>>>>>>>>>>> [snip]
->>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> +
->>>>>>>>>>>>>>>> +static const struct clk_ops pmc_clk_gate_ops =3D {
->>>>>>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .is_enabled =3D pmc_clk_is_enabled,
->>>>>>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .enable =3D pmc_clk_enable,
->>>>>>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .disable =3D pmc_clk_disable,
->>>>>>>>>>>>>>>> +};
->>>>>>>>>>>>>>> What's the benefit of separating GATE from the MUX?
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> I think it could be a single clock.
->>>>>>>>>>>>>> According to TRM:
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> 1. GATE and MUX are separate entities.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> 2. GATE is the parent of MUX (see PMC's CLK_OUT paths=20
->>>>>>>>>>>>>> diagram
->>>>>>>>>>>>>> in TRM).
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> 3. PMC doesn't gate EXTPERIPH clock but could "force-enable"
->>>>>>>>>>>>>> it,
->>>>>>>>>>>>>> correct?
->>>>>>>>>> Was following existing clk-tegra-pmc as I am not sure of=20
->>>>>>>>>> reason for
->>>>>>>>>> having these clocks registered as separate mux and gate clocks.
->>>>>>>>>>
->>>>>>>>>> Yes, PMC clocks can be registered as single clock and can use
->>>>>>>>>> clk_ops
->>>>>>>>>> for set/get parent and enable/disable.
->>>>>>>>>>
->>>>>>>>>> enable/disable of PMC clocks is for force-enable to force the
->>>>>>>>>> clock to
->>>>>>>>>> run regardless of ACCEPT_REQ or INVERT_REQ.
->>>>>>>>>>
->>>>>>>>>>>>> 4. clk_m_div2/4 are internal PMC OSC dividers and thus these
->>>>>>>>>>>>> clocks
->>>>>>>>>>>>> should belong to PMC.
->>>>>>>>>>>> Also, it should be "osc" and not "clk_m".
->>>>>>>>>>> I followed the same parents as it were in existing=20
->>>>>>>>>>> clk-tegra-pmc
->>>>>>>>>>> driver.
->>>>>>>>>>>
->>>>>>>>>>> Yeah they are wrong and they should be from osc and not clk_m.
->>>>>>>>>>>
->>>>>>>>>>> Will fix in next version.
->>>>>>>>>>>
->>>>>>> Reg clk_m_div2/3, they are dividers at OSC pad and not really=20
->>>>>>> internal
->>>>>>> to PMC block.
->>>>>>>
->>>>>>> current clock driver creates clk_m_div clocks which should=20
->>>>>>> actually be
->>>>>>> osc_div2/osc_div4 clocks with osc as parent.
->>>>>>>
->>>>>>> There are no clk_m_div2 and clk_m_div4 from clk_m
->>>>>>>
->>>>>>> Will fix this in next version.
->>>>>>>
->>>>>>>>> Could you please describe the full EXTPERIPH clock topology and
->>>>>>>>> how the
->>>>>>>>> pinmux configuration is related to it all?
->>>>>>>>>
->>>>>>>>> What is internal to the Tegra chip and what are the external
->>>>>>>>> outputs?
->>>>>>>>>
->>>>>>>>> Is it possible to bypass PMC on T30+ for the EXTPERIPH clocks?
->>>>>>>> PMC CLK1/2/3 possible sources are OSC_DIV1, OSC_DIV2, OSC_DIV4,
->>>>>>>> EXTPERIPH from CAR.
->>>>>>>>
->>>>>>>> OSC_DIV1/2/4 are with internal dividers at the OSC Pads
->>>>>>>>
->>>>>>>> EXTPERIPH is from CAR and it has reset and enable controls=20
->>>>>>>> along with
->>>>>>>> clock source selections to choose one of the PLLA_OUT0, CLK_S,
->>>>>>>> PLLP_OUT0, CLK_M, PLLE_OUT0
->>>>>>>>
->>>>>>>> So, PMC CLK1/2/4 possible parents are OSC_DIV1, OSC_DIV2,=20
->>>>>>>> OSC_DIV4,
->>>>>>>> EXTERN.
->>>>>>>>
->>>>>>>>
->>>>>>>> CLK1/2/3 also has Pinmux to route EXTPERIPH output on to these=20
->>>>>>>> pins.
->>>>>>>>
->>>>>>>>
->>>>>>>> When EXTERN output clock is selected for these PMC clocks thru
->>>>>>>> CLKx_SRC_SEL, output clock is from driver by EXTPERIPH from CAR=20
->>>>>>>> via
->>>>>>>> Pinmux logic or driven as per CLKx_SRC_SEL bypassing pinmux=20
->>>>>>>> based on
->>>>>>>> CLKx_ACCEPT_REQ bit.
->>>>>>>>
->>>>>>>>
->>>>>>>> PMC Clock control register has bit CLKx_ACCEPT_REQ
->>>>>>>> When CLKx_ACCEPT_REQ =3D 0, output clock driver is from by EXTPERI=
-PH
->>>>>>>> through the pinmux
->>>>>>>> When CLKx_ACCEPT_REQ =3D 1, output clock is based on CLKx_SRC_SEL=
-=20
->>>>>>>> bits
->>>>>>>> (OSC_DIV1/2/4 and EXTPERIPH clock bypassing the pinmux)
->>>>>>>>
->>>>>>>> FORCE_EN bit in PMC CLock control register forces the clock to run
->>>>>>>> regardless of this.
->>>>>> PMC clock gate is based on the state of CLKx_ACCEPT_REQ and FORCE_EN
->>>>>> like explained above.
->>>>>>
->>>>>> CLKx_ACCEPT_REQ is 0 default and FORCE_EN acts as gate to
->>>>>> enable/disable
->>>>>> EXTPERIPH clock output to PMC CLK_OUT_1/2/3.
->>>>> [and to enable OSC as well]
->>>>>
->>>>>> So I believe we need to register as MUX and Gate rather than as a
->>>>>> single
->>>>>> clock. Please confirm.
->>>>> 1. The force-enabling is applied to both OSC and EXTERN sources of
->>>>> PMC_CLK_OUT_x by PMC at once.
->>>>>
->>>>> 2. Both of PMC's force-enabling and OSC/EXTERN selection is internal
->>>>> to PMC.
->>>>>
->>>>> Should be better to define it as a single "pmc_clk_out_x". I don't=20
->>>>> see
->>>>> any good reasons for differentiating PMC's Gate from the MUX, it's a
->>>>> single hardware unit from a point of view of the rest of the system.
->>>>>
->>>>> Peter, do you have any objections?
->>>> We added fallback option for audio mclk and also added check for
->>>> assigned-clock-parents dt property in audio driver and if its not then
->>>> we do parent init configuration in audio driver.
->>>>
->>>> Current clock driver creates 2 separate clocks clk_out_1_mux and
->>>> clk_out_1 for each pmc clock in clock driver and uses extern1 as
->>>> parent to clk_out_1_mux and clk_out_1_mux is parent to clk_out_1.
->>>>
->>>> With change of registering each pmc clock as a single clock, when we
->>>> do parent init assignment in audio driver when
->>>> assigned-clock-properties are not used in DT (as we removed parent
->>>> inits for extern and clk_outs from clock driver), we should still try
->>>> to get clock based on clk_out_1_mux as parent assignment of extern1 is
->>>> for clk_out_1_mux as per existing clock tree.
->>>>
->>>> clk_out_1_mux clock retrieve will fail with this change of single
->>>> clock when any new platform device tree doesn't specify
->>>> assigned-clock-parents properties and tegra_asoc_utils_init fails.
->> You made the PMC/CaR changes before the audio changes, the clk_out_1_mux
->> won't exist for the audio driver patches.
->>
->> If you care about bisect-ability of the patches, then the clock and
->> audio changes need to be done in a single patch. But I don't think that
->> it's worthwhile.
->>
->>>> With single clock, extern1 is the parent for clk_out_1 and with
->>>> separate clocks for mux and gate, extern1 is the parent for
->>>> clk_out_1_mux.
->>> If we move to single clock now, it need one more additional fallback
->>> implementation in audio driver during parent configuration as
->>> clk_out_1_mux will not be there with single clock change and=20
->>> old/current
->>> kernel has it as it uses separate clocks for pmc mux and gate.
->> Why additional fallback? Additional to what?
->>
->>> Also, with single clock for both PMC mux and gate now, new DT should=20
->>> use
->>> extern1 as parent to CLK_OUT_1 as CLK_OUT_1_MUX will not be there old
->>> PMC dt-bindings has separate clocks for MUX (CLK_OUT_1_MUX) and gate
->>> (CLK_OUT_1)
->>>
->>> DT bindings will not be compatible b/w old and new changes if we=20
->>> move to
->>> Single PMC clock now.
->> Sorry, I don't understand what you're meaning by the "new changes".
->>
->>> Should we go with same separate clocks to have it compatible to avoid
->>> all this?
->>>
-> The reason we added mclk fallback and also for doing parent=20
-> configuration based on presence of assigned-clock-parents property is=20
-> to have old dt compatible with new kernel and also to have new dt=20
-> compatible with old kernel.
+> From: Thierry Reding <treding@nvidia.com>
 >
-> So the point I was mentioning is to have new DT to work with old=20
-> kernel, setting extern1 as parent to clk_out_1 (with single pmc clock)=20
-> through assigned-clock-parents in DT will fail as old kernel has mux=20
-> and gate as separate clocks and parent configuration is for mux clock=20
-> (clk_out_1_mux)
+> The Tegra DRM driver heavily relies on the implementations for runtime
+> suspend/resume to be called at specific times. Unfortunately, there are
+> some cases where that doesn't work. One example is if the user disables
+> runtime PM for a given subdevice. Another example is that the PM core
+> acquires a reference to runtime PM during system sleep, effectively
+> preventing devices from going into low power modes. This is intentional
+> to avoid nasty race conditions, but it also causes system sleep to not
+> function properly on all Tegra systems.
+
+Are the problems you refer to above, solely for system suspend/resume?
+
 >
-Sorry never mind, with old kernel clock driver does all parent=20
-configuration so should be ok. So no additional fallbacks are needed=20
-except to the one we already added.
+> Fix this by not implementing runtime PM at all. Instead, a minimal,
+> reference-counted suspend/resume infrastructure is added to the host1x
+> bus. This has the benefit that it can be used regardless of the system
+> power state (or any transitions we might be in), or whether or not the
+> user allows runtime PM.
+>
+> Atomic modesetting guarantees that these functions will end up being
+> called at the right point in time, so the pitfalls for the more generic
+> runtime PM do not apply here.
 
-OK, So its just that changes are slightly more to switch to single clock=20
-compared to using separate clocks as gate clk_ops (which are needed=20
-anyway for blink control) of clock enable and disable can't be used for=20
-clk_out_1 enable/disable and need additional clk_enable and disable=20
-callbacks.
+Before I go on a look more closely to the code...
 
-Will make changes to use single clock..
+How do these changes affect the control of the power-rails for the
+related devices? We should strive towards using PM domain(s), that
+gets attached to the device.
 
+Is that still the case or are these changes causing more calls to
+shortcut that path, which means more calls into SoC specific code
+directly from the drivers?
+
+Kind regards
+Uffe
+
+>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v2:
+> - keep runtime PM for VIC
+>
+>  drivers/gpu/drm/tegra/dc.c    | 141 ++++++++++++++----------
+>  drivers/gpu/drm/tegra/dpaux.c |   2 +-
+>  drivers/gpu/drm/tegra/drm.h   |   2 +
+>  drivers/gpu/drm/tegra/dsi.c   | 175 ++++++++++++++++--------------
+>  drivers/gpu/drm/tegra/hdmi.c  | 116 +++++++++++---------
+>  drivers/gpu/drm/tegra/hub.c   | 194 ++++++++++++++++++++--------------
+>  drivers/gpu/drm/tegra/hub.h   |   2 +-
+>  drivers/gpu/drm/tegra/sor.c   | 154 +++++++++++++++------------
+>  drivers/gpu/host1x/bus.c      |  75 +++++++++++++
+>  include/linux/host1x.h        |  11 ++
+>  10 files changed, 541 insertions(+), 331 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index 2983eb33f2be..871046f3f469 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -1737,6 +1737,7 @@ static void tegra_crtc_atomic_disable(struct drm_crtc *crtc,
+>  {
+>         struct tegra_dc *dc = to_tegra_dc(crtc);
+>         u32 value;
+> +       int err;
+>
+>         if (!tegra_dc_idle(dc)) {
+>                 tegra_dc_stop(dc);
+> @@ -1783,7 +1784,9 @@ static void tegra_crtc_atomic_disable(struct drm_crtc *crtc,
+>
+>         spin_unlock_irq(&crtc->dev->event_lock);
+>
+> -       pm_runtime_put_sync(dc->dev);
+> +       err = host1x_client_suspend(&dc->client);
+> +       if (err < 0)
+> +               dev_err(dc->dev, "failed to suspend: %d\n", err);
+>  }
+>
+>  static void tegra_crtc_atomic_enable(struct drm_crtc *crtc,
+> @@ -1793,8 +1796,13 @@ static void tegra_crtc_atomic_enable(struct drm_crtc *crtc,
+>         struct tegra_dc_state *state = to_dc_state(crtc->state);
+>         struct tegra_dc *dc = to_tegra_dc(crtc);
+>         u32 value;
+> +       int err;
+>
+> -       pm_runtime_get_sync(dc->dev);
+> +       err = host1x_client_resume(&dc->client);
+> +       if (err < 0) {
+> +               dev_err(dc->dev, "failed to resume: %d\n", err);
+> +               return;
+> +       }
+>
+>         /* initialize display controller */
+>         if (dc->syncpt) {
+> @@ -2022,6 +2030,15 @@ static int tegra_dc_init(struct host1x_client *client)
+>         if (!tegra_dc_has_window_groups(dc))
+>                 return 0;
+>
+> +       /*
+> +        * Set the display hub as the host1x client parent for the display
+> +        * controller. This is needed for the runtime reference counting that
+> +        * ensures the display hub is always powered when any of the display
+> +        * controllers are.
+> +        */
+> +       if (dc->soc->has_nvdisplay)
+> +               client->parent = &tegra->hub->client;
+> +
+>         dc->syncpt = host1x_syncpt_request(client, flags);
+>         if (!dc->syncpt)
+>                 dev_warn(dc->dev, "failed to allocate syncpoint\n");
+> @@ -2131,9 +2148,74 @@ static int tegra_dc_exit(struct host1x_client *client)
+>         return 0;
+>  }
+>
+> +static int tegra_dc_runtime_suspend(struct host1x_client *client)
+> +{
+> +       struct tegra_dc *dc = host1x_client_to_dc(client);
+> +       struct device *dev = client->dev;
+> +       int err;
+> +
+> +       err = reset_control_assert(dc->rst);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to assert reset: %d\n", err);
+> +               return err;
+> +       }
+> +
+> +       if (dc->soc->has_powergate)
+> +               tegra_powergate_power_off(dc->powergate);
+> +
+> +       clk_disable_unprepare(dc->clk);
+> +       pm_runtime_put_sync(dev);
+> +
+> +       return 0;
+> +}
+> +
+> +static int tegra_dc_runtime_resume(struct host1x_client *client)
+> +{
+> +       struct tegra_dc *dc = host1x_client_to_dc(client);
+> +       struct device *dev = client->dev;
+> +       int err;
+> +
+> +       err = pm_runtime_get_sync(dev);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to get runtime PM: %d\n", err);
+> +               return err;
+> +       }
+> +
+> +       if (dc->soc->has_powergate) {
+> +               err = tegra_powergate_sequence_power_up(dc->powergate, dc->clk,
+> +                                                       dc->rst);
+> +               if (err < 0) {
+> +                       dev_err(dev, "failed to power partition: %d\n", err);
+> +                       goto put_rpm;
+> +               }
+> +       } else {
+> +               err = clk_prepare_enable(dc->clk);
+> +               if (err < 0) {
+> +                       dev_err(dev, "failed to enable clock: %d\n", err);
+> +                       goto put_rpm;
+> +               }
+> +
+> +               err = reset_control_deassert(dc->rst);
+> +               if (err < 0) {
+> +                       dev_err(dev, "failed to deassert reset: %d\n", err);
+> +                       goto disable_clk;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +
+> +disable_clk:
+> +       clk_disable_unprepare(dc->clk);
+> +put_rpm:
+> +       pm_runtime_put_sync(dev);
+> +       return err;
+> +}
+> +
+>  static const struct host1x_client_ops dc_client_ops = {
+>         .init = tegra_dc_init,
+>         .exit = tegra_dc_exit,
+> +       .suspend = tegra_dc_runtime_suspend,
+> +       .resume = tegra_dc_runtime_resume,
+>  };
+>
+>  static const struct tegra_dc_soc_info tegra20_dc_soc_info = {
+> @@ -2545,65 +2627,10 @@ static int tegra_dc_remove(struct platform_device *pdev)
+>         return 0;
+>  }
+>
+> -#ifdef CONFIG_PM
+> -static int tegra_dc_suspend(struct device *dev)
+> -{
+> -       struct tegra_dc *dc = dev_get_drvdata(dev);
+> -       int err;
+> -
+> -       err = reset_control_assert(dc->rst);
+> -       if (err < 0) {
+> -               dev_err(dev, "failed to assert reset: %d\n", err);
+> -               return err;
+> -       }
+> -
+> -       if (dc->soc->has_powergate)
+> -               tegra_powergate_power_off(dc->powergate);
+> -
+> -       clk_disable_unprepare(dc->clk);
+> -
+> -       return 0;
+> -}
+> -
+> -static int tegra_dc_resume(struct device *dev)
+> -{
+> -       struct tegra_dc *dc = dev_get_drvdata(dev);
+> -       int err;
+> -
+> -       if (dc->soc->has_powergate) {
+> -               err = tegra_powergate_sequence_power_up(dc->powergate, dc->clk,
+> -                                                       dc->rst);
+> -               if (err < 0) {
+> -                       dev_err(dev, "failed to power partition: %d\n", err);
+> -                       return err;
+> -               }
+> -       } else {
+> -               err = clk_prepare_enable(dc->clk);
+> -               if (err < 0) {
+> -                       dev_err(dev, "failed to enable clock: %d\n", err);
+> -                       return err;
+> -               }
+> -
+> -               err = reset_control_deassert(dc->rst);
+> -               if (err < 0) {
+> -                       dev_err(dev, "failed to deassert reset: %d\n", err);
+> -                       return err;
+> -               }
+> -       }
+> -
+> -       return 0;
+> -}
+> -#endif
+> -
+> -static const struct dev_pm_ops tegra_dc_pm_ops = {
+> -       SET_RUNTIME_PM_OPS(tegra_dc_suspend, tegra_dc_resume, NULL)
+> -};
+> -
+>  struct platform_driver tegra_dc_driver = {
+>         .driver = {
+>                 .name = "tegra-dc",
+>                 .of_match_table = tegra_dc_of_match,
+> -               .pm = &tegra_dc_pm_ops,
+>         },
+>         .probe = tegra_dc_probe,
+>         .remove = tegra_dc_remove,
+> diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
+> index 622cdf1ad246..7dfb50f65067 100644
+> --- a/drivers/gpu/drm/tegra/dpaux.c
+> +++ b/drivers/gpu/drm/tegra/dpaux.c
+> @@ -588,7 +588,7 @@ static int tegra_dpaux_remove(struct platform_device *pdev)
+>         /* make sure pads are powered down when not in use */
+>         tegra_dpaux_pad_power_down(dpaux);
+>
+> -       pm_runtime_put(&pdev->dev);
+> +       pm_runtime_put_sync(&pdev->dev);
+>         pm_runtime_disable(&pdev->dev);
+>
+>         drm_dp_aux_unregister(&dpaux->aux);
+> diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+> index d941553f7a3d..ed99b67deb29 100644
+> --- a/drivers/gpu/drm/tegra/drm.h
+> +++ b/drivers/gpu/drm/tegra/drm.h
+> @@ -144,6 +144,8 @@ int tegra_output_init(struct drm_device *drm, struct tegra_output *output);
+>  void tegra_output_exit(struct tegra_output *output);
+>  void tegra_output_find_possible_crtcs(struct tegra_output *output,
+>                                       struct drm_device *drm);
+> +int tegra_output_suspend(struct tegra_output *output);
+> +int tegra_output_resume(struct tegra_output *output);
+>
+>  int tegra_output_connector_get_modes(struct drm_connector *connector);
+>  enum drm_connector_status
+> diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+> index ec475d022fa0..88b9d64c77bf 100644
+> --- a/drivers/gpu/drm/tegra/dsi.c
+> +++ b/drivers/gpu/drm/tegra/dsi.c
+> @@ -840,7 +840,9 @@ static void tegra_dsi_unprepare(struct tegra_dsi *dsi)
+>                 dev_err(dsi->dev, "failed to disable MIPI calibration: %d\n",
+>                         err);
+>
+> -       pm_runtime_put(dsi->dev);
+> +       err = host1x_client_suspend(&dsi->client);
+> +       if (err < 0)
+> +               dev_err(dsi->dev, "failed to suspend: %d\n", err);
+>  }
+>
+>  static void tegra_dsi_encoder_disable(struct drm_encoder *encoder)
+> @@ -882,11 +884,15 @@ static void tegra_dsi_encoder_disable(struct drm_encoder *encoder)
+>         tegra_dsi_unprepare(dsi);
+>  }
+>
+> -static void tegra_dsi_prepare(struct tegra_dsi *dsi)
+> +static int tegra_dsi_prepare(struct tegra_dsi *dsi)
+>  {
+>         int err;
+>
+> -       pm_runtime_get_sync(dsi->dev);
+> +       err = host1x_client_resume(&dsi->client);
+> +       if (err < 0) {
+> +               dev_err(dsi->dev, "failed to resume: %d\n", err);
+> +               return err;
+> +       }
+>
+>         err = tegra_mipi_enable(dsi->mipi);
+>         if (err < 0)
+> @@ -899,6 +905,8 @@ static void tegra_dsi_prepare(struct tegra_dsi *dsi)
+>
+>         if (dsi->slave)
+>                 tegra_dsi_prepare(dsi->slave);
+> +
+> +       return 0;
+>  }
+>
+>  static void tegra_dsi_encoder_enable(struct drm_encoder *encoder)
+> @@ -909,8 +917,13 @@ static void tegra_dsi_encoder_enable(struct drm_encoder *encoder)
+>         struct tegra_dsi *dsi = to_dsi(output);
+>         struct tegra_dsi_state *state;
+>         u32 value;
+> +       int err;
+>
+> -       tegra_dsi_prepare(dsi);
+> +       err = tegra_dsi_prepare(dsi);
+> +       if (err < 0) {
+> +               dev_err(dsi->dev, "failed to prepare: %d\n", err);
+> +               return;
+> +       }
+>
+>         state = tegra_dsi_get_state(dsi);
+>
+> @@ -1075,9 +1088,89 @@ static int tegra_dsi_exit(struct host1x_client *client)
+>         return 0;
+>  }
+>
+> +static int tegra_dsi_runtime_suspend(struct host1x_client *client)
+> +{
+> +       struct tegra_dsi *dsi = host1x_client_to_dsi(client);
+> +       struct device *dev = client->dev;
+> +       int err;
+> +
+> +       if (dsi->rst) {
+> +               err = reset_control_assert(dsi->rst);
+> +               if (err < 0) {
+> +                       dev_err(dev, "failed to assert reset: %d\n", err);
+> +                       return err;
+> +               }
+> +       }
+> +
+> +       usleep_range(1000, 2000);
+> +
+> +       clk_disable_unprepare(dsi->clk_lp);
+> +       clk_disable_unprepare(dsi->clk);
+> +
+> +       regulator_disable(dsi->vdd);
+> +       pm_runtime_put_sync(dev);
+> +
+> +       return 0;
+> +}
+> +
+> +static int tegra_dsi_runtime_resume(struct host1x_client *client)
+> +{
+> +       struct tegra_dsi *dsi = host1x_client_to_dsi(client);
+> +       struct device *dev = client->dev;
+> +       int err;
+> +
+> +       err = pm_runtime_get_sync(dev);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to get runtime PM: %d\n", err);
+> +               return err;
+> +       }
+> +
+> +       err = regulator_enable(dsi->vdd);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to enable VDD supply: %d\n", err);
+> +               goto put_rpm;
+> +       }
+> +
+> +       err = clk_prepare_enable(dsi->clk);
+> +       if (err < 0) {
+> +               dev_err(dev, "cannot enable DSI clock: %d\n", err);
+> +               goto disable_vdd;
+> +       }
+> +
+> +       err = clk_prepare_enable(dsi->clk_lp);
+> +       if (err < 0) {
+> +               dev_err(dev, "cannot enable low-power clock: %d\n", err);
+> +               goto disable_clk;
+> +       }
+> +
+> +       usleep_range(1000, 2000);
+> +
+> +       if (dsi->rst) {
+> +               err = reset_control_deassert(dsi->rst);
+> +               if (err < 0) {
+> +                       dev_err(dev, "cannot assert reset: %d\n", err);
+> +                       goto disable_clk_lp;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +
+> +disable_clk_lp:
+> +       clk_disable_unprepare(dsi->clk_lp);
+> +disable_clk:
+> +       clk_disable_unprepare(dsi->clk);
+> +disable_vdd:
+> +       regulator_disable(dsi->vdd);
+> +put_rpm:
+> +       pm_runtime_put_sync(dev);
+> +       return err;
+> +}
+> +
+>  static const struct host1x_client_ops dsi_client_ops = {
+>         .init = tegra_dsi_init,
+>         .exit = tegra_dsi_exit,
+> +       .suspend = tegra_dsi_runtime_suspend,
+> +       .resume = tegra_dsi_runtime_resume,
+>  };
+>
+>  static int tegra_dsi_setup_clocks(struct tegra_dsi *dsi)
+> @@ -1596,79 +1689,6 @@ static int tegra_dsi_remove(struct platform_device *pdev)
+>         return 0;
+>  }
+>
+> -#ifdef CONFIG_PM
+> -static int tegra_dsi_suspend(struct device *dev)
+> -{
+> -       struct tegra_dsi *dsi = dev_get_drvdata(dev);
+> -       int err;
+> -
+> -       if (dsi->rst) {
+> -               err = reset_control_assert(dsi->rst);
+> -               if (err < 0) {
+> -                       dev_err(dev, "failed to assert reset: %d\n", err);
+> -                       return err;
+> -               }
+> -       }
+> -
+> -       usleep_range(1000, 2000);
+> -
+> -       clk_disable_unprepare(dsi->clk_lp);
+> -       clk_disable_unprepare(dsi->clk);
+> -
+> -       regulator_disable(dsi->vdd);
+> -
+> -       return 0;
+> -}
+> -
+> -static int tegra_dsi_resume(struct device *dev)
+> -{
+> -       struct tegra_dsi *dsi = dev_get_drvdata(dev);
+> -       int err;
+> -
+> -       err = regulator_enable(dsi->vdd);
+> -       if (err < 0) {
+> -               dev_err(dsi->dev, "failed to enable VDD supply: %d\n", err);
+> -               return err;
+> -       }
+> -
+> -       err = clk_prepare_enable(dsi->clk);
+> -       if (err < 0) {
+> -               dev_err(dev, "cannot enable DSI clock: %d\n", err);
+> -               goto disable_vdd;
+> -       }
+> -
+> -       err = clk_prepare_enable(dsi->clk_lp);
+> -       if (err < 0) {
+> -               dev_err(dev, "cannot enable low-power clock: %d\n", err);
+> -               goto disable_clk;
+> -       }
+> -
+> -       usleep_range(1000, 2000);
+> -
+> -       if (dsi->rst) {
+> -               err = reset_control_deassert(dsi->rst);
+> -               if (err < 0) {
+> -                       dev_err(dev, "cannot assert reset: %d\n", err);
+> -                       goto disable_clk_lp;
+> -               }
+> -       }
+> -
+> -       return 0;
+> -
+> -disable_clk_lp:
+> -       clk_disable_unprepare(dsi->clk_lp);
+> -disable_clk:
+> -       clk_disable_unprepare(dsi->clk);
+> -disable_vdd:
+> -       regulator_disable(dsi->vdd);
+> -       return err;
+> -}
+> -#endif
+> -
+> -static const struct dev_pm_ops tegra_dsi_pm_ops = {
+> -       SET_RUNTIME_PM_OPS(tegra_dsi_suspend, tegra_dsi_resume, NULL)
+> -};
+> -
+>  static const struct of_device_id tegra_dsi_of_match[] = {
+>         { .compatible = "nvidia,tegra210-dsi", },
+>         { .compatible = "nvidia,tegra132-dsi", },
+> @@ -1682,7 +1702,6 @@ struct platform_driver tegra_dsi_driver = {
+>         .driver = {
+>                 .name = "tegra-dsi",
+>                 .of_match_table = tegra_dsi_of_match,
+> -               .pm = &tegra_dsi_pm_ops,
+>         },
+>         .probe = tegra_dsi_probe,
+>         .remove = tegra_dsi_remove,
+> diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+> index 38bf1d16095f..cb504ec8f284 100644
+> --- a/drivers/gpu/drm/tegra/hdmi.c
+> +++ b/drivers/gpu/drm/tegra/hdmi.c
+> @@ -1146,6 +1146,7 @@ static void tegra_hdmi_encoder_disable(struct drm_encoder *encoder)
+>         struct tegra_dc *dc = to_tegra_dc(encoder->crtc);
+>         struct tegra_hdmi *hdmi = to_hdmi(output);
+>         u32 value;
+> +       int err;
+>
+>         /*
+>          * The following accesses registers of the display controller, so make
+> @@ -1171,7 +1172,9 @@ static void tegra_hdmi_encoder_disable(struct drm_encoder *encoder)
+>         tegra_hdmi_writel(hdmi, 0, HDMI_NV_PDISP_INT_ENABLE);
+>         tegra_hdmi_writel(hdmi, 0, HDMI_NV_PDISP_INT_MASK);
+>
+> -       pm_runtime_put(hdmi->dev);
+> +       err = host1x_client_suspend(&hdmi->client);
+> +       if (err < 0)
+> +               dev_err(hdmi->dev, "failed to suspend: %d\n", err);
+>  }
+>
+>  static void tegra_hdmi_encoder_enable(struct drm_encoder *encoder)
+> @@ -1186,7 +1189,11 @@ static void tegra_hdmi_encoder_enable(struct drm_encoder *encoder)
+>         u32 value;
+>         int err;
+>
+> -       pm_runtime_get_sync(hdmi->dev);
+> +       err = host1x_client_resume(&hdmi->client);
+> +       if (err < 0) {
+> +               dev_err(hdmi->dev, "failed to resume: %d\n", err);
+> +               return;
+> +       }
+>
+>         /*
+>          * Enable and unmask the HDA codec SCRATCH0 register interrupt. This
+> @@ -1489,9 +1496,66 @@ static int tegra_hdmi_exit(struct host1x_client *client)
+>         return 0;
+>  }
+>
+> +static int tegra_hdmi_runtime_suspend(struct host1x_client *client)
+> +{
+> +       struct tegra_hdmi *hdmi = host1x_client_to_hdmi(client);
+> +       struct device *dev = client->dev;
+> +       int err;
+> +
+> +       err = reset_control_assert(hdmi->rst);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to assert reset: %d\n", err);
+> +               return err;
+> +       }
+> +
+> +       usleep_range(1000, 2000);
+> +
+> +       clk_disable_unprepare(hdmi->clk);
+> +       pm_runtime_put_sync(dev);
+> +
+> +       return 0;
+> +}
+> +
+> +static int tegra_hdmi_runtime_resume(struct host1x_client *client)
+> +{
+> +       struct tegra_hdmi *hdmi = host1x_client_to_hdmi(client);
+> +       struct device *dev = client->dev;
+> +       int err;
+> +
+> +       err = pm_runtime_get_sync(dev);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to get runtime PM: %d\n", err);
+> +               return err;
+> +       }
+> +
+> +       err = clk_prepare_enable(hdmi->clk);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to enable clock: %d\n", err);
+> +               goto put_rpm;
+> +       }
+> +
+> +       usleep_range(1000, 2000);
+> +
+> +       err = reset_control_deassert(hdmi->rst);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to deassert reset: %d\n", err);
+> +               goto disable_clk;
+> +       }
+> +
+> +       return 0;
+> +
+> +disable_clk:
+> +       clk_disable_unprepare(hdmi->clk);
+> +put_rpm:
+> +       pm_runtime_put_sync(dev);
+> +       return err;
+> +}
+> +
+>  static const struct host1x_client_ops hdmi_client_ops = {
+>         .init = tegra_hdmi_init,
+>         .exit = tegra_hdmi_exit,
+> +       .suspend = tegra_hdmi_runtime_suspend,
+> +       .resume = tegra_hdmi_runtime_resume,
+>  };
+>
+>  static const struct tegra_hdmi_config tegra20_hdmi_config = {
+> @@ -1699,58 +1763,10 @@ static int tegra_hdmi_remove(struct platform_device *pdev)
+>         return 0;
+>  }
+>
+> -#ifdef CONFIG_PM
+> -static int tegra_hdmi_suspend(struct device *dev)
+> -{
+> -       struct tegra_hdmi *hdmi = dev_get_drvdata(dev);
+> -       int err;
+> -
+> -       err = reset_control_assert(hdmi->rst);
+> -       if (err < 0) {
+> -               dev_err(dev, "failed to assert reset: %d\n", err);
+> -               return err;
+> -       }
+> -
+> -       usleep_range(1000, 2000);
+> -
+> -       clk_disable_unprepare(hdmi->clk);
+> -
+> -       return 0;
+> -}
+> -
+> -static int tegra_hdmi_resume(struct device *dev)
+> -{
+> -       struct tegra_hdmi *hdmi = dev_get_drvdata(dev);
+> -       int err;
+> -
+> -       err = clk_prepare_enable(hdmi->clk);
+> -       if (err < 0) {
+> -               dev_err(dev, "failed to enable clock: %d\n", err);
+> -               return err;
+> -       }
+> -
+> -       usleep_range(1000, 2000);
+> -
+> -       err = reset_control_deassert(hdmi->rst);
+> -       if (err < 0) {
+> -               dev_err(dev, "failed to deassert reset: %d\n", err);
+> -               clk_disable_unprepare(hdmi->clk);
+> -               return err;
+> -       }
+> -
+> -       return 0;
+> -}
+> -#endif
+> -
+> -static const struct dev_pm_ops tegra_hdmi_pm_ops = {
+> -       SET_RUNTIME_PM_OPS(tegra_hdmi_suspend, tegra_hdmi_resume, NULL)
+> -};
+> -
+>  struct platform_driver tegra_hdmi_driver = {
+>         .driver = {
+>                 .name = "tegra-hdmi",
+>                 .of_match_table = tegra_hdmi_of_match,
+> -               .pm = &tegra_hdmi_pm_ops,
+>         },
+>         .probe = tegra_hdmi_probe,
+>         .remove = tegra_hdmi_remove,
+> diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+> index 5c7545ee5a5b..73e6fe9b833d 100644
+> --- a/drivers/gpu/drm/tegra/hub.c
+> +++ b/drivers/gpu/drm/tegra/hub.c
+> @@ -105,17 +105,25 @@ static inline void tegra_plane_writel(struct tegra_plane *plane, u32 value,
+>
+>  static int tegra_windowgroup_enable(struct tegra_windowgroup *wgrp)
+>  {
+> +       int err = 0;
+> +
+>         mutex_lock(&wgrp->lock);
+>
+>         if (wgrp->usecount == 0) {
+> -               pm_runtime_get_sync(wgrp->parent);
+> +               err = host1x_client_resume(wgrp->parent);
+> +               if (err < 0) {
+> +                       dev_err(wgrp->parent->dev, "failed to resume: %d\n", err);
+> +                       goto unlock;
+> +               }
+> +
+>                 reset_control_deassert(wgrp->rst);
+>         }
+>
+>         wgrp->usecount++;
+> -       mutex_unlock(&wgrp->lock);
+>
+> -       return 0;
+> +unlock:
+> +       mutex_unlock(&wgrp->lock);
+> +       return err;
+>  }
+>
+>  static void tegra_windowgroup_disable(struct tegra_windowgroup *wgrp)
+> @@ -131,7 +139,7 @@ static void tegra_windowgroup_disable(struct tegra_windowgroup *wgrp)
+>                                wgrp->index);
+>                 }
+>
+> -               pm_runtime_put(wgrp->parent);
+> +               host1x_client_suspend(wgrp->parent);
+>         }
+>
+>         wgrp->usecount--;
+> @@ -389,6 +397,7 @@ static void tegra_shared_plane_atomic_disable(struct drm_plane *plane,
+>         struct tegra_plane *p = to_tegra_plane(plane);
+>         struct tegra_dc *dc;
+>         u32 value;
+> +       int err;
+>
+>         /* rien ne va plus */
+>         if (!old_state || !old_state->crtc)
+> @@ -396,6 +405,12 @@ static void tegra_shared_plane_atomic_disable(struct drm_plane *plane,
+>
+>         dc = to_tegra_dc(old_state->crtc);
+>
+> +       err = host1x_client_resume(&dc->client);
+> +       if (err < 0) {
+> +               dev_err(dc->dev, "failed to resume: %d\n", err);
+> +               return;
+> +       }
+> +
+>         /*
+>          * XXX Legacy helpers seem to sometimes call ->atomic_disable() even
+>          * on planes that are already disabled. Make sure we fallback to the
+> @@ -404,15 +419,13 @@ static void tegra_shared_plane_atomic_disable(struct drm_plane *plane,
+>         if (WARN_ON(p->dc == NULL))
+>                 p->dc = dc;
+>
+> -       pm_runtime_get_sync(dc->dev);
+> -
+>         value = tegra_plane_readl(p, DC_WIN_WIN_OPTIONS);
+>         value &= ~WIN_ENABLE;
+>         tegra_plane_writel(p, value, DC_WIN_WIN_OPTIONS);
+>
+>         tegra_dc_remove_shared_plane(dc, p);
+>
+> -       pm_runtime_put(dc->dev);
+> +       host1x_client_suspend(&dc->client);
+>  }
+>
+>  static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
+> @@ -425,6 +438,7 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
+>         struct tegra_plane *p = to_tegra_plane(plane);
+>         dma_addr_t base;
+>         u32 value;
+> +       int err;
+>
+>         /* rien ne va plus */
+>         if (!plane->state->crtc || !plane->state->fb)
+> @@ -435,7 +449,11 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
+>                 return;
+>         }
+>
+> -       pm_runtime_get_sync(dc->dev);
+> +       err = host1x_client_resume(&dc->client);
+> +       if (err < 0) {
+> +               dev_err(dc->dev, "failed to resume: %d\n", err);
+> +               return;
+> +       }
+>
+>         tegra_dc_assign_shared_plane(dc, p);
+>
+> @@ -525,7 +543,7 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
+>         value &= ~CONTROL_CSC_ENABLE;
+>         tegra_plane_writel(p, value, DC_WIN_WINDOW_SET_CONTROL);
+>
+> -       pm_runtime_put(dc->dev);
+> +       host1x_client_suspend(&dc->client);
+>  }
+>
+>  static const struct drm_plane_helper_funcs tegra_shared_plane_helper_funcs = {
+> @@ -561,7 +579,7 @@ struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
+>         plane->base.index = index;
+>
+>         plane->wgrp = &hub->wgrps[wgrp];
+> -       plane->wgrp->parent = dc->dev;
+> +       plane->wgrp->parent = &dc->client;
+>
+>         p = &plane->base.base;
+>
+> @@ -666,8 +684,13 @@ int tegra_display_hub_atomic_check(struct drm_device *drm,
+>  static void tegra_display_hub_update(struct tegra_dc *dc)
+>  {
+>         u32 value;
+> +       int err;
+>
+> -       pm_runtime_get_sync(dc->dev);
+> +       err = host1x_client_resume(&dc->client);
+> +       if (err < 0) {
+> +               dev_err(dc->dev, "failed to resume: %d\n", err);
+> +               return;
+> +       }
+>
+>         value = tegra_dc_readl(dc, DC_CMD_IHUB_COMMON_MISC_CTL);
+>         value &= ~LATENCY_EVENT;
+> @@ -682,7 +705,7 @@ static void tegra_display_hub_update(struct tegra_dc *dc)
+>         tegra_dc_writel(dc, COMMON_ACTREQ, DC_CMD_STATE_CONTROL);
+>         tegra_dc_readl(dc, DC_CMD_STATE_CONTROL);
+>
+> -       pm_runtime_put(dc->dev);
+> +       host1x_client_suspend(&dc->client);
+>  }
+>
+>  void tegra_display_hub_atomic_commit(struct drm_device *drm,
+> @@ -742,9 +765,85 @@ static int tegra_display_hub_exit(struct host1x_client *client)
+>         return 0;
+>  }
+>
+> +static int tegra_display_hub_runtime_suspend(struct host1x_client *client)
+> +{
+> +       struct tegra_display_hub *hub = to_tegra_display_hub(client);
+> +       struct device *dev = client->dev;
+> +       unsigned int i = hub->num_heads;
+> +       int err;
+> +
+> +       err = reset_control_assert(hub->rst);
+> +       if (err < 0)
+> +               return err;
+> +
+> +       while (i--)
+> +               clk_disable_unprepare(hub->clk_heads[i]);
+> +
+> +       clk_disable_unprepare(hub->clk_hub);
+> +       clk_disable_unprepare(hub->clk_dsc);
+> +       clk_disable_unprepare(hub->clk_disp);
+> +
+> +       pm_runtime_put_sync(dev);
+> +
+> +       return 0;
+> +}
+> +
+> +static int tegra_display_hub_runtime_resume(struct host1x_client *client)
+> +{
+> +       struct tegra_display_hub *hub = to_tegra_display_hub(client);
+> +       struct device *dev = client->dev;
+> +       unsigned int i;
+> +       int err;
+> +
+> +       err = pm_runtime_get_sync(dev);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to get runtime PM: %d\n", err);
+> +               return err;
+> +       }
+> +
+> +       err = clk_prepare_enable(hub->clk_disp);
+> +       if (err < 0)
+> +               goto put_rpm;
+> +
+> +       err = clk_prepare_enable(hub->clk_dsc);
+> +       if (err < 0)
+> +               goto disable_disp;
+> +
+> +       err = clk_prepare_enable(hub->clk_hub);
+> +       if (err < 0)
+> +               goto disable_dsc;
+> +
+> +       for (i = 0; i < hub->num_heads; i++) {
+> +               err = clk_prepare_enable(hub->clk_heads[i]);
+> +               if (err < 0)
+> +                       goto disable_heads;
+> +       }
+> +
+> +       err = reset_control_deassert(hub->rst);
+> +       if (err < 0)
+> +               goto disable_heads;
+> +
+> +       return 0;
+> +
+> +disable_heads:
+> +       while (i--)
+> +               clk_disable_unprepare(hub->clk_heads[i]);
+> +
+> +       clk_disable_unprepare(hub->clk_hub);
+> +disable_dsc:
+> +       clk_disable_unprepare(hub->clk_dsc);
+> +disable_disp:
+> +       clk_disable_unprepare(hub->clk_disp);
+> +put_rpm:
+> +       pm_runtime_put_sync(dev);
+> +       return err;
+> +}
+> +
+>  static const struct host1x_client_ops tegra_display_hub_ops = {
+>         .init = tegra_display_hub_init,
+>         .exit = tegra_display_hub_exit,
+> +       .suspend = tegra_display_hub_runtime_suspend,
+> +       .resume = tegra_display_hub_runtime_resume,
+>  };
+>
+>  static int tegra_display_hub_probe(struct platform_device *pdev)
+> @@ -861,6 +960,7 @@ static int tegra_display_hub_probe(struct platform_device *pdev)
+>  static int tegra_display_hub_remove(struct platform_device *pdev)
+>  {
+>         struct tegra_display_hub *hub = platform_get_drvdata(pdev);
+> +       unsigned int i;
+>         int err;
+>
+>         err = host1x_client_unregister(&hub->client);
+> @@ -869,78 +969,17 @@ static int tegra_display_hub_remove(struct platform_device *pdev)
+>                         err);
+>         }
+>
+> -       pm_runtime_disable(&pdev->dev);
+> -
+> -       return err;
+> -}
+> -
+> -static int __maybe_unused tegra_display_hub_suspend(struct device *dev)
+> -{
+> -       struct tegra_display_hub *hub = dev_get_drvdata(dev);
+> -       unsigned int i = hub->num_heads;
+> -       int err;
+> -
+> -       err = reset_control_assert(hub->rst);
+> -       if (err < 0)
+> -               return err;
+> -
+> -       while (i--)
+> -               clk_disable_unprepare(hub->clk_heads[i]);
+> -
+> -       clk_disable_unprepare(hub->clk_hub);
+> -       clk_disable_unprepare(hub->clk_dsc);
+> -       clk_disable_unprepare(hub->clk_disp);
+> -
+> -       return 0;
+> -}
+> -
+> -static int __maybe_unused tegra_display_hub_resume(struct device *dev)
+> -{
+> -       struct tegra_display_hub *hub = dev_get_drvdata(dev);
+> -       unsigned int i;
+> -       int err;
+> -
+> -       err = clk_prepare_enable(hub->clk_disp);
+> -       if (err < 0)
+> -               return err;
+> -
+> -       err = clk_prepare_enable(hub->clk_dsc);
+> -       if (err < 0)
+> -               goto disable_disp;
+> -
+> -       err = clk_prepare_enable(hub->clk_hub);
+> -       if (err < 0)
+> -               goto disable_dsc;
+> +       for (i = 0; i < hub->soc->num_wgrps; i++) {
+> +               struct tegra_windowgroup *wgrp = &hub->wgrps[i];
+>
+> -       for (i = 0; i < hub->num_heads; i++) {
+> -               err = clk_prepare_enable(hub->clk_heads[i]);
+> -               if (err < 0)
+> -                       goto disable_heads;
+> +               mutex_destroy(&wgrp->lock);
+>         }
+>
+> -       err = reset_control_deassert(hub->rst);
+> -       if (err < 0)
+> -               goto disable_heads;
+> -
+> -       return 0;
+> -
+> -disable_heads:
+> -       while (i--)
+> -               clk_disable_unprepare(hub->clk_heads[i]);
+> +       pm_runtime_disable(&pdev->dev);
+>
+> -       clk_disable_unprepare(hub->clk_hub);
+> -disable_dsc:
+> -       clk_disable_unprepare(hub->clk_dsc);
+> -disable_disp:
+> -       clk_disable_unprepare(hub->clk_disp);
+>         return err;
+>  }
+>
+> -static const struct dev_pm_ops tegra_display_hub_pm_ops = {
+> -       SET_RUNTIME_PM_OPS(tegra_display_hub_suspend,
+> -                          tegra_display_hub_resume, NULL)
+> -};
+> -
+>  static const struct tegra_display_hub_soc tegra186_display_hub = {
+>         .num_wgrps = 6,
+>         .supports_dsc = true,
+> @@ -968,7 +1007,6 @@ struct platform_driver tegra_display_hub_driver = {
+>         .driver = {
+>                 .name = "tegra-display-hub",
+>                 .of_match_table = tegra_display_hub_of_match,
+> -               .pm = &tegra_display_hub_pm_ops,
+>         },
+>         .probe = tegra_display_hub_probe,
+>         .remove = tegra_display_hub_remove,
+> diff --git a/drivers/gpu/drm/tegra/hub.h b/drivers/gpu/drm/tegra/hub.h
+> index 767a60d9313c..3efa1be07ff8 100644
+> --- a/drivers/gpu/drm/tegra/hub.h
+> +++ b/drivers/gpu/drm/tegra/hub.h
+> @@ -17,7 +17,7 @@ struct tegra_windowgroup {
+>         struct mutex lock;
+>
+>         unsigned int index;
+> -       struct device *parent;
+> +       struct host1x_client *parent;
+>         struct reset_control *rst;
+>  };
+>
+> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> index 956bf5d680ad..200d99e17afe 100644
+> --- a/drivers/gpu/drm/tegra/sor.c
+> +++ b/drivers/gpu/drm/tegra/sor.c
+> @@ -2255,7 +2255,7 @@ static void tegra_sor_hdmi_disable(struct drm_encoder *encoder)
+>         if (err < 0)
+>                 dev_err(sor->dev, "failed to power off I/O pad: %d\n", err);
+>
+> -       pm_runtime_put(sor->dev);
+> +       host1x_client_suspend(&sor->client);
+>  }
+>
+>  static void tegra_sor_hdmi_enable(struct drm_encoder *encoder)
+> @@ -2276,7 +2276,11 @@ static void tegra_sor_hdmi_enable(struct drm_encoder *encoder)
+>         mode = &encoder->crtc->state->adjusted_mode;
+>         pclk = mode->clock * 1000;
+>
+> -       pm_runtime_get_sync(sor->dev);
+> +       err = host1x_client_resume(&sor->client);
+> +       if (err < 0) {
+> +               dev_err(sor->dev, "failed to resume: %d\n", err);
+> +               return;
+> +       }
+>
+>         /* switch to safe parent clock */
+>         err = tegra_sor_set_parent_clock(sor, sor->clk_safe);
+> @@ -2722,7 +2726,7 @@ static void tegra_sor_dp_disable(struct drm_encoder *encoder)
+>         if (output->panel)
+>                 drm_panel_unprepare(output->panel);
+>
+> -       pm_runtime_put(sor->dev);
+> +       host1x_client_suspend(&sor->client);
+>  }
+>
+>  static void tegra_sor_dp_enable(struct drm_encoder *encoder)
+> @@ -2742,7 +2746,11 @@ static void tegra_sor_dp_enable(struct drm_encoder *encoder)
+>         mode = &encoder->crtc->state->adjusted_mode;
+>         info = &output->connector.display_info;
+>
+> -       pm_runtime_get_sync(sor->dev);
+> +       err = host1x_client_resume(&sor->client);
+> +       if (err < 0) {
+> +               dev_err(sor->dev, "failed to resume: %d\n", err);
+> +               return;
+> +       }
+>
+>         /* switch to safe parent clock */
+>         err = tegra_sor_set_parent_clock(sor, sor->clk_safe);
+> @@ -3189,9 +3197,80 @@ static int tegra_sor_exit(struct host1x_client *client)
+>         return 0;
+>  }
+>
+> +static int tegra_sor_runtime_suspend(struct host1x_client *client)
+> +{
+> +       struct tegra_sor *sor = host1x_client_to_sor(client);
+> +       struct device *dev = client->dev;
+> +       int err;
+> +
+> +       if (sor->rst) {
+> +               err = reset_control_assert(sor->rst);
+> +               if (err < 0) {
+> +                       dev_err(dev, "failed to assert reset: %d\n", err);
+> +                       return err;
+> +               }
+> +
+> +               reset_control_release(sor->rst);
+> +       }
+> +
+> +       usleep_range(1000, 2000);
+> +
+> +       clk_disable_unprepare(sor->clk);
+> +       pm_runtime_put_sync(dev);
+> +
+> +       return 0;
+> +}
+> +
+> +static int tegra_sor_runtime_resume(struct host1x_client *client)
+> +{
+> +       struct tegra_sor *sor = host1x_client_to_sor(client);
+> +       struct device *dev = client->dev;
+> +       int err;
+> +
+> +       err = pm_runtime_get_sync(dev);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to get runtime PM: %d\n", err);
+> +               return err;
+> +       }
+> +
+> +       err = clk_prepare_enable(sor->clk);
+> +       if (err < 0) {
+> +               dev_err(dev, "failed to enable clock: %d\n", err);
+> +               goto put_rpm;
+> +       }
+> +
+> +       usleep_range(1000, 2000);
+> +
+> +       if (sor->rst) {
+> +               err = reset_control_acquire(sor->rst);
+> +               if (err < 0) {
+> +                       dev_err(dev, "failed to acquire reset: %d\n", err);
+> +                       goto disable_clk;
+> +               }
+> +
+> +               err = reset_control_deassert(sor->rst);
+> +               if (err < 0) {
+> +                       dev_err(dev, "failed to deassert reset: %d\n", err);
+> +                       goto release_reset;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +
+> +release_reset:
+> +       reset_control_release(sor->rst);
+> +disable_clk:
+> +       clk_disable_unprepare(sor->clk);
+> +put_rpm:
+> +       pm_runtime_put_sync(dev);
+> +       return err;
+> +}
+> +
+>  static const struct host1x_client_ops sor_client_ops = {
+>         .init = tegra_sor_init,
+>         .exit = tegra_sor_exit,
+> +       .suspend = tegra_sor_runtime_suspend,
+> +       .resume = tegra_sor_runtime_resume,
+>  };
+>
+>  static const u8 tegra124_sor_xbar_cfg[5] = {
+> @@ -3842,10 +3921,9 @@ static int tegra_sor_probe(struct platform_device *pdev)
+>         if (!sor->clk_pad) {
+>                 char *name;
+>
+> -               err = pm_runtime_get_sync(&pdev->dev);
+> +               err = host1x_client_resume(&sor->client);
+>                 if (err < 0) {
+> -                       dev_err(&pdev->dev, "failed to get runtime PM: %d\n",
+> -                               err);
+> +                       dev_err(sor->dev, "failed to resume: %d\n", err);
+>                         goto remove;
+>                 }
+>
+> @@ -3856,7 +3934,7 @@ static int tegra_sor_probe(struct platform_device *pdev)
+>                 }
+>
+>                 sor->clk_pad = tegra_clk_sor_pad_register(sor, name);
+> -               pm_runtime_put(&pdev->dev);
+> +               host1x_client_suspend(&sor->client);
+>         }
+>
+>         if (IS_ERR(sor->clk_pad)) {
+> @@ -3912,61 +3990,6 @@ static int tegra_sor_remove(struct platform_device *pdev)
+>         return 0;
+>  }
+>
+> -static int tegra_sor_runtime_suspend(struct device *dev)
+> -{
+> -       struct tegra_sor *sor = dev_get_drvdata(dev);
+> -       int err;
+> -
+> -       if (sor->rst) {
+> -               err = reset_control_assert(sor->rst);
+> -               if (err < 0) {
+> -                       dev_err(dev, "failed to assert reset: %d\n", err);
+> -                       return err;
+> -               }
+> -
+> -               reset_control_release(sor->rst);
+> -       }
+> -
+> -       usleep_range(1000, 2000);
+> -
+> -       clk_disable_unprepare(sor->clk);
+> -
+> -       return 0;
+> -}
+> -
+> -static int tegra_sor_runtime_resume(struct device *dev)
+> -{
+> -       struct tegra_sor *sor = dev_get_drvdata(dev);
+> -       int err;
+> -
+> -       err = clk_prepare_enable(sor->clk);
+> -       if (err < 0) {
+> -               dev_err(dev, "failed to enable clock: %d\n", err);
+> -               return err;
+> -       }
+> -
+> -       usleep_range(1000, 2000);
+> -
+> -       if (sor->rst) {
+> -               err = reset_control_acquire(sor->rst);
+> -               if (err < 0) {
+> -                       dev_err(dev, "failed to acquire reset: %d\n", err);
+> -                       clk_disable_unprepare(sor->clk);
+> -                       return err;
+> -               }
+> -
+> -               err = reset_control_deassert(sor->rst);
+> -               if (err < 0) {
+> -                       dev_err(dev, "failed to deassert reset: %d\n", err);
+> -                       reset_control_release(sor->rst);
+> -                       clk_disable_unprepare(sor->clk);
+> -                       return err;
+> -               }
+> -       }
+> -
+> -       return 0;
+> -}
+> -
+>  static int tegra_sor_suspend(struct device *dev)
+>  {
+>         struct tegra_sor *sor = dev_get_drvdata(dev);
+> @@ -3974,8 +3997,9 @@ static int tegra_sor_suspend(struct device *dev)
+>
+>         if (sor->hdmi_supply) {
+>                 err = regulator_disable(sor->hdmi_supply);
+> -               if (err < 0)
+> +               if (err < 0) {
+>                         return err;
+> +               }
+>         }
+>
+>         return 0;
+> @@ -3996,8 +4020,6 @@ static int tegra_sor_resume(struct device *dev)
+>  }
+>
+>  static const struct dev_pm_ops tegra_sor_pm_ops = {
+> -       SET_RUNTIME_PM_OPS(tegra_sor_runtime_suspend, tegra_sor_runtime_resume,
+> -                          NULL)
+>         SET_SYSTEM_SLEEP_PM_OPS(tegra_sor_suspend, tegra_sor_resume)
+>  };
+>
+> diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+> index 50d500345d04..6a995db51d6d 100644
+> --- a/drivers/gpu/host1x/bus.c
+> +++ b/drivers/gpu/host1x/bus.c
+> @@ -710,6 +710,10 @@ int host1x_client_register(struct host1x_client *client)
+>         struct host1x *host1x;
+>         int err;
+>
+> +       INIT_LIST_HEAD(&client->list);
+> +       mutex_init(&client->lock);
+> +       client->usecount = 0;
+> +
+>         mutex_lock(&devices_lock);
+>
+>         list_for_each_entry(host1x, &devices, list) {
+> @@ -768,3 +772,74 @@ int host1x_client_unregister(struct host1x_client *client)
+>         return 0;
+>  }
+>  EXPORT_SYMBOL(host1x_client_unregister);
+> +
+> +int host1x_client_suspend(struct host1x_client *client)
+> +{
+> +       int err = 0;
+> +
+> +       mutex_lock(&client->lock);
+> +
+> +       if (client->usecount == 1) {
+> +               if (client->ops && client->ops->suspend) {
+> +                       err = client->ops->suspend(client);
+> +                       if (err < 0)
+> +                               goto unlock;
+> +               }
+> +       }
+> +
+> +       client->usecount--;
+> +       dev_dbg(client->dev, "use count: %u\n", client->usecount);
+> +
+> +       if (client->parent) {
+> +               err = host1x_client_suspend(client->parent);
+> +               if (err < 0)
+> +                       goto resume;
+> +       }
+> +
+> +       goto unlock;
+> +
+> +resume:
+> +       if (client->usecount == 0)
+> +               if (client->ops && client->ops->resume)
+> +                       client->ops->resume(client);
+> +
+> +       client->usecount++;
+> +unlock:
+> +       mutex_unlock(&client->lock);
+> +       return err;
+> +}
+> +EXPORT_SYMBOL(host1x_client_suspend);
+> +
+> +int host1x_client_resume(struct host1x_client *client)
+> +{
+> +       int err = 0;
+> +
+> +       mutex_lock(&client->lock);
+> +
+> +       if (client->parent) {
+> +               err = host1x_client_resume(client->parent);
+> +               if (err < 0)
+> +                       goto unlock;
+> +       }
+> +
+> +       if (client->usecount == 0) {
+> +               if (client->ops && client->ops->resume) {
+> +                       err = client->ops->resume(client);
+> +                       if (err < 0)
+> +                               goto suspend;
+> +               }
+> +       }
+> +
+> +       client->usecount++;
+> +       dev_dbg(client->dev, "use count: %u\n", client->usecount);
+> +
+> +       goto unlock;
+> +
+> +suspend:
+> +       if (client->parent)
+> +               host1x_client_suspend(client->parent);
+> +unlock:
+> +       mutex_unlock(&client->lock);
+> +       return err;
+> +}
+> +EXPORT_SYMBOL(host1x_client_resume);
+> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+> index 470a193a9fed..0254ebcdc0a7 100644
+> --- a/include/linux/host1x.h
+> +++ b/include/linux/host1x.h
+> @@ -24,10 +24,14 @@ struct iommu_group;
+>   * struct host1x_client_ops - host1x client operations
+>   * @init: host1x client initialization code
+>   * @exit: host1x client tear down code
+> + * @suspend: host1x client suspend code
+> + * @resume: host1x client resume code
+>   */
+>  struct host1x_client_ops {
+>         int (*init)(struct host1x_client *client);
+>         int (*exit)(struct host1x_client *client);
+> +       int (*suspend)(struct host1x_client *client);
+> +       int (*resume)(struct host1x_client *client);
+>  };
+>
+>  /**
+> @@ -55,6 +59,10 @@ struct host1x_client {
+>
+>         struct host1x_syncpt **syncpts;
+>         unsigned int num_syncpts;
+> +
+> +       struct host1x_client *parent;
+> +       unsigned int usecount;
+> +       struct mutex lock;
+>  };
+>
+>  /*
+> @@ -309,6 +317,9 @@ int host1x_device_exit(struct host1x_device *device);
+>  int host1x_client_register(struct host1x_client *client);
+>  int host1x_client_unregister(struct host1x_client *client);
+>
+> +int host1x_client_suspend(struct host1x_client *client);
+> +int host1x_client_resume(struct host1x_client *client);
+> +
+>  struct tegra_mipi_device;
+>
+>  struct tegra_mipi_device *tegra_mipi_request(struct device *device);
+> --
+> 2.23.0
+>
