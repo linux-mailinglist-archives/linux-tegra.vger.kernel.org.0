@@ -2,66 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E59B011CFA0
-	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 15:21:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E41311CFB2
+	for <lists+linux-tegra@lfdr.de>; Thu, 12 Dec 2019 15:23:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729611AbfLLOVL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 12 Dec 2019 09:21:11 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:38443 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729597AbfLLOVL (ORCPT
+        id S1729568AbfLLOX6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 12 Dec 2019 09:23:58 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:33470 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729392AbfLLOX6 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 12 Dec 2019 09:21:11 -0500
-Received: by mail-lf1-f65.google.com with SMTP id r14so1843685lfm.5;
-        Thu, 12 Dec 2019 06:21:09 -0800 (PST)
+        Thu, 12 Dec 2019 09:23:58 -0500
+Received: by mail-lj1-f193.google.com with SMTP id 21so2520903ljr.0;
+        Thu, 12 Dec 2019 06:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fPdLaS98BnYYlPHOQgsT45YcBODksgKJiMhSSAO42YU=;
-        b=WkfdIhgaOrZVv1nYC0iXgxp5ezUR5OQ3mxZR7Fwbs6d5ZFPYFuz8WvGLUzQ2c361ux
-         urnTQxJdNnbxo0yH4kDjQhXJZ/DJatc19XGER1IpewAOj9S4S/+bMeroJd90HD6jRQIM
-         QCAQKFmsGUyeAgte6WmR+3o4Icnw0kAUhu02NNZyTeezcWTn8FrfxXDqlCkP6nDVKFPW
-         CddQbcmGhOPhcVWHrHXdRaG9voqrRrcv3HYEYOVBU9yPqWaqYpbGTbo8uac7An1Jf2NW
-         CEZNStjj1Hs2r/KEYlmB7JPfcDQjz4+7ywmoks6sBnvbPipkDBgyboTGtZ2yfVBnJBRg
-         xvKw==
+        bh=MyViXaXViSVG5MBJuSOs6DiQwJnGAWqF15GC1uXA5A0=;
+        b=QdbTZBwtHOy+M6WHKQrwDg7E6qPmaSVXXEaT/TI9cHjZVym9jpjw35m1agJ4bcuiHw
+         PVKcuGPcGrtpDbYfJl7lDpSSjux5XXZ00J64dgkcHhmPn6544nT+Rvnqr2MfaOVXic8h
+         /hlUB8g9HWIfFAuZYAJ4qU2PfTemOHH99VrTT0pCCzryT3KLXlvPIZ8FIfsqXdeWNACA
+         TTRw246TxgzNqy3FyV5DEAuHB3Mx+0LJk9PKTzjghv9sBkklD6xMRtt9kXm49J26wuhk
+         ktz9Rz6K/MRz5MSPS/KkCwGHyQgErHFMnGGMAyNkuwdkjebHtJm90kAKs3fyGwfS5tvb
+         L1BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=fPdLaS98BnYYlPHOQgsT45YcBODksgKJiMhSSAO42YU=;
-        b=SdONGcXyXwq9/ANnVD+BoupbqAh6rXH51acbBUD5DeQxzqpTBZA7E6udLvyjsqAGaO
-         9tRiax3y98mNXDfsbfypFmerA3h2ee6xHdUhNfEoX6EKs7VZvx2Od2CbhwWT6hKcgCYW
-         UILdi8Wv9cc4XLOe+wTlXrSRf+u4FcX4PpdD9EI25u+MFB64rgcAyUOs/Dlpx9C8Fj5C
-         ZDv49U387Z8srKB0JFpPJUa0pIu+6bhhqDOICSa45ScxqbTyHKYgnioLmKo5rnZUOxo7
-         o1lbA2QEF6VDX9wmyPlSTqNxUJ7SPERQJv1mp7LWCKEBGWuTyyteyRCg0dJ+YsvbQBBj
-         RL7Q==
-X-Gm-Message-State: APjAAAU0S9Uh132ZcB37PeGUX247Q6qoAE7fZanoinM+CLHvS4EPKUPv
-        Fr53+Vf7OGGNiVnp8BeeG6GIS5bA
-X-Google-Smtp-Source: APXvYqzro6ophjFLphSmLxxdELI4uFq9CWKBObdnwB3lXmXHDJ/sGDzFMSVKBDvjoHPNNCzZreC32w==
-X-Received: by 2002:a19:c210:: with SMTP id l16mr6126565lfc.35.1576160468283;
-        Thu, 12 Dec 2019 06:21:08 -0800 (PST)
+        bh=MyViXaXViSVG5MBJuSOs6DiQwJnGAWqF15GC1uXA5A0=;
+        b=B0sh0fudWe2A7cD+o9mT+4F+rVOHTqPtbyM9wtlUMCO+jwupE1JA3/4dWfeGJkAKVd
+         x72F5+BPgYGUz35wOb0lnBlrhPrpib7vbXKgP0YGvMCvn2YtwPd/vGu2YTU9FanP3IuX
+         tUPRDFU4+b9XNt0vXySkF3/0Yw5tV+xxBcYsoYH3TQN2SbzSRR390utOi9vkEbJ02/sg
+         vpxbza/PUi2ad4gSSnK1NYm6GMWem2u3KrMXT+1/o7A6rCcOZ9BtkzB5F4GxYXaQy37k
+         zqpFyU1gOgZEokGqpSlHHfWZT1wTJxFVpJQnvOPXF2ynxTfNOIL1GOpY/ZfoGUoCkiMF
+         677Q==
+X-Gm-Message-State: APjAAAU/aPDRSv1G7RY+9OE8DFBJwvQe8jqg4SckTNtUHHrc59vY+rUv
+        uQV5z/rYfmX6SiVjLj/lZKuC66tZ
+X-Google-Smtp-Source: APXvYqxPdke9a4fNDxxTT1/ezaD5xKhLk744tLFmfTCPZ+DMObNr2MqCaIJCdDxk+viYke6SHqA2IA==
+X-Received: by 2002:a05:651c:112c:: with SMTP id e12mr6106503ljo.169.1576160634822;
+        Thu, 12 Dec 2019 06:23:54 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id t9sm2942671lfl.51.2019.12.12.06.21.07
+        by smtp.googlemail.com with ESMTPSA id v9sm3399542lfe.18.2019.12.12.06.23.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Dec 2019 06:21:07 -0800 (PST)
-Subject: Re: [PATCH] dt-bindings: memory-controllers: tegra: Fix type
- references
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org
-References: <20191211163210.9778-1-robh@kernel.org>
- <099dcb4e-265c-7789-1b10-d8aa6f1d6922@gmail.com>
- <CAL_JsqL9d1kSxtHf-DKutnfmNK3Bsy1sFAqov1ugcgX30JJ0Rw@mail.gmail.com>
+        Thu, 12 Dec 2019 06:23:54 -0800 (PST)
+Subject: Re: [PATCH v1] sdhci: tegra: Add workaround for Broadcom WiFi
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <cd2430c2-863a-248a-7590-6d36b4040506@gmail.com>
-Date:   Thu, 12 Dec 2019 17:21:06 +0300
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20191210014011.21987-1-digetx@gmail.com>
+ <CAPDyKFpMe09PNQqinvvidF+wfASx2nuvgf7=Hx5+cGni8pdcRA@mail.gmail.com>
+ <28045442-6a1c-1e0b-0dfe-c36fa9de149a@gmail.com>
+ <CAPDyKFpWO_McZEoefX1T=SE=RYm_GU3S+LgYZrgJY_SJgv7egA@mail.gmail.com>
+ <44f99e56-468e-c3f9-3785-73c2cf8ba118@gmail.com>
+Message-ID: <d4933cb1-d2c1-8055-e0f4-f6fcbe9973bc@gmail.com>
+Date:   Thu, 12 Dec 2019 17:23:53 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqL9d1kSxtHf-DKutnfmNK3Bsy1sFAqov1ugcgX30JJ0Rw@mail.gmail.com>
+In-Reply-To: <44f99e56-468e-c3f9-3785-73c2cf8ba118@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -70,113 +74,83 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-12.12.2019 17:05, Rob Herring пишет:
-> On Thu, Dec 12, 2019 at 7:36 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+11.12.2019 19:29, Dmitry Osipenko пишет:
+> 11.12.2019 19:10, Ulf Hansson пишет:
+>> On Wed, 11 Dec 2019 at 16:46, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>
+>>> Hello Ulf,
+>>>
+>>> 11.12.2019 11:11, Ulf Hansson пишет:
+>>>> On Tue, 10 Dec 2019 at 02:40, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>>
+>>>>> All Tegra20 boards that have embedded Broadcom WiFi SDIO chip are affected
+>>>>> by a problem where WiFi chip reports CCCR v1.10, while it should v1.20.
+>>>>> In a result high-speed mode isn't enabled for the WiFi card and this
+>>>>> results in a malfunctioning SDIO communication.
+>>>>
+>>>> Does that also mean SDIO_SPEED_SHS bit is set when reading SDIO_CCCR_SPEED?
+>>>
+>>> Yes, the SDIO_SPEED_SHS bit is set.
+>>>
+>>>>>  brcmfmac: brcmf_sdio_readframes: read 304 bytes from channel 1 failed: -84
+>>>>>  brcmfmac: brcmf_sdio_rxfail: abort command, terminate frame, send NAK
+>>>>>
+>>>>> Downstream kernels are overriding card's CCCR info in SDHCI driver to fix
+>>>>> the problem, let's do the same in upstream.
+>>>>>
+>>>>> The change is inspired by omap_hsmmc_init_card() of OMAP's HSMMC driver,
+>>>>> which overrides card's info for the TI wl1251 WiFi.
+>>>>
+>>>> This is a temporary solution and should be replaced by doing the DT
+>>>> parsing during
+>>>>
+>>>> So, yes, let's see if we can use a card quirk instead. That's the first option.
+>>>>
+>>>> A second option is simply to parse the DT subnode for a new DT
+>>>> property during mmc_sdio_init_card(). Along the lines of what we do
+>>>> for the broken-hpi DT binding for eMMC.
+>>>
+>>> Let's try the first option. My understanding is that the problem affects
+>>> only the specific model of the WiFi chip and it's not a board-specific
+>>> problem. I'll add Broadcom driver people to CC for the next version of
+>>> the patch, maybe they'll have something to say.
 >>
->> 11.12.2019 19:32, Rob Herring пишет:
->>> Json-schema requires a $ref to be under an 'allOf' if there are
->>> additional constraints otherwise the additional constraints are
->>> ignored. (Note that this behavior will be changed in draft8.)
->>>
->>> Fixes: 641262f5e1ed ("dt-bindings: memory: Add binding for NVIDIA Tegra30 External Memory Controller")
->>> Fixes: 785685b7a106 ("dt-bindings: memory: Add binding for NVIDIA Tegra30 Memory Controller")
->>> Fixes: 8da65c377b21 ("dt-bindings: memory: tegra30: Convert to Tegra124 YAML")
->>> Cc: Dmitry Osipenko <digetx@gmail.com>
->>> Cc: Thierry Reding <treding@nvidia.com>
->>> Cc: Jonathan Hunter <jonathanh@nvidia.com>
->>> Cc: linux-tegra@vger.kernel.org
->>> Signed-off-by: Rob Herring <robh@kernel.org>
->>> ---
->>> I'll take this via the DT tree for rc2.
->>>
->>>  .../bindings/memory-controllers/nvidia,tegra124-mc.yaml  | 3 ++-
->>>  .../bindings/memory-controllers/nvidia,tegra30-emc.yaml  | 9 ++++++---
->>>  .../bindings/memory-controllers/nvidia,tegra30-mc.yaml   | 3 ++-
->>>  3 files changed, 10 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
->>> index 30d9fb193d7f..22a94b6fdbde 100644
->>> --- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
->>> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
->>> @@ -60,7 +60,8 @@ patternProperties:
->>>              maximum: 1066000000
->>>
->>>            nvidia,emem-configuration:
->>> -            $ref: /schemas/types.yaml#/definitions/uint32-array
->>> +            allOf:
->>> +              - $ref: /schemas/types.yaml#/definitions/uint32-array
->>>              description: |
->>>                Values to be written to the EMEM register block. See section
->>>                "15.6.1 MC Registers" in the TRM.
->>> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
->>> index 7fe0ca14e324..e4135bac6957 100644
->>> --- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
->>> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
->>> @@ -56,7 +56,8 @@ patternProperties:
->>>              maximum: 900000000
->>>
->>>            nvidia,emc-auto-cal-interval:
->>> -            $ref: /schemas/types.yaml#/definitions/uint32
->>> +            allOf:
->>> +              - $ref: /schemas/types.yaml#/definitions/uint32
->>>              description:
->>>                Pad calibration interval in microseconds.
->>>              minimum: 0
->>> @@ -78,7 +79,8 @@ patternProperties:
->>>                Mode Register 0.
->>>
->>>            nvidia,emc-zcal-cnt-long:
->>> -            $ref: /schemas/types.yaml#/definitions/uint32
->>> +            allOf:
->>> +              - $ref: /schemas/types.yaml#/definitions/uint32
->>>              description:
->>>                Number of EMC clocks to wait before issuing any commands after
->>>                sending ZCAL_MRW_CMD.
->>> @@ -96,7 +98,8 @@ patternProperties:
->>>                FBIO "read" FIFO periodic resetting enabled.
->>>
->>>            nvidia,emc-configuration:
->>> -            $ref: /schemas/types.yaml#/definitions/uint32-array
->>> +            allOf:
->>> +              - $ref: /schemas/types.yaml#/definitions/uint32-array
->>>              description:
->>>                EMC timing characterization data. These are the registers
->>>                (see section "18.13.2 EMC Registers" in the TRM) whose values
->>> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
->>> index 84fd57bcf0dc..4b9196c83291 100644
->>> --- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
->>> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
->>> @@ -77,7 +77,8 @@ patternProperties:
->>>              maximum: 900000000
->>>
->>>            nvidia,emem-configuration:
->>> -            $ref: /schemas/types.yaml#/definitions/uint32-array
->>> +            allOf:
->>> +              - $ref: /schemas/types.yaml#/definitions/uint32-array
->>>              description: |
->>>                Values to be written to the EMEM register block. See section
->>>                "18.13.1 MC Registers" in the TRM.
->>>
+>> Okay, sounds reasonable. By looking at your latest attempt for a fix,
+>> I have two minor nitpicks, otherwise it looks good.
 >>
->> But the "nvidia,emem-configuration" doesn't have any extra constraints.
->> Or you just added the "allOf" for consistency to avoid possible future
->> copy-paste bugs?
+>> The nitpicks:
+>> I suggest to rename MMC_QUIRK_HIGH_SPEED_CARD to MMC_QUIRK_HIGH_SPEED
+>> and mmc_card_need_high_speed_toggle() to mmc_card_quirk_hs().
 > 
-> It does have constraints. It has the 'items' list.
+> I'll take it into account, thanks.
 
-Right, I missed that array-size is also a constraint.
+Looks like I managed to figure out what's really going on:
 
-> Note that fixing it introduces an error which I'm in the process of
-> fixing in the schema tool.
+  1. The BCM4329 doc clearly states that High Speed is supported, see
+page 49 (Section 11: WLAN Interfaces, SDIO v1.2)
 
-Okay!
+https://www.cypress.com/file/298626/download
 
->> Otherwise LGTM, thanks!
->>
->> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-> 
-> Thanks.
-> 
-> Rob
-> 
+  2. I googled for performance results of the BCM4329 SDIO WiFi and came
+to a conclusion that ~40 Mbit/s is a realistic maximum of the WiFi-data
+throughput for NVIDIA Tegra20 boards due to antenna configuration
+limitations and whatever.
 
+  3. The Tegra's SDHCI clock is pre-configured to 48MHz at the time of
+kernel's boot-up.
+
+  4. IIUC, the maximum clock rate for the legacy SD signaling mode is
+~25MHz and that is more than enough for a 4-lane SDIO data-bus that
+allows up to 100 Mbit/s for the WiFi which is capped to 40 Mbit/s anyways.
+
+  5. Apparently MMC core doesn't limit the clock rate for the Normal
+Speed cards.
+
+
+So, I added "max-frequency = <25000000>;" to the SDHCI node of the
+board's device-tree and ta-da! WiFi works absolutely fine without the
+quirk! Thus the SDIO card quirk isn't really needed and I'm dropping it
+for now.
+
+Ulf, do you know if it's a bug or a feature of the MMC core that it
+doesn't limit clock rate for the Normal Speed cards?
