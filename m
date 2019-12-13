@@ -2,162 +2,323 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9EE511E9A1
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Dec 2019 19:01:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF7A411EA99
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Dec 2019 19:45:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728383AbfLMSBl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Dec 2019 13:01:41 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:33015 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726404AbfLMSBl (ORCPT
+        id S1728522AbfLMSpz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Dec 2019 13:45:55 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:37836 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728473AbfLMSpy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Dec 2019 13:01:41 -0500
-Received: by mail-lf1-f68.google.com with SMTP id n25so182309lfl.0;
-        Fri, 13 Dec 2019 10:01:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=P2fLhpKaXrNbLsGuII7YB7/yEJSelZ85p6b5L7lTKzs=;
-        b=DM0300Zk/3f1Zlhsj3gyk4qYp3WfTYEXzuNgPSY8fPT8wfSXtI3MH1Xlnpmq9mkz8R
-         JN+bfY3fU8TuoLdWsQVbyco4vPUXXnXlSG9NgnRxPr7709AomAiDz4d29Ne9Vyjhszj7
-         wk8dbzATX0g/F6/9tSVNV/Mwg+TooHOHF6rJRDkXHdiFvrNIiaqwdcBR8ya+Q3+1ybNv
-         Y6g9JIzr8S8zMpWwOUPugzDsKJ1uTrR0SZwdGrizDP+4kS7w1umgCOX528AV3xzLj3Kk
-         Tacr8benfbFFHooYnk3Fi6+xZwG48Fa90Lp+fxx6Z5Ch4y+xrHXAiI3bAS1rlIDXNebs
-         IbXQ==
+        Fri, 13 Dec 2019 13:45:54 -0500
+Received: by mail-ot1-f65.google.com with SMTP id k14so248646otn.4;
+        Fri, 13 Dec 2019 10:45:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=P2fLhpKaXrNbLsGuII7YB7/yEJSelZ85p6b5L7lTKzs=;
-        b=daQYP2u2aihLJOoYwdeumYtLysa1gcagpsuNhCcOBqjXQiKAW++K3zjSkZuVV+Uzmk
-         cID6fjVJNrIMRpkQ970/GIts30rasR3yoPsA69xWBf/0rs5wD8KDp9fRvAcQpjbNpNgL
-         MkzL8NrLYIFFynXDVgAj+F5DtoWCPGqLuAQCYnXAqdFdCQteC1iVsPezmX4z34WWveAM
-         BcuTgtMnLHMGOMnKstflySMIcuuA4uB9OqQ/GX9+fZHzLcHhprEOWhKjr5lJR+I70mEP
-         lljZQp2862bLKBfJnvVm5jG5CxUnubsc46DcFNQWJWJr/9PQQsqkHxiBKc/nM5RNqs9Q
-         YAkw==
-X-Gm-Message-State: APjAAAW7txKWoRK9l/hm1GqTSItZF9n0DvdaHfjZz6KhvHumcN8fFHtl
-        KWghilBq1shkqLpo8YKr1HLrgr49
-X-Google-Smtp-Source: APXvYqwO8brRkhwwl/lTHbp5OPCmIMztJP1+CZgCIWJ8N6W3wkUM8eXcLmrSlqTMAt4HJykxaUewgQ==
-X-Received: by 2002:ac2:498e:: with SMTP id f14mr9755035lfl.172.1576260098015;
-        Fri, 13 Dec 2019 10:01:38 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id l28sm4877916lfk.21.2019.12.13.10.01.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2019 10:01:37 -0800 (PST)
-Subject: Re: [PATCH v1 3/3] i2c: tegra: Fix suspending in active runtime PM
- state
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Mikko Perttunen <cyndis@kapsi.fi>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191212233428.14648-1-digetx@gmail.com>
- <20191212233428.14648-4-digetx@gmail.com> <20191213134746.GA222809@ulmo>
- <3c2b16c0-3e66-d809-b263-f27cf925e203@gmail.com>
-Message-ID: <1ed725c9-361b-c920-d532-dd640c3ca59f@gmail.com>
-Date:   Fri, 13 Dec 2019 21:01:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=n1wf2eteVGZXSC7Mqgl066hg7LQBWqUPacG1DYCVzng=;
+        b=rY3BjVRYql7heo4jgbf7WiKQ8iIFH2cjqf37x8yoENRzioFr0JqkmOgRMGW8Njy5Az
+         yJ6ljDJB6oJKY7mtsM00X9YYY/RwM9QOOgmqGezEXiCR4uUhBhhs2k3uKkqPoJzqHDs/
+         6up91XcMJLhdb9dU7iFtsK0XWphf93T9G3+xfzu3AvuqNshTwjBj+RrOZmj0htspQuH/
+         sHqmTCKlcoYWHI8R7SVRmxWw9j5tlFQEMj0VmfFsUzATahfDTLbEcisN4PKF5NIkSN30
+         vyzHB6o6yrB0U9usU2phjD+mjDrFDxgwp2Yv7+timRttaBbmFw7WB90zzkgfYm6HOehw
+         jRPA==
+X-Gm-Message-State: APjAAAVw0uxh08AW7Ud27d0zp09MNo+wpUJhZkK5ZpzYdlheeJPRHRai
+        qCtvpWSonEH+14hPRAUpTw==
+X-Google-Smtp-Source: APXvYqw02K+Xpj85k8Pc/wTfISnwbcstHJKooxWFlJZLRYP8uQDgJJs9UuhmkvC1AW9kRTIB0iWUeQ==
+X-Received: by 2002:a05:6830:1e37:: with SMTP id t23mr16377291otr.16.1576262753566;
+        Fri, 13 Dec 2019 10:45:53 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id u192sm3578273oia.41.2019.12.13.10.45.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2019 10:45:52 -0800 (PST)
+Date:   Fri, 13 Dec 2019 12:45:52 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        mark.rutland@arm.com, kishon@ti.com, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 02/18] dt-bindings: usb: Add NVIDIA Tegra XUSB device
+ mode controller binding
+Message-ID: <20191213184552.GA2133@bogus>
+References: <1575629421-7039-1-git-send-email-nkristam@nvidia.com>
+ <1575629421-7039-3-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <3c2b16c0-3e66-d809-b263-f27cf925e203@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1575629421-7039-3-git-send-email-nkristam@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.12.2019 17:04, Dmitry Osipenko пишет:
-> 13.12.2019 16:47, Thierry Reding пишет:
->> On Fri, Dec 13, 2019 at 02:34:28AM +0300, Dmitry Osipenko wrote:
->>> I noticed that sometime I2C clock is kept enabled during suspend-resume.
->>> This happens because runtime PM defers dynamic suspension and thus it may
->>> happen that runtime PM is in active state when system enters into suspend.
->>> In particular I2C controller that is used for CPU's DVFS is often kept ON
->>> during suspend because CPU's voltage scaling happens quite often.
->>>
->>> Note: we marked runtime PM as IRQ-safe during the driver's probe in the
->>> "Support atomic transfers" patch, thus it's okay to enforce runtime PM
->>> suspend/resume in the NOIRQ phase which is used for the system-level
->>> suspend/resume of the driver.
->>>
->>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>> ---
->>>  drivers/i2c/busses/i2c-tegra.c | 9 +++++++++
->>>  1 file changed, 9 insertions(+)
->>
->> I've recently discussed this with Rafael in the context of runtime PM
->> support in the Tegra DRM driver and my understanding is that you're not
->> supposed to force runtime PM suspension like this.
->>
->> I had meant to send out an alternative patch to fix this, which I've
->> done now:
->>
->> 	http://patchwork.ozlabs.org/patch/1209148/
->>
->> That's more in line with what Rafael and I had discussed in the other
->> thread and should address the issue that you're seeing as well.
+On Fri, Dec 06, 2019 at 04:20:05PM +0530, Nagarjuna Kristam wrote:
+> Add device-tree binding documentation for the XUSB device mode controller
+> present on Tegra210 and Tegra186 SoC. This controller supports the USB 3.0
+> specification.
 > 
-> Well, either me or you are still having some misunderstanding of the
-> runtime PM :) To my knowledge there are a lot of drivers that enforce
-> suspension of the runtime PM during system's suspend, it should be a
-> right thing to do especially in a context of the Tegra I2C driver
-> because we're using asynchronous pm_runtime_put() and thus at the time
-> of system's suspending, the runtime PM could be ON (as I wrote in the
-> commit message) and then Terga's I2C driver manually disables the clock
-> on resume (woopsie).
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> ---
 
-Actually, looks like it's not the asynchronous pm_runtime_put() is the
-cause of suspending in active state. I see that only one of three I2C
-controllers is suspended in the enabled state, maybe some child (I2C
-client) device keeps it awake, will try to find out.
+Next time version your patches correctly and include version history 
+here so I don't have to go look up why my R-by is missing.
 
-> By invoking pm_runtime_force_suspend() on systems's suspend, the runtime
-> PM executes tegra_i2c_runtime_suspend() if device is in active state. On
-> system resume, pm_runtime_force_resume() either keeps device in a
-> suspended state or resumes it, say if for userspace disabled the runtime
-> PM for the I2C controller.
+>  .../devicetree/bindings/usb/nvidia,tegra-xudc.yaml | 204 +++++++++++++++++++++
+>  1 file changed, 204 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
 > 
-> Rafael, could you please clarify whether my patch is doing a wrong thing?
-> 
->>> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
->>> index b3ecdd87e91f..d309a314f4d6 100644
->>> --- a/drivers/i2c/busses/i2c-tegra.c
->>> +++ b/drivers/i2c/busses/i2c-tegra.c
->>> @@ -1790,9 +1790,14 @@ static int tegra_i2c_remove(struct platform_device *pdev)
->>>  static int __maybe_unused tegra_i2c_suspend(struct device *dev)
->>>  {
->>>  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->>> +	int err;
->>>  
->>>  	i2c_mark_adapter_suspended(&i2c_dev->adapter);
->>>  
->>> +	err = pm_runtime_force_suspend(dev);
->>> +	if (err < 0)
->>> +		return err;
->>> +
->>>  	return 0;
->>>  }
->>>  
->>> @@ -1813,6 +1818,10 @@ static int __maybe_unused tegra_i2c_resume(struct device *dev)
->>>  	if (err)
->>>  		return err;
->>>  
->>> +	err = pm_runtime_force_resume(dev);
->>> +	if (err < 0)
->>> +		return err;
->>> +
->>>  	i2c_mark_adapter_resumed(&i2c_dev->adapter);
->>>  
->>>  	return 0;
->>> -- 
->>> 2.24.0
->>>
-> 
+> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
+> new file mode 100644
+> index 0000000..b23c451
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
+> @@ -0,0 +1,204 @@
+> +# SPDX-License-Identifier: GPL-2.0
 
+Dual license new bindings please:
+
+(GPL-2.0-only OR BSD-2-Clause)
+
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/usb/nvidia,tegra-xudc.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Device tree binding for NVIDIA Tegra XUSB device mode controller (XUDC)
+> +
+> +description:
+> +  The Tegra XUDC controller supports both USB 2.0 HighSpeed/FullSpeed and
+> +  USB 3.0 SuperSpeed protocols.
+> +
+> +maintainers:
+> +  - Nagarjuna Kristam <nkristam@nvidia.com>
+> +  - JC Kuo <jckuo@nvidia.com>
+> +  - Thierry Reding <treding@nvidia.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +        - const: nvidia,tegra210-xudc # For Tegra210
+> +      - items:
+> +        - const: nvidia,tegra186-xudc # For Tegra186
+
+Use 'enum' instead of oneOf+const.
+
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: Must contain the XUSB device interrupt.
+
+Don't need a description for a single interrupt line.
+
+> +
+> +  power-domains:
+> +    maxItems: 2
+> +    description:
+> +      A list of PM domain specifiers that reference each power-domain
+> +      used by the XUSB device mode controller. This list must comprise of a
+> +      specifier for the XUSBA and XUSBB power-domains.
+> +      See ../power/power_domain.txt and ../arm/tegra/nvidia,tegra20-pmc.txt
+> +      for details.
+
+Just need:
+
+items:
+  - description: XUSBA power-domain
+  - description: XUSBB power-domain
+
+> +
+> +  power-domains-names:
+> +    maxItems: 2
+> +    description:
+> +       A list of names that represent each of the specifiers in
+> +       the 'power-domains' property.
+
+That's every 'power-domains-names'.
+
+> +    items:
+> +      - const: ss
+> +      - const: dev
+
+Okay, but those names don't match up with XUSBA and XUSBB. Names should 
+be meaningful or local to the module, not the provider if that helps.
+
+> +
+> +  nvidia,xusb-padctl:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description:
+> +      phandle to the XUSB pad controller that is used to configure the USB pads
+> +      used by the XUDC controller.
+> +
+> +  phys:
+> +    minItems: 1
+> +    description:
+> +      Must contain an entry for each entry in phy-names.
+> +      See ../phy/phy-bindings.txt for details.
+> +
+> +  phy-names:
+> +    minItems: 1
+> +    items:
+> +      - const: usb2-0
+> +      - const: usb2-1
+> +      - const: usb2-2
+> +      - const: usb2-3
+> +      - const: usb3-0
+> +      - const: usb3-1
+> +      - const: usb3-2
+> +      - const: usb3-3
+> +
+> +  avddio-usb-supply:
+> +    description: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
+> +
+> +  hvdd-usb-supply:
+> +    description: USB controller power supply. Must supply 3.3 V.
+> +
+> +required:
+> +  - compatible
+> +  - power-domains
+> +  - power-domain-names
+> +  - nvidia,xusb-padctl
+> +  - phys
+> +  - phy-names
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          items:
+> +            const: nvidia,tegra210-xudc
+> +
+> +    then:
+> +      properties:
+> +        reg:
+> +          maxItems: 3
+> +          items:
+> +          - description: XUSB device controller registers
+> +          - description: XUSB device PCI Config registers
+> +          - description: XUSB device registers.
+> +        reg-names:
+> +          maxItems: 3
+> +          items:
+> +            - const: base
+> +            - const: fpci
+> +            - const: ipfs
+
+As these are a superset of tegra186, you can move this up and tegra186 
+just needs to define 'maxItems: 2'.
+
+> +        clocks:
+> +          description:
+> +            Must contain an entry for all clocks used. See ../clock/clock-bindings.txt
+> +            for details.
+> +          maxItems: 5
+> +          items:
+> +            - description: Clock to enable core XUSB dev clock.
+> +            - description: Clock to enable XUSB super speed clock.
+> +            - description: Clock to enable XUSB super speed dev clock.
+> +            - description: Clock to enable XUSB high speed dev clock.
+> +            - description: Clock to enable XUSB full speed dev clock.
+> +        clock-names:
+> +          items:
+> +           - const: dev
+> +           - const: ss
+> +           - const: ss_src
+> +           - const: hs_src
+> +           - const: fs_src
+
+I would re-order the last 2 entries so that you can do the same thing as 
+I said for 'reg'.
+
+> +      required:
+> +        - reg
+> +        - reg-names
+> +        - clocks
+> +        - clock-names
+
+No need for these to be under the if. They are always required and 
+don't have to be where defined by 'properties'.
+
+> +        - avddio-usb-supply
+> +        - hvdd-usb-supply
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: nvidia,tegra186-xudc
+> +
+> +    then:
+> +      properties:
+> +        reg:
+> +          maxItems: 2
+> +          items:
+> +          - description: XUSB device controller registers
+> +          - description: XUSB device PCI Config registers
+> +        reg-names:
+> +          maxItems: 2
+> +          items:
+> +            - const: base
+> +            - const: fpci
+> +        clocks:
+> +          description:
+> +            Must contain an entry for all clocks used. See ../clock/clock-bindings.txt
+> +            for details.
+> +          maxItems: 4
+> +          items:
+> +            - description: Clock to enable core XUSB dev clock.
+> +            - description: Clock to enable XUSB super speed clock.
+> +            - description: Clock to enable XUSB super speed dev clock.
+> +            - description: Clock to enable XUSB full speed dev clock.
+> +        clock-names:
+> +          items:
+> +           - const: dev
+> +           - const: ss
+> +           - const: ss_src
+> +           - const: fs_src
+> +      required:
+> +        - reg
+> +        - reg-names
+> +        - clocks
+> +        - clock-names
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/tegra210-car.h>
+> +    #include <dt-bindings/gpio/tegra-gpio.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    usb@700d0000 {
+> +        compatible = "nvidia,tegra210-xudc";
+> +        reg = <0x0 0x700d0000 0x0 0x8000>,
+> +              <0x0 0x700d8000 0x0 0x1000>,
+> +              <0x0 0x700d9000 0x0 0x1000>;
+> +        reg-names = "base", "fpci", "ipfs";
+> +
+> +        interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +        clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
+> +                 <&tegra_car TEGRA210_CLK_XUSB_SS>,
+> +                 <&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
+> +                 <&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
+> +                 <&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
+> +        clock-names = "dev", "ss", "ss_src", "hs_src", "fs_src";
+> +
+> +        power-domains = <&pd_xusbdev>, <&pd_xusbss>;
+> +        power-domain-names = "dev", "ss";
+> +
+> +        nvidia,xusb-padctl = <&padctl>;
+> +
+> +        phys = <&micro_b>;
+> +        phy-names = "usb2-0";
+> +
+> +        avddio-usb-supply = <&vdd_pex_1v05>;
+> +        hvdd-usb-supply = <&vdd_3v3_sys>;
+> +    };
+> -- 
+> 2.7.4
+> 
