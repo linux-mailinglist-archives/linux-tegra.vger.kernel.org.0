@@ -2,140 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA05A11E5EB
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Dec 2019 15:55:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9A3F11E639
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Dec 2019 16:10:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727855AbfLMOzQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Dec 2019 09:55:16 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41901 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727673AbfLMOzP (ORCPT
+        id S1727580AbfLMPKu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Dec 2019 10:10:50 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40744 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726528AbfLMPKt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Dec 2019 09:55:15 -0500
-Received: by mail-lf1-f68.google.com with SMTP id m30so2169210lfp.8;
-        Fri, 13 Dec 2019 06:55:13 -0800 (PST)
+        Fri, 13 Dec 2019 10:10:49 -0500
+Received: by mail-wm1-f68.google.com with SMTP id t14so6910866wmi.5
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Dec 2019 07:10:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2opFr/klQK1oObZvRIZa9Uwbm+rqJyT65CDiKOERf+U=;
-        b=Y+y5apdGrHSiwkctdVgYNHSe8GOEeduItT5VyjHaRwFq59Sm8SpifY0r94mYG73ClT
-         26dO/MXkfrUDu5hQHJ+CL+ZnoTgfp+6o40FvU7aKpgpJ8m0Lb0byz5PadhrpEvkX8/KW
-         PMEpDDr+WiifDLTE9f1z5hIfLkEVc52ncORBs72g+3N18QXtSiVcsmHrSWcagz9AwKbQ
-         E1UkMz9J44RN+zOFLaT33UWrfjzev4DakQRhc4Kx25TXI9r4q/gwXsLyfUXugumtfywb
-         jwbA/U8SA3Kn4cxRJs1/0Ch1CeZ2AZVROkj0vT4RDDd53topZmfFzawvyHh7fPUm1KEO
-         XFjw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VP/wSiPBuTtlRr61lNpmQyeGvWFefwygI0znv/Cr5Yc=;
+        b=koFpBk8wGPFH8Z32wTixBAx8PYxJCfQ9LLNwdTrOq+eUtt3fIm6BhQQAZJJPiwjgEg
+         5PTl1v6O+P3B+1n6s6AMLcNE6DHpuLgcZULws/z2/3obQf6+Tnt31PbifVdF5+9y9jJa
+         NFZjHOnjYmtm+PQxMY7M3JuMEM21/YTY9umeyvt4/P0JqIkDYA5GBZyDdAtok5zF+AiW
+         yk1kVJZeG/ZLjH0GJng8EgT5oMdZgwFETEzABqzMcFYQoTB6Tm6xI6fFmKnwHUPS4lFy
+         UIQcJhNXy8yH3SIgq44mRpSxjpF9bji8qLyjODDr6gNvlIjEXIr7Xg6K2TgOMduY9h+F
+         FX4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2opFr/klQK1oObZvRIZa9Uwbm+rqJyT65CDiKOERf+U=;
-        b=cNxTnusMz9mN133pKaZOTYdqMCRP9FPv90TZrBNiEE/PBTMOy80FsEcKPDg6ocZ7O1
-         OqpbVhMrcy/a+FAAKEee6FFvoXSS3CpgxHEhZFzsdO+7AtHyzg/o7k185GgDnN5FrROB
-         kTcN9lqwAXhFub7txv2Z6aSfYXCgMHfwqxn9G02RS2SgvTc/3PMRuK6kcKhSiN8Il/Dl
-         o9J5pix611nED65lI2Wubphga0SiUieW0jKTNuIh1k/c85n9IMVozqfigndJIC/K4W/3
-         k1z/i/X0frF0VVlG2jGLOL0PzZ0DicKRc77dlHq17K3qZ/iaLE4a4qAKbI6/zqvnkAID
-         BwmQ==
-X-Gm-Message-State: APjAAAU+MUCHgP9Yerc35+VWwDIOAwtbcOedBh087n1gnf6nYL7HwLuo
-        BLoT6CVkKBMFwyNhBueQYlA=
-X-Google-Smtp-Source: APXvYqzt/isFtrQIYcmnKxu+sYyMAJCKFYN/difz6VDeRNIWwYULjo+2bqyLCma+CrJDpzaPayDdfw==
-X-Received: by 2002:ac2:53a8:: with SMTP id j8mr9517976lfh.28.1576248912919;
-        Fri, 13 Dec 2019 06:55:12 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id p12sm4696695lfc.43.2019.12.13.06.55.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2019 06:55:12 -0800 (PST)
-Subject: Re: [PATCH v1 3/3] i2c: tegra: Fix suspending in active runtime PM
- state
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>
-References: <20191212233428.14648-1-digetx@gmail.com>
- <20191212233428.14648-4-digetx@gmail.com>
- <ae96db3a-0854-6e80-0469-e5fa6fd7bb8e@gmail.com>
-Message-ID: <ec7e11f6-2695-29c8-c9ed-98dc229b8aac@gmail.com>
-Date:   Fri, 13 Dec 2019 17:55:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VP/wSiPBuTtlRr61lNpmQyeGvWFefwygI0znv/Cr5Yc=;
+        b=J03xzmVFYIEMA3if7xPEXmTmJwUd0LTvZDHSgsja2E6AMrg6/gi+MZAjtxsBxP1zBo
+         FQsxM9eM4N2VAYWhRISSR1yx5QtK3JjmduIiRByKXbVDJx8DhRFMl14QGYNbEN3y/KlL
+         yVQCcVb6PPtjGJk4rP5Hi0yxB02y1k5dbSl+V4V+SUhsn5MLaqISfkTAorCwnmRJN7ZG
+         XQuPVOzoUcVZ7cdT1ANdPcJH18u8g2jMy+HgjtlGCBNWSLJPi7tPRGnUetLKiTkQ3Gqk
+         1tJANE7544/zVd62AcfV7O3ELs0yejKUBvFhREACI6rfouEDAZJSBxdlfJnZkKMUDtOh
+         dBuA==
+X-Gm-Message-State: APjAAAUD2isJNOT7rgv7SHBxd3fYcmpWS+0ZpArgOszCZMM9Ru+wEvKi
+        vV2i5EIEckEmHgTeIWBN1rc=
+X-Google-Smtp-Source: APXvYqyIPiZvmXoD6AnH+MygBqHUHoCexCDzNOX99QWzaQH7IDpaJnq18JN4kStSan3+hMi12cRVGw==
+X-Received: by 2002:a1c:a406:: with SMTP id n6mr8622960wme.40.1576249847349;
+        Fri, 13 Dec 2019 07:10:47 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+        by smtp.gmail.com with ESMTPSA id z11sm10460923wrt.82.2019.12.13.07.10.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2019 07:10:46 -0800 (PST)
+Date:   Fri, 13 Dec 2019 16:10:45 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [Regression 5.5-rc1] Extremely low GPU performance on NVIDIA
+ Tegra20/30
+Message-ID: <20191213151045.GB222809@ulmo>
+References: <a2c9eb65-c600-bf49-2c32-bddf7b44f784@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ae96db3a-0854-6e80-0469-e5fa6fd7bb8e@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="uZ3hkaAS1mZxFaxD"
+Content-Disposition: inline
+In-Reply-To: <a2c9eb65-c600-bf49-2c32-bddf7b44f784@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.12.2019 17:29, Dmitry Osipenko пишет:
-> 13.12.2019 02:34, Dmitry Osipenko пишет:
->> I noticed that sometime I2C clock is kept enabled during suspend-resume.
->> This happens because runtime PM defers dynamic suspension and thus it may
->> happen that runtime PM is in active state when system enters into suspend.
->> In particular I2C controller that is used for CPU's DVFS is often kept ON
->> during suspend because CPU's voltage scaling happens quite often.
->>
->> Note: we marked runtime PM as IRQ-safe during the driver's probe in the
->> "Support atomic transfers" patch, thus it's okay to enforce runtime PM
->> suspend/resume in the NOIRQ phase which is used for the system-level
->> suspend/resume of the driver.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/i2c/busses/i2c-tegra.c | 9 +++++++++
->>  1 file changed, 9 insertions(+)
->>
->> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
->> index b3ecdd87e91f..d309a314f4d6 100644
->> --- a/drivers/i2c/busses/i2c-tegra.c
->> +++ b/drivers/i2c/busses/i2c-tegra.c
->> @@ -1790,9 +1790,14 @@ static int tegra_i2c_remove(struct platform_device *pdev)
->>  static int __maybe_unused tegra_i2c_suspend(struct device *dev)
->>  {
->>  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->> +	int err;
->>  
->>  	i2c_mark_adapter_suspended(&i2c_dev->adapter);
-> 
-> I'm now in a doubt that it is correct to use NOIRQ level at all for the
-> suspend because i2c_mark_adapter_suspended() uses mutex, thus I'm
-> wondering what will happen if there is an asynchronous transfer
-> happening during suspend..
-> 
-> The i2c_mark_adapter_suspended() will try to block and will never return?
 
-Moreover, the I2C interrupt should be disabled during the NOIRQ phase.
-So, yes.. looks like making use of NOIRQ level wasn't a correct
-decision. On the other hand, I don't think that any I2C client driver
-used by Tegra SoCs in the upstream kernel could cause the problem at the
-moment, so it shouldn't be critical.
+--uZ3hkaAS1mZxFaxD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-BTW: Jon, please CC me next time ;) [I'll try to find a better solution
-for the PCIE problem]
+On Fri, Dec 13, 2019 at 12:25:33AM +0300, Dmitry Osipenko wrote:
+> Hello Thierry,
+>=20
+> Commit [1] introduced a severe GPU performance regression on Tegra20 and
+> Tegra30 using.
+>=20
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?h=3Dv5.5-rc1&id=3Dfa6661b7aa0b52073681b0d26742650c8cbd30f3
+>=20
+> Interestingly the performance is okay on Tegra30 if
+> CONFIG_TEGRA_HOST1X_FIREWALL=3Dn, but that doesn't make difference for
+> Tegra20.
+>=20
+> I was telling you about this problem on the #tegra IRC sometime ago and
+> you asked to report it in a trackable form, so finally here it is.
+>=20
+> You could reproduce the problem by running [2] like this
+> `grate/texture-filter -f -s` which should produce over 100 FPS for 720p
+> display resolution and currently it's ~11 FPS.
+>=20
+> [2]
+> https://github.com/grate-driver/grate/blob/master/tests/grate/texture-fil=
+ter.c
+>=20
+> Previously I was seeing some memory errors coming from Host1x DMA, but
+> don't see any errors at all right now.
+>=20
+> I don't see anything done horribly wrong in the offending commit.
+>=20
+> Unfortunately I couldn't dedicate enough time to sit down and debug the
+> problem thoroughly yet. Please let me know if you'll find a solution,
+> I'll be happy to test it. Thanks in advance!
 
->> +	err = pm_runtime_force_suspend(dev);
->> +	if (err < 0)
->> +		return err;
->> +
->>  	return 0;
->>  }
->>  
->> @@ -1813,6 +1818,10 @@ static int __maybe_unused tegra_i2c_resume(struct device *dev)
->>  	if (err)
->>  		return err;
->>  
->> +	err = pm_runtime_force_resume(dev);
->> +	if (err < 0)
->> +		return err;
->> +
->>  	i2c_mark_adapter_resumed(&i2c_dev->adapter);
->>  
->>  	return 0;
->>
-> 
+I suspect that the problem here is that we're now using the DMA API,
+which causes the 32-bit ARM DMA/IOMMU glue to be used. I vaguely recall
+that that code doesn't coalesce entries in the SG table, so we may end
+up calling iommu_map() a lot of times, and miss out on much of the
+advantages that the ->iotlb_sync_map() gives us on Tegra20.
 
+At the same time dma_map_sg() will flush caches, which we didn't do
+before. This we should be able to improve by passing the attribute
+DMA_ATTR_SKIP_CPU_SYNC to dma_map_sg() when we know that the cache
+maintenance isn't needed.
+
+And while thinking about it, one other difference is that with the DMA
+API we actually map/unmap the buffers for every submission. This is
+because the DMA API semantics require that buffers be mapped/unmapped
+every time you use them. Previously we would basically only map each
+buffer once (at allocation time) and only have to deal with cache
+maintenance, so the overhead per submission was drastically lower.
+
+If DMA_ATTR_SKIP_CPU_SYNC doesn't give us enough of an improvement, we
+may want to restore explicit IOMMU usage, at least on anything prior to
+Tegra124 where we're unlikely to ever use different IOMMU domains anyway
+(because they are such a scarce resource).
+
+Thierry
+
+--uZ3hkaAS1mZxFaxD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3zqfIACgkQ3SOs138+
+s6EkaQ//bR2YjZwwKfYS0AbF9WisJVbGc2duOW0p2r2B2yUFBfc9z3iP2fSHrwLn
+Xlgpjx7sfdkmMdGEKv0y1ApCeBvJPTIRSu8Oe/4mRxt6yy7iTf/eKGXCEuq7XPcp
+0BpqQXNDSCIQ2dVEyJdO/QKEkjLivkjkBdHgc45sVCdZGIkn1l0roiSvu7RjVNRd
+EP5dPJkz7kf7BB9C459+PHMnFAkGZH69HwTOyTN0onsny1VKS/qKneOqOcPXnMlj
+WQMymiOeRJ0BsUw/bH4QwFMg4GT+LXjpaNmMUaycYJDUdSTHmIM6IL/tTvpW9Rgq
+gNbrVhw1b2Txo24hk0ago8WN5HbzBsRIMbKOdIGSp8OQ0MAcIdoWszyQu7CjMUPb
+TP1bHRf6qZSHvUoH52QjFxFeSD6yJrCjcUoUH69oImz9nUREJylh6+DcgVCPaq3X
+1MPCNrDOb4rZn+2hs+i1H7CAaNwDmAePPad2UDtPew8ca2FS2/RBi/UJIIQPgbJV
+XVOABeKINphN96S1i/UGsT9Axw5fHafo6iHycJ9NCxVmqWhaXfGqpX82chFt6zWv
+zRIQyr27Imvh2hsL69tKN36YKs9biC6KWe4G7rpRb0GtosAgYS8LFBW/0SuU0plB
+R0elDnXd2EW0J2ln4jVZmx6pKfk9YbHxHmVeLiRVZTHq/l9c/8A=
+=MPqg
+-----END PGP SIGNATURE-----
+
+--uZ3hkaAS1mZxFaxD--
