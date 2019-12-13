@@ -2,67 +2,64 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29BED11E67F
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Dec 2019 16:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A18B411E6A3
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Dec 2019 16:35:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727654AbfLMPZj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Dec 2019 10:25:39 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:36788 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727536AbfLMPZj (ORCPT
+        id S1727862AbfLMPf0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Dec 2019 10:35:26 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:34253 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727831AbfLMPfZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Dec 2019 10:25:39 -0500
-Received: by mail-lj1-f194.google.com with SMTP id r19so3083523ljg.3;
-        Fri, 13 Dec 2019 07:25:37 -0800 (PST)
+        Fri, 13 Dec 2019 10:35:25 -0500
+Received: by mail-lf1-f67.google.com with SMTP id l18so2287098lfc.1
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Dec 2019 07:35:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vpQPUvm03IxC9CJiK4kP7EGdEHCSuBFUn665asErXvY=;
-        b=AR6bM5rcNF/986NbNCEQGoh2OGNVIp20RdIEWLVX3Lz6Ru5RQpOThcU7eTVBVv3JvB
-         uwW5/L6bvyaou6OpTcxtI0b3y5u9lxswO+irVDHBh9idiqtsmvZdcPw8lWVwNwOialOH
-         gkdd2PSrpXJZ3Bl6j2LTSyMfQ251MfSnBZupKEPCVVgJ6CCeS2mBzEmXU1WH3d5gVd1F
-         1u6T8AkOq5kJm2vllPiq235MA0Tm3KVPqd39/2xKpZeMbyNx/CeYFYd5b+GBewL02CUw
-         7A369FlOtLnmxtW5y0ZcT+2CElrvyuIcxZ91gTVEYAyA90lg0seB6xmuive12Aj/yKzh
-         ysAg==
+        bh=P748Vsp09cCRTRcxy70hlgcdkJz7E0UTUbE5zxl6voc=;
+        b=VD6f5w97NY3gcooN97XbqvnT/Br1DI5DCw9FYJLBtQFsBThPlz9IBIhNH6oxgpxQeL
+         dRD8cGFDUh6JMp7ZBzCxo4K8arT7Mesy41KOmPNW7e1YnJmTnJovUMdTTcEBooYsXfdv
+         Y4gHujAkyKh1Z2JfWp068Brc7+uDS6YigBFtqjnnEGMPXU+XkdJoFleN0XaBTYhLFokO
+         1CBa6xCMcieD4WrKHV8qUbOqWL6iEixm1w6f/JXbDqecPP/wEcJyYFO+vFJ62GJNlvfr
+         agVKwsa0A2cx5WG7ufyshCeVAz1BUYM+FFmUXlYW++RuMcgX32ISjWHni2pjgUYtmQsd
+         CLyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=vpQPUvm03IxC9CJiK4kP7EGdEHCSuBFUn665asErXvY=;
-        b=tGPVm+/7JlIIBJ9mDkwfBun100Iq+p1X8HQAj4u2DBsBDzxDp1prfHF/H2QeWRFTu+
-         tCITs2yR4r0gwGZRBTysxCMsrVIisLmrP7vO1Pnt92EInP2nmAzSi/nsCEDh1BS1EFmD
-         Xcz0di2kRU78D4XJJkNuLcICKJJEIeLu9nd5uyBjrHC46EnmKTYzJ5R2SaDqZVft1kzw
-         YAmexmR9W40LlQWQsL0ZkBNqESguoEoZek3IzZEoYjtfuAqWWYafQh/q6vhP5DqxHNTW
-         gdrppiAr2w3G9fzgvy1Fw2pgxnzMXjt3BZ/NvZFH0yBWWRQHJOOj8QkRpLkG+tEhUASC
-         Z9Bw==
-X-Gm-Message-State: APjAAAXkbCVGvJPwffqiWyGVkB8TlYKRtEdQ17CXqp+5UQJ8kfqgMQ8Y
-        AylDpPLrO8mKh5PsuNB/CNaBWMOK
-X-Google-Smtp-Source: APXvYqzVYzB7rz3dmZxLnSFsF7aeMxxrRckTm0XmmHAfzsMamePK8EKc77HCYRP3IpZMj5Zoi6FkdQ==
-X-Received: by 2002:a2e:580c:: with SMTP id m12mr9928921ljb.150.1576250736503;
-        Fri, 13 Dec 2019 07:25:36 -0800 (PST)
+        bh=P748Vsp09cCRTRcxy70hlgcdkJz7E0UTUbE5zxl6voc=;
+        b=PQBolhTBLMGe9I1YhSKFTwUpasl8goiMUxzd9MtJUa0gqLn5UOZkeIO7ExIbCrlnMP
+         2S1gbwfeOiaao7LUvmQK1NrMFCZmgT/7eLg8RJ9ft7EqIILty8z5gHsb0X/LX+qLUmlL
+         nrAkPnZgLOSW3gbCyQaNKyvI3rBbeqDB8HE/ixGChMHBdmrYvJAPDjul4RbwsKFJDKG4
+         L6Xt0SQ9+cUHyS9u/sy1Sx0b9fH+9hObpt8EEW/5RU53sByBJAEpxoq9P00r0cNDtfCd
+         rGgQgA/+PtiXRg5UMJgBqTiywnfcqi8Z1QEbyEg8asMedQY27jHObhUzYj+wCFpvaWPe
+         tK6A==
+X-Gm-Message-State: APjAAAWO/4g3BfluNE+/k865E36j775u0FXfrv8ktHwMQDFN7x7VH31q
+        wHlS0LbZ9GcbXyPJbq5lfDU=
+X-Google-Smtp-Source: APXvYqxKzjmZ4Yx0JOzoVg23GJOQquInIo6XIAoRuSVfBy5812lcbMiIrxHtnQtwhPEeX0pF9HuC/Q==
+X-Received: by 2002:a19:7604:: with SMTP id c4mr9629825lff.101.1576251323734;
+        Fri, 13 Dec 2019 07:35:23 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id w6sm4661282lfq.95.2019.12.13.07.25.35
+        by smtp.googlemail.com with ESMTPSA id n5sm4975554ljh.86.2019.12.13.07.35.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2019 07:25:36 -0800 (PST)
-Subject: Re: [PATCH v1 1/3] i2c: tegra: Support atomic transfers
+        Fri, 13 Dec 2019 07:35:23 -0800 (PST)
+Subject: Re: [Regression 5.5-rc1] Extremely low GPU performance on NVIDIA
+ Tegra20/30
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191212233428.14648-1-digetx@gmail.com>
- <20191212233428.14648-2-digetx@gmail.com> <20191213151208.GC222809@ulmo>
- <5a2a9cef-f4ed-c5a4-1f35-c89c3b5106a6@gmail.com>
- <20191213152017.GA293199@ulmo>
+Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+References: <a2c9eb65-c600-bf49-2c32-bddf7b44f784@gmail.com>
+ <20191213151045.GB222809@ulmo>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <840b678e-de92-1564-1739-c15ca8dd5766@gmail.com>
-Date:   Fri, 13 Dec 2019 18:25:35 +0300
+Message-ID: <d03876b8-b0d1-850b-7ae8-a61302e23843@gmail.com>
+Date:   Fri, 13 Dec 2019 18:35:22 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20191213152017.GA293199@ulmo>
+In-Reply-To: <20191213151045.GB222809@ulmo>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -71,66 +68,67 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.12.2019 18:20, Thierry Reding пишет:
-> On Fri, Dec 13, 2019 at 06:15:12PM +0300, Dmitry Osipenko wrote:
->> 13.12.2019 18:12, Thierry Reding пишет:
->>> On Fri, Dec 13, 2019 at 02:34:26AM +0300, Dmitry Osipenko wrote:
->>>> System shutdown may happen with interrupts being disabled and in this case
->>>> I2C core rejects transfers if atomic transfer isn't supported by driver.
->>>>
->>>> There were several occurrences where I found my Nexus 7 completely
->>>> discharged despite of being turned off and then one day I spotted this in
->>>> the log:
->>>>
->>>>  reboot: Power down
->>>>  ------------[ cut here ]------------
->>>>  WARNING: CPU: 0 PID: 1 at drivers/i2c/i2c-core.h:40 i2c_transfer+0x95/0x9c
->>>>  No atomic I2C transfer handler for 'i2c-1'
->>>>  Modules linked in: tegra30_devfreq
->>>>  CPU: 0 PID: 1 Comm: systemd-shutdow Not tainted 5.4.0-next-20191202-00120-gf7ecd80fb803-dirty #3195
->>>>  Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
->>>>  [<c010e4b5>] (unwind_backtrace) from [<c010a0fd>] (show_stack+0x11/0x14)
->>>>  [<c010a0fd>] (show_stack) from [<c09995e5>] (dump_stack+0x85/0x94)
->>>>  [<c09995e5>] (dump_stack) from [<c011f3d1>] (__warn+0xc1/0xc4)
->>>>  [<c011f3d1>] (__warn) from [<c011f691>] (warn_slowpath_fmt+0x61/0x78)
->>>>  [<c011f691>] (warn_slowpath_fmt) from [<c069a8dd>] (i2c_transfer+0x95/0x9c)
->>>>  [<c069a8dd>] (i2c_transfer) from [<c05667f1>] (regmap_i2c_read+0x4d/0x6c)
->>>>  [<c05667f1>] (regmap_i2c_read) from [<c0563601>] (_regmap_raw_read+0x99/0x1cc)
->>>>  [<c0563601>] (_regmap_raw_read) from [<c0563757>] (_regmap_bus_read+0x23/0x38)
->>>>  [<c0563757>] (_regmap_bus_read) from [<c056293d>] (_regmap_read+0x3d/0xfc)
->>>>  [<c056293d>] (_regmap_read) from [<c0562d3b>] (_regmap_update_bits+0x87/0xc4)
->>>>  [<c0562d3b>] (_regmap_update_bits) from [<c0563add>] (regmap_update_bits_base+0x39/0x50)
->>>>  [<c0563add>] (regmap_update_bits_base) from [<c056fd39>] (max77620_pm_power_off+0x29/0x2c)
->>>>  [<c056fd39>] (max77620_pm_power_off) from [<c013bbdd>] (__do_sys_reboot+0xe9/0x170)
->>>>  [<c013bbdd>] (__do_sys_reboot) from [<c0101001>] (ret_fast_syscall+0x1/0x28)
->>>>  Exception stack(0xde907fa8 to 0xde907ff0)
->>>>  7fa0:                   00000000 00000000 fee1dead 28121969 4321fedc 00000000
->>>>  7fc0: 00000000 00000000 00000000 00000058 00000000 00000000 00000000 00000000
->>>>  7fe0: 0045adf0 bed9abb8 004444a0 b6c666d0
->>>>  ---[ end trace bdd18f87595b1a5e ]---
->>>>
->>>> The atomic transferring is implemented by enforcing PIO mode for the
->>>> transfer and by polling interrupt status until transfer is completed or
->>>> failed.
->>>>
->>>> Now system shuts down properly every time.
->>>>
->>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>> ---
->>>>  drivers/i2c/busses/i2c-tegra.c | 95 +++++++++++++++++++++++++++++++---
->>>>  1 file changed, 88 insertions(+), 7 deletions(-)
->>>
->>> I ran this on the test farm and the results are all green, so:
->>>
->>> Tested-by: Thierry Reding <treding@nvidia.com>
->>>
+13.12.2019 18:10, Thierry Reding пишет:
+> On Fri, Dec 13, 2019 at 12:25:33AM +0300, Dmitry Osipenko wrote:
+>> Hello Thierry,
 >>
->> Thanks!
+>> Commit [1] introduced a severe GPU performance regression on Tegra20 and
+>> Tegra30 using.
 >>
->> Does the farm test board's shut down by verifying the
->> hardware's power state?
+>> [1]
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.5-rc1&id=fa6661b7aa0b52073681b0d26742650c8cbd30f3
+>>
+>> Interestingly the performance is okay on Tegra30 if
+>> CONFIG_TEGRA_HOST1X_FIREWALL=n, but that doesn't make difference for
+>> Tegra20.
+>>
+>> I was telling you about this problem on the #tegra IRC sometime ago and
+>> you asked to report it in a trackable form, so finally here it is.
+>>
+>> You could reproduce the problem by running [2] like this
+>> `grate/texture-filter -f -s` which should produce over 100 FPS for 720p
+>> display resolution and currently it's ~11 FPS.
+>>
+>> [2]
+>> https://github.com/grate-driver/grate/blob/master/tests/grate/texture-filter.c
+>>
+>> Previously I was seeing some memory errors coming from Host1x DMA, but
+>> don't see any errors at all right now.
+>>
+>> I don't see anything done horribly wrong in the offending commit.
+>>
+>> Unfortunately I couldn't dedicate enough time to sit down and debug the
+>> problem thoroughly yet. Please let me know if you'll find a solution,
+>> I'll be happy to test it. Thanks in advance!
 > 
-> No, that's not something we test. I was primarily running this to make
-> sure we don't regress anywhere else.
+> I suspect that the problem here is that we're now using the DMA API,
+> which causes the 32-bit ARM DMA/IOMMU glue to be used. I vaguely recall
+> that that code doesn't coalesce entries in the SG table, so we may end
+> up calling iommu_map() a lot of times, and miss out on much of the
+> advantages that the ->iotlb_sync_map() gives us on Tegra20.
+> 
+> At the same time dma_map_sg() will flush caches, which we didn't do
+> before. This we should be able to improve by passing the attribute
+> DMA_ATTR_SKIP_CPU_SYNC to dma_map_sg() when we know that the cache
+> maintenance isn't needed.
+> 
+> And while thinking about it, one other difference is that with the DMA
+> API we actually map/unmap the buffers for every submission. This is
+> because the DMA API semantics require that buffers be mapped/unmapped
+> every time you use them. Previously we would basically only map each
+> buffer once (at allocation time) and only have to deal with cache
+> maintenance, so the overhead per submission was drastically lower.
+> 
+> If DMA_ATTR_SKIP_CPU_SYNC doesn't give us enough of an improvement, we
+> may want to restore explicit IOMMU usage, at least on anything prior to
+> Tegra124 where we're unlikely to ever use different IOMMU domains anyway
+> (because they are such a scarce resource).
 
-Verifying basics is also good :) Thanks again!
+Tegra20 doesn't use IOMMU in a vanilla upstream kernel (yet), so I don't
+think that it's the root of the problem. Disabling IOMMU for Tegra30
+also didn't help (IIRC).
+
+The offending patch shouldn't change anything in regards to the DMA API,
+if I'm not missing something. Strange..
+
+Please keep me up-to-date!
