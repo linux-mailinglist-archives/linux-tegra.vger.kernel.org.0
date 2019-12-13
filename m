@@ -2,119 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EEF311E48E
-	for <lists+linux-tegra@lfdr.de>; Fri, 13 Dec 2019 14:27:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B03611E4A8
+	for <lists+linux-tegra@lfdr.de>; Fri, 13 Dec 2019 14:31:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727398AbfLMN1w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 13 Dec 2019 08:27:52 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:39893 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726524AbfLMN1v (ORCPT
+        id S1727412AbfLMNbI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 13 Dec 2019 08:31:08 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:36642 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727256AbfLMNbH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 13 Dec 2019 08:27:51 -0500
-Received: by mail-lf1-f68.google.com with SMTP id y1so1953827lfb.6;
-        Fri, 13 Dec 2019 05:27:50 -0800 (PST)
+        Fri, 13 Dec 2019 08:31:07 -0500
+Received: by mail-lj1-f196.google.com with SMTP id r19so2665039ljg.3
+        for <linux-tegra@vger.kernel.org>; Fri, 13 Dec 2019 05:31:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3a5X/HsBz/Jc1tMHJpbmDEO9eAeGDYj6GdIi3XHqmgk=;
-        b=UDTr9nd5YdTb0v4Cj17QdUNasXorhaf3wFgqaZW+mh5qHk9tgTFVfXJT3QqZ8MIpvH
-         NXrAFiKT68JxWuNnIA8IIhJnY7IzP/mqtAac+7QkKHZn9Lq2MatgeODHqxVT8wRzBf8X
-         BTbQ+1JjFqPAuOCOxaM1SIWCiadtPhAh/mL8CBZF9dEP4iKqO4i1aEB71Hg5xEXWJNVL
-         U7I02pje8D8nu0w09x5OxgiF3FQTxuMy0pb+5B1x9/VLA0I57ZgxX/RMGrnlSuTmtQvD
-         DAxtqUoNakVHTLZkYfajb/4DJJbmIlSUifZCZV0UJb1rj0qEiCqUKiA0IxE8s8BPvs7P
-         74Yg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HrvoDck5eY5GK0w6K4AhLmPPIWL1Xrc1xH4Up/JEjjk=;
+        b=Cbhnm/ox1I54nuH9njXHzccQrQot6KLJxrMb3XxyvsplUdUL3Q5Rul7FpZFaw6qIui
+         KYp2hTrI1d6g+6A/dt3EeK/jyydFWmrzksF0s5cf6LxX401J1UfovmCKuRKzXFovXU5C
+         QsI8OLd61zJoOK06uURda9yi4bsvTHAi28Tnrv3Y2WUQG8yz9MVsYlfxzXPwO2QT9YRG
+         RsAyEYz1F5CKeLy89t5OQs+1Sn+GSZS1npqdvVHKIH8gmwGE2/La+4ljJz3l0hoayrrz
+         IPjK34H/OTvJKUlP1UABm4Vzd9dvTCGe00klnysMonCEbsx3CWRH5rIYuP+ptTWBx8JB
+         NZeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3a5X/HsBz/Jc1tMHJpbmDEO9eAeGDYj6GdIi3XHqmgk=;
-        b=YtZj4dp+J0YPfl+CSLp9LLkKCh8mjqwydIvN9bLDQYUC7fP42RBoKjtwukeeuDPNb2
-         mOYhyGp76vGdkNvCKN4iYo0ky8KYH4s5epLOJhYlkIuPsN5KARt44eK1/3UKPyclRCb0
-         hpe71YzI7HNiJWjjabUF66Dos9a6WZ20BMeVW30JF0gt0XdcnuxIPYqYbn18eJG5lig2
-         +RP3x0GItlCgmN3o/cTkNDItZtczbhIgRWcLCdMxrqXH4Zjx6lg8UOgdU+8rPZRcCqUo
-         WpIDduxAe+jJwxJFIK9hurcAwIoI5z/l/U19coatG3iYGoKyemxAc1gA/v8t0S7qKMTW
-         yjIQ==
-X-Gm-Message-State: APjAAAV3Ekm4EjCe24191+mjtaGXiNri+HOT88M4e+Yh5D8bwaCL3Ihb
-        QC0pYAsHPmZfduix3tuTpdWoOJWH
-X-Google-Smtp-Source: APXvYqzdJxJTo1vC8tE/6X67cFm/2BzOhMPwQfT4615iB1t6JDsbDMiKJl5e+NhYNhJGVufp+Zj/Fw==
-X-Received: by 2002:a19:4ac2:: with SMTP id x185mr2761270lfa.131.1576243669708;
-        Fri, 13 Dec 2019 05:27:49 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id 2sm4774272ljq.38.2019.12.13.05.27.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2019 05:27:48 -0800 (PST)
-Subject: Re: [PATCH v5 07/11] cpufreq: dt-platdev: Blacklist NVIDIA Tegra20
- and Tegra30 SoCs
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191118164512.8676-1-digetx@gmail.com>
- <20191118164512.8676-8-digetx@gmail.com>
- <2776e3c7-999e-5e6f-3a0e-211226dc30e6@gmail.com>
-Message-ID: <aee736a0-444c-3d1a-1e51-c5b5259eb1b5@gmail.com>
-Date:   Fri, 13 Dec 2019 16:27:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HrvoDck5eY5GK0w6K4AhLmPPIWL1Xrc1xH4Up/JEjjk=;
+        b=miLSgpyW6ROMTsSoPObxz1Z6HZnBgoiqzxXy4O3efkaGdGOE1RTat/ibz91fspWTWn
+         XdX1BrkpYBbYU9dXwKYE9F5cfDfjUkKZIqW4nG8TCK62I88MAE4i78F4NvtHV1T015CE
+         Jmh0g9EzmsTWArf8RKnUggCaBbz913oh2eFVB+FZDKRPvE8RMyzn3Popir/wIcly/pXT
+         PhCZUYrxxF3ymJsKaAyt54zGBQN+TiWWzjT/b0xDBUlt3TckEOauZpCXTALJW9+mllh2
+         TcWLAtPHS4PyLQA4g5PWTgZ3ia03h4QAIHLJQ4vDJjdjnh1hrJTiufDoQjrIntxFMhGx
+         Cb/Q==
+X-Gm-Message-State: APjAAAVcDi5qnWek/Zq9+1fhkmjweCzUwom37vZig8zVMy2y6WCBVcYp
+        Ne4tE2OwAP2LMZjA70mavBVCFkMotmw2l4BotWJPzw==
+X-Google-Smtp-Source: APXvYqwMLtHFJLKb/OsUbyLvQlBeLa8EouQdhXkxY6ssHTmFd/qwkZ2hUZ7P2vEvqVVUtgkdycvnaAaf3SbpBeZBuMg=
+X-Received: by 2002:a2e:9587:: with SMTP id w7mr9207930ljh.42.1576243865608;
+ Fri, 13 Dec 2019 05:31:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <2776e3c7-999e-5e6f-3a0e-211226dc30e6@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20191207140353.23967-1-sam@ravnborg.org> <20191207140353.23967-3-sam@ravnborg.org>
+In-Reply-To: <20191207140353.23967-3-sam@ravnborg.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 13 Dec 2019 14:30:54 +0100
+Message-ID: <CACRpkdaVYeJme0O8CW-heTmf3-0EHowFwcOAyy3jx13gjfj4zA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/25] drm/panel: add backlight support
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Abhinav Kumar <abhinavk@codeaurora.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Jitao Shi <jitao.shi@mediatek.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        linux-tegra@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-18.11.2019 19:51, Dmitry Osipenko пишет:
-> 18.11.2019 19:45, Dmitry Osipenko пишет:
->> Both NVIDIA Tegra20 and Tegra30 SoCs should be blacklisted because CPU
->> OPPs use supported_hw and thus platdev isn't suitable for these SoCs.
->> Currently cpufreq-dt driver produces a bit annoying warning splats
->> during boot because valid OPPs are not found, this will be fixed once
->> tegra20-cpufreq driver will be update to support cpufreq-dt. The warnings
->> will also happen on older stable kernels using newer device-trees, thus
->> this patch should be backported to stable kernels as well.
->>
->> Cc: <stable@vger.kernel.org>
->> Reported-by: Jon Hunter <jonathanh@nvidia.com>
->> Fixes: 4053aa65c517 ("ARM: tegra: cardhu-a04: Add CPU Operating Performance Points")
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/cpufreq/cpufreq-dt-platdev.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
->> index f1d170dcf4d3..aba591d57c67 100644
->> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
->> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
->> @@ -121,6 +121,8 @@ static const struct of_device_id blacklist[] __initconst = {
->>  	{ .compatible = "mediatek,mt8176", },
->>  	{ .compatible = "mediatek,mt8183", },
->>  
->> +	{ .compatible = "nvidia,tegra20", },
->> +	{ .compatible = "nvidia,tegra30", },
->>  	{ .compatible = "nvidia,tegra124", },
->>  	{ .compatible = "nvidia,tegra210", },
->>  
->>
-> 
-> Hello Viresh,
-> 
-> Could you please pick up this patch for v5.5 fixes? Thanks in advance!
-> 
+On Sat, Dec 7, 2019 at 3:04 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 
-Viresh / Rafael? Maybe I should send that patch separately?
+> Panels often supports backlight as specified in a device tree.
+> Update the drm_panel infrastructure to support this to
+> simplify the drivers.
+>
+> With this the panel driver just needs to add the following to the
+> probe() function:
+>
+>     err = drm_panel_of_backlight(panel);
+>     if (err)
+>             return err;
+>
+> Then drm_panel will handle all the rest.
+>
+> There is one caveat with the backlight support.
+> If drm_panel_(enable|disable) are called multiple times
+> in row then backlight_(enable|disable) will be called multiple times.
+>
+> The above will happen when a panel drivers unconditionally
+> calls drm_panel_disable() in their shutdown() function,
+> whan the panel is already disabled and then shutdown() is called.
+>
+> Reading the backlight code it seems safe to call
+> the backlight_(enable|disable) several times.
+>
+> v3:
+
+v3 looks good to me +/- Laurent's comments:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
