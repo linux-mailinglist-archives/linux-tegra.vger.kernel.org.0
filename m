@@ -2,93 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9951911F818
-	for <lists+linux-tegra@lfdr.de>; Sun, 15 Dec 2019 15:05:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC6D11FA4A
+	for <lists+linux-tegra@lfdr.de>; Sun, 15 Dec 2019 19:09:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726219AbfLOOFa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 15 Dec 2019 09:05:30 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35577 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726103AbfLOOFa (ORCPT
+        id S1726295AbfLOSJa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 15 Dec 2019 13:09:30 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:34558 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbfLOSJa (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 15 Dec 2019 09:05:30 -0500
-Received: by mail-pl1-f196.google.com with SMTP id g6so718149plt.2;
-        Sun, 15 Dec 2019 06:05:30 -0800 (PST)
+        Sun, 15 Dec 2019 13:09:30 -0500
+Received: by mail-lj1-f196.google.com with SMTP id m6so4251812ljc.1;
+        Sun, 15 Dec 2019 10:09:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Wk/gZsMdaGy0jm+3Mc8U+KJ30OYinc4tUKVLGNDZUUw=;
-        b=t/VfA6zjNq6twSmm/eDknA7wFv0aYMZtIV1Q/W3/cGi6CKebVbjOx+LBZ7SLHxOirL
-         Ng2qhp/BPlwwFFFlBibYr2sudgcuJIdXBF4LLxYMgWHEZqpOdckGs4ogO+DZefIFxZaG
-         fPMkcktsZi+FNqLp/IieHKmet6RIoWGA/9yimzjbRh5ghbSxdxCCY275I370WG0FXfxm
-         kVRQdB1I3Ray17dkdIA+sYKwzxCpjgr4otBZrcXjhNzvgRQKF8KYQMGxILcRm9K4GLHi
-         I0kYcC6JVrBqGh/jt4a32hDck2B4ZaL5qs6lVCLKms1RAlWuZP6xH4COjP3kJ8l9B863
-         GMVg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6BwnLgIw1O6Pl9DGM8GPZ2MRa8LW0r8gaeFDwLz4cXY=;
+        b=Bipom6FUC0WO3TCqvzVyO12ZkoPXYR/rXIPD3qGKXxWhqDR3zF/bPgqWf5ivb0Ivdy
+         fUjjMP9/DSFCZRptRknJoupOgk+MpqJYJK9bl7Kxc/+h78uhAiPS9wctOZBk+uW75su8
+         WwPUXrh4VI9NKsRn5zm5lA7yILGTNtWQV7d0IudazRL6qZU1rqocy7TKwwpa2Fa3ezO4
+         Dk+iPMAwhXuAGQvWzI3pa3iJKHKp5yKAZWlcbfbk+g8Axk/843n7tK5MsC42mshuoob9
+         j/s7mD8XMIyOXNufpQ77/lzWcFsC2T3crt7Fk/DG60XN113q8pixbjtlo+7hV+sUoE8J
+         On8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Wk/gZsMdaGy0jm+3Mc8U+KJ30OYinc4tUKVLGNDZUUw=;
-        b=Q0QMi6kZTgai3xbpXMs/mSq+WL9y33IfqxdXHM8MLk1cURSWnYl93eSaf5HzuaZvip
-         VBv4U7AlwfENvKgA/0dBsRXLljow8Gsz4o//lKOi+25FjHfGf+leqnm1oyGPS3KB43Rx
-         gABjEBHsg9ZqfBx4N3Cqdd4Hc8/sR+jYoulWnh3F1YBIkWa0HI5RTzQFJ2E9syFmGgO1
-         zIywqfvHc1LfUPmV+d08FVY5dZBOSq1FA+wqaMnqXsCXg8lcQuk5V3R7GHfVO+XsEQl4
-         TFAXcm9l65hK+klrgrzyrv8F9rN9T8UySS1TwtgrAnk17pIdNoAU4yAPfkFzM2FAVTFi
-         We4A==
-X-Gm-Message-State: APjAAAXJog7T56egvkMqXHzSdpXfvu1n8NDyJxpfAGSfHl0b5UuMv3/1
-        TVP4Dla+VtkCnWlxEjzMKV0=
-X-Google-Smtp-Source: APXvYqwd7ja6uBp48Wo3lLb4h2D7DyEkB5M28GRRvi98qmYGhQru7n/aMo6o8DWYNXSFo6U+RcJYDg==
-X-Received: by 2002:a17:90a:b009:: with SMTP id x9mr12215391pjq.124.1576418729853;
-        Sun, 15 Dec 2019 06:05:29 -0800 (PST)
-Received: from localhost ([2001:19f0:6001:12c8:5400:2ff:fe72:6403])
-        by smtp.gmail.com with ESMTPSA id e4sm19097170pfj.125.2019.12.15.06.05.29
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 15 Dec 2019 06:05:29 -0800 (PST)
-From:   Yangtao Li <tiny.windzz@gmail.com>
-To:     rjw@rjwysocki.net, viresh.kumar@linaro.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc:     linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Yangtao Li <tiny.windzz@gmail.com>
-Subject: [PATCH 2/2] cpufreq: tegra186: convert to devm_platform_ioremap_resource
-Date:   Sun, 15 Dec 2019 14:05:22 +0000
-Message-Id: <20191215140522.30872-2-tiny.windzz@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191215140522.30872-1-tiny.windzz@gmail.com>
-References: <20191215140522.30872-1-tiny.windzz@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6BwnLgIw1O6Pl9DGM8GPZ2MRa8LW0r8gaeFDwLz4cXY=;
+        b=si/W6NlZoVegOXwqX8/NqdBBTnaZIFxfLxNHT1Q6pZkwUK9eb2rqgVEsLNcv9hyeby
+         iFddpXxFIqvrNsfczVfMeVHp8d8xbz/RasckzBkpdrrSHJ4MHOaJ1WrONNTvoibimWJp
+         HXkWG/WWQ/yv78xy1Veg4PNr8mMEwKt/UqiiEa+ecjdBMnbjR614RSNjhy005BP3pkNK
+         f4UFko5PPG3/AFCQrekQo4mUSSl2RZAiR88WFqCAP4blSOl8DMPqjmAXkvbkWiDpJufD
+         cF5VYEnMrZLOgPPhtGmfvF0duROLJ4O6qiZi9dxjFO69EV20MVGfS9jQ+wzg+/soF5BG
+         D5hg==
+X-Gm-Message-State: APjAAAURZdHC2sKKzGmTDmgaGz086u+zkFsnzv5Kj0JZCRpljjtf5ySV
+        GpSuN+Y0U4g2yY3VvYecdH0=
+X-Google-Smtp-Source: APXvYqzBE614d51TKdCJodABHNuKxNyNlbBjrp69WJZ5wESzrJnGB5fpNG1iDS6jv04Zq0cO+bASSg==
+X-Received: by 2002:a2e:99cd:: with SMTP id l13mr16798134ljj.243.1576433367539;
+        Sun, 15 Dec 2019 10:09:27 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.gmail.com with ESMTPSA id t27sm8871875ljd.26.2019.12.15.10.09.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Dec 2019 10:09:26 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/3] Tegra VDE: Minor code clean up
+Date:   Sun, 15 Dec 2019 21:07:49 +0300
+Message-Id: <20191215180752.5408-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Use devm_platform_ioremap_resource() to simplify code.
+Hello,
 
-Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
----
- drivers/cpufreq/tegra186-cpufreq.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+This small series just makes a minor clean up of the driver's code,
+addressing COMPILE_TEST build problem that was reported sometime ago.
 
-diff --git a/drivers/cpufreq/tegra186-cpufreq.c b/drivers/cpufreq/tegra186-cpufreq.c
-index bcecb068b51b..2e233ad72758 100644
---- a/drivers/cpufreq/tegra186-cpufreq.c
-+++ b/drivers/cpufreq/tegra186-cpufreq.c
-@@ -187,7 +187,6 @@ static int tegra186_cpufreq_probe(struct platform_device *pdev)
- {
- 	struct tegra186_cpufreq_data *data;
- 	struct tegra_bpmp *bpmp;
--	struct resource *res;
- 	unsigned int i = 0, err;
- 
- 	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
-@@ -205,8 +204,7 @@ static int tegra186_cpufreq_probe(struct platform_device *pdev)
- 	if (IS_ERR(bpmp))
- 		return PTR_ERR(bpmp);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	data->regs = devm_ioremap_resource(&pdev->dev, res);
-+	data->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(data->regs)) {
- 		err = PTR_ERR(data->regs);
- 		goto put_bpmp;
+Dmitry Osipenko (3):
+  media: staging: tegra-vde: Select IOVA unconditionally in Kconfig
+  media: staging: tegra-vde: Sort headers alphabetically
+  media: staging: tegra-vde: Use __maybe_unused attribute instead of
+    ifdef
+
+ drivers/staging/media/tegra-vde/Kconfig | 2 +-
+ drivers/staging/media/tegra-vde/vde.c   | 6 ++----
+ drivers/staging/media/tegra-vde/vde.h   | 2 +-
+ 3 files changed, 4 insertions(+), 6 deletions(-)
+
 -- 
-2.17.1
+2.24.0
 
