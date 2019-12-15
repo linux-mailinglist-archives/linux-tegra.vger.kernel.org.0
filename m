@@ -2,62 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A54A11FA51
-	for <lists+linux-tegra@lfdr.de>; Sun, 15 Dec 2019 19:09:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0488F11FA6A
+	for <lists+linux-tegra@lfdr.de>; Sun, 15 Dec 2019 19:31:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726559AbfLOSJd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 15 Dec 2019 13:09:33 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:37514 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbfLOSJc (ORCPT
+        id S1726267AbfLOSbj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 15 Dec 2019 13:31:39 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:34859 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726148AbfLOSbj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 15 Dec 2019 13:09:32 -0500
-Received: by mail-lj1-f196.google.com with SMTP id u17so4239720lja.4;
-        Sun, 15 Dec 2019 10:09:30 -0800 (PST)
+        Sun, 15 Dec 2019 13:31:39 -0500
+Received: by mail-lf1-f67.google.com with SMTP id 15so2658787lfr.2;
+        Sun, 15 Dec 2019 10:31:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9WCN+aSziwo6IVDHqcjdnKmAeOBt5CXMdSt189Rd6D8=;
-        b=NvU27+/6GH5ISbMewOWteUW7hrpRQQAtdsOXkYGPdRcJMzfVUfEw5Qvv4pSR8Nfens
-         pcYlNC6VHGDqlKTHper6l7cssY+stCu7cP+6HXIKzX3K3AyWjX1ru/O7D/eI0AhqMkcw
-         Fsv60r6PHl8eMZ3opyM5/N5tJmPT43FM8PrwaaX0gMLmY6g4beVJ/3OKzw3LUSQlwg+S
-         N0s01A4KYBa+ePvLpnxALuQgXXPY7EPo9aOEcGGU0EL0n9ip9loTzK2rin6bwyPJqBkB
-         gVYqHltoi4Y8yEQCiWfe2Wt0gMc1g9VYGVVmXCreKSvrsnW9E7Aq3kCqi6bwr1Uo5+ro
-         UdeA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/9qAg3wIzZX204w336ZHZqBn5SnmZdVi95LKDsqCbyM=;
+        b=lkwSUYiPHAC4G9NADQvaEBv60Qi/rxBiNW1AbvFYHLwpHH67llWOavJBIznQ0r3tWo
+         rjYuHrcwu3sVVZqa3bOT03gpPKfClh7tAFnJhtjzzWsJryxi1AttRgFcTaemZkWQdtyV
+         yvVc2YOx+fGc6NUtmTy86/8LsCtmsU1jqEgkrKcatMCbCgO/Bfc53TehbPYQ3MUnEtOs
+         ZRcWLmiy7P/A626LocHxMjBtleSFYJ+UNBLVb6Kn77sZuwojRg1Wxd57YZGvy237JVmv
+         vmKW6byXh3Pmtw+89qZdAwkGMnghNucF3sXuaHMEfLloh4XNVCNn0md6quLUkPi/5LtD
+         p5cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9WCN+aSziwo6IVDHqcjdnKmAeOBt5CXMdSt189Rd6D8=;
-        b=fgt44hlZMQbAaweiesuO8yEZXONKHLKkLruzE1YHFz8y/EUVSp30wFvphFB0IYYqnY
-         ISx2YC1g6XgYloNHVlInOCWeHl565SZ+u1vGCLtqCdg6Gj+fec87T851UfVtrwoFb2d1
-         mTptP9HaYJg290BMw30zwJaR9Yhe5wtofLjMWDj4V3KdoyIZtu1jslR8Ltk1BSPygVxH
-         HWVJaYukZjgWXq+7Mq51XajonK3imx7ID5pGCe1x0Flzunkcet0HCZTY1bUsDYhcj7hN
-         2PkndZFZ9o7GPNdXDJltrQx8Mc66LW7azCtRpaM0SQdtxjTBgkW3b31XwEVtmczOjoOF
-         IpKQ==
-X-Gm-Message-State: APjAAAVUexFEVSZ7vTMy5qlNYADUoBwxuJtS8nqzDDRKeU62gX8uSVrv
-        qxUd2dQekueF93gLqfOF4Nw=
-X-Google-Smtp-Source: APXvYqwu7LBPUs+T1isRG4okSZnxU/3EOajXzKbM3dRn/PXp35FxayqGrK4SC7zwbFLNd/fYA2W4Og==
-X-Received: by 2002:a2e:3c1a:: with SMTP id j26mr16715116lja.79.1576433370285;
-        Sun, 15 Dec 2019 10:09:30 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/9qAg3wIzZX204w336ZHZqBn5SnmZdVi95LKDsqCbyM=;
+        b=BxRiqnn0wzVL+g2VGV7iLQtzlgKz5tULDLQM6Efc0LvYm6VpjZsZlWKfPhCKp8sU/D
+         fe5pidjronEG798BmtXrHUAy6/pZucLkt9rsBHzw8N9ZBQZp0aZQJbTPuuuBNoIF/1ZO
+         xvsDaLNKkJUypInjW4k6JVR8Py46f3Kgktz4MDfy3g49F08sISszisIajFXWM6WitovH
+         OTgUaPs1wHnYpaM4kd/6oNy8wpuUgKzv3srqjUT7MYVRtoiJ1ZA78RP3KlSJ//J26j9D
+         bangicZIQW2KKlgEAk22QE/+PxC0l+Mk4a47a//Q/YRm0oeGe3sNgx4uGyiBrSxatV6/
+         TWvQ==
+X-Gm-Message-State: APjAAAUvGaUbaPhPx+/Sc1UJcwRbAq+pOdh65B/xE5tChpOg3osRzaJb
+        LVAs4ZDe4Zh1n74GUXo5JY8=
+X-Google-Smtp-Source: APXvYqx1dXuxnTq/sTimnff9Ol5ZtwNphjRWSMJORXLq6H0GIgzqx3IhNXEtmatxvK+rsd1sQ6P/Vg==
+X-Received: by 2002:a19:8842:: with SMTP id k63mr14556166lfd.90.1576434696640;
+        Sun, 15 Dec 2019 10:31:36 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id t27sm8871875ljd.26.2019.12.15.10.09.29
+        by smtp.gmail.com with ESMTPSA id v2sm8814277ljv.70.2019.12.15.10.31.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Dec 2019 10:09:29 -0800 (PST)
+        Sun, 15 Dec 2019 10:31:35 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
         devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/3] media: staging: tegra-vde: Use __maybe_unused attribute instead of ifdef
-Date:   Sun, 15 Dec 2019 21:07:52 +0300
-Message-Id: <20191215180752.5408-4-digetx@gmail.com>
+Subject: [PATCH v1 0/3] Tegra GPIO: Minor code clean up
+Date:   Sun, 15 Dec 2019 21:30:44 +0300
+Message-Id: <20191215183047.9414-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191215180752.5408-1-digetx@gmail.com>
-References: <20191215180752.5408-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -65,45 +63,23 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Replace #ifdef with __maybe_unused attribute just to keep code cleaner a
-tad.
+Hello,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/staging/media/tegra-vde/vde.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+I was investigating why CPU hangs during of GPIO driver suspend and in
+the end it turned out that it is a Broadcom WiFi driver problem because
+it keeps OOB wake-interrupt enabled while WLAN interface is DOWN and this
+may cause a bit weird CPU hang on writing to INT_ENB register during of
+GPIO driver suspend. Meanwhile I also noticed that a few things could be
+improved in the driver, that's what this small series addresses.
 
-diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-index 3466daddf663..e18fd48981da 100644
---- a/drivers/staging/media/tegra-vde/vde.c
-+++ b/drivers/staging/media/tegra-vde/vde.c
-@@ -1150,8 +1150,7 @@ static int tegra_vde_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--#ifdef CONFIG_PM_SLEEP
--static int tegra_vde_pm_suspend(struct device *dev)
-+static __maybe_unused int tegra_vde_pm_suspend(struct device *dev)
- {
- 	struct tegra_vde *vde = dev_get_drvdata(dev);
- 	int err;
-@@ -1165,7 +1164,7 @@ static int tegra_vde_pm_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int tegra_vde_pm_resume(struct device *dev)
-+static __maybe_unused int tegra_vde_pm_resume(struct device *dev)
- {
- 	struct tegra_vde *vde = dev_get_drvdata(dev);
- 	int err;
-@@ -1178,7 +1177,6 @@ static int tegra_vde_pm_resume(struct device *dev)
- 
- 	return 0;
- }
--#endif
- 
- static const struct dev_pm_ops tegra_vde_pm_ops = {
- 	SET_RUNTIME_PM_OPS(tegra_vde_runtime_suspend,
+Dmitry Osipenko (3):
+  gpio: tegra: Use generic readl_relaxed/writel_relaxed accessors
+  gpio: tegra: Properly handle irq_set_irq_wake() error
+  gpio: tegra: Use NOIRQ phase for suspend/resume
+
+ drivers/gpio/gpio-tegra.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
+
 -- 
 2.24.0
 
