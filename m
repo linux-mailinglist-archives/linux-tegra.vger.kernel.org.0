@@ -2,62 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4036D11FA73
-	for <lists+linux-tegra@lfdr.de>; Sun, 15 Dec 2019 19:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B592A11FA80
+	for <lists+linux-tegra@lfdr.de>; Sun, 15 Dec 2019 19:43:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbfLOSbm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 15 Dec 2019 13:31:42 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:42859 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726148AbfLOSbl (ORCPT
+        id S1726148AbfLOSnj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 15 Dec 2019 13:43:39 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:36072 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726146AbfLOSnj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 15 Dec 2019 13:31:41 -0500
-Received: by mail-lf1-f67.google.com with SMTP id y19so2629634lfl.9;
-        Sun, 15 Dec 2019 10:31:40 -0800 (PST)
+        Sun, 15 Dec 2019 13:43:39 -0500
+Received: by mail-lj1-f196.google.com with SMTP id r19so4305319ljg.3;
+        Sun, 15 Dec 2019 10:43:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8WGNb8baWMu/OjrhEBuLnEY4Hx1XajfUZ1YMdab/qoo=;
-        b=NhUiZUfkbwUwbh36Oycqj68dNdHAqfRHuVjH7dBuSS4W0MHBmL2vWQpIzIQP1uik3F
-         9S3id+ouVBS2uAJOuNP0kjhWFgL+wGb0zHoIETs9bO7zg3tR9bz75YFilmacFi+7wB9G
-         N4SgoJUKeRHIYqILHaytlv4hmb3o+xuOFxQFt/0+ofoQXSMinlNobF+j5E0t4wDYUiHR
-         NlrKnewXJk6IG5DxKd4k7fmkxiJUdPFfzmzSuJYWNYOS1ppy9sjCUJ0QWRw8025Bm6TJ
-         KlH1edT8CCNVq3CHOzUsQEl6N8eOMG0Hecv9oBHTOCqQMZsptTgoens3d7iN5BlKrOwt
-         jqPg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LH/0zcyS2tN4td5pD8aR0i/TpwaV4FiJpG/372fyzp8=;
+        b=J6iJOrGMCWuVVZsHSjxKG56ysHXvOD3mqWNDhq38TP97+e39sE5hShC0qV6eX0JE9/
+         /bX2dDdIZ6q98cOw6u6ZOJzlBQPBgq65j81vgbrqyGpHGKACda+1Q6OMiqrDvCEjX+tl
+         lu2Eg+GTJVM92RnyQk0FMFaVvrYVmYX/fQGMp/Mv+HlnoBBloISkJtv4xQbsutbZR9iO
+         tIOK2+ZSi0boHuagmqN3BQGpcbYl78BaztV35hQZmKhwyZn8Q4HwFmoCx2ihjO8h7Ib3
+         1kLorHCUBXtUEttOI4r9KG0SbdZR+4EbGIBZVnbFt5K2K6qdymV2cxikiF7BLiubiGwo
+         4CmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8WGNb8baWMu/OjrhEBuLnEY4Hx1XajfUZ1YMdab/qoo=;
-        b=blEnD34zGsLishrifzwFYljc2qDOkY5gUK1sHgWLXkM12cejQa9Vdt5ZrmSqHh9OLu
-         ldR80+C+Bm5He3aepVNqgF7fEHRq5wVsw593cHHkd5ETjGwxziy8XvB+EdOteMDsSpGl
-         ZWg8sU4FDfMRt08rXkN27GE6WclbclMX0Y9X9xG5OW19j2VqIk1TL/GSlNSdukcuaGXj
-         Rt7wRgGZgZ64MGPr0qGugsjqqibcvhzYFyQnOl4urrw/iPvH3qj7vTDmmWf3Nh9BTlGJ
-         gkzHOq+1px1CelXX4tjnGgCCewlAqkrOi63HlLc/rHaVRFMIpCGXGK81ENqtcyF7syMI
-         Bm6Q==
-X-Gm-Message-State: APjAAAWdOmLxggiQpcYwpUVbgdlpWRh9Lky6TC/DEYI/i2DiU7xdQBsh
-        /gOj+9ZoYJZINF2bQedbCNI=
-X-Google-Smtp-Source: APXvYqwAC+Ah7tQUHeZ3RPhMRnv+9rucKa6WFL204I6PVLtkjBFpZRQhumIjSBoL7UkDyziyacPSaQ==
-X-Received: by 2002:ac2:5983:: with SMTP id w3mr14711498lfn.137.1576434699420;
-        Sun, 15 Dec 2019 10:31:39 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LH/0zcyS2tN4td5pD8aR0i/TpwaV4FiJpG/372fyzp8=;
+        b=lh0YB+9grb9aJBu4CRWe6VONfNO5fU2nkeVExI3FMs+i5aJJ/pHO8QFBMCjZE1s7Pb
+         uyMFSztXiKXBJbdztl+t8YN2WhJYRQgbuOzxlrXpCdwoOKmsF+baTBgRFIjD+KCFpoZH
+         NK9zr4z8ax9aZRE+cyfbdMA8waGHEr4XWNUwY/1ARruCGhZj4VOi30x1+NDTtfVzpQSt
+         BQtF0mmfuE99hEsfEiPPo9QTJ3Or4Ywwk+KcIp2E22u/l3Y1AeFX5r5WaKtgFjz4umlh
+         5hOwCajp6yheDLi3BfYWjQ1q1raPzjCXmdp3CDoKN/ESYElzoOQIWGbp01ITewY8J6oZ
+         Vv5w==
+X-Gm-Message-State: APjAAAVp+p7CjUP2fA1vhUuNsa7gVBuNeSzuh5gvvkiXFl2ZgWEEU3Ir
+        nIEw81pINev+HREyfO4wMAI=
+X-Google-Smtp-Source: APXvYqxfsMaK41jJkcs7vssL2EU4WHp3FndAzOUnht3wmhFCnObcwoYSdbTmLzYwX6sWSAO6pqVKqw==
+X-Received: by 2002:a2e:9e19:: with SMTP id e25mr6107941ljk.179.1576435416835;
+        Sun, 15 Dec 2019 10:43:36 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id v2sm8814277ljv.70.2019.12.15.10.31.38
+        by smtp.gmail.com with ESMTPSA id k5sm7455513lfd.86.2019.12.15.10.43.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Dec 2019 10:31:38 -0800 (PST)
+        Sun, 15 Dec 2019 10:43:36 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/3] gpio: tegra: Use NOIRQ phase for suspend/resume
-Date:   Sun, 15 Dec 2019 21:30:47 +0300
-Message-Id: <20191215183047.9414-4-digetx@gmail.com>
+        Arend van Spriel <arend.vanspriel@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        Kalle Valo <kvalo@codeaurora.org>
+Cc:     linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211-dev-list@cypress.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] brcmfmac: Keep OOB wake-interrupt disabled when it shouldn't be enabled
+Date:   Sun, 15 Dec 2019 21:42:24 +0300
+Message-Id: <20191215184224.11827-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191215183047.9414-1-digetx@gmail.com>
-References: <20191215183047.9414-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -65,67 +69,69 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-All GPIO interrupts are disabled during of the NOIRQ suspend/resume
-phase, thus there is no need to manually disable the interrupts. This
-patch doesn't fix any problem, this is just a minor clean-up.
+NVIDIA Tegra SoCs do not like when OOB wake is enabled and WiFi interface
+is in DOWN state during suspend. This results in a CPU hang on programming
+OOB wake-up state of the GPIO controller during of system's suspend.
+
+The solution is trivial: don't enable wake for the OOB interrupt when it
+should be disabled.
+
+This fixes hang on Tegra20 (Acer A500) and Tegra30 (Nexus 7) devices which
+are using BCM4329 and BCM4330 WiFi chips respectively.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpio/gpio-tegra.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ .../net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c  | 10 +++++-----
+ .../net/wireless/broadcom/brcm80211/brcmfmac/sdio.h    |  1 -
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpio/gpio-tegra.c b/drivers/gpio/gpio-tegra.c
-index 4790dfec7758..acb99eff9939 100644
---- a/drivers/gpio/gpio-tegra.c
-+++ b/drivers/gpio/gpio-tegra.c
-@@ -416,11 +416,8 @@ static void tegra_gpio_irq_handler(struct irq_desc *desc)
- static int tegra_gpio_resume(struct device *dev)
- {
- 	struct tegra_gpio_info *tgi = dev_get_drvdata(dev);
--	unsigned long flags;
- 	unsigned int b, p;
- 
--	local_irq_save(flags);
--
- 	for (b = 0; b < tgi->bank_count; b++) {
- 		struct tegra_gpio_bank *bank = &tgi->bank_info[b];
- 
-@@ -448,17 +445,14 @@ static int tegra_gpio_resume(struct device *dev)
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
+index 96fd8e2bf773..b5088379b595 100644
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bcmsdh.c
+@@ -119,7 +119,7 @@ int brcmf_sdiod_intr_register(struct brcmf_sdio_dev *sdiodev)
+ 			brcmf_err("enable_irq_wake failed %d\n", ret);
+ 			return ret;
  		}
- 	}
+-		sdiodev->irq_wake = true;
++		disable_irq_wake(pdata->oob_irq_nr);
  
--	local_irq_restore(flags);
- 	return 0;
- }
+ 		sdio_claim_host(sdiodev->func1);
  
- static int tegra_gpio_suspend(struct device *dev)
- {
- 	struct tegra_gpio_info *tgi = dev_get_drvdata(dev);
--	unsigned long flags;
- 	unsigned int b, p;
+@@ -178,10 +178,6 @@ void brcmf_sdiod_intr_unregister(struct brcmf_sdio_dev *sdiodev)
+ 		sdio_release_host(sdiodev->func1);
  
--	local_irq_save(flags);
- 	for (b = 0; b < tgi->bank_count; b++) {
- 		struct tegra_gpio_bank *bank = &tgi->bank_info[b];
- 
-@@ -488,7 +482,7 @@ static int tegra_gpio_suspend(struct device *dev)
- 					  GPIO_INT_ENB(tgi, gpio));
- 		}
- 	}
--	local_irq_restore(flags);
+ 		sdiodev->oob_irq_requested = false;
+-		if (sdiodev->irq_wake) {
+-			disable_irq_wake(pdata->oob_irq_nr);
+-			sdiodev->irq_wake = false;
+-		}
+ 		free_irq(pdata->oob_irq_nr, &sdiodev->func1->dev);
+ 		sdiodev->irq_en = false;
+ 		sdiodev->oob_irq_requested = false;
+@@ -1167,6 +1163,10 @@ static int brcmf_ops_sdio_resume(struct device *dev)
+ 		if (ret)
+ 			brcmf_err("Failed to probe device on resume\n");
+ 	} else {
++		if (sdiodev->wowl_enabled &&
++		    sdiodev->settings->bus.sdio.oob_irq_supported)
++			disable_irq_wake(sdiodev->settings->bus.sdio.oob_irq_nr);
 +
- 	return 0;
- }
+ 		brcmf_sdiod_freezer_off(sdiodev);
+ 	}
  
-@@ -562,7 +556,7 @@ static inline void tegra_gpio_debuginit(struct tegra_gpio_info *tgi)
- #endif
- 
- static const struct dev_pm_ops tegra_gpio_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(tegra_gpio_suspend, tegra_gpio_resume)
-+	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(tegra_gpio_suspend, tegra_gpio_resume)
- };
- 
- static int tegra_gpio_probe(struct platform_device *pdev)
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h
+index 0bd47c119dae..163fd664780a 100644
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.h
+@@ -178,7 +178,6 @@ struct brcmf_sdio_dev {
+ 	bool sd_irq_requested;
+ 	bool irq_en;			/* irq enable flags */
+ 	spinlock_t irq_en_lock;
+-	bool irq_wake;			/* irq wake enable flags */
+ 	bool sg_support;
+ 	uint max_request_size;
+ 	ushort max_segment_count;
 -- 
 2.24.0
 
