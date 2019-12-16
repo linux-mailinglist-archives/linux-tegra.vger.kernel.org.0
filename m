@@ -2,135 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78A8712055D
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Dec 2019 13:20:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC469120837
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Dec 2019 15:11:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727513AbfLPMUL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Dec 2019 07:20:11 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7690 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727383AbfLPMUK (ORCPT
+        id S1728001AbfLPOLb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Dec 2019 09:11:31 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:41617 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727807AbfLPOLb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Dec 2019 07:20:10 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5df7766f0000>; Mon, 16 Dec 2019 04:19:59 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 16 Dec 2019 04:20:08 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 16 Dec 2019 04:20:08 -0800
-Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Dec
- 2019 12:20:07 +0000
-Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
-        id 944924280E; Mon, 16 Dec 2019 14:20:05 +0200 (EET)
-Date:   Mon, 16 Dec 2019 14:20:05 +0200
-From:   Peter De Schrijver <pdeschrijver@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-CC:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mperttunen@nvidia.com>, <sboyd@kernel.org>,
-        <gregkh@linuxfoundation.org>, <tglx@linutronix.de>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <allison@lohutok.net>, <pgaikwad@nvidia.com>,
-        <mturquette@baylibre.com>, <horms+renesas@verge.net.au>,
-        <Jisheng.Zhang@synaptics.com>, <krzk@kernel.org>, <arnd@arndb.de>,
-        <spujar@nvidia.com>, <josephl@nvidia.com>, <vidyas@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
-        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
-        <alexios.zavras@intel.com>, <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v3 03/15] soc: tegra: Add Tegra PMC clock registrations
- into PMC driver
-Message-ID: <20191216122005.GB28289@pdeschrijver-desktop.Nvidia.com>
-References: <288a1701-def6-d628-26bc-a305f817bdb1@gmail.com>
- <78644d45-2ae3-121f-99fc-0a46f205907d@nvidia.com>
- <b35916e1-c6ee-52ca-9111-5ae109437b6e@nvidia.com>
- <ccb715cc-c927-ea91-a26e-24d6eeeeef1a@gmail.com>
- <ee1d39d4-9a57-da9b-fce6-8130dac1d2fd@nvidia.com>
- <49da77dc-b346-68eb-9ef8-42cfb3221489@nvidia.com>
- <3f1c9325-3017-62be-1e3b-82fd28540fdf@nvidia.com>
- <6fcbff3d-8695-7cd0-60de-6eb523b6964c@gmail.com>
- <20191211151028.GZ28289@pdeschrijver-desktop.Nvidia.com>
- <0930a710-174b-859b-294c-e9f81f6a3b5e@gmail.com>
+        Mon, 16 Dec 2019 09:11:31 -0500
+Received: by mail-lj1-f195.google.com with SMTP id h23so6953850ljc.8;
+        Mon, 16 Dec 2019 06:11:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=HhL5GMKIFDddfWEaX7NT4E3scjRhU5x3XuH72/9QCyo=;
+        b=jrqJzc+/u/LblZplRKW3eR4/Ge+b4/2IipInHNNk7BL2mZZnJtPHF2ZpEvr4zsXT1J
+         uNT59SvM5Amun90YFgy8GJzXdI5uoQJyXExaUd7leci+peFjiC7FlTNA92UA8SXbq3eU
+         MOegPJ7i/pv8To6BHlKcZOUywqyxx7q8eDcm/w8IcgvKWVKOInasra8tqfsDnbVAZCeo
+         FpIablaEjBiUFVOb5Oc0Dbr0b4mJ8ZAykZ3nLPICiBB6XgqFk8G8mN64aUBY5aLZxTf+
+         nO2neK1yMlESAkGPyxew4xii+fD4A3cY7oTtZWnvBa7G3H6/qK9o1TnCZa/65H7yPpe+
+         HIsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=HhL5GMKIFDddfWEaX7NT4E3scjRhU5x3XuH72/9QCyo=;
+        b=gmfTl1Diu40j8X3EqhewKQ99dyOTAVcsxIrFljpKAgAUOFq/CnD0DxoTQZWeuxz16W
+         fAlbjPcLxHH7qq4N62UHzR/o1/Ee8tVrH98cW/8xZEmN/oIDykf4YBsxWXSpb/+v2rI9
+         5drstD3nEfMo1zkvnowEvLO+DPHR/aY93DT9rzAPOkniKhwcu2tTAyhYqVbMqmNTkRZa
+         vM8EKHYWPfLmsjHc/B3PzoNnwEJhDiK5EeftziQp3QbSFEp+COfUeX/WV8Qor0n3g7hU
+         eh//W/XGa9Em2Od0OUtx5yDsSRLoHNKhZ82CeQwnIuN26Cmv0bc/88Phtq5ATxSTJTpO
+         7ERQ==
+X-Gm-Message-State: APjAAAWGUxGmuzNr0oPQm8xyNkxmEMsvOWJr6YuFSLwWxAl7sLLn2ETz
+        TdYFbTNghitDNCD3oWitdq4fNQQe
+X-Google-Smtp-Source: APXvYqxVulbjGD7qBtkHu8dFjhoK+mY8pmMw7WHa5Lz77cd2cK6am3IF8jv4B0zPS4UWLTmlFAOg1g==
+X-Received: by 2002:a2e:9216:: with SMTP id k22mr19606187ljg.52.1576505488021;
+        Mon, 16 Dec 2019 06:11:28 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id z9sm10499851ljm.40.2019.12.16.06.11.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Dec 2019 06:11:27 -0800 (PST)
+Subject: Re: [PATCH v5 07/11] cpufreq: dt-platdev: Blacklist NVIDIA Tegra20
+ and Tegra30 SoCs
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191118164512.8676-1-digetx@gmail.com>
+ <20191118164512.8676-8-digetx@gmail.com>
+ <20191216040532.mzdovqoub5rdztwb@vireshk-i7>
+ <20191216040808.w67jxu7oapxgm7yh@vireshk-i7>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a57c80f0-59a7-c758-c914-025f12c85ba8@gmail.com>
+Date:   Mon, 16 Dec 2019 17:11:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <0930a710-174b-859b-294c-e9f81f6a3b5e@gmail.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576498800; bh=b7XXctcmXb2fLo5udKQt//zAFp8PM7nufwkYOLIsnKo=;
-        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
-         MIME-Version:Content-Type:Content-Disposition:
-         Content-Transfer-Encoding:In-Reply-To:X-NVConfidentiality:
-         User-Agent:X-Originating-IP:X-ClientProxiedBy;
-        b=nM/NgqQUcSdZRcFF7d0Yn96EQPMCJJewZs/5fXVF74Go86ZnMyQwERe7ZTQTnlbfj
-         ZcvR6MojJdcvYsx4lauCFN2Ya+MLViVVuzS34lOkzq1S2prnU5TqXaZCv+5edNo1SM
-         Km5wJjXWUiokMRJK2NPDugSZinOdkdcXkkonttZB2qxecYprJ0V9NbkzCFVPYF0Zq9
-         TcXUgZihL0RnrDL3rgiLkB24ZO94eZg1Jtu6Ly4DWyZO4bHT/MVPbIYQ4piIV7pxtR
-         /fuo+JDplJ5G9jQjchl9xQzDko/KvOOvOsLoLn7UMbIgo6dekW5fXziGIF2jY+6rAS
-         mQEZWXAt/zm6g==
+In-Reply-To: <20191216040808.w67jxu7oapxgm7yh@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 04:43:53AM +0300, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->=20
->=20
-> 11.12.2019 18:10, Peter De Schrijver =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Tue, Dec 10, 2019 at 08:41:56PM +0300, Dmitry Osipenko wrote:
-> >
-> > ..
-> >
-> >>>
-> >>> PMC clock gate is based on the state of CLKx_ACCEPT_REQ and FORCE_EN
-> >>> like explained above.
-> >>>
-> >>> CLKx_ACCEPT_REQ is 0 default and FORCE_EN acts as gate to enable/disa=
-ble
-> >>> EXTPERIPH clock output to PMC CLK_OUT_1/2/3.
-> >>
-> >> [and to enable OSC as well]
-> >>
-> >>> So I believe we need to register as MUX and Gate rather than as a sin=
-gle
-> >>> clock. Please confirm.
-> >>
-> >> 1. The force-enabling is applied to both OSC and EXTERN sources of
-> >> PMC_CLK_OUT_x by PMC at once.
-> >>
-> >> 2. Both of PMC's force-enabling and OSC/EXTERN selection is internal t=
-o PMC.
-> >>
-> >> Should be better to define it as a single "pmc_clk_out_x". I don't see
-> >> any good reasons for differentiating PMC's Gate from the MUX, it's a
-> >> single hardware unit from a point of view of the rest of the system.
-> >>
-> >> Peter, do you have any objections?
-> >
-> > The reason to have separate gate and mux clocks, is to preserve compati=
-bility
-> > with existing users.
-> > Otherwise the current users would need to figure out if there's a
-> > single clock or 2 clocks to configure. I don't think adding that code i=
-n
-> > each user is worth it only to have a sligthly nicer modelling of the
-> > hardware.
->=20
-> Could you please clarify what do you mean by the "existing users"?
-> AFAIK, nothing in kernel uses mux clocks.
+16.12.2019 07:08, Viresh Kumar пишет:
+> On 16-12-19, 09:35, Viresh Kumar wrote:
+>> On 18-11-19, 19:45, Dmitry Osipenko wrote:
+>>> Both NVIDIA Tegra20 and Tegra30 SoCs should be blacklisted because CPU
+>>> OPPs use supported_hw and thus platdev isn't suitable for these SoCs.
+>>> Currently cpufreq-dt driver produces a bit annoying warning splats
+>>> during boot because valid OPPs are not found, this will be fixed once
+>>> tegra20-cpufreq driver will be update to support cpufreq-dt. The warnings
+>>> will also happen on older stable kernels using newer device-trees, thus
+>>> this patch should be backported to stable kernels as well.
+>>>
+>>> Cc: <stable@vger.kernel.org>
+>>> Reported-by: Jon Hunter <jonathanh@nvidia.com>
+>>> Fixes: 4053aa65c517 ("ARM: tegra: cardhu-a04: Add CPU Operating Performance Points")
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> ---
+>>>  drivers/cpufreq/cpufreq-dt-platdev.c | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
+>>> index f1d170dcf4d3..aba591d57c67 100644
+>>> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
+>>> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+>>> @@ -121,6 +121,8 @@ static const struct of_device_id blacklist[] __initconst = {
+>>>  	{ .compatible = "mediatek,mt8176", },
+>>>  	{ .compatible = "mediatek,mt8183", },
+>>>  
+>>> +	{ .compatible = "nvidia,tegra20", },
+>>> +	{ .compatible = "nvidia,tegra30", },
+>>>  	{ .compatible = "nvidia,tegra124", },
+>>>  	{ .compatible = "nvidia,tegra210", },
+>>
+>> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> 
+> Oops, pasted the wrong register here :(
+> 
+> Applied. Thanks.
+> 
 
-The DT clk bindings allow for parent initialization, so it's certainly
-possible there are some DTs which rely on this. We promised to never
-break the bindings, which changing to 1 clock would do.=20
-
-Peter.
+Thanks!
