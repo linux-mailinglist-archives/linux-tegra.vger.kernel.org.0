@@ -2,77 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 264C6120225
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Dec 2019 11:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BFA512023E
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Dec 2019 11:22:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727188AbfLPKRz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Dec 2019 05:17:55 -0500
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:43045 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727099AbfLPKRy (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Dec 2019 05:17:54 -0500
-Received: by mail-vk1-f196.google.com with SMTP id h13so1445708vkn.10
-        for <linux-tegra@vger.kernel.org>; Mon, 16 Dec 2019 02:17:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AOrRGrYeMpcGDIgKay64sJNHoHbNZIw/AFzVsWWLyTE=;
-        b=qtBcC+HessrBSNKGnT3Ic5MPcGBY6OqtxpSAvBK+VBoUCTVclzq2hzsdYK7t5a9r/e
-         sfaSuJlhpU4qdcgojOMEEwiBk13gHSnMWCKiOQNW5bC3lvH+Kcc41xezaheZNiC0eGgh
-         udMTj1FM2+iQsoe0M9cjgceit8EyXeAhJ8ZftkUAqdFeg0x7QTyEZcu1cFgRWK14TNHj
-         SUWJBJMwiIpOJxn3zMe5l9HxkoxI14PaXYC5uwLALAxVmLpHqWazRg8BzpOg7rqSE/sa
-         fSw+XfWlw7TQiII6B7nnzlc+kVMUZVaxcC7/DX1GkvVb9J5D1IiKduXEmpVfXy9oZTWn
-         QolQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AOrRGrYeMpcGDIgKay64sJNHoHbNZIw/AFzVsWWLyTE=;
-        b=ewloTHh8SGuWnyuf8RQlNQwmIZ5AfLyXReOlOOUNh2/2JbdKQ2GMcpJRd5XxKfUUpW
-         9DFTHOS8dkk9qE975Anj628MDEo0w6tmuepnWCITLlxStnAwo8RX+LyvH06+oyEmJ6Qz
-         nUH7fB3bvee9YIob6kHR4QdYjnglk4WQTMDkO7fELkkPqSdPY8pA4M7zyjTqi5XC9PRr
-         sfCoQXUmzbKMA3eG/XhF/p8u3OY6hyvnKEjUU6Zw7T2dwfz1nGnMmpLC2uRFSAnKwJT1
-         /aBVT/D5/FRcAwgutYfD7m6BO0On7pX8Vn8aWoStSDLYW/K4/gQmZ7gDuZW/eYVhjOop
-         +Q4w==
-X-Gm-Message-State: APjAAAWm0jTrTmxVZtsMT+kqcIDRhoNo3KIL2GEoFMnFQIDhrZ1nH36H
-        2l9qgrHE+Paux8UvMcb3jojA3aoI/CPCt18QXlakGA==
-X-Google-Smtp-Source: APXvYqxCx6HhLM26TS3E4JRNImvo+kMd2y4pcmiYvk8HdZpUpy9CgOrzfuVd2/yJnMmLV/V25/CbhW9/vub9nN5lQf8=
-X-Received: by 2002:a1f:fe4e:: with SMTP id l75mr23856887vki.18.1576491474088;
- Mon, 16 Dec 2019 02:17:54 -0800 (PST)
+        id S1727388AbfLPKWM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Dec 2019 05:22:12 -0500
+Received: from foss.arm.com ([217.140.110.172]:48636 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727099AbfLPKWM (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 16 Dec 2019 05:22:12 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 87D141FB;
+        Mon, 16 Dec 2019 02:22:11 -0800 (PST)
+Received: from localhost (unknown [10.37.6.20])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 010A03F6CF;
+        Mon, 16 Dec 2019 02:22:10 -0800 (PST)
+Date:   Mon, 16 Dec 2019 10:22:09 +0000
+From:   Andrew Murray <andrew.murray@arm.com>
+To:     David Engraf <david.engraf@sysgo.com>
+Cc:     thierry.reding@gmail.com, lorenzo.pieralisi@arm.com,
+        bhelgaas@google.com, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: tegra: Correctly handle return code of
+ pm_runtime_get_sync()
+Message-ID: <20191216102208.GO24359@e119886-lin.cambridge.arm.com>
+References: <20191216093415.27320-1-david.engraf@sysgo.com>
 MIME-Version: 1.0
-References: <20191213130034.219227-1-thierry.reding@gmail.com>
-In-Reply-To: <20191213130034.219227-1-thierry.reding@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 16 Dec 2019 11:17:43 +0100
-Message-ID: <CACRpkdYV4ruWvRSKtOyL5fiFmCA_fsHG98BDkEVBxdR14VNxPQ@mail.gmail.com>
-Subject: Re: [PATCH] gpio: tegra186: Allow building on Tegra194-only configurations
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191216093415.27320-1-david.engraf@sysgo.com>
+User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Dec 13, 2019 at 2:00 PM Thierry Reding <thierry.reding@gmail.com> wrote:
+On Mon, Dec 16, 2019 at 10:34:15AM +0100, David Engraf wrote:
+> pm_runtime_get_sync() returns the device's usage counter. This might
+> be >0 if the device is already powered up or CONFIG_PM is disabled.
+> 
+> Abort probe function on real error only.
+> 
+> Signed-off-by: David Engraf <david.engraf@sysgo.com>
 
-> From: Thierry Reding <treding@nvidia.com>
->
-> The driver is compatible with both Tegra186 and Tegra194, but currently
-> it cannot be selected if only Tegra194 support is enabled. Allow builds
-> with only Tegra194 support enabled to select this driver.
->
-> While at it, select this driver by default on Tegra194 builds because it
-> is an essential part of the system.
->
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+Thanks for this, looks OK to me.
 
-Patch applied for fixes, it seems like it should be -rc material.
+As this is a fix, can you add the following fixes tag?
 
-Yours,
-Linus Walleij
+Fixes: da76ba50963b ("PCI: tegra: Add power management support")
+
+And whilst doing that can you rename the subject to "PCI: tegra: Fix return
+value check of pm_runtime_get_sync" - it's slightly shorter and has the
+word fix in the title.
+
+Thanks,
+
+Andrew Murray
+
+> ---
+>  drivers/pci/controller/pci-tegra.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+> index 673a1725ef38..090b632965e2 100644
+> --- a/drivers/pci/controller/pci-tegra.c
+> +++ b/drivers/pci/controller/pci-tegra.c
+> @@ -2798,7 +2798,7 @@ static int tegra_pcie_probe(struct platform_device *pdev)
+>  
+>  	pm_runtime_enable(pcie->dev);
+>  	err = pm_runtime_get_sync(pcie->dev);
+> -	if (err) {
+> +	if (err < 0) {
+>  		dev_err(dev, "fail to enable pcie controller: %d\n", err);
+>  		goto teardown_msi;
+>  	}
+> -- 
+> 2.17.1
+> 
