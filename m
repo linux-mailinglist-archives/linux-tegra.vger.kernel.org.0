@@ -2,92 +2,118 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DFE31208D8
-	for <lists+linux-tegra@lfdr.de>; Mon, 16 Dec 2019 15:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DE9612095F
+	for <lists+linux-tegra@lfdr.de>; Mon, 16 Dec 2019 16:13:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728087AbfLPOqD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 16 Dec 2019 09:46:03 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:40870 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728055AbfLPOqD (ORCPT
+        id S1728211AbfLPPLi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 16 Dec 2019 10:11:38 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4487 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728202AbfLPPLi (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 16 Dec 2019 09:46:03 -0500
-Received: by mail-lf1-f65.google.com with SMTP id i23so4409982lfo.7;
-        Mon, 16 Dec 2019 06:46:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8hrwNb+62xlSS4630TGqVTgZpEq9XuNM/h7RXL5PTp4=;
-        b=JeX9P7d5K86kD8jxLP0OqYX0Xo7tQt3V7bahsEzimx4TzCVwClPFlR1qlAegLRv9r3
-         p8si4pZeC0qzILFh9hYvpL75xyt2EuEUHmYq40odgPYB7fFdVDDRc7/E0Y9prfl5ZKSX
-         ZAzBRUWj4mgKGDR60sKFlX5R5yuStVbhL5mwyjaAvTs+KxHi81GdWr0JtXqnbEq/oPxg
-         W95/lZ8Uf2WuFbM25WYjm9l3PABEQOoX1Hbb5u7vzgLpx54F1dlY9qKrNXb2bE6WBlFr
-         VOUYhlxkep9Ckt8hE950xvXYsYhSgMr2Pypq0rp6B4/fxv8QlzH9KyO9FRoh5IccS695
-         +GbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8hrwNb+62xlSS4630TGqVTgZpEq9XuNM/h7RXL5PTp4=;
-        b=LNidchNzoHgItrXeplriLMvErObnG/Hs4HgkJ6nCxNASlcTmaFKuvAMQbggKtLpB4H
-         BeNOCKd+XL4g22AgRPynGf11ydfv0vzsp3VcdAHtd0kSb6L3cUr/eRcBSYNHADcLUoa3
-         d3QRJxjjI1v5hoSpHw7TaKRrNcxKwMuV8bKqyeedBzQ211nOp2A6SXcSFC132GFBNM81
-         YRbbvTiIcivVZ7WomOs8I3QbxKEtDbhgl4H/wwLw9RVH/FpeCdeYEQTID5b6ibSZ1em3
-         Xp4BnZM0Izx3N35TuG5OijNxeB4YDsbMY08NJWEJPovHcDdtTs7tag8UH2SrZKoWI4mz
-         4Kfg==
-X-Gm-Message-State: APjAAAXVahNZ99c1p5/5tl3LFoa35ZO3A5hC/7gzz2xB0iQVOSwTKyMr
-        LQyJIJe4tDuAVfm0dAgIclA71bgr
-X-Google-Smtp-Source: APXvYqxpUiYf76+8+R/J8+oxqzt6bKaYvjoUEm+LQ9lETcooxx3UqoSOQ5rP7pNrP6GB6JavMqdwKw==
-X-Received: by 2002:a19:8a41:: with SMTP id m62mr16906210lfd.5.1576507560617;
-        Mon, 16 Dec 2019 06:46:00 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id n23sm9158442lfa.41.2019.12.16.06.45.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Dec 2019 06:45:59 -0800 (PST)
-Subject: Re: [PATCH v1 0/3] Tegra GPIO: Minor code clean up
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-References: <20191215183047.9414-1-digetx@gmail.com>
-Message-ID: <b108c394-cdbc-e6c7-1688-69e05eea2279@gmail.com>
-Date:   Mon, 16 Dec 2019 17:45:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Mon, 16 Dec 2019 10:11:38 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df79e8c0000>; Mon, 16 Dec 2019 07:11:08 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 16 Dec 2019 07:11:35 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 16 Dec 2019 07:11:35 -0800
+Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Dec
+ 2019 15:11:35 +0000
+Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
+        id 9ECB942762; Mon, 16 Dec 2019 17:11:32 +0200 (EET)
+Date:   Mon, 16 Dec 2019 17:11:32 +0200
+From:   Peter De Schrijver <pdeschrijver@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <mperttunen@nvidia.com>, <sboyd@kernel.org>,
+        <gregkh@linuxfoundation.org>, <tglx@linutronix.de>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <allison@lohutok.net>, <pgaikwad@nvidia.com>,
+        <mturquette@baylibre.com>, <horms+renesas@verge.net.au>,
+        <Jisheng.Zhang@synaptics.com>, <krzk@kernel.org>, <arnd@arndb.de>,
+        <spujar@nvidia.com>, <josephl@nvidia.com>, <vidyas@nvidia.com>,
+        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
+        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
+        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+        <alexios.zavras@intel.com>, <alsa-devel@alsa-project.org>
+Subject: Re: [PATCH v3 03/15] soc: tegra: Add Tegra PMC clock registrations
+ into PMC driver
+Message-ID: <20191216151132.GC28289@pdeschrijver-desktop.Nvidia.com>
+References: <b35916e1-c6ee-52ca-9111-5ae109437b6e@nvidia.com>
+ <ccb715cc-c927-ea91-a26e-24d6eeeeef1a@gmail.com>
+ <ee1d39d4-9a57-da9b-fce6-8130dac1d2fd@nvidia.com>
+ <49da77dc-b346-68eb-9ef8-42cfb3221489@nvidia.com>
+ <3f1c9325-3017-62be-1e3b-82fd28540fdf@nvidia.com>
+ <6fcbff3d-8695-7cd0-60de-6eb523b6964c@gmail.com>
+ <20191211151028.GZ28289@pdeschrijver-desktop.Nvidia.com>
+ <0930a710-174b-859b-294c-e9f81f6a3b5e@gmail.com>
+ <20191216122005.GB28289@pdeschrijver-desktop.Nvidia.com>
+ <53653719-f8e5-f6d1-a1d1-e53c7ccd7636@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191215183047.9414-1-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <53653719-f8e5-f6d1-a1d1-e53c7ccd7636@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576509068; bh=I1odfwufiuiQcheICSY0jJckHTKldkWpkyjJ/8Oh1yo=;
+        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
+        b=QGhs5FcVVC9cXcbG8mVyS/58pX1r9J7lPBVu+qYUczhyUutwmKxk8BXjKOEodxPNq
+         SWD/7lfvn0vVj63lQtSz/LTeCpmW3oOLm40rb50bGYyapKrR38KFLMyHk6YHSsMq+t
+         3jOta+DeLHkCU5w2PV0nwAXaZU9yl4IXPPTD/iHHdykkOKP3t87ZEXA6ePfHJ+yAwm
+         9DP4WpRbkkOz1TriLmktw3gt/+rLw0QCapYDSoP2PYj5fjSr68r8kAG8nM5FbdyJU6
+         b4gp9q43RHeA/M4kHxjl/pbJ88VhM28ga3/0q1niS8ZqLtJeJd7vZQ0aTI+/Q26dcF
+         xjIM8Izf/qTRw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-15.12.2019 21:30, Dmitry Osipenko пишет:
-> Hello,
+On Mon, Dec 16, 2019 at 05:23:23PM +0300, Dmitry Osipenko wrote:
+> >> Could you please clarify what do you mean by the "existing users"?
+> >> AFAIK, nothing in kernel uses mux clocks.
+> >
+> > The DT clk bindings allow for parent initialization, so it's certainly
+> > possible there are some DTs which rely on this. We promised to never
+> > break the bindings, which changing to 1 clock would do.
 > 
-> I was investigating why CPU hangs during of GPIO driver suspend and in
-> the end it turned out that it is a Broadcom WiFi driver problem because
-> it keeps OOB wake-interrupt enabled while WLAN interface is DOWN and this
-> may cause a bit weird CPU hang on writing to INT_ENB register during of
-> GPIO driver suspend. Meanwhile I also noticed that a few things could be
-> improved in the driver, that's what this small series addresses.
+> What about this variant:
 > 
-> Dmitry Osipenko (3):
->   gpio: tegra: Use generic readl_relaxed/writel_relaxed accessors
->   gpio: tegra: Properly handle irq_set_irq_wake() error
->   gpio: tegra: Use NOIRQ phase for suspend/resume
+>   1. Keep the old CaR code in place.
 > 
->  drivers/gpio/gpio-tegra.c | 21 ++++++++++-----------
->  1 file changed, 10 insertions(+), 11 deletions(-)
+>   2. Make CaR driver to scan whole device-tree for the legacy PMC clocks.
 > 
+>   3. If legacy clock is found, then register PMC clocks from CaR.
+> 
+>   4. If legacy clocks are not found, then don't register PMC clocks from
+> CaR.
+> 
+>   5. Add clocks support to the PMC driver and only register them if
+> legacy clocks are not registered by CaR.
+> 
+> Now both old and new DTBs can co-exist and work, everyone happy.
 
-For the reference, here is the WiFi driver fix:
+That seems even more work.. Today the only upstream user is audio. 
+Currently these clocks are setup by the CAR clock driver. However
+as they will move to the PMC driver, this mechanism cannot be used.
+Hence the plan is to modify the audio driver to check for the PMC clocks
+in DT and if they are not available use the CAR clocks as fallback.
+The whole reason the clocks move to the PMC driver, is that when PMC
+becomes secure, all accesses have to go via an SMC. Given that we don't
+want SMCs all over the Tegra drivers, it's a good opportunity to move
+the PMC clock handling into the PMC driver. PMC can be secure with both
+'new' and old DTs, so just registering the PMC clocks in the CAR driver
+if legacy clocks are found in the DT, won't always work.
 
-https://patchwork.ozlabs.org/patch/1209997/
+Peter.
