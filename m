@@ -2,55 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B33111225B2
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 Dec 2019 08:41:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D2DC1229E0
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 Dec 2019 12:27:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbfLQHkv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 17 Dec 2019 02:40:51 -0500
-Received: from coyote.holtmann.net ([212.227.132.17]:53775 "EHLO
-        mail.holtmann.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbfLQHkv (ORCPT
+        id S1727534AbfLQL1c (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 17 Dec 2019 06:27:32 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13537 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727427AbfLQL12 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 17 Dec 2019 02:40:51 -0500
-Received: from marcel-macbook.fritz.box (p4FF9F0D1.dip0.t-ipconnect.de [79.249.240.209])
-        by mail.holtmann.org (Postfix) with ESMTPSA id 21291CED46;
-        Tue, 17 Dec 2019 08:50:01 +0100 (CET)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.40.2.2.4\))
-Subject: Re: [PATCH v1 2/2] dt-bindings: net: broadcom-bluetooth: Document
- BCM4329 support
-From:   Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20191215185253.14024-2-digetx@gmail.com>
-Date:   Tue, 17 Dec 2019 08:40:49 +0100
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        devicetree@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+        Tue, 17 Dec 2019 06:27:28 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df8bb820000>; Tue, 17 Dec 2019 03:26:59 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 17 Dec 2019 03:27:26 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 17 Dec 2019 03:27:26 -0800
+Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 17 Dec
+ 2019 11:27:24 +0000
+Subject: Re: [PATCH 4.14 000/267] 4.14.159-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191216174848.701533383@linuxfoundation.org>
+ <20191217090548.GA2801817@kroah.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <c067e2f2-e9ec-6006-21b9-a1fd4d508d21@nvidia.com>
+Date:   Tue, 17 Dec 2019 11:27:22 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20191217090548.GA2801817@kroah.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Message-Id: <E971B7A3-B5F2-4F21-B0F4-B7D289080D9A@holtmann.org>
-References: <20191215185253.14024-1-digetx@gmail.com>
- <20191215185253.14024-2-digetx@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-X-Mailer: Apple Mail (2.3608.40.2.2.4)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576582019; bh=nGwtza/SVQILMLhlaQJsnoDs3TgqHWopxWMuKFWmHu8=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=qNn7T4TP2fUattxxxVJsCqpNCIPOz+laoIVH3wIz6vT6ZnsAHtwczT4nPnqHJiEji
+         XADV243e1rXnuInmkBJZ3VfUWfUU5wdnKAuziZgd5nqiYbaUgu1GXhF98mxY7R79e9
+         IxJWjEyyGSZs/94SECce5CFmmSI9ZxL8Sy1925agyDi3XRXOMQmp8cKI//ONGjXC/u
+         swqF56V2hPO9v2xLgQF6i2ATL6/08n0cPdcjsTbDyb4frk3BGzR+FwQ/bbtJWioWCP
+         m9cR1YxOZyoZa5jeSYgd3R1HVAQG7xKpsy6AaXvWP9yOEwv24TwjERqnqfP6BOlue+
+         U0X7PfiTOJE7A==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dmitry,
 
-> The BCM4329 is a 802.11 a/b/g/n WiFi + Bluetooth 2.1 chip which is found
-> in Azurewave AW-NH611 WiFi+BT module.
+On 17/12/2019 09:05, Greg Kroah-Hartman wrote:
+> On Mon, Dec 16, 2019 at 06:45:26PM +0100, Greg Kroah-Hartman wrote:
+>> This is the start of the stable review cycle for the 4.14.159 release.
+>> There are 267 patches in this series, all will be posted as a response
+>> to this one.  If anyone has any issues with these being applied, please
+>> let me know.
+>>
+>> Responses should be made by Wed, 18 Dec 2019 17:41:25 +0000.
+>> Anything received after that time might be too late.
+>>
+>> The whole patch series can be found in one patch at:
+>> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.159-rc1.gz
+>> or in the git tree and branch at:
+>> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
+>> and the diffstat can be found below.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
-> Documentation/devicetree/bindings/net/broadcom-bluetooth.txt | 1 +
-> 1 file changed, 1 insertion(+)
+> There is a -rc2 out now to resolve some reported issues:
+>  	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.159-rc2.gz
 
-patch has been applied to bluetooth-next tree.
 
-Regards
+All tests are passing for Tegra ...
 
-Marcel
+Test results for stable-v4.14:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    24 tests:	24 pass, 0 fail
 
+Linux version:	4.14.159-rc2-g66745e000c83
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
