@@ -2,319 +2,232 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43E161232D8
-	for <lists+linux-tegra@lfdr.de>; Tue, 17 Dec 2019 17:46:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90603123669
+	for <lists+linux-tegra@lfdr.de>; Tue, 17 Dec 2019 21:05:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727983AbfLQQqg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 17 Dec 2019 11:46:36 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:43262 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727947AbfLQQqf (ORCPT
+        id S1727655AbfLQUEO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 17 Dec 2019 15:04:14 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1796 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727036AbfLQUEN (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 17 Dec 2019 11:46:35 -0500
-Received: by mail-lj1-f195.google.com with SMTP id a13so11696396ljm.10;
-        Tue, 17 Dec 2019 08:46:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fTLCH4KaRHeYUv55bzLY1HPI3r76VJWT0dB9aZnerCg=;
-        b=QPfplpt+A9Klj3DjVbW8TXYLzaCkJgbnWN5yo5YSCB2iBqEuA8B0hbjHapdursGicB
-         wBkzfhAlm2wAjmVYhvrYR25PegU+2XMl2NzNDpvTo5HiAAXCm4Zf5e6eyltAbhH8KtOW
-         3C9s7EuaYKzZH+Ly/GkVPTEKzjngGVvt5weB/KHGwbQLQEeg+dBUMhWh3p4EI+3I3osu
-         lmQY2hIapVxNPmXEIkGg5+gRHQsdLbpu2o72SKfearx3v9COFOgJZb8OPjZNPDVf80hr
-         LOuWMuKts0FDHaYfDc4RtxjQdD1zG9zWSGf/RMZaIZVIDFyq+VCLxBgekDx+AIjMAvJw
-         xQCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fTLCH4KaRHeYUv55bzLY1HPI3r76VJWT0dB9aZnerCg=;
-        b=bp2q9dFm7ZQAvi0bHvd0mZJS7RaYaAIjyxmrvJ5MEZs15rarzm1TnMttlN64hjBO6M
-         jixm7LitsdlhuHBZWwetbzF5NagaeI4V5ILyB+1uy9sQ5LTQgHcQqlf/Pil5g62B0w6R
-         0n/f0/82feFw11HcsWQwr1XBIAn8Yx/rpC/Wx9679yO+5C9hi+UQcLoBmR03VFEM+u38
-         xrwgN2WtMcOyIUaIL8Cq3bIdl+M2KlSjHTNbraQPfp1MZFwIVheI1kMDskzdRnVSYmxl
-         frc4IwAG8CMsCHqCF7dV/olHfWXP1JyjSw7aMuBeUxkVOy/Ly+ZbISZzGR/LnKlnb36M
-         iqfA==
-X-Gm-Message-State: APjAAAXVAl0A8GAR21rIMlmm9Vdh5Ajr2kTnV7sh9PMcRzt9Ice1vkhZ
-        zq588qia2atXvku1Xk1mDhE=
-X-Google-Smtp-Source: APXvYqyvW1V2KF/dkzdM4xTLRcEvf6pJzGrqPZlghjDA7+L5+wAbubzYJ5o/gjGHYC+Co96jNcIG7w==
-X-Received: by 2002:a2e:9e16:: with SMTP id e22mr3723400ljk.220.1576601192195;
-        Tue, 17 Dec 2019 08:46:32 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id s2sm12782873lji.33.2019.12.17.08.46.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2019 08:46:31 -0800 (PST)
-Subject: Re: [PATCH v3 08/15] ASoC: tegra: Add audio mclk control through
- clk_out_1 and extern1
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        mperttunen@nvidia.com, sboyd@kernel.org
-Cc:     gregkh@linuxfoundation.org, tglx@linutronix.de, robh+dt@kernel.org,
-        mark.rutland@arm.com, allison@lohutok.net, pdeschrijver@nvidia.com,
-        pgaikwad@nvidia.com, mturquette@baylibre.com,
-        horms+renesas@verge.net.au, Jisheng.Zhang@synaptics.com,
-        krzk@kernel.org, arnd@arndb.de, spujar@nvidia.com,
-        josephl@nvidia.com, vidyas@nvidia.com, daniel.lezcano@linaro.org,
-        mmaddireddy@nvidia.com, markz@nvidia.com,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-        tiwai@suse.com, alexios.zavras@intel.com,
-        alsa-devel@alsa-project.org
-References: <1575600535-26877-1-git-send-email-skomatineni@nvidia.com>
- <1575600535-26877-9-git-send-email-skomatineni@nvidia.com>
- <0ce2e83b-800c-da1e-7a3c-3cf1427cfe20@gmail.com>
- <2eeceabe-b5f0-6f9e-ff8c-4ac6167b7cc3@nvidia.com>
- <41a7325c-9bb9-f681-4d30-d19079869d12@nvidia.com>
- <d8f158cd-3bf5-383a-c9fe-650f6d7ac178@gmail.com>
- <fc491006-a316-5910-acb1-659c768b1038@nvidia.com>
- <225860bb-38e0-75ea-c08f-6090b2fc16b0@gmail.com>
- <8fabffb2-f03a-dccb-94b6-4db16604f57d@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e8d2aca9-1019-e0cd-c339-134bad264bfa@gmail.com>
-Date:   Tue, 17 Dec 2019 19:46:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Tue, 17 Dec 2019 15:04:13 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df934b10000>; Tue, 17 Dec 2019 12:04:01 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 17 Dec 2019 12:04:10 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 17 Dec 2019 12:04:10 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 17 Dec
+ 2019 20:04:10 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 17 Dec 2019 20:04:10 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.174.101]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5df934b90004>; Tue, 17 Dec 2019 12:04:10 -0800
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <digetx@gmail.com>,
+        <mperttunen@nvidia.com>, <gregkh@linuxfoundation.org>,
+        <sboyd@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>
+CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <spujar@nvidia.com>, <josephl@nvidia.com>,
+        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
+        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 00/19] Move PMC clocks into Tegra PMC driver
+Date:   Tue, 17 Dec 2019 12:03:47 -0800
+Message-ID: <1576613046-17159-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <8fabffb2-f03a-dccb-94b6-4db16604f57d@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576613041; bh=9ykUQswi8/hqVpW6YWfKvKtTcZiGIo2H7ZAdst/hka4=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=nQ9U7nJaDVIrATvnecUPToOfEK/sWSdr5aCaOzmVcYp2JjZBecGFY8+bBlBsjSZG6
+         ycqBn2IvkrvhUFjjSAEpD8Za298S+IOkhwUo0pVAih4eXau5etnuyncIwBaHuXSe9p
+         VDDx2PIQupZAZH+P8aqdzjj4dJNVeDW7VB6ny/9Xz355/QRmUR21PQVJPXVWiMIX8W
+         KqsFVcF1v1PLmN4HgTkSl6jm4+mnkl1D14TLFjTAKWamAgGZAF3nz3eJc6uyqu/Vwz
+         sgVrLDAxsaAkTwPcRtPCZleNmysQugcFAggdZvMgJ2eST4hSQXRBzKgAnHZb/0/zPN
+         W//+420yQlmWg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.12.2019 19:39, Sowjanya Komatineni пишет:
-> 
-> On 12/17/19 8:16 AM, Dmitry Osipenko wrote:
->> 17.12.2019 19:12, Sowjanya Komatineni пишет:
->>> On 12/17/19 7:36 AM, Dmitry Osipenko wrote:
->>>> 17.12.2019 04:29, Sowjanya Komatineni пишет:
->>>>> On 12/7/19 11:20 AM, Sowjanya Komatineni wrote:
->>>>>> On 12/7/19 6:58 AM, Dmitry Osipenko wrote:
->>>>>>> 06.12.2019 05:48, Sowjanya Komatineni пишет:
->>>>>>>> Current ASoC driver uses extern1 as cdev1 clock from Tegra30
->>>>>>>> onwards
->>>>>>>> through device tree.
->>>>>>>>
->>>>>>>> Actual audio mclk is clk_out_1 and to use PLLA for mclk rate
->>>>>>>> control,
->>>>>>>> need to clk_out_1_mux parent to extern1 and extern1 parent to
->>>>>>>> PLLA_OUT0.
->>>>>>>>
->>>>>>>> Currently Tegra clock driver init sets the parents and enables both
->>>>>>>> clk_out_1 and extern1 clocks. But these clocks parent and enables
->>>>>>>> should
->>>>>>>> be controlled by ASoC driver.
->>>>>>>>
->>>>>>>> Clock parents can be specified in device tree using assigned-clocks
->>>>>>>> and assigned-clock-parents.
->>>>>>>>
->>>>>>>> To enable audio mclk, both clk_out_1 and extern1 clocks need to be
->>>>>>>> enabled.
->>>>>>>>
->>>>>>>> This patch configures parents for clk_out_1 and extern1 clocks if
->>>>>>>> device
->>>>>>>> tree does not specify clock parents inorder to support old device
->>>>>>>> tree
->>>>>>>> and controls mclk using both clk_out_1 and extern1 clocks.
->>>>>>>>
->>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>>>>>> ---
->>>>>>>>     sound/soc/tegra/tegra_asoc_utils.c | 66
->>>>>>>> ++++++++++++++++++++++++++++++++++++++
->>>>>>>>     sound/soc/tegra/tegra_asoc_utils.h |  1 +
->>>>>>>>     2 files changed, 67 insertions(+)
->>>>>>>>
->>>>>>>> diff --git a/sound/soc/tegra/tegra_asoc_utils.c
->>>>>>>> b/sound/soc/tegra/tegra_asoc_utils.c
->>>>>>>> index 536a578e9512..8e3a3740df7c 100644
->>>>>>>> --- a/sound/soc/tegra/tegra_asoc_utils.c
->>>>>>>> +++ b/sound/soc/tegra/tegra_asoc_utils.c
->>>>>>>> @@ -60,6 +60,7 @@ int tegra_asoc_utils_set_rate(struct
->>>>>>>> tegra_asoc_utils_data *data, int srate,
->>>>>>>>         data->set_mclk = 0;
->>>>>>>>           clk_disable_unprepare(data->clk_cdev1);
->>>>>>>> +    clk_disable_unprepare(data->clk_extern1);
->>>>>>>>         clk_disable_unprepare(data->clk_pll_a_out0);
->>>>>>>>         clk_disable_unprepare(data->clk_pll_a);
->>>>>>>>     @@ -89,6 +90,14 @@ int tegra_asoc_utils_set_rate(struct
->>>>>>>> tegra_asoc_utils_data *data, int srate,
->>>>>>>>             return err;
->>>>>>>>         }
->>>>>>>>     +    if (!IS_ERR_OR_NULL(data->clk_extern1)) {
->>>>>>>> +        err = clk_prepare_enable(data->clk_extern1);
->>>>>>>> +        if (err) {
->>>>>>>> +            dev_err(data->dev, "Can't enable extern1: %d\n", err);
->>>>>>>> +            return err;
->>>>>>>> +        }
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>>         err = clk_prepare_enable(data->clk_cdev1);
->>>>>>>>         if (err) {
->>>>>>>>             dev_err(data->dev, "Can't enable cdev1: %d\n", err);
->>>>>>>> @@ -109,6 +118,7 @@ int tegra_asoc_utils_set_ac97_rate(struct
->>>>>>>> tegra_asoc_utils_data *data)
->>>>>>>>         int err;
->>>>>>>>           clk_disable_unprepare(data->clk_cdev1);
->>>>>>>> +    clk_disable_unprepare(data->clk_extern1);
->>>>>>>>         clk_disable_unprepare(data->clk_pll_a_out0);
->>>>>>>>         clk_disable_unprepare(data->clk_pll_a);
->>>>>>>>     @@ -142,6 +152,14 @@ int tegra_asoc_utils_set_ac97_rate(struct
->>>>>>>> tegra_asoc_utils_data *data)
->>>>>>>>             return err;
->>>>>>>>         }
->>>>>>>>     +    if (!IS_ERR_OR_NULL(data->clk_extern1)) {
->>>>>>>> +        err = clk_prepare_enable(data->clk_extern1);
->>>>>>>> +        if (err) {
->>>>>>>> +            dev_err(data->dev, "Can't enable extern1: %d\n", err);
->>>>>>>> +            return err;
->>>>>>>> +        }
->>>>>>>> +    }
->>>>>>> Why this is needed given that clk_extern1 is either a child of
->>>>>>> MCLK or
->>>>>>> MCLK itself (on T20)? The child clocks are enabled when the
->>>>>>> parent is
->>>>>>> enabled.
->>>>>> For T30 and later, clk_extern1 is one of the source for
->>>>>> clk_out_1_mux.
->>>>>> clk_extern1 is in CAR and it has its own gate and mux.
->>>>>>
->>>>>> As audio mclk related clocks (clk_out_1, clk_out_1_mux, and extern1)
->>>>>> are moved into ASoC driver from clock driver
->>>>>>
->>>>>> need to enable extern1 gate as well along with clk_out1 for T30
->>>>>> through T210.
->>>>>>
->>>>>> Just FYI, extern1 enable here happens only when data->clk_extern1 is
->>>>>> available which is for T30 onwards.
->>>>>>
->>>>>>>>         err = clk_prepare_enable(data->clk_cdev1);
->>>>>>>>         if (err) {
->>>>>>>>             dev_err(data->dev, "Can't enable cdev1: %d\n", err);
->>>>>>>> @@ -158,6 +176,7 @@
->>>>>>>> EXPORT_SYMBOL_GPL(tegra_asoc_utils_set_ac97_rate);
->>>>>>>>     int tegra_asoc_utils_init(struct tegra_asoc_utils_data *data,
->>>>>>>>                   struct device *dev)
->>>>>>>>     {
->>>>>>>> +    struct clk *clk_out_1_mux;
->>>>>>>>         int ret;
->>>>>>>>           data->dev = dev;
->>>>>>>> @@ -196,6 +215,51 @@ int tegra_asoc_utils_init(struct
->>>>>>>> tegra_asoc_utils_data *data,
->>>>>>>>             goto err_put_pll_a_out0;
->>>>>>>>         }
->>>>>>> In a previous patch you added fallback to EXTPERIPH when
->>>>>>> clk_get(MCLK)
->>>>>>> fails. This will work perfectly fine for the older kernels which
->>>>>>> have
->>>>>>> all clocks in the same single CaR driver, but this may not work that
->>>>>>> great for the newer kernels because PMC driver isn't registered
->>>>>>> early
->>>>>>> during boot and thus it is possible to get a legit -EPROBE_DEFER
->>>>>>> which
->>>>>>> shouldn't be ignored. In other words, you need to add into this
->>>>>>> patch a
->>>>>>> check for the error code returned by clk_get(MCLK) and fallback
->>>>>>> only for
->>>>>>> -EINVAL.
->>>>>> yeah right, will add check in next version.
->>>>>>>> +    /*
->>>>>>>> +     * If clock parents are not set in DT, configure here to use
->>>>>>>> clk_out_1
->>>>>>>> +     * as mclk and extern1 as parent for Tegra30 and higher.
->>>>>>>> +     */
->>>>>>>> +    if (!of_find_property(dev->of_node, "assigned-clock-parents",
->>>>>>>> NULL) &&
->>>>>>>> +        data->soc > TEGRA_ASOC_UTILS_SOC_TEGRA20) {
->>>>>>>> +        data->clk_extern1 = clk_get_sys("clk_out_1", "extern1");
->>>>>>>> +        if (IS_ERR(data->clk_extern1)) {
->>>>>>>> +            dev_err(data->dev, "Can't retrieve clk extern1\n");
->>>>>>>> +            ret = PTR_ERR(data->clk_extern1);
->>>>>>>> +            goto err_put_cdev1;
->>>>>>>> +        }
->>>>>>>> +
->>>>>>>> +        ret = clk_set_parent(data->clk_extern1,
->>>>>>>> data->clk_pll_a_out0);
->>>>>>>> +        if (ret < 0) {
->>>>>>>> +            dev_err(data->dev,
->>>>>>>> +                "Set parent failed for clk extern1: %d\n",
->>>>>>>> +                ret);
->>>>>>>> +            goto err_put_cdev1;
->>>>>>>> +        }
->>>>>>>> +
->>>>>>>> +        clk_out_1_mux = clk_get_sys(NULL, "clk_out_1_mux");
->>>>>>> Note1: clk_get(dev, "clk_out_1_mux") should work here by letting clk
->>>>>>> core to fall back to the clk_get_sys() by itself. Either way should
->>>>>>> be good.
->>>>> clk_get uses device rather and dev_id will be name of this device and
->>>>> when clk_get fall back to __clk_get_sys() it still will use dev id of
->>>>> this device rather than actual dev_id that pmc clocks are added to the
->>>>> lookup. So clk_get_sys() seems to be correct to use as we can specify
->>>>> exact dev_id and con_id.
->>>> It should be better to use something "resource managed", thus
->>>> devm_clk_get() should be a better choice.
->>>>
->>>>> Also, clk_find retrieves clock from lookup only when it finds matching
->>>>> clock with both dev_id and con_id as pmc clocks are registered with
->>>>> both
->>>>> dev_id and con_id.
->>>>>
->>>>> I see existing clock driver adds both extern and pmc clocks
->>>>> (clk_out) to
->>>>> lookup with same dev_id of clk_out_1/2/3 and con_id of extern1/2/3 and
->>>>> with this always extern clock will be retrieved and this is probably
->>>>> because old DT and audio driver always uses extern1 rather than actual
->>>>> clk_out_1
->>>>>
->>>>> But this need to be fixed now as we changed to use clk_out directly
->>>>> rather than extern (even for other pmc clocks) to match actual hw
->>>>> design.
->>>>>
->>>>> Will fix this as well to register pmc clocks using con_id as
->>>>> clk_out_1/2/3 in pmc driver and extern clocks using con_id of
->>>>> extern1/2/3 with dev_id being NULL so we can retrieve these clocks by
->>>>> just using con_id only using clk_get_sys as we switched to use
->>>>> clk_out_1
->>>>> directly as pmc clock rather than extern from DT and no longer need to
->>>>> pair pmc clocks to extern clocks.
->>>> I'm not sure it's worth the effort to care about con_ids if implicit
->>>> fallback to clk_get_sys(NULL, "...") does the right thing for the audio
->>>> driver.
->>>>
->>>> IIRC, CCF uses variant of matching clocks by names, although I'm not
->>>> sure whether that applies to older stable kernels.
->>>>
->>>> [snip]
->>> Current clock driver adds EXTERN clock to lookup with dev_id as
->>> clk_out_1/2/3 and con_id as extern_1/2/3
->>>
->>> With this we can retrieve clock from lookup only with clk_get_sys where
->>> we can pass dev_id as clk_out_1/2/3 and con_id as extern_1/2/3.
->>>
->>> We cant use devm_clk_get() or clk_get() for retrieving clocks from
->>> lookup by passing device object from sound driver as dev_id will be diff
->>> and clk_find will return NULL.
->> Have you actually tried to test that it fails? I think it's a false
->> assumption.
-> 
-> Yes I tried and looking at devm_clk_get it falls back to __clk_get_sys
-> which uses dev_id as dev_name of the device we pass from audio driver.
-> 
-> looking into clk_find API implementation it doesn't find the clock from
-> lookup unless both dev_id and con_id matches if a clock is added to
-> lookup with both dev_id and clk_id
-> 
-> 
->>> But with the fix of having dev_id as NULL and use only con_id to add to
->>> lookup, we can use resource managed APIs devm_clk_get.
->>>
->>> So was saying will fix this in clock driver as part of removing
->>> clk_out_1/2/3 ids and pmc init from clock driver so we can use
->>> devm_clk_get API in audio driver.
->>>
+This patch series moves Tegra PMC clocks from clock driver to pmc driver
+along with the device trees changes and audio driver which uses one of
+the pmc clock for audio mclk.
 
-Ok
+Tegra PMC has clk_out_1, clk_out_2, clk_out_3 and blink controls which
+are currently registered by Tegra clock driver using clk_regiser_mux and
+clk_register_gate which performs direct Tegra PMC register access.
+
+When Tegra PMC is in secure mode, any access from non-secure world will
+not go through.
+
+This patch series adds these Tegra PMC clocks and blink controls to Tegra
+PMC driver with PMC as clock provider and removes them from Tegra clock
+driver.
+
+PMC clock clk_out_1 is dedicated for audio mclk from Tegra30 thru Tegra210
+and clock driver does inital parent configuration for it and enables them.
+But this clock should be taken care by audio driver as there is no need
+to have this clock pre enabled.
+
+So, this series also includes patch that updates ASoC driver to take
+care of parent configuration for mclk if device tree don't specify
+initial parent configuration using assigned-clock-parents.
+
+DTs are also updated to use clk_out_1 as audio mclk rather than extern1.
+
+This series also includes a patch for mclk fallback to extern1 when
+retrieving mclk fails to have this backward compatible of new DT with
+old kernels.
+
+[v4]:	Changes between v3 and v4 are
+	- v3 Feedback
+	- Updated clocks clk_m_div2 and clk_m_div4 as osc_div2 and osc_div4.
+	  Tegra don't have clk_m_div2, clk_m_div4 and they should actually
+	  be osc_div2 and osc_div4 clocks from osc pads.
+	- Fixed PMC clock parents to use osc, osc_div2, osc_div4.
+	- Register each PMC clock as single clock rather than separate
+	  mux and gate clocks.
+	- Update ASoC utils to use resource managed APIs rather than
+	  using clk_get and clk_put.
+	- Updated device tree and ASoC driver to use clk_out_1 instead of
+	  clk_out_1_mux as PMC clocks are registered as single clock.
+	- Update clock driver init_table to not enable audio related clocks
+	  as ASoC utils will do audio clock enables.
+
+[v3]:	Changes between v2 and v3 are
+	- Removes set parent of clk_out_1_mux to extern1 and enabling
+	  extern1 from the clock driver.
+	- Doesn't enable clk_out_1 and blink by default in pmc driver
+	- Updates ASoC driver to take care of audio mclk parent
+	  configuration incase if device tree don't specify assigned
+	  clock parent properties and enables mclk using both clk_out_1
+	  and extern1.
+	- updates all device trees using extern1 as mclk in sound node
+	  to use clk_out_1 from pmc.
+	- patch for YAML format pmc dt-binding
+	- Includes v2 feedback
+
+[v2]:	Changes between v1 and v2 are
+	- v2 includes patches for adding clk_out_1, clk_out_2, clk_out_3,
+	  blink controls to Tegra PMC driver and removing clk-tegra-pmc.
+	- feedback related to pmc clocks in Tegra PMC driver from v1
+	- Removed patches for WB0 PLLM overrides and PLLE IDDQ PMC programming
+	  by the clock driver using helper functions from Tegra PMC.
+
+ 	  Note:
+	  To use helper functions from PMC driver, PMC early init need to
+	  happen prior to using helper functions and these helper functions are
+	  for PLLM Override and PLLE IDDQ programming in PMC during PLLM/PLLE
+	  clock registration which happen in clock_init prior to Tegra PMC
+	  probe.
+	  Moving PLLM/PLLE clocks registration to happen after Tegra PMC
+	  impacts other clocks EMC, MC and corresponding tegra_emc_init and
+	  tegra_mc_init.
+	  This implementation of configuring PMC registers thru helper
+	  functions in clock driver needs proper changes across PMC, Clock,
+	  EMC and MC inits to have it work across all Tegra platforms.
+
+	  Currently PLLM Override is not enabled in the bootloader so proper
+	  patches for this fix will be taken care separately.
+
+[v1]:	v1 includes patches for below fixes.
+	- adding clk_out_1, clk_out_2, clk_out_3, blink controls to Tegra PMC
+	  driver and removing clk-tegra-pmc.
+	- updated clock provider from tegra_car to pmc in the device tree
+	  tegra210-smaug.dts that uses clk_out_2.
+	- Added helper functions in PMC driver for WB0 PLLM overrides and PLLE
+	  IDDQ programming to use by clock driver and updated clock driver to
+	  use these helper functions and removed direct PMC access from clock
+	  driver and all pmc base address references in clock driver.
+
+
+
+Sowjanya Komatineni (19):
+  dt-bindings: clock: tegra: Change CLK_M_DIV to OSC_DIV clocks
+  clk: tegra: Change CLK_M_DIV clocks to OSC_DIV clocks
+  clk: tegra: Fix Tegra PMC clock out parents
+  dt-bindings: tegra: Convert Tegra PMC bindings to YAML
+  dt-bindings: soc: tegra-pmc: Add Tegra PMC clock bindings
+  soc: tegra: Add Tegra PMC clock registrations into PMC driver
+  dt-bindings: soc: tegra-pmc: Add id for Tegra PMC 32KHz blink clock
+  soc: tegra: Add support for 32KHz blink clock
+  clk: tegra: Remove tegra_pmc_clk_init along with clk ids
+  dt-bindings: clock: tegra: Remove pmc clock ids from clock dt-bindings
+  ASoC: tegra: Use device managed resource APIs to get the clock
+  ASoC: tegra: Add initial parent configuration for audio mclk
+  ASoC: tegra: Add fallback implementation for audio mclk
+  clk: tegra: Remove audio related clock enables from clocks init_table
+  ARM: dts: tegra: Add clock-cells property to pmc
+  arm64: tegra: Add clock-cells property to Tegra PMC node
+  ARM: tegra: Update sound node clocks in device tree
+  arm64: tegra: smaug: Change clk_out_2 provider to pmc
+  ASoC: nau8825: change Tegra clk_out_2 provider from tegra_car to pmc
+
+ .../bindings/arm/tegra/nvidia,tegra20-pmc.txt      |  37 ++-
+ .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml     | 291 +++++++++++++++++
+ .../devicetree/bindings/sound/nau8825.txt          |   2 +-
+ arch/arm/boot/dts/tegra114-dalmore.dts             |   7 +-
+ arch/arm/boot/dts/tegra114.dtsi                    |   4 +-
+ arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi        |   7 +-
+ arch/arm/boot/dts/tegra124-apalis.dtsi             |   7 +-
+ arch/arm/boot/dts/tegra124-jetson-tk1.dts          |   7 +-
+ arch/arm/boot/dts/tegra124-nyan.dtsi               |   7 +-
+ arch/arm/boot/dts/tegra124-venice2.dts             |   7 +-
+ arch/arm/boot/dts/tegra124.dtsi                    |   4 +-
+ arch/arm/boot/dts/tegra20.dtsi                     |   4 +-
+ arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi         |   7 +-
+ arch/arm/boot/dts/tegra30-apalis.dtsi              |   7 +-
+ arch/arm/boot/dts/tegra30-beaver.dts               |   7 +-
+ arch/arm/boot/dts/tegra30-cardhu.dtsi              |   7 +-
+ arch/arm/boot/dts/tegra30-colibri.dtsi             |   7 +-
+ arch/arm/boot/dts/tegra30.dtsi                     |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra132.dtsi           |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts      |   2 +-
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   2 +
+ drivers/clk/tegra/Makefile                         |   1 -
+ drivers/clk/tegra/clk-id.h                         |  11 +-
+ drivers/clk/tegra/clk-tegra-fixed.c                |  32 +-
+ drivers/clk/tegra/clk-tegra-pmc.c                  | 122 -------
+ drivers/clk/tegra/clk-tegra114.c                   |  41 +--
+ drivers/clk/tegra/clk-tegra124.c                   |  46 +--
+ drivers/clk/tegra/clk-tegra20.c                    |   9 +-
+ drivers/clk/tegra/clk-tegra210.c                   |  30 +-
+ drivers/clk/tegra/clk-tegra30.c                    |  31 +-
+ drivers/clk/tegra/clk.h                            |   1 -
+ drivers/soc/tegra/pmc.c                            | 355 +++++++++++++++++++++
+ include/dt-bindings/clock/tegra114-car.h           |  18 +-
+ include/dt-bindings/clock/tegra124-car-common.h    |  18 +-
+ include/dt-bindings/clock/tegra20-car.h            |   2 +-
+ include/dt-bindings/clock/tegra210-car.h           |  18 +-
+ include/dt-bindings/clock/tegra30-car.h            |  18 +-
+ include/dt-bindings/soc/tegra-pmc.h                |  16 +
+ sound/soc/tegra/tegra_alc5632.c                    |   7 +-
+ sound/soc/tegra/tegra_asoc_utils.c                 |  79 +++--
+ sound/soc/tegra/tegra_asoc_utils.h                 |   1 -
+ sound/soc/tegra/tegra_max98090.c                   |  22 +-
+ sound/soc/tegra/tegra_rt5640.c                     |  22 +-
+ sound/soc/tegra/tegra_rt5677.c                     |   7 +-
+ sound/soc/tegra/tegra_sgtl5000.c                   |   7 +-
+ sound/soc/tegra/tegra_wm8753.c                     |  22 +-
+ sound/soc/tegra/tegra_wm8903.c                     |  22 +-
+ sound/soc/tegra/tegra_wm9712.c                     |   8 +-
+ sound/soc/tegra/trimslice.c                        |  18 +-
+ 49 files changed, 967 insertions(+), 448 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
+ delete mode 100644 drivers/clk/tegra/clk-tegra-pmc.c
+ create mode 100644 include/dt-bindings/soc/tegra-pmc.h
+
+-- 
+2.7.4
+
