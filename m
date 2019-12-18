@@ -2,56 +2,58 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 729CC125114
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Dec 2019 19:56:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDD06125130
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Dec 2019 20:00:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726824AbfLRS4I (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Dec 2019 13:56:08 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:43406 "EHLO
+        id S1726831AbfLRTAU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Dec 2019 14:00:20 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:46104 "EHLO
         mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726699AbfLRS4I (ORCPT
+        with ESMTP id S1726939AbfLRTAU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Dec 2019 13:56:08 -0500
-Received: by mail-lf1-f68.google.com with SMTP id 9so2449549lfq.10
-        for <linux-tegra@vger.kernel.org>; Wed, 18 Dec 2019 10:56:07 -0800 (PST)
+        Wed, 18 Dec 2019 14:00:20 -0500
+Received: by mail-lf1-f68.google.com with SMTP id f15so2439776lfl.13
+        for <linux-tegra@vger.kernel.org>; Wed, 18 Dec 2019 11:00:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=rOEBpssRPreuK43GnY0IvxzrGvsOE4JXvpybG0rWPf4=;
-        b=rtZux+/tVmFCOnbxkr2Nbjm7XvVhZqXX65PAwQz6a4tZhLg43Xs5NF3JEXZeKcFUQ8
-         s5MPgC3RByuX2Wd4AovCf0M920fDv6061QmQn7vORk0Mg67Uq78hafQNwUJv+4/v88bG
-         e5PM1C0vwty3p0uG/fkUPje9+sQFgXveLZ3O8ziyEoI+Iw5O11t1IeVbi6yh/iZw+6cm
-         RTJjl1kTHcPKltnk04GYp5Pq7DuaTjZ+C1osaFwCKVLrZSIbHY+3ZzYl1lHhKZjjwn+Q
-         rN7vOMSxzUbeasE8zWPcKKlZzKPQyikz2lnpA2ahwpvM8ttVtIRqnMAiQ6HRvFQW7XUM
-         VnMA==
+        bh=eoDXaTyw+gIvJ5ckCSwh5rhCMxi3cj8JyA3RyBnKQcE=;
+        b=W2SrWYBWT7oeWjIQE7mjntNue6NtCnroTsVm4+s9lGiel8BS2NrRJyFHbgD4XGG7gK
+         91vZJit4CoKs69gfYjTuksdjT6oKWa0l3oiEs0i6hQDjVCP1TUlxmKiEOw4EfSg909tC
+         rMjJxf8/8F2yjuKyr4om4VdUeQmdY9lN/A4d6S4EXBtXNc7tyt7dDuMTpfzJ2LgN0jJD
+         O15/+V9TqELjP0ij1N8lZRR2IR83YYnYesJkT6/hQwA24kPhITd0ST2tonsSqZ7a2nTC
+         OWGQw4fhZe0Ccidx0X7oWywkhQ5dnpWoDbXUVAE2UCp3nVJDaHTlOKGUCk1m5E6KJuZ3
+         ABQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=rOEBpssRPreuK43GnY0IvxzrGvsOE4JXvpybG0rWPf4=;
-        b=MNCrH5gV34NObahiUCptkbbOm7tT5YxruKwW0mpBOuR/NJw54h1AeYGW7IerQ8Qpva
-         KacKzPzr4aOjzXnXdXLyPQcHo4ovRpoigrulpiusZsdpW7nuLkSFErCmq/hjKLNdW0Br
-         a2bVgFENJzw83CZ+yC5z3wKBKjBHPcax1Ze/5tN7EIeHLBZ0v4jdzjtfevBgoDBpMLIB
-         c1ew5sDO440TC5D919FbMAlo6dW9aHdZ+WrsFYR1Guh5yY4MRLeBguSdqIvA6ALEtDnC
-         QIiRVljBhN0yuj7gCLTEtjRapZGVplHvn/4zZrIUmwBPFfbAA6ivy08qbKLFRaq2t0p1
-         tOkA==
-X-Gm-Message-State: APjAAAVjjyOxsfLbMShsk7MolbrT10DuY/emDZ3VvUQht6fUE48Lr9yZ
-        rutG3ShdRPVRzq+KSSfuOSo=
-X-Google-Smtp-Source: APXvYqwz9Q9vvX83/UePnu/NZp5ZwgnNbbJ4X1lloC/mfL+EsHIjvEDCAVXgf3Ddj29EiLp9LhqUtw==
-X-Received: by 2002:a19:c80a:: with SMTP id y10mr2717459lff.177.1576695366556;
-        Wed, 18 Dec 2019 10:56:06 -0800 (PST)
+        bh=eoDXaTyw+gIvJ5ckCSwh5rhCMxi3cj8JyA3RyBnKQcE=;
+        b=e6RruECKNYx0wZlq/yjV8Zb5shSjl20q4PqTHgEnPGPtkGZUFCnG2ZidXk3TTZ9Mlm
+         7LVYaR9ZX7vV3mIOeYYOwzP5KMnNyWOh0yD+yNhsei7LyXIAZorS0su8x8cHqLICYg7L
+         Sd7fVaQeWIsxMlKhL8F9g7u/I2nGFC1TYJ+ehtk9ijY/7A4VjOljX14fWEBi64iB8ot8
+         KDArR0hLQqxLWTy3b7Wnxo4y356vanKOUBrf2WC8mfKKuGvGxdTSI4EMICGpSyeluBAp
+         8EPNUyV/xuCz2T/IiWjGKYS0436AqsImyovUmr4BnV/RaSXC5YfycpdyLFR3mt5PQ5/q
+         8dqw==
+X-Gm-Message-State: APjAAAVsgtFcOCkABBvTWv57EDyjPo9oxbRiLcSMTTaDoaJh3YpdLPWm
+        pi7NiWuO0v/UN+rf1j7ERsvL5pDs
+X-Google-Smtp-Source: APXvYqyq5jDqyBpM6OE/BWFMAnWkFoELZNDXeFhGRdZ1DOI8e7/jjOzCT9cklDfD4sFYxGTZ/z/zsQ==
+X-Received: by 2002:a19:8456:: with SMTP id g83mr2833295lfd.0.1576695618289;
+        Wed, 18 Dec 2019 11:00:18 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id q27sm1673790ljc.65.2019.12.18.10.56.05
+        by smtp.gmail.com with ESMTPSA id l64sm1576013lfd.30.2019.12.18.11.00.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2019 10:56:06 -0800 (PST)
+        Wed, 18 Dec 2019 11:00:17 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     Mark Brown <broonie@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH v1] soc/tegra: regulators: Do nothing if voltage is unchanged
-Date:   Wed, 18 Dec 2019 21:55:35 +0300
-Message-Id: <20191218185535.28009-1-digetx@gmail.com>
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Marc Dietrich <marvin24@gmx.de>,
+        Nicolas Chauvet <kwizart@gmail.com>
+Cc:     linux-tegra@vger.kernel.org
+Subject: [PATCH v1] ARM: dts: tegra20: paz00: Add memory timings
+Date:   Wed, 18 Dec 2019 21:59:57 +0300
+Message-Id: <20191218185957.29237-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -60,72 +62,75 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-There is no need to re-apply the same voltage. This change is just a minor
-cleanup.
+PAZ00 board has two variants of DDR2 SDRAM devices for External Memory:
+one is Hynix HY5PS1G831CLFP-Y5 and the other is Micron MT47H128M8CF-25:H.
+The Micron variant doesn't have official timings in the wild, hence only
+timings for the Hynix are added. The memory frequency-scaling was tested
+using the Tegra20 devfreq driver.
 
+Tested-by: Marc Dietrich <marvin24@gmx.de>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/regulators-tegra20.c | 8 +++++++-
- drivers/soc/tegra/regulators-tegra30.c | 6 ++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/tegra20-paz00.dts | 46 +++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/drivers/soc/tegra/regulators-tegra20.c b/drivers/soc/tegra/regulators-tegra20.c
-index ea0eede48802..367a71a3cd10 100644
---- a/drivers/soc/tegra/regulators-tegra20.c
-+++ b/drivers/soc/tegra/regulators-tegra20.c
-@@ -162,6 +162,9 @@ static int tegra20_core_rtc_update(struct tegra_regulator_coupler *tegra,
- 			core_target_uV = max(rtc_uV - max_spread, core_target_uV);
- 		}
+diff --git a/arch/arm/boot/dts/tegra20-paz00.dts b/arch/arm/boot/dts/tegra20-paz00.dts
+index 85fce5bc72d6..be0ab9b84b9a 100644
+--- a/arch/arm/boot/dts/tegra20-paz00.dts
++++ b/arch/arm/boot/dts/tegra20-paz00.dts
+@@ -311,6 +311,52 @@ nvec@7000c500 {
+ 		reset-names = "i2c";
+ 	};
  
-+		if (core_uV == core_target_uV)
-+			goto update_rtc;
++	memory-controller@7000f400 {
++		nvidia,use-ram-code;
 +
- 		err = regulator_set_voltage_rdev(core_rdev,
- 						 core_target_uV,
- 						 core_max_uV,
-@@ -170,7 +173,7 @@ static int tegra20_core_rtc_update(struct tegra_regulator_coupler *tegra,
- 			return err;
- 
- 		core_uV = core_target_uV;
--
-+update_rtc:
- 		if (rtc_uV < rtc_min_uV) {
- 			rtc_target_uV = min(rtc_uV + max_spread, rtc_min_uV);
- 			rtc_target_uV = min(core_uV + max_spread, rtc_target_uV);
-@@ -179,6 +182,9 @@ static int tegra20_core_rtc_update(struct tegra_regulator_coupler *tegra,
- 			rtc_target_uV = max(core_uV - max_spread, rtc_target_uV);
- 		}
- 
-+		if (rtc_uV == rtc_target_uV)
-+			continue;
++		emc-tables@hynix {
++			nvidia,ram-code = <0x0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
- 		err = regulator_set_voltage_rdev(rtc_rdev,
- 						 rtc_target_uV,
- 						 rtc_max_uV,
-diff --git a/drivers/soc/tegra/regulators-tegra30.c b/drivers/soc/tegra/regulators-tegra30.c
-index 8e623ff18e70..7f21f31de09d 100644
---- a/drivers/soc/tegra/regulators-tegra30.c
-+++ b/drivers/soc/tegra/regulators-tegra30.c
-@@ -209,6 +209,9 @@ static int tegra30_voltage_update(struct tegra_regulator_coupler *tegra,
- 			cpu_target_uV = max(core_uV - max_spread, cpu_target_uV);
- 		}
- 
-+		if (cpu_uV == cpu_target_uV)
-+			goto update_core;
++			emc-table@166500 {
++				reg = <166500>;
++				compatible = "nvidia,tegra20-emc-table";
++				clock-frequency = <166500>;
++				nvidia,emc-registers = <0x0000000a 0x00000016
++					0x00000008 0x00000003 0x00000004 0x00000004
++					0x00000002 0x0000000c 0x00000003 0x00000003
++					0x00000002 0x00000001 0x00000004 0x00000005
++					0x00000004 0x00000009 0x0000000d 0x000004df
++					0x00000000 0x00000003 0x00000003 0x00000003
++					0x00000003 0x00000001 0x0000000a 0x000000c8
++					0x00000003 0x00000006 0x00000004 0x00000008
++					0x00000002 0x00000000 0x00000000 0x00000002
++					0x00000000 0x00000000 0x00000083 0xe03b0323
++					0x007fe010 0x00001414 0x00000000 0x00000000
++					0x00000000 0x00000000 0x00000000 0x00000000>;
++			};
 +
- 		err = regulator_set_voltage_rdev(cpu_rdev,
- 						 cpu_target_uV,
- 						 cpu_max_uV,
-@@ -231,6 +234,9 @@ static int tegra30_voltage_update(struct tegra_regulator_coupler *tegra,
- 			core_target_uV = max(core_target_uV, core_uV - core_max_step);
- 		}
- 
-+		if (core_uV == core_target_uV)
-+			continue;
++			emc-table@333000 {
++				reg = <333000>;
++				compatible = "nvidia,tegra20-emc-table";
++				clock-frequency = <333000>;
++				nvidia,emc-registers = <0x00000018 0x00000033
++					0x00000012 0x00000004 0x00000004 0x00000005
++					0x00000003 0x0000000c 0x00000006 0x00000006
++					0x00000003 0x00000001 0x00000004 0x00000005
++					0x00000004 0x00000009 0x0000000d 0x00000bff
++					0x00000000 0x00000003 0x00000003 0x00000006
++					0x00000006 0x00000001 0x00000011 0x000000c8
++					0x00000003 0x0000000e 0x00000007 0x00000008
++					0x00000002 0x00000000 0x00000000 0x00000002
++					0x00000000 0x00000000 0x00000083 0xf0440303
++					0x007fe010 0x00001414 0x00000000 0x00000000
++					0x00000000 0x00000000 0x00000000 0x00000000>;
++			};
++		};
++	};
 +
- 		err = regulator_set_voltage_rdev(core_rdev,
- 						 core_target_uV,
- 						 core_max_uV,
+ 	i2c@7000d000 {
+ 		status = "okay";
+ 		clock-frequency = <400000>;
 -- 
 2.24.0
 
