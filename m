@@ -2,112 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 431571242FC
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Dec 2019 10:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B369124466
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Dec 2019 11:23:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726141AbfLRJZG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Dec 2019 04:25:06 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33135 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725785AbfLRJZF (ORCPT
+        id S1726141AbfLRKXI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Dec 2019 05:23:08 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11759 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725930AbfLRKXI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Dec 2019 04:25:05 -0500
-Received: by mail-wr1-f66.google.com with SMTP id b6so1469471wrq.0
-        for <linux-tegra@vger.kernel.org>; Wed, 18 Dec 2019 01:25:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qxxBLnXs2wxDSTTt5ry9UUE2q104oudYGhlQ5EWCdw4=;
-        b=i+14rTbMI3oG6T1tbeFO0Z1LuUSscbFmUF28uG2xsjqS046qCpxMVoY1tHlRLgJ/4B
-         6tlLrMITAUo5M2K4M9dSXKEj10PXzgzSqESqM63d9mGIa0pwiLl519sywkDbsL4LZ1To
-         Xv4BKt+6ITyVZnH8+4nXDkMfBjIJrpMJp9Tly7NVCYk83/s5F4An8GIM4znE3/1fb5tN
-         TkKb50/FkBiWCw4b6xorhNm8dAL0V2eu5y/Rm3/2979t8aJ1KyXSUnrhxSgCPjezIlh/
-         D2fmfG9OX2KONh9KRTdAyPZ6C4uSiR9xJmqAxFpnR7HpAy66n+gxe5s9t6JqVAwuXmxk
-         Ulhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qxxBLnXs2wxDSTTt5ry9UUE2q104oudYGhlQ5EWCdw4=;
-        b=KxZe9u7LiReJm+rMskg3Ge731Qa+JmYIYpPD0SlJpaEKapsUM5fWnOKGxxqSD13EVJ
-         6mdyAo3hRosMS3j7relFjitcC9bMB++p9MVBkkVAbQkFXoUAVwGAqi7v6Ho4SeyuB9Bt
-         JwEmgFoY9TEYKLKPS0BRh1A64MstIbKHe4FFt0H7YRa8qGLcNzGHNP9AmE2ltM+VP+FQ
-         qs2Bt8GCg6WnJXgVuIUop6YsthHpCZyBycgeS/XyKnrjHVVZ0BLh75EmfMCw+k+gwoW2
-         37qau1D2gXkZRtvXzau7W8jGYV+qjRbXgL/hcT4PPkkI/IMLnWz9f4hf0hKnWXyjku4r
-         XUmA==
-X-Gm-Message-State: APjAAAVlfSK4ClkHMBpJS2zkPCPdM+w9m1c7xwtln6xMLdnzWFp/rZVy
-        rwd20LS4U32fefzs74rsNRs=
-X-Google-Smtp-Source: APXvYqy7JkLJ/5EseADZGM9r+UJe8Mh2BckPv0AOiq3E2gQUSbsGHbma+fHLUih0bxMtU7JDxpJhmw==
-X-Received: by 2002:a5d:620b:: with SMTP id y11mr1609262wru.230.1576661103640;
-        Wed, 18 Dec 2019 01:25:03 -0800 (PST)
-Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id e18sm1814069wrr.95.2019.12.18.01.25.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2019 01:25:02 -0800 (PST)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH] arm64: tegra: Make XUSB node consistent with the rest
-Date:   Wed, 18 Dec 2019 10:25:01 +0100
-Message-Id: <20191218092501.1031832-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        Wed, 18 Dec 2019 05:23:08 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df9fe020000>; Wed, 18 Dec 2019 02:22:58 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 18 Dec 2019 02:23:07 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 18 Dec 2019 02:23:07 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 18 Dec
+ 2019 10:23:04 +0000
+Subject: Re: [PATCH 5.3 00/25] 5.3.18-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191217200903.179327435@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <0d53cd34-e8d6-ca55-243a-ccf9d7c5c408@nvidia.com>
+Date:   Wed, 18 Dec 2019 10:23:02 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191217200903.179327435@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576664578; bh=TPEZlhSuVfY6nI6tLEC1n2/R8FGA4pqI51Nust1czuk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=YW/VfDGxq8ezuJNLtKoJigKsgGJlojaOEpnMVh0pEcBobT0nbgV+ysxRuL49vLW6i
+         PhM5ZDMaFe7pHPKYt/WBC1dllbz5oLGtcco+LMLastlimzD+PmSdgvj140kY43vau0
+         s2CVesNB2tuJNSRUopUnmsOp2hNIFNvxkCrr8rwR04ArUtlowMJxxRvaTxTdNhUajX
+         AZO7YQwJueFpfDHajkJj52QWFt6qGzBTzulGDVMN/0HkXFX8MSiMNxRNHiBFu7akz/
+         qWW47rbU7KWnL7brga99HlCZ1vofYYyBHaPDZJ1BVpj2OuG+b9vjy1er0nFM8LYPJl
+         rxfL94uXfsggg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-The ordering of properties in the XUSB node is inconsistent with the
-ordering of the properties in other nodes. Resort them to make the node
-more consistent. Also get rid of some unnecessary whitespace.
+On 17/12/2019 20:15, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.3.18 release.
+> There are 25 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Note, this is the LAST 5.3.y kernel to be released, after this one, it
+> will be end-of-life.  You should have moved to the 5.4.y series already
+> by now.
+> 
+> Responses should be made by Thu, 19 Dec 2019 20:08:42 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.3.18-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.3.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
+> 
+> -------------
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+All tests are passing for Tegra ...
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index fdd6e74a5aeb..d64940b8e2e5 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -563,12 +563,9 @@
- 		reg = <0x0 0x03530000 0x0 0x8000>,
- 		      <0x0 0x03538000 0x0 0x1000>;
- 		reg-names = "hcd", "fpci";
--
--		iommus = <&smmu TEGRA186_SID_XUSB_HOST>;
- 		interrupts = <GIC_SPI 163 IRQ_TYPE_LEVEL_HIGH>,
- 			     <GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH>,
- 			     <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
--
- 		clocks = <&bpmp TEGRA186_CLK_XUSB_HOST>,
- 			 <&bpmp TEGRA186_CLK_XUSB_FALCON>,
- 			 <&bpmp TEGRA186_CLK_XUSB_SS>,
-@@ -581,16 +578,15 @@
- 		clock-names = "xusb_host", "xusb_falcon_src", "xusb_ss",
- 			      "xusb_ss_src", "xusb_hs_src", "xusb_fs_src",
- 			      "pll_u_480m", "clk_m", "pll_e";
--
- 		power-domains = <&bpmp TEGRA186_POWER_DOMAIN_XUSBC>,
- 				<&bpmp TEGRA186_POWER_DOMAIN_XUSBA>;
- 		power-domain-names = "xusb_host", "xusb_ss";
--		nvidia,xusb-padctl = <&padctl>;
--
--		status = "disabled";
--
-+		iommus = <&smmu TEGRA186_SID_XUSB_HOST>;
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-+		status = "disabled";
-+
-+		nvidia,xusb-padctl = <&padctl>;
- 	};
- 
- 	fuse@3820000 {
+Test results for stable-v5.3:
+    13 builds:	13 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    38 tests:	38 pass, 0 fail
+
+Linux version:	5.3.18-rc1-g0763039c4844
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers
+Jon
+
 -- 
-2.23.0
-
+nvpublic
