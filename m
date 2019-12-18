@@ -2,92 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37AF512542E
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Dec 2019 22:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2344B12547D
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Dec 2019 22:19:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726916AbfLRVHH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Dec 2019 16:07:07 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:37897 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726840AbfLRVG7 (ORCPT
+        id S1726571AbfLRVTG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Dec 2019 16:19:06 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:46693 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726559AbfLRVTG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Dec 2019 16:06:59 -0500
-Received: by mail-lf1-f68.google.com with SMTP id r14so2725335lfm.5;
-        Wed, 18 Dec 2019 13:06:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=OX3etwg8UyXmbbSJQLCscVLMHChzcySiKJD4V7kijDA=;
-        b=GIA8G7vs3ssG+kS97bTj/9sDjWnB0kbPTwEOvBXDvEmAmNgHov8HaqJ9Jp637+eJDr
-         mLFY1peZ9m/mZdiPvimSZzUZtSmoOyFHxLwT00eOyeWK9oa0RYAonBMkgeTj5WbO4y31
-         MB9rrwVxZvEKGkvsKLHBnmqkbebPuO3RVtN7wMK4iJz7xxNOkm7P0PO5RIILldqBwX1t
-         wQOIcH/BZtXlAPIafiaXZqTi1jI8ohmqMyhgxVvf1v5AJOEDQaZ9INVQZ9SNlm353r5+
-         /+zwSljYFZwCrEOl6K6f7uHZ2p33pKu8ogzOS4Za84lhGj+2GriO/Gq9UVSamYfih0Z0
-         K9HA==
+        Wed, 18 Dec 2019 16:19:06 -0500
+Received: by mail-ot1-f68.google.com with SMTP id c22so4149023otj.13;
+        Wed, 18 Dec 2019 13:19:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OX3etwg8UyXmbbSJQLCscVLMHChzcySiKJD4V7kijDA=;
-        b=NvpaRQ0CIbogvjgGR85shzjd6xrToYE1jKv1B3HM6QRJh2/co5ukBh8OBEmAZIKvbA
-         iY3hkZywULSm8yAdVoy61TNZ3D9SMEmRs8b13U34flmsVJll53qVB4z0fuTLWN4Pu6Q0
-         prbLzVfV/rKyoYyJ5VZYoLimPcp2l1TCKLewkrtuQF7CkJk79rpaPcSCraAlFsBZLKJk
-         9RN4PDCJ7ChTXJeTlb6PvoYBuD75dGqyhBad4/aETtOarQu377rNWW8rTq+mphHWF19+
-         7uadeqO3eVuYUFYFnKtKxa21EH9I9cdF7/LT8ZTm7IXF3DP3u3vw97NVmTEuzJopihbt
-         gAeA==
-X-Gm-Message-State: APjAAAVl0zZLJDwP/oSem1oI9rIFLO6jdbNbbUZyJypgytq13d9zXvQ6
-        6benhIW6J+o+EQa4kCx2oEs=
-X-Google-Smtp-Source: APXvYqwKH8I3c4Sj8soE97dvCZsqMd65HH/e73RXgS6N+7HJggYBIknoIPITBYBlsvTF68+XmZ4mfQ==
-X-Received: by 2002:ac2:4194:: with SMTP id z20mr3177996lfh.20.1576703217029;
-        Wed, 18 Dec 2019 13:06:57 -0800 (PST)
-Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id r15sm1754648ljk.3.2019.12.18.13.06.56
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=e6i3yUht6VZmzoNOaX8eJ66QZuEfJp5v9+9UU4ybVpg=;
+        b=BPiuavSXWe2kkeIpA4Bc5/BUB8/HWp4zgbdZeJ6ffG45ttU+s13h1uuN1CzL6eCXqm
+         2cvPxG9WYeHjs538jQqoCKlVRowPfOxPLi/FwWYX17voSYOer0+LwHZbzeFMHx9j9dIn
+         cKLUmsA7RwE5eaohUG8uxMkfZIpDE9RS3hghUa0wvK1+l2oo33Knha5HhTpMKJZoRDlr
+         xJzuVGu1z2eoZeYZ+i40BSqeGRypZ6UtNosbeD+ZN0SfVcPVqtuSTkVJWw9/AY3CfL14
+         74d9F/vuw2/RvDRnc52w8iCRJA71oBzwRdRlf+P+WRFh7j7SYTMLtT3cmOIgVFEOhuF1
+         aLfg==
+X-Gm-Message-State: APjAAAU7RO2nqtdgyo7BmaKWgKGtEwwA8zLNGIj8l4XfOIk8eVDHjJX0
+        H4Rnftsuk03YEgRhoJVJ5A==
+X-Google-Smtp-Source: APXvYqzcLzQJCSqsqQnYBN6UNLLQYWI1bzp7P0CM3jCsgq3QyEd+dWVqTYn65T8XaPEUnMSXxRmxFQ==
+X-Received: by 2002:a05:6830:22ee:: with SMTP id t14mr4677757otc.236.1576703945628;
+        Wed, 18 Dec 2019 13:19:05 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id z21sm1231040oto.52.2019.12.18.13.19.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2019 13:06:56 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v9 17/17] ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
-Date:   Thu, 19 Dec 2019 00:05:03 +0300
-Message-Id: <20191218210503.6689-18-digetx@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191218210503.6689-1-digetx@gmail.com>
-References: <20191218210503.6689-1-digetx@gmail.com>
+        Wed, 18 Dec 2019 13:19:04 -0800 (PST)
+Date:   Wed, 18 Dec 2019 15:19:04 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     skomatineni@nvidia.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, digetx@gmail.com, mperttunen@nvidia.com,
+        gregkh@linuxfoundation.org, sboyd@kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
+        spujar@nvidia.com, josephl@nvidia.com, daniel.lezcano@linaro.org,
+        mmaddireddy@nvidia.com, markz@nvidia.com,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 01/19] dt-bindings: clock: tegra: Change CLK_M_DIV to
+ OSC_DIV clocks
+Message-ID: <20191218211904.GA5303@bogus>
+References: <1576613046-17159-1-git-send-email-skomatineni@nvidia.com>
+ <1576613046-17159-2-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1576613046-17159-2-git-send-email-skomatineni@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Tegra CPU Idle driver was moved out into driver/cpuidle/ directory and
-it is now a proper platform driver.
+On Tue, 17 Dec 2019 12:03:48 -0800, Sowjanya Komatineni wrote:
+> Tegra has no CLK_M_DIV2 and CLK_M_DIV4 clocks and instead it has
+> OSC_DIV2 and OSC_DIV4 clocks from OSC pads.
+> 
+> This patch changes CLK_M_DIV2 and CLK_M_DIV4 clock ids to OSC_DIV2
+> and OSC_DIV4 clock ids for Tegra30 through Tegra210.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  include/dt-bindings/clock/tegra114-car.h        | 4 ++--
+>  include/dt-bindings/clock/tegra124-car-common.h | 4 ++--
+>  include/dt-bindings/clock/tegra210-car.h        | 4 ++--
+>  include/dt-bindings/clock/tegra30-car.h         | 4 ++--
+>  4 files changed, 8 insertions(+), 8 deletions(-)
+> 
 
-Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/tegra_defconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index a27592d3b1fa..aa94369bdd0f 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -25,6 +25,7 @@ CONFIG_CPU_FREQ=y
- CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND=y
- CONFIG_CPUFREQ_DT=y
- CONFIG_CPU_IDLE=y
-+CONFIG_ARM_TEGRA_CPUIDLE=y
- CONFIG_VFP=y
- CONFIG_NEON=y
- CONFIG_TRUSTED_FOUNDATIONS=y
--- 
-2.24.0
-
+Acked-by: Rob Herring <robh@kernel.org>
