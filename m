@@ -2,64 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E4361250E4
-	for <lists+linux-tegra@lfdr.de>; Wed, 18 Dec 2019 19:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1ACE1250F9
+	for <lists+linux-tegra@lfdr.de>; Wed, 18 Dec 2019 19:50:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727255AbfLRSod (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 18 Dec 2019 13:44:33 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:41821 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbfLRSoc (ORCPT
+        id S1726831AbfLRSu1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 18 Dec 2019 13:50:27 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:32886 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726698AbfLRSu0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 18 Dec 2019 13:44:32 -0500
-Received: by mail-lf1-f65.google.com with SMTP id m30so2434884lfp.8;
-        Wed, 18 Dec 2019 10:44:30 -0800 (PST)
+        Wed, 18 Dec 2019 13:50:26 -0500
+Received: by mail-lj1-f193.google.com with SMTP id p8so3339691ljg.0
+        for <linux-tegra@vger.kernel.org>; Wed, 18 Dec 2019 10:50:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=v+s6MmvX7icUw9PqvAbzROxUfy5WGSHxEQBNGekKk1M=;
-        b=eWu5k4UPSPnWt4SB9moFHFObPD8046g6FCMmloy9PcnDk3ptLRirVJw/39qIgsG0XO
-         Lg4DZR/G2w4/834Cu8ZgnkBEcxXME7FuU1t5tfxAnkHHUKKWE999HQwuqSswry8kH5GH
-         SNDlu/gQxRDqJhvrtPu0i7pzQtCb/kMGxOEzbG1DVzCKyqnKk25l3yHlTcZJKMczHdVU
-         Zh/PhVy5A37OxRuSgZ17oHqAtxUCCbQHycGb2dRq8F103P/BgFVrakfALjnVHOhFLM7r
-         coo6lqANCUQL06x2ggbSFlkSnrGwYUUWOWOzoGe7OMDW0s0uBaG2KoEoWcKi59SuShjP
-         4Evw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W8GFy2pED/8J+ZRiO4Ppzxdd7QEWXnBA1d94QCEK9XE=;
+        b=us8+DFZVrBwH+M0VHwFgvSM6ySkTaQXdwfwhR4DwoQoWJEdM0O57AnLEupOcprFRLf
+         1sC9L6mglzRNJrdSySo8OH52y7mjUq36sSyx3hKTsLOoHcxOubTO8M85l6TRyGsT8E9b
+         QFCNt91i1ivinP3zTZicQGQeSw/YQW6rpJ6/brUGObiYjOByFUv/zOQeIUFTj7W5P21M
+         1FaT1yptKPogtpK2/SLaw4QXciiVk63+IEDe3s30GvUc6Q1ULNDaF9pXzQqzwCkpMnb9
+         ky6QKGGPzC4OtVL9j8Zz76oKatiklHWhYBRpUB+zmpFXrsKTJeFrRUe1Qn7w1szZXYq7
+         Li0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=v+s6MmvX7icUw9PqvAbzROxUfy5WGSHxEQBNGekKk1M=;
-        b=AFMsR8lois2J3IcIlcMCpNm57L9Tc7FU+saQJ3jLgpons0bpgricuEC/IYO8a5B5w8
-         Cl27HH9/AYd2VM6jo+MpN6lPCyJj0R7nL9A3AeXKsslCr4SmI+A2TGODGVTQsrt2S9i7
-         wO8Xvy2bVroV8rz19p5UuHQJHXIHfFefNscMCmuDRcYuOhBLE1wSF5UvUn0KhcRkdwMJ
-         4iKEentshy2MxZ1fFmJzx3FFjpYqY8TA/Hk5ax3nXjY6r7AZ8peKtz75L0Bdoy67Vk7A
-         UMcf6BIf4rr6i527ESok0bk/7qD6kYYFAYLntxXFB+fZeJJ73UpKAS1aDKugbz64rwiE
-         Xt5g==
-X-Gm-Message-State: APjAAAUrLxJLsKE6huqBDr2EXSnLXC0Or9P1W4njYiwb3EMrBHxEoAZ5
-        YMb1oGnHWv5tKa00iqY2u4k=
-X-Google-Smtp-Source: APXvYqx3pUFK4C9rEvv0I4zncfw0HhZuOlzK0cBQdhYTb2NqAe4bgmQqGDfSVjwRV67Eu/OOEAyKhQ==
-X-Received: by 2002:a19:4f46:: with SMTP id a6mr2765387lfk.143.1576694669901;
-        Wed, 18 Dec 2019 10:44:29 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W8GFy2pED/8J+ZRiO4Ppzxdd7QEWXnBA1d94QCEK9XE=;
+        b=RA3eW6xBQPFfhMTQ9l1W5ExILy0x9o4hzrkYGJJiHQdd7hcujxs/rQ1HdFHMJ7RWNa
+         iz7Nu4nh4ca02DYPTdKxh4dLSYL62X+SpE4nzzTU1Ch6QnOMsYrDY/A01Io192aQRvTj
+         VI5vHWeVfZkKqiHZs1Dxa3fWBwobz2WnDHPlRrqpMgWFvlMKAswqfsPenbU+Mw54YQBt
+         BfrUtR/eu5K6KJVQoknACTTVWyp5adKnx7nkDGgzihJe5eQ0HmpEucJ6RVg73ewG8Bdh
+         aauYUKxODFmxMgcX70UCxz4ZagFOE1OHctjFy6NuhbY18FwcfbD/YMv2wpbdFHwdvCwW
+         UDBA==
+X-Gm-Message-State: APjAAAWYsXm+w6v7MLqyJAe+PslPSRXpBa5FPx3jexIsNdKhUtXlW77K
+        cTWGiISjR+wK0GHL1/ncils=
+X-Google-Smtp-Source: APXvYqxzJSF5uD2z4owSFWjV2jE9Jy5E4EW0GGFsb3GA1Y1gSCFTr7cwpK9J8ttedZvbDFWEtSNUWQ==
+X-Received: by 2002:a2e:980b:: with SMTP id a11mr2900798ljj.189.1576695024872;
+        Wed, 18 Dec 2019 10:50:24 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id j204sm1553354lfj.38.2019.12.18.10.44.28
+        by smtp.gmail.com with ESMTPSA id y7sm1592586ljn.31.2019.12.18.10.50.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2019 10:44:29 -0800 (PST)
+        Wed, 18 Dec 2019 10:50:24 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-tegra@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND for 5.6 v1 3/3] clk: tegra20/30: Explicitly set parent clock for Video Decoder
-Date:   Wed, 18 Dec 2019 21:44:07 +0300
-Message-Id: <20191218184407.25790-3-digetx@gmail.com>
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org
+Subject: [PATCH v1 0/3] NVIDIA Tegra30 EMC driver improvements
+Date:   Wed, 18 Dec 2019 21:49:59 +0300
+Message-Id: <20191218185002.26970-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191218184407.25790-1-digetx@gmail.com>
-References: <20191218184407.25790-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -67,42 +60,21 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The VDE parent won't be changed automatically to PLLC if bootloader
-didn't do that for us, hence let's explicitly set the parent for
-consistency.
+Hello,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/clk/tegra/clk-tegra20.c | 2 +-
- drivers/clk/tegra/clk-tegra30.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+I took a refreshed look at the driver's code and spotted few things that
+could be improved. No critical fixes here, just improvements. Please
+review and apply, thanks in advance!
 
-diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegra20.c
-index 0c14fb570343..fff5cba87637 100644
---- a/drivers/clk/tegra/clk-tegra20.c
-+++ b/drivers/clk/tegra/clk-tegra20.c
-@@ -1048,7 +1048,7 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA20_CLK_HOST1X, TEGRA20_CLK_PLL_C, 150000000, 0 },
- 	{ TEGRA20_CLK_GR2D, TEGRA20_CLK_PLL_C, 300000000, 0 },
- 	{ TEGRA20_CLK_GR3D, TEGRA20_CLK_PLL_C, 300000000, 0 },
--	{ TEGRA20_CLK_VDE, TEGRA20_CLK_CLK_MAX, 300000000, 0 },
-+	{ TEGRA20_CLK_VDE, TEGRA20_CLK_PLL_C, 300000000, 0 },
- 	/* must be the last entry */
- 	{ TEGRA20_CLK_CLK_MAX, TEGRA20_CLK_CLK_MAX, 0, 0 },
- };
-diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
-index bd4d42005897..b20891489e11 100644
---- a/drivers/clk/tegra/clk-tegra30.c
-+++ b/drivers/clk/tegra/clk-tegra30.c
-@@ -1256,7 +1256,7 @@ static struct tegra_clk_init_table init_table[] __initdata = {
- 	{ TEGRA30_CLK_GR3D, TEGRA30_CLK_PLL_C, 300000000, 0 },
- 	{ TEGRA30_CLK_GR3D2, TEGRA30_CLK_PLL_C, 300000000, 0 },
- 	{ TEGRA30_CLK_PLL_U, TEGRA30_CLK_CLK_MAX, 480000000, 0 },
--	{ TEGRA30_CLK_VDE, TEGRA30_CLK_CLK_MAX, 600000000, 0 },
-+	{ TEGRA30_CLK_VDE, TEGRA30_CLK_PLL_C, 600000000, 0 },
- 	{ TEGRA30_CLK_SPDIF_IN_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
- 	{ TEGRA30_CLK_I2S0_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
- 	{ TEGRA30_CLK_I2S1_SYNC, TEGRA30_CLK_CLK_MAX, 24000000, 0 },
+Dmitry Osipenko (3):
+  memory: tegra30-emc: Firm up suspend/resume sequence
+  memory: tegra30-emc: Firm up hardware programming sequence
+  memory: tegra30-emc: Correct error message for timed out auto
+    calibration
+
+ drivers/memory/tegra/tegra30-emc.c | 177 +++++++++++++++++------------
+ 1 file changed, 103 insertions(+), 74 deletions(-)
+
 -- 
 2.24.0
 
