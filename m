@@ -2,156 +2,142 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 931201261D1
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 13:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA4C91262AA
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 13:54:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbfLSMPy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Dec 2019 07:15:54 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16140 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726668AbfLSMPy (ORCPT
+        id S1726824AbfLSMyo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Dec 2019 07:54:44 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:43651 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726704AbfLSMym (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Dec 2019 07:15:54 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dfb69ed0000>; Thu, 19 Dec 2019 04:15:43 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 19 Dec 2019 04:15:53 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 19 Dec 2019 04:15:53 -0800
-Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Dec
- 2019 12:15:50 +0000
-Subject: Re: [alsa-devel] [PATCH] ALSA: hda: Use standard waitqueue for RIRB
- wakeup
-To:     Takashi Iwai <tiwai@suse.de>
-CC:     <alsa-devel@alsa-project.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20191210145727.22054-1-tiwai@suse.de>
- <53562c71-4d81-1580-f311-971ceb029431@nvidia.com>
- <s5h5zid903h.wl-tiwai@suse.de>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <51e59f38-0db9-df80-bb62-44fff504ffc4@nvidia.com>
-Date:   Thu, 19 Dec 2019 12:15:48 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Thu, 19 Dec 2019 07:54:42 -0500
+Received: by mail-wr1-f67.google.com with SMTP id d16so5845717wre.10;
+        Thu, 19 Dec 2019 04:54:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=a9bVfZ7WMzX1N8f5a3GxdlpzITsSd1uqvrT666b5bSc=;
+        b=FvJa+PhxdC8ihoWSKM3n9dXy0YMA4fKnQushxe+SLNtkWXqk1edq8JLm85xFzYUDHv
+         qPW77paxcPfPHP3uVyZ5XWg0/ut+jXe99fjg+HdI31/9iVxq3kjGwHz+FwAUzj1S0tLe
+         w75yPChMiDTpUGFuLrio7JMLbGkcHHxGIFTW1gK73yxQg4UokDbddz34X9pzbaxZZSkv
+         cFyo13jfszsI8TfOinFNCbXS2VN30R54zQTTupAsJNTlYuPGyY51iZIJrg+og5c8PRAp
+         j4fUfK6UPVOLduMd1RDk9F8mB0mGL083A1IN/xsYpobn4094IGee2pNmy4iEvYcUPxGc
+         gW0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=a9bVfZ7WMzX1N8f5a3GxdlpzITsSd1uqvrT666b5bSc=;
+        b=TAzaaB+UrLse109rsbZ6h940nU5JbO6VByzkZZn2ex9d2ZKTSseum7UHTWh475hsQ9
+         jCg5R97lrrEUROnwvFNNUaWgvmuiVgr7y0gxF5ytJ7x2vmQ3nwo6BpmXKGljGIx6uwC5
+         ujF/3Qwuzn2GUbD15L9eIFxNk6ri3TAkqU3tqlkKGzy5zjpqH5LyaauJDabE1Dyqaj8y
+         QryEjKUvayalhDMNAeyGYVGAYBSFksGl45X8XIomA1KySD7pGTm6KOWqEq9mpepSa5Wg
+         boUs6ja3iXJxwBZoiBeXAHCs8tWVcH/D4FOm+LlNkDBLjrWl+GT8RwXnslaDZlHzmo5s
+         hutw==
+X-Gm-Message-State: APjAAAVz6ZS09kjJp3t/Rdk7nHnyBV5+ydFkRyWxtzPMOiMNMFKHKJbn
+        KmetDhHUL6Wc1DdItiJA+1E=
+X-Google-Smtp-Source: APXvYqxY6psW3Cwj0AtWfU3NArY5Wgpa1nJcjvh8Or7IXttLBPwHNaBFS5JKPGE7GrGsCqvf99Wx/g==
+X-Received: by 2002:adf:c147:: with SMTP id w7mr9567593wre.389.1576760079184;
+        Thu, 19 Dec 2019 04:54:39 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+        by smtp.gmail.com with ESMTPSA id n67sm6148229wmf.46.2019.12.19.04.54.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2019 04:54:37 -0800 (PST)
+Date:   Thu, 19 Dec 2019 13:54:37 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Felipe Balbi <balbi@kernel.org>, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/4] usb: phy: tegra: Perform general clean up of the
+ code
+Message-ID: <20191219125437.GB1440537@ulmo>
+References: <20191218175313.16235-1-digetx@gmail.com>
+ <20191218175313.16235-4-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <s5h5zid903h.wl-tiwai@suse.de>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576757743; bh=J96tn4J+2yBlP/4nolpkcJfrGIW/MBYSH2G/7gHDyJA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=H2jlweJchd57jwWmfWf+xhFMoW6awZf0IRGZXGnL+OvTAWk5V6Nmf2CHGfpVCMDK0
-         hbf3m0aoJ9wPPsHDyk4rpHB1iseuRG3jO8igT1RKz1dsoX+ARQqHe4WWj4UaioxL3B
-         R4Ty37e8V2xVCQtdGeP6DjKtprr7SJCDufrRwpw0NCafppwCcRr3jcfVaPNnORfQlE
-         kNvt7DdCg2csR3rmr+f/6LR4MINeCdO5UPM/YdHwd7JYux3xoptoqJ+3x6WHnTFBG1
-         F2K/VTBIRjxQjI09jzlN27lwLNt0Rg/6k359SzQjZkcKu6nXp010ioOADUMuBE5rlY
-         fRYNfIovB0qiA==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="l76fUT7nc3MelDdI"
+Content-Disposition: inline
+In-Reply-To: <20191218175313.16235-4-digetx@gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 18/12/2019 14:31, Takashi Iwai wrote:
-> On Wed, 18 Dec 2019 15:17:27 +0100,
-> Jon Hunter wrote:
->>
->>
->> On 10/12/2019 14:57, Takashi Iwai wrote:
->>> The HD-audio CORB/RIRB communication was programmed in a way that was
->>> documented in the reference in decades ago, which is essentially a
->>> polling in the waiter side.  It's working fine but costs CPU cycles on
->>> some platforms that support only slow communications.  Also, for some
->>> platforms that had unreliable communications, we put longer wait time
->>> (2 ms), which accumulate quite long time if you execute many verbs in
->>> a shot (e.g. at the initialization or resume phase).
->>>
->>> This patch attempts to improve the situation by introducing the
->>> standard waitqueue in the RIRB waiter side instead of polling.  The
->>> test results on my machine show significant improvements.  The time
->>> spent for "cat /proc/asound/card*/codec#*" were changed like:
->>>
->>> * Intel SKL + Realtek codec
->>>   before the patch:
->>>    0.00user 0.04system 0:00.10elapsed 40.0%CPU
->>>   after the patch:
->>>    0.00user 0.01system 0:00.10elapsed 10.0%CPU
->>>
->>> * Nvidia GP107GL + Nvidia HDMI codec
->>>   before the patch:
->>>    0.00user 0.00system 0:02.76elapsed 0.0%CPU
->>>   after the patch:
->>>    0.00user 0.00system 0:00.01elapsed 17.0%CPU
->>>
->>> So, for Intel chips, the total time is same, while the total time is
->>> greatly reduced (from 2.76 to 0.01s) for Nvidia chips.
->>> The only negative data here is the increase of CPU time for Nvidia,
->>> but this is the unavoidable cost for faster wakeups, supposedly.
->>>
->>> Signed-off-by: Takashi Iwai <tiwai@suse.de>
->> Starting with next-20191217 I am seeing the following error on one of
->> our Tegra platforms ...
->>
->> tegra-hda 3510000.hda: azx_get_response timeout, switching to polling
->> mode: last cmd=0x404f2d00
->>
->> Bisect is point to this commit and although it does not cleanly revert,
->> if I revert this and a couple dependencies on top of -next the issue
->> goes away. Any thoughts on what could be going on here?
-> 
-> Do you see any bad behavior other than the warning message?
+--l76fUT7nc3MelDdI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have done some more local testing and so far I don't see any bad
-behaviour just the warning.
+On Wed, Dec 18, 2019 at 08:53:12PM +0300, Dmitry Osipenko wrote:
+> This patch fixes few dozens of legit checkpatch warnings, adds missed
+> handling of potential error-cases, fixes ULPI clk-prepare refcounting and
+> prettifies code where makes sense. All these clean-up changes are quite
+> minor and do not fix any problems.
+>=20
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/usb/phy/phy-tegra-usb.c | 367 +++++++++++++++++---------------
+>  1 file changed, 197 insertions(+), 170 deletions(-)
 
-> If you don't see any dysfunction, I guess that the difference is that
-> the old code went to the trial mode at first silently (with
-> dev_dbg()), then switching to polling mode at next.  The trial mode is
-> basically same as polling mode, but it was just considered to be a
-> temporary transition, so not warned.
-> 
-> IOW, if my guess is correct, maybe Tegra never worked in the normal
-> mode but only in the polling mode (but without complaints).
-> If so, the patch like below would be needed.
-> 
-> To prove my theory, could you check the old code with dyndbg enabled
-> for sound/pci/hda/hda_controller.c?  If a message like below appears,
-> it's the case:
->   azx_get_response timeout, polling the codec once: last cmd=xxx
+This could've been multiple patches to make it easier to review, but
+either way:
 
-Yes I tried this and you are correct, this does appear even if v5.5-rc2.
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-Please note that this timeout is intermittent and so does not always
-happen. So it appears to work, but sometimes it can fail.
+One minor comment below...
 
-> --- a/sound/pci/hda/hda_tegra.c
-> +++ b/sound/pci/hda/hda_tegra.c
-> @@ -394,6 +394,7 @@ static int hda_tegra_create(struct snd_card *card,
->  	if (err < 0)
->  		return err;
->  
-> +	chip->bus.core.polling = 1;
->  	chip->bus.core.needs_damn_long_delay = 1;
->  
->  	err = snd_device_new(card, SNDRV_DEV_LOWLEVEL, chip, &ops);
+> diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-=
+usb.c
+> index 15bd253d53c9..76949dbbbdc2 100644
+> --- a/drivers/usb/phy/phy-tegra-usb.c
+> +++ b/drivers/usb/phy/phy-tegra-usb.c
+[...]
+> @@ -310,13 +315,16 @@ static void ulpi_close(struct tegra_usb_phy *phy)
+>  	}
+>  }
+> =20
+> -static void utmip_pad_power_on(struct tegra_usb_phy *phy)
+> +static int utmip_pad_power_on(struct tegra_usb_phy *phy)
+>  {
+> -	unsigned long val, flags;
+> -	void __iomem *base =3D phy->pad_regs;
+>  	struct tegra_utmip_config *config =3D phy->config;
+> +	void __iomem *base =3D phy->pad_regs;
+> +	unsigned long val, flags;
 
-I don't think we want to do this, because so far this is only seen on
-one Tegra device and this enable polling for all.
+I think technically the "val" variable would have to be u32 because
+that's what readl() and writel() operate on. That could be a separate
+patch, though and isn't really a big problem.
 
-For now you can ignore this report and we will investigate what is
-happening on Tegra194 to cause this.
+Thierry
 
-Thanks
-Jon
+--l76fUT7nc3MelDdI
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-nvpublic
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl37cw0ACgkQ3SOs138+
+s6HXoQ//enaIv+19+8YhDuO73TpetmdsTfhTcNwIw276WtV7j53pQ/KcHAKir3H7
+PBCui7fiZXLj2b90PFucEjenupecmSC07u1Gc2pjTHCYWSHJLr2N0EDNkUiina00
+9ebxKCNPttnMFZAdcCldRTQ/lgDF6crUUoXpwSc+j9n6Pl+OhMFb3XhQ2/NNYPaM
+D7MnZU0sz4zN3/OcaBX42nhENrG6bUqXChImGkfAZnxXQgjFFLpR3GYjMX0pMy3g
+j+c3Q35I8QE9QbHmIyOEWuX94wc/j1ZUQbw3KmQwGQdx+OfAShvjynj4x+orA85o
+6cIF/WVoQk4ybulnKOvh7RkXf10BoNgQz17a6Nq0JSWMR8ju4XjmL1L9RN6hFcgC
+dq4cs8H4RFVMVX4Rb9cbbqysF3oMHKyIBbxLf3gw82KeVVT70/fZ0fpwyaKR9dDk
+6Cui0PlS8Eb/Ya5RC9rMmXOQQtUyXXtwVeNS3ye3fXC5uGNsSWqVrn/mUz1SR/FB
+5/qoq7jtk4wNzRMz6LsUW6iRLSYpnZZrgK73wAlM6pPJykwsq3Hjx4KrVDrgMiGH
+A9ZvXLkIeDWLKa6/d8GCvRvnb3jy7W5ivez65Ut1zDCkPh1ASqnOrEjlsAr7BT5z
+lcidEPxRLCoAj1GIK6LYYZgWDSpxoPulrnDbySY5l5MRgZBZNU8=
+=nQyV
+-----END PGP SIGNATURE-----
+
+--l76fUT7nc3MelDdI--
