@@ -2,140 +2,141 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4A17127089
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 23:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8E4E12710C
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 23:58:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727006AbfLSWRo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Dec 2019 17:17:44 -0500
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:41389 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726986AbfLSWRo (ORCPT
+        id S1726945AbfLSW6k (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Dec 2019 17:58:40 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:34701 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726830AbfLSW6k (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Dec 2019 17:17:44 -0500
-Received: by mail-vs1-f67.google.com with SMTP id f8so4787492vsq.8
-        for <linux-tegra@vger.kernel.org>; Thu, 19 Dec 2019 14:17:43 -0800 (PST)
+        Thu, 19 Dec 2019 17:58:40 -0500
+Received: by mail-lj1-f194.google.com with SMTP id z22so3181331ljg.1;
+        Thu, 19 Dec 2019 14:58:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/ndP5DyVVYEx6LRATNvjA+FE11IESSegAdsPFSy9GGY=;
-        b=G1GwUWUhsOH3IDfiGCCMJWCsbGjKBHYP0GhB5lUqC3nzx7I8CVsq2W1E21MVyw7Rq7
-         hRMpW1sRXg6rPja3OzFs0QWlHgTSaK/jknSo/JIKqYRP2/2vqDwZ06hPgeiejrbNsyoZ
-         uzhPwu8m9mxmNLIVbmr1v4NK9q2IygRQerIOWhbHW0JsZRPtGX1MOSxdtjAagoKxWmH8
-         zuhT2yWwAjsNQfN9+8CW81oC0ZU3eDb9QlBcQk3dexMsx3n0QcJIETUJjPP6Tr+DyuuN
-         kyC/Hwkcf+Nd2O3zrMSV2bXUThO/KCyEAqfgr/P0vYasz46DBiLD8PW9L2Wk5KANH90Q
-         hATw==
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=05wfn9+TUSy7NYQlatYLcdJC1LAk6czw1l0SEy3BnBM=;
+        b=uq3aCwuXNTvs1Z7urtnH/xXXPfL0+UQgebjSWUJbEtLZPPAfRA1I9f4CM5rqUo8ZeS
+         KJmSLSwYE8Eqhuz8/U15hSUx037u2NDz56F5S2xceo36AbCEqwLsFSI8UFx69OMMYrPD
+         aO6iOg0qug2GO86J0PxS4fgWFEtdA4ynb5S2FV18VTPtvTPpEH15pkDw/HEDMUS4ToH2
+         xzMS4v4IreNILxLlSdOhE0HVq+EMop6LYAm026kqTS/ZHq7oKs6QPb4tEM97uIEwVOms
+         wYYcWz2QrsKz2envYnOz3KGbwAjILypsIgT/gejvjjaaBNuiFzWntAi1qkPj0OjP3fJY
+         wj8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/ndP5DyVVYEx6LRATNvjA+FE11IESSegAdsPFSy9GGY=;
-        b=LoKsBtsl9Ce+lqbqmHynym/JWmrpY1LBype6S2WOMwE+j3XgyYufNBgFifLIIo4/00
-         U42lnpsCMlHXmgsyyNV1Mq7sUMhyIQ4du7QQufjiDPIDLKtn7xZRn0nPoOnC8RwLFzDC
-         TJ4ArELutxatAwG+D+z4tVFRInW7kcnXuJDEHYwmiuu6USiFu9uME5yN7IUq1TiQM8l3
-         JWtznW4qjNq3zd7/yxkmIuQdMMgChe0pbWApVwUOODN4UQ8iEjHNSuNXN9O5vqXEC9Ic
-         rs9m7qUxNhPQaD0r/D4CeSzDH3EH1QQwBvnlcr/G8INW87UkZcMpLCWs2AN3Oa3LSWrr
-         yFYg==
-X-Gm-Message-State: APjAAAUOQFSwVGKty1kpwm8skz/Fbc7o7nJ0dKPEADm4sGLHVsMQYZOE
-        WncUUN1JiXYCMnfKOGEiK+2Zl65HPWLsbIjyCOyBlw==
-X-Google-Smtp-Source: APXvYqzO+W0sfWNewfxmNxOrPZXXjTTCyI0TAromWHrFAFH63oVQKKIN0oh+NYU0rTqViLL6AbT7Atqk/2eRmdjMODU=
-X-Received: by 2002:a67:b649:: with SMTP id e9mr6733198vsm.34.1576793863004;
- Thu, 19 Dec 2019 14:17:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20191209130336.2257506-1-thierry.reding@gmail.com>
- <20191209130336.2257506-2-thierry.reding@gmail.com> <CAPDyKFp6cnpn4yFaEBDPBdHc1siQvJbmwedbhRNCdDBVAc2qUA@mail.gmail.com>
- <20191212123352.GA3322354@ulmo> <CAPDyKFodOjta0JnEEMrC0j5=XeB-wLjTNvPFtmDtUBZBMTJvQg@mail.gmail.com>
- <CAJZ5v0hA6mz7r93_HVpfP-=72wARf9=NN1jNG3KHtzM_+oT9LA@mail.gmail.com>
-In-Reply-To: <CAJZ5v0hA6mz7r93_HVpfP-=72wARf9=NN1jNG3KHtzM_+oT9LA@mail.gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 19 Dec 2019 23:17:07 +0100
-Message-ID: <CAPDyKFoJhn=v92qz=z6X9j4AfLwGCt350i1ntoNCRYqoemr9aw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/tegra: Do not implement runtime PM
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=05wfn9+TUSy7NYQlatYLcdJC1LAk6czw1l0SEy3BnBM=;
+        b=EcQkyF/70wdTMzbnsGnvl/2b5mUBzCmBLK3zJ/tcnjr/ZgIhYaSxFSJLIkwuKOrgSD
+         +/RvKJnHAxRzzwsgreNGDx6tx7WoTqTo/DzMSnOOXqtvdjuWiNw/CLINOPhCAQZANaq5
+         owgslrjY8Td6IR9vCIrCr5KEwydAw0Vlb14FqMGzX2hgY37gQTtK7sErmCIRbxMwLON3
+         RZLfxBnZElsM9EoPMnvg9m1Sc7GIKEbZqGneYmPHtoi6n7YJvJEQcah+AQ22X8OAsyqw
+         /wpa1Oa4QSJnRNObwBEmfVPEHVH2SISvqYGT9Hn0Dc4jTqIA5tbFpkFyEIsTbxJCiWIx
+         CMog==
+X-Gm-Message-State: APjAAAUiNpTx6neTEShhmj7I8dbt7GAaOU3QaAZYlaTWFPxcW2vN9dk0
+        COgGD4WM3Rcsg7OJ6plKBSQqXPaL
+X-Google-Smtp-Source: APXvYqyKgsgJ0jeESPN6s86pHb00fv9io13kzziQeW9BJOOZwuY3AHj8qNv70eMNewx8KVRjTTwYAQ==
+X-Received: by 2002:a2e:9f47:: with SMTP id v7mr7577083ljk.124.1576796318332;
+        Thu, 19 Dec 2019 14:58:38 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id q186sm3547142ljq.14.2019.12.19.14.58.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Dec 2019 14:58:37 -0800 (PST)
+Subject: Re: [PATCH v1 3/3] i2c: tegra: Fix suspending in active runtime PM
+ state
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mikko Perttunen <cyndis@kapsi.fi>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191212233428.14648-1-digetx@gmail.com>
+ <20191212233428.14648-4-digetx@gmail.com> <20191213134746.GA222809@ulmo>
+ <3c2b16c0-3e66-d809-b263-f27cf925e203@gmail.com>
+ <1ed725c9-361b-c920-d532-dd640c3ca59f@gmail.com>
+Message-ID: <1ff337b4-b4e9-4f16-44d5-9e89f88dd61f@gmail.com>
+Date:   Fri, 20 Dec 2019 01:58:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <1ed725c9-361b-c920-d532-dd640c3ca59f@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, 12 Dec 2019 at 17:48, Rafael J. Wysocki <rafael@kernel.org> wrote:
->
-> On Thu, Dec 12, 2019 at 2:32 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> >
-> > On Thu, 12 Dec 2019 at 13:33, Thierry Reding <thierry.reding@gmail.com> wrote:
-> > >
-> > > On Thu, Dec 12, 2019 at 09:52:22AM +0100, Ulf Hansson wrote:
-> > > > On Mon, 9 Dec 2019 at 14:03, Thierry Reding <thierry.reding@gmail.com> wrote:
-> > > > >
-> > > > > From: Thierry Reding <treding@nvidia.com>
-> > > > >
-> > > > > The Tegra DRM driver heavily relies on the implementations for runtime
-> > > > > suspend/resume to be called at specific times. Unfortunately, there are
-> > > > > some cases where that doesn't work. One example is if the user disables
-> > > > > runtime PM for a given subdevice. Another example is that the PM core
-> > > > > acquires a reference to runtime PM during system sleep, effectively
-> > > > > preventing devices from going into low power modes. This is intentional
-> > > > > to avoid nasty race conditions, but it also causes system sleep to not
-> > > > > function properly on all Tegra systems.
-> > > >
-> > > > Are the problems you refer to above, solely for system suspend/resume?
-> > >
-> > > No, this patch also fixes potential issues with regular operation of the
-> > > display driver. The problem is that parts of the driver rely on being
-> > > able to shut down the hardware during runtime operations, such as
-> > > disabling an output. Under some circumstances part of this shutdown will
-> > > imply a reset and, at least on some platforms, we rely on that reset to
-> > > put the device into a known good state.
-> > >
-> > > So if a user decides to prevent the device from runtime suspending, we
-> > > can potentially run into a situation where we can't properly set a
-> > > display mode at runtime since we weren't allowed to reset the device.
-> >
-> > Thanks for clarifying!
-> >
-> > We have very similar issues for SDIO functional drivers (WiFi
-> > drivers). Typically, at some point there needs to be a guarantee that
-> > the power has been cut in between a "put" and "get", as to be able to
-> > re-program a FW.
-> >
-> > My worry in regards to this, is that we may reinvent the wheel over
-> > and over again, just because runtime PM today isn't a good fit.
-> >
-> > In principle, if you could, somehow forbid user-space from preventing
-> > the device from being runtime suspended, that would do the trick,
-> > wouldn't it?
->
-> Treating pm_runtime_suspend() and pm_runtime_resume() as the low-level
-> device power off and power on routines for the given platform is a
-> mistake.  It has always been a mistake and I'm not going to accept
-> changes trying to make it look like it isn't a mistake.
+13.12.2019 21:01, Dmitry Osipenko пишет:
+> 13.12.2019 17:04, Dmitry Osipenko пишет:
+>> 13.12.2019 16:47, Thierry Reding пишет:
+>>> On Fri, Dec 13, 2019 at 02:34:28AM +0300, Dmitry Osipenko wrote:
+>>>> I noticed that sometime I2C clock is kept enabled during suspend-resume.
+>>>> This happens because runtime PM defers dynamic suspension and thus it may
+>>>> happen that runtime PM is in active state when system enters into suspend.
+>>>> In particular I2C controller that is used for CPU's DVFS is often kept ON
+>>>> during suspend because CPU's voltage scaling happens quite often.
+>>>>
+>>>> Note: we marked runtime PM as IRQ-safe during the driver's probe in the
+>>>> "Support atomic transfers" patch, thus it's okay to enforce runtime PM
+>>>> suspend/resume in the NOIRQ phase which is used for the system-level
+>>>> suspend/resume of the driver.
+>>>>
+>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>>> ---
+>>>>  drivers/i2c/busses/i2c-tegra.c | 9 +++++++++
+>>>>  1 file changed, 9 insertions(+)
+>>>
+>>> I've recently discussed this with Rafael in the context of runtime PM
+>>> support in the Tegra DRM driver and my understanding is that you're not
+>>> supposed to force runtime PM suspension like this.
+>>>
+>>> I had meant to send out an alternative patch to fix this, which I've
+>>> done now:
+>>>
+>>> 	http://patchwork.ozlabs.org/patch/1209148/
+>>>
+>>> That's more in line with what Rafael and I had discussed in the other
+>>> thread and should address the issue that you're seeing as well.
+>>
+>> Well, either me or you are still having some misunderstanding of the
+>> runtime PM :) To my knowledge there are a lot of drivers that enforce
+>> suspension of the runtime PM during system's suspend, it should be a
+>> right thing to do especially in a context of the Tegra I2C driver
+>> because we're using asynchronous pm_runtime_put() and thus at the time
+>> of system's suspending, the runtime PM could be ON (as I wrote in the
+>> commit message) and then Terga's I2C driver manually disables the clock
+>> on resume (woopsie).
+> 
+> Actually, looks like it's not the asynchronous pm_runtime_put() is the
+> cause of suspending in active state. I see that only one of three I2C
+> controllers is suspended in the enabled state, maybe some child (I2C
+> client) device keeps it awake, will try to find out.
+> 
+>> By invoking pm_runtime_force_suspend() on systems's suspend, the runtime
+>> PM executes tegra_i2c_runtime_suspend() if device is in active state. On
+>> system resume, pm_runtime_force_resume() either keeps device in a
+>> suspended state or resumes it, say if for userspace disabled the runtime
+>> PM for the I2C controller.
+>>
+>> Rafael, could you please clarify whether my patch is doing a wrong thing?
 
-Of course you are right that it's a mistake. I am just pondering if
-over how bad the mistake(s) really are and what we can do about them.
+[snip]
 
-For example, on x86, the ACPI PM domain is used to power the SDIO card
-and the SDIO func device (the SDIO card is the parent to the SDIO func
-device) via runtime PM.
+I'm now thinking that it will be not very worthwhile to spend time on
+trying to understand why runtime PM isn't working as expected here. It
+will be better to simply remove runtime PM from the I2C driver because
+it is used only for clock-gating/pinmuxing and it is a very light
+operation in comparison to I2C transfer performance. Thus it should be
+better to avoid the runtime PM overhead by enabling/disabling the I2C
+clocks before/after the transfer, I think that's what driver did before
+the runtime PM addition.
 
-Honestly, I don't know how to fix this, unless we allow the drivers to
-call the ACPI power on/off functions directly, but that doesn't sound
-very nice either and kind of defeats the purpose of using the PM
-domain.
-
->
-> If any generic power off and power on helpers for DT-based platforms
-> are needed, add them and make PM-runtime use them.  That should be
-> straightforward enough.
-
-That wouldn't help in the SDIO case as the power on/off thingy is
-still relying on those runtime PM calls.
-
-Kind regards
-Uffe
+Thierry / Jon / Mikko, any objections?
