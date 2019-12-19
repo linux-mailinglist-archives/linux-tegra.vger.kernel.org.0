@@ -2,203 +2,140 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A193B126FAA
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 22:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4A17127089
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 23:17:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726967AbfLSVVM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Dec 2019 16:21:12 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:34209 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726908AbfLSVVM (ORCPT
+        id S1727006AbfLSWRo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Dec 2019 17:17:44 -0500
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:41389 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726986AbfLSWRo (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Dec 2019 16:21:12 -0500
-Received: by mail-lj1-f196.google.com with SMTP id z22so2969102ljg.1
-        for <linux-tegra@vger.kernel.org>; Thu, 19 Dec 2019 13:21:11 -0800 (PST)
+        Thu, 19 Dec 2019 17:17:44 -0500
+Received: by mail-vs1-f67.google.com with SMTP id f8so4787492vsq.8
+        for <linux-tegra@vger.kernel.org>; Thu, 19 Dec 2019 14:17:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hrHBkQaep6JoKVoAjFMFBIJdnw7horgDntnw6g1jYnQ=;
-        b=VDMQA50bZy2cHHQqXOEijfydyzoFBRM8y/7tAdV90QziNqm/2jgHYTOFoPVjsEMrO5
-         qo34gchWToB9/soqHX3sR5PvUFiXfdCY9UIR+b3ihTgb43MK39+fi3wLBHBgSKXgfyS7
-         16rrUuLrrvSY/QV+VTF4h6S9TnB948toCeU8uektmjEECR02mn6Lxb1J+8L+MOXC0ajT
-         HqmrI1Ngcgb+Epsjj8qIhFCQUWF28ZxDc0811bBA0JKudDGNhqJsr2tBMWoTm8aUlQK5
-         A2dawVHfg12SaZrboJQSJQ968+FM+45erzSLUqpCJGxNq0F92ws+T1bKS0kqinqb0+J5
-         jF9w==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/ndP5DyVVYEx6LRATNvjA+FE11IESSegAdsPFSy9GGY=;
+        b=G1GwUWUhsOH3IDfiGCCMJWCsbGjKBHYP0GhB5lUqC3nzx7I8CVsq2W1E21MVyw7Rq7
+         hRMpW1sRXg6rPja3OzFs0QWlHgTSaK/jknSo/JIKqYRP2/2vqDwZ06hPgeiejrbNsyoZ
+         uzhPwu8m9mxmNLIVbmr1v4NK9q2IygRQerIOWhbHW0JsZRPtGX1MOSxdtjAagoKxWmH8
+         zuhT2yWwAjsNQfN9+8CW81oC0ZU3eDb9QlBcQk3dexMsx3n0QcJIETUJjPP6Tr+DyuuN
+         kyC/Hwkcf+Nd2O3zrMSV2bXUThO/KCyEAqfgr/P0vYasz46DBiLD8PW9L2Wk5KANH90Q
+         hATw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hrHBkQaep6JoKVoAjFMFBIJdnw7horgDntnw6g1jYnQ=;
-        b=clun0c03mAzTMm46APyUwjCUFfHjFNm1AkD0TQ5YUBzYmIA/89HdDdPi0/CDclA2mE
-         EZ9BslMCujJQXVDa0HODxVsD6m+3lljGWrWSbigNvdVqPOsnjYigyaSQ6ccQxfFhSxgi
-         C4rJCIXD7PWYFy+CD0vUqlmKA3lPFQV7eEvBR/DXeQH2nsKwBPImThE5BeZ5XMJSf7ti
-         rmjwiUowsBWaNA/65FvB4dngjtEZmKz+ycvfAXRGschKc5p1TtukvWhU48eDPRaLMXT/
-         +4VaX+vVkVjUwiqIIMVYlVYyTS+GiFHOFlj+h+PSQLCHJKAAvLGYWFkNVENP9pmGMzRg
-         N3qA==
-X-Gm-Message-State: APjAAAVREUSGwWZQnC7HZ2eqax+jfa/w9jrkErJo5KB6rRsRgNIiH1/7
-        YQQab0jLUdVr9pehkRC8D7A=
-X-Google-Smtp-Source: APXvYqxPhvgktTxBr6AhuaKKP/a2PG+9IY6Ut3VgNnkDlDUjUYX5Qvhrag0lrl6g+VI+k6TtCloZ5A==
-X-Received: by 2002:a2e:9157:: with SMTP id q23mr7778245ljg.196.1576790470304;
-        Thu, 19 Dec 2019 13:21:10 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id d20sm336609ljg.95.2019.12.19.13.21.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2019 13:21:09 -0800 (PST)
-Subject: Re: [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit samples
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Ben Dooks <ben.dooks@codethink.co.uk>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@lists.codethink.co.uk,
-        Edward Cragg <edward.cragg@codethink.co.uk>
-References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <20191018154833.7560-3-ben.dooks@codethink.co.uk>
- <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
- <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
- <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
- <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
-Message-ID: <eec79f8c-2ed2-3bc8-e923-ea78be0c12a9@gmail.com>
-Date:   Fri, 20 Dec 2019 00:21:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/ndP5DyVVYEx6LRATNvjA+FE11IESSegAdsPFSy9GGY=;
+        b=LoKsBtsl9Ce+lqbqmHynym/JWmrpY1LBype6S2WOMwE+j3XgyYufNBgFifLIIo4/00
+         U42lnpsCMlHXmgsyyNV1Mq7sUMhyIQ4du7QQufjiDPIDLKtn7xZRn0nPoOnC8RwLFzDC
+         TJ4ArELutxatAwG+D+z4tVFRInW7kcnXuJDEHYwmiuu6USiFu9uME5yN7IUq1TiQM8l3
+         JWtznW4qjNq3zd7/yxkmIuQdMMgChe0pbWApVwUOODN4UQ8iEjHNSuNXN9O5vqXEC9Ic
+         rs9m7qUxNhPQaD0r/D4CeSzDH3EH1QQwBvnlcr/G8INW87UkZcMpLCWs2AN3Oa3LSWrr
+         yFYg==
+X-Gm-Message-State: APjAAAUOQFSwVGKty1kpwm8skz/Fbc7o7nJ0dKPEADm4sGLHVsMQYZOE
+        WncUUN1JiXYCMnfKOGEiK+2Zl65HPWLsbIjyCOyBlw==
+X-Google-Smtp-Source: APXvYqzO+W0sfWNewfxmNxOrPZXXjTTCyI0TAromWHrFAFH63oVQKKIN0oh+NYU0rTqViLL6AbT7Atqk/2eRmdjMODU=
+X-Received: by 2002:a67:b649:: with SMTP id e9mr6733198vsm.34.1576793863004;
+ Thu, 19 Dec 2019 14:17:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20191209130336.2257506-1-thierry.reding@gmail.com>
+ <20191209130336.2257506-2-thierry.reding@gmail.com> <CAPDyKFp6cnpn4yFaEBDPBdHc1siQvJbmwedbhRNCdDBVAc2qUA@mail.gmail.com>
+ <20191212123352.GA3322354@ulmo> <CAPDyKFodOjta0JnEEMrC0j5=XeB-wLjTNvPFtmDtUBZBMTJvQg@mail.gmail.com>
+ <CAJZ5v0hA6mz7r93_HVpfP-=72wARf9=NN1jNG3KHtzM_+oT9LA@mail.gmail.com>
+In-Reply-To: <CAJZ5v0hA6mz7r93_HVpfP-=72wARf9=NN1jNG3KHtzM_+oT9LA@mail.gmail.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 19 Dec 2019 23:17:07 +0100
+Message-ID: <CAPDyKFoJhn=v92qz=z6X9j4AfLwGCt350i1ntoNCRYqoemr9aw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/tegra: Do not implement runtime PM
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-25.11.2019 20:28, Dmitry Osipenko пишет:
-> 25.11.2019 20:22, Dmitry Osipenko пишет:
->> 25.11.2019 13:37, Ben Dooks пишет:
->>> On 23/11/2019 21:09, Dmitry Osipenko wrote:
->>>> 18.10.2019 18:48, Ben Dooks пишет:
->>>>> From: Edward Cragg <edward.cragg@codethink.co.uk>
->>>>>
->>>>> The tegra3 audio can support 24 and 32 bit sample sizes so add the
->>>>> option to the tegra30_i2s_hw_params to configure the S24_LE or S32_LE
->>>>> formats when requested.
->>>>>
->>>>> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
->>>>> [ben.dooks@codethink.co.uk: fixup merge of 24 and 32bit]
->>>>> [ben.dooks@codethink.co.uk: add pm calls around ytdm config]
->>>>> [ben.dooks@codethink.co.uk: drop debug printing to dev_dbg]
->>>>> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
->>>>> ---
->>>>> squash 5aeca5a055fd ASoC: tegra: i2s: pm_runtime_get_sync() is needed
->>>>> in tdm code
->>>>>
->>>>> ASoC: tegra: i2s: pm_runtime_get_sync() is needed in tdm code
->>>>> ---
->>>>>   sound/soc/tegra/tegra30_i2s.c | 25 ++++++++++++++++++++-----
->>>>>   1 file changed, 20 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/sound/soc/tegra/tegra30_i2s.c
->>>>> b/sound/soc/tegra/tegra30_i2s.c
->>>>> index 73f0dddeaef3..063f34c882af 100644
->>>>> --- a/sound/soc/tegra/tegra30_i2s.c
->>>>> +++ b/sound/soc/tegra/tegra30_i2s.c
->>>>> @@ -127,7 +127,7 @@ static int tegra30_i2s_hw_params(struct
->>>>> snd_pcm_substream *substream,
->>>>>       struct device *dev = dai->dev;
->>>>>       struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
->>>>>       unsigned int mask, val, reg;
->>>>> -    int ret, sample_size, srate, i2sclock, bitcnt;
->>>>> +    int ret, sample_size, srate, i2sclock, bitcnt, audio_bits;
->>>>>       struct tegra30_ahub_cif_conf cif_conf;
->>>>>         if (params_channels(params) != 2)
->>>>> @@ -137,8 +137,19 @@ static int tegra30_i2s_hw_params(struct
->>>>> snd_pcm_substream *substream,
->>>>>       switch (params_format(params)) {
->>>>>       case SNDRV_PCM_FORMAT_S16_LE:
->>>>>           val = TEGRA30_I2S_CTRL_BIT_SIZE_16;
->>>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_16;
->>>>>           sample_size = 16;
->>>>>           break;
->>>>> +    case SNDRV_PCM_FORMAT_S24_LE:
->>>>> +        val = TEGRA30_I2S_CTRL_BIT_SIZE_24;
->>>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_24;
->>>>> +        sample_size = 24;
->>>>> +        break;
->>>>> +    case SNDRV_PCM_FORMAT_S32_LE:
->>>>> +        val = TEGRA30_I2S_CTRL_BIT_SIZE_32;
->>>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_32;
->>>>> +        sample_size = 32;
->>>>> +        break;
->>>>>       default:
->>>>>           return -EINVAL;
->>>>>       }
->>>>> @@ -170,8 +181,8 @@ static int tegra30_i2s_hw_params(struct
->>>>> snd_pcm_substream *substream,
->>>>>       cif_conf.threshold = 0;
->>>>>       cif_conf.audio_channels = 2;
->>>>>       cif_conf.client_channels = 2;
->>>>> -    cif_conf.audio_bits = TEGRA30_AUDIOCIF_BITS_16;
->>>>> -    cif_conf.client_bits = TEGRA30_AUDIOCIF_BITS_16;
->>>>> +    cif_conf.audio_bits = audio_bits;
->>>>> +    cif_conf.client_bits = audio_bits;
->>>>>       cif_conf.expand = 0;
->>>>>       cif_conf.stereo_conv = 0;
->>>>>       cif_conf.replicate = 0;
->>>>> @@ -306,14 +317,18 @@ static const struct snd_soc_dai_driver
->>>>> tegra30_i2s_dai_template = {
->>>>>           .channels_min = 2,
->>>>>           .channels_max = 2,
->>>>>           .rates = SNDRV_PCM_RATE_8000_96000,
->>>>> -        .formats = SNDRV_PCM_FMTBIT_S16_LE,
->>>>> +        .formats = SNDRV_PCM_FMTBIT_S32_LE |
->>>>> +               SNDRV_PCM_FMTBIT_S24_LE |
->>>>> +               SNDRV_PCM_FMTBIT_S16_LE,
->>>>>       },
->>>>>       .capture = {
->>>>>           .stream_name = "Capture",
->>>>>           .channels_min = 2,
->>>>>           .channels_max = 2,
->>>>>           .rates = SNDRV_PCM_RATE_8000_96000,
->>>>> -        .formats = SNDRV_PCM_FMTBIT_S16_LE,
->>>>> +        .formats = SNDRV_PCM_FMTBIT_S32_LE |
->>>>> +               SNDRV_PCM_FMTBIT_S24_LE |
->>>>> +               SNDRV_PCM_FMTBIT_S16_LE,
->>>>>       },
->>>>>       .ops = &tegra30_i2s_dai_ops,
->>>>>       .symmetric_rates = 1,
->>>>>
->>>>
->>>> Hello,
->>>>
->>>> This patch breaks audio on Tegra30. I don't see errors anywhere, but
->>>> there is no audio and reverting this patch helps. Please fix it.
->>>
->>> What is the failure mode? I can try and take a look at this some time
->>> this week, but I am not sure if I have any boards with an actual useful
->>> audio output?
->>
->> The failure mode is that there no sound. I also noticed that video
->> playback stutters a lot if movie file has audio track, seems something
->> times out during of the audio playback. For now I don't have any more info.
->>
-> 
-> Oh, I didn't say how to reproduce it.. for example simply playing
-> big_buck_bunny_720p_h264.mov in MPV has the audio problem.
-> 
-> https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_720p_h264.mov
-> 
+On Thu, 12 Dec 2019 at 17:48, Rafael J. Wysocki <rafael@kernel.org> wrote:
+>
+> On Thu, Dec 12, 2019 at 2:32 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> >
+> > On Thu, 12 Dec 2019 at 13:33, Thierry Reding <thierry.reding@gmail.com> wrote:
+> > >
+> > > On Thu, Dec 12, 2019 at 09:52:22AM +0100, Ulf Hansson wrote:
+> > > > On Mon, 9 Dec 2019 at 14:03, Thierry Reding <thierry.reding@gmail.com> wrote:
+> > > > >
+> > > > > From: Thierry Reding <treding@nvidia.com>
+> > > > >
+> > > > > The Tegra DRM driver heavily relies on the implementations for runtime
+> > > > > suspend/resume to be called at specific times. Unfortunately, there are
+> > > > > some cases where that doesn't work. One example is if the user disables
+> > > > > runtime PM for a given subdevice. Another example is that the PM core
+> > > > > acquires a reference to runtime PM during system sleep, effectively
+> > > > > preventing devices from going into low power modes. This is intentional
+> > > > > to avoid nasty race conditions, but it also causes system sleep to not
+> > > > > function properly on all Tegra systems.
+> > > >
+> > > > Are the problems you refer to above, solely for system suspend/resume?
+> > >
+> > > No, this patch also fixes potential issues with regular operation of the
+> > > display driver. The problem is that parts of the driver rely on being
+> > > able to shut down the hardware during runtime operations, such as
+> > > disabling an output. Under some circumstances part of this shutdown will
+> > > imply a reset and, at least on some platforms, we rely on that reset to
+> > > put the device into a known good state.
+> > >
+> > > So if a user decides to prevent the device from runtime suspending, we
+> > > can potentially run into a situation where we can't properly set a
+> > > display mode at runtime since we weren't allowed to reset the device.
+> >
+> > Thanks for clarifying!
+> >
+> > We have very similar issues for SDIO functional drivers (WiFi
+> > drivers). Typically, at some point there needs to be a guarantee that
+> > the power has been cut in between a "put" and "get", as to be able to
+> > re-program a FW.
+> >
+> > My worry in regards to this, is that we may reinvent the wheel over
+> > and over again, just because runtime PM today isn't a good fit.
+> >
+> > In principle, if you could, somehow forbid user-space from preventing
+> > the device from being runtime suspended, that would do the trick,
+> > wouldn't it?
+>
+> Treating pm_runtime_suspend() and pm_runtime_resume() as the low-level
+> device power off and power on routines for the given platform is a
+> mistake.  It has always been a mistake and I'm not going to accept
+> changes trying to make it look like it isn't a mistake.
 
-Hello Ben,
+Of course you are right that it's a mistake. I am just pondering if
+over how bad the mistake(s) really are and what we can do about them.
 
-Do you have any updates? I just re-check whether problem persists and
-it's still there using a recent linux-next.
+For example, on x86, the ACPI PM domain is used to power the SDIO card
+and the SDIO func device (the SDIO card is the parent to the SDIO func
+device) via runtime PM.
 
-Interestingly, I can hear some sound now, but it's very distorted.
+Honestly, I don't know how to fix this, unless we allow the drivers to
+call the ACPI power on/off functions directly, but that doesn't sound
+very nice either and kind of defeats the purpose of using the PM
+domain.
 
-If you don't have a solution, then what about to revert the patches for
-now and try again later on?
+>
+> If any generic power off and power on helpers for DT-based platforms
+> are needed, add them and make PM-runtime use them.  That should be
+> straightforward enough.
+
+That wouldn't help in the SDIO case as the power on/off thingy is
+still relying on those runtime PM calls.
+
+Kind regards
+Uffe
