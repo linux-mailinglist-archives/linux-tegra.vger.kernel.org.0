@@ -2,64 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 499B1126F2D
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 21:51:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A193B126FAA
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 22:21:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726945AbfLSUv6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Dec 2019 15:51:58 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:35518 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726897AbfLSUv6 (ORCPT
+        id S1726967AbfLSVVM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Dec 2019 16:21:12 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:34209 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726908AbfLSVVM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Dec 2019 15:51:58 -0500
-Received: by mail-lj1-f195.google.com with SMTP id j1so339810lja.2
-        for <linux-tegra@vger.kernel.org>; Thu, 19 Dec 2019 12:51:56 -0800 (PST)
+        Thu, 19 Dec 2019 16:21:12 -0500
+Received: by mail-lj1-f196.google.com with SMTP id z22so2969102ljg.1
+        for <linux-tegra@vger.kernel.org>; Thu, 19 Dec 2019 13:21:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KEXg+QXcGVR2wfU7QL6Xi+7dyZhmU5Ou765XZ4scBQo=;
-        b=bbJcumVds1fxGTZJNobN8as6g0iEXUOCC0wGhsE91g/76I8sqmtEo8+1/5aBx+iKPj
-         0VigdlNc8Fp4CWmw58wc2l6TzK3aJWUMJRXC7Gbabq+TraRVcm0WrZOqkG+3QzvjnC96
-         LU3adP4S85G40DQJ/tUfBLyhf5qUGvEuiV0Y6hLRysSFmZDJ+/x/mC6eN+c2/dBoI5Is
-         H2dZZ5hZYSSPmKgJLvSClRgbC9cBNL8rCeEKntpMQmKzbGEr9IoWej9pfg1sj+1m/dh8
-         iylepOfsYmlYP7QRHXC4/oeoLoTeb4XIf7a99P9KkQR9Ksd+/+0/pW2qt+8bM9vAaYKj
-         ic/g==
+        bh=hrHBkQaep6JoKVoAjFMFBIJdnw7horgDntnw6g1jYnQ=;
+        b=VDMQA50bZy2cHHQqXOEijfydyzoFBRM8y/7tAdV90QziNqm/2jgHYTOFoPVjsEMrO5
+         qo34gchWToB9/soqHX3sR5PvUFiXfdCY9UIR+b3ihTgb43MK39+fi3wLBHBgSKXgfyS7
+         16rrUuLrrvSY/QV+VTF4h6S9TnB948toCeU8uektmjEECR02mn6Lxb1J+8L+MOXC0ajT
+         HqmrI1Ngcgb+Epsjj8qIhFCQUWF28ZxDc0811bBA0JKudDGNhqJsr2tBMWoTm8aUlQK5
+         A2dawVHfg12SaZrboJQSJQ968+FM+45erzSLUqpCJGxNq0F92ws+T1bKS0kqinqb0+J5
+         jF9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=KEXg+QXcGVR2wfU7QL6Xi+7dyZhmU5Ou765XZ4scBQo=;
-        b=ukFmMdSo3kHZCMW2U7g3Wr6ZEuJj0Uz/+EzLv9iHRS73aQg1u372Tq2QZzhZByuWiX
-         1H+xUnBqPUqQfF9AQ/KuhxuR1TIMTv3LI5trtrIWK9EPVVOlnnk+Lq3Ki8ACoOnARW+6
-         cczMoB0eN7G9t1U1cauTCJ7ipM5kQbjF8wAaUfmbyOB6Ick9zEWCToD82nQXS+p3DCyd
-         tg9A/4V8f/wIKKiwdJOGTSK4d7vv4Do7u0ZUxcEDE4PjOXcDy5/mddJxaFf4cPX3nFU8
-         WdKgOSgJeCR1huiT7KZ65MbRyOL4lXz/HxTvaRsAW7n45J0Gt6Ok8Pbi9MH35UtWpIvH
-         8naA==
-X-Gm-Message-State: APjAAAXtVuYpkiBSo333xbsT6q+JK48eKqEpHStSmuF+CAVxi/EDcFQH
-        kPnXker5hDTUV/icluP2IcsN/0Tj
-X-Google-Smtp-Source: APXvYqziZ1dZyH+5st7pBYpsgslPepCOZs4TVvrBSPdHFBVUC3ELQz/4FFPwEeb+ot4d1QW7Q8v1LA==
-X-Received: by 2002:a2e:9a98:: with SMTP id p24mr7593566lji.37.1576788715836;
-        Thu, 19 Dec 2019 12:51:55 -0800 (PST)
+        bh=hrHBkQaep6JoKVoAjFMFBIJdnw7horgDntnw6g1jYnQ=;
+        b=clun0c03mAzTMm46APyUwjCUFfHjFNm1AkD0TQ5YUBzYmIA/89HdDdPi0/CDclA2mE
+         EZ9BslMCujJQXVDa0HODxVsD6m+3lljGWrWSbigNvdVqPOsnjYigyaSQ6ccQxfFhSxgi
+         C4rJCIXD7PWYFy+CD0vUqlmKA3lPFQV7eEvBR/DXeQH2nsKwBPImThE5BeZ5XMJSf7ti
+         rmjwiUowsBWaNA/65FvB4dngjtEZmKz+ycvfAXRGschKc5p1TtukvWhU48eDPRaLMXT/
+         +4VaX+vVkVjUwiqIIMVYlVYyTS+GiFHOFlj+h+PSQLCHJKAAvLGYWFkNVENP9pmGMzRg
+         N3qA==
+X-Gm-Message-State: APjAAAVREUSGwWZQnC7HZ2eqax+jfa/w9jrkErJo5KB6rRsRgNIiH1/7
+        YQQab0jLUdVr9pehkRC8D7A=
+X-Google-Smtp-Source: APXvYqxPhvgktTxBr6AhuaKKP/a2PG+9IY6Ut3VgNnkDlDUjUYX5Qvhrag0lrl6g+VI+k6TtCloZ5A==
+X-Received: by 2002:a2e:9157:: with SMTP id q23mr7778245ljg.196.1576790470304;
+        Thu, 19 Dec 2019 13:21:10 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id r26sm3043651lfm.82.2019.12.19.12.51.54
+        by smtp.googlemail.com with ESMTPSA id d20sm336609ljg.95.2019.12.19.13.21.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2019 12:51:55 -0800 (PST)
-Subject: Re: [PATCH v1 2/3] memory: tegra30-emc: Firm up hardware programming
- sequence
+        Thu, 19 Dec 2019 13:21:09 -0800 (PST)
+Subject: Re: [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit samples
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+To:     Ben Dooks <ben.dooks@codethink.co.uk>, linux-tegra@vger.kernel.org,
+        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-tegra@vger.kernel.org
-References: <20191218185002.26970-1-digetx@gmail.com>
- <20191218185002.26970-3-digetx@gmail.com>
-Message-ID: <6ecb7cd1-6cde-6b3b-b4c5-d4a05a61a2e3@gmail.com>
-Date:   Thu, 19 Dec 2019 23:51:54 +0300
+Cc:     linux-kernel@lists.codethink.co.uk,
+        Edward Cragg <edward.cragg@codethink.co.uk>
+References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
+ <20191018154833.7560-3-ben.dooks@codethink.co.uk>
+ <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
+ <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
+ <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
+ <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
+Message-ID: <eec79f8c-2ed2-3bc8-e923-ea78be0c12a9@gmail.com>
+Date:   Fri, 20 Dec 2019 00:21:08 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20191218185002.26970-3-digetx@gmail.com>
+In-Reply-To: <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -68,259 +77,128 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-18.12.2019 21:50, Dmitry Osipenko пишет:
-> Previously there was a problem where a late handshake handling caused
-> a memory corruption, this problem was resolved by issuing calibration
-> command right after changing the timing, but looks like the solution
-> wasn't entirely correct since calibration interval could be disabled as
-> well. Now programming sequence is completed immediately after receiving
-> handshake from CaR, without potentially long delays and in accordance to
-> the TRM's programming guide.
+25.11.2019 20:28, Dmitry Osipenko пишет:
+> 25.11.2019 20:22, Dmitry Osipenko пишет:
+>> 25.11.2019 13:37, Ben Dooks пишет:
+>>> On 23/11/2019 21:09, Dmitry Osipenko wrote:
+>>>> 18.10.2019 18:48, Ben Dooks пишет:
+>>>>> From: Edward Cragg <edward.cragg@codethink.co.uk>
+>>>>>
+>>>>> The tegra3 audio can support 24 and 32 bit sample sizes so add the
+>>>>> option to the tegra30_i2s_hw_params to configure the S24_LE or S32_LE
+>>>>> formats when requested.
+>>>>>
+>>>>> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
+>>>>> [ben.dooks@codethink.co.uk: fixup merge of 24 and 32bit]
+>>>>> [ben.dooks@codethink.co.uk: add pm calls around ytdm config]
+>>>>> [ben.dooks@codethink.co.uk: drop debug printing to dev_dbg]
+>>>>> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+>>>>> ---
+>>>>> squash 5aeca5a055fd ASoC: tegra: i2s: pm_runtime_get_sync() is needed
+>>>>> in tdm code
+>>>>>
+>>>>> ASoC: tegra: i2s: pm_runtime_get_sync() is needed in tdm code
+>>>>> ---
+>>>>>   sound/soc/tegra/tegra30_i2s.c | 25 ++++++++++++++++++++-----
+>>>>>   1 file changed, 20 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/sound/soc/tegra/tegra30_i2s.c
+>>>>> b/sound/soc/tegra/tegra30_i2s.c
+>>>>> index 73f0dddeaef3..063f34c882af 100644
+>>>>> --- a/sound/soc/tegra/tegra30_i2s.c
+>>>>> +++ b/sound/soc/tegra/tegra30_i2s.c
+>>>>> @@ -127,7 +127,7 @@ static int tegra30_i2s_hw_params(struct
+>>>>> snd_pcm_substream *substream,
+>>>>>       struct device *dev = dai->dev;
+>>>>>       struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
+>>>>>       unsigned int mask, val, reg;
+>>>>> -    int ret, sample_size, srate, i2sclock, bitcnt;
+>>>>> +    int ret, sample_size, srate, i2sclock, bitcnt, audio_bits;
+>>>>>       struct tegra30_ahub_cif_conf cif_conf;
+>>>>>         if (params_channels(params) != 2)
+>>>>> @@ -137,8 +137,19 @@ static int tegra30_i2s_hw_params(struct
+>>>>> snd_pcm_substream *substream,
+>>>>>       switch (params_format(params)) {
+>>>>>       case SNDRV_PCM_FORMAT_S16_LE:
+>>>>>           val = TEGRA30_I2S_CTRL_BIT_SIZE_16;
+>>>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_16;
+>>>>>           sample_size = 16;
+>>>>>           break;
+>>>>> +    case SNDRV_PCM_FORMAT_S24_LE:
+>>>>> +        val = TEGRA30_I2S_CTRL_BIT_SIZE_24;
+>>>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_24;
+>>>>> +        sample_size = 24;
+>>>>> +        break;
+>>>>> +    case SNDRV_PCM_FORMAT_S32_LE:
+>>>>> +        val = TEGRA30_I2S_CTRL_BIT_SIZE_32;
+>>>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_32;
+>>>>> +        sample_size = 32;
+>>>>> +        break;
+>>>>>       default:
+>>>>>           return -EINVAL;
+>>>>>       }
+>>>>> @@ -170,8 +181,8 @@ static int tegra30_i2s_hw_params(struct
+>>>>> snd_pcm_substream *substream,
+>>>>>       cif_conf.threshold = 0;
+>>>>>       cif_conf.audio_channels = 2;
+>>>>>       cif_conf.client_channels = 2;
+>>>>> -    cif_conf.audio_bits = TEGRA30_AUDIOCIF_BITS_16;
+>>>>> -    cif_conf.client_bits = TEGRA30_AUDIOCIF_BITS_16;
+>>>>> +    cif_conf.audio_bits = audio_bits;
+>>>>> +    cif_conf.client_bits = audio_bits;
+>>>>>       cif_conf.expand = 0;
+>>>>>       cif_conf.stereo_conv = 0;
+>>>>>       cif_conf.replicate = 0;
+>>>>> @@ -306,14 +317,18 @@ static const struct snd_soc_dai_driver
+>>>>> tegra30_i2s_dai_template = {
+>>>>>           .channels_min = 2,
+>>>>>           .channels_max = 2,
+>>>>>           .rates = SNDRV_PCM_RATE_8000_96000,
+>>>>> -        .formats = SNDRV_PCM_FMTBIT_S16_LE,
+>>>>> +        .formats = SNDRV_PCM_FMTBIT_S32_LE |
+>>>>> +               SNDRV_PCM_FMTBIT_S24_LE |
+>>>>> +               SNDRV_PCM_FMTBIT_S16_LE,
+>>>>>       },
+>>>>>       .capture = {
+>>>>>           .stream_name = "Capture",
+>>>>>           .channels_min = 2,
+>>>>>           .channels_max = 2,
+>>>>>           .rates = SNDRV_PCM_RATE_8000_96000,
+>>>>> -        .formats = SNDRV_PCM_FMTBIT_S16_LE,
+>>>>> +        .formats = SNDRV_PCM_FMTBIT_S32_LE |
+>>>>> +               SNDRV_PCM_FMTBIT_S24_LE |
+>>>>> +               SNDRV_PCM_FMTBIT_S16_LE,
+>>>>>       },
+>>>>>       .ops = &tegra30_i2s_dai_ops,
+>>>>>       .symmetric_rates = 1,
+>>>>>
+>>>>
+>>>> Hello,
+>>>>
+>>>> This patch breaks audio on Tegra30. I don't see errors anywhere, but
+>>>> there is no audio and reverting this patch helps. Please fix it.
+>>>
+>>> What is the failure mode? I can try and take a look at this some time
+>>> this week, but I am not sure if I have any boards with an actual useful
+>>> audio output?
+>>
+>> The failure mode is that there no sound. I also noticed that video
+>> playback stutters a lot if movie file has audio track, seems something
+>> times out during of the audio playback. For now I don't have any more info.
+>>
 > 
-> Secondly, the TRM's programming guide suggests to flush EMC writes by
-> reading any *MC* register before doing CaR changes. This is also addressed
-> now.
+> Oh, I didn't say how to reproduce it.. for example simply playing
+> big_buck_bunny_720p_h264.mov in MPV has the audio problem.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/memory/tegra/tegra30-emc.c | 148 +++++++++++++++++------------
->  1 file changed, 88 insertions(+), 60 deletions(-)
-> 
-> diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
-> index 8e156726b2de..cbc113ddd07c 100644
-> --- a/drivers/memory/tegra/tegra30-emc.c
-> +++ b/drivers/memory/tegra/tegra30-emc.c
-> @@ -332,6 +332,7 @@ struct tegra_emc {
->  	void __iomem *regs;
->  	unsigned int irq;
->  
-> +	struct emc_timing *new_timing;
->  	struct emc_timing *timings;
->  	unsigned int num_timings;
->  
-> @@ -348,6 +349,66 @@ struct tegra_emc {
->  	bool bad_state : 1;
->  };
->  
-> +static int emc_seq_update_timing(struct tegra_emc *emc)
-> +{
-> +	u32 val;
-> +	int err;
-> +
-> +	writel_relaxed(EMC_TIMING_UPDATE, emc->regs + EMC_TIMING_CONTROL);
-> +
-> +	err = readl_relaxed_poll_timeout_atomic(emc->regs + EMC_STATUS, val,
-> +				!(val & EMC_STATUS_TIMING_UPDATE_STALLED),
-> +				1, 200);
-> +	if (err) {
-> +		dev_err(emc->dev, "failed to update timing: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void emc_complete_clk_change(struct tegra_emc *emc)
-> +{
-> +	struct emc_timing *timing = emc->new_timing;
-> +	unsigned int dram_num;
-> +	bool failed = false;
-> +	int err;
-> +
-> +	/* re-enable auto-refresh */
-> +	dram_num = tegra_mc_get_emem_device_count(emc->mc);
-> +	writel_relaxed(EMC_REFCTRL_ENABLE_ALL(dram_num),
-> +		       emc->regs + EMC_REFCTRL);
-> +
-> +	/* restore auto-calibration */
-> +	if (emc->vref_cal_toggle)
-> +		writel_relaxed(timing->emc_auto_cal_interval,
-> +			       emc->regs + EMC_AUTO_CAL_INTERVAL);
-> +
-> +	/* restore dynamic self-refresh */
-> +	if (timing->emc_cfg_dyn_self_ref) {
-> +		emc->emc_cfg |= EMC_CFG_DYN_SREF_ENABLE;
-> +		writel_relaxed(emc->emc_cfg, emc->regs + EMC_CFG);
-> +	}
-> +
-> +	/* set number of clocks to wait after each ZQ command */
-> +	if (emc->zcal_long)
-> +		writel_relaxed(timing->emc_zcal_cnt_long,
-> +			       emc->regs + EMC_ZCAL_WAIT_CNT);
-> +
-> +	/* wait for writes to settle */
-> +	udelay(2);
-> +
-> +	/* update restored timing */
-> +	err = emc_seq_update_timing(emc);
-> +	if (err)
-> +		failed = true;
-> +
-> +	/* restore early ACK */
-> +	mc_writel(emc->mc, emc->mc_override, MC_EMEM_ARB_OVERRIDE);
-> +
-> +	emc->bad_state = failed;
-> +}
-> +
->  static irqreturn_t tegra_emc_isr(int irq, void *data)
->  {
->  	struct tegra_emc *emc = data;
-> @@ -358,10 +419,6 @@ static irqreturn_t tegra_emc_isr(int irq, void *data)
->  	if (!status)
->  		return IRQ_NONE;
->  
-> -	/* notify about EMC-CAR handshake completion */
-> -	if (status & EMC_CLKCHANGE_COMPLETE_INT)
-> -		complete(&emc->clk_handshake_complete);
-> -
->  	/* notify about HW problem */
->  	if (status & EMC_REFRESH_OVERFLOW_INT)
->  		dev_err_ratelimited(emc->dev,
-> @@ -370,6 +427,18 @@ static irqreturn_t tegra_emc_isr(int irq, void *data)
->  	/* clear interrupts */
->  	writel_relaxed(status, emc->regs + EMC_INTSTATUS);
->  
-> +	/* notify about EMC-CAR handshake completion */
-> +	if (status & EMC_CLKCHANGE_COMPLETE_INT) {
-> +		if (completion_done(&emc->clk_handshake_complete)) {
-> +			dev_err_ratelimited(emc->dev,
-> +					    "bogus handshake interrupt\n");
-> +			return IRQ_NONE;
-> +		}
-> +
-> +		emc_complete_clk_change(emc);
-> +		complete(&emc->clk_handshake_complete);
-> +	}
-> +
->  	return IRQ_HANDLED;
->  }
->  
-> @@ -437,24 +506,6 @@ static bool emc_dqs_preset(struct tegra_emc *emc, struct emc_timing *timing,
->  	return preset;
->  }
->  
-> -static int emc_seq_update_timing(struct tegra_emc *emc)
-> -{
-> -	u32 val;
-> -	int err;
-> -
-> -	writel_relaxed(EMC_TIMING_UPDATE, emc->regs + EMC_TIMING_CONTROL);
-> -
-> -	err = readl_relaxed_poll_timeout_atomic(emc->regs + EMC_STATUS, val,
-> -				!(val & EMC_STATUS_TIMING_UPDATE_STALLED),
-> -				1, 200);
-> -	if (err) {
-> -		dev_err(emc->dev, "failed to update timing: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  static int emc_prepare_mc_clk_cfg(struct tegra_emc *emc, unsigned long rate)
->  {
->  	struct tegra_mc *mc = emc->mc;
-> @@ -620,9 +671,6 @@ static int emc_prepare_timing_change(struct tegra_emc *emc, unsigned long rate)
->  		writel_relaxed(val, emc->regs + EMC_MRS_WAIT_CNT);
->  	}
->  
-> -	/* disable interrupt since read access is prohibited after stalling */
-> -	disable_irq(emc->irq);
-> -
->  	/* this read also completes the writes */
->  	val = readl_relaxed(emc->regs + EMC_SEL_DPD_CTRL);
->  
-> @@ -738,17 +786,18 @@ static int emc_prepare_timing_change(struct tegra_emc *emc, unsigned long rate)
->  				       emc->regs + EMC_ZQ_CAL);
->  	}
->  
-> -	/* re-enable auto-refresh */
-> -	writel_relaxed(EMC_REFCTRL_ENABLE_ALL(dram_num),
-> -		       emc->regs + EMC_REFCTRL);
-> -
->  	/* flow control marker 3 */
->  	writel_relaxed(0x1, emc->regs + EMC_UNSTALL_RW_AFTER_CLKCHANGE);
->  
-> +	/*
-> +	 * Read and discard an arbitrary MC register (Note: EMC registers
-> +	 * can't be used) to ensure the register writes are completed.
-> +	 */
-> +	mc_readl(emc->mc, MC_EMEM_ARB_OVERRIDE);
-> +
->  	reinit_completion(&emc->clk_handshake_complete);
->  
-> -	/* interrupt can be re-enabled now */
-> -	enable_irq(emc->irq);
-> +	emc->new_timing = timing;
->  
->  	return 0;
->  }
-> @@ -756,9 +805,7 @@ static int emc_prepare_timing_change(struct tegra_emc *emc, unsigned long rate)
->  static int emc_complete_timing_change(struct tegra_emc *emc,
->  				      unsigned long rate)
->  {
-> -	struct emc_timing *timing = emc_find_timing(emc, rate);
->  	unsigned long timeout;
-> -	int err;
->  
->  	timeout = wait_for_completion_timeout(&emc->clk_handshake_complete,
->  					      msecs_to_jiffies(100));
-> @@ -767,33 +814,8 @@ static int emc_complete_timing_change(struct tegra_emc *emc,
->  		return -EIO;
->  	}
->  
-> -	/* restore auto-calibration */
-> -	if (emc->vref_cal_toggle)
-> -		writel_relaxed(timing->emc_auto_cal_interval,
-> -			       emc->regs + EMC_AUTO_CAL_INTERVAL);
-> -
-> -	/* restore dynamic self-refresh */
-> -	if (timing->emc_cfg_dyn_self_ref) {
-> -		emc->emc_cfg |= EMC_CFG_DYN_SREF_ENABLE;
-> -		writel_relaxed(emc->emc_cfg, emc->regs + EMC_CFG);
-> -	}
-> -
-> -	/* set number of clocks to wait after each ZQ command */
-> -	if (emc->zcal_long)
-> -		writel_relaxed(timing->emc_zcal_cnt_long,
-> -			       emc->regs + EMC_ZCAL_WAIT_CNT);
-> -
-> -	udelay(2);
-> -	/* update restored timing */
-> -	err = emc_seq_update_timing(emc);
-> -
-> -	/* restore early ACK */
-> -	mc_writel(emc->mc, emc->mc_override, MC_EMEM_ARB_OVERRIDE);
-> -
-> -	if (err)
-> -		return err;
-> -
-> -	emc->bad_state = false;
-> +	if (emc->bad_state)
-> +		return -EIO;
-
-I'm now having a second thought: there shouldn't be any problem here
-because compiler should assume that wait_for_completion_timeout() may
-alter emc->bad_state and thus always emit a memory fetch here. But I'll
-feel more comfortable if WRITE/READ_ONCE will be used here for
-interacting with the interrupt handler, which will be changed in v2.
-
->  
->  	return 0;
->  }
-> @@ -819,7 +841,13 @@ static int emc_clk_change_notify(struct notifier_block *nb,
->  
->  	switch (msg) {
->  	case PRE_RATE_CHANGE:
-> +		/*
-> +		 * Disable interrupt since read accesses are prohibited after
-> +		 * stalling.
-> +		 */
-> +		disable_irq(emc->irq);
->  		err = emc_prepare_timing_change(emc, cnd->new_rate);
-> +		enable_irq(emc->irq);
->  		break;
->  
->  	case ABORT_RATE_CHANGE:
+> https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_720p_h264.mov
 > 
 
+Hello Ben,
+
+Do you have any updates? I just re-check whether problem persists and
+it's still there using a recent linux-next.
+
+Interestingly, I can hear some sound now, but it's very distorted.
+
+If you don't have a solution, then what about to revert the patches for
+now and try again later on?
