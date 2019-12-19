@@ -2,106 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02FC5126306
-	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 14:12:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29D581262D8
+	for <lists+linux-tegra@lfdr.de>; Thu, 19 Dec 2019 14:05:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726880AbfLSNMC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 19 Dec 2019 08:12:02 -0500
-Received: from mail1.skidata.com ([91.230.2.99]:32414 "EHLO mail1.skidata.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726730AbfLSNMC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 19 Dec 2019 08:12:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-  t=1576761122; x=1608297122;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=v5I6HmyMZEfkk4cOh4zALwoYi8f2gqBVfg+2kVMeEaQ=;
-  b=fMiGaPKKuzjK7FDtuSG+eMkzU1wAo87wWuv4yfakiDFMVnGO039dcvoI
-   yby3RJh8KqUsYgwBEmWx5NC3I8RE6WyOWTxpcPeAlHQTP80c/QP20UoNO
-   e1nZ4Y4MKmpFSegu6Uu/1tR/Sm51LSzyJGdSwhoIlLWTCu5zpbiTQwyir
-   oIwEzkQmbQS07p3KSGzpQ6kiBEhR+TbJNiT+NB2xzIvQo/gkldD+gzLsX
-   XPQ02WBF9OsrEdqbMWkiyUIozctUdAQLYswSEr2Dxy7BvL5eL9flq5ILL
-   56EJeANycY4o5xLJhIU25Tk543nGKTaCqj/VJRN3u9ihSWv+E0ydXRtYw
-   A==;
-IronPort-SDR: rXbAXl7IN2U5RgHPwH21Zv+D0s59fW9LQVr0jcHMtkaDqp7hRM4Ia6i4EOH7iox+lOOTRA3bN+
- J0PEibFOsz2yC0/7UKg7j6sQ+lKIRyUUDhOUI7HxDMxF5AXoc8D/p5fYhNSfWdaDFP1FpYlnBG
- 8+ivRwjBxnC4zkJ68gRdftG5+DZLkkI1lyhoQHSU0spy7jhHkCboC/Pq1ZYpVnaob5mOeKRzvE
- /bAwLVRS6VnXljJrDBvLWtU4k6DCbscWh2cY8qIVlO220Jt32mvJ83bidt6OyEli/GFhfDfESx
- fEw=
-X-IronPort-AV: E=Sophos;i="5.69,332,1571695200"; 
-   d="scan'208";a="21622553"
-From:   Richard Leitner <richard.leitner@skidata.com>
-To:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Richard Leitner <richard.leitner@skidata.com>
-Subject: [PATCH 2/2] ARM: dts: tegra20: add labels to host1x its subnodes
-Date:   Thu, 19 Dec 2019 14:04:31 +0100
-Message-ID: <20191219130431.30458-2-richard.leitner@skidata.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191219130431.30458-1-richard.leitner@skidata.com>
-References: <20191219130431.30458-1-richard.leitner@skidata.com>
+        id S1726789AbfLSNFI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 19 Dec 2019 08:05:08 -0500
+Received: from mail-wr1-f50.google.com ([209.85.221.50]:37842 "EHLO
+        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726704AbfLSNFI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 19 Dec 2019 08:05:08 -0500
+Received: by mail-wr1-f50.google.com with SMTP id w15so5927709wru.4;
+        Thu, 19 Dec 2019 05:05:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=OCHI/dMTY1KXvOgZzKQJaerVI/CjlKxj8UCw2Ic0XBk=;
+        b=NCHuEKCdJnumhEY3QqDycSaHcam5yUdqdgCh7QVLPRMqALZlb3nRvJ1a//tGhVju0l
+         UYVFmsLCfwmJSIGV20xlalviyurEtn07aBLIFTp+aPW98cr1su89C1hPrLix5wZnNXBI
+         w+Pf8IghBGE+PdtDBDzzPXCxIZ74Xs5tGizJx0HqYFTPJuETVvsdAHciRzvmC+Iw1RjQ
+         c59NKk8MYinbK2l6ZlXxNsMLuDaZd/WE9g5no3Upu4taEBYhHQ/cJFcuD5hoJM4/p6fv
+         pHKIrzGZaCQXOwLNmY415rzcy3TWnVBzvY06qM+8nlDqogJ9g0RTd3rPnCJcZekQZj53
+         EFbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OCHI/dMTY1KXvOgZzKQJaerVI/CjlKxj8UCw2Ic0XBk=;
+        b=m5ghxmOxollFvT5rJQBdeJox1KesfliDtg3ZvEBZ9j4QG4tf6ASzgGpwLfX99mqhU4
+         Uj8uODp9RsWgmaKxWR302zbMi5z3MdDPxw0Wk+z0++f+FWxFk/obtx3K9OKQWfDVjER9
+         3pnr2lDniblg+w1MgW5bFNxANrEfzxhnjp62NFgouc9yqZa4kELdRpXZ4n5gZjmdywGv
+         MpvPpSqZkmA/l/uj9cTb/Yxk5CV04qjBl05dFTMvuWiw/kI1JH7lj70HPx24R33MuapT
+         xonmyDhxL+nNhyBWODo3JvCxQca2+tgKS8RBCLGJW+UzqT4ihwecqMQ/SFutBOVAYkWe
+         qrMw==
+X-Gm-Message-State: APjAAAVhFbBtfcNCiluSP8gFVjhMlz6+3y6vFd5TVUbyq4IBmyctXmdY
+        xt0D/HvC6XxWBu0gSXOXbWc=
+X-Google-Smtp-Source: APXvYqzZDqHm8LgsW+KxT2rMTeTEP2cpHX9jZsqlecdU4JrBzjCeXM875YI3hDJlTFm5dN8PBji4Xg==
+X-Received: by 2002:adf:fc4b:: with SMTP id e11mr9279124wrs.326.1576760705553;
+        Thu, 19 Dec 2019 05:05:05 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+        by smtp.gmail.com with ESMTPSA id e16sm6219256wrs.73.2019.12.19.05.05.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2019 05:05:04 -0800 (PST)
+Date:   Thu, 19 Dec 2019 14:05:03 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org, kishon@ti.com,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch V2 01/18] dt-bindings: phy: tegra-xusb: Add
+ usb-role-switch
+Message-ID: <20191219130503.GG1440537@ulmo>
+References: <1576660591-10383-1-git-send-email-nkristam@nvidia.com>
+ <1576660591-10383-2-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.111.252]
-X-ClientProxiedBy: sdex4srv.skidata.net (192.168.111.82) To
- sdex5srv.skidata.net (192.168.111.83)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="vJguvTgX93MxBIIe"
+Content-Disposition: inline
+In-Reply-To: <1576660591-10383-2-git-send-email-nkristam@nvidia.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Add labels to the host1x, dc and hdmi nodes of the Tegra20 SoC so we
-just need to alias it from derived boards.
 
-Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
----
- arch/arm/boot/dts/tegra20.dtsi | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--vJguvTgX93MxBIIe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
-index e02f75757a7e..c569bd87550f 100644
---- a/arch/arm/boot/dts/tegra20.dtsi
-+++ b/arch/arm/boot/dts/tegra20.dtsi
-@@ -29,7 +29,7 @@
- 		};
- 	};
- 
--	host1x@50000000 {
-+	host1x: host1x@50000000 {
- 		compatible = "nvidia,tegra20-host1x", "simple-bus";
- 		reg = <0x50000000 0x00024000>;
- 		interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>, /* syncpt */
-@@ -96,7 +96,7 @@
- 			reset-names = "3d";
- 		};
- 
--		dc@54200000 {
-+		dc1: dc@54200000 {
- 			compatible = "nvidia,tegra20-dc";
- 			reg = <0x54200000 0x00040000>;
- 			interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
-@@ -113,7 +113,7 @@
- 			};
- 		};
- 
--		dc@54240000 {
-+		dc2: dc@54240000 {
- 			compatible = "nvidia,tegra20-dc";
- 			reg = <0x54240000 0x00040000>;
- 			interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
-@@ -130,7 +130,7 @@
- 			};
- 		};
- 
--		hdmi@54280000 {
-+		hdmi: hdmi@54280000 {
- 			compatible = "nvidia,tegra20-hdmi";
- 			reg = <0x54280000 0x00040000>;
- 			interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
--- 
-2.21.0
+On Wed, Dec 18, 2019 at 02:46:14PM +0530, Nagarjuna Kristam wrote:
+> Add usb-role-switch property for Tegra210 and Tegra186 platforms. This
+> entry is used by XUSB pad controller driver to register for role changes
+> for OTG/Peripheral capable USB 2 ports.
+>=20
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> ---
+> V2:
+>  - Moved usb-role-switch to seperate Required section as suggested by Thi=
+erry.
+>  - Added reference to usb/usb-conn-gpio.txt for connector subnode.
+> ---
+>  .../devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt         | 6 =
+++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-p=
+adctl.txt b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padc=
+tl.txt
+> index 9fb682e..23bf354 100644
+> --- a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.t=
+xt
+> +++ b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.t=
+xt
+> @@ -174,6 +174,12 @@ Required properties:
+>    - "device": for USB device mode
+>    - "otg": for USB OTG mode
+> =20
+> +Required properties for OTG/Peripheral capable USB2 ports:
+> +- usb-role-switch: Boolean property to indicate that the port support OT=
+G or
 
+"supports", and also, why if it supports OTG *or* peripheral? Doesn't
+OTG imply peripheral? OTG means it can be either peripheral or host,
+right? So I think the end of that sentence can be just:
+
+	"... the port supports OTG."
+
+Otherwise:
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--vJguvTgX93MxBIIe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl37dX8ACgkQ3SOs138+
+s6E9OA//bHh0F1BqO/aGb55yWkza+6Fr4szv7ielM9sc/RyfkwQ8jskeP5rb+7r/
+IDTTzkYWxobsbwANTLhIwyEMwpuGEdIBQDe10fF6gDCHGKo2Lxkh144kAqr44SE+
+6pvySmahNmCgv6tI3+CTx9aReMObvwwIwgTCqGWCxAcUHn2KhOlszma920DVcx0D
+D0m+xayaAj27F3qGiHgMFkTrCFVxcDCPr7Jijhmp9jfsgnFX3olS8q8qKuiwwqHs
+UkkUpwQpFgWuaoDbM10ZG6jk1rRFl005UyUxIPC9dpzZrcsF2SXcp1a+eYYK6j5I
+DBOZ1Glhp2MNOU6FdrXrF/Y8bwwwMOgZvjPKoX0DUSJzrHNQ2w/ILnoRgFOifZ//
+2HIx8B53g7OK/twNzRzMRsnRlrd+cMESq6KKAjQqBFhfZCIajcU/H9liwqRc2AGw
+Vfo+B3VBxgpU+FNY5blJ2G8PQJtXfsZfLZbhqqBiGt+xXqoYu+gacYaBAzlj/1Zs
+HPbDDD60DuivV2UXyNMi5Tzvl6LxXdtgjGWZgppPAbysmotdMq/Wn/Jkowj5jGkT
+AfWdYe+Gomi7dwZHedqzRyqYNVLV9kVrkZp64I/xu8CgVvUBN4huDlUOW6PB18bv
+jRecgrTUOcHWNyVoETkuggvGWuW1bywqR2dqeYimkZmQSfKf9Ro=
+=F9ta
+-----END PGP SIGNATURE-----
+
+--vJguvTgX93MxBIIe--
