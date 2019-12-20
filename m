@@ -2,250 +2,409 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54E27128117
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Dec 2019 18:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C431D128298
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Dec 2019 20:06:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727390AbfLTRGq (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Dec 2019 12:06:46 -0500
-Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:58956 "EHLO
-        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727362AbfLTRGq (ORCPT
+        id S1727478AbfLTTGW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Dec 2019 14:06:22 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:9936 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727394AbfLTTGW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Dec 2019 12:06:46 -0500
-Received: from [167.98.27.226] (helo=[10.35.5.173])
-        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1iiLjW-0006sv-9a; Fri, 20 Dec 2019 17:06:34 +0000
-Subject: Re: [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit samples
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-kernel@lists.codethink.co.uk,
-        Edward Cragg <edward.cragg@codethink.co.uk>
-References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <20191018154833.7560-3-ben.dooks@codethink.co.uk>
- <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
- <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
- <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
- <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
- <a0f027d9-e9e0-d76c-1e40-002fdc37eb5f@nvidia.com>
- <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk>
- <aba4edd6-0ea5-5e95-c5a0-9e749587c763@nvidia.com>
- <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
- <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
- <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
- <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
- <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
-Date:   Fri, 20 Dec 2019 17:06:33 +0000
+        Fri, 20 Dec 2019 14:06:22 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dfd1ba10000>; Fri, 20 Dec 2019 11:06:09 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 20 Dec 2019 11:06:19 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 20 Dec 2019 11:06:19 -0800
+Received: from [10.2.169.197] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 20 Dec
+ 2019 19:06:18 +0000
+Subject: Re: [PATCH v4 06/19] soc: tegra: Add Tegra PMC clock registrations
+ into PMC driver
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <mperttunen@nvidia.com>,
+        <gregkh@linuxfoundation.org>, <sboyd@kernel.org>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>
+CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <spujar@nvidia.com>, <josephl@nvidia.com>,
+        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
+        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1576613046-17159-1-git-send-email-skomatineni@nvidia.com>
+ <1576613046-17159-7-git-send-email-skomatineni@nvidia.com>
+ <87b2b266-e4a9-9a7a-2336-6ec57d7c4d1d@gmail.com>
+ <55a56c3d-3fac-cc77-46ae-acf5de77d262@gmail.com>
+ <e11d2ea9-20f1-6920-7efc-ba8a50312f75@gmail.com>
+ <c5bb3c25-1fae-3ca9-6bf3-c3d66be20e19@nvidia.com>
+ <664f1a41-d539-36e8-092b-11d7e4555108@nvidia.com>
+ <31020f6b-97bf-eb48-1150-0355c868eafc@gmail.com>
+ <8fa81a47-63e5-d64d-7cc6-7fdd20ff89f0@nvidia.com>
+ <42f39288-da11-e28d-2a0e-28f1b020e674@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <48142928-fc5b-a5d3-957d-075ae646db86@nvidia.com>
+Date:   Fri, 20 Dec 2019 11:06:16 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <42f39288-da11-e28d-2a0e-28f1b020e674@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576868769; bh=j7utwkS9lv1w8X1BSevFuF02qQdVExAt98TySGD8F6g=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=GMPezituzEnq2smyMslh6ScYmByS2OYEDPuUImQ2bKJ1IVX7BxN+b3eIph/9xNvc/
+         2nXrgFKtrGD7dbNO8XOkBSoSeTNGnCapslav760+gqowvnTQfkqCfLWSZbAfEK1K+k
+         AzFQtEDguNnkxUiFxa7RNu6dydawq1zMIItfrdhqkEMzANiwahOI5sVgoTBpZ/qaxG
+         BXRw5+Pi8QYLjcyP4P7ve9k/RLPIo4FEYttOcM8ueM9N7scfFJX+5Kx5LOO296SeEK
+         Mo0jphT22VhQzmugKTvLgh8qJR4oshJRJNmNP4AREJTCjn89UcIUT0eV2yETRs3rWH
+         FvbVhBDKxukEw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 20/12/2019 16:40, Dmitry Osipenko wrote:
-> 20.12.2019 18:25, Ben Dooks пишет:
->> On 20/12/2019 15:02, Dmitry Osipenko wrote:
->>> 20.12.2019 17:56, Ben Dooks пишет:
->>>> On 20/12/2019 14:43, Dmitry Osipenko wrote:
->>>>> 20.12.2019 16:57, Jon Hunter пишет:
->>>>>>
->>>>>> On 20/12/2019 11:38, Ben Dooks wrote:
->>>>>>> On 20/12/2019 11:30, Jon Hunter wrote:
+
+On 12/19/19 8:34 PM, Dmitry Osipenko wrote:
+> 20.12.2019 07:13, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On 12/19/19 5:39 PM, Dmitry Osipenko wrote:
+>>> 20.12.2019 04:21, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> On 12/18/19 4:41 PM, Sowjanya Komatineni wrote:
+>>>>> On 12/18/19 1:44 PM, Dmitry Osipenko wrote:
+>>>>>> 18.12.2019 11:35, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>>> 18.12.2019 11:30, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>>>> 17.12.2019 23:03, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=
+=82:
+>>>>>>>>> Tegra PMC has clk_out_1, clk_out_2, and clk_out_3 clocks and
+>>>>>>>>> currently
+>>>>>>>>> these PMC clocks are registered by Tegra clock driver with each
+>>>>>>>>> clock as
+>>>>>>>>> separate mux and gate clocks using clk_register_mux and
+>>>>>>>>> clk_register_gate
+>>>>>>>>> by passing PMC base address and register offsets and PMC
+>>>>>>>>> programming for
+>>>>>>>>> these clocks happens through direct PMC access by the clock drive=
+r.
+>>>>>>>>>
+>>>>>>>>> With this, when PMC is in secure mode any direct PMC access from
+>>>>>>>>> the
+>>>>>>>>> non-secure world does not go through and these clocks will not be
+>>>>>>>>> functional.
+>>>>>>>>>
+>>>>>>>>> This patch adds these PMC clocks registration to pmc driver with
+>>>>>>>>> PMC as
+>>>>>>>>> a clock provider and registers each clock as single clock.
+>>>>>>>>>
+>>>>>>>>> clk_ops callback implementations for these clocks uses
+>>>>>>>>> tegra_pmc_readl and
+>>>>>>>>> tegra_pmc_writel which supports PMC programming in both secure
+>>>>>>>>> mode and
+>>>>>>>>> non-secure mode.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>>>>>> ---
+>>>>>>>>>  =C2=A0=C2=A0 drivers/soc/tegra/pmc.c | 248
+>>>>>>>>> ++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>>>>>>  =C2=A0=C2=A0 1 file changed, 248 insertions(+)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+>>>>>>>>> index ea0e11a09c12..6d65194a6e71 100644
+>>>>>>>>> --- a/drivers/soc/tegra/pmc.c
+>>>>>>>>> +++ b/drivers/soc/tegra/pmc.c
+>>>>>>>>> @@ -13,6 +13,9 @@
+>>>>>>>>>  =C2=A0=C2=A0 =C2=A0 #include <linux/arm-smccc.h>
+>>>>>>>>>  =C2=A0=C2=A0 #include <linux/clk.h>
+>>>>>>>>> +#include <linux/clk-provider.h>
+>>>>>>>>> +#include <linux/clkdev.h>
+>>>>>>>>> +#include <linux/clk/clk-conf.h>
+>>>>>>>>>  =C2=A0=C2=A0 #include <linux/clk/tegra.h>
+>>>>>>>>>  =C2=A0=C2=A0 #include <linux/debugfs.h>
+>>>>>>>>>  =C2=A0=C2=A0 #include <linux/delay.h>
+>>>>>>>>> @@ -48,6 +51,7 @@
+>>>>>>>>>  =C2=A0=C2=A0 #include <dt-bindings/pinctrl/pinctrl-tegra-io-pad.=
+h>
+>>>>>>>>>  =C2=A0=C2=A0 #include <dt-bindings/gpio/tegra186-gpio.h>
+>>>>>>>>>  =C2=A0=C2=A0 #include <dt-bindings/gpio/tegra194-gpio.h>
+>>>>>>>>> +#include <dt-bindings/soc/tegra-pmc.h>
+>>>>>>>>>  =C2=A0=C2=A0 =C2=A0 #define PMC_CNTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x0
+>>>>>>>>>  =C2=A0=C2=A0 #define=C2=A0 PMC_CNTRL_INTR_POLARITY=C2=A0=C2=A0=
+=C2=A0 BIT(17) /* inverts INTR
+>>>>>>>>> polarity */
+>>>>>>>>> @@ -100,6 +104,7 @@
+>>>>>>>>>  =C2=A0=C2=A0 #define PMC_WAKE2_STATUS=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 0x168
+>>>>>>>>>  =C2=A0=C2=A0 #define PMC_SW_WAKE2_STATUS=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 0x16c
+>>>>>>>>>  =C2=A0=C2=A0 +#define PMC_CLK_OUT_CNTRL=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 0x1a8
+>>>>>>>>>  =C2=A0=C2=A0 #define PMC_SENSOR_CTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x1b0
+>>>>>>>>>  =C2=A0=C2=A0 #define=C2=A0 PMC_SENSOR_CTRL_SCRATCH_WRITE=C2=A0=
+=C2=A0=C2=A0 BIT(2)
+>>>>>>>>>  =C2=A0=C2=A0 #define=C2=A0 PMC_SENSOR_CTRL_ENABLE_RST=C2=A0=C2=
+=A0=C2=A0 BIT(1)
+>>>>>>>>> @@ -155,6 +160,64 @@
+>>>>>>>>>  =C2=A0=C2=A0 #define=C2=A0 TEGRA_SMC_PMC_READ=C2=A0=C2=A0=C2=A0 =
+0xaa
+>>>>>>>>>  =C2=A0=C2=A0 #define=C2=A0 TEGRA_SMC_PMC_WRITE=C2=A0=C2=A0=C2=A0=
+ 0xbb
+>>>>>>>>>  =C2=A0=C2=A0 +struct pmc_clk {
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct clk_hw=C2=A0=C2=A0=C2=A0 hw;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 unsigned long=C2=A0=C2=A0=C2=A0 offs;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 u32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ mux_mask;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 u32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ mux_shift;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 u32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ gate_shift;
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>> +#define to_pmc_clk(_hw) container_of(_hw, struct pmc_clk, hw)
+>>>>>>>>> +
+>>>>>>>>> +struct pmc_clk_init_data {
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 char *name;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 const char *const *parents;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 int num_parents;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 int clk_id;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 u8 mux_shift;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 u8 gate_shift;
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>> +static const char * const clk_out1_parents[] =3D { "osc",
+>>>>>>>>> "osc_div2",
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 "osc_div4", "extern1",
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>> +static const char * const clk_out2_parents[] =3D { "osc",
+>>>>>>>>> "osc_div2",
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 "osc_div4", "extern2",
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>> +static const char * const clk_out3_parents[] =3D { "osc",
+>>>>>>>>> "osc_div2",
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 "osc_div4", "extern3",
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>> +static const struct pmc_clk_init_data tegra_pmc_clks_data[] =3D =
+{
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 {
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D "clk_out_1"=
+,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .parents =3D clk_out1=
+_parents,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .num_parents =3D ARRA=
+Y_SIZE(clk_out1_parents),
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .clk_id =3D TEGRA_PMC=
+_CLK_OUT_1,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .mux_shift =3D 6,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gate_shift =3D 2,
+>>>>>>>> I'd replace these with a single .shift, given that mux_shift =3D
+>>>>>>>> gate_shift + 4 for all clocks.
 >>>>>>>>
->>>>>>>> On 25/11/2019 17:28, Dmitry Osipenko wrote:
->>>>>>>>> 25.11.2019 20:22, Dmitry Osipenko пишет:
->>>>>>>>>> 25.11.2019 13:37, Ben Dooks пишет:
->>>>>>>>>>> On 23/11/2019 21:09, Dmitry Osipenko wrote:
->>>>>>>>>>>> 18.10.2019 18:48, Ben Dooks пишет:
->>>>>>>>>>>>> From: Edward Cragg <edward.cragg@codethink.co.uk>
->>>>>>>>>>>>>
->>>>>>>>>>>>> The tegra3 audio can support 24 and 32 bit sample sizes so add
->>>>>>>>>>>>> the
->>>>>>>>>>>>> option to the tegra30_i2s_hw_params to configure the S24_LE or
->>>>>>>>>>>>> S32_LE
->>>>>>>>>>>>> formats when requested.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
->>>>>>>>>>>>> [ben.dooks@codethink.co.uk: fixup merge of 24 and 32bit]
->>>>>>>>>>>>> [ben.dooks@codethink.co.uk: add pm calls around ytdm config]
->>>>>>>>>>>>> [ben.dooks@codethink.co.uk: drop debug printing to dev_dbg]
->>>>>>>>>>>>> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
->>>>>>>>>>>>> ---
->>>>>>>>>>>>> squash 5aeca5a055fd ASoC: tegra: i2s: pm_runtime_get_sync() is
->>>>>>>>>>>>> needed
->>>>>>>>>>>>> in tdm code
->>>>>>>>>>>>>
->>>>>>>>>>>>> ASoC: tegra: i2s: pm_runtime_get_sync() is needed in tdm code
->>>>>>>>>>>>> ---
->>>>>>>>>>>>>       sound/soc/tegra/tegra30_i2s.c | 25
->>>>>>>>>>>>> ++++++++++++++++++++-----
->>>>>>>>>>>>>       1 file changed, 20 insertions(+), 5 deletions(-)
->>>>>>>>>>>>>
->>>>>>>>>>>>> diff --git a/sound/soc/tegra/tegra30_i2s.c
->>>>>>>>>>>>> b/sound/soc/tegra/tegra30_i2s.c
->>>>>>>>>>>>> index 73f0dddeaef3..063f34c882af 100644
->>>>>>>>>>>>> --- a/sound/soc/tegra/tegra30_i2s.c
->>>>>>>>>>>>> +++ b/sound/soc/tegra/tegra30_i2s.c
->>>>>>>>>>>>> @@ -127,7 +127,7 @@ static int tegra30_i2s_hw_params(struct
->>>>>>>>>>>>> snd_pcm_substream *substream,
->>>>>>>>>>>>>           struct device *dev = dai->dev;
->>>>>>>>>>>>>           struct tegra30_i2s *i2s =
->>>>>>>>>>>>> snd_soc_dai_get_drvdata(dai);
->>>>>>>>>>>>>           unsigned int mask, val, reg;
->>>>>>>>>>>>> -    int ret, sample_size, srate, i2sclock, bitcnt;
->>>>>>>>>>>>> +    int ret, sample_size, srate, i2sclock, bitcnt, audio_bits;
->>>>>>>>>>>>>           struct tegra30_ahub_cif_conf cif_conf;
->>>>>>>>>>>>>             if (params_channels(params) != 2)
->>>>>>>>>>>>> @@ -137,8 +137,19 @@ static int tegra30_i2s_hw_params(struct
->>>>>>>>>>>>> snd_pcm_substream *substream,
->>>>>>>>>>>>>           switch (params_format(params)) {
->>>>>>>>>>>>>           case SNDRV_PCM_FORMAT_S16_LE:
->>>>>>>>>>>>>               val = TEGRA30_I2S_CTRL_BIT_SIZE_16;
->>>>>>>>>>>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_16;
->>>>>>>>>>>>>               sample_size = 16;
->>>>>>>>>>>>>               break;
->>>>>>>>>>>>> +    case SNDRV_PCM_FORMAT_S24_LE:
->>>>>>>>>>>>> +        val = TEGRA30_I2S_CTRL_BIT_SIZE_24;
->>>>>>>>>>>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_24;
->>>>>>>>>>>>> +        sample_size = 24;
->>>>>>>>>>>>> +        break;
->>>>>>>>>>>>> +    case SNDRV_PCM_FORMAT_S32_LE:
->>>>>>>>>>>>> +        val = TEGRA30_I2S_CTRL_BIT_SIZE_32;
->>>>>>>>>>>>> +        audio_bits = TEGRA30_AUDIOCIF_BITS_32;
->>>>>>>>>>>>> +        sample_size = 32;
->>>>>>>>>>>>> +        break;
->>>>>>>>>>>>>           default:
->>>>>>>>>>>>>               return -EINVAL;
->>>>>>>>>>>>>           }
->>>>>>>>>>>>> @@ -170,8 +181,8 @@ static int tegra30_i2s_hw_params(struct
->>>>>>>>>>>>> snd_pcm_substream *substream,
->>>>>>>>>>>>>           cif_conf.threshold = 0;
->>>>>>>>>>>>>           cif_conf.audio_channels = 2;
->>>>>>>>>>>>>           cif_conf.client_channels = 2;
->>>>>>>>>>>>> -    cif_conf.audio_bits = TEGRA30_AUDIOCIF_BITS_16;
->>>>>>>>>>>>> -    cif_conf.client_bits = TEGRA30_AUDIOCIF_BITS_16;
->>>>>>>>>>>>> +    cif_conf.audio_bits = audio_bits;
->>>>>>>>>>>>> +    cif_conf.client_bits = audio_bits;
->>>>>>>>>>>>>           cif_conf.expand = 0;
->>>>>>>>>>>>>           cif_conf.stereo_conv = 0;
->>>>>>>>>>>>>           cif_conf.replicate = 0;
->>>>>>>>>>>>> @@ -306,14 +317,18 @@ static const struct snd_soc_dai_driver
->>>>>>>>>>>>> tegra30_i2s_dai_template = {
->>>>>>>>>>>>>               .channels_min = 2,
->>>>>>>>>>>>>               .channels_max = 2,
->>>>>>>>>>>>>               .rates = SNDRV_PCM_RATE_8000_96000,
->>>>>>>>>>>>> -        .formats = SNDRV_PCM_FMTBIT_S16_LE,
->>>>>>>>>>>>> +        .formats = SNDRV_PCM_FMTBIT_S32_LE |
->>>>>>>>>>>>> +               SNDRV_PCM_FMTBIT_S24_LE |
->>>>>>>>>>>>> +               SNDRV_PCM_FMTBIT_S16_LE,
->>>>>>>>>>>>>           },
->>>>>>>>>>>>>           .capture = {
->>>>>>>>>>>>>               .stream_name = "Capture",
->>>>>>>>>>>>>               .channels_min = 2,
->>>>>>>>>>>>>               .channels_max = 2,
->>>>>>>>>>>>>               .rates = SNDRV_PCM_RATE_8000_96000,
->>>>>>>>>>>>> -        .formats = SNDRV_PCM_FMTBIT_S16_LE,
->>>>>>>>>>>>> +        .formats = SNDRV_PCM_FMTBIT_S32_LE |
->>>>>>>>>>>>> +               SNDRV_PCM_FMTBIT_S24_LE |
->>>>>>>>>>>>> +               SNDRV_PCM_FMTBIT_S16_LE,
->>>>>>>>>>>>>           },
->>>>>>>>>>>>>           .ops = &tegra30_i2s_dai_ops,
->>>>>>>>>>>>>           .symmetric_rates = 1,
->>>>>>>>>>>>>
->>>>>>>>>>>>
->>>>>>>>>>>> Hello,
->>>>>>>>>>>>
->>>>>>>>>>>> This patch breaks audio on Tegra30. I don't see errors
->>>>>>>>>>>> anywhere, but
->>>>>>>>>>>> there is no audio and reverting this patch helps. Please fix it.
->>>>>>>>>>>
->>>>>>>>>>> What is the failure mode? I can try and take a look at this some
->>>>>>>>>>> time
->>>>>>>>>>> this week, but I am not sure if I have any boards with an actual
->>>>>>>>>>> useful
->>>>>>>>>>> audio output?
->>>>>>>>>>
->>>>>>>>>> The failure mode is that there no sound. I also noticed that video
->>>>>>>>>> playback stutters a lot if movie file has audio track, seems
->>>>>>>>>> something
->>>>>>>>>> times out during of the audio playback. For now I don't have any
->>>>>>>>>> more info.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> Oh, I didn't say how to reproduce it.. for example simply playing
->>>>>>>>> big_buck_bunny_720p_h264.mov in MPV has the audio problem.
->>>>>>>>>
->>>>>>>>> https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_720p_h264.mov
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>
->>>>>>>> Given that the audio drivers uses regmap, it could be good to
->>>>>>>> dump the
->>>>>>>> I2S/AHUB registers while the clip if playing with and without this
->>>>>>>> patch
->>>>>>>> to see the differences. I am curious if the audio is now being
->>>>>>>> played as
->>>>>>>> 24 or 32-bit instead of 16-bit now these are available.
->>>>>>>>
->>>>>>>> You could also dump the hw_params to see the format while playing as
->>>>>>>> well ...
->>>>>>>>
->>>>>>>> $ /proc/asound/<scard-name>/pcm0p/sub0/hw_params
->>>>>>>
->>>>>>> I suppose it is also possible that the codec isn't properly doing >16
->>>>>>> bits and the fact we now offer 24 and 32 could be an issue. I've not
->>>>>>> got anything with an audio output on it that would be easy to test.
->>>>>>
->>>>>> I thought I had tested on a Jetson TK1 (Tegra124) but it was sometime
->>>>>> back. However, admittedly I may have only done simple 16-bit testing
->>>>>> with speaker-test.
->>>>>>
->>>>>> We do verify that all soundcards are detected and registered as
->>>>>> expected
->>>>>> during daily testing, but at the moment we don't have anything that
->>>>>> verifies actual playback.
->>>>>
->>>>> Please take a look at the attached logs.
->>>>
->>>> I wonder if we are falling into FIFO configuration issues with the
->>>> non-16 bit case.
->>>>
->>>> Can you try adding the following two patches?
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 },
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 {
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D "clk_out_2"=
+,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .parents =3D clk_out2=
+_parents,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .num_parents =3D ARRA=
+Y_SIZE(clk_out2_parents),
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .clk_id =3D TEGRA_PMC=
+_CLK_OUT_2,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .mux_shift =3D 14,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gate_shift =3D 10,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 },
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 {
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D "clk_out_3"=
+,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .parents =3D clk_out3=
+_parents,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .num_parents =3D ARRA=
+Y_SIZE(clk_out3_parents),
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .clk_id =3D TEGRA_PMC=
+_CLK_OUT_3,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .mux_shift =3D 22,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gate_shift =3D 18,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 },
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>>  =C2=A0=C2=A0 struct tegra_powergate {
+>>>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct generic_pm_domain ge=
+npd;
+>>>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_pmc *pmc;
+>>>>>>>>> @@ -254,6 +317,9 @@ struct tegra_pmc_soc {
+>>>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct tegra_wake_eve=
+nt *wake_events;
+>>>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int num_wake_event=
+s;
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 const struct pmc_clk_init_data *pmc_clks_data=
+;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 unsigned int num_pmc_clks;
+>>>>>>>>>  =C2=A0=C2=A0 };
+>>>>>>>>>  =C2=A0=C2=A0 =C2=A0 static const char * const tegra186_reset_sou=
+rces[] =3D {
+>>>>>>>>> @@ -2163,6 +2229,173 @@ static int tegra_pmc_clk_notify_cb(struct
+>>>>>>>>> notifier_block *nb,
+>>>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NOTIFY_OK;
+>>>>>>>>>  =C2=A0=C2=A0 }
+>>>>>>>>>  =C2=A0=C2=A0 +static void pmc_clk_fence_udelay(u32 offset)
+>>>>>>>>> +{
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 tegra_pmc_readl(pmc, offset);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 /* pmc clk propagation delay 2 us */
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 udelay(2);
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>> +static u8 pmc_clk_mux_get_parent(struct clk_hw *hw)
+>>>>>>>>> +{
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct pmc_clk *clk =3D to_pmc_clk(hw);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 u32 val;
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 val =3D tegra_pmc_readl(pmc, clk->offs) >> cl=
+k->mux_shift;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 val &=3D clk->mux_mask;
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 return val;
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>> +static int pmc_clk_mux_set_parent(struct clk_hw *hw, u8 index)
+>>>>>>>>> +{
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct pmc_clk *clk =3D to_pmc_clk(hw);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 u32 val;
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 val =3D tegra_pmc_readl(pmc, clk->offs);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 val &=3D ~(clk->mux_mask << clk->mux_shift);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 val |=3D index << clk->mux_shift;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 tegra_pmc_writel(pmc, val, clk->offs);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 pmc_clk_fence_udelay(clk->offs);
+>>> Is this fencing applies only to clock changes or maybe it won't hurt to
+>>> move it into tegra_pmc_writel()?
+Only for clock changes
 >>>
->>> It is much better now! There is no horrible noise and no stuttering, but
->>> audio still has a "robotic" effect, like freq isn't correct.
->>
->> I wonder if there's an issue with FIFO stoking? I should also possibly
->> add the correctly stop FIFOs patch as well.
-> 
-> I'll be happy to try more patches.
-> 
-> Meanwhile sound on v5.5+ is broken and thus the incomplete patches
-> should be reverted.
-
-Have you checked if just removing the 24/32 bits from .formats in
-the dai template and see if the problem continues? I will try and
-see if I can find the code that does the fifo level checking and
-see if the problem is in the FIFO fill or something else in the
-audio hub setup.
-
-
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
-
-https://www.codethink.co.uk/privacy.html
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>> +static int pmc_clk_is_enabled(struct clk_hw *hw)
+>>>>>>>>> +{
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct pmc_clk *clk =3D to_pmc_clk(hw);
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 return tegra_pmc_readl(pmc, clk->offs) & BIT(=
+clk->gate_shift)
+>>>>>>>>> ? 1 : 0;
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>> +static void pmc_clk_set_state(unsigned long offs, u32 shift, int
+>>>>>>>>> state)
+>>>>>>>>> +{
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 u32 val;
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 val =3D tegra_pmc_readl(pmc, offs);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 val =3D state ? (val | BIT(shift)) : (val & ~=
+BIT(shift));
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 tegra_pmc_writel(pmc, val, offs);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 pmc_clk_fence_udelay(offs);
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>> +static int pmc_clk_enable(struct clk_hw *hw)
+>>>>>>>>> +{
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct pmc_clk *clk =3D to_pmc_clk(hw);
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 pmc_clk_set_state(clk->offs, clk->gate_shift,=
+ 1);
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>> +static void pmc_clk_disable(struct clk_hw *hw)
+>>>>>>>>> +{
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct pmc_clk *clk =3D to_pmc_clk(hw);
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 pmc_clk_set_state(clk->offs, clk->gate_shift,=
+ 0);
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>> +static const struct clk_ops pmc_clk_ops =3D {
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .get_parent =3D pmc_clk_mux_get_parent,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .set_parent =3D pmc_clk_mux_set_parent,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .determine_rate =3D __clk_mux_determine_rate,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .is_enabled =3D pmc_clk_is_enabled,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .enable =3D pmc_clk_enable,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 .disable =3D pmc_clk_disable,
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>> +static struct clk *
+>>>>>>>>> +tegra_pmc_clk_out_register(const struct pmc_clk_init_data *data,
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 unsigned long offset)
+>>>>>>>>> +{
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct clk_init_data init;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct pmc_clk *pmc_clk;
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 pmc_clk =3D kzalloc(sizeof(*pmc_clk), GFP_KER=
+NEL);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 if (!pmc_clk)
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ERR_PTR(-ENOME=
+M);
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 init.name =3D data->name;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 init.ops =3D &pmc_clk_ops;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 init.parent_names =3D data->parents;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 init.num_parents =3D data->num_parents;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 init.flags =3D CLK_SET_RATE_NO_REPARENT | CLK=
+_SET_RATE_PARENT |
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 CLK_SET_PARENT_GATE;
+>>>>>>>>> +
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 pmc_clk->hw.init =3D &init;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 pmc_clk->offs =3D offset;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 pmc_clk->mux_mask =3D 3;
+>>>>>>>> If mux_mask is a constant value, perhaps will be better to
+>>>>>>>> replace the
+>>>>>>>> variable with a literal?
+>>>>>>>>
+>>>>>>>> #define PMC_CLK_OUT_MUX_MASK=C2=A0=C2=A0=C2=A0 GENMASK(1, 0)
+>>>>>>> Maybe even:
+>>>>>>>
+>>>>>>> #define PMC_CLK_OUT_MUX_MASK(c)=C2=A0=C2=A0=C2=A0 GENMASK(c->shift =
++ 1, c->shift)
+>>>>> MUX Mask is used only here for PMC clock out and is same for all
+>>>>> clk_out mux so will use
+>>>>>
+>>>>> #define PMC_CLK_OUT_MUX_MASK=C2=A0=C2=A0=C2=A0 GENMASK(1, 0)
+>>>>>
+>>>>>> I want to point out that may be a separated gate/mux shifts is a fin=
+e
+>>>>>> variant, you should try and see whether another variants produce mor=
+e
+>>>>>> concise result.
+>>>>>>
+>>>>>> [snip]
+>>>> We can do mux_shift as gate_shift + 4 and that restricts this clk
+>>>> register only for clk1/2/3 as well and there are no other clocks in pm=
+c
+>>>> anyway.
+>>>>
+>>>> How about using bit shift define for CLK1, CLK2, and CLK3?
+>>>>
+>>>> .mux_shift =3D PMC_CLK1_SRC_SEL_SHIFT,
+>>>>
+>>>> .gate_shift =3D PMC_CLK1_FORCE_EN_SHIFT,
+>>>>
+>>>>
+>>> I think that just renaming ".gate_shift" -> ".force_en_shift" should be
+>>> good enough.
+>> You meant to assign bit position directly instead of defines like what I
+>> have now in v4 and use force_en_shift instead of gate_shift?
+> Yes
