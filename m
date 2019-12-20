@@ -2,27 +2,28 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD87F127688
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Dec 2019 08:35:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E34D01276FC
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Dec 2019 09:08:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726142AbfLTHfU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Dec 2019 02:35:20 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12616 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726030AbfLTHfU (ORCPT
+        id S1726210AbfLTIIi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Dec 2019 03:08:38 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3925 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725941AbfLTIIi (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Dec 2019 02:35:20 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dfc79ac0000>; Thu, 19 Dec 2019 23:35:08 -0800
+        Fri, 20 Dec 2019 03:08:38 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dfc81640001>; Fri, 20 Dec 2019 00:08:06 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 19 Dec 2019 23:35:19 -0800
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 20 Dec 2019 00:08:36 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 19 Dec 2019 23:35:19 -0800
-Received: from [10.19.108.118] (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate102.nvidia.com on Fri, 20 Dec 2019 00:08:36 -0800
+Received: from [10.19.108.118] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 20 Dec
- 2019 07:35:16 +0000
-Subject: Re: [Patch V2 00/18] Tegra XUSB OTG support
+ 2019 08:08:32 +0000
+Subject: Re: [Patch V2 01/18] dt-bindings: phy: tegra-xusb: Add
+ usb-role-switch
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Nagarjuna Kristam <nkristam@nvidia.com>
 CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
@@ -31,133 +32,85 @@ CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
         <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <1576660591-10383-1-git-send-email-nkristam@nvidia.com>
- <20191219131349.GI1440537@ulmo>
+ <1576660591-10383-2-git-send-email-nkristam@nvidia.com>
+ <20191219130503.GG1440537@ulmo>
 X-Nvconfidentiality: public
 From:   JC Kuo <jckuo@nvidia.com>
-Message-ID: <5212a532-1366-ff4f-e9c2-94b04e23eefd@nvidia.com>
-Date:   Fri, 20 Dec 2019 15:35:14 +0800
+Message-ID: <fe47fd52-efd0-4f84-d1e4-4bce5571e425@nvidia.com>
+Date:   Fri, 20 Dec 2019 16:08:30 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191219131349.GI1440537@ulmo>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+In-Reply-To: <20191219130503.GG1440537@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576827309; bh=g6cinNKpqTaYMi4kn9LaHC8VtZ+9vfK0NwqwRxkQQ3I=;
+        t=1576829286; bh=LyayuG4FCg05ek5s+CT8p2SyaPPTPq0PabfmeLV6GNk=;
         h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
          Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
          X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=Y6oJ3aJwLN3PCdxpS/MejfceoJ/njnLjWhXyjSgJzYIPFt/fV07ypdyLLpTNfFBNC
-         izOP0QGOVSKIB7Jz/JojMSMykpP2CpgzaBSz6b3BVB40xDF+30ookfvkVbt1/gUG5G
-         dfW0U12nPyeMoqY2rwD4bxZD5nzHmiRFqTqC7xJdNXydb1dA/zIwm8yxmqy92JQUxt
-         UTkgu+MlWTMR+DfvPEqEIKhtQ+XOHvb+0ya/iQNoyC4W4S1XCvomqhK0bIZhWausf3
-         DIdpYg6ReBr2cr+KVMterj4QrHBholgCH/z7B5nXxiP8jNHUtRVkBH7YQgeqL2hp7J
-         POgkki8pSP55A==
+        b=I9taiJ6IKtQQ8y3wM+EAHYxm2958nOsdEBXwHCqpY2JIVHsTwrIS4qYmT2zubSGWT
+         0wgh7PZbYE46aBJuyhFsa9RdnGNdpew+u1IerLA+dQsABZ1LqW6Tk8XjAwD6n0cgbb
+         5jgplE46FS+ZevM7+CIzUgh2qf/Tn071nLBcQOBDWkFToF4HpQX0h/ikYJCc//Nw1v
+         u0EFaLPxSPoBzofu0eLwFUjZC0VcHRRg3v+9WrDE5I/Hp4tzcxQ25pCnC8r776lzHF
+         8TU/zyf08N0Pmf09Q0RS49+8DfF40Ahbju08RQ0NSv3n6EdOqkQssb6LoC3EXWPa3P
+         bBfm/olAahzdA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-
-On 12/19/19 9:13 PM, Thierry Reding wrote:
-> On Wed, Dec 18, 2019 at 02:46:13PM +0530, Nagarjuna Kristam wrote:
->> This patch series adds OTG support on XUSB hardware used in Tegra210 and
->> Tegra186 SoCs.
+On 12/19/19 9:05 PM, Thierry Reding wrote:
+> On Wed, Dec 18, 2019 at 02:46:14PM +0530, Nagarjuna Kristam wrote:
+>> Add usb-role-switch property for Tegra210 and Tegra186 platforms. This
+>> entry is used by XUSB pad controller driver to register for role changes
+>> for OTG/Peripheral capable USB 2 ports.
 >>
->> This patchset is composed with :
->>  - dt bindings of XUSB Pad Controller
->>  - dt bindings for XUSB device Driver
->>  - Tegra PHY driver for usb-role-switch and usb-phy
->>  - Tegra XUSB host mode driver to support OTG mode
->>  - Tegra XUSB device mode driver to use usb-phy and multi device mode
->>  - dts for XUSB pad controller
->>  - dts for xudc
->>
->> Tegra Pad controller driver register for role switch updates for
->> OTG/peripheral capable USB ports and adds usb-phy for that corresponding
->> USB ports.
->>
->> Host and Device mode drivers gets usb-phy from USB2's phy and registers
->> notifier for role changes to perform corresponding role tasks.
->>
->> Tests done:
->>  - device mode support using micro-B USB cable connection between ubuntu
->>    host and DUT on micro-B port
-It's a micro-AB port according to Micro USB specifications.
-
->>  - host mode support by connecting pen-drive to micro USB port on DUT
->>    using micro-B OTG cable.
-It's a standard-A to micro-A converter.
-
->>  - toggling between these 2 modes by hot plugging corresponding cables.
-> 
-> Are there any tests we can run without manual intervention? Can we force
-> the device into peripheral mode and then setup a configuration using
-> configfs? I'm not sure how useful that would be since it doesn't really
-> exercise the driver code very much and doesn't tell whether it's
-> actually working.
-> 
-> Any other way how we can test this?
-> 
-I don't think there is a way to test role-swap and host/device driver without
-swapping cables. Thanks.
-
-> Thierry
-> 
->>
->> DUT: Jetson-tx1, Jetson tx2.
->>
+>> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+>> ---
 >> V2:
->>  - Updated usb-role-switch documentation for Padctl driver.
->>  - Update XUDC bindings doc as suggested by Rob.
->>  - Used standard error codes for error return.
->>  - Added of_platform_depopulate during error and driver removal.
->>  - Updated error variable during phy initialization in XUDC driver.
->>  - Updated Tegra210 soc dtb file as per changes to binding doc.
+>>  - Moved usb-role-switch to seperate Required section as suggested by Thierry.
+>>  - Added reference to usb/usb-conn-gpio.txt for connector subnode.
+>> ---
+>>  .../devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt         | 6 ++++++
+>>  1 file changed, 6 insertions(+)
 >>
->> Nagarjuna Kristam (18):
->>   dt-bindings: phy: tegra-xusb: Add usb-role-switch
->>   dt-bindings: usb: Add NVIDIA Tegra XUSB device mode controller binding
->>   phy: tegra: xusb: Add usb-role-switch support
->>   phy: tegra: xusb: Add usb-phy support
->>   phy: tegra: xusb: Add support to get companion USB 3 port
->>   phy: tegra: xusb: Add set_mode support for USB 2 phy on Tegra210
->>   phy: tegra: xusb: Add set_mode support for utmi phy on Tegra186
->>   usb: xhci-tegra: Add OTG support
->>   usb: gadget: tegra-xudc: Remove usb-role-switch support
->>   usb: gadget: tegra-xudc: Add usb-phy support
->>   usb: gadget: tegra-xudc: use phy_set_mode to set/unset device mode
->>   usb: gadget: tegra-xudc: support multiple device modes
->>   arm64: tegra: update OTG port entries for jetson-tx1
->>   arm64: tegra: update OTG port entries for jetson-tx2
->>   arm64: tegra: Add xudc node for Tegra210
->>   arm64: tegra: Enable xudc on Jetson TX1
->>   arm64: tegra: Add xudc node for Tegra186
->>   arm64: tegra: Enable xudc node on Jetson TX2
->>
->>  .../bindings/phy/nvidia,tegra124-xusb-padctl.txt   |   6 +
->>  .../devicetree/bindings/usb/nvidia,tegra-xudc.yaml | 190 ++++++++++++++
->>  arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts |  23 +-
->>  arch/arm64/boot/dts/nvidia/tegra186.dtsi           |  19 ++
->>  arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |  34 ++-
->>  arch/arm64/boot/dts/nvidia/tegra210.dtsi           |  19 ++
->>  drivers/phy/tegra/Kconfig                          |   1 +
->>  drivers/phy/tegra/xusb-tegra186.c                  | 109 ++++++--
->>  drivers/phy/tegra/xusb-tegra210.c                  | 126 ++++++++--
->>  drivers/phy/tegra/xusb.c                           | 134 ++++++++++
->>  drivers/phy/tegra/xusb.h                           |   5 +
->>  drivers/usb/gadget/udc/tegra-xudc.c                | 276 ++++++++++++++-------
->>  drivers/usb/host/xhci-tegra.c                      | 225 ++++++++++++++++-
->>  include/linux/phy/tegra/xusb.h                     |   2 +
->>  14 files changed, 1031 insertions(+), 138 deletions(-)
->>  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
->>
->> -- 
->> 2.7.4
->>
+>> diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
+>> index 9fb682e..23bf354 100644
+>> --- a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
+>> +++ b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
+>> @@ -174,6 +174,12 @@ Required properties:
+>>    - "device": for USB device mode
+>>    - "otg": for USB OTG mode
+>>  
+>> +Required properties for OTG/Peripheral capable USB2 ports:
+>> +- usb-role-switch: Boolean property to indicate that the port support OTG or
+> 
+> "supports", and also, why if it supports OTG *or* peripheral? Doesn't
+> OTG imply peripheral? OTG means it can be either peripheral or host,
+> right? So I think the end of that sentence can be just:
+> 
+> 	"... the port supports OTG."
+An USB OTG port is capable of both USB host and peripheral operations. An USB
+peripheral port can only act as an USB peripheral.
+
+The micro USB ports found on Jetson TX1/TX2 platforms are micro-AB ports which
+should implement both host and peripheral capabilities. We say such ports
+support OTG. The micro USB port found on Jetson Nano is a micro-B port which
+should implement peripheral capability only. We say such ports support
+peripheral, rather than OTG.
+
+Thanks,
+JC
+
+> 
+> Otherwise:
+> 
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> 
