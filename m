@@ -2,256 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0550A127C11
-	for <lists+linux-tegra@lfdr.de>; Fri, 20 Dec 2019 14:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ACFB127C22
+	for <lists+linux-tegra@lfdr.de>; Fri, 20 Dec 2019 15:00:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727351AbfLTN5i (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 20 Dec 2019 08:57:38 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13269 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727347AbfLTN5i (ORCPT
+        id S1727413AbfLTOAu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 20 Dec 2019 09:00:50 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:38178 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727347AbfLTOAu (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 20 Dec 2019 08:57:38 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dfcd3420000>; Fri, 20 Dec 2019 05:57:24 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 20 Dec 2019 05:57:35 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 20 Dec 2019 05:57:35 -0800
-Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 20 Dec
- 2019 13:57:30 +0000
-Subject: Re: [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit samples
-To:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        <linux-tegra@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-kernel@lists.codethink.co.uk>,
-        Edward Cragg <edward.cragg@codethink.co.uk>
-References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <20191018154833.7560-3-ben.dooks@codethink.co.uk>
- <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
- <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
- <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
- <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
- <a0f027d9-e9e0-d76c-1e40-002fdc37eb5f@nvidia.com>
- <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <aba4edd6-0ea5-5e95-c5a0-9e749587c763@nvidia.com>
-Date:   Fri, 20 Dec 2019 13:57:28 +0000
+        Fri, 20 Dec 2019 09:00:50 -0500
+Received: by mail-lf1-f68.google.com with SMTP id r14so7121370lfm.5;
+        Fri, 20 Dec 2019 06:00:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LpY4UiJbzxoVMEU3tzXRKhaFsho/SBomG9uT1fm9NeU=;
+        b=QmcVoTvCYHaEw3r3AT627QQ7IXxWLbNZblYiue9GJXEHjUQPU+HX32uvIeeQJHnqmb
+         xfL0NXmuO6szPJ1onlrLq0gnR6lwPoH+8m0gXasUpSUDOfPeyv58mCBbeDvZqaDZjAFA
+         VnkimRaUPTyuYXcKJsc/kNaEIHp+DkcNLwBrjzSzk7x+D3XCEJkVWjpI5R22rpy9fhgh
+         XlphLIu5euvM8usPlZ0KHsv9WbxmVhgHX21/yCWve8pD1JivI5bO9p0Llqy6evS3AKgX
+         vlLuRRPl3+Qofjc8ZSgT3sKcReNnlKMwu/Znj/VFb1v2bO/CpBsjVKRYMDWyifbcVOX3
+         g9sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=LpY4UiJbzxoVMEU3tzXRKhaFsho/SBomG9uT1fm9NeU=;
+        b=WM4PX3Rn1o9kjr/iJRL9gBq59ZD2c+ChaP04v3eRVk1vDFwoTh8fqf4PbAVHsUwbrK
+         0FWxV4lPFJ9TqXFw8cWIAfNPab9v7HpJ35Og81IU9Dz0ATxAphl+ZMMz7tOklNR9cWgc
+         SW4mfuYrHwmhU9OxteMSSaDUsxMqI/rJJqz0wxz4ushboEc2bHvvlfPBbgz5k9OBM4Ce
+         b1q21Gz5I2g1tIMyzhVQQzAf7Q5w1Ust91BfNTVVE4MlTIpZCEwMaU3fGuv0+5NpGy/V
+         HlnOZ+7kGMSFrgaC9EdFwMxl+bPg04e911xEg6OBwjd3DAK0jezQjcdFUlsI/uQgdRmD
+         pFYA==
+X-Gm-Message-State: APjAAAVJ19vHgIbvrXSJS/87IrZLStE86PC7a4m3zgfxXHlyzP9LhDq+
+        U2nHZZmH6Wq6SXRncY5PedTKcw1Z
+X-Google-Smtp-Source: APXvYqxLF1kxYTtinKHI+BlHSC56oAk50xiDl2BhSeOUe4iEzValcOoZApvFNIEH1QLTEWNANmMzzA==
+X-Received: by 2002:a19:ae18:: with SMTP id f24mr9266082lfc.155.1576850448338;
+        Fri, 20 Dec 2019 06:00:48 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id m24sm5328108ljb.81.2019.12.20.06.00.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Dec 2019 06:00:47 -0800 (PST)
+Subject: Re: [PATCH 1/2] ARM: dts: tegra20: add labels to i2c nodes
+To:     Richard Leitner <richard.leitner@skidata.com>, robh+dt@kernel.org,
+        mark.rutland@arm.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20191219130431.30458-1-richard.leitner@skidata.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <01ac756c-1e51-5d62-ca45-9e0b4f106a29@gmail.com>
+Date:   Fri, 20 Dec 2019 17:00:46 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191219130431.30458-1-richard.leitner@skidata.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576850245; bh=3ktswGmg8hsE2oxKtIrThdozNJJy/HxC3QZHdrlcLBI=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=A7cvrGvXmpJc9+6wP8OT5pOlePhzDUVA6iGphyboKl75D0tKf7blDcQzmiwRfrG7c
-         +ZlASq5d1svieEv7i9tCslSIfjButmbVyc/zJRx4BvlowXmWhvTEVeTl+8ZTi+RJld
-         Q32ERzhPJ9lK2ScuDGFInvPmhwOQzcJLn+sWLKzxLlTjUxF468jcPYo99I70zbkXBL
-         xHbZDu+7BlQuhn5kA6Ay62Dx2/baeGeFTgObsOBk0aHviXLGUk5UYJsAQgTMLralu4
-         aWHnK8suoG1Ap8cAeTxrDD6Xh/8pdrt/3rEA+lo8LgwoYmo91Zv8cYnwi3jMVrpGpp
-         YoqiDzLvBhaqQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+19.12.2019 16:04, Richard Leitner пишет:
+> Add numbered labels to the i2c nodes of the Tegra20 SoC so we just need
+> to alias it from derived boards.
+> 
+> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+> ---
+>  arch/arm/boot/dts/tegra20.dtsi | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
+> index 9c58e7fcf5c0..e02f75757a7e 100644
+> --- a/arch/arm/boot/dts/tegra20.dtsi
+> +++ b/arch/arm/boot/dts/tegra20.dtsi
+> @@ -464,7 +464,7 @@
+>  		clocks = <&tegra_car TEGRA20_CLK_RTC>;
+>  	};
+>  
+> -	i2c@7000c000 {
+> +	i2c1: i2c@7000c000 {
+>  		compatible = "nvidia,tegra20-i2c";
+>  		reg = <0x7000c000 0x100>;
+>  		interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
+> @@ -494,7 +494,7 @@
+>  		status = "disabled";
+>  	};
+>  
+> -	i2c@7000c400 {
+> +	i2c2: i2c@7000c400 {
+>  		compatible = "nvidia,tegra20-i2c";
+>  		reg = <0x7000c400 0x100>;
+>  		interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
+> @@ -510,7 +510,7 @@
+>  		status = "disabled";
+>  	};
+>  
+> -	i2c@7000c500 {
+> +	i2c3: i2c@7000c500 {
+>  		compatible = "nvidia,tegra20-i2c";
+>  		reg = <0x7000c500 0x100>;
+>  		interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
+> 
 
-On 20/12/2019 11:38, Ben Dooks wrote:
-> On 20/12/2019 11:30, Jon Hunter wrote:
->>
->> On 25/11/2019 17:28, Dmitry Osipenko wrote:
->>> 25.11.2019 20:22, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>> 25.11.2019 13:37, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>> On 23/11/2019 21:09, Dmitry Osipenko wrote:
->>>>>> 18.10.2019 18:48, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>>> From: Edward Cragg <edward.cragg@codethink.co.uk>
->>>>>>>
->>>>>>> The tegra3 audio can support 24 and 32 bit sample sizes so add the
->>>>>>> option to the tegra30_i2s_hw_params to configure the S24_LE or
->>>>>>> S32_LE
->>>>>>> formats when requested.
->>>>>>>
->>>>>>> Signed-off-by: Edward Cragg <edward.cragg@codethink.co.uk>
->>>>>>> [ben.dooks@codethink.co.uk: fixup merge of 24 and 32bit]
->>>>>>> [ben.dooks@codethink.co.uk: add pm calls around ytdm config]
->>>>>>> [ben.dooks@codethink.co.uk: drop debug printing to dev_dbg]
->>>>>>> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
->>>>>>> ---
->>>>>>> squash 5aeca5a055fd ASoC: tegra: i2s: pm_runtime_get_sync() is
->>>>>>> needed
->>>>>>> in tdm code
->>>>>>>
->>>>>>> ASoC: tegra: i2s: pm_runtime_get_sync() is needed in tdm code
->>>>>>> ---
->>>>>>> =C2=A0=C2=A0 sound/soc/tegra/tegra30_i2s.c | 25 +++++++++++++++++++=
-+-----
->>>>>>> =C2=A0=C2=A0 1 file changed, 20 insertions(+), 5 deletions(-)
->>>>>>>
->>>>>>> diff --git a/sound/soc/tegra/tegra30_i2s.c
->>>>>>> b/sound/soc/tegra/tegra30_i2s.c
->>>>>>> index 73f0dddeaef3..063f34c882af 100644
->>>>>>> --- a/sound/soc/tegra/tegra30_i2s.c
->>>>>>> +++ b/sound/soc/tegra/tegra30_i2s.c
->>>>>>> @@ -127,7 +127,7 @@ static int tegra30_i2s_hw_params(struct
->>>>>>> snd_pcm_substream *substream,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct device *dev =3D dai->de=
-v;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra30_i2s *i2s =3D sn=
-d_soc_dai_get_drvdata(dai);
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int mask, val, reg;
->>>>>>> -=C2=A0=C2=A0=C2=A0 int ret, sample_size, srate, i2sclock, bitcnt;
->>>>>>> +=C2=A0=C2=A0=C2=A0 int ret, sample_size, srate, i2sclock, bitcnt, =
-audio_bits;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra30_ahub_cif_conf c=
-if_conf;
->>>>>>> =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (params_channels(par=
-ams) !=3D 2)
->>>>>>> @@ -137,8 +137,19 @@ static int tegra30_i2s_hw_params(struct
->>>>>>> snd_pcm_substream *substream,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (params_format(params))=
- {
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case SNDRV_PCM_FORMAT_S16_LE:
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =
-=3D TEGRA30_I2S_CTRL_BIT_SIZE_16;
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 audio_bits =3D TEGRA30_=
-AUDIOCIF_BITS_16;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sample=
-_size =3D 16;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->>>>>>> +=C2=A0=C2=A0=C2=A0 case SNDRV_PCM_FORMAT_S24_LE:
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =3D TEGRA30_I2S_CTR=
-L_BIT_SIZE_24;
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 audio_bits =3D TEGRA30_=
-AUDIOCIF_BITS_24;
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sample_size =3D 24;
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->>>>>>> +=C2=A0=C2=A0=C2=A0 case SNDRV_PCM_FORMAT_S32_LE:
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =3D TEGRA30_I2S_CTR=
-L_BIT_SIZE_32;
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 audio_bits =3D TEGRA30_=
-AUDIOCIF_BITS_32;
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sample_size =3D 32;
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default:
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return=
- -EINVAL;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>> @@ -170,8 +181,8 @@ static int tegra30_i2s_hw_params(struct
->>>>>>> snd_pcm_substream *substream,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cif_conf.threshold =3D 0;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cif_conf.audio_channels =3D 2;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cif_conf.client_channels =3D 2=
-;
->>>>>>> -=C2=A0=C2=A0=C2=A0 cif_conf.audio_bits =3D TEGRA30_AUDIOCIF_BITS_1=
-6;
->>>>>>> -=C2=A0=C2=A0=C2=A0 cif_conf.client_bits =3D TEGRA30_AUDIOCIF_BITS_=
-16;
->>>>>>> +=C2=A0=C2=A0=C2=A0 cif_conf.audio_bits =3D audio_bits;
->>>>>>> +=C2=A0=C2=A0=C2=A0 cif_conf.client_bits =3D audio_bits;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cif_conf.expand =3D 0;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cif_conf.stereo_conv =3D 0;
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cif_conf.replicate =3D 0;
->>>>>>> @@ -306,14 +317,18 @@ static const struct snd_soc_dai_driver
->>>>>>> tegra30_i2s_dai_template =3D {
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .chann=
-els_min =3D 2,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .chann=
-els_max =3D 2,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .rates=
- =3D SNDRV_PCM_RATE_8000_96000,
->>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .formats =3D SNDRV_PCM_=
-FMTBIT_S16_LE,
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .formats =3D SNDRV_PCM_=
-FMTBIT_S32_LE |
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 SNDRV_PCM_FMTBIT_S24_LE |
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 SNDRV_PCM_FMTBIT_S16_LE,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .capture =3D {
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .strea=
-m_name =3D "Capture",
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .chann=
-els_min =3D 2,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .chann=
-els_max =3D 2,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .rates=
- =3D SNDRV_PCM_RATE_8000_96000,
->>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .formats =3D SNDRV_PCM_=
-FMTBIT_S16_LE,
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .formats =3D SNDRV_PCM_=
-FMTBIT_S32_LE |
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 SNDRV_PCM_FMTBIT_S24_LE |
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 SNDRV_PCM_FMTBIT_S16_LE,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ops =3D &tegra30_i2s_dai_ops,
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .symmetric_rates =3D 1,
->>>>>>>
->>>>>>
->>>>>> Hello,
->>>>>>
->>>>>> This patch breaks audio on Tegra30. I don't see errors anywhere, but
->>>>>> there is no audio and reverting this patch helps. Please fix it.
->>>>>
->>>>> What is the failure mode? I can try and take a look at this some time
->>>>> this week, but I am not sure if I have any boards with an actual
->>>>> useful
->>>>> audio output?
->>>>
->>>> The failure mode is that there no sound. I also noticed that video
->>>> playback stutters a lot if movie file has audio track, seems something
->>>> times out during of the audio playback. For now I don't have any
->>>> more info.
->>>>
->>>
->>> Oh, I didn't say how to reproduce it.. for example simply playing
->>> big_buck_bunny_720p_h264.mov in MPV has the audio problem.
->>>
->>> https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_7=
-20p_h264.mov
->>>
->>
->> Given that the audio drivers uses regmap, it could be good to dump the
->> I2S/AHUB registers while the clip if playing with and without this patch
->> to see the differences. I am curious if the audio is now being played as
->> 24 or 32-bit instead of 16-bit now these are available.
->>
->> You could also dump the hw_params to see the format while playing as
->> well ...
->>
->> $ /proc/asound/<scard-name>/pcm0p/sub0/hw_params
->=20
-> I suppose it is also possible that the codec isn't properly doing >16
-> bits and the fact we now offer 24 and 32 could be an issue. I've not
-> got anything with an audio output on it that would be easy to test.
+Hello Richard,
 
-I thought I had tested on a Jetson TK1 (Tegra124) but it was sometime
-back. However, admittedly I may have only done simple 16-bit testing
-with speaker-test.
+Why derived boards couldn't label nodes by themselves? That's what all
+derived boards are doing already.
 
-We do verify that all soundcards are detected and registered as expected
-during daily testing, but at the moment we don't have anything that
-verifies actual playback.
-
-Jon
-
---=20
-nvpublic
+BTW, upstream should benefit from the submitted changes. This is not a
+very useful change for upstream if you're not updating the actual DTs of
+any of the boards in arch/arm/boot/dts/*.
