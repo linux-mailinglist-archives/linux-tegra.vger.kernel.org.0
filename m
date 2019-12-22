@@ -2,60 +2,56 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 463DF128DAD
-	for <lists+linux-tegra@lfdr.de>; Sun, 22 Dec 2019 12:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6138B128DB3
+	for <lists+linux-tegra@lfdr.de>; Sun, 22 Dec 2019 12:40:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726632AbfLVLjh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 22 Dec 2019 06:39:37 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:56166 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbfLVLjg (ORCPT
+        id S1726393AbfLVLkj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 22 Dec 2019 06:40:39 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36527 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbfLVLki (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 22 Dec 2019 06:39:36 -0500
-Received: by mail-wm1-f67.google.com with SMTP id q9so13188309wmj.5;
-        Sun, 22 Dec 2019 03:39:35 -0800 (PST)
+        Sun, 22 Dec 2019 06:40:38 -0500
+Received: by mail-wm1-f66.google.com with SMTP id p17so13518629wma.1
+        for <linux-tegra@vger.kernel.org>; Sun, 22 Dec 2019 03:40:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BHjz7vpaJMgCiJxedS2/DgNIB5kdLeeix42Ihq8AUE8=;
-        b=jHqDsh7PHiAU0A2PLZUoxpQR2wzTxZ/UOF/1k9mbJF39TG9UIbJwL5yiUooW2wG9pa
-         qk8iDvSvnhL5Sg+TpBTDyh/sNVQWJ3xCc66CJWs6fuH67h7DAI51ROuSDkZJTF1QoXNx
-         O9E0FfRJqZ2+suljC/RurqX+I1s7si5Rso2gTnFE1Ythst+TPBPJ3mDIP9LYwim7rCgi
-         SB0A9XConqu9/dfD2GTlSShOG6bo2JvvMUjLDIrqIXpoPZ2+PWMQJc6PLuluzcwFJKav
-         6wnQOdfsx0qzpZvapJlRhFHgJPYWG6sb4QO/c/FfJJUEMTQ4vR58u2IMpbog0XpdMv6N
-         /zRw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8iyYBQ4On3uGcnLnIat38av+sdZSiRZB7odb1SzSaMg=;
+        b=RgC/BCm+aBaL1uT6opvdUmvIkpb09LaR1tv0GJV2Tot4qsUGzkelK3KTYNWs0s4nmx
+         2G++FEdQmroR2SNO2ETSaLjRq0fGGLpawSJ3cBBsXCEDEBA5sSx9rgmOX+67AKjWS/k6
+         KRm0hyWBXR0jeQyyuYMJW291hB4u2OTF6/GdslPtMpXLal/q5H3QnCQFP7GdgH2OMjUp
+         c/HcH1ojK4Ir2+5ChqdtJiFJ9hfWUrh9Yo/HT2bU9lcSX3mu7iMjyAzXcBovEd0RNVUV
+         x1XcyT2vIhuY7P/8gUm/kSGK5kKwRRDJ/Sg96ewTxdjdF04kexcuUIn5L3bCvhmIIah4
+         kbXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BHjz7vpaJMgCiJxedS2/DgNIB5kdLeeix42Ihq8AUE8=;
-        b=lxBfExVdkNPtsvqvlDk9Wx4rXwFCRJD4NQZGBLu5jyYoeWKxziN8XSeyuM4nnO5cPw
-         WO1AmelHx5nr3QOG5cpi4WsbY3Wm8KtpnJfi3Bv5AtpKPKCwpsGmLVsChiVRkK+AIhCe
-         KraPw08T8ch2JioasMB/592Y5wO8XRnJrBPRJdIOubvZMME2OyyZUQA7d811mvYsh6+j
-         K2j/E2XQ7hRHS5UW8I0KwwfgskwD7Ztgcw7r7Eu4dhmWpoSEVGdvl3bOc7vagFrttgaA
-         Rm3KVIhineu+08OtQtXzGMZCzG8bY81jnOmJ6fIGjy5Ou933ncvBHlLaTuh9mcCP4Vjn
-         uRug==
-X-Gm-Message-State: APjAAAVjSVJ94SrDKluKXhSAG64PqoybB+Ewg7gkqBRUc3iQ12caY+xT
-        kCfxMvTuiIZ4F3pv2IiY+m0=
-X-Google-Smtp-Source: APXvYqyPpmzYMc/qk93sM8p9elfRQveUws+795Ae2kc0u/tuwHQohHIVpnIMNTyP48o8gGQQ75SKqg==
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr26631309wma.62.1577014774392;
-        Sun, 22 Dec 2019 03:39:34 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8iyYBQ4On3uGcnLnIat38av+sdZSiRZB7odb1SzSaMg=;
+        b=tHVnvLRHAhFIuj4yBZ/S9rEc9JZ7fSw82N2o22BNHiK0+fZ4obz//eN7quGgXC4wVp
+         SFIaQMOU8PZebr+CMQZmvLkGPzpVYLzQSMmFBuT1gY9rpAaosNHJXk/mMFgZlyrUyypC
+         Hhgvu68XqWPFYbbDXqM1Hp9oXYX4Z/smqJtb6wH1i+tymOx83y6cSXEH3tRe84U7ghJd
+         CjJ9Lwg1feK9i3yHWVYnXvTJZ0KjvdPhMY1A3138tbEVGOreosz1dlGt49549w/LsInh
+         ufWBCDRuQh/YPG+n0RQJA/ST759OTan6RJl/UOKXGqRkUxTD97Dml6UNkp5FbWvw06kc
+         Il/A==
+X-Gm-Message-State: APjAAAXf9QqG2vGqgqFWTCorvDadtEAf5lnbnhmyTy4yUP0UFh7nNEzD
+        CL+vYY+jO5uMpaY0ifm3zsIh33Tm
+X-Google-Smtp-Source: APXvYqzmZOaKzz/c+sldQuqiKtqP6d2wjywvpBQAejatSE6YAzhBucZA0ltxlkVehnBsLwCA4EQ1Sw==
+X-Received: by 2002:a7b:c407:: with SMTP id k7mr26968606wmi.46.1577014835750;
+        Sun, 22 Dec 2019 03:40:35 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id h2sm17937457wrt.45.2019.12.22.03.39.33
+        by smtp.gmail.com with ESMTPSA id q19sm15675359wmc.12.2019.12.22.03.40.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Dec 2019 03:39:33 -0800 (PST)
+        Sun, 22 Dec 2019 03:40:34 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH 6/6] arm64: tegra: Rename EMC on Tegra132
-Date:   Sun, 22 Dec 2019 12:39:21 +0100
-Message-Id: <20191222113921.1469372-7-thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
+Subject: [PATCH 1/2] memory: tegra: Implement EMC debugfs interface on Tegra20
+Date:   Sun, 22 Dec 2019 12:40:32 +0100
+Message-Id: <20191222114033.1469622-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191222113921.1469372-1-thierry.reding@gmail.com>
-References: <20191222113921.1469372-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -65,27 +61,222 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-Rename the EMC node to external-memory-controller according to device
-tree best practices.
+A common debugfs interface is already available on Tegra124, Tegra186
+and Tegra194. Implement the same interface on Tegra20 to enable testing
+of the EMC frequency scaling code using a unified interface.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra132.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/memory/tegra/tegra20-emc.c | 175 +++++++++++++++++++++++++++++
+ 1 file changed, 175 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra132.dtsi b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-index 31caebada944..34367179ba24 100644
---- a/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-@@ -602,7 +602,7 @@ mc: memory-controller@70019000 {
- 		#iommu-cells = <1>;
- 	};
+diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
+index 1b23b1c34476..8ae474d9bfb9 100644
+--- a/drivers/memory/tegra/tegra20-emc.c
++++ b/drivers/memory/tegra/tegra20-emc.c
+@@ -8,6 +8,7 @@
+ #include <linux/clk.h>
+ #include <linux/clk/tegra.h>
+ #include <linux/completion.h>
++#include <linux/debugfs.h>
+ #include <linux/err.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+@@ -150,6 +151,12 @@ struct tegra_emc {
  
--	emc: emc@7001b000 {
-+	emc: external-memory-controller@7001b000 {
- 		compatible = "nvidia,tegra132-emc", "nvidia,tegra124-emc";
- 		reg = <0x0 0x7001b000 0x0 0x1000>;
- 		clocks = <&tegra_car TEGRA124_CLK_EMC>;
+ 	struct emc_timing *timings;
+ 	unsigned int num_timings;
++
++	struct {
++		struct dentry *root;
++		unsigned long min_rate;
++		unsigned long max_rate;
++	} debugfs;
+ };
+ 
+ static irqreturn_t tegra_emc_isr(int irq, void *data)
+@@ -478,6 +485,171 @@ static long emc_round_rate(unsigned long rate,
+ 	return timing->rate;
+ }
+ 
++/*
++ * debugfs interface
++ *
++ * The memory controller driver exposes some files in debugfs that can be used
++ * to control the EMC frequency. The top-level directory can be found here:
++ *
++ *   /sys/kernel/debug/emc
++ *
++ * It contains the following files:
++ *
++ *   - available_rates: This file contains a list of valid, space-separated
++ *     EMC frequencies.
++ *
++ *   - min_rate: Writing a value to this file sets the given frequency as the
++ *       floor of the permitted range. If this is higher than the currently
++ *       configured EMC frequency, this will cause the frequency to be
++ *       increased so that it stays within the valid range.
++ *
++ *   - max_rate: Similarily to the min_rate file, writing a value to this file
++ *       sets the given frequency as the ceiling of the permitted range. If
++ *       the value is lower than the currently configured EMC frequency, this
++ *       will cause the frequency to be decreased so that it stays within the
++ *       valid range.
++ */
++
++static bool tegra_emc_validate_rate(struct tegra_emc *emc, unsigned long rate)
++{
++	unsigned int i;
++
++	for (i = 0; i < emc->num_timings; i++)
++		if (rate == emc->timings[i].rate)
++			return true;
++
++	return false;
++}
++
++static int tegra_emc_debug_available_rates_show(struct seq_file *s, void *data)
++{
++	struct tegra_emc *emc = s->private;
++	const char *prefix = "";
++	unsigned int i;
++
++	for (i = 0; i < emc->num_timings; i++) {
++		seq_printf(s, "%s%lu", prefix, emc->timings[i].rate);
++		prefix = " ";
++	}
++
++	seq_puts(s, "\n");
++
++	return 0;
++}
++
++static int tegra_emc_debug_available_rates_open(struct inode *inode,
++						struct file *file)
++{
++	return single_open(file, tegra_emc_debug_available_rates_show,
++			   inode->i_private);
++}
++
++static const struct file_operations tegra_emc_debug_available_rates_fops = {
++	.open = tegra_emc_debug_available_rates_open,
++	.read = seq_read,
++	.llseek = seq_lseek,
++	.release = single_release,
++};
++
++static int tegra_emc_debug_min_rate_get(void *data, u64 *rate)
++{
++	struct tegra_emc *emc = data;
++
++	*rate = emc->debugfs.min_rate;
++
++	return 0;
++}
++
++static int tegra_emc_debug_min_rate_set(void *data, u64 rate)
++{
++	struct tegra_emc *emc = data;
++	int err;
++
++	if (!tegra_emc_validate_rate(emc, rate))
++		return -EINVAL;
++
++	err = clk_set_min_rate(emc->clk, rate);
++	if (err < 0)
++		return err;
++
++	emc->debugfs.min_rate = rate;
++
++	return 0;
++}
++
++DEFINE_SIMPLE_ATTRIBUTE(tegra_emc_debug_min_rate_fops,
++			tegra_emc_debug_min_rate_get,
++			tegra_emc_debug_min_rate_set, "%llu\n");
++
++static int tegra_emc_debug_max_rate_get(void *data, u64 *rate)
++{
++	struct tegra_emc *emc = data;
++
++	*rate = emc->debugfs.max_rate;
++
++	return 0;
++}
++
++static int tegra_emc_debug_max_rate_set(void *data, u64 rate)
++{
++	struct tegra_emc *emc = data;
++	int err;
++
++	if (!tegra_emc_validate_rate(emc, rate))
++		return -EINVAL;
++
++	err = clk_set_max_rate(emc->clk, rate);
++	if (err < 0)
++		return err;
++
++	emc->debugfs.max_rate = rate;
++
++	return 0;
++}
++
++DEFINE_SIMPLE_ATTRIBUTE(tegra_emc_debug_max_rate_fops,
++			tegra_emc_debug_max_rate_get,
++			tegra_emc_debug_max_rate_set, "%llu\n");
++
++static void tegra_emc_debugfs_init(struct tegra_emc *emc)
++{
++	struct device *dev = emc->dev;
++	unsigned int i;
++	int err;
++
++	emc->debugfs.min_rate = ULONG_MAX;
++	emc->debugfs.max_rate = 0;
++
++	for (i = 0; i < emc->num_timings; i++) {
++		if (emc->timings[i].rate < emc->debugfs.min_rate)
++			emc->debugfs.min_rate = emc->timings[i].rate;
++
++		if (emc->timings[i].rate > emc->debugfs.max_rate)
++			emc->debugfs.max_rate = emc->timings[i].rate;
++	}
++
++	err = clk_set_rate_range(emc->clk, emc->debugfs.min_rate,
++				 emc->debugfs.max_rate);
++	if (err < 0) {
++		dev_err(dev, "failed to set rate range [%lu-%lu] for %pC\n",
++			emc->debugfs.min_rate, emc->debugfs.max_rate,
++			emc->clk);
++	}
++
++	emc->debugfs.root = debugfs_create_dir("emc", NULL);
++	if (!emc->debugfs.root) {
++		dev_err(emc->dev, "failed to create debugfs directory\n");
++		return;
++	}
++
++	debugfs_create_file("available_rates", S_IRUGO, emc->debugfs.root,
++			    emc, &tegra_emc_debug_available_rates_fops);
++	debugfs_create_file("min_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
++			    emc, &tegra_emc_debug_min_rate_fops);
++	debugfs_create_file("max_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
++			    emc, &tegra_emc_debug_max_rate_fops);
++}
++
+ static int tegra_emc_probe(struct platform_device *pdev)
+ {
+ 	struct device_node *np;
+@@ -550,6 +722,9 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 		goto unset_cb;
+ 	}
+ 
++	platform_set_drvdata(pdev, emc);
++	tegra_emc_debugfs_init(emc);
++
+ 	return 0;
+ 
+ unset_cb:
 -- 
 2.24.1
 
