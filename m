@@ -2,137 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3000B128BF2
-	for <lists+linux-tegra@lfdr.de>; Sun, 22 Dec 2019 00:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7A00128DA1
+	for <lists+linux-tegra@lfdr.de>; Sun, 22 Dec 2019 12:39:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726783AbfLUXqm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 21 Dec 2019 18:46:42 -0500
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:34193 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726024AbfLUXqm (ORCPT
+        id S1726291AbfLVLj0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 22 Dec 2019 06:39:26 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53619 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725977AbfLVLj0 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 21 Dec 2019 18:46:42 -0500
-Received: by mail-qv1-f65.google.com with SMTP id o18so5079840qvf.1;
-        Sat, 21 Dec 2019 15:46:41 -0800 (PST)
+        Sun, 22 Dec 2019 06:39:26 -0500
+Received: by mail-wm1-f65.google.com with SMTP id m24so13173388wmc.3;
+        Sun, 22 Dec 2019 03:39:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=DZy1sByRbPp81Fc4unsIfUDkM1speXohHbJEFLa+79Y=;
-        b=K2F08+kbBOHpEb5GI2snEkwsgZNjaPXWMKDftdpnSDrNjdoFsaU7mJy1E8X+UN6pTF
-         CqMGQGTCVzkASTJTbCKGzwmcE+xGW9X9DoBShnHYBHrUjwA2y0thgfSaIDeXsAsxh80K
-         Lzsw/9ErY21ZUOic82HoE2snRWWJy1wLWDPwW7IWmh5yvrdgv4rUVX4xVE004OheL+PI
-         /8AUmTvOKwGIU5Ku/sIm9m5U0rOim/SPjYy3gzVxef0QWGwTj1JJt9SDEH83TWoChVOq
-         wLkEyhYrjgWcWjYym7iQAuL3qcxgGsX3JQNmgv7pU5p9IHVMooy6My1cg5SbonFnCmxX
-         Fqwg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VGDiB5QdWMyYZ86YVXZSGDQSEd273un0Guw/pubzTaw=;
+        b=UPQcMRG5QIcbCZkg0ZEu+A9wTRgedH8I0q5LXL4N6df0WgJOvWYyiSGKhlNyn4AS78
+         jPC0LnI4SWmSNjiN+5ttA6osmcwmPo0OGeXaRy9vUB9X2PbJbOQf9/VHGN/uvSBMnksQ
+         bWGwI/P26Zts2DgVHfIw4JuUpxPSLgX1vZeyXqy3SXs8P0ubO+a+lrV/EpfSohdFs1ha
+         MkRpl3HJVb1dEOWkRuDx6KunKWTCaxSH1+WfwVeztdaLQ9t3sK7mx+GMVqExOaO18lA5
+         wHcyzqgugezovJiUkgaOleL0zN6tEGjlcrYnhokXXddvBqhgZB0NzAFmwCBKxB6+vkog
+         61fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DZy1sByRbPp81Fc4unsIfUDkM1speXohHbJEFLa+79Y=;
-        b=cvV8272CjqKNjseP9IVVUXbbxKJ0slLx1WsbkDJHDoeN/3vHwuctTz95T3x5v8qef4
-         wfQuL7StZwZjPkgUDbtB+lwe/oMAwB9Xbdy10mk/u+2jQR3GNEe7D0D74q70kMq9arlb
-         PNhpmuqIUw/xbiPYSNl5/rUdu6ZFvqxccOvNBRozsvoS6a54JRTc/3sqU3aSAA/0JUGC
-         Y3VAraup61c7CsK8ZBh2M96ClkM7ofpaMh+1a0fD0joJM0iWn/CYvcAr53OIWtdMFcZl
-         FXh0enaSlbVfnKVaYH03LCc6yFScN4tbWLcZmnZySjUxro6ycPDJmnN/BrhaN27W9cjt
-         IMDw==
-X-Gm-Message-State: APjAAAXdYKo5LbSIyB+ksyGRkl7Fcg1OvKReFWcuR7hCwWAQBk3DWZYm
-        wG6m4ecW0EFirlb5YPryXQA=
-X-Google-Smtp-Source: APXvYqxZv5pvU+COa+Z57bqd7TVlj3AKMVnWrlNSwtaonBLRwl6oAVA7CbZzWjXYXul1zP2Wc7+ZAQ==
-X-Received: by 2002:a05:6214:14b3:: with SMTP id bo19mr18216129qvb.93.1576972000657;
-        Sat, 21 Dec 2019 15:46:40 -0800 (PST)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id b7sm4323472qkh.106.2019.12.21.15.46.39
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VGDiB5QdWMyYZ86YVXZSGDQSEd273un0Guw/pubzTaw=;
+        b=oTVdsnGsevKmoPp8qBH6ln9UUm8G1NgpwM4zqvE0FB/uZGgLaLFqASGlKjy2r0xl14
+         C1lBMrbMU7tMz4RNv1pQ7x0DUWjupGdsMwi57VhSzGh82z+ID3B5ecR780TE2Tqwyzjm
+         Gf4UqZuKawBZ82j2iMZ48wJ9ODBTrm0Yqrmo7AZNB3wW/6jt2AyZtMsWMZbTklo9oxWM
+         bd9o3Uctmu6V1qTJiSzrOchkH6vmQDXK7VWIyCU1YUB4gwLZ2cd+I2IHmMiVCb/XFv/d
+         hYOhQlvxWJdvyCCE1F3VhJtsa3pUUHt0ow9PpVPLog40dXTbCFLGy9d1VE6Gp4HVDWnc
+         6Oig==
+X-Gm-Message-State: APjAAAVvRTeBfHPkERYdxlrYBpi3lFRv4XcvaLrkYGaaCBPVrAYh+Gxg
+        WElkEK0j0QabWOwstYTGNcM=
+X-Google-Smtp-Source: APXvYqxOW39MiQtHhEXlKKCiKjnRposvvY0Fnox5AGwbFCiLUb/TK5GsAIyo03pics4m3RfiSVUS7Q==
+X-Received: by 2002:a05:600c:294:: with SMTP id 20mr25992658wmk.97.1577014764157;
+        Sun, 22 Dec 2019 03:39:24 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id k8sm16724969wrl.3.2019.12.22.03.39.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Dec 2019 15:46:40 -0800 (PST)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Sat, 21 Dec 2019 18:46:37 -0500
-To:     Tom Murphy <murphyt7@tcd.ie>
-Cc:     iommu@lists.linux-foundation.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Julien Grall <julien.grall@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org
-Subject: Re: [PATCH 1/8] iommu/vt-d: clean up 32bit si_domain assignment
-Message-ID: <20191221234635.GA99623@rani.riverdale.lan>
-References: <20191221150402.13868-1-murphyt7@tcd.ie>
- <20191221150402.13868-2-murphyt7@tcd.ie>
+        Sun, 22 Dec 2019 03:39:22 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH 0/6] memory: tegra: Miscellaneous Tegra124 improvements
+Date:   Sun, 22 Dec 2019 12:39:15 +0100
+Message-Id: <20191222113921.1469372-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191221150402.13868-2-murphyt7@tcd.ie>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat, Dec 21, 2019 at 03:03:53PM +0000, Tom Murphy wrote:
-> In the intel iommu driver devices which only support 32bit DMA can't be
-> direct mapped. The implementation of this is weird. Currently we assign
-> it a direct mapped domain and then remove the domain later and replace
-> it with a domain of type IOMMU_DOMAIN_IDENTITY. We should just assign it
-> a domain of type IOMMU_DOMAIN_IDENTITY from the begging rather than
-> needlessly swapping domains.
-> 
-> Signed-off-by: Tom Murphy <murphyt7@tcd.ie>
-> ---
->  drivers/iommu/intel-iommu.c | 88 +++++++++++++------------------------
->  1 file changed, 31 insertions(+), 57 deletions(-)
-> 
-> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-> index 0c8d81f56a30..c1ea66467918 100644
-> --- a/drivers/iommu/intel-iommu.c
-> +++ b/drivers/iommu/intel-iommu.c
-> @@ -5640,7 +5609,12 @@ static int intel_iommu_add_device(struct device *dev)
->  	domain = iommu_get_domain_for_dev(dev);
->  	dmar_domain = to_dmar_domain(domain);
->  	if (domain->type == IOMMU_DOMAIN_DMA) {
-> -		if (device_def_domain_type(dev) == IOMMU_DOMAIN_IDENTITY) {
-> +		/*
-> +		 * We check dma_mask >= dma_get_required_mask(dev) because
-> +		 * 32 bit DMA falls back to non-identity mapping.
-> +		 */
-> +		if (device_def_domain_type(dev) == IOMMU_DOMAIN_IDENTITY &&
-> +				dma_mask >= dma_get_required_mask(dev)) {
->  			ret = iommu_request_dm_for_dev(dev);
->  			if (ret) {
->  				dmar_remove_one_dev_info(dev);
-> -- 
-> 2.20.1
-> 
+From: Thierry Reding <treding@nvidia.com>
 
-Should this be dma_direct_get_required_mask? dma_get_required_mask may
-return DMA_BIT_MASK(32) -- it callbacks into intel_get_required_mask,
-but I'm not sure what iommu_no_mapping(dev) will do at this point?
+Hi,
+
+this set of changes improves the EMC bindings on Tegra124 and Tegra132.
+The goal is to bring them up to par with the bindings on Tegra20 and
+Tegra30 and future bindings that will be introduced for Tegra210 and
+later.
+
+Note that there's a tiny bit of ABI break here in that new device trees
+will cause existing debugfs support from working. Since the EMC driver
+doesn't do anything other than provide a backend for the debugfs
+interface, I think that's something that we can live with.
+
+A new debugfs interface is introduced in this series and it replaces the
+existing one, which turns out to be too limited looking forward to plans
+to make the EMC act as an interconnect provider.
+
+Thierry
+
+Thierry Reding (6):
+  dt-bindings: memory-controller: Convert Tegra124 EMC to json-schema
+  memory: tegra: Refashion EMC debugfs interface on Tegra124
+  ARM: tegra: Let the EMC hardware use the EMC clock
+  arm64: tegra: Let the EMC hardware use the EMC clock
+  ARM: tegra: Rename EMC on Tegra124
+  arm64: tegra: Rename EMC on Tegra132
+
+ .../nvidia,tegra124-emc.txt                   | 374 -------------
+ .../nvidia,tegra124-emc.yaml                  | 528 ++++++++++++++++++
+ arch/arm/boot/dts/tegra124-apalis-emc.dtsi    |   2 +-
+ .../arm/boot/dts/tegra124-jetson-tk1-emc.dtsi |   2 +-
+ arch/arm/boot/dts/tegra124-nyan-big-emc.dtsi  |   2 +-
+ .../arm/boot/dts/tegra124-nyan-blaze-emc.dtsi |   2 +-
+ arch/arm/boot/dts/tegra124.dtsi               |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra132.dtsi      |   4 +-
+ drivers/memory/tegra/tegra124-emc.c           | 185 ++++--
+ 9 files changed, 681 insertions(+), 422 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.txt
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
+
+-- 
+2.24.1
+
