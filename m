@@ -2,104 +2,180 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C90B128F71
-	for <lists+linux-tegra@lfdr.de>; Sun, 22 Dec 2019 19:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99CDE128FF7
+	for <lists+linux-tegra@lfdr.de>; Sun, 22 Dec 2019 22:14:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726995AbfLVSu5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 22 Dec 2019 13:50:57 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44635 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726943AbfLVSuv (ORCPT
+        id S1726650AbfLVVOW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 22 Dec 2019 16:14:22 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42685 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbfLVVOW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 22 Dec 2019 13:50:51 -0500
-Received: by mail-pl1-f193.google.com with SMTP id az3so6311496plb.11;
-        Sun, 22 Dec 2019 10:50:50 -0800 (PST)
+        Sun, 22 Dec 2019 16:14:22 -0500
+Received: by mail-lj1-f193.google.com with SMTP id y4so1517698ljj.9;
+        Sun, 22 Dec 2019 13:14:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=obMvYqnbW6FnclvcaTw1U7yQPLStwyHiLSMoMgJ8DMo=;
-        b=RdmiiwF6babAQFWUpUGLy2DZqAwZAi8V33zgiNx7dj87h8phOlTYHtZOMDCQtXFOit
-         coQqalsXFCLZlPp6YJ4THC2t7m8EEi9PnxcIXgnqBv8YojpdwQ8b1z12w3XbHM6gRe2N
-         9cXHFVzTg5EsYmr3AiWsmm30sn/yrNbhfuYIlptfe1Mjzl/GJ0cPIIf7zQeTlWRApwyt
-         ceX5KsTvJkHVzT/jsg270BpkQa+0B9D2w9kYdnxox243iMIwwKPCl092zGtmcZOreNl2
-         ops0dZYFpd4iyt33sNOKbW/8D9fDi76pS+zAn59mN4DcCTF39VQKSGfc5uBhAnozFnSr
-         F3RA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fbgxkqxZRZGd8DOB9hu/z/RaCx8CkruFIfJ3Fbbw1lY=;
+        b=FPynqX1811oIsLp7fOYiZV5tcC5RFxxEHtimITxfxIN02I24xJeCy170rKv8nHVKNM
+         oVkwduCyBOnITjBtTr1yBpm6lrgi3rZEa9dwoDmJ9zf5nS3cPVg2WOt+qOwjudMFy43t
+         MpZtWj27IGb0xzES6WWBnDY88wl0R5KHdzOd0NHKGWyfGeaJSsi3N6XSybnihjfu2IkC
+         A6vzoEsrhEX1dWAQgy5BGSkxxHGCTg/SPltBtcmomD4y7jS8/uXWq/k5/GkiN6k5635e
+         M/e9OXQzZlkiGE12vFwae/aTJGiUP/1pbhC+Pzi+kQzkDweiGBTiSUQUGKE/SjKhEq2V
+         gIZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=obMvYqnbW6FnclvcaTw1U7yQPLStwyHiLSMoMgJ8DMo=;
-        b=G8PYNmtuMvR6IFaeFdzhSdc8bErBVwYddSXJNs9sGiXm8DFWCkIpqr3X5pU4S8agP1
-         jBky9OWRuIYr9C+ddhq5IYKTAlM4nARrJaddy1S6Fd0BCha08t92Mg0izesKZrv6KG6h
-         7CQN5HMFQokdrlJBU3DedCDc5XyTGCWmbPGrlhrF9ZfmKQk4xxKqSNWsAxIWcYRt4OYq
-         FlCOiNR7F+0krsWl8PxUujbHcSkHaOcxb9/Cty7IYngZIZWjZgOERoASiNLRa5FNmBgK
-         5kN/7M7EQL2dbN0mPCgWyuAV9q1srnNCOa4jE5/D8e6uVcDHFgggo/NoRG3uRHSwgCR+
-         6TxA==
-X-Gm-Message-State: APjAAAUOrQ+8mwvA+9oANuSbpUlFpmm342QAwKLAVR9gEee0kd3YcPYE
-        EpreUJaFfcvXs59AGN0FyS+dXIeY/no=
-X-Google-Smtp-Source: APXvYqynfZtZtMfgSs1bDem4Zo+v6lSrgRDKxVTy4vingOzHr5+fBrYwncpXVgh6n1vtEUTebtVYcQ==
-X-Received: by 2002:a17:902:6bc9:: with SMTP id m9mr26918356plt.260.1577040650351;
-        Sun, 22 Dec 2019 10:50:50 -0800 (PST)
-Received: from localhost ([2001:19f0:6001:12c8:5400:2ff:fe72:6403])
-        by smtp.gmail.com with ESMTPSA id x8sm21284906pfd.76.2019.12.22.10.50.49
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 22 Dec 2019 10:50:49 -0800 (PST)
-From:   Yangtao Li <tiny.windzz@gmail.com>
-To:     ssantosh@kernel.org, paul@crapouillou.net, matthias.bgg@gmail.com,
-        rogerq@ti.com, tony@atomide.com, lukasz.luba@arm.com,
-        kgene@kernel.org, krzk@kernel.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, allison@lohutok.net, tglx@linutronix.de,
-        yong.wu@mediatek.com, jroedel@suse.de, evgreen@chromium.org,
-        rfontana@redhat.com, digetx@gmail.com, pdeschrijver@nvidia.com,
-        john@phrozen.org, alexios.zavras@intel.com, sboyd@kernel.org,
-        kstewart@linuxfoundation.org, info@metux.net,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Cc:     Yangtao Li <tiny.windzz@gmail.com>
-Subject: [PATCH 9/9] memory: omap-gpmc: switch to platform_get_irq
-Date:   Sun, 22 Dec 2019 18:50:34 +0000
-Message-Id: <20191222185034.4665-9-tiny.windzz@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191222185034.4665-1-tiny.windzz@gmail.com>
-References: <20191222185034.4665-1-tiny.windzz@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fbgxkqxZRZGd8DOB9hu/z/RaCx8CkruFIfJ3Fbbw1lY=;
+        b=KkFBiefeFQFjgw3CNhuGR2yYOPByut/heiPq94JkyyHFB3TKQFvNpjoGynO5i0SeAh
+         NvBecevbTwSBvKb+YVzQnnHkFk8NKDjesD2H17ZGRyw735aNwOo3RFMO2deJQsIDWLeu
+         /E55FVEN2Alk2fRbZzDwN7RR5YDbkZ/NCEw3+nHLaK5og/oMBijxrz4PykfqH3vi5JDJ
+         BrBLkDryEz32OI8jhZt4fIonf0WvvWlE/0srhM9INJuYf+S+lFIdv1HNCChSCoSOf+5j
+         4g0o2ImiMq/qJS7sGdDD9DC1mom4J6ut3u7H5qvXs0BdgHbELTwfVZ1e7eowRHujMnh0
+         FP2w==
+X-Gm-Message-State: APjAAAWvIxMh//yTWs1HO+/Jqx7cmRmTShtVDzGnstU0o3Cfnh6JJy9U
+        58muWA6+4shheCVMvlxhzEB7Hxad
+X-Google-Smtp-Source: APXvYqyb3q70MzxlzFV+kBg53rnskNuvXbHGmn85RlwX2Uv0qSrlsvD1YL+9Y9LGo2jWVXAYi3Jyrw==
+X-Received: by 2002:a2e:9013:: with SMTP id h19mr16349627ljg.223.1577049258970;
+        Sun, 22 Dec 2019 13:14:18 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id s16sm7169538lfc.35.2019.12.22.13.14.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Dec 2019 13:14:18 -0800 (PST)
+Subject: Re: [PATCH v5 11/19] ASoC: tegra: Use device managed resource APIs to
+ get the clock
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
+        josephl@nvidia.com, daniel.lezcano@linaro.org,
+        mmaddireddy@nvidia.com, markz@nvidia.com,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1576880825-15010-1-git-send-email-skomatineni@nvidia.com>
+ <1576880825-15010-12-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <2942bf97-cb02-9f5f-8b5e-73bd4f72006a@gmail.com>
+Date:   Mon, 23 Dec 2019 00:14:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <1576880825-15010-12-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-platform_get_resource(pdev, IORESOURCE_IRQ) is not recommended for
-requesting IRQ's resources, as they can be not ready yet. Using
-platform_get_irq() instead is preferred for getting IRQ even if it
-was not retrieved earlier.
+21.12.2019 01:26, Sowjanya Komatineni пишет:
+> tegra_asoc_utils uses clk_get() and clk_put() to get the clock
+> and to free them explicitly.
+> 
+> This patch updates it to use device managed resource API
+> devm_clk_get() so the clock will be automatically released and freed
+> when the device is unbound and removes tegra_asoc_utils_fini() as
+> its no longer needed.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  sound/soc/tegra/tegra_alc5632.c    |  7 +------
+>  sound/soc/tegra/tegra_asoc_utils.c | 34 ++++++----------------------------
+>  sound/soc/tegra/tegra_asoc_utils.h |  1 -
+>  sound/soc/tegra/tegra_max98090.c   | 22 ++++++----------------
+>  sound/soc/tegra/tegra_rt5640.c     | 22 ++++++----------------
+>  sound/soc/tegra/tegra_rt5677.c     |  7 +------
+>  sound/soc/tegra/tegra_sgtl5000.c   |  7 +------
+>  sound/soc/tegra/tegra_wm8753.c     | 22 ++++++----------------
+>  sound/soc/tegra/tegra_wm8903.c     | 22 ++++++----------------
+>  sound/soc/tegra/tegra_wm9712.c     |  8 ++------
+>  sound/soc/tegra/trimslice.c        | 18 ++++--------------
+>  11 files changed, 39 insertions(+), 131 deletions(-)
+> 
+> diff --git a/sound/soc/tegra/tegra_alc5632.c b/sound/soc/tegra/tegra_alc5632.c
+> index 9e8b1497efd3..50a6d2ff4442 100644
+> --- a/sound/soc/tegra/tegra_alc5632.c
+> +++ b/sound/soc/tegra/tegra_alc5632.c
+> @@ -205,13 +205,11 @@ static int tegra_alc5632_probe(struct platform_device *pdev)
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "snd_soc_register_card failed (%d)\n",
+>  			ret);
+> -		goto err_fini_utils;
+> +		goto err_put_cpu_of_node;
+>  	}
+>  
+>  	return 0;
+>  
+> -err_fini_utils:
+> -	tegra_asoc_utils_fini(&alc5632->util_data);
+>  err_put_cpu_of_node:
+>  	of_node_put(tegra_alc5632_dai.cpus->of_node);
+>  	tegra_alc5632_dai.cpus->of_node = NULL;
+> @@ -226,12 +224,9 @@ static int tegra_alc5632_probe(struct platform_device *pdev)
+>  static int tegra_alc5632_remove(struct platform_device *pdev)
+>  {
+>  	struct snd_soc_card *card = platform_get_drvdata(pdev);
+> -	struct tegra_alc5632 *machine = snd_soc_card_get_drvdata(card);
+>  
+>  	snd_soc_unregister_card(card);
+>  
+> -	tegra_asoc_utils_fini(&machine->util_data);
+> -
+>  	of_node_put(tegra_alc5632_dai.cpus->of_node);
+>  	tegra_alc5632_dai.cpus->of_node = NULL;
+>  	tegra_alc5632_dai.platforms->of_node = NULL;
+> diff --git a/sound/soc/tegra/tegra_asoc_utils.c b/sound/soc/tegra/tegra_asoc_utils.c
+> index 536a578e9512..38535962029c 100644
+> --- a/sound/soc/tegra/tegra_asoc_utils.c
+> +++ b/sound/soc/tegra/tegra_asoc_utils.c
+> @@ -175,52 +175,30 @@ int tegra_asoc_utils_init(struct tegra_asoc_utils_data *data,
+>  		return -EINVAL;
+>  	}
+>  
+> -	data->clk_pll_a = clk_get(dev, "pll_a");
+> +	data->clk_pll_a = devm_clk_get(dev, "pll_a");
+>  	if (IS_ERR(data->clk_pll_a)) {
+>  		dev_err(data->dev, "Can't retrieve clk pll_a\n");
+> -		ret = PTR_ERR(data->clk_pll_a);
+> -		goto err;
+> +		return PTR_ERR(data->clk_pll_a);
+>  	}
+>  
+> -	data->clk_pll_a_out0 = clk_get(dev, "pll_a_out0");
+> +	data->clk_pll_a_out0 = devm_clk_get(dev, "pll_a_out0");
+>  	if (IS_ERR(data->clk_pll_a_out0)) {
+>  		dev_err(data->dev, "Can't retrieve clk pll_a_out0\n");
+> -		ret = PTR_ERR(data->clk_pll_a_out0);
+> -		goto err_put_pll_a;
+> +		return PTR_ERR(data->clk_pll_a_out0);
+>  	}
+>  
+> -	data->clk_cdev1 = clk_get(dev, "mclk");
+> +	data->clk_cdev1 = devm_clk_get(dev, "mclk");
+>  	if (IS_ERR(data->clk_cdev1)) {
+>  		dev_err(data->dev, "Can't retrieve clk cdev1\n");
+> -		ret = PTR_ERR(data->clk_cdev1);
+> -		goto err_put_pll_a_out0;
+> +		return PTR_ERR(data->clk_cdev1);
+>  	}
+>  
+>  	ret = tegra_asoc_utils_set_rate(data, 44100, 256 * 44100);
+> -	if (ret)
+> -		goto err_put_cdev1;
 
-Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
----
- drivers/memory/omap-gpmc.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Please leave returning 0 in the end, it is much more expressive variant.
 
-diff --git a/drivers/memory/omap-gpmc.c b/drivers/memory/omap-gpmc.c
-index eff26c1b1394..6dd19d168f75 100644
---- a/drivers/memory/omap-gpmc.c
-+++ b/drivers/memory/omap-gpmc.c
-@@ -2366,13 +2366,9 @@ static int gpmc_probe(struct platform_device *pdev)
- 	if (IS_ERR(gpmc_base))
- 		return PTR_ERR(gpmc_base);
- 
--	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
--	if (!res) {
--		dev_err(&pdev->dev, "Failed to get resource: irq\n");
--		return -ENOENT;
--	}
--
--	gpmc->irq = res->start;
-+	gpmc->irq = platform_get_irq(pdev, 0);
-+	if (gpmc->irq < 0)
-+		return gpmc->irq;
- 
- 	gpmc_l3_clk = devm_clk_get(&pdev->dev, "fck");
- 	if (IS_ERR(gpmc_l3_clk)) {
--- 
-2.17.1
+	if (ret)
+		return ret;
 
+	return 0;
+
+> -	return 0;
+> -
