@@ -2,105 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D9E1129021
-	for <lists+linux-tegra@lfdr.de>; Sun, 22 Dec 2019 23:00:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73EEE129106
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Dec 2019 04:01:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726613AbfLVWAH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 22 Dec 2019 17:00:07 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40657 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbfLVWAH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 22 Dec 2019 17:00:07 -0500
-Received: by mail-lj1-f195.google.com with SMTP id u1so15930019ljk.7;
-        Sun, 22 Dec 2019 14:00:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=VellRtHE/5yjg7j+D4UN10YKpU4GLE2v6UKynyOlfDQ=;
-        b=WhltqlZSrXu23QRAxXQHl8ih659/oDLnfkM2wPjzR9avvvxjHpMWi3mbuJtkjn8Vgd
-         TSzZBmhc9TpNv9rPUiQ7coza8u0I9ALjlVFat8jt2wcKIAj1H9CKxPsUBScqWLzAB3ja
-         GWp54lxPyIAfHWlx1aYF12YVh159C73A8D3cTKvkeijkk8/eY/hmN5d/DDpSkoNj5yvI
-         ll273KJ4KQ5HFge45mORaFrbrLiATM2BY2A8M6ZO6qg3RqkGIFbUrqgPTABkhX331Q2N
-         3MPgEXkcpvwyxkOwsKCHwHjMgFKZK/EbFgelCPBVAw8USoMvt7MzLiwPHf0BK72ieOOf
-         +fbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=VellRtHE/5yjg7j+D4UN10YKpU4GLE2v6UKynyOlfDQ=;
-        b=YRS9S+nWrN6HYTF8FEoE//OGK2g4OaSg2I9WYKD7FEiMsb93yFNgK2O09N/DTtEUaT
-         9nWGhXobpDJHydBLKAQFeFL9H82IOvPCIh3R5CPfOxY3nPFUjw5ZwJqBujst/P+CyIT9
-         nJBZozvRXtZg/lklVxIpG5/w3EKK4iglyeC9g84YdfVq7P+mRuoDZeM6rFNFTaZIWMtJ
-         FK7LVFH3rK1FHUIdwwysuFA79ltdP10Gchly4TSfUQTe4BXFtClo+HZMhDVNSIwjGcGx
-         y+W5qo9QvuwPN2tvu6z6PTxWzBqfh/G+asiHKFHwz0K5cDu58MMLUYGCmyynpaCmBq1C
-         QVcA==
-X-Gm-Message-State: APjAAAV05Gcb5AI3lt5zIhkzjf4w1p8iZKKOdp+NwTP4AsDHuTGIY9vx
-        oGu0LMkvSs+58rmlSHv3SEyCz7Wa
-X-Google-Smtp-Source: APXvYqy268PtBXj8TWBZE2EXtp5dZdQM/k5Azk1RRhX+9RHcur7tiTgRqoZvn8QRrYrkvpBasJxpzw==
-X-Received: by 2002:a2e:b555:: with SMTP id a21mr12074989ljn.170.1577052004315;
-        Sun, 22 Dec 2019 14:00:04 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id u16sm8524682lfi.36.2019.12.22.14.00.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Dec 2019 14:00:03 -0800 (PST)
-Subject: Re: [PATCH v5 18/19] arm64: tegra: smaug: Change clk_out_2 provider
- to pmc
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
-        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
-        josephl@nvidia.com, daniel.lezcano@linaro.org,
-        mmaddireddy@nvidia.com, markz@nvidia.com,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1576880825-15010-1-git-send-email-skomatineni@nvidia.com>
- <1576880825-15010-19-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <2f85578e-8552-9e2e-9f67-355b24d6b99f@gmail.com>
-Date:   Mon, 23 Dec 2019 01:00:01 +0300
+        id S1726666AbfLWDBx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 22 Dec 2019 22:01:53 -0500
+Received: from mga14.intel.com ([192.55.52.115]:30684 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726393AbfLWDBx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 22 Dec 2019 22:01:53 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Dec 2019 19:01:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,346,1571727600"; 
+   d="scan'208";a="417121170"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.136]) ([10.239.159.136])
+  by fmsmga005.fm.intel.com with ESMTP; 22 Dec 2019 19:01:43 -0800
+Cc:     baolu.lu@linux.intel.com,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        Julien Grall <julien.grall@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org
+Subject: Re: [PATCH 1/8] iommu/vt-d: clean up 32bit si_domain assignment
+To:     Tom Murphy <murphyt7@tcd.ie>, iommu@lists.linux-foundation.org
+References: <20191221150402.13868-1-murphyt7@tcd.ie>
+ <20191221150402.13868-2-murphyt7@tcd.ie>
+From:   Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <e569e246-11a1-e8bd-9347-310284e96885@linux.intel.com>
+Date:   Mon, 23 Dec 2019 11:00:47 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <1576880825-15010-19-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191221150402.13868-2-murphyt7@tcd.ie>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-21.12.2019 01:27, Sowjanya Komatineni пишет:
-> clk_out_2 is one of the clocks from Tegra PMC block and Tegra PMC
-> clocks are moved from clock driver to pmc driver with pmc as clock
-> provider and using pmc clock ids.
-> 
-> This patch changes clk_out_2 provider to pmc and uses corresponding
-> pmc clock id for clk_out_2.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  arch/arm64/boot/dts/nvidia/tegra210-smaug.dts | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-> index 72c7a04ac1df..2faab6390552 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-> +++ b/arch/arm64/boot/dts/nvidia/tegra210-smaug.dts
-> @@ -1592,7 +1592,7 @@
->  			reg = <0x1a>;
->  			interrupt-parent = <&gpio>;
->  			interrupts = <TEGRA_GPIO(E, 6) IRQ_TYPE_LEVEL_LOW>;
-> -			clocks = <&tegra_car TEGRA210_CLK_CLK_OUT_2>;
-> +			clocks = <&tegra_pmc TEGRA_PMC_CLK_OUT_2>;
->  			clock-names = "mclk";
->  
->  			nuvoton,jkdet-enable;
-> 
+Hi,
 
-Isn't "assigned-clocks" needed here?
+On 12/21/19 11:03 PM, Tom Murphy wrote:
+> @@ -5618,9 +5583,13 @@ static int intel_iommu_add_device(struct device *dev)
+>   	struct iommu_domain *domain;
+>   	struct intel_iommu *iommu;
+>   	struct iommu_group *group;
+> +	u64 dma_mask = *dev->dma_mask;
+>   	u8 bus, devfn;
+>   	int ret;
+>   
+> +	if (dev->coherent_dma_mask && dev->coherent_dma_mask < dma_mask)
+> +		dma_mask = dev->coherent_dma_mask;
+> +
+>   	iommu = device_to_iommu(dev, &bus, &devfn);
+>   	if (!iommu)
+>   		return -ENODEV;
+> @@ -5640,7 +5609,12 @@ static int intel_iommu_add_device(struct device *dev)
+>   	domain = iommu_get_domain_for_dev(dev);
+>   	dmar_domain = to_dmar_domain(domain);
+>   	if (domain->type == IOMMU_DOMAIN_DMA) {
+> -		if (device_def_domain_type(dev) == IOMMU_DOMAIN_IDENTITY) {
+> +		/*
+> +		 * We check dma_mask >= dma_get_required_mask(dev) because
+> +		 * 32 bit DMA falls back to non-identity mapping.
+> +		 */
+> +		if (device_def_domain_type(dev) == IOMMU_DOMAIN_IDENTITY &&
+> +				dma_mask >= dma_get_required_mask(dev)) {
+>   			ret = iommu_request_dm_for_dev(dev);
+>   			if (ret) {
+>   				dmar_remove_one_dev_info(dev);
+
+dev->dma_mask is set to 32bit by default. During loading driver, it sets
+the real dma_mask with dma_set_mask() according to the real capability.
+Here you will always see 32bit dma_mask for each device.
+
+Best regards,
+baolu
