@@ -2,102 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4663C1295A5
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Dec 2019 12:44:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 794841297BA
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Dec 2019 15:53:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726763AbfLWLoj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Dec 2019 06:44:39 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:47076 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726257AbfLWLoj (ORCPT
+        id S1726829AbfLWOxP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Dec 2019 09:53:15 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:38042 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726682AbfLWOxP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Dec 2019 06:44:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1577101475; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uVdlO9cJhU3uZR9PsalU+9sk35dl6Zqn8751jyDz6hE=;
-        b=jX9LJcjWIqPnnuyZly5BdZOoj2/inQqbVjiES4HFwhniV6JNaGO+ALAE433xhQmOf7hoHr
-        74R9G8HAr3LeKzr0sbxjFJVOggyg28MPxpD0DHH9YfttM3lvpC+gmVq6n3+Ac/2Iy0eHBk
-        VXMTWUiAs8EHGfFQgFmRp6lvylZSZUE=
-Date:   Mon, 23 Dec 2019 12:44:26 +0100
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 2/9] memory: jz4780_nemc: convert to
- devm_platform_ioremap_resource
-To:     Yangtao Li <tiny.windzz@gmail.com>
-Cc:     ssantosh@kernel.org, matthias.bgg@gmail.com, rogerq@ti.com,
-        tony@atomide.com, lukasz.luba@arm.com, kgene@kernel.org,
-        krzk@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
-        allison@lohutok.net, tglx@linutronix.de, yong.wu@mediatek.com,
-        jroedel@suse.de, evgreen@chromium.org, rfontana@redhat.com,
-        digetx@gmail.com, pdeschrijver@nvidia.com, john@phrozen.org,
-        alexios.zavras@intel.com, sboyd@kernel.org,
-        kstewart@linuxfoundation.org, info@metux.net,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Message-Id: <1577101466.3.0@crapouillou.net>
-In-Reply-To: <20191222185034.4665-2-tiny.windzz@gmail.com>
-References: <20191222185034.4665-1-tiny.windzz@gmail.com>
-        <20191222185034.4665-2-tiny.windzz@gmail.com>
+        Mon, 23 Dec 2019 09:53:15 -0500
+Received: by mail-pj1-f68.google.com with SMTP id l35so7603289pje.3;
+        Mon, 23 Dec 2019 06:53:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=3HYYz4nX1W0aJ3i8Yqd286kyh4DuRONRoG/BRh5FLZM=;
+        b=FBDmb6akcXnRiy4gGu86k3JBWheD7EF8ZJShoGDQKnd3gH9eVeNeCLS+juVOdYYUeg
+         ekcNjKvoqGR/iKqvpVI5Ba8BIJBqBQETnGcgBo/+I7yrkgJSbAZwDcLnGRRBCNA8DXJJ
+         YfuTY+j/6oYNlDceqx4BTi7rf8PQZcqeUKu0jbhhAFiF1QaqXwp72vLZ145sZ46vO6et
+         5Pnini8/3ndy41lpqZuJFA8M8drxuawVrfQ5xAfOfO5m+9YVnyDROoTsjXH8zmWzS5oI
+         PgxXThJ8xlzK9gCPE0i+YP1I4ZPgXqgd4e49VJuJhtQSus03DHvOUVFML/6gImeLZlOv
+         GgXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=3HYYz4nX1W0aJ3i8Yqd286kyh4DuRONRoG/BRh5FLZM=;
+        b=eb+sKqrByP9qFsTgyJ4HtFq/KKvqgOFOMC0CwFZBCIJhVoWKrEi7XhyFaWBAdep1JT
+         tINJqx406dFO0REo72VqWoQyskzer6imKSR+P7QI8y3rfLQuhdNUyG6v3lbSbBseg3O9
+         DT+ni3NBt3gx3DwaXcHgej79azBuqzSKpmJy5FEnHHyPsbBfdG1P50FVZMhVgMsaAeTf
+         Q/6UnmGtl7GZgLguCmbkGtF0pGMW06gJgmerySZ5mBTk77Pop3cOHCWuJmpEwGgmSMOf
+         LUm7f3HOWnKEjLQcOahVqWnlRdD5UMIzyqQ8U0C82jntMdsCUS80qZ1GlcgRXiYhqNFv
+         zc7w==
+X-Gm-Message-State: APjAAAWIWQ9Elxrz+H2uUOdgTVwJs88HrAn36FxbXESvcZGJdmIJhSD1
+        K/iGW5sMrokd3NecWVGORcQ=
+X-Google-Smtp-Source: APXvYqxcDbt12KSYdO549nYw+DSqKGA6Tdn3bVL7y1mSg9juQo+yboExHfaY7Nv7BuzAG8wiOUqI7w==
+X-Received: by 2002:a17:902:8d8c:: with SMTP id v12mr9725188plo.336.1577112794685;
+        Mon, 23 Dec 2019 06:53:14 -0800 (PST)
+Received: from localhost (64.64.229.47.16clouds.com. [64.64.229.47])
+        by smtp.gmail.com with ESMTPSA id 100sm20590383pjo.17.2019.12.23.06.53.13
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 23 Dec 2019 06:53:14 -0800 (PST)
+Date:   Mon, 23 Dec 2019 22:53:11 +0800
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Felipe Balbi <balbi@kernel.org>, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 08/10] usb: phy: tegra: Use u32 for hardware register
+ variables
+Message-ID: <20191223145311.GA9183@nuc8i5>
+References: <20191220015238.9228-1-digetx@gmail.com>
+ <20191220015238.9228-9-digetx@gmail.com>
+ <20191222132227.GA7096@nuc8i5>
+ <6c0fbeb2-3db2-f331-fc0a-a900241a32f5@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6c0fbeb2-3db2-f331-fc0a-a900241a32f5@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
+On Mon, Dec 23, 2019 at 12:48:09AM +0300, Dmitry Osipenko wrote:
+> 22.12.2019 16:24, Dejin Zheng пишет:
+> > On Fri, Dec 20, 2019 at 04:52:36AM +0300, Dmitry Osipenko wrote:
+> >> There is a mix of u32/ULONG usage in the driver's code. Let's switch to
+> >> u32 uniformly, for consistency.
+> >>
+> >> Suggested-by: Thierry Reding <thierry.reding@gmail.com>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  drivers/usb/phy/phy-tegra-usb.c | 28 +++++++++++++++-------------
+> >>  1 file changed, 15 insertions(+), 13 deletions(-)
+> >>
+> >> diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
+> >> index d5739b6e0b6c..551c94e3877a 100644
+> >> --- a/drivers/usb/phy/phy-tegra-usb.c
+> >> +++ b/drivers/usb/phy/phy-tegra-usb.c
+> >> @@ -202,7 +202,7 @@ static inline struct tegra_usb_phy *to_tegra_usb_phy(struct usb_phy *u_phy)
+> >>  static void set_pts(struct tegra_usb_phy *phy, u8 pts_val)
+> >>  {
+> >>  	void __iomem *base = phy->regs;
+> >> -	unsigned long val;
+> >> +	u32 val;
+> >>  
+> >>  	if (phy->soc_config->has_hostpc) {
+> >>  		val = readl_relaxed(base + TEGRA_USB_HOSTPC1_DEVLC);
+> >> @@ -221,7 +221,7 @@ static void set_pts(struct tegra_usb_phy *phy, u8 pts_val)
+> >>  static void set_phcd(struct tegra_usb_phy *phy, bool enable)
+> >>  {
+> >>  	void __iomem *base = phy->regs;
+> >> -	unsigned long val;
+> >> +	u32 val;
+> >>  
+> >>  	if (phy->soc_config->has_hostpc) {
+> >>  		val = readl_relaxed(base + TEGRA_USB_HOSTPC1_DEVLC);
+> >> @@ -320,7 +320,8 @@ static int utmip_pad_power_on(struct tegra_usb_phy *phy)
+> >>  {
+> >>  	struct tegra_utmip_config *config = phy->config;
+> >>  	void __iomem *base = phy->pad_regs;
+> >> -	unsigned long val, flags;
+> >> +	unsigned long flags;
+> >> +	u32 val;
+> > Why are you still using unsigned long here?
+> 
+> Please take a look at [1][2], the types are matching callees.
+> 
+> [1]
+> https://elixir.bootlin.com/linux/v5.5-rc2/source/include/linux/spinlock.h#L249
+> 
+> [2]
+> https://elixir.bootlin.com/linux/v5.5-rc2/source/include/asm-generic/io.h#L297
 
+Okay, thanks for your explanation.
 
-Le dim., d=E9c. 22, 2019 at 18:50, Yangtao Li <tiny.windzz@gmail.com> a=20
-=E9crit :
-> Use devm_platform_ioremap_resource() to simplify code.
->=20
-> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
-
-Acked-by: Paul Cercueil <paul@crapouillou.net>
-
-Cheers,
--Paul
-
-
-> ---
->  drivers/memory/jz4780-nemc.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/drivers/memory/jz4780-nemc.c=20
-> b/drivers/memory/jz4780-nemc.c
-> index b232ed279fc3..857a9fa5cba5 100644
-> --- a/drivers/memory/jz4780-nemc.c
-> +++ b/drivers/memory/jz4780-nemc.c
-> @@ -269,7 +269,6 @@ static int jz4780_nemc_probe(struct=20
-> platform_device *pdev)
->  {
->  	struct device *dev =3D &pdev->dev;
->  	struct jz4780_nemc *nemc;
-> -	struct resource *res;
->  	struct device_node *child;
->  	const __be32 *prop;
->  	unsigned int bank;
-> @@ -287,8 +286,7 @@ static int jz4780_nemc_probe(struct=20
-> platform_device *pdev)
->  	spin_lock_init(&nemc->lock);
->  	nemc->dev =3D dev;
->=20
-> -	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	nemc->base =3D devm_ioremap_resource(dev, res);
-> +	nemc->base =3D devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(nemc->base)) {
->  		dev_err(dev, "failed to get I/O memory\n");
->  		return PTR_ERR(nemc->base);
-> --
-> 2.17.1
->=20
-
-=
-
+Dejin
