@@ -2,131 +2,335 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 794841297BA
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Dec 2019 15:53:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33C8B1297CC
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Dec 2019 16:06:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbfLWOxP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Dec 2019 09:53:15 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:38042 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726682AbfLWOxP (ORCPT
+        id S1726795AbfLWPGt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 23 Dec 2019 10:06:49 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45581 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726754AbfLWPGt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Dec 2019 09:53:15 -0500
-Received: by mail-pj1-f68.google.com with SMTP id l35so7603289pje.3;
-        Mon, 23 Dec 2019 06:53:15 -0800 (PST)
+        Mon, 23 Dec 2019 10:06:49 -0500
+Received: by mail-lj1-f193.google.com with SMTP id j26so18025024ljc.12
+        for <linux-tegra@vger.kernel.org>; Mon, 23 Dec 2019 07:06:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=3HYYz4nX1W0aJ3i8Yqd286kyh4DuRONRoG/BRh5FLZM=;
-        b=FBDmb6akcXnRiy4gGu86k3JBWheD7EF8ZJShoGDQKnd3gH9eVeNeCLS+juVOdYYUeg
-         ekcNjKvoqGR/iKqvpVI5Ba8BIJBqBQETnGcgBo/+I7yrkgJSbAZwDcLnGRRBCNA8DXJJ
-         YfuTY+j/6oYNlDceqx4BTi7rf8PQZcqeUKu0jbhhAFiF1QaqXwp72vLZ145sZ46vO6et
-         5Pnini8/3ndy41lpqZuJFA8M8drxuawVrfQ5xAfOfO5m+9YVnyDROoTsjXH8zmWzS5oI
-         PgxXThJ8xlzK9gCPE0i+YP1I4ZPgXqgd4e49VJuJhtQSus03DHvOUVFML/6gImeLZlOv
-         GgXw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=561jc1as+VnKZVkOhmcoUHiB9jWfk4AuCcSrAG+PGGU=;
+        b=W0kJn3cDbCRhKeDbX90oATvWBLYAssjyCbDHtB+neyFevESwB/ZcfslR2K7HdQNeqc
+         DOWlUbGVBU0YDI6UpBhCha+7sP6amrTfMYQGIx9ILmFtDA5iws0FrJRWFTlNF+NLYPc4
+         V83lBnsfdW00tyWA9YUm6dGlgiRuyksE+dHW0wVNz5caVr6SjKmNo58lOaul70gCpiD1
+         4lQ38LdGC5vRbFMAZeRUl2ZYhU4dwFyw4uHE/N3yH+Gd2hwO678kvaCIBqLEcRZ8xZ2x
+         yf0zi7W0PcJtX4BEyrPvG/7MEBnYlztHfquQJonvTYoRI6j3r7cqU4gxXSCEw7YAAdoO
+         qsWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=3HYYz4nX1W0aJ3i8Yqd286kyh4DuRONRoG/BRh5FLZM=;
-        b=eb+sKqrByP9qFsTgyJ4HtFq/KKvqgOFOMC0CwFZBCIJhVoWKrEi7XhyFaWBAdep1JT
-         tINJqx406dFO0REo72VqWoQyskzer6imKSR+P7QI8y3rfLQuhdNUyG6v3lbSbBseg3O9
-         DT+ni3NBt3gx3DwaXcHgej79azBuqzSKpmJy5FEnHHyPsbBfdG1P50FVZMhVgMsaAeTf
-         Q/6UnmGtl7GZgLguCmbkGtF0pGMW06gJgmerySZ5mBTk77Pop3cOHCWuJmpEwGgmSMOf
-         LUm7f3HOWnKEjLQcOahVqWnlRdD5UMIzyqQ8U0C82jntMdsCUS80qZ1GlcgRXiYhqNFv
-         zc7w==
-X-Gm-Message-State: APjAAAWIWQ9Elxrz+H2uUOdgTVwJs88HrAn36FxbXESvcZGJdmIJhSD1
-        K/iGW5sMrokd3NecWVGORcQ=
-X-Google-Smtp-Source: APXvYqxcDbt12KSYdO549nYw+DSqKGA6Tdn3bVL7y1mSg9juQo+yboExHfaY7Nv7BuzAG8wiOUqI7w==
-X-Received: by 2002:a17:902:8d8c:: with SMTP id v12mr9725188plo.336.1577112794685;
-        Mon, 23 Dec 2019 06:53:14 -0800 (PST)
-Received: from localhost (64.64.229.47.16clouds.com. [64.64.229.47])
-        by smtp.gmail.com with ESMTPSA id 100sm20590383pjo.17.2019.12.23.06.53.13
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 23 Dec 2019 06:53:14 -0800 (PST)
-Date:   Mon, 23 Dec 2019 22:53:11 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Felipe Balbi <balbi@kernel.org>, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/10] usb: phy: tegra: Use u32 for hardware register
- variables
-Message-ID: <20191223145311.GA9183@nuc8i5>
-References: <20191220015238.9228-1-digetx@gmail.com>
- <20191220015238.9228-9-digetx@gmail.com>
- <20191222132227.GA7096@nuc8i5>
- <6c0fbeb2-3db2-f331-fc0a-a900241a32f5@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=561jc1as+VnKZVkOhmcoUHiB9jWfk4AuCcSrAG+PGGU=;
+        b=ZCJfYi2StNGfNmNhjykDXjxQVSheGAzboodLVah2/hVFONzuouJkhxRlUC+M4oPXCD
+         VTTSjP2fxNMjUDCZQVa9puhgz2sP9H5yJ4q6zGiM8awYtmqhqtAhM5wBdHubDu1kGkIJ
+         naFrmRo2kdbORCf3v5bvETjjuf32FRLHO3RrOlYsnhN4s6sr3RUL6krwjscIm3CqUTr1
+         wINIqZSXeb450GOlfs0IH43dxsxhrd53+H1kMEUuywGF1SeBx7Lv31c4Sj47WKK0HWF9
+         7NFzD92kLcHUlUEpym272kIxC24CPqJlF+7l7wp8id22fjmnvQoxBX5ACgT2a9ReZUbA
+         OsOQ==
+X-Gm-Message-State: APjAAAVLQcqDGVcwYBYF8ronesav1TK+iWSSj2qQW2nyot7LjK3rkPO/
+        CDsfpvJzazwR0n30iBQ4e3wAlUgL
+X-Google-Smtp-Source: APXvYqz6HA/AcEHFtwQFpKtYMvQM80r+ignGjS5sfr9DmjqURMxL7ginZ4BVhM9f3anzuHrx/Q0J2g==
+X-Received: by 2002:a2e:800b:: with SMTP id j11mr16691412ljg.126.1577113605853;
+        Mon, 23 Dec 2019 07:06:45 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id t13sm5520215ljk.78.2019.12.23.07.06.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Dec 2019 07:06:45 -0800 (PST)
+Subject: Re: [PATCH 1/2] memory: tegra: Implement EMC debugfs interface on
+ Tegra20
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
+References: <20191222114033.1469622-1-thierry.reding@gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <c97f352f-3299-0a8b-8262-16ee80413c48@gmail.com>
+Date:   Mon, 23 Dec 2019 18:06:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <20191222114033.1469622-1-thierry.reding@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6c0fbeb2-3db2-f331-fc0a-a900241a32f5@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Dec 23, 2019 at 12:48:09AM +0300, Dmitry Osipenko wrote:
-> 22.12.2019 16:24, Dejin Zheng пишет:
-> > On Fri, Dec 20, 2019 at 04:52:36AM +0300, Dmitry Osipenko wrote:
-> >> There is a mix of u32/ULONG usage in the driver's code. Let's switch to
-> >> u32 uniformly, for consistency.
-> >>
-> >> Suggested-by: Thierry Reding <thierry.reding@gmail.com>
-> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >> ---
-> >>  drivers/usb/phy/phy-tegra-usb.c | 28 +++++++++++++++-------------
-> >>  1 file changed, 15 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
-> >> index d5739b6e0b6c..551c94e3877a 100644
-> >> --- a/drivers/usb/phy/phy-tegra-usb.c
-> >> +++ b/drivers/usb/phy/phy-tegra-usb.c
-> >> @@ -202,7 +202,7 @@ static inline struct tegra_usb_phy *to_tegra_usb_phy(struct usb_phy *u_phy)
-> >>  static void set_pts(struct tegra_usb_phy *phy, u8 pts_val)
-> >>  {
-> >>  	void __iomem *base = phy->regs;
-> >> -	unsigned long val;
-> >> +	u32 val;
-> >>  
-> >>  	if (phy->soc_config->has_hostpc) {
-> >>  		val = readl_relaxed(base + TEGRA_USB_HOSTPC1_DEVLC);
-> >> @@ -221,7 +221,7 @@ static void set_pts(struct tegra_usb_phy *phy, u8 pts_val)
-> >>  static void set_phcd(struct tegra_usb_phy *phy, bool enable)
-> >>  {
-> >>  	void __iomem *base = phy->regs;
-> >> -	unsigned long val;
-> >> +	u32 val;
-> >>  
-> >>  	if (phy->soc_config->has_hostpc) {
-> >>  		val = readl_relaxed(base + TEGRA_USB_HOSTPC1_DEVLC);
-> >> @@ -320,7 +320,8 @@ static int utmip_pad_power_on(struct tegra_usb_phy *phy)
-> >>  {
-> >>  	struct tegra_utmip_config *config = phy->config;
-> >>  	void __iomem *base = phy->pad_regs;
-> >> -	unsigned long val, flags;
-> >> +	unsigned long flags;
-> >> +	u32 val;
-> > Why are you still using unsigned long here?
-> 
-> Please take a look at [1][2], the types are matching callees.
-> 
-> [1]
-> https://elixir.bootlin.com/linux/v5.5-rc2/source/include/linux/spinlock.h#L249
-> 
-> [2]
-> https://elixir.bootlin.com/linux/v5.5-rc2/source/include/asm-generic/io.h#L297
 
-Okay, thanks for your explanation.
+Hello Thierry,
 
-Dejin
+22.12.2019 14:40, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> A common debugfs interface is already available on Tegra124, Tegra186
+> and Tegra194. Implement the same interface on Tegra20 to enable testing
+> of the EMC frequency scaling code using a unified interface.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/memory/tegra/tegra20-emc.c | 175 +++++++++++++++++++++++++++++
+>  1 file changed, 175 insertions(+)
+> 
+> diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
+> index 1b23b1c34476..8ae474d9bfb9 100644
+> --- a/drivers/memory/tegra/tegra20-emc.c
+> +++ b/drivers/memory/tegra/tegra20-emc.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/clk.h>
+>  #include <linux/clk/tegra.h>
+>  #include <linux/completion.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/err.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+> @@ -150,6 +151,12 @@ struct tegra_emc {
+>  
+>  	struct emc_timing *timings;
+>  	unsigned int num_timings;
+> +
+> +	struct {
+> +		struct dentry *root;
+> +		unsigned long min_rate;
+> +		unsigned long max_rate;
+> +	} debugfs;
+>  };
+>  
+>  static irqreturn_t tegra_emc_isr(int irq, void *data)
+> @@ -478,6 +485,171 @@ static long emc_round_rate(unsigned long rate,
+>  	return timing->rate;
+>  }
+>  
+> +/*
+> + * debugfs interface
+> + *
+> + * The memory controller driver exposes some files in debugfs that can be used
+> + * to control the EMC frequency. The top-level directory can be found here:
+> + *
+> + *   /sys/kernel/debug/emc
+> + *
+> + * It contains the following files:
+> + *
+> + *   - available_rates: This file contains a list of valid, space-separated
+> + *     EMC frequencies.
+> + *
+> + *   - min_rate: Writing a value to this file sets the given frequency as the
+> + *       floor of the permitted range. If this is higher than the currently
+> + *       configured EMC frequency, this will cause the frequency to be
+> + *       increased so that it stays within the valid range.
+> + *
+> + *   - max_rate: Similarily to the min_rate file, writing a value to this file
+> + *       sets the given frequency as the ceiling of the permitted range. If
+> + *       the value is lower than the currently configured EMC frequency, this
+> + *       will cause the frequency to be decreased so that it stays within the
+> + *       valid range.
+> + */
+> +
+> +static bool tegra_emc_validate_rate(struct tegra_emc *emc, unsigned long rate)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < emc->num_timings; i++)
+> +		if (rate == emc->timings[i].rate)
+> +			return true;
+> +
+> +	return false;
+> +}
+> +
+> +static int tegra_emc_debug_available_rates_show(struct seq_file *s, void *data)
+> +{
+> +	struct tegra_emc *emc = s->private;
+> +	const char *prefix = "";
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < emc->num_timings; i++) {
+> +		seq_printf(s, "%s%lu", prefix, emc->timings[i].rate);
+> +		prefix = " ";
+> +	}
+> +
+> +	seq_puts(s, "\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int tegra_emc_debug_available_rates_open(struct inode *inode,
+> +						struct file *file)
+> +{
+> +	return single_open(file, tegra_emc_debug_available_rates_show,
+> +			   inode->i_private);
+> +}
+> +
+> +static const struct file_operations tegra_emc_debug_available_rates_fops = {
+> +	.open = tegra_emc_debug_available_rates_open,
+> +	.read = seq_read,
+> +	.llseek = seq_lseek,
+> +	.release = single_release,
+> +};
+> +
+> +static int tegra_emc_debug_min_rate_get(void *data, u64 *rate)
+> +{
+> +	struct tegra_emc *emc = data;
+> +
+> +	*rate = emc->debugfs.min_rate;
+> +
+> +	return 0;
+> +}
+> +
+> +static int tegra_emc_debug_min_rate_set(void *data, u64 rate)
+> +{
+> +	struct tegra_emc *emc = data;
+> +	int err;
+> +
+> +	if (!tegra_emc_validate_rate(emc, rate))
+> +		return -EINVAL;
+> +
+> +	err = clk_set_min_rate(emc->clk, rate);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	emc->debugfs.min_rate = rate;
+> +
+> +	return 0;
+> +}
+> +
+> +DEFINE_SIMPLE_ATTRIBUTE(tegra_emc_debug_min_rate_fops,
+> +			tegra_emc_debug_min_rate_get,
+> +			tegra_emc_debug_min_rate_set, "%llu\n");
+> +
+> +static int tegra_emc_debug_max_rate_get(void *data, u64 *rate)
+> +{
+> +	struct tegra_emc *emc = data;
+> +
+> +	*rate = emc->debugfs.max_rate;
+> +
+> +	return 0;
+> +}
+> +
+> +static int tegra_emc_debug_max_rate_set(void *data, u64 rate)
+> +{
+> +	struct tegra_emc *emc = data;
+> +	int err;
+> +
+> +	if (!tegra_emc_validate_rate(emc, rate))
+> +		return -EINVAL;
+> +
+> +	err = clk_set_max_rate(emc->clk, rate);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	emc->debugfs.max_rate = rate;
+> +
+> +	return 0;
+> +}
+> +
+> +DEFINE_SIMPLE_ATTRIBUTE(tegra_emc_debug_max_rate_fops,
+> +			tegra_emc_debug_max_rate_get,
+> +			tegra_emc_debug_max_rate_set, "%llu\n");
+> +
+> +static void tegra_emc_debugfs_init(struct tegra_emc *emc)
+> +{
+> +	struct device *dev = emc->dev;
+> +	unsigned int i;
+> +	int err;
+> +
+> +	emc->debugfs.min_rate = ULONG_MAX;
+> +	emc->debugfs.max_rate = 0;
+> +
+> +	for (i = 0; i < emc->num_timings; i++) {
+> +		if (emc->timings[i].rate < emc->debugfs.min_rate)
+> +			emc->debugfs.min_rate = emc->timings[i].rate;
+> +
+> +		if (emc->timings[i].rate > emc->debugfs.max_rate)
+> +			emc->debugfs.max_rate = emc->timings[i].rate;
+> +	}
+> +
+> +	err = clk_set_rate_range(emc->clk, emc->debugfs.min_rate,
+> +				 emc->debugfs.max_rate);
+> +	if (err < 0) {
+> +		dev_err(dev, "failed to set rate range [%lu-%lu] for %pC\n",
+> +			emc->debugfs.min_rate, emc->debugfs.max_rate,
+> +			emc->clk);
+> +	}
+> +
+> +	emc->debugfs.root = debugfs_create_dir("emc", NULL);
+
+What about "tegra-emc"?
+
+> +	if (!emc->debugfs.root) {
+> +		dev_err(emc->dev, "failed to create debugfs directory\n");
+> +		return;
+> +	}
+> +
+> +	debugfs_create_file("available_rates", S_IRUGO, emc->debugfs.root,
+> +			    emc, &tegra_emc_debug_available_rates_fops);
+> +	debugfs_create_file("min_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
+> +			    emc, &tegra_emc_debug_min_rate_fops);
+> +	debugfs_create_file("max_rate", S_IRUGO | S_IWUSR, emc->debugfs.root,
+> +			    emc, &tegra_emc_debug_max_rate_fops);
+> +}
+> +
+>  static int tegra_emc_probe(struct platform_device *pdev)
+>  {
+>  	struct device_node *np;
+> @@ -550,6 +722,9 @@ static int tegra_emc_probe(struct platform_device *pdev)
+>  		goto unset_cb;
+>  	}
+>  
+> +	platform_set_drvdata(pdev, emc);
+> +	tegra_emc_debugfs_init(emc);
+> +
+>  	return 0;
+>  
+>  unset_cb:
+> 
+
+In general this looks good to me, but maybe there is a bit too much of
+the code duplication here for 3 drivers?
+
+Perhaps it all could be factored out into a common debug.c, something like:
+
+debug.c:
+--------
+
+static struct tegra_emc_debug {
+		struct clk *clk;
+		struct dentry *root;
+		unsigned int num_rates;
+		unsigned long rates[];
+} *emc_dbg;
+
+int tegra_emc_register_debugfs(struct device *dev,
+			       struct clk *clk,
+			       unsigned int num_rates,
+			       unsigned long *rates,
+			       size_t emc_timing_size)
+{
+	...
+	emc_dbg_size = struct_size(emc_dbg, rates, num_rates);
+	emc_dbg = devm_kcalloc(dev, emc_dbg_size);
+	...
+
+	for (i = 0; i < num_rates; i++) {
+		emc_dbg->rates[i] = rates[i];
+		rates = (void*)rates + emc_timing_size;
+	}
+
+	emc_dbg->num_rates = i;
+
+	...
+}
+
+emc-driver.c:
+-------------
+
+tegra_emc_register_debugfs(emc->dev, emc->clk, emc->num_timings,
+			   &emc->timings[0].rate, sizeof(*emc->timings));
