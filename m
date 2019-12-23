@@ -2,95 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FA2612928C
-	for <lists+linux-tegra@lfdr.de>; Mon, 23 Dec 2019 08:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E5F3129451
+	for <lists+linux-tegra@lfdr.de>; Mon, 23 Dec 2019 11:38:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725912AbfLWHxP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 23 Dec 2019 02:53:15 -0500
-Received: from mail2.skidata.com ([91.230.2.91]:62533 "EHLO mail2.skidata.com"
+        id S1726766AbfLWKiC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Mon, 23 Dec 2019 05:38:02 -0500
+Received: from mga04.intel.com ([192.55.52.120]:59708 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725810AbfLWHxP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 23 Dec 2019 02:53:15 -0500
-X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Mon, 23 Dec 2019 02:53:13 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-  t=1577087595; x=1608623595;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=gkBIp1DHlnurKEshixvjjdnqm0eb66u2RGY3CwCCMXw=;
-  b=NB6T6jGIspIkz+OObZFGj1htej0leCYqIFC27zhpiYofqPz8dEhcTmby
-   BTgyre1yyY7y3nLAQD9hD5ot4wOADeyNgeKDm6I/qzeDHN25qRuCSOmu8
-   Wns2Ou0/dbvcrtdd/6fvg+C6SDYdWtlXyDVAgE5WM35dIVL/MGq1gQ0pX
-   4P899sM4H81C+Ui2fGBdXJtXj5Mh7CX+K76CysBKaLMl+txZOparXKx9w
-   TTkiV622QyoAXx0Wgc1A/B/F2kDc/971Q8OK0zsDBkq5zZZYTv9PXBGXJ
-   QYVf/qaLsk+r/Z9RJpJ90idsQY0rWwvr4Q6LdKPBhw4wQAO1geu6Z1czk
-   g==;
-IronPort-SDR: /Dd/5G8ZixAieCds/iB8OgiPPmpLnPoT53Bshk5N6ryAfgDbGZlf2u6yV15CF34b3zVpGLYLBl
- kRqJZxupg+ms+FYn6TgHkUUocajU0F/VeuCYvJymqvnOwWSbunQq2v3f7IRufVBUHhyfSPqHMj
- zTBNJZjvpRr+minHn9RjqMXUlnLtbsGqiBzMZx+x6EV6fF8X93pQGAxf+LJ5uk0+1A53S0u0ej
- BU5H/qilPHwNCqKWSLGHPRRQ3p6syEnJxQg8PK1qGc/WcT2hqyXTgXqJPpyu79MsXAMcQjEjmW
- X9k=
-X-IronPort-AV: E=Sophos;i="5.69,346,1571695200"; 
-   d="scan'208";a="2469609"
-Subject: Re: [PATCH 1/2] ARM: dts: tegra20: add labels to i2c nodes
-To:     Dmitry Osipenko <digetx@gmail.com>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20191219130431.30458-1-richard.leitner@skidata.com>
- <01ac756c-1e51-5d62-ca45-9e0b4f106a29@gmail.com>
-From:   Richard Leitner <richard.leitner@skidata.com>
-Message-ID: <27d4c933-8117-f38e-d4da-e58326fc6ee4@skidata.com>
-Date:   Mon, 23 Dec 2019 08:46:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726709AbfLWKiC (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 23 Dec 2019 05:38:02 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Dec 2019 02:38:01 -0800
+X-IronPort-AV: E=Sophos;i="5.69,347,1571727600"; 
+   d="scan'208";a="211517217"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Dec 2019 02:37:49 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Tom Murphy <murphyt7@tcd.ie>, iommu@lists.linux-foundation.org
+Cc:     Tom Murphy <murphyt7@tcd.ie>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Julien Grall <julien.grall@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Eric Auger <eric.auger@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org
+Subject: Re: [PATCH 0/8] Convert the intel iommu driver to the dma-iommu api
+In-Reply-To: <20191221150402.13868-1-murphyt7@tcd.ie>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20191221150402.13868-1-murphyt7@tcd.ie>
+Date:   Mon, 23 Dec 2019 12:37:47 +0200
+Message-ID: <87blrzwcn8.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <01ac756c-1e51-5d62-ca45-9e0b4f106a29@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.111.252]
-X-ClientProxiedBy: sdex5srv.skidata.net (192.168.111.83) To
- sdex5srv.skidata.net (192.168.111.83)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi,
-thanks for the reply.
+On Sat, 21 Dec 2019, Tom Murphy <murphyt7@tcd.ie> wrote:
+> This patchset converts the intel iommu driver to the dma-iommu api.
+>
+> While converting the driver I exposed a bug in the intel i915 driver
+> which causes a huge amount of artifacts on the screen of my
+> laptop. You can see a picture of it here:
+> https://github.com/pippy360/kernelPatches/blob/master/IMG_20191219_225922.jpg
+>
+> This issue is most likely in the i915 driver and is most likely caused
+> by the driver not respecting the return value of the
+> dma_map_ops::map_sg function. You can see the driver ignoring the
+> return value here:
+> https://github.com/torvalds/linux/blob/7e0165b2f1a912a06e381e91f0f4e495f4ac3736/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c#L51
+>
+> Previously this didn’t cause issues because the intel map_sg always
+> returned the same number of elements as the input scatter gather list
+> but with the change to this dma-iommu api this is no longer the
+> case. I wasn’t able to track the bug down to a specific line of code
+> unfortunately.
+>
+> Could someone from the intel team look at this?
 
-On 20/12/2019 15:00, Dmitry Osipenko wrote:
-> 19.12.2019 16:04, Richard Leitner пишет:
->> Add numbered labels to the i2c nodes of the Tegra20 SoC so we just need
->> to alias it from derived boards.
->>
->> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
->> ---
->>   arch/arm/boot/dts/tegra20.dtsi | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
+Let me get this straight. There is current API that on success always
+returns the same number of elements as the input scatter gather
+list. You propose to change the API so that this is no longer the case?
 
-...
+A quick check of various dma_map_sg() calls in the kernel seems to
+indicate checking for 0 for errors and then ignoring the non-zero return
+is a common pattern. Are you sure it's okay to make the change you're
+proposing?
 
-> 
-> Hello Richard,
-> 
-> Why derived boards couldn't label nodes by themselves? That's what all
-> derived boards are doing already.
+Anyway, due to the time of year and all, I'd like to ask you to file a
+bug against i915 at [1] so this is not forgotten, and please let's not
+merge the changes before this is resolved.
 
-Of course they can, but IMHO its more useful to have the same labels for
-all derived boards.
 
-> 
-> BTW, upstream should benefit from the submitted changes. This is not a
-> very useful change for upstream if you're not updating the actual DTs of
-> any of the boards in arch/arm/boot/dts/*.
+Thanks,
+Jani.
 
-That's true. I thought of also patching the actual DTs but wasn't sure
-if that should be in the same series...
-Based on your answer I guess it should be.
 
-Therefore I'll send a v2 soon.
+[1] https://gitlab.freedesktop.org/drm/intel/issues/new
 
-Thanks again & regards;richard.l
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
