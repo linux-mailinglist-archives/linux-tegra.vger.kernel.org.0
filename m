@@ -2,113 +2,198 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1DA812A8BB
-	for <lists+linux-tegra@lfdr.de>; Wed, 25 Dec 2019 18:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5011912AA8B
+	for <lists+linux-tegra@lfdr.de>; Thu, 26 Dec 2019 07:42:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbfLYR5u (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 25 Dec 2019 12:57:50 -0500
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:50258 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726353AbfLYR5u (ORCPT
+        id S1726023AbfLZGmj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 26 Dec 2019 01:42:39 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19416 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726001AbfLZGmj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 25 Dec 2019 12:57:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=lwfuEESWR4zX92Iq386iPtYoiE2TFNKpmeIvlfpb3Os=; b=ApchFp7KIms6vjJID9dvLZ2r+
-        PQTXOQ3OE960aPn9u/+AEYhG5LzJsAxA97mGha1rgYrqURa9QEAAH7eh+NOHB2MZv5A7/H4K/k4Ed
-        5kADNv5RtiErBeCzhHvh83uuv3GbqAUlGdvzN1dYcQdVJ3imwsytSCMn80BheYSlj5qg0=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=fitzroy.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1ikAuf-0001kC-72; Wed, 25 Dec 2019 17:57:37 +0000
-Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
-        id 77952D01A24; Wed, 25 Dec 2019 17:57:36 +0000 (GMT)
-Date:   Wed, 25 Dec 2019 17:57:36 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
-        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
-        josephl@nvidia.com, daniel.lezcano@linaro.org,
-        mmaddireddy@nvidia.com, markz@nvidia.com,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 12/19] ASoC: tegra: Add initial parent configuration
- for audio mclk
-Message-ID: <20191225175736.GC27497@sirena.org.uk>
-References: <1576880825-15010-1-git-send-email-skomatineni@nvidia.com>
- <1576880825-15010-13-git-send-email-skomatineni@nvidia.com>
- <a6567ff1-7bc2-3ca5-1200-92a63eb44ddb@gmail.com>
+        Thu, 26 Dec 2019 01:42:39 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e04563a0000>; Wed, 25 Dec 2019 22:42:02 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 25 Dec 2019 22:42:38 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 25 Dec 2019 22:42:38 -0800
+Received: from [10.19.108.118] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 26 Dec
+ 2019 06:42:35 +0000
+Subject: Re: [Patch V2 03/18] phy: tegra: xusb: Add usb-role-switch support
+To:     Nagarjuna Kristam <nkristam@nvidia.com>, <balbi@kernel.org>,
+        <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
+        <robh+dt@kernel.org>, <kishon@ti.com>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1576660591-10383-1-git-send-email-nkristam@nvidia.com>
+ <1576660591-10383-4-git-send-email-nkristam@nvidia.com>
+X-Nvconfidentiality: public
+From:   JC Kuo <jckuo@nvidia.com>
+Message-ID: <3f02b1c8-0d2e-700c-d1f5-80f9655f62e0@nvidia.com>
+Date:   Thu, 26 Dec 2019 14:42:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gr/z0/N6AeWAPJVB"
-Content-Disposition: inline
-In-Reply-To: <a6567ff1-7bc2-3ca5-1200-92a63eb44ddb@gmail.com>
-X-Cookie: I have many CHARTS and DIAGRAMS..
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1576660591-10383-4-git-send-email-nkristam@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1577342522; bh=8xnFB4YS7PELiEfOuFZ0A6K9DQHT0D+MsoMZB8uyNYk=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=DBjhKXY1Oj4BnVHlWjkEoL8wPQjVD8zg0/JNDhANeRkIhoUW6qsFd9e097ej/PqLh
+         7YvM2WV5hvSUaHghPk3joljVB5aMTa9F/Mmt100rA3meJeCaiM5wOKn3rtGwYcLD4y
+         XTZDJjLDFcEBHWLqf1atzIFvIJABtbeOTNHASkPFFZ2IY0CffbzDSwcQE+zRLc7slN
+         o2nmV6GqINjG5TbynKp/k35gWwr7e5fh7wtjQn6U5Ytn318hL1fHmbRaI8HYU81iNn
+         gWvyqmoHOdTPCo8vsMXESgmERqjcL+Bixyj3YdxIa4cYHZmuy1pJaJ3D1xOL0K7tDE
+         ketKwDG1cjSjw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---gr/z0/N6AeWAPJVB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/18/19 5:16 PM, Nagarjuna Kristam wrote:
+> If usb-role-switch property is present in USB 2 port, register
+> usb-role-switch to receive usb role changes.
+> 
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> ---
+> V2:
+>  - Removed dev_set_drvdata for port->dev.
+>  - Added of_platform_depopulate during error handling and driver removal.
+> ---
+>  drivers/phy/tegra/Kconfig |  1 +
+>  drivers/phy/tegra/xusb.c  | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  drivers/phy/tegra/xusb.h  |  3 +++
+>  3 files changed, 46 insertions(+)
+> 
+> diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
+> index f9817c3..df07c4d 100644
+> --- a/drivers/phy/tegra/Kconfig
+> +++ b/drivers/phy/tegra/Kconfig
+> @@ -2,6 +2,7 @@
+>  config PHY_TEGRA_XUSB
+>  	tristate "NVIDIA Tegra XUSB pad controller driver"
+>  	depends on ARCH_TEGRA
+> +	select USB_CONN_GPIO
+>  	help
+>  	  Choose this option if you have an NVIDIA Tegra SoC.
+>  
+> diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
+> index f98ec39..dc00b42 100644
+> --- a/drivers/phy/tegra/xusb.c
+> +++ b/drivers/phy/tegra/xusb.c
+> @@ -523,6 +523,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
+>  	port->dev.type = &tegra_xusb_port_type;
+>  	port->dev.of_node = of_node_get(np);
+>  	port->dev.parent = padctl->dev;
+> +	port->dev.driver = padctl->dev->driver;
+>  
+>  	err = dev_set_name(&port->dev, "%s-%u", name, index);
+>  	if (err < 0)
+> @@ -541,6 +542,10 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
+>  
+>  static void tegra_xusb_port_unregister(struct tegra_xusb_port *port)
+>  {
+> +	if (!IS_ERR_OR_NULL(port->usb_role_sw)) {
+> +		of_platform_depopulate(&port->dev);
+> +		usb_role_switch_unregister(port->usb_role_sw);
+> +	}
+>  	device_unregister(&port->dev);
+>  }
+>  
+> @@ -551,11 +556,42 @@ static const char *const modes[] = {
+>  	[USB_DR_MODE_OTG] = "otg",
+>  };
+>  
+> +static int tegra_xusb_role_sw_set(struct device *dev, enum usb_role role)
+> +{
+> +	dev_dbg(dev, "%s calling notifier for role is %d\n", __func__, role);
+> +
+> +	return 0;
+> +}
+> +
+> +static int tegra_xusb_setup_usb_role_switch(struct tegra_xusb_port *port)
+> +{
+> +	int err = 0;
+> +	struct usb_role_switch_desc role_sx_desc = {
+> +					.set = tegra_xusb_role_sw_set,
+> +					.fwnode = dev_fwnode(&port->dev),
+> +						   };
+> +
+> +	port->usb_role_sw = usb_role_switch_register(&port->dev,
+> +						&role_sx_desc);
+> +	if (IS_ERR(port->usb_role_sw)) {
+> +		err = PTR_ERR(port->usb_role_sw);
+> +		if (err != EPROBE_DEFER)
+> +			dev_err(&port->dev, "Failed to register USB role SW: %d",
+> +				err);
+> +	}
+> +
+> +	/* populate connector entry */
+> +	of_platform_populate(port->dev.of_node, NULL, NULL, &port->dev);
+> +
+> +	return err;
+> +}
+> +
+>  static int tegra_xusb_usb2_port_parse_dt(struct tegra_xusb_usb2_port *usb2)
+>  {
+>  	struct tegra_xusb_port *port = &usb2->base;
+>  	struct device_node *np = port->dev.of_node;
+>  	const char *mode;
+> +	int err;
+>  
+>  	usb2->internal = of_property_read_bool(np, "nvidia,internal");
+>  
+> @@ -572,6 +608,12 @@ static int tegra_xusb_usb2_port_parse_dt(struct tegra_xusb_usb2_port *usb2)
+>  		usb2->mode = USB_DR_MODE_HOST;
+>  	}
+>  
+"usb-role-switch" is not required for host mode port. If a otg or a peripheral
+port doesn't have "usb-role-switch" property, .probe() should abort.
 
-On Mon, Dec 23, 2019 at 12:14:34AM +0300, Dmitry Osipenko wrote:
-> 21.12.2019 01:26, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > Tegra PMC clock clk_out_1 is dedicated for audio mclk from Tegra30
-> > through Tegra210 and currently Tegra clock driver does initial parent
-> > configuration for audio mclk "clk_out_1" and enables them by default.
+Thanks,
+JC
 
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
-
-> > -	clk_disable_unprepare(data->clk_cdev1);
-> > -	clk_disable_unprepare(data->clk_pll_a_out0);
-> > -	clk_disable_unprepare(data->clk_pll_a);
-> > +	if (__clk_is_enabled(data->clk_cdev1))
-> > +		clk_disable_unprepare(data->clk_cdev1);
-
-> The root of the problem is that you removed clocks enabling from
-> tegra_asoc_utils_init().
-
-> I'm not sure why clocks should be disabled during the rate-changing,
-> probably this action is not really needed.
-
-I know nothing about this particular device but this is not that
-unusual a restriction for audio hardware, you often can't
-robustly reconfigure the clocking for a device while it's active
-due to issues in the hardware.  You often see issues with FIFOs
-glitching or state machines getting stuck.  This may not be an
-issue here but if it's something that's documented as a
-requirement it's probably good to pay attention.
-
---gr/z0/N6AeWAPJVB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4Dow8ACgkQJNaLcl1U
-h9CI+gf+NTSVmEXknNylmrROVvkijHFJkHpvx7hDJFGvYsu/qNKP8FkbIRWeKkE1
-h1R5yupSd5QDSNRwtOG2Z3ZO5Dv/HYo+FmOIz+XDFNyKI7MU3fr4CkEzwZXcUzKt
-GcGGfzcxYPJ8H7f5tbVvNjRHu+DiDvHEFvShhKUbHk7HJYqCrG6eMCfEDHlEkHU5
-PkAp309INr7VEQSuch/JBXbvvI0glE66kcLH9CrHVdmrqc7hR8DmCm+49lGBOfIM
-Jv1ylQj/Kx52U/zErkRqc9nsAkgJtQVafmwwCFj5SEeJIpCIanlTUXbRFRMkaMBL
-5zpR7FZej7V40gjlWEGR0RaT9x6r5Q==
-=c7E7
------END PGP SIGNATURE-----
-
---gr/z0/N6AeWAPJVB--
+> +	if (of_property_read_bool(np, "usb-role-switch")) {
+> +		err = tegra_xusb_setup_usb_role_switch(port);
+> +		if (err < 0)
+> +			return err;
+> +	}
+> +
+>  	usb2->supply = devm_regulator_get(&port->dev, "vbus");
+>  	return PTR_ERR_OR_ZERO(usb2->supply);
+>  }
+> diff --git a/drivers/phy/tegra/xusb.h b/drivers/phy/tegra/xusb.h
+> index da94fcc..9f27899 100644
+> --- a/drivers/phy/tegra/xusb.h
+> +++ b/drivers/phy/tegra/xusb.h
+> @@ -12,6 +12,7 @@
+>  #include <linux/workqueue.h>
+>  
+>  #include <linux/usb/otg.h>
+> +#include <linux/usb/role.h>
+>  
+>  /* legacy entry points for backwards-compatibility */
+>  int tegra_xusb_padctl_legacy_probe(struct platform_device *pdev);
+> @@ -266,6 +267,8 @@ struct tegra_xusb_port {
+>  	struct list_head list;
+>  	struct device dev;
+>  
+> +	struct usb_role_switch *usb_role_sw;
+> +
+>  	const struct tegra_xusb_port_ops *ops;
+>  };
+>  
+> 
