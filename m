@@ -2,69 +2,160 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E264212B272
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Dec 2019 08:25:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C12C12B458
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Dec 2019 12:52:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726354AbfL0HZi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 27 Dec 2019 02:25:38 -0500
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:31976 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725994AbfL0HZh (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 27 Dec 2019 02:25:37 -0500
-X-UUID: cc95fa33284c46f0bc9ef4dc1262f116-20191227
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Cf2QhICm8jgqgV69uk2tL7NwWEZjvfxdhHJdjjhmiyA=;
-        b=VaAGN2wH6YUGOQ604wyTPzkd0RXIkA5ZHShCGWuj1KhlMdOhaYWkYSRK7HdUI00qxycFDtd7m4ugqOOLy7wTIYC/jm0oiZJQqFhHQWs2uuOjF+sR6XJ+t5i4f3rW1bWEiYJMLVxWvQVIj6c0cr2QSiuH8flNMIUodoeQGRzicIg=;
-X-UUID: cc95fa33284c46f0bc9ef4dc1262f116-20191227
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <yong.wu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1228658762; Fri, 27 Dec 2019 15:25:29 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS32DR.mediatek.inc
- (172.27.6.104) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 27 Dec
- 2019 15:25:14 +0800
-Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 27 Dec 2019 15:25:58 +0800
-Message-ID: <1577431473.32039.14.camel@mhfsdcap03>
-Subject: Re: [PATCH 8/9] memory: mtk-smi: convert to
- devm_platform_ioremap_resource
-From:   Yong Wu <yong.wu@mediatek.com>
-To:     Yangtao Li <tiny.windzz@gmail.com>
-CC:     <ssantosh@kernel.org>, <paul@crapouillou.net>,
-        <matthias.bgg@gmail.com>, <rogerq@ti.com>, <tony@atomide.com>,
-        <lukasz.luba@arm.com>, <kgene@kernel.org>, <krzk@kernel.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <allison@lohutok.net>, <tglx@linutronix.de>, <jroedel@suse.de>,
-        <evgreen@chromium.org>, <rfontana@redhat.com>, <digetx@gmail.com>,
-        <pdeschrijver@nvidia.com>, <john@phrozen.org>,
-        <alexios.zavras@intel.com>, <sboyd@kernel.org>,
-        <kstewart@linuxfoundation.org>, <info@metux.net>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <linux-omap@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>
-Date:   Fri, 27 Dec 2019 15:24:33 +0800
-In-Reply-To: <20191222185034.4665-8-tiny.windzz@gmail.com>
-References: <20191222185034.4665-1-tiny.windzz@gmail.com>
-         <20191222185034.4665-8-tiny.windzz@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        id S1726562AbfL0Lwl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 27 Dec 2019 06:52:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34190 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726354AbfL0Lwl (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 27 Dec 2019 06:52:41 -0500
+Received: from localhost (lfbn-lyo-1-633-204.w90-119.abo.wanadoo.fr [90.119.206.204])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 569B5208C4;
+        Fri, 27 Dec 2019 11:52:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577447560;
+        bh=fpxAuj56PtPkXj1kH4oxVP3nuSYEPKqNh67BNwrzLbU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K6ladlkbq2xNmkwSxOz0zb1jzq/dpn0LveU9V5KElUbc4eaIQUbAq/Llimn2PcVNS
+         djnkcmEGFB7TEMa/wCCIG1zFTkK8gAFpZl3eII6Yf1Wgntu359GOA07TwDBfZulqjE
+         LxMW1yK+5DLJM/CWGWpogwzCRR19OWLP+0sz/C8o=
+Date:   Fri, 27 Dec 2019 12:54:01 +0100
+From:   Maxime Ripard <mripard@kernel.org>
+To:     yu kuai <yukuai3@huawei.com>
+Cc:     tomi.valkeinen@ti.com, airlied@linux.ie, daniel@ffwll.ch,
+        wens@csie.org, jernej.skrabec@siol.net, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-tegra@vger.kernel.org, zhengbin13@huawei.com,
+        yi.zhang@huawei.com
+Subject: Re: [PATCH] drm: replace IS_ERR and PTR_ERR with PTR_ERR_OR_ZERO
+Message-ID: <20191227115401.agumkfuiwexl2wmx@hendrix.home>
+References: <20191225132042.5491-1-yukuai3@huawei.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: CEF061E20910937DED535D5F798BA0EED8E7FC212D9D8E7E72D4D38ACE506EC52000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qekez63uoqkeptq7"
+Content-Disposition: inline
+In-Reply-To: <20191225132042.5491-1-yukuai3@huawei.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-T24gU3VuLCAyMDE5LTEyLTIyIGF0IDE4OjUwICswMDAwLCBZYW5ndGFvIExpIHdyb3RlOg0KPiBV
-c2UgZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKCkgdG8gc2ltcGxpZnkgY29kZS4NCj4g
-DQo+IFNpZ25lZC1vZmYtYnk6IFlhbmd0YW8gTGkgPHRpbnkud2luZHp6QGdtYWlsLmNvbT4NCj4g
-LS0tDQo+ICBkcml2ZXJzL21lbW9yeS9tdGstc21pLmMgfCAxMSArKystLS0tLS0tLQ0KPiAgMSBm
-aWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkNCg0KUmV2aWV3ZWQt
-Ynk6IFlvbmcgV3UgPHlvbmcud3VAbWVkaWF0ZWsuY29tPg0KDQo=
 
+--qekez63uoqkeptq7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, Dec 25, 2019 at 09:20:42PM +0800, yu kuai wrote:
+> no functional change, just to make the code simpler
+>
+> Signed-off-by: yu kuai <yukuai3@huawei.com>
+> ---
+>  drivers/gpu/drm/omapdrm/dss/hdmi4.c         | 5 +----
+>  drivers/gpu/drm/omapdrm/dss/hdmi4_core.c    | 6 ++----
+>  drivers/gpu/drm/omapdrm/dss/hdmi5_core.c    | 4 +---
+>  drivers/gpu/drm/omapdrm/dss/hdmi_phy.c      | 4 +---
+>  drivers/gpu/drm/sun4i/sun4i_dotclock.c      | 4 +---
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c      | 4 +---
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c | 4 +---
+>  drivers/gpu/drm/sun4i/sun8i_hdmi_phy_clk.c  | 5 +----
+>  drivers/gpu/drm/tegra/drm.c                 | 4 +---
+>  drivers/gpu/drm/tegra/gem.c                 | 4 +---
+>  10 files changed, 11 insertions(+), 33 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+> index 0f557fad4513..eb71baedf19e 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+> @@ -587,10 +587,7 @@ static int hdmi_audio_register(struct omap_hdmi *hdmi)
+>  		&hdmi->pdev->dev, "omap-hdmi-audio", PLATFORM_DEVID_AUTO,
+>  		&pdata, sizeof(pdata));
+>
+> -	if (IS_ERR(hdmi->audio_pdev))
+> -		return PTR_ERR(hdmi->audio_pdev);
+> -
+> -	return 0;
+> +	return PTR_ERR_OR_ZERO(hdmi->audio_pdev);
+>  }
+>
+>  /* -----------------------------------------------------------------------------
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
+> index ea5d5c228534..fdd73fb73653 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4_core.c
+> @@ -924,8 +924,6 @@ int hdmi4_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
+>
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
+>  	core->base = devm_ioremap_resource(&pdev->dev, res);
+> -	if (IS_ERR(core->base))
+> -		return PTR_ERR(core->base);
+> -
+> -	return 0;
+> +
+> +	return PTR_ERR_OR_ZERO(core->base);
+>  }
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+> index ff4d35c8771f..30454bc9de78 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+> @@ -908,8 +908,6 @@ int hdmi5_core_init(struct platform_device *pdev, struct hdmi_core_data *core)
+>
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
+>  	core->base = devm_ioremap_resource(&pdev->dev, res);
+> -	if (IS_ERR(core->base))
+> -		return PTR_ERR(core->base);
+>
+> -	return 0;
+> +	return PTR_ERR_OR_ZERO(core->base);
+>  }
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c b/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c
+> index 00bbf24488c1..bbc02d5aa8fb 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi_phy.c
+> @@ -191,8 +191,6 @@ int hdmi_phy_init(struct platform_device *pdev, struct hdmi_phy_data *phy,
+>
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "phy");
+>  	phy->base = devm_ioremap_resource(&pdev->dev, res);
+> -	if (IS_ERR(phy->base))
+> -		return PTR_ERR(phy->base);
+>
+> -	return 0;
+> +	return PTR_ERR_OR_ZERO(phy->base);
+>  }
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_dotclock.c b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
+> index 417ade3d2565..84c04d8192b3 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_dotclock.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
+> @@ -191,10 +191,8 @@ int sun4i_dclk_create(struct device *dev, struct sun4i_tcon *tcon)
+>  	dclk->hw.init = &init;
+>
+>  	tcon->dclk = clk_register(dev, &dclk->hw);
+> -	if (IS_ERR(tcon->dclk))
+> -		return PTR_ERR(tcon->dclk);
+>
+> -	return 0;
+> +	return PTR_ERR_OR_ZERO(tcon->dclk);
+
+This has been submitted a couple of times already. It's harder to
+maintain and not easier to read.
+
+Please remove sun4i from your patch
+
+Maxime
+
+--qekez63uoqkeptq7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXgXw2QAKCRDj7w1vZxhR
+xcC0AP41YnCplFDuwO92c5iWckNOenpr5t0CgtMx4SUZvRwRfAEAofLF2tx6/nNv
+2u5zEYJchT5oj2oyNfSR2wa6CCYaMQM=
+=9hHy
+-----END PGP SIGNATURE-----
+
+--qekez63uoqkeptq7--
