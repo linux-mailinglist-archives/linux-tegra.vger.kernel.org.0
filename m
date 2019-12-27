@@ -2,237 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34D3812B23C
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Dec 2019 08:04:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E264212B272
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Dec 2019 08:25:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726343AbfL0HEG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 27 Dec 2019 02:04:06 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:5297 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbfL0HEG (ORCPT
+        id S1726354AbfL0HZi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 27 Dec 2019 02:25:38 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:31976 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725994AbfL0HZh (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 27 Dec 2019 02:04:06 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e05acd70001>; Thu, 26 Dec 2019 23:03:51 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 26 Dec 2019 23:04:04 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 26 Dec 2019 23:04:04 -0800
-Received: from [10.24.192.96] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 27 Dec
- 2019 07:04:00 +0000
-Subject: Re: [Patch V2 04/18] phy: tegra: xusb: Add usb-phy support
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
-        <robh+dt@kernel.org>, <kishon@ti.com>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1576660591-10383-1-git-send-email-nkristam@nvidia.com>
- <1576660591-10383-5-git-send-email-nkristam@nvidia.com>
- <20191219133707.GK1440537@ulmo>
-X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <e55136cf-db2b-1305-2c21-3d003a0218df@nvidia.com>
-Date:   Fri, 27 Dec 2019 12:36:05 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+        Fri, 27 Dec 2019 02:25:37 -0500
+X-UUID: cc95fa33284c46f0bc9ef4dc1262f116-20191227
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Cf2QhICm8jgqgV69uk2tL7NwWEZjvfxdhHJdjjhmiyA=;
+        b=VaAGN2wH6YUGOQ604wyTPzkd0RXIkA5ZHShCGWuj1KhlMdOhaYWkYSRK7HdUI00qxycFDtd7m4ugqOOLy7wTIYC/jm0oiZJQqFhHQWs2uuOjF+sR6XJ+t5i4f3rW1bWEiYJMLVxWvQVIj6c0cr2QSiuH8flNMIUodoeQGRzicIg=;
+X-UUID: cc95fa33284c46f0bc9ef4dc1262f116-20191227
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <yong.wu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1228658762; Fri, 27 Dec 2019 15:25:29 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS32DR.mediatek.inc
+ (172.27.6.104) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 27 Dec
+ 2019 15:25:14 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 27 Dec 2019 15:25:58 +0800
+Message-ID: <1577431473.32039.14.camel@mhfsdcap03>
+Subject: Re: [PATCH 8/9] memory: mtk-smi: convert to
+ devm_platform_ioremap_resource
+From:   Yong Wu <yong.wu@mediatek.com>
+To:     Yangtao Li <tiny.windzz@gmail.com>
+CC:     <ssantosh@kernel.org>, <paul@crapouillou.net>,
+        <matthias.bgg@gmail.com>, <rogerq@ti.com>, <tony@atomide.com>,
+        <lukasz.luba@arm.com>, <kgene@kernel.org>, <krzk@kernel.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <allison@lohutok.net>, <tglx@linutronix.de>, <jroedel@suse.de>,
+        <evgreen@chromium.org>, <rfontana@redhat.com>, <digetx@gmail.com>,
+        <pdeschrijver@nvidia.com>, <john@phrozen.org>,
+        <alexios.zavras@intel.com>, <sboyd@kernel.org>,
+        <kstewart@linuxfoundation.org>, <info@metux.net>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-omap@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+Date:   Fri, 27 Dec 2019 15:24:33 +0800
+In-Reply-To: <20191222185034.4665-8-tiny.windzz@gmail.com>
+References: <20191222185034.4665-1-tiny.windzz@gmail.com>
+         <20191222185034.4665-8-tiny.windzz@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20191219133707.GK1440537@ulmo>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1577430231; bh=xsLSRJX1IFwbNRIvbyRAWl3iav/KcRoDlcSw8QJ+O4Q=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=aFBgSR0nDHQo9G3qvRO+eyedVobvBwOqNyvROG7xihnw0O24R0V10UHNvDPDnupCx
-         9ZKdj262A8ETfQ5wLqv3m7AfhoIe7zTEjIhfrjiOxJDBSxjClnVWOoeVHOeZH4LeFJ
-         fw5hWRVnk3GW5NY4/nVd1wOvH+zPRfhDRuWpB7tYGaL6ZKtowKX6JrPDX7k2wnjZO0
-         YBOAnKA2lUpKffjsLUDwi0yklFV11TGyH7J6+GhbPrPauI6YGeteGBdpaK0vMzO+BN
-         NDH2MpXIBG5NU6SA+V9f+8SIdOpmQjmj5Yi7L/aQmjN7SByREwAdL8QdWSSfhwWgqg
-         lhlNc+gbZNdIg==
+X-TM-SNTS-SMTP: CEF061E20910937DED535D5F798BA0EED8E7FC212D9D8E7E72D4D38ACE506EC52000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+T24gU3VuLCAyMDE5LTEyLTIyIGF0IDE4OjUwICswMDAwLCBZYW5ndGFvIExpIHdyb3RlOg0KPiBV
+c2UgZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKCkgdG8gc2ltcGxpZnkgY29kZS4NCj4g
+DQo+IFNpZ25lZC1vZmYtYnk6IFlhbmd0YW8gTGkgPHRpbnkud2luZHp6QGdtYWlsLmNvbT4NCj4g
+LS0tDQo+ICBkcml2ZXJzL21lbW9yeS9tdGstc21pLmMgfCAxMSArKystLS0tLS0tLQ0KPiAgMSBm
+aWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkNCg0KUmV2aWV3ZWQt
+Ynk6IFlvbmcgV3UgPHlvbmcud3VAbWVkaWF0ZWsuY29tPg0KDQo=
 
-
-On 19-12-2019 19:07, Thierry Reding wrote:
-> On Wed, Dec 18, 2019 at 02:46:17PM +0530, Nagarjuna Kristam wrote:
->> For USB 2 ports that has usb-role-switch enabled, add usb-phy for
->> corresponding USB 2 phy. USB role changes from role switch are then
->> updated to corresponding host and device mode drivers via usb-phy notifier
->> block.
->>
->> Signed-off-by: Nagarjuna Kristam<nkristam@nvidia.com>
->> ---
->> V2:
->>   - Added dev_set_drvdata for port->dev.
->> ---
->>   drivers/phy/tegra/xusb.c | 71 ++++++++++++++++++++++++++++++++++++++++++++++++
->>   drivers/phy/tegra/xusb.h |  2 ++
->>   2 files changed, 73 insertions(+)
->>
->> diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
->> index dc00b42..5bde8f1 100644
->> --- a/drivers/phy/tegra/xusb.c
->> +++ b/drivers/phy/tegra/xusb.c
->> @@ -533,6 +533,8 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
->>   	if (err < 0)
->>   		goto unregister;
->>   
->> +	dev_set_drvdata(&port->dev, port);
->> +
->>   	return 0;
->>   
->>   unregister:
->> @@ -545,6 +547,8 @@ static void tegra_xusb_port_unregister(struct tegra_xusb_port *port)
->>   	if (!IS_ERR_OR_NULL(port->usb_role_sw)) {
->>   		of_platform_depopulate(&port->dev);
->>   		usb_role_switch_unregister(port->usb_role_sw);
->> +		cancel_work_sync(&port->usb_phy_work);
->> +		usb_remove_phy(&port->usb_phy);
->>   	}
->>   	device_unregister(&port->dev);
->>   }
->> @@ -556,16 +560,59 @@ static const char *const modes[] = {
->>   	[USB_DR_MODE_OTG] = "otg",
->>   };
->>   
->> +static void tegra_xusb_usb_phy_work(struct work_struct *work)
->> +{
->> +	struct tegra_xusb_port *port = container_of(work,
->> +				struct tegra_xusb_port, usb_phy_work);
-> Perhaps add a static inline function to cast this? Might not be worth it
-> since we only need to cast once. In that case, perhaps make this look a
-> little prettier by aligning arguments on subsequent lines with "work" on
-> the first line?
-> 
-Will align arguments with "work".
-
->> +	enum usb_role role = usb_role_switch_get_role(port->usb_role_sw);
->> +
->> +	dev_dbg(&port->dev, "%s calling notifier for role %d\n", __func__,
->> +		role);
->> +
->> +	atomic_notifier_call_chain(&port->usb_phy.notifier, role,
->> +				   &port->usb_phy);
-> I'm curious: you use an atomic notifier call chain here but then you
-> schedule work to call it. Typically you only need to schedule work if
-> you get notified in atomic context and you need to process the event
-> outside of the atomic context.
-> 
-> Since these are atomic notifiers, do we really need the work? Or the
-> other way around: why not use regular notifiers if we're processing them
-> from non-atomic contexts only anyway?
-> 
-notifier used by usb-phy are atomic notifiers and hence need to call
-atomic_notifier_call_chain only in this context., regular notifiers
-cannot be used.
-
->> +}
->> +
->>   static int tegra_xusb_role_sw_set(struct device *dev, enum usb_role role)
->>   {
->> +	struct tegra_xusb_port *port = dev_get_drvdata(dev);
->> +
->>   	dev_dbg(dev, "%s calling notifier for role is %d\n", __func__, role);
->>   
->> +	schedule_work(&port->usb_phy_work);
->> +
->> +	return 0;
->> +}
->> +
->> +static int tegra_xusb_set_peripheral(struct usb_otg *otg,
->> +					struct usb_gadget *gadget)
->> +{
->> +	struct tegra_xusb_port *port = container_of(otg->usb_phy,
->> +					struct tegra_xusb_port, usb_phy);
->> +
->> +	if (gadget != NULL)
->> +		schedule_work(&port->usb_phy_work);
->> +
->> +	return 0;
->> +}
->> +
->> +static int tegra_xusb_set_host(struct usb_otg *otg, struct usb_bus *host)
->> +{
->> +	struct tegra_xusb_port *port = container_of(otg->usb_phy,
->> +					struct tegra_xusb_port, usb_phy);
->> +
->> +	if (host != NULL)
->> +		schedule_work(&port->usb_phy_work);
->> +
->>   	return 0;
->>   }
->>   
->> +
->>   static int tegra_xusb_setup_usb_role_switch(struct tegra_xusb_port *port)
->>   {
->>   	int err = 0;
->> +	struct tegra_xusb_lane *lane = tegra_xusb_find_lane(port->padctl,
->> +							"usb2", port->index);
-> You're not properly aligning the arguments here.
-> 
-> Thierry
-> 
-Will align here and other places accordingly.
-
--Nagarjuna
->>   	struct usb_role_switch_desc role_sx_desc = {
->>   					.set = tegra_xusb_role_sw_set,
->>   					.fwnode = dev_fwnode(&port->dev),
->> @@ -578,6 +625,30 @@ static int tegra_xusb_setup_usb_role_switch(struct tegra_xusb_port *port)
->>   		if (err != EPROBE_DEFER)
->>   			dev_err(&port->dev, "Failed to register USB role SW: %d",
->>   				err);
->> +		return err;
->> +	}
->> +
->> +	INIT_WORK(&port->usb_phy_work, tegra_xusb_usb_phy_work);
->> +
->> +	port->usb_phy.otg = devm_kzalloc(&port->dev,
->> +					 sizeof(struct usb_otg), GFP_KERNEL);
->> +	if (!port->usb_phy.otg)
->> +		return -ENOMEM;
->> +
->> +	/*
->> +	 * Assign phy dev to usb-phy dev. Host/device drivers can use phy
->> +	 * reference to retrieve usb-phy details.
->> +	 */
->> +	port->usb_phy.dev = &lane->pad->lanes[port->index]->dev;
->> +	port->usb_phy.dev->driver = port->padctl->dev->driver;
->> +	port->usb_phy.otg->usb_phy = &port->usb_phy;
->> +	port->usb_phy.otg->set_peripheral = tegra_xusb_set_peripheral;
->> +	port->usb_phy.otg->set_host = tegra_xusb_set_host;
->> +
->> +	err = usb_add_phy_dev(&port->usb_phy);
->> +	if (err < 0) {
->> +		dev_err(&port->dev, "Failed to add usbphy: %d\n", err);
->> +		return err;
->>   	}
->>   
->>   	/* populate connector entry */
->> diff --git a/drivers/phy/tegra/xusb.h b/drivers/phy/tegra/xusb.h
->> index 9f27899..2345657 100644
->> --- a/drivers/phy/tegra/xusb.h
->> +++ b/drivers/phy/tegra/xusb.h
->> @@ -268,6 +268,8 @@ struct tegra_xusb_port {
->>   	struct device dev;
->>   
->>   	struct usb_role_switch *usb_role_sw;
->> +	struct work_struct usb_phy_work;
->> +	struct usb_phy usb_phy;
->>   
->>   	const struct tegra_xusb_port_ops *ops;
->>   };
->> -- 
->> 2.7.4
