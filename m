@@ -2,69 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F85012B4FC
-	for <lists+linux-tegra@lfdr.de>; Fri, 27 Dec 2019 14:55:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5287F12B573
+	for <lists+linux-tegra@lfdr.de>; Fri, 27 Dec 2019 15:56:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726354AbfL0Nze (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 27 Dec 2019 08:55:34 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41141 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726279AbfL0Nze (ORCPT
+        id S1727444AbfL0O4S (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 27 Dec 2019 09:56:18 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:35847 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727274AbfL0O4L (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 27 Dec 2019 08:55:34 -0500
-Received: by mail-lj1-f194.google.com with SMTP id h23so27172176ljc.8;
-        Fri, 27 Dec 2019 05:55:32 -0800 (PST)
+        Fri, 27 Dec 2019 09:56:11 -0500
+Received: by mail-lj1-f196.google.com with SMTP id r19so27313051ljg.3;
+        Fri, 27 Dec 2019 06:56:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9sMcGzWfir8Lx3Y6NmbYy7/hTalm8JqMa44HUWMV2Jo=;
-        b=f/BsLHfQeDKdM9icrp1TnTcOX/7A1PKXz/zXWC8o5dev2AYRK/43aODXpL46lqtHyV
-         1PaRJwtuFlEcQslNJkLSi1WYzW3IV2jbMbx6raR3a8Ihso8K76LHGgMRXigN0WIEwmMy
-         Pp6K0vVvw08vo5cExhkNEREiWureEQUHPTDGe9CHAeL0LVyvp3+wVkYVFHC6Eo+P2+1Q
-         RF6kbRQV0NPeOmh49kMZH+otQG69Sfeo9Mn4/dr9EOxY32LaVwVXuts9sz3XKXC9AL58
-         DpYInVnjqiwRNCTgWKc1w7PORy6ASzHaciHcVlGJ7O3j/AwSofvo0IBMQ1iGtUeoKd8y
-         iaYw==
+        bh=mMhbjF4sdw6IBruolrJonIGubUPzHHDzsXDjRrBCUCg=;
+        b=omqZoXv55HazeHZKqwEAy9vcvFTlhBPYQC6HCSmTNBrPHwNytAtXuF3WcSQtxaa90G
+         EvUHS/OlVAaWcpoC8XDllYWQFJ3aZtOzm2hx4Y5lPPQBmP84hUw9PErbwaEDRCmb9tmC
+         WYL+v1QUAyBVoR7EeUZt9y/xD1lZ23voUdsIVdw9FjrPpBE3ZArDXEMEl2IRh/KP074R
+         Ofltzop5xc/MyKyl/Y/4gdBiRKciO6eN0O+7awKnAfzRlT6IE75dFE9cGAkKx2rgHqIo
+         Refr9Atqr8nik2L9BMe7df3hWgicbykPgOK84Bk8ysBkyAPbt3VeK5DHVk/+YSoI4Veb
+         w+3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=9sMcGzWfir8Lx3Y6NmbYy7/hTalm8JqMa44HUWMV2Jo=;
-        b=ggGZgXB/Ry//TwgSLiODV9fAGWpUOOw7IHFpQCcGvqtH6Bx+VYi7DiuYVS5o6zTZwI
-         5PkGuU0RDMsmkG/JNFyzCfa7TlEshdWQ3zzjUk+yxUcgejIkOtUshxDInvJ9dkMqYt9q
-         97tM1OSCN1uRHHTGznSfN5yGunr83/aDez+Cnlre2/HhMcbKxEOnkszhK6r7T4k0a8Tf
-         6HpD4SGyPgovboe7Ob3ARCaIpqYwsqPDskl6/DkhVU0TzLo7qyyC5L2R/RWOnX/jrWJf
-         jRs9b4uGpKIigBcvf3WyGHwGpTjcmL3nMQa06BKF9k8gdkaIDv2MSxmQSn0jzX0Lfm7J
-         BdPA==
-X-Gm-Message-State: APjAAAU5fjkQiRCfuz2KJ9aFmMX3Y2dZODJjfMIRmbc89UbBWon9xeTi
-        2/r9jh3I1HNPQSfzh74+hYc=
-X-Google-Smtp-Source: APXvYqw59mXt+JhQ95hpLg/VoLCrUstqztAoo5t32zgcs1l4P7ICXroYNEKCXY3obRWgxQ9sYvyLgA==
-X-Received: by 2002:a2e:8758:: with SMTP id q24mr29416127ljj.157.1577454932153;
-        Fri, 27 Dec 2019 05:55:32 -0800 (PST)
+        bh=mMhbjF4sdw6IBruolrJonIGubUPzHHDzsXDjRrBCUCg=;
+        b=JVIZF3JggcnIqWsM+gF30a+253nQ3xyBMOY0tkmGuSDOQnDAG+ipr4lwHVqHprwo70
+         sdvCICKAjCQNIRnI8dbrA8fu0H9gheGummn0A7Etk1+Ki9wEpF91hBHg3buejJW5Z7il
+         +w1ZRklkMjD/NtgZc2TX5FVUPY6qN+MF5vVtzen1AzuUXtQeR1g+sEkpJo9CanFB/WY/
+         vdXFY8VAQAnpRZITjNRus6ePoD2iP6+/ivXocQvhpUoQohOpJaFNUTfzbdANd8Zz78P6
+         l+gRCyhfwssMy7AMlxwLe4v9Sv5UArImLt46vbRL2Nq0XIFLhR4xgq/lOXi8fHwAcOqv
+         zKMA==
+X-Gm-Message-State: APjAAAVWLYjrO6meFAKixx4CAaSVnqjUJFJc81wqTVi3hbEgNRYiUgX+
+        b9syUdOatOc2/PJmBkxqGTIPyawk
+X-Google-Smtp-Source: APXvYqzmiNjImhddoEpTT+p+zT/wNvABFzH3OInO95NUeTFlRuU4S6budbHKhvPGsFy6LuYL3YEOMw==
+X-Received: by 2002:a05:651c:1110:: with SMTP id d16mr29527366ljo.86.1577458568951;
+        Fri, 27 Dec 2019 06:56:08 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id y8sm13582930lji.56.2019.12.27.05.55.31
+        by smtp.googlemail.com with ESMTPSA id w1sm14583714lfe.96.2019.12.27.06.56.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Dec 2019 05:55:31 -0800 (PST)
-Subject: Re: [PATCH v1 3/3] i2c: tegra: Fix suspending in active runtime PM
- state
+        Fri, 27 Dec 2019 06:56:08 -0800 (PST)
+Subject: Re: [PATCH v5 12/19] ASoC: tegra: Add initial parent configuration
+ for audio mclk
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
+        josephl@nvidia.com, daniel.lezcano@linaro.org,
+        mmaddireddy@nvidia.com, markz@nvidia.com,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1576880825-15010-1-git-send-email-skomatineni@nvidia.com>
+ <1576880825-15010-13-git-send-email-skomatineni@nvidia.com>
+ <a6567ff1-7bc2-3ca5-1200-92a63eb44ddb@gmail.com>
+ <20191225175736.GC27497@sirena.org.uk>
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>
-References: <20191212233428.14648-1-digetx@gmail.com>
- <20191212233428.14648-4-digetx@gmail.com>
- <ae96db3a-0854-6e80-0469-e5fa6fd7bb8e@gmail.com>
- <ec7e11f6-2695-29c8-c9ed-98dc229b8aac@gmail.com>
-Message-ID: <bf9465a5-ffd1-09bc-cc36-11c6ba356231@gmail.com>
-Date:   Fri, 27 Dec 2019 16:55:30 +0300
+Message-ID: <856d8a92-0c24-6722-952c-06b86c706e97@gmail.com>
+Date:   Fri, 27 Dec 2019 17:56:06 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <ec7e11f6-2695-29c8-c9ed-98dc229b8aac@gmail.com>
+In-Reply-To: <20191225175736.GC27497@sirena.org.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -73,55 +78,43 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.12.2019 17:55, Dmitry Osipenko пишет:
-> 13.12.2019 17:29, Dmitry Osipenko пишет:
->> 13.12.2019 02:34, Dmitry Osipenko пишет:
->>> I noticed that sometime I2C clock is kept enabled during suspend-resume.
->>> This happens because runtime PM defers dynamic suspension and thus it may
->>> happen that runtime PM is in active state when system enters into suspend.
->>> In particular I2C controller that is used for CPU's DVFS is often kept ON
->>> during suspend because CPU's voltage scaling happens quite often.
->>>
->>> Note: we marked runtime PM as IRQ-safe during the driver's probe in the
->>> "Support atomic transfers" patch, thus it's okay to enforce runtime PM
->>> suspend/resume in the NOIRQ phase which is used for the system-level
->>> suspend/resume of the driver.
->>>
->>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>> ---
->>>  drivers/i2c/busses/i2c-tegra.c | 9 +++++++++
->>>  1 file changed, 9 insertions(+)
->>>
->>> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
->>> index b3ecdd87e91f..d309a314f4d6 100644
->>> --- a/drivers/i2c/busses/i2c-tegra.c
->>> +++ b/drivers/i2c/busses/i2c-tegra.c
->>> @@ -1790,9 +1790,14 @@ static int tegra_i2c_remove(struct platform_device *pdev)
->>>  static int __maybe_unused tegra_i2c_suspend(struct device *dev)
->>>  {
->>>  	struct tegra_i2c_dev *i2c_dev = dev_get_drvdata(dev);
->>> +	int err;
->>>  
->>>  	i2c_mark_adapter_suspended(&i2c_dev->adapter);
->>
->> I'm now in a doubt that it is correct to use NOIRQ level at all for the
->> suspend because i2c_mark_adapter_suspended() uses mutex, thus I'm
->> wondering what will happen if there is an asynchronous transfer
->> happening during suspend..
->>
->> The i2c_mark_adapter_suspended() will try to block and will never return?
+25.12.2019 20:57, Mark Brown пишет:
+> On Mon, Dec 23, 2019 at 12:14:34AM +0300, Dmitry Osipenko wrote:
+>> 21.12.2019 01:26, Sowjanya Komatineni пишет:
+>>> Tegra PMC clock clk_out_1 is dedicated for audio mclk from Tegra30
+>>> through Tegra210 and currently Tegra clock driver does initial parent
+>>> configuration for audio mclk "clk_out_1" and enables them by default.
 > 
-> Moreover, the I2C interrupt should be disabled during the NOIRQ phase.
-> So, yes.. looks like making use of NOIRQ level wasn't a correct
-> decision. On the other hand, I don't think that any I2C client driver
-> used by Tegra SoCs in the upstream kernel could cause the problem at the
-> moment, so it shouldn't be critical.
+> Please delete unneeded context from mails when replying.  Doing this
+> makes it much easier to find your reply in the message, helping ensure
+> it won't be missed by people scrolling through the irrelevant quoted
+> material.
+
+Ok
+
+>>> -	clk_disable_unprepare(data->clk_cdev1);
+>>> -	clk_disable_unprepare(data->clk_pll_a_out0);
+>>> -	clk_disable_unprepare(data->clk_pll_a);
+>>> +	if (__clk_is_enabled(data->clk_cdev1))
+>>> +		clk_disable_unprepare(data->clk_cdev1);
 > 
-> BTW: Jon, please CC me next time ;) [I'll try to find a better solution
-> for the PCIE problem]
+>> The root of the problem is that you removed clocks enabling from
+>> tegra_asoc_utils_init().
+> 
+>> I'm not sure why clocks should be disabled during the rate-changing,
+>> probably this action is not really needed.
+> 
+> I know nothing about this particular device but this is not that
+> unusual a restriction for audio hardware, you often can't
+> robustly reconfigure the clocking for a device while it's active
+> due to issues in the hardware.  You often see issues with FIFOs
+> glitching or state machines getting stuck.  This may not be an
+> issue here but if it's something that's documented as a
+> requirement it's probably good to pay attention.
 
-On a second thought, the NOIRQ shouldn't really cause any big problems
-because if something executes I2C asynchronously, then the transfer
-should simply timeout.
+I don't know details about that hardware either, maybe it is simply not
+safe to change PLL_A rate dynamically and then CLK_SET_RATE_GATE could
+be used.
 
-
+If nobody knows for sure, then will be better to keep
+tegra_asoc_utils_set_rate() unchanged.
