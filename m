@@ -2,113 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7639112BFEB
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Dec 2019 02:59:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB9E012C106
+	for <lists+linux-tegra@lfdr.de>; Sun, 29 Dec 2019 09:06:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726329AbfL2B7J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 28 Dec 2019 20:59:09 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:37187 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726248AbfL2B7J (ORCPT
+        id S1726371AbfL2IGP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 29 Dec 2019 03:06:15 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:36590 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725973AbfL2IGP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 28 Dec 2019 20:59:09 -0500
-Received: by mail-pl1-f195.google.com with SMTP id c23so13306485plz.4
-        for <linux-tegra@vger.kernel.org>; Sat, 28 Dec 2019 17:59:09 -0800 (PST)
+        Sun, 29 Dec 2019 03:06:15 -0500
+Received: by mail-pj1-f68.google.com with SMTP id n59so6887702pjb.1;
+        Sun, 29 Dec 2019 00:06:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=B0YqCZdtASo8W3+DNsZKxEkKUnEoAfpsuE3h6bg+BKA=;
-        b=SUBvHzkDy3ObczV/2Tibqb/J+Bch+J+BkQLTRD7VEq1pgSLY5siprwnL8ItHD8F9X0
-         CLYNPAl6cuX+YtWyUz4Jv6O3q5S6xdwYdxId7gchqdvDjxrpI174YpeyGAVnq5OCLnYu
-         mjnk8FJDiqHP2OyS9LeyMpUTtRHfWnHiSWEIuaxjubiE/JKwwlviZBeCb1t/7K0h+fYh
-         0vjWt+KfOtPAEGUy76eHmG3OAfy6XCIgbDlBxBVQINB4iZl4afyF3PioZAzKOKODRE1X
-         oQLqq8b0HCjpBZ3AJYpqPIprChvuIUnjenWvUp0O9V64bXJNy2P1yqNwOkoX6pEoUsOG
-         rZuw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=+3pBLd50yZ31QGDnQXQDHmLfpHXmqi0l43iIkO1V9Fk=;
+        b=JG6H1yvXtza6zd1BLy2dsQbEIHwG3IcGFnYTmJb+HGx740diEoe5JAn+t24q8VoSuV
+         5fbcviVM5CcY0TyjCuQXa6qCbooh7tfB+LrHt3/Ug6YFtCT5k5V2gwou5opqsGC6PwHc
+         eurPwx50PDqmxEW1q+ynKJ0KnCQeyzQX7xW2SvY2itaOb+xiBEMYtX6IObjqWLKo9teF
+         Q8zj04fwbhQU/UpdXgs6LRdOgn+M5RnZG84uXVM3HPgc9uiEjx0BMuG3GLmG4PD1Qm+A
+         hyzMraA1AY+YuWSnreOvwjqLS2dumP9P/mjJBIQS5Ru3J260j9Ci2chSfkQQqO0ydswt
+         R3SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=B0YqCZdtASo8W3+DNsZKxEkKUnEoAfpsuE3h6bg+BKA=;
-        b=LX4MuznhHbmyFSFgZ/i5ohjgkDUwSHj4Nif2n181VIJsNVjNJ7/e/jA66x9bchZtxb
-         jjyo9l75RuoYYlJwASmkBZLd69Tt+lxaIHLDgxFyfTziOiO0KitZvf/cLrsgEoBE24ba
-         43gk+S0nAnUey4/3Srm8U9aL2MQP0vUwL4cT/vCU3Yh0h3fDitmr11TTQ78qSNQWsWqW
-         LzdvRCFemMuM5RV6VUM0ZShjiRo7wrKzNXzCK7G9mDDcytHq1k4/N9Opc4kqMSsz3QKG
-         nciW0xukMa493wQ/koj/DP1s5seqVJPUV/o5pkD44Ggs0AfzXYI9CIjc0TzcJLRgQ+IY
-         +Vdg==
-X-Gm-Message-State: APjAAAWo5Z/LsFpN2y4ps49bapAPMtKJmWxU+EIl/XO0RwoFntY5qQyn
-        AlqC6BUdGSF10UVHCs1aSnJUiw==
-X-Google-Smtp-Source: APXvYqwFD0Z6M2ULKf78TvessQAN+owraVNT/WM/LcoBIbydcpRlk+A9rbJjuwmOeeAvLemOFIwgmw==
-X-Received: by 2002:a17:90b:d94:: with SMTP id bg20mr34993201pjb.99.1577584748559;
-        Sat, 28 Dec 2019 17:59:08 -0800 (PST)
-Received: from builder (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id p185sm46804599pfg.61.2019.12.28.17.59.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Dec 2019 17:59:07 -0800 (PST)
-Date:   Sat, 28 Dec 2019 17:59:04 -0800
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Yangtao Li <tiny.windzz@gmail.com>
-Cc:     jassisinghbrar@gmail.com, nsaenzjulienne@suse.de,
-        f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com,
-        bcm-kernel-feedback-list@broadcom.com, lftan@altera.com,
-        matthias.bgg@gmail.com, agross@kernel.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=+3pBLd50yZ31QGDnQXQDHmLfpHXmqi0l43iIkO1V9Fk=;
+        b=ly7J9Yy2bNPWqKIg0Jyz2rL8r3bZPycVEZrqQ1GVqjcn9lcw4T2arN1FxrzwjNxi5K
+         2M4aKXU7jQlVRkyebKB0wxglbomydqcwYmPPIf4Yc/d4v2hze5asTrOrg/ymVeRHWGy2
+         /OtJ9Z6ruI7BEjoMx/nH162RT5cVmws4AP/PveUpajKt4GpDaZztLj6Gp4MpywDsd9Fm
+         bBWRctHdTilyN1o84yTbhAMsdw/y+Z5FVNlgBaiRbWKbE+06T/XmavMf38EQKTNmLIN8
+         ejJznT8V8Sy7vSRFaki6Ee72bd8Nyx9IAKbzqyvEwyi2mi2g8797oIZzb+Nx1obNdFmC
+         U6vA==
+X-Gm-Message-State: APjAAAVHxMxzajGZmECzd054BsIS93/E9cpX8FmwVo6G4ZZjWw41USKC
+        mp1JWRjpBkKU8DsbofbBJgQ=
+X-Google-Smtp-Source: APXvYqxnI5XBWy+NXM/GB41OB70ppiFg3j0a/LZfYu0PTXzqYRRbkm4zUSrtO9fzojgrIm7DOwlwvw==
+X-Received: by 2002:a17:902:7296:: with SMTP id d22mr64069643pll.55.1577606774630;
+        Sun, 29 Dec 2019 00:06:14 -0800 (PST)
+Received: from localhost ([2001:19f0:6001:12c8:5400:2ff:fe72:6403])
+        by smtp.gmail.com with ESMTPSA id f127sm48271863pfa.112.2019.12.29.00.06.13
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 29 Dec 2019 00:06:13 -0800 (PST)
+From:   Yangtao Li <tiny.windzz@gmail.com>
+To:     claudiu.beznea@microchip.com, thierry.reding@gmail.com,
+        u.kleine-koenig@pengutronix.de, nicolas.ferre@microchip.com,
+        alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
+        rjui@broadcom.com, sbranden@broadcom.com,
+        bcm-kernel-feedback-list@broadcom.com, f.fainelli@gmail.com,
+        nsaenzjulienne@suse.de, shc_work@mail.ru, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, vz@mleia.com, slemieux.tyco@gmail.com,
+        khilman@baylibre.com, matthias.bgg@gmail.com, heiko@sntech.de,
+        palmer@dabbelt.com, paul.walmsley@sifive.com, mripard@kernel.org,
+        wens@csie.org, jonathanh@nvidia.com, linux@prisktech.co.nz,
+        linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        nios2-dev@lists.rocketboards.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 03/13] mailbox: qcom-apcs: convert to
- devm_platform_ioremap_resource
-Message-ID: <20191229015904.GG3755841@builder>
-References: <20191228183538.26189-1-tiny.windzz@gmail.com>
- <20191228183538.26189-3-tiny.windzz@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191228183538.26189-3-tiny.windzz@gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-tegra@vger.kernel.org
+Cc:     Yangtao Li <tiny.windzz@gmail.com>
+Subject: [PATCH 01/32] pwm: sun4i: convert to devm_platform_ioremap_resource
+Date:   Sun, 29 Dec 2019 08:05:39 +0000
+Message-Id: <20191229080610.7597-1-tiny.windzz@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat 28 Dec 10:35 PST 2019, Yangtao Li wrote:
+Use devm_platform_ioremap_resource() to simplify code.
 
-> Use devm_platform_ioremap_resource() to simplify code.
-> 
-> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+---
+ drivers/pwm/pwm-sun4i.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+index 581d23287333..f2afd312f77c 100644
+--- a/drivers/pwm/pwm-sun4i.c
++++ b/drivers/pwm/pwm-sun4i.c
+@@ -344,7 +344,6 @@ MODULE_DEVICE_TABLE(of, sun4i_pwm_dt_ids);
+ static int sun4i_pwm_probe(struct platform_device *pdev)
+ {
+ 	struct sun4i_pwm_chip *pwm;
+-	struct resource *res;
+ 	int ret;
+ 
+ 	pwm = devm_kzalloc(&pdev->dev, sizeof(*pwm), GFP_KERNEL);
+@@ -355,8 +354,7 @@ static int sun4i_pwm_probe(struct platform_device *pdev)
+ 	if (!pwm->data)
+ 		return -ENODEV;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	pwm->base = devm_ioremap_resource(&pdev->dev, res);
++	pwm->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(pwm->base))
+ 		return PTR_ERR(pwm->base);
+ 
+-- 
+2.17.1
 
-> ---
->  drivers/mailbox/qcom-apcs-ipc-mailbox.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/mailbox/qcom-apcs-ipc-mailbox.c b/drivers/mailbox/qcom-apcs-ipc-mailbox.c
-> index eeebafd546e5..0faf69137780 100644
-> --- a/drivers/mailbox/qcom-apcs-ipc-mailbox.c
-> +++ b/drivers/mailbox/qcom-apcs-ipc-mailbox.c
-> @@ -49,7 +49,6 @@ static int qcom_apcs_ipc_probe(struct platform_device *pdev)
->  {
->  	struct qcom_apcs_ipc *apcs;
->  	struct regmap *regmap;
-> -	struct resource *res;
->  	unsigned long offset;
->  	void __iomem *base;
->  	unsigned long i;
-> @@ -64,8 +63,7 @@ static int qcom_apcs_ipc_probe(struct platform_device *pdev)
->  	if (!apcs)
->  		return -ENOMEM;
->  
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	base = devm_ioremap_resource(&pdev->dev, res);
-> +	base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(base))
->  		return PTR_ERR(base);
->  
-> -- 
-> 2.17.1
-> 
