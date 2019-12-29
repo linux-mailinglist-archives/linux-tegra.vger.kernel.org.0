@@ -2,136 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 290D912BF69
-	for <lists+linux-tegra@lfdr.de>; Sat, 28 Dec 2019 23:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7639112BFEB
+	for <lists+linux-tegra@lfdr.de>; Sun, 29 Dec 2019 02:59:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726728AbfL1WR0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 28 Dec 2019 17:17:26 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:38206 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726187AbfL1WR0 (ORCPT
+        id S1726329AbfL2B7J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 28 Dec 2019 20:59:09 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:37187 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726248AbfL2B7J (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 28 Dec 2019 17:17:26 -0500
-Received: by mail-lj1-f194.google.com with SMTP id w1so8001236ljh.5;
-        Sat, 28 Dec 2019 14:17:24 -0800 (PST)
+        Sat, 28 Dec 2019 20:59:09 -0500
+Received: by mail-pl1-f195.google.com with SMTP id c23so13306485plz.4
+        for <linux-tegra@vger.kernel.org>; Sat, 28 Dec 2019 17:59:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PiNNr9K9qIQQnPJ6yZ/V1JmcG7noCNBTXNqtHbq6dTk=;
-        b=F+JDMOlP2X3eFRRcURDvQX83S7gq7aV3tR5j/dAe2MVbdwz3hcXg05rEdZl1uWBCUZ
-         SHqXf/4kRfxBZqKIsaUywdeF2U1kjCJjFzeXh9iy9Y/DEg8uw9Vn0MbGve28AcAzlhsZ
-         yn5Nj/K+r3KvTG1STPRrfIDvJEbFPSwcDV7cEXPiETlR/5kWi39qPjzcvkRFN1ZKne6D
-         VID6jrDXWW2GvVWwMuoLbsIhD37FPRAowx2xyw1xqjbNuXi9x1gmeABHXrTsZDZmNKL+
-         3MchmnXstIQ3RW8+XjMRpvPIo4XZaLPVJR1J6iSASLvW7dZVhfq913iQ68VcaGjJlBA6
-         XK+g==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=B0YqCZdtASo8W3+DNsZKxEkKUnEoAfpsuE3h6bg+BKA=;
+        b=SUBvHzkDy3ObczV/2Tibqb/J+Bch+J+BkQLTRD7VEq1pgSLY5siprwnL8ItHD8F9X0
+         CLYNPAl6cuX+YtWyUz4Jv6O3q5S6xdwYdxId7gchqdvDjxrpI174YpeyGAVnq5OCLnYu
+         mjnk8FJDiqHP2OyS9LeyMpUTtRHfWnHiSWEIuaxjubiE/JKwwlviZBeCb1t/7K0h+fYh
+         0vjWt+KfOtPAEGUy76eHmG3OAfy6XCIgbDlBxBVQINB4iZl4afyF3PioZAzKOKODRE1X
+         oQLqq8b0HCjpBZ3AJYpqPIprChvuIUnjenWvUp0O9V64bXJNy2P1yqNwOkoX6pEoUsOG
+         rZuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PiNNr9K9qIQQnPJ6yZ/V1JmcG7noCNBTXNqtHbq6dTk=;
-        b=ekOvDA3s0iETD5jyfwdUZi+akVp1pRv2hwxPciKf9kF9Y1qOXsrpA7Z7dS8k8+EuoP
-         zPL58uyyYatmA2QWy8LaHTtH2Ps37FaXFdT7DYRtXhhLHaUtjS9U85XLzRdXe4KynVqG
-         qWtHYRfCs7tliVGy9f9QVWRiCI31x5GH8DVOI59c+5qEY2ulHuTaGNkVX36fWcZxW7pT
-         QJSpkcRCMbJopJHKBqSpzLqvUCDWTACM1qiUboPLNLQhuRQSSj7AuCe26TrGUkqKqK4r
-         W+D2OFK5O9WRhyrZDebgQiBA6zsX7UGjNWWmTAZZbgH7lBNhGjNEr398aCtpkb97FJi/
-         oqWQ==
-X-Gm-Message-State: APjAAAXyTRGN/AmFwVjFG8K6yam2Eqqeqj75zsyfs1rEfertsdaBjP5X
-        HBoov93+AXzUN5Vj6gAFs2g=
-X-Google-Smtp-Source: APXvYqwe6eRGb0lzPDGmWiVte7AMHiY7SA5qKagpCMQ/3OvM0RD+ONdohmoLYCzKP90k2d88sFkDuA==
-X-Received: by 2002:a2e:9ad8:: with SMTP id p24mr32131220ljj.148.1577571444214;
-        Sat, 28 Dec 2019 14:17:24 -0800 (PST)
-Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id y10sm15209584ljm.93.2019.12.28.14.17.23
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=B0YqCZdtASo8W3+DNsZKxEkKUnEoAfpsuE3h6bg+BKA=;
+        b=LX4MuznhHbmyFSFgZ/i5ohjgkDUwSHj4Nif2n181VIJsNVjNJ7/e/jA66x9bchZtxb
+         jjyo9l75RuoYYlJwASmkBZLd69Tt+lxaIHLDgxFyfTziOiO0KitZvf/cLrsgEoBE24ba
+         43gk+S0nAnUey4/3Srm8U9aL2MQP0vUwL4cT/vCU3Yh0h3fDitmr11TTQ78qSNQWsWqW
+         LzdvRCFemMuM5RV6VUM0ZShjiRo7wrKzNXzCK7G9mDDcytHq1k4/N9Opc4kqMSsz3QKG
+         nciW0xukMa493wQ/koj/DP1s5seqVJPUV/o5pkD44Ggs0AfzXYI9CIjc0TzcJLRgQ+IY
+         +Vdg==
+X-Gm-Message-State: APjAAAWo5Z/LsFpN2y4ps49bapAPMtKJmWxU+EIl/XO0RwoFntY5qQyn
+        AlqC6BUdGSF10UVHCs1aSnJUiw==
+X-Google-Smtp-Source: APXvYqwFD0Z6M2ULKf78TvessQAN+owraVNT/WM/LcoBIbydcpRlk+A9rbJjuwmOeeAvLemOFIwgmw==
+X-Received: by 2002:a17:90b:d94:: with SMTP id bg20mr34993201pjb.99.1577584748559;
+        Sat, 28 Dec 2019 17:59:08 -0800 (PST)
+Received: from builder (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id p185sm46804599pfg.61.2019.12.28.17.59.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Dec 2019 14:17:23 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/6] i2c: tegra: Use relaxed versions of readl/writel
-Date:   Sun, 29 Dec 2019 01:16:54 +0300
-Message-Id: <20191228221654.28842-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191228221654.28842-1-digetx@gmail.com>
-References: <20191228221654.28842-1-digetx@gmail.com>
+        Sat, 28 Dec 2019 17:59:07 -0800 (PST)
+Date:   Sat, 28 Dec 2019 17:59:04 -0800
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Yangtao Li <tiny.windzz@gmail.com>
+Cc:     jassisinghbrar@gmail.com, nsaenzjulienne@suse.de,
+        f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com,
+        bcm-kernel-feedback-list@broadcom.com, lftan@altera.com,
+        matthias.bgg@gmail.com, agross@kernel.org,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        nios2-dev@lists.rocketboards.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 03/13] mailbox: qcom-apcs: convert to
+ devm_platform_ioremap_resource
+Message-ID: <20191229015904.GG3755841@builder>
+References: <20191228183538.26189-1-tiny.windzz@gmail.com>
+ <20191228183538.26189-3-tiny.windzz@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191228183538.26189-3-tiny.windzz@gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-There is nothing to synchronize in regards to memory accesses for PIO
-transfers and for DMA transfers the DMA API takes care of the syncing.
+On Sat 28 Dec 10:35 PST 2019, Yangtao Li wrote:
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/i2c/busses/i2c-tegra.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+> Use devm_platform_ioremap_resource() to simplify code.
+> 
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index 0e88c7aa7cd5..a39de5012128 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -284,12 +284,12 @@ struct tegra_i2c_dev {
- static void dvc_writel(struct tegra_i2c_dev *i2c_dev, u32 val,
- 		       unsigned long reg)
- {
--	writel(val, i2c_dev->base + reg);
-+	writel_relaxed(val, i2c_dev->base + reg);
- }
- 
- static u32 dvc_readl(struct tegra_i2c_dev *i2c_dev, unsigned long reg)
- {
--	return readl(i2c_dev->base + reg);
-+	return readl_relaxed(i2c_dev->base + reg);
- }
- 
- /*
-@@ -307,16 +307,16 @@ static unsigned long tegra_i2c_reg_addr(struct tegra_i2c_dev *i2c_dev,
- static void i2c_writel(struct tegra_i2c_dev *i2c_dev, u32 val,
- 		       unsigned long reg)
- {
--	writel(val, i2c_dev->base + tegra_i2c_reg_addr(i2c_dev, reg));
-+	writel_relaxed(val, i2c_dev->base + tegra_i2c_reg_addr(i2c_dev, reg));
- 
- 	/* Read back register to make sure that register writes completed */
- 	if (reg != I2C_TX_FIFO)
--		readl(i2c_dev->base + tegra_i2c_reg_addr(i2c_dev, reg));
-+		readl_relaxed(i2c_dev->base + tegra_i2c_reg_addr(i2c_dev, reg));
- }
- 
- static u32 i2c_readl(struct tegra_i2c_dev *i2c_dev, unsigned long reg)
- {
--	return readl(i2c_dev->base + tegra_i2c_reg_addr(i2c_dev, reg));
-+	return readl_relaxed(i2c_dev->base + tegra_i2c_reg_addr(i2c_dev, reg));
- }
- 
- static void i2c_writesl(struct tegra_i2c_dev *i2c_dev, void *data,
-@@ -689,12 +689,13 @@ static int tegra_i2c_wait_for_config_load(struct tegra_i2c_dev *i2c_dev)
- 		i2c_writel(i2c_dev, I2C_MSTR_CONFIG_LOAD, I2C_CONFIG_LOAD);
- 
- 		if (i2c_dev->is_curr_atomic_xfer)
--			err = readl_poll_timeout_atomic(addr, val, val == 0,
--							1000,
--							I2C_CONFIG_LOAD_TIMEOUT);
-+			err = readl_relaxed_poll_timeout_atomic(
-+						addr, val, val == 0, 1000,
-+						I2C_CONFIG_LOAD_TIMEOUT);
- 		else
--			err = readl_poll_timeout(addr, val, val == 0, 1000,
--						 I2C_CONFIG_LOAD_TIMEOUT);
-+			err = readl_relaxed_poll_timeout(
-+						addr, val, val == 0, 1000,
-+						I2C_CONFIG_LOAD_TIMEOUT);
- 
- 		if (err) {
- 			dev_warn(i2c_dev->dev,
--- 
-2.24.0
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
+> ---
+>  drivers/mailbox/qcom-apcs-ipc-mailbox.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/mailbox/qcom-apcs-ipc-mailbox.c b/drivers/mailbox/qcom-apcs-ipc-mailbox.c
+> index eeebafd546e5..0faf69137780 100644
+> --- a/drivers/mailbox/qcom-apcs-ipc-mailbox.c
+> +++ b/drivers/mailbox/qcom-apcs-ipc-mailbox.c
+> @@ -49,7 +49,6 @@ static int qcom_apcs_ipc_probe(struct platform_device *pdev)
+>  {
+>  	struct qcom_apcs_ipc *apcs;
+>  	struct regmap *regmap;
+> -	struct resource *res;
+>  	unsigned long offset;
+>  	void __iomem *base;
+>  	unsigned long i;
+> @@ -64,8 +63,7 @@ static int qcom_apcs_ipc_probe(struct platform_device *pdev)
+>  	if (!apcs)
+>  		return -ENOMEM;
+>  
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	base = devm_ioremap_resource(&pdev->dev, res);
+> +	base = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(base))
+>  		return PTR_ERR(base);
+>  
+> -- 
+> 2.17.1
+> 
