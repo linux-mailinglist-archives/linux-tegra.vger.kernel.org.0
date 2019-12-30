@@ -2,145 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 352A812D3F0
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 20:30:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C13A912D405
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 20:37:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727699AbfL3Ta0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Dec 2019 14:30:26 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:43149 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727614AbfL3TaZ (ORCPT
+        id S1727680AbfL3ThJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Dec 2019 14:37:09 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:43122 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727278AbfL3ThI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Dec 2019 14:30:25 -0500
-Received: by mail-pf1-f194.google.com with SMTP id x6so17599518pfo.10;
-        Mon, 30 Dec 2019 11:30:24 -0800 (PST)
+        Mon, 30 Dec 2019 14:37:08 -0500
+Received: by mail-lf1-f66.google.com with SMTP id 9so25768751lfq.10;
+        Mon, 30 Dec 2019 11:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lfFvjAHzztkBHQqeqM3JnsMFnOWhvN63cVt0FVuc/rg=;
-        b=Ckxf1ezo1kMdGuu5UvVtJenFMH24AdiHCsSyHHRM1xB0bOoCyrGpStweDLBde0M4Iu
-         ZLVA6r+AzmYRPu9dS9zXst+q05XkCuxUQxnN6rhos8JfV1eHQbwd/Ok4J5aTdrr2FgPp
-         J4sy5PC4tyVpW21MOHitl5KTIZJQwJ+8J7nY8cGmujr7Vtl1wB/SvpVZQStW7vHj9KzC
-         JgWxWidK4hyHt8Na69/BAuCAijw85IfYkNIcPgbNhqZy1vD1+VIxa2N3J2+W5kkmVtce
-         Cl9qcCOEyZ4ii4qhsaeWNnrjq76dbM2SNX6RTBMmzRVaarHAJ3lM2aavQYZC5Iwf5o1S
-         Ry+A==
+        bh=qOOSKaKHeFnod5RsK2x90NOSdkdcsmV7T1nxZJUbNFM=;
+        b=TOAZ66X1HMUwmsDMiHpQaMSWjWbrMckRdF29Qmkw7WUdjCLexTFaLygZn8cL9rW5i9
+         u2nmP4MGXAdzM0V0vWb85sv0RkLb+sc2jJhz7mF9tJVpf5W5VR9tqxPD4Ee0550aYaaB
+         3wA9OdqVgQ6eN3NMBX/IPlw8gPc4WmGEmxVt2+Ze6lJB7g8edNyM7l7ObYvqwMgvkyRp
+         LpVqziMyB7SbH3CCkTDL9J0gfxSHQPbZN0W3lQk3cwNHRflk4wNHe3EBHN4D/JU5Vawv
+         /M21K4hjE5XCMVwZVwQCvzBA/zESjM0aS9G1mluJAS1TxItdyZPOM+DYk9yniyZHx3aE
+         bLOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=lfFvjAHzztkBHQqeqM3JnsMFnOWhvN63cVt0FVuc/rg=;
-        b=qfq90EHD9a4mkyqQjCvdDNp8dtz08XqbrHgElZ4yGPP7fQ9m9ahe3jQVM0gopZqnrs
-         4C+ieKP6JkpGI1Y4JC3Z7zAH71WUNKTuwsXQtPqLeaGjsG9EYS1XZibAy6JI9NXJ1cFr
-         jkxEsHGurOO/K1V71KBmGQCgObA30ZXjILqWlmEo3b6hv5pZd9dbCarCduVZtXQqaSz2
-         iWxPrK1gSxRoC8X366VpUmlOdCG3RVQCABXJPnMSgeLNw25O2ah/e5xgltPS8fCtQz3N
-         kNi3vvNe31wQH6ZwImVyhQ3Gt3o0G8MrNhW5s+Z58bz1K9n6CIkVE4RsU5swPg7x1xgi
-         9Eng==
-X-Gm-Message-State: APjAAAUgbcH1YLzhsUUeAXb5FRM5zE+g2u1uZPT7E78NgE5Tspnc9q4W
-        MxAlicTCrty09qAoAroPeqpZhqRw
-X-Google-Smtp-Source: APXvYqxZjsc3gJcd4WMict1b6TF3Sk6SKBLDJmpMEcd8pyqhlQOsW0+wZp3W5e04k7wLy6rZ5rRpVQ==
-X-Received: by 2002:a63:bc01:: with SMTP id q1mr77448318pge.442.1577734224048;
-        Mon, 30 Dec 2019 11:30:24 -0800 (PST)
-Received: from [10.67.50.49] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id u12sm30993562pfm.165.2019.12.30.11.30.22
+        bh=qOOSKaKHeFnod5RsK2x90NOSdkdcsmV7T1nxZJUbNFM=;
+        b=WDyPpa9tLMC1ctYbrXpwDKOw0jFVFDZv4coynqAbT9dAEnisAAs8Aqu6tMbgiT1K+H
+         dxHDw0HwVF2/K+l2jeWDGwZpk55uXgbF9nv0M1dfM9Gc4/laoP0RomKLAzguYBSdmLzg
+         SW9cWqhvbG6ZyW2dLrQQaH4XXIT4fu8kse1LJ7T+5x9NKhcDEP/NZJutd9HSgs7Zi1pB
+         wEoRXCMl7dP9s7dwlAmfWBbosAybBqjuJH1oIt0hXTpl8tD+JCHbwWLHnWfPPw/p4DzJ
+         o+G7y/U64FkYYtcpuQrt4XG4YaPtaTitXwrsrji83lZiQ/9FxFuvOXe7afPJ96ZELO3s
+         TuLw==
+X-Gm-Message-State: APjAAAUreLJpmKhwaGMyCFAzsavaXdmTOVvhU/Yldci1AKfA3DJSpbwU
+        tP/hYqfp88eeFJOUAnSFTwog6Mmm
+X-Google-Smtp-Source: APXvYqxazqU9rDtT0rPVHMMgwW7B4Kv0P8Jgclqa/eU938P2WNSQlrWfofGwQnG/j+Id1P8xPxj4ag==
+X-Received: by 2002:ac2:41c8:: with SMTP id d8mr38454027lfi.65.1577734626358;
+        Mon, 30 Dec 2019 11:37:06 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id m15sm18353822ljg.4.2019.12.30.11.37.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Dec 2019 11:30:23 -0800 (PST)
-Subject: Re: [PATCH 2/2] pwm: Enable compile testing for some of drivers
-To:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-riscv@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-References: <20191230172113.17222-1-krzk@kernel.org>
- <20191230172113.17222-2-krzk@kernel.org>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
- xsDiBEjPuBIRBACW9MxSJU9fvEOCTnRNqG/13rAGsj+vJqontvoDSNxRgmafP8d3nesnqPyR
- xGlkaOSDuu09rxuW+69Y2f1TzjFuGpBk4ysWOR85O2Nx8AJ6fYGCoeTbovrNlGT1M9obSFGQ
- X3IzRnWoqlfudjTO5TKoqkbOgpYqIo5n1QbEjCCwCwCg3DOH/4ug2AUUlcIT9/l3pGvoRJ0E
- AICDzi3l7pmC5IWn2n1mvP5247urtHFs/uusE827DDj3K8Upn2vYiOFMBhGsxAk6YKV6IP0d
- ZdWX6fqkJJlu9cSDvWtO1hXeHIfQIE/xcqvlRH783KrihLcsmnBqOiS6rJDO2x1eAgC8meAX
- SAgsrBhcgGl2Rl5gh/jkeA5ykwbxA/9u1eEuL70Qzt5APJmqVXR+kWvrqdBVPoUNy/tQ8mYc
- nzJJ63ng3tHhnwHXZOu8hL4nqwlYHRa9eeglXYhBqja4ZvIvCEqSmEukfivk+DlIgVoOAJbh
- qIWgvr3SIEuR6ayY3f5j0f2ejUMYlYYnKdiHXFlF9uXm1ELrb0YX4GMHz80nRmxvcmlhbiBG
- YWluZWxsaSA8Zi5mYWluZWxsaUBnbWFpbC5jb20+wmYEExECACYCGyMGCwkIBwMCBBUCCAME
- FgIDAQIeAQIXgAUCVF/S8QUJHlwd3wAKCRBhV5kVtWN2DvCVAJ4u4/bPF4P3jxb4qEY8I2gS
- 6hG0gACffNWlqJ2T4wSSn+3o7CCZNd7SLSDOwU0EVxvH8AEQAOqv6agYuT4x3DgFIJNv9i0e
- S443rCudGwmg+CbjXGA4RUe1bNdPHYgbbIaN8PFkXfb4jqg64SyU66FXJJJO+DmPK/t7dRNA
- 3eMB1h0GbAHlLzsAzD0DKk1ARbjIusnc02aRQNsAUfceqH5fAMfs2hgXBa0ZUJ4bLly5zNbr
- r0t/fqZsyI2rGQT9h1D5OYn4oF3KXpSpo+orJD93PEDeseho1EpmMfsVH7PxjVUlNVzmZ+tc
- IDw24CDSXf0xxnaojoicQi7kzKpUrJodfhNXUnX2JAm/d0f9GR7zClpQMezJ2hYAX7BvBajb
- Wbtzwi34s8lWGI121VjtQNt64mSqsK0iQAE6OYk0uuQbmMaxbBTT63+04rTPBO+gRAWZNDmQ
- b2cTLjrOmdaiPGClSlKx1RhatzW7j1gnUbpfUl91Xzrp6/Rr9BgAZydBE/iu57KWsdMaqu84
- JzO9UBGomh9eyBWBkrBt+Fe1qN78kM7JO6i3/QI56NA4SflV+N4PPgI8TjDVaxgrfUTV0gVa
- cr9gDE5VgnSeSiOleChM1jOByZu0JTShOkT6AcSVW0kCz3fUrd4e5sS3J3uJezSvXjYDZ53k
- +0GS/Hy//7PSvDbNVretLkDWL24Sgxu/v8i3JiYIxe+F5Br8QpkwNa1tm7FK4jOd95xvYADl
- BUI1EZMCPI7zABEBAAHCwagEGBECAAkFAlcbx/ACGwICKQkQYVeZFbVjdg7BXSAEGQECAAYF
- Alcbx/AACgkQh9CWnEQHBwSJBw//Z5n6IO19mVzMy/ZLU/vu8flv0Aa0kwk5qvDyvuvfiDTd
- WQzq2PLs+obX0y1ffntluhvP+8yLzg7h5O6/skOfOV26ZYD9FeV3PIgR3QYF26p2Ocwa3B/k
- P6ENkk2pRL2hh6jaA1Bsi0P34iqC2UzzLq+exctXPa07ioknTIJ09BT31lQ36Udg7NIKalnj
- 5UbkRjqApZ+Rp0RAP9jFtq1n/gjvZGyEfuuo/G+EVCaiCt3Vp/cWxDYf2qsX6JxkwmUNswuL
- C3duQ0AOMNYrT6Pn+Vf0kMboZ5UJEzgnSe2/5m8v6TUc9ZbC5I517niyC4+4DY8E2m2V2LS9
- es9uKpA0yNcd4PfEf8bp29/30MEfBWOf80b1yaubrP5y7yLzplcGRZMF3PgBfi0iGo6kM/V2
- 13iD/wQ45QTV0WTXaHVbklOdRDXDHIpT69hFJ6hAKnnM7AhqZ70Qi31UHkma9i/TeLLzYYXz
- zhLHGIYaR04dFT8sSKTwTSqvm8rmDzMpN54/NeDSoSJitDuIE8givW/oGQFb0HGAF70qLgp0
- 2XiUazRyRU4E4LuhNHGsUxoHOc80B3l+u3jM6xqJht2ZyMZndbAG4LyVA2g9hq2JbpX8BlsF
- skzW1kbzIoIVXT5EhelxYEGqLFsZFdDhCy8tjePOWK069lKuuFSssaZ3C4edHtkZ8gCfWWtA
- 8dMsqeOIg9Trx7ZBCDOZGNAAnjYQmSb2eYOAti3PX3Ex7vI8ZhJCzsNNBEjPuBIQEAC/6NPW
- 6EfQ91ZNU7e/oKWK91kOoYGFTjfdOatp3RKANidHUMSTUcN7J2mxww80AQHKjr3Yu2InXwVX
- SotMMR4UrkQX7jqabqXV5G+88bj0Lkr3gi6qmVkUPgnNkIBe0gaoM523ujYKLreal2OQ3GoJ
- PS6hTRoSUM1BhwLCLIWqdX9AdT6FMlDXhCJ1ffA/F3f3nTN5oTvZ0aVF0SvQb7eIhGVFxrlb
- WS0+dpyulr9hGdU4kzoqmZX9T/r8WCwcfXipmmz3Zt8o2pYWPMq9Utby9IEgPwultaP06MHY
- nhda1jfzGB5ZKco/XEaXNvNYADtAD91dRtNGMwRHWMotIGiWwhEJ6vFc9bw1xcR88oYBs+7p
- gbFSpmMGYAPA66wdDKGj9+cLhkd0SXGht9AJyaRA5AWB85yNmqcXXLkzzh2chIpSEawRsw8B
- rQIZXc5QaAcBN2dzGN9UzqQArtWaTTjMrGesYhN+aVpMHNCmJuISQORhX5lkjeg54oplt6Zn
- QyIsOCH3MfG95ha0TgWwyFtdxOdY/UY2zv5wGivZ3WeS0TtQf/BcGre2y85rAohFziWOzTaS
- BKZKDaBFHwnGcJi61Pnjkz82hena8OmsnsBIucsz4N0wE+hVd6AbDYN8ZcFNIDyt7+oGD1+c
- PfqLz2df6qjXzq27BBUboklbGUObNwADBQ//V45Z51Q4fRl/6/+oY5q+FPbRLDPlUF2lV6mb
- hymkpqIzi1Aj/2FUKOyImGjbLAkuBQj3uMqy+BSSXyQLG3sg8pDDe8AJwXDpG2fQTyTzQm6l
- OnaMCzosvALk2EOPJryMkOCI52+hk67cSFA0HjgTbkAv4Mssd52y/5VZR28a+LW+mJIZDurI
- Y14UIe50G99xYxjuD1lNdTa/Yv6qFfEAqNdjEBKNuOEUQOlTLndOsvxOOPa1mRUk8Bqm9BUt
- LHk3GDb8bfDwdos1/h2QPEi+eI+O/bm8YX7qE7uZ13bRWBY+S4+cd+Cyj8ezKYAJo9B+0g4a
- RVhdhc3AtW44lvZo1h2iml9twMLfewKkGV3oG35CcF9mOd7n6vDad3teeNpYd/5qYhkopQrG
- k2oRBqxyvpSLrJepsyaIpfrt5NNaH7yTCtGXcxlGf2jzGdei6H4xQPjDcVq2Ra5GJohnb/ix
- uOc0pWciL80ohtpSspLlWoPiIowiKJu/D/Y0bQdatUOZcGadkywCZc/dg5hcAYNYchc8AwA4
- 2dp6w8SlIsm1yIGafWlNnfvqbRBglSTnxFuKqVggiz2zk+1wa/oP+B96lm7N4/3Aw6uy7lWC
- HvsHIcv4lxCWkFXkwsuWqzEKK6kxVpRDoEQPDj+Oy/ZJ5fYuMbkdHrlegwoQ64LrqdmiVVPC
- TwQYEQIADwIbDAUCVF/S8QUJHlwd3wAKCRBhV5kVtWN2Do+FAJ956xSz2XpDHql+Wg/2qv3b
- G10n8gCguORqNGMsVRxrlLs7/himep7MrCc=
-Message-ID: <31653485-d6f1-5887-f101-ea8926a7879c@gmail.com>
-Date:   Mon, 30 Dec 2019 11:30:21 -0800
+        Mon, 30 Dec 2019 11:37:04 -0800 (PST)
+Subject: Re: [PATCH v1] ASoC: rt5640: Fix NULL dereference on module unload
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Bard Liao <bardliao@realtek.com>,
+        Oder Chiou <oder_chiou@realtek.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
+References: <20191229150454.2127-1-digetx@gmail.com>
+ <s5hh81i47a5.wl-tiwai@suse.de>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <68754394-fb34-b109-264a-98f36d05ff2a@gmail.com>
+Date:   Mon, 30 Dec 2019 22:37:03 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20191230172113.17222-2-krzk@kernel.org>
+In-Reply-To: <s5hh81i47a5.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 12/30/19 9:21 AM, Krzysztof Kozlowski wrote:
-> Some of the PWM drivers can be compile tested to increase build
-> coverage.
+30.12.2019 10:11, Takashi Iwai пишет:
+> On Sun, 29 Dec 2019 16:04:54 +0100,
+> Dmitry Osipenko wrote:
+>>
+>> The rt5640->jack is NULL if jack is already disabled at the time of
+>> driver's module unloading.
+>>
+>>  Unable to handle kernel NULL pointer dereference at virtual address 00000024
+>>  ...
+>>  (rt5640_set_jack [snd_soc_rt5640]) from [<bf86f7ed>] (snd_soc_component_set_jack+0x11/0x1c [snd_soc_core])
+>>  (snd_soc_component_set_jack [snd_soc_core]) from [<bf8675cf>] (soc_remove_component+0x1b/0x54 [snd_soc_core])
+>>  (soc_remove_component [snd_soc_core]) from [<bf868859>] (soc_cleanup_card_resources+0xad/0x1cc [snd_soc_core])
+>>  (soc_cleanup_card_resources [snd_soc_core]) from [<bf86945f>] (snd_soc_unregister_card+0x47/0x78 [snd_soc_core])
+>>  (snd_soc_unregister_card [snd_soc_core]) from [<bf8b4013>] (tegra_rt5640_remove+0x13/0x1c [snd_soc_tegra_rt5640])
+>>  (tegra_rt5640_remove [snd_soc_tegra_rt5640]) from [<c0516d2f>] (platform_drv_remove+0x17/0x24)
+>>  (platform_drv_remove) from [<c0515aed>] (device_release_driver_internal+0x95/0x114)
+>>  (device_release_driver_internal) from [<c0515bd9>] (driver_detach+0x4d/0x90)
+>>  (driver_detach) from [<c0514d59>] (bus_remove_driver+0x31/0x70)
+>>  (bus_remove_driver) from [<bf8b4215>] (tegra_rt5640_driver_exit+0x9/0xdf4 [snd_soc_tegra_rt5640])
+>>  (tegra_rt5640_driver_exit [snd_soc_tegra_rt5640]) from [<c019336f>] (sys_delete_module+0xe7/0x184)
+>>  (sys_delete_module) from [<c0101001>] (ret_fast_syscall+0x1/0x28)
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  sound/soc/codecs/rt5640.c | 22 ++++++++++++++--------
+>>  1 file changed, 14 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
+>> index adbae1f36a8a..b245c44cafbc 100644
+>> --- a/sound/soc/codecs/rt5640.c
+>> +++ b/sound/soc/codecs/rt5640.c
+>> @@ -2432,16 +2432,22 @@ static void rt5640_disable_jack_detect(struct snd_soc_component *component)
+>>  {
+>>  	struct rt5640_priv *rt5640 = snd_soc_component_get_drvdata(component);
+>>  
+>> -	disable_irq(rt5640->irq);
+>> -	rt5640_cancel_work(rt5640);
+>> +	/*
+>> +	 * soc_remove_component() force-disables jack and thus rt5640->jack
+>> +	 * could be NULL at the time of driver's module unloading.
+>> +	 */
+>> +	if (rt5640->jack) {
+>> +		disable_irq(rt5640->irq);
+>> +		rt5640_cancel_work(rt5640);
+>>  
+>> -	if (rt5640->jack->status & SND_JACK_MICROPHONE) {
+>> -		rt5640_disable_micbias1_ovcd_irq(component);
+>> -		rt5640_disable_micbias1_for_ovcd(component);
+>> -		snd_soc_jack_report(rt5640->jack, 0, SND_JACK_BTN_0);
+>> -	}
+>> +		if (rt5640->jack->status & SND_JACK_MICROPHONE) {
+>> +			rt5640_disable_micbias1_ovcd_irq(component);
+>> +			rt5640_disable_micbias1_for_ovcd(component);
+>> +			snd_soc_jack_report(rt5640->jack, 0, SND_JACK_BTN_0);
+>> +		}
+>>  
+>> -	rt5640->jack = NULL;
+>> +		rt5640->jack = NULL;
+>> +	}
+>>  }
 > 
-> The Meson PWM driver requires COMMON_CLK dependency.
+> I guess it's simpler just returning if rt5640->jack is already NULL.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> --- a/sound/soc/codecs/rt5640.c
+> +++ b/sound/soc/codecs/rt5640.c
+> @@ -2432,6 +2432,10 @@ static void rt5640_disable_jack_detect(struct snd_soc_component *component)
+>  {
+>  	struct rt5640_priv *rt5640 = snd_soc_component_get_drvdata(component);
+>  
+> +	/* already disabled? */
+> +	if (!rt5640->jack)
+> +		return;
+> +
+>  	disable_irq(rt5640->irq);
+>  	rt5640_cancel_work(rt5640);
+>  
+> 
+> thanks,
+> 
+> Takashi
+> 
 
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
-
-for PWM_BCM2835 and PWM_BRCMSTB, thanks!
--- 
-Florian
+Okay, I'll make v2.
