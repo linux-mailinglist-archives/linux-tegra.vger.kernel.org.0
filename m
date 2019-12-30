@@ -2,116 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AFA412D40C
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 20:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCF1712D464
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 21:19:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727665AbfL3Tjt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Dec 2019 14:39:49 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:34303 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727278AbfL3Tjt (ORCPT
+        id S1727695AbfL3UTI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Dec 2019 15:19:08 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:2823 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727691AbfL3UTH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Dec 2019 14:39:49 -0500
-Received: by mail-lf1-f65.google.com with SMTP id l18so17599109lfc.1;
-        Mon, 30 Dec 2019 11:39:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=b7jcdnKGpQoMXB5jym9bcA+uOYxnISOQKzOGlO5x77I=;
-        b=j2/p99JeknWrOKp0xFKGM5yAu6FCdh6LPVVY18jsceUWp2xjMVWCOZ9BXmJLKaZ2aO
-         D+2dBOrhOA8k/cDLGqBdrSTFdPQhqTnJf5u5MJbTeBzh8gBa1z14gTFmH2UsVe7+37Go
-         Wh2KrO2s9ZCsM3VNkF/5i41UOuLA1o1HhMXp63D+ZDQJ5RUweW93/D0bAHlj6M6oMmsi
-         spwS9Tpu8IU4C/lGzRmePbBUYmRLdylcTqsoP2FagQ3os4Jn40GQy0VW3BVabQUclnf+
-         eWMSHuVw3kL4kwewunhDwM2iDI/dCQfjFVT83hYWIpC2DXmhrZ6PMI5hd3Z3QBoMki2H
-         FmdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=b7jcdnKGpQoMXB5jym9bcA+uOYxnISOQKzOGlO5x77I=;
-        b=js5gpYHbJfNIFlIQQwD/zBmuNv3ZXIrWasHuAaFr95RfFN+GQ6toc2IcIdFyuyINpT
-         5Tlhp/w+HUqY/PVsQGkaRzkcKr25+tkXid3Gxn+ebkgnh1VPjy1lBjVTkQiUcglfyr9q
-         /OmdK9iko9plk3L6WCP+U0SPPdQXi/am1iSYq8bOi2Ei02qxrIsVxTvcyOUu97lamTkO
-         cymBQi3ayF0sM+exdAfBqvpBrriaMcW58X7d5elram0jrGaSKoKSmf2TQ37/VIwm+x4b
-         R7NYrK0kxL38GbKG/9QcGAk16leUK+uEgM4ccLidKnxjiENiP9jEfkCcq9nPkFIzBecG
-         p46A==
-X-Gm-Message-State: APjAAAUePvOmJslMb0tjzHJeGV14hFrOhMsM4Ug1+yqvsctO+rRFULqr
-        2YP0YGnFmZqoDy1sdNQKAsl6hiFD
-X-Google-Smtp-Source: APXvYqzlfvKm1U/MKTD9szzVYuXGUuy6aB9vEsrtzpBlRfH4SyGZKISZkKGCnHF6cM6KhnrzvsB6Pw==
-X-Received: by 2002:a19:2486:: with SMTP id k128mr39078871lfk.16.1577734786557;
-        Mon, 30 Dec 2019 11:39:46 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id u9sm18079594lji.49.2019.12.30.11.39.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Dec 2019 11:39:46 -0800 (PST)
-Subject: Re: [PATCH v5 07/19] dt-bindings: soc: tegra-pmc: Add id for Tegra
- PMC 32KHz blink clock
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
-        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
-        josephl@nvidia.com, daniel.lezcano@linaro.org,
-        mmaddireddy@nvidia.com, markz@nvidia.com,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1576880825-15010-1-git-send-email-skomatineni@nvidia.com>
- <1576880825-15010-8-git-send-email-skomatineni@nvidia.com>
- <c8a847fb-3d23-6e1e-59e2-a2d15b63ce02@gmail.com>
- <b46c21ca-855e-cd81-ab8d-aa96b61ebb56@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9a4a125c-7a39-31c9-4670-4f4a29e18c56@gmail.com>
-Date:   Mon, 30 Dec 2019 22:39:44 +0300
+        Mon, 30 Dec 2019 15:19:07 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e0a5bac0000>; Mon, 30 Dec 2019 12:18:52 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 30 Dec 2019 12:19:06 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 30 Dec 2019 12:19:06 -0800
+Received: from [10.26.11.89] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 30 Dec
+ 2019 20:19:03 +0000
+Subject: Re: [PATCH 4.14 000/161] 4.14.161-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191229162355.500086350@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <6f3d971c-ef8c-62e3-b0e1-e1ad1d135c73@nvidia.com>
+Date:   Mon, 30 Dec 2019 20:19:00 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <b46c21ca-855e-cd81-ab8d-aa96b61ebb56@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191229162355.500086350@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1577737132; bh=fGtAHt2b8Ds9k/oacM72vQ8sdTTLuiR4VkAdbqEmXio=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=cvdsd5E5t1BEz5I8KEVx9++RG16D1VpocUZ+zZB5VCNIw6rgWUK9UzKfNLv+8KvfQ
+         zL/eFomtMhk72ZkaVttkepQatLeaadCyQAPTP7VlSy3nmO/euIacjIMDcxUe0cnuqU
+         h7jMf5qI1SpPVsLWIW5eGHlaffuNkT2lsHq5urAzuDVuJNpnWm6qFgN+SJGU5vPU+C
+         Fms/jUvm4mvUGa2aPFrKx8xc8BxD9rHtPNXfa4MkX2vksIr0r1FbXWdhUAs1t8zJ+a
+         CxUkzI+KGF2px6J5gv5ZXqcfBnRDQCJxFM2iiKqE0M+uLjByF9W5oSWMN0ZlU4D7gh
+         gdwOJOp5eeDTw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-28.12.2019 00:30, Sowjanya Komatineni пишет:
-> 
-> On 12/22/19 1:55 PM, Dmitry Osipenko wrote:
->> 21.12.2019 01:26, Sowjanya Komatineni пишет:
->>> Tegra PMC has blink functionality that allows 32KHz clock out to
->>> blink pin of the Tegra.
->>>
->>> This patch adds id for this blink clock to use for enabling or
->>> disabling blink output through device tree.
->>>
->>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>> ---
->>>   include/dt-bindings/soc/tegra-pmc.h | 3 ++-
->>>   1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/include/dt-bindings/soc/tegra-pmc.h
->>> b/include/dt-bindings/soc/tegra-pmc.h
->>> index f7c866404456..a99a457471ee 100644
->>> --- a/include/dt-bindings/soc/tegra-pmc.h
->>> +++ b/include/dt-bindings/soc/tegra-pmc.h
->>> @@ -9,7 +9,8 @@
->>>   #define TEGRA_PMC_CLK_OUT_1        0
->>>   #define TEGRA_PMC_CLK_OUT_2        1
->>>   #define TEGRA_PMC_CLK_OUT_3        2
->>> +#define TEGRA_PMC_CLK_BLINK        3
->>>   -#define TEGRA_PMC_CLK_MAX        3
->>> +#define TEGRA_PMC_CLK_MAX        4
->>>     #endif    /* _DT_BINDINGS_SOC_TEGRA_PMC_H */
->>>
->> Could you please explain the reason of separating CLK_OUT and BLINK PMC
->> patches?
-> No specific reason just thought to have BLINK as separate patch as its
-> different register configuration to have fixed 32Khz clock out.
->>
->> Also, you only documented CLK_OUT clocks in the DT binding and no BLINK.
-> missed to add BLINK to dt-binding doc. Will add in v6.
 
-Ok
+On 29/12/2019 17:17, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.14.161 release.
+> There are 161 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Tue, 31 Dec 2019 16:17:25 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.14.161-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.14.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
+> 
+> -------------
+
+
+All tests are passing for Tegra ...
+
+Test results for stable-v4.14:
+    8 builds:	8 pass, 0 fail
+    16 boots:	16 pass, 0 fail
+    24 tests:	24 pass, 0 fail
+
+Linux version:	4.14.161-rc1-g9973cdd1885a
+Boards tested:	tegra124-jetson-tk1, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
