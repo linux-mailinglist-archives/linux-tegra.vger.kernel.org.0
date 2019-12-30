@@ -2,100 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE74312D46B
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 21:20:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C587F12D487
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 21:37:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727710AbfL3UUr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Dec 2019 15:20:47 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19156 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727691AbfL3UUr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Dec 2019 15:20:47 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e0a5c100000>; Mon, 30 Dec 2019 12:20:32 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 30 Dec 2019 12:20:46 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 30 Dec 2019 12:20:46 -0800
-Received: from [10.26.11.89] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 30 Dec
- 2019 20:20:43 +0000
-Subject: Re: [PATCH 5.4 000/434] 5.4.7-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20191229172702.393141737@linuxfoundation.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <43686be4-0ea2-472f-8b8f-2c69e16de96d@nvidia.com>
-Date:   Mon, 30 Dec 2019 20:20:41 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1727773AbfL3Ugz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Dec 2019 15:36:55 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:60828 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727667AbfL3Ugz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 30 Dec 2019 15:36:55 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 47mq3S30qFz7N;
+        Mon, 30 Dec 2019 21:36:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1577738212; bh=99TqEPrMZ5pkcNiavyKENCBAYULutWOYRq+K2R3BkDo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HP9m2s6t5HtwMgqxwN3J7/TDzMYETXRnzQ5iyTP3mbyNmpAMQFp16tZkepK4QiLoP
+         oTn7NNmuZh2N2NUiSuntCgACPqE/dVqDzqTwxwB/cemuXbGDb5HMxo6aCj4kqH/khO
+         GFuTt6IHLM8VlLhRmKkwk2And0G1JPkqymFggFsF5mSkeJnzb9TL/R/M7H9uQQ9BLu
+         gaTvgoAwuYMRHp92ia5yLqjue43QDU3GaMxbK5KGrTNzUCVOsgyyQTpd8YGr74Mktj
+         BHR7fcbG5kpLpxZ4iVdiNVJBwM1Vmg4e1+25gziuq7XKOAe4pyyub99T9KLoOd9Qbb
+         LPWqb8o+bBCwQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.101.4 at mail
+Date:   Mon, 30 Dec 2019 21:36:48 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Felipe Balbi <balbi@kernel.org>, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 13/16] usb: phy: tegra: Keep CPU interrupts enabled
+Message-ID: <20191230203648.GA24135@qmqm.qmqm.pl>
+References: <20191228203358.23490-1-digetx@gmail.com>
+ <20191228203358.23490-14-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191229172702.393141737@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1577737233; bh=4J3AjDGbaRd2FIuCDBXpLUCpZxsj/G4VqfDKUXwDKCA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=dbSY2EJ4aBgXmOgdSlC0q7lrbgSvKwiwHy/AameExHYO3vLwtzxWr0XmJm0kFaXYW
-         upWbnOBV4xcuNHYvdj75w9WEV0489RL2j5fHR6VlH+wB1EmX7RSHYt/3hiB3oE471V
-         mDZ1VdhWMtO19kkyzHYui7jsUMtCHHBEwIBROSbz83/F6asrzlboGq6MeWX2tvamgZ
-         yIbbGd9rNq59XFn5Udjfcl53fAO6DluDKPxs8bJpDChWSfkLBTmF6XHVjgvq1CUPV4
-         zA69aVKE2lCyiYMZFskAJLeLEP/phAX8oFUj24P16z0lSa3yPMOHBC30NUZnoS8Gcn
-         qdul5CE4Iai0g==
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191228203358.23490-14-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Sat, Dec 28, 2019 at 11:33:55PM +0300, Dmitry Osipenko wrote:
+> There is no good reason for disabling of CPU interrupts in order to
+> protect the utmip_pad_count modification.
 
-On 29/12/2019 17:20, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.4.7 release.
-> There are 434 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Tue, 31 Dec 2019 17:25:52 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.7-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
-> 
-> -------------
+Since there are sleeping functions called outside of the locked sections,
+this should be a mutex instead. OTOH if the spin_lock is to protect register
+write against IRQ handler, then the patch is wrong.
 
-All tests are passing for Tegra ...
+[...]
+> -	spin_unlock_irqrestore(&utmip_pad_lock, flags);
+> +	spin_unlock(&utmip_pad_lock);
+>  
+>  	clk_disable_unprepare(phy->pad_clk);
 
-Test results for stable-v5.4:
-    13 builds:	13 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    38 tests:	38 pass, 0 fail
-
-Linux version:	5.4.7-rc1-g6bc086f94af5
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Cheers
-Jon
-
--- 
-nvpublic
+Best Regards,
+Micha³ Miros³aw
