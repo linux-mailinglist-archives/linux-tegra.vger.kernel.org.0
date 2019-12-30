@@ -2,88 +2,94 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82AF412CDC4
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 09:40:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FBD412CE1D
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 10:14:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbfL3IkD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Dec 2019 03:40:03 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:44370 "EHLO gloria.sntech.de"
+        id S1727310AbfL3JNx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Dec 2019 04:13:53 -0500
+Received: from foss.arm.com ([217.140.110.172]:53560 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727175AbfL3IkD (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Dec 2019 03:40:03 -0500
-Received: from [217.166.243.182] (helo=phil.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <heiko@sntech.de>)
-        id 1ilqaS-0006tO-JZ; Mon, 30 Dec 2019 09:39:40 +0100
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     Yangtao Li <tiny.windzz@gmail.com>
-Cc:     claudiu.beznea@microchip.com, thierry.reding@gmail.com,
-        u.kleine-koenig@pengutronix.de, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
-        rjui@broadcom.com, sbranden@broadcom.com,
-        bcm-kernel-feedback-list@broadcom.com, f.fainelli@gmail.com,
-        nsaenzjulienne@suse.de, shc_work@mail.ru, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, vz@mleia.com, slemieux.tyco@gmail.com,
-        khilman@baylibre.com, matthias.bgg@gmail.com, palmer@dabbelt.com,
-        paul.walmsley@sifive.com, mripard@kernel.org, wens@csie.org,
-        jonathanh@nvidia.com, linux@prisktech.co.nz,
-        linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-riscv@lists.infradead.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 15/32] pwm: rockchip: convert to devm_platform_ioremap_resource
-Date:   Mon, 30 Dec 2019 09:39:38 +0100
-Message-ID: <3343090.K8KIS9te04@phil>
-In-Reply-To: <20191229080610.7597-15-tiny.windzz@gmail.com>
-References: <20191229080610.7597-1-tiny.windzz@gmail.com> <20191229080610.7597-15-tiny.windzz@gmail.com>
+        id S1727247AbfL3JNx (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 30 Dec 2019 04:13:53 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 745A8328;
+        Mon, 30 Dec 2019 01:13:52 -0800 (PST)
+Received: from [10.37.12.68] (unknown [10.37.12.68])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F31233F703;
+        Mon, 30 Dec 2019 01:13:45 -0800 (PST)
+Subject: Re: [PATCH 7/9] memory: samsung: exynos5422-dmc: convert to
+ devm_platform_ioremap_resource
+To:     Yangtao Li <tiny.windzz@gmail.com>, ssantosh@kernel.org,
+        paul@crapouillou.net, matthias.bgg@gmail.com, rogerq@ti.com,
+        tony@atomide.com, kgene@kernel.org, krzk@kernel.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        allison@lohutok.net, tglx@linutronix.de, yong.wu@mediatek.com,
+        jroedel@suse.de, evgreen@chromium.org, rfontana@redhat.com,
+        digetx@gmail.com, pdeschrijver@nvidia.com, john@phrozen.org,
+        alexios.zavras@intel.com, sboyd@kernel.org,
+        kstewart@linuxfoundation.org, info@metux.net,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+References: <20191222185034.4665-1-tiny.windzz@gmail.com>
+ <20191222185034.4665-7-tiny.windzz@gmail.com>
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <a331ae9c-ee2c-6c5e-3a61-a50c172359aa@arm.com>
+Date:   Mon, 30 Dec 2019 09:13:43 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20191222185034.4665-7-tiny.windzz@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Am Sonntag, 29. Dezember 2019, 09:05:53 CET schrieb Yangtao Li:
+Hi,
+
+On 12/22/19 6:50 PM, Yangtao Li wrote:
 > Use devm_platform_ioremap_resource() to simplify code.
 > 
 > Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
-
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
-
-
 > ---
->  drivers/pwm/pwm-rockchip.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>   drivers/memory/samsung/exynos5422-dmc.c | 7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/pwm/pwm-rockchip.c b/drivers/pwm/pwm-rockchip.c
-> index 73352e6fbccb..f0549b82338d 100644
-> --- a/drivers/pwm/pwm-rockchip.c
-> +++ b/drivers/pwm/pwm-rockchip.c
-> @@ -292,7 +292,6 @@ static int rockchip_pwm_probe(struct platform_device *pdev)
->  {
->  	const struct of_device_id *id;
->  	struct rockchip_pwm_chip *pc;
-> -	struct resource *r;
->  	int ret, count;
->  
->  	id = of_match_device(rockchip_pwm_dt_ids, &pdev->dev);
-> @@ -303,8 +302,7 @@ static int rockchip_pwm_probe(struct platform_device *pdev)
->  	if (!pc)
->  		return -ENOMEM;
->  
-> -	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	pc->base = devm_ioremap_resource(&pdev->dev, r);
-> +	pc->base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(pc->base))
->  		return PTR_ERR(pc->base);
->  
+> diff --git a/drivers/memory/samsung/exynos5422-dmc.c b/drivers/memory/samsung/exynos5422-dmc.c
+> index 47dbf6d1789f..81a1b1d01683 100644
+> --- a/drivers/memory/samsung/exynos5422-dmc.c
+> +++ b/drivers/memory/samsung/exynos5422-dmc.c
+> @@ -1374,7 +1374,6 @@ static int exynos5_dmc_probe(struct platform_device *pdev)
+>   	struct device *dev = &pdev->dev;
+>   	struct device_node *np = dev->of_node;
+>   	struct exynos5_dmc *dmc;
+> -	struct resource *res;
+>   	int irq[2];
+>   
+>   	dmc = devm_kzalloc(dev, sizeof(*dmc), GFP_KERNEL);
+> @@ -1386,13 +1385,11 @@ static int exynos5_dmc_probe(struct platform_device *pdev)
+>   	dmc->dev = dev;
+>   	platform_set_drvdata(pdev, dmc);
+>   
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	dmc->base_drexi0 = devm_ioremap_resource(dev, res);
+> +	dmc->base_drexi0 = devm_platform_ioremap_resource(pdev, 0);
+>   	if (IS_ERR(dmc->base_drexi0))
+>   		return PTR_ERR(dmc->base_drexi0);
+>   
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> -	dmc->base_drexi1 = devm_ioremap_resource(dev, res);
+> +	dmc->base_drexi1 = devm_platform_ioremap_resource(pdev, 1);
+>   	if (IS_ERR(dmc->base_drexi1))
+>   		return PTR_ERR(dmc->base_drexi1);
+>   
 > 
 
+Acked-by: Lukasz Luba <lukasz.luba@arm.com>
 
-
-
+Regards,
+Lukasz
