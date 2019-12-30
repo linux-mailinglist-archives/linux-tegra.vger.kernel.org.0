@@ -2,100 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EB0712CF41
-	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 12:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7097212D279
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 18:21:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727688AbfL3LOp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Dec 2019 06:14:45 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15622 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727680AbfL3LOp (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Dec 2019 06:14:45 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e09dbfc0000>; Mon, 30 Dec 2019 03:14:04 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 30 Dec 2019 03:14:44 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 30 Dec 2019 03:14:44 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 30 Dec
- 2019 11:14:44 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 30 Dec 2019 11:14:43 +0000
-Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.64.167]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e09dc200001>; Mon, 30 Dec 2019 03:14:43 -0800
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [Patch V3 18/18] arm64: tegra: Enable xudc node on Jetson TX2
-Date:   Mon, 30 Dec 2019 16:39:55 +0530
-Message-ID: <1577704195-2535-19-git-send-email-nkristam@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
-References: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
-X-NVConfidentiality: public
-MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1577704444; bh=+J6usbLBxCpsDgHVYjZ3Of9yMp7901UKTYhzrbjjOm4=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=mpz4H4CJuGs4cxyVzhso1hckUHK3yO7cj0pgHSOAlIZmmN+ymUxF9V4vL0mwV1l1a
-         nanpAI4Dzjp+BE9goVL70jh5Yc2VQWkAJx1MzsdMvnbZ/I2p41VTbcUMxt9yU6Avf7
-         SCqeGR1W6OYNuSeyWJcB56Gtnvl4uKMoYZz2AzsdUTE6PYCKjdnUr+McDhbYmFg+E1
-         MFXMy8PuegwgD9gh3AwU6jLSMAoYMoa9FyKbyKBA9iF79rIn0fQMosFI3tDz2ZZMLO
-         zpvmfbOm17j3pGd33Moxb8HaKzcPpbY46GeDwAOX+e93NUDLTQO4YJoxhUQ0SGFMnA
-         mUIAhBz33F+sg==
+        id S1727267AbfL3RV1 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 30 Dec 2019 12:21:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56036 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727207AbfL3RV0 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 30 Dec 2019 12:21:26 -0500
+Received: from localhost.localdomain (unknown [194.230.155.138])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2393420718;
+        Mon, 30 Dec 2019 17:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577726486;
+        bh=16Vm2+4bOHtwFPrZ/Vs4bLTz4LXA5yWYbJqpA0iY+e8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Ga+N7QV2jpHzzuMqRwqfmYcncnpQgMfPYcpoG9EdfkQ6s37hUOof4OYzE08ndjlWv
+         aktqnm77s9ZkoefUY3VIVMFVfWZ5zriRi45vTDGWQkFHNQDKDuFtBub2CBw7vPzvUS
+         RKfsShogNTWooDzeVgbJkAuU0lk/y4Jq0m8wN8jE=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH 1/2] pwm: Fix minor Kconfig whitespace issues
+Date:   Mon, 30 Dec 2019 18:21:12 +0100
+Message-Id: <20191230172113.17222-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable XUSB device mode driver for USB 2-0 slot on Jetson TX2.
+Remove double whitespace after "config" keyword.
 
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
-V2-V3:
- - No changes in this version
----
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/pwm/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-index a1dcdb9..d7628f5 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-@@ -131,7 +131,7 @@
- 				status = "okay";
+diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+index bd21655c37a6..c865d688f6b4 100644
+--- a/drivers/pwm/Kconfig
++++ b/drivers/pwm/Kconfig
+@@ -490,7 +490,7 @@ config PWM_TEGRA
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called pwm-tegra.
  
- 				lanes {
--					usb2-0 {
-+					micro_b: usb2-0 {
- 						nvidia,function = "xusb";
- 						status = "okay";
- 					};
-@@ -213,6 +213,13 @@
- 		phy-names = "usb2-0", "usb2-1", "usb3-0";
- 	};
+-config  PWM_TIECAP
++config PWM_TIECAP
+ 	tristate "ECAP PWM support"
+ 	depends on ARCH_OMAP2PLUS || ARCH_DAVINCI_DA8XX || ARCH_KEYSTONE || ARCH_K3
+ 	help
+@@ -499,7 +499,7 @@ config  PWM_TIECAP
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called pwm-tiecap.
  
-+	usb@3550000 {
-+		status = "okay";
-+
-+		phys = <&micro_b>;
-+		phy-names = "usb2-0";
-+	};
-+
- 	i2c@c250000 {
- 		/* carrier board ID EEPROM */
- 		eeprom@57 {
+-config  PWM_TIEHRPWM
++config PWM_TIEHRPWM
+ 	tristate "EHRPWM PWM support"
+ 	depends on ARCH_OMAP2PLUS || ARCH_DAVINCI_DA8XX || ARCH_K3
+ 	help
 -- 
-2.7.4
+2.17.1
 
