@@ -2,129 +2,92 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01E7112C30C
-	for <lists+linux-tegra@lfdr.de>; Sun, 29 Dec 2019 16:05:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D60DE12CB75
+	for <lists+linux-tegra@lfdr.de>; Mon, 30 Dec 2019 01:52:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726688AbfL2PFt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 29 Dec 2019 10:05:49 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:36260 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726675AbfL2PFt (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 29 Dec 2019 10:05:49 -0500
-Received: by mail-lj1-f196.google.com with SMTP id r19so31110606ljg.3;
-        Sun, 29 Dec 2019 07:05:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RJFIpVK2l7JXb5O04n2/M1EaQnjqMlSNsPUjZ7jwbQg=;
-        b=HgHR3+f5o25GXaOkOvlHmxuo1Bpvp6kkFLcbq666Z3/HlmCnCYnZzNCqKTxrMEzedU
-         2VY8KPlckXzrh1PWs3kjkvEFSHkDjb3pp0FeuahToE+h6nA+u0D/AeYwX+L5Xxg7RHne
-         5MObwlJrqutFM9qqw+fte556N7rci3/oKYmYljMf30u216eWu1VhEO+5DYnDh+qluQPj
-         V0Y3iR9VrGrSoEmyKNf72sPOKCBF/8BfJKokB0AIRJWEbgeiu/Nt/vixARJDNwvXLl8z
-         HpKoJNg6Vjn/WWEQMzfchTsJfRL7bjddFrwpsH9q4mkIV66/EV4ufWyf1zOOWkCUCsNY
-         2nEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RJFIpVK2l7JXb5O04n2/M1EaQnjqMlSNsPUjZ7jwbQg=;
-        b=i3YSR91YtI7CXLsBwhLV2kRYkKiBUpX2PW23YNHGIi4EgIs3aGbpFasPArjXKGbEse
-         Os4B9jje39glIvS/T22++62Q1d8DddDuvWY4zQYAcjt2UyLCZmIlwhMt9BgBSqSIGFur
-         teLAbgVZHqeEIhki7/n5oLBfNpT7GeaAh4APQdm3C4cD9vCL6yPiWkZV+rCt0NmBX6jF
-         fL8O0D2aqIpd6GxsK6BgyAT0wL6XACsEZp/+2LGm246xpVRPrnrzCGd3mFe2gmgDKrMn
-         wCoWtnytwQ9v3LEmO0xkOhsjSGWFViNh7r2nZktcIF0GqODCm9mao01Pr7ggxSjThITu
-         ed/w==
-X-Gm-Message-State: APjAAAXhCkefaTxmwwjIC1nVA6xVPXDAFFzaGVPLEqbjcuj+WygvN7d5
-        jF0uWH3SITs5Pxmwk0/BodQ=
-X-Google-Smtp-Source: APXvYqxUYqdjm3+Kq4VoxnGBV1ftdbjy1Hm09N0pSP0z+s/IcVyFV6uvWfnNZngH3u5evG0k3D6ifQ==
-X-Received: by 2002:a2e:844e:: with SMTP id u14mr34903503ljh.183.1577631946992;
-        Sun, 29 Dec 2019 07:05:46 -0800 (PST)
-Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id d24sm16169472lja.82.2019.12.29.07.05.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Dec 2019 07:05:46 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        id S1726602AbfL3AwX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 29 Dec 2019 19:52:23 -0500
+Received: from mout.perfora.net ([74.208.4.197]:57029 "EHLO mout.perfora.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726315AbfL3AwW (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 29 Dec 2019 19:52:22 -0500
+Received: from marcel-nb-toradex-int.cardiotech.int ([81.221.65.116]) by
+ mrelay.perfora.net (mreueus001 [74.208.5.2]) with ESMTPSA (Nemesis) id
+ 0LrtWq-1jksBF3egw-013iAl; Mon, 30 Dec 2019 01:52:16 +0100
+From:   Marcel Ziswiler <marcel@ziswiler.com>
+To:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Marcel Ziswiler <marcel@ziswiler.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Bard Liao <bardliao@realtek.com>,
-        Oder Chiou <oder_chiou@realtek.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>
-Cc:     linux-tegra@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1] ASoC: rt5640: Fix NULL dereference on module unload
-Date:   Sun, 29 Dec 2019 18:04:54 +0300
-Message-Id: <20191229150454.2127-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.24.0
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-pci@vger.kernel.org
+Subject: [PATCH v1] pci: tegra: fix afi_pex2_ctrl reg offset for tegra30
+Date:   Mon, 30 Dec 2019 01:52:09 +0100
+Message-Id: <20191230005209.1546434-1-marcel@ziswiler.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:TEb6gkiuTbGtsFXArq0mNHHPPNNqCPrumd3IVTaSjf3yx/9vMhs
+ foswH6A01yTPu2rpApDjn9attuLrSJWu5bYuGc/tdTxU8uLUZQoCxFpXunQbhZIfdWMWLXM
+ lQralP2mUEflNoS03f1L46rnkc9/BGF9/IYRyteT6FeQLtq4xnQ/smb/6PYA0soO/CCJCgl
+ PPvBkYDEa1wRbEcCzkz5g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jzRK0YLa2yE=:1Cg0MiY8MhBFIdhwFDWIHb
+ IfRiGFudWId7q4f/flVCULIPWo4xKwaDlgV0uyPT/dKsjXPY7YSwq9pGu7WmiIq8WWDIesGxh
+ Cuasv7EjSoWrWzf1NFxFrXUXE2xFTzRixpY4rxfD78fnDGkUyEQ20VRTbrXG8i0MWPNGHgHEE
+ 7kXs6YlFV88smMJi1q8V/mCsJ2SWRgMxPVJZ7MhRaiQfTBp+UMhpbB/ogVjlstAxYaml7fx7c
+ JxpP/zLMM1J5YtQoZu8hlfjAFfSuY1f15s3nvgLEo735/73yBXz3jvszth4ZajFGvyXonik4A
+ TqL/aDyb+09PFPHX/fztcagq7Wo4ONC7PCd31kfH6lm+7bti9zcHTAq2pb+79FLd9nwrgrlTF
+ g3gdOrXsMaG2Zl+ychPxDHTbwZEm5apehtShy68XkIQdaZgYGVdt45Ln3SRxqi6g2qxKupLL8
+ uL+nyH/K3mJ+kHgREMRHSUHwecrPdMIcjjMSanKrII2wseYVF25TFy1jVkETn0ap6WdDXBCiJ
+ iNLCtNHmtaeKacAgal/e1ZFTXiuhwKYCyhQrHv9zipjBOa8RmmLxKYt6nd2weAGUfPVUmvxex
+ tzT2f6/FfyG2Kv1HQQQpLD0K1dMVY/oGM485xbFjINRZHMJGtG9sxDbqWIK9fvm3GY1IUuaaT
+ Um0ptmVg3yRuS+CjaGLXChUot24957QP7uf9VTMYO+lTHOUlfISywGqg0mkkRXz1KezxJHb8P
+ +tYKYuG7oLZs7hBdB/nhAO/CXiBDaDEhyAMwp3mgGcANMacdcM8NFxNbsNH3aV8AGPAgXac/f
+ TJ1vZkrFJk/P6PBH3Ig1cT0rCkFK5IS16InbMbYrIfLgv6b4yscooqIZKH4qgwoiw48mj+yRL
+ 1qx/eOY5AN/dxEBxyOfg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The rt5640->jack is NULL if jack is already disabled at the time of
-driver's module unloading.
+Fix AFI_PEX2_CTRL reg offset for tegra30 by moving it from the tegra20
+SoC struct where it erroneously got added by commit adb2653b3d2e
+("PCI: tegra: Add AFI_PEX2_CTRL reg offset as part of SoC struct").
+This fixes the AFI_PEX2_CTRL reg offset being uninitialised
+subsequently failing to bring up the third PCIe port.
 
- Unable to handle kernel NULL pointer dereference at virtual address 00000024
- ...
- (rt5640_set_jack [snd_soc_rt5640]) from [<bf86f7ed>] (snd_soc_component_set_jack+0x11/0x1c [snd_soc_core])
- (snd_soc_component_set_jack [snd_soc_core]) from [<bf8675cf>] (soc_remove_component+0x1b/0x54 [snd_soc_core])
- (soc_remove_component [snd_soc_core]) from [<bf868859>] (soc_cleanup_card_resources+0xad/0x1cc [snd_soc_core])
- (soc_cleanup_card_resources [snd_soc_core]) from [<bf86945f>] (snd_soc_unregister_card+0x47/0x78 [snd_soc_core])
- (snd_soc_unregister_card [snd_soc_core]) from [<bf8b4013>] (tegra_rt5640_remove+0x13/0x1c [snd_soc_tegra_rt5640])
- (tegra_rt5640_remove [snd_soc_tegra_rt5640]) from [<c0516d2f>] (platform_drv_remove+0x17/0x24)
- (platform_drv_remove) from [<c0515aed>] (device_release_driver_internal+0x95/0x114)
- (device_release_driver_internal) from [<c0515bd9>] (driver_detach+0x4d/0x90)
- (driver_detach) from [<c0514d59>] (bus_remove_driver+0x31/0x70)
- (bus_remove_driver) from [<bf8b4215>] (tegra_rt5640_driver_exit+0x9/0xdf4 [snd_soc_tegra_rt5640])
- (tegra_rt5640_driver_exit [snd_soc_tegra_rt5640]) from [<c019336f>] (sys_delete_module+0xe7/0x184)
- (sys_delete_module) from [<c0101001>] (ret_fast_syscall+0x1/0x28)
+Signed-off-by: Marcel Ziswiler <marcel@ziswiler.com>
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- sound/soc/codecs/rt5640.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
-index adbae1f36a8a..b245c44cafbc 100644
---- a/sound/soc/codecs/rt5640.c
-+++ b/sound/soc/codecs/rt5640.c
-@@ -2432,16 +2432,22 @@ static void rt5640_disable_jack_detect(struct snd_soc_component *component)
- {
- 	struct rt5640_priv *rt5640 = snd_soc_component_get_drvdata(component);
- 
--	disable_irq(rt5640->irq);
--	rt5640_cancel_work(rt5640);
-+	/*
-+	 * soc_remove_component() force-disables jack and thus rt5640->jack
-+	 * could be NULL at the time of driver's module unloading.
-+	 */
-+	if (rt5640->jack) {
-+		disable_irq(rt5640->irq);
-+		rt5640_cancel_work(rt5640);
- 
--	if (rt5640->jack->status & SND_JACK_MICROPHONE) {
--		rt5640_disable_micbias1_ovcd_irq(component);
--		rt5640_disable_micbias1_for_ovcd(component);
--		snd_soc_jack_report(rt5640->jack, 0, SND_JACK_BTN_0);
--	}
-+		if (rt5640->jack->status & SND_JACK_MICROPHONE) {
-+			rt5640_disable_micbias1_ovcd_irq(component);
-+			rt5640_disable_micbias1_for_ovcd(component);
-+			snd_soc_jack_report(rt5640->jack, 0, SND_JACK_BTN_0);
-+		}
- 
--	rt5640->jack = NULL;
-+		rt5640->jack = NULL;
-+	}
- }
- 
- static int rt5640_set_jack(struct snd_soc_component *component,
+ drivers/pci/controller/pci-tegra.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
+index 090b632965e2..ac93f5a0398e 100644
+--- a/drivers/pci/controller/pci-tegra.c
++++ b/drivers/pci/controller/pci-tegra.c
+@@ -2499,7 +2499,6 @@ static const struct tegra_pcie_soc tegra20_pcie = {
+ 	.num_ports = 2,
+ 	.ports = tegra20_pcie_ports,
+ 	.msi_base_shift = 0,
+-	.afi_pex2_ctrl = 0x128,
+ 	.pads_pll_ctl = PADS_PLL_CTL_TEGRA20,
+ 	.tx_ref_sel = PADS_PLL_CTL_TXCLKREF_DIV10,
+ 	.pads_refclk_cfg0 = 0xfa5cfa5c,
+@@ -2528,6 +2527,7 @@ static const struct tegra_pcie_soc tegra30_pcie = {
+ 	.num_ports = 3,
+ 	.ports = tegra30_pcie_ports,
+ 	.msi_base_shift = 8,
++	.afi_pex2_ctrl = 0x128,
+ 	.pads_pll_ctl = PADS_PLL_CTL_TEGRA30,
+ 	.tx_ref_sel = PADS_PLL_CTL_TXCLKREF_BUF_EN,
+ 	.pads_refclk_cfg0 = 0xfa5cfa5c,
 -- 
-2.24.0
+2.24.1
 
