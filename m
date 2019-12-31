@@ -2,99 +2,84 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B19A12D52C
-	for <lists+linux-tegra@lfdr.de>; Tue, 31 Dec 2019 01:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9F0312D714
+	for <lists+linux-tegra@lfdr.de>; Tue, 31 Dec 2019 09:31:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727750AbfLaARe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 30 Dec 2019 19:17:34 -0500
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:52258 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727744AbfLaARe (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 30 Dec 2019 19:17:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=RbisTe+iB3aSugYpvz9elCfJ1m1jElfgrG8cOw7p7uQ=; b=heqQ65uOQruVqrBdkas8NwERq
-        5jwYd62w0bDd1Y1a7yJo/gb2KHpaIM9PH/PVC1PuxdBGVSRIJkIl4cwMPE/w9Dit0UvGWrQla0Iv7
-        cp7KLYK78VdkcUZeUHjC3w3EQGXDiZEBUnOpONHruGyQnElwaRVey/yPLQuPS7xTt9xc8=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=fitzroy.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1im5Ds-0002iq-71; Tue, 31 Dec 2019 00:17:20 +0000
-Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
-        id 8BCC4D01A22; Tue, 31 Dec 2019 00:17:19 +0000 (GMT)
-Date:   Tue, 31 Dec 2019 00:17:19 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Bard Liao <bardliao@realtek.com>,
-        Oder Chiou <oder_chiou@realtek.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] ASoC: rt5640: Fix NULL dereference on module unload
-Message-ID: <20191231001719.GC3897@sirena.org.uk>
-References: <20191229150454.2127-1-digetx@gmail.com>
+        id S1725770AbfLaIbR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 31 Dec 2019 03:31:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35274 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725536AbfLaIbR (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 31 Dec 2019 03:31:17 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4D6EE206DB;
+        Tue, 31 Dec 2019 08:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577781076;
+        bh=rvMR+E9omx4eCaqSUjlIrwJ0PKoCXLsH6vsG5WrM0jA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2MTQVTjLkNboVCVdRdsrDI8w3KmvExh+24BuU8xlw8yAzBuQbWEIMTupedv/Y//WM
+         Depsi/TCA9b+N9ELGzvn8AySLcin5u/QbP0wwGsxQfvXOrn9IE+dGRs6JWYFAHnTTw
+         XQmLIcS+jdgHH77M4cka+38/KEg7LqI2c3rNOZj0=
+Date:   Tue, 31 Dec 2019 09:31:14 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 5.4 000/434] 5.4.7-stable review
+Message-ID: <20191231083114.GB1928116@kroah.com>
+References: <20191229172702.393141737@linuxfoundation.org>
+ <43686be4-0ea2-472f-8b8f-2c69e16de96d@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="jy6Sn24JjFx/iggw"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191229150454.2127-1-digetx@gmail.com>
-X-Cookie: Programming is an unnatural act.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <43686be4-0ea2-472f-8b8f-2c69e16de96d@nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Dec 30, 2019 at 08:20:41PM +0000, Jon Hunter wrote:
+> 
+> On 29/12/2019 17:20, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 5.4.7 release.
+> > There are 434 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> > 
+> > Responses should be made by Tue, 31 Dec 2019 17:25:52 +0000.
+> > Anything received after that time might be too late.
+> > 
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.7-rc1.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> > and the diffstat can be found below.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> > 
+> > -------------
+> 
+> All tests are passing for Tegra ...
+> 
+> Test results for stable-v5.4:
+>     13 builds:	13 pass, 0 fail
+>     22 boots:	22 pass, 0 fail
+>     38 tests:	38 pass, 0 fail
+> 
+> Linux version:	5.4.7-rc1-g6bc086f94af5
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra30-cardhu-a04
+> 
 
---jy6Sn24JjFx/iggw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for testing all of these and letting me know.
 
-On Sun, Dec 29, 2019 at 06:04:54PM +0300, Dmitry Osipenko wrote:
-> The rt5640->jack is NULL if jack is already disabled at the time of
-> driver's module unloading.
->=20
->  Unable to handle kernel NULL pointer dereference at virtual address 0000=
-0024
->  ...
->  (rt5640_set_jack [snd_soc_rt5640]) from [<bf86f7ed>] (snd_soc_component_=
-set_jack+0x11/0x1c [snd_soc_core])
->  (snd_soc_component_set_jack [snd_soc_core]) from [<bf8675cf>] (soc_remov=
-e_component+0x1b/0x54 [snd_soc_core])
->  (soc_remove_component [snd_soc_core]) from [<bf868859>] (soc_cleanup_car=
-d_resources+0xad/0x1cc [snd_soc_core])
-
-In addition to what Takashi said:
-
-Please think hard before including complete backtraces in upstream
-reports, they are very large and contain almost no useful information
-relative to their size so often obscure the relevant content in your
-message. If part of the backtrace is usefully illustrative then it's
-usually better to pull out the relevant sections.
-
---jy6Sn24JjFx/iggw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4Kk44ACgkQJNaLcl1U
-h9B0vAf+Jesim6R6yU2diF32zHcRsUbMmsppI6c2j5Th/D8i5h+fRxjvXEvVkuGI
-XjQkntGRuppBqIv7EcVt19JhOaO2S2+dCWskZY9G1C2t0k/i4FaGv20iVr+Zd1qI
-po2/Sv/mjruuFZqpx8ZVGdGVwrdCB8EnANT6k62eFFGb+bvrE9k6xh4db9CyYBKH
-EO+NXjIDf/115a4XcHEfWGe3627k8rlw5llArmHyp+kTo2jq5jbCVcUxsXGTsz7W
-QyGsYgljmuJ7OVMZv2lpHa4Wxl1hdCobWS8TCrjK5gMFmlWZypw1zOh5Z9lkEVcl
-nm/taB4a/p7GEMWOa+AJevErYZjl2w==
-=D3/K
------END PGP SIGNATURE-----
-
---jy6Sn24JjFx/iggw--
+greg k-h
