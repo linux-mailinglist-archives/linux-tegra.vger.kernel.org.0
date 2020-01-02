@@ -2,64 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54A7812E6A3
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jan 2020 14:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA28712E755
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jan 2020 15:41:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728361AbgABNXN (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Jan 2020 08:23:13 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59982 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728364AbgABNXN (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jan 2020 08:23:13 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id EA60528A0BE
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-tegra@vger.kernel.org,
+        id S1728566AbgABOkx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Jan 2020 09:40:53 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:39573 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728425AbgABOkx (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jan 2020 09:40:53 -0500
+Received: by mail-lj1-f194.google.com with SMTP id l2so40907202lja.6;
+        Thu, 02 Jan 2020 06:40:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=YTVCjk10X6IDkXlg3Lj964r6euM3rxVqLQ0GPKfUCcY=;
+        b=AP5XweqgaDQb81JEDXXKrNOcYIEC2i4tvtdZSUGy93+DHN8A7ffo9TybljSB9VJ4j3
+         oZiC3JWlslj+PMJ13KpRrBZjp0emO2GobVqk+FEpnz5lFn8yuNZ+jFhEbwIMK73UeZB1
+         P0WN+b7kW6c8faslew/p/cfGYho0JQNrarwEKGJFRRB9bBNHI9/9YGZXVqzP1gMLeQQC
+         uwtOqNfEhpzbW6cUHtOSJ+bIzsO+UIoGEBAAxhZSmD/mI0CykOjgaCZixZZlYtfdKQ4T
+         iFUw53maeqLsVUL3PHWSSunz0Dv4NC0WQxDaawkoHV6HvLHzG0qBidaxdKLFxkN+F3YC
+         IR2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=YTVCjk10X6IDkXlg3Lj964r6euM3rxVqLQ0GPKfUCcY=;
+        b=LDuOcCxuIzJfZfPczf0dw4MAMxSmY8cy+2o79sBX1ERxzauk7Arga1GNQDMYqV8xJC
+         jHSFxqu8nhYMIeSpl1QKsUc/BypJtUQD0nc4gR3AuXjFjJBRbskhvSYU2kIumnSIa98R
+         jw6p9wcywLai6Vv4Bny0KS7zzJ37MIZDxBoJhl3V+A5KAr2FcGxVVODVugTBp9XKYs9Z
+         OQCl3CfhB/Kn5pJCzfVBaZJgOnTN2sh1Z/faJb0NTgtt9API0MPCco5Fm6TIphxcqY4M
+         nn8lg/jbhHiIyD/qYjqYzlRvguu5dvZcgsC8XknkUiToAKV74qN4bhi2yZoTJ7ohQ4Sj
+         fV8w==
+X-Gm-Message-State: APjAAAXQMfUwgsT+mXc7VcLE0VR6TczStRajVrtvWbBcelMdRiVfkcMy
+        N01fvBmjEyZcLgEuM+Id3UPxKcs1
+X-Google-Smtp-Source: APXvYqxW/kfrNuZymj/mH11dgfiJX4D4dMU5VfflYEafTsK943BzpUc401lim/Fq7EUQMnVZaeZkrg==
+X-Received: by 2002:a2e:88c5:: with SMTP id a5mr49355528ljk.201.1577976050485;
+        Thu, 02 Jan 2020 06:40:50 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id g15sm18239966ljl.10.2020.01.02.06.40.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jan 2020 06:40:49 -0800 (PST)
+Subject: Re: [PATCH v3 13/16] usb: phy: tegra: Keep CPU interrupts enabled
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Eric Anholt <eric@anholt.net>, Shawn Guo <shawnguo@kernel.org>,
-        kernel@collabora.com
-Subject: [PATCH 4/4] drm: zte: Provide ddc symlink in vga connector sysfs directory
-Date:   Thu,  2 Jan 2020 14:23:00 +0100
-Message-Id: <20200102132300.24309-5-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200102132300.24309-1-andrzej.p@collabora.com>
-References: <20200102132300.24309-1-andrzej.p@collabora.com>
+        Felipe Balbi <balbi@kernel.org>, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20191228203358.23490-1-digetx@gmail.com>
+ <20191228203358.23490-14-digetx@gmail.com>
+ <20191230203648.GA24135@qmqm.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <ad1a2b09-12b0-112e-1556-6faf6a01c330@gmail.com>
+Date:   Thu, 2 Jan 2020 17:40:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <20191230203648.GA24135@qmqm.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Use the ddc pointer provided by the generic connector.
+30.12.2019 23:36, Michał Mirosław пишет:
+> On Sat, Dec 28, 2019 at 11:33:55PM +0300, Dmitry Osipenko wrote:
+>> There is no good reason for disabling of CPU interrupts in order to
+>> protect the utmip_pad_count modification.
+> 
+> Since there are sleeping functions called outside of the locked sections,
+> this should be a mutex instead. OTOH if the spin_lock is to protect register
+> write against IRQ handler, then the patch is wrong.
+> 
+> [...]
+>> -	spin_unlock_irqrestore(&utmip_pad_lock, flags);
+>> +	spin_unlock(&utmip_pad_lock);
+>>  
+>>  	clk_disable_unprepare(phy->pad_clk);
 
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
----
- drivers/gpu/drm/zte/zx_vga.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Hello Michał,
 
-diff --git a/drivers/gpu/drm/zte/zx_vga.c b/drivers/gpu/drm/zte/zx_vga.c
-index 9b67e419280c..c4fa3bbaba78 100644
---- a/drivers/gpu/drm/zte/zx_vga.c
-+++ b/drivers/gpu/drm/zte/zx_vga.c
-@@ -165,8 +165,10 @@ static int zx_vga_register(struct drm_device *drm, struct zx_vga *vga)
- 
- 	vga->connector.polled = DRM_CONNECTOR_POLL_HPD;
- 
--	ret = drm_connector_init(drm, connector, &zx_vga_connector_funcs,
--				 DRM_MODE_CONNECTOR_VGA);
-+	ret = drm_connector_init_with_ddc(drm, connector,
-+					  &zx_vga_connector_funcs,
-+					  DRM_MODE_CONNECTOR_VGA,
-+					  &vga->ddc->adap);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "failed to init connector: %d\n", ret);
- 		goto clean_encoder;
--- 
-2.17.1
+This spinlock isn't for protecting from the IRQ handler, it's used
+solely to protect modification of the registers that are shared by all
+USB controllers.
 
+It's possible to use mutex instead of spinlock here, but it doesn't
+bring any benefits because mutex is more useful when protected code
+could block for a long time due to sleep or whatever, while spinlock is
+much more efficient when protected code doesn't sleep and takes no more
+than dozens microseconds to execute (which is the case here).
+
+In this particular case of the Tegra USB PHY driver, the chance of
+getting a block on taking the utmip_pad_lock is zero unless USB
+controller drivers will start to use asynchronous probing. So this patch
+does a very minor clean-up change and nothing more.
