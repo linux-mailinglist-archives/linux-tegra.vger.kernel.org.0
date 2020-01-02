@@ -2,69 +2,75 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7817A12E7E9
-	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jan 2020 16:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47AE412E7FB
+	for <lists+linux-tegra@lfdr.de>; Thu,  2 Jan 2020 16:17:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728609AbgABPJt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Jan 2020 10:09:49 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:36691 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728575AbgABPJt (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jan 2020 10:09:49 -0500
-Received: by mail-lf1-f65.google.com with SMTP id n12so30085355lfe.3;
-        Thu, 02 Jan 2020 07:09:47 -0800 (PST)
+        id S1728645AbgABPRv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 2 Jan 2020 10:17:51 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:42414 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728561AbgABPRv (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jan 2020 10:17:51 -0500
+Received: by mail-lj1-f194.google.com with SMTP id y4so26679199ljj.9;
+        Thu, 02 Jan 2020 07:17:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+a2O3hqTtaPiCx17fejjVd1UbANHtpnbuq4++Xop2H0=;
-        b=BlgPHmcJR0DMimDWhTqezQJ7QKJF24oiSp9znFzUUvdhumfvoQyuh5CnOOKUtGhCVH
-         5O43yr3JLfjoEi6otatMCmXTQR9Dhp36pqK8yc5sARoJpmGTxsRcPxKadKEtjDlVLTI2
-         Rm0ljO+d5WKDIbgnD3TRGAdEyz5z2hkhLZCyz1WRPih7c6jMCBvrTtPSfKeGg4GynyBB
-         ZPXBFL5zJiFp0zTKDUNSNaEgk5Gsol7y0RDEzP6Vz30nCiyHu791Nbe/yTdOozkGhbuI
-         Ap9ZwI4DMe9MnoTGq5nUHN72H1CHhBllRHkVVrrpazTTa4/kqMRPQh7gYWymZDAKj0pw
-         tn9w==
+        bh=BQek1hpGtAcuz3Vy94GFTxcBosOLuEGkc1EsxVOl7K0=;
+        b=rm6d9E+dTNWcbvvwgWbOuPY6szM3rkWylgsiKib7v/V9yznlEsOsFwX+N2GwxKm9U/
+         qWscJQCbsvRA5ARFjYODsuNr2mt8t0SjPKbFIkshsLU+B9PtUQVyieZ6wNEJCSZ6sohO
+         27i470vK8+FYTG4xMLLSr4GPKbk1cr4cg2CuUg8YdNrhaFOJoKzI6j/GRxnYq5rgDbcm
+         vUYKLKvwT1mRsooiqTSbboIB9xwD8NetwGWEp+sfnw6rvNm3hkxjiD80wZ7tMJ6r1QFz
+         O/4kShUi1C5bBOfNwHhevjBt45lkHKgqD6n2NoMawUeJDZDdSqm4KV4R6X2U2mmNryXO
+         4rKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=+a2O3hqTtaPiCx17fejjVd1UbANHtpnbuq4++Xop2H0=;
-        b=RTjQB2wXfn6CIuRHnp8x7qxP368WRGg3TsmJej/zRqIIz1BAIxwOf4pT8bALwcfIjA
-         NMYYCJwFn6SZgO4oMlW0mX7vdBt7UpGqkaWNO1l5nnEyhr0457ZsIBvrMvGwlDjizGw1
-         qama+yGLlxnjFvsKMaLDFPoVAY5tkpNetUh9RiUjMKz+ygeHGzDdZfPoUVD5GYd5vRqy
-         kuwF59usLlfw/T12VMckVbHYoWtiBBYeNIR52YheYRbhYZWlJxxPw7ubkDlsO0pMNHcR
-         O2ruc48LInQxJFUb/MfatzVCCfhaZmyuIYUotmNZGHDPKofaQxuCyUTZ7Tzy5jEIJHz0
-         YtYg==
-X-Gm-Message-State: APjAAAVeIwEvetXkBR2n3GAwx8Eh+HVNVhQG9j7lngJ5voX2kg+OjOxY
-        qgHa57EXG7Q+s9+jZYvHInZxhE3M
-X-Google-Smtp-Source: APXvYqzPCZN6+nbNfUaYLUQF2gFcF+kj4pbrsfs8NJ/v+bvHIv6Q7U/K7+juNJ8DNsx4bwq3J2fSqw==
-X-Received: by 2002:ac2:54b5:: with SMTP id w21mr46372820lfk.175.1577977786770;
-        Thu, 02 Jan 2020 07:09:46 -0800 (PST)
+        bh=BQek1hpGtAcuz3Vy94GFTxcBosOLuEGkc1EsxVOl7K0=;
+        b=ASVNTFb06OPMzozrwX9iDdOUWqBWV26aqWP9DeiSTxgtY8OudLWE8LDeu2tjsOCK/l
+         U+kpSjjJzQyWdTO2UULNGzzCmrLSLz2U1VL3cm1o+au8IJa9trJfrcTTFkAw2jeLiQSV
+         4ZvWfeTJYfXr01A81YkyfqK1b4uyZmRI39tR2RcxV77bIYOP/CbTIKLJw5M89QfZtzon
+         I9n2wwRkXpnpinRpaxhxTbZOlXOjCqgXxFGzR9EfoyqkTcO5nJI9dewnZU/CgAQ+DO8n
+         17A8tILf7ifhOEercnbI6gwOD2Rot/k/ZA3qi/niz2iQIG0UggZ7A2F8u61PotrKOodN
+         9W1g==
+X-Gm-Message-State: APjAAAW9JRPDrrYsJTJw6pzWVE7fvo7teUAJveskMlnSruAsDf9bYjap
+        aSj9XjgkdetlG/nsmmApeMaUVLoi
+X-Google-Smtp-Source: APXvYqxvkVFnhiPOxFv+7ZRxTUIFTDSny58aAUFqXUPm0qk5W3c5Kf0KO4HWqsPuKxknmCVge1rAdQ==
+X-Received: by 2002:a2e:943:: with SMTP id 64mr37257269ljj.17.1577978269110;
+        Thu, 02 Jan 2020 07:17:49 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id a9sm23401356lfk.23.2020.01.02.07.09.45
+        by smtp.googlemail.com with ESMTPSA id g27sm23515861lfj.49.2020.01.02.07.17.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jan 2020 07:09:46 -0800 (PST)
-Subject: Re: [PATCH v1 3/7] dmaengine: tegra-apb: Prevent race conditions on
- channel's freeing
+        Thu, 02 Jan 2020 07:17:48 -0800 (PST)
+Subject: Re: [PATCH v2 10/10] usb: chipidea: tegra: Add USB_TEGRA_PHY module
+ to driver's dependencies
 To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
+Cc:     Peter Chen <peter.chen@nxp.com>, Rob Herring <robh-dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191228204640.25163-1-digetx@gmail.com>
- <20191228204640.25163-4-digetx@gmail.com>
- <20191230204555.GB24135@qmqm.qmqm.pl> <20191230205054.GC24135@qmqm.qmqm.pl>
+        Felipe Balbi <balbi@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20191220015238.9228-1-digetx@gmail.com>
+ <20191220015238.9228-11-digetx@gmail.com>
+ <20191220035650.GC19921@b29397-desktop>
+ <fb7dee6e-e645-fe45-126c-c5f1e280bc26@gmail.com>
+ <20191223213234.GA28786@qmqm.qmqm.pl>
+ <7174833f-8325-7fb4-d190-78ba4bed0cbb@gmail.com>
+ <20191230210259.GD24135@qmqm.qmqm.pl>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4e1e4fef-f75c-f2e2-4d9e-29af69daf8db@gmail.com>
-Date:   Thu, 2 Jan 2020 18:09:45 +0300
+Message-ID: <b34972e3-569e-d74a-4d30-d52c89032a08@gmail.com>
+Date:   Thu, 2 Jan 2020 18:17:47 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20191230205054.GC24135@qmqm.qmqm.pl>
+In-Reply-To: <20191230210259.GD24135@qmqm.qmqm.pl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -73,29 +79,53 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.12.2019 23:50, Michał Mirosław пишет:
-> On Mon, Dec 30, 2019 at 09:45:55PM +0100, Michał Mirosław wrote:
->> On Sat, Dec 28, 2019 at 11:46:36PM +0300, Dmitry Osipenko wrote:
->>> It's unsafe to check the channel's "busy" state without taking a lock,
->>> it is also unsafe to assume that tasklet isn't in-fly.
+31.12.2019 00:02, Michał Mirosław пишет:
+> On Tue, Dec 24, 2019 at 07:21:05AM +0300, Dmitry Osipenko wrote:
+>> 24.12.2019 00:32, Michał Mirosław пишет:
+>>> On Fri, Dec 20, 2019 at 07:31:08AM +0300, Dmitry Osipenko wrote:
+>>>> 20.12.2019 06:56, Peter Chen пишет:
+>>>>> On 19-12-20 04:52:38, Dmitry Osipenko wrote:
+>>> [...]
+>>>>>> --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
+>>>>>> +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+>>>>>> @@ -53,6 +53,12 @@ static int tegra_udc_probe(struct platform_device *pdev)
+>>>>>>  	struct tegra_udc *udc;
+>>>>>>  	int err;
+>>>>>>  
+>>>>>> +	if (IS_MODULE(CONFIG_USB_TEGRA_PHY)) {
+>>>>>> +		err = request_module("phy_tegra_usb");
+>>>>>> +		if (err)
+>>>>>> +			return err;
+>>>>>> +	}
+>>>>>> +
+>>>>>
+>>>>> Why you do this dependency, if this controller driver can't
+>>>>> get USB PHY, it should return error. What's the return value
+>>>>> after calling below:
+>>>>>
+>>>>> 	udc->phy = devm_usb_get_phy_by_phandle(&pdev->dev, "nvidia,phy", 0);
+>>>>
+>>>> It returns -EPROBE_DEFER when phy_tegra_usb isn't loaded.
+>>>
+>>> How are other driver modules autoloaded? Isn't there an appropriate
+>>> MODALIAS or MODULE_DEVICE_TABLE in there?
 >>
->> 'in-flight'. Also, the patch seems to have two independent bug-fixes
->> in it. Second one doesn't look right, at least not without an explanation.
+>> Hello Michał,
 >>
->> First:
+>> The phy_tegra_usb module is fine by itself, it's getting autoloaded.
 >>
->>> -	if (tdc->busy)
->>> -		tegra_dma_terminate_all(dc);
->>> +	tegra_dma_terminate_all(dc);
->>
->> Second:
->>
->>> +	tasklet_kill(&tdc->tasklet);
+>> The problem is that ci_hdrc_tegra module depends on the phy_tegra_usb
+>> module and thus the PHY module should be loaded before the CI module,
+>> otherwise CI driver fails with the EPROBE_DEFER.
 > 
-> BTW, maybe you can convert the code to threaded interrupt handler and
-> just get rid of the tasklet instead of fixing it?
+> Why, then, is CI driver not being probed again after PHY driver loads?
+> EPROBE_DEFER is what should cause driver core to re-probe a device after
+> other devices appear (PHY in this case).
 
-This shouldn't bring much benefit because the the code's logic won't be
-changed since we will still have to use the threaded ISR part as the
-bottom-half and then IRQ API doesn't provide a nice way to synchronize
-interrupt's execution, while tasklet_kill() is a nice way to sync it.
+CI driver is getting re-probed just fine if PHY's driver module is
+loaded manually after loading the CI's module. This patch removes this
+necessity to manually load PHY's module.
+
+This is just a minor convenience change that brings the CI's driver
+loading behaviour on par with the behaviour of loading Tegra's EHCI
+driver module.
