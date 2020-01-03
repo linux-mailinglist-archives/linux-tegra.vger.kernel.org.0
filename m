@@ -2,90 +2,147 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BECE12F538
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Jan 2020 09:16:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6492E12F53E
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Jan 2020 09:18:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbgACIQI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Jan 2020 03:16:08 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:46728 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726077AbgACIQI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 3 Jan 2020 03:16:08 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 47pyQs3YPrz7s;
-        Fri,  3 Jan 2020 09:16:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1578039365; bh=24INBJn6/AhdszYZsAgIJQtalmEEUe8z6ScniBZ7g6I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IpzbyTANCkZ9yF3r2s21R+38rXuz/WzxXFi3gE68qjHjylRxDulDxKMUVgt1W+vyW
-         IXf1htwIZwg7L2B8zXpgn0oU81qtcPmKiNo6mZB4BXKlftyhxN4cj7dCtbB+XkaCZl
-         Ewk4JVc/4US1fof5N4JK5Zu6P9WXqBzTLybCcZSf1zb2CtOU6FThLhbnha3h+B4cx8
-         L7R9FrY1nJyXlR+GY9ohLUmxc4n/675ALzwcG57UL6geD7gyjMKLZasP1mCJzaacOG
-         VWwccLIp/MqwJS4X52LFDXRTjvA/c9VRnuZRCycOOVhsKFPusHaEEjbdy6NCK5FAE0
-         L/cfAylESAZ/A==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.101.4 at mail
-Date:   Fri, 3 Jan 2020 09:16:04 +0100
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/7] dmaengine: tegra-apb: Prevent race conditions on
- channel's freeing
-Message-ID: <20200103081604.GD14228@qmqm.qmqm.pl>
-References: <20191228204640.25163-1-digetx@gmail.com>
- <20191228204640.25163-4-digetx@gmail.com>
- <20191230204555.GB24135@qmqm.qmqm.pl>
- <20191230205054.GC24135@qmqm.qmqm.pl>
- <4e1e4fef-f75c-f2e2-4d9e-29af69daf8db@gmail.com>
+        id S1726077AbgACISV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Jan 2020 03:18:21 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17270 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbgACISU (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Jan 2020 03:18:20 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e0ef8a00000>; Fri, 03 Jan 2020 00:17:36 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 03 Jan 2020 00:18:19 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 03 Jan 2020 00:18:19 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 3 Jan
+ 2020 08:18:19 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 3 Jan 2020 08:18:19 +0000
+Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.118]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e0ef8c90000>; Fri, 03 Jan 2020 00:18:18 -0800
+From:   JC Kuo <jckuo@nvidia.com>
+To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <robh@kernel.org>, <jonathanh@nvidia.com>, <kishon@ti.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <nkristam@nvidia.com>, JC Kuo <jckuo@nvidia.com>
+Subject: [PATCH v5 0/5] add Tegra194 XUSB host and pad controller support
+Date:   Fri, 3 Jan 2020 16:18:09 +0800
+Message-ID: <20200103081814.9848-1-jckuo@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4e1e4fef-f75c-f2e2-4d9e-29af69daf8db@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1578039456; bh=X4mjGDVLvOOMu/CS3QJZ3IdBByzNIMa6AL45A4t9lns=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=He0cTCOwtP8g6qSPimI+NDkH7F+JLDLil9kihoklJw0rJ3eHBXe14F9kXpF/UoBZs
+         ryKacQfOzrf2uxRHGSPjeOlRW0CKwK3beXbbBgBUwyGFttfpemaNhpMpO53fYaP/B2
+         QOA1RXpbx7uBMttqhCT3pEhb7ibaFjZ/DdAECdE7UN1ltl3GnLgxOMo0D9zKHul6Ie
+         447mKg6LkvlhYL5aWKQxsgiEF2teJyY9IJDbRg0LDgXLPGTPIhRZFwadQjFXZGJzpP
+         GDd/FjafmHzzKv3go38Ca3ybcWu8qhLxaVU3SEjVUnx0Pl/b9IWZZT4uod1WuAJmsS
+         PIfNiXBA56ueA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jan 02, 2020 at 06:09:45PM +0300, Dmitry Osipenko wrote:
-> 30.12.2019 23:50, Michał Mirosław пишет:
-> > On Mon, Dec 30, 2019 at 09:45:55PM +0100, Michał Mirosław wrote:
-> >> On Sat, Dec 28, 2019 at 11:46:36PM +0300, Dmitry Osipenko wrote:
-> >>> It's unsafe to check the channel's "busy" state without taking a lock,
-> >>> it is also unsafe to assume that tasklet isn't in-fly.
-> >>
-> >> 'in-flight'. Also, the patch seems to have two independent bug-fixes
-> >> in it. Second one doesn't look right, at least not without an explanation.
-> >>
-> >> First:
-> >>
-> >>> -	if (tdc->busy)
-> >>> -		tegra_dma_terminate_all(dc);
-> >>> +	tegra_dma_terminate_all(dc);
-> >>
-> >> Second:
-> >>
-> >>> +	tasklet_kill(&tdc->tasklet);
-> > 
-> > BTW, maybe you can convert the code to threaded interrupt handler and
-> > just get rid of the tasklet instead of fixing it?
-> 
-> This shouldn't bring much benefit because the the code's logic won't be
-> changed since we will still have to use the threaded ISR part as the
-> bottom-half and then IRQ API doesn't provide a nice way to synchronize
-> interrupt's execution, while tasklet_kill() is a nice way to sync it.
+This series introduces support for Tegra194 XUSB host and pad
+controller. Tegra194 XUSB host and pad controller are highly
+similar to the controllers found on Tegra186. Therefore, it's
+possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
 
-What about synchronize_irq()?
+Changelog:
+v5:
+  phy: tegra: xusb: Protect Tegra186 soc with config
+   - no change
 
-BTW, does tegra_dma_terminate_all() prevent further interrupts that might
-cause the tasklet to be scheduled again?
+  phy: tegra: xusb: Add Tegra194 support
+   - re-use "maximum-speed" instead of adding "nvidia,disable-gen2"
 
-Best Regards,
-Michał Mirosław
+  dt-bindings: phy: tegra: Add Tegra194 support
+   - re-use "maximum-speed" instead of adding "nvidia,disable-gen2"
+
+  arm64: tegra: Add XUSB and pad controller on Tegra194
+   - no change
+
+  arm64: tegra: Enable XUSB host in P2972-0000 board
+   - no change
+
+v4:
+  xhci: tegra: Parameterize mailbox register addresses
+   - removed from v4 as it has been accepted in v3
+  
+  usb: host: xhci-tegra: Add Tegra194 XHCI support
+   - removed from v4 as it has been accepted in v3
+
+  phy: tegra: xusb: Add Tegra194 support
+   - no change
+
+  dt-bindings: phy: tegra: Add Tegra194 support
+   - no change
+
+  arm64: tegra: Add XUSB and pad controller on Tegra194
+   - no change
+
+  arm64: tegra: Enable XUSB host in P2972-0000 board
+   - no change
+
+v3:
+  add change log to cover latter
+
+v2:
+  xhci: tegra: Parameterize mailbox register addresses
+   - no change
+
+  usb: host: xhci-tegra: Add Tegra194 XHCI support
+   - no change
+
+  phy: tegra: xusb: Protect Tegra186 soc with config
+   - new patch to protect Tegra186 soc data with config
+
+  phy: tegra: xusb: Add Tegra194 support
+   - removed unnecessary #if/#endif pairs
+   - introduce new soc->supports_gen2 flag which indicate whether or not
+     a soc supports USB 3.1 Gen 2 speed
+
+  dt-bindings: phy: tegra: Add Tegra194 support
+   - fix a typo
+
+  arm64: tegra: Add XUSB and pad controller on Tegra194
+   - renamed xhci@3610000 with usb@3610000
+   - moved padctl@3520000 and usb@3610000 inside /cbb
+   - cleaned up "clocks" property of usb@3610000 node
+   - added blanks lines to visually separate blocks
+
+  arm64: tegra: Enable XUSB host in P2972-0000 board
+   - use capitalization of regulator names
+   - fix gpio property of VDD_5V_SATA regulator
+
+JC Kuo (5):
+  phy: tegra: xusb: Protect Tegra186 soc with config
+  phy: tegra: xusb: Add Tegra194 support
+  dt-bindings: phy: tegra: Add Tegra194 support
+  arm64: tegra: Add XUSB and pad controller on Tegra194
+  arm64: tegra: Enable XUSB host in P2972-0000 board
+
+ .../phy/nvidia,tegra124-xusb-padctl.txt       |  18 +++
+ .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |  36 ++++-
+ .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  63 ++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 139 +++++++++++++++++
+ drivers/phy/tegra/Makefile                    |   1 +
+ drivers/phy/tegra/xusb-tegra186.c             | 143 +++++++++++++-----
+ drivers/phy/tegra/xusb.c                      |  17 +++
+ drivers/phy/tegra/xusb.h                      |   5 +
+ 8 files changed, 387 insertions(+), 35 deletions(-)
+
+-- 
+2.17.1
+
