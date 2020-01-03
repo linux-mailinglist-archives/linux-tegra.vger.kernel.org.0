@@ -2,99 +2,120 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F21E312F262
-	for <lists+linux-tegra@lfdr.de>; Fri,  3 Jan 2020 01:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7F9D12F4ED
+	for <lists+linux-tegra@lfdr.de>; Fri,  3 Jan 2020 08:25:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725890AbgACAyk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 2 Jan 2020 19:54:40 -0500
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:60858 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725872AbgACAyk (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 2 Jan 2020 19:54:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=w8FcuKIRc1fu8oxZLGHNujTkaW4KdWzXN9N/pQxssUs=; b=aizdm9srKEF+86calgWhejVZI
-        lvrluuEvxzSfCattQ54W4Sloxfh/oqSeHcZDzsEvJLGGfvdTWf4j5sPBFu9KdD6IdIUp6kfAtw0D8
-        TJBRLFaoVF0GVnS5DuyuOJ61E6LxztQK6IJwIKgBTiuGw6F7vhUgr+GJiSl7ElShB8MVE=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=fitzroy.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1inBEP-0003Ll-DL; Fri, 03 Jan 2020 00:54:25 +0000
-Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
-        id 2AF04D057C6; Fri,  3 Jan 2020 00:54:24 +0000 (GMT)
-Date:   Fri, 3 Jan 2020 00:54:24 +0000
-From:   Mark Brown <broonie@kernel.org>
+        id S1726005AbgACHZm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Jan 2020 02:25:42 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:42383 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725928AbgACHZm (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 3 Jan 2020 02:25:42 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 47pxJf6qxmz7s;
+        Fri,  3 Jan 2020 08:25:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1578036339; bh=01dE5Uj2UX6Z3xkoH4ovrHrnnZMZ0qsgpPflyJoviKk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=N2xLPdFB7kkCfcrgZqjz286M4Iq2z2R0bQRr2/j2GroNvf2U1wd814qwT24QmYTsK
+         wtaalcj/wRagy+2bqMZogxgtMskLYpXndjpv4m8npeG3DMrRFU1rPnh3wmowiVo4Ou
+         0xQTSVD6iaFUGeiSfOR7qjhuL5FJ9zqUoOYydPfLX6wXI93/0W1xQeB8CtV/z7yaxW
+         qM8FlTiLHeAtcRALqEFsX+IqGkj6s/Rv0nNR3hhYvlUUmpwtYbOLjwXRHgZDwDhjm5
+         Zf5TYIJPES8884u6RB2erVtdPji6I9QiTT0evrg/3Ms7WSe3qF17uIEvZYToyfFR+N
+         0/vREuSglWQdw==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.101.4 at mail
+Date:   Fri, 3 Jan 2020 08:25:36 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+Cc:     Peter Chen <peter.chen@nxp.com>, Rob Herring <robh-dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Bard Liao <bardliao@realtek.com>,
-        Oder Chiou <oder_chiou@realtek.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] ASoC: rt5640: Fix NULL dereference on module unload
-Message-ID: <20200103005424.GF3897@sirena.org.uk>
-References: <20191229150454.2127-1-digetx@gmail.com>
- <20191231001719.GC3897@sirena.org.uk>
- <03ccf221-697e-bc34-f4ba-bf191aecd675@gmail.com>
+        Felipe Balbi <balbi@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 10/10] usb: chipidea: tegra: Add USB_TEGRA_PHY module
+ to driver's dependencies
+Message-ID: <20200103072536.GA14228@qmqm.qmqm.pl>
+References: <20191220015238.9228-1-digetx@gmail.com>
+ <20191220015238.9228-11-digetx@gmail.com>
+ <20191220035650.GC19921@b29397-desktop>
+ <fb7dee6e-e645-fe45-126c-c5f1e280bc26@gmail.com>
+ <20191223213234.GA28786@qmqm.qmqm.pl>
+ <7174833f-8325-7fb4-d190-78ba4bed0cbb@gmail.com>
+ <20191230210259.GD24135@qmqm.qmqm.pl>
+ <b34972e3-569e-d74a-4d30-d52c89032a08@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="V4b9U9vrdWczvw78"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <03ccf221-697e-bc34-f4ba-bf191aecd675@gmail.com>
-X-Cookie: Programming is an unnatural act.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b34972e3-569e-d74a-4d30-d52c89032a08@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Thu, Jan 02, 2020 at 06:17:47PM +0300, Dmitry Osipenko wrote:
+> 31.12.2019 00:02, Michał Mirosław пишет:
+> > On Tue, Dec 24, 2019 at 07:21:05AM +0300, Dmitry Osipenko wrote:
+> >> 24.12.2019 00:32, Michał Mirosław пишет:
+> >>> On Fri, Dec 20, 2019 at 07:31:08AM +0300, Dmitry Osipenko wrote:
+> >>>> 20.12.2019 06:56, Peter Chen пишет:
+> >>>>> On 19-12-20 04:52:38, Dmitry Osipenko wrote:
+> >>> [...]
+> >>>>>> --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
+> >>>>>> +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+> >>>>>> @@ -53,6 +53,12 @@ static int tegra_udc_probe(struct platform_device *pdev)
+> >>>>>>  	struct tegra_udc *udc;
+> >>>>>>  	int err;
+> >>>>>>  
+> >>>>>> +	if (IS_MODULE(CONFIG_USB_TEGRA_PHY)) {
+> >>>>>> +		err = request_module("phy_tegra_usb");
+> >>>>>> +		if (err)
+> >>>>>> +			return err;
+> >>>>>> +	}
+> >>>>>> +
+> >>>>>
+> >>>>> Why you do this dependency, if this controller driver can't
+> >>>>> get USB PHY, it should return error. What's the return value
+> >>>>> after calling below:
+> >>>>>
+> >>>>> 	udc->phy = devm_usb_get_phy_by_phandle(&pdev->dev, "nvidia,phy", 0);
+> >>>>
+> >>>> It returns -EPROBE_DEFER when phy_tegra_usb isn't loaded.
+> >>>
+> >>> How are other driver modules autoloaded? Isn't there an appropriate
+> >>> MODALIAS or MODULE_DEVICE_TABLE in there?
+> >>
+> >> Hello Michał,
+> >>
+> >> The phy_tegra_usb module is fine by itself, it's getting autoloaded.
+> >>
+> >> The problem is that ci_hdrc_tegra module depends on the phy_tegra_usb
+> >> module and thus the PHY module should be loaded before the CI module,
+> >> otherwise CI driver fails with the EPROBE_DEFER.
+> > 
+> > Why, then, is CI driver not being probed again after PHY driver loads?
+> > EPROBE_DEFER is what should cause driver core to re-probe a device after
+> > other devices appear (PHY in this case).
+> 
+> CI driver is getting re-probed just fine if PHY's driver module is
+> loaded manually after loading the CI's module. This patch removes this
+> necessity to manually load PHY's module.
+> 
+> This is just a minor convenience change that brings the CI's driver
+> loading behaviour on par with the behaviour of loading Tegra's EHCI
+> driver module.
 
---V4b9U9vrdWczvw78
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I fully understand the goal, but what I'm missing is that why this
+doesn't work out of the box? If the PHY module is autoloaded, and so is
+CI driver, and (as I understand) the driver's probe() correctly returns
+EPROBE_DEFER when PHY is not probed yet, then I guess that means bug
+somewhere else and the patch just covers it up.
 
-On Thu, Jan 02, 2020 at 06:57:14PM +0300, Dmitry Osipenko wrote:
-> 31.12.2019 03:17, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-
-> > Please think hard before including complete backtraces in upstream
-> > reports, they are very large and contain almost no useful information
-> > relative to their size so often obscure the relevant content in your
-> > message. If part of the backtrace is usefully illustrative then it's
-> > usually better to pull out the relevant sections.
-
-> Yeah, perhaps it's not really useful to have backtrace in the commit's
-> description for the case of this patch in particular. But in general it
-> is very useful to have backtraces somewhere near the patch such that
-> online search engines, like google, could pick it up. I'll move the
-> backtrace below --- in v2, thanks.
-
-Right, this is more directed at just pasting in the entire
-backtrace (which can be huge with lots of generic bits before the
-small number that are relevant) but some edited highlights can
-definitely be helpful for search engines and for explaining the
-problem.  I'll modify what I'm saying there to clarify this.
-
---V4b9U9vrdWczvw78
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4OkLwACgkQJNaLcl1U
-h9BL0gf/bBWZbW0DvZqYZ84Y2N8XEhFRF5QQ+NS5MBAvcrqzNDvh/KAHA0Vzm9Xq
-NBM3uErwYTIgr+uRQSMbu6MQ+YeG5nptjZoPv3c0rWN5jT5ZXjmxIfFlE9EFuAn0
-tq3Jhi1U8fGT8oopIMLKQPWvF3FGE242LyYR1C1PLprQk9VMxf6iP0OBRfhG/thu
-MzDgxHjbqlsDY6eWnAt2ViTL8MG+1TobCEGkifo6j2kLk8ARy0C1ThkdVGDIc970
-xvKX7QouOf94TT3C+2kfdV6TyCEG7BtYfjkirDuMRgOddz0QhAuXC3yi4f7lympq
-k7w6IV//x/B7qbVREWl06hP7/HpKBg==
-=1GRG
------END PGP SIGNATURE-----
-
---V4b9U9vrdWczvw78--
+Best Regards,
+Michał Mirosław
