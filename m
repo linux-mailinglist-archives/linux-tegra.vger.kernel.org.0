@@ -2,84 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCBB613019A
-	for <lists+linux-tegra@lfdr.de>; Sat,  4 Jan 2020 10:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 305BB1301EC
+	for <lists+linux-tegra@lfdr.de>; Sat,  4 Jan 2020 12:01:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726103AbgADJVX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 4 Jan 2020 04:21:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57036 "EHLO mail.kernel.org"
+        id S1725862AbgADLBo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 4 Jan 2020 06:01:44 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:19219 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726094AbgADJVW (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 4 Jan 2020 04:21:22 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6464F215A4;
-        Sat,  4 Jan 2020 09:21:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578129681;
-        bh=t+7Mb394bXu9Sg7IaTe1iTOa0gvYL56M7fVIrBjE0Fc=;
+        id S1725812AbgADLBo (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 4 Jan 2020 06:01:44 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 47qf3S2vK3zGW;
+        Sat,  4 Jan 2020 12:01:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1578135700; bh=rXfcRJa4A/lkYBTFv2idoKsWCS41HUXIWEbLbIxwenU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BCiECLNxPucz/5OIg0AKlczTKyhILC4vusdpKUDv4xhp9PN/HjmbPQaX7+xyWm5fP
-         REN4q0aOltOkYm2dJbFcV3rVCQuz3yQUvaYoBVWDS5BmXeScgDRU43BottDhkfuRzi
-         ybW+hxT9yS8azwTosS5Ix8mGig2ycQ2tp5MAMZGw=
-Date:   Sat, 4 Jan 2020 10:21:19 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.4 000/191] 5.4.8-stable review
-Message-ID: <20200104092119.GC1249964@kroah.com>
-References: <20200102215829.911231638@linuxfoundation.org>
- <f709c06a-ce46-a235-e0d1-5b7331c80c66@nvidia.com>
+        b=NKUtbawHoRDqBwLg1awp/+fO4B2sAG1SUzpVQqdcbTIGzxzqfbHxxahfKNM+x5iFo
+         VTgx6OxvMBwo5zI4UK4LwmIFO4kI4+GYN1l+yRMakYFFRezxj3wvUaLr78tk2tET7v
+         QrXMHdUD3gZUjcZSE4LS10RDJMfJWtJvYZrANDCCf+m21ZZGIRakWe/axO1/uChGgD
+         OPdm42AWetjZjy/88I01UQZ2eIqhaM5KbA2RnzPUmNCfUpdwOfxrW+i0tTJTFGoomi
+         W3a4gcKzJe5CSb6kevZtuP+MW3SzvTJ4NegklhmYNB8zWpBg2SxO3pVf8AwL57eYAg
+         S+XtMp7De2seg==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.101.4 at mail
+Date:   Sat, 4 Jan 2020 12:01:38 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Peter Chen <peter.chen@nxp.com>, Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 10/10] usb: chipidea: tegra: Add USB_TEGRA_PHY module
+ to driver's dependencies
+Message-ID: <20200104110138.GA7849@qmqm.qmqm.pl>
+References: <20191220015238.9228-1-digetx@gmail.com>
+ <20191220015238.9228-11-digetx@gmail.com>
+ <20191220035650.GC19921@b29397-desktop>
+ <fb7dee6e-e645-fe45-126c-c5f1e280bc26@gmail.com>
+ <20191223213234.GA28786@qmqm.qmqm.pl>
+ <7174833f-8325-7fb4-d190-78ba4bed0cbb@gmail.com>
+ <20191230210259.GD24135@qmqm.qmqm.pl>
+ <b34972e3-569e-d74a-4d30-d52c89032a08@gmail.com>
+ <20200103072536.GA14228@qmqm.qmqm.pl>
+ <51ecc509-e277-591d-3db5-fc9d46eee326@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f709c06a-ce46-a235-e0d1-5b7331c80c66@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <51ecc509-e277-591d-3db5-fc9d46eee326@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Jan 03, 2020 at 05:51:33PM +0000, Jon Hunter wrote:
-> 
-> On 02/01/2020 22:04, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.4.8 release.
-> > There are 191 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
+On Sat, Jan 04, 2020 at 02:19:01AM +0300, Dmitry Osipenko wrote:
+> 03.01.2020 10:25, Michał Mirosław пишет:
+> > On Thu, Jan 02, 2020 at 06:17:47PM +0300, Dmitry Osipenko wrote:
+> >> 31.12.2019 00:02, Michał Mirosław пишет:
+> >>> On Tue, Dec 24, 2019 at 07:21:05AM +0300, Dmitry Osipenko wrote:
+> >>>> 24.12.2019 00:32, Michał Mirosław пишет:
+> >>>>> On Fri, Dec 20, 2019 at 07:31:08AM +0300, Dmitry Osipenko wrote:
+> >>>>>> 20.12.2019 06:56, Peter Chen пишет:
+> >>>>>>> On 19-12-20 04:52:38, Dmitry Osipenko wrote:
+> >>>>> [...]
+> >>>>>>>> --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
+> >>>>>>>> +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+> >>>>>>>> @@ -53,6 +53,12 @@ static int tegra_udc_probe(struct platform_device *pdev)
+> >>>>>>>>  	struct tegra_udc *udc;
+> >>>>>>>>  	int err;
+> >>>>>>>>  
+> >>>>>>>> +	if (IS_MODULE(CONFIG_USB_TEGRA_PHY)) {
+> >>>>>>>> +		err = request_module("phy_tegra_usb");
+> >>>>>>>> +		if (err)
+> >>>>>>>> +			return err;
+> >>>>>>>> +	}
+> >>>>>>>> +
+> >>>>>>>
+> >>>>>>> Why you do this dependency, if this controller driver can't
+> >>>>>>> get USB PHY, it should return error. What's the return value
+> >>>>>>> after calling below:
+> >>>>>>>
+> >>>>>>> 	udc->phy = devm_usb_get_phy_by_phandle(&pdev->dev, "nvidia,phy", 0);
+> >>>>>>
+> >>>>>> It returns -EPROBE_DEFER when phy_tegra_usb isn't loaded.
+> >>>>>
+> >>>>> How are other driver modules autoloaded? Isn't there an appropriate
+> >>>>> MODALIAS or MODULE_DEVICE_TABLE in there?
+> >>>>
+> >>>> Hello Michał,
+> >>>>
+> >>>> The phy_tegra_usb module is fine by itself, it's getting autoloaded.
+> >>>>
+> >>>> The problem is that ci_hdrc_tegra module depends on the phy_tegra_usb
+> >>>> module and thus the PHY module should be loaded before the CI module,
+> >>>> otherwise CI driver fails with the EPROBE_DEFER.
+> >>>
+> >>> Why, then, is CI driver not being probed again after PHY driver loads?
+> >>> EPROBE_DEFER is what should cause driver core to re-probe a device after
+> >>> other devices appear (PHY in this case).
+> >>
+> >> CI driver is getting re-probed just fine if PHY's driver module is
+> >> loaded manually after loading the CI's module. This patch removes this
+> >> necessity to manually load PHY's module.
+> >>
+> >> This is just a minor convenience change that brings the CI's driver
+> >> loading behaviour on par with the behaviour of loading Tegra's EHCI
+> >> driver module.
 > > 
-> > Responses should be made by Sat, 04 Jan 2020 21:55:35 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.8-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> > -------------
+> > I fully understand the goal, but what I'm missing is that why this
+> > doesn't work out of the box? If the PHY module is autoloaded, and so is
+> > CI driver, and (as I understand) the driver's probe() correctly returns
+> > EPROBE_DEFER when PHY is not probed yet, then I guess that means bug
+> > somewhere else and the patch just covers it up.
 > 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.4:
->     13 builds:	13 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
-> 
-> Linux version:	5.4.8-rc1-gb06e60adec89
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
-> 
+> It works out of the box, but it also could work a bit better in a case
+> of manually reloading modules. Perhaps it should be possible to derive
+> module dependencies from the Kconfig dependencies, apparently kernel
+> doesn't support it yet or maybe there is some reason why it can't be done.
 
-Thanks for testing all of these and letting me know.
+Kconfig change I'm ok with as it simplifies kernel configuration.
+The request_module() is something I would advise against, because if I
+do manual module loading, I usually don't want modules loaded
+automatically.
 
-greg k-h
+Best Regards,
+Michał Mirosław
