@@ -2,70 +2,71 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16CC012FF4A
-	for <lists+linux-tegra@lfdr.de>; Sat,  4 Jan 2020 00:53:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A62012FF8D
+	for <lists+linux-tegra@lfdr.de>; Sat,  4 Jan 2020 01:27:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgACXx3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Jan 2020 18:53:29 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:45423 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726229AbgACXx3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Jan 2020 18:53:29 -0500
-Received: by mail-lf1-f66.google.com with SMTP id 203so32818857lfa.12;
-        Fri, 03 Jan 2020 15:53:27 -0800 (PST)
+        id S1726703AbgADA1V (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Jan 2020 19:27:21 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:36324 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726229AbgADA1V (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Jan 2020 19:27:21 -0500
+Received: by mail-lf1-f65.google.com with SMTP id n12so32914215lfe.3;
+        Fri, 03 Jan 2020 16:27:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IkWuwHhNqLcza831ZlMeVrnl9ktIFXitOGr/KLniDZ8=;
-        b=fiMkZOvkxr3/Ka139fV+tAEu9JXx99jZA4+ujYgmvL2yF5YWP9Tr04cRPJCjwQI2pU
-         +gdWogmZwiOzXVseFUmxw0YnlKA2rfini6TsZF/LPKJkcoSFgv0s9b5Zmy+soFK41Z7Q
-         D2NSm2hUtbVWTA2Q1rlnTJ6Hw4ddY30CNW6emOCNeg5E0lsuvwso2CgBYXneKD/J11vl
-         qofxNzKLDUrHuUe1j0dw0eUMG7LAegBar2VMCh3hgIzMkoXDxMO3uhe5HoqGPw0F6fT5
-         QG47+r4diPjGqUYAlHclycTZL8TqgY2vHyKGeuJx9lN6oBJt8Dzc2f/aoS1ZGF45w0+s
-         ECtA==
+        bh=ZWkELf4CBgeAYNIurRlueebcxpdZ5jZGPBfBd+vxH7I=;
+        b=Nu5Yi3JpH5JV3WI56GXPVEyXKneEuNmA9KVFQnmADeJt4zG1tBp+QKGsQJ1a0epyfK
+         mxkPpMLFK8dr15W0UpKBznsZaNh2OLgxEniIhlEvgiSWiYLgT286L0vN2Qs5hXQnlydS
+         uSQmC0ayM4PDvR/QiCySjLh28MupY9iMVTwyA1ZqNnTr8lOhLk1+8GfumFhrAfGtCSzQ
+         P/ixvPFk6SfBhSjqyv1PWPd/DVD6QProAGr982yyJC285Wo4sT5xF3eDw0c3YHLpj6OD
+         /mdus/Wl+FnrZ7TFkf4drVrj8fmr+B8sgxz6KNugnSmiGNc4RvosM0m+SVPxuGSesIrb
+         boVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=IkWuwHhNqLcza831ZlMeVrnl9ktIFXitOGr/KLniDZ8=;
-        b=XC1rGZT2pr1shVxoGXUb1Z1TV8U2cIT14IzDtThjgMGl8ZhRNg0NcPZXHJBtmv3TrR
-         DZtBl0/tJ0f3I+T1p5SuM4DrVXBPoVQ9IrhrPtO8RBm5Tb/3rVDsQdrtOlKqwjkts3kN
-         qo5Q6A3BsLGLD/UGqiGmxaqHu4/suf1MGY2PdhkWqmSx6n/0s+KZkBsagkOP/mFHHuf9
-         5JUvLej/ZbpzXcU0fkCTURiBt9tlMe7Kt8jwSZ3v8laDDtN/PEVgZa+LbHF7pgqpywR7
-         /quAOXNx6u2BT4L9DsCz0J44CAvmrV+RozejqZz4YEEUy0mAijdnG8RfEdgfHzUIzMyS
-         1mbw==
-X-Gm-Message-State: APjAAAV9K5+dGX5z+IVVXphtilIBX800YSF0Ysggz8N+X2Di2jXlkBR3
-        7aWTvzU0L+gdLQE1cQBr7laa7w6b
-X-Google-Smtp-Source: APXvYqxYnPraSPjUxGGCPLBWOykvd7sszKxpAFINbaJxoztv8+s1SAv8apNOvOV/UaIcDOph2saGKA==
-X-Received: by 2002:a19:ca59:: with SMTP id h25mr50410860lfj.27.1578095606543;
-        Fri, 03 Jan 2020 15:53:26 -0800 (PST)
+        bh=ZWkELf4CBgeAYNIurRlueebcxpdZ5jZGPBfBd+vxH7I=;
+        b=bTXX6ltIpYS/jGywrmBPFsQw7Nch0lE0mc855NMHKNPskuQ3cAVAjMgr/gwwi0oKSn
+         XmDxQ0r2m+px7d1RyYk7kWgnxgZPFDytAT+CUJ3EMn7XknAE7k4hwZTDV61UM334+voc
+         fPhXDi7S0peaKKG9zD51GWbK6L2bXriJOpiOAgL/4HLhpN0vNDB8IDfmFVo+8KytNp+8
+         VSyFS4JRBEiyGGR1popi2zbh3/aKyDGvKOTfJAvuVxFACcCRQNbJIwI/sBNdAX0NAHNj
+         xu0smUDNjIlkPsk46ER62Uol08W4euKJ7bt1kfsNI3WbTwnNcEt6d6HqnYbYo9Gkgbh+
+         nIfA==
+X-Gm-Message-State: APjAAAUpYZeekJhXxs2quvnaM/GxRKScNfZcllJ3iKFHXLGk29AyevRG
+        DgETRl8ENTEMnD/710fs8VbuITiF
+X-Google-Smtp-Source: APXvYqwQMOg4LAL9u2e6ktspztd+rveqntwhZF+XxZ9TeJSAzLKV4Lk3W8gY0012Vx8I4bR2Cn2emQ==
+X-Received: by 2002:ac2:4adc:: with SMTP id m28mr49831242lfp.26.1578097639050;
+        Fri, 03 Jan 2020 16:27:19 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id q11sm17503060ljm.76.2020.01.03.15.53.25
+        by smtp.googlemail.com with ESMTPSA id d25sm25340043ljj.51.2020.01.03.16.27.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jan 2020 15:53:25 -0800 (PST)
-Subject: Re: [PATCH v3 10/16] usb: phy: tegra: Use device-tree notion of
- reset-GPIO's active-state
+        Fri, 03 Jan 2020 16:27:18 -0800 (PST)
+Subject: Re: [PATCH v1 3/7] dmaengine: tegra-apb: Prevent race conditions on
+ channel's freeing
 To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Felipe Balbi <balbi@kernel.org>, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20191228203358.23490-1-digetx@gmail.com>
- <20191228203358.23490-11-digetx@gmail.com>
- <20200103075803.GC14228@qmqm.qmqm.pl>
+References: <20191228204640.25163-1-digetx@gmail.com>
+ <20191228204640.25163-4-digetx@gmail.com>
+ <20191230204555.GB24135@qmqm.qmqm.pl> <20191230205054.GC24135@qmqm.qmqm.pl>
+ <4e1e4fef-f75c-f2e2-4d9e-29af69daf8db@gmail.com>
+ <20200103081604.GD14228@qmqm.qmqm.pl>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <42f1d6c9-99f2-b829-0d2c-649fcdfb156d@gmail.com>
-Date:   Sat, 4 Jan 2020 02:53:24 +0300
+Message-ID: <0d76d93d-a465-646b-8dfa-7b42d3f597f6@gmail.com>
+Date:   Sat, 4 Jan 2020 03:27:12 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200103075803.GC14228@qmqm.qmqm.pl>
+In-Reply-To: <20200103081604.GD14228@qmqm.qmqm.pl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -74,68 +75,59 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.01.2020 10:58, Michał Mirosław пишет:
-> On Sat, Dec 28, 2019 at 11:33:52PM +0300, Dmitry Osipenko wrote:
-> [...]
->>  static int ulpi_open(struct tegra_usb_phy *phy)
->>  {
->> -	int err;
->> -
->> -	err = gpio_direction_output(phy->reset_gpio, 0);
->> -	if (err) {
->> -		dev_err(phy->u_phy.dev,
->> -			"ULPI reset GPIO %d direction not deasserted: %d\n",
->> -			phy->reset_gpio, err);
->> -		return err;
->> -	}
->> +	gpiod_set_value_cansleep(phy->reset_gpio, 1);
->>  
->>  	return 0;
->>  }
+03.01.2020 11:16, Michał Mirosław пишет:
+> On Thu, Jan 02, 2020 at 06:09:45PM +0300, Dmitry Osipenko wrote:
+>> 30.12.2019 23:50, Michał Mirosław пишет:
+>>> On Mon, Dec 30, 2019 at 09:45:55PM +0100, Michał Mirosław wrote:
+>>>> On Sat, Dec 28, 2019 at 11:46:36PM +0300, Dmitry Osipenko wrote:
+>>>>> It's unsafe to check the channel's "busy" state without taking a lock,
+>>>>> it is also unsafe to assume that tasklet isn't in-fly.
+>>>>
+>>>> 'in-flight'. Also, the patch seems to have two independent bug-fixes
+>>>> in it. Second one doesn't look right, at least not without an explanation.
+>>>>
+>>>> First:
+>>>>
+>>>>> -	if (tdc->busy)
+>>>>> -		tegra_dma_terminate_all(dc);
+>>>>> +	tegra_dma_terminate_all(dc);
+>>>>
+>>>> Second:
+>>>>
+>>>>> +	tasklet_kill(&tdc->tasklet);
+>>>
+>>> BTW, maybe you can convert the code to threaded interrupt handler and
+>>> just get rid of the tasklet instead of fixing it?
+>>
+>> This shouldn't bring much benefit because the the code's logic won't be
+>> changed since we will still have to use the threaded ISR part as the
+>> bottom-half and then IRQ API doesn't provide a nice way to synchronize
+>> interrupt's execution, while tasklet_kill() is a nice way to sync it.
 > 
-> The message now removed seems inverted to the meaning of the code. Is
-> this a bug, or the reset really should be asserted here?
+> What about synchronize_irq()?
 
-The removed message was added in patch #2 and indeed it should say
-"asserted". Good catch, thanks!
+Good point! I totally forgot about it.
 
-> I can see that
-> it is deasserted in phy_power_up, but that goes before or after ulpi_open()?
+The only difference between tasklet and threaded ISR should be that
+hardware interrupt is masked during of the threaded ISR execution, but
+at quick glance it shouldn't be a problem.
 
-The ulpi_phy_power_on happens after the ulpi_open, please take a look at
-tegra_usb_phy_init().
+BTW, I'm now thinking that the current code is wrong by accumulating
+callbacks count in ISR if callback's execution takes too much time, not
+sure that it's something what DMA clients expect to happen, will try to
+verify that.
 
-> After the change below, the reset is asserted at probe() time now.
+It also will be nice to get rid of the free list since it only
+complicates code without any real benefits, I actually checked that
+kmalloc doesn't introduce any noticeable latency at all.
 
-Yes, the probe now asserts the reset. It is an intended change because
-it should be a bit better to explicitly per-initialize the GPIO state to
-an expected state during of the GPIO retrieval, like most of other
-drivers do and which should be a "generic/common way".
+I'll probably defer the above changes for now, leaving them for 5.7,
+otherwise it could be a bit too many changes for this patchset
+(hopefully it will get into 5.6).
 
-Actually, the reset assertion of ulpi_open() could be removed safely now
-since it doesn't do anything useful, given that probe asserts the reset.
+> BTW, does tegra_dma_terminate_all() prevent further interrupts that might
+> cause the tasklet to be scheduled again?
 
-> [...]
->> -		err = devm_gpio_request(&pdev->dev, tegra_phy->reset_gpio,
->> -					"ulpi_phy_reset_b");
->> +		gpiod = devm_gpiod_get_from_of_node(&pdev->dev, np,
->> +						    "nvidia,phy-reset-gpio",
->> +						    0, GPIOD_OUT_HIGH,
->> +						    "ulpi_phy_reset_b");
->> +		err = PTR_ERR_OR_ZERO(gpiod);
->>  		if (err) {
->> -			dev_err(&pdev->dev, "Request failed for GPIO %d: %d\n",
->> -				tegra_phy->reset_gpio, err);
->> +			dev_err(&pdev->dev,
->> +				"Request failed for reset GPIO: %d\n", err);
->>  			return err;
->>  		}
->> +		tegra_phy->reset_gpio = gpiod;
-> 
-> A nice extension to kernel's printf - "%pe" format - has just landed in
-> Linus' master tree.
-
-Thank you very much, I didn't know about that.
-
-I'll prepare v4 with the above things addressed, thank you again and
-please let me know if you'll spot anything else!
+Yes, it should prevent further interrupts because it stops hardware and
+clears interrupt status, thus in a worst case ISR could emit "Interrupt
+already served status" message.
