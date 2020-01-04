@@ -2,132 +2,72 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A62012FF8D
-	for <lists+linux-tegra@lfdr.de>; Sat,  4 Jan 2020 01:27:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B762E12FF9B
+	for <lists+linux-tegra@lfdr.de>; Sat,  4 Jan 2020 01:33:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726703AbgADA1V (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 3 Jan 2020 19:27:21 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:36324 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726229AbgADA1V (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Jan 2020 19:27:21 -0500
-Received: by mail-lf1-f65.google.com with SMTP id n12so32914215lfe.3;
-        Fri, 03 Jan 2020 16:27:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZWkELf4CBgeAYNIurRlueebcxpdZ5jZGPBfBd+vxH7I=;
-        b=Nu5Yi3JpH5JV3WI56GXPVEyXKneEuNmA9KVFQnmADeJt4zG1tBp+QKGsQJ1a0epyfK
-         mxkPpMLFK8dr15W0UpKBznsZaNh2OLgxEniIhlEvgiSWiYLgT286L0vN2Qs5hXQnlydS
-         uSQmC0ayM4PDvR/QiCySjLh28MupY9iMVTwyA1ZqNnTr8lOhLk1+8GfumFhrAfGtCSzQ
-         P/ixvPFk6SfBhSjqyv1PWPd/DVD6QProAGr982yyJC285Wo4sT5xF3eDw0c3YHLpj6OD
-         /mdus/Wl+FnrZ7TFkf4drVrj8fmr+B8sgxz6KNugnSmiGNc4RvosM0m+SVPxuGSesIrb
-         boVw==
+        id S1727141AbgADAdp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 3 Jan 2020 19:33:45 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:34668 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726697AbgADAdo (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 3 Jan 2020 19:33:44 -0500
+Received: by mail-io1-f68.google.com with SMTP id z193so43103728iof.1
+        for <linux-tegra@vger.kernel.org>; Fri, 03 Jan 2020 16:33:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZWkELf4CBgeAYNIurRlueebcxpdZ5jZGPBfBd+vxH7I=;
-        b=bTXX6ltIpYS/jGywrmBPFsQw7Nch0lE0mc855NMHKNPskuQ3cAVAjMgr/gwwi0oKSn
-         XmDxQ0r2m+px7d1RyYk7kWgnxgZPFDytAT+CUJ3EMn7XknAE7k4hwZTDV61UM334+voc
-         fPhXDi7S0peaKKG9zD51GWbK6L2bXriJOpiOAgL/4HLhpN0vNDB8IDfmFVo+8KytNp+8
-         VSyFS4JRBEiyGGR1popi2zbh3/aKyDGvKOTfJAvuVxFACcCRQNbJIwI/sBNdAX0NAHNj
-         xu0smUDNjIlkPsk46ER62Uol08W4euKJ7bt1kfsNI3WbTwnNcEt6d6HqnYbYo9Gkgbh+
-         nIfA==
-X-Gm-Message-State: APjAAAUpYZeekJhXxs2quvnaM/GxRKScNfZcllJ3iKFHXLGk29AyevRG
-        DgETRl8ENTEMnD/710fs8VbuITiF
-X-Google-Smtp-Source: APXvYqwQMOg4LAL9u2e6ktspztd+rveqntwhZF+XxZ9TeJSAzLKV4Lk3W8gY0012Vx8I4bR2Cn2emQ==
-X-Received: by 2002:ac2:4adc:: with SMTP id m28mr49831242lfp.26.1578097639050;
-        Fri, 03 Jan 2020 16:27:19 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id d25sm25340043ljj.51.2020.01.03.16.27.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jan 2020 16:27:18 -0800 (PST)
-Subject: Re: [PATCH v1 3/7] dmaengine: tegra-apb: Prevent race conditions on
- channel's freeing
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191228204640.25163-1-digetx@gmail.com>
- <20191228204640.25163-4-digetx@gmail.com>
- <20191230204555.GB24135@qmqm.qmqm.pl> <20191230205054.GC24135@qmqm.qmqm.pl>
- <4e1e4fef-f75c-f2e2-4d9e-29af69daf8db@gmail.com>
- <20200103081604.GD14228@qmqm.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0d76d93d-a465-646b-8dfa-7b42d3f597f6@gmail.com>
-Date:   Sat, 4 Jan 2020 03:27:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2jtU2GwA92LWxQFkeCrbjyJNc+9eRgZ+rt7rVVu7gPA=;
+        b=uUOWS08EmUFwbxOtc+ycxYFsKvBgwnRfJwWVSZgocYvJ2DrWIvgH3dfRBQa7d7NP/B
+         yVdcv0cqlY63PZXDS57ghanXsEAD7HNaDE+hku/Bzz0NhgBocMx0p5nvB/0pYoRVoEw8
+         rH2EKFOgD1EJgavHMVJCHPMHbpj57CYt6pS5wezWw9WQy6e++N39QcpJvNpL4enBV7KJ
+         N1K3vcNVLa1VQ+zMMTp8iEWmsgMiEjeKw6BjWqW1botff92g0vg7MElwRYvGQEKdsEgh
+         TVDLObknh6minIzZ1e8p4xL1wJoJDVNjPu/rUTphE0//rZXEy1JxJKTFf024TvzFfzIV
+         KZQA==
+X-Gm-Message-State: APjAAAWPTRGjXABQOqZdzTLZiNWGpFPzq6/4G8ORWqT0Miz0cPpXm7HI
+        Al/8aYQlYJW0O3RrbH7rZYLiaGI=
+X-Google-Smtp-Source: APXvYqyqn9nhvbWAsC8ST/tDkr2ZRUZqQ29oBUm69+eZrcoEn4MRT9pOL4YbcNXxXxdYTp2S1IALJw==
+X-Received: by 2002:a05:6638:3:: with SMTP id z3mr71961132jao.65.1578098023919;
+        Fri, 03 Jan 2020 16:33:43 -0800 (PST)
+Received: from rob-hp-laptop ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id z21sm15303594ioj.21.2020.01.03.16.33.42
+        for <linux-tegra@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jan 2020 16:33:43 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 221a53
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Fri, 03 Jan 2020 17:33:41 -0700
+Date:   Fri, 3 Jan 2020 17:33:41 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 01/16] dt-binding: usb: ci-hdrc-usb2: Document NVIDIA
+ Tegra support
+Message-ID: <20200104003341.GA5889@bogus>
+References: <20191228203358.23490-1-digetx@gmail.com>
+ <20191228203358.23490-2-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200103081604.GD14228@qmqm.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191228203358.23490-2-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-03.01.2020 11:16, Michał Mirosław пишет:
-> On Thu, Jan 02, 2020 at 06:09:45PM +0300, Dmitry Osipenko wrote:
->> 30.12.2019 23:50, Michał Mirosław пишет:
->>> On Mon, Dec 30, 2019 at 09:45:55PM +0100, Michał Mirosław wrote:
->>>> On Sat, Dec 28, 2019 at 11:46:36PM +0300, Dmitry Osipenko wrote:
->>>>> It's unsafe to check the channel's "busy" state without taking a lock,
->>>>> it is also unsafe to assume that tasklet isn't in-fly.
->>>>
->>>> 'in-flight'. Also, the patch seems to have two independent bug-fixes
->>>> in it. Second one doesn't look right, at least not without an explanation.
->>>>
->>>> First:
->>>>
->>>>> -	if (tdc->busy)
->>>>> -		tegra_dma_terminate_all(dc);
->>>>> +	tegra_dma_terminate_all(dc);
->>>>
->>>> Second:
->>>>
->>>>> +	tasklet_kill(&tdc->tasklet);
->>>
->>> BTW, maybe you can convert the code to threaded interrupt handler and
->>> just get rid of the tasklet instead of fixing it?
->>
->> This shouldn't bring much benefit because the the code's logic won't be
->> changed since we will still have to use the threaded ISR part as the
->> bottom-half and then IRQ API doesn't provide a nice way to synchronize
->> interrupt's execution, while tasklet_kill() is a nice way to sync it.
+On Sat, 28 Dec 2019 23:33:43 +0300, Dmitry Osipenko wrote:
+> NVIDIA Tegra SoCs use ChipIdea silicon IP for the USB controllers.
 > 
-> What about synchronize_irq()?
+> Acked-by: Peter Chen <peter.chen@nxp.com>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
 
-Good point! I totally forgot about it.
-
-The only difference between tasklet and threaded ISR should be that
-hardware interrupt is masked during of the threaded ISR execution, but
-at quick glance it shouldn't be a problem.
-
-BTW, I'm now thinking that the current code is wrong by accumulating
-callbacks count in ISR if callback's execution takes too much time, not
-sure that it's something what DMA clients expect to happen, will try to
-verify that.
-
-It also will be nice to get rid of the free list since it only
-complicates code without any real benefits, I actually checked that
-kmalloc doesn't introduce any noticeable latency at all.
-
-I'll probably defer the above changes for now, leaving them for 5.7,
-otherwise it could be a bit too many changes for this patchset
-(hopefully it will get into 5.6).
-
-> BTW, does tegra_dma_terminate_all() prevent further interrupts that might
-> cause the tasklet to be scheduled again?
-
-Yes, it should prevent further interrupts because it stops hardware and
-clears interrupt status, thus in a worst case ISR could emit "Interrupt
-already served status" message.
+Acked-by: Rob Herring <robh@kernel.org>
