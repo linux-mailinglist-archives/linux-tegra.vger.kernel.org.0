@@ -2,76 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A39F613051B
-	for <lists+linux-tegra@lfdr.de>; Sun,  5 Jan 2020 01:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73E48130536
+	for <lists+linux-tegra@lfdr.de>; Sun,  5 Jan 2020 01:42:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726194AbgAEAEX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 4 Jan 2020 19:04:23 -0500
-Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:39692 "EHLO
-        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726191AbgAEAEX (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 4 Jan 2020 19:04:23 -0500
-Received: from [167.98.27.226] (helo=[10.35.5.173])
-        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1intOn-0006kh-GO; Sun, 05 Jan 2020 00:04:05 +0000
-Subject: Re: [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit samples
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-kernel@lists.codethink.co.uk,
-        Edward Cragg <edward.cragg@codethink.co.uk>
-References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <20191018154833.7560-3-ben.dooks@codethink.co.uk>
- <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
- <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
- <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
- <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
- <a0f027d9-e9e0-d76c-1e40-002fdc37eb5f@nvidia.com>
- <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk>
- <aba4edd6-0ea5-5e95-c5a0-9e749587c763@nvidia.com>
- <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
- <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
- <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
- <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
- <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
- <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
- <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
-Date:   Sun, 5 Jan 2020 00:04:04 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726275AbgAEAm4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 4 Jan 2020 19:42:56 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:39937 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726205AbgAEAm4 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 4 Jan 2020 19:42:56 -0500
+Received: by mail-lf1-f67.google.com with SMTP id i23so34177064lfo.7;
+        Sat, 04 Jan 2020 16:42:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=MqPoqLvy4YfZM6m1dYTriP2Qs0sSNBcj+svV3TvqrKI=;
+        b=OXiya4/BQtMJtWatXec0gyqa8/lEccNU2JJqqB39VTLiISx2vDb9pAb4W+K/bCBIbp
+         pbdIxhqOmkY0Wsx4ZI7aTdCtLe6lxvx4EOpJNyIbzkFLOMaGxrEniZJ+fs4hgluZROS5
+         w53mTy/SN5B2GsMgxl/V9DyO9s1c/Pedryy34EoG2SRo0sp02Ma0wkvytgwgXYjtqykd
+         WiMrcaNc7iQAWhKCPDtCEebEgayCH8A6NbYFqqMNPs2z2Fo9AjvPzDOgE9Q9IUF3RBvi
+         FHZW67EKNWYtPmHguJu7I2KWHEi5I2G0r6NSHhT1vlp9p7h/5ReIOcMjYCWallMzi+tp
+         OvMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=MqPoqLvy4YfZM6m1dYTriP2Qs0sSNBcj+svV3TvqrKI=;
+        b=UshK1SR8bUtBDQH3o3kzGha2ATGUn/bt9fszutlTA9O7TWrB8/RyICYtK4ky5QBpHl
+         aU4AC1MvLUc0w+WBxpYbzRiZ+Aaufx04Xv5pGuztnRtoep7cCC2f9DnePWtEg8CdSTLq
+         4mKmTGwW+o5wD1Lg3jsME/Yls1o9hs7E0JaUk3u9i/q/7sQM1NorpviEEawaxrdl+um8
+         SyYc7oFtJa9HQKW+4p2I95halEYOm9yXhDCadtwHX0on8HTqZUANfxe2yDIIAKm/tyH6
+         u67bPGruzf6DOpOFqB4NHgbTy4hQ4pZBaRH2QCRZxhgHpCG9RkxpgHauAfnKdr3GmJ6n
+         k1qA==
+X-Gm-Message-State: APjAAAVFm4x2VdNMCGyhXbzM1hLPvva9Dk3jgE4trnytf1CVS65WZh26
+        A/Qo44l4semTBfKdqOG7+M0xCO5Y
+X-Google-Smtp-Source: APXvYqxh4wXgUfN47yty3ECPBUkXEEBpg1+syHhA1/z5jqKJCD5X7BXB9bJmje9rwPQ80ZtVwGBXtQ==
+X-Received: by 2002:ac2:420e:: with SMTP id y14mr54216068lfh.145.1578184972471;
+        Sat, 04 Jan 2020 16:42:52 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id r21sm26975655ljn.64.2020.01.04.16.42.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Jan 2020 16:42:51 -0800 (PST)
+Subject: Re: [PATCH v2 10/10] usb: chipidea: tegra: Add USB_TEGRA_PHY module
+ to driver's dependencies
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     Peter Chen <peter.chen@nxp.com>, Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20191220015238.9228-1-digetx@gmail.com>
+ <20191220015238.9228-11-digetx@gmail.com>
+ <20191220035650.GC19921@b29397-desktop>
+ <fb7dee6e-e645-fe45-126c-c5f1e280bc26@gmail.com>
+ <20191223213234.GA28786@qmqm.qmqm.pl>
+ <7174833f-8325-7fb4-d190-78ba4bed0cbb@gmail.com>
+ <20191230210259.GD24135@qmqm.qmqm.pl>
+ <b34972e3-569e-d74a-4d30-d52c89032a08@gmail.com>
+ <20200103072536.GA14228@qmqm.qmqm.pl>
+ <51ecc509-e277-591d-3db5-fc9d46eee326@gmail.com>
+ <20200104110138.GA7849@qmqm.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <27363204-6a18-213e-f0bf-2fc02bd5f74c@gmail.com>
+Date:   Sun, 5 Jan 2020 03:42:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200104110138.GA7849@qmqm.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-[snip]
+04.01.2020 14:01, Michał Mirosław пишет:
+> On Sat, Jan 04, 2020 at 02:19:01AM +0300, Dmitry Osipenko wrote:
+>> 03.01.2020 10:25, Michał Mirosław пишет:
+>>> On Thu, Jan 02, 2020 at 06:17:47PM +0300, Dmitry Osipenko wrote:
+>>>> 31.12.2019 00:02, Michał Mirosław пишет:
+>>>>> On Tue, Dec 24, 2019 at 07:21:05AM +0300, Dmitry Osipenko wrote:
+>>>>>> 24.12.2019 00:32, Michał Mirosław пишет:
+>>>>>>> On Fri, Dec 20, 2019 at 07:31:08AM +0300, Dmitry Osipenko wrote:
+>>>>>>>> 20.12.2019 06:56, Peter Chen пишет:
+>>>>>>>>> On 19-12-20 04:52:38, Dmitry Osipenko wrote:
+>>>>>>> [...]
+>>>>>>>>>> --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
+>>>>>>>>>> +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+>>>>>>>>>> @@ -53,6 +53,12 @@ static int tegra_udc_probe(struct platform_device *pdev)
+>>>>>>>>>>  	struct tegra_udc *udc;
+>>>>>>>>>>  	int err;
+>>>>>>>>>>  
+>>>>>>>>>> +	if (IS_MODULE(CONFIG_USB_TEGRA_PHY)) {
+>>>>>>>>>> +		err = request_module("phy_tegra_usb");
+>>>>>>>>>> +		if (err)
+>>>>>>>>>> +			return err;
+>>>>>>>>>> +	}
+>>>>>>>>>> +
+>>>>>>>>>
+>>>>>>>>> Why you do this dependency, if this controller driver can't
+>>>>>>>>> get USB PHY, it should return error. What's the return value
+>>>>>>>>> after calling below:
+>>>>>>>>>
+>>>>>>>>> 	udc->phy = devm_usb_get_phy_by_phandle(&pdev->dev, "nvidia,phy", 0);
+>>>>>>>>
+>>>>>>>> It returns -EPROBE_DEFER when phy_tegra_usb isn't loaded.
+>>>>>>>
+>>>>>>> How are other driver modules autoloaded? Isn't there an appropriate
+>>>>>>> MODALIAS or MODULE_DEVICE_TABLE in there?
+>>>>>>
+>>>>>> Hello Michał,
+>>>>>>
+>>>>>> The phy_tegra_usb module is fine by itself, it's getting autoloaded.
+>>>>>>
+>>>>>> The problem is that ci_hdrc_tegra module depends on the phy_tegra_usb
+>>>>>> module and thus the PHY module should be loaded before the CI module,
+>>>>>> otherwise CI driver fails with the EPROBE_DEFER.
+>>>>>
+>>>>> Why, then, is CI driver not being probed again after PHY driver loads?
+>>>>> EPROBE_DEFER is what should cause driver core to re-probe a device after
+>>>>> other devices appear (PHY in this case).
+>>>>
+>>>> CI driver is getting re-probed just fine if PHY's driver module is
+>>>> loaded manually after loading the CI's module. This patch removes this
+>>>> necessity to manually load PHY's module.
+>>>>
+>>>> This is just a minor convenience change that brings the CI's driver
+>>>> loading behaviour on par with the behaviour of loading Tegra's EHCI
+>>>> driver module.
+>>>
+>>> I fully understand the goal, but what I'm missing is that why this
+>>> doesn't work out of the box? If the PHY module is autoloaded, and so is
+>>> CI driver, and (as I understand) the driver's probe() correctly returns
+>>> EPROBE_DEFER when PHY is not probed yet, then I guess that means bug
+>>> somewhere else and the patch just covers it up.
+>>
+>> It works out of the box, but it also could work a bit better in a case
+>> of manually reloading modules. Perhaps it should be possible to derive
+>> module dependencies from the Kconfig dependencies, apparently kernel
+>> doesn't support it yet or maybe there is some reason why it can't be done.
+> 
+> Kconfig change I'm ok with as it simplifies kernel configuration.
+> The request_module() is something I would advise against, because if I
+> do manual module loading, I usually don't want modules loaded
+> automatically.
 
-I've just gone through testing.
-
-Some simple data tests show 16 and 32-bits work.
-
-The 24 bit case seems to be weird, it looks like the 24-bit expects
-24 bit samples in 32 bit words. I can't see any packing options to
-do 24 bit in 24 bit, so we may have to remove 24 bit sample support
-(which is a shame)
-
-My preference is to remove the 24-bit support and keep the 32 bit in.
-
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
-
-https://www.codethink.co.uk/privacy.html
+Okay, I'll drop the request_module since it raises a bit too many
+questions and since it's an optional change that won't be needed once
+Tegra EHCI driver will be squashed into CI.
