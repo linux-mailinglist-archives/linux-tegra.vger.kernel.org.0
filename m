@@ -2,105 +2,210 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11DB8130577
-	for <lists+linux-tegra@lfdr.de>; Sun,  5 Jan 2020 02:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E2FA1305C7
+	for <lists+linux-tegra@lfdr.de>; Sun,  5 Jan 2020 06:04:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbgAEBsn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 4 Jan 2020 20:48:43 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43867 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbgAEBsn (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 4 Jan 2020 20:48:43 -0500
-Received: by mail-lj1-f193.google.com with SMTP id a13so47443316ljm.10
-        for <linux-tegra@vger.kernel.org>; Sat, 04 Jan 2020 17:48:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YYag+Bc8AuQ7klC6LwKp3Hqd/h8+XJbeqg437KyxSlA=;
-        b=u8C5/gnQacpAqtDL/CmqTIYYzjgQHBG0/50u/4qrhiaFI6jaqtiZim+Cm8sK6HtLYn
-         cx6aggoW001ADqCIW1ikAc3NdzHazWvQkCiI1W+FjL0kSmQDpwChCekTYrZpEqCivhz1
-         +stTvqeCxVdwRi/QdJJiSw1YwPQprgTL1zbIewtrJDU9VUOlFtlqLCVhe1zGXCON3pEI
-         Ufr2CZ7/yeqohf/PVG2yrzCKD5lWl04tWqDkUzQx4+qSLu8fCrM/H1QYPDIT6LcIGKT6
-         XwLonkvX2jonmgz49vG+TOiLCMIMML+0orlspr8sQJIcvV2wdvFRo5naJuWg/L+37tqn
-         voSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YYag+Bc8AuQ7klC6LwKp3Hqd/h8+XJbeqg437KyxSlA=;
-        b=h+ry1bEtApi/243ts919h8X9ys6qKiKg6U+mj7xnpeiA3E88lW/WFvnFAhLrRy2L6l
-         DA8wJzPbiHZ+hvf5fnODwDx1l6wwspH6IC6qzvHGpzVqjfPYl9kypn22EQXc9VHMlRpV
-         X64scWLZMtHLn5kHp2sDuo8PYMehcVelSz/ilA1nB+rimYprWzQtbpSi0j1nQlvX/vlw
-         78s7EYQww0zYuEhT5n3dyiSHZCqk1dADgPNo9oAZaz6qAcYW+Y+YRcYOQb6wjlh3g6XD
-         qJVYUJp+9AbQ+OOKb0cVCO76cHRB2ibImcsp6W7pa2NuuODSeOursfQw0Ox+yB+a/67z
-         noeA==
-X-Gm-Message-State: APjAAAWTUmlpCoexY7WZnFt9grPuBKkBKtSuwOV7brdsfx+hDNXTC6jK
-        sxxQgQ+siS/xs4CrAyXJ0ug=
-X-Google-Smtp-Source: APXvYqzc/NcJedpT9MyHDjIJJxCle4dtSZ4sBeS25vT4lpq+Siy29EZNy3T13RozFRPJ8GprmHgUaA==
-X-Received: by 2002:a2e:5304:: with SMTP id h4mr58319418ljb.75.1578188921055;
-        Sat, 04 Jan 2020 17:48:41 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id t27sm27192468ljd.26.2020.01.04.17.48.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Jan 2020 17:48:40 -0800 (PST)
-Subject: Re: [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit samples
-To:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     linux-kernel@lists.codethink.co.uk,
-        Edward Cragg <edward.cragg@codethink.co.uk>
-References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <20191018154833.7560-3-ben.dooks@codethink.co.uk>
- <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
- <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
- <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
- <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
- <a0f027d9-e9e0-d76c-1e40-002fdc37eb5f@nvidia.com>
- <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk>
- <aba4edd6-0ea5-5e95-c5a0-9e749587c763@nvidia.com>
- <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
- <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
- <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
- <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
- <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
- <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
- <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
- <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
-Date:   Sun, 5 Jan 2020 04:48:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1725785AbgAEFEL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 5 Jan 2020 00:04:11 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5212 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725535AbgAEFEL (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Jan 2020 00:04:11 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e116e120000>; Sat, 04 Jan 2020 21:03:14 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Sat, 04 Jan 2020 21:03:30 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Sat, 04 Jan 2020 21:03:30 -0800
+Received: from [10.2.169.188] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 5 Jan
+ 2020 05:03:29 +0000
+Subject: Re: [PATCH v5 12/19] ASoC: tegra: Add initial parent configuration
+ for audio mclk
+To:     Dmitry Osipenko <digetx@gmail.com>, Mark Brown <broonie@kernel.org>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+        <mperttunen@nvidia.com>, <gregkh@linuxfoundation.org>,
+        <sboyd@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <spujar@nvidia.com>, <josephl@nvidia.com>,
+        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
+        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1576880825-15010-1-git-send-email-skomatineni@nvidia.com>
+ <1576880825-15010-13-git-send-email-skomatineni@nvidia.com>
+ <a6567ff1-7bc2-3ca5-1200-92a63eb44ddb@gmail.com>
+ <20191225175736.GC27497@sirena.org.uk>
+ <856d8a92-0c24-6722-952c-06b86c706e97@gmail.com>
+ <dbbce994-27f5-d949-078d-05646100e6be@nvidia.com>
+ <b6ec6cfd-d883-ea28-00f8-884fa80cfee1@nvidia.com>
+ <576fca44-6734-5431-b523-512747a0bf12@gmail.com>
+ <fb252096-e101-7d21-9717-c23607ae6edd@nvidia.com>
+ <0f956c12-98cf-3466-f3ee-ffc3a23e3e3d@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <9e08a1eb-7a9f-0ed0-a2f4-08f1d6f93958@nvidia.com>
+Date:   Sat, 4 Jan 2020 21:03:28 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <0f956c12-98cf-3466-f3ee-ffc3a23e3e3d@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1578200594; bh=mqELazUrdlbCs0VwMApedGlBc4mGw4jHtcOSTHHW3Ec=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=WTMRBnc9NoeD++lzXTh9F1a9Uyvl0P+ZsEWtAXXYemMcmLrkFBceU2Y4UfSOFTTP1
+         X6KZmzq9DC2kbqKEbZ2w29gF/S4SNDtpIcVhfGp67lygu8vmExeqUpTTChsZSPEhta
+         Ljvr5c57GUxJRmKMOfMWdQS+YE6e+3/qUTdPkvvFYhiw071FLLdSuYbqGkxDXGJkDn
+         bpjhvKULBEvUkPgXLJsC+OePe49HPc/KClPWXg+NpNbdviEzqgaIDnecQgzYhhDnKI
+         HaZfcWSciQrFwgSQgC/po9Esi9qsBD4WGG11mBblH/3OhRZDmkgGURefajlUc8yQDc
+         9SoG01A6NMtcg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-05.01.2020 03:04, Ben Dooks пишет:
-> [snip]
-> 
-> I've just gone through testing.
-> 
-> Some simple data tests show 16 and 32-bits work.
-> 
-> The 24 bit case seems to be weird, it looks like the 24-bit expects
-> 24 bit samples in 32 bit words. I can't see any packing options to
-> do 24 bit in 24 bit, so we may have to remove 24 bit sample support
-> (which is a shame)
-> 
-> My preference is to remove the 24-bit support and keep the 32 bit in.
-> 
 
-Interesting.. Jon, could you please confirm that 24bit format isn't
-usable on T30?
+On 1/4/20 5:05 PM, Dmitry Osipenko wrote:
+> 04.01.2020 08:49, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On 1/2/20 8:12 AM, Dmitry Osipenko wrote:
+>>> 02.01.2020 10:03, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> On 12/27/19 1:19 PM, Sowjanya Komatineni wrote:
+>>>>> On 12/27/19 6:56 AM, Dmitry Osipenko wrote:
+>>>>>> 25.12.2019 20:57, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>>> On Mon, Dec 23, 2019 at 12:14:34AM +0300, Dmitry Osipenko wrote:
+>>>>>>>> 21.12.2019 01:26, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=
+=82:
+>>>>>>>>> Tegra PMC clock clk_out_1 is dedicated for audio mclk from Tegra3=
+0
+>>>>>>>>> through Tegra210 and currently Tegra clock driver does initial pa=
+rent
+>>>>>>>>> configuration for audio mclk "clk_out_1" and enables them by defa=
+ult.
+>>>>>>> Please delete unneeded context from mails when replying.=C2=A0 Doin=
+g this
+>>>>>>> makes it much easier to find your reply in the message, helping ens=
+ure
+>>>>>>> it won't be missed by people scrolling through the irrelevant quote=
+d
+>>>>>>> material.
+>>>>>> Ok
+>>>>>>
+>>>>>>>>> -=C2=A0=C2=A0=C2=A0 clk_disable_unprepare(data->clk_cdev1);
+>>>>>>>>> -=C2=A0=C2=A0=C2=A0 clk_disable_unprepare(data->clk_pll_a_out0);
+>>>>>>>>> -=C2=A0=C2=A0=C2=A0 clk_disable_unprepare(data->clk_pll_a);
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 if (__clk_is_enabled(data->clk_cdev1))
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clk_disable_unprepare=
+(data->clk_cdev1);
+>>>>>>>> The root of the problem is that you removed clocks enabling from
+>>>>>>>> tegra_asoc_utils_init().
+>>>>> currently, audio mclk and its parent clocks enabling are from clock
+>>>>> driver init and not from tegra_asoc_utils_init.
+>>>>>>>> I'm not sure why clocks should be disabled during the rate-changin=
+g,
+>>>>>>>> probably this action is not really needed.
+>>>>>>> I know nothing about this particular device but this is not that
+>>>>>>> unusual a restriction for audio hardware, you often can't
+>>>>>>> robustly reconfigure the clocking for a device while it's active
+>>>>>>> due to issues in the hardware.=C2=A0 You often see issues with FIFO=
+s
+>>>>>>> glitching or state machines getting stuck.=C2=A0 This may not be an
+>>>>>>> issue here but if it's something that's documented as a
+>>>>>>> requirement it's probably good to pay attention.
+>>>>>> I don't know details about that hardware either, maybe it is simply =
+not
+>>>>>> safe to change PLL_A rate dynamically and then CLK_SET_RATE_GATE cou=
+ld
+>>>>>> be used.
+>>>>>>
+>>>>>> If nobody knows for sure, then will be better to keep
+>>>>>> tegra_asoc_utils_set_rate() unchanged.
+>>>>> plla rate change through tegra_asoc_utils_set_rate() happens only whe=
+n
+>>>>> there is not active playback or record corresponding to this sound
+>>>>> device.
+>>>>>
+>>>>> So, I don't see reason for disabling clock during rate change and not
+>>>>> sure why we had this from the beginning.
+>>>>>
+>>>>> Thierry/Sameer,
+>>>>>
+>>>>> Can you please comment?
+>>>>>
+>>>>> Yes, we can use CLK_SET_RATE_GATE for PLLA and remove clock disabling
+>>>>> before rate change.
+>>>>>
+>>>> PLLA is used for both I2S controller clock and also for audio mclk. I2=
+S
+>>>> driver suspend resume implementations takes care of enabling and
+>>>> disabling I2S clock but audio mclk will be enabled during that time an=
+d
+>>>> PLLA disable might not happen. So using CLK_SET_RATE_GATE prevents rat=
+e
+>>>> change to happen and as rate change happens only when there is no acti=
+ve
+>>>> audio record/playback, we can perform rate change without disable/enab=
+le
+>>>> during rate change.
+>>>>
+>>>> So probably below changes should be good.
+>>>>
+>>>>    * remove asoc_utils_set_rate call from asoc_utils_init as set_rate
+>>>>      happens during existing hw_params callback implementations in sou=
+nd
+>>>>      drivers and there is no need to do rate change during asoc_utils_=
+init.
+>>>>    * remove disable/enable clocks during rate change in asoc_utils_set=
+_rate.
+>>>>    * add startup and shutdown snd_soc_ops callbacks to do enable and
+>>>>      disable audio mclk.
+>>>>
+>>> Sounds good, thanks. I'll be happy to review and test it.
+>> Regarding disabling audio mclk during PLLA rate change, no need to
+>> explicitly disable PLLA on asoc utils as clock driver takes care of it
+>> properly during pll rate change.
+>>
+>> But the downstream clock divider hardware can malfunction without
+>> recovery when subject to unstable PLL output during locking, unless
+>> clock is gated.
+>>
+>> So it is recommended to disable downstream clocks during PLL rate change=
+.
+>>
+>> PLLA downstream clocks are I2S and audio mclk (cdev1/clk1 and extern1
+>> clocks) and I2S clock is disabled in I2S driver by PM runtime ops.
+> The I2S driver uses asynchronous pm_runtime_put() and thus there is no
+> guarantee that I2S clock is disabled at the time of changing PLLA rate.
+> Could this be a problem?
+Looking into soc_pcm_hw_params, I see dai_link hw_params ops happens=20
+prior to=C2=A0 platform snd_soc_dai_driver hw_params ops.
+
+So, PLL rate change thru asoc_utils_set_rate happens during sample rate=20
+config of dai_link hw_params ops and during this time I2S will always be=20
+in idle state.
+
+Sameer, Please confirm.
+
+>> For audio mclk, need to make sure mclk are disabled during rate change.
+>>
+>> So below are the changes to audio clocks that will be in next version.
+>>
+>>    * remove tegra_asoc_utils_set_rate call from tegra_asoc_utils_init as
+>>      tegra_asoc_utils_set_rate happens during hw_params callback.
+>>    * add shutdown snd_soc_ops callbacks to disable of audio mclk.
+>>    * remove disable audio mclk (cdev1) and plla clocks prior to rate
+>>      change in tegra_asoc_utils_set_rate (as audio mclk will always be i=
+n
+>>      disabled state every time hw_param callback gets executed) and keep
+>>      audio mclk enable after the rate change in tegra_asoc_utils_set_rat=
+e.
+>>
