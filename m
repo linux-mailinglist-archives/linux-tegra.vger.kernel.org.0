@@ -2,123 +2,79 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E3AC131AC8
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 22:55:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76716131BF0
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 23:59:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbgAFVz4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jan 2020 16:55:56 -0500
-Received: from mga07.intel.com ([134.134.136.100]:51764 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726695AbgAFVz4 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 6 Jan 2020 16:55:56 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jan 2020 13:55:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,403,1571727600"; 
-   d="scan'208";a="245719807"
-Received: from chewang-mobl.amr.corp.intel.com (HELO [10.254.185.10]) ([10.254.185.10])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Jan 2020 13:55:53 -0800
-Subject: Re: [PATCH] ASoC: rt5677: add SPI_MASTER dependency
-To:     Jon Hunter <jonathanh@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Ben Zhang <benzh@chromium.org>,
-        Curtis Malainey <cujomalainey@chromium.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Jie Yang <yang.jie@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        KaiChieh Chuang <kaichieh.chuang@mediatek.com>,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <20191210195333.648018-1-arnd@arndb.de>
- <d739240f-aaa6-c310-9c68-16c1a08ce759@nvidia.com>
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Message-ID: <9c9169cc-0da5-f247-c8f7-f6913ca2bfb5@linux.intel.com>
-Date:   Mon, 6 Jan 2020 15:55:53 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1727308AbgAFW7P (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jan 2020 17:59:15 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:40957 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727270AbgAFW7O (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jan 2020 17:59:14 -0500
+Received: by mail-lj1-f195.google.com with SMTP id u1so52637324ljk.7
+        for <linux-tegra@vger.kernel.org>; Mon, 06 Jan 2020 14:59:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C0KNG+0OExH+PgE3Je4nnY6Td9Ccw4KBccd9DW70NKo=;
+        b=F1W6FrjBpZ29K0G9T9CoWndO9TPARRdTZkCrQ+TZ6DnirL28X/Ao01Xngla2oAx8aD
+         wZg6KYQYKH495KPdcHL0gPBqyRskLBesIDSTE2LPxinAoggI0DaNjYwa6+9jREEcZgZW
+         qSm6vVsfwPwEU+8R2hR9CdCbg1FILYS7Y85J0xzQbXGcGanAZ6VUxW6/JvhIPDPQIf+y
+         7VWfuWdwEEL4LQV5mals5C2khcjyQksim3mb2q/O5Qt7Df3ojZbW8A90z+ROMB/hjTzW
+         kAgoeDeN5DHHqv5zQSJ9m7pMwOMWBTjjssM5TxjH7MILgz8N6clZFh/F+CKbj7y9cQc5
+         6AHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C0KNG+0OExH+PgE3Je4nnY6Td9Ccw4KBccd9DW70NKo=;
+        b=C8T+FCAdZaaa1Bqh/VJMThtUlgL/cMMUhWvir9ridTAkygvn6HGBP8ScyBamorOoZI
+         17MBX6hmQKBnijqUJwvb2L1wSGSUoEgHo8YdNKQg/oQorl0Wd7EFot7qRoajcvtqSHaX
+         PObx6pSkif6nShQo4K+KeYmeqgh4ZNIaM6oWjVDypnWP7/nOisQlBTwHO4X/ZzKjrkCh
+         33dp2Hh9L4tSD5ZEd3ZRfcp6rZHJKlhxg9ZuGMD0s6T3dUbZyfzAWzNXjOb2Oo8RfErp
+         q+150dOi5Zt4Wr/ay/UvNCVIwQg6cyVlc1lIcrKS0TkXhu9j3d3K1FPFcePbgwkt2PzL
+         gqNg==
+X-Gm-Message-State: APjAAAXvSDMDDMyIDxv50z71DP1026zedZBAN0QCFygw0pvUyfApoCme
+        9AT9mQlHgzw+EioAANRJGQ1m8FEuid3SJom1Kap+xg==
+X-Google-Smtp-Source: APXvYqzDJbaUismLGujeor0umiyYbHuGqsL7l41pJ5HBf+0/0CpHdmcEUNRW/RHFYfBWr5eT4fcWBMlE9u0L9WYEDME=
+X-Received: by 2002:a2e:85cd:: with SMTP id h13mr59765545ljj.191.1578351552102;
+ Mon, 06 Jan 2020 14:59:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <d739240f-aaa6-c310-9c68-16c1a08ce759@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191215183047.9414-1-digetx@gmail.com>
+In-Reply-To: <20191215183047.9414-1-digetx@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 6 Jan 2020 23:59:01 +0100
+Message-ID: <CACRpkdYAKS50-CNmE0nRNQanFxKejoHrwxho3fZXROoLZUb4+Q@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] Tegra GPIO: Minor code clean up
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Sun, Dec 15, 2019 at 7:31 PM Dmitry Osipenko <digetx@gmail.com> wrote:
 
+> I was investigating why CPU hangs during of GPIO driver suspend and in
+> the end it turned out that it is a Broadcom WiFi driver problem because
+> it keeps OOB wake-interrupt enabled while WLAN interface is DOWN and this
+> may cause a bit weird CPU hang on writing to INT_ENB register during of
+> GPIO driver suspend. Meanwhile I also noticed that a few things could be
+> improved in the driver, that's what this small series addresses.
+>
+> Dmitry Osipenko (3):
+>   gpio: tegra: Use generic readl_relaxed/writel_relaxed accessors
+>   gpio: tegra: Properly handle irq_set_irq_wake() error
+>   gpio: tegra: Use NOIRQ phase for suspend/resume
 
-On 12/11/19 4:59 AM, Jon Hunter wrote:
-> 
-> On 10/12/2019 19:52, Arnd Bergmann wrote:
->> When CONFIG_SPI is disabled, the newly added code for the DSP
->> firmware loading fails to link:
->>
->> ERROR: "rt5677_spi_hotword_detected" [sound/soc/codecs/snd-soc-rt5677.ko] undefined!
->> ERROR: "rt5677_spi_write" [sound/soc/codecs/snd-soc-rt5677.ko] undefined!
-> 
-> Would it be better if the above functions or the functions that call
-> these are conditional on CONFIG_SND_SOC_RT5677_SPI?
+All three patches applied with Thierry's review/test tag.
 
-they are already conditional, with a fallback provided:
-
-#if IS_ENABLED(CONFIG_SND_SOC_RT5677_SPI)
-int rt5677_spi_read(u32 addr, void *rxbuf, size_t len);
-int rt5677_spi_write(u32 addr, const void *txbuf, size_t len);
-int rt5677_spi_write_firmware(u32 addr, const struct firmware *fw);
-void rt5677_spi_hotword_detected(void);
-#else
-static inline int rt5677_spi_read(u32 addr, void *rxbuf, size_t len)
-{
-	return -EINVAL;
-}
-static inline int rt5677_spi_write(u32 addr, const void *txbuf, size_t len)
-{
-	return -EINVAL;
-}
-static inline int rt5677_spi_write_firmware(u32 addr, const struct 
-firmware *fw)
-{
-	return -EINVAL;
-}
-static inline void rt5677_spi_hotword_detected(void){}
-#endif
-
-and since we have the following definition
-
-config SND_SOC_RT5677_SPI
-	tristate
-	default SND_SOC_RT5677 && SPI
-
-in theory if SPI is not enabled the fallback static inlines would always 
-be selected?
-
-Arnd, if you can share the .config that exposes this problem it'd be nice
-
-FWIW, there are other missing dependencies, the SPI controller was not 
-explicitly enabled so depending on the Kconfigs used by a distro the 
-machine driver probe could fail with the spi-RT5677AA component never 
-registered. The patch below seems to work for me (more testing needed)
-
-diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
-index b149e28a2076..cf1a2fde4c47 100644
---- a/sound/soc/intel/boards/Kconfig
-+++ b/sound/soc/intel/boards/Kconfig
-@@ -50,6 +50,9 @@ config SND_SOC_INTEL_BDW_RT5677_MACH
-         depends on I2C_DESIGNWARE_PLATFORM || COMPILE_TEST
-         depends on GPIOLIB || COMPILE_TEST
-         depends on X86_INTEL_LPSS || COMPILE_TEST
-+       depends on SPI_MASTER
-+       select SPI_PXA2XX
-+       select SND_SOC_RT5677_SPI
-         select SND_SOC_RT5677
-         help
-           This adds support for Intel Broadwell platform based boards with
+Yours,
+Linus Walleij
