@@ -2,95 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B030B130B2E
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 02:05:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 249BB130B49
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 02:17:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727389AbgAFBE7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 5 Jan 2020 20:04:59 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:36427 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727340AbgAFBEq (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Jan 2020 20:04:46 -0500
-Received: by mail-lj1-f196.google.com with SMTP id r19so49270642ljg.3;
-        Sun, 05 Jan 2020 17:04:44 -0800 (PST)
+        id S1727238AbgAFBRX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 5 Jan 2020 20:17:23 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:47076 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727170AbgAFBRX (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 5 Jan 2020 20:17:23 -0500
+Received: by mail-lj1-f193.google.com with SMTP id m26so46827304ljc.13;
+        Sun, 05 Jan 2020 17:17:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=UQFgmvNzzMNkQGJ6E3WQRfYtR4IleSz/24HtNaKqzaA=;
-        b=qaVEUiIi+bUfSZo5f5O17+9PBG1k9KPpT3pyWQPJ+uVPGornWnWDU+jhE6QRisZZZ8
-         Tj10Ajeo5Ja0branooSpUBnwYO7eusz0C+JLvkeMUgYbs2hj3Kpu5BLDpAJ9YFcfWTw7
-         zSsO7oLRDy5gy8BYhWg1I1Ur883iOWYh4EfA3UTPQUxn2LW0/tWyb8yWOVEgFfFgeMga
-         cHx+Na4OQV0afyxvVp8fxTcmHgdMMMsDRCSqAOjmVxwjVFv86q3ybnPOvdbznbxHvKjX
-         ginCjPZ6R8aMpkb78P7OLKhJZa10aSsoWttTcq7iGss/dSzZt4WzH9h29C/BXzRdg5yr
-         DD+w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a+fMub9ckge+8BlFpsCQqv6/B7PWQaNgw1pSZyaGfPM=;
+        b=sVo3rH/4HIYrSSGax0IIFOTEpbJLAp6CrJJS6D9iVK3peNTpNhdfmiRVcyqyzLkoQk
+         zDFgmXduxYZxDhcf7y2hIN51OWQr75QeYn5QZKbI7llbb3HedAGYc5TNxFsy1LgaSLLB
+         IwAhKYQvyb1mRA6O6IhLxMR/Hn51jDQ/XSgsOrvZxQMu0sCw1QF8cWh7ZVvVGknOrlWf
+         pU1B8b4E00wkuw1PVQJJnrTEyUfxy2+G8hJcKAURc7HSPWRMucZDl3wItyJVkh+92AJk
+         revLMEbwe+hu8yOzFzORaXQzfjAP67WmALTqak2rqruKphHaAraX1Oh178KJtyWAl4B9
+         sDWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UQFgmvNzzMNkQGJ6E3WQRfYtR4IleSz/24HtNaKqzaA=;
-        b=gcVb45yyFd3DCDQB1YFyyQe+81H39D9xiH+IuatSt8FEQzeDGLxgHDAeGUjvm0K1mE
-         K5BpL5av6JG7KjewC8zo3h8uHUcbtW2EHs/aCM2jizNQNnf+UNDXEg0NChXBldfPyLbc
-         MaMSU5r0+eQVdMOvlgVByfOQK0uI/sDeJKRTXrGAV9E15ksDhijUo2GnZVzicsZxQ0qw
-         MfYcdoCQOX5hOhvHnlZW8suhTJdx/Jk/WziPT4x+BIjr2ak26wS/lj3y/mDkp2Etdrif
-         J7a/nPJ8k741o63hf9phrhaIqoZuXGaJIvp4amh95Axo24FsysWz3+Kr1lkBswFR9lJD
-         a+JQ==
-X-Gm-Message-State: APjAAAVoWhzR9t62TFK/iq9t5Nfw0WuKtc+3DFb8dCZw11sHiYN6I/Qf
-        q80QtSz4vVRxTzzxD5hrkrg=
-X-Google-Smtp-Source: APXvYqyp3TAJLD/r+ZHYJre/8ERqD2FFylo4FcuxqdjDyBwU/wM4mR9zjzbovdLTpi/seEyO+/+VwQ==
-X-Received: by 2002:a2e:b177:: with SMTP id a23mr54620658ljm.202.1578272683782;
-        Sun, 05 Jan 2020 17:04:43 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a+fMub9ckge+8BlFpsCQqv6/B7PWQaNgw1pSZyaGfPM=;
+        b=ozXpcrppxNsygS21Dd7yRiTAJ3JDIfvhK9yNGAOeEJiFa0v7InRSwTE/VxfFQfHpRn
+         MtbeXCBbD26dYzN4jzzrMEMOyJ7MlIDwKzJiGDNKS+IVaLK1/1RlHPSVIDLb9KmS9RvE
+         +ug62J2sSgPbFiKQy5hvM0uMJZQkbC0GXNd6UgjulgGQz6RV4RIw8hcOPSimTr6Hj572
+         EMIIA62fi5wSgndedWkHEdpuFh+lP+MXoyNZEttqvz0/CaIk7yyTGzHc+aKKvrPdgdF2
+         7srJnGlLSw7Kh0Kd2leyYG6zAT68O4RF0irCc3VmMyT8DyLvxTl2XXtvv3aafoLiRbNr
+         yRgg==
+X-Gm-Message-State: APjAAAXCuY6X1JL56PmOEHLp6ydX3AB8BKw4jXpxurHfsUjT1ECodr92
+        1HevYRp1xNLfejCARiVbVC0=
+X-Google-Smtp-Source: APXvYqz63Zrr92kosfZeqHOzulSIyGehjDzZKjMLbqib996DoN3LJEoDKzS/wNZdwtiSsTF+LDUzTg==
+X-Received: by 2002:a2e:9b9a:: with SMTP id z26mr57833426lji.181.1578273441605;
+        Sun, 05 Jan 2020 17:17:21 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id a19sm28245910ljb.103.2020.01.05.17.04.42
+        by smtp.gmail.com with ESMTPSA id y14sm28353271ljk.46.2020.01.05.17.17.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2020 17:04:43 -0800 (PST)
+        Sun, 05 Jan 2020 17:17:21 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 9/9] i2c: tegra: Check DMA completion status in addition to left time
-Date:   Mon,  6 Jan 2020 04:04:23 +0300
-Message-Id: <20200106010423.5890-10-digetx@gmail.com>
+Subject: [PATCH v3 00/13] NVIDIA Tegra APB DMA driver fixes and improvements
+Date:   Mon,  6 Jan 2020 04:16:55 +0300
+Message-Id: <20200106011708.7463-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200106010423.5890-1-digetx@gmail.com>
-References: <20200106010423.5890-1-digetx@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-It is more robust to check completion status in addition to the left time
-in a case of DMA transfer because transfer's completion happens in two
-phases [one is ISR, other is tasklet] and thus it is possible that DMA is
-completed while I2C completion awaiting times out because of the deferred
-notification done by the DMA driver. The DMA completion status becomes
-100% actual after DMA synchronization. This fixes spurious DMA timeouts
-when system is under load.
+Hello,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/i2c/busses/i2c-tegra.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is series fixes some problems that I spotted recently, secondly the
+driver's code gets a cleanup. Please review and apply, thanks in advance!
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index 3c7c86d4b0e4..cbc2ad49043e 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -1224,7 +1224,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 					 i2c_dev->rx_dma_chan :
- 					 i2c_dev->tx_dma_chan);
- 
--		if (time_left == 0) {
-+		if (!time_left && !completion_done(&i2c_dev->dma_complete)) {
- 			dev_err(i2c_dev->dev, "DMA transfer timeout\n");
- 			tegra_i2c_init(i2c_dev, true);
- 			return -ETIMEDOUT;
+Changelog:
+
+v3: - In the review comment to v1 Michał Mirosław suggested that "Prevent
+      race conditions on channel's freeing" does changes that deserve to
+      be separated into two patches. I factored out and improved tasklet
+      releasing into this new patch:
+
+        dmaengine: tegra-apb: Clean up tasklet releasing
+
+    - The "Fix use-after-free" patch got an improved commit message.
+
+v2: - I took another look at the driver and spotted few more things that
+      could be improved, which resulted in these new patches:
+
+        dmaengine: tegra-apb: Remove runtime PM usage
+        dmaengine: tegra-apb: Clean up suspend-resume
+        dmaengine: tegra-apb: Add missing of_dma_controller_free
+        dmaengine: tegra-apb: Allow to compile as a loadable kernel module
+        dmaengine: tegra-apb: Remove MODULE_ALIAS
+
+Dmitry Osipenko (13):
+  dmaengine: tegra-apb: Fix use-after-free
+  dmaengine: tegra-apb: Implement synchronization callback
+  dmaengine: tegra-apb: Prevent race conditions on channel's freeing
+  dmaengine: tegra-apb: Clean up tasklet releasing
+  dmaengine: tegra-apb: Prevent race conditions of tasklet vs free list
+  dmaengine: tegra-apb: Use devm_platform_ioremap_resource
+  dmaengine: tegra-apb: Use devm_request_irq
+  dmaengine: tegra-apb: Fix coding style problems
+  dmaengine: tegra-apb: Remove runtime PM usage
+  dmaengine: tegra-apb: Clean up suspend-resume
+  dmaengine: tegra-apb: Add missing of_dma_controller_free
+  dmaengine: tegra-apb: Allow to compile as a loadable kernel module
+  dmaengine: tegra-apb: Remove MODULE_ALIAS
+
+ drivers/dma/Kconfig           |   2 +-
+ drivers/dma/tegra20-apb-dma.c | 481 ++++++++++++++++------------------
+ 2 files changed, 220 insertions(+), 263 deletions(-)
+
 -- 
 2.24.0
 
