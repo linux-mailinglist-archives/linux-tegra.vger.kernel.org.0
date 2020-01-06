@@ -2,67 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7980E1312A2
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 14:14:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72192131306
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 14:37:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbgAFNOV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jan 2020 08:14:21 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:56265 "EHLO
+        id S1726303AbgAFNhJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jan 2020 08:37:09 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:34351 "EHLO
         mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726300AbgAFNOV (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jan 2020 08:14:21 -0500
-Received: by mail-wm1-f65.google.com with SMTP id q9so14898830wmj.5;
-        Mon, 06 Jan 2020 05:14:19 -0800 (PST)
+        with ESMTP id S1726292AbgAFNhI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jan 2020 08:37:08 -0500
+Received: by mail-wm1-f65.google.com with SMTP id c127so11979851wme.1;
+        Mon, 06 Jan 2020 05:37:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=LrWoGYPQhmVuVZJ2chuTv8wabYF1cEdpWPnR/3AObmI=;
-        b=Tor+9VLbD7Zc0d9dWTQ0qbqi2gIK9SgGkqe6Px5lL21j9bsRAy4aai5nJAi0j4r9g9
-         wpYhaVOZc6YfHSwHCk/Z0G62gebtmK3ONeAvqNVFuAtZFuL6urTbCd43yMF2jD0y3Hcq
-         F3/0Ysb8OfXt5KCdVi5aTAzN8g6MkrQ1Dq43XhiOHE9vhora4MjjcqS5hutXVTzDnLUm
-         l6dsW8sqYjGIi3B1nM59QyeUY1UPo4TYMkKAbnrGsa8yWYrtWaC/1yYERtl9i5gCk8tX
-         ZjgAdNwQ3cZV4ivBs6lzf8W/O/NiUEsusmmpoWSWiJTtVJop3LNc8q415YJkw9/bD9YF
-         26SA==
+        bh=QOQNIAmP2EwBVCavZ0lFmSFnjBVk76326QHH2Q3kcmU=;
+        b=VnuawsnTf0Cd7zf4BmAy2YZKMN8+T2U2fEnGwrY7kdoQTrvBcljDa3+5uGsf5J07XH
+         wPvqtMi6exEC2pfkHwRNTimcbZTq6Wcny0eaccgE5xhSlGuAHyS/f5lu77WQnHMSVgtn
+         tRJRdS/zH+Ljx+KA6O85HOKMRCFvFMYoyUtZGfUipMbkJvD4FWqv7/P50/fAK5iZncT5
+         Q8ZEwPCTlT6R++dghR8MX75pnY86JlOwSJlwilVsmb8dvoirMCNJ8/zwuoRRyPVEY8MS
+         vPtcm/nlmMRXTOTom3L4CohdSPHaupLVC6B6zy/Ynxdr5accUgX91F3UCxjM7c1r6fr9
+         Woxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LrWoGYPQhmVuVZJ2chuTv8wabYF1cEdpWPnR/3AObmI=;
-        b=qTPtss7oLqaxOC7DGUmaszTy3CnjvjcWab1he6IDyruXHo8R6+GRvcCcGpAoNPCvPv
-         1eWVIiWPIBiFZAsNPGzs4Ta3zUWKrTN/Khtkp3UPdyFd1OYil0xGe60p8PJimMU/3iG/
-         qokRWNht6TpL6yPdGZVFUDfAjBrbKcvyO9V+Q7UR/ZPjNyOm5r2BO5X0djMc2Cytw8tR
-         1Z+SQiUPVb9WNAavAEcbKk9BH3vCuzQ0K//XEyU6VxrxmH2symJtVDPRs3UW0z5Uc4J8
-         XcgLBDGeRWc3u0t9hMYGJk3uh03I7z1Y0gZUXBJ663FwnAx4myu9VszcmMNYMDB+26Q9
-         UTbg==
-X-Gm-Message-State: APjAAAUplyfk8B0wt++79EP6NlKAj66UDaxPrFgpoZaajKNl2LuSI0nZ
-        T0s8x8Ey1VpVPJFI/WYHivo=
-X-Google-Smtp-Source: APXvYqxNvAqB5fDsO76GWUOtJXB7v4lpojthI3YAMdCJtc4OE+SxwUanVxHbhH7I6AagyWwIAy6qGQ==
-X-Received: by 2002:a1c:5f41:: with SMTP id t62mr36486858wmb.42.1578316458683;
-        Mon, 06 Jan 2020 05:14:18 -0800 (PST)
+        bh=QOQNIAmP2EwBVCavZ0lFmSFnjBVk76326QHH2Q3kcmU=;
+        b=uBoMH6TfIJzH5myS4dviGu5kSjBHWhnuDvcXDFzC9PuKyCYC8ng53GNBwfTS8XqDpJ
+         6EroxGjn/wj5r1Ehj1Yyw+Eyjrmof06DKJQQDBYsU5tr1XouScQXx59LguANIxJ60d0V
+         bDYbOpVSYr4CJ80Qr64zzATk6g6jgEJaJwsXbCrprUnfUoVe8DvtLteNEXgQVj9ILSTS
+         xNwlCYdWCgWQAxBB2cpESP0PX/xoCI0dL04MdIAqwy09mbNojMkpQEpLimSK1KEK9Alc
+         Yv8shYEZbaN1A16EYUEgvqY578lCCrhZ4e93ozwWulw8Rex4uK+kOdPYyWnzEgGDTelm
+         bz/g==
+X-Gm-Message-State: APjAAAUQfT8+ZDwho3d2cjcmU69tci4koBp69SnPMsRWGd77Uz1L2Rft
+        5CXGsaFBQOl3WDKP2F3RSsm3sVCv
+X-Google-Smtp-Source: APXvYqxVJYPFzO8K7RFO9Mbkl9yf3DcX5Yyfc46eQahs0rjbrZh4wXbwJ5UoOs/3egJCUyIihU7gEw==
+X-Received: by 2002:a1c:5f06:: with SMTP id t6mr34830155wmb.32.1578317825517;
+        Mon, 06 Jan 2020 05:37:05 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id v62sm22970179wmg.3.2020.01.06.05.14.17
+        by smtp.gmail.com with ESMTPSA id d16sm77467856wrg.27.2020.01.06.05.37.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2020 05:14:17 -0800 (PST)
-Date:   Mon, 6 Jan 2020 14:14:16 +0100
+        Mon, 06 Jan 2020 05:37:04 -0800 (PST)
+Date:   Mon, 6 Jan 2020 14:37:03 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     lorenzo.pieralisi@arm.com, bhelgaas@google.com, robh+dt@kernel.org,
-        jonathanh@nvidia.com, andrew.murray@arm.com, kishon@ti.com,
-        gustavo.pimentel@synopsys.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kthota@nvidia.com, mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V2 3/5] PCI: tegra: Add support for PCIe endpoint mode in
- Tegra194
-Message-ID: <20200106131416.GD1955714@ulmo>
-References: <20200103124404.20662-1-vidyas@nvidia.com>
- <20200103124404.20662-4-vidyas@nvidia.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        linux-mmc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Lucas Stach <dev@lynxeye.de>, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mmc: tegra: fix SDR50 tuning override
+Message-ID: <20200106133703.GE1955714@ulmo>
+References: <245d569e4c258063dbd78bd30c7027638b30f059.1577960737.git.mirq-linux@rere.qmqm.pl>
+ <20200106120718.GA1955714@ulmo>
+ <20200106122745.GA3414443@kroah.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="veXX9dWIonWZEC6h"
+        protocol="application/pgp-signature"; boundary="+JUInw4efm7IfTNU"
 Content-Disposition: inline
-In-Reply-To: <20200103124404.20662-4-vidyas@nvidia.com>
+In-Reply-To: <20200106122745.GA3414443@kroah.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -70,78 +71,90 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---veXX9dWIonWZEC6h
-Content-Type: text/plain; charset=us-ascii
+--+JUInw4efm7IfTNU
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 03, 2020 at 06:14:02PM +0530, Vidya Sagar wrote:
-> Add support for the endpoint mode of Synopsys DesignWare core based
-> dual mode PCIe controllers present in Tegra194 SoC.
+On Mon, Jan 06, 2020 at 01:27:45PM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Jan 06, 2020 at 01:07:18PM +0100, Thierry Reding wrote:
+> > On Thu, Jan 02, 2020 at 11:30:50AM +0100, Micha=C5=82 Miros=C5=82aw wro=
+te:
+> > > Commit 7ad2ed1dfcbe inadvertently mixed up a quirk flag's name and
+> > > broke SDR50 tuning override. Use correct NVQUIRK_ name.
+> > >=20
+> > > Fixes: 7ad2ed1dfcbe ("mmc: tegra: enable UHS-I modes")
+> > > Depends-on: 4f6aa3264af4 ("mmc: tegra: Only advertise UHS modes if IO=
+ regulator is present")
+> > > Signed-off-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
+> > > ---
+> > >  drivers/mmc/host/sdhci-tegra.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > Oh my... good catch!
+> >=20
+> > Reviewed-by: Thierry Reding <treding@nvidia.com>
+> >=20
+> > I also ran this through our internal test system and all tests pass, so
+> > also:
+> >=20
+> > Tested-by: Thierry Reding <treding@nvidia.com>
+> >=20
+> > I'm not sure if that "Depends-on:" tag is anything that's recognized
+> > anywhere. It might be better to turn that into an additional "Fixes:"
+> > line. Adding Greg to see if he has a standard way of dealing with this
+> > kind of dependency.
+> >=20
+> > Greg, what's your preferred way to handle these situations? I think the
+> > intention here was to describe that the original error was introduced by
+> > commit 7ad2ed1dfcbe ("mmc: tegra: enable UHS-I modes"), but then commit
+> > 4f6aa3264af4 ("mmc: tegra: Only advertise UHS modes if IO regulator is
+> > present") moved that code around, so this patch here will only be back-
+> > portable until the latter commit, but should be backported until the
+> > former.
 >=20
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> ---
-> V2:
-> * Addressed Bjorn's review comments
-> * Made changes as part of addressing review comments for other patches
->=20
->  drivers/pci/controller/dwc/Kconfig         |  30 +-
->  drivers/pci/controller/dwc/pcie-tegra194.c | 782 ++++++++++++++++++++-
->  2 files changed, 796 insertions(+), 16 deletions(-)
->=20
-[...]
-> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/con=
-troller/dwc/pcie-tegra194.c
-> index cbe95f0ea0ca..6621ac79efee 100644
-> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-[...]
-> @@ -1427,8 +1620,553 @@ static int tegra_pcie_config_rp(struct tegra_pcie=
-_dw *pcie)
-[...]
-> +static int tegra_pcie_config_ep(struct tegra_pcie_dw *pcie,
-> +				struct platform_device *pdev)
-> +{
-[...]
-> +	ret =3D devm_request_irq(dev, pcie->pex_rst_irq,
-> +			       tegra_pcie_ep_pex_rst_irq,
-> +			       IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING,
-> +			       name, (void *)pcie);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to request IRQ for PERST: %d\n", ret);
-> +		return ret;
-> +	}
-> +	disable_irq(pcie->pex_rst_irq);
+> The stable kernel rules document says how to handle this, but the
+> "depends on" commit id in the comment to the right of the stable@k.o cc:
+> line in the changelog area.
 
-I just came across this while reviewing another patch: it looks like a
-better way to handle "disabled by default" interrupts is to do this:
+That only mentions "static" prerequisites needed by the patch, but what
+if the prerequisites change depending on version?
 
-	irq_set_status_flags(rtc->irq, IRQ_NOAUTOEN);
+Could I do something like this:
 
-before calling devm_request_irq(). See here for an example:
+	Cc: <stable@vger.kernel.org> # 4.4.x: abcdef: ...
+	Cc: <stable@vger.kernel.org> # 4.9.x: bcdefa: ...
+	Cc: <stable@vger.kernel.org>
 
-	http://patchwork.ozlabs.org/patch/1217944/
+Would that mean that the patch is selected for all stable releases
+(because of the last line with no version prerequisite) but when applied
+for stable-4.4 the abcdef patch gets pulled in and for stable-4.9 the
+bcdefa dependency is applied before the patch?
+
+I suppose this is perhaps a bit of an exotic case, but it might be good
+to document it specifically because it might be fairly rare. I can draft
+a change if you think this is useful to add.
 
 Thierry
 
---veXX9dWIonWZEC6h
+--+JUInw4efm7IfTNU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4TMqgACgkQ3SOs138+
-s6GNwg//eoYbBqRW7zBR5KGrZcKbRD3VPCZru7iK4ARTdjfc4up0xfWPooDjX0ns
-a/jL8FztSb++YHsLIWsH3B4/IguatB0jQrajT6Dduco7gPifJuJz6S2IyTufgba7
-FzAgJQX4sFkqa7fIpZhJASjSpyMg9907eSXM/FEKqjcmE8w3/xHKrpFV/uGWDOC0
-9r2fAX7432kmmKaiIPWlMLo/CjSvuaOb1GHHkxBZmh+pV7zvCfyw3o8h3+6sdyJB
-MSGuG17DCT9/MgBfSEQCO4ZqKbB8LcnsIgOyDsEp9h6iKPjdLvOV5aiGbn5I7Ett
-SdOsISrYFgcl6jVIhz+osfOmadoBWpJAYvRMVJH1BKQ0RqKRXtMk6lC95k96WdNm
-iw1tUajyBQzSdPN02Uu+IamwacrYv1VP/35HHF5E0qWpE/HcUOAVp0ASPaG9WlI5
-OlIBc6Ysh7G4de/bberj5eZ012GtEVdE+uetC+G4Mx3BDhhIjHNOYFGGbkQb5dRB
-yQTA792ZrYow2jYkz9WbnB5MXtYrZDAwA0J1lSSsNqUfq16X1jq31mmCmS7jlOS2
-HZr3LkEaKLcqqWQXMke1MA4xLB0RcOJd2jFFPUYztBZKRbZ+/sFnquP1qk5rtAnt
-jUgJNeQ15mLQE2GwhmUQbUSLI3PCVr6FBfWY8XsndLkfAZU4jWw=
-=JFHB
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4TN/0ACgkQ3SOs138+
+s6Gf6A/8DvUkX7G3C3SRLThd/KInbrXQTvY5GaqwhZeQCwWJc+qXeyxc4SSbHOig
+90ipVBR0VmEtT5ti3g365UWoQf0hxFZ/+0nIU105pjbtCJ1JwUtF2mvBvRJ3906D
+fTtqJeb6FvdAVAeweLiifczATkfFQHqOy3k+ChfKyAauaDoBi/eErkwYFWvMywZo
+oLxEBMjiSdbPUxqJnzhEuoq64aGHxqsqOulRSvalGfAUwaFJCsqXx0zsW4TXMWwv
+q0Nm5qSnZ5zXVeNX2xHIXv+L7/a9FBFp4E5wY/awZvqH8EZIH3Ms6tlkwitG1WsW
+HHtjlJ1wgGPMeqoDBIkfoQLm+i8kDiei83fsQR3aIr+SR0RBVt8aisb4v/Jz4FMY
+TGiOY4ugVe8tQUUQlydJ3Wc5tN33/8kqYBDlxTLb6U5kYvapDg86S9ejWIUk3Qdj
+IhejPfTn14qSookBpUpAWp1C4uvAKiqEeVxf0hb1TJXP3ZekfVpOQSj71Poj4ybz
+X872X94OKhBJFvv654mMB34WfQ3WePQC0PqAU1Z8usrQAAWWUl6cvonD2LWKr6jK
+6YOoFuFHL6fhZoyahVvVAuYhX8HjJnCsP5k0HYc/enDHICTW5a1U2B0dSOpbHpjQ
+ZUjyyLiMaY14zDVzIVWJp7U5dT9YVks3cN9h2BqZ0RRzKdDBeBA=
+=GeZw
 -----END PGP SIGNATURE-----
 
---veXX9dWIonWZEC6h--
+--+JUInw4efm7IfTNU--
