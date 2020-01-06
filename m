@@ -2,92 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BFDB131BFB
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 00:01:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14E4B131C03
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 00:02:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727302AbgAFXBB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jan 2020 18:01:01 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41338 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727299AbgAFXBB (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jan 2020 18:01:01 -0500
-Received: by mail-lj1-f195.google.com with SMTP id h23so52676060ljc.8
-        for <linux-tegra@vger.kernel.org>; Mon, 06 Jan 2020 15:01:00 -0800 (PST)
+        id S1726760AbgAFXC6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jan 2020 18:02:58 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:43859 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726794AbgAFXC6 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jan 2020 18:02:58 -0500
+Received: by mail-lf1-f66.google.com with SMTP id 9so37501084lfq.10
+        for <linux-tegra@vger.kernel.org>; Mon, 06 Jan 2020 15:02:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x35O4zv+MmKkyxLx20K7qZ5rGN6z5t0hn5W8N9EKK6o=;
-        b=E6hKWjGLmZ8ZQoHt18sYPe3krcxXh3c8CGs29Xtrln4dJkHF3hVWFGZRrAfQZ8ftEf
-         VgAHMmt2JbI477eK4ihBH3mxcqmPqE+7VhuRIWrmcaytAmIBXhJPBDkueETmxO/WqHCC
-         g5MUXXyBNNvLqJt5SYf7I1INe4YgRXpPVq6M6ZNyyul0/TW3YaKLMjzradzgf/7r7pX7
-         vlpnW5qiK9GugwaH5tdw50uUITLTii0E9u3asCofWLSkBbdjZ4fdyh97uxsh1IayV2zY
-         89YRd+goR3SgbahjeyGwlm+NB20U/633y+Dg7huT9mukODe1fbkIbrkqsgmEWj1gakg6
-         hrTA==
+         :cc:content-transfer-encoding;
+        bh=PoH3a6UFcev6hSnVLUpMXxu6G3cX+06NWDeSI46eOP4=;
+        b=AG+WKiRLIfE4a3Ryt/xpjGAZPcaSQn4bMpbWlqsm88zytaALksIdw8OAY7rkkFI0/9
+         oyY2v8tSO1j1bhxa9ioSRY2Gh0bmKOWJI2dHYpfdL2FzqskvARvVPm1VRp/HP598/MxQ
+         P50damguECiqf30ejikCqgmTc661ItZy+O+JZ6T3mLJZVg5BH3mmyrkGgmYZA44hkyOE
+         IS8ua41bXhtqrkt6enZELSJlgkb5sW7fsNVUK1VxIGL8pS7zoQqQ+D4eTVzWZYCfbsIK
+         SlPqr1xQKaYWY1sAV9HVYIaIfGjlGbySTVvKLIy2O8lW9JYnlkUYohgwcbRid8lZHxbO
+         5X9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x35O4zv+MmKkyxLx20K7qZ5rGN6z5t0hn5W8N9EKK6o=;
-        b=DfWskrzwqGO0sNqUJ8pBgArZOuBTIU7yA5iG4Ybv4c/Am7eSR9A/BSAqkY6FqWqwOu
-         saXdaD24CAvawphp9HDd1TZpDk1oUVDmGJ2t8J+LfQkOxeahMeEvJeQYzjEve25vVxEk
-         mypeONtIX2Nlwu0N7fsx2itnG1g4PG0SDl1ET5qZTtDqoVlu+Lbw+qpzcAAK5Yicsojx
-         wZLghbGQCm1U5paId5eoMeeB38GwGefFpSU+FkGRNnleFCBVe+ndzCYWTjv47uMMpJ17
-         zhTuUhvxItyf8k4+8S05U2vnhHlEV7d66/0hIEyE3KagSfO+QXmM3Y4gAnqlqafs2vTw
-         qRPw==
-X-Gm-Message-State: APjAAAUMYFPFg0S2VmdH70IRbG7tjcNGHezregOTDSqG4HNw8wvtkgQf
-        dOAvwXEMA+jAhX3Cdyy1nRq94L73H3YmMypnbMwZkg==
-X-Google-Smtp-Source: APXvYqw+30qfrnMTbleKw8z8hjUd46irlCKr1QGJePyP0TmOpc/5UKkeZNI7uZYDjMYXzy8GioZTga7MDKJHa5S7pLw=
-X-Received: by 2002:a2e:844e:: with SMTP id u14mr62027794ljh.183.1578351659340;
- Mon, 06 Jan 2020 15:00:59 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=PoH3a6UFcev6hSnVLUpMXxu6G3cX+06NWDeSI46eOP4=;
+        b=Vt27qxlLtJYk8gdL/toW5eofnxzXFgyw6hOnzzRKscuEKmVT9rK0n2jBtOR1Bfs5d2
+         pZWdpFOvpER63Hu7UHaLtIy2VC5rJrvqPw9q9404beWtMytdpzIiPMGLGqSmswE7NLW2
+         DEGhjpw/AY/R+eRnSklylUon2xSO04Patyh/Tw8Q8Pq7gklxeOU80VbppiBGUySxsz2X
+         9awhNJnD24LXSRVQ2EvoiytXEZ4MjAAtsUjkIW3y4sRsEdg97a3y5NsuoQ8NmwQ2kpSC
+         LxHzoqTX+ByMLKW+FFEDusBk5NAj9m95UnkMx2r0B607sTlYUqA4JAXa3vEj9/P2FIUX
+         +LLA==
+X-Gm-Message-State: APjAAAXfFuKxe0DNxFYZbVbD0QvcyIVkSk8lQvqZoagD2vYDHe4i1657
+        M+/U9jTXpXT978wmJC0mR4qksU2g1EX3//lnuyvNaA==
+X-Google-Smtp-Source: APXvYqztDsiEMPzgq8tia4/g2GReO5Rdoxf4kFUrQqstmxXWTvU9bAoWL4HoosBo1RlFHnQrEHEus6Ink0jFQf9inoE=
+X-Received: by 2002:ac2:5c4b:: with SMTP id s11mr57106508lfp.133.1578351776360;
+ Mon, 06 Jan 2020 15:02:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20191218110456.2533088-1-ben.dooks@codethink.co.uk>
-In-Reply-To: <20191218110456.2533088-1-ben.dooks@codethink.co.uk>
+References: <20200106015154.12040-1-digetx@gmail.com>
+In-Reply-To: <20200106015154.12040-1-digetx@gmail.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 7 Jan 2020 00:00:48 +0100
-Message-ID: <CACRpkdaULw+=1Sz2pY3sRhooxu2xVJnpCB7wJcYqBfMXnyTFgA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: tegra: fix missing __iomem in suspend/resume
-To:     "Ben Dooks (Codethink)" <ben.dooks@codethink.co.uk>
+Date:   Tue, 7 Jan 2020 00:02:45 +0100
+Message-ID: <CACRpkdZK7hvqri9NwvWfiittb2+JKJCyutP6MfBZpThJD13CWw@mail.gmail.com>
+Subject: Re: [PATCH v1] gpio: max77620: Add missing dependency on GPIOLIB_IRQCHIP
+To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-tegra@vger.kernel.org
+        linux-tegra@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Dec 18, 2019 at 12:04 PM Ben Dooks (Codethink)
-<ben.dooks@codethink.co.uk> wrote:
+On Mon, Jan 6, 2020 at 2:52 AM Dmitry Osipenko <digetx@gmail.com> wrote:
 
-> The functions should have __iomem on the register pointer
-> so add that to silence the following sparse warnings:
+> Driver fails to compile in a minimized kernel's configuration because of
+> the missing dependency on GPIOLIB_IRQCHIP.
 >
-> drivers/pinctrl/tegra/pinctrl-tegra.c:657:22: warning: incorrect type in assignment (different address spaces)
-> drivers/pinctrl/tegra/pinctrl-tegra.c:657:22:    expected unsigned int [usertype] *regs
-> drivers/pinctrl/tegra/pinctrl-tegra.c:657:22:    got void [noderef] <asn:2> *
-> drivers/pinctrl/tegra/pinctrl-tegra.c:659:42: warning: incorrect type in argument 1 (different address spaces)
-> drivers/pinctrl/tegra/pinctrl-tegra.c:659:42:    expected void const volatile [noderef] <asn:2> *addr
-> drivers/pinctrl/tegra/pinctrl-tegra.c:659:42:    got unsigned int [usertype] *
-> drivers/pinctrl/tegra/pinctrl-tegra.c:675:22: warning: incorrect type in assignment (different address spaces)
-> drivers/pinctrl/tegra/pinctrl-tegra.c:675:22:    expected unsigned int [usertype] *regs
-> drivers/pinctrl/tegra/pinctrl-tegra.c:675:22:    got void [noderef] <asn:2> *
-> drivers/pinctrl/tegra/pinctrl-tegra.c:677:25: warning: incorrect type in argument 2 (different address spaces)
-> drivers/pinctrl/tegra/pinctrl-tegra.c:677:25:    expected void volatile [noderef] <asn:2> *addr
-> drivers/pinctrl/tegra/pinctrl-tegra.c:677:25:    got unsigned int [usertype] *
+>  error: =E2=80=98struct gpio_chip=E2=80=99 has no member named =E2=80=98i=
+rq=E2=80=99
+>    44 |   virq =3D irq_find_mapping(gpio->gpio_chip.irq.domain, offset);
 >
-> Signed-off-by: Ben Dooks (Codethink) <ben.dooks@codethink.co.uk>
-> ---
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Dmitry Osipenko <digetx@gmail.com>
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-tegra@vger.kernel.org
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
-Patch applied with the ACKs.
+Patch applied for fixes, thanks!
 
 Yours,
 Linus Walleij
