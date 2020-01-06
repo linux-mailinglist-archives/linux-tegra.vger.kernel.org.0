@@ -2,279 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3FC9130EA4
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 09:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 725A3130FC1
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 10:53:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725996AbgAFI1S (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jan 2020 03:27:18 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19398 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgAFI1S (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jan 2020 03:27:18 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e12ef530000>; Mon, 06 Jan 2020 00:26:59 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 06 Jan 2020 00:27:16 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 06 Jan 2020 00:27:16 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Jan
- 2020 08:27:15 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 6 Jan 2020 08:27:15 +0000
-Received: from vidyas-desktop.nvidia.com (Not Verified[10.24.37.48]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e12ef600000>; Mon, 06 Jan 2020 00:27:15 -0800
-From:   Vidya Sagar <vidyas@nvidia.com>
-To:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
-        <rjw@rjwysocki.net>, <lenb@kernel.org>, <andrew.murray@arm.com>,
-        <treding@nvidia.com>, <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-acpi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <vidyas@nvidia.com>,
-        <sagar.tv@gmail.com>
-Subject: [PATCH V2] PCI: Add MCFG quirks for Tegra194 host controllers
-Date:   Mon, 6 Jan 2020 13:57:09 +0530
-Message-ID: <20200106082709.14370-1-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200103174935.5612-1-vidyas@nvidia.com>
-References: <20200103174935.5612-1-vidyas@nvidia.com>
-X-NVConfidentiality: public
+        id S1726133AbgAFJx6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jan 2020 04:53:58 -0500
+Received: from esa3.microchip.iphmx.com ([68.232.153.233]:9996 "EHLO
+        esa3.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725446AbgAFJx5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jan 2020 04:53:57 -0500
+Received-SPF: Pass (esa3.microchip.iphmx.com: domain of
+  Claudiu.Beznea@microchip.com designates 198.175.253.82 as
+  permitted sender) identity=mailfrom;
+  client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
+  envelope-from="Claudiu.Beznea@microchip.com";
+  x-sender="Claudiu.Beznea@microchip.com";
+  x-conformance=spf_only; x-record-type="v=spf1";
+  x-record-text="v=spf1 mx a:ushub1.microchip.com
+  a:smtpout.microchip.com -exists:%{i}.spf.microchip.iphmx.com
+  include:servers.mcsv.net include:mktomail.com
+  include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa3.microchip.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@email.microchip.com) identity=helo;
+  client-ip=198.175.253.82; receiver=esa3.microchip.iphmx.com;
+  envelope-from="Claudiu.Beznea@microchip.com";
+  x-sender="postmaster@email.microchip.com";
+  x-conformance=spf_only
+Authentication-Results: esa3.microchip.iphmx.com; spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
+IronPort-SDR: zRYaw4MeO4BFWFLdqJXvUY4C8JTd6rsGJCwIJ8YlLTugfq0JmWZaPogmdcwBHuWUZ++ko7DEGD
+ BJJGNFA57Sl79e73vBQSMa6SCMiY4i9i91fTHYXugjtElNw5uB78HquFSr8yexIUHXrkYEksaY
+ YvegeIvKQ+aitDPClbUEfrYNlhUCrbKtKUrmTH155eMDQljBsWiXKOrNC3/Ri4FJfVnyTjtadA
+ KYRORygrteaJ/5RBN6OIwm3rcfgKZiqIdTgpy7okIqMBSSt1X2VAIhDb3/zWQobDcwsmUwkdp+
+ GYk=
+X-IronPort-AV: E=Sophos;i="5.69,402,1571727600"; 
+   d="scan'208";a="62304574"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 06 Jan 2020 02:53:56 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 6 Jan 2020 02:53:55 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Mon, 6 Jan 2020 02:53:55 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M6+sOCUNgE+sv79pOH7kUbSG9qURMPA1dAm5fxhtIfOdllB7j8oOQUXuq4UVPDH3K6kyZ84lRz2s5YVfeQPPQR8QIQAY9l+Ux86ST8Ct7iVL2dLyLxKY1quJKVFTo6ttkmzgQqo8Rp6PMu7N3ufe+8TD6KoaKS5ZreGOxG9UjmMgx6DzVWKJyCzr77teNi69BbgzQ4/mno0VE+/lJinyVtU2IdF43ljxiOADQjJhBzRQnhSD3iQW5miSz5gXILRA4kehDRaXYzW72mH6WNSGuFpEk6wB3le/4EYQgiByvjr54XzOdeu/T8wDVRlgVZTKMjyzx/Ru0Pn2YoQfdbhfZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+gm1Br1CHUtUOfgm+A45dSW91JgI1NL3xTYIa8s1JGo=;
+ b=a0U49dyvkiMBMRgGGE00g5gvxs8k7jlVrAdhhlRinlVULsPnQTDXEguRKZkL1KONA7HTvyN9sn/J83CUm84GhGAwQqDWutNz3BkFQ/KixS3MWq7dN5sOZe3OFL4HllS4IkrpAF9PWZ0fDZ43P7KjqsAIF8g1wGNA3DOpWnesICVwV05CRTk9bHmguTgrVdu6T5Wu9l/k3NzEjYfH7GZvQblk1lME19wIAxCxMcnN8ggPNXUB4NBD/WciEaOfVoDvvwCgGZmv7kfVy6TkePwvynMC6j+dFeESgb9rPag5Wzi+Oi1QXVdcPdC5CCOkOPxGCy1biZatXK9+TOydK+Qfrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+gm1Br1CHUtUOfgm+A45dSW91JgI1NL3xTYIa8s1JGo=;
+ b=ObK9NWuOUA2Ra5xdx/mS3cPhEFFH1X0iYxOt9W+7P5FUopxHqJOk0L7ZjvI1nKqNtyOBL8UGJvMnC+AwMskDCxkQ+RH7pvnpXckbg+aKZomFbpBhTEyJ7weDynWu1hszOHfmSZZ5TjRssoZBKQDThbIM5FWS/nyb61QnU6pZjyU=
+Received: from DM6PR11MB3225.namprd11.prod.outlook.com (20.176.120.224) by
+ DM6PR11MB3868.namprd11.prod.outlook.com (10.255.61.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2602.10; Mon, 6 Jan 2020 09:53:53 +0000
+Received: from DM6PR11MB3225.namprd11.prod.outlook.com
+ ([fe80::106f:424f:ac54:1dbb]) by DM6PR11MB3225.namprd11.prod.outlook.com
+ ([fe80::106f:424f:ac54:1dbb%7]) with mapi id 15.20.2602.015; Mon, 6 Jan 2020
+ 09:53:53 +0000
+From:   <Claudiu.Beznea@microchip.com>
+To:     <krzk@kernel.org>, <thierry.reding@gmail.com>,
+        <u.kleine-koenig@pengutronix.de>, <linux-pwm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <bcm-kernel-feedback-list@broadcom.com>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-riscv@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 2/2] pwm: Enable compile testing for some of drivers
+Thread-Topic: [PATCH 2/2] pwm: Enable compile testing for some of drivers
+Thread-Index: AQHVxHc0gN2UoP7Gc0Ocsx6/BxJUcA==
+Date:   Mon, 6 Jan 2020 09:53:53 +0000
+Message-ID: <145f61f5-941b-d0f4-7abd-33ce7f005fca@microchip.com>
+References: <20191230172113.17222-1-krzk@kernel.org>
+ <20191230172113.17222-2-krzk@kernel.org>
+In-Reply-To: <20191230172113.17222-2-krzk@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [94.177.32.156]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cd98d837-f71d-4669-e076-08d7928e56fe
+x-ms-traffictypediagnostic: DM6PR11MB3868:
+x-microsoft-antispam-prvs: <DM6PR11MB386839E19F8AE22C56AED43D873C0@DM6PR11MB3868.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 0274272F87
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(346002)(376002)(39860400002)(136003)(366004)(189003)(199004)(66476007)(478600001)(66556008)(64756008)(8676002)(2616005)(66446008)(31686004)(6506007)(66946007)(53546011)(91956017)(76116006)(26005)(186003)(71200400001)(7416002)(110136005)(316002)(6486002)(8936002)(2906002)(558084003)(86362001)(5660300002)(6512007)(31696002)(36756003)(81156014)(81166006)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR11MB3868;H:DM6PR11MB3225.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: microchip.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wOMKXiNGziR8dv9gol0oOsf6AU3jg0EgTcvPeER6oGWQ/VHSV6mZ4G35IavOvUWvfJowh6rCgEhlk8dQaHqqGFPgluMQ/mqNOqzZVUbtBXvd+M8DHE4Ih/QhaACanEKd2yY2+hKwmKfmIpxc1EDyNlGPemaiqh/eovfKhRtnMxavwU1Rh5GcI/Bfjng/YCxdkty/e8RkHg/iDVeRjL+c/LvR4hzUbhvVz3lKSJuB5ISxB3wNgEJGnvL8HRHkVq0weTLXARW5wg0/ogGuGqlsHjEi26ZJ9uuAZdKfXOph3zN5gzzRsREIrYqQtIndwiq3oYxJ7K+SEPHCJN1cZszNc3RUqF6sq9ENqwWlsZVSQaJswTwMjrUgUQEtDbwvv2LYq+67tv/sGjVbjPS4m9b4PUGsbsVMg053jU9TpUZuCpkkSbnD/5hZPBztOan2HJK8UmTIUVrmLulShBaKbP3pI4lxjuCXzYZMVtW9YYwU/x5yVUIMoaO/gPvVe18u5JSW
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C6A04D4974AB244693C3B9F0D1537D34@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578299219; bh=oJ+tQhxxPsNoHh9LR4gnWiuxMQsEWJd06NDgbl63OKs=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=dOkfrdiVzqRbvjFzmU8g1MPNimft4c4dlYhvXdTFtWegdIFJRuCZtzT4F1tPEZtCo
-         jfI4/LdOlUW4kxKbgoHgiArof47Y7uZu84TOsA/Ose0BJ5a+GGUJSGtDA8MsDPnlwy
-         KTZ8UjdUjdjG4vJ/pC4Vi96YEHKTV4C7EIA9a1JMvLq+gQkMoSW7ic0CSmrCFguJ06
-         Yp7m3YbbXRGodhLzuHvgQIpeVC4BoyZcXBwYsbQ3FJldv+uSP0qJWINNtdDruDR43+
-         p+Z4gf+9+54GfGrOxI4iCzzeVquZ8PLtYg+iv4m87vLvyYFWKR3Dv4gZJKN69f/9pr
-         yyOa9WAjrHnDQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd98d837-f71d-4669-e076-08d7928e56fe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2020 09:53:53.6461
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3t7GXAiHVzcYWfgg7rs7BGYg4AhBXFOdWKJswiYpNOQZcRLxnjLB8thujRLTCNbSdB/NeinF2BmkaKx5I9MFDTEFmIV3xzqyWRswi5WXJcE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3868
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The PCIe controller in Tegra194 SoC is not completely ECAM-compliant.
-With the current hardware design limitations in place, ECAM can be enabled
-only for one controller (C5 controller to be precise) with bus numbers
-starting from 160 instead of 0. A different approach is taken to avoid this
-abnormal way of enabling ECAM  for just one controller and to also enable
-configuration space access for all the other controllers. In this approach,
-MCFG quirks are added for each controller with a 30MB PCIe aperture
-resource for each controller in the disguise of ECAM region. But, this
-region actually contains DesignWare core's internal Address Translation
-Unit (iATU) using which the ECAM ops access configuration space in the
-otherwise standard way of programming iATU registers in DesignWare core
-based IPs for a respective B:D:F.
-
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-Reported-by: kbuild test robot <lkp@intel.com>
----
-V2:
-* Fixed build issues reported by kbuild test bot
-
- drivers/acpi/pci_mcfg.c                    |  13 +++
- drivers/pci/controller/dwc/Kconfig         |   3 +-
- drivers/pci/controller/dwc/Makefile        |   2 +-
- drivers/pci/controller/dwc/pcie-tegra194.c | 100 +++++++++++++++++++++
- include/linux/pci-ecam.h                   |   1 +
- 5 files changed, 117 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/acpi/pci_mcfg.c b/drivers/acpi/pci_mcfg.c
-index 6b347d9920cc..a42918ecc19a 100644
---- a/drivers/acpi/pci_mcfg.c
-+++ b/drivers/acpi/pci_mcfg.c
-@@ -116,6 +116,19 @@ static struct mcfg_fixup mcfg_quirks[] = {
- 	THUNDER_ECAM_QUIRK(2, 12),
- 	THUNDER_ECAM_QUIRK(2, 13),
- 
-+	{ "NVIDIA", "TEGRA194", 1, 0, MCFG_BUS_ANY, &tegra194_pcie_ops,
-+	  DEFINE_RES_MEM(0x38200000, (30 * SZ_1M))},
-+	{ "NVIDIA", "TEGRA194", 1, 1, MCFG_BUS_ANY, &tegra194_pcie_ops,
-+	  DEFINE_RES_MEM(0x30200000, (30 * SZ_1M))},
-+	{ "NVIDIA", "TEGRA194", 1, 2, MCFG_BUS_ANY, &tegra194_pcie_ops,
-+	  DEFINE_RES_MEM(0x32200000, (30 * SZ_1M))},
-+	{ "NVIDIA", "TEGRA194", 1, 3, MCFG_BUS_ANY, &tegra194_pcie_ops,
-+	  DEFINE_RES_MEM(0x34200000, (30 * SZ_1M))},
-+	{ "NVIDIA", "TEGRA194", 1, 4, MCFG_BUS_ANY, &tegra194_pcie_ops,
-+	  DEFINE_RES_MEM(0x36200000, (30 * SZ_1M))},
-+	{ "NVIDIA", "TEGRA194", 1, 5, MCFG_BUS_ANY, &tegra194_pcie_ops,
-+	  DEFINE_RES_MEM(0x3a200000, (30 * SZ_1M))},
-+
- #define XGENE_V1_ECAM_MCFG(rev, seg) \
- 	{"APM   ", "XGENE   ", rev, seg, MCFG_BUS_ANY, \
- 		&xgene_v1_pcie_ecam_ops }
-diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
-index 0830dfcfa43a..f5b9e75aceed 100644
---- a/drivers/pci/controller/dwc/Kconfig
-+++ b/drivers/pci/controller/dwc/Kconfig
-@@ -255,7 +255,8 @@ config PCIE_TEGRA194
- 	select PHY_TEGRA194_P2U
- 	help
- 	  Say Y here if you want support for DesignWare core based PCIe host
--	  controller found in NVIDIA Tegra194 SoC.
-+	  controller found in NVIDIA Tegra194 SoC. ACPI platforms with Tegra194
-+	  don't need to enable this.
- 
- config PCIE_UNIPHIER
- 	bool "Socionext UniPhier PCIe controllers"
-diff --git a/drivers/pci/controller/dwc/Makefile b/drivers/pci/controller/dwc/Makefile
-index 8a637cfcf6e9..76a6c52b8500 100644
---- a/drivers/pci/controller/dwc/Makefile
-+++ b/drivers/pci/controller/dwc/Makefile
-@@ -17,7 +17,6 @@ obj-$(CONFIG_PCIE_INTEL_GW) += pcie-intel-gw.o
- obj-$(CONFIG_PCIE_KIRIN) += pcie-kirin.o
- obj-$(CONFIG_PCIE_HISI_STB) += pcie-histb.o
- obj-$(CONFIG_PCI_MESON) += pci-meson.o
--obj-$(CONFIG_PCIE_TEGRA194) += pcie-tegra194.o
- obj-$(CONFIG_PCIE_UNIPHIER) += pcie-uniphier.o
- 
- # The following drivers are for devices that use the generic ACPI
-@@ -33,4 +32,5 @@ obj-$(CONFIG_PCIE_UNIPHIER) += pcie-uniphier.o
- ifdef CONFIG_PCI
- obj-$(CONFIG_ARM64) += pcie-al.o
- obj-$(CONFIG_ARM64) += pcie-hisi.o
-+obj-$(CONFIG_ARM64) += pcie-tegra194.o
- endif
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index cbe95f0ea0ca..0b9bd2875ec2 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -21,6 +21,8 @@
- #include <linux/of_irq.h>
- #include <linux/of_pci.h>
- #include <linux/pci.h>
-+#include <linux/pci-acpi.h>
-+#include <linux/pci-ecam.h>
- #include <linux/phy/phy.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
-@@ -285,6 +287,101 @@ struct tegra_pcie_dw {
- 	struct dentry *debugfs;
- };
- 
-+#if defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS)
-+struct tegra194_pcie_acpi  {
-+	void __iomem *dbi_base;
-+	void __iomem *iatu_base;
-+};
-+
-+static int tegra194_acpi_init(struct pci_config_window *cfg)
-+{
-+	struct device *dev = cfg->parent;
-+	struct tegra194_pcie_acpi *pcie;
-+
-+	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
-+	if (!pcie)
-+		return -ENOMEM;
-+
-+	pcie->dbi_base = cfg->win;
-+	pcie->iatu_base = cfg->win + SZ_256K;
-+	cfg->priv = pcie;
-+
-+	return 0;
-+}
-+
-+static inline void atu_reg_write(struct tegra194_pcie_acpi *pcie, int index,
-+				 u32 val, u32 reg)
-+{
-+	u32 offset = PCIE_GET_ATU_OUTB_UNR_REG_OFFSET(index);
-+
-+	writel(val, pcie->iatu_base + offset + reg);
-+}
-+
-+static void program_outbound_atu(struct tegra194_pcie_acpi *pcie, int index,
-+				 int type, u64 cpu_addr, u64 pci_addr, u64 size)
-+{
-+	atu_reg_write(pcie, index, lower_32_bits(cpu_addr),
-+		      PCIE_ATU_LOWER_BASE);
-+	atu_reg_write(pcie, index, upper_32_bits(cpu_addr),
-+		      PCIE_ATU_UPPER_BASE);
-+	atu_reg_write(pcie, index, lower_32_bits(pci_addr),
-+		      PCIE_ATU_LOWER_TARGET);
-+	atu_reg_write(pcie, index, lower_32_bits(cpu_addr + size - 1),
-+		      PCIE_ATU_LIMIT);
-+	atu_reg_write(pcie, index, upper_32_bits(pci_addr),
-+		      PCIE_ATU_UPPER_TARGET);
-+	atu_reg_write(pcie, index, type, PCIE_ATU_CR1);
-+	atu_reg_write(pcie, index, PCIE_ATU_ENABLE, PCIE_ATU_CR2);
-+}
-+
-+static void __iomem *tegra194_map_bus(struct pci_bus *bus,
-+				      unsigned int devfn, int where)
-+{
-+	struct pci_config_window *cfg = bus->sysdata;
-+	struct tegra194_pcie_acpi *pcie = cfg->priv;
-+	u32 busdev;
-+	int type;
-+
-+	if (bus->number < cfg->busr.start || bus->number > cfg->busr.end)
-+		return NULL;
-+
-+	if (bus->number == cfg->busr.start) {
-+		if (PCI_SLOT(devfn) == 0)
-+			return pcie->dbi_base + where;
-+		else
-+			return NULL;
-+	}
-+
-+	busdev = PCIE_ATU_BUS(bus->number) | PCIE_ATU_DEV(PCI_SLOT(devfn)) |
-+		 PCIE_ATU_FUNC(PCI_FUNC(devfn));
-+
-+	if (bus->parent->number == cfg->busr.start) {
-+		if (PCI_SLOT(devfn) == 0)
-+			type = PCIE_ATU_TYPE_CFG0;
-+		else
-+			return NULL;
-+	} else {
-+		type = PCIE_ATU_TYPE_CFG1;
-+	}
-+
-+	program_outbound_atu(pcie, PCIE_ATU_REGION_INDEX0, type,
-+			     cfg->res.start + SZ_128K, busdev, SZ_128K);
-+	return (void __iomem *)(pcie->dbi_base + SZ_128K + where);
-+}
-+
-+struct pci_ecam_ops tegra194_pcie_ops = {
-+	.bus_shift	= 20,
-+	.init		= tegra194_acpi_init,
-+	.pci_ops	= {
-+		.map_bus	= tegra194_map_bus,
-+		.read		= pci_generic_config_read,
-+		.write		= pci_generic_config_write,
-+	}
-+};
-+#endif /* defined(CONFIG_ACPI) && defined(CONFIG_PCI_QUIRKS) */
-+
-+#ifdef CONFIG_PCIE_TEGRA194
-+
- static inline struct tegra_pcie_dw *to_tegra_pcie(struct dw_pcie *pci)
- {
- 	return container_of(pci, struct tegra_pcie_dw, pci);
-@@ -1728,3 +1825,6 @@ MODULE_DEVICE_TABLE(of, tegra_pcie_dw_of_match);
- MODULE_AUTHOR("Vidya Sagar <vidyas@nvidia.com>");
- MODULE_DESCRIPTION("NVIDIA PCIe host controller driver");
- MODULE_LICENSE("GPL v2");
-+
-+#endif /* CONFIG_PCIE_TEGRA194 */
-+
-diff --git a/include/linux/pci-ecam.h b/include/linux/pci-ecam.h
-index a73164c85e78..6156140dcbb6 100644
---- a/include/linux/pci-ecam.h
-+++ b/include/linux/pci-ecam.h
-@@ -57,6 +57,7 @@ extern struct pci_ecam_ops pci_thunder_ecam_ops; /* Cavium ThunderX 1.x */
- extern struct pci_ecam_ops xgene_v1_pcie_ecam_ops; /* APM X-Gene PCIe v1 */
- extern struct pci_ecam_ops xgene_v2_pcie_ecam_ops; /* APM X-Gene PCIe v2.x */
- extern struct pci_ecam_ops al_pcie_ops; /* Amazon Annapurna Labs PCIe */
-+extern struct pci_ecam_ops tegra194_pcie_ops; /* Tegra194 PCIe */
- #endif
- 
- #ifdef CONFIG_PCI_HOST_COMMON
--- 
-2.17.1
-
+DQoNCk9uIDMwLjEyLjIwMTkgMTk6MjEsIEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6DQo+IFNv
+bWUgb2YgdGhlIFBXTSBkcml2ZXJzIGNhbiBiZSBjb21waWxlIHRlc3RlZCB0byBpbmNyZWFzZSBi
+dWlsZA0KPiBjb3ZlcmFnZS4NCj4gDQo+IFRoZSBNZXNvbiBQV00gZHJpdmVyIHJlcXVpcmVzIENP
+TU1PTl9DTEsgZGVwZW5kZW5jeS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3ps
+b3dza2kgPGtyemtAa2VybmVsLm9yZz4NCg0KZm9yIFBXTV9BVE1FTDoNCkFja2VkLWJ5OiBDbGF1
+ZGl1IEJlem5lYSA8Y2xhdWRpdS5iZXpuZWFAbWljcm9jaGlwLmNvbT4=
