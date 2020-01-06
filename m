@@ -2,101 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51028131815
-	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 20:01:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA3D71319D8
+	for <lists+linux-tegra@lfdr.de>; Mon,  6 Jan 2020 21:51:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726612AbgAFTBD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jan 2020 14:01:03 -0500
-Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:60666 "EHLO
-        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726569AbgAFTBD (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 6 Jan 2020 14:01:03 -0500
-Received: from [167.98.27.226] (helo=[10.35.5.173])
-        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1ioXca-0002ox-LX; Mon, 06 Jan 2020 19:01:00 +0000
-Subject: Re: [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit
- samples
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
+        id S1727080AbgAFUvB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jan 2020 15:51:01 -0500
+Received: from foss.arm.com ([217.140.110.172]:49212 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727053AbgAFUvB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 6 Jan 2020 15:51:01 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 99A46106F;
+        Mon,  6 Jan 2020 12:51:00 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 230483F534;
+        Mon,  6 Jan 2020 12:50:59 -0800 (PST)
+Date:   Mon, 06 Jan 2020 20:50:58 +0000
+From:   Mark Brown <broonie@kernel.org>
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     linux-kernel@lists.codethink.co.uk, alsa-devel@alsa-project.org,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+Cc:     alsa-devel@alsa-project.org, Bard Liao <bardliao@realtek.com>,
         Jaroslav Kysela <perex@perex.cz>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
         Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Edward Cragg <edward.cragg@codethink.co.uk>,
-        linux-tegra@vger.kernel.org, Jon Hunter <jonathanh@nvidia.com>
-References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <20191018154833.7560-3-ben.dooks@codethink.co.uk>
- <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
- <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
- <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
- <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
- <a0f027d9-e9e0-d76c-1e40-002fdc37eb5f@nvidia.com>
- <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk>
- <aba4edd6-0ea5-5e95-c5a0-9e749587c763@nvidia.com>
- <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
- <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
- <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
- <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
- <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
- <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
- <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
- <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
- <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
- <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
-Date:   Mon, 6 Jan 2020 19:00:59 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+        Oder Chiou <oder_chiou@realtek.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Subject: Applied "ASoC: rt5640: Fix NULL dereference on module unload" to the asoc tree
+In-Reply-To: <20200106014707.11378-1-digetx@gmail.com>
+Message-Id: <applied-20200106014707.11378-1-digetx@gmail.com>
+X-Patchwork-Hint: ignore
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 05/01/2020 10:53, Ben Dooks wrote:
-> 
-> 
-> On 2020-01-05 01:48, Dmitry Osipenko wrote:
->> 05.01.2020 03:04, Ben Dooks пишет:
->>> [snip]
->>>
->>> I've just gone through testing.
->>>
->>> Some simple data tests show 16 and 32-bits work.
->>>
->>> The 24 bit case seems to be weird, it looks like the 24-bit expects
->>> 24 bit samples in 32 bit words. I can't see any packing options to
->>> do 24 bit in 24 bit, so we may have to remove 24 bit sample support
->>> (which is a shame)
->>>
->>> My preference is to remove the 24-bit support and keep the 32 bit in.
->>>
->>
->> Interesting.. Jon, could you please confirm that 24bit format isn't
->> usable on T30?
-> 
-> If there is an option of 24 packed into 32, then I think that would work.
-> 
-> I can try testing that with raw data on Monday.
+The patch
 
-I need to check some things, I assumed 24 was 24 packed bits, it looks
-like the default is 24 in 32 bits so we may be ok. However I need to
-re-write my test case which assumed it was 24bits in 3 bytes (S24_3LE).
+   ASoC: rt5640: Fix NULL dereference on module unload
 
-I'll follow up later,
+has been applied to the asoc tree at
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.5
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+From 89b71b3f02d8ae5a08a1dd6f4a2098b7b868d498 Mon Sep 17 00:00:00 2001
+From: Dmitry Osipenko <digetx@gmail.com>
+Date: Mon, 6 Jan 2020 04:47:07 +0300
+Subject: [PATCH] ASoC: rt5640: Fix NULL dereference on module unload
+
+The rt5640->jack is NULL if jack is already disabled at the time of
+driver's module unloading.
+
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Link: https://lore.kernel.org/r/20200106014707.11378-1-digetx@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/codecs/rt5640.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
+index adbae1f36a8a..747ca248bf10 100644
+--- a/sound/soc/codecs/rt5640.c
++++ b/sound/soc/codecs/rt5640.c
+@@ -2432,6 +2432,13 @@ static void rt5640_disable_jack_detect(struct snd_soc_component *component)
+ {
+ 	struct rt5640_priv *rt5640 = snd_soc_component_get_drvdata(component);
+ 
++	/*
++	 * soc_remove_component() force-disables jack and thus rt5640->jack
++	 * could be NULL at the time of driver's module unloading.
++	 */
++	if (!rt5640->jack)
++		return;
++
+ 	disable_irq(rt5640->irq);
+ 	rt5640_cancel_work(rt5640);
+ 
 -- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
+2.20.1
 
-https://www.codethink.co.uk/privacy.html
