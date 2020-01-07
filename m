@@ -2,74 +2,144 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDCD5132682
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 13:39:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 650B41326CA
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 13:57:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728104AbgAGMj0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jan 2020 07:39:26 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:11744 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728247AbgAGMjZ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 07:39:25 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e147beb0001>; Tue, 07 Jan 2020 04:39:07 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 07 Jan 2020 04:39:24 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 04:39:24 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
- 2020 12:39:24 +0000
-Received: from [192.168.22.23] (10.124.1.5) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 7 Jan 2020 12:39:22 +0000
-From:   Thierry Reding <treding@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
+        id S1727814AbgAGM5F (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jan 2020 07:57:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41284 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727722AbgAGM5F (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 7 Jan 2020 07:57:05 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6ECAC2080A;
+        Tue,  7 Jan 2020 12:57:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578401823;
+        bh=S6eYAHEAnh56A6/rf0Ao/cnAVOv+g+TUtiatVw4xlbw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aklwGojMnsmTZt+FSLulrblSYJnFXVxmqgP1t00LJFC5aUw+SVWMxEDZaB7lA7lum
+         LR7UiAfwS9IBMk7zcndin8jpfFFeFAa9cyRsjpt4+Chlh/OGDMpXrQLXbCHTjL8aa9
+         4LMWu8z31+jZY35hEqtPIWxqU1smPMsgi5oLkZBs=
+Date:   Tue, 7 Jan 2020 13:57:00 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        linux-mmc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Thierry Reding <treding@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        "Mikko Perttunen" <cyndis@kapsi.fi>,
-        Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 9/9] i2c: tegra: Check DMA completion status in
- addition to left time
-In-Reply-To: <20200106010423.5890-10-digetx@gmail.com>
-References: <20200106010423.5890-10-digetx@gmail.com>
-X-NVConfidentiality: public
+        Lucas Stach <dev@lynxeye.de>, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mmc: tegra: fix SDR50 tuning override
+Message-ID: <20200107125700.GA1035344@kroah.com>
+References: <245d569e4c258063dbd78bd30c7027638b30f059.1577960737.git.mirq-linux@rere.qmqm.pl>
+ <20200106120718.GA1955714@ulmo>
+ <20200106122745.GA3414443@kroah.com>
+ <20200106133703.GE1955714@ulmo>
+ <20200107093715.GB1028311@kroah.com>
+ <20200107095359.GA3515@qmqm.qmqm.pl>
 MIME-Version: 1.0
-Message-ID: <72761d8598d248fbab872ad844b14aab@HQMAIL105.nvidia.com>
-Date:   Tue, 7 Jan 2020 12:39:22 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578400747; bh=AKbqWXt6tus+RjyhQVNrtBcDUbM9QcEwFDgkbLAeWGc=;
-        h=X-PGP-Universal:From:To:CC:Subject:In-Reply-To:References:
-         X-NVConfidentiality:MIME-Version:Message-ID:Date:Content-Type:
-         Content-Transfer-Encoding;
-        b=M+Hb5JXo5xPCFJvY6u72VG77v1ZutehPjDiEnyqQ4rP1Nf6hKHMJi34QoxLAhUK3+
-         6sL7+1YLWPSMYUlcXsWVDSvw4mUQpAK5h/xWasBfKgezNSDxZrNYZOnjjy+kjBcYKH
-         YiIEjxEKewypYO3/HWiDt1p9G64Nrvk3En1gcAo+8jDU6FVNcs9orkuVmM52cYReT9
-         bnB2ovNFkYZEmLWOtMT+yMAVOjSygnZmeUmDoEWbg7hHcJjg/D9OM0yGOneeJgnghz
-         pA7zB+Xvw2hbXE4YQ31Q9UXB0xMM1u4qhKnZcbYIDYqBinx0OhH0LUW7zlzUW8VzWw
-         2QZwR8cNm7NtA==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200107095359.GA3515@qmqm.qmqm.pl>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 06 Jan 2020 04:04:23 +0300, Dmitry Osipenko wrote:
-> It is more robust to check completion status in addition to the left time
-> in a case of DMA transfer because transfer's completion happens in two
-> phases [one is ISR, other is tasklet] and thus it is possible that DMA is
-> completed while I2C completion awaiting times out because of the deferred
-> notification done by the DMA driver. The DMA completion status becomes
-> 100% actual after DMA synchronization. This fixes spurious DMA timeouts
-> when system is under load.
+On Tue, Jan 07, 2020 at 10:53:59AM +0100, Michał Mirosław wrote:
+> On Tue, Jan 07, 2020 at 10:37:15AM +0100, Greg Kroah-Hartman wrote:
+> > On Mon, Jan 06, 2020 at 02:37:03PM +0100, Thierry Reding wrote:
+> > > On Mon, Jan 06, 2020 at 01:27:45PM +0100, Greg Kroah-Hartman wrote:
+> > > > On Mon, Jan 06, 2020 at 01:07:18PM +0100, Thierry Reding wrote:
+> > > > > On Thu, Jan 02, 2020 at 11:30:50AM +0100, Michał Mirosław wrote:
+> > > > > > Commit 7ad2ed1dfcbe inadvertently mixed up a quirk flag's name and
+> > > > > > broke SDR50 tuning override. Use correct NVQUIRK_ name.
+> > > > > > 
+> > > > > > Fixes: 7ad2ed1dfcbe ("mmc: tegra: enable UHS-I modes")
+> > > > > > Depends-on: 4f6aa3264af4 ("mmc: tegra: Only advertise UHS modes if IO regulator is present")
+> > > > > > Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+> > > > > > ---
+> > > > > >  drivers/mmc/host/sdhci-tegra.c | 2 +-
+> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > Oh my... good catch!
+> > > > > 
+> > > > > Reviewed-by: Thierry Reding <treding@nvidia.com>
+> > > > > 
+> > > > > I also ran this through our internal test system and all tests pass, so
+> > > > > also:
+> > > > > 
+> > > > > Tested-by: Thierry Reding <treding@nvidia.com>
+> > > > > 
+> > > > > I'm not sure if that "Depends-on:" tag is anything that's recognized
+> > > > > anywhere. It might be better to turn that into an additional "Fixes:"
+> > > > > line. Adding Greg to see if he has a standard way of dealing with this
+> > > > > kind of dependency.
+> > > > > 
+> > > > > Greg, what's your preferred way to handle these situations? I think the
+> > > > > intention here was to describe that the original error was introduced by
+> > > > > commit 7ad2ed1dfcbe ("mmc: tegra: enable UHS-I modes"), but then commit
+> > > > > 4f6aa3264af4 ("mmc: tegra: Only advertise UHS modes if IO regulator is
+> > > > > present") moved that code around, so this patch here will only be back-
+> > > > > portable until the latter commit, but should be backported until the
+> > > > > former.
+> > > > 
+> > > > The stable kernel rules document says how to handle this, but the
+> > > > "depends on" commit id in the comment to the right of the stable@k.o cc:
+> > > > line in the changelog area.
+> > > 
+> > > That only mentions "static" prerequisites needed by the patch, but what
+> > > if the prerequisites change depending on version?
+> > > 
+> > > Could I do something like this:
+> > > 
+> > > 	Cc: <stable@vger.kernel.org> # 4.4.x: abcdef: ...
+> > > 	Cc: <stable@vger.kernel.org> # 4.9.x: bcdefa: ...
+> > > 	Cc: <stable@vger.kernel.org>
+> > 
+> > Yes.
+> > 
+> > > Would that mean that the patch is selected for all stable releases
+> > > (because of the last line with no version prerequisite) but when applied
+> > > for stable-4.4 the abcdef patch gets pulled in and for stable-4.9 the
+> > > bcdefa dependency is applied before the patch?
+> > 
+> > Yes.
+> > 
+> > > I suppose this is perhaps a bit of an exotic case, but it might be good
+> > > to document it specifically because it might be fairly rare. I can draft
+> > > a change if you think this is useful to add.
+> > 
+> > I thought this was already in there, as others have done it in the past.
+> > 
+> > It's a _very_ exotic case, I wouldn't worry about it, just document it
+> > like this, and if I have problems applying the patches to stable I'll be
+> > sure to let you know and you can always tell me then.  That's usually
+> > the easiest thing to do anyway :)
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/i2c/busses/i2c-tegra.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> I understood the wording in stable-kernel-rules.rst as meaning that
+> comments on Cc: lines make mentioned commit pulled in (cherry-picked).
+> In this case I think this is ok, but in case the pulled-in patch changes
+> something else (the dependency is only because of touching nearby code),
+> how would I specify this and avoid the hint to include the other patch?
 
-Tested-by: Thierry Reding <treding@nvidia.com>
+I really do not understand what you are asking for here.
+
+Worst case, just say:
+	cc: stable... # 4.4.x
+
+and if you know that fails to apply or build, then just wait for my
+email saying something failed and then respond with the needed commit
+ids or backported patches.
+
+It's not rocket science, and this isn't all that automated, I _can_
+handle free-form text :)
+
+thanks,
+
+greg k-h
