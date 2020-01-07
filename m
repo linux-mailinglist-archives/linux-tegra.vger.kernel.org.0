@@ -2,78 +2,268 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FB30132FF4
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 20:54:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 870D71336EC
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 23:56:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728672AbgAGTyY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jan 2020 14:54:24 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:39568 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728634AbgAGTyW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 14:54:22 -0500
-Received: by mail-ed1-f67.google.com with SMTP id t17so618037eds.6
-        for <linux-tegra@vger.kernel.org>; Tue, 07 Jan 2020 11:54:21 -0800 (PST)
+        id S1727319AbgAGW4h (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jan 2020 17:56:37 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:47044 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727046AbgAGW4g (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 17:56:36 -0500
+Received: by mail-lj1-f193.google.com with SMTP id m26so1258713ljc.13;
+        Tue, 07 Jan 2020 14:56:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Pi/olKLeaBrqhttAwoMGSoT+Sxp+y5xY3PQr7eygtLM=;
-        b=rePy6dvW+ZH47h+1V5ZzhOdHt3hyIpKxcBqRG6Yxugb8Ug55qYyaTQK4+wINdwq55f
-         jyS7yVvOQ5iMzNISAd+yiqtmzzFVbayzDS39QWeF/dmepISKDIrC01/Pyd16Jkxknswo
-         ZxY/mmXagT/Q6hX/41m7OLd2SMfr8CZO7Ci1IzWbi02KR9YYzIjtqbyhfstjO3po9RzC
-         tRdf7rgiUAYJtfRgzdFxSV7Qq5Jehd/t/PYuqt0rxIFlDCGzailtByweOtMj5bqBnwVk
-         IjZK4uPjcTNDDRooC9FKrWtSPPIiz9LQ6akzqbAN2ioBe4cx30eADGCJ98dfGgAz0k84
-         86YA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=SmAaNlqX7wktMzlx+PndgXg6P7/OceJAZF8e2T4rFsk=;
+        b=pISxBC+CwrFnifLFtbUDSEPoXWhewuFGjcbF7HnhNniuA5FtthlSYCpVkmpIB79m96
+         mOJA0eNkHLmAoYUo+a9ve5sncjZUjCGdJmOUwv68tNg23UR/7m4NPlnUpVDEKf6zcOBG
+         4h9zQZ7jij4MdXSOlqyoeaqurv9REuRMuBMP9vqGDmZ+1vmaBtp9Mht3S01M0rJkG+8p
+         /kje1cuZflBVR1/uiOumJYQtnhPv/gtQlv4vVboT4W2ZFKpshTwQtDsOCMMszj3p/PL1
+         ftt4CdV7Ds7XQ6EpS/xJ9gQhIwEXwdhOALi2CsUSeltofBQ9BOr2bbZz/cPWy62MmDSp
+         Kubw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Pi/olKLeaBrqhttAwoMGSoT+Sxp+y5xY3PQr7eygtLM=;
-        b=anqxyc9c/203+n50WluxKmA1RRuU8h95NkI+PPLte/aJ2dc0/PRdhuigaLqhyLbGMi
-         hCeddR+JS4osoMef0UH5KuiPfnGxftJE8FWyyCoIKm8JV6YXIF8jI3XvkUQSKPNcMrBc
-         NW5pI4CRmjt1j5ToRPbClFT1lLXyEKndM1relHQnv3cfASpPGcXO9sR0h4b9ZFFV9YgP
-         lKz2tUPSbhPv3h+W+aQaS3+bw6mHC2HZOUW51icmR/sPreJf38M/FEFuKDGojks82fYj
-         i+6jrxQhurOjiSOpEFZRBGLIH+/VZDdjW9Hbr/cNRWnVu1BLXRnI1fPiZ9WNO0/p6v5p
-         jDDQ==
-X-Gm-Message-State: APjAAAXHeGH8/h4MuSq7e85MWswj9BfOTGvEgLXC9LWSfUvJAAGp1/xi
-        CeTgC+SSdJIKieak+eTCb/M3znYxY5+cwA+Zr+M=
-X-Google-Smtp-Source: APXvYqx1uh7JY9TsleWmDC3UVv1ETHY9DfduKRb8/JpOu+/AEBPnllkLYgtKF65Y7XFrgtyDYVY72zE2SUwJXZDirUk=
-X-Received: by 2002:a17:906:2894:: with SMTP id o20mr1108577ejd.199.1578426859045;
- Tue, 07 Jan 2020 11:54:19 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=SmAaNlqX7wktMzlx+PndgXg6P7/OceJAZF8e2T4rFsk=;
+        b=TJTTEoIeniTmZqP322kuD8d52IqWHzYPvZUKesrK+QLgvesuUvhRQSsAMhkyIsXtAW
+         iSWOokj0qI0axFATvnR/LFLnMHl6gOtpJRh+ujn0FRaOiIjxJY1h8oJpu9YMW3M90byZ
+         eSbvn8rYE5b6J/wjpKeslHXxcekeZh2HdYWOmsxNbEL3uK2spH3fyUMAyhPgaj0IM5GK
+         t1dWzXLLRPywzcIzcGYvJoMj6oeB7Mfp0T4eY+cT8rTOAluyIlDS8Rffkr6BFxfenMzS
+         TxybU2TBW1tqMXy2YqBurVBjANlE8JQgmtwflZUOJn8Supht20mez2auXKoTlxTzUoMh
+         2GOw==
+X-Gm-Message-State: APjAAAV+bbazqiwAwyB5AUch3lYU5KE67NNx6nVzEaunw0gPNC4P+cJe
+        pwpmWJUi6NSxMbylJ64S4eXdjUfr
+X-Google-Smtp-Source: APXvYqzpAupBmEWmIFUIVX9WoUfMIHfTyxQkbTOHJwcqkkAraTAH9ZO+tqCmm35t+5NmNLnMZJLThg==
+X-Received: by 2002:a2e:461a:: with SMTP id t26mr1069905lja.204.1578437793579;
+        Tue, 07 Jan 2020 14:56:33 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id 2sm390279ljq.38.2020.01.07.14.56.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jan 2020 14:56:32 -0800 (PST)
+Subject: Re: [PATCH v6 12/19] ASoC: tegra: Add audio mclk configuration
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Sameer Pujar <spujar@nvidia.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, broonie@kernel.org, lgirdwood@gmail.com,
+        perex@perex.cz, tiwai@suse.com, mperttunen@nvidia.com,
+        gregkh@linuxfoundation.org, sboyd@kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, josephl@nvidia.com,
+        daniel.lezcano@linaro.org, mmaddireddy@nvidia.com,
+        markz@nvidia.com, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1578370458-3686-1-git-send-email-skomatineni@nvidia.com>
+ <1578370458-3686-13-git-send-email-skomatineni@nvidia.com>
+ <c23bf3f5-55d6-ab93-fd7b-13f9f2155dcc@nvidia.com>
+ <d85c8529-9970-c79c-9430-ed80c47eaf36@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <adb4c9dd-043a-ffca-7a1d-c6b30055b7a0@gmail.com>
+Date:   Wed, 8 Jan 2020 01:56:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Received: by 2002:a17:906:72c6:0:0:0:0 with HTTP; Tue, 7 Jan 2020 11:54:18
- -0800 (PST)
-Reply-To: dhlexpresscouriercompany.nyusa@gmail.com
-From:   "Dr. William Johnson" <currency1000000@gmail.com>
-Date:   Tue, 7 Jan 2020 20:54:18 +0100
-Message-ID: <CAPqfnSFyOwF0m-QsrOdcFV_PCC3TSBr=YQHoQHvH0baKHfeF6Q@mail.gmail.com>
-Subject: contact Dhl office New York to receive your Prepaid ATM Master Card
- worth $15.8Million US DOLLARS now.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <d85c8529-9970-c79c-9430-ed80c47eaf36@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-ATTN Dear Beneficiary.
-Goodnews
-I have Registered your Prepaid ATM Master Card
-worth $15.800,000.00 US DOLLARS Courier company asigned to deliver it
-to you today.
-So contact Dhl office New York to receive your Prepaid ATM Master Card
-worth $15.8Million US DOLLARS now.
-Contact Person: Mrs. Mary Michael, Director, DHL Courier Company-NY USA. 10218
-Email. dhlexpresscouriercompany.nyusa@gmail.com
-Call the office +(202) 890-8752
-Rec-Confirmed your mailing address to the office as I listed below.
-Your Full Name--------------
-House Address-----------
-Your working Phone Number----------------
-ID copy-------------------------
-Sex-----------------------------
-Note,delivery fee to your address is only $50.00. send it to this
-company urgent on itunes card today so that DHL will deliver this
-Prepaid ATM Master Card to you today according to our finally
-agreement.
-Thanks for coperations,
-Dr. William Johnson
+07.01.2020 19:56, Sowjanya Komatineni пишет:
+> 
+> On 1/7/20 3:14 AM, Sameer Pujar wrote:
+>>
+>> On 1/7/2020 9:44 AM, Sowjanya Komatineni wrote:
+>>> Tegra PMC clock clk_out_1 is dedicated for audio mclk from Tegra30
+>>> through Tegra210 and currently Tegra clock driver does the initial
+>>> parent
+>>> configuration for audio mclk and keeps it enabled by default.
+>>>
+>>> With the move of PMC clocks from clock driver into pmc driver,
+>>> audio clocks parent configuration can be specified through the device
+>>> tree
+>>> using assigned-clock-parents property and audio mclk control should be
+>>> taken care by the audio driver.
+>>>
+>>> This patch has implementation for parent configuration when default
+>>> parent
+>>> configuration is not specified in the device tree and controls audio
+>>> mclk
+>>> enable and disable during machine startup and shutdown.
+>>>
+>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>
+>> Minor comments, otherwise LGTM.
+>>
+> Thanks Sameer. Will fix.
+>>> ---
+>>>   sound/soc/tegra/tegra_alc5632.c    | 21 ++++++++++
+>>>   sound/soc/tegra/tegra_asoc_utils.c | 84
+>>> ++++++++++++++++++++++++--------------
+>>>   sound/soc/tegra/tegra_asoc_utils.h |  2 +
+>>>   sound/soc/tegra/tegra_max98090.c   | 21 ++++++++++
+>>>   sound/soc/tegra/tegra_rt5640.c     | 21 ++++++++++
+>>>   sound/soc/tegra/tegra_rt5677.c     | 21 ++++++++++
+>>>   sound/soc/tegra/tegra_sgtl5000.c   | 21 ++++++++++
+>>>   sound/soc/tegra/tegra_wm8753.c     | 21 ++++++++++
+>>>   sound/soc/tegra/tegra_wm8903.c     | 21 ++++++++++
+>>>   sound/soc/tegra/trimslice.c        | 21 ++++++++++
+>>>   10 files changed, 224 insertions(+), 30 deletions(-)
+>>>
+>>> diff --git a/sound/soc/tegra/tegra_alc5632.c
+>>> b/sound/soc/tegra/tegra_alc5632.c
+>>> index 50a6d2ff4442..0fd10023f7a6 100644
+>>> --- a/sound/soc/tegra/tegra_alc5632.c
+>>> +++ b/sound/soc/tegra/tegra_alc5632.c
+>>> @@ -62,8 +62,29 @@ static int tegra_alc5632_asoc_hw_params(struct
+>>> snd_pcm_substream *substream,
+>>>       return 0;
+>>>   }
+>>>   +static int tegra_alc5632_asoc_startup(struct snd_pcm_substream
+>>> *substream)
+>>> +{
+>>> +    struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>>> +    struct tegra_alc5632 *machine =
+>>> snd_soc_card_get_drvdata(rtd->card);
+>>> +    int ret;
+>>> +
+>>> +    ret = tegra_asoc_utils_clk_enable(&machine->util_data);
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +static void tegra_alc5632_asoc_shutdown(struct snd_pcm_substream
+>>> *substream)
+>>> +{
+>>> +    struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>>> +    struct tegra_alc5632 *machine =
+>>> snd_soc_card_get_drvdata(rtd->card);
+>>> +
+>>> +    tegra_asoc_utils_clk_disable(&machine->util_data);
+>>> +}
+>>> +
+>>>   static const struct snd_soc_ops tegra_alc5632_asoc_ops = {
+>>> +    .startup = tegra_alc5632_asoc_startup,
+>>>       .hw_params = tegra_alc5632_asoc_hw_params,
+>>> +    .shutdown = tegra_alc5632_asoc_shutdown,
+>>>   };
+>>>     static struct snd_soc_jack tegra_alc5632_hs_jack;
+>>> diff --git a/sound/soc/tegra/tegra_asoc_utils.c
+>>> b/sound/soc/tegra/tegra_asoc_utils.c
+>>> index 0d2271952555..2886ae9f5a16 100644
+>>> --- a/sound/soc/tegra/tegra_asoc_utils.c
+>>> +++ b/sound/soc/tegra/tegra_asoc_utils.c
+>>> @@ -60,8 +60,6 @@ int tegra_asoc_utils_set_rate(struct
+>>> tegra_asoc_utils_data *data, int srate,
+>>>       data->set_mclk = 0;
+>>>         clk_disable_unprepare(data->clk_cdev1);
+>>> -    clk_disable_unprepare(data->clk_pll_a_out0);
+>>> -    clk_disable_unprepare(data->clk_pll_a);
+>>>         err = clk_set_rate(data->clk_pll_a, new_baseclock);
+>>>       if (err) {
+>>> @@ -77,18 +75,6 @@ int tegra_asoc_utils_set_rate(struct
+>>> tegra_asoc_utils_data *data, int srate,
+>>>         /* Don't set cdev1/extern1 rate; it's locked to pll_a_out0 */
+>>>   -    err = clk_prepare_enable(data->clk_pll_a);
+>>> -    if (err) {
+>>> -        dev_err(data->dev, "Can't enable pll_a: %d\n", err);
+>>> -        return err;
+>>> -    }
+>>> -
+>>> -    err = clk_prepare_enable(data->clk_pll_a_out0);
+>>> -    if (err) {
+>>> -        dev_err(data->dev, "Can't enable pll_a_out0: %d\n", err);
+>>> -        return err;
+>>> -    }
+>>> -
+>>>       err = clk_prepare_enable(data->clk_cdev1);
+>>>       if (err) {
+>>>           dev_err(data->dev, "Can't enable cdev1: %d\n", err);
+>>> @@ -109,8 +95,6 @@ int tegra_asoc_utils_set_ac97_rate(struct
+>>> tegra_asoc_utils_data *data)
+>>>       int err;
+>>>         clk_disable_unprepare(data->clk_cdev1);
+>>> -    clk_disable_unprepare(data->clk_pll_a_out0);
+>>> -    clk_disable_unprepare(data->clk_pll_a);
+>>>         /*
+>>>        * AC97 rate is fixed at 24.576MHz and is used for both the host
+>>> @@ -130,17 +114,27 @@ int tegra_asoc_utils_set_ac97_rate(struct
+>>> tegra_asoc_utils_data *data)
+>>>         /* Don't set cdev1/extern1 rate; it's locked to pll_a_out0 */
+>>>   -    err = clk_prepare_enable(data->clk_pll_a);
+>>> +    err = clk_prepare_enable(data->clk_cdev1);
+>>>       if (err) {
+>>> -        dev_err(data->dev, "Can't enable pll_a: %d\n", err);
+>>> +        dev_err(data->dev, "Can't enable cdev1: %d\n", err);
+>>>           return err;
+>>>       }
+>>>   -    err = clk_prepare_enable(data->clk_pll_a_out0);
+>>> -    if (err) {
+>>> -        dev_err(data->dev, "Can't enable pll_a_out0: %d\n", err);
+>>> -        return err;
+>>> -    }
+>>> +    data->set_baseclock = pll_rate;
+>>> +    data->set_mclk = ac97_rate;
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(tegra_asoc_utils_set_ac97_rate);
+>>> +
+>>> +void tegra_asoc_utils_clk_disable(struct tegra_asoc_utils_data *data)
+>>> +{
+>>> +    clk_disable_unprepare(data->clk_cdev1);
+>>> +}
+>>> +
+>>> +int tegra_asoc_utils_clk_enable(struct tegra_asoc_utils_data *data)
+>>> +{
+>>> +    int err;
+>>>         err = clk_prepare_enable(data->clk_cdev1);
+>>>       if (err) {
+>>> @@ -148,16 +142,13 @@ int tegra_asoc_utils_set_ac97_rate(struct
+>>> tegra_asoc_utils_data *data)
+>>>           return err;
+>>>       }
+>>>   -    data->set_baseclock = pll_rate;
+>>> -    data->set_mclk = ac97_rate;
+>>> -
+>>>       return 0;
+>>>   }
+>>> -EXPORT_SYMBOL_GPL(tegra_asoc_utils_set_ac97_rate);
+>>>     int tegra_asoc_utils_init(struct tegra_asoc_utils_data *data,
+>>>                 struct device *dev)
+>>>   {
+>>> +    struct clk *clk_out_1, *clk_extern1;
+>>>       int ret;
+>>>         data->dev = dev;
+>>> @@ -193,9 +184,42 @@ int tegra_asoc_utils_init(struct
+>>> tegra_asoc_utils_data *data,
+>>>           return PTR_ERR(data->clk_cdev1);
+>>>       }
+>>>   -    ret = tegra_asoc_utils_set_rate(data, 44100, 256 * 44100);
+>>> -    if (ret)
+>>> -        return ret;
+>>> +    /*
+>>> +     * If clock parents are not set in DT, configure here to use
+>>> clk_out_1
+>>> +     * as mclk and extern1 as parent for Tegra30 and higher.
+>>> +     */
+>>> +    if (!of_find_property(dev->of_node, "assigned-clock-parents",
+>>> NULL) &&
+>>> +        data->soc > TEGRA_ASOC_UTILS_SOC_TEGRA20) {
+>>> +        dev_err(data->dev,
+>>
+>> As this is a fallback mechanism, use dev_info or dev_dbg instead?
+
+dev_warn
+
+>>> +            "Configuring clocks for a legacy device-tree\n");
+
+I'd also add another message here saying "Please update your DT", for
+clarity.
