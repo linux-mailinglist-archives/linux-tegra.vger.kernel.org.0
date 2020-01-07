@@ -2,78 +2,110 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FE841329BA
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 16:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3CEC132AD3
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 17:13:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728380AbgAGPN7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jan 2020 10:13:59 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:17777 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728372AbgAGPN6 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 10:13:58 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e14a0240000>; Tue, 07 Jan 2020 07:13:40 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 07 Jan 2020 07:13:57 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 07:13:57 -0800
-Received: from [10.26.11.139] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
- 2020 15:13:55 +0000
-Subject: Re: [PATCH v3 09/13] dmaengine: tegra-apb: Remove runtime PM usage
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
+        id S1727974AbgAGQNR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jan 2020 11:13:17 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:39313 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727559AbgAGQNR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 11:13:17 -0500
+Received: by mail-lf1-f65.google.com with SMTP id y1so118268lfb.6;
+        Tue, 07 Jan 2020 08:13:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ymg9tFhRWBlYC+u+Mak0dVXKfWnjuwdtb1AElirNlro=;
+        b=ZJF0sSU3ozdLy8r2JHnOWFm4CsgC2u7WWLvFAqvX8M+DlLjjE1D+jLaQD6zP82uWWB
+         3IHKO46Gj+0Q++15yyc23fS4nrSK168BuzRwpNcl37LRATkan90NNwJCdM1F4pXdw1B6
+         57adez0n6w0vrRusR8p89wkdiYGb9vvgiByRUUB3Mg9Ox2QC+KV7ZUxpR7btJXkaTcxt
+         dRyigVTF8OQN59tlZ8Z61KCdlI54RaZWZXsOKSi1DWLO6vdy8tUjF2p2zaSiGQvFz8Jj
+         UuYP09fSfJSdHGeewe42mtUReKHJH1FtDiCfXb+PuL2NPib0G9XikhzKPf9LoDy4TaNp
+         qjuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ymg9tFhRWBlYC+u+Mak0dVXKfWnjuwdtb1AElirNlro=;
+        b=qc6oJygq5VWH9LJrLr/MQkxEV34xO7yWni2v8De6Dt/zEDz7UNXu9lCs85NC2+vLaS
+         E4hBCNLsyxb+GDf/XNwMpHTOx6jwhFgl5qdPVNX0Z+ymUZwsB5RVwIfppGfM7QoV2iw6
+         8FWHBSulC0HSdltZbvF8wUq4/2UvUwvQ5EDtsbBwQpeoiE6tc9u8MCjYqPXXrN9iG7ZP
+         3wUnQTgaNnCRsTJ0Wl6ojJlMeDFYmmb+N8gY1l//XGAKhz5uuE/rDPFcFq0rApwe+biO
+         /ps/Mpjwx6o9N1wF7Hwdr/g9Zw4gVoh9qPXgcGUyTopSJdTbza93c/VuKUPuOw6kmFYF
+         Ul2A==
+X-Gm-Message-State: APjAAAUoia2VrvyUR56p3A757VHXylketfSWZ9q8oMydAKPCQ/ziV5P8
+        BjJ4uflzrdTmQjjBpl3Lp82UJdyo
+X-Google-Smtp-Source: APXvYqwncxIuEnNaBcuSFBD5ZgFQQ+d1c9tv03aE3H2OKwXUAxS9g9k6dKPyff5Sn/NM8qT502+u+Q==
+X-Received: by 2002:a19:888:: with SMTP id 130mr117981lfi.167.1578413594903;
+        Tue, 07 Jan 2020 08:13:14 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id n30sm78066lfi.54.2020.01.07.08.13.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jan 2020 08:13:13 -0800 (PST)
+Subject: Re: [PATCH v4 20/20] usb: host: ehci-tegra: Remove unused fields from
+ tegra_ehci_hcd
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200106011708.7463-1-digetx@gmail.com>
- <20200106011708.7463-10-digetx@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <f63a68cf-bb9d-0e79-23f3-233fc97ca6f9@nvidia.com>
-Date:   Tue, 7 Jan 2020 15:13:52 +0000
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <Pine.LNX.4.44L0.2001061014430.1514-100000@iolanthe.rowland.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b5c262a9-4a7f-6293-e3c4-31ba4822cd12@gmail.com>
+Date:   Tue, 7 Jan 2020 19:13:12 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200106011708.7463-10-digetx@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <Pine.LNX.4.44L0.2001061014430.1514-100000@iolanthe.rowland.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578410020; bh=Sf0ckx5pEctxgD10OMRT1lnch6V57nc9NpAJxMakDd4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=LWgsm1ORkmkJ0tg8Uqw2z2plcb298KilPFwVAdMJeRU69ugZwZh+ImPailCMGibXS
-         JUK6rBM79/VREU15uTjOVxQZM1NZrJOX/I1psObzTqmy9tI3Ooq7GQVRxT2/sBk+Aj
-         7xRZ+D9i1SJ1FHRQeu/RqGbkN1rWuBcAD58EEk9WarnNwNhd658HB7szBeQthZliKn
-         1WumM0vQyo0UrNOxIVwBT70Zr4KgxsfRYy9n3j4Umw8cCwaWWQvs8vGdiAmGPwoDEd
-         GO4a/jaCc0PgYHNj6j3Po+DybaZZDMPTXwFhnOo41QYQP1I04o7nrJokUaV3RnAg4J
-         IrBEPFvyh1P4w==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+06.01.2020 18:16, Alan Stern пишет:
+> On Mon, 6 Jan 2020, Dmitry Osipenko wrote:
+> 
+>> There are few stale fields in tegra_ehci_hcd structure, let's remove them.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/usb/host/ehci-tegra.c | 2 --
+>>  1 file changed, 2 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/ehci-tegra.c b/drivers/usb/host/ehci-tegra.c
+>> index 1eb94205a5ac..d6433f206c17 100644
+>> --- a/drivers/usb/host/ehci-tegra.c
+>> +++ b/drivers/usb/host/ehci-tegra.c
+>> @@ -42,12 +42,10 @@ struct tegra_ehci_soc_config {
+>>  };
+>>  
+>>  struct tegra_ehci_hcd {
+>> -	struct tegra_usb_phy *phy;
+>>  	struct clk *clk;
+>>  	struct reset_control *rst;
+>>  	int port_resuming;
+>>  	bool needs_double_reset;
+>> -	enum tegra_usb_phy_port_speed port_speed;
+>>  };
+>>  
+>>  static int tegra_reset_usb_controller(struct platform_device *pdev)
+> 
+> For patches 2, 19, and 20:
+> 
+> Acked-by: Alan Stern <stern@rowland.harvard.edu>
+> 
+> It's nice to see that patch 2 makes the sequence of events in 
+> tegra_ehci_remove() exactly the same as the failure pathway in 
+> tegra_ehci_probe().
 
-On 06/01/2020 01:17, Dmitry Osipenko wrote:
-> There is no benefit from runtime PM usage for the APB DMA driver because
-> it enables clock at the time of channel's allocation and thus clock stays
-> enabled all the time in practice, secondly there is benefit from manually
-> disabled clock because hardware auto-gates it during idle by itself.
-
-This assumes that the channel is allocated during a driver
-initialisation. That may not always be the case. I believe audio is one
-case where channels are requested at the start of audio playback.
-
-Jon
-
--- 
-nvpublic
+Thank you very much for taking a look at the patches!
