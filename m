@@ -2,108 +2,255 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43227131D4F
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 02:45:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79913131E96
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 05:16:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727398AbgAGBpf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 6 Jan 2020 20:45:35 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:44955 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727397AbgAGBpf (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jan 2020 20:45:35 -0500
-Received: by mail-qk1-f195.google.com with SMTP id w127so41308399qkb.11
-        for <linux-tegra@vger.kernel.org>; Mon, 06 Jan 2020 17:45:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ft6xmRm0Xn4A+6zJu2AAPIsi5FGpNr4OiKyWPq8PF3E=;
-        b=mdt/L/fHFt2uUCxneOT+wJBx1zeGq9fEF86Cyn+w5YQHYXVdG2UDKU90QAJJDbAT6E
-         IZWrNX6Taxnc5BNAW8Yp3jFm3p+efXels7I1FhUsccQ4zciOFeCl6pRPzl9m7pO2PuDr
-         KccNYENPlAXa8/HDVUEFXxyjyo87LkIjp98PX/W8bgzxDLiDmuBzWbE0awp041Lw231F
-         +39mAOxKlUQKQGTmn1zMvdes8C2LY2Tfwuk7RCMGiBDabQHnqMP7NGNdvxL2BEaX+Sak
-         z7fe9ZeK79KghIH6+sVVA3NzodbDqzqiLcC+fviJJ+agPmBXo3F4bTuXNJhJr2KcUTHw
-         nV6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ft6xmRm0Xn4A+6zJu2AAPIsi5FGpNr4OiKyWPq8PF3E=;
-        b=HFmSskfXulqD/C3M6WYqPQVeFDqXaSEt+KEThNdosfpeszIdut702ybNjp2Kws0Bm7
-         dTA7r9fa12ZSDbqW9GipGLx/WDg4qnngCzA6FTO7lu4qZrikGKuEZi1d9PAPkMG5CWqM
-         MaXNBVVJNIOM4Nn4xPqjVxO5gdsS/IwJmFfTpr1WWNiuHiBaeMYoC4tcWQ+AckKcSS7o
-         1KaDZ1T+r6rnm1I1NS7FKMe7HRZrQGJ2ifZQskqS1/d3F5LewBSHvmfH5yNkumkXDuDQ
-         cHgwnSyJlETlU1z/vL7NDKcmGZvKqRVf6g+ZpLbZF34gNhfdU4dsy8/qsGjMogLrWm8b
-         /y8A==
-X-Gm-Message-State: APjAAAV/H/LBqNuuYhVHc8H3sbeprN7HHmtmbagyoHY0blGcQ0TOc7KF
-        CIwx+H5rSctdHrgNQo+cjiAwsaOnRCJDXoSJwFdOkQ==
-X-Google-Smtp-Source: APXvYqwhpelqz1BD3Zaxd7qhMERDtnjDXuXuK5sCqGFKA0nX5yXFO0Qqv4/D7HsevTyPJjTlnid1ORnGa9dP/VZvId4=
-X-Received: by 2002:a37:ba03:: with SMTP id k3mr83504125qkf.127.1578361533830;
- Mon, 06 Jan 2020 17:45:33 -0800 (PST)
+        id S1727493AbgAGEOY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 6 Jan 2020 23:14:24 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6478 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727458AbgAGEOY (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 6 Jan 2020 23:14:24 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e14058d0000>; Mon, 06 Jan 2020 20:14:05 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 06 Jan 2020 20:14:22 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 06 Jan 2020 20:14:22 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
+ 2020 04:14:22 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 7 Jan 2020 04:14:22 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.171.88]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e14059d0004>; Mon, 06 Jan 2020 20:14:22 -0800
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+        <digetx@gmail.com>, <mperttunen@nvidia.com>,
+        <gregkh@linuxfoundation.org>, <sboyd@kernel.org>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>
+CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <spujar@nvidia.com>, <josephl@nvidia.com>,
+        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
+        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6 00/19] Move PMC clocks into Tegra PMC driver
+Date:   Mon, 6 Jan 2020 20:13:59 -0800
+Message-ID: <1578370458-3686-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-References: <20191210195333.648018-1-arnd@arndb.de> <d739240f-aaa6-c310-9c68-16c1a08ce759@nvidia.com>
-In-Reply-To: <d739240f-aaa6-c310-9c68-16c1a08ce759@nvidia.com>
-From:   Curtis Malainey <cujomalainey@google.com>
-Date:   Mon, 6 Jan 2020 17:45:22 -0800
-Message-ID: <CAOReqxh9wamuKQnjPqUsZS_=4xUbsy-Y3v+=OXGaWV5EuONPmA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rt5677: add SPI_MASTER dependency
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
-        Ben Zhang <benzh@chromium.org>,
-        Curtis Malainey <cujomalainey@chromium.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Jie Yang <yang.jie@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        KaiChieh Chuang <kaichieh.chuang@mediatek.com>,
-        ALSA development <alsa-devel@alsa-project.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1578370445; bh=j/W/Iw/pMw+XAm0wZvs92EVWGyWToBN6qPIX0iKmQKA=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=e1V/rvdn21JvQ7F7kTAqw5fc2Y5aBm+r7o/hF7Mwpld3w+fwD8kYtN7FxxodsjEMx
+         oyFeJGUnjJnBSO8ADxKiMLtk/xcPNmgDTep6Pz6bG7abCCVZ+SGKiKlvhAwVEz3qtK
+         fhziRKkAS2tCgH8hrIoZk/QI+T+7Q2IbzQ3wFIXQgfPSbvUPtz5Y3gw24sJ/FGlL0a
+         NaP+ILmJMQEMzg8Zv0HyynnV1Xrdo9BvK+ak5S5jQ836KD8OFbjbkoVQZnQTRD+28N
+         hGOdltT6nhQIoLzuxPfrMDyHA7Pn58lOY5HOy7Dkpt4IXoiIZbFFzT+hyqTtbg/BfV
+         qfetGRkxwqZAQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 3:00 AM Jon Hunter <jonathanh@nvidia.com> wrote:
->
->
-> On 10/12/2019 19:52, Arnd Bergmann wrote:
-> > When CONFIG_SPI is disabled, the newly added code for the DSP
-> > firmware loading fails to link:
-> >
-> > ERROR: "rt5677_spi_hotword_detected" [sound/soc/codecs/snd-soc-rt5677.ko] undefined!
-> > ERROR: "rt5677_spi_write" [sound/soc/codecs/snd-soc-rt5677.ko] undefined!
->
-> Would it be better if the above functions or the functions that call
-> these are conditional on CONFIG_SND_SOC_RT5677_SPI?
->
-> > Add a dependency to prevent this configuration.
-> >
-> > Note: the does not work with the DT probing, as there is no binding
->
-> Are you missing 'SPI' or something here?
->
-> > for the SPI half of the driver, but nothing seems to be using that
-> > with the mainline kernel anyway.
->
-> From a Tegra perspective, given that we don't use SPI in conjunction
-> with the rt5677 codec, only I2C so far, I am not sure we should make the
-> tegra_rt5677 driver dependent upon it. We should be able to operate
-> without the SPI bits enabled.
->
-There should be no changes needed for tegra, this should be isolated
-to the bdw machine driver. The only things added to the machine driver
-were some dai links.
-> Cheers
-> Jon
->
-> --
-> nvpublic
+This patch series moves Tegra PMC clocks from clock driver to pmc driver
+along with the device trees changes and audio driver which uses one of
+the pmc clock for audio mclk.
+
+Tegra PMC has clk_out_1, clk_out_2, clk_out_3 and blink controls which
+are currently registered by Tegra clock driver using clk_regiser_mux and
+clk_register_gate which performs direct Tegra PMC register access.
+
+When Tegra PMC is in secure mode, any access from non-secure world will
+not go through.
+
+This patch series adds these Tegra PMC clocks and blink controls to Tegra
+PMC driver with PMC as clock provider and removes them from Tegra clock
+driver.
+
+PMC clock clk_out_1 is dedicated for audio mclk from Tegra30 thru Tegra210
+and clock driver does inital parent configuration for it and enables them.
+But this clock should be taken care by audio driver as there is no need
+to have this clock pre enabled.
+
+So, this series also includes patch that updates ASoC driver to take
+care of parent configuration for mclk if device tree don't specify
+initial parent configuration using assigned-clock-parents and controls
+audio mclk enable/disable during ASoC machine startup and shutdown.
+
+DTs are also updated to use clk_out_1 as audio mclk rather than extern1.
+
+This series also includes a patch for mclk fallback to extern1 when
+retrieving mclk fails to have this backward compatible of new DT with
+old kernels.
+
+[v6]:	Changes between v5 and v6 are
+	- v5 feedback
+	- Added ASoC machine startup and shutdown callbacks to control audio
+	  mclk enable/disable and removed default mclk enable from clock driver.
+	- Updated tegra_asoc_utils_set_rate to disable mclk only during PLLA
+	  rate change and removed disabling PLLA as its already taken care by
+	  pll clock driver.
+	- Removed tegra_asoc_utils_set_rate call from utils_init as set_rate
+	  is set during machine hw_params and during utils_init mclk is
+	  already in disabled state and this causes warning during mclk disable
+	  in utils_set_rate.
+
+[v5]:	Changes between v4 and v5 are
+	- v4 feedback
+	- updated dt-binding pmc YAML schema with more description on power
+	  gate nodes and pad configuration state nodes.
+	- update tegra_asoc_utils_set_rate to disable audio mclk only if
+	  its in enable state.
+
+[v4]:	Changes between v3 and v4 are
+	- v3 Feedback
+	- Updated clocks clk_m_div2 and clk_m_div4 as osc_div2 and osc_div4.
+	  Tegra don't have clk_m_div2, clk_m_div4 and they should actually
+	  be osc_div2 and osc_div4 clocks from osc pads.
+	- Fixed PMC clock parents to use osc, osc_div2, osc_div4.
+	- Register each PMC clock as single clock rather than separate
+	  mux and gate clocks.
+	- Update ASoC utils to use resource managed APIs rather than
+	  using clk_get and clk_put.
+	- Updated device tree and ASoC driver to use clk_out_1 instead of
+	  clk_out_1_mux as PMC clocks are registered as single clock.
+	- Update clock driver init_table to not enable audio related clocks
+	  as ASoC utils will do audio clock enables.
+
+[v3]:	Changes between v2 and v3 are
+	- Removes set parent of clk_out_1_mux to extern1 and enabling
+	  extern1 from the clock driver.
+	- Doesn't enable clk_out_1 and blink by default in pmc driver
+	- Updates ASoC driver to take care of audio mclk parent
+	  configuration incase if device tree don't specify assigned
+	  clock parent properties and enables mclk using both clk_out_1
+	  and extern1.
+	- updates all device trees using extern1 as mclk in sound node
+	  to use clk_out_1 from pmc.
+	- patch for YAML format pmc dt-binding
+	- Includes v2 feedback
+
+[v2]:	Changes between v1 and v2 are
+	- v2 includes patches for adding clk_out_1, clk_out_2, clk_out_3,
+	  blink controls to Tegra PMC driver and removing clk-tegra-pmc.
+	- feedback related to pmc clocks in Tegra PMC driver from v1
+	- Removed patches for WB0 PLLM overrides and PLLE IDDQ PMC programming
+	  by the clock driver using helper functions from Tegra PMC.
+
+ 	  Note:
+	  To use helper functions from PMC driver, PMC early init need to
+	  happen prior to using helper functions and these helper functions are
+	  for PLLM Override and PLLE IDDQ programming in PMC during PLLM/PLLE
+	  clock registration which happen in clock_init prior to Tegra PMC
+	  probe.
+	  Moving PLLM/PLLE clocks registration to happen after Tegra PMC
+	  impacts other clocks EMC, MC and corresponding tegra_emc_init and
+	  tegra_mc_init.
+	  This implementation of configuring PMC registers thru helper
+	  functions in clock driver needs proper changes across PMC, Clock,
+	  EMC and MC inits to have it work across all Tegra platforms.
+
+	  Currently PLLM Override is not enabled in the bootloader so proper
+	  patches for this fix will be taken care separately.
+
+[v1]:	v1 includes patches for below fixes.
+	- adding clk_out_1, clk_out_2, clk_out_3, blink controls to Tegra PMC
+	  driver and removing clk-tegra-pmc.
+	- updated clock provider from tegra_car to pmc in the device tree
+	  tegra210-smaug.dts that uses clk_out_2.
+	- Added helper functions in PMC driver for WB0 PLLM overrides and PLLE
+	  IDDQ programming to use by clock driver and updated clock driver to
+	  use these helper functions and removed direct PMC access from clock
+	  driver and all pmc base address references in clock driver.
+
+
+
+
+Sowjanya Komatineni (19):
+  dt-bindings: clock: tegra: Change CLK_M_DIV to OSC_DIV clocks
+  clk: tegra: Change CLK_M_DIV clocks to OSC_DIV clocks
+  clk: tegra: Fix Tegra PMC clock out parents
+  dt-bindings: tegra: Convert Tegra PMC bindings to YAML
+  dt-bindings: soc: tegra-pmc: Add Tegra PMC clock bindings
+  soc: tegra: Add Tegra PMC clocks registration into PMC driver
+  dt-bindings: soc: tegra-pmc: Add id for Tegra PMC 32KHz blink clock
+  soc: tegra: Add support for 32KHz blink clock
+  clk: tegra: Remove tegra_pmc_clk_init along with clk ids
+  dt-bindings: clock: tegra: Remove pmc clock ids from clock dt-bindings
+  ASoC: tegra: Use device managed resource APIs to get the clock
+  ASoC: tegra: Add audio mclk configuration
+  ASoC: tegra: Add fallback implementation for audio mclk
+  clk: tegra: Remove audio related clock enables from init_table
+  ARM: dts: tegra: Add clock-cells property to pmc
+  arm64: tegra: Add clock-cells property to Tegra PMC node
+  ARM: tegra: Update sound node clocks in device tree
+  arm64: tegra: smaug: Change clk_out_2 provider to pmc
+  ASoC: nau8825: change Tegra clk_out_2 provider from tegra_car to pmc
+
+ .../bindings/arm/tegra/nvidia,tegra20-pmc.txt      | 300 -----------------
+ .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml     | 354 +++++++++++++++++++++
+ .../devicetree/bindings/sound/nau8825.txt          |   2 +-
+ arch/arm/boot/dts/tegra114-dalmore.dts             |   8 +-
+ arch/arm/boot/dts/tegra114.dtsi                    |   4 +-
+ arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi        |   8 +-
+ arch/arm/boot/dts/tegra124-apalis.dtsi             |   8 +-
+ arch/arm/boot/dts/tegra124-jetson-tk1.dts          |   8 +-
+ arch/arm/boot/dts/tegra124-nyan.dtsi               |   8 +-
+ arch/arm/boot/dts/tegra124-venice2.dts             |   8 +-
+ arch/arm/boot/dts/tegra124.dtsi                    |   4 +-
+ arch/arm/boot/dts/tegra20.dtsi                     |   4 +-
+ arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi         |   8 +-
+ arch/arm/boot/dts/tegra30-apalis.dtsi              |   8 +-
+ arch/arm/boot/dts/tegra30-beaver.dts               |   8 +-
+ arch/arm/boot/dts/tegra30-cardhu.dtsi              |   8 +-
+ arch/arm/boot/dts/tegra30-colibri.dtsi             |   8 +-
+ arch/arm/boot/dts/tegra30.dtsi                     |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra132.dtsi           |   4 +-
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts      |   2 +-
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   6 +-
+ drivers/clk/tegra/Makefile                         |   1 -
+ drivers/clk/tegra/clk-id.h                         |  11 +-
+ drivers/clk/tegra/clk-tegra-fixed.c                |  32 +-
+ drivers/clk/tegra/clk-tegra-pmc.c                  | 122 -------
+ drivers/clk/tegra/clk-tegra114.c                   |  41 +--
+ drivers/clk/tegra/clk-tegra124.c                   |  46 +--
+ drivers/clk/tegra/clk-tegra20.c                    |   9 +-
+ drivers/clk/tegra/clk-tegra210.c                   |  30 +-
+ drivers/clk/tegra/clk-tegra30.c                    |  31 +-
+ drivers/clk/tegra/clk.h                            |   1 -
+ drivers/soc/tegra/pmc.c                            | 352 ++++++++++++++++++++
+ include/dt-bindings/clock/tegra114-car.h           |  18 +-
+ include/dt-bindings/clock/tegra124-car-common.h    |  18 +-
+ include/dt-bindings/clock/tegra20-car.h            |   2 +-
+ include/dt-bindings/clock/tegra210-car.h           |  18 +-
+ include/dt-bindings/clock/tegra30-car.h            |  18 +-
+ include/dt-bindings/soc/tegra-pmc.h                |  16 +
+ sound/soc/tegra/tegra_alc5632.c                    |  28 +-
+ sound/soc/tegra/tegra_asoc_utils.c                 | 125 ++++----
+ sound/soc/tegra/tegra_asoc_utils.h                 |   3 +-
+ sound/soc/tegra/tegra_max98090.c                   |  43 ++-
+ sound/soc/tegra/tegra_rt5640.c                     |  43 ++-
+ sound/soc/tegra/tegra_rt5677.c                     |  28 +-
+ sound/soc/tegra/tegra_sgtl5000.c                   |  28 +-
+ sound/soc/tegra/tegra_wm8753.c                     |  43 ++-
+ sound/soc/tegra/tegra_wm8903.c                     |  43 ++-
+ sound/soc/tegra/tegra_wm9712.c                     |   8 +-
+ sound/soc/tegra/trimslice.c                        |  39 ++-
+ 49 files changed, 1192 insertions(+), 777 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.txt
+ create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
+ delete mode 100644 drivers/clk/tegra/clk-tegra-pmc.c
+ create mode 100644 include/dt-bindings/soc/tegra-pmc.h
+
+-- 
+2.7.4
+
