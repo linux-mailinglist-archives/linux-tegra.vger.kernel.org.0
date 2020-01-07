@@ -2,130 +2,116 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC74913237A
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 11:22:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07E9013238B
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 11:28:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727722AbgAGKW3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jan 2020 05:22:29 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3185 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726565AbgAGKW3 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 05:22:29 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e145bd30000>; Tue, 07 Jan 2020 02:22:11 -0800
+        id S1727177AbgAGK2Z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jan 2020 05:28:25 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:10430 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726558AbgAGK2Z (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 05:28:25 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e145d180000>; Tue, 07 Jan 2020 02:27:36 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 07 Jan 2020 02:22:28 -0800
+  Tue, 07 Jan 2020 02:28:24 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 02:22:28 -0800
-Received: from [10.26.11.139] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
- 2020 10:22:25 +0000
-Subject: Re: [PATCH] of: Rework and simplify phandle cache to use a fixed size
-To:     Rob Herring <robh@kernel.org>, <devicetree@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20191211232345.24810-1-robh@kernel.org>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <5386e959-f9c4-2748-ed08-34ab361aee2c@nvidia.com>
-Date:   Tue, 7 Jan 2020 10:22:23 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 02:28:24 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
+ 2020 10:28:23 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 7 Jan 2020 10:28:23 +0000
+Received: from audio.nvidia.com (Not Verified[10.24.34.185]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e145d460001>; Tue, 07 Jan 2020 02:28:23 -0800
+From:   Sameer Pujar <spujar@nvidia.com>
+To:     <broonie@kernel.org>
+CC:     <jonathanh@nvidia.com>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>
+Subject: [PATCH] regmap: add iopoll-like atomic polling macro
+Date:   Tue, 7 Jan 2020 15:58:09 +0530
+Message-ID: <1578392889-16587-1-git-send-email-spujar@nvidia.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20191211232345.24810-1-robh@kernel.org>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578392531; bh=pZOwoicuGzDQd1U0YBhLFXjqBk3xDuq3KIS9DJuzeqg=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Fu1t6kd5QjIX/WAqo0zfZpkiKHVDQsWBSLW12yIzT+3dZgyqI7cYdWggegRclRGdK
-         bYQBG4sm8FyNerWG6eQxY/LSjBvxOt7rrl1l6ImSBM+dOWaIgvi5KNCjwARzFZAU3D
-         e4+8fCWkfTYP9xidERQWD6tcefnOf/XpaRoT0UAjTi1OcsZfv+98cOftVo5TWRik08
-         bp2JgaPord3mO02jH/rs6pM0yYkbWmlxc4G/xFDCoL6UTQJIhG/v0IN4gH9mYG8cWU
-         gFWXzzCvFkxiYlidP1IVYUB3uCoDr6oZzAP4pamADOxehnm5o4105sqLlA5a/PAXtp
-         52IwzbO3Yn1ww==
+        t=1578392856; bh=S+Ht3MbadCSLbxXXJdn3e/AfaXQFOU7+B9gzKSIzMZI=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:Content-Type;
+        b=UjOs0ZWtDhZsHs9ih5QZRIdJwuuO/L+L47nIIcNmPCk86liAs2iR4ntfb+tq7gr5Z
+         bZ81NNQf3u59bZTV5OoZAOcPITbklP8aTCC49//H5TRx/dXcuUO8O2Linq/6Weprc7
+         UuP1kNd7gF643vqUqkN5ABmzFrDsUSu5gAW1KupDgJsfuEE2Xp48kJ58weux3/KpV/
+         ntsQHSRHkSqH60BWlL5w+K2sBi1rBC7EOC6EY8gqnbKjlWyqvMsZvJNv9OGB65KRuh
+         sAUINbr5mdJyebFfWNg9j9+3zx1WKzZb/c6G3+7DLevwEpSmKugg38KCjYJcwSFLrh
+         abnPOoBYXwkMg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Rob,
+This patch adds a macro 'regmap_read_poll_timeout_atomic' that works
+similar to 'readx_poll_timeout_atomic' defined in linux/iopoll.h; This
+is atomic version of already available 'regmap_read_poll_timeout' macro.
 
-On 11/12/2019 23:23, Rob Herring wrote:
-> The phandle cache was added to speed up of_find_node_by_phandle() by
-> avoiding walking the whole DT to find a matching phandle. The
-> implementation has several shortcomings:
-> 
->   - The cache is designed to work on a linear set of phandle values.
->     This is true for dtc generated DTs, but not for other cases such as
->     Power.
->   - The cache isn't enabled until of_core_init() and a typical system
->     may see hundreds of calls to of_find_node_by_phandle() before that
->     point.
->   - The cache is freed and re-allocated when the number of phandles
->     changes.
->   - It takes a raw spinlock around a memory allocation which breaks on
->     RT.
-> 
-> Change the implementation to a fixed size and use hash_32() as the
-> cache index. This greatly simplifies the implementation. It avoids
-> the need for any re-alloc of the cache and taking a reference on nodes
-> in the cache. We only have a single source of removing cache entries
-> which is of_detach_node().
-> 
-> Using hash_32() removes any assumption on phandle values improving
-> the hit rate for non-linear phandle values. The effect on linear values
-> using hash_32() is about a 10% collision. The chances of thrashing on
-> colliding values seems to be low.
-> 
-> To compare performance, I used a RK3399 board which is a pretty typical
-> system. I found that just measuring boot time as done previously is
-> noisy and may be impacted by other things. Also bringing up secondary
-> cores causes some issues with measuring, so I booted with 'nr_cpus=1'.
-> With no caching, calls to of_find_node_by_phandle() take about 20124 us
-> for 1248 calls. There's an additional 288 calls before time keeping is
-> up. Using the average time per hit/miss with the cache, we can calculate
-> these calls to take 690 us (277 hit / 11 miss) with a 128 entry cache
-> and 13319 us with no cache or an uninitialized cache.
-> 
-> Comparing the 3 implementations the time spent in
-> of_find_node_by_phandle() is:
-> 
-> no cache:        20124 us (+ 13319 us)
-> 128 entry cache:  5134 us (+ 690 us)
-> current cache:     819 us (+ 13319 us)
-> 
-> We could move the allocation of the cache earlier to improve the
-> current cache, but that just further complicates the situation as it
-> needs to be after slab is up, so we can't do it when unflattening (which
-> uses memblock).
-> 
-> Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Segher Boessenkool <segher@kernel.crashing.org>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+---
+ include/linux/regmap.h | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-With next-20200106 I have noticed a regression on Tegra210 where it
-appears that only one of the eMMC devices is being registered. Bisect is
-pointing to this patch and reverting on top of next fixes the problem.
-That is as far as I have got so far, so if you have any ideas, please
-let me know. Unfortunately, there do not appear to be any obvious errors
-from the bootlog.
-
-Thanks
-Jon
-
+diff --git a/include/linux/regmap.h b/include/linux/regmap.h
+index dfe493a..09d79ea 100644
+--- a/include/linux/regmap.h
++++ b/include/linux/regmap.h
+@@ -145,6 +145,47 @@ struct reg_sequence {
+ })
+ 
+ /**
++ * regmap_read_poll_timeout_atomic - Poll until a condition is met or a timeout occurs
++ *
++ * @map: Regmap to read from
++ * @addr: Address to poll
++ * @val: Unsigned integer variable to read the value into
++ * @cond: Break condition (usually involving @val)
++ * @delay_us: Time to udelay between reads in us (0 tight-loops).
++ *            Should be less than ~10us since udelay is used
++ *            (see Documentation/timers/timers-howto.rst).
++ * @timeout_us: Timeout in us, 0 means never timeout
++ *
++ * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_read
++ * error return value in case of a error read. In the two former cases,
++ * the last read value at @addr is stored in @val.
++ *
++ * This is modelled after the readx_poll_timeout_atomic macros in linux/iopoll.h.
++ */
++#define regmap_read_poll_timeout_atomic(map, addr, val, cond, delay_us, timeout_us) \
++({ \
++	u64 __timeout_us = (timeout_us); \
++	unsigned long __delay_us = (delay_us); \
++	ktime_t __timeout = ktime_add_us(ktime_get(), __timeout_us); \
++	int __ret; \
++	for (;;) { \
++		__ret = regmap_read((map), (addr), &(val)); \
++		if (__ret) \
++			break; \
++		if (cond) \
++			break; \
++		if ((__timeout_us) && \
++		    ktime_compare(ktime_get(), __timeout) > 0) { \
++			__ret = regmap_read((map), (addr), &(val)); \
++			break; \
++		} \
++		if (__delay_us) \
++			udelay(__delay_us); \
++	} \
++	__ret ?: ((cond) ? 0 : -ETIMEDOUT); \
++})
++
++/**
+  * regmap_field_read_poll_timeout - Poll until a condition is met or timeout
+  *
+  * @field: Regmap field to read from
 -- 
-nvpublic
+2.7.4
+
