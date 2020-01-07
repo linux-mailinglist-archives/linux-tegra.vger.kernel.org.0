@@ -2,68 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 792391336F8
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 00:01:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72D8613371F
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 00:14:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727108AbgAGXBn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jan 2020 18:01:43 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:33568 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727077AbgAGXBn (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 18:01:43 -0500
-Received: by mail-lj1-f194.google.com with SMTP id y6so1367952lji.0;
-        Tue, 07 Jan 2020 15:01:40 -0800 (PST)
+        id S1727095AbgAGXOP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jan 2020 18:14:15 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42011 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727074AbgAGXOO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 18:14:14 -0500
+Received: by mail-lj1-f193.google.com with SMTP id y4so1319870ljj.9;
+        Tue, 07 Jan 2020 15:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=x2kj4N+C6gCkt1JU+MFC0kPX5ARyQ6tNvJwxO0Ybx1U=;
-        b=mccTS+X1eqtGG+Xj75lrAhJhipHNj7TTHfNK9oIcHZuVq/eXeUZzdr3VvArJdZHwXt
-         u1ukLV62os883OM4lXJgvycBQFki5KpvlfjSUMMN5TT85dweBMmTQ0cUyS5QXzZUq3l8
-         N8cS8iKvJMWOpljbbzV0qYbOu5Mt56wDBV4DdyWYhlsR1QdhpPMmc76BTkScviUuMGel
-         yjl7NriW3uItha150T2juNY4pP7CZkVXR/Ck6HnLcGmn3VNekp9HoFAbFJ1+s0GwfHYH
-         O4UmBJo8G4IbgqrRC/1sWa+lSbBl7/fa/2dSWTQihe3g5Bg3ihEYQlmC0QhGFYkC7f1Y
-         eNPA==
+        bh=FcIxm8AhY/2sV10O/AVFqObtg5E2pOFn+ToK2jASBfA=;
+        b=RDWVcu0debhNToXbrNLwWix9tphOSPFzNmZg0ATzXyhb7BXo0Drv1WS8XhZhnUeFky
+         BSXhu0TIf6lkPtuzoVK83bHIAASAmiZlPYfwRMsM4D2UILwAlI8DI3Ubq9uJOkp9xWIE
+         3eoyaot5PUI++fw9FA1yX0NJcbEoS2CVFL8cK6/wEW62KsrFliPN/LLIGBmr8O7ojb7t
+         badIatk4ZZwvj8KoFaYIN8TrSYiM7WZbLVKRTfeT0+1otFdpQYvJTQ7k0dGUu3HBEUzJ
+         tZWGIfe056mGBS5tUL8FiYSKu4hQcp0BSP9Ljq1fqdAy6mN+jb97gYJbRsvy9P7Hehwt
+         fFrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=x2kj4N+C6gCkt1JU+MFC0kPX5ARyQ6tNvJwxO0Ybx1U=;
-        b=oExXaRhnM1876x7VCXUBKUje3C1hPor1RjUOWNAcra936QL6yKq/JRftCsf3fxfmtL
-         Qpozt3RYoi3D/MpPAIU8MCsgZ4y8ZFoIRVZ7kRTsAjn0+UaPF5UsdTEnXW53MSep4g1A
-         b4O2jstlaFkDufp2KhwHypEgc1vMpxxYPxb9l7/1qdjaIi7WoPF1gVOEf9uXEsKE8D88
-         3UhRKMaZ1E+Tu0AvoB/8gGeOK7UEf61JxRWpl4O3eGZoDf0ikqIrhnZVoLS4wq9wrJsB
-         +V4qS4vxjkTCeKf9B6Bp7p4NtKz683VwZFZ8Z656oCuFpovnkUj8fLIghj59jZitqYYf
-         yx1Q==
-X-Gm-Message-State: APjAAAVT/cJ/DjzQ5AMxN5O5JexjGu4Dog6oR/BBr9xJVXSzDKXUKwd9
-        Y/1T9u52X3CAnbz0L8xYZvZmc0gn
-X-Google-Smtp-Source: APXvYqzoYl93X7aPOMlXKQiUsb1Nt1VsBwVGp+t0R3nNAjr7CVuBU3Xds6oAR7ZyuUw2CocCJakRaw==
-X-Received: by 2002:a05:651c:1110:: with SMTP id d16mr1114333ljo.86.1578438099463;
-        Tue, 07 Jan 2020 15:01:39 -0800 (PST)
+        bh=FcIxm8AhY/2sV10O/AVFqObtg5E2pOFn+ToK2jASBfA=;
+        b=opeYKEgN7sHv+EEBxSP5s9dwa0B3DYL898wB4rfCqKpwOjGg63LpQfbhm5/XvFki3U
+         7eq+nRXK8TqtzA0gw437Nel+cNVM9Pxm75N5e5Z5lM6nnH/42142OMV8Tf3aWN52Hd5Z
+         QfPIkZGJh+9xIenm32MOIU5uex6gKoShZQiJpg8pxk1m7OXHfd0xNfYzyfTLFDevEikV
+         6mXc3W/QGhqItB8EggWRXYhephgbQ9EXmvjcqoVBVRAUPukYjx6sXDqkINBy2etHj6vX
+         bS3AiSBQ5zl8+oAwtEKiXqP6ZASrEbkBLMpPSoMefT5LFf3/m2QBKeN55lIi6+sa2Lsp
+         lE0w==
+X-Gm-Message-State: APjAAAU/gJqdVZFRy3Oy7lLQ33S3u7XPfsoik47I4nkL1AT2w+pAvO9W
+        cpUmwDY+b08A9dg3S8uaWsQlaj7n
+X-Google-Smtp-Source: APXvYqyqWTJ1hG6DpDoOVUDKrL0vprZzJ9V3h8Xs6/SktZvXFRu+OD8b0X9+SUyR5r1wiRUnD3PkmQ==
+X-Received: by 2002:a2e:97d9:: with SMTP id m25mr1099475ljj.146.1578438851726;
+        Tue, 07 Jan 2020 15:14:11 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id s18sm455462ljj.36.2020.01.07.15.01.38
+        by smtp.googlemail.com with ESMTPSA id p136sm472706lfa.8.2020.01.07.15.14.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jan 2020 15:01:38 -0800 (PST)
-Subject: Re: [PATCH v6 00/19] Move PMC clocks into Tegra PMC driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
-        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
-        josephl@nvidia.com, daniel.lezcano@linaro.org,
-        mmaddireddy@nvidia.com, markz@nvidia.com,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1578370458-3686-1-git-send-email-skomatineni@nvidia.com>
+        Tue, 07 Jan 2020 15:14:11 -0800 (PST)
+Subject: Re: [PATCH v9 00/17] Consolidate and improve NVIDIA Tegra CPUIDLE
+ driver(s)
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4f52bc6e-3e97-f5fb-ce20-be7b55e688ee@gmail.com>
-Date:   Wed, 8 Jan 2020 02:01:37 +0300
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20191218210503.6689-1-digetx@gmail.com>
+Message-ID: <b4220470-8ed4-d819-846c-3ea44c37eac3@gmail.com>
+Date:   Wed, 8 Jan 2020 02:14:10 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <1578370458-3686-1-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <20191218210503.6689-1-digetx@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -72,204 +71,179 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hello Sowjanya,
-
-07.01.2020 07:13, Sowjanya Komatineni пишет:
-> This patch series moves Tegra PMC clocks from clock driver to pmc driver
-> along with the device trees changes and audio driver which uses one of
-> the pmc clock for audio mclk.
+19.12.2019 00:04, Dmitry Osipenko пишет:
+> Hello,
 > 
-> Tegra PMC has clk_out_1, clk_out_2, clk_out_3 and blink controls which
-> are currently registered by Tegra clock driver using clk_regiser_mux and
-> clk_register_gate which performs direct Tegra PMC register access.
+> This series does the following:
 > 
-> When Tegra PMC is in secure mode, any access from non-secure world will
-> not go through.
+>   1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
+>      into common drivers/cpuidle/ directory.
 > 
-> This patch series adds these Tegra PMC clocks and blink controls to Tegra
-> PMC driver with PMC as clock provider and removes them from Tegra clock
-> driver.
+>   2. Preapres code for CPU cluster power-down idling state enabling on
+>      Tegra30.
 > 
-> PMC clock clk_out_1 is dedicated for audio mclk from Tegra30 thru Tegra210
-> and clock driver does inital parent configuration for it and enables them.
-> But this clock should be taken care by audio driver as there is no need
-> to have this clock pre enabled.
+> In the end there is a quite nice clean up of the Tegra CPUIDLE drivers
+> and of the Tegra's arch code in general. Please review, thanks!
 > 
-> So, this series also includes patch that updates ASoC driver to take
-> care of parent configuration for mclk if device tree don't specify
-> initial parent configuration using assigned-clock-parents and controls
-> audio mclk enable/disable during ASoC machine startup and shutdown.
+> WARNING!!! This series in made on top of CPUFreq patches [1]. The CPUFreq
+> patches should be applied first, otherwise there will be a minor merge
+> conflict in 'arch/arm/mach-tegra/tegra.c' because CPUFreq patches add a
+> new simple-platform device for Tegra30 [2].
 > 
-> DTs are also updated to use clk_out_1 as audio mclk rather than extern1.
+> [1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=149451
+> [2] https://patchwork.ozlabs.org/patch/1212772/
 > 
-> This series also includes a patch for mclk fallback to extern1 when
-> retrieving mclk fails to have this backward compatible of new DT with
-> old kernels.
+> Changelog:
 > 
-> [v6]:	Changes between v5 and v6 are
-> 	- v5 feedback
-> 	- Added ASoC machine startup and shutdown callbacks to control audio
-> 	  mclk enable/disable and removed default mclk enable from clock driver.
-> 	- Updated tegra_asoc_utils_set_rate to disable mclk only during PLLA
-> 	  rate change and removed disabling PLLA as its already taken care by
-> 	  pll clock driver.
-> 	- Removed tegra_asoc_utils_set_rate call from utils_init as set_rate
-> 	  is set during machine hw_params and during utils_init mclk is
-> 	  already in disabled state and this causes warning during mclk disable
-> 	  in utils_set_rate.
+> v9: - Rebased on recent linux-next. Dropped the v8 "Avoid NULL dereference.."
+>       patch as a result, it's not needed anymore.
 > 
-> [v5]:	Changes between v4 and v5 are
-> 	- v4 feedback
-> 	- updated dt-binding pmc YAML schema with more description on power
-> 	  gate nodes and pad configuration state nodes.
-> 	- update tegra_asoc_utils_set_rate to disable audio mclk only if
-> 	  its in enable state.
+>     - Temporarily dropped "cpuidle: tegra: Support CPU cluster power-down
+>       state on Tegra30" patch because Michał Mirosław reported that it causes
+>       problem for ASUS TF300T Tegra30 device, we'll have to resolve the
+>       problem first.
 > 
-> [v4]:	Changes between v3 and v4 are
-> 	- v3 Feedback
-> 	- Updated clocks clk_m_div2 and clk_m_div4 as osc_div2 and osc_div4.
-> 	  Tegra don't have clk_m_div2, clk_m_div4 and they should actually
-> 	  be osc_div2 and osc_div4 clocks from osc pads.
-> 	- Fixed PMC clock parents to use osc, osc_div2, osc_div4.
-> 	- Register each PMC clock as single clock rather than separate
-> 	  mux and gate clocks.
-> 	- Update ASoC utils to use resource managed APIs rather than
-> 	  using clk_get and clk_put.
-> 	- Updated device tree and ASoC driver to use clk_out_1 instead of
-> 	  clk_out_1_mux as PMC clocks are registered as single clock.
-> 	- Update clock driver init_table to not enable audio related clocks
-> 	  as ASoC utils will do audio clock enables.
+>     - Added ACKs from Peter De Schrijver to the patches.
 > 
-> [v3]:	Changes between v2 and v3 are
-> 	- Removes set parent of clk_out_1_mux to extern1 and enabling
-> 	  extern1 from the clock driver.
-> 	- Doesn't enable clk_out_1 and blink by default in pmc driver
-> 	- Updates ASoC driver to take care of audio mclk parent
-> 	  configuration incase if device tree don't specify assigned
-> 	  clock parent properties and enables mclk using both clk_out_1
-> 	  and extern1.
-> 	- updates all device trees using extern1 as mclk in sound node
-> 	  to use clk_out_1 from pmc.
-> 	- patch for YAML format pmc dt-binding
-> 	- Includes v2 feedback
+> v8: - Rebased on recent linux-next, now making use of
+>       cpuidle_driver_state_disabled(). Added new patch to make this new API
+>       usable by the updated Tegra cpuidle driver:
 > 
-> [v2]:	Changes between v1 and v2 are
-> 	- v2 includes patches for adding clk_out_1, clk_out_2, clk_out_3,
-> 	  blink controls to Tegra PMC driver and removing clk-tegra-pmc.
-> 	- feedback related to pmc clocks in Tegra PMC driver from v1
-> 	- Removed patches for WB0 PLLM overrides and PLLE IDDQ PMC programming
-> 	  by the clock driver using helper functions from Tegra PMC.
+>         cpuidle: Avoid NULL dereference in cpuidle_driver_state_disabled()
 > 
->  	  Note:
-> 	  To use helper functions from PMC driver, PMC early init need to
-> 	  happen prior to using helper functions and these helper functions are
-> 	  for PLLM Override and PLLE IDDQ programming in PMC during PLLM/PLLE
-> 	  clock registration which happen in clock_init prior to Tegra PMC
-> 	  probe.
-> 	  Moving PLLM/PLLE clocks registration to happen after Tegra PMC
-> 	  impacts other clocks EMC, MC and corresponding tegra_emc_init and
-> 	  tegra_mc_init.
-> 	  This implementation of configuring PMC registers thru helper
-> 	  functions in clock driver needs proper changes across PMC, Clock,
-> 	  EMC and MC inits to have it work across all Tegra platforms.
+>     - Added new patch to handle case where LP2 isn't available:
 > 
-> 	  Currently PLLM Override is not enabled in the bootloader so proper
-> 	  patches for this fix will be taken care separately.
+>         cpuidle: tegra: Disable CC6 state if LP2 unavailable
 > 
-> [v1]:	v1 includes patches for below fixes.
-> 	- adding clk_out_1, clk_out_2, clk_out_3, blink controls to Tegra PMC
-> 	  driver and removing clk-tegra-pmc.
-> 	- updated clock provider from tegra_car to pmc in the device tree
-> 	  tegra210-smaug.dts that uses clk_out_2.
-> 	- Added helper functions in PMC driver for WB0 PLLM overrides and PLLE
-> 	  IDDQ programming to use by clock driver and updated clock driver to
-> 	  use these helper functions and removed direct PMC access from clock
-> 	  driver and all pmc base address references in clock driver.
+> v7: - drivers/cpuidle/cpuidle-tegra.c now includes an explicit comment that
+>       clarifies the new terminology that is used for naming of the idling
+>       states. This change was suggested by Peter De Schrijver in the review
+>       comment to v6. See the comment to struct tegra_idle_driver in the code.
 > 
+>     - (!) This series is now based on top of the "NVIDIA Tegra20 CPUFreq
+>       driver major update" patchset. The conflict between these two series
+>       is trivial to resolve, but still it's worth to mention about that.
 > 
+> v6: - Addressed request from Thierry Reding to change the way patches are
+>       organized by making changes in a more incremental manner.
 > 
+>     - tegra_sleep_cpu() now checks for the secondary CPUs to be offline
+>       in the "Make outer_disable() open-coded" patch.
 > 
-> Sowjanya Komatineni (19):
->   dt-bindings: clock: tegra: Change CLK_M_DIV to OSC_DIV clocks
->   clk: tegra: Change CLK_M_DIV clocks to OSC_DIV clocks
->   clk: tegra: Fix Tegra PMC clock out parents
->   dt-bindings: tegra: Convert Tegra PMC bindings to YAML
->   dt-bindings: soc: tegra-pmc: Add Tegra PMC clock bindings
->   soc: tegra: Add Tegra PMC clocks registration into PMC driver
->   dt-bindings: soc: tegra-pmc: Add id for Tegra PMC 32KHz blink clock
->   soc: tegra: Add support for 32KHz blink clock
->   clk: tegra: Remove tegra_pmc_clk_init along with clk ids
->   dt-bindings: clock: tegra: Remove pmc clock ids from clock dt-bindings
->   ASoC: tegra: Use device managed resource APIs to get the clock
->   ASoC: tegra: Add audio mclk configuration
->   ASoC: tegra: Add fallback implementation for audio mclk
->   clk: tegra: Remove audio related clock enables from init_table
->   ARM: dts: tegra: Add clock-cells property to pmc
->   arm64: tegra: Add clock-cells property to Tegra PMC node
->   ARM: tegra: Update sound node clocks in device tree
->   arm64: tegra: smaug: Change clk_out_2 provider to pmc
->   ASoC: nau8825: change Tegra clk_out_2 provider from tegra_car to pmc
+> v5: - Rebased on a recent linux-next, fixed one minor conflict in Kconfig.
 > 
->  .../bindings/arm/tegra/nvidia,tegra20-pmc.txt      | 300 -----------------
->  .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml     | 354 +++++++++++++++++++++
->  .../devicetree/bindings/sound/nau8825.txt          |   2 +-
->  arch/arm/boot/dts/tegra114-dalmore.dts             |   8 +-
->  arch/arm/boot/dts/tegra114.dtsi                    |   4 +-
->  arch/arm/boot/dts/tegra124-apalis-v1.2.dtsi        |   8 +-
->  arch/arm/boot/dts/tegra124-apalis.dtsi             |   8 +-
->  arch/arm/boot/dts/tegra124-jetson-tk1.dts          |   8 +-
->  arch/arm/boot/dts/tegra124-nyan.dtsi               |   8 +-
->  arch/arm/boot/dts/tegra124-venice2.dts             |   8 +-
->  arch/arm/boot/dts/tegra124.dtsi                    |   4 +-
->  arch/arm/boot/dts/tegra20.dtsi                     |   4 +-
->  arch/arm/boot/dts/tegra30-apalis-v1.1.dtsi         |   8 +-
->  arch/arm/boot/dts/tegra30-apalis.dtsi              |   8 +-
->  arch/arm/boot/dts/tegra30-beaver.dts               |   8 +-
->  arch/arm/boot/dts/tegra30-cardhu.dtsi              |   8 +-
->  arch/arm/boot/dts/tegra30-colibri.dtsi             |   8 +-
->  arch/arm/boot/dts/tegra30.dtsi                     |   4 +-
->  arch/arm64/boot/dts/nvidia/tegra132.dtsi           |   4 +-
->  arch/arm64/boot/dts/nvidia/tegra210-smaug.dts      |   2 +-
->  arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   6 +-
->  drivers/clk/tegra/Makefile                         |   1 -
->  drivers/clk/tegra/clk-id.h                         |  11 +-
->  drivers/clk/tegra/clk-tegra-fixed.c                |  32 +-
->  drivers/clk/tegra/clk-tegra-pmc.c                  | 122 -------
->  drivers/clk/tegra/clk-tegra114.c                   |  41 +--
->  drivers/clk/tegra/clk-tegra124.c                   |  46 +--
->  drivers/clk/tegra/clk-tegra20.c                    |   9 +-
->  drivers/clk/tegra/clk-tegra210.c                   |  30 +-
->  drivers/clk/tegra/clk-tegra30.c                    |  31 +-
->  drivers/clk/tegra/clk.h                            |   1 -
->  drivers/soc/tegra/pmc.c                            | 352 ++++++++++++++++++++
->  include/dt-bindings/clock/tegra114-car.h           |  18 +-
->  include/dt-bindings/clock/tegra124-car-common.h    |  18 +-
->  include/dt-bindings/clock/tegra20-car.h            |   2 +-
->  include/dt-bindings/clock/tegra210-car.h           |  18 +-
->  include/dt-bindings/clock/tegra30-car.h            |  18 +-
->  include/dt-bindings/soc/tegra-pmc.h                |  16 +
->  sound/soc/tegra/tegra_alc5632.c                    |  28 +-
->  sound/soc/tegra/tegra_asoc_utils.c                 | 125 ++++----
->  sound/soc/tegra/tegra_asoc_utils.h                 |   3 +-
->  sound/soc/tegra/tegra_max98090.c                   |  43 ++-
->  sound/soc/tegra/tegra_rt5640.c                     |  43 ++-
->  sound/soc/tegra/tegra_rt5677.c                     |  28 +-
->  sound/soc/tegra/tegra_sgtl5000.c                   |  28 +-
->  sound/soc/tegra/tegra_wm8753.c                     |  43 ++-
->  sound/soc/tegra/tegra_wm8903.c                     |  43 ++-
->  sound/soc/tegra/tegra_wm9712.c                     |   8 +-
->  sound/soc/tegra/trimslice.c                        |  39 ++-
->  49 files changed, 1192 insertions(+), 777 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.txt
->  create mode 100644 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
->  delete mode 100644 drivers/clk/tegra/clk-tegra-pmc.c
->  create mode 100644 include/dt-bindings/soc/tegra-pmc.h
+>     - Improved commit's message of the "Support CPU cluster power-down state
+>       on Tegra30" patch.
+> 
+>     - The "Support CPU cluster power-down state on Tegra30" patch is also
+>       got split and now there is additional "Make outer_disable() open-coded"
+>       patch.
+> 
+>     - Made minor cosmetic changes to the "Introduce unified driver for
+>       NVIDIA Tegra SoCs" patch by improving error message and renaming
+>       one variable.
+> 
+> v4: - Fixed compilation with !CONFIG_CACHE_L2X0 (and tested that it still
+>       works).
+> 
+>     - Replaced ktime_compare() with ktime_before() in the new driver,
+>       for consistency.
+> 
+> v3: - Addressed review comments that were made by Jon Hunter to v2 by
+>       splitting patches into smaller (and simpler) chunks, better
+>       documenting changes in the commit messages and using proper error
+>       codes in the code.
+> 
+>       Warnings are replaced with a useful error messages in the code of
+>       "Introduce unified driver for NVIDIA Tegra SoCs" patch.
+> 
+>       Secondary CPUs parking timeout increased to 100ms because I found
+>       that it actually may happen to take more than 1ms if CPU is running
+>       on a *very* low frequency.
+> 
+>       Added diagnostic messages that are reporting Flow Controller state
+>       when CPU parking fails.
+> 
+>       Further polished cpuidle driver's code.
+> 
+>       The coupled state entering is now aborted if there is a pending SGI
+>       (Software Generated Interrupt) because it will be lost after GIC's
+>       power-cycling. Like it was done by the old Tegra20 CPUIDLE driver.
+> 
+> v2: - Added patches to enable the new cpuidle driver in the defconfigs:
+> 
+>         ARM: multi_v7_defconfig: Enable Tegra cpuidle driver
+>         ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
+> 
+>     - Dropped patches that removed CPUIDLE_FLAG_TIMER_STOP from the idling
+>       states because that flag actually doesn't have any negative effects,
+>       but still is correct for the case of a local CPU timer on older Tegra
+>       SoCs:
+> 
+>         cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP from Tegra114/124 idle-state
+>         cpuidle: tegra: Remove CPUIDLE_FLAG_TIMER_STOP from all states
+> 
+>     - The "Add unified driver for NVIDIA Tegra SoCs" patch got more polish.
+>       Tegra30 and Terga114 states are now squashed into a single common C7
+>       state (following Parker TRM terminology, see 17.2.2.2 Power Management
+>       States), more comments added, etc minor changes.
+> 
+> Dmitry Osipenko (17):
+>   ARM: tegra: Compile sleep-tegra20/30.S unconditionally
+>   ARM: tegra: Add tegra_pm_park_secondary_cpu()
+>   ARM: tegra: Remove pen-locking from cpuidle-tegra20
+>   ARM: tegra: Change tegra_set_cpu_in_lp2() type to void
+>   ARM: tegra: Propagate error from tegra_idle_lp2_last()
+>   ARM: tegra: Expose PM functions required for new cpuidle driver
+>   ARM: tegra: Rename some of the newly exposed PM functions
+>   ARM: tegra: Make outer_disable() open-coded
+>   arm: tegra20: cpuidle: Handle case where secondary CPU hangs on
+>     entering LP2
+>   arm: tegra20: cpuidle: Make abort_flag atomic
+>   arm: tegra20/30: cpuidle: Remove unnecessary memory barrier
+>   cpuidle: Refactor and move out NVIDIA Tegra20 driver into
+>     drivers/cpuidle
+>   cpuidle: tegra: Squash Tegra30 driver into the common driver
+>   cpuidle: tegra: Squash Tegra114 driver into the common driver
+>   cpuidle: tegra: Disable CC6 state if LP2 unavailable
+>   ARM: multi_v7_defconfig: Enable Tegra cpuidle driver
+>   ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
+> 
+>  arch/arm/configs/multi_v7_defconfig           |   1 +
+>  arch/arm/configs/tegra_defconfig              |   1 +
+>  arch/arm/mach-tegra/Makefile                  |  19 +-
+>  arch/arm/mach-tegra/cpuidle-tegra114.c        |  89 ----
+>  arch/arm/mach-tegra/cpuidle-tegra20.c         | 212 ----------
+>  arch/arm/mach-tegra/cpuidle-tegra30.c         | 132 ------
+>  arch/arm/mach-tegra/cpuidle.c                 |  50 ---
+>  arch/arm/mach-tegra/cpuidle.h                 |  21 -
+>  arch/arm/mach-tegra/irq.c                     |   3 +-
+>  arch/arm/mach-tegra/pm.c                      |  54 ++-
+>  arch/arm/mach-tegra/pm.h                      |   4 -
+>  arch/arm/mach-tegra/reset-handler.S           |  11 -
+>  arch/arm/mach-tegra/reset.h                   |   9 +-
+>  arch/arm/mach-tegra/sleep-tegra20.S           | 170 --------
+>  arch/arm/mach-tegra/sleep-tegra30.S           |   6 +-
+>  arch/arm/mach-tegra/sleep.h                   |  15 -
+>  arch/arm/mach-tegra/tegra.c                   |   7 +-
+>  drivers/cpuidle/Kconfig.arm                   |   8 +
+>  drivers/cpuidle/Makefile                      |   1 +
+>  drivers/cpuidle/cpuidle-tegra.c               | 389 ++++++++++++++++++
+>  include/soc/tegra/cpuidle.h                   |   2 +-
+>  .../mach-tegra => include/soc/tegra}/irq.h    |   8 +-
+>  include/soc/tegra/pm.h                        |  31 ++
+>  23 files changed, 482 insertions(+), 761 deletions(-)
+>  delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra114.c
+>  delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra20.c
+>  delete mode 100644 arch/arm/mach-tegra/cpuidle-tegra30.c
+>  delete mode 100644 arch/arm/mach-tegra/cpuidle.c
+>  delete mode 100644 arch/arm/mach-tegra/cpuidle.h
+>  create mode 100644 drivers/cpuidle/cpuidle-tegra.c
+>  rename {arch/arm/mach-tegra => include/soc/tegra}/irq.h (59%)
 > 
 
-I briefly looked through the patches and tested them in all possible
-configurations. For now everything looks and works well.
+Hello Rafael and Daniel,
 
-You could add this to all patches:
-
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Could you please take a look at the CPUIDLE driver patches and ACK them
+if they are okay to you? Then Thierry will be able to take this series
+via Tegra tree. Thanks in advance!
