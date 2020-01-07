@@ -2,116 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07E9013238B
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 11:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E103A13238F
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 11:29:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727177AbgAGK2Z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jan 2020 05:28:25 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:10430 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726558AbgAGK2Z (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 05:28:25 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e145d180000>; Tue, 07 Jan 2020 02:27:36 -0800
+        id S1727427AbgAGK3Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jan 2020 05:29:16 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3579 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726558AbgAGK3Q (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 05:29:16 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e145d6a0001>; Tue, 07 Jan 2020 02:28:58 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 07 Jan 2020 02:28:24 -0800
+  Tue, 07 Jan 2020 02:29:15 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 02:28:24 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
- 2020 10:28:23 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 7 Jan 2020 10:28:23 +0000
-Received: from audio.nvidia.com (Not Verified[10.24.34.185]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e145d460001>; Tue, 07 Jan 2020 02:28:23 -0800
-From:   Sameer Pujar <spujar@nvidia.com>
-To:     <broonie@kernel.org>
-CC:     <jonathanh@nvidia.com>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, Sameer Pujar <spujar@nvidia.com>
-Subject: [PATCH] regmap: add iopoll-like atomic polling macro
-Date:   Tue, 7 Jan 2020 15:58:09 +0530
-Message-ID: <1578392889-16587-1-git-send-email-spujar@nvidia.com>
-X-Mailer: git-send-email 2.7.4
+        by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 02:29:15 -0800
+Received: from [10.26.11.139] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
+ 2020 10:29:12 +0000
+Subject: Re: [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit samples
+To:     Ben Dooks <ben.dooks@codethink.co.uk>,
+        Dmitry Osipenko <digetx@gmail.com>
+CC:     <linux-tegra@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        <linux-kernel@lists.codethink.co.uk>,
+        Edward Cragg <edward.cragg@codethink.co.uk>
+References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
+ <20191018154833.7560-3-ben.dooks@codethink.co.uk>
+ <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
+ <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
+ <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
+ <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
+ <a0f027d9-e9e0-d76c-1e40-002fdc37eb5f@nvidia.com>
+ <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk>
+ <aba4edd6-0ea5-5e95-c5a0-9e749587c763@nvidia.com>
+ <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
+ <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
+ <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
+ <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
+ <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
+ <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
+ <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
+ <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
+ <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
+ <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <eb90ee78-e462-401a-de60-4a9bfc2a00c4@nvidia.com>
+Date:   Tue, 7 Jan 2020 10:29:10 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578392856; bh=S+Ht3MbadCSLbxXXJdn3e/AfaXQFOU7+B9gzKSIzMZI=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:Content-Type;
-        b=UjOs0ZWtDhZsHs9ih5QZRIdJwuuO/L+L47nIIcNmPCk86liAs2iR4ntfb+tq7gr5Z
-         bZ81NNQf3u59bZTV5OoZAOcPITbklP8aTCC49//H5TRx/dXcuUO8O2Linq/6Weprc7
-         UuP1kNd7gF643vqUqkN5ABmzFrDsUSu5gAW1KupDgJsfuEE2Xp48kJ58weux3/KpV/
-         ntsQHSRHkSqH60BWlL5w+K2sBi1rBC7EOC6EY8gqnbKjlWyqvMsZvJNv9OGB65KRuh
-         sAUINbr5mdJyebFfWNg9j9+3zx1WKzZb/c6G3+7DLevwEpSmKugg38KCjYJcwSFLrh
-         abnPOoBYXwkMg==
+        t=1578392938; bh=ghrWzqR+Il25vRA7uKkivAXM49dZWPDzH/vxwem+cas=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=ewltzzOlx8zA+PK2OMCzEo2kLVbVMAgZaKvtE1pFztBz5xBZbnl8opZn1fcA5/Ulb
+         5VqMVFX7H0ZnqFnUnGZ2cmzNp2VyY4BSw116n4xwgluUifyIHdO6Nh5iXiURIAS7NQ
+         3Xv+aEXawh2+Hrdndlam5QX0vU3jSyNWcmeWAPO8iygvCaXpw2LeWa+DBZZDxC7cg0
+         GhUDKP/ai7doUGP2uVLWFge9+w6JavOonExySEGEx8zOpMcbytBwLpUFRvgDbPei+f
+         fO3lV2s+aqrzVTEW3NUlSc2rHN31jt26hmUKGeQ9yIad3I3jKjV6meAI/KMcAT+j7u
+         oIYkJ3rUcPzWg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This patch adds a macro 'regmap_read_poll_timeout_atomic' that works
-similar to 'readx_poll_timeout_atomic' defined in linux/iopoll.h; This
-is atomic version of already available 'regmap_read_poll_timeout' macro.
 
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
----
- include/linux/regmap.h | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+On 05/01/2020 10:53, Ben Dooks wrote:
+>=20
+>=20
+> On 2020-01-05 01:48, Dmitry Osipenko wrote:
+>> 05.01.2020 03:04, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> [snip]
+>>>
+>>> I've just gone through testing.
+>>>
+>>> Some simple data tests show 16 and 32-bits work.
+>>>
+>>> The 24 bit case seems to be weird, it looks like the 24-bit expects
+>>> 24 bit samples in 32 bit words. I can't see any packing options to
+>>> do 24 bit in 24 bit, so we may have to remove 24 bit sample support
+>>> (which is a shame)
+>>>
+>>> My preference is to remove the 24-bit support and keep the 32 bit in.
+>>>
+>>
+>> Interesting.. Jon, could you please confirm that 24bit format isn't
+>> usable on T30?
+>=20
+> If there is an option of 24 packed into 32, then I think that would work.
+>=20
+> I can try testing that with raw data on Monday.
 
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index dfe493a..09d79ea 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -145,6 +145,47 @@ struct reg_sequence {
- })
- 
- /**
-+ * regmap_read_poll_timeout_atomic - Poll until a condition is met or a timeout occurs
-+ *
-+ * @map: Regmap to read from
-+ * @addr: Address to poll
-+ * @val: Unsigned integer variable to read the value into
-+ * @cond: Break condition (usually involving @val)
-+ * @delay_us: Time to udelay between reads in us (0 tight-loops).
-+ *            Should be less than ~10us since udelay is used
-+ *            (see Documentation/timers/timers-howto.rst).
-+ * @timeout_us: Timeout in us, 0 means never timeout
-+ *
-+ * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_read
-+ * error return value in case of a error read. In the two former cases,
-+ * the last read value at @addr is stored in @val.
-+ *
-+ * This is modelled after the readx_poll_timeout_atomic macros in linux/iopoll.h.
-+ */
-+#define regmap_read_poll_timeout_atomic(map, addr, val, cond, delay_us, timeout_us) \
-+({ \
-+	u64 __timeout_us = (timeout_us); \
-+	unsigned long __delay_us = (delay_us); \
-+	ktime_t __timeout = ktime_add_us(ktime_get(), __timeout_us); \
-+	int __ret; \
-+	for (;;) { \
-+		__ret = regmap_read((map), (addr), &(val)); \
-+		if (__ret) \
-+			break; \
-+		if (cond) \
-+			break; \
-+		if ((__timeout_us) && \
-+		    ktime_compare(ktime_get(), __timeout) > 0) { \
-+			__ret = regmap_read((map), (addr), &(val)); \
-+			break; \
-+		} \
-+		if (__delay_us) \
-+			udelay(__delay_us); \
-+	} \
-+	__ret ?: ((cond) ? 0 : -ETIMEDOUT); \
-+})
-+
-+/**
-  * regmap_field_read_poll_timeout - Poll until a condition is met or timeout
-  *
-  * @field: Regmap field to read from
--- 
-2.7.4
+I will check on this. I would have thought that S24_LE (24-bits packed
+into 32-bit elements) would be fine. Typically we don't support S24_3LE
+(24-bits in 24-bit elements).
 
+Jon
+
+--=20
+nvpublic
