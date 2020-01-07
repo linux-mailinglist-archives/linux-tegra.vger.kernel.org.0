@@ -2,38 +2,31 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E103A13238F
-	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 11:29:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6538B1323B2
+	for <lists+linux-tegra@lfdr.de>; Tue,  7 Jan 2020 11:35:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727427AbgAGK3Q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jan 2020 05:29:16 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3579 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726558AbgAGK3Q (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 05:29:16 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e145d6a0001>; Tue, 07 Jan 2020 02:28:58 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 07 Jan 2020 02:29:15 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 02:29:15 -0800
-Received: from [10.26.11.139] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
- 2020 10:29:12 +0000
+        id S1727177AbgAGKfX (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jan 2020 05:35:23 -0500
+Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:55588 "EHLO
+        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726565AbgAGKfX (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 7 Jan 2020 05:35:23 -0500
+Received: from [167.98.27.226] (helo=[10.35.5.173])
+        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
+        id 1iomCe-0003ow-4C; Tue, 07 Jan 2020 10:35:12 +0000
 Subject: Re: [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit samples
-To:     Ben Dooks <ben.dooks@codethink.co.uk>,
+To:     Jon Hunter <jonathanh@nvidia.com>,
         Dmitry Osipenko <digetx@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+Cc:     linux-tegra@vger.kernel.org, alsa-devel@alsa-project.org,
         Jaroslav Kysela <perex@perex.cz>,
         Takashi Iwai <tiwai@suse.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        <linux-kernel@lists.codethink.co.uk>,
+        linux-kernel@lists.codethink.co.uk,
         Edward Cragg <edward.cragg@codethink.co.uk>
 References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <20191018154833.7560-3-ben.dooks@codethink.co.uk>
  <d2110a1f-c1de-e2c5-a1ff-5eb4c5d3e1da@gmail.com>
  <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
  <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
@@ -51,68 +44,61 @@ References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
  <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
  <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
  <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <eb90ee78-e462-401a-de60-4a9bfc2a00c4@nvidia.com>
-Date:   Tue, 7 Jan 2020 10:29:10 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ <eb90ee78-e462-401a-de60-4a9bfc2a00c4@nvidia.com>
+From:   Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+Message-ID: <79ce7519-a544-9c22-15c7-865c56a1a57c@codethink.co.uk>
+Date:   Tue, 7 Jan 2020 10:35:11 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578392938; bh=ghrWzqR+Il25vRA7uKkivAXM49dZWPDzH/vxwem+cas=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ewltzzOlx8zA+PK2OMCzEo2kLVbVMAgZaKvtE1pFztBz5xBZbnl8opZn1fcA5/Ulb
-         5VqMVFX7H0ZnqFnUnGZ2cmzNp2VyY4BSw116n4xwgluUifyIHdO6Nh5iXiURIAS7NQ
-         3Xv+aEXawh2+Hrdndlam5QX0vU3jSyNWcmeWAPO8iygvCaXpw2LeWa+DBZZDxC7cg0
-         GhUDKP/ai7doUGP2uVLWFge9+w6JavOonExySEGEx8zOpMcbytBwLpUFRvgDbPei+f
-         fO3lV2s+aqrzVTEW3NUlSc2rHN31jt26hmUKGeQ9yIad3I3jKjV6meAI/KMcAT+j7u
-         oIYkJ3rUcPzWg==
+In-Reply-To: <eb90ee78-e462-401a-de60-4a9bfc2a00c4@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 05/01/2020 10:53, Ben Dooks wrote:
->=20
->=20
-> On 2020-01-05 01:48, Dmitry Osipenko wrote:
->> 05.01.2020 03:04, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> [snip]
->>>
->>> I've just gone through testing.
->>>
->>> Some simple data tests show 16 and 32-bits work.
->>>
->>> The 24 bit case seems to be weird, it looks like the 24-bit expects
->>> 24 bit samples in 32 bit words. I can't see any packing options to
->>> do 24 bit in 24 bit, so we may have to remove 24 bit sample support
->>> (which is a shame)
->>>
->>> My preference is to remove the 24-bit support and keep the 32 bit in.
->>>
+On 07/01/2020 10:29, Jon Hunter wrote:
+> 
+> On 05/01/2020 10:53, Ben Dooks wrote:
 >>
->> Interesting.. Jon, could you please confirm that 24bit format isn't
->> usable on T30?
->=20
-> If there is an option of 24 packed into 32, then I think that would work.
->=20
-> I can try testing that with raw data on Monday.
+>>
+>> On 2020-01-05 01:48, Dmitry Osipenko wrote:
+>>> 05.01.2020 03:04, Ben Dooks пишет:
+>>>> [snip]
+>>>>
+>>>> I've just gone through testing.
+>>>>
+>>>> Some simple data tests show 16 and 32-bits work.
+>>>>
+>>>> The 24 bit case seems to be weird, it looks like the 24-bit expects
+>>>> 24 bit samples in 32 bit words. I can't see any packing options to
+>>>> do 24 bit in 24 bit, so we may have to remove 24 bit sample support
+>>>> (which is a shame)
+>>>>
+>>>> My preference is to remove the 24-bit support and keep the 32 bit in.
+>>>>
+>>>
+>>> Interesting.. Jon, could you please confirm that 24bit format isn't
+>>> usable on T30?
+>>
+>> If there is an option of 24 packed into 32, then I think that would work.
+>>
+>> I can try testing that with raw data on Monday.
+> 
+> I will check on this. I would have thought that S24_LE (24-bits packed
+> into 32-bit elements) would be fine. Typically we don't support S24_3LE
+> (24-bits in 24-bit elements).
 
-I will check on this. I would have thought that S24_LE (24-bits packed
-into 32-bit elements) would be fine. Typically we don't support S24_3LE
-(24-bits in 24-bit elements).
+I will have a look again, I thought S24 was 24-in-24, so wrote my test
+generator code to do that. I'll go and see if I can re-test this as soon
+as possible (may be Wed/Thu by the time I can get to check it)
 
-Jon
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
 
---=20
-nvpublic
+https://www.codethink.co.uk/privacy.html
