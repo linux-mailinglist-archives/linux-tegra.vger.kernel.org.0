@@ -2,70 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 185E913381D
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 01:40:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5043B13382D
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 02:00:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbgAHAk3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jan 2020 19:40:29 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:44739 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725908AbgAHAk2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 19:40:28 -0500
-Received: by mail-lf1-f68.google.com with SMTP id v201so1081224lfa.11;
-        Tue, 07 Jan 2020 16:40:26 -0800 (PST)
+        id S1725812AbgAHBAd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jan 2020 20:00:33 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44708 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgAHBAd (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 20:00:33 -0500
+Received: by mail-lf1-f67.google.com with SMTP id v201so1106220lfa.11;
+        Tue, 07 Jan 2020 17:00:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AsNSAeUSLEvG8cVF7Bdu6WObY7fwE5EsiO3gQY1hxQk=;
-        b=iKZf3dCcAbUmRZ3aakrNgUMaW2Fd9u2iydGCuWnYvubFASburd76XPfbooY+kWI+H2
-         ZSoDU59ePTDDS648a/2bkAkIVuzT7AqvcLNIrxMJqeEbLtEzra5LX7dYB+CSCGVF/D9x
-         AX9CVcqpAl3fdHXicI/yWGZuOexzr+SwsnKo3pijn6rrxtQqR+VMbJIWK/I7wexAqm9n
-         aCbaOysM5VgJ54NuwrWgoK6qSi+FqiMLxTzyAe5lAYVgvGoAhHhZ6fDJ3DFCBFwsWe7n
-         k8DQ28e9vcADxPHtj2k4DIDeyWhHZuc33eO1HGjJ6pBT6+QVIdM1wNkuBgLYEsplh5pY
-         DZTA==
+        bh=K1WP8Nt9IQPQl2KOhe2wpI7M9tBqcPCV3SoKWveA2gE=;
+        b=CKpyIDZpy9/X1XRZGg+g94Jld+ZA92gxz+9G5S0NWC/QTg6laZM8Pbax1fUCnmyUic
+         9Fos/Ai6ZQeBxm6kzQjhUugfBSaPakMfJnkB7eVChYX8kdE+cPpFCXwK1q9ll8GUA9fH
+         cwlsx4THXXCviFb0E/AdfzaGyqn3/8mbbpkPp2XpiCGG/S3+Ssw0tbaeJ5/T7E4Du+PK
+         ej+8788RJtDWfvenUfbYGEoG5HI/a77UCS8x28oCNy2wQyrLqmZ56mrPNKbYyFTxo6fh
+         2uVhudc+3esSMxBZ/vaQOjLVRnEkqVq4pUCUZEUPKaIDk9EpHl21dVU9sZ3dhn9+N5Ca
+         /+4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=AsNSAeUSLEvG8cVF7Bdu6WObY7fwE5EsiO3gQY1hxQk=;
-        b=MSrUEmA+umfgZ7w6njfMS0zCMEtQfF2eeLKqSryDF9mAwKT/vW2MlVcK6MjKAMdIwG
-         YinnfpIdBb101duEiLkxhRZmESCVaGHlsNbFfjlnF4yMbsgOe2oSohikNdkwpnDqSaDU
-         1499nb3YXQt3UoiW6Dv4F+ROCocPl/SmpqwqRBh6/phkMHGxaa4eZBycbvdh+B1VRMXO
-         ymFUxwea75ytnIxMmBJ0ncwuGYaUNQoUE5NmMkulIGGZGAiJOFhk0j0Vq7bJ349BG5i6
-         QPN8zX/ZJ879Uou1Co9X2J0moDuAA7lPTcRwlbHUAZxxTPNPrEwtTDy5hOhoYzOBsZRL
-         nY7w==
-X-Gm-Message-State: APjAAAVPEW6tutsFAN36kcDjlY0z+bCUhgCXUo+QgPsigqLLRQ5jgfAv
-        enN1npcc63b/Af+PQhKQcyCDtOaA
-X-Google-Smtp-Source: APXvYqzh7+I6PHukNrguHLcLjjF3rIENdxDgyWXyHV6NTjtp3LKm2Uw1oj1K4SZ/RhS7JhrFlR8fMA==
-X-Received: by 2002:ac2:5983:: with SMTP id w3mr1240717lfn.137.1578444025757;
-        Tue, 07 Jan 2020 16:40:25 -0800 (PST)
+        bh=K1WP8Nt9IQPQl2KOhe2wpI7M9tBqcPCV3SoKWveA2gE=;
+        b=h5+IyIfprpDwfOhrbYGh3/kvY6cyTjJtnf1xD1ter1YIdSigLd7dhG+Xmp0dHD6djE
+         nN+H48HN+2HGOuq6FdEbnE1n0q9vEKaNT9AyGMvg5u1NZCKl3ogEGbwOUi406cp/89qq
+         X0iYp/12Gm/BoH+oGCkJEIpPg6KtaiCH2DxaDRsExS/jSGF1mJFwMx11RZ0AE4K4EQgJ
+         TRDSKo0De1/z51p6epcOuK17XFsnorkAgz15BO5NQJlQ5qjS9ivf6TnQvvmcOOP7Oy2T
+         pyhS93bhwnRsJZhZN6Zo+DKpoTS8Gpa/GOmKXiu1GeWWcclEYP7sPLRUY255enuj4Aqo
+         GElQ==
+X-Gm-Message-State: APjAAAWkB1tNv6caPVYlB0ILekcAcrCulmCKRN+5ZPrrWD9sqbmJH4UY
+        qYICIc4q//lGwr5N8xK0Jn2kzYK9
+X-Google-Smtp-Source: APXvYqxlFIc5MZjr1WvkXMENKUiPp2po17tVllNb4RZz7CwvgpAUwjW0i6K3x+iiWURfcON05bQQ0w==
+X-Received: by 2002:ac2:5549:: with SMTP id l9mr1246026lfk.53.1578445230650;
+        Tue, 07 Jan 2020 17:00:30 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id f30sm451293ljp.31.2020.01.07.16.40.24
+        by smtp.googlemail.com with ESMTPSA id f22sm451040ljh.74.2020.01.07.17.00.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jan 2020 16:40:25 -0800 (PST)
-Subject: Re: [PATCH v6 00/19] Move PMC clocks into Tegra PMC driver
+        Tue, 07 Jan 2020 17:00:29 -0800 (PST)
+Subject: Re: [PATCH v6 06/19] soc: tegra: Add Tegra PMC clocks registration
+ into PMC driver
 To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     jonathanh@nvidia.com, broonie@kernel.org, lgirdwood@gmail.com,
-        perex@perex.cz, tiwai@suse.com, mperttunen@nvidia.com,
-        gregkh@linuxfoundation.org, sboyd@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, pdeschrijver@nvidia.com, pgaikwad@nvidia.com,
-        spujar@nvidia.com, josephl@nvidia.com, daniel.lezcano@linaro.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
+        josephl@nvidia.com, daniel.lezcano@linaro.org,
         mmaddireddy@nvidia.com, markz@nvidia.com,
         devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <1578370458-3686-1-git-send-email-skomatineni@nvidia.com>
- <20200107122152.GD1964183@ulmo>
- <1f7d3c1e-115c-e08e-240b-c4df9e68543d@nvidia.com>
+ <1578370458-3686-7-git-send-email-skomatineni@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f6a28f8d-5061-0be5-2530-966c3a25aaf4@gmail.com>
-Date:   Wed, 8 Jan 2020 03:40:23 +0300
+Message-ID: <b37d1be0-affc-a0c7-157a-140b141ca155@gmail.com>
+Date:   Wed, 8 Jan 2020 04:00:25 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <1f7d3c1e-115c-e08e-240b-c4df9e68543d@nvidia.com>
+In-Reply-To: <1578370458-3686-7-git-send-email-skomatineni@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -74,60 +74,98 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-07.01.2020 19:50, Sowjanya Komatineni пишет:
+07.01.2020 07:14, Sowjanya Komatineni пишет:
+> Tegra PMC has clk_out_1, clk_out_2, and clk_out_3 clocks and currently
+> these PMC clocks are registered by Tegra clock driver with each clock as
+> separate mux and gate clocks using clk_register_mux and clk_register_gate
+> by passing PMC base address and register offsets and PMC programming for
+> these clocks happens through direct PMC access by the clock driver.
 > 
-> On 1/7/20 4:21 AM, Thierry Reding wrote:
->> On Mon, Jan 06, 2020 at 08:13:59PM -0800, Sowjanya Komatineni wrote:
->>> This patch series moves Tegra PMC clocks from clock driver to pmc driver
->>> along with the device trees changes and audio driver which uses one of
->>> the pmc clock for audio mclk.
->>>
->>> Tegra PMC has clk_out_1, clk_out_2, clk_out_3 and blink controls which
->>> are currently registered by Tegra clock driver using clk_regiser_mux and
->>> clk_register_gate which performs direct Tegra PMC register access.
->>>
->>> When Tegra PMC is in secure mode, any access from non-secure world will
->>> not go through.
->>>
->>> This patch series adds these Tegra PMC clocks and blink controls to
->>> Tegra
->>> PMC driver with PMC as clock provider and removes them from Tegra clock
->>> driver.
->>>
->>> PMC clock clk_out_1 is dedicated for audio mclk from Tegra30 thru
->>> Tegra210
->>> and clock driver does inital parent configuration for it and enables
->>> them.
->>> But this clock should be taken care by audio driver as there is no need
->>> to have this clock pre enabled.
->>>
->>> So, this series also includes patch that updates ASoC driver to take
->>> care of parent configuration for mclk if device tree don't specify
->>> initial parent configuration using assigned-clock-parents and controls
->>> audio mclk enable/disable during ASoC machine startup and shutdown.
->>>
->>> DTs are also updated to use clk_out_1 as audio mclk rather than extern1.
->>>
->>> This series also includes a patch for mclk fallback to extern1 when
->>> retrieving mclk fails to have this backward compatible of new DT with
->>> old kernels.
->> Hi Sowjanya,
->>
->> this looks like it's almost ready to merge. Can you highlight if there
->> are any build-time or runtime dependencies between the patches? The
->> audio driver changes seem to be mostly isolated from the rest by the
->> fallback implementation for legacy device trees.
->>
->> Is there anything that I need to keep in mind when applying these? And
->> would it be fine for Mark to pick up the ASoC patches separately from
->> the rest?
->>
->> Thierry
+> With this, when PMC is in secure mode any direct PMC access from the
+> non-secure world does not go through and these clocks will not be
+> functional.
 > 
-> Yes, ASoC patches can be picked separately.
+> This patch adds these PMC clocks registration to pmc driver with PMC as
+> a clock provider and registers each clock as single clock.
 > 
-> dependencies are b/w clock and pmc driver patches.
+> clk_ops callback implementations for these clocks uses tegra_pmc_readl and
+> tegra_pmc_writel which supports PMC programming in both secure mode and
+> non-secure mode.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/soc/tegra/pmc.c | 242 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 242 insertions(+)
+> 
+> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+> index 1699dda6b393..2b1a709c3cb7 100644
+> --- a/drivers/soc/tegra/pmc.c
+> +++ b/drivers/soc/tegra/pmc.c
+> @@ -13,9 +13,13 @@
+>  
+>  #include <linux/arm-smccc.h>
+>  #include <linux/clk.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/clkdev.h>
+> +#include <linux/clk/clk-conf.h>
+>  #include <linux/clk/tegra.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/delay.h>
+> +#include <linux/device.h>
+>  #include <linux/err.h>
+>  #include <linux/export.h>
+>  #include <linux/init.h>
+> @@ -48,6 +52,7 @@
+>  #include <dt-bindings/pinctrl/pinctrl-tegra-io-pad.h>
+>  #include <dt-bindings/gpio/tegra186-gpio.h>
+>  #include <dt-bindings/gpio/tegra194-gpio.h>
+> +#include <dt-bindings/soc/tegra-pmc.h>
+>  
+>  #define PMC_CNTRL			0x0
+>  #define  PMC_CNTRL_INTR_POLARITY	BIT(17) /* inverts INTR polarity */
+> @@ -100,6 +105,8 @@
+>  #define PMC_WAKE2_STATUS		0x168
+>  #define PMC_SW_WAKE2_STATUS		0x16c
+>  
+> +#define PMC_CLK_OUT_CNTRL		0x1a8
+> +#define  PMC_CLK_OUT_MUX_MASK		GENMASK(1, 0)
+>  #define PMC_SENSOR_CTRL			0x1b0
+>  #define  PMC_SENSOR_CTRL_SCRATCH_WRITE	BIT(2)
+>  #define  PMC_SENSOR_CTRL_ENABLE_RST	BIT(1)
+> @@ -155,6 +162,63 @@
+>  #define  TEGRA_SMC_PMC_READ	0xaa
+>  #define  TEGRA_SMC_PMC_WRITE	0xbb
+>  
+> +struct pmc_clk {
+> +	struct clk_hw	hw;
+> +	unsigned long	offs;
+> +	u32		mux_shift;
+> +	u32		force_en_shift;
+> +};
+> +
+> +#define to_pmc_clk(_hw) container_of(_hw, struct pmc_clk, hw)
+> +
+> +struct pmc_clk_init_data {
+> +	char *name;
+> +	const char *const *parents;
+> +	int num_parents;
+> +	int clk_id;
+> +	u8 mux_shift;
+> +	u8 force_en_shift;
+> +};
+> +
+> +static const char * const clk_out1_parents[] = { "osc", "osc_div2",
+> +	"osc_div4", "extern1",
+> +};
+> +
+> +static const char * const clk_out2_parents[] = { "osc", "osc_div2",
+> +	"osc_div4", "extern2",
+> +};
+> +
+> +static const char * const clk_out3_parents[] = { "osc", "osc_div2",
+> +	"osc_div4", "extern3",
+> +};
 
-Technically, the ASoC compatibility patches should be applied before the
-CaR changes. But perhaps it's not critical if audio fails during git's
-bisection.
+There is no way to specify "osc" as a parent clock in a device-tree
+because there is no DT ID assigned to the OSC in the CaR driver, should
+this be fixed?
