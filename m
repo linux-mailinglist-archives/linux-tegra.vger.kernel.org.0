@@ -2,137 +2,119 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB633134154
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 13:00:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59345134233
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 13:51:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727207AbgAHMAR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jan 2020 07:00:17 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33265 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726098AbgAHMAR (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jan 2020 07:00:17 -0500
-Received: by mail-wr1-f68.google.com with SMTP id b6so3138322wrq.0;
-        Wed, 08 Jan 2020 04:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fkvTw8nuKOGG7J7vlMkW4QWnRS/Unh/bS82CuU0k0/E=;
-        b=BwDXqQhDmnUhHZ96Tk99EKJJ+Tu2ikrs5pjK+cseUy0tXqqne6Gnmrn4Lf6tpitx8b
-         3ed+BrbNV0gRA0+QWcxaHxKdIpYWs8Va52oQzLlkMzEDtk6dVd1qxdwJXTVaRq7rYdNr
-         zstdrPVsy2ZJtc+ij2cub/v+WglDiDkA1VNd0E3P6mAMgXj8Qgwa9S7xiFzYfOjmI6xE
-         qC9h4idhcxze5XpRHwCkl7IFhFdUAl+RJ3yV8OEwpIPxLGQHW+a7jMmseeOeUdzmnoio
-         iw9eTC2tGfoubwAJKdKfC+A1kymFLMHy3kf4IfWVddH1TL+cVX6CfDdfP3ukl7XtbiFn
-         drqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fkvTw8nuKOGG7J7vlMkW4QWnRS/Unh/bS82CuU0k0/E=;
-        b=CnUEs2fxz1rcVgw/iQEFKPpiwaiemzP7/b5FoL2M7Y5XOB3CZDDJQ097ke3zkSq42g
-         BnDs0j40+ipRY6dCqyWvE8KrJxAgbwLuD6xe1gd8ycS+N4zVqM7Nyl4800G9VTrMbDRQ
-         dAgCJBSVz245J0wQYmM3FjpXZzbExzGkoO2w6gcQ7Nd1jd5HpMgFKqhWFGC+OEbt1d3F
-         7Yna4dTJBPnPC/8fVu8lgX27wRGkmXbyNCrcOJXqKacUERwGF2IRnXEWWXMR/ldWN4ll
-         B1FbJ593B9trB3RTTlchSNs7ZSsxcZo9XTb27NOLKrco/Gwk56rax6Li5+kSygOPCjfG
-         fDPA==
-X-Gm-Message-State: APjAAAVsYLUWD3XafHxA4KIzw2/ffyFPCj7l9zNyYGxBbpHq1UPZR1Gn
-        PouiXhsTtjLUSjarOHxazVo=
-X-Google-Smtp-Source: APXvYqyBmJ3A4HslVib4mPtBFexLp1t0TpdaYUI8juhKXdr5YvZw2OCdKzN1uEQ89uVa3dzLyml0fQ==
-X-Received: by 2002:adf:e887:: with SMTP id d7mr4028428wrm.162.1578484815859;
-        Wed, 08 Jan 2020 04:00:15 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id o4sm3932302wrw.97.2020.01.08.04.00.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2020 04:00:14 -0800 (PST)
-Date:   Wed, 8 Jan 2020 13:00:13 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Stephen Warren <swarren@wwwdotorg.org>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH V3 2/4] ARM: tegra: Enable PLLP bypass during Tegra124 LP1
-Message-ID: <20200108120013.GB1993114@ulmo>
-References: <20191003205033.98381-1-swarren@wwwdotorg.org>
- <20191003205033.98381-2-swarren@wwwdotorg.org>
+        id S1728116AbgAHMvL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jan 2020 07:51:11 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2133 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727119AbgAHMvL (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jan 2020 07:51:11 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e15d02c0000>; Wed, 08 Jan 2020 04:50:52 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 08 Jan 2020 04:51:10 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 08 Jan 2020 04:51:10 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jan
+ 2020 12:51:09 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jan
+ 2020 12:51:09 +0000
+Received: from [192.168.22.23] (10.124.1.5) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 8 Jan 2020 12:51:07 +0000
+From:   Thierry Reding <treding@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+CC:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        =?utf-8?q?Micha=C5=82_Miros=C5=82?= aw <mirq-linux@rere.qmqm.pl>,
+        <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 00/13] NVIDIA Tegra APB DMA driver fixes and improvements
+In-Reply-To: <20200106011708.7463-1-digetx@gmail.com>
+References: <20200106011708.7463-1-digetx@gmail.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="0eh6TmSyL6TZE2Uz"
-Content-Disposition: inline
-In-Reply-To: <20191003205033.98381-2-swarren@wwwdotorg.org>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+Message-ID: <85d8ea335734417081399a082d44024c@HQMAIL105.nvidia.com>
+Date:   Wed, 8 Jan 2020 12:51:07 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1578487853; bh=07RgEQXvmw0hpSmELXKe3Vl/OIUylmmcauPctEl8Okg=;
+        h=X-PGP-Universal:From:To:CC:Subject:In-Reply-To:References:
+         X-NVConfidentiality:MIME-Version:Message-ID:Date:Content-Type:
+         Content-Transfer-Encoding;
+        b=sHnn9rKoZqlmS90zDg4BZOPyVAByenoUio17rRnjU6NTWcYZDxN57X68TrwR5Z9bV
+         yeLilikOvtnevRg+Bj06GycMMRTb9EMPaoD5kjCwM2p8HvZ/bZIIzsiia3UtagyqId
+         gMygLwcmdtgp2YXJ9805gw77QaFKn5Wc57emXQROA3bZPVzSu0yd06UXY2FWrQuQPY
+         uNr+7s8TPXbrBhgeNB2vHX2kpDhAakt5D1ol69c1KwktWReXb/qKKC29scbzko00yu
+         1Oi4HBXYMyXdjwndwWDNvjyobQapooQ+gur1f8MZxBe1pYayWCZbvM+MpaAum0RS34
+         QZP0X6cXotLLg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
---0eh6TmSyL6TZE2Uz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 03, 2019 at 02:50:31PM -0600, Stephen Warren wrote:
-> From: Stephen Warren <swarren@nvidia.com>
+On Mon, 06 Jan 2020 04:16:55 +0300, Dmitry Osipenko wrote:
+> Hello,
 >=20
-> For a little over a year, U-Boot has configured the flow controller to
-> perform automatic RAM re-repair on off->on power transitions of the CPU
-> rail1]. This is mandatory for correct operation of Tegra124. However, RAM
-> re-repair relies on certain clocks, which the kernel must enable and
-> leave running. PLLP is one of those clocks. This clock is shut down
-> during LP1 in order to save power. Enable bypass (which I believe routes
-> osc_div_clk, essentially the crystal clock, to the PLL output) so that
-> this clock signal toggles even though the PLL is not active. This is
-> required so that LP1 power mode (system suspend) operates correctly.
+> This is series fixes some problems that I spotted recently, secondly the
+> driver's code gets a cleanup. Please review and apply, thanks in advance!
 >=20
-> The bypass configuration must then be undone when resuming from LP1, so
-> that all peripheral clocks run at the expected rate. Without this, many
-> peripherals won't work correctly; for example, the UART baud rate would
-> be incorrect.
+> Changelog:
 >=20
-> NVIDIA's downstream kernel code only does this if not compiled for
-> Tegra30, so the added code is made conditional upon the chip ID. NVIDIA's
-> downstream code makes this change conditional upon the active CPU
-> cluster. The upstream kernel currently doesn't support cluster switching,
-> so this patch doesn't test the active CPU cluster ID.
+> v3: - In the review comment to v1 Micha=C5=82 Miros=C5=82aw suggested tha=
+t "Prevent
+>       race conditions on channel's freeing" does changes that deserve to
+>       be separated into two patches. I factored out and improved tasklet
+>       releasing into this new patch:
 >=20
-> [1] 3cc7942a4ae5 ARM: tegra: implement RAM repair
+>         dmaengine: tegra-apb: Clean up tasklet releasing
 >=20
-> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Stephen Warren <swarren@nvidia.com>
-> ---
-> v3: No change.
-> v2: No change.
-> ---
->  arch/arm/mach-tegra/sleep-tegra30.S | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>     - The "Fix use-after-free" patch got an improved commit message.
+>=20
+> v2: - I took another look at the driver and spotted few more things that
+>       could be improved, which resulted in these new patches:
+>=20
+>         dmaengine: tegra-apb: Remove runtime PM usage
+>         dmaengine: tegra-apb: Clean up suspend-resume
+>         dmaengine: tegra-apb: Add missing of_dma_controller_free
+>         dmaengine: tegra-apb: Allow to compile as a loadable kernel modul=
+e
+>         dmaengine: tegra-apb: Remove MODULE_ALIAS
+>=20
+> Dmitry Osipenko (13):
+>   dmaengine: tegra-apb: Fix use-after-free
+>   dmaengine: tegra-apb: Implement synchronization callback
+>   dmaengine: tegra-apb: Prevent race conditions on channel's freeing
+>   dmaengine: tegra-apb: Clean up tasklet releasing
+>   dmaengine: tegra-apb: Prevent race conditions of tasklet vs free list
+>   dmaengine: tegra-apb: Use devm_platform_ioremap_resource
+>   dmaengine: tegra-apb: Use devm_request_irq
+>   dmaengine: tegra-apb: Fix coding style problems
+>   dmaengine: tegra-apb: Remove runtime PM usage
+>   dmaengine: tegra-apb: Clean up suspend-resume
+>   dmaengine: tegra-apb: Add missing of_dma_controller_free
+>   dmaengine: tegra-apb: Allow to compile as a loadable kernel module
+>   dmaengine: tegra-apb: Remove MODULE_ALIAS
+>=20
+>  drivers/dma/Kconfig           |   2 +-
+>  drivers/dma/tegra20-apb-dma.c | 481 ++++++++++++++++------------------
+>  2 files changed, 220 insertions(+), 263 deletions(-)
 
-Patches 2-4 applied to for-5.6/arm/core, thanks.
+Test results:
+  13 builds: 13 pass, 0 fail
+  12 boots:  11 pass, 1 fail
+  38 tests:  38 pass, 0 fail
 
-Thierry
-
---0eh6TmSyL6TZE2Uz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4VxE0ACgkQ3SOs138+
-s6E3Ig/+JjmQL+DrA9FZlgMo3Ni2wA7V95dT4yry/2c1athzRmI2QNMrQpfGZScP
-zXrhZTpPO4Nyq0mFhxV9cjSDs6HPfMIPqtO3HGt3n2r0glywFRTmzOROfUAwC06B
-sGJ8NzV47AGQd4ueON+jf81GXvBvlsqeLsUc2fC8zy1wtuic68jo+p4/Xypw+Lwu
-W9lPUE5yThqJ2AegnYTZMwT7L+O4XtpXEJb8kwtDVFSOilRfoZwtURCjUGjRZ9X9
-oe40yUAdeiHWo0RyMyawgZ6LpcsFREdBtfS19hI32K7YZr/PtMppD8F4oiNdz7pu
-nxtHZwgz3GeLa4I5l5sAVXgaVjnbMaC0qIlnAQJ+mu8x5slHogJtARb/sLOKdahc
-2hlfD+0Ig4lCGhNHTG9xvDL5aP1TMX3JseK51H2l/Poo0p6o00auUM83NuLBsavs
-y/Xh02MT9bt/Nl4++GPWQxyAyoWUmgNPwlxzLwqAiimSFMmIUw0zla2ux97Mn0wO
-hPuyFZrXWysD+y8sl2RjzwbOnF+rWP425zxKNg8hxspCOUGd5zcIsUrKyth2KTJI
-Y8tbHYXVO3L6Zt8ctpnah81m19pZEezqDNKXeCjC2BKdQNINeadrOJcXTdzm6y6k
-03LVoHLMTU+IfoOvV9W7xM+XfoIy2tTyR7ApXAhsO9BxdVucBw4=
-=oiR4
------END PGP SIGNATURE-----
-
---0eh6TmSyL6TZE2Uz--
+Linux version: 5.5.0-rc5-gf9d40c056c0f
+Boards tested: tegra20-ventana, tegra30-cardhu-a04, tegra124-jetson-tk1,
+               tegra186-p2771-0000, tegra194-p2972-0000,
+               tegra210-p2371-2180
