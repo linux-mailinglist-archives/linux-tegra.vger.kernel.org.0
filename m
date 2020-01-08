@@ -2,119 +2,112 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59345134233
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 13:51:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5106E13433A
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 14:02:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728116AbgAHMvL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jan 2020 07:51:11 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2133 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727119AbgAHMvL (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jan 2020 07:51:11 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e15d02c0000>; Wed, 08 Jan 2020 04:50:52 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 08 Jan 2020 04:51:10 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 08 Jan 2020 04:51:10 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jan
- 2020 12:51:09 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jan
- 2020 12:51:09 +0000
-Received: from [192.168.22.23] (10.124.1.5) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 8 Jan 2020 12:51:07 +0000
-From:   Thierry Reding <treding@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-CC:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?utf-8?q?Micha=C5=82_Miros=C5=82?= aw <mirq-linux@rere.qmqm.pl>,
-        <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 00/13] NVIDIA Tegra APB DMA driver fixes and improvements
-In-Reply-To: <20200106011708.7463-1-digetx@gmail.com>
-References: <20200106011708.7463-1-digetx@gmail.com>
-X-NVConfidentiality: public
+        id S1726902AbgAHNA4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jan 2020 08:00:56 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39253 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726199AbgAHNA4 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jan 2020 08:00:56 -0500
+Received: by mail-wr1-f66.google.com with SMTP id y11so3283644wrt.6;
+        Wed, 08 Jan 2020 05:00:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8s6MBY17dmKuqB1spd1Y2svCKY1mGBybzjzWrguhdKw=;
+        b=gE1Ze7d22HE5Q5vnTBA9TJ3sklMoxYoqc4qi5fHipRECxI0AbbTe7yOGYletjJPSmG
+         +ni93Xnu1tzfiZFnXRrNN7/9U4sSHQNRhWB3u0H5/5LgIBx8y6JZ2dvG6K9UzFfeIs+t
+         ucmWMwc34F1bCjWif80BBpDX+NigheLltnGLMjReolPZ5SDW/DH4dUm+wUq5r/jUmJ7s
+         e2m0AP/4myXBS3YYO7G6r3U33CARN3WLrhMxJEK0ZB3mfe/XXCblny9ZEPEACVa0kLmj
+         3U+hwLGgcCpRcrE4b/ohDwhGIOeoYtr9t3UJp9qpLX3nPDKIaslKdYClYnIKHOhib/Rq
+         UFDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8s6MBY17dmKuqB1spd1Y2svCKY1mGBybzjzWrguhdKw=;
+        b=WLRDx7XdT8aISbMtxkGJiGKOLQzF5MLWtzeGKcl0LB0TePAZpkDVsbmQ0Ggm9uiw9i
+         QmRAheHtCZYATd1+48okNROIuuPDrts7uad/AR4/JUWzg1VoGKmI/qyE0uQsRi5qnPGG
+         6MBst1df5+qg6sJOQzYC0bvDAn5WVLmUA4TvCbjulvGzwE78XZHkjJRGue07r089GQTP
+         h9EI7krNuV3XZwlYXkAdK5N8kZlj/WshjYj/XSHJ+fJcJWC/3Mlv0CzjBKa2KCa/WyQ/
+         sK9VmxQWG1C3lDkFJOjeJzHA9Hn8fDPUfppXi2RPDlL4gA17WF73vtrGqZPubDfJFohx
+         50Og==
+X-Gm-Message-State: APjAAAUmgnelRaGlVdwrhxjPtS9t0crHGwc5pU8m7tM3WeenmmvRSpQt
+        ObPKcIRGhXdwC7AK69MwIb3zJcd6
+X-Google-Smtp-Source: APXvYqyiUk9DjLJLQC9p0jB9yqPCOOzRwx8SecHw6EXXSg6lP6Y/JDhW00O/AZmFm6lHLnBCa9UkDg==
+X-Received: by 2002:a05:6000:cf:: with SMTP id q15mr4321652wrx.393.1578488454567;
+        Wed, 08 Jan 2020 05:00:54 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id x7sm3931711wrq.41.2020.01.08.05.00.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2020 05:00:53 -0800 (PST)
+Date:   Wed, 8 Jan 2020 14:00:52 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 1/2] pwm: Fix minor Kconfig whitespace issues
+Message-ID: <20200108130052.GF1993114@ulmo>
+References: <20191230172113.17222-1-krzk@kernel.org>
 MIME-Version: 1.0
-Message-ID: <85d8ea335734417081399a082d44024c@HQMAIL105.nvidia.com>
-Date:   Wed, 8 Jan 2020 12:51:07 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578487853; bh=07RgEQXvmw0hpSmELXKe3Vl/OIUylmmcauPctEl8Okg=;
-        h=X-PGP-Universal:From:To:CC:Subject:In-Reply-To:References:
-         X-NVConfidentiality:MIME-Version:Message-ID:Date:Content-Type:
-         Content-Transfer-Encoding;
-        b=sHnn9rKoZqlmS90zDg4BZOPyVAByenoUio17rRnjU6NTWcYZDxN57X68TrwR5Z9bV
-         yeLilikOvtnevRg+Bj06GycMMRTb9EMPaoD5kjCwM2p8HvZ/bZIIzsiia3UtagyqId
-         gMygLwcmdtgp2YXJ9805gw77QaFKn5Wc57emXQROA3bZPVzSu0yd06UXY2FWrQuQPY
-         uNr+7s8TPXbrBhgeNB2vHX2kpDhAakt5D1ol69c1KwktWReXb/qKKC29scbzko00yu
-         1Oi4HBXYMyXdjwndwWDNvjyobQapooQ+gur1f8MZxBe1pYayWCZbvM+MpaAum0RS34
-         QZP0X6cXotLLg==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="+jhVVhN62yS6hEJ8"
+Content-Disposition: inline
+In-Reply-To: <20191230172113.17222-1-krzk@kernel.org>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 06 Jan 2020 04:16:55 +0300, Dmitry Osipenko wrote:
-> Hello,
->=20
-> This is series fixes some problems that I spotted recently, secondly the
-> driver's code gets a cleanup. Please review and apply, thanks in advance!
->=20
-> Changelog:
->=20
-> v3: - In the review comment to v1 Micha=C5=82 Miros=C5=82aw suggested tha=
-t "Prevent
->       race conditions on channel's freeing" does changes that deserve to
->       be separated into two patches. I factored out and improved tasklet
->       releasing into this new patch:
->=20
->         dmaengine: tegra-apb: Clean up tasklet releasing
->=20
->     - The "Fix use-after-free" patch got an improved commit message.
->=20
-> v2: - I took another look at the driver and spotted few more things that
->       could be improved, which resulted in these new patches:
->=20
->         dmaengine: tegra-apb: Remove runtime PM usage
->         dmaengine: tegra-apb: Clean up suspend-resume
->         dmaengine: tegra-apb: Add missing of_dma_controller_free
->         dmaengine: tegra-apb: Allow to compile as a loadable kernel modul=
-e
->         dmaengine: tegra-apb: Remove MODULE_ALIAS
->=20
-> Dmitry Osipenko (13):
->   dmaengine: tegra-apb: Fix use-after-free
->   dmaengine: tegra-apb: Implement synchronization callback
->   dmaengine: tegra-apb: Prevent race conditions on channel's freeing
->   dmaengine: tegra-apb: Clean up tasklet releasing
->   dmaengine: tegra-apb: Prevent race conditions of tasklet vs free list
->   dmaengine: tegra-apb: Use devm_platform_ioremap_resource
->   dmaengine: tegra-apb: Use devm_request_irq
->   dmaengine: tegra-apb: Fix coding style problems
->   dmaengine: tegra-apb: Remove runtime PM usage
->   dmaengine: tegra-apb: Clean up suspend-resume
->   dmaengine: tegra-apb: Add missing of_dma_controller_free
->   dmaengine: tegra-apb: Allow to compile as a loadable kernel module
->   dmaengine: tegra-apb: Remove MODULE_ALIAS
->=20
->  drivers/dma/Kconfig           |   2 +-
->  drivers/dma/tegra20-apb-dma.c | 481 ++++++++++++++++------------------
->  2 files changed, 220 insertions(+), 263 deletions(-)
 
-Test results:
-  13 builds: 13 pass, 0 fail
-  12 boots:  11 pass, 1 fail
-  38 tests:  38 pass, 0 fail
+--+jhVVhN62yS6hEJ8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Linux version: 5.5.0-rc5-gf9d40c056c0f
-Boards tested: tegra20-ventana, tegra30-cardhu-a04, tegra124-jetson-tk1,
-               tegra186-p2771-0000, tegra194-p2972-0000,
-               tegra210-p2371-2180
+On Mon, Dec 30, 2019 at 06:21:12PM +0100, Krzysztof Kozlowski wrote:
+> Remove double whitespace after "config" keyword.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  drivers/pwm/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Applied, thanks.
+
+Thierry
+
+--+jhVVhN62yS6hEJ8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4V0oQACgkQ3SOs138+
+s6GW+RAAqt7l9DVUT1XZy2TgE7UeLRkeCbnVtYRqr1q4kqqjW1uRyRc2gbd6Q15a
+Orl53tUGiuE+Fr/t+UpQSLOmsc93zRIqkhbyMdfyTXJRGhzU5UCx2BuBDkelvmZ/
+ZcTgvi8IkXRVh7SJx6E2i956iFXifCQQKd/pbS3oPZbUCeRPJuhCTgmfD7NAKvCR
+YsaDo4MWHuuulx05CCLeZ+g915YEGXCV5nKr5RdY9/uf1ifS1waeUZK8+C+uwAy6
+17J7Ee4+27mydyVzsutgTLAWfnNf3wcwDzbYaR61G4dKZXHWZBlzjq1hAlyfLrfI
+Ue9fAv71KPfLULXpotqvoVkzKeTzW5SSnbtsi22wLJfmu5RI2ZCS2gXdRN0Z5f8y
+9M59CBmSSOvoQ7b/nBbOCxxlUqZTXGjnlJCXqrqGmomCMQvKZIJBNBILlFoQDDtZ
+wCVV+XXEHq3j4qvgsjgkAHLGyxkjmryg6fOFe9mqCGwk1huV5NYbI4aP1xiSCmTt
+00wLZMd67PnKuPv1GAgvRW+BLif97N1U7g2OP5ewhYXPj7cd1DVQHsgwbKnKkz1H
+UWG3gn+7n3KcstFfKsgS3X8fhKQ2+HalnX9hBfeORhPef5cCtIURILtOU/sS/pvZ
+f30UWoLal+Aylqbsc01nUJmxg27i/m0q4+v7waQmAJlE0L+1c6o=
+=p5N4
+-----END PGP SIGNATURE-----
+
+--+jhVVhN62yS6hEJ8--
