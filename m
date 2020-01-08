@@ -2,84 +2,87 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA85C134A66
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 19:23:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE826134B68
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 20:18:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728304AbgAHSXF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jan 2020 13:23:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50338 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727169AbgAHSXF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 8 Jan 2020 13:23:05 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6D3B220692;
-        Wed,  8 Jan 2020 18:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578507784;
-        bh=wJkO4jwYR01OobwJluN3nVcvloMFyriIEFSdls9FHjU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p6mt2Rz2DgWSaXx9seCc5HKNtTBmpdebhNG+ZgfeY6lyzDJsIZZP6rG99rcpCrfwi
-         cRqKWsuA0+KPR0pmIRvt5WzyAaJofCwPPjgHGdm0zZneWrbKTnIrD9AOR6S1Fb8dMI
-         LJsybpa8UA76gf1lvLhVijAVf5orTHFIgVJZ0B6E=
-Date:   Wed, 8 Jan 2020 19:23:02 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.4 000/191] 5.4.9-stable review
-Message-ID: <20200108182302.GB2547623@kroah.com>
-References: <20200107205332.984228665@linuxfoundation.org>
- <87bea213-7dd5-412b-0faa-fc3b336da673@nvidia.com>
+        id S1728358AbgAHTSd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jan 2020 14:18:33 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:38968 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726989AbgAHTSd (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jan 2020 14:18:33 -0500
+Received: by mail-lj1-f196.google.com with SMTP id l2so4505528lja.6;
+        Wed, 08 Jan 2020 11:18:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=71tYmvlt1/OOqPFBAI/jjpMMYNxkMt5zcCbmPmd2ETA=;
+        b=PUDO+As9UymSnClBvDvqSFYHVAkKXUizQpgRHB1mEJKNdaTeowHIAxh41LlWDvHlsa
+         OG57rciwPJ3lFnKvgwp9Xy5Bl8BQ+DiURyp1g1S+N/Sekjn1RDo/NrcvoOJyGaC+9/VA
+         3NB4+isxt8Ku5KSf2AAwp7wHmIQ/mrVO2Rq4JekZBlmlvxEh8gBtmi7dQ4TxcgPguXTL
+         THJyoZK92dkKs44FZrVD5kWt11ASdvh+LHnCbJnAVA3oj73NeYwhdedfe2uQORl2CMYz
+         svKrSfQ/vM1svExi9UZ3yyjO1Mv5ncNW7plUA9yl5gO9tkRQ25D9EMfwXXarhdm85DDD
+         sLtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=71tYmvlt1/OOqPFBAI/jjpMMYNxkMt5zcCbmPmd2ETA=;
+        b=Cn8gYgYV84infd/xIrjbTN/DfEu+q7Mz7nrHIqQjnDgger/UfeLwXeMv1hQXU2Rvxp
+         ErxuPZLyvuI2KQZ4hV+aJpf6oJ7YOgV4cIrtVuttDNQsHqZv8a8ZknHkuxyKJBuoQaZL
+         ACnqYpL67BoyHSENK1CgflnzY6NlVOzbPs3dpWDmFhOVvpkOyBOTAMjUCBx5Ejdk9hr/
+         JIA+KcyqfZRtsW0B+XFH8DCI0S/Noeox2x1lhde974XSMQYgj62TN9/tEq3mSqI7CO9m
+         ItmCKwWlaSWHxDQezKQpoPgzWYF/aEBV191ocrZrYSirxj0jDNAtfSp7jLbAMxooewZ4
+         EOsA==
+X-Gm-Message-State: APjAAAVSX3ig8qVVwz7WLamvunVe+IdhYULco/yhxSHB5OPhxRXxIzzD
+        e/2AzYjPSmhPAMBr9OxWqDwCBOAU
+X-Google-Smtp-Source: APXvYqx/i2fcvteVjDObebNcYyRRkA/45O12bIrSnU7Foob/eK5/fQZ2csTYr2BtD92U/8h3E/J1RA==
+X-Received: by 2002:a2e:884f:: with SMTP id z15mr3801293ljj.46.1578511110777;
+        Wed, 08 Jan 2020 11:18:30 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id n3sm1849852lfk.61.2020.01.08.11.18.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jan 2020 11:18:29 -0800 (PST)
+Subject: Re: [PATCH v7 03/21] dt-bindings: clock: tegra: Add DT id for OSC
+ clock
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
+        josephl@nvidia.com, daniel.lezcano@linaro.org,
+        mmaddireddy@nvidia.com, markz@nvidia.com,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1578457515-3477-1-git-send-email-skomatineni@nvidia.com>
+ <1578457515-3477-4-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f78cc952-a582-e84c-4f80-8baac4ecb111@gmail.com>
+Date:   Wed, 8 Jan 2020 22:18:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bea213-7dd5-412b-0faa-fc3b336da673@nvidia.com>
+In-Reply-To: <1578457515-3477-4-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 04:24:07PM +0000, Jon Hunter wrote:
+08.01.2020 07:24, Sowjanya Komatineni пишет:
+> OSC is one of the parent for Tegra clocks clk_out_1, clk_out_2, and
+> clk_out_3.
 > 
-> On 07/01/2020 20:52, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.4.9 release.
-> > There are 191 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Thu, 09 Jan 2020 20:44:51 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.9-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> > -------------
+> This patch adds DT id for OSC clock to allow parent configuration
+> through device tree.
 > 
-> All tests for Tegra are passing ...
-> 
-> Test results for stable-v5.4:
->     13 builds:	13 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
-> 
-> Linux version:	5.4.9-rc2-gdd269ce619cb
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
-> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
 
-Wonderful, thanks for testing and letting me know.
-
-greg k-h
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
