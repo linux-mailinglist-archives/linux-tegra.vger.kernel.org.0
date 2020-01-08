@@ -2,93 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 23354133A46
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 05:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C5CC133A99
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 05:50:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727297AbgAHEZz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 7 Jan 2020 23:25:55 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10446 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727283AbgAHEZz (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 23:25:55 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e1559c00000>; Tue, 07 Jan 2020 20:25:36 -0800
+        id S1726146AbgAHEum (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 7 Jan 2020 23:50:42 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13314 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726145AbgAHEum (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 7 Jan 2020 23:50:42 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e155f900001>; Tue, 07 Jan 2020 20:50:24 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 07 Jan 2020 20:25:54 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 07 Jan 2020 20:50:41 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 07 Jan 2020 20:25:54 -0800
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jan
- 2020 04:25:53 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 8 Jan 2020 04:25:53 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.162.131]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e1559d00000>; Tue, 07 Jan 2020 20:25:53 -0800
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
-        <digetx@gmail.com>, <mperttunen@nvidia.com>,
-        <gregkh@linuxfoundation.org>, <sboyd@kernel.org>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>
-CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
-        <spujar@nvidia.com>, <josephl@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v7 21/21] ASoC: nau8825: change Tegra clk_out_2 provider to tegra_pmc
-Date:   Tue, 7 Jan 2020 20:25:15 -0800
-Message-ID: <1578457515-3477-22-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1578457515-3477-1-git-send-email-skomatineni@nvidia.com>
-References: <1578457515-3477-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 20:50:41 -0800
+Received: from [10.24.44.157] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jan
+ 2020 04:50:40 +0000
+Subject: Re: Re: [PATCH] regmap: add iopoll-like atomic polling macro
+To:     Mark Brown <broonie@kernel.org>
+CC:     <jonathanh@nvidia.com>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>
+References: <1578392889-16587-1-git-send-email-spujar@nvidia.com>
+ <20200107120902.GC4877@sirena.org.uk>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <ae119533-6966-157a-d14b-365306907554@nvidia.com>
+Date:   Wed, 8 Jan 2020 10:20:37 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20200107120902.GC4877@sirena.org.uk>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578457536; bh=pWNZAo13Br7GvFxHxRFIS/1sozX6HF632kX/lxY43iQ=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=NFkGm820zbY010IcHMC5idC6pN9XMW/B7u/1UVUjVw3kSpwdoCesS38MFXmORb1wD
-         0JKF+xvJOGoPt/2IYWIbPcejn9m1P5LGbR6h8sUa7Th8hp+i0sG2otGiz7D+HaR+6Y
-         KoE6qNR6Z9KcgqTNmbx+3+o5ox9W75jU1brrdpDTSk4xTcOeCL7FrEN7XrHhjiUgPd
-         X9YESHjIlC0Ef8wskMMZoyCjmu+szWoY/+RyUQpqeznr+BOGoo3gIMcrjQ+ECWbR5e
-         2Vfmv3x06GDumeVhCUBch7pl+jMn/1D+DDS14/ev0X2JYBAE6ib89+VWgmZTVP/lC0
-         +D3xtfmLHdJ2w==
+        t=1578459024; bh=PCXVPzPJzd1sJcj4gbIN14vn1t4Dc66uzQlFAt6SvlE=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=lkDhV3VfhUSXG3APPOZzPXrKfJwaj/ui8XTRRS9uIPL32aNSwYv8c72VFEVKdBWQ3
+         zffTU/J3GugtvXQNG2R/WnGWosU6XnzW2pkFmNS1Ob5u/0MfEI/UZeMkevNXmVw6mW
+         cOHiG6FXLMyZZ4R5QgzYf6AJl9M2t4OiPqYAsSQFEaBTw1OhyslX9hFBX70kcGJ+dt
+         sj2G0G+Ezh7+hTp3pX+66bPIXebEXh+bkGAS/81De7Lt8ELYbycFcfPxEhJ54IO+0L
+         NmxgGtk2BOe4FHgGmNK+/DLQkD+A2WRbbFhttjzPl0/9RGwfVK6NzRG+SW7bfFjdm4
+         NAzrS6M4i+yiQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Tegra clk_out_1, clk_out_2, and clk_out_3 are part of PMC block and
-these clocks are moved from clock drvier to pmc driver with pmc as
-a provider for these clocks.
 
-Update bindings document to use pmc as clock provider for clk_out_2 and
-change id to pmc clock id.
+On 1/7/2020 5:39 PM, Mark Brown wrote:
+> On Tue, Jan 07, 2020 at 03:58:09PM +0530, Sameer Pujar wrote:
+>> This patch adds a macro 'regmap_read_poll_timeout_atomic' that works
+>> similar to 'readx_poll_timeout_atomic' defined in linux/iopoll.h; This
+>> is atomic version of already available 'regmap_read_poll_timeout' macro.
+> In general regmap really can't be used in atomic contexts - we do have
+> options to configure a regmap so it can be used there but they're not
+> the default.  It'd be better if the comment mentioned this and warned
+> against use with normal regmaps so people are less likely to try to use
+> this in an atomic context when the regmap doesn't support that.
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Acked-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- Documentation/devicetree/bindings/sound/nau8825.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Oh I see.
 
-diff --git a/Documentation/devicetree/bindings/sound/nau8825.txt b/Documentation/devicetree/bindings/sound/nau8825.txt
-index d16d96839bcb..388a7bc60b1f 100644
---- a/Documentation/devicetree/bindings/sound/nau8825.txt
-+++ b/Documentation/devicetree/bindings/sound/nau8825.txt
-@@ -101,5 +101,5 @@ Example:
-       nuvoton,crosstalk-enable;
- 
-       clock-names = "mclk";
--      clocks = <&tegra_car TEGRA210_CLK_CLK_OUT_2>;
-+      clocks = <&tegra_pmc TEGRA_PMC_CLK_OUT_2>;
-   };
--- 
-2.7.4
+While using regmap_read_poll_timeout() in snd_soc_dai_ops trigger 
+callback, I was hitting below print.
+"BUG: scheduling while atomic" and kernel panic there after.
+
+While checking the documentation on snd_soc_dai_ops, it appears 
+trigger() is in atomic context.
+This means I cannot use regmap interface (with default configuration) in 
+trigger().
+The above issue went away with usage of 
+regmap_read_poll_timeout_atomic() and now I think I just got lucky.
+
+Also, with the limited testing, I did not see the issue in current 
+linux-next, where as I hit above issue in
+older kernel. Has anything changed with respect to above?
+
+Though I need to test this, I guess there is a way to use non-atomic 
+versions of PCM operations by setting
+'nonatomic' flag in snd_pcm and continue to use 
+regmap_read_poll_timeout(). In that case new macro may not
+be necessary.
 
