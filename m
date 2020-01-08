@@ -2,96 +2,135 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24CE6133E79
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 10:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A47F13409E
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 12:37:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgAHJnJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jan 2020 04:43:09 -0500
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:43715 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726098AbgAHJnJ (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jan 2020 04:43:09 -0500
-X-Originating-IP: 90.65.102.129
-Received: from localhost (lfbn-lyo-1-1670-129.w90-65.abo.wanadoo.fr [90.65.102.129])
-        (Authenticated sender: gregory.clement@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id A72C020007;
-        Wed,  8 Jan 2020 09:43:04 +0000 (UTC)
-From:   Gregory CLEMENT <gregory.clement@bootlin.com>
-To:     Yangtao Li <tiny.windzz@gmail.com>, jassisinghbrar@gmail.com,
-        nsaenzjulienne@suse.de, f.fainelli@gmail.com, rjui@broadcom.com,
-        sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-        lftan@altera.com, matthias.bgg@gmail.com, agross@kernel.org,
-        bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com,
-        alexandre.torgue@st.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        nios2-dev@lists.rocketboards.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org
-Cc:     Yangtao Li <tiny.windzz@gmail.com>
-Subject: Re: [PATCH 13/13] mailbox: armada-37xx-rwtm: convert to devm_platform_ioremap_resource
-In-Reply-To: <20191228183538.26189-13-tiny.windzz@gmail.com>
-References: <20191228183538.26189-1-tiny.windzz@gmail.com> <20191228183538.26189-13-tiny.windzz@gmail.com>
-Date:   Wed, 08 Jan 2020 10:43:04 +0100
-Message-ID: <87imlmb7x3.fsf@FE-laptop>
+        id S1727206AbgAHLhG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jan 2020 06:37:06 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16394 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727205AbgAHLhG (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jan 2020 06:37:06 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e15beb10000>; Wed, 08 Jan 2020 03:36:17 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 08 Jan 2020 03:37:05 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 08 Jan 2020 03:37:05 -0800
+Received: from [10.26.11.166] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jan
+ 2020 11:37:03 +0000
+Subject: Re: [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit
+ samples
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>
+CC:     <linux-kernel@lists.codethink.co.uk>,
+        <alsa-devel@alsa-project.org>, Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Edward Cragg <edward.cragg@codethink.co.uk>,
+        <linux-tegra@vger.kernel.org>
+References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
+ <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
+ <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
+ <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
+ <a0f027d9-e9e0-d76c-1e40-002fdc37eb5f@nvidia.com>
+ <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk>
+ <aba4edd6-0ea5-5e95-c5a0-9e749587c763@nvidia.com>
+ <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
+ <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
+ <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
+ <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
+ <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
+ <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
+ <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
+ <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
+ <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
+ <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
+ <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
+ <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <07cd66dc-1a6c-6b49-55a9-1420fe235161@nvidia.com>
+Date:   Wed, 8 Jan 2020 11:37:01 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1578483377; bh=dYqCYpyA+YSDumfzCyTXML6rROERaETgBf76DVaUj+s=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=XbeUcaL2L1P0MY/s9+CmgLadUUKXJxTmaE3xy0PCNSkmR6m4ERO4prDp2ptGhgZzD
+         YxGmdiyca1OdGveGQ6zJcKrEaGgS5d/urR+/aZ8LIzfucITeGYNcvu24+Te4a7N9WW
+         edUwI92TqFCXnR3HXjnevciWx+FQY/AjxglrHuEjm+2ygSAweXrlKjlaPS178Hl61L
+         Ulk9JzJ/DybyuHPTl+GygiSOwdQdasjFEFh+UmcNoat35dahN9h7UxDmlTxIz6PKmw
+         xVRmvW2UohfjfDel4IcrVSJ1kkwDnrwUY0pgP78YXMnpd6D6NhunObKfWphGaZINAi
+         7Jve9ivest5pg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Yangtao Li,
 
-> Use devm_platform_ioremap_resource() to simplify code.
->
-> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+On 07/01/2020 01:39, Dmitry Osipenko wrote:
+> 06.01.2020 22:00, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On 05/01/2020 10:53, Ben Dooks wrote:
+>>>
+>>>
+>>> On 2020-01-05 01:48, Dmitry Osipenko wrote:
+>>>> 05.01.2020 03:04, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>> [snip]
+>>>>>
+>>>>> I've just gone through testing.
+>>>>>
+>>>>> Some simple data tests show 16 and 32-bits work.
+>>>>>
+>>>>> The 24 bit case seems to be weird, it looks like the 24-bit expects
+>>>>> 24 bit samples in 32 bit words. I can't see any packing options to
+>>>>> do 24 bit in 24 bit, so we may have to remove 24 bit sample support
+>>>>> (which is a shame)
+>>>>>
+>>>>> My preference is to remove the 24-bit support and keep the 32 bit in.
+>>>>>
+>>>>
+>>>> Interesting.. Jon, could you please confirm that 24bit format isn't
+>>>> usable on T30?
+>>>
+>>> If there is an option of 24 packed into 32, then I think that would wor=
+k.
+>>>
+>>> I can try testing that with raw data on Monday.
+>>
+>> I need to check some things, I assumed 24 was 24 packed bits, it looks
+>> like the default is 24 in 32 bits so we may be ok. However I need to
+>> re-write my test case which assumed it was 24bits in 3 bytes (S24_3LE).
+>>
+>> I'll follow up later,
+>=20
+> Okay, the S24_3LE isn't supported by RT5640 codec in my case. I briefly
+> looked through the TRM doc and got impression that AHUB could re-pack
+> data stream into something that codec supports, but maybe it's a wrong
+> impression.
 
-Applied on mvebu/drivers
+I chatted with Sameer about this, so yes the AHUB can repack, but there
+is a problem with S24_LE where if we try to extract 24-bits we actually
+get the upper 24-bits and not the lower LSBs in the 32-bit data element.
+So actually we don't support S24_LE.
 
-Thanks,
+Ben do you need 24-bit support or 32-bit or both?
 
-Gregory
+Jon
 
-> ---
->  drivers/mailbox/armada-37xx-rwtm-mailbox.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/mailbox/armada-37xx-rwtm-mailbox.c b/drivers/mailbox/armada-37xx-rwtm-mailbox.c
-> index 19f086716dc5..02b7b28e6969 100644
-> --- a/drivers/mailbox/armada-37xx-rwtm-mailbox.c
-> +++ b/drivers/mailbox/armada-37xx-rwtm-mailbox.c
-> @@ -143,7 +143,6 @@ static const struct mbox_chan_ops a37xx_mbox_ops = {
->  static int armada_37xx_mbox_probe(struct platform_device *pdev)
->  {
->  	struct a37xx_mbox *mbox;
-> -	struct resource *regs;
->  	struct mbox_chan *chans;
->  	int ret;
->  
-> @@ -156,9 +155,7 @@ static int armada_37xx_mbox_probe(struct platform_device *pdev)
->  	if (!chans)
->  		return -ENOMEM;
->  
-> -	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -
-> -	mbox->base = devm_ioremap_resource(&pdev->dev, regs);
-> +	mbox->base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(mbox->base)) {
->  		dev_err(&pdev->dev, "ioremap failed\n");
->  		return PTR_ERR(mbox->base);
-> -- 
-> 2.17.1
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
--- 
-Gregory Clement, Bootlin
-Embedded Linux and Kernel engineering
-http://bootlin.com
+--=20
+nvpublic
