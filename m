@@ -2,135 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A47F13409E
-	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 12:37:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4506A13414D
+	for <lists+linux-tegra@lfdr.de>; Wed,  8 Jan 2020 12:59:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727206AbgAHLhG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 8 Jan 2020 06:37:06 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16394 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727205AbgAHLhG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jan 2020 06:37:06 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e15beb10000>; Wed, 08 Jan 2020 03:36:17 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 08 Jan 2020 03:37:05 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 08 Jan 2020 03:37:05 -0800
-Received: from [10.26.11.166] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jan
- 2020 11:37:03 +0000
-Subject: Re: [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow 24bit and 32bit
- samples
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Ben Dooks <ben.dooks@codethink.co.uk>
-CC:     <linux-kernel@lists.codethink.co.uk>,
-        <alsa-devel@alsa-project.org>, Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Edward Cragg <edward.cragg@codethink.co.uk>,
-        <linux-tegra@vger.kernel.org>
-References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <b4e2ec44-bc89-b5ca-cfa7-a6d5c45a9c94@codethink.co.uk>
- <a11ba33e-5ffb-c5c6-04f5-0e031877c55f@gmail.com>
- <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
- <a0f027d9-e9e0-d76c-1e40-002fdc37eb5f@nvidia.com>
- <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk>
- <aba4edd6-0ea5-5e95-c5a0-9e749587c763@nvidia.com>
- <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
- <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
- <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
- <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
- <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
- <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
- <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
- <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
- <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
- <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
- <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
- <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <07cd66dc-1a6c-6b49-55a9-1420fe235161@nvidia.com>
-Date:   Wed, 8 Jan 2020 11:37:01 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726252AbgAHL7y (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 8 Jan 2020 06:59:54 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54005 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726098AbgAHL7y (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 8 Jan 2020 06:59:54 -0500
+Received: by mail-wm1-f67.google.com with SMTP id m24so2187222wmc.3;
+        Wed, 08 Jan 2020 03:59:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VweC90OhMbRB5YC06/dP5Bg2TdjACi3YY8MpAp++EzY=;
+        b=NpYYVKZ+Z9rpqPMje8On2UojyJa3jonkiJ/zW+2DguQc+IdBPd11Fgbzj2PvXSUH3g
+         kYpU0587O1bsBTyeNTUYANPla7o1NbKgNfdB/NxojFaOKYausRFuRlpbqI9lXEDGJLmd
+         tpQChw+XiyyQ09ABL3FIqr+KJeX55wugMimRHd5NdFDXFBWt5ak0nXaqeuoWkFeJ/ulQ
+         K5QY3dGGZxHYT+uWwIjCFls8Any7E1KVrhUaIjmVkoyfJiBdfxWEfphQWNBiYe3RPMfW
+         yPQCKGWmdiRKlh5T6EblpcOoq+ZYty6AMYVgxwE0BIcZQU413tVE+/lNqOmrep0aX9DY
+         o4xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VweC90OhMbRB5YC06/dP5Bg2TdjACi3YY8MpAp++EzY=;
+        b=WBvg0jeCdnfqkFdd9qjxoc8liO9ZsCkNVhRb0PCkxDo5NKNLIx4sfqCvNR2TZ3rGjS
+         ZxEI9vdGM8F8feod0Jdj96kh/pPAHzLAWJoYjc8WZGkBch/g7nQwJkYoBvWa50WfUv1s
+         leNALiUy7m3FVGKrfQSiJIabBLmd0BU9w60A2p86ighxg4a86x/Cg1EV7DbJHnLAER4C
+         NexMl/xNLkH/JWzq1EaBeF0oLGkHdj1O07ckq3xovaDYzAz3Y5Qcc5do+GQuvI5C2KTQ
+         9gmVF6Y8WG5CEE3NDv+at1rWbSnjUKxS/B1qr5iNLSajGxJN7htFc+CEe2pJQp7U7xh0
+         TPrw==
+X-Gm-Message-State: APjAAAW1Ne2Mg6hPywcp+oDjrw/zeOh6vbVrv8+L8dJTmi8dJ1E1tdpj
+        QB0YAp4BN4SEIUNqeHt2Esk=
+X-Google-Smtp-Source: APXvYqzH19+2YKXGZL/Gjf2VptczLfcFBt9bdRvOwXVszToouij5SZJpfPWgkLCY8hDUO42jb+u8Yg==
+X-Received: by 2002:a7b:c450:: with SMTP id l16mr3464058wmi.31.1578484792384;
+        Wed, 08 Jan 2020 03:59:52 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id d10sm4138463wrw.64.2020.01.08.03.59.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2020 03:59:50 -0800 (PST)
+Date:   Wed, 8 Jan 2020 12:59:49 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Stephen Warren <swarren@wwwdotorg.org>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH V3 1/4] clk: tegra: mark fuse clock as critical
+Message-ID: <20200108115949.GA1993114@ulmo>
+References: <20191003205033.98381-1-swarren@wwwdotorg.org>
 MIME-Version: 1.0
-In-Reply-To: <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578483377; bh=dYqCYpyA+YSDumfzCyTXML6rROERaETgBf76DVaUj+s=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=XbeUcaL2L1P0MY/s9+CmgLadUUKXJxTmaE3xy0PCNSkmR6m4ERO4prDp2ptGhgZzD
-         YxGmdiyca1OdGveGQ6zJcKrEaGgS5d/urR+/aZ8LIzfucITeGYNcvu24+Te4a7N9WW
-         edUwI92TqFCXnR3HXjnevciWx+FQY/AjxglrHuEjm+2ygSAweXrlKjlaPS178Hl61L
-         Ulk9JzJ/DybyuHPTl+GygiSOwdQdasjFEFh+UmcNoat35dahN9h7UxDmlTxIz6PKmw
-         xVRmvW2UohfjfDel4IcrVSJ1kkwDnrwUY0pgP78YXMnpd6D6NhunObKfWphGaZINAi
-         7Jve9ivest5pg==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="fdj2RfSjLxBAspz7"
+Content-Disposition: inline
+In-Reply-To: <20191003205033.98381-1-swarren@wwwdotorg.org>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 07/01/2020 01:39, Dmitry Osipenko wrote:
-> 06.01.2020 22:00, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> On 05/01/2020 10:53, Ben Dooks wrote:
->>>
->>>
->>> On 2020-01-05 01:48, Dmitry Osipenko wrote:
->>>> 05.01.2020 03:04, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>> [snip]
->>>>>
->>>>> I've just gone through testing.
->>>>>
->>>>> Some simple data tests show 16 and 32-bits work.
->>>>>
->>>>> The 24 bit case seems to be weird, it looks like the 24-bit expects
->>>>> 24 bit samples in 32 bit words. I can't see any packing options to
->>>>> do 24 bit in 24 bit, so we may have to remove 24 bit sample support
->>>>> (which is a shame)
->>>>>
->>>>> My preference is to remove the 24-bit support and keep the 32 bit in.
->>>>>
->>>>
->>>> Interesting.. Jon, could you please confirm that 24bit format isn't
->>>> usable on T30?
->>>
->>> If there is an option of 24 packed into 32, then I think that would wor=
-k.
->>>
->>> I can try testing that with raw data on Monday.
->>
->> I need to check some things, I assumed 24 was 24 packed bits, it looks
->> like the default is 24 in 32 bits so we may be ok. However I need to
->> re-write my test case which assumed it was 24bits in 3 bytes (S24_3LE).
->>
->> I'll follow up later,
+--fdj2RfSjLxBAspz7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Oct 03, 2019 at 02:50:30PM -0600, Stephen Warren wrote:
+> From: Stephen Warren <swarren@nvidia.com>
 >=20
-> Okay, the S24_3LE isn't supported by RT5640 codec in my case. I briefly
-> looked through the TRM doc and got impression that AHUB could re-pack
-> data stream into something that codec supports, but maybe it's a wrong
-> impression.
+> For a little over a year, U-Boot on Tegra124 has configured the flow
+> controller to perform automatic RAM re-repair on off->on power transitions
+> of the CPU rail1]. This is mandatory for correct operation of Tegra124.
+> However, RAM re-repair relies on certain clocks, which the kernel must
+> enable and leave running. The fuse clock is one of those clocks. Mark this
+> clock as critical so that LP1 power mode (system suspend) operates
+> correctly.
+>=20
+> [1] 3cc7942a4ae5 ARM: tegra: implement RAM repair
+>=20
+> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Stephen Warren <swarren@nvidia.com>
+> ---
+> v3: Added comment to the clock table entry indicating why the clock is
+>     critical.
+> v2: Set CRITICAL flag on the clock, rather than enabling it in
+>     tegra124_init_table[].
+> ---
+>  drivers/clk/tegra/clk-tegra-periph.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
-I chatted with Sameer about this, so yes the AHUB can repack, but there
-is a problem with S24_LE where if we try to extract 24-bits we actually
-get the upper 24-bits and not the lower LSBs in the 32-bit data element.
-So actually we don't support S24_LE.
+Applied to for-5.6/clk, thanks.
 
-Ben do you need 24-bit support or 32-bit or both?
+Thierry
 
-Jon
+--fdj2RfSjLxBAspz7
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-nvpublic
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4VxDMACgkQ3SOs138+
+s6F6PhAAlrIuajL3DdiqYncmRYYV7/TjqJxFw2VwBy9bhCisUem0d4zjoIWBl90E
+0smLovIXi5278XwG2zdZAtPqA58tKy6xybLzZRez0CY3ACghUSPnfxC6fLH0EMpj
+QecOh6LeN6mKkf0EtM810FDRTh+k2YJciaFGV7l5lz+d6qmxEPGeawy81VbnVNyB
+F16b9sCYjzqPlEbz/UxySc/b6hD7po6+MBguko8kb6xXs0beKRiKVQ7hJxuOUA2F
+RhR1h1amdCArtcqRwWIgTGhS+e+M2sMssv/JCywjBGhm9yMjI6hPffyKkawCoLJD
+GUBbV2cnt3ucR1DxmWnnkm1Vks577M11PDro+7V4FM0qWMBsLysO4t2uq2QlkHpk
+2tAhMt7X0VvSqtG7pO8aUteCezY+JPck26XOhMuzCVR/ByaaIVi2gEFOzwOezgDy
+YuyAa0zL1oB92AjsaTwtgZ7jIULmUox+kEt2IwEJJcDesOGOmTDfsvZTWiXsJe0K
+JfhmAsU3jnFHUkgUCATa6gSuZJiFhcfY1pPJoZ2GJDtEHDP0DTF63WDJDDqM/i8l
+CTjNIg8dC4MX8wEkZvdZ1VP2Dp/A1zWEl2cppCLX/y5rQFCB8hSyIfYg++KvVN0b
+whEWoIWUs0tJfDWAFroFO2GLa6B2n2NbzgaEIKl6tTN6A6p7BeY=
+=zoua
+-----END PGP SIGNATURE-----
+
+--fdj2RfSjLxBAspz7--
