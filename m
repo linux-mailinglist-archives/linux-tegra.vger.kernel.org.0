@@ -2,61 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE4C2136F8B
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 Jan 2020 15:33:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29858136F8E
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 Jan 2020 15:34:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727581AbgAJOdk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 Jan 2020 09:33:40 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:33324 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727452AbgAJOdk (ORCPT
+        id S1727452AbgAJOel (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 Jan 2020 09:34:41 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34889 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727368AbgAJOel (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 Jan 2020 09:33:40 -0500
-Received: by mail-wm1-f65.google.com with SMTP id d139so4544464wmd.0
-        for <linux-tegra@vger.kernel.org>; Fri, 10 Jan 2020 06:33:39 -0800 (PST)
+        Fri, 10 Jan 2020 09:34:41 -0500
+Received: by mail-wr1-f65.google.com with SMTP id g17so2040267wro.2;
+        Fri, 10 Jan 2020 06:34:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=wPPIfpUVp9HPZTa3lVOfDTxKHbqfXtWL5nrRxR5B21s=;
-        b=ql8JzfyuVof50Majq4v4YzsqGy532Ro2vuoG8sKY8SEDZOuE6lB6c/cWVsd9fk/Q+H
-         xbeeRwKQ2iOiPXDrR/Gpie4lURSIIEMYOUmSq8YaBn6YA58wXCQKCVZyqAAjNWP3GExU
-         q/vNMT8l8cfTvFbPWO0y3qoAVRbRfpMA4uzdldU70WcWg9P6r9kO2EgakCZnpCSx/RFH
-         u+KF03D+x6ddWJaF12by2oA6E9kEjXieDtMVpcxdUDpFsNrq5rK85E9TADMg1EXu6gz5
-         V6IkLB3qlkaY/jvTNWAG9YR6j9/sY4ZbF+tmw2PYFT1Rs+ONrOYA2Cd7oRYZPsBXdSNk
-         leUA==
+        bh=ZMNQJdAFaOKSoBirJdfDDp1ez5wjioL8ZApZUPhDZGA=;
+        b=PEi0dKiUVGpgkbyvtn6TmoyBcrbk7DV/nGOvh2MXlE4dpi790wSCeUvat1J1ODbDVa
+         1T1pfyL5N1i/0ADA7w0TEzdb/vZ0GeJhKwbCmc1xPphzWSnZvlc5yyFz+33d0z8EnHDl
+         q0+1cx3xc4lsoVJY34OsuhrlPguKYeAs+UOvlvsg4YS2fp0nZhfE5hlYfSePQ5wHxups
+         VgSul/x6p2+AqLu/UgnBf5Sp7oyHbebfFu3pFN+seZyMhxcWfYP0VoTKfdlotqFZY0kQ
+         mMhh7s1so0SXdEcDGDRQ7zic3DEJc/K/shgxmvY22HPRfZxey2mGmt/TL4fFV6mQH3sl
+         S+VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wPPIfpUVp9HPZTa3lVOfDTxKHbqfXtWL5nrRxR5B21s=;
-        b=hrvxQ+tjJvezzXInXR6XIFJXMv9Zj84QrV+aRF2zfl3K22ILWr9xL2S5SkfgweEA++
-         ZyeeudgoP6dri6ZuKm+WphTjcAq/ERIrm8vmIXMbj+YLlBh/y+E9iys6mxisVBgTiQxe
-         BFzX3oP01doRftawTSSLR/xc4rxA4Jn41dum30br30slz8rCtkm5JD18UD7DGUvlMQqq
-         BnPnV+6xO4LkJe9gdjkXaAuaPrtf+N1Btf0fhHKuJQxv7UGVDdeEQFWB0RYz+mkSomNo
-         68jpLbEtYclSx3Iw6Drd6PaPuilhFlNtCaOdekKxF0+f6CbqdbWfYjqAv7vI7G3WDHOm
-         OZYg==
-X-Gm-Message-State: APjAAAWFY5crvu4JGIpKMsS5mrjHjTlkL41WXg0xLw1HqVQSrHx7Uw9o
-        P9JKk6864i6dzm00tYrta74=
-X-Google-Smtp-Source: APXvYqziDE2/LT4+o8aekdFSyRGTnlrmHxrO9lRCeCYXfvFS3RnFiJ4QbWKyZiTjOiGnxG+R82MzOg==
-X-Received: by 2002:a1c:9e15:: with SMTP id h21mr4507801wme.95.1578666818458;
-        Fri, 10 Jan 2020 06:33:38 -0800 (PST)
+        bh=ZMNQJdAFaOKSoBirJdfDDp1ez5wjioL8ZApZUPhDZGA=;
+        b=Trd74vrNae0xJ1hJnx1KwvjNygovQLwcs7uV9x82+XEeCJIi1luFrYHESMx2wpMNF7
+         +NWOr+DoLuOV7LzjukunuBD2NG0wQDIQLbGZ2SNGGnJYc04/QsV25jlWWLvWMb5qcPn8
+         yrS1AvW0N3ANvwmscot5NbjoAKcQOd2J1l91o37CnFzfYDALNvmpOZyitvDSCGbmggiZ
+         SxGbB+AqIdry7qHWmzALJ7m4m/O2m6mG+Qnvv4A2d8ClBS3k9ULDs2Hj5oqcy/u9cwHV
+         tFmbiNANpQ5tvsd6HgU6/nSEcxZkMopeZNbcWbU1zXYbSG1BE5GVAAiZIu2ZKlU8YL2M
+         +2yQ==
+X-Gm-Message-State: APjAAAXyVd1ZDNE1rwKk/UDKML/k3CNPXd9YdAe84p2yv/TXCVZdb1BM
+        Orq3fmE7/cxE0w94zube9pI=
+X-Google-Smtp-Source: APXvYqydmYwjuRWpEnJW7zDkNndZMMKDmmNZQ/qF/g6CupwAPvWiwlhDNfoY0qM9c/h1uUKnpFpfEA==
+X-Received: by 2002:adf:dfc2:: with SMTP id q2mr3821479wrn.251.1578666879258;
+        Fri, 10 Jan 2020 06:34:39 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id s10sm2376838wrw.12.2020.01.10.06.33.37
+        by smtp.gmail.com with ESMTPSA id h66sm2536850wme.41.2020.01.10.06.34.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2020 06:33:37 -0800 (PST)
-Date:   Fri, 10 Jan 2020 15:33:36 +0100
+        Fri, 10 Jan 2020 06:34:38 -0800 (PST)
+Date:   Fri, 10 Jan 2020 15:34:37 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1] soc/tegra: fuse: Add APB DMA dependency for Tegra20
-Message-ID: <20200110143336.GD2233456@ulmo>
-References: <20191229150121.1635-1-digetx@gmail.com>
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
+Cc:     joro@8bytes.org, jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] memory: tegra: Correct reset value of xusb_hostr
+Message-ID: <20200110143437.GE2233456@ulmo>
+References: <20191220002914.19043-1-nicoleotsuka@gmail.com>
+ <20191220002914.19043-2-nicoleotsuka@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="bjuZg6miEcdLYP6q"
+        protocol="application/pgp-signature"; boundary="KuLpqunXa7jZSBt+"
 Content-Disposition: inline
-In-Reply-To: <20191229150121.1635-1-digetx@gmail.com>
+In-Reply-To: <20191220002914.19043-2-nicoleotsuka@gmail.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -64,42 +66,42 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---bjuZg6miEcdLYP6q
+--KuLpqunXa7jZSBt+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Dec 29, 2019 at 06:01:21PM +0300, Dmitry Osipenko wrote:
-> Tegra20 FUSE driver depends on DMA channel presence, otherwise it fails to
-> probe.
+On Thu, Dec 19, 2019 at 04:29:11PM -0800, Nicolin Chen wrote:
+> According to Tegra X1 (Tegra210) TRM, the reset value of xusb_hostr
+> field (bit [7:0]) should be 0x7a. So this patch simply corrects it.
 >=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
 > ---
->  drivers/soc/tegra/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/memory/tegra/tegra210.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied to for-5.6/soc, thanks.
+Applied to for-5.6/memory, thanks.
 
 Thierry
 
---bjuZg6miEcdLYP6q
+--KuLpqunXa7jZSBt+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4YizwACgkQ3SOs138+
-s6GXrBAAvR80pePuQVxKoF6mknFT8LeNOteuYXFRqyvhZCvVswsu/UNxU9wN1e0V
-G1aqotq3X7Z2LOW1wIykHfayAOiBp/gefW1OQaXerOdFRQUl7+bLr5gqOCVhoaIQ
-VUaES7yuQUORq0uQ2W5gqJyRvaK83QdWGiB6Am24Tnn3OqMeYynp8aWAEMrrd2ur
-ZMcRZxx+fTFgHYHKutXlXRJg0RHAEBz3Bsdnp/it7raetKrr7fvZCFXQone2IecN
-vrh2SlygYz41HCOUL4ge/JiZauteixtfmw7MQgGYL6buqyPpzWbIFn+1yr3jb3jl
-wntVeN6iz+RhXf1GiHFxTUmq+NshT9NiAvSCKph8L5yp5usUxc1swZVGIXxc8afA
-PCfL+coHn/OafbdUyO7yHWQ75pSt9Aqi4dHCUi98soiY/2yPOgYrh8DmKt+g4U5w
-5QYEqEgqst6hEevS9fXuZx8wcmP74X/E6NelCt5g86G+vh3VUFor1DIV9kAwNrmj
-3kkq9rgbyBkol09YoFGd0FZLjSm0vrH1AQO3adAjwxmBu7A/0GpSrty+PJle8gWY
-++2YDIjbqXmgLV+VWY75B+b1toWdRBuA1j9eGHylHHnVEtI515khuNA+WDTFwU+G
-HA4h0CtBAjFjT6a+r8FYq61Bl55LjJOWHWAeWZiD6Ig4CbpR43k=
-=XBdC
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4Yi30ACgkQ3SOs138+
+s6HnChAAlH9Yv1ffvGQBL7EGN1kk3CBGC5ioxvxbPHjtk7tQhpESolBHMLLsAGIO
+a8MT248f+xIhyJ1KIcr2KBatN7OHkpDzwbUjqEY/YkpVtaFv+OtZiTLGFOHXF/IV
+r+NdozdY0wYbcNr84AGJoIjGzUP4yxreQ5k+MeZhZiUlSAwuSqGBaXgNJO3ILwP9
+MkvWIWF0qdIJaFr9TnekBxusLdjkk+5+S8wWkgBT8t3VQidLDJwcrbvFeey6+zSm
+G6cfuLKRPUxnh0mjrhptz+ykE0ew4mDoN1KcmYRu0pdz3Em9SAfg0bFUiuZXhz+w
+gsEsc/DWhsTzG2zbSuO82oTes1u66rwSz6LzUNWX+isAbUazd3MpN8Ff4xwuSDHk
+7wQYbG9514z60MXQQ8DFvoKaRikQXF2TcTESvOZRcaUxOcEqDrhIYSif+cFHiYfU
+hWVv1YU6RIH6oQO4gtVbJbNPMYrNxwbifLm46fHkiylkc5VOFelXRd4roXdhNZBX
+uqmSY0sa/7xUNmXaCvS7N1tOrfmVSXKWBzRB1waCZyhEkFnkreWfa1KCQh0KMxLT
+GsLAw6ICzF7cgR0WWMd4hc04bEU8wG+eWgDZkysK2hVRl3sG7hyCnhahT6OugCpv
+4jDTUd2qR7tScl63x4t0yM8WiWgeRia7K8S4L7GIwXpvjWjYVUU=
+=PM99
 -----END PGP SIGNATURE-----
 
---bjuZg6miEcdLYP6q--
+--KuLpqunXa7jZSBt+--
