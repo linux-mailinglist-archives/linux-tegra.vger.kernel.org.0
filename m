@@ -2,123 +2,172 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D22CC137949
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 Jan 2020 23:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C35513798D
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 Jan 2020 23:13:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728401AbgAJWHd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 Jan 2020 17:07:33 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41064 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728387AbgAJWHd (ORCPT
+        id S1727252AbgAJWNp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 Jan 2020 17:13:45 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:10305 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727229AbgAJWNp (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 Jan 2020 17:07:33 -0500
-Received: by mail-lj1-f195.google.com with SMTP id h23so3665324ljc.8;
-        Fri, 10 Jan 2020 14:07:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ueIAxuwE1NrUjrVJsYu2PJWCZzJduGj9FbSfPr3jwpk=;
-        b=Tr+YU/uxs+T+sEeXOIt2e5jvdiaiE0Nr4HuPRsUPSol46828WaEPO57aToaLRmoCvf
-         K8ik/Qp+6W7Wjj81DSS0ThiuOCuvlnbGuIa0QL1uQ6P0fkixm71v8tYukqH50QLrZvPN
-         5twT9iBxovm/eyjlo7xjLoWYvii0sar3tq6YhRGkxSk0p9zIrS36DQD8y5GJcXMfHOBe
-         xjIPKdqZUt2DtBkB5aLzIH9d+GWcQnPn5eMyZa6EJtAM5nA9ZNuKcfnNOdk2Pgd1oThL
-         bEHgA70Ty4110yQPcp4+YTVUW4ggQdN6xGhTI/uhXbBzMKIKc/s/R9znGTuGDSQDAPQ0
-         krRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ueIAxuwE1NrUjrVJsYu2PJWCZzJduGj9FbSfPr3jwpk=;
-        b=mr+TO0ZL4YESIf1Y2P4l/u+fIPSAhhEoQ3Q8tx1n2U+20bZLEDgIa02p+hAJcf8SLI
-         MJgMNDpSBfa9JxDHcmFFCLKDAtL/ItfhmSvs2eZFZagluPk2iFWYIigKJSF63sZbHKsR
-         /fmebpKjzJdMqp31s6QwRTHRvXB7LnnXAJGIiNuRS2I6zC/bJuMjeMjMNtKJ+UNJwxDN
-         f/ds2voub/8j3HlLedJwjZlvU9wuYI992bRpjme9S4FllDtr0J4aEfEIuf72H5uURxRN
-         2DAdhhTCy7QhGYekE3bqVZa52oARpcPt36QB9B/9AdkKIfTdbWVzqjlKDQFoASRCxphG
-         ZnvA==
-X-Gm-Message-State: APjAAAWgUxfosBXFlpIIkdyD1XHbmHZN2cSbCtN0KZntEtNEqyTazAle
-        c1nnbxtcHlFTNvI3xjUzLRfvQ0HQ
-X-Google-Smtp-Source: APXvYqzq2Z13eusUV9C8wDnsxgZ/nIaeOnaeHgNoLTcop/geJplygcZlA6iM48HOmLiOgbdu99+LuA==
-X-Received: by 2002:a2e:9a04:: with SMTP id o4mr4100501lji.214.1578694051389;
-        Fri, 10 Jan 2020 14:07:31 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id o69sm1701360lff.14.2020.01.10.14.07.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2020 14:07:30 -0800 (PST)
-Subject: Re: [PATCH v3] regmap: add iopoll-like atomic polling macro
-To:     Sameer Pujar <spujar@nvidia.com>, broonie@kernel.org
-Cc:     jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-References: <1578546590-24737-1-git-send-email-spujar@nvidia.com>
- <fa5198bf-0001-3a57-017f-1b40e0188606@gmail.com>
- <b9f5459f-007e-3139-a3cf-c7dfd3fc335a@nvidia.com>
- <e1ab2304-2ef8-c50d-d9c7-21569b397c23@gmail.com>
- <b14d6130-8a9e-28ac-3ce6-dc6b9e3a3886@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b13b2e54-f867-d35b-c294-bfa8fbc5a6b7@gmail.com>
-Date:   Sat, 11 Jan 2020 01:07:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Fri, 10 Jan 2020 17:13:45 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e18f7050000>; Fri, 10 Jan 2020 14:13:26 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 10 Jan 2020 14:13:44 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 10 Jan 2020 14:13:44 -0800
+Received: from [10.2.160.1] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 10 Jan
+ 2020 22:13:43 +0000
+Subject: Re: [PATCH v7 15/21] ASoC: tegra: Add fallback implementation for
+ audio mclk
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Sameer Pujar <spujar@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+        <mperttunen@nvidia.com>, <gregkh@linuxfoundation.org>,
+        <sboyd@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>
+CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
+        <josephl@nvidia.com>, <daniel.lezcano@linaro.org>,
+        <mmaddireddy@nvidia.com>, <markz@nvidia.com>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1578457515-3477-1-git-send-email-skomatineni@nvidia.com>
+ <1578457515-3477-16-git-send-email-skomatineni@nvidia.com>
+ <f3f550a2-c6e0-7a78-5c83-da3e54dab309@nvidia.com>
+ <d7ac6135-73b0-1087-dafa-4df558a06ef4@nvidia.com>
+ <a3c5293b-9ed4-3266-f792-38b980e54b1e@nvidia.com>
+ <745b8c7b-4fe3-c9ea-284e-b89546e8ad87@nvidia.com>
+ <705edf9b-d1bc-8090-017e-fa4ad445f9fb@nvidia.com>
+ <135f0c0b-86d1-9b1a-af02-c14c4b5308c4@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <575aa30e-1b5a-2a2d-5893-3f6832f416f1@nvidia.com>
+Date:   Fri, 10 Jan 2020 14:13:42 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <b14d6130-8a9e-28ac-3ce6-dc6b9e3a3886@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <135f0c0b-86d1-9b1a-af02-c14c4b5308c4@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1578694406; bh=2gkT3tMLxYwyOI9Jl1S9GbWxm3s4X8H8VJ7ik1MXyoA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=r98heYA0mgWJMM7cxOmYtXFUe/SUO8nBYkvD8RFzN75yxHfwCro5N/26m0Q4Kthbo
+         taSjL+fkp5qmsLhaeib7B1DgpcQPdPulDvkawBOxVb4f6pVMOreJvS5U8dlskzP0Yb
+         3OaVvsPSHsO+1VMVPImCytt6SVTCMUm2ZLbxpl41V/dgSi4vxwZ+2MWcyi/zyB/MIs
+         d/ZxdT0RIeVWQTsUYAi+YO1fEmCA/Bic8duqn9egyfmACnOPqWlIHZ6QLDVxRzoUlM
+         xedxgQ/GDRfpkmtOyfQhRtjzkN8ofhV75Fajgejd9tLh7IPJouR+plxhE/66feLx8f
+         ZXR4WaiaklikQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-10.01.2020 07:50, Sameer Pujar пишет:
-> 
-> On 1/9/2020 7:27 PM, Dmitry Osipenko wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> 09.01.2020 10:24, Sameer Pujar пишет:
->>> On 1/9/2020 11:30 AM, Dmitry Osipenko wrote:
->>>> External email: Use caution opening links or attachments
->>>>
->>>>
->>>> 09.01.2020 08:09, Sameer Pujar пишет:
->>>>> This patch adds a macro 'regmap_read_poll_timeout_atomic' that works
->>>>> similar to 'readx_poll_timeout_atomic' defined in linux/iopoll.h; This
->>>>> is atomic version of already available 'regmap_read_poll_timeout'
->>>>> macro.
->>>>>
->>>>> It should be noted that above atomic macro cannot be used by all
->>>>> regmaps.
->>>>> If the regmap is set up for atomic use (flat or no cache and MMIO)
->>>>> then
->>>>> only it can use.
->>>>>
->>>>> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
->>>>> ---
->>>> Could you please explain what is the targeted use-case here?
->>> I was trying to use regmap_read_poll_timeout() to poll for status change
->>> of a register. This resulted in "BUG: scheduling while atomic". The
->>> callback function, in which I was trying to use the macro, runs in
->>> atomic context. Hence new atomic macro is added. I was checking ALSA
->>> playback/capture and trigger() callback had to monitor some register
->>> status.
->>>
->>> In general, the new macro can be used in atomic callbacks where regmap
->>> interface is used and polling is required.
->>>
->> You should send a full patchset because it may turn out that the patch
->> which makes use of the new feature isn't correct or maybe the new
->> feature isn't really needed.
->>
->> If there was a previous discussion about the need for this change, then
->> you should provide a link to that discussion.
->>
->> Please note that usually changes without a real use-case in kernel are
->> not getting picked up or they are getting removed later on if nobody
->> makes use of them, so I assume this is a kind of an RFC patch for now.
-> 
-> OK. I will send this as part of the complete series. Thank you.
-> 
 
-Thanks! Please feel free to add me to the CC list, I'll take a look at
-the patches.
+On 1/10/20 2:05 PM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 10.01.2020 20:04, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On 1/9/20 10:52 AM, Sowjanya Komatineni wrote:
+>>>
+>>> On 1/7/20 10:28 PM, Sameer Pujar wrote:
+>>>> On 1/8/2020 11:18 AM, Sowjanya Komatineni wrote:
+>>>>> On 1/7/20 9:34 PM, Sameer Pujar wrote:
+>>>>>> On 1/8/2020 9:55 AM, Sowjanya Komatineni wrote:
+>>>>>>> mclk is from clk_out_1 which is part of Tegra PMC block and pmc
+>>>>>>> clocks
+>>>>>>> are moved to Tegra PMC driver with pmc as clock provider and using
+>>>>>>> pmc
+>>>>>>> clock ids.
+>>>>>>>
+>>>>>>> New device tree uses clk_out_1 from pmc clock provider.
+>>>>>>>
+>>>>>>> So, this patch adds implementation for mclk fallback to extern1 whe=
+n
+>>>>>>> retrieving mclk returns -ENOENT to be backward compatible of new
+>>>>>>> device
+>>>>>>> tree with older kernels.
+>>>>>>>
+>>>>>>> Tested-by: Dmitry Osipenko <digetx@gmail.com>
+>>>>>>> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>>>> ---
+>>>>>>>    sound/soc/tegra/tegra_asoc_utils.c | 11 ++++++++++-
+>>>>>>>    1 file changed, 10 insertions(+), 1 deletion(-)
+>>>>>>>
+>>>>>>> diff --git a/sound/soc/tegra/tegra_asoc_utils.c
+>>>>>>> b/sound/soc/tegra/tegra_asoc_utils.c
+>>>>>>> index 9cfebef74870..9a5f81039491 100644
+>>>>>>> --- a/sound/soc/tegra/tegra_asoc_utils.c
+>>>>>>> +++ b/sound/soc/tegra/tegra_asoc_utils.c
+>>>>>>> @@ -183,7 +183,16 @@ int tegra_asoc_utils_init(struct
+>>>>>>> tegra_asoc_utils_data *data,
+>>>>>>>        data->clk_cdev1 =3D devm_clk_get(dev, "mclk");
+>>>>>>>        if (IS_ERR(data->clk_cdev1)) {
+>>>>>>>            dev_err(data->dev, "Can't retrieve clk cdev1\n");
+>>>>>> This error print can be moved inside below if, when this actually
+>>>>>> meant to be an error condition.
+>>>>>>
+>>>>> Want to show error even if mclk retrieval returns ENOENT to clearly
+>>>>> indicate mclk does not exist along with message of falling back to
+>>>>> extern1.
+>>>> Yes, but falling back essentially means 'mclk' is not available and
+>>>> fallback print is not an error.
+>>>> Not a major issue though, you can consider updating. Otherwise LGTM.
+>>>>
+>>> Will update
+>>>>>>> -        return PTR_ERR(data->clk_cdev1);
+>>>>>>> +        if (PTR_ERR(data->clk_cdev1) !=3D -ENOENT)
+>>>>>>> +            return PTR_ERR(data->clk_cdev1);
+>>>>>>> +        /* Fall back to extern1 */
+>>>>>>> +        data->clk_cdev1 =3D devm_clk_get(dev, "extern1");
+>>>>>>> +        if (IS_ERR(data->clk_cdev1)) {
+>>>>>>> +            dev_err(data->dev, "Can't retrieve clk extern1\n");
+>>>>>>> +            return PTR_ERR(data->clk_cdev1);
+>>>>>>> +        }
+>>>>>>> +
+>>>>>>> +        dev_err(data->dev, "Falling back to extern1\n");
+>>>>>> This can be a info print?
+>>> Will use dev_info
+>>>>>>>        }
+>>>>>>>          /*
+>>> Dmitry/Rob, there was discussion in v3 regarding backporting mclk
+>>> fallback.
+>>>
+>>> Dmitry wanted Rob to confirm on this
+>>>
+>>> I think openSUSE Leap could be one of those distros that use LTS kernel
+>>> with newer device-trees, but that's not 100%. Maybe Rob could help
+>>> clarifying that.
+>>>
+>>> Dmitry/Rob, Can you please confirm if mclk fallback patch need
+>>> backport to have new device tree work with old kernels?
+>>>
+>> Dmitry,
+>>
+>> Can you please confirm if we need to backport this mclk fallback patch?
+>>
+> Seems only T210 was making use of the CaR's TEGRA*_CLK_CLK_OUT_*, thus
+> the backporting isn't needed.
+Thanks Dmitry
+>
+> Also, please use 'git rebase --exec make ...' to make sure that all
+> patches are compiling without problems. The removal of the legacy clock
+> IDs should be done after the device-trees changes, otherwise it looks
+> like DTBs compilation will fail. It's possible that the order of the
+> patches could be changed if Thierry will chose to split this series into
+> several pull requests, nevertheless all patches should compile and work
+> in the original order.
+OK, Will move patches of device tree updates to use new DT ID prior to=20
+removal of old ID.
