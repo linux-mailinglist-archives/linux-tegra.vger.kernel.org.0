@@ -2,62 +2,67 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CA98136FBA
-	for <lists+linux-tegra@lfdr.de>; Fri, 10 Jan 2020 15:46:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6B1C137007
+	for <lists+linux-tegra@lfdr.de>; Fri, 10 Jan 2020 15:52:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728051AbgAJOqS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 Jan 2020 09:46:18 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:38069 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727928AbgAJOqS (ORCPT
+        id S1728152AbgAJOwU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 Jan 2020 09:52:20 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:53167 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728056AbgAJOwU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 Jan 2020 09:46:18 -0500
-Received: by mail-wm1-f67.google.com with SMTP id u2so2254377wmc.3;
-        Fri, 10 Jan 2020 06:46:16 -0800 (PST)
+        Fri, 10 Jan 2020 09:52:20 -0500
+Received: by mail-wm1-f66.google.com with SMTP id p9so2311391wmc.2;
+        Fri, 10 Jan 2020 06:52:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=WUUgIu5Jy7CVGqSaZJ239PH8w1I0qej2hZIYHvSsa3M=;
-        b=rZOzYsq8Gxh5LfdYdNYNsHlfTTx5eR1ekuFwXaI4UbMNvW6NXS9/NgWGl21syjE0dv
-         mNbuwwU2A7q2rJHz1sEFTudg38DTBmjDNTbgsmh5ZI0Z7c5AC1pOeV2qimUkMmMz18gh
-         X2WKLDLItEb6NH0weIb7MY+Y30tVAVlwXL6/BcXZ8yRKhrHKTiXTw0na5CB4UPmU2lgy
-         obUDRl0U5NAbKzk0S43ixgbYY5kX919QnuSSqBnVaSdVnhk+wgDooq108X0Cn9gB0Cmi
-         +/S6d/8WYUhAMZRU9Qc6vXvwVzmr75MeF8YIOsJwTJ/G6jwcOM4jfDLRaL8gHf5zZccs
-         mfKA==
+        bh=oVYLl9LN72M2SWc5/npLC+GHfXW32Z75PJHHgZON1Jw=;
+        b=embQBqkFQJiui3MEMODdwpfRFie5ETZTYIzBikIvHCeJhVjwtfGYt44rI2jFsSRoMs
+         0MXr25v2rb9rV2KaiVGdV3y3LU/qbnAPddh02Z6rNYAMofyRQkdlGti+a3IjJKGOHbqn
+         J2K6iF6n45lLeZxUzbNmLfvwRZhbWLBrVKmurs4VHKW8PuDkLb/9vNn4AO/hkpWz1b9z
+         7o49spp5mx2CObSUaBLIun/9yGpdxWHIzghCA0+yCKcjZn02NqjzNYmf0HxNmgckF153
+         pCPZ0ftzB5+P2L6V/6PN0VI+h+5n7psdi1CDrAYTkc/O5CFfTtE5tBjS119Oss6WvFky
+         4iMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WUUgIu5Jy7CVGqSaZJ239PH8w1I0qej2hZIYHvSsa3M=;
-        b=Onjso2tak/ohJWEiAiyQc34dNi7pGcowM+JOI79PH5HIwOheiihauF6w8yZSok70ln
-         v20YO8CglU+z20rsZ2nM1OhldvRugv10h37bWAKdr7EyFLKSKQLw3uAVRkjQwxcvId/5
-         A3qx3xV0kLDnGr6MTtGpOzSThlkNdf+AVl8tqEu5SBqYeJFoIZiJYBDnyr9MLAp4HoTW
-         kUbrLefbfbxiPGXo9/lBtfi2MjX15UTQocSNz5aksXXb5XGDji3VPiFcThJGYX8RMyZb
-         ezgSFicc6hWdmGT2QGAhEENlO85CG8i0DkOD/0BIamWdnnPbtde2C6Yu/NOCJ/eVi3Za
-         VR2w==
-X-Gm-Message-State: APjAAAUpLINdqgimLd2TJJdN9aHHAhWngsnq2QI8qVrp3mDtTsTVhdOE
-        kJrboypxBWdLQcWdFcKvz4A=
-X-Google-Smtp-Source: APXvYqzwvlj9Nh3IZiyXKGGo+4g5khGsW5QHWE0obZpxr65I+5fnFGwNGy/Mself1TcAtN33ncx+xg==
-X-Received: by 2002:a7b:c74c:: with SMTP id w12mr4837548wmk.1.1578667576068;
-        Fri, 10 Jan 2020 06:46:16 -0800 (PST)
+        bh=oVYLl9LN72M2SWc5/npLC+GHfXW32Z75PJHHgZON1Jw=;
+        b=DdXTPBU35x2YQI5iVzSyy9iY4EWENqM4SotvfenculY93w1a+NCDF9yWqCkV8IC4WG
+         hsPXrSP0bioG3Czl2yZqk8rZodXzpGhygjOf8xPXGt1oPJyOxENBtJj9cN5XgGy7kI65
+         XPmQMqbley7QmcV7wGm6eL6kyrkZtLNMNsHhxVbb5grc7vCEAZKnAG6QUSM0HVtmUmjv
+         /Fq2g+IemiVO34v26gAE/6k0Xd/LWvqYN7M2cTBwzUca5p5B81YDNjNnDn+mCApMo/Xx
+         WFkPriOuGcY0+GtzG6madmWAjnriUILxFmlycNCQFw4h1wczt8V8eOaL+VyePgriPkxN
+         YOxA==
+X-Gm-Message-State: APjAAAVGmftK0xFlBqYgZutFHA1hjkS9qdUiuAoaF8tvYqxupe0/86cP
+        +ecWHd7cRRMyIKikeGkcOwE=
+X-Google-Smtp-Source: APXvYqwz+zKGoUL7Z/9WVoYbEbih305CPkdr5KQ12oBQgA3aj34A5GHgHcD06644tvAl04QLcM8nDg==
+X-Received: by 2002:a7b:c775:: with SMTP id x21mr4889708wmk.59.1578667938288;
+        Fri, 10 Jan 2020 06:52:18 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id c5sm2594111wmb.9.2020.01.10.06.46.14
+        by smtp.gmail.com with ESMTPSA id m21sm2505984wmi.27.2020.01.10.06.52.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2020 06:46:14 -0800 (PST)
-Date:   Fri, 10 Jan 2020 15:46:14 +0100
+        Fri, 10 Jan 2020 06:52:17 -0800 (PST)
+Date:   Fri, 10 Jan 2020 15:52:16 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] NVIDIA Tegra30 EMC driver improvements
-Message-ID: <20200110144614.GH2233456@ulmo>
-References: <20191220020849.11175-1-digetx@gmail.com>
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND for 5.6 v1 1/3] clk: tegra: divider: Check UART's
+ divider enable-bit state on rate's recalculation
+Message-ID: <20200110145216.GI2233456@ulmo>
+References: <20191218184407.25790-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="PNpeiK4tTqhYOExY"
+        protocol="application/pgp-signature"; boundary="6lCXDTVICvIQMz0h"
 Content-Disposition: inline
-In-Reply-To: <20191220020849.11175-1-digetx@gmail.com>
+In-Reply-To: <20191218184407.25790-1-digetx@gmail.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -65,55 +70,45 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---PNpeiK4tTqhYOExY
+--6lCXDTVICvIQMz0h
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 20, 2019 at 05:08:46AM +0300, Dmitry Osipenko wrote:
-> Hello,
+On Wed, Dec 18, 2019 at 09:44:05PM +0300, Dmitry Osipenko wrote:
+> UART clock is divided using divisor values from DLM/DLL registers when
+> enable-bit is unset in clk register and clk's divider configuration isn't
+> taken onto account in this case. This doesn't cause any problems, but
+> let's add a check for the divider's enable-bit state, for consistency.
 >=20
-> I took a refreshed look at the driver's code and spotted few things that
-> could be improved. No critical fixes here, just improvements. Please
-> review and apply, thanks in advance!
->=20
-> Changelog:
->=20
-> v2: - Now using WRITE/READ_ONCE() in the "Firm up hardware programming
->       sequence" patch for interrupt handler interactions, to firm driver
->       even further.
->=20
-> Dmitry Osipenko (3):
->   memory: tegra30-emc: Firm up suspend/resume sequence
->   memory: tegra30-emc: Firm up hardware programming sequence
->   memory: tegra30-emc: Correct error message for timed out auto
->     calibration
->=20
->  drivers/memory/tegra/tegra30-emc.c | 179 +++++++++++++++++------------
->  1 file changed, 104 insertions(+), 75 deletions(-)
+> Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/clk/tegra/clk-divider.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 
-Applied to for-5.6/memory, thanks.
+All three patches applied to for-5.6/clk, thanks.
 
 Thierry
 
---PNpeiK4tTqhYOExY
+--6lCXDTVICvIQMz0h
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4YjjUACgkQ3SOs138+
-s6HihQ/7BoT7ElvPG4frfgK9JBo3hJ8xRh9OUfByjYrQMhMpZhkKix8HxH2JF63g
-mWZ/ph/Zn28GXaGRxIBnYrcjfus/8NY5fRpdpZrvbEYFSlBVutEnUgLhlSAKffdr
-q8SOmaUPSrlrbpc8to4JAMnXYnWK4XFuBPaKQywIkL9wYfonctHuLgFCbbk4QB9h
-Uq0+qjuIx6F2HACK1/qEhM/otH0wR7ExIXsP58w6ZDWp0LdC8/qZ2fawRrk3lGG7
-4wofzHGjgeQXNg95DinEqLeYcnfJseo6h206QSsEcZoZAVs1bCYy2B54QWw48/7j
-vHihF72VhMOm9oe42EvDtP651vZrycAB/PTp85F9NMftoxZ7G+0OWQnyoSPUu+uB
-j7eiw8PBQrn/1f/nzcjmNpw23cpeTMeN07w0voqEohlNcTJftcfXAC6DOljkCex4
-1VloC30lvPlqOpqFShzV44BeCPUXZAgszNaCB09G9eOvOqZb8YeBRU2jnRZJ8pqF
-xe6Bav0/Zo15ZtaNS4UGR5XZ36NEb9jEQxMirbT755vz0vI0nKM94vPu6PQ9PpJ+
-QAJv1C9rK/RiV9LO2/+k8HyGQS59mQVaxMO2ADxhZEtdNYwrdmkVGlqjK3o4z1Bk
-asArwOQlUlxrLYRnw+4+bDugu3s/SlArUCGruXhRu7a6cNYhFKQ=
-=QEPV
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4Yj6AACgkQ3SOs138+
+s6GxRRAAkhh+jeJ2znxH5p0u5lU7TnqfCZkhhIf9AuHOtxu8TBDgvsruRrJRS86P
+hAc4z201mWg29UpR0R9fOvuQhGNGvuYAGU/m46Utq9XLQLlG5ZLNsettLgBmg/Ju
+u4yX3YIrDvBde7/xgWB5GjBUhzTkDrcdn9nz12DHbE2weHao8xK5zeEosZw/LdYs
+IDkKdGeuzYlFM3yo/Kro63RgHsG6srdoXid4elJt/RdcwrNY13hROSyGTuE5LXx6
+6iZHUaMh/E947uCPe3/H3S+Sy2ZWR/6bu44kp3h6B6vh0ybyOUG4cfeJT2bqNXOb
+YB6sqcXSwJapIpPy2jmQzx2LMUJPpsFglHF2E27IV2D1z7DEDSNdR8cGm0wy8CBR
+xhKujgI0hs5y84GuJSFlqM1bTndC2/3GvAAqTW5BH0IekzmffvJt2a2NCwoi6jB4
+HKji0Dxw4XzHkiWj+RE1tXfZu7IKOsz0W029+LX9G4EhiYAMJ7+KkJp3lHJ1f487
+a3p2uRoBneOYSLMALSZ0OqNu9GWXqqUVd+nf+VH5WpLGCHpGqzXnfJyqIWyhpUey
+XXkZfqhzFEjyawT4EAPVnkfOtwYuWjSV/Iz4v9qbGj/6GMy/yN6jZ6Y3LlV/kQ6y
+pJq9/0eNDwcTjAsiD1z2+/eHLFhy3Pzks3GRi+Y8gdkjkxl+ppg=
+=oKAe
 -----END PGP SIGNATURE-----
 
---PNpeiK4tTqhYOExY--
+--6lCXDTVICvIQMz0h--
