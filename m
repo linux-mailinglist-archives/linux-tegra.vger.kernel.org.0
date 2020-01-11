@@ -2,57 +2,57 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30E25137AA8
-	for <lists+linux-tegra@lfdr.de>; Sat, 11 Jan 2020 01:36:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E68C0137AA9
+	for <lists+linux-tegra@lfdr.de>; Sat, 11 Jan 2020 01:36:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727724AbgAKAgI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 Jan 2020 19:36:08 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40475 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727647AbgAKAgI (ORCPT
+        id S1727752AbgAKAgK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 Jan 2020 19:36:10 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40250 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727647AbgAKAgK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 Jan 2020 19:36:08 -0500
-Received: by mail-wm1-f68.google.com with SMTP id t14so3787743wmi.5
-        for <linux-tegra@vger.kernel.org>; Fri, 10 Jan 2020 16:36:07 -0800 (PST)
+        Fri, 10 Jan 2020 19:36:10 -0500
+Received: by mail-wr1-f65.google.com with SMTP id c14so3452085wrn.7
+        for <linux-tegra@vger.kernel.org>; Fri, 10 Jan 2020 16:36:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WETybkijExRZ9cXHgAEpL/eOLOzuJWTx923TC6RLzm8=;
-        b=sUPp3LJ0WPvTTqt06OBr20FilZQyjipZ4wSiwxUbN6wmpjVPm/60aoyXN5hbzTRpr4
-         /r0379qup+75x2m5bzzaHwcDibCcjqoxHwoEXElcUUEb5I6pdzRRXEpSypnlOk2EPCei
-         4iA7bfgj8Akxkyg+nOWLjDCwCiPaY0Ubq29kC8zdCV9l6MQ6YSarlUC4kHLZErk7YKUP
-         0H0jP4szdj7gZSA9WZoAfwiZxxJFtjrqErtt9dx2kRNqGn9kpTwVaXhud3wcBi3zb3et
-         TNelVlVyCTCEqjsA0v6eNqKX5QI9lbkW+Yrb/rs18lmhSFUj41Mz8+OnyxiYuvlEjwUZ
-         oocQ==
+        bh=IE/B8lJDJdDvcxuIuFq2qqc4guWFpnttAgVt4Kc0orQ=;
+        b=fgXOdmpu5/W+zrykGfg/zMG2w+1t4ZsGYpSc43DU9XF2hUtwjVQ/MrEETqF9ut4EVh
+         a1Y6G5Bp1xIz27IQtrot+lw6aC/bIs+LjCD9VE6CCgzw72gubLULWOj/+UQ8c5mwEVzQ
+         zEvLm7QOTJWVBFw5p7GsvOpfbI7nnBSV2rYCwHT8bfHqiLwoe/u6AdHtmzP1RdfA0yd7
+         uPcM+fD7wOK12tzm+cOGaSGcjkrdUvzRtTbWb7IJm44SeLxFfASno9xUBX5JUBv7PeRJ
+         JZ2qjiEuTjOEOvbMACU3hgPLjCIzU9sgd5+Y2Q2aVcpPDvqM/lsErqZ1L8PeyomWrdL1
+         inTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WETybkijExRZ9cXHgAEpL/eOLOzuJWTx923TC6RLzm8=;
-        b=FzUyqYHZc2SQlfQzufzfSpp0z5WjOaT9IiioT19ot0lYA2vfm7PAfscUI1sWVKFqJo
-         iCWGh3cJau51IL/KRFHMEFcWTkb048yYkE1+IAGsQbNBiv+g1Gc1qb2XWApH+ywiQXeM
-         UgyZNHENX1vHjkRvs8xjJe6QMaSlimdGiTGKFN1eLWCsslO2EDxe6lKd0PNLUWIc44AG
-         cCeo2iSctB8qJdI/UtSB1VqPaYo4wjH5uK24Y9lNzDa3Fr/bwktjE8fQWtsHn6MYqrAi
-         Ta1JW8Z6Et/H9N7CfQHDBBHn+3akJ8bAckvMP+dGF0xP+pIgY+OW93I/f6CkasAsPsAl
-         B+tw==
-X-Gm-Message-State: APjAAAX9e4rOnzirdv3rp4aSY7BSMB1V37yQbZ9hmwbqUm4qrsF+1Sau
-        rJo/0zi4/9W6to8RmNnhPII=
-X-Google-Smtp-Source: APXvYqyGXPfvL6mqqW2Y/5chjVHeZAZLm3I0XGdY8VpnAe+o7a3qy6z5uPpDG5zvoFN6E/apQBMa1Q==
-X-Received: by 2002:a1c:7d93:: with SMTP id y141mr7145622wmc.111.1578702966905;
-        Fri, 10 Jan 2020 16:36:06 -0800 (PST)
+        bh=IE/B8lJDJdDvcxuIuFq2qqc4guWFpnttAgVt4Kc0orQ=;
+        b=TZklB2Mjv9lJmAwMf4XVFRjylB1QIi77b79tUSR7zA5esFFRik7rqgFewgjfVrtdIc
+         Am5WbEx510OEjIwJ526HzxFTNMcIf94HqiDtSHeJWpFZhSx8XXN3upHOpOSqR2LIaI3L
+         R8KcJmFKtUAxoFyIXhDzJpCZsnF4lvnGSdKmf2cM1FSr1rSVt4vY8FlQrV2ZW6mGPo4V
+         RanxIr7YOSFNuEZ7OWWfDhlrOoW+JhxTojJrlfNzKq5JU9UYmXO/dDSAkzWGi4UDVWqW
+         Cvmtaeuiruk0oKTrFgjte10HH31o/3P1vIpFgwhjYjSFW9XsTGbT752hpOtybTkCa5z4
+         6MNA==
+X-Gm-Message-State: APjAAAV//dXsBl3DzSfSbPgad2TpkXuuj+hopCFh6QfF8L4hKbKG28Bz
+        F3zXTg/hIOUWKSvVkvASAYc=
+X-Google-Smtp-Source: APXvYqx1bEgH4MS9+ajTliW2gTn7GRE+wVeS+fhR65QJTy4NUZDj5C+TSmgPW7YHPTjB8V+pok9aFA==
+X-Received: by 2002:a05:6000:1288:: with SMTP id f8mr5997069wrx.66.1578702968707;
+        Fri, 10 Jan 2020 16:36:08 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id p18sm4143041wmg.4.2020.01.10.16.36.05
+        by smtp.gmail.com with ESMTPSA id e8sm4250249wrt.7.2020.01.10.16.36.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2020 16:36:05 -0800 (PST)
+        Fri, 10 Jan 2020 16:36:07 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     arm@kernel.org, soc@kernel.org
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [GIT PULL 6/8] ARM: tegra: Device tree changes for v5.6-rc1
-Date:   Sat, 11 Jan 2020 01:35:51 +0100
-Message-Id: <20200111003553.2411874-6-thierry.reding@gmail.com>
+Subject: [GIT PULL 7/8] arm64: tegra: Device tree changes for v5.6-rc1
+Date:   Sat, 11 Jan 2020 01:35:52 +0100
+Message-Id: <20200111003553.2411874-7-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200111003553.2411874-1-thierry.reding@gmail.com>
 References: <20200111003553.2411874-1-thierry.reding@gmail.com>
@@ -72,33 +72,52 @@ The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.6-arm-dt
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.6-arm64-dt
 
-for you to fetch changes up to 834f1d6cf3647e804e7a80569e42ee7fbee50eb1:
+for you to fetch changes up to f41f34ddcee679641ff7d177b37597844d82d634:
 
-  ARM: dts: tegra20: paz00: Add memory timings (2020-01-10 15:41:54 +0100)
+  arm64: tegra: Allow bootloader to configure Ethernet MAC on Jetson TX2 (2020-01-10 17:04:29 +0100)
 
 Thanks,
 Thierry
 
 ----------------------------------------------------------------
-ARM: tegra: Device tree changes for v5.6-rc1
+arm64: tegra: Device tree changes for v5.6-rc1
 
-This adds memory timings for the PAZ100 and does some minor cleanup for
-the external memory controller device tree node on Tegra124.
+These patches do some cleanup to existing nodes, add the memory
+subsystem on Tegra186 and Tegra194 as well as the FUSE and APB MISC
+nodes on Tegra194. There are also a few additions to the Jetson Nano
+device tree to enable additional features and the force recovery
+button on the Jetson AGX Xavier now produces a key code that is
+actually valid. Finally, an alias is added for the Ethernet card on
+Jetson TX2 to allow firmware to find it and pass a MAC address via
+device tree.
 
 ----------------------------------------------------------------
-Dmitry Osipenko (1):
-      ARM: dts: tegra20: paz00: Add memory timings
+JC Kuo (1):
+      arm64: tegra: Add fuse/apbmisc node on Tegra194
 
-Thierry Reding (2):
-      ARM: tegra: Let the EMC hardware use the EMC clock
-      ARM: tegra: Rename EMC on Tegra124
+Peter Robinson (1):
+      arm64: tegra: Allow bootloader to configure Ethernet MAC on Jetson TX2
 
- arch/arm/boot/dts/tegra124-apalis-emc.dtsi     |  2 +-
- arch/arm/boot/dts/tegra124-jetson-tk1-emc.dtsi |  2 +-
- arch/arm/boot/dts/tegra124-nyan-big-emc.dtsi   |  2 +-
- arch/arm/boot/dts/tegra124-nyan-blaze-emc.dtsi |  2 +-
- arch/arm/boot/dts/tegra124.dtsi                |  4 ++-
- arch/arm/boot/dts/tegra20-paz00.dts            | 46 ++++++++++++++++++++++++++
- 6 files changed, 53 insertions(+), 5 deletions(-)
+Tamás Szűcs (2):
+      arm64: tegra: Enable PWM fan on Jetson Nano
+      arm64: tegra: Enable SDIO on Jetson Nano M.2 Key E
+
+Thierry Reding (7):
+      arm64: tegra: Let the EMC hardware use the EMC clock
+      arm64: tegra: Rename EMC on Tegra132
+      arm64: tegra: Add interrupt for memory controller on Tegra186
+      arm64: tegra: Add external memory controller on Tegra186
+      arm64: tegra: Add the memory subsystem on Tegra194
+      arm64: tegra: Make XUSB node consistent with the rest
+      arm64: tegra: Redefine force recovery key on Jetson AGX Xavier
+
+ arch/arm64/boot/dts/nvidia/tegra132.dtsi           |  4 +-
+ arch/arm64/boot/dts/nvidia/tegra186-p3310.dtsi     |  1 +
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi           | 34 +++++++---
+ arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi     |  4 ++
+ arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts |  2 +-
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           | 56 +++++++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 73 ++++++++++++++++++++++
+ 7 files changed, 164 insertions(+), 10 deletions(-)
