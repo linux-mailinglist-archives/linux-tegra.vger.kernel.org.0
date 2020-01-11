@@ -2,128 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7183C137A5D
-	for <lists+linux-tegra@lfdr.de>; Sat, 11 Jan 2020 00:50:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 856DC137AA3
+	for <lists+linux-tegra@lfdr.de>; Sat, 11 Jan 2020 01:36:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727782AbgAJXuv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 10 Jan 2020 18:50:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37466 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727728AbgAJXuu (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 10 Jan 2020 18:50:50 -0500
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AEE2720721;
-        Fri, 10 Jan 2020 23:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578700249;
-        bh=Psrf5lv/ppB1Eke5z2SmhdxBqDuAwAx/qdkZaUu9VVE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RyAJxfEhipfX45wJw4VWB4489hI3tx/LI/DKYK81YE5sxB6y4oLTnOj6K2pLaFpWH
-         X/bGxKeJeXoTyygz7VMX6KIEqLvKo8m6hkFVWcHEIGnpoQ9CZ/TS7LLcZv1DW9h+0P
-         h+A02PJ+4Zlsv01fp8PTE4paS/SLmyfJ8T8KwIzE=
-Received: by mail-qv1-f44.google.com with SMTP id x1so1614906qvr.8;
-        Fri, 10 Jan 2020 15:50:49 -0800 (PST)
-X-Gm-Message-State: APjAAAXuFSG2wENR+1m85jfETmuuh8F+Lddm5jBcc3H/KX1d5aW242On
-        b3ZwxLvBp1cp+AjMG6PGLp+04GehOB1sOVrCGg==
-X-Google-Smtp-Source: APXvYqx9u0dSkeb2HRMFumNFpMD+qH1eg54SR01fXYhsCkTKiKQocTuTy1z4bsE+SNdpO7cAVu6ScL5LMUHkrng/LpY=
-X-Received: by 2002:a0c:f68f:: with SMTP id p15mr1149115qvn.79.1578700248840;
- Fri, 10 Jan 2020 15:50:48 -0800 (PST)
+        id S1727730AbgAKAgB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 10 Jan 2020 19:36:01 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:38649 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727466AbgAKAgA (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 10 Jan 2020 19:36:00 -0500
+Received: by mail-wm1-f67.google.com with SMTP id u2so3799752wmc.3
+        for <linux-tegra@vger.kernel.org>; Fri, 10 Jan 2020 16:35:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=upPg1VmV9Btab+DMy1GA5Ke0vGa3h3LTB+SNHHceH3U=;
+        b=n3H3cEqp5zg3m/V+EhIx/4SCvJ4yV3nCl4cXoBxUYkxgcH2laseQzd0Xw72Ube1pIv
+         IIDyXhz2vRSFhSOyGlsN2xyVdiVL6PtXWwDl+oa9M0550SXdNCChm6tSUsqrkBv73O4J
+         3dwuUT1weou+LteoBTJvxyf+9Mi4ykuJB0f/RSIEFYiqLTtnwGP/IPMDMDwRQQmLgggN
+         FE926vEqSX9y4nyzcNX/HKF4ZSeoeG0Ulo6ov6WMIM1qEBpyeH5zXImwBzAjHd8wQ+Eu
+         D0McL/Rh+jucddqlpmGm4LZ8kKD3CV7sSjw7r1lJTQshuJA9QdodDam8SYH4azmPwjIt
+         RkQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=upPg1VmV9Btab+DMy1GA5Ke0vGa3h3LTB+SNHHceH3U=;
+        b=rnzE28wki2QDIsAb79EbV62asfHwb5GgQjcLDVwJhFLN3J7sOk5yW5P4hk17D/gjes
+         y9O9PdF7crwgk6C1HYrkXd+0YbqnWlLp0Bx285svT33VfCgAx/qwb7Jj6ugKwOx3yabf
+         w7y46/V97g0R/qEQzrDQ6rItlfpeIZEW9Cep738+6DDlBEbGqR1GFMM7EElF0E3lGcuJ
+         BP+wE2IKCg7uYgafVHzjIWEfTQTDuIN4sZa+mJcSVOQSqr5MrGJZBxPp2aBGkV7CRFQx
+         84180QPNgLh8doSh5AzvKf/e6VKH/LSBV6jhnPJ5GU/lnsjGNrxfl7uuDsbO4Hwb9UqS
+         7Biw==
+X-Gm-Message-State: APjAAAUjKEidKlE5MNx/sY3HzX+XIZ4Ec/tZVqY2EjwFeIQN0kEnt1k7
+        lRlBcMim2/P33C45hu8+fvs=
+X-Google-Smtp-Source: APXvYqwkIjqCN49vn+eV3kVECprsvX9UkysvqnA2xGcX8uUwiUx3fUsyce6AV3TkoFdmSeMAcxy9mg==
+X-Received: by 2002:a1c:23d7:: with SMTP id j206mr6687362wmj.39.1578702958673;
+        Fri, 10 Jan 2020 16:35:58 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id v17sm4053740wrt.91.2020.01.10.16.35.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jan 2020 16:35:57 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     arm@kernel.org, soc@kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [GIT PULL 1/8] dt-bindings: Changes for v5.6-rc1
+Date:   Sat, 11 Jan 2020 01:35:46 +0100
+Message-Id: <20200111003553.2411874-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20191211232345.24810-1-robh@kernel.org> <5386e959-f9c4-2748-ed08-34ab361aee2c@nvidia.com>
-In-Reply-To: <5386e959-f9c4-2748-ed08-34ab361aee2c@nvidia.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 10 Jan 2020 17:50:37 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLmth0bYcG2VnxU-jk_VoC4TgvWD8_e6r1_8WqVwYGq0g@mail.gmail.com>
-Message-ID: <CAL_JsqLmth0bYcG2VnxU-jk_VoC4TgvWD8_e6r1_8WqVwYGq0g@mail.gmail.com>
-Subject: Re: [PATCH] of: Rework and simplify phandle cache to use a fixed size
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, Jan 7, 2020 at 4:22 AM Jon Hunter <jonathanh@nvidia.com> wrote:
->
-> Hi Rob,
->
-> On 11/12/2019 23:23, Rob Herring wrote:
-> > The phandle cache was added to speed up of_find_node_by_phandle() by
-> > avoiding walking the whole DT to find a matching phandle. The
-> > implementation has several shortcomings:
-> >
-> >   - The cache is designed to work on a linear set of phandle values.
-> >     This is true for dtc generated DTs, but not for other cases such as
-> >     Power.
-> >   - The cache isn't enabled until of_core_init() and a typical system
-> >     may see hundreds of calls to of_find_node_by_phandle() before that
-> >     point.
-> >   - The cache is freed and re-allocated when the number of phandles
-> >     changes.
-> >   - It takes a raw spinlock around a memory allocation which breaks on
-> >     RT.
-> >
-> > Change the implementation to a fixed size and use hash_32() as the
-> > cache index. This greatly simplifies the implementation. It avoids
-> > the need for any re-alloc of the cache and taking a reference on nodes
-> > in the cache. We only have a single source of removing cache entries
-> > which is of_detach_node().
-> >
-> > Using hash_32() removes any assumption on phandle values improving
-> > the hit rate for non-linear phandle values. The effect on linear values
-> > using hash_32() is about a 10% collision. The chances of thrashing on
-> > colliding values seems to be low.
-> >
-> > To compare performance, I used a RK3399 board which is a pretty typical
-> > system. I found that just measuring boot time as done previously is
-> > noisy and may be impacted by other things. Also bringing up secondary
-> > cores causes some issues with measuring, so I booted with 'nr_cpus=1'.
-> > With no caching, calls to of_find_node_by_phandle() take about 20124 us
-> > for 1248 calls. There's an additional 288 calls before time keeping is
-> > up. Using the average time per hit/miss with the cache, we can calculate
-> > these calls to take 690 us (277 hit / 11 miss) with a 128 entry cache
-> > and 13319 us with no cache or an uninitialized cache.
-> >
-> > Comparing the 3 implementations the time spent in
-> > of_find_node_by_phandle() is:
-> >
-> > no cache:        20124 us (+ 13319 us)
-> > 128 entry cache:  5134 us (+ 690 us)
-> > current cache:     819 us (+ 13319 us)
-> >
-> > We could move the allocation of the cache earlier to improve the
-> > current cache, but that just further complicates the situation as it
-> > needs to be after slab is up, so we can't do it when unflattening (which
-> > uses memblock).
-> >
-> > Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > Cc: Michael Ellerman <mpe@ellerman.id.au>
-> > Cc: Segher Boessenkool <segher@kernel.crashing.org>
-> > Cc: Frank Rowand <frowand.list@gmail.com>
-> > Signed-off-by: Rob Herring <robh@kernel.org>
->
-> With next-20200106 I have noticed a regression on Tegra210 where it
-> appears that only one of the eMMC devices is being registered. Bisect is
-> pointing to this patch and reverting on top of next fixes the problem.
-> That is as far as I have got so far, so if you have any ideas, please
-> let me know. Unfortunately, there do not appear to be any obvious errors
-> from the bootlog.
+Hi ARM SoC maintainers,
 
-I guess that's tegra210-p2371-2180.dts because none of the others have
-2 SD hosts enabled. I don't see anything obvious though. Are you doing
-any runtime mods to the DT?
+The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
 
-Can you try just removing the cache lookup at the beginning? Pretty
-sure that will work as that's pretty much what we had before any
-cache. Next try dumping out the phandle values and node ptr values.
+  Linux 5.5-rc1 (2019-12-08 14:57:55 -0800)
 
-Rob
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/tegra-for-5.6-dt-bindings
+
+for you to fetch changes up to 720ad00eade9d08aabaf7b130fed1817252badf5:
+
+  dt-bindings: memory: Add Tegra186 memory subsystem (2020-01-09 19:11:26 +0100)
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+dt-bindings: Changes for v5.6-rc1
+
+This contains a conversion of the Tegra124 EMC bindings to json-schema
+as well as the addition of the bindings for the memory subsystem found
+on Tegra186 and Tegra194.
+
+----------------------------------------------------------------
+Thierry Reding (4):
+      dt-bindings: memory-controller: Convert Tegra124 EMC to json-schema
+      dt-bindings: memory: Add Tegra186 memory client IDs
+      dt-bindings: memory: Add Tegra194 memory controller header
+      dt-bindings: memory: Add Tegra186 memory subsystem
+
+ .../memory-controllers/nvidia,tegra124-emc.txt     | 374 ---------------
+ .../memory-controllers/nvidia,tegra124-emc.yaml    | 528 +++++++++++++++++++++
+ .../memory-controllers/nvidia,tegra186-mc.yaml     | 130 +++++
+ include/dt-bindings/memory/tegra186-mc.h           | 139 ++++++
+ include/dt-bindings/memory/tegra194-mc.h           | 410 ++++++++++++++++
+ 5 files changed, 1207 insertions(+), 374 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.txt
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.yaml
+ create mode 100644 include/dt-bindings/memory/tegra194-mc.h
