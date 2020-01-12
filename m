@@ -2,232 +2,136 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2942138204
-	for <lists+linux-tegra@lfdr.de>; Sat, 11 Jan 2020 16:32:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF44138735
+	for <lists+linux-tegra@lfdr.de>; Sun, 12 Jan 2020 18:17:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729973AbgAKPcL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 11 Jan 2020 10:32:11 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:37185 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729958AbgAKPcL (ORCPT
+        id S1733064AbgALRRl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 12 Jan 2020 12:17:41 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:36390 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728734AbgALRRl (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 11 Jan 2020 10:32:11 -0500
-Received: by mail-lj1-f196.google.com with SMTP id o13so5253133ljg.4;
-        Sat, 11 Jan 2020 07:32:08 -0800 (PST)
+        Sun, 12 Jan 2020 12:17:41 -0500
+Received: by mail-lf1-f68.google.com with SMTP id n12so5139868lfe.3;
+        Sun, 12 Jan 2020 09:17:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Jzwxp3lWZeyeoVo+7adSEFYxLkJCA6sCkYkRhViRSF4=;
-        b=WEqUPqINVv8iSLFS7PGBWB0tCktQhyTKsxEAX2Hut6ihWFSzNO9B7XQFwzJc/b6bCy
-         6d9qK6otsCJyMu74C7I6i5PQDwUFog69bZVU5zYz9lYfZEoLKG2Yn/hlz7JJYrHVWAIg
-         wpWT83V1yBDp2uYSSoMpEpjsDLEKo7s9Z1p7+j4CeD3F6zsTNcGIag3yxNuui2SUnY/P
-         ICK5Gb832cKL1x3VePNWO1zMnQDVr+AE0wshMPUX2JBJFFDiuGaYg1cfZYg8mlPwZV81
-         0joAxyaW0t6s++vzIiadLscFoYbOdw8LlxN+OaYafgo7reKk4wwie/SMysivS7/PxPoL
-         pk4g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zXWAvdz7wW5k7arXqaVV09f4qfYqBHJ7yY/UDQRK7X0=;
+        b=JBysCpnLo//cdrc9SODmOZD6XDhnggf53eRtTtC/uXjx681/uN+3Ydxn5kuzy14PQE
+         myE58cY5FRYUPm0Y/97CBW+VpkLtYzga0MODttCHKLMm4MnNTZwNLrKmuvhWCQkd9erZ
+         U86wRW4AUB+aE5wYZWxLKlx1RZBu4v5+28ygxCEaiDn7niCMHc3D6oAkGUjsBJNVbd6D
+         36lTZ6BNqweB/fZLfXk9ZgXHul7meYAOVRU1UU6DMXaRpsarnXYseFmGyYfsOdV4MQde
+         00GWma/Id017fTS9J4O3gCivzUcNKNvPJewCK0x2puT197e2LWfBSJP/qL8927Gve4I/
+         z3cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Jzwxp3lWZeyeoVo+7adSEFYxLkJCA6sCkYkRhViRSF4=;
-        b=qsrShAcAbFND1zuutDYGkaP+NLPNt/Vy0G4PxLp+Dg/OtsYSlpDyLrsddPKuj8BhO7
-         ewHLI1a0prvhfJ6S3BrsD9kL1Crdstg2UUGRMJdt2DcMRTGqTzesfXbeEHh17hwU5bDR
-         rq+2UPN9utNeB05R2xzLJGdh0D009aY47cp0W0t8gNLyVK/0GzD0NdWRmOpwl1DKK+0t
-         hvfYbqc9wKp8KndG3TfiWXTRHYFHkrz/3K6+YuvED9ZLVHupmJ96X/8Pe9enSxk+TYQ2
-         cffxM7OXfUk1Rw1uGKkFRhADGTBzdMtX5gCp4W6SVSvkU4UdELJ6FFoyyXuOAutngm5T
-         dPZQ==
-X-Gm-Message-State: APjAAAUqXKTvbxh8A7m2aw9k3PWozs3gs4RXOkzFNgw1g7ffURcKnZMO
-        QIFcvQuQM1Aprc704yfx6OR+nVnr
-X-Google-Smtp-Source: APXvYqz7GKZn3IvrC1VjsoXBOdrMCrzr8YTMIOnxEhesELZ/ZaMW6I+1WG0TxSzkPry/rXlXazFEkA==
-X-Received: by 2002:a2e:9e03:: with SMTP id e3mr6129684ljk.186.1578756727755;
-        Sat, 11 Jan 2020 07:32:07 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id d4sm2845137lfn.42.2020.01.11.07.32.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Jan 2020 07:32:07 -0800 (PST)
-Subject: Re: [PATCH v7 15/21] ASoC: tegra: Add fallback implementation for
- audio mclk
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Sameer Pujar <spujar@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, broonie@kernel.org, lgirdwood@gmail.com,
-        perex@perex.cz, tiwai@suse.com, mperttunen@nvidia.com,
-        gregkh@linuxfoundation.org, sboyd@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, josephl@nvidia.com,
-        daniel.lezcano@linaro.org, mmaddireddy@nvidia.com,
-        markz@nvidia.com, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1578457515-3477-1-git-send-email-skomatineni@nvidia.com>
- <1578457515-3477-16-git-send-email-skomatineni@nvidia.com>
- <f3f550a2-c6e0-7a78-5c83-da3e54dab309@nvidia.com>
- <d7ac6135-73b0-1087-dafa-4df558a06ef4@nvidia.com>
- <a3c5293b-9ed4-3266-f792-38b980e54b1e@nvidia.com>
- <745b8c7b-4fe3-c9ea-284e-b89546e8ad87@nvidia.com>
- <705edf9b-d1bc-8090-017e-fa4ad445f9fb@nvidia.com>
- <135f0c0b-86d1-9b1a-af02-c14c4b5308c4@gmail.com>
- <575aa30e-1b5a-2a2d-5893-3f6832f416f1@nvidia.com>
- <9bca6c3e-bfe0-7130-b233-3f25c436f76e@gmail.com>
- <dcfd35f3-7fdd-fdc9-1c77-bcb63bcabd5b@nvidia.com>
+        bh=zXWAvdz7wW5k7arXqaVV09f4qfYqBHJ7yY/UDQRK7X0=;
+        b=E5wVWwXOuqKedWekNnadUy8bu4bvNtSDNt0he6Jw2QuqvC5mG5pe9w9bSBYtxog74U
+         ZKb1YLycxArVI8VfAf5X0sJp5RnUDEh6a1ZhcDFZyqX9SpIO/1ub8ez3v5GxOsLyP/Lx
+         aIeMV3f1Ddoe/lILbUtZQ62CERntLoDizeDOSJKcoL9h7xwliijHmqPJqOho3Q1gYtft
+         bhlXiuivn10D8TjqfA0dWCuU6JXYEPbGOunABl5xx8hZrEe5dTlwMpdKdVkgZ4jKsAAu
+         denyh3vRWXALp+bhBEd531sCp0Mn5nLjsmUtHQewezowjZk71PCMWSE2nT3ySg+pHehy
+         u++A==
+X-Gm-Message-State: APjAAAW+7lp+ut20WsoeUOGogAUC75m/yZ5IvtwyoQslucApBwCzJ8tU
+        Pr1sQLNFx+WxxeyteNKy+1o=
+X-Google-Smtp-Source: APXvYqwcktwCb23rk+XJigyB1hKLrKjpp4iMqIKMmaF8yZ7ruzyZDuOAVKQPNEUDkF3CQREGWrq5Fg==
+X-Received: by 2002:ac2:59dc:: with SMTP id x28mr7480599lfn.38.1578849459358;
+        Sun, 12 Jan 2020 09:17:39 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.gmail.com with ESMTPSA id i13sm4506628ljg.89.2020.01.12.09.17.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jan 2020 09:17:38 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1319c4d2-7929-43e1-c036-45396f28c2fa@gmail.com>
-Date:   Sat, 11 Jan 2020 18:32:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/8] NVIDIA Tegra I2C driver fixes and improvements
+Date:   Sun, 12 Jan 2020 20:14:22 +0300
+Message-Id: <20200112171430.27219-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-In-Reply-To: <dcfd35f3-7fdd-fdc9-1c77-bcb63bcabd5b@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-11.01.2020 02:14, Sowjanya Komatineni пишет:
-> 
-> On 1/10/20 3:02 PM, Dmitry Osipenko wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> 11.01.2020 01:13, Sowjanya Komatineni пишет:
->>> On 1/10/20 2:05 PM, Dmitry Osipenko wrote:
->>>> External email: Use caution opening links or attachments
->>>>
->>>>
->>>> 10.01.2020 20:04, Sowjanya Komatineni пишет:
->>>>> On 1/9/20 10:52 AM, Sowjanya Komatineni wrote:
->>>>>> On 1/7/20 10:28 PM, Sameer Pujar wrote:
->>>>>>> On 1/8/2020 11:18 AM, Sowjanya Komatineni wrote:
->>>>>>>> On 1/7/20 9:34 PM, Sameer Pujar wrote:
->>>>>>>>> On 1/8/2020 9:55 AM, Sowjanya Komatineni wrote:
->>>>>>>>>> mclk is from clk_out_1 which is part of Tegra PMC block and pmc
->>>>>>>>>> clocks
->>>>>>>>>> are moved to Tegra PMC driver with pmc as clock provider and
->>>>>>>>>> using
->>>>>>>>>> pmc
->>>>>>>>>> clock ids.
->>>>>>>>>>
->>>>>>>>>> New device tree uses clk_out_1 from pmc clock provider.
->>>>>>>>>>
->>>>>>>>>> So, this patch adds implementation for mclk fallback to extern1
->>>>>>>>>> when
->>>>>>>>>> retrieving mclk returns -ENOENT to be backward compatible of new
->>>>>>>>>> device
->>>>>>>>>> tree with older kernels.
->>>>>>>>>>
->>>>>>>>>> Tested-by: Dmitry Osipenko <digetx@gmail.com>
->>>>>>>>>> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
->>>>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>>>>>>>> ---
->>>>>>>>>>     sound/soc/tegra/tegra_asoc_utils.c | 11 ++++++++++-
->>>>>>>>>>     1 file changed, 10 insertions(+), 1 deletion(-)
->>>>>>>>>>
->>>>>>>>>> diff --git a/sound/soc/tegra/tegra_asoc_utils.c
->>>>>>>>>> b/sound/soc/tegra/tegra_asoc_utils.c
->>>>>>>>>> index 9cfebef74870..9a5f81039491 100644
->>>>>>>>>> --- a/sound/soc/tegra/tegra_asoc_utils.c
->>>>>>>>>> +++ b/sound/soc/tegra/tegra_asoc_utils.c
->>>>>>>>>> @@ -183,7 +183,16 @@ int tegra_asoc_utils_init(struct
->>>>>>>>>> tegra_asoc_utils_data *data,
->>>>>>>>>>         data->clk_cdev1 = devm_clk_get(dev, "mclk");
->>>>>>>>>>         if (IS_ERR(data->clk_cdev1)) {
->>>>>>>>>>             dev_err(data->dev, "Can't retrieve clk cdev1\n");
->>>>>>>>> This error print can be moved inside below if, when this actually
->>>>>>>>> meant to be an error condition.
->>>>>>>>>
->>>>>>>> Want to show error even if mclk retrieval returns ENOENT to clearly
->>>>>>>> indicate mclk does not exist along with message of falling back to
->>>>>>>> extern1.
->>>>>>> Yes, but falling back essentially means 'mclk' is not available and
->>>>>>> fallback print is not an error.
->>>>>>> Not a major issue though, you can consider updating. Otherwise LGTM.
->>>>>>>
->>>>>> Will update
->>>>>>>>>> -        return PTR_ERR(data->clk_cdev1);
->>>>>>>>>> +        if (PTR_ERR(data->clk_cdev1) != -ENOENT)
->>>>>>>>>> +            return PTR_ERR(data->clk_cdev1);
->>>>>>>>>> +        /* Fall back to extern1 */
->>>>>>>>>> +        data->clk_cdev1 = devm_clk_get(dev, "extern1");
->>>>>>>>>> +        if (IS_ERR(data->clk_cdev1)) {
->>>>>>>>>> +            dev_err(data->dev, "Can't retrieve clk extern1\n");
->>>>>>>>>> +            return PTR_ERR(data->clk_cdev1);
->>>>>>>>>> +        }
->>>>>>>>>> +
->>>>>>>>>> +        dev_err(data->dev, "Falling back to extern1\n");
->>>>>>>>> This can be a info print?
->>>>>> Will use dev_info
->>>>>>>>>>         }
->>>>>>>>>>           /*
->>>>>> Dmitry/Rob, there was discussion in v3 regarding backporting mclk
->>>>>> fallback.
->>>>>>
->>>>>> Dmitry wanted Rob to confirm on this
->>>>>>
->>>>>> I think openSUSE Leap could be one of those distros that use LTS
->>>>>> kernel
->>>>>> with newer device-trees, but that's not 100%. Maybe Rob could help
->>>>>> clarifying that.
->>>>>>
->>>>>> Dmitry/Rob, Can you please confirm if mclk fallback patch need
->>>>>> backport to have new device tree work with old kernels?
->>>>>>
->>>>> Dmitry,
->>>>>
->>>>> Can you please confirm if we need to backport this mclk fallback
->>>>> patch?
->>>>>
->>>> Seems only T210 was making use of the CaR's TEGRA*_CLK_CLK_OUT_*, thus
->>>> the backporting isn't needed.
->>> Thanks Dmitry
->>>> Also, please use 'git rebase --exec make ...' to make sure that all
->>>> patches are compiling without problems. The removal of the legacy clock
->>>> IDs should be done after the device-trees changes, otherwise it looks
->>>> like DTBs compilation will fail. It's possible that the order of the
->>>> patches could be changed if Thierry will chose to split this series
->>>> into
->>>> several pull requests, nevertheless all patches should compile and work
->>>> in the original order.
->>> OK, Will move patches of device tree updates to use new DT ID prior to
->>> removal of old ID.
->> Oh, wait. But then the newer device-trees won't work with the stable
->> kernels, so it actually won't hurt to backport this change.
-> ok will add Fixes tag to have this mclk fallback patch backported.
->>
->> Secondly, please move the "Use device managed resource APIs to get the
->> clock" after the ASoC patches with the stable tags, such that the stable
->> patches could be applied cleanly.
-> OK
->>
->> Lastly, please separate the assigned-clocks change from the the audio
->> mclk enable/disable into a standalone patch. These changes are not
->> interdependent, unless I'm missing something.
-> 
-> But parent configuration when assigned-clock-parents are not in DT are
-> needed along with mclk enable
-> 
-> as we are removing audio clocks parent configuration and enabling them
-> together from clock driver.
-> 
-> So doesn't both parent configuration and enabling mclk together need to
-> be in same patch to match what we are removing from clock driver?
-> 
+Hello,
 
-All current stable kernels happen to work without any visible problems
-because of the non-critical clk-enable refcounting bug that masks the
-problem. Thus the mclk will be enabled in stable kernels without any
-extra changes and the assigned-clock-parents shouldn't affect that.
+This patchset adds support for atomic transfers which are required for
+shutting down machine properly. Secondly, a (not)suspending I2C and some
+other things are fixed/improved by this small series as well. Please review
+and apply, thanks in advance!
 
-Please make sure that every patch in this series:
+Changelog:
 
-1) Compiles without any errors and warnings.
+v4: Removed the "clk: tegra: Fix double-free in tegra_clk_init()" patch
+    from this series, which was added by accident in v3.
 
-2) Works, i.e. you should be able to checkout any commit and kernel
-should boot/work without any regressions.
+    Added Thierry's tested-by to the patches.
 
-3) Stable patches could be cherry-picked into stable kernels without
-merge conflicts.
+v3: The "Prevent interrupt triggering after transfer timeout" and "Support
+    atomic transfers" patches got extra very minor improvements. The
+    completion now is passed directly to tegra_i2c_poll_completion_timeout(),
+    for consistency.
 
-To achieve that you'll need to sort patches in the correct order and do
-some basic testing.
+    Added two new patches that firm up DMA transfer handling:
+
+      i2c: tegra: Always terminate DMA transfer
+      i2c: tegra: Check DMA completion status in addition to left time
+
+v2: The series is renamed from "Tegra I2C: Support atomic transfers and
+    correct suspend/resume" to "NVIDIA Tegra I2C driver fixes and
+    improvements" because it now contains some more various changes.
+
+    New patches in v2:
+
+      i2c: tegra: Correct unwinding order on driver's probe error
+      i2c: tegra: Prevent interrupt triggering after transfer timeout
+      i2c: tegra: Use relaxed versions of readl/writel
+
+    The "Rename I2C_PIO_MODE_MAX_LEN to I2C_PIO_MODE_PREFERRED_LEN" got an
+    improved wording for the code's comment to I2C_PIO_MODE_PREFERRED_LEN.
+
+    The "Support atomic transfers" also got some very minor tuning, like
+    s/in_interrupt()/i2c_dev->is_curr_atomic_xfer/ in dvc_writel() that was
+    missed in v1.
+
+v1: The "i2c: tegra: Support atomic transfers" previously was sent out as
+    a separate patch, but later I spotted that suspend/resume doesn't
+    work properly. The "i2c: tegra: Fix suspending in active runtime PM
+    state" patch depends on the atomic patch because there is a need to
+    active IRQ-safe mode for the runtime PM by both patches.
+
+    I fixed a missed doc-comment of the newly added "is_curr_atomic_xfer"
+    structure field and added additional comment that explains why IRQ needs
+    to be disabled for the atomic transfer in the "Support atomic transfers"
+    patch.
+
+    Lastly, I added a minor "i2c: tegra: Rename .." patch that helps to
+    follow driver's code.
+
+Dmitry Osipenko (8):
+  i2c: tegra: Fix suspending in active runtime PM state
+  i2c: tegra: Properly disable runtime PM on driver's probe error
+  i2c: tegra: Prevent interrupt triggering after transfer timeout
+  i2c: tegra: Support atomic transfers
+  i2c: tegra: Rename I2C_PIO_MODE_MAX_LEN to I2C_PIO_MODE_PREFERRED_LEN
+  i2c: tegra: Use relaxed versions of readl/writel
+  i2c: tegra: Always terminate DMA transfer
+  i2c: tegra: Check DMA completion status in addition to left time
+
+ drivers/i2c/busses/i2c-tegra.c | 216 ++++++++++++++++++++++-----------
+ 1 file changed, 144 insertions(+), 72 deletions(-)
+
+-- 
+2.24.0
+
