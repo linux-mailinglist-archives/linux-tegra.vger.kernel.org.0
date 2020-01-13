@@ -2,87 +2,331 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C975813984E
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jan 2020 19:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18C3E139868
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jan 2020 19:12:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728668AbgAMSDQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jan 2020 13:03:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35594 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727726AbgAMSDP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jan 2020 13:03:15 -0500
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 49A822075B;
-        Mon, 13 Jan 2020 18:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578938594;
-        bh=afflEPcI7MpMlvXe7Utrd24JwsqE7FzZ4KSgPfwTYhA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t2SdDU6gYhuDwF0V+t7IEZ4Mfch8uWRfQCNh93EnNl7Fz4+nACnwyDj5iGOqN3mk4
-         hgivCO8LQTO9U87gIxoWJAAozqRFSglbpIP0vNv7q75G4dfFe3AgzA653Gohq+SUVq
-         uNUXsLRd30DaznWfQKmsUGwDfewX9c9BClWvrZOs=
-Received: by mail-qv1-f44.google.com with SMTP id t6so4405197qvs.5;
-        Mon, 13 Jan 2020 10:03:14 -0800 (PST)
-X-Gm-Message-State: APjAAAU8f5rqbOvk45l03BTwN1rZXJKTJt9AybCjyreU0ggznlyeOWse
-        sfZMb4CGTr6ncG/3Zy5FTWW2VFK061jfHSV6FA==
-X-Google-Smtp-Source: APXvYqxzDqqZLxyasFHvaFmhSmeFE/4AB65rl6FByRgTdU7OF89T+KZV1q9l2AtEAQ19eqqpv05W2/tU3D6NcQZJoyE=
-X-Received: by 2002:a0c:f68f:: with SMTP id p15mr12282769qvn.79.1578938593441;
- Mon, 13 Jan 2020 10:03:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20191222113921.1469372-1-thierry.reding@gmail.com> <20191222113921.1469372-2-thierry.reding@gmail.com>
-In-Reply-To: <20191222113921.1469372-2-thierry.reding@gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 13 Jan 2020 12:03:02 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKWRm7BN1vjV=DDHJooEbQti+zFN=PrvEtrNhKoKa06YQ@mail.gmail.com>
-Message-ID: <CAL_JsqKWRm7BN1vjV=DDHJooEbQti+zFN=PrvEtrNhKoKa06YQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: memory-controller: Convert Tegra124 EMC
- to json-schema
+        id S1726985AbgAMSMp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jan 2020 13:12:45 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4576 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726878AbgAMSMp (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 13 Jan 2020 13:12:45 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e1cb3080000>; Mon, 13 Jan 2020 10:12:24 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 13 Jan 2020 10:12:43 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 13 Jan 2020 10:12:43 -0800
+Received: from [10.24.37.48] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 Jan
+ 2020 18:12:39 +0000
+Subject: Re: Re: [PATCH V2 3/5] PCI: tegra: Add support for PCIe endpoint mode
+ in Tegra194
 To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+CC:     <lorenzo.pieralisi@arm.com>, <bhelgaas@google.com>,
+        <robh+dt@kernel.org>, <jonathanh@nvidia.com>,
+        <andrew.murray@arm.com>, <kishon@ti.com>,
+        <gustavo.pimentel@synopsys.com>, <linux-pci@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kthota@nvidia.com>,
+        <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20200103124404.20662-1-vidyas@nvidia.com>
+ <20200103124404.20662-4-vidyas@nvidia.com> <20200106130259.GB1955714@ulmo>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <108bcf03-c11c-c579-821d-e5ec167ee47b@nvidia.com>
+Date:   Mon, 13 Jan 2020 23:42:36 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20200106130259.GB1955714@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1578939144; bh=sIp4Z4GnMKwRgQ7sFUw0bFQLq84ZbPgvUNhydtjGb9I=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=L/iGmts/kG38pHg3U8H7+Lf2H4xcqkHOYSeAY29AX0CHO2Eq1DWnjRBjvEPaJwPjR
+         oeaGS3zzQWqA5Tmq2RBX1pWXAS1OkFj69V3RONO5/JR5LHeStHoYxaorQVjjMwRIt/
+         KYSbXikM13AC6vn9H3SonqycWADdhkyxlPYPN7Cf4AlHKwwNSoXl3BttBgAESbyrdg
+         JgRN5EqOQuAjx1Fe3ripLuVvlMhYg+doZ3Mhl+A33PdKBhkGQCGLkxsd0uoYL4mTvu
+         535yZZGDtKCbgnjv+oRx830Nf04Vnioy9gjeAoGZwO8NVopQi/TNVLc2mtvKPFUSOd
+         1KuH/jwRkdSeg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sun, Dec 22, 2019 at 5:39 AM Thierry Reding <thierry.reding@gmail.com> wrote:
->
-> From: Thierry Reding <treding@nvidia.com>
->
-> Convert the device tree bindings for the Tegra124 EMC controller to the
-> DT schema format using json-schema. While at it, clean up the binding a
-> little bit by removing any mention of how RAM code and clock frequency
-> are represented in unit-addresses (which they aren't) and by adding the
-> EMC clock without which the EMC controller can't change the frequency at
-> which the external memory is clocked. While this is technically an ABI
-> break (the clock was not required before), this should be fine because
-> there isn't much that the EMC driver can do without access to the EMC
-> clock.
->
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  .../nvidia,tegra124-emc.txt                   | 374 -------------
->  .../nvidia,tegra124-emc.yaml                  | 528 ++++++++++++++++++
->  2 files changed, 528 insertions(+), 374 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.txt
->  create mode 100644 Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
 
-The example fails 'make dt_binding_check':
 
-/home/rob/proj/git/linux-dt/.build-arm64/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.example.dt.yaml:
-memory-controller@70019000: '#reset-cells' is a required property
-/home/rob/proj/git/linux-dt/.build-arm64/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.example.dt.yaml:
-external-memory-controller@7001b000: emc-timings-0:timing-0:
-'nvidia,emc-mrs-wait-cnt' is a required property
-/home/rob/proj/git/linux-dt/.build-arm64/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.example.dt.yaml:
-external-memory-controller@7001b000: emc-timings-0:timing-0:
-'nvidia,emc-xm2dqspadctrl2' is a required property
-/home/rob/proj/git/linux-dt/.build-arm64/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.example.dt.yaml:
-external-memory-controller@7001b000: emc-timings-0:timing-0:
-'nvidia,emc-zcal-interval' is a required property
+On 1/6/20 6:32 PM, Thierry Reding wrote:
+> On Fri, Jan 03, 2020 at 06:14:02PM +0530, Vidya Sagar wrote:
+>> Add support for the endpoint mode of Synopsys DesignWare core based
+>> dual mode PCIe controllers present in Tegra194 SoC.
+>>
+>> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+>> ---
+>> V2:
+>> * Addressed Bjorn's review comments
+>> * Made changes as part of addressing review comments for other patches
+>>
+>>   drivers/pci/controller/dwc/Kconfig         |  30 +-
+>>   drivers/pci/controller/dwc/pcie-tegra194.c | 782 ++++++++++++++++++++-
+>>   2 files changed, 796 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+> [...]
+>> @@ -411,11 +466,66 @@ static irqreturn_t tegra_pcie_rp_irq_handler(struct tegra_pcie_dw *pcie)
+>>   	return IRQ_HANDLED;
+>>   }
+>>   
+>> +static irqreturn_t tegra_pcie_ep_irq_handler(struct tegra_pcie_dw *pcie)
+>> +{
+>> +	struct dw_pcie_ep *ep = &pcie->pci.ep;
+>> +	int spurious = 1;
+>> +	u32 val, tmp;
+>> +
+>> +	val = appl_readl(pcie, APPL_INTR_STATUS_L0);
+>> +	if (val & APPL_INTR_STATUS_L0_LINK_STATE_INT) {
+>> +		val = appl_readl(pcie, APPL_INTR_STATUS_L1_0_0);
+>> +		appl_writel(pcie, val, APPL_INTR_STATUS_L1_0_0);
+>> +		if (val & APPL_INTR_STATUS_L1_0_0_HOT_RESET_DONE) {
+>> +			/* clear any stale PEX_RST interrupt */
+>> +			if (!kfifo_put(&pcie->event_fifo, EP_HOT_RST_DONE)) {
+>> +				dev_err(pcie->dev, "EVENT FIFO is full\n");
+>> +				return IRQ_HANDLED;
+>> +			}
+>> +			wake_up(&pcie->wq);
+>> +		}
+> 
+> Overall this patch looks a little cluttered. A few blank lines before
+> and after (or between) block statements would help make this more
+> readable, in my opinion.
+Done.
 
-Rob
+> 
+>> +		if (val & APPL_INTR_STATUS_L1_0_0_RDLH_LINK_UP_CHGED) {
+>> +			tmp = appl_readl(pcie, APPL_LINK_STATUS);
+>> +			if (tmp & APPL_LINK_STATUS_RDLH_LINK_UP) {
+>> +				dev_info(pcie->dev, "Link is up with Host\n");
+> 
+> Do we want this to be an info message? Looks to me like this is mostly
+> useful for debug purposes, as a quick way to check if the link is up.
+> For production use, this would perhaps be better to expose as a sysfs
+> attribute so that userspace can query it at runtime rather than search
+> through kernel logs.
+I changed it to dev_dbg message.
+
+> 
+>> +				dw_pcie_ep_linkup(ep);
+>> +			}
+>> +		}
+>> +		spurious = 0;
+>> +	}
+>> +
+>> +	if (val & APPL_INTR_STATUS_L0_PCI_CMD_EN_INT) {
+>> +		val = appl_readl(pcie, APPL_INTR_STATUS_L1_15);
+>> +		appl_writel(pcie, val, APPL_INTR_STATUS_L1_15);
+>> +		if (val & APPL_INTR_STATUS_L1_15_CFG_BME_CHGED) {
+>> +			if (!kfifo_put(&pcie->event_fifo, EP_BME_CHANGE)) {
+>> +				dev_err(pcie->dev, "EVENT FIFO is full\n");
+>> +				return IRQ_HANDLED;
+>> +			}
+>> +			wake_up(&pcie->wq);
+>> +		}
+>> +		spurious = 0;
+>> +	}
+>> +
+>> +	if (spurious) {
+>> +		dev_warn(pcie->dev, "Random interrupt (STATUS = 0x%08X)\n",
+>> +			 val);
+>> +		appl_writel(pcie, val, APPL_INTR_STATUS_L0);
+>> +	}
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+>>   static irqreturn_t tegra_pcie_irq_handler(int irq, void *arg)
+>>   {
+>>   	struct tegra_pcie_dw *pcie = arg;
+>>   
+>> -	return tegra_pcie_rp_irq_handler(pcie);
+>> +	if (pcie->mode == DW_PCIE_RC_TYPE)
+>> +		return tegra_pcie_rp_irq_handler(pcie);
+>> +	else if (pcie->mode == DW_PCIE_EP_TYPE)
+>> +		return tegra_pcie_ep_irq_handler(pcie);
+>> +
+>> +	return IRQ_NONE;
+>>   }
+> 
+> We already know at probe time whether the controller is in root complex
+> or endpoint mode, right? Couldn't we just install the correct handler
+> rather than multiplex here? It's not a very big deal, but given that
+> these are interrupts, avoiding the additional indirection might be a
+> good idea.
+Done.
+
+> 
+> [...]
+>> @@ -986,6 +1115,42 @@ static int tegra_pcie_dw_parse_dt(struct tegra_pcie_dw *pcie)
+>>   	pcie->enable_cdm_check =
+>>   		of_property_read_bool(np, "snps,enable-cdm-check");
+>>   
+>> +	if (pcie->mode == DW_PCIE_RC_TYPE)
+>> +		return 0;
+>> +
+>> +	/* Endpoint mode specific DT entries */
+>> +	name = devm_kasprintf(pcie->dev, GFP_KERNEL,
+>> +			      "tegra_pcie_%u_pex_rst_gpio", pcie->cid);
+>> +	if (!name) {
+>> +		dev_err(pcie->dev, "Failed to create PERST GPIO string\n");
+>> +		return -ENOMEM;
+>> +	}
+>> +	pcie->pex_rst_gpiod = devm_gpiod_get_from_of_node(pcie->dev, np,
+> 
+> If np == pcie->dev.of_node, you can simply use devm_gpiod_get() here,
+> can't you?
+Done.
+
+> 
+> [...]
+>> +static void pex_ep_event_hot_rst_done(struct tegra_pcie_dw *pcie)
+>> +{
+>> +	u32 val = 0;
+> 
+> The initialization here seems unnecessary.
+Done.
+
+> 
+> [...]
+>> +static int tegra_pcie_ep_raise_legacy_irq(struct tegra_pcie_dw *pcie, u16 irq)
+>> +{
+>> +	/* Tegra194 supports only INTA */
+>> +	if (irq > 1)
+>> +		return -EINVAL;
+>> +
+>> +	appl_writel(pcie, 1, APPL_LEGACY_INTX);
+>> +	mdelay(1);
+> 
+> Spinning for 1 ms these days is quite a lot. Does this have to be a busy
+> loop or could you use something like usleep_range(1000, 2000) to allow
+> the CPU to do something else in the meantime?
+> 
+> Also, does the legacy INTX pulse have to be a whole millisecond wide? Or
+> could this be shorter? A one millisecond pulse implies a maximum of 1000
+> interrupts per second, which seems a bit low.
+1 ms is what all the other implementations also are using and they are 
+using mdelay also :( . But, I think this doesn't have to be a busy loop 
+and I'll change it to usleep_range(1000, 2000).
+
+> 
+>> @@ -1440,6 +2178,12 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+>>   	int ret;
+>>   	u32 i;
+>>   
+>> +	match = of_match_device(of_match_ptr(tegra_pcie_dw_of_match), dev);
+>> +	if (!match)
+>> +		return -EINVAL;
+>> +
+>> +	data = (struct tegra_pcie_dw_of_data *)match->data;
+> 
+> of_device_get_match_data()?
+Done.
+
+> 
+>> +
+>>   	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
+>>   	if (!pcie)
+>>   		return -ENOMEM;
+>> @@ -1449,6 +2193,7 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+>>   	pci->ops = &tegra_dw_pcie_ops;
+>>   	pp = &pci->pp;
+>>   	pcie->dev = &pdev->dev;
+>> +	pcie->mode = (enum dw_pcie_device_mode)data->mode;
+>>   
+>>   	ret = tegra_pcie_dw_parse_dt(pcie);
+>>   	if (ret < 0) {
+>> @@ -1462,6 +2207,9 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+>>   		return ret;
+>>   	}
+>>   
+>> +	if (pcie->pex_refclk_sel_gpiod)
+>> +		gpiod_set_value(pcie->pex_refclk_sel_gpiod, 1);
+>> +
+>>   	pcie->pex_ctl_supply = devm_regulator_get(dev, "vddio-pex-ctl");
+>>   	if (IS_ERR(pcie->pex_ctl_supply)) {
+>>   		ret = PTR_ERR(pcie->pex_ctl_supply);
+>> @@ -1570,11 +2318,24 @@ static int tegra_pcie_dw_probe(struct platform_device *pdev)
+>>   
+>>   	platform_set_drvdata(pdev, pcie);
+>>   
+>> -	ret = tegra_pcie_config_rp(pcie);
+>> -	if (ret && ret != -ENOMEDIUM)
+>> -		goto fail;
+>> -	else
+>> -		return 0;
+>> +	switch (pcie->mode) {
+>> +	case DW_PCIE_RC_TYPE:
+>> +		ret = tegra_pcie_config_rp(pcie);
+>> +		if (ret && ret != -ENOMEDIUM)
+>> +			goto fail;
+>> +		else
+>> +			return 0;
+>> +		break;
+>> +
+>> +	case DW_PCIE_EP_TYPE:
+>> +		ret = tegra_pcie_config_ep(pcie, pdev);
+>> +		if (ret < 0)
+>> +			goto fail;
+>> +		break;
+>> +
+>> +	default:
+>> +		dev_err(dev, "Invalid PCIe device type %d\n", pcie->mode);
+>> +	}
+>>   
+>>   fail:
+>>   	tegra_bpmp_put(pcie->bpmp);
+>> @@ -1593,6 +2354,8 @@ static int tegra_pcie_dw_remove(struct platform_device *pdev)
+>>   	pm_runtime_put_sync(pcie->dev);
+>>   	pm_runtime_disable(pcie->dev);
+>>   	tegra_bpmp_put(pcie->bpmp);
+>> +	if (pcie->pex_refclk_sel_gpiod)
+>> +		gpiod_set_value(pcie->pex_refclk_sel_gpiod, 0);
+>>   
+>>   	return 0;
+>>   }
+>> @@ -1697,13 +2460,6 @@ static void tegra_pcie_dw_shutdown(struct platform_device *pdev)
+>>   	__deinit_controller(pcie);
+>>   }
+>>   
+>> -static const struct of_device_id tegra_pcie_dw_of_match[] = {
+>> -	{
+>> -		.compatible = "nvidia,tegra194-pcie",
+>> -	},
+>> -	{},
+>> -};
+>> -
+> 
+> No need to move this around if you use of_device_get_match_data().
+Yes.
+
+Thanks for the review.
+Vidya Sagar
+> 
+> Thierry
+> 
+>>   static const struct dev_pm_ops tegra_pcie_dw_pm_ops = {
+>>   	.suspend_late = tegra_pcie_dw_suspend_late,
+>>   	.suspend_noirq = tegra_pcie_dw_suspend_noirq,
+>> -- 
+>> 2.17.1
+>>
