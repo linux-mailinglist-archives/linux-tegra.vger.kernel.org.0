@@ -2,87 +2,146 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68261138B90
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jan 2020 07:00:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6C9D138FD8
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jan 2020 12:12:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730687AbgAMGAw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jan 2020 01:00:52 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18839 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726475AbgAMGAv (ORCPT
+        id S1726236AbgAMLM2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jan 2020 06:12:28 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3407 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726193AbgAMLM1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jan 2020 01:00:51 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e1c077f0000>; Sun, 12 Jan 2020 22:00:31 -0800
+        Mon, 13 Jan 2020 06:12:27 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e1c50870000>; Mon, 13 Jan 2020 03:12:07 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sun, 12 Jan 2020 22:00:50 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 13 Jan 2020 03:12:27 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sun, 12 Jan 2020 22:00:50 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 Jan
- 2020 06:00:50 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 13 Jan 2020 06:00:50 +0000
-Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.118]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e1c07900007>; Sun, 12 Jan 2020 22:00:50 -0800
-From:   JC Kuo <jckuo@nvidia.com>
-To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <robh@kernel.org>, <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <felipe.balbi@linux.intel.com>, JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH v1] dt-binding: usb: add "super-speed-plus"
-Date:   Mon, 13 Jan 2020 14:00:46 +0800
-Message-ID: <20200113060046.14448-1-jckuo@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+        by hqpgpgate101.nvidia.com on Mon, 13 Jan 2020 03:12:27 -0800
+Received: from [10.26.11.97] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 13 Jan
+ 2020 11:12:25 +0000
+Subject: Re: [PATCH] of: Rework and simplify phandle cache to use a fixed size
+To:     Rob Herring <robh@kernel.org>
+CC:     <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20191211232345.24810-1-robh@kernel.org>
+ <5386e959-f9c4-2748-ed08-34ab361aee2c@nvidia.com>
+ <CAL_JsqLmth0bYcG2VnxU-jk_VoC4TgvWD8_e6r1_8WqVwYGq0g@mail.gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <93314ff5-aa89-cd99-393c-f75f31d9d6e5@nvidia.com>
+Date:   Mon, 13 Jan 2020 11:12:23 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CAL_JsqLmth0bYcG2VnxU-jk_VoC4TgvWD8_e6r1_8WqVwYGq0g@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578895231; bh=RIrMJ3U8mxtLMCKPdAwhUjbmNPuOINjinnOtxdHqqwQ=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=lriEWlQsyplWRBZsxy1+WPHhQ43hi/hmfiF600yYu7oc0lSpqRhrDkR/7pejc/Ytt
-         +7CKED2RtfKqDJE4Npvoz8vlp7RsqBxSflwmOmq2edEclZ2A00Ves0reabtZRA2TMa
-         Ns7kmS4GdqqaJSuKZMu8Zil0oHLos43hFtFX8lDiZJ1WhCTXuz/xE7QhuhXbgkJGlk
-         OABr8TjK6jGoOlDEBS4w68ZZpdgoHW/I8CZRCdJax5oS3Xqvpk+4Bm4lwqhG0fquEF
-         giCpwAbGG1/X5KfGg3vyugmXlwnqj/pHWkzfmR0mldt//56bOZovvd92eBkSnvmeUY
-         BphUzzI4+YyJQ==
+        t=1578913927; bh=ji2JNZVzbXl/fKM0ACHFHTh75D5B2o0L/LkVlqflfOY=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=PSCLmfCP+JV56rCtTwEI6JWqK73RnS9EbhMpLwmrpCy+FPIZg3SKsG/LlC5z2/s9e
+         hrO/p7XKrUxWKrLh9c4mZ3sfDrEAaDrYmx++x6KbRphBBhdzGyyXamLr7/VACBzI5J
+         3HhmcEEl43CWjsu9+Xrpe8ho51hprfKzW6jTfLkzgh93fTqOFJnZWzG7fUTnaZthgr
+         4fm8vu33Rm00+aESbri9MLrBHL8tUMTG6qhnNfKR3XCan6SixyGLDhz/iTOyHodmUu
+         CTW2u/ac2zSbYwSEbfP8OYF2VI6LIdF7psxkcbjcz7mMfJhdy0uY5TokmR5Pk7yUwV
+         m24y77lNLuspQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This commit adds "super-speed-plus" to valid argument list of
-"maximum-speed" property.
 
-Signed-off-by: JC Kuo <jckuo@nvidia.com>
----
- Documentation/devicetree/bindings/usb/generic.txt | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+On 10/01/2020 23:50, Rob Herring wrote:
+> On Tue, Jan 7, 2020 at 4:22 AM Jon Hunter <jonathanh@nvidia.com> wrote:
+>>
+>> Hi Rob,
+>>
+>> On 11/12/2019 23:23, Rob Herring wrote:
+>>> The phandle cache was added to speed up of_find_node_by_phandle() by
+>>> avoiding walking the whole DT to find a matching phandle. The
+>>> implementation has several shortcomings:
+>>>
+>>>   - The cache is designed to work on a linear set of phandle values.
+>>>     This is true for dtc generated DTs, but not for other cases such as
+>>>     Power.
+>>>   - The cache isn't enabled until of_core_init() and a typical system
+>>>     may see hundreds of calls to of_find_node_by_phandle() before that
+>>>     point.
+>>>   - The cache is freed and re-allocated when the number of phandles
+>>>     changes.
+>>>   - It takes a raw spinlock around a memory allocation which breaks on
+>>>     RT.
+>>>
+>>> Change the implementation to a fixed size and use hash_32() as the
+>>> cache index. This greatly simplifies the implementation. It avoids
+>>> the need for any re-alloc of the cache and taking a reference on nodes
+>>> in the cache. We only have a single source of removing cache entries
+>>> which is of_detach_node().
+>>>
+>>> Using hash_32() removes any assumption on phandle values improving
+>>> the hit rate for non-linear phandle values. The effect on linear values
+>>> using hash_32() is about a 10% collision. The chances of thrashing on
+>>> colliding values seems to be low.
+>>>
+>>> To compare performance, I used a RK3399 board which is a pretty typical
+>>> system. I found that just measuring boot time as done previously is
+>>> noisy and may be impacted by other things. Also bringing up secondary
+>>> cores causes some issues with measuring, so I booted with 'nr_cpus=1'.
+>>> With no caching, calls to of_find_node_by_phandle() take about 20124 us
+>>> for 1248 calls. There's an additional 288 calls before time keeping is
+>>> up. Using the average time per hit/miss with the cache, we can calculate
+>>> these calls to take 690 us (277 hit / 11 miss) with a 128 entry cache
+>>> and 13319 us with no cache or an uninitialized cache.
+>>>
+>>> Comparing the 3 implementations the time spent in
+>>> of_find_node_by_phandle() is:
+>>>
+>>> no cache:        20124 us (+ 13319 us)
+>>> 128 entry cache:  5134 us (+ 690 us)
+>>> current cache:     819 us (+ 13319 us)
+>>>
+>>> We could move the allocation of the cache earlier to improve the
+>>> current cache, but that just further complicates the situation as it
+>>> needs to be after slab is up, so we can't do it when unflattening (which
+>>> uses memblock).
+>>>
+>>> Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>>> Cc: Michael Ellerman <mpe@ellerman.id.au>
+>>> Cc: Segher Boessenkool <segher@kernel.crashing.org>
+>>> Cc: Frank Rowand <frowand.list@gmail.com>
+>>> Signed-off-by: Rob Herring <robh@kernel.org>
+>>
+>> With next-20200106 I have noticed a regression on Tegra210 where it
+>> appears that only one of the eMMC devices is being registered. Bisect is
+>> pointing to this patch and reverting on top of next fixes the problem.
+>> That is as far as I have got so far, so if you have any ideas, please
+>> let me know. Unfortunately, there do not appear to be any obvious errors
+>> from the bootlog.
+> 
+> I guess that's tegra210-p2371-2180.dts because none of the others have
+> 2 SD hosts enabled. I don't see anything obvious though. Are you doing
+> any runtime mods to the DT?
 
-diff --git a/Documentation/devicetree/bindings/usb/generic.txt b/Documentation/devicetree/bindings/usb/generic.txt
-index cf5a1ad456e6..e6790d2a4da9 100644
---- a/Documentation/devicetree/bindings/usb/generic.txt
-+++ b/Documentation/devicetree/bindings/usb/generic.txt
-@@ -2,10 +2,11 @@ Generic USB Properties
- 
- Optional properties:
-  - maximum-speed: tells USB controllers we want to work up to a certain
--			speed. Valid arguments are "super-speed", "high-speed",
--			"full-speed" and "low-speed". In case this isn't passed
--			via DT, USB controllers should default to their maximum
--			HW capability.
-+			speed. Valid arguments are "super-speed-plus",
-+			"super-speed", "high-speed", "full-speed" and
-+			"low-speed". In case this isn't passed via DT, USB
-+			controllers should default to their maximum HW
-+			capability.
-  - dr_mode: tells Dual-Role USB controllers that we want to work on a
- 			particular mode. Valid arguments are "host",
- 			"peripheral" and "otg". In case this attribute isn't
+I have noticed that the bootloader is doing some runtime mods and so
+checking if this is the cause. I will let you know, but most likely,
+seeing as I cannot find anything wrong with this change itself.
+
+Cheers
+Jon
+
 -- 
-2.17.1
-
+nvpublic
