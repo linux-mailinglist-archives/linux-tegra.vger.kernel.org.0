@@ -2,83 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3165C139C19
-	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jan 2020 23:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E03A6139C25
+	for <lists+linux-tegra@lfdr.de>; Mon, 13 Jan 2020 23:05:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728836AbgAMWDS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jan 2020 17:03:18 -0500
-Received: from sauhun.de ([88.99.104.3]:43048 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728769AbgAMWDS (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jan 2020 17:03:18 -0500
-Received: from localhost (p54B332D5.dip0.t-ipconnect.de [84.179.50.213])
-        by pokefinder.org (Postfix) with ESMTPSA id 02A7E2C06DA;
-        Mon, 13 Jan 2020 23:03:15 +0100 (CET)
-Date:   Mon, 13 Jan 2020 23:03:15 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>, linux-i2c@vger.kernel.org,
+        id S1728765AbgAMWFW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jan 2020 17:05:22 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:34130 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728641AbgAMWFV (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 13 Jan 2020 17:05:21 -0500
+Received: by mail-oi1-f193.google.com with SMTP id l136so9896871oig.1
+        for <linux-tegra@vger.kernel.org>; Mon, 13 Jan 2020 14:05:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TPVDmHPgyswCSzHUpaO4xXgku0uEWmnDxxOITskBC8M=;
+        b=jSUadn4eCaXSUu9Ir1HgZTfcwm9ejyoavRUFtcr0bKniX3pbzvfU1WXecHeWxA40pC
+         0vC+jT3r3hODgdw3tSgjQZ4Dbbr8LJDhnPPuyuohJuvz7gx/e1kXT31rGz8MdlINoik0
+         otojwdTdnzvbX7GcBgeXRESxR59Y2J+P5Wcrzx4q8Rw5PLDOH8DQHROuFhf5FJlXLJI7
+         UfKFYg2O6SJbwQTkJjaoB2xrOu+ve6Xy/10nMLgcSdjJPs3ouHRDTEVvlcIcunUMOt3i
+         gFAqCSaEvj5AVODfHUijTi53PnNAgsKWvbWX61HHxe2PHpwl18q3ycMYfiwbOTVwtv1H
+         Bv1g==
+X-Gm-Message-State: APjAAAWa+z41GlPDGi3kcQLdHH614BK+vzSo2E+boCtEsGmCbgLOy81y
+        pODBiWLjBx/oZAeQIEI+4zsNVq8=
+X-Google-Smtp-Source: APXvYqwkYHHpLAG3VG3R28c0jHOgrQf/SZjKUu/Ix8LUc9h4o5pk6ccovfFeaQ7gVz3sZfqmT+Db8g==
+X-Received: by 2002:a54:4396:: with SMTP id u22mr14733464oiv.128.1578953120731;
+        Mon, 13 Jan 2020 14:05:20 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id i2sm4580482oth.39.2020.01.13.14.05.20
+        for <linux-tegra@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2020 14:05:20 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 22198d
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Mon, 13 Jan 2020 16:03:18 -0600
+Date:   Mon, 13 Jan 2020 16:03:18 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     skomatineni@nvidia.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, broonie@kernel.org, lgirdwood@gmail.com,
+        perex@perex.cz, tiwai@suse.com, digetx@gmail.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
+        josephl@nvidia.com, daniel.lezcano@linaro.org,
+        mmaddireddy@nvidia.com, markz@nvidia.com,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/8] i2c: tegra: Support atomic transfers
-Message-ID: <20200113220315.GB2689@ninjato>
-References: <20200112171430.27219-1-digetx@gmail.com>
- <20200112171430.27219-5-digetx@gmail.com>
+Subject: Re: [PATCH v7 03/21] dt-bindings: clock: tegra: Add DT id for OSC
+ clock
+Message-ID: <20200113220318.GA1891@bogus>
+References: <1578457515-3477-1-git-send-email-skomatineni@nvidia.com>
+ <1578457515-3477-4-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mxv5cy4qt+RJ9ypb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200112171430.27219-5-digetx@gmail.com>
+In-Reply-To: <1578457515-3477-4-git-send-email-skomatineni@nvidia.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Tue, 7 Jan 2020 20:24:57 -0800, Sowjanya Komatineni wrote:
+> OSC is one of the parent for Tegra clocks clk_out_1, clk_out_2, and
+> clk_out_3.
+> 
+> This patch adds DT id for OSC clock to allow parent configuration
+> through device tree.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  include/dt-bindings/clock/tegra114-car.h        | 2 +-
+>  include/dt-bindings/clock/tegra124-car-common.h | 2 +-
+>  include/dt-bindings/clock/tegra210-car.h        | 2 +-
+>  include/dt-bindings/clock/tegra30-car.h         | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
 
---mxv5cy4qt+RJ9ypb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Sun, Jan 12, 2020 at 08:14:26PM +0300, Dmitry Osipenko wrote:
-> System shutdown may happen with interrupts being disabled and in this case
-> I2C core rejects transfers if atomic transfer isn't supported by driver.
-
-Well, not quite. The core complains about it nowadays, but does not
-reject messages. It will try the same behaviour as before. It will just
-inform the user that somethings is tried which may not work. I probably
-should update the error message printed saying that the transfer is
-still tried.
-
-> There were several occurrences where I found my Nexus 7 completely
-> discharged despite of being turned off and then one day I spotted this in
-> the log:
-
-Given my reasoning above, that should have happened before the warning
-was printed as well? Because same behaviour. I'd be surprised if there
-was a change...
-
-
---mxv5cy4qt+RJ9ypb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl4c6SMACgkQFA3kzBSg
-KbYdthAAktOJQ5liEIA8J0/p6JdKT4r55B/YAQUW+Vd92Za2knjAl4G08A+jI5m9
-yY+R3VsS8liSafqyrpYJayW3MjBr609srwUidjT466OnnbrlHNUWP++bMwc2bd4r
-D5GJnDeVtjroIHk5pFj4558MS/a4sNkw91dxl/17f4/pyUQknD3mECg9riV+fTx/
-jCMJC75pbI/fc8kbfE67kNUUs9sXZqgfvnJkwtAQ9fwv1k00qD9WH9Hh5dhI2Hra
-H6FInqMrsW+bGYXIK4L9WlNejumo7nPjP1sv3pbq7pjt+EXzHwRO4oNwHWGm41jL
-7nZg42H5wRYislDFUdxjQgTnwHa6zUdhQONt6i7ZPYoTOSh9nm/jWpLJBvKki9BI
-sdslfOHTvrIKcWtDwb77Afv57//ZRX1nMUk0+qun7oIGORjFtCT4QyB1gAWdehTw
-Wh4hiTLQrAmUj7l8XeVjiKjtcqHxJn2rG8MK/mQgjskdpH9wrb1l7n2Ckyyk8K0y
-y59nhZkDlEdamuwYcmQKrmw8UJGWASoG45ULHkwKKb+I90Jp47H9ShlB13Lja0a6
-/+/FWKMEXNR9bRQ3NStOswfPMPJM2gzgm2YEbXLkaBCmz6i6zztuBzX8WIHPhmwx
-4OtSMUKr51lY88iBWl2XtTr819iMR8C+ewU1I2R309Q7W5Wr18Q=
-=ZZXy
------END PGP SIGNATURE-----
-
---mxv5cy4qt+RJ9ypb--
+Acked-by: Rob Herring <robh@kernel.org>
