@@ -2,92 +2,149 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A907A139D11
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jan 2020 00:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31F54139DD4
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jan 2020 01:12:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729130AbgAMXC7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jan 2020 18:02:59 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:40572 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728924AbgAMXC6 (ORCPT
+        id S1728864AbgANAMA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jan 2020 19:12:00 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:55437 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728641AbgANAMA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jan 2020 18:02:58 -0500
-Received: by mail-lj1-f193.google.com with SMTP id u1so12053665ljk.7;
-        Mon, 13 Jan 2020 15:02:57 -0800 (PST)
+        Mon, 13 Jan 2020 19:12:00 -0500
+Received: by mail-pj1-f68.google.com with SMTP id d5so4868114pjz.5
+        for <linux-tegra@vger.kernel.org>; Mon, 13 Jan 2020 16:11:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=p4M64cKVK4meL/7+gbzzavKi5vXxmm/qBtCEuLMydu0=;
-        b=J70mHToXWBwgRVc6BJiIVuYwg7Uwv/4tPuNA92gIT1WBKvtF+5jMcAbEIeXX6xhRv3
-         dcEC30sIGK6RZ7sWUDRuVdXvCEdv4h4jzWu756cBvyXR0V1lacpis88sNCO1jNqBgLIf
-         Q+vin3gpEFtiOPeVJgjOqaodkktQeXgTxIm9c4uZ38Ks/EY18DiJsdrWs8yaChTVswms
-         ohnrzrveRKr7S9AlClA4i8GzTbECK5elJgOElKvzLehKfqM1868TahgDK8JxWU6/+u6k
-         MfkoGZPEzw/5rPDrSHNGJa3x1lWaGi8V1Iy5PiB2R4wglN9wnNHo1E6V8iwe2GuJY08l
-         L1IA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=YszI0U18pHqA+Y3QA9OqnxsfwdnvOec+C4YDrgbYg80=;
+        b=L1hYEJgKHWr/Gyj0fmCj7zWsybXM9yORn6pBPtcxw9h9s5Yc5uArF4pWiVeuaFNJh7
+         bOs01G47TpIetL9Cm8U/+cR5pzygAPrZMi0vBO1wMFgujDbKFJ22wHFjmelcJuhTmW4X
+         BslhLglhFFClkDef6TUGLTFzZSANH83yE8R3N7XECv4QWqwCGbk32JT1DUl0/snxiND/
+         0QqZB6DUK59jjjySpgRm0l/IRe5Q7qi9yFoQQ9L7IgYfLHoJYaAdliaIj6+4BjrWXttw
+         MXZSqAp05ZG1ov8wVSmIa883+mziVqos9f58MCtbquB/HmY8Kgq3wNtRljjWXu9bTX2U
+         cvqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=p4M64cKVK4meL/7+gbzzavKi5vXxmm/qBtCEuLMydu0=;
-        b=KPBTu1wh4TPzkv9bKmpqKeZN0Me0C3PhZKwp/HJPU4cgNvTkDNKeABVdUen8kXyp59
-         kM3yYila//qPfoJVZ1KLWCPolDSVndcc8R4H8CQ9w3Xwc3QZbuExVqo7zFvgZ2q+W/GT
-         X+d/HKsFmsU/FaopbWwABtZ/AdSoH/As64QPFUIfjx4STrd2Jtuq3Eiq9xQ1yFItZhTP
-         ioEX+8DzWBiYnnvvOZydMHerLDS/AEYwPvvYKzKCKz7ihhNgz32kGKxr6WUeQZHY6He8
-         2kkrd8eJoYNi+J+LOlZ92iE9/oSEHpIhMsRzZi5tlzd05+zL5JcCy+oaU3buBbVZ5Odd
-         ByvA==
-X-Gm-Message-State: APjAAAWU/pfFYL3xo+pOIcv4dgEeJJmnG6s98BB3UQe3EL1jM2ttbkOV
-        USSmADnbRfa1ktmSDGAVTAxaGyv6
-X-Google-Smtp-Source: APXvYqyySrulaNXe0BNmEybz+MMb2HeiY++Aw/c4iZK99f7wYJQbsWvsqrH+UeYvhgDYlEQoC6PS2Q==
-X-Received: by 2002:a2e:b4f6:: with SMTP id s22mr12177957ljm.218.1578956576903;
-        Mon, 13 Jan 2020 15:02:56 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id w16sm6373834lfc.1.2020.01.13.15.02.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jan 2020 15:02:56 -0800 (PST)
-Subject: Re: [PATCH v4 0/8] NVIDIA Tegra I2C driver fixes and improvements
-To:     Wolfram Sang <wsa@the-dreams.de>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=YszI0U18pHqA+Y3QA9OqnxsfwdnvOec+C4YDrgbYg80=;
+        b=AZfgxOfUSk8QfQGnmdb2dxw3L1prLU6DCkXPljBA3NQw3KB75mOqrdAmkcYCdvC+RP
+         nhSxzdXYUtbmNr+73ZAnzB2/i1hhEcF8RFhLy7vq/WusFYg0HuRXcGKl40/KWk7iB2JH
+         /he+oqxKZ2BbATtphImz/8mI+uBxSjXhjhKJ0t7Ve5UHvqcoNRf8moLhAkBH+VFc3pzQ
+         s3cRgBsQv6GoFpcIkchQaSHvg99J+TS99SWgBfbE/UQNEJz54DyznNSegyKvpC0SYEaj
+         BBa1TTxUN59ujh3RklqGqKRx68Ieyo1aVI7mLvf+MmtlYgJ1MmfFQ2kJamick7W288xB
+         oKeQ==
+X-Gm-Message-State: APjAAAVpyq3FZFlOMysnjtneedeKM37SseOjAVWWLSC5/vvAdCWY++CU
+        Uaa6OcT63sXslBBWm3K6J0jeiA==
+X-Google-Smtp-Source: APXvYqxx7U9QSEOfywuAVGzjNyUg0PYvYeG8HS4oMuifbJvLl3PcMnddxE7pxUtrCTCrnOSPk2maZQ==
+X-Received: by 2002:a17:902:6501:: with SMTP id b1mr17177997plk.121.1578960719070;
+        Mon, 13 Jan 2020 16:11:59 -0800 (PST)
+Received: from minitux (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id 12sm15676997pfn.177.2020.01.13.16.11.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2020 16:11:58 -0800 (PST)
+Date:   Mon, 13 Jan 2020 16:11:55 -0800
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Saravana Kannan <saravanak@google.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200112171430.27219-1-digetx@gmail.com>
- <20200113215341.GA2689@ninjato>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <15860a85-39ee-3bb9-168c-c5a981ff3720@gmail.com>
-Date:   Tue, 14 Jan 2020 02:01:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        iommu@lists.linux-foundation.org, Joerg Roedel <joro@8bytes.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Patrick Daly <pdaly@codeaurora.org>,
+        Pratik Patel <pratikp@codeaurora.org>,
+        Rob Clark <robdclark@gmail.com>,
+        Android Kernel Team <kernel-team@android.com>
+Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
+Message-ID: <20200114001155.GJ1214176@minitux>
+References: <20191209150748.2471814-1-thierry.reding@gmail.com>
+ <20200111045639.210486-1-saravanak@google.com>
+ <20200113140751.GA2436168@ulmo>
+ <CAGETcx8YAXOdr1__gTCT2xCPq47Cg9vGj+5HJ_ZLzy4mHxU2xA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200113215341.GA2689@ninjato>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGETcx8YAXOdr1__gTCT2xCPq47Cg9vGj+5HJ_ZLzy4mHxU2xA@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-14.01.2020 00:53, Wolfram Sang пишет:
-> On Sun, Jan 12, 2020 at 08:14:22PM +0300, Dmitry Osipenko wrote:
->> Hello,
->>
->> This patchset adds support for atomic transfers which are required for
->> shutting down machine properly. Secondly, a (not)suspending I2C and some
->> other things are fixed/improved by this small series as well. Please review
->> and apply, thanks in advance!
->>
->> Changelog:
->>
->> v4: Removed the "clk: tegra: Fix double-free in tegra_clk_init()" patch
->>     from this series, which was added by accident in v3.
->>
->>     Added Thierry's tested-by to the patches.
-> 
-> Looks good to me. I think all these patches should go to v5.6, let me
-> know if patches 1 and/or 2 should go to v5.5?
+On Mon 13 Jan 14:01 PST 2020, Saravana Kannan wrote:
+
+> I added everyone from the other thread, but somehow managed to miss
+> the Bjorn who sent the emails! Fixing that now.
 > 
 
-Patches 1 and 2 should go into v5.5, thanks.
+Thanks for looping me in Saravana.
+
+> On Mon, Jan 13, 2020 at 6:07 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+> >
+> > On Fri, Jan 10, 2020 at 08:56:39PM -0800, Saravana Kannan wrote:
+[..]
+> > In the case where you're trying to inherit the bootloader configuration
+> > of the SMMU, how do you solve the problem of passing the page tables to
+> > the kernel? You must have some way of reserving that memory in order to
+> > prevent the kernel from reusing it.
+> 
+> Maybe "inherit" makes it sound a lot more complicated than it is?
+> Bjorn will know the details of what the bootloader sets up. But
+> AFAICT, it looks like a simple "bypass"/identity mapping too. I don't
+> think it actually sets up page tables.
+> 
+
+In the Qualcomm case we have a number of stream mappings installed when
+the bootloader jumps to the OS, each one with SMR/S2CR referring to a CB
+with SMMU_CBn_SCTLR.M not set.
+
+As such the relevant hardware is able to access (without translation)
+DDR even with SMMU_CR0.USFCFG being set.
+
+The one case where this causes issues is that upon attaching a device to
+a context we'll set SMMU_CBn_SCTLR.M, so until we actually have a
+translation installed we do get faults - the difference is that these
+are not picked up as fatal faults by the secure firmware, so they are
+simply reported in Linux.
+
+[..]
+> > > > One option that I can think of would be to create an early identity
+> > > > domain for each master and inherit it when that master is attached to
+> > > > the domain later on, but that seems rather complicated from an book-
+> > > > keeping point of view and tricky because we need to be careful not to
+> > > > map regions twice, etc.
+> > > >
+> > > > Any good ideas on how to solve this? It'd also be interesting to see if
+> > > > there's a more generic way of doing this. I know that something like
+> > > > this isn't necessary on earlier Tegra SoCs with the custom Tegra SMMU
+> > > > because translations are only enabled when the devices are attached to a
+> > > > domain.
+> > >
+> > > Good foresight. As [1] shows, identity mapping doesn't solve it in a
+> > > generic way.
+> >
+> > I think your [1] is a special case of identity mappings where the
+> > mappings are already active. If you pass the information about the
+> > mappings via memory-region properties, then you should be able to
+> > reconstruct the identity mapping in the kernel before switching the
+> > SMMU over to the new mapping for a seamless transition.
+> 
+> Ok, makes sense. But I don't have the full details here. So I'll let
+> Bjorn comment here.
+> 
+
+It might be possible that we can install page tables and setup 1:1
+mappings for the necessary resources, but it's not all devices with a
+memory-region and a iommu context defined that should have this.
+
+I will have to discuss this in more detail with the Qualcomm engineers.
+
+PS. One detail that I did notice while distilling the downstream patches
+is that unused mappings must have SMMU_S2CRx.CBNDX = 255 or I get odd
+crashes when the display (CBNDX = 0) is active. I've yet to conclude
+why this is.
+
+Regards,
+Bjorn
