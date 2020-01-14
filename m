@@ -2,149 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31F54139DD4
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jan 2020 01:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6FDC139EE8
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jan 2020 02:28:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728864AbgANAMA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 13 Jan 2020 19:12:00 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:55437 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728641AbgANAMA (ORCPT
+        id S1729463AbgANB15 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 13 Jan 2020 20:27:57 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:43811 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727556AbgANB1z (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 13 Jan 2020 19:12:00 -0500
-Received: by mail-pj1-f68.google.com with SMTP id d5so4868114pjz.5
-        for <linux-tegra@vger.kernel.org>; Mon, 13 Jan 2020 16:11:59 -0800 (PST)
+        Mon, 13 Jan 2020 20:27:55 -0500
+Received: by mail-lj1-f193.google.com with SMTP id a13so12340563ljm.10;
+        Mon, 13 Jan 2020 17:27:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=YszI0U18pHqA+Y3QA9OqnxsfwdnvOec+C4YDrgbYg80=;
-        b=L1hYEJgKHWr/Gyj0fmCj7zWsybXM9yORn6pBPtcxw9h9s5Yc5uArF4pWiVeuaFNJh7
-         bOs01G47TpIetL9Cm8U/+cR5pzygAPrZMi0vBO1wMFgujDbKFJ22wHFjmelcJuhTmW4X
-         BslhLglhFFClkDef6TUGLTFzZSANH83yE8R3N7XECv4QWqwCGbk32JT1DUl0/snxiND/
-         0QqZB6DUK59jjjySpgRm0l/IRe5Q7qi9yFoQQ9L7IgYfLHoJYaAdliaIj6+4BjrWXttw
-         MXZSqAp05ZG1ov8wVSmIa883+mziVqos9f58MCtbquB/HmY8Kgq3wNtRljjWXu9bTX2U
-         cvqg==
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=9J+ZBDrrbAWIuYb9veix6cNQ5A4bHUrnUSJB4zcW68k=;
+        b=ZdLGHd8ALoHsOB7Odi9BlE3MBkQlCtuLWt/omzqH2vJyZA1f7nzweh/ne+kv87A165
+         MW9iHcqmiclnGk2LCki08DEjy7Yb5TrxILnjxsQAP8mhgYh7yzHScwn3AaeFJBtombzW
+         cvL2Nohgsi4uDiTCtrkxmz3zafTIfjdBhofs2M66VHxO/XmEpV0HtHNPuE9frVX9AF7Y
+         46yzJv50UpQKZs8GbG94m+lQ3CP72m5dCV6utACRjHVlLKHK9tOY524mQHUuOSm489p4
+         PiSBJt2FoKKvXSGvod22r3Zd5Nes64D4HrAVMQD0S0vsFX1fjOq5cFKVRS4Z2cwfZ9jB
+         YcZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YszI0U18pHqA+Y3QA9OqnxsfwdnvOec+C4YDrgbYg80=;
-        b=AZfgxOfUSk8QfQGnmdb2dxw3L1prLU6DCkXPljBA3NQw3KB75mOqrdAmkcYCdvC+RP
-         nhSxzdXYUtbmNr+73ZAnzB2/i1hhEcF8RFhLy7vq/WusFYg0HuRXcGKl40/KWk7iB2JH
-         /he+oqxKZ2BbATtphImz/8mI+uBxSjXhjhKJ0t7Ve5UHvqcoNRf8moLhAkBH+VFc3pzQ
-         s3cRgBsQv6GoFpcIkchQaSHvg99J+TS99SWgBfbE/UQNEJz54DyznNSegyKvpC0SYEaj
-         BBa1TTxUN59ujh3RklqGqKRx68Ieyo1aVI7mLvf+MmtlYgJ1MmfFQ2kJamick7W288xB
-         oKeQ==
-X-Gm-Message-State: APjAAAVpyq3FZFlOMysnjtneedeKM37SseOjAVWWLSC5/vvAdCWY++CU
-        Uaa6OcT63sXslBBWm3K6J0jeiA==
-X-Google-Smtp-Source: APXvYqxx7U9QSEOfywuAVGzjNyUg0PYvYeG8HS4oMuifbJvLl3PcMnddxE7pxUtrCTCrnOSPk2maZQ==
-X-Received: by 2002:a17:902:6501:: with SMTP id b1mr17177997plk.121.1578960719070;
-        Mon, 13 Jan 2020 16:11:59 -0800 (PST)
-Received: from minitux (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
-        by smtp.gmail.com with ESMTPSA id 12sm15676997pfn.177.2020.01.13.16.11.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2020 16:11:58 -0800 (PST)
-Date:   Mon, 13 Jan 2020 16:11:55 -0800
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Saravana Kannan <saravanak@google.com>
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9J+ZBDrrbAWIuYb9veix6cNQ5A4bHUrnUSJB4zcW68k=;
+        b=RvarO9fHWCkr2AJ1b117AkTcCTVy3uxltrauN56sk14/41GjwR5MW8Ty6r1ctiR3LU
+         /cRlfjqbJXnzorB3E34Il/F3O6DacZUhs+TgXdHKNWzb9tDbM62YVcUHDMfTmJl7DrWS
+         casMtC7ycg824UfHhkRkGj/1BB/tIfBU3hC7rD29XS1iiPKVrOVUN2497id0zBrPWQaV
+         H1ZRQ4fbt3l2y2JcTh6WNFFHdt3aq5C4WYjPKkSqZOepWAL8LhRCiflCverIBVxmq2gL
+         RzxnSSugAKJN0SDQ7O9G70N3qgO7Y772AvvBtBEwi8qU4KCaEktfbcfNoVXagWKeIQ7Q
+         C89Q==
+X-Gm-Message-State: APjAAAUm9SxmLNbOQUZ+k6gQDiPPyeQGNTEk31/vEJwo9H4eSwYpihKx
+        kFTgto3rk9aMC9rsciLt7v98mnbC
+X-Google-Smtp-Source: APXvYqzzO9l1yft9CikyOnAO3k3mUKutKwk/sQe+BlAogzYNR1k2D/EI85SPG+Ynq1mZQJOxpLfLxQ==
+X-Received: by 2002:a2e:8916:: with SMTP id d22mr11919214lji.19.1578965273521;
+        Mon, 13 Jan 2020 17:27:53 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id s12sm6698527ljs.96.2020.01.13.17.27.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jan 2020 17:27:52 -0800 (PST)
+Subject: Re: [PATCH v4 4/8] i2c: tegra: Support atomic transfers
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Wolfram Sang <wsa@the-dreams.de>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        iommu@lists.linux-foundation.org, Joerg Roedel <joro@8bytes.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Patrick Daly <pdaly@codeaurora.org>,
-        Pratik Patel <pratikp@codeaurora.org>,
-        Rob Clark <robdclark@gmail.com>,
-        Android Kernel Team <kernel-team@android.com>
-Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
-Message-ID: <20200114001155.GJ1214176@minitux>
-References: <20191209150748.2471814-1-thierry.reding@gmail.com>
- <20200111045639.210486-1-saravanak@google.com>
- <20200113140751.GA2436168@ulmo>
- <CAGETcx8YAXOdr1__gTCT2xCPq47Cg9vGj+5HJ_ZLzy4mHxU2xA@mail.gmail.com>
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200112171430.27219-1-digetx@gmail.com>
+ <20200112171430.27219-5-digetx@gmail.com> <20200113220315.GB2689@ninjato>
+ <86f71bfe-7d17-0bf4-edda-13c84301a598@gmail.com>
+Message-ID: <49fbcb5d-011b-8ace-15f9-a36d4ae30397@gmail.com>
+Date:   Tue, 14 Jan 2020 04:26:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGETcx8YAXOdr1__gTCT2xCPq47Cg9vGj+5HJ_ZLzy4mHxU2xA@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <86f71bfe-7d17-0bf4-edda-13c84301a598@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon 13 Jan 14:01 PST 2020, Saravana Kannan wrote:
-
-> I added everyone from the other thread, but somehow managed to miss
-> the Bjorn who sent the emails! Fixing that now.
+14.01.2020 01:52, Dmitry Osipenko пишет:
+> 14.01.2020 01:03, Wolfram Sang пишет:
+>> On Sun, Jan 12, 2020 at 08:14:26PM +0300, Dmitry Osipenko wrote:
+>>> System shutdown may happen with interrupts being disabled and in this case
+>>> I2C core rejects transfers if atomic transfer isn't supported by driver.
+>>
+>> Well, not quite. The core complains about it nowadays, but does not
+>> reject messages. It will try the same behaviour as before. It will just
+>> inform the user that somethings is tried which may not work. I probably
+>> should update the error message printed saying that the transfer is
+>> still tried.
 > 
+> Indeed, now I'm recalling noticing that the transfer actually should
+> happen despite of the error message, but then completely forgot to
+> update the commit's message. I can update the message and send out v5,
+> if you're thinking that it's worthwhile to do.
 
-Thanks for looping me in Saravana.
+I have time to do it now, will send v5 shortly.
 
-> On Mon, Jan 13, 2020 at 6:07 AM Thierry Reding <thierry.reding@gmail.com> wrote:
-> >
-> > On Fri, Jan 10, 2020 at 08:56:39PM -0800, Saravana Kannan wrote:
-[..]
-> > In the case where you're trying to inherit the bootloader configuration
-> > of the SMMU, how do you solve the problem of passing the page tables to
-> > the kernel? You must have some way of reserving that memory in order to
-> > prevent the kernel from reusing it.
+And yes, clarifying the error message could be helpful. Although,
+perhaps it won't help much to drivers which may schedule during the
+atomic transfer.
+
+>>> There were several occurrences where I found my Nexus 7 completely
+>>> discharged despite of being turned off and then one day I spotted this in
+>>> the log:
+>>
+>> Given my reasoning above, that should have happened before the warning
+>> was printed as well? Because same behaviour. I'd be surprised if there
+>> was a change...
 > 
-> Maybe "inherit" makes it sound a lot more complicated than it is?
-> Bjorn will know the details of what the bootloader sets up. But
-> AFAICT, it looks like a simple "bypass"/identity mapping too. I don't
-> think it actually sets up page tables.
+> Pretty sure that it was happening before, but I wasn't paying much
+> attention back then.
 > 
-
-In the Qualcomm case we have a number of stream mappings installed when
-the bootloader jumps to the OS, each one with SMR/S2CR referring to a CB
-with SMMU_CBn_SCTLR.M not set.
-
-As such the relevant hardware is able to access (without translation)
-DDR even with SMMU_CR0.USFCFG being set.
-
-The one case where this causes issues is that upon attaching a device to
-a context we'll set SMMU_CBn_SCTLR.M, so until we actually have a
-translation installed we do get faults - the difference is that these
-are not picked up as fatal faults by the secure firmware, so they are
-simply reported in Linux.
-
-[..]
-> > > > One option that I can think of would be to create an early identity
-> > > > domain for each master and inherit it when that master is attached to
-> > > > the domain later on, but that seems rather complicated from an book-
-> > > > keeping point of view and tricky because we need to be careful not to
-> > > > map regions twice, etc.
-> > > >
-> > > > Any good ideas on how to solve this? It'd also be interesting to see if
-> > > > there's a more generic way of doing this. I know that something like
-> > > > this isn't necessary on earlier Tegra SoCs with the custom Tegra SMMU
-> > > > because translations are only enabled when the devices are attached to a
-> > > > domain.
-> > >
-> > > Good foresight. As [1] shows, identity mapping doesn't solve it in a
-> > > generic way.
-> >
-> > I think your [1] is a special case of identity mappings where the
-> > mappings are already active. If you pass the information about the
-> > mappings via memory-region properties, then you should be able to
-> > reconstruct the identity mapping in the kernel before switching the
-> > SMMU over to the new mapping for a seamless transition.
-> 
-> Ok, makes sense. But I don't have the full details here. So I'll let
-> Bjorn comment here.
-> 
-
-It might be possible that we can install page tables and setup 1:1
-mappings for the necessary resources, but it's not all devices with a
-memory-region and a iommu context defined that should have this.
-
-I will have to discuss this in more detail with the Qualcomm engineers.
-
-PS. One detail that I did notice while distilling the downstream patches
-is that unused mappings must have SMMU_S2CRx.CBNDX = 255 or I get odd
-crashes when the display (CBNDX = 0) is active. I've yet to conclude
-why this is.
-
-Regards,
-Bjorn
