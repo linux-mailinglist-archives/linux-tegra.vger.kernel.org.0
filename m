@@ -2,170 +2,408 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EF2413AE08
-	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jan 2020 16:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D2F813B1CC
+	for <lists+linux-tegra@lfdr.de>; Tue, 14 Jan 2020 19:15:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728731AbgANPxK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 14 Jan 2020 10:53:10 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:15598 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726365AbgANPxK (ORCPT
+        id S1728558AbgANSP2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 14 Jan 2020 13:15:28 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:42882 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727102AbgANSP2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 14 Jan 2020 10:53:10 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e1de3d10000>; Tue, 14 Jan 2020 07:52:49 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 14 Jan 2020 07:53:09 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 14 Jan 2020 07:53:09 -0800
-Received: from tbergstrom-lnx.Nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Jan
- 2020 15:53:09 +0000
-Received: by tbergstrom-lnx.Nvidia.com (Postfix, from userid 1000)
-        id EACE642D4E; Tue, 14 Jan 2020 17:53:06 +0200 (EET)
-Date:   Tue, 14 Jan 2020 17:53:06 +0200
-From:   Peter De Schrijver <pdeschrijver@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Prashant Gaikwad <pgaikwad@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "Michael Turquette" <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "Peter Geis" <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        "Marcel Ziswiler" <marcel.ziswiler@toradex.com>,
-        <linux-pm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 00/12] NVIDIA Tegra20 CPUFreq driver major update
-Message-ID: <20200114155306.GI28289@pdeschrijver-desktop.Nvidia.com>
-References: <20191218202142.11717-1-digetx@gmail.com>
+        Tue, 14 Jan 2020 13:15:28 -0500
+Received: by mail-wr1-f67.google.com with SMTP id q6so13118545wro.9;
+        Tue, 14 Jan 2020 10:15:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0P5glpoJdpBF0YSe5lgoVaYsIcQxbSvG8r8CUEJDp1s=;
+        b=iLDNbZ5ukUSPVmBRFK82mQFW0l7rdwdOHDpE/ogQ58S0r93xmYGgTDo6IkaoMijE5M
+         Goh5OWRfiai3JwDZgNmFwNVyw/9rtGGIwY0nNc2zkJs1iTyAyYTul/rvbF+1MC2TiAna
+         jChEnlb1eUACfPtcLaNDxhbs0X5xl2zfVFH9koMHF4qHSd/5wQzKjZVOXEZBtGaqYsHz
+         e/AMUM+dlSOkkeMaOZv4c60nWWIO++Lc0V0aSO9oa91JoEWg3ao9Iqz4XHZGGn+pQZO0
+         mVAGFKHI5fvg8QwMoqCrqwOr6x4La1vp1HS97pPzNTlQl/a/Fj0oKwXwnr37PTqgjHlG
+         cFNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0P5glpoJdpBF0YSe5lgoVaYsIcQxbSvG8r8CUEJDp1s=;
+        b=rMM6YwCfPl+1mTzSWchwXrp425+z6DfxFjaDHqsymYY4v2BmtZo8iKrHkHplIv80FM
+         Zcuz1LrM6ljQ0FdFP/5uah686um0E+29bJzC6k9aRuUAOPzq+ToKIcu7pgD73FJ6/Vh9
+         pyb8dz8qIU5ovY/EzFg4ubTT4GMRje3WOh6JWwojBnxdpR7njqMyIbZLWaKSCSuE3xkA
+         p8qYp+R5amPgblhvHDniUaXaWPRrcArgWHWQZEZMf0wtKd2ZK+RB0rmppeMz5Ou4rvug
+         KhKhqnoNfpc6XT2vZ7EnsEoAjcRAzlg+qn6sHUc/2R7LzwjEl+rPC47rXCfocDesn1Og
+         cOGA==
+X-Gm-Message-State: APjAAAWyaSiUjXAse4rWC+vLIuVQhuoqreTrb7j4+vp2HmUcU9oN3LCB
+        MknIL5WakDozKlJ6hO8qTVI=
+X-Google-Smtp-Source: APXvYqyT1DPFbckt54VA8UADUndMRcNwH2HnT8rQuoDO4clfOw2MNvvElIYe/H+2R6MSRZmHfddFxQ==
+X-Received: by 2002:adf:fd07:: with SMTP id e7mr26157430wrr.21.1579025726306;
+        Tue, 14 Jan 2020 10:15:26 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id c4sm19616870wml.7.2020.01.14.10.15.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2020 10:15:25 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Georgi Djakov <georgi.djakov@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: firmware: Convert Tegra186 BPMP bindings to json-schema
+Date:   Tue, 14 Jan 2020 19:15:18 +0100
+Message-Id: <20200114181519.3402385-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191218202142.11717-1-digetx@gmail.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579017169; bh=0SFkuHSJNQEdwduVKnvDRB9QOlYZ0liNb97A4TB33pc=;
-        h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
-         MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-         X-NVConfidentiality:User-Agent:X-Originating-IP:X-ClientProxiedBy;
-        b=RrlFg8CmwfKQXFxENsjwaShgE8D62gO5fYE0FysvL5mX+ACZBewp/hPk10HAmtqSI
-         6yqAMupgvZvKjuZIxTKBeFdhC6KUzqjksyi84XoNmyrs8W3e0s0YPzP77kYO23SSSY
-         /nY3h75vwdWhquByz7XC38jG2wECAw4yL8z7OrQvv3OEp7GnhLLAMtH4Lbqb+L2O57
-         fT13JLGcq5myTPuKl7xoJudh2SeaUSWhsaKtyHDA4f7waTBAC2eyZd6a/cXZTwMsv/
-         ZVFrhIGsViRp3nfPZvcRM4WqFQNuVl4fjJtCz03cWNl8OsQ65k/d5MuEe9khC0OQLO
-         Qazs9P2hS3I2A==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Acked-By: Peter De Schrijver <pdeschrijver@nvidia.com>
+From: Thierry Reding <treding@nvidia.com>
 
-On Wed, Dec 18, 2019 at 11:21:30PM +0300, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> Hello,
-> 
-> This series moves intermediate-clk handling from tegra20-cpufreq into
-> tegra-clk driver. This allows us to switch to generic cpufreq-dt driver
-> which brings voltage scaling, per-hardware OPPs and Tegra30 support out
-> of the box. All boards need to adopt CPU OPPs in their device-trees in
-> order to get cpufreq support.
-> 
-> Changelog:
-> 
-> v6: - Dropped "cpufreq: dt-platdev: Blacklist NVIDIA Tegra20 and Tegra30 SoCs"
->       patch from the series since Viresh picked up that patch separately.
-> 
->     - Added two new patches to this series:
-> 
->         ARM: tegra: Switch CPU to PLLP on resume from LP1 on Tegra30/114/124
->         ARM: tegra: Don't enable PLLX while resuming from LP1 on Tegra30
-> 
->       Previously these patches were sent out separately from this series,
->       but it should be more consistent to include them into the series since
->       they directly relate to enabling of the cpufreq driver on Tegra30.
-> 
-> v5: - The "Use generic cpufreq-dt driver (Tegra30 supported now)" patch
->       is separated now into two patches by factoring out the blacklisting
->       of cpufreq-dt-platdev into a standalone patch. This is done in a
->       response to request from Jon Hunter to fix the warning splats during
->       boot that are coming from OPP core because OPPs are unavailable. The
->       OPPs will become available once tegra20-cpufreq driver will be updated
->       to support the cpufreq-dt.
-> 
-> v4: - Updated CCLK diagram in the "Add custom CCLK implementation" patch.
-> 
->     - <linux/cpu.h> is now included in the "Use generic cpufreq-dt driver"
->       patch, for consistency.
-> 
->     - Returned value of get_cpu_device() is now checked in the "Use generic
->       cpufreq-dt driver" patch, for consistency as well.
-> 
-> v3: - The "Add custom CCLK implementation" patch was updated in accordance
->       to the comments from Peter De Schrijver. We will not use the clock
->       skipper.
-> 
->     - Re added OPPs for T30 Beaver board because Thierry has that board ;)
-> 
->     - Added r-b for the "DT binding" patch from Rob Herring.
-> 
-> v2: - Kept modularity of the tegra20-cpufreq as was requested by Viresh Kumar
->       in a review comment to v1.
-> 
->     - Added acks from Viresh Kumar.
-> 
->     - Added tested-by from Nicolas Chauvet to the "trimslice" patch.
->       Nicolas told me on IRC that it works fine.
-> 
->     - Fixed compilation of the "Add custom CCLK implementation" patch. The
->       error happened because v1 was based on top of yet unreviewed/unapplied
->       patch "clk: tegra: divider: Support enable-bit for Super clocks".
->       Thanks to Peter Geis for reporting the problem.
-> 
->     - Replaced Tegra30 "beaver" board with "cardhu-a04" because turned out
->       that's what NVIDIA uses in the testing farm.
-> 
-> Dmitry Osipenko (12):
->   clk: tegra: Add custom CCLK implementation
->   clk: tegra: pll: Add pre/post rate-change hooks
->   clk: tegra: cclk: Add helpers for handling PLLX rate changes
->   clk: tegra20: Use custom CCLK implementation
->   clk: tegra30: Use custom CCLK implementation
->   ARM: tegra: Switch CPU to PLLP on resume from LP1 on Tegra30/114/124
->   ARM: tegra: Don't enable PLLX while resuming from LP1 on Tegra30
->   dt-bindings: cpufreq: Add binding for NVIDIA Tegra20/30
->   cpufreq: tegra20: Use generic cpufreq-dt driver (Tegra30 supported
->     now)
->   ARM: tegra: Create tegra20-cpufreq platform device on Tegra30
->   ARM: dts: tegra30: beaver: Set up voltage regulators for DVFS
->   ARM: dts: tegra30: beaver: Add CPU Operating Performance Points
-> 
->  .../cpufreq/nvidia,tegra20-cpufreq.txt        |  56 +++++
->  arch/arm/boot/dts/tegra30-beaver.dts          |  40 +++-
->  arch/arm/mach-tegra/sleep-tegra30.S           |  18 +-
->  arch/arm/mach-tegra/tegra.c                   |   4 +
->  drivers/clk/tegra/Makefile                    |   1 +
->  drivers/clk/tegra/clk-pll.c                   |  12 +-
->  drivers/clk/tegra/clk-tegra-super-cclk.c      | 212 +++++++++++++++++
->  drivers/clk/tegra/clk-tegra20.c               |   7 +-
->  drivers/clk/tegra/clk-tegra30.c               |   6 +-
->  drivers/clk/tegra/clk.h                       |  19 +-
->  drivers/cpufreq/Kconfig.arm                   |   6 +-
->  drivers/cpufreq/tegra20-cpufreq.c             | 217 +++++-------------
->  12 files changed, 418 insertions(+), 180 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/cpufreq/nvidia,tegra20-cpufreq.txt
->  create mode 100644 drivers/clk/tegra/clk-tegra-super-cclk.c
-> 
-> --
-> 2.24.0
-> 
+Convert the Tegra186 BPMP bindings from the old free-form text format to
+a json-schema and fix things up so that existing device trees properly
+validate.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ .../firmware/nvidia,tegra186-bpmp.txt         | 107 ---------
+ .../firmware/nvidia,tegra186-bpmp.yaml        | 209 ++++++++++++++++++
+ 2 files changed, 209 insertions(+), 107 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.txt
+ create mode 100644 Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
+
+diff --git a/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.txt b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.txt
+deleted file mode 100644
+index e44a13bc06ed..000000000000
+--- a/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.txt
++++ /dev/null
+@@ -1,107 +0,0 @@
+-NVIDIA Tegra Boot and Power Management Processor (BPMP)
+-
+-The BPMP is a specific processor in Tegra chip, which is designed for
+-booting process handling and offloading the power management, clock
+-management, and reset control tasks from the CPU. The binding document
+-defines the resources that would be used by the BPMP firmware driver,
+-which can create the interprocessor communication (IPC) between the CPU
+-and BPMP.
+-
+-Required properties:
+-- compatible
+-    Array of strings
+-    One of:
+-    - "nvidia,tegra186-bpmp"
+-- mboxes : The phandle of mailbox controller and the mailbox specifier.
+-- shmem : List of the phandle of the TX and RX shared memory area that
+-	  the IPC between CPU and BPMP is based on.
+-- #clock-cells : Should be 1.
+-- #power-domain-cells : Should be 1.
+-- #reset-cells : Should be 1.
+-
+-This node is a mailbox consumer. See the following files for details of
+-the mailbox subsystem, and the specifiers implemented by the relevant
+-provider(s):
+-
+-- .../mailbox/mailbox.txt
+-- .../mailbox/nvidia,tegra186-hsp.txt
+-
+-This node is a clock, power domain, and reset provider. See the following
+-files for general documentation of those features, and the specifiers
+-implemented by this node:
+-
+-- .../clock/clock-bindings.txt
+-- <dt-bindings/clock/tegra186-clock.h>
+-- ../power/power-domain.yaml
+-- <dt-bindings/power/tegra186-powergate.h>
+-- .../reset/reset.txt
+-- <dt-bindings/reset/tegra186-reset.h>
+-
+-The BPMP implements some services which must be represented by separate nodes.
+-For example, it can provide access to certain I2C controllers, and the I2C
+-bindings represent each I2C controller as a device tree node. Such nodes should
+-be nested directly inside the main BPMP node.
+-
+-Software can determine whether a child node of the BPMP node represents a device
+-by checking for a compatible property. Any node with a compatible property
+-represents a device that can be instantiated. Nodes without a compatible
+-property may be used to provide configuration information regarding the BPMP
+-itself, although no such configuration nodes are currently defined by this
+-binding.
+-
+-The BPMP firmware defines no single global name-/numbering-space for such
+-services. Put another way, the numbering scheme for I2C buses is distinct from
+-the numbering scheme for any other service the BPMP may provide (e.g. a future
+-hypothetical SPI bus service). As such, child device nodes will have no reg
+-property, and the BPMP node will have no #address-cells or #size-cells property.
+-
+-The shared memory bindings for BPMP
+------------------------------------
+-
+-The shared memory area for the IPC TX and RX between CPU and BPMP are
+-predefined and work on top of sysram, which is an SRAM inside the chip.
+-
+-See ".../sram/sram.txt" for the bindings.
+-
+-Example:
+-
+-hsp_top0: hsp@3c00000 {
+-	...
+-	#mbox-cells = <2>;
+-};
+-
+-sysram@30000000 {
+-	compatible = "nvidia,tegra186-sysram", "mmio-sram";
+-	reg = <0x0 0x30000000 0x0 0x50000>;
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-	ranges = <0 0x0 0x0 0x30000000 0x0 0x50000>;
+-
+-	cpu_bpmp_tx: shmem@4e000 {
+-		compatible = "nvidia,tegra186-bpmp-shmem";
+-		reg = <0x0 0x4e000 0x0 0x1000>;
+-		label = "cpu-bpmp-tx";
+-		pool;
+-	};
+-
+-	cpu_bpmp_rx: shmem@4f000 {
+-		compatible = "nvidia,tegra186-bpmp-shmem";
+-		reg = <0x0 0x4f000 0x0 0x1000>;
+-		label = "cpu-bpmp-rx";
+-		pool;
+-	};
+-};
+-
+-bpmp {
+-	compatible = "nvidia,tegra186-bpmp";
+-	mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_DB TEGRA_HSP_DB_MASTER_BPMP>;
+-	shmem = <&cpu_bpmp_tx &cpu_bpmp_rx>;
+-	#clock-cells = <1>;
+-	#power-domain-cells = <1>;
+-	#reset-cells = <1>;
+-
+-	i2c {
+-		compatible = "...";
+-		...
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
+new file mode 100644
+index 000000000000..dabf1c1aec2f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
+@@ -0,0 +1,209 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/firmware/nvidia,tegra186-bpmp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra186 (and later) Boot and Power Management Processor (BPMP)
++
++maintainers:
++  - Thierry Reding <thierry.reding@gmail.com>
++  - Jon Hunter <jonathanh@nvidia.com>
++
++description: |
++  The BPMP is a specific processor in Tegra chip, which is designed for
++  booting process handling and offloading the power management, clock
++  management, and reset control tasks from the CPU. The binding document
++  defines the resources that would be used by the BPMP firmware driver,
++  which can create the interprocessor communication (IPC) between the
++  CPU and BPMP.
++
++  The BPMP implements some services which must be represented by separate
++  nodes. For example, it can provide access to certain I2C controllers, and
++  the I2C bindings represent each I2C controller as a device tree node. Such
++  nodes should be nested directly inside the main BPMP node.
++
++  Software can determine whether a child node of the BPMP node represents a
++  device by checking for a compatible property. Any node with a compatible
++  property represents a device that can be instantiated. Nodes without a
++  compatible property may be used to provide configuration information
++  regarding the BPMP itself, although no such configuration nodes are
++  currently defined by this binding.
++
++  The BPMP firmware defines no single global name-/numbering-space for such
++  services. Put another way, the numbering scheme for I2C buses is distinct
++  from the numbering scheme for any other service the BPMP may provide (e.g.
++  a future hypothetical SPI bus service). As such, child device nodes will
++  have no "reg" property, and the BPMP node will have no "#address-cells" or
++  "#size-cells" property.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - nvidia,tegra186-bpmp
++
++  iommus:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      The phandle of the IOMMU and the IOMMU specifier. See ../iommu/iommu.txt
++      for details.
++
++  mboxes:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      The phandle of the mailbox controller and the mailbox specifier. See
++      ../mailbox/mailbox.txt and ../mailbox/nvidia,tegra186-hsp.txt for
++      details.
++
++  shmem:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: List of phandles for the TX and RX shared memory areas used
++      for interprocess communication between the CPU and the BPMP.
++
++      The shared memory area for the IPC TX and RX between CPU and BPMP are
++      predefined and work on top of sysram, which is an SRAM inside the chip.
++
++      See ../sram/sram.yaml for the bindings.
++
++  "#clock-cells":
++    const: 1
++
++  "#power-domain-cells":
++    const: 1
++
++  "#reset-cells":
++    const: 1
++
++  i2c:
++    type: object
++    description: |
++      The BPMP can provide serialized access to I2C controllers that have
++      been assigned to it.
++
++    properties:
++      compatible:
++        items:
++          - enum:
++              - nvidia,tegra186-bpmp-i2c
++
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      nvidia,bpmp-bus-id:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description: The bus ID of the I2C controller.
++
++    required:
++      - compatible
++      - "#address-cells"
++      - "#size-cells"
++      - nvidia,bpmp-bus-id
++
++    patternProperties:
++      "^.*@[0-9a-f]+$":
++        type: object
++        description: I2C slave
++        properties:
++          reg:
++            maxItems: 1
++            description: I2C address of the slave
++
++        required:
++          - reg
++
++    additionalProperties: false
++
++  thermal:
++    type: object
++    description:
++      The BPMP provides functionality that exposes system temperature sensors
++      and which can be used to trigger a system shutdown if the temperature
++      for a given zone exceeds the specified thresholds.
++
++    properties:
++      compatible:
++        items:
++          - enum:
++              - nvidia,tegra186-bpmp-thermal
++
++      "#thermal-sensor-cells":
++        description: The ID of the thermal zone.
++        const: 1
++
++    required:
++      - compatible
++      - "#thermal-sensor-cells"
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - mboxes
++  - shmem
++  - "#clock-cells"
++  - "#power-domain-cells"
++  - "#reset-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/mailbox/tegra186-hsp.h>
++
++    hsp_top0: hsp@3c00000 {
++        compatible = "nvidia,tegra186-hsp";
++        reg = <0x03c00000 0xa0000>;
++        interrupts = <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "doorbell";
++        #mbox-cells = <2>;
++    };
++
++    sysram@30000000 {
++        compatible = "nvidia,tegra186-sysram", "mmio-sram";
++        reg = <0x30000000 0x50000>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges = <0x0 0x30000000 0x50000>;
++
++        cpu_bpmp_tx: shmem@4e000 {
++            compatible = "nvidia,tegra186-bpmp-shmem";
++            reg = <0x4e000 0x1000>;
++            label = "cpu-bpmp-tx";
++            pool;
++        };
++
++        cpu_bpmp_rx: shmem@4f000 {
++            compatible = "nvidia,tegra186-bpmp-shmem";
++            reg = <0x4f000 0x1000>;
++            label = "cpu-bpmp-rx";
++            pool;
++        };
++    };
++
++    bpmp {
++        compatible = "nvidia,tegra186-bpmp";
++        iommus = <&smmu TEGRA186_SID_BPMP>;
++        mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_DB TEGRA_HSP_DB_MASTER_BPMP>;
++        shmem = <&cpu_bpmp_tx &cpu_bpmp_rx>;
++        #clock-cells = <1>;
++        #power-domain-cells = <1>;
++        #reset-cells = <1>;
++
++        i2c {
++            compatible = "nvidia,tegra186-bpmp-i2c";
++            nvidia,bpmp-bus-id = <5>;
++            #address-cells = <1>;
++            #size-cells = <0>;
++            status = "disabled";
++        };
++
++        thermal {
++            compatible = "nvidia,tegra186-bpmp-thermal";
++            #thermal-sensor-cells = <1>;
++        };
++    };
+-- 
+2.24.1
+
