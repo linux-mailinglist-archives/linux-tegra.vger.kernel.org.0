@@ -2,116 +2,75 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7814913C4EC
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jan 2020 15:08:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1AEA13C8B5
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jan 2020 17:05:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbgAOOIB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Jan 2020 09:08:01 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45367 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726501AbgAOOIB (ORCPT
+        id S1726562AbgAOQFT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Jan 2020 11:05:19 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:32922 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726474AbgAOQFT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Jan 2020 09:08:01 -0500
-Received: by mail-wr1-f67.google.com with SMTP id j42so15836693wrj.12
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Jan 2020 06:07:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zOG3gslUIp2aajc8ofWEsgmTDRhGhvfYrKvkK7j/6Cw=;
-        b=VDr6tDsOaWkIeJlYFoMPymy5qsLBZl/eUIpJuBCHCa2sV92O3e5g4s4ZI5FX41IL0K
-         xSl9VelfzbqKmzLD12LG8Hjvwxm/YKJG7fsaHEKnrA5AwcanB3yQdcykj1nPz4A61lak
-         fLrH7PL4+AlRliUHWVuhE4DSOv4TSuVAsQFUzmY8Xa79GSfQasExNbRYdzB6SQwVqjS/
-         VYjybPGGUpUnE7CMPb61T3XNJDCFdIhB/VTuggXY5AbBKZBxVrA9u8/NrwH+lwjK+sNu
-         oLacQysoTmyhNKswBtAPsqlXmu4Cm8UVtQzu9FwP4/zPPCirypytaWpqfAWbCSkLVbb9
-         HwEg==
+        Wed, 15 Jan 2020 11:05:19 -0500
+Received: by mail-ot1-f66.google.com with SMTP id b18so16580181otp.0
+        for <linux-tegra@vger.kernel.org>; Wed, 15 Jan 2020 08:05:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zOG3gslUIp2aajc8ofWEsgmTDRhGhvfYrKvkK7j/6Cw=;
-        b=TSa8y6tmiLTSXKHEsufwqeRzn2rO+qvjgVgEvk30zTFVrKVo86NAPhHce88xg2R7Ct
-         5+9a0cx2SKkzspBj88398Es/D2gFAnaqGsC8+Hms+nZNqA+7FlRFBg+FjWumRIC+uHXc
-         au6RLzXPYt01qbYutSHPs4/gJ+itDwIX/3En7Smssno0JGGwBkf4Y5m8wEgEMtp4Hhy5
-         77iHQ/XsPrL+o1VipH8v1us8Z4p18dfkAt+1BtYJy64D8Dfl846OZH1ILofjuZoUGIBJ
-         2swgNlqP7FQXBJInvJZWPgEqC4AA2npLHenvJ7RUAoctMjgopvHpaWmx1JXWnLgF2kWb
-         Uw9Q==
-X-Gm-Message-State: APjAAAUuvOr2FLrMCj6TPerMVg++rYQEqeZjCGzrVxXS+z9bvZWVU7QE
-        QelGfNZVMHUBIESYsiF/N7w=
-X-Google-Smtp-Source: APXvYqxgQ5gs/WvwfgdNbYMteyftk+CBVLGkkImNsXns/XeT7bgOvd2hU1QLLFCsqi7S+ybXMLG5Mg==
-X-Received: by 2002:a5d:4b8f:: with SMTP id b15mr33007606wrt.100.1579097278979;
-        Wed, 15 Jan 2020 06:07:58 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id g2sm24872434wrw.76.2020.01.15.06.07.57
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=AIn1O5GCmKw7dugKJey6e6TvKV2y4GDiW1xXQSe2Ay0=;
+        b=KzzAT4eFTTOW5h62roG0mwmxDRSdIl5vKzXJygcn7ZlZYv0OUB+e+ITa98vJvA6cev
+         a2YQ3q9mFRvotM6uM0M9Akwnr2+U2lxFMKrJZwSVxXsyB2smmCnIQxV7SrUhqyQI2cXZ
+         NY+aXMB/U8EhwkjyiDHoXZhRPPhzdRW8R5nDMQuIyK/pfyyYegQreGK3sFHrTrnZLPDk
+         zJvLp6w0aD09yY88r+97H+wS6vUrV1bGkcVHdUA7yKPqJ8yWq3CKo4bURZ8mVrEtQ2/u
+         8AXaS01dXH41bA28zaPztMKm+DQ0LiRzzDcXUWqrksWHqOVeOzavBzxDOkKdLY6SbrqV
+         yJNw==
+X-Gm-Message-State: APjAAAUOp2Io9coRHc2v1TRFFwgsrYBihpHLgxaD8zjTjzkwmE7Hb054
+        gsujRQs5xfGmqypoU0RL4qzBaf8=
+X-Google-Smtp-Source: APXvYqwPIokLPO+8Kjk4Ty5TyGv/9dDG7P2fQuY33Rbc3cgmcgiULJ1MkYzHc2pJhpPkYFAx0KV2Nw==
+X-Received: by 2002:a9d:7342:: with SMTP id l2mr3236207otk.98.1579104317926;
+        Wed, 15 Jan 2020 08:05:17 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id e13sm5835239oie.0.2020.01.15.08.05.16
+        for <linux-tegra@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 06:07:58 -0800 (PST)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Ben Skeggs <bskeggs@redhat.com>
-Cc:     nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] drm/nouveau: gp10b: Use gp100_grctx and gp100_gr_zbc
-Date:   Wed, 15 Jan 2020 15:07:56 +0100
-Message-Id: <20200115140756.70830-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
+        Wed, 15 Jan 2020 08:05:17 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 22040c
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Wed, 15 Jan 2020 10:05:16 -0600
+Date:   Wed, 15 Jan 2020 10:05:16 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     JC Kuo <jckuo@nvidia.com>
+Cc:     gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        robh@kernel.org, jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, felipe.balbi@linux.intel.com,
+        JC Kuo <jckuo@nvidia.com>
+Subject: Re: [PATCH v1] dt-binding: usb: add "super-speed-plus"
+Message-ID: <20200115160516.GA18911@bogus>
+References: <20200113060046.14448-1-jckuo@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200113060046.14448-1-jckuo@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Mon, 13 Jan 2020 14:00:46 +0800, JC Kuo wrote:
+> This commit adds "super-speed-plus" to valid argument list of
+> "maximum-speed" property.
+> 
+> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+> ---
+>  Documentation/devicetree/bindings/usb/generic.txt | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
 
-gp10b doesn't have all the registers that gp102_gr_zbc wants to access,
-which causes IBUS MMIO faults to occur. Avoid this by using the gp100
-variants of grctx and gr_zbc.
+Applied, thanks.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h | 1 +
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c | 2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c | 4 ++--
- 3 files changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h
-index fafdd0bbea9b..c4b2e6346684 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h
-@@ -245,6 +245,7 @@ void gp100_gr_init_fecs_exceptions(struct gf100_gr *);
- void gp100_gr_init_shader_exceptions(struct gf100_gr *, int, int);
- void gp100_gr_zbc_clear_color(struct gf100_gr *, int);
- void gp100_gr_zbc_clear_depth(struct gf100_gr *, int);
-+extern const struct gf100_gr_func_zbc gp100_gr_zbc;
- 
- void gp102_gr_init_swdx_pes_mask(struct gf100_gr *);
- extern const struct gf100_gr_func_zbc gp102_gr_zbc;
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c
-index 9d0521ce309a..ef16fee61327 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c
-@@ -62,7 +62,7 @@ gp100_gr_zbc_clear_depth(struct gf100_gr *gr, int zbc)
- 			  gr->zbc_depth[zbc].format << ((znum % 4) * 7));
- }
- 
--static const struct gf100_gr_func_zbc
-+const struct gf100_gr_func_zbc
- gp100_gr_zbc = {
- 	.clear_color = gp100_gr_zbc_clear_color,
- 	.clear_depth = gp100_gr_zbc_clear_depth,
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c
-index 303dceddd4a8..0b375b2587d2 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c
-@@ -48,8 +48,8 @@ gp10b_gr = {
- 	.gpc_nr = 1,
- 	.tpc_nr = 2,
- 	.ppc_nr = 1,
--	.grctx = &gp102_grctx,
--	.zbc = &gp102_gr_zbc,
-+	.grctx = &gp100_grctx,
-+	.zbc = &gp100_gr_zbc,
- 	.sclass = {
- 		{ -1, -1, FERMI_TWOD_A },
- 		{ -1, -1, KEPLER_INLINE_TO_MEMORY_B },
--- 
-2.24.1
-
+Rob
