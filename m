@@ -2,75 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1AEA13C8B5
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jan 2020 17:05:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC1B713CB16
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jan 2020 18:35:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbgAOQFT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Jan 2020 11:05:19 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:32922 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726474AbgAOQFT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Jan 2020 11:05:19 -0500
-Received: by mail-ot1-f66.google.com with SMTP id b18so16580181otp.0
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Jan 2020 08:05:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AIn1O5GCmKw7dugKJey6e6TvKV2y4GDiW1xXQSe2Ay0=;
-        b=KzzAT4eFTTOW5h62roG0mwmxDRSdIl5vKzXJygcn7ZlZYv0OUB+e+ITa98vJvA6cev
-         a2YQ3q9mFRvotM6uM0M9Akwnr2+U2lxFMKrJZwSVxXsyB2smmCnIQxV7SrUhqyQI2cXZ
-         NY+aXMB/U8EhwkjyiDHoXZhRPPhzdRW8R5nDMQuIyK/pfyyYegQreGK3sFHrTrnZLPDk
-         zJvLp6w0aD09yY88r+97H+wS6vUrV1bGkcVHdUA7yKPqJ8yWq3CKo4bURZ8mVrEtQ2/u
-         8AXaS01dXH41bA28zaPztMKm+DQ0LiRzzDcXUWqrksWHqOVeOzavBzxDOkKdLY6SbrqV
-         yJNw==
-X-Gm-Message-State: APjAAAUOp2Io9coRHc2v1TRFFwgsrYBihpHLgxaD8zjTjzkwmE7Hb054
-        gsujRQs5xfGmqypoU0RL4qzBaf8=
-X-Google-Smtp-Source: APXvYqwPIokLPO+8Kjk4Ty5TyGv/9dDG7P2fQuY33Rbc3cgmcgiULJ1MkYzHc2pJhpPkYFAx0KV2Nw==
-X-Received: by 2002:a9d:7342:: with SMTP id l2mr3236207otk.98.1579104317926;
-        Wed, 15 Jan 2020 08:05:17 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id e13sm5835239oie.0.2020.01.15.08.05.16
-        for <linux-tegra@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 08:05:17 -0800 (PST)
-Received: from rob (uid 1000)
-        (envelope-from rob@rob-hp-laptop)
-        id 22040c
-        by rob-hp-laptop (DragonFly Mail Agent v0.11);
-        Wed, 15 Jan 2020 10:05:16 -0600
-Date:   Wed, 15 Jan 2020 10:05:16 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     JC Kuo <jckuo@nvidia.com>
-Cc:     gregkh@linuxfoundation.org, thierry.reding@gmail.com,
-        robh@kernel.org, jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, felipe.balbi@linux.intel.com,
-        JC Kuo <jckuo@nvidia.com>
-Subject: Re: [PATCH v1] dt-binding: usb: add "super-speed-plus"
-Message-ID: <20200115160516.GA18911@bogus>
-References: <20200113060046.14448-1-jckuo@nvidia.com>
+        id S1728899AbgAOReB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Jan 2020 12:34:01 -0500
+Received: from sauhun.de ([88.99.104.3]:38860 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726418AbgAOReA (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 15 Jan 2020 12:34:00 -0500
+Received: from localhost (p54B33239.dip0.t-ipconnect.de [84.179.50.57])
+        by pokefinder.org (Postfix) with ESMTPSA id 907FF2C0742;
+        Wed, 15 Jan 2020 18:33:58 +0100 (CET)
+Date:   Wed, 15 Jan 2020 18:33:58 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>, linux-i2c@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/8] i2c: tegra: Fix suspending in active runtime PM
+ state
+Message-ID: <20200115173358.GD1239@ninjato>
+References: <20200114013442.28448-1-digetx@gmail.com>
+ <20200114013442.28448-2-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2Z2K0IlrPCVsbNpk"
 Content-Disposition: inline
-In-Reply-To: <20200113060046.14448-1-jckuo@nvidia.com>
+In-Reply-To: <20200114013442.28448-2-digetx@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, 13 Jan 2020 14:00:46 +0800, JC Kuo wrote:
-> This commit adds "super-speed-plus" to valid argument list of
-> "maximum-speed" property.
-> 
-> Signed-off-by: JC Kuo <jckuo@nvidia.com>
-> ---
->  Documentation/devicetree/bindings/usb/generic.txt | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
 
-Applied, thanks.
+--2Z2K0IlrPCVsbNpk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rob
+On Tue, Jan 14, 2020 at 04:34:35AM +0300, Dmitry Osipenko wrote:
+> I noticed that sometime I2C clock is kept enabled during suspend-resume.
+> This happens because runtime PM defers dynamic suspension and thus it may
+> happen that runtime PM is in active state when system enters into suspend.
+> In particular I2C controller that is used for CPU's DVFS is often kept ON
+> during suspend because CPU's voltage scaling happens quite often.
+>=20
+> Fixes: 8ebf15e9c869 ("i2c: tegra: Move suspend handling to NOIRQ phase")
+> Cc: <stable@vger.kernel.org> # v5.4+
+> Tested-by: Thierry Reding <treding@nvidia.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+
+Applied to for-current, thanks!
+
+
+--2Z2K0IlrPCVsbNpk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl4fTQUACgkQFA3kzBSg
+KbZRQQ//X0M2uETYY4ocrCKvkYWSCrKJoUsfcN6Kfkw/EfgXBWXsL7pB0v8HZtdM
+A6aLwrsMQgtmTDrEVkit9y8m4VHm6hRxgY85R/GJZO1QPWXK88M1R2QUbzNmZDcm
+owqVD5oCJnWgj6fyvQcDCkt5ke+anW3GnYUnMuP7kT6OPBbKNxQ2xzaPLO962zA4
+sBGsHTnyvyMDh8Y529FxwuD3txYVt17UCEjnIp2iN4YRdMR68tLZnIFaREQrSbSo
+8okn2VEJ7VZl2seQHTOBmmxBUy8GXoTGCnfOJo12dFzN2pS3EvuyCeEuF3etouem
+UJRZ5vYjwungQMHXsTcoN37GJwyyow4o81BgoFgRd2S69KpFPLkEQxXIQRqf+poI
+DugedIUViEOS+mipoM3Xd+0qsIubFz2pYNqrW29TAHD48xvi3iCAsY2emFxsCynq
+Hox3mLqyHzcsP6yWdNd6xiwoyuux7q5O0Qkm4Wvn0WF9h4LxkOVWYQr0RUjG1OnI
+0I6IEdj+CtkuOK9JyFfpDk9mJHdt93CBpX1Y0dG6bRVNbLCyIUzwxXaYMOd+F7ZK
+tA1B55Kdp5cPkRYA2XARyL7LaBSBucZUzBDnU64cCTio9r0AZLmb4p3yuVY5qQU5
+TD2Hz6tL/YLuS44kjqkqkQnMj6iaT4JnMdUYBo9Ew4CK0CphCHo=
+=bdEc
+-----END PGP SIGNATURE-----
+
+--2Z2K0IlrPCVsbNpk--
