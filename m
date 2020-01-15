@@ -2,123 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B508713BD57
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jan 2020 11:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A069313C4E6
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jan 2020 15:06:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729762AbgAOKZu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Jan 2020 05:25:50 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6509 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729631AbgAOKZu (ORCPT
+        id S1726483AbgAOOGY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Jan 2020 09:06:24 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55545 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726473AbgAOOGY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Jan 2020 05:25:50 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e1ee8750000>; Wed, 15 Jan 2020 02:24:54 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 15 Jan 2020 02:25:49 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 15 Jan 2020 02:25:49 -0800
-Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Jan
- 2020 10:25:47 +0000
-Subject: Re: [PATCH v4 02/14] dmaengine: tegra-apb: Implement synchronization
- callback
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200112173006.29863-1-digetx@gmail.com>
- <20200112173006.29863-3-digetx@gmail.com>
- <c225399c-f032-8001-e67b-b807dcda748c@nvidia.com>
- <627f996c-1487-1b9a-e953-f5737f3ad32a@gmail.com>
- <34ec4c18-f082-def6-8544-0d15a109d7f8@nvidia.com>
-Message-ID: <d07d3d64-8abd-e3d7-ca1c-01ab8607b8c2@nvidia.com>
-Date:   Wed, 15 Jan 2020 10:25:45 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Wed, 15 Jan 2020 09:06:24 -0500
+Received: by mail-wm1-f65.google.com with SMTP id q9so18039451wmj.5
+        for <linux-tegra@vger.kernel.org>; Wed, 15 Jan 2020 06:06:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xpaCDCp3aHifqmtaxF5hEcnltst6bnP9UNBwuYjhTyg=;
+        b=uz/uXYTiOFJ44/TLVCgYExcwylBymtVJe4kPo2u+zUTksrUbJEjCNopJhDVEY/Q61R
+         lR0K006XswSwr2UQOvP+hzZjbnOqBjfvhca9tli84HO5XhXaj4WfhBRMjIQojONKUJ1E
+         2UKDuf6krQSqCF+owAeOW5d/+uz1/c4YK55AKxyArSJ11lcyT8sdlDA+5iFaGOFMm6LI
+         LGsVtBOW18mOV/TZXItj7BQ4JY620F9QavAGgPs9XrgrgyJ/Zrnu9pMHNPrHvHtThyEu
+         Il86FkvQIQ1K1uM9oPZB8xCy4HK6CcX1hc7bShhnkHB0ZNOId25hYkGKCa/XbJvmadt5
+         BKBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xpaCDCp3aHifqmtaxF5hEcnltst6bnP9UNBwuYjhTyg=;
+        b=p166/KXjjndKVQ28Ctz+kBx5iC/qEAow72+j02TmV0IfLmaHVxzcgnJvGJ2Vxu6SwN
+         1Oj9iraFvSyl+XotIZVkkypbQqrmPEu4IVVghglNTyWod0iKES6W8gNXdYA3PSemnTTm
+         /KfJNmkeyEW7CZQcgNdDc3YaqCaNZ1hRfQu+HDD3WK1/GDGPYe98g18aMwWD6oKo1RIh
+         XtHSOVu3TPhkRX36pGVWk7V6A5LqflCxPfFZYm8RWxOXXseD3xT58fK6cD4wA/lFG5VP
+         gsiB87IE3s9igAdhErHWCTPVAFNkXDfeKh5GEthCo7HD8pCBjJc5of6P6dWVDLa/U6xi
+         z2aA==
+X-Gm-Message-State: APjAAAX/fsHQp67EBePAJtHm14103vmigxFCudz00YI1thZ4KLMHQkcL
+        36rcmZg+BkHg7mUW2Wi6xPM=
+X-Google-Smtp-Source: APXvYqzgxb+l/AQl2zK9ehpckCGpp5lcjCBS+W4pziqCj97U6Z5Zrr80a44bIrdJwLbHr6vaOxEcwg==
+X-Received: by 2002:a1c:9dd7:: with SMTP id g206mr33806939wme.61.1579097182214;
+        Wed, 15 Jan 2020 06:06:22 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id u7sm23337154wmj.3.2020.01.15.06.06.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2020 06:06:21 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Ben Skeggs <bskeggs@redhat.com>
+Cc:     nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH] drm/nouveau: gm20b, gp10b: Fix Falcon bootstrapping
+Date:   Wed, 15 Jan 2020 15:06:13 +0100
+Message-Id: <20200115140613.70268-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <34ec4c18-f082-def6-8544-0d15a109d7f8@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579083894; bh=WDMyn/ZqNy9l1iysLsV2lNTZb/96GII9G+k29s8H9tY=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=MQURN8Zw4jvuLuapdX0bHMWKlRbOsoej7k6+p4drP5m6V+CEidzrouaGDiiHZWlQ4
-         x9xPnF951BwUjSrWp8Okv9aidiHrG0OXJGab3agHi9rfXfiIba/cg+03h2YjPEUipe
-         mdC8+tHCthzfmetGHXkamozI1tcVD1LapvWEQArL2xWJGkA9N4feBaD8cEvnpuUCJv
-         rcm9w3zMOR+0IjQGQjL/5UCeSA0kNx3LG7fRGX7l6/9eKqc4fZQtj7pfshn+4qZ15K
-         o57qvPFykaEh6MQxv7Jv/go7oEO9o4y/5Ph5YHn+ae80GrloQuV9Ci1Mn63wO87g2h
-         tpdgnRXuznHsA==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
-On 15/01/2020 09:18, Jon Hunter wrote:
->=20
-> On 14/01/2020 21:02, Dmitry Osipenko wrote:
->> 14.01.2020 18:15, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>
->>> On 12/01/2020 17:29, Dmitry Osipenko wrote:
->>>> The ISR tasklet could be kept scheduled after DMA transfer termination=
-,
->>>> let's add synchronization callback which blocks until tasklet is finis=
-hed.
->>>>
->>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>> ---
->>>>  drivers/dma/tegra20-apb-dma.c | 8 ++++++++
->>>>  1 file changed, 8 insertions(+)
->>>>
->>>> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-d=
-ma.c
->>>> index 319f31d27014..664e9c5df3ba 100644
->>>> --- a/drivers/dma/tegra20-apb-dma.c
->>>> +++ b/drivers/dma/tegra20-apb-dma.c
->>>> @@ -798,6 +798,13 @@ static int tegra_dma_terminate_all(struct dma_cha=
-n *dc)
->>>>  	return 0;
->>>>  }
->>>> =20
->>>> +static void tegra_dma_synchronize(struct dma_chan *dc)
->>>> +{
->>>> +	struct tegra_dma_channel *tdc =3D to_tegra_dma_chan(dc);
->>>> +
->>>> +	tasklet_kill(&tdc->tasklet);
->>>> +}
->>>> +
->>>
->>> Wouldn't there need to be some clean-up here? If the tasklet is
->>> scheduled, seems that there would be some other house-keeping that need=
-s
->>> to be done after killing it.
->>
->> I'm not seeing anything to clean-up, could you please clarify?
->=20
-> Clean-up with regard to the descriptors. I was concerned if you will the
-> tasklet the necessary clean-up of the descriptors is not handled.
+The low-level Falcon bootstrapping callbacks are expected to return 0 on
+success or a negative error code on failure. However, the implementation
+on Tegra returns the ID or mask of the Falcons that were bootstrapped on
+success, thus breaking the calling code, which treats this as failure.
 
-Ah I see that tasklet_kill, unlike tasklet_kill_immediate, does wait for
-the tasklet to run if scheduled. OK, then this should be fine.
+Fix this by making sure we only return 0 or a negative error code, just
+like the code for discrete GPUs does.
 
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Fixes: 86ce2a71539c ("drm/nouveau/flcn/cmdq: move command generation to subdevs")
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+Note that this is against Ben's tree, which should only hit linux-next
+tomorrow, so most people should not be hitting this yet.
 
-Cheers
-Jon
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c | 9 +++++++--
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c | 9 +++++++--
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
---=20
-nvpublic
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c
+index 6d5a13e4a857..82571032a07d 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c
+@@ -52,8 +52,13 @@ gm20b_pmu_acr_bootstrap_falcon(struct nvkm_falcon *falcon,
+ 	ret = nvkm_falcon_cmdq_send(pmu->hpq, &cmd.cmd.hdr,
+ 				    gm20b_pmu_acr_bootstrap_falcon_cb,
+ 				    &pmu->subdev, msecs_to_jiffies(1000));
+-	if (ret >= 0 && ret != cmd.falcon_id)
+-		ret = -EIO;
++	if (ret >= 0) {
++		if (ret != cmd.falcon_id)
++			ret = -EIO;
++		else
++			ret = 0;
++	}
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
+index 39c86bc56310..5b81c7320479 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
+@@ -52,8 +52,13 @@ gp10b_pmu_acr_bootstrap_multiple_falcons(struct nvkm_falcon *falcon, u32 mask)
+ 	ret = nvkm_falcon_cmdq_send(pmu->hpq, &cmd.cmd.hdr,
+ 				    gp10b_pmu_acr_bootstrap_multiple_falcons_cb,
+ 				    &pmu->subdev, msecs_to_jiffies(1000));
+-	if (ret >= 0 && ret != cmd.falcon_mask)
+-		ret = -EIO;
++	if (ret >= 0) {
++		if (ret != cmd.falcon_mask)
++			ret = -EIO;
++		else
++			ret = 0;
++	}
++
+ 	return ret;
+ }
+ 
+-- 
+2.24.1
+
