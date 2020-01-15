@@ -2,55 +2,55 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A069313C4E6
-	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jan 2020 15:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7814913C4EC
+	for <lists+linux-tegra@lfdr.de>; Wed, 15 Jan 2020 15:08:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbgAOOGY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 15 Jan 2020 09:06:24 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55545 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726473AbgAOOGY (ORCPT
+        id S1726483AbgAOOIB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 15 Jan 2020 09:08:01 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:45367 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726501AbgAOOIB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 15 Jan 2020 09:06:24 -0500
-Received: by mail-wm1-f65.google.com with SMTP id q9so18039451wmj.5
-        for <linux-tegra@vger.kernel.org>; Wed, 15 Jan 2020 06:06:22 -0800 (PST)
+        Wed, 15 Jan 2020 09:08:01 -0500
+Received: by mail-wr1-f67.google.com with SMTP id j42so15836693wrj.12
+        for <linux-tegra@vger.kernel.org>; Wed, 15 Jan 2020 06:07:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=xpaCDCp3aHifqmtaxF5hEcnltst6bnP9UNBwuYjhTyg=;
-        b=uz/uXYTiOFJ44/TLVCgYExcwylBymtVJe4kPo2u+zUTksrUbJEjCNopJhDVEY/Q61R
-         lR0K006XswSwr2UQOvP+hzZjbnOqBjfvhca9tli84HO5XhXaj4WfhBRMjIQojONKUJ1E
-         2UKDuf6krQSqCF+owAeOW5d/+uz1/c4YK55AKxyArSJ11lcyT8sdlDA+5iFaGOFMm6LI
-         LGsVtBOW18mOV/TZXItj7BQ4JY620F9QavAGgPs9XrgrgyJ/Zrnu9pMHNPrHvHtThyEu
-         Il86FkvQIQ1K1uM9oPZB8xCy4HK6CcX1hc7bShhnkHB0ZNOId25hYkGKCa/XbJvmadt5
-         BKBw==
+        bh=zOG3gslUIp2aajc8ofWEsgmTDRhGhvfYrKvkK7j/6Cw=;
+        b=VDr6tDsOaWkIeJlYFoMPymy5qsLBZl/eUIpJuBCHCa2sV92O3e5g4s4ZI5FX41IL0K
+         xSl9VelfzbqKmzLD12LG8Hjvwxm/YKJG7fsaHEKnrA5AwcanB3yQdcykj1nPz4A61lak
+         fLrH7PL4+AlRliUHWVuhE4DSOv4TSuVAsQFUzmY8Xa79GSfQasExNbRYdzB6SQwVqjS/
+         VYjybPGGUpUnE7CMPb61T3XNJDCFdIhB/VTuggXY5AbBKZBxVrA9u8/NrwH+lwjK+sNu
+         oLacQysoTmyhNKswBtAPsqlXmu4Cm8UVtQzu9FwP4/zPPCirypytaWpqfAWbCSkLVbb9
+         HwEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=xpaCDCp3aHifqmtaxF5hEcnltst6bnP9UNBwuYjhTyg=;
-        b=p166/KXjjndKVQ28Ctz+kBx5iC/qEAow72+j02TmV0IfLmaHVxzcgnJvGJ2Vxu6SwN
-         1Oj9iraFvSyl+XotIZVkkypbQqrmPEu4IVVghglNTyWod0iKES6W8gNXdYA3PSemnTTm
-         /KfJNmkeyEW7CZQcgNdDc3YaqCaNZ1hRfQu+HDD3WK1/GDGPYe98g18aMwWD6oKo1RIh
-         XtHSOVu3TPhkRX36pGVWk7V6A5LqflCxPfFZYm8RWxOXXseD3xT58fK6cD4wA/lFG5VP
-         gsiB87IE3s9igAdhErHWCTPVAFNkXDfeKh5GEthCo7HD8pCBjJc5of6P6dWVDLa/U6xi
-         z2aA==
-X-Gm-Message-State: APjAAAX/fsHQp67EBePAJtHm14103vmigxFCudz00YI1thZ4KLMHQkcL
-        36rcmZg+BkHg7mUW2Wi6xPM=
-X-Google-Smtp-Source: APXvYqzgxb+l/AQl2zK9ehpckCGpp5lcjCBS+W4pziqCj97U6Z5Zrr80a44bIrdJwLbHr6vaOxEcwg==
-X-Received: by 2002:a1c:9dd7:: with SMTP id g206mr33806939wme.61.1579097182214;
-        Wed, 15 Jan 2020 06:06:22 -0800 (PST)
+        bh=zOG3gslUIp2aajc8ofWEsgmTDRhGhvfYrKvkK7j/6Cw=;
+        b=TSa8y6tmiLTSXKHEsufwqeRzn2rO+qvjgVgEvk30zTFVrKVo86NAPhHce88xg2R7Ct
+         5+9a0cx2SKkzspBj88398Es/D2gFAnaqGsC8+Hms+nZNqA+7FlRFBg+FjWumRIC+uHXc
+         au6RLzXPYt01qbYutSHPs4/gJ+itDwIX/3En7Smssno0JGGwBkf4Y5m8wEgEMtp4Hhy5
+         77iHQ/XsPrL+o1VipH8v1us8Z4p18dfkAt+1BtYJy64D8Dfl846OZH1ILofjuZoUGIBJ
+         2swgNlqP7FQXBJInvJZWPgEqC4AA2npLHenvJ7RUAoctMjgopvHpaWmx1JXWnLgF2kWb
+         Uw9Q==
+X-Gm-Message-State: APjAAAUuvOr2FLrMCj6TPerMVg++rYQEqeZjCGzrVxXS+z9bvZWVU7QE
+        QelGfNZVMHUBIESYsiF/N7w=
+X-Google-Smtp-Source: APXvYqxgQ5gs/WvwfgdNbYMteyftk+CBVLGkkImNsXns/XeT7bgOvd2hU1QLLFCsqi7S+ybXMLG5Mg==
+X-Received: by 2002:a5d:4b8f:: with SMTP id b15mr33007606wrt.100.1579097278979;
+        Wed, 15 Jan 2020 06:07:58 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id u7sm23337154wmj.3.2020.01.15.06.06.21
+        by smtp.gmail.com with ESMTPSA id g2sm24872434wrw.76.2020.01.15.06.07.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 06:06:21 -0800 (PST)
+        Wed, 15 Jan 2020 06:07:58 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Ben Skeggs <bskeggs@redhat.com>
 Cc:     nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] drm/nouveau: gm20b, gp10b: Fix Falcon bootstrapping
-Date:   Wed, 15 Jan 2020 15:06:13 +0100
-Message-Id: <20200115140613.70268-1-thierry.reding@gmail.com>
+Subject: [PATCH] drm/nouveau: gp10b: Use gp100_grctx and gp100_gr_zbc
+Date:   Wed, 15 Jan 2020 15:07:56 +0100
+Message-Id: <20200115140756.70830-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,64 +61,57 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The low-level Falcon bootstrapping callbacks are expected to return 0 on
-success or a negative error code on failure. However, the implementation
-on Tegra returns the ID or mask of the Falcons that were bootstrapped on
-success, thus breaking the calling code, which treats this as failure.
+gp10b doesn't have all the registers that gp102_gr_zbc wants to access,
+which causes IBUS MMIO faults to occur. Avoid this by using the gp100
+variants of grctx and gr_zbc.
 
-Fix this by making sure we only return 0 or a negative error code, just
-like the code for discrete GPUs does.
-
-Fixes: 86ce2a71539c ("drm/nouveau/flcn/cmdq: move command generation to subdevs")
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
-Note that this is against Ben's tree, which should only hit linux-next
-tomorrow, so most people should not be hitting this yet.
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h | 1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c | 4 ++--
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c | 9 +++++++--
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c | 9 +++++++--
- 2 files changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c
-index 6d5a13e4a857..82571032a07d 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c
-@@ -52,8 +52,13 @@ gm20b_pmu_acr_bootstrap_falcon(struct nvkm_falcon *falcon,
- 	ret = nvkm_falcon_cmdq_send(pmu->hpq, &cmd.cmd.hdr,
- 				    gm20b_pmu_acr_bootstrap_falcon_cb,
- 				    &pmu->subdev, msecs_to_jiffies(1000));
--	if (ret >= 0 && ret != cmd.falcon_id)
--		ret = -EIO;
-+	if (ret >= 0) {
-+		if (ret != cmd.falcon_id)
-+			ret = -EIO;
-+		else
-+			ret = 0;
-+	}
-+
- 	return ret;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h
+index fafdd0bbea9b..c4b2e6346684 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.h
+@@ -245,6 +245,7 @@ void gp100_gr_init_fecs_exceptions(struct gf100_gr *);
+ void gp100_gr_init_shader_exceptions(struct gf100_gr *, int, int);
+ void gp100_gr_zbc_clear_color(struct gf100_gr *, int);
+ void gp100_gr_zbc_clear_depth(struct gf100_gr *, int);
++extern const struct gf100_gr_func_zbc gp100_gr_zbc;
+ 
+ void gp102_gr_init_swdx_pes_mask(struct gf100_gr *);
+ extern const struct gf100_gr_func_zbc gp102_gr_zbc;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c
+index 9d0521ce309a..ef16fee61327 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp100.c
+@@ -62,7 +62,7 @@ gp100_gr_zbc_clear_depth(struct gf100_gr *gr, int zbc)
+ 			  gr->zbc_depth[zbc].format << ((znum % 4) * 7));
  }
  
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
-index 39c86bc56310..5b81c7320479 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
-@@ -52,8 +52,13 @@ gp10b_pmu_acr_bootstrap_multiple_falcons(struct nvkm_falcon *falcon, u32 mask)
- 	ret = nvkm_falcon_cmdq_send(pmu->hpq, &cmd.cmd.hdr,
- 				    gp10b_pmu_acr_bootstrap_multiple_falcons_cb,
- 				    &pmu->subdev, msecs_to_jiffies(1000));
--	if (ret >= 0 && ret != cmd.falcon_mask)
--		ret = -EIO;
-+	if (ret >= 0) {
-+		if (ret != cmd.falcon_mask)
-+			ret = -EIO;
-+		else
-+			ret = 0;
-+	}
-+
- 	return ret;
- }
- 
+-static const struct gf100_gr_func_zbc
++const struct gf100_gr_func_zbc
+ gp100_gr_zbc = {
+ 	.clear_color = gp100_gr_zbc_clear_color,
+ 	.clear_depth = gp100_gr_zbc_clear_depth,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c
+index 303dceddd4a8..0b375b2587d2 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gp10b.c
+@@ -48,8 +48,8 @@ gp10b_gr = {
+ 	.gpc_nr = 1,
+ 	.tpc_nr = 2,
+ 	.ppc_nr = 1,
+-	.grctx = &gp102_grctx,
+-	.zbc = &gp102_gr_zbc,
++	.grctx = &gp100_grctx,
++	.zbc = &gp100_gr_zbc,
+ 	.sclass = {
+ 		{ -1, -1, FERMI_TWOD_A },
+ 		{ -1, -1, KEPLER_INLINE_TO_MEMORY_B },
 -- 
 2.24.1
 
