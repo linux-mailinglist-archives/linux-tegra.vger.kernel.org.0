@@ -2,34 +2,36 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5388F13E083
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 17:45:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4881A13E190
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 17:50:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729190AbgAPQn4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jan 2020 11:43:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51718 "EHLO mail.kernel.org"
+        id S1726785AbgAPQuQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jan 2020 11:50:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57772 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726440AbgAPQnz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:43:55 -0500
+        id S1729710AbgAPQrr (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 16 Jan 2020 11:47:47 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 47F3221D56;
-        Thu, 16 Jan 2020 16:43:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8F21D214AF;
+        Thu, 16 Jan 2020 16:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193035;
-        bh=XGdk5WT+R06Kr+1Mhh/012oks8FY/Y1ued3z88w1Llw=;
+        s=default; t=1579193266;
+        bh=01ET8Gg7lfZIhp7HRE9ih7YqKpGc66ZmobZq3MFHQ+4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aetdFYkie744r+ccxWQ00/E8k+ouMZ40We2HvkTmT9EC1dHXjy+vaFwAQo1WgwSd1
-         iMCPrftx/7RKnpdEy2u+RO2SrDhdzkMp5nc4ToYp6wLZq3aCWYPfLpLxcwm1eQRXnr
-         XzpR17j/2D8Kvo/6SvNL2+S5BO/hf0X3xfVT1YkE=
+        b=jMQRVr3amkEVSQtT6CM7WfuvAuvmZkdhY/2PYTraeu65qPB7Zm5zgAiXZXyv+RVku
+         9UNvv4ktMFKmFTMdB+1LAAHqnugBcKEZ2FvviuiVk/MB98cQddj1Gf/ssfX8klVVBv
+         eXJSmUV9cIAONI4eDTKhkaLJQYm9My0ote2ejVnw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Thierry Reding <treding@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 011/205] soc/tegra: pmc: Fix crashes for hierarchical interrupts
-Date:   Thu, 16 Jan 2020 11:39:46 -0500
-Message-Id: <20200116164300.6705-11-sashal@kernel.org>
+        Dmitry Osipenko <digetx@gmail.com>,
+        Sasha Levin <sashal@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 060/205] drm/tegra: Fix ordering of cleanup code
+Date:   Thu, 16 Jan 2020 11:40:35 -0500
+Message-Id: <20200116164300.6705-60-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116164300.6705-1-sashal@kernel.org>
 References: <20200116164300.6705-1-sashal@kernel.org>
@@ -44,71 +46,53 @@ X-Mailing-List: linux-tegra@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-[ Upstream commit c9e753767a9c75d2044fb7343950a6a992d34a16 ]
+[ Upstream commit 051172e8c1ceef8749f19faacc1d3bef65d20d8d ]
 
-Interrupts that don't have an associated wake event or GPIO wake events
-end up with an associate IRQ chip that is NULL and which causes IRQ code
-to crash. This is because we don't implicitly set the parent IRQ chip by
-allocating the interrupt at the parent. However, there really isn't a
-corresponding interrupt at the parent, so we need to work around this by
-setting the special no_irq_chip as the IRQ chip for these interrupts.
+Commit Fixes: b9f8b09ce256 ("drm/tegra: Setup shared IOMMU domain after
+initialization") changed the initialization order of the IOMMU related
+bits but didn't update the cleanup path accordingly. This asymmetry can
+cause failures during error recovery.
 
-Fixes: 19906e6b1667 ("soc/tegra: pmc: Add wake event support")
+Fixes: b9f8b09ce256 ("drm/tegra: Setup shared IOMMU domain after initialization")
 Signed-off-by: Thierry Reding <treding@nvidia.com>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/soc/tegra/pmc.c | 28 +++++++++++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tegra/drm.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 9f9c1c677cf4..0447afa970f5 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -1899,6 +1899,20 @@ static int tegra_pmc_irq_alloc(struct irq_domain *domain, unsigned int virq,
- 							    event->id,
- 							    &pmc->irq, pmc);
- 
-+			/*
-+			 * GPIOs don't have an equivalent interrupt in the
-+			 * parent controller (GIC). However some code, such
-+			 * as the one in irq_get_irqchip_state(), require a
-+			 * valid IRQ chip to be set. Make sure that's the
-+			 * case by passing NULL here, which will install a
-+			 * dummy IRQ chip for the interrupt in the parent
-+			 * domain.
-+			 */
-+			if (domain->parent)
-+				irq_domain_set_hwirq_and_chip(domain->parent,
-+							      virq, 0, NULL,
-+							      NULL);
-+
- 			break;
- 		}
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 6fb7d74ff553..bc7cc32140f8 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -201,19 +201,19 @@ static int tegra_drm_load(struct drm_device *drm, unsigned long flags)
+ 	if (tegra->hub)
+ 		tegra_display_hub_cleanup(tegra->hub);
+ device:
+-	host1x_device_exit(device);
+-fbdev:
+-	drm_kms_helper_poll_fini(drm);
+-	tegra_drm_fb_free(drm);
+-config:
+-	drm_mode_config_cleanup(drm);
+-
+ 	if (tegra->domain) {
+ 		mutex_destroy(&tegra->mm_lock);
+ 		drm_mm_takedown(&tegra->mm);
+ 		put_iova_domain(&tegra->carveout.domain);
+ 		iova_cache_put();
  	}
-@@ -1908,10 +1922,22 @@ static int tegra_pmc_irq_alloc(struct irq_domain *domain, unsigned int virq,
- 	 * dummy hardware IRQ number. This is used in the ->irq_set_type()
- 	 * and ->irq_set_wake() callbacks to return early for these IRQs.
- 	 */
--	if (i == soc->num_wake_events)
-+	if (i == soc->num_wake_events) {
- 		err = irq_domain_set_hwirq_and_chip(domain, virq, ULONG_MAX,
- 						    &pmc->irq, pmc);
- 
-+		/*
-+		 * Interrupts without a wake event don't have a corresponding
-+		 * interrupt in the parent controller (GIC). Pass NULL for the
-+		 * chip here, which causes a dummy IRQ chip to be installed
-+		 * for the interrupt in the parent domain, to make this
-+		 * explicit.
-+		 */
-+		if (domain->parent)
-+			irq_domain_set_hwirq_and_chip(domain->parent, virq, 0,
-+						      NULL, NULL);
-+	}
 +
- 	return err;
- }
- 
++	host1x_device_exit(device);
++fbdev:
++	drm_kms_helper_poll_fini(drm);
++	tegra_drm_fb_free(drm);
++config:
++	drm_mode_config_cleanup(drm);
+ domain:
+ 	if (tegra->domain)
+ 		iommu_domain_free(tegra->domain);
 -- 
 2.20.1
 
