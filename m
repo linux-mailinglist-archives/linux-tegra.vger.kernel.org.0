@@ -2,90 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FB3513E2C0
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 17:58:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9FD913E64C
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 18:19:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729262AbgAPQ6J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jan 2020 11:58:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45446 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387571AbgAPQ5x (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:57:53 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2763721D56;
-        Thu, 16 Jan 2020 16:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193872;
-        bh=OO7qNgfWUdL2yUx7xNELD5Y0EfU2kzdT9hP26SbfvUk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xdD1TOHAgQcyAj8PouPgIfZr3BigbPpkDS4jCnHNIDgPUxSW1Ryxc5HYzXDfYGHl1
-         /hyddCyFDzaKHknolSgEdSQ8+rTO0ZshP9otxnd0s0SU6LXernjFWy6rOXkEoFyj9/
-         qye5yGtrLR990119I2NO8CQ61sgrHKLEV2lPPEVQ=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 116/671] memory: tegra: Don't invoke Tegra30+ specific memory timing setup on Tegra20
-Date:   Thu, 16 Jan 2020 11:45:47 -0500
-Message-Id: <20200116165502.8838-116-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
-References: <20200116165502.8838-1-sashal@kernel.org>
+        id S2391423AbgAPRSR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jan 2020 12:18:17 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8812 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391384AbgAPRSR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:18:17 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e209a9f0001>; Thu, 16 Jan 2020 09:17:19 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 16 Jan 2020 09:18:15 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 16 Jan 2020 09:18:15 -0800
+Received: from [10.24.37.48] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Jan
+ 2020 17:18:11 +0000
+Subject: Re: [PATCH V3 0/2] PCI: Add MCFG quirks for Tegra194 host controllers
+To:     <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <rjw@rjwysocki.net>, <lenb@kernel.org>, <andrew.murray@arm.com>,
+        <treding@nvidia.com>, <jonathanh@nvidia.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-acpi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kthota@nvidia.com>, <mmaddireddy@nvidia.com>, <sagar.tv@gmail.com>
+References: <20200106082709.14370-1-vidyas@nvidia.com>
+ <20200110191500.9538-1-vidyas@nvidia.com>
+X-Nvconfidentiality: public
+From:   Vidya Sagar <vidyas@nvidia.com>
+Message-ID: <e264ae37-f3b3-96d1-9294-3ea9f78b78fc@nvidia.com>
+Date:   Thu, 16 Jan 2020 22:48:08 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200110191500.9538-1-vidyas@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1579195039; bh=hfxzNASfjnng1sY6kKvhYD/Q1iFNO8maPXvGYEY4Eqo=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=RnFh97nXGo9YJI9RPveweovTrQ/kf8VhPfkrpPo/P7W/Gig3mlah1NDuwcLh2iENH
+         oxoDM+xo0MBdor2PbuvfgM9pEKkP9KX7JO59RRC5A9Cum7ySTTNpMTrZO1Wg7ZMIhp
+         giRP5G1kuCIihLvVs3TaPqIriL5EJXI96iXShpzddAh20X23RC/vW3rP4fOmKWY32G
+         KGYgMAa7tPWxqXVzBW+YkP1k++Ih+45CBAwJZywtCa64oYRJu6vRd71Pif29yksOXm
+         S8il3C2RX4pLr30B0eKOg/9sXJdSpBzt8zEUmqxZOdeiQYpsdk5ItnPWg6j9+Kh8/z
+         ZbJAsKG5TEvMQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+Hi Bjorn,
+Could you please review this series?
 
-[ Upstream commit be4dbdec2bab8635c7a41573668624ee13d83022 ]
+Thanks in advance,
+Vidya Sagar
 
-This fixes irrelevant "tegra-mc 7000f000.memory-controller: no memory
-timings for RAM code 0 registered" warning message during of kernels
-boot-up on Tegra20.
-
-Fixes: a8d502fd3348 ("memory: tegra: Squash tegra20-mc into common tegra-mc driver")
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/memory/tegra/mc.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
-index c8f16666256c..346d8eadb44b 100644
---- a/drivers/memory/tegra/mc.c
-+++ b/drivers/memory/tegra/mc.c
-@@ -664,12 +664,13 @@ static int tegra_mc_probe(struct platform_device *pdev)
- 		}
- 
- 		isr = tegra_mc_irq;
--	}
- 
--	err = tegra_mc_setup_timings(mc);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to setup timings: %d\n", err);
--		return err;
-+		err = tegra_mc_setup_timings(mc);
-+		if (err < 0) {
-+			dev_err(&pdev->dev, "failed to setup timings: %d\n",
-+				err);
-+			return err;
-+		}
- 	}
- 
- 	mc->irq = platform_get_irq(pdev, 0);
--- 
-2.20.1
-
+On 1/11/20 12:44 AM, Vidya Sagar wrote:
+> The PCIe controller in Tegra194 SoC is not completely ECAM-compliant.
+> With the current hardware design limitations in place, ECAM can be enabled
+> only for one controller (C5 controller to be precise) with bus numbers
+> starting from 160 instead of 0. A different approach is taken to avoid this
+> abnormal way of enabling ECAM for just one controller but to enable
+> configuration space access for all the other controllers. In this approach,
+> ops are added through MCFG quirk mechanism which access the configuration
+> spaces by dynamically programming iATU (internal AddressTranslation Unit)
+> to generate respective configuration accesses just like the way it is
+> done in DesignWare core sub-system.
+> To increase the size of ECAM, a device-tree change is pushed in this series
+> to move the IO window from 32-bit PCIe aperture to 64-bit PCIe aperture leaving
+> the entire 32MB of 32-bit aperture for configuration space access.
+> 
+> V3:
+> * Pushed a device-tree change in the series to enable more space for ECAM
+> 
+> Vidya Sagar (2):
+>    arm64: tegra: Re-order PCIe aperture mappings to support ACPI boot
+>    PCI: Add MCFG quirks for Tegra194 host controllers
+> 
+>   arch/arm64/boot/dts/nvidia/tegra194.dtsi   |  36 ++++----
+>   drivers/acpi/pci_mcfg.c                    |   7 ++
+>   drivers/pci/controller/dwc/Kconfig         |   3 +-
+>   drivers/pci/controller/dwc/Makefile        |   2 +-
+>   drivers/pci/controller/dwc/pcie-tegra194.c | 102 +++++++++++++++++++++
+>   include/linux/pci-ecam.h                   |   1 +
+>   6 files changed, 131 insertions(+), 20 deletions(-)
+> 
