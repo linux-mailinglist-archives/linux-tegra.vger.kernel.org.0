@@ -2,210 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B86813F6E6
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 20:08:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 622BB13F979
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 20:28:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437347AbgAPTHr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jan 2020 14:07:47 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:34548 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388029AbgAPRBM (ORCPT
+        id S1729094AbgAPT2T (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jan 2020 14:28:19 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:33903 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729044AbgAPT2T (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:01:12 -0500
-Received: by mail-lj1-f194.google.com with SMTP id z22so23512927ljg.1;
-        Thu, 16 Jan 2020 09:01:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=88l0VtjSeRj4yj9KcO4Ldi0UeGaxeOpGhThJBxiypGU=;
-        b=eMXtmtCgIIH0/XFjc5PFo5qHjAdac7CgfxMWDej1J3zBtOGjCTqdPUxljged1QU/YD
-         NRYf+KFWDMx+Ie4Xx5HedjUFhqisumDOF9V201Y750IUihHre+vdvuO78WNKQgo5pHMz
-         Dr25PTaKyTwokeQuxgx9RPqdMz3MvKUboQz/Mu0vBU5jWluNgyCltbrX6BCanscVWekH
-         hoGikwL3fW9YF5OUPwxOwYc7N30Lsq4Jltay5w5vqfBdl6LcuBcPRRBDCoH1W+XjQ6ls
-         53C9RfgG+eg/Lt3CESaABuyLVFtzeNFTsn+um5ClLoTTLGPQZRJ1eKelqWDA3saLym8V
-         2LKg==
+        Thu, 16 Jan 2020 14:28:19 -0500
+Received: by mail-oi1-f196.google.com with SMTP id l136so19925601oig.1;
+        Thu, 16 Jan 2020 11:28:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=88l0VtjSeRj4yj9KcO4Ldi0UeGaxeOpGhThJBxiypGU=;
-        b=dtrrwb0eGbnPXMuvW+5dWFHzv1+LW86V9+hBGgOlVKDEl4x3P2b6dKQTg4/BzlC55X
-         LG+o4sGhxtq6BHaR8ghplnA7F3055X909HfexOF0gaJX3EmZDGBX9F6lDWMlAuZ20aNo
-         BfGcnBNRqd7dt8KNbzmz1VkgT/sapnGGwU+8FqMor0+BM69+BW7BNzBr1rE7rBUY8aNr
-         Ll8J4XSCjXm9p55DdVzkWpG3GglJul4vuIQ0zZd2j7h5VOpEslBuWTo0u8g9h8qU4kmn
-         RTGKJDr3SGs94M63JamgclbeRCgFV3RttRyTHtxRIVahW5bxlyk26zyNRsfOQvpOqcfm
-         IK7A==
-X-Gm-Message-State: APjAAAXbtJR0V5npgZngkuwJu7hZyJSx9VDej49UMFQWJnN5fQCWqC0L
-        7Ea+xPr/xNOa+KvDBUu/H2puDzWT
-X-Google-Smtp-Source: APXvYqwbcZk333giDfyIBxrL1wYqMAMMIP5P3xL7wlItBAK2l4MYOBQ3UZF8w51bBN6uzeNSsk++zQ==
-X-Received: by 2002:a2e:b4f6:: with SMTP id s22mr2849041ljm.218.1579194068636;
-        Thu, 16 Jan 2020 09:01:08 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id y25sm10777983lfy.59.2020.01.16.09.01.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jan 2020 09:01:08 -0800 (PST)
-Subject: Re: [PATCH v4 10/14] dmaengine: tegra-apb: Keep clock enabled only
- during of DMA transfer
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=s9ySBmI8nXQ+bF22E4xYEdRr9RYd04NGiWsltnu/tOc=;
+        b=PsXGIUjVyHtcKbd7Zhtj12Gf5Dr5asbf5BJ1CkSnZVpFUESklx+MeEDzKC5nTcFJuz
+         w8QnzlW/ZGLY37qX79du4lYtp3UQaXIhV63Qi/oUHX3mIimZClvlmsExEyNTJGE7Pjwi
+         45EmqSEjjaHtU0VVUs6b9mOfYuuOD2NvmzJE/2zqlgovgC9o+JFhVSXoQFyX+T9+y/WT
+         11OJCCmCpjHDljYBBJnFZHEScCVBDPZoqY8APju0W9Z/8KSQpFv0ysKziV08+BTx8Wer
+         uzoASf01H3SrzlLm6GMKSC43FOWKUsEHOK949ILqWnDe4uqm0LaEIBqLH4TSWGMwOBhH
+         gBAQ==
+X-Gm-Message-State: APjAAAWRreEXaebLtnIOjBPec27ikdcQ3lqXUVljPqiBHUnSXtv4ip3x
+        5ghvOMlXbk38m22Qtt/NVaEtVcc=
+X-Google-Smtp-Source: APXvYqzt8nZ3Xn313YfRF+1+nMRvXGur1W2g2Mc1Taq1ODlDnFUkPtUl6KBDusR8rcwwb7raokRS2A==
+X-Received: by 2002:a05:6808:5d0:: with SMTP id d16mr515827oij.45.1579202898396;
+        Thu, 16 Jan 2020 11:28:18 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n6sm6713620otl.67.2020.01.16.11.28.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2020 11:28:17 -0800 (PST)
+Received: (nullmailer pid 32576 invoked by uid 1000);
+        Thu, 16 Jan 2020 19:28:17 -0000
+Date:   Thu, 16 Jan 2020 13:28:17 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Georgi Djakov <georgi.djakov@linaro.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200112173006.29863-1-digetx@gmail.com>
- <20200112173006.29863-11-digetx@gmail.com>
- <5ae55a09-a1be-d93b-80f5-6ad3d712cb93@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1555aa32-085b-4817-3c14-450c5a51339e@gmail.com>
-Date:   Thu, 16 Jan 2020 20:01:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: firmware: Convert Tegra186 BPMP
+ bindings to json-schema
+Message-ID: <20200116192817.GA30287@bogus>
+References: <20200114181519.3402385-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5ae55a09-a1be-d93b-80f5-6ad3d712cb93@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200114181519.3402385-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-15.01.2020 13:08, Jon Hunter пишет:
+On Tue, 14 Jan 2020 19:15:18 +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
+> Convert the Tegra186 BPMP bindings from the old free-form text format to
+> a json-schema and fix things up so that existing device trees properly
+> validate.
 > 
-> On 12/01/2020 17:30, Dmitry Osipenko wrote:
->> It's a bit impractical to enable hardware's clock at the time of DMA
->> channel's allocation because most of DMA client drivers allocate DMA
->> channel at the time of the driver's probing and thus DMA clock is kept
->> always-enabled in practice, defeating the whole purpose of runtime PM.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/dma/tegra20-apb-dma.c | 43 ++++++++++++++++++++++-------------
->>  1 file changed, 27 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
->> index cc4a9ca20780..b9d8e57eaf54 100644
->> --- a/drivers/dma/tegra20-apb-dma.c
->> +++ b/drivers/dma/tegra20-apb-dma.c
->> @@ -436,6 +436,8 @@ static void tegra_dma_stop(struct tegra_dma_channel *tdc)
->>  		tdc_write(tdc, TEGRA_APBDMA_CHAN_STATUS, status);
->>  	}
->>  	tdc->busy = false;
->> +
->> +	pm_runtime_put(tdc->tdma->dev);
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  .../firmware/nvidia,tegra186-bpmp.txt         | 107 ---------
+>  .../firmware/nvidia,tegra186-bpmp.yaml        | 209 ++++++++++++++++++
+>  2 files changed, 209 insertions(+), 107 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.txt
+>  create mode 100644 Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
 > 
-> Is this the right place to call put? Seems that in terminate_all resume
-> is called after stop which will access the registers.
 
-Indeed, there is a problem here. Looks like resume/pause should take
-get/put the RPM. I'll correct it in v5, thanks.
+My bot found errors running 'make dt_binding_check' on your patch:
 
->>  }
->>  
->>  static void tegra_dma_start(struct tegra_dma_channel *tdc,
->> @@ -500,18 +502,25 @@ static void tegra_dma_configure_for_next(struct tegra_dma_channel *tdc,
->>  	tegra_dma_resume(tdc);
->>  }
->>  
->> -static void tdc_start_head_req(struct tegra_dma_channel *tdc)
->> +static bool tdc_start_head_req(struct tegra_dma_channel *tdc)
->>  {
->>  	struct tegra_dma_sg_req *sg_req;
->> +	int err;
->>  
->>  	if (list_empty(&tdc->pending_sg_req))
->> -		return;
->> +		return false;
->> +
->> +	err = pm_runtime_get_sync(tdc->tdma->dev);
->> +	if (WARN_ON_ONCE(err < 0))
->> +		return false;
->>  
->>  	sg_req = list_first_entry(&tdc->pending_sg_req, typeof(*sg_req), node);
->>  	tegra_dma_start(tdc, sg_req);
->>  	sg_req->configured = true;
->>  	sg_req->words_xferred = 0;
->>  	tdc->busy = true;
->> +
->> +	return true;
->>  }
->>  
->>  static void tdc_configure_next_head_desc(struct tegra_dma_channel *tdc)
->> @@ -615,6 +624,8 @@ static void handle_once_dma_done(struct tegra_dma_channel *tdc,
->>  	}
->>  	list_add_tail(&sgreq->node, &tdc->free_sg_req);
->>  
->> +	pm_runtime_put(tdc->tdma->dev);
->> +
->>  	/* Do not start DMA if it is going to be terminate */
->>  	if (to_terminate || list_empty(&tdc->pending_sg_req))
->>  		return;
->> @@ -730,9 +741,7 @@ static void tegra_dma_issue_pending(struct dma_chan *dc)
->>  		dev_err(tdc2dev(tdc), "No DMA request\n");
->>  		goto end;
->>  	}
->> -	if (!tdc->busy) {
->> -		tdc_start_head_req(tdc);
->> -
->> +	if (!tdc->busy && tdc_start_head_req(tdc)) {
->>  		/* Continuous single mode: Configure next req */
->>  		if (tdc->cyclic) {
->>  			/*
->> @@ -1280,22 +1289,15 @@ tegra_dma_prep_dma_cyclic(struct dma_chan *dc, dma_addr_t buf_addr,
->>  static int tegra_dma_alloc_chan_resources(struct dma_chan *dc)
->>  {
->>  	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
->> -	struct tegra_dma *tdma = tdc->tdma;
->> -	int ret;
->>  
->>  	dma_cookie_init(&tdc->dma_chan);
->>  
->> -	ret = pm_runtime_get_sync(tdma->dev);
->> -	if (ret < 0)
->> -		return ret;
->> -
->>  	return 0;
->>  }
->>  
->>  static void tegra_dma_free_chan_resources(struct dma_chan *dc)
->>  {
->>  	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
->> -	struct tegra_dma *tdma = tdc->tdma;
->>  	struct tegra_dma_desc *dma_desc;
->>  	struct tegra_dma_sg_req *sg_req;
->>  	struct list_head dma_desc_list;
->> @@ -1328,7 +1330,6 @@ static void tegra_dma_free_chan_resources(struct dma_chan *dc)
->>  		list_del(&sg_req->node);
->>  		kfree(sg_req);
->>  	}
->> -	pm_runtime_put(tdma->dev);
->>  
->>  	tdc->slave_id = TEGRA_APBDMA_SLAVE_ID_INVALID;
->>  }
->> @@ -1428,11 +1429,16 @@ static int tegra_dma_probe(struct platform_device *pdev)
->>  
->>  	spin_lock_init(&tdma->global_lock);
->>  
->> +	ret = clk_prepare(tdma->dma_clk);
->> +	if (ret)
->> +		return ret;
->> +
->> +	pm_runtime_irq_safe(&pdev->dev);
->>  	pm_runtime_enable(&pdev->dev);
->>  	if (!pm_runtime_enabled(&pdev->dev)) {
->>  		ret = tegra_dma_runtime_resume(&pdev->dev);
->>  		if (ret)
->> -			return ret;
->> +			goto err_clk_unprepare;
->>  	} else {
->>  		ret = pm_runtime_get_sync(&pdev->dev);
-> 
-> There is a get here but I don't see a put in probe.
+Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+Error: Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.example.dts:52.29-30 syntax error
+FATAL ERROR: Unable to parse input tree
+scripts/Makefile.lib:300: recipe for target 'Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.example.dt.yaml' failed
+make[1]: *** [Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.example.dt.yaml] Error 1
+Makefile:1263: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
 
-Please see:
-https://elixir.bootlin.com/linux/v5.5-rc6/source/drivers/dma/tegra20-apb-dma.c#L1445
+See https://patchwork.ozlabs.org/patch/1222983
+Please check and re-submit.
