@@ -2,146 +2,164 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC87E13E658
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 18:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7320B13E796
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 18:27:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391412AbgAPRTy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jan 2020 12:19:54 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:46017 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391385AbgAPRSP (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:18:15 -0500
-Received: by mail-lf1-f68.google.com with SMTP id 203so16053223lfa.12;
-        Thu, 16 Jan 2020 09:18:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cuaekrQn9t7Wj/AF8dj3MhOapcvvLHIEhjAaNfRzTGg=;
-        b=YeqtpcEn2IV/D8OXJFcE8Jwf4Jf5u0lcuquyAt+BbRQSOM/wxvpHkWOoKD0qy6YOie
-         9dHspbuT06VGVoA3E0PbLe6tWs5+kTIUz8ZkVDy3/mO0/LEk0oM26QAQy9BuypSnnEhD
-         qqAStYiLDCN9jgloEBLnmd6Nlef0pYcf1K04K7smMA05WBEAdAPMahNf9pJPKvPhhIda
-         Ak3P6YljIUp2wRIalY3YIeHWrYa17sFFj6e2zgKElpQ536ZrBgV2Sc19gIwqi8JiXLdC
-         fYjw9GChQHcYFPTUeRB2U1S+Axy3alvJ7swTG3kYbqobHJyvrf0BPqePsvyQ5jtnChKl
-         YZPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cuaekrQn9t7Wj/AF8dj3MhOapcvvLHIEhjAaNfRzTGg=;
-        b=rG6a6rsucntkBqkZv23eKaV992eHVu9UTd6g1CtahMipdIAfGvlMr5jbHJKX/qzJel
-         EudUdrlmFzUp0Ka0S++dxL5toQQB7+DZY5VcfFQ6YuNznktSS4FXrtBaK1rMisyuc74q
-         4T2HE1smdldiV9MCvPiZQ2hTSRMA7oqLzDrMigMLuvmNecnI1+1h66ko/3PUYwXcPjIB
-         9ke19yR+pSKT8MQGGZNJjxPbREG5HOEC+TVtcf8hUpySJl1lODNliWSXE+BJe3GgK8Jm
-         bdjPS9Ey3vw0ZS0oImBDloCG6CRd0hsfZG2uhWUh1jhQuFUKpcX21ARD41Ovl/ASGXRm
-         Bz5g==
-X-Gm-Message-State: APjAAAUBtoV+kGIBbG3U/UxF/PFZ7CTjmwtq7iDnb7VloNyt6N65FmSp
-        3i3oGIvy0iXyTM2V3HI772UMNS6O
-X-Google-Smtp-Source: APXvYqy220VkFSTrKosDWOSCYosOmrkKL0p+neVS7EHUWpmuEjB9hGMhiTUcC+NgyGSjqCMQG3I39w==
-X-Received: by 2002:a19:3f51:: with SMTP id m78mr2935387lfa.70.1579195092626;
-        Thu, 16 Jan 2020 09:18:12 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id j19sm12606841lfb.90.2020.01.16.09.18.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jan 2020 09:18:12 -0800 (PST)
-Subject: Re: [PATCH v4 09/14] dmaengine: tegra-apb: Clean up runtime PM
- teardown
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200112173006.29863-1-digetx@gmail.com>
- <20200112173006.29863-10-digetx@gmail.com>
- <9a5c4f82-5653-8d81-e304-76675aff5d8f@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <11cdf32b-23d5-8a4e-0832-3c75e90b8abe@gmail.com>
-Date:   Thu, 16 Jan 2020 20:18:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S2392346AbgAPR0z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jan 2020 12:26:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36074 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392339AbgAPR0x (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:26:53 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 54ADB246C8;
+        Thu, 16 Jan 2020 17:26:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579195613;
+        bh=z74F/bU9mJJQaq5QDuOoedzduxCAFVcJY24kFun4BwQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GQDcovVpozduLVwBvP92TuneTRfHblTAZZI2R4Wjc99tZuAVe8Ms0wOoBYXhU67YX
+         XAFvbZj11RstvvbImFONnLULnCEhVWZe4OPAZB+plH2yBIngGgUiVoRPDn9JUEhp5j
+         gGxWzDN44VRfD6n5uWDehrV2LLPun9uU3V1fO4q4=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Sameer Pujar <spujar@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 186/371] dmaengine: tegra210-adma: restore channel status
+Date:   Thu, 16 Jan 2020 12:20:58 -0500
+Message-Id: <20200116172403.18149-129-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
+References: <20200116172403.18149-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <9a5c4f82-5653-8d81-e304-76675aff5d8f@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-15.01.2020 12:57, Jon Hunter пишет:
-> 
-> On 12/01/2020 17:30, Dmitry Osipenko wrote:
->> It's cleaner to teardown RPM by revering the enable sequence, which makes
->> code much easier to follow.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/dma/tegra20-apb-dma.c | 22 +++++++++++++---------
->>  1 file changed, 13 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
->> index 7158bd3145c4..cc4a9ca20780 100644
->> --- a/drivers/dma/tegra20-apb-dma.c
->> +++ b/drivers/dma/tegra20-apb-dma.c
->> @@ -1429,13 +1429,15 @@ static int tegra_dma_probe(struct platform_device *pdev)
->>  	spin_lock_init(&tdma->global_lock);
->>  
->>  	pm_runtime_enable(&pdev->dev);
->> -	if (!pm_runtime_enabled(&pdev->dev))
->> +	if (!pm_runtime_enabled(&pdev->dev)) {
->>  		ret = tegra_dma_runtime_resume(&pdev->dev);
->> -	else
->> +		if (ret)
->> +			return ret;
->> +	} else {
->>  		ret = pm_runtime_get_sync(&pdev->dev);
->> -
->> -	if (ret < 0)
->> -		goto err_pm_disable;
->> +		if (ret < 0)
->> +			goto err_pm_disable;
->> +	}
->>  
->>  	/* Reset DMA controller */
->>  	reset_control_assert(tdma->rst);
->> @@ -1545,9 +1547,10 @@ static int tegra_dma_probe(struct platform_device *pdev)
->>  	dma_async_device_unregister(&tdma->dma_dev);
->>  
->>  err_pm_disable:
->> -	pm_runtime_disable(&pdev->dev);
->> -	if (!pm_runtime_status_suspended(&pdev->dev))
->> +	if (!pm_runtime_enabled(&pdev->dev))
->>  		tegra_dma_runtime_suspend(&pdev->dev);
->> +	else
->> +		pm_runtime_disable(&pdev->dev);
->>  
->>  	return ret;
->>  }
->> @@ -1558,9 +1561,10 @@ static int tegra_dma_remove(struct platform_device *pdev)
->>  
->>  	dma_async_device_unregister(&tdma->dma_dev);
->>  
->> -	pm_runtime_disable(&pdev->dev);
->> -	if (!pm_runtime_status_suspended(&pdev->dev))
->> +	if (!pm_runtime_enabled(&pdev->dev))
->>  		tegra_dma_runtime_suspend(&pdev->dev);
->> +	else
->> +		pm_runtime_disable(&pdev->dev);
-> 
-> Looks like dma_async_device_unregister() will warn if a client still has
-> a channel requested but does not prevent the unregister from completing.
-> So it could be possible that we could be leaving the controller active now.
+From: Sameer Pujar <spujar@nvidia.com>
 
-It's a drivers dependency bug if DMA driver's module isn't properly
-refcounted and thus could be removed while it has active users. Nothing
-we can do about it here, the actual source of the bug needs to be fixed.
+[ Upstream commit f33e7bb3eb922618612a90f0a828c790e8880773 ]
 
-Perhaps Tegra DMA driver could inc/dec module's refcounf on channel's
-request/free, but I think it should be responsibility of the DMA core to
-care about the refcounting (if it doesn't do it already).
+Status of ADMA channel registers is not saved and restored during system
+suspend. During active playback if system enters suspend, this results in
+wrong state of channel registers during system resume and playback fails
+to resume properly. Fix this by saving following channel registers in
+runtime suspend and restore during runtime resume.
+ * ADMA_CH_LOWER_SRC_ADDR
+ * ADMA_CH_LOWER_TRG_ADDR
+ * ADMA_CH_FIFO_CTRL
+ * ADMA_CH_CONFIG
+ * ADMA_CH_CTRL
+ * ADMA_CH_CMD
+ * ADMA_CH_TC
+Runtime PM calls will be inovked during system resume path if a playback
+or capture needs to be resumed. Hence above changes work fine for system
+suspend case.
+
+Fixes: f46b195799b5 ("dmaengine: tegra-adma: Add support for Tegra210 ADMA")
+Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/dma/tegra210-adma.c | 46 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index 09b6756366c3..ac2a6b800db3 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -98,6 +98,7 @@ struct tegra_adma_chan_regs {
+ 	unsigned int src_addr;
+ 	unsigned int trg_addr;
+ 	unsigned int fifo_ctrl;
++	unsigned int cmd;
+ 	unsigned int tc;
+ };
+ 
+@@ -127,6 +128,7 @@ struct tegra_adma_chan {
+ 	enum dma_transfer_direction	sreq_dir;
+ 	unsigned int			sreq_index;
+ 	bool				sreq_reserved;
++	struct tegra_adma_chan_regs	ch_regs;
+ 
+ 	/* Transfer count and position info */
+ 	unsigned int			tx_buf_count;
+@@ -635,8 +637,30 @@ static struct dma_chan *tegra_dma_of_xlate(struct of_phandle_args *dma_spec,
+ static int tegra_adma_runtime_suspend(struct device *dev)
+ {
+ 	struct tegra_adma *tdma = dev_get_drvdata(dev);
++	struct tegra_adma_chan_regs *ch_reg;
++	struct tegra_adma_chan *tdc;
++	int i;
+ 
+ 	tdma->global_cmd = tdma_read(tdma, ADMA_GLOBAL_CMD);
++	if (!tdma->global_cmd)
++		goto clk_disable;
++
++	for (i = 0; i < tdma->nr_channels; i++) {
++		tdc = &tdma->channels[i];
++		ch_reg = &tdc->ch_regs;
++		ch_reg->cmd = tdma_ch_read(tdc, ADMA_CH_CMD);
++		/* skip if channel is not active */
++		if (!ch_reg->cmd)
++			continue;
++		ch_reg->tc = tdma_ch_read(tdc, ADMA_CH_TC);
++		ch_reg->src_addr = tdma_ch_read(tdc, ADMA_CH_LOWER_SRC_ADDR);
++		ch_reg->trg_addr = tdma_ch_read(tdc, ADMA_CH_LOWER_TRG_ADDR);
++		ch_reg->ctrl = tdma_ch_read(tdc, ADMA_CH_CTRL);
++		ch_reg->fifo_ctrl = tdma_ch_read(tdc, ADMA_CH_FIFO_CTRL);
++		ch_reg->config = tdma_ch_read(tdc, ADMA_CH_CONFIG);
++	}
++
++clk_disable:
+ 	clk_disable_unprepare(tdma->ahub_clk);
+ 
+ 	return 0;
+@@ -645,7 +669,9 @@ static int tegra_adma_runtime_suspend(struct device *dev)
+ static int tegra_adma_runtime_resume(struct device *dev)
+ {
+ 	struct tegra_adma *tdma = dev_get_drvdata(dev);
+-	int ret;
++	struct tegra_adma_chan_regs *ch_reg;
++	struct tegra_adma_chan *tdc;
++	int ret, i;
+ 
+ 	ret = clk_prepare_enable(tdma->ahub_clk);
+ 	if (ret) {
+@@ -654,6 +680,24 @@ static int tegra_adma_runtime_resume(struct device *dev)
+ 	}
+ 	tdma_write(tdma, ADMA_GLOBAL_CMD, tdma->global_cmd);
+ 
++	if (!tdma->global_cmd)
++		return 0;
++
++	for (i = 0; i < tdma->nr_channels; i++) {
++		tdc = &tdma->channels[i];
++		ch_reg = &tdc->ch_regs;
++		/* skip if channel was not active earlier */
++		if (!ch_reg->cmd)
++			continue;
++		tdma_ch_write(tdc, ADMA_CH_TC, ch_reg->tc);
++		tdma_ch_write(tdc, ADMA_CH_LOWER_SRC_ADDR, ch_reg->src_addr);
++		tdma_ch_write(tdc, ADMA_CH_LOWER_TRG_ADDR, ch_reg->trg_addr);
++		tdma_ch_write(tdc, ADMA_CH_CTRL, ch_reg->ctrl);
++		tdma_ch_write(tdc, ADMA_CH_FIFO_CTRL, ch_reg->fifo_ctrl);
++		tdma_ch_write(tdc, ADMA_CH_CONFIG, ch_reg->config);
++		tdma_ch_write(tdc, ADMA_CH_CMD, ch_reg->cmd);
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.20.1
+
