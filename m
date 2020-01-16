@@ -2,37 +2,35 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC39C13F165
-	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 19:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8346613F09D
+	for <lists+linux-tegra@lfdr.de>; Thu, 16 Jan 2020 19:22:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392024AbgAPR0J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 16 Jan 2020 12:26:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34560 "EHLO mail.kernel.org"
+        id S2392466AbgAPR1Y (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 16 Jan 2020 12:27:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37194 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392250AbgAPR0J (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:26:09 -0500
+        id S2392460AbgAPR1X (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:27:23 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6A40320730;
-        Thu, 16 Jan 2020 17:26:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A1E22246C9;
+        Thu, 16 Jan 2020 17:27:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579195568;
-        bh=gcsQ/jelRrCDzaLIk50T1cu009GKPZc2u/wmwW5DYqw=;
+        s=default; t=1579195642;
+        bh=yvtZJ7G06qHmIA9YwZK0mSiWIPHTw3YbdwvdRaviQYo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gkRQVD5gr66h6+/utVDQESsoQDI5ryR8OTu1MGKAB/oZeoU40dcB5vyTI21m5JIL3
-         F1Tw/3Ldhl7vF7LBOtvs6qU8FT6OvDSsglzCSekV+yJ1WJlf5cHYP1qD6Pn3YMWfzp
-         ZPkyqSnx5EzfZq8sjoMyjiJVlHQ9qdzmzgKOtH8k=
+        b=pjd9ACNqw4hLwObOVPMDYTuGffB0mEz7mJN108mF/b6+Vfo6orfPcAScekLe0eYel
+         iZgAgZn5KkddF6uF3O2CNq+egijIzneYXF/Ww5/lanep31Pt8U2bM8VkA8nA6s7Q15
+         CS+PPBx9ALpE9KAcd8ggFtiYXwUS0p1sMfcyV96c=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-spi@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 4.14 153/371] spi: tegra114: configure dma burst size to fifo trig level
-Date:   Thu, 16 Jan 2020 12:20:25 -0500
-Message-Id: <20200116172403.18149-96-sashal@kernel.org>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, Vinod Koul <vkoul@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, dmaengine@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 206/371] dmaengine: tegra210-adma: Fix crash during probe
+Date:   Thu, 16 Jan 2020 12:21:18 -0500
+Message-Id: <20200116172403.18149-149-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
 References: <20200116172403.18149-1-sashal@kernel.org>
@@ -45,133 +43,90 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Sowjanya Komatineni <skomatineni@nvidia.com>
+From: Jon Hunter <jonathanh@nvidia.com>
 
-[ Upstream commit f4ce428c41fb22e3ed55496dded94df44cb920fa ]
+[ Upstream commit b53611fb1ce9b1786bd18205473e0c1d6bfa8934 ]
 
-Fixes: Configure DMA burst size to be same as SPI TX/RX trigger levels
-to avoid mismatch.
+Commit f33e7bb3eb92 ("dmaengine: tegra210-adma: restore channel status")
+added support to save and restore the DMA channel registers when runtime
+suspending the ADMA. This change is causing the kernel to crash when
+probing the ADMA, if the device is probed deferred when looking up the
+channel interrupts. The crash occurs because not all of the channel base
+addresses have been setup at this point and in the clean-up path of the
+probe, pm_runtime_suspend() is called invoking its callback which
+expects all the channel base addresses to be initialised.
 
-SPI FIFO trigger levels are calculated based on the transfer length.
-So this patch moves DMA slave configuration to happen before start
-of DMAs.
+Although this could be fixed by simply checking for a NULL address, on
+further review of the driver it seems more appropriate that we only call
+pm_runtime_get_sync() after all the channel interrupts and base
+addresses have been configured. Therefore, fix this crash by moving the
+calls to pm_runtime_enable(), pm_runtime_get_sync() and
+tegra_adma_init() after the DMA channels have been initialised.
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Fixes: f33e7bb3eb92 ("dmaengine: tegra210-adma: restore channel status")
+
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/spi/spi-tegra114.c | 52 ++++++++++++++++++++++----------------
- 1 file changed, 30 insertions(+), 22 deletions(-)
+ drivers/dma/tegra210-adma.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/spi/spi-tegra114.c b/drivers/spi/spi-tegra114.c
-index 18dfbd57c61f..84ff0c507f0b 100644
---- a/drivers/spi/spi-tegra114.c
-+++ b/drivers/spi/spi-tegra114.c
-@@ -529,6 +529,8 @@ static int tegra_spi_start_dma_based_transfer(
- 	u32 val;
- 	unsigned int len;
- 	int ret = 0;
-+	u8 dma_burst;
-+	struct dma_slave_config dma_sconfig = {0};
- 
- 	val = SPI_DMA_BLK_SET(tspi->curr_dma_words - 1);
- 	tegra_spi_writel(tspi, val, SPI_DMA_BLK);
-@@ -540,12 +542,16 @@ static int tegra_spi_start_dma_based_transfer(
- 		len = tspi->curr_dma_words * 4;
- 
- 	/* Set attention level based on length of transfer */
--	if (len & 0xF)
-+	if (len & 0xF) {
- 		val |= SPI_TX_TRIG_1 | SPI_RX_TRIG_1;
--	else if (((len) >> 4) & 0x1)
-+		dma_burst = 1;
-+	} else if (((len) >> 4) & 0x1) {
- 		val |= SPI_TX_TRIG_4 | SPI_RX_TRIG_4;
--	else
-+		dma_burst = 4;
-+	} else {
- 		val |= SPI_TX_TRIG_8 | SPI_RX_TRIG_8;
-+		dma_burst = 8;
-+	}
- 
- 	if (tspi->cur_direction & DATA_DIR_TX)
- 		val |= SPI_IE_TX;
-@@ -556,7 +562,18 @@ static int tegra_spi_start_dma_based_transfer(
- 	tegra_spi_writel(tspi, val, SPI_DMA_CTL);
- 	tspi->dma_control_reg = val;
- 
-+	dma_sconfig.device_fc = true;
- 	if (tspi->cur_direction & DATA_DIR_TX) {
-+		dma_sconfig.dst_addr = tspi->phys + SPI_TX_FIFO;
-+		dma_sconfig.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		dma_sconfig.dst_maxburst = dma_burst;
-+		ret = dmaengine_slave_config(tspi->tx_dma_chan, &dma_sconfig);
-+		if (ret < 0) {
-+			dev_err(tspi->dev,
-+				"DMA slave config failed: %d\n", ret);
-+			return ret;
-+		}
-+
- 		tegra_spi_copy_client_txbuf_to_spi_txbuf(tspi, t);
- 		ret = tegra_spi_start_tx_dma(tspi, len);
- 		if (ret < 0) {
-@@ -567,6 +584,16 @@ static int tegra_spi_start_dma_based_transfer(
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index ac2a6b800db3..4f4733d831a1 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -744,16 +744,6 @@ static int tegra_adma_probe(struct platform_device *pdev)
+ 		return PTR_ERR(tdma->ahub_clk);
  	}
  
- 	if (tspi->cur_direction & DATA_DIR_RX) {
-+		dma_sconfig.src_addr = tspi->phys + SPI_RX_FIFO;
-+		dma_sconfig.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		dma_sconfig.src_maxburst = dma_burst;
-+		ret = dmaengine_slave_config(tspi->rx_dma_chan, &dma_sconfig);
-+		if (ret < 0) {
-+			dev_err(tspi->dev,
-+				"DMA slave config failed: %d\n", ret);
-+			return ret;
-+		}
-+
- 		/* Make the dma buffer to read by dma */
- 		dma_sync_single_for_device(tspi->dev, tspi->rx_dma_phys,
- 				tspi->dma_buf_size, DMA_FROM_DEVICE);
-@@ -626,7 +653,6 @@ static int tegra_spi_init_dma_param(struct tegra_spi_data *tspi,
- 	u32 *dma_buf;
- 	dma_addr_t dma_phys;
- 	int ret;
--	struct dma_slave_config dma_sconfig;
- 
- 	dma_chan = dma_request_slave_channel_reason(tspi->dev,
- 					dma_to_memory ? "rx" : "tx");
-@@ -646,19 +672,6 @@ static int tegra_spi_init_dma_param(struct tegra_spi_data *tspi,
- 		return -ENOMEM;
- 	}
- 
--	if (dma_to_memory) {
--		dma_sconfig.src_addr = tspi->phys + SPI_RX_FIFO;
--		dma_sconfig.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
--		dma_sconfig.src_maxburst = 0;
--	} else {
--		dma_sconfig.dst_addr = tspi->phys + SPI_TX_FIFO;
--		dma_sconfig.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
--		dma_sconfig.dst_maxburst = 0;
--	}
+-	pm_runtime_enable(&pdev->dev);
 -
--	ret = dmaengine_slave_config(dma_chan, &dma_sconfig);
+-	ret = pm_runtime_get_sync(&pdev->dev);
+-	if (ret < 0)
+-		goto rpm_disable;
+-
+-	ret = tegra_adma_init(tdma);
 -	if (ret)
--		goto scrub;
- 	if (dma_to_memory) {
- 		tspi->rx_dma_chan = dma_chan;
- 		tspi->rx_dma_buf = dma_buf;
-@@ -669,11 +682,6 @@ static int tegra_spi_init_dma_param(struct tegra_spi_data *tspi,
- 		tspi->tx_dma_phys = dma_phys;
- 	}
- 	return 0;
+-		goto rpm_put;
 -
--scrub:
--	dma_free_coherent(tspi->dev, tspi->dma_buf_size, dma_buf, dma_phys);
--	dma_release_channel(dma_chan);
--	return ret;
- }
+ 	INIT_LIST_HEAD(&tdma->dma_dev.channels);
+ 	for (i = 0; i < tdma->nr_channels; i++) {
+ 		struct tegra_adma_chan *tdc = &tdma->channels[i];
+@@ -771,6 +761,16 @@ static int tegra_adma_probe(struct platform_device *pdev)
+ 		tdc->tdma = tdma;
+ 	}
  
- static void tegra_spi_deinit_dma_param(struct tegra_spi_data *tspi,
++	pm_runtime_enable(&pdev->dev);
++
++	ret = pm_runtime_get_sync(&pdev->dev);
++	if (ret < 0)
++		goto rpm_disable;
++
++	ret = tegra_adma_init(tdma);
++	if (ret)
++		goto rpm_put;
++
+ 	dma_cap_set(DMA_SLAVE, tdma->dma_dev.cap_mask);
+ 	dma_cap_set(DMA_PRIVATE, tdma->dma_dev.cap_mask);
+ 	dma_cap_set(DMA_CYCLIC, tdma->dma_dev.cap_mask);
+@@ -812,13 +812,13 @@ static int tegra_adma_probe(struct platform_device *pdev)
+ 
+ dma_remove:
+ 	dma_async_device_unregister(&tdma->dma_dev);
+-irq_dispose:
+-	while (--i >= 0)
+-		irq_dispose_mapping(tdma->channels[i].irq);
+ rpm_put:
+ 	pm_runtime_put_sync(&pdev->dev);
+ rpm_disable:
+ 	pm_runtime_disable(&pdev->dev);
++irq_dispose:
++	while (--i >= 0)
++		irq_dispose_mapping(tdma->channels[i].irq);
+ 
+ 	return ret;
+ }
 -- 
 2.20.1
 
