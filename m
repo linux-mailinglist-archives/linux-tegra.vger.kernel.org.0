@@ -2,68 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58A2A14092D
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jan 2020 12:42:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF888140935
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jan 2020 12:44:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727008AbgAQLmw (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jan 2020 06:42:52 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52709 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726689AbgAQLmw (ORCPT
+        id S1726785AbgAQLoy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jan 2020 06:44:54 -0500
+Received: from mail-wr1-f52.google.com ([209.85.221.52]:40101 "EHLO
+        mail-wr1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726689AbgAQLoy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jan 2020 06:42:52 -0500
-Received: by mail-wm1-f67.google.com with SMTP id p9so7137640wmc.2;
-        Fri, 17 Jan 2020 03:42:50 -0800 (PST)
+        Fri, 17 Jan 2020 06:44:54 -0500
+Received: by mail-wr1-f52.google.com with SMTP id c14so22387953wrn.7;
+        Fri, 17 Jan 2020 03:44:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=5bRa/TrI+T0jz4uJXsOxf1Glcjvm4Gca5ZbJGxkiUn0=;
-        b=N5giie4sct7jDEwKE6wiVKfWmpXUuWNmuRT6TptwJlTEMACmNzh2FbzxDEntevIENJ
-         1YZ08XMgOFoVVyrsv9dzcuWuM/aONtrhRR5W4TMzOVWYiPKm2XNVxCMz9dzYSqN8iklr
-         3CHtmxsteTIjKOoOoxxOAsOjugZdAK4VxaDBm4D3/BxNVvm+bZXNjgti/Au+7JRarMiI
-         mvJr+XU/b1jkGD5Nu9n/VOhf/313XpP4aawdpzfOrmADwXSKj7FMuZy322XSv4xkyBbr
-         CWUSuj0IjulgA5t/+P5uQdfaKLSdTp6SabckFKBm28HcTGf63+5MkhZcPkeZbThTpYWJ
-         C4Jw==
+        bh=Cvl/0riDWi1vWOlhaM1KIHjFuBbtXHuUf7sN7cIcdUQ=;
+        b=pd/AEEOiXtlnl56Ztp+4tpU0did/dgcZlz3vv9cGoAAp58rnIV5zqsR4APWP9wU++u
+         b4W7mM+H46hBk9MzYmr3m9Pq8edDfmWI2k6oq4MGS/adTu5L4Hfjrl62LoezI+JqDmAl
+         c2ZikBHmdrpnpaRnDPntKS6UFWR4DGn2sKx5DcBVkGQhb5MSUFScAcSPr8Aikwv1se55
+         e9NvdgFAtdgnHEBh/ddNqoaAQganuNQlZ+FynoeqNSuGL1cRiKJuBy92dVjZoVe3TXSN
+         LsvJzKEkrVTPlMLhAvcDx20q8rzXVedeZEszrAFrBRUyrw2IogkgEGnq3sGxu5LcLW3/
+         2JoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5bRa/TrI+T0jz4uJXsOxf1Glcjvm4Gca5ZbJGxkiUn0=;
-        b=Rw8sqM9bQQstoUE2nAyi/se7wi+mAMYC7l8mfosgzZJOQMGxoXcJGUGSH07PlUfDHl
-         CRkcx4c53HVJmgqBNMWkwhRscuvqXs000C17yBnUgKF13YIrop4Akn2vn4iR8GbCpC3U
-         RJXQEhmVnxEP7/WGVmx3JwqjgZSCy+iy6CXipqIPnIH6PfzZawv4Vm//VQOqvc4k25J/
-         JO92C2No79VT2ltSdkPIk8o7DZS11z4Mff3igzxWwobIUZtUpa1SyzuD+ZdZhNuMy7M3
-         jbiVpmiKuDbkviQ/Kq6BRucVTXPM0Y7T+jaI7inm/BckfIzEcJkdrSfs54a7S+fXj6Kg
-         75rg==
-X-Gm-Message-State: APjAAAWpOUckAVIZyncdtWtgiWFsvnJxiIu4etnEONq7WEnzHO0w/PiS
-        LcerzN+bRDT9j6AfzEZv7Pg=
-X-Google-Smtp-Source: APXvYqxeEkMur2nMs4biGR/BQ8jtFcIeBOJyt0oZHtHCXonp04P2bY6s9HFkZaLWrWZNqn2f19mWTw==
-X-Received: by 2002:a1c:2504:: with SMTP id l4mr4087624wml.134.1579261369560;
-        Fri, 17 Jan 2020 03:42:49 -0800 (PST)
+        bh=Cvl/0riDWi1vWOlhaM1KIHjFuBbtXHuUf7sN7cIcdUQ=;
+        b=dqToYzINsOBPT0uqeO2+dGhvd1DBJZEr0ClDI6amfOT/gYtk6HsMYNs82AS1poFVZ4
+         snxTcQAs+DboC4cLMm0Uup+aYeKIfPufxUL90KNWMJ1ffMZ6QUe5qtmJ7ySi/r9wKoR+
+         IcOShTcw4jMUeu0BTxtdIpYcV0z74nI6t9yeWY4+nNeoYd3RbhgerYumnne7fZm1F5Zg
+         ZdM55G2XZUZm+VHj0qDMseqHXvHrU5QTWUVggO/zngld2F6R8eR5eaWvkuariUY2XYQi
+         qnSDj8AsHVS5yzORkITiNC3nOZzT8CVJEvJN7tCM3wLj+LbY95tPZ3Ka1PYsx0q0yhkS
+         9hDQ==
+X-Gm-Message-State: APjAAAWrWl/Qu9q8GHWcNraJdDmIWGuZDrClFmsO5Fk+bIdcvucvf0xW
+        24X1SUDhk/TQN6evmaKAmG0=
+X-Google-Smtp-Source: APXvYqxpTfsgq8itcwVKHQ+rQTht6l9AeOGj8QC+aRCPB4ihGNgIclf4SeUlF/ohhCr/WxH0s19xQw==
+X-Received: by 2002:a5d:6406:: with SMTP id z6mr2635993wru.294.1579261492500;
+        Fri, 17 Jan 2020 03:44:52 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id c4sm9039489wml.7.2020.01.17.03.42.48
+        by smtp.gmail.com with ESMTPSA id e16sm33587122wrs.73.2020.01.17.03.44.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2020 03:42:48 -0800 (PST)
-Date:   Fri, 17 Jan 2020 12:42:47 +0100
+        Fri, 17 Jan 2020 03:44:51 -0800 (PST)
+Date:   Fri, 17 Jan 2020 12:44:50 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     bhelgaas@google.com, lorenzo.pieralisi@arm.com, rjw@rjwysocki.net,
-        lenb@kernel.org, andrew.murray@arm.com, treding@nvidia.com,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH V3 2/2] PCI: Add MCFG quirks for Tegra194 host controllers
-Message-ID: <20200117114247.GA166525@ulmo>
-References: <20200106082709.14370-1-vidyas@nvidia.com>
- <20200110191500.9538-1-vidyas@nvidia.com>
- <20200110191500.9538-3-vidyas@nvidia.com>
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
+        nkristam@nvidia.com, felipe.balbi@linux.intel.com,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] usb: gadget: xudc: Remove redundant
+ platform_get_irq error message
+Message-ID: <20200117114450.GB166525@ulmo>
+References: <20200116141433.57056-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
+        protocol="application/pgp-signature"; boundary="s/l3CgOIzMHHjg/5"
 Content-Disposition: inline
-In-Reply-To: <20200110191500.9538-3-vidyas@nvidia.com>
+In-Reply-To: <20200116141433.57056-1-yuehaibing@huawei.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -71,64 +68,41 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---2fHTh5uZTiUOsy+g
+--s/l3CgOIzMHHjg/5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 11, 2020 at 12:45:00AM +0530, Vidya Sagar wrote:
-> The PCIe controller in Tegra194 SoC is not completely ECAM-compliant.
-> With the current hardware design limitations in place, ECAM can be enabled
-> only for one controller (C5 controller to be precise) with bus numbers
-> starting from 160 instead of 0. A different approach is taken to avoid th=
-is
-> abnormal way of enabling ECAM for just one controller but to enable
-> configuration space access for all the other controllers. In this approac=
-h,
-> ops are added through MCFG quirk mechanism which access the configuration
-> spaces by dynamically programming iATU (internal AddressTranslation Unit)
-> to generate respective configuration accesses just like the way it is
-> done in DesignWare core sub-system.
+On Thu, Jan 16, 2020 at 10:14:33PM +0800, YueHaibing wrote:
+> platform_get_irq() will call dev_err() itself on failure,
+> so there is no need for the driver to also do this.
+> This is detected by coccinelle.
 >=20
-> Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
-> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 > ---
-> V3:
-> * Removed MCFG address hardcoding in pci_mcfg.c file
-> * Started using 'dbi_base' for accessing root port's own config space
-> * and using 'config_base' for accessing config space of downstream hierar=
-chy
->=20
-> V2:
-> * Fixed build issues reported by kbuild test bot
->=20
->  drivers/acpi/pci_mcfg.c                    |   7 ++
->  drivers/pci/controller/dwc/Kconfig         |   3 +-
->  drivers/pci/controller/dwc/Makefile        |   2 +-
->  drivers/pci/controller/dwc/pcie-tegra194.c | 102 +++++++++++++++++++++
->  include/linux/pci-ecam.h                   |   1 +
->  5 files changed, 113 insertions(+), 2 deletions(-)
+>  drivers/usb/gadget/udc/tegra-xudc.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 
 Acked-by: Thierry Reding <treding@nvidia.com>
 
---2fHTh5uZTiUOsy+g
+--s/l3CgOIzMHHjg/5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4hnbUACgkQ3SOs138+
-s6HZOhAAnILncAsI0NO4YaCAJyr8nNz9ftnnPp7ihpi/DXe978sztIAM19zmKoJp
-wA0zL7ZVnB7apyS9l5/gE2vLHPvjLOSbQUPqg1uNJj13GSQnaEtxjKVVQSnx9aZA
-C8ccxXQwOAyiJpASBQsTSxNfdW34vFY7y6gX5pK0wR7gXgeSSBKkFiETgh3LfddG
-yqescNSrjVOLk6Mucd1YZuN0JY5Z98+rB22KbGb6tJHh009/QLtfUGQscOcEUUMP
-/cyhoOp3EAH7mQMUF2exV1C9EGIJwTtri5MiX7bRV9TttD3cFNakXkh7/+CxsjYj
-wCqKYXpLZZxSlyAwpEK8qPEhmd7whtD0io682ymZbKgasvtY0Wyp2gmmuEXWEkdB
-e2pWgUcTQ2+wP73Xpd0OS6/tXIPB32ekF7v9GN6gzGoNw6klTSWKE22ttf8BTvHD
-JtH1xhXxYw8gpa+lU/WXWz7o4vD+93Blr4Yki1Evo5RHtEIM045+PfN9Di6VppQU
-/KvmKo7Njq2rxUy9ZDOhM0nhwbsJpvvr6osTDRH/R7LHg3xv7+gGw9u9NhA2cXdG
-7RsrAv7QwwU1ZImZNRdVyrsUk7wo8VhbZ8FwiIns7Dr/Z6AFt9JaxcAc8yWBqQ0z
-agWtfFEGWyv9DxXpJtwInejJb0IA/Dj3H+kJ/SYPptT9N/ReMjo=
-=iCqM
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4hnjIACgkQ3SOs138+
+s6G+ehAArX6J/MT8QnvA7i1DoizXGjeNN6C9t/2MrckIK9iyek+eMIIPaGfq0eF5
+xzbgIC3XSRrjolAepid+edS44UXQU2sRkQsRwAs3JhHS+BJnbSg3m4Ekd8LY3fl4
+McsE+Or8JUAhcnd7a5mFsPt6GCWCIe4bfkEycxGCifs9rgcy2kR9ltPlz0oVBsrH
+Na5acjzmr5Lm4yu8cpRtKJIFPqnS47/8xrPAsC+5l4PuXRlFumy1jSGQ4bDBw54B
+ThddVgBD/flrlbs7C9cV4imrc62gphEZ0fMM1OFD0mI6xxL3dNpVmWEXWb1EJRE1
+i2FzxT9Iy8zL/aHtqJ+DbUlhAlUxmwe49LAKHjmdwTtwCxhQFYE9os4silhzgw45
+nMIbGoNkS6HyR+OjCs5OgiSljuOXSq1ZG8ZSiUiJGBG8p3m8sdgDjcVKxdUEtIr/
+s+idDzZrrA06TEA9qAp++a4oICaX36tIezjGxtRoBA3x40RjSXUvxC+7E+xqqdUt
+kw97vMRuDEpkK+xhBd/8Vsoc+GJ/x51ByFwHYTdf31E30jG6vUa3EJtq5j94L4PM
+rAaHfYxgFdm7iYLV+F3XR5tLcwTl3UvP+aoY59j6/dSlF20OyAP5tMO6HxEo+MiG
+ikVV7exgW/qHv9ENKHDhrDVJMaNXRZOEwprUcUVKSzw4RTq1p6A=
+=QX2u
 -----END PGP SIGNATURE-----
 
---2fHTh5uZTiUOsy+g--
+--s/l3CgOIzMHHjg/5--
