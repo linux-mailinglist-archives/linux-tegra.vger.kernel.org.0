@@ -2,69 +2,82 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29438140C27
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jan 2020 15:12:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49171140C5B
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jan 2020 15:23:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726975AbgAQOLt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jan 2020 09:11:49 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:2136 "EHLO rere.qmqm.pl"
+        id S1726908AbgAQOXJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jan 2020 09:23:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52602 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726587AbgAQOLs (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jan 2020 09:11:48 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 47zjfp2SzTzJv;
-        Fri, 17 Jan 2020 15:11:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1579270306; bh=XmEtgDG0oQyn3sFStAiiuxUsYkO0wEPHkuJs+F8ucvw=;
+        id S1726574AbgAQOXJ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 17 Jan 2020 09:23:09 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1AAD62072B;
+        Fri, 17 Jan 2020 14:23:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579270988;
+        bh=gap0/53YJTTxUaW1ZNsFwWpb1xxgzIidqgjjcXgrN+M=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BW+cTQ8x5vNorbyo8Z9YUUvoj8OQUvY6DvyE5ZhRGTXoKj2jyQz5grz6N2ihuhJrU
-         Fj66MNklsymohTWe4x0dI1IzLMR0MadoMO7uGnpSk6Lo8svaAGZ77PmudPUpndUSmy
-         jEcC6ZIUmovIhJK5ccrwPrYq2i5pPuFWsJ6uE5JLqvgLs/X9RJJnC4jXqNiBig7Y63
-         vAm56mXPBkaMEbtwLW7fVs9fdr91CvzTorlpaye8J6GLI/Rf0e42TIlO1nX6c5XHUY
-         Qo0cOv0dKQOx/YniIRk8MUI8JYwHoPLjrDnpeyIkWky7QxWYEiVrToiwKKz+0C9mMX
-         sxEMafgp9SRzw==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.101.4 at mail
-Date:   Fri, 17 Jan 2020 15:11:45 +0100
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Adrian Hunter <adrian.hunter@intel.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Lucas Stach <dev@lynxeye.de>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] mmc: tegra: fix SDR50 tuning override
-Message-ID: <20200117141145.GD26135@qmqm.qmqm.pl>
-References: <9aff1d859935e59edd81e4939e40d6c55e0b55f6.1578390388.git.mirq-linux@rere.qmqm.pl>
- <CAPDyKFqXmbnH_NWZZTHHCE+Lt-f3JHAhJ8-=aoKNEPyQed44YA@mail.gmail.com>
+        b=yL8XQo0/T8tM+oLhkkhEBUIlSgtOtklw8DJxtDTDZmlFcRLjOnrNsKzXFVYRt+QPP
+         shxieXZfXPMwLnKMhhNCktJPQDn8uDBw2LMiyJqyq6puJESG1Y+p7CUmqtzHu8z74M
+         8TWVxUStNO/q0+DyqBchUg2dzRdoJc/3fvQA4JkE=
+Date:   Fri, 17 Jan 2020 15:23:06 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
+        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
+        patches@kernelci.org, ben.hutchings@codethink.co.uk,
+        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 5.4 000/203] 5.4.13-stable review
+Message-ID: <20200117142306.GA1879300@kroah.com>
+References: <20200116231745.218684830@linuxfoundation.org>
+ <25658ca7-fa1a-303b-7a75-099b9bcf235b@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPDyKFqXmbnH_NWZZTHHCE+Lt-f3JHAhJ8-=aoKNEPyQed44YA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <25658ca7-fa1a-303b-7a75-099b9bcf235b@nvidia.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jan 16, 2020 at 03:39:54PM +0100, Ulf Hansson wrote:
-> On Tue, 7 Jan 2020 at 10:47, Micha³ Miros³aw <mirq-linux@rere.qmqm.pl> wrote:
-> >
-> > Commit 7ad2ed1dfcbe inadvertently mixed up a quirk flag's name and
-> > broke SDR50 tuning override. Use correct NVQUIRK_ name.
-> >
-> > Fixes: 7ad2ed1dfcbe ("mmc: tegra: enable UHS-I modes")
-> > Cc: <stable@vger.kernel.org> # 4f6aa3264af4: mmc: tegra: Only advertise UHS modes if IO regulator is present
+On Fri, Jan 17, 2020 at 01:21:02PM +0000, Jon Hunter wrote:
 > 
-> I am dropping this tag, simply because I don't understand what it should tell.
+> On 16/01/2020 23:15, Greg Kroah-Hartman wrote:
+> > This is the start of the stable review cycle for the 5.4.13 release.
+> > There are 203 patches in this series, all will be posted as a response
+> > to this one.  If anyone has any issues with these being applied, please
+> > let me know.
+> > 
+> > Responses should be made by Sat, 18 Jan 2020 23:16:00 +0000.
+> > Anything received after that time might be too late.
+> > 
+> > The whole patch series can be found in one patch at:
+> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.13-rc1.gz
+> > or in the git tree and branch at:
+> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> > and the diffstat can be found below.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> All tests are passing for Tegra ...
+> 
+> Test results for stable-v5.4:
+>     13 builds:	13 pass, 0 fail
+>     22 boots:	22 pass, 0 fail
+>     38 tests:	38 pass, 0 fail
+> 
+> Linux version:	5.4.13-rc1-g3c8b6cdc962e
+> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+>                 tegra194-p2972-0000, tegra20-ventana,
+>                 tegra210-p2371-2180, tegra30-cardhu-a04
+> 
 
-It tells the maintainer that he needs to cherry-pick this commit if
-its not in particular stable version already. I guess this is only
-for v4.4, as v4.9+ already have it, and v3.16 does not include the
-Fixed commit.
+Wonderful, thanks for testing these and letting me know.
 
-Best Regards,
-Micha³ Miros³aw
+greg k-h
