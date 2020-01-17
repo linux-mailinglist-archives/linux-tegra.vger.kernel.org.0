@@ -2,244 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C08B8140DBF
-	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jan 2020 16:23:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91EBF140E0C
+	for <lists+linux-tegra@lfdr.de>; Fri, 17 Jan 2020 16:41:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728988AbgAQPXt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 17 Jan 2020 10:23:49 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:34042 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728816AbgAQPXs (ORCPT
+        id S1729015AbgAQPlr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 17 Jan 2020 10:41:47 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:37807 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728780AbgAQPlr (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 17 Jan 2020 10:23:48 -0500
-Received: by mail-wm1-f67.google.com with SMTP id w5so9711998wmi.1
-        for <linux-tegra@vger.kernel.org>; Fri, 17 Jan 2020 07:23:46 -0800 (PST)
+        Fri, 17 Jan 2020 10:41:47 -0500
+Received: by mail-lf1-f67.google.com with SMTP id b15so18686567lfc.4;
+        Fri, 17 Jan 2020 07:41:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=dkNe4kET/zf9ui2pcK6IROMhAzPfyxCLje9tPX3krI0=;
-        b=ZpX3ENooDUJWHNzXDf/sonItv8VeDn4au5KdQUeCkVgeGh042+z8QkMkG8RlcvIvwo
-         ZT+JyuCF0RXxb1FrwESpUz6dEZJIy08zsOkc4KtWcsR502ELUgx56/zMEis5F4jiN1/h
-         4D8RFabC/okM9UbWRzn+k9ZxJ45PYXsI0ZwY3F+d2Xp5WvfnfFxUl264wc8r1YvSEsRV
-         uBmRfAwFEzraFvW4IuSUqLJAAOx1vECliMxAI1N436u4l9Sct4vyZBVAaQPnm29EdavK
-         SRFK2wBlmHAlCbu0jYmtN681yuwGgnjxFTMpYrSQ/1RG3eXwGZdpsair3/TJPE7cqQga
-         wWxQ==
+        bh=bjNAA894HypFtC+HqN0qFxQlTwc+VZ8apApQMaLAIM8=;
+        b=fyT8LCxkLnDZzaRXL1FmS0gRdRQpqouUhY/8iZqYs8NJ0fwyMg97gTLA29QJrI1bD3
+         u8NYbJ3cdbTm3Ol4rrqWRJYXwJ7BX3uMwm1PG8CgNFbNKfP1KR7ezlF5Oher/KkxSvw+
+         uXeLLt/vmEkHkCVh+eGVjLPFOLNWdLjvP7DAb6uLc6rOjCV/DI4yaJWwZwLsnOyxnonv
+         FpQsLlgrzF8UvCFTjubvRKWkp3wciw6pQn+SH9hM/vhHr67dP0+gMIJUEvSrAvnEycqf
+         7Ch6yihGRPRp3t/1OvbfUZmKkkamN7AHClDkRhLLpEYveqBGThd0lgy9dlHN3WT0tm0C
+         jS5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=dkNe4kET/zf9ui2pcK6IROMhAzPfyxCLje9tPX3krI0=;
-        b=ffL+zn4ZxBXlBj3qo5T5MRtWFMmjUU5+p7tCXupP3QBcIoxGzileHrj+fk9FEZyfkS
-         gir5cYesd+qgvfKCw1OpEOI7zm4W3++7jYKsXc+ZGfz7G/x7Zxa3h/4wHTBVpoEcbZtl
-         t2lDE0e8Z6x9x9g+YMUYUFA8XxuYV9IdCRFdHujZdUf/9VnifVPhPnu1mnmtkedAbgk3
-         mxpcTpB4aFYp6vTLAy2wFEAOfoxt9ca7pc9Iw9BsCZSz1uE2J3zefrnByXBGJ1fP6Kjo
-         qm3aOf9SXYOd08GFRuDZFUnIj1CW5LL2dT8XNMk3crm/ddcsEVSQor+ACqC9d90OqFfp
-         ooyQ==
-X-Gm-Message-State: APjAAAWp6raFmFeuMj4QpseyP+P9h6QjFh6hk6CDjL96hmeUYS8n910t
-        Zti8QQyx4tFCfVVGgKZaXOfwog==
-X-Google-Smtp-Source: APXvYqwtuAYC5TrNKSJ7Q7fcxNQBR7D8Htv59qArzUeRFU7CI2r0YFfoIXNSbLHutUJ+67WX9lLkNw==
-X-Received: by 2002:a05:600c:305:: with SMTP id q5mr4938892wmd.167.1579274625642;
-        Fri, 17 Jan 2020 07:23:45 -0800 (PST)
-Received: from [10.44.66.8] ([212.45.67.2])
-        by smtp.googlemail.com with ESMTPSA id q19sm9245219wmc.12.2020.01.17.07.23.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 17 Jan 2020 07:23:45 -0800 (PST)
-Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
- interconnects property
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20200114181519.3402385-1-thierry.reding@gmail.com>
- <20200114181519.3402385-2-thierry.reding@gmail.com>
-From:   Georgi Djakov <georgi.djakov@linaro.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
- 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
- KEmKjLDvB0pePJkdTw==
-Message-ID: <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
-Date:   Fri, 17 Jan 2020 17:23:43 +0200
+        bh=bjNAA894HypFtC+HqN0qFxQlTwc+VZ8apApQMaLAIM8=;
+        b=L9a2iNIjV3Wi46HqRLJlDm+w00++CqEx68EQ89lqWUSMW2ZUIXZRlf7HAZQyD+wLfj
+         /QX8TrHb58DAhvi40p3xeZjsd5wecrlVeKZFgMolGPZRFUmwZegHJD8opOQBNsD5d9ko
+         vyU/FC2vCeRZlwo+dUxplX8WWSBSiy3yS7RjsaurTgI1x5OJfIrfaFyVTpraE6CjFu6x
+         Yhh6RkHtiJPAIpUW/k5WXcZL46vZKuzEUT1VAKEzZBcdh34CZx0SRtwuDKZ65Rp5cs7l
+         EK9iN6xQpwCGxFsE+n1VMYDWJUAq/Gqyc+wkdXcSZlOLSy3vJ5CG9uBEwgh0dOrhT8RP
+         S7Zg==
+X-Gm-Message-State: APjAAAWY8P4mN108bMrWNRaqP9+SsVSL01UrKFzPV/oKPYa9mEsi/83o
+        egQFCdEM+bt75HfnYnOqalvrwtUh
+X-Google-Smtp-Source: APXvYqy+HXGhOEViyKTkzAPTLJYK9Ofk4wOAPuLAwk+GkTb5KOspMGKqeRlVT1s5/xAgtU2Nl1f0fQ==
+X-Received: by 2002:ac2:42ca:: with SMTP id n10mr3296793lfl.215.1579275704224;
+        Fri, 17 Jan 2020 07:41:44 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id y11sm14244102lfc.27.2020.01.17.07.41.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jan 2020 07:41:43 -0800 (PST)
+Subject: Re: [PATCH v3] mmc: tegra: fix SDR50 tuning override
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Adrian Hunter <adrian.hunter@intel.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Lucas Stach <dev@lynxeye.de>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <9aff1d859935e59edd81e4939e40d6c55e0b55f6.1578390388.git.mirq-linux@rere.qmqm.pl>
+ <CAPDyKFqXmbnH_NWZZTHHCE+Lt-f3JHAhJ8-=aoKNEPyQed44YA@mail.gmail.com>
+ <20200117141145.GD26135@qmqm.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <dbac86b6-a0b7-cf55-645a-ff0f39b7ae55@gmail.com>
+Date:   Fri, 17 Jan 2020 18:41:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200114181519.3402385-2-thierry.reding@gmail.com>
+In-Reply-To: <20200117141145.GD26135@qmqm.qmqm.pl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Thierry,
+17.01.2020 17:11, Michał Mirosław пишет:
+> On Thu, Jan 16, 2020 at 03:39:54PM +0100, Ulf Hansson wrote:
+>> On Tue, 7 Jan 2020 at 10:47, Michał Mirosław <mirq-linux@rere.qmqm.pl> wrote:
+>>>
+>>> Commit 7ad2ed1dfcbe inadvertently mixed up a quirk flag's name and
+>>> broke SDR50 tuning override. Use correct NVQUIRK_ name.
+>>>
+>>> Fixes: 7ad2ed1dfcbe ("mmc: tegra: enable UHS-I modes")
+>>> Cc: <stable@vger.kernel.org> # 4f6aa3264af4: mmc: tegra: Only advertise UHS modes if IO regulator is present
+>>
+>> I am dropping this tag, simply because I don't understand what it should tell.
+> 
+> It tells the maintainer that he needs to cherry-pick this commit if
+> its not in particular stable version already. I guess this is only
+> for v4.4, as v4.9+ already have it, and v3.16 does not include the
+> Fixed commit.
 
-Thanks for the patch!
+I guess it could be: Cc: <stable@vger.kernel.org> # v4.4+
 
-On 1/14/20 20:15, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Document the interconnects property that is used to describe the paths
-> from and to system memory from and to the BPMP.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
-> Rob, Georgi,
-> 
-> after the initial RFC that I did for adding interconnect properties on
-> Tegra, I realized that the description wasn't complete. This is an
-> attempt at a more accurate description, but unfortunately I'm not sure
-> if it's even correct in terms of the interconnect bindings.
-> 
-> The problem here is that on Tegra, each device has multiple paths to
-> system memory, and I have no good idea on what to pick as the default.
-> They are all basically the same path, but each provides extra controls
-> to configure the "interconnect".
-
-Are these multiple paths between a device and system memory used simultaneously
-for load-balancing, or who makes the decision about which path would be used? Is
-this based on the client/stream ID that you mentioned previously? Looking at the
-the binding below, it seems to me like there are different master/slave pairs
-between MC and EMC and each link is used for unidirectional traffic only. In
-terms of the interconnect API, both read and write paths have the same
-direction. Is the EMC really an interconnect provider or is it just a slave
-port? Can we scale both EMC and MC independently?
-
-Thanks,
-Georgi
-
-> 
-> Any ideas on how to resolve this? Let me know if the DT bindings and
-> example don't make things clear enough.
-> 
-> Thierry
-> 
->  .../firmware/nvidia,tegra186-bpmp.yaml        | 59 +++++++++++++++++++
->  1 file changed, 59 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
-> index dabf1c1aec2f..d40fcd836e90 100644
-> --- a/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
-> +++ b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.yaml
-> @@ -43,6 +43,24 @@ properties:
->        - enum:
->            - nvidia,tegra186-bpmp
->  
-> +  interconnects:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: A list of phandle and specifier pairs that describe the
-> +      interconnect paths to and from the BPMP.
-> +
-> +  interconnect-names:
-> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> +    description: One string for each pair of phandle and specifier in the
-> +      "interconnects" property.
-> +    # XXX We need at least one of these to be named dma-mem so that the core
-> +    # will set the DMA mask based on the DMA parent, but all of these go to
-> +    # system memory eventually.
-> +    items:
-> +      - const: dma-mem
-> +      - const: dma-mem
-> +      - const: dma-mem
-> +      - const: dma-mem
-> +
->    iommus:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
->      description: |
-> @@ -152,8 +170,43 @@ additionalProperties: false
->  
->  examples:
->    - |
-> +    #include <dt-bindings/clock/tegra186-clock.h>
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->      #include <dt-bindings/mailbox/tegra186-hsp.h>
-> +    #include <dt-bindings/memory/tegra186-mc.h>
-> +
-> +    mc: memory-controller@2c00000 {
-> +        compatible = "nvidia,tegra186-mc";
-> +        reg = <0x02c00000 0xb0000>;
-> +        interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
-> +        status = "disabled";
-> +
-> +        #interconnect-cells = <1>;
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        ranges = <0x02c00000 0x0 0x02c00000 0x0 0xb0000>;
-> +
-> +        /*
-> +         * Memory clients have access to all 40 bits that the memory
-> +         * controller can address.
-> +         */
-> +        dma-ranges = <0x0 0x0 0x0 0x100 0x0>;
-> +
-> +        #memory-controller-cells = <0>;
-> +
-> +        emc: external-memory-controller@2c60000 {
-> +            compatible = "nvidia,tegra186-emc";
-> +            reg = <0x0 0x02c60000 0x0 0x50000>;
-> +            interrupts = <GIC_SPI 224 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&bpmp TEGRA186_CLK_EMC>;
-> +            clock-names = "emc";
-> +
-> +            #interconnect-cells = <0>;
-> +
-> +            nvidia,bpmp = <&bpmp>;
-> +        };
-> +    };
->  
->      hsp_top0: hsp@3c00000 {
->          compatible = "nvidia,tegra186-hsp";
-> @@ -187,6 +240,12 @@ examples:
->  
->      bpmp {
->          compatible = "nvidia,tegra186-bpmp";
-> +        interconnects = <&emc &mc TEGRA186_MEMORY_CLIENT_BPMPR>,
-> +                        <&mc TEGRA186_MEMORY_CLIENT_BPMPW &emc>,
-> +                        <&emc &mc TEGRA186_MEMORY_CLIENT_BPMPDMAR>,
-> +                        <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAW &emc>;
-> +        interconnect-names = "dma-mem", "dma-mem", "dma-mem", "dma-mem";
-> +
->          iommus = <&smmu TEGRA186_SID_BPMP>;
->          mboxes = <&hsp_top0 TEGRA_HSP_MBOX_TYPE_DB TEGRA_HSP_DB_MASTER_BPMP>;
->          shmem = <&cpu_bpmp_tx &cpu_bpmp_rx>;
-> 
+And then you could email Greg KH or Sasha Levin, asking to pick up the
+additional commit to the stable kernel, or they will ask you by
+themselves about why the patch isn't applying and how to handle it.
