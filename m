@@ -2,277 +2,140 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88F35142E56
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jan 2020 16:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE4A4142E9F
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jan 2020 16:18:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729076AbgATPGL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Jan 2020 10:06:11 -0500
-Received: from mail-wm1-f46.google.com ([209.85.128.46]:52572 "EHLO
-        mail-wm1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728760AbgATPGK (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Jan 2020 10:06:10 -0500
-Received: by mail-wm1-f46.google.com with SMTP id p9so14850666wmc.2;
-        Mon, 20 Jan 2020 07:06:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jjkGrI+KVfcJfDj45xmGl/4VyHE7c0jJdesecDITtMQ=;
-        b=o3KHWKszdd1iAZneRvzPpeI2u5VXTQ1l3jTkHGTYDQzgBi3EAMILsXWMQ3mnATqaKN
-         g7eji2Z58pjJVCm7B5zdbnQ/T2h1tOHPJf24rrMGTn176om2tyGNKLmllro9W/2ziQ85
-         FlrcUGN/gBQxcEbCF/TF1cayKntGOUrcvurb7n7HveeNGQfdzhvRtfYvAwdKC8UdbLn5
-         5J3tSlmauU9X7F758V+nH9NNqzYENcTEl35Q/WtxXxSFWGMrPMiWHASEKCHvudGKEjwK
-         Hw6hISxl1jppgpDfiKYnMfws1pRpfW1sBfx2R7PWdtfsWo/WtV8sL3P8Pg9lbglFCOJj
-         /bBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jjkGrI+KVfcJfDj45xmGl/4VyHE7c0jJdesecDITtMQ=;
-        b=QLoVQxxJh8CCW3/aOWxoOSidk5h8hEjtaKzty1fLkBFeGaPUp/M7OfrRN2gDo7kgkF
-         D4bU6ofbkegfwA3CnbDXRCarjeoM8j+KLDBPFltqgpb9ueYE/TmNjNSthnEqLaKpuWWf
-         NeZW5uSezOH+rtQ20RVYGdbhJHNIHRckKmXaul9VlZQdysb/aAByoQijP2GS6RD/wUXk
-         RlCxjkYwQlvBvLtaaI8PAMlWkK9YbKVyK2Fudl9OqvORSwH5WG2p9d1Fovk22Ej5MOPG
-         BI09SnJF0UwgqAPsGBJg/n2DbOU4hDGMS+RRbjSMB4jNwNa7P5TdF5QJoP92mfsM1PFF
-         FjCA==
-X-Gm-Message-State: APjAAAXQ9shqYRDshGmd3TRAwNj25T2A0//Oh13KwST6kcpWwifFApI0
-        DfUfaJ9Qo6KlpsWdfvtK9wM=
-X-Google-Smtp-Source: APXvYqw37KVItciqP7tMFoIrM44uXFC+XSmPrp/svB2B5OpO/wQn8XHFOIcrG40/GA6Q2IPA9mu9og==
-X-Received: by 2002:a1c:f31a:: with SMTP id q26mr19050683wmq.142.1579532767691;
-        Mon, 20 Jan 2020 07:06:07 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id d14sm51139253wru.9.2020.01.20.07.06.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2020 07:06:06 -0800 (PST)
-Date:   Mon, 20 Jan 2020 16:06:05 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Georgi Djakov <georgi.djakov@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
- interconnects property
-Message-ID: <20200120150605.GA712203@ulmo>
-References: <20200114181519.3402385-1-thierry.reding@gmail.com>
- <20200114181519.3402385-2-thierry.reding@gmail.com>
- <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
+        id S1726642AbgATPS5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Jan 2020 10:18:57 -0500
+Received: from foss.arm.com ([217.140.110.172]:33568 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726626AbgATPS5 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 20 Jan 2020 10:18:57 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60D2D30E;
+        Mon, 20 Jan 2020 07:18:56 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 661003F52E;
+        Mon, 20 Jan 2020 07:18:54 -0800 (PST)
+Date:   Mon, 20 Jan 2020 15:18:49 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Vidya Sagar <vidyas@nvidia.com>, bjorn@helgaas.com,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Andrew Murray <andrew.murray@arm.com>, treding@nvidia.com,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, kthota@nvidia.com,
+        mmaddireddy@nvidia.com, sagar.tv@gmail.com
+Subject: Re: [PATCH] PCI: Add MCFG quirks for Tegra194 host controllers
+Message-ID: <20200120151849.GA24402@e121166-lin.cambridge.arm.com>
+References: <20200103174935.5612-1-vidyas@nvidia.com>
+ <CABhMZUUHGEEhsJ-+foSsodqtKXyX5ZNPkGgv_VzXz=Qv+NVcUA@mail.gmail.com>
+ <9a767725-9671-6402-4e1c-a648f5a7860b@nvidia.com>
+ <20200117121736.GA7072@e121166-lin.cambridge.arm.com>
+ <20200120111042.GA203160@ulmo>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="3V7upXqbjpZ4EhLz"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200120111042.GA203160@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Mon, Jan 20, 2020 at 12:10:42PM +0100, Thierry Reding wrote:
 
---3V7upXqbjpZ4EhLz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[...]
 
-On Fri, Jan 17, 2020 at 05:23:43PM +0200, Georgi Djakov wrote:
-> Hi Thierry,
->=20
-> Thanks for the patch!
->=20
-> On 1/14/20 20:15, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Document the interconnects property that is used to describe the paths
-> > from and to system memory from and to the BPMP.
-> >=20
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> > Rob, Georgi,
-> >=20
-> > after the initial RFC that I did for adding interconnect properties on
-> > Tegra, I realized that the description wasn't complete. This is an
-> > attempt at a more accurate description, but unfortunately I'm not sure
-> > if it's even correct in terms of the interconnect bindings.
-> >=20
-> > The problem here is that on Tegra, each device has multiple paths to
-> > system memory, and I have no good idea on what to pick as the default.
-> > They are all basically the same path, but each provides extra controls
-> > to configure the "interconnect".
->=20
-> Are these multiple paths between a device and system memory used simultan=
-eously
-> for load-balancing, or who makes the decision about which path would be u=
-sed?
+> > > Currently the BSP has the kernel booting through Device Tree mechanism
+> > > and there is a plan to support UEFI based boot as well in the future software
+> > > releases for which we need this quirky way of handling ECAM.
+> > > Tegra194 is going to be the only and last chip with this issue and next chip
+> > > in line in Tegra SoC series will be fully compliant with ECAM.
+> > 
+> > ACPI on ARM64 works on a standard subset of systems, defined by the
+> > ARM SBSA:
+> > 
+> > http://infocenter.arm.com/help/topic/com.arm.doc.den0029c/Server_Base_System_Architecture_v6_0_ARM_DEN_0029C_SBSA_6_0.pdf
+> 
+> I don't understand what you're saying here. Are you saying that you want
+> to prevent vendors from upstreaming code that they need to support their
+> ACPI based platforms? I understand that the lack of support for proper
+> ECAM means that a platform will not be SBSA compatible, but I wasn't
+> aware that lack of SBSA compatibility meant that a platform would be
+> prohibited from implementing ACPI support in an upstream kernel.
 
-It varies. The vast majority of these paths are read/write pairs, which
-can be configured separately. There are also cases where multiple paths
-are used for load-balancing and I don't think there's any direct
-software control over which path will be used.
+ACPI on ARM64 requires a set of HW components described in the SBSA.
 
-A third class is where you have one device, but two read/write pairs,
-one which is tied to a microcontroller that's part of the device, and
-another read/write pair that is used for DMA to/from the device.
+If those HW requirements are not fulfilled you can't bootstrap an ARM64
+system with ACPI - it is as simple as that. It is not even appropriate
+to discuss this on a Linux mailing list anymore since it is HW
+requirements and it has been public information since ACPI on ARM64 was
+first enabled.
 
-Often in the latter case, the microcontroller memory client interfaces
-will be used by the microcontroller to read firmware and once the micro-
-controller has booted up, the DMA memory client interfaces will be used
-to read/write system memory with bulk data (like frame buffers, etc.).
+> > These patches will have to be carried out of tree, the MCFG quirk
+> > mechanism (merged as Bjorn said more than three years ago) was supposed
+> > to be a temporary plaster to bootstrap server platforms with teething
+> > issues, the aim is to remove it eventually not to add more code to it
+> > indefinitely.
+> 
+> Now, I fully agree that quirks are suboptimal and we'd all prefer if we
+> didn't have to deal with them. Unfortunately the reality is that
+> mistakes happen and hardware doesn't always work the way we want it to.
+> There's plenty of other quirk mechanisms in the kernel, and frankly this
+> one isn't really that bad in comparison.
 
-> Is this based on the client/stream ID that you mentioned previously?
+Because you don't have to maintain it ;) - I think I said what I had to
+say about the MCFG mechanism in the past - it has been three years
+and counting - it is time to remove it rather that adding to it.
 
-These are now all what's call memory client IDs, which identify the
-corresponding interface to the memory controller. Stream IDs are
-slightly higher-level and typically identify the "module" that uses
-the SMMU. Generally a stream ID is mapped to one or more memory client
-IDs.
+> > So I am afraid but this quirk (and any other coming our way) will not be
+> > merged in an upstream kernel anymore - for any queries please put Nvidia
+> > in touch.
+> 
+> Again, I don't understand what you're trying to achieve here. You seem
+> to be saying that we categorically can't support this hardware because
+> it isn't fully SBSA compatible.
 
-> Looking at the the binding below, it seems to me like there are different
-> master/slave pairs between MC and EMC and each link is used for
-> unidirectional traffic only. In terms of the interconnect API, both read
-> and write paths have the same direction.
+I am not trying to achieve anything - I am just stating public
+information - let me repeat it again for interested readers: to
+bootstrap an ARM64 system with ACPI the platform HW design must follow
+the SBSA guidelines.
 
-I'm not sure I understand what you mean by this last sentence. Are you
-saying that each path in terms of the interconnect API is a always a
-bidirectional link?
+> Do you have any alternative suggestions on how we can support this in an
+> upstream kernel?
 
-> Is the EMC really an interconnect provider or is it just a slave port? Can
-> we scale both EMC and MC independently?
+Booting with a device tree ?
 
-The EMC is the only one where we can scale the frequency, but the MC has
-various knobs that can be used to fine-tune arbitration, set maximum
-latency, etc.
+> We realized a while ago that we cannot achieve proper ECAM on Tegra194
+> because of some issues with the hardware and we've provided this as
+> feedback to the hardware engineers. As a result, the next generation of
+> Tegra should no longer suffer from these issues.
 
-I vaguely recall Dmitry mentioning that the EMC in early generations of
-Tegra used to have controls for individual memory clients, but I don't
-see that in more recent generations.
+We will bootstrap next generation Tegra with ACPI then, there are
+SBSA tests available for compliancy - again, that's a matter for
+Nvidia and Arm to settle, not a mailing list discussion.
 
-Thierry
+> As for Tegra194, that chip taped out two years ago and it isn't possible
+> to make it fully ECAM compliant other than by revising the chip, which,
+> frankly, isn't going to happen.
+> 
+> So I see two options here: either we find a way of dealing with this, by
+> either merging this quirk or finding an alternative solution, or we make
+> the decision that some hardware just can't be supported.
+> 
+> The former is fairly common, whereas I've never heard of the latter.
 
-> > Any ideas on how to resolve this? Let me know if the DT bindings and
-> > example don't make things clear enough.
-> >=20
-> > Thierry
-> >=20
-> >  .../firmware/nvidia,tegra186-bpmp.yaml        | 59 +++++++++++++++++++
-> >  1 file changed, 59 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/firmware/nvidia,tegra186=
--bpmp.yaml b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpm=
-p.yaml
-> > index dabf1c1aec2f..d40fcd836e90 100644
-> > --- a/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bpmp.y=
-aml
-> > @@ -43,6 +43,24 @@ properties:
-> >        - enum:
-> >            - nvidia,tegra186-bpmp
-> > =20
-> > +  interconnects:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +    description: A list of phandle and specifier pairs that describe t=
-he
-> > +      interconnect paths to and from the BPMP.
-> > +
-> > +  interconnect-names:
-> > +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> > +    description: One string for each pair of phandle and specifier in =
-the
-> > +      "interconnects" property.
-> > +    # XXX We need at least one of these to be named dma-mem so that th=
-e core
-> > +    # will set the DMA mask based on the DMA parent, but all of these =
-go to
-> > +    # system memory eventually.
-> > +    items:
-> > +      - const: dma-mem
-> > +      - const: dma-mem
-> > +      - const: dma-mem
-> > +      - const: dma-mem
-> > +
-> >    iommus:
-> >      $ref: /schemas/types.yaml#/definitions/phandle-array
-> >      description: |
-> > @@ -152,8 +170,43 @@ additionalProperties: false
-> > =20
-> >  examples:
-> >    - |
-> > +    #include <dt-bindings/clock/tegra186-clock.h>
-> >      #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >      #include <dt-bindings/mailbox/tegra186-hsp.h>
-> > +    #include <dt-bindings/memory/tegra186-mc.h>
-> > +
-> > +    mc: memory-controller@2c00000 {
-> > +        compatible =3D "nvidia,tegra186-mc";
-> > +        reg =3D <0x02c00000 0xb0000>;
-> > +        interrupts =3D <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
-> > +        status =3D "disabled";
-> > +
-> > +        #interconnect-cells =3D <1>;
-> > +        #address-cells =3D <2>;
-> > +        #size-cells =3D <2>;
-> > +
-> > +        ranges =3D <0x02c00000 0x0 0x02c00000 0x0 0xb0000>;
-> > +
-> > +        /*
-> > +         * Memory clients have access to all 40 bits that the memory
-> > +         * controller can address.
-> > +         */
-> > +        dma-ranges =3D <0x0 0x0 0x0 0x100 0x0>;
-> > +
-> > +        #memory-controller-cells =3D <0>;
-> > +
-> > +        emc: external-memory-controller@2c60000 {
-> > +            compatible =3D "nvidia,tegra186-emc";
-> > +            reg =3D <0x0 0x02c60000 0x0 0x50000>;
-> > +            interrupts =3D <GIC_SPI 224 IRQ_TYPE_LEVEL_HIGH>;
-> > +            clocks =3D <&bpmp TEGRA186_CLK_EMC>;
-> > +            clock-names =3D "emc";
-> > +
-> > +            #interconnect-cells =3D <0>;
-> > +
-> > +            nvidia,bpmp =3D <&bpmp>;
-> > +        };
-> > +    };
-> > =20
-> >      hsp_top0: hsp@3c00000 {
-> >          compatible =3D "nvidia,tegra186-hsp";
-> > @@ -187,6 +240,12 @@ examples:
-> > =20
-> >      bpmp {
-> >          compatible =3D "nvidia,tegra186-bpmp";
-> > +        interconnects =3D <&emc &mc TEGRA186_MEMORY_CLIENT_BPMPR>,
-> > +                        <&mc TEGRA186_MEMORY_CLIENT_BPMPW &emc>,
-> > +                        <&emc &mc TEGRA186_MEMORY_CLIENT_BPMPDMAR>,
-> > +                        <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAW &emc>;
-> > +        interconnect-names =3D "dma-mem", "dma-mem", "dma-mem", "dma-m=
-em";
-> > +
-> >          iommus =3D <&smmu TEGRA186_SID_BPMP>;
-> >          mboxes =3D <&hsp_top0 TEGRA_HSP_MBOX_TYPE_DB TEGRA_HSP_DB_MAST=
-ER_BPMP>;
-> >          shmem =3D <&cpu_bpmp_tx &cpu_bpmp_rx>;
-> >=20
+What does this mean ? Should I wreck the upstream kernel to make it boot
+with ACPI on *any* ARM64 platform out there then ?
 
---3V7upXqbjpZ4EhLz
-Content-Type: application/pgp-signature; name="signature.asc"
+My stance is clear above and the ACPI PCI programming model - inclusive
+of firmware - has been there since ACPI was deployed, if ACPI support
+is required HW must comply, either that or it is out of tree patches
+and I can't be blamed for that.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4lwdsACgkQ3SOs138+
-s6Hdgg/+PAPsRJzrmRnjHtctC9WCw3qssBToHFiLFo2ggkiMJ/C7xDYSV6oP3Ntr
-45st7Nu+TjphUW4BmDROUA+0YN4pUikmwmiCwm4Xr0xx2Og4pYc1SjChC3+/Cj2+
-IO3bPBlLzorH36dL2vNiEF8ZemsdCHSBQKdJQ8tohuTYEEf/OcXvPbXo8F9/WMJj
-REfgg4sJaGFt+1O7ESJhAvSQuLQ+8mva5Nm7CVqbi2tYb5w1Tzo6seM7mBtmUWdL
-jDr5yYC4pqJcJF0gZ0Y7Bz6IIhwepKfer2LQDW87/8cy7/kAUEezI7Es9SEq0t6G
-SjMAU39bSNe9jHpCg9hKu1NIQC4W6ItZlZG42nkxgLpLPlIddzArRdb+IhSV4xFb
-bpvOLEa+4dktjtUHZ2S2dJMSNKb3X13MAQ031eYRHC8eZJeA4+fCVGlGrTUygt4W
-3CMOrx6Kk2z+Qj4OXZWbvK1Xo1XetN50BEfewrQG8HI4Pd2IDskRHXdpCkCMMVee
-B8vzmRQf5lNoaeQsy6T+zr3SMd+HXBYxNgDOpO3D9NFlpV4jPu0I4PJIQMLpde87
-cl1PS0uh5Bq+Owpda22WIqSUczCLIFNjegUxzbgZQULa76vOXiOTr3iAOVNUwk1X
-18Caf9PG1LWpiWGoxdFFOQt/fRRgIHnhHY6flotcZcjqbtrcouM=
-=GEA6
------END PGP SIGNATURE-----
-
---3V7upXqbjpZ4EhLz--
+Thanks,
+Lorenzo
