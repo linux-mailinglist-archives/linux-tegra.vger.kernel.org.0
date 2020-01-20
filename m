@@ -2,131 +2,151 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9587142250
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jan 2020 05:10:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1CB9142414
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jan 2020 08:09:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729039AbgATEKe (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 19 Jan 2020 23:10:34 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14260 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729011AbgATEKe (ORCPT
+        id S1726417AbgATHJt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Jan 2020 02:09:49 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40396 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725851AbgATHJt (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 19 Jan 2020 23:10:34 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e25282b0000>; Sun, 19 Jan 2020 20:10:19 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 19 Jan 2020 20:10:33 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 19 Jan 2020 20:10:33 -0800
-Received: from [10.24.44.92] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 20 Jan
- 2020 04:10:27 +0000
-Subject: Re: [PATCH v8 19/22] ASoC: tegra: Enable audio mclk during
- tegra_asoc_utils_init
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-        <tiwai@suse.com>, <mperttunen@nvidia.com>,
-        <gregkh@linuxfoundation.org>, <sboyd@kernel.org>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>
-CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
-        <josephl@nvidia.com>, <daniel.lezcano@linaro.org>,
-        <mmaddireddy@nvidia.com>, <markz@nvidia.com>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1578986667-16041-1-git-send-email-skomatineni@nvidia.com>
- <1578986667-16041-20-git-send-email-skomatineni@nvidia.com>
- <3a8e609a-58aa-d2c1-c140-e1f0127dd53b@gmail.com>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <64027c16-763b-350f-9975-4f9727450ae9@nvidia.com>
-Date:   Mon, 20 Jan 2020 09:40:24 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Mon, 20 Jan 2020 02:09:49 -0500
+Received: by mail-wm1-f68.google.com with SMTP id t14so13499269wmi.5;
+        Sun, 19 Jan 2020 23:09:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jC4BMofX4ULcGoP3faAtWvOIgbJpEDzUZLRdWTvccnE=;
+        b=feubInFzc3vSXTqm0B3WoEVwqwIjV6G8LnNZyDfPXudQnsSspbO3+gOYzpFoyvrP/u
+         zZKC788BEidBCJWOcVywx2UPa5pkIH6VOGocO0CAEZ2eJ0dpdeDcEuEsQ56S30kp6QnP
+         KydSTXvcZC4N4kzk0AXCjuUT700NEaWBTt0f2m/Tr3hT9itBrCiyYQYDT/G+hpInxd4v
+         6SHZ4ke+jVf1rzVZnVAnOcbccwhSJdRiSb7/CBGrAmO6BPJERh0o+1zQRwzpxq2+Py0h
+         YpKetGJJ3uaU5Ua/OvTx/hG3eYUJbrHb0VQ670wWKIjSTNxBq951pr7HTWT4wcrOujXR
+         fDcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jC4BMofX4ULcGoP3faAtWvOIgbJpEDzUZLRdWTvccnE=;
+        b=nI+kUXvP3nC41K7/WvibTfKZ7ybo7sM38uIszLEDS4cYgntyVHiiN0B+mBXj9qmw3y
+         J+Yj9IvhrHYJ77QYxNrvZgeGxuPPGfHIdFacVk1Euw2FcSwlPX8B2C0F2336sdTCqU3G
+         yEwWiPunZXKv59npf2RuSYKFgrTGhxyfLlN85GIZtUBoH3fIoGP3N11WsOPwf8vfNr/f
+         /jrCQfKkPLtudxokswwzhCYd7BNSOVXftBdW5hvQXlK6LsEc9oZCDQgLY2KoyPahPgxm
+         IA0yQ0YfzosTikWqMRXDPUVJOxNBpPhxDRRXkSHn2Qwl5O6qaGzRdXmKqFCuCTV1R8Kf
+         zlvg==
+X-Gm-Message-State: APjAAAVJXrKGQLn7jrFgPQNCVq3CCzSRppIE6v9lOghqKMp8Q4KkaFX7
+        LCrPRWXj7VBoQPIvSEaqsT8uvVG3
+X-Google-Smtp-Source: APXvYqws5QWUBaccaF/hM5PNGQAiw6gh1OkE59RPb1vBC5q/3NoeLjQc4gNxSRIToglT7nNXnPJ7yg==
+X-Received: by 2002:a1c:a795:: with SMTP id q143mr17238611wme.52.1579504187566;
+        Sun, 19 Jan 2020 23:09:47 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id b21sm11206535wmd.37.2020.01.19.23.09.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jan 2020 23:09:46 -0800 (PST)
+Date:   Mon, 20 Jan 2020 08:09:43 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     allen <allen.chen@ite.com.tw>
+Cc:     Pi-Hsun Shih <pihsun@chromium.org>,
+        Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:DRM DRIVERS FOR NVIDIA TEGRA" 
+        <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v6 2/4] Revert "drm/tegra: Move drm_dp_link helpers to
+ Tegra DRM"
+Message-ID: <20200120070943.GA197819@ulmo>
+References: <1579488364-13182-1-git-send-email-allen.chen@ite.com.tw>
+ <1579488364-13182-3-git-send-email-allen.chen@ite.com.tw>
 MIME-Version: 1.0
-In-Reply-To: <3a8e609a-58aa-d2c1-c140-e1f0127dd53b@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-GB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579493419; bh=LVcMB3ge8cxlkdETYViqbJ2t8Kv4AW9iqdQrzlTvyQ4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=iVMvQ/GHwoYfJZCPQ+vfHZvajRdgNH3N3AA+xRp0Br6PsCeoA7sxms8dI7wZrWU+U
-         SB6t+Y6MFfa4GNTpcGvJw3/TCuxs3xGN5CkY50ZEAYZuMPeL082aJP3eaDFUH13+Yl
-         P9+U4/RdMEL7APAZIcc9cATRX8Agar+eK5Re3Roj5pl9Ac/p6aMQbBJFW3keF+wIrQ
-         PaD9rQfMjWYbvXalxk4wWncuLiZrNvk0WU9ZbEM25WBnAknbxOihvyELwUQQqQXYC7
-         AX2WC/lqmQUkczXTax1vpGyi4wIgc0vLxtGd7YsE3hlLufIGthDCAtMEr+6Bbrp6AR
-         Z93pwiOgSDXaw==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
+Content-Disposition: inline
+In-Reply-To: <1579488364-13182-3-git-send-email-allen.chen@ite.com.tw>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 1/19/2020 8:44 PM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 14.01.2020 10:24, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> Tegra PMC clock clk_out_1 is dedicated for audio mclk from Tegra30
->> through Tegra210 and currently Tegra clock driver keeps the audio
->> mclk enabled.
->>
->> With the move of PMC clocks from clock driver into pmc driver,
->> audio mclk enable from clock driver is removed and this should be
->> taken care by the audio driver.
->>
->> tegra_asoc_utils_init calls tegra_asoc_utils_set_rate and audio mclk
->> rate configuration is not needed during init and set_rate is actually
->> done during hw_params callback.
->>
->> So, this patch removes tegra_asoc_utils_set_rate call and just leaves
->> the audio mclk enabled.
->>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   sound/soc/tegra/tegra_asoc_utils.c | 11 +++++++++--
->>   1 file changed, 9 insertions(+), 2 deletions(-)
->>
->> diff --git a/sound/soc/tegra/tegra_asoc_utils.c b/sound/soc/tegra/tegra_=
-asoc_utils.c
->> index 1dce5ad6e665..99584970f5f4 100644
->> --- a/sound/soc/tegra/tegra_asoc_utils.c
->> +++ b/sound/soc/tegra/tegra_asoc_utils.c
->> @@ -216,9 +216,16 @@ int tegra_asoc_utils_init(struct tegra_asoc_utils_d=
-ata *data,
->>                data->clk_cdev1 =3D clk_out_1;
->>        }
->>
->> -     ret =3D tegra_asoc_utils_set_rate(data, 44100, 256 * 44100);
->> -     if (ret)
->> +     /*
->> +      * FIXME: There is some unknown dependency between audio mclk disa=
-ble
->> +      * and suspend-resume functionality on Tegra30, although audio mcl=
-k is
->> +      * only needed for audio.
->> +      */
->> +     ret =3D clk_prepare_enable(data->clk_cdev1);
->> +     if (ret) {
->> +             dev_err(data->dev, "Can't enable cdev1: %d\n", ret);
->>                return ret;
->> +     }
->>
->>        return 0;
->>   }
->>
-> Shouldn't the clock be disabled on driver's removal?
+--nFreZHaLTZJo0R7j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am not sure if we really need to do in this series as it does not=20
-change the behavior from what was there earlier. Also there is already a=20
-FIXME item here and we end up adding clock disable in remove() path of=20
-multiple drivers, which is going to be removed once we address FIXME.
+On Mon, Jan 20, 2020 at 10:44:32AM +0800, allen wrote:
+> IT6505 driver ite-it6505.c file using drm_dp_link helpers, so revert.
+> This reverts commit 9a42c7c647a9ad0f7ebb147a52eda3dcb7c84292.
+>=20
+> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 128 ++++++
+>  drivers/gpu/drm/tegra/Makefile  |   1 -
+>  drivers/gpu/drm/tegra/dp.c      | 876 ----------------------------------=
+------
+>  drivers/gpu/drm/tegra/dp.h      | 177 --------
+>  drivers/gpu/drm/tegra/dpaux.c   |   1 -
+>  drivers/gpu/drm/tegra/sor.c     |   1 -
+>  include/drm/drm_dp_helper.h     |  16 +
+>  7 files changed, 144 insertions(+), 1056 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/tegra/dp.c
+>  delete mode 100644 drivers/gpu/drm/tegra/dp.h
 
+Sorry, but no. Please just duplicate whatever information you need from
+these helpers into your driver. The decision was made recently to remove
+these helpers because they were a premature generalization and unlikely
+to be useful very widely. See this commit:
+
+commit 9a42c7c647a9ad0f7ebb147a52eda3dcb7c84292
+Author: Thierry Reding <treding@nvidia.com>
+Date:   Mon Oct 21 16:34:37 2019 +0200
+
+    drm/tegra: Move drm_dp_link helpers to Tegra DRM
+
+    During the discussion of patches that enhance the drm_dp_link helpers it
+    was concluded that these helpers aren't very useful to begin with. After
+    all other drivers have been converted not to use these helpers anymore,
+    move these helpers into the last remaining user: Tegra DRM.
+
+    If at some point these helpers are deemed more widely useful, they can
+    be moved out into the DRM DP helpers again.
+
+    Signed-off-by: Thierry Reding <treding@nvidia.com>
+    Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+    Link: https://patchwork.freedesktop.org/patch/msgid/20191021143437.1477=
+719-14-thierry.reding@gmail.com
+
+Your new driver here doesn't change that, in my opinion, so just follow
+what we did for other drivers and duplicate the corresponding code into
+the driver.
+
+Thierry
+
+--nFreZHaLTZJo0R7j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4lUjQACgkQ3SOs138+
+s6G9LQ//RT0oF0cSY99rYD5a4Gq9xwF0NRauxZ2UB31AHTClEOxlB2UvUO3mGmAO
+guZ+9+1YTOL35FeRJIeE322/P+HOt7fp6iswZmIvVxfIHlp2+DjViefo/c3RVTCU
+EegQahcz6HMV3uxCn0R0h+ZspQustfsd6JSaqbb0/ByUwz5CtmBg78v1NX0svp/w
+v7bRIbANkre6CW7QoEZLQUuXcos81GYep0i4IxsjUFG0lavYTmt7sngYMWzio0Xu
+ynQEspvKmyTEQoHBvNzvRrqhJxyYIBWB4JPYsqmf3Swb/xixh+ibD0ojhj8kXeTw
+1OAFkzXRE4YnvaFwOBMTt84q7r40y+tolILK7M/e6pgOL3IBdeBothqQhFTbN88W
+bCGlip7H74N4E6tSkH1x2lZTeiaAr7q6nHZsMleUtgs8+xt05sK3cO08tAfRqqpW
+HsyN+1C5YP3hAq+XoTiWCU4OfcUX6QXsDoUwiFb/KeT6VoUuYVomHUzhAUDBmC/W
+38IZzaBs4wnhCCrko8KJT7znM5os9pGFnYxHpkw9RhBKBfDOMt5U8dNgfPmmJx1f
+nI8CjoxIGbP/rFrOL2yexacluAnFkoYy4+S81hnQT2C9Xoc1FtsUnB+xqpymiRtg
+M97YeTh5QL2UT6MYm+Ot/4GRLo+jLlHSeESvCtojJEXzL9PDElQ=
+=y4+8
+-----END PGP SIGNATURE-----
+
+--nFreZHaLTZJo0R7j--
