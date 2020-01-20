@@ -2,151 +2,93 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1CB9142414
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jan 2020 08:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BE7142787
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jan 2020 10:44:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726417AbgATHJt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Jan 2020 02:09:49 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40396 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbgATHJt (ORCPT
+        id S1726935AbgATJoI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Jan 2020 04:44:08 -0500
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:33719 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726635AbgATJoH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Jan 2020 02:09:49 -0500
-Received: by mail-wm1-f68.google.com with SMTP id t14so13499269wmi.5;
-        Sun, 19 Jan 2020 23:09:48 -0800 (PST)
+        Mon, 20 Jan 2020 04:44:07 -0500
+Received: by mail-vk1-f196.google.com with SMTP id i78so8370572vke.0
+        for <linux-tegra@vger.kernel.org>; Mon, 20 Jan 2020 01:44:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jC4BMofX4ULcGoP3faAtWvOIgbJpEDzUZLRdWTvccnE=;
-        b=feubInFzc3vSXTqm0B3WoEVwqwIjV6G8LnNZyDfPXudQnsSspbO3+gOYzpFoyvrP/u
-         zZKC788BEidBCJWOcVywx2UPa5pkIH6VOGocO0CAEZ2eJ0dpdeDcEuEsQ56S30kp6QnP
-         KydSTXvcZC4N4kzk0AXCjuUT700NEaWBTt0f2m/Tr3hT9itBrCiyYQYDT/G+hpInxd4v
-         6SHZ4ke+jVf1rzVZnVAnOcbccwhSJdRiSb7/CBGrAmO6BPJERh0o+1zQRwzpxq2+Py0h
-         YpKetGJJ3uaU5Ua/OvTx/hG3eYUJbrHb0VQ670wWKIjSTNxBq951pr7HTWT4wcrOujXR
-         fDcg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8WXD++puZRBDfX+XovxCYxezYIYsgF4bFnxytu5iD+I=;
+        b=RZHZvJdKK+liUUkELaYnw7PGaEroFf9bWYekXdHa0nKjOWN1cV6Cs1e09zCuchePzu
+         RijCqeXtUHanoE2AIw5XN23OfQwNyKbfztEp2OtpSMASCijrurE07e2dKXVxsyCWVEPs
+         FWZ+WLM/N+K0H92fquLbaCGqfEj23QyGNxICFJJN+fa9gGLppp/qEiQorEXFSC6szQDG
+         xGtnebS9HNjcCQiiFhJdJxZECbi+meO5SGl50HCnbJjPJFvhh5ru4R0X++MQ+sap0bVH
+         fqWYqYINlrp62H/fNGfi/JgDYS74n82ogq5FiUOnZ0de3oJZDIs57MqeT3ZH4AVoczYX
+         KuZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jC4BMofX4ULcGoP3faAtWvOIgbJpEDzUZLRdWTvccnE=;
-        b=nI+kUXvP3nC41K7/WvibTfKZ7ybo7sM38uIszLEDS4cYgntyVHiiN0B+mBXj9qmw3y
-         J+Yj9IvhrHYJ77QYxNrvZgeGxuPPGfHIdFacVk1Euw2FcSwlPX8B2C0F2336sdTCqU3G
-         yEwWiPunZXKv59npf2RuSYKFgrTGhxyfLlN85GIZtUBoH3fIoGP3N11WsOPwf8vfNr/f
-         /jrCQfKkPLtudxokswwzhCYd7BNSOVXftBdW5hvQXlK6LsEc9oZCDQgLY2KoyPahPgxm
-         IA0yQ0YfzosTikWqMRXDPUVJOxNBpPhxDRRXkSHn2Qwl5O6qaGzRdXmKqFCuCTV1R8Kf
-         zlvg==
-X-Gm-Message-State: APjAAAVJXrKGQLn7jrFgPQNCVq3CCzSRppIE6v9lOghqKMp8Q4KkaFX7
-        LCrPRWXj7VBoQPIvSEaqsT8uvVG3
-X-Google-Smtp-Source: APXvYqws5QWUBaccaF/hM5PNGQAiw6gh1OkE59RPb1vBC5q/3NoeLjQc4gNxSRIToglT7nNXnPJ7yg==
-X-Received: by 2002:a1c:a795:: with SMTP id q143mr17238611wme.52.1579504187566;
-        Sun, 19 Jan 2020 23:09:47 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id b21sm11206535wmd.37.2020.01.19.23.09.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jan 2020 23:09:46 -0800 (PST)
-Date:   Mon, 20 Jan 2020 08:09:43 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     allen <allen.chen@ite.com.tw>
-Cc:     Pi-Hsun Shih <pihsun@chromium.org>,
-        Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DRM DRIVERS FOR NVIDIA TEGRA" 
-        <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v6 2/4] Revert "drm/tegra: Move drm_dp_link helpers to
- Tegra DRM"
-Message-ID: <20200120070943.GA197819@ulmo>
-References: <1579488364-13182-1-git-send-email-allen.chen@ite.com.tw>
- <1579488364-13182-3-git-send-email-allen.chen@ite.com.tw>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8WXD++puZRBDfX+XovxCYxezYIYsgF4bFnxytu5iD+I=;
+        b=t2MwAnotxiucxF7xNBCCrJEjLM2eqom9W0HBJnp5yAwxNAVmiyt/40/QuC/gM9TnXM
+         XFkptEjKMEiF6Gcj2hdYe6RKUtNbBx8Gh9MEyBeBfE1vBLkvd5jB66MTYqUdCbWunR4l
+         g8j0l7M5QJdj0zJD1G/kq4M261FDi/aIA1JscDs8ynS6y5iH0N+U5Cn3w7r+d7CA3wdV
+         ybC7RaWFrYKSOIoTIz9VDEZf30dcmHL/Bk0zYmGgxCIIo6MCor9GXQKjvRYfjjGSvdch
+         5Sexde49DKZm5ZsFIuy2Gi4PhpcZQ4V3mZAZbLx/9KpvRuPnIxqzM5vQj0pD4a37VLgH
+         XOYg==
+X-Gm-Message-State: APjAAAUzuSd9hi2Np2/3+FQl54vMJ83KXJEzhW/00YotWEqssQj96or+
+        niE8J2jyQrFLoxehpLBHASKPfAD8+tKHgwm4RcTlBw==
+X-Google-Smtp-Source: APXvYqx+cHz8q5EP3Nl248rDH5+9yKyZOEZH6I3T1+KhPmpO6mTORqbQWVIORQg+2MtPoXgeClbCG0k4xhRdmPE3Nqc=
+X-Received: by 2002:ac5:cde3:: with SMTP id v3mr378521vkn.43.1579513446738;
+ Mon, 20 Jan 2020 01:44:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
-Content-Disposition: inline
-In-Reply-To: <1579488364-13182-3-git-send-email-allen.chen@ite.com.tw>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+References: <9aff1d859935e59edd81e4939e40d6c55e0b55f6.1578390388.git.mirq-linux@rere.qmqm.pl>
+ <CAPDyKFqXmbnH_NWZZTHHCE+Lt-f3JHAhJ8-=aoKNEPyQed44YA@mail.gmail.com> <20200117141145.GD26135@qmqm.qmqm.pl>
+In-Reply-To: <20200117141145.GD26135@qmqm.qmqm.pl>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Mon, 20 Jan 2020 10:43:28 +0100
+Message-ID: <CAPDyKFqmXiv75XCK6-tNJn5xTxyYpZcKRGKhvg-G0ycSZ_xw7g@mail.gmail.com>
+Subject: Re: [PATCH v3] mmc: tegra: fix SDR50 tuning override
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     Adrian Hunter <adrian.hunter@intel.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Lucas Stach <dev@lynxeye.de>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Fri, 17 Jan 2020 at 15:11, Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qm=
+qm.pl> wrote:
+>
+> On Thu, Jan 16, 2020 at 03:39:54PM +0100, Ulf Hansson wrote:
+> > On Tue, 7 Jan 2020 at 10:47, Micha=C5=82 Miros=C5=82aw <mirq-linux@rere=
+.qmqm.pl> wrote:
+> > >
+> > > Commit 7ad2ed1dfcbe inadvertently mixed up a quirk flag's name and
+> > > broke SDR50 tuning override. Use correct NVQUIRK_ name.
+> > >
+> > > Fixes: 7ad2ed1dfcbe ("mmc: tegra: enable UHS-I modes")
+> > > Cc: <stable@vger.kernel.org> # 4f6aa3264af4: mmc: tegra: Only adverti=
+se UHS modes if IO regulator is present
+> >
+> > I am dropping this tag, simply because I don't understand what it shoul=
+d tell.
+>
+> It tells the maintainer that he needs to cherry-pick this commit if
+> its not in particular stable version already. I guess this is only
+> for v4.4, as v4.9+ already have it, and v3.16 does not include the
+> Fixed commit.
 
---nFreZHaLTZJo0R7j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Alright, I updated myself on stable rules and found this, thanks!
 
-On Mon, Jan 20, 2020 at 10:44:32AM +0800, allen wrote:
-> IT6505 driver ite-it6505.c file using drm_dp_link helpers, so revert.
-> This reverts commit 9a42c7c647a9ad0f7ebb147a52eda3dcb7c84292.
->=20
-> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> ---
->  drivers/gpu/drm/drm_dp_helper.c | 128 ++++++
->  drivers/gpu/drm/tegra/Makefile  |   1 -
->  drivers/gpu/drm/tegra/dp.c      | 876 ----------------------------------=
-------
->  drivers/gpu/drm/tegra/dp.h      | 177 --------
->  drivers/gpu/drm/tegra/dpaux.c   |   1 -
->  drivers/gpu/drm/tegra/sor.c     |   1 -
->  include/drm/drm_dp_helper.h     |  16 +
->  7 files changed, 144 insertions(+), 1056 deletions(-)
->  delete mode 100644 drivers/gpu/drm/tegra/dp.c
->  delete mode 100644 drivers/gpu/drm/tegra/dp.h
+So I have amended the patch to add back the tag, let's give this a try.
 
-Sorry, but no. Please just duplicate whatever information you need from
-these helpers into your driver. The decision was made recently to remove
-these helpers because they were a premature generalization and unlikely
-to be useful very widely. See this commit:
-
-commit 9a42c7c647a9ad0f7ebb147a52eda3dcb7c84292
-Author: Thierry Reding <treding@nvidia.com>
-Date:   Mon Oct 21 16:34:37 2019 +0200
-
-    drm/tegra: Move drm_dp_link helpers to Tegra DRM
-
-    During the discussion of patches that enhance the drm_dp_link helpers it
-    was concluded that these helpers aren't very useful to begin with. After
-    all other drivers have been converted not to use these helpers anymore,
-    move these helpers into the last remaining user: Tegra DRM.
-
-    If at some point these helpers are deemed more widely useful, they can
-    be moved out into the DRM DP helpers again.
-
-    Signed-off-by: Thierry Reding <treding@nvidia.com>
-    Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-    Link: https://patchwork.freedesktop.org/patch/msgid/20191021143437.1477=
-719-14-thierry.reding@gmail.com
-
-Your new driver here doesn't change that, in my opinion, so just follow
-what we did for other drivers and duplicate the corresponding code into
-the driver.
-
-Thierry
-
---nFreZHaLTZJo0R7j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4lUjQACgkQ3SOs138+
-s6G9LQ//RT0oF0cSY99rYD5a4Gq9xwF0NRauxZ2UB31AHTClEOxlB2UvUO3mGmAO
-guZ+9+1YTOL35FeRJIeE322/P+HOt7fp6iswZmIvVxfIHlp2+DjViefo/c3RVTCU
-EegQahcz6HMV3uxCn0R0h+ZspQustfsd6JSaqbb0/ByUwz5CtmBg78v1NX0svp/w
-v7bRIbANkre6CW7QoEZLQUuXcos81GYep0i4IxsjUFG0lavYTmt7sngYMWzio0Xu
-ynQEspvKmyTEQoHBvNzvRrqhJxyYIBWB4JPYsqmf3Swb/xixh+ibD0ojhj8kXeTw
-1OAFkzXRE4YnvaFwOBMTt84q7r40y+tolILK7M/e6pgOL3IBdeBothqQhFTbN88W
-bCGlip7H74N4E6tSkH1x2lZTeiaAr7q6nHZsMleUtgs8+xt05sK3cO08tAfRqqpW
-HsyN+1C5YP3hAq+XoTiWCU4OfcUX6QXsDoUwiFb/KeT6VoUuYVomHUzhAUDBmC/W
-38IZzaBs4wnhCCrko8KJT7znM5os9pGFnYxHpkw9RhBKBfDOMt5U8dNgfPmmJx1f
-nI8CjoxIGbP/rFrOL2yexacluAnFkoYy4+S81hnQT2C9Xoc1FtsUnB+xqpymiRtg
-M97YeTh5QL2UT6MYm+Ot/4GRLo+jLlHSeESvCtojJEXzL9PDElQ=
-=y4+8
------END PGP SIGNATURE-----
-
---nFreZHaLTZJo0R7j--
+Kind regards
+Uffe
