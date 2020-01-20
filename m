@@ -2,140 +2,148 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE4A4142E9F
-	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jan 2020 16:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DE0C142ECA
+	for <lists+linux-tegra@lfdr.de>; Mon, 20 Jan 2020 16:32:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbgATPS5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 20 Jan 2020 10:18:57 -0500
-Received: from foss.arm.com ([217.140.110.172]:33568 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726626AbgATPS5 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 20 Jan 2020 10:18:57 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60D2D30E;
-        Mon, 20 Jan 2020 07:18:56 -0800 (PST)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 661003F52E;
-        Mon, 20 Jan 2020 07:18:54 -0800 (PST)
-Date:   Mon, 20 Jan 2020 15:18:49 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Vidya Sagar <vidyas@nvidia.com>, bjorn@helgaas.com,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Andrew Murray <andrew.murray@arm.com>, treding@nvidia.com,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, kthota@nvidia.com,
-        mmaddireddy@nvidia.com, sagar.tv@gmail.com
-Subject: Re: [PATCH] PCI: Add MCFG quirks for Tegra194 host controllers
-Message-ID: <20200120151849.GA24402@e121166-lin.cambridge.arm.com>
-References: <20200103174935.5612-1-vidyas@nvidia.com>
- <CABhMZUUHGEEhsJ-+foSsodqtKXyX5ZNPkGgv_VzXz=Qv+NVcUA@mail.gmail.com>
- <9a767725-9671-6402-4e1c-a648f5a7860b@nvidia.com>
- <20200117121736.GA7072@e121166-lin.cambridge.arm.com>
- <20200120111042.GA203160@ulmo>
+        id S1726982AbgATPcx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 20 Jan 2020 10:32:53 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:45858 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726642AbgATPcw (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 20 Jan 2020 10:32:52 -0500
+Received: by mail-ed1-f68.google.com with SMTP id v28so29818241edw.12;
+        Mon, 20 Jan 2020 07:32:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=OOCggNlyS9YgNLOjDZC4k2CQrj3lgyEzbj3H+eP3SQE=;
+        b=dfMihwdTWj/I8wOKg2Rs9iY5ghrDiTIiktCY71UOSpkgssYifYXSdlBSd609/u9xjS
+         Ds5XiFhFGB5p8GMBSwQ9bZKjmlihWm66nuZmyaaMpi/JL+tME+w0seGaOeRaOg9fGaqW
+         94iTMGe9++uLByUGQzUl2nIquM6MJ3tOFOHU9AlgX6/x2YRYSS2ZN+8HJc6IX1rzz/Iu
+         FzdPETX1u4WE+J3M79HpiN/eryDdkm9hcvES6+9e4RNHGYM+kUdJv7BSLmmmTHJf9ANN
+         VZUv8VfYfOyFBDcmIMWV7byCSHZ/pKFimZbXmL5h2ueObDPJ8/ZoVK+OC77fg6HNkbd0
+         E+7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=OOCggNlyS9YgNLOjDZC4k2CQrj3lgyEzbj3H+eP3SQE=;
+        b=qQ5b+yjmAR3V6I6tzHB1GXQWoTcGTsYYTjrPZ5Qx0ktr7+NQ56sPUB649MADnsVbTj
+         l5uVfR58jX5WfynbYHUoWPp4NK2Tae3bLyAhH0zWhiqdYYFCX+WuprRg50R3bfJ6mASx
+         1rNmwKSH+sxx/4ugY7uxp8peXvOpmDHXmsqCDQ+Ot+5ucLvfGOAq4STuhHlaMt1P+qRT
+         kLXfxHBPnyPjYLx+QH7S3Q0fu/ibi6RWur/PGpTFRMe3yOoYcOHfnDVVFj3mj6jJKB2G
+         8js3aVh/uGT4hYDI6PXhGd9VA4b9M+latJ1Y40N3i9EaR0Vxvm3Vo2WlmsfaYTs8VpuX
+         DPdA==
+X-Gm-Message-State: APjAAAUss5OQji2wzM5yxyhbF5Xi9cuHCHRI8+nPNf1VX41dYATfIY+0
+        bRwVphJKEhtAFqVZQtUEeXWZo52M
+X-Google-Smtp-Source: APXvYqxjYvtLuxzmFSvORJMHr9PS1DmMWSmU08ILsHKVYQCqsxBngzG4LUM4tpU9XK2ZYIqVfQd7Bg==
+X-Received: by 2002:a17:906:948e:: with SMTP id t14mr20975740ejx.123.1579534370408;
+        Mon, 20 Jan 2020 07:32:50 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id z10sm1121714ejn.16.2020.01.20.07.32.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jan 2020 07:32:49 -0800 (PST)
+Subject: Re: [PATCH v8 19/22] ASoC: tegra: Enable audio mclk during
+ tegra_asoc_utils_init
+To:     Sameer Pujar <spujar@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, josephl@nvidia.com,
+        daniel.lezcano@linaro.org, mmaddireddy@nvidia.com,
+        markz@nvidia.com, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1578986667-16041-1-git-send-email-skomatineni@nvidia.com>
+ <1578986667-16041-20-git-send-email-skomatineni@nvidia.com>
+ <3a8e609a-58aa-d2c1-c140-e1f0127dd53b@gmail.com>
+ <64027c16-763b-350f-9975-4f9727450ae9@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0b13d21c-1daf-4e9d-f2c2-e78a3b8935f2@gmail.com>
+Date:   Mon, 20 Jan 2020 18:32:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200120111042.GA203160@ulmo>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <64027c16-763b-350f-9975-4f9727450ae9@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jan 20, 2020 at 12:10:42PM +0100, Thierry Reding wrote:
-
-[...]
-
-> > > Currently the BSP has the kernel booting through Device Tree mechanism
-> > > and there is a plan to support UEFI based boot as well in the future software
-> > > releases for which we need this quirky way of handling ECAM.
-> > > Tegra194 is going to be the only and last chip with this issue and next chip
-> > > in line in Tegra SoC series will be fully compliant with ECAM.
-> > 
-> > ACPI on ARM64 works on a standard subset of systems, defined by the
-> > ARM SBSA:
-> > 
-> > http://infocenter.arm.com/help/topic/com.arm.doc.den0029c/Server_Base_System_Architecture_v6_0_ARM_DEN_0029C_SBSA_6_0.pdf
+20.01.2020 07:10, Sameer Pujar пишет:
 > 
-> I don't understand what you're saying here. Are you saying that you want
-> to prevent vendors from upstreaming code that they need to support their
-> ACPI based platforms? I understand that the lack of support for proper
-> ECAM means that a platform will not be SBSA compatible, but I wasn't
-> aware that lack of SBSA compatibility meant that a platform would be
-> prohibited from implementing ACPI support in an upstream kernel.
-
-ACPI on ARM64 requires a set of HW components described in the SBSA.
-
-If those HW requirements are not fulfilled you can't bootstrap an ARM64
-system with ACPI - it is as simple as that. It is not even appropriate
-to discuss this on a Linux mailing list anymore since it is HW
-requirements and it has been public information since ACPI on ARM64 was
-first enabled.
-
-> > These patches will have to be carried out of tree, the MCFG quirk
-> > mechanism (merged as Bjorn said more than three years ago) was supposed
-> > to be a temporary plaster to bootstrap server platforms with teething
-> > issues, the aim is to remove it eventually not to add more code to it
-> > indefinitely.
+> On 1/19/2020 8:44 PM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> 14.01.2020 10:24, Sowjanya Komatineni пишет:
+>>> Tegra PMC clock clk_out_1 is dedicated for audio mclk from Tegra30
+>>> through Tegra210 and currently Tegra clock driver keeps the audio
+>>> mclk enabled.
+>>>
+>>> With the move of PMC clocks from clock driver into pmc driver,
+>>> audio mclk enable from clock driver is removed and this should be
+>>> taken care by the audio driver.
+>>>
+>>> tegra_asoc_utils_init calls tegra_asoc_utils_set_rate and audio mclk
+>>> rate configuration is not needed during init and set_rate is actually
+>>> done during hw_params callback.
+>>>
+>>> So, this patch removes tegra_asoc_utils_set_rate call and just leaves
+>>> the audio mclk enabled.
+>>>
+>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>> ---
+>>>   sound/soc/tegra/tegra_asoc_utils.c | 11 +++++++++--
+>>>   1 file changed, 9 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/sound/soc/tegra/tegra_asoc_utils.c
+>>> b/sound/soc/tegra/tegra_asoc_utils.c
+>>> index 1dce5ad6e665..99584970f5f4 100644
+>>> --- a/sound/soc/tegra/tegra_asoc_utils.c
+>>> +++ b/sound/soc/tegra/tegra_asoc_utils.c
+>>> @@ -216,9 +216,16 @@ int tegra_asoc_utils_init(struct
+>>> tegra_asoc_utils_data *data,
+>>>                data->clk_cdev1 = clk_out_1;
+>>>        }
+>>>
+>>> -     ret = tegra_asoc_utils_set_rate(data, 44100, 256 * 44100);
+>>> -     if (ret)
+>>> +     /*
+>>> +      * FIXME: There is some unknown dependency between audio mclk
+>>> disable
+>>> +      * and suspend-resume functionality on Tegra30, although audio
+>>> mclk is
+>>> +      * only needed for audio.
+>>> +      */
+>>> +     ret = clk_prepare_enable(data->clk_cdev1);
+>>> +     if (ret) {
+>>> +             dev_err(data->dev, "Can't enable cdev1: %d\n", ret);
+>>>                return ret;
+>>> +     }
+>>>
+>>>        return 0;
+>>>   }
+>>>
+>> Shouldn't the clock be disabled on driver's removal?
 > 
-> Now, I fully agree that quirks are suboptimal and we'd all prefer if we
-> didn't have to deal with them. Unfortunately the reality is that
-> mistakes happen and hardware doesn't always work the way we want it to.
-> There's plenty of other quirk mechanisms in the kernel, and frankly this
-> one isn't really that bad in comparison.
-
-Because you don't have to maintain it ;) - I think I said what I had to
-say about the MCFG mechanism in the past - it has been three years
-and counting - it is time to remove it rather that adding to it.
-
-> > So I am afraid but this quirk (and any other coming our way) will not be
-> > merged in an upstream kernel anymore - for any queries please put Nvidia
-> > in touch.
+> I am not sure if we really need to do in this series as it does not
+> change the behavior from what was there earlier. Also there is already a
+> FIXME item here and we end up adding clock disable in remove() path of
+> multiple drivers, which is going to be removed once we address FIXME.
 > 
-> Again, I don't understand what you're trying to achieve here. You seem
-> to be saying that we categorically can't support this hardware because
-> it isn't fully SBSA compatible.
 
-I am not trying to achieve anything - I am just stating public
-information - let me repeat it again for interested readers: to
-bootstrap an ARM64 system with ACPI the platform HW design must follow
-the SBSA guidelines.
+Well, perhaps this is indeed good enough for the time being.
 
-> Do you have any alternative suggestions on how we can support this in an
-> upstream kernel?
+BTW, I didn't spot any suspend-resume problems using v8.
 
-Booting with a device tree ?
-
-> We realized a while ago that we cannot achieve proper ECAM on Tegra194
-> because of some issues with the hardware and we've provided this as
-> feedback to the hardware engineers. As a result, the next generation of
-> Tegra should no longer suffer from these issues.
-
-We will bootstrap next generation Tegra with ACPI then, there are
-SBSA tests available for compliancy - again, that's a matter for
-Nvidia and Arm to settle, not a mailing list discussion.
-
-> As for Tegra194, that chip taped out two years ago and it isn't possible
-> to make it fully ECAM compliant other than by revising the chip, which,
-> frankly, isn't going to happen.
-> 
-> So I see two options here: either we find a way of dealing with this, by
-> either merging this quirk or finding an alternative solution, or we make
-> the decision that some hardware just can't be supported.
-> 
-> The former is fairly common, whereas I've never heard of the latter.
-
-What does this mean ? Should I wreck the upstream kernel to make it boot
-with ACPI on *any* ARM64 platform out there then ?
-
-My stance is clear above and the ACPI PCI programming model - inclusive
-of firmware - has been there since ACPI was deployed, if ACPI support
-is required HW must comply, either that or it is out of tree patches
-and I can't be blamed for that.
-
-Thanks,
-Lorenzo
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
