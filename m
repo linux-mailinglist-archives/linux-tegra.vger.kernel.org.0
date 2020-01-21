@@ -2,111 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64C7E144200
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jan 2020 17:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05AD9144233
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jan 2020 17:32:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729099AbgAUQTu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Jan 2020 11:19:50 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8827 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726555AbgAUQTu (ORCPT
+        id S1729045AbgAUQbj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Jan 2020 11:31:39 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39368 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726555AbgAUQbi (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Jan 2020 11:19:50 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e2724950000>; Tue, 21 Jan 2020 08:19:33 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 21 Jan 2020 08:19:48 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 21 Jan 2020 08:19:48 -0800
-Received: from [10.2.160.120] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 Jan
- 2020 16:19:48 +0000
-Subject: Re: [PATCH v8 22/22] clk: tegra: Remove audio clocks configuration
- from clock driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
-        <mperttunen@nvidia.com>, <gregkh@linuxfoundation.org>,
-        <sboyd@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>
-CC:     <pdeschrijver@nvidia.com>, <pgaikwad@nvidia.com>,
-        <spujar@nvidia.com>, <josephl@nvidia.com>,
-        <daniel.lezcano@linaro.org>, <mmaddireddy@nvidia.com>,
-        <markz@nvidia.com>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1578986667-16041-1-git-send-email-skomatineni@nvidia.com>
- <1578986667-16041-23-git-send-email-skomatineni@nvidia.com>
- <d69fe7a8-71cc-c560-a567-f89b936753ad@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <9765b723-33af-9863-72c9-8094203c8cb8@nvidia.com>
-Date:   Tue, 21 Jan 2020 08:19:47 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Tue, 21 Jan 2020 11:31:38 -0500
+Received: by mail-lj1-f196.google.com with SMTP id o11so3161659ljc.6;
+        Tue, 21 Jan 2020 08:31:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=l4RN8WpVi7+YUOh7CVQBjtO9aqPWqxtwaV5kPcYJuIE=;
+        b=iGmnugatZeVXuscmnDlCESgM4MA02qBwbvISmxoxmLCK1dkVPpMDyeadAVQuFXl/bb
+         ym4Di5xk/cfSbAGmoKYvzCRMK3AsixkZuv6pX7wW9bzeD8Odoqh4HG0/0EqKg57SR5B6
+         0qCKE0bHp4Nv0eLHIEqTKEKONGH2LDWiro6xHLYlSTSz+nvslaPALxgCooGtWLgakUfT
+         EAiCVozBr3RxGdq5w6jztFRt8J/EttTb2tB7mc325oYnwD4iEE2c+2DSMiPiuLPNjJab
+         5tXfGy0w2bT2/Ce+atZFuodSbNtG9ItFXMhimQ3i7U20PuCsqEOqqZVbTThXZ830vw3H
+         +onQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=l4RN8WpVi7+YUOh7CVQBjtO9aqPWqxtwaV5kPcYJuIE=;
+        b=gQYr6LN8enqH7B9l6zVyJlQxSQkD6Dgfh4+acJypCIIqiBLImHCArA1RPeBHUll1lf
+         ZsFrGdD2xKjXCmrlZgFDJYWuBqgIhKodQs/9NxZ6uVm8Rf/INazBJHxAbRv51F0RdvJF
+         Q9b/eNgLy7ARL0qce9au8Kh+sXjtVXVU7HLgyfoHiGriH3xv02GmqvDxiVBbn4TRHefx
+         QskRElxEm/cf6J6y4WWXc7KQ2Kttuu7PsiZkXxYntTMvavsWjt1I3VQRt6//Yh0wxpzl
+         eLswKNqK/0oH4PdiFd/EWLB7SOOygJVHvnf5liWAKNJDYcnK2Rynnvg2x4QYRf8uOhbJ
+         1EEw==
+X-Gm-Message-State: APjAAAXYcRUlxOhJHtgHYxBrevBpk0a5kYsyJl7nteA8+oL6YaXoN1Hc
+        7XYchkvLGoAb4PNaC1fg+fs=
+X-Google-Smtp-Source: APXvYqw4WjOLvEg71Yw67EYYG1RcwJU/9QrncHetyJxGbyqIdw6higEiq7qpIoFc24v7xq4NTBHBPQ==
+X-Received: by 2002:a2e:2a86:: with SMTP id q128mr17213167ljq.241.1579624296516;
+        Tue, 21 Jan 2020 08:31:36 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id 126sm6831633lfm.38.2020.01.21.08.31.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jan 2020 08:31:35 -0800 (PST)
+Subject: Re: [PATCH] serial: 8250_tegra: Create Tegra specific 8250 driver
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, Jeff Brasen <jbrasen@nvidia.com>
+References: <20200120160149.29072-1-jonathanh@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f02faa4c-5838-15d2-1b76-75c17fcc0d9d@gmail.com>
+Date:   Tue, 21 Jan 2020 19:31:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <d69fe7a8-71cc-c560-a567-f89b936753ad@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200120160149.29072-1-jonathanh@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579623573; bh=Uvzt4B05OQmJx5YIIthOVUR2fp0v+T1943XGo2TTOM0=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=KOVOEaWa6tJBw/qvDH79CnxVhoo0pTK2etj72MAparsNKIW4YF9lQJpjDrWRIShPl
-         tA3Lhmht438lob3yBjTf5BcfqOYZQ4QpgBZqbppd/njbQYKfmJE+C7rC23EWqqmkZ1
-         oyj3GaFWswvi/mSUaTBGh8vdMvrsVev7+km5ItUC65TwUoBRE3Q5rqaulRYEC832AM
-         cM7SqLQNATAw1+EIA67N2bVaFo/IH8qib8nSkGm21OScgXncw+v79kd48ChTuOHkU7
-         85bvRaAfeKr526AUSl6heUXI7lXWrRzvHOD5Kyye3iao5UjkI3lOSMij1v7OONUsOQ
-         s+dfDWwbCw+KQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hello Jon,
 
-On 1/19/20 7:04 AM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 14.01.2020 10:24, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->
-> [snip]
->
->> diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-teg=
-ra30.c
->> index 5732fdbe20db..53d1c48532ae 100644
->> --- a/drivers/clk/tegra/clk-tegra30.c
->> +++ b/drivers/clk/tegra/clk-tegra30.c
->> @@ -1221,9 +1221,8 @@ static struct tegra_clk_init_table init_table[] __=
-initdata =3D {
->>        { TEGRA30_CLK_UARTC, TEGRA30_CLK_PLL_P, 408000000, 0 },
->>        { TEGRA30_CLK_UARTD, TEGRA30_CLK_PLL_P, 408000000, 0 },
->>        { TEGRA30_CLK_UARTE, TEGRA30_CLK_PLL_P, 408000000, 0 },
->> -     { TEGRA30_CLK_PLL_A, TEGRA30_CLK_CLK_MAX, 564480000, 1 },
->> -     { TEGRA30_CLK_PLL_A_OUT0, TEGRA30_CLK_CLK_MAX, 11289600, 1 },
->> -     { TEGRA30_CLK_EXTERN1, TEGRA30_CLK_PLL_A_OUT0, 0, 1 },
->> +     { TEGRA30_CLK_PLL_A, TEGRA30_CLK_CLK_MAX, 564480000, 0 },
->> +     { TEGRA30_CLK_PLL_A_OUT0, TEGRA30_CLK_CLK_MAX, 11289600, 0 },
->>        { TEGRA30_CLK_I2S0, TEGRA30_CLK_PLL_A_OUT0, 11289600, 0 },
->>        { TEGRA30_CLK_I2S1, TEGRA30_CLK_PLL_A_OUT0, 11289600, 0 },
->>        { TEGRA30_CLK_I2S2, TEGRA30_CLK_PLL_A_OUT0, 11289600, 0 },
->>
-> What about to use the assigned-clock-rates in device-tree and thus to
-> remove those PLL_A entries?
+20.01.2020 19:01, Jon Hunter пишет:
 
-Yes clock rates can be used and also PLL rate is set based on sample=20
-rate during hw_params. So this can be removed.
+[snip]
 
-But PLLA clock rates are not related to this patch series and also=20
-changing this needs audio function testing across all platforms and=20
-currently we don't have audio functional tests in place for older platforms=
-.
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	if (!res)
+> +		return -ENODEV;
+> +
+> +	port->membase = devm_ioremap(&pdev->dev, res->start,
+> +				     resource_size(res));
 
-All audio clocks proper fixes and cleanup b/w clock driver and audio=20
-driver will be done separately.
+devm_platform_ioremap_resource()
 
+> +	if (!port->membase)
+> +		return -ENOMEM;
+> +
+> +	port->mapbase = res->start;
+> +	port->mapsize = resource_size(res);
+> +
+> +	uart->rst = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
+
+Why reset is shared? It shall not be shared at least on T20/30/124/210..
+
+[snip]
