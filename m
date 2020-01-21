@@ -2,443 +2,209 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FFB9144106
-	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jan 2020 16:54:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 655A1144176
+	for <lists+linux-tegra@lfdr.de>; Tue, 21 Jan 2020 17:05:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726714AbgAUPyj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 21 Jan 2020 10:54:39 -0500
-Received: from mail-wr1-f51.google.com ([209.85.221.51]:34788 "EHLO
-        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729137AbgAUPyj (ORCPT
+        id S1729388AbgAUQDW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 21 Jan 2020 11:03:22 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:33375 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729030AbgAUQDW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 21 Jan 2020 10:54:39 -0500
-Received: by mail-wr1-f51.google.com with SMTP id t2so3832746wrr.1;
-        Tue, 21 Jan 2020 07:54:36 -0800 (PST)
+        Tue, 21 Jan 2020 11:03:22 -0500
+Received: by mail-lf1-f65.google.com with SMTP id n25so2750186lfl.0;
+        Tue, 21 Jan 2020 08:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=qLSBgeKGH1djncyjEM5DppSYX+cZ9dxs195Uac/epGk=;
-        b=SUYmHyYq32NtZhLXGQAyTfBQ04tf5qspCBYbSXHE41aws+ZJJaUqmcISBqNRzrQANj
-         Rc3Ykyhi+mCe6F3+faRdWogdfgDFlCzeYiNVNAzpEo0K3CoOVReNoiNwKSuUc1NB19S9
-         730VLaRuwyTTCw8DNDiA6qglUZLpsW2ss6bXJcPU1JqUb+R5i8ZvjJva5MtPmaebCk/1
-         q8/32y1Viq6kGOqNc78Shxgou+R3E/hNcP/Jx7t5Kk2wP3UQ41gBDyAr65Gz1gSHJxRK
-         8jG38Qhld8b3idbm/2Ib+m6LbTr9ub5oCPd1UizPg0yi/fO1CzbvbRX5599HJmVuo57K
-         zAfw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qjcDJDT5ZhsuJU+cktfSQ3R47ar0BoE5LFZ4QYOhvk4=;
+        b=oSkJmsMPFvlrGrBgt/E7oyZ7wGMURN57NLfvXkRGUfFsMcqdMQxLpm2Bz38hClF7Ln
+         ShLcsQB78iaEi+nE1RjpRnLjH6+ka2Y4If1K8tbkLYtT5lV1/3zFNNRLyAGrURJlyE8W
+         mMWg/hkKqaT3aoM++ZzTwhHFPcyy2/ecRP8Pv0g+7JIPrbDTLEheR0JiAzwV+e/Ur0dr
+         pNYHzfUgFTYMjXWYop3hoUUsMJaPNO2kbYZsDkzP0HxdYKy4xccXnf2fuvYcjwD6enz3
+         e12I1oL1VSsvUHi56JrA6kwd0pTVkYNmlVysL/n3hJ8Hn0w/lswn6moIte9zZJRUJxrc
+         U39w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qLSBgeKGH1djncyjEM5DppSYX+cZ9dxs195Uac/epGk=;
-        b=pF0groQv7SoYeivtiqI+rEyRxGu8demjT8CgJ+U7W9crwJWuMudarv+s3ww5XY5Sf0
-         nZLMOjwfpe3w+vjKpkj4Q7j43HYz/nkaPTmk0wrOQ1yec0wj2c21x1BANxVny6gLgHRs
-         NgG4sFUaIUMgVwz+DsqXsAqj42IaKhfHgqt7TwRklFt4wVOo38wE736k3qZ7ibWDc9qT
-         YCWnY42fto6b3irbJhf43/C1YEKPhNnRiXw5RYAg2MLwX6mNyAJSwaiZ5cT0g8agwqNG
-         jwQyPmeoGlnEFYnZj05zg4wqrDUVCmCPaVagutDGYphqun7GiC524VdCfY6QSEfVEH2Q
-         Mxtw==
-X-Gm-Message-State: APjAAAWXKSKrHZj1DNyp0poUQT/+ctNt+rvYS/+YjhARpnflVqTkgauA
-        TeOTjt1/ELp3n82gomzARpc=
-X-Google-Smtp-Source: APXvYqwpbEu8W6DWBKegQtw+tEPkx5Cw/Q87JI+PL3z5xWOiIhL7wI6bXbSgxpjVxJWrDX16CNRdvA==
-X-Received: by 2002:adf:ec41:: with SMTP id w1mr5857622wrn.212.1579622075500;
-        Tue, 21 Jan 2020 07:54:35 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id q3sm4228395wmj.38.2020.01.21.07.54.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2020 07:54:33 -0800 (PST)
-Date:   Tue, 21 Jan 2020 16:54:32 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Georgi Djakov <georgi.djakov@linaro.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
- interconnects property
-Message-ID: <20200121155432.GA912205@ulmo>
-References: <20200114181519.3402385-1-thierry.reding@gmail.com>
- <20200114181519.3402385-2-thierry.reding@gmail.com>
- <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
- <20200120150605.GA712203@ulmo>
- <57c37b3c-1473-d444-db59-8c6650241188@gmail.com>
- <20200121141027.GE899558@ulmo>
- <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qjcDJDT5ZhsuJU+cktfSQ3R47ar0BoE5LFZ4QYOhvk4=;
+        b=IWurWOO84AIDRfvjE0Clt4ROTHoK/gnoLL3i75iJKNROY+QzC5pendzZdlYg2rgFDh
+         Efw8BJFST08KhPo3iyTs8/nZwPWOjSIf8m2Pa+9DZIUqOdT5eAf1iapljzbW0EKC40GO
+         Z7PhyK+Hf4K10TehkubO8w0u4EXFpzxUF4fBTTnEIw1q0LUDF0FnHnaMMTXTRdQBtfeG
+         GE4cBTuesumIKdvDGevOIE9xIkH5syotBV73OKY1jPSEcKxv2NKcGIHI7LPtb4w7faOu
+         s70i02KgGDaeOLHu9rkdx/APfGSj4uxi7qcrlI997OvxpemXmXtQ0xCaqMt9S3iDXKKg
+         3p1g==
+X-Gm-Message-State: APjAAAVA0I7BsiuyrEEj2nzK0ji+e49o3yzk2r+BIs6udgdsnLZAottF
+        kBOS2kRcBd2aLTAW7BoLVQU=
+X-Google-Smtp-Source: APXvYqzclMF2A4gK1qZbpXyXqercR78rGBMYz+1kp1LUvr0QDXRGPs35zL7ilE/pQbIxRvtkvvNXRA==
+X-Received: by 2002:ac2:515b:: with SMTP id q27mr2939168lfd.119.1579622599111;
+        Tue, 21 Jan 2020 08:03:19 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id w16sm19566502lfc.1.2020.01.21.08.03.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jan 2020 08:03:18 -0800 (PST)
+Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
+ driver
+To:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
+        robh+dt@kernel.org
+Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+        atalambedu@nvidia.com, linux-kernel@vger.kernel.org,
+        lgirdwood@gmail.com, jonathanh@nvidia.com, viswanathl@nvidia.com,
+        sharadg@nvidia.com, broonie@kernel.org, thierry.reding@gmail.com,
+        linux-tegra@vger.kernel.org, rlokhande@nvidia.com,
+        mkumard@nvidia.com, dramesh@nvidia.com
+References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
+ <1579530198-13431-5-git-send-email-spujar@nvidia.com>
+ <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
+ <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
+Date:   Tue, 21 Jan 2020 19:03:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
-Content-Disposition: inline
-In-Reply-To: <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+21.01.2020 17:21, Sameer Pujar пишет:
 
---jRHKVT23PllUwdXP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[snip]
 
-On Tue, Jan 21, 2020 at 05:18:43PM +0200, Georgi Djakov wrote:
-> On 1/21/20 16:10, Thierry Reding wrote:
-> > On Tue, Jan 21, 2020 at 09:53:48AM +0300, Dmitry Osipenko wrote:
-> >> 20.01.2020 18:06, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>> On Fri, Jan 17, 2020 at 05:23:43PM +0200, Georgi Djakov wrote:
-> >>>> Hi Thierry,
-> >>>>
-> >>>> Thanks for the patch!
-> >>>>
-> >>>> On 1/14/20 20:15, Thierry Reding wrote:
-> >>>>> From: Thierry Reding <treding@nvidia.com>
-> >>>>>
-> >>>>> Document the interconnects property that is used to describe the pa=
-ths
-> >>>>> from and to system memory from and to the BPMP.
-> >>>>>
-> >>>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> >>>>> ---
-> >>>>> Rob, Georgi,
-> >>>>>
-> >>>>> after the initial RFC that I did for adding interconnect properties=
- on
-> >>>>> Tegra, I realized that the description wasn't complete. This is an
-> >>>>> attempt at a more accurate description, but unfortunately I'm not s=
-ure
-> >>>>> if it's even correct in terms of the interconnect bindings.
-> >>>>>
-> >>>>> The problem here is that on Tegra, each device has multiple paths to
-> >>>>> system memory, and I have no good idea on what to pick as the defau=
-lt.
-> >>>>> They are all basically the same path, but each provides extra contr=
-ols
-> >>>>> to configure the "interconnect".
-> >>>>
-> >>>> Are these multiple paths between a device and system memory used sim=
-ultaneously
-> >>>> for load-balancing, or who makes the decision about which path would=
- be used?
-> >>>
-> >>> It varies. The vast majority of these paths are read/write pairs, whi=
-ch
-> >>> can be configured separately. There are also cases where multiple pat=
-hs
-> >>> are used for load-balancing and I don't think there's any direct
-> >>> software control over which path will be used.
-> >>>
-> >>> A third class is where you have one device, but two read/write pairs,
-> >>> one which is tied to a microcontroller that's part of the device, and
-> >>> another read/write pair that is used for DMA to/from the device.
-> >>>
-> >>> Often in the latter case, the microcontroller memory client interfaces
-> >>> will be used by the microcontroller to read firmware and once the mic=
-ro-
-> >>> controller has booted up, the DMA memory client interfaces will be us=
-ed
-> >>> to read/write system memory with bulk data (like frame buffers, etc.).
-> >>>
-> >>>> Is this based on the client/stream ID that you mentioned previously?
-> >>>
-> >>> These are now all what's call memory client IDs, which identify the
-> >>> corresponding interface to the memory controller. Stream IDs are
-> >>> slightly higher-level and typically identify the "module" that uses
-> >>> the SMMU. Generally a stream ID is mapped to one or more memory client
-> >>> IDs.
-> >>>
-> >>>> Looking at the the binding below, it seems to me like there are diff=
-erent
-> >>>> master/slave pairs between MC and EMC and each link is used for
-> >>>> unidirectional traffic only. In terms of the interconnect API, both =
-read
-> >>>> and write paths have the same direction.
-> >>
-> >> Yes, that definition should be incorrect.
-> >>
-> >>> I'm not sure I understand what you mean by this last sentence. Are you
-> >>> saying that each path in terms of the interconnect API is a always a
-> >>> bidirectional link?
-> >>
-> >> Please see more below.
-> >>
-> >>>> Is the EMC really an interconnect provider or is it just a slave por=
-t? Can
-> >>>> we scale both EMC and MC independently?
-> >>>
-> >>> The EMC is the only one where we can scale the frequency, but the MC =
-has
-> >>> various knobs that can be used to fine-tune arbitration, set maximum
-> >>> latency, etc.
-> >>
-> >> Yes..
-> >>
-> >>
-> >> EMC controls the total amount of available memory bandwidth, things li=
-ke
-> >> DRAM timing and EMC-DRAM channel's performance. EMC is facing MC from
-> >> one side and DRAM (EMEM) from the other.
-> >>
->=20
-> Right, so we can use the icc framework here to aggregate the requested ba=
-ndwidth
-> from all clients and scale the frequency/voltage of EMC.
+>>> +static int tegra210_i2s_put_control(struct snd_kcontrol *kcontrol,
+>>> +     struct snd_ctl_elem_value *ucontrol)
+>> Checkpatch should complain about the wrong indentation here.
+> 
+> I had run checkpatch before sending the patch, below is the result.
+> -----
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #70:
+> new file mode 100644
+> 
+> total: 0 errors, 1 warnings, 1103 lines checked
+> 
+> NOTE: For some of the reported defects, checkpatch may be able to
+>       mechanically convert to the typical style using --fix or
+> --fix-inplace.
+> -----
 
-Yeah, that was the plan. Dmitry's patches implement most of that. Note
-that we're working on this from two sides: on one hand we need to figure
-out the bindings so that we can set up the interconnect paths, then the
-memory controller and external memory controller drivers need to be made
-interconnect providers so that we can actually implement the dynamic
-scaling (and then finally all memory client drivers need to be updated
-to actually use these ICC framework to request bandwidth).
+Using 'checkpatch --strict':
 
-I'm prioritizing the first issue right now because that's currently a
-blocker for enabling SMMU support on Tegra194 where we need to set the
-DMA mask based on the "bus" (i.e. DMA parent, i.e. the MC) because there
-are additional restrictions that don't exist on prior generations where
-we can simply set the DMA mask to the device's "native" DMA mask.
+CHECK: Alignment should match open parenthesis
+#2693: FILE: sound/soc/tegra/tegra210_i2s.c:362:
++static int tegra210_i2s_put_control(struct snd_kcontrol *kcontrol,
++       struct snd_ctl_elem_value *ucontrol
 
-EMC frequency scaling is slightly lower on my priority list because in
-most use-cases there is enough bandwidth at the default EMC frequency.
+[snip]
 
-> >> MC controls allocation of that total bandwidth between the memory
-> >> clients. It has knobs to prioritize clients, the knobs are per
-> >> read/write port. MC is facing memory clients from one side and EMC from
-> >> the other.
-> >>
->=20
-> Thanks for clarifying! So are these QoS knobs (priority, latency etc.) tu=
-ned
-> dynamically during runtime or is it more like a static configuration that=
- is
-> done for example just once during system boot?
+>>> +
+>>> +     } else if (strstr(kcontrol->id.name, "Playback Audio Bit Format"))
+>>> +             i2s->audio_fmt_override[I2S_RX_PATH] = value;
+>>> +     else if (strstr(kcontrol->id.name, "Capture Audio Bit Format"))
+>>> +             i2s->audio_fmt_override[I2S_TX_PATH] = value;
+>>> +     else if (strstr(kcontrol->id.name, "Client Bit Format"))
+>>> +             i2s->client_fmt_override = value;
+>>> +     else if (strstr(kcontrol->id.name, "Playback Audio Channels"))
+>>> +             i2s->audio_ch_override[I2S_RX_PATH] = value;
+>>> +     else if (strstr(kcontrol->id.name, "Capture Audio Channels"))
+>>> +             i2s->audio_ch_override[I2S_TX_PATH] = value;
+>>> +     else if (strstr(kcontrol->id.name, "Client Channels"))
+>>> +             i2s->client_ch_override = value;
+>>> +     else if (strstr(kcontrol->id.name, "Capture Stereo To Mono"))
+>>> +             i2s->stereo_to_mono[I2S_TX_PATH] = value;
+>>> +     else if (strstr(kcontrol->id.name, "Capture Mono To Stereo"))
+>>> +             i2s->mono_to_stereo[I2S_TX_PATH] = value;
+>>> +     else if (strstr(kcontrol->id.name, "Playback Stereo To Mono"))
+>>> +             i2s->stereo_to_mono[I2S_RX_PATH] = value;
+>>> +     else if (strstr(kcontrol->id.name, "Playback Mono To Stereo"))
+>>> +             i2s->mono_to_stereo[I2S_RX_PATH] = value;
+>>> +     else if (strstr(kcontrol->id.name, "Playback FIFO Threshold"))
+>>> +             i2s->rx_fifo_th = value;
+>>> +     else if (strstr(kcontrol->id.name, "BCLK Ratio"))
+>>> +             i2s->bclk_ratio = value;
+>> I'm pretty sure that checkpatch should complain about the missing
+>> brackets, they should make code's indentation uniform and thus easier to
+>> read. Same for all other occurrences in the code.
+> 
+> same as above
 
-The hardware defaults are usually sufficient unless the system is under
-very high memory pressure. I'm only aware of one case where we actually
-need to override the hardware default on boot and it's exotic enough to
-not be upstream yet.
+CHECK: braces {} should be used on all arms of this statement
+#2699: FILE: sound/soc/tegra/tegra210_i2s.c:368:
++       if (strstr(kcontrol->id.name, "Loopback")) {
+[...]
++       } else if (strstr(kcontrol->id.name, "Sample Rate"))
+[...]
++       else if (strstr(kcontrol->id.name, "FSYNC Width")) {
+[...]
++       } else if (strstr(kcontrol->id.name, "Playback Audio Bit Format"))
+[...]
++       else if (strstr(kcontrol->id.name, "Capture Audio Bit Format"))
+[...]
++       else if (strstr(kcontrol->id.name, "Client Bit Format"))
+[...]
++       else if (strstr(kcontrol->id.name, "Playback Audio Channels"))
+[...]
++       else if (strstr(kcontrol->id.name, "Capture Audio Channels"))
+[...]
++       else if (strstr(kcontrol->id.name, "Client Channels"))
+[...]
++       else if (strstr(kcontrol->id.name, "Capture Stereo To Mono"))
+[...]
++       else if (strstr(kcontrol->id.name, "Capture Mono To Stereo"))
+[...]
++       else if (strstr(kcontrol->id.name, "Playback Stereo To Mono"))
+[...]
++       else if (strstr(kcontrol->id.name, "Playback Mono To Stereo"))
+[...]
++       else if (strstr(kcontrol->id.name, "Playback FIFO Threshold"))
+[...]
++       else if (strstr(kcontrol->id.name, "BCLK Ratio"))
+[...]
 
-Ultimately we want to tune these at runtime, typically together with and
-depending on the EMC frequency. Under memory pressure you can use the
-"latency allowance" registers to prioritize memory requests from
-isochronous clients (like display controllers) to ensure they don't
-underrun.
+[snip]
 
-Given that we only have to tune these under somewhat extreme conditions,
-I think these are lower priority from an implementation point of view
-than the EMC frequency scaling, but the registers are based on the
-memory client IDs, so I think it's convenient to have those be part of
-the bindings in the first place.
+>>> +     pm_runtime_enable(dev);
+>> Error checking?
+> 
+> return type for above is void()
 
-> >>> I vaguely recall Dmitry mentioning that the EMC in early generations =
-of
-> >>> Tegra used to have controls for individual memory clients, but I don't
-> >>> see that in more recent generations.
-> >>
-> >> EMC doesn't have direct controls over memory clients on all Tegra SoCs,
-> >> but it may have some extra knobs for the MC arbitration config.
-> >>
-> >> The MC bandwidth allocation logic and hardware programming interface
-> >> differs among SoC generations, but the basic principle is the same.
-> >>
-> >>>>> Any ideas on how to resolve this? Let me know if the DT bindings and
-> >>>>> example don't make things clear enough.
-> >>
-> >> I'm also interested in the answer to this question.
-> >>
-> >> A quick thought.. maybe it could be some new ICC DT property which tel=
-ls
-> >> that all paths are the "dma-mem":
-> >>
-> >> 	interconnects-all-dma-mem;
-> >=20
-> > There could easily be cases where multiple interconnects are to system
-> > memory but there are additional ones which aren't, so the above wouldn't
-> > be able to represent such cases.
->=20
-> Yes, true.
->=20
-> >>>>>  .../firmware/nvidia,tegra186-bpmp.yaml        | 59 +++++++++++++++=
-++++
-> >>>>>  1 file changed, 59 insertions(+)
-> >>>>>
-> >>>>> diff --git a/Documentation/devicetree/bindings/firmware/nvidia,tegr=
-a186-bpmp.yaml b/Documentation/devicetree/bindings/firmware/nvidia,tegra186=
--bpmp.yaml
-> >>>>> index dabf1c1aec2f..d40fcd836e90 100644
-> >>>>> --- a/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bp=
-mp.yaml
-> >>>>> +++ b/Documentation/devicetree/bindings/firmware/nvidia,tegra186-bp=
-mp.yaml
-> >>>>> @@ -43,6 +43,24 @@ properties:
-> >>>>>        - enum:
-> >>>>>            - nvidia,tegra186-bpmp
-> >>>>> =20
-> >>>>> +  interconnects:
-> >>>>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> >>>>> +    description: A list of phandle and specifier pairs that descri=
-be the
-> >>>>> +      interconnect paths to and from the BPMP.
-> >>>>> +
-> >>>>> +  interconnect-names:
-> >>>>> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> >>>>> +    description: One string for each pair of phandle and specifier=
- in the
-> >>>>> +      "interconnects" property.
-> >>>>> +    # XXX We need at least one of these to be named dma-mem so tha=
-t the core
-> >>>>> +    # will set the DMA mask based on the DMA parent, but all of th=
-ese go to
-> >>>>> +    # system memory eventually.
-> >>>>> +    items:
-> >>>>> +      - const: dma-mem
-> >>>>> +      - const: dma-mem
-> >>>>> +      - const: dma-mem
-> >>>>> +      - const: dma-mem
-> >>
-> >> Names should be unique, otherwise it's not possible to retrieve ICC pa=
-th
-> >> other than the first one.
-> >=20
-> > Yeah, I know, that's why there's an XXX comment. =3D) I just wasn't sure
-> > what else to put there and thought this kinda made it clear that it was
-> > only half-baked.
-> >=20
-> >>>>>    iommus:
-> >>>>>      $ref: /schemas/types.yaml#/definitions/phandle-array
-> >>>>>      description: |
-> >>>>> @@ -152,8 +170,43 @@ additionalProperties: false
-> >>>>> =20
-> >>>>>  examples:
-> >>>>>    - |
-> >>>>> +    #include <dt-bindings/clock/tegra186-clock.h>
-> >>>>>      #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >>>>>      #include <dt-bindings/mailbox/tegra186-hsp.h>
-> >>>>> +    #include <dt-bindings/memory/tegra186-mc.h>
-> >>>>> +
-> >>>>> +    mc: memory-controller@2c00000 {
-> >>>>> +        compatible =3D "nvidia,tegra186-mc";
-> >>>>> +        reg =3D <0x02c00000 0xb0000>;
-> >>>>> +        interrupts =3D <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
-> >>>>> +        status =3D "disabled";
-> >>>>> +
-> >>>>> +        #interconnect-cells =3D <1>;
-> >>>>> +        #address-cells =3D <2>;
-> >>>>> +        #size-cells =3D <2>;
-> >>>>> +
-> >>>>> +        ranges =3D <0x02c00000 0x0 0x02c00000 0x0 0xb0000>;
-> >>>>> +
-> >>>>> +        /*
-> >>>>> +         * Memory clients have access to all 40 bits that the memo=
-ry
-> >>>>> +         * controller can address.
-> >>>>> +         */
-> >>>>> +        dma-ranges =3D <0x0 0x0 0x0 0x100 0x0>;
-> >>>>> +
-> >>>>> +        #memory-controller-cells =3D <0>;
-> >>>>> +
-> >>>>> +        emc: external-memory-controller@2c60000 {
-> >>>>> +            compatible =3D "nvidia,tegra186-emc";
-> >>>>> +            reg =3D <0x0 0x02c60000 0x0 0x50000>;
-> >>>>> +            interrupts =3D <GIC_SPI 224 IRQ_TYPE_LEVEL_HIGH>;
-> >>>>> +            clocks =3D <&bpmp TEGRA186_CLK_EMC>;
-> >>>>> +            clock-names =3D "emc";
-> >>>>> +
-> >>>>> +            #interconnect-cells =3D <0>;
-> >>>>> +
-> >>>>> +            nvidia,bpmp =3D <&bpmp>;
-> >>>>> +        };
-> >>>>> +    };
-> >>>>> =20
-> >>>>>      hsp_top0: hsp@3c00000 {
-> >>>>>          compatible =3D "nvidia,tegra186-hsp";
-> >>>>> @@ -187,6 +240,12 @@ examples:
-> >>>>> =20
-> >>>>>      bpmp {
-> >>>>>          compatible =3D "nvidia,tegra186-bpmp";
-> >>>>> +        interconnects =3D <&emc &mc TEGRA186_MEMORY_CLIENT_BPMPR>,
-> >>>>> +                        <&mc TEGRA186_MEMORY_CLIENT_BPMPW &emc>,
-> >>>>> +                        <&emc &mc TEGRA186_MEMORY_CLIENT_BPMPDMAR>,
-> >>>>> +                        <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAW &emc>;
-> >>
-> >> I don't think this is a correct definition of the ICC paths because the
-> >> first node-MC_ID pair should define the source, second pair is the fin=
-al
-> >> destination. Then the interconnect core builds (by itself) the path fr=
-om
-> >> MC client to MC and finally to EMC based on the given source /
-> >> destination. Please see my v1 patchset for the example.
-> >=20
-> > Okay, sounds like "source" in this case means the initiator of the
-> > transaction and destination is the target of the transaction. I had
-> > interpreted the "source" as the "source location" of the transaction (so
-> > for reads the source would be the system memory via the EMC, and for
-> > writes the source would be the memory client interface).
->=20
-> Yes, exactly. Maybe it would be more correct to call these pairs
-> initiator/target or master/slave.
+Ok
 
-Do you want me to extend the bindings documentation to mention these
-alternative names?
+>>> +     return 0;
+>>> +}
+>>> +
+>>> +static int tegra210_i2s_remove(struct platform_device *pdev)
+>>> +{
+>>> +     pm_runtime_disable(&pdev->dev);
+>>> +     if (!pm_runtime_status_suspended(&pdev->dev))
+>>> +             tegra210_i2s_runtime_suspend(&pdev->dev);
+>> This breaks device's RPM refcounting if it was disabled in the active
+>> state. This code should be removed. At most you could warn about the
+>> unxpected RPM state here, but it shouldn't be necessary.
+> 
+> I guess this was added for safety and explicit suspend keeps clock
+> disabled.
+> Not sure if ref-counting of the device matters when runtime PM is
+> disabled and device is removed.
+> I see few drivers using this way.
 
-> > Yeah, I think that makes sense. It was also pointed out to me (offline)
-> > that the above doesn't work as intented for the use-case where I really
-> > need it. The primary reason why I need these "dma-mem" interconnect
-> > paths is so that the memory controller is specified as the "DMA parent"
-> > for these devices, which is important so that the DMA masks can be
-> > correctly set. Having the &emc reference in the first slot breaks that.
-> > Your suggestion makes sense when interpreting the terminology
-> > differently and it fixes the DMA parent issue (at least partially).
-> >=20
-> >> It should look somewhat like this:
-> >>
-> >> interconnects =3D
-> >>     <&mc TEGRA186_MEMORY_CLIENT_BPMPR &emc TEGRA_ICC_EMEM>,
-> >>     <&mc TEGRA186_MEMORY_CLIENT_BPMPW &emc TEGRA_ICC_EMEM>,
-> >>     <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAR &emc TEGRA_ICC_EMEM>,
-> >>     <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAW &emc TEGRA_ICC_EMEM>;
-> >>
-> >> interconnect-names =3D "bpmpr", "bpmpw", "bpmpdmar", "bpmpdmaw";
->=20
-> This looks better to me.
->=20
-> > I'm not sure if that TEGRA_ICC_EMEM makes a lot of sense. It's always
-> > going to be the same and it's arbitrarily defined, so it's effectively
-> > useless. But other than that it looks good.
->=20
-> Well, in most cases the target would be the EMEM, so that's fine. I have =
-seen
-> that other vendors that may have an additional internal memory, especially
-> dedicated to some DSPs and in such cases the bandwidth needs are differen=
-t for
-> the two paths (to internal memory and DDR).
+It should matter (if I'm not missing something) because RPM should be in
+a wrecked state once you'll try to re-load the driver's module. Likely
+that those few other drivers are wrong.
 
-Most chips have a small internal memory that can be used, though it
-seldomly is. However, in that case I would expect the target to be a
-completely different device, so it'd look more like this:
+[snip]
 
-	interconnects =3D <&mc TEGRA186_MEMORY_CLIENT_BPMPR &iram>,
-			...;
-
-I don't think EMEM has any "downstream" other than external memory.
-
-Thierry
-
---jRHKVT23PllUwdXP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4nHrYACgkQ3SOs138+
-s6G3Cg//YhZvKviEumpYmgRJnFnYLL2p3sDnFr803uJ7BvQ3rH492UgfBnm3ozrR
-+wfgvNLiR8phZyqTBz8KOFCi64MClwTxSvJC77Pa4RQ0q66T1LPeuKhSF5jZG4gK
-SM6l4LzkZgwTpGsYi2emcRo3k8XUxjnut1tk8F6dd+5AmDDscu51S1E8Bx7Px0CN
-gwzTvlWNnr5BgkIhdonpPaluV0FAMQat4BFW1u+89NKkNZ29s/pw6qwvci5oZwOw
-HRtabHi5e078JrWj2cAaqAxuMq5Hy6b06HY+OMvTImnJSNEd6L2eUlyyqiZoZxZx
-o3aCgN+aFf9N20Nrr8Kf71/NyHp+hwnsPyzbE7+E3XYk6fVjlNM3rPiR45RHsfDx
-6OSUndbNlXfBdrPNFwkrt3VBOTipUzZdY/EQ2gXL4ZL9tKecMc5pqcjWR+MztRNd
-NScQB/CycACbDNkJavL45Nqxk/4SqVZ93snB0j2UcCzfyOTSusJVSz077sEWBmEu
-9Ka9am1GVJFb4zMvtrXCuwwOxqQjkXzqYMxtGdQrUohMoRZtcYI0JI2gsbzN2VYr
-WoiJn8vJOgWy339SFfd4dbN8g0uyoA48yyXjmGl7FIAnJ97jdmzDDY1IgBLbJJ80
-MMYbp9ywTYsWL6+bB4mD1R6Ydo7TtMEL8HD2MM6ZVrUEYRWECnI=
-=YV2D
------END PGP SIGNATURE-----
-
---jRHKVT23PllUwdXP--
+> 
+>>> +     int rx_fifo_th;
+>> Could rx_fifo_th be negative?
+> 
+> rx_fifo_th itself does not take negative values, explicit typecasting> is avoided in "if" condition by declaring this as "int"
+Explicit typecasting isn't needed for integers.
