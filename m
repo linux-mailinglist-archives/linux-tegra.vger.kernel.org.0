@@ -2,132 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D144145418
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jan 2020 12:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF979145451
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jan 2020 13:20:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726191AbgAVLwW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 Jan 2020 06:52:22 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:5471 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726077AbgAVLwW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 Jan 2020 06:52:22 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e2837640000>; Wed, 22 Jan 2020 03:52:06 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 22 Jan 2020 03:52:21 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 22 Jan 2020 03:52:21 -0800
-Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 22 Jan
- 2020 11:52:17 +0000
-Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
- driver
-To:     Sameer Pujar <spujar@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>, <perex@perex.cz>,
-        <tiwai@suse.com>, <robh+dt@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <atalambedu@nvidia.com>, <linux-kernel@vger.kernel.org>,
-        <lgirdwood@gmail.com>, <viswanathl@nvidia.com>,
-        <sharadg@nvidia.com>, <broonie@kernel.org>,
-        <thierry.reding@gmail.com>, <linux-tegra@vger.kernel.org>,
-        <rlokhande@nvidia.com>, <mkumard@nvidia.com>, <dramesh@nvidia.com>
-References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
- <1579530198-13431-5-git-send-email-spujar@nvidia.com>
- <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
- <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
- <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
- <bdc749bc-b62c-a041-c17c-33fd49fe8e2e@nvidia.com>
- <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
- <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <34ac1fd3-ae0f-07f2-555f-a55087a2c9dc@nvidia.com>
-Date:   Wed, 22 Jan 2020 11:52:14 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1728981AbgAVMUE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 Jan 2020 07:20:04 -0500
+Received: from foss.arm.com ([217.140.110.172]:55764 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728900AbgAVMUD (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 22 Jan 2020 07:20:03 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0BB71328;
+        Wed, 22 Jan 2020 04:20:03 -0800 (PST)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E5EA33F52E;
+        Wed, 22 Jan 2020 04:20:01 -0800 (PST)
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+To:     thierry.reding@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+        jonathanh@nvidia.com
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vincenzo.frascino@arm.com
+Subject: [PATCH] drm: tegra: Fix warning in PM ops
+Date:   Wed, 22 Jan 2020 12:19:51 +0000
+Message-Id: <20200122121951.52639-1-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579693926; bh=L+WKarEuaJmFD3C6XaQOv9lM1k6insdFfgdLwCP9YYM=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=WdjJGNZ+SKYDjmcbQLw7ufIdQm17d7TcWNRdgZG20fNLJegRVnOWw4PFuLOGPSfrh
-         2beUm9Vzys0K+h84AQjGZx4cXK91lcIToww0+UsbK/8RAnU6AUIkEc1e5OWc5LIM6i
-         wIMM1yCjRsdpoDCPv1rSNIVfWQjtbphOBTIRHpFw4wyGXqu67KK6d/SefllbB8F3p2
-         Jy6zM5UoopaGL0SZtkoH2Np/g0Wm0PjaFU4dAsDtXZ+g3ipTtRhm5BaWPCC/qdWw5A
-         npys/yOwLnsGh+qSN9ljgdNDDQZC3ySqAZPrKhgNzbZa2nfrGCboW0JFAbva3jBMU9
-         abyF6R5zOlpvA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+The tegra driver can be compiled without CONFIG_PM_SLEEP enabled.
+In this case the compilation triggers the warning below:
 
-On 22/01/2020 07:16, Sameer Pujar wrote:
+drivers/gpu/drm/tegra/sor.c:3984:12: warning: ‘tegra_sor_resume’
+defined but not used [-Wunused-function]
+ 3984 | static int tegra_sor_resume(struct device *dev)
+      |            ^~~~~~~~~~~~~~~~
+drivers/gpu/drm/tegra/sor.c:3970:12: warning: ‘tegra_sor_suspend’
+defined but not used [-Wunused-function]
+ 3970 | static int tegra_sor_suspend(struct device *dev)
+      |            ^~~~~~~~~~~~~~~~~
 
-...
+Fix the warning adding __maybe_unused to the PM functions.
 
->>>>>>> +static int tegra210_i2s_remove(struct platform_device *pdev)
->>>>>>> +{
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_disable(&pdev->dev);
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (!pm_runtime_status_suspended(&pdev->d=
-ev))
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 tegra210_i2s_runtime_suspend(&pdev->dev);
->>>>>> This breaks device's RPM refcounting if it was disabled in the activ=
-e
->>>>>> state. This code should be removed. At most you could warn about the
->>>>>> unxpected RPM state here, but it shouldn't be necessary.
->>>>> I guess this was added for safety and explicit suspend keeps clock
->>>>> disabled.
->>>>> Not sure if ref-counting of the device matters when runtime PM is
->>>>> disabled and device is removed.
->>>>> I see few drivers using this way.
->>>> It should matter (if I'm not missing something) because RPM should
->>>> be in
->>>> a wrecked state once you'll try to re-load the driver's module. Likely
->>>> that those few other drivers are wrong.
->>>>
->>>> [snip]
->>> Once the driver is re-loaded and RPM is enabled, I don't think it
->>> would use
->>> the same 'dev' and the corresponding ref count. Doesn't it use the new
->>> counters?
->>> If RPM is not working for some reason, most likely it would be the case
->>> for other
->>> devices. What best driver can do is probably do a force suspend during
->>> removal if
->>> already not done. I would prefer to keep, since multiple drivers still
->>> have it,
->>> unless there is a real harm in doing so.
->> I took a closer look and looks like the counter actually should be
->> reset. Still I don't think that it's a good practice to make changes
->> underneath of RPM, it may strike back.
->=20
-> If RPM is broken, it probably would have been caught during device usage.
-> I will remove explicit suspend here if no any concerns from other folks.
-> Thanks.
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+---
+ drivers/gpu/drm/tegra/sor.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-I recall that this was the preferred way of doing this from the RPM
-folks. Tegra30 I2S driver does the same and Stephen had pointed me to
-this as a reference. I believe that this is meant to ensure that the
-device is always powered-off regardless of it RPM is enabled or not and
-what the current state is.
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index a68d3b36b972..69b9ebee7486 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -3912,7 +3912,7 @@ static int tegra_sor_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int tegra_sor_runtime_suspend(struct device *dev)
++static int __maybe_unused tegra_sor_runtime_suspend(struct device *dev)
+ {
+ 	struct tegra_sor *sor = dev_get_drvdata(dev);
+ 	int err;
+@@ -3934,7 +3934,7 @@ static int tegra_sor_runtime_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int tegra_sor_runtime_resume(struct device *dev)
++static int __maybe_unused tegra_sor_runtime_resume(struct device *dev)
+ {
+ 	struct tegra_sor *sor = dev_get_drvdata(dev);
+ 	int err;
+@@ -3967,7 +3967,7 @@ static int tegra_sor_runtime_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int tegra_sor_suspend(struct device *dev)
++static int __maybe_unused tegra_sor_suspend(struct device *dev)
+ {
+ 	struct tegra_sor *sor = dev_get_drvdata(dev);
+ 	int err;
+@@ -3981,7 +3981,7 @@ static int tegra_sor_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int tegra_sor_resume(struct device *dev)
++static int __maybe_unused tegra_sor_resume(struct device *dev)
+ {
+ 	struct tegra_sor *sor = dev_get_drvdata(dev);
+ 	int err;
+-- 
+2.25.0
 
-Now for Tegra210 (or actually 64-bit Tegra) RPM is always enabled and so
-we don't need to worry about the !RPM case. However, I still don't see
-the harm in this.
-
-Jon
-
---=20
-nvpublic
