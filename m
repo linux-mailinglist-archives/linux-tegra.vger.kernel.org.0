@@ -2,81 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7DEF14585E
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jan 2020 16:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0393F1459C9
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jan 2020 17:26:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725836AbgAVPC3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 Jan 2020 10:02:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52674 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725802AbgAVPC3 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 Jan 2020 10:02:29 -0500
-Received: from localhost (unknown [84.241.205.26])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4443021734;
-        Wed, 22 Jan 2020 15:02:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579705349;
-        bh=GHIZDwh6/OLbPNJGIAY5Gcvycz20K9xpPhgq90Te7Q4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=yjSnCb60q5tXlEfnrM2lBt0H76FTu94uD0/6z88bfWoy+wEWEtz30NpyJOqYVf1Nc
-         zjKlhEhc0wZr2lokrcTVUcPGoQtEVTQTQJloUyyXoyoJ2dUqV6FTge605KKL/2oEO3
-         TmwYxZIW1aEiCht8YeZTEWgALBSzj/1aPxyKjGCk=
-Date:   Wed, 22 Jan 2020 16:02:26 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.4 000/222] 5.4.14-stable review
-Message-ID: <20200122150226.GA61380@kroah.com>
-References: <20200122092833.339495161@linuxfoundation.org>
- <012c6d63-a4cb-ead4-1a7e-d5727426200d@nvidia.com>
+        id S1725883AbgAVQ01 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 Jan 2020 11:26:27 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:36567 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725802AbgAVQ01 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 22 Jan 2020 11:26:27 -0500
+Received: by mail-lj1-f196.google.com with SMTP id r19so7519914ljg.3;
+        Wed, 22 Jan 2020 08:26:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=x5gZN3N4/NDeK/FuVtrS+9B6ytLAp8OABue4zfrSjD8=;
+        b=Yu3i+yiQMP9w88lkf2iOgYfcP8beEJqfQ5FEwLhhmaKgQHd5NF/SzL29hTDxBRJbuT
+         sSGSyeRp9/mx9GUWSnYJEV74TKW/VrFip4CrOnefOCzizKmtKARKsaNgR/CcLT2YNKTc
+         UooEUlPQFbGihC5WvA9De7mSi/GOILvhXM9FujA0vCr9wgqSwVmNHNGfSu6PMQcoTFqH
+         MW/Zd/cJHcwRvoERZTVOl47cCupwcRZxM6dcz4+aRb1uFwSBpqkua+Y2hgCfqmm9HkoS
+         zlLtR0V6GmwcRYWkDbMFoBI5K80XqpN1IKtkE2WB78G+No0og2fK+G37H0WE5WPu6ODL
+         lndA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=x5gZN3N4/NDeK/FuVtrS+9B6ytLAp8OABue4zfrSjD8=;
+        b=T00yNIK7XiaXRqziVPtA6UJsOsD+F8e0NZfwdPUTED3K6xAU6L3tQwuUOfsEbTcpii
+         jMLXHXUtwpS+G6bNGONc50BMYCIQ0ETcI8WEOIeTcEgmTs4pFgRgDPaXhneGKDkonQ7X
+         SLB5MCc7jL/I1eiiSE7dXgZWtJGMNG/0uGixKUM+5B/WofDduN6Yb9gsH6G9A5n1ZVeh
+         DVYpsumShI1iu8i+YDM8qgrGshh9szCw1V5GWP0+sHvior8hY+g/APPSULneOnWx9DTf
+         XWhkncJP53fo2yeL3+v5Mo1g6DB7YhDO/lyMoX9RylMDCNNCdW1RAL0jamK5Cnaipi2l
+         Ng6A==
+X-Gm-Message-State: APjAAAXbblkav/B2zRd2S8GDM9hrmCsDzo0KuJEBxO2udNNdQoNmjNp/
+        32gZk5BJz0i/fWTolf1ibRkTd9Rn
+X-Google-Smtp-Source: APXvYqzB+dXyRK4ry9eYU9FeFVw9x6A4rswfjLmMI1UMQt6DodIyLJkMZCdUmxZ3TGyMOEI4onDtgg==
+X-Received: by 2002:a2e:88c5:: with SMTP id a5mr20026126ljk.201.1579710384616;
+        Wed, 22 Jan 2020 08:26:24 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id j19sm24605799lfb.90.2020.01.22.08.26.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jan 2020 08:26:23 -0800 (PST)
+Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
+ driver
+To:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
+        robh+dt@kernel.org
+Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+        atalambedu@nvidia.com, linux-kernel@vger.kernel.org,
+        lgirdwood@gmail.com, jonathanh@nvidia.com, viswanathl@nvidia.com,
+        sharadg@nvidia.com, broonie@kernel.org, thierry.reding@gmail.com,
+        linux-tegra@vger.kernel.org, rlokhande@nvidia.com,
+        mkumard@nvidia.com, dramesh@nvidia.com
+References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
+ <1579530198-13431-5-git-send-email-spujar@nvidia.com>
+ <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
+ <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
+ <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
+ <bdc749bc-b62c-a041-c17c-33fd49fe8e2e@nvidia.com>
+ <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
+ <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <3bf50205-efe1-7b2f-9837-0152131e4e85@gmail.com>
+Date:   Wed, 22 Jan 2020 19:26:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <012c6d63-a4cb-ead4-1a7e-d5727426200d@nvidia.com>
+In-Reply-To: <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Wed, Jan 22, 2020 at 02:58:33PM +0000, Jon Hunter wrote:
+22.01.2020 10:16, Sameer Pujar пишет:
 > 
-> On 22/01/2020 09:26, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.4.14 release.
-> > There are 222 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Fri, 24 Jan 2020 09:25:24 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.14-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
 > 
-> All tests are passing for Tegra ...
+> On 1/22/2020 11:53 AM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> 22.01.2020 07:32, Sameer Pujar пишет:
+>> [snip]
+>>>>>>> +static int tegra210_i2s_remove(struct platform_device *pdev)
+>>>>>>> +{
+>>>>>>> +     pm_runtime_disable(&pdev->dev);
+>>>>>>> +     if (!pm_runtime_status_suspended(&pdev->dev))
+>>>>>>> +             tegra210_i2s_runtime_suspend(&pdev->dev);
+>>>>>> This breaks device's RPM refcounting if it was disabled in the active
+>>>>>> state. This code should be removed. At most you could warn about the
+>>>>>> unxpected RPM state here, but it shouldn't be necessary.
+>>>>> I guess this was added for safety and explicit suspend keeps clock
+>>>>> disabled.
+>>>>> Not sure if ref-counting of the device matters when runtime PM is
+>>>>> disabled and device is removed.
+>>>>> I see few drivers using this way.
+>>>> It should matter (if I'm not missing something) because RPM should
+>>>> be in
+>>>> a wrecked state once you'll try to re-load the driver's module. Likely
+>>>> that those few other drivers are wrong.
+>>>>
+>>>> [snip]
+>>> Once the driver is re-loaded and RPM is enabled, I don't think it
+>>> would use
+>>> the same 'dev' and the corresponding ref count. Doesn't it use the new
+>>> counters?
+>>> If RPM is not working for some reason, most likely it would be the case
+>>> for other
+>>> devices. What best driver can do is probably do a force suspend during
+>>> removal if
+>>> already not done. I would prefer to keep, since multiple drivers still
+>>> have it,
+>>> unless there is a real harm in doing so.
+>> I took a closer look and looks like the counter actually should be
+>> reset. Still I don't think that it's a good practice to make changes
+>> underneath of RPM, it may strike back.
 > 
-> Test results for stable-v5.4:
->     13 builds:	13 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     38 tests:	38 pass, 0 fail
+> If RPM is broken, it probably would have been caught during device usage.
+> I will remove explicit suspend here if no any concerns from other folks.
+> Thanks.
+>>
+>>>>>>> +     int rx_fifo_th;
+>>>>>> Could rx_fifo_th be negative?
+>>>>> rx_fifo_th itself does not take negative values, explicit
+>>>>> typecasting> is avoided in "if" condition by declaring this as "int"
+>>>> Explicit typecasting isn't needed for integers.
+>>> What I meant was, rx_fifo_th is checked against a 'int' variable in an
+>>> "if" condition.
+>> What's the problem with comparing of unsigned with signed?
 > 
-> Linux version:	5.4.14-rc1-g8045d34c9af0
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra30-cardhu-a04
+> consider this example,
+> ----
+> unsigned int x = 5;
+> int y = -1;
+> 
+> (x > y) is false.
 
-Wonderful, thanks for testing all of these and letting me know.
+Right
 
-greg k-h
+> ----
+> Hence should be careful while using signed and unsigned comparisons.
+>>
+>> Besides, cif_conf.audio_ch > I2S_RX_FIFO_DEPTH can't be ever true, isn't
+>> it? I2S_RX_FIFO_DEPTH=64, channels_max=16
+> 
+> Yes true.
+>> Lastly, nothing stops you to make max_th unsigned.
+> 
+> will update.
+> 
+
+Thanks
