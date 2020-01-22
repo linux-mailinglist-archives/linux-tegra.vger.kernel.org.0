@@ -2,37 +2,37 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7056144C5B
-	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jan 2020 08:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D144145418
+	for <lists+linux-tegra@lfdr.de>; Wed, 22 Jan 2020 12:52:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725943AbgAVHQQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 22 Jan 2020 02:16:16 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5405 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725884AbgAVHQP (ORCPT
+        id S1726191AbgAVLwW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 22 Jan 2020 06:52:22 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:5471 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726077AbgAVLwW (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 22 Jan 2020 02:16:15 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e27f6b00000>; Tue, 21 Jan 2020 23:16:00 -0800
+        Wed, 22 Jan 2020 06:52:22 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e2837640000>; Wed, 22 Jan 2020 03:52:06 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 21 Jan 2020 23:16:15 -0800
+  Wed, 22 Jan 2020 03:52:21 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 21 Jan 2020 23:16:15 -0800
-Received: from [10.24.44.92] (10.124.1.5) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Wed, 22 Jan 2020 03:52:21 -0800
+Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 22 Jan
- 2020 07:16:10 +0000
-CC:     <spujar@nvidia.com>, <devicetree@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <atalambedu@nvidia.com>,
-        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
-        <jonathanh@nvidia.com>, <viswanathl@nvidia.com>,
+ 2020 11:52:17 +0000
+Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
+ driver
+To:     Sameer Pujar <spujar@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>, <perex@perex.cz>,
+        <tiwai@suse.com>, <robh+dt@kernel.org>
+CC:     <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <atalambedu@nvidia.com>, <linux-kernel@vger.kernel.org>,
+        <lgirdwood@gmail.com>, <viswanathl@nvidia.com>,
         <sharadg@nvidia.com>, <broonie@kernel.org>,
         <thierry.reding@gmail.com>, <linux-tegra@vger.kernel.org>,
         <rlokhande@nvidia.com>, <mkumard@nvidia.com>, <dramesh@nvidia.com>
-Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
- driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <perex@perex.cz>,
-        <tiwai@suse.com>, <robh+dt@kernel.org>
 References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
  <1579530198-13431-5-git-send-email-spujar@nvidia.com>
  <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
@@ -40,105 +40,94 @@ References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
  <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
  <bdc749bc-b62c-a041-c17c-33fd49fe8e2e@nvidia.com>
  <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
-Date:   Wed, 22 Jan 2020 12:46:07 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <34ac1fd3-ae0f-07f2-555f-a55087a2c9dc@nvidia.com>
+Date:   Wed, 22 Jan 2020 11:52:14 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+In-Reply-To: <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Content-Language: en-GB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579677360; bh=q6Hqy9YMgHF2zriePc5t7xoV1iQAW7z7hSGzyHNQi+A=;
-        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
+        t=1579693926; bh=L+WKarEuaJmFD3C6XaQOv9lM1k6insdFfgdLwCP9YYM=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=iHWX8TxAEPWQAHMxnsnEpccgp3pldQW1vu2rjCXTentxBDH+5vQXzXatb6ZHUMKVB
-         ScQTwjXFf0s2Av7ssM4F8cN5YrRpAgqRBnbqLzSF0VJqySersVlTpg7yIwnQJ4I/kp
-         irh8ngIcJ7B55wDSXgclt9SKVz4Dwl16spDaerpg/P78xOJ+8Fz8A0Q5z4G8HJ7YRu
-         QT4MD8axncFxWvVt3iIciiYnAzcvdHpkehLG9lKVEUSkUZCczLBXmGKegLZcX02F7e
-         Hs1sMjaq6xqI1BIPOYrPSibIDTlAg2ZKi0jpN81te8kQQlJz+8BqC1Pn20xpr1dViE
-         SwvO+fZZ3/wBg==
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=WdjJGNZ+SKYDjmcbQLw7ufIdQm17d7TcWNRdgZG20fNLJegRVnOWw4PFuLOGPSfrh
+         2beUm9Vzys0K+h84AQjGZx4cXK91lcIToww0+UsbK/8RAnU6AUIkEc1e5OWc5LIM6i
+         wIMM1yCjRsdpoDCPv1rSNIVfWQjtbphOBTIRHpFw4wyGXqu67KK6d/SefllbB8F3p2
+         Jy6zM5UoopaGL0SZtkoH2Np/g0Wm0PjaFU4dAsDtXZ+g3ipTtRhm5BaWPCC/qdWw5A
+         npys/yOwLnsGh+qSN9ljgdNDDQZC3ySqAZPrKhgNzbZa2nfrGCboW0JFAbva3jBMU9
+         abyF6R5zOlpvA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+On 22/01/2020 07:16, Sameer Pujar wrote:
 
-On 1/22/2020 11:53 AM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 22.01.2020 07:32, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> [snip]
->>>>>> +static int tegra210_i2s_remove(struct platform_device *pdev)
->>>>>> +{
->>>>>> +     pm_runtime_disable(&pdev->dev);
->>>>>> +     if (!pm_runtime_status_suspended(&pdev->dev))
->>>>>> +             tegra210_i2s_runtime_suspend(&pdev->dev);
->>>>> This breaks device's RPM refcounting if it was disabled in the active
->>>>> state. This code should be removed. At most you could warn about the
->>>>> unxpected RPM state here, but it shouldn't be necessary.
->>>> I guess this was added for safety and explicit suspend keeps clock
->>>> disabled.
->>>> Not sure if ref-counting of the device matters when runtime PM is
->>>> disabled and device is removed.
->>>> I see few drivers using this way.
->>> It should matter (if I'm not missing something) because RPM should be i=
-n
->>> a wrecked state once you'll try to re-load the driver's module. Likely
->>> that those few other drivers are wrong.
->>>
->>> [snip]
->> Once the driver is re-loaded and RPM is enabled, I don't think it would =
-use
->> the same 'dev' and the corresponding ref count. Doesn't it use the new
->> counters?
->> If RPM is not working for some reason, most likely it would be the case
->> for other
->> devices. What best driver can do is probably do a force suspend during
->> removal if
->> already not done. I would prefer to keep, since multiple drivers still
->> have it,
->> unless there is a real harm in doing so.
-> I took a closer look and looks like the counter actually should be
-> reset. Still I don't think that it's a good practice to make changes
-> underneath of RPM, it may strike back.
+...
 
-If RPM is broken, it probably would have been caught during device usage.
-I will remove explicit suspend here if no any concerns from other folks.=20
-Thanks.
->
->>>>>> +     int rx_fifo_th;
->>>>> Could rx_fifo_th be negative?
->>>> rx_fifo_th itself does not take negative values, explicit
->>>> typecasting> is avoided in "if" condition by declaring this as "int"
->>> Explicit typecasting isn't needed for integers.
->> What I meant was, rx_fifo_th is checked against a 'int' variable in an
->> "if" condition.
-> What's the problem with comparing of unsigned with signed?
+>>>>>>> +static int tegra210_i2s_remove(struct platform_device *pdev)
+>>>>>>> +{
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_disable(&pdev->dev);
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (!pm_runtime_status_suspended(&pdev->d=
+ev))
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 tegra210_i2s_runtime_suspend(&pdev->dev);
+>>>>>> This breaks device's RPM refcounting if it was disabled in the activ=
+e
+>>>>>> state. This code should be removed. At most you could warn about the
+>>>>>> unxpected RPM state here, but it shouldn't be necessary.
+>>>>> I guess this was added for safety and explicit suspend keeps clock
+>>>>> disabled.
+>>>>> Not sure if ref-counting of the device matters when runtime PM is
+>>>>> disabled and device is removed.
+>>>>> I see few drivers using this way.
+>>>> It should matter (if I'm not missing something) because RPM should
+>>>> be in
+>>>> a wrecked state once you'll try to re-load the driver's module. Likely
+>>>> that those few other drivers are wrong.
+>>>>
+>>>> [snip]
+>>> Once the driver is re-loaded and RPM is enabled, I don't think it
+>>> would use
+>>> the same 'dev' and the corresponding ref count. Doesn't it use the new
+>>> counters?
+>>> If RPM is not working for some reason, most likely it would be the case
+>>> for other
+>>> devices. What best driver can do is probably do a force suspend during
+>>> removal if
+>>> already not done. I would prefer to keep, since multiple drivers still
+>>> have it,
+>>> unless there is a real harm in doing so.
+>> I took a closer look and looks like the counter actually should be
+>> reset. Still I don't think that it's a good practice to make changes
+>> underneath of RPM, it may strike back.
+>=20
+> If RPM is broken, it probably would have been caught during device usage.
+> I will remove explicit suspend here if no any concerns from other folks.
+> Thanks.
 
-consider this example,
-----
-unsigned int x =3D 5;
-int y =3D -1;
+I recall that this was the preferred way of doing this from the RPM
+folks. Tegra30 I2S driver does the same and Stephen had pointed me to
+this as a reference. I believe that this is meant to ensure that the
+device is always powered-off regardless of it RPM is enabled or not and
+what the current state is.
 
-(x > y) is false.
-----
-Hence should be careful while using signed and unsigned comparisons.
->
-> Besides, cif_conf.audio_ch > I2S_RX_FIFO_DEPTH can't be ever true, isn't
-> it? I2S_RX_FIFO_DEPTH=3D64, channels_max=3D16
+Now for Tegra210 (or actually 64-bit Tegra) RPM is always enabled and so
+we don't need to worry about the !RPM case. However, I still don't see
+the harm in this.
 
-Yes true.
-> Lastly, nothing stops you to make max_th unsigned.
+Jon
 
-will update.
-
+--=20
+nvpublic
