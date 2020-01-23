@@ -2,64 +2,78 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3058B146C55
-	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jan 2020 16:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86583146C70
+	for <lists+linux-tegra@lfdr.de>; Thu, 23 Jan 2020 16:16:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbgAWPKZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jan 2020 10:10:25 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40065 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbgAWPKZ (ORCPT
+        id S1728779AbgAWPQH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jan 2020 10:16:07 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:33650 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbgAWPQG (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jan 2020 10:10:25 -0500
-Received: by mail-lf1-f67.google.com with SMTP id c23so1660253lfi.7;
-        Thu, 23 Jan 2020 07:10:24 -0800 (PST)
+        Thu, 23 Jan 2020 10:16:06 -0500
+Received: by mail-lj1-f195.google.com with SMTP id y6so3892706lji.0;
+        Thu, 23 Jan 2020 07:16:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sHWD0p6295NOKaaJ5oJz+yopi9KLqoopBFFT+y7DoB0=;
-        b=ARlupex2FqXFhpBfO3NrGaJDdQrNtaCKAvMCUiR/31eqnMWXkSNOrrV8Ah2+RXXXi5
-         bjNkAvYDT71LOhl/q5BA3VkBPry326zP1kM+Ojf7ZRYclr+8OlpFezdvhwJwj3bxRN/k
-         5OYhbN1oNyRs8xuK8zLP6bCOzVR6fC5OtJtYp37BrnmR25YQWwOu9TvckqV8QffFrVjW
-         dWVOxSfiAidKMxUW2RTuQKDSrBARr39Snl8XNOTa7x8SYqPqHViRzV2acEV0La7TNKVq
-         O3Ouc/sZZVsoQobrQ63vBRAIKbZZ9PxLMMwj4U+13kSC3du/wbLQpDYRURt+0El74F6P
-         FHtQ==
+        bh=yfgpWVliAB55UTtNyKcSVyCqGSUJiB1fMDMcAEJZeJ4=;
+        b=b1DKaRxvy5UqCTHxcEUKFSXo97Y9/2RMbOwH/t4jG/2WcuRn8uTUVfwF9C38fjjQEw
+         dpOeDm+b4Qi/j/byQlHDO/4JcxfyxZUP6sjF/GnQDjkxPj60QcZfD8RrGM0qZ3aiYK4P
+         goke2QqnkMRogN/2mvILn8YYOV5ZciFxPAH+BQg9Qs5YVpuck8R1lEJOWBsxxFZ/xlTW
+         5Q31csM3tqvc/kDLg9ElOCZCBAkiQW8tVHOneHo2bRH/XkqMaY+47wRzWoyJo+/4+L+U
+         mNVUrLUpg2e2+SGfj3dBSrfbOh6RzXtRTTaSlgx6hV0W4irRTlT5rAa/7HaxWL5TNsUS
+         F8RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=sHWD0p6295NOKaaJ5oJz+yopi9KLqoopBFFT+y7DoB0=;
-        b=NVKUZXkVNsrNutO5fZP/s3ouh4f3gWw/V5guEAnxEe4vUhwcUEIIpUUpek/UgyMeL2
-         alWAw0XPjcsY6cHOFU/9BrHkaTaBYY3LO4vYT5WC5FgbFGDQ70R7fyvXLArK/4OjkQAj
-         pY1RYcvWDw2I/HngEeI7pEEXze1WzqCFYI94QuUcFoxYVtGCdKBKVTbaKGnZoWTYrt5W
-         FgtS4Rkr+bqYrVJyADugZSnNcNz2lhgPDkpwBZAD5T2jeGWQFBiESP3PYEyjijBOFuNt
-         fVFybvw63btexgxxXEB5ipbnin17oV5cPZV1+Tw8qHHwnJZFGKD+g9LgMlpsIHJ549nO
-         p/Lg==
-X-Gm-Message-State: APjAAAXSRK8xN/Dq/IvBTFcWNmw98AGQFNQmqKTPDFIKjQ368t3v7adB
-        /rTSKe0tOSNJVDPaHhHq5ZDhduhH
-X-Google-Smtp-Source: APXvYqzRuyAEeRGZNQ77CadeuJvVKT80NbGPcOY9cqqXGvIrasE+zlRFHihDkqc1o4GeKUFMP/tNmw==
-X-Received: by 2002:a19:c3ce:: with SMTP id t197mr4931035lff.174.1579792223010;
-        Thu, 23 Jan 2020 07:10:23 -0800 (PST)
+        bh=yfgpWVliAB55UTtNyKcSVyCqGSUJiB1fMDMcAEJZeJ4=;
+        b=J9V+029ZpyBXrbDnS8KAKt+BmmrdL5n43pysomcH54GZVV0+6vRWBgfXift9HpssN4
+         0qZ3HbtvYZWo3HB9Zq2apL1J76cJhJ0RxaM04bNQY90nCsGYKAstrVOMP39ppyQvejiT
+         R+ZvHuXksZs7hr1D4+31YS9AMkprXEH7l5OwUa0JSoXPV+hERk1hA0E6oOKHWVo7rBpf
+         4Py62B3OPlCkFP+XC1IL5O1RSYFM1fHvhLfU3DEhXbGMwJHin/aCFoxFTInRwjlIYN8/
+         j58OtkskYfxwe8Z3PUMmCfnY9HTR65z2PL4YtgW1OBBBBIPR9KtM2agtnPy4hd1rRJ4v
+         4KYQ==
+X-Gm-Message-State: APjAAAVaOBAs0cHTryrWzk3rdRPqs+bBlSQ04n/A9GqnVKUJvmVJgZyj
+        Ju+rPeRwGxZ164/ykEJorU4=
+X-Google-Smtp-Source: APXvYqwmxF98dYl23Cu+/uDH5g3hUS8mq5X/ld/eN62rkh6ei3M1OAGSxl9nV/npy89xEb/8gjTeVg==
+X-Received: by 2002:a2e:7d0c:: with SMTP id y12mr23929879ljc.39.1579792563481;
+        Thu, 23 Jan 2020 07:16:03 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id b13sm1197074lfi.77.2020.01.23.07.10.21
+        by smtp.googlemail.com with ESMTPSA id r10sm484836ljk.99.2020.01.23.07.16.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jan 2020 07:10:22 -0800 (PST)
-Subject: Re: [PATCH] i2c: tegra: Restore pinmux on system resume
-To:     Wolfram Sang <wsa@the-dreams.de>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-References: <20191213134417.222720-1-thierry.reding@gmail.com>
- <20200123111927.GH1105@ninjato>
+        Thu, 23 Jan 2020 07:16:02 -0800 (PST)
+Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
+ driver
+To:     Sameer Pujar <spujar@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>
+Cc:     perex@perex.cz, tiwai@suse.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+        atalambedu@nvidia.com, linux-kernel@vger.kernel.org,
+        lgirdwood@gmail.com, viswanathl@nvidia.com, sharadg@nvidia.com,
+        broonie@kernel.org, thierry.reding@gmail.com,
+        linux-tegra@vger.kernel.org, rlokhande@nvidia.com,
+        mkumard@nvidia.com, dramesh@nvidia.com
+References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
+ <1579530198-13431-5-git-send-email-spujar@nvidia.com>
+ <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
+ <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
+ <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
+ <bdc749bc-b62c-a041-c17c-33fd49fe8e2e@nvidia.com>
+ <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
+ <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
+ <34ac1fd3-ae0f-07f2-555f-a55087a2c9dc@nvidia.com>
+ <1a84b393-938f-8bed-d08e-cc3bb6ed4844@gmail.com>
+ <0fc814c2-0dc6-7741-b954-463381ff7fb9@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a9a5eb76-03f9-04d8-1b6c-115ec73fdebf@gmail.com>
-Date:   Thu, 23 Jan 2020 18:10:19 +0300
+Message-ID: <b5c581b9-17af-d004-33fb-2cc782ab820a@gmail.com>
+Date:   Thu, 23 Jan 2020 18:16:01 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200123111927.GH1105@ninjato>
+In-Reply-To: <0fc814c2-0dc6-7741-b954-463381ff7fb9@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -68,33 +82,85 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-23.01.2020 14:19, Wolfram Sang пишет:
-> On Fri, Dec 13, 2019 at 02:44:17PM +0100, Thierry Reding wrote:
->> From: Thierry Reding <treding@nvidia.com>
->>
->> Depending on the board design, the I2C controllers found on Tegra SoCs
->> may require pinmuxing in order to function. This is done as part of the
->> driver's runtime suspend/resume operations. However, the PM core does
->> not allow devices to go into runtime suspend during system sleep to
->> avoid potential races with the suspend/resume of their parents.
->>
->> As a result of this, when Tegra SoCs resume from system suspend, their
->> I2C controllers may have lost the pinmux state in hardware, whereas the
->> pinctrl subsystem is not aware of this. To fix this, make sure that if
->> the I2C controller is not runtime suspended, the runtime suspend code is
->> still executed in order to disable the module clock (which we don't need
->> to be enabled during sleep) and set the pinmux to the idle state.
->>
->> Conversely, make sure that the I2C controller is properly resumed when
->> waking up from sleep so that pinmux settings are properly restored.
->>
->> This fixes a bug seen with DDC transactions to an HDMI monitor timing
->> out when resuming from system suspend.
->>
->> Signed-off-by: Thierry Reding <treding@nvidia.com>
+23.01.2020 12:22, Sameer Pujar пишет:
 > 
-> Do we still need this after I applied "[PATCH v5 0/8] NVIDIA Tegra I2C
-> driver fixes and improvements" ?
 > 
+> On 1/22/2020 9:57 PM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> 22.01.2020 14:52, Jon Hunter пишет:
+>>> On 22/01/2020 07:16, Sameer Pujar wrote:
+>>>
+>>> ...
+>>>
+>>>>>>>>>> +static int tegra210_i2s_remove(struct platform_device *pdev)
+>>>>>>>>>> +{
+>>>>>>>>>> +     pm_runtime_disable(&pdev->dev);
+>>>>>>>>>> +     if (!pm_runtime_status_suspended(&pdev->dev))
+>>>>>>>>>> +             tegra210_i2s_runtime_suspend(&pdev->dev);
+>>>>>>>>> This breaks device's RPM refcounting if it was disabled in the
+>>>>>>>>> active
+>>>>>>>>> state. This code should be removed. At most you could warn
+>>>>>>>>> about the
+>>>>>>>>> unxpected RPM state here, but it shouldn't be necessary.
+>>>>>>>> I guess this was added for safety and explicit suspend keeps clock
+>>>>>>>> disabled.
+>>>>>>>> Not sure if ref-counting of the device matters when runtime PM is
+>>>>>>>> disabled and device is removed.
+>>>>>>>> I see few drivers using this way.
+>>>>>>> It should matter (if I'm not missing something) because RPM should
+>>>>>>> be in
+>>>>>>> a wrecked state once you'll try to re-load the driver's module.
+>>>>>>> Likely
+>>>>>>> that those few other drivers are wrong.
+>>>>>>>
+>>>>>>> [snip]
+>>>>>> Once the driver is re-loaded and RPM is enabled, I don't think it
+>>>>>> would use
+>>>>>> the same 'dev' and the corresponding ref count. Doesn't it use the
+>>>>>> new
+>>>>>> counters?
+>>>>>> If RPM is not working for some reason, most likely it would be the
+>>>>>> case
+>>>>>> for other
+>>>>>> devices. What best driver can do is probably do a force suspend
+>>>>>> during
+>>>>>> removal if
+>>>>>> already not done. I would prefer to keep, since multiple drivers
+>>>>>> still
+>>>>>> have it,
+>>>>>> unless there is a real harm in doing so.
+>>>>> I took a closer look and looks like the counter actually should be
+>>>>> reset. Still I don't think that it's a good practice to make changes
+>>>>> underneath of RPM, it may strike back.
+>>>> If RPM is broken, it probably would have been caught during device
+>>>> usage.
+>>>> I will remove explicit suspend here if no any concerns from other
+>>>> folks.
+>>>> Thanks.
+>>> I recall that this was the preferred way of doing this from the RPM
+>>> folks. Tegra30 I2S driver does the same and Stephen had pointed me to
+>>> this as a reference.
+>>> I believe that this is meant to ensure that the
+>>> device is always powered-off regardless of it RPM is enabled or not and
+>>> what the current state is.
+>> Yes, it was kinda actual for the case of unavailable RPM.
+> 
+>> Anyways, /I think/ variant like this should have been more preferred:
+>>
+>> if (!pm_runtime_enabled(&pdev->dev))
+>>          tegra210_i2s_runtime_suspend(&pdev->dev);
+>> else
+>>          pm_runtime_disable(&pdev->dev);
+> 
+> I think it looks to be similar to what is there already.
+> 
+> pm_runtime_disable(&pdev->dev); // it would turn out to be a dummy call
+> if !RPM
+> if (!pm_runtime_status_suspended(&pdev->dev)) // it is true always if !RPM
+>         tegra210_i2s_runtime_suspend(&pdev->dev);
 
-No, it shouldn't be needed.
+Maybe this is fine for !RPM, but not really fine in a case of enabled
+RPM. Device could be in resumed state after pm_runtime_disable() if it
+wasn't suspended before the disabling.
