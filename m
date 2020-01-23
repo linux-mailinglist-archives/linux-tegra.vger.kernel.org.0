@@ -2,93 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EDA6147470
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 00:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F20314751C
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 00:56:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729945AbgAWXLE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jan 2020 18:11:04 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:36745 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729921AbgAWXLD (ORCPT
+        id S1729829AbgAWX4w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jan 2020 18:56:52 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:41254 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729277AbgAWX4w (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jan 2020 18:11:03 -0500
-Received: by mail-wr1-f66.google.com with SMTP id z3so5214634wru.3;
-        Thu, 23 Jan 2020 15:11:02 -0800 (PST)
+        Thu, 23 Jan 2020 18:56:52 -0500
+Received: by mail-lj1-f196.google.com with SMTP id h23so353215ljc.8;
+        Thu, 23 Jan 2020 15:56:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QMJiXLF1JbYFb+JW/uJeE/qawBShUmR+DHoM9EjGezk=;
-        b=d0idhHLC9THq4K5LGz36aLPqrpXYpX+W2KMXspfIWMeBlV2v+FEkZjKahD0jvgIQLF
-         uB2vJd3lOWB+MGYf4SuIAQrWdj88KKQNkpCIDTWWTHf2S51vqGL7og/F9YemACSoBkJh
-         29TF0Skv4bjCmVPRbgyQb4MYov9HZxD62xM7tTDN2o1B0P1SEXA9QI/+dp+1kxzq6S/R
-         WRSSuNjiEPD8ApHNrHTgE2NyAhnblLpa5VP6HRnMbsBj3IRmaKG7nGM7B02fuA/YBj+z
-         YQ7frwo3Ux6TSLzREqfBTEK2267tqOej+rL1UFp2z+0BF9UhNHaZllfC4mZY9nuvpm8w
-         TVIg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GBpSA+S70IveCTtKIGEFtQpKccngEqKX7VJI5QTlR44=;
+        b=gqdOAPHfQJs7X0ZXIxK83uE8YRY1mng4HqdwWXVTp8ByvyNa6ZheKj2RHCguW3xOwZ
+         PUmnNIdiPmp1TjkbXzo4bwZ21v8NE7OR0rDTqT9O9iEZXXL3EeCNmepJpMkkLj+lNpYn
+         CQ7ZTNuFfLU3mLP1kjo5813jL7L7BEakXcMcWSmqmSrMMDSWau3h0+JuO/z7/fxIARFz
+         Gxho2oK8ZnU+aweBDeR8YBIB01ggNKfDr+9S2Xwfc0/R4iOCDAeWFTxyampSwIweBf3g
+         ylJKbNGhspngo3OUllSFtZxk0fQ6RgE64tZVOJOXmIcNo6z2VE3UZM5OXmDXIEE23tpJ
+         6L0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QMJiXLF1JbYFb+JW/uJeE/qawBShUmR+DHoM9EjGezk=;
-        b=hQuV4vVZ2vSXzlfe5NgIDPTsCVP5UWdnOMiqnBTl7pI+fAMaBqizjoxMwdNrhQIsto
-         CYlPpe9QMtqZi0+9T4vdFh3EV/udtLWUgGcJPdVAP1uEjJEMrBWtbj1ZnczK7F+o7Yeb
-         XV7d9tqMODrDkghxruVD/NR/IC5BGw0gDxQYgSDY5N94VIrOO91noeT7BJy6boyz5o3u
-         od0p49IX8ZuLcU7+OzM0noTHKANdT6e9Vywmo3XBiNaRrrhEl9f9NeKWxHFNCPdYoI8/
-         msPJGEBlioZhuZtn3w3AhL/V8PzjB7gZgOCVS7cW/3xMYuIz/Fz3WwQgdEh6vTCjHFFp
-         i6Xg==
-X-Gm-Message-State: APjAAAVsotbfsxTKL0hvb6/WyeGBP9TO5o/phSoNd/AeeC4uIURLLcPM
-        06jHWQQHKQ5qLlSGoEfw56U=
-X-Google-Smtp-Source: APXvYqyTPHMPE845HLY2B5GKwIiCGHer2IWZI3hDnBCaAmDvl3yXjJXOPRuuOri8w/BzlrEodwNJTQ==
-X-Received: by 2002:adf:fc4b:: with SMTP id e11mr484141wrs.326.1579821061580;
-        Thu, 23 Jan 2020 15:11:01 -0800 (PST)
-Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id z6sm5105552wrw.36.2020.01.23.15.11.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2020 15:11:01 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GBpSA+S70IveCTtKIGEFtQpKccngEqKX7VJI5QTlR44=;
+        b=ThwgBCnCAaZxwT9cifvUcUMiNz5K5z+XDDaSFK23ZKUmljC0f7s4446PA/nNTyb+2g
+         DiuAVLRrHc/gBbYOfI7d4OTF3EXUiMr3mtPr5xsw3WZsPE1nxVte57o41AdOyB3SMzmf
+         5h0ZZ6VMCDtd3NjgDoxXEzO64HO2H8VtLsMKhcYOd6rZEswuJc4b5obSgHo9VqhVb4vY
+         Xa9qxKmvl+mutP8AaYPH/+AnvCZLWiDmh2pNfX2gw0mtlN7sQmAp2klavPxPDEPqWIPs
+         a3DvcTZcUh4f9xoZrgNWpV9i6auF8HJNZF1PuZfaOziNX15OBM+mG7Mu1csH2+ykFmfW
+         Dvvw==
+X-Gm-Message-State: APjAAAWNkP8SPsvYxVcP2pPY+LPrDPakpYBO3EGWI1RF2hZxMD7qdTUS
+        LP22RPfSoG1mn9VcltVoCBDPQkBB
+X-Google-Smtp-Source: APXvYqxoTeKZ48pGOHQTsLFqutvtN4hgoSviLPAKKeyV9HeVxPD93R0HyzG+SjwU+HzCapUUY5PaPQ==
+X-Received: by 2002:a2e:3619:: with SMTP id d25mr481791lja.231.1579823809203;
+        Thu, 23 Jan 2020 15:56:49 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id y2sm188582ljm.28.2020.01.23.15.56.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jan 2020 15:56:48 -0800 (PST)
+Subject: Re: [PATCH v8 11/22] ASoC: tegra: Add fallback implementation for
+ audio mclk
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
+        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
+Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
+        josephl@nvidia.com, daniel.lezcano@linaro.org,
+        mmaddireddy@nvidia.com, markz@nvidia.com,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1578986667-16041-1-git-send-email-skomatineni@nvidia.com>
+ <1578986667-16041-12-git-send-email-skomatineni@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 14/14] dmaengine: tegra-apb: Remove MODULE_ALIAS
-Date:   Fri, 24 Jan 2020 02:03:25 +0300
-Message-Id: <20200123230325.3037-15-digetx@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200123230325.3037-1-digetx@gmail.com>
-References: <20200123230325.3037-1-digetx@gmail.com>
+Message-ID: <aef36b46-789a-c44e-4cd1-9d4183435ba9@gmail.com>
+Date:   Fri, 24 Jan 2020 02:56:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <1578986667-16041-12-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Tegra APB DMA driver is an Open Firmware driver and thus it uses OF alias
-naming scheme which overrides MODULE_ALIAS, meaning that MODULE_ALIAS does
-nothing and could be removed safely.
+14.01.2020 10:24, Sowjanya Komatineni пишет:
+> mclk is from clk_out_1 which is part of Tegra PMC block and pmc clocks
+> are moved to Tegra PMC driver with pmc as clock provider and using pmc
+> clock ids.
+> 
+> New device tree uses clk_out_1 from pmc clock provider as audio mclk.
+> 
+> So, this patch adds implementation for mclk fallback to extern1 when
+> retrieving mclk returns -ENOENT to be backward compatible of new device
+> tree with older kernels.
+> 
+> Fixes: 110147c8c513 ("ASoC: tegra: always use clk_get() in utility code")
+> 
+> Tested-by: Dmitry Osipenko <digetx@gmail.com>
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  sound/soc/tegra/tegra_asoc_utils.c | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/tegra/tegra_asoc_utils.c b/sound/soc/tegra/tegra_asoc_utils.c
+> index 536a578e9512..74d3ffe7e603 100644
+> --- a/sound/soc/tegra/tegra_asoc_utils.c
+> +++ b/sound/soc/tegra/tegra_asoc_utils.c
+> @@ -191,9 +191,21 @@ int tegra_asoc_utils_init(struct tegra_asoc_utils_data *data,
+>  
+>  	data->clk_cdev1 = clk_get(dev, "mclk");
+>  	if (IS_ERR(data->clk_cdev1)) {
+> -		dev_err(data->dev, "Can't retrieve clk cdev1\n");
+> -		ret = PTR_ERR(data->clk_cdev1);
+> -		goto err_put_pll_a_out0;
+> +		if (PTR_ERR(data->clk_cdev1) != -ENOENT) {
+> +			dev_err(data->dev, "Can't retrieve clk cdev1\n");
+> +			ret = PTR_ERR(data->clk_cdev1);
+> +			goto err_put_pll_a_out0;
+> +		}
+> +
+> +		/* Fall back to extern1 */
+> +		data->clk_cdev1 = clk_get(dev, "extern1");
+> +		if (IS_ERR(data->clk_cdev1)) {
+> +			dev_err(data->dev, "Can't retrieve clk extern1\n");
+> +			ret = PTR_ERR(data->clk_cdev1);
+> +			goto err_put_pll_a_out0;
+> +		}
+> +
+> +		dev_info(data->dev, "Falling back to extern1\n");
+>  	}
+>  
+>  	ret = tegra_asoc_utils_set_rate(data, 44100, 256 * 44100);
+> 
 
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/dma/tegra20-apb-dma.c | 1 -
- 1 file changed, 1 deletion(-)
+I tried to double-check if audio works using the updated DT works with
+this fallback and unfortunately it is not (maybe I actually missed to
+test this case before).. the driver doesn't probe at all because of the
+assigned-clocks presence, which makes clk core to fail finding the MCLK
+and thus assigned-clocks configuration fails, preventing the driver's
+loading.
 
-diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-index 8f4281ab6296..756a5dbef118 100644
---- a/drivers/dma/tegra20-apb-dma.c
-+++ b/drivers/dma/tegra20-apb-dma.c
-@@ -1684,7 +1684,6 @@ static struct platform_driver tegra_dmac_driver = {
- 
- module_platform_driver(tegra_dmac_driver);
- 
--MODULE_ALIAS("platform:tegra20-apbdma");
- MODULE_DESCRIPTION("NVIDIA Tegra APB DMA Controller driver");
- MODULE_AUTHOR("Laxman Dewangan <ldewangan@nvidia.com>");
- MODULE_LICENSE("GPL v2");
--- 
-2.24.0
-
+I'm not sure what could be done about it. Perhaps just to give up on the
+compatibility of older kernels with the new DTs, missing audio isn't
+really that critical (perhaps).
