@@ -2,36 +2,29 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0040D148C93
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 17:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9827C148CA2
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 18:00:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729384AbgAXQ4q (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 Jan 2020 11:56:46 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10800 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726454AbgAXQ4q (ORCPT
+        id S2389796AbgAXRAL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 Jan 2020 12:00:11 -0500
+Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:36672 "EHLO
+        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389553AbgAXRAL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 Jan 2020 11:56:46 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e2b21bc0000>; Fri, 24 Jan 2020 08:56:28 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 24 Jan 2020 08:56:45 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 24 Jan 2020 08:56:45 -0800
-Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Jan
- 2020 16:56:43 +0000
+        Fri, 24 Jan 2020 12:00:11 -0500
+Received: from [167.98.27.226] (helo=[10.35.5.173])
+        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
+        id 1iv2JV-0005PN-Cz; Fri, 24 Jan 2020 17:00:09 +0000
 Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
  24bit and 32bit samples
-To:     Ben Dooks <ben.dooks@codethink.co.uk>,
+To:     Jon Hunter <jonathanh@nvidia.com>,
         Dmitry Osipenko <digetx@gmail.com>
-CC:     <linux-kernel@lists.codethink.co.uk>,
-        <alsa-devel@alsa-project.org>, Liam Girdwood <lgirdwood@gmail.com>,
+Cc:     linux-kernel@lists.codethink.co.uk, alsa-devel@alsa-project.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
         Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Edward Cragg <edward.cragg@codethink.co.uk>,
-        <linux-tegra@vger.kernel.org>
+        linux-tegra@vger.kernel.org
 References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
  <621fa27d-9259-2949-9cf5-d2eda5cb0677@gmail.com>
  <a0f027d9-e9e0-d76c-1e40-002fdc37eb5f@nvidia.com>
@@ -50,47 +43,33 @@ References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
  <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
  <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
  <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
- <9b3a0cdd-34c7-ecb4-4a26-268fd4a63041@codethink.co.uk>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <26aeb591-e770-5e6a-5ee4-05414ae4ddc6@nvidia.com>
-Date:   Fri, 24 Jan 2020 16:56:41 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
+From:   Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+Message-ID: <318f0256-fe6d-c34d-4deb-74540fca8d0d@codethink.co.uk>
+Date:   Fri, 24 Jan 2020 17:00:08 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <9b3a0cdd-34c7-ecb4-4a26-268fd4a63041@codethink.co.uk>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579884988; bh=DnxLEe/tcLG8OVj4J+TQCZVsSNoC1OJ9n43A5kILK6c=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=S1jw5ZDmrK5cvVAzaWEnEqjw8q7YHodLdLtBF3UAffWQ+K8wd5GTXrTd8rpWNHZqj
-         DAs6u1RNPHTdC8jxIPkDK191jeuHn52q4FLMQBUArK4Pr1D0v9/9tgfNatO6kRxlYz
-         dyGC7SE+hprSPVOLBAC56H6z+2RZDqXK+Ig3ke/h0kb5wyYpQ/MmxiRrkovPr7Cisl
-         Yg9oOwavJcBfPo9Z6wSFQQADrDde4Khu4+HvNPBQo02EFFDc1nad2vElYP9bBXiXcY
-         AMixRG8ic2Qrm7KRexsdqJGhYB+alf0KnV60VBQfPzspdRw/+fB/o353TIRkcMX98u
-         zqCeiaVXnaU2g==
+In-Reply-To: <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-
-On 23/01/2020 21:59, Ben Dooks wrote:
+On 24/01/2020 16:50, Jon Hunter wrote:
+> 
 > On 23/01/2020 19:38, Ben Dooks wrote:
 >> On 07/01/2020 01:39, Dmitry Osipenko wrote:
->>> 06.01.2020 22:00, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> 06.01.2020 22:00, Ben Dooks пишет:
 >>>> On 05/01/2020 10:53, Ben Dooks wrote:
 >>>>>
 >>>>>
 >>>>> On 2020-01-05 01:48, Dmitry Osipenko wrote:
->>>>>> 05.01.2020 03:04, Ben Dooks =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>> 05.01.2020 03:04, Ben Dooks пишет:
 >>>>>>> [snip]
 >>>>>>>
 >>>>>>> I've just gone through testing.
@@ -102,8 +81,7 @@ On 23/01/2020 21:59, Ben Dooks wrote:
 >>>>>>> do 24 bit in 24 bit, so we may have to remove 24 bit sample support
 >>>>>>> (which is a shame)
 >>>>>>>
->>>>>>> My preference is to remove the 24-bit support and keep the 32 bit
->>>>>>> in.
+>>>>>>> My preference is to remove the 24-bit support and keep the 32 bit in.
 >>>>>>>
 >>>>>>
 >>>>>> Interesting.. Jon, could you please confirm that 24bit format isn't
@@ -116,8 +94,7 @@ On 23/01/2020 21:59, Ben Dooks wrote:
 >>>>
 >>>> I need to check some things, I assumed 24 was 24 packed bits, it looks
 >>>> like the default is 24 in 32 bits so we may be ok. However I need to
->>>> re-write my test case which assumed it was 24bits in 3 bytes (S24_3LE)=
-.
+>>>> re-write my test case which assumed it was 24bits in 3 bytes (S24_3LE).
 >>>>
 >>>> I'll follow up later,
 >>>
@@ -129,35 +106,39 @@ On 23/01/2020 21:59, Ben Dooks wrote:
 >>
 >> I did a quick test with the following:
 >>
->> =C2=A0=C2=A0sox -n -b 16 -c 2 -r 44100 /tmp/tmp.wav=C2=A0 synth sine 500=
- vol 0.5
->> =C2=A0=C2=A0sox -n -b 24 -c 2 -r 44100 /tmp/tmp.wav=C2=A0 synth sine 500=
- vol 0.5
->> =C2=A0=C2=A0sox -n -b 32 -c 2 -r 44100 /tmp/tmp.wav=C2=A0 synth sine 500=
- vol 0.5
+>>   sox -n -b 16 -c 2 -r 44100 /tmp/tmp.wav  synth sine 500 vol 0.5
+>>   sox -n -b 24 -c 2 -r 44100 /tmp/tmp.wav  synth sine 500 vol 0.5
+>>   sox -n -b 32 -c 2 -r 44100 /tmp/tmp.wav  synth sine 500 vol 0.5
 >>
 >> The 16 and 32 work fine, the 24 is showing a playback output freq
 >> of 440Hz instead of 500Hz... this suggests the clock is off, or there
 >> is something else weird going on...
->>
->=20
-> I should have checked pll_a_out0 rate, for 24bit 2ch, I get
-> pll_a_out at which makes:
->=20
-> 11289600/(24*2*44100) =3D 5.3333333333
->=20
-> For some reason the PLL can't get a decent divisor for this.
+> 
+> I was looking at using sox to create such as file, but the above command
+> generates a S24_3LE file and not S24_LE file. The codec on Jetson-TK1
+> supports S24_LE but does not support S24_3LE and so I cannot test this.
+> Anyway, we really need to test S24_LE and not S24_3LE because this is
+> the problem that Dmitry is having.
+> 
+> Ben is S24_3LE what you really need to support?
 
-Yes that is going to be a problem. I assume that your codec wants a
-256*fs MCLK? Maybe in that case you are better off having the codec
-drive the bit clock and fsync?
+No, it is S24_LE the format this hardware supports. I wonder if
+aplay is transforming it.
 
-Is 24-bit critical to what you are doing?
+Plug PCM: Linear conversion PCM (S24_LE)
+Its setup is:
+   stream       : PLAYBACK
+   access       : RW_INTERLEAVED
+   format       : S24_3LE
+   subformat    : STD
+   channels     : 2
 
-Otherwise maybe we should drop the 24-bit support for now and just keep
-32-bit.
+So I assume aplay has turned the S24_3LE -> S24_LE
 
-Jon
 
---=20
-nvpublic
+
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
+
+https://www.codethink.co.uk/privacy.html
