@@ -2,99 +2,377 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE64C148AA0
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 15:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25F8B148AD6
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 15:59:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730354AbgAXOwT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 Jan 2020 09:52:19 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:3010 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726173AbgAXOwS (ORCPT
+        id S2388021AbgAXO7r (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 Jan 2020 09:59:47 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4213 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387432AbgAXO7r (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 Jan 2020 09:52:18 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e2b04930000>; Fri, 24 Jan 2020 06:52:03 -0800
+        Fri, 24 Jan 2020 09:59:47 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e2b06330000>; Fri, 24 Jan 2020 06:58:59 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 24 Jan 2020 06:52:17 -0800
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 24 Jan 2020 06:59:45 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 24 Jan 2020 06:52:17 -0800
-Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Jan
- 2020 14:52:15 +0000
-Subject: Re: [PATCH 5.4 000/102] 5.4.15-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
-        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
-        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
-        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
-References: <20200124092806.004582306@linuxfoundation.org>
+        by hqpgpgate102.nvidia.com on Fri, 24 Jan 2020 06:59:45 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Jan
+ 2020 14:59:44 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 24 Jan 2020 14:59:44 +0000
+Received: from localhost.localdomain (Not Verified[10.21.133.51]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e2b065f0000>; Fri, 24 Jan 2020 06:59:44 -0800
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <69134792-bcb4-a5d3-8e64-cb62d34bdb6e@nvidia.com>
-Date:   Fri, 24 Jan 2020 14:52:13 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     <linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, Jeff Brasen <jbrasen@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH V2] serial: 8250_tegra: Create Tegra specific 8250 driver
+Date:   Fri, 24 Jan 2020 14:59:40 +0000
+Message-ID: <20200124145940.23194-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20200124092806.004582306@linuxfoundation.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579877523; bh=aLjXkXyAEE0U90tdrRddV20uRqQBdlPEy/BJZtuieEY=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=B+8Hbn2PxOk8g7+fOUt7iHYPPSr4Zj3aVTkrngeIr8mD3bx+t5IbAC3eIcjBLL5w5
-         tAPHyTBg3ds/IPA3DSqr6cvTyUnqVfChb1BhDZcdBxAJ+H/MIir5h9/42tjvGQb2RU
-         ID83b2WX6E7qkDUW91ROr28kbbFML8fVo2QU5dUCmj4eoz9+qsrwreOfbj35C/12BX
-         DaCmz3+AcAO7RNHzzqdU2amYFPwRyX6gNQyi/Rm5PYFGBbEdc7tuamDuv1Z9sMSTFM
-         FJW+RlNu6HTjckOO8t2Klnnral/h6Buj38OeY8xDjPseIjLZbeN1BQW17ER0c4DwdC
-         Nopd8VDWkMsdg==
+        t=1579877939; bh=HXkQmpmgKAFFwbn4aFc3uTNZyRZVNLFYMWmVwsyQ8W8=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=mYGPpBMrMG+O9SnMKeJXQQbGum4zXaU31PDvwAMskFia4gCJINOVhVBYnWlPdmeAW
+         dpIG34S9bls7ybYLbzxeu2B0w1ROgc9bbaJY/bFHM4cHMwQ40Z5iYHhBI/TjvbnBPd
+         Ton/WzVpjNObdNhgnAKJWua0M2Ob6am3FnuqnaeK57svUxL7bWUvp/YUGnwdQhxhYQ
+         4f6sVva7IwJzGM/PMx+uogioRdhuWLbWleWANOaD5Z1nhUBnqJQNdsSA+UR618z+LW
+         jqN2nw3bFCv/ahXm3UVXVp7V5StC2RgwkUA7pdAhz5TKwjJLDo8loViXdSZG/XQxEL
+         RX63jIJyaPgAw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Jeff Brasen <jbrasen@nvidia.com>
 
-On 24/01/2020 09:30, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.4.15 release.
-> There are 102 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
-> Responses should be made by Sun, 26 Jan 2020 09:26:29 +0000.
-> Anything received after that time might be too late.
-> 
-> The whole patch series can be found in one patch at:
-> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.15-rc1.gz
-> or in the git tree and branch at:
-> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
-> and the diffstat can be found below.
-> 
-> thanks,
-> 
-> greg k-h
+To support booting NVIDIA Tegra platforms with either Device-Tree or
+ACPI, create a Tegra specific 8250 serial driver that supports both
+firmware types. Another benefit from doing this, is that the Tegra
+specific codec in the generic Open Firmware 8250 driver can now be
+removed.
 
+Signed-off-by: Jeff Brasen <jbrasen@nvidia.com>
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
 
-All tests are passing for Tegra ...
+Changes since V1:
+- Added support for COMPILE_TEST
 
-Test results for stable-v5.4:
-    13 builds:	13 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    40 tests:	40 pass, 0 fail
+ drivers/tty/serial/8250/8250_of.c    |  28 ----
+ drivers/tty/serial/8250/8250_tegra.c | 197 +++++++++++++++++++++++++++
+ drivers/tty/serial/8250/Kconfig      |   9 ++
+ drivers/tty/serial/8250/Makefile     |   1 +
+ 4 files changed, 207 insertions(+), 28 deletions(-)
+ create mode 100644 drivers/tty/serial/8250/8250_tegra.c
 
-Linux version:	5.4.15-rc1-g28d0c8c0a7ca
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra30-cardhu-a04
-
-Cheers
-Jon
-
+diff --git a/drivers/tty/serial/8250/8250_of.c b/drivers/tty/serial/8250/8250_of.c
+index 531ad67395e0..5e45cf8dbc6e 100644
+--- a/drivers/tty/serial/8250/8250_of.c
++++ b/drivers/tty/serial/8250/8250_of.c
+@@ -7,7 +7,6 @@
+ #include <linux/console.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+-#include <linux/delay.h>
+ #include <linux/serial_core.h>
+ #include <linux/serial_reg.h>
+ #include <linux/of_address.h>
+@@ -26,28 +25,6 @@ struct of_serial_info {
+ 	int line;
+ };
+ 
+-#ifdef CONFIG_ARCH_TEGRA
+-static void tegra_serial_handle_break(struct uart_port *p)
+-{
+-	unsigned int status, tmout = 10000;
+-
+-	do {
+-		status = p->serial_in(p, UART_LSR);
+-		if (status & (UART_LSR_FIFOE | UART_LSR_BRK_ERROR_BITS))
+-			status = p->serial_in(p, UART_RX);
+-		else
+-			break;
+-		if (--tmout == 0)
+-			break;
+-		udelay(1);
+-	} while (1);
+-}
+-#else
+-static inline void tegra_serial_handle_break(struct uart_port *port)
+-{
+-}
+-#endif
+-
+ static int of_8250_rs485_config(struct uart_port *port,
+ 				  struct serial_rs485 *rs485)
+ {
+@@ -211,10 +188,6 @@ static int of_platform_serial_setup(struct platform_device *ofdev,
+ 	port->rs485_config = of_8250_rs485_config;
+ 
+ 	switch (type) {
+-	case PORT_TEGRA:
+-		port->handle_break = tegra_serial_handle_break;
+-		break;
+-
+ 	case PORT_RT2880:
+ 		port->iotype = UPIO_AU;
+ 		break;
+@@ -359,7 +332,6 @@ static const struct of_device_id of_platform_serial_table[] = {
+ 	{ .compatible = "ns16550",  .data = (void *)PORT_16550, },
+ 	{ .compatible = "ns16750",  .data = (void *)PORT_16750, },
+ 	{ .compatible = "ns16850",  .data = (void *)PORT_16850, },
+-	{ .compatible = "nvidia,tegra20-uart", .data = (void *)PORT_TEGRA, },
+ 	{ .compatible = "nxp,lpc3220-uart", .data = (void *)PORT_LPC3220, },
+ 	{ .compatible = "ralink,rt2880-uart", .data = (void *)PORT_RT2880, },
+ 	{ .compatible = "intel,xscale-uart", .data = (void *)PORT_XSCALE, },
+diff --git a/drivers/tty/serial/8250/8250_tegra.c b/drivers/tty/serial/8250/8250_tegra.c
+new file mode 100644
+index 000000000000..e639ce833132
+--- /dev/null
++++ b/drivers/tty/serial/8250/8250_tegra.c
+@@ -0,0 +1,197 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ *  Serial Port driver for Tegra devices
++ *
++ *  Copyright (c) 2020, NVIDIA CORPORATION. All rights reserved.
++ */
++
++#include <linux/acpi.h>
++#include <linux/clk.h>
++#include <linux/console.h>
++#include <linux/delay.h>
++#include <linux/module.h>
++#include <linux/reset.h>
++#include <linux/slab.h>
++
++#include "8250.h"
++
++struct tegra_uart {
++	struct clk *clk;
++	struct reset_control *rst;
++	int line;
++};
++
++static void tegra_uart_handle_break(struct uart_port *p)
++{
++	unsigned int status, tmout = 10000;
++
++	do {
++		status = p->serial_in(p, UART_LSR);
++		if (status & (UART_LSR_FIFOE | UART_LSR_BRK_ERROR_BITS))
++			status = p->serial_in(p, UART_RX);
++		else
++			break;
++		if (--tmout == 0)
++			break;
++		udelay(1);
++	} while (1);
++}
++
++static int tegra_uart_probe(struct platform_device *pdev)
++{
++	struct uart_8250_port port8250;
++	struct tegra_uart *uart;
++	struct uart_port *port;
++	struct resource *res;
++	int ret;
++
++	uart = devm_kzalloc(&pdev->dev, sizeof(*uart), GFP_KERNEL);
++	if (!uart)
++		return -ENOMEM;
++
++	memset(&port8250, 0, sizeof(port8250));
++
++	port = &port8250.port;
++	spin_lock_init(&port->lock);
++
++	port->flags = UPF_SHARE_IRQ | UPF_BOOT_AUTOCONF | UPF_FIXED_PORT |
++		      UPF_FIXED_TYPE;
++	port->iotype = UPIO_MEM32;
++	port->regshift = 2;
++	port->type = PORT_TEGRA;
++	port->irqflags |= IRQF_SHARED;
++	port->dev = &pdev->dev;
++	port->handle_break = tegra_uart_handle_break;
++
++	ret = of_alias_get_id(pdev->dev.of_node, "serial");
++	if (ret >= 0)
++		port->line = ret;
++
++	ret = platform_get_irq(pdev, 0);
++	if (ret < 0)
++		return ret;
++
++	port->irq = ret;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res)
++		return -ENODEV;
++
++	port->membase = devm_ioremap(&pdev->dev, res->start,
++				     resource_size(res));
++	if (!port->membase)
++		return -ENOMEM;
++
++	port->mapbase = res->start;
++	port->mapsize = resource_size(res);
++
++	uart->rst = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
++	if (IS_ERR(uart->rst))
++		return PTR_ERR(uart->rst);
++
++	if (device_property_read_u32(&pdev->dev, "clock-frequency",
++				     &port->uartclk)) {
++		uart->clk = devm_clk_get(&pdev->dev, NULL);
++		if (IS_ERR(uart->clk)) {
++			dev_err(&pdev->dev, "failed to get clock!\n");
++			return -ENODEV;
++		}
++
++		ret = clk_prepare_enable(uart->clk);
++		if (ret < 0)
++			return ret;
++
++		port->uartclk = clk_get_rate(uart->clk);
++	}
++
++	ret = reset_control_deassert(uart->rst);
++	if (ret)
++		goto err_clkdisable;
++
++	ret = serial8250_register_8250_port(&port8250);
++	if (ret < 0)
++		goto err_clkdisable;
++
++	platform_set_drvdata(pdev, uart);
++	uart->line = ret;
++
++	return 0;
++
++err_clkdisable:
++	clk_disable_unprepare(uart->clk);
++
++	return ret;
++}
++
++static int tegra_uart_remove(struct platform_device *pdev)
++{
++	struct tegra_uart *uart = platform_get_drvdata(pdev);
++
++	serial8250_unregister_port(uart->line);
++	reset_control_assert(uart->rst);
++	clk_disable_unprepare(uart->clk);
++
++	return 0;
++}
++
++#ifdef CONFIG_PM_SLEEP
++static int tegra_uart_suspend(struct device *dev)
++{
++	struct tegra_uart *uart = dev_get_drvdata(dev);
++	struct uart_8250_port *port8250 = serial8250_get_port(uart->line);
++	struct uart_port *port = &port8250->port;
++
++	serial8250_suspend_port(uart->line);
++
++	if (!uart_console(port) || console_suspend_enabled)
++		clk_disable_unprepare(uart->clk);
++
++	return 0;
++}
++
++static int tegra_uart_resume(struct device *dev)
++{
++	struct tegra_uart *uart = dev_get_drvdata(dev);
++	struct uart_8250_port *port8250 = serial8250_get_port(uart->line);
++	struct uart_port *port = &port8250->port;
++
++	if (!uart_console(port) || console_suspend_enabled)
++		clk_prepare_enable(uart->clk);
++
++	serial8250_resume_port(uart->line);
++
++	return 0;
++}
++#endif
++
++static SIMPLE_DEV_PM_OPS(tegra_uart_pm_ops, tegra_uart_suspend,
++			 tegra_uart_resume);
++
++static const struct of_device_id tegra_uart_of_match[] = {
++	{ .compatible = "nvidia,tegra20-uart", },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, tegra_uart_of_match);
++
++static const struct acpi_device_id tegra_uart_acpi_match[] = {
++	{ "NVDA0100", 0 },
++	{ },
++};
++MODULE_DEVICE_TABLE(acpi, tegra_uart_acpi_match);
++
++static struct platform_driver tegra_uart_driver = {
++	.driver = {
++		.name = "tegra-uart",
++		.pm = &tegra_uart_pm_ops,
++		.of_match_table = tegra_uart_of_match,
++		.acpi_match_table = ACPI_PTR(tegra_uart_acpi_match),
++	},
++	.probe = tegra_uart_probe,
++	.remove = tegra_uart_remove,
++};
++
++module_platform_driver(tegra_uart_driver);
++
++MODULE_AUTHOR("Jeff Brasen <jbrasen@nvidia.com>");
++MODULE_DESCRIPTION("NVIDIA Tegra 8250 Driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
+index f16824bbb573..af0688156dd0 100644
+--- a/drivers/tty/serial/8250/Kconfig
++++ b/drivers/tty/serial/8250/Kconfig
+@@ -500,6 +500,15 @@ config SERIAL_8250_PXA
+ 	  applicable to both devicetree and legacy boards, and early console is
+ 	  part of its support.
+ 
++config SERIAL_8250_TEGRA
++	tristate "8250 support for Tegra serial ports"
++	default SERIAL_8250
++	depends on SERIAL_8250
++	depends on ARCH_TEGRA || COMPILE_TEST
++	help
++	  Select this option if you have machine with an NVIDIA Tegra SoC and
++	  wish to enable 8250 serial driver for the Tegra serial interfaces.
++
+ config SERIAL_OF_PLATFORM
+ 	tristate "Devicetree based probing for 8250 ports"
+ 	depends on SERIAL_8250 && OF
+diff --git a/drivers/tty/serial/8250/Makefile b/drivers/tty/serial/8250/Makefile
+index 51a6079d3f1f..a8bfb654d490 100644
+--- a/drivers/tty/serial/8250/Makefile
++++ b/drivers/tty/serial/8250/Makefile
+@@ -37,6 +37,7 @@ obj-$(CONFIG_SERIAL_8250_INGENIC)	+= 8250_ingenic.o
+ obj-$(CONFIG_SERIAL_8250_LPSS)		+= 8250_lpss.o
+ obj-$(CONFIG_SERIAL_8250_MID)		+= 8250_mid.o
+ obj-$(CONFIG_SERIAL_8250_PXA)		+= 8250_pxa.o
++obj-$(CONFIG_SERIAL_8250_TEGRA)		+= 8250_tegra.o
+ obj-$(CONFIG_SERIAL_OF_PLATFORM)	+= 8250_of.o
+ 
+ CFLAGS_8250_ingenic.o += -I$(srctree)/scripts/dtc/libfdt
 -- 
-nvpublic
+2.17.1
+
