@@ -2,92 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D84591476B8
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 02:28:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9991147729
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 04:27:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729678AbgAXB2c (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jan 2020 20:28:32 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45879 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728799AbgAXB2b (ORCPT
+        id S1729318AbgAXD1t (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jan 2020 22:27:49 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11201 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729017AbgAXD1t (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jan 2020 20:28:31 -0500
-Received: by mail-lj1-f195.google.com with SMTP id j26so526308ljc.12;
-        Thu, 23 Jan 2020 17:28:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WI+Ptr4jWGvf9sG0CsP+d/rPdqVcRiXjBDng4X6qfAo=;
-        b=IWhyOeQUSmo3xu9H4u2oZLkCl+B28KSQ//kzmtueEdrjJiCkgUjc7xObfFUYgg/3Jt
-         WN6L5BVjS+aylpgwq+HKPF6cSQGg2SpcNPPqkpyNtIijZZWdxhJceRTrR0bGrlLxcPDk
-         ZQcuU4cVj9OwzCr0XvpZUQSIasa3gbZUYiBewpoDd+cDqe6z0Dl8/isN64cRDYqFaZX2
-         1I50PCGlrYq8sBgAMOJKGS+QhZPiC4lyjXWNtp+pw3giQ027CEr6U1bMUTkndSUP7cuK
-         bE4SsWAHFJ90iDLnniZGCZ3IfhKuWbiQQIwshPTNGUrrTjYFhFk7kSkAZm7ErxlcB6Mv
-         Hlqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WI+Ptr4jWGvf9sG0CsP+d/rPdqVcRiXjBDng4X6qfAo=;
-        b=JmGaLPmBw0NTs9Qi4ZpLV8BNQSbayEM4XauM3Dm6L75IyExcbByPkSemAmFwLC7rao
-         IuCbekaI616cxTWaRtLMi9w6bB2FRlgCo6Y5zGNHd8iK3oq5P0axUAfWqWuu4myCsD/h
-         A0WpmupPylFJO04lCyJnmZHE46oXv2g5Q4LthtI4IXAMCLJXhX/hZh/nSX8Q0Yeyg5Sb
-         5GJjd7z058I+eg1N+3Q+p8oou+zLhr8CjuGqVyC264Vm8K7d4QR0aip43rce9n9nuRTV
-         bZfyDp6ioNTPhya7G0BtV2p5juq88zXxkTdBo/x4OCGMbSNjqN52LdivMIW5srUbG68E
-         XD6g==
-X-Gm-Message-State: APjAAAXuLtpRr1IdTLC2sMq6Q7Alld/NSICuTKz4zyBd4iJ5OantKuGN
-        WkC0e2sm4XZanUuXItpx7J4=
-X-Google-Smtp-Source: APXvYqwGOnXwDuyIxTBQaJTSzHJLm33JXg0GYndn6ydyGv3O+5zNh+qRhrfYF9Q5iyLM8WQFQtOLfQ==
-X-Received: by 2002:a2e:9592:: with SMTP id w18mr711637ljh.98.1579829309536;
-        Thu, 23 Jan 2020 17:28:29 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id l28sm1886927lfk.21.2020.01.23.17.28.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jan 2020 17:28:28 -0800 (PST)
+        Thu, 23 Jan 2020 22:27:49 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e2a64260000>; Thu, 23 Jan 2020 19:27:34 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 23 Jan 2020 19:27:48 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 23 Jan 2020 19:27:48 -0800
+Received: from [10.24.44.92] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Jan
+ 2020 03:27:43 +0000
+CC:     <spujar@nvidia.com>, <devicetree@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <atalambedu@nvidia.com>,
+        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
+        <jonathanh@nvidia.com>, <viswanathl@nvidia.com>,
+        <sharadg@nvidia.com>, <broonie@kernel.org>,
+        <thierry.reding@gmail.com>, <linux-tegra@vger.kernel.org>,
+        <rlokhande@nvidia.com>, <mkumard@nvidia.com>, <dramesh@nvidia.com>
 Subject: Re: [alsa-devel] [PATCH 7/9] ASoC: tegra: add Tegra210 based ADMAIF
  driver
-To:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
-        robh+dt@kernel.org
-Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-        atalambedu@nvidia.com, linux-kernel@vger.kernel.org,
-        lgirdwood@gmail.com, jonathanh@nvidia.com, viswanathl@nvidia.com,
-        sharadg@nvidia.com, broonie@kernel.org, thierry.reding@gmail.com,
-        linux-tegra@vger.kernel.org, rlokhande@nvidia.com,
-        mkumard@nvidia.com, dramesh@nvidia.com
+To:     Dmitry Osipenko <digetx@gmail.com>, <perex@perex.cz>,
+        <tiwai@suse.com>, <robh+dt@kernel.org>
 References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
  <1579530198-13431-8-git-send-email-spujar@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <743d6d7d-f29c-191a-853b-414250ca38df@gmail.com>
-Date:   Fri, 24 Jan 2020 04:28:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ <743d6d7d-f29c-191a-853b-414250ca38df@gmail.com>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <3759aa0b-9e56-0fb4-27b7-4f98898d4e22@nvidia.com>
+Date:   Fri, 24 Jan 2020 08:57:40 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <1579530198-13431-8-git-send-email-spujar@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <743d6d7d-f29c-191a-853b-414250ca38df@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1579836454; bh=/uQyjMlog0EEeGCpQdgZ8NEtOXVI02tvF1e/kfKTnrw=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=sEiQb0pLX+BpSOAzxH6fhgVWwQCGYaac7UNqj2/iT9KWSfL/lLbL1cYKxNTL5Su9n
+         jVnzqfyD6BquPKUbyt4eZ7xEputbu/V7DM1DeQ1i6ykizK10qMSqOxkZ7KkL5lqu7M
+         Sqw0nIvrhGI/XI1tXO2GiPKi1zISexdF2jjSTXml4uUXTLF+BLRzd9bBnYi9uhGkRR
+         qJJwgZD6APTXzj85AbJdM0AYs0HrmHihgX41l+nBo78QynBQ2l1qo/UmlLgkwbIce8
+         ww3E5qS1uL9MZftcDu8ys4OqM20tt0exJN9WxhL97EvKsEdQ4G3bLtddszOHmyHQSQ
+         gDnIoar7Q+G8Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-20.01.2020 17:23, Sameer Pujar пишет:
-[snip]
-> +static bool tegra_admaif_wr_reg(struct device *dev, unsigned int reg)
-> +{
-> +	struct tegra_admaif *admaif = dev_get_drvdata(dev);
-> +	unsigned int ch_stride = TEGRA_ADMAIF_CHANNEL_REG_STRIDE;
-> +	unsigned int num_ch = admaif->soc_data->num_ch;
-> +	unsigned int rx_base = admaif->soc_data->rx_base;
-> +	unsigned int tx_base = admaif->soc_data->tx_base;
-> +	unsigned int global_base = admaif->soc_data->global_base;
-> +	unsigned int reg_max = admaif->soc_data->regmap_conf->max_register;
-> +	unsigned int rx_max = rx_base + (num_ch * ch_stride);
-> +	unsigned int tx_max = tx_base + (num_ch * ch_stride);
-> +
-> +	if ((reg >= rx_base) && (reg < rx_max)) {
 
-The braces are not needed around the comparisons because they precede
-the AND. Same for all other similar occurrences in the code.
+
+On 1/24/2020 6:58 AM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 20.01.2020 17:23, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> [snip]
+>> +static bool tegra_admaif_wr_reg(struct device *dev, unsigned int reg)
+>> +{
+>> +     struct tegra_admaif *admaif =3D dev_get_drvdata(dev);
+>> +     unsigned int ch_stride =3D TEGRA_ADMAIF_CHANNEL_REG_STRIDE;
+>> +     unsigned int num_ch =3D admaif->soc_data->num_ch;
+>> +     unsigned int rx_base =3D admaif->soc_data->rx_base;
+>> +     unsigned int tx_base =3D admaif->soc_data->tx_base;
+>> +     unsigned int global_base =3D admaif->soc_data->global_base;
+>> +     unsigned int reg_max =3D admaif->soc_data->regmap_conf->max_regist=
+er;
+>> +     unsigned int rx_max =3D rx_base + (num_ch * ch_stride);
+>> +     unsigned int tx_max =3D tx_base + (num_ch * ch_stride);
+>> +
+>> +     if ((reg >=3D rx_base) && (reg < rx_max)) {
+> The braces are not needed around the comparisons because they precede
+> the AND. Same for all other similar occurrences in the code.
+
+While that is true, some prefer to use explicit braces to make it more=20
+readable.
+In the past I was told to use explicitly in such cases.
+
