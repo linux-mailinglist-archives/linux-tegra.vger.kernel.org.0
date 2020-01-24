@@ -2,71 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F20314751C
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 00:56:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E1E0147632
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 02:18:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729829AbgAWX4w (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 23 Jan 2020 18:56:52 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:41254 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729277AbgAWX4w (ORCPT
+        id S1729727AbgAXBSm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 23 Jan 2020 20:18:42 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:32938 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730926AbgAXBSm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 23 Jan 2020 18:56:52 -0500
-Received: by mail-lj1-f196.google.com with SMTP id h23so353215ljc.8;
-        Thu, 23 Jan 2020 15:56:50 -0800 (PST)
+        Thu, 23 Jan 2020 20:18:42 -0500
+Received: by mail-lf1-f66.google.com with SMTP id n25so130320lfl.0;
+        Thu, 23 Jan 2020 17:18:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GBpSA+S70IveCTtKIGEFtQpKccngEqKX7VJI5QTlR44=;
-        b=gqdOAPHfQJs7X0ZXIxK83uE8YRY1mng4HqdwWXVTp8ByvyNa6ZheKj2RHCguW3xOwZ
-         PUmnNIdiPmp1TjkbXzo4bwZ21v8NE7OR0rDTqT9O9iEZXXL3EeCNmepJpMkkLj+lNpYn
-         CQ7ZTNuFfLU3mLP1kjo5813jL7L7BEakXcMcWSmqmSrMMDSWau3h0+JuO/z7/fxIARFz
-         Gxho2oK8ZnU+aweBDeR8YBIB01ggNKfDr+9S2Xwfc0/R4iOCDAeWFTxyampSwIweBf3g
-         ylJKbNGhspngo3OUllSFtZxk0fQ6RgE64tZVOJOXmIcNo6z2VE3UZM5OXmDXIEE23tpJ
-         6L0g==
+        bh=Qa1ZeKIxwMxhhVXWx6jah5pzEB39RZ2UXKKeVBvARPU=;
+        b=gQvil3S7iFbcn3Zs8yz7OmBRM/dDoATirdGEZo2VCbmL8OTLPt7/ozLpiNQZdpg+WT
+         7fNM9+G1SywrHuqMmvNR4XL1FL0+A0/Qt0t1CPFRe8FBJHZu42bClhUubNNvVZgtH2GP
+         kM3eg7TYMuQyPL4o0asf3vO55XaTS0yJb6XO5spInitlXvOGtydV1rc6ebnTH6BprioC
+         8H98izxEKeAdjG8oPxARdM8rk88hJ+J36UE3ZH99G3M+CtF7v9zW7a9YGacuHPRgUwfE
+         uR7owsNEdBpOk91HfdXy5LmGWQdnFO+QnYALvsQz0P6QbRKCJwkmZSvX80FkdPwGGSzb
+         6ocg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=GBpSA+S70IveCTtKIGEFtQpKccngEqKX7VJI5QTlR44=;
-        b=ThwgBCnCAaZxwT9cifvUcUMiNz5K5z+XDDaSFK23ZKUmljC0f7s4446PA/nNTyb+2g
-         DiuAVLRrHc/gBbYOfI7d4OTF3EXUiMr3mtPr5xsw3WZsPE1nxVte57o41AdOyB3SMzmf
-         5h0ZZ6VMCDtd3NjgDoxXEzO64HO2H8VtLsMKhcYOd6rZEswuJc4b5obSgHo9VqhVb4vY
-         Xa9qxKmvl+mutP8AaYPH/+AnvCZLWiDmh2pNfX2gw0mtlN7sQmAp2klavPxPDEPqWIPs
-         a3DvcTZcUh4f9xoZrgNWpV9i6auF8HJNZF1PuZfaOziNX15OBM+mG7Mu1csH2+ykFmfW
-         Dvvw==
-X-Gm-Message-State: APjAAAWNkP8SPsvYxVcP2pPY+LPrDPakpYBO3EGWI1RF2hZxMD7qdTUS
-        LP22RPfSoG1mn9VcltVoCBDPQkBB
-X-Google-Smtp-Source: APXvYqxoTeKZ48pGOHQTsLFqutvtN4hgoSviLPAKKeyV9HeVxPD93R0HyzG+SjwU+HzCapUUY5PaPQ==
-X-Received: by 2002:a2e:3619:: with SMTP id d25mr481791lja.231.1579823809203;
-        Thu, 23 Jan 2020 15:56:49 -0800 (PST)
+        bh=Qa1ZeKIxwMxhhVXWx6jah5pzEB39RZ2UXKKeVBvARPU=;
+        b=huX1pbGXt+9aXBqosDL88+S8IXue165QQsJRGDgcOPzcpKpQoLxj7/z4xqoA0ridPr
+         c9pcRZ4BAmiNUIdDJ0vHnCrxhH6r8t1FCt4ZkY4Oc1iu3wIEoBFxSvmPsZJI1nZFsAd/
+         +00L+0+j8AkXXAaOwD1c/m0SZOen/Q3o8oZ6ZnrJtYn5tJqschTLUBYYv3hLuJFub6ZB
+         yC6oOQc9XQphQBBQrsMd95/gzfTztDV2il5aZoG4lHm32W3pwtCZncvgkYXL7gqty5XF
+         z/19RwsUQRhoC9pHZGeevuJhiFHgWzywxxFBPjMoRtdLsd/KDUp9pt6nXD+cJVtZWEvx
+         x12A==
+X-Gm-Message-State: APjAAAXziToYs4m1gwq1P6dblGNAVyIQFAF9kN9YsNqhr6RYkp5/qD++
+        tKHW/6LZEIsB0q9iY3kJ2gQ=
+X-Google-Smtp-Source: APXvYqxECFw30QnabkPguwcGpQ2JKwDUyv9e9T2Ryy+nL3W+5b0VqO7G9uYOHFCPG8/lASm/uehVZw==
+X-Received: by 2002:a19:4ad0:: with SMTP id x199mr241966lfa.13.1579828719604;
+        Thu, 23 Jan 2020 17:18:39 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id y2sm188582ljm.28.2020.01.23.15.56.47
+        by smtp.googlemail.com with ESMTPSA id k24sm2503908ljj.27.2020.01.23.17.18.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jan 2020 15:56:48 -0800 (PST)
-Subject: Re: [PATCH v8 11/22] ASoC: tegra: Add fallback implementation for
- audio mclk
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
-        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
-        josephl@nvidia.com, daniel.lezcano@linaro.org,
-        mmaddireddy@nvidia.com, markz@nvidia.com,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1578986667-16041-1-git-send-email-skomatineni@nvidia.com>
- <1578986667-16041-12-git-send-email-skomatineni@nvidia.com>
+        Thu, 23 Jan 2020 17:18:38 -0800 (PST)
+Subject: Re: [alsa-devel] [PATCH 5/9] ASoC: tegra: add Tegra210 based AHUB
+ driver
+To:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
+        robh+dt@kernel.org
+Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+        atalambedu@nvidia.com, linux-kernel@vger.kernel.org,
+        lgirdwood@gmail.com, jonathanh@nvidia.com, viswanathl@nvidia.com,
+        sharadg@nvidia.com, broonie@kernel.org, thierry.reding@gmail.com,
+        linux-tegra@vger.kernel.org, rlokhande@nvidia.com,
+        mkumard@nvidia.com, dramesh@nvidia.com
+References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
+ <1579530198-13431-6-git-send-email-spujar@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <aef36b46-789a-c44e-4cd1-9d4183435ba9@gmail.com>
-Date:   Fri, 24 Jan 2020 02:56:45 +0300
+Message-ID: <5ed7482e-e874-9e11-c84e-7418e4b5162e@gmail.com>
+Date:   Fri, 24 Jan 2020 04:18:36 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <1578986667-16041-12-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <1579530198-13431-6-git-send-email-spujar@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -75,64 +73,99 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-14.01.2020 10:24, Sowjanya Komatineni пишет:
-> mclk is from clk_out_1 which is part of Tegra PMC block and pmc clocks
-> are moved to Tegra PMC driver with pmc as clock provider and using pmc
-> clock ids.
-> 
-> New device tree uses clk_out_1 from pmc clock provider as audio mclk.
-> 
-> So, this patch adds implementation for mclk fallback to extern1 when
-> retrieving mclk returns -ENOENT to be backward compatible of new device
-> tree with older kernels.
-> 
-> Fixes: 110147c8c513 ("ASoC: tegra: always use clk_get() in utility code")
-> 
-> Tested-by: Dmitry Osipenko <digetx@gmail.com>
-> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  sound/soc/tegra/tegra_asoc_utils.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/sound/soc/tegra/tegra_asoc_utils.c b/sound/soc/tegra/tegra_asoc_utils.c
-> index 536a578e9512..74d3ffe7e603 100644
-> --- a/sound/soc/tegra/tegra_asoc_utils.c
-> +++ b/sound/soc/tegra/tegra_asoc_utils.c
-> @@ -191,9 +191,21 @@ int tegra_asoc_utils_init(struct tegra_asoc_utils_data *data,
->  
->  	data->clk_cdev1 = clk_get(dev, "mclk");
->  	if (IS_ERR(data->clk_cdev1)) {
-> -		dev_err(data->dev, "Can't retrieve clk cdev1\n");
-> -		ret = PTR_ERR(data->clk_cdev1);
-> -		goto err_put_pll_a_out0;
-> +		if (PTR_ERR(data->clk_cdev1) != -ENOENT) {
-> +			dev_err(data->dev, "Can't retrieve clk cdev1\n");
-> +			ret = PTR_ERR(data->clk_cdev1);
-> +			goto err_put_pll_a_out0;
-> +		}
+20.01.2020 17:23, Sameer Pujar пишет:
+[snip]
+> +static int tegra_ahub_get_value_enum(struct snd_kcontrol *kctl,
+> +				     struct snd_ctl_elem_value *uctl)
+> +{
+> +	struct snd_soc_component *cmpnt = snd_soc_dapm_kcontrol_component(kctl);
+> +	struct tegra_ahub *ahub = snd_soc_component_get_drvdata(cmpnt);
+> +	struct soc_enum *e = (struct soc_enum *)kctl->private_value;
+> +	unsigned int reg, i, bit_pos = 0;
 > +
-> +		/* Fall back to extern1 */
-> +		data->clk_cdev1 = clk_get(dev, "extern1");
-> +		if (IS_ERR(data->clk_cdev1)) {
-> +			dev_err(data->dev, "Can't retrieve clk extern1\n");
-> +			ret = PTR_ERR(data->clk_cdev1);
-> +			goto err_put_pll_a_out0;
-> +		}
+> +	/*
+> +	 * Find the bit position of current MUX input.
+> +	 * If nothing is set, position would be 0 and it corresponds to 'None'.
+> +	 */
+> +	for (i = 0; i < ahub->soc_data->reg_count; i++) {
+> +		unsigned int reg_val;
 > +
-> +		dev_info(data->dev, "Falling back to extern1\n");
->  	}
->  
->  	ret = tegra_asoc_utils_set_rate(data, 44100, 256 * 44100);
-> 
+> +		reg = e->reg + (TEGRA210_XBAR_PART1_RX * i);
+> +		snd_soc_component_read(cmpnt, reg, &reg_val);
+> +		reg_val &= ahub->soc_data->mask[i];
+> +
+> +		if (reg_val) {
+> +			bit_pos = ffs(reg_val) +
+> +				  (8 * cmpnt->val_bytes * i);
 
-I tried to double-check if audio works using the updated DT works with
-this fallback and unfortunately it is not (maybe I actually missed to
-test this case before).. the driver doesn't probe at all because of the
-assigned-clocks presence, which makes clk core to fail finding the MCLK
-and thus assigned-clocks configuration fails, preventing the driver's
-loading.
+Multiplication takes precedence, braces are not needed. Same for all
+other occurrences in the code.
 
-I'm not sure what could be done about it. Perhaps just to give up on the
-compatibility of older kernels with the new DTs, missing audio isn't
-really that critical (perhaps).
+[snip]
+> +			break;
+> +		}
+> +	}
+> +
+> +	/* Find index related to the item in array *_ahub_mux_texts[] */
+> +	for (i = 0; i < e->items; i++) {
+> +		if (bit_pos == e->values[i]) {
+> +			uctl->value.enumerated.item[0] = i;
+> +			break;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int tegra_ahub_put_value_enum(struct snd_kcontrol *kctl,
+> +				     struct snd_ctl_elem_value *uctl)
+> +{
+> +	struct snd_soc_component *cmpnt = snd_soc_dapm_kcontrol_component(kctl);
+> +	struct tegra_ahub *ahub = snd_soc_component_get_drvdata(cmpnt);
+> +	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kctl);
+> +	struct soc_enum *e = (struct soc_enum *)kctl->private_value;
+> +	struct snd_soc_dapm_update update[TEGRA_XBAR_UPDATE_MAX_REG] = { };
+
+Shouldn't this be {0} to make array zero'ed?
+
+[snip]
+> +static int tegra_ahub_probe(struct platform_device *pdev)
+> +{
+> +	const struct of_device_id *match;
+> +	struct tegra_ahub *ahub;
+> +	struct tegra_ahub_soc_data *soc_data;
+> +	void __iomem *regs;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	match = of_match_device(tegra_ahub_of_match, &pdev->dev);
+> +	if (!match) {
+> +		dev_err(&pdev->dev, "error: no device match found\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	soc_data = (struct tegra_ahub_soc_data *)match->data;
+
+soc_data = device_get_match_data(&pdev->dev);
+
+> +	ahub = devm_kcalloc(&pdev->dev, 1, sizeof(*ahub), GFP_KERNEL);
+> +	if (!ahub)
+> +		return -ENOMEM;
+> +
+> +	ahub->soc_data = soc_data;
+> +
+> +	platform_set_drvdata(pdev, ahub);
+> +
+> +	ahub->clk = devm_clk_get(&pdev->dev, "ahub");
+> +	if (IS_ERR(ahub->clk)) {
+> +		dev_err(&pdev->dev, "can't retrieve AHUB clock\n");
+> +		return PTR_ERR(ahub->clk);
+> +	}
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +
+> +	regs = devm_ioremap_resource(&pdev->dev, res);
+> +	if (IS_ERR(regs))
+> +		return PTR_ERR(regs);
+
+regs = devm_platform_ioremap_resource(pdev, 0);
