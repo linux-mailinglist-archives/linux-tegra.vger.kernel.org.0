@@ -2,111 +2,175 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D97C61479A6
-	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 09:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4606C147A05
+	for <lists+linux-tegra@lfdr.de>; Fri, 24 Jan 2020 10:07:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729593AbgAXIuP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 24 Jan 2020 03:50:15 -0500
-Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:51506 "EHLO
-        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726173AbgAXIuP (ORCPT
+        id S1729203AbgAXJHd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 24 Jan 2020 04:07:33 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8311 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725787AbgAXJHd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 24 Jan 2020 03:50:15 -0500
-Received: from [167.98.27.226] (helo=[10.35.5.173])
-        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1iuufL-0002gP-Ar; Fri, 24 Jan 2020 08:50:11 +0000
-Subject: Re: [PATCH v8 22/22] clk: tegra: Remove audio clocks configuration
- from clock driver
+        Fri, 24 Jan 2020 04:07:33 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e2ab3a20000>; Fri, 24 Jan 2020 01:06:46 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 24 Jan 2020 01:07:32 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 24 Jan 2020 01:07:32 -0800
+Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 24 Jan
+ 2020 09:07:24 +0000
+Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
+ driver
 To:     Dmitry Osipenko <digetx@gmail.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, broonie@kernel.org,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        mperttunen@nvidia.com, gregkh@linuxfoundation.org,
-        sboyd@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
-Cc:     pdeschrijver@nvidia.com, pgaikwad@nvidia.com, spujar@nvidia.com,
-        josephl@nvidia.com, daniel.lezcano@linaro.org,
-        mmaddireddy@nvidia.com, markz@nvidia.com,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1578986667-16041-1-git-send-email-skomatineni@nvidia.com>
- <1578986667-16041-23-git-send-email-skomatineni@nvidia.com>
- <d69fe7a8-71cc-c560-a567-f89b936753ad@gmail.com>
- <9765b723-33af-9863-72c9-8094203c8cb8@nvidia.com>
- <f2506b91-0199-f2a5-ea8c-ace7b651b443@gmail.com>
- <e6013c72-4ceb-aa3f-50bf-187794f85b66@gmail.com>
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <fc2b6c3d-a204-ee35-fce4-b2831c444eb3@codethink.co.uk>
-Date:   Fri, 24 Jan 2020 08:50:10 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Sameer Pujar <spujar@nvidia.com>
+CC:     <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <lgirdwood@gmail.com>, <linux-kernel@vger.kernel.org>,
+        <broonie@kernel.org>, <atalambedu@nvidia.com>, <tiwai@suse.com>,
+        <viswanathl@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
+        <sharadg@nvidia.com>, <rlokhande@nvidia.com>, <mkumard@nvidia.com>,
+        <dramesh@nvidia.com>
+References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
+ <1579530198-13431-5-git-send-email-spujar@nvidia.com>
+ <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
+ <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
+ <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
+ <bdc749bc-b62c-a041-c17c-33fd49fe8e2e@nvidia.com>
+ <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
+ <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
+ <34ac1fd3-ae0f-07f2-555f-a55087a2c9dc@nvidia.com>
+ <1a84b393-938f-8bed-d08e-cc3bb6ed4844@gmail.com>
+ <0fc814c2-0dc6-7741-b954-463381ff7fb9@nvidia.com>
+ <b5c581b9-17af-d004-33fb-2cc782ab820a@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <9f73afdf-1e9a-cdbd-f972-a022d503ef51@nvidia.com>
+Date:   Fri, 24 Jan 2020 09:07:22 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <e6013c72-4ceb-aa3f-50bf-187794f85b66@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <b5c581b9-17af-d004-33fb-2cc782ab820a@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1579856806; bh=7aoEWgOMrsENsyCSERE4iOvClQ10ZBvAeKGx7j04F0Y=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=QwVgTRUkTeKYuVdIF7IWb8Lx6v4QxDRL3CI5bRnrYOJwXFYDVgMmPs5XFiEQ0Qfk4
+         wqx0DGl28wvYoC4xC0tkZah++mlIsfR8UrL12MvIgBntdJ0oA57208JrBcXNZRb2xF
+         bxrjLt4MAxLDlMn5/rcnn5er2CGH8stTdmDBAOImYAtrUnk2DOBgU7xWuuOyBrqesr
+         rOkiqEckCbQJwpbwZgu+MuDnK2VVPRFAAitb253LPKwCb3SFyUV1vjYzXrw2hosS7R
+         MZciu+P9Zy8jm+skB8HZ97Q2LK9OiU77dRSKfnIM4aQj72Mnb7bHsjN/hOgGr6jHGA
+         KVmJjRE4Uf0dA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 24/01/2020 04:34, Dmitry Osipenko wrote:
-> 21.01.2020 19:57, Dmitry Osipenko пишет:
->> 21.01.2020 19:19, Sowjanya Komatineni пишет:
->>>
->>> On 1/19/20 7:04 AM, Dmitry Osipenko wrote:
->>>> External email: Use caution opening links or attachments
->>>>
->>>>
->>>> 14.01.2020 10:24, Sowjanya Komatineni пишет:
->>>>
->>>> [snip]
->>>>
->>>>> diff --git a/drivers/clk/tegra/clk-tegra30.c
->>>>> b/drivers/clk/tegra/clk-tegra30.c
->>>>> index 5732fdbe20db..53d1c48532ae 100644
->>>>> --- a/drivers/clk/tegra/clk-tegra30.c
->>>>> +++ b/drivers/clk/tegra/clk-tegra30.c
->>>>> @@ -1221,9 +1221,8 @@ static struct tegra_clk_init_table init_table[]
->>>>> __initdata = {
->>>>>         { TEGRA30_CLK_UARTC, TEGRA30_CLK_PLL_P, 408000000, 0 },
->>>>>         { TEGRA30_CLK_UARTD, TEGRA30_CLK_PLL_P, 408000000, 0 },
->>>>>         { TEGRA30_CLK_UARTE, TEGRA30_CLK_PLL_P, 408000000, 0 },
->>>>> -     { TEGRA30_CLK_PLL_A, TEGRA30_CLK_CLK_MAX, 564480000, 1 },
->>>>> -     { TEGRA30_CLK_PLL_A_OUT0, TEGRA30_CLK_CLK_MAX, 11289600, 1 },
->>>>> -     { TEGRA30_CLK_EXTERN1, TEGRA30_CLK_PLL_A_OUT0, 0, 1 },
->>>>> +     { TEGRA30_CLK_PLL_A, TEGRA30_CLK_CLK_MAX, 564480000, 0 },
->>>>> +     { TEGRA30_CLK_PLL_A_OUT0, TEGRA30_CLK_CLK_MAX, 11289600, 0 },
->>>>>         { TEGRA30_CLK_I2S0, TEGRA30_CLK_PLL_A_OUT0, 11289600, 0 },
->>>>>         { TEGRA30_CLK_I2S1, TEGRA30_CLK_PLL_A_OUT0, 11289600, 0 },
->>>>>         { TEGRA30_CLK_I2S2, TEGRA30_CLK_PLL_A_OUT0, 11289600, 0 },
->>>>>
->>>> What about to use the assigned-clock-rates in device-tree and thus to
->>>> remove those PLL_A entries?
->>>
->>> Yes clock rates can be used and also PLL rate is set based on sample
->>> rate during hw_params. So this can be removed.
->>>
->>> But PLLA clock rates are not related to this patch series and also
->>> changing this needs audio function testing across all platforms and
->>> currently we don't have audio functional tests in place for older
->>> platforms.
->>>
->>> All audio clocks proper fixes and cleanup b/w clock driver and audio
->>> driver will be done separately.
+
+On 23/01/2020 15:16, Dmitry Osipenko wrote:
+> 23.01.2020 12:22, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
 >>
->> If there are real plans to make sound driver to drive the PLLA rate,
->> then indeed should be fine to keep it as-is for now.
-> 
-> Looking at tegra_asoc_utils_set_rate(), it already sets the PLLA rate.
-> Maybe those table entries are not needed already?
+>>
+>> On 1/22/2020 9:57 PM, Dmitry Osipenko wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> 22.01.2020 14:52, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> On 22/01/2020 07:16, Sameer Pujar wrote:
+>>>>
+>>>> ...
+>>>>
+>>>>>>>>>>> +static int tegra210_i2s_remove(struct platform_device *pdev)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_disable(&pdev->dev);
+>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (!pm_runtime_status_suspended(&pde=
+v->dev))
+>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 tegra210_i2s_runtime_suspend(&pdev->dev);
+>>>>>>>>>> This breaks device's RPM refcounting if it was disabled in the
+>>>>>>>>>> active
+>>>>>>>>>> state. This code should be removed. At most you could warn
+>>>>>>>>>> about the
+>>>>>>>>>> unxpected RPM state here, but it shouldn't be necessary.
+>>>>>>>>> I guess this was added for safety and explicit suspend keeps cloc=
+k
+>>>>>>>>> disabled.
+>>>>>>>>> Not sure if ref-counting of the device matters when runtime PM is
+>>>>>>>>> disabled and device is removed.
+>>>>>>>>> I see few drivers using this way.
+>>>>>>>> It should matter (if I'm not missing something) because RPM should
+>>>>>>>> be in
+>>>>>>>> a wrecked state once you'll try to re-load the driver's module.
+>>>>>>>> Likely
+>>>>>>>> that those few other drivers are wrong.
+>>>>>>>>
+>>>>>>>> [snip]
+>>>>>>> Once the driver is re-loaded and RPM is enabled, I don't think it
+>>>>>>> would use
+>>>>>>> the same 'dev' and the corresponding ref count. Doesn't it use the
+>>>>>>> new
+>>>>>>> counters?
+>>>>>>> If RPM is not working for some reason, most likely it would be the
+>>>>>>> case
+>>>>>>> for other
+>>>>>>> devices. What best driver can do is probably do a force suspend
+>>>>>>> during
+>>>>>>> removal if
+>>>>>>> already not done. I would prefer to keep, since multiple drivers
+>>>>>>> still
+>>>>>>> have it,
+>>>>>>> unless there is a real harm in doing so.
+>>>>>> I took a closer look and looks like the counter actually should be
+>>>>>> reset. Still I don't think that it's a good practice to make changes
+>>>>>> underneath of RPM, it may strike back.
+>>>>> If RPM is broken, it probably would have been caught during device
+>>>>> usage.
+>>>>> I will remove explicit suspend here if no any concerns from other
+>>>>> folks.
+>>>>> Thanks.
+>>>> I recall that this was the preferred way of doing this from the RPM
+>>>> folks. Tegra30 I2S driver does the same and Stephen had pointed me to
+>>>> this as a reference.
+>>>> I believe that this is meant to ensure that the
+>>>> device is always powered-off regardless of it RPM is enabled or not an=
+d
+>>>> what the current state is.
+>>> Yes, it was kinda actual for the case of unavailable RPM.
+>>
+>>> Anyways, /I think/ variant like this should have been more preferred:
+>>>
+>>> if (!pm_runtime_enabled(&pdev->dev))
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tegra210_i2s_runtime_s=
+uspend(&pdev->dev);
+>>> else
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_disable(&pd=
+ev->dev);
+>>
+>> I think it looks to be similar to what is there already.
+>>
+>> pm_runtime_disable(&pdev->dev); // it would turn out to be a dummy call
+>> if !RPM
+>> if (!pm_runtime_status_suspended(&pdev->dev)) // it is true always if !R=
+PM
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tegra210_i2s_runtime_suspend(=
+&pdev->dev);
+>=20
+> Maybe this is fine for !RPM, but not really fine in a case of enabled
+> RPM. Device could be in resumed state after pm_runtime_disable() if it
+> wasn't suspended before the disabling.
 
-This reminds me I still have patches for support for tegra30 as clock
-slave. I should really sort out getting these finished up and tested.
+I don't see any problem with this for the !RPM case.
 
+Jon
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
-
-https://www.codethink.co.uk/privacy.html
+--=20
+nvpublic
