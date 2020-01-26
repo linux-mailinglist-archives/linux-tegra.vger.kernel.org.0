@@ -2,139 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C50151499C4
-	for <lists+linux-tegra@lfdr.de>; Sun, 26 Jan 2020 10:13:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C332149B2F
+	for <lists+linux-tegra@lfdr.de>; Sun, 26 Jan 2020 15:48:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726518AbgAZJNW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 26 Jan 2020 04:13:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41904 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726240AbgAZJNW (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 26 Jan 2020 04:13:22 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2154E2071E;
-        Sun, 26 Jan 2020 09:13:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580030001;
-        bh=7O4rZrabfwe2Yk8BfYvwgH+qJH1yicMOq6Gs92zQMhc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LoG/pm1slnQ7cTk4cUOGZtlTS1D/KfZaqBVgjYP38n7Le/JePC429D1AiQ64at6Xw
-         RxY0orqoBRGglLa81silLd8APNaeSo4qwEhs+J5NeQT5Be5U17OUHHDhshGn9UmDCH
-         gRyQE0oHM/CnMrQZrNTfysRner/8j+HZStnj1erY=
-Date:   Sun, 26 Jan 2020 10:13:19 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        shuah@kernel.org, patches@kernelci.org,
-        ben.hutchings@codethink.co.uk, lkft-triage@lists.linaro.org,
-        stable@vger.kernel.org, linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 4.19 000/639] 4.19.99-stable review
-Message-ID: <20200126091319.GA3549630@kroah.com>
-References: <20200124093047.008739095@linuxfoundation.org>
- <23f2a904-3351-4a75-aaaf-2623dc55d114@nvidia.com>
- <20200124173659.GD3166016@kroah.com>
- <8a782263-aca3-3846-12a0-4eb21f015894@nvidia.com>
- <87fcb1f0-b1b8-a6e2-b8f6-b95a07f67919@nvidia.com>
- <eadee1dd-fb6d-855d-935a-4bf93a9ad505@roeck-us.net>
+        id S1725845AbgAZOsI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 26 Jan 2020 09:48:08 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:39978 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725773AbgAZOsI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 26 Jan 2020 09:48:08 -0500
+Received: by mail-lf1-f67.google.com with SMTP id c23so4399597lfi.7;
+        Sun, 26 Jan 2020 06:48:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=suFPTFq/Jnh/uA1mB3Xjj1yJvj/WmXz4zUasdh/U3Lw=;
+        b=TE6agYmJp5GFdw08Vzg+NV/vbjFAQN87TqO+KUwG+SSpOn/QXw2O5iYkI4V5wBFOd7
+         MskcQuJgz9OYUgTc3wCtEzUgVduImNspswoMR5iF6Aeljkj9x8+Ij6OYsZMeJPtuBt0q
+         dusBuy9L/4jdf/rIl4Ugr8l3im2nUCt42fx1+bieysOkOovSmCUZ9hhChAnDUD5Wl47C
+         A7zbiIfv6LDY6pcR+3eNEpeqzKBmMVG/i4T8YB8k6ehvMx6mruuC75qtvzU6oRRJ0u9s
+         FcptOHkL02y1q8s1Tw0K95zwucg+aW2S+pCCrs0TgJmPCWAif56/0YZyDJm7kR6nU8Ot
+         eREA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=suFPTFq/Jnh/uA1mB3Xjj1yJvj/WmXz4zUasdh/U3Lw=;
+        b=Gnv8h4mubjMtEXQQUY/GKkMCNKHPaq87xzfDRC2DhpyIhmmGs4oJ4QJPLjGsJqO6Nr
+         mSUlP8cJnXZS8SbQDhdlOL/hTjA6JYneq1JaG9RBsDIbrrpYbBMWOOKiEzTGFqwyGFce
+         qhKprE8X+yUj41K8DsAGHGRuC22d55Yi6BtIQ94M4VlHK12mBQFUiR00cnDD80eRDyn1
+         dXrz0kNZwhe8cfnUT5yPGJ7KenlLCVr/Q8jdwxs//p2U3/W3yTdevPfWLxpUA2yVQa7h
+         kjjyIOgEuBluWV7Moqo+zc8jWYK1y8oTsL7TsHyUOFsXTji4fC4hlUyke5AQjxLXY1Ez
+         KYSQ==
+X-Gm-Message-State: APjAAAUGNtZvILcMdwCenrqTyQ8QNfkiemSfhUoUAiOSaHLx+VU50eq5
+        Jd94U0Zi4iDKcxUrCbmOZ7g=
+X-Google-Smtp-Source: APXvYqzrBzQVrNMbr4ufPq5EvI4AI6Akr2T5dAKUbDntDgoBL0+AcsUC3mGSp5/wQzvANInr+4cgcQ==
+X-Received: by 2002:ac2:4839:: with SMTP id 25mr5664498lft.192.1580050086365;
+        Sun, 26 Jan 2020 06:48:06 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id z14sm6594934ljm.86.2020.01.26.06.48.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Jan 2020 06:48:05 -0800 (PST)
+Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
+ move_page_tables()
+To:     Wei Yang <richardw.yang@linux.intel.com>,
+        akpm@linux-foundation.org, dan.j.williams@intel.com,
+        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
+        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Russell King - ARM Linux <linux@armlinux.org.uk>
+References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
+ <20200117232254.2792-4-richardw.yang@linux.intel.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
+Date:   Sun, 26 Jan 2020 17:47:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eadee1dd-fb6d-855d-935a-4bf93a9ad505@roeck-us.net>
+In-Reply-To: <20200117232254.2792-4-richardw.yang@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat, Jan 25, 2020 at 07:46:47AM -0800, Guenter Roeck wrote:
-> On 1/25/20 3:32 AM, Jon Hunter wrote:
-> > 
-> > On 24/01/2020 18:07, Jon Hunter wrote:
-> > > 
-> > > On 24/01/2020 17:36, Greg Kroah-Hartman wrote:
-> > > > On Fri, Jan 24, 2020 at 02:50:05PM +0000, Jon Hunter wrote:
-> > > > > Hi Greg,
-> > > > > 
-> > > > > On 24/01/2020 09:22, Greg Kroah-Hartman wrote:
-> > > > > > This is the start of the stable review cycle for the 4.19.99 release.
-> > > > > > There are 639 patches in this series, all will be posted as a response
-> > > > > > to this one.  If anyone has any issues with these being applied, please
-> > > > > > let me know.
-> > > > > > 
-> > > > > > Responses should be made by Sun, 26 Jan 2020 09:26:29 +0000.
-> > > > > > Anything received after that time might be too late.
-> > > > > > 
-> > > > > > The whole patch series can be found in one patch at:
-> > > > > > 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.99-rc1.gz
-> > > > > > or in the git tree and branch at:
-> > > > > > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
-> > > > > > and the diffstat can be found below.
-> > > > > > 
-> > > > > > thanks,
-> > > > > > 
-> > > > > > greg k-h
-> > > > > > 
-> > > > > > -------------
-> > > > > > Pseudo-Shortlog of commits:
-> > > > > 
-> > > > > ...
-> > > > > 
-> > > > > > Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > > >      PCI: PM: Skip devices in D0 for suspend-to-idle
-> > > > > 
-> > > > > The above commit is causing a suspend regression on Tegra124 Jetson-TK1.
-> > > > > Reverting this on top of v4.19.99-rc1 fixes the issue.
-> > > > 
-> > > > This is also in the 4.14 queue, so should I drop it there too?
-> > > 
-> > > I did not see any failures with the same board on that branch, so I
-> > > would say no, but odd that it only fails here. It was failing for me
-> > > 100% so I would have expected to see if there too if it was a problem.
-> > 
-> > Hmmm, rc2 still not working for me ...
-> > 
-> > Test results for stable-v4.19:
-> >      11 builds:	11 pass, 0 fail
-> >      22 boots:	22 pass, 0 fail
-> >      32 tests:	30 pass, 2 fail
-> > 
-> > Linux version:	4.19.99-rc2-g24832ad2c623
-> > Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-> >                  tegra194-p2972-0000, tegra20-ventana,
-> >                  tegra210-p2371-2180, tegra30-cardhu-a04
-> > 
-> > I still see the following commit in rc2 ...
-> > 
-> > commit bb52152abe85f971278a7a4f033b29483f64bfdb
-> > Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > Date:   Thu Jun 13 23:59:45 2019 +0200
-> > 
-> >      PCI: PM: Skip devices in D0 for suspend-to-idle
-
-Yes, I did not change anything in -rc2 for you, sorry.
-
-> > BTW, I checked the 4.14. queue and I do not see the above change in
-> > there, however, there is similar change ...
-> > 
-> > Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >      PCI: PM: Avoid possible suspend-to-idle issue
-> > 
-> bb52152abe85 fixes this one, which in turn fixes 33e4f80ee69b.
-> The above in 4.14 but not its fixes is spelling a bit of trouble.
+18.01.2020 02:22, Wei Yang пишет:
+> Use the general helper instead of do it by hand.
 > 
-> Maybe commit 471a739a47aa7 ("PCI: PM: Avoid skipping bus-level
-> PM on platforms without ACPI") was added to -rc2, since it is
-> supposed to fix bb52152abe85.
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> ---
+>  mm/mremap.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/mm/mremap.c b/mm/mremap.c
+> index c2af8ba4ba43..a258914f3ee1 100644
+> --- a/mm/mremap.c
+> +++ b/mm/mremap.c
+> @@ -253,11 +253,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+>  
+>  	for (; old_addr < old_end; old_addr += extent, new_addr += extent) {
+>  		cond_resched();
+> -		next = (old_addr + PMD_SIZE) & PMD_MASK;
+> -		/* even if next overflowed, extent below will be ok */
+> +		next = pmd_addr_end(old_addr, old_end);
+>  		extent = next - old_addr;
+> -		if (extent > old_end - old_addr)
+> -			extent = old_end - old_addr;
+>  		old_pmd = get_old_pmd(vma->vm_mm, old_addr);
+>  		if (!old_pmd)
+>  			continue;
+> @@ -301,7 +298,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+>  
+>  		if (pte_alloc(new_vma->vm_mm, new_pmd))
+>  			break;
+> -		next = (new_addr + PMD_SIZE) & PMD_MASK;
+> +		next = pmd_addr_end(new_addr, new_addr + len);
+>  		if (extent > next - new_addr)
+>  			extent = next - new_addr;
+>  		move_ptes(vma, old_pmd, old_addr, old_addr + extent, new_vma,
+> 
 
-I have added that fix to 4.14 now, and will go push out a -rc3 for both
-4.19.y and 4.14.y to try to sync up on this and figure it out.
+Hello Wei,
 
-Jon, if you could retest 4.14.y, that would be great, to see if it has
-the same issue that 4.19.y has.  And if so, that means I should probably
-just drop both patches from both trees, right?
+Starting with next-20200122, I'm seeing the following in KMSG on NVIDIA
+Tegra (ARM32):
 
-thanks,
+  BUG: Bad rss-counter state mm:(ptrval) type:MM_ANONPAGES val:190
 
-greg k-h
+and eventually kernel hangs.
+
+Git's bisection points to this patch and reverting it helps. Please fix,
+thanks in advance.
