@@ -2,97 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C80F8149E44
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 03:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE160149E57
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 03:59:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726725AbgA0Cgf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 26 Jan 2020 21:36:35 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:36532 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726670AbgA0Cge (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 26 Jan 2020 21:36:34 -0500
-Received: by mail-qk1-f196.google.com with SMTP id w25so2569191qki.3;
-        Sun, 26 Jan 2020 18:36:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=0S2u5EvNWNA5WE8TUj76oT+IRB7+E8zMESAc070uf88=;
-        b=nfz0Zw4lkiliOmUdWDYJk2YH1QtvOZ4tOjkEHu++tjyF7fuYCqIoGQr9VvYNaGPYvr
-         tqtcQgg6fMOWzunduy2sa23jeRY9Od+mRUmafa0HKvaY40MH8Wko7Jdui89nMZBaRaVS
-         GlMiq4m16lA1Hg9k46iszlYBXkIcORAfu8QSY0zxSu5Zb2y9Ik9HJhiU73wD8M7zjKMf
-         5EWqSrhsajRncu9jvYOxTQO35SLHfc3p+U//gQfw1acYIaKx3dMVugKxHeygBzGEDu4j
-         gr0Cttoi5dzGyKJsoOZB2pS643kr0fxrFQl/OMiaoSxq9xcGdTHyYOflW6eFGVn6huwP
-         HuFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=0S2u5EvNWNA5WE8TUj76oT+IRB7+E8zMESAc070uf88=;
-        b=ZXay2PqbeKpdvqkYVzFsLMcXhdDw/k4WAh9pChdwxMG31M7bf46xecatuCVLjlp8ma
-         mVBhGOKZgxRNW22bWpnlsIbcpbBK1faSWuxvGCdnMEpFh8Zgk5/1wrTEoH16ExNWruZY
-         2ddeEuGaaTayv/1tIvFy/SkYb18qfa6Ksvh4dgV8I9kCHuw4wvHn/GpaCSFmX59jxgAk
-         b3XqiKATB7XeP4JQR7m5FX/ydoGT10PLh1ROhtEv/o2qMYEA7I+iJud4bdJBrmLrBEFn
-         5ASLBYzueI299tcemktOPR4F4lT4NqGGuby6JRHIHz/5Yim/jGcivU9znMo5tGrTiXrY
-         bSKg==
-X-Gm-Message-State: APjAAAUgTKaFQPLSqGgkrdX3EB0jwuqqpe0jDQrz+OW1WuKwIF0rIqE6
-        FibP6IREAHDZN0rb/s5e5mZaFkgOWutTew==
-X-Google-Smtp-Source: APXvYqxrvmMbbUS3jBp+8X6OB262GUtUfAhQgiSq0g4QIa6SbC/hj3Mf8MctBe0YQrcJTS0wOg9MiQ==
-X-Received: by 2002:a05:620a:11af:: with SMTP id c15mr4407030qkk.446.1580092593647;
-        Sun, 26 Jan 2020 18:36:33 -0800 (PST)
-Received: from master-desktop.sparksnet ([2601:153:900:4ad::bf1])
-        by smtp.gmail.com with ESMTPSA id h4sm9010642qtp.24.2020.01.26.18.36.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jan 2020 18:36:33 -0800 (PST)
-From:   Peter Geis <pgwipeout@gmail.com>
-To:     Peter Chen <peter.chen@nxp.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Peter Geis <pgwipeout@gmail.com>
-Subject: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
-Date:   Sun, 26 Jan 2020 21:35:48 -0500
-Message-Id: <20200127023548.27107-1-pgwipeout@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726921AbgA0C7x (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 26 Jan 2020 21:59:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51786 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726545AbgA0C7x (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 26 Jan 2020 21:59:53 -0500
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6934F20720;
+        Mon, 27 Jan 2020 02:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580093992;
+        bh=Xxe6e1RbtGn4/jUYrlDkK2iVd7wbKVCAUBJPGAeGEvk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pkR1ldAGILY7ByaZeZKE51wQBHl8Rev9VIgD1Rt2qUp2zzEeiDsmpCWuBmo3k3K/K
+         zT01gJcoa9jeN+LW5t1rUwsYtJ8ULwZKlofyZvEhLrdRV9bcfQ3ZSiC39VrgC+r3vt
+         SzwnOuNGl0WXlnG1/ar5Gqf5ncnnydrUK59NBVg4=
+Date:   Sun, 26 Jan 2020 18:59:51 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Wei Yang <richardw.yang@linux.intel.com>, dan.j.williams@intel.com,
+        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
+        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Russell King - ARM Linux <linux@armlinux.org.uk>
+Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
+ move_page_tables()
+Message-Id: <20200126185951.c9246349befcccce210a4ab8@linux-foundation.org>
+In-Reply-To: <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
+References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
+        <20200117232254.2792-4-richardw.yang@linux.intel.com>
+        <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The ci_hdrc_tegra driver does not currently support dual role mode, but
-it does not explicitly prevent its use.
-Certain devices support dual role mode, but not automatic role switch.
-This can cause the device to lock up during initialization of the
-driver.
+On Sun, 26 Jan 2020 17:47:57 +0300 Dmitry Osipenko <digetx@gmail.com> wrote:
 
-Detect this state by checking for the extcon phandle when dual role mode
-is set to otg.
-If it doesn't exist request the driver to only enable manual role
-switching.
+> 18.01.2020 02:22, Wei Yang пишет:
+> > Use the general helper instead of do it by hand.
+> > 
+> > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> > ---
+> >  mm/mremap.c | 7 ++-----
+> >  1 file changed, 2 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/mm/mremap.c b/mm/mremap.c
+> > index c2af8ba4ba43..a258914f3ee1 100644
+> > --- a/mm/mremap.c
+> > +++ b/mm/mremap.c
+> > @@ -253,11 +253,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+> >  
+> >  	for (; old_addr < old_end; old_addr += extent, new_addr += extent) {
+> >  		cond_resched();
+> > -		next = (old_addr + PMD_SIZE) & PMD_MASK;
+> > -		/* even if next overflowed, extent below will be ok */
+> > +		next = pmd_addr_end(old_addr, old_end);
+> >  		extent = next - old_addr;
+> > -		if (extent > old_end - old_addr)
+> > -			extent = old_end - old_addr;
+> >  		old_pmd = get_old_pmd(vma->vm_mm, old_addr);
+> >  		if (!old_pmd)
+> >  			continue;
+> > @@ -301,7 +298,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+> >  
+> >  		if (pte_alloc(new_vma->vm_mm, new_pmd))
+> >  			break;
+> > -		next = (new_addr + PMD_SIZE) & PMD_MASK;
+> > +		next = pmd_addr_end(new_addr, new_addr + len);
+> >  		if (extent > next - new_addr)
+> >  			extent = next - new_addr;
+> >  		move_ptes(vma, old_pmd, old_addr, old_addr + extent, new_vma,
+> > 
+> 
+> Hello Wei,
+> 
+> Starting with next-20200122, I'm seeing the following in KMSG on NVIDIA
+> Tegra (ARM32):
+> 
+>   BUG: Bad rss-counter state mm:(ptrval) type:MM_ANONPAGES val:190
+> 
+> and eventually kernel hangs.
+> 
+> Git's bisection points to this patch and reverting it helps. Please fix,
+> thanks in advance.
 
-Fixes: dfebb5f ("usb: chipidea: Add support for Tegra20/30/114/124")
-Signed-off-by: Peter Geis <pgwipeout@gmail.com>
----
- drivers/usb/chipidea/ci_hdrc_tegra.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
-index 7455df0ede49..2f6f6ce3e8f5 100644
---- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-+++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-@@ -89,6 +89,13 @@ static int tegra_udc_probe(struct platform_device *pdev)
- 	udc->data.usb_phy = udc->phy;
- 	udc->data.capoffset = DEF_CAPOFFSET;
- 
-+	/* check the dual mode and warn about bad configurations */
-+	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_OTG &&
-+	   !of_property_read_bool(pdev->dev.of_node, "extcon")) {
-+		dev_warn(&pdev->dev, "no extcon registered, otg unavailable");
-+		udc->data.flags |= CI_HDRC_DUAL_ROLE_NOT_OTG;
-+	}
-+
- 	udc->dev = ci_hdrc_add_device(&pdev->dev, pdev->resource,
- 				      pdev->num_resources, &udc->data);
- 	if (IS_ERR(udc->dev)) {
--- 
-2.17.1
+Thanks.  I had these tagged for 5.7-rc1 anyway, so I'll drop all five
+patches.
 
