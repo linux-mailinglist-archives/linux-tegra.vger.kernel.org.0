@@ -2,105 +2,146 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DCBB14A118
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 10:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A897714A3B6
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 13:21:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbgA0Jpp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 Jan 2020 04:45:45 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17685 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726911AbgA0Jpp (ORCPT
+        id S1730570AbgA0MVV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 Jan 2020 07:21:21 -0500
+Received: from mail-wm1-f41.google.com ([209.85.128.41]:36143 "EHLO
+        mail-wm1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730392AbgA0MVV (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 Jan 2020 04:45:45 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e2eb13a0000>; Mon, 27 Jan 2020 01:45:30 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 27 Jan 2020 01:45:44 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 27 Jan 2020 01:45:44 -0800
-Received: from [10.26.11.94] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 27 Jan
- 2020 09:45:41 +0000
-Subject: Re: [alsa-devel] [PATCH 5/9] ASoC: tegra: add Tegra210 based AHUB
- driver
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Sameer Pujar <spujar@nvidia.com>, <perex@perex.cz>,
-        <tiwai@suse.com>, <robh+dt@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <atalambedu@nvidia.com>, <linux-kernel@vger.kernel.org>,
-        <lgirdwood@gmail.com>, <viswanathl@nvidia.com>,
-        <sharadg@nvidia.com>, <broonie@kernel.org>,
-        <thierry.reding@gmail.com>, <linux-tegra@vger.kernel.org>,
-        <rlokhande@nvidia.com>, <mkumard@nvidia.com>, <dramesh@nvidia.com>
-References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
- <1579530198-13431-6-git-send-email-spujar@nvidia.com>
- <5ed7482e-e874-9e11-c84e-7418e4b5162e@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <2c3b2533-f271-4e38-6779-d82d6da40ffd@nvidia.com>
-Date:   Mon, 27 Jan 2020 09:45:38 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Mon, 27 Jan 2020 07:21:21 -0500
+Received: by mail-wm1-f41.google.com with SMTP id p17so6825273wma.1;
+        Mon, 27 Jan 2020 04:21:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jfdmZBVSX19FEw5yOEkD12e0Hmklt63OBqY1Uq1ogjM=;
+        b=Etag/tQWSZzjwp7fErrnD47npD+xrFY7eRvMGXjgmRcpA5GJ+SAKJg5zrQZpDzsq6z
+         lnodclySYNJKWWHmzpWPnwhBOJUfCMZNpMfSqNu6ieg03jQQgJ/xdp6rNb/joJNezWIe
+         a/32S/Hod/rQZ1/FxVK8t5bcyIXr+1TndFmIvYQYQjkyrHRkuG5H4D2LyNr8qMqHVIxo
+         DaghnUQ7Md+yHyiiquj/UZ9nKyHfvIrJPK+MSpkr55zZ3ixEEaPPEiJ54zsnlgXarrw4
+         RUy0ZDa3ayfyw+Ru7aLDMbKNL22hLIqwAftW2RAPW55R4ydLBMK0QV8sPwXZJNsAgkNi
+         gf2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jfdmZBVSX19FEw5yOEkD12e0Hmklt63OBqY1Uq1ogjM=;
+        b=QVOpfMFgCwkapFHMUFUmz3yao1IpNxCist/vaPGRIWx8powg347q22e76cA8t8F3nN
+         j20Cd00lQMrWlVszexA6ckPS9MaS7+p2wfKDV8X78Khu8Pt0VR1pp3X3m6dh601tzvVM
+         tZHRTWvckAUlLxJ3Vz+uevGb1JZuDAoSqus6INgfWPNbl2NkGel5t1MuIpUAY4SirKk2
+         Ox8lYlQIbeQ/QQcoYSuPdItKrb7EBJ9rchJMwH3LPpplJLf2ny1RGu9sVq4OMsXGGp4L
+         q7ETQXOcxjnFZrAmEXTutbJVM47h5GPNhcpsdcFLcDYbqD44MeSo45vyrhDlEjxAfifw
+         nBUw==
+X-Gm-Message-State: APjAAAWJIvxC6bjfBJVUrFP62DjZ8Jnac+tCFz2rEHJW7V4OyMkguayq
+        SuzUkXUmvbV3bD+5gSxz3iWK64Er
+X-Google-Smtp-Source: APXvYqyiM/PxVXRFr0gtTSlefJaemdd7mmRPyWmc0/TExQwi1WuKYndfyX0meYAG8OLuUUKzVeLsnw==
+X-Received: by 2002:a05:600c:cd:: with SMTP id u13mr13241426wmm.24.1580127678588;
+        Mon, 27 Jan 2020 04:21:18 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id f1sm18118801wmc.45.2020.01.27.04.21.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jan 2020 04:21:17 -0800 (PST)
+Date:   Mon, 27 Jan 2020 13:21:15 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Georgi Djakov <georgi.djakov@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
+ interconnects property
+Message-ID: <20200127122115.GA2117209@ulmo>
+References: <20200114181519.3402385-1-thierry.reding@gmail.com>
+ <20200114181519.3402385-2-thierry.reding@gmail.com>
+ <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
+ <20200120150605.GA712203@ulmo>
+ <57c37b3c-1473-d444-db59-8c6650241188@gmail.com>
+ <20200121141027.GE899558@ulmo>
+ <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
+ <20200121155432.GA912205@ulmo>
+ <ffc22502-0e7e-522c-543d-0e74cc25f4b1@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5ed7482e-e874-9e11-c84e-7418e4b5162e@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580118330; bh=LsX/gVdaQaPPnhkyvm9oZIfwSci6J3ljj8zm1g3dbd8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=ImzEWBmmKcCFUsxK4kbHE1C5dluhJR8sSw3L/+ojKKvQVKf36tEAzmqk8+txj/wXo
-         gBISVKDazLEn1wOTmJfzwdTjCLfLx+EwtW3X2kqEgnpNu+yN49ZZWf64BGR/a3TAPG
-         KB0YoZeZYL/KIcpKnIsFxhsPbHwpeYv6m2/YlFDyg1S4u7VDRD02UpAx1viIkt5lg+
-         x/rcn0VuqHIu85NvDGJJ/AL3UCMaGIGZhp0U5aJadH6B4hs7oGg0VJQusfLMp++KCd
-         MSbTWmbFAwhn5lKmLcN8IihPig9ZwcjiBKR6oyRb+K5+05z91qjZRLTDHJgVX4oT75
-         YnAyK2god3lGQ==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="CE+1k2dSO48ffgeK"
+Content-Disposition: inline
+In-Reply-To: <ffc22502-0e7e-522c-543d-0e74cc25f4b1@gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 24/01/2020 01:18, Dmitry Osipenko wrote:
-> 20.01.2020 17:23, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> [snip]
->> +static int tegra_ahub_get_value_enum(struct snd_kcontrol *kctl,
->> +				     struct snd_ctl_elem_value *uctl)
->> +{
->> +	struct snd_soc_component *cmpnt =3D snd_soc_dapm_kcontrol_component(kc=
-tl);
->> +	struct tegra_ahub *ahub =3D snd_soc_component_get_drvdata(cmpnt);
->> +	struct soc_enum *e =3D (struct soc_enum *)kctl->private_value;
->> +	unsigned int reg, i, bit_pos =3D 0;
->> +
->> +	/*
->> +	 * Find the bit position of current MUX input.
->> +	 * If nothing is set, position would be 0 and it corresponds to 'None'=
-.
->> +	 */
->> +	for (i =3D 0; i < ahub->soc_data->reg_count; i++) {
->> +		unsigned int reg_val;
->> +
->> +		reg =3D e->reg + (TEGRA210_XBAR_PART1_RX * i);
->> +		snd_soc_component_read(cmpnt, reg, &reg_val);
->> +		reg_val &=3D ahub->soc_data->mask[i];
->> +
->> +		if (reg_val) {
->> +			bit_pos =3D ffs(reg_val) +
->> +				  (8 * cmpnt->val_bytes * i);
+--CE+1k2dSO48ffgeK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jan 21, 2020 at 11:12:11PM +0300, Dmitry Osipenko wrote:
+> 21.01.2020 18:54, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Tue, Jan 21, 2020 at 05:18:43PM +0200, Georgi Djakov wrote:
+> >> On 1/21/20 16:10, Thierry Reding wrote:
+[...]
+> >>> I'm not sure if that TEGRA_ICC_EMEM makes a lot of sense. It's always
+> >>> going to be the same and it's arbitrarily defined, so it's effectively
+> >>> useless. But other than that it looks good.
+> >>
+> >> Well, in most cases the target would be the EMEM, so that's fine. I ha=
+ve seen
+> >> that other vendors that may have an additional internal memory, especi=
+ally
+> >> dedicated to some DSPs and in such cases the bandwidth needs are diffe=
+rent for
+> >> the two paths (to internal memory and DDR).
+> >=20
+> > Most chips have a small internal memory that can be used, though it
+> > seldomly is. However, in that case I would expect the target to be a
+> > completely different device, so it'd look more like this:
+> >=20
+> > 	interconnects =3D <&mc TEGRA186_MEMORY_CLIENT_BPMPR &iram>,
+> > 			...;
+> >=20
+> > I don't think EMEM has any "downstream" other than external memory.
 >=20
-> Multiplication takes precedence, braces are not needed. Same for all
-> other occurrences in the code.
+> The node ID should be mandatory in terms of interconnect, even if it's a
+> single node. EMC (provider) !=3D EMEM (endpoint).
 
-Personally, I prefer the above as it is explicit and helps readability.
+I don't understand why. An ID only makes sense if you've got multiple
+endpoints. For example, a regulator is a provider with a single endpoint
+so we don't specify an ID.
 
-Jon
+By its very definition an ID is used to identify something and we use it
+with a phandle to create a unique pair that identifies a resource within
+whatever the phandle represents, with the goal to differentiate it from
+other resources within the same provider. However, if there's only one
+such resource, the ID becomes redundant because the phandle without an
+ID is already unique and there's no need to differentiate with an extra
+ID.
 
---=20
-nvpublic
+Thierry
+
+--CE+1k2dSO48ffgeK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIyBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4u1bYACgkQ3SOs138+
+s6Gc9Q/xAbTzlbVUZDwoUkdCgx0LHuENIKE8SYi31wA3sfDcgTLs0sSih/Esx8cQ
+FsHqpY2r+loug6SkIWG0nlZOiXEUmms/Em5r0oahW9lLMcP+Y5OpzJN4BTPZHoOM
+uEHXdbJRs+NDdM6AUNpXbamcdvMST1DXpigjCkxTfFmGQQzrDrugSQvGpRtaO/WE
+yYxxrxnzfUFhv8FVDtXlxS0KI5yb2TJmdI80abFfKV/sshPFH9tIeEDIwdKDRbUx
+GuOYXFKBrK8S3A0PxJwlUJQa3yxc4700nnMdK4vUDNKtSTCfs2UB2vktYkJ+QpsR
+24lKzwqeBG+XLJMAm6cOzmrSyiX72Iuw73qth8orFuZXeBWqQixN/fdTFoMXv9AY
+dNo+190g0DXIGIrMayljP7R7oBI3NlnKYbc80DwjzdSf10KaXFjgYr1FONy84j7Y
+hKLeN7NuDK+LliNBa/W6/s7YApcQf99RnuzaG3sBrIdDrQuvA/ldk8giCD71qO4+
+ypE1ZyI6ec0a7Az0Xgsj/oW/HApiPcUs3f/rlv6cSTxb4+KtFvUmrkf6jaopmOxY
+mL556GqiwB7h434VdAt7tLQdDflmDno8wIzxljL1slPllsjyhpQo1kyXZsrG6mMc
+elQn4W7wy1O9AG6iIiCiXnnAyYEiNbDqaHaJTGFRjCFWrz3mXA==
+=MdJR
+-----END PGP SIGNATURE-----
+
+--CE+1k2dSO48ffgeK--
