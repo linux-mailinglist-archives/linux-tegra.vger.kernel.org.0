@@ -2,104 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C604149D1D
-	for <lists+linux-tegra@lfdr.de>; Sun, 26 Jan 2020 23:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C80F8149E44
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 03:36:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726252AbgAZWEB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 26 Jan 2020 17:04:01 -0500
-Received: from mail-wm1-f46.google.com ([209.85.128.46]:53691 "EHLO
-        mail-wm1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbgAZWEB (ORCPT
+        id S1726725AbgA0Cgf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 26 Jan 2020 21:36:35 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:36532 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726670AbgA0Cge (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 26 Jan 2020 17:04:01 -0500
-Received: by mail-wm1-f46.google.com with SMTP id s10so1239337wmh.3;
-        Sun, 26 Jan 2020 14:03:59 -0800 (PST)
+        Sun, 26 Jan 2020 21:36:34 -0500
+Received: by mail-qk1-f196.google.com with SMTP id w25so2569191qki.3;
+        Sun, 26 Jan 2020 18:36:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8xT2YCj/kdkoO4ypf9g6bJbEofr8bfZO0AuotrJsPkM=;
-        b=udwnkTDtGg3iuFwd8j4vmcT/KilmxvtI78NKaFGiKf0iA8O+X1h58LFpcgwzvQROph
-         yI7cQVgTsjx+lRMR92E4QUo2KCztcDyTR9G6bhnhR/78KvwB7vr56MLoQfJa+6ltCKT3
-         wugP77IL5GY8QEty9vcbdXsb1OMBMNzYGvVlVwrylZXUMFsFFl9JqrEktIF/ZPXcObsz
-         zx0fWRizSdlT4xQxY6MA40YmIWJqk8ZiYdNb6+O9tWjJ3fgG7qWqAxY96myqDNgAKUOn
-         AWNVYB44xjz0U++QMvo3cJoe1nJlrnWbmzZ0zaQtDAglkzoLmhFx5SiWivQG3GUIylmB
-         zd/A==
+        h=from:to:cc:subject:date:message-id;
+        bh=0S2u5EvNWNA5WE8TUj76oT+IRB7+E8zMESAc070uf88=;
+        b=nfz0Zw4lkiliOmUdWDYJk2YH1QtvOZ4tOjkEHu++tjyF7fuYCqIoGQr9VvYNaGPYvr
+         tqtcQgg6fMOWzunduy2sa23jeRY9Od+mRUmafa0HKvaY40MH8Wko7Jdui89nMZBaRaVS
+         GlMiq4m16lA1Hg9k46iszlYBXkIcORAfu8QSY0zxSu5Zb2y9Ik9HJhiU73wD8M7zjKMf
+         5EWqSrhsajRncu9jvYOxTQO35SLHfc3p+U//gQfw1acYIaKx3dMVugKxHeygBzGEDu4j
+         gr0Cttoi5dzGyKJsoOZB2pS643kr0fxrFQl/OMiaoSxq9xcGdTHyYOflW6eFGVn6huwP
+         HuFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8xT2YCj/kdkoO4ypf9g6bJbEofr8bfZO0AuotrJsPkM=;
-        b=JiMP/Av9cd9hfFX/opfsaDh8XBflLUF64DwkrcKeDU9d+Zb85Jj1gAZ+NhEP2gW0VA
-         4k2IK/IhN35U4Xhhq9at+zzK3TAiB8qwOg7qi1LILizs18pCpd/70z1JPDvKlNt22eoZ
-         b8Oli4iVi4NDLsN3rQ398EAJiH4f5G34FXB77ztF3vCklE7ZpkrwGVdau3WFD8Kx0C34
-         wuvRyjsTMSOAqOPnx0/Axo4oBrweoLuf1pWRZuOOfMTQcOHWdYOMslO4HIfNEO1UOxX6
-         7qICQUq4yAxIRXbP1kAjZIdUMrDG5tv3/NRQotcLi9nSFGIGfSgnVt/goBT/ADzBujbL
-         MKhg==
-X-Gm-Message-State: APjAAAW6seuuUEyXz8SEkEx7ngo9ffo4zwZW5L2QHEc07YSkKzuGZJpt
-        m3I/9jsnBzAoj662mKeAz0H4zr0A
-X-Google-Smtp-Source: APXvYqyVq7rQ52H2JEUWMNZFskDa3qU+AcyevjNKOmTv1A/4PZcrLIlRwKmFQvhgVH+/sBM+D/ZlGQ==
-X-Received: by 2002:a1c:2089:: with SMTP id g131mr9822744wmg.63.1580076238693;
-        Sun, 26 Jan 2020 14:03:58 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id o4sm17596949wrw.97.2020.01.26.14.03.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jan 2020 14:03:58 -0800 (PST)
-Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
- interconnects property
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Georgi Djakov <georgi.djakov@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20200114181519.3402385-1-thierry.reding@gmail.com>
- <20200114181519.3402385-2-thierry.reding@gmail.com>
- <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
- <20200120150605.GA712203@ulmo>
- <57c37b3c-1473-d444-db59-8c6650241188@gmail.com>
- <20200121141027.GE899558@ulmo>
- <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
- <20200121155432.GA912205@ulmo>
- <ffc22502-0e7e-522c-543d-0e74cc25f4b1@gmail.com>
- <853bb7bd-8e04-38ac-d0d6-a958135a49be@gmail.com>
-Message-ID: <f915949a-b46e-26fe-f103-fbc8d1fa3bb1@gmail.com>
-Date:   Mon, 27 Jan 2020 01:03:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <853bb7bd-8e04-38ac-d0d6-a958135a49be@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=0S2u5EvNWNA5WE8TUj76oT+IRB7+E8zMESAc070uf88=;
+        b=ZXay2PqbeKpdvqkYVzFsLMcXhdDw/k4WAh9pChdwxMG31M7bf46xecatuCVLjlp8ma
+         mVBhGOKZgxRNW22bWpnlsIbcpbBK1faSWuxvGCdnMEpFh8Zgk5/1wrTEoH16ExNWruZY
+         2ddeEuGaaTayv/1tIvFy/SkYb18qfa6Ksvh4dgV8I9kCHuw4wvHn/GpaCSFmX59jxgAk
+         b3XqiKATB7XeP4JQR7m5FX/ydoGT10PLh1ROhtEv/o2qMYEA7I+iJud4bdJBrmLrBEFn
+         5ASLBYzueI299tcemktOPR4F4lT4NqGGuby6JRHIHz/5Yim/jGcivU9znMo5tGrTiXrY
+         bSKg==
+X-Gm-Message-State: APjAAAUgTKaFQPLSqGgkrdX3EB0jwuqqpe0jDQrz+OW1WuKwIF0rIqE6
+        FibP6IREAHDZN0rb/s5e5mZaFkgOWutTew==
+X-Google-Smtp-Source: APXvYqxrvmMbbUS3jBp+8X6OB262GUtUfAhQgiSq0g4QIa6SbC/hj3Mf8MctBe0YQrcJTS0wOg9MiQ==
+X-Received: by 2002:a05:620a:11af:: with SMTP id c15mr4407030qkk.446.1580092593647;
+        Sun, 26 Jan 2020 18:36:33 -0800 (PST)
+Received: from master-desktop.sparksnet ([2601:153:900:4ad::bf1])
+        by smtp.gmail.com with ESMTPSA id h4sm9010642qtp.24.2020.01.26.18.36.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jan 2020 18:36:33 -0800 (PST)
+From:   Peter Geis <pgwipeout@gmail.com>
+To:     Peter Chen <peter.chen@nxp.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Peter Geis <pgwipeout@gmail.com>
+Subject: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
+Date:   Sun, 26 Jan 2020 21:35:48 -0500
+Message-Id: <20200127023548.27107-1-pgwipeout@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-27.01.2020 00:56, Dmitry Osipenko пишет:
-[snip]
-> Thinking a bit more about how to define the ICC, I'm now leaning to a
-> variant like this:
-> 
-> interconnects =
->     <&mc TEGRA186_MEMORY_CLIENT_BPMP &emc TEGRA_ICC_EMEM>,
+The ci_hdrc_tegra driver does not currently support dual role mode, but
+it does not explicitly prevent its use.
+Certain devices support dual role mode, but not automatic role switch.
+This can cause the device to lock up during initialization of the
+driver.
 
->     <&mc TEGRA186_MEMORY_CLIENT_BPMPR>,
->     <&mc TEGRA186_MEMORY_CLIENT_BPMPW>,
->     <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAR>,
->     <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAW>;
+Detect this state by checking for the extcon phandle when dual role mode
+is set to otg.
+If it doesn't exist request the driver to only enable manual role
+switching.
 
-I forgot that each ICC path should have SRC and DST, but you got the idea.
+Fixes: dfebb5f ("usb: chipidea: Add support for Tegra20/30/114/124")
+Signed-off-by: Peter Geis <pgwipeout@gmail.com>
+---
+ drivers/usb/chipidea/ci_hdrc_tegra.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-This should be a more correct variant:
+diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
+index 7455df0ede49..2f6f6ce3e8f5 100644
+--- a/drivers/usb/chipidea/ci_hdrc_tegra.c
++++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+@@ -89,6 +89,13 @@ static int tegra_udc_probe(struct platform_device *pdev)
+ 	udc->data.usb_phy = udc->phy;
+ 	udc->data.capoffset = DEF_CAPOFFSET;
+ 
++	/* check the dual mode and warn about bad configurations */
++	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_OTG &&
++	   !of_property_read_bool(pdev->dev.of_node, "extcon")) {
++		dev_warn(&pdev->dev, "no extcon registered, otg unavailable");
++		udc->data.flags |= CI_HDRC_DUAL_ROLE_NOT_OTG;
++	}
++
+ 	udc->dev = ci_hdrc_add_device(&pdev->dev, pdev->resource,
+ 				      pdev->num_resources, &udc->data);
+ 	if (IS_ERR(udc->dev)) {
+-- 
+2.17.1
 
-	<&mc TEGRA186_MEMORY_CLIENT_BPMPR &mc TEGRA_ICC_MC>,
-	<&mc TEGRA186_MEMORY_CLIENT_BPMPW &mc TEGRA_ICC_MC>,
-	<&mc TEGRA186_MEMORY_CLIENT_BPMPDMAR &mc TEGRA_ICC_MC>,
-	<&mc TEGRA186_MEMORY_CLIENT_BPMPDMAW &mc TEGRA_ICC_MC>;
-
-> 
-> interconnect-names = "dma-mem", "read", "write", "dma-read", "dma-write";
-...
