@@ -2,134 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 581AD14A424
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 13:52:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5152614A48D
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 14:07:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729876AbgA0MwU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 Jan 2020 07:52:20 -0500
-Received: from mail-wr1-f41.google.com ([209.85.221.41]:39498 "EHLO
-        mail-wr1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729501AbgA0MwU (ORCPT
+        id S1726101AbgA0NHv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 Jan 2020 08:07:51 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:38395 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725938AbgA0NHv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 Jan 2020 07:52:20 -0500
-Received: by mail-wr1-f41.google.com with SMTP id y11so11132915wrt.6;
-        Mon, 27 Jan 2020 04:52:18 -0800 (PST)
+        Mon, 27 Jan 2020 08:07:51 -0500
+Received: by mail-wm1-f67.google.com with SMTP id a9so2031881wmj.3;
+        Mon, 27 Jan 2020 05:07:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=gE5t1/vnlTHQ6N2H2BaBlhcPCilvP7pyb0dIUFQV9Fc=;
-        b=aGjaS27VSnF8F8IQ49CEQiX8QYy++l02kxPcH6xUsV8RqAWDjrj4UU3bTRmPtQLYbH
-         DobHQohZIEKEzomRaB4R82MVbrLtoF2FhzeabCOzP0ZcYGLQLIfRuDA5x53qLpoTdakh
-         1W+A8o1jg2889jwCa4HWvtMJoX8r+hOwZvFpzwfnF1AlUSOkwypmIN+LiRRyBJ2xL6jJ
-         J/bJr6s/XvcInq2ou6CPHF5uvk5Vci3PVDtJ2xwjDPobj2XGmNE1QRlKTEDzmObHJY0K
-         9mmw7CjnMqarWYp2ZQg7NoxWO4XYoJp2jlgWfkBTuABd0bbRNTuNEpQBOdYEanabHhJI
-         zrgw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/+dzkmbwqLGiC0MDMF81pgmYjZXwtIkKBaIdBuFT5sU=;
+        b=rNGZUaJYay2e3SWKx2q2j+p56NV+lxua2rPwyleA5R3GWe2Aw/miDB95e/KPv/S6qC
+         qDDT4NhJEXw0HpPCs5dSVOwfK2So+QXCxj/XcaFqlTghB/MVybXojiyKKdcIJbjAVAhB
+         F7FzkTh7uprWKfb7ngI3QKIUOR1ccQLvYQ+2vF6aTCAfTtoJq/9pY/NOAFxNVmqf5iS3
+         F/S/gG3FuowUVuqck+zZQYXyFu9lrt6qRBlK9RofxvTDOk9WE0EMiWxKrDyx4Umcwkd3
+         ckax+VtmOMARjMWzNCV4+HVFfxcdMREfu1yLCY40n73eLLyvH70FxYaV65O8Pjj9qukr
+         VYMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gE5t1/vnlTHQ6N2H2BaBlhcPCilvP7pyb0dIUFQV9Fc=;
-        b=sLatIvqESa7VVEr+q9FZeo8aLGuDI95Onc7kSfySuC7riaN6WKK3F5bzRFxecuR6Z2
-         vz3+lMHdERbDPZnLTwnv6exObTnslqKgCwbGyM954Dv2dGsHOM5AZzgChQcv4DT56UaK
-         t+GD7GX1FNF0IXi0tIxruMx67QHwcos4p+xs2Yhrdhq20JBEIPndjjcVv/eS+rHaZR8F
-         hdHON0tBJsZkcJgMXPR0DHZCAwDW1DkbpJNWwHmAV2QBFJm4NcJmjAMOhe4sMzGaSBdv
-         svsl1+cYU19HWTx98+uys9LZB5+dkDQPK+VQ498LLLCyOOVTtopMFbVGTESzKed2pnNt
-         u9fw==
-X-Gm-Message-State: APjAAAUn4nGnHrHekqyd8Xdw/wHyV0tgCpQs6o491sqOTcACUimcivrw
-        ZfDj5pEDK5o1krBLIqHfdkw=
-X-Google-Smtp-Source: APXvYqyGy8fWThkG+JLbgm1XQNvxZGemG3znV+0H0LxZa5OOViXoFr4VnlU4N/XLjS5s62PyAIa6LQ==
-X-Received: by 2002:adf:a41c:: with SMTP id d28mr22772868wra.410.1580129538327;
-        Mon, 27 Jan 2020 04:52:18 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/+dzkmbwqLGiC0MDMF81pgmYjZXwtIkKBaIdBuFT5sU=;
+        b=J9KZfllbijg5Ydvmf6xM5edR0Ihyxu9cRwlK2hnrO0qw+euDoXMrp1bl04QvN+yA38
+         rZ1vk5wh62FerF4YyoyRCcWZ4Tht2HaMBJoDZyke0mfAn2g71rdu5x4VtvxCsovhhp9b
+         VzQWaD3V2OdaKXH1bOhqtU8dQS+Kr0LmULeMf7/U5fBCD2UrqQJE4XXJLaal2XaWi144
+         /ZVvoHEwPiyaORF/n/rcCwoEGQuOaDau/cS77m7DSYukznn346s/gn7S41JhY80AjmyQ
+         NM6VipcW32PwfqYEFF5SGv08vJH+pWFFeB5XIU3IludIsmxIKCRH+ZH0Grl0VTnkfyaX
+         YhSA==
+X-Gm-Message-State: APjAAAUTrLQnzIbMKFuN3vvZLRVKg/NLKHMBVjIWbal8Ziznv7yGgAuc
+        2tcfwkg3HEkl5U4VOv0c0/vc9q1h
+X-Google-Smtp-Source: APXvYqwU9YEOASPpW7H4UxdwkHB8XzHVfD7/u4oVVF1ff8rGi7aSuk1kO9xQIxZcujz7jHnrV6txEA==
+X-Received: by 2002:a7b:c147:: with SMTP id z7mr11074022wmi.168.1580130469110;
+        Mon, 27 Jan 2020 05:07:49 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id t5sm20268329wrr.35.2020.01.27.04.52.17
+        by smtp.gmail.com with ESMTPSA id b21sm19731261wmd.37.2020.01.27.05.07.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2020 04:52:17 -0800 (PST)
-Date:   Mon, 27 Jan 2020 13:52:16 +0100
+        Mon, 27 Jan 2020 05:07:48 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Georgi Djakov <georgi.djakov@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
- interconnects property
-Message-ID: <20200127125216.GC2117209@ulmo>
-References: <20200114181519.3402385-2-thierry.reding@gmail.com>
- <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
- <20200120150605.GA712203@ulmo>
- <57c37b3c-1473-d444-db59-8c6650241188@gmail.com>
- <20200121141027.GE899558@ulmo>
- <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
- <20200121155432.GA912205@ulmo>
- <ffc22502-0e7e-522c-543d-0e74cc25f4b1@gmail.com>
- <853bb7bd-8e04-38ac-d0d6-a958135a49be@gmail.com>
- <f915949a-b46e-26fe-f103-fbc8d1fa3bb1@gmail.com>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [GIT PULL] clk: tegra: Changes for v5.6-rc1
+Date:   Mon, 27 Jan 2020 14:07:47 +0100
+Message-Id: <20200127130747.2287794-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Pk6IbRAofICFmK5e"
-Content-Disposition: inline
-In-Reply-To: <f915949a-b46e-26fe-f103-fbc8d1fa3bb1@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Hi Mike, Stephen,
 
---Pk6IbRAofICFmK5e
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
 
-On Mon, Jan 27, 2020 at 01:03:57AM +0300, Dmitry Osipenko wrote:
-> 27.01.2020 00:56, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> [snip]
-> > Thinking a bit more about how to define the ICC, I'm now leaning to a
-> > variant like this:
-> >=20
-> > interconnects =3D
-> >     <&mc TEGRA186_MEMORY_CLIENT_BPMP &emc TEGRA_ICC_EMEM>,
->=20
-> >     <&mc TEGRA186_MEMORY_CLIENT_BPMPR>,
-> >     <&mc TEGRA186_MEMORY_CLIENT_BPMPW>,
-> >     <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAR>,
-> >     <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAW>;
->=20
-> I forgot that each ICC path should have SRC and DST, but you got the idea.
->=20
-> This should be a more correct variant:
->=20
-> 	<&mc TEGRA186_MEMORY_CLIENT_BPMPR &mc TEGRA_ICC_MC>,
-> 	<&mc TEGRA186_MEMORY_CLIENT_BPMPW &mc TEGRA_ICC_MC>,
-> 	<&mc TEGRA186_MEMORY_CLIENT_BPMPDMAR &mc TEGRA_ICC_MC>,
-> 	<&mc TEGRA186_MEMORY_CLIENT_BPMPDMAW &mc TEGRA_ICC_MC>;
+  Linux 5.5-rc1 (2019-12-08 14:57:55 -0800)
 
-This seems wrong again, because now we need to make up this TEGRA_ICC_MC
-ID that doesn't exist anywhere in the hardware. So we're no longer
-providing a hardware description, but instead are building hints for a
-use by a Linux-specific framework into the DT.
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git tags/for-5.6-clk
+
+for you to fetch changes up to 41a1f096e94c9559b45ccce43fba94913ebc7313:
+
+  clk: tegra20/30: Explicitly set parent clock for Video Decoder (2020-01-10 15:50:43 +0100)
+
+Thanks,
 Thierry
 
---Pk6IbRAofICFmK5e
-Content-Type: application/pgp-signature; name="signature.asc"
+----------------------------------------------------------------
+clk: tegra: Changes for v5.6-rc1
 
------BEGIN PGP SIGNATURE-----
+This contains some minor fixes and cleanups for Tegra clocks.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4u3QAACgkQ3SOs138+
-s6Ey4A//Ravurx17XVBLLytw2Ez2J5uO0PFw2M1G3FfEIq0n1cT2oye0vO1RhI2a
-tvtP+tKkicx9DDJVCDEni3cAl/uoyIHJNCA8jHj5yaXQVdZSxsGai1dsiWzRk0Ff
-aI3lazLfkCVWlGpXvtZG9bf2GOvFS6Y1mOxs/5OMhewSFp/iWCR6y/2yOk9+bJo6
-zpZ41SnOFgg/BaDrn1eAApNm5Y3dxXdJ1y5+iDs4ZgdXA/gGJ2WRAbse1PoglmTB
-wdL6p4ieSXbAaHiB38rQP7Xs9Mv5gZoaw+p9HOAiP2fsvSAol5S2rMq+MJuj9Bbc
-zoVRnmFYAYDwKLRfj8opRhHp0CLN1v7nQaYuqRJXfSIPsawm7kgzf9c++etQD4H9
-9rpDnQceLrORDUQxZUc6pjMAAWsRsxJtT04C4bodtTeT7shUZk9rs1SA8R6YvFf9
-Ubb/PEa6tv1RF08a6rfaloEybZw0cnwe52Q/5ye0T5VyN2F6gM+sr66EyxG2CNDD
-l/mlVkTz8f9k+Vil0KoBjyUAOx2pY8w3pATiLUA6ST5NjkPa3YMZVhAKuQVFEM4S
-tygXspNRL9ZvhfJZR2pRfyO+pKUsBtOeXNCGaEtfw7kKKhrvab4ZnghA9vjsWMSu
-AzeYasSvKdSAqo9SUHdT8aIAhCBr3AjRNxEwO5hB8xjOejejeeU=
-=fese
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+Dmitry Osipenko (3):
+      clk: tegra: divider: Check UART's divider enable-bit state on rate's recalculation
+      clk: tegra20/30: Don't pre-initialize displays parent clock
+      clk: tegra20/30: Explicitly set parent clock for Video Decoder
 
---Pk6IbRAofICFmK5e--
+Sowjanya Komatineni (1):
+      clk: tegra: clk-dfll: Remove call to pm_runtime_irq_safe()
+
+Stephen Warren (1):
+      clk: tegra: Mark fuse clock as critical
+
+ drivers/clk/tegra/clk-dfll.c         | 3 +--
+ drivers/clk/tegra/clk-divider.c      | 9 +++++++--
+ drivers/clk/tegra/clk-tegra-periph.c | 6 +++++-
+ drivers/clk/tegra/clk-tegra20.c      | 4 +---
+ drivers/clk/tegra/clk-tegra30.c      | 4 +---
+ 5 files changed, 15 insertions(+), 11 deletions(-)
