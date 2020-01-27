@@ -2,123 +2,96 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9656F14A593
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 14:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A927114A727
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 16:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727177AbgA0N7C (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 Jan 2020 08:59:02 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:34251 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726303AbgA0N7C (ORCPT
+        id S1729396AbgA0P0K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 Jan 2020 10:26:10 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:44317 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729321AbgA0P0K (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 Jan 2020 08:59:02 -0500
-Received: by mail-pg1-f196.google.com with SMTP id r11so5209499pgf.1;
-        Mon, 27 Jan 2020 05:59:01 -0800 (PST)
+        Mon, 27 Jan 2020 10:26:10 -0500
+Received: by mail-qk1-f193.google.com with SMTP id v195so9920263qkb.11;
+        Mon, 27 Jan 2020 07:26:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SHolRPg0m8smXLQiIHsWoHZ6uEiJ6L4xqwMHqTUOZII=;
-        b=CMClr8xR/vzMlFHSniodUnq6hdXQ5SJE3d0Ue+KnUKivbaZc5HsyCTI0b8378iD04/
-         /YUTxGrzskbemiYG+C1fFUdmP8IwlIWd7cDus87oqgqCl8lSIWVgffIe7+xkB2tuTVpj
-         ZYgj/qfvpkopSGAOEDTTVl6WbwCYR0fHapSgUewkutkjQabAFh4Pe2tNiOVvl3+t3q6t
-         Ar50RTjQyvawr3UXX0rcd5PV6loT2VEcAvaJhAwokfzFoCc6RaVYwtq1ru1wfFEK5rmn
-         dB390ZUtqQXJG77ZvEGp+lj3lkAgAIhRHVFcHpB47rNHHkrh+aSu4pVjXruQDu5AOhsM
-         cJLg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=G5tTERXc24SbVitg6xNzcYxUuuAPTVEFl1xDNy1GGDo=;
+        b=sfl7dQzVAUi3OV8GAxoBiUM3regkNgsyLLNj8FlKVKrcoNXp7HV6uoDXJUNzgZMiRQ
+         uFBMJR3AlxAM1Vw83MKSCep3Q3V3SzS6nNPle3qMWYipGB2b5Q7fGUGa556IeLWC2aJF
+         l4AyKgwJ2SEeQ+WM5hIuNWx+792PDZRLnSQOUpD1ejsN8Qbn6SEfdHTzmCaIPIPzGrN4
+         GGtZSCNgTlxXeIW4W9FS742fMthxrGo4EuGgX9YKOIsXQ3cl761W3aNqQxmW2CBnN8if
+         9AIlvs9OA7FDR5kz8YGKpFAT7xPqDYhjQsHJamOmUdcFLagklGiurULV1fRd+OelAWpz
+         /1jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SHolRPg0m8smXLQiIHsWoHZ6uEiJ6L4xqwMHqTUOZII=;
-        b=mz1n6YT4/aZl53UKcZ0FDuMWgnrhxiEyZ9+y7cIvHfLI+h33XMlT+FhUMFjW22iiyy
-         40yIz2AkpteohEnUCI9m6jfC0fAWg2OJJx+EwscNeOSpPV+FbLr+i3jTfYquwH6UGz5S
-         5bU9+5oF6pwOdBgF3+ThtrmuZ+VcnMrLEL/dgt1a1av4eooC33E5NBmF6qv26ahRGnnW
-         4ZlySSphP+5y1M7nNUsVqGQMbbfAj/1mZZmukIqWnSVFiY363htuY7q+33GDx53dFrXI
-         Ja6n6tBzZuVvwi0FHscTBv3+OIiAkbzkwfGLQQ1UXuYtMpQNot0ihG56/IFGW+DLh+ux
-         V8gw==
-X-Gm-Message-State: APjAAAX9kBE8rtQold+niCujhoxDMcJf5+YgHFJcbvhztA0JD4QzV2h+
-        9M5rL/MGtQpI0FTUz9KlMmY=
-X-Google-Smtp-Source: APXvYqyLLUIJ53lGLIXCrkyyudP6ClzJQ22YcI076etIWIaq1vR0oag7wSYwsNZihwn75Mvl1ZKm8w==
-X-Received: by 2002:a63:2d44:: with SMTP id t65mr20803705pgt.112.1580133541647;
-        Mon, 27 Jan 2020 05:59:01 -0800 (PST)
-Received: from localhost ([216.24.177.237])
-        by smtp.gmail.com with ESMTPSA id b24sm15872895pfo.55.2020.01.27.05.58.58
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 27 Jan 2020 05:59:01 -0800 (PST)
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     gregkh@linuxfoundation.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
-Subject: [PATCH] usb: phy: tegra: make the code simple by devm_platform_ioremap_resource()
-Date:   Mon, 27 Jan 2020 21:58:41 +0800
-Message-Id: <20200127135841.17935-1-zhengdejin5@gmail.com>
-X-Mailer: git-send-email 2.25.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=G5tTERXc24SbVitg6xNzcYxUuuAPTVEFl1xDNy1GGDo=;
+        b=fKF0h2vwyDF0CkPSiF1xNCPitkJCEm1ftWGJJZe6/II1s3NsJXb2j7/22p4Gpl/h/m
+         /QbI5+h/FEQCh8iMoX+apbnV5dhmtgNRl7qdqltLjOai3gxR5v/8hoGs9/VgSf+kafuh
+         /zcC2KVBTeyWUGOUqRYzB2Nwse3ISP/txKTfMkQlHqw2KDjBsX0JRQoWhYWnN2txmE/v
+         Tnx17xSsZq2SKpwgZwdXPlNp/P3rzpA8dpyjsKH41w3K/XpCQYbszkhC/aWBbfDyzEQZ
+         cm5yw/xQlGxNQlhwpHZU45nLsOPJWi0fdemLiF4e4TCyTvUb8rB3PJBZqrUn1qu15A/x
+         sVzg==
+X-Gm-Message-State: APjAAAX5mDF75c15zD+AFP06XyuYWqK3Tlq8avOjzkn+KNpNnSAzD0WR
+        Barj80RiukZoHLkMK7GA31LLoSanYSg20NqFH6s=
+X-Google-Smtp-Source: APXvYqw8ITbxq5m4f5dYC/keJMppOJazV3Z6TxBrD0ijf60oNOfK4XvfeZDlhUIWTr0uSDeEfG3mmQ6/gnVBnJE5Ouw=
+X-Received: by 2002:a05:620a:1324:: with SMTP id p4mr17301424qkj.497.1580138769708;
+ Mon, 27 Jan 2020 07:26:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200127023548.27107-1-pgwipeout@gmail.com> <20200127071758.GD279449@kroah.com>
+In-Reply-To: <20200127071758.GD279449@kroah.com>
+From:   Peter Geis <pgwipeout@gmail.com>
+Date:   Mon, 27 Jan 2020 10:25:33 -0500
+Message-ID: <CAMdYzYqctkfqhHN0-WDvX9kKdXH-AVir193SpcrR_t3K=VN=0w@mail.gmail.com>
+Subject: Re: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Peter Chen <peter.chen@nxp.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-make the code simple by use devm_platform_ioremap_resource() function
-to replace platform_get_resource() and devm_ioremap().
+On Mon, Jan 27, 2020 at 2:18 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Sun, Jan 26, 2020 at 09:35:48PM -0500, Peter Geis wrote:
+> > The ci_hdrc_tegra driver does not currently support dual role mode, but
+> > it does not explicitly prevent its use.
+> > Certain devices support dual role mode, but not automatic role switch.
+> > This can cause the device to lock up during initialization of the
+> > driver.
+> >
+> > Detect this state by checking for the extcon phandle when dual role mode
+> > is set to otg.
+> > If it doesn't exist request the driver to only enable manual role
+> > switching.
+> >
+> > Fixes: dfebb5f ("usb: chipidea: Add support for Tegra20/30/114/124")
+>
+> Please use 12 digits for kernel sha1 values, this should be:
+> Fixes: dfebb5f43a78 ("usb: chipidea: Add support for Tegra20/30/114/124")
 
-Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
----
- drivers/usb/phy/phy-tegra-usb.c | 20 ++------------------
- 1 file changed, 2 insertions(+), 18 deletions(-)
+Understood, thank you.
+I will ensure that is the case in the future.
 
-diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
-index ea7ef1dc0b42..8220bb4ce1ed 100644
---- a/drivers/usb/phy/phy-tegra-usb.c
-+++ b/drivers/usb/phy/phy-tegra-usb.c
-@@ -944,20 +944,12 @@ static int read_utmi_param(struct platform_device *pdev, const char *param,
- static int utmi_phy_probe(struct tegra_usb_phy *tegra_phy,
- 			  struct platform_device *pdev)
- {
--	struct resource *res;
- 	int err;
- 	struct tegra_utmip_config *config;
- 
- 	tegra_phy->is_ulpi_phy = false;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	if (!res) {
--		dev_err(&pdev->dev, "Failed to get UTMI pad regs\n");
--		return  -ENXIO;
--	}
--
--	tegra_phy->pad_regs = devm_ioremap(&pdev->dev, res->start,
--		resource_size(res));
-+	tegra_phy->pad_regs = devm_platform_ioremap_resource(pdev, 1);
- 	if (!tegra_phy->pad_regs) {
- 		dev_err(&pdev->dev, "Failed to remap UTMI pad regs\n");
- 		return -ENOMEM;
-@@ -1054,7 +1046,6 @@ MODULE_DEVICE_TABLE(of, tegra_usb_phy_id_table);
- static int tegra_usb_phy_probe(struct platform_device *pdev)
- {
- 	const struct of_device_id *match;
--	struct resource *res;
- 	struct tegra_usb_phy *tegra_phy = NULL;
- 	struct device_node *np = pdev->dev.of_node;
- 	enum usb_phy_interface phy_type;
-@@ -1071,14 +1062,7 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
- 	}
- 	tegra_phy->soc_config = match->data;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res) {
--		dev_err(&pdev->dev, "Failed to get I/O memory\n");
--		return  -ENXIO;
--	}
--
--	tegra_phy->regs = devm_ioremap(&pdev->dev, res->start,
--		resource_size(res));
-+	tegra_phy->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (!tegra_phy->regs) {
- 		dev_err(&pdev->dev, "Failed to remap I/O memory\n");
- 		return -ENOMEM;
--- 
-2.25.0
-
+>
+> As proof of the need of this, just using the values you gave here causes
+> git to complain:
+>
+> $ git show dfebb5f
+> error: short SHA1 dfebb5f is ambiguous
+> hint: The candidates are:
+> hint:   dfebb5f43a78 commit 2017-08-16 - usb: chipidea: Add support for Tegra20/30/114/124
+> hint:   dfebb5fec744 tree
+> fatal: ambiguous argument 'dfebb5f': unknown revision or path not in the working tree.
+>
+> thanks,
+>
+> greg k-h
