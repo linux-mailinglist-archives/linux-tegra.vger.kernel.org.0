@@ -2,201 +2,73 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B93D149EA2
-	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 06:23:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72624149F2A
+	for <lists+linux-tegra@lfdr.de>; Mon, 27 Jan 2020 08:18:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgA0FXI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 27 Jan 2020 00:23:08 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:8270 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725308AbgA0FXH (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 27 Jan 2020 00:23:07 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e2e73840000>; Sun, 26 Jan 2020 21:22:12 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 26 Jan 2020 21:22:26 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 26 Jan 2020 21:22:26 -0800
-Received: from [10.25.73.144] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 27 Jan
- 2020 05:22:21 +0000
-CC:     <spujar@nvidia.com>, <devicetree@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>,
-        <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
-        <atalambedu@nvidia.com>, <tiwai@suse.com>, <viswanathl@nvidia.com>,
-        <linux-tegra@vger.kernel.org>, <robh+dt@kernel.org>,
-        <thierry.reding@gmail.com>, <sharadg@nvidia.com>,
-        <rlokhande@nvidia.com>, <mkumard@nvidia.com>, <dramesh@nvidia.com>
-Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
- driver
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>
-References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
- <1579530198-13431-5-git-send-email-spujar@nvidia.com>
- <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
- <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
- <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
- <bdc749bc-b62c-a041-c17c-33fd49fe8e2e@nvidia.com>
- <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
- <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
- <34ac1fd3-ae0f-07f2-555f-a55087a2c9dc@nvidia.com>
- <1a84b393-938f-8bed-d08e-cc3bb6ed4844@gmail.com>
- <0fc814c2-0dc6-7741-b954-463381ff7fb9@nvidia.com>
- <b5c581b9-17af-d004-33fb-2cc782ab820a@gmail.com>
- <9f73afdf-1e9a-cdbd-f972-a022d503ef51@nvidia.com>
- <264d3354-8a2e-ee12-44ae-aff69213d551@nvidia.com>
- <075e476a-36bb-5fee-15bc-76af4474a797@gmail.com>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <c6022a93-b79a-c691-1d75-d007d0b64ead@nvidia.com>
-Date:   Mon, 27 Jan 2020 10:52:17 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1725777AbgA0HSB (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 27 Jan 2020 02:18:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60244 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725775AbgA0HSB (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 27 Jan 2020 02:18:01 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5EEB2214AF;
+        Mon, 27 Jan 2020 07:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580109480;
+        bh=s2Rk+2y+6lqG/vQH37ccQZj5U2rayUFsZ89P3cfYaXU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KZTIb29b2fCQLTNTSXKg0Bp3Jnt7VQdIE/iSTZi+pCUkpI9arlpOnM3dOSeZbmIGq
+         9zOxoO/TI4Xa+ogIcQfvUfgFbfbd1/K5MaYt2WAFMmowtjr7VjlMzx3wvziuLS6mwv
+         8Z/8R/9kJ6T7itijO5nJGH6409qDQeisYr65axtg=
+Date:   Mon, 27 Jan 2020 08:17:58 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Peter Geis <pgwipeout@gmail.com>
+Cc:     Peter Chen <peter.chen@nxp.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
+Message-ID: <20200127071758.GD279449@kroah.com>
+References: <20200127023548.27107-1-pgwipeout@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <075e476a-36bb-5fee-15bc-76af4474a797@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-GB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580102532; bh=uyQ7nxDtadx0HKIFwTV9Y/Ni4jJ8RtmHuiaNgpeGCVQ=;
-        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=WOyBbCjo0xTj12FVF25Yp1r1fV1gjHMY39c/AKkvSqdoN4YQ+TmEJgCDKGkWZ8CUS
-         uXfojDb95fmA49UWlns0lMxbRtb/hJoXQN1d5bvf7fxIiKhdMy0GTPJm7AxdHGbHXV
-         VFToAlODWyoYIHhldt2qp4LICkvwScpCr6Qkvq2OSpSI7tURbR8etrzEjmAzAauQ/O
-         G/LHqtNBTtMV5HfLqhLxc5AIyA0nojqExfW+mU5kiTOBRmO8mYafsijhf1zdvf3+a+
-         9i11lAj01mx8nuiVj3R91baTa8gkSItMXFk58WRPVK4h4hW9vDXZXUeBZMcd0vIddr
-         Dh1hIr4h4ZZHw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200127023548.27107-1-pgwipeout@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Sun, Jan 26, 2020 at 09:35:48PM -0500, Peter Geis wrote:
+> The ci_hdrc_tegra driver does not currently support dual role mode, but
+> it does not explicitly prevent its use.
+> Certain devices support dual role mode, but not automatic role switch.
+> This can cause the device to lock up during initialization of the
+> driver.
+> 
+> Detect this state by checking for the extcon phandle when dual role mode
+> is set to otg.
+> If it doesn't exist request the driver to only enable manual role
+> switching.
+> 
+> Fixes: dfebb5f ("usb: chipidea: Add support for Tegra20/30/114/124")
 
+Please use 12 digits for kernel sha1 values, this should be:
+Fixes: dfebb5f43a78 ("usb: chipidea: Add support for Tegra20/30/114/124")
 
-On 1/24/2020 7:34 PM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 24.01.2020 12:51, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> On 24/01/2020 09:07, Jon Hunter wrote:
->>> On 23/01/2020 15:16, Dmitry Osipenko wrote:
->>>> 23.01.2020 12:22, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>
->>>>> On 1/22/2020 9:57 PM, Dmitry Osipenko wrote:
->>>>>> External email: Use caution opening links or attachments
->>>>>>
->>>>>>
->>>>>> 22.01.2020 14:52, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>>> On 22/01/2020 07:16, Sameer Pujar wrote:
->>>>>>>
->>>>>>> ...
->>>>>>>
->>>>>>>>>>>>>> +static int tegra210_i2s_remove(struct platform_device *pdev=
-)
->>>>>>>>>>>>>> +{
->>>>>>>>>>>>>> +     pm_runtime_disable(&pdev->dev);
->>>>>>>>>>>>>> +     if (!pm_runtime_status_suspended(&pdev->dev))
->>>>>>>>>>>>>> +             tegra210_i2s_runtime_suspend(&pdev->dev);
->>>>>>>>>>>>> This breaks device's RPM refcounting if it was disabled in th=
-e
->>>>>>>>>>>>> active
->>>>>>>>>>>>> state. This code should be removed. At most you could warn
->>>>>>>>>>>>> about the
->>>>>>>>>>>>> unxpected RPM state here, but it shouldn't be necessary.
->>>>>>>>>>>> I guess this was added for safety and explicit suspend keeps c=
-lock
->>>>>>>>>>>> disabled.
->>>>>>>>>>>> Not sure if ref-counting of the device matters when runtime PM=
- is
->>>>>>>>>>>> disabled and device is removed.
->>>>>>>>>>>> I see few drivers using this way.
->>>>>>>>>>> It should matter (if I'm not missing something) because RPM sho=
-uld
->>>>>>>>>>> be in
->>>>>>>>>>> a wrecked state once you'll try to re-load the driver's module.
->>>>>>>>>>> Likely
->>>>>>>>>>> that those few other drivers are wrong.
->>>>>>>>>>>
->>>>>>>>>>> [snip]
->>>>>>>>>> Once the driver is re-loaded and RPM is enabled, I don't think i=
-t
->>>>>>>>>> would use
->>>>>>>>>> the same 'dev' and the corresponding ref count. Doesn't it use t=
-he
->>>>>>>>>> new
->>>>>>>>>> counters?
->>>>>>>>>> If RPM is not working for some reason, most likely it would be t=
-he
->>>>>>>>>> case
->>>>>>>>>> for other
->>>>>>>>>> devices. What best driver can do is probably do a force suspend
->>>>>>>>>> during
->>>>>>>>>> removal if
->>>>>>>>>> already not done. I would prefer to keep, since multiple drivers
->>>>>>>>>> still
->>>>>>>>>> have it,
->>>>>>>>>> unless there is a real harm in doing so.
->>>>>>>>> I took a closer look and looks like the counter actually should b=
-e
->>>>>>>>> reset. Still I don't think that it's a good practice to make chan=
-ges
->>>>>>>>> underneath of RPM, it may strike back.
->>>>>>>> If RPM is broken, it probably would have been caught during device
->>>>>>>> usage.
->>>>>>>> I will remove explicit suspend here if no any concerns from other
->>>>>>>> folks.
->>>>>>>> Thanks.
->>>>>>> I recall that this was the preferred way of doing this from the RPM
->>>>>>> folks. Tegra30 I2S driver does the same and Stephen had pointed me =
-to
->>>>>>> this as a reference.
->>>>>>> I believe that this is meant to ensure that the
->>>>>>> device is always powered-off regardless of it RPM is enabled or not=
- and
->>>>>>> what the current state is.
->>>>>> Yes, it was kinda actual for the case of unavailable RPM.
->>>>>> Anyways, /I think/ variant like this should have been more preferred=
-:
->>>>>>
->>>>>> if (!pm_runtime_enabled(&pdev->dev))
->>>>>>           tegra210_i2s_runtime_suspend(&pdev->dev);
->>>>>> else
->>>>>>           pm_runtime_disable(&pdev->dev);
->>>>> I think it looks to be similar to what is there already.
->>>>>
->>>>> pm_runtime_disable(&pdev->dev); // it would turn out to be a dummy ca=
-ll
->>>>> if !RPM
->>>>> if (!pm_runtime_status_suspended(&pdev->dev)) // it is true always if=
- !RPM
->>>>>          tegra210_i2s_runtime_suspend(&pdev->dev);
->>>> Maybe this is fine for !RPM, but not really fine in a case of enabled
->>>> RPM. Device could be in resumed state after pm_runtime_disable() if it
->>>> wasn't suspended before the disabling.
->>> I don't see any problem with this for the !RPM case.
->> Sorry I meant the RPM case. In other words, I don't see a problem for
->> neither the RPM case of the !RPM case.
-> 1. Device shall be in RPM-suspended state at the time of driver's
-> removal, unless there is a bug in the sound driver. Hence why do you
-> need the dead code which doesn't bring any practical value?
->
-> 2. Making changes underneath of RPM is simply error-prone. It may hit
-> badly in the future once something will change in the RPM core.
+As proof of the need of this, just using the values you gave here causes
+git to complain:
 
-I think we are stretching a bit more here when there is no any real harm.
-Right now it works well for both RPM and !RPM case and if we really need to
-fix something in future we can fix. Since my initial inclination was keepin=
-g
-the code as it is and Jon also has similar thoughts, I would retain this=20
-code.
-Sorry Dmitry, we can fix if something comes up and many other drivers would
-need this at that time.
+$ git show dfebb5f
+error: short SHA1 dfebb5f is ambiguous
+hint: The candidates are:
+hint:   dfebb5f43a78 commit 2017-08-16 - usb: chipidea: Add support for Tegra20/30/114/124
+hint:   dfebb5fec744 tree
+fatal: ambiguous argument 'dfebb5f': unknown revision or path not in the working tree.
 
+thanks,
 
+greg k-h
