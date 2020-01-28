@@ -2,131 +2,70 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 122B514AEDD
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 06:15:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2AC114B08C
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 08:49:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725774AbgA1FP2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 00:15:28 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18943 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725283AbgA1FP2 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 00:15:28 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e2fc3600000>; Mon, 27 Jan 2020 21:15:13 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 27 Jan 2020 21:15:27 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 27 Jan 2020 21:15:27 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Jan
- 2020 05:15:27 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 28 Jan 2020 05:15:27 +0000
-Received: from mkumard.nvidia.com (Not Verified[10.24.34.162]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e2fc36d0000>; Mon, 27 Jan 2020 21:15:26 -0800
-From:   Mohan Kumar <mkumard@nvidia.com>
-To:     <tiwai@suse.com>, <perex@perex.cz>
-CC:     <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
-        <treding@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>
-Subject: [PATCH] ALSA: hda: Reset stream if DMA RUN bit not cleared
-Date:   Tue, 28 Jan 2020 10:45:08 +0530
-Message-ID: <20200128051508.26064-1-mkumard@nvidia.com>
-X-Mailer: git-send-email 2.17.1
+        id S1725825AbgA1Htz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 02:49:55 -0500
+Received: from smtp2.axis.com ([195.60.68.18]:7645 "EHLO smtp2.axis.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725810AbgA1Htz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 28 Jan 2020 02:49:55 -0500
+IronPort-SDR: NAy+yfYWJxr5/29uKoZYHIooskrofmxznZpdh/BW/G0NO6UBF0f3Ih4Hr7u38Tc1uCuFyajJtK
+ Yx7Z7FqNrCKks6SeinwD4p9gXQMfAFyuLZ1me1WXSSubJ7HR//X6mTUPYZCBN9mCG7tCdPUdU5
+ xKU6JI3/U1K3pcceRi/vbw1S2/2d5b+rqXX6jAY45x/tlE7C1A1LaAvqV3nvFe1I91iflN4AZs
+ 3kJQbgnTQxh2kFMnZy7m1y9yS8iFcfWWkqqjuLHZaJ4/btmhXh7aE/EnOkikWl2oV9O5RO6q0K
+ OUo=
+X-IronPort-AV: E=Sophos;i="5.70,372,1574118000"; 
+   d="scan'208";a="4681350"
+Date:   Tue, 28 Jan 2020 08:49:47 +0100
+From:   Ricard Wanderlof <ricardw@axis.com>
+X-X-Sender: ricardw@lnxricardw1.se.axis.com
+To:     Ben Dooks <ben.dooks@codethink.co.uk>
+CC:     Jon Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        "linux-kernel@lists.codethink.co.uk" 
+        <linux-kernel@lists.codethink.co.uk>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Edward Cragg <edward.cragg@codethink.co.uk>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
+ 24bit and 32bit samples
+In-Reply-To: <318f0256-fe6d-c34d-4deb-74540fca8d0d@codethink.co.uk>
+Message-ID: <alpine.DEB.2.20.2001280846330.9620@lnxricardw1.se.axis.com>
+References: <20191018154833.7560-1-ben.dooks@codethink.co.uk> <d43d518d-9336-a011-2a69-3f9331f6d0b4@codethink.co.uk> <aba4edd6-0ea5-5e95-c5a0-9e749587c763@nvidia.com> <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com> <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
+ <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com> <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk> <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com> <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk> <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
+ <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk> <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com> <0e0cd260e39ad293edb881da1c565510@codethink.co.uk> <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk> <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
+ <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk> <3d8544be-af20-f382-85fd-32183365267b@nvidia.com> <318f0256-fe6d-c34d-4deb-74540fca8d0d@codethink.co.uk>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580188513; bh=LnMsVEXJSVOaTH274LZlAyN6+SbN5kZnEjHVHfvY1Qk=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:Content-Type;
-        b=XpCBLQUbB+N/CsLzxbpSRj5bkukcmZxIkpDUYLhIIURCZEAZaFe6/0Q38WjiFwS13
-         /coy2d0MllOHPNav7vuZMfQLEc1uPZGvxKzUSh6LWkT1ja1ZSVskliC9HMceFkSxtF
-         g4fUujrpM3sTRKS57xrHB5VzmKt6FkRcr9yZHh8Jf83Zrk5I0quCRcUkXTJM+Gxy+s
-         ONP5bJAVUnn51CuwrNFayURBzSj8Xzx/PhPltdvgOZHjEEuAAjYe4zUTV2GSJncmEe
-         W8QrGYQv7LZWfgfsdCRm3CtXeUeYjqMpNB7pkRafEABQAuelD+ajixkmk355/DuBRg
-         lK4AI2pd8xW4Q==
+Content-Type: text/plain; charset="US-ASCII"
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX03.axis.com (10.0.5.17)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Tegra HDA has FIFO size which can hold upto 10 audio frames to support
-DVFS. When HDA DMA RUN bit is set to 0 to stop the stream, the DMA RUN
-bit will be cleared to 0 only after transferring all the remaining audio
-frames queued up in the fifo. This is not in sync with spec which states
-the controller will stop transmitting(output) in the beginning of the
-next frame for the relevant stream.
 
-The above behavior with Tegra HDA was resulting in machine check error
-during the system suspend flow with active audio playback with below kernel
-error logs.
-[ 33.524583] mc-err: [mcerr] (hda) csr_hdar: EMEM address decode error
-[ 33.531088] mc-err: [mcerr] status = 0x20000015; addr = 0x00000000
-[ 33.537431] mc-err: [mcerr] secure: no, access-type: read, SMMU fault: none
+On Fri, 24 Jan 2020, Ben Dooks wrote:
 
-This was due to the fifo has more than one audio frame when the DMA
-RUN bit is set to 0 during system suspend flow and the timeout handling in
-snd_hdac_stream_sync() was not designed to handle this scenario. So the
-DMA will continue running even after timeout hit until all remaining
-audio frames in the fifo are transferred, but the suspend flow will try
-to reset the controller and turn off the hda clocks without the knowledge
-of the DMA is still running and could result in mc-err.
+> So I assume aplay has turned the S24_3LE -> S24_LE
 
-The above issue can be resolved by doing stream reset with the help of
-snd_hdac_stream_reset() which would ensure the DMA RUN bit is cleared
-if the timeout was hit in snd_hdac_stream_sync().
+A couple of years ago (so may be inaccurate now) I concluded after some 
+testing that S24_LE was broken in arecord and aplay, at least when it came 
+to .wav files. Meaning that files I recorded with arecord could be played 
+back by aplay, but not in any other application I tried, such as Audacity.
 
-Signed-off-by: Mohan Kumar <mkumard@nvidia.com>
----
- sound/hda/hdac_stream.c | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+I can try to dig out the gory details, but ISTR it came down to the 
+header(s) in the .wav file being incorrectly filled in with regard to 
+number of bits per sample vs valid bits per sample.
 
-diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-index 682ed39f79b0..890ff1b7a878 100644
---- a/sound/hda/hdac_stream.c
-+++ b/sound/hda/hdac_stream.c
-@@ -629,20 +629,27 @@ void snd_hdac_stream_sync(struct hdac_stream *azx_dev, bool start,
- 		nwait = 0;
- 		i = 0;
- 		list_for_each_entry(s, &bus->stream_list, list) {
--			if (streams & (1 << i)) {
--				if (start) {
--					/* check FIFO gets ready */
--					if (!(snd_hdac_stream_readb(s, SD_STS) &
--					      SD_STS_FIFO_READY))
--						nwait++;
--				} else {
--					/* check RUN bit is cleared */
--					if (snd_hdac_stream_readb(s, SD_CTL) &
--					    SD_CTL_DMA_START)
--						nwait++;
-+			if (!(streams & (1 << i++)))
-+				continue;
-+
-+			if (start) {
-+				/* check FIFO gets ready */
-+				if (!(snd_hdac_stream_readb(s, SD_STS) &
-+				      SD_STS_FIFO_READY))
-+					nwait++;
-+			} else {
-+				/* check RUN bit is cleared */
-+				if (snd_hdac_stream_readb(s, SD_CTL) &
-+				    SD_CTL_DMA_START) {
-+					nwait++;
-+					/*
-+					 * Perform stream reset if DMA RUN
-+					 * bit not cleared within given timeout
-+					 */
-+					if (timeout == 1)
-+						snd_hdac_stream_reset(s);
- 				}
- 			}
--			i++;
- 		}
- 		if (!nwait)
- 			break;
+/Ricard
 -- 
-2.17.1
-
+Ricard Wolf Wanderlof                           ricardw(at)axis.com
+Axis Communications AB, Lund, Sweden            www.axis.com
+Phone +46 46 272 2016                           Fax +46 46 13 61 30
