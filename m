@@ -2,149 +2,117 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2E7314BF42
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 19:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4F4114BF66
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 19:19:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726762AbgA1SK0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 13:10:26 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45596 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726521AbgA1SKZ (ORCPT
+        id S1726539AbgA1STZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 13:19:25 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:1100 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726066AbgA1STY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 13:10:25 -0500
-Received: by mail-wr1-f67.google.com with SMTP id a6so2556080wrx.12;
-        Tue, 28 Jan 2020 10:10:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=THXIcxAQ+jRZ9p0oqCi3Nel8bF5n2Oj6LcOlDPsztjs=;
-        b=AWYfWF6oKD17pcdtJ5MPRnS4jNaFxgWz+hrGuMK8EveAfoNAkLX3ICr7Azw79XCVPO
-         G77K5lfouDTtVlRpWTG9Yx1ZYCSUNCU4dqeVlLsgriStyOEP1KzaG/Op3HEZskuEzoQd
-         7Eqy+B86FPY+cq/BrQ5NBc8iYm+UcQi9WLS/FW1DcBFM0lQrOQhuT6PSsNbZX3RhWXlR
-         RnLj5HoL9EN01j1aFVcJLzr5jF97WkJO2c3CUTML1ldStKQgJ4yNOiPkgsYt7bEBM/Rq
-         km2yigkmrASSnebhXhH5/HvkARTQsWKjRZ33OPPzRz7dgjbzemmX/SZj7GYssp9k8Vpg
-         UD7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=THXIcxAQ+jRZ9p0oqCi3Nel8bF5n2Oj6LcOlDPsztjs=;
-        b=fC2bjBpTvcmncLQATKC3IPV9pnGKam1enJ04LDmbgxsh65TT/pj9kjeJcL3qDbuXFw
-         wijT9bGpusP3ULwNLs4vNA06M2UUbR3EG6MpR94RReecUDE0h4LHCgeyxPWHd5Sb9dED
-         vHU42PS9GbVPKtdU5StQ0kGso5S1EPMrm2QFb1TF2Cvj3q/k980tmhKXi9/c7OLOGA3t
-         CF5KhCfW6ZzCEl7614BVWqu3UQOwylIZboYJ9H6gTq0iN2oCOBa93flYlOAHiMNIefo7
-         8fjRx8nLidBJAIJVRYDSXhcjwZe/aNE+IfSXIonEXtH1m4qictBqCd7kPss7IkZ3jVfk
-         OCcw==
-X-Gm-Message-State: APjAAAWpXFOiNoNBgM5uDawCOVOcalBqWeYQVZ0/JCgyGlG+bE4Ai896
-        0WWD6KNU259uWZiJ2F2H4os=
-X-Google-Smtp-Source: APXvYqxKqo1EPLOMRvFiZxIKnf+uw/hGtB+hSgdZoNS0pddIbQOsu66CPHcFIrm4EC3y5yr/lDD8Lg==
-X-Received: by 2002:adf:f3cd:: with SMTP id g13mr30628170wrp.54.1580235022924;
-        Tue, 28 Jan 2020 10:10:22 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id b67sm4206059wmc.38.2020.01.28.10.10.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2020 10:10:21 -0800 (PST)
-Date:   Tue, 28 Jan 2020 19:10:20 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
-        mark.rutland@arm.com, robh+dt@kernel.org, kishon@ti.com,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch V3 12/18] usb: gadget: tegra-xudc: support multiple
- device modes
-Message-ID: <20200128181020.GJ2293590@ulmo>
-References: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
- <1577704195-2535-13-git-send-email-nkristam@nvidia.com>
+        Tue, 28 Jan 2020 13:19:24 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e307b1d0000>; Tue, 28 Jan 2020 10:19:09 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 28 Jan 2020 10:19:23 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 28 Jan 2020 10:19:23 -0800
+Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Jan
+ 2020 18:19:21 +0000
+Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
+ 24bit and 32bit samples
+To:     Dmitry Osipenko <digetx@gmail.com>, Mark Brown <broonie@kernel.org>
+CC:     Ben Dooks <ben.dooks@codethink.co.uk>,
+        <linux-kernel@lists.codethink.co.uk>,
+        <alsa-devel@alsa-project.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Edward Cragg <edward.cragg@codethink.co.uk>,
+        <linux-tegra@vger.kernel.org>
+References: <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
+ <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
+ <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
+ <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
+ <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
+ <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
+ <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
+ <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
+ <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
+ <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
+ <20200128121315.GD4689@sirena.org.uk>
+ <047c8caa-e715-5295-9794-67ff3e10cea2@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <70f344bf-f991-606c-55ab-bdadea27d233@nvidia.com>
+Date:   Tue, 28 Jan 2020 18:19:19 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="1ou9v+QBCNysIXaH"
-Content-Disposition: inline
-In-Reply-To: <1577704195-2535-13-git-send-email-nkristam@nvidia.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <047c8caa-e715-5295-9794-67ff3e10cea2@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580235549; bh=haGbRhnwYfqYm8OYOnYaS4TBQKtjm+tRkVZtCR7beeg=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=b2YDan7jVhnoJbfoEICNiUrr3zwMH3xSwNsZomEUUiX4D1JJN4iAv2eZq7nNYBUb3
+         syMh2miFnxtG9sm7webZD9FnIkb0QRmQsEtk5eN0RqpXFcVuKh750K6u1ciC9bA0fF
+         l+Rv/+MDSEL4JmDcG5wJ8M4zKlF9u7wcOkSRBpdh4gkk7+JMEHxXwCd1ilPQgA/q3G
+         jXWHrK6MlXpTY7tIrWnXzFWg3JygEkcVKx6m4Z9gzP5ZP2AmfggAh4tBfIOqf7auVV
+         PoYjZpFJCs6xPLTnIltkkS0LHVWOhSktKd/oX/n3IrcywEvNvRnqXeGmGHsTfXfJ/Q
+         CVzELsefxq+EQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---1ou9v+QBCNysIXaH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Dec 30, 2019 at 04:39:49PM +0530, Nagarjuna Kristam wrote:
-> This change supports limited multiple device modes by:
-> - At most 4 ports contains OTG/Device capability.
-> - One port run as device mode at a time.
+On 28/01/2020 17:42, Dmitry Osipenko wrote:
+> 28.01.2020 15:13, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On Mon, Jan 27, 2020 at 10:20:25PM +0300, Dmitry Osipenko wrote:
+>>> 24.01.2020 19:50, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>
+>>>>                 .rates =3D SNDRV_PCM_RATE_8000_96000,
+>>>>                 .formats =3D SNDRV_PCM_FMTBIT_S32_LE |
+>>>> -                          SNDRV_PCM_FMTBIT_S24_LE |
+>>>> +                          SNDRV_PCM_FMTBIT_S24_3LE |
+>>
+>>> It should solve the problem in my particular case, but I'm not sure tha=
+t
+>>> the solution is correct.
+>>
+>> If the format implemented by the driver is S24_3LE the driver should
+>> advertise S24_3LE.
 >=20
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> ---
-> V3:
->  - No changes in this version
-> ---
-> V2:
->  - Updated err variable on failure to get usbphy.
->  - Corrected identation after tegra_xudc_phy_get API call in tegra_xudc_p=
-robe.
-> ---
->  drivers/usb/gadget/udc/tegra-xudc.c | 228 ++++++++++++++++++++++++++----=
-------
->  1 file changed, 167 insertions(+), 61 deletions(-)
+> It should be S24_LE, but seems we still don't know for sure.
+
+Why?
+
+>>> The v5.5 kernel is released now with the broken audio and apparently
+>>> getting 24bit to work won't be trivial (if possible at all). Ben, could
+>>> you please send a patch to fix v5.5 by removing the S24 support
+>>> advertisement from the driver?
+>>
+>> Why is that the best fix rather than just advertising the format
+>> implemented by the driver?
 >=20
-> diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc=
-/tegra-xudc.c
-> index 283c320..bf80fae 100644
-> --- a/drivers/usb/gadget/udc/tegra-xudc.c
-> +++ b/drivers/usb/gadget/udc/tegra-xudc.c
-> @@ -483,14 +483,15 @@ struct tegra_xudc {
->  	bool device_mode;
->  	struct work_struct usb_role_sw_work;
-> =20
-> -	struct phy *usb3_phy;
-> -	struct phy *utmi_phy;
-> +	struct phy **usb3_phy;
-> +	struct phy **utmi_phy;
-> =20
->  	struct tegra_xudc_save_regs saved_regs;
->  	bool suspended;
->  	bool powergated;
-> =20
-> -	struct usb_phy *usbphy;
-> +	struct usb_phy **usbphy;
-> +	int current_phy_index;
+> The currently supported format that is known to work well is S16_LE.
+>=20
+> I'm suggesting to drop the S24_LE and S32_LE that were added by the
+> applied patches simply because this series wasn't tested properly before
+> it was sent out and turned out that it doesn't work well.
 
-Can be unsigned int. It's also very long. It might be better to choose a
-shorter name so that when you use it, the lines don't get excessively
-long. Alternatively you could keep this field name and instead declare
-local variables to reference the current PHY to make lines shorter.
+S32_LE should be fine, however, I do have some concerns about S24_LE.
 
-Actually, looking at this a bit more, I don't see current_phy_index ever
-used by itself (other than the assignment and one check to see if a PHY
-has been selected). So why not just store a pointer to the current PHY
-and avoid all the dereferencing?
+Jon
 
-Thierry
-
---1ou9v+QBCNysIXaH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4weQwACgkQ3SOs138+
-s6FiDw/9FkKjqK/pE5MWAXa2YCYVvNyJ+tKDD6xQh1/co/QYHOLWNSNyrJL/ECmZ
-GRJpJYS/BTn+9WPnbOYWEiDVXhoQ+3evAEYFiir3DF23endG5IN5ZA58pLRP7vQD
-T0Z6z5JcltLVESbX3hitWHdJkPKfqJHLFqQYZXHQTUWmpUAVgOt2lNtiaew5bEmE
-yYOb/CPUHOeJfzespeepeCiJh9aNkVhW6bTX8vsmmdgnmAA7WJeNlZiR5tVXKumJ
-nCOk7bOUti9v3FGUJotCCYe1pB/YdVw9wQU3dHh12LBiOP7hUHfhQql6UqEkfkBj
-su0GpKqOo15/c6vXVlW5+JaJGSPdpQ52KrsAhh8ckfa5hJbkYkKn60CucJ+0X09k
-APKUjF4ZyTgx6aKTsWK8NfOUaaGUmpbtivtIhQJLobss5pA5Vd2KBPXn9BsU+X7o
-jQrgBhauACy3YceIosSYm7furIYwE87/zG0p6bGoKcq1TOvRmNXjsvB9AQywsbCQ
-UHXFM+PBi3n7w8hUldDvoLhCZgwKN/ivosMBfva/VOlWBKI15BBdv4Q6biu/ULGh
-Y+WpJPap/Rb2uhjQOccr2j7ERlQJw/0iT+lJUGRNgDxccmLTrRbCjhKPhbVNN/69
-+O7NOHvGHW9zu+aNHKFCKy7GLVVhNTBPocoOCSuk4gIaQeukQow=
-=nZc6
------END PGP SIGNATURE-----
-
---1ou9v+QBCNysIXaH--
+--=20
+nvpublic
