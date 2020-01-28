@@ -2,142 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F52E14AED9
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 06:06:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 122B514AEDD
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 06:15:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725797AbgA1FGv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 00:06:51 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:54720 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725283AbgA1FGv (ORCPT
+        id S1725774AbgA1FP2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 00:15:28 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18943 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725283AbgA1FP2 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 00:06:51 -0500
-Received: by mail-pj1-f68.google.com with SMTP id dw13so465506pjb.4;
-        Mon, 27 Jan 2020 21:06:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=EOkHPlApR03+KhenapKgHCCTfxWORvo9CWa7thX8FjQ=;
-        b=Q7Xqv/Ibjua4Tt2a8EOs16LRmagni8jh3H0Cmuoli7nocDi388E7DfsZU+nCzL964V
-         B5yJjQNSEDLXqoLUV4NtWg4ITl36qnKwWlOI+cH38K08zZunrEImrxtvJVJf6NERNIcu
-         oE7v5RmNVWz45efpchd6T8Gbst86Kxe/V6oRAbDnORtMTaZhKw49QiE6wF5sKNFZp4dW
-         P6JfMrb98Rk78ELB8PuOGCvJU+lCX9swioyzKHB1Tv79mmSN6e/mcD3rP8Q9sq8CLDcq
-         VJPLFAmMUrAqStKU9ym6kDBj2WN73YgnPDznP4t7DoUo99qcIX+b64g5wL0EoydtKDmg
-         k4nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=EOkHPlApR03+KhenapKgHCCTfxWORvo9CWa7thX8FjQ=;
-        b=iXGKnD4YEKn6MvlL1Y1HmGEbld8bIUEa2Meds6QYXtqSw2bU0K7/C6Bx8lEZMv5Pbi
-         ktzm8O6cl88G+z2UsujEqqMwt21zgiZ/fDTBjCkbsZOYTAZoL1ucXnJ0RYz9iFpf+lnI
-         1Zr8VfLiPsg+OF3OxfJz9WgTwejDd1nBQr/b8GIA30yR1VnHgZwTMAGLpt+VeQqxRPcO
-         9Wwm0nGvGpSwLVR+KEWJOV42b0wz8RhKhLYHudkSQM+fqvRVEqxeIjQSi5mg/O2Fc4W6
-         yPoRe+4AzgPMWIjWRf0d85lFkqq1PhFQ1fzf6Hkvr7ubyWJ2E0I64pzCn04CLlehTbbq
-         7nqQ==
-X-Gm-Message-State: APjAAAXg2Sm68tZqfaKAcModchLHo8YhjjLJbIiOjqaWHAVmy/nqE6Z2
-        3JWRa7hIbdXKHAECIGsg5KurNc3M
-X-Google-Smtp-Source: APXvYqyq0chQkUfWzXQt0f00xhGVoq7nPt6jm/29yCitMbJQ4xtiepXpGnHxxZ475RfX+sQDgETshQ==
-X-Received: by 2002:a17:902:34d:: with SMTP id 71mr20148831pld.316.1580188010847;
-        Mon, 27 Jan 2020 21:06:50 -0800 (PST)
-Received: from localhost (216.24.177.237.16clouds.com. [216.24.177.237])
-        by smtp.gmail.com with ESMTPSA id b1sm762486pjw.4.2020.01.27.21.06.49
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 27 Jan 2020 21:06:50 -0800 (PST)
-Date:   Tue, 28 Jan 2020 13:06:46 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     gregkh@linuxfoundation.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: phy: tegra: make the code simple by
- devm_platform_ioremap_resource()
-Message-ID: <20200128050356.GA21357@nuc8i5>
-References: <20200127135841.17935-1-zhengdejin5@gmail.com>
- <ebb395ec-89ef-12e9-b3a9-2fc35f764ee2@gmail.com>
+        Tue, 28 Jan 2020 00:15:28 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e2fc3600000>; Mon, 27 Jan 2020 21:15:13 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 27 Jan 2020 21:15:27 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 27 Jan 2020 21:15:27 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Jan
+ 2020 05:15:27 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 28 Jan 2020 05:15:27 +0000
+Received: from mkumard.nvidia.com (Not Verified[10.24.34.162]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e2fc36d0000>; Mon, 27 Jan 2020 21:15:26 -0800
+From:   Mohan Kumar <mkumard@nvidia.com>
+To:     <tiwai@suse.com>, <perex@perex.cz>
+CC:     <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <treding@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>
+Subject: [PATCH] ALSA: hda: Reset stream if DMA RUN bit not cleared
+Date:   Tue, 28 Jan 2020 10:45:08 +0530
+Message-ID: <20200128051508.26064-1-mkumard@nvidia.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ebb395ec-89ef-12e9-b3a9-2fc35f764ee2@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580188513; bh=LnMsVEXJSVOaTH274LZlAyN6+SbN5kZnEjHVHfvY1Qk=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:Content-Type;
+        b=XpCBLQUbB+N/CsLzxbpSRj5bkukcmZxIkpDUYLhIIURCZEAZaFe6/0Q38WjiFwS13
+         /coy2d0MllOHPNav7vuZMfQLEc1uPZGvxKzUSh6LWkT1ja1ZSVskliC9HMceFkSxtF
+         g4fUujrpM3sTRKS57xrHB5VzmKt6FkRcr9yZHh8Jf83Zrk5I0quCRcUkXTJM+Gxy+s
+         ONP5bJAVUnn51CuwrNFayURBzSj8Xzx/PhPltdvgOZHjEEuAAjYe4zUTV2GSJncmEe
+         W8QrGYQv7LZWfgfsdCRm3CtXeUeYjqMpNB7pkRafEABQAuelD+ajixkmk355/DuBRg
+         lK4AI2pd8xW4Q==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jan 27, 2020 at 10:47:36PM +0300, Dmitry Osipenko wrote:
-> 27.01.2020 16:58, Dejin Zheng пишет:
-> > make the code simple by use devm_platform_ioremap_resource() function
-> > to replace platform_get_resource() and devm_ioremap().
-> > 
-> > Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-> > ---
-> >  drivers/usb/phy/phy-tegra-usb.c | 20 ++------------------
-> >  1 file changed, 2 insertions(+), 18 deletions(-)
-> > 
-> > diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
-> > index ea7ef1dc0b42..8220bb4ce1ed 100644
-> > --- a/drivers/usb/phy/phy-tegra-usb.c
-> > +++ b/drivers/usb/phy/phy-tegra-usb.c
-> > @@ -944,20 +944,12 @@ static int read_utmi_param(struct platform_device *pdev, const char *param,
-> >  static int utmi_phy_probe(struct tegra_usb_phy *tegra_phy,
-> >  			  struct platform_device *pdev)
-> >  {
-> > -	struct resource *res;
-> >  	int err;
-> >  	struct tegra_utmip_config *config;
-> >  
-> >  	tegra_phy->is_ulpi_phy = false;
-> >  
-> > -	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-> > -	if (!res) {
-> > -		dev_err(&pdev->dev, "Failed to get UTMI pad regs\n");
-> > -		return  -ENXIO;
-> > -	}
-> > -
-> > -	tegra_phy->pad_regs = devm_ioremap(&pdev->dev, res->start,
-> > -		resource_size(res));
-> > +	tegra_phy->pad_regs = devm_platform_ioremap_resource(pdev, 1);
-> >  	if (!tegra_phy->pad_regs) {
-> >  		dev_err(&pdev->dev, "Failed to remap UTMI pad regs\n");
-> >  		return -ENOMEM;
-> > @@ -1054,7 +1046,6 @@ MODULE_DEVICE_TABLE(of, tegra_usb_phy_id_table);
-> >  static int tegra_usb_phy_probe(struct platform_device *pdev)
-> >  {
-> >  	const struct of_device_id *match;
-> > -	struct resource *res;
-> >  	struct tegra_usb_phy *tegra_phy = NULL;
-> >  	struct device_node *np = pdev->dev.of_node;
-> >  	enum usb_phy_interface phy_type;
-> > @@ -1071,14 +1062,7 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
-> >  	}
-> >  	tegra_phy->soc_config = match->data;
-> >  
-> > -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > -	if (!res) {
-> > -		dev_err(&pdev->dev, "Failed to get I/O memory\n");
-> > -		return  -ENXIO;
-> > -	}
-> > -
-> > -	tegra_phy->regs = devm_ioremap(&pdev->dev, res->start,
-> > -		resource_size(res));
-> > +	tegra_phy->regs = devm_platform_ioremap_resource(pdev, 0);
-> >  	if (!tegra_phy->regs) {
-> >  		dev_err(&pdev->dev, "Failed to remap I/O memory\n");
-> >  		return -ENOMEM;
-> > 
-> 
-> Hello Dejin,
-> 
-> Unfortunately this is not a correct change because registers are shared
-> by both PHY and USB controllers on Tegra SoCs. The
-> devm_platform_ioremap_resource() can't be used here because it makes the
-> mapping exclusive for a single driver, while it should be shared.
+Tegra HDA has FIFO size which can hold upto 10 audio frames to support
+DVFS. When HDA DMA RUN bit is set to 0 to stop the stream, the DMA RUN
+bit will be cleared to 0 only after transferring all the remaining audio
+frames queued up in the fifo. This is not in sync with spec which states
+the controller will stop transmitting(output) in the beginning of the
+next frame for the relevant stream.
 
-Dmitry, Thanks a lot for your comment! and abandon this commit.
+The above behavior with Tegra HDA was resulting in machine check error
+during the system suspend flow with active audio playback with below kernel
+error logs.
+[ 33.524583] mc-err: [mcerr] (hda) csr_hdar: EMEM address decode error
+[ 33.531088] mc-err: [mcerr] status = 0x20000015; addr = 0x00000000
+[ 33.537431] mc-err: [mcerr] secure: no, access-type: read, SMMU fault: none
 
+This was due to the fifo has more than one audio frame when the DMA
+RUN bit is set to 0 during system suspend flow and the timeout handling in
+snd_hdac_stream_sync() was not designed to handle this scenario. So the
+DMA will continue running even after timeout hit until all remaining
+audio frames in the fifo are transferred, but the suspend flow will try
+to reset the controller and turn off the hda clocks without the knowledge
+of the DMA is still running and could result in mc-err.
+
+The above issue can be resolved by doing stream reset with the help of
+snd_hdac_stream_reset() which would ensure the DMA RUN bit is cleared
+if the timeout was hit in snd_hdac_stream_sync().
+
+Signed-off-by: Mohan Kumar <mkumard@nvidia.com>
+---
+ sound/hda/hdac_stream.c | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
+
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index 682ed39f79b0..890ff1b7a878 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -629,20 +629,27 @@ void snd_hdac_stream_sync(struct hdac_stream *azx_dev, bool start,
+ 		nwait = 0;
+ 		i = 0;
+ 		list_for_each_entry(s, &bus->stream_list, list) {
+-			if (streams & (1 << i)) {
+-				if (start) {
+-					/* check FIFO gets ready */
+-					if (!(snd_hdac_stream_readb(s, SD_STS) &
+-					      SD_STS_FIFO_READY))
+-						nwait++;
+-				} else {
+-					/* check RUN bit is cleared */
+-					if (snd_hdac_stream_readb(s, SD_CTL) &
+-					    SD_CTL_DMA_START)
+-						nwait++;
++			if (!(streams & (1 << i++)))
++				continue;
++
++			if (start) {
++				/* check FIFO gets ready */
++				if (!(snd_hdac_stream_readb(s, SD_STS) &
++				      SD_STS_FIFO_READY))
++					nwait++;
++			} else {
++				/* check RUN bit is cleared */
++				if (snd_hdac_stream_readb(s, SD_CTL) &
++				    SD_CTL_DMA_START) {
++					nwait++;
++					/*
++					 * Perform stream reset if DMA RUN
++					 * bit not cleared within given timeout
++					 */
++					if (timeout == 1)
++						snd_hdac_stream_reset(s);
+ 				}
+ 			}
+-			i++;
+ 		}
+ 		if (!nwait)
+ 			break;
+-- 
+2.17.1
 
