@@ -2,68 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F1D514BD2A
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 16:43:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CB1D14BD63
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 16:59:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726492AbgA1Pnk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 10:43:40 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:36742 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726384AbgA1Pnk (ORCPT
+        id S1726446AbgA1P7z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 10:59:55 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:35307 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725959AbgA1P7z (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 10:43:40 -0500
-Received: by mail-lf1-f67.google.com with SMTP id f24so9455083lfh.3
-        for <linux-tegra@vger.kernel.org>; Tue, 28 Jan 2020 07:43:38 -0800 (PST)
+        Tue, 28 Jan 2020 10:59:55 -0500
+Received: by mail-il1-f194.google.com with SMTP id g12so11072436ild.2;
+        Tue, 28 Jan 2020 07:59:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=R5kBMh4d+jF6Iwky3860+MgFWMq82eO07pKtL2+tzsM=;
-        b=a0Z8FyCOuJQvUGgNYXLxA+nsU5OiE2CApN7uYm1l2MMj+oLoMuD1Y4Dm2qLddOwL3U
-         6y9LNcq4De2dvyrqkNpqYz30rmDHqy4ihIQ1DLsx/wyci8n9nJNyzynhGBG8nbHx1frl
-         s9P7Y/RhODHOt5tugCfFjm7eSygyquDFqa/9dz8F4+JaOmJID6vaS4WMkCncnMfemrYF
-         B4DurJqTDQhlA6usS0sDaRplkxl8k6DxD4pzhkq104NZKbYfK8VOxHdJ/+2BTdHvtVtR
-         gRtu1FFZ4f/PsGclIIxlQ0M45/tZMn73eTGu59Yx0rcg5OINHONKBzoiFWnYaRFxIJjt
-         hZvQ==
+        bh=w4ohonp6++tc7WV/sPZwKkfZN7aW1XO2ASROEv1nRiU=;
+        b=lIAeCkFhXtKcaKTzDLsiXbW2Ul2ROk9tb5PwiMDl/qJCGJ+ZSMAIZoTnpN8/KjHmuX
+         SxlWPSts47s3FdhN9qe/baojNFdM5XSVtWYqE36fQmaZ25sLCxCD3MZbBrRjSaI+iQWK
+         PlR/1AkzKpzTO4qNV7w57wm3961oum3bDHlO5GyL25C09Ec+87//WpH+YDxd80rhkqXr
+         6I4Hm3J2nwoHXsQODKt+oEjzDYJJcVkKYNBeG/Q4nl/Qd/MFXh9ia5l6qmfIRqYWr/7s
+         Q5SxKAzQ/giBRAgiB8iPG8CiaU57GF9fu98xJknuguPQs9aWZVc7+D6RGo7hieBAeDDH
+         +LnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=R5kBMh4d+jF6Iwky3860+MgFWMq82eO07pKtL2+tzsM=;
-        b=LB1eB66ZGJDj9DRE5abftGKs9Al5Ej2DBgByoxJPr4H7Lluym27X4ar1BM3zk2qyjc
-         U8bEslmvYLHnm4n0LkaBSw7iJaL+0jREH2b3fYyKIqKZQd2uDILojtyjFeOj8f4x52DC
-         rxPmHVSuY27sZMJulwtHWzneEVeUnR7PdM4orQKM5ec3V6mhg12Po6bslu9yvotjg8yv
-         k8NDWGvrWOK2wKHO6tkbERLGCv8JPmnrIrua5ISJ+6ceCXHpYgPVRRsBePCehWCIDl2f
-         WYV5wi/RGsm1DBBEsFXPKboIZHE24yLfIlkndlFV0UTM6lBEvUPFvcaujuzCQHEJj9Uz
-         k+qw==
-X-Gm-Message-State: APjAAAVPLbnohi6U3biO6vg6BLeQSdqDkHi/8PP2y9hbyajvh4AuWA3U
-        fU/N4taSoPnUJr8Fe8cBb60=
-X-Google-Smtp-Source: APXvYqxF6M/0B/ST9lUthVvxoetkET/HLrNq11A1249kcdoCCadAHqoszgPAL/oVpnZHgMf2ehBP7A==
-X-Received: by 2002:a19:3f07:: with SMTP id m7mr2748099lfa.61.1580226217514;
-        Tue, 28 Jan 2020 07:43:37 -0800 (PST)
+        bh=w4ohonp6++tc7WV/sPZwKkfZN7aW1XO2ASROEv1nRiU=;
+        b=Te/GqH4Z4l1KApq1vIzGF+aH5pHvcUXNa7aA9XSnxUSBL1fPbblopC66BiSahb9mc3
+         M49see/2mZzONBh51bcMhzEsgN5Y7/MHTNtQlM1MkyXYnYwNh+s42U04qq/gJq+4uMuh
+         v2xcy9EjMUd01cUu21NMUUZJsZHd+5OH5Ec77724L5jmLEv/tZTUgR1vi/Sc6t5Yj/F8
+         HqGG90BGm/cECGxm2yPCvyliaT7hfh05PSWJzVHvHJ6A+n17DPOHyxUPDQzLzoTn0z9I
+         7Tiu+QWFM3L8QpBP7AJ3SEeRPj/YwhC61ZWM1N6otrI6qXKC6vTzNER/aGxE1EtqYpx8
+         +cKQ==
+X-Gm-Message-State: APjAAAWkfmp7ZRdKVrjEJ8teSeLvgKYFL/bfGgNunDz1gVTxkNQjHnY9
+        6pc7xG5SRbAGzBGK9OqaqHE=
+X-Google-Smtp-Source: APXvYqwEH+xXx7KfDR76ROthSQWmNYsqJe8W5aR8XGWqgGAr0ee4xhb+Ck7XnHVGnn3Ly4TJztRBFg==
+X-Received: by 2002:a92:3cc3:: with SMTP id j64mr12118361ilf.160.1580227194744;
+        Tue, 28 Jan 2020 07:59:54 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id f11sm12347370lfa.9.2020.01.28.07.43.36
+        by smtp.googlemail.com with ESMTPSA id e23sm1828838ild.37.2020.01.28.07.59.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2020 07:43:36 -0800 (PST)
-Subject: Re: [Regression 5.5-rc1] Extremely low GPU performance on NVIDIA
- Tegra20/30
+        Tue, 28 Jan 2020 07:59:54 -0800 (PST)
+Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
+ move_page_tables()
+To:     Wei Yang <richardw.yang@linux.intel.com>,
+        Russell King - ARM Linux <linux@armlinux.org.uk>
+Cc:     akpm@linux-foundation.org, dan.j.williams@intel.com,
+        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
+        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
+ <20200117232254.2792-4-richardw.yang@linux.intel.com>
+ <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
+ <20200128004301.GD20624@richard>
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Airlie <airlied@gmail.com>
-References: <a2c9eb65-c600-bf49-2c32-bddf7b44f784@gmail.com>
- <20191213151045.GB222809@ulmo>
- <d03876b8-b0d1-850b-7ae8-a61302e23843@gmail.com>
- <2f5c6fda-adf9-c6c3-7601-fa912813ce1f@gmail.com>
-Message-ID: <8b1a4006-d680-e4a7-dc91-a746c30681e4@gmail.com>
-Date:   Tue, 28 Jan 2020 18:43:36 +0300
+Message-ID: <d66bb20e-c0e7-caef-cbbc-aa216c2be7d6@gmail.com>
+Date:   Tue, 28 Jan 2020 18:59:48 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <2f5c6fda-adf9-c6c3-7601-fa912813ce1f@gmail.com>
+In-Reply-To: <20200128004301.GD20624@richard>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -72,108 +78,68 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-20.01.2020 05:53, Dmitry Osipenko пишет:
-> 13.12.2019 18:35, Dmitry Osipenko пишет:
->> 13.12.2019 18:10, Thierry Reding пишет:
->>> On Fri, Dec 13, 2019 at 12:25:33AM +0300, Dmitry Osipenko wrote:
->>>> Hello Thierry,
->>>>
->>>> Commit [1] introduced a severe GPU performance regression on Tegra20 and
->>>> Tegra30 using.
->>>>
->>>> [1]
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.5-rc1&id=fa6661b7aa0b52073681b0d26742650c8cbd30f3
->>>>
->>>> Interestingly the performance is okay on Tegra30 if
->>>> CONFIG_TEGRA_HOST1X_FIREWALL=n, but that doesn't make difference for
->>>> Tegra20.
->>>>
->>>> I was telling you about this problem on the #tegra IRC sometime ago and
->>>> you asked to report it in a trackable form, so finally here it is.
->>>>
->>>> You could reproduce the problem by running [2] like this
->>>> `grate/texture-filter -f -s` which should produce over 100 FPS for 720p
->>>> display resolution and currently it's ~11 FPS.
->>>>
->>>> [2]
->>>> https://github.com/grate-driver/grate/blob/master/tests/grate/texture-filter.c
->>>>
->>>> Previously I was seeing some memory errors coming from Host1x DMA, but
->>>> don't see any errors at all right now.
->>>>
->>>> I don't see anything done horribly wrong in the offending commit.
->>>>
->>>> Unfortunately I couldn't dedicate enough time to sit down and debug the
->>>> problem thoroughly yet. Please let me know if you'll find a solution,
->>>> I'll be happy to test it. Thanks in advance!
+28.01.2020 03:43, Wei Yang пишет:
+> On Sun, Jan 26, 2020 at 05:47:57PM +0300, Dmitry Osipenko wrote:
+>> 18.01.2020 02:22, Wei Yang пишет:
+>>> Use the general helper instead of do it by hand.
 >>>
->>> I suspect that the problem here is that we're now using the DMA API,
->>> which causes the 32-bit ARM DMA/IOMMU glue to be used. I vaguely recall
->>> that that code doesn't coalesce entries in the SG table, so we may end
->>> up calling iommu_map() a lot of times, and miss out on much of the
->>> advantages that the ->iotlb_sync_map() gives us on Tegra20.
+>>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>>> ---
+>>>  mm/mremap.c | 7 ++-----
+>>>  1 file changed, 2 insertions(+), 5 deletions(-)
 >>>
->>> At the same time dma_map_sg() will flush caches, which we didn't do
->>> before. This we should be able to improve by passing the attribute
->>> DMA_ATTR_SKIP_CPU_SYNC to dma_map_sg() when we know that the cache
->>> maintenance isn't needed.
+>>> diff --git a/mm/mremap.c b/mm/mremap.c
+>>> index c2af8ba4ba43..a258914f3ee1 100644
+>>> --- a/mm/mremap.c
+>>> +++ b/mm/mremap.c
+>>> @@ -253,11 +253,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+>>>  
+>>>  	for (; old_addr < old_end; old_addr += extent, new_addr += extent) {
+>>>  		cond_resched();
+>>> -		next = (old_addr + PMD_SIZE) & PMD_MASK;
+>>> -		/* even if next overflowed, extent below will be ok */
+>>> +		next = pmd_addr_end(old_addr, old_end);
+>>>  		extent = next - old_addr;
+>>> -		if (extent > old_end - old_addr)
+>>> -			extent = old_end - old_addr;
+>>>  		old_pmd = get_old_pmd(vma->vm_mm, old_addr);
+>>>  		if (!old_pmd)
+>>>  			continue;
+>>> @@ -301,7 +298,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+>>>  
+>>>  		if (pte_alloc(new_vma->vm_mm, new_pmd))
+>>>  			break;
+>>> -		next = (new_addr + PMD_SIZE) & PMD_MASK;
+>>> +		next = pmd_addr_end(new_addr, new_addr + len);
+>>>  		if (extent > next - new_addr)
+>>>  			extent = next - new_addr;
+>>>  		move_ptes(vma, old_pmd, old_addr, old_addr + extent, new_vma,
 >>>
->>> And while thinking about it, one other difference is that with the DMA
->>> API we actually map/unmap the buffers for every submission. This is
->>> because the DMA API semantics require that buffers be mapped/unmapped
->>> every time you use them. Previously we would basically only map each
->>> buffer once (at allocation time) and only have to deal with cache
->>> maintenance, so the overhead per submission was drastically lower.
->>>
->>> If DMA_ATTR_SKIP_CPU_SYNC doesn't give us enough of an improvement, we
->>> may want to restore explicit IOMMU usage, at least on anything prior to
->>> Tegra124 where we're unlikely to ever use different IOMMU domains anyway
->>> (because they are such a scarce resource).
 >>
->> Tegra20 doesn't use IOMMU in a vanilla upstream kernel (yet), so I don't
->> think that it's the root of the problem. Disabling IOMMU for Tegra30
->> also didn't help (IIRC).
+>> Hello Wei,
 >>
->> The offending patch shouldn't change anything in regards to the DMA API,
->> if I'm not missing something. Strange..
+>> Starting with next-20200122, I'm seeing the following in KMSG on NVIDIA
+>> Tegra (ARM32):
 >>
->> Please keep me up-to-date!
+>>  BUG: Bad rss-counter state mm:(ptrval) type:MM_ANONPAGES val:190
 >>
 > 
-> Hello Thierry,
+> Thanks.
 > 
-> I took another look at the problem and here what was found:
-> 
-> 1) The "Optionally attach clients to the IOMMU" patch is wrong because:
-> 
->     1. host1x_drm_probe() is invoked *before* any of the
->        host1x_client_iommu_attach() happens, so there is no way
->        on earth the 'use_explicit_iommu' could ever be true.
-> 
->     2. Not attaching DRM clients to IOMMU if HOST1x isn't
->        attached is wrong because it never attached in the case
->        of CONFIG_TEGRA_HOST1X_FIREWALL=y [1] and this also
->        makes no sense for T20/30 that do not support LPAE.
-> 
-> [1]
-> https://elixir.bootlin.com/linux/v5.5-rc6/source/drivers/gpu/host1x/dev.c#L205
-> 
-> 2) Because of the above problems, the DRM clients are erroneously not
-> getting attached to IOMMU at all and thus CMA is getting used for the BO
-> allocations. Here comes the problems introduced by the "gpu: host1x:
-> Support DMA mapping of buffers" patch, which makes DMA API to perform
-> CPU cache maintenance on each job submission and apparently this is
-> super bad for performance. This also makes no sense in comparison to the
-> case of enabled IOMMU, where cache maintenance isn't performed at all
-> (like it should be).
-> 
-> Please let me know if you're going to fix the problems or if you'd
-> prefer me to create the patches.
-> 
-> Here is a draft of the fix for #2, it doesn't cover case of imported
-> buffers (which should be statically mapped, IIUC):
-...
+> Would you mind letting me know which case you are testing?
 
-The v5.5 is released now with the unusable GPU driver. Thierry, could
-please let me know if you're planning to do something about it? Should I
-help?
+Nothing special, systemd starts to fall apart during boot.
+
+> Or the special thing is 32-bit platform?
+I have a limited knowledge about mm/, so can't provide detailed explanation.
+
+Please take a look at this:
+
+[1]
+https://elixir.bootlin.com/linux/v5.5/source/arch/arm/include/asm/pgtable-2level.h#L210
+
+[2]
+https://elixir.bootlin.com/linux/v5.5/source/include/asm-generic/pgtable.h#L549
+
+[3]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c0ba10b512eb2e2a3888b6e6cc0e089f5e7a191b
