@@ -2,71 +2,86 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E603014BC88
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 16:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FFFC14BCC3
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 16:25:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbgA1PBm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 10:01:42 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:35496 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726243AbgA1PBm (ORCPT
+        id S1726303AbgA1PZ0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 10:25:26 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43979 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726141AbgA1PZZ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 10:01:42 -0500
-Received: by mail-lf1-f67.google.com with SMTP id z18so9329540lfe.2;
-        Tue, 28 Jan 2020 07:01:40 -0800 (PST)
+        Tue, 28 Jan 2020 10:25:25 -0500
+Received: by mail-lj1-f196.google.com with SMTP id a13so15108411ljm.10
+        for <linux-tegra@vger.kernel.org>; Tue, 28 Jan 2020 07:25:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jxwyE4yCuJly/POgSDmd0mgjgoTTNrnCHPv8m1hThlw=;
-        b=r9pKAmpcGxCnJQHpeUV186FjMp6g8ZLFV0vbqprv6kdJ06k55bvT1gSajqUntVTSSj
-         /dBkeIqVll8OujXg80OGCegtmjpTelrjQ34GbYIJ/kWJ8v+Pe1nmicD+xBYekQuggSd0
-         T5zhu4wYNUF5tLHncUPdiR9qJCDeyoB1tjnWWCKqJzuw++TmtRoY46p61ZIaDkVM+Fw6
-         l+D/km54MrSWj65dv7z52suZ/YiOdwiPYz/HSG/FAfhuSWpHTDEQp5XSX2eO2BNOXGxG
-         Z4QEHFf5wtUvIzwh4kko0qen16g5eEfU95Shd+b0QF3rF1izob6S0iOXOKSgrxx1Y0s2
-         OMVw==
+        bh=Wt1vosh5doE0CTfo450Q1EteoZWXd05+2wERnPg/Das=;
+        b=mSMaf3GF40AF6W5ANFgPQ9CrM3aHDVjVi3gk0ESEK1kKonC5JyQSUpE93Le6B7CcgI
+         nnGO2q8RMAXvgBgB944YXdXE1U7zrkXDU6NgsY2RBkA0cg25F4wph53rEwhwm75PnTnF
+         Fs8jd+ay6dEc0LB3zIZKFDJz0GxzQ0N4kEZAebK1E3BZDVkLlAQ6koig5FUNzLFYuNxD
+         ctwTshydCtIK3w6eliJf0la16m0rBr1I47VyTUpZXqluGwuy2juCMA9uGew0R83Y6zTp
+         RQOInS/UI2BSkZpiXI8YdMaMnRYaMyVnvFBQX4xkSeh9pnF7iHgMnuNwntkiETi5sdra
+         psFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=jxwyE4yCuJly/POgSDmd0mgjgoTTNrnCHPv8m1hThlw=;
-        b=Ctkj+Bkm4kRC90ur9aFKMkFKq9G4Nn1MJj9s77DdYbHzffyVg0LFjM8VPF4Fc/xDxl
-         PtzVV+p667c2p+zlw25wz0Qmk9iq8WIqzKsEHIywfW5VAJ3c1BRqbLOpVPdbKsANO9al
-         elptn4bF7FCBGx/pcNo7D9WQeDic4NhOJ2TpcROM63fwK7Yc1wuE9OxDQ86HLv19hpD9
-         g1gAJyQ1NF7XMtKv1CXuj2xdsGPP1PS5WA7ev8SMKFTiWscsaoNfK3TBOaW9EaO4Glb/
-         fB3Bd59sFBHxxCeZh+n/NMh4ii9EJPax21CIH9DnJDopI9m6z1p5Ub8WpmeTvl+DxOZX
-         36Bw==
-X-Gm-Message-State: APjAAAU1eAiEfgoK0GfPGC2JH2ORspjoUZs4OYxSxJ57VENxtlqI5Xp4
-        oTmoU/BwBDInCXyOf2ntECSbdd9h
-X-Google-Smtp-Source: APXvYqw3RsrE6AGKOzv0pZfEsLBAjHfve5tnkCmTy0TEA0qNwFJ2y1TSQdaqNO+CJhWKyHw5evw2WA==
-X-Received: by 2002:a19:c6cd:: with SMTP id w196mr2653759lff.79.1580223699796;
-        Tue, 28 Jan 2020 07:01:39 -0800 (PST)
+        bh=Wt1vosh5doE0CTfo450Q1EteoZWXd05+2wERnPg/Das=;
+        b=ajLYDq7xmAGsxn25ShtPP3oTj9al2ZFsd2KRus5Vofb2641Lw6azuUfruVSlp2DJdR
+         fQkPxHEYENASQwnLzvvv6KkLbPUvVszX//LhvsVRVaHVrPw97Q8s8rwi+bhDXLNrY7Uv
+         ObejJiBeuCtLduElQaNFpm3dRZBHfyPedz0ZXGfGTTaLnuS6YZKeN+nANgcOvF0Ix8O2
+         Ib54Ald8roby9j9VUPBBvQc4bTQA1YdAtkrsy0+k4JEl7riJlfh7d9Tg4zfoLvYmUEVO
+         kocylKSVeC7hT6qSyphb/vbhsjDlYRNCY8Oj95gg3itE1r9EX9RJe0fHyTDwtLayvIM+
+         OKtg==
+X-Gm-Message-State: APjAAAUuuxzcDxedNy/zE2c6uCFcOtjz4HWNsl1E/8oI4Vdr+aVEyGbe
+        L+YOxHYKpcvn/fumSd2AouIOsqV7
+X-Google-Smtp-Source: APXvYqxJXNRv3sXMNruaDyN8qSDfgWtYeDy/sN0vsUVncH+3pcE3rkyyiIESKlIpEkKoiYbd/aKIFg==
+X-Received: by 2002:a2e:7207:: with SMTP id n7mr12227173ljc.242.1580225123107;
+        Tue, 28 Jan 2020 07:25:23 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id u13sm9960229lfq.19.2020.01.28.07.01.38
+        by smtp.googlemail.com with ESMTPSA id v7sm8187419ljd.12.2020.01.28.07.25.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2020 07:01:39 -0800 (PST)
-Subject: Re: [PATCH v4 08/14] dmaengine: tegra-apb: Fix coding style problems
+        Tue, 28 Jan 2020 07:25:22 -0800 (PST)
+Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
+ 24bit and 32bit samples
 To:     Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
+        Ben Dooks <ben.dooks@codethink.co.uk>
+Cc:     linux-kernel@lists.codethink.co.uk, alsa-devel@alsa-project.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200112173006.29863-1-digetx@gmail.com>
- <20200112173006.29863-9-digetx@gmail.com>
- <844c4ace-d043-a908-823d-545b5b753008@nvidia.com>
- <134adcfb-83fb-4bb7-986e-65217bc4f821@gmail.com>
- <bab1eec0-8b1d-6005-e9eb-05e93da844aa@nvidia.com>
+        Edward Cragg <edward.cragg@codethink.co.uk>,
+        linux-tegra@vger.kernel.org
+References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
+ <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
+ <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
+ <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
+ <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
+ <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
+ <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
+ <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
+ <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
+ <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
+ <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
+ <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
+ <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
+ <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
+ <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
+ <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
+ <1aa6a4bf-10ea-001d-2d35-44494d9554f8@gmail.com>
+ <62cea895-c1f1-a833-b63c-050642bb8a79@codethink.co.uk>
+ <d6bb92e2-16ba-3c00-2f07-e741ecaa5ec8@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a99ff711-22af-a377-9500-ab4b8644b0ff@gmail.com>
-Date:   Tue, 28 Jan 2020 18:01:38 +0300
+Message-ID: <4b7ccb4f-ee19-a2f2-88cb-3f0dc97f9da9@gmail.com>
+Date:   Tue, 28 Jan 2020 18:25:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <bab1eec0-8b1d-6005-e9eb-05e93da844aa@nvidia.com>
+In-Reply-To: <d6bb92e2-16ba-3c00-2f07-e741ecaa5ec8@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -75,153 +90,144 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-28.01.2020 17:05, Jon Hunter пишет:
+28.01.2020 16:19, Jon Hunter пишет:
 > 
-> On 16/01/2020 17:37, Dmitry Osipenko wrote:
->> 15.01.2020 12:49, Jon Hunter пишет:
->>>
->>>
->>> On 12/01/2020 17:30, Dmitry Osipenko wrote:
->>>> This patch fixes few dozens of coding style problems reported by
->>>> checkpatch and prettifies code where makes sense.
+> On 28/01/2020 08:59, Ben Dooks wrote:
+>> On 27/01/2020 19:23, Dmitry Osipenko wrote:
+>>> 27.01.2020 22:20, Dmitry Osipenko пишет:
+>>>> 24.01.2020 19:50, Jon Hunter пишет:
+>>>>>
+>>>>> On 23/01/2020 19:38, Ben Dooks wrote:
+>>>>>> On 07/01/2020 01:39, Dmitry Osipenko wrote:
+>>>>>>> 06.01.2020 22:00, Ben Dooks пишет:
+>>>>>>>> On 05/01/2020 10:53, Ben Dooks wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> On 2020-01-05 01:48, Dmitry Osipenko wrote:
+>>>>>>>>>> 05.01.2020 03:04, Ben Dooks пишет:
+>>>>>>>>>>> [snip]
+>>>>>>>>>>>
+>>>>>>>>>>> I've just gone through testing.
+>>>>>>>>>>>
+>>>>>>>>>>> Some simple data tests show 16 and 32-bits work.
+>>>>>>>>>>>
+>>>>>>>>>>> The 24 bit case seems to be weird, it looks like the 24-bit
+>>>>>>>>>>> expects
+>>>>>>>>>>> 24 bit samples in 32 bit words. I can't see any packing
+>>>>>>>>>>> options to
+>>>>>>>>>>> do 24 bit in 24 bit, so we may have to remove 24 bit sample
+>>>>>>>>>>> support
+>>>>>>>>>>> (which is a shame)
+>>>>>>>>>>>
+>>>>>>>>>>> My preference is to remove the 24-bit support and keep the 32
+>>>>>>>>>>> bit in.
+>>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Interesting.. Jon, could you please confirm that 24bit format
+>>>>>>>>>> isn't
+>>>>>>>>>> usable on T30?
+>>>>>>>>>
+>>>>>>>>> If there is an option of 24 packed into 32, then I think that would
+>>>>>>>>> work.
+>>>>>>>>>
+>>>>>>>>> I can try testing that with raw data on Monday.
+>>>>>>>>
+>>>>>>>> I need to check some things, I assumed 24 was 24 packed bits, it
+>>>>>>>> looks
+>>>>>>>> like the default is 24 in 32 bits so we may be ok. However I need to
+>>>>>>>> re-write my test case which assumed it was 24bits in 3 bytes
+>>>>>>>> (S24_3LE).
+>>>>>>>>
+>>>>>>>> I'll follow up later,
+>>>>>>>
+>>>>>>> Okay, the S24_3LE isn't supported by RT5640 codec in my case. I
+>>>>>>> briefly
+>>>>>>> looked through the TRM doc and got impression that AHUB could re-pack
+>>>>>>> data stream into something that codec supports, but maybe it's a
+>>>>>>> wrong
+>>>>>>> impression.
+>>>>>>> _________________________________
+>>>>>>
+>>>>>> I did a quick test with the following:
+>>>>>>
+>>>>>>   sox -n -b 16 -c 2 -r 44100 /tmp/tmp.wav  synth sine 500 vol 0.5
+>>>>>>   sox -n -b 24 -c 2 -r 44100 /tmp/tmp.wav  synth sine 500 vol 0.5
+>>>>>>   sox -n -b 32 -c 2 -r 44100 /tmp/tmp.wav  synth sine 500 vol 0.5
+>>>>>>
+>>>>>> The 16 and 32 work fine, the 24 is showing a playback output freq
+>>>>>> of 440Hz instead of 500Hz... this suggests the clock is off, or there
+>>>>>> is something else weird going on...
+>>>>>
+>>>>> I was looking at using sox to create such as file, but the above
+>>>>> command
+>>>>> generates a S24_3LE file and not S24_LE file. The codec on Jetson-TK1
+>>>>> supports S24_LE but does not support S24_3LE and so I cannot test this.
+>>>>> Anyway, we really need to test S24_LE and not S24_3LE because this is
+>>>>> the problem that Dmitry is having.
+>>>>>
+>>>>> Ben is S24_3LE what you really need to support?
+>>>>>
+>>>>> Dmitry, does the following fix your problem?
+>>>>>
+>>>>> diff --git a/sound/soc/tegra/tegra30_i2s.c
+>>>>> b/sound/soc/tegra/tegra30_i2s.c
+>>>>> index dbed3c5408e7..92845c4b63f4 100644
+>>>>> --- a/sound/soc/tegra/tegra30_i2s.c
+>>>>> +++ b/sound/soc/tegra/tegra30_i2s.c
+>>>>> @@ -140,7 +140,7 @@ static int tegra30_i2s_hw_params(struct
+>>>>> snd_pcm_substream *substream,
+>>>>>                  audio_bits = TEGRA30_AUDIOCIF_BITS_16;
+>>>>>                  sample_size = 16;
+>>>>>                  break;
+>>>>> -       case SNDRV_PCM_FORMAT_S24_LE:
+>>>>> +       case SNDRV_PCM_FORMAT_S24_3LE:
+>>>>>                  val = TEGRA30_I2S_CTRL_BIT_SIZE_24;
+>>>>>                  audio_bits = TEGRA30_AUDIOCIF_BITS_24;
+>>>>>                  sample_size = 24;
+>>>>> @@ -318,7 +318,7 @@ static const struct snd_soc_dai_driver
+>>>>> tegra30_i2s_dai_template = {
+>>>>>                  .channels_max = 2,
+>>>>>                  .rates = SNDRV_PCM_RATE_8000_96000,
+>>>>>                  .formats = SNDRV_PCM_FMTBIT_S32_LE |
+>>>>> -                          SNDRV_PCM_FMTBIT_S24_LE |
+>>>>> +                          SNDRV_PCM_FMTBIT_S24_3LE |
+>>>>>                             SNDRV_PCM_FMTBIT_S16_LE,
+>>>>>          },
+>>>>>          .capture = {
+>>>>> @@ -327,7 +327,7 @@ static const struct snd_soc_dai_driver
+>>>>> tegra30_i2s_dai_template = {
+>>>>>                  .channels_max = 2,
+>>>>>                  .rates = SNDRV_PCM_RATE_8000_96000,
+>>>>>                  .formats = SNDRV_PCM_FMTBIT_S32_LE |
+>>>>> -                          SNDRV_PCM_FMTBIT_S24_LE |
+>>>>> +                          SNDRV_PCM_FMTBIT_S24_3LE |
+>>>>>                             SNDRV_PCM_FMTBIT_S16_LE,
+>>>>>          },
+>>>>>          .ops = &tegra30_i2s_dai_ops,
+>>>>>
+>>>>> Jon
+>>>>>
 >>>>
->>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>> ---
->>>>  drivers/dma/tegra20-apb-dma.c | 276 ++++++++++++++++++----------------
->>>>  1 file changed, 144 insertions(+), 132 deletions(-)
+>>>> It should solve the problem in my particular case, but I'm not sure that
+>>>> the solution is correct.
 >>>>
->>>> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
->>>> index dff21e80ffa4..7158bd3145c4 100644
->>>> --- a/drivers/dma/tegra20-apb-dma.c
->>>> +++ b/drivers/dma/tegra20-apb-dma.c
+>>>> The v5.5 kernel is released now with the broken audio and apparently
+>>>> getting 24bit to work won't be trivial (if possible at all). Ben, could
+>>>> you please send a patch to fix v5.5 by removing the S24 support
+>>>> advertisement from the driver?
 >>>
->>> ...
->>>
->>>> @@ -1003,20 +1014,23 @@ static void tegra_dma_prep_wcount(struct tegra_dma_channel *tdc,
->>>>  		ch_regs->csr |= len_field;
->>>>  }
->>>>  
->>>> -static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
->>>> -	struct dma_chan *dc, struct scatterlist *sgl, unsigned int sg_len,
->>>> -	enum dma_transfer_direction direction, unsigned long flags,
->>>> -	void *context)
->>>> +static struct dma_async_tx_descriptor *
->>>> +tegra_dma_prep_slave_sg(struct dma_chan *dc,
->>>> +			struct scatterlist *sgl,
->>>> +			unsigned int sg_len,
->>>> +			enum dma_transfer_direction direction,
->>>> +			unsigned long flags,
->>>> +			void *context)
->>>>  {
->>>>  	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
->>>> +	struct tegra_dma_sg_req *sg_req = NULL;
->>>> +	u32 csr, ahb_seq, apb_ptr, apb_seq;
->>>> +	enum dma_slave_buswidth slave_bw;
->>>>  	struct tegra_dma_desc *dma_desc;
->>>> -	unsigned int i;
->>>> -	struct scatterlist *sg;
->>>> -	unsigned long csr, ahb_seq, apb_ptr, apb_seq;
->>>>  	struct list_head req_list;
->>>> -	struct tegra_dma_sg_req  *sg_req = NULL;
->>>> -	u32 burst_size;
->>>> -	enum dma_slave_buswidth slave_bw;
->>>> +	struct scatterlist *sg;
->>>> +	unsigned int burst_size;
->>>> +	unsigned int i;
->>>
->>> This is not really consistent with the rest of the changes by having 'i'
->>> and 'burst_size' on separate lines.
+>>> I also suspect that s32 may need some extra patches and thus could be
+>>> worthwhile to stop advertising it as well.
 >>
->> The goal wasn't to squash everything into a single line, but to make
->> code more readable. In this particular case the separated lines look
->> better to me.
->>
->>>>  
->>>>  	if (!tdc->config_init) {
->>>>  		dev_err(tdc2dev(tdc), "DMA channel is not configured\n");
->>>> @@ -1028,7 +1042,7 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
->>>>  	}
->>>>  
->>>>  	if (get_transfer_param(tdc, direction, &apb_ptr, &apb_seq, &csr,
->>>> -				&burst_size, &slave_bw) < 0)
->>>> +			       &burst_size, &slave_bw) < 0)
->>>>  		return NULL;
->>>>  
->>>>  	INIT_LIST_HEAD(&req_list);
->>>> @@ -1074,7 +1088,7 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
->>>>  		len = sg_dma_len(sg);
->>>>  
->>>>  		if ((len & 3) || (mem & 3) ||
->>>> -				(len > tdc->tdma->chip_data->max_dma_count)) {
->>>> +		    len > tdc->tdma->chip_data->max_dma_count) {
->>>>  			dev_err(tdc2dev(tdc),
->>>>  				"DMA length/memory address is not supported\n");
->>>>  			tegra_dma_desc_put(tdc, dma_desc);
->>>> @@ -1126,20 +1140,21 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_slave_sg(
->>>>  	return &dma_desc->txd;
->>>>  }
->>>>  
->>>> -static struct dma_async_tx_descriptor *tegra_dma_prep_dma_cyclic(
->>>> -	struct dma_chan *dc, dma_addr_t buf_addr, size_t buf_len,
->>>> -	size_t period_len, enum dma_transfer_direction direction,
->>>> -	unsigned long flags)
->>>> +static struct dma_async_tx_descriptor *
->>>> +tegra_dma_prep_dma_cyclic(struct dma_chan *dc, dma_addr_t buf_addr,
->>>> +			  size_t buf_len,
->>>> +			  size_t period_len,
->>>> +			  enum dma_transfer_direction direction,
->>>> +			  unsigned long flags)
->>>>  {
->>>>  	struct tegra_dma_channel *tdc = to_tegra_dma_chan(dc);
->>>> -	struct tegra_dma_desc *dma_desc = NULL;
->>>>  	struct tegra_dma_sg_req *sg_req = NULL;
->>>> -	unsigned long csr, ahb_seq, apb_ptr, apb_seq;
->>>> -	int len;
->>>> -	size_t remain_len;
->>>> -	dma_addr_t mem = buf_addr;
->>>> -	u32 burst_size;
->>>> +	u32 csr, ahb_seq, apb_ptr, apb_seq;
->>>>  	enum dma_slave_buswidth slave_bw;
->>>> +	struct tegra_dma_desc *dma_desc;
->>>> +	dma_addr_t mem = buf_addr;
->>>> +	unsigned int burst_size;
->>>> +	size_t len, remain_len;
->>>>  
->>>>  	if (!buf_len || !period_len) {
->>>>  		dev_err(tdc2dev(tdc), "Invalid buffer/period len\n");
->>>> @@ -1173,13 +1188,13 @@ static struct dma_async_tx_descriptor *tegra_dma_prep_dma_cyclic(
->>>>  
->>>>  	len = period_len;
->>>>  	if ((len & 3) || (buf_addr & 3) ||
->>>> -			(len > tdc->tdma->chip_data->max_dma_count)) {
->>>> +	    len > tdc->tdma->chip_data->max_dma_count) {
->>>>  		dev_err(tdc2dev(tdc), "Req len/mem address is not correct\n");
->>>>  		return NULL;
->>>>  	}
->>>>  
->>>>  	if (get_transfer_param(tdc, direction, &apb_ptr, &apb_seq, &csr,
->>>> -				&burst_size, &slave_bw) < 0)
->>>> +			       &burst_size, &slave_bw) < 0)
->>>>  		return NULL;
->>>>  
->>>>  	ahb_seq = TEGRA_APBDMA_AHBSEQ_INTR_ENB;
->>>> @@ -1269,7 +1284,6 @@ static int tegra_dma_alloc_chan_resources(struct dma_chan *dc)
->>>>  	int ret;
->>>>  
->>>>  	dma_cookie_init(&tdc->dma_chan);
->>>> -	tdc->config_init = false;
->>>
->>> Why is this removed? Does not seem to belong in this patch.
->>
->> Because initially, on driver's probe, the tdc->config_init is false for
->> all channels and then tegra_dma_free_chan_resources() also sets it to
->> false. Thus there is no need to re-initilize the already initialized
->> variable. It's not a very good coding style if variables are
->> unnecessarily initialized, you probably noticed that there are few other
->> cases of removing the unneeded initializations of local variables in
->> this patch.
+>> As far as I am aware that works and we can hit the audio rates for it.
 > 
-> OK, but I don't really consider this coding-style and would prefer a
-> separate patch for this.
+> I ran a test on Tegra124 Jetson-TK1 and 24-bit playback seems to work as
+> Ben has indicated. So I don't think it is broken.
 
-If if it's not a coding-style, then how would you name it? :)
+Have you tried to replicate my case by playing the video file?
+
+> Can you try Ben's testcase on Tegra30 (ie. generate a tone using sox and
+> use aplay to play)?
+
+Surely I can try, but only if you'll share the sample file with me and
+give precise instructions how to test it.
