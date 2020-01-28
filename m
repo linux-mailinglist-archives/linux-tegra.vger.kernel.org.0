@@ -2,144 +2,150 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CB1D14BD63
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 16:59:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1689814BEA1
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 18:32:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbgA1P7z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 10:59:55 -0500
-Received: from mail-il1-f194.google.com ([209.85.166.194]:35307 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725959AbgA1P7z (ORCPT
+        id S1726233AbgA1Rcv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 12:32:51 -0500
+Received: from mail-wr1-f48.google.com ([209.85.221.48]:37690 "EHLO
+        mail-wr1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726066AbgA1Rcv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 10:59:55 -0500
-Received: by mail-il1-f194.google.com with SMTP id g12so11072436ild.2;
-        Tue, 28 Jan 2020 07:59:55 -0800 (PST)
+        Tue, 28 Jan 2020 12:32:51 -0500
+Received: by mail-wr1-f48.google.com with SMTP id w15so17053934wru.4;
+        Tue, 28 Jan 2020 09:32:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=w4ohonp6++tc7WV/sPZwKkfZN7aW1XO2ASROEv1nRiU=;
-        b=lIAeCkFhXtKcaKTzDLsiXbW2Ul2ROk9tb5PwiMDl/qJCGJ+ZSMAIZoTnpN8/KjHmuX
-         SxlWPSts47s3FdhN9qe/baojNFdM5XSVtWYqE36fQmaZ25sLCxCD3MZbBrRjSaI+iQWK
-         PlR/1AkzKpzTO4qNV7w57wm3961oum3bDHlO5GyL25C09Ec+87//WpH+YDxd80rhkqXr
-         6I4Hm3J2nwoHXsQODKt+oEjzDYJJcVkKYNBeG/Q4nl/Qd/MFXh9ia5l6qmfIRqYWr/7s
-         Q5SxKAzQ/giBRAgiB8iPG8CiaU57GF9fu98xJknuguPQs9aWZVc7+D6RGo7hieBAeDDH
-         +LnA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=UEHKbjV0nqlBA9um3vA2rHSRrf9BUyNOWdNP0/CH1zQ=;
+        b=rCOoAVHUuXEwpmWpZvFfgWUGpJd5f9Co2EQ/jOAaZkSBXnB1B5H2apc95dtNF/YDzv
+         5D4yYxYnElORcJr62gw5/mS6XRokF81sBCeBps2Q9rhKwqF9dB7MEdUdtOD6Y4ST7ioS
+         4g7pJgbGV8j9vlXOoiNUu1wl9vhD/VIzxfskS2/jZtCaLcq8Bh/gGj+LxqhKHMTuGPZd
+         hSqZK0cyvBMcFqRwa38gBnMf7Zg8Zmvd7t0Hg0x5a2FCZU4gpDNx80VHFa261ntDXmP5
+         wJ+u+gtTyEGib8iMN+LMfDR4TVaBMCbqx7BGuQdj/HJuVP9TYWXgtqNhEUmqLDd+/w1+
+         k/kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=w4ohonp6++tc7WV/sPZwKkfZN7aW1XO2ASROEv1nRiU=;
-        b=Te/GqH4Z4l1KApq1vIzGF+aH5pHvcUXNa7aA9XSnxUSBL1fPbblopC66BiSahb9mc3
-         M49see/2mZzONBh51bcMhzEsgN5Y7/MHTNtQlM1MkyXYnYwNh+s42U04qq/gJq+4uMuh
-         v2xcy9EjMUd01cUu21NMUUZJsZHd+5OH5Ec77724L5jmLEv/tZTUgR1vi/Sc6t5Yj/F8
-         HqGG90BGm/cECGxm2yPCvyliaT7hfh05PSWJzVHvHJ6A+n17DPOHyxUPDQzLzoTn0z9I
-         7Tiu+QWFM3L8QpBP7AJ3SEeRPj/YwhC61ZWM1N6otrI6qXKC6vTzNER/aGxE1EtqYpx8
-         +cKQ==
-X-Gm-Message-State: APjAAAWkfmp7ZRdKVrjEJ8teSeLvgKYFL/bfGgNunDz1gVTxkNQjHnY9
-        6pc7xG5SRbAGzBGK9OqaqHE=
-X-Google-Smtp-Source: APXvYqwEH+xXx7KfDR76ROthSQWmNYsqJe8W5aR8XGWqgGAr0ee4xhb+Ck7XnHVGnn3Ly4TJztRBFg==
-X-Received: by 2002:a92:3cc3:: with SMTP id j64mr12118361ilf.160.1580227194744;
-        Tue, 28 Jan 2020 07:59:54 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id e23sm1828838ild.37.2020.01.28.07.59.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2020 07:59:54 -0800 (PST)
-Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
- move_page_tables()
-To:     Wei Yang <richardw.yang@linux.intel.com>,
-        Russell King - ARM Linux <linux@armlinux.org.uk>
-Cc:     akpm@linux-foundation.org, dan.j.williams@intel.com,
-        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
-        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
- <20200117232254.2792-4-richardw.yang@linux.intel.com>
- <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
- <20200128004301.GD20624@richard>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d66bb20e-c0e7-caef-cbbc-aa216c2be7d6@gmail.com>
-Date:   Tue, 28 Jan 2020 18:59:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UEHKbjV0nqlBA9um3vA2rHSRrf9BUyNOWdNP0/CH1zQ=;
+        b=g6yIk38JzP12Uw2n9fMHlbzPHiIiCjk0WAaJmgdCx+8PjsVTAMRJwJTa2bs/nQTL9U
+         +TqMhBmXz2k8rDsbulGeqgYBqkOvPGxweetw3qoU4YCt14DHUnDSdU2Agi9PH85Kj5oQ
+         mvfUS1F3a1bbTmmYTtwfpQPjgWLm/vXPJe3Dl5Uu58jfFdGI3Mhuk2mk10IvkR3uxQna
+         dguMBhNHpSP7QNYICZQrcFydaA4LCg4jkNx3CeJP3hxIaHU5FBko/lnNxIucr/OD27Wz
+         Bw1kxFbcZQIUEg4QosDBS8Az70LwUnSiPqONM7qIVo/9FD1VuYBjBr13XrAinhdohpxQ
+         dxkA==
+X-Gm-Message-State: APjAAAWcoSC4TShO7v7SJAaXfWWe2uStNT7OSASIFu0GQ9uG5xFbqbLe
+        8Mpoyzs8b7BephrTE+GkZIE=
+X-Google-Smtp-Source: APXvYqxxzLuT1opuigpzIK4xWjOJqPCVVVG/JSzAUmGeqpPZWeTYrAqozisOsy3R9YNvm17hGd4H1A==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr28613441wrm.13.1580232768634;
+        Tue, 28 Jan 2020 09:32:48 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id d14sm28185347wru.9.2020.01.28.09.32.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jan 2020 09:32:47 -0800 (PST)
+Date:   Tue, 28 Jan 2020 18:32:44 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org, kishon@ti.com,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch V3 03/18] phy: tegra: xusb: Add usb-role-switch support
+Message-ID: <20200128173244.GA2293590@ulmo>
+References: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
+ <1577704195-2535-4-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200128004301.GD20624@richard>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="PNTmBPCT7hxwcZjr"
+Content-Disposition: inline
+In-Reply-To: <1577704195-2535-4-git-send-email-nkristam@nvidia.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-28.01.2020 03:43, Wei Yang пишет:
-> On Sun, Jan 26, 2020 at 05:47:57PM +0300, Dmitry Osipenko wrote:
->> 18.01.2020 02:22, Wei Yang пишет:
->>> Use the general helper instead of do it by hand.
->>>
->>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->>> ---
->>>  mm/mremap.c | 7 ++-----
->>>  1 file changed, 2 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/mm/mremap.c b/mm/mremap.c
->>> index c2af8ba4ba43..a258914f3ee1 100644
->>> --- a/mm/mremap.c
->>> +++ b/mm/mremap.c
->>> @@ -253,11 +253,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
->>>  
->>>  	for (; old_addr < old_end; old_addr += extent, new_addr += extent) {
->>>  		cond_resched();
->>> -		next = (old_addr + PMD_SIZE) & PMD_MASK;
->>> -		/* even if next overflowed, extent below will be ok */
->>> +		next = pmd_addr_end(old_addr, old_end);
->>>  		extent = next - old_addr;
->>> -		if (extent > old_end - old_addr)
->>> -			extent = old_end - old_addr;
->>>  		old_pmd = get_old_pmd(vma->vm_mm, old_addr);
->>>  		if (!old_pmd)
->>>  			continue;
->>> @@ -301,7 +298,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
->>>  
->>>  		if (pte_alloc(new_vma->vm_mm, new_pmd))
->>>  			break;
->>> -		next = (new_addr + PMD_SIZE) & PMD_MASK;
->>> +		next = pmd_addr_end(new_addr, new_addr + len);
->>>  		if (extent > next - new_addr)
->>>  			extent = next - new_addr;
->>>  		move_ptes(vma, old_pmd, old_addr, old_addr + extent, new_vma,
->>>
->>
->> Hello Wei,
->>
->> Starting with next-20200122, I'm seeing the following in KMSG on NVIDIA
->> Tegra (ARM32):
->>
->>  BUG: Bad rss-counter state mm:(ptrval) type:MM_ANONPAGES val:190
->>
-> 
-> Thanks.
-> 
-> Would you mind letting me know which case you are testing?
 
-Nothing special, systemd starts to fall apart during boot.
+--PNTmBPCT7hxwcZjr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Or the special thing is 32-bit platform?
-I have a limited knowledge about mm/, so can't provide detailed explanation.
+On Mon, Dec 30, 2019 at 04:39:40PM +0530, Nagarjuna Kristam wrote:
+> If usb-role-switch property is present in USB 2 port, register
+> usb-role-switch to receive usb role changes.
+>=20
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> ---
+> V3:
+>  - Driver aborts if usb-role-switch is not added in dt forotg/peripheral
+>    roles.
+>  - Added role name strings instead of enum values in debug prints.
+>  - Updated arguments and variable allignments as per Thierry inputs.
+> ---
+> V2:
+>  - Removed dev_set_drvdata for port->dev.
+>  - Added of_platform_depopulate during error handling and driver removal.
+> ---
+>  drivers/phy/tegra/Kconfig |  1 +
+>  drivers/phy/tegra/xusb.c  | 57 +++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  drivers/phy/tegra/xusb.h  |  3 +++
+>  3 files changed, 61 insertions(+)
+>=20
+> diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
+> index f9817c3..df07c4d 100644
+> --- a/drivers/phy/tegra/Kconfig
+> +++ b/drivers/phy/tegra/Kconfig
+> @@ -2,6 +2,7 @@
+>  config PHY_TEGRA_XUSB
+>  	tristate "NVIDIA Tegra XUSB pad controller driver"
+>  	depends on ARCH_TEGRA
+> +	select USB_CONN_GPIO
+>  	help
+>  	  Choose this option if you have an NVIDIA Tegra SoC.
+> =20
+> diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
+> index f98ec39..11ea9b5 100644
+> --- a/drivers/phy/tegra/xusb.c
+> +++ b/drivers/phy/tegra/xusb.c
+> @@ -523,6 +523,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_por=
+t *port,
+>  	port->dev.type =3D &tegra_xusb_port_type;
+>  	port->dev.of_node =3D of_node_get(np);
+>  	port->dev.parent =3D padctl->dev;
+> +	port->dev.driver =3D padctl->dev->driver;
 
-Please take a look at this:
+This looks wrong. I don't think driver's are supposed to set this
+because it basically means that the device is being attached to the
+driver, but in this case it doesn't get probed by the driver and in
+fact the ports don't match the pad controller, so they can't really
+be driven by the same driver.
 
-[1]
-https://elixir.bootlin.com/linux/v5.5/source/arch/arm/include/asm/pgtable-2level.h#L210
+Is there any particular reason why you need this?
 
-[2]
-https://elixir.bootlin.com/linux/v5.5/source/include/asm-generic/pgtable.h#L549
+Thierry
 
-[3]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c0ba10b512eb2e2a3888b6e6cc0e089f5e7a191b
+--PNTmBPCT7hxwcZjr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4wcDkACgkQ3SOs138+
+s6FsghAAoD/UomjaeZd8bY2R43NpHXrHIRhlcnRJUrm2NQzod8kdj9tkUH093usf
+t+oPi+lizbJqV3P8wJUrk0wNPAz1B+2TchrcpuWXzc/orwcMhQVhV4Vw/B3psEo3
+jxL0UE5bhSdErLS4enDP8lu9XiKfDBM5rXwroRYYWogQK86I3RLPeW+WJEzLbDfR
+gJH47XBA7ZMTP3EmBXd92NZZA0+2CSiAjwoT5QC4+EJpYdhJTDPjmxQbZY/dHB37
+TKu7s1tJMSz14Vkypgh2ExUufbk+f3JlYEka2R+DWXHSN3e2vLixoMtVIwYlaM33
+AWAlBHW7iJPxGmoZLY3QyjF3fZOMvOzRRI/GwIbY+F6kwPFEiZHmoPruBVLKyg4a
+4q0hkBD/O2Q/8A/boju/7eUVw3WXRFzVvSYHoKVvl3rsY6o4hIlAuGj6crkaDarh
+gPJYvJh6eDY5snTEM98/Xmrme82PKLaXJGcf8FBZ1ZCUQoak4EX2mop+30Ml38Ly
+ABLHIaubha4ciqJ4DZwX5lwuUQyEXSgr1IKeLklGBuIvK6ffvsjSK9fYHasGUrmz
+V2W+urskYuFQPefo0zND/vBGFtYTWbFz+cQxNWz/F4uU1j8adbVb5txSgOleRutF
+lXfIGLpnOk+eGhf/it6b6phm/AKz2FgJt3d2E4xNMq27JuMUsuk=
+=nbqn
+-----END PGP SIGNATURE-----
+
+--PNTmBPCT7hxwcZjr--
