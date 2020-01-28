@@ -2,152 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE26D14C008
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 19:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA79714C0EE
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 20:27:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbgA1Smk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 13:42:40 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19359 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbgA1Smk (ORCPT
+        id S1726299AbgA1T1H (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 14:27:07 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33219 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726002AbgA1T1G (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 13:42:40 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e30806d0001>; Tue, 28 Jan 2020 10:41:49 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 28 Jan 2020 10:42:39 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 28 Jan 2020 10:42:39 -0800
-Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Jan
- 2020 18:42:37 +0000
-Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
- 24bit and 32bit samples
-From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        Dmitry Osipenko <digetx@gmail.com>
-CC:     <linux-kernel@lists.codethink.co.uk>,
-        <alsa-devel@alsa-project.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Edward Cragg <edward.cragg@codethink.co.uk>,
-        <linux-tegra@vger.kernel.org>
-References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
- <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
- <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
- <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
- <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
- <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
- <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
- <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
- <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
- <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
- <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
- <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
- <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
- <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
- <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
- <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
- <1aa6a4bf-10ea-001d-2d35-44494d9554f8@gmail.com>
- <62cea895-c1f1-a833-b63c-050642bb8a79@codethink.co.uk>
- <d6bb92e2-16ba-3c00-2f07-e741ecaa5ec8@nvidia.com>
-Message-ID: <7d9a06b5-c001-2d01-f999-10ccd1195ebe@nvidia.com>
-Date:   Tue, 28 Jan 2020 18:42:35 +0000
+        Tue, 28 Jan 2020 14:27:06 -0500
+Received: by mail-wr1-f66.google.com with SMTP id b6so17451434wrq.0;
+        Tue, 28 Jan 2020 11:27:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KK/QnJQ2fTtitcD/Jlhct9mxdOBq9GtY24agm/Esizs=;
+        b=HDDtF7AxzmxL1U08amAIlwJIsuf022cxEsf4H58+kzIQfNiq9MjCZEUGUWAvhVxsSB
+         0KIWmMDegOHCzBgNErWmiqZK2v2+iJd8L82bHyyyLujkB4XH6OzeuNeiTSxl9PnOXAo9
+         Y7Fg8urcYCHv6evxA9FLKWK8NLQlwL6/ehLjGeF2o0umQZbT1eDjWfeSUs2bP5aY8E9k
+         KkMKsCjzscF/MOWX0jx06syj67haFqfxQsYWq3VL4KuSa78JpApyKKlMVZRn0cVFips4
+         3FwgGwSaTH5J/QPb9Gra/wBfC1bkmC+Yzd58uCwGfpD6mvpXsfPA9iSJcnRbGBJpnQrx
+         zboQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KK/QnJQ2fTtitcD/Jlhct9mxdOBq9GtY24agm/Esizs=;
+        b=MriyGsjzGcE4F84B37xT0/GI8gldbzFH8pUNygNLTh2NTZtDNfsfvzEvXGtJQ6PIUi
+         TmvZUd1ERuDQOEOkVSmmuHPEGj1yw6qlgr7isBEygcBE7/qRTVkpRmRHg/dxxmOoGC5F
+         LpNPDaK/YfmNQOlmFnh5PpFclWKOFF0vP1uA/KeauwcMrmhbUUWM0yGvb0O/KO+BW1zI
+         LI1+ERoq/mdR8oWdRbaz0+4adBB0wUUojp4Yha67WdQJ914E9nloxwU+l2WnmhNttfDA
+         eo18CdHP/qBfsm8z4d7k30MKhVxt/zkgDzz41hKmTbloqYm6B5d2d5AvC/eKhPBRBYKh
+         2F3A==
+X-Gm-Message-State: APjAAAVJmcUaWJ1ZJ+fmuLrXfKF6KYFFNjYcTryggM2cT4GfoD1fpQMg
+        4LK9KxpAn/sT/Q6V/jwop1pNwkS8
+X-Google-Smtp-Source: APXvYqx5m170iRufjPc2mVY7Xx7GWanphGcDIIm3dLvW8z9KtviLBhCVcEfhR4a95rJb9Dv80fV9Mw==
+X-Received: by 2002:adf:fe90:: with SMTP id l16mr30097175wrr.265.1580239624453;
+        Tue, 28 Jan 2020 11:27:04 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id w7sm4032148wmi.9.2020.01.28.11.27.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jan 2020 11:27:03 -0800 (PST)
+Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
+ interconnects property
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Georgi Djakov <georgi.djakov@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20200114181519.3402385-1-thierry.reding@gmail.com>
+ <20200114181519.3402385-2-thierry.reding@gmail.com>
+ <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
+ <20200120150605.GA712203@ulmo>
+ <57c37b3c-1473-d444-db59-8c6650241188@gmail.com>
+ <20200121141027.GE899558@ulmo>
+ <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
+ <20200121155432.GA912205@ulmo>
+ <ffc22502-0e7e-522c-543d-0e74cc25f4b1@gmail.com>
+ <20200127122115.GA2117209@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <d56618e1-8940-65ae-381e-796e44bcf537@gmail.com>
+Date:   Tue, 28 Jan 2020 22:27:00 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <d6bb92e2-16ba-3c00-2f07-e741ecaa5ec8@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200127122115.GA2117209@ulmo>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580236909; bh=wUG579YE8iDkt+snGl1uZLsXdB/KAksT4vDiUujZI58=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=MrQqmKTI/nOgt0JsWXyMF38l4YT/TuxEAl/O6wQnacmAsV4zIifgZIxvsZKD8uV6A
-         mVExEDW98PPN4335qCZMNJQ3BbJdDDQ4L5MH3NYKQ0EwT9ogGju87+yfDrQdAanVf6
-         luhOAWEQmvHrwgVI95LaboJrVPOGHsSPV7Zn39qH9wZ+7RmiQg2gRxjyfhHRCu4bx8
-         DlaJlAWabfHOvZ5o9gNqCQmjnuT0WCFpdzrEP42tb02pPoKLg/jQ0sMAtd48axzuZs
-         iDcEBZWYVP+BHPzwNx7Bzpzjn/tBEiatXNgFOVrE2jpzHubyN9dLpzmkRqCeA2g603
-         bD1PDuf3NvAuw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+27.01.2020 15:21, Thierry Reding пишет:
+> On Tue, Jan 21, 2020 at 11:12:11PM +0300, Dmitry Osipenko wrote:
+>> 21.01.2020 18:54, Thierry Reding пишет:
+>>> On Tue, Jan 21, 2020 at 05:18:43PM +0200, Georgi Djakov wrote:
+>>>> On 1/21/20 16:10, Thierry Reding wrote:
+> [...]
+>>>>> I'm not sure if that TEGRA_ICC_EMEM makes a lot of sense. It's always
+>>>>> going to be the same and it's arbitrarily defined, so it's effectively
+>>>>> useless. But other than that it looks good.
+>>>>
+>>>> Well, in most cases the target would be the EMEM, so that's fine. I have seen
+>>>> that other vendors that may have an additional internal memory, especially
+>>>> dedicated to some DSPs and in such cases the bandwidth needs are different for
+>>>> the two paths (to internal memory and DDR).
+>>>
+>>> Most chips have a small internal memory that can be used, though it
+>>> seldomly is. However, in that case I would expect the target to be a
+>>> completely different device, so it'd look more like this:
+>>>
+>>> 	interconnects = <&mc TEGRA186_MEMORY_CLIENT_BPMPR &iram>,
+>>> 			...;
+>>>
+>>> I don't think EMEM has any "downstream" other than external memory.
+>>
+>> The node ID should be mandatory in terms of interconnect, even if it's a
+>> single node. EMC (provider) != EMEM (endpoint).
+> 
+> I don't understand why. An ID only makes sense if you've got multiple
+> endpoints. For example, a regulator is a provider with a single endpoint
+> so we don't specify an ID.
 
-On 28/01/2020 13:19, Jon Hunter wrote:
+Because this is how ICC binding is defined, unless I'm missing something.
 
-...
+> By its very definition an ID is used to identify something and we use it
+> with a phandle to create a unique pair that identifies a resource within
+> whatever the phandle represents, with the goal to differentiate it from
+> other resources within the same provider. However, if there's only one
+> such resource, the ID becomes redundant because the phandle without an
+> ID is already unique and there's no need to differentiate with an extra
+> ID.
 
-> I ran a test on Tegra124 Jetson-TK1 and 24-bit playback seems to work as
-> Ben has indicated. So I don't think it is broken.
-
-Actually, it does not work on TK1. Pulseaudio was converting from
-S24_3LE to S16_LE. If I use plughw to do the conversion it sounds
-distorted indeed.
-
-Ben what audio codec are you testing with?
-
-Jon
-
-Playing WAVE 'tmp.wav' : Signed 24 bit Little Endian in 3bytes, Rate
-44100 Hz, Stereo
-Plug PCM: Linear conversion PCM (S24_LE)
-Its setup is:
-  stream       : PLAYBACK
-  access       : RW_INTERLEAVED
-  format       : S24_3LE
-  subformat    : STD
-  channels     : 2
-  rate         : 44100
-  exact rate   : 44100 (44100/1)
-  msbits       : 24
-  buffer_size  : 4096
-  period_size  : 512
-  period_time  : 11609
-  tstamp_mode  : NONE
-  tstamp_type  : MONOTONIC
-  period_step  : 1
-  avail_min    : 512
-  period_event : 0
-  start_threshold  : 4096
-  stop_threshold   : 4096
-  silence_threshold: 0
-  silence_size : 0
-  boundary     : 1073741824
-Slave: Hardware PCM card 0 'NVIDIA Tegra Jetson TK1' device 0 subdevice 0
-Its setup is:
-  stream       : PLAYBACK
-  access       : MMAP_INTERLEAVED
-  format       : S24_LE
-  subformat    : STD
-  channels     : 2
-  rate         : 44100
-  exact rate   : 44100 (44100/1)
-  msbits       : 32
-  buffer_size  : 4096
-  period_size  : 512
-  period_time  : 11609
-  tstamp_mode  : NONE
-  tstamp_type  : MONOTONIC
-  period_step  : 1
-  avail_min    : 512
-  period_event : 0
-  start_threshold  : 4096
-  stop_threshold   : 4096
-  silence_threshold: 0
-  silence_size : 0
-  boundary     : 1073741824
-  appl_ptr     : 0
-  hw_ptr       : 0
-
-
--- 
-nvpublic
+Georgi, do you think it is possible to support what Thierry is asking for?
