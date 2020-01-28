@@ -2,140 +2,152 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E39C014BF8C
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 19:24:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE26D14C008
+	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 19:42:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726932AbgA1SXp (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 13:23:45 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17757 "EHLO
+        id S1726437AbgA1Smk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 13:42:40 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19359 "EHLO
         hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726931AbgA1SXp (ORCPT
+        with ESMTP id S1726393AbgA1Smk (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 13:23:45 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e307bfe0001>; Tue, 28 Jan 2020 10:22:54 -0800
+        Tue, 28 Jan 2020 13:42:40 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e30806d0001>; Tue, 28 Jan 2020 10:41:49 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 28 Jan 2020 10:23:44 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 28 Jan 2020 10:42:39 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 28 Jan 2020 10:23:44 -0800
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Jan
- 2020 18:23:43 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 28 Jan 2020 18:23:44 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.164.115]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e307c2f0000>; Tue, 28 Jan 2020 10:23:43 -0800
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH v1 5/5] arm64: tegra: Add Tegra VI CSI suppport in device tree
-Date:   Tue, 28 Jan 2020 10:23:21 -0800
-Message-ID: <1580235801-4129-6-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
-References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        by hqpgpgate101.nvidia.com on Tue, 28 Jan 2020 10:42:39 -0800
+Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Jan
+ 2020 18:42:37 +0000
+Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
+ 24bit and 32bit samples
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Ben Dooks <ben.dooks@codethink.co.uk>,
+        Dmitry Osipenko <digetx@gmail.com>
+CC:     <linux-kernel@lists.codethink.co.uk>,
+        <alsa-devel@alsa-project.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Edward Cragg <edward.cragg@codethink.co.uk>,
+        <linux-tegra@vger.kernel.org>
+References: <20191018154833.7560-1-ben.dooks@codethink.co.uk>
+ <449bdc3c-bf82-7cc4-6704-440dd100ca3a@gmail.com>
+ <5d3ae629-5d30-0930-5dd1-15161e64926e@codethink.co.uk>
+ <9daeeb94-2b90-18b8-2e1e-daae5acf079d@gmail.com>
+ <fd73f68c-80f5-ac80-f6e4-42256d3df76d@codethink.co.uk>
+ <37beb96a-a525-c72f-a7e1-e9ef5d61f3b2@gmail.com>
+ <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
+ <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
+ <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
+ <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
+ <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
+ <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
+ <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
+ <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
+ <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
+ <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
+ <1aa6a4bf-10ea-001d-2d35-44494d9554f8@gmail.com>
+ <62cea895-c1f1-a833-b63c-050642bb8a79@codethink.co.uk>
+ <d6bb92e2-16ba-3c00-2f07-e741ecaa5ec8@nvidia.com>
+Message-ID: <7d9a06b5-c001-2d01-f999-10ccd1195ebe@nvidia.com>
+Date:   Tue, 28 Jan 2020 18:42:35 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <d6bb92e2-16ba-3c00-2f07-e741ecaa5ec8@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580235774; bh=QP0/EibZzFp2xGilbhCpDCHkYsaTzPDrq/cR4XjAWcc=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=jhPJk9AtMteQjZM1XEmgM9DNTGgaPwqd/5kOrix321dgzKTjfLwPjB4/28nwHyz/N
-         nli0+bN+YhCD2UZxuc5AKD7fXQQ9jo5FkKGHxXbxawiD9vFpIxJTlrnE2r8yI41iyR
-         jCBRDuSskfD/CZJOZedildqqlA2e9uu92ozI6qnjsLb8Ntgctb8qdBVX2yoMoEnwdi
-         XiGJolADQD2GVa0GftGvkE4G+YsLh/rMX+Z1Efk8MpDQyDS517zRaYI8FhaeMrz5OG
-         FHG3rgwheUiaNIuwmoxzuNx73579p32XF17MTd8z8gFGUkoqPm0Lag7141eGvl7kCl
-         Tmplh0p1/w8IQ==
+        t=1580236909; bh=wUG579YE8iDkt+snGl1uZLsXdB/KAksT4vDiUujZI58=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=MrQqmKTI/nOgt0JsWXyMF38l4YT/TuxEAl/O6wQnacmAsV4zIifgZIxvsZKD8uV6A
+         mVExEDW98PPN4335qCZMNJQ3BbJdDDQ4L5MH3NYKQ0EwT9ogGju87+yfDrQdAanVf6
+         luhOAWEQmvHrwgVI95LaboJrVPOGHsSPV7Zn39qH9wZ+7RmiQg2gRxjyfhHRCu4bx8
+         DlaJlAWabfHOvZ5o9gNqCQmjnuT0WCFpdzrEP42tb02pPoKLg/jQ0sMAtd48axzuZs
+         iDcEBZWYVP+BHPzwNx7Bzpzjn/tBEiatXNgFOVrE2jpzHubyN9dLpzmkRqCeA2g603
+         bD1PDuf3NvAuw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Tegra210 contains VI controller for video input capture from MIPI
-CSI camera sensors and also supports built-in test pattern generator.
 
-CSI ports can be one-to-one mapped to VI channels for capturing from
-an external sensor or from built-in test pattern generator.
+On 28/01/2020 13:19, Jon Hunter wrote:
 
-This patch adds support for VI and CSI and enables them in Tegra210
-device tree.
+...
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi |  8 +++++++
- arch/arm64/boot/dts/nvidia/tegra210.dtsi       | 31 +++++++++++++++++++++++++-
- 2 files changed, 38 insertions(+), 1 deletion(-)
+> I ran a test on Tegra124 Jetson-TK1 and 24-bit playback seems to work as
+> Ben has indicated. So I don't think it is broken.
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-index b0095072bc28..ec1b3033fa03 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-@@ -10,6 +10,14 @@
- 			status = "okay";
- 		};
- 
-+		vi@54080000 {
-+			status = "okay";
-+		};
-+
-+		csi@0x54080838 {
-+			status = "okay";
-+		};
-+
- 		sor@54580000 {
- 			status = "okay";
- 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-index 48c63256ba7f..c6107ec03ad1 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-@@ -136,9 +136,38 @@
- 
- 		vi@54080000 {
- 			compatible = "nvidia,tegra210-vi";
--			reg = <0x0 0x54080000 0x0 0x00040000>;
-+			reg = <0x0 0x54080000 0x0 0x808>;
- 			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
- 			status = "disabled";
-+			assigned-clocks = <&tegra_car TEGRA210_CLK_VI>;
-+			assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
-+
-+			clocks = <&tegra_car TEGRA210_CLK_VI>;
-+			clock-names = "vi";
-+			resets = <&tegra_car 20>;
-+			reset-names = "vi";
-+		};
-+
-+		csi@0x54080838 {
-+			compatible = "nvidia,tegra210-csi";
-+			reg = <0x0 0x54080838 0x0 0x2000>;
-+			status = "disabled";
-+			assigned-clocks = <&tegra_car TEGRA210_CLK_CILAB>,
-+					  <&tegra_car TEGRA210_CLK_CILCD>,
-+					  <&tegra_car TEGRA210_CLK_CILE>;
-+			assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_P>,
-+						 <&tegra_car TEGRA210_CLK_PLL_P>,
-+						 <&tegra_car TEGRA210_CLK_PLL_P>;
-+			assigned-clock-rates = <102000000>,
-+					       <102000000>,
-+					       <102000000>;
-+
-+			clocks = <&tegra_car TEGRA210_CLK_CSI>,
-+				 <&tegra_car TEGRA210_CLK_CILAB>,
-+				 <&tegra_car TEGRA210_CLK_CILCD>,
-+				 <&tegra_car TEGRA210_CLK_CILE>;
-+			clock-names = "csi", "cilab", "cilcd", "cile";
-+
- 		};
- 
- 		tsec@54100000 {
+Actually, it does not work on TK1. Pulseaudio was converting from
+S24_3LE to S16_LE. If I use plughw to do the conversion it sounds
+distorted indeed.
+
+Ben what audio codec are you testing with?
+
+Jon
+
+Playing WAVE 'tmp.wav' : Signed 24 bit Little Endian in 3bytes, Rate
+44100 Hz, Stereo
+Plug PCM: Linear conversion PCM (S24_LE)
+Its setup is:
+  stream       : PLAYBACK
+  access       : RW_INTERLEAVED
+  format       : S24_3LE
+  subformat    : STD
+  channels     : 2
+  rate         : 44100
+  exact rate   : 44100 (44100/1)
+  msbits       : 24
+  buffer_size  : 4096
+  period_size  : 512
+  period_time  : 11609
+  tstamp_mode  : NONE
+  tstamp_type  : MONOTONIC
+  period_step  : 1
+  avail_min    : 512
+  period_event : 0
+  start_threshold  : 4096
+  stop_threshold   : 4096
+  silence_threshold: 0
+  silence_size : 0
+  boundary     : 1073741824
+Slave: Hardware PCM card 0 'NVIDIA Tegra Jetson TK1' device 0 subdevice 0
+Its setup is:
+  stream       : PLAYBACK
+  access       : MMAP_INTERLEAVED
+  format       : S24_LE
+  subformat    : STD
+  channels     : 2
+  rate         : 44100
+  exact rate   : 44100 (44100/1)
+  msbits       : 32
+  buffer_size  : 4096
+  period_size  : 512
+  period_time  : 11609
+  tstamp_mode  : NONE
+  tstamp_type  : MONOTONIC
+  period_step  : 1
+  avail_min    : 512
+  period_event : 0
+  start_threshold  : 4096
+  stop_threshold   : 4096
+  silence_threshold: 0
+  silence_size : 0
+  boundary     : 1073741824
+  appl_ptr     : 0
+  hw_ptr       : 0
+
+
 -- 
-2.7.4
-
+nvpublic
