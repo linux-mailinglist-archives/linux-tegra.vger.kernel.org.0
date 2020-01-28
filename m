@@ -2,88 +2,133 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ECF014C316
-	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 23:40:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C2BA14C386
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 00:28:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726291AbgA1WkY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 17:40:24 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:37380 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726257AbgA1WkY (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 17:40:24 -0500
-Received: by mail-ed1-f68.google.com with SMTP id cy15so16514894edb.4;
-        Tue, 28 Jan 2020 14:40:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2tfcV4CP2sbf7T/W7OGLDgrmyx/flLregwSFl0rBGJY=;
-        b=JwcDQr5HMLCngjCO/tSNT8Lj+zu3HvGpcfIH137EjhBwP51w0GaUzsAPchhJILO5Au
-         /gdzBxmfsLmWwGFz1zIG1LGjJERooWfIeI1WqrgTUEu/740ajDElLhCnLGm7u3lIqJDg
-         ZVAwkG474KZUGn1QvJRW2kM40mwaMW3Bq32UsN/hcQHI3p6lW0RurDDo7GN0SETJWfE/
-         cWs6cBAmFGUbZy0X7dAIcpQlnfHutghmz+Y3LG+DV8cANCU8s4umLl/KBobaDlXOvL+c
-         Ms4JlU7LYen8lc6dpihzPLDBP66noDG8nwZy6kT65f3fafxlqaPkVj7QD7eC9raJ7+Jm
-         TbXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2tfcV4CP2sbf7T/W7OGLDgrmyx/flLregwSFl0rBGJY=;
-        b=AOdtLB3zCvzEr4Uf/WLqssaFhInZFad6O4wCTopjdFKPjUVxr9qeHqwWK8oGAeRMVX
-         pOqevVjO529qkRKx10tOTF8DZvoGS7MiDxxKBW/5povc9p3ah9pKHeBl7y18AC0VYnLR
-         lyrlOjfRIdQwz2Tn2JrCDerXnD1iyhM5zpX7C+FgpQ11YwEUwtwmVFvSdnghtkadOjpu
-         dgAUQ1CZCNAejNBLqEVuPL7JVoY2+KbpR2pzXBfQVy1h9RKtiWGhUiQ8yRiPDgQlPhjF
-         CQkb+dVD8C1DQz4Yp9IkV7S20NTToP71Lm82Q9M3bUEDmMiYJuIrcYpTiJ0r5nfXEvjD
-         8vTg==
-X-Gm-Message-State: APjAAAWYRBYsaubW81Ik/1cDGgkF7lHI5rS+Ax0iZwDLMJbFvUwo8jNU
-        hMdNqxhnDr2uzGvHjvbWVZY=
-X-Google-Smtp-Source: APXvYqwkTm6HP0VazhnHwh0Fs/tM30jSvUf0/TxYtGpxSY/EOEq2DlLHwxNWmLPEJeRuUY82vXlHdQ==
-X-Received: by 2002:a05:6402:153:: with SMTP id s19mr5393125edu.149.1580251222576;
-        Tue, 28 Jan 2020 14:40:22 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id i19sm550907edy.46.2020.01.28.14.40.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2020 14:40:21 -0800 (PST)
-Subject: Re: [alsa-devel] [PATCH 2/9] ASoC: tegra: add support for CIF
- programming
-To:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
-        robh+dt@kernel.org
-Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-        atalambedu@nvidia.com, linux-kernel@vger.kernel.org,
-        lgirdwood@gmail.com, jonathanh@nvidia.com, viswanathl@nvidia.com,
-        sharadg@nvidia.com, broonie@kernel.org, thierry.reding@gmail.com,
-        linux-tegra@vger.kernel.org, rlokhande@nvidia.com,
-        mkumard@nvidia.com, dramesh@nvidia.com
-References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
- <1579530198-13431-3-git-send-email-spujar@nvidia.com>
- <d01ed171-d949-19b2-3390-ee30eada2779@gmail.com>
- <a8409b81-7c6b-37a9-81fd-772eb2eca185@nvidia.com>
- <229def08-6bd4-30d7-056b-92329e48c699@gmail.com>
- <34917b2d-064f-44a9-4548-ae857e8ea29b@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a3173927-30f7-3957-4dda-bbb662f1ce31@gmail.com>
-Date:   Wed, 29 Jan 2020 01:40:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1726307AbgA1X25 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 18:28:57 -0500
+Received: from mga14.intel.com ([192.55.52.115]:47301 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726293AbgA1X25 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 28 Jan 2020 18:28:57 -0500
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Jan 2020 15:28:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,375,1574150400"; 
+   d="scan'208";a="261613284"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+  by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2020 15:28:54 -0800
+Date:   Wed, 29 Jan 2020 07:29:07 +0800
+From:   Wei Yang <richardw.yang@linux.intel.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Wei Yang <richardw.yang@linux.intel.com>,
+        Russell King - ARM Linux <linux@armlinux.org.uk>,
+        akpm@linux-foundation.org, dan.j.williams@intel.com,
+        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
+        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
+ move_page_tables()
+Message-ID: <20200128232907.GA11467@richard>
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
+ <20200117232254.2792-4-richardw.yang@linux.intel.com>
+ <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
+ <20200128004301.GD20624@richard>
+ <d66bb20e-c0e7-caef-cbbc-aa216c2be7d6@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <34917b2d-064f-44a9-4548-ae857e8ea29b@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <d66bb20e-c0e7-caef-cbbc-aa216c2be7d6@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-27.01.2020 08:11, Sameer Pujar пишет:
-> Thanks Dmitry. However I plan to send Tegra30 related patch separately.
+On Tue, Jan 28, 2020 at 06:59:48PM +0300, Dmitry Osipenko wrote:
+>28.01.2020 03:43, Wei Yang пишет:
+>> On Sun, Jan 26, 2020 at 05:47:57PM +0300, Dmitry Osipenko wrote:
+>>> 18.01.2020 02:22, Wei Yang пишет:
+>>>> Use the general helper instead of do it by hand.
+>>>>
+>>>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>>>> ---
+>>>>  mm/mremap.c | 7 ++-----
+>>>>  1 file changed, 2 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/mm/mremap.c b/mm/mremap.c
+>>>> index c2af8ba4ba43..a258914f3ee1 100644
+>>>> --- a/mm/mremap.c
+>>>> +++ b/mm/mremap.c
+>>>> @@ -253,11 +253,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+>>>>  
+>>>>  	for (; old_addr < old_end; old_addr += extent, new_addr += extent) {
+>>>>  		cond_resched();
+>>>> -		next = (old_addr + PMD_SIZE) & PMD_MASK;
+>>>> -		/* even if next overflowed, extent below will be ok */
+>>>> +		next = pmd_addr_end(old_addr, old_end);
+>>>>  		extent = next - old_addr;
+>>>> -		if (extent > old_end - old_addr)
+>>>> -			extent = old_end - old_addr;
+>>>>  		old_pmd = get_old_pmd(vma->vm_mm, old_addr);
+>>>>  		if (!old_pmd)
+>>>>  			continue;
+>>>> @@ -301,7 +298,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
+>>>>  
+>>>>  		if (pte_alloc(new_vma->vm_mm, new_pmd))
+>>>>  			break;
+>>>> -		next = (new_addr + PMD_SIZE) & PMD_MASK;
+>>>> +		next = pmd_addr_end(new_addr, new_addr + len);
+>>>>  		if (extent > next - new_addr)
+>>>>  			extent = next - new_addr;
+>>>>  		move_ptes(vma, old_pmd, old_addr, old_addr + extent, new_vma,
+>>>>
+>>>
+>>> Hello Wei,
+>>>
+>>> Starting with next-20200122, I'm seeing the following in KMSG on NVIDIA
+>>> Tegra (ARM32):
+>>>
+>>>  BUG: Bad rss-counter state mm:(ptrval) type:MM_ANONPAGES val:190
+>>>
+>> 
+>> Thanks.
+>> 
+>> Would you mind letting me know which case you are testing?
+>
+>Nothing special, systemd starts to fall apart during boot.
+>
+>> Or the special thing is 32-bit platform?
+>I have a limited knowledge about mm/, so can't provide detailed explanation.
+>
+>Please take a look at this:
+>
+>[1]
+>https://elixir.bootlin.com/linux/v5.5/source/arch/arm/include/asm/pgtable-2level.h#L210
+>
+>[2]
+>https://elixir.bootlin.com/linux/v5.5/source/include/asm-generic/pgtable.h#L549
+>
+>[3]
+>https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c0ba10b512eb2e2a3888b6e6cc0e089f5e7a191b
 
-Feel free to add me to the email's CC if you'll need to test or review
-anything related to the T20/30.
+Thanks, I see the difference here.
 
-> In this series I will focus on Tegra210 and later.
+If this is the case, we can't use pmd_addr_end() to simplify the calculation.
+This changes the behavior.
 
-Please be more careful next time and try not to break the existing
-functionality, looking forward to v2 :)
+I would prepare another patch set to fix this. Would you mind helping me
+verify on your platform?
+
+-- 
+Wei Yang
+Help you, Help me
