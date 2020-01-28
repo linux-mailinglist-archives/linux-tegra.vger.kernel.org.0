@@ -2,212 +2,131 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3BE314BED5
+	by mail.lfdr.de (Postfix) with ESMTP id EEA2E14BED6
 	for <lists+linux-tegra@lfdr.de>; Tue, 28 Jan 2020 18:45:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726264AbgA1RpM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 12:45:12 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:33485 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726066AbgA1RpM (ORCPT
+        id S1726481AbgA1RpQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 12:45:16 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:38931 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726066AbgA1RpP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 12:45:12 -0500
-Received: by mail-wm1-f66.google.com with SMTP id m10so2302230wmc.0;
-        Tue, 28 Jan 2020 09:45:09 -0800 (PST)
+        Tue, 28 Jan 2020 12:45:15 -0500
+Received: by mail-lj1-f193.google.com with SMTP id o11so15620370ljc.6
+        for <linux-tegra@vger.kernel.org>; Tue, 28 Jan 2020 09:45:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=AsU4oisPNET6Lf5qi/oLznBouup1gLkn7VJp7ZQuhgk=;
-        b=bmqNp7nSJkBSkMKWLnrzF/vaSNUxAh9RuakS1ndq3HWETVlt3l8kOJ4D0JSiCKoW8v
-         R3uo7ZY8R8tQYjF0E63Q2b6zM6YWzzwL20rPZd6jcWNFli/pN9v7U3sJ8oJyUK0M5sfw
-         4uYxQ0poiwGxau50n4G6Dv+hhSCYwCpuqW4+aNI00Mln8kp4o2o73UoE48NUwG8llu4Q
-         9VwWZm+PCgjA5IiLzAbuMLE4LxhPCE/XMd3lA38c4cP7ABkrMsDRKIsB81kI3WMJYdE1
-         xW5BrpMVOs1+WAXT7je9L7to5RqMoxvonyGi1jfVndfwu9MhuBPGrPLvBCifeVQmsawI
-         m+PA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=icILle18HVOYU+uj4/uNvBEQiUod1fP5bgB83wQWJnk=;
+        b=tyRM2jJRNkoAJxaVoib7+S23mzDrbW7WsPPee7HvUcnnl0hiXgmLER8SlROe/QlR6J
+         2+TRk8bvgmrE2VX08bGujTS2e1zNcWXH6I+1Tu1Is8KQJwpMTwnx+xCRHEbfn1nhPDqx
+         jGseFjhe9JIen0SYm9WAPw1/BbptnRodHR783nrlnEI1Fu/1K4QYZyqvcxaQWhR0Pn11
+         f8x28Ifsvexy0mIxRxvxmSPizllL8TCn8bi6INbMdWp5dc8ohIXXUUW6v2vbizmOeFrG
+         Q+A9y69XXiqCrK8927L7XKpZr97uorA7/Sp0XnDOh8Wq54jyWALuseqex8B4UXWRxQq4
+         m9pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AsU4oisPNET6Lf5qi/oLznBouup1gLkn7VJp7ZQuhgk=;
-        b=tuNfRUDTtNGgmXVp+NYCDmzWIKskBh5t5u3UWFJbBPPMLKnSnn5rQenFEUJHySTz4j
-         KMk4EjdLnyImVJ30r/PfQRb/LPgCmClgwngzIHWRyM8Wa/vGn37YjVAUlKmpWDGtjX/2
-         MecWa96tOice7H6v+W5oCPA56wjpCDtCM8h4EWycS1UBGA38l609ostaDhrdIQuZysP4
-         QHMt1DnwheaclKwpoB/ZTpibmuTJjy68ZxX5veU+4er9OZInDITJnHMBlXqtwSfB3ZdG
-         vHhstLpTM9/FHZzf6KMe1hWWbxacQMUqsJnWVqwr8arsNiC8sCG69iFRux1oQcLcltUm
-         VHgQ==
-X-Gm-Message-State: APjAAAXL2hq2kktWwPTb1vtwv+EnkzjQ2e4I+2VRmdEQz1Xt854Kxdii
-        qRjcw2foxMzDKcMemTc9WcQ=
-X-Google-Smtp-Source: APXvYqzsSGCrWRPrSEA4duRR8xfG35cw96+gQt6yZo+ytXjU3Y2r0Gpdde/JTNGwxUBMhS+r6GlyeA==
-X-Received: by 2002:a05:600c:30a:: with SMTP id q10mr6330155wmd.84.1580233508808;
-        Tue, 28 Jan 2020 09:45:08 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id e6sm27770072wru.44.2020.01.28.09.45.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2020 09:45:07 -0800 (PST)
-Date:   Tue, 28 Jan 2020 18:45:06 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
-        mark.rutland@arm.com, robh+dt@kernel.org, kishon@ti.com,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch V3 07/18] phy: tegra: xusb: Add set_mode support for utmi
- phy on Tegra186
-Message-ID: <20200128174506.GE2293590@ulmo>
-References: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
- <1577704195-2535-8-git-send-email-nkristam@nvidia.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=icILle18HVOYU+uj4/uNvBEQiUod1fP5bgB83wQWJnk=;
+        b=YWV+6fNYXctNQ9/ZP1wJ9OhIOVDELlmQNezEzH1X2mafJiyhLE+g92rMZFM3+RZfD8
+         7wrux/ek903y0VEu7DBPcHdWqBA6r+55yt2S1IEub8GDbKaqdHhBXOzDWbL1O5toXOcv
+         HER8aoDjt/eS5dpBRzSHteunY+PekQ0nCEQAd7yk7AhvC+Qz+83i8U0OscM/e3EBQPiJ
+         s89yLN4Ubi6bRQtzWr0FVOyeJEdInicCcs397busI4Z3WoSf3hDGgRnElHBmP5PJeB3B
+         309EiwQT+/U3r6iqelhgJ0HEwU/I1P4IB9N1AqVo8ytjVtI4CRasC3OIJGuHtm68z5dR
+         pt+g==
+X-Gm-Message-State: APjAAAWAEh4GpR/bcOB2Fsx30epiO4AjZeiucupmb/Gq9ivCfUcNxDuX
+        Qnq8dEUK5iGDdP6ztY9a8GfqzwFr
+X-Google-Smtp-Source: APXvYqz6tGItOVEzQ/02MHrmG4vWp62+B1xQn16Kd/IMfQjApCRvrnge+3eMOmx1l8H2wUO4buAm7Q==
+X-Received: by 2002:a2e:3c05:: with SMTP id j5mr8257219lja.131.1580233513348;
+        Tue, 28 Jan 2020 09:45:13 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id c8sm10104395lfm.65.2020.01.28.09.45.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jan 2020 09:45:12 -0800 (PST)
+Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
+ 24bit and 32bit samples
+To:     Mark Brown <broonie@kernel.org>, Jon Hunter <jonathanh@nvidia.com>
+Cc:     Ben Dooks <ben.dooks@codethink.co.uk>,
+        linux-kernel@lists.codethink.co.uk, alsa-devel@alsa-project.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Edward Cragg <edward.cragg@codethink.co.uk>,
+        linux-tegra@vger.kernel.org
+References: <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
+ <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
+ <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
+ <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
+ <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
+ <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
+ <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
+ <1aa6a4bf-10ea-001d-2d35-44494d9554f8@gmail.com>
+ <62cea895-c1f1-a833-b63c-050642bb8a79@codethink.co.uk>
+ <d6bb92e2-16ba-3c00-2f07-e741ecaa5ec8@nvidia.com>
+ <20200128152632.GF4689@sirena.org.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a9ed4d18-94f6-06e0-d7b7-cbbcbee058b0@gmail.com>
+Date:   Tue, 28 Jan 2020 20:45:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="r7U+bLA8boMOj+mD"
-Content-Disposition: inline
-In-Reply-To: <1577704195-2535-8-git-send-email-nkristam@nvidia.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200128152632.GF4689@sirena.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+28.01.2020 18:26, Mark Brown пишет:
+> On Tue, Jan 28, 2020 at 01:19:17PM +0000, Jon Hunter wrote:
+>> On 28/01/2020 08:59, Ben Dooks wrote:
+>>> On 27/01/2020 19:23, Dmitry Osipenko wrote:
+>>>> 27.01.2020 22:20, Dmitry Osipenko пишет:
+>>>> I also suspect that s32 may need some extra patches and thus could be
+>>>> worthwhile to stop advertising it as well.
+> 
+>>> As far as I am aware that works and we can hit the audio rates for it.
+> 
+>> I ran a test on Tegra124 Jetson-TK1 and 24-bit playback seems to work as
+>> Ben has indicated. So I don't think it is broken.
+> 
+>> Can you try Ben's testcase on Tegra30 (ie. generate a tone using sox and
+>> use aplay to play)?
+> 
+> Another test application that's quite useful for this sort of stuff is
+> speaker-test, it generates audio data directly in arbatrary formats and
+> it's part of alsa-utils so if you've got aplay and friends you may
+> already have it already installed.
 
---r7U+bLA8boMOj+mD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I tried speaker-test and it doesn't support S24_LE:
 
-On Mon, Dec 30, 2019 at 04:39:44PM +0530, Nagarjuna Kristam wrote:
-> Add support for set_mode on utmi phy. This allow XUSB host/device mode
-> drivers to configure the hardware to corresponding modes.
+# speaker-test -h
 
-"utmi" -> "UTMI" in the subject and the commit message.
+speaker-test 1.1.9
 
->=20
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> ---
-> V2-V3:
->  - No changes in this version
-> ---
->  drivers/phy/tegra/xusb-tegra186.c | 109 ++++++++++++++++++++++++++++++--=
-------
->  1 file changed, 87 insertions(+), 22 deletions(-)
->=20
-> diff --git a/drivers/phy/tegra/xusb-tegra186.c b/drivers/phy/tegra/xusb-t=
-egra186.c
-> index 84c2739..9a45160 100644
-> --- a/drivers/phy/tegra/xusb-tegra186.c
-> +++ b/drivers/phy/tegra/xusb-tegra186.c
-> @@ -301,6 +301,92 @@ static void tegra_phy_xusb_utmi_pad_power_down(struc=
-t phy *phy)
->  	tegra186_utmi_bias_pad_power_off(padctl);
->  }
-> =20
-> +static int tegra186_xusb_padctl_vbus_override(struct tegra_xusb_padctl *=
-padctl,
-> +					       bool status)
-> +{
-> +	u32 value;
-> +
-> +	dev_dbg(padctl->dev, "%s vbus override\n", status ? "set" : "clear");
-> +
-> +	value =3D padctl_readl(padctl, USB2_VBUS_ID);
-> +
-> +	if (status) {
-> +		value |=3D VBUS_OVERRIDE;
-> +		value &=3D ~ID_OVERRIDE(~0);
-> +		value |=3D ID_OVERRIDE_FLOATING;
-> +	} else {
-> +		value &=3D ~VBUS_OVERRIDE;
-> +	}
-> +
-> +	padctl_writel(padctl, value, USB2_VBUS_ID);
-> +
-> +	return 0;
-> +}
-> +
-> +static int tegra186_xusb_padctl_id_override(struct tegra_xusb_padctl *pa=
-dctl,
-> +					    bool status)
-> +{
-> +	u32 value;
-> +
-> +	dev_dbg(padctl->dev, "%s id override\n", status ? "set" : "clear");
-> +
-> +	value =3D padctl_readl(padctl, USB2_VBUS_ID);
-> +
-> +	if (status) {
-> +		if (value & VBUS_OVERRIDE) {
-> +			value &=3D ~VBUS_OVERRIDE;
-> +			padctl_writel(padctl, value, USB2_VBUS_ID);
-> +			usleep_range(1000, 2000);
-> +
-> +			value =3D padctl_readl(padctl, USB2_VBUS_ID);
-> +		}
-> +
-> +		value &=3D ~ID_OVERRIDE(~0);
-> +		value |=3D ID_OVERRIDE_GROUNDED;
-> +	} else {
-> +		value &=3D ~ID_OVERRIDE(~0);
-> +		value |=3D ID_OVERRIDE_FLOATING;
-> +	}
-> +
-> +	padctl_writel(padctl, value, USB2_VBUS_ID);
-> +
-> +	return 0;
-> +}
-> +
-> +static int tegra186_utmi_phy_set_mode(struct phy *phy, enum phy_mode mod=
-e,
-> +				      int submode)
-> +{
-> +	struct tegra_xusb_lane *lane =3D phy_get_drvdata(phy);
-> +	struct tegra_xusb_padctl *padctl =3D lane->pad->padctl;
-> +	struct tegra_xusb_usb2_port *port =3D tegra_xusb_find_usb2_port(padctl,
-> +								lane->index);
-> +	int err =3D 0;
-> +
-> +	mutex_lock(&padctl->lock);
-> +
-> +	dev_dbg(&port->base.dev, "%s: mode %d", __func__, mode);
-> +
-> +	if (mode =3D=3D PHY_MODE_USB_OTG) {
-> +		if (submode =3D=3D USB_ROLE_HOST) {
-> +			tegra186_xusb_padctl_id_override(padctl, true);
-> +
-> +			err =3D regulator_enable(port->supply);
-> +		} else if (submode =3D=3D USB_ROLE_DEVICE) {
-> +			tegra186_xusb_padctl_vbus_override(padctl, true);
-> +		} else if (submode =3D=3D USB_ROLE_NONE) {
-> +			if (regulator_is_enabled(port->supply))
+Usage: speaker-test [OPTION]...
+-h,--help       help
+-D,--device     playback device
+-r,--rate       stream rate in Hz
+-c,--channels   count of channels in stream
+-f,--frequency  sine wave frequency in Hz
+-F,--format     sample format
+-b,--buffer     ring buffer size in us
+-p,--period     period size in us
+-P,--nperiods   number of periods
+-t,--test       pink=use pink noise, sine=use sine wave, wav=WAV file
+-l,--nloops     specify number of loops to test, 0 = infinite
+-s,--speaker    single speaker test. Values 1=Left, 2=right, etc
+-w,--wavfile    Use the given WAV file as a test sound
+-W,--wavdir     Specify the directory containing WAV files
+-m,--chmap      Specify the channel map to override
+-X,--force-frequency    force frequencies outside the 30-8000hz range
+-S,--scale      Scale of generated test tones in percent (default=80)
 
-I vaguely recall that we discussed this before, but I don't recall. Why
-do we need to check that the regulator is enabled? Regulators are
-reference-counted, so as long as the reference count is balanced, there
-should be no need to check for this.
-
-If there's really no way to avoid this check, perhaps add a comment that
-points out exactly why this is needed?
-
-With that fixed:
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---r7U+bLA8boMOj+mD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4wcyIACgkQ3SOs138+
-s6E37Q//bbam3CY/x1HTAfm1BwM7131zZzp7TC9NqqFuDL7ie5bJ+EZ/JaEeZTwp
-4gfAOPTtzGO3zMFUh8pBCwGuNiUpJtwQMgddekFWeQqeo4R1ssWOSOvYrnVVIt+N
-vhcG29TTUQ0EHGUwnJbkB8AG811QauUGXgjA+mabg7fUt91/W9T4gbsgeXCyVtfg
-UTjDjhy1Anx8dMaMWrEygse2tnXpXOCZ23YJVr6r3ssxy5+YzP4D81xuhkMLnf9Y
-6SSnTgvVwRKVbTeTydl1RlKmvEDJf6DqgpcORh4HGouCFwZL96pK1witeJAXcpjj
-3xPH1l5K4VSEWM+c1UQR6UXyHajv6FCmk5By2uoRscrcsObp2JxoEMO/Ofj60kpx
-7HChBDhGu2Tg/m3w3tLoZg/DQDVvn+gVwaoqcPSvZC7/fklKB3tXMHkSZOj4qFmp
-y4j1EkdzRPhN4cvFl+bRUYk0/dqlOr48SpiZvo5OqxVV/bJDcdl1qKNViw6hSVUh
-Ezs77PGwD1xKmur6Mge4qiUVvxfECmKcsqa/Bzmn/DgCTpFDSwuDx4Ehqkq19nI+
-dKcpPDIA8WMPXwLagQCTSedosaTE5Nxkgw9IWrnUJuAgZr7dPopEzcwAG19mMqun
-8po9CavfSDm4hesW1+T1BK70alG1ykujHWSUTUjVBD2pwYeeCas=
-=ILly
------END PGP SIGNATURE-----
-
---r7U+bLA8boMOj+mD--
+Recognized sample formats are: S8 S16_LE S16_BE FLOAT_LE S24_3LE S24_3BE
+S32_LE S32_BE
