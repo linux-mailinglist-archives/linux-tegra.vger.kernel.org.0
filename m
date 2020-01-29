@@ -2,139 +2,163 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30A4414CE15
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 17:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3247414CE2D
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 17:23:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbgA2QQv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jan 2020 11:16:51 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:44232 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726715AbgA2QQv (ORCPT
+        id S1727156AbgA2QWv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 11:22:51 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17644 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727141AbgA2QWv (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jan 2020 11:16:51 -0500
-Received: by mail-lf1-f65.google.com with SMTP id v201so57428lfa.11;
-        Wed, 29 Jan 2020 08:16:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Ok8Ji8SqnJ445zZBSASQHbGoPp4FTjkHx85GL6b9wuI=;
-        b=cmmShzgtfQJkGQNr6q5LeLI2k8hMvzEBNcvLq2aGp4vccimkfgnyL9aIAO7+W2E+H6
-         Zq2QCvbi3FgWxwSyvvOz/oLvCzabm5cTIKTA93RMkzEubAUFKb0VBz2NiVxo1fE4vUd6
-         5P/3henEH/HA6OvIN4EA4pF4bigepVZo6cB0yQfUtmXGezANdFZYEW9/XMuRQFB9z6tv
-         lx/2uOpZbWRVP/urEisTj07R5hnuAY9wSxGaoglfgJ/4HdemudP9515jaE+VsYn6WXTx
-         T/9nPfiY1r7VHqd3cWfq2Dqjwnxz7mUjWqjfd/LJzR/vQrTwCUNDikkTuQF9X13jW3u7
-         ZlBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Ok8Ji8SqnJ445zZBSASQHbGoPp4FTjkHx85GL6b9wuI=;
-        b=sPj2jGi50iiHJ22UKxh7DJG0uPLsDcy2WKr+wlisGjgihzIDo/XHjCdbUl9p6fSgFh
-         8LKqwRKEMpeFbNMgr7XEWhQchu27mhD8ER0cdqyCJtKWXYy1OFOm1MljDqtFZJpP6H81
-         5YaxyDY+egUdSzCNn9pmPY3r886y1FxY8Ah0tLgAzI4czVXewpyupSn96uLk/XCBf8Wp
-         in2KEy/E+fhInXe16Ht8QN47L1IE36AS+N/qUT9p4OYx06f2SpsKFp+wP5QeFKHNkw7w
-         hDsu+Z59YiMP+iAGHGCT6OwAhgYiJu7tTwd5acurwFtMtAGc7rgFwMpNisLoK7D/grW4
-         Bkew==
-X-Gm-Message-State: APjAAAWpQXTjPqCyQ+yzYJGXhbLw03Z04oW08Lp2vONge8lvK390WIZ/
-        Zr31ivR5Fwh1SqmriSaA1RTRvyS2
-X-Google-Smtp-Source: APXvYqy8G1MXLOIC0kplXoL51g1VYStBeAb3j5Ma85aHR2fXk3IHsw6FQNYfBOXqrDCjbd1ZiJjQjQ==
-X-Received: by 2002:a19:c697:: with SMTP id w145mr67524lff.54.1580314608198;
-        Wed, 29 Jan 2020 08:16:48 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id 11sm1237336lju.103.2020.01.29.08.16.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2020 08:16:47 -0800 (PST)
-Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
- interconnects property
-To:     Georgi Djakov <georgi.djakov@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20200114181519.3402385-2-thierry.reding@gmail.com>
- <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
- <20200120150605.GA712203@ulmo>
- <57c37b3c-1473-d444-db59-8c6650241188@gmail.com>
- <20200121141027.GE899558@ulmo>
- <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
- <20200121155432.GA912205@ulmo>
- <ffc22502-0e7e-522c-543d-0e74cc25f4b1@gmail.com>
- <20200127122115.GA2117209@ulmo>
- <d56618e1-8940-65ae-381e-796e44bcf537@gmail.com>
- <20200129093602.GC2479935@ulmo>
- <0b8692ab-4e06-b277-bbe2-93922e47c2f6@gmail.com>
- <7db91ca2-6ef7-7161-6ec9-f69a8d8d8a34@linaro.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <cb1edcc5-b6c5-8d78-8273-9a29b3b35a7a@gmail.com>
-Date:   Wed, 29 Jan 2020 19:16:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Wed, 29 Jan 2020 11:22:51 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e31b14b0000>; Wed, 29 Jan 2020 08:22:35 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 29 Jan 2020 08:22:50 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 29 Jan 2020 08:22:50 -0800
+Received: from [10.2.164.115] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
+ 2020 16:22:49 +0000
+Subject: Re: Re: [RFC PATCH v1 5/5] arm64: tegra: Add Tegra VI CSI suppport in
+ device tree
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+ <1580235801-4129-6-git-send-email-skomatineni@nvidia.com>
+ <20200129094624.GD2479935@ulmo>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <bd18711d-ce23-cbee-7824-37a8c78908e6@nvidia.com>
+Date:   Wed, 29 Jan 2020 08:22:48 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <7db91ca2-6ef7-7161-6ec9-f69a8d8d8a34@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200129094624.GD2479935@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580314955; bh=eLeON2MxtqTE1lp83s18wcsu20gMK+jZz18egxh1R4s=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=Pd4wjUdLK95tGQ+sjDU/adByintrMeBPwj9MI7AfSC7ItU9W8KcmRMs2IW9a40cIK
+         nxLIKAheY1jQn6bDWzOAhi01ju6CVzZqiN4SFszHqe2fot8xwdld/ZqvcARBq13J3N
+         +JqfEQdzjAoXvt+A7nXO5Ir696wEn+2dTAag3XAhD8U/kVyRTKOqNLktOyrem2TiDP
+         aEgt1bZ0nV0C6UW4X3Dto41RM+QN+wfkRzR98c354oMqQk88cSSP0NkuC23kWxOCLT
+         ye52CcISxwm17dKRA8SsOXzI6houcLgaWiDRa29sbIkZ87ZVVEQEq7Zy3gzOPHRvh7
+         nBjmlxztZWGXg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-29.01.2020 19:13, Georgi Djakov пишет:
-> On 1/29/20 18:02, Dmitry Osipenko wrote:
->> 29.01.2020 12:36, Thierry Reding пишет:
->>> On Tue, Jan 28, 2020 at 10:27:00PM +0300, Dmitry Osipenko wrote:
->>>> 27.01.2020 15:21, Thierry Reding пишет:
->>>>> On Tue, Jan 21, 2020 at 11:12:11PM +0300, Dmitry Osipenko wrote:
->>>>>> 21.01.2020 18:54, Thierry Reding пишет:
->>>>>>> On Tue, Jan 21, 2020 at 05:18:43PM +0200, Georgi Djakov wrote:
->>>>>>>> On 1/21/20 16:10, Thierry Reding wrote:
->>>>> [...]
->>>>>>>>> I'm not sure if that TEGRA_ICC_EMEM makes a lot of sense. It's always
->>>>>>>>> going to be the same and it's arbitrarily defined, so it's effectively
->>>>>>>>> useless. But other than that it looks good.
->>>>>>>>
->>>>>>>> Well, in most cases the target would be the EMEM, so that's fine. I have seen
->>>>>>>> that other vendors that may have an additional internal memory, especially
->>>>>>>> dedicated to some DSPs and in such cases the bandwidth needs are different for
->>>>>>>> the two paths (to internal memory and DDR).
->>>>>>>
->>>>>>> Most chips have a small internal memory that can be used, though it
->>>>>>> seldomly is. However, in that case I would expect the target to be a
->>>>>>> completely different device, so it'd look more like this:
->>>>>>>
->>>>>>> 	interconnects = <&mc TEGRA186_MEMORY_CLIENT_BPMPR &iram>,
->>>>>>> 			...;
->>>>>>>
->>>>>>> I don't think EMEM has any "downstream" other than external memory.
->>>>>>
->>>>>> The node ID should be mandatory in terms of interconnect, even if it's a
->>>>>> single node. EMC (provider) != EMEM (endpoint).
->>>>>
->>>>> I don't understand why. An ID only makes sense if you've got multiple
->>>>> endpoints. For example, a regulator is a provider with a single endpoint
->>>>> so we don't specify an ID.
->>>>
->>>> Because this is how ICC binding is defined, unless I'm missing something.
->>>
->>> I don't think so. It's defined as "pairs of phandles and interconnect
->>> provider specifiers", which is equivalent to what pretty much all of the
->>> resource bindings define. The #interconnect-cells property defines the
->>> number of cells used for the specifier. In the normal case this would be
->>> 1, and the value of the one cell would be the ID of the endpoint. But if
->>> there's only a single endpoint, it's customary to set the number of
->>> cells to 0, in which case only the phandle is required.
->>
->> Right, setting interconnect-cells=0 should work. I'll give it a try,
->> thank you!
-> 
-> Yes, it's fine to have #interconnect-cells = <0>. Here is a patch [1] which is a
-> bit related to this.
-> 
-> Thanks,
-> Georgi
-> 
-> [1] https://patchwork.kernel.org/patch/11305295/
 
-Georgi, thank you very much! This patch will be handy!
+On 1/29/20 1:46 AM, Thierry Reding wrote:
+> On Tue, Jan 28, 2020 at 10:23:21AM -0800, Sowjanya Komatineni wrote:
+>> Tegra210 contains VI controller for video input capture from MIPI
+>> CSI camera sensors and also supports built-in test pattern generator.
+>>
+>> CSI ports can be one-to-one mapped to VI channels for capturing from
+>> an external sensor or from built-in test pattern generator.
+>>
+>> This patch adds support for VI and CSI and enables them in Tegra210
+>> device tree.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi |  8 +++++++
+>>   arch/arm64/boot/dts/nvidia/tegra210.dtsi       | 31 +++++++++++++++++++++++++-
+>>   2 files changed, 38 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+>> index b0095072bc28..ec1b3033fa03 100644
+>> --- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+>> +++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+>> @@ -10,6 +10,14 @@
+>>   			status = "okay";
+>>   		};
+>>   
+>> +		vi@54080000 {
+>> +			status = "okay";
+>> +		};
+>> +
+>> +		csi@0x54080838 {
+>> +			status = "okay";
+>> +		};
+>> +
+>>   		sor@54580000 {
+>>   			status = "okay";
+>>   
+>> diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+>> index 48c63256ba7f..c6107ec03ad1 100644
+>> --- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+>> +++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+>> @@ -136,9 +136,38 @@
+>>   
+>>   		vi@54080000 {
+>>   			compatible = "nvidia,tegra210-vi";
+>> -			reg = <0x0 0x54080000 0x0 0x00040000>;
+>> +			reg = <0x0 0x54080000 0x0 0x808>;
+>>   			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+>>   			status = "disabled";
+>> +			assigned-clocks = <&tegra_car TEGRA210_CLK_VI>;
+>> +			assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
+>> +
+>> +			clocks = <&tegra_car TEGRA210_CLK_VI>;
+>> +			clock-names = "vi";
+>> +			resets = <&tegra_car 20>;
+>> +			reset-names = "vi";
+>> +		};
+>> +
+>> +		csi@0x54080838 {
+>> +			compatible = "nvidia,tegra210-csi";
+>> +			reg = <0x0 0x54080838 0x0 0x2000>;
+>> +			status = "disabled";
+>> +			assigned-clocks = <&tegra_car TEGRA210_CLK_CILAB>,
+>> +					  <&tegra_car TEGRA210_CLK_CILCD>,
+>> +					  <&tegra_car TEGRA210_CLK_CILE>;
+>> +			assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_P>,
+>> +						 <&tegra_car TEGRA210_CLK_PLL_P>,
+>> +						 <&tegra_car TEGRA210_CLK_PLL_P>;
+>> +			assigned-clock-rates = <102000000>,
+>> +					       <102000000>,
+>> +					       <102000000>;
+>> +
+>> +			clocks = <&tegra_car TEGRA210_CLK_CSI>,
+>> +				 <&tegra_car TEGRA210_CLK_CILAB>,
+>> +				 <&tegra_car TEGRA210_CLK_CILCD>,
+>> +				 <&tegra_car TEGRA210_CLK_CILE>;
+>> +			clock-names = "csi", "cilab", "cilcd", "cile";
+>> +
+>>   		};
+> Can this be a child of the vi node? Looking at the register ranges it
+> seems like these are actually a single IP block. If they have separate
+> blocks with clearly separate functionality, then it makes sense to have
+> CSI be a child node of VI, though it may also be okay to merge both and
+> have a single node with the driver doing all of the differentiation
+> between what's VI and what's CSI.
+>
+> Looking at later chips, the split between VI and CSI is more explicit,
+> so having the split in DT for Tegra210 may make sense for consistency.
+>
+> I know we've discussed this before, but for some reason I keep coming
+> back to this. I'll go through the other patches to see if I can get a
+> clearer picture of how this could all work together.
+>
+> Thierry
+
+We can keep it separate as we discussed.
+
+But as Tegra186 onwards, CSI is separate device to be all cosistent I 
+kept CSI as separate node for Tegra210 as well.
+
