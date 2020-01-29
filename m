@@ -2,74 +2,69 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DBB514CC48
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 15:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B8C614CC77
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 15:31:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbgA2OWC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jan 2020 09:22:02 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45388 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726178AbgA2OWB (ORCPT
+        id S1726261AbgA2ObL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 09:31:11 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:38532 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726177AbgA2ObL (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jan 2020 09:22:01 -0500
-Received: by mail-lf1-f65.google.com with SMTP id 203so11967401lfa.12;
-        Wed, 29 Jan 2020 06:22:00 -0800 (PST)
+        Wed, 29 Jan 2020 09:31:11 -0500
+Received: by mail-lf1-f68.google.com with SMTP id r14so12027984lfm.5;
+        Wed, 29 Jan 2020 06:31:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ngpKtKkRqA4bLgz9hqEAUDGl9vfshEKzWUpmN7kSf5I=;
-        b=T97g40JJkCpTxOs4RtOf8TMHdkcMmZpyDUyvKE+M1iCiredbwhZo9f47sRYycRIOaK
-         WyRyhVj0F9rXnlB6WwfXq8UStjlYgLbzIx32++G2z5paGl/dAsz2EtaxCr3Y5ZZK8HSw
-         V6LFhztzhwtgeFU8H5F7qi5OTfhHx56KqIJlwD38+TRWLoR7E3wSvR2b3KBUsTlREpN1
-         y6qnV/iY2W3/UwC4lELDiA8sSWsh81hoVkm/7MgRcBLLKmxtHZS1BMSVzJ3Yz8ECIyS8
-         wrymSuYT9ddaYnMPBkLl/4Dx6SEHyjtfp5oxSN2GbwMxMJ7AMvnd30yLnpJ8oaO3x17Z
-         AGVg==
+        bh=R91c9ntZBlaQPLyZ3wJ8nBbTe0YSkDQN97EOOHvSD+8=;
+        b=qm5WLSTVvRQQw9NA8BW6L1l7nF8NSOarFCXgMoxmpB2VVJqt198tbokl4Doj6RjaX2
+         zu2jABl64d6IgDGQkeuuq9IkrHBmZkgzVPxb2hX8NVYMD+6T1niUF2fv5nn/3r005psU
+         jcH66osAbyof6mdWpU8e/vHTlXXVuUkRQeDQPK+T3F7WfjsjvkWlYFVk0Brj8pBSz/fM
+         NFYMNTaqDN7OUwENhNCOZGrgBFdP5RjfrHaXlInEw20sZ2mKePpTtmJ92AJXXBbJi0WQ
+         O9L+ljA4I1SsqdJvagSzgnD7bIO8QFjZ47oY5G77DKU2F1aik0sYeL08phAOxPCbaZns
+         A+dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ngpKtKkRqA4bLgz9hqEAUDGl9vfshEKzWUpmN7kSf5I=;
-        b=cyxniXOqnvtYQcyXuIwKEFlumgxJLxWHc+WSYA3pRQZEdrwEDvHu7opwzS/k8jhe5J
-         PjgH7vO/LKMl3bt+ErUP1SN3+gUu1H98Rlqgp/73CXgualD5l5Mw8BV8jPhLIYpaCxjG
-         /GCAHa3krPNrumUiSe9DZyaHELEF3KlIhmIWcynUjtYUtiIbPyfkhMuG9PEpDxKCXmZg
-         qfbs0eIOhPp0Coi0eIOD1XFliewLX19chtIaxA3FqNTrKS0+Y8vojHoa/TMigvVvEGH/
-         pXPVeD+7k8DFEG/FBBGcwdy54VcxkAscEV39j21azakfK/keJcMfjA78zB40hirLFzfw
-         b1NA==
-X-Gm-Message-State: APjAAAWkaL2mUGV8xUoQ/yjM4ha+LlYRgESoJu/TPxs+3Qc1Sm8t/mj/
-        Tgu1VEIYx675quTwxpzJx9c=
-X-Google-Smtp-Source: APXvYqzYvUkcSlNuXDwv7XdX0nVLb/c5ZJ/5O8HRyToU75dsf2h82fIfm+1f6ytmKF9sY990bRaQeg==
-X-Received: by 2002:a19:cb95:: with SMTP id b143mr5622613lfg.158.1580307719408;
-        Wed, 29 Jan 2020 06:21:59 -0800 (PST)
+        bh=R91c9ntZBlaQPLyZ3wJ8nBbTe0YSkDQN97EOOHvSD+8=;
+        b=twCVGhR7io4efdSDtc7rZdVbfWWH06ztaXDFtecq1KBeW6gVxTF7B/tQyhHeeBrrsv
+         mSdgSyWiQ7MVd//+zfMBrNA2D8T49oCDhOffBqJ5sO4JzI8+ZDSfskcd2hsKkS002ud/
+         vGkdaSnjJisbt/KW3inqMlimQeC7feA6E07P+vUbACeUxWlH0yHQlRbLw/jH2SLj8Cyb
+         06QRqiycH3JkA2kLtt3E/BuMFngAFHyVg+WiUZqSZiY/XveHuYWjGMXQISNu/0kuNSwy
+         hpW6y6yLd1fPEhOyu8SV43pr0ghIvbm/AH8nwqRoj5SpDElzRnSi6GSbSqSI5MZ3s+0p
+         HnVA==
+X-Gm-Message-State: APjAAAX0U1gEljef+Zz0Kbu+x4+uNE+Dz/Vaity2i3cbcMXWQ0dZdnWV
+        BhWOTRLdlWvPCoCxctXaooWzfjTZ
+X-Google-Smtp-Source: APXvYqzz2jPA2pFPn9WN/J9pcbI/wLvRYdPhKymxgZi3LpG4PWstlzWJpvg8L3XrcDw/Wwo6bhQg7A==
+X-Received: by 2002:a19:ee1a:: with SMTP id g26mr5710270lfb.147.1580308268269;
+        Wed, 29 Jan 2020 06:31:08 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id 21sm1055977ljv.19.2020.01.29.06.21.57
+        by smtp.googlemail.com with ESMTPSA id l64sm1164871lfd.30.2020.01.29.06.31.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2020 06:21:58 -0800 (PST)
-Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
- move_page_tables()
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     Wei Yang <richardw.yang@linux.intel.com>,
-        akpm@linux-foundation.org, dan.j.williams@intel.com,
-        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
-        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
+        Wed, 29 Jan 2020 06:31:07 -0800 (PST)
+Subject: Re: [PATCH v5 08/14] dmaengine: tegra-apb: Fix coding style problems
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
- <20200117232254.2792-4-richardw.yang@linux.intel.com>
- <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
- <20200129094738.GE25745@shell.armlinux.org.uk>
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200123230325.3037-1-digetx@gmail.com>
+ <20200123230325.3037-9-digetx@gmail.com>
+ <f724fd45-aa91-face-a267-5ea4caf6d8d5@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <2791a187-ec3e-6b78-515f-25e7559a3749@gmail.com>
-Date:   Wed, 29 Jan 2020 17:21:55 +0300
+Message-ID: <5f540eb8-07ab-eb42-b5de-e198d5439cbd@gmail.com>
+Date:   Wed, 29 Jan 2020 17:31:06 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200129094738.GE25745@shell.armlinux.org.uk>
+In-Reply-To: <f724fd45-aa91-face-a267-5ea4caf6d8d5@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -78,82 +73,19 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-29.01.2020 12:47, Russell King - ARM Linux admin пишет:
-> On Sun, Jan 26, 2020 at 05:47:57PM +0300, Dmitry Osipenko wrote:
->> 18.01.2020 02:22, Wei Yang пишет:
->>> Use the general helper instead of do it by hand.
->>>
->>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->>> ---
->>>  mm/mremap.c | 7 ++-----
->>>  1 file changed, 2 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/mm/mremap.c b/mm/mremap.c
->>> index c2af8ba4ba43..a258914f3ee1 100644
->>> --- a/mm/mremap.c
->>> +++ b/mm/mremap.c
->>> @@ -253,11 +253,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
->>>  
->>>  	for (; old_addr < old_end; old_addr += extent, new_addr += extent) {
->>>  		cond_resched();
->>> -		next = (old_addr + PMD_SIZE) & PMD_MASK;
->>> -		/* even if next overflowed, extent below will be ok */
->>> +		next = pmd_addr_end(old_addr, old_end);
->>>  		extent = next - old_addr;
->>> -		if (extent > old_end - old_addr)
->>> -			extent = old_end - old_addr;
->>>  		old_pmd = get_old_pmd(vma->vm_mm, old_addr);
->>>  		if (!old_pmd)
->>>  			continue;
->>> @@ -301,7 +298,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
->>>  
->>>  		if (pte_alloc(new_vma->vm_mm, new_pmd))
->>>  			break;
->>> -		next = (new_addr + PMD_SIZE) & PMD_MASK;
->>> +		next = pmd_addr_end(new_addr, new_addr + len);
->>>  		if (extent > next - new_addr)
->>>  			extent = next - new_addr;
->>>  		move_ptes(vma, old_pmd, old_addr, old_addr + extent, new_vma,
->>>
->>
->> Hello Wei,
->>
->> Starting with next-20200122, I'm seeing the following in KMSG on NVIDIA
->> Tegra (ARM32):
->>
->>   BUG: Bad rss-counter state mm:(ptrval) type:MM_ANONPAGES val:190
->>
->> and eventually kernel hangs.
->>
->> Git's bisection points to this patch and reverting it helps. Please fix,
->> thanks in advance.
+29.01.2020 14:03, Jon Hunter пишет:
+> On 23/01/2020 23:03, Dmitry Osipenko wrote:
+>>  	ahb_seq = TEGRA_APBDMA_AHBSEQ_INTR_ENB;
+>> @@ -1269,7 +1284,6 @@ static int tegra_dma_alloc_chan_resources(struct dma_chan *dc)
+>>  	int ret;
+>>  
+>>  	dma_cookie_init(&tdc->dma_chan);
+>> -	tdc->config_init = false;
 > 
-> The above is definitely wrong - pXX_addr_end() are designed to be used
-> with an address index within the pXX table table and the address index
-> of either the last entry in the same pXX table or the beginning of the
-> _next_ pXX table.  Arbitary end address indicies are not allowed.
-> 
-> When page tables are "rolled up" when levels don't exist, it is common
-> practice for these macros to just return their end address index.
-> Hence, if they are used with arbitary end address indicies, then the
-> iteration will fail.
-> 
-> The only way to do this is:
-> 
-> 	next = pmd_addr_end(old_addr,
-> 			pud_addr_end(old_addr,
-> 				p4d_addr_end(old_addr,
-> 					pgd_addr_end(old_addr, old_end))));
-> 
-> which gives pmd_addr_end() (and each of the intermediate pXX_addr_end())
-> the correct end argument.  However, that's a more complex and verbose,
-> and likely less efficient than the current code.
-> 
-> I'd suggest that there's nothing to "fix" in the v5.5 code wrt this,
-> and trying to "clean it up" will just result in less efficient or
-> broken code.
-> 
+> Please put this in a separate patch. It is easily overlooked in this big
+> change.
 
-Hello Russell,
+Somehow I missed context of yours reply to the v4 of this patch and was
+thinking that you were talking about the "unsigned int".. sorry :)
 
-Thank you very much for the extra clarification!
+I'll factor out this change into a separate patch in v6.
