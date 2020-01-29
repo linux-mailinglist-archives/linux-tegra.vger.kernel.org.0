@@ -2,74 +2,66 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB48414C825
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 10:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B9C414C84A
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 10:46:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726216AbgA2JgH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jan 2020 04:36:07 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53724 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbgA2JgH (ORCPT
+        id S1726140AbgA2Jqa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 04:46:30 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:50514 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726114AbgA2Jqa (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jan 2020 04:36:07 -0500
-Received: by mail-wm1-f66.google.com with SMTP id s10so5426074wmh.3;
-        Wed, 29 Jan 2020 01:36:05 -0800 (PST)
+        Wed, 29 Jan 2020 04:46:30 -0500
+Received: by mail-wm1-f68.google.com with SMTP id a5so5470583wmb.0;
+        Wed, 29 Jan 2020 01:46:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=8pHzbh0S3mwJ9sZmFwW+OVbIXW7Hd7FamonfwSPK3O8=;
-        b=EAk8gMAENaRCtn/l3YlahcPXvc4pMulR1JZmK0xjRrhfxU4ja8B2eUdxo2Ziw7JCj1
-         KZ1h3BNmAKB9E4Y1vZjuyj3mgFLJ//d438IYE/dw4b5TeEYN0neVIs2y5mqeJZ4stUIb
-         VsOoOiiINyLSmQipuGPE54EWpJS6++qTJBdkoivPXA5B639m1rUZIjzyOv77BtXMV//x
-         PYLw2Uyw8L543nuQgZdjioTl/0507chvXUL6slST6OYjFEkcS8+FA5G9nAlbpond+UAS
-         XEMwmWSkc4Oan4Lgi5C/oZZjRqoN5Q09qjOGc9iRodn3OKXre9VKcL1CUt9Vp4sJx4Pk
-         B9Ag==
+        bh=al6msNrr1e7Fd/KciL8bEh7cwwwNLZSyBSiCZpA4ETU=;
+        b=aqdrnLxB+KxT3yGzlHTXVf+Ix+4LpEGQMYzU6WYrFTK6uoKAeQJMPyS4P1qcoVtK2R
+         xJIOOL53A5yDilhU45TI5hCJ2nkrUBdTmUzDbI7zUy9glygCTGm77blsYPqt48UBy5SM
+         8aT25qcI+JsvgTJiTbWYDmM8148J8KoTi/9qaKnjmwUApDtDnKzgyLD3p3KlGn+qu7pV
+         QxlkgNQgh3tubkXQyQbunnwyj39iAx7GRGCab0NdLG6qkYm3RN0P9QsX1/OG1SoAZlvc
+         Xkwl1iHwLJk/Na6VY2jsHjsrMZE3+IMItarNk0Hm2/fPmrCK+ri/g/ML6l6bhbH3EK9L
+         tuxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8pHzbh0S3mwJ9sZmFwW+OVbIXW7Hd7FamonfwSPK3O8=;
-        b=QgUNGozb35Kq0NMlfkRiW6OSOEQ4iM1fKCU5+zxQhnyZCQBOn9zi4NaPy48niv8iNd
-         2/jng1hjwKMHsKPGvj7Ve290FqlhQi7QJnW5qx1Ly+LEVKF0cx0nUgYMjd9H8L9EPmXS
-         Uyat5lKKG5teqSZhDEiQ+Gl0yWs9qEX5yqzc+gn6ls1sg3my7XC588pjKC+xEzOHCSNq
-         TbdZfA6HC6E1Bv0T0PLMRmyInr9Vm7ggObZeEmCayfjEOZy0R5Ot8P9+uAETySJwDYio
-         KdERFa2jZwrMReRqOKDmITS1vYOrtWL+TvrIaTGBpInIvPM8Lq764rcnAagozc+srq6p
-         Lfng==
-X-Gm-Message-State: APjAAAVGGdw+fqoJ2kjkmJjNGtRoSYWA4EEGD/3igBO95Y2M54SmUiUw
-        e6HIRjVhmFu/cPUQ/2ERUX4=
-X-Google-Smtp-Source: APXvYqx++cPF4H8zuPfo+s/IxnY5RWH2sSMH0NQjylAZv1MftTAaupVbJpYJoZUgdnTZu67SvVYNig==
-X-Received: by 2002:a1c:81d3:: with SMTP id c202mr10179155wmd.14.1580290564873;
-        Wed, 29 Jan 2020 01:36:04 -0800 (PST)
+        bh=al6msNrr1e7Fd/KciL8bEh7cwwwNLZSyBSiCZpA4ETU=;
+        b=dYsl5P+oInvuQQ9JjlraLyTmVW6tntQxYPGcRXEM6eDgqlBGWnfJoksUxl+3b9Rr3Z
+         Z9c6lK9tTQIgpm8h2Mq0PnZTVREbMp7XywE3P6E0kczH4uZvHstF2JerR+ipsqVyS76g
+         O8yL/TaqQ/hh/mDCbpVqH8uZt7dRFtr7/jqCvKRSOc6kvI6vt2jB3WxwWBSkz66exWGW
+         KpSbn0KZooUOnG6X1VTE6/bORQnRCYQuGhHc8/2pdz0V3w6VPbJCCSo7l6j4DSWNb3+1
+         lruCajFmC4cY77kefbZrc9pT+8Jmg68QKwgFRukT0qPPdjt6zbX7/SnuyQZBq061SL5Y
+         uBlg==
+X-Gm-Message-State: APjAAAUSGRxmN1BXF7L+nRINJW0xokfQU7pZO4RnHpvXXuS2mCkl4bbM
+        7CipAoN+/OlTUWzftvNIQqc=
+X-Google-Smtp-Source: APXvYqwt8+agV8bjA4Z1olKQ+WUI2s8AW0z6cfsqeh5Wr1CWSxlT1EVsjTbL2k2P0+s72RdTbPa8cg==
+X-Received: by 2002:a1c:38c7:: with SMTP id f190mr10179663wma.94.1580291186370;
+        Wed, 29 Jan 2020 01:46:26 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id v5sm2116580wrv.86.2020.01.29.01.36.02
+        by smtp.gmail.com with ESMTPSA id w13sm2118757wru.38.2020.01.29.01.46.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2020 01:36:03 -0800 (PST)
-Date:   Wed, 29 Jan 2020 10:36:02 +0100
+        Wed, 29 Jan 2020 01:46:25 -0800 (PST)
+Date:   Wed, 29 Jan 2020 10:46:24 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Georgi Djakov <georgi.djakov@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
- interconnects property
-Message-ID: <20200129093602.GC2479935@ulmo>
-References: <20200114181519.3402385-2-thierry.reding@gmail.com>
- <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
- <20200120150605.GA712203@ulmo>
- <57c37b3c-1473-d444-db59-8c6650241188@gmail.com>
- <20200121141027.GE899558@ulmo>
- <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
- <20200121155432.GA912205@ulmo>
- <ffc22502-0e7e-522c-543d-0e74cc25f4b1@gmail.com>
- <20200127122115.GA2117209@ulmo>
- <d56618e1-8940-65ae-381e-796e44bcf537@gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v1 5/5] arm64: tegra: Add Tegra VI CSI suppport in
+ device tree
+Message-ID: <20200129094624.GD2479935@ulmo>
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+ <1580235801-4129-6-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="yLVHuoLXiP9kZBkt"
+        protocol="application/pgp-signature"; boundary="SO98HVl1bnMOfKZd"
 Content-Disposition: inline
-In-Reply-To: <d56618e1-8940-65ae-381e-796e44bcf537@gmail.com>
+In-Reply-To: <1580235801-4129-6-git-send-email-skomatineni@nvidia.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -77,79 +69,126 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---yLVHuoLXiP9kZBkt
-Content-Type: text/plain; charset=utf-8
+--SO98HVl1bnMOfKZd
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 28, 2020 at 10:27:00PM +0300, Dmitry Osipenko wrote:
-> 27.01.2020 15:21, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Tue, Jan 21, 2020 at 11:12:11PM +0300, Dmitry Osipenko wrote:
-> >> 21.01.2020 18:54, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>> On Tue, Jan 21, 2020 at 05:18:43PM +0200, Georgi Djakov wrote:
-> >>>> On 1/21/20 16:10, Thierry Reding wrote:
-> > [...]
-> >>>>> I'm not sure if that TEGRA_ICC_EMEM makes a lot of sense. It's alwa=
-ys
-> >>>>> going to be the same and it's arbitrarily defined, so it's effectiv=
-ely
-> >>>>> useless. But other than that it looks good.
-> >>>>
-> >>>> Well, in most cases the target would be the EMEM, so that's fine. I =
-have seen
-> >>>> that other vendors that may have an additional internal memory, espe=
-cially
-> >>>> dedicated to some DSPs and in such cases the bandwidth needs are dif=
-ferent for
-> >>>> the two paths (to internal memory and DDR).
-> >>>
-> >>> Most chips have a small internal memory that can be used, though it
-> >>> seldomly is. However, in that case I would expect the target to be a
-> >>> completely different device, so it'd look more like this:
-> >>>
-> >>> 	interconnects =3D <&mc TEGRA186_MEMORY_CLIENT_BPMPR &iram>,
-> >>> 			...;
-> >>>
-> >>> I don't think EMEM has any "downstream" other than external memory.
-> >>
-> >> The node ID should be mandatory in terms of interconnect, even if it's=
- a
-> >> single node. EMC (provider) !=3D EMEM (endpoint).
-> >=20
-> > I don't understand why. An ID only makes sense if you've got multiple
-> > endpoints. For example, a regulator is a provider with a single endpoint
-> > so we don't specify an ID.
+On Tue, Jan 28, 2020 at 10:23:21AM -0800, Sowjanya Komatineni wrote:
+> Tegra210 contains VI controller for video input capture from MIPI
+> CSI camera sensors and also supports built-in test pattern generator.
 >=20
-> Because this is how ICC binding is defined, unless I'm missing something.
+> CSI ports can be one-to-one mapped to VI channels for capturing from
+> an external sensor or from built-in test pattern generator.
+>=20
+> This patch adds support for VI and CSI and enables them in Tegra210
+> device tree.
+>=20
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi |  8 +++++++
+>  arch/arm64/boot/dts/nvidia/tegra210.dtsi       | 31 ++++++++++++++++++++=
++++++-
+>  2 files changed, 38 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/=
+boot/dts/nvidia/tegra210-p2597.dtsi
+> index b0095072bc28..ec1b3033fa03 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+> +++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+> @@ -10,6 +10,14 @@
+>  			status =3D "okay";
+>  		};
+> =20
+> +		vi@54080000 {
+> +			status =3D "okay";
+> +		};
+> +
+> +		csi@0x54080838 {
+> +			status =3D "okay";
+> +		};
+> +
+>  		sor@54580000 {
+>  			status =3D "okay";
+> =20
+> diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/d=
+ts/nvidia/tegra210.dtsi
+> index 48c63256ba7f..c6107ec03ad1 100644
+> --- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+> +++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+> @@ -136,9 +136,38 @@
+> =20
+>  		vi@54080000 {
+>  			compatible =3D "nvidia,tegra210-vi";
+> -			reg =3D <0x0 0x54080000 0x0 0x00040000>;
+> +			reg =3D <0x0 0x54080000 0x0 0x808>;
+>  			interrupts =3D <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+>  			status =3D "disabled";
+> +			assigned-clocks =3D <&tegra_car TEGRA210_CLK_VI>;
+> +			assigned-clock-parents =3D <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
+> +
+> +			clocks =3D <&tegra_car TEGRA210_CLK_VI>;
+> +			clock-names =3D "vi";
+> +			resets =3D <&tegra_car 20>;
+> +			reset-names =3D "vi";
+> +		};
+> +
+> +		csi@0x54080838 {
+> +			compatible =3D "nvidia,tegra210-csi";
+> +			reg =3D <0x0 0x54080838 0x0 0x2000>;
+> +			status =3D "disabled";
+> +			assigned-clocks =3D <&tegra_car TEGRA210_CLK_CILAB>,
+> +					  <&tegra_car TEGRA210_CLK_CILCD>,
+> +					  <&tegra_car TEGRA210_CLK_CILE>;
+> +			assigned-clock-parents =3D <&tegra_car TEGRA210_CLK_PLL_P>,
+> +						 <&tegra_car TEGRA210_CLK_PLL_P>,
+> +						 <&tegra_car TEGRA210_CLK_PLL_P>;
+> +			assigned-clock-rates =3D <102000000>,
+> +					       <102000000>,
+> +					       <102000000>;
+> +
+> +			clocks =3D <&tegra_car TEGRA210_CLK_CSI>,
+> +				 <&tegra_car TEGRA210_CLK_CILAB>,
+> +				 <&tegra_car TEGRA210_CLK_CILCD>,
+> +				 <&tegra_car TEGRA210_CLK_CILE>;
+> +			clock-names =3D "csi", "cilab", "cilcd", "cile";
+> +
+>  		};
 
-I don't think so. It's defined as "pairs of phandles and interconnect
-provider specifiers", which is equivalent to what pretty much all of the
-resource bindings define. The #interconnect-cells property defines the
-number of cells used for the specifier. In the normal case this would be
-1, and the value of the one cell would be the ID of the endpoint. But if
-there's only a single endpoint, it's customary to set the number of
-cells to 0, in which case only the phandle is required.
+Can this be a child of the vi node? Looking at the register ranges it
+seems like these are actually a single IP block. If they have separate
+blocks with clearly separate functionality, then it makes sense to have
+CSI be a child node of VI, though it may also be okay to merge both and
+have a single node with the driver doing all of the differentiation
+between what's VI and what's CSI.
+
+Looking at later chips, the split between VI and CSI is more explicit,
+so having the split in DT for Tegra210 may make sense for consistency.
+
+I know we've discussed this before, but for some reason I keep coming
+back to this. I'll go through the other patches to see if I can get a
+clearer picture of how this could all work together.
 
 Thierry
 
---yLVHuoLXiP9kZBkt
+--SO98HVl1bnMOfKZd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4xUgIACgkQ3SOs138+
-s6HhvA//QjDP9iHRZnLDv+FLgl58pyhW4dkxH9ZiiH+bUzB4Wn2j6Oq9MTsKB5Pf
-FZcziCb5JgRqxzySzFR/MuJlad+riTX+wKkdTEUQIhgrBdfaVvP/ZVsdQtuo6RDm
-SyLuAFL14gJBncJ2bO8i4AJ269LXuowJvJK8TxZaTdD1KqnkIh/jwSoqJyPa+ibi
-XSDBtFYI+PtFeSsLhhvC5T3YTAHLFzV4sHO2WS5XvWjdvSWDEnxF/OV+bBLTZAWA
-htUKUPaHDDdkc8uX/WYhTqsae5L7f6kw2HrkGHJiRu1dwKMP/C8u5mO4g5ItvpGs
-dqEwG0DAuPbTJVsNKv4GE6T3QqCRHtWBSmz/NbUdj40v+jmNmcKp7vEwc4IL9cp+
-sTY1yywWFP4NrcZqIqR/bHinGTs0sdhM8Z/V0oKd01sf4tu0UORKEv1wLN7F8Y84
-l8D19oJ73bRKbodGuHa/zxFNHDGOWnUVTBCh+BCd+XtX/jPaoFAs6y838WIP2oAC
-RB4r8hyeQcIo1Up5B1rIhJxaIORR2/f6z+OqmzVsNsu6HO+ELQScW9vuOTgQqgbT
-iO8qEYfRzNWibSUeZ20sCb+Qp8Ei15va+RtYZ7X2+4lAjjS+wk8Rsemksm6L8/mY
-R6egPQm6XfsP4PTySBK1F6r/nLuMaj06p8yH9U7Vc/iq8aL3NoA=
-=xa9N
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4xVGwACgkQ3SOs138+
+s6Htyw/+JrPQnVn82x/J0IALFgng73ubFhAn1ygQEOqCVn2aaRoq4OaGnWpxZRj1
+SpQs7FBqzYAkbl8XlAUEc8evI0WmQgk6UYutPXVaqnMNMLAryL7hpgaCOsm/y058
+81yVFJ+Me1nOZgJmdqKtJfN41h2WPvwwZDdfWpZ8zJzzG+wiCP4OWd9szMup9nzA
+FwjDpR3Nyk32ALJxxKXmw3PtrUfE0VzlWR2/ByMolxjtZ6H66sjPHoyO6QgdmKQo
+IqRgtvpucSuUDU1Jvs1AYG47uPqsVuD/i7UqukPWHPEO1I4LdtPgS7wdLekBPNqZ
+NmQ13J/CpfaaPak47Inqe1yUy17Fs7jWBIimneQzzhD4wY8gn6i6CgRRgOEMqhZl
+4R/lxF32owCYHyeyCU0aBo56osX8xD3Gplt8MRLSDolDpbdsdajPJNBEQcdbyQu8
+rUS9rxvcuHWJX7sghguZy54P3aEHiUgHuSw4sFVfbgorZpz0xPX0ZUa6XpIpb0Mp
+Gg1SlMsIY16JQEXIikgzxwRTKaN2PDcblDscY6W9QOOzSE87g3Hr6V82murkl5PM
+2OjfExlpjSr6Tf50WB0jSm4xWlSerJlozODQo/7TPmCjhBFSB4IE92gtZhvEJuLP
+7R6g41M/X2rI6YtE8wxFc7dg4I92twzPnZzxEZhN87lIE6B83CA=
+=ccse
 -----END PGP SIGNATURE-----
 
---yLVHuoLXiP9kZBkt--
+--SO98HVl1bnMOfKZd--
