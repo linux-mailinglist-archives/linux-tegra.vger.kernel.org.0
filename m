@@ -2,92 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F29BB14CE5C
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 17:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 422A714CF79
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 18:19:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbgA2QZG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jan 2020 11:25:06 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17767 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726564AbgA2QZF (ORCPT
+        id S1727339AbgA2RTE (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 12:19:04 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39050 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727317AbgA2RTB (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jan 2020 11:25:05 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e31b1d20001>; Wed, 29 Jan 2020 08:24:50 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 29 Jan 2020 08:25:05 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 29 Jan 2020 08:25:05 -0800
-Received: from [10.2.164.115] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
- 2020 16:25:04 +0000
-Subject: Re: Re: [RFC PATCH v1 4/5] media: tegra: Add Tegra Video input driver
- for Tegra210
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     Helen Koike <helen.koike@collabora.com>, <jonathanh@nvidia.com>,
-        <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
- <1580235801-4129-5-git-send-email-skomatineni@nvidia.com>
- <3cdea635-a9ca-7b9c-3c99-8f489f4d669a@collabora.com>
- <162488d0-4e74-963a-3366-e4c1f7cf04ca@nvidia.com>
- <20200129100906.GE2479935@ulmo>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <8bf0ab06-a37e-4816-86e2-805b46787d5a@nvidia.com>
-Date:   Wed, 29 Jan 2020 08:25:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 29 Jan 2020 12:19:01 -0500
+Received: by mail-lj1-f196.google.com with SMTP id o11so176572ljc.6;
+        Wed, 29 Jan 2020 09:19:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gbJtuHtMtIG58qn8sgjSg+QMYd2kq8kiaTQag0/0PO0=;
+        b=A8D3q1L1PpHreiid6/UiAVlNngte4w2Qqx/DHTz7AUkVo0S7gnwbwozEjSmASiFPeR
+         lynXnsDEAT76TZvuhbyyHHUxMCDtf15SQjVEorIYpnvRpACUel5+WT6APpwQ59xLyLZ7
+         SsG5nYT3Q2d3Xq81DjkvR/bngQcq7+a/asgPTTnP2Tp5kVW01NjxDWnSBMXQLqWLzEtd
+         mfiDAgzsKSxG08sGtan1wBKgtCvZUxp11MIq2B6wStYeGZ4ZWCiiPYIiYIJOBknXr2oD
+         ZzNSk7+Zy7GWbzz2SeacZjzFms0qM/BHzYzhpCvXGUbKbKzB5NA/YfYgw5nOqsP+LRED
+         aFAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gbJtuHtMtIG58qn8sgjSg+QMYd2kq8kiaTQag0/0PO0=;
+        b=QZo+7pPjfQ8Gn/rvk0UWqGOnQSExxdX1D6a/wjMUMuyPZjGggkU6pf9qC6tnU8kHzH
+         88u7uq7v7vcDd5Cz7Ig1ovMbN00XTGobRJMQ0QTh1MDsIq/Gw4zjex77eRYRNsKqrO94
+         n9l6Duk1EA3dq03wsGE7v+P9J847Bw0zJGCbk12nzNB/hYE5D6YlPGQ1WVW2sxmJ1SaG
+         Xx42EcUoW95cGtO6mW+zcUdHCteel4CeiPAkejgUyV3OclIa+eyREnlZWlmBYB1VD7xG
+         523bNS1ZlWAI+1GvmJBJb49Vi4b4joJ/2/qBrtN39L0nJVIMHVOUleXMVglhH97ER+hb
+         HZmQ==
+X-Gm-Message-State: APjAAAXEO+a1UOTcEi8il839svpEkv74tkUZqEGkj34HUcDASSSxJLCC
+        MFIeFihjMS3dQ6vKCenBlIg=
+X-Google-Smtp-Source: APXvYqxMRqU/Zwg1r0oEOGWXRoLfv6lMbLv4fpRQ/Xo880/4WQEsbhwhBxq8NjNmBpDBa9zt0P+FbQ==
+X-Received: by 2002:a2e:9b03:: with SMTP id u3mr93715lji.87.1580318339534;
+        Wed, 29 Jan 2020 09:18:59 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id e8sm1577443ljb.45.2020.01.29.09.18.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jan 2020 09:18:58 -0800 (PST)
+Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
+ move_page_tables()
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Wei Yang <richardw.yang@linux.intel.com>, dan.j.williams@intel.com,
+        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
+        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Russell King - ARM Linux <linux@armlinux.org.uk>
+References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
+ <20200117232254.2792-4-richardw.yang@linux.intel.com>
+ <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
+ <20200126185951.c9246349befcccce210a4ab8@linux-foundation.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b5eb4766-38ba-0153-2844-cc303fe0dc07@gmail.com>
+Date:   Wed, 29 Jan 2020 20:18:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200129100906.GE2479935@ulmo>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200126185951.c9246349befcccce210a4ab8@linux-foundation.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580315090; bh=6I/ImPF+IqDUZJDIu1hFpXvjuHGZpz3pV5FXxWX2E/w=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=ekFvSkubLBuF+i4LUc1Nl3qYT/n5NnQFbyBNrrDVVqMJ25q5z+NZPU7FctyuwSii0
-         wcADGpjGgmP/extSwxt3O/PDeO1WmsuAF7p5CxUwK6sxAsgLuafOLULq9e6TkCmoJX
-         AjwysvWDMYdtSJjulG6f86Ap7WOEqAf+BWbFQ8UlxgfZyd8/SwJ5wWtJfdHKPYnRyV
-         teffbOfUIU02M8YW1ndE7/a72cVYUhQFGkOOBvqRcKIDgAQxPk569XNZFtpNIW0LJE
-         G7zsSHs3DXjjzubEv4FfHzyOZV8Hz7eMeebsZ5pZtoVC4ZTG0flUd7bpZ6xlN5BsNl
-         yC8JmG4Sd1PoA==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+27.01.2020 05:59, Andrew Morton пишет:
+> On Sun, 26 Jan 2020 17:47:57 +0300 Dmitry Osipenko <digetx@gmail.com> wrote:
+...
+>> Hello Wei,
+>>
+>> Starting with next-20200122, I'm seeing the following in KMSG on NVIDIA
+>> Tegra (ARM32):
+>>
+>>   BUG: Bad rss-counter state mm:(ptrval) type:MM_ANONPAGES val:190
+>>
+>> and eventually kernel hangs.
+>>
+>> Git's bisection points to this patch and reverting it helps. Please fix,
+>> thanks in advance.
+> 
+> Thanks.  I had these tagged for 5.7-rc1 anyway, so I'll drop all five
+> patches.
+> 
 
-On 1/29/20 2:09 AM, Thierry Reding wrote:
-> On Tue, Jan 28, 2020 at 02:13:17PM -0800, Sowjanya Komatineni wrote:
->> On 1/28/20 1:45 PM, Helen Koike wrote:
-> [...]
->>> On 1/28/20 4:23 PM, Sowjanya Komatineni wrote:
-> [...]
->>>> +const struct tegra_csi_fops csi2_fops = {
->>>> +     .hw_init = csi2_hw_init,
->>>> +     .csi_start_streaming = csi2_start_streaming,
->>>> +     .csi_err_status = csi2_error_status,
->>>> +};
->>> If I saw correctly, you don't have other instances of struct tegra_csi_fops with different functions.
->>> So why not exposing the functions directly instead of creating a global variable?
->> Currently driver supports Tegra210 only. Later we will add for Tegra186 and
->> Tegra184 support too where we will have separate csi fops.
-> Perhaps this structure should be prefixed with a tegra210_ to make that
-> more obvious?
-Will fix prefix in v2
->>>> +EXPORT_SYMBOL(csi2_fops);
-> Also, why do we need to export these? These will be built as linked into
-> the Tegra VI driver, which is the only one that uses these, right? Would
-> it not be enough to just make it global? Why the need to export?
->
-> Thierry
-Will fix in v2
+Hello Andrew,
+
+FYI, I'm still seeing the offending patches in the today's next-20200129.
