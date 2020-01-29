@@ -2,78 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF39014D0BD
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 19:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5246014D0EB
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 20:04:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726245AbgA2S4j (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jan 2020 13:56:39 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53635 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbgA2S4j (ORCPT
+        id S1727509AbgA2TEF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 14:04:05 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39775 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727146AbgA2TEF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jan 2020 13:56:39 -0500
-Received: by mail-wm1-f68.google.com with SMTP id s10so963007wmh.3;
-        Wed, 29 Jan 2020 10:56:37 -0800 (PST)
+        Wed, 29 Jan 2020 14:04:05 -0500
+Received: by mail-wr1-f66.google.com with SMTP id y11so763149wrt.6;
+        Wed, 29 Jan 2020 11:04:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AF+mno6mYz9qIP41mXsPhY+8d+0nQqfFtsqICTMMkM4=;
-        b=kzyCjLdcFiEAO63kT2kKmXjCLjnPtogY6x/OrY53eV/0C+tFhthvjCYTK7zD58Ilxd
-         T3hxARgD4DlHcPfJ4tso69kH2AFhmOWEeLA2OczFXNTR3nqvvnfLEfmOdRkpZ7LRkfDY
-         ALjAi6pD5YYDKI5clCSCUhnjwnv0wQvBNDJ2SfbcTwERWeGqV7UFw4AFTJes0N06YD/L
-         go50g4z5Dnnxbaev5jE89hY4YejixzDmhYF2NnWumiSp4mPte7GUzxvB/BT15Z7zP0lz
-         LcInPmmyy0d8yIujQONdTyvr2tVMhKY3F2Ms/bg9PH1h5ooLydKCN7zb4G9c1CtiBduR
-         IzTQ==
+        bh=pC0C76/9mV+NSA1IB3Fzi6RwKXSA9zm82uxlw8G+lLQ=;
+        b=fPdNw+UfMoeCpNCzvk4CFkQaaV/6it1c037+DWLeqKBrn/H00XJjignKFnBp4qaXN2
+         XYKOsc0C+SkzgTkyEz7R5XKdgxIv1S8tVGPCuVRIEFqHOk6HX9bNtOmUfA2ORchaz36+
+         KZjfwXpbm3RyYZtspx1+5WV+/aD7n9C2pezzYyZ1crU8U9SR8F0CRo962CWH+4C+gKtt
+         nIYF83JX/t/twNQJA7QQlhjOK8hknRIFhE6pQVV6i56fBLqbzYat1VGIdy7FFnRWclpv
+         bwfBJ8nUeRIzza56fcfZIisZ3DFOFd3pOFUi/1q7Zr/DDVLGmEW6AU9MrWLdUXK1k62D
+         CDFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=AF+mno6mYz9qIP41mXsPhY+8d+0nQqfFtsqICTMMkM4=;
-        b=MvrOqvSoUZkzmGy3CPwDLOicAhdg+Hi2+ZDmB7Jw9gOrgUONlrTg2f+WQam3bU3zv6
-         zZOQSpLXmtWQYGnfAUXo705uIInyHEoA2CUWtpW0TNH0UOIBzQLCFd7VFMTXb/HdGPuv
-         mOjBQclGYkZAhHsMSpPV9tc+9nEvX3E5YczvWVe28zG6Uj73AIYfWkgmDgFeLiHHQoct
-         Zr7fjiM8a5JmyXZ+pfUZSrMW/jaqA7IQyz6/Hwpm0gkqcDdz9bodzVP/BuTjqAen3fDk
-         uuPwi5RVl42MPwSkcj9PXfrSY/ZunHfvlCuLpzkvG/7uy89YDHuvzCXwkXO3Kp8bWN/n
-         AW7g==
-X-Gm-Message-State: APjAAAWmwuVLn8K8ihUxIptucUcK98TKaNfuPrfegP59F8CW5zbKiSYY
-        4rmRRvvauPJJd4g84CI1C7Q=
-X-Google-Smtp-Source: APXvYqxz9qbzM1VD9pn+/zENw9XmqmzRFTxdo+ky/Lu0dCkVrisPEjk3Q/f4/PPfhnZaLZzILAZKGw==
-X-Received: by 2002:a1c:65d6:: with SMTP id z205mr657945wmb.38.1580324197331;
-        Wed, 29 Jan 2020 10:56:37 -0800 (PST)
+        bh=pC0C76/9mV+NSA1IB3Fzi6RwKXSA9zm82uxlw8G+lLQ=;
+        b=MtkrxLn2ndSd6eNdgN/WM5VnZ1MJMlqU4aYqtF8A+u2T0hnNrx7ouY4YdelDRwVJEG
+         4FC1yDd3PVpoBCQNaA/i5FPNnC4IL1ij+fluFKiIkwR6oD4gzIzESED6j4SLjTMApCPP
+         e1cAsJR91q3NlqYs22MkLpq4Z/Q8wvMIf+zh/NR8dRiSqE5zJfDoTnnESOuMC+TqxpSK
+         P7sgxEwxr4keqVE0chSehQbpCJt9aCBaY3mz3vB1Ev7P7kNFK4zriscOiDeyV/WJ9ZoH
+         gkuUw8lfzFkayH96yG/IeLZCXXMPEcwgp5Jg/6dCleDxbhsFtzrSHkWMI8kqHefpMEMq
+         NQWQ==
+X-Gm-Message-State: APjAAAUIXVcbSmR5xoKfCnxIvbyoPNRHWPvPL9RLlC/RGMNa6kIHPKw1
+        K+y61qRd8HoHHS+nsythjU4=
+X-Google-Smtp-Source: APXvYqwd8FNF+iWDTfZMah7Wdv/R2tWBq2MBMAUfDbx9IIqnimpMXTzC594qlJ63P2HwO2/bH8Ou2A==
+X-Received: by 2002:a5d:4752:: with SMTP id o18mr278260wrs.330.1580324643222;
+        Wed, 29 Jan 2020 11:04:03 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id a6sm3996048wrm.69.2020.01.29.10.56.35
+        by smtp.googlemail.com with ESMTPSA id z10sm3138545wmk.31.2020.01.29.11.04.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jan 2020 10:56:36 -0800 (PST)
-Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
- move_page_tables()
-To:     Wei Yang <richardw.yang@linux.intel.com>
-Cc:     Russell King - ARM Linux <linux@armlinux.org.uk>,
-        akpm@linux-foundation.org, dan.j.williams@intel.com,
-        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
-        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
- <20200117232254.2792-4-richardw.yang@linux.intel.com>
- <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
- <20200128004301.GD20624@richard>
- <d66bb20e-c0e7-caef-cbbc-aa216c2be7d6@gmail.com>
- <20200128232907.GA11467@richard>
- <27b70b0c-7945-cc85-8321-d9e4b6f17865@gmail.com>
- <20200129002838.GA12835@richard>
+        Wed, 29 Jan 2020 11:04:02 -0800 (PST)
+Subject: Re: [PATCH V3] serial: 8250_tegra: Create Tegra specific 8250 driver
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, Jeff Brasen <jbrasen@nvidia.com>
+References: <20200129132817.26343-1-jonathanh@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d53d1bde-f677-cfa4-3315-24788171c917@gmail.com>
-Date:   Wed, 29 Jan 2020 21:56:27 +0300
+Message-ID: <45ac5b66-e09a-e328-6ebf-3fbbe97b7873@gmail.com>
+Date:   Wed, 29 Jan 2020 22:04:01 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200129002838.GA12835@richard>
+In-Reply-To: <20200129132817.26343-1-jonathanh@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -82,15 +69,11 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-29.01.2020 03:28, Wei Yang пишет:
+29.01.2020 16:28, Jon Hunter пишет:
 ...
->>> I would prepare another patch set to fix this. Would you mind helping me
->>> verify on your platform?
->>
->> Sure, please feel free to CC me on that patch.
-> 
-> Thanks, you are in the cc list of v2.
-> 
-> Hope this one works fine on ARM.
+> +#ifdef CONFIG_PM_SLEEP
+> +static int tegra_uart_suspend(struct device *dev)
+> +{
 
-Okay, I'll reply to the v2 after some more extensive testing (tomorrow).
+Nit: the ifdef'ing in the code could be avoided by using the
+__maybe_unused attribute.
