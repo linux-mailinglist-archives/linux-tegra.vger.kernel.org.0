@@ -2,168 +2,85 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A341714D390
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 00:25:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11E7914D434
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 00:59:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726648AbgA2XZW (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jan 2020 18:25:22 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:47148 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726401AbgA2XZW (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jan 2020 18:25:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=5899mwuqENX6lCLwrkX+/AuwqmIviaBAWbid34IwXc0=; b=YEzfqnDmurAxrqvqRBTgtAWzg
-        QCmCH4wzo4/pPD/622md4gyEDABLCj7X54aFEM48vK38dMRUDs+z5jQoLxjm9B6zQS58r08Qzp7Vm
-        6iKuwW6/YgUSR4HTgXyVThTpM1T2ejQkZrMy+rPyfnnTZjKXZ+k1MOcTIsJOAVlPJqLhUjECvETa5
-        qDHuK/m5ajntlS5NciokDKpgb8uSGLjLgMcXWeG4wb6o7WlPdlGTVWAx6tl/m1s4SeqLNctc+iFI9
-        Pm4PyR01pSE7b6LfsYF1Yk66efPPJE4KDuvO2oXEtZNjG2UueszhGXK99Sw4Cf1FWER+9JEi7zg5z
-        13sf+HWWw==;
-Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:40926)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1iwwha-0007v7-O8; Wed, 29 Jan 2020 23:24:57 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1iwwhN-0003n9-7a; Wed, 29 Jan 2020 23:24:41 +0000
-Date:   Wed, 29 Jan 2020 23:24:41 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Wei Yang <richardw.yang@linux.intel.com>
-Cc:     Dmitry Osipenko <digetx@gmail.com>, akpm@linux-foundation.org,
-        dan.j.williams@intel.com, aneesh.kumar@linux.ibm.com,
-        kirill@shutemov.name, yang.shi@linux.alibaba.com,
-        thellstrom@vmware.com, Thierry Reding <thierry.reding@gmail.com>,
+        id S1726618AbgA2X7K (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 18:59:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726617AbgA2X7K (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 29 Jan 2020 18:59:10 -0500
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 60269205ED;
+        Wed, 29 Jan 2020 23:59:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580342348;
+        bh=yxkaudjRnjvvfdKWPnNCLoYBv3LloMsyXzwr45ZzU78=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cLuVWANomNH0rT6PVVW/FB09C+GLkJj5uCGw3ovSGcUEOHRFFVDPAPxxYR0gh0Nv+
+         rNcyGRrkz2MGQ9q+Z7eXg5x1wJHt/u0eFEWGdiV25ZvsrWayVp2v21BRkWLQiy3930
+         etAwh0LVr43xhSG865jgg0JD+Vm2JPvztCMi0lZU=
+Date:   Wed, 29 Jan 2020 15:59:07 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Wei Yang <richardw.yang@linux.intel.com>, dan.j.williams@intel.com,
+        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
+        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jon Hunter <jonathanh@nvidia.com>,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
         "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
+        <linux-arm-kernel@lists.infradead.org>,
+        Russell King - ARM Linux <linux@armlinux.org.uk>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
 Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
  move_page_tables()
-Message-ID: <20200129232441.GI25745@shell.armlinux.org.uk>
+Message-Id: <20200129155907.75868e8a36c5fffc3ec354b9@linux-foundation.org>
+In-Reply-To: <b5eb4766-38ba-0153-2844-cc303fe0dc07@gmail.com>
 References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
- <20200117232254.2792-4-richardw.yang@linux.intel.com>
- <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
- <20200129094738.GE25745@shell.armlinux.org.uk>
- <20200129215745.GA20736@richard>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        <20200117232254.2792-4-richardw.yang@linux.intel.com>
+        <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
+        <20200126185951.c9246349befcccce210a4ab8@linux-foundation.org>
+        <b5eb4766-38ba-0153-2844-cc303fe0dc07@gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200129215745.GA20736@richard>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Jan 30, 2020 at 05:57:45AM +0800, Wei Yang wrote:
-> On Wed, Jan 29, 2020 at 09:47:38AM +0000, Russell King - ARM Linux admin wrote:
-> >On Sun, Jan 26, 2020 at 05:47:57PM +0300, Dmitry Osipenko wrote:
-> >> 18.01.2020 02:22, Wei Yang пишет:
-> >> > Use the general helper instead of do it by hand.
-> >> > 
-> >> > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> >> > ---
-> >> >  mm/mremap.c | 7 ++-----
-> >> >  1 file changed, 2 insertions(+), 5 deletions(-)
-> >> > 
-> >> > diff --git a/mm/mremap.c b/mm/mremap.c
-> >> > index c2af8ba4ba43..a258914f3ee1 100644
-> >> > --- a/mm/mremap.c
-> >> > +++ b/mm/mremap.c
-> >> > @@ -253,11 +253,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
-> >> >  
-> >> >  	for (; old_addr < old_end; old_addr += extent, new_addr += extent) {
-> >> >  		cond_resched();
-> >> > -		next = (old_addr + PMD_SIZE) & PMD_MASK;
-> >> > -		/* even if next overflowed, extent below will be ok */
-> >> > +		next = pmd_addr_end(old_addr, old_end);
-> >> >  		extent = next - old_addr;
-> >> > -		if (extent > old_end - old_addr)
-> >> > -			extent = old_end - old_addr;
-> >> >  		old_pmd = get_old_pmd(vma->vm_mm, old_addr);
-> >> >  		if (!old_pmd)
-> >> >  			continue;
-> >> > @@ -301,7 +298,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
-> >> >  
-> >> >  		if (pte_alloc(new_vma->vm_mm, new_pmd))
-> >> >  			break;
-> >> > -		next = (new_addr + PMD_SIZE) & PMD_MASK;
-> >> > +		next = pmd_addr_end(new_addr, new_addr + len);
-> >> >  		if (extent > next - new_addr)
-> >> >  			extent = next - new_addr;
-> >> >  		move_ptes(vma, old_pmd, old_addr, old_addr + extent, new_vma,
-> >> > 
-> >> 
+On Wed, 29 Jan 2020 20:18:56 +0300 Dmitry Osipenko <digetx@gmail.com> wrote:
+
+> 27.01.2020 05:59, Andrew Morton пишет:
+> > On Sun, 26 Jan 2020 17:47:57 +0300 Dmitry Osipenko <digetx@gmail.com> wrote:
+> ...
 > >> Hello Wei,
-> >> 
+> >>
 > >> Starting with next-20200122, I'm seeing the following in KMSG on NVIDIA
 > >> Tegra (ARM32):
-> >> 
+> >>
 > >>   BUG: Bad rss-counter state mm:(ptrval) type:MM_ANONPAGES val:190
-> >> 
+> >>
 > >> and eventually kernel hangs.
-> >> 
+> >>
 > >> Git's bisection points to this patch and reverting it helps. Please fix,
 > >> thanks in advance.
-> >
-> >The above is definitely wrong - pXX_addr_end() are designed to be used
-> >with an address index within the pXX table table and the address index
-> >of either the last entry in the same pXX table or the beginning of the
-> >_next_ pXX table.  Arbitary end address indicies are not allowed.
-> >
+> > 
+> > Thanks.  I had these tagged for 5.7-rc1 anyway, so I'll drop all five
+> > patches.
+> > 
 > 
-> #define pmd_addr_end(addr, end)						\
-> ({	unsigned long __boundary = ((addr) + PMD_SIZE) & PMD_MASK;	\
-> 	(__boundary - 1 < (end) - 1)? __boundary: (end);		\
-> })
+> Hello Andrew,
 > 
-> If my understanding is correct, the definition here align the addr to next PMD
-> boundary or end.
-> 
-> I don't see the possibility to across another PMD. Do I miss something?
+> FYI, I'm still seeing the offending patches in the today's next-20200129.
 
-Look at the definition of p*_addr_end() that are used when page tables
-are rolled up.
+hm, me too.  Stephen, it's unexpected that 9ff4452912d63f ("mm/mremap:
+use pmd_addr_end to calculate next in move_page_tables()") is still in
+the -next lineup?  It was dropped from -mm on Jan 26?
 
-> >When page tables are "rolled up" when levels don't exist, it is common
-> >practice for these macros to just return their end address index.
-> >Hence, if they are used with arbitary end address indicies, then the
-> >iteration will fail.
-> >
-> >The only way to do this is:
-> >
-> >	next = pmd_addr_end(old_addr,
-> >			pud_addr_end(old_addr,
-> >				p4d_addr_end(old_addr,
-> >					pgd_addr_end(old_addr, old_end))));
-> >
-> >which gives pmd_addr_end() (and each of the intermediate pXX_addr_end())
-> >the correct end argument.  However, that's a more complex and verbose,
-> >and likely less efficient than the current code.
-> >
-> >I'd suggest that there's nothing to "fix" in the v5.5 code wrt this,
-> >and trying to "clean it up" will just result in less efficient or
-> >broken code.
-> >
-> >-- 
-> >RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-> >FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-> >According to speedtest.net: 11.9Mbps down 500kbps up
-> 
-> -- 
-> Wei Yang
-> Help you, Help me
-> 
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
