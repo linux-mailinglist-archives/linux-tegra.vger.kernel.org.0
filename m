@@ -2,54 +2,44 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EBC314C8F5
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 11:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D2914C91C
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 11:56:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgA2Ktm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jan 2020 05:49:42 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16401 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726466AbgA2Ktm (ORCPT
+        id S1726260AbgA2K4U (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 05:56:20 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3592 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726069AbgA2K4U (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jan 2020 05:49:42 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e3163370000>; Wed, 29 Jan 2020 02:49:27 -0800
+        Wed, 29 Jan 2020 05:56:20 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3164a00000>; Wed, 29 Jan 2020 02:55:28 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 29 Jan 2020 02:49:41 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 29 Jan 2020 02:56:18 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 29 Jan 2020 02:49:41 -0800
+        by hqpgpgate101.nvidia.com on Wed, 29 Jan 2020 02:56:18 -0800
 Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
- 2020 10:49:39 +0000
-Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
- 24bit and 32bit samples
-To:     Mark Brown <broonie@kernel.org>, Dmitry Osipenko <digetx@gmail.com>
-CC:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        <linux-kernel@lists.codethink.co.uk>,
-        <alsa-devel@alsa-project.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
+ 2020 10:56:16 +0000
+Subject: Re: [PATCH v5 01/14] dmaengine: tegra-apb: Fix use-after-free
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Edward Cragg <edward.cragg@codethink.co.uk>,
-        <linux-tegra@vger.kernel.org>
-References: <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
- <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
- <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
- <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
- <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
- <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
- <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
- <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
- <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
- <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
- <20200128121315.GD4689@sirena.org.uk>
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200123230325.3037-1-digetx@gmail.com>
+ <20200123230325.3037-2-digetx@gmail.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <4b90efd2-5d0c-84df-961d-80cee288e0d4@nvidia.com>
-Date:   Wed, 29 Jan 2020 10:49:37 +0000
+Message-ID: <858021de-62fd-2d21-7152-42af4e3a04b2@nvidia.com>
+Date:   Wed, 29 Jan 2020 10:56:15 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200128121315.GD4689@sirena.org.uk>
+In-Reply-To: <20200123230325.3037-2-digetx@gmail.com>
 X-Originating-IP: [172.20.13.39]
 X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
@@ -57,41 +47,80 @@ Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580294967; bh=8oeXNa7PQw59Mhh8dYLmZBqtB+uRob3RjBpDu8t6TmE=;
+        t=1580295328; bh=Fje555DfDUE6kGnSNsqCRpVoc3wD3ZspNfNjXOQTA0o=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=SyMYxB+n/w0CCa0NBzF6RBJsankibifU7BZr5i5kXPqdIP6L7RxHjMexAwZQuR8gO
-         7vhJlCWz6qqDqJvnZxfThUOFxEbVysb4ZVLezWOHmn8cdole4ggIljrLrELM/y2EZ9
-         VGjNWdhUEpaHEZLfhNPjL2oqHYO64PF7/eAKkhpxF8gPEYaKyPcKNLOz5dj7RCixsN
-         e0kCcvcEvLZXwp/4qfe5b1/p5Vhp3v0+N8G9t0adSdI3VAzPsRPaxi40Rp13sUipwu
-         B+WTZN8SdwxuIHpUC9t33r9pj/J0S4uk+ySFBXA5suhDN3CUWJ2ZWeSVm/iTrjqvhU
-         owhgSrLDMd+IQ==
+        b=jwWWXwsLS3RIOIH3Updt2zyJEIjVb4v51V8oCPlpr/+Dcyc13CfyZIm99/xTSJNK/
+         pgKyRgJIx4S+QswHhyMhvP6oPIZqSo90hPdGb/0qnpPYbZK4A3wC06sJyqhLLZLYgu
+         LTcJW0KdCO+oSMV11EgmTFZAn1w4B3HfQt1f92tzcCauaXIIjPsicqMoHAlgT7f8sq
+         09SUShHGsSKPNNuTFCCM9ObcTWZNbPmxnKBdVcN77CSnBJSCAV2pv4k2QZ2cT7pXHr
+         TUSUZ6AJx5vAmNYMD3D+jG666sRgpIxTYRabIlHZwdX07hpDfYDkeFEIT1VrtNcrNW
+         LOaP9fBXVRaZQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 28/01/2020 12:13, Mark Brown wrote:
-> I really don't understand why this is all taking so long, this thread
-> just seems to be going round in interminable circles long after it
-> looked like the issue was understood.  I have to admit I've not read
-> every single message in the thread but it's difficult to see why it
-> doesn't seem to be making any progress.
+On 23/01/2020 23:03, Dmitry Osipenko wrote:
+> I was doing some experiments with I2C and noticed that Tegra APB DMA
+> driver crashes sometime after I2C DMA transfer termination. The crash
+> happens because tegra_dma_terminate_all() bails out immediately if pending
+> list is empty, thus it doesn't release the half-completed descriptors
+> which are getting re-used before ISR tasklet kicks-in.
+> 
+>  tegra-i2c 7000c400.i2c: DMA transfer timeout
+>  elants_i2c 0-0010: elants_i2c_irq: failed to read data: -110
+>  ------------[ cut here ]------------
+>  WARNING: CPU: 0 PID: 142 at lib/list_debug.c:45 __list_del_entry_valid+0x45/0xac
+>  list_del corruption, ddbaac44->next is LIST_POISON1 (00000100)
+>  Modules linked in:
+>  CPU: 0 PID: 142 Comm: kworker/0:2 Not tainted 5.5.0-rc2-next-20191220-00175-gc3605715758d-dirty #538
+>  Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
+>  Workqueue: events_freezable_power_ thermal_zone_device_check
+>  [<c010e5c5>] (unwind_backtrace) from [<c010a1c5>] (show_stack+0x11/0x14)
+>  [<c010a1c5>] (show_stack) from [<c0973925>] (dump_stack+0x85/0x94)
+>  [<c0973925>] (dump_stack) from [<c011f529>] (__warn+0xc1/0xc4)
+>  [<c011f529>] (__warn) from [<c011f7e9>] (warn_slowpath_fmt+0x61/0x78)
+>  [<c011f7e9>] (warn_slowpath_fmt) from [<c042497d>] (__list_del_entry_valid+0x45/0xac)
+>  [<c042497d>] (__list_del_entry_valid) from [<c047a87f>] (tegra_dma_tasklet+0x5b/0x154)
+>  [<c047a87f>] (tegra_dma_tasklet) from [<c0124799>] (tasklet_action_common.constprop.0+0x41/0x7c)
+>  [<c0124799>] (tasklet_action_common.constprop.0) from [<c01022ab>] (__do_softirq+0xd3/0x2a8)
+>  [<c01022ab>] (__do_softirq) from [<c0124683>] (irq_exit+0x7b/0x98)
+>  [<c0124683>] (irq_exit) from [<c0168c19>] (__handle_domain_irq+0x45/0x80)
+>  [<c0168c19>] (__handle_domain_irq) from [<c043e429>] (gic_handle_irq+0x45/0x7c)
+>  [<c043e429>] (gic_handle_irq) from [<c0101aa5>] (__irq_svc+0x65/0x94)
+>  Exception stack(0xde2ebb90 to 0xde2ebbd8)
+> 
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/dma/tegra20-apb-dma.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+> index 3a45079d11ec..319f31d27014 100644
+> --- a/drivers/dma/tegra20-apb-dma.c
+> +++ b/drivers/dma/tegra20-apb-dma.c
+> @@ -756,10 +756,6 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
+>  	bool was_busy;
+>  
+>  	spin_lock_irqsave(&tdc->lock, flags);
+> -	if (list_empty(&tdc->pending_sg_req)) {
+> -		spin_unlock_irqrestore(&tdc->lock, flags);
+> -		return 0;
+> -	}
+>  
+>  	if (!tdc->busy)
+>  		goto skip_dma_stop;
 
-Sorry about that. On reviewing this with the audio team at NVIDIA, I was
-told we don't support S24_LE for I2S. The reason being that the crossbar
-between the DMA and I2S is not able to extract the correct 24-bits from
-the 32-bit sample to feed to the I2S interface. The Tegra documentation
-does show support for 24-bits, but not state explicit support for S24_LE.
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
 
-Now Ben says that he has this working, but I am unable to reproduce
-this, so before just dropping the S24_LE support, I would like to
-understand how this is working for Ben in case there is something that
-we have overlooked here.
+I think that we should mark this one for stable.
 
+Cheers
 Jon
 
 -- 
