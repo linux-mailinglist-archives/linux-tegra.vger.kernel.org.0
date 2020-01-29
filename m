@@ -2,76 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 255F714C393
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 00:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06DA414C3D7
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 01:12:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbgA1Xfa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 18:35:30 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:39739 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgA1Xfa (ORCPT
+        id S1726338AbgA2AMR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 28 Jan 2020 19:12:17 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33153 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726307AbgA2AMR (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 18:35:30 -0500
-Received: by mail-ed1-f65.google.com with SMTP id m13so16626624edb.6;
-        Tue, 28 Jan 2020 15:35:29 -0800 (PST)
+        Tue, 28 Jan 2020 19:12:17 -0500
+Received: by mail-lf1-f68.google.com with SMTP id n25so10535090lfl.0;
+        Tue, 28 Jan 2020 16:12:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WJl749Ktrk8S85EaE4Qv0/+OYozg0DKw8o/BXFCqayo=;
-        b=oyvyrcS78HjtjQmDKpaDThrcuGlf0fqwFsD6HxqoHKnJnXNrd5nZxKTAdl0TWE4C83
-         lLrT/yI77BFyeOtgdQFsd48Lz3EXps+S/go9uw4hxW23rN5GIgMS3PrbJcQenAgf3QM9
-         YRe1kVeFummLhrJ4QvWeNmER02/HW8u8dpDKhMdUVXPz6GKMfrbF/cvFihtgdhmaWAgL
-         Uh6QgLriwPVdVFzKSmdrZenu2wuUlaWnbh95FBAkRIzNJw9Rtan1/YS/hZKhaY58yN/S
-         u2vTMhK5OiVetJkcQk+b6W9hXcIxwbB0j/CcUX2NpKG0SngxBMe/JM5NNOy9d8qw88h6
-         16qQ==
+        bh=psUfs///qMSHOm9aXYzwh4HiVAe1F3rkwgDr4o7mUaM=;
+        b=MpQM8JJPlZK9lxvh5fdSl6yBznDQhw/9xmqh0Qgrnt1s/XNmA6lSIQv+JETtiCD4vt
+         KwFe7nnHog+AK2UvaAUcUvo5a5UWAyfPovSivogOPeWUzuJ/DoHqUYVQXIec1Eq5WO+H
+         FDAHujlXk0S2hxrKBB3LASKNu14aiPXdowSBplN+sKlBtA2oALw6l4+t5mPZ8BILYKHh
+         oQNu7GUpzraOOK6L0uFFG/I+wvZzY+ez/gcuxP1KomhGIPZEjCcmIcgeQcKbKOpdHi3D
+         FvgjEmvAHz0phCVWSjBNn5fH/MwrKHI7ujg1Mtv0i5HBPchbRFnikII7L5N5rACkjHYX
+         xGMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=WJl749Ktrk8S85EaE4Qv0/+OYozg0DKw8o/BXFCqayo=;
-        b=E3AyEnE1CasO5SpNL3yRRK3uztJza/SPfn8iKpB3E3/PIv+voFeibJfh7AC5nstOUM
-         +hr/yH/t4khj0PcSRWllqjrYaMLoRAK9ekK1Bv6zTA68j5dqekuH5nvyRwmuimZsuZzc
-         sMVqRO8tr+ohw7p9GZGufdmkFtjgoaKvteGjQxUl0Ke+RQkYBc2GkvZrPAxF2rTwgcYQ
-         AfAp4pvOSldONPZUFiHtss7VnhEUtXDbSrC3KcT9S4Aj3bHJkW0Pky98JpesJZQKMtFc
-         /jzPL686k9V6FIiQFkRnjw9W8doDs/56Y464InOaSZUqTXhpm063VEbLEx08Fue2jiph
-         79Cw==
-X-Gm-Message-State: APjAAAVXuuq/fs/NasgFaY6MfWAWeGj74mUzltz9XGM44Gyrnmuyvoaa
-        rNtXc8eUd2nFlUlwIeyuuMg=
-X-Google-Smtp-Source: APXvYqyzJ/A9McA/lzlD3WUmlibA7APyGQQRW4NKrVlKhvSpYUSsflSjZ2Ao/0KluhOT9LfQBbRazg==
-X-Received: by 2002:a50:d849:: with SMTP id v9mr5816511edj.105.1580254528357;
-        Tue, 28 Jan 2020 15:35:28 -0800 (PST)
+        bh=psUfs///qMSHOm9aXYzwh4HiVAe1F3rkwgDr4o7mUaM=;
+        b=r+W6auvRm7JWT4whMCDEsSqRuaViYhNqGQqtc0WNR8SIl0JJ2m/pY/tXXu/A/ONNLS
+         Kv8LG0wc++/cnuHixDlARvm9x7vVU3MgmPZWbh9ECuoS+f2NtecxNO9E+q33c6IvxtKg
+         DnDy02jnKoRjogN2uRYSBo7JXi+dVwN7bX6/0aZWWOXrGdxqDCsruWXMI6mvJQDdzgqP
+         guR6zbuXKTyVQtv3ubkP9KP/HAqQVPuSpCK75M+MN4ikrXe7M9tcx+SZwx0o3GDEd4P+
+         Z4RBcPIQGi835Z6M9VitXlLImOyz5C3nHIF7n1Ma1SXv12NQmGpPbLjcNlWLd0zumSOI
+         hZBQ==
+X-Gm-Message-State: APjAAAWWMHfk/RGjyDtN29MmMPsQLTIgrKK2iNMJURS7dQTFvHy0weNO
+        oOgaXiw/EwPJgQTsLXlm8uPtiahK
+X-Google-Smtp-Source: APXvYqxTJlG7wOIv+UJKLGHQJvZKYe5wt9n/sI7rk3hlqJpwsyWrduSnriKvZ/KMzACQVQQ3u0alhw==
+X-Received: by 2002:a19:8456:: with SMTP id g83mr3898822lfd.0.1580256733060;
+        Tue, 28 Jan 2020 16:12:13 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id v8sm198edw.21.2020.01.28.15.35.26
+        by smtp.googlemail.com with ESMTPSA id 21sm57951ljv.19.2020.01.28.16.12.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2020 15:35:27 -0800 (PST)
-Subject: Re: [PATCH 3/5] mm/mremap: use pmd_addr_end to calculate next in
- move_page_tables()
-To:     Wei Yang <richardw.yang@linux.intel.com>
-Cc:     Russell King - ARM Linux <linux@armlinux.org.uk>,
-        akpm@linux-foundation.org, dan.j.williams@intel.com,
-        aneesh.kumar@linux.ibm.com, kirill@shutemov.name,
-        yang.shi@linux.alibaba.com, thellstrom@vmware.com,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200117232254.2792-1-richardw.yang@linux.intel.com>
- <20200117232254.2792-4-richardw.yang@linux.intel.com>
- <7147774a-14e9-4ff3-1548-4565f0d214d5@gmail.com>
- <20200128004301.GD20624@richard>
- <d66bb20e-c0e7-caef-cbbc-aa216c2be7d6@gmail.com>
- <20200128232907.GA11467@richard>
+        Tue, 28 Jan 2020 16:12:12 -0800 (PST)
+Subject: Re: [PATCH v4 01/14] dmaengine: tegra-apb: Fix use-after-free
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <27b70b0c-7945-cc85-8321-d9e4b6f17865@gmail.com>
-Date:   Wed, 29 Jan 2020 02:35:25 +0300
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200112173006.29863-1-digetx@gmail.com>
+ <20200112173006.29863-2-digetx@gmail.com>
+ <4c1b9e48-5468-0c03-2108-158ee814eea8@nvidia.com>
+ <1327bb21-0364-da26-e6ed-ff6c19df03e6@gmail.com>
+ <e39ef31d-4cff-838a-0fc1-73a39a8d6120@nvidia.com>
+ <b0c85ca7-d8ac-5f9d-2c57-79543c1f9b5d@gmail.com>
+ <5bbe9e3e-a64f-53be-e7f6-63e36cbae77d@nvidia.com>
+ <be7addff-9f5c-e40a-923f-db895ce89fa2@gmail.com>
+Message-ID: <9ca67d17-3bb0-abb4-9d95-1057d0828ed2@gmail.com>
+Date:   Wed, 29 Jan 2020 03:12:05 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200128232907.GA11467@richard>
+In-Reply-To: <be7addff-9f5c-e40a-923f-db895ce89fa2@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -80,80 +78,88 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-29.01.2020 02:29, Wei Yang пишет:
-> On Tue, Jan 28, 2020 at 06:59:48PM +0300, Dmitry Osipenko wrote:
->> 28.01.2020 03:43, Wei Yang пишет:
->>> On Sun, Jan 26, 2020 at 05:47:57PM +0300, Dmitry Osipenko wrote:
->>>> 18.01.2020 02:22, Wei Yang пишет:
->>>>> Use the general helper instead of do it by hand.
+28.01.2020 17:51, Dmitry Osipenko пишет:
+> 28.01.2020 17:02, Jon Hunter пишет:
+>>
+>> On 16/01/2020 20:10, Dmitry Osipenko wrote:
+>>> 15.01.2020 12:00, Jon Hunter пишет:
+>>>>
+>>>> On 14/01/2020 20:33, Dmitry Osipenko wrote:
+>>>>> 14.01.2020 18:09, Jon Hunter пишет:
+>>>>>>
+>>>>>> On 12/01/2020 17:29, Dmitry Osipenko wrote:
+>>>>>>> I was doing some experiments with I2C and noticed that Tegra APB DMA
+>>>>>>> driver crashes sometime after I2C DMA transfer termination. The crash
+>>>>>>> happens because tegra_dma_terminate_all() bails out immediately if pending
+>>>>>>> list is empty, thus it doesn't release the half-completed descriptors
+>>>>>>> which are getting re-used before ISR tasklet kicks-in.
+>>>>>>
+>>>>>> Can you elaborate a bit more on how these are getting re-used? What is
+>>>>>> the sequence of events which results in the panic? I believe that this
+>>>>>> was also reported in the past [0] and so I don't doubt there is an issue
+>>>>>> here, but would like to completely understand this.
+>>>>>>
+>>>>>> Thanks!
+>>>>>> Jon
+>>>>>>
+>>>>>> [0] https://lore.kernel.org/patchwork/patch/675349/
+>>>>>>
 >>>>>
->>>>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->>>>> ---
->>>>>  mm/mremap.c | 7 ++-----
->>>>>  1 file changed, 2 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/mm/mremap.c b/mm/mremap.c
->>>>> index c2af8ba4ba43..a258914f3ee1 100644
->>>>> --- a/mm/mremap.c
->>>>> +++ b/mm/mremap.c
->>>>> @@ -253,11 +253,8 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
->>>>>  
->>>>>  	for (; old_addr < old_end; old_addr += extent, new_addr += extent) {
->>>>>  		cond_resched();
->>>>> -		next = (old_addr + PMD_SIZE) & PMD_MASK;
->>>>> -		/* even if next overflowed, extent below will be ok */
->>>>> +		next = pmd_addr_end(old_addr, old_end);
->>>>>  		extent = next - old_addr;
->>>>> -		if (extent > old_end - old_addr)
->>>>> -			extent = old_end - old_addr;
->>>>>  		old_pmd = get_old_pmd(vma->vm_mm, old_addr);
->>>>>  		if (!old_pmd)
->>>>>  			continue;
->>>>> @@ -301,7 +298,7 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
->>>>>  
->>>>>  		if (pte_alloc(new_vma->vm_mm, new_pmd))
->>>>>  			break;
->>>>> -		next = (new_addr + PMD_SIZE) & PMD_MASK;
->>>>> +		next = pmd_addr_end(new_addr, new_addr + len);
->>>>>  		if (extent > next - new_addr)
->>>>>  			extent = next - new_addr;
->>>>>  		move_ptes(vma, old_pmd, old_addr, old_addr + extent, new_vma,
->>>>>
+>>>>> In my case it happens in the touchscreen driver during of the
+>>>>> touchscreen's interrupt handling (in a threaded IRQ handler) + CPU is
+>>>>> under load and there is other interrupts activity. So what happens here
+>>>>> is that the TS driver issues one I2C transfer, which fails with
+>>>>> (apparently bogus) timeout (because DMA descriptor is completed and
+>>>>> removed from the pending list, but tasklet not executed yet), and then
+>>>>> TS immediately issues another I2C transfer that re-uses the
+>>>>> yet-incompleted descriptor. That's my understanding.
 >>>>
->>>> Hello Wei,
->>>>
->>>> Starting with next-20200122, I'm seeing the following in KMSG on NVIDIA
->>>> Tegra (ARM32):
->>>>
->>>>  BUG: Bad rss-counter state mm:(ptrval) type:MM_ANONPAGES val:190
->>>>
+>>>> OK, but what is the exact sequence that it allowing it to re-use the
+>>>> incompleted descriptor?
 >>>
->>> Thanks.
+>>>    TDMA driver                      DMA Client
 >>>
->>> Would you mind letting me know which case you are testing?
+>>> 1.
+>>>                                     dmaengine_prep()
+>>>
+>>> 2.
+>>>    tegra_dma_desc_get()
+>>>    dma_desc = kzalloc()
+>>>    ...
+>>>    tegra_dma_prep_slave_sg()
+>>>    INIT_LIST_HEAD(&dma_desc->tx_list);
+>>>    INIT_LIST_HEAD(&dma_desc->cb_node);
+>>>    list_add_tail(sgreq->node,
+>>>                  dma_desc->tx_list)
+>>>
+>>> 3.
+>>>                                     dma_async_issue_pending()
+>>>
+>>> 4.
+>>>    tegra_dma_tx_submit()
+>>>    list_splice_tail_init(dma_desc->tx_list,
+>>>                          tdc->pending_sg_req)
+>>>
+>>> 5.
+>>>    tegra_dma_isr()
+>>>    ...
+>>>    handle_once_dma_done()
+>>>    ...
+>>>    sgreq = list_first_entry(tdc->pending_sg_req)
+>>>    list_del(sgreq->node);
+>>>    ...
+>>>    list_add_tail(dma_desc->cb_node,
+>>>                  tdc->cb_desc);
+>>>    list_add_tail(dma_desc->node,
+>>>                  tdc->free_dma_desc);
 >>
->> Nothing special, systemd starts to fall apart during boot.
+>> Isn't this the problem here, that we have placed this on the free list
+>> before we are actually done?
 >>
->>> Or the special thing is 32-bit platform?
->> I have a limited knowledge about mm/, so can't provide detailed explanation.
->>
->> Please take a look at this:
->>
->> [1]
->> https://elixir.bootlin.com/linux/v5.5/source/arch/arm/include/asm/pgtable-2level.h#L210
->>
->> [2]
->> https://elixir.bootlin.com/linux/v5.5/source/include/asm-generic/pgtable.h#L549
->>
->> [3]
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c0ba10b512eb2e2a3888b6e6cc0e089f5e7a191b
+>> It seems to me that there could still be a potential race condition
+>> between the ISR and the tasklet running.
 > 
-> Thanks, I see the difference here.
-> 
-> If this is the case, we can't use pmd_addr_end() to simplify the calculation.
-> This changes the behavior.
-> 
-> I would prepare another patch set to fix this. Would you mind helping me
-> verify on your platform?
+> Yes, this should be addressed by the patch #3 "dmaengine: tegra-apb:
+> Prevent race conditions of tasklet vs free list".
 
-Sure, please feel free to CC me on that patch.
+correction (to avoid confusion): it's actually patch #5, my bad
