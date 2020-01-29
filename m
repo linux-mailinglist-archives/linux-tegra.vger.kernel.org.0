@@ -2,214 +2,560 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6148F14C508
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 04:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DF7814C64D
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 07:00:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726725AbgA2DmH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 28 Jan 2020 22:42:07 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:42676 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726338AbgA2DmH (ORCPT
+        id S1726009AbgA2F72 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 00:59:28 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:3961 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725858AbgA2F71 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 28 Jan 2020 22:42:07 -0500
-Received: by mail-ed1-f67.google.com with SMTP id e10so17097808edv.9;
-        Tue, 28 Jan 2020 19:42:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=tcRoYLrQi4SqzH+L20hjDXL3Tb4tgVwmCqHebXVqDrY=;
-        b=ICSLuPM7hLBxtdKwuBTZ0n62D8yc+EuKxrioec3WPfWOm9oUT8ve+gw8r3cRk7X8NP
-         9cmq0wBdgX0/YM76wZXWB0bsEm9Pm50f+gjVpN7qODrQeqTlJjNmgau3jrsAvdVcOjC3
-         u9DiNJeJUBn7cy0cN4rM9IFj5Buuqm/WaaMKqy3DICrhtbo45Ax9RJgiDTJzHe7CBAjj
-         47FeXujeVHl2nceCZlyY+LckMIr7qbRuSDkyT4ak4a8CHBYNWfIBF3UDrwbGowVV/aR7
-         u9/EYlgdXn8jjExvw2jih+3Fan8jSgm08rsR6HOrG0Lm/2hZErfsrnLO4CgMRSkKyj4S
-         nSig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=tcRoYLrQi4SqzH+L20hjDXL3Tb4tgVwmCqHebXVqDrY=;
-        b=jm0TN9OtMsbY/nH8yGiLld3oSrp8JQmB/DsBO3sRMnqEx/Xbfhqy9p4I62Pfw1RT2R
-         N8A0D9ECN1/fKe6eGlQQKzUBOnVK/c2j0AbWys5lzRaZ2eE7V+/qNVla2EKpPdc3HPX9
-         VEeNMlzRSYsNI9O7ti+CNHmXawI43ikAMuUMFHcJkYUeYNHCz5RLDFYkw5sfivL3IbwA
-         DvqmcRRxpbPd0UvGP03ZtUjeGUH8lXhjTyK0V91535Ed99Qra6mvu7mMHD27/uXTwwF/
-         1k3HDJrI07ay1yCZ/Z4XKcnnQk+7zFtHFjb6DyYTVkRk++w1OlvHflsqfFdh+mxD0SFv
-         rJ+A==
-X-Gm-Message-State: APjAAAWNxLMC5b6E61UUERRyH4wNBa88CEVMAuLewXNQU0KCYx4UjJfe
-        ZR37Zua3K+Vtco2IQXxBbTw=
-X-Google-Smtp-Source: APXvYqy1xKcZRhbwfuXwJLwnS98C7kf6ODqzfP8QqiqHImKQDSKq0PiiIRO+KNZ8+l2N0sGC3KsLWA==
-X-Received: by 2002:a05:6402:17e4:: with SMTP id t4mr6182867edy.83.1580269324269;
-        Tue, 28 Jan 2020 19:42:04 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id e22sm68770edq.75.2020.01.28.19.42.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2020 19:42:03 -0800 (PST)
-Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
- driver
-To:     Sameer Pujar <spujar@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>
-Cc:     devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-        lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
-        broonie@kernel.org, atalambedu@nvidia.com, tiwai@suse.com,
-        viswanathl@nvidia.com, linux-tegra@vger.kernel.org,
-        robh+dt@kernel.org, thierry.reding@gmail.com, sharadg@nvidia.com,
-        rlokhande@nvidia.com, mkumard@nvidia.com, dramesh@nvidia.com
-References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
- <1579530198-13431-5-git-send-email-spujar@nvidia.com>
- <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
- <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
- <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
- <bdc749bc-b62c-a041-c17c-33fd49fe8e2e@nvidia.com>
- <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
- <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
- <34ac1fd3-ae0f-07f2-555f-a55087a2c9dc@nvidia.com>
- <1a84b393-938f-8bed-d08e-cc3bb6ed4844@gmail.com>
- <0fc814c2-0dc6-7741-b954-463381ff7fb9@nvidia.com>
- <b5c581b9-17af-d004-33fb-2cc782ab820a@gmail.com>
- <9f73afdf-1e9a-cdbd-f972-a022d503ef51@nvidia.com>
- <264d3354-8a2e-ee12-44ae-aff69213d551@nvidia.com>
- <075e476a-36bb-5fee-15bc-76af4474a797@gmail.com>
- <c6022a93-b79a-c691-1d75-d007d0b64ead@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3b42c858-733b-0d17-f457-8043d97f5058@gmail.com>
-Date:   Wed, 29 Jan 2020 06:41:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Wed, 29 Jan 2020 00:59:27 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e311f2e0000>; Tue, 28 Jan 2020 21:59:10 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 28 Jan 2020 21:59:25 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 28 Jan 2020 21:59:25 -0800
+Received: from [10.2.164.115] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
+ 2020 05:59:24 +0000
+Subject: Re: [RFC PATCH v1 4/5] media: tegra: Add Tegra Video input driver for
+ Tegra210
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Helen Koike <helen.koike@collabora.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <frankc@nvidia.com>, <hverkuil@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+ <1580235801-4129-5-git-send-email-skomatineni@nvidia.com>
+ <3cdea635-a9ca-7b9c-3c99-8f489f4d669a@collabora.com>
+ <162488d0-4e74-963a-3366-e4c1f7cf04ca@nvidia.com>
+ <017ca95e-7dd3-2d04-8d84-9047ac4e548b@nvidia.com>
+ <655b9a64-10d7-3fd3-f443-babf33e67b62@collabora.com>
+ <7265b661-de5a-b0f0-bcdc-1a1d2c03fe57@nvidia.com>
+Message-ID: <14ab584f-7ba6-9d79-6e5e-3cb0b4f47bc7@nvidia.com>
+Date:   Tue, 28 Jan 2020 21:59:23 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <c6022a93-b79a-c691-1d75-d007d0b64ead@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <7265b661-de5a-b0f0-bcdc-1a1d2c03fe57@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580277550; bh=23+yMU6A9CmYzhYQZ4qAxqdkwqng9Zywr0Jn8uJm68M=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=gxg16mTp2s2ZQXkERFcDahbB812oFHaPlWezL0uajk6h6A3QZKqcC5kCfhkBlm80p
+         pqtjzxwAiPIudZC4ayaZnmu9A2+2auA/VxvJQzrjiRtFDxcmG+b4XCrMlll4wgT4lI
+         088A5r0YfuH7DsR/OTwF6nrjiM/9dNKA6lLri1h204qMDmj4/PAwpXYkkqQ7kP9OUb
+         v5hIVdUAD1tJWLfUVVRO+GANxeYyqXtEOw+3/PCJWnWn+gTkmJL7Mr7jwSdaj3K+xH
+         G127XmWn7zPEMdZ7g46CIiMWsmBux0GQk9jluVEeKaRTwPdRRNKbWCGsq+2aKhRc98
+         jxqDQktHxFqIg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-27.01.2020 08:22, Sameer Pujar пишет:
-> 
-> 
-> On 1/24/2020 7:34 PM, Dmitry Osipenko wrote:
+
+On 1/28/20 6:11 PM, Sowjanya Komatineni wrote:
+>
+> On 1/28/20 5:05 PM, Helen Koike wrote:
 >> External email: Use caution opening links or attachments
 >>
 >>
->> 24.01.2020 12:51, Jon Hunter пишет:
->>> On 24/01/2020 09:07, Jon Hunter wrote:
->>>> On 23/01/2020 15:16, Dmitry Osipenko wrote:
->>>>> 23.01.2020 12:22, Sameer Pujar пишет:
+>> On 1/28/20 10:49 PM, Sowjanya Komatineni wrote:
+>>> On 1/28/20 2:13 PM, Sowjanya Komatineni wrote:
+>>>> On 1/28/20 1:45 PM, Helen Koike wrote:
+>>>>> External email: Use caution opening links or attachments
+>>>>>
+>>>>>
+>>>>> Hi Sowjanya,
+>>>>>
+>>>>> I just took a really quick look, I didn't check the driver in=20
+>>>>> deep, so just some small comments below.
+>>>>>
+>>>>> On 1/28/20 4:23 PM, Sowjanya Komatineni wrote:
+>>>>>> Tegra210 contains a powerful Video Input (VI) hardware controller
+>>>>>> which can support up to 6 MIPI CSI camera sensors.
 >>>>>>
->>>>>> On 1/22/2020 9:57 PM, Dmitry Osipenko wrote:
->>>>>>> External email: Use caution opening links or attachments
->>>>>>>
->>>>>>>
->>>>>>> 22.01.2020 14:52, Jon Hunter пишет:
->>>>>>>> On 22/01/2020 07:16, Sameer Pujar wrote:
->>>>>>>>
->>>>>>>> ...
->>>>>>>>
->>>>>>>>>>>>>>> +static int tegra210_i2s_remove(struct platform_device
->>>>>>>>>>>>>>> *pdev)
->>>>>>>>>>>>>>> +{
->>>>>>>>>>>>>>> +     pm_runtime_disable(&pdev->dev);
->>>>>>>>>>>>>>> +     if (!pm_runtime_status_suspended(&pdev->dev))
->>>>>>>>>>>>>>> +             tegra210_i2s_runtime_suspend(&pdev->dev);
->>>>>>>>>>>>>> This breaks device's RPM refcounting if it was disabled in
->>>>>>>>>>>>>> the
->>>>>>>>>>>>>> active
->>>>>>>>>>>>>> state. This code should be removed. At most you could warn
->>>>>>>>>>>>>> about the
->>>>>>>>>>>>>> unxpected RPM state here, but it shouldn't be necessary.
->>>>>>>>>>>>> I guess this was added for safety and explicit suspend
->>>>>>>>>>>>> keeps clock
->>>>>>>>>>>>> disabled.
->>>>>>>>>>>>> Not sure if ref-counting of the device matters when runtime
->>>>>>>>>>>>> PM is
->>>>>>>>>>>>> disabled and device is removed.
->>>>>>>>>>>>> I see few drivers using this way.
->>>>>>>>>>>> It should matter (if I'm not missing something) because RPM
->>>>>>>>>>>> should
->>>>>>>>>>>> be in
->>>>>>>>>>>> a wrecked state once you'll try to re-load the driver's module.
->>>>>>>>>>>> Likely
->>>>>>>>>>>> that those few other drivers are wrong.
->>>>>>>>>>>>
->>>>>>>>>>>> [snip]
->>>>>>>>>>> Once the driver is re-loaded and RPM is enabled, I don't
->>>>>>>>>>> think it
->>>>>>>>>>> would use
->>>>>>>>>>> the same 'dev' and the corresponding ref count. Doesn't it
->>>>>>>>>>> use the
->>>>>>>>>>> new
->>>>>>>>>>> counters?
->>>>>>>>>>> If RPM is not working for some reason, most likely it would
->>>>>>>>>>> be the
->>>>>>>>>>> case
->>>>>>>>>>> for other
->>>>>>>>>>> devices. What best driver can do is probably do a force suspend
->>>>>>>>>>> during
->>>>>>>>>>> removal if
->>>>>>>>>>> already not done. I would prefer to keep, since multiple drivers
->>>>>>>>>>> still
->>>>>>>>>>> have it,
->>>>>>>>>>> unless there is a real harm in doing so.
->>>>>>>>>> I took a closer look and looks like the counter actually
->>>>>>>>>> should be
->>>>>>>>>> reset. Still I don't think that it's a good practice to make
->>>>>>>>>> changes
->>>>>>>>>> underneath of RPM, it may strike back.
->>>>>>>>> If RPM is broken, it probably would have been caught during device
->>>>>>>>> usage.
->>>>>>>>> I will remove explicit suspend here if no any concerns from other
->>>>>>>>> folks.
->>>>>>>>> Thanks.
->>>>>>>> I recall that this was the preferred way of doing this from the RPM
->>>>>>>> folks. Tegra30 I2S driver does the same and Stephen had pointed
->>>>>>>> me to
->>>>>>>> this as a reference.
->>>>>>>> I believe that this is meant to ensure that the
->>>>>>>> device is always powered-off regardless of it RPM is enabled or
->>>>>>>> not and
->>>>>>>> what the current state is.
->>>>>>> Yes, it was kinda actual for the case of unavailable RPM.
->>>>>>> Anyways, /I think/ variant like this should have been more
->>>>>>> preferred:
->>>>>>>
->>>>>>> if (!pm_runtime_enabled(&pdev->dev))
->>>>>>>           tegra210_i2s_runtime_suspend(&pdev->dev);
->>>>>>> else
->>>>>>>           pm_runtime_disable(&pdev->dev);
->>>>>> I think it looks to be similar to what is there already.
+>>>>>> Each Tegra CSI port can be one-to-one mapped to VI channel and can
+>>>>>> capture from an external camera sensor connected to CSI or from
+>>>>>> built-in test pattern generator.
 >>>>>>
->>>>>> pm_runtime_disable(&pdev->dev); // it would turn out to be a dummy
->>>>>> call
->>>>>> if !RPM
->>>>>> if (!pm_runtime_status_suspended(&pdev->dev)) // it is true always
->>>>>> if !RPM
->>>>>>          tegra210_i2s_runtime_suspend(&pdev->dev);
->>>>> Maybe this is fine for !RPM, but not really fine in a case of enabled
->>>>> RPM. Device could be in resumed state after pm_runtime_disable() if it
->>>>> wasn't suspended before the disabling.
->>>> I don't see any problem with this for the !RPM case.
->>> Sorry I meant the RPM case. In other words, I don't see a problem for
->>> neither the RPM case of the !RPM case.
->> 1. Device shall be in RPM-suspended state at the time of driver's
->> removal, unless there is a bug in the sound driver. Hence why do you
->> need the dead code which doesn't bring any practical value?
+>>>>>> Tegra210 supports built-in test pattern generator from CSI to VI.
+>>>>>>
+>>>>>> This patch adds a V4L2 media controller and capture driver support
+>>>>>> for Tegra210 built-in CSI to VI test pattern generator.
+>>>>>>
+>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>> Could you send us the output of media-ctl --print-dot ? So we can=20
+>>>>> view the media topology easily?
+>>>> root@tegra-ubuntu:/home/ubuntu# ./media-ctl --print-dot
+>>>> digraph board {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rankdir=3DTB
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000001 [label=3D"5=
+4080000.vi-output-0\n/dev/video0",=20
+>>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000005 [label=3D"5=
+4080000.vi-output-1\n/dev/video1",=20
+>>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000009 [label=3D"5=
+4080000.vi-output-2\n/dev/video2",=20
+>>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000000d [label=3D"5=
+4080000.vi-output-3\n/dev/video3",=20
+>>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000011 [label=3D"5=
+4080000.vi-output-4\n/dev/video4",=20
+>>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000015 [label=3D"5=
+4080000.vi-output-5\n/dev/video5",=20
+>>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000019 [label=3D"{=
+{} | tpg-0 | {<port0> 0}}",=20
+>>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000019:port0 -> n0=
+0000001
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000001d [label=3D"{=
+{} | tpg-1 | {<port0> 0}}",=20
+>>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000001d:port0 -> n0=
+0000005
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000021 [label=3D"{=
+{} | tpg-2 | {<port0> 0}}",=20
+>>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000021:port0 -> n0=
+0000009
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000025 [label=3D"{=
+{} | tpg-3 | {<port0> 0}}",=20
+>>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000025:port0 -> n0=
+000000d
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000029 [label=3D"{=
+{} | tpg-4 | {<port0> 0}}",=20
+>>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000029:port0 -> n0=
+0000011
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000002d [label=3D"{=
+{} | tpg-5 | {<port0> 0}}",=20
+>>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000002d:port0 -> n0=
+0000015
+>>>> }
+>>>>
+>>>>>> --- diff --git a/drivers/staging/media/tegra/host1x-video.h=20
+>>>>>> b/drivers/staging/media/tegra/host1x-video.h
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..84d28e6f4362
+>>>>>> --- /dev/null
+>>>>>> +++ b/drivers/staging/media/tegra/host1x-video.h
+>>>>>> @@ -0,0 +1,33 @@
+>>>>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>>>>> +/*
+>>>>>> + * Copyright (C) 2020 NVIDIA CORPORATION.=C2=A0 All rights reserved=
+.
+>>>>>> + */
+>>>>>> +
+>>>>>> +#ifndef HOST1X_VIDEO_H
+>>>>>> +#define HOST1X_VIDEO_H 1
+>>>>>> +
+>>>>>> +#include <linux/host1x.h>
+>>>>>> +
+>>>>>> +#include <media/media-device.h>
+>>>>>> +#include <media/media-entity.h>
+>>>>>> +#include <media/v4l2-async.h>
+>>>>>> +#include <media/v4l2-ctrls.h>
+>>>>>> +#include <media/v4l2-device.h>
+>>>>>> +#include <media/v4l2-dev.h>
+>>>>>> +#include <media/videobuf2-v4l2.h>
+>>>>>> +
+>>>>>> +#include "tegra-vi.h"
+>>>>>> +#include "csi.h"
+>>>>>> +
+>>>>>> +struct tegra_camera {
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_device v4l2_dev;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct media_device media_dev;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct device *dev;
+>>>>> You can use cam->media_dev.dev instead of having this pointer.
+>>>>>
+>>> Will fix in v2
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_vi *vi;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_csi_device *csi;
+>>>>>> +};
+>>>>>> +
+>>>>>> +
+>>>>>> +#define to_tegra_channel(vdev) \
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 container_of(vdev, struct tegra_channel, v=
+ideo)
+>>>>> Why not inline instead of define. Inlines has the advantage of=20
+>>>>> checking types.
+>>> Will change in v2
+>>>>>> +static int __tegra_channel_try_format(struct tegra_channel *chan,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2=
+_pix_format *pix,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struc=
+t=20
+>>>>>> tegra_video_format **vfmt)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 const struct tegra_video_format *fmt_info;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev *subdev;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_format fmt;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_pad_config *pad_cfg;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 subdev =3D tegra_channel_get_remote_subdev=
+(chan);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 pad_cfg =3D v4l2_subdev_alloc_pad_config(s=
+ubdev);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (!pad_cfg)
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 return -ENOMEM;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Retrieve format information and se=
+lect the default=20
+>>>>>> format if the
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * requested format isn't supported.
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt_info =3D tegra_core_get_format_by_four=
+cc(chan,=20
+>>>>>> pix->pixelformat);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (!fmt_info) {
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 pix->pixelformat =3D chan->format.pixelformat;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 pix->colorspace =3D chan->format.colorspace;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 fmt_info =3D tegra_core_get_format_by_fourcc(chan,
+>>>>>> + pix->pixelformat);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /* Change this when start adding interlace=
+ format support */
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 pix->field =3D V4L2_FIELD_NONE;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt.which =3D V4L2_SUBDEV_FORMAT_TRY;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt.pad =3D 0;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fill_mbus_format(&fmt.format, pix, fm=
+t_info->code);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_subdev_call(subdev, pad, set_fmt, pad=
+_cfg, &fmt);
+>>>>> As fas as I understand, entities formats should be independent, it=20
+>>>>> is up to link_validate
+>>>>> to check formats between entities.
+>>>>> The capture shouldn't change the format of the subdevice.
+>>>>>
+>>> Tegra Built-in TPG on CSI accepts specific TPG sizes and CSI is=20
+>>> source and VI is sink.
+>>>
+>>> link validation happens only for sink ends of the link.
+>> And what is the problem with it being on the sink end?
+>> You just need to implement custom link validation in=20
+>> tegra_csi_media_ops that also checks the format
+>> between the capture and the subdevice, no? Unless I missunderstood=20
+>> something here (which is quite possible).
 >>
->> 2. Making changes underneath of RPM is simply error-prone. It may hit
->> badly in the future once something will change in the RPM core.
-> 
-> I think we are stretching a bit more here when there is no any real harm.
-> Right now it works well for both RPM and !RPM case and if we really need to
-> fix something in future we can fix. Since my initial inclination was
-> keeping
-> the code as it is and Jon also has similar thoughts, I would retain this
-> code.
-> Sorry Dmitry, we can fix if something comes up and many other drivers would
-> need this at that time.
+>> Examples:
+>> drivers/staging/media/rkisp1/rkisp1-capture.c -=20
+>> rkisp1_capture_link_validate()
+>> drivers/media/pci/intel/ipu3/ipu3-cio2.c - cio2_video_link_validate()
+>> drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c -=20
+>> sun6i_video_link_validate()
+>>
+>> Regards,
+>> Helen
+>>
+> But if we move subdevice side format/size check into its=20
+> link_validation, any incorrect image size set thru set-fmt-video will=20
+> be taken and get-fmt-video will also show same as it doesn't validate=20
+> formats/sizes supported by CSI subdev during this time. link=20
+> validation happens during pipeline start. So thought to prevent=20
+> accepting incorrect format/size during set-fmt-video/get-fmt-video.
+>
+> Other than this I don't see any issue moving it to link_validation.
+>
+link validation happens for all the links in the pipeline where both of=20
+the ends of the links are V4L2 sub-devices.
 
-The !RPM case isn't supported by Tegra anymore in upstream kernel. I'm
-trying to help to make yours driver better and gave you reasons to
-remove the unneeded code, while you're keep saying that "there is no
-harm to retain it", which is not a reason to clutter up the code. I
-don't feel that it's worthwhile to continue arguing here.
+v4l2_subdev_link_validate calls sink pad link_validate.
+
+This driver has currently TPG support only where CSI v4l2 subdevice is=20
+the source and VI is the sink video entity.
+
+
+>
+>>> So with CSI subdev set_fmt sets width/height to default incase if=20
+>>> width/height is not from one of the supported sizes.
+>>>
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fill_pix_format(pix, &fmt.format);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 tegra_channel_fmt_align(chan, &fmt_info->b=
+pp, &pix->width,=20
+>>>>>> &pix->height,
+>>>>>> + &pix->bytesperline);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 pix->sizeimage =3D pix->bytesperline * pix=
+->height;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (vfmt)
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 *vfmt =3D fmt_info;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_subdev_free_pad_config(pad_cfg);
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int tegra_channel_try_format(struct file *file, void *fh,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_format *for=
+mat)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_fh *vfh =3D file->private_data=
+;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_channel *chan =3D to_tegra_ch=
+annel(vfh->vdev);
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return __tegra_channel_try_format(chan, &f=
+ormat->fmt.pix,=20
+>>>>>> NULL);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int tegra_channel_set_format(struct file *file, void *fh,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_format *for=
+mat)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_fh *vfh =3D file->private_data=
+;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_channel *chan =3D to_tegra_ch=
+annel(vfh->vdev);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 const struct tegra_video_format *info;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_format fmt;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev *subdev;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_pix_format *pix =3D &format->f=
+mt.pix;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (vb2_is_busy(&chan->queue))
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 return -EBUSY;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /* get supported format by try_fmt */
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D __tegra_channel_try_format(chan, p=
+ix, &info);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 return ret;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 subdev =3D tegra_channel_get_remote_subdev=
+(chan);
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt.which =3D V4L2_SUBDEV_FORMAT_ACTIVE;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt.pad =3D 0;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fill_mbus_format(&fmt.format, pix, in=
+fo->code);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_subdev_call(subdev, pad, set_fmt, NUL=
+L, &fmt);
+>>>>> same here.
+>>>>>
+>>> Calling subdev set_fmt here for the same reason as explained above.
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fill_pix_format(pix, &fmt.format);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 chan->format =3D *pix;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 chan->fmtinfo =3D info;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 tegra_channel_update_format(chan, pix->wid=
+th,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pix->height, info->four=
+cc,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &info->bpp,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pix->bytesperline);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *pix =3D chan->format;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int tegra_channel_enum_input(struct file *file, void *fh,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_input *inp)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /* Currently driver supports internal TPG =
+only */
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (inp->index !=3D 0)
+>>>>> just
+>>>>> if (inp->index)
+>>>>>
+>>> Will update in v2
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 return -EINVAL;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 inp->type =3D V4L2_INPUT_TYPE_CAMERA;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 strscpy(inp->name, "Tegra TPG", sizeof(inp=
+->name));
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>> +}
+>>>>>> +static const struct tegra_video_format tegra_default_format =3D {
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /* RAW 10 */
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 TEGRA_VF_RAW10,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 10,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_SRGGB10_1X10,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 {2, 1},
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 TEGRA_IMAGE_FORMAT_DEF,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 TEGRA_IMAGE_DT_RAW10,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_PIX_FMT_SRGGB10,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 "RGRG.. GBGB..",
+>>>>> It would be more readable to do:
+>>>>>
+>>>>> .code =3D TEGRA_VF_RAW10,
+>>>>> .width =3D 10,
+>>>>> .code =3D MEDIA_BUS_FMT_SRGGB10_1X10,
+>>>>>
+>>>>> and so on
+>>> Will update in v2
+>>>>>> +};
+>>>>>> +
+>>>>>> +/*
+>>>>>> + * Helper functions
+>>>>>> + */
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * tegra_core_get_default_format - Get default format
+>>>>>> + *
+>>>>>> + * Return: pointer to the format where the default format needs
+>>>>>> + * to be filled in.
+>>>>>> + */
+>>>>>> +const struct tegra_video_format=20
+>>>>>> *tegra_core_get_default_format(void)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return &tegra_default_format;
+>>>>>> +}
+>>>>> This is only used in tegra-channel.c, why not to declare it there=20
+>>>>> as static?
+>>>>>
+>>> Will move all video format retrieval helper functions to=20
+>>> corresponding file as static in v2
+>>>>>> + +static struct v4l2_frmsize_discrete tegra_csi_tpg_sizes[] =3D {
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 {1280, 720},
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 {1920, 1080},
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 {3840, 2160},
+>>>>>> +};
+>>>>>> +
+>>>>>> +/*
+>>>>>> + * V4L2 Subdevice Pad Operations
+>>>>>> + */
+>>>>>> +static int tegra_csi_get_format(struct v4l2_subdev *subdev,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_pad_config *cfg,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_format *fmt)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_csi_channel *csi_chan =3D to_=
+csi_chan(subdev);
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 mutex_lock(&csi_chan->format_lock);
+>>>>> Do you need this lock? I think there is already a serialization in=20
+>>>>> the ioctls in place (to be confirmed).
+>>>>>
+>>> This is on CSI v4l2 subdevice side during format updates
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(fmt, &csi_chan->ports->format,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+sizeof(struct v4l2_mbus_framefmt));
+>>>>> I would prefer just:
+>>>>> *fmt =3D *csi_chan->ports->format;
+>>>>>
+>>>>> I think it is easier to read IMHO.
+>>>>> same in tegra_csi_set_format().
+>>>>>
+>>> Will fix in v2
+>>>>>> + mutex_unlock(&csi_chan->format_lock);
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void tegra_csi_try_mbus_fmt(struct v4l2_subdev *subdev,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_mbus_framefmt *mf=
+mt)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_csi_channel *csi_chan =3D to_=
+csi_chan(subdev);
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_csi_device *csi =3D csi_chan-=
+>csi;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 const struct v4l2_frmsize_discrete *sizes;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 int i, j;
+>>>>> unsigned
+>>>>>
+>>> Will fix in v2
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < ARRAY_SIZE(tegra_csi_tpg=
+_fmts); i++) {
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 struct v4l2_mbus_framefmt *mbus_fmt =3D=20
+>>>>>> &tegra_csi_tpg_fmts[i];
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 if (mfmt->code =3D=3D mbus_fmt->code) {
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (j =3D 0; j <=20
+>>>>>> ARRAY_SIZE(tegra_csi_tpg_sizes); j++) {
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizes =3D &tegra_csi_tpg_sizes[j];
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (mfmt->width =3D=3D sizes->width &&
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mfmt->height =3D=3D siz=
+es->height) {
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ return;
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 }
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 dev_info(csi->dev, "using Tegra default RAW10 video=20
+>>>>>> format\n");
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 dev_info(csi->dev, "using Tegra default WI=
+DTH X HEIGHT=20
+>>>>>> (1920x1080)\n");
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(mfmt, tegra_csi_tpg_fmts, sizeof(st=
+ruct=20
+>>>>>> v4l2_mbus_framefmt));
+>>>>>> +}
+>>>>>> +
+>>>>>> +
