@@ -2,177 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73C3914C8DC
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 11:42:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EBC314C8F5
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 11:49:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726142AbgA2KmU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jan 2020 05:42:20 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16132 "EHLO
+        id S1726380AbgA2Ktm (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 05:49:42 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16401 "EHLO
         hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726091AbgA2KmU (ORCPT
+        with ESMTP id S1726466AbgA2Ktm (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jan 2020 05:42:20 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e31617d0000>; Wed, 29 Jan 2020 02:42:05 -0800
+        Wed, 29 Jan 2020 05:49:42 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3163370000>; Wed, 29 Jan 2020 02:49:27 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 29 Jan 2020 02:42:19 -0800
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 29 Jan 2020 02:49:41 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 29 Jan 2020 02:42:19 -0800
+        by hqpgpgate102.nvidia.com on Wed, 29 Jan 2020 02:49:41 -0800
 Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
- 2020 10:42:17 +0000
-Subject: Re: [PATCH v4 01/14] dmaengine: tegra-apb: Fix use-after-free
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
+ 2020 10:49:39 +0000
+Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
+ 24bit and 32bit samples
+To:     Mark Brown <broonie@kernel.org>, Dmitry Osipenko <digetx@gmail.com>
+CC:     Ben Dooks <ben.dooks@codethink.co.uk>,
+        <linux-kernel@lists.codethink.co.uk>,
+        <alsa-devel@alsa-project.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200112173006.29863-1-digetx@gmail.com>
- <20200112173006.29863-2-digetx@gmail.com>
- <4c1b9e48-5468-0c03-2108-158ee814eea8@nvidia.com>
- <1327bb21-0364-da26-e6ed-ff6c19df03e6@gmail.com>
- <e39ef31d-4cff-838a-0fc1-73a39a8d6120@nvidia.com>
- <b0c85ca7-d8ac-5f9d-2c57-79543c1f9b5d@gmail.com>
- <5bbe9e3e-a64f-53be-e7f6-63e36cbae77d@nvidia.com>
- <be7addff-9f5c-e40a-923f-db895ce89fa2@gmail.com>
- <9ca67d17-3bb0-abb4-9d95-1057d0828ed2@gmail.com>
+        Edward Cragg <edward.cragg@codethink.co.uk>,
+        <linux-tegra@vger.kernel.org>
+References: <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
+ <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
+ <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
+ <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
+ <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
+ <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
+ <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
+ <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
+ <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
+ <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
+ <20200128121315.GD4689@sirena.org.uk>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <7c1c0672-4e6d-ae49-d041-2838199f0fcd@nvidia.com>
-Date:   Wed, 29 Jan 2020 10:42:16 +0000
+Message-ID: <4b90efd2-5d0c-84df-961d-80cee288e0d4@nvidia.com>
+Date:   Wed, 29 Jan 2020 10:49:37 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <9ca67d17-3bb0-abb4-9d95-1057d0828ed2@gmail.com>
+In-Reply-To: <20200128121315.GD4689@sirena.org.uk>
 X-Originating-IP: [172.20.13.39]
 X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580294525; bh=wjynjpVyGxlBTl7eVUVMSSvHGxWVDUtEVYlNZPNB5Yo=;
+        t=1580294967; bh=8oeXNa7PQw59Mhh8dYLmZBqtB+uRob3RjBpDu8t6TmE=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=SM3+JTVIGImmEmzhMh8zDa/K2oYqNjh2xSdanDqxobHqTOoFsnrv+VbF3vnG9CBbu
-         mC8FANu1TRHpAungtGRUjM9rkCkPS7HLA3UvB9sqWhDzkljx5n6KHP0cgrWE+FFERP
-         xB+wUWdRnXdbutaE2esCrUVadh25sCMdY7cPi/rpPIrIRBT2OwVClCDr+Ay2jYxNS4
-         fnDFZdTV8UExYoiF3hJtkbR7U7quB6AUG7KwZ9wd1tLj8Vjn+f7Aju4clsa6Wfn1qs
-         Eyufc1ZMxzP3S76UKLEBw5BDfU4Yok7d9h1PpQMXe2rpE7w3a2jpk9+jKvCE98ouqP
-         0GsmaZq43LYSQ==
+        b=SyMYxB+n/w0CCa0NBzF6RBJsankibifU7BZr5i5kXPqdIP6L7RxHjMexAwZQuR8gO
+         7vhJlCWz6qqDqJvnZxfThUOFxEbVysb4ZVLezWOHmn8cdole4ggIljrLrELM/y2EZ9
+         VGjNWdhUEpaHEZLfhNPjL2oqHYO64PF7/eAKkhpxF8gPEYaKyPcKNLOz5dj7RCixsN
+         e0kCcvcEvLZXwp/4qfe5b1/p5Vhp3v0+N8G9t0adSdI3VAzPsRPaxi40Rp13sUipwu
+         B+WTZN8SdwxuIHpUC9t33r9pj/J0S4uk+ySFBXA5suhDN3CUWJ2ZWeSVm/iTrjqvhU
+         owhgSrLDMd+IQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 29/01/2020 00:12, Dmitry Osipenko wrote:
-> 28.01.2020 17:51, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> 28.01.2020 17:02, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>
->>> On 16/01/2020 20:10, Dmitry Osipenko wrote:
->>>> 15.01.2020 12:00, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>
->>>>> On 14/01/2020 20:33, Dmitry Osipenko wrote:
->>>>>> 14.01.2020 18:09, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>>>
->>>>>>> On 12/01/2020 17:29, Dmitry Osipenko wrote:
->>>>>>>> I was doing some experiments with I2C and noticed that Tegra APB D=
-MA
->>>>>>>> driver crashes sometime after I2C DMA transfer termination. The cr=
-ash
->>>>>>>> happens because tegra_dma_terminate_all() bails out immediately if=
- pending
->>>>>>>> list is empty, thus it doesn't release the half-completed descript=
-ors
->>>>>>>> which are getting re-used before ISR tasklet kicks-in.
->>>>>>>
->>>>>>> Can you elaborate a bit more on how these are getting re-used? What=
- is
->>>>>>> the sequence of events which results in the panic? I believe that t=
-his
->>>>>>> was also reported in the past [0] and so I don't doubt there is an =
-issue
->>>>>>> here, but would like to completely understand this.
->>>>>>>
->>>>>>> Thanks!
->>>>>>> Jon
->>>>>>>
->>>>>>> [0] https://lore.kernel.org/patchwork/patch/675349/
->>>>>>>
->>>>>>
->>>>>> In my case it happens in the touchscreen driver during of the
->>>>>> touchscreen's interrupt handling (in a threaded IRQ handler) + CPU i=
-s
->>>>>> under load and there is other interrupts activity. So what happens h=
-ere
->>>>>> is that the TS driver issues one I2C transfer, which fails with
->>>>>> (apparently bogus) timeout (because DMA descriptor is completed and
->>>>>> removed from the pending list, but tasklet not executed yet), and th=
-en
->>>>>> TS immediately issues another I2C transfer that re-uses the
->>>>>> yet-incompleted descriptor. That's my understanding.
->>>>>
->>>>> OK, but what is the exact sequence that it allowing it to re-use the
->>>>> incompleted descriptor?
->>>>
->>>>    TDMA driver                      DMA Client
->>>>
->>>> 1.
->>>>                                     dmaengine_prep()
->>>>
->>>> 2.
->>>>    tegra_dma_desc_get()
->>>>    dma_desc =3D kzalloc()
->>>>    ...
->>>>    tegra_dma_prep_slave_sg()
->>>>    INIT_LIST_HEAD(&dma_desc->tx_list);
->>>>    INIT_LIST_HEAD(&dma_desc->cb_node);
->>>>    list_add_tail(sgreq->node,
->>>>                  dma_desc->tx_list)
->>>>
->>>> 3.
->>>>                                     dma_async_issue_pending()
->>>>
->>>> 4.
->>>>    tegra_dma_tx_submit()
->>>>    list_splice_tail_init(dma_desc->tx_list,
->>>>                          tdc->pending_sg_req)
->>>>
->>>> 5.
->>>>    tegra_dma_isr()
->>>>    ...
->>>>    handle_once_dma_done()
->>>>    ...
->>>>    sgreq =3D list_first_entry(tdc->pending_sg_req)
->>>>    list_del(sgreq->node);
->>>>    ...
->>>>    list_add_tail(dma_desc->cb_node,
->>>>                  tdc->cb_desc);
->>>>    list_add_tail(dma_desc->node,
->>>>                  tdc->free_dma_desc);
->>>
->>> Isn't this the problem here, that we have placed this on the free list
->>> before we are actually done?
->>>
->>> It seems to me that there could still be a potential race condition
->>> between the ISR and the tasklet running.
->>
->> Yes, this should be addressed by the patch #3 "dmaengine: tegra-apb:
->> Prevent race conditions of tasklet vs free list".
->=20
-> correction (to avoid confusion): it's actually patch #5, my bad
+On 28/01/2020 12:13, Mark Brown wrote:
+> I really don't understand why this is all taking so long, this thread
+> just seems to be going round in interminable circles long after it
+> looked like the issue was understood.  I have to admit I've not read
+> every single message in the thread but it's difficult to see why it
+> doesn't seem to be making any progress.
 
-Ah OK great! Could be worth making that patch #1 or #2 in the series as
-theses are somewhat related.
+Sorry about that. On reviewing this with the audio team at NVIDIA, I was
+told we don't support S24_LE for I2S. The reason being that the crossbar
+between the DMA and I2S is not able to extract the correct 24-bits from
+the 32-bit sample to feed to the I2S interface. The Tegra documentation
+does show support for 24-bits, but not state explicit support for S24_LE.
 
-Cheers
+Now Ben says that he has this working, but I am unable to reproduce
+this, so before just dropping the S24_LE support, I would like to
+understand how this is working for Ben in case there is something that
+we have overlooked here.
+
 Jon
 
---=20
+-- 
 nvpublic
