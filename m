@@ -2,68 +2,74 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F2B414C80D
-	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 10:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB48414C825
+	for <lists+linux-tegra@lfdr.de>; Wed, 29 Jan 2020 10:36:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726069AbgA2J1d (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 29 Jan 2020 04:27:33 -0500
-Received: from mail-wm1-f43.google.com ([209.85.128.43]:37968 "EHLO
-        mail-wm1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726036AbgA2J1d (ORCPT
+        id S1726216AbgA2JgH (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 29 Jan 2020 04:36:07 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:53724 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbgA2JgH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 29 Jan 2020 04:27:33 -0500
-Received: by mail-wm1-f43.google.com with SMTP id a9so5597275wmj.3;
-        Wed, 29 Jan 2020 01:27:31 -0800 (PST)
+        Wed, 29 Jan 2020 04:36:07 -0500
+Received: by mail-wm1-f66.google.com with SMTP id s10so5426074wmh.3;
+        Wed, 29 Jan 2020 01:36:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=oZo/V+gV36C6pLlSdL5oMb9o324Cuj0Yjq9W/IVgMQA=;
-        b=h90n3iunMCL1A9Xcv8WhCfTlfB+2T8q6qVgPETdqrdO42CGLgYv0J2sCLSAfrV85S2
-         hsGfua5uw1rxZ8XoCpT1zHQtJPsM2eqBbqKFJUnPvNlVSNIFf97mo2Fy4YoyNbrPX2Vo
-         bfe616dtJxHFH2vERzeJdnDmnWBKozytqFfwZ0cjh8RHR9e3jY6LiuWFq2jIDEoYQ+XK
-         zkbLNtSNJTV5GFtPjKNhgMI7gIlKfMnSpzz3LFEy4ZPZPBVTbG8QMAtwqL81q8OvT1Up
-         lUVgxbJUdkWBJoZXNtvoZaek/XNfiekKktF6/agZJS+snTKSoin+qVEX/VZCyTBBD8oq
-         oMmQ==
+        bh=8pHzbh0S3mwJ9sZmFwW+OVbIXW7Hd7FamonfwSPK3O8=;
+        b=EAk8gMAENaRCtn/l3YlahcPXvc4pMulR1JZmK0xjRrhfxU4ja8B2eUdxo2Ziw7JCj1
+         KZ1h3BNmAKB9E4Y1vZjuyj3mgFLJ//d438IYE/dw4b5TeEYN0neVIs2y5mqeJZ4stUIb
+         VsOoOiiINyLSmQipuGPE54EWpJS6++qTJBdkoivPXA5B639m1rUZIjzyOv77BtXMV//x
+         PYLw2Uyw8L543nuQgZdjioTl/0507chvXUL6slST6OYjFEkcS8+FA5G9nAlbpond+UAS
+         XEMwmWSkc4Oan4Lgi5C/oZZjRqoN5Q09qjOGc9iRodn3OKXre9VKcL1CUt9Vp4sJx4Pk
+         B9Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=oZo/V+gV36C6pLlSdL5oMb9o324Cuj0Yjq9W/IVgMQA=;
-        b=Hd/iESYMctT1kAlh4dhlTJTrNDINZnbKwAMDPYPxXWGBYDVihQ4A2DZfh3mrP22oqa
-         TnSwBdYMCn3hyXREBdRyso9qA09KXCn5qrbyh3n2f6WnTY9nugRxI1a7Bl6a5eo0bCkz
-         M2PfLm9WTqWocEppIptI6+IOSiCuFNiMg1+v3iqKoDBerTWfWrTiGvBcH5UlQgoYqNsn
-         O/797ih1iu0UZxAPIBJYAAc9gQ+LEWfeSHSI8Ir0SwxP22QYHwVy3r3iUDSfFjRmNeWk
-         1R9UmFID+SNWQJt3n3vjr4mVx4JbfnqigfrA1BJPcBChWkPvQFjMpy4hR1cP6ROvNl7n
-         SPKw==
-X-Gm-Message-State: APjAAAVXD5GgWOi9epygIW/s/L8aOxeL+nj94+GMMBGOQC/UYOsBEBgy
-        gjiCddeN6MMLD8IpmDMnAH0=
-X-Google-Smtp-Source: APXvYqyVtA/WKM8S71ZyV2OT6fbZIlWQNU42S2bVFlhrVDp19ETZw+RMJGq5yBbncaNzuNiN/qyHVQ==
-X-Received: by 2002:a1c:3b0a:: with SMTP id i10mr11041027wma.177.1580290050708;
-        Wed, 29 Jan 2020 01:27:30 -0800 (PST)
+        bh=8pHzbh0S3mwJ9sZmFwW+OVbIXW7Hd7FamonfwSPK3O8=;
+        b=QgUNGozb35Kq0NMlfkRiW6OSOEQ4iM1fKCU5+zxQhnyZCQBOn9zi4NaPy48niv8iNd
+         2/jng1hjwKMHsKPGvj7Ve290FqlhQi7QJnW5qx1Ly+LEVKF0cx0nUgYMjd9H8L9EPmXS
+         Uyat5lKKG5teqSZhDEiQ+Gl0yWs9qEX5yqzc+gn6ls1sg3my7XC588pjKC+xEzOHCSNq
+         TbdZfA6HC6E1Bv0T0PLMRmyInr9Vm7ggObZeEmCayfjEOZy0R5Ot8P9+uAETySJwDYio
+         KdERFa2jZwrMReRqOKDmITS1vYOrtWL+TvrIaTGBpInIvPM8Lq764rcnAagozc+srq6p
+         Lfng==
+X-Gm-Message-State: APjAAAVGGdw+fqoJ2kjkmJjNGtRoSYWA4EEGD/3igBO95Y2M54SmUiUw
+        e6HIRjVhmFu/cPUQ/2ERUX4=
+X-Google-Smtp-Source: APXvYqx++cPF4H8zuPfo+s/IxnY5RWH2sSMH0NQjylAZv1MftTAaupVbJpYJoZUgdnTZu67SvVYNig==
+X-Received: by 2002:a1c:81d3:: with SMTP id c202mr10179155wmd.14.1580290564873;
+        Wed, 29 Jan 2020 01:36:04 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id z3sm2054801wrs.94.2020.01.29.01.27.29
+        by smtp.gmail.com with ESMTPSA id v5sm2116580wrv.86.2020.01.29.01.36.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2020 01:27:29 -0800 (PST)
-Date:   Wed, 29 Jan 2020 10:27:28 +0100
+        Wed, 29 Jan 2020 01:36:03 -0800 (PST)
+Date:   Wed, 29 Jan 2020 10:36:02 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, jonathanh@nvidia.com,
-        mark.rutland@arm.com, robh+dt@kernel.org, kishon@ti.com,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch V3 12/18] usb: gadget: tegra-xudc: support multiple
- device modes
-Message-ID: <20200129092728.GB2479935@ulmo>
-References: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
- <1577704195-2535-13-git-send-email-nkristam@nvidia.com>
- <20200128181020.GJ2293590@ulmo>
- <7478f53a-c236-5442-8abb-7531edb89b29@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Georgi Djakov <georgi.djakov@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
+ interconnects property
+Message-ID: <20200129093602.GC2479935@ulmo>
+References: <20200114181519.3402385-2-thierry.reding@gmail.com>
+ <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
+ <20200120150605.GA712203@ulmo>
+ <57c37b3c-1473-d444-db59-8c6650241188@gmail.com>
+ <20200121141027.GE899558@ulmo>
+ <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
+ <20200121155432.GA912205@ulmo>
+ <ffc22502-0e7e-522c-543d-0e74cc25f4b1@gmail.com>
+ <20200127122115.GA2117209@ulmo>
+ <d56618e1-8940-65ae-381e-796e44bcf537@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6sX45UoQRIJXqkqR"
+        protocol="application/pgp-signature"; boundary="yLVHuoLXiP9kZBkt"
 Content-Disposition: inline
-In-Reply-To: <7478f53a-c236-5442-8abb-7531edb89b29@nvidia.com>
+In-Reply-To: <d56618e1-8940-65ae-381e-796e44bcf537@gmail.com>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -71,66 +77,79 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---6sX45UoQRIJXqkqR
-Content-Type: text/plain; charset=us-ascii
+--yLVHuoLXiP9kZBkt
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 29, 2020 at 12:20:09PM +0530, Nagarjuna Kristam wrote:
->=20
->=20
-> On 28-01-2020 23:40, Thierry Reding wrote:
-> > >   	struct tegra_xudc_save_regs saved_regs;
-> > >   	bool suspended;
-> > >   	bool powergated;
-> > > -	struct usb_phy *usbphy;
-> > > +	struct usb_phy **usbphy;
-> > > +	int current_phy_index;
-> > Can be unsigned int. It's also very long. It might be better to choose a
-> > shorter name so that when you use it, the lines don't get excessively
-> > long. Alternatively you could keep this field name and instead declare
-> > local variables to reference the current PHY to make lines shorter.
+On Tue, Jan 28, 2020 at 10:27:00PM +0300, Dmitry Osipenko wrote:
+> 27.01.2020 15:21, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Tue, Jan 21, 2020 at 11:12:11PM +0300, Dmitry Osipenko wrote:
+> >> 21.01.2020 18:54, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> On Tue, Jan 21, 2020 at 05:18:43PM +0200, Georgi Djakov wrote:
+> >>>> On 1/21/20 16:10, Thierry Reding wrote:
+> > [...]
+> >>>>> I'm not sure if that TEGRA_ICC_EMEM makes a lot of sense. It's alwa=
+ys
+> >>>>> going to be the same and it's arbitrarily defined, so it's effectiv=
+ely
+> >>>>> useless. But other than that it looks good.
+> >>>>
+> >>>> Well, in most cases the target would be the EMEM, so that's fine. I =
+have seen
+> >>>> that other vendors that may have an additional internal memory, espe=
+cially
+> >>>> dedicated to some DSPs and in such cases the bandwidth needs are dif=
+ferent for
+> >>>> the two paths (to internal memory and DDR).
+> >>>
+> >>> Most chips have a small internal memory that can be used, though it
+> >>> seldomly is. However, in that case I would expect the target to be a
+> >>> completely different device, so it'd look more like this:
+> >>>
+> >>> 	interconnects =3D <&mc TEGRA186_MEMORY_CLIENT_BPMPR &iram>,
+> >>> 			...;
+> >>>
+> >>> I don't think EMEM has any "downstream" other than external memory.
+> >>
+> >> The node ID should be mandatory in terms of interconnect, even if it's=
+ a
+> >> single node. EMC (provider) !=3D EMEM (endpoint).
 > >=20
-> > Actually, looking at this a bit more, I don't see current_phy_index ever
-> > used by itself (other than the assignment and one check to see if a PHY
-> > has been selected). So why not just store a pointer to the current PHY
-> > and avoid all the dereferencing?
-> >=20
-> > Thierry
+> > I don't understand why. An ID only makes sense if you've got multiple
+> > endpoints. For example, a regulator is a provider with a single endpoint
+> > so we don't specify an ID.
 >=20
-> current_phy_index main purpose is to quickly get which index for USB 2 an=
-d 3
-> phy's to be used. This is used at mulitple functions. Based on your comme=
-nt
-> above, I believe its good to use 2 pointers for UTMI and USB 3 phy's, whi=
-ch
-> are points to current phy index. This ensures to keep line length as less=
- as
-> possible.
+> Because this is how ICC binding is defined, unless I'm missing something.
 
-Yes, I think in general it's preferable to use the objects directly
-rather than an index into an array to find the objects.
+I don't think so. It's defined as "pairs of phandles and interconnect
+provider specifiers", which is equivalent to what pretty much all of the
+resource bindings define. The #interconnect-cells property defines the
+number of cells used for the specifier. In the normal case this would be
+1, and the value of the one cell would be the ID of the endpoint. But if
+there's only a single endpoint, it's customary to set the number of
+cells to 0, in which case only the phandle is required.
 
 Thierry
 
---6sX45UoQRIJXqkqR
+--yLVHuoLXiP9kZBkt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4xUAAACgkQ3SOs138+
-s6Hu5g/8C6/Ok0YQVG4K+SUpBeDRFOEhJdFXvbx8GY1l2VGOb2zwbXpyBvoBIlg5
-208voSlRwDaYhJAeIYL8czDUJlPuxe24896v5zmuxBNDauiMzTMJF8wkrjFupf3w
-TobSBAJTsPPhdTxxz2AmOPVUi4AVn9oyymZG1KEQrzxFdoktA3SPm6lqrGh5CxoO
-c3nTfgPGqqiZrhP5xxquYqdVrod0x0KDyrtYwyt9AO+5291H2JxyFb9e9sJvQ4Tx
-qesj5dLAfet2CfgZUYn7bwtDmo8bMEFvKOO6Qh2T+mZpFuK05hPvSSbT2JZTTGmK
-VCXSmauItknL/WUjwUS2ugEMCccGiyzAD3XMX7DhWF+du3iXdeQAyEaL98YLMbXH
-mWEMjNMx8fMWX9Z9nsRfaIEP22ZGsfxPt1IcNWlGI+D0r4VY7EX9rKqSAEmLfCIZ
-RZXv2oqah0T2DJNed0wjStwXDo03uzoFS0NwGkUyf5/erFZSykXkSRMySj1QJvCT
-YG5Eyo92i+XB3ibLCVW0wdK0Fkx2XzbutPtGW2MIA4R3agSi8AWl9axdOlPyQIOu
-wFHUB5bSQr/2h3CdnMfh5DQ6auZUTAmSSr+bY5oi7Zmkezkm17Jp6PxbBv0e1Q//
-gaaDwV1HF2pyFyMlqkYBsyLyTGz0r2xjp7+M+iRd5WYeOB6SdF0=
-=QD3x
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4xUgIACgkQ3SOs138+
+s6HhvA//QjDP9iHRZnLDv+FLgl58pyhW4dkxH9ZiiH+bUzB4Wn2j6Oq9MTsKB5Pf
+FZcziCb5JgRqxzySzFR/MuJlad+riTX+wKkdTEUQIhgrBdfaVvP/ZVsdQtuo6RDm
+SyLuAFL14gJBncJ2bO8i4AJ269LXuowJvJK8TxZaTdD1KqnkIh/jwSoqJyPa+ibi
+XSDBtFYI+PtFeSsLhhvC5T3YTAHLFzV4sHO2WS5XvWjdvSWDEnxF/OV+bBLTZAWA
+htUKUPaHDDdkc8uX/WYhTqsae5L7f6kw2HrkGHJiRu1dwKMP/C8u5mO4g5ItvpGs
+dqEwG0DAuPbTJVsNKv4GE6T3QqCRHtWBSmz/NbUdj40v+jmNmcKp7vEwc4IL9cp+
+sTY1yywWFP4NrcZqIqR/bHinGTs0sdhM8Z/V0oKd01sf4tu0UORKEv1wLN7F8Y84
+l8D19oJ73bRKbodGuHa/zxFNHDGOWnUVTBCh+BCd+XtX/jPaoFAs6y838WIP2oAC
+RB4r8hyeQcIo1Up5B1rIhJxaIORR2/f6z+OqmzVsNsu6HO+ELQScW9vuOTgQqgbT
+iO8qEYfRzNWibSUeZ20sCb+Qp8Ei15va+RtYZ7X2+4lAjjS+wk8Rsemksm6L8/mY
+R6egPQm6XfsP4PTySBK1F6r/nLuMaj06p8yH9U7Vc/iq8aL3NoA=
+=xa9N
 -----END PGP SIGNATURE-----
 
---6sX45UoQRIJXqkqR--
+--yLVHuoLXiP9kZBkt--
