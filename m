@@ -2,178 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3483214DE18
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 16:43:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E3114DE78
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 17:09:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727313AbgA3Pmx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Jan 2020 10:42:53 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:50363 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726948AbgA3Pmv (ORCPT
+        id S1727470AbgA3QJF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Jan 2020 11:09:05 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:42502 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727469AbgA3QJE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Jan 2020 10:42:51 -0500
-Received: by mail-wm1-f68.google.com with SMTP id a5so4287645wmb.0;
-        Thu, 30 Jan 2020 07:42:49 -0800 (PST)
+        Thu, 30 Jan 2020 11:09:04 -0500
+Received: by mail-lf1-f68.google.com with SMTP id y19so2649369lfl.9;
+        Thu, 30 Jan 2020 08:09:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=mCC2iJp3FOKEqh51EnD5KyOBr0/MmDz/MslDmMolIPs=;
-        b=dygglIZ49hA7G9C2AigGTfVuxMBIjTvnYG93OfgAvY+GPbV/k5KDxLCQlabhHazTVC
-         /7rdveJA0Ea91a32LSTbN/Nj/yP+V/zD+turWA0YpAeRpEbMdzuyn5BfYqcB7uMIa/pl
-         n1kOhmF1pBrIidVznLvNpcGzQhM5Vlmzek+zAOmZ39xUyR6hw07+bgsxPzDqs9abtT74
-         0GGW/23acpORgVG+WP4P5+71uQZNbrxM6Is+nkKiPhPBM6FdI1hwhv7K8t/kcmKhiPMK
-         MCzRnUyKGXjKptHGYwm+HrZsaY3lIIC+ck836Qzm0wQmDi4ZAPI8BYcyq7YLWMRUYCNZ
-         iqSw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7MdnDJQMyIsHDWYb9nyXQwRWUc6t+KNfP7tasqGJFIE=;
+        b=oV/b1VIn7SIHE9G5ozfRIT4kiJ43JzyXCQmSs6tmc7tYdOIJFR3f5fYxGKJ/CvSR6N
+         sHEe1esb+eOEKd8xdKhZl32RARm3yMAr6mQs9cyUlpf/RuCJUuKAJ6eYn31/k4UD/N5O
+         UnzoVPYzKmSOe5guwQGl7CTH9+Lo/jzHouhxvVigcoKTx5X50gWlPjVhJ6raXpVc13Tw
+         w/jg3RRPzdHs+CMo2Zx1gXX2qdOIGzdT2CauoNS33uvQOyODYkjwwj35rGC3460Rm0sE
+         UBhKmpT/zafd3U8FvHQDQf0C1BVTa3Gbl0tn2B63io4brq1DihJWC2POKfQhpN+e+YX7
+         pJBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mCC2iJp3FOKEqh51EnD5KyOBr0/MmDz/MslDmMolIPs=;
-        b=Le8ddEnfxvQR9SGITSy/6Mbft6/sHQr7ekzi1XjNzmwmRRET4xS2Bie7By5fmAGCuD
-         SgEEnG4nCau+3FVQ6i4roPW6CUXOmfL5St+VlfUM1x/A73g8QvccxfftM2+lm9BVQLW/
-         nJXIl9avkkdsgEk+zENGbVcqMApp3uTSksEZNXD05I858RPppr4DN7n8KQYbDTqinE2c
-         S9AoW5JWcDBA2rtWjeLOP+tSnQD7Oix1WtofLTFUGI+Caf73jiDQ795OhSeBEi6FQUgO
-         GLLjo2VGegQJzHHzpzeW6c5ga7lkPkAK8lMRQI5V5K+XeuZoMNBYBftXRoK0JHokkvRB
-         sdxA==
-X-Gm-Message-State: APjAAAVJRpLUL5EffMwNCnNnDxzFaD7+inc/+h5dtL4scV837R9xe1HU
-        eQh8AP33Lt39eTJ/AlBpaAQa8dbb
-X-Google-Smtp-Source: APXvYqx516JuGfXnHVQ7VZhB2d9eEottnK1gojvjq5DNLACFhWs1Y8yfaGfYArfzgBwzmB77GXBWrA==
-X-Received: by 2002:a7b:cae9:: with SMTP id t9mr6222441wml.186.1580398968832;
-        Thu, 30 Jan 2020 07:42:48 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id f127sm6838903wma.4.2020.01.30.07.42.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2020 07:42:47 -0800 (PST)
-Date:   Thu, 30 Jan 2020 16:42:46 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>, jonathanh@nvidia.com,
-        frankc@nvidia.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
-Message-ID: <20200130154246.GA2904678@ulmo>
-References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
- <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7MdnDJQMyIsHDWYb9nyXQwRWUc6t+KNfP7tasqGJFIE=;
+        b=a45v/2Qc4fO6r76nDlPbA0baaBA1vZ4+RXPQpx+AzELIP2lDvJjSxDUauhHo5rdQvK
+         IZLBL9/J9i5BBgGcxK6MqaczRPUyICVEEwxn/xwgLMGPt1RWKYBfIPXXz/5ntDst1VBz
+         uAajtWhjOgK6fAlp0RdcHLKEilGR2zswOixjSCZJ9KWaWoUmGJGDHCMrMpcTnQa+IqoQ
+         5FUW1XDtigu3nSWHqS9GlxihQ0YV6+i33uzRSxPcma/osQEVtk3WPqJszCgOR1Lcmw2C
+         TYqFPFSXDDloRcwALHLwljtVggfIvQun54CjscGTp8uHn52nNE6ycJvnWTGQoamkLEh8
+         0IDQ==
+X-Gm-Message-State: APjAAAXBe/gLPKXmAR8IMMiA4ppbQaHWAWv6Z2TSjOKmNsj4o5QyYy5x
+        qUEQyxEBYX7bXYNT/Nbqv7cnBItr
+X-Google-Smtp-Source: APXvYqxUBSd0RcpEkIjAEyoRlD0SIYfgU0fFAhg0TfF0dchf8BlJEn3ktGm3VGjUfOXGZ7bPQQc7ZA==
+X-Received: by 2002:ac2:597b:: with SMTP id h27mr2961704lfp.12.1580400540753;
+        Thu, 30 Jan 2020 08:09:00 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id b20sm3120846ljp.20.2020.01.30.08.08.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jan 2020 08:09:00 -0800 (PST)
+Subject: Re: [PATCH v6 12/16] dmaengine: tegra-apb: Clean up suspend-resume
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200130043804.32243-1-digetx@gmail.com>
+ <20200130043804.32243-13-digetx@gmail.com>
+ <e787bee2-4b52-1643-b3a5-8c4e70f6fdca@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <394014f3-011a-d6b6-b5f2-f8c86834ec70@gmail.com>
+Date:   Thu, 30 Jan 2020 19:08:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
-Content-Disposition: inline
-In-Reply-To: <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <e787bee2-4b52-1643-b3a5-8c4e70f6fdca@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+30.01.2020 17:09, Jon Hunter пишет:
+> 
+> On 30/01/2020 04:38, Dmitry Osipenko wrote:
+>> It is enough to check whether hardware is busy on suspend and to reset
+>> it across of suspend-resume because channel's configuration is fully
+>> re-programmed on each DMA transaction anyways and because save-restore
+>> of an active channel won't end up well without pausing transfer prior to
+>> saving of the state (note that all channels shall be idling at the time of
+>> suspend, so save-restore is not needed at all).
+> 
+> I guess if we ever wanted to support SNDRV_PCM_INFO_PAUSE for audio and
+> support the pause callback, then saving and restoring the channels could
+> be needed. Right now I believe that it will just terminate_all transfers
+> for audio on entering suspend. Any value in keeping this?
 
---G4iJoqBmSsgzjUCe
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Indeed, looks like [1] pauses DMA during suspend if SNDRV_PCM_INFO_PAUSE
+is supported.
 
-On Thu, Jan 30, 2020 at 03:41:50PM +0100, Hans Verkuil wrote:
-> Hi Sowjanya,
->=20
-> On 1/28/20 7:23 PM, Sowjanya Komatineni wrote:
-> > This series adds Tegra210 VI and CSI driver for built-in test pattern
-> > generator (TPG) capture.
-> >=20
-> > Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
-> > CSI port is one-to-one mapped to VI channel for video capture.
-> >=20
-> > This series has TPG support only where it creates hard media links
-> > between CSI subdevice and VI video device without device graphs.
-> >=20
-> > v4l2-compliance results are available below the patch diff.
-> >=20
-> > [v0]:	Includes,
-> > 	- Adds CSI TPG clock to Tegra210 clock driver
-> > 	- Host1x video driver with VI and CSI clients.
-> > 	- Support for Tegra210 only.
-> > 	- VI CSI TPG support with hard media links in driver.
-> > 	- Video formats supported by Tegra210 VI
-> > 	- CSI TPG supported video formats
->=20
-> I'm trying to compile this patch series using the media_tree master
-> branch (https://git.linuxtv.org//media_tree.git), but it fails:
->=20
-> drivers/staging/media/tegra/tegra-channel.c: In function =E2=80=98tegra_c=
-hannel_queue_setup=E2=80=99:
-> drivers/staging/media/tegra/tegra-channel.c:71:15: warning: unused variab=
-le =E2=80=98count=E2=80=99 [-Wunused-variable]
->    71 |  unsigned int count =3D *nbuffers;
->       |               ^~~~~
-> drivers/staging/media/tegra/tegra-channel.c: In function =E2=80=98tegra_c=
-hannel_init=E2=80=99:
-> drivers/staging/media/tegra/tegra-channel.c:518:55: error: =E2=80=98struc=
-t host1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   518 |  struct tegra_camera *cam =3D dev_get_drvdata(vi->client.host);
->       |                                                       ^
-> make[4]: *** [scripts/Makefile.build:265: drivers/staging/media/tegra/teg=
-ra-channel.o] Error 1
-> make[4]: *** Waiting for unfinished jobs....
-> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_vi_tpg=
-_graph_init=E2=80=99:
-> drivers/staging/media/tegra/tegra-vi.c:157:55: error: =E2=80=98struct hos=
-t1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   157 |  struct tegra_camera *cam =3D dev_get_drvdata(vi->client.host);
->       |                                                       ^
-> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_vi_ini=
-t=E2=80=99:
-> drivers/staging/media/tegra/tegra-csi.c: In function =E2=80=98tegra_csi_i=
-nit=E2=80=99:
-> drivers/staging/media/tegra/tegra-vi.c:213:51: error: =E2=80=98struct hos=
-t1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   213 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->       |                                                   ^~
-> drivers/staging/media/tegra/tegra-csi.c:259:51: error: =E2=80=98struct ho=
-st1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   259 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->       |                                                   ^~
-> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_vi_exi=
-t=E2=80=99:
-> drivers/staging/media/tegra/tegra-vi.c:246:51: error: =E2=80=98struct hos=
-t1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   246 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->       |                                                   ^~
-> drivers/staging/media/tegra/tegra-csi.c: In function =E2=80=98tegra_csi_e=
-xit=E2=80=99:
-> drivers/staging/media/tegra/tegra-csi.c:286:51: error: =E2=80=98struct ho=
-st1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   286 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->       |                                                   ^~
->=20
-> And indeed, struct host1x_client as defined in include/linux/host1x.h doe=
-sn't
-> have a 'host' field.
->=20
-> Does this series depend on another patch that's not yet in mainline?
+[1]
+https://elixir.bootlin.com/linux/v5.5/source/sound/core/pcm_dmaengine.c#L199
 
-Sowjanya's been working on top of linux-next, so, yes, this patch
-depends on a change that's been merged into the DRM tree for v5.6-rc1.
-
-Thierry
-
---G4iJoqBmSsgzjUCe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4y+XIACgkQ3SOs138+
-s6FAZA//cpCNsEQU8gEHAU0CjI4DzvBc1qaYpfV6h43+F3Yray8ifipc/2NH66wY
-QUfBqh14a7p01FH/E2Y/aI01fJO62p7TN/vpTSJj7IkznUTIRDoBwSGU4AGwIHnU
-GTSjcYbv247B1aD1zZdG7T8xVN6qoCyVostAQz4LQJGm/wlalTlHbjvhnxXIFgAm
-tcZWT0dz7AEct7cStf5FbbfUe/3Q7YUPD/VofigxjL1QHiLrD9GlSHk4HSW2BUq+
-rrYI+raXFfVyE615KDqmZRcar9D/jVWdIqkn352u7M0G7te3JNkvwGujV7CuiS6B
-I/7E+QOG+r+gPR7TjLrZETkqbpaJZlhlYE2/V/GEWMavezU6yxuRnNkLH058lZ1I
-BJ+m/Elc4wOu9i1Y0JvlZgtChSGekGkjv/h0Doc2M/82l0OfbWJ0SGUudc0SeFtw
-eL65CkD7JaWTcamAzMmlpZAO7KulHW5bNhU9NnYL/lYt30OS2I2clqK2bgAKS3G4
-qyIOdqDaxmxkiOl4YTR+jGu1HTTpLvD9UxaV0Xk1tZ40X1AvapdG+cLogvV4LLrr
-8jvUw0vkEjDg6qwQ8gFs3zAG6Zn2rgbSwNb8tOUw0tR15FWM7ti7P0Ldaep2LT2T
-2qQF+D4XPiA5U5iL6jne6eRwZ1/n1aNpH2YsCgq1PfJFofV0nII=
-=5dmL
------END PGP SIGNATURE-----
-
---G4iJoqBmSsgzjUCe--
+So we'll need to save-restore context only if DMA is in a paused state
+during suspend, I'll adjust this patch to do that and will see if
+enabling SNDRV_PCM_INFO_PAUSE works.
