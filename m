@@ -2,153 +2,89 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3FA514DFD5
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 18:20:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC59C14DFDC
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 18:25:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727431AbgA3RUl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Jan 2020 12:20:41 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16987 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727247AbgA3RUl (ORCPT
+        id S1727263AbgA3RZd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Jan 2020 12:25:33 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:38912 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727285AbgA3RZd (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Jan 2020 12:20:41 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e3310590000>; Thu, 30 Jan 2020 09:20:25 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 30 Jan 2020 09:20:40 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 30 Jan 2020 09:20:40 -0800
-Received: from [10.2.164.115] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Jan
- 2020 17:20:39 +0000
-Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
-To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
- <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <845c362b-e164-58eb-118c-e779be8dd4e2@nvidia.com>
-Date:   Thu, 30 Jan 2020 09:20:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 30 Jan 2020 12:25:33 -0500
+Received: by mail-ed1-f65.google.com with SMTP id m13so4669018edb.6;
+        Thu, 30 Jan 2020 09:25:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=JBuUU9YguZE61sauS+J8SEajdxsJ22GtHtPHR00xnwQ=;
+        b=eqifi7oYW1I8KdEzjX6tWdUWANaC17b2wO7MTt/xGmTrtO614Uv4fXmLjJhh8p4F/J
+         yp3t7zsJsVXEmZ5fwhUARkHzPFSQHBbnRB0BS1rzj+9rvYy5FGxcJmA/2JWFq/+W3fSB
+         3vZl6mzptsIkh+HGnSMIagSOdKxQY1GFS5n1BMNL5wRx4xjPnS2nVL5ESTkLLd1zovoO
+         Dl28aHpApC9Ks09aRj3Jrr3KK1GJnK7mKyqI5ECEXWnHM/vTAZmtbdj9y6huxdybyvYU
+         MwFZcTN+xsHcCxpUeAtuc/Gk+6aO61iknKqiHOK8ZEfiguWLRaDxE9WwPGCu+ehMNUbn
+         mwRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JBuUU9YguZE61sauS+J8SEajdxsJ22GtHtPHR00xnwQ=;
+        b=dJ6hw3WhUiCIKGscLHRLT6IHtlIMX/O48yNYpJl6SdJZQhP+vVfnf2yjC8E3V92yaP
+         EUzx3Jc/yhbXnyzAS6qO+hSWEUoE0u2hRkLictqFskfh+c1XJ3P5RSt2rQO/ttoZ/x7i
+         9l83rYqSjbgAfKyj4HjiLlC5mNohkQTztnQRKHSMNjQyt7KnYH1+mL0GkUruA0zlqhCq
+         62l2x8j4N83hFXwtfJx3X35Kl9AvydbIrwAV0hlhAjkdTU7OrZWqzwWSd5uDTtT3QUaR
+         2BcL3GONYOJbr+xezekPpQnk2Gdyuh08oqKzAcCTzeTjNZ5V07Ld+/PC+6x5BB+xj4K4
+         wQgA==
+X-Gm-Message-State: APjAAAWjlw6yTD5Q/xD5PJKhGXRwpNyUHwFbXyzhrV9wWulUB5hKTgzU
+        shPwSf2nhT/5WjvnT4tCOkc=
+X-Google-Smtp-Source: APXvYqxgK0mJxO0cesg5dzA/VHClKjIV8UvSjUK/BmBRNn0pMgmfqfF4AHyys5c+xx6GizIFk2gDIg==
+X-Received: by 2002:a17:906:4a12:: with SMTP id w18mr5231796eju.321.1580405131582;
+        Thu, 30 Jan 2020 09:25:31 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id ks2sm597103ejb.82.2020.01.30.09.25.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jan 2020 09:25:31 -0800 (PST)
+Subject: Re: [PATCH v2 5/9] ASoC: tegra: add Tegra210 based AHUB driver
+To:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
+        robh+dt@kernel.org
+Cc:     broonie@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
+        dramesh@nvidia.com, atalambedu@nvidia.com
+References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+ <1580380422-3431-6-git-send-email-spujar@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <160bb2ca-89bb-0ecf-a334-0fac591b439a@gmail.com>
+Date:   Thu, 30 Jan 2020 20:25:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1580380422-3431-6-git-send-email-spujar@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580404826; bh=VvGI4mzL1+D2T1N0XX+UlimGE29f1CsZgH7u4Tm3tQI=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=UPPHupye+Yz8JTINjMcHQNHBYPrRzgHvy3kVPYf8ek8dbqNs/OhIKW+uUIaZp8WSA
-         KvFGL5KiIutVz+9vwOBk1ZUnJXXBG+JPhhRW404mwP3ZFyk4OQZA+MJZ81bSss01p0
-         9A3S1KQ3tmp+ruZPauZGSYLA4hv5MRRa/NPSKfCC7i4VKbW7zmbnVEqnioG9t0ywy6
-         Di1jonjMX/3v3HiLdupWP5ZdorVqq9oILzadc1GOs3O8WV636rlx0BNvluz+LCUBLQ
-         1nBq/u3OSqYTYepdmhNKGlrXI0m++gHSXpjgcmJgwXHBx8UuIL847cIcDEfJJbYm7J
-         LqFsQx1cV8amQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I noticed the warning in queue_setup and will be removed in v2.
+30.01.2020 13:33, Sameer Pujar пишет:
+...
+> +#include <linux/clk.h>
+> +#include <linux/device.h>
+> +#include <linux/module.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regmap.h>
 
-But errors are related to not using latest host1x driver. latest host1x=20
-driver changed parent member to host.
+> +#include <sound/soc.h>
 
-So vi/csi driver also uses new member name host. Probably media_tree=20
-don't have latest host1x driver
+> +#include "tegra210_ahub.h"
 
-
-On 1/30/20 6:41 AM, Hans Verkuil wrote:
-> External email: Use caution opening links or attachments
->
->
-> Hi Sowjanya,
->
-> On 1/28/20 7:23 PM, Sowjanya Komatineni wrote:
->> This series adds Tegra210 VI and CSI driver for built-in test pattern
->> generator (TPG) capture.
->>
->> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
->> CSI port is one-to-one mapped to VI channel for video capture.
->>
->> This series has TPG support only where it creates hard media links
->> between CSI subdevice and VI video device without device graphs.
->>
->> v4l2-compliance results are available below the patch diff.
->>
->> [v0]: Includes,
->>        - Adds CSI TPG clock to Tegra210 clock driver
->>        - Host1x video driver with VI and CSI clients.
->>        - Support for Tegra210 only.
->>        - VI CSI TPG support with hard media links in driver.
->>        - Video formats supported by Tegra210 VI
->>        - CSI TPG supported video formats
-> I'm trying to compile this patch series using the media_tree master
-> branch (https://git.linuxtv.org//media_tree.git), but it fails:
->
-> drivers/staging/media/tegra/tegra-channel.c: In function =E2=80=98tegra_c=
-hannel_queue_setup=E2=80=99:
-> drivers/staging/media/tegra/tegra-channel.c:71:15: warning: unused variab=
-le =E2=80=98count=E2=80=99 [-Wunused-variable]
->     71 |  unsigned int count =3D *nbuffers;
->        |               ^~~~~
-> drivers/staging/media/tegra/tegra-channel.c: In function =E2=80=98tegra_c=
-hannel_init=E2=80=99:
-> drivers/staging/media/tegra/tegra-channel.c:518:55: error: =E2=80=98struc=
-t host1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->    518 |  struct tegra_camera *cam =3D dev_get_drvdata(vi->client.host);
->        |                                                       ^
-> make[4]: *** [scripts/Makefile.build:265: drivers/staging/media/tegra/teg=
-ra-channel.o] Error 1
-> make[4]: *** Waiting for unfinished jobs....
-> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_vi_tpg=
-_graph_init=E2=80=99:
-> drivers/staging/media/tegra/tegra-vi.c:157:55: error: =E2=80=98struct hos=
-t1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->    157 |  struct tegra_camera *cam =3D dev_get_drvdata(vi->client.host);
->        |                                                       ^
-> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_vi_ini=
-t=E2=80=99:
-> drivers/staging/media/tegra/tegra-csi.c: In function =E2=80=98tegra_csi_i=
-nit=E2=80=99:
-> drivers/staging/media/tegra/tegra-vi.c:213:51: error: =E2=80=98struct hos=
-t1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->    213 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->        |                                                   ^~
-> drivers/staging/media/tegra/tegra-csi.c:259:51: error: =E2=80=98struct ho=
-st1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->    259 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->        |                                                   ^~
-> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_vi_exi=
-t=E2=80=99:
-> drivers/staging/media/tegra/tegra-vi.c:246:51: error: =E2=80=98struct hos=
-t1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->    246 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->        |                                                   ^~
-> drivers/staging/media/tegra/tegra-csi.c: In function =E2=80=98tegra_csi_e=
-xit=E2=80=99:
-> drivers/staging/media/tegra/tegra-csi.c:286:51: error: =E2=80=98struct ho=
-st1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->    286 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->        |                                                   ^~
->
-> And indeed, struct host1x_client as defined in include/linux/host1x.h doe=
-sn't
-> have a 'host' field.
->
-> Does this series depend on another patch that's not yet in mainline?
->
-> Regards,
->
->          Hans
+Nit: I'd separate the per-directory includes with a blank line, like it
+done by the most of existing drivers, for consistency.
