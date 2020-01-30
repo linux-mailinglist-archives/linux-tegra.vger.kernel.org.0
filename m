@@ -2,70 +2,68 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA82C14DE8F
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 17:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 000DF14DEF3
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 17:22:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727366AbgA3QMA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Jan 2020 11:12:00 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:36967 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727240AbgA3QL7 (ORCPT
+        id S1727193AbgA3QWf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Jan 2020 11:22:35 -0500
+Received: from mail-lj1-f182.google.com ([209.85.208.182]:38856 "EHLO
+        mail-lj1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727158AbgA3QWf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Jan 2020 11:11:59 -0500
-Received: by mail-lj1-f195.google.com with SMTP id v17so3972949ljg.4;
-        Thu, 30 Jan 2020 08:11:57 -0800 (PST)
+        Thu, 30 Jan 2020 11:22:35 -0500
+Received: by mail-lj1-f182.google.com with SMTP id w1so4021470ljh.5;
+        Thu, 30 Jan 2020 08:22:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QcIEU1BF7cwmI0DxgULRZM17HmWH1rGSNGACzNQuG7s=;
-        b=g3rOFGeFhKStpenlf1xIyKEnBPysb0aE1YkiRpr7zLIMtmpgkYvSCIsrZ4M5azLDz5
-         jrcHk6fjjDkdG9ayA6gNzuxVtJWwJeXqYL6nw1GCWP5WDCKYLHzeDVD11uQQW5Bf0l6A
-         XC/HOPGu48+uOhsmnrbLanbrinHsss6KyDjgI6GUPJWI/8UY0J558mBcTb7eAyR+nG2t
-         JU+iTXT7CSiD58AIDlw4vSIjMpNrUxgOV1lQ6Oc9sz4+5eR/tmA+qgmq+Xz93t+lCUFR
-         T6lNWOe4nkzNwRM3IU2iMZA/HQ0Ioj46mAKh0SvBx+Wp5OcR4KlUivYUUG5O0HgpN8Sd
-         abqw==
+        bh=8ydSULXhpnS+IHlEO6mcIkif2rvznLkOx5g93ANwtj4=;
+        b=YrRv+ayu7UpfrV7pGLy+a1wa+oHB5N0itiEYbS0LqezYldLZ/c5CbJ9JuJueg/ZIN8
+         ejFl4HxejjDlj5znzvNDPmX7FC2r4Iq2JwbkdXdjxaX4mufNsu39LSXsuu02VtONt8bt
+         gLq1RkSU5ixbkximWiTgdoFw1RLbmbdyCmoWbKBgUHvBb4TNbxHMhS4zG0ii7hJFt8xp
+         GYF9XGi7MNZSrWpWESncKX6fFdJYOU3Jm2xgyB4zOgz52mwhUMOJV0S3Fw/bNdRoJp9b
+         IHSgAcsDWGGN7BShK9aDO40u4jM8g+/MSRnAwcbW3rsXVkBXgvJvvLgHPH73WZTFvF+k
+         SeGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=QcIEU1BF7cwmI0DxgULRZM17HmWH1rGSNGACzNQuG7s=;
-        b=hprlrs7VoFKFezYqaD57rgWQAJznr49GwxrpfgmtC6nHQXBDsGI8hF9gsT+fos2YPg
-         gAEqbSrn1z6azZTycHe7kgY+rG+3tMfnu9i3OWAYpwKbXPGO36KHotU0WIrzHaar0iS2
-         mUh6evMuMTIyQaOLHJK/JL+QLsYdSsAmj8e8SsNyFaoIiWX7DytHBDejg3vDzGq5vQaM
-         ef81J4mN/HmaTaQ/ivBI0CPyqb429KlVGszkt2/fk8ecQpsZEbUmPC4VRKCAtOCSgpcQ
-         MLHUvP0Ruk8zV3oSdC1ME1PO8Q948y+FAMZ8e1ngQLwzHpxCE9754Vh54XP6coh44Ta0
-         4dLg==
-X-Gm-Message-State: APjAAAW39emlhxPfPU7CsGe5IjgajMT1vDLUp/HJL4mUOww4GlKrBGKU
-        6aw+kRstegic6hORgmSAio3WaPgZ
-X-Google-Smtp-Source: APXvYqz0ZsEFGv6Ab3i0ACnXJCW701L8b3Mcyg5IEZ7nQjLEyCiz0CpVcJy4Q3e95Yqx+wOgCvz4YA==
-X-Received: by 2002:a2e:574d:: with SMTP id r13mr3258814ljd.63.1580400715727;
-        Thu, 30 Jan 2020 08:11:55 -0800 (PST)
+        bh=8ydSULXhpnS+IHlEO6mcIkif2rvznLkOx5g93ANwtj4=;
+        b=YohuPuZdOZ/33lHb+urHDqeVFN2Ah+/Fsvh5rdkr41l+uLS55oKHmPZFraCMk6tB4Z
+         +G1u0hMII3izYjjxbD2sLcXfFrPHSOhByWNfmvhi23viRfS+uHNyHV03miW7OjYyY98o
+         FYnfc2KYaoktBYbYwlKLNTgtP/cPmqbs7PahI0OsbsRpuTSjsiMo2cWno56Lg6fvvNQ7
+         leoP1XGSPpqv7aihhk6/aaFBDL91y6wrHU8a6e4l3qOtvH0JiKmPFG4qcc3C2TClXnSy
+         a1u0he3UaGhc2kgtEI4A0EJ78bSJsxapKif476f4/1vxlJuJD7I1S5xLYp/Eq2k6OiK2
+         4z0A==
+X-Gm-Message-State: APjAAAXcnysq+TQP31n2shNcMnWkMSWruJQbZMRTrBdnJ6hsy3TOvNM8
+        f/2vKwBROILNjtK+OSr82/U=
+X-Google-Smtp-Source: APXvYqygtCrUmUdUJMmbcfRWxioa9pHzvzUKG7bRsZbCukhjXSx3+2knDTwFGBmnS2g5idn/hQCveg==
+X-Received: by 2002:a2e:9d0f:: with SMTP id t15mr3339882lji.171.1580401351910;
+        Thu, 30 Jan 2020 08:22:31 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id y23sm3215873ljk.6.2020.01.30.08.11.54
+        by smtp.googlemail.com with ESMTPSA id q10sm3258034ljj.60.2020.01.30.08.22.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2020 08:11:55 -0800 (PST)
-Subject: Re: [PATCH v6 11/16] dmaengine: tegra-apb: Keep clock enabled only
- during of DMA transfer
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200130043804.32243-1-digetx@gmail.com>
- <20200130043804.32243-12-digetx@gmail.com>
- <2442aee7-2c2a-bacc-7be9-8eed17498928@nvidia.com>
+        Thu, 30 Jan 2020 08:22:31 -0800 (PST)
+Subject: Re: [PATCH v2 5/9] ASoC: tegra: add Tegra210 based AHUB driver
+To:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
+        robh+dt@kernel.org
+Cc:     broonie@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
+        dramesh@nvidia.com, atalambedu@nvidia.com
+References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+ <1580380422-3431-6-git-send-email-spujar@nvidia.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0c766352-700a-68bf-cf7b-9b1686ba9ca9@gmail.com>
-Date:   Thu, 30 Jan 2020 19:11:54 +0300
+Message-ID: <ef701838-be43-e42c-9245-b28cda5ed9bb@gmail.com>
+Date:   Thu, 30 Jan 2020 19:22:30 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <2442aee7-2c2a-bacc-7be9-8eed17498928@nvidia.com>
+In-Reply-To: <1580380422-3431-6-git-send-email-spujar@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -74,142 +72,16 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.01.2020 17:09, Jon Hunter пишет:
-> 
-> On 30/01/2020 04:37, Dmitry Osipenko wrote:
->> It's a bit impractical to enable hardware's clock at the time of DMA
->> channel's allocation because most of DMA client drivers allocate DMA
->> channel at the time of the driver's probing, and thus, DMA clock is kept
->> always-enabled in practice, defeating the whole purpose of runtime PM.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/dma/tegra20-apb-dma.c | 47 ++++++++++++++++++++++++-----------
->>  1 file changed, 32 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
->> index 22b88ccff05d..0ee28d8e3c96 100644
->> --- a/drivers/dma/tegra20-apb-dma.c
->> +++ b/drivers/dma/tegra20-apb-dma.c
->> @@ -436,6 +436,8 @@ static void tegra_dma_stop(struct tegra_dma_channel *tdc)
->>  		tdc_write(tdc, TEGRA_APBDMA_CHAN_STATUS, status);
->>  	}
->>  	tdc->busy = false;
->> +
->> +	pm_runtime_put(tdc->tdma->dev);
->>  }
->>  
->>  static void tegra_dma_start(struct tegra_dma_channel *tdc,
->> @@ -500,18 +502,25 @@ static void tegra_dma_configure_for_next(struct tegra_dma_channel *tdc,
->>  	tegra_dma_resume(tdc);
->>  }
->>  
->> -static void tdc_start_head_req(struct tegra_dma_channel *tdc)
->> +static bool tdc_start_head_req(struct tegra_dma_channel *tdc)
->>  {
->>  	struct tegra_dma_sg_req *sg_req;
->> +	int err;
->>  
->>  	if (list_empty(&tdc->pending_sg_req))
->> -		return;
->> +		return false;
->> +
->> +	err = pm_runtime_get_sync(tdc->tdma->dev);
->> +	if (WARN_ON_ONCE(err < 0))
->> +		return false;
->>  
->>  	sg_req = list_first_entry(&tdc->pending_sg_req, typeof(*sg_req), node);
->>  	tegra_dma_start(tdc, sg_req);
->>  	sg_req->configured = true;
->>  	sg_req->words_xferred = 0;
->>  	tdc->busy = true;
->> +
->> +	return true;
->>  }
->>  
->>  static void tdc_configure_next_head_desc(struct tegra_dma_channel *tdc)
->> @@ -615,6 +624,8 @@ static void handle_once_dma_done(struct tegra_dma_channel *tdc,
->>  	}
->>  	list_add_tail(&sgreq->node, &tdc->free_sg_req);
->>  
->> +	pm_runtime_put(tdc->tdma->dev);
->> +
->>  	/* Do not start DMA if it is going to be terminate */
->>  	if (to_terminate || list_empty(&tdc->pending_sg_req))
->>  		return;
->> @@ -730,9 +741,7 @@ static void tegra_dma_issue_pending(struct dma_chan *dc)
->>  		dev_err(tdc2dev(tdc), "No DMA request\n");
->>  		goto end;
->>  	}
->> -	if (!tdc->busy) {
->> -		tdc_start_head_req(tdc);
->> -
->> +	if (!tdc->busy && tdc_start_head_req(tdc)) {
->>  		/* Continuous single mode: Configure next req */
->>  		if (tdc->cyclic) {
->>  			/*
->> @@ -775,6 +784,13 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
->>  	else
->>  		wcount = status;
->>  
->> +	/*
->> +	 * tegra_dma_stop() will drop the RPM's usage refcount, but
->> +	 * tegra_dma_resume() touches hardware and thus we should keep
->> +	 * the DMA clock active while it's needed.
->> +	 */
->> +	pm_runtime_get(tdc->tdma->dev);
->> +
-> 
-> Would it work and make it simpler to just enable in the issue_pending
-> and disable in the handle_once_dma_done or terminate_all?
-> 
-> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-> index 3a45079d11ec..86bbb45da93d 100644
-> --- a/drivers/dma/tegra20-apb-dma.c
-> +++ b/drivers/dma/tegra20-apb-dma.c
-> @@ -616,9 +616,14 @@ static void handle_once_dma_done(struct
-> tegra_dma_channel *tdc,
->         list_add_tail(&sgreq->node, &tdc->free_sg_req);
-> 
->         /* Do not start DMA if it is going to be terminate */
-> -       if (to_terminate || list_empty(&tdc->pending_sg_req))
-> +       if (to_terminate)
->                 return;
-> 
-> +       if (list_empty(&tdc->pending_sg_req)) {
-> +               pm_runtime_put(tdc->tdma->dev);
-> +               return;
-> +       }
+30.01.2020 13:33, Sameer Pujar пишет:
+...
+> +static int tegra_ahub_probe(struct platform_device *pdev)
+> +{
+> +	struct tegra_ahub *ahub;
+> +	void __iomem *regs;
+> +	int ret;
 > +
->         tdc_start_head_req(tdc);
->  }
-> 
-> @@ -729,6 +734,11 @@ static void tegra_dma_issue_pending(struct dma_chan
-> *dc)
->                 goto end;
->         }
->         if (!tdc->busy) {
-> +               if (pm_runtime_get_sync(tdc->tdma->dev) < 0) {
-> +                       dev_err(tdc2dev(tdc), "Failed to enable DMA!\n");
-> +                       goto end;
-> +               }
-> +
->                 tdc_start_head_req(tdc);
-> 
->                 /* Continuous single mode: Configure next req */
-> @@ -788,6 +798,7 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
->                                 get_current_xferred_count(tdc, sgreq,
-> wcount);
->         }
->         tegra_dma_resume(tdc);
-> +       pm_runtime_put(tdc->tdma->dev);
-> 
->  skip_dma_stop:
->         tegra_dma_abort_all(tdc);
-> 
+> +	ahub = devm_kcalloc(&pdev->dev, 1, sizeof(*ahub), GFP_KERNEL);
+> +	if (!ahub)
+> +		return -ENOMEM;
 
-The tegra_dma_stop() should put RPM anyways, which is missed in yours
-sample. Please see handle_continuous_head_request().
-
-I'm also finding the explicit get/put a bit easier to follow in the
-code, don't you think so?
+ahub = devm_kzalloc(&pdev->dev, sizeof(*ahub), GFP_KERNEL);
