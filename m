@@ -2,23 +2,25 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67C5514D75E
-	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 09:17:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A08114D84B
+	for <lists+linux-tegra@lfdr.de>; Thu, 30 Jan 2020 10:37:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbgA3IRk (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 30 Jan 2020 03:17:40 -0500
-Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:37900 "EHLO
-        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726863AbgA3IRj (ORCPT
+        id S1726893AbgA3JhU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 30 Jan 2020 04:37:20 -0500
+Received: from webclient5.webclient5.de ([136.243.32.184]:60255 "EHLO
+        webclient5.webclient5.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726882AbgA3JhU (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 30 Jan 2020 03:17:39 -0500
-Received: from [167.98.27.226] (helo=[172.16.102.1])
-        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1ix517-0001zU-Md; Thu, 30 Jan 2020 08:17:37 +0000
-Subject: Re: [alsa-devel] [Linux-kernel] [PATCH v5 2/7] ASoC: tegra: Allow
- 24bit and 32bit samples
-To:     Jon Hunter <jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>,
-        Dmitry Osipenko <digetx@gmail.com>
+        Thu, 30 Jan 2020 04:37:20 -0500
+X-Greylist: delayed 346 seconds by postgrey-1.27 at vger.kernel.org; Thu, 30 Jan 2020 04:37:20 EST
+Received: from aquila.ladisch.de (x2f7f810.dyn.telefonica.de [2.247.248.16])
+        by webclient5.webclient5.de (Postfix) with ESMTPSA id D7696578555E;
+        Thu, 30 Jan 2020 10:31:31 +0100 (CET)
+Subject: Re: [alsa-devel] (no subject)
+To:     Ben Dooks <ben.dooks@codethink.co.uk>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>
 Cc:     linux-kernel@lists.codethink.co.uk, alsa-devel@alsa-project.org,
         Liam Girdwood <lgirdwood@gmail.com>,
         Takashi Iwai <tiwai@suse.com>,
@@ -36,87 +38,65 @@ References: <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
  <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
  <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
  <20200128121315.GD4689@sirena.org.uk>
- <4b90efd2-5d0c-84df-961d-80cee288e0d4@nvidia.com>
- <586ea2b9-c204-2bd1-f8e2-875e0974e42d@nvidia.com>
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <fe002ec7-ae6e-f770-b82a-49237e0b29c6@codethink.co.uk>
-Date:   Thu, 30 Jan 2020 08:17:37 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <047c8caa-e715-5295-9794-67ff3e10cea2@gmail.com>
+ <70f344bf-f991-606c-55ab-bdadea27d233@nvidia.com>
+ <2ff97414-f0a5-7224-0e53-6cad2ed0ccd2@gmail.com>
+ <35667c85-67b5-6f6f-ffe8-4fe3455ea4bb@codethink.co.uk>
+From:   Clemens Ladisch <clemens@ladisch.de>
+Message-ID: <96ed04cb-24ab-7e4d-bd44-6a4bb7c046ac@ladisch.de>
+Date:   Thu, 30 Jan 2020 10:31:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <586ea2b9-c204-2bd1-f8e2-875e0974e42d@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <35667c85-67b5-6f6f-ffe8-4fe3455ea4bb@codethink.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.101.4 at webclient5
+X-Virus-Status: Clean
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 29/01/2020 14:33, Jon Hunter wrote:
-> 
-> On 29/01/2020 10:49, Jon Hunter wrote:
->>
->> On 28/01/2020 12:13, Mark Brown wrote:
->>> I really don't understand why this is all taking so long, this thread
->>> just seems to be going round in interminable circles long after it
->>> looked like the issue was understood.  I have to admit I've not read
->>> every single message in the thread but it's difficult to see why it
->>> doesn't seem to be making any progress.
->>
->> Sorry about that. On reviewing this with the audio team at NVIDIA, I was
->> told we don't support S24_LE for I2S. The reason being that the crossbar
->> between the DMA and I2S is not able to extract the correct 24-bits from
->> the 32-bit sample to feed to the I2S interface. The Tegra documentation
->> does show support for 24-bits, but not state explicit support for S24_LE.
->>
->> Now Ben says that he has this working, but I am unable to reproduce
->> this, so before just dropping the S24_LE support, I would like to
->> understand how this is working for Ben in case there is something that
->> we have overlooked here.
-> 
-> Ah, I see that part of the problem is that patches 6 and 7 are yet to be
-> applied and without these the audio is completely distorted because
-> there is a mismatch in the data size between the APBIF and I2S
-> controller. Applying these patches it is not distorted but now I am
-> observing the clocking issue Ben reported and so the tone is not quite
-> right.
+Ben Dooks wrote:
+> On 29/01/2020 00:17, Dmitry Osipenko wrote:
+>> 28.01.2020 21:19, Jon Hunter пишет:
+>>> On 28/01/2020 17:42, Dmitry Osipenko wrote:
+>>>> 28.01.2020 15:13, Mark Brown пишет:
+>>>>> On Mon, Jan 27, 2020 at 10:20:25PM +0300, Dmitry Osipenko wrote:
+>>>>>> 24.01.2020 19:50, Jon Hunter пишет:
+>>>>>
+>>>>>>>                  .rates = SNDRV_PCM_RATE_8000_96000,
+>>>>>>>                  .formats = SNDRV_PCM_FMTBIT_S32_LE |
+>>>>>>> -                          SNDRV_PCM_FMTBIT_S24_LE |
+>>>>>>> +                          SNDRV_PCM_FMTBIT_S24_3LE |
+>>>>>
+>>>>>> It should solve the problem in my particular case, but I'm not sure that
+>>>>>> the solution is correct.
+>>>>>
+>>>>> If the format implemented by the driver is S24_3LE the driver should
+>>>>> advertise S24_3LE.
+>>>>
+>>>> It should be S24_LE, but seems we still don't know for sure.
+>>>
+>>> Why?
+>> /I think/ sound should be much more distorted if it was S24_3LE, but
+>> maybe I'm wrong.
+>
+> S24_3LE is IICC the wrong thing and we can't support it on the tegra3
 
-I thought they had been applied? I probably dragged them back in when
-putting in the support for the test channel on the colibri.
+There are three ways of arranging 24-bit samples in memory:
 
-> Ben, I was able to workaround the clocking issue by making the I2S word
-> clock 64 bits long and not 48.
+S24_3LE: 24-bit samples in 24-bit words without padding
+S24_LE:  24-bit samples in 32-bit words, aligned to the LSB
+S32_LE:  24-bit samples in 32-bit words, aligned to the MSB
 
-Ok, that will work for I2S case, but maybe not TDM? I'd have to check.
+It is very unlikely that your hardware implements S24_LE.
 
-> diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
-> index bbf81b5aa723..3c9b4779e61b 100644
-> --- a/sound/soc/tegra/tegra30_i2s.c
-> +++ b/sound/soc/tegra/tegra30_i2s.c
-> @@ -143,7 +143,7 @@ static int tegra30_i2s_hw_params(struct
-> snd_pcm_substream *substream,
->          case SNDRV_PCM_FORMAT_S24_LE:
->                  val = TEGRA30_I2S_CTRL_BIT_SIZE_24;
->                  audio_bits = TEGRA30_AUDIOCIF_BITS_24;
-> -               sample_size = 24;
-> +               sample_size = 32;
->                  break;
->          case SNDRV_PCM_FORMAT_S32_LE:
->                  val = TEGRA30_I2S_CTRL_BIT_SIZE_32;
-> 
-> For I2S I believe we only care about the edges of the word clock and so
-> we make the overall period of the word clock 64 bit clocks then we no
-> longer have an issue with the bit clock frequency. I assume that this
-> should also be fine for TDM modes as well.
-> 
-> Can you let me know if this works for you?
+If a S32_LE driver wants to describe how many bits are actually used, it
+should install a msbits constraint (snd_pcm_hw_constraint_msbits()).
 
-I'll be back in the office next week to test.
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
-
-https://www.codethink.co.uk/privacy.html
+Regards,
+Clemens
