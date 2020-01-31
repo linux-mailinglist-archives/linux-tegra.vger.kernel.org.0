@@ -2,100 +2,151 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 750E014E9E5
-	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 10:05:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FA4614E9F8
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 10:19:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728214AbgAaJFr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 31 Jan 2020 04:05:47 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3813 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728151AbgAaJFr (ORCPT
+        id S1728203AbgAaJTI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 Jan 2020 04:19:08 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5733 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728159AbgAaJTH (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 31 Jan 2020 04:05:47 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e33edd50001>; Fri, 31 Jan 2020 01:05:25 -0800
+        Fri, 31 Jan 2020 04:19:07 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e33f0fc0000>; Fri, 31 Jan 2020 01:18:52 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 31 Jan 2020 01:05:46 -0800
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 31 Jan 2020 01:19:06 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 31 Jan 2020 01:05:46 -0800
-Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 31 Jan
- 2020 09:05:43 +0000
-Subject: Re: [PATCH v6 11/16] dmaengine: tegra-apb: Keep clock enabled only
- during of DMA transfer
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200130043804.32243-1-digetx@gmail.com>
- <20200130043804.32243-12-digetx@gmail.com>
+        by hqpgpgate102.nvidia.com on Fri, 31 Jan 2020 01:19:06 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 31 Jan
+ 2020 09:19:05 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 31 Jan 2020 09:19:06 +0000
+Received: from localhost.localdomain (Not Verified[10.21.133.51]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e33f1070000>; Fri, 31 Jan 2020 01:19:06 -0800
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <1b7dd052-20f0-7b38-9578-44967eca1770@nvidia.com>
-Date:   Fri, 31 Jan 2020 09:05:41 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+To:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+CC:     <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Ben Dooks <ben.dooks@codethink.co.uk>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>, <stable@vger.kernel.org>
+Subject: [PATCH] Revert "ASoC: tegra: Allow 24bit and 32bit samples"
+Date:   Fri, 31 Jan 2020 09:19:01 +0000
+Message-ID: <20200131091901.13014-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20200130043804.32243-12-digetx@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580461525; bh=BuOEIlbunk7DCg4cTZ3hlSTaa7xG8buVShKe71iVBmQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=k/JTHwA+ZPbXyAPIaXapcZO+zRym95tsMi+ep9eF4W9lfzOG8Y06NARftq85MOHVP
-         Lr6IyrwUWnGPWk6hcySr55nBl+xo5E0DxYNYl5lcqsvtDMi7Pyp5NPZLSFdShVwy/J
-         ikNQgBb0HASbDZwN+8FIXiXULXt5SpotCdZRYGF4v9MrMrSVkgdaoG05xLdlHYAlM4
-         o+dtJOQfxMdutQLJoVsx8YDu3F7eFlX09gHJLwwQqiMegRxNQp9zeOCmGbFvy69zpD
-         LAkrbDqiAdPy4eYuoXvBYojxIM+XRrvpY2AKM/424qEnzYo79Kr5KAw7gH7watJZRj
-         TYtMakNWvDvtg==
+        t=1580462332; bh=tiU1SfpaStOkJ6bQ2E30mw6f5GTzwb+oM/IkptsdS5k=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=LlE3h6byVFYfwkT5fY0SHwQMoZLsEXCO9SfRIsLT/dS4D1vvvSozqeBst/zTE/6Og
+         Z2oacZ6c9tyJg1bCfyoBih1xyX8x1tjRExAPhi47HzTbhtZLA0wgm5+I3rNI6oYcL0
+         d9d2c2ds1R2fBHbtF02i8ro2/7aNYWTn9K+Z6swwnybwMbIFNrZ17/WbKsCGIbAi43
+         wzGLTj1sUvaYGDb07oR5GnoDg7b+1Gm+M7UQjmG7jhlu871jQ9eIsEFevnmq0eZgZM
+         gxzl/c2VQtql1d7bFipw7TqPAcrItpz9Kvy57LwvMqp0IexMU4hoXbltHu5ZU60Qtm
+         isWSyMpaK20NQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+Commit f3ee99087c8ca0ecfdd549ef5a94f557c42d5428 ("ASoC: tegra: Allow
+24bit and 32bit samples") added 24-bit and 32-bit support for to the
+Tegra30 I2S driver. However, there are two additional commits that are
+also needed to get 24-bit and 32-bit support to work correctly. These
+commits are not yet applied because there are still some review comments
+that need to be addressed. With only this change applied, 24-bit and
+32-bit support is advertised by the I2S driver, but it does not work and
+the audio is distorted. Therefore, revert this patch for now until the
+other changes are also ready.
 
-On 30/01/2020 04:37, Dmitry Osipenko wrote:
-> It's a bit impractical to enable hardware's clock at the time of DMA
-> channel's allocation because most of DMA client drivers allocate DMA
-> channel at the time of the driver's probing, and thus, DMA clock is kept
-> always-enabled in practice, defeating the whole purpose of runtime PM.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/dma/tegra20-apb-dma.c | 47 ++++++++++++++++++++++++-----------
->  1 file changed, 32 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-> index 22b88ccff05d..0ee28d8e3c96 100644
-> --- a/drivers/dma/tegra20-apb-dma.c
-> +++ b/drivers/dma/tegra20-apb-dma.c
-> @@ -436,6 +436,8 @@ static void tegra_dma_stop(struct tegra_dma_channel *tdc)
->  		tdc_write(tdc, TEGRA_APBDMA_CHAN_STATUS, status);
->  	}
->  	tdc->busy = false;
-> +
-> +	pm_runtime_put(tdc->tdma->dev);
+Furthermore, a clock issue with 24-bit support has been identified with
+this change and so if we revert this now, we can also fix that in the
+updated version.
 
-There are only 3 places where tegra_dma_stop is called, does it simplify
-the code if we move the pm_runtime_put() outside of tegra_dma_stop? In
-other words, everywhere there is a tegra_dma_stop, afterwards we then
-call pm_runtime_put?
+Cc: stable@vger.kernel.org
 
-This would allow us to get rid of the extra pm_runtime_get in
-terminate_all.
+Reported-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ sound/soc/tegra/tegra30_i2s.c | 25 +++++--------------------
+ 1 file changed, 5 insertions(+), 20 deletions(-)
 
-Jon
-
+diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
+index dbed3c5408e7..d59882ec48f1 100644
+--- a/sound/soc/tegra/tegra30_i2s.c
++++ b/sound/soc/tegra/tegra30_i2s.c
+@@ -127,7 +127,7 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
+ 	struct device *dev = dai->dev;
+ 	struct tegra30_i2s *i2s = snd_soc_dai_get_drvdata(dai);
+ 	unsigned int mask, val, reg;
+-	int ret, sample_size, srate, i2sclock, bitcnt, audio_bits;
++	int ret, sample_size, srate, i2sclock, bitcnt;
+ 	struct tegra30_ahub_cif_conf cif_conf;
+ 
+ 	if (params_channels(params) != 2)
+@@ -137,19 +137,8 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
+ 	switch (params_format(params)) {
+ 	case SNDRV_PCM_FORMAT_S16_LE:
+ 		val = TEGRA30_I2S_CTRL_BIT_SIZE_16;
+-		audio_bits = TEGRA30_AUDIOCIF_BITS_16;
+ 		sample_size = 16;
+ 		break;
+-	case SNDRV_PCM_FORMAT_S24_LE:
+-		val = TEGRA30_I2S_CTRL_BIT_SIZE_24;
+-		audio_bits = TEGRA30_AUDIOCIF_BITS_24;
+-		sample_size = 24;
+-		break;
+-	case SNDRV_PCM_FORMAT_S32_LE:
+-		val = TEGRA30_I2S_CTRL_BIT_SIZE_32;
+-		audio_bits = TEGRA30_AUDIOCIF_BITS_32;
+-		sample_size = 32;
+-		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -181,8 +170,8 @@ static int tegra30_i2s_hw_params(struct snd_pcm_substream *substream,
+ 	cif_conf.threshold = 0;
+ 	cif_conf.audio_channels = 2;
+ 	cif_conf.client_channels = 2;
+-	cif_conf.audio_bits = audio_bits;
+-	cif_conf.client_bits = audio_bits;
++	cif_conf.audio_bits = TEGRA30_AUDIOCIF_BITS_16;
++	cif_conf.client_bits = TEGRA30_AUDIOCIF_BITS_16;
+ 	cif_conf.expand = 0;
+ 	cif_conf.stereo_conv = 0;
+ 	cif_conf.replicate = 0;
+@@ -317,18 +306,14 @@ static const struct snd_soc_dai_driver tegra30_i2s_dai_template = {
+ 		.channels_min = 2,
+ 		.channels_max = 2,
+ 		.rates = SNDRV_PCM_RATE_8000_96000,
+-		.formats = SNDRV_PCM_FMTBIT_S32_LE |
+-			   SNDRV_PCM_FMTBIT_S24_LE |
+-			   SNDRV_PCM_FMTBIT_S16_LE,
++		.formats = SNDRV_PCM_FMTBIT_S16_LE,
+ 	},
+ 	.capture = {
+ 		.stream_name = "Capture",
+ 		.channels_min = 2,
+ 		.channels_max = 2,
+ 		.rates = SNDRV_PCM_RATE_8000_96000,
+-		.formats = SNDRV_PCM_FMTBIT_S32_LE |
+-			   SNDRV_PCM_FMTBIT_S24_LE |
+-			   SNDRV_PCM_FMTBIT_S16_LE,
++		.formats = SNDRV_PCM_FMTBIT_S16_LE,
+ 	},
+ 	.ops = &tegra30_i2s_dai_ops,
+ 	.symmetric_rates = 1,
 -- 
-nvpublic
+2.17.1
+
