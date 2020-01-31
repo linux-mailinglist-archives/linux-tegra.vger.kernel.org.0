@@ -2,123 +2,134 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C50C14EE4C
-	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 15:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38AB314EE77
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 15:30:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728881AbgAaOXQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 31 Jan 2020 09:23:16 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:38202 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728730AbgAaOXQ (ORCPT
+        id S1729074AbgAaOaA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 Jan 2020 09:30:00 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:45115 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729070AbgAaOaA (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 31 Jan 2020 09:23:16 -0500
-Received: by mail-ed1-f65.google.com with SMTP id p23so7954317edr.5;
-        Fri, 31 Jan 2020 06:23:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5v/d9VEU5KVu0UWojc/o6Bq3UTZ8IALs0zvn7lGcGR0=;
-        b=GNCWAHC897q5L4mOmLaEKcJ36kfrbD7nc915n7AYBjv5VVrqM2p0SJV6I1G503IEwI
-         5s3s4e9piyBcCzRrvd0FBux4nDz/3kBTJxhdwPZJ5icNn5+x1/Q/0etbKYSrMgPCGIDR
-         0hy/7nYYFsEccgKaPJrjPsTFJX6WpWqLCyTodIWlVG2lzF9QDYQ9fgmjnPjz8LOWFlil
-         YRetIN3HuLjcmZybdds1l6ldA60nAR8Xzfg6B5HFC1gNW3lVJ29516DgZysK7Q3qVxv8
-         IttTAfJ5kXfSRcx/4gFEQOYVzS80wKpLs7JF0/GQbKaj90nw0jtiG42UgPEZhsYI+Umf
-         q20Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5v/d9VEU5KVu0UWojc/o6Bq3UTZ8IALs0zvn7lGcGR0=;
-        b=KBTvRN0v2+O6k/RgZw0UR2l3bLNRPmrGleRU1PhbFP2YUI8X/F7Fw4fY95X760XEV7
-         3uSwms3DTE/MbYubUqzT3VDK0JMub15d21lBxNVAa4sQ9ShG9kvWX1xgA8MNh6vlJGEr
-         Xr5UnHQ58HxLo422hOz0nn+vNp7Ug1r8f0ufkoYn3p0kCfqtl3so6FUeHv3BpedRKvNy
-         2jyoCxkpSVhbeqx10k0PUin1pRRIi2vqYxD+QcCiygk+01R9mnjOFZJLA/vCnfimvX9m
-         5qGDNNWR4CCurVK3l2K6FB32q6dEnjGR06HCpipcp99y/rI5yHa8kjb//6hxuFDpSACU
-         JZfg==
-X-Gm-Message-State: APjAAAVnKjsKDJ3BAouqo4pTYBuMIpEF9/CNMkReMAMOL5bMP4JiS3Oi
-        vXlbZRof/zxeyjdrlcTw0/KucoVG
-X-Google-Smtp-Source: APXvYqxhihbO1V/ApC6dcntrBYql5ALy0cEUpX+6WD+kmEokCbWvXOksq1JUZbpx7esaU77XJGqG+Q==
-X-Received: by 2002:a17:906:848e:: with SMTP id m14mr8850516ejx.152.1580480594349;
-        Fri, 31 Jan 2020 06:23:14 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id c24sm522225eds.40.2020.01.31.06.23.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jan 2020 06:23:13 -0800 (PST)
-Subject: Re: [PATCH v6 11/16] dmaengine: tegra-apb: Keep clock enabled only
- during of DMA transfer
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200130043804.32243-1-digetx@gmail.com>
- <20200130043804.32243-12-digetx@gmail.com>
- <2442aee7-2c2a-bacc-7be9-8eed17498928@nvidia.com>
- <0c766352-700a-68bf-cf7b-9b1686ba9ca9@gmail.com>
- <e72d00ee-abee-9ae2-4654-da77420b440e@nvidia.com>
- <cedbf558-b15b-81ca-7833-c94aedce5c5c@gmail.com>
- <315241b5-f5a2-aaa0-7327-24055ff306c7@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1b64a3c6-a8b9-34d7-96cc-95b93ca1a392@gmail.com>
-Date:   Fri, 31 Jan 2020 17:22:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Fri, 31 Jan 2020 09:30:00 -0500
+Received: from [IPv6:2001:420:44c1:2577:a04f:7995:3c9:b968]
+ ([IPv6:2001:420:44c1:2577:a04f:7995:3c9:b968])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id xXIviyHzaVuxOxXIyiw9vz; Fri, 31 Jan 2020 15:29:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1580480997; bh=KR7EznYBMkt354xhu7C0+6DgiIJTm+VmPaNCZY9hKD8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ug0sxkYChv6BTu1xkP0sC0xCUcrgwta+q9ucrbSgk0PrmR+LfKQE0mmNl+3GAczVV
+         pthR10z9nEwxw8Ai29INnVY+6nf+7Wx524SPlil7t9JaPJ1U/FDJQDcmZEmbS1kRcp
+         EkTXRXCn61e2ATxi643jb805dj/imUgzPdfhkeMIxiwHoXvwiKPj2sLPjN1leQLKQS
+         Xh/4hHrOD8bNDhJ2RJogp5VR2vS5pn7d1Yuo3xAQyCcoVhH1rTR/akRAx4xTY0QNCq
+         b3F3SiietFgU/WkFKmI/IZHdz2BXIRsnLtpLKoOFFwI+YjkQawucLlBK/+G8Y0eFcj
+         OdjFizMdjMGWg==
+Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>, jonathanh@nvidia.com,
+        frankc@nvidia.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+ <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
+ <20200130154246.GA2904678@ulmo>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <8654e6fd-c403-6e68-e5cf-09297b5d8b5d@xs4all.nl>
+Date:   Fri, 31 Jan 2020 15:29:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <315241b5-f5a2-aaa0-7327-24055ff306c7@nvidia.com>
+In-Reply-To: <20200130154246.GA2904678@ulmo>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfCqH4Rqa5JScrU5yccR0hxnJW9qBhh+i+yk9NqKcTkbucS1a1ztOTwwyQU2g42qAcwbOjCwjsnGgGdArXN8npjWWmuGBZNbmQhFoft5Za35hhLgqZXVg
+ I9gd/W0c7H4ZfjoTL54sEB5r0Ft/X2Vzi0Ql75hrGg6PiK6D2cAxhcky2SEluJk0sK91n2G4vyMPX3E+Zuiz3jTpD+4jfPzqAB5mzYpYYLZW4HOhcOrvM8lj
+ XZZyg4mYXik+rnJLRxX0MOIH1QNMpMOHofoD8vaDtHBqKEIeZYlvLoUwBCn4g3DVTYtFjjSq/3OmCJcmfwd2PUNk1EOxPZUWCVNvisiC6RAnv8XKRoEPJuj2
+ 3LUPN6jfwo8NZMZDfV+/PmkguyFpwbfjj9QnVwCo0jFdX94ryOWetxrmZQYqM3O2H0YwkRuscB3GquDEubL7I5RA9azASuHmbo5QGaJ/jXV+Uc9sHquRj9+7
+ DrP5Th9LSmkp7iF7TXVvO8KR8shvQPfraBnlI67rO38aEFbhBENqkJr02MQqpWkvwxA45WUa7AtIXz9jmiSN7tu7dhHJ/vCIHeXwotOIDUtfUPJmi2jn/MC4
+ U/Y=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-31.01.2020 12:02, Jon Hunter пишет:
-> 
-> On 30/01/2020 20:04, Dmitry Osipenko wrote:
-> 
-> ...
-> 
->>>> The tegra_dma_stop() should put RPM anyways, which is missed in yours
->>>> sample. Please see handle_continuous_head_request().
->>>
->>> Yes and that is deliberate. The cyclic transfers the transfers *should*
->>> not stop until terminate_all is called. The tegra_dma_stop in
->>> handle_continuous_head_request() is an error condition and so I am not
->>> sure it is actually necessary to call pm_runtime_put() here.
+On 1/30/20 4:42 PM, Thierry Reding wrote:
+> On Thu, Jan 30, 2020 at 03:41:50PM +0100, Hans Verkuil wrote:
+>> Hi Sowjanya,
 >>
->> But then tegra_dma_stop() shouldn't unset the "busy" mark.
-> 
-> True.
-> 
->>>> I'm also finding the explicit get/put a bit easier to follow in the
->>>> code, don't you think so?
+>> On 1/28/20 7:23 PM, Sowjanya Komatineni wrote:
+>>> This series adds Tegra210 VI and CSI driver for built-in test pattern
+>>> generator (TPG) capture.
 >>>
->>> I can see that, but I was thinking that in the case of cyclic transfers,
->>> it should only really be necessary to call the get/put at the beginning
->>> and end. So in my mind there should only be two exit points which are
->>> the ISR handler for SG and terminate_all for SG and cyclic.
+>>> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+>>> CSI port is one-to-one mapped to VI channel for video capture.
+>>>
+>>> This series has TPG support only where it creates hard media links
+>>> between CSI subdevice and VI video device without device graphs.
+>>>
+>>> v4l2-compliance results are available below the patch diff.
+>>>
+>>> [v0]:	Includes,
+>>> 	- Adds CSI TPG clock to Tegra210 clock driver
+>>> 	- Host1x video driver with VI and CSI clients.
+>>> 	- Support for Tegra210 only.
+>>> 	- VI CSI TPG support with hard media links in driver.
+>>> 	- Video formats supported by Tegra210 VI
+>>> 	- CSI TPG supported video formats
 >>
->> Alright, I'll update this patch.
+>> I'm trying to compile this patch series using the media_tree master
+>> branch (https://git.linuxtv.org//media_tree.git), but it fails:
+>>
+>> drivers/staging/media/tegra/tegra-channel.c: In function ‘tegra_channel_queue_setup’:
+>> drivers/staging/media/tegra/tegra-channel.c:71:15: warning: unused variable ‘count’ [-Wunused-variable]
+>>    71 |  unsigned int count = *nbuffers;
+>>       |               ^~~~~
+>> drivers/staging/media/tegra/tegra-channel.c: In function ‘tegra_channel_init’:
+>> drivers/staging/media/tegra/tegra-channel.c:518:55: error: ‘struct host1x_client’ has no member named ‘host’
+>>   518 |  struct tegra_camera *cam = dev_get_drvdata(vi->client.host);
+>>       |                                                       ^
+>> make[4]: *** [scripts/Makefile.build:265: drivers/staging/media/tegra/tegra-channel.o] Error 1
+>> make[4]: *** Waiting for unfinished jobs....
+>> drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_tpg_graph_init’:
+>> drivers/staging/media/tegra/tegra-vi.c:157:55: error: ‘struct host1x_client’ has no member named ‘host’
+>>   157 |  struct tegra_camera *cam = dev_get_drvdata(vi->client.host);
+>>       |                                                       ^
+>> drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_init’:
+>> drivers/staging/media/tegra/tegra-csi.c: In function ‘tegra_csi_init’:
+>> drivers/staging/media/tegra/tegra-vi.c:213:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>   213 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>       |                                                   ^~
+>> drivers/staging/media/tegra/tegra-csi.c:259:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>   259 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>       |                                                   ^~
+>> drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_exit’:
+>> drivers/staging/media/tegra/tegra-vi.c:246:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>   246 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>       |                                                   ^~
+>> drivers/staging/media/tegra/tegra-csi.c: In function ‘tegra_csi_exit’:
+>> drivers/staging/media/tegra/tegra-csi.c:286:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>   286 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>       |                                                   ^~
+>>
+>> And indeed, struct host1x_client as defined in include/linux/host1x.h doesn't
+>> have a 'host' field.
+>>
+>> Does this series depend on another patch that's not yet in mainline?
 > 
-> Hmmm ... I am wondering if we should not mess with that and leave how
-> you have it.
+> Sowjanya's been working on top of linux-next, so, yes, this patch
+> depends on a change that's been merged into the DRM tree for v5.6-rc1.
+> 
+> Thierry
+> 
 
-I took another look and seems my current v6 should be more correct because:
+Is there a specific linux-next tag that works? I tried next-20200131 but that
+failed to boot. Same problem with the mainline repo since the host1x patches
+were merged yesterday. It compiles fine, but the boot just stops. Or am I
+missing some kernel config that is now important to have?
 
-1. If "busy" is unset in tegra_dma_stop(), then the RPM should be put
-there since tegra_dma_terminate_all() won't put RPM in this case:
+Regards,
 
-	if (!tdc->busy)
-		goto skip_dma_stop;
-
-2. We can't move the "busy" unsetting into the terminate because then
-tegra_dma_stop() will be invoked twice. Although, one option could be to
-remove the tegra_dma_stop() from the error paths of
-handle_continuous_head_request(), but I'm not sure that this is correct
-to do.
+	Hans
