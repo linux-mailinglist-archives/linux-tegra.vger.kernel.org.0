@@ -2,109 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E2D614ED1F
-	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 14:21:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C50C14EE4C
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 15:23:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728603AbgAaNVJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 31 Jan 2020 08:21:09 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:38775 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728579AbgAaNVJ (ORCPT
+        id S1728881AbgAaOXQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 Jan 2020 09:23:16 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:38202 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728730AbgAaOXQ (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 31 Jan 2020 08:21:09 -0500
-Received: by mail-lf1-f67.google.com with SMTP id r14so4862309lfm.5;
-        Fri, 31 Jan 2020 05:21:07 -0800 (PST)
+        Fri, 31 Jan 2020 09:23:16 -0500
+Received: by mail-ed1-f65.google.com with SMTP id p23so7954317edr.5;
+        Fri, 31 Jan 2020 06:23:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=EVZ7gvWnAO8ObBd60YbtUt6FN90G7Un0YuJYzA17AjA=;
-        b=P7rEeoZ9bR6Z1oevGGptf7dLFbr/FFg+dClLOSl1ViCZNRXrMaNhrdwBBbKz6HMDxP
-         KIX/oiLqGpQrUhq3nK2YqEcCTd3YJEoNBMZMlDJGsipMMq2R3ieY/Z4+fqElGYqda8+s
-         NNkCS3SgoQORZLnbCUHrK5pXauBS0Ao6ejdKflLCR21JowFtjjc9XXNXjqmo7W9hF0CV
-         uvFOjMyhHSQN+eR15+WzApJAj44aU5fX1jsEc4mdW35OwP2E7B5tGm5QNc3bolaUmlhq
-         n3R7Mts4oztgX/p26Dg1Jw+GuMedWGL8FgrZTgAi8YX9sgkUwj6auKn4evPiGKQU7pWx
-         S9Qg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=5v/d9VEU5KVu0UWojc/o6Bq3UTZ8IALs0zvn7lGcGR0=;
+        b=GNCWAHC897q5L4mOmLaEKcJ36kfrbD7nc915n7AYBjv5VVrqM2p0SJV6I1G503IEwI
+         5s3s4e9piyBcCzRrvd0FBux4nDz/3kBTJxhdwPZJ5icNn5+x1/Q/0etbKYSrMgPCGIDR
+         0hy/7nYYFsEccgKaPJrjPsTFJX6WpWqLCyTodIWlVG2lzF9QDYQ9fgmjnPjz8LOWFlil
+         YRetIN3HuLjcmZybdds1l6ldA60nAR8Xzfg6B5HFC1gNW3lVJ29516DgZysK7Q3qVxv8
+         IttTAfJ5kXfSRcx/4gFEQOYVzS80wKpLs7JF0/GQbKaj90nw0jtiG42UgPEZhsYI+Umf
+         q20Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=EVZ7gvWnAO8ObBd60YbtUt6FN90G7Un0YuJYzA17AjA=;
-        b=aX4I8HJHV3VHNYL//I/lzM6ug6zOXVZHYGp4BLsGHrQR0BCoWi0+oVctsrVGC87htE
-         /tF7boiIYxviVz9uX9O5fkpCRdR6MDxnAuzuEbQBqEO//l3pE7mVtPL1DDuuTvKfqkWF
-         Y6E+t536orjX9/ChKshwV5c2Eo0MF9zVx7JbtX2rRaYNGeGWLfPwWdirqyyylQ5QENIK
-         XV2Ft+SV4A6gjU1VU4a2R/BHpzsfwzQFfjqvrqjdtsu0dtY1if0tfyD9u5pRfPC+xGTl
-         wdnCWMbtCsLN5nmeYWGUgi6C46UQ9EIj8h/PN9ikVg3f5S6mFTAgsAwLisi6cRQWxapr
-         tWEw==
-X-Gm-Message-State: APjAAAW0Nvil5kesWX8XDd8uwy7Gq7pJpcQcRte1/kxi7iBYhLNCy/ZO
-        Oe5CvuvHchQWL+bJ4qnd/Etn8MGDSTaBIQ==
-X-Google-Smtp-Source: APXvYqxBwHBS8TL1hwso4HWmWDKFsziwoBeFHuoemign5Ohv5V3P0+2btm7+7Z8BI/vEKzkAYZGW2g==
-X-Received: by 2002:a19:4cc6:: with SMTP id z189mr5302555lfa.171.1580476866627;
-        Fri, 31 Jan 2020 05:21:06 -0800 (PST)
-Received: from saruman (88-113-215-33.elisa-laajakaista.fi. [88.113.215.33])
-        by smtp.gmail.com with ESMTPSA id u13sm4628454lfq.19.2020.01.31.05.21.05
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 31 Jan 2020 05:21:05 -0800 (PST)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Dejin Zheng <zhengdejin5@gmail.com>, gregkh@linuxfoundation.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
-Subject: Re: [PATCH] usb: phy: tegra: make the code simple by devm_platform_ioremap_resource()
-In-Reply-To: <20200127135841.17935-1-zhengdejin5@gmail.com>
-References: <20200127135841.17935-1-zhengdejin5@gmail.com>
-Date:   Fri, 31 Jan 2020 15:21:01 +0200
-Message-ID: <874kwb92yq.fsf@kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5v/d9VEU5KVu0UWojc/o6Bq3UTZ8IALs0zvn7lGcGR0=;
+        b=KBTvRN0v2+O6k/RgZw0UR2l3bLNRPmrGleRU1PhbFP2YUI8X/F7Fw4fY95X760XEV7
+         3uSwms3DTE/MbYubUqzT3VDK0JMub15d21lBxNVAa4sQ9ShG9kvWX1xgA8MNh6vlJGEr
+         Xr5UnHQ58HxLo422hOz0nn+vNp7Ug1r8f0ufkoYn3p0kCfqtl3so6FUeHv3BpedRKvNy
+         2jyoCxkpSVhbeqx10k0PUin1pRRIi2vqYxD+QcCiygk+01R9mnjOFZJLA/vCnfimvX9m
+         5qGDNNWR4CCurVK3l2K6FB32q6dEnjGR06HCpipcp99y/rI5yHa8kjb//6hxuFDpSACU
+         JZfg==
+X-Gm-Message-State: APjAAAVnKjsKDJ3BAouqo4pTYBuMIpEF9/CNMkReMAMOL5bMP4JiS3Oi
+        vXlbZRof/zxeyjdrlcTw0/KucoVG
+X-Google-Smtp-Source: APXvYqxhihbO1V/ApC6dcntrBYql5ALy0cEUpX+6WD+kmEokCbWvXOksq1JUZbpx7esaU77XJGqG+Q==
+X-Received: by 2002:a17:906:848e:: with SMTP id m14mr8850516ejx.152.1580480594349;
+        Fri, 31 Jan 2020 06:23:14 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id c24sm522225eds.40.2020.01.31.06.23.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jan 2020 06:23:13 -0800 (PST)
+Subject: Re: [PATCH v6 11/16] dmaengine: tegra-apb: Keep clock enabled only
+ during of DMA transfer
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200130043804.32243-1-digetx@gmail.com>
+ <20200130043804.32243-12-digetx@gmail.com>
+ <2442aee7-2c2a-bacc-7be9-8eed17498928@nvidia.com>
+ <0c766352-700a-68bf-cf7b-9b1686ba9ca9@gmail.com>
+ <e72d00ee-abee-9ae2-4654-da77420b440e@nvidia.com>
+ <cedbf558-b15b-81ca-7833-c94aedce5c5c@gmail.com>
+ <315241b5-f5a2-aaa0-7327-24055ff306c7@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1b64a3c6-a8b9-34d7-96cc-95b93ca1a392@gmail.com>
+Date:   Fri, 31 Jan 2020 17:22:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+In-Reply-To: <315241b5-f5a2-aaa0-7327-24055ff306c7@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+31.01.2020 12:02, Jon Hunter пишет:
+> 
+> On 30/01/2020 20:04, Dmitry Osipenko wrote:
+> 
+> ...
+> 
+>>>> The tegra_dma_stop() should put RPM anyways, which is missed in yours
+>>>> sample. Please see handle_continuous_head_request().
+>>>
+>>> Yes and that is deliberate. The cyclic transfers the transfers *should*
+>>> not stop until terminate_all is called. The tegra_dma_stop in
+>>> handle_continuous_head_request() is an error condition and so I am not
+>>> sure it is actually necessary to call pm_runtime_put() here.
+>>
+>> But then tegra_dma_stop() shouldn't unset the "busy" mark.
+> 
+> True.
+> 
+>>>> I'm also finding the explicit get/put a bit easier to follow in the
+>>>> code, don't you think so?
+>>>
+>>> I can see that, but I was thinking that in the case of cyclic transfers,
+>>> it should only really be necessary to call the get/put at the beginning
+>>> and end. So in my mind there should only be two exit points which are
+>>> the ISR handler for SG and terminate_all for SG and cyclic.
+>>
+>> Alright, I'll update this patch.
+> 
+> Hmmm ... I am wondering if we should not mess with that and leave how
+> you have it.
 
+I took another look and seems my current v6 should be more correct because:
 
-Hi,
+1. If "busy" is unset in tegra_dma_stop(), then the RPM should be put
+there since tegra_dma_terminate_all() won't put RPM in this case:
 
-Dejin Zheng <zhengdejin5@gmail.com> writes:
+	if (!tdc->busy)
+		goto skip_dma_stop;
 
-> make the code simple by use devm_platform_ioremap_resource() function
-> to replace platform_get_resource() and devm_ioremap().
->
-> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-
-checking file drivers/usb/phy/phy-tegra-usb.c
-Hunk #1 FAILED at 944.
-Hunk #2 FAILED at 1054.
-Hunk #3 FAILED at 1071.
-3 out of 3 hunks FAILED
-
-unfortunately, it doesn't apply.
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl40Kb0ACgkQzL64meEa
-mQa9oQ/+N8kMk+Fj6NEXBzM8cCr8usoHA7A7qOqstj20pLW3cE8yLXehv64Brcio
-QromC9dq9QqoFEQmvK7VkZYAMu1rZJxZysZNTO/bNpVdA3mF1/yqKME92oJCg7X5
-5+ouEFUQNGvyxNuWX5Uo7SycH66xZm8/vyPwK3dUNA64Ex/gqoDMJomSpdhI7PiS
-VUf3Fr+BQNAJ9w5Z+IEsQj/E6dQpVITr17gt426oEQmmhzHmwHX5viypc+jys/Dn
-y02SCHcx8IbzBBzNnH31pFFQ+COtT7NbBjTbkeqs0BOGaLSWpFROp/80Jnn2/4l/
-d2QNytRnoy9uXpqo3zLAVAJcFakqofr6mgqoEO6FOJ3o+B0uXI3u2JHUkenAUM+v
-V/ugEbWI3LHtCCGsWIZHmNtfPxQtxKXyGVEOq7KSvHFMjoVExln+kI7TOrtgZdkM
-fpqvqr8uUZiDxSXr2ScF0vtlkZW5ECZPZ74aRl+iznIyYaPHy0ma6vxm12K40HGV
-Xdwhdn9D/VD2Zn01rBusPn1wJoZI/E6nhEpe/6XqEEWCghusWP3UpI6u+pTGNyrY
-T80o58Ay/F4vGx57vpX5iLWvwFItX3IIfVVbyoV1SlQeLLMChVfX5GaQIzLNJVdi
-6naoDsgqekY33RmJ3YqRupMO/gJUu9diGEYyiow1WabipwFNz68=
-=doA5
------END PGP SIGNATURE-----
---=-=-=--
+2. We can't move the "busy" unsetting into the terminate because then
+tegra_dma_stop() will be invoked twice. Although, one option could be to
+remove the tegra_dma_stop() from the error paths of
+handle_continuous_head_request(), but I'm not sure that this is correct
+to do.
