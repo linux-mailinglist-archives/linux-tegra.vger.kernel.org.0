@@ -2,79 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E870A14EB4A
-	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 11:50:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C27514EB59
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 12:03:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728328AbgAaKuM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 31 Jan 2020 05:50:12 -0500
-Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:49944 "EHLO
-        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728268AbgAaKuM (ORCPT
+        id S1728325AbgAaLDT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 Jan 2020 06:03:19 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:9529 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728268AbgAaLDT (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 31 Jan 2020 05:50:12 -0500
-Received: from [78.40.148.177] (helo=localhost)
-        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1ixTs8-0001a6-Ej; Fri, 31 Jan 2020 10:50:00 +0000
+        Fri, 31 Jan 2020 06:03:19 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3409610002>; Fri, 31 Jan 2020 03:02:58 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 31 Jan 2020 03:03:18 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 31 Jan 2020 03:03:18 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 31 Jan
+ 2020 11:03:16 +0000
+Subject: Re: [PATCH 4.19 00/55] 4.19.101-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200130183608.563083888@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <5612c97f-61eb-4e2c-a618-f138f4d8bf28@nvidia.com>
+Date:   Fri, 31 Jan 2020 11:03:14 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+In-Reply-To: <20200130183608.563083888@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Date:   Fri, 31 Jan 2020 10:50:00 +0000
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-To:     Clemens Ladisch <clemens@ladisch.de>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-kernel@lists.codethink.co.uk, alsa-devel@alsa-project.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Edward Cragg <edward.cragg@codethink.co.uk>,
-        linux-tegra@vger.kernel.org
-Subject: Re: [alsa-devel] (no subject)
-In-Reply-To: <182fd434-f15a-f049-1ba1-83bd864b4590@ladisch.de>
-References: <29db3df4-6f51-7c0f-1eef-90171f1d233a@codethink.co.uk>
- <9a5447e2-155c-7e6e-b8f1-95523c6f42c6@gmail.com>
- <b4a416fb-f2b1-660d-27e3-aebf602178f9@codethink.co.uk>
- <680e2dfd-6f4f-5c96-63b7-97520961dc82@gmail.com>
- <0e0cd260e39ad293edb881da1c565510@codethink.co.uk>
- <507dcd5a-672b-61ac-aa7f-af5ff01accff@codethink.co.uk>
- <a2744ea0-cf6d-d083-75e6-853746195001@gmail.com>
- <28cafc56-095b-68c6-638d-270608a2983f@codethink.co.uk>
- <3d8544be-af20-f382-85fd-32183365267b@nvidia.com>
- <1b3c2af4-510e-306c-749a-efffc994b20a@gmail.com>
- <20200128121315.GD4689@sirena.org.uk>
- <047c8caa-e715-5295-9794-67ff3e10cea2@gmail.com>
- <70f344bf-f991-606c-55ab-bdadea27d233@nvidia.com>
- <2ff97414-f0a5-7224-0e53-6cad2ed0ccd2@gmail.com>
- <35667c85-67b5-6f6f-ffe8-4fe3455ea4bb@codethink.co.uk>
- <96ed04cb-24ab-7e4d-bd44-6a4bb7c046ac@ladisch.de>
- <8161fc88-fa8c-ec92-cc14-1caa5c6f2fe7@codethink.co.uk>
- <182fd434-f15a-f049-1ba1-83bd864b4590@ladisch.de>
-User-Agent: Roundcube Webmail/1.4.2
-Message-ID: <6ceb0c37867dd9ec9c5285e4470d462b@codethink.co.uk>
-X-Sender: ben.dooks@codethink.co.uk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580468578; bh=ZE8OPY76mL6H1B5jhHlX0DuIYHVEV+J5XhGSWkZmOMg=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=CmZImB1ImZST8TFWEx4k5e6Qmlfv/pyHS7mU1wAnlDLRwPL9Il/+SGJFeLugVfR93
+         BQCxFqhuw+bxV3e4CL8kyODPIGbRUgRmYuxSs6qN6nZ0p/Bx78OuXYi/AjvONUnlOw
+         bkU61gMDvdU3BqS89x+u87Vi1/YIetAE9Dh6aDJ9awxJQ8eYqd86yeU9mz0dcs9RvX
+         IDgBeMnd0Dg6ndRhh1xVvg+zzfHtd0ZIlPKyFZPXeuc4WRVGkZ6AnftOyGofQr3DpB
+         ljv0RTeeB6VIp6UVaUoWcdDhmSaF2wrxSHxpUdam+mxk74kW41Z5b/T15jnbsf2a5F
+         BQ2jcwyJSi6LA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-
-On 2020-01-30 14:58, Clemens Ladisch wrote:
-> Ben Dooks wrote:
->> On 30/01/2020 09:31, Clemens Ladisch wrote:
->>> S24_LE:  24-bit samples in 32-bit words, aligned to the LSB
->>> S32_LE:  24-bit samples in 32-bit words, aligned to the MSB
->>> 
->>> It is very unlikely that your hardware implements S24_LE.
->> 
->> Which is wrong, since this is exactly what the hardware implements.
->> 
->> The DMA fetches 32 bit words, and then the front end dispatches only
->> 24 bits of these to the I2S/TDM
+On 30/01/2020 18:38, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.101 release.
+> There are 55 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Which 24 bits?  Is the padding in the first byte (S32_LE) or in the
-> last byte (S24_LE)?
+> Responses should be made by Sat, 01 Feb 2020 18:35:06 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.101-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-I think the low 24 bits are sent from the 32 bit word.
+
+All tests are passing for Tegra ...
+
+Test results for stable-v4.19:
+    11 builds:	11 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    32 tests:	32 pass, 0 fail
+
+Linux version:	4.19.101-rc1-g985d20b62b7c
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
+
+Cheers
+Jon
+
+-- 
+nvpublic
