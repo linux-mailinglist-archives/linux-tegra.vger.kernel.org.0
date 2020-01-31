@@ -2,219 +2,161 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4645514F32D
-	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 21:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3815214F34D
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 21:43:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726105AbgAaUbd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 31 Jan 2020 15:31:33 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:54830 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbgAaUbd (ORCPT
+        id S1726139AbgAaUnj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 Jan 2020 15:43:39 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:39054 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726105AbgAaUnj (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 31 Jan 2020 15:31:33 -0500
-Received: by mail-wm1-f65.google.com with SMTP id g1so9374488wmh.4;
-        Fri, 31 Jan 2020 12:31:30 -0800 (PST)
+        Fri, 31 Jan 2020 15:43:39 -0500
+Received: by mail-qt1-f196.google.com with SMTP id c5so6472883qtj.6;
+        Fri, 31 Jan 2020 12:43:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=rXOjIgLKMcS/rpvOcjjPy6Ti8Ik2MqTM5puLhDaf+2M=;
-        b=AC/s3JlhTammh7DuDj+dq5D4FIz2PyNfWUpQSzudQIEQEj0L/zV/UnSbyd+pqnQgq3
-         cNOfpuBJimYlJwyDz07T3ZccRR1+wvcFD1hfx7CMxH0cHRR2ZRs1ieiLBNddkJoatJL7
-         HfmGDwAgRaotmSopgrdtk0OwAxa3WHc77wNnyf7BOneWj/iAUnbHc6sC1CsTdrEs0P/G
-         W47WQ7U3LxjVOgqdq1eNgPdnn6qC5Au95Fn7PfzIf6GrsTYdESGAO0kfJd+p0JNa0dIN
-         sSEzkpst+UKeCmLaO23s+EXcjR7RvUweynFyyjJsw8si/Qwopa9zZWnhcf2FgBzhNvQh
-         DfwA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3yf1HBcmGp74avg3FEmlzcI0q9y8WZG9wLGEm4kfw0o=;
+        b=aRPFXJET+/27gV3ghHOgxRdxeeg3oMuVgOD1aGcTdvKW8z5cYfiqrVB9P9XdtFVhz+
+         6JH+JmJ9EmpLHeMbT1/3id8Nh2oHlDNVQaaWt2J/JeP9GS7swtIVgZgbdE7ZV1l/xLLS
+         i4a8YchU1drjpab9N4uXb2m4TAGKrcqDU5fSz2IW+OjRbiiinqMn8stSn90HA1zhxP2n
+         0oe9iZVUzQryJStUGK9cN5yYfSLpMqEA2Jr+HoWV+lKju0M3YMszqu/fhSNi0gZ0pBuR
+         Kk7yO8gx8lSU1XvXhd0s+EOTHUCAU4p61Tp225ZJAqOYKZDKdRQjnadBMYIBlhZPEz1p
+         Pqnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rXOjIgLKMcS/rpvOcjjPy6Ti8Ik2MqTM5puLhDaf+2M=;
-        b=D3kXyhOGmVtNY1ME+WWWXPttGdRlYNp/iSurjGdjfs6b8FqdRQYj8ziEjpaELuDMpm
-         LZcR10DaKCM0fUMgeolM87rIY0gsfUpLs1pJx8pIvQSgXXq8N4fNdbn8GCw1ndJb6U7v
-         uYXKJUZ+LDML5wFqv+hk9itwAnIbzpsQgmBRS+lm8nXU5WbNysoCkcWQXKaXUSnCAu1m
-         Cn7GZWze+p+ZI8ZnNwUuuNoZSKxoyjPxHOuOE/97jmDANiUGPT1ZwBSTdehXjz4H4sg8
-         b/lWNtin0tjnMV8wLUjG+P0GzB6ZGBZgaUiEj6I0lfhAZKs8pi+/txJAfocc38lPGEum
-         unlw==
-X-Gm-Message-State: APjAAAVUHipIb5Gsupqhxjszc/vYgmc/WkYYS10480ZkNWd+QYCcU/XQ
-        bK5dfojgibWc1hyFoB2vdJw=
-X-Google-Smtp-Source: APXvYqzgqNaT0xwI2rZs4vQxGOlXPQIGM3VlVv3wDKFwF2l3FOVK1slW8HIJhIvAh/YlgH0d3T0GYw==
-X-Received: by 2002:a1c:dcd5:: with SMTP id t204mr13850420wmg.34.1580502689536;
-        Fri, 31 Jan 2020 12:31:29 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id w7sm11549502wmi.9.2020.01.31.12.31.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2020 12:31:26 -0800 (PST)
-Date:   Fri, 31 Jan 2020 21:31:25 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>, jonathanh@nvidia.com,
-        frankc@nvidia.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
-Message-ID: <20200131203125.GB3444092@ulmo>
-References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
- <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
- <20200130154246.GA2904678@ulmo>
- <8654e6fd-c403-6e68-e5cf-09297b5d8b5d@xs4all.nl>
- <20200131170351.GA3444092@ulmo>
- <173dfa3f-a87f-c5dd-1966-558d6edafc3d@xs4all.nl>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3yf1HBcmGp74avg3FEmlzcI0q9y8WZG9wLGEm4kfw0o=;
+        b=bw5V9K0iyv6FFiK2/ast6cF1/CBVLfN1qjp7fzt8i1n179LU/dC2dRKa+kZ8M37k9/
+         t4my3tHvWWYYZAEbK/QvPs9/gOTr+1j7hKzzTfRqDSQ2MXfV7l55t9DoYxaDOl82Dbhm
+         aynMrFaCLUdCr4mQqrb6MQMkfqDX4vbp1v5UTmaC7MjxeR42M0nyitDRWOToStw2qAzH
+         n0gqFUrSGF8IBqSlV+LVupxGlAedv83c8GYvDt7o0AwsHiBPRntnZYWqMFuofq833P7W
+         x5ctgeiPNnVLJjoBCLUPqGpZ+ggvxC4G4E4xnJZhjnRT2u6WU4pWU/jSV+J24ky7PJM7
+         Qpdw==
+X-Gm-Message-State: APjAAAWbuaFNR+Av1aaFCna8rs45bhxsEyJ0InF1Hc+at2zseNtbGKeo
+        nBIchNpZ1sGDmT+zforybIBUJwqmIs6TYtg70Wbl7CQs
+X-Google-Smtp-Source: APXvYqyzNpBU3RqLs9XJBT4QnlK08sbTR5l5DjqEsUBSFBDGHsRS6xGiLt/vUM20XXju6sjpsoaCHyuwTD6xrc+G6c4=
+X-Received: by 2002:ac8:1385:: with SMTP id h5mr12302612qtj.59.1580503418369;
+ Fri, 31 Jan 2020 12:43:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="OwLcNYc0lM97+oe1"
-Content-Disposition: inline
-In-Reply-To: <173dfa3f-a87f-c5dd-1966-558d6edafc3d@xs4all.nl>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+References: <20200127023548.27107-1-pgwipeout@gmail.com> <20200131052716.GA30672@b29397-desktop>
+In-Reply-To: <20200131052716.GA30672@b29397-desktop>
+From:   Peter Geis <pgwipeout@gmail.com>
+Date:   Fri, 31 Jan 2020 15:43:24 -0500
+Message-ID: <CAMdYzYqwz9HLsjvc1hDmovzWqiV_Vswe57d_gWhwBnvb2aNPyQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     Thierry Reding <treding@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Fri, Jan 31, 2020 at 12:27 AM Peter Chen <peter.chen@nxp.com> wrote:
+>
+> On 20-01-26 21:35:48, Peter Geis wrote:
+> > The ci_hdrc_tegra driver does not currently support dual role mode, but
+> > it does not explicitly prevent its use.
+> > Certain devices support dual role mode, but not automatic role switch.
+> > This can cause the device to lock up during initialization of the
+> > driver.
+>
+> If the driver only supports peripheral mode, you could set dr_mode as
+> peripheral-only at glue layer, it would not be override by core.c.
+> See ci_get_platdata.
 
---OwLcNYc0lM97+oe1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The mode is set via the device tree dr_mode property.
+Even though the current tegra_udc driver does not currently support
+mode switching, board device tree files such as the apalis-eval and
+colibri-eval-v3 have dr_mode set to otg.
 
-On Fri, Jan 31, 2020 at 06:37:10PM +0100, Hans Verkuil wrote:
-> On 1/31/20 6:03 PM, Thierry Reding wrote:
-> > On Fri, Jan 31, 2020 at 03:29:52PM +0100, Hans Verkuil wrote:
-> >> On 1/30/20 4:42 PM, Thierry Reding wrote:
-> >>> On Thu, Jan 30, 2020 at 03:41:50PM +0100, Hans Verkuil wrote:
-> >>>> Hi Sowjanya,
-> >>>>
-> >>>> On 1/28/20 7:23 PM, Sowjanya Komatineni wrote:
-> >>>>> This series adds Tegra210 VI and CSI driver for built-in test patte=
-rn
-> >>>>> generator (TPG) capture.
-> >>>>>
-> >>>>> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
-> >>>>> CSI port is one-to-one mapped to VI channel for video capture.
-> >>>>>
-> >>>>> This series has TPG support only where it creates hard media links
-> >>>>> between CSI subdevice and VI video device without device graphs.
-> >>>>>
-> >>>>> v4l2-compliance results are available below the patch diff.
-> >>>>>
-> >>>>> [v0]:	Includes,
-> >>>>> 	- Adds CSI TPG clock to Tegra210 clock driver
-> >>>>> 	- Host1x video driver with VI and CSI clients.
-> >>>>> 	- Support for Tegra210 only.
-> >>>>> 	- VI CSI TPG support with hard media links in driver.
-> >>>>> 	- Video formats supported by Tegra210 VI
-> >>>>> 	- CSI TPG supported video formats
-> >>>>
-> >>>> I'm trying to compile this patch series using the media_tree master
-> >>>> branch (https://git.linuxtv.org//media_tree.git), but it fails:
-> >>>>
-> >>>> drivers/staging/media/tegra/tegra-channel.c: In function =E2=80=98te=
-gra_channel_queue_setup=E2=80=99:
-> >>>> drivers/staging/media/tegra/tegra-channel.c:71:15: warning: unused v=
-ariable =E2=80=98count=E2=80=99 [-Wunused-variable]
-> >>>>    71 |  unsigned int count =3D *nbuffers;
-> >>>>       |               ^~~~~
-> >>>> drivers/staging/media/tegra/tegra-channel.c: In function =E2=80=98te=
-gra_channel_init=E2=80=99:
-> >>>> drivers/staging/media/tegra/tegra-channel.c:518:55: error: =E2=80=98=
-struct host1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
-> >>>>   518 |  struct tegra_camera *cam =3D dev_get_drvdata(vi->client.hos=
-t);
-> >>>>       |                                                       ^
-> >>>> make[4]: *** [scripts/Makefile.build:265: drivers/staging/media/tegr=
-a/tegra-channel.o] Error 1
-> >>>> make[4]: *** Waiting for unfinished jobs....
-> >>>> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_v=
-i_tpg_graph_init=E2=80=99:
-> >>>> drivers/staging/media/tegra/tegra-vi.c:157:55: error: =E2=80=98struc=
-t host1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
-> >>>>   157 |  struct tegra_camera *cam =3D dev_get_drvdata(vi->client.hos=
-t);
-> >>>>       |                                                       ^
-> >>>> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_v=
-i_init=E2=80=99:
-> >>>> drivers/staging/media/tegra/tegra-csi.c: In function =E2=80=98tegra_=
-csi_init=E2=80=99:
-> >>>> drivers/staging/media/tegra/tegra-vi.c:213:51: error: =E2=80=98struc=
-t host1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
-> >>>>   213 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
-> >>>>       |                                                   ^~
-> >>>> drivers/staging/media/tegra/tegra-csi.c:259:51: error: =E2=80=98stru=
-ct host1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
-> >>>>   259 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
-> >>>>       |                                                   ^~
-> >>>> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_v=
-i_exit=E2=80=99:
-> >>>> drivers/staging/media/tegra/tegra-vi.c:246:51: error: =E2=80=98struc=
-t host1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
-> >>>>   246 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
-> >>>>       |                                                   ^~
-> >>>> drivers/staging/media/tegra/tegra-csi.c: In function =E2=80=98tegra_=
-csi_exit=E2=80=99:
-> >>>> drivers/staging/media/tegra/tegra-csi.c:286:51: error: =E2=80=98stru=
-ct host1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
-> >>>>   286 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
-> >>>>       |                                                   ^~
-> >>>>
-> >>>> And indeed, struct host1x_client as defined in include/linux/host1x.=
-h doesn't
-> >>>> have a 'host' field.
-> >>>>
-> >>>> Does this series depend on another patch that's not yet in mainline?
-> >>>
-> >>> Sowjanya's been working on top of linux-next, so, yes, this patch
-> >>> depends on a change that's been merged into the DRM tree for v5.6-rc1.
-> >>>
-> >>> Thierry
-> >>>
-> >>
-> >> Is there a specific linux-next tag that works? I tried next-20200131 b=
-ut that
-> >> failed to boot. Same problem with the mainline repo since the host1x p=
-atches
-> >> were merged yesterday. It compiles fine, but the boot just stops. Or a=
-m I
-> >> missing some kernel config that is now important to have?
-> >=20
-> > linux-next and mainline are currently regressing on Tegra210 (and some
-> > Tegra124) boards. I just sent out a series that fixes the regression for
-> > me:
-> >=20
-> > 	http://patchwork.ozlabs.org/project/linux-tegra/list/?series=3D156215
-> >=20
-> > Please test if this works for you. If so, I'll send this to Dave as soon
-> > as possible.
->=20
-> I'll try it on Tuesday as I don't have access to the Jetson TX1 until the=
-n. It
-> looks promising since I think that the last message I saw was a PM messag=
-e.
+They also seem to be missing the extcon phandle, which means automatic
+mode switching is not possible?
 
-Great. My local testing on Jetson Nano confirms that this fixes boot on
-top of linux-next and I've also run it through our internal test farm
-with success. I'll push this to my drm/tegra/for-next branch, so it
-should show up in linux-next on Monday.
+>
+> But one thing I could not understand, if the driver doesn't support
+> dual-role, how could you do manual role switch?
 
-Thierry
+Manual role switching is conducted via debugfs,
+/sys/kernel/debug/usb/ci_hdrc.0/role
 
---OwLcNYc0lM97+oe1
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> >
+> > Detect this state by checking for the extcon phandle when dual role mode
+> > is set to otg.
+> > If it doesn't exist request the driver to only enable manual role
+> > switching.
+> >
+> > Fixes: dfebb5f ("usb: chipidea: Add support for Tegra20/30/114/124")
+> > Signed-off-by: Peter Geis <pgwipeout@gmail.com>
+> > ---
+> >  drivers/usb/chipidea/ci_hdrc_tegra.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
+> > index 7455df0ede49..2f6f6ce3e8f5 100644
+> > --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
+> > +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+> > @@ -89,6 +89,13 @@ static int tegra_udc_probe(struct platform_device *pdev)
+> >       udc->data.usb_phy = udc->phy;
+> >       udc->data.capoffset = DEF_CAPOFFSET;
+> >
+> > +     /* check the dual mode and warn about bad configurations */
+> > +     if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_OTG &&
+> > +        !of_property_read_bool(pdev->dev.of_node, "extcon")) {
+> > +             dev_warn(&pdev->dev, "no extcon registered, otg unavailable");
+> > +             udc->data.flags |= CI_HDRC_DUAL_ROLE_NOT_OTG;
+> > +     }
+> > +
+>
+> The CI_HDRC_DUAL_ROLE_NOT_OTG flag may not be suitable here, please see
+> comments for it.
 
------BEGIN PGP SIGNATURE-----
+I've dug around the various mailing lists and I fail to find any
+reference to why this is not a valid use case.
+The commit message specifically references dual role capable devices
+without proper otg implementations, such as missing the otgsc
+register.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl40jpoACgkQ3SOs138+
-s6GsKw/9GmS3lkoUnVWigejDV9uq911ocqLUjYnzIP3fGxFJ1thUuG+omcIgI0mi
-xwC2iw2wtxPMW65pQa2+rFSkHq3ExeaiYH310qkVZGesyvIbU+TIX/+fHflgG36J
-Bnyv4MTo1YpciOhwMh/bdfCJJarnPC50SD1yWoEBwYqe+jtZVVMAa6RfNuHebn7+
-i4rad8NkoOqBmsPpvw5q3Bod0QJRnWI56CVxC6aamZdfsnBcUDFIheueybK17kAm
-7biKjP/MERe1upvsLHXud/r6H4Gx6UqENVSB24x6XMUdk4T7GlC546kUI/7B0YSh
-cTpmQmDtkWV7j7QWM/sGkvP2nlYZlKYG4onM8ihIpab1D+r1AWgaJTkYkknG+7Te
-tfdHcvsoTCwTtWkyN1xwcgXznmOJuv0aHAB5bCJ1cr/D617z/AjRabNBZsAMQMV9
-oLBMkkS0R7g9j3QQI/LmKXk29FGmr/yCprp1LpGSX8akiiLyCUHNbz2EmMgN9wm7
-LewBOUmgVicCwRSh0pByvSFbh5brvOoWyniOf8vLsWf3R4jULYRj5bFrynhYHHjJ
-hk4wOacB0TysyZ8Ggr+rAT0aVzBvCrAxXvwA6eVShPpkNhHHOC8QoqNuO3hs2jaV
-FiHXB0xTUsMcMnOnvCfNkmQE692LOt7PUvb5AzBYHSZzyyOZGIQ=
-=i3Ml
------END PGP SIGNATURE-----
+My current use case is the Ouya, which deadlocks the kernel durning
+probe if the otg capable usb controller is set to dr_mode=otg.
+It works with this flag set.
+Unfortunately there isn't a property for dr_mode set to non_otg_dr_mode.
 
---OwLcNYc0lM97+oe1--
+I found a post stating that the driver blindly touches registers in
+otg mode, which leads to the deadlock if those registers are read only
+or non-existent,
+Eventually someone should look into why this deadlock occurs and make
+a proper fix that applies to all users.
+Unfortunately I do not have the knowledge yet to accomplish this task.
+
+With some simple modifications to the tegra_udc driver it is possible
+to get host mode working, vice using the tegra-ehci driver.
+At this point role switch works
+
+I also managed to move all of the functionality of the tegra-ehci
+driver into the tegra-udc driver.
+Unfortunately it doesn't behave correctly under some cases, so I never
+submitted it.
+
+Do you have a recommendation for handling this?
+
+>
+> >       udc->dev = ci_hdrc_add_device(&pdev->dev, pdev->resource,
+> >                                     pdev->num_resources, &udc->data);
+> >       if (IS_ERR(udc->dev)) {
+> > --
+> > 2.17.1
+> >
+>
+> --
+>
+> Thanks,
+> Peter Chen
