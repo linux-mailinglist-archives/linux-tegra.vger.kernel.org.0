@@ -2,99 +2,102 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDF5C14EFC4
-	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 16:39:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C62614F064
+	for <lists+linux-tegra@lfdr.de>; Fri, 31 Jan 2020 17:08:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729032AbgAaPjA (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 31 Jan 2020 10:39:00 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:40284 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728752AbgAaPjA (ORCPT
+        id S1729161AbgAaQIY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 31 Jan 2020 11:08:24 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:5621 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729030AbgAaQIY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 31 Jan 2020 10:39:00 -0500
-Received: by mail-lj1-f193.google.com with SMTP id n18so7523827ljo.7;
-        Fri, 31 Jan 2020 07:38:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9NPQscGNoa4QIXz4hQhsZPNEmWteEQEWE2lnF9zwH24=;
-        b=HY2h8qXHR+65tHbLBV9R4c9tHZBR6GbAHVfWKrQFLM/T5OcNZzujzh4h7wyxaLOZSw
-         DtPJLapCShNv4r6pa6VPaHjq51f/tLFeFcRtJ7NcTLclpzwfOBa94vMHQl6Y5HO/NLp+
-         Oq9rxnOfqpbInouIdupaA9abu/BKodBdajs8+MsBsiJX6/Xy2p9io6kvVneyr7jDueG0
-         NB4JE12KytkZznQWOAresZeeo5efZmvuSvEBZRaTTEL6tVJEFat8x8y5kTMwsTAw1Qh3
-         JNAXjXVQdajYbUuRbidVUTXYzt1Lmf/EGuut289IrEL/xvNuCBOaUcneJTBJ65yFVeR/
-         1Z/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=9NPQscGNoa4QIXz4hQhsZPNEmWteEQEWE2lnF9zwH24=;
-        b=gGoqJ+9M8iWv4qEn6IU5vWXRmMXe8cLtOHh4OjdWIb9mtAopfjUGXv92a3S1DKQ3FJ
-         V/Ss7qMkrVzPyZ+6GL2pmFWTzVuSDBhtxvO/AJ0qtMxpxMroj4OiuO+75KiyDz4OOpmp
-         D52ecka/7pf6cZHNrEpHHOlZtMdBFoVSqjS74d1oue6WZxZ8/t62her7hrT8nAeNqAaL
-         K746zzdIvwN4/dI+sIv0eKNwmuQX8RxQKXkS22ZRj0e+MkeStO5xc824I9x+4dwX0DWO
-         00t8rGLra4iC3n8p5YKKjyUPobc5KmYOpdLBm92jhxnIhFVnOUyYO/mzb46oJYrekD6U
-         hmug==
-X-Gm-Message-State: APjAAAWSM/AptSmonwucVbEWpLXHL7x67xIXdkAJ5jEAlce6ZOIerdGg
-        fD6pcVQP9RkR7xwBf8YXZYgE/spW
-X-Google-Smtp-Source: APXvYqxQpZSCnRWgO07QQjTkLnxT1f+sOw6/HeSxPP+VGu4ipK/vezwcHwADfcg1x2dJ2mXLXhKwOA==
-X-Received: by 2002:a2e:88c5:: with SMTP id a5mr6362924ljk.201.1580485137587;
-        Fri, 31 Jan 2020 07:38:57 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id a10sm4761180lfr.94.2020.01.31.07.38.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jan 2020 07:38:57 -0800 (PST)
+        Fri, 31 Jan 2020 11:08:24 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3450e20000>; Fri, 31 Jan 2020 08:08:02 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 31 Jan 2020 08:08:23 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 31 Jan 2020 08:08:23 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 31 Jan
+ 2020 16:08:20 +0000
 Subject: Re: [PATCH] Revert "ASoC: tegra: Allow 24bit and 32bit samples"
-To:     Jon Hunter <jonathanh@nvidia.com>,
+To:     Dmitry Osipenko <digetx@gmail.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>,
         Takashi Iwai <tiwai@suse.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Ben Dooks <ben.dooks@codethink.co.uk>
-Cc:     alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+CC:     <alsa-devel@alsa-project.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
 References: <20200131091901.13014-1-jonathanh@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <2bb53d7d-2d36-e16e-5858-24360b19f936@gmail.com>
-Date:   Fri, 31 Jan 2020 18:38:54 +0300
+ <2bb53d7d-2d36-e16e-5858-24360b19f936@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <7fafb8d2-8754-e5c0-8952-0253ba8b656a@nvidia.com>
+Date:   Fri, 31 Jan 2020 16:08:18 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200131091901.13014-1-jonathanh@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <2bb53d7d-2d36-e16e-5858-24360b19f936@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580486882; bh=vjVTrlbwSymcOfbnfHt1GCkOMf6AQ7FxsbKWPEoP0Yc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=iH4ZZfGZMTm9UMvyjN9G3vnTaBhURSOyEL+B0fFGDKJogY2P9qSTaAZLQkyzuo5QH
+         Qxps5Wt/JCiW2VPPPEGbjIqnu7SsgyF8RShVivMc6NFDObggDJ7Aa9E7VBDEXhLva+
+         6ERWIsvhTQzmNiRlYHDmwV4cC9BMObCVkefclTjXkqhXnRnNshuR75RLyD7RV6KHEK
+         PoMuI6+gR1uShSMKmNYskuUtcy10eZQa2zPDIXa9mY7jF2LltP+EjDWRhbXNJjTAgh
+         nzsTaBGSWhj+LOCKuOfHFE7aBGENOMoKkwuIPn/NQRfq0VaJgv8znNbpBfM2/35rkJ
+         IPOURsN1IYSoQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-31.01.2020 12:19, Jon Hunter пишет:
-> Commit f3ee99087c8ca0ecfdd549ef5a94f557c42d5428 ("ASoC: tegra: Allow
-> 24bit and 32bit samples") added 24-bit and 32-bit support for to the
-> Tegra30 I2S driver. However, there are two additional commits that are
-> also needed to get 24-bit and 32-bit support to work correctly. These
-> commits are not yet applied because there are still some review comments
-> that need to be addressed. With only this change applied, 24-bit and
-> 32-bit support is advertised by the I2S driver, but it does not work and
-> the audio is distorted. Therefore, revert this patch for now until the
-> other changes are also ready.
-> 
-> Furthermore, a clock issue with 24-bit support has been identified with
-> this change and so if we revert this now, we can also fix that in the
-> updated version.
-> 
-> Cc: stable@vger.kernel.org
-> 
-> Reported-by: Dmitry Osipenko <digetx@gmail.com>
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
 
-Thanks, Jon!
+On 31/01/2020 15:38, Dmitry Osipenko wrote:
+> 31.01.2020 12:19, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> Commit f3ee99087c8ca0ecfdd549ef5a94f557c42d5428 ("ASoC: tegra: Allow
+>> 24bit and 32bit samples") added 24-bit and 32-bit support for to the
+>> Tegra30 I2S driver. However, there are two additional commits that are
+>> also needed to get 24-bit and 32-bit support to work correctly. These
+>> commits are not yet applied because there are still some review comments
+>> that need to be addressed. With only this change applied, 24-bit and
+>> 32-bit support is advertised by the I2S driver, but it does not work and
+>> the audio is distorted. Therefore, revert this patch for now until the
+>> other changes are also ready.
+>>
+>> Furthermore, a clock issue with 24-bit support has been identified with
+>> this change and so if we revert this now, we can also fix that in the
+>> updated version.
+>>
+>> Cc: stable@vger.kernel.org
+>>
+>> Reported-by: Dmitry Osipenko <digetx@gmail.com>
+>> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+>> ---
+>=20
+> Thanks, Jon!
+>=20
+> Tested-by: Dmitry Osipenko <digetx@gmail.com>
 
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
+Thanks. I just realised I forgot the fixes-tag ...
 
-Ben, looking forward to have 24bit working in 5.7 :)
+Fixes: f3ee99087c8c ("ASoC: tegra: Allow 24bit and 32bit samples")
+
+Mark, let me know if you want me to resend.
+
+Jon
+
+--=20
+nvpublic
