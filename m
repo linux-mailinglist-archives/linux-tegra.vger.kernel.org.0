@@ -2,227 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94A2514F6D4
-	for <lists+linux-tegra@lfdr.de>; Sat,  1 Feb 2020 07:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04EBB14F863
+	for <lists+linux-tegra@lfdr.de>; Sat,  1 Feb 2020 16:13:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726014AbgBAGNl (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 1 Feb 2020 01:13:41 -0500
-Received: from mail-eopbgr80049.outbound.protection.outlook.com ([40.107.8.49]:56802
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725819AbgBAGNl (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 1 Feb 2020 01:13:41 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Aw44wNje2LXZQ/jt+HsZ7SptygL/tkMCxAVBIk/CWz91Rf638i4vk+hF+xR5ZwJ5yG05RwgZxMIrvqBFBfFM0UdwMITaqO8sioia9mPf8LAF24HfIzUzRDy/QwyYEkcRy2Z3DOupiuydLlC1pDVXk5JHQ5eikPHIqzqFmjo5FgAqMKVNhh8FT2XTyTSDTDUQ2VW8EYQwv9w4wcwhVA1+2sOqOgDaLpwtMcDuLQCtOUS0P0nSULmeoZ9DnX0ZCtlGEBRYbeFM2VosCuP5DdXuLLC1c5T8u1X6v3377uz6quO7J4FyMNxdmDkVJ+qQrvUi9eR+GBWwM6AF64lOI7zFRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KrwnO2ja7AMB7xaAvNjGS73SJBTc5iKZBnfXSEOuTVE=;
- b=RHU1dZp0sfWMOKDbPKEYd1GBKcEOkXqllNhWkDoiVIgtPp6k0z3APb/sQVB+K7P3aCYde0IjD9zWjcfkCmLf4AQ2Xa9dPGtNfnjx61EOrYSGBLlVvorxB7h8lHxktIHKVsYen2A6EVID6M8am8PgQ6CKlWom2vKWAPyb0LK9Y5gMOSbOxN7iGNmU0h81udGtREkFTT9Ihdx3cNXX3B9AueQe7s0as3gj2txqmA7gNS9AwzERRAA+iN/4dcNR612mrgQk/ISNdVnzjuKkDFQsj9OhBH/VCx7o6vY55aikPqZTSoL8CZMPN4hynWxaMKSI3d4JkUXkhcHcd8jC/sTgYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KrwnO2ja7AMB7xaAvNjGS73SJBTc5iKZBnfXSEOuTVE=;
- b=Wi2HmvQ2JVAx6eysSZppjwQxJ34zEe6p/XniMfycVoua+dQzHVyKg7/Ox1Gi3jig+ee1SWyEvQSs+uZmF1m+BXJMGQFj0DcMHN2ekbV28X3+qqD4ePaD9EibMROCdfgDgkBIYxaJ5MKc/P2jrrsjcqrTQd9k3PX8IC8qeK2Yk/o=
-Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.51.23) by
- VI1PR04MB4558.eurprd04.prod.outlook.com (20.177.55.216) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.29; Sat, 1 Feb 2020 06:13:31 +0000
-Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
- ([fe80::c7d:58a2:7265:407e]) by VI1PR04MB5327.eurprd04.prod.outlook.com
- ([fe80::c7d:58a2:7265:407e%6]) with mapi id 15.20.2686.031; Sat, 1 Feb 2020
- 06:13:31 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     Peter Geis <pgwipeout@gmail.com>
-CC:     Thierry Reding <treding@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
-Thread-Topic: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
-Thread-Index: AQHV1LqaVEQK+QBFlEajUWQRaUhLOagERL0AgAD/9wCAAJ9JAA==
-Date:   Sat, 1 Feb 2020 06:13:31 +0000
-Message-ID: <20200201061330.GA9178@b29397-desktop>
-References: <20200127023548.27107-1-pgwipeout@gmail.com>
- <20200131052716.GA30672@b29397-desktop>
- <CAMdYzYqwz9HLsjvc1hDmovzWqiV_Vswe57d_gWhwBnvb2aNPyQ@mail.gmail.com>
-In-Reply-To: <CAMdYzYqwz9HLsjvc1hDmovzWqiV_Vswe57d_gWhwBnvb2aNPyQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=peter.chen@nxp.com; 
-x-originating-ip: [119.31.174.66]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 43b0d75e-6a7a-4ffe-b65f-08d7a6dddc79
-x-ms-traffictypediagnostic: VI1PR04MB4558:
-x-microsoft-antispam-prvs: <VI1PR04MB4558A02E7A2CA7828A7205268B060@VI1PR04MB4558.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 03008837BD
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(7916004)(4636009)(396003)(366004)(376002)(346002)(136003)(39860400002)(199004)(189003)(2906002)(33716001)(6916009)(6486002)(1076003)(9686003)(66946007)(186003)(6506007)(53546011)(76116006)(66446008)(6512007)(66556008)(66476007)(64756008)(91956017)(81156014)(81166006)(26005)(8676002)(8936002)(71200400001)(54906003)(4326008)(5660300002)(44832011)(316002)(33656002)(86362001)(478600001);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB4558;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hgW+Jx8Bp9mNgTamcUssrkq01hlcg3L+by566ptuKRvh9AjtYRgxQB8a0PMWBCDIJCJx1fgiXCPALiBHa5qMSg3FbhM2XRlANdViPSOSJm7fMu2wUWE58KvAo8YFpfnl0wlKwEFTXgdI6TljBxRkCUZrJ7+/1p+AAvNsefSko3Z+KpFtRN4Jer+TylNCaeF9ovk31r3eSLrgrMrvwk/UPXKky40now4x40Rc/1nKZoGbDUbuZgiz+zHSagNdZ3quWi72a97svpJmW/74vVN1aowwUWFc/faNLCPpL/06e3iOJ9v2MscuvcQczJevS+oL4j+Mu1TslaAx0kifUnAMbw/BRpCXuDACZLzJpPdQiU4EapYLwckzI4vRJubv3jxdmc9tczDYkj5kO29MH6QSPj2/+1ERxVEXBVEkiLnFcpT1zrGF6HiQ30TbgpG62PIt
-x-ms-exchange-antispam-messagedata: qsxwSQCypemASpyFYph2d67tqDm613YUAEjsYp2nGVVegf8tFEAvqXNwp4dAN/d7U3wUwqY3VnWFF7mMoRo3yBKjYSQwV/5tamswuzhiuYurXHp7UBHtcF3swmyVl0OA57YeeGbLZDy4uMi5iCaefA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4CEEBDAF8A417049A2B11C9554834F70@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1726921AbgBAPN5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 1 Feb 2020 10:13:57 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46631 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726677AbgBAPN5 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 1 Feb 2020 10:13:57 -0500
+Received: by mail-lj1-f195.google.com with SMTP id x14so10125864ljd.13;
+        Sat, 01 Feb 2020 07:13:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=x8auQfYSjBpZuOhTuDNeJ3x3bvJ53JLG86ep/bJMnbM=;
+        b=KRaPo/P5+/A3UdshhvRtEXEma+O6VULl7vV5J6EfVsQR3/LFLIcOcUlZ8UIgdmUuzE
+         6Gcxjp0JaCPX/1pLX94YcUeJLMQP6Clh4JvkM4SAnaVWuG6YaKeRQpjb9Kblf7sRNc9p
+         fyeH1RMCrr+LSHUG9v3ysJsjBQufsHB6vyr58bqPAdpvsDgACBQDWXKcjqa9yMD+q0ie
+         UWP51YtMTI43YUrJAMOcccwMJkLwgvcicZo3efYBonvwsJWlvX8qzPqh8FHhhoB9/YrU
+         A11hFUiUddOnbU6HN3DX7fT9phg7XKdGOd4dOrUD++6qz0qTOJq350YMj+iX5c9U9EWT
+         VmIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=x8auQfYSjBpZuOhTuDNeJ3x3bvJ53JLG86ep/bJMnbM=;
+        b=Fgy1XwU/hp7drY+3OIRNsMZw+fY79pMOVP9EWoFHy9y8tE7M9eC8jMnRDRG8TRHPzM
+         R0QjOkkBAoozFnsIvd0D/d1GoezXbgQrrrgFybdvybnXItivnDefS5IHJESq083zYGoW
+         ph88vGwTevLuLO53hcyqxE5H3n9E0eEQ9CY5S4mizYF611Vvi14uenSUcbiMwMGTq5Nz
+         QZFlDfxHzeVX8mHQMo0sRzH7HaAsNoknNEmD9Hian/o0GIoJXgeFW+0PiRKHbawT5i8m
+         yEIbWjF3EIOEY/DFb2zBeH+3a3OETjf2Vy3s3hAxsB3f9FiqMOJtfBnfnWa2Ju9pVz+W
+         YJng==
+X-Gm-Message-State: APjAAAVZS9yQrkwQgWiNcfCw54M2kL6NnssMAkD/4KBn+4baddjGqWg6
+        V+G1bUNoXq2YXkOAz2ChnXajFRqk
+X-Google-Smtp-Source: APXvYqx1q4UYJfxBrUTrc4rMfdFSOYKP0jUe9QjqckWSglTHxUz3YCCHUlwOhNCo0UVBafW18vaU9w==
+X-Received: by 2002:a2e:3e13:: with SMTP id l19mr8813755lja.11.1580570034026;
+        Sat, 01 Feb 2020 07:13:54 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id c8sm6113348lfm.65.2020.02.01.07.13.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Feb 2020 07:13:53 -0800 (PST)
+Subject: Re: [PATCH v6 11/16] dmaengine: tegra-apb: Keep clock enabled only
+ during of DMA transfer
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200130043804.32243-1-digetx@gmail.com>
+ <20200130043804.32243-12-digetx@gmail.com>
+ <2442aee7-2c2a-bacc-7be9-8eed17498928@nvidia.com>
+ <0c766352-700a-68bf-cf7b-9b1686ba9ca9@gmail.com>
+ <e72d00ee-abee-9ae2-4654-da77420b440e@nvidia.com>
+ <cedbf558-b15b-81ca-7833-c94aedce5c5c@gmail.com>
+ <315241b5-f5a2-aaa0-7327-24055ff306c7@nvidia.com>
+ <1b64a3c6-a8b9-34d7-96cc-95b93ca1a392@gmail.com>
+Message-ID: <bf459b54-fa4c-b0ff-0af8-b7cb66b0a43c@gmail.com>
+Date:   Sat, 1 Feb 2020 18:13:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43b0d75e-6a7a-4ffe-b65f-08d7a6dddc79
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Feb 2020 06:13:31.1812
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: J6jPwKXbxaR6zZhXbKYqaQSsmgpDS5B3ZUOaZm3RC5VkbyFZQAY7w3PeSgKKT5namNamnpRTP+k3ytKUVqCiRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4558
+In-Reply-To: <1b64a3c6-a8b9-34d7-96cc-95b93ca1a392@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 20-01-31 15:43:24, Peter Geis wrote:
-> On Fri, Jan 31, 2020 at 12:27 AM Peter Chen <peter.chen@nxp.com> wrote:
-> >
-> > On 20-01-26 21:35:48, Peter Geis wrote:
-> > > The ci_hdrc_tegra driver does not currently support dual role mode, b=
-ut
-> > > it does not explicitly prevent its use.
-> > > Certain devices support dual role mode, but not automatic role switch=
-.
-> > > This can cause the device to lock up during initialization of the
-> > > driver.
-> >
-> > If the driver only supports peripheral mode, you could set dr_mode as
-> > peripheral-only at glue layer, it would not be override by core.c.
-> > See ci_get_platdata.
->=20
-> The mode is set via the device tree dr_mode property.
-> Even though the current tegra_udc driver does not currently support
-> mode switching, board device tree files such as the apalis-eval and
-> colibri-eval-v3 have dr_mode set to otg.
->=20
+31.01.2020 17:22, Dmitry Osipenko пишет:
+> 31.01.2020 12:02, Jon Hunter пишет:
+>>
+>> On 30/01/2020 20:04, Dmitry Osipenko wrote:
+>>
+>> ...
+>>
+>>>>> The tegra_dma_stop() should put RPM anyways, which is missed in yours
+>>>>> sample. Please see handle_continuous_head_request().
+>>>>
+>>>> Yes and that is deliberate. The cyclic transfers the transfers *should*
+>>>> not stop until terminate_all is called. The tegra_dma_stop in
+>>>> handle_continuous_head_request() is an error condition and so I am not
+>>>> sure it is actually necessary to call pm_runtime_put() here.
+>>>
+>>> But then tegra_dma_stop() shouldn't unset the "busy" mark.
+>>
+>> True.
+>>
+>>>>> I'm also finding the explicit get/put a bit easier to follow in the
+>>>>> code, don't you think so?
+>>>>
+>>>> I can see that, but I was thinking that in the case of cyclic transfers,
+>>>> it should only really be necessary to call the get/put at the beginning
+>>>> and end. So in my mind there should only be two exit points which are
+>>>> the ISR handler for SG and terminate_all for SG and cyclic.
+>>>
+>>> Alright, I'll update this patch.
+>>
+>> Hmmm ... I am wondering if we should not mess with that and leave how
+>> you have it.
+> 
+> I took another look and seems my current v6 should be more correct because:
+> 
+> 1. If "busy" is unset in tegra_dma_stop(), then the RPM should be put
+> there since tegra_dma_terminate_all() won't put RPM in this case:
+> 
+> 	if (!tdc->busy)
+> 		goto skip_dma_stop;
+> 
+> 2. We can't move the "busy" unsetting into the terminate because then
+> tegra_dma_stop() will be invoked twice. Although, one option could be to
+> remove the tegra_dma_stop() from the error paths of
+> handle_continuous_head_request(), but I'm not sure that this is correct
+> to do.
 
-If you would like fixing wrong dts setting issue, you could do below:
+Jon, I realized that my v6 variant is wrong too because
+tegra_dma_terminate_all() -> tdc->isr_handler() will put RPM, and thus,
+the RPM enable-count will be wrecked in this case.
 
-diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci=
-_hdrc_tegra.c
-index 0c9911d44ee5..5d85363ad0f4 100644
---- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-+++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-@@ -95,6 +95,7 @@ static int tegra_udc_probe(struct platform_device *pdev)
- 	udc->data.flags =3D soc->flags;
- 	udc->data.usb_phy =3D udc->phy;
- 	udc->data.capoffset =3D DEF_CAPOFFSET;
-+	udc->data.dr_mode =3D USB_DR_MODE_PERIPHERAL;
-=20
- 	udc->dev =3D ci_hdrc_add_device(&pdev->dev, pdev->resource,
- 				      pdev->num_resources, &udc->data);
+I'm now leaning to adopt yours variant and simply remove the
+tegra_dma_stop() from handle_continuous_head_request() because there
+shouldn't be any harm in keeping DMA active in the case of error
+condition. Besides, these error conditions are very extreme cases that
+should never happen in practice.
 
-> They also seem to be missing the extcon phandle, which means automatic
-> mode switching is not possible?
->=20
-> >
-> > But one thing I could not understand, if the driver doesn't support
-> > dual-role, how could you do manual role switch?
->=20
-> Manual role switching is conducted via debugfs,
-> /sys/kernel/debug/usb/ci_hdrc.0/role
->=20
-> >
-> > >
-> > > Detect this state by checking for the extcon phandle when dual role m=
-ode
-> > > is set to otg.
-> > > If it doesn't exist request the driver to only enable manual role
-> > > switching.
-> > >
-> > > Fixes: dfebb5f ("usb: chipidea: Add support for Tegra20/30/114/124")
-> > > Signed-off-by: Peter Geis <pgwipeout@gmail.com>
-> > > ---
-> > >  drivers/usb/chipidea/ci_hdrc_tegra.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipi=
-dea/ci_hdrc_tegra.c
-> > > index 7455df0ede49..2f6f6ce3e8f5 100644
-> > > --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-> > > +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-> > > @@ -89,6 +89,13 @@ static int tegra_udc_probe(struct platform_device =
-*pdev)
-> > >       udc->data.usb_phy =3D udc->phy;
-> > >       udc->data.capoffset =3D DEF_CAPOFFSET;
-> > >
-> > > +     /* check the dual mode and warn about bad configurations */
-> > > +     if (usb_get_dr_mode(&pdev->dev) =3D=3D USB_DR_MODE_OTG &&
-> > > +        !of_property_read_bool(pdev->dev.of_node, "extcon")) {
-> > > +             dev_warn(&pdev->dev, "no extcon registered, otg unavail=
-able");
-> > > +             udc->data.flags |=3D CI_HDRC_DUAL_ROLE_NOT_OTG;
-> > > +     }
-> > > +
-> >
-> > The CI_HDRC_DUAL_ROLE_NOT_OTG flag may not be suitable here, please see
-> > comments for it.
->=20
-> I've dug around the various mailing lists and I fail to find any
-> reference to why this is not a valid use case.
-> The commit message specifically references dual role capable devices
-> without proper otg implementations, such as missing the otgsc
-> register.
->=20
-> My current use case is the Ouya, which deadlocks the kernel durning
-> probe if the otg capable usb controller is set to dr_mode=3Dotg.
-> It works with this flag set.
-> Unfortunately there isn't a property for dr_mode set to non_otg_dr_mode.
->=20
-> I found a post stating that the driver blindly touches registers in
-> otg mode, which leads to the deadlock if those registers are read only
-> or non-existent,
-> Eventually someone should look into why this deadlock occurs and make
-> a proper fix that applies to all users.
-> Unfortunately I do not have the knowledge yet to accomplish this task.
->=20
-> With some simple modifications to the tegra_udc driver it is possible
-> to get host mode working, vice using the tegra-ehci driver.
-> At this point role switch works
->=20
-> I also managed to move all of the functionality of the tegra-ehci
-> driver into the tegra-udc driver.
-> Unfortunately it doesn't behave correctly under some cases, so I never
-> submitted it.
->=20
-> Do you have a recommendation for handling this?
-
-If you would like adding host function in chipidea driver for tegra, and
-want dual-role switch to work, first, you may need to know which
-dual-role switch you need:
-- Through controller's id and vbus pins
-- Through extcon, eg,GPIO.
-- Through usb-role-switch class, eg, Type-C controller
-- Through sysfs, /sys/bus/platform/devices/ci_hdrc.0/role
-
-The first three are automatically switch, the last one is manually.
-Current chipidea core should support all above switches, maybe there are
-some limitations for them, the fixes are welcome.
-
-Second, you may check if touch otgsc will hang or deadlock the system.
-If you can't touch otgsc when portsc.phcd =3D 0, you may need the flag
-CI_HDRC_DUAL_ROLE_NOT_OTG, afaik, few SoCs can't touch otgsc if it
-supports dual-role.
-
-When you add host function, you may set dr_mode as host-only first, it
-could make thing easier.
-
---=20
-
-Thanks,
-Peter Chen=
+The "list_empty(&tdc->pending_sg_req)" error seems couldn't ever happen
+at all, I'll remove it in v7.
