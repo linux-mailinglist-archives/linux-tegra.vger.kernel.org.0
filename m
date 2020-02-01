@@ -2,137 +2,137 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04EBB14F863
-	for <lists+linux-tegra@lfdr.de>; Sat,  1 Feb 2020 16:13:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6881314FAE2
+	for <lists+linux-tegra@lfdr.de>; Sat,  1 Feb 2020 23:58:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726921AbgBAPN5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 1 Feb 2020 10:13:57 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46631 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726677AbgBAPN5 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sat, 1 Feb 2020 10:13:57 -0500
-Received: by mail-lj1-f195.google.com with SMTP id x14so10125864ljd.13;
-        Sat, 01 Feb 2020 07:13:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=x8auQfYSjBpZuOhTuDNeJ3x3bvJ53JLG86ep/bJMnbM=;
-        b=KRaPo/P5+/A3UdshhvRtEXEma+O6VULl7vV5J6EfVsQR3/LFLIcOcUlZ8UIgdmUuzE
-         6Gcxjp0JaCPX/1pLX94YcUeJLMQP6Clh4JvkM4SAnaVWuG6YaKeRQpjb9Kblf7sRNc9p
-         fyeH1RMCrr+LSHUG9v3ysJsjBQufsHB6vyr58bqPAdpvsDgACBQDWXKcjqa9yMD+q0ie
-         UWP51YtMTI43YUrJAMOcccwMJkLwgvcicZo3efYBonvwsJWlvX8qzPqh8FHhhoB9/YrU
-         A11hFUiUddOnbU6HN3DX7fT9phg7XKdGOd4dOrUD++6qz0qTOJq350YMj+iX5c9U9EWT
-         VmIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=x8auQfYSjBpZuOhTuDNeJ3x3bvJ53JLG86ep/bJMnbM=;
-        b=Fgy1XwU/hp7drY+3OIRNsMZw+fY79pMOVP9EWoFHy9y8tE7M9eC8jMnRDRG8TRHPzM
-         R0QjOkkBAoozFnsIvd0D/d1GoezXbgQrrrgFybdvybnXItivnDefS5IHJESq083zYGoW
-         ph88vGwTevLuLO53hcyqxE5H3n9E0eEQ9CY5S4mizYF611Vvi14uenSUcbiMwMGTq5Nz
-         QZFlDfxHzeVX8mHQMo0sRzH7HaAsNoknNEmD9Hian/o0GIoJXgeFW+0PiRKHbawT5i8m
-         yEIbWjF3EIOEY/DFb2zBeH+3a3OETjf2Vy3s3hAxsB3f9FiqMOJtfBnfnWa2Ju9pVz+W
-         YJng==
-X-Gm-Message-State: APjAAAVZS9yQrkwQgWiNcfCw54M2kL6NnssMAkD/4KBn+4baddjGqWg6
-        V+G1bUNoXq2YXkOAz2ChnXajFRqk
-X-Google-Smtp-Source: APXvYqx1q4UYJfxBrUTrc4rMfdFSOYKP0jUe9QjqckWSglTHxUz3YCCHUlwOhNCo0UVBafW18vaU9w==
-X-Received: by 2002:a2e:3e13:: with SMTP id l19mr8813755lja.11.1580570034026;
-        Sat, 01 Feb 2020 07:13:54 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id c8sm6113348lfm.65.2020.02.01.07.13.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Feb 2020 07:13:53 -0800 (PST)
-Subject: Re: [PATCH v6 11/16] dmaengine: tegra-apb: Keep clock enabled only
- during of DMA transfer
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
+        id S1726643AbgBAW5y (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 1 Feb 2020 17:57:54 -0500
+Received: from mout.perfora.net ([74.208.4.197]:41429 "EHLO mout.perfora.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726518AbgBAW5y (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 1 Feb 2020 17:57:54 -0500
+Received: from marcel-pc.lan ([81.221.75.74]) by mrelay.perfora.net
+ (mreueus001 [74.208.5.2]) with ESMTPSA (Nemesis) id 0MAvmU-1ioAL02lEK-009xEN;
+ Sat, 01 Feb 2020 23:57:47 +0100
+Message-ID: <334ac00a0c83e4178e3195cca5d77acaf4a3fae7.camel@ziswiler.com>
+Subject: Re: [PATCH v6 07/12] ARM: tegra: Don't enable PLLX while resuming
+ from LP1 on Tegra30
+From:   Marcel Ziswiler <marcel@ziswiler.com>
+To:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200130043804.32243-1-digetx@gmail.com>
- <20200130043804.32243-12-digetx@gmail.com>
- <2442aee7-2c2a-bacc-7be9-8eed17498928@nvidia.com>
- <0c766352-700a-68bf-cf7b-9b1686ba9ca9@gmail.com>
- <e72d00ee-abee-9ae2-4654-da77420b440e@nvidia.com>
- <cedbf558-b15b-81ca-7833-c94aedce5c5c@gmail.com>
- <315241b5-f5a2-aaa0-7327-24055ff306c7@nvidia.com>
- <1b64a3c6-a8b9-34d7-96cc-95b93ca1a392@gmail.com>
-Message-ID: <bf459b54-fa4c-b0ff-0af8-b7cb66b0a43c@gmail.com>
-Date:   Sat, 1 Feb 2020 18:13:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Sat, 01 Feb 2020 23:57:42 +0100
+In-Reply-To: <20191218202142.11717-8-digetx@gmail.com>
+References: <20191218202142.11717-1-digetx@gmail.com>
+         <20191218202142.11717-8-digetx@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
 MIME-Version: 1.0
-In-Reply-To: <1b64a3c6-a8b9-34d7-96cc-95b93ca1a392@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:/lPdDQ81GkL5XuSj9YrkkiM1dGphpYB4051qkDbcmMibnng5MvM
+ 2jxJI2tNl5CO3EXXWVg+iiWsd+k0L/28ZQ+qGew/CUiB0+KKvHmVe8/qHCAuOgJJS9FyYaZ
+ HqevSICcgJIjSpshkRvQq5qi2ZlzmujibLw4UwynYIlV5hQGF5JfkpjSiyER7O47V+lTF+K
+ 3NMNuV83P/tY18kBWCNnQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qZDMthN2Mx8=:LmWa0a71b+FZal4YAAP3b1
+ JxkKhke0OjZ3paqeKxnUiQOo2WmIZujgcz0ZgsiZALFc7rvrIrefEkJzG6B0QZZh91BMkaj3f
+ GqaYzmTUD3JLGll6lYY9B77MFzgzXCg1v1DY522C6/RYgvET4Nn90EO1Ij3FC6KAjuRVUXPPU
+ AB9dBANdMs0LzRfVNYmRxQwFevrLMk03tMpIvNRTDScsWoqZLUQN9GYIwim5ZN8cgv+V5BDNN
+ ptWzaQmXQ7bb4UxZF8PFgSAMhDW6z0+rjTo7da8QmdQlKa1gIZO3k4s3MnsQ9Eef1NMvQKUhS
+ WHE/1Rr6piETpf0EGzKSIbzxN4CnvDhUMbNo/aSfDhVGuEk/izbmAzh5kUA2ZRoJ8H4cXiXe2
+ LxTYC33aq0i5K1P8LwsyNKECLYRxl2WwSeiChDKjYoL2PNMQeLcld2HGTGKD1hYhry2t46gpD
+ 1vyuRB3ggIcINdg5LcYqXl9YdzX02Z7+D2BL8vJbZQHYwbiUyvYde8QlWQhfRKldq1MwbxOt5
+ i5JkioTvC3bHptEUx4GibUlT7/ugJi+O5sGzUAq5sDAYijdW1vLYdy4G5qhf3jVmUnMOJfjOx
+ 2UL6lxuXUJfSeYRGwSewdavaiSftFGdWOuNVjzm/Qwr9JQghPD2HLwMxXdixCj7gg8xO8+2f9
+ 2ZAGC8+ASVcPSKE6T/wLuSTKryYCqjv3Fy0OrmFtCfepJY2KDmVew+P/q1AEQMxj9JA7ersid
+ XfUtEZ12GgpJOW3nXCmDA8lGxBNZMojH+JO9gKjfDsfm3zirobj+H1hVbZRm01Ge/MDTs0PGa
+ YLahp0dM/2gcuYDswJiXrJGqkrGLUHgEHT88+xWrFGhU1kEwq/tDwNyXUTn/tCoYq3+7scS
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-31.01.2020 17:22, Dmitry Osipenko пишет:
-> 31.01.2020 12:02, Jon Hunter пишет:
->>
->> On 30/01/2020 20:04, Dmitry Osipenko wrote:
->>
->> ...
->>
->>>>> The tegra_dma_stop() should put RPM anyways, which is missed in yours
->>>>> sample. Please see handle_continuous_head_request().
->>>>
->>>> Yes and that is deliberate. The cyclic transfers the transfers *should*
->>>> not stop until terminate_all is called. The tegra_dma_stop in
->>>> handle_continuous_head_request() is an error condition and so I am not
->>>> sure it is actually necessary to call pm_runtime_put() here.
->>>
->>> But then tegra_dma_stop() shouldn't unset the "busy" mark.
->>
->> True.
->>
->>>>> I'm also finding the explicit get/put a bit easier to follow in the
->>>>> code, don't you think so?
->>>>
->>>> I can see that, but I was thinking that in the case of cyclic transfers,
->>>> it should only really be necessary to call the get/put at the beginning
->>>> and end. So in my mind there should only be two exit points which are
->>>> the ISR handler for SG and terminate_all for SG and cyclic.
->>>
->>> Alright, I'll update this patch.
->>
->> Hmmm ... I am wondering if we should not mess with that and leave how
->> you have it.
-> 
-> I took another look and seems my current v6 should be more correct because:
-> 
-> 1. If "busy" is unset in tegra_dma_stop(), then the RPM should be put
-> there since tegra_dma_terminate_all() won't put RPM in this case:
-> 
-> 	if (!tdc->busy)
-> 		goto skip_dma_stop;
-> 
-> 2. We can't move the "busy" unsetting into the terminate because then
-> tegra_dma_stop() will be invoked twice. Although, one option could be to
-> remove the tegra_dma_stop() from the error paths of
-> handle_continuous_head_request(), but I'm not sure that this is correct
-> to do.
+Hi Dmitry
 
-Jon, I realized that my v6 variant is wrong too because
-tegra_dma_terminate_all() -> tdc->isr_handler() will put RPM, and thus,
-the RPM enable-count will be wrecked in this case.
+Finally, I came around giving this a try again on the Colibri T20 and
+Apalis/Colibri T30.
 
-I'm now leaning to adopt yours variant and simply remove the
-tegra_dma_stop() from handle_continuous_head_request() because there
-shouldn't be any harm in keeping DMA active in the case of error
-condition. Besides, these error conditions are very extreme cases that
-should never happen in practice.
+Overall, works like a charm and you may add the following to the entire
+series:
 
-The "list_empty(&tdc->pending_sg_req)" error seems couldn't ever happen
-at all, I'll remove it in v7.
+On Wed, 2019-12-18 at 23:21 +0300, Dmitry Osipenko wrote:
+> PLLX may be kept disabled if cpufreq driver selects some other clock
+> for
+> CPU. In that case PLLX will be disabled later in the resume path by
+> the
+> CLK driver, which also can enable PLLX if necessary by itself. Thus
+> there
+> is no need to enable PLLX early during resume. Tegra114/124 CLK
+> drivers do
+> not manage PLLX on resume and thus they are left untouched by this
+> patch.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+
+Tested-by: Marcel Ziswiler <marcel@ziswiler.com>
+Tested-on: Colibri T20, Apalis/Colibri T30 on resp. EvalBoards
+
+> ---
+>  arch/arm/mach-tegra/sleep-tegra30.S | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm/mach-tegra/sleep-tegra30.S b/arch/arm/mach-
+> tegra/sleep-tegra30.S
+> index 9a20c93abe48..4f073869b8ac 100644
+> --- a/arch/arm/mach-tegra/sleep-tegra30.S
+> +++ b/arch/arm/mach-tegra/sleep-tegra30.S
+> @@ -358,7 +358,6 @@ _no_pll_iddq_exit:
+>  
+>  	pll_enable r1, r0, CLK_RESET_PLLM_BASE, CLK_RESET_PLLM_MISC
+>  	pll_enable r1, r0, CLK_RESET_PLLC_BASE, CLK_RESET_PLLC_MISC
+> -	pll_enable r1, r0, CLK_RESET_PLLX_BASE, CLK_RESET_PLLX_MISC
+>  
+>  _pll_m_c_x_done:
+>  	pll_enable r1, r0, CLK_RESET_PLLP_BASE, CLK_RESET_PLLP_MISC
+> @@ -368,8 +367,18 @@ _pll_m_c_x_done:
+>  	pll_locked r1, r0, CLK_RESET_PLLP_BASE
+>  	pll_locked r1, r0, CLK_RESET_PLLA_BASE
+>  	pll_locked r1, r0, CLK_RESET_PLLC_BASE
+> +
+> +	/*
+> +	 * CPUFreq driver could select other PLL for CPU. PLLX will be
+> +	 * enabled by the Tegra30 CLK driver on an as-needed basis, see
+> +	 * tegra30_cpu_clock_resume().
+> +	 */
+> +	cmp	r10, #TEGRA30
+> +	beq	_pll_m_c_x_locked
+> +
+>  	pll_locked r1, r0, CLK_RESET_PLLX_BASE
+>  
+> +_pll_m_c_x_locked:
+>  	mov32	r7, TEGRA_TMRUS_BASE
+>  	ldr	r1, [r7]
+>  	add	r1, r1, #LOCK_DELAY
+
+Unfortunately, that one does no longer apply after the following patch
+recently got applied on Wed Jan 8:
+
+commit 1a3388d506bf ("ARM: tegra: Enable PLLP bypass during Tegra124
+LP1")
+
+Thanks!
+
+Cheers
+
+Marcel
+
