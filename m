@@ -2,48 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC84514FFB6
-	for <lists+linux-tegra@lfdr.de>; Sun,  2 Feb 2020 23:30:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E27A14FFA9
+	for <lists+linux-tegra@lfdr.de>; Sun,  2 Feb 2020 23:30:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727334AbgBBWaY (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 2 Feb 2020 17:30:24 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:42789 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727253AbgBBWaG (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 2 Feb 2020 17:30:06 -0500
-Received: by mail-lf1-f66.google.com with SMTP id y19so8347822lfl.9;
-        Sun, 02 Feb 2020 14:30:04 -0800 (PST)
+        id S1727275AbgBBWaJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 2 Feb 2020 17:30:09 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:34087 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727260AbgBBWaH (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 2 Feb 2020 17:30:07 -0500
+Received: by mail-lf1-f68.google.com with SMTP id l18so8393221lfc.1;
+        Sun, 02 Feb 2020 14:30:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nSFyw0+Q9kQMhBeT0mTZWHihPYKhlfkGWd5c5D4FidI=;
-        b=bs/V1bh/r7waOP6HPAIy+zkn07Bc5o4lS8lSrMXAGu3HAPDMpKF446aeTPwjuBcJZr
-         YvbpXiHPJyJ2wgeyK9HunlA1pJBqSy4orYouLXOZ1dOX5EXpvRnsX5MXLlitTMhqG/pA
-         ppHwB+X0bw6c2iiOohA15VM0jAJyEWIWwaVFaJCo6Jbw+heRILMrBIprVHf3sjN6EDKI
-         R22CDY7p1QpuCtSVS5As8I8cfUSZ3aF2+0VTs0/VB9iew/VTJd//4Qe/y84X1ETPF1YU
-         gTID9RnO4by8zRyhzf+UukPYOwqy2z+OOfmt/Gxj3TUMnwH5I/ruxY4nRylg2RaKO/KY
-         7TAw==
+        bh=VT2b3DIhkLrsXocDLVqwdbb9fFwHJxhRiEwuiWhammQ=;
+        b=K0zzG3aa421/UtbmrOpJpNK+eddVN3a0ZR/9nRkZdTimhbXdf0vaUu3Ex+SustzPOh
+         isVYug7s5uqHG6P8MIkQ401vMbAhoVSTJFX29nXNOM2TsuWLiB/xRe7PuvtebYf981jK
+         6kDB2AEpszmYmr3VTxmYVSm7xPsxHwNpHfM6wKmy2Ib9yoRAGsK216qYvFgMgJHX+mTU
+         nY4m60FHOlIXvz32aQswO4O56/eqxN/n39edH3lF5uutXkEOFVjKRolxCIiI8EKAk6NM
+         iJJkXmQel7qMNX/vcxSvcm2wQbhhkErc7abwXpZPwSiLcTm8rYgY0VCcklW6zG8R4ntu
+         qSfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nSFyw0+Q9kQMhBeT0mTZWHihPYKhlfkGWd5c5D4FidI=;
-        b=VGNzCSWnQpQeiGNLgsFcEcFIlqR1BrNRRfNTLod+dfYD0m+WK4iaaSDKLvsvr4wAeA
-         PEwpFsXKzhmAcj8w9QCzfGEuUC458l2OUWszEpIit9m+vkPz810TCq/1LLXM3tlsfApk
-         0M0mzR08n3q+yKwP6s+Mp685TwuvAWtXa3vBbJh4Juk3xrLDRQ2/CADjKIOQcBfHZl1j
-         bQheetwFp0+TrJXp8uQcxsvppoI/1ApYvK6cke1smmVoKF5e3JnHW/YSLzwuDgqhADN7
-         QqVgNe3rQDLvVbxpYKbI1FRb65noAHBPErxL5B+Tnvc83KcEvEPsjQyxFDTClFurm2z2
-         rQGQ==
-X-Gm-Message-State: APjAAAXfkf5rCoW9LwyNK5ttczz9teulNKAa4lw9OUZeMg4hR226klwf
-        YtnwaCG33WiIS854G56k3Z8=
-X-Google-Smtp-Source: APXvYqzAXBfBsH4fqqGMuQI+N3eaCGo+Q0Z3F/jZKku4J44A1uia85AEW4atm4H39pS06B+zBTPlaQ==
-X-Received: by 2002:ac2:5444:: with SMTP id d4mr10121642lfn.49.1580682603720;
-        Sun, 02 Feb 2020 14:30:03 -0800 (PST)
+        bh=VT2b3DIhkLrsXocDLVqwdbb9fFwHJxhRiEwuiWhammQ=;
+        b=DVNy2balxpHIRHe0hEyLAC0T27EcwNL64mX43xr9a8OYcYsIiMm6+JDB9/hG4MGJqj
+         s6ONS8wsmzGn3iz6OPj9tePntFX7WnjE86u340oDv0dei0XWvfM/j6Lc8TFMAbFWATnS
+         ExtcunTeHa7mKjCCcRN9xgqKYmSq4TDYW+sPkZLSazKAIYcpbMdGK+Ko2M4sfzEgnqjO
+         vIM/+x5lQYhAJREeoug/uEqcIDMnkyEP5iASaWwwhqtBFfRYA8bFiicjxtucnfSG40Tp
+         4dwtg9dCz9krw7ywQznHSlyXYZebaGmfk4kbNCJx5t3oNNywVSaXkUHboYW3hS1MtzHJ
+         fL3g==
+X-Gm-Message-State: APjAAAX5frKqLpL+HJvzSgPPGRfxCWWL/zC5kMuMlzLETkxYPMH69c/d
+        G3qOArZRUzOXT0/D0ts/P2Q=
+X-Google-Smtp-Source: APXvYqxAfIHx2B1haLicEwi0YNfXLAV9LnEc/kK1ZzjxoNANQ1EkaR5rqgONny/GLxpvUVpk7NSUDg==
+X-Received: by 2002:a19:5f05:: with SMTP id t5mr10655378lfb.149.1580682604787;
+        Sun, 02 Feb 2020 14:30:04 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id b190sm8050307lfd.39.2020.02.02.14.30.02
+        by smtp.gmail.com with ESMTPSA id b190sm8050307lfd.39.2020.02.02.14.30.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Feb 2020 14:30:03 -0800 (PST)
+        Sun, 02 Feb 2020 14:30:04 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Laxman Dewangan <ldewangan@nvidia.com>,
         Vinod Koul <vkoul@kernel.org>,
@@ -53,9 +53,9 @@ To:     Laxman Dewangan <ldewangan@nvidia.com>,
         =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
 Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v7 16/19] dmaengine: tegra-apb: Add missing of_dma_controller_free
-Date:   Mon,  3 Feb 2020 01:28:51 +0300
-Message-Id: <20200202222854.18409-17-digetx@gmail.com>
+Subject: [PATCH v7 17/19] dmaengine: tegra-apb: Allow to compile as a loadable kernel module
+Date:   Mon,  3 Feb 2020 01:28:52 +0300
+Message-Id: <20200202222854.18409-18-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200202222854.18409-1-digetx@gmail.com>
 References: <20200202222854.18409-1-digetx@gmail.com>
@@ -66,26 +66,28 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The DMA controller shall be released on driver's removal.
+The driver's removal was fixed by a recent commit and module load/unload
+is working well now, tested on Tegra30.
 
 Acked-by: Jon Hunter <jonathanh@nvidia.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/dma/tegra20-apb-dma.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/dma/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-index db726e635048..7e9ec945d6bd 100644
---- a/drivers/dma/tegra20-apb-dma.c
-+++ b/drivers/dma/tegra20-apb-dma.c
-@@ -1572,6 +1572,7 @@ static int tegra_dma_remove(struct platform_device *pdev)
- {
- 	struct tegra_dma *tdma = platform_get_drvdata(pdev);
+diff --git a/drivers/dma/Kconfig b/drivers/dma/Kconfig
+index 5142da401db3..98daf3aafdcc 100644
+--- a/drivers/dma/Kconfig
++++ b/drivers/dma/Kconfig
+@@ -616,7 +616,7 @@ config TXX9_DMAC
+ 	  integrated in chips such as the Toshiba TX4927/38/39.
  
-+	of_dma_controller_free(pdev->dev.of_node);
- 	dma_async_device_unregister(&tdma->dma_dev);
- 	pm_runtime_disable(&pdev->dev);
- 	clk_unprepare(tdma->dma_clk);
+ config TEGRA20_APB_DMA
+-	bool "NVIDIA Tegra20 APB DMA support"
++	tristate "NVIDIA Tegra20 APB DMA support"
+ 	depends on ARCH_TEGRA
+ 	select DMA_ENGINE
+ 	help
 -- 
 2.24.0
 
