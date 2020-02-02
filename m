@@ -2,48 +2,48 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A11D914FF95
-	for <lists+linux-tegra@lfdr.de>; Sun,  2 Feb 2020 23:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EA3014FF9A
+	for <lists+linux-tegra@lfdr.de>; Sun,  2 Feb 2020 23:29:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727053AbgBBW3v (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 2 Feb 2020 17:29:51 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:34381 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726995AbgBBW3v (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Sun, 2 Feb 2020 17:29:51 -0500
-Received: by mail-lj1-f196.google.com with SMTP id x7so12652355ljc.1;
-        Sun, 02 Feb 2020 14:29:50 -0800 (PST)
+        id S1727177AbgBBW34 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 2 Feb 2020 17:29:56 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:33009 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727142AbgBBW3z (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sun, 2 Feb 2020 17:29:55 -0500
+Received: by mail-lf1-f67.google.com with SMTP id n25so8399873lfl.0;
+        Sun, 02 Feb 2020 14:29:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pIr+hEI5jiVDIpgzntOp1SJ5U4uzX7Mt42pGHqVvxOQ=;
-        b=jzZ9q2KMJmouDEZbcdN00RjfC/PXjwhT4TmtiW7J42rS2MEHcKIScPd9Y0ORk95AJy
-         PxYEElGLVUDJiRpYNmkz3fIIzoa/Akt4CHjOUiMSK6xo+GNcOx+caWi3KN4jsEwxmIac
-         B7le2/u3AaYhum9IRbWB5mVmbS5hRtHTiwsuW/Omorkfb+/hnCW+QdyK1hekz2jlTj4h
-         ELkXuGVqIO9aMcev96bpWaHzTByqePNA2Pc3LhCLr5oS7FzWvoDWd9JvaaX6Rki0fvvx
-         /liKmuD2St21iBj52CXv1LSvYDZcu9AgH6qsufLo7sLeWPlahCxmVWNmDJVDjBoP1unP
-         F1rA==
+        bh=GC/z2ZWZ2YFoOCLaKR682od65UK+N/gvRCg6ifsNRc4=;
+        b=fCKGiLwny+rl/sC22taBWekzseGF3PfRzLzxP0yqdXO8SkO/sQFCcvL6Ov7YzP7OEH
+         RWk+ESSb/Qw06cqsMpv4prFkk1fzCGnL3jZRyx5HIgDjqXkQH2s+hLaZj3x/REwim6pz
+         QzePOZYIGDhZ0PQMeVEJMOCk4jVe967C1oX37qX7vmCBXg+ofKnRhlbDL9eAM0mMpi5D
+         fAGWS5ap5qBJ4vga8aTWLwFG+cXwr9LtHH1BoYxQey7CgWoSbFSj9tjF1BBI/OckrJgI
+         8DW9XWfxNXVeERKeWeKPr9tJXlSVlSXiUSpXLH0lI3dbk4AKKq1OW4lk/El7nAmAOxCD
+         4Wag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pIr+hEI5jiVDIpgzntOp1SJ5U4uzX7Mt42pGHqVvxOQ=;
-        b=riwbi3ok38uVaLRNvMaS4JLEDBKFiBaCMcmAMbKNwCZReFQuZtkbm64cchYKpJvitT
-         j5MDDxGeqdZoVapf7/VJAnvlu3kM0SEaHAX4JkEmsRfT5qtTcKnA+jBx9G2GAATLP8kV
-         kyTSRwhFpP/DS5REysmpe9ebN2VunAoc4HxCMp4Bvt2DD3YzEjc3nlrCZegMitxcX2uY
-         Kw7jDWNzsUkFI0Nm5udObN9AmCPkvTc5zwYwPHROGDOT/MG92Z2TQzqmDvFjv3/Q1LHY
-         dwk4FsqquGet/R60nlMhnGaKtrlR8Q78QZi5DwBOwwKw3dHlDl6/PJe/d/Qqq5h5FwGZ
-         IEkQ==
-X-Gm-Message-State: APjAAAX85PzR25F/UQlxL/wDGWwf7fU5jYASBetT5w0RdgMvE0e+MzV0
-        TFCIIF4tbxgXbiW0GcPgNmE=
-X-Google-Smtp-Source: APXvYqyHvhQscqat+8sWrjPwl3MB67ecQ11g38sjzPkkZRRFvgRzby3QJz1PyX4eMOyLq859q6JYTA==
-X-Received: by 2002:a05:651c:1bb:: with SMTP id c27mr12522033ljn.277.1580682589492;
-        Sun, 02 Feb 2020 14:29:49 -0800 (PST)
+        bh=GC/z2ZWZ2YFoOCLaKR682od65UK+N/gvRCg6ifsNRc4=;
+        b=Vb75NJJwzuW57lBwE5S21AQ1j7SwXhJXUNAb3vXvvdMlVqpUa4sRgNLRJKPCleWNv4
+         8EwQy8fUPpIp2RdSNJTJYBzSAlHm3s+kbLcfp253lbNCbd2QsYH7uSbdlxsXJnhzJPCf
+         VuctUi4dI1ZnJqo/fBmfxfOsC1SOZwmTuSTP8M8uGza5bHmVxAVQdl4rTCYi5IQ9rPUu
+         PI9g1icnvX7kY6Ntjl1JrSHWrKxWsSqRNBpVXCwh/gIKxTKQjrtUN/Ur4IW6+JQJVhI2
+         BMLW4Va8darktCv5T5wzp94ZMDIWdJqDIdQA4BOdFpzvCj+BesXpiW3tD2wdY0G+1hzJ
+         c22w==
+X-Gm-Message-State: APjAAAW5AY4KbecGgRNa0uFkz/vBDAUBAOF64d7JK7nB//1PHqCqKzTF
+        jB/sr3bB/WPIYniizg8x94w=
+X-Google-Smtp-Source: APXvYqyejqLOO2Cz7Nqf8FE0ab5NsMxMcHsODdW3rSsA7pZGAsTDRHR+3MILxRjru071EEBvjHe+jw==
+X-Received: by 2002:a19:23d0:: with SMTP id j199mr2642264lfj.137.1580682593041;
+        Sun, 02 Feb 2020 14:29:53 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id b190sm8050307lfd.39.2020.02.02.14.29.48
+        by smtp.gmail.com with ESMTPSA id b190sm8050307lfd.39.2020.02.02.14.29.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Feb 2020 14:29:49 -0800 (PST)
+        Sun, 02 Feb 2020 14:29:52 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Laxman Dewangan <ldewangan@nvidia.com>,
         Vinod Koul <vkoul@kernel.org>,
@@ -53,9 +53,9 @@ To:     Laxman Dewangan <ldewangan@nvidia.com>,
         =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
 Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v7 01/19] dmaengine: tegra-apb: Fix use-after-free
-Date:   Mon,  3 Feb 2020 01:28:36 +0300
-Message-Id: <20200202222854.18409-2-digetx@gmail.com>
+Subject: [PATCH v7 05/19] dmaengine: tegra-apb: Clean up tasklet releasing
+Date:   Mon,  3 Feb 2020 01:28:40 +0300
+Message-Id: <20200202222854.18409-6-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200202222854.18409-1-digetx@gmail.com>
 References: <20200202222854.18409-1-digetx@gmail.com>
@@ -66,57 +66,63 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-I was doing some experiments with I2C and noticed that Tegra APB DMA
-driver crashes sometime after I2C DMA transfer termination. The crash
-happens because tegra_dma_terminate_all() bails out immediately if pending
-list is empty, and thus, it doesn't release the half-completed descriptors
-which are getting re-used before ISR tasklet kicks-in.
+There is no need to kill tasklet when driver's probe fails because tasklet
+can't be scheduled at this time. It is also cleaner to kill tasklet on
+channel's freeing rather than to kill it on driver's removal, otherwise
+tasklet could perform a dummy execution after channel's releasing, which
+isn't very nice.
 
- tegra-i2c 7000c400.i2c: DMA transfer timeout
- elants_i2c 0-0010: elants_i2c_irq: failed to read data: -110
- ------------[ cut here ]------------
- WARNING: CPU: 0 PID: 142 at lib/list_debug.c:45 __list_del_entry_valid+0x45/0xac
- list_del corruption, ddbaac44->next is LIST_POISON1 (00000100)
- Modules linked in:
- CPU: 0 PID: 142 Comm: kworker/0:2 Not tainted 5.5.0-rc2-next-20191220-00175-gc3605715758d-dirty #538
- Hardware name: NVIDIA Tegra SoC (Flattened Device Tree)
- Workqueue: events_freezable_power_ thermal_zone_device_check
- [<c010e5c5>] (unwind_backtrace) from [<c010a1c5>] (show_stack+0x11/0x14)
- [<c010a1c5>] (show_stack) from [<c0973925>] (dump_stack+0x85/0x94)
- [<c0973925>] (dump_stack) from [<c011f529>] (__warn+0xc1/0xc4)
- [<c011f529>] (__warn) from [<c011f7e9>] (warn_slowpath_fmt+0x61/0x78)
- [<c011f7e9>] (warn_slowpath_fmt) from [<c042497d>] (__list_del_entry_valid+0x45/0xac)
- [<c042497d>] (__list_del_entry_valid) from [<c047a87f>] (tegra_dma_tasklet+0x5b/0x154)
- [<c047a87f>] (tegra_dma_tasklet) from [<c0124799>] (tasklet_action_common.constprop.0+0x41/0x7c)
- [<c0124799>] (tasklet_action_common.constprop.0) from [<c01022ab>] (__do_softirq+0xd3/0x2a8)
- [<c01022ab>] (__do_softirq) from [<c0124683>] (irq_exit+0x7b/0x98)
- [<c0124683>] (irq_exit) from [<c0168c19>] (__handle_domain_irq+0x45/0x80)
- [<c0168c19>] (__handle_domain_irq) from [<c043e429>] (gic_handle_irq+0x45/0x7c)
- [<c043e429>] (gic_handle_irq) from [<c0101aa5>] (__irq_svc+0x65/0x94)
- Exception stack(0xde2ebb90 to 0xde2ebbd8)
-
-Cc: <stable@vger.kernel.org>
 Acked-by: Jon Hunter <jonathanh@nvidia.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/dma/tegra20-apb-dma.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/dma/tegra20-apb-dma.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-index 3a45079d11ec..319f31d27014 100644
+index 766c2c9eac8e..aafad50d075e 100644
 --- a/drivers/dma/tegra20-apb-dma.c
 +++ b/drivers/dma/tegra20-apb-dma.c
-@@ -756,10 +756,6 @@ static int tegra_dma_terminate_all(struct dma_chan *dc)
- 	bool was_busy;
+@@ -1287,7 +1287,6 @@ static void tegra_dma_free_chan_resources(struct dma_chan *dc)
+ 	struct tegra_dma_sg_req *sg_req;
+ 	struct list_head dma_desc_list;
+ 	struct list_head sg_req_list;
+-	unsigned long flags;
  
- 	spin_lock_irqsave(&tdc->lock, flags);
--	if (list_empty(&tdc->pending_sg_req)) {
--		spin_unlock_irqrestore(&tdc->lock, flags);
--		return 0;
--	}
+ 	INIT_LIST_HEAD(&dma_desc_list);
+ 	INIT_LIST_HEAD(&sg_req_list);
+@@ -1295,15 +1294,14 @@ static void tegra_dma_free_chan_resources(struct dma_chan *dc)
+ 	dev_dbg(tdc2dev(tdc), "Freeing channel %d\n", tdc->id);
  
- 	if (!tdc->busy)
- 		goto skip_dma_stop;
+ 	tegra_dma_terminate_all(dc);
++	tasklet_kill(&tdc->tasklet);
+ 
+-	spin_lock_irqsave(&tdc->lock, flags);
+ 	list_splice_init(&tdc->pending_sg_req, &sg_req_list);
+ 	list_splice_init(&tdc->free_sg_req, &sg_req_list);
+ 	list_splice_init(&tdc->free_dma_desc, &dma_desc_list);
+ 	INIT_LIST_HEAD(&tdc->cb_desc);
+ 	tdc->config_init = false;
+ 	tdc->isr_handler = NULL;
+-	spin_unlock_irqrestore(&tdc->lock, flags);
+ 
+ 	while (!list_empty(&dma_desc_list)) {
+ 		dma_desc = list_first_entry(&dma_desc_list,
+@@ -1542,7 +1540,6 @@ static int tegra_dma_probe(struct platform_device *pdev)
+ 		struct tegra_dma_channel *tdc = &tdma->channels[i];
+ 
+ 		free_irq(tdc->irq, tdc);
+-		tasklet_kill(&tdc->tasklet);
+ 	}
+ 
+ 	pm_runtime_disable(&pdev->dev);
+@@ -1562,7 +1559,6 @@ static int tegra_dma_remove(struct platform_device *pdev)
+ 	for (i = 0; i < tdma->chip_data->nr_channels; ++i) {
+ 		tdc = &tdma->channels[i];
+ 		free_irq(tdc->irq, tdc);
+-		tasklet_kill(&tdc->tasklet);
+ 	}
+ 
+ 	pm_runtime_disable(&pdev->dev);
 -- 
 2.24.0
 
