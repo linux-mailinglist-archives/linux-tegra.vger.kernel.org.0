@@ -2,142 +2,138 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F7AA150546
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Feb 2020 12:28:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCBCE15055E
+	for <lists+linux-tegra@lfdr.de>; Mon,  3 Feb 2020 12:37:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727728AbgBCL2Z (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Feb 2020 06:28:25 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:44433 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727093AbgBCL2Y (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Feb 2020 06:28:24 -0500
-Received: by mail-wr1-f66.google.com with SMTP id m16so17515234wrx.11;
-        Mon, 03 Feb 2020 03:28:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=mruua/QXPoTkXaZhNOYpWNabFdF8EK/IibXlAO62+YU=;
-        b=oLPeepQ4OmcmZWIMZhZz4kN7jRFEusSQTjPYJMIO5e2Z6+DYYeOE1qXkrOFZdvDkkO
-         PF4J0pvYoTRV2t7ObAtfC9FLVoJt9iN+o3CGo2m8ILE2y857JDTmMmoL8slH49xpJ2+w
-         xR8pVrr5m6fp0HHusTTqIhVUyoYY8OORaOxAPyuhXPeAPipwpcQzKInoKWG98DesfBKT
-         0dLMInU0ZPqiHCki8VS08cHkbmSRy58rc3t+A7PaktDfxaXmABsjKJ1DJ8PuiAn3Q0It
-         hR32DWDelAgLfcDqo6ev3VAElU75NU8SoYGxHVwlRdj76b2hHG57/5oxEscL5wo8Qwe0
-         Rm8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mruua/QXPoTkXaZhNOYpWNabFdF8EK/IibXlAO62+YU=;
-        b=qrUXNwXaY8Jk14oO/YG6RuAF6kWG0EuoBg+QU6yp6I+2Ot4/zs4kPqoWvnqmq+sZYL
-         fMIgHst93jT7kNQQqVd/eW7d9tZQKXXBq04xjQstMyQLzxkv1sFobeZmQDiUlK6cZCsV
-         TuW6Q8PnhrSq6jcJxyp5aYhq3vMD3vOQKbM8rZZ50eq0KwpIjln63P7sK2j/9bxnPG//
-         fQGj00tN5J54u+pIOrUTawD9ILWlAehsq+WBPOtlSTvrfUESISuSCdAcbEbhs6NoO2kK
-         8BdUqroXHBLHEaSVWTBKDWmJ6LXthK8rKu0rwRh1bVmOAiwXORmeEJSIwW0J9KRsskfe
-         ew0Q==
-X-Gm-Message-State: APjAAAVgErIRIkF/inKka7FqVUzcFZtcDTxgvYKgHjKJivcUfnu80C8A
-        xDpblxkhlJ2/xKR1yG3fJhc=
-X-Google-Smtp-Source: APXvYqwMpxTMmmlsdRwzY/RHj7AI8BNd6KDvoBuz0NnnyIvpnZ+xNuu086sGC67YKFU4I4fgFjydhg==
-X-Received: by 2002:adf:e70d:: with SMTP id c13mr14776864wrm.248.1580729301361;
-        Mon, 03 Feb 2020 03:28:21 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id b16sm22600565wmj.39.2020.02.03.03.28.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2020 03:28:19 -0800 (PST)
-Date:   Mon, 3 Feb 2020 12:28:18 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] usb: phy: tegra: Add clarifying comments about the
- shared registers
-Message-ID: <20200203112818.GA3506060@ulmo>
-References: <20200202224259.29187-1-digetx@gmail.com>
+        id S1726287AbgBCLhv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Feb 2020 06:37:51 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19133 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726224AbgBCLhu (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Feb 2020 06:37:50 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3805ff0003>; Mon, 03 Feb 2020 03:37:35 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 03 Feb 2020 03:37:50 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 03 Feb 2020 03:37:50 -0800
+Received: from [10.26.11.224] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 3 Feb
+ 2020 11:37:47 +0000
+Subject: Re: [PATCH v6 11/16] dmaengine: tegra-apb: Keep clock enabled only
+ during of DMA transfer
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200130043804.32243-1-digetx@gmail.com>
+ <20200130043804.32243-12-digetx@gmail.com>
+ <2442aee7-2c2a-bacc-7be9-8eed17498928@nvidia.com>
+ <0c766352-700a-68bf-cf7b-9b1686ba9ca9@gmail.com>
+ <e72d00ee-abee-9ae2-4654-da77420b440e@nvidia.com>
+ <cedbf558-b15b-81ca-7833-c94aedce5c5c@gmail.com>
+ <315241b5-f5a2-aaa0-7327-24055ff306c7@nvidia.com>
+ <1b64a3c6-a8b9-34d7-96cc-95b93ca1a392@gmail.com>
+ <bf459b54-fa4c-b0ff-0af8-b7cb66b0a43c@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <423eb28f-b5fc-c917-a7b2-72562183683f@nvidia.com>
+Date:   Mon, 3 Feb 2020 11:37:44 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
-Content-Disposition: inline
-In-Reply-To: <20200202224259.29187-1-digetx@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <bf459b54-fa4c-b0ff-0af8-b7cb66b0a43c@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580729856; bh=ceXnFZ7jddmETXXwdfs4mGpj+O00W2KY/YQ322nXt4U=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=qXuwCM2rJ8br+WfWyobe/MOBDj1SnQ+sqtC2P5uvgpRUccqPpupsIKKpULWJuCtQy
+         6+QbNlZX687vt/qhOmx92gy1Pw3v7rccOBTqUiXn8aSGPyXtGngyhgs/b4F70poRYT
+         HflYyjxCPZzn3obut9ctKGikXHbRtlIn2F/Gl9YHEdaZnc/fVJUbCCEc4t5ywtcCHT
+         tjAk/8johzjzyOG9rnIKLdMoqAyLTOAN1mgi0zhYljIfFsCZRsZVUwTW++WsiNqgAH
+         JiRUMU80FPLJEYHqhP2uynEgr2Gi/RKZazoeeDHl/eWOEztujVleq0XhrIEdFle+7g
+         v+rjTZC4ZZUpQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---OXfL5xGRrasGEqWY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 03, 2020 at 01:42:59AM +0300, Dmitry Osipenko wrote:
-> Tools like Coccinelle may erroneously recommend to use the
-> devm_platform_ioremap_resource() API for the registers mapping because
-> these tools are not aware about the implementation details of the driver.
-> Let's add a clarifying comments to the code, which should help to stop
-> future attempts to break the driver.
+On 01/02/2020 15:13, Dmitry Osipenko wrote:
+> 31.01.2020 17:22, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> 31.01.2020 12:02, Jon Hunter =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>
+>>> On 30/01/2020 20:04, Dmitry Osipenko wrote:
+>>>
+>>> ...
+>>>
+>>>>>> The tegra_dma_stop() should put RPM anyways, which is missed in your=
+s
+>>>>>> sample. Please see handle_continuous_head_request().
+>>>>>
+>>>>> Yes and that is deliberate. The cyclic transfers the transfers *shoul=
+d*
+>>>>> not stop until terminate_all is called. The tegra_dma_stop in
+>>>>> handle_continuous_head_request() is an error condition and so I am no=
+t
+>>>>> sure it is actually necessary to call pm_runtime_put() here.
+>>>>
+>>>> But then tegra_dma_stop() shouldn't unset the "busy" mark.
+>>>
+>>> True.
+>>>
+>>>>>> I'm also finding the explicit get/put a bit easier to follow in the
+>>>>>> code, don't you think so?
+>>>>>
+>>>>> I can see that, but I was thinking that in the case of cyclic transfe=
+rs,
+>>>>> it should only really be necessary to call the get/put at the beginni=
+ng
+>>>>> and end. So in my mind there should only be two exit points which are
+>>>>> the ISR handler for SG and terminate_all for SG and cyclic.
+>>>>
+>>>> Alright, I'll update this patch.
+>>>
+>>> Hmmm ... I am wondering if we should not mess with that and leave how
+>>> you have it.
+>>
+>> I took another look and seems my current v6 should be more correct becau=
+se:
+>>
+>> 1. If "busy" is unset in tegra_dma_stop(), then the RPM should be put
+>> there since tegra_dma_terminate_all() won't put RPM in this case:
+>>
+>> 	if (!tdc->busy)
+>> 		goto skip_dma_stop;
+>>
+>> 2. We can't move the "busy" unsetting into the terminate because then
+>> tegra_dma_stop() will be invoked twice. Although, one option could be to
+>> remove the tegra_dma_stop() from the error paths of
+>> handle_continuous_head_request(), but I'm not sure that this is correct
+>> to do.
 >=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/usb/phy/phy-tegra-usb.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-=
-usb.c
-> index 037e8eee737d..6153cc35aba0 100644
-> --- a/drivers/usb/phy/phy-tegra-usb.c
-> +++ b/drivers/usb/phy/phy-tegra-usb.c
-> @@ -969,6 +969,10 @@ static int utmi_phy_probe(struct tegra_usb_phy *tegr=
-a_phy,
->  		return  -ENXIO;
->  	}
-> =20
-> +	/*
-> +	 * Note that UTMI pad registers are shared by all PHYs, therefore
-> +	 * devm_platform_ioremap_resource() can't be used here.
-> +	 */
->  	tegra_phy->pad_regs =3D devm_ioremap(&pdev->dev, res->start,
->  					   resource_size(res));
->  	if (!tegra_phy->pad_regs) {
-> @@ -1087,6 +1091,10 @@ static int tegra_usb_phy_probe(struct platform_dev=
-ice *pdev)
->  		return  -ENXIO;
->  	}
-> =20
-> +	/*
-> +	 * Note that PHY and USB controller are using shared registers,
-> +	 * therefore devm_platform_ioremap_resource() can't be used here.
-> +	 */
->  	tegra_phy->regs =3D devm_ioremap(&pdev->dev, res->start,
->  				       resource_size(res));
->  	if (!tegra_phy->regs) {
+> Jon, I realized that my v6 variant is wrong too because
+> tegra_dma_terminate_all() -> tdc->isr_handler() will put RPM, and thus,
+> the RPM enable-count will be wrecked in this case.
 
-I'm not sure it's really going to stop *all* attempts. But at least for
-people that go through the trouble of reading the comments, yes, this
-should do the trick, so:
+Did you see my other suggestion to move the pm_runtime_put() outside of
+tegra_dma_stop? There are only a few call sites for tegra_dma_stop and
+so if we call pm_runtime_put() after calling tegra_dma_stop this should
+simplify matters.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Jon
 
---OXfL5xGRrasGEqWY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl44A9AACgkQ3SOs138+
-s6E5LA//eA+l0WY720Az8s4VDR4EoNCATb9zoF8BYUaqhMGRF3PGFK2ih0Fblls4
-U8foPI8ezcnxqIVwfI8dzfFhGMlAf0lKyJbEmPfBofwLjrprH9jDDcD2aYBEqDtB
-Hco1ZZRHmRcSLvzSIZIf5oOfm2aGzqHVjbCbi+eKS4k2LYg3pJbEbZVwV0QYUCkV
-bgrxv9+RfTm3umKVXd9pL41j8zhVrvSgE7ta32AilhU7BSSIAQjBD3o/COr2H8w5
-rgIPHVlIRgoEEfGUdGc0yk/xHY5uaLy2LX98HZ8O3sI7LdveevDtlUaDowDHU4+k
-Y3uZio3jNsUccxRm3lmIB2hpjjJ06J0A1r0Aa6Z/pEpJL3d6Z9U8WoB73SHJGX0t
-rNUzt3KC2h4w38sYAUtYm0r2YRc1vcRN6xE+gA74VUn48H2T8Ih3BLSCExaOVwbw
-FtAcmq5KYYCHAe2GLITEGqjJ98P5RiG8Irda9N2IRD87HMFUwFFbr5ZRSbDZklpV
-WAWCHxf8K6QAjk0HBbSCG1HqMJ0iOVjEXWj48wjJvrLchyrpYnFV9A3TGKTQfUZB
-FwVqrua3RIEtzxzstc+z3/6ywa7cg/BOZobL0NiFHqE3s546zymlG7fjqu35xeX+
-cWebVl3Pvt/ueJ16bAhtr8ippPBFS9sDlZ9uacJqfBRN7R0d0mM=
-=GgDd
------END PGP SIGNATURE-----
-
---OXfL5xGRrasGEqWY--
+--=20
+nvpublic
