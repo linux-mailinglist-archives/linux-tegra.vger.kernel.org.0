@@ -2,83 +2,107 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E827151290
-	for <lists+linux-tegra@lfdr.de>; Mon,  3 Feb 2020 23:51:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E12A01514EE
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Feb 2020 05:24:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726928AbgBCWvP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 3 Feb 2020 17:51:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60762 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726853AbgBCWvP (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 3 Feb 2020 17:51:15 -0500
-Received: from localhost (unknown [167.98.85.149])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3453020720;
-        Mon,  3 Feb 2020 22:51:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580770273;
-        bh=WnMnyvktE5IVTSQXx7/xkKQiDMFaDuYtisTeopfQFkM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mdP89jz3i3RSrWtttLc7Q9Phh/NELRf5ul9nrtBTbS86lH8+/hoUvTCtgm30WLZ3r
-         QZYsEvNgU9KiUbvuwHtAaNMNBowAgiB6uDLFP2v+WweIA4l2ZpnA/mUJ7jvCpP4LE3
-         HCHhSBW38A5OALVVOponY/uOa00xma8K6wGWol54=
-Date:   Mon, 3 Feb 2020 22:51:11 +0000
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.5 00/23] 5.5.2-stable review
-Message-ID: <20200203225111.GA3925646@kroah.com>
-References: <20200203161902.288335885@linuxfoundation.org>
- <10cd3c5f-0a2a-f73c-f071-17d1cc33531b@nvidia.com>
+        id S1726994AbgBDEYn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 3 Feb 2020 23:24:43 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12586 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726984AbgBDEYm (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Mon, 3 Feb 2020 23:24:42 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e38f1f30000>; Mon, 03 Feb 2020 20:24:19 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 03 Feb 2020 20:24:42 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 03 Feb 2020 20:24:42 -0800
+Received: from [10.24.44.92] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Feb
+ 2020 04:24:37 +0000
+CC:     <spujar@nvidia.com>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, <mkumard@nvidia.com>,
+        <viswanathl@nvidia.com>, <rlokhande@nvidia.com>,
+        <dramesh@nvidia.com>, <atalambedu@nvidia.com>
+Subject: Re: [PATCH v2 1/9] dt-bindings: sound: tegra: add DT binding for AHUB
+To:     Dmitry Osipenko <digetx@gmail.com>, <perex@perex.cz>,
+        <tiwai@suse.com>, <robh+dt@kernel.org>
+References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+ <1580380422-3431-2-git-send-email-spujar@nvidia.com>
+ <32d6c62d-0ac4-54e0-2efb-9f9a8cf2d271@gmail.com>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <62ea74fe-1f3c-e56c-669f-9a2dd9c02412@nvidia.com>
+Date:   Tue, 4 Feb 2020 09:54:34 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <10cd3c5f-0a2a-f73c-f071-17d1cc33531b@nvidia.com>
+In-Reply-To: <32d6c62d-0ac4-54e0-2efb-9f9a8cf2d271@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580790259; bh=c7jWe5+LZRdJDnKDrOesDfCG5Wq2kGvI3fJo43SYT+M=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=qVsWiJP3Pc+CUUL/ZLo8d9Y0iCzJUjSU5/EdA5r9EnEKfftMA2EOxLnsAuA/KVsMF
+         KUVPkCBC+gpmBumUOq5rvGGCD9kQDM+aQ6+d+O8Kmy1zxU0jVDZn8KMwf9sdGgxET0
+         RtIdAQyLHLTaV9seQLYkwjk4o1uouRPZknEjGMkncgyBxKnywLnqq7LMQS3m/8mEPl
+         wIUYM19jnqVYOEkv9OQTg8mL8TRHDZew6WUTQCGPUHu2f0pSy+r3C/LmWJgu+EY60B
+         Qev/FCnAeNogiid+Ng8YZ3Niq+V7vo32L85/Nfx8v4givaZzJ4AGdXw30otGm0KhXq
+         u4bbs1zQ/qN4w==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Feb 03, 2020 at 09:40:21PM +0000, Jon Hunter wrote:
-> 
-> On 03/02/2020 16:20, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.5.2 release.
-> > There are 23 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Wed, 05 Feb 2020 16:17:59 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.5.2-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.5.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.5:
->     13 builds:	13 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     40 tests:	40 pass, 0 fail
-> 
-> Linux version:	5.5.2-rc1-g8dc0cb8ae177
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
-> 
 
-Thanks for testing all of these so quickly and letting me know.
 
-greg k-h
+On 2/4/2020 1:49 AM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 30.01.2020 13:33, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+>> +properties:
+>> +  compatible:
+>> +    oneOf:
+>> +      - items:
+>> +          const: nvidia,tegra210-i2s
+>> +      - items:
+>> +          - enum:
+>> +              - nvidia,tegra194-i2s
+>> +              - nvidia,tegra186-i2s
+>> +          - enum:
+>> +              - nvidia,tegra210-i2s
+> Couldn't this be something like this:
+>
+> properties:
+>    compatible:
+>      - enum:
+>        - nvidia,tegra210-i2s
+>        - nvidia,tegra186-i2s
+>        - nvidia,tegra194-i2s
+
+I used that way because,
+For Tegra210: compatible =3D "nvidia,tegra210-i2s";
+For Tegra186: compatible =3D "nvidia,tegra186-i2s", "nvidia,tegra210-i2s";=
+=20
+(future proof)
+For Tegra194: compatible =3D "nvidia,tegra194-i2s", "nvidia,tegra210-i2s";=
+=20
+(future proof)
+
+Currently driver uses "nvidia,tegra210-i2s" alone.
+
+YAML binding check fails otherwise as it does not let me have future=20
+proof bindings.
+
