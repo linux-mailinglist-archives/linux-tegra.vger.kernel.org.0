@@ -2,165 +2,148 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A51721518FF
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Feb 2020 11:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2AD4151977
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Feb 2020 12:19:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726596AbgBDKrv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Feb 2020 05:47:51 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13045 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726574AbgBDKrv (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Feb 2020 05:47:51 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e394bc80000>; Tue, 04 Feb 2020 02:47:36 -0800
+        id S1726898AbgBDLSz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Feb 2020 06:18:55 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19169 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726965AbgBDLSy (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Feb 2020 06:18:54 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3953060000>; Tue, 04 Feb 2020 03:18:30 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 04 Feb 2020 02:47:50 -0800
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 04 Feb 2020 03:18:53 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 04 Feb 2020 02:47:50 -0800
-Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Feb
- 2020 10:47:49 +0000
-Subject: Re: [PATCH 3/3] drm/tegra: sor: Initialize runtime PM before use
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-tegra@vger.kernel.org>
-References: <20200131165910.3443936-1-thierry.reding@gmail.com>
- <20200131165910.3443936-3-thierry.reding@gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <24e03844-0c2f-4e2a-8886-9211c28e97c3@nvidia.com>
-Date:   Tue, 4 Feb 2020 10:47:47 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        by hqpgpgate102.nvidia.com on Tue, 04 Feb 2020 03:18:53 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 4 Feb
+ 2020 11:18:53 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 4 Feb 2020 11:18:52 +0000
+Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.67.128]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e3953190001>; Tue, 04 Feb 2020 03:18:52 -0800
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: [Patch V4 00/19] Tegra XUSB OTG support
+Date:   Tue, 4 Feb 2020 16:46:46 +0530
+Message-ID: <1580815025-10915-1-git-send-email-nkristam@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20200131165910.3443936-3-thierry.reding@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580813256; bh=mkxIxmN71Y28rCQE0GypfXE2TVPh0ZiIwH11Yn1Q6rI=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=L3WUgcFbMIT77+hE5LuUjl7uajaUek90lZcefqTVib9zePdJKdLMJgubKNKnWy706
-         6fKIrOG/RuUgdcpxoNLdEJCfOSa1zuJPM06xWLDRdwt0YoHW8+XEwDH946iSFvksHE
-         tO/19aSJEjNh4n+IRsJBMDsUfn9PA78ZZIS7WSQCIt13iZcnb84fDCvZBzVAInw5ip
-         o6ftn8pkeeE5DFDL0E/GnY/AFZu3gX/t3QBv6P5uNaHiB976A0PN/9+uTBVXUjwjFd
-         cH9miaCVEp9ZHnFq1EVPGerm6Gmm/rdu+9UcYbPO7r0CW7ZJM5MnaaCyLvxFiUHyTr
-         tXfIceQQOtbSA==
+        t=1580815110; bh=tmb9g4gv3VYfntztkatNk0Docrr1cqVXwSKnSSY/suM=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=hDIJPX0Zw8Yag4pofBWD+qHwBwBbPulxSRzyjBykspE1zDZB4bWR+ZBiVAtGZbUDi
+         FBdSm4clELfmZ2unh2xE94m5Nsetfm8dA2R4cxgj/018ZpEXiUGDCYUNRQSOnOQp6F
+         5OgTLzHcFSvpjCwDxwTPLC2gqC/hsFSBcuMtLZ9B05srWA7uXUZufyLxPg9cvDFESJ
+         XlervIYoNdF1KKBbc62Ab6bCg3WRx8K0hXOHqLU41jRvn5L+FpsIxQ8stlqYdl6DYd
+         dsMcaFV1KT/v1of0vKj8HwBMRzk3r0UzkHq6RqcuzYtiBIJ877UYW4FM572L+P6l0/
+         FsS7bCtVmn1Sw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+This patch series adds OTG support on XUSB hardware used in Tegra210 and
+Tegra186 SoCs.
 
-On 31/01/2020 16:59, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Commit fd67e9c6ed5a ("drm/tegra: Do not implement runtime PM") replaced
-> the generic runtime PM usage by a host1x bus-specific implementation in
-> order to work around some assumptions baked into runtime PM that are in
-> conflict with the requirements in the Tegra DRM driver.
-> 
-> Unfortunately the new runtime PM callbacks are not setup yet at the time
-> when the SOR driver first needs to resume the device to register the SOR
-> pad clock, and accesses to register will cause the system to hang.
-> 
-> Note that this only happens on Tegra124 and Tegra210 because those are
-> the only SoCs where the SOR pad clock is registered from the SOR driver.
-> Later generations use a SOR pad clock provided by the BPMP.
-> 
-> Fix this by moving the registration of the SOR pad clock after the
-> host1x client has been registered. That's somewhat suboptimal because
-> this could potentially, though it's very unlikely, cause the Tegra DRM
-> to be probed if the SOR happens to be the last subdevice to register,
-> only to be immediately removed again if the SOR pad output clock fails
-> to register. That's just a minor annoyance, though, and doesn't justify
-> implementing a workaround.
-> 
-> Fixes: fd67e9c6ed5a ("drm/tegra: Do not implement runtime PM")
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/gpu/drm/tegra/sor.c | 32 +++++++++++++++++---------------
->  1 file changed, 17 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-> index aa4e1695b537..81226a4953c1 100644
-> --- a/drivers/gpu/drm/tegra/sor.c
-> +++ b/drivers/gpu/drm/tegra/sor.c
-> @@ -3915,6 +3915,17 @@ static int tegra_sor_probe(struct platform_device *pdev)
->  	platform_set_drvdata(pdev, sor);
->  	pm_runtime_enable(&pdev->dev);
->  
-> +	INIT_LIST_HEAD(&sor->client.list);
-> +	sor->client.ops = &sor_client_ops;
-> +	sor->client.dev = &pdev->dev;
-> +
-> +	err = host1x_client_register(&sor->client);
-> +	if (err < 0) {
-> +		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
-> +			err);
-> +		goto rpm_disable;
-> +	}
-> +
->  	/*
->  	 * On Tegra210 and earlier, provide our own implementation for the
->  	 * pad output clock.
-> @@ -3926,13 +3937,13 @@ static int tegra_sor_probe(struct platform_device *pdev)
->  				      sor->index);
->  		if (!name) {
->  			err = -ENOMEM;
-> -			goto rpm_disable;
-> +			goto unregister;
->  		}
->  
->  		err = host1x_client_resume(&sor->client);
->  		if (err < 0) {
->  			dev_err(sor->dev, "failed to resume: %d\n", err);
-> -			goto rpm_disable;
-> +			goto unregister;
->  		}
->  
->  		sor->clk_pad = tegra_clk_sor_pad_register(sor, name);
-> @@ -3941,24 +3952,15 @@ static int tegra_sor_probe(struct platform_device *pdev)
->  
->  	if (IS_ERR(sor->clk_pad)) {
->  		err = PTR_ERR(sor->clk_pad);
-> -		dev_err(&pdev->dev, "failed to register SOR pad clock: %d\n",
-> +		dev_err(sor->dev, "failed to register SOR pad clock: %d\n",
->  			err);
-> -		goto rpm_disable;
-> -	}
-> -
-> -	INIT_LIST_HEAD(&sor->client.list);
-> -	sor->client.ops = &sor_client_ops;
-> -	sor->client.dev = &pdev->dev;
-> -
-> -	err = host1x_client_register(&sor->client);
-> -	if (err < 0) {
-> -		dev_err(&pdev->dev, "failed to register host1x client: %d\n",
-> -			err);
-> -		goto rpm_disable;
-> +		goto unregister;
->  	}
->  
->  	return 0;
->  
-> +unregister:
-> +	host1x_client_unregister(&sor->client);
->  rpm_disable:
->  	pm_runtime_disable(&pdev->dev);
->  remove:
-> 
+This patchset is composed with :
+ - dt bindings of XUSB Pad Controller
+ - dt bindings for XUSB device Driver
+ - Tegra PHY driver for usb-role-switch and usb-phy
+ - Tegra XUSB host mode driver to support OTG mode
+ - Tegra XUSB device mode driver to use usb-phy and multi device mode
+ - dts for XUSB pad controller
+ - dts for xudc for Jetson TX1 and TX2
+ - dts for Jetson-TK1
 
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Tegra Pad controller driver register for role switch updates for
+OTG/peripheral capable USB ports and adds usb-phy for that corresponding
+USB ports.
 
-Cheers
-Jon
+Host and Device mode drivers gets usb-phy from USB2's phy and registers
+notifier for role changes to perform corresponding role tasks.
+
+Tests done:
+ - device mode support using micro-B USB cable connection between ubuntu
+   host and DUT on micro-AB port
+ - host mode support by connecting pen-drive to micro-AB USB port on DUT
+   using standard-A to micro-A converter.
+ - toggling between these 2 modes by hot plugging corresponding cables.
+
+DUT: Jetson-tx1, Jetson tx2.
+
+V4:
+ - Owner info is updated to port->dev for which USB role switch is used.
+ - Updated function name in logs, unsigned int usage as per comments.
+ - usb_phy_event is used instead of usb_role to detect role changes as
+   notifier arguments of usb-phy is used for charging current updates.
+ - Added ACKed-by info for corresponding patches.
+V3:
+ - Port and cable names updated in "Tests done" section of cover letter as
+   per JC inputs.
+ - Fixed arguments allignments in USB padctl driver.
+ - Padctl driver aborts if usb-role-switch is not present in dt for
+   peripheral/otg roles.
+ - Added Reviewed and ACKed details for corresponding patches.
+V2:
+ - Updated usb-role-switch documentation for Padctl driver.
+ - Update XUDC bindings doc as suggested by Rob.
+ - Used standard error codes for error return.
+ - Added of_platform_depopulate during error and driver removal.
+ - Updated error variable during phy initialization in XUDC driver.
+ - Updated Tegra210 soc dtb file as per changes to binding doc.
+
+Nagarjuna Kristam (19):
+  dt-bindings: phy: tegra-xusb: Add usb-role-switch
+  dt-bindings: usb: Add NVIDIA Tegra XUSB device mode controller binding
+  phy: tegra: xusb: Add usb-role-switch support
+  phy: tegra: xusb: Add usb-phy support
+  phy: tegra: xusb: Add support to get companion USB 3 port
+  phy: tegra: xusb: Add set_mode support for USB 2 phy on Tegra210
+  phy: tegra: xusb: Add set_mode support for UTMI phy on Tegra186
+  usb: xhci-tegra: Add OTG support
+  usb: gadget: tegra-xudc: Remove usb-role-switch support
+  usb: gadget: tegra-xudc: Add usb-phy support
+  usb: gadget: tegra-xudc: use phy_set_mode to set/unset device mode
+  usb: gadget: tegra-xudc: support multiple device modes
+  arm64: tegra: update OTG port entries for jetson-tx1
+  arm64: tegra: update OTG port entries for jetson-tx2
+  arm64: tegra: Add xudc node for Tegra210
+  arm64: tegra: Enable xudc on Jetson TX1
+  arm64: tegra: Add xudc node for Tegra186
+  arm64: tegra: Enable xudc node on Jetson TX2
+  ARM: tegra: Remove USB 2-0 port from Jetson TK1 padctl
+
+ .../bindings/phy/nvidia,tegra124-xusb-padctl.txt   |   6 +
+ .../devicetree/bindings/usb/nvidia,tegra-xudc.yaml | 190 ++++++++++++++
+ arch/arm/boot/dts/tegra124-jetson-tk1.dts          |   6 -
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts |  23 +-
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi           |  19 ++
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |  34 ++-
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |  19 ++
+ drivers/phy/tegra/Kconfig                          |   1 +
+ drivers/phy/tegra/xusb-tegra186.c                  | 114 +++++++--
+ drivers/phy/tegra/xusb-tegra210.c                  | 131 ++++++++--
+ drivers/phy/tegra/xusb.c                           | 172 +++++++++++++
+ drivers/phy/tegra/xusb.h                           |   5 +
+ drivers/usb/gadget/udc/tegra-xudc.c                | 273 ++++++++++++++-------
+ drivers/usb/host/xhci-tegra.c                      | 228 ++++++++++++++++-
+ include/linux/phy/tegra/xusb.h                     |   2 +
+ 15 files changed, 1078 insertions(+), 145 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
 
 -- 
-nvpublic
+2.7.4
+
