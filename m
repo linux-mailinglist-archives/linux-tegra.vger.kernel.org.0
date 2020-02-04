@@ -2,243 +2,156 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F90E151695
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Feb 2020 08:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C43D151833
+	for <lists+linux-tegra@lfdr.de>; Tue,  4 Feb 2020 10:51:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727110AbgBDHo0 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Feb 2020 02:44:26 -0500
-Received: from mail-eopbgr40083.outbound.protection.outlook.com ([40.107.4.83]:24736
-        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726566AbgBDHoZ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 4 Feb 2020 02:44:25 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CSOHCjT/+1MtZldPTz2vklTqiy0GZ7V+todKgbiSCbv+dzTAGroNxnb9tgk35E1phlg94N84oUXbHmpRJidZXkwvadGD89G+k2B8GzrFfOLytIaMCAYkbewdm3dz6O28ppuxwhiSmbCr4v36eDomcInOjoZZ7y2xW4KEVm99bs6sMAzTXcBfWc/69LM4mUe4yMfuGey60kJ50j9u2QR3wCo6RczqEg8jgJKG7tRug4eEKhBWjgNKpVtxTGonpxms+XgAVOOGL2CQJCvRCDQqCianMHExmxNPKxj1wtYHsBgo/VFoybmnKeAqVPH/oGCm/QfB9+pCGRFjDnJ0eSiCPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VPNlS3jlXxKXdHRthYvlaQZp3m1CPUvfD1VR3QO9+ZM=;
- b=bToDPGPAWgiMtrBmb+ROb8vcEPPMZCIy30kBBGbxdG4gcrUf/J9vk+VQu8d/es31Wzj19aHHOwbonTaU2Qo3LelA9/mIoQ7YePgWfUcSeT4OM0ILrYDnTEG2t8d+tI9cTSCLRLxlIqkjX1m+5phoR/0JgvGAUTTanDUtgVk76qn5hHqg5lZOjnhMZYMor0TVCcMl/OKV9lfDICDSNd1i2Xye/4UNebMl9FtVeoJontvuyeSVbP/BMcELhj7TZj6znEtbLYmgSXttGj8EDuuot6pz4Onb5C6ZHJV5B1m8phFPMKmO+2CsBgo3oS+PBpXlfC3qEg9qjaqM50lYCqVe3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VPNlS3jlXxKXdHRthYvlaQZp3m1CPUvfD1VR3QO9+ZM=;
- b=EKfszNbdGbyRYDRJbBfGPo/Em2CHu17qTmk+uwBGfZrrYzAEVtl+fMpOzGqzcC238DuK3ycADeknIWuONrZ9wne0iDmTzdPysz42hX5a/yDQsk0bhRmfrfrJJDXdzK5BHrxrY1k1RtY34TfoObR2JXmyrMuARAmTb8qpX1Ck6XA=
-Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.51.23) by
- VI1PR04MB4591.eurprd04.prod.outlook.com (20.177.55.140) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.21; Tue, 4 Feb 2020 07:44:20 +0000
-Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
- ([fe80::c7d:58a2:7265:407e]) by VI1PR04MB5327.eurprd04.prod.outlook.com
- ([fe80::c7d:58a2:7265:407e%6]) with mapi id 15.20.2686.031; Tue, 4 Feb 2020
- 07:44:20 +0000
-From:   Peter Chen <peter.chen@nxp.com>
-To:     Peter Geis <pgwipeout@gmail.com>
-CC:     Thierry Reding <treding@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
-Thread-Topic: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
-Thread-Index: AQHV1LqaVEQK+QBFlEajUWQRaUhLOagERL0AgAD/9wCAAJ9JAIAD35yAgADwwoA=
-Date:   Tue, 4 Feb 2020 07:44:20 +0000
-Message-ID: <20200204074419.GA6681@b29397-desktop>
-References: <20200127023548.27107-1-pgwipeout@gmail.com>
- <20200131052716.GA30672@b29397-desktop>
- <CAMdYzYqwz9HLsjvc1hDmovzWqiV_Vswe57d_gWhwBnvb2aNPyQ@mail.gmail.com>
- <20200201061330.GA9178@b29397-desktop>
- <CAMdYzYrbvsTunwxJLcC_-ZhczsQfyDLOjTnZ+eorb325qO-QhA@mail.gmail.com>
-In-Reply-To: <CAMdYzYrbvsTunwxJLcC_-ZhczsQfyDLOjTnZ+eorb325qO-QhA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=peter.chen@nxp.com; 
-x-originating-ip: [119.31.174.66]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d7634fae-247a-4c43-c017-08d7a9460b93
-x-ms-traffictypediagnostic: VI1PR04MB4591:
-x-microsoft-antispam-prvs: <VI1PR04MB4591886A9D4DE63ADB99C1578B030@VI1PR04MB4591.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 03030B9493
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(7916004)(39860400002)(376002)(396003)(136003)(366004)(346002)(189003)(199004)(5660300002)(33656002)(4326008)(71200400001)(478600001)(91956017)(76116006)(66946007)(64756008)(66476007)(66556008)(186003)(316002)(6506007)(26005)(53546011)(44832011)(33716001)(81166006)(81156014)(8676002)(6916009)(8936002)(86362001)(54906003)(6486002)(6512007)(2906002)(1076003)(9686003)(66446008);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB4591;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 65ztHLdky1X7DCnvBa/w3hiJIka/kenT49UtZomJ44yXEfJ8a3JII4hJdDktpwJGs1b3Kp5wa5CKip9eXIwxNT8e/RQ8qmiQGAWFr/eFkgPH7/gALeqPLuLTpqUZWWhXEVomkss1Kpb7hh52NpgRS6/7HGxhZKMC4un4rUPljmuAEpWDf3Ma5j4AeHfBiOU1AmdLuLklF+igetiEM+47EYAW3rPjS06Hj/mfYNxTcEz4HzrAVkhVGYn3kMNoaCH6uBMrAVIbDd1cySTSYkp3DMnQaIjpA8EsnnKe0wxS30iC8uZl3GoR1Wmj/B+0zp8pqWbfLg8Kyc2+KGR4vdWyKqJD3oya90RnBigFDr5i+6MIYUKXiZPFGbnADAPIBZnWG+yaifnAe8WZd+wCQbabdRwy/VkaGswD+WOcJECdH6CkkdtV1iO04aYij2Pvdk1j
-x-ms-exchange-antispam-messagedata: rV1ReSlAEb+QHrd3uZb4ct6jGc08fN8gkvSNdoL/AiV5uTiQY70AfyDJ1vCCEPCwF8tNjvSv93IRffa8Z4nf38+ZW6lM0j3VvfPMtY+9SzKoSYGYJwIHNNItLs1F97p/QiQ7aYy2xX1C8iQQRVcx0w==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <C011C59726DBE746A361D68A58C9D361@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1726898AbgBDJvF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 4 Feb 2020 04:51:05 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46633 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726343AbgBDJvE (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 4 Feb 2020 04:51:04 -0500
+Received: from [IPv6:2001:420:44c1:2577:c522:bb58:9147:43ff]
+ ([IPv6:2001:420:44c1:2577:c522:bb58:9147:43ff])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id yurBiQflTVuxOyurFiI8yZ; Tue, 04 Feb 2020 10:51:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1580809861; bh=udrDG7W7XxVlZg9dFBjVJa1SeinJFWf8PYu2s1ZBzEE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=HK499qijLMt0d3NsJ/R6CALFLgIH5TPDKLVv3JotVW7E7jZ07nDX/u+G3KPwDGiya
+         4vO23Pn04jCbJi6EvdQs9zHPgm/gaq7SPu1V1vcxUy6lHQbMxg4I6sahHsRi+zfTQj
+         OlBSokrE5w+DUmlQcCjjnkKOK2C+brr7gVNvAFop+zpL5UXbuooWaXd0/JdVlheRAT
+         WSE2ytobns3p7mUHPWFQ+eBzzs54fwXOfF4uZDMWcwgm/kMPMz44GEH+lILGNNy1wB
+         BdYCKaK1svlIxvF8PyWmJJvrOHO6jzJ4YgYSL2nFmktclMlk08Wo+AM9lmyPf7R+DP
+         KlTsvzXhDJ6uA==
+Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>, jonathanh@nvidia.com,
+        frankc@nvidia.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+ <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
+ <20200130154246.GA2904678@ulmo>
+ <8654e6fd-c403-6e68-e5cf-09297b5d8b5d@xs4all.nl>
+ <20200131170351.GA3444092@ulmo>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <b1678339-5ba6-4950-6afe-01fe26ee527f@xs4all.nl>
+Date:   Tue, 4 Feb 2020 10:50:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7634fae-247a-4c43-c017-08d7a9460b93
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2020 07:44:20.1692
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: o54FSsfqKBL57lExPCjCLJx6YVoIN1nMg71n0/2RRSYg405I9f3kT68opTOHfvQIHK2JzhCZzVWwW1rDgG5VWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4591
+In-Reply-To: <20200131170351.GA3444092@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfE57kH2nPdi6RuL5Tj6iVOgBB0zQcKUPr7DSyqTUxljwxpmmpytfaq19V/tG1nCy/2R9YUpxBlmWXq14r7ylSGpMXGwLU42dekPcaxldoLur6pV9KZyV
+ bmZ3MXgxDSVJZDaKgt7TNK5D66zRoiaCRZX5ad8dvMCxEXluNKfGp5uFyV/FQYVU142nJVOFaH08xF2mBEqHFhjdE40AvLtxGARg3NkLqb4QAmPq7yJibDpd
+ jbYvK+HxyYndRWamV7nImM/+YIe0B2UCXpV6EZYNAnC4mOl9kUte1dh5SLAr3gofV2EZC7tm/sSsMnI0nhbNf21TWdbNVNnypNqOyypbnfhnjQnjLrGOtt5z
+ tI6TLNg3Ay3dhmS4IsjnfvfaJSyYMWgrFOGIwXRD5gmihhhAXZzUSZbJwyZoGamDeTKx6nnP8koFBr1Z+lrwCtO62ecn3QYrRGS0WPqTLjct/wdBuGrVD6Tx
+ KZogcjGuaBQxB6g1SerbtTxl7YLyikSGJnSr1cgzLspZhnYRBQ+lgkqSKEia61J+FK2Yc5aVd0iwOep+TuQHNmUjKWZt9RJG4i9OvrbsZGroHLFI3iqtPTIr
+ BT8=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 20-02-03 12:22:37, Peter Geis wrote:
-> > diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipide=
-a/ci_hdrc_tegra.c
-> > index 0c9911d44ee5..5d85363ad0f4 100644
-> > --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-> > +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-> > @@ -95,6 +95,7 @@ static int tegra_udc_probe(struct platform_device *pd=
-ev)
-> >         udc->data.flags =3D soc->flags;
-> >         udc->data.usb_phy =3D udc->phy;
-> >         udc->data.capoffset =3D DEF_CAPOFFSET;
-> > +       udc->data.dr_mode =3D USB_DR_MODE_PERIPHERAL;
-> >
-> >         udc->dev =3D ci_hdrc_add_device(&pdev->dev, pdev->resource,
-> >                                       pdev->num_resources, &udc->data);
->=20
-> I do not wish to set the dr_mode manually, since this could break
-> things on devices I do not own.
-> Future work is needed to address the tegra_udc capabilities, as well
-> as fully correct the hang issue.
-> This patch merely aims to fix a corner case.
->=20
-> >
-> > > They also seem to be missing the extcon phandle, which means automati=
-c
-> > > mode switching is not possible?
-> > >
-> > > >
-> > > > But one thing I could not understand, if the driver doesn't support
-> > > > dual-role, how could you do manual role switch?
-> > >
-> > > Manual role switching is conducted via debugfs,
-> > > /sys/kernel/debug/usb/ci_hdrc.0/role
-> > >
-> > > >
-> > > > >
-> > > > > Detect this state by checking for the extcon phandle when dual ro=
-le mode
-> > > > > is set to otg.
-> > > > > If it doesn't exist request the driver to only enable manual role
-> > > > > switching.
-> > > > >
-> > > > > Fixes: dfebb5f ("usb: chipidea: Add support for Tegra20/30/114/12=
-4")
-> > > > > Signed-off-by: Peter Geis <pgwipeout@gmail.com>
-> > > > > ---
-> > > > >  drivers/usb/chipidea/ci_hdrc_tegra.c | 7 +++++++
-> > > > >  1 file changed, 7 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/c=
-hipidea/ci_hdrc_tegra.c
-> > > > > index 7455df0ede49..2f6f6ce3e8f5 100644
-> > > > > --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-> > > > > +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-> > > > > @@ -89,6 +89,13 @@ static int tegra_udc_probe(struct platform_dev=
-ice *pdev)
-> > > > >       udc->data.usb_phy =3D udc->phy;
-> > > > >       udc->data.capoffset =3D DEF_CAPOFFSET;
-> > > > >
-> > > > > +     /* check the dual mode and warn about bad configurations */
-> > > > > +     if (usb_get_dr_mode(&pdev->dev) =3D=3D USB_DR_MODE_OTG &&
-> > > > > +        !of_property_read_bool(pdev->dev.of_node, "extcon")) {
-> > > > > +             dev_warn(&pdev->dev, "no extcon registered, otg una=
-vailable");
-> > > > > +             udc->data.flags |=3D CI_HDRC_DUAL_ROLE_NOT_OTG;
-> > > > > +     }
-> > > > > +
-> > > >
-> > > > The CI_HDRC_DUAL_ROLE_NOT_OTG flag may not be suitable here, please=
- see
-> > > > comments for it.
-> > >
-> > > I've dug around the various mailing lists and I fail to find any
-> > > reference to why this is not a valid use case.
-> > > The commit message specifically references dual role capable devices
-> > > without proper otg implementations, such as missing the otgsc
-> > > register.
-> > >
-> > > My current use case is the Ouya, which deadlocks the kernel durning
-> > > probe if the otg capable usb controller is set to dr_mode=3Dotg.
-> > > It works with this flag set.
-> > > Unfortunately there isn't a property for dr_mode set to non_otg_dr_mo=
-de.
-> > >
-> > > I found a post stating that the driver blindly touches registers in
-> > > otg mode, which leads to the deadlock if those registers are read onl=
-y
-> > > or non-existent,
-> > > Eventually someone should look into why this deadlock occurs and make
-> > > a proper fix that applies to all users.
-> > > Unfortunately I do not have the knowledge yet to accomplish this task=
-.
-> > >
-> > > With some simple modifications to the tegra_udc driver it is possible
-> > > to get host mode working, vice using the tegra-ehci driver.
-> > > At this point role switch works
-> > >
-> > > I also managed to move all of the functionality of the tegra-ehci
-> > > driver into the tegra-udc driver.
-> > > Unfortunately it doesn't behave correctly under some cases, so I neve=
-r
-> > > submitted it.
-> > >
-> > > Do you have a recommendation for handling this?
-> >
-> > If you would like adding host function in chipidea driver for tegra, an=
-d
-> > want dual-role switch to work, first, you may need to know which
-> > dual-role switch you need:
-> > - Through controller's id and vbus pins
-> > - Through extcon, eg,GPIO.
-> > - Through usb-role-switch class, eg, Type-C controller
-> > - Through sysfs, /sys/bus/platform/devices/ci_hdrc.0/role
-> >
-> > The first three are automatically switch, the last one is manually.
-> > Current chipidea core should support all above switches, maybe there ar=
-e
-> > some limitations for them, the fixes are welcome.
->=20
-> AFAIK reading through the comments, the chipidea driver intended to
-> exclusively use extcon for automatic role switching, please correct me
-> if I'm wrong here.
+On 1/31/20 6:03 PM, Thierry Reding wrote:
+> On Fri, Jan 31, 2020 at 03:29:52PM +0100, Hans Verkuil wrote:
+>> On 1/30/20 4:42 PM, Thierry Reding wrote:
+>>> On Thu, Jan 30, 2020 at 03:41:50PM +0100, Hans Verkuil wrote:
+>>>> Hi Sowjanya,
+>>>>
+>>>> On 1/28/20 7:23 PM, Sowjanya Komatineni wrote:
+>>>>> This series adds Tegra210 VI and CSI driver for built-in test pattern
+>>>>> generator (TPG) capture.
+>>>>>
+>>>>> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+>>>>> CSI port is one-to-one mapped to VI channel for video capture.
+>>>>>
+>>>>> This series has TPG support only where it creates hard media links
+>>>>> between CSI subdevice and VI video device without device graphs.
+>>>>>
+>>>>> v4l2-compliance results are available below the patch diff.
+>>>>>
+>>>>> [v0]:	Includes,
+>>>>> 	- Adds CSI TPG clock to Tegra210 clock driver
+>>>>> 	- Host1x video driver with VI and CSI clients.
+>>>>> 	- Support for Tegra210 only.
+>>>>> 	- VI CSI TPG support with hard media links in driver.
+>>>>> 	- Video formats supported by Tegra210 VI
+>>>>> 	- CSI TPG supported video formats
+>>>>
+>>>> I'm trying to compile this patch series using the media_tree master
+>>>> branch (https://git.linuxtv.org//media_tree.git), but it fails:
+>>>>
+>>>> drivers/staging/media/tegra/tegra-channel.c: In function ‘tegra_channel_queue_setup’:
+>>>> drivers/staging/media/tegra/tegra-channel.c:71:15: warning: unused variable ‘count’ [-Wunused-variable]
+>>>>    71 |  unsigned int count = *nbuffers;
+>>>>       |               ^~~~~
+>>>> drivers/staging/media/tegra/tegra-channel.c: In function ‘tegra_channel_init’:
+>>>> drivers/staging/media/tegra/tegra-channel.c:518:55: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   518 |  struct tegra_camera *cam = dev_get_drvdata(vi->client.host);
+>>>>       |                                                       ^
+>>>> make[4]: *** [scripts/Makefile.build:265: drivers/staging/media/tegra/tegra-channel.o] Error 1
+>>>> make[4]: *** Waiting for unfinished jobs....
+>>>> drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_tpg_graph_init’:
+>>>> drivers/staging/media/tegra/tegra-vi.c:157:55: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   157 |  struct tegra_camera *cam = dev_get_drvdata(vi->client.host);
+>>>>       |                                                       ^
+>>>> drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_init’:
+>>>> drivers/staging/media/tegra/tegra-csi.c: In function ‘tegra_csi_init’:
+>>>> drivers/staging/media/tegra/tegra-vi.c:213:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   213 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>>>       |                                                   ^~
+>>>> drivers/staging/media/tegra/tegra-csi.c:259:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   259 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>>>       |                                                   ^~
+>>>> drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_exit’:
+>>>> drivers/staging/media/tegra/tegra-vi.c:246:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   246 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>>>       |                                                   ^~
+>>>> drivers/staging/media/tegra/tegra-csi.c: In function ‘tegra_csi_exit’:
+>>>> drivers/staging/media/tegra/tegra-csi.c:286:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   286 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>>>       |                                                   ^~
+>>>>
+>>>> And indeed, struct host1x_client as defined in include/linux/host1x.h doesn't
+>>>> have a 'host' field.
+>>>>
+>>>> Does this series depend on another patch that's not yet in mainline?
+>>>
+>>> Sowjanya's been working on top of linux-next, so, yes, this patch
+>>> depends on a change that's been merged into the DRM tree for v5.6-rc1.
+>>>
+>>> Thierry
+>>>
+>>
+>> Is there a specific linux-next tag that works? I tried next-20200131 but that
+>> failed to boot. Same problem with the mainline repo since the host1x patches
+>> were merged yesterday. It compiles fine, but the boot just stops. Or am I
+>> missing some kernel config that is now important to have?
+> 
+> linux-next and mainline are currently regressing on Tegra210 (and some
+> Tegra124) boards. I just sent out a series that fixes the regression for
+> me:
+> 
+> 	http://patchwork.ozlabs.org/project/linux-tegra/list/?series=156215
+> 
+> Please test if this works for you. If so, I'll send this to Dave as soon
+> as possible.
 
-No, extcon is supported.
+Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-> USB-C support is not a likely scenario, as currently the chipidea
-> driver only supports usb 2.0.
+Thank you, now it boots on mainline + this series + the new VI/CSI driver.
 
-USB-C is a connector, not related to USB HW revision. For USB 2.0
-USB-C solution, there is no SS TX/RX connected on connector.
+Regards,
 
->=20
-> >
-> > Second, you may check if touch otgsc will hang or deadlock the system.
-> > If you can't touch otgsc when portsc.phcd =3D 0, you may need the flag
-> > CI_HDRC_DUAL_ROLE_NOT_OTG, afaik, few SoCs can't touch otgsc if it
-> > supports dual-role.
->=20
-> I added some traces to the driver, and it doesn't actually appear to
-> be a register read/write that is breaking things. (Not directly
-> anyways).
-> The hang occurs after it enumerates the usb gadgets and hub.
-> Still trying to track down exactly where the hang occurs.
->=20
+	Hans
 
-Try to see if it is related to runtime power management.
+> 
+> Thierry
+> 
 
---=20
-
-Thanks,
-Peter Chen=
