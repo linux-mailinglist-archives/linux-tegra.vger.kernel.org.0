@@ -2,67 +2,60 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 783B61535D8
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Feb 2020 18:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C4811535F5
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Feb 2020 18:11:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727454AbgBERCd (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Feb 2020 12:02:33 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34950 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726678AbgBERCd (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Feb 2020 12:02:33 -0500
-Received: by mail-wr1-f68.google.com with SMTP id w12so3665625wrt.2;
-        Wed, 05 Feb 2020 09:02:31 -0800 (PST)
+        id S1726957AbgBERLa (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Feb 2020 12:11:30 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:35462 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726534AbgBERLa (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Feb 2020 12:11:30 -0500
+Received: by mail-wm1-f66.google.com with SMTP id b17so3757039wmb.0
+        for <linux-tegra@vger.kernel.org>; Wed, 05 Feb 2020 09:11:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pQL4z7TXHWq/sFcG+ZfVL1ooPqEtHyGn+vIefYNyNNg=;
-        b=grh0SIQXYGMQHg5hvBkzqFu3DuYjrp9vBhwvlMljGOgbkfCumw1DJ4TTUAW0lDoQMc
-         31RrLv1Z+srJRkH1JK2xMnRPyQ/k/SsvtZcHVvfGidxPVqDK9sutFb1WD5kNE37EebMS
-         nsYPQCqM80h4/pezolZowWVLRFp4ENtOGUKuPOnQY8QOavgnMuicRSRtepla4OoW1jpc
-         vxfYY6DP1aTEtau0Z33Hskp7Pk8Gw4gCV7lOwvDsF4/dPkNPx5ttEEnayeFlgVs7p9Jp
-         OnkPT3r3B2neLR4xU2iEDDhr0N4vUeEZFLPE21TfuaRWBSXpWelP0D3uqoo7KRq75mQJ
-         5ELw==
+        bh=c3yHxHXOFvWJiYAgSKuZerQDF45N4Lz8/Qbl2P6sbW0=;
+        b=qwjJhJxVvKxtdGtAoKzW+6g8gLPLQUt2TmhsLh3m3WlQhgLL3c+UjLqKaXByqQcO7U
+         92hS5deCJj20Xq7Ortj92OD0nAhXwiTCuOqY66A0MgTtBJjGAwmUG3NSoCOqk+mjzuIU
+         h68/CnUa7KWfEBD3H6jz2GNmPV3mOlLJ5c7D/Jt3OhylUpeFbDzIhreyC9gbAyspJI68
+         nMsWtXU9OZUIkNrtKx7+JXrpYZh2EfVD9PL86HS61GZg5TRVecFPZ54U71oKOcVlfzcT
+         OWURlxN6Am/cODdLRpB3ZJar3i/3Lovfk4CnvVpgzU9gjjNfnU3WUv6PyjjcyR5CAOp8
+         yJyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=pQL4z7TXHWq/sFcG+ZfVL1ooPqEtHyGn+vIefYNyNNg=;
-        b=dIe74j1gu8WzTyxf1Jxbz/2kWId20oYBTSdStJ7RPWShaJDREtHiijTLpsgzilIvSN
-         dlK5zb8WtYdOqQ1wPqQCthj7V4Vr2TMaD73VQvUsPYqt9SmkdlbWPNo97xPVs073VK7M
-         rzYyhRs2zqdXrOuU3Ip9q8+tL3E+dIqj3/9J8oH9mwq+G2u8u+RASXJ7ZdKopmJEZJ+I
-         FtyQE6Jn11XPHG3DU4zwXvBDrTkXBv82+IZBpckvpgUS/V2wR6rz2G8RIs33TKBP9ZLZ
-         ohlTQEo1V3k8C1lkzt/TyavHP1mSbsfFkP5XZqnZBa80mjLbOR6oHxdLi2/ZNRHmRa4U
-         1kxg==
-X-Gm-Message-State: APjAAAUdGITiGOMn6g8Wah2AqT8026IOFNH4QY9fyy7DiMYMxVYJO0lK
-        kLQLXO/hdutD6jzAgPvXkvc=
-X-Google-Smtp-Source: APXvYqynoyH2re39DhTeCk3EnXaqiL1bV3eoElmPeYE4VGss09frGcB2BvFdA4617Bo1yQU8QnyiDQ==
-X-Received: by 2002:adf:c3d0:: with SMTP id d16mr27959062wrg.376.1580922150291;
-        Wed, 05 Feb 2020 09:02:30 -0800 (PST)
+        bh=c3yHxHXOFvWJiYAgSKuZerQDF45N4Lz8/Qbl2P6sbW0=;
+        b=A+ja2aunj75DFwMQlnv9reMnCijKXr/obfnFNmXxEk8k+PkbRqcydr9H1FRVwH5sah
+         D8AGgpRO4AHbXFR66NTBTAut75G9JSytrmzzRsXdoNMtN8iiMe6CcqTr1ofNPZO9stUV
+         ueXKZxSLOouqiKRI3gOklRX5zPNSclUq8SKiOdeAMQjVxC6gmmQpmz0XjxPhz7ZO0R0V
+         9l3zjT8eluJMOyyGQIYp2wchqLykO+UysGJm1opCR1xLdMT/MalBxvcIS/Md7MIa1KHe
+         XzRKyP30txbC6E8SJTpDQ1V2rsftlA5rNHB9tgiCBis1crh8qpKi2q7k6lLywIo0j/5l
+         TUyA==
+X-Gm-Message-State: APjAAAWxpRgoWp2vZeOO9kNmxskcjFs1wwAGKbyximL1OQ0gopwwJtcA
+        EKW/GHEdhSjFJO1wHK7D+BmWsNPw
+X-Google-Smtp-Source: APXvYqyt5fWl1XC4rlumOaIwAet+nh2GPYJgXARxM9v4x72ycfukvTE+TpaVODQpw1Q/vdWL2JmF3w==
+X-Received: by 2002:a1c:a752:: with SMTP id q79mr6356428wme.64.1580922687811;
+        Wed, 05 Feb 2020 09:11:27 -0800 (PST)
 Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id 5sm531917wrc.75.2020.02.05.09.02.28
+        by smtp.googlemail.com with ESMTPSA id d22sm218322wmd.39.2020.02.05.09.11.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2020 09:02:29 -0800 (PST)
-Subject: Re: [PATCH v2 2/9] ASoC: tegra: add support for CIF programming
-To:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
-        robh+dt@kernel.org
-Cc:     broonie@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
-        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
-        dramesh@nvidia.com, atalambedu@nvidia.com
-References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
- <1580380422-3431-3-git-send-email-spujar@nvidia.com>
+        Wed, 05 Feb 2020 09:11:27 -0800 (PST)
+Subject: Re: [PATCH 0/3] drm/tegra: A couple of fixes for v5.6-rc1
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20200204135926.1156340-1-thierry.reding@gmail.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7239e858-16b7-609f-c4e3-8135bee8450b@gmail.com>
-Date:   Wed, 5 Feb 2020 20:02:22 +0300
+Message-ID: <e6520041-f760-a74b-0250-1108e61b899c@gmail.com>
+Date:   Wed, 5 Feb 2020 20:11:26 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <1580380422-3431-3-git-send-email-spujar@nvidia.com>
+In-Reply-To: <20200204135926.1156340-1-thierry.reding@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -71,34 +64,26 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.01.2020 13:33, Sameer Pujar пишет:
-...
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include "tegra_cif.h"
-> +
-> +void tegra_set_cif(struct regmap *regmap, unsigned int reg,
-> +		   struct tegra_cif_conf *conf)
-> +{
-> +	unsigned int value;
-> +
-> +	value = (conf->threshold << TEGRA_ACIF_CTRL_FIFO_TH_SHIFT) |
-> +		((conf->audio_ch - 1) << TEGRA_ACIF_CTRL_AUDIO_CH_SHIFT) |
-> +		((conf->client_ch - 1) << TEGRA_ACIF_CTRL_CLIENT_CH_SHIFT) |
-> +		(conf->audio_bits << TEGRA_ACIF_CTRL_AUDIO_BITS_SHIFT) |
-> +		(conf->client_bits << TEGRA_ACIF_CTRL_CLIENT_BITS_SHIFT) |
-> +		(conf->expand << TEGRA_ACIF_CTRL_EXPAND_SHIFT) |
-> +		(conf->stereo_conv << TEGRA_ACIF_CTRL_STEREO_CONV_SHIFT) |
-> +		(conf->replicate << TEGRA_ACIF_CTRL_REPLICATE_SHIFT) |
-> +		(conf->truncate << TEGRA_ACIF_CTRL_TRUNCATE_SHIFT) |
-> +		(conf->mono_conv << TEGRA_ACIF_CTRL_MONO_CONV_SHIFT);
-> +
-> +	regmap_update_bits(regmap, reg, TEGRA_ACIF_UPDATE_MASK, value);
-> +}
-> +EXPORT_SYMBOL_GPL(tegra_set_cif);
+04.02.2020 16:59, Thierry Reding пишет:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Hi,
+> 
+> this contains a couple of fixes for a DMA API performance regression
+> that was introduced in v5.5 for older Tegra devices. Patches 1 and 2
+> will likely have to be backported to v5.5.
+> 
+> Thierry
+> 
+> Thierry Reding (3):
+>   drm/tegra: Relax IOMMU usage criteria on old Tegra
+>   drm/tegra: Reuse IOVA mapping where possible
+>   gpu: host1x: Set DMA direction only for DMA-mapped buffer objects
+> 
+>  drivers/gpu/drm/tegra/drm.c   | 49 +++++++++++++++++++++++------------
+>  drivers/gpu/drm/tegra/gem.c   | 10 ++++++-
+>  drivers/gpu/drm/tegra/plane.c | 44 +++++++++++++++++--------------
+>  drivers/gpu/host1x/job.c      | 34 +++++++++++++++++++++---
+>  4 files changed, 96 insertions(+), 41 deletions(-)
 
-Are you going to add more stuff into this source file later on?
-
-If not, then it's too much to have a separate driver module just for a
-single tiny function, you should move it into the header file (make it
-inline).
+Works on Tegra20 and Tegra30, thank you very much :)
