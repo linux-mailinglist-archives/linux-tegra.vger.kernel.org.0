@@ -2,81 +2,109 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C769E152745
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Feb 2020 08:57:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8E441529B8
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Feb 2020 12:17:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728039AbgBEH5j (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Feb 2020 02:57:39 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:57095 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727231AbgBEH5j (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 5 Feb 2020 02:57:39 -0500
-Received: from [192.168.2.10] ([46.9.235.248])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id zFYyiXwsAVuxOzFZ2iON1x; Wed, 05 Feb 2020 08:57:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580889456; bh=Zon7+wQq6Y/OezBpVLpCFEKggV/uB8j1JtLlS5DUs4g=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=PnO+Ao1a3gALRFP16EWuypfaSxiI7wukdAi3iV3IIWqREdBDN7WXancubsZigZSN7
-         X8mxQQFiffs8g+r2999nlcv5oUAr9m4AFQFdII0t2WrzSNJMuqfoJf6U0av7WijK+x
-         EHzH9yIie35y4NhBsiSp7yZhp+RCOWldqUbXEsiEnCOLmuoZTYFRVwgjuG4pB6LPcE
-         vu2SlFcnLHOfzPDD2kThZIyFJAfNL+SJ8zVp2nOFm7OWYPeyzIBRivmUbIy4oCsfnJ
-         ZWQr4en4ylqmG3qiXQgwhpcAG+PxoayH0BvocyYMvNdrIBmVMqZDT5BfVNXlC4tHRF
-         RhlD0UODDFkHQ==
-Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
- <098ac46f-fe13-f215-b9a4-aa8d01395592@xs4all.nl>
- <6c3d2557-8982-37bf-810a-6d9faad9e5a4@nvidia.com>
- <9c4775f2-8188-43f4-1de1-56620fad2e7c@xs4all.nl>
- <af813a4e-339c-4254-75a0-8db995fe2aba@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <474ca8c5-4735-1707-d6f6-cf541bfeb525@xs4all.nl>
-Date:   Wed, 5 Feb 2020 08:57:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <af813a4e-339c-4254-75a0-8db995fe2aba@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+        id S1728260AbgBELRJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Feb 2020 06:17:09 -0500
+Received: from mail-eopbgr40051.outbound.protection.outlook.com ([40.107.4.51]:51410
+        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727522AbgBELRI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 5 Feb 2020 06:17:08 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SbeV43k1IcfBndUc6iNIwrrgP9+0dHnWXfy56vVydQDNAygcPLNePI6CyI95OPu2fFb579LrY2hWbTLCwqgOwxpIpkTXZ91ul/qN4FhPiDd7MJxZvs0d7NTc6s75nELYMo7aMKm+2HZ8GkGQi8Vd97ijVRIm1aoEXZPsB14mTgtoDKdiH4vPdm+hgMJUNc1lFGLvk5LG+v30U25yGbVviuufBBgfqgbCr/f2OunqJi6TnD/87AC3dIcCZ7g5fBSoCOR1lFfI92ABBGp9Ai+hBFxRQbWwd1jvBPoXgoPMIXU0uvqOZcZZ3vy0DlSCpsy4wXUd/3huLaxpReBgK5L7mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BFedgqTPPygZzuGUHTv7wASPmaWU5uMWt4gYVNe+M8A=;
+ b=T5vTjMf2tc3vEKQSgDWpkUVd6zXbO4m+6FkRR1YDO8thOQoW97TSwNYpXlJXnVaHQ9loM6OP/QCiYNtRXtMtug/sAtkDXS6zvf2Lvj4cBhd0GD4FAHU6SQ1kY1O6FvtrUhDcNQJSIJeTHC7jnpRWEe2ELR0tYfE2TeYzq9oz6TkfQXb4w+Kb33bZnZIROX+9CVoq1nx9mgW6bEgB9lKbw99mxO6soSAoNyZ5VCEt5cizNPmhNAcIwiN8Lh/lf4JlCGjhihqZIZJEHT6eRS0hw8uFjUL9MwVbxXhj5550/oZimNbfQNou0llro1PMT037GFw37Motr4jwwsqUf235oQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BFedgqTPPygZzuGUHTv7wASPmaWU5uMWt4gYVNe+M8A=;
+ b=Do1oWxPjqGONIsV0LCRkYrPK4ke7PCr1Z87Is1D/YOgfhdqxZcZjnJUueS2Fn4O2H6v9p+iT0ygQesbV6QwvHW4i9UOzbeiAbHv4XFOwkxxv/2uzLuZxYoLHKJmfQ+T1ouLKfTZIfy1rQw9duAi3G+WeFKZIpsZAY+kbkfQObfU=
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.51.23) by
+ VI1PR04MB4974.eurprd04.prod.outlook.com (20.177.48.91) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.21; Wed, 5 Feb 2020 11:17:04 +0000
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::c7d:58a2:7265:407e]) by VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::c7d:58a2:7265:407e%6]) with mapi id 15.20.2686.031; Wed, 5 Feb 2020
+ 11:17:04 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Peter Geis <pgwipeout@gmail.com>
+CC:     Thierry Reding <treding@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: RE: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
+Thread-Topic: [PATCH] usb: chipidea: tegra: fix hardlock with invalid dr mode
+Thread-Index: AQHV1LqaVEQK+QBFlEajUWQRaUhLOagERL0AgAD/9wCAAJ9JAIAD35yAgADwwoCAAHLiAIABWpKQ
+Date:   Wed, 5 Feb 2020 11:17:04 +0000
+Message-ID: <VI1PR04MB5327AF1B75732C9E24988A2F8B020@VI1PR04MB5327.eurprd04.prod.outlook.com>
+References: <20200127023548.27107-1-pgwipeout@gmail.com>
+ <20200131052716.GA30672@b29397-desktop>
+ <CAMdYzYqwz9HLsjvc1hDmovzWqiV_Vswe57d_gWhwBnvb2aNPyQ@mail.gmail.com>
+ <20200201061330.GA9178@b29397-desktop>
+ <CAMdYzYrbvsTunwxJLcC_-ZhczsQfyDLOjTnZ+eorb325qO-QhA@mail.gmail.com>
+ <20200204074419.GA6681@b29397-desktop>
+ <CAMdYzYo8Vgw8h=LtfLnQNF4j-rVzgKJTp1hCyf7BFKrdhAhAHQ@mail.gmail.com>
+In-Reply-To: <CAMdYzYo8Vgw8h=LtfLnQNF4j-rVzgKJTp1hCyf7BFKrdhAhAHQ@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfH6omILRaT9sm0XhO0Kb85QAqiu7fDEbkga/0I8tPf5vU6is6YciSTeryOxUEvcb/d73otPRnDpn20BZCasUvUtOy4YajrmKQk5Qm/2MDHevnv0NuUlN
- 1CzI4nx3arzn/x6o5Nztw1T2zsU2ixteauyiLs1GEATKt4y0IXCL3KUvLQYs1tLIrT0Uu4Uc3c6+yp6vsbS0+Sx99ha7cWYaXbMlGyqcU4aqZjtwPfcVyuSn
- sGYgbNx07aBlyezqOsgk/rF/QtxMXytLgkl4PwG7i9U1PZdbElzhHdhKtK98TDvwzLT+KTf/cJ+N456YhbDVdedtgv3yTwQMmvoexQhWBS43IBblKdGbY3oG
- wxdqUfvrzk5arnpPqOihGExs9k7lJ8CWtXLdI6I6gD7nCyNog3+2u8rwj6zaKK5icV2bZCM6Uf69pk9xaSCvvNB54O5XSEBoryFx0tzaDiOry4I3HLw=
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=peter.chen@nxp.com; 
+x-originating-ip: [119.31.174.68]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: fd7bc43d-17b2-4ebd-63bf-08d7aa2cee2b
+x-ms-traffictypediagnostic: VI1PR04MB4974:
+x-microsoft-antispam-prvs: <VI1PR04MB4974C0CE46ED38202FB97C438B020@VI1PR04MB4974.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0304E36CA3
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(39860400002)(346002)(376002)(136003)(396003)(199004)(189003)(9686003)(52536014)(55016002)(54906003)(316002)(4744005)(76116006)(478600001)(66446008)(66946007)(66476007)(64756008)(6916009)(66556008)(5660300002)(33656002)(7696005)(26005)(8676002)(86362001)(186003)(81166006)(81156014)(4326008)(2906002)(71200400001)(8936002)(6506007)(44832011);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB4974;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: CQ8ae+08L9DkbfcwQZixNXR4k7PfHKZXAPSaKnpId8aSkW5lngEZyDx/GvG+Yz9E1SS+4PoP74ox7FCQ4yqBT8KYzI9bYGNGARm9DcW+XVXmXPAHcHPBQfstKBN3VOVJeCnT7TgdNG0q+qguo2pijJKpqvqtWAbX887iGT302TDq3KBxBqN+VLWo9/boiznWU7fP/J2E9YkH1+0pTptUaMdrfw/zJpU2LIFPjEDV9FLtAbwG3dV4M7YkQw6T0p+wCkOA2QalljKMS0RRljBlenCdRvybOiS0gPB+gD/RKtIESKerEi5Hf52uQGxskAtT/LSM2Ry9+1DlsOcrMLW8S9zlLX+6u1Rq6aes3WAaySgwj3snp1gIwAVgFlvSiFRNnZ5S8fa//zkvm4Fkgtz5Np4SIDrrQzDx/oZZpfxShn9QGcbO8vCZt8yl9c6DSzB2
+x-ms-exchange-antispam-messagedata: WzZ85bQhIOABWOz6ACbXpywrwY/9gbwxcLsr72MyfMydMNS5sJnsxSCSnVOmQaH7t1ejM5uMDfXjFWhI0+9w9JS239NGYO8Va+wo6/lxXYDlwko0rxbhbP8jTVAAHXUVpPEBRj2+CJwQNdfM5YYwyw==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd7bc43d-17b2-4ebd-63bf-08d7aa2cee2b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2020 11:17:04.6199
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mSRuRK+om4bD4EGpCnR3SIFBR2UMDTZtuWQIkcvW0eW85YJVoQXCypPHosmFplT24wHiZ+oxDyqomjZt4tHVGg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4974
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 2/4/20 8:02 PM, Sowjanya Komatineni wrote:
->>>> I also noticed that changing the test pattern while streaming did not seem to have
->>>> any effect until I stop and restart streaming. Is that a limitation of the HW or of
->>>> the driver?
->>> Do you mean changing test pattern mode of different channel while other
->>> channels are streaming?
->> No, from the same channel. E.g. v4l2-ctl --stream-mmap, then do from another
->> console 'v4l2-ctl -c test-pattern=1'.
->>
->> It depends on the hardware whether or not you can change the test pattern
->> while streaming. But it is nice for testing if this is possible.
-> 
-> Test-pattern mode changes during active streaming will not get set as 
-> test-pattern mode is in CSI and mode is set every time during the start 
-> of streaming and then VI keeps capturing the frames.
-> 
-> basically its during CSI subdevice stream enable.
-
-OK. Just add a little comment either at the point the control is created or
-where the control is set in vi_s_ctrl(). It's just to document that this
-will only take effect at the next streamon.
-
-Regards,
-
-	Hans
+IA0KPiA+ID4gPiBTZWNvbmQsIHlvdSBtYXkgY2hlY2sgaWYgdG91Y2ggb3Rnc2Mgd2lsbCBoYW5n
+IG9yIGRlYWRsb2NrIHRoZSBzeXN0ZW0uDQo+ID4gPiA+IElmIHlvdSBjYW4ndCB0b3VjaCBvdGdz
+YyB3aGVuIHBvcnRzYy5waGNkID0gMCwgeW91IG1heSBuZWVkIHRoZQ0KPiA+ID4gPiBmbGFnIENJ
+X0hEUkNfRFVBTF9ST0xFX05PVF9PVEcsIGFmYWlrLCBmZXcgU29DcyBjYW4ndCB0b3VjaCBvdGdz
+Yw0KPiA+ID4gPiBpZiBpdCBzdXBwb3J0cyBkdWFsLXJvbGUuDQo+ID4gPg0KPiA+ID4gSSBhZGRl
+ZCBzb21lIHRyYWNlcyB0byB0aGUgZHJpdmVyLCBhbmQgaXQgZG9lc24ndCBhY3R1YWxseSBhcHBl
+YXIgdG8NCj4gPiA+IGJlIGEgcmVnaXN0ZXIgcmVhZC93cml0ZSB0aGF0IGlzIGJyZWFraW5nIHRo
+aW5ncy4gKE5vdCBkaXJlY3RseQ0KPiA+ID4gYW55d2F5cykuDQo+ID4gPiBUaGUgaGFuZyBvY2N1
+cnMgYWZ0ZXIgaXQgZW51bWVyYXRlcyB0aGUgdXNiIGdhZGdldHMgYW5kIGh1Yi4NCj4gPiA+IFN0
+aWxsIHRyeWluZyB0byB0cmFjayBkb3duIGV4YWN0bHkgd2hlcmUgdGhlIGhhbmcgb2NjdXJzLg0K
+PiA+ID4NCj4gPg0KPiA+IFRyeSB0byBzZWUgaWYgaXQgaXMgcmVsYXRlZCB0byBydW50aW1lIHBv
+d2VyIG1hbmFnZW1lbnQuDQo+IA0KPiBUaGF0J3MgaXQhDQo+IFRoZXJlIGRvZXNuJ3QgYXBwZWFy
+IHRvIGJlIGEgbWV0aG9kIHRvIGRpc2FibGUgUE0gaW5zaWRlIHRoZSBjaGlwaWRlYSBkcml2ZXIu
+DQo+IERvIHlvdSBoYXZlIGEgc3VnZ2VzdGlvbiBvbiBob3cgdG8gZG8gaXQsIGFzaWRlIGZyb20g
+dGhlIGdsb2JhbCBtZXRob2Q/DQo+IA0KIA0KDQpTZWUgZHJpdmVycy91c2IvY2hpcGlkZWEvY2lf
+aGRyY19pbXguYyBmb3IgcmVmZXJlbmNlIHBsZWFzZS4NCg0KUGV0ZXINCg==
