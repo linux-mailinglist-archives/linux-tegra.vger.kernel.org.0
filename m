@@ -2,119 +2,81 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35307152249
-	for <lists+linux-tegra@lfdr.de>; Tue,  4 Feb 2020 23:17:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C769E152745
+	for <lists+linux-tegra@lfdr.de>; Wed,  5 Feb 2020 08:57:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727500AbgBDWRh (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 4 Feb 2020 17:17:37 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:42183 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727468AbgBDWRg (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Tue, 4 Feb 2020 17:17:36 -0500
-Received: by mail-lj1-f194.google.com with SMTP id d10so272883ljl.9;
-        Tue, 04 Feb 2020 14:17:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OMnQ0aho9hVBXoHkw9xlZzqlNYr0sDiGuRFANK6I7Ws=;
-        b=l3e9dDsNbimyYI+HcnwDopd0zhHkC2U9diKtxcOoxySzKqCtcYYAvSsKCoRJnfl6b2
-         xbEphyBQJU0CwjAu81sC5Mjk8eIhpcdDEFYIcR7Ir7gI/pIo8XH+RoIbg2iGuuFxpYSp
-         QyfIRNdYPJbo+bIousQ/Ak6kx3SIkT9iC15mLgp4mmFBH2MRfa9tgxF6611esth0/7BA
-         OwsE7DJWjzXP8OYKn0PeumQywchtvjJMR/CtXaovHPDhjq07b/KURZoNJ3/8g4QKQYGU
-         B+lzRaokfUTm+bnD2kHkx+euy/VN+91NlABOSEHITa7VbD0k28h86uY4tkdI7cM26UFA
-         8pKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=OMnQ0aho9hVBXoHkw9xlZzqlNYr0sDiGuRFANK6I7Ws=;
-        b=MDRlnkl7KTbQIRkdo0mK5Mh1fhSgLelX1HMycrlRrRgkhDOUryvqw4eyeETrm2mx/B
-         tqmXZzKw1cH9G8nsH96VTCtgVL1DZNlczbxMifJh5ryW7Cvut0Kqg/MmZuScH2f2EtDF
-         orLYNxsEtn7Q7KGpeYkcH6DFvA9z6PMLYcxd6I+bZPEquyKq3w8sJ84ZQo2hl5v7aDaG
-         v2NG0T8zp6Iz8OdHsyAgGVbv+OqJIAWBg9/Zo9doFpMVbNr3F8N1RygMb4AwVAGx2OvO
-         ddCUBXJvf+PIj2P/GbE57YmwL6jtveU2ZE8oeUe/NTU3U3VZDM5dgdYp9iZxU7bdG826
-         RnwQ==
-X-Gm-Message-State: APjAAAWIOJXc6So6+CzVfnAzINHt1N3rpi6zivVQTVDcRwaD4L7Wo+U1
-        HTfLWz7jat/UYPfJh/9ZmeHizIJK
-X-Google-Smtp-Source: APXvYqwVB+ckkMTuJHrbL+3XrfRf0KN6xTDOjLSiqZ1gk92dkj0kiUZrTFSCehELuFI/y51nqp56Mw==
-X-Received: by 2002:a2e:990d:: with SMTP id v13mr19304487lji.47.1580854652656;
-        Tue, 04 Feb 2020 14:17:32 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id i4sm12254131ljg.102.2020.02.04.14.17.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2020 14:17:31 -0800 (PST)
-Subject: Re: [PATCH v7 12/19] dmaengine: tegra-apb: Remove handling of
- unrealistic error condition
-To:     Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        id S1728039AbgBEH5j (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 5 Feb 2020 02:57:39 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:57095 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727231AbgBEH5j (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 5 Feb 2020 02:57:39 -0500
+Received: from [192.168.2.10] ([46.9.235.248])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id zFYyiXwsAVuxOzFZ2iON1x; Wed, 05 Feb 2020 08:57:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1580889456; bh=Zon7+wQq6Y/OezBpVLpCFEKggV/uB8j1JtLlS5DUs4g=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=PnO+Ao1a3gALRFP16EWuypfaSxiI7wukdAi3iV3IIWqREdBDN7WXancubsZigZSN7
+         X8mxQQFiffs8g+r2999nlcv5oUAr9m4AFQFdII0t2WrzSNJMuqfoJf6U0av7WijK+x
+         EHzH9yIie35y4NhBsiSp7yZhp+RCOWldqUbXEsiEnCOLmuoZTYFRVwgjuG4pB6LPcE
+         vu2SlFcnLHOfzPDD2kThZIyFJAfNL+SJ8zVp2nOFm7OWYPeyzIBRivmUbIy4oCsfnJ
+         ZWQr4en4ylqmG3qiXQgwhpcAG+PxoayH0BvocyYMvNdrIBmVMqZDT5BfVNXlC4tHRF
+         RhlD0UODDFkHQ==
+Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20200202222854.18409-1-digetx@gmail.com>
- <20200202222854.18409-13-digetx@gmail.com>
- <b2461a42-5939-b2b1-01fe-6f18c860dbd9@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e89b7319-74c6-4a88-4634-f127aca86851@gmail.com>
-Date:   Wed, 5 Feb 2020 01:17:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+ <098ac46f-fe13-f215-b9a4-aa8d01395592@xs4all.nl>
+ <6c3d2557-8982-37bf-810a-6d9faad9e5a4@nvidia.com>
+ <9c4775f2-8188-43f4-1de1-56620fad2e7c@xs4all.nl>
+ <af813a4e-339c-4254-75a0-8db995fe2aba@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <474ca8c5-4735-1707-d6f6-cf541bfeb525@xs4all.nl>
+Date:   Wed, 5 Feb 2020 08:57:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <b2461a42-5939-b2b1-01fe-6f18c860dbd9@nvidia.com>
+In-Reply-To: <af813a4e-339c-4254-75a0-8db995fe2aba@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfH6omILRaT9sm0XhO0Kb85QAqiu7fDEbkga/0I8tPf5vU6is6YciSTeryOxUEvcb/d73otPRnDpn20BZCasUvUtOy4YajrmKQk5Qm/2MDHevnv0NuUlN
+ 1CzI4nx3arzn/x6o5Nztw1T2zsU2ixteauyiLs1GEATKt4y0IXCL3KUvLQYs1tLIrT0Uu4Uc3c6+yp6vsbS0+Sx99ha7cWYaXbMlGyqcU4aqZjtwPfcVyuSn
+ sGYgbNx07aBlyezqOsgk/rF/QtxMXytLgkl4PwG7i9U1PZdbElzhHdhKtK98TDvwzLT+KTf/cJ+N456YhbDVdedtgv3yTwQMmvoexQhWBS43IBblKdGbY3oG
+ wxdqUfvrzk5arnpPqOihGExs9k7lJ8CWtXLdI6I6gD7nCyNog3+2u8rwj6zaKK5icV2bZCM6Uf69pk9xaSCvvNB54O5XSEBoryFx0tzaDiOry4I3HLw=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-04.02.2020 14:52, Jon Hunter пишет:
+On 2/4/20 8:02 PM, Sowjanya Komatineni wrote:
+>>>> I also noticed that changing the test pattern while streaming did not seem to have
+>>>> any effect until I stop and restart streaming. Is that a limitation of the HW or of
+>>>> the driver?
+>>> Do you mean changing test pattern mode of different channel while other
+>>> channels are streaming?
+>> No, from the same channel. E.g. v4l2-ctl --stream-mmap, then do from another
+>> console 'v4l2-ctl -c test-pattern=1'.
+>>
+>> It depends on the hardware whether or not you can change the test pattern
+>> while streaming. But it is nice for testing if this is possible.
 > 
-> On 02/02/2020 22:28, Dmitry Osipenko wrote:
->> The pending_sg_req list can't ever be empty because:
->>
->> 1. If it was empty, then handle_cont_sngl_cycle_dma_done() shall crash
->>    before of handle_continuous_head_request() invocation.
->>
->> 2. The handle_cont_sngl_cycle_dma_done() can't happen after stopping DMA.
+> Test-pattern mode changes during active streaming will not get set as 
+> test-pattern mode is in CSI and mode is set every time during the start 
+> of streaming and then VI keeps capturing the frames.
 > 
-> By this you mean calling terminate_all?
+> basically its during CSI subdevice stream enable.
 
-Yes, and also the handle_continuous_head_request() itself because it
-stops DMA on error, which clears interrupt status, and thus, ISR handle
-returns IRQ_NONE without handling next interrupt.
+OK. Just add a little comment either at the point the control is created or
+where the control is set in vi_s_ctrl(). It's just to document that this
+will only take effect at the next streamon.
 
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/dma/tegra20-apb-dma.c | 6 ------
->>  1 file changed, 6 deletions(-)
->>
->> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
->> index 62d181bd5e62..c7dc27ef1856 100644
->> --- a/drivers/dma/tegra20-apb-dma.c
->> +++ b/drivers/dma/tegra20-apb-dma.c
->> @@ -564,12 +564,6 @@ static bool handle_continuous_head_request(struct tegra_dma_channel *tdc,
->>  {
->>  	struct tegra_dma_sg_req *hsgreq;
->>  
->> -	if (list_empty(&tdc->pending_sg_req)) {
->> -		dev_err(tdc2dev(tdc), "DMA is running without req\n");
->> -		tegra_dma_stop(tdc);
->> -		return false;
->> -	}
->> -
->>  	/*
->>  	 * Check that head req on list should be in flight.
->>  	 * If it is not in flight then abort transfer as
->>
-> 
-> There is also a list_empty() check in tdc_configure_next_head_desc()
-> which is also redundant and could be removed here as well.
+Regards,
 
-Good catch :) I'll squash all these list_empty() removals into a single
-patch.
+	Hans
