@@ -2,93 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E8C91549D6
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Feb 2020 17:59:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0244C1549F4
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Feb 2020 18:06:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727593AbgBFQ72 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Feb 2020 11:59:28 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:33339 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727358AbgBFQ72 (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Feb 2020 11:59:28 -0500
-Received: by mail-lj1-f194.google.com with SMTP id y6so6903246lji.0;
-        Thu, 06 Feb 2020 08:59:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=og0ADzsSpshRIcdeT+Ks5xnjpqRL7rIYjLZFqgQChC8=;
-        b=HRo6PM95VaVbLvysaWne6f1YcD6Xn8ky7qGhXssAk+65rmhIhxrSsaq1vkT4jVTRWJ
-         Vcg3sSdqitzIy5JSWb03RkBU8I/AWKITP9G5QxgsvxVSJKIIUUoUpfPzFdybKYxboX8m
-         KiwDB9pm+oXNwHJ9gMCaR2lVltrz6cj9O2C4RTILmHCSu4jevdPaDT0WkensyZEykNCQ
-         XevyWbBJbNfxFTQOsguMTpusj2kEjDl3Ppqzd0/Cs7bjkxI2lZIqBmbkqUSZDhOkxPwj
-         CCAIvnNKUrs1OdnnVGd5zb99/zb075vJPrcfM0c76n9AoWoiQVOsJdJkoAYvK++HUC0j
-         NSjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=og0ADzsSpshRIcdeT+Ks5xnjpqRL7rIYjLZFqgQChC8=;
-        b=g3ZhjIOjkz6+Rmms5yaS8IocBcVAwArcuYfl3BPhY3W7/QBSWe9PJ3n2PzYxgX0rQm
-         5SsE8D0JMDEbBUHoe3kYSaLRH2fwoiieAPhp6rV8yYKxeX13vm/fGHAnWzdxgIaXrB2e
-         qac7LjmWunD3WKqw2FPNlW8+6ZXfGVwlVRJdezOxNFhwEmVkPaXRR+r8hvyxO71B7Fu7
-         XzMWH7ERFS1CcL+/tLPKA1harnjgYHqBfzs1PLlngJk2K9CLletfQmqSyiruShdsp25M
-         S+drOhQHrSjNpIPQnrix86WhZSJGvRP2blWxDY0MQpOLirPTs7t9TQSXkhV8wSfkjEy6
-         z5eQ==
-X-Gm-Message-State: APjAAAW1jjieDOJ+u/qeuEJpfSWXH/zRlhYotKQC3yoVomgtXMJ7VYSA
-        PBhpS6gE2syps4lT2TH3rxc=
-X-Google-Smtp-Source: APXvYqyguhImDG7VTsNciB0wVBuwnFI+0C60WcsTjlt52pFAY46lNafpCyeCJnDDsMLILiEPwTOYGg==
-X-Received: by 2002:a2e:9c85:: with SMTP id x5mr2681644lji.50.1581008366212;
-        Thu, 06 Feb 2020 08:59:26 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id p15sm1546166lfo.88.2020.02.06.08.59.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2020 08:59:25 -0800 (PST)
-Subject: Re: [PATCH v2 4/9] ASoC: tegra: add Tegra210 based I2S driver
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     perex@perex.cz, tiwai@suse.com, robh+dt@kernel.org,
-        broonie@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
-        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
-        dramesh@nvidia.com, atalambedu@nvidia.com
+        id S1727440AbgBFRGz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Feb 2020 12:06:55 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:47271 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726990AbgBFRGz (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Thu, 6 Feb 2020 12:06:55 -0500
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-244-k3KJlLTsOyOEt3BxP61xAA-1; Thu, 06 Feb 2020 17:06:48 +0000
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 6 Feb 2020 17:06:47 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Thu, 6 Feb 2020 17:06:47 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Dmitry Osipenko' <digetx@gmail.com>,
+        Sameer Pujar <spujar@nvidia.com>
+CC:     "perex@perex.cz" <perex@perex.cz>,
+        "tiwai@suse.com" <tiwai@suse.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "sharadg@nvidia.com" <sharadg@nvidia.com>,
+        "mkumard@nvidia.com" <mkumard@nvidia.com>,
+        "viswanathl@nvidia.com" <viswanathl@nvidia.com>,
+        "rlokhande@nvidia.com" <rlokhande@nvidia.com>,
+        "dramesh@nvidia.com" <dramesh@nvidia.com>,
+        "atalambedu@nvidia.com" <atalambedu@nvidia.com>
+Subject: RE: [PATCH v2 4/9] ASoC: tegra: add Tegra210 based I2S driver
+Thread-Topic: [PATCH v2 4/9] ASoC: tegra: add Tegra210 based I2S driver
+Thread-Index: AQHV3Q7P9u0Xi3sD8kGXpD/1/LgEEKgOY//Q
+Date:   Thu, 6 Feb 2020 17:06:47 +0000
+Message-ID: <90ae7badcb3441daa8144233de8f6825@AcuMS.aculab.com>
 References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
  <1580380422-3431-5-git-send-email-spujar@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3a586a6b-5f53-dc44-b9fc-67c633c626ef@gmail.com>
-Date:   Thu, 6 Feb 2020 19:59:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <1580380422-3431-5-git-send-email-spujar@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+ <3a586a6b-5f53-dc44-b9fc-67c633c626ef@gmail.com>
+In-Reply-To: <3a586a6b-5f53-dc44-b9fc-67c633c626ef@gmail.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-MC-Unique: k3KJlLTsOyOEt3BxP61xAA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.01.2020 13:33, Sameer Pujar пишет:
-...
-> +static const int tegra210_cif_fmt[] = {
-> +	0,
-> +	TEGRA_ACIF_BITS_16,
-> +	TEGRA_ACIF_BITS_32,
-> +};
-> +
-> +static const int tegra210_i2s_bit_fmt[] = {
-> +	0,
-> +	I2S_BITS_16,
-> +	I2S_BITS_32,
-> +};
-> +
-> +static const int tegra210_i2s_sample_size[] = {
-> +	0,
-> +	16,
-> +	32,
-> +};
+RnJvbTogZiBEbWl0cnkgT3NpcGVua28NCj4gU2VudDogMDYgRmVicnVhcnkgMjAyMCAxNjo1OQ0K
+PiANCj4gMzAuMDEuMjAyMCAxMzozMywgU2FtZWVyIFB1amFyINC/0LjRiNC10YI6DQo+IC4uLg0K
+PiA+ICtzdGF0aWMgY29uc3QgaW50IHRlZ3JhMjEwX2NpZl9mbXRbXSA9IHsNCj4gPiArCTAsDQo+
+ID4gKwlURUdSQV9BQ0lGX0JJVFNfMTYsDQo+ID4gKwlURUdSQV9BQ0lGX0JJVFNfMzIsDQo+ID4g
+K307DQo+ID4gKw0KPiA+ICtzdGF0aWMgY29uc3QgaW50IHRlZ3JhMjEwX2kyc19iaXRfZm10W10g
+PSB7DQo+ID4gKwkwLA0KPiA+ICsJSTJTX0JJVFNfMTYsDQo+ID4gKwlJMlNfQklUU18zMiwNCj4g
+PiArfTsNCj4gPiArDQo+ID4gK3N0YXRpYyBjb25zdCBpbnQgdGVncmEyMTBfaTJzX3NhbXBsZV9z
+aXplW10gPSB7DQo+ID4gKwkwLA0KPiA+ICsJMTYsDQo+ID4gKwkzMiwNCj4gPiArfTsNCj4gDQo+
+IHN0YXRpYyBjb25zdCAqdW5zaWduZWQqIGludD8NCg0KT3IgZ2V0IHJpZCBvZiB0aGUgdGFibGUg
+bG9va3VwcyBjb21wbGV0ZWx5Lg0KQXNzdW1pbmcgdGhlIGluZGV4IGlzIG5ldmVyIHplcm8gdGhl
+biB0aGUgdmFsdWUNCmNhbiBiZSBjYWxjdWxhdGVkIGFzIChjb25zdF9hICsgY29uc3RfYiAqIGlu
+ZGV4KS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxl
+eSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0
+aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-static const *unsigned* int?
