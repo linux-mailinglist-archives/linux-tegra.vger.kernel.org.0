@@ -2,81 +2,97 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 42B7A154A17
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Feb 2020 18:15:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC25E154A33
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Feb 2020 18:28:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727390AbgBFRPr (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Feb 2020 12:15:47 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:44003 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727358AbgBFRPr (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Feb 2020 12:15:47 -0500
-Received: by mail-lf1-f67.google.com with SMTP id 9so4639140lfq.10;
-        Thu, 06 Feb 2020 09:15:45 -0800 (PST)
+        id S1727440AbgBFR2A (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Feb 2020 12:28:00 -0500
+Received: from mail-wm1-f54.google.com ([209.85.128.54]:36227 "EHLO
+        mail-wm1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726990AbgBFR2A (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Feb 2020 12:28:00 -0500
+Received: by mail-wm1-f54.google.com with SMTP id p17so993022wma.1
+        for <linux-tegra@vger.kernel.org>; Thu, 06 Feb 2020 09:27:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IDKiaCf3ZWSIx1zkWLA7ZSXVihlqFh0aVDFgMk5ixMo=;
-        b=ZyWX4Emr9pFEoNGFD10TYSRW9qYN1c0ShrFQ9dDXuoXtdOE373z6p4ixyACSxD17O1
-         8cGGIY1nQWNoeSg1jdsHgYymI2+Pxf4Glnb/uELxUoCq7ttHEuGwip+n82hWBI3aOwCv
-         FYWbVuWr7GNGi+E6FAlb2PTVpG16vozdDmCkLcsnmZ7Q7TQqr5NOUEpmG8un463GyUOx
-         avXpZBsfb72tETgKHz2yOVvvk0T3256DIiMdslHAlYYjovJ4byxd2zbkY9nbOZQkJDnY
-         XcEUxuOrkKrlUzagQ6X15E19vgfjZBdRONNZ29uaLDgEsv773bjcpf+N1rIJKZTnBUSE
-         wgXg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GoPHJNkYrWrAAYhDknAJRzG2TQROB7g+UrDNyYdeF6I=;
+        b=j20XkOpbb521H8AmSZohb+SUmlpF2+iQ1dSFIoOgpjLopwZAR051IT2dIx+E0Bpe/g
+         Q6mJ4PK5KtZYUwDjV4ii9PE5OO6FScXy1bGO5C+kyvqd+RQtbjJqRdKgcz+lNC0bfahs
+         IClYgc6QCiG0xrDGith5AIFHF+UKPyTo+Nrj7/PqpnH9XgKTRDZrAvB2PD5sEastmS+X
+         /0ppjNqyD716zM2VQYZpsVbNPSxWWb7eHQkj9L90xe9k5DRHRAeoqd1fip68egXdAWkl
+         whUoCyOWw2F4V59y/LpcwizN3Bz57+IzWO3Z4vs+tQeZ5OEUCY8LPrdm4Qkbi7QCNyyH
+         96oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=IDKiaCf3ZWSIx1zkWLA7ZSXVihlqFh0aVDFgMk5ixMo=;
-        b=aYc8b8avD4+bCrtHJwcFVaDkOHvKXQ/sujLlQDPVVixFf0LeQyiCmy0bAsJYyTgKd8
-         HXJweyX1KD29iVIBR2k5kGiS3M0GtpjhhmHN2/UTvkkeAQCz64KPiWZHI/bYFXfc8sLE
-         E+5enmMNIE9a/RMLdAFC3WzIXJPpwbPahnswcn5D0g6ScTQQpRbXr+8Di70VjXuYsDp0
-         DR13OlCSGyLerqoNwEgwpQ8u1vWoBlHaVZ7mUEu63x+T1SvhiyTuYEk+rOabYSrvKlhS
-         bIf1CYkmFExQBM1MrxPl4pgdaw8dzuoV2a/jHRUbD8PcIZSESxEjxJcYzXiSjdkt4NKC
-         DVIg==
-X-Gm-Message-State: APjAAAUsp+kdXu5LgE7ozhBE+QTxYhwenF2AEwtP1I1JNqxX43fTN3vd
-        2VF9pq6TGduwsYO02/O9yYQ=
-X-Google-Smtp-Source: APXvYqzfPy8cc2Cd7kvDWo09wusjOhcwxocF4Z8NcvdXhaSCd8XBCArT0CfOOeEwmm5lKmtRonx8Dw==
-X-Received: by 2002:ac2:43a7:: with SMTP id t7mr2362606lfl.125.1581009344755;
-        Thu, 06 Feb 2020 09:15:44 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id y11sm26174lfc.27.2020.02.06.09.15.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2020 09:15:44 -0800 (PST)
-Subject: Re: [PATCH v2 6/9] ASoC: tegra: add Tegra186 based DSPK driver
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     perex@perex.cz, tiwai@suse.com, robh+dt@kernel.org,
-        broonie@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
-        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
-        dramesh@nvidia.com, atalambedu@nvidia.com
-References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
- <1580380422-3431-7-git-send-email-spujar@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f8ed8c4a-af40-44b2-b720-4d3a9b660fda@gmail.com>
-Date:   Thu, 6 Feb 2020 20:15:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        bh=GoPHJNkYrWrAAYhDknAJRzG2TQROB7g+UrDNyYdeF6I=;
+        b=Rq5jiRTZYRBEoGDqI9MJnwd7ykKf0PREZPF44mepZgVLhoogCLQrEmSsg0zRRyRCv0
+         eRFX4ZYQXiAE2UfOfgcYiqTHOPd6yK9Uw68LAwruXePJHHObdhvMC9kqCoJ9HB4NCvjP
+         TjwSNZeF8OgXI58gEDMUh0dTaqiscJA1HxKwGC4o1BPyH5X2rwRt2iB6+n0DXs0S2jO/
+         rGJ5IEXz9kr2dKq49ecOg5oWJXKc6H5ZuIrbWIII98wH5qGXTNwjcOPkyXH8d08x4IWI
+         kPQMQdykPqoKsDzEI1aEC3rWcmSvtqTQqpjiai2bvFahBtL7EQG0MoX3Ucky8qjyzXW8
+         CLrg==
+X-Gm-Message-State: APjAAAVoIrSH6hYGXJTR1bwt2AXAMgfDhbz8zQ5jSv8Lt0ctySIZvYv+
+        7Vvb4ba8NhpiInTsT+kKM2U=
+X-Google-Smtp-Source: APXvYqwaOeI4fa6bruuHqRk00hB1htVU++pE61frXxam4Oa7kGCIpB5yOx295HFAD/APhEMrcIYoaw==
+X-Received: by 2002:a7b:c119:: with SMTP id w25mr5828873wmi.116.1581010077707;
+        Thu, 06 Feb 2020 09:27:57 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id w1sm5280224wro.72.2020.02.06.09.27.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Feb 2020 09:27:56 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dave Airlie <airlied@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [GIT PULL] drm/tegra: Fixes for v5.6-rc1
+Date:   Thu,  6 Feb 2020 18:27:53 +0100
+Message-Id: <20200206172753.2185390-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <1580380422-3431-7-git-send-email-spujar@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-30.01.2020 13:33, Sameer Pujar пишет:
-> +static const struct dev_pm_ops tegra186_dspk_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(tegra186_dspk_runtime_suspend,
-> +			   tegra186_dspk_runtime_resume, NULL)
-> +	SET_LATE_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> +				     pm_runtime_force_resume)
-> +};
+Hi Dave,
 
-Could you please explain why drivers need the "late" system sleep?
+The following changes since commit 033ccdb7f6b11701623507339646013b4ce389d3:
+
+  gpu: host1x: Remove dev_err() on platform_get_irq() failure (2020-01-10 17:05:12 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/tegra/linux tags/drm/tegra/for-5.6-rc1-fixes
+
+for you to fetch changes up to 98ae41adb252866158dd4e998551dfa85e612bed:
+
+  gpu: host1x: Set DMA direction only for DMA-mapped buffer objects (2020-02-06 18:23:12 +0100)
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+drm/tegra: Fixes for v5.6-rc1
+
+These are a couple of quick fixes for regressions that were found during
+the first two weeks of the merge window.
+
+----------------------------------------------------------------
+Thierry Reding (6):
+      drm/tegra: sor: Suspend on clock registration failure
+      drm/tegra: sor: Disable runtime PM on probe failure
+      drm/tegra: sor: Initialize runtime PM before use
+      drm/tegra: Relax IOMMU usage criteria on old Tegra
+      drm/tegra: Reuse IOVA mapping where possible
+      gpu: host1x: Set DMA direction only for DMA-mapped buffer objects
+
+ drivers/gpu/drm/tegra/drm.c   | 49 ++++++++++++++++++++++++++++---------------
+ drivers/gpu/drm/tegra/gem.c   | 10 ++++++++-
+ drivers/gpu/drm/tegra/plane.c | 44 +++++++++++++++++++++-----------------
+ drivers/gpu/drm/tegra/sor.c   | 49 ++++++++++++++++++++++++-------------------
+ drivers/gpu/host1x/job.c      | 34 ++++++++++++++++++++++++++----
+ 5 files changed, 123 insertions(+), 63 deletions(-)
