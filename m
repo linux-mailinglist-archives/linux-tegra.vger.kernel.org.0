@@ -2,159 +2,106 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E545153A4B
-	for <lists+linux-tegra@lfdr.de>; Wed,  5 Feb 2020 22:34:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3954154399
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Feb 2020 12:56:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727106AbgBEVeg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 5 Feb 2020 16:34:36 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:43517 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727085AbgBEVef (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Wed, 5 Feb 2020 16:34:35 -0500
-Received: by mail-lf1-f68.google.com with SMTP id 9so2563378lfq.10;
-        Wed, 05 Feb 2020 13:34:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vd2LT5W67yDsSli24bUzWAzGwDRcbU4/vRfwMvPfGV4=;
-        b=nxp4vvdkVEqU0Axe6PXRH8tGOtdEZ15A7aX/tfxin0i13esF22sPtQJ/LH3GTbDv06
-         n1FgPZnHfK6ShfM0euV9O1eSSa/4p7cQZbk2WApHtyy2lLYXDKxNmRwCc8Z2TI8iIAuW
-         7Sp6nwmWWgQ7bMbjaSk8ccwuTZLbvCelqsxy9tdnYHZ0VUNinFq5xOs2atlndoRXY9W7
-         Lx5drj3TyUiGLFoD+br1sjndO5W/r16Qewg4aEgdFbYre9P4TqGR7ir97pzN9yCrr0dU
-         ZND5fzdLWWT9nkuKfqidlV3wtPuy0XiQc9os3J9YuoBb0NVhUzAAN63nMLGY5TCL+M0c
-         7SHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vd2LT5W67yDsSli24bUzWAzGwDRcbU4/vRfwMvPfGV4=;
-        b=V1Qn+pZmcY7857TJHa4QbirD8NzawrYTM5TqkhopopV6Z3i43T1Zt6xt89hkuGC7s7
-         iiz6yA+EF3c8BenAzQh69l5hBlbWLT/7TSXMwl7nXf2wB9Dk4k7OvmtA6RHLz5mGeP9+
-         pJioa3zCDz3WtJiVE7VrmetjLxT59l+66h6oYjUZVAdLdAEV/Lj3ZDo+22SYM9Chl1XV
-         acL/DCLSj/72zxMQ2P2BIkGXagUYTbVk5BKq9G00V1NoABa/wcPec9ECR+QC90QUOlFg
-         4iMPJe9/G+/DwUaziNsLHCgX9E7pwpGWANiAdbx4loQr0hXXRCfu4KpFOfmcBCivwmO8
-         maEw==
-X-Gm-Message-State: APjAAAUnMVTomcaGsuvWBEQ2OKTAIhy4HiLu8eFQWAouEuhVdxLzeJka
-        Aax3YZLYAGSKTl9mjlzTiTD+h325
-X-Google-Smtp-Source: APXvYqxyJ3nL3de4mMrYso8T4eK9+0LXc1uP5BCF3GQ4RskFhhau/IAQy2Q4QnCTACnbRZ2PZFQ4WA==
-X-Received: by 2002:a19:6d13:: with SMTP id i19mr18310991lfc.6.1580938472264;
-        Wed, 05 Feb 2020 13:34:32 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id d20sm299438ljg.95.2020.02.05.13.34.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2020 13:34:31 -0800 (PST)
-Subject: Re: [RFC 2/2] dt-bindings: firmware: tegra186-bpmp: Document
- interconnects property
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Georgi Djakov <georgi.djakov@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20200114181519.3402385-1-thierry.reding@gmail.com>
- <20200114181519.3402385-2-thierry.reding@gmail.com>
- <7aefac6c-092c-b5a6-2fa6-e283d2147fc3@linaro.org>
- <20200120150605.GA712203@ulmo>
- <57c37b3c-1473-d444-db59-8c6650241188@gmail.com>
- <20200121141027.GE899558@ulmo>
- <83d94918-bc01-131b-924c-9750767d3b29@linaro.org>
- <20200121155432.GA912205@ulmo>
- <ffc22502-0e7e-522c-543d-0e74cc25f4b1@gmail.com>
- <853bb7bd-8e04-38ac-d0d6-a958135a49be@gmail.com>
- <20200127124903.GB2117209@ulmo>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4177818c-96dd-de75-2260-047236c129c0@gmail.com>
-Date:   Thu, 6 Feb 2020 00:34:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1727784AbgBFL45 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Feb 2020 06:56:57 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15793 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727111AbgBFL44 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Feb 2020 06:56:56 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3bfecd0002>; Thu, 06 Feb 2020 03:55:57 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 06 Feb 2020 03:56:55 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 06 Feb 2020 03:56:55 -0800
+Received: from [10.24.44.92] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Feb
+ 2020 11:56:50 +0000
+CC:     <spujar@nvidia.com>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, <mkumard@nvidia.com>,
+        <viswanathl@nvidia.com>, <rlokhande@nvidia.com>,
+        <dramesh@nvidia.com>, <atalambedu@nvidia.com>
+Subject: Re: [PATCH v2 2/9] ASoC: tegra: add support for CIF programming
+To:     Dmitry Osipenko <digetx@gmail.com>, <perex@perex.cz>,
+        <tiwai@suse.com>, <robh+dt@kernel.org>
+References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+ <1580380422-3431-3-git-send-email-spujar@nvidia.com>
+ <7239e858-16b7-609f-c4e3-8135bee8450b@gmail.com>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <1305a6db-a492-eec2-111e-ddc801d58d86@nvidia.com>
+Date:   Thu, 6 Feb 2020 17:26:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <20200127124903.GB2117209@ulmo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <7239e858-16b7-609f-c4e3-8135bee8450b@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580990157; bh=iUPSM/V3A6BDAos6dKxs2BKrINIHdwVPZkEK84cY18A=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=UNGce86vrwf7dXG5TzHsshBC2TH6e5MSnJTd0nTqelKJky6+SVbyxdoLrNIywYqJx
+         rhXe+cpscMFAV0uoL/m2pt3cOeQvGqlouFD/A01FtR1cKyHHS1HnsNCT0K2Bf5NcqK
+         d8x7+/4ERSIGioKxr9qLmuiQ8EFkW49PPQQA4GNTJgiI732PtsthfhGWQVUPlk0tFj
+         Y3GhITrPqld7KVF7lt7HYlb9MTIFrHAv2W0VLKb2KeRvTCaaBm7NjfbqdFCO3sAOkR
+         ID1mc05uhPU0BNbJBHX+9UFq5aakQ4CvYCKMaLff9YIosSJ1A7Es2QKZlvrXYPsT4f
+         KVHvK31ejK+Yg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-27.01.2020 15:49, Thierry Reding пишет:
-> On Mon, Jan 27, 2020 at 12:56:24AM +0300, Dmitry Osipenko wrote:
-> [...]
->> Thinking a bit more about how to define the ICC, I'm now leaning to a
->> variant like this:
->>
->> interconnects =
->>     <&mc TEGRA186_MEMORY_CLIENT_BPMP &emc TEGRA_ICC_EMEM>,
->>     <&mc TEGRA186_MEMORY_CLIENT_BPMPR>,
->>     <&mc TEGRA186_MEMORY_CLIENT_BPMPW>,
->>     <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAR>,
->>     <&mc TEGRA186_MEMORY_CLIENT_BPMPDMAW>;
->>
->> interconnect-names = "dma-mem", "read", "write", "dma-read", "dma-write";
->>
->> Looks like there is a problem with having a full MC-EMEM path being
->> defined for each memory client.. it's not very practical in terms of
->> memory frequency scaling.
->>
->> Take Display Controller for example, it has a memory client for each
->> display (overlay) plane. If planes are not overlapping on the displayed
->> area, then the required total memory bandwidth equals to the peak
->> bandwidth selected among of the visible planes. But if planes are
->> overlapping, then the bandwidths of each overlapped plane are
->> accumulated because overlapping planes will issue read request
->> simultaneously for the overlapping areas.
->>
->> The Memory Controller doesn't have any knowledge about the Display
->> Controller's specifics. Thus in the end it should be a responsibility of
->> Display Controller's driver to calculate the required bandwidth for the
->> hardware unit, since only the driver has all required knowledge about
->> planes overlapping state and whatnot.
-> 
-> I agree that the device-specific knowledge should live in the device-
-> specific drivers. However, what you're doing above is basically putting
-> the OS-specific knowledge into the device tree.
-> 
-> The memory client interfaces are a real thing in hardware that can be
-> described using the corresponding IDs. But there is no such thing as the
-> "BPMP" memory client. Rather it's composed of the other four.
-> 
-> So I think a better thing to do would be for the consumer driver to deal
-> with all of that. If looking at only bandwidth, the consumer driver can
-> simply pick any one of the clients/paths for any of the bandwidth
-> requests and for per-interface settings like latency allowance the
-> consumer would choose the appropriate path.
 
-Will be good if we could avoid doing things like that because it doesn't
-sound very nice :) Although, it should work.
 
-On older Tegra SoCs Memory Controller has a hardware ID for each of the
-clients module and we're using these IDs already for the MC resets.
-Don't you think that we could use these IDs for ICC?
+On 2/5/2020 10:32 PM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 30.01.2020 13:33, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+>> +#include <linux/module.h>
+>> +#include <linux/regmap.h>
+>> +#include "tegra_cif.h"
+>> +
+>> +void tegra_set_cif(struct regmap *regmap, unsigned int reg,
+>> +                struct tegra_cif_conf *conf)
+>> +{
+>> +     unsigned int value;
+>> +
+>> +     value =3D (conf->threshold << TEGRA_ACIF_CTRL_FIFO_TH_SHIFT) |
+>> +             ((conf->audio_ch - 1) << TEGRA_ACIF_CTRL_AUDIO_CH_SHIFT) |
+>> +             ((conf->client_ch - 1) << TEGRA_ACIF_CTRL_CLIENT_CH_SHIFT)=
+ |
+>> +             (conf->audio_bits << TEGRA_ACIF_CTRL_AUDIO_BITS_SHIFT) |
+>> +             (conf->client_bits << TEGRA_ACIF_CTRL_CLIENT_BITS_SHIFT) |
+>> +             (conf->expand << TEGRA_ACIF_CTRL_EXPAND_SHIFT) |
+>> +             (conf->stereo_conv << TEGRA_ACIF_CTRL_STEREO_CONV_SHIFT) |
+>> +             (conf->replicate << TEGRA_ACIF_CTRL_REPLICATE_SHIFT) |
+>> +             (conf->truncate << TEGRA_ACIF_CTRL_TRUNCATE_SHIFT) |
+>> +             (conf->mono_conv << TEGRA_ACIF_CTRL_MONO_CONV_SHIFT);
+>> +
+>> +     regmap_update_bits(regmap, reg, TEGRA_ACIF_UPDATE_MASK, value);
+>> +}
+>> +EXPORT_SYMBOL_GPL(tegra_set_cif);
+> Are you going to add more stuff into this source file later on?
 
-Are you sure that newer SoCs do not have these IDs too or maybe they are
-kept private now?
+Yes I plan to add Tegra30 and Tegra124 CIF functions in this. Anything=20
+related to CIF can be moved here.
+>
+> If not, then it's too much to have a separate driver module just for a
+> single tiny function, you should move it into the header file (make it
+> inline).
 
->> The similar applies to multimedia things, like GPU or Video Decoder.
->> They have multiple memory clients and (I'm pretty sure that) nobody is
->> going to calculate memory bandwidth requirements for every client, it's
->> simply impractical.
->>
->> So, I'm suggesting that we should have a single "dma-mem" ICC path for
->> every hardware unit.
->>
->> The rest of the ICC paths could be memory_client -> memory_controller
->> paths, providing knobs for things like MC arbitration (latency)
->> configuration for each memory client. I think this variant of
->> description is actually closer to the hardware, since the client's
->> arbitration configuration ends in the Memory Controller.
-> 
-> Not necessarily. The target of the access doesn't always have to be the
-> EMC. It could equally well be IRAM, in which case there are additional
-> controls that need to be programmed within the MC to allow the memory
-> client to access IRAM. If you don't have a phandle to IRAM in the
-> interconnect properties, there's no way to make this distinction.
-
-Could you please clarify what do you mean by the "memory client" here?
-Do you mean the whole hardware module/unit or each memory client of the
-hardware module that needs to be programmed for the IRAM accessing?
