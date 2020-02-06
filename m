@@ -2,97 +2,77 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC25E154A33
-	for <lists+linux-tegra@lfdr.de>; Thu,  6 Feb 2020 18:28:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94FBE154A52
+	for <lists+linux-tegra@lfdr.de>; Thu,  6 Feb 2020 18:36:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727440AbgBFR2A (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 6 Feb 2020 12:28:00 -0500
-Received: from mail-wm1-f54.google.com ([209.85.128.54]:36227 "EHLO
-        mail-wm1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726990AbgBFR2A (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Feb 2020 12:28:00 -0500
-Received: by mail-wm1-f54.google.com with SMTP id p17so993022wma.1
-        for <linux-tegra@vger.kernel.org>; Thu, 06 Feb 2020 09:27:58 -0800 (PST)
+        id S1727874AbgBFRgJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 6 Feb 2020 12:36:09 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:43859 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726990AbgBFRgI (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Thu, 6 Feb 2020 12:36:08 -0500
+Received: by mail-lj1-f195.google.com with SMTP id a13so6961771ljm.10;
+        Thu, 06 Feb 2020 09:36:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GoPHJNkYrWrAAYhDknAJRzG2TQROB7g+UrDNyYdeF6I=;
-        b=j20XkOpbb521H8AmSZohb+SUmlpF2+iQ1dSFIoOgpjLopwZAR051IT2dIx+E0Bpe/g
-         Q6mJ4PK5KtZYUwDjV4ii9PE5OO6FScXy1bGO5C+kyvqd+RQtbjJqRdKgcz+lNC0bfahs
-         IClYgc6QCiG0xrDGith5AIFHF+UKPyTo+Nrj7/PqpnH9XgKTRDZrAvB2PD5sEastmS+X
-         /0ppjNqyD716zM2VQYZpsVbNPSxWWb7eHQkj9L90xe9k5DRHRAeoqd1fip68egXdAWkl
-         whUoCyOWw2F4V59y/LpcwizN3Bz57+IzWO3Z4vs+tQeZ5OEUCY8LPrdm4Qkbi7QCNyyH
-         96oQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=99COUShDb8aW8HJQ86DZUh+rAFpSeu/Mbihks46FJLY=;
+        b=BPHy2zldSziVYVCUKXNFslpdpUmxMJCyizD6jhE/aCDcuC7x8UUBKGA/UK5pLK3LkS
+         HlkYo10eHEbI9t6ikDq/9rbtORbcWJgipP5cvfETYPSn7ubHJ60AiYykp9WWHie0ZMr5
+         L9HMghLYgv2Vnm0KvHUWZSGer4Pa69mbVQf7/4lM/EC1ycQHInmiHU3QBgeftthoZbgH
+         tX2q2U1qaRiXNcmBQDCwUBeuI9P6xcyV6k8QFQcrQQXNkRm826iczGsJBUMrjrMmnyjq
+         cDzHUrE1Zeu17OyMjX1Lm/wFrlS/2E85GyXSQ6V5NWpswbqpLgOMVomJQR4JHrUy1gOh
+         OegQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=GoPHJNkYrWrAAYhDknAJRzG2TQROB7g+UrDNyYdeF6I=;
-        b=Rq5jiRTZYRBEoGDqI9MJnwd7ykKf0PREZPF44mepZgVLhoogCLQrEmSsg0zRRyRCv0
-         eRFX4ZYQXiAE2UfOfgcYiqTHOPd6yK9Uw68LAwruXePJHHObdhvMC9kqCoJ9HB4NCvjP
-         TjwSNZeF8OgXI58gEDMUh0dTaqiscJA1HxKwGC4o1BPyH5X2rwRt2iB6+n0DXs0S2jO/
-         rGJ5IEXz9kr2dKq49ecOg5oWJXKc6H5ZuIrbWIII98wH5qGXTNwjcOPkyXH8d08x4IWI
-         kPQMQdykPqoKsDzEI1aEC3rWcmSvtqTQqpjiai2bvFahBtL7EQG0MoX3Ucky8qjyzXW8
-         CLrg==
-X-Gm-Message-State: APjAAAVoIrSH6hYGXJTR1bwt2AXAMgfDhbz8zQ5jSv8Lt0ctySIZvYv+
-        7Vvb4ba8NhpiInTsT+kKM2U=
-X-Google-Smtp-Source: APXvYqwaOeI4fa6bruuHqRk00hB1htVU++pE61frXxam4Oa7kGCIpB5yOx295HFAD/APhEMrcIYoaw==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr5828873wmi.116.1581010077707;
-        Thu, 06 Feb 2020 09:27:57 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id w1sm5280224wro.72.2020.02.06.09.27.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2020 09:27:56 -0800 (PST)
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dave Airlie <airlied@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [GIT PULL] drm/tegra: Fixes for v5.6-rc1
-Date:   Thu,  6 Feb 2020 18:27:53 +0100
-Message-Id: <20200206172753.2185390-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
+        bh=99COUShDb8aW8HJQ86DZUh+rAFpSeu/Mbihks46FJLY=;
+        b=otMzgU7Rf7uBuKYOVpyrDWwfIuuAmJz7d4O3ToRuWMIL+ePqln4LggXmeE3Y782j4O
+         YO3eLnemPXf+D7DtmQTTlqGVoNHxxwY+mtoij7OrvP9r8LCMcTYg1uGi/qCnwUVtYLJJ
+         dS9zvQbuGRAf7Tse/EFKfdM3l1EZ2NaA3XQoDQnuCFtt3hq4/3TR5ft65Rz1UbTc91M7
+         FEFIrQWjwfxysYFJULRZsHX81bsqh0fzGUcL4mv7UOH4ARegVlAe7VnTauu2G8Z47Goc
+         nCL9ey+kaJm0BGPIVKEu6sMURN30clnM1LooEeTfPkKAdtuFmPs5GQqsiSm2ORT8ku1J
+         741w==
+X-Gm-Message-State: APjAAAWjidqjnpTPyPo4f8U0Ln95O7nTtmBnalbDCayipu7ldRZNv78H
+        ZLHW8ujmD3R+pxcBe5vAqRc=
+X-Google-Smtp-Source: APXvYqy8VlPo21S7t8VY9LztJyOrQWk44mVu443sV8IZkmAYtKR96arFx6ZYroi+0UqGtHS0U0bKvg==
+X-Received: by 2002:a2e:761a:: with SMTP id r26mr2776605ljc.135.1581010566382;
+        Thu, 06 Feb 2020 09:36:06 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id u9sm364lji.49.2020.02.06.09.36.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Feb 2020 09:36:05 -0800 (PST)
+Subject: Re: [PATCH v2 0/9] add ASoC components for AHUB
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     perex@perex.cz, tiwai@suse.com, robh+dt@kernel.org,
+        broonie@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
+        dramesh@nvidia.com, atalambedu@nvidia.com
+References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <fcab0af1-fe84-6028-701b-ab101feaa8de@gmail.com>
+Date:   Thu, 6 Feb 2020 20:36:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Dave,
+30.01.2020 13:33, Sameer Pujar пишет:
+...
+>  sound/soc/tegra/Kconfig                            |  56 ++
 
-The following changes since commit 033ccdb7f6b11701623507339646013b4ce389d3:
-
-  gpu: host1x: Remove dev_err() on platform_get_irq() failure (2020-01-10 17:05:12 +0100)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/tegra/linux tags/drm/tegra/for-5.6-rc1-fixes
-
-for you to fetch changes up to 98ae41adb252866158dd4e998551dfa85e612bed:
-
-  gpu: host1x: Set DMA direction only for DMA-mapped buffer objects (2020-02-06 18:23:12 +0100)
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-drm/tegra: Fixes for v5.6-rc1
-
-These are a couple of quick fixes for regressions that were found during
-the first two weeks of the merge window.
-
-----------------------------------------------------------------
-Thierry Reding (6):
-      drm/tegra: sor: Suspend on clock registration failure
-      drm/tegra: sor: Disable runtime PM on probe failure
-      drm/tegra: sor: Initialize runtime PM before use
-      drm/tegra: Relax IOMMU usage criteria on old Tegra
-      drm/tegra: Reuse IOVA mapping where possible
-      gpu: host1x: Set DMA direction only for DMA-mapped buffer objects
-
- drivers/gpu/drm/tegra/drm.c   | 49 ++++++++++++++++++++++++++++---------------
- drivers/gpu/drm/tegra/gem.c   | 10 ++++++++-
- drivers/gpu/drm/tegra/plane.c | 44 +++++++++++++++++++++-----------------
- drivers/gpu/drm/tegra/sor.c   | 49 ++++++++++++++++++++++++-------------------
- drivers/gpu/host1x/job.c      | 34 ++++++++++++++++++++++++++----
- 5 files changed, 123 insertions(+), 63 deletions(-)
+Probably won't hurt to enable the new drivers in the
+arch/arm64/configs/defconfig?
