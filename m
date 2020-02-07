@@ -2,79 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA9141555A0
-	for <lists+linux-tegra@lfdr.de>; Fri,  7 Feb 2020 11:27:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F51B155649
+	for <lists+linux-tegra@lfdr.de>; Fri,  7 Feb 2020 12:03:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726827AbgBGK1P (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 7 Feb 2020 05:27:15 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:43524 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726798AbgBGK1P (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 7 Feb 2020 05:27:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=L3BlihRpV2iRLC6YY8WIGJCu0AhpCAbYwMvQBNO6mS0=; b=TexuxSH9agtY/5ee2O4MoaKYeN
-        583CwsTzpUTyGYS1puz5eeDqsjFT4EoBEFIL9ehVekKcUX/dRvL4hmZY9nB07VxbBPSxaqKePvDqF
-        w2YEQJIRq4rfn594HQdCGkZY7IPGTHO/0SsYNLLvzhl+AfOXlCAACcbGt7KN4h4NA8nrqdPnV0afw
-        Qv2zUyrcSFfk2UmHFrg5l3caflmW20yszfEWQXGBvDBCcTR9E7sy+uJtXypPQ1SfnrJMPhsWV2dTo
-        16Lu4zh9GfhutLTVO7G1ZWw4agBQiV4LMR0wkE76vJSmEbkboXl5S9MEmGPJLhbjQ+BJ+RsxLQ6ti
-        2LHaM6Ag==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j00qf-0005BO-Ny; Fri, 07 Feb 2020 10:26:57 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 694D430258F;
-        Fri,  7 Feb 2020 11:25:09 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 3DC162B834C29; Fri,  7 Feb 2020 11:26:56 +0100 (CET)
-Date:   Fri, 7 Feb 2020 11:26:56 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
+        id S1726982AbgBGLDO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 7 Feb 2020 06:03:14 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17227 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726954AbgBGLDO (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Fri, 7 Feb 2020 06:03:14 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e3d43e20000>; Fri, 07 Feb 2020 03:02:59 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 07 Feb 2020 03:03:13 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 07 Feb 2020 03:03:13 -0800
+Received: from [10.24.44.92] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 7 Feb
+ 2020 11:03:08 +0000
+CC:     <spujar@nvidia.com>, <perex@perex.cz>, <tiwai@suse.com>,
+        <robh+dt@kernel.org>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, <mkumard@nvidia.com>,
+        <viswanathl@nvidia.com>, <rlokhande@nvidia.com>,
+        <dramesh@nvidia.com>, <atalambedu@nvidia.com>
+Subject: Re: [PATCH v2 2/9] ASoC: tegra: add support for CIF programming
 To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        tip-bot2 for Peter Zijlstra <tip-bot2@linutronix.de>,
-        linux-tip-commits@vger.kernel.org, Will Deacon <will@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brian Gerst <brgerst@gmail.com>,
-        Denys Vlasenko <dvlasenk@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        ard.biesheuvel@linaro.org, james.morse@arm.com, rabin@rab.in,
-        Ingo Molnar <mingo@kernel.org>, x86 <x86@kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [tip: core/kprobes] arm/ftrace: Use __patch_text()
-Message-ID: <20200207102656.GS14946@hirez.programming.kicks-ass.net>
-References: <20191113092636.GG4131@hirez.programming.kicks-ass.net>
- <157544841563.21853.2859696202562513480.tip-bot2@tip-bot2>
- <10cbfd9e-2f1f-0a0c-0160-afe6c2ccbebd@gmail.com>
- <20200207101747.GE14914@hirez.programming.kicks-ass.net>
+References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+ <1580380422-3431-3-git-send-email-spujar@nvidia.com>
+ <7239e858-16b7-609f-c4e3-8135bee8450b@gmail.com>
+ <1305a6db-a492-eec2-111e-ddc801d58d86@nvidia.com>
+ <fb0a96bd-ac3c-0916-0337-0c86de196527@gmail.com>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <bb2ab8e1-a42c-6a03-1ffa-495565c8e914@nvidia.com>
+Date:   Fri, 7 Feb 2020 16:33:04 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200207101747.GE14914@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <fb0a96bd-ac3c-0916-0337-0c86de196527@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1581073379; bh=DroXT/1lQUGa+TG9wgFQbKxKmkZF3WHBeukmNqYO5pI=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=mnxEeVCjfYHbbS/VgYjYRqCVpptFPlXV9vjGSSEzPW75dvpSXTDLVO0HLTFXbKudJ
+         GSOUAsM1S42wvnlakqKfn0vNJcb+fNU4KvCxV+h+hcWb4GWrYnd2yLlzS44qW2hHvj
+         n00Ci9VULOf2ihAUFk9lk0pjdH6qa/i9bKHYqlnMOpGhI49tIWlzmK+uKKCovHJSKX
+         jhP2/WrONzqdFCBG3CwSQYRPley3yH4JHVts8WRoVYaZ8h1+TrDSmnLMIKCmOAZonQ
+         iw8MEEZzaQ7HfjvzQy01/ZEfbTrnWwB171z1y4aFlFPbG7dCWhT5ZIXZTp30NCcY32
+         kFRvWv0zENgCg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Feb 07, 2020 at 11:17:47AM +0100, Peter Zijlstra wrote:
-> Is that crash with FTRACE=y or =n ?
-> 
-> This really isn't making much sense to me, Will, Mark, any clues?
 
-Does the initial patch:
 
-  https://lkml.kernel.org/r/20191111132458.220458362@infradead.org
+On 2/6/2020 10:19 PM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 06.02.2020 14:56, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>
+>> On 2/5/2020 10:32 PM, Dmitry Osipenko wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> 30.01.2020 13:33, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> ...
+>>>> +#include <linux/module.h>
+>>>> +#include <linux/regmap.h>
+>>>> +#include "tegra_cif.h"
+>>>> +
+>>>> +void tegra_set_cif(struct regmap *regmap, unsigned int reg,
+>>>> +                struct tegra_cif_conf *conf)
+>>>> +{
+>>>> +     unsigned int value;
+>>>> +
+>>>> +     value =3D (conf->threshold << TEGRA_ACIF_CTRL_FIFO_TH_SHIFT) |
+>>>> +             ((conf->audio_ch - 1) << TEGRA_ACIF_CTRL_AUDIO_CH_SHIFT)=
+ |
+>>>> +             ((conf->client_ch - 1) <<
+>>>> TEGRA_ACIF_CTRL_CLIENT_CH_SHIFT) |
+>>>> +             (conf->audio_bits << TEGRA_ACIF_CTRL_AUDIO_BITS_SHIFT) |
+>>>> +             (conf->client_bits << TEGRA_ACIF_CTRL_CLIENT_BITS_SHIFT)=
+ |
+>>>> +             (conf->expand << TEGRA_ACIF_CTRL_EXPAND_SHIFT) |
+>>>> +             (conf->stereo_conv << TEGRA_ACIF_CTRL_STEREO_CONV_SHIFT)=
+ |
+>>>> +             (conf->replicate << TEGRA_ACIF_CTRL_REPLICATE_SHIFT) |
+>>>> +             (conf->truncate << TEGRA_ACIF_CTRL_TRUNCATE_SHIFT) |
+>>>> +             (conf->mono_conv << TEGRA_ACIF_CTRL_MONO_CONV_SHIFT);
+>>>> +
+>>>> +     regmap_update_bits(regmap, reg, TEGRA_ACIF_UPDATE_MASK, value);
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(tegra_set_cif);
+>>> Are you going to add more stuff into this source file later on?
+>> Yes I plan to add Tegra30 and Tegra124 CIF functions in this. Anything
+>> related to CIF can be moved here.
+>>> If not, then it's too much to have a separate driver module just for a
+>>> single tiny function, you should move it into the header file (make it
+>>> inline).
+> You should consider whether it's worth to move anything else to this
+> module first, because if the functions are not reusable by the drivers,
+> then the movement won't bring any benefits and final result could be
+> negative in regards to the code's organization.
+>
+> I suggest to start clean and easy, without the driver module. You will
+> be able to factor code into module later on, once there will a real need
+> to do that.
 
-work, or does it crash the exact same?
+Tegra124 can reuse above CIF function. Tegra30 will continue to use the=20
+same function. For consistency all CIF related helpers can be grouped at=20
+one place. But this is for later. I will start with inline function.
+
