@@ -2,71 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5271615600E
-	for <lists+linux-tegra@lfdr.de>; Fri,  7 Feb 2020 21:44:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 853B015656E
+	for <lists+linux-tegra@lfdr.de>; Sat,  8 Feb 2020 17:19:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727018AbgBGUoO (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 7 Feb 2020 15:44:14 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:35188 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727569AbgBGUoL (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>); Fri, 7 Feb 2020 15:44:11 -0500
-Received: by mail-ot1-f68.google.com with SMTP id r16so621800otd.2
-        for <linux-tegra@vger.kernel.org>; Fri, 07 Feb 2020 12:44:09 -0800 (PST)
+        id S1727341AbgBHQTb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 8 Feb 2020 11:19:31 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:37933 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727340AbgBHQTb (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>); Sat, 8 Feb 2020 11:19:31 -0500
+Received: by mail-ed1-f65.google.com with SMTP id p23so3106933edr.5;
+        Sat, 08 Feb 2020 08:19:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
-        b=WJgFJ9PR0yBQ+ciD08Pby60OVZzn3dTgtieZ17slfRQssKmPnwQmAwZPgDIpR6heck
-         dDY9m0nAiR73dL1CtCDLlqWI9lV6barO9i6phYUUcmMyI9lhyUunotwwGjtLNjZZXHps
-         B+ZJy7kS8IDHqb+LatDXLkBcGkPTiMku+kX9Fb92ZmFsnK1n3liOHkc4TmrSz2VBzqpm
-         gOXxQUuwBna/l8aq9nu864h1RGE/T5vMQdJwoV4IagKfmqrsTX7n4WpDLnLJobosvK0X
-         9Z7fBUirFx02ZREq+PBFhuGxFcksAi/eOnsjoHpvtfcuXe3k+tw0qtyYWnKvHtkX+Drl
-         CMWw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Mv9CXRSXinT9pUfCdHcC8w/h9QEiS/MWjIBy22YGISM=;
+        b=IsLTdWXitIJnPxQXm5N2vrrx0+APBrwkC/lnKsI+ChUKkiUEiVVPn248x6uc4OOL2B
+         WhKCF0Us5CQF4bS5ItrgRSGtz9T37DVULgpurgkW0f65s6bwZAJlNpqmFcd8DsMy7Wbv
+         O0ov72kMYwoxQT01discBEfj5U5fnYzFv0sANSzzWctL4Ql+cqDht5KvCvIio5uFpJkQ
+         C9MrdLSykbv6TfVl5DDD7At4PosJU2zbgrckyvESDCRYYXuGg5jFfcb8gv3FY1kwS183
+         3Ur14qf7IMKVGdWpcdFXWG+1Z9RYSMBHv5CAj16blJMb/E7RM0Lsm6ZSl1qFFOcdWymd
+         g3Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
-        b=fl9WXVkGU3ov6lFxulQGGMNTGnIW2TuKPEhGJj5st3TzbTxO2bL4o4ccBClCCwe1Vn
-         i+dWBW4VutdGOoL3QQyw3e7/kfC8q/eBuxbQK5JKOokFB+hcsaDVTvIWOlIeNCZUk7qB
-         oaM+YSZXm6s6GyGfmSmFmkJBPN64eIRxfiWTV4IE+Rni9QYJMFazJYAxi5mID4tMe3Yo
-         bs92b16GuA9MdUgbTf93S1/kt2e38G445Y+8ZLy6tEEzmnig7QvASOgbWdPbRx4de6Rb
-         TOAqhUX/4wcRmMkQXm4/N7xW5PnqagFDlfl7NIqKspQKd7GG5KDH6VR7bHd/MSNPxl3M
-         YpHg==
-X-Gm-Message-State: APjAAAW1OsnklJQec7yWGaoxzsVFPQZlJf4EAqZwH+/8D2n6fi5ai9IP
-        k1W09Rx7adk60cAp0Jz+XaA9ycIJfOkFcllBI7LtIkTHmSlTPA==
-X-Google-Smtp-Source: APXvYqxZ0BHxezvYatUCwR5ujJY2IO6fZCUlpHww8WEnDHAAAY+0VvtiMdEe6JnWZWwDRH8AP8uVvx3q0Y+IviYPdhQ=
-X-Received: by 2002:a9d:7305:: with SMTP id e5mr948882otk.64.1581108248790;
- Fri, 07 Feb 2020 12:44:08 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Mv9CXRSXinT9pUfCdHcC8w/h9QEiS/MWjIBy22YGISM=;
+        b=NM2n8xmcGQm7E0GV5qpIuTBBW2ggdMW7QsU+rtcT8EMktvk0ApbWG5KQoTIGTC12PJ
+         TRrifM0LVJDtA68ehMvdAxKNCexKTOMHmDUgkuKQD6510dbvWabMnBaKOu0bBVyS78un
+         QqWApQ43qK+8621B2KsVFPNfzq5Et0WT49Wx3mGdk1wY7nyEl9wjE4LYu4nt5CzCXFFC
+         vrfEkgbJQctTYhRvM/5vdpTABc3z3WLjROgWtBmAavnmpcy2ywtl2MRRYhykWowt6aE0
+         WTb3dm+O2UrY6SfATrgdPRiYfax3YOrJpIEa7SIG3XybErW7XU9Ey5EY+yyD1vuaYj5d
+         ghlQ==
+X-Gm-Message-State: APjAAAURpF0AToEqGC50WRrRALggsRIZ8n7OWKByqiACqJ4SyHCt05A/
+        MV1GZX6G80/Ozqwx4wvRR30=
+X-Google-Smtp-Source: APXvYqxFBrwSNHP8rHVNvl1+mdeTMxa3S7krUi5FWVenbML3btPUFFaRm+GkItM8LB7NGYZjrmgBFQ==
+X-Received: by 2002:a17:906:2596:: with SMTP id m22mr4635957ejb.167.1581178769061;
+        Sat, 08 Feb 2020 08:19:29 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id w18sm717049eja.57.2020.02.08.08.19.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Feb 2020 08:19:28 -0800 (PST)
+Subject: Re: [PATCH v2 3/9] ASoC: tegra: add Tegra210 based DMIC driver
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     perex@perex.cz, tiwai@suse.com, robh+dt@kernel.org,
+        broonie@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
+        dramesh@nvidia.com, atalambedu@nvidia.com
+References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+ <1580380422-3431-4-git-send-email-spujar@nvidia.com>
+ <9ada4090-169e-0767-db5d-739f6e621812@gmail.com>
+ <3e89e75d-2f5a-dc42-98f7-8e1262afe380@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b635bf45-f61e-266e-89bd-2b57ed47a807@gmail.com>
+Date:   Sat, 8 Feb 2020 19:19:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Received: by 2002:a4a:d508:0:0:0:0:0 with HTTP; Fri, 7 Feb 2020 12:44:08 -0800 (PST)
-Reply-To: auch197722@gmail.com
-From:   "Mr. Theophilus Odadudu" <cristinamedina0010@gmail.com>
-Date:   Fri, 7 Feb 2020 15:44:08 -0500
-Message-ID: <CAPNvSTj-8q7w5QPmnH26+_3xCKjEWyE+9xcb8QyQs9Xie+iYgg@mail.gmail.com>
-Subject: LETTER OF INQUIRY
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <3e89e75d-2f5a-dc42-98f7-8e1262afe380@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Good Day,
+07.02.2020 14:06, Sameer Pujar пишет:
+> 
+> 
+> On 2/6/2020 10:23 PM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> 30.01.2020 13:33, Sameer Pujar пишет:
+>> ...
+>>> +static const struct reg_default tegra210_dmic_reg_defaults[] = {
+>>> +     { TEGRA210_DMIC_TX_INT_MASK, 0x00000001},
+>>> +     { TEGRA210_DMIC_TX_CIF_CTRL, 0x00007700},
+>>> +     { TEGRA210_DMIC_CG, 0x1},
+>>> +     { TEGRA210_DMIC_CTRL, 0x00000301},
+>>> +     /* Below enables all filters - DCR, LP and SC */
+>>> +     { TEGRA210_DMIC_DBG_CTRL, 0xe },
+>>> +     /* Below as per latest POR value */
+>>> +     { TEGRA210_DMIC_DCR_BIQUAD_0_COEF_4, 0x0},
+>>> +     /* LP filter is configured for pass through and used to apply
+>>> gain */
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_0_COEF_0, 0x00800000},
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_0_COEF_1, 0x0},
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_0_COEF_2, 0x0},
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_0_COEF_3, 0x0},
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_0_COEF_4, 0x0},
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_1_COEF_0, 0x00800000},
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_1_COEF_1, 0x0},
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_1_COEF_2, 0x0},
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_1_COEF_3, 0x0},
+>>> +     { TEGRA210_DMIC_LP_BIQUAD_1_COEF_4, 0x0},
+>>> +};
+>> I'd add a space on the right side of `}`, for consistency with the left.
+> 
+> Do you mean like this?
+> { TEGRA210_DMIC_TX_INT_MASK, 0x00000001 },
+> { TEGRA210_DMIC_TX_CIF_CTRL, 0x00007700 },
+>     . . .
 
-I work as a clerk in a Bank here in Nigeria, I have a very
-confidential Business Proposition for you. There is a said amount of
-money floating in the bank unclaimed, belonging to the bank Foreign
-customer who die with his family in the Ethiopian Airline crash of
-March 11, 2019.
-
-I seek your good collaboration to move the fund for our benefit. we
-have agreed that 40% be yours once you help claim.
-
-Do get back to with 1) Your Full Name: (2) Residential Address: (3)
-Phone, Mobile  (4) Scan Copy of Your ID. to apply for claims of the
-funds.
-
-Regards
-Theophilus Odadudu
+Yes
