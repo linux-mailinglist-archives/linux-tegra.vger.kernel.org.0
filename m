@@ -2,101 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E193E157089
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Feb 2020 09:13:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FC25157346
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Feb 2020 12:15:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727637AbgBJINo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Feb 2020 03:13:44 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3873 "EHLO
+        id S1727369AbgBJLPP (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Feb 2020 06:15:15 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1236 "EHLO
         hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727600AbgBJINk (ORCPT
+        with ESMTP id S1726961AbgBJLPP (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Feb 2020 03:13:40 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e4110750000>; Mon, 10 Feb 2020 00:12:37 -0800
+        Mon, 10 Feb 2020 06:15:15 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e413b030000>; Mon, 10 Feb 2020 03:14:11 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 10 Feb 2020 00:13:39 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 10 Feb 2020 03:15:14 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 10 Feb 2020 00:13:39 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Mon, 10 Feb 2020 03:15:14 -0800
+Received: from [10.24.44.92] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 10 Feb
- 2020 08:13:39 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 10 Feb 2020 08:13:39 +0000
-Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.67.128]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e4110b00000>; Mon, 10 Feb 2020 00:13:38 -0800
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+ 2020 11:15:08 +0000
+CC:     <spujar@nvidia.com>, <perex@perex.cz>, <tiwai@suse.com>,
+        <robh+dt@kernel.org>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [Patch V5 21/21] arm64: tegra: Enable xudc node on Jetson nano
-Date:   Mon, 10 Feb 2020 13:41:47 +0530
-Message-ID: <1581322307-11140-22-git-send-email-nkristam@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
-References: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
-X-NVConfidentiality: public
+        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, <mkumard@nvidia.com>,
+        <viswanathl@nvidia.com>, <rlokhande@nvidia.com>,
+        <dramesh@nvidia.com>, <atalambedu@nvidia.com>
+Subject: Re: [PATCH v2 6/9] ASoC: tegra: add Tegra186 based DSPK driver
+To:     Dmitry Osipenko <digetx@gmail.com>
+References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+ <1580380422-3431-7-git-send-email-spujar@nvidia.com>
+ <f8ed8c4a-af40-44b2-b720-4d3a9b660fda@gmail.com>
+ <75a63cb3-7d79-7216-6791-3cec57464cd9@nvidia.com>
+ <847f4512-7118-e087-1004-685e476e11d8@gmail.com>
+From:   Sameer Pujar <spujar@nvidia.com>
+Message-ID: <3c19ef99-8051-76f7-a4d6-0d61182fe6e4@nvidia.com>
+Date:   Mon, 10 Feb 2020 16:45:05 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <847f4512-7118-e087-1004-685e476e11d8@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581322357; bh=T6qiKSOYzd9Sqrn3wcplTOGVVAPi+8b0gZv/eRMeFc0=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=OsfEtPfxI4isG/j+MMnF4TVUPfdtrQCo0vOPY+fCVb7l51+xyMM8Ai1ivAkAQT+Ub
-         PTwE28NcTKfQOsTOFIUiEwnxqWsLsyMW9HIUEGJwRQ+ixjsZKT7vVwCTEakcJJJoT6
-         AqCStZ+amQG2em8FHOJ7M1K2+Xr/wVdGF1HNbgkuVLaAox+qims6007GaVzPPClL36
-         o/1MfgMiDEJm4eiPd7WZhv96VI5KQH8ffPIzO15DrE7zMqBzO8yZo1XyMmTAvi8SV6
-         HOqE0I44f6QGtlO2exBTBibq8xTZiuFIACRnxFuMiP0Wxswo20fu3KhjBr/Y16yZ9d
-         n7dL7I9ZlnxqA==
+        t=1581333251; bh=WuJ/yXuI1Dh+KZQlZCVWcQ74+5I0SnMra5tYUj5mEvo=;
+        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=bg+TX0NvBS/rnU/L9+9F0whahwkuD+eMLwfwyayTBaN9q1wi0PEeOTdUyF/B82lNn
+         vRu66mZnWVm6HOu1uhchVBqVgz54ANkhaIkyXOECSAxcqtlFc57Sh34oPRnhH1o0Ka
+         5j7xN1ivogH8DuQFTD1SN6lcLQ+UpHgCvZQG8ED1lISyv7xVS4njeVlVAllUf0h4cN
+         8A1NrMkDvadFZQEexIu58GqRAvjYyV2nwUivJA1/CK3ZoDvZMOWlib7xM0hWnEPjc7
+         kZ5KF2a8uIHthYW7zYBe49dYFx5I3iMfFojAwmlGfNsLRb8I9sjtThMHVIcMXqhKpj
+         8zI6jS0qpGuew==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Enable XUSB device mode driver for USB 2-0 slot on Jetson nano.
 
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
----
-V5:
- - New patch in the series.
----
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index b75f69d..848afd8 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -443,7 +443,7 @@
- 				status = "okay";
- 
- 				lanes {
--					usb2-0 {
-+					micro_b: usb2-0 {
- 						nvidia,function = "xusb";
- 						status = "okay";
- 					};
-@@ -546,6 +546,14 @@
- 		vmmc-supply = <&vdd_3v3_sd>;
- 	};
- 
-+	usb@700d0000 {
-+		status = "okay";
-+		phys = <&micro_b>;
-+		phy-names = "usb2-0";
-+		avddio-usb-supply = <&vdd_3v3_sys>;
-+		hvdd-usb-supply = <&vdd_1v8>;
-+	};
-+
- 	sdhci@700b0400 {
- 		status = "okay";
- 		bus-width = <4>;
--- 
-2.7.4
+On 2/7/2020 11:52 PM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 07.02.2020 14:26, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>
+>> On 2/6/2020 10:45 PM, Dmitry Osipenko wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> 30.01.2020 13:33, Sameer Pujar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> +static const struct dev_pm_ops tegra186_dspk_pm_ops =3D {
+>>>> +     SET_RUNTIME_PM_OPS(tegra186_dspk_runtime_suspend,
+>>>> +                        tegra186_dspk_runtime_resume, NULL)
+>>>> +     SET_LATE_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+>>>> +                                  pm_runtime_force_resume)
+>>>> +};
+>>> Could you please explain why drivers need the "late" system sleep?
+>> It was done to ensure core drivers are suspended first and defer the
+>> codec driver suspend
+> Suspend order is opposite to the drivers registration order. If there is
+> no real problem with that, then you should use the default suspend
+
+> level. Please don't try to fix a non-existent problems.
+
+No. This was done specifically to allow sound core to first stop any=20
+ongoing audio activity during normal suspend and ensure a safe suspend=20
+of AHUB devices by doing a LATE suspend.
 
