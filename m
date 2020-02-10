@@ -2,59 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0E2B158316
-	for <lists+linux-tegra@lfdr.de>; Mon, 10 Feb 2020 19:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27D53158404
+	for <lists+linux-tegra@lfdr.de>; Mon, 10 Feb 2020 21:04:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727363AbgBJS6X (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 10 Feb 2020 13:58:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34870 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727121AbgBJS6X (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 10 Feb 2020 13:58:23 -0500
-Received: from localhost (unknown [104.132.1.111])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 475222085B;
-        Mon, 10 Feb 2020 18:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581361102;
-        bh=XhsDSqmZAV5GAixCR38jksBySp8eRi3o9QvzAGZo0T0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fIxlTXuChg1UrtQ3SPibVHWtPQcF/pz1KL2gIKL6c98MEEg8ZkvufcuMOuVVYDIu7
-         Y+Ark2JbEzwEmEDSqMSUsX17i4mlOva9YAwF//tnPztNFiCI1Wr3cWXUivWLPRB3/H
-         Bi6rOloB/jdx2IepZVYCBFyvlbcpd42Sy5XwxzfE=
-Date:   Mon, 10 Feb 2020 10:58:21 -0800
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     JC Kuo <jckuo@nvidia.com>
-Cc:     thierry.reding@gmail.com, robh@kernel.org, jonathanh@nvidia.com,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        felipe.balbi@linux.intel.com
-Subject: Re: [PATCH v1] dt-binding: usb: add "super-speed-plus"
-Message-ID: <20200210185821.GA1057764@kroah.com>
-References: <20200113060046.14448-1-jckuo@nvidia.com>
+        id S1727411AbgBJUE4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 10 Feb 2020 15:04:56 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3735 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727003AbgBJUE4 (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 10 Feb 2020 15:04:56 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e41b74c0000>; Mon, 10 Feb 2020 12:04:28 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 10 Feb 2020 12:04:55 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 10 Feb 2020 12:04:55 -0800
+Received: from [10.26.11.122] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 10 Feb
+ 2020 20:04:52 +0000
+Subject: Re: [PATCH 5.4 000/309] 5.4.19-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200210122406.106356946@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <142aaa1b-51ca-c766-bb60-aedfc6ad3f41@nvidia.com>
+Date:   Mon, 10 Feb 2020 20:04:49 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200113060046.14448-1-jckuo@nvidia.com>
+In-Reply-To: <20200210122406.106356946@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1581365068; bh=ADBDK69cIyDSPhIU2Q/4onNRXM3JZSx2DKuQ3lE/fhs=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=I5Eft6apJyaSb5+VoONv5LjvZnYb+8MTa9IhSVkkE+SDlhqYSS8TlWNYh5z9KAXBl
+         R2A77AcfwXiPJl+UgE4a7WTRW6eykAn0i83gtbgjr7UpymKc3OKjgRE2/jaEKUbiAf
+         y5RvQ7NVQoYaCfNgAABECK1iw4hOToI2rmpmhjPNfEpPoQ2OGcTWleTsJhu4Ny8gf5
+         BasrYqHhXMLPPQINH1/R2s76xzaRm8dL4wmDXyO2v8UnnpuAu9Sh48+IufRQiSFmtQ
+         k+SNqZILt/epxKvNMygUB+nWrp3CfOXaPRPdbRKo0pPj3pWj4drwLruKRmX/K9Wo9v
+         sHn6Iu9pqw4aw==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Jan 13, 2020 at 02:00:46PM +0800, JC Kuo wrote:
-> This commit adds "super-speed-plus" to valid argument list of
-> "maximum-speed" property.
+
+On 10/02/2020 12:29, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.4.19 release.
+> There are 309 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> Signed-off-by: JC Kuo <jckuo@nvidia.com>
-> ---
->  Documentation/devicetree/bindings/usb/generic.txt | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+> Responses should be made by Wed, 12 Feb 2020 12:18:57 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.19-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-What ever happened to this?  Did the DT developers see it?
+All tests are passing for Tegra ...
 
-I suggest resending please so it gets into their queue to review.
+Test results for stable-v5.4:
+    13 builds:	13 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    40 tests:	40 pass, 0 fail
 
-thanks,
+Linux version:	5.4.19-rc1-ga28430b8529b
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra210-p3450-0000,
+                tegra30-cardhu-a04
 
-greg k-h
+Cheers
+Jon
+
+-- 
+nvpublic
