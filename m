@@ -2,124 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86B061597F1
-	for <lists+linux-tegra@lfdr.de>; Tue, 11 Feb 2020 19:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 927FE159B84
+	for <lists+linux-tegra@lfdr.de>; Tue, 11 Feb 2020 22:45:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728981AbgBKSQG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 11 Feb 2020 13:16:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44094 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728619AbgBKSQG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 11 Feb 2020 13:16:06 -0500
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7886920708;
-        Tue, 11 Feb 2020 18:16:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581444965;
-        bh=ZiipSWDzgeHjJz2WH9FL395eNO0cu9ekXYQl99Q8TGU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WYxW6t8G73ZXqPoAZrUSFtPqrtlwKARwA85m1jL6Z3ZedBgHQ3XaEFu2wG412mXbq
-         lRdAsBCdeoQ3loqvdpsBxWXv3lKkaB0pTIYA7Y0mE6asS0iRix/G4zEMBB3ACwhKIM
-         WfUEr2u4/mD+oq0aX7UbAlLPduKjQYQIC3j5M58w=
-Received: by mail-qv1-f41.google.com with SMTP id dc14so5422982qvb.9;
-        Tue, 11 Feb 2020 10:16:05 -0800 (PST)
-X-Gm-Message-State: APjAAAUxvG7mM9VtV4oWSiXmMgDHXg8mGn8zgl9U+e0yObSYvQswFwwY
-        CKnAlkPm7KEJlhuE0ucRdpada54KCqIahwzDjQ==
-X-Google-Smtp-Source: APXvYqz7/HTjD/gmg7y3b1mBaiiVOST5LC3rVQ1S5d9nr8xvkVknjzihFw+CABsBG25SKvfgK9kM5f/8APejN+nuOaU=
-X-Received: by 2002:ad4:450a:: with SMTP id k10mr3796364qvu.136.1581444964504;
- Tue, 11 Feb 2020 10:16:04 -0800 (PST)
-MIME-Version: 1.0
-References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
- <1580380422-3431-2-git-send-email-spujar@nvidia.com> <20200206181045.GA31521@bogus>
- <af58b6b2-25b2-e968-73c9-d87e1a9e2746@nvidia.com>
-In-Reply-To: <af58b6b2-25b2-e968-73c9-d87e1a9e2746@nvidia.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 11 Feb 2020 12:15:53 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKCzR5DXm_ip-mrrPyeAUcZJRWi_cQEhPd7agp9T_uumA@mail.gmail.com>
-Message-ID: <CAL_JsqKCzR5DXm_ip-mrrPyeAUcZJRWi_cQEhPd7agp9T_uumA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] dt-bindings: sound: tegra: add DT binding for AHUB
-To:     Sameer Pujar <spujar@nvidia.com>
-Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+        id S1727052AbgBKVpQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 11 Feb 2020 16:45:16 -0500
+Received: from gateway32.websitewelcome.com ([192.185.145.114]:33044 "EHLO
+        gateway32.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727414AbgBKVpQ (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 11 Feb 2020 16:45:16 -0500
+X-Greylist: delayed 2736 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Feb 2020 16:45:16 EST
+Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
+        by gateway32.websitewelcome.com (Postfix) with ESMTP id BE6034432C
+        for <linux-tegra@vger.kernel.org>; Tue, 11 Feb 2020 14:59:39 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id 1cd9jhVtyAGTX1cd9jtuIl; Tue, 11 Feb 2020 14:59:39 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=IPGuh4dJHUV6jC0H2DD+K0aSPx7nJ/9fjrtidfPd1Bo=; b=ptfWdyKQkcSnaRqzN+e9PKQsaX
+        PPFAU0pL1ijbOVJOaG+VQ9CmQM5Nn7elVWMpJG85ynyd5YUrrl5k2BsE7P5hs7bu8CwDooXCc89cS
+        6EUPU/QWQzTRz9KDlDVbRsQ0dmfSfrR78U3FzVB+R+d0VFN9ujMMFuDbfUV8BsB5aWk4PPJaLM7XH
+        FQPfJcURpt7gBQPW19Qbjl67vF/qLD93y/mZzzgylkiuCmvEspEIcjd3pBijTA3zDKVip4eMIYRZ/
+        tq7m7gTMz2kjNVpvot9lsPl0kQYgxw8iCK5Wb0wQaUgru3rm3mgclfD7PoEaRmbkrnKLv5pPuXkoN
+        /LD6H8yQ==;
+Received: from [200.68.140.36] (port=14955 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1j1cd8-0022a3-9c; Tue, 11 Feb 2020 14:59:38 -0600
+Date:   Tue, 11 Feb 2020 15:02:13 -0600
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     Russell King <linux@armlinux.org.uk>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        devicetree@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        sharadg@nvidia.com, mkumard@nvidia.com, viswanathl@nvidia.com,
-        rlokhande@nvidia.com, dramesh@nvidia.com, atalambedu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH] amba: tegra-ahb: Replace zero-length array with
+ flexible-array member
+Message-ID: <20200211210213.GA28043@embeddedor>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 200.68.140.36
+X-Source-L: No
+X-Exim-ID: 1j1cd8-0022a3-9c
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [200.68.140.36]:14955
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 53
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Feb 10, 2020 at 5:31 AM Sameer Pujar <spujar@nvidia.com> wrote:
->
->
->
-> On 2/6/2020 11:40 PM, Rob Herring wrote:
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > On Thu, Jan 30, 2020 at 04:03:34PM +0530, Sameer Pujar wrote:
-> >> Audio Hub (AHUB) comprises a collection of hardware accelerators for audio
-> >> pre-processing and post-processing and a programmable full crossbar for
-> >> audio routing across these accelerators. This patch adds YAML schema for DT
-> >> binding of AHUB and few of its following components. These devices will be
-> >> registered as ASoC components.
-> >>   * ADMAIF
-> >>   * I2S
-> >>   * DMIC
-> >>   * DSPK
-> >>
-> >> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> >> ---
-> >>   .../bindings/sound/nvidia,tegra186-dspk.yaml       | 105 +++++++++++++
-> >>   .../bindings/sound/nvidia,tegra210-admaif.yaml     | 165 +++++++++++++++++++++
-> >>   .../bindings/sound/nvidia,tegra210-ahub.yaml       | 130 ++++++++++++++++
-> >>   .../bindings/sound/nvidia,tegra210-dmic.yaml       | 105 +++++++++++++
-> >>   .../bindings/sound/nvidia,tegra210-i2s.yaml        | 112 ++++++++++++++
-> >>   5 files changed, 617 insertions(+)
-> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
-> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml
-> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-ahub.yaml
-> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-dmic.yaml
-> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
-> >> new file mode 100644
-> >> index 0000000..dc9fef3
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
-> >> @@ -0,0 +1,105 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0)
-> . . .
-> >> +    items:
-> >> +      - description: initial module clock rate
-> >> +
-> >> +  "#sound-dai-cells":
-> >> +    const: 1
-> >> +
-> >> +  sound-name-prefix:
-> >> +    $ref: /schemas/types.yaml#/definitions/string
-> >> +    description:
-> >> +      Used as prefix for sink/source names of the component. Must be a
-> >> +      unique string among multiple instances of the same component.
-> >> +      The name can be "DSPK1" or "DSPKx", where x depends on the maximum
-> > Sounds like a constraint.
->
-> Is there a better way to convey the recommended strings above?
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-pattern: '^DSPK[1-9]$'
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-Adjusting the number range regex as you need.
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertenly introduced[3] to the codebase from now on.
 
-(And $ref will need to be under an 'allOf')
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
 
-Rob
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ drivers/amba/tegra-ahb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/amba/tegra-ahb.c b/drivers/amba/tegra-ahb.c
+index b0b688c481e8..e9e5c7bb580c 100644
+--- a/drivers/amba/tegra-ahb.c
++++ b/drivers/amba/tegra-ahb.c
+@@ -129,7 +129,7 @@ static const u32 tegra_ahb_gizmo[] = {
+ struct tegra_ahb {
+ 	void __iomem	*regs;
+ 	struct device	*dev;
+-	u32		ctx[0];
++	u32		ctx[];
+ };
+ 
+ static inline u32 gizmo_readl(struct tegra_ahb *ahb, u32 offset)
+-- 
+2.25.0
+
