@@ -2,82 +2,124 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA190158E30
-	for <lists+linux-tegra@lfdr.de>; Tue, 11 Feb 2020 13:16:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86B061597F1
+	for <lists+linux-tegra@lfdr.de>; Tue, 11 Feb 2020 19:16:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728492AbgBKMQu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 11 Feb 2020 07:16:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47876 "EHLO mail.kernel.org"
+        id S1728981AbgBKSQG (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 11 Feb 2020 13:16:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44094 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727950AbgBKMQt (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 11 Feb 2020 07:16:49 -0500
-Received: from localhost (unknown [209.37.97.194])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728619AbgBKSQG (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 11 Feb 2020 13:16:06 -0500
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 394FE206DB;
-        Tue, 11 Feb 2020 12:16:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7886920708;
+        Tue, 11 Feb 2020 18:16:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581423409;
-        bh=KHNDwelMhPhYYRCIOXWR7Xld6woG2x8V5JdMXH0YamI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dF9gsQ9y8v5ZtdFIFFa/ugYBc0DrIUCKgbUMfTkZdQn6RYF7pZe8TCQRLZRTyVtzY
-         TVoX1MxOwENUbyFr0DtlAAo9kZ7u9A7ksPE+x+tKxRat3HzPGYuWJArZZRsL9QXyQg
-         /t0E9A1lUwcvIwqhsR8L+0aUfT/AA8gzTY5DW47Q=
-Date:   Tue, 11 Feb 2020 04:16:48 -0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.5 000/367] 5.5.3-stable review
-Message-ID: <20200211121648.GA1856500@kroah.com>
-References: <20200210122423.695146547@linuxfoundation.org>
- <ecd95628-a1c2-307a-1d59-34a37bf425ff@nvidia.com>
+        s=default; t=1581444965;
+        bh=ZiipSWDzgeHjJz2WH9FL395eNO0cu9ekXYQl99Q8TGU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=WYxW6t8G73ZXqPoAZrUSFtPqrtlwKARwA85m1jL6Z3ZedBgHQ3XaEFu2wG412mXbq
+         lRdAsBCdeoQ3loqvdpsBxWXv3lKkaB0pTIYA7Y0mE6asS0iRix/G4zEMBB3ACwhKIM
+         WfUEr2u4/mD+oq0aX7UbAlLPduKjQYQIC3j5M58w=
+Received: by mail-qv1-f41.google.com with SMTP id dc14so5422982qvb.9;
+        Tue, 11 Feb 2020 10:16:05 -0800 (PST)
+X-Gm-Message-State: APjAAAUxvG7mM9VtV4oWSiXmMgDHXg8mGn8zgl9U+e0yObSYvQswFwwY
+        CKnAlkPm7KEJlhuE0ucRdpada54KCqIahwzDjQ==
+X-Google-Smtp-Source: APXvYqz7/HTjD/gmg7y3b1mBaiiVOST5LC3rVQ1S5d9nr8xvkVknjzihFw+CABsBG25SKvfgK9kM5f/8APejN+nuOaU=
+X-Received: by 2002:ad4:450a:: with SMTP id k10mr3796364qvu.136.1581444964504;
+ Tue, 11 Feb 2020 10:16:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ecd95628-a1c2-307a-1d59-34a37bf425ff@nvidia.com>
+References: <1580380422-3431-1-git-send-email-spujar@nvidia.com>
+ <1580380422-3431-2-git-send-email-spujar@nvidia.com> <20200206181045.GA31521@bogus>
+ <af58b6b2-25b2-e968-73c9-d87e1a9e2746@nvidia.com>
+In-Reply-To: <af58b6b2-25b2-e968-73c9-d87e1a9e2746@nvidia.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 11 Feb 2020 12:15:53 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKCzR5DXm_ip-mrrPyeAUcZJRWi_cQEhPd7agp9T_uumA@mail.gmail.com>
+Message-ID: <CAL_JsqKCzR5DXm_ip-mrrPyeAUcZJRWi_cQEhPd7agp9T_uumA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] dt-bindings: sound: tegra: add DT binding for AHUB
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Linux-ALSA <alsa-devel@alsa-project.org>,
+        devicetree@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        sharadg@nvidia.com, mkumard@nvidia.com, viswanathl@nvidia.com,
+        rlokhande@nvidia.com, dramesh@nvidia.com, atalambedu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Feb 10, 2020 at 08:05:39PM +0000, Jon Hunter wrote:
-> 
-> On 10/02/2020 12:28, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.5.3 release.
-> > There are 367 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Wed, 12 Feb 2020 12:18:57 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.5.3-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.5.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> All tests are passing for Tegra ...
-> 
-> Test results for stable-v5.5:
->     13 builds:	13 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     40 tests:	40 pass, 0 fail
-> 
-> Linux version:	5.5.3-rc1-g1d9d90e88c9f
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
+On Mon, Feb 10, 2020 at 5:31 AM Sameer Pujar <spujar@nvidia.com> wrote:
+>
+>
+>
+> On 2/6/2020 11:40 PM, Rob Herring wrote:
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > On Thu, Jan 30, 2020 at 04:03:34PM +0530, Sameer Pujar wrote:
+> >> Audio Hub (AHUB) comprises a collection of hardware accelerators for audio
+> >> pre-processing and post-processing and a programmable full crossbar for
+> >> audio routing across these accelerators. This patch adds YAML schema for DT
+> >> binding of AHUB and few of its following components. These devices will be
+> >> registered as ASoC components.
+> >>   * ADMAIF
+> >>   * I2S
+> >>   * DMIC
+> >>   * DSPK
+> >>
+> >> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> >> ---
+> >>   .../bindings/sound/nvidia,tegra186-dspk.yaml       | 105 +++++++++++++
+> >>   .../bindings/sound/nvidia,tegra210-admaif.yaml     | 165 +++++++++++++++++++++
+> >>   .../bindings/sound/nvidia,tegra210-ahub.yaml       | 130 ++++++++++++++++
+> >>   .../bindings/sound/nvidia,tegra210-dmic.yaml       | 105 +++++++++++++
+> >>   .../bindings/sound/nvidia,tegra210-i2s.yaml        | 112 ++++++++++++++
+> >>   5 files changed, 617 insertions(+)
+> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
+> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml
+> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-ahub.yaml
+> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-dmic.yaml
+> >>   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra210-i2s.yaml
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
+> >> new file mode 100644
+> >> index 0000000..dc9fef3
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/sound/nvidia,tegra186-dspk.yaml
+> >> @@ -0,0 +1,105 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0)
+> . . .
+> >> +    items:
+> >> +      - description: initial module clock rate
+> >> +
+> >> +  "#sound-dai-cells":
+> >> +    const: 1
+> >> +
+> >> +  sound-name-prefix:
+> >> +    $ref: /schemas/types.yaml#/definitions/string
+> >> +    description:
+> >> +      Used as prefix for sink/source names of the component. Must be a
+> >> +      unique string among multiple instances of the same component.
+> >> +      The name can be "DSPK1" or "DSPKx", where x depends on the maximum
+> > Sounds like a constraint.
+>
+> Is there a better way to convey the recommended strings above?
 
-Wonderful, thanks for testing all of these and letting me know.
+pattern: '^DSPK[1-9]$'
 
-greg k-h
+Adjusting the number range regex as you need.
+
+(And $ref will need to be under an 'allOf')
+
+Rob
