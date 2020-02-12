@@ -2,214 +2,178 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF37915A121
-	for <lists+linux-tegra@lfdr.de>; Wed, 12 Feb 2020 07:12:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F13915B522
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Feb 2020 00:47:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728177AbgBLGLu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 12 Feb 2020 01:11:50 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7235 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728270AbgBLGLt (ORCPT
+        id S1729185AbgBLXqc (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 12 Feb 2020 18:46:32 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:43397 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727117AbgBLXqb (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 12 Feb 2020 01:11:49 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e4397080000>; Tue, 11 Feb 2020 22:11:20 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 11 Feb 2020 22:11:48 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 11 Feb 2020 22:11:48 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 12 Feb
- 2020 06:11:48 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 12 Feb 2020 06:11:48 +0000
-Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.125]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e4397220001>; Tue, 11 Feb 2020 22:11:48 -0800
-From:   JC Kuo <jckuo@nvidia.com>
-To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <robh@kernel.org>, <jonathanh@nvidia.com>, <kishon@ti.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <nkristam@nvidia.com>, JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH v6 5/5] arm64: tegra: Enable XUSB host in P2972-0000 board
-Date:   Wed, 12 Feb 2020 14:11:33 +0800
-Message-ID: <20200212061133.11665-6-jckuo@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200212061133.11665-1-jckuo@nvidia.com>
-References: <20200212061133.11665-1-jckuo@nvidia.com>
-X-NVConfidentiality: public
+        Wed, 12 Feb 2020 18:46:31 -0500
+Received: by mail-lj1-f193.google.com with SMTP id a13so4415561ljm.10;
+        Wed, 12 Feb 2020 15:46:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZN0eR+MlbTG+jtIAem/YdJyWllF55za1q3k6zHdgMmU=;
+        b=J8YMlsQRXh/PWKTkaxJT8iR3O87HjnuuCR62rrp0vDQuZ9hGclVV3JphgpZC5LyOQM
+         dZEoGBQEU+SyMTAAqNfMqqGkDTqNze9AcZ3XQmU0FlmmWySYxW5xGFGwaK7tuwyTWHR/
+         vxM/PtASB86La0/IUPul2idxkzdrX5HdNTigy7s/VygP1gLn8ulggOFVcUPGs6vTgG9b
+         ee/MHKOKj+KUAA/jql78A9nlk1j/MBM9Kc6tuUMRVhvfqvU0Q0O6xRTpNeOPKCNdclcV
+         eqMIO5y+1bEQXZqda3uYxrSKS0PW7FrFtSqTKbTxLD4eFkcBhYnOsic0FByhWDxp21/m
+         6QEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZN0eR+MlbTG+jtIAem/YdJyWllF55za1q3k6zHdgMmU=;
+        b=J9eWFmdZa13VBo0JgT5h5L70IjQPCvrnW97KXXd1iaFI/Sh313Y67UWKWSNmMJbkrT
+         +vI5MSDTBc9QFvfHF44YboAT6geKx36TKIFp6ilgZuK6lTyXmxFPjr+JBrCkwAU+j3Ak
+         tjRTAIouol60KWQsdIcqsYP6Ag3GAw4IZs3+EQ4wI/nanOt434Bh7LbEYYhfUbUcGGzM
+         mV5UcCuMWktvUSUe2hQ4V6+l1q3CuCF6L/PS7xJWMF41pomgoE9ikzOlTMHQO6ZZpbZQ
+         AqhKXlgcDaI2chpCpmqbuSoqG6Fy0NOqjTduSLqYJXd0Ttg6/LvjkUBTqtqMEgwRZKxN
+         Aogg==
+X-Gm-Message-State: APjAAAUSEUSsUz8Ekr2otNwba3XG6lIJ9rfnZWLVKpDXAfAl9s9oiZ2J
+        xQ2zWUtCX+GzrWJvnSbl8FY=
+X-Google-Smtp-Source: APXvYqxHWD54LlyxDzOWUXKmLuxx2rMLtoPbna7MGldJwQmMmyPSOO/X0wGnoktRJWGi8Es22UreIQ==
+X-Received: by 2002:a2e:9618:: with SMTP id v24mr9204006ljh.181.1581551188927;
+        Wed, 12 Feb 2020 15:46:28 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.gmail.com with ESMTPSA id u15sm234453lfl.87.2020.02.12.15.46.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2020 15:46:28 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Prashant Gaikwad <pgaikwad@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        Jasper Korten <jja2000@gmail.com>,
+        David Heidelberg <david@ixit.cz>
+Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v7 00/12] NVIDIA Tegra20 CPUFreq driver major update
+Date:   Thu, 13 Feb 2020 02:45:55 +0300
+Message-Id: <20200212234607.11521-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581487880; bh=CL2D/NKlhQPLvGvad77j2jsXqakuLSfCoTIFZLeiZyE=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=O8jCaEcbm0hWJWZzvxU4AusakreaQEVkP1vKc8+f9J8ZIj5jpRxYHKwPENs75ZCIQ
-         XMUTFktqjFNiv/BN3yp2dljpiJ6Z3ioSFEfWuXqHIuIGfx4cLgR8W9WL9f8uoKXn7p
-         9FUzx50rKkhcNo0qX2eB9E0gMRXhSGlKd1/MqBfZHHm+kPKdoT6TS78pr7a6AiI8e8
-         Su1aPN5d3arrPG0jRMfn1D6nEzdtjrBnD2r8YQAzOcTNmwsCWlPAXf8xzGf46ImD4h
-         yeo6afG2mMgWC9wRf1UN5L89O7xYKOUff/6/Q8+GmmFjQUrM8Slh6IN5LX0cbYcVcV
-         DFKRz6PnuNutA==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-This commit enables XUSB host and pad controller in Tegra194
-P2972-0000 board.
+Hello,
 
-Signed-off-by: JC Kuo <jckuo@nvidia.com>
----
-Changes in v6:
-- re-use "maximum-speed" instead of adding "nvidia,disable-gen2"
-Changes in v5: none
-Changes in v4: none
-Changes in v3: none
-Changes in v2:
-- use capitalization of regulator names
-- fix gpio property of VDD_5V_SATA regulator
+This series moves intermediate-clk handling from tegra20-cpufreq into
+tegra-clk driver. This allows us to switch to generic cpufreq-dt driver
+which brings voltage scaling, per-hardware OPPs and Tegra30 support out
+of the box. All boards need to adopt CPU OPPs in their device-trees in
+order to get cpufreq support.
 
- .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 36 ++++++++++-
- .../boot/dts/nvidia/tegra194-p2972-0000.dts   | 63 +++++++++++++++++++
- 2 files changed, 98 insertions(+), 1 deletion(-)
+Changelog:
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-index bdd33ff4e324..623f7d7d216b 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-@@ -71,6 +71,29 @@
- 			vmmc-supply = <&vdd_emmc_3v3>;
- 		};
- 
-+		padctl@3520000 {
-+			avdd-usb-supply = <&vdd_usb_3v3>;
-+			vclamp-usb-supply = <&vdd_1v8ao>;
-+
-+			ports {
-+				usb2-1 {
-+					vbus-supply = <&vdd_5v0_sys>;
-+				};
-+
-+				usb2-3 {
-+					vbus-supply = <&vdd_5v_sata>;
-+				};
-+
-+				usb3-0 {
-+					vbus-supply = <&vdd_5v0_sys>;
-+				};
-+
-+				usb3-3 {
-+					vbus-supply = <&vdd_5v0_sys>;
-+				};
-+			};
-+		};
-+
- 		rtc@c2a0000 {
- 			status = "okay";
- 		};
-@@ -234,7 +257,7 @@
- 						regulator-max-microvolt = <3300000>;
- 					};
- 
--					ldo5 {
-+					vdd_usb_3v3: ldo5 {
- 						regulator-name = "VDD_USB_3V3";
- 						regulator-min-microvolt = <3300000>;
- 						regulator-max-microvolt = <3300000>;
-@@ -317,5 +340,16 @@
- 			gpio = <&gpio TEGRA194_MAIN_GPIO(A, 1) GPIO_ACTIVE_HIGH>;
- 			regulator-boot-on;
- 		};
-+
-+		vdd_5v_sata: regulator@4 {
-+			compatible = "regulator-fixed";
-+			reg = <4>;
-+
-+			regulator-name = "VDD_5V_SATA";
-+			regulator-min-microvolt = <5000000>;
-+			regulator-max-microvolt = <5000000>;
-+			gpio = <&gpio TEGRA194_MAIN_GPIO(Z, 1) GPIO_ACTIVE_HIGH>;
-+			enable-active-high;
-+		};
- 	};
- };
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index 985e7d84f161..f9f874d9d0ae 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -37,6 +37,69 @@
- 			status = "okay";
- 		};
- 
-+		padctl@3520000 {
-+			status = "okay";
-+
-+			pads {
-+				usb2 {
-+					lanes {
-+						usb2-1 {
-+							status = "okay";
-+						};
-+
-+						usb2-3 {
-+							status = "okay";
-+						};
-+					};
-+				};
-+
-+				usb3 {
-+					lanes {
-+						usb3-0 {
-+							status = "okay";
-+						};
-+
-+						usb3-3 {
-+							status = "okay";
-+						};
-+					};
-+				};
-+			};
-+
-+			ports {
-+				usb2-1 {
-+					mode = "host";
-+					status = "okay";
-+				};
-+
-+				usb2-3 {
-+					mode = "host";
-+					status = "okay";
-+				};
-+
-+				usb3-0 {
-+					nvidia,usb2-companion = <1>;
-+					status = "okay";
-+				};
-+
-+				usb3-3 {
-+					nvidia,usb2-companion = <3>;
-+					maximum-speed = "super-speed";
-+					status = "okay";
-+				};
-+			};
-+		};
-+
-+		usb@3610000 {
-+			status = "okay";
-+
-+			phys =	<&{/cbb@0/padctl@3520000/pads/usb2/lanes/usb2-1}>,
-+				<&{/cbb@0/padctl@3520000/pads/usb2/lanes/usb2-3}>,
-+				<&{/cbb@0/padctl@3520000/pads/usb3/lanes/usb3-0}>,
-+				<&{/cbb@0/padctl@3520000/pads/usb3/lanes/usb3-3}>;
-+			phy-names = "usb2-1", "usb2-3", "usb3-0", "usb3-3";
-+		};
-+
- 		pwm@c340000 {
- 			status = "okay";
- 		};
+v7: - Added acks from Peter De Schrijver.
+
+    - Added tested-by from Marcel Ziswiler, Peter Geis, Jasper Korten and
+      David Heidelberg who tested these patches on Apalis/Colibri devboards,
+      Ouya, TF300T and Nexus 7 devices respectively.
+
+    - Rebased series on top of recent linux-next.
+
+v6: - Dropped "cpufreq: dt-platdev: Blacklist NVIDIA Tegra20 and Tegra30 SoCs"
+      patch from the series since Viresh picked up that patch separately.
+
+    - Added two new patches to this series:
+
+        ARM: tegra: Switch CPU to PLLP on resume from LP1 on Tegra30/114/124
+        ARM: tegra: Don't enable PLLX while resuming from LP1 on Tegra30
+
+      Previously these patches were sent out separately from this series,
+      but it should be more consistent to include them into the series since
+      they directly relate to enabling of the cpufreq driver on Tegra30.
+
+v5: - The "Use generic cpufreq-dt driver (Tegra30 supported now)" patch
+      is separated now into two patches by factoring out the blacklisting
+      of cpufreq-dt-platdev into a standalone patch. This is done in a
+      response to request from Jon Hunter to fix the warning splats during
+      boot that are coming from OPP core because OPPs are unavailable. The
+      OPPs will become available once tegra20-cpufreq driver will be updated
+      to support the cpufreq-dt.
+
+v4: - Updated CCLK diagram in the "Add custom CCLK implementation" patch.
+
+    - <linux/cpu.h> is now included in the "Use generic cpufreq-dt driver"
+      patch, for consistency.
+
+    - Returned value of get_cpu_device() is now checked in the "Use generic
+      cpufreq-dt driver" patch, for consistency as well.
+
+v3: - The "Add custom CCLK implementation" patch was updated in accordance
+      to the comments from Peter De Schrijver. We will not use the clock
+      skipper.
+
+    - Re added OPPs for T30 Beaver board because Thierry has that board ;)
+
+    - Added r-b for the "DT binding" patch from Rob Herring.
+
+v2: - Kept modularity of the tegra20-cpufreq as was requested by Viresh Kumar
+      in a review comment to v1.
+
+    - Added acks from Viresh Kumar.
+
+    - Added tested-by from Nicolas Chauvet to the "trimslice" patch.
+      Nicolas told me on IRC that it works fine.
+
+    - Fixed compilation of the "Add custom CCLK implementation" patch. The
+      error happened because v1 was based on top of yet unreviewed/unapplied
+      patch "clk: tegra: divider: Support enable-bit for Super clocks".
+      Thanks to Peter Geis for reporting the problem.
+
+    - Replaced Tegra30 "beaver" board with "cardhu-a04" because turned out
+      that's what NVIDIA uses in the testing farm.
+
+Dmitry Osipenko (12):
+  clk: tegra: Add custom CCLK implementation
+  clk: tegra: pll: Add pre/post rate-change hooks
+  clk: tegra: cclk: Add helpers for handling PLLX rate changes
+  clk: tegra20: Use custom CCLK implementation
+  clk: tegra30: Use custom CCLK implementation
+  ARM: tegra: Switch CPU to PLLP on resume from LP1 on Tegra30/114/124
+  ARM: tegra: Don't enable PLLX while resuming from LP1 on Tegra30
+  dt-bindings: cpufreq: Add binding for NVIDIA Tegra20/30
+  cpufreq: tegra20: Use generic cpufreq-dt driver (Tegra30 supported
+    now)
+  ARM: tegra: Create tegra20-cpufreq platform device on Tegra30
+  ARM: dts: tegra30: beaver: Set up voltage regulators for DVFS
+  ARM: dts: tegra30: beaver: Add CPU Operating Performance Points
+
+ .../cpufreq/nvidia,tegra20-cpufreq.txt        |  56 +++++
+ arch/arm/boot/dts/tegra30-beaver.dts          |  40 +++-
+ arch/arm/mach-tegra/sleep-tegra30.S           |  16 +-
+ arch/arm/mach-tegra/tegra.c                   |   4 +
+ drivers/clk/tegra/Makefile                    |   1 +
+ drivers/clk/tegra/clk-pll.c                   |  12 +-
+ drivers/clk/tegra/clk-tegra-super-cclk.c      | 212 +++++++++++++++++
+ drivers/clk/tegra/clk-tegra20.c               |   7 +-
+ drivers/clk/tegra/clk-tegra30.c               |   6 +-
+ drivers/clk/tegra/clk.h                       |  19 +-
+ drivers/cpufreq/Kconfig.arm                   |   6 +-
+ drivers/cpufreq/tegra20-cpufreq.c             | 217 +++++-------------
+ 12 files changed, 415 insertions(+), 181 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/cpufreq/nvidia,tegra20-cpufreq.txt
+ create mode 100644 drivers/clk/tegra/clk-tegra-super-cclk.c
+
 -- 
-2.17.1
+2.24.0
 
