@@ -2,115 +2,127 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 09F6F15BF73
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Feb 2020 14:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0939815C86B
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Feb 2020 17:40:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729588AbgBMNdx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 13 Feb 2020 08:33:53 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7181 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729674AbgBMNdw (ORCPT
+        id S1727675AbgBMQkK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Feb 2020 11:40:10 -0500
+Received: from mail-wm1-f54.google.com ([209.85.128.54]:35925 "EHLO
+        mail-wm1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727671AbgBMQkK (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 13 Feb 2020 08:33:52 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e4550230000>; Thu, 13 Feb 2020 05:33:23 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 13 Feb 2020 05:33:52 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 13 Feb 2020 05:33:52 -0800
-Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 13 Feb
- 2020 13:33:49 +0000
-Subject: Re: [RFT PATCH v2] xhci: Fix memory leak when caching protocol
- extended capability PSI tables
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        <gregkh@linuxfoundation.org>, <m.szyprowski@samsung.com>
-CC:     <pmenzel@molgen.mpg.de>, <mika.westerberg@linux.intel.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-samsung-soc@vger.kernel.org>, <krzk@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20d0559f-8d0f-42f5-5ebf-7f658a172161@linux.intel.com>
- <20200211150158.14475-1-mathias.nyman@linux.intel.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <f42f7f73-48e7-74ad-2524-2514f29490cb@nvidia.com>
-Date:   Thu, 13 Feb 2020 13:33:47 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Thu, 13 Feb 2020 11:40:10 -0500
+Received: by mail-wm1-f54.google.com with SMTP id p17so7500522wma.1;
+        Thu, 13 Feb 2020 08:40:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U9NzKrnsK6arcq1Stt3BEs5RjKuMGTXTF0ludE/ZUXY=;
+        b=GTU4/l0L1dLFrTu9OEv/PL4t7RvMbpp0XWwcP6zntmaWC5q3XEkJ5pOLF8yJ9XYRHd
+         xjOrhXV5nTSbp/z+C9yy0mbL/OgKwy3/HgTgFl9Ru67LCp9inGm6KhQGawl/xgHb80x7
+         Dl0L0fuRMkDOSg/CT9/3W4xnw4LycRzo/nIvHZ3KdAHmjuXde+gp6CfA60H54/TMSeqN
+         TZMDvdfuWTctyKOHza/dvWNF1VJ4lJhD5bzidgTXu176rg4iGhm6VMfiPKzb1F5K6n5T
+         nFLxjiGvNbIv7oLr+nZ3/6OKiq5zBkc81E6owMQYNbSwIAHoZi6S9OpjIot/CfnYbbVL
+         XNrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U9NzKrnsK6arcq1Stt3BEs5RjKuMGTXTF0ludE/ZUXY=;
+        b=rG6ggnORUvQLKqHV7CxbuRTjfxJUz1c0HBpvfp01mH2j4ydbRz814G+BrlVVd6kkZe
+         z6+5gZ1+9gThJm8EyJsPRCyiCAuW87pbEfMg6t9JMB18FxBJwIkfjZha7aVkcWyBLM29
+         lwKsubS/BsMhrvJHr0ZgtoKCsiwQmbEbqiGk1DnJZhagP6SoQYv1lB03El1qwPG4/u2E
+         9BrV8d3bZvL56ra23DV3KS5NBjSNhwBW9E+3V4bzzoim8NwVr3AYXZtiaSnUUAr6VsBX
+         nIURjapW78z0wBE2syCmP24hCEe+ef780qDzozhQPiBGDt9JmVQq4VE38omOY0US7lSJ
+         fX3Q==
+X-Gm-Message-State: APjAAAUvd/ELY4CrAiqqKQ5E7OnQPd6I/+RlychlqKGvlvsQOCSAjiAF
+        lok1nAQg2e9i2ABPlIT4xVw=
+X-Google-Smtp-Source: APXvYqyw+7OwayCrFaSi1FHtOjrVg7Ijl4xMXki8QHzS05nbvc7DFuI+y8+pzrJHUJ0/jIgfdpXXPw==
+X-Received: by 2002:a05:600c:2c13:: with SMTP id q19mr6875106wmg.144.1581612007455;
+        Thu, 13 Feb 2020 08:40:07 -0800 (PST)
+Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
+        by smtp.gmail.com with ESMTPSA id f11sm3567493wml.3.2020.02.13.08.40.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2020 08:40:06 -0800 (PST)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Joerg Roedel <joro@8bytes.org>, Olof Johansson <olof@lixom.net>,
+        linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/5] memory: Introduce memory controller mini-framework
+Date:   Thu, 13 Feb 2020 17:39:54 +0100
+Message-Id: <20200213163959.819733-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200211150158.14475-1-mathias.nyman@linux.intel.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581600803; bh=Q/1g/+E1KxLXh/a5BE04ZQbja/0YRrFg7JgCT2PQy6g=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=IDJOQ47i/JoBb4NZDQO6MgrrTUF+1N6pMfcfklm8/ibMblWaIjTOSVjBOyl4zkY+f
-         xPEAXXzEyUSQjnSf+sdtxp/wzkC0CBxN194RNiD8yKgxjwRnlx60E9znf0dznEavY2
-         P0noIUPp3usvtUaVnXItReSRgC1MM0ij9KPlYExuyEUW7qx5aSRBVx084WC4Hi7/8S
-         VZ/c464qrPvFg7WwdzzKcLZscrk8uM+27RMvd8o9kJkvKZwRA7VUEBVCVqyA6cDEjY
-         h5mAVoBYdZUfvQQf+o/X0vBdAffWsWjRKS/fezaN4amef782Qs0rmj7Tp4XNl2vbj4
-         zF5xVV+NAcQbQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+From: Thierry Reding <treding@nvidia.com>
 
-On 11/02/2020 15:01, Mathias Nyman wrote:
-> xhci driver assumed that xHC controllers have at most one custom
-> supported speed table (PSI) for all usb 3.x ports.
-> Memory was allocated for one PSI table under the xhci hub structure.
-> 
-> Turns out this is not the case, some controllers have a separate
-> "supported protocol capability" entry with a PSI table for each port.
-> This means each usb3 roothub port can in theory support different custom
-> speeds.
-> 
-> To solve this, cache all supported protocol capabilities with their PSI
-> tables in an array, and add pointers to the xhci port structure so that
-> every port points to its capability entry in the array.
-> 
-> When creating the SuperSpeedPlus USB Device Capability BOS descriptor
-> for the xhci USB 3.1 roothub we for now will use only data from the
-> first USB 3.1 capable protocol capability entry in the array.
-> This could be improved later, this patch focuses resolving
-> the memory leak.
-> 
-> Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> Reported-by: Sajja Venkateswara Rao <VenkateswaraRao.Sajja@amd.com>
-> Fixes: 47189098f8be ("xhci: parse xhci protocol speed ID list for usb 3.1 usage")
-> Cc: stable <stable@vger.kernel.org> # v4.4+
-> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Hi,
 
+this set of patches adds a new binding that allows device tree nodes to
+explicitly define the DMA parent for a given device. This supplements
+the existing interconnect bindings and is useful to disambiguate in the
+case where a device has multiple paths to system memory. Beyond that it
+can also be useful when there aren't any actual interconnect paths that
+can be controlled, so in simple cases this can serve as a simpler
+variant of interconnect paths.
 
-Since next-20200211, we have been observing a regression exiting suspend
-on our Tegra124 Jetson TK1 board. Bisect is pointing to this commit and
-reverting on top of -next fixes the problem.
+One other case where this is useful is to describe the relationship
+between devices such as the memory controller and an IOMMU, for example.
+On Tegra186 and later, the memory controller is programmed with a set of
+stream IDs that are to be associated with each memory client. This
+programming needs to happen before translations through the IOMMU start,
+otherwise the used stream IDs may deviate from the expected values. The
+memory-controllers property is used in this case to ensure that the
+memory controller driver has been probed (and hence has programmed the
+stream ID mappings) before the IOMMU becomes available.
 
-On exiting suspend, I am seeing the following ...
+Patch 1 introduces the memory controller bindings, both from the
+perspective of the provider and the consumer. Patch 2 makes use of a
+memory-controllers property to determine the DMA parent for the purpose
+of setting up DMA masks (based on the dma-ranges property of the DMA
+parent). Patch 3 introduces a minimalistic framework that is used to
+register memory controllers with along with a set of helpers to look up
+the memory controller from device tree.
 
-[   56.216793] tegra-xusb 70090000.usb: Firmware already loaded, Falcon state 0x20
-[   56.216834] usb usb3: root hub lost power or was reset
-[   56.216837] usb usb4: root hub lost power or was reset
-[   56.217760] tegra-xusb 70090000.usb: No ports on the roothubs?
-[   56.218257] tegra-xusb 70090000.usb: failed to resume XHCI: -12
-[   56.218299] PM: dpm_run_callback(): platform_pm_resume+0x0/0x40 returns -12
-[   56.218312] PM: Device 70090000.usb failed to resume: error -12
-[   56.334366] hub 4-0:1.0: hub_ext_port_status failed (err = -32)
-[   56.334368] hub 3-0:1.0: hub_ext_port_status failed (err = -32)
+An example of how to register a memory controller is shown in patch 4
+for Tegra186 (and later) and finally the ARM SMMU driver is extended to
+become a consumer of an (optional) memory controller. As described
+above, the goal is to defer probe as long as the memory controller has
+not yet programmed the stream ID mappings.
 
-Let me know if you have any thoughts on this.
+Thierry
 
-Cheers
-Jon
+Thierry Reding (5):
+  dt-bindings: Add memory controller bindings
+  of: Use memory-controllers property for DMA parent
+  memory: Introduce memory controller mini-framework
+  memory: tegra186: Register as memory controller
+  iommu: arm-smmu: Get reference to memory controller
+
+ .../bindings/memory-controllers/consumer.yaml |  14 +
+ .../memory-controllers/memory-controller.yaml |  32 +++
+ drivers/iommu/arm-smmu.c                      |  11 +
+ drivers/iommu/arm-smmu.h                      |   2 +
+ drivers/memory/Makefile                       |   1 +
+ drivers/memory/core.c                         | 248 ++++++++++++++++++
+ drivers/memory/tegra/tegra186.c               |   9 +-
+ drivers/of/address.c                          |  25 +-
+ include/linux/memory-controller.h             |  34 +++
+ 9 files changed, 366 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/consumer.yaml
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/memory-controller.yaml
+ create mode 100644 drivers/memory/core.c
+ create mode 100644 include/linux/memory-controller.h
 
 -- 
-nvpublic
+2.24.1
+
