@@ -2,122 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EC7C15B5F5
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Feb 2020 01:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F6F15BF73
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Feb 2020 14:34:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729425AbgBMAiS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 12 Feb 2020 19:38:18 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:42937 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729190AbgBMAiS (ORCPT
+        id S1729588AbgBMNdx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 13 Feb 2020 08:33:53 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7181 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729674AbgBMNdw (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 12 Feb 2020 19:38:18 -0500
-Received: by mail-lf1-f67.google.com with SMTP id y19so2923640lfl.9;
-        Wed, 12 Feb 2020 16:38:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6VRuFj0c+RR5xGzAmKGNr9wl5GP6aspxRb/bDjcgieY=;
-        b=f5gjSkstyjpmmV0lR8bqdecWRblXCrc8SK+pqqiIvk4L8waZccX8O8Y2eXLGk1BipN
-         /8F0C5FiwVi3ioV0P7WogpfxpTPsL+rGSwXur6oI0ZP7Mo9BW8ybW25/31MXeFO5RLJK
-         B/SdA5qd8e91eeIO75Pd70nqGWpmeqFzAudoND0ASAW2UCNaCQjIsRz/Yryr8KcD87ez
-         BfpvIeo58sbR5q4fqd2VMAAAyvL7pqDsdrxhbtNhYNyK74SEFzdC+a13iFpTIyWOEAVX
-         5Fc08Scru4ZzRuysCghFScaiH0R2QIUvUJiqeiebsGnQhs5LtGXwL4KQbVIDVBe0VGb7
-         La+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6VRuFj0c+RR5xGzAmKGNr9wl5GP6aspxRb/bDjcgieY=;
-        b=h+sseUF7MJxQZGlHEgGNnpgV5n0Nny9muBtF1yXHLCEPnZj7EFexp9koI1V7Oe/kkN
-         Iw/zHjncIz4HF17l2xtG6vffEZHZzMCeUEhUFnJzJPJE93CuBMVNXpb/bzQLlyhesqmZ
-         /7C2qxJjNo4AqHJTHYKU2kdOj4zjcHQZm4nG34kilhxPT7udBrYkIN6q5a96jft61nPb
-         70FHx5jdQUt5+BHGBxkc7O+dWgZAF1D7/cGpFUN0vq2/SMwf15kpzQZbNXGNlfAMu0C6
-         YhBXgOCd3jNQ8JeDoQEv5fNwianUE2576/UR/QmHJ1qoEEvD+i0CDvwSWNFABm8IwX5R
-         UTQA==
-X-Gm-Message-State: APjAAAV/bu+mNx2CK3MkwDYFh98ukthsAMqFtZBCvSydgoN/KxtbMoF7
-        jEYRrOhMGblBb2O/xwIr3SXYwOLd
-X-Google-Smtp-Source: APXvYqyU2LIzu076BOgfOGAG4BemY1o4JaSFhiUPuO8enMLHjXtwsBkhKTntzqtE6LCiWewr6uPTRQ==
-X-Received: by 2002:a19:4208:: with SMTP id p8mr7938370lfa.160.1581554295984;
-        Wed, 12 Feb 2020 16:38:15 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id b17sm287671lfp.15.2020.02.12.16.38.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2020 16:38:15 -0800 (PST)
-Subject: Re: [PATCH v9 00/17] Consolidate and improve NVIDIA Tegra CPUIDLE
- driver(s)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Jasper Korten <jja2000@gmail.com>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>
-Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200212235134.12638-1-digetx@gmail.com>
-Message-ID: <0a62d941-ddf7-4c9f-3897-2209eab994cf@gmail.com>
-Date:   Thu, 13 Feb 2020 03:38:13 +0300
+        Thu, 13 Feb 2020 08:33:52 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e4550230000>; Thu, 13 Feb 2020 05:33:23 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 13 Feb 2020 05:33:52 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 13 Feb 2020 05:33:52 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 13 Feb
+ 2020 13:33:49 +0000
+Subject: Re: [RFT PATCH v2] xhci: Fix memory leak when caching protocol
+ extended capability PSI tables
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        <gregkh@linuxfoundation.org>, <m.szyprowski@samsung.com>
+CC:     <pmenzel@molgen.mpg.de>, <mika.westerberg@linux.intel.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-samsung-soc@vger.kernel.org>, <krzk@kernel.org>,
+        stable <stable@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20d0559f-8d0f-42f5-5ebf-7f658a172161@linux.intel.com>
+ <20200211150158.14475-1-mathias.nyman@linux.intel.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <f42f7f73-48e7-74ad-2524-2514f29490cb@nvidia.com>
+Date:   Thu, 13 Feb 2020 13:33:47 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200212235134.12638-1-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200211150158.14475-1-mathias.nyman@linux.intel.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1581600803; bh=Q/1g/+E1KxLXh/a5BE04ZQbja/0YRrFg7JgCT2PQy6g=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=IDJOQ47i/JoBb4NZDQO6MgrrTUF+1N6pMfcfklm8/ibMblWaIjTOSVjBOyl4zkY+f
+         xPEAXXzEyUSQjnSf+sdtxp/wzkC0CBxN194RNiD8yKgxjwRnlx60E9znf0dznEavY2
+         P0noIUPp3usvtUaVnXItReSRgC1MM0ij9KPlYExuyEUW7qx5aSRBVx084WC4Hi7/8S
+         VZ/c464qrPvFg7WwdzzKcLZscrk8uM+27RMvd8o9kJkvKZwRA7VUEBVCVqyA6cDEjY
+         h5mAVoBYdZUfvQQf+o/X0vBdAffWsWjRKS/fezaN4amef782Qs0rmj7Tp4XNl2vbj4
+         zF5xVV+NAcQbQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.02.2020 02:51, Dmitry Osipenko пишет:
-> Hello,
-> 
-> This series does the following:
-> 
->   1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
->      into common drivers/cpuidle/ directory.
-> 
->   2. Enables CPU cluster power-down idling state on Tegra30.
-> 
-> In the end there is a quite nice clean up of the Tegra CPUIDLE drivers
-> and of the Tegra's arch code in general. Please apply, thanks!
-> 
-> !!!WARNING!!! This series was made on top of the cpufreq patches [1]. But it
->               should be fine as long as Thierry Reding would pick up this and
->               the cpufreq patchsets via the Tegra tree, otherwise there will
->               one minor merge-conflict.
-> 
-> [1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=158206
-> 
-> Changelog:
-> 
-> v9: - Added acks from Peter De Schrijver.
-> 
->     - Added tested-by from Peter Geis, Jasper Korten and David Heidelberg
->       who tested these patches on Ouya, TF300T and Nexus 7 devices.
 
-I forgot to mention that both cpufreq and cpuidle patchsets were also
-tested on AC100 by Nicolas Chauvet and I forgot to ask for the explicit
-t-b. Nicolas, thank you very much for all the testing of the
-grate-kernel! Please feel free to give yours t-b :)
+On 11/02/2020 15:01, Mathias Nyman wrote:
+> xhci driver assumed that xHC controllers have at most one custom
+> supported speed table (PSI) for all usb 3.x ports.
+> Memory was allocated for one PSI table under the xhci hub structure.
+> 
+> Turns out this is not the case, some controllers have a separate
+> "supported protocol capability" entry with a PSI table for each port.
+> This means each usb3 roothub port can in theory support different custom
+> speeds.
+> 
+> To solve this, cache all supported protocol capabilities with their PSI
+> tables in an array, and add pointers to the xhci port structure so that
+> every port points to its capability entry in the array.
+> 
+> When creating the SuperSpeedPlus USB Device Capability BOS descriptor
+> for the xhci USB 3.1 roothub we for now will use only data from the
+> first USB 3.1 capable protocol capability entry in the array.
+> This could be improved later, this patch focuses resolving
+> the memory leak.
+> 
+> Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> Reported-by: Sajja Venkateswara Rao <VenkateswaraRao.Sajja@amd.com>
+> Fixes: 47189098f8be ("xhci: parse xhci protocol speed ID list for usb 3.1 usage")
+> Cc: stable <stable@vger.kernel.org> # v4.4+
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 
->     - Temporarily dropped the "cpuidle: tegra: Support CPU cluster power-down
->       state on Tegra30" patch because Michał Mirosław reported that it didn't
->       work well on his TF300T. After some testing we found that changing
->       a way in which firmware performs L2 cache maintenance helps, but later
->       on we also found that the current v9 series works just fine without the
->       extra firmware changes using recent linux-next and the reason why v8
->       didn't work before is still unknown (need more testing). So I decided
->       that it will be better to postpone the dropped patch until we know for
->       sure that it works well for everyone in every possible configuration.
 
-Michał, please let me know if you'll spot any problems with the recent
-version of the patches and please feel free to give yours t-b if it
-works well.
+Since next-20200211, we have been observing a regression exiting suspend
+on our Tegra124 Jetson TK1 board. Bisect is pointing to this commit and
+reverting on top of -next fixes the problem.
+
+On exiting suspend, I am seeing the following ...
+
+[   56.216793] tegra-xusb 70090000.usb: Firmware already loaded, Falcon state 0x20
+[   56.216834] usb usb3: root hub lost power or was reset
+[   56.216837] usb usb4: root hub lost power or was reset
+[   56.217760] tegra-xusb 70090000.usb: No ports on the roothubs?
+[   56.218257] tegra-xusb 70090000.usb: failed to resume XHCI: -12
+[   56.218299] PM: dpm_run_callback(): platform_pm_resume+0x0/0x40 returns -12
+[   56.218312] PM: Device 70090000.usb failed to resume: error -12
+[   56.334366] hub 4-0:1.0: hub_ext_port_status failed (err = -32)
+[   56.334368] hub 3-0:1.0: hub_ext_port_status failed (err = -32)
+
+Let me know if you have any thoughts on this.
+
+Cheers
+Jon
+
+-- 
+nvpublic
