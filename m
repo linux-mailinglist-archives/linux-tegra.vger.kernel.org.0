@@ -2,95 +2,122 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AAD0815B55B
-	for <lists+linux-tegra@lfdr.de>; Thu, 13 Feb 2020 00:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EC7C15B5F5
+	for <lists+linux-tegra@lfdr.de>; Thu, 13 Feb 2020 01:38:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729434AbgBLXwo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 12 Feb 2020 18:52:44 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:43284 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729453AbgBLXwb (ORCPT
+        id S1729425AbgBMAiS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 12 Feb 2020 19:38:18 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:42937 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729190AbgBMAiS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 12 Feb 2020 18:52:31 -0500
-Received: by mail-lf1-f65.google.com with SMTP id 9so2864727lfq.10;
-        Wed, 12 Feb 2020 15:52:28 -0800 (PST)
+        Wed, 12 Feb 2020 19:38:18 -0500
+Received: by mail-lf1-f67.google.com with SMTP id y19so2923640lfl.9;
+        Wed, 12 Feb 2020 16:38:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=OX3etwg8UyXmbbSJQLCscVLMHChzcySiKJD4V7kijDA=;
-        b=pb0kujSMPSK9w5g/NZnWBfK3adbQLCtsLhaqCVMO1zfTwrmWPfIqE9FfIUTklifwcQ
-         EpG+m0tpurnUvzieFdKYgbEdgACJYECFHzlBdD2lP8Roe56xjXoSBuQmgO2gDo/PsvZi
-         SFlzdWhQYGZI6EZsLX/fDgvQ0V4V8RgGi0yGYcDpoJXqKm5ZjEdRb2J3c39S7uy3iVta
-         6aHw5RcIuYMcWcbj35bIe5BG2v8ci45vzA54VVZy1ik+OqyvwHF4+6+WsH39gMqPVQpT
-         bLpYVtgl7JBk5ajwAHpy6FIeenOMRAc+wtA7M6jHtaZ3K6SwXJ5a+fMo7OZ3bSIWIl9o
-         LsnA==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=6VRuFj0c+RR5xGzAmKGNr9wl5GP6aspxRb/bDjcgieY=;
+        b=f5gjSkstyjpmmV0lR8bqdecWRblXCrc8SK+pqqiIvk4L8waZccX8O8Y2eXLGk1BipN
+         /8F0C5FiwVi3ioV0P7WogpfxpTPsL+rGSwXur6oI0ZP7Mo9BW8ybW25/31MXeFO5RLJK
+         B/SdA5qd8e91eeIO75Pd70nqGWpmeqFzAudoND0ASAW2UCNaCQjIsRz/Yryr8KcD87ez
+         BfpvIeo58sbR5q4fqd2VMAAAyvL7pqDsdrxhbtNhYNyK74SEFzdC+a13iFpTIyWOEAVX
+         5Fc08Scru4ZzRuysCghFScaiH0R2QIUvUJiqeiebsGnQhs5LtGXwL4KQbVIDVBe0VGb7
+         La+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OX3etwg8UyXmbbSJQLCscVLMHChzcySiKJD4V7kijDA=;
-        b=tGhtz7D2IDZCWDyDv5n/MIvMZNtoA0bF2fWiF3Y60dYn611ZHEjkvBz1E4TFCuTnD+
-         D4oHaW+EMc0XRGvpMWpAzPhkgXx9DQafAccpd2zdm25bTvc6Vul550fzuwYO8GnWcjAi
-         n1GFl0Bj9gtKuOajK3w7/9bJsiKb798MHiwb8A+IQNJboe6ST+SohzgOU2GEluEDn3M2
-         w6WJL5kUr/Zx7g4PNlazhYhj5wQ+Mod/1RPrGxCv/Fo2Zs5DvY/MimTcdX53D7nahiDs
-         k/YCAIkKe7cnvDLZxXyXVJv6e4Kko0h9pntZI7XgktcukGzQElQn1WVKr69PsilS1G59
-         sZjw==
-X-Gm-Message-State: APjAAAVibMkF9phuCNVetTmRmd9cE9483vcXglWs2DMmbSE9FXLOBNkv
-        8149uG5OzfHZPOmUoQ9cJl4=
-X-Google-Smtp-Source: APXvYqzB2TcbLmdxgpXvaaPhZYtm6jwsllo4cX22rC0BJrqGpeJtyb78eZi0LoL0mfpDNpirtJvZjQ==
-X-Received: by 2002:a19:7401:: with SMTP id v1mr7867766lfe.129.1581551547805;
-        Wed, 12 Feb 2020 15:52:27 -0800 (PST)
-Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id d5sm251686lfb.20.2020.02.12.15.52.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2020 15:52:27 -0800 (PST)
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=6VRuFj0c+RR5xGzAmKGNr9wl5GP6aspxRb/bDjcgieY=;
+        b=h+sseUF7MJxQZGlHEgGNnpgV5n0Nny9muBtF1yXHLCEPnZj7EFexp9koI1V7Oe/kkN
+         Iw/zHjncIz4HF17l2xtG6vffEZHZzMCeUEhUFnJzJPJE93CuBMVNXpb/bzQLlyhesqmZ
+         /7C2qxJjNo4AqHJTHYKU2kdOj4zjcHQZm4nG34kilhxPT7udBrYkIN6q5a96jft61nPb
+         70FHx5jdQUt5+BHGBxkc7O+dWgZAF1D7/cGpFUN0vq2/SMwf15kpzQZbNXGNlfAMu0C6
+         YhBXgOCd3jNQ8JeDoQEv5fNwianUE2576/UR/QmHJ1qoEEvD+i0CDvwSWNFABm8IwX5R
+         UTQA==
+X-Gm-Message-State: APjAAAV/bu+mNx2CK3MkwDYFh98ukthsAMqFtZBCvSydgoN/KxtbMoF7
+        jEYRrOhMGblBb2O/xwIr3SXYwOLd
+X-Google-Smtp-Source: APXvYqyU2LIzu076BOgfOGAG4BemY1o4JaSFhiUPuO8enMLHjXtwsBkhKTntzqtE6LCiWewr6uPTRQ==
+X-Received: by 2002:a19:4208:: with SMTP id p8mr7938370lfa.160.1581554295984;
+        Wed, 12 Feb 2020 16:38:15 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id b17sm287671lfp.15.2020.02.12.16.38.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Feb 2020 16:38:15 -0800 (PST)
+Subject: Re: [PATCH v9 00/17] Consolidate and improve NVIDIA Tegra CPUIDLE
+ driver(s)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Peter De Schrijver <pdeschrijver@nvidia.com>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
         Jasper Korten <jja2000@gmail.com>,
         David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>
 Cc:     linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v9 17/17] ARM: tegra: Enable Tegra cpuidle driver in tegra_defconfig
-Date:   Thu, 13 Feb 2020 02:51:34 +0300
-Message-Id: <20200212235134.12638-18-digetx@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200212235134.12638-1-digetx@gmail.com>
 References: <20200212235134.12638-1-digetx@gmail.com>
+Message-ID: <0a62d941-ddf7-4c9f-3897-2209eab994cf@gmail.com>
+Date:   Thu, 13 Feb 2020 03:38:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <20200212235134.12638-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The Tegra CPU Idle driver was moved out into driver/cpuidle/ directory and
-it is now a proper platform driver.
+13.02.2020 02:51, Dmitry Osipenko пишет:
+> Hello,
+> 
+> This series does the following:
+> 
+>   1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
+>      into common drivers/cpuidle/ directory.
+> 
+>   2. Enables CPU cluster power-down idling state on Tegra30.
+> 
+> In the end there is a quite nice clean up of the Tegra CPUIDLE drivers
+> and of the Tegra's arch code in general. Please apply, thanks!
+> 
+> !!!WARNING!!! This series was made on top of the cpufreq patches [1]. But it
+>               should be fine as long as Thierry Reding would pick up this and
+>               the cpufreq patchsets via the Tegra tree, otherwise there will
+>               one minor merge-conflict.
+> 
+> [1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=158206
+> 
+> Changelog:
+> 
+> v9: - Added acks from Peter De Schrijver.
+> 
+>     - Added tested-by from Peter Geis, Jasper Korten and David Heidelberg
+>       who tested these patches on Ouya, TF300T and Nexus 7 devices.
 
-Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/tegra_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+I forgot to mention that both cpufreq and cpuidle patchsets were also
+tested on AC100 by Nicolas Chauvet and I forgot to ask for the explicit
+t-b. Nicolas, thank you very much for all the testing of the
+grate-kernel! Please feel free to give yours t-b :)
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index a27592d3b1fa..aa94369bdd0f 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -25,6 +25,7 @@ CONFIG_CPU_FREQ=y
- CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND=y
- CONFIG_CPUFREQ_DT=y
- CONFIG_CPU_IDLE=y
-+CONFIG_ARM_TEGRA_CPUIDLE=y
- CONFIG_VFP=y
- CONFIG_NEON=y
- CONFIG_TRUSTED_FOUNDATIONS=y
--- 
-2.24.0
+>     - Temporarily dropped the "cpuidle: tegra: Support CPU cluster power-down
+>       state on Tegra30" patch because Michał Mirosław reported that it didn't
+>       work well on his TF300T. After some testing we found that changing
+>       a way in which firmware performs L2 cache maintenance helps, but later
+>       on we also found that the current v9 series works just fine without the
+>       extra firmware changes using recent linux-next and the reason why v8
+>       didn't work before is still unknown (need more testing). So I decided
+>       that it will be better to postpone the dropped patch until we know for
+>       sure that it works well for everyone in every possible configuration.
 
+Michał, please let me know if you'll spot any problems with the recent
+version of the patches and please feel free to give yours t-b if it
+works well.
