@@ -2,38 +2,38 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 911CB15E0BA
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 17:15:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D69F915E70C
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 17:51:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404045AbgBNQO4 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Feb 2020 11:14:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44788 "EHLO mail.kernel.org"
+        id S2405028AbgBNQTj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Feb 2020 11:19:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52822 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404038AbgBNQOz (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:14:55 -0500
+        id S2405023AbgBNQTi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:19:38 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7C3BA246CD;
-        Fri, 14 Feb 2020 16:14:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3DF9124713;
+        Fri, 14 Feb 2020 16:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696895;
-        bh=gPxlp4Q153bbUxomQbbVWstHM7c/0MR9rk3K5NF5G9w=;
+        s=default; t=1581697177;
+        bh=ofwbgNjBWpSvnTCV96oBhMiWdtYCquSy3RtoQ52qE2E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z9RoMNkPoTG9HHInADfvnMoOJ/cDwHnjevS377NNQUaFDw/CIIev7iEIgitPqsPvE
-         Y/9kTMaFK4ZM0Xgy1JsaBGuqg7Q4z43Fr/L860L2d3fiHchOOZ0fWNvohgcNBOzzdF
-         hm+7ai/nn9mlG6vQBiUtlb8aGcXzyosog5nFOULk=
+        b=ZN0LZl9DFBSXQNBcyhzbJphK1dT1hSXorsQoFPQM/Dv3v/3K6sTswizCpoldDSrUn
+         uiMBcLcQNbTy/ImZ7+ldkyuwEsAaHIoVZ+gC5IIdbffrCd5+Qu2iZkPJFBdZYj+yqT
+         qYv2HPtFKha075kAReKWWp0qd0LIbhaLiZ4dfXSk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dmitry Osipenko <digetx@gmail.com>,
         Thierry Reding <treding@nvidia.com>,
         Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 147/252] soc/tegra: fuse: Correct straps' address for older Tegra124 device trees
-Date:   Fri, 14 Feb 2020 11:10:02 -0500
-Message-Id: <20200214161147.15842-147-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 110/186] soc/tegra: fuse: Correct straps' address for older Tegra124 device trees
+Date:   Fri, 14 Feb 2020 11:15:59 -0500
+Message-Id: <20200214161715.18113-110-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
-References: <20200214161147.15842-1-sashal@kernel.org>
+In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
+References: <20200214161715.18113-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -60,10 +60,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/soc/tegra/fuse/tegra-apbmisc.c b/drivers/soc/tegra/fuse/tegra-apbmisc.c
-index e5a4d8f98b10e..d1cbb0fe1691a 100644
+index 5b18f6ffa45c7..cd61c883c19f5 100644
 --- a/drivers/soc/tegra/fuse/tegra-apbmisc.c
 +++ b/drivers/soc/tegra/fuse/tegra-apbmisc.c
-@@ -135,7 +135,7 @@ void __init tegra_init_apbmisc(void)
+@@ -134,7 +134,7 @@ void __init tegra_init_apbmisc(void)
  			apbmisc.flags = IORESOURCE_MEM;
  
  			/* strapping options */
