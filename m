@@ -2,139 +2,149 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75BAF15D31B
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 08:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7565515D316
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 08:45:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728740AbgBNHqv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Feb 2020 02:46:51 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:34233 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725897AbgBNHqu (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Feb 2020 02:46:50 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 51A7A6D03;
-        Fri, 14 Feb 2020 02:46:49 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 14 Feb 2020 02:46:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=30N8lwJ76ANNJLmexRYW2YyfSL/
-        98l30UQuoobG1iNg=; b=JN5dYvugDS5kqf2GGCp8ZMdFibo4E8KRIrL2o3DZvqQ
-        ovSewFqziZEtnb9W7JRbZMPoX1NBVr8C/+RfpLt2TImgnIR8cgA+N4TKfcoraaiW
-        eFsvMiRiRI66amQiDPXS4P+LWbnkqycyZ4tR63jWBpOE5cVfXJP0acsgtTnL1+FE
-        jX7S93QhMC7sT9qLCjoW9RYS+yzbfHohrIr+evAsRS+1scMHbA3rKZFRP0qZm2P7
-        kMO15SxB6fMyd9xgMI0d3hxFRXazLLjE43WWJuGhEsbZobP8Rm0CC2LavT3eEfcd
-        Jfe5mE6n4GD0SSmzKJnrzYqn2zUXb+JqWFABy2vlALA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=30N8lw
-        J76ANNJLmexRYW2YyfSL/98l30UQuoobG1iNg=; b=zgs7mwVwewVfMn7yLs4xxT
-        7IfmQxufvBbG0CCCt9K1DYdxOURULoeN2iDr/Oe6SLR6kxcCtOgsQ0xynql5jeWW
-        Jv2hYIN3Ck3Bk5IWYE2Q97OnNw1lH4c+tUd+WPCtZSrEl5QqpyGKjd6NJWivlpby
-        2n755lBasVZx21RXFxv5S05RgA7VK6RhaojtPgr6uH8zhiMC8D1F1sBks5YNEMob
-        biSrSeeZsD33tO64ZzEp2khnLvecYrcafLQvxk7+n9p6/DAqyzvAjxPY90JELOfu
-        i1ZV+JFlYpl4pAhwxqe1liKGBER6R0z3tkT4fE4JTWnTw0kOZj7XOMZfXX4kSRmw
-        ==
-X-ME-Sender: <xms:aFBGXiuKYSuC0YTB4cRzClHTkRzayCcmXNYq9BD0mRBgnqqezcR-gg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrieelgdduudefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
-    drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
-    lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:aFBGXpvB2roE6DcENcXQiMJo7po7-NCCd0XC5dYRpYRxwY5NwhCQrg>
-    <xmx:aFBGXtcCi6pPw98gKy3FPcc4kHkD2Awqlx1Viep3QzutLZE12Qv8qw>
-    <xmx:aFBGXp7FMuSbVxJfIt8t3YXb15cM-f78C72qwNPL0TIPmiTvnmvbvg>
-    <xmx:aVBGXp-nspaUV4PRqHIpdJQozZQ4qEOB1toDImRJhezbniykUY--Pw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 5EAE43280066;
-        Fri, 14 Feb 2020 02:46:48 -0500 (EST)
-Date:   Fri, 14 Feb 2020 08:46:46 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-        Will Deacon <will@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Olof Johansson <olof@lixom.net>, linux-tegra@vger.kernel.org,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/5] memory: Introduce memory controller mini-framework
-Message-ID: <20200214074646.j57uywq27xqrnjrd@gilmour.lan>
-References: <20200213163959.819733-1-thierry.reding@gmail.com>
- <9841eb35-65e4-632a-ceff-bb2ba3b11bb0@arm.com>
- <20200213181555.GB1006063@ulmo>
+        id S1728799AbgBNHpj (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Feb 2020 02:45:39 -0500
+Received: from mga09.intel.com ([134.134.136.24]:55938 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725897AbgBNHpi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 14 Feb 2020 02:45:38 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Feb 2020 23:45:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,439,1574150400"; 
+   d="scan'208";a="406913159"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga005.jf.intel.com with ESMTP; 13 Feb 2020 23:45:35 -0800
+Subject: Re: [RFT PATCH v2] xhci: Fix memory leak when caching protocol
+ extended capability PSI tables
+To:     Jon Hunter <jonathanh@nvidia.com>, gregkh@linuxfoundation.org,
+        m.szyprowski@samsung.com
+Cc:     pmenzel@molgen.mpg.de, mika.westerberg@linux.intel.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, krzk@kernel.org,
+        stable <stable@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20d0559f-8d0f-42f5-5ebf-7f658a172161@linux.intel.com>
+ <20200211150158.14475-1-mathias.nyman@linux.intel.com>
+ <f42f7f73-48e7-74ad-2524-2514f29490cb@nvidia.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
+ 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 fiD/
+Message-ID: <0f871a8f-aa96-4684-1d9c-a18c6edfb62f@linux.intel.com>
+Date:   Fri, 14 Feb 2020 09:47:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="cgx7eqxuhae5r2xz"
-Content-Disposition: inline
-In-Reply-To: <20200213181555.GB1006063@ulmo>
+In-Reply-To: <f42f7f73-48e7-74ad-2524-2514f29490cb@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 13.2.2020 15.33, Jon Hunter wrote:
+> 
+> On 11/02/2020 15:01, Mathias Nyman wrote:
+>> xhci driver assumed that xHC controllers have at most one custom
+>> supported speed table (PSI) for all usb 3.x ports.
+>> Memory was allocated for one PSI table under the xhci hub structure.
+>>
+>> Turns out this is not the case, some controllers have a separate
+>> "supported protocol capability" entry with a PSI table for each port.
+>> This means each usb3 roothub port can in theory support different custom
+>> speeds.
+>>
+>> To solve this, cache all supported protocol capabilities with their PSI
+>> tables in an array, and add pointers to the xhci port structure so that
+>> every port points to its capability entry in the array.
+>>
+>> When creating the SuperSpeedPlus USB Device Capability BOS descriptor
+>> for the xhci USB 3.1 roothub we for now will use only data from the
+>> first USB 3.1 capable protocol capability entry in the array.
+>> This could be improved later, this patch focuses resolving
+>> the memory leak.
+>>
+>> Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+>> Reported-by: Sajja Venkateswara Rao <VenkateswaraRao.Sajja@amd.com>
+>> Fixes: 47189098f8be ("xhci: parse xhci protocol speed ID list for usb 3.1 usage")
+>> Cc: stable <stable@vger.kernel.org> # v4.4+
+>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> 
+> 
+> Since next-20200211, we have been observing a regression exiting suspend
+> on our Tegra124 Jetson TK1 board. Bisect is pointing to this commit and
+> reverting on top of -next fixes the problem.
+> 
+> On exiting suspend, I am seeing the following ...
+> 
+> [   56.216793] tegra-xusb 70090000.usb: Firmware already loaded, Falcon state 0x20
+> [   56.216834] usb usb3: root hub lost power or was reset
+> [   56.216837] usb usb4: root hub lost power or was reset
+> [   56.217760] tegra-xusb 70090000.usb: No ports on the roothubs?
+> [   56.218257] tegra-xusb 70090000.usb: failed to resume XHCI: -12
+> [   56.218299] PM: dpm_run_callback(): platform_pm_resume+0x0/0x40 returns -12
+> [   56.218312] PM: Device 70090000.usb failed to resume: error -12
+> [   56.334366] hub 4-0:1.0: hub_ext_port_status failed (err = -32)
+> [   56.334368] hub 3-0:1.0: hub_ext_port_status failed (err = -32)
+> 
+> Let me know if you have any thoughts on this.
+> 
+> Cheers
+> Jon
 
---cgx7eqxuhae5r2xz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This was an issue with the first version, and should be fixed in the second.
 
-On Thu, Feb 13, 2020 at 07:15:55PM +0100, Thierry Reding wrote:
-> On Thu, Feb 13, 2020 at 05:23:23PM +0000, Robin Murphy wrote:
-> > [+ Maxime]
-> >
-> > On 13/02/2020 4:39 pm, Thierry Reding wrote:
-> > > From: Thierry Reding <treding@nvidia.com>
-> > >
-> > > Hi,
-> > >
-> > > this set of patches adds a new binding that allows device tree nodes to
-> > > explicitly define the DMA parent for a given device. This supplements
-> > > the existing interconnect bindings and is useful to disambiguate in the
-> > > case where a device has multiple paths to system memory. Beyond that it
-> > > can also be useful when there aren't any actual interconnect paths that
-> > > can be controlled, so in simple cases this can serve as a simpler
-> > > variant of interconnect paths.
-> >
-> > Isn't that still squarely the intent of the "dma-mem" binding, though? i.e.
-> > it's not meant to be a 'real' interconnect provider, but a very simple way
-> > to encode DMA parentage piggybacked onto a more general binding (with the
-> > *option* of being a full-blown interconnect if it wants to, but certainly no
-> > expectation).
->
-> The way that this works on Tegra is that we want to describe multiple
-> interconnect paths. A typical device will have a read and a write memory
-> client, which can be separately "tuned". Both of these paths will target
-> system memory, so they would both technically be "dma-mem" paths. But
-> that would make it impossible to treat them separately elsewhere.
->
-> So we could choose any of them to be the "dma-mem" path, but then we
-> need to be very careful about defining which one that is, so that
-> drivers know how to look them up, which is also not really desirable.
->
-> One other things we could do is to duplicate one of the entries, so that
-> we'd have "read", "write" and "dma-mem" interconnect paths, with
-> "dma-mem" referencing the same path as "read" or "write". That doesn't
-> sound *too* bad, but it's still a bit of a hack. Having an explicit
-> description for this sounds much clearer and less error prone to me.
+next-20200211 has the faulty version, 
+next-20200213 is fixed, reverted first version and applied second.
 
-IIRC the dmaengine binding allows to do that, so it would make sense
-to me to have the same thing allowed for interconnects.
+Does next-20200213 work for you?
 
-Maxime
-
---cgx7eqxuhae5r2xz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXkZQZgAKCRDj7w1vZxhR
-xZN1AP9xEZt3x9xN7nNg9v862AKEohAW68yHN8slrEdDkuDjLAEArPnr7wS/Ocya
-nXTLIBU8NqQbSLnqTc5obXprpB/YcgM=
-=twP1
------END PGP SIGNATURE-----
-
---cgx7eqxuhae5r2xz--
+-Mathias
