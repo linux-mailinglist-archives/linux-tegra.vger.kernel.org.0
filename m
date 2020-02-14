@@ -2,153 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7713715D8D4
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 14:54:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C04C15D8F4
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 15:05:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729092AbgBNNyJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Feb 2020 08:54:09 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13408 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728223AbgBNNyJ (ORCPT
+        id S1729311AbgBNOFI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Feb 2020 09:05:08 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19624 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729294AbgBNOFI (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Feb 2020 08:54:09 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e46a63d0000>; Fri, 14 Feb 2020 05:53:01 -0800
+        Fri, 14 Feb 2020 09:05:08 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e46a9050000>; Fri, 14 Feb 2020 06:04:53 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 14 Feb 2020 05:54:08 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 14 Feb 2020 06:05:07 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 14 Feb 2020 05:54:08 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Fri, 14 Feb 2020 06:05:07 -0800
+Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Feb
- 2020 13:54:08 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 14 Feb 2020 13:54:07 +0000
-Received: from moonraker.nvidia.com (Not Verified[10.21.133.51]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e46a67d0001>; Fri, 14 Feb 2020 05:54:07 -0800
+ 2020 14:05:04 +0000
+Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
+ driver
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Sameer Pujar <spujar@nvidia.com>
+CC:     <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <lgirdwood@gmail.com>, <linux-kernel@vger.kernel.org>,
+        <broonie@kernel.org>, <atalambedu@nvidia.com>, <tiwai@suse.com>,
+        <viswanathl@nvidia.com>, <linux-tegra@vger.kernel.org>,
+        <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
+        <sharadg@nvidia.com>, <rlokhande@nvidia.com>, <mkumard@nvidia.com>,
+        <dramesh@nvidia.com>
+References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
+ <1579530198-13431-5-git-send-email-spujar@nvidia.com>
+ <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
+ <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
+ <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
+ <bdc749bc-b62c-a041-c17c-33fd49fe8e2e@nvidia.com>
+ <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
+ <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
+ <34ac1fd3-ae0f-07f2-555f-a55087a2c9dc@nvidia.com>
+ <1a84b393-938f-8bed-d08e-cc3bb6ed4844@gmail.com>
+ <0fc814c2-0dc6-7741-b954-463381ff7fb9@nvidia.com>
+ <b5c581b9-17af-d004-33fb-2cc782ab820a@gmail.com>
+ <9f73afdf-1e9a-cdbd-f972-a022d503ef51@nvidia.com>
+ <264d3354-8a2e-ee12-44ae-aff69213d551@nvidia.com>
+ <075e476a-36bb-5fee-15bc-76af4474a797@gmail.com>
+ <c6022a93-b79a-c691-1d75-d007d0b64ead@nvidia.com>
+ <3b42c858-733b-0d17-f457-8043d97f5058@gmail.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Vidya Sagar <vidyas@nvidia.com>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] ARM64: tegra: Fix Tegra194 PCIe compatible string
-Date:   Fri, 14 Feb 2020 13:53:53 +0000
-Message-ID: <20200214135353.31334-1-jonathanh@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+Message-ID: <62b8ffbc-aa32-ae44-6cb4-b176b8ba9b0e@nvidia.com>
+Date:   Fri, 14 Feb 2020 14:05:02 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <3b42c858-733b-0d17-f457-8043d97f5058@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581688381; bh=S/RFy4FJST5kVRAYMx9GpBNAntAYNupBOBr7JKDRlcg=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=iZhYOgHRE0dxNg+1Oi9qTf9O4s3Tv7/r92CSC+qF36p2UXRIECHg2v3XaTamR4T5C
-         FdqJju8E7bpHLV6vbXy/stfJICZNOrnK8j+ggmW6t3N/N3njr2etUybjKGgiOlzFgv
-         WorlFV6Oih4O318T4jfFFRgztBtReUfuRKHbjRz9qyIOpS62ROBQYrzz8YIpWsn5JH
-         vqxdfR3uWRAomuwZhI0PV/tvH2Czt8j6rgv8g+VBA5pPoQ2Kx4IXszy1ookSg2hgHp
-         uwk/4AFfH/1vF2LpLAa60AxxNx+HB4vJAtJymIEeGFYDXkLqu3u2HOaZGA9ieP0XeW
-         9gCo5ORcetLBA==
+        t=1581689093; bh=FOw4bWZEh/AbWKd98TO0Ip7GRAKPee6mZCFYh4kd40w=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=QI6Ew9ps6koVrDmIS4lwL+Pl6aXPVaJAaivfgwoF8faY4OsNX+S91a24nV6/HZcH0
+         x4z16S42vrq91k5KA4wW6nxUmq1PH9BQso2+95cd3aVczvqbIHKD3RiZ6YjI6L0xez
+         tS2AvbiMQSRsUHdLtb9rKZjfE/aiRO6q0MXMwHw5u09kdx76ScVdRz8sG3lS6NS7yX
+         j1oMBmq1rDwScwRul3uDTm2Dhl9Z+uiPksmBfnrsb5GKcyJOzPD1fH2HgP/4mxkNQk
+         sl66OawXc9aDMOAWMkGseZWc03IyOsKWBrt/Rr0BPoZjVIV3L24MmqxqU+7wlBeVNc
+         X4TdHMw1quYBA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-If the kernel configuration option CONFIG_PCIE_DW_PLAT_HOST is enabled
-then this can cause the kernel to incorrectly probe the generic
-designware PCIe platform driver instead of the Tegra194 designware PCIe
-driver. This causes a boot failure on Tegra194 because the necessary
-configuration to access the hardware is not performed.
 
-The order in which the compatible strings are populated in Device-Tree
-is not relevant in this case, because the kernel will attempt to probe
-the device as soon as a driver is loaded and if the generic designware
-PCIe driver is loaded first, then this driver will be probed first.
-Therefore, to fix this problem, remove the "snps,dw-pcie" string from
-the compatible string as we never want this driver to be probe on
-Tegra194.
+On 29/01/2020 03:41, Dmitry Osipenko wrote:
 
-Fixes: 2602c32f15e7 ("arm64: tegra: Add P2U and PCIe controller nodes to Tegra194 DT")
+...
 
-Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
----
- .../devicetree/bindings/pci/nvidia,tegra194-pcie.txt |  2 +-
- arch/arm64/boot/dts/nvidia/tegra194.dtsi             | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
+> The !RPM case isn't supported by Tegra anymore in upstream kernel. I'm
+> trying to help to make yours driver better and gave you reasons to
+> remove the unneeded code, while you're keep saying that "there is no
+> harm to retain it", which is not a reason to clutter up the code. I
+> don't feel that it's worthwhile to continue arguing here.
 
-diff --git a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-index b739f92da58e..1f90eb39870b 100644
---- a/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-+++ b/Documentation/devicetree/bindings/pci/nvidia,tegra194-pcie.txt
-@@ -118,7 +118,7 @@ Tegra194:
- --------
- 
- 	pcie@14180000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX8B>;
- 		reg = <0x00 0x14180000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x38000000 0x0 0x00040000   /* configuration space (256K) */
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index ccac43be12ac..4c58cb10fb9c 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1208,7 +1208,7 @@
- 	};
- 
- 	pcie@14100000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX1A>;
- 		reg = <0x00 0x14100000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x30000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1253,7 +1253,7 @@
- 	};
- 
- 	pcie@14120000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX1A>;
- 		reg = <0x00 0x14120000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x32000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1298,7 +1298,7 @@
- 	};
- 
- 	pcie@14140000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX1A>;
- 		reg = <0x00 0x14140000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x34000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1343,7 +1343,7 @@
- 	};
- 
- 	pcie@14160000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX4A>;
- 		reg = <0x00 0x14160000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x36000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1388,7 +1388,7 @@
- 	};
- 
- 	pcie@14180000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX8B>;
- 		reg = <0x00 0x14180000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x38000000 0x0 0x00040000   /* configuration space (256K) */
-@@ -1433,7 +1433,7 @@
- 	};
- 
- 	pcie@141a0000 {
--		compatible = "nvidia,tegra194-pcie", "snps,dw-pcie";
-+		compatible = "nvidia,tegra194-pcie";
- 		power-domains = <&bpmp TEGRA194_POWER_DOMAIN_PCIEX8A>;
- 		reg = <0x00 0x141a0000 0x0 0x00020000   /* appl registers (128K)      */
- 		       0x00 0x3a000000 0x0 0x00040000   /* configuration space (256K) */
+On further review, it does look like a reasonable argument to get rid of
+this now completely. Like you see less clutter and the soc-core should
+ensure that the card is shutdown before unloading. OK, so fine with me.
+
+Jon
+
 -- 
-2.17.1
-
+nvpublic
