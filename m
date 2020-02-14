@@ -2,99 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C04C15D8F4
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 15:05:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADBA015D91C
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 15:13:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729311AbgBNOFI (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Feb 2020 09:05:08 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19624 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729294AbgBNOFI (ORCPT
+        id S1729258AbgBNONS (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Feb 2020 09:13:18 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16233 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729102AbgBNONS (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Feb 2020 09:05:08 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e46a9050000>; Fri, 14 Feb 2020 06:04:53 -0800
+        Fri, 14 Feb 2020 09:13:18 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e46aae00001>; Fri, 14 Feb 2020 06:12:48 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 14 Feb 2020 06:05:07 -0800
+  Fri, 14 Feb 2020 06:13:17 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 14 Feb 2020 06:05:07 -0800
-Received: from [10.21.133.51] (172.20.13.39) by HQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Fri, 14 Feb 2020 06:13:17 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Feb
- 2020 14:05:04 +0000
-Subject: Re: [alsa-devel] [PATCH 4/9] ASoC: tegra: add Tegra210 based I2S
- driver
+ 2020 14:13:15 +0000
+Subject: Re: [PATCH v8 11/19] dmaengine: tegra-apb: Remove duplicated
+ pending_sg_req checks
 To:     Dmitry Osipenko <digetx@gmail.com>,
-        Sameer Pujar <spujar@nvidia.com>
-CC:     <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <lgirdwood@gmail.com>, <linux-kernel@vger.kernel.org>,
-        <broonie@kernel.org>, <atalambedu@nvidia.com>, <tiwai@suse.com>,
-        <viswanathl@nvidia.com>, <linux-tegra@vger.kernel.org>,
-        <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
-        <sharadg@nvidia.com>, <rlokhande@nvidia.com>, <mkumard@nvidia.com>,
-        <dramesh@nvidia.com>
-References: <1579530198-13431-1-git-send-email-spujar@nvidia.com>
- <1579530198-13431-5-git-send-email-spujar@nvidia.com>
- <a440d105-8db9-ecf1-3718-e58804ce14b8@gmail.com>
- <0c571858-d72c-97c2-2d6a-ead6fdde06eb@nvidia.com>
- <444731da-c4cd-8578-a732-c803eef31ef0@gmail.com>
- <bdc749bc-b62c-a041-c17c-33fd49fe8e2e@nvidia.com>
- <598fe377-5b95-d30a-eb64-89a645166d42@gmail.com>
- <3f51939d-cf4b-f69b-728a-7eb99bbae458@nvidia.com>
- <34ac1fd3-ae0f-07f2-555f-a55087a2c9dc@nvidia.com>
- <1a84b393-938f-8bed-d08e-cc3bb6ed4844@gmail.com>
- <0fc814c2-0dc6-7741-b954-463381ff7fb9@nvidia.com>
- <b5c581b9-17af-d004-33fb-2cc782ab820a@gmail.com>
- <9f73afdf-1e9a-cdbd-f972-a022d503ef51@nvidia.com>
- <264d3354-8a2e-ee12-44ae-aff69213d551@nvidia.com>
- <075e476a-36bb-5fee-15bc-76af4474a797@gmail.com>
- <c6022a93-b79a-c691-1d75-d007d0b64ead@nvidia.com>
- <3b42c858-733b-0d17-f457-8043d97f5058@gmail.com>
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+CC:     <dmaengine@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200209163356.6439-1-digetx@gmail.com>
+ <20200209163356.6439-12-digetx@gmail.com>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <62b8ffbc-aa32-ae44-6cb4-b176b8ba9b0e@nvidia.com>
-Date:   Fri, 14 Feb 2020 14:05:02 +0000
+Message-ID: <81d0f76a-8391-f8ee-c713-b699188d1856@nvidia.com>
+Date:   Fri, 14 Feb 2020 14:13:13 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <3b42c858-733b-0d17-f457-8043d97f5058@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+In-Reply-To: <20200209163356.6439-12-digetx@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581689093; bh=FOw4bWZEh/AbWKd98TO0Ip7GRAKPee6mZCFYh4kd40w=;
+        t=1581689568; bh=Rh0gsvOb9X8sIihgsHGuy6sNYCz4koy1dG9PxBQP0qo=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=QI6Ew9ps6koVrDmIS4lwL+Pl6aXPVaJAaivfgwoF8faY4OsNX+S91a24nV6/HZcH0
-         x4z16S42vrq91k5KA4wW6nxUmq1PH9BQso2+95cd3aVczvqbIHKD3RiZ6YjI6L0xez
-         tS2AvbiMQSRsUHdLtb9rKZjfE/aiRO6q0MXMwHw5u09kdx76ScVdRz8sG3lS6NS7yX
-         j1oMBmq1rDwScwRul3uDTm2Dhl9Z+uiPksmBfnrsb5GKcyJOzPD1fH2HgP/4mxkNQk
-         sl66OawXc9aDMOAWMkGseZWc03IyOsKWBrt/Rr0BPoZjVIV3L24MmqxqU+7wlBeVNc
-         X4TdHMw1quYBA==
+        b=SvpVi1rmKJ5GQytWBi88Sc73RmCCn8V5h/rRWxUhTiNn+lsI4QqUhAHx/mSx6c0/v
+         7zWwxFpY/pR3tBvc+7qxesirE2Sp0dN0crFPH8hWSmNl9QGuZoaUFuPETNt3jNFtir
+         qSRKkFQ1h3Kt9nhyZHOPI8YcsLoDK9hHCgt6wdd7qrO07hRULIOqkshueTZ5yLb2+Y
+         as8BFwQU8zMXH5Yid8GGLr5tLfANrq9dwi3saDT7HW5XuI0VrRP5Mo5PTipU7kTyPe
+         FUDe5kV9z+9trGpTe4wQpiBSSyHUoLcy0mqc2R/e2cczCoW+n9XGN3v5TZM7XnlWQh
+         I4g1TJQKYFjcg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 29/01/2020 03:41, Dmitry Osipenko wrote:
+On 09/02/2020 16:33, Dmitry Osipenko wrote:
+> There are few place in the code which check whether pending_sg_req list is
+> empty despite of the check already being done. Let's remove the duplicated
+> checks to keep code clean.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/dma/tegra20-apb-dma.c | 12 ------------
+>  1 file changed, 12 deletions(-)
+> 
+> diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+> index 22b88ccff05d..049e98ae1240 100644
+> --- a/drivers/dma/tegra20-apb-dma.c
+> +++ b/drivers/dma/tegra20-apb-dma.c
+> @@ -504,9 +504,6 @@ static void tdc_start_head_req(struct tegra_dma_channel *tdc)
+>  {
+>  	struct tegra_dma_sg_req *sg_req;
+>  
+> -	if (list_empty(&tdc->pending_sg_req))
+> -		return;
+> -
+>  	sg_req = list_first_entry(&tdc->pending_sg_req, typeof(*sg_req), node);
+>  	tegra_dma_start(tdc, sg_req);
+>  	sg_req->configured = true;
+> @@ -518,9 +515,6 @@ static void tdc_configure_next_head_desc(struct tegra_dma_channel *tdc)
+>  {
+>  	struct tegra_dma_sg_req *hsgreq, *hnsgreq;
+>  
+> -	if (list_empty(&tdc->pending_sg_req))
+> -		return;
+> -
+>  	hsgreq = list_first_entry(&tdc->pending_sg_req, typeof(*hsgreq), node);
+>  	if (!list_is_last(&hsgreq->node, &tdc->pending_sg_req)) {
+>  		hnsgreq = list_first_entry(&hsgreq->node, typeof(*hnsgreq),
+> @@ -567,12 +561,6 @@ static bool handle_continuous_head_request(struct tegra_dma_channel *tdc,
+>  {
+>  	struct tegra_dma_sg_req *hsgreq;
+>  
+> -	if (list_empty(&tdc->pending_sg_req)) {
+> -		dev_err(tdc2dev(tdc), "DMA is running without req\n");
+> -		tegra_dma_stop(tdc);
+> -		return false;
+> -	}
+> -
+>  	/*
+>  	 * Check that head req on list should be in flight.
+>  	 * If it is not in flight then abort transfer as
+> 
 
-...
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
 
-> The !RPM case isn't supported by Tegra anymore in upstream kernel. I'm
-> trying to help to make yours driver better and gave you reasons to
-> remove the unneeded code, while you're keep saying that "there is no
-> harm to retain it", which is not a reason to clutter up the code. I
-> don't feel that it's worthwhile to continue arguing here.
-
-On further review, it does look like a reasonable argument to get rid of
-this now completely. Like you see less clutter and the soc-core should
-ensure that the card is shutdown before unloading. OK, so fine with me.
-
+Thanks
 Jon
 
 -- 
