@@ -2,76 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD44415F17D
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 19:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4AFA15F143
+	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 19:03:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730925AbgBNSDL (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Feb 2020 13:03:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37076 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387621AbgBNPzq (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:55:46 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 56B7F24676;
-        Fri, 14 Feb 2020 15:55:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581695746;
-        bh=iW0pG2/jtj3T1OIrSI9apWm9rnCO1tmNfqWZdpAN9to=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L6nhcrTKRJsHpPaQ1JwzxZcdo91MGSVDsf8HrA2O87twnDd4jGdIw0MiEA0kvmXHy
-         /xlYHpYNNpmFoAA6TGQ74Qt/S0iV4x2OOLTV6d0si/3mZqF3kutiOb+DzTm2GEQa+j
-         b6epqRphK4ugnQbrIMvRyov5/LHWNJ1i8WvEJfEA=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 317/542] soc/tegra: fuse: Correct straps' address for older Tegra124 device trees
-Date:   Fri, 14 Feb 2020 10:45:09 -0500
-Message-Id: <20200214154854.6746-317-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
-References: <20200214154854.6746-1-sashal@kernel.org>
+        id S2390837AbgBNSAQ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 14 Feb 2020 13:00:16 -0500
+Received: from gateway31.websitewelcome.com ([192.185.143.40]:29003 "EHLO
+        gateway31.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390799AbgBNSAM (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 14 Feb 2020 13:00:12 -0500
+X-Greylist: delayed 1504 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Feb 2020 13:00:11 EST
+Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
+        by gateway31.websitewelcome.com (Postfix) with ESMTP id 7A8863B32A
+        for <linux-tegra@vger.kernel.org>; Fri, 14 Feb 2020 11:14:21 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id 2eXljnirDvBMd2eXljm0YZ; Fri, 14 Feb 2020 11:14:21 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=k+QU65CHLZoLG7AfwTnQ5YtDbA20JGLnCMfo7U4sik4=; b=OpQNwq3cCqz8SZD6hAvLref+Y6
+        lMllw7ioVUPsYynpCRVpJGfyWvhnsmOA+BrGswNXwTMNRi7yD6i0AXXYikW7kjcOIlx5A39W9SSMP
+        5Q5VGYluBnUMY5C7vzBaU2Ep6ryr74VmdSO+sQutg4Tlc/ouI/YHh6XAvTXxYmqZBinqu7r5HmVbZ
+        iFQM8+f+Qhgj/1HAzMYj8rRSONhIBxAkUJniCHe6TVCNwU1OpEg8p3p5SWuU9bW6SQG3/r9o4KUDO
+        cJOKrMw5ZVqS45ItrIgxaucsN8gWZwmimFtkfRR9SKyu+uS3p/gJoAB9HBlKSoStWvHif21BAvKIL
+        7zOktwHQ==;
+Received: from [200.68.140.137] (port=25415 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1j2eXj-003fsi-RY; Fri, 14 Feb 2020 11:14:20 -0600
+Date:   Fri, 14 Feb 2020 11:16:57 -0600
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Cc:     dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH] dmaengine: tegra210-adma: Replace zero-length array with
+ flexible-array member
+Message-ID: <20200214171657.GA25663@embeddedor>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 200.68.140.137
+X-Source-L: No
+X-Exim-ID: 1j2eXj-003fsi-RY
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [200.68.140.137]:25415
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 22
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-[ Upstream commit 2d9ea1934f8ef0dfb862d103389562cc28b4fc03 ]
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-Trying to read out Chip ID before APBMISC registers are mapped won't
-succeed, in a result Tegra124 gets a wrong address for the HW straps
-register if machine uses an old outdated device tree.
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
 
-Fixes: 297c4f3dcbff ("soc/tegra: fuse: Restrict legacy code to 32-bit ARM")
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
+
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
+
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/soc/tegra/fuse/tegra-apbmisc.c | 2 +-
+ drivers/dma/tegra210-adma.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/soc/tegra/fuse/tegra-apbmisc.c b/drivers/soc/tegra/fuse/tegra-apbmisc.c
-index df76778af601e..f8b9c4058926b 100644
---- a/drivers/soc/tegra/fuse/tegra-apbmisc.c
-+++ b/drivers/soc/tegra/fuse/tegra-apbmisc.c
-@@ -123,7 +123,7 @@ void __init tegra_init_apbmisc(void)
- 			apbmisc.flags = IORESOURCE_MEM;
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index 6e1268552f74..c4ce5dfb149b 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -164,7 +164,7 @@ struct tegra_adma {
+ 	const struct tegra_adma_chip_data *cdata;
  
- 			/* strapping options */
--			if (tegra_get_chip_id() == TEGRA124) {
-+			if (of_machine_is_compatible("nvidia,tegra124")) {
- 				straps.start = 0x7000e864;
- 				straps.end = 0x7000e867;
- 			} else {
+ 	/* Last member of the structure */
+-	struct tegra_adma_chan		channels[0];
++	struct tegra_adma_chan		channels[];
+ };
+ 
+ static inline void tdma_write(struct tegra_adma *tdma, u32 reg, u32 val)
 -- 
-2.20.1
+2.25.0
 
