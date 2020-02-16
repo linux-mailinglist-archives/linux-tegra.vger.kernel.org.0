@@ -2,83 +2,163 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22D8E15F74A
-	for <lists+linux-tegra@lfdr.de>; Fri, 14 Feb 2020 21:02:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58AD11603C2
+	for <lists+linux-tegra@lfdr.de>; Sun, 16 Feb 2020 12:03:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389238AbgBNUCJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 14 Feb 2020 15:02:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33614 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389205AbgBNUCI (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 14 Feb 2020 15:02:08 -0500
-Received: from localhost (unknown [12.246.51.142])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4554324654;
-        Fri, 14 Feb 2020 20:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581710527;
-        bh=kOzvk+OzpzpOrtXBp+yNd2QeJJMOZmbEEHg8kegYTaA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f4SD7CDJVEys1xUJy3wS9/Wyn8ojDRHL8Ps1Rit4bznxmbDcHkGWt3BhBX07ISy++
-         BzrrE7UEtNmZpGOzTG3Bh+a3AXdPpOni5dwHlvGrlibwBe4n26Ya+ziubNfsAb5Nqt
-         +hsnOvu7E9RWH83MlKucTpmr4Ab8a6ls3lw7RQLI=
-Date:   Fri, 14 Feb 2020 07:28:07 -0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        akpm@linux-foundation.org, linux@roeck-us.net, shuah@kernel.org,
-        patches@kernelci.org, ben.hutchings@codethink.co.uk,
-        lkft-triage@lists.linaro.org, stable@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 5.5 000/120] 5.5.4-stable review
-Message-ID: <20200214152807.GA3960470@kroah.com>
-References: <20200213151901.039700531@linuxfoundation.org>
- <e49bd26e-560c-840e-7f21-ee040a783143@nvidia.com>
+        id S1728008AbgBPLDu (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 16 Feb 2020 06:03:50 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:36309 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727943AbgBPLDt (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 16 Feb 2020 06:03:49 -0500
+Received: from [192.168.2.10] ([46.9.235.248])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 3HiAjTYo48i433HiEjTw5k; Sun, 16 Feb 2020 12:03:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1581851027; bh=+aNvZy8aD/dcufEoPL+QDCX1KUO9B+3y0UVN4XJ/BNQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=tG0FT+xfYdW0/2XYT7hVpBBOwF/S9gdqIqgXu6cT52AYwsza6QFT51iH/4rNT2grj
+         st7dy2JhlO0230j85OYjIYSkA0KVaxZwkiasrq2ekaDgeRZGMTBa3tFqSVLSkXqIoC
+         gT1l4SuGRrJPPM5j+obCTz0NJcpOsfYIfcWc3dsI+H/fmfeOjFg/4CGUVAlZT5yGiF
+         juIEPI4l+ah5KbdKk2ZT4RJEQzv2OkNR4YKWddUaV4d5WPCkmkBVMgKZNgg1SxMGC9
+         GyIPc1mUjpKIUzx+CATaPTjvZfXpWGv9N/vPaLAF+qOxnTfe/2Ny6Mi2G3sohYGARp
+         ToXlJFItC93eA==
+Subject: Re: [RFC PATCH v3 4/6] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        helen.koike@collabora.com, sboyd@kernel.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1581704608-31219-1-git-send-email-skomatineni@nvidia.com>
+ <1581704608-31219-5-git-send-email-skomatineni@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <30e417ba-84e1-63d2-de74-22cfe859bddb@xs4all.nl>
+Date:   Sun, 16 Feb 2020 12:03:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e49bd26e-560c-840e-7f21-ee040a783143@nvidia.com>
+In-Reply-To: <1581704608-31219-5-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfEHJX4QNbEtlvlNbNh8D9iO53jn6o9B1tz9SAXEUfYWVqgJik08fvS124TIyTWQBoLaKpXZ0bVjkYd3BRCoYngir51sZDOisiV6vHpCxBuwe2+L8gB2p
+ Rrj4kheVXgwW827H19M6HXaKoYc1oPrQTmNocNbL+LZgzAiWqYPg2eUh1aZ1FOu4C9XODs010r7nD+ORs7A4wMmF4mn3GrHMVdXelHGLyNVEg/G0aVT7laGv
+ dcOyIIYkKccKcHVjcqu/PQocZYWFIoq8pIXnDOd9pfvce8fO8ohgsBo6hW5UBhKY+Re5NO4YWo+CtFdXNHb/Bt6ta8FJ5H9nS1FCh+7Sl1uRqQPnvjqUctdV
+ e0CuselYWW5y2mK98CFVvvwE9bbV5mIvdVBLL+vKS9CHf8zrcKBUIZGk6zRHFKCXQKvZrQVJqNXzhjePMZ+PSjTc8C3NRALovcYGxuLXqfpfzqbNvmLjPDsK
+ mYOHLcPs2HzlS2ErtSTGeEj/hC/u0gzlCVCvENfz85CSFHBVoiY9piFIdpAH7b207JXd7eKpUW+S9wei
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Fri, Feb 14, 2020 at 10:27:39AM +0000, Jon Hunter wrote:
+On 2/14/20 7:23 PM, Sowjanya Komatineni wrote:
+> Tegra210 contains a powerful Video Input (VI) hardware controller
+> which can support up to 6 MIPI CSI camera sensors.
 > 
-> On 13/02/2020 15:19, Greg Kroah-Hartman wrote:
-> > This is the start of the stable review cycle for the 5.5.4 release.
-> > There are 120 patches in this series, all will be posted as a response
-> > to this one.  If anyone has any issues with these being applied, please
-> > let me know.
-> > 
-> > Responses should be made by Sat, 15 Feb 2020 15:16:41 +0000.
-> > Anything received after that time might be too late.
-> > 
-> > The whole patch series can be found in one patch at:
-> > 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.5.4-rc1.gz
-> > or in the git tree and branch at:
-> > 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.5.y
-> > and the diffstat can be found below.
-> > 
-> > thanks,
-> > 
-> > greg k-h
+> Each Tegra CSI port can be one-to-one mapped to VI channel and can
+> capture from an external camera sensor connected to CSI or from
+> built-in test pattern generator.
 > 
-> All tests are passing for Tegra ...
+> Tegra210 supports built-in test pattern generator from CSI to VI.
 > 
-> Test results for stable-v5.5:
->     13 builds:	13 pass, 0 fail
->     22 boots:	22 pass, 0 fail
->     40 tests:	40 pass, 0 fail
+> This patch adds a V4L2 media controller and capture driver support
+> for Tegra210 built-in CSI to VI test pattern generator.
 > 
-> Linux version:	5.5.4-rc2-ged6d023a1817
-> Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
->                 tegra194-p2972-0000, tegra20-ventana,
->                 tegra210-p2371-2180, tegra210-p3450-0000,
->                 tegra30-cardhu-a04
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/staging/media/Kconfig              |    2 +
+>  drivers/staging/media/Makefile             |    1 +
+>  drivers/staging/media/tegra/Kconfig        |   10 +
+>  drivers/staging/media/tegra/Makefile       |    8 +
+>  drivers/staging/media/tegra/TODO           |   10 +
+>  drivers/staging/media/tegra/tegra-common.h |  239 +++++++
+>  drivers/staging/media/tegra/tegra-csi.c    |  374 ++++++++++
+>  drivers/staging/media/tegra/tegra-csi.h    |  115 ++++
+>  drivers/staging/media/tegra/tegra-vi.c     | 1019 ++++++++++++++++++++++++++++
+>  drivers/staging/media/tegra/tegra-vi.h     |   79 +++
+>  drivers/staging/media/tegra/tegra-video.c  |  118 ++++
+>  drivers/staging/media/tegra/tegra-video.h  |   32 +
+>  drivers/staging/media/tegra/tegra210.c     |  767 +++++++++++++++++++++
+>  drivers/staging/media/tegra/tegra210.h     |  190 ++++++
+>  14 files changed, 2964 insertions(+)
+>  create mode 100644 drivers/staging/media/tegra/Kconfig
+>  create mode 100644 drivers/staging/media/tegra/Makefile
+>  create mode 100644 drivers/staging/media/tegra/TODO
+>  create mode 100644 drivers/staging/media/tegra/tegra-common.h
+>  create mode 100644 drivers/staging/media/tegra/tegra-csi.c
+>  create mode 100644 drivers/staging/media/tegra/tegra-csi.h
+>  create mode 100644 drivers/staging/media/tegra/tegra-vi.c
+>  create mode 100644 drivers/staging/media/tegra/tegra-vi.h
+>  create mode 100644 drivers/staging/media/tegra/tegra-video.c
+>  create mode 100644 drivers/staging/media/tegra/tegra-video.h
+>  create mode 100644 drivers/staging/media/tegra/tegra210.c
+>  create mode 100644 drivers/staging/media/tegra/tegra210.h
 > 
 
-Thanks for testing all of these and letting me know.
+<snip>
 
-greg k-h
+> +/*
+> + * videobuf2 queue operations
+> + */
+> +static int tegra_channel_queue_setup(struct vb2_queue *vq,
+> +				     unsigned int *nbuffers,
+> +				     unsigned int *nplanes,
+> +				     unsigned int sizes[],
+> +				     struct device *alloc_devs[])
+> +{
+> +	struct tegra_vi_channel *chan = vb2_get_drv_priv(vq);
+> +
+> +	if (*nplanes)
+> +		return sizes[0] < chan->format.sizeimage ? -EINVAL : 0;
+> +
+> +	*nplanes = 1;
+> +	sizes[0] = chan->format.sizeimage;
+> +	alloc_devs[0] = chan->vi->dev;
+> +
+> +	/*
+> +	 * allocate min 3 buffers in queue to avoid race between DMA
+> +	 * writes and userspace reads.
+> +	 */
+> +	if (*nbuffers < 3)
+> +		*nbuffers = 3;
+
+First of all, don't check this here, instead set the struct vb2_queue field
+'min_buffers_needed' to 3 instead.
+
+But the reason given for this check is peculiar: there should not be any
+race at all. Usually the reason for requiring a specific minimum number of
+buffers is that the DMA engine needs at least 2 buffers before it can start
+streaming: it can't give back a buffer to userspace (vb2_buffer_done())
+unless there is a second buffer it can start to capture to next. So for many
+DMA implementations you need a minimum of 2 buffers: two buffers for the
+DMA engine, one buffer being processed by userspace.
+
+If the driver is starved of buffers it will typically keep capturing to
+the last buffer until a new buffer is queued.
+
+In any case, once the driver releases a buffer via vb2_buffer_done() the
+buffer memory is no longer owned by the driver.
+
+To be precise, buffer ownership is as follows:
+
+userspace -> VIDIOC_QBUF -> vb2 -> buf_queue -> driver -> vb2_buffer_done() -> vb2 -> VIDIOC_DQBUF -> userspace
+
+(vb2 == videobuf2 framework)
+
+Note that vb2 never touches the buffer memory.
+
+So if you get a race condition in this driver, then there is something
+strange going on. It looks like vb2_buffer_done() is called while DMA is
+still ongoing, or because the driver really needs to keep one buffer
+available at all times.
+
+Regards,
+
+	Hans
+
+> +
+> +	return 0;
+> +}
