@@ -2,66 +2,63 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D74E160DC7
-	for <lists+linux-tegra@lfdr.de>; Mon, 17 Feb 2020 09:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE627160E6A
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Feb 2020 10:24:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728572AbgBQIvf (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 17 Feb 2020 03:51:35 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46878 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728217AbgBQIvf (ORCPT
+        id S1728737AbgBQJYb (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Feb 2020 04:24:31 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:36193 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728650AbgBQJYa (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 17 Feb 2020 03:51:35 -0500
-Received: by mail-wr1-f67.google.com with SMTP id z7so18555728wrl.13;
-        Mon, 17 Feb 2020 00:51:33 -0800 (PST)
+        Mon, 17 Feb 2020 04:24:30 -0500
+Received: by mail-wr1-f68.google.com with SMTP id z3so18777053wru.3;
+        Mon, 17 Feb 2020 01:24:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=C5xv8SsbTaG0cDhTprdH9BYVte6zKum691BtN4GtW2Y=;
-        b=gpZUlzMJheFlYY1KBdQOn3ATc10V2sSG50fwF+2VMg8tAqQlKcoaJTZr82r2/NG5ex
-         0aQOOFwKvK3fZ/Kuf4HKf+f6lu9AEvVTJlyZbYEWtMBPclXCt15ubiHzcW/sL/d2N7hL
-         tQXcsmPQPL136Ju09GhWQwILxatcisAnrB+5GX6VzVUV/9iDo6nrjkGiXyCY6tQWJQxg
-         hXHJdcALf94tDf8om2LlKtxVQn1QcWIiDrcmxT/lEQqoJ4ugp7GZKjSTExPRtdOsxx72
-         jLMgRcL5T9HKNUmZyluhD9DJKBcmYHkMQs9GFp1rrEB1NJSWCBALBvywbc4cP71fIrLn
-         eEKA==
+        bh=1jbU4TlJlEpdoMWmG20EO03uGvQBbQQBpmr5/axN8pQ=;
+        b=Eyw7R/ZtTaHAGBZNWK6oJ6nShrV/sKIR9KMGv/dAVs5q0yZKK0aYAWB/T5qD5TW7Ve
+         3U5wx7yZpAVFh1WhsqvCkyuzVrIMGcITnjwmtE490kLnQEegzc2z4fBn+U/Nivhy1KnF
+         LnhVlvgtrfzvTdEn9P2v3+3oaIs2iTbBOGFzV4/ZoYJTjRFTTpOmUm3L6126ZLXuwOXC
+         Nw1KgN+HD/MCl7uriKDiZGVlDujku7S6JgTOtDBzwMRdiU4f1tswxWNobLoA32O44J/8
+         /p3/ZvmiW0kyztyIbXQktjhV+4hnPPk1sNuumOCjrj+qEEXvoLoWbr6e5yJDOKwC5+L2
+         ee+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=C5xv8SsbTaG0cDhTprdH9BYVte6zKum691BtN4GtW2Y=;
-        b=buUj+W9miV+z2btlO2OX3yVdwYpL8RYzZOuhODNObH2e7pLnxJy125YgX7dNmWs68+
-         rTmnFOdyCfDtW0cmx7Wf/oOSm1xDIUXFkwkr0Tz0O8uRcvzz0Jd8fdJnotNm7+wRyh5J
-         nemHWXhvOTBtUWXp7p/hkqur3ozBbytRzANkuLva6Wd/1khywMqupDPbXue4rw1omkA2
-         rZqhREkpbu0NJ42OPwEyA7lXf0aIxkElKCLac8p+TH1XP3MNPUS3bR9sqCuIOXWQh3bd
-         CNaNCjpNchRtoDKxBZsl2eEJi6EcAKsUGAEGv4kQjCVku1xzYTvFuoFIs8pM92KvjQ17
-         Cndw==
-X-Gm-Message-State: APjAAAVE3MqdrW0SHh/1mgV8xFIdW/ZhV8McZft+qJbBOfa5OXC2gy6X
-        Jfb4HPaacqmJh2Lzsux+cT0=
-X-Google-Smtp-Source: APXvYqy0WmpQraHfizMgbA3gjw0UnnZn6vscoesWRieuCn6d0R4UXALiZrGzc7fX2RLP1GZHkU3iMw==
-X-Received: by 2002:adf:dd8a:: with SMTP id x10mr21775343wrl.117.1581929492932;
-        Mon, 17 Feb 2020 00:51:32 -0800 (PST)
+        bh=1jbU4TlJlEpdoMWmG20EO03uGvQBbQQBpmr5/axN8pQ=;
+        b=lyOCGID5i2balkIQy3j27qBekLlvHFc8kdImqgRxsbUSj+S97QLbx1Y+Kfyw+0vsMu
+         2YnhY8Zgc4/0YWHC34gIsE7W3MJEz1tTlstfsOhrORAj1kLKPIIgwmgVaYzoxjOn7nyZ
+         b5xJ3Z0Z9b3fP1X1qtNCQlxv87XGu3/00iOoUPh6GJ27QjGHvjPoe+9g9Qg0LHleUXdB
+         HRZp94Goxll+OAmZDB+OFo2kZrjVKNbnUKvFacPhSpu7gQAGsq83lY4bFXI6DjqOyH76
+         ppiIWYGYyV4m4ZJe+R5ePAVKNNo1wsNaU4ETvxjV16ri1io1uGPE5Vs0lb3nIfmvGc4l
+         CBnA==
+X-Gm-Message-State: APjAAAUs9y4nUZeyYaEF+cNqgDebUz8e4bRYw+0g7uBCe65R/+NgfCcr
+        7CrYBCQPAHrgh5hkbYrVSTA=
+X-Google-Smtp-Source: APXvYqxHC3wzpIrAycvagZ9MJQLXYisuao7zJ2nHWSOBrxr7L5QWx319+nibcU2MpAGz6ijfEZv2kA==
+X-Received: by 2002:adf:fa43:: with SMTP id y3mr20785507wrr.65.1581931466884;
+        Mon, 17 Feb 2020 01:24:26 -0800 (PST)
 Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id a13sm19720944wrp.93.2020.02.17.00.51.31
+        by smtp.gmail.com with ESMTPSA id y7sm53442wrr.56.2020.02.17.01.24.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2020 00:51:31 -0800 (PST)
-Date:   Mon, 17 Feb 2020 09:51:30 +0100
+        Mon, 17 Feb 2020 01:24:25 -0800 (PST)
+Date:   Mon, 17 Feb 2020 10:24:25 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Nagarjuna Kristam <nkristam@nvidia.com>, jonathanh@nvidia.com,
-        mark.rutland@arm.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch V5 00/21] Tegra XUSB OTG support
-Message-ID: <20200217085130.GJ1339021@ulmo>
-References: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     jonathanh@nvidia.com, tglx@linutronix.de,
+        gregkh@linuxfoundation.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] firmware: tegra: Fix a typo in Kconfig
+Message-ID: <20200217092425.GK1339021@ulmo>
+References: <20200216161748.21894-1-christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zYo4Elh1vtcYNvbq"
+        protocol="application/pgp-signature"; boundary="Cy+5HEalSgyXkpVS"
 Content-Disposition: inline
-In-Reply-To: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
+In-Reply-To: <20200216161748.21894-1-christophe.jaillet@wanadoo.fr>
 User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
@@ -69,62 +66,41 @@ List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---zYo4Elh1vtcYNvbq
+--Cy+5HEalSgyXkpVS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 10, 2020 at 01:41:26PM +0530, Nagarjuna Kristam wrote:
-> This patch series adds OTG support on XUSB hardware used in Tegra210 and
-> Tegra186 SoCs.
+On Sun, Feb 16, 2020 at 05:17:48PM +0100, Christophe JAILLET wrote:
+> A 'n' is mising in 'commuication'
 >=20
-> This patchset is composed with :
->  - dt bindings of XUSB Pad Controller
->  - dt bindings for XUSB device Driver
->  - Tegra PHY driver for usb-role-switch and usb-phy
->  - Tegra XUSB host mode driver to support OTG mode
->  - Tegra XUSB device mode driver to use usb-phy and multi device mode
->  - dts for XUSB pad controller
->  - dts for xudc for Jetson TX1 and TX2
->  - dts for Jetson-TK1
->  - dts for Jetson-Nano
->=20
-> Tegra Pad controller driver register for role switch updates for
-> OTG/peripheral capable USB ports and adds usb-phy for that corresponding
-> USB ports.
->=20
-> Host and Device mode drivers gets usb-phy from USB2's phy and registers
-> notifier for role changes to perform corresponding role tasks.
->=20
-> Order of merging Patches:
-> Please merge DT changes first followed Tegra PHY driver changes and then
-> USB driver changes.
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/firmware/tegra/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Felipe, Greg, Kishon,
-
-Given the runtime dependencies between these various parts, I could pick
-these up into the Tegra tree if you provide an Acked-by.
+Applied to for-5.7/firmware, thanks.
 
 Thierry
 
---zYo4Elh1vtcYNvbq
+--Cy+5HEalSgyXkpVS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5KVBIACgkQ3SOs138+
-s6GPJQ/8Dr1CPfELHw05VQk0p62qC/U3hkxpH56/8OSVsICja7BxolBa+2ptmTzw
-eB1ltsaiHPgYGvl53lyIlbFDofTaukVG9g52tFx4wJM3VKrGDUwj+7a//egwL9aT
-fj+QsOWrvHfLpxYfYiNGl9vhQgVhL3U25c0s0SBzBPxjdcLQbNz0erTiE64G9ZI7
-TSdqsijAXQflLfp02uS/jhqWUHHhkav0wf+NrYjyq+O30UBTUjuvNA2zXoee9c1P
-n45PMAk7hZ+PS5s2Q51KLcNcA83x52Yf8O5lD16GJgCOWNaGrJR+FQombCMr7Sfo
-p8VYNhNlNY+CDtt03YlMqgiJZ+lUx7HAArzPUwLRYyQtY1O9fjfxYQXRzLOhPhpV
-uRpBCQ2X75GmlRtVY8HHSk6sCwHGKQbUtysaWna48rsKbNou6vAIUPo62BXV/2xT
-QpnuSpAzZzmjnLGEkPyZiGSXZtqIQMrz8YIZXH0TER17o9DpuijLJLO2Gdv1gTZr
-CbNAv9WSsn1sNUWpH1B2aUvA2ZgRLpw0TJ+6c8rH5AKMn9/KO3fzmvLCN1jFPctz
-oJO2Ctm/pym37bpOVliZzDJleKwe8tLi9afv6+VLYaRZ7P8+F4aM7ijBHuwLHLPb
-i7CvOEpdpCu+WxEBihmzFm8AxpT7yc8rnVN/WAMQx5+w5Bbh9wA=
-=+r7V
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5KW8UACgkQ3SOs138+
+s6FbnhAAmQgt8qy8o0BICDHNatpwIIywn9ZdnXsUKIgec9XPCnPCZ1LUEkDKm6ks
+ooXRmYaYTkLDZ4KeRsrBYgD9ngK+hcEcnTOsHywrI3GiiV2m7/nnyA6ASgOd9QEH
+Pn7xrftP5U9b8FqUYxt9t6WYw6BWOaOe6Hpq6Cau6y7Msr5OCO0/SxYrfd5deWHy
+gFAQfIBYy8xmjkwUf77ghSs56jiSrsCajH2ltrSwQZjLSEstSfLlomVugrc4Vsf8
+qTeGGXGQE8ApG6NcuqnLcpYCtP5pvLgQ7R2xaOKtmDXedau8V4BPXQQKvXTCJfcc
+Ly/yvseuCMfH42Q/S2PI6iaVyf0U1gGNix/HkCO/N0RD6Jve4gDs1+qR5LfDKEII
+u8GjZPb8AlgpKR+tXIaPViM7TPYXPLpHamSERsgA0KOMj4mineT+Eji0/e/cWc2o
+pXF10HzD/as6r9MxOnqgr3dZhxlACu6ZRklmzkQvbQ3GDdTvR2EIXxWeosXJZRHo
+9VdHFcjUdhGf1EDekc/0FTOYBNzxh5h+O3ceQZF6BdlM1IEiK1UeV7kYAjGDpEEL
+aFrKSCkcEpdOEYXy/kNhQyrKTFHOGtIKQf8wSyXoqm+tRCagNRu7hqIc8CGOBh+z
+IyDtGKn1Rhb/SD3mmz9EmTL+mtWniOw6Ukq97v/UxGpCY8zUdNs=
+=fk0G
 -----END PGP SIGNATURE-----
 
---zYo4Elh1vtcYNvbq--
+--Cy+5HEalSgyXkpVS--
