@@ -2,271 +2,151 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4725160655
-	for <lists+linux-tegra@lfdr.de>; Sun, 16 Feb 2020 21:22:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BB32160BAE
+	for <lists+linux-tegra@lfdr.de>; Mon, 17 Feb 2020 08:37:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728054AbgBPUV6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sun, 16 Feb 2020 15:21:58 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14558 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726036AbgBPUV6 (ORCPT
+        id S1726710AbgBQHhM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 17 Feb 2020 02:37:12 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39923 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726029AbgBQHhM (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Sun, 16 Feb 2020 15:21:58 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e49a4200000>; Sun, 16 Feb 2020 12:20:48 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 16 Feb 2020 12:21:57 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 16 Feb 2020 12:21:57 -0800
-Received: from [10.2.163.245] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 16 Feb
- 2020 20:21:56 +0000
-Subject: Re: [RFC PATCH v3 4/6] media: tegra: Add Tegra210 Video input driver
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>,
-        <helen.koike@collabora.com>, <sboyd@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1581704608-31219-1-git-send-email-skomatineni@nvidia.com>
- <1581704608-31219-5-git-send-email-skomatineni@nvidia.com>
- <30e417ba-84e1-63d2-de74-22cfe859bddb@xs4all.nl>
- <920b4276-b2ca-646c-a21b-ca0b9bacf471@nvidia.com>
- <6bb124db-681c-55c1-e328-6e1f766a8bb3@nvidia.com>
-Message-ID: <0f84d37c-105f-8de6-c922-186d2f9ea156@nvidia.com>
-Date:   Sun, 16 Feb 2020 12:22:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Mon, 17 Feb 2020 02:37:12 -0500
+Received: by mail-wm1-f66.google.com with SMTP id c84so17236793wme.4;
+        Sun, 16 Feb 2020 23:37:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=8Q3jNGFyEi21X2L4NPrBbakr5JTzq1YGUN21ReCZcQ4=;
+        b=WqrctlAqlaMEeAsipc6O9eDSO75UY8weGNwefJdQ//VgrIwjaZF+yg7beckMfEPaLi
+         SoahZQhszZ5lzdkifsgT4MIpAhFRurZ75qdpEWYbSBamC6ZH5U+GbsredKn5ceif+Cvz
+         rY+zD289u9LUMJjgCojPL7gPME9JQJROnUQbg1B9KoPk4Pewiw/nMd8glBT1Czpzc2sw
+         9dCkYOKi+6QomQg6JcNV5YxemB3lngiPEVRiweMPlZarD9IqqSVpNguHyIkM1m+8TlIa
+         et2Phm/T8gjyajDgv4SFylb5pqrA9XHBpnqV9fzcJI/mXiMeyhL7GCNvHqBAdz1YJUis
+         kgsg==
+X-Gm-Message-State: APjAAAUGRsY8z7r77HwM/nXwY2u4IEh0isbXMFy6T2T9oSXw4tu+32CD
+        M9ZKEzibYsulmwvuOkij81My2H6alGM=
+X-Google-Smtp-Source: APXvYqxmXjSPcKrLllaXuCaRKKQZVEfJi4Ul9qa3WnO/nUq1IqDhCpeouFLFyCvV8honLgXqFkgwnQ==
+X-Received: by 2002:a7b:c204:: with SMTP id x4mr20767927wmi.20.1581925028530;
+        Sun, 16 Feb 2020 23:37:08 -0800 (PST)
+Received: from ?IPv6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
+        by smtp.gmail.com with ESMTPSA id a16sm19677457wrt.30.2020.02.16.23.37.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Feb 2020 23:37:07 -0800 (PST)
+Subject: Re: [PATCH for 5.6 v2] tty: serial: tegra: Handle RX transfer in PIO
+ mode if DMA wasn't started
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>
+Cc:     linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200209164415.9632-1-digetx@gmail.com>
+From:   Jiri Slaby <jslaby@suse.cz>
+Autocrypt: addr=jslaby@suse.cz; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <15b01f79-007d-09bb-03be-050c009ceff6@suse.cz>
+Date:   Mon, 17 Feb 2020 08:37:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <6bb124db-681c-55c1-e328-6e1f766a8bb3@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200209164415.9632-1-digetx@gmail.com>
+Content-Type: text/plain; charset=iso-8859-2
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581884448; bh=jZ5L2TNSpFF5Qbx5vfyoBsHsU3zI5lpu8LpfMXV6+J8=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=o3jerznXyvPBVIHCjVKnTQxyOClPaQY47npfRrIA4cl3zFtTXSryjY0Q4R20Pu41g
-         tV7AHTPzgcZQHO8s78N/jMcKeza+65+Yu5JT5vg5tca2jQ8ekiz3DR4dW5dDpzsew4
-         BdHeOtoytJASQVc2Nzb3FYjXEKH+h/o0bx90Fs+bmirIa6drKCdedkb7wuz/UWFSoM
-         Hb9mnbZkxBFZ6XAhh2dbV3wzUAvKQ7u3fckn+JZG0LKs1yZR9MYqlucMWHrefoFVvr
-         yD4y4mHumx1rnANn73SDtal1FIj/jDrKZLdY5AsIeiYymieMJEEdlYSC2GbUtucPYy
-         zM6oczqcCU2cg==
+Content-Transfer-Encoding: 7bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On 09. 02. 20, 17:44, Dmitry Osipenko wrote:
+> It is possible to get an instant RX timeout or end-of-transfer interrupt
+> before RX DMA was started, if transaction is less than 16 bytes. Transfer
+> should be handled in PIO mode in this case because DMA can't handle it.
+> This patch brings back the original behaviour of the driver that was
+> changed by accident by a previous commit, it fixes occasional Bluetooth HW
+> initialization failures which I started to notice recently.
+> 
+> Fixes: d5e3fadb7012 ("tty: serial: tegra: Activate RX DMA transfer by request")
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+> 
+> Changelog:
+> 
+> v2: - Corrected commit's title by adding the accidentally missed "tegra: "
+>       to the prefix.
+> 
+>  drivers/tty/serial/serial-tegra.c | 35 ++++++++++++++-----------------
+>  1 file changed, 16 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/tty/serial/serial-tegra.c b/drivers/tty/serial/serial-tegra.c
+> index 33034b852a51..8de8bac9c6c7 100644
+> --- a/drivers/tty/serial/serial-tegra.c
+> +++ b/drivers/tty/serial/serial-tegra.c
+> @@ -692,11 +692,22 @@ static void tegra_uart_copy_rx_to_tty(struct tegra_uart_port *tup,
+>  				   count, DMA_TO_DEVICE);
+>  }
+>  
+> +static void do_handle_rx_pio(struct tegra_uart_port *tup)
+> +{
+> +	struct tty_struct *tty = tty_port_tty_get(&tup->uport.state->port);
+> +	struct tty_port *port = &tup->uport.state->port;
+> +
+> +	tegra_uart_handle_rx_pio(tup, port);
+> +	if (tty) {
 
-On 2/16/20 12:11 PM, Sowjanya Komatineni wrote:
->
-> On 2/16/20 11:54 AM, Sowjanya Komatineni wrote:
->>
->> On 2/16/20 3:03 AM, Hans Verkuil wrote:
->>> External email: Use caution opening links or attachments
->>>
->>>
->>> On 2/14/20 7:23 PM, Sowjanya Komatineni wrote:
->>>> Tegra210 contains a powerful Video Input (VI) hardware controller
->>>> which can support up to 6 MIPI CSI camera sensors.
->>>>
->>>> Each Tegra CSI port can be one-to-one mapped to VI channel and can
->>>> capture from an external camera sensor connected to CSI or from
->>>> built-in test pattern generator.
->>>>
->>>> Tegra210 supports built-in test pattern generator from CSI to VI.
->>>>
->>>> This patch adds a V4L2 media controller and capture driver support
->>>> for Tegra210 built-in CSI to VI test pattern generator.
->>>>
->>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>> ---
->>>> =C2=A0 drivers/staging/media/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 2 +
->>>> =C2=A0 drivers/staging/media/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
->>>> =C2=A0 drivers/staging/media/tegra/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 10 +
->>>> =C2=A0 drivers/staging/media/tegra/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 8 +
->>>> =C2=A0 drivers/staging/media/tegra/TODO=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 10 +
->>>> =C2=A0 drivers/staging/media/tegra/tegra-common.h |=C2=A0 239 +++++++
->>>> =C2=A0 drivers/staging/media/tegra/tegra-csi.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 374 ++++++++++
->>>> =C2=A0 drivers/staging/media/tegra/tegra-csi.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 115 ++++
->>>> =C2=A0 drivers/staging/media/tegra/tegra-vi.c=C2=A0=C2=A0=C2=A0=C2=A0 =
-| 1019=20
->>>> ++++++++++++++++++++++++++++
->>>> =C2=A0 drivers/staging/media/tegra/tegra-vi.h=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0=C2=A0 79 +++
->>>> =C2=A0 drivers/staging/media/tegra/tegra-video.c=C2=A0 |=C2=A0 118 +++=
-+
->>>> =C2=A0 drivers/staging/media/tegra/tegra-video.h=C2=A0 |=C2=A0=C2=A0 3=
-2 +
->>>> =C2=A0 drivers/staging/media/tegra/tegra210.c=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 767=20
->>>> +++++++++++++++++++++
->>>> =C2=A0 drivers/staging/media/tegra/tegra210.h=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 190 ++++++
->>>> =C2=A0 14 files changed, 2964 insertions(+)
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/Kconfig
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/Makefile
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/TODO
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-common.h
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-csi.c
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-csi.h
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-vi.c
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-vi.h
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-video.c
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-video.h
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra210.c
->>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra210.h
->>>>
->>> <snip>
->>>
->>>> +/*
->>>> + * videobuf2 queue operations
->>>> + */
->>>> +static int tegra_channel_queue_setup(struct vb2_queue *vq,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int *nbuffe=
-rs,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int *nplane=
-s,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int sizes[]=
-,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct device *alloc=
-_devs[])
->>>> +{
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_vi_channel *chan =3D vb2_get_dr=
-v_priv(vq);
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (*nplanes)
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 return sizes[0] < chan->format.sizeimage ? -EINVAL : 0;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *nplanes =3D 1;
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0 sizes[0] =3D chan->format.sizeimage;
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0 alloc_devs[0] =3D chan->vi->dev;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * allocate min 3 buffers in queue to a=
-void race between DMA
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * writes and userspace reads.
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (*nbuffers < 3)
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 *nbuffers =3D 3;
->>> First of all, don't check this here, instead set the struct=20
->>> vb2_queue field
->>> 'min_buffers_needed' to 3 instead.
->>>
->>> But the reason given for this check is peculiar: there should not be=20
->>> any
->>> race at all. Usually the reason for requiring a specific minimum=20
->>> number of
->>> buffers is that the DMA engine needs at least 2 buffers before it=20
->>> can start
->>> streaming: it can't give back a buffer to userspace (vb2_buffer_done())
->>> unless there is a second buffer it can start to capture to next. So=20
->>> for many
->>> DMA implementations you need a minimum of 2 buffers: two buffers for=20
->>> the
->>> DMA engine, one buffer being processed by userspace.
->>>
->>> If the driver is starved of buffers it will typically keep capturing to
->>> the last buffer until a new buffer is queued.
->>>
->>> In any case, once the driver releases a buffer via vb2_buffer_done()=20
->>> the
->>> buffer memory is no longer owned by the driver.
->>>
->>> To be precise, buffer ownership is as follows:
->>>
->>> userspace -> VIDIOC_QBUF -> vb2 -> buf_queue -> driver ->=20
->>> vb2_buffer_done() -> vb2 -> VIDIOC_DQBUF -> userspace
->>>
->>> (vb2 =3D=3D videobuf2 framework)
->>>
->>> Note that vb2 never touches the buffer memory.
->>>
->>> So if you get a race condition in this driver, then there is something
->>> strange going on. It looks like vb2_buffer_done() is called while=20
->>> DMA is
->>> still ongoing, or because the driver really needs to keep one buffer
->>> available at all times.
->>>
->>> Regards,
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Hans
->>
->> Thanks Hans.
->>
->> On running v4l2-compliance streaming tests for longer run, I noticed=20
->> kernel reporting unable to write to read-only memory and with debugs=20
->> I observed when this error was reported, I see 2 buffers queued and=20
->> both using same address.
->>
->> for first buffer capture start thread initiates capture and wakes=20
->> done thread to wait for memory write ack and once its done buffer is=20
->> released to user space but I see upon buffer released to user space=20
->> immediate next buffer capture single shot gets issued (as soon as=20
->> single shot is issued frame capture data is written to memory by DMA)=20
->> and I see this kernel error of unable to write to read-only memory.
->>
->> This error happens rare and happens on long run and all the times of=20
->> repro's, I see when other thread releases buffer immediate I see=20
->> single shot gets issued as 2 buffers are queued up at the same time=20
->> with same DMA address.
->>
-> Just to be clear, I meant all the times when kernel reports error=20
-> unable to write to read-only memory, I see 2 buffers gets queued and=20
-> as the capture start thread and done thread are parallel and when=20
-> capture thread wakes done thread on receiving FS event, done thread=20
-> for waiting for memory write happens parallel to next frame capture=20
-> and I see while vb2_buffer_done happens in done thread next frame=20
-> single shot has been issues by capture start thread in parallel when=20
-> it hits this error.
+What's the tty good for here, actually?
 
-For low latency, we use 2 threads one thread for capture and wait for FS=20
-and on receiving FS even wakes other done thread to wait for memory=20
-write to finish.
+> +		tty_flip_buffer_push(port);
+> +		tty_kref_put(tty);
+> +	}
+> +}
 
-While other done thread waits for memory write to finish, capture thread=20
-can start capture for next frame and as soon as single shot is issued=20
-capture frame is written to memory and as this thread runs in parallel=20
-to done thread
 
-there is a possibility vb2_buffer_done being called by=20
-kthread_capture_done while DMA is ongoing by kthread_capture_start and I=20
-observed same DMA address being used got both buffers that got queued at=20
-same time when it hits this error.
-
->> With using minimum 3 buffers, this issue doesnt happen at all from=20
->> almost 72 hours of testing.
->>
->>
->> Will try with setting vb2 queue field min_buffers_needed as 3 instead=20
->> of adding check in queue setup.
->>
->
->>
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>>> +}
+thanks,
+-- 
+js
+suse labs
