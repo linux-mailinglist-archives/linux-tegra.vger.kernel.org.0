@@ -2,107 +2,216 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2263B1628F3
-	for <lists+linux-tegra@lfdr.de>; Tue, 18 Feb 2020 15:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBA0A1629ED
+	for <lists+linux-tegra@lfdr.de>; Tue, 18 Feb 2020 16:55:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726764AbgBRO5E (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 18 Feb 2020 09:57:04 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45906 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726540AbgBRO5E (ORCPT
+        id S1726411AbgBRPzn (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 18 Feb 2020 10:55:43 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54456 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726360AbgBRPzn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 18 Feb 2020 09:57:04 -0500
-Received: by mail-lj1-f194.google.com with SMTP id e18so23238464ljn.12;
-        Tue, 18 Feb 2020 06:57:02 -0800 (PST)
+        Tue, 18 Feb 2020 10:55:43 -0500
+Received: by mail-wm1-f68.google.com with SMTP id n3so1112268wmk.4
+        for <linux-tegra@vger.kernel.org>; Tue, 18 Feb 2020 07:55:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GDudbG3wnHSzToLbMzRev0LydH80cdgIzJuKOmpovTg=;
-        b=ZSGc57N2uN7+Gqai5OlHwJu1ACXOyVkoRr1rvba8pVFc5bmb00J8JQ7WAdgeEMRHS9
-         +aemE4hxeBOfenkNP+vhZyZipc7GJUjCib23vSDw0SLwlpE+cAafnZ/99dYeTwsF0clH
-         Hq+79o1sucatIZCDU4msoX/u6VBffwOkY/sLZtU4VQVfirtTJnHY319sSnWUSmZZhsF3
-         0HDK6n8pu70Iko+/8adoert4vGG+qsiTzavcfL4qoh1elnKL4r2tRNkpJ2zx979kxkTA
-         wxDLd5SMky6rcwIzMye7Ca5t8GkUf4Vpt5f0CazLrtudPd5XH0fywHxCk9iokLtUOwyV
-         NFlQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=OYFurpuhEjyPIoK1j3D/L4KM5Y+IxCt4ihYGqAzlAmg=;
+        b=BHD0mkYF7bP5IjgFfcLkcgPksARxCcA1RVzvCszC31PyS1jFsyLHYHm1DpPBu+vj5T
+         Gh3N5BFI/ec5ugTxNQsUX+3VK7Wqi2OaNhUxApEpaxIo6WR8PBr1ZwfFflZYeh/STZpp
+         i/NutV5BLNkqJcWHiKIRfuUYh4yD2lOBU++Yl6AGEjTfBIm/Jewg8sXxFrpAoWEKr1lL
+         3EySk17T6bhnYrTxk6FathdRHBReYrqR61MjKoR3ihA/3CpvclAqVmKMxdZ2ExSoN5Jh
+         84kvps7VFqnpRw8Cbbfmf2cRGUtcyExZgLGpvwlXQ5XSC0xcYxBVWbdY3yALZ+Ob2lH6
+         MBfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GDudbG3wnHSzToLbMzRev0LydH80cdgIzJuKOmpovTg=;
-        b=rk3akuQifZeOyGYsCrF6ENkx3gAv8pfqE9q7uk1t0j8bGuTmJdXcBWzJ69KJL/Iv0C
-         i/UuGKfN88dArk3sz6jriP8tiRGu9a2+I0ZrzWlxL8UnpyyOZl+AOkRXLuQK4tKFiEuz
-         5tppPzGz/eHjSPy0cMnafLAS7FGO57f6ho0jcyKet0UBjcf7QiRtxP6VSCg+9uEGsCvp
-         SxNQqZkBR7a1lSbJFNaY7gK01siWaECltxzsmBhPjHA0TgtFf86F5bxUVNoyv+uyeyco
-         eR3sO9eqRkfT68JFeCENdJVXu2XqIWzKPoierps8Rin/fP6zO1AAjpL7cpud07JLLSN3
-         xpwA==
-X-Gm-Message-State: APjAAAXkgPs5aPPohvkWKrRuwyKk3/nNEoqzLNaOTF0WEKVHVa/W7bsQ
-        EYJLoqeY0G9XwsSSQHCJTiW13OaV
-X-Google-Smtp-Source: APXvYqyWg68EBq/eMAEuLUaAEgOAUEeryQ1pUZY8jHiCenUNXsboQco05A40bTmyPA2j4AQXK2on9A==
-X-Received: by 2002:a05:651c:10f:: with SMTP id a15mr13244771ljb.237.1582037820375;
-        Tue, 18 Feb 2020 06:57:00 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id l16sm2400202lfh.74.2020.02.18.06.56.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2020 06:56:57 -0800 (PST)
-Subject: Re: [PATCH v9 00/17] Consolidate and improve NVIDIA Tegra CPUIDLE
- driver(s)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Jasper Korten <jja2000@gmail.com>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200212235134.12638-1-digetx@gmail.com>
-Message-ID: <234f1d75-d86a-58b4-29d6-c0497498e85c@gmail.com>
-Date:   Tue, 18 Feb 2020 17:56:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <20200212235134.12638-1-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=OYFurpuhEjyPIoK1j3D/L4KM5Y+IxCt4ihYGqAzlAmg=;
+        b=cVWdaI5fywVzTl2lAaBZkxcE1NwysDxDQEUQqiSkJXdLa7J1iU+XOrV8v6rpS7vOt2
+         0ejvY7r18dKjbHJwVKPQNIyFGquI0Q3ckDEnykozr92aIndQrtZdaFyWUo/3NTdjIOUM
+         DvwFvQUfMU217XeB+q9enYmm5gQeBjg3cyHVxu5wA2Sb42YprGFrgRxm7mNWGeKX02N7
+         Y1tQcruCVIYjfwrjgLK7DBrpv5YrQQo521ZqdcVlQAmMjgGrWt4M7ToY79xmPZrf2bYu
+         UUe4rk+RMq+9vx1YLxTRtYBwXrW19MZBQwYl43eGrrZ77G2UASNkk6Wnvr8wQSRN/owC
+         ZCyA==
+X-Gm-Message-State: APjAAAXYFK1SXYbinjpPRia8fdNqsHhmPB49aRJeeDShjDAztUxMK/dp
+        meOa1M3F83iYzV/fH7GoZ/M=
+X-Google-Smtp-Source: APXvYqz7ewWUU3zCxW3W7Raw4nbVuHA5Hv+3MKjZpDXNkwOiCL6eoa3r05aTP1JQVwhkXJOnvaiafQ==
+X-Received: by 2002:a1c:7712:: with SMTP id t18mr4010374wmi.32.1582041339980;
+        Tue, 18 Feb 2020 07:55:39 -0800 (PST)
+Received: from localhost.localdomain ([197.254.95.38])
+        by smtp.googlemail.com with ESMTPSA id a9sm6767758wrn.3.2020.02.18.07.55.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Feb 2020 07:55:39 -0800 (PST)
+From:   Wambui Karuga <wambui.karugax@gmail.com>
+To:     thierry.reding@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+        jonathanh@nvidia.com
+Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        gregkh@linuxfoundation.org
+Subject: [PATCH] drm/tegra: remove checks for debugfs functions return value
+Date:   Tue, 18 Feb 2020 18:55:33 +0300
+Message-Id: <20200218155534.15504-1-wambui.karugax@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-13.02.2020 02:51, Dmitry Osipenko пишет:
-> Hello,
-> 
-> This series does the following:
-> 
->   1. Unifies Tegra20/30/114 drivers into a single driver and moves it out
->      into common drivers/cpuidle/ directory.
-> 
->   2. Enables CPU cluster power-down idling state on Tegra30.
-> 
-> In the end there is a quite nice clean up of the Tegra CPUIDLE drivers
-> and of the Tegra's arch code in general. Please apply, thanks!
-> 
-> !!!WARNING!!! This series was made on top of the cpufreq patches [1]. But it
->               should be fine as long as Thierry Reding would pick up this and
->               the cpufreq patchsets via the Tegra tree, otherwise there will
->               one minor merge-conflict.
-> 
-> [1] https://patchwork.ozlabs.org/project/linux-tegra/list/?series=158206
-...
->   cpuidle: Refactor and move out NVIDIA Tegra20 driver into
->     drivers/cpuidle
->   cpuidle: tegra: Squash Tegra30 driver into the common driver
->   cpuidle: tegra: Squash Tegra114 driver into the common driver
->   cpuidle: tegra: Disable CC6 state if LP2 unavailable
+Remove the return checks and error handling of the
+drm_debugfs_create_files function from various debugfs init functions in
+drm/tegra and have them return 0 directly.
 
-Hello Rafael and Daniel,
+Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
+---
+ drivers/gpu/drm/tegra/dc.c   | 11 +----------
+ drivers/gpu/drm/tegra/drm.c  |  7 ++++---
+ drivers/gpu/drm/tegra/dsi.c  | 11 +----------
+ drivers/gpu/drm/tegra/hdmi.c | 11 +----------
+ drivers/gpu/drm/tegra/sor.c  | 11 +----------
+ 5 files changed, 8 insertions(+), 43 deletions(-)
 
-Could you please let us know whether you're fine with the above patches
-by giving an ACK to them? My understanding is that Thierry can't take
-the cpuidle patches through the Tegra tree without yours ACK. Thanks in
-advance!
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 7c70fd31a4c2..e70d58b21964 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -1496,7 +1496,6 @@ static int tegra_dc_late_register(struct drm_crtc *crtc)
+ 	struct drm_minor *minor = crtc->dev->primary;
+ 	struct dentry *root;
+ 	struct tegra_dc *dc = to_tegra_dc(crtc);
+-	int err;
+ 
+ #ifdef CONFIG_DEBUG_FS
+ 	root = crtc->debugfs_entry;
+@@ -1512,17 +1511,9 @@ static int tegra_dc_late_register(struct drm_crtc *crtc)
+ 	for (i = 0; i < count; i++)
+ 		dc->debugfs_files[i].data = dc;
+ 
+-	err = drm_debugfs_create_files(dc->debugfs_files, count, root, minor);
+-	if (err < 0)
+-		goto free;
++	drm_debugfs_create_files(dc->debugfs_files, count, root, minor);
+ 
+ 	return 0;
+-
+-free:
+-	kfree(dc->debugfs_files);
+-	dc->debugfs_files = NULL;
+-
+-	return err;
+ }
+ 
+ static void tegra_dc_early_unregister(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index bd268028fb3d..6ec224f3d824 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -841,9 +841,10 @@ static struct drm_info_list tegra_debugfs_list[] = {
+ 
+ static int tegra_debugfs_init(struct drm_minor *minor)
+ {
+-	return drm_debugfs_create_files(tegra_debugfs_list,
+-					ARRAY_SIZE(tegra_debugfs_list),
+-					minor->debugfs_root, minor);
++	drm_debugfs_create_files(tegra_debugfs_list,
++				 ARRAY_SIZE(tegra_debugfs_list),
++				 minor->debugfs_root, minor);
++	return 0;
+ }
+ #endif
+ 
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index 88b9d64c77bf..30626fcf61eb 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -234,7 +234,6 @@ static int tegra_dsi_late_register(struct drm_connector *connector)
+ 	struct drm_minor *minor = connector->dev->primary;
+ 	struct dentry *root = connector->debugfs_entry;
+ 	struct tegra_dsi *dsi = to_dsi(output);
+-	int err;
+ 
+ 	dsi->debugfs_files = kmemdup(debugfs_files, sizeof(debugfs_files),
+ 				     GFP_KERNEL);
+@@ -244,17 +243,9 @@ static int tegra_dsi_late_register(struct drm_connector *connector)
+ 	for (i = 0; i < count; i++)
+ 		dsi->debugfs_files[i].data = dsi;
+ 
+-	err = drm_debugfs_create_files(dsi->debugfs_files, count, root, minor);
+-	if (err < 0)
+-		goto free;
++	drm_debugfs_create_files(dsi->debugfs_files, count, root, minor);
+ 
+ 	return 0;
+-
+-free:
+-	kfree(dsi->debugfs_files);
+-	dsi->debugfs_files = NULL;
+-
+-	return err;
+ }
+ 
+ static void tegra_dsi_early_unregister(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index 6f117628f257..d7799d13d8ad 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -1064,7 +1064,6 @@ static int tegra_hdmi_late_register(struct drm_connector *connector)
+ 	struct drm_minor *minor = connector->dev->primary;
+ 	struct dentry *root = connector->debugfs_entry;
+ 	struct tegra_hdmi *hdmi = to_hdmi(output);
+-	int err;
+ 
+ 	hdmi->debugfs_files = kmemdup(debugfs_files, sizeof(debugfs_files),
+ 				      GFP_KERNEL);
+@@ -1074,17 +1073,9 @@ static int tegra_hdmi_late_register(struct drm_connector *connector)
+ 	for (i = 0; i < count; i++)
+ 		hdmi->debugfs_files[i].data = hdmi;
+ 
+-	err = drm_debugfs_create_files(hdmi->debugfs_files, count, root, minor);
+-	if (err < 0)
+-		goto free;
++	drm_debugfs_create_files(hdmi->debugfs_files, count, root, minor);
+ 
+ 	return 0;
+-
+-free:
+-	kfree(hdmi->debugfs_files);
+-	hdmi->debugfs_files = NULL;
+-
+-	return err;
+ }
+ 
+ static void tegra_hdmi_early_unregister(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 81226a4953c1..47c1d133069a 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -1687,7 +1687,6 @@ static int tegra_sor_late_register(struct drm_connector *connector)
+ 	struct drm_minor *minor = connector->dev->primary;
+ 	struct dentry *root = connector->debugfs_entry;
+ 	struct tegra_sor *sor = to_sor(output);
+-	int err;
+ 
+ 	sor->debugfs_files = kmemdup(debugfs_files, sizeof(debugfs_files),
+ 				     GFP_KERNEL);
+@@ -1697,17 +1696,9 @@ static int tegra_sor_late_register(struct drm_connector *connector)
+ 	for (i = 0; i < count; i++)
+ 		sor->debugfs_files[i].data = sor;
+ 
+-	err = drm_debugfs_create_files(sor->debugfs_files, count, root, minor);
+-	if (err < 0)
+-		goto free;
++	drm_debugfs_create_files(sor->debugfs_files, count, root, minor);
+ 
+ 	return 0;
+-
+-free:
+-	kfree(sor->debugfs_files);
+-	sor->debugfs_files = NULL;
+-
+-	return err;
+ }
+ 
+ static void tegra_sor_early_unregister(struct drm_connector *connector)
+-- 
+2.17.1
+
