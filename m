@@ -2,80 +2,121 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95704164B62
-	for <lists+linux-tegra@lfdr.de>; Wed, 19 Feb 2020 18:03:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00C40164C66
+	for <lists+linux-tegra@lfdr.de>; Wed, 19 Feb 2020 18:45:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726647AbgBSRD5 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 19 Feb 2020 12:03:57 -0500
-Received: from foss.arm.com ([217.140.110.172]:52834 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726518AbgBSRD5 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 19 Feb 2020 12:03:57 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42C8031B;
-        Wed, 19 Feb 2020 09:03:57 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB9E03F703;
-        Wed, 19 Feb 2020 09:03:56 -0800 (PST)
-Date:   Wed, 19 Feb 2020 17:03:55 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        Jon Hunter <jonathanh@nvidia.com>
-Subject: Re: [alsa-devel] [PATCH v3 0/7] ASoC: soc-pcm cleanup step2
-Message-ID: <20200219170355.GG4488@sirena.org.uk>
-References: <87d0anceze.wl-kuninori.morimoto.gx@renesas.com>
- <5d19876d-86a4-a461-f47a-68c7ba1f46ac@gmail.com>
- <d60ccad5-9c52-551b-ae22-2815ab768a59@linux.intel.com>
- <alpine.DEB.2.21.2002191900170.2957@eliteleevi.tm.intel.com>
+        id S1726828AbgBSRor (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 19 Feb 2020 12:44:47 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:36550 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726634AbgBSRoq (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 19 Feb 2020 12:44:46 -0500
+Received: by mail-lf1-f66.google.com with SMTP id f24so813561lfh.3;
+        Wed, 19 Feb 2020 09:44:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=uPOumAcBRmkHJ4EJLjVwjyx0UkodYRqLQx2fcbRzjcU=;
+        b=e5cq4mF/bFwQMZTp+Vg5gt8plzWasQB/r379lvjWCErASKW+BA24SB2zyRZyLc7oSZ
+         eKHynbtTSgcyUJYqX+Jqk+hTx5l+o5ytfPRpvB8WPsPBQHThkSIWoujH9ARG2lEYmljh
+         Sa5plISmGyfd5q9hLgFzpxQKAELhTv2KoKASuA+jpf+fzErpbrZ/BUx7QH1X6S8ZlOUA
+         z6S+YwuBYuPsVwJ9Auuythr9wVH6piDHCcXCH+ECIltgt6y6HT9dxZARyfD4LqYNSPZ8
+         fSCHMfObm2ls8WuoqWT3eLjzLPLAp0P22mi/GAvLHFu7lzuvB88AQYdHT04Yfrvt4QH/
+         RPlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=uPOumAcBRmkHJ4EJLjVwjyx0UkodYRqLQx2fcbRzjcU=;
+        b=G5ouDUSr6vEQA41NgErXP1VhP0li4TOijwsliMr3ocroWYVecmLWW1tbHg1ZaQqKwa
+         W7SUnZT/CevepzvPMlZ2FbMum52vDP+9S/0BP/f7LQhpTBRENY8WBsxQz3Mk2v7ktGZf
+         nLTylRLWLCfFVophLOg1UvK353DUByf0ej1EZTt1zR60edoX3dBPkw6f0OhjfYErpDOp
+         Gbi2GeJcou+oR0R9+laYpJrb8EzktuvV32+aJqMGFZQwHuYpoIwBfEXPca+DBXttiJlD
+         jYMP5NkoBLkMx+MES7/xT/LKeBPDyza7ZO1tNkIaNgsaa7ifRg0XwARnkAXHwZwvOHWM
+         84Qw==
+X-Gm-Message-State: APjAAAX3a/lTZTXX+JpklliJ9nL3lTpTOKD3HrdpeJOsVB7Ei6WEXAmU
+        5FsrMIVJ170rR5K3KSjBUGl8h9ah
+X-Google-Smtp-Source: APXvYqw3ltqhA/bDiRtozOcGmk+Vo3B59KY45uUdjerXfOUHP0AtD/B/7ZhTC9AxNjJ9jBSxV6oGVA==
+X-Received: by 2002:a19:5e41:: with SMTP id z1mr14182445lfi.101.1582134283843;
+        Wed, 19 Feb 2020 09:44:43 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id s17sm254568ljo.18.2020.02.19.09.44.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Feb 2020 09:44:43 -0800 (PST)
+Subject: Re: [PATCH v1] partitions/efi: Add 'gpt_sector' kernel cmdline
+ parameter
+To:     Stephen Warren <swarren@wwwdotorg.org>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
+        Colin Cross <ccross@android.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>, linux-efi@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200219162339.16192-1-digetx@gmail.com>
+ <20200219162738.GA10644@infradead.org>
+ <f9e41108-7811-0deb-6977-be0f60e23b52@wwwdotorg.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0c0d0cff-7b20-f777-8724-0d2b07e60e3d@gmail.com>
+Date:   Wed, 19 Feb 2020 20:44:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="c7hkjup166d4FzgN"
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.2002191900170.2957@eliteleevi.tm.intel.com>
-X-Cookie: FORTH IF HONK THEN
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <f9e41108-7811-0deb-6977-be0f60e23b52@wwwdotorg.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+19.02.2020 19:59, Stephen Warren пишет:
+> On 2/19/20 9:27 AM, Christoph Hellwig wrote:
+>> On Wed, Feb 19, 2020 at 07:23:39PM +0300, Dmitry Osipenko wrote:
+>>> The gpt_sector=<sector> causes the GPT partition search to look at the
+>>> specified sector for a valid GPT header if the GPT is not found at the
+>>> beginning or the end of block device.
+>>>
+>>> In particular this is needed for NVIDIA Tegra consumer-grade Android
+>>> devices in order to make them usable with the upstream kernel because
+>>> these devices use a proprietary / closed-source partition table format
+>>> for the EMMC and it's impossible to change the partition's format.
+>>> Luckily
+>>> there is a GPT table in addition to the proprietary table, which is
+>>> placed
+>>> in uncommon location of the EMMC storage and bootloader passes the
+>>> location to kernel using "gpt gpt_sector=<sector>" cmdline parameters.
+>>>
+>>> This patch is based on the original work done by Colin Cross for the
+>>> downstream Android kernel.
+>>
+>> I don't think a magic command line is the way to go.  The best would be
+>> to reverse-engineer the proprietary partition table format.  If that is
+>> too hard we can at least key off the odd GPT location based of it's
+>> magic number.
+> 
+> I thought that the backup GPT was always present in the standard
+> location; it's just the primary GPT that's in an odd location. So, this
+> kernel parameter just forces the kernel to look first for the primary
+> GPT in the unusual location, thus avoiding an error message when that's
+> not there, and the system falls back to the backup GPT.
+> 
+> Or, do I misremember the layout, or the kernel's behaviour if primary
+> GPT is missing?
 
---c7hkjup166d4FzgN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The backup GPT not always presents in the standard location. For example
+Tegra30 ASUS Google Nexus 7 has a backup GPT in the proper location and
+this is what KMSG prints:
 
-On Wed, Feb 19, 2020 at 07:01:33PM +0200, Kai Vehmanen wrote:
-> On Wed, 19 Feb 2020, Pierre-Louis Bossart wrote:
+[    1.722888] Primary GPT is invalid, using alternate GPT.
+[    1.723076]  mmcblk1: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10
 
-> > We also see a regression Kai bisected to the same patch
-
-> > https://github.com/thesofproject/linux/pull/1805#issuecomment-588266014
-
-> issue rootcaused -- this relates to the new "opened" tracking, I'll send =
-a=20
-> patch shortly after a few more test rounds.
-
-Oh, excellent thanks - I was just starting to poke at this a little!
-
---c7hkjup166d4FzgN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5NanoACgkQJNaLcl1U
-h9DF8Qf9GsLpU85BKuVRGsLykt81rr/+87ujyl8pzIcOzVotCJtAhfKR4DsnnHJz
-7u01I/fyGwYdxO2gvRjlFxe4UO0KVJh8Kbmyh4ZwPjeAEa5NLhs9D9JQo7qEhRWM
-6ARwANJVcZ43UQDcvlV3ZX7lHCuRZPQi2ZuIiaI9jo4jRpfEIh25iVuxjafrKkkc
-AD1EYa/nFJKUWXRMrJfFhZdXYQvnY6pCX/3PGwrxD0gnwsaPW7wVR5iwElZyToVK
-i/TIjmyKHvNXYSKbpYA/FQYYuAzwIUFJD7wczFgCH4ImrJbdYZl7RxJnso81UynD
-s8aFo8gkQQ5ke6JIyJF+eHlQjhevWA==
-=C3SM
------END PGP SIGNATURE-----
-
---c7hkjup166d4FzgN--
+But this doesn't work for Tegra20 Acer A500 and (IIRC) Tegra30 Ouya
+because both primary and backup GPTs are invalid at the standard locations.
