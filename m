@@ -2,122 +2,62 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07C6C164422
-	for <lists+linux-tegra@lfdr.de>; Wed, 19 Feb 2020 13:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A26416455C
+	for <lists+linux-tegra@lfdr.de>; Wed, 19 Feb 2020 14:25:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbgBSMZx (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 19 Feb 2020 07:25:53 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:40994 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726530AbgBSMZx (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 19 Feb 2020 07:25:53 -0500
-Received: by mail-lf1-f66.google.com with SMTP id m30so17269291lfp.8;
-        Wed, 19 Feb 2020 04:25:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vym7cnw2UswPy4mXXSErcySNdTESMC8KufR8ycUGU5w=;
-        b=oez3uqjO4V62x8YIYF5vSrd4T0ApecZAop66yE0oWlbRoOBzXF14svDpFD/Ng2lwwh
-         MCkn1LskfRITwXoyRp0xOmwHk67ybaAX4EciOuyLfZGtHWFWI9bjcJmRUxZRCeNltUtI
-         5002JRuke/Egc6Lp8iyOvY9JiSvbiuEdHqpyVfEF/WsPcfn4ClYnIZtUpyRO35QkyiGu
-         f7xtL1pRRS+lqqShdssORi9j3o3WiJExuAoe5pWnl++josbuHO3HzwcpIP1NDkV6aaxH
-         2+mbI6l985QaghxEZZgLMN5bsB/fAuh8pRSj4ATC6llE7H4pbDDy4QaVswKus/ta6d4A
-         vE1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vym7cnw2UswPy4mXXSErcySNdTESMC8KufR8ycUGU5w=;
-        b=hr3VgRbzK5OdJ87WDDe8ilLlbq2LUEPDkllwrR5X5OYIjsYYQq+Xh7cheKDGiN3NBr
-         lIrZ2TnUVnIfQ0MCmlbA/pdeHgBEo+9iRGwKlDGMdjW1aDNs0QS0w2Uyjz2DFSunEcHG
-         sHXtZoGARCkk+vChtAbusGxsF3dCW0laCijH6W5R93MaR1F91Xn6XDTDyurtTZi7vv+D
-         TtJHYVDfYCnj6+zJuv8A2A0D5hqfGihKsTWJJo+xJcQYLN7BYKiRGEGC4tSnjaO0aM8z
-         Dt9LW1K3ekTOD3fFsvphiChBL57KfZnyTAvHn4KoXquYut2VswUPjsTvtoP03YtKyT22
-         oCgQ==
-X-Gm-Message-State: APjAAAU5dW+/iEjvfJMO2n0oc7yhHOMqmL3JcGCUJ25umX07ycURO0tM
-        /UJSxQySyzo1ICN0if/A+/CIfmWZ
-X-Google-Smtp-Source: APXvYqwOXJJ7XlulCRTxrAdarKdKzkJYyE1YSvY/srBtjmnhMW4P80vG9t1erIHkDK0fASgisa/SAA==
-X-Received: by 2002:a05:6512:407:: with SMTP id u7mr12956722lfk.146.1582115150261;
-        Wed, 19 Feb 2020 04:25:50 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id a9sm1236930lfk.23.2020.02.19.04.25.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2020 04:25:49 -0800 (PST)
-Subject: Re: [PATCH for 5.6 v2] tty: serial: tegra: Handle RX transfer in PIO
- mode if DMA wasn't started
-To:     Jiri Slaby <jslaby@suse.cz>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200209164415.9632-1-digetx@gmail.com>
- <15b01f79-007d-09bb-03be-050c009ceff6@suse.cz>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4d9a2352-6daa-4dcc-376b-175b1398ff6a@gmail.com>
-Date:   Wed, 19 Feb 2020 15:25:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1727858AbgBSNZl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-tegra@lfdr.de>); Wed, 19 Feb 2020 08:25:41 -0500
+Received: from scm.imp.edu.mx ([132.247.16.103]:53009 "EHLO scm.imp.edu.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727786AbgBSNZk (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Wed, 19 Feb 2020 08:25:40 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by scm.imp.edu.mx (Postfix) with ESMTP id 2330B187FA8;
+        Wed, 19 Feb 2020 06:11:30 -0600 (CST)
+X-Virus-Scanned: by SpamTitan at imp.edu.mx
+Received: from scm.imp.edu.mx (localhost [127.0.0.1])
+        by scm.imp.edu.mx (Postfix) with ESMTP id 5A14D1880A5;
+        Wed, 19 Feb 2020 04:51:49 -0600 (CST)
+Authentication-Results: scm.imp.edu.mx; none
+Received: from imp.edu.mx (unknown [10.249.93.105])
+        by scm.imp.edu.mx (Postfix) with ESMTP id 4DC2018DA05;
+        Wed, 19 Feb 2020 04:51:45 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by imp.edu.mx (Postfix) with ESMTP id 358EC180635F48;
+        Wed, 19 Feb 2020 04:51:46 -0600 (CST)
+Received: from imp.edu.mx ([127.0.0.1])
+        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id UIsgs9D7FS9M; Wed, 19 Feb 2020 04:51:46 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by imp.edu.mx (Postfix) with ESMTP id 15E38180635F44;
+        Wed, 19 Feb 2020 04:51:46 -0600 (CST)
+X-Virus-Scanned: amavisd-new at imp.edu.mx
+Received: from imp.edu.mx ([127.0.0.1])
+        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id W32SBc03HzNt; Wed, 19 Feb 2020 04:51:46 -0600 (CST)
+Received: from [45.147.4.119] (unknown [45.147.4.119])
+        by imp.edu.mx (Postfix) with ESMTPSA id AC97D180635F4B;
+        Wed, 19 Feb 2020 04:51:44 -0600 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-In-Reply-To: <15b01f79-007d-09bb-03be-050c009ceff6@suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: 19-02-2020
+To:     Recipients <mucios@imp.edu.mx>
+From:   "urs portmann" <mucios@imp.edu.mx>
+Date:   Wed, 19 Feb 2020 21:51:42 +1100
+Reply-To: onube@qq.com
+Message-Id: <20200219105144.AC97D180635F4B@imp.edu.mx>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-17.02.2020 10:37, Jiri Slaby Ð¿Ð¸ÑˆÐµÑ‚:
-> On 09. 02. 20, 17:44, Dmitry Osipenko wrote:
->> It is possible to get an instant RX timeout or end-of-transfer interrupt
->> before RX DMA was started, if transaction is less than 16 bytes. Transfer
->> should be handled in PIO mode in this case because DMA can't handle it.
->> This patch brings back the original behaviour of the driver that was
->> changed by accident by a previous commit, it fixes occasional Bluetooth HW
->> initialization failures which I started to notice recently.
->>
->> Fixes: d5e3fadb7012 ("tty: serial: tegra: Activate RX DMA transfer by request")
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>
->> Changelog:
->>
->> v2: - Corrected commit's title by adding the accidentally missed "tegra: "
->>       to the prefix.
->>
->>  drivers/tty/serial/serial-tegra.c | 35 ++++++++++++++-----------------
->>  1 file changed, 16 insertions(+), 19 deletions(-)
->>
->> diff --git a/drivers/tty/serial/serial-tegra.c b/drivers/tty/serial/serial-tegra.c
->> index 33034b852a51..8de8bac9c6c7 100644
->> --- a/drivers/tty/serial/serial-tegra.c
->> +++ b/drivers/tty/serial/serial-tegra.c
->> @@ -692,11 +692,22 @@ static void tegra_uart_copy_rx_to_tty(struct tegra_uart_port *tup,
->>  				   count, DMA_TO_DEVICE);
->>  }
->>  
->> +static void do_handle_rx_pio(struct tegra_uart_port *tup)
->> +{
->> +	struct tty_struct *tty = tty_port_tty_get(&tup->uport.state->port);
->> +	struct tty_port *port = &tup->uport.state->port;
->> +
->> +	tegra_uart_handle_rx_pio(tup, port);
->> +	if (tty) {
-> 
-> What's the tty good for here, actually?
-> 
->> +		tty_flip_buffer_push(port);
->> +		tty_kref_put(tty);
->> +	}
->> +}
+Guten Morgen,
+                                          19-02-2020
+Wir haben versucht, Sie zu erreichen und haben noch nichts von Ihnen gehört. Haben Sie unsere letzte E-Mail über Ihre S.p.e.n.d.e erhalten? Wenn nicht, melden Sie sich bitte bei uns, um weitere Informationen zu erhalten.
 
-I'm not really a TTY expert..
+Wir warten darauf, von Ihnen zu hören, sobald Sie diese Nachricht erhalten, die Sie bei der weiteren Vorgehensweise unterstützt.
 
-Jon, maybe you have any clue whether TTY could disappear while port is
-opened?
-
+Mfg
+urs portmann
