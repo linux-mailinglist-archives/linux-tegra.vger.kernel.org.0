@@ -2,78 +2,98 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59905163CCA
-	for <lists+linux-tegra@lfdr.de>; Wed, 19 Feb 2020 06:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FE041642EF
+	for <lists+linux-tegra@lfdr.de>; Wed, 19 Feb 2020 12:06:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726014AbgBSFrt (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Wed, 19 Feb 2020 00:47:49 -0500
-Received: from zmail.nuczu.edu.ua ([91.234.43.158]:53900 "EHLO
-        zmail.nuczu.edu.ua" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725994AbgBSFrt (ORCPT
+        id S1726719AbgBSLGF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Wed, 19 Feb 2020 06:06:05 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19227 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726668AbgBSLGF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Wed, 19 Feb 2020 00:47:49 -0500
-X-Greylist: delayed 9162 seconds by postgrey-1.27 at vger.kernel.org; Wed, 19 Feb 2020 00:47:49 EST
-Received: from localhost (localhost [127.0.0.1])
-        by zmail.nuczu.edu.ua (Postfix) with ESMTP id 659388045CE;
-        Wed, 19 Feb 2020 02:41:10 +0200 (EET)
-Received: from zmail.nuczu.edu.ua ([127.0.0.1])
-        by localhost (zmail.nuczu.edu.ua [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id K_2RU6MFYIel; Wed, 19 Feb 2020 02:41:10 +0200 (EET)
-Received: from localhost (localhost [127.0.0.1])
-        by zmail.nuczu.edu.ua (Postfix) with ESMTP id 30FDA6C3AE0;
-        Tue, 18 Feb 2020 23:46:41 +0200 (EET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmail.nuczu.edu.ua 30FDA6C3AE0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuczu.edu.ua;
-        s=A52E72AE-E4EF-11E9-9906-53CE3145A657; t=1582062401;
-        bh=o+H3O7n1+zJcXo0FhJs7spyf8HmE4ClnBa/Y2Gk0DL0=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=A/9ccGZPKSy+l1o+eqScwOU6oxNrAlfK9Q+092iX3fHJUjA9GtgWVFOLbbvxOgrl5
-         JKGxQg5KwSQegoUMfBDfXix3PjJPxRxtz9HKwysRY2zl+8MygZU2HOEE2OgTPoCF6Z
-         TvQzRN26n4HsXwcb+sJ9/EOhiz1kfD+SGrGQo2cd2GPLJiwgzWALn0BucvLxkdL0l0
-         /BNPqw6I0S49HhV+HvZJp2dso1UVCF6R1DaLtfrE4hRHI87cjgfa4tgNg4BvYVgCiG
-         8dU6tx/+pvvHdBVuh765YwUFhMEDc+ZC2gd+6q9G+Uo41Y6NBLp47+IQhmFmdALNFl
-         Wllgr/N7yw/hQ==
-X-Virus-Scanned: amavisd-new at nuczu.edu.ua
-Received: from zmail.nuczu.edu.ua ([127.0.0.1])
-        by localhost (zmail.nuczu.edu.ua [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 7u2Mhw1aLFvj; Tue, 18 Feb 2020 23:46:40 +0200 (EET)
-Received: from [10.109.183.140] (unknown [105.12.3.161])
-        by zmail.nuczu.edu.ua (Postfix) with ESMTPSA id A2A864FD5A9;
-        Tue, 18 Feb 2020 21:59:37 +0200 (EET)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 19 Feb 2020 06:06:05 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e4d167c0001>; Wed, 19 Feb 2020 03:05:32 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 19 Feb 2020 03:06:04 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Wed, 19 Feb 2020 03:06:04 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 19 Feb
+ 2020 11:06:02 +0000
+Subject: Re: [PATCH 4.19 00/38] 4.19.105-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200218190418.536430858@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <21d5fe3f-9b2c-571c-a8a5-8d8966e18764@nvidia.com>
+Date:   Wed, 19 Feb 2020 11:06:00 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Euro?=
-To:     Recipients <dushkin@nuczu.edu.ua>
-From:   ''Michael weirsky'' <dushkin@nuczu.edu.ua>
-Date:   Tue, 18 Feb 2020 21:59:28 +0200
-Reply-To: mikeweirskyspende@gmail.com
-Message-Id: <20200218195938.A2A864FD5A9@zmail.nuczu.edu.ua>
+In-Reply-To: <20200218190418.536430858@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1582110332; bh=veBQv0eIF+eTVEhBgYOt5fZwCdL4s1eqcxE9Ee6DHTo=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=Sj7O0l1s/veTxVWxuCvA4GQ+fnCweXcNX5rw5+uwd6DrlVMuy5GhPcY7XXGpIiJkI
+         +dFKcvDVTkma9frrA2Y9ThDy4apcqFQQYZxUn/9+mK4Eu0mXLag9RbiZDR7eFRSBo9
+         Rj1NTZxDB4vX7nB5En0wXfet05kPOeIu6sVaGbMX0TzWigdmGNrXMSaWskPlXiErd1
+         Ykhbv9h2jOm3LbD09fbklkN3WEUewQXV6KmnJ5xnGiDHkxZOye3fZoyemDW6A1s0qv
+         XVTJDvSHY+MEuGEbBkYznxDTEB2pEjuabTZ2BpeiNFuX4IT4syKcCmpF1LejCH/h+V
+         iyAV4L8doKrzg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Lieber Freund,
 
-Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der =
-Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zu=
-f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
-il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
-meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
-und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
-Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
- spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen.
-Das ist dein Spendencode: [MW530342019]
-www.youtube.com/watch?v=3Dun8yRTmrYMY
+On 18/02/2020 19:54, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 4.19.105 release.
+> There are 38 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
+> Responses should be made by Thu, 20 Feb 2020 19:03:19 +0000.
+> Anything received after that time might be too late.
+> 
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.105-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+> and the diffstat can be found below.
+> 
+> thanks,
+> 
+> greg k-h
 
-Antworten Sie mit dem SPENDE-CODE an diese =
+All tests are passing for Tegra ...
 
+Test results for stable-v4.19:
+    11 builds:	11 pass, 0 fail
+    22 boots:	22 pass, 0 fail
+    32 tests:	32 pass, 0 fail
 
-E-Mail:mikeweirskyspende@gmail.com
+Linux version:	4.19.105-rc1-g85265e81d664
+Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
+                tegra194-p2972-0000, tegra20-ventana,
+                tegra210-p2371-2180, tegra30-cardhu-a04
 
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+Cheers
+Jon
 
-Gr=C3=BC=C3=9Fe
-Herr Mike Weirsky
+-- 
+nvpublic
