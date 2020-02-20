@@ -2,123 +2,158 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74949165EDE
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Feb 2020 14:33:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59E02165FBC
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Feb 2020 15:31:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728066AbgBTNdy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Feb 2020 08:33:54 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35771 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728051AbgBTNdx (ORCPT
+        id S1727705AbgBTObC (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Feb 2020 09:31:02 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:2267 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727088AbgBTObC (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Feb 2020 08:33:53 -0500
-Received: from [IPv6:2001:420:44c1:2577:ac15:94e:5ea0:8199]
- ([IPv6:2001:420:44c1:2577:ac15:94e:5ea0:8199])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 4lxbjYOH4jmHT4lxejJjq8; Thu, 20 Feb 2020 14:33:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582205631; bh=W5ASoqeOAh17Qps81aLKTtl0jMkVCmNhhVWeB98kIlg=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=VQiME1kharihSlvLOG/fRjPvR5bBNO2M9q/euOR+rf8Xi5ZdL6Ob5tvwHCv/CX0wH
-         FvoeGv4APr2WlyboDCvvqBhsOzz2gjJkhUMwIR7VC9imGsFLeobf5wWAaV3RjQdYRc
-         8S4c3ihDqmz8tE/UWmAAMgkJeXhm7q/Rvcm4GTGLTCI0BaV8hqpjBtBOo2bzV8DLp2
-         X0frPcCFsjpYE36xE/fMBOUMoXBqbRR3/Lp2uLuCDTVqYc71VRU4IRbEI7ypbVmNZG
-         41xcH45Kp4Z4MHRX2CFpbwZK33STOtqLjSU9s8mfMsMZ5bwGbtodUyurOzNrxGEpJW
-         5l/gGtYyHwOmA==
-Subject: Re: [RFC PATCH v3 4/6] media: tegra: Add Tegra210 Video input driver
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        helen.koike@collabora.com, sboyd@kernel.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1581704608-31219-1-git-send-email-skomatineni@nvidia.com>
- <1581704608-31219-5-git-send-email-skomatineni@nvidia.com>
- <b301c247-537d-d78e-b057-a3225b10de7e@xs4all.nl>
-Message-ID: <dc592f29-3109-d10c-7df7-ffdb2755ade0@xs4all.nl>
-Date:   Thu, 20 Feb 2020 14:33:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 20 Feb 2020 09:31:02 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e4e98040000>; Thu, 20 Feb 2020 06:30:28 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 20 Feb 2020 06:31:01 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 20 Feb 2020 06:31:01 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Feb
+ 2020 14:30:58 +0000
+Subject: Re: [PATCH v3 02/10] ASoC: tegra: add support for CIF programming
+To:     Sameer Pujar <spujar@nvidia.com>, <perex@perex.cz>,
+        <tiwai@suse.com>, <robh+dt@kernel.org>
+CC:     <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <thierry.reding@gmail.com>, <digetx@gmail.com>,
+        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, <mkumard@nvidia.com>,
+        <viswanathl@nvidia.com>, <rlokhande@nvidia.com>,
+        <dramesh@nvidia.com>, <atalambedu@nvidia.com>
+References: <1582180492-25297-1-git-send-email-spujar@nvidia.com>
+ <1582180492-25297-3-git-send-email-spujar@nvidia.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <f930e81b-3635-3b4d-8613-6e8b43e2efaf@nvidia.com>
+Date:   Thu, 20 Feb 2020 14:30:55 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <b301c247-537d-d78e-b057-a3225b10de7e@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1582180492-25297-3-git-send-email-spujar@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIgbYI0jRMjFLIONkK7nMG/If2b+W2ijCTNCxtI5OT0b9Eo+Ml//odnii0LSDRn39gUvWvWon0ewb/nWgysr/BO9vTlDJPK4JXbfCSlwVVTfOtjdsYfW
- m9giEi3+XdgysUXMIC9ajCfu9dgDEgvrRgjR1VvOFG3k4e19UEIkcuuZIW5Lh68eAFOpKZO8g0kooxbhkAF6qqIqkQp/Twf5BycKYvWJ7ohThBbKlvJZ7kOH
- JdS6ByS8WPWZfHwQjbyrPeP/B5tFhZtXOUaB0dH6xXSPCgngNRnWoIX3Wus+/UYR3qVtR1HDkKyahdq4bmMwH6L/4Cy7QjH8NTJ5AwWAx8SOzKVfgLwar1Rc
- TWRd56Srn8dLbwuWENLRgcriaZ9Ty9oT78bsYUFd93F7P2WAY65VGQyy9NAuul+U1SfN9wHytaU2UWKAz4VwYggCZi0Ex4uUKZfZSgE/eA6L+DB3rXbft12Z
- c1BGU0ckKhnCPe+/59It5KQ4toYMh9nXXmJDZsr0yFSdurZOVD0pxBx69bqZEyUoeQdBCujRssygWu2A7Iq0jnyUu7C+QbKVrJGPAPogcL1tEylb1uKGfhNZ
- 7BqVPh9twuBWOw7g2L0GlFZvWqaaJSjIrm2u29klYLjUlmMn2WUNrEI030FNyiGOh2c=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1582209028; bh=/2DIXcjbQPQs9k+oNntAmjdAP0LqWcaxt6oAb3yKVVk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=c7akADfrtIbqKyxxIT6045B97kZk7vUa4mFTeI19vX9+I/5R8lOOI91uL4ev5n0dk
+         ZLm2KMp0hnhWmRFXqgwCgwoAAwXYl2xZEHPihPlKE+AjKNkzW2m2KT5jcqTF8KRBtl
+         jfA1SJujzjrXXhTWYfbOqiEAKvr25vNuZ8H+cnfX3LquqTZ8AI2gLFMEdZJ7u4/e+g
+         byP9CfMfcKizZIVtLKre325LUS7atFHQllm6Fp3oaBqeIZ9zgLaBauasM6X1mk3vVK
+         PTbsQAzT9rbvd77Y579X7bGSKyzHHsGu4N59yU7pGSoERI4GXttSPt3qnNYl0Unz57
+         zy3InnDcDDFOA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-(Replying to myself so I can explain this a bit more)
 
-On 2/20/20 1:44 PM, Hans Verkuil wrote:
->> +
->> +static int tegra_csi_tpg_channels_alloc(struct tegra_csi *csi)
->> +{
->> +	struct device_node *node = csi->dev->of_node;
->> +	unsigned int port_num;
->> +	int ret;
->> +	struct tegra_csi_channel *item;
->> +	unsigned int tpg_channels = csi->soc->csi_max_channels;
->> +
->> +	/* allocate CSI channel for each CSI x2 ports */
->> +	for (port_num = 0; port_num < tpg_channels; port_num++) {
->> +		item = devm_kzalloc(csi->dev, sizeof(*item), GFP_KERNEL);
+On 20/02/2020 06:34, Sameer Pujar wrote:
+> Audio Client Interface (CIF) is a proprietary interface employed to route
+> audio samples through Audio Hub (AHUB) components by inter connecting the
+> various modules.
 > 
-> Using devm_*alloc can be dangerous. If someone unbinds the driver, then
-> all memory allocated with devm_ is immediately freed. But if an application
-> still has a filehandle open, then when it closes it it might still reference
-> this already-freed memory.
+> This patch exports an inline function tegra_set_cif() which can be used,
+> for now, to program CIF on Tegra210 and later Tegra generations. Later it
+> can be extended to include helpers for legacy chips as well.
 > 
-> I recommend that you avoid using devm_*alloc for media drivers.
+> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> ---
+>  sound/soc/tegra/tegra_cif.h | 63 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+>  create mode 100644 sound/soc/tegra/tegra_cif.h
+> 
+> diff --git a/sound/soc/tegra/tegra_cif.h b/sound/soc/tegra/tegra_cif.h
+> new file mode 100644
+> index 0000000..ecc0850
+> --- /dev/null
+> +++ b/sound/soc/tegra/tegra_cif.h
+> @@ -0,0 +1,63 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * tegra_cif.h - TEGRA Audio CIF Programming
+> + *
+> + * Copyright (c) 2020 NVIDIA CORPORATION.  All rights reserved.
+> + *
+> + */
+> +
+> +#ifndef __TEGRA_CIF_H__
+> +#define __TEGRA_CIF_H__
+> +
+> +#define TEGRA_ACIF_CTRL_FIFO_TH_SHIFT		24
+> +#define TEGRA_ACIF_CTRL_AUDIO_CH_SHIFT		20
+> +#define TEGRA_ACIF_CTRL_CLIENT_CH_SHIFT		16
+> +#define TEGRA_ACIF_CTRL_AUDIO_BITS_SHIFT	12
+> +#define TEGRA_ACIF_CTRL_CLIENT_BITS_SHIFT	8
+> +#define TEGRA_ACIF_CTRL_EXPAND_SHIFT		6
+> +#define TEGRA_ACIF_CTRL_STEREO_CONV_SHIFT	4
+> +#define TEGRA_ACIF_CTRL_REPLICATE_SHIFT		3
+> +#define TEGRA_ACIF_CTRL_TRUNCATE_SHIFT		1
+> +#define TEGRA_ACIF_CTRL_MONO_CONV_SHIFT		0
+> +
+> +/* AUDIO/CLIENT_BITS values */
+> +#define TEGRA_ACIF_BITS_8			1
+> +#define TEGRA_ACIF_BITS_16			3
+> +#define TEGRA_ACIF_BITS_24			5
+> +#define TEGRA_ACIF_BITS_32			7
+> +
+> +#define TEGRA_ACIF_UPDATE_MASK			0x3ffffffb
+> +
+> +struct tegra_cif_conf {
+> +	unsigned int threshold;
+> +	unsigned int audio_ch;
+> +	unsigned int client_ch;
+> +	unsigned int audio_bits;
+> +	unsigned int client_bits;
+> +	unsigned int expand;
+> +	unsigned int stereo_conv;
+> +	unsigned int replicate;
+> +	unsigned int truncate;
+> +	unsigned int mono_conv;
+> +};
+> +
+> +static inline void tegra_set_cif(struct regmap *regmap, unsigned int reg,
+> +				 struct tegra_cif_conf *conf)
+> +{
+> +	unsigned int value;
+> +
+> +	value = (conf->threshold << TEGRA_ACIF_CTRL_FIFO_TH_SHIFT) |
+> +		((conf->audio_ch - 1) << TEGRA_ACIF_CTRL_AUDIO_CH_SHIFT) |
+> +		((conf->client_ch - 1) << TEGRA_ACIF_CTRL_CLIENT_CH_SHIFT) |
+> +		(conf->audio_bits << TEGRA_ACIF_CTRL_AUDIO_BITS_SHIFT) |
+> +		(conf->client_bits << TEGRA_ACIF_CTRL_CLIENT_BITS_SHIFT) |
+> +		(conf->expand << TEGRA_ACIF_CTRL_EXPAND_SHIFT) |
+> +		(conf->stereo_conv << TEGRA_ACIF_CTRL_STEREO_CONV_SHIFT) |
+> +		(conf->replicate << TEGRA_ACIF_CTRL_REPLICATE_SHIFT) |
+> +		(conf->truncate << TEGRA_ACIF_CTRL_TRUNCATE_SHIFT) |
+> +		(conf->mono_conv << TEGRA_ACIF_CTRL_MONO_CONV_SHIFT);
+> +
+> +	regmap_update_bits(regmap, reg, TEGRA_ACIF_UPDATE_MASK, value);
+> +}
+> +
+> +#endif
 
-A good test is to unbind & bind the driver:
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 
-cd /sys/devices/platform/50000000.host1x/54080000.vi/driver
-echo -n 54080000.vi >unbind
-echo -n 54080000.vi >bind
+Cheers!
+Jon
 
-First just do this without the driver being used. That already
-gives me 'list_del corruption' kernel messages (list debugging
-is turned on in my kernel).
-
-Note that this first test is basically identical to a rmmod/modprobe
-of the driver. But when I compiled the driver as a module it didn't
-create any video device nodes! Nor did I see any errors in the kernel
-log. I didn't pursue this, and perhaps I did something wrong, but it's
-worth taking a look at.
-
-The next step would be to have a video node open with:
-
-v4l2-ctl --sleep 10
-
-then while it is sleeping unbind the driver and see what happens
-when v4l2-ctl exits.
-
-Worst case is when you are streaming:
-
-v4l2-ctl --stream-mmap
-
-and then unbind.
-
-In general, the best way to get this to work correctly is:
-
-1) don't use devm_*alloc
-2) set the release callback of struct v4l2_device and do all freeing there.
-3) in the platform remove() callback you call media_device_unregister()
-   and video_unregister_device().
-
-It's worth getting this right in this early stage, rather than fixing it
-in the future.
-
-Regards,
-
-	Hans
+-- 
+nvpublic
