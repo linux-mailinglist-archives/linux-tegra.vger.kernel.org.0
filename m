@@ -2,392 +2,123 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C96D165EF3
-	for <lists+linux-tegra@lfdr.de>; Thu, 20 Feb 2020 14:39:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74949165EDE
+	for <lists+linux-tegra@lfdr.de>; Thu, 20 Feb 2020 14:33:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728139AbgBTNi7 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Thu, 20 Feb 2020 08:38:59 -0500
-Received: from gateway31.websitewelcome.com ([192.185.143.51]:36134 "EHLO
-        gateway31.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728132AbgBTNi7 (ORCPT
+        id S1728066AbgBTNdy (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Thu, 20 Feb 2020 08:33:54 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35771 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728051AbgBTNdx (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Thu, 20 Feb 2020 08:38:59 -0500
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
-        by gateway31.websitewelcome.com (Postfix) with ESMTP id 110631142F
-        for <linux-tegra@vger.kernel.org>; Thu, 20 Feb 2020 07:17:35 -0600 (CST)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id 4lhujWf12Sl8q4lhvjD0tt; Thu, 20 Feb 2020 07:17:35 -0600
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=z1nik/sLu1rWe1J16Res5lnb/I2LgkK5u9A27nU3ovY=; b=WkfFysgNRAo+UWyPV48G7KJxrr
-        QdENWL2WZlpyux/qZ58g4YNrrdODyN/3/5cURbxev/i8i5y9/fNa5+YyCQqKV2OF1pfuypyeMs6Lw
-        Y92EXY+tFP+JEI7zuhJ9u/F6GFh7jn0iMXQaIrEbM3+gaYf84/xhX9DUaDN6ZeBMHJoz95ht6epCx
-        mwmOwqv+ZxjhNYtjful6ZZFIlk487O59qsgsT0VioFBEeGpH9HBiP4Jg6ntzqB0+xPpRVA0H+Bz77
-        pcSB4jcakHBCa6z+/lfyyqg19of677C4vhYE8WCxtJPfP7j9vA8WbGR6YsuqF2vp5ilM+33vEmh8f
-        GwMVz72w==;
-Received: from [201.144.174.47] (port=28175 helo=embeddedor)
-        by gator4166.hostgator.com with esmtpa (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1j4lht-003Yvz-1W; Thu, 20 Feb 2020 07:17:33 -0600
-Date:   Thu, 20 Feb 2020 07:20:17 -0600
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH] USB: Replace zero-length array with flexible-array member
-Message-ID: <20200220132017.GA29262@embeddedor>
+        Thu, 20 Feb 2020 08:33:53 -0500
+Received: from [IPv6:2001:420:44c1:2577:ac15:94e:5ea0:8199]
+ ([IPv6:2001:420:44c1:2577:ac15:94e:5ea0:8199])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 4lxbjYOH4jmHT4lxejJjq8; Thu, 20 Feb 2020 14:33:51 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1582205631; bh=W5ASoqeOAh17Qps81aLKTtl0jMkVCmNhhVWeB98kIlg=;
+        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=VQiME1kharihSlvLOG/fRjPvR5bBNO2M9q/euOR+rf8Xi5ZdL6Ob5tvwHCv/CX0wH
+         FvoeGv4APr2WlyboDCvvqBhsOzz2gjJkhUMwIR7VC9imGsFLeobf5wWAaV3RjQdYRc
+         8S4c3ihDqmz8tE/UWmAAMgkJeXhm7q/Rvcm4GTGLTCI0BaV8hqpjBtBOo2bzV8DLp2
+         X0frPcCFsjpYE36xE/fMBOUMoXBqbRR3/Lp2uLuCDTVqYc71VRU4IRbEI7ypbVmNZG
+         41xcH45Kp4Z4MHRX2CFpbwZK33STOtqLjSU9s8mfMsMZ5bwGbtodUyurOzNrxGEpJW
+         5l/gGtYyHwOmA==
+Subject: Re: [RFC PATCH v3 4/6] media: tegra: Add Tegra210 Video input driver
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        helen.koike@collabora.com, sboyd@kernel.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1581704608-31219-1-git-send-email-skomatineni@nvidia.com>
+ <1581704608-31219-5-git-send-email-skomatineni@nvidia.com>
+ <b301c247-537d-d78e-b057-a3225b10de7e@xs4all.nl>
+Message-ID: <dc592f29-3109-d10c-7df7-ffdb2755ade0@xs4all.nl>
+Date:   Thu, 20 Feb 2020 14:33:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.144.174.47
-X-Source-L: No
-X-Exim-ID: 1j4lht-003Yvz-1W
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (embeddedor) [201.144.174.47]:28175
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 12
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+In-Reply-To: <b301c247-537d-d78e-b057-a3225b10de7e@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIgbYI0jRMjFLIONkK7nMG/If2b+W2ijCTNCxtI5OT0b9Eo+Ml//odnii0LSDRn39gUvWvWon0ewb/nWgysr/BO9vTlDJPK4JXbfCSlwVVTfOtjdsYfW
+ m9giEi3+XdgysUXMIC9ajCfu9dgDEgvrRgjR1VvOFG3k4e19UEIkcuuZIW5Lh68eAFOpKZO8g0kooxbhkAF6qqIqkQp/Twf5BycKYvWJ7ohThBbKlvJZ7kOH
+ JdS6ByS8WPWZfHwQjbyrPeP/B5tFhZtXOUaB0dH6xXSPCgngNRnWoIX3Wus+/UYR3qVtR1HDkKyahdq4bmMwH6L/4Cy7QjH8NTJ5AwWAx8SOzKVfgLwar1Rc
+ TWRd56Srn8dLbwuWENLRgcriaZ9Ty9oT78bsYUFd93F7P2WAY65VGQyy9NAuul+U1SfN9wHytaU2UWKAz4VwYggCZi0Ex4uUKZfZSgE/eA6L+DB3rXbft12Z
+ c1BGU0ckKhnCPe+/59It5KQ4toYMh9nXXmJDZsr0yFSdurZOVD0pxBx69bqZEyUoeQdBCujRssygWu2A7Iq0jnyUu7C+QbKVrJGPAPogcL1tEylb1uKGfhNZ
+ 7BqVPh9twuBWOw7g2L0GlFZvWqaaJSjIrm2u29klYLjUlmMn2WUNrEI030FNyiGOh2c=
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-The current codebase makes use of the zero-length array language
-extension to the C90 standard, but the preferred mechanism to declare
-variable-length types such as these ones is a flexible array member[1][2],
-introduced in C99:
+(Replying to myself so I can explain this a bit more)
 
-struct foo {
-        int stuff;
-        struct boo array[];
-};
+On 2/20/20 1:44 PM, Hans Verkuil wrote:
+>> +
+>> +static int tegra_csi_tpg_channels_alloc(struct tegra_csi *csi)
+>> +{
+>> +	struct device_node *node = csi->dev->of_node;
+>> +	unsigned int port_num;
+>> +	int ret;
+>> +	struct tegra_csi_channel *item;
+>> +	unsigned int tpg_channels = csi->soc->csi_max_channels;
+>> +
+>> +	/* allocate CSI channel for each CSI x2 ports */
+>> +	for (port_num = 0; port_num < tpg_channels; port_num++) {
+>> +		item = devm_kzalloc(csi->dev, sizeof(*item), GFP_KERNEL);
+> 
+> Using devm_*alloc can be dangerous. If someone unbinds the driver, then
+> all memory allocated with devm_ is immediately freed. But if an application
+> still has a filehandle open, then when it closes it it might still reference
+> this already-freed memory.
+> 
+> I recommend that you avoid using devm_*alloc for media drivers.
 
-By making use of the mechanism above, we will get a compiler warning
-in case the flexible array does not occur last in the structure, which
-will help us prevent some kind of undefined behavior bugs from being
-inadvertently introduced[3] to the codebase from now on.
+A good test is to unbind & bind the driver:
 
-Also, notice that, dynamic memory allocations won't be affected by
-this change:
+cd /sys/devices/platform/50000000.host1x/54080000.vi/driver
+echo -n 54080000.vi >unbind
+echo -n 54080000.vi >bind
 
-"Flexible array members have incomplete type, and so the sizeof operator
-may not be applied. As a quirk of the original implementation of
-zero-length arrays, sizeof evaluates to zero."[1]
+First just do this without the driver being used. That already
+gives me 'list_del corruption' kernel messages (list debugging
+is turned on in my kernel).
 
-This issue was found with the help of Coccinelle.
+Note that this first test is basically identical to a rmmod/modprobe
+of the driver. But when I compiled the driver as a module it didn't
+create any video device nodes! Nor did I see any errors in the kernel
+log. I didn't pursue this, and perhaps I did something wrong, but it's
+worth taking a look at.
 
-[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[2] https://github.com/KSPP/linux/issues/21
-[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+The next step would be to have a video node open with:
 
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- drivers/usb/atm/usbatm.h              | 2 +-
- drivers/usb/dwc2/hcd.h                | 2 +-
- drivers/usb/host/ehci-tegra.c         | 2 +-
- drivers/usb/host/ehci.h               | 4 ++--
- drivers/usb/host/fotg210.h            | 2 +-
- drivers/usb/host/ohci.h               | 4 ++--
- drivers/usb/host/xhci-mtk.h           | 2 +-
- drivers/usb/host/xhci.h               | 4 ++--
- drivers/usb/serial/io_usbvend.h       | 4 ++--
- drivers/usb/serial/ti_usb_3410_5052.c | 4 ++--
- include/linux/usb.h                   | 4 ++--
- include/linux/usb/audio-v2.h          | 2 +-
- include/linux/usb/audio-v3.h          | 2 +-
- include/linux/usb/gadget.h            | 2 +-
- include/linux/usb/hcd.h               | 2 +-
- include/linux/usbdevice_fs.h          | 2 +-
- 16 files changed, 22 insertions(+), 22 deletions(-)
+v4l2-ctl --sleep 10
 
-diff --git a/drivers/usb/atm/usbatm.h b/drivers/usb/atm/usbatm.h
-index d3bdc4cc47aa..8725755bd53d 100644
---- a/drivers/usb/atm/usbatm.h
-+++ b/drivers/usb/atm/usbatm.h
-@@ -164,7 +164,7 @@ struct usbatm_data {
- 	unsigned char *cell_buf;	/* holds partial rx cell */
- 	unsigned int buf_usage;
- 
--	struct urb *urbs[0];
-+	struct urb *urbs[];
- };
- 
- static inline void *to_usbatm_driver_data(struct usb_interface *intf)
-diff --git a/drivers/usb/dwc2/hcd.h b/drivers/usb/dwc2/hcd.h
-index 8ca6d12a6f57..1224fa9df604 100644
---- a/drivers/usb/dwc2/hcd.h
-+++ b/drivers/usb/dwc2/hcd.h
-@@ -199,7 +199,7 @@ struct dwc2_hcd_urb {
- 	u32 flags;
- 	u16 interval;
- 	struct dwc2_hcd_pipe_info pipe_info;
--	struct dwc2_hcd_iso_packet_desc iso_descs[0];
-+	struct dwc2_hcd_iso_packet_desc iso_descs[];
- };
- 
- /* Phases for control transfers */
-diff --git a/drivers/usb/host/ehci-tegra.c b/drivers/usb/host/ehci-tegra.c
-index d6433f206c17..10d51daa6a1b 100644
---- a/drivers/usb/host/ehci-tegra.c
-+++ b/drivers/usb/host/ehci-tegra.c
-@@ -282,7 +282,7 @@ static int tegra_ehci_hub_control(
- struct dma_aligned_buffer {
- 	void *kmalloc_ptr;
- 	void *old_xfer_buffer;
--	u8 data[0];
-+	u8 data[];
- };
- 
- static void free_dma_aligned_buffer(struct urb *urb)
-diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
-index ac5e967907d1..229b3de319e6 100644
---- a/drivers/usb/host/ehci.h
-+++ b/drivers/usb/host/ehci.h
-@@ -255,7 +255,7 @@ struct ehci_hcd {			/* one per controller */
- 	struct list_head	tt_list;
- 
- 	/* platform-specific data -- must come last */
--	unsigned long		priv[0] __aligned(sizeof(s64));
-+	unsigned long		priv[] __aligned(sizeof(s64));
- };
- 
- /* convert between an HCD pointer and the corresponding EHCI_HCD */
-@@ -460,7 +460,7 @@ struct ehci_iso_sched {
- 	struct list_head	td_list;
- 	unsigned		span;
- 	unsigned		first_packet;
--	struct ehci_iso_packet	packet[0];
-+	struct ehci_iso_packet	packet[];
- };
- 
- /*
-diff --git a/drivers/usb/host/fotg210.h b/drivers/usb/host/fotg210.h
-index 1b4db95e5c43..6cee40ec65b4 100644
---- a/drivers/usb/host/fotg210.h
-+++ b/drivers/usb/host/fotg210.h
-@@ -490,7 +490,7 @@ struct fotg210_iso_packet {
- struct fotg210_iso_sched {
- 	struct list_head	td_list;
- 	unsigned		span;
--	struct fotg210_iso_packet	packet[0];
-+	struct fotg210_iso_packet	packet[];
- };
- 
- /*
-diff --git a/drivers/usb/host/ohci.h b/drivers/usb/host/ohci.h
-index b015b00774b2..27c26ca10bfd 100644
---- a/drivers/usb/host/ohci.h
-+++ b/drivers/usb/host/ohci.h
-@@ -337,7 +337,7 @@ typedef struct urb_priv {
- 	u16			length;		// # tds in this request
- 	u16			td_cnt;		// tds already serviced
- 	struct list_head	pending;
--	struct td		*td [0];	// all TDs in this request
-+	struct td		*td[];		// all TDs in this request
- 
- } urb_priv_t;
- 
-@@ -435,7 +435,7 @@ struct ohci_hcd {
- 	struct dentry		*debug_dir;
- 
- 	/* platform-specific data -- must come last */
--	unsigned long           priv[0] __aligned(sizeof(s64));
-+	unsigned long           priv[] __aligned(sizeof(s64));
- 
- };
- 
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index 5ac458b7d2e0..acd56517215a 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -95,7 +95,7 @@ struct mu3h_sch_ep_info {
- 	u32 pkts;
- 	u32 cs_count;
- 	u32 burst_mode;
--	u32 bw_budget_table[0];
-+	u32 bw_budget_table[];
- };
- 
- #define MU3C_U3_PORT_MAX 4
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 3ecee10fdcdc..685180e1b98a 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1642,7 +1642,7 @@ struct xhci_scratchpad {
- struct urb_priv {
- 	int	num_tds;
- 	int	num_tds_done;
--	struct	xhci_td	td[0];
-+	struct	xhci_td	td[];
- };
- 
- /*
-@@ -1901,7 +1901,7 @@ struct xhci_hcd {
- 
- 	void			*dbc;
- 	/* platform-specific data -- must come last */
--	unsigned long		priv[0] __aligned(sizeof(s64));
-+	unsigned long		priv[] __aligned(sizeof(s64));
- };
- 
- /* Platform specific overrides to generic XHCI hc_driver ops */
-diff --git a/drivers/usb/serial/io_usbvend.h b/drivers/usb/serial/io_usbvend.h
-index c38e87ac5ea9..0d1a5bb4636e 100644
---- a/drivers/usb/serial/io_usbvend.h
-+++ b/drivers/usb/serial/io_usbvend.h
-@@ -593,7 +593,7 @@ struct ti_i2c_desc {
- 	__u8	Type;			// Type of descriptor
- 	__le16	Size;			// Size of data only not including header
- 	__u8	CheckSum;		// Checksum (8 bit sum of data only)
--	__u8	Data[0];		// Data starts here
-+	__u8	Data[];		// Data starts here
- } __attribute__((packed));
- 
- // for 5152 devices only (type 2 record)
-@@ -601,7 +601,7 @@ struct ti_i2c_desc {
- struct ti_i2c_firmware_rec {
- 	__u8	Ver_Major;		// Firmware Major version number
- 	__u8	Ver_Minor;		// Firmware Minor version number
--	__u8	Data[0];		// Download starts here
-+	__u8	Data[];		// Download starts here
- } __attribute__((packed));
- 
- 
-diff --git a/drivers/usb/serial/ti_usb_3410_5052.c b/drivers/usb/serial/ti_usb_3410_5052.c
-index ef23acc9b9ce..73075b9351c5 100644
---- a/drivers/usb/serial/ti_usb_3410_5052.c
-+++ b/drivers/usb/serial/ti_usb_3410_5052.c
-@@ -219,7 +219,7 @@ struct ti_write_data_bytes {
- 	u8	bDataCounter;
- 	__be16	wBaseAddrHi;
- 	__be16	wBaseAddrLo;
--	u8	bData[0];
-+	u8	bData[];
- } __packed;
- 
- struct ti_read_data_request {
-@@ -234,7 +234,7 @@ struct ti_read_data_bytes {
- 	__u8	bCmdCode;
- 	__u8	bModuleId;
- 	__u8	bErrorCode;
--	__u8	bData[0];
-+	__u8	bData[];
- } __packed;
- 
- /* Interrupt struct */
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index ca1a5f1e1c5e..9f3c721c70dc 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -325,7 +325,7 @@ struct usb_interface_cache {
- 
- 	/* variable-length array of alternate settings for this interface,
- 	 * stored in no particular order */
--	struct usb_host_interface altsetting[0];
-+	struct usb_host_interface altsetting[];
- };
- #define	ref_to_usb_interface_cache(r) \
- 		container_of(r, struct usb_interface_cache, ref)
-@@ -1589,7 +1589,7 @@ struct urb {
- 	int error_count;		/* (return) number of ISO errors */
- 	void *context;			/* (in) context for completion */
- 	usb_complete_t complete;	/* (in) completion routine */
--	struct usb_iso_packet_descriptor iso_frame_desc[0];
-+	struct usb_iso_packet_descriptor iso_frame_desc[];
- 					/* (in) ISO ONLY */
- };
- 
-diff --git a/include/linux/usb/audio-v2.h b/include/linux/usb/audio-v2.h
-index cb9900b34b67..ead8c9a47c6a 100644
---- a/include/linux/usb/audio-v2.h
-+++ b/include/linux/usb/audio-v2.h
-@@ -153,7 +153,7 @@ struct uac2_feature_unit_descriptor {
- 	__u8 bSourceID;
- 	/* bmaControls is actually u32,
- 	 * but u8 is needed for the hybrid parser */
--	__u8 bmaControls[0]; /* variable length */
-+	__u8 bmaControls[]; /* variable length */
- } __attribute__((packed));
- 
- /* 4.7.2.10 Effect Unit Descriptor */
-diff --git a/include/linux/usb/audio-v3.h b/include/linux/usb/audio-v3.h
-index 6b708434b7f9..c69a6f2e6837 100644
---- a/include/linux/usb/audio-v3.h
-+++ b/include/linux/usb/audio-v3.h
-@@ -109,7 +109,7 @@ struct uac3_feature_unit_descriptor {
- 	__u8 bSourceID;
- 	/* bmaControls is actually u32,
- 	 * but u8 is needed for the hybrid parser */
--	__u8 bmaControls[0]; /* variable length */
-+	__u8 bmaControls[]; /* variable length */
- 	/* wFeatureDescrStr omitted */
- } __attribute__((packed));
- 
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 124462d65eac..9411c08a5c7e 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -767,7 +767,7 @@ struct usb_gadget_strings {
- 
- struct usb_gadget_string_container {
- 	struct list_head        list;
--	u8                      *stash[0];
-+	u8                      *stash[];
- };
- 
- /* put descriptor for string with that id into buf (buflen >= 256) */
-diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
-index 712b2a603645..e12105ed3834 100644
---- a/include/linux/usb/hcd.h
-+++ b/include/linux/usb/hcd.h
-@@ -228,7 +228,7 @@ struct usb_hcd {
- 	/* The HC driver's private data is stored at the end of
- 	 * this structure.
- 	 */
--	unsigned long hcd_priv[0]
-+	unsigned long hcd_priv[]
- 			__attribute__ ((aligned(sizeof(s64))));
- };
- 
-diff --git a/include/linux/usbdevice_fs.h b/include/linux/usbdevice_fs.h
-index 79aab0065ec8..14ea197ce37f 100644
---- a/include/linux/usbdevice_fs.h
-+++ b/include/linux/usbdevice_fs.h
-@@ -69,7 +69,7 @@ struct usbdevfs_urb32 {
- 	compat_int_t error_count;
- 	compat_uint_t signr;
- 	compat_caddr_t usercontext; /* unused */
--	struct usbdevfs_iso_packet_desc iso_frame_desc[0];
-+	struct usbdevfs_iso_packet_desc iso_frame_desc[];
- };
- 
- struct usbdevfs_ioctl32 {
--- 
-2.25.0
+then while it is sleeping unbind the driver and see what happens
+when v4l2-ctl exits.
 
+Worst case is when you are streaming:
+
+v4l2-ctl --stream-mmap
+
+and then unbind.
+
+In general, the best way to get this to work correctly is:
+
+1) don't use devm_*alloc
+2) set the release callback of struct v4l2_device and do all freeing there.
+3) in the platform remove() callback you call media_device_unregister()
+   and video_unregister_device().
+
+It's worth getting this right in this early stage, rather than fixing it
+in the future.
+
+Regards,
+
+	Hans
