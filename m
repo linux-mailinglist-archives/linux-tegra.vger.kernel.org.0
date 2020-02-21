@@ -2,115 +2,101 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9845D166F70
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 07:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14CA4167A21
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 11:04:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726884AbgBUGIs (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 21 Feb 2020 01:08:48 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:34584 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbgBUGIs (ORCPT
+        id S1728266AbgBUKEZ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Feb 2020 05:04:25 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16187 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727036AbgBUKEY (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 21 Feb 2020 01:08:48 -0500
-Received: by mail-lf1-f66.google.com with SMTP id l18so632033lfc.1;
-        Thu, 20 Feb 2020 22:08:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1vjAsiVJu0Xf8moFlCsGCMAJaKUjfw7ZDgAxe/OTIBI=;
-        b=bmK1U1D9Co0bNdjfb+Z8qyJSGQPOYJ/YlJsmmQjLdyG+mc3GEI8QcnmDPDClvjSrlV
-         qIWAZdaZF9lG5TNbsWT2bUyhgKw03sCn86fEovTL6AO3LS25lrytfgvN1zI8vyn0kOPb
-         F8IDkLuzkoq82LcLcxsx2xVx+xR+cGhfPIfNtErtqS1DAQP3ZPS7bkMiVK/sJ0IdsE3R
-         ZZWOWzcyi73Wrv6dC1C/aJ7D+J/C9dy7sXF2KgZymprTP95BFiXvVGsUUPa5dcf1AhHR
-         Yvo8pvgGZ4VmWvRRHjEtHKND73qL9kig8EMj8GZ6KWa4ra1qyQILj/zoueL3KoKwMuHN
-         EZTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1vjAsiVJu0Xf8moFlCsGCMAJaKUjfw7ZDgAxe/OTIBI=;
-        b=F7Yp6VjP6rY+A5YXTcCoqs7ZCB10AqxSttEJtpw+z1WgtG3Y9Vu/xJJafpCt8wj66D
-         znGTd2jFhGSV4bhW7aLlUSqGX3TnWLZtelo69gaP0wS+736KKiHkjDGs3K+DshwnTc7e
-         0uGQOcGOJ8tFmy33/jHw1SiC5pkpYHl+KpijskBU0YRBwo1ixLbhqwROEge3bpmQnVh6
-         h0MY6Vn7f3SXmIMj7Wl9kHMLyJKFTYQFdzO8ORbGFKdtEEueWgkxLgQzXKzEdYtIPLqZ
-         IpO5JznVhyO1eIsrdBq3je7HVXxd8gTTuee94GQumCrNvIkhcGQDNFyg7nTqPgiqjhIs
-         OWCg==
-X-Gm-Message-State: APjAAAXaLUXVyBElW4RLg+tTCN9YyhoNoE5uuCnx5ol7m02VvE7p4kkc
-        0nVRgPRaxkJguFVn6jIa6Jg=
-X-Google-Smtp-Source: APXvYqzDj/Q/sNBvdjs+fIyINcfoBTt6Aby1wfLyTGnlgZfFHhDa0HRT97+rsnLll7pN6lDNn26++Q==
-X-Received: by 2002:a19:6509:: with SMTP id z9mr18447794lfb.97.1582265326236;
-        Thu, 20 Feb 2020 22:08:46 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id a10sm970539lfr.94.2020.02.20.22.08.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2020 22:08:45 -0800 (PST)
-Subject: Re: [PATCH v3 07/10] ASoC: tegra: add Tegra210 based ADMAIF driver
-To:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
-        robh+dt@kernel.org
-Cc:     broonie@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
-        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
-        dramesh@nvidia.com, atalambedu@nvidia.com
-References: <1582180492-25297-1-git-send-email-spujar@nvidia.com>
- <1582180492-25297-8-git-send-email-spujar@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e6114203-57d1-bc74-f786-c2246ccb4341@gmail.com>
-Date:   Fri, 21 Feb 2020 09:08:44 +0300
+        Fri, 21 Feb 2020 05:04:24 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e4fab1a0000>; Fri, 21 Feb 2020 02:04:10 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Fri, 21 Feb 2020 02:04:23 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Fri, 21 Feb 2020 02:04:23 -0800
+Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 21 Feb
+ 2020 10:04:21 +0000
+Subject: Re: [PATCH 5.4 000/344] 5.4.22-stable review
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <torvalds@linux-foundation.org>, <akpm@linux-foundation.org>,
+        <linux@roeck-us.net>, <shuah@kernel.org>, <patches@kernelci.org>,
+        <ben.hutchings@codethink.co.uk>, <lkft-triage@lists.linaro.org>,
+        <stable@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>
+References: <20200221072349.335551332@linuxfoundation.org>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <529a5a4a-974e-995a-9556-c2a14d09bb5d@nvidia.com>
+Date:   Fri, 21 Feb 2020 10:04:19 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <1582180492-25297-8-git-send-email-spujar@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200221072349.335551332@linuxfoundation.org>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1582279450; bh=IKj9oBht6F74wt8Tijrc8dxdv5/sxm8v6sVGPOHfoFA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=cSZHOrHtHeVXoa5oqZ6OZ6wSuSqy1mF7avVnBbAH8N1LatXEVVK5w2zi5v8gim53n
+         VAPpop6cB1EXClmG00uGOyFLZUqT7fGIl7TunNa3exWUPYXIISMGPcf1jCLvI0zmXj
+         jcExcSL2CMk7ZnFtb0iA3Qu/yp6tGFTDSheaGIv9CcB/+z0y/uSAc6Mw/0MURQwl5Z
+         U22bQn3JIKaAb3/zJ/9vAw35Dd4RgY+Ik4oXh9xLSav3+2c9KzANkesEuDRMbPBLGg
+         Mewf11qDQN9WbecfP2yWGe9dVFfR7B21B02S3AS2py0sf19Y5i3bMCSr0Nsrn1zELy
+         A+VEpmTfXV+EA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-20.02.2020 09:34, Sameer Pujar пишет:
-> ADMAIF is the interface between ADMA and AHUB. Each ADMA channel that
-> sends/receives data to/from AHUB must intreface through an ADMAIF channel.
-> ADMA channel sending data to AHUB pairs with an ADMAIF Tx channel and
-> similarly ADMA channel receiving data from AHUB pairs with an ADMAIF Rx
-> channel. Buffer size is configuranle for each ADMAIF channel, but currently
-> SW uses default values.
+
+On 21/02/2020 07:36, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.4.22 release.
+> There are 344 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 > 
-> This patch registers ADMAIF driver with ASoC framework. The component
-> driver exposes DAPM widgets, routes and kcontrols for the device. The DAI
-> driver exposes ADMAIF interfaces, which can be used to connect different
-> components in the ASoC layer. Makefile and Kconfig support is added to
-> allow to build the driver. The ADMAIF device can be enabled in the DT via
-> "nvidia,tegra210-admaif" compatible binding.
+> Responses should be made by Sun, 23 Feb 2020 07:19:49 +0000.
+> Anything received after that time might be too late.
 > 
-> Tegra PCM driver is updated to expose required PCM interfaces and
-> snd_pcm_ops callbacks.
+> The whole patch series can be found in one patch at:
+> 	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.22-rc1.gz
+> or in the git tree and branch at:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> and the diffstat can be found below.
 > 
-> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> ---
+> thanks,
+> 
+> greg k-h
+> 
+> -------------
+> Pseudo-Shortlog of commits:
+
 ...
-> +int tegra_pcm_construct(struct snd_soc_component *component,
-> +			struct snd_soc_pcm_runtime *rtd);
-> +void tegra_pcm_destruct(struct snd_soc_component *component,
-> +			struct snd_pcm *pcm);
-> +int tegra_pcm_open(struct snd_soc_component *component,
-> +		   struct snd_pcm_substream *substream);
-> +int tegra_pcm_close(struct snd_soc_component *component,
-> +		    struct snd_pcm_substream *substream);
-> +int tegra_pcm_hw_params(struct snd_soc_component *component,
-> +			struct snd_pcm_substream *substream,
-> +			struct snd_pcm_hw_params *params);
-> +int tegra_pcm_hw_free(struct snd_soc_component *component,
-> +		      struct snd_pcm_substream *substream);
-> +int tegra_pcm_mmap(struct snd_soc_component *component,
-> +		   struct snd_pcm_substream *substream,
-> +		   struct vm_area_struct *vma);
 
-> +int tegra_pcm_trigger(struct snd_soc_component *component,
-> +		      struct snd_pcm_substream *substream, int cmd);
+> Tero Kristo <t-kristo@ti.com>
+>     ARM: OMAP2+: pdata-quirks: add PRM data for reset support
 
-Looks like this function doesn't exist.
+
+The above commit is generating the following build error on ARM systems ...
+
+dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/mach-omap2/pdata-quirks.c:27:10: fatal error: linux/platform_data/ti-prm.h: No such file or directory
+ #include <linux/platform_data/ti-prm.h>
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cheers
+Jon
+
+-- 
+nvpublic
