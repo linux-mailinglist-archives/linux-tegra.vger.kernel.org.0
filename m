@@ -2,52 +2,52 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 678B916874B
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 20:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC575168807
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 21:02:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729484AbgBUTQF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 21 Feb 2020 14:16:05 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:56007 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726423AbgBUTQF (ORCPT
+        id S1726443AbgBUUCg (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Feb 2020 15:02:36 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39476 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727295AbgBUUCf (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 21 Feb 2020 14:16:05 -0500
-Received: by mail-wm1-f68.google.com with SMTP id q9so2888277wmj.5
-        for <linux-tegra@vger.kernel.org>; Fri, 21 Feb 2020 11:16:03 -0800 (PST)
+        Fri, 21 Feb 2020 15:02:35 -0500
+Received: by mail-wr1-f68.google.com with SMTP id y11so3376666wrt.6
+        for <linux-tegra@vger.kernel.org>; Fri, 21 Feb 2020 12:02:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=62kUg9syfOCN4km7rXz6Hz7RVsuZAMz1sPi3wovqHYw=;
-        b=SbAp2IxVoLY14NRhREF+8cLskF2vau9TtW5BjqkgbtfzqSjKJHMqDd2pVF9cDRijyz
-         h25Amj2El92ae3O236CNoQGIgL0C86nOO41mmPf2/ayahpC1lKU8ZzvqO0l8zzDX6XHK
-         fyjLImIoqkuciqnR4gb3IBIU5qm3lBQO0nLM5FZiZN/0EpHBHEBKZSR8Plb01t4PvGZl
-         Hf8IXBNaF7sJeyrLUJEl1jIDgx0srZTH+ooHOJZl/2ca86h6RcZ/kPYdfaU+DcveRcG4
-         p4/FgqRg1uaekbkQp48AlTdLOYmAVcue0YjeJ21PG1cmN35C0x4F/TVFJdBWb9hokYYM
-         YX1Q==
+        bh=QMFSTlTPjLBfSui6L2zdxg1P34hDUVJ2NwPge2oTR74=;
+        b=vf90FXYn61hSrHYOIAzw2IilQDxYKsi0UVJF8a3GVZ33EF7XGSS/KvBLBZqXV7+pF+
+         n88DAFHD05ztPkH0RjhsdMR9m9nMX0nHVUlCEYdSFIAJkpYXN8l+dhi9X0sPUWreWPKN
+         uUP+GfatS9TdIkFYnlhp7XXFwXGDUe3/xB8av/WJcdyDtngteCEjixnOaQ9A7tVhujJk
+         j02r4yOFXgaFTVj4ReiWrFXRyh/ZyvBqXQbEKTbNEWh2RPI/OLL82UklfPsNH+4lg2wv
+         pmGq5cRBkqq575X+a4LRVfy6cxGSfF/WfYuiC1xwfwnApQxxbX0NtM1IQIyAe6mdPh5B
+         dF9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=62kUg9syfOCN4km7rXz6Hz7RVsuZAMz1sPi3wovqHYw=;
-        b=Q2J+MUV5JgsLmhlt2MqcoIWWHienKJ5TzZKwBuwocJEkShYyXTMesnd/KiTb+vNBh8
-         Cg4F9KdY4bAycNq2dN0Ns6tknRIrzZPzgYX2fSdFpOzDVcvmLE9HnZlFT26uNPLm1aKw
-         9BY/uJlSf/qC8nxOJDztQHz0UkB9a6DeZjqouIvdRwlZjE+6J/79U3uZoUEZvz386mbr
-         VHcKMbDPBbguPAA/W5Z8boFKSnnGE1oi7CGxDt+/bnHsyluwYwDHcEoZgupkp1bK1qti
-         EiOJuDVwRzfrbAYOK3RkpOEg8sDlPF387eG3TtHKtDFxyYfM2koRaOiuyPBPhaKUvYF7
-         Wblg==
-X-Gm-Message-State: APjAAAWYsLvg2WnjikCGv5QFw0iH/6tesMxu7QikMdUB/9JzFOffqRBX
-        2w02vp999c9bBMGnu7n6f9+U2Q==
-X-Google-Smtp-Source: APXvYqxm6FxsAX9RGmwITCNZOE+rff76UsZdbhwJ4R/XF186HUptWUw1Jg2vw9wjJL70vxQMF+/NTA==
-X-Received: by 2002:a1c:5419:: with SMTP id i25mr5398715wmb.150.1582312562208;
-        Fri, 21 Feb 2020 11:16:02 -0800 (PST)
+        bh=QMFSTlTPjLBfSui6L2zdxg1P34hDUVJ2NwPge2oTR74=;
+        b=SiMCwouh7mArNjNRja1l0jdLRtrdp/HH2O7dqoHQjp91JHsCu35MPdwLTbMfvQvyI+
+         OtepGAY8sD3w1eG8sB7Gikp6U2jyrUWdBBcNjOEwjdTqJZyOZMuXOyM/uqC9ydoKVSKk
+         bNd5qMnxEoHFSBZzB6fPkXyRHlvmFeYjzzlzoepgi2tPgsWzUBgLdWWm27zAc0pi6VxO
+         XfFOr1OD28FIAIKLcGK/IAk2yVVbhJHR67Io+bDTgzzyKt1dbe7pg7eGv4wlx+HZ6fNG
+         fRkl7+5FgnkJMKWXGu1Tf0v1KRFetyLY465u/zuJD2g7NXBAZGxStLtYAPPLMNC5ZCc7
+         bXwg==
+X-Gm-Message-State: APjAAAXGt0benIo+DdNELYXrPLslSURiYzNk88ikjxk/PnM0//9YUB7s
+        upI6TeEUCKGSILwTaYOOXKQ+tfsOg1s=
+X-Google-Smtp-Source: APXvYqxdVnOssSKqDR/d+Vg12u3Rv/ituklkALgVEaR4PW1C2gXHCP3q5AVQOl4z5G19SaNiDojvwA==
+X-Received: by 2002:a5d:62d1:: with SMTP id o17mr51667342wrv.9.1582315352290;
+        Fri, 21 Feb 2020 12:02:32 -0800 (PST)
 Received: from ?IPv6:2a01:e34:ed2f:f020:903b:a048:f296:e3ae? ([2a01:e34:ed2f:f020:903b:a048:f296:e3ae])
-        by smtp.googlemail.com with ESMTPSA id 133sm5355641wmd.5.2020.02.21.11.16.00
+        by smtp.googlemail.com with ESMTPSA id o77sm5483841wme.34.2020.02.21.12.02.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Feb 2020 11:16:01 -0800 (PST)
-Subject: Re: [PATCH v9 05/17] ARM: tegra: Propagate error from
- tegra_idle_lp2_last()
+        Fri, 21 Feb 2020 12:02:31 -0800 (PST)
+Subject: Re: [PATCH v9 09/17] arm: tegra20: cpuidle: Handle case where
+ secondary CPU hangs on entering LP2
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -59,10 +59,11 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Peter Geis <pgwipeout@gmail.com>, linux-pm@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200212235134.12638-1-digetx@gmail.com>
- <20200212235134.12638-6-digetx@gmail.com> <20200221151612.GJ10516@linaro.org>
- <1a8c81ab-6f6a-8221-6a4e-c080ba595836@gmail.com>
- <20200221174033.GV10516@linaro.org>
- <535bff1a-cb38-a36e-4c8e-1e656618588e@gmail.com>
+ <20200212235134.12638-10-digetx@gmail.com>
+ <20200221154318.GO10516@linaro.org>
+ <239a2b66-8da8-2e6c-d19d-9ed207ad0a64@gmail.com>
+ <20200221173649.GU10516@linaro.org>
+ <b51f3f6b-8287-5ce8-fcaa-77cbab507618@gmail.com>
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
 Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
  xsFNBFv/yykBEADDdW8RZu7iZILSf3zxq5y8YdaeyZjI/MaqgnvG/c3WjFaunoTMspeusiFE
@@ -118,12 +119,12 @@ Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
  i6D9VoMMi6ICko/CXUZ77OgLtMsy3JtzTRbn/wRySOY2AsMgg0Sw6yJ0wfrVk6XAMoLGjaVt
  X4iPTvwocEhjvrO4eXCicRBocsIB2qZaIj3mlhk2u4AkSpkKm9cN0KWYFUxlENF4/NKWMK+g
  fGfsCsS3cXXiZpufZFGr+GoHwiELqfLEAQ9AhlrHGCKcgVgTOI6NHg==
-Message-ID: <ecb91a99-1e5b-4b76-a27b-56e49e17e9a8@linaro.org>
-Date:   Fri, 21 Feb 2020 20:16:00 +0100
+Message-ID: <f27481cf-ca5e-df47-932b-fcb4713f0d78@linaro.org>
+Date:   Fri, 21 Feb 2020 21:02:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <535bff1a-cb38-a36e-4c8e-1e656618588e@gmail.com>
+In-Reply-To: <b51f3f6b-8287-5ce8-fcaa-77cbab507618@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -132,14 +133,16 @@ Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On 21/02/2020 19:42, Dmitry Osipenko wrote:
-> 21.02.2020 20:40, Daniel Lezcano пишет:
->> On Fri, Feb 21, 2020 at 08:21:41PM +0300, Dmitry Osipenko wrote:
->>> 21.02.2020 18:16, Daniel Lezcano пишет:
->>>> On Thu, Feb 13, 2020 at 02:51:22AM +0300, Dmitry Osipenko wrote:
->>>>> Technically cpu_suspend() may fail and it's never good to lose information
->>>>> about failure. For example things like cpuidle core could correctly sample
->>>>> idling time in the case of failure.
+On 21/02/2020 19:19, Dmitry Osipenko wrote:
+> 21.02.2020 20:36, Daniel Lezcano пишет:
+>> On Fri, Feb 21, 2020 at 07:56:51PM +0300, Dmitry Osipenko wrote:
+>>> Hello Daniel,
+>>>
+>>> 21.02.2020 18:43, Daniel Lezcano пишет:
+>>>> On Thu, Feb 13, 2020 at 02:51:26AM +0300, Dmitry Osipenko wrote:
+>>>>> It is possible that something may go wrong with the secondary CPU, in that
+>>>>> case it is much nicer to get a dump of the flow-controller state before
+>>>>> hanging machine.
 >>>>>
 >>>>> Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
 >>>>> Tested-by: Peter Geis <pgwipeout@gmail.com>
@@ -147,44 +150,78 @@ On 21/02/2020 19:42, Dmitry Osipenko wrote:
 >>>>> Tested-by: David Heidelberg <david@ixit.cz>
 >>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 >>>>> ---
+>>
+>> [ ... ]
+>>
+>>>>> +static int tegra20_wait_for_secondary_cpu_parking(void)
+>>>>> +{
+>>>>> +	unsigned int retries = 3;
+>>>>> +
+>>>>> +	while (retries--) {
+>>>>> +		ktime_t timeout = ktime_add_ms(ktime_get(), 500);
 >>>>
->>>> [ ... ]
->>>>
->>>>>  	cpu_cluster_pm_enter();
->>>>>  	suspend_cpu_complex();
->>>>>  
->>>>> -	cpu_suspend(PHYS_OFFSET - PAGE_OFFSET, &tegra_sleep_cpu);
->>>>> +	err = cpu_suspend(PHYS_OFFSET - PAGE_OFFSET, &tegra_sleep_cpu);
->>>>>  
->>>>>  	/*
->>>>>  	 * Resume L2 cache if it wasn't re-enabled early during resume,
->>>>> @@ -208,6 +210,8 @@ void tegra_idle_lp2_last(void)
->>>>>  
->>>>>  	restore_cpu_complex();
->>>>
->>>> If the cpu_suspend fails, does restore_cpu_complex() need to be called ?
+>>>> Oops I missed this one. Do not use ktime_get() in this code path, use jiffies.
 >>>
->>> Yes, because suspend_cpu_complex() didn't fail. I don't see any reason
->>> why restore_cpu_complex() shouldn't be called, please clarify yours thought.
+>>> Could you please explain what benefits jiffies have over the ktime_get()?
 >>
->> If the suspend fails, the power down does not happen, thus the logic is not
->> lost and then it not necessary to restore something which has not been lost.
+>> ktime_get() is very slow, jiffies is updated every tick.
+> 
+> But how jiffies are supposed to be updated if interrupts are disabled?
+
+Yeah, other cpus must not be idle in this.
+
+> Aren't jiffies actually slower than ktime_get() because jiffies are
+> updating every 10/1ms (depending on CONFIG_HZ)?
+
+They are no slower, they have a lower resolution which is 10ms or 4ms.
+
+Given the 500ms timeout, it is fine.
+
+> We're kinda interesting here in getting into deep-idling state as quick
+> as possible. I was checking how much time takes the busy-loop below and
+> it takes ~40-150us in average, which is good enough.
+
+ktime_get() gets a seq lock and it is very slow.
+
+>>>>> +
+>>>>> +		/*
+>>>>> +		 * The primary CPU0 core shall wait for the secondaries
+>>>>> +		 * shutdown in order to power-off CPU's cluster safely.
+>>>>> +		 * The timeout value depends on the current CPU frequency,
+>>>>> +		 * it takes about 40-150us  in average and over 1000us in
+>>>>> +		 * a worst case scenario.
+>>>>> +		 */
+>>>>> +		do {
+>>>>> +			if (tegra_cpu_rail_off_ready())
+>>>>> +				return 0;
+>>>>> +
+>>>>> +		} while (ktime_before(ktime_get(), timeout));
+>>>>
+>>>> So this loop will aggresively call tegra_cpu_rail_off_ready() and retry 3
+>>>> times. The tegra_cpu_rail_off_ready() function can be called thoushand of times
+>>>> here but the function will hang 1.5s :/
+>>>>
+>>>> I suggest something like:
+>>>>
+>>>> 	while (retries--i && !tegra_cpu_rail_off_ready()) 
+>>>> 		udelay(100);
+>>>>
+>>>> So <retries> calls to tegra_cpu_rail_off_ready() and 100us x <retries> maximum
+>>>> impact.
+>>> But udelay() also results into CPU spinning in a busy-loop, and thus,
+>>> what's the difference?
 >>
->> I don't know the hardware details, so that may be partially correct.
+>> busy looping instead of register reads with all the hardware things involved behind.
 > 
-> At quick glance, the restore_cpu_complex() is only used for restoring
-> the GIC's state on Tegra.
+> Please notice that this code runs only on an older Cortex-A9/A15, which
+> doesn't support WFE for the delaying, and thus, CPU always busy-loops
+> inside udelay().
 > 
-> I don't think it's really worth the effort to handle
-> restore_cpu_complex() specially in a case of the error condition because
-> the chance that the error will ever happen is very small and restoring
-> the cluster's state won't cause any trouble in that case.
-> 
-> Let's keep this patch as-is for simplicity :)
+> What about if I'll add cpu_relax() to the loop? Do you think it it could
+> have any positive effect?
 
-Yep, not a big deal.
+I think udelay() has a call to cpu_relax().
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
 
 
