@@ -2,111 +2,168 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD98316803C
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 15:31:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E240F1680E7
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 15:55:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728312AbgBUObM (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 21 Feb 2020 09:31:12 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13884 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728068AbgBUObM (ORCPT
+        id S1728918AbgBUOz2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Feb 2020 09:55:28 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46493 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728712AbgBUOz1 (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 21 Feb 2020 09:31:12 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e4fe9660000>; Fri, 21 Feb 2020 06:29:58 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 21 Feb 2020 06:31:11 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 21 Feb 2020 06:31:11 -0800
-Received: from [10.21.133.51] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 21 Feb
- 2020 14:31:07 +0000
-Subject: Re: [PATCH v3 03/10] ASoC: tegra: add Tegra210 based DMIC driver
-To:     Mark Brown <broonie@kernel.org>, Sameer Pujar <spujar@nvidia.com>
-CC:     <perex@perex.cz>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <lgirdwood@gmail.com>, <thierry.reding@gmail.com>,
-        <digetx@gmail.com>, <alsa-devel@alsa-project.org>,
-        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <sharadg@nvidia.com>,
-        <mkumard@nvidia.com>, <viswanathl@nvidia.com>,
-        <rlokhande@nvidia.com>, <dramesh@nvidia.com>,
-        <atalambedu@nvidia.com>
-References: <1582180492-25297-1-git-send-email-spujar@nvidia.com>
- <1582180492-25297-4-git-send-email-spujar@nvidia.com>
- <20200221130005.GD5546@sirena.org.uk>
-From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <316ce0d5-318d-0533-ef06-bd7e8672f893@nvidia.com>
-Date:   Fri, 21 Feb 2020 14:31:05 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Fri, 21 Feb 2020 09:55:27 -0500
+Received: by mail-wr1-f67.google.com with SMTP id z7so2367618wrl.13
+        for <linux-tegra@vger.kernel.org>; Fri, 21 Feb 2020 06:55:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=VYFmZABuXC2P3mL+XBtC87Ki2RRj3t8jFY9o3T5ockc=;
+        b=qBGjfqKqIhfELazUq1yKbqpD8Qsj8UMuqu+4fmKwHveSJwobSUDrCJSwBVhwu5Bmqb
+         zczv4ydTB2cI4GPaZHJ8y+8pyGp8k0mqXRP7gSWa/TpKv6/dz8zHuMx+mTveJg0J6NvZ
+         XqCHm1itlNuZUmRMyEhinBjSq5Y0CUI3dEBKdvf0MHRyWF4dr3I0o3A1OC08L3fCke1S
+         OyBNtxGpeY9iSG7/x5UiyRaPj+ELuKtOE9bTFgf0QN6YkoBgHUPT1nIMkdIZlvgoRLpr
+         MMlc2BfR3jqw9Dal4aEiMhXrLMAY9zFjFqViSfEPFu1/Ps+HN4zZ+kmWloC5ownsmxyR
+         pnuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=VYFmZABuXC2P3mL+XBtC87Ki2RRj3t8jFY9o3T5ockc=;
+        b=D7ZCVDWFZoZEC8lWKHOjzY7P7goegiCLYgRVJ8vr5Qa8FGWg0T17w8/TUFiI98Svo5
+         jjoeX4gJ2PmxNMLjw3vfA+GCd21G70Igq3f0l1mnGPL3WiHjO/07a2EWSCfCA6ABvYUi
+         8bt5vneCvxyi6cdi7M3hmG7Gg2ohotzgg6KYqixz/OWSXEvmLHXdM6j/RnUaJlup71VO
+         N7zhZFH0gO6xaZt+uv/yQyAUdgke+a6Fs+e0VjhaEXhVvK04DAqBVfNfMX/IHYKOo1SA
+         Ii3XSlBnX1ODPsazYQX9KqP3LetvKSOTX7V4mlIFOEGtvCCiF/a/3DLFHWzqaOnQkeEs
+         SFYQ==
+X-Gm-Message-State: APjAAAVYvmJnfphmW2aQdAL+LO/oBMsTLoFpjKFr4RBlUxG0JAtGS9AT
+        AWgyveBnAq8eP43Ua8eFU8+t5Pt3/so=
+X-Google-Smtp-Source: APXvYqxlQBHBtXVdKb8UmXuzt1Ss70Lfj6fxpQ5QfcMhGxHSh56TW6+M7a7t4xCU95n8tS/8m1lw9g==
+X-Received: by 2002:a5d:6703:: with SMTP id o3mr47003721wru.235.1582296925319;
+        Fri, 21 Feb 2020 06:55:25 -0800 (PST)
+Received: from linaro.org ([2a01:e34:ed2f:f020:903b:a048:f296:e3ae])
+        by smtp.gmail.com with ESMTPSA id o9sm4320439wrw.20.2020.02.21.06.55.23
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 21 Feb 2020 06:55:24 -0800 (PST)
+Date:   Fri, 21 Feb 2020 15:55:22 +0100
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Jasper Korten <jja2000@gmail.com>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 09/17] arm: tegra20: cpuidle: Handle case where
+ secondary CPU hangs on entering LP2
+Message-ID: <20200221145522.GG10516@linaro.org>
+References: <20200212235134.12638-1-digetx@gmail.com>
+ <20200212235134.12638-10-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200221130005.GD5546@sirena.org.uk>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1582295398; bh=Ii2FU53gxBnbRqvrbMjLj3GOVXtejYjy/v1iyuD+MP8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=goEbRFoIBBxyJcX7uUg+O3y3ialsPS2BhhIdSG+PMqy/jzg3qcJr4jSjnDUgktNhN
-         0HMt1u0Cou33Sg1w5vG96Apvi3i59DVCCWQeADi8BdBRjSFldcGhf5GaoowpbRlB7B
-         azp2fKoZ9qBcj1jefWii8s+8RcbMoYb+xU7R9Ar7+7GEZvg7nFo9/shcynm4qCbilI
-         qhrgOd5wYI/zvViDPhH3Z2p5q+9BtUiOXig8mubW93E4mG+bgZ+x50yA7pf6I5dwoZ
-         UKElyundJcSXSPGoORNjZV80p/NtA/NXJAuJ6RcnDVttOH9FCrSmo4LtzD76ANi36x
-         jI7K6IoobDD8A==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200212235134.12638-10-digetx@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Thu, Feb 13, 2020 at 02:51:26AM +0300, Dmitry Osipenko wrote:
+> It is possible that something may go wrong with the secondary CPU, in that
+> case it is much nicer to get a dump of the flow-controller state before
+> hanging machine.
+> 
+> Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
+> Tested-by: Peter Geis <pgwipeout@gmail.com>
+> Tested-by: Jasper Korten <jja2000@gmail.com>
+> Tested-by: David Heidelberg <david@ixit.cz>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
-On 21/02/2020 13:00, Mark Brown wrote:
-> On Thu, Feb 20, 2020 at 12:04:45PM +0530, Sameer Pujar wrote:
-> 
->> +++ b/sound/soc/tegra/tegra210_dmic.c
->> @@ -0,0 +1,515 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * tegra210_dmic.c - Tegra210 DMIC driver
->> + *
->> + * Copyright (c) 2020 NVIDIA CORPORATION.  All rights reserved.
-> 
-> Please make the entire comment a C++ one so things look more
-> intentional.
-> 
->> +	/* Below enables all filters - DCR, LP and SC */
->> +	{ TEGRA210_DMIC_DBG_CTRL, 0xe },
-> 
-> So this isn't the hardware default?
-> 
->> +	srate = params_rate(params);
->> +	if (dmic->srate_override)
->> +		srate = dmic->srate_override;
-> 
-> How does this work for userspace?  If we just ignore the sample rate we
-> were asked for I'd expect that the application would get upset.
+Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-Tegra has a hardware sample rate converter (though driver not yet
-upstream or part of this initial series) and if using the sample-rate
-converter, then the actual rate captured by the DMIC interface could be
-different from the resulting sample-rate.
-
-So we want a way to indicate to the DMIC it is capturing at rate X,
-while the resulting sample-rate is Y.
-
-I am not sure if there is a better way to do this? Ideally, the DMIC
-would query the rate from the upstream MUX it is connected to, but I am
-not sure if there is a way to do that. So right now it is a manual
-process and the user has to configure these which are not ideal.
-
-Cheers
-Jon
+> ---
+>  arch/arm/mach-tegra/cpuidle-tegra20.c | 47 +++++++++++++++++++++++++--
+>  1 file changed, 45 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm/mach-tegra/cpuidle-tegra20.c b/arch/arm/mach-tegra/cpuidle-tegra20.c
+> index 9672c619f4bc..bcc158b72e67 100644
+> --- a/arch/arm/mach-tegra/cpuidle-tegra20.c
+> +++ b/arch/arm/mach-tegra/cpuidle-tegra20.c
+> @@ -83,14 +83,57 @@ static inline void tegra20_wake_cpu1_from_reset(void)
+>  }
+>  #endif
+>  
+> +static void tegra20_report_cpus_state(void)
+> +{
+> +	unsigned long cpu, lcpu, csr;
+> +
+> +	for_each_cpu(lcpu, cpu_possible_mask) {
+> +		cpu = cpu_logical_map(lcpu);
+> +		csr = flowctrl_read_cpu_csr(cpu);
+> +
+> +		pr_err("cpu%lu: online=%d flowctrl_csr=0x%08lx\n",
+> +		       cpu, cpu_online(lcpu), csr);
+> +	}
+> +}
+> +
+> +static int tegra20_wait_for_secondary_cpu_parking(void)
+> +{
+> +	unsigned int retries = 3;
+> +
+> +	while (retries--) {
+> +		ktime_t timeout = ktime_add_ms(ktime_get(), 500);
+> +
+> +		/*
+> +		 * The primary CPU0 core shall wait for the secondaries
+> +		 * shutdown in order to power-off CPU's cluster safely.
+> +		 * The timeout value depends on the current CPU frequency,
+> +		 * it takes about 40-150us  in average and over 1000us in
+> +		 * a worst case scenario.
+> +		 */
+> +		do {
+> +			if (tegra_cpu_rail_off_ready())
+> +				return 0;
+> +
+> +		} while (ktime_before(ktime_get(), timeout));
+> +
+> +		pr_err("secondary CPU taking too long to park\n");
+> +
+> +		tegra20_report_cpus_state();
+> +	}
+> +
+> +	pr_err("timed out waiting secondaries to park\n");
+> +
+> +	return -ETIMEDOUT;
+> +}
+> +
+>  static bool tegra20_cpu_cluster_power_down(struct cpuidle_device *dev,
+>  					   struct cpuidle_driver *drv,
+>  					   int index)
+>  {
+>  	bool ret;
+>  
+> -	while (!tegra_cpu_rail_off_ready())
+> -		cpu_relax();
+> +	if (tegra20_wait_for_secondary_cpu_parking())
+> +		return false;
+>  
+>  	ret = !tegra_pm_enter_lp2();
+>  
+> -- 
+> 2.24.0
+> 
 
 -- 
-nvpublic
+
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
