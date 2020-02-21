@@ -2,52 +2,50 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E240F1680E7
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 15:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF91F168101
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 15:59:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728918AbgBUOz2 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 21 Feb 2020 09:55:28 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46493 "EHLO
+        id S1728938AbgBUO6x (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Feb 2020 09:58:53 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:42818 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728712AbgBUOz1 (ORCPT
+        with ESMTP id S1728803AbgBUO6w (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 21 Feb 2020 09:55:27 -0500
-Received: by mail-wr1-f67.google.com with SMTP id z7so2367618wrl.13
-        for <linux-tegra@vger.kernel.org>; Fri, 21 Feb 2020 06:55:26 -0800 (PST)
+        Fri, 21 Feb 2020 09:58:52 -0500
+Received: by mail-wr1-f67.google.com with SMTP id k11so2394657wrd.9
+        for <linux-tegra@vger.kernel.org>; Fri, 21 Feb 2020 06:58:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=VYFmZABuXC2P3mL+XBtC87Ki2RRj3t8jFY9o3T5ockc=;
-        b=qBGjfqKqIhfELazUq1yKbqpD8Qsj8UMuqu+4fmKwHveSJwobSUDrCJSwBVhwu5Bmqb
-         zczv4ydTB2cI4GPaZHJ8y+8pyGp8k0mqXRP7gSWa/TpKv6/dz8zHuMx+mTveJg0J6NvZ
-         XqCHm1itlNuZUmRMyEhinBjSq5Y0CUI3dEBKdvf0MHRyWF4dr3I0o3A1OC08L3fCke1S
-         OyBNtxGpeY9iSG7/x5UiyRaPj+ELuKtOE9bTFgf0QN6YkoBgHUPT1nIMkdIZlvgoRLpr
-         MMlc2BfR3jqw9Dal4aEiMhXrLMAY9zFjFqViSfEPFu1/Ps+HN4zZ+kmWloC5ownsmxyR
-         pnuQ==
+         :content-disposition:in-reply-to:user-agent;
+        bh=oEykVJQOde/kw8FuzYyK6TbVeNPZu6MWcUJ10Pto0IA=;
+        b=ipb0gqKpnH8eZQgist6/WhFHScfIIDaUKF+YlbE6HPBeFQIemlkloXs81cSL1ZN4iZ
+         mTkfja6gIWCuppriqnMHuyB1am2J5DJYqQlrQ1HcbraCInK3TJESZy+li98cpiIEKEbP
+         3Urd/YdG2Xo4GXDBzarxrAO+CgdH44P3OeR2Ff8gfoGNyJLRPZKeC9J39b41W1GJ9uWk
+         18JrOBUtIvKTSGblB/mw1Bylv5ErmL/bxLhSrf/Gz2BXKca9J1xPWNFtivCbmdMWUIQa
+         GhPNOirMvH/3Y5kPYR2jHURDfNOSD70w79VpYYODoogSQAGDhzrHoFKgeyu9jtA33sBK
+         aZhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=VYFmZABuXC2P3mL+XBtC87Ki2RRj3t8jFY9o3T5ockc=;
-        b=D7ZCVDWFZoZEC8lWKHOjzY7P7goegiCLYgRVJ8vr5Qa8FGWg0T17w8/TUFiI98Svo5
-         jjoeX4gJ2PmxNMLjw3vfA+GCd21G70Igq3f0l1mnGPL3WiHjO/07a2EWSCfCA6ABvYUi
-         8bt5vneCvxyi6cdi7M3hmG7Gg2ohotzgg6KYqixz/OWSXEvmLHXdM6j/RnUaJlup71VO
-         N7zhZFH0gO6xaZt+uv/yQyAUdgke+a6Fs+e0VjhaEXhVvK04DAqBVfNfMX/IHYKOo1SA
-         Ii3XSlBnX1ODPsazYQX9KqP3LetvKSOTX7V4mlIFOEGtvCCiF/a/3DLFHWzqaOnQkeEs
-         SFYQ==
-X-Gm-Message-State: APjAAAVYvmJnfphmW2aQdAL+LO/oBMsTLoFpjKFr4RBlUxG0JAtGS9AT
-        AWgyveBnAq8eP43Ua8eFU8+t5Pt3/so=
-X-Google-Smtp-Source: APXvYqxlQBHBtXVdKb8UmXuzt1Ss70Lfj6fxpQ5QfcMhGxHSh56TW6+M7a7t4xCU95n8tS/8m1lw9g==
-X-Received: by 2002:a5d:6703:: with SMTP id o3mr47003721wru.235.1582296925319;
-        Fri, 21 Feb 2020 06:55:25 -0800 (PST)
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oEykVJQOde/kw8FuzYyK6TbVeNPZu6MWcUJ10Pto0IA=;
+        b=p0pXUS7iQ64jpqZ7L2PeSeTiJBzgdf1cMCmqLzMjhslFAVK+jZ5xORD4TTZbayNkNb
+         PhF46Cm6vcIcBa4JCkLnbrvMt4SAtn/lGpkTOGdqzpRNXJv7nWCWSiDxZ7tnGAkgZVh2
+         65942u2acGuU2Nh5CVrdJ0WEPQ52mKRSU5+33ignmbglM7SaASp+q0SkgRHMvSsRsM8Q
+         Qb0hDTFGfiPyPtREnniW+/xQFI6bYrEyNVMIKt9O9gCMnsM64EaBPDD8YZnCt6N1Sbtq
+         4oLCLXeqcDUwDfxlPDOKgopiB/3zTeXLvIEDoHYhKyarlejyeIhe0VxgHPazbo7fUggA
+         AG/Q==
+X-Gm-Message-State: APjAAAU5aN4tExdXDndU96/pRLEqLSD8/eHXdTTZ7vVfytNl8BAyMaWe
+        SjxwgwMHQFxb53N6RbEAP1uI+w==
+X-Google-Smtp-Source: APXvYqw5xErxKhMBv5gx7PiJTT4buaJCBAgeciEkFL3HX/fDBfWZq5ZsZ5zArg6gc4dn9bxvuaNzFQ==
+X-Received: by 2002:adf:b352:: with SMTP id k18mr48018831wrd.242.1582297130530;
+        Fri, 21 Feb 2020 06:58:50 -0800 (PST)
 Received: from linaro.org ([2a01:e34:ed2f:f020:903b:a048:f296:e3ae])
-        by smtp.gmail.com with ESMTPSA id o9sm4320439wrw.20.2020.02.21.06.55.23
+        by smtp.gmail.com with ESMTPSA id b21sm4153587wmd.37.2020.02.21.06.58.49
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 21 Feb 2020 06:55:24 -0800 (PST)
-Date:   Fri, 21 Feb 2020 15:55:22 +0100
+        Fri, 21 Feb 2020 06:58:49 -0800 (PST)
+Date:   Fri, 21 Feb 2020 15:58:47 +0100
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Thierry Reding <thierry.reding@gmail.com>,
@@ -59,26 +57,33 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         David Heidelberg <david@ixit.cz>,
         Peter Geis <pgwipeout@gmail.com>, linux-pm@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 09/17] arm: tegra20: cpuidle: Handle case where
- secondary CPU hangs on entering LP2
-Message-ID: <20200221145522.GG10516@linaro.org>
+Subject: Re: [PATCH v9 03/17] ARM: tegra: Remove pen-locking from
+ cpuidle-tegra20
+Message-ID: <20200221145847.GH10516@linaro.org>
 References: <20200212235134.12638-1-digetx@gmail.com>
- <20200212235134.12638-10-digetx@gmail.com>
+ <20200212235134.12638-4-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200212235134.12638-10-digetx@gmail.com>
+In-Reply-To: <20200212235134.12638-4-digetx@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 02:51:26AM +0300, Dmitry Osipenko wrote:
-> It is possible that something may go wrong with the secondary CPU, in that
-> case it is much nicer to get a dump of the flow-controller state before
-> hanging machine.
+On Thu, Feb 13, 2020 at 02:51:20AM +0300, Dmitry Osipenko wrote:
+> Pen-locking is meant to block CPU0 if CPU1 wakes up during of entering
+> into LP2 because of some interrupt firing up, preventing unnecessary LP2
+> enter that will be resumed immediately. Apparently this case doesn't
+> happen often in practice, I checked how often it takes place and found
+> that after ~20 hours of browsing web, managing email, watching videos and
+> idling (15+ hours) there is only a dozen of early LP2 entering abortions
+> and they all happened while device was idling. Thus let's remove the
+> pen-locking and make LP2 entering uninterruptible, simplifying code quite
+> a lot. This will also become very handy for the upcoming unified cpuidle
+> driver, allowing to have a common LP2 code-path across of different
+> hardware generations.
 > 
 > Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
 > Tested-by: Peter Geis <pgwipeout@gmail.com>
@@ -87,83 +92,3 @@ On Thu, Feb 13, 2020 at 02:51:26AM +0300, Dmitry Osipenko wrote:
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
 Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-
-> ---
->  arch/arm/mach-tegra/cpuidle-tegra20.c | 47 +++++++++++++++++++++++++--
->  1 file changed, 45 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm/mach-tegra/cpuidle-tegra20.c b/arch/arm/mach-tegra/cpuidle-tegra20.c
-> index 9672c619f4bc..bcc158b72e67 100644
-> --- a/arch/arm/mach-tegra/cpuidle-tegra20.c
-> +++ b/arch/arm/mach-tegra/cpuidle-tegra20.c
-> @@ -83,14 +83,57 @@ static inline void tegra20_wake_cpu1_from_reset(void)
->  }
->  #endif
->  
-> +static void tegra20_report_cpus_state(void)
-> +{
-> +	unsigned long cpu, lcpu, csr;
-> +
-> +	for_each_cpu(lcpu, cpu_possible_mask) {
-> +		cpu = cpu_logical_map(lcpu);
-> +		csr = flowctrl_read_cpu_csr(cpu);
-> +
-> +		pr_err("cpu%lu: online=%d flowctrl_csr=0x%08lx\n",
-> +		       cpu, cpu_online(lcpu), csr);
-> +	}
-> +}
-> +
-> +static int tegra20_wait_for_secondary_cpu_parking(void)
-> +{
-> +	unsigned int retries = 3;
-> +
-> +	while (retries--) {
-> +		ktime_t timeout = ktime_add_ms(ktime_get(), 500);
-> +
-> +		/*
-> +		 * The primary CPU0 core shall wait for the secondaries
-> +		 * shutdown in order to power-off CPU's cluster safely.
-> +		 * The timeout value depends on the current CPU frequency,
-> +		 * it takes about 40-150us  in average and over 1000us in
-> +		 * a worst case scenario.
-> +		 */
-> +		do {
-> +			if (tegra_cpu_rail_off_ready())
-> +				return 0;
-> +
-> +		} while (ktime_before(ktime_get(), timeout));
-> +
-> +		pr_err("secondary CPU taking too long to park\n");
-> +
-> +		tegra20_report_cpus_state();
-> +	}
-> +
-> +	pr_err("timed out waiting secondaries to park\n");
-> +
-> +	return -ETIMEDOUT;
-> +}
-> +
->  static bool tegra20_cpu_cluster_power_down(struct cpuidle_device *dev,
->  					   struct cpuidle_driver *drv,
->  					   int index)
->  {
->  	bool ret;
->  
-> -	while (!tegra_cpu_rail_off_ready())
-> -		cpu_relax();
-> +	if (tegra20_wait_for_secondary_cpu_parking())
-> +		return false;
->  
->  	ret = !tegra_pm_enter_lp2();
->  
-> -- 
-> 2.24.0
-> 
-
--- 
-
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
