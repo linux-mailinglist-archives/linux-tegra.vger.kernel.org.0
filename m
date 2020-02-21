@@ -2,93 +2,99 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 130BA1683BC
-	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 17:39:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7817A168433
+	for <lists+linux-tegra@lfdr.de>; Fri, 21 Feb 2020 17:55:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726310AbgBUQjT (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Fri, 21 Feb 2020 11:39:19 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43685 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbgBUQjT (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Fri, 21 Feb 2020 11:39:19 -0500
-Received: by mail-wr1-f66.google.com with SMTP id r11so2744803wrq.10
-        for <linux-tegra@vger.kernel.org>; Fri, 21 Feb 2020 08:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=QjTyTbipJt5dMzjmIdDzAUN6hlDcjLhrXHCIzO32swU=;
-        b=SSPNOfzSs9LjzxjHRN7eg6XW28B3PaBN5bgPA5Pv+CJIpiaCw80cexZogBaEx3obvN
-         Ix0ERJnECtRHuNfPwlx6Lqof4XhKpEwuOHyRdRmIVnf7ZqdlIK1jfwPHdAT73zKnA5fi
-         kK/1cC+5JpjWdCIdTTlqpzlxmkDHIGh2dzLdC8QPIVCzYGhU2nT1VHomXeumu3Wb3ldU
-         mRQQWNmx8eHKBsy06cTVsIEsbt2keYOVa//zUotuolDVnG8sU22Am2VY12s1ikLBsBfI
-         Cb3dt2g/O+rXt5rYn1rjSUfI7pyblpgOCKc1/TCrfotm2O39qxxGXqCUmdXUXeENv93g
-         RcDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=QjTyTbipJt5dMzjmIdDzAUN6hlDcjLhrXHCIzO32swU=;
-        b=F0EEQTttgxD4ps7NC2qwJE49uVPK7f9iWRUxUYlaJs5bdgf5G4QbZllOm1zrmvxDLw
-         F73GawVDUZYy0PN4up4OrjYMYA285Gp2sJEMYvkN7fnzps2ZEx1U8LaZjzP3ck836NRe
-         5iI6lDRd/ClSEtGaYZ+AIr9REVfXklh0Usk+D4C594P2xECeCRnjjomhMus/90zWSYWI
-         2zMMUIdYjq/vIX+VSBK5ABOzrjr2WfhymtJztmUeP8dVYtWGXpFWSvisKHFJjR+KVC+e
-         trV7Xja0bn9jE36fziOZr3U9wzG+zCgk3bdRU/rjzw+PJw0TOw2yepDHTVWF/fEu60ba
-         vokw==
-X-Gm-Message-State: APjAAAX9qx0c7Ll5TbqGWj0j44uGO/7gkeZg/Ro5J/ciW2tfG22uniwL
-        oEBUCRtOJ/8fFJ5u7UeDW3n4aQ==
-X-Google-Smtp-Source: APXvYqyhVFhFBPSqnFo56LCyr1nJlT2hcmUgR2c5NunDYfi/Fc9CnjlmGN7Mc7+ge8fiAVpk5qDoGw==
-X-Received: by 2002:adf:f1cb:: with SMTP id z11mr47981280wro.375.1582303156945;
-        Fri, 21 Feb 2020 08:39:16 -0800 (PST)
-Received: from linaro.org ([2a01:e34:ed2f:f020:903b:a048:f296:e3ae])
-        by smtp.gmail.com with ESMTPSA id t9sm4805226wrv.63.2020.02.21.08.39.15
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 21 Feb 2020 08:39:16 -0800 (PST)
-Date:   Fri, 21 Feb 2020 17:39:13 +0100
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Jasper Korten <jja2000@gmail.com>,
-        David Heidelberg <david@ixit.cz>,
-        Peter Geis <pgwipeout@gmail.com>, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 15/17] cpuidle: tegra: Disable CC6 state if LP2
- unavailable
-Message-ID: <20200221163913.GT10516@linaro.org>
-References: <20200212235134.12638-1-digetx@gmail.com>
- <20200212235134.12638-16-digetx@gmail.com>
+        id S1726550AbgBUQzi (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Fri, 21 Feb 2020 11:55:38 -0500
+Received: from foss.arm.com ([217.140.110.172]:43652 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725995AbgBUQzi (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Fri, 21 Feb 2020 11:55:38 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B070830E;
+        Fri, 21 Feb 2020 08:55:37 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 266203F68F;
+        Fri, 21 Feb 2020 08:55:37 -0800 (PST)
+Date:   Fri, 21 Feb 2020 16:55:35 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
+        robh+dt@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
+        digetx@gmail.com, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
+        dramesh@nvidia.com, atalambedu@nvidia.com
+Subject: Re: [PATCH v3 03/10] ASoC: tegra: add Tegra210 based DMIC driver
+Message-ID: <20200221165535.GG5546@sirena.org.uk>
+References: <1582180492-25297-1-git-send-email-spujar@nvidia.com>
+ <1582180492-25297-4-git-send-email-spujar@nvidia.com>
+ <20200221130005.GD5546@sirena.org.uk>
+ <316ce0d5-318d-0533-ef06-bd7e8672f893@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="JkW1gnuWHDypiMFO"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200212235134.12638-16-digetx@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <316ce0d5-318d-0533-ef06-bd7e8672f893@nvidia.com>
+X-Cookie: Dead? No excuse for laying off work.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 02:51:32AM +0300, Dmitry Osipenko wrote:
-> LP2 suspending could be unavailable, for example if it is disabled in a
-> device-tree. CC6 cpuidle state won't work in that case.
-> 
-> Acked-by: Peter De Schrijver <pdeschrijver@nvidia.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+--JkW1gnuWHDypiMFO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Fri, Feb 21, 2020 at 02:31:05PM +0000, Jon Hunter wrote:
+> On 21/02/2020 13:00, Mark Brown wrote:
 
--- 
+> >> +	srate = params_rate(params);
+> >> +	if (dmic->srate_override)
+> >> +		srate = dmic->srate_override;
 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+> > How does this work for userspace?  If we just ignore the sample rate we
+> > were asked for I'd expect that the application would get upset.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+> Tegra has a hardware sample rate converter (though driver not yet
+> upstream or part of this initial series) and if using the sample-rate
+> converter, then the actual rate captured by the DMIC interface could be
+> different from the resulting sample-rate.
+
+The ideal thing in a component model would be to represent those sample
+rate convertors directly to usrspace so the routing and rewriting is
+explicit.
+
+> So we want a way to indicate to the DMIC it is capturing at rate X,
+> while the resulting sample-rate is Y.
+
+> I am not sure if there is a better way to do this? Ideally, the DMIC
+> would query the rate from the upstream MUX it is connected to, but I am
+> not sure if there is a way to do that. So right now it is a manual
+> process and the user has to configure these which are not ideal.
+
+Is there any *need* for these to be user configurable?  What's normally
+happening at the minute is that either the external DAIs are fixed
+configuration and the DSP just converts everything or there's no format
+conversion done and things get passed through.
+
+--JkW1gnuWHDypiMFO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5QC4YACgkQJNaLcl1U
+h9BuAQf9FRu14PuOOZ+O9sauEIcPzDlfRncn0yonqpoiOL8kSVmvII1P6SzUxVjG
+KFT1ryG8Jk6CHEYPsfj5meLFRtbk+gB/l/j4+UoVvLdEy6SGGuadmkktdEJucjRG
+FOHdt2hfaLzIAZKebaESc7yfGhrQ+2B6W1+FW+SxxpZrN4J8FeugjB31LOhCaKZo
+ZGxy4cHJYjQRWAPKz5fHsjOkHU7Es0ZpqZ+jKq3j/IGQtaNy/T+j+x2kQohcWN7f
+Bt3DpnlXTOy+iKdk2+7kvWZdo7Cqwydu8IuzvE9cyJc6xsLecENvaOdcbAPwtwvy
+AScUw0aer+7MukF/p0KS8880tO3ilw==
+=lUQu
+-----END PGP SIGNATURE-----
+
+--JkW1gnuWHDypiMFO--
