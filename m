@@ -2,80 +2,113 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C88951694B3
-	for <lists+linux-tegra@lfdr.de>; Sun, 23 Feb 2020 03:32:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FDD21698D8
+	for <lists+linux-tegra@lfdr.de>; Sun, 23 Feb 2020 18:26:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728487AbgBWCXK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 22 Feb 2020 21:23:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52458 "EHLO mail.kernel.org"
+        id S1727085AbgBWR0J (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sun, 23 Feb 2020 12:26:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60708 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728481AbgBWCXJ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 22 Feb 2020 21:23:09 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726302AbgBWR0I (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sun, 23 Feb 2020 12:26:08 -0500
+Received: from localhost (95-141-97-180.as16211.net [95.141.97.180])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5BA6A20707;
-        Sun, 23 Feb 2020 02:23:08 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 20A652067D;
+        Sun, 23 Feb 2020 17:26:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582424589;
-        bh=QaUmGOs6VeR87aE8yHZMtpxIbTBHgOfdmQpPxvkOCs0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KU+L7qypDmL2RhBqw3Q6DKJexz1n0/0iIr2dM9leMngmWDly+bmD/0C1m2vqjHCke
-         pAcRvb8D25WfvG0SNYO/8jKAbRVO/invzkGgcyOVvkds+YX0VF3VsCjQaF9YcKaF7j
-         aFwU5NoSlED7ZzlWBDR8BTmpaKfP65j/jm+mL9Co=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thierry Reding <treding@nvidia.com>,
-        kbuild test robot <lkp@intel.com>,
-        Olof Johansson <olof@lixom.net>,
-        Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 27/50] soc/tegra: fuse: Fix build with Tegra194 configuration
-Date:   Sat, 22 Feb 2020 21:22:12 -0500
-Message-Id: <20200223022235.1404-27-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200223022235.1404-1-sashal@kernel.org>
-References: <20200223022235.1404-1-sashal@kernel.org>
+        s=default; t=1582478766;
+        bh=/ZkETHgTdYzbHnFqULWsjzMztm5RWK6yU5jFZTyLP1M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=T3YAJkNMAl3s5FiFsAcCORC/PFvKxlYmrAz6iyrywPDyzc7a6oJ6mJzMa3ZDVeZip
+         1tpvniBBXwnNyyoWKnpt8O39QujKJ9iqxc77z1ibflIbLSPv7HvD4HS8LVgD9ViEdf
+         ErXeHQQczK6+CeeV8roE6m9SqtgBWOa9y/+kzat0=
+Date:   Sun, 23 Feb 2020 18:26:04 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Tero Kristo <t-kristo@ti.com>
+Cc:     Naresh Kamboju <naresh.kamboju@linaro.org>,
+        "tony@atomide.com" <tony@atomide.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Shuah Khan <shuah@kernel.org>, patches@kernelci.org,
+        Ben Hutchings <ben.hutchings@codethink.co.uk>,
+        lkft-triage@lists.linaro.org,
+        linux- stable <stable@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH 5.4 000/344] 5.4.22-stable review
+Message-ID: <20200223172604.GC349989@kroah.com>
+References: <20200221072349.335551332@linuxfoundation.org>
+ <529a5a4a-974e-995a-9556-c2a14d09bb5d@nvidia.com>
+ <CA+G9fYv-KC0v++YsyXR-rhC2JBGUfhNGD+XYaZjN3fJSX1x_mg@mail.gmail.com>
+ <f671fbf6-1cd5-ae8a-82e7-d3aba63e9840@ti.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f671fbf6-1cd5-ae8a-82e7-d3aba63e9840@ti.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+On Fri, Feb 21, 2020 at 01:57:20PM +0200, Tero Kristo wrote:
+> On 21/02/2020 13:17, Naresh Kamboju wrote:
+> > On Fri, 21 Feb 2020 at 15:34, Jon Hunter <jonathanh@nvidia.com> wrote:
+> > > 
+> > > 
+> > > On 21/02/2020 07:36, Greg Kroah-Hartman wrote:
+> > > > This is the start of the stable review cycle for the 5.4.22 release.
+> > > > There are 344 patches in this series, all will be posted as a response
+> > > > to this one.  If anyone has any issues with these being applied, please
+> > > > let me know.
+> > > > 
+> > > > Responses should be made by Sun, 23 Feb 2020 07:19:49 +0000.
+> > > > Anything received after that time might be too late.
+> > > > 
+> > > > The whole patch series can be found in one patch at:
+> > > >        https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.4.22-rc1.gz
+> > > > or in the git tree and branch at:
+> > > >        git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.4.y
+> > > > and the diffstat can be found below.
+> > > > 
+> > > > thanks,
+> > > > 
+> > > > greg k-h
+> > > > 
+> > > > -------------
+> > > > Pseudo-Shortlog of commits:
+> > > 
+> > > ...
+> > > 
+> > > > Tero Kristo <t-kristo@ti.com>
+> > > >      ARM: OMAP2+: pdata-quirks: add PRM data for reset support
+> > > 
+> > > 
+> > > The above commit is generating the following build error on ARM systems ...
+> > > 
+> > > dvs/git/dirty/git-master_l4t-upstream/kernel/arch/arm/mach-omap2/pdata-quirks.c:27:10: fatal error: linux/platform_data/ti-prm.h: No such file or directory
+> > >   #include <linux/platform_data/ti-prm.h>
+> > >            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > 
+> > build error:
+> > 
+> > ../arch/arm/mach-omap2/pdata-quirks.c:27:10: fatal error:
+> > linux/platform_data/ti-prm.h: No such file or directory
+> >     27 | #include <linux/platform_data/ti-prm.h>
+> >        |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > compilation terminated.
+> > make[2]: *** [../scripts/Makefile.build:265:
+> > arch/arm/mach-omap2/pdata-quirks.o] Error 1
+> > 
+> > With these below three patches, it applies cleanly and builds.
+> > But I'm not sure these are not expected to get into stable rc 5.4 branch.
+> 
+> Yeah, without PRM driver the pdata-quirk patch should not have been picked
+> up. I wonder why it ended up in stable. Tony, any ideas?
 
-[ Upstream commit 6f4ecbe284df5f22e386a640d9a4b32cede62030 ]
+I've dropped the offending patch now, sorry about that.
 
-If only Tegra194 support is enabled, the tegra30_fuse_read() and
-tegra30_fuse_init() function are not declared and cause a build failure.
-Add Tegra194 to the preprocessor guard to make sure these functions are
-available for Tegra194-only builds as well.
-
-Link: https://lore.kernel.org/r/20200203143114.3967295-1-thierry.reding@gmail.com
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Olof Johansson <olof@lixom.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/soc/tegra/fuse/fuse-tegra30.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/soc/tegra/fuse/fuse-tegra30.c b/drivers/soc/tegra/fuse/fuse-tegra30.c
-index be9424a871734..9c3ef0a02fd4e 100644
---- a/drivers/soc/tegra/fuse/fuse-tegra30.c
-+++ b/drivers/soc/tegra/fuse/fuse-tegra30.c
-@@ -35,7 +35,8 @@
-     defined(CONFIG_ARCH_TEGRA_124_SOC) || \
-     defined(CONFIG_ARCH_TEGRA_132_SOC) || \
-     defined(CONFIG_ARCH_TEGRA_210_SOC) || \
--    defined(CONFIG_ARCH_TEGRA_186_SOC)
-+    defined(CONFIG_ARCH_TEGRA_186_SOC) || \
-+    defined(CONFIG_ARCH_TEGRA_194_SOC)
- static u32 tegra30_fuse_read_early(struct tegra_fuse *fuse, unsigned int offset)
- {
- 	if (WARN_ON(!fuse->base))
--- 
-2.20.1
-
+greg k-h
