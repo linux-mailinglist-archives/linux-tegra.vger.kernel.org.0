@@ -2,39 +2,39 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43FB116953F
-	for <lists+linux-tegra@lfdr.de>; Sun, 23 Feb 2020 03:37:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C88951694B3
+	for <lists+linux-tegra@lfdr.de>; Sun, 23 Feb 2020 03:32:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728110AbgBWCgv (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Sat, 22 Feb 2020 21:36:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50552 "EHLO mail.kernel.org"
+        id S1728487AbgBWCXK (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Sat, 22 Feb 2020 21:23:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52458 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727816AbgBWCVy (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Sat, 22 Feb 2020 21:21:54 -0500
+        id S1728481AbgBWCXJ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Sat, 22 Feb 2020 21:23:09 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 53E3C2192A;
-        Sun, 23 Feb 2020 02:21:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5BA6A20707;
+        Sun, 23 Feb 2020 02:23:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582424514;
-        bh=UsYeohpK6s/8P45xPBN0BM1m3ZQJsw1sNlWd83+Re8c=;
+        s=default; t=1582424589;
+        bh=QaUmGOs6VeR87aE8yHZMtpxIbTBHgOfdmQpPxvkOCs0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eEtgEN1EMPxJEVvNOCoab4iomHKvSb9AR9r5eeYfe4BpBiwHT+H0ELMc2yRCowXbc
-         GniizxuW5XOjbR7b5Tm4eKacEM/hjGOBWCdOvCIfcCay2Qjq5SIWXNUR0hhANn+69T
-         Xnaj/rPTX4+do7ZfRUgPFlc9y5cDx3nGvYoTxtH8=
+        b=KU+L7qypDmL2RhBqw3Q6DKJexz1n0/0iIr2dM9leMngmWDly+bmD/0C1m2vqjHCke
+         pAcRvb8D25WfvG0SNYO/8jKAbRVO/invzkGgcyOVvkds+YX0VF3VsCjQaF9YcKaF7j
+         aFwU5NoSlED7ZzlWBDR8BTmpaKfP65j/jm+mL9Co=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Thierry Reding <treding@nvidia.com>,
         kbuild test robot <lkp@intel.com>,
         Olof Johansson <olof@lixom.net>,
         Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 28/58] soc/tegra: fuse: Fix build with Tegra194 configuration
-Date:   Sat, 22 Feb 2020 21:20:49 -0500
-Message-Id: <20200223022119.707-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 27/50] soc/tegra: fuse: Fix build with Tegra194 configuration
+Date:   Sat, 22 Feb 2020 21:22:12 -0500
+Message-Id: <20200223022235.1404-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200223022119.707-1-sashal@kernel.org>
-References: <20200223022119.707-1-sashal@kernel.org>
+In-Reply-To: <20200223022235.1404-1-sashal@kernel.org>
+References: <20200223022235.1404-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,10 +63,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/soc/tegra/fuse/fuse-tegra30.c b/drivers/soc/tegra/fuse/fuse-tegra30.c
-index b8daaf5b7291b..efd158b4607cb 100644
+index be9424a871734..9c3ef0a02fd4e 100644
 --- a/drivers/soc/tegra/fuse/fuse-tegra30.c
 +++ b/drivers/soc/tegra/fuse/fuse-tegra30.c
-@@ -36,7 +36,8 @@
+@@ -35,7 +35,8 @@
      defined(CONFIG_ARCH_TEGRA_124_SOC) || \
      defined(CONFIG_ARCH_TEGRA_132_SOC) || \
      defined(CONFIG_ARCH_TEGRA_210_SOC) || \
