@@ -2,345 +2,167 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDC1216A7B8
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 14:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7880616A7E0
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 15:08:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725535AbgBXNzU (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Feb 2020 08:55:20 -0500
-Received: from foss.arm.com ([217.140.110.172]:37396 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727348AbgBXNzU (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Feb 2020 08:55:20 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 57F7630E;
-        Mon, 24 Feb 2020 05:55:19 -0800 (PST)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 595B13F534;
-        Mon, 24 Feb 2020 05:55:18 -0800 (PST)
-Date:   Mon, 24 Feb 2020 13:55:13 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-pci@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Andrew Murray <andrew.murray@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] PCI: tegra: Use pci_parse_request_of_pci_ranges()
-Message-ID: <20200224135513.GA15614@e121166-lin.cambridge.arm.com>
-References: <20191028225136.22289-1-robh@kernel.org>
+        id S1727539AbgBXOIR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Feb 2020 09:08:17 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:5063 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727451AbgBXOIR (ORCPT
+        <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 24 Feb 2020 09:08:17 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e53d8840000>; Mon, 24 Feb 2020 06:07:00 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 24 Feb 2020 06:08:16 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 24 Feb 2020 06:08:16 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 24 Feb
+ 2020 14:08:16 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 24 Feb 2020 14:08:15 +0000
+Received: from thunderball.nvidia.com (Not Verified[10.21.140.91]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e53d8cd0006>; Mon, 24 Feb 2020 06:08:15 -0800
+From:   Jon Hunter <jonathanh@nvidia.com>
+To:     Milo Kim <milo.kim@ti.com>, Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>
+CC:     <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
+Subject: [PATCH] backlight: lp855x: Ensure regulators are disabled on probe failure
+Date:   Mon, 24 Feb 2020 14:07:48 +0000
+Message-ID: <20200224140748.2182-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191028225136.22289-1-robh@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1582553220; bh=B1HKOxHeQwu3ZxgJLvSfafO1owYsd38lFNvB2Oh8gBc=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=bnwYpe6isaqG2Bp36VGI0VAYjd8jtznqNulwkVw85vf5zOMSfv809Oou4taz+1W9g
+         /eTLeJozbJBXhllQfybYW8hX4fyWIjWNON8aQugt/0HrnKAjg5r9wLT5lTgmy+8n2B
+         YrCJM3gob7XIi7l0cbONUTfyGssXmyEi+0SUamN4DDOnXIFxHBentnbyQdvOQ9+11P
+         Dr5X+zeRff1B/SMt2pdNwrja2cVOPDRGAM+U4epkb2bICZZUiGv1fQLKa+KgJ7xMMS
+         AwmdVrZ/6l2MAKwM+FuIqdF/x7mpCYg64MWX7TFFRwOSCFwNeq1fcK5TWItV01qcCa
+         mFLwbcDwN/IQA==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Mon, Oct 28, 2019 at 05:51:36PM -0500, Rob Herring wrote:
-> Convert Tegra PCI host driver to use the common
-> pci_parse_request_of_pci_ranges().
-> 
-> This allows removing the DT ranges parsing, PCI resource handling, and
-> private storage of resources from the driver.
-> 
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Andrew Murray <andrew.murray@arm.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: linux-tegra@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Here's one more conversion to use pci_parse_request_of_pci_ranges. It's
-> dependent on my prior series, specifically this patch[1].
-> 
-> Compile tested only.
-> 
-> Rob
-> 
-> [1] https://patchwork.ozlabs.org/patch/1185555/
-> 
->  drivers/pci/controller/pci-tegra.c | 187 +++++++----------------------
->  1 file changed, 46 insertions(+), 141 deletions(-)
+If probing the LP885x backlight fails after the regulators have been
+enabled, then the following warning is seen when releasing the
+regulators ...
 
-Applied to pci/tegra for v5.7, thanks.
+ WARNING: CPU: 1 PID: 289 at drivers/regulator/core.c:2051 _regulator_put.part.28+0x158/0x160
+ Modules linked in: tegra_xudc lp855x_bl(+) host1x pwm_tegra ip_tables x_tables ipv6 nf_defrag_ipv6
+ CPU: 1 PID: 289 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200224 #1
+ Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
 
-Lorenzo
+ ...
 
-> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-> index 673a1725ef38..83d8209a372a 100644
-> --- a/drivers/pci/controller/pci-tegra.c
-> +++ b/drivers/pci/controller/pci-tegra.c
-> @@ -355,16 +355,6 @@ struct tegra_pcie {
->  	int irq;
->  
->  	struct resource cs;
-> -	struct resource io;
-> -	struct resource pio;
-> -	struct resource mem;
-> -	struct resource prefetch;
-> -	struct resource busn;
-> -
-> -	struct {
-> -		resource_size_t mem;
-> -		resource_size_t io;
-> -	} offset;
->  
->  	struct clk *pex_clk;
->  	struct clk *afi_clk;
-> @@ -797,38 +787,6 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0bf1, tegra_pcie_relax_enable);
->  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1c, tegra_pcie_relax_enable);
->  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, 0x0e1d, tegra_pcie_relax_enable);
->  
-> -static int tegra_pcie_request_resources(struct tegra_pcie *pcie)
-> -{
-> -	struct pci_host_bridge *host = pci_host_bridge_from_priv(pcie);
-> -	struct list_head *windows = &host->windows;
-> -	struct device *dev = pcie->dev;
-> -	int err;
-> -
-> -	pci_add_resource_offset(windows, &pcie->pio, pcie->offset.io);
-> -	pci_add_resource_offset(windows, &pcie->mem, pcie->offset.mem);
-> -	pci_add_resource_offset(windows, &pcie->prefetch, pcie->offset.mem);
-> -	pci_add_resource(windows, &pcie->busn);
-> -
-> -	err = devm_request_pci_bus_resources(dev, windows);
-> -	if (err < 0) {
-> -		pci_free_resource_list(windows);
-> -		return err;
-> -	}
-> -
-> -	pci_remap_iospace(&pcie->pio, pcie->io.start);
-> -
-> -	return 0;
-> -}
-> -
-> -static void tegra_pcie_free_resources(struct tegra_pcie *pcie)
-> -{
-> -	struct pci_host_bridge *host = pci_host_bridge_from_priv(pcie);
-> -	struct list_head *windows = &host->windows;
-> -
-> -	pci_unmap_iospace(&pcie->pio);
-> -	pci_free_resource_list(windows);
-> -}
-> -
->  static int tegra_pcie_map_irq(const struct pci_dev *pdev, u8 slot, u8 pin)
->  {
->  	struct tegra_pcie *pcie = pdev->bus->sysdata;
-> @@ -909,36 +867,49 @@ static irqreturn_t tegra_pcie_isr(int irq, void *arg)
->   */
->  static void tegra_pcie_setup_translations(struct tegra_pcie *pcie)
->  {
-> -	u32 fpci_bar, size, axi_address;
-> +	u32 size;
-> +	struct resource_entry *entry;
-> +	struct pci_host_bridge *bridge = pci_host_bridge_from_priv(pcie);
->  
->  	/* Bar 0: type 1 extended configuration space */
->  	size = resource_size(&pcie->cs);
->  	afi_writel(pcie, pcie->cs.start, AFI_AXI_BAR0_START);
->  	afi_writel(pcie, size >> 12, AFI_AXI_BAR0_SZ);
->  
-> -	/* Bar 1: downstream IO bar */
-> -	fpci_bar = 0xfdfc0000;
-> -	size = resource_size(&pcie->io);
-> -	axi_address = pcie->io.start;
-> -	afi_writel(pcie, axi_address, AFI_AXI_BAR1_START);
-> -	afi_writel(pcie, size >> 12, AFI_AXI_BAR1_SZ);
-> -	afi_writel(pcie, fpci_bar, AFI_FPCI_BAR1);
-> -
-> -	/* Bar 2: prefetchable memory BAR */
-> -	fpci_bar = (((pcie->prefetch.start >> 12) & 0x0fffffff) << 4) | 0x1;
-> -	size = resource_size(&pcie->prefetch);
-> -	axi_address = pcie->prefetch.start;
-> -	afi_writel(pcie, axi_address, AFI_AXI_BAR2_START);
-> -	afi_writel(pcie, size >> 12, AFI_AXI_BAR2_SZ);
-> -	afi_writel(pcie, fpci_bar, AFI_FPCI_BAR2);
-> -
-> -	/* Bar 3: non prefetchable memory BAR */
-> -	fpci_bar = (((pcie->mem.start >> 12) & 0x0fffffff) << 4) | 0x1;
-> -	size = resource_size(&pcie->mem);
-> -	axi_address = pcie->mem.start;
-> -	afi_writel(pcie, axi_address, AFI_AXI_BAR3_START);
-> -	afi_writel(pcie, size >> 12, AFI_AXI_BAR3_SZ);
-> -	afi_writel(pcie, fpci_bar, AFI_FPCI_BAR3);
-> +	resource_list_for_each_entry(entry, &bridge->windows) {
-> +		u32 fpci_bar, axi_address;
-> +		struct resource *res = entry->res;
-> +
-> +		size = resource_size(res);
-> +
-> +		switch (resource_type(res)) {
-> +		case IORESOURCE_IO:
-> +			/* Bar 1: downstream IO bar */
-> +			fpci_bar = 0xfdfc0000;
-> +			axi_address = pci_pio_to_address(res->start);
-> +			afi_writel(pcie, axi_address, AFI_AXI_BAR1_START);
-> +			afi_writel(pcie, size >> 12, AFI_AXI_BAR1_SZ);
-> +			afi_writel(pcie, fpci_bar, AFI_FPCI_BAR1);
-> +			break;
-> +		case IORESOURCE_MEM:
-> +			fpci_bar = (((res->start >> 12) & 0x0fffffff) << 4) | 0x1;
-> +			axi_address = res->start;
-> +
-> +			if (res->flags & IORESOURCE_PREFETCH) {
-> +				/* Bar 2: prefetchable memory BAR */
-> +				afi_writel(pcie, axi_address, AFI_AXI_BAR2_START);
-> +				afi_writel(pcie, size >> 12, AFI_AXI_BAR2_SZ);
-> +				afi_writel(pcie, fpci_bar, AFI_FPCI_BAR2);
-> +
-> +			} else {
-> +				/* Bar 3: non prefetchable memory BAR */
-> +				afi_writel(pcie, axi_address, AFI_AXI_BAR3_START);
-> +				afi_writel(pcie, size >> 12, AFI_AXI_BAR3_SZ);
-> +				afi_writel(pcie, fpci_bar, AFI_FPCI_BAR3);
-> +			}
-> +			break;
-> +		}
-> +	}
->  
->  	/* NULL out the remaining BARs as they are not used */
->  	afi_writel(pcie, 0, AFI_AXI_BAR4_START);
-> @@ -2157,76 +2128,10 @@ static int tegra_pcie_parse_dt(struct tegra_pcie *pcie)
->  	struct device *dev = pcie->dev;
->  	struct device_node *np = dev->of_node, *port;
->  	const struct tegra_pcie_soc *soc = pcie->soc;
-> -	struct of_pci_range_parser parser;
-> -	struct of_pci_range range;
->  	u32 lanes = 0, mask = 0;
->  	unsigned int lane = 0;
-> -	struct resource res;
->  	int err;
->  
-> -	if (of_pci_range_parser_init(&parser, np)) {
-> -		dev_err(dev, "missing \"ranges\" property\n");
-> -		return -EINVAL;
-> -	}
-> -
-> -	for_each_of_pci_range(&parser, &range) {
-> -		err = of_pci_range_to_resource(&range, np, &res);
-> -		if (err < 0)
-> -			return err;
-> -
-> -		switch (res.flags & IORESOURCE_TYPE_BITS) {
-> -		case IORESOURCE_IO:
-> -			/* Track the bus -> CPU I/O mapping offset. */
-> -			pcie->offset.io = res.start - range.pci_addr;
-> -
-> -			memcpy(&pcie->pio, &res, sizeof(res));
-> -			pcie->pio.name = np->full_name;
-> -
-> -			/*
-> -			 * The Tegra PCIe host bridge uses this to program the
-> -			 * mapping of the I/O space to the physical address,
-> -			 * so we override the .start and .end fields here that
-> -			 * of_pci_range_to_resource() converted to I/O space.
-> -			 * We also set the IORESOURCE_MEM type to clarify that
-> -			 * the resource is in the physical memory space.
-> -			 */
-> -			pcie->io.start = range.cpu_addr;
-> -			pcie->io.end = range.cpu_addr + range.size - 1;
-> -			pcie->io.flags = IORESOURCE_MEM;
-> -			pcie->io.name = "I/O";
-> -
-> -			memcpy(&res, &pcie->io, sizeof(res));
-> -			break;
-> -
-> -		case IORESOURCE_MEM:
-> -			/*
-> -			 * Track the bus -> CPU memory mapping offset. This
-> -			 * assumes that the prefetchable and non-prefetchable
-> -			 * regions will be the last of type IORESOURCE_MEM in
-> -			 * the ranges property.
-> -			 * */
-> -			pcie->offset.mem = res.start - range.pci_addr;
-> -
-> -			if (res.flags & IORESOURCE_PREFETCH) {
-> -				memcpy(&pcie->prefetch, &res, sizeof(res));
-> -				pcie->prefetch.name = "prefetchable";
-> -			} else {
-> -				memcpy(&pcie->mem, &res, sizeof(res));
-> -				pcie->mem.name = "non-prefetchable";
-> -			}
-> -			break;
-> -		}
-> -	}
-> -
-> -	err = of_pci_parse_bus_range(np, &pcie->busn);
-> -	if (err < 0) {
-> -		dev_err(dev, "failed to parse ranges property: %d\n", err);
-> -		pcie->busn.name = np->name;
-> -		pcie->busn.start = 0;
-> -		pcie->busn.end = 0xff;
-> -		pcie->busn.flags = IORESOURCE_BUS;
-> -	}
-> -
->  	/* parse root ports */
->  	for_each_child_of_node(np, port) {
->  		struct tegra_pcie_port *rp;
-> @@ -2766,6 +2671,7 @@ static int tegra_pcie_probe(struct platform_device *pdev)
->  	struct pci_host_bridge *host;
->  	struct tegra_pcie *pcie;
->  	struct pci_bus *child;
-> +	struct resource *bus;
->  	int err;
->  
->  	host = devm_pci_alloc_host_bridge(dev, sizeof(*pcie));
-> @@ -2780,6 +2686,12 @@ static int tegra_pcie_probe(struct platform_device *pdev)
->  	INIT_LIST_HEAD(&pcie->ports);
->  	pcie->dev = dev;
->  
-> +	err = pci_parse_request_of_pci_ranges(dev, &host->windows, NULL, &bus);
-> +	if (err) {
-> +		dev_err(dev, "Getting bridge resources failed\n");
-> +		return err;
-> +	}
-> +
->  	err = tegra_pcie_parse_dt(pcie);
->  	if (err < 0)
->  		return err;
-> @@ -2803,11 +2715,7 @@ static int tegra_pcie_probe(struct platform_device *pdev)
->  		goto teardown_msi;
->  	}
->  
-> -	err = tegra_pcie_request_resources(pcie);
-> -	if (err)
-> -		goto pm_runtime_put;
-> -
-> -	host->busnr = pcie->busn.start;
-> +	host->busnr = bus->start;
->  	host->dev.parent = &pdev->dev;
->  	host->ops = &tegra_pcie_ops;
->  	host->map_irq = tegra_pcie_map_irq;
-> @@ -2816,7 +2724,7 @@ static int tegra_pcie_probe(struct platform_device *pdev)
->  	err = pci_scan_root_bus_bridge(host);
->  	if (err < 0) {
->  		dev_err(dev, "failed to register host: %d\n", err);
-> -		goto free_resources;
-> +		goto pm_runtime_put;
->  	}
->  
->  	pci_bus_size_bridges(host->bus);
-> @@ -2835,8 +2743,6 @@ static int tegra_pcie_probe(struct platform_device *pdev)
->  
->  	return 0;
->  
-> -free_resources:
-> -	tegra_pcie_free_resources(pcie);
->  pm_runtime_put:
->  	pm_runtime_put_sync(pcie->dev);
->  	pm_runtime_disable(pcie->dev);
-> @@ -2858,7 +2764,6 @@ static int tegra_pcie_remove(struct platform_device *pdev)
->  
->  	pci_stop_root_bus(host->bus);
->  	pci_remove_root_bus(host->bus);
-> -	tegra_pcie_free_resources(pcie);
->  	pm_runtime_put_sync(pcie->dev);
->  	pm_runtime_disable(pcie->dev);
->  
-> -- 
-> 2.20.1
-> 
+ Call trace:
+  _regulator_put.part.28+0x158/0x160
+  regulator_put+0x34/0x50
+  devm_regulator_release+0x10/0x18
+  release_nodes+0x12c/0x230
+  devres_release_all+0x34/0x50
+  really_probe+0x1c0/0x370
+  driver_probe_device+0x58/0x100
+  device_driver_attach+0x6c/0x78
+  __driver_attach+0xb0/0xf0
+  bus_for_each_dev+0x68/0xc8
+  driver_attach+0x20/0x28
+  bus_add_driver+0x160/0x1f0
+  driver_register+0x60/0x110
+  i2c_register_driver+0x40/0x80
+  lp855x_driver_init+0x20/0x1000 [lp855x_bl]
+  do_one_initcall+0x58/0x1a0
+  do_init_module+0x54/0x1d0
+  load_module+0x1d80/0x21c8
+  __do_sys_finit_module+0xe8/0x100
+  __arm64_sys_finit_module+0x18/0x20
+  el0_svc_common.constprop.3+0xb0/0x168
+  do_el0_svc+0x20/0x98
+  el0_sync_handler+0xf4/0x1b0
+  el0_sync+0x140/0x180
+
+Fix this by ensuring that the regulators are disabled, if enabled, on
+probe failure.
+
+Finally, ensure that the vddio regulator is disabled in the driver
+remove handler.
+
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+---
+ drivers/video/backlight/lp855x_bl.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
+index f68920131a4a..e94932c69f54 100644
+--- a/drivers/video/backlight/lp855x_bl.c
++++ b/drivers/video/backlight/lp855x_bl.c
+@@ -456,7 +456,7 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
+ 		ret = regulator_enable(lp->enable);
+ 		if (ret < 0) {
+ 			dev_err(lp->dev, "failed to enable vddio: %d\n", ret);
+-			return ret;
++			goto disable_supply;
+ 		}
+ 
+ 		/*
+@@ -471,24 +471,34 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
+ 	ret = lp855x_configure(lp);
+ 	if (ret) {
+ 		dev_err(lp->dev, "device config err: %d", ret);
+-		return ret;
++		goto disable_vddio;
+ 	}
+ 
+ 	ret = lp855x_backlight_register(lp);
+ 	if (ret) {
+ 		dev_err(lp->dev,
+ 			"failed to register backlight. err: %d\n", ret);
+-		return ret;
++		goto disable_vddio;
+ 	}
+ 
+ 	ret = sysfs_create_group(&lp->dev->kobj, &lp855x_attr_group);
+ 	if (ret) {
+ 		dev_err(lp->dev, "failed to register sysfs. err: %d\n", ret);
+-		return ret;
++		goto disable_vddio;
+ 	}
+ 
+ 	backlight_update_status(lp->bl);
++
+ 	return 0;
++
++disable_vddio:
++	if (lp->enable)
++		regulator_disable(lp->enable);
++disable_supply:
++	if (lp->supply)
++		regulator_disable(lp->supply);
++
++	return ret;
+ }
+ 
+ static int lp855x_remove(struct i2c_client *cl)
+@@ -497,6 +507,8 @@ static int lp855x_remove(struct i2c_client *cl)
+ 
+ 	lp->bl->props.brightness = 0;
+ 	backlight_update_status(lp->bl);
++	if (lp->enable)
++		regulator_disable(lp->enable);
+ 	if (lp->supply)
+ 		regulator_disable(lp->supply);
+ 	sysfs_remove_group(&lp->dev->kobj, &lp855x_attr_group);
+-- 
+2.17.1
+
