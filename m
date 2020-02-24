@@ -2,125 +2,105 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD88116A721
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 14:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 513C116A728
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 14:18:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727299AbgBXNRz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Feb 2020 08:17:55 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35130 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727275AbgBXNRy (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Feb 2020 08:17:54 -0500
-Received: by mail-wm1-f66.google.com with SMTP id b17so9363562wmb.0;
-        Mon, 24 Feb 2020 05:17:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=r19NRFzZN4kRbe89ETt7zD9XwxtDHTmRBtVVXHTzcgo=;
-        b=LTGNvrJnlUxiwdP+18A+r8fdxWzdrYv8AVdSnMRMHPDx+kz4ky1EWBLIn3JpiLdg6M
-         uI32ymQleUhetUn4w7BITEwL4XNf4mabQCsyBOAEYYwXly/7v6mQllPNgWiionbwG9xh
-         wNfV9OPN8pTx9vdRUrRPRt3ap6avuigeMeT4qvyIOmgnuIlBk3vanCI4HOh3Er/nQz3F
-         bck58Ujy7v5DQ7vSBWt9BMMo5uINRLfSaAkMd3qynvUlMTEablQLnxom+iDgqSUXmoic
-         mHtHuzch0FQXx90F6EQHDrMh2UYTHBocHRp/TMHZOIwwFNi4mgKRJrlxYN1Atbr5at5u
-         1Kpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=r19NRFzZN4kRbe89ETt7zD9XwxtDHTmRBtVVXHTzcgo=;
-        b=JJM8cSkf+ZQ/bbhrwFq5+r911CoNbr1XqN/Z8PzJwkxMGAIGJ/Aus/xUS5xIdbm9ke
-         6cKQKFkeg1n9PHMelqr+u0oULjE9ifzLZkOVEc+gSt1iw++DaqXK/IjRR9SgXwZ6jC4z
-         nsto+A/7CqE16fWuv/fbCbbmPnrAS/88C34SYiwLIdKNsEhwBL0lyKaOGl2ZLdkHy5PK
-         qLYb1mMELFBbNTx+b5ZmwABSKAzrOS1rOAeGjFFZKvxOkGgk94z1HfjfEo6sKx4YnSSs
-         LegMvMonMn5LvVfbAlSdl2ygP3a+8XcIUvEaABH2wMiNF9pEZwLLABpbzXtY6nU3plH7
-         vGUg==
-X-Gm-Message-State: APjAAAXGAzFSWL4Q9QODR5Smo675gzVSBLXrs3Gf3+xn+ls1raOU9C68
-        i+Y9+/Qov4o+2g2x8HTz9aziqzuV
-X-Google-Smtp-Source: APXvYqyGicDI5Qic8PkNg4+/QhCD2DvmypaeXZ/7/ZFHN3KogtE1n98FjKJNsTM54Dp7PymJKaix1Q==
-X-Received: by 2002:a05:600c:295d:: with SMTP id n29mr22078118wmd.101.1582550272799;
-        Mon, 24 Feb 2020 05:17:52 -0800 (PST)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id q3sm17342925wmj.38.2020.02.24.05.17.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 05:17:51 -0800 (PST)
-Date:   Mon, 24 Feb 2020 14:17:50 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-pci@vger.kernel.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <andrew.murray@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] PCI: tegra: Use pci_parse_request_of_pci_ranges()
-Message-ID: <20200224131750.GA2209519@ulmo>
-References: <20191028225136.22289-1-robh@kernel.org>
+        id S1727495AbgBXNS3 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Feb 2020 08:18:29 -0500
+Received: from foss.arm.com ([217.140.110.172]:36960 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727275AbgBXNS3 (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 24 Feb 2020 08:18:29 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C53E730E;
+        Mon, 24 Feb 2020 05:18:28 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 49DE93F534;
+        Mon, 24 Feb 2020 05:18:28 -0800 (PST)
+Date:   Mon, 24 Feb 2020 13:18:26 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Sameer Pujar <spujar@nvidia.com>
+Cc:     Jon Hunter <jonathanh@nvidia.com>, perex@perex.cz, tiwai@suse.com,
+        robh+dt@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
+        digetx@gmail.com, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
+        dramesh@nvidia.com, atalambedu@nvidia.com
+Subject: Re: Re: [PATCH v3 03/10] ASoC: tegra: add Tegra210 based DMIC driver
+Message-ID: <20200224131826.GI6215@sirena.org.uk>
+References: <1582180492-25297-1-git-send-email-spujar@nvidia.com>
+ <1582180492-25297-4-git-send-email-spujar@nvidia.com>
+ <20200221130005.GD5546@sirena.org.uk>
+ <316ce0d5-318d-0533-ef06-bd7e8672f893@nvidia.com>
+ <20200221165535.GG5546@sirena.org.uk>
+ <47f94534-e997-d56c-5793-ae832fb2add4@nvidia.com>
+ <20200224114406.GB6215@sirena.org.uk>
+ <f70c7c12-dbc0-a725-f06a-86fab868e7dc@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="CNK/L7dwKXQ4Ub8J"
 Content-Disposition: inline
-In-Reply-To: <20191028225136.22289-1-robh@kernel.org>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <f70c7c12-dbc0-a725-f06a-86fab868e7dc@nvidia.com>
+X-Cookie: How you look depends on where you go.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
---azLHFNyN32YCQGCU
+--CNK/L7dwKXQ4Ub8J
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 28, 2019 at 05:51:36PM -0500, Rob Herring wrote:
-> Convert Tegra PCI host driver to use the common
-> pci_parse_request_of_pci_ranges().
->=20
-> This allows removing the DT ranges parsing, PCI resource handling, and
-> private storage of resources from the driver.
->=20
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Andrew Murray <andrew.murray@arm.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: linux-tegra@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Here's one more conversion to use pci_parse_request_of_pci_ranges. It's
-> dependent on my prior series, specifically this patch[1].
->=20
-> Compile tested only.
->=20
-> Rob
->=20
-> [1] https://patchwork.ozlabs.org/patch/1185555/
->=20
->  drivers/pci/controller/pci-tegra.c | 187 +++++++----------------------
->  1 file changed, 46 insertions(+), 141 deletions(-)
+On Mon, Feb 24, 2020 at 05:59:33PM +0530, Sameer Pujar wrote:
+> On 2/24/2020 5:14 PM, Mark Brown wrote:
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+> > I don't think so, I'd not expect the individual drivers to be doing
+> > anything user visible here - if we know what a digital transformation
+> > looks like the framework should be offering anything that's needed to
+> > users (and hiding controls that don't have any practical control in a
+> > given system).
 
---azLHFNyN32YCQGCU
+> Are you suggesting to have some alternate way of users configuring sample
+> rates (and other params) and not use mixer control method?
+
+I'm mainly saying the driver shouldn't be doing it directly, it should
+be doing something much closer to hwparams for digital formats.
+
+> This is a typical use case we see,
+> - [stream-1] Lets say high resolution audio is playing (96kHz, 24-bit,
+> stereo)
+> - [stream-2] Randomly system notifications of small durations come (48kHz,
+> 16-bit, stereo)
+> The requirement is, both streams should be mixed and played.
+
+Most systems like this would run the output at a fixed sample rate here
+so there'd be no runtime configuration.
+
+> Is there a better way for user to configure custom audio paths?
+
+Fit what you're doing into DPCM.  It's not particularly great but it's
+what we have at the minute.
+
+This isn't me not understanding your use case, this is me saying that
+it would be better to either work like other existing drivers or improve
+the framework so that it works better for everyone.
+
+--CNK/L7dwKXQ4Ub8J
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5TzPkACgkQ3SOs138+
-s6Hb8RAAuBDCgCf7ITjK0QRvKFK25IIEygzPe1+E4wb2eHC0zeX2C0x1bgF1w+Gs
-rqijPm12ur/NDaHhpgNKVJYr4P3zBsyDsM4fcdz90g2lbFU93ARE1RkWJ3yB4b/K
-qETz7iqTHYNva268HT/CZjPA1au3Yjy/aY4l1lJBdVK4t6g7QeWm3Imze6F/LMb5
-qdvrZidTY/Qv/8VXu7ICE6c8XrngCzkqWcC6TBbIXN/6m5ceEYSuuHFIf+M7+X5z
-PFjTDuV3A0lULO5XQkxvu5fNmSW6zfxBdxPoI/LnF9YlbAdmVCqikjWCEI2cS/sT
-bB83jaqcx+04i6d17eVEiZ4qciysoB9d+K8VK1TH6ffH/wXhIOEdWdRpvd0PxAKL
-8AcvR9H8skNkpqbzNvt6ncl06pxc35DJD345Y7fVCUCah0xkS1w7u4aigcQy3QeA
-FlXLszvV0+8BNPThj4o+YhpIOfSsOd1xfS3spmNu00PJ1iGWwOYVZNgqHrFIuF6J
-DOfTN14zUY/TvyBlfydgYr2bHf2vTHVODeW5C366TCEHeanru2Nhe6fdRE5uzn1R
-SrzNaP0DQezNjL/epz2UKZ9559uTw75eWSyM0M8vdow0WnG1AthZSoEWPzYklTDb
-whWqkdO+8mG0eL+cCheKkulg2DZa8sfQH5PxWdilpGFx/d6FAZE=
-=GutB
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5TzSEACgkQJNaLcl1U
+h9BAhwf/QhpoDg6KiehDe7VRnOhtmPEXAczk9wdg+IxjQr0QRsmC+kn/PQ9O+TJG
+puwkmjpN5PJmU+kUECaCiZO5midMxKemgI4ITEHhtBGmuOhaRv/Fq4HwHJoYPvNu
+QCgOqLmAA/A7GSMZFPKterSWZ37254QlSiiBo77wWvzBgsByJ/JaBEyvWOPHQfaJ
+S+TsoKJV2hh73j8GfBxMJPzoDxoetly2+sUhudtNG7fPAlKyoX7rkRYn/JBmlFxf
+Zz3VF3oq+6zyraU3o7z/Ki76E5MXclTItaA0qQ0sYKJmVdbN4VMAwmzsqBhVe1e9
+fGzmk+Ai8I9CHO4TczYKw5D5YYxs8A==
+=ZFLp
 -----END PGP SIGNATURE-----
 
---azLHFNyN32YCQGCU--
+--CNK/L7dwKXQ4Ub8J--
