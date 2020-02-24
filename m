@@ -2,105 +2,104 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E02AA16A989
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 16:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93E3616ABA5
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 17:33:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727299AbgBXPM6 (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Feb 2020 10:12:58 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:36285 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727359AbgBXPM6 (ORCPT
+        id S1727636AbgBXQdz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Feb 2020 11:33:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46400 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727501AbgBXQdz (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Feb 2020 10:12:58 -0500
-Received: by mail-wm1-f67.google.com with SMTP id p17so9796941wma.1;
-        Mon, 24 Feb 2020 07:12:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=gnZbIHP1FiG4btjTXRKiUHIKc8RUvypNGZo2FLgFV/4=;
-        b=e/go7qa32ZdX4cc+CxDab7Bm7aY4iwstUWnVY48pNXeX5189cQAoMKsAwlJ7LQxyt3
-         qfKF2LBp5JkxBvarSJmK8cqRuJJHmSp0Mi3PhpMVWwrOokDZCpRaHUIdu67w7bvqGp35
-         Jrkal7Qj+lXOqtsA6WWB+AH3U+119IG9qEW07/jb0jKr+abkFfH4biAxCTKV/fiMqPBp
-         YdX09+8/TLyy29nfZJov0gzXWF8Syv3hTSTjJBhUpbL6sfHinQPo9gd15Ks9B9KF96xo
-         GuAy7+DV6KLhmKSJTmALk8wH5M5UNHf32zxbww2NjJXGg/GfJxT1mMJ2Gq4WS57+eQW2
-         0+WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gnZbIHP1FiG4btjTXRKiUHIKc8RUvypNGZo2FLgFV/4=;
-        b=Fnc5yRFchbAeCfXRRCdB/xAvscLWweoRGyGtWxRbZuXIv7k6Cgd+OwCEWqo8/oUGD+
-         4k92HllBk88wxB0AYc6xBiznRZbnjsmDmXubK4AssNuPAOB0OM127h9/IgpShH+HAOit
-         DwQwx06+pPUvIwtgzfZXRTMTuNC3GPInXjR7qZntP5QsY4Ekge2gi8ncp7Z9obwicpxa
-         mva8ft+ONvtDxf/gYBIr/LXPKxlZVKv515grbckqEHjxC0+MessXfrTnmA2FrPgB0soo
-         PvlAoeYqjbslcC9GQCpglGBB0ahuaQxJW54mYE6ikGsCLayVHIuk+DmH7alH3x46upJ+
-         wLXA==
-X-Gm-Message-State: APjAAAUxn4xfDHKO5nKZ/BkdLU8nvy4UeEl/gguI+LQkTB0oidvZG+up
-        Ya4MbCTmlPsC+MUnOeKN1os=
-X-Google-Smtp-Source: APXvYqwfFWI+BQvS6TR7EcjPyz80WZgjScVqfiQjb3eIsHUvDGvzae5fd0WZcynsnvs/JAP6sI5Fwg==
-X-Received: by 2002:a7b:c10e:: with SMTP id w14mr22994395wmi.61.1582557176474;
-        Mon, 24 Feb 2020 07:12:56 -0800 (PST)
-Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
-        by smtp.gmail.com with ESMTPSA id k16sm19433486wru.0.2020.02.24.07.12.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 07:12:55 -0800 (PST)
-Date:   Mon, 24 Feb 2020 16:12:54 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] regulator: pwm: Don't warn on probe deferral
-Message-ID: <20200224151254.GB2570205@ulmo>
-References: <20200224144048.6587-1-jonathanh@nvidia.com>
+        Mon, 24 Feb 2020 11:33:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582562034;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5+HqvnuYHetNq0Tag+VCE9fiZvP0g50u+wKBNq+GatA=;
+        b=SA3xSsplWl8j6iYTNwUMb2o9/ckKyfuziUsaV11G21OQ5dqM1DEf8qmsF7Mpr75tAn5+pQ
+        yJV2HziZCsZEIb8tSUHuYhlFxfe5iXRA5VyUJUaAGdxh8UdCk/YGnGD/BxC5isIry1KY4L
+        mj7y/oe0tvRDwZbDacuX4wFvmFi4z1w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-_Vnof5yyNVuKsYY80tP8XQ-1; Mon, 24 Feb 2020 11:33:52 -0500
+X-MC-Unique: _Vnof5yyNVuKsYY80tP8XQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A37C107BAAA;
+        Mon, 24 Feb 2020 16:33:49 +0000 (UTC)
+Received: from ws.net.home (ovpn-204-202.brq.redhat.com [10.40.204.202])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C91E5D9E5;
+        Mon, 24 Feb 2020 16:33:45 +0000 (UTC)
+Date:   Mon, 24 Feb 2020 17:33:42 +0100
+From:   Karel Zak <kzak@redhat.com>
+To:     Stephen Warren <swarren@wwwdotorg.org>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Colin Cross <ccross@android.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>, linux-efi@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] partitions/efi: Add 'gpt_sector' kernel cmdline
+ parameter
+Message-ID: <20200224163342.d4acf224b56celup@ws.net.home>
+References: <20200219162339.16192-1-digetx@gmail.com>
+ <20200219162738.GA10644@infradead.org>
+ <f9e41108-7811-0deb-6977-be0f60e23b52@wwwdotorg.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="JYK4vJDZwFMowpUq"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200224144048.6587-1-jonathanh@nvidia.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <f9e41108-7811-0deb-6977-be0f60e23b52@wwwdotorg.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
+On Wed, Feb 19, 2020 at 09:59:54AM -0700, Stephen Warren wrote:
+> On 2/19/20 9:27 AM, Christoph Hellwig wrote:
+> > On Wed, Feb 19, 2020 at 07:23:39PM +0300, Dmitry Osipenko wrote:
+> > > The gpt_sector=<sector> causes the GPT partition search to look at the
+> > > specified sector for a valid GPT header if the GPT is not found at the
+> > > beginning or the end of block device.
+> > > 
+> > > In particular this is needed for NVIDIA Tegra consumer-grade Android
+> > > devices in order to make them usable with the upstream kernel because
+> > > these devices use a proprietary / closed-source partition table format
+> > > for the EMMC and it's impossible to change the partition's format. Luckily
+> > > there is a GPT table in addition to the proprietary table, which is placed
+> > > in uncommon location of the EMMC storage and bootloader passes the
+> > > location to kernel using "gpt gpt_sector=<sector>" cmdline parameters.
+> > > 
+> > > This patch is based on the original work done by Colin Cross for the
+> > > downstream Android kernel.
+> > 
+> > I don't think a magic command line is the way to go.  The best would be
+> > to reverse-engineer the proprietary partition table format.  If that is
+> > too hard we can at least key off the odd GPT location based of it's
+> > magic number.
 
---JYK4vJDZwFMowpUq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ +1
 
-On Mon, Feb 24, 2020 at 02:40:48PM +0000, Jon Hunter wrote:
-> Deferred probe is an expected return value for devm_pwm_get(). Given
-> that the driver deals with it properly, there's no need to output a
-> warning that may potentially confuse users.
->=20
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
-> ---
->  drivers/regulator/pwm-regulator.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> I thought that the backup GPT was always present in the standard location;
 
-Reviewed-by: Thierry Reding <treding@nvidia.com>
+If they have proprietary stuff on begin of the device and valid backup
+GPT at the end of the device then designer of this junk is crazy, because
+many GPT fdisk-like tools will try to recover from the backup header and 
+overwrite the unknown (invalid) stuff at the begin of the device...
 
---JYK4vJDZwFMowpUq
-Content-Type: application/pgp-signature; name="signature.asc"
+    Karel
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5T5/YACgkQ3SOs138+
-s6F1tA//XZ0O/MXj5NzYNLezzQBOO9AP+EWE7TGAMZi9h9OgaOiydAtBEKusD2ds
-Wnkcuo+5xB/9HDTlLSLgsLbAtCfaxbKXJOnMiXkghKaBH1K6BSbKAGZWncgDKz8s
-c6mFgFAhUyVDxY7UHz06cqrtJ3sM2HZbsTVXA4RMC5GZDx79TR17NWAchdMOMwKt
-OAWjCFP44ycFN2yq7qwjYn3tEs9fvKMPR0Yrj233ExjadK6f8VltEGG0kWWtxRIy
-clbiI1qBTiDs5Z6NdSGD/ma0XmVUy258KlQ3pljJhaE8S8SxOWgTCd+UpgXZtlWD
-mW9kqwMrWPpbw5Wtn2P89RL+pinUWGz05HFQPNqBbakRELqcvIRKxfyZfR+gdIjl
-u+DaYU9dtk83VJZc3fwt7gMcCLpm56LhgxYmIkWRe50DHuq0s7aQklmDVZmaHv6x
-rw8kv+rca3NFQPgbivAHASGOsqqHzTB7QgHZ0T+51PJPMOaQ7SjWBZMn4s/Dgco1
-CUtFUPyI8N+MEE0FcLe1k7N2oqbrOr5e9ASpOYccbmkIBVNApNJrydhVWFI3ZE8W
-tUj6tyfqDn3PnpTw2JtjZYNLJUyccpn/RXqXi5+rHPgSVD7b611D7SBSOSR5YyvC
-k5TWAbjhI230BT9eBRYkO/vCNA2JPwd4HGZZY9Qc6tfPFvx5778=
-=mAqf
------END PGP SIGNATURE-----
+-- 
+ Karel Zak  <kzak@redhat.com>
+ http://karelzak.blogspot.com
 
---JYK4vJDZwFMowpUq--
