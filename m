@@ -2,123 +2,115 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8B1A16A61E
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 13:29:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 509D216A66E
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 13:51:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727281AbgBXM3o (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Feb 2020 07:29:44 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1502 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726778AbgBXM3o (ORCPT
+        id S1727310AbgBXMvF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Feb 2020 07:51:05 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39061 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727290AbgBXMvF (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Feb 2020 07:29:44 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e53c16a0000>; Mon, 24 Feb 2020 04:28:26 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 24 Feb 2020 04:29:42 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 24 Feb 2020 04:29:42 -0800
-Received: from [10.25.72.216] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 24 Feb
- 2020 12:29:36 +0000
-CC:     <spujar@nvidia.com>, <perex@perex.cz>, <tiwai@suse.com>,
-        <robh+dt@kernel.org>, <lgirdwood@gmail.com>,
-        <thierry.reding@gmail.com>, <digetx@gmail.com>,
-        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <sharadg@nvidia.com>, <mkumard@nvidia.com>,
-        <viswanathl@nvidia.com>, <rlokhande@nvidia.com>,
-        <dramesh@nvidia.com>, <atalambedu@nvidia.com>
-Subject: Re: Re: [PATCH v3 03/10] ASoC: tegra: add Tegra210 based DMIC driver
-To:     Mark Brown <broonie@kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-References: <1582180492-25297-1-git-send-email-spujar@nvidia.com>
- <1582180492-25297-4-git-send-email-spujar@nvidia.com>
- <20200221130005.GD5546@sirena.org.uk>
- <316ce0d5-318d-0533-ef06-bd7e8672f893@nvidia.com>
- <20200221165535.GG5546@sirena.org.uk>
- <47f94534-e997-d56c-5793-ae832fb2add4@nvidia.com>
- <20200224114406.GB6215@sirena.org.uk>
-From:   Sameer Pujar <spujar@nvidia.com>
-Message-ID: <f70c7c12-dbc0-a725-f06a-86fab868e7dc@nvidia.com>
-Date:   Mon, 24 Feb 2020 17:59:33 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Mon, 24 Feb 2020 07:51:05 -0500
+Received: by mail-wr1-f68.google.com with SMTP id y17so1442014wrn.6;
+        Mon, 24 Feb 2020 04:51:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=xOoYcG+N4+4l53Wn2k4999dEy1zUb0WdX2MPvZTx+ss=;
+        b=JFdRPu4Y+aYlf9azjYkAQ9J4dtN/mvJv8KTGujlnEy1QuCB2B8V13GuzmnlLRibLfh
+         bolvFMuVX8tKd1AUSkXa/8JnnoikHujVAylZlhk6iOJr80Q2IpqbDy9VY74vPxlHWD3v
+         2hvrxo+MXbXM8i51YCzOdqe36o4KJ/BdbvZ+F+L8QYmpw51RJv4KOxZimCuswbDwmslD
+         fxSzYMwEHbr1FrUuK1qBnHoZt5+j7Wk2+vzoGAyVrrVU2WLNmv2hdaL6df0nr2M4vAlq
+         7Aj5Sy4d/8bMjmutFWCH/nrbzxFMYJULlTjfvDtZLyXuVaz6q5lK3/6lsVCvHlHcm23v
+         VqJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=xOoYcG+N4+4l53Wn2k4999dEy1zUb0WdX2MPvZTx+ss=;
+        b=mbJiAm5Qlnah2fpHV1V3MFT+FMWi/EiSHsLGJi45z3gKsY9XaS6xvYJn1MTeaA0bsV
+         LoKr7UBBCkx5DqCUUDeVmuqa/NvpL1ZQ9esv0xbpcG61iwMkm/cDHGsrKAhXXkObwQoT
+         9Tfl1ZGcnnx+tpMp2FRwnmO7fa8pbsVLX47BqAuw97llL8TywH7aUc7JHxz3vPkf3IMc
+         zSoW78NOwH/atVD8ySzhQOPKR5a6Q0ivoln/Pwm1aTkOKHXBVG/cja2mlnxepjXMcsha
+         bq+6JduMVwA5e7p3JHXyBIdKwSOpH+VtNx7BQiH5nEBrv6RUKXKiJr/6HDCmK3dNGPgW
+         R1xg==
+X-Gm-Message-State: APjAAAXcFWNWmfKst7lYLZVF+2YwHwv5/aPABNfULBk2OP1z1FspylfA
+        4F1X/1zhOnz+0cH10/EKXCY=
+X-Google-Smtp-Source: APXvYqxUXizEvELPQRXJr94wcEMHuuFDaQhAkpQ+VPOlqCExUBP88HA9GaJhg7wIVWi131xWyrJA0g==
+X-Received: by 2002:a5d:534b:: with SMTP id t11mr66060918wrv.120.1582548663273;
+        Mon, 24 Feb 2020 04:51:03 -0800 (PST)
+Received: from localhost (pD9E516A9.dip0.t-ipconnect.de. [217.229.22.169])
+        by smtp.gmail.com with ESMTPSA id y17sm18299539wrs.82.2020.02.24.04.51.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2020 04:51:01 -0800 (PST)
+Date:   Mon, 24 Feb 2020 13:51:00 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     JC Kuo <jckuo@nvidia.com>
+Cc:     mathias.nyman@linux.intel.com, gregkh@linuxfoundation.org,
+        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, nkristam@nvidia.com
+Subject: Re: [PATCH] usb: host: xhci-tegra: Tegra186/Tegra194 LPM
+Message-ID: <20200224125100.GA2108060@ulmo>
+References: <20200224062145.25785-1-jckuo@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200224114406.GB6215@sirena.org.uk>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1582547306; bh=BkJlDeQ3uyXrk5Yxotr7FKq3o5UzwF+OuQbFVpldsnE=;
-        h=X-PGP-Universal:CC:Subject:To:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=m7KGt/cW33jZxBsTvrRquBVKLgHFaOpj6cmOI1gq/8AfoWti0CfVl/UC/cKsdx2Tl
-         LPR0FyGeYqObSIHNLgTpg/bnzwkiKdHynqTk0m96C/NuinqMnu0r5xDRx5dwYt6agw
-         tCgQSj4p+W6tjaI5Xn8/IgyRug9t60KlWjGxqKSBvI+SyuQp8S3qvoypKpO9+glYu+
-         oQyMNMxCdod4dN44ZuZmGj5aW5gUlPB3uhFx4xr1xNYQpnUlZ2ZEUzSppeWSF0JXX8
-         s41KLrXdprytk/NksFqe/3VcKWs5xMpcFcJcLly5g9g2iheYHqFSBZy+BwHWFSqJDg
-         XUFRvHcAR8D1A==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="+HP7ph2BbKc20aGI"
+Content-Disposition: inline
+In-Reply-To: <20200224062145.25785-1-jckuo@nvidia.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
+--+HP7ph2BbKc20aGI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2/24/2020 5:14 PM, Mark Brown wrote:
-> On Mon, Feb 24, 2020 at 11:28:57AM +0000, Jon Hunter wrote:
->> On 21/02/2020 16:55, Mark Brown wrote:
->>> The ideal thing in a component model would be to represent those sample
->>> rate convertors directly to usrspace so the routing and rewriting is
->>> explicit.
->> I assume that it would be OK for the sample rate converter itself to
->> expose mixer controls to configure its input and output rates so the
->> user could configure as needed?
-> I don't think so, I'd not expect the individual drivers to be doing
-> anything user visible here - if we know what a digital transformation
-> looks like the framework should be offering anything that's needed to
-> users (and hiding controls that don't have any practical control in a
-> given system).
+On Mon, Feb 24, 2020 at 02:21:45PM +0800, JC Kuo wrote:
+> Tegra186 and Tegra194 xHC supports USB 3.0 LPM. This commit enables
+> XHCI_LPM_SUPPORT quirk for Tegra186 and Tegra194.
+>=20
+> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+> ---
+>  drivers/usb/host/xhci-tegra.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-Are you suggesting to have some alternate way of users configuring 
-sample rates (and other params) and not use mixer control method?
+I see that Mathias has already queued this up, but for the record:
 
-This is a typical use case we see,
-- [stream-1] Lets say high resolution audio is playing (96kHz, 24-bit, 
-stereo)
-- [stream-2] Randomly system notifications of small durations come 
-(48kHz, 16-bit, stereo)
-The requirement is, both streams should be mixed and played.
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-Tegra Audio HW has Mixer module for mixing multiple streams. In above 
-case, stream-2 requires upsampling to 96kHz (employ SRC) and 24-bit. 
-Then mix with stream1 and play. This needs to be configured at runtime. 
-In another session, mixing for 192kHz and 48kHz might be required with 
-the same audio path. Idea was to allow users to setup their custom path 
-for specific audio applications. In the current series, I am focussing 
-on I/O modules (where overrides do not demonstrate the above use case) 
-and does not include other HW accelerators that Tegra Audio HW offers. 
-Things would be more complicated when user wants to use multiplexers and 
-demultiplexers. For simple use cases overrides are not used.
+JC, is there some way that we can test this? I see that there are some
+sysfs files that can control LPM enablement on a per-device basis, but
+is there some way to check that this works as expected? Or do we just
+assume everything is fine as long as all the devices continue to operate
+properly? Perhaps there are some state transition counters or something
+that would indicate that devices are properly transitioning?
 
-Is there a better way for user to configure custom audio paths?
+Thierry
 
->
->>> Is there any *need* for these to be user configurable?  What's normally
->>> happening at the minute is that either the external DAIs are fixed
->>> configuration and the DSP just converts everything or there's no format
->>> conversion done and things get passed through.
->> I can see that in most cases there are a finite set of configurations
->> that the end user may use. However, we would like to make the
->> configuration flexible as possible and this also allow us to test lots
->> of different configurations for verification purposes as well.
-> Internal testing often requires things that can't be exposed to users,
-> the extreme examples are things like battery chargers with health and
-> safety issues if the full range of control is available.
+--+HP7ph2BbKc20aGI
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl5TxrAACgkQ3SOs138+
+s6HBvg/+JM4X5jwAIB8LBR3PfROxqVLlxVwGE+pixWhI7HgPOhdWH4O+DXM43vpk
+JOYvOuVQGtT4I2IMlO4fUJTUoJxLORidr/6yLitVYlizwPrv5CR/BufR3mclEm3z
+Jcr1W9ljDrupb+xsisrCmN5MlMUXTvJVhGNuRYrE01LebPkHTCabko1TCVP8Zup7
+JZ+FGI3XSgqWn0/+TyrDSiV+RYvT7moE30fIP8jFi3ML50htn9mHt1yNwE2scDM2
+JxSkSYGt0SRmq4WFSDcK4vlO2R9PBJpbXz5Gn6ym3mdqxRqPgCpWMYuqV4z3BKvR
+mEcXlFGAFecwhk97gSfD5ykbaetceWDjsOTUkYlFZPC+Fx7AwIdLh1/NMq6hg8I2
+FZ+zCnnFpO7q/uziqeUBBqteAoEFi094TJ9SlWTfm4esudxPNvU7r3TJZipqiqom
+aq9yof+0f9uz4y8uKYk8z7OVWq3w6onXa0/VjqsDCucRPqQnfdxBctRcFFKzUHBH
+PqRXRPWAjWVJriqWhWW4+Hl+NsnGbA7SnHN0XNZDQRjPQmgEyz3jFX5hQ04HFhLA
+PL8J2WLxcTjkesYO5sadp/3h715v7zpXmlgG9AewN+BZGv964qIfWD93dNBdYy7s
+2xiwhqhLI0TN+vhtsFGJARVr8FAGuAKSBAl/lR/u8EA9mw+aPck=
+=obLV
+-----END PGP SIGNATURE-----
+
+--+HP7ph2BbKc20aGI--
