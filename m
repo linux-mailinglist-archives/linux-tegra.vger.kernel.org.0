@@ -2,167 +2,83 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7880616A7E0
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 15:08:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63DE616A86B
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 15:34:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727539AbgBXOIR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Feb 2020 09:08:17 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:5063 "EHLO
+        id S1727815AbgBXOew (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Feb 2020 09:34:52 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6094 "EHLO
         hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727451AbgBXOIR (ORCPT
+        with ESMTP id S1727498AbgBXOew (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Feb 2020 09:08:17 -0500
+        Mon, 24 Feb 2020 09:34:52 -0500
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e53d8840000>; Mon, 24 Feb 2020 06:07:00 -0800
+        id <B5e53debf0001>; Mon, 24 Feb 2020 06:33:35 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 24 Feb 2020 06:08:16 -0800
+  Mon, 24 Feb 2020 06:34:51 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 24 Feb 2020 06:08:16 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 24 Feb
- 2020 14:08:16 +0000
+        by hqpgpgate101.nvidia.com on Mon, 24 Feb 2020 06:34:51 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 24 Feb
+ 2020 14:34:50 +0000
 Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 24 Feb 2020 14:08:15 +0000
+ Transport; Mon, 24 Feb 2020 14:34:50 +0000
 Received: from thunderball.nvidia.com (Not Verified[10.21.140.91]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e53d8cd0006>; Mon, 24 Feb 2020 06:08:15 -0800
+        id <B5e53df090001>; Mon, 24 Feb 2020 06:34:50 -0800
 From:   Jon Hunter <jonathanh@nvidia.com>
-To:     Milo Kim <milo.kim@ti.com>, Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>
-CC:     <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Subject: [PATCH] backlight: lp855x: Ensure regulators are disabled on probe failure
-Date:   Mon, 24 Feb 2020 14:07:48 +0000
-Message-ID: <20200224140748.2182-1-jonathanh@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        Jon Hunter <jonathanh@nvidia.com>, <stable@vger.kernel.org>
+Subject: [PATCH 1/4] ARM64: Tegra: Enable I2C controller for EEPROM
+Date:   Mon, 24 Feb 2020 14:34:33 +0000
+Message-ID: <20200224143436.5438-1-jonathanh@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1582553220; bh=B1HKOxHeQwu3ZxgJLvSfafO1owYsd38lFNvB2Oh8gBc=;
+        t=1582554815; bh=SKhUz0YkoB6pD4YoE/4KFxZbYw2qmSp519cZdmcBM3o=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          X-NVConfidentiality:MIME-Version:Content-Type;
-        b=bnwYpe6isaqG2Bp36VGI0VAYjd8jtznqNulwkVw85vf5zOMSfv809Oou4taz+1W9g
-         /eTLeJozbJBXhllQfybYW8hX4fyWIjWNON8aQugt/0HrnKAjg5r9wLT5lTgmy+8n2B
-         YrCJM3gob7XIi7l0cbONUTfyGssXmyEi+0SUamN4DDOnXIFxHBentnbyQdvOQ9+11P
-         Dr5X+zeRff1B/SMt2pdNwrja2cVOPDRGAM+U4epkb2bICZZUiGv1fQLKa+KgJ7xMMS
-         AwmdVrZ/6l2MAKwM+FuIqdF/x7mpCYg64MWX7TFFRwOSCFwNeq1fcK5TWItV01qcCa
-         mFLwbcDwN/IQA==
+        b=duOxTEf6wTpBnmdA4GzgtJ0CYXr5t34ZZNN48pc9hExmRqaCcppGHAY2wcXqnjNmL
+         YwvDy0gfFikGS9gPJKICW2X6f4iOcgfnVhYOWdgnzSFD1bhtOoN+bEcXPC+LRDY89m
+         uAwuuKQR4MMohz9C8MW8xyatlc13ZEU0jeW1+S3PYfX2GhwRUooeFCGnmLUso5s2DZ
+         65p26CoCGdQNBARsw2TNevBzLshNSXvHBdlFiKSs4S0hB7yJJrCwZx2JsjOm+aRtb3
+         dgVHvAZAd8GLLKC8NvPCAhbIRhDt0vkyWmqHnB5suduti7g4QA1Eb8HLAXB5ptvzeK
+         jor+qP+NC8CVQ==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-If probing the LP885x backlight fails after the regulators have been
-enabled, then the following warning is seen when releasing the
-regulators ...
+Commit a5b6b67364cb ("arm64: tegra: Add ID EEPROM for Jetson TX1
+module") populated the EEPROM on the Jetson TX1 module, but did not
+enable the corresponding I2C controller. Enable the I2C controller so
+that this EEPROM can be accessed.
 
- WARNING: CPU: 1 PID: 289 at drivers/regulator/core.c:2051 _regulator_put.part.28+0x158/0x160
- Modules linked in: tegra_xudc lp855x_bl(+) host1x pwm_tegra ip_tables x_tables ipv6 nf_defrag_ipv6
- CPU: 1 PID: 289 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200224 #1
- Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
+Fixes: a5b6b67364cb ("arm64: tegra: Add ID EEPROM for Jetson TX1 module")
 
- ...
-
- Call trace:
-  _regulator_put.part.28+0x158/0x160
-  regulator_put+0x34/0x50
-  devm_regulator_release+0x10/0x18
-  release_nodes+0x12c/0x230
-  devres_release_all+0x34/0x50
-  really_probe+0x1c0/0x370
-  driver_probe_device+0x58/0x100
-  device_driver_attach+0x6c/0x78
-  __driver_attach+0xb0/0xf0
-  bus_for_each_dev+0x68/0xc8
-  driver_attach+0x20/0x28
-  bus_add_driver+0x160/0x1f0
-  driver_register+0x60/0x110
-  i2c_register_driver+0x40/0x80
-  lp855x_driver_init+0x20/0x1000 [lp855x_bl]
-  do_one_initcall+0x58/0x1a0
-  do_init_module+0x54/0x1d0
-  load_module+0x1d80/0x21c8
-  __do_sys_finit_module+0xe8/0x100
-  __arm64_sys_finit_module+0x18/0x20
-  el0_svc_common.constprop.3+0xb0/0x168
-  do_el0_svc+0x20/0x98
-  el0_sync_handler+0xf4/0x1b0
-  el0_sync+0x140/0x180
-
-Fix this by ensuring that the regulators are disabled, if enabled, on
-probe failure.
-
-Finally, ensure that the vddio regulator is disabled in the driver
-remove handler.
-
+Cc: <stable@vger.kernel.org>
 Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 ---
- drivers/video/backlight/lp855x_bl.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
-index f68920131a4a..e94932c69f54 100644
---- a/drivers/video/backlight/lp855x_bl.c
-+++ b/drivers/video/backlight/lp855x_bl.c
-@@ -456,7 +456,7 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
- 		ret = regulator_enable(lp->enable);
- 		if (ret < 0) {
- 			dev_err(lp->dev, "failed to enable vddio: %d\n", ret);
--			return ret;
-+			goto disable_supply;
- 		}
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
+index cb58f79deb48..95b1a6e76e6e 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p2180.dtsi
+@@ -265,6 +265,8 @@
+ 	};
  
- 		/*
-@@ -471,24 +471,34 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
- 	ret = lp855x_configure(lp);
- 	if (ret) {
- 		dev_err(lp->dev, "device config err: %d", ret);
--		return ret;
-+		goto disable_vddio;
- 	}
- 
- 	ret = lp855x_backlight_register(lp);
- 	if (ret) {
- 		dev_err(lp->dev,
- 			"failed to register backlight. err: %d\n", ret);
--		return ret;
-+		goto disable_vddio;
- 	}
- 
- 	ret = sysfs_create_group(&lp->dev->kobj, &lp855x_attr_group);
- 	if (ret) {
- 		dev_err(lp->dev, "failed to register sysfs. err: %d\n", ret);
--		return ret;
-+		goto disable_vddio;
- 	}
- 
- 	backlight_update_status(lp->bl);
+ 	i2c@7000c500 {
++		status = "okay";
 +
- 	return 0;
-+
-+disable_vddio:
-+	if (lp->enable)
-+		regulator_disable(lp->enable);
-+disable_supply:
-+	if (lp->supply)
-+		regulator_disable(lp->supply);
-+
-+	return ret;
- }
- 
- static int lp855x_remove(struct i2c_client *cl)
-@@ -497,6 +507,8 @@ static int lp855x_remove(struct i2c_client *cl)
- 
- 	lp->bl->props.brightness = 0;
- 	backlight_update_status(lp->bl);
-+	if (lp->enable)
-+		regulator_disable(lp->enable);
- 	if (lp->supply)
- 		regulator_disable(lp->supply);
- 	sysfs_remove_group(&lp->dev->kobj, &lp855x_attr_group);
+ 		/* module ID EEPROM */
+ 		eeprom@50 {
+ 			compatible = "atmel,24c02";
 -- 
 2.17.1
 
