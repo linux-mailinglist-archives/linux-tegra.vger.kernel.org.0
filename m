@@ -2,57 +2,59 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28D9116B61C
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 00:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B58AB16B61B
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 00:59:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbgBXX7l (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Feb 2020 18:59:41 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:36427 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728172AbgBXX7l (ORCPT
+        id S1728011AbgBXX7m (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Feb 2020 18:59:42 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:33654 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728469AbgBXX7l (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
         Mon, 24 Feb 2020 18:59:41 -0500
-Received: by mail-lj1-f196.google.com with SMTP id r19so12059950ljg.3
+Received: by mail-lf1-f67.google.com with SMTP id n25so8211475lfl.0
         for <linux-tegra@vger.kernel.org>; Mon, 24 Feb 2020 15:59:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7huog+IHSp9ffZ5JpctU4MpKi70tneZIHShuG9qDPyY=;
-        b=oq7tabT4uM6bkLnzNJePe7HWAnP59D5x+ZJwC6I91aD4PFddZqtHURP00aY/7Rf7y3
-         4g/sDM7OktbNG8ODQd4WRy+YW22A4F5M7iZucSmGzgnBExyGQWNWWrHJJA6KehPEPxKr
-         nYidoBhM35P83Ku0Xc8HeoR4eNup76cYANFafmKlDJpBy6O0pg2AM0Jj+WY4DWcMof8R
-         q1VFh8Y0VOWFsl9BrfQbe3lLpnvpofolX6TW5uJGMW+msUmc4RQ1czPwsLopDHJyMxdc
-         U/Yb2kJA0zpuYkDiEcl2E2cXtQ0WSCLnLhNUW3VaDRPwlvEQuvVqnC6h03ePRIQaYlEG
-         c3lw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ynhyMD8DXE00wajU9APZEqBUSQvr8FUxxlfgLm6/Do8=;
+        b=JffDBgzMxbV+4g0aX/UgZbq+W5lSCNTicSK1BPBh74s9++7f+a61ApXHNzcnBVqft1
+         vYea1jq/XuEcaQv59G5dOZ8TRLeJtjIi2dQhAlEbl3NO5mQ6SqI+xfF1GOjluMI8xBpA
+         wiw0CmJZE0VU0QPuiBfBkQyiVHPv3it//gUfuqWgyPpbi7alnGA3tJ9q0not00xUzrpr
+         H14pbf7wTTzJz2DgViU8/ZAZcb4bdCojqzIWKNapQFoQ2S8iG87vqB5YZPvXMkrOoWj4
+         xEGdf2m5BvTgTOYPoWdmGVfOuTObNx4rxAd9qrE8I1wy1u+NEjagVWYRGI08lm3MICMr
+         Kj+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7huog+IHSp9ffZ5JpctU4MpKi70tneZIHShuG9qDPyY=;
-        b=UM4NTIgDUgFepmFh8KkW3meq8RHMzFw2/omepkahUAz+TSWP0Mi1Jj8s2yrZ60pAeH
-         X91YN6LHduzTQ1h0KD2IGaqUYCjyAhpvfKLuwtc9FEBmV922C4lRUVTPoolXRziV1G9H
-         9FaheZHSW/yE2bRx9Vx2n8IrKCC4ZoZdsXlDpbFJRx/PvD333Nwkt4UC86VrvjllnvIP
-         zHGqZ4xXXH008hYIF0yQeIBUsb254lKiLbAXRNnoDtR4qql7lE3Dc+RJ1KdDQDCUOwNT
-         nitLb4qgG7ZzL9pfALops8KmszH8Ciz+lPoOWR/G4I/B7KsC+oinjk4Dqfzl9rLVpYep
-         8GGQ==
-X-Gm-Message-State: APjAAAWbtx1WABgVcMOQw/xtLbXCO6xaxxiItDTARM69yX4IHmUW+Cf5
-        C2+q1nTDrw95CPePHrr42NA=
-X-Google-Smtp-Source: APXvYqyMJhn9t5+Z7nDDwKxjA+8ZE3lCmsjVhe2vgLrla/ebduZ2Ju3c4qKJYP7+tLTURwbrYm+gBw==
-X-Received: by 2002:a2e:6a19:: with SMTP id f25mr33346311ljc.27.1582588779266;
-        Mon, 24 Feb 2020 15:59:39 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ynhyMD8DXE00wajU9APZEqBUSQvr8FUxxlfgLm6/Do8=;
+        b=A3WMNymqZCmfBasN0DExZYPaZc1p7Q6iPaOlX9RXX7RA5FvcZ6N+QdBVstZcGEIrDK
+         pKahdMJkb7OvWHugIHb5QTr8dYog3phZscTdn7Tri/9BE2DNIWOCfnuu3D8vaFg3yScU
+         vUZs3gnxaqOXjF3P+3k4GWhelu5lsAhvK6UZe9cvtqugU2NIJ8i+DSEFHhFsT1KcsWmv
+         +BaomCHxpkYX0u5TWIT/Lf+ZN2n33WVpifYif+aDUS/GBXMpqrEqskbX3CSJg4cW6Zn9
+         c1X/eRGQIAizThbm5KA4MwO2lLQHWftwt3p7mUDW69Veo+1f2zwUcfD7Kd0LBTuAAK0c
+         firw==
+X-Gm-Message-State: APjAAAVy5wVkU9OJOBLXQV1ytn4htB2LHx/L36PaO9NsgJNZajBbuAT6
+        1sg3S5xafFvh+eovUKb+HYBzUIFP
+X-Google-Smtp-Source: APXvYqy50z63Gu5j+h/BChDNJIPubpFYdyoXfeuWya7HqA3B3vK42Pe+JvYkS7BrGIG9LRMEAD/iVQ==
+X-Received: by 2002:ac2:4c10:: with SMTP id t16mr527610lfq.38.1582588780027;
+        Mon, 24 Feb 2020 15:59:40 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id d26sm6323774lfa.44.2020.02.24.15.59.38
+        by smtp.gmail.com with ESMTPSA id d26sm6323774lfa.44.2020.02.24.15.59.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 15:59:38 -0800 (PST)
+        Mon, 24 Feb 2020 15:59:39 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>
 Cc:     linux-tegra@vger.kernel.org
-Subject: [PATCH v1 1/3] memory: tegra: Correct debugfs clk rate-range on Tegra20
-Date:   Tue, 25 Feb 2020 02:58:34 +0300
-Message-Id: <20200224235836.30694-1-digetx@gmail.com>
+Subject: [PATCH v1 2/3] memory: tegra: Correct debugfs clk rate-range on Tegra30
+Date:   Tue, 25 Feb 2020 02:58:35 +0300
+Message-Id: <20200224235836.30694-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20200224235836.30694-1-digetx@gmail.com>
+References: <20200224235836.30694-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
@@ -64,17 +66,17 @@ Correctly set clk rate-range if number of available timings is zero.
 This fixes noisy "invalid range [4294967295, 0]" error messages during
 boot.
 
-Fixes: 8209eefa3d37 ("memory: tegra: Implement EMC debugfs interface on Tegra20")
+Fixes: 8cee32b40040 ("memory: tegra: Implement EMC debugfs interface on Tegra30")
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/memory/tegra/tegra20-emc.c | 5 +++++
+ drivers/memory/tegra/tegra30-emc.c | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
-index 313a95fa23d4..eb30484656bc 100644
---- a/drivers/memory/tegra/tegra20-emc.c
-+++ b/drivers/memory/tegra/tegra20-emc.c
-@@ -637,6 +637,11 @@ static void tegra_emc_debugfs_init(struct tegra_emc *emc)
+diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
+index d8372051963f..681fe2dde05d 100644
+--- a/drivers/memory/tegra/tegra30-emc.c
++++ b/drivers/memory/tegra/tegra30-emc.c
+@@ -1264,6 +1264,11 @@ static void tegra_emc_debugfs_init(struct tegra_emc *emc)
  			emc->debugfs.max_rate = emc->timings[i].rate;
  	}
  
