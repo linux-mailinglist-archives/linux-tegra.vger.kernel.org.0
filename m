@@ -2,101 +2,130 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8064616A4C2
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 12:20:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B989216A4E6
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 12:29:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727265AbgBXLUD (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Feb 2020 06:20:03 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18171 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726778AbgBXLUD (ORCPT
+        id S1727229AbgBXL3F (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Feb 2020 06:29:05 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1321 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726509AbgBXL3F (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Feb 2020 06:20:03 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e53b1160000>; Mon, 24 Feb 2020 03:18:46 -0800
+        Mon, 24 Feb 2020 06:29:05 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e53b35c0000>; Mon, 24 Feb 2020 03:28:29 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 24 Feb 2020 03:20:02 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 24 Feb 2020 03:29:04 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 24 Feb 2020 03:20:02 -0800
+        by hqpgpgate101.nvidia.com on Mon, 24 Feb 2020 03:29:04 -0800
 Received: from [10.26.11.229] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 24 Feb
- 2020 11:19:59 +0000
-Subject: Re: [PATCH 5.4 000/344] 5.4.22-stable review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tero Kristo <t-kristo@ti.com>
-CC:     Naresh Kamboju <naresh.kamboju@linaro.org>,
-        "tony@atomide.com" <tony@atomide.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Shuah Khan <shuah@kernel.org>, <patches@kernelci.org>,
-        Ben Hutchings <ben.hutchings@codethink.co.uk>,
-        <lkft-triage@lists.linaro.org>,
-        linux- stable <stable@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>
-References: <20200221072349.335551332@linuxfoundation.org>
- <529a5a4a-974e-995a-9556-c2a14d09bb5d@nvidia.com>
- <CA+G9fYv-KC0v++YsyXR-rhC2JBGUfhNGD+XYaZjN3fJSX1x_mg@mail.gmail.com>
- <f671fbf6-1cd5-ae8a-82e7-d3aba63e9840@ti.com>
- <20200223172604.GC349989@kroah.com>
+ 2020 11:28:59 +0000
+Subject: Re: [PATCH v3 03/10] ASoC: tegra: add Tegra210 based DMIC driver
+To:     Mark Brown <broonie@kernel.org>
+CC:     Sameer Pujar <spujar@nvidia.com>, <perex@perex.cz>,
+        <tiwai@suse.com>, <robh+dt@kernel.org>, <lgirdwood@gmail.com>,
+        <thierry.reding@gmail.com>, <digetx@gmail.com>,
+        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sharadg@nvidia.com>, <mkumard@nvidia.com>,
+        <viswanathl@nvidia.com>, <rlokhande@nvidia.com>,
+        <dramesh@nvidia.com>, <atalambedu@nvidia.com>
+References: <1582180492-25297-1-git-send-email-spujar@nvidia.com>
+ <1582180492-25297-4-git-send-email-spujar@nvidia.com>
+ <20200221130005.GD5546@sirena.org.uk>
+ <316ce0d5-318d-0533-ef06-bd7e8672f893@nvidia.com>
+ <20200221165535.GG5546@sirena.org.uk>
 From:   Jon Hunter <jonathanh@nvidia.com>
-Message-ID: <1a6e640e-6d6f-26f8-d24d-025f32aa042e@nvidia.com>
-Date:   Mon, 24 Feb 2020 11:19:56 +0000
+Message-ID: <47f94534-e997-d56c-5793-ae832fb2add4@nvidia.com>
+Date:   Mon, 24 Feb 2020 11:28:57 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200223172604.GC349989@kroah.com>
+In-Reply-To: <20200221165535.GG5546@sirena.org.uk>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1582543126; bh=M12K3ln0ZRl8ICjqGSGcQ6TS1TJ9suo88Zt6Lzh4uBs=;
+        t=1582543709; bh=qUgfEWROPZ5NHbaz93BXjwIxn40AQzx3A83F2mD4UMA=;
         h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Language:
          Content-Transfer-Encoding;
-        b=WsFM4RR2evbiGP5UvmA8WvBObaUVn/r+IfHwnWNzPk1VY1lGSlBcAzKQCWsKntGce
-         cwiRxgJhGT4/S0RChgjUcwlNp3YGgi2zXaMT9Ttf5r/GyYVyqgCN3/hge9X8Yc/KAD
-         jrNc6WE5GeikFkQkIH3i/YEWx0JMt0xwhKHFcAvUJSIllGm02NPNtLLH1Z3Ff5KPta
-         8L03oIz0baFSxOWouyH4yAViPPFh4bhV89O81FR5DQizlQJF8cfoDaC5PrDhCpw4fB
-         uZBSgJ4HYsLSpK4zWagy2dfRUOlCSofciVC1aNmIAxGSabiYTZZpzifl/ZlyCFHIIS
-         DDoA3zTG4U0JA==
+        b=Kp6riYbQFS4x3zgXyfXPsN6bYbX54Fntx/GCuBqqbnS0IE6/fyN+OtDghfd4BpB7P
+         zjLe27l68nvPON2uD7gvad/ZVCmufdxg5wxwScrI0ksow9L4VkjQI5hKlRQJ/F/Zub
+         LEbfEwVLHDfm6ReBG/qCck9VkkX+jnLJl39xeoYaYwenen8ELQ+5N8x9Qph+OZg8Ig
+         EcCKu4t5zkX6rvri0dmWALx77bFUXW/HO4bdQA6+IGceTEy4FrN5LStg5r/1kgvqOd
+         xuO++9PCrU+goQkxYxguIHcbGfRtguYIAtITIRhLmGI3ldjt7dmijOL1qC7dL4eZf2
+         GoD1tGkiqCrHg==
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
 
-On 23/02/2020 17:26, Greg Kroah-Hartman wrote:
-
-...
-
-> I've dropped the offending patch now, sorry about that.
+On 21/02/2020 16:55, Mark Brown wrote:
+> On Fri, Feb 21, 2020 at 02:31:05PM +0000, Jon Hunter wrote:
+>> On 21/02/2020 13:00, Mark Brown wrote:
 > 
-> greg k-h
+>>>> +	srate = params_rate(params);
+>>>> +	if (dmic->srate_override)
+>>>> +		srate = dmic->srate_override;
+> 
+>>> How does this work for userspace?  If we just ignore the sample rate we
+>>> were asked for I'd expect that the application would get upset.
+> 
+>> Tegra has a hardware sample rate converter (though driver not yet
+>> upstream or part of this initial series) and if using the sample-rate
+>> converter, then the actual rate captured by the DMIC interface could be
+>> different from the resulting sample-rate.
+> 
+> The ideal thing in a component model would be to represent those sample
+> rate convertors directly to usrspace so the routing and rewriting is
+> explicit.
 
+I assume that it would be OK for the sample rate converter itself to
+expose mixer controls to configure its input and output rates so the
+user could configure as needed?
 
-Thanks. I know that it is already out but FWIW, looks good to me ...
+>> So we want a way to indicate to the DMIC it is capturing at rate X,
+>> while the resulting sample-rate is Y.
+> 
+>> I am not sure if there is a better way to do this? Ideally, the DMIC
+>> would query the rate from the upstream MUX it is connected to, but I am
+>> not sure if there is a way to do that. So right now it is a manual
+>> process and the user has to configure these which are not ideal.
+> 
+> Is there any *need* for these to be user configurable?  What's normally
+> happening at the minute is that either the external DAIs are fixed
+> configuration and the DSP just converts everything or there's no format
+> conversion done and things get passed through.
 
+I can see that in most cases there are a finite set of configurations
+that the end user may use. However, we would like to make the
+configuration flexible as possible and this also allow us to test lots
+of different configurations for verification purposes as well.
 
-Test results for stable-v5.4:
-    13 builds:	13 pass, 0 fail
-    22 boots:	22 pass, 0 fail
-    40 tests:	40 pass, 0 fail
+So a typical scenario would be ...
 
-Linux version:	5.4.22-gf22dcb31727e
-Boards tested:	tegra124-jetson-tk1, tegra186-p2771-0000,
-                tegra194-p2972-0000, tegra20-ventana,
-                tegra210-p2371-2180, tegra210-p3450-0000,
-                tegra30-cardhu-a04
+DMIC --> SRC --> DMA
 
-Cheers
+Where SRC is the sample-rate converter. Now, the DMICs support upto
+48kHz and although it maybe unlikely that someone would want to up
+convert to say 96kHz, it is possible we can do this with the SRC.
+
+So if the user executes arecord with '-r 96000', the DMIC hw_params
+would return an error as this is not supported. So today we override
+this. However, the best solution would be to allow the user the set the
+input of the SRC and then if the DMIC output is routed via the SRC use
+the SRC input rate instead of the actual rate seen/specified by the
+user. So like you said in your other mail, if we could propagate the
+rate information that would be ideal.
+
 Jon
 
 -- 
