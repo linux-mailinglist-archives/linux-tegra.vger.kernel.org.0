@@ -2,86 +2,100 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD7E616A501
-	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 12:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B057216A55B
+	for <lists+linux-tegra@lfdr.de>; Mon, 24 Feb 2020 12:44:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727308AbgBXLhV (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Feb 2020 06:37:21 -0500
-Received: from foss.arm.com ([217.140.110.172]:35654 "EHLO foss.arm.com"
+        id S1727395AbgBXLoJ (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Mon, 24 Feb 2020 06:44:09 -0500
+Received: from foss.arm.com ([217.140.110.172]:35786 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726778AbgBXLhU (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Feb 2020 06:37:20 -0500
+        id S1727275AbgBXLoJ (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Mon, 24 Feb 2020 06:44:09 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 15EF930E;
-        Mon, 24 Feb 2020 03:37:20 -0800 (PST)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F006A3F703;
-        Mon, 24 Feb 2020 03:37:18 -0800 (PST)
-Date:   Mon, 24 Feb 2020 11:37:16 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Vidya Sagar <vidyas@nvidia.com>
-Cc:     Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Andrew Murray <andrew.murray@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] PCI: tegra: Use pci_parse_request_of_pci_ranges()
-Message-ID: <20200224113716.GB11120@e121166-lin.cambridge.arm.com>
-References: <20191028225136.22289-1-robh@kernel.org>
- <20200221142051.GB15440@e121166-lin.cambridge.arm.com>
- <c7392952-929a-5be4-ab06-9cf04810290f@nvidia.com>
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9580A30E;
+        Mon, 24 Feb 2020 03:44:08 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E92EF3F703;
+        Mon, 24 Feb 2020 03:44:07 -0800 (PST)
+Date:   Mon, 24 Feb 2020 11:44:06 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Jon Hunter <jonathanh@nvidia.com>
+Cc:     Sameer Pujar <spujar@nvidia.com>, perex@perex.cz, tiwai@suse.com,
+        robh+dt@kernel.org, lgirdwood@gmail.com, thierry.reding@gmail.com,
+        digetx@gmail.com, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sharadg@nvidia.com,
+        mkumard@nvidia.com, viswanathl@nvidia.com, rlokhande@nvidia.com,
+        dramesh@nvidia.com, atalambedu@nvidia.com
+Subject: Re: [PATCH v3 03/10] ASoC: tegra: add Tegra210 based DMIC driver
+Message-ID: <20200224114406.GB6215@sirena.org.uk>
+References: <1582180492-25297-1-git-send-email-spujar@nvidia.com>
+ <1582180492-25297-4-git-send-email-spujar@nvidia.com>
+ <20200221130005.GD5546@sirena.org.uk>
+ <316ce0d5-318d-0533-ef06-bd7e8672f893@nvidia.com>
+ <20200221165535.GG5546@sirena.org.uk>
+ <47f94534-e997-d56c-5793-ae832fb2add4@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="LpQ9ahxlCli8rRTG"
 Content-Disposition: inline
-In-Reply-To: <c7392952-929a-5be4-ab06-9cf04810290f@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <47f94534-e997-d56c-5793-ae832fb2add4@nvidia.com>
+X-Cookie: How you look depends on where you go.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Sat, Feb 22, 2020 at 11:06:18PM +0530, Vidya Sagar wrote:
-> 
-> 
-> On 2/21/2020 7:50 PM, Lorenzo Pieralisi wrote:
-> > External email: Use caution opening links or attachments
-> > 
-> > 
-> > On Mon, Oct 28, 2019 at 05:51:36PM -0500, Rob Herring wrote:
-> > > Convert Tegra PCI host driver to use the common
-> > > pci_parse_request_of_pci_ranges().
-> > > 
-> > > This allows removing the DT ranges parsing, PCI resource handling, and
-> > > private storage of resources from the driver.
-> > > 
-> > > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> > > Cc: Andrew Murray <andrew.murray@arm.com>
-> > > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > > Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> > > Cc: linux-tegra@vger.kernel.org
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > > Here's one more conversion to use pci_parse_request_of_pci_ranges. It's
-> > > dependent on my prior series, specifically this patch[1].
-> > > 
-> > > Compile tested only.
-> > > 
-> > > Rob
-> > > 
-> > > [1] https://patchwork.ozlabs.org/patch/1185555/
-> > > 
-> > >   drivers/pci/controller/pci-tegra.c | 187 +++++++----------------------
-> > >   1 file changed, 46 insertions(+), 141 deletions(-)
-> > 
-> > Patch still applies, I need testing and ACK from Tegra maintainers
-> > please.
-> I tested this patch on Jetson-TX1 with NVMe drive connected to it.
-> Verified basic enumeration and functionality of the drive.
-> 
-> Tested-by: Vidya Sagar <vidyas@nvidia.com>
 
-Thanks a lot, I need Thierry's ACK to merge it, thanks.
+--LpQ9ahxlCli8rRTG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Lorenzo
+On Mon, Feb 24, 2020 at 11:28:57AM +0000, Jon Hunter wrote:
+> On 21/02/2020 16:55, Mark Brown wrote:
+
+> > The ideal thing in a component model would be to represent those sample
+> > rate convertors directly to usrspace so the routing and rewriting is
+> > explicit.
+
+> I assume that it would be OK for the sample rate converter itself to
+> expose mixer controls to configure its input and output rates so the
+> user could configure as needed?
+
+I don't think so, I'd not expect the individual drivers to be doing
+anything user visible here - if we know what a digital transformation
+looks like the framework should be offering anything that's needed to
+users (and hiding controls that don't have any practical control in a
+given system).
+
+> > Is there any *need* for these to be user configurable?  What's normally
+> > happening at the minute is that either the external DAIs are fixed
+> > configuration and the DSP just converts everything or there's no format
+> > conversion done and things get passed through.
+
+> I can see that in most cases there are a finite set of configurations
+> that the end user may use. However, we would like to make the
+> configuration flexible as possible and this also allow us to test lots
+> of different configurations for verification purposes as well.
+
+Internal testing often requires things that can't be exposed to users,
+the extreme examples are things like battery chargers with health and
+safety issues if the full range of control is available.
+
+--LpQ9ahxlCli8rRTG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5TtwUACgkQJNaLcl1U
+h9Crqgf/ZrHdav/H3sg+ks8XPns3tfhmaN7zdKxLkEl7rclyGrxXkz0hGGNflA0b
+ZmCq+byMf1McM1Ay4GqHsIP6kYxwqqZzKPpoV1tOZRHrH85RoI3qrofsZAuEYGMP
+KZ36BR55I1oIZXa6NxuOM/Fdrg4hcNanuK43zaXWS9mM3UweiIlXCmvBiWZR4koK
+dArroM9BXo7ZXuWWVbhmAfnu6Mi/ZUk3uGauKjlP1Odo7N9B4aRvhV686h3Baaq1
+zeLawuT/y9N6G623+AkUKTuuEUfLfk/fhE16y2SsrCxgxrRvBqKDNZLjO9YkiiD9
+vcfUOJKsjpBy/LOF4JV2iwHc5xC+wA==
+=rFOB
+-----END PGP SIGNATURE-----
+
+--LpQ9ahxlCli8rRTG--
