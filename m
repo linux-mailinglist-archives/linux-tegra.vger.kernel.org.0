@@ -2,55 +2,53 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C77016C46E
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 15:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 046AD16EA67
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 16:47:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730884AbgBYOxo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Feb 2020 09:53:44 -0500
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:36523 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730264AbgBYOxn (ORCPT
+        id S1730610AbgBYPqz (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Feb 2020 10:46:55 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:41420 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726019AbgBYPqy (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Feb 2020 09:53:43 -0500
-Received: by mail-vs1-f67.google.com with SMTP id a2so8146610vso.3
-        for <linux-tegra@vger.kernel.org>; Tue, 25 Feb 2020 06:53:42 -0800 (PST)
+        Tue, 25 Feb 2020 10:46:54 -0500
+Received: by mail-lf1-f66.google.com with SMTP id y17so6992880lfe.8;
+        Tue, 25 Feb 2020 07:46:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AWz4wDeiQ+dMtZmMMfMTReHPvDQ7FFlWV1iEIBtaea4=;
-        b=SuGnhr4P2blA3x8jlYXg1G0+xqxyloO0I0ugkiAJtHLnx4kXvSifw31EVLq2SK/Imy
-         2hdmZhH8m1eQGZW9mUMi4W4fNCztO2ho0S0dXBRKKuz1bPMbFwzhCknrSFHgSOQTc42a
-         T5drEFsRvR+NK8V85+HGQ7XeEvAZCym6MS+YPy04fHNBycaAbC3Mzvv6OB0fzvM0da5G
-         rIp9QLeu1itsiEtR6gwAZl7hjMp7rK9J17wzW8x+X+Q7Luefyys7cJ1To6wCCPLri6pU
-         rHeEaeQNrzcYAyx+IVw9GojNBe/mkc1PMKz0Hjff0SLKcio+KAmnAefTm5bJwBRVYT91
-         HW/w==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xNinaEdvBrD29kIqkWAyPHB9SdoxJ8ycU201le/hisU=;
+        b=Fiz01y9cf2SUthjj3oaLENxEuUSpzQxFNWI5hOr/cL2h7HkApo1lImUAIgP5dcY8rO
+         RoHbH1fRR3EJ+WM1si/54m208q/FM1YJGTzEoTr7Mq2gvPn4i1xC5nlpYmiXwJx1H6IY
+         NMclvh2UCA/Tut2OKO+ndrY0Q/nJFneZ+PjhC1Tnf9nJ2qIT5Dl6yEY8/DCVflY48F+o
+         +EUGP/vTHVRIFO9hzD+d26b2b7hb+mwtiXF1jSa0HiPYyq5AsoQeiaBa0naQZt6Tzj6L
+         Bc+VKTT4K/ILMe0yBDoIWMsvVtuj2l7dhuqup8coym03xm1g3jZMf/wC+0RAFEGfrYBk
+         YD6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AWz4wDeiQ+dMtZmMMfMTReHPvDQ7FFlWV1iEIBtaea4=;
-        b=mp18aJFZD4w6oX6tS1GcA3jMNvmyVv68ZIkt+E8CT4qsq4yTQSf/Wznc8bnVqN69ca
-         xkKKqwbuii8kCWq9+nZto8sAllsZsk60GZPjZL3R1UPcktgapiQcshYHw5m131148Tan
-         PlTMHARlYekSWFYAmvawr61KTLEaDAuFcske57TrIap7ccI7e0cOcB3YI+Ga+gYkqRS1
-         ChO0kEhOZ1GHXUo+ZNyzCdFHBYmPwTB8VoG94MWWziN+unk290KukJD3svk4CUFks85J
-         nQ9/xdk4BIYPm2lcw8dmYPH0N19gIlAC+fmBJcmRIeUdEapXw+tVt7Qjsq3FfqqJEGMb
-         qXnQ==
-X-Gm-Message-State: APjAAAXL1eBH0xTQllBGZORGJiLOxh0+zaqtMxmzcBJycvmMtdIsuUQ2
-        oNLqBFVB6WqyUKlE+7ZIcb9I5dSUKX+VcE6z4auDwQ==
-X-Google-Smtp-Source: APXvYqzlsHIb9YP3hCpfGA3Rdvg18zkDRP+rQoidSvkbh7QnCla2LkAkAEyvsQqyTzNbdgy/e8+g60oi0oH2Qq7EHJk=
-X-Received: by 2002:a05:6102:757:: with SMTP id v23mr30298970vsg.35.1582642420792;
- Tue, 25 Feb 2020 06:53:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20200224231841.26550-1-digetx@gmail.com> <20200224231841.26550-3-digetx@gmail.com>
-In-Reply-To: <20200224231841.26550-3-digetx@gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 25 Feb 2020 15:53:04 +0100
-Message-ID: <CAPDyKFoSwjkOX85jjA-Q-ScdC0aUozroOu3_-FO4yBE8pgtCow@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xNinaEdvBrD29kIqkWAyPHB9SdoxJ8ycU201le/hisU=;
+        b=H4zQmj8cm0wYkPBW7G72AOkeZQGfj1wrfXyInq5YjVkLuTK0yguYoPjHHzucFQvbKD
+         dayvqSbdPHXO6gdNvQ6mbwKB3N/QwjHNL9ZPW3GrO24wPZSpZu8OjzQR00K3TxBMaGRd
+         vCQ4SYgiJwp81WBqQgIO0eFngjohngj1cVwGbDCqFvKk8Kw8As36oVBJV70fB83W67pB
+         RWwsrVqtPGtiOvH5QdAkRWMOza7+tFYPUm1JRzd28ZyE6NI1Yt3KLPGWv/FXM47R7RKI
+         /sI+adpLwn1L24NQ3gTiZ1lWRJHhWFgdVmbwhGZpq7XUo1abKlZNBx9Iiv6+MjroHVPT
+         0LTw==
+X-Gm-Message-State: APjAAAVip9xU5AywWeYJLcgvOe0lohfogRqYOESWMp+XPKvdnYNil+aN
+        eJnPm0cGjUvGYqL5oNs6DJzlXNyT
+X-Google-Smtp-Source: APXvYqxm0Hm8L4foYBZLswdA53J6fY2WU9UOSsqOY82N5bsjaQslmdPcu8HY2FBcsfPFLd5YJmba0A==
+X-Received: by 2002:ac2:489b:: with SMTP id x27mr30382322lfc.130.1582645612280;
+        Tue, 25 Feb 2020 07:46:52 -0800 (PST)
+Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.googlemail.com with ESMTPSA id q13sm9690543ljj.63.2020.02.25.07.46.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2020 07:46:51 -0800 (PST)
 Subject: Re: [PATCH v1 2/3] mmc: block: Add mmc_bdev_to_card() helper
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Thierry Reding <thierry.reding@gmail.com>,
+To:     Ulf Hansson <ulf.hansson@linaro.org>, Jens Axboe <axboe@kernel.dk>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
         David Heidelberg <david@ixit.cz>,
@@ -66,77 +64,58 @@ Cc:     Jens Axboe <axboe@kernel.dk>,
         Ryan Grachek <ryan@edited.us>,
         "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20200224231841.26550-1-digetx@gmail.com>
+ <20200224231841.26550-3-digetx@gmail.com>
+ <CAPDyKFoSwjkOX85jjA-Q-ScdC0aUozroOu3_-FO4yBE8pgtCow@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <62a4e5ac-40c2-7fb2-60eb-e465c665270f@gmail.com>
+Date:   Tue, 25 Feb 2020 18:46:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAPDyKFoSwjkOX85jjA-Q-ScdC0aUozroOu3_-FO4yBE8pgtCow@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Tue, 25 Feb 2020 at 00:22, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> NVIDIA Tegra Partition Table takes into account MMC card's BOOT_SIZE_MULT
-> parameter, and thus, the partition parser needs to retrieve that EXT_CSD
-> value from the block device. This patch introduces new helper which takes
-> block device for the input argument and returns corresponding MMC card.
+25.02.2020 17:53, Ulf Hansson пишет:
+> On Tue, 25 Feb 2020 at 00:22, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> NVIDIA Tegra Partition Table takes into account MMC card's BOOT_SIZE_MULT
+>> parameter, and thus, the partition parser needs to retrieve that EXT_CSD
+>> value from the block device. This patch introduces new helper which takes
+>> block device for the input argument and returns corresponding MMC card.
+> 
+> Rather than returning the card, why not return the value you are
+> looking for instead? That sound more straightforward, but also allows
+> mmc core code to stay closer to the mmc core.
 
-Rather than returning the card, why not return the value you are
-looking for instead? That sound more straightforward, but also allows
-mmc core code to stay closer to the mmc core.
+Please take a look at patch #3, in particular see the
+tegra_partition_table_emmc_boot_offset(). We already need more than just
+the BOOT_SIZE_MULT from the struct mmc_card, in the the v2 of this
+series we will probably need even a bit more.
 
-Kind regards
-Uffe
+I'll adjust the commit's message of this patch in v2, saying that more
+than BOOT_SIZE_MULT is needed from the struct mmc_card. Are you okay
+with this variant?
 
->
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/mmc/core/block.c | 14 ++++++++++++++
->  include/linux/mmc/card.h |  3 +++
->  2 files changed, 17 insertions(+)
->
-> diff --git a/drivers/mmc/core/block.c b/drivers/mmc/core/block.c
-> index 663d87924e5e..5d853450c764 100644
-> --- a/drivers/mmc/core/block.c
-> +++ b/drivers/mmc/core/block.c
-> @@ -301,6 +301,20 @@ static ssize_t force_ro_store(struct device *dev, struct device_attribute *attr,
->         return ret;
->  }
->
-> +struct mmc_card *mmc_bdev_to_card(struct block_device *bdev)
-> +{
-> +       struct mmc_blk_data *md;
-> +
-> +       if (bdev->bd_disk->major != MMC_BLOCK_MAJOR)
-> +               return NULL;
-> +
-> +       md = mmc_blk_get(bdev->bd_disk);
-> +       if (!md)
-> +               return NULL;
-> +
-> +       return md->queue.card;
-> +}
-> +
->  static int mmc_blk_open(struct block_device *bdev, fmode_t mode)
->  {
->         struct mmc_blk_data *md = mmc_blk_get(bdev->bd_disk);
-> diff --git a/include/linux/mmc/card.h b/include/linux/mmc/card.h
-> index 90b1d83ce675..daccb0cc25f8 100644
-> --- a/include/linux/mmc/card.h
-> +++ b/include/linux/mmc/card.h
-> @@ -7,6 +7,7 @@
->  #ifndef LINUX_MMC_CARD_H
->  #define LINUX_MMC_CARD_H
->
-> +#include <linux/blkdev.h>
->  #include <linux/device.h>
->  #include <linux/mod_devicetable.h>
->
-> @@ -324,4 +325,6 @@ bool mmc_card_is_blockaddr(struct mmc_card *card);
->  #define mmc_card_sd(c)         ((c)->type == MMC_TYPE_SD)
->  #define mmc_card_sdio(c)       ((c)->type == MMC_TYPE_SDIO)
->
-> +struct mmc_card *mmc_bdev_to_card(struct block_device *bdev);
-> +
->  #endif /* LINUX_MMC_CARD_H */
-> --
-> 2.24.0
->
+----
+
+BTW, do you have any idea how partition table scanning of MMC's boot0/1
+partitions potentially could be implemented?
+
+It's not uncommon for Tegra devices that partition table could reside in
+one of the MMC's boot partitions (Nexus 7 is one example). For now I
+don't see how the scanning could be implemented easily because all
+boot0/boot1/main partitions are very separated from each other in the
+kernel's MMC_BLOCK.
+
+One potential hack that comes into my mind is that the boot0/1
+partitions could be always registered before the main MMC partition and
+then they always will be scanned first, i.e. before the main partition.
+This will allow to read out partition table from the boot partitions and
+stash it for the main.
