@@ -2,125 +2,141 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04D4E16BC07
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 09:45:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C77016C46E
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 15:53:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729817AbgBYIpF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Feb 2020 03:45:05 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:45046 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726039AbgBYIpE (ORCPT
+        id S1730884AbgBYOxo (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Feb 2020 09:53:44 -0500
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:36523 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730264AbgBYOxn (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Feb 2020 03:45:04 -0500
-Received: by mail-lj1-f193.google.com with SMTP id q8so13044399ljj.11;
-        Tue, 25 Feb 2020 00:45:03 -0800 (PST)
+        Tue, 25 Feb 2020 09:53:43 -0500
+Received: by mail-vs1-f67.google.com with SMTP id a2so8146610vso.3
+        for <linux-tegra@vger.kernel.org>; Tue, 25 Feb 2020 06:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AWz4wDeiQ+dMtZmMMfMTReHPvDQ7FFlWV1iEIBtaea4=;
+        b=SuGnhr4P2blA3x8jlYXg1G0+xqxyloO0I0ugkiAJtHLnx4kXvSifw31EVLq2SK/Imy
+         2hdmZhH8m1eQGZW9mUMi4W4fNCztO2ho0S0dXBRKKuz1bPMbFwzhCknrSFHgSOQTc42a
+         T5drEFsRvR+NK8V85+HGQ7XeEvAZCym6MS+YPy04fHNBycaAbC3Mzvv6OB0fzvM0da5G
+         rIp9QLeu1itsiEtR6gwAZl7hjMp7rK9J17wzW8x+X+Q7Luefyys7cJ1To6wCCPLri6pU
+         rHeEaeQNrzcYAyx+IVw9GojNBe/mkc1PMKz0Hjff0SLKcio+KAmnAefTm5bJwBRVYT91
+         HW/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fiv9myvgkw7xumEgeJGJ5mKNPtyekzHsqGUH5eUSRc4=;
-        b=Q3B/A/3F3ZPIfBBwceYha+7UH8tj6hYiRUwebqZZoCYGcBMCTYnzpBU479Fwu76mHE
-         wPgqLwnbHiUp1Jgm/a3hxmy7E5E4rqseJtGsF7cAgqCA5g0Dlg2uRTeDvG5FwvsXMyiM
-         1dHglkj+lkKtypvGKJrKcb5/eS4EkftWta0A4EvHC/WnwYr1DSHRUrCL2uiqFH2j7XUV
-         6KFdCBDRK8+wnoNBQ+zM6EHymTIDjZHe2fqaiDP8NzCX84eRHMBrIsWYNpwzvJoum+Bz
-         SnpTxNCeLB4Req98pSvnF5qlelNnq6Nsidh7II+gJsT8lIkGjrscdeo3fD/55/icHSU3
-         4ELA==
-X-Gm-Message-State: APjAAAVcU8GT5u7sB7HmWgcjS2u2QM3LcZ44wevsaraGWA1O+TvTCxBO
-        elFmhKiUCTBpp4u1XJgAirI=
-X-Google-Smtp-Source: APXvYqzGgTQlZDTjc/WdsduCx/ZBfzNVw6Bsa4sPCaQ5okT0MJQT0iJdL306dKc+VA7rZExFnSr49w==
-X-Received: by 2002:a2e:80d1:: with SMTP id r17mr33212112ljg.292.1582620302745;
-        Tue, 25 Feb 2020 00:45:02 -0800 (PST)
-Received: from xi.terra (c-12aae455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.170.18])
-        by smtp.gmail.com with ESMTPSA id d24sm7300090lja.82.2020.02.25.00.45.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 00:45:01 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1j6Vpp-0004Ni-IX; Tue, 25 Feb 2020 09:44:57 +0100
-Date:   Tue, 25 Feb 2020 09:44:57 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AWz4wDeiQ+dMtZmMMfMTReHPvDQ7FFlWV1iEIBtaea4=;
+        b=mp18aJFZD4w6oX6tS1GcA3jMNvmyVv68ZIkt+E8CT4qsq4yTQSf/Wznc8bnVqN69ca
+         xkKKqwbuii8kCWq9+nZto8sAllsZsk60GZPjZL3R1UPcktgapiQcshYHw5m131148Tan
+         PlTMHARlYekSWFYAmvawr61KTLEaDAuFcske57TrIap7ccI7e0cOcB3YI+Ga+gYkqRS1
+         ChO0kEhOZ1GHXUo+ZNyzCdFHBYmPwTB8VoG94MWWziN+unk290KukJD3svk4CUFks85J
+         nQ9/xdk4BIYPm2lcw8dmYPH0N19gIlAC+fmBJcmRIeUdEapXw+tVt7Qjsq3FfqqJEGMb
+         qXnQ==
+X-Gm-Message-State: APjAAAXL1eBH0xTQllBGZORGJiLOxh0+zaqtMxmzcBJycvmMtdIsuUQ2
+        oNLqBFVB6WqyUKlE+7ZIcb9I5dSUKX+VcE6z4auDwQ==
+X-Google-Smtp-Source: APXvYqzlsHIb9YP3hCpfGA3Rdvg18zkDRP+rQoidSvkbh7QnCla2LkAkAEyvsQqyTzNbdgy/e8+g60oi0oH2Qq7EHJk=
+X-Received: by 2002:a05:6102:757:: with SMTP id v23mr30298970vsg.35.1582642420792;
+ Tue, 25 Feb 2020 06:53:40 -0800 (PST)
+MIME-Version: 1.0
+References: <20200224231841.26550-1-digetx@gmail.com> <20200224231841.26550-3-digetx@gmail.com>
+In-Reply-To: <20200224231841.26550-3-digetx@gmail.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 25 Feb 2020 15:53:04 +0100
+Message-ID: <CAPDyKFoSwjkOX85jjA-Q-ScdC0aUozroOu3_-FO4yBE8pgtCow@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] mmc: block: Add mmc_bdev_to_card() helper
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] USB: Replace zero-length array with flexible-array member
-Message-ID: <20200225084457.GO32540@localhost>
-References: <20200220132017.GA29262@embeddedor>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200220132017.GA29262@embeddedor>
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        David Heidelberg <david@ixit.cz>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Billy Laws <blaws05@gmail.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Andrey Danin <danindrey@mail.ru>,
+        Gilles Grandou <gilles@grandou.net>,
+        Ryan Grachek <ryan@edited.us>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-On Thu, Feb 20, 2020 at 07:20:17AM -0600, Gustavo A. R. Silva wrote:
-> The current codebase makes use of the zero-length array language
-> extension to the C90 standard, but the preferred mechanism to declare
-> variable-length types such as these ones is a flexible array member[1][2],
-> introduced in C99:
-> 
-> struct foo {
->         int stuff;
->         struct boo array[];
-> };
-> 
-> By making use of the mechanism above, we will get a compiler warning
-> in case the flexible array does not occur last in the structure, which
-> will help us prevent some kind of undefined behavior bugs from being
-> inadvertently introduced[3] to the codebase from now on.
-> 
-> Also, notice that, dynamic memory allocations won't be affected by
-> this change:
-> 
-> "Flexible array members have incomplete type, and so the sizeof operator
-> may not be applied. As a quirk of the original implementation of
-> zero-length arrays, sizeof evaluates to zero."[1]
-> 
-> This issue was found with the help of Coccinelle.
-> 
-> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> [2] https://github.com/KSPP/linux/issues/21
-> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+On Tue, 25 Feb 2020 at 00:22, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> NVIDIA Tegra Partition Table takes into account MMC card's BOOT_SIZE_MULT
+> parameter, and thus, the partition parser needs to retrieve that EXT_CSD
+> value from the block device. This patch introduces new helper which takes
+> block device for the input argument and returns corresponding MMC card.
+
+Rather than returning the card, why not return the value you are
+looking for instead? That sound more straightforward, but also allows
+mmc core code to stay closer to the mmc core.
+
+Kind regards
+Uffe
+
+>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/usb/atm/usbatm.h              | 2 +-
->  drivers/usb/dwc2/hcd.h                | 2 +-
->  drivers/usb/host/ehci-tegra.c         | 2 +-
->  drivers/usb/host/ehci.h               | 4 ++--
->  drivers/usb/host/fotg210.h            | 2 +-
->  drivers/usb/host/ohci.h               | 4 ++--
->  drivers/usb/host/xhci-mtk.h           | 2 +-
->  drivers/usb/host/xhci.h               | 4 ++--
->  drivers/usb/serial/io_usbvend.h       | 4 ++--
->  drivers/usb/serial/ti_usb_3410_5052.c | 4 ++--
->  include/linux/usb.h                   | 4 ++--
->  include/linux/usb/audio-v2.h          | 2 +-
->  include/linux/usb/audio-v3.h          | 2 +-
->  include/linux/usb/gadget.h            | 2 +-
->  include/linux/usb/hcd.h               | 2 +-
->  include/linux/usbdevice_fs.h          | 2 +-
->  16 files changed, 22 insertions(+), 22 deletions(-)
-
-Looks like your scripts still doesn't catch every instance. A simple
-grep like 
-
-	git grep -A1 '\[0\];$' drivers/usb/ | grep -B1 '}'
-
-found at least three more in 
-
-	drivers/usb/atm/ueagle-atm.c
-	drivers/usb/gadget/function/f_phonet.c
-	drivers/usb/musb/musb_host.c
-
-Johan
+>  drivers/mmc/core/block.c | 14 ++++++++++++++
+>  include/linux/mmc/card.h |  3 +++
+>  2 files changed, 17 insertions(+)
+>
+> diff --git a/drivers/mmc/core/block.c b/drivers/mmc/core/block.c
+> index 663d87924e5e..5d853450c764 100644
+> --- a/drivers/mmc/core/block.c
+> +++ b/drivers/mmc/core/block.c
+> @@ -301,6 +301,20 @@ static ssize_t force_ro_store(struct device *dev, struct device_attribute *attr,
+>         return ret;
+>  }
+>
+> +struct mmc_card *mmc_bdev_to_card(struct block_device *bdev)
+> +{
+> +       struct mmc_blk_data *md;
+> +
+> +       if (bdev->bd_disk->major != MMC_BLOCK_MAJOR)
+> +               return NULL;
+> +
+> +       md = mmc_blk_get(bdev->bd_disk);
+> +       if (!md)
+> +               return NULL;
+> +
+> +       return md->queue.card;
+> +}
+> +
+>  static int mmc_blk_open(struct block_device *bdev, fmode_t mode)
+>  {
+>         struct mmc_blk_data *md = mmc_blk_get(bdev->bd_disk);
+> diff --git a/include/linux/mmc/card.h b/include/linux/mmc/card.h
+> index 90b1d83ce675..daccb0cc25f8 100644
+> --- a/include/linux/mmc/card.h
+> +++ b/include/linux/mmc/card.h
+> @@ -7,6 +7,7 @@
+>  #ifndef LINUX_MMC_CARD_H
+>  #define LINUX_MMC_CARD_H
+>
+> +#include <linux/blkdev.h>
+>  #include <linux/device.h>
+>  #include <linux/mod_devicetable.h>
+>
+> @@ -324,4 +325,6 @@ bool mmc_card_is_blockaddr(struct mmc_card *card);
+>  #define mmc_card_sd(c)         ((c)->type == MMC_TYPE_SD)
+>  #define mmc_card_sdio(c)       ((c)->type == MMC_TYPE_SDIO)
+>
+> +struct mmc_card *mmc_bdev_to_card(struct block_device *bdev);
+> +
+>  #endif /* LINUX_MMC_CARD_H */
+> --
+> 2.24.0
+>
