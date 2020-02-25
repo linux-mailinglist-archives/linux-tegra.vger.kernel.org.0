@@ -2,93 +2,125 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25F2D16BA37
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 08:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04D4E16BC07
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 09:45:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729124AbgBYHFR (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Tue, 25 Feb 2020 02:05:17 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:33174 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725788AbgBYHFR (ORCPT
+        id S1729817AbgBYIpF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Feb 2020 03:45:05 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45046 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726039AbgBYIpE (ORCPT
         <rfc822;linux-tegra@vger.kernel.org>);
-        Tue, 25 Feb 2020 02:05:17 -0500
-Received: by mail-lj1-f195.google.com with SMTP id y6so12856304lji.0;
-        Mon, 24 Feb 2020 23:05:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=D6g4FFN+2/oVw+clsWyRcWM8iKy7VGLHSR27Eox3yHM=;
-        b=g8vnnMgDO/kKH9FnhFtWoxZa4r+k8oIrtEVXMSPL/rAA3SNVTo3zhywXPgyZaHdvkz
-         yyuIlnbgLXQ3cXGldW9tr3T9bj4NhUTDaWCwn4nF8NCL4C7cOJTymqJbmg1wX9yOAOHT
-         Y2FThsgRQAxmkQeIwh4oEUIMAQHS9v9YGO9X9XGCtC7jkkNsEaI0PTFEvLJCQbny1yRs
-         KoFXK1vjuJvD6wPBlAlsTjMrAwRO/7UDy8ld/koZ0PQbU5RL8swznH7Cq70MTJ5JpbCN
-         PWM8aIN0yupzeriDf46m86JxZvearD7ef6QkSrThcu80Bmaf1wEql/YlABav0mCMWYs7
-         wvRg==
+        Tue, 25 Feb 2020 03:45:04 -0500
+Received: by mail-lj1-f193.google.com with SMTP id q8so13044399ljj.11;
+        Tue, 25 Feb 2020 00:45:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=D6g4FFN+2/oVw+clsWyRcWM8iKy7VGLHSR27Eox3yHM=;
-        b=NrTKYV06D2m6LFxp7atVpb9p/jbFJGJlJYyDPo131M9iMwO1Zz+b1tKFLP7z9KCtw8
-         UwwYMz0233E6JRNIWHptZGZe8rZyz4Xzbrtjgyn7qLm0fWr0TrTv3d/mPSYDtrq8W2Du
-         G1ThdvcbhL9QTiwL3nrNmC6PZWK+KyPGoSclxOtoraxfTjex7DAIE9gNuS2naUTeuaoe
-         dgS22UkxSZgjStrY4wIke4LjH+cB6SrmzIMipDXdKp5I167AUUAx6sTzenO/HG32xucU
-         yQwV2WzWnuLl49L4FbA9PQtIGj2Bpb1WGx29VFlWRZ0CC8ahjg+JvsKtnUuMitFvDGj2
-         Ho0Q==
-X-Gm-Message-State: APjAAAWC/6rFLPJb6Mi3PpkDWnhOJvOb58WStAa5/DLZlsP795ZpQ31n
-        9Mk0zv34cxaGkTvDOnh3FSWPXPRQ
-X-Google-Smtp-Source: APXvYqxqb3bIiRuvkdOQq4qHLS9yorrChDkfPCKN/aAxnhXVtgL2Fb/IO7BcwvR4aRVVc8zExU7BaQ==
-X-Received: by 2002:a05:651c:1bb:: with SMTP id c27mr33756662ljn.277.1582614314466;
-        Mon, 24 Feb 2020 23:05:14 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id b30sm6788895lfc.39.2020.02.24.23.05.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2020 23:05:13 -0800 (PST)
-Subject: Re: [PATCH v8 00/19] NVIDIA Tegra APB DMA driver fixes and
- improvements
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
-        Dan Williams <dan.j.williams@intel.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fiv9myvgkw7xumEgeJGJ5mKNPtyekzHsqGUH5eUSRc4=;
+        b=Q3B/A/3F3ZPIfBBwceYha+7UH8tj6hYiRUwebqZZoCYGcBMCTYnzpBU479Fwu76mHE
+         wPgqLwnbHiUp1Jgm/a3hxmy7E5E4rqseJtGsF7cAgqCA5g0Dlg2uRTeDvG5FwvsXMyiM
+         1dHglkj+lkKtypvGKJrKcb5/eS4EkftWta0A4EvHC/WnwYr1DSHRUrCL2uiqFH2j7XUV
+         6KFdCBDRK8+wnoNBQ+zM6EHymTIDjZHe2fqaiDP8NzCX84eRHMBrIsWYNpwzvJoum+Bz
+         SnpTxNCeLB4Req98pSvnF5qlelNnq6Nsidh7II+gJsT8lIkGjrscdeo3fD/55/icHSU3
+         4ELA==
+X-Gm-Message-State: APjAAAVcU8GT5u7sB7HmWgcjS2u2QM3LcZ44wevsaraGWA1O+TvTCxBO
+        elFmhKiUCTBpp4u1XJgAirI=
+X-Google-Smtp-Source: APXvYqzGgTQlZDTjc/WdsduCx/ZBfzNVw6Bsa4sPCaQ5okT0MJQT0iJdL306dKc+VA7rZExFnSr49w==
+X-Received: by 2002:a2e:80d1:: with SMTP id r17mr33212112ljg.292.1582620302745;
+        Tue, 25 Feb 2020 00:45:02 -0800 (PST)
+Received: from xi.terra (c-12aae455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.170.18])
+        by smtp.gmail.com with ESMTPSA id d24sm7300090lja.82.2020.02.25.00.45.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2020 00:45:01 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@kernel.org>)
+        id 1j6Vpp-0004Ni-IX; Tue, 25 Feb 2020 09:44:57 +0100
+Date:   Tue, 25 Feb 2020 09:44:57 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200209163356.6439-1-digetx@gmail.com>
- <20200225063200.GL2618@vkoul-mobl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <84308985-5417-eead-7edc-4984193009b0@gmail.com>
-Date:   Tue, 25 Feb 2020 10:05:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] USB: Replace zero-length array with flexible-array member
+Message-ID: <20200225084457.GO32540@localhost>
+References: <20200220132017.GA29262@embeddedor>
 MIME-Version: 1.0
-In-Reply-To: <20200225063200.GL2618@vkoul-mobl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200220132017.GA29262@embeddedor>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-25.02.2020 09:32, Vinod Koul пишет:
-> On 09-02-20, 19:33, Dmitry Osipenko wrote:
->> Hello,
->>
->> This series fixes some problems that I spotted recently, secondly the
->> driver's code gets a cleanup. Please review and apply, thanks in advance!
+On Thu, Feb 20, 2020 at 07:20:17AM -0600, Gustavo A. R. Silva wrote:
+> The current codebase makes use of the zero-length array language
+> extension to the C90 standard, but the preferred mechanism to declare
+> variable-length types such as these ones is a flexible array member[1][2],
+> introduced in C99:
 > 
-> Applied, thanks
+> struct foo {
+>         int stuff;
+>         struct boo array[];
+> };
 > 
-> One note I would like to add thanking you and Jon for the series :)
+> By making use of the mechanism above, we will get a compiler warning
+> in case the flexible array does not occur last in the structure, which
+> will help us prevent some kind of undefined behavior bugs from being
+> inadvertently introduced[3] to the codebase from now on.
 > 
-> This version was pleasure to read. A patch should do *one* thing and
-> this series really illustrates this principal and as a result I enjoyed
-> reading the series and was able to do a quick review of the series,
-> notwithstanding the fact that it had 19 patches. So thanks to you and
-> Jon (i know he pushed for split etc) for the wonderful read.
+> Also, notice that, dynamic memory allocations won't be affected by
+> this change:
 > 
+> "Flexible array members have incomplete type, and so the sizeof operator
+> may not be applied. As a quirk of the original implementation of
+> zero-length arrays, sizeof evaluates to zero."[1]
+> 
+> This issue was found with the help of Coccinelle.
+> 
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> [2] https://github.com/KSPP/linux/issues/21
+> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> ---
+>  drivers/usb/atm/usbatm.h              | 2 +-
+>  drivers/usb/dwc2/hcd.h                | 2 +-
+>  drivers/usb/host/ehci-tegra.c         | 2 +-
+>  drivers/usb/host/ehci.h               | 4 ++--
+>  drivers/usb/host/fotg210.h            | 2 +-
+>  drivers/usb/host/ohci.h               | 4 ++--
+>  drivers/usb/host/xhci-mtk.h           | 2 +-
+>  drivers/usb/host/xhci.h               | 4 ++--
+>  drivers/usb/serial/io_usbvend.h       | 4 ++--
+>  drivers/usb/serial/ti_usb_3410_5052.c | 4 ++--
+>  include/linux/usb.h                   | 4 ++--
+>  include/linux/usb/audio-v2.h          | 2 +-
+>  include/linux/usb/audio-v3.h          | 2 +-
+>  include/linux/usb/gadget.h            | 2 +-
+>  include/linux/usb/hcd.h               | 2 +-
+>  include/linux/usbdevice_fs.h          | 2 +-
+>  16 files changed, 22 insertions(+), 22 deletions(-)
 
-Thank you very much!
+Looks like your scripts still doesn't catch every instance. A simple
+grep like 
+
+	git grep -A1 '\[0\];$' drivers/usb/ | grep -B1 '}'
+
+found at least three more in 
+
+	drivers/usb/atm/ueagle-atm.c
+	drivers/usb/gadget/function/f_phonet.c
+	drivers/usb/musb/musb_host.c
+
+Johan
