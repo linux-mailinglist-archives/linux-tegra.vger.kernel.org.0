@@ -2,110 +2,65 @@ Return-Path: <linux-tegra-owner@vger.kernel.org>
 X-Original-To: lists+linux-tegra@lfdr.de
 Delivered-To: lists+linux-tegra@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0991816B8A3
-	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 05:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5C6716B9CA
+	for <lists+linux-tegra@lfdr.de>; Tue, 25 Feb 2020 07:32:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728954AbgBYE6f (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
-        Mon, 24 Feb 2020 23:58:35 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:57974 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728725AbgBYE6e (ORCPT
-        <rfc822;linux-tegra@vger.kernel.org>);
-        Mon, 24 Feb 2020 23:58:34 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01P4wWcV052767;
-        Mon, 24 Feb 2020 22:58:32 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1582606712;
-        bh=RnFLvEnRIw1nTDH2LeYZgGHl3LuyiCpGMi6GWE7hDBw=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=xojYbUmqNkNElX2StIiyAmNE2D+AUJTUPVLwZMfAm+h9ouP3UdKOTYQZIy0LedK1B
-         KIaNQ7mh8ZhjQI6x3AZnNSccxewiiV+7IrnZlBWWubTvnxPhVK/Bg/5TDlF1ZwrImo
-         MyaCOaxBicJTi0iJS95qUeVlMrDkWWOpntIWcGZA=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01P4wWJR055279
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 24 Feb 2020 22:58:32 -0600
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 24
- Feb 2020 22:58:32 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 24 Feb 2020 22:58:32 -0600
-Received: from [10.24.69.159] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01P4wUSr007407;
-        Mon, 24 Feb 2020 22:58:31 -0600
-Subject: Re: [PATCH] phy: tegra: xusb: Don't warn on probe defer
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>
-CC:     <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-References: <20200224143641.5851-1-jonathanh@nvidia.com>
- <20200224151218.GA2570205@ulmo>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <7292f4cc-ec5c-4840-3627-72883a0353c7@ti.com>
-Date:   Tue, 25 Feb 2020 10:32:14 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        id S1729025AbgBYGcF (ORCPT <rfc822;lists+linux-tegra@lfdr.de>);
+        Tue, 25 Feb 2020 01:32:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49216 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726867AbgBYGcF (ORCPT <rfc822;linux-tegra@vger.kernel.org>);
+        Tue, 25 Feb 2020 01:32:05 -0500
+Received: from localhost (unknown [122.167.120.28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E2CE32082F;
+        Tue, 25 Feb 2020 06:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582612324;
+        bh=CSADtHLh4uy2pwTG/rYHxSNpQhgO2kNjyWKWP0iqptM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b/Bvtczk39lN5rbBvtV+gfxV123RLd+I7XzRpS7I8Jv3gGnoKaqXls8j4sGJh6kXh
+         0TvJOrrKMgKUx460vWEr15bMoFcttkz9v77juDIvu6UUln1Y93A376YdM+Z70YwTMH
+         7K+nbqto33kDlJfSQCzWNmacDKKDLgQSNtxFAK8k=
+Date:   Tue, 25 Feb 2020 12:02:00 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Laxman Dewangan <ldewangan@nvidia.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        dmaengine@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 00/19] NVIDIA Tegra APB DMA driver fixes and
+ improvements
+Message-ID: <20200225063200.GL2618@vkoul-mobl>
+References: <20200209163356.6439-1-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200224151218.GA2570205@ulmo>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200209163356.6439-1-digetx@gmail.com>
 Sender: linux-tegra-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-tegra.vger.kernel.org>
 X-Mailing-List: linux-tegra@vger.kernel.org
 
-Hi Thierry,
-
-On 24/02/20 8:42 pm, Thierry Reding wrote:
-> On Mon, Feb 24, 2020 at 02:36:41PM +0000, Jon Hunter wrote:
->> Deferred probe is an expected return value for tegra_fuse_readl().
->> Given that the driver deals with it properly, there's no need to
->> output a warning that may potentially confuse users.
->>
->> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
->> ---
->>  drivers/phy/tegra/xusb-tegra186.c | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
+On 09-02-20, 19:33, Dmitry Osipenko wrote:
+> Hello,
 > 
-> Kishon,
-> 
-> I already have a couple of PHY subsystem patches from JC and Nagarjuna
-> in a branch in the Tegra tree that I need to resolve a dependency. Do
-> you mind if I pick this up into that branch as well and send it to you
-> as a pull request later on? Say around v5.6-rc6?
+> This series fixes some problems that I spotted recently, secondly the
+> driver's code gets a cleanup. Please review and apply, thanks in advance!
 
-You can take this via Tegra tree itself.
+Applied, thanks
 
-Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
+One note I would like to add thanking you and Jon for the series :)
 
--Kishon
+This version was pleasure to read. A patch should do *one* thing and
+this series really illustrates this principal and as a result I enjoyed
+reading the series and was able to do a quick review of the series,
+notwithstanding the fact that it had 19 patches. So thanks to you and
+Jon (i know he pushed for split etc) for the wonderful read.
 
-> 
-> Alternatively you could provide an Acked-by and then I can take them all
-> through ARM SoC.
-> 
-> Thierry
-> 
->> diff --git a/drivers/phy/tegra/xusb-tegra186.c b/drivers/phy/tegra/xusb-tegra186.c
->> index 84c27394c181..12d0f3e30dbc 100644
->> --- a/drivers/phy/tegra/xusb-tegra186.c
->> +++ b/drivers/phy/tegra/xusb-tegra186.c
->> @@ -802,7 +802,9 @@ tegra186_xusb_read_fuse_calibration(struct tegra186_xusb_padctl *padctl)
->>  
->>  	err = tegra_fuse_readl(TEGRA_FUSE_SKU_CALIB_0, &value);
->>  	if (err) {
->> -		dev_err(dev, "failed to read calibration fuse: %d\n", err);
->> +		if (err != -EPROBE_DEFER)
->> +			dev_err(dev, "failed to read calibration fuse: %d\n",
->> +				err);
->>  		return err;
->>  	}
->>  
->> -- 
->> 2.17.1
->>
+-- 
+~Vinod
